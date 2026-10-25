@@ -156,7 +156,9 @@ def extract_seeds_from_world_model(world_model_path: Path | None = None) -> list
         return seeds
 
     try:
-        wm = _json.loads(world_model_path.read_text(encoding="utf-8"))
+        from modules.world_model import read_state_dict
+
+        wm = read_state_dict(world_model_path)
     except (json.JSONDecodeError, OSError) as e:
         log.warning("Failed to read world model: %s", e)
         return seeds
@@ -866,7 +868,9 @@ class EstoridesToLazyOwnBridge:
         wm_path = os.path.join("sessions", "world_model.json")
         if os.path.isfile(wm_path):
             try:
-                wm = json.loads(open(wm_path, encoding="utf-8").read())
+                from modules.world_model import read_state_dict
+
+                wm = read_state_dict(wm_path)
                 surface["from_world_model"] = list(wm.get("hosts", {}).keys())
             except (json.JSONDecodeError, OSError):
                 pass
@@ -1053,7 +1057,9 @@ def export_combined_graph(output_path: str | None = None) -> Path | None:
     wm_path = Path("sessions") / "world_model.json"
     if wm_path.exists():
         try:
-            wm = json.loads(wm_path.read_text(encoding="utf-8"))
+            from modules.world_model import read_state_dict
+
+            wm = read_state_dict(wm_path)
             hosts = wm.get("hosts", {})
             for ip, hdata in hosts.items():
                 nid = f"host:{ip}"

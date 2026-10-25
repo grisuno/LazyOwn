@@ -124,6 +124,8 @@ flowchart LR
     n_modules_estorides_importer_py__FeedbackLoop_run(["FeedbackLoop.run"])
     n_modules_estorides_importer_py__EstoridesToLazyOwnBridge_get_combined_surface(["EstoridesToLazyOwnBridge.get_combined_surface"])
     n_modules_estorides_importer_py__run_estorides_discover(["run_estorides_discover"])
+    n_modules_estorides_importer_py__extract_seeds_from_world_model(["extract_seeds_from_world_model"])
+    n_modules_world_model_py__read_state_dict["world_model.read_state_dict"]
     n_modules_estorides_importer_py__extract_seeds_from_db(["extract_seeds_from_db"])
     n_modules_db_py__LazyOwnDB___init__["db.LazyOwnDB.__init__"]
     n_modules_db_py__LazyOwnDB_host_list["db.LazyOwnDB.host_list"]
@@ -147,11 +149,11 @@ flowchart LR
     n_modules_estorides_importer_py__FeedbackLoop_run --> n_modules_estorides_importer_py__EstoridesToLazyOwnBridge_get_combined_surface
     n_modules_estorides_importer_py__FeedbackLoop_run --> n_modules_estorides_importer_py__EstoridesToLazyOwnBridge_import_entities
     n_modules_estorides_importer_py__FeedbackLoop_run --> n_modules_estorides_importer_py__run_estorides_discover
+    n_modules_estorides_importer_py__extract_seeds_from_world_model -.-> n_modules_world_model_py__read_state_dict
     n_modules_estorides_importer_py__extract_seeds_from_db -.-> n_modules_db_py__LazyOwnDB___init__
     n_modules_estorides_importer_py__extract_seeds_from_db -.-> n_modules_db_py__LazyOwnDB_host_list
     n_modules_estorides_importer_py__extract_seeds_from_db -.-> n_modules_db_py__LazyOwnDB_workspace_get
     n_modules_estorides_importer_py__EstoridesToLazyOwnBridge_get_combined_surface -.-> n_modules_db_py__LazyOwnDB___init__
-    n_modules_estorides_importer_py__EstoridesToLazyOwnBridge_get_combined_surface -.-> n_modules_db_py__LazyOwnDB_host_list
 ```
 
 ## Classes
@@ -297,7 +299,7 @@ def new_assets(self) -> list[str]
 
 ### `EstoridesCaseReader`
 
-`class` | [modules/estorides_importer.py:385](../../modules/estorides_importer.py#L385)
+`class` | [modules/estorides_importer.py:387](../../modules/estorides_importer.py#L387)
 
 ```python
 class EstoridesCaseReader
@@ -322,7 +324,7 @@ Read entities from the estorides case store (SQLite).
 
 #### `EstoridesCaseReader.__init__`
 
-`constructor` | [modules/estorides_importer.py:388](../../modules/estorides_importer.py#L388)
+`constructor` | [modules/estorides_importer.py:390](../../modules/estorides_importer.py#L390)
 
 ```python
 def __init__(self, db_path: Path | None = None) -> None
@@ -340,7 +342,7 @@ def __init__(self, db_path: Path | None = None) -> None
 
 #### `EstoridesCaseReader.available`
 
-`property` | [modules/estorides_importer.py:393](../../modules/estorides_importer.py#L393)
+`property` | [modules/estorides_importer.py:395](../../modules/estorides_importer.py#L395)
 
 Decorators: `@property`
 
@@ -354,7 +356,7 @@ def available(self) -> bool
 
 #### `EstoridesCaseReader.list_cases`
 
-`method` | [modules/estorides_importer.py:402](../../modules/estorides_importer.py#L402)
+`method` | [modules/estorides_importer.py:404](../../modules/estorides_importer.py#L404)
 
 ```python
 def list_cases(self, limit: int = 20) -> list[dict[str, Any]]
@@ -372,7 +374,7 @@ def list_cases(self, limit: int = 20) -> list[dict[str, Any]]
 
 #### `EstoridesCaseReader.get_entities`
 
-`method` | [modules/estorides_importer.py:414](../../modules/estorides_importer.py#L414)
+`method` | [modules/estorides_importer.py:416](../../modules/estorides_importer.py#L416)
 
 ```python
 def get_entities(self, case_id: str | None = None, entity_types: Iterable[str] | None = None, limit: int = 500) -> list[EstoridesEntity]
@@ -400,7 +402,7 @@ If case_id is None, fetches from all cases.
 
 #### `EstoridesCaseReader.get_host_entities`
 
-`method` | [modules/estorides_importer.py:469](../../modules/estorides_importer.py#L469)
+`method` | [modules/estorides_importer.py:471](../../modules/estorides_importer.py#L471)
 
 ```python
 def get_host_entities(self, case_id: str | None = None) -> list[EstoridesEntity]
@@ -424,7 +426,7 @@ Get entities of host-related types (ipv4, ipv6, domain, url, asn).
 
 #### `EstoridesCaseReader.get_all_entities`
 
-`method` | [modules/estorides_importer.py:473](../../modules/estorides_importer.py#L473)
+`method` | [modules/estorides_importer.py:475](../../modules/estorides_importer.py#L475)
 
 ```python
 def get_all_entities(self, case_id: str | None = None) -> list[EstoridesEntity]
@@ -444,7 +446,7 @@ def get_all_entities(self, case_id: str | None = None) -> list[EstoridesEntity]
 
 #### `EstoridesCaseReader.stats`
 
-`method` | [modules/estorides_importer.py:476](../../modules/estorides_importer.py#L476)
+`method` | [modules/estorides_importer.py:478](../../modules/estorides_importer.py#L478)
 
 ```python
 def stats(self) -> dict[str, Any]
@@ -458,7 +460,7 @@ def stats(self) -> dict[str, Any]
 
 #### `EstoridesCaseReader.close`
 
-`method` | [modules/estorides_importer.py:489](../../modules/estorides_importer.py#L489)
+`method` | [modules/estorides_importer.py:491](../../modules/estorides_importer.py#L491)
 
 ```python
 def close(self) -> None
@@ -472,7 +474,7 @@ def close(self) -> None
 
 ### `EstoridesStixParser`
 
-`class` | [modules/estorides_importer.py:495](../../modules/estorides_importer.py#L495)
+`class` | [modules/estorides_importer.py:497](../../modules/estorides_importer.py#L497)
 
 ```python
 class EstoridesStixParser
@@ -499,7 +501,7 @@ Parse STIX 2.1 bundles produced by estorides.
 
 #### `EstoridesStixParser.__init__`
 
-`constructor` | [modules/estorides_importer.py:511](../../modules/estorides_importer.py#L511)
+`constructor` | [modules/estorides_importer.py:513](../../modules/estorides_importer.py#L513)
 
 ```python
 def __init__(self, stix_path: Path | None = None) -> None
@@ -517,7 +519,7 @@ def __init__(self, stix_path: Path | None = None) -> None
 
 #### `EstoridesStixParser.available`
 
-`property` | [modules/estorides_importer.py:515](../../modules/estorides_importer.py#L515)
+`property` | [modules/estorides_importer.py:517](../../modules/estorides_importer.py#L517)
 
 Decorators: `@property`
 
@@ -531,7 +533,7 @@ def available(self) -> bool
 
 #### `EstoridesStixParser.parse`
 
-`method` | [modules/estorides_importer.py:518](../../modules/estorides_importer.py#L518)
+`method` | [modules/estorides_importer.py:520](../../modules/estorides_importer.py#L520)
 
 ```python
 def parse(self) -> list[EstoridesEntity]
@@ -549,7 +551,7 @@ Parse a STIX 2.1 bundle into EstoridesEntity objects.
 
 #### `EstoridesStixParser.parse_by_type`
 
-`method` | [modules/estorides_importer.py:552](../../modules/estorides_importer.py#L552)
+`method` | [modules/estorides_importer.py:554](../../modules/estorides_importer.py#L554)
 
 ```python
 def parse_by_type(self, entity_types: Iterable[str] | None = None) -> dict[str, list[str]]
@@ -575,7 +577,7 @@ Parse STIX and group values by entity type.
 
 ### `LanBundleReader`
 
-`class` | [modules/estorides_importer.py:622](../../modules/estorides_importer.py#L622)
+`class` | [modules/estorides_importer.py:624](../../modules/estorides_importer.py#L624)
 
 ```python
 class LanBundleReader
@@ -603,7 +605,7 @@ graph, attack graph, and auto_loop queue.
 
 #### `LanBundleReader.__init__`
 
-`constructor` | [modules/estorides_importer.py:632](../../modules/estorides_importer.py#L632)
+`constructor` | [modules/estorides_importer.py:634](../../modules/estorides_importer.py#L634)
 
 ```python
 def __init__(self, lan_dir: Path | None = None) -> None
@@ -621,7 +623,7 @@ def __init__(self, lan_dir: Path | None = None) -> None
 
 #### `LanBundleReader.available`
 
-`property` | [modules/estorides_importer.py:636](../../modules/estorides_importer.py#L636)
+`property` | [modules/estorides_importer.py:638](../../modules/estorides_importer.py#L638)
 
 Decorators: `@property`
 
@@ -637,7 +639,7 @@ def available(self) -> bool
 
 #### `LanBundleReader.read_devices`
 
-`method` | [modules/estorides_importer.py:639](../../modules/estorides_importer.py#L639)
+`method` | [modules/estorides_importer.py:641](../../modules/estorides_importer.py#L641)
 
 ```python
 def read_devices(self) -> list[dict[str, Any]]
@@ -655,7 +657,7 @@ Return raw device dicts from the inventory file.
 
 #### `LanBundleReader.parse`
 
-`method` | [modules/estorides_importer.py:652](../../modules/estorides_importer.py#L652)
+`method` | [modules/estorides_importer.py:654](../../modules/estorides_importer.py#L654)
 
 ```python
 def parse(self) -> list[EstoridesEntity]
@@ -673,7 +675,7 @@ Parse LAN devices into entities (host, mac, domain).
 
 #### `LanBundleReader.attack_targets`
 
-`method` | [modules/estorides_importer.py:683](../../modules/estorides_importer.py#L683)
+`method` | [modules/estorides_importer.py:685](../../modules/estorides_importer.py#L685)
 
 ```python
 def attack_targets(self) -> list[str]
@@ -693,7 +695,7 @@ IPs actionable for the attack graph and auto_loop queue.
 
 ### `EstoridesToLazyOwnBridge`
 
-`class` | [modules/estorides_importer.py:700](../../modules/estorides_importer.py#L700)
+`class` | [modules/estorides_importer.py:702](../../modules/estorides_importer.py#L702)
 
 ```python
 class EstoridesToLazyOwnBridge
@@ -713,7 +715,7 @@ Import estorides-discovered entities into LazyOwn's database and scope.
 
 #### `EstoridesToLazyOwnBridge.__init__`
 
-`constructor` | [modules/estorides_importer.py:703](../../modules/estorides_importer.py#L703)
+`constructor` | [modules/estorides_importer.py:705](../../modules/estorides_importer.py#L705)
 
 ```python
 def __init__(self, db_path: str | None = None, config_path: str | None = None) -> None
@@ -732,7 +734,7 @@ def __init__(self, db_path: str | None = None, config_path: str | None = None) -
 
 #### `EstoridesToLazyOwnBridge.import_entities`
 
-`method` | [modules/estorides_importer.py:711](../../modules/estorides_importer.py#L711)
+`method` | [modules/estorides_importer.py:713](../../modules/estorides_importer.py#L713)
 
 ```python
 def import_entities(self, entities: Iterable[EstoridesEntity], add_to_scope: bool = True, add_to_db: bool = True) -> ImportResult
@@ -758,7 +760,7 @@ Import entities into LazyOwn DB and optionally scope.
 
 #### `EstoridesToLazyOwnBridge.get_combined_surface`
 
-`method` | [modules/estorides_importer.py:834](../../modules/estorides_importer.py#L834)
+`method` | [modules/estorides_importer.py:836](../../modules/estorides_importer.py#L836)
 
 ```python
 def get_combined_surface(self) -> dict[str, Any]
@@ -768,7 +770,7 @@ Get the combined attack surface from LazyOwn DB + scope.
 
 **Returns:** `dict[str, Any]`
 
-*Calls:* [`LazyOwnDB.__init__`](modules.db.py.md#lazyowndb-__init__), [`LazyOwnDB.host_list`](modules.db.py.md#lazyowndb-host_list), [`LazyOwnDB.workspace_create`](modules.db.py.md#lazyowndb-workspace_create), [`LazyOwnDB.workspace_get`](modules.db.py.md#lazyowndb-workspace_get)
+*Calls:* [`LazyOwnDB.__init__`](modules.db.py.md#lazyowndb-__init__), [`LazyOwnDB.host_list`](modules.db.py.md#lazyowndb-host_list), [`LazyOwnDB.workspace_create`](modules.db.py.md#lazyowndb-workspace_create), [`LazyOwnDB.workspace_get`](modules.db.py.md#lazyowndb-workspace_get), [`read_state_dict`](modules.world_model.py.md#read_state_dict)
 
 *Called by:* [`EstoridesCommandSet.do_estorides_surface`](cli.commands.estorides.py.md#estoridescommandset-do_estorides_surface), [`FeedbackLoop.run`](#feedbackloop-run)
 
@@ -778,7 +780,7 @@ Get the combined attack surface from LazyOwn DB + scope.
 
 ### `FeedbackLoop`
 
-`class` | [modules/estorides_importer.py:881](../../modules/estorides_importer.py#L881)
+`class` | [modules/estorides_importer.py:885](../../modules/estorides_importer.py#L885)
 
 ```python
 class FeedbackLoop
@@ -804,7 +806,7 @@ Each iteration:
 
 #### `FeedbackLoop.__init__`
 
-`constructor` | [modules/estorides_importer.py:892](../../modules/estorides_importer.py#L892)
+`constructor` | [modules/estorides_importer.py:896](../../modules/estorides_importer.py#L896)
 
 ```python
 def __init__(self, max_iterations: int = 3, max_depth: int = 2, max_steps: int = 10, timeout: float = 120.0) -> None
@@ -827,7 +829,7 @@ def __init__(self, max_iterations: int = 3, max_depth: int = 2, max_steps: int =
 
 #### `FeedbackLoop.run`
 
-`method` | [modules/estorides_importer.py:908](../../modules/estorides_importer.py#L908)
+`method` | [modules/estorides_importer.py:912](../../modules/estorides_importer.py#L912)
 
 ```python
 def run(self, seed_methods: list[str] | None = None) -> dict[str, Any]
@@ -873,6 +875,8 @@ Returns list of (type, value) tuples suitable for estorides discover.
 
 **Returns:** `list[tuple[str, str]]`
 
+*Calls:* [`read_state_dict`](modules.world_model.py.md#read_state_dict)
+
 *Called by:* [`EstoridesCommandSet.do_estorides_seed`](cli.commands.estorides.py.md#estoridescommandset-do_estorides_seed)
 
 ---
@@ -881,7 +885,7 @@ Returns list of (type, value) tuples suitable for estorides discover.
 
 ### `extract_seeds_from_hosts_file`
 
-`function` | [modules/estorides_importer.py:175](../../modules/estorides_importer.py#L175)
+`function` | [modules/estorides_importer.py:177](../../modules/estorides_importer.py#L177)
 
 ```python
 def extract_seeds_from_hosts_file(path: Path | None = None) -> list[tuple[str, str]]
@@ -907,7 +911,7 @@ Returns list of (type, value) tuples.
 
 ### `extract_seeds_from_db`
 
-`function` | [modules/estorides_importer.py:203](../../modules/estorides_importer.py#L203)
+`function` | [modules/estorides_importer.py:205](../../modules/estorides_importer.py#L205)
 
 ```python
 def extract_seeds_from_db(db_path: str | None = None) -> list[tuple[str, str]]
@@ -935,7 +939,7 @@ Returns list of (type, value) tuples.
 
 ### `extract_seeds_from_scope`
 
-`function` | [modules/estorides_importer.py:242](../../modules/estorides_importer.py#L242)
+`function` | [modules/estorides_importer.py:244](../../modules/estorides_importer.py#L244)
 
 ```python
 def extract_seeds_from_scope(scope_entries: list[str] | None = None) -> list[tuple[str, str]]
@@ -961,7 +965,7 @@ Returns list of (type, value) tuples.
 
 ### `run_estorides_discover`
 
-`function` | [modules/estorides_importer.py:272](../../modules/estorides_importer.py#L272)
+`function` | [modules/estorides_importer.py:274](../../modules/estorides_importer.py#L274)
 
 ```python
 def run_estorides_discover(seed_type: str, seed_value: str, max_depth: int = 2, max_steps: int = 15, out_json: str | None = None, timeout: float = 120.0) -> dict[str, Any] | None
@@ -992,7 +996,7 @@ Returns the surface JSON dict on success, None on failure.
 
 ### `run_estorides_run`
 
-`function` | [modules/estorides_importer.py:332](../../modules/estorides_importer.py#L332)
+`function` | [modules/estorides_importer.py:334](../../modules/estorides_importer.py#L334)
 
 ```python
 def run_estorides_run(query: str, out_json: str | None = None, timeout: float = 60.0) -> dict[str, Any] | None
@@ -1018,7 +1022,7 @@ Returns the result JSON dict on success, None on failure.
 
 ### `find_lan_bundle_files`
 
-`function` | [modules/estorides_importer.py:586](../../modules/estorides_importer.py#L586)
+`function` | [modules/estorides_importer.py:588](../../modules/estorides_importer.py#L588)
 
 ```python
 def find_lan_bundle_files(lan_dir: Path | None = None, sessions_dir: Path | None = None) -> dict[str, Path]
@@ -1045,7 +1049,7 @@ Never raises.
 
 ### `ensure_directories`
 
-`function` | [modules/estorides_importer.py:694](../../modules/estorides_importer.py#L694)
+`function` | [modules/estorides_importer.py:696](../../modules/estorides_importer.py#L696)
 
 ```python
 def ensure_directories() -> None
@@ -1061,7 +1065,7 @@ Ensure sessions/ directories exist.
 
 ### `export_combined_graph`
 
-`function` | [modules/estorides_importer.py:1027](../../modules/estorides_importer.py#L1027)
+`function` | [modules/estorides_importer.py:1031](../../modules/estorides_importer.py#L1031)
 
 ```python
 def export_combined_graph(output_path: str | None = None) -> Path | None
@@ -1076,6 +1080,8 @@ Export the combined (Estorides + LazyOwn) graph as GraphML.
 | `output_path` | `str \| None` | `None` |  |
 
 **Returns:** `Path | None`
+
+*Calls:* [`read_state_dict`](modules.world_model.py.md#read_state_dict)
 
 ---
 
@@ -1181,7 +1187,7 @@ HOST_ENTITY_TYPES = frozenset({'ipv4', 'ipv6', 'domain', 'url', 'asn'})
 
 ### `ESTORIDES_LAN_DIR`
 
-`constant` | [modules/estorides_importer.py:579](../../modules/estorides_importer.py#L579)
+`constant` | [modules/estorides_importer.py:581](../../modules/estorides_importer.py#L581)
 
 ```python
 ESTORIDES_LAN_DIR = ESTORIDES_DATA / 'lan_output'
@@ -1193,7 +1199,7 @@ ESTORIDES_LAN_DIR = ESTORIDES_DATA / 'lan_output'
 
 ### `LAN_INVENTORY_NAMES`
 
-`constant` | [modules/estorides_importer.py:581](../../modules/estorides_importer.py#L581)
+`constant` | [modules/estorides_importer.py:583](../../modules/estorides_importer.py#L583)
 
 ```python
 LAN_INVENTORY_NAMES = ('lan_inventory.json',)
@@ -1205,7 +1211,7 @@ LAN_INVENTORY_NAMES = ('lan_inventory.json',)
 
 ### `LAN_LAZYOWN_NAMES`
 
-`constant` | [modules/estorides_importer.py:582](../../modules/estorides_importer.py#L582)
+`constant` | [modules/estorides_importer.py:584](../../modules/estorides_importer.py#L584)
 
 ```python
 LAN_LAZYOWN_NAMES = ('lan_lazyown.json', 'lan_graph.json')
@@ -1217,7 +1223,7 @@ LAN_LAZYOWN_NAMES = ('lan_lazyown.json', 'lan_graph.json')
 
 ### `LAN_STIX_NAMES`
 
-`constant` | [modules/estorides_importer.py:583](../../modules/estorides_importer.py#L583)
+`constant` | [modules/estorides_importer.py:585](../../modules/estorides_importer.py#L585)
 
 ```python
 LAN_STIX_NAMES = ('lan_stix.json',)

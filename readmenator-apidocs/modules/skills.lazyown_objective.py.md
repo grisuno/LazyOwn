@@ -210,7 +210,7 @@ def __init__(self, path: Path | None = None) -> None
 |---|---|---|---|
 | `path` | `Path \| None` | `None` |  |
 
-*Called by:* [`full_context_for_claude`](#full_context_for_claude), [`main`](#main)
+*Called by:* [`push_objectives`](modules.golden_path.py.md#push_objectives), [`full_context_for_claude`](#full_context_for_claude), [`main`](#main)
 
 <a id="objectivestore-cleanup"></a>
 

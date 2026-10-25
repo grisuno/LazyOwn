@@ -1,5 +1,5 @@
-# Symbols (page 1 of 44)
-Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md), [SYMBOLS_p44.md](SYMBOLS_p44.md)
+# Symbols (page 1 of 45)
+Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md), [SYMBOLS_p44.md](SYMBOLS_p44.md), [SYMBOLS_p45.md](SYMBOLS_p45.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
@@ -35,7 +35,7 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `template_placeholders` | function | `cli/aliases.py:56` | `def template_placeholders(template)` |
 | `ChainArgs` | class | `cli/apt_chain_support.py:48` | `class ChainArgs` |
 | `_decision_command` | function | `cli/apt_chain_support.py:368` | `def _decision_command(decision)` |
-| `_platform` | function | `cli/apt_chain_support.py:470` | `def _platform()` |
+| `_platform` | function | `cli/apt_chain_support.py:471` | `def _platform()` |
 | `_set_value` | function | `cli/apt_chain_support.py:141` | `def _set_value(args, flag, value)` |
 | `_step_from_decision` | function | `cli/apt_chain_support.py:377` | `def _step_from_decision(command, outcome, executed_count)` |
 | `_token_name_ok` | function | `cli/apt_chain_support.py:42` | `def _token_name_ok(name)` |
@@ -463,8 +463,8 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `_lab_auth` | function | `cli/commands/c2_session.py:24` | `def _lab_auth()` |
 | `_server` | function | `cli/commands/c2_session.py:65` | `def _server(user, password, port)` |
 | `do_c2_deploy` | method | `cli/commands/c2_session.py:249` | `def do_c2_deploy(self, line)` |
-| `do_c2_exec` | method | `cli/commands/c2_session.py:292` | `def do_c2_exec(self, line)` |
-| `do_c2_loot` | method | `cli/commands/c2_session.py:339` | `def do_c2_loot(self, line)` |
+| `do_c2_exec` | method | `cli/commands/c2_session.py:299` | `def do_c2_exec(self, line)` |
+| `do_c2_loot` | method | `cli/commands/c2_session.py:346` | `def do_c2_loot(self, line)` |
 | `do_c2_reboot` | method | `cli/commands/c2_session.py:168` | `def do_c2_reboot(self, line)` |
 | `do_c2_server` | method | `cli/commands/c2_session.py:115` | `def do_c2_server(self, line)` |
 | `CalderaCommandSet` | class | `cli/commands/caldera.py:66` | `class CalderaCommandSet(LazyOwnCommandSet)` |
@@ -488,13 +488,13 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_ttp_matrix` | method | `cli/commands/caldera.py:290` | `def do_ttp_matrix(self, line)` |
 | `do_ttp_rebuild` | method | `cli/commands/caldera.py:299` | `def do_ttp_rebuild(self, line)` |
 | `do_ttp_show` | method | `cli/commands/caldera.py:309` | `def do_ttp_show(self, line)` |
-| `CampaignCommandSet` | class | `cli/commands/campaign.py:37` | `class CampaignCommandSet(LazyOwnCommandSet)` |
-| `_campaign_export` | method | `cli/commands/campaign.py:135` | `def _campaign_export(self, name)` |
-| `_campaign_import` | method | `cli/commands/campaign.py:184` | `def _campaign_import(self, package_path)` |
-| `_campaign_list` | method | `cli/commands/campaign.py:305` | `def _campaign_list(self)` |
-| `_campaign_status` | method | `cli/commands/campaign.py:337` | `def _campaign_status(self)` |
-| `_gather_campaign_manifest` | method | `cli/commands/campaign.py:93` | `def _gather_campaign_manifest(self, name)` |
-| `do_campaign` | method | `cli/commands/campaign.py:44` | `def do_campaign(self, line)` |
+| `CampaignCommandSet` | class | `cli/commands/campaign.py:38` | `class CampaignCommandSet(LazyOwnCommandSet)` |
+| `_campaign_export` | method | `cli/commands/campaign.py:130` | `def _campaign_export(self, name)` |
+| `_campaign_import` | method | `cli/commands/campaign.py:179` | `def _campaign_import(self, package_path)` |
+| `_campaign_list` | method | `cli/commands/campaign.py:300` | `def _campaign_list(self)` |
+| `_campaign_status` | method | `cli/commands/campaign.py:332` | `def _campaign_status(self)` |
+| `_gather_campaign_manifest` | method | `cli/commands/campaign.py:94` | `def _gather_campaign_manifest(self, name)` |
+| `do_campaign` | method | `cli/commands/campaign.py:45` | `def do_campaign(self, line)` |
 | `CatalogCommandSet` | class | `cli/commands/catalog.py:19` | `class CatalogCommandSet(LazyOwnCommandSet)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

@@ -69,7 +69,10 @@ Solid arrows stay in this module, dashed arrows leave it.
 flowchart LR
     n_lazygui_services_backend_py__Backend_known_topology(["Backend.known_topology"])
     n_lazygui_services_models_py__Topology_empty["models.Topology.empty"]
+    n_lazygui_services_backend_py__Backend_request_world_model(["Backend.request_world_model"])
+    n_modules_world_model_py__read_state_dict["world_model.read_state_dict"]
     n_lazygui_services_backend_py__Backend_known_topology -.-> n_lazygui_services_models_py__Topology_empty
+    n_lazygui_services_backend_py__Backend_request_world_model -.-> n_modules_world_model_py__read_state_dict
 ```
 
 ## Classes
@@ -409,11 +412,13 @@ Returns empty dict on failure.
 
 **Returns:** `dict`
 
+*Calls:* [`read_state_dict`](modules.world_model.py.md#read_state_dict)
+
 <a id="backend-request_beacon_history"></a>
 
 #### `Backend.request_beacon_history`
 
-`method` | [lazygui/services/backend.py:158](../../lazygui/services/backend.py#L158)
+`method` | [lazygui/services/backend.py:154](../../lazygui/services/backend.py#L154)
 
 ```python
 def request_beacon_history(self, client_id: str) -> list[dict]
@@ -436,7 +441,7 @@ the teamserver override this to fetch from the REST API.
 
 #### `Backend.request_session_state`
 
-`method` | [lazygui/services/backend.py:172](../../lazygui/services/backend.py#L172)
+`method` | [lazygui/services/backend.py:168](../../lazygui/services/backend.py#L168)
 
 ```python
 def request_session_state(self) -> dict

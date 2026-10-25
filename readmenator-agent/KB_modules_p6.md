@@ -1,6 +1,30 @@
 # Subsystem: modules (page 6 of 16)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
 
+## modules/gcp_attacks.py
+- Doc: GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GCPConfig` (class, line 57) `class GCPConfig`
+  - `GCPAttackEngine` (class, line 77) `class GCPAttackEngine`
+  - `__init__` (method, line 90) `def __init__(self, config)`
+  - `enumerate_iam_policy` (method, line 93) `def enumerate_iam_policy(self, resource)`
+  - `service_account_impersonation` (method, line 119) `def service_account_impersonation(self)`
+  - `cloud_functions_backdoor` (method, line 144) `def cloud_functions_backdoor(self)`
+  - `compute_engine_metadata_exfil` (method, line 173) `def compute_engine_metadata_exfil(self)`
+  - `gcs_enumeration` (method, line 194) `def gcs_enumeration(self)`
+  - `cloudbuild_abuse` (method, line 230) `def cloudbuild_abuse(self)`
+  - `organization_escalation` (method, line 261) `def organization_escalation(self)`
+  - `summary` (method, line 297) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
+
+## modules/generate_tools.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `extract_cmd2_tools` (function, line 6) `def extract_cmd2_tools(script_path)`
+
 ## modules/goals.py
 - Doc: Goal decomposition round-0 with constraints and proof.
 - Layer: utility
@@ -20,6 +44,28 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `all_achieved` (method, line 148) `def all_achieved(self)`
   - `open_goals` (method, line 152) `def open_goals(self)`
 - Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_parity.py`
+
+## modules/golden_path.py
+- Doc: Deterministic attack-path solver over the LazyOwn world model.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_host_node` (function, line 66) `def _host_node(ip)`
+  - `_bare` (function, line 78) `def _bare(node)`
+  - `_label` (function, line 97) `def _label(node)`
+  - `_action_for` (function, line 113) `def _action_for(relation)`
+  - `_cost_for_relation` (function, line 135) `def _cost_for_relation(relation, weight)`
+  - `build_edges` (function, line 155) `def build_edges(snapshot)`
+  - `_source_hosts` (function, line 227) `def _source_hosts(snapshot)`
+  - `_diijkstra` (function, line 244) `def _diijkstra(adjacency, source)`
+  - `resolve_paths` (function, line 274) `def resolve_paths(snapshot, top_k, source)`
+  - `build` (function, line 350) `def build(world_model_path, top_k, sessions_dir)`
+  - `_persist` (function, line 381) `def _persist(result, sessions_dir)`
+  - `load_artifact` (function, line 401) `def load_artifact(sessions_dir)`
+  - `priority_for` (function, line 418) `def priority_for(cost)`
+  - `push_objectives` (function, line 433) `def push_objectives(paths, store_path)`
+  - `_add` (function, line 167) `def _add(src, dst, relation, weight, evidence, cost)`
+- Depends on: `core/logging.py`, `modules/world_model.py`, `skills/lazyown_objective.py`
 
 ## modules/gpo_abuse.py
 - Doc: GPO abuse module — Group Policy Object manipulation for AD persistence and privilege escalation.
@@ -54,6 +100,18 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `try_yad` (function, line 28)
   - `try_ssh_askpass` (function, line 33)
   - `try_kdialog` (function, line 40)
+
+## modules/gym_matrix_runner.py
+- Doc: Ordered Metasploitable 2 gym matrix runner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `plan_matrix` (function, line 36) `def plan_matrix(target, sessions_dir, only, top_k)`
+  - `run_matrix` (function, line 89) `def run_matrix(target)`
+  - `_stats` (function, line 201) `def _stats(runs)`
+  - `_persist` (function, line 217) `def _persist(summary_result, sessions_dir)`
+  - `load_matrix` (function, line 233) `def load_matrix(sessions_dir)`
+- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
 
 ## modules/gym_registry.py
 - Doc: Gym definitions and persistent run state.
@@ -90,6 +148,16 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `new_run_token` (function, line 761) `def new_run_token()`
 - Depends on: `core/logging.py`, `modules/world_model.py`
 - Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`
+
+## modules/harness.py
+- Doc: Deterministic harness gate for the LazyOwn loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `harness_enabled` (function, line 30) `def harness_enabled()`
+  - `gate` (function, line 65) `def gate(name)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/orchestrator_config.py`
+- Imported by: `modules/lazy_loop.py`, `modules/llm_factory.py`, `skills/lazyown_mcp_opencode.py`
 
 ## modules/hash_cracker.py
 - Doc: Hash cracking pipeline — John the Ripper and Hashcat integration.
@@ -226,23 +294,23 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `_host_mentions` (function, line 139) `def _host_mentions(text)`
   - `_file_pagerank` (function, line 146) `def _file_pagerank(ids, pairs, alpha, max_iter, tol)`
   - `build_intel_graph` (function, line 176) `def build_intel_graph(sessions_dir, est_cap)`
-  - `_node_doc` (function, line 390) `def _node_doc(node)`
-  - `_symbol_list` (function, line 413) `def _symbol_list(node)`
-  - `_enrich_readmenator_fields` (function, line 428) `def _enrich_readmenator_fields(nodes, edges)`
-  - `group_colors` (function, line 512) `def group_colors(graph)`
-  - `page_settings` (function, line 528) `def page_settings(graph)`
-  - `build_analytics` (function, line 585) `def build_analytics(graph, summary)`
-  - `_fibonacci_sphere` (function, line 610) `def _fibonacci_sphere(count)`
-  - `_split_caps` (function, line 626) `def _split_caps(labels, sizes, points, lattice, out)`
-  - `_unit` (function, line 651) `def _unit(vec)`
-  - `build_bundle_payload` (function, line 659) `def build_bundle_payload(graph)`
-  - `bundle_settings` (function, line 769) `def bundle_settings(graph)`
-  - `assign_layout` (function, line 800) `def assign_layout(graph, mode)`
-  - `write_summary` (function, line 865) `def write_summary(graph, sessions_dir)`
-  - `add_node` (function, line 183) `def add_node(kind, value, label)`
-  - `add_edge` (function, line 197) `def add_edge(src, dst, kind, evidence, weight)`
-  - `tag_source` (function, line 205) `def tag_source(nid, source)`
-- Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`
+  - `_node_doc` (function, line 418) `def _node_doc(node)`
+  - `_symbol_list` (function, line 441) `def _symbol_list(node)`
+  - `_enrich_readmenator_fields` (function, line 456) `def _enrich_readmenator_fields(nodes, edges)`
+  - `group_colors` (function, line 577) `def group_colors(graph)`
+  - `page_settings` (function, line 593) `def page_settings(graph)`
+  - `build_analytics` (function, line 650) `def build_analytics(graph, summary)`
+  - `_fibonacci_sphere` (function, line 684) `def _fibonacci_sphere(count)`
+  - `_split_caps` (function, line 700) `def _split_caps(labels, sizes, points, lattice, out)`
+  - `_unit` (function, line 729) `def _unit(vec)`
+  - `build_bundle_payload` (function, line 737) `def build_bundle_payload(graph)`
+  - `bundle_settings` (function, line 853) `def bundle_settings(graph)`
+  - `assign_layout` (function, line 884) `def assign_layout(graph, mode)`
+  - `write_summary` (function, line 949) `def write_summary(graph, sessions_dir)`
+  - `add_node` (function, line 182) `def add_node(kind, value, label)`
+  - `add_edge` (function, line 200) `def add_edge(src, dst, kind, evidence, weight)`
+  - `tag_source` (function, line 214) `def tag_source(nid, source)`
+- Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/world_model.py`
 - Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
 
 ## modules/intelligence_engine.py
@@ -255,7 +323,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `IntelligenceAssessment` (class, line 93) `class IntelligenceAssessment`
   - `CounterIntelFinding` (class, line 108) `class CounterIntelFinding`
   - `IntelligenceEngine` (class, line 119) `class IntelligenceEngine`
-  - `get_intelligence_engine` (function, line 931) `def get_intelligence_engine(config)`
+  - `get_intelligence_engine` (function, line 970) `def get_intelligence_engine(config)`
   - `__init__` (method, line 142) `def __init__(self, config)`
   - `collect_from_scan` (method, line 153) `def collect_from_scan(self, target)`
   - `collect_from_tool` (method, line 255) `def collect_from_tool(self, output, tool, host)`
@@ -263,22 +331,22 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `collect_from_nuclei` (method, line 334) `def collect_from_nuclei(self, target)`
   - `collect_from_yara` (method, line 376) `def collect_from_yara(self, target_path)`
   - `collect_from_factstore` (method, line 415) `def collect_from_factstore(self)`
-  - `analyze` (method, line 477) `def analyze(self)`
-  - `_correlate_services_to_vulns` (method, line 494) `def _correlate_services_to_vulns(self)`
-  - `_match_known_vulns` (method, line 537) `def _match_known_vulns(fact)`
-  - `_correlate_creds_to_hosts` (method, line 565) `def _correlate_creds_to_hosts(self)`
-  - `_correlate_domains_to_infrastructure` (method, line 588) `def _correlate_domains_to_infrastructure(self)`
-  - `_rank_targets` (method, line 604) `def _rank_targets(self)`
-  - `_detect_killchain_gaps` (method, line 644) `def _detect_killchain_gaps(self)`
-  - `produce_intelligence` (method, line 685) `def produce_intelligence(self)`
-  - `_map_category_to_mitre` (method, line 700) `def _map_category_to_mitre(category)`
-  - `produce_counter_intelligence` (method, line 715) `def produce_counter_intelligence(self)`
-  - `disseminate` (method, line 765) `def disseminate(self)`
-  - `run_full_cycle` (method, line 845) `def run_full_cycle(self, target)`
-  - `get_intel_report` (method, line 874) `def get_intel_report(self)`
-  - `_is_placeholder` (method, line 925) `def _is_placeholder(value)`
-- Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`
+  - `analyze` (method, line 516) `def analyze(self)`
+  - `_correlate_services_to_vulns` (method, line 533) `def _correlate_services_to_vulns(self)`
+  - `_match_known_vulns` (method, line 576) `def _match_known_vulns(fact)`
+  - `_correlate_creds_to_hosts` (method, line 604) `def _correlate_creds_to_hosts(self)`
+  - `_correlate_domains_to_infrastructure` (method, line 627) `def _correlate_domains_to_infrastructure(self)`
+  - `_rank_targets` (method, line 643) `def _rank_targets(self)`
+  - `_detect_killchain_gaps` (method, line 683) `def _detect_killchain_gaps(self)`
+  - `produce_intelligence` (method, line 724) `def produce_intelligence(self)`
+  - `_map_category_to_mitre` (method, line 739) `def _map_category_to_mitre(category)`
+  - `produce_counter_intelligence` (method, line 754) `def produce_counter_intelligence(self)`
+  - `disseminate` (method, line 804) `def disseminate(self)`
+  - `run_full_cycle` (method, line 884) `def run_full_cycle(self, target)`
+  - `get_intel_report` (method, line 913) `def get_intel_report(self)`
+  - `_is_placeholder` (method, line 964) `def _is_placeholder(value)`
+- Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/intercept.py
 - Doc: User-configurable tool-call interception layer with human-in-loop approvals.
@@ -424,61 +492,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `validate_flags` (method, line 719) `def validate_flags(ticket, required_flags)`
   - `validate_pac_checksums` (method, line 735) `def validate_pac_checksums(pac)`
 - Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
-
-## modules/kerberos_tickets.py
-- Doc: Kerberos ticket forgery attacks — silver, golden, diamond, sapphire tickets.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SilverTicketConfig` (class, line 36) `class SilverTicketConfig`
-  - `GoldenTicketConfig` (class, line 65) `class GoldenTicketConfig`
-  - `DiamondTicketConfig` (class, line 94) `class DiamondTicketConfig`
-  - `SilverTicketForger` (class, line 124) `class SilverTicketForger`
-  - `GoldenTicketForger` (class, line 265) `class GoldenTicketForger`
-  - `DiamondTicketForger` (class, line 397) `class DiamondTicketForger`
-  - `SapphireTicketForger` (class, line 462) `class SapphireTicketForger`
-  - `SkeletonKeyInjector` (class, line 567) `class SkeletonKeyInjector`
-  - `__init__` (method, line 131) `def __init__(self)`
-  - `forge` (method, line 134) `def forge(self, config)`
-  - `_resolve_key` (method, line 190) `def _resolve_key(self, config)`
-  - `_build_silver_pac` (method, line 200) `def _build_silver_pac(self, config, start, end)`
-  - `_build_enc_ticket_part` (method, line 206) `def _build_enc_ticket_part(self, config, start, end, flags, key, etype)`
-  - `_build_ticket_structure` (method, line 225) `def _build_ticket_structure(self, config, flags, enc_part)`
-  - `_build_kirbi` (method, line 235) `def _build_kirbi(self, ticket, enc_part, etype)`
-  - `_mimikatz_inject_command` (method, line 244) `def _mimikatz_inject_command(self, config)`
-  - `_impacket_command` (method, line 254) `def _impacket_command(self, config)`
-  - `__init__` (method, line 272) `def __init__(self)`
-  - `forge` (method, line 275) `def forge(self, config)`
-  - `_resolve_krbtgt_key` (method, line 324) `def _resolve_krbtgt_key(self, config)`
-  - `_build_golden_pac` (method, line 339) `def _build_golden_pac(self, config)`
-  - `_build_golden_enc_part` (method, line 346) `def _build_golden_enc_part(self, config, start, end, flags, key)`
-  - `_assemble_tgt` (method, line 368) `def _assemble_tgt(self, config, flags, enc_part)`
-  - `_mimikatz_command` (method, line 379) `def _mimikatz_command(self, config)`
-  - `_impacket_command` (method, line 388) `def _impacket_command(self, config)`
-  - `__init__` (method, line 405) `def __init__(self)`
-  - `forge` (method, line 408) `def forge(self, config)`
-  - `_build_diamond_pac` (method, line 446) `def _build_diamond_pac(self, config)`
-  - `__init__` (method, line 469) `def __init__(self, kerberos_core)`
-  - `forge_s4u2self` (method, line 472) `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)`
-  - `forge_rbcd` (method, line 530) `def forge_rbcd(self, machine_account_hash, target_service, domain, username)`
-  - `detect_skeleton_key` (method, line 578) `def detect_skeleton_key(target_host, domain, dc_ip)`
-  - `inject_command` (method, line 600) `def inject_command(target_host)`
-  - `cleanup_command` (method, line 612) `def cleanup_command()`
-- Depends on: `modules/kerberos_core.py`
-- Imported by: `cli/commands/active_directory.py`
-
-## modules/kill_chain_viz.py
-- Doc: SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_load_phases` (function, line 20) `def _load_phases(sessions)`
-  - `_read_target` (function, line 27) `def _read_target()`
-  - `_build_svg` (function, line 34) `def _build_svg(phases)`
-  - `generate_html` (function, line 69) `def generate_html(target, sessions)`
-  - `generate_svg` (function, line 102) `def generate_svg(target, sessions)`
-- Depends on: `modules/killchain.py`
-- Imported by: `lazyc2.py`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

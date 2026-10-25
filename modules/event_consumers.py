@@ -71,13 +71,9 @@ def _inject_objective(text: str, priority: str = "medium", source: str = "event_
 
 def _update_world_model_host(address: str, state: str, services: list[dict] | None = None) -> None:
     """Update or create a host entry in world_model.json."""
-    wm: dict[str, Any] = {}
-    if _WORLD_MODEL_FILE.exists():
-        try:
-            with open(_WORLD_MODEL_FILE, encoding="utf-8") as fh:
-                wm = json.load(fh)
-        except (json.JSONDecodeError, OSError):
-            pass
+    from modules.world_model import read_state_dict, write_state_dict
+
+    wm = read_state_dict(_WORLD_MODEL_FILE)
     if "hosts" not in wm:
         wm["hosts"] = {}
     if address not in wm["hosts"]:
@@ -98,13 +94,7 @@ def _update_world_model_host(address: str, state: str, services: list[dict] | No
                     "state": svc.get("state", "open"),
                 }
     wm["saved_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
-    tmp = _WORLD_MODEL_FILE.with_suffix(".tmp")
-    try:
-        with open(tmp, "w", encoding="utf-8") as fh:
-            json.dump(wm, fh, indent=2, ensure_ascii=False, default=str)
-        os.replace(tmp, _WORLD_MODEL_FILE)
-    except OSError:
-        pass
+    write_state_dict(_WORLD_MODEL_FILE, wm)
 
 
 def _update_soul(phase: str = "", credentials: list[str] | None = None, access: str = "") -> None:

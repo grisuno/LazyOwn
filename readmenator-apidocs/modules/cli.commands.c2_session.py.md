@@ -188,7 +188,7 @@ def do_c2_deploy(self, line: str)
 Deploy the malleable agent to a lab target (needs root shell primitive).
 
 Usage:
-    c2_deploy <target> [--sleep 10]
+    c2_deploy <target> [--sleep 10] [--privilege lowpriv|root]
 
 **Parameters**
 
@@ -202,7 +202,7 @@ Usage:
 
 #### `C2SessionCommandSet.do_c2_exec`
 
-`method` | [cli/commands/c2_session.py:292](../../cli/commands/c2_session.py#L292)
+`method` | [cli/commands/c2_session.py:299](../../cli/commands/c2_session.py#L299)
 
 Decorators: `@cmd2.with_category(CATEGORY)`
 
@@ -227,7 +227,7 @@ Usage:
 
 #### `C2SessionCommandSet.do_c2_loot`
 
-`method` | [cli/commands/c2_session.py:339](../../cli/commands/c2_session.py#L339)
+`method` | [cli/commands/c2_session.py:346](../../cli/commands/c2_session.py#L346)
 
 Decorators: `@cmd2.with_category(CATEGORY)`
 

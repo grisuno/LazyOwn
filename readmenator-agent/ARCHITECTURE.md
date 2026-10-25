@@ -11,7 +11,8 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/apt_chain_support.py` -> `modules/chain_runner.py`
 - `cli/apt_chain_support.py` -> `modules/chain_state.py`
 - `cli/apt_chain_support.py` -> `modules/chain_synth.py`
-- `cli/apt_chain_support.py` -> `modules/lazy_loop.py`
+- `cli/apt_chain_support.py` -> `modules/guardrails/__init__.py`
+- `cli/apt_chain_support.py` -> `modules/mediation/__init__.py`
 - `cli/apt_chain_support.py` -> `modules/reactive_engine.py`
 - `cli/assign.py` -> `core/payload_schema.py`
 - `cli/auto_crypto.py` -> `core/crypto.py`
@@ -90,6 +91,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/campaign.py` -> `cli/commands/_base.py`
 - `cli/commands/campaign.py` -> `core/safe_import.py`
 - `cli/commands/campaign.py` -> `modules/db.py`
+- `cli/commands/campaign.py` -> `modules/world_model.py`
 - `cli/commands/campaign.py` -> `utils.py`
 - `cli/commands/catalog.py` -> `cli/commands/_base.py`
 - `cli/commands/catalog.py` -> `utils.py`
@@ -132,6 +134,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control_migrated.py` -> `modules/auto_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/c2_builder.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_distill.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/chain_facts.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_runner.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_state.py`
@@ -210,6 +213,12 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/exploitgym.py` -> `cli/commands/_base.py`
 - `cli/commands/exploitgym.py` -> `modules/exploitgym_gym.py`
 - `cli/commands/exploitgym.py` -> `utils.py`
+- `cli/commands/golden_paths.py` -> `cli/commands/_base.py`
+- `cli/commands/golden_paths.py` -> `modules/__init__.py`
+- `cli/commands/golden_paths.py` -> `utils.py`
+- `cli/commands/gym_matrix.py` -> `cli/commands/_base.py`
+- `cli/commands/gym_matrix.py` -> `modules/__init__.py`
+- `cli/commands/gym_matrix.py` -> `utils.py`
 - `cli/commands/help_ui.py` -> `cli/aliases.py`
 - `cli/commands/help_ui.py` -> `cli/assign.py`
 - `cli/commands/help_ui.py` -> `cli/command_explorer.py`
@@ -375,6 +384,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/postexp_migrated.py` -> `modules/yara_scanner.py`
 - `cli/commands/postexp_migrated.py` -> `utils.py`
 - `cli/commands/privilege_escalation.py` -> `cli/commands/_base.py`
+- `cli/commands/privilege_escalation.py` -> `modules/world_model.py`
 - `cli/commands/privilege_escalation.py` -> `utils.py`
 - `cli/commands/purple_team.py` -> `cli/commands/_base.py`
 - `cli/commands/purple_team.py` -> `cli/purple_tui.py`
@@ -486,15 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/dashboard_tui.py` -> `cli/reasoning_stream.py`
 - `cli/dashboard_tui.py` -> `cli/recommendation_signals.py`
 - `cli/dashboard_tui.py` -> `cli/toast_bus.py`
-- `cli/dashboard_tui.py` -> `modules/killchain.py`
-- `cli/doctor.py` -> `cli/wizard.py`
-- `cli/doctor.py` -> `core/console.py`
-- `cli/doctor.py` -> `core/profiles.py`
-- `cli/engagement_hooks.py` -> `cli/palette.py`
-- `cli/engagement_hooks.py` -> `core/config.py`
-- `cli/engagement_hooks.py` -> `modules/cli_auth.py`
-- `cli/engagement_hooks.py` -> `modules/lazy_rbac.py`
-- `cli/exploit_advisor.py` -> `core/console.py`
-- `cli/exploration_view.py` -> `cli/exploration.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

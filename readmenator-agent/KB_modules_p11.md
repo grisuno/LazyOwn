@@ -59,7 +59,7 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `_open` (function, line 235) `def _open()`
   - `_open` (function, line 269) `def _open()`
 - Depends on: `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
-- Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`
+- Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
 
 ## modules/loop_guardrails.py
 - Doc: Adaptive guardrails for the autonomous loop.
@@ -289,7 +289,7 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `summary` (function, line 138) `def summary(path)`
   - `main` (function, line 157) `def main()`
 - Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
-- Imported by: `cli/commands/redteam_gym.py`, `tests/test_metasploitable_gym.py`
+- Imported by: `cli/commands/redteam_gym.py`, `modules/ctf_capture.py`, `tests/test_metasploitable_gym.py`
 
 ## modules/metasploitable_migrations.py
 - Doc: Idempotent migrations for the Metasploitable 2 gym container.

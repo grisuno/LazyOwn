@@ -277,7 +277,7 @@ Non-finding nodes always resolve to pending.
 
 *Calls:* [`is_dead_end`](#is_dead_end)
 
-*Called by:* [`apply_confirmation`](#apply_confirmation)
+*Called by:* [`apply_confirmation`](#apply_confirmation), [`ActivityLog.emit`](modules.lazy_loop.py.md#activitylog-emit), [`Worker.execute`](modules.lazy_loop.py.md#worker-execute)
 
 ---
 

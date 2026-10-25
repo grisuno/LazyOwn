@@ -1,8 +1,22 @@
-# Symbols (page 3 of 44)
+# Symbols (page 3 of 45)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_lazy_goal` | method | `cli/commands/lazyops.py:723` | `def do_lazy_goal(self, line)` |
+| `do_lazy_graph` | method | `cli/commands/lazyops.py:269` | `def do_lazy_graph(self, line)` |
+| `do_lazy_guard` | method | `cli/commands/lazyops.py:1094` | `def do_lazy_guard(self, line)` |
+| `do_lazy_hint` | method | `cli/commands/lazyops.py:643` | `def do_lazy_hint(self, line)` |
+| `do_lazy_install` | method | `cli/commands/lazyops.py:2746` | `def do_lazy_install(self, line)` |
+| `do_lazy_intent` | method | `cli/commands/lazyops.py:655` | `def do_lazy_intent(self, line)` |
+| `do_lazy_intent_delete` | method | `cli/commands/lazyops.py:680` | `def do_lazy_intent_delete(self, line)` |
+| `do_lazy_kill` | method | `cli/commands/lazyops.py:1291` | `def do_lazy_kill(self, line)` |
+| `do_lazy_llm` | method | `cli/commands/lazyops.py:2232` | `def do_lazy_llm(self, line)` |
+| `do_lazy_loop` | method | `cli/commands/lazyops.py:2658` | `def do_lazy_loop(self, line)` |
+| `do_lazy_node` | method | `cli/commands/lazyops.py:1427` | `def do_lazy_node(self, line)` |
+| `do_lazy_notify` | method | `cli/commands/lazyops.py:2095` | `def do_lazy_notify(self, line)` |
+| `do_lazy_overview` | method | `cli/commands/lazyops.py:2465` | `def do_lazy_overview(self, line)` |
+| `do_lazy_pause` | method | `cli/commands/lazyops.py:1303` | `def do_lazy_pause(self, line)` |
 | `do_lazy_payload_keys` | method | `cli/commands/lazyops.py:1387` | `def do_lazy_payload_keys(self, line)` |
 | `do_lazy_planner` | method | `cli/commands/lazyops.py:484` | `def do_lazy_planner(self, line)` |
 | `do_lazy_report` | method | `cli/commands/lazyops.py:1323` | `def do_lazy_report(self, line)` |
@@ -298,7 +312,7 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_les` | method | `cli/commands/privilege_escalation.py:310` | `def do_les(self, line)` |
 | `do_linpeas` | method | `cli/commands/privilege_escalation.py:235` | `def do_linpeas(self, line)` |
 | `do_printspoofer` | method | `cli/commands/privilege_escalation.py:610` | `def do_printspoofer(self, line)` |
-| `do_privesc_cmd_by_os` | method | `cli/commands/privilege_escalation.py:754` | `def do_privesc_cmd_by_os(self, line)` |
+| `do_privesc_cmd_by_os` | method | `cli/commands/privilege_escalation.py:755` | `def do_privesc_cmd_by_os(self, line)` |
 | `do_pspy` | method | `cli/commands/privilege_escalation.py:369` | `def do_pspy(self, line)` |
 | `do_responder` | method | `cli/commands/privilege_escalation.py:197` | `def do_responder(self, line)` |
 | `do_smbserver` | method | `cli/commands/privilege_escalation.py:139` | `def do_smbserver(self, line)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `_flag_value` | function | `cli/commands/session_ops.py:1062` | `def _flag_value(flag_name)` |
 | `_strip_shell_quotes` | function | `cli/commands/session_ops.py:72` | `def _strip_shell_quotes(value)` |
 | `do_assign` | method | `cli/commands/session_ops.py:267` | `def do_assign(self, line)` |
-| `do_chainmode` | method | `cli/commands/session_ops.py:835` | `def do_chainmode(self, line)` |
-| `do_clock` | method | `cli/commands/session_ops.py:1462` | `def do_clock(self, line)` |
-| `do_clone_site` | method | `cli/commands/session_ops.py:1572` | `def do_clone_site(self, line)` |
-| `do_collab_join` | method | `cli/commands/session_ops.py:1320` | `def do_collab_join(self, line)` |
-| `do_download_resources` | method | `cli/commands/session_ops.py:1287` | `def do_download_resources(self, line)` |
-| `do_engage` | method | `cli/commands/session_ops.py:886` | `def do_engage(self, line)` |
-| `do_frontier` | method | `cli/commands/session_ops.py:710` | `def do_frontier(self, line)` |
-| `do_gencert` | method | `cli/commands/session_ops.py:1510` | `def do_gencert(self, line)` |
-| `do_getseclist` | method | `cli/commands/session_ops.py:1249` | `def do_getseclist(self, line)` |
-| `do_hunt` | method | `cli/commands/session_ops.py:1136` | `def do_hunt(self, line)` |
-| `do_kick` | method | `cli/commands/session_ops.py:1351` | `def do_kick(self, line)` |
-| `do_l00t` | method | `cli/commands/session_ops.py:118` | `def do_l00t(self, line)` |
-| `do_lazyscript` | method | `cli/commands/session_ops.py:1104` | `def do_lazyscript(self, line)` |
-| `do_list` | method | `cli/commands/session_ops.py:547` | `def do_list(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

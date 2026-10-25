@@ -107,7 +107,7 @@ daemon_status, live_graph, graph_advice, dashboard, timestamp.
 
 #### `UnifiedDashboard.render_unified`
 
-`method` | [modules/unified_dashboard.py:173](../../modules/unified_dashboard.py#L173)
+`method` | [modules/unified_dashboard.py:170](../../modules/unified_dashboard.py#L170)
 
 ```python
 def render_unified(self) -> str
@@ -123,7 +123,7 @@ Render the unified dashboard as a text string for CLI/TUI.
 
 #### `UnifiedDashboard.export_json`
 
-`method` | [modules/unified_dashboard.py:254](../../modules/unified_dashboard.py#L254)
+`method` | [modules/unified_dashboard.py:251](../../modules/unified_dashboard.py#L251)
 
 ```python
 def export_json(self) -> str
@@ -143,7 +143,7 @@ Export the unified snapshot as a JSON string.
 
 ### `get_unified_dashboard`
 
-`function` | [modules/unified_dashboard.py:259](../../modules/unified_dashboard.py#L259)
+`function` | [modules/unified_dashboard.py:256](../../modules/unified_dashboard.py#L256)
 
 ```python
 def get_unified_dashboard(sessions_dir: Path | None = None) -> UnifiedDashboard

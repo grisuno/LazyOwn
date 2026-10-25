@@ -1,8 +1,31 @@
-# Symbols (page 7 of 44)
+# Symbols (page 7 of 45)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_relevant_knowledge` | function | `contrib/legacy/lazydeepseekcli.py:185` | `def get_relevant_knowledge(prompt)` |
+| `load_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:167` | `def load_knowledge_base(file_path)` |
+| `parse_args` | function | `contrib/legacy/lazydeepseekcli.py:277` | `def parse_args()` |
+| `process_prompt_local` | function | `contrib/legacy/lazydeepseekcli.py:261` | `def process_prompt_local(prompt, debug, mode)` |
+| `process_prompt_localreport` | function | `contrib/legacy/lazydeepseekcli.py:269` | `def process_prompt_localreport(prompt, debug, mode)` |
+| `save_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:174` | `def save_knowledge_base(knowledge_base, file_path)` |
+| `transform_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:193` | `def transform_knowledge_base(prompt_builder)` |
+| `truncate_message` | function | `contrib/legacy/lazydeepseekcli.py:41` | `def truncate_message(message, max_chars)` |
+| `X64Disassembler` | class | `contrib/legacy/lazydisassebler.py:24` | `class X64Disassembler` |
+| `__init__` | method | `contrib/legacy/lazydisassebler.py:34` | `def __init__(self)` |
+| `disassemble` | method | `contrib/legacy/lazydisassebler.py:305` | `def disassemble(self, bytes_data, file_offset, vaddr, size, entry_point)` |
+| `get_operand_str` | method | `contrib/legacy/lazydisassebler.py:212` | `def get_operand_str(self, mod, rm, rex, bytes_data, offset)` |
+| `main` | function | `contrib/legacy/lazydisassebler.py:489` | `def main()` |
+| `parse_modrm` | method | `contrib/legacy/lazydisassebler.py:135` | `def parse_modrm(self, modrm, rex)` |
+| `parse_sib` | method | `contrib/legacy/lazydisassebler.py:173` | `def parse_sib(self, sib, rex)` |
+| `read_elf_header` | method | `contrib/legacy/lazydisassebler.py:79` | `def read_elf_header(self, data)` |
+| `check_sudo` | function | `contrib/legacy/lazyftpsniff.py:21` | `def check_sudo()` |
+| `main` | function | `contrib/legacy/lazyftpsniff.py:69` | `def main()` |
+| `parse_arguments` | function | `contrib/legacy/lazyftpsniff.py:42` | `def parse_arguments()` |
+| `signal_handler` | function | `contrib/legacy/lazyftpsniff.py:34` | `def signal_handler(sig, frame)` |
+| `sniffer_ftp` | function | `contrib/legacy/lazyftpsniff.py:56` | `def sniffer_ftp(pkt)` |
+| `SamsungKnoxExploitServer` | class | `contrib/legacy/lazygalazy.py:8` | `class SamsungKnoxExploitServer(BaseHTTPRequestHandler)` |
+| `apk_bytes` | method | `contrib/legacy/lazygalazy.py:33` | `def apk_bytes(self)` |
 | `do_GET` | method | `contrib/legacy/lazygalazy.py:11` | `def do_GET(self)` |
 | `exploit_js` | method | `contrib/legacy/lazygalazy.py:49` | `def exploit_js(self)` |
 | `launch_html` | method | `contrib/legacy/lazygalazy.py:36` | `def launch_html(self)` |
@@ -473,28 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `__init__` | method | `core/llm_budget.py:319` | `def __init__(self, config, estimator, ledger)` |
 | `__init__` | method | `core/llm_budget.py:417` | `def __init__(self, inner, guard, model)` |
 | `_coerce_bool` | function | `core/llm_budget.py:476` | `def _coerce_bool(value, default)` |
-| `_coerce_positive_float` | function | `core/llm_budget.py:520` | `def _coerce_positive_float(value, default)` |
-| `_coerce_positive_int` | function | `core/llm_budget.py:536` | `def _coerce_positive_int(value, default)` |
-| `_coerce_price_table` | function | `core/llm_budget.py:496` | `def _coerce_price_table(value)` |
-| `_empty_state` | method | `core/llm_budget.py:189` | `def _empty_state(self)` |
-| `_has_required_methods` | function | `core/llm_budget.py:642` | `def _has_required_methods(backend)` |
-| `_load` | method | `core/llm_budget.py:193` | `def _load(self)` |
-| `_load_encoding` | method | `core/llm_budget.py:283` | `def _load_encoding(encoding_name)` |
-| `_now_iso` | function | `core/llm_budget.py:163` | `def _now_iso(now)` |
-| `_save` | method | `core/llm_budget.py:215` | `def _save(self, state)` |
-| `_state` | method | `core/llm_budget.py:226` | `def _state(self)` |
-| `_today_utc` | function | `core/llm_budget.py:150` | `def _today_utc(now)` |
-| `calls_today` | method | `core/llm_budget.py:256` | `def calls_today(self)` |
-| `complete` | method | `core/llm_budget.py:65` | `def complete(self, system, user, max_tokens, temperature)` |
-| `complete` | method | `core/llm_budget.py:435` | `def complete(self, system, user, max_tokens, temperature)` |
-| `count` | method | `core/llm_budget.py:292` | `def count(self, text)` |
-| `default_model_prices` | function | `core/llm_budget.py:442` | `def default_model_prices()` |
-| `default_sessions_dir` | function | `core/llm_budget.py:461` | `def default_sessions_dir()` |
-| `estimate_and_check` | method | `core/llm_budget.py:356` | `def estimate_and_check(self, prompt, model, output_tokens)` |
-| `estimate_cost` | method | `core/llm_budget.py:343` | `def estimate_cost(self, model, input_tokens, output_tokens)` |
-| `format_budget_status` | function | `core/llm_budget.py:616` | `def format_budget_status(config, ledger)` |
-| `from_mapping` | method | `core/llm_budget.py:81` | `def from_mapping(cls, data)` |
-| `generate` | method | `core/llm_budget.py:61` | `def generate(self, prompt)` |
-| `generate` | method | `core/llm_budget.py:422` | `def generate(self, prompt)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

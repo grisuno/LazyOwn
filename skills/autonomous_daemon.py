@@ -891,7 +891,9 @@ class LLMSelector(ICommandSelector):
             wm_file = SESSIONS_DIR / "world_model.json"
             if wm_file.exists():
                 try:
-                    wm = json.loads(wm_file.read_text())
+                    from modules.world_model import read_state_dict
+
+                    wm = read_state_dict(wm_file)
                     wm_hosts = list(wm.get("hosts", {}).keys())[:3]
                     wm_creds = len(wm.get("credentials", []))
                     wm_vulns = len(wm.get("vulnerabilities", []))
@@ -2385,10 +2387,11 @@ async def _run_objective(
                     except Exception:
                         pass
                     try:
-                        wm_file = SESSIONS_DIR / "world_model.json"
-                        wm_file.write_text(
-                            json.dumps(world_model.snapshot(), indent=2, default=str),
-                            encoding="utf-8",
+                        from modules.world_model import write_state_dict
+
+                        write_state_dict(
+                            SESSIONS_DIR / "world_model.json",
+                            world_model.snapshot(),
                         )
                     except Exception as wm_err:
                         log.debug("world_model.json write error: %s", wm_err)
@@ -3030,7 +3033,9 @@ def _current_bridge_phase() -> str:
 def _target_services(target: str) -> list[str]:
     """Extract known service names for a target from the world file."""
     try:
-        raw = json.loads((SESSIONS_DIR / "world_model.json").read_text(encoding="utf-8"))
+        from modules.world_model import read_state_dict
+
+        raw = read_state_dict(SESSIONS_DIR / "world_model.json")
         hosts = raw.get("hosts", {}) or {}
         entry = hosts.get(target, {}) or {}
         found: list[str] = []
@@ -4367,7 +4372,9 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
             continue
 
         try:
-            snap = json.loads(wm_file.read_text())
+            from modules.world_model import read_state_dict
+
+            snap = read_state_dict(wm_file)
         except Exception:
             continue
 

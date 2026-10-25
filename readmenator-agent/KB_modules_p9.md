@@ -18,7 +18,7 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `export_dataset` (function, line 238) `def export_dataset(out, limit)`
   - `_key` (function, line 228) `def _key(line)`
 - Depends on: `modules/lazy_cli_bridge.py`, `modules/lazy_intel.py`
-- Imported by: `modules/auto_registry.py`, `modules/lazy_loop.py`, `tests/test_loop_supervision.py`
+- Imported by: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/mediation/feedback_mediator.py`, `tests/test_loop_supervision.py`, `tests/test_mediation.py`
 
 ## modules/lazy_proxy.py
 - Doc: Recording HTTP/HTTPS proxy for the autonomous loop.

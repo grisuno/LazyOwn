@@ -1,8 +1,60 @@
-# Symbols (page 13 of 44)
+# Symbols (page 13 of 45)
 Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_read_json` | function | `modules/dashboard_bp.py:93` | `def _read_json(path)` |
+| `_read_jsonl` | function | `modules/dashboard_bp.py:71` | `def _read_jsonl(path, last_n)` |
+| `_read_loot` | function | `modules/dashboard_bp.py:817` | `def _read_loot()` |
+| `_read_loot_lines` | function | `modules/dashboard_bp.py:800` | `def _read_loot_lines(pattern)` |
+| `_read_timeline` | function | `modules/dashboard_bp.py:934` | `def _read_timeline()` |
+| `_require_login` | function | `modules/dashboard_bp.py:30` | `def _require_login()` |
+| `dashboard_api_data` | function | `modules/dashboard_bp.py:784` | `def dashboard_api_data()` |
+| `dashboard_index` | function | `modules/dashboard_bp.py:778` | `def dashboard_index()` |
+| `dashboard_loot` | function | `modules/dashboard_bp.py:902` | `def dashboard_loot()` |
+| `dashboard_timeline` | function | `modules/dashboard_bp.py:1017` | `def dashboard_timeline()` |
+| `DashboardEdge` | class | `modules/dashboard_engine.py:111` | `class DashboardEdge` |
+| `DashboardEngine` | class | `modules/dashboard_engine.py:118` | `class DashboardEngine` |
+| `DashboardNode` | class | `modules/dashboard_engine.py:99` | `class DashboardNode` |
+| `__init__` | method | `modules/dashboard_engine.py:139` | `def __init__(self, world_model)` |
+| `_parse_nmap_xml_services` | function | `modules/dashboard_engine.py:39` | `def _parse_nmap_xml_services(sessions_dir)` |
+| `_phase_icon` | method | `modules/dashboard_engine.py:398` | `def _phase_icon(phase)` |
+| `build_snapshot` | method | `modules/dashboard_engine.py:160` | `def build_snapshot(self)` |
+| `export_json` | method | `modules/dashboard_engine.py:408` | `def export_json(self, snapshot)` |
+| `format_for_cli` | method | `modules/dashboard_engine.py:438` | `def format_for_cli(self, snapshot)` |
+| `persist_snapshot` | method | `modules/dashboard_engine.py:421` | `def persist_snapshot(self, snapshot)` |
+| `render_ascii_topology` | method | `modules/dashboard_engine.py:358` | `def render_ascii_topology(self, snapshot)` |
+| `render_text_map` | method | `modules/dashboard_engine.py:276` | `def render_text_map(self, snapshot)` |
+| `set_auto_pivot` | method | `modules/dashboard_engine.py:154` | `def set_auto_pivot(self, pivot)` |
+| `set_evasion_engine` | method | `modules/dashboard_engine.py:157` | `def set_evasion_engine(self, evasion)` |
+| `set_exploit_recommender` | method | `modules/dashboard_engine.py:151` | `def set_exploit_recommender(self, recommender)` |
+| `set_world_model` | method | `modules/dashboard_engine.py:148` | `def set_world_model(self, model)` |
+| `LazyOwnDB` | class | `modules/db.py:147` | `class LazyOwnDB` |
+| `__init__` | method | `modules/db.py:159` | `def __init__(self, db_path)` |
+| `_current_version` | method | `modules/db.py:192` | `def _current_version(self)` |
+| `_cursor` | method | `modules/db.py:235` | `def _cursor(self)` |
+| `_get_conn` | method | `modules/db.py:171` | `def _get_conn(self)` |
+| `_init_schema` | method | `modules/db.py:186` | `def _init_schema(self)` |
+| `_maybe_decrypt` | method | `modules/db.py:273` | `def _maybe_decrypt(self, value)` |
+| `_maybe_encrypt` | method | `modules/db.py:251` | `def _maybe_encrypt(self, value)` |
+| `_run_migrations` | method | `modules/db.py:197` | `def _run_migrations(self)` |
+| `close` | method | `modules/db.py:804` | `def close(self)` |
+| `cred_add` | method | `modules/db.py:557` | `def cred_add(self, host_id, username, password, realm, cred_type, origin)` |
+| `cred_list` | method | `modules/db.py:577` | `def cred_list(self, workspace_id)` |
+| `db_path` | method | `modules/db.py:182` | `def db_path(self)` |
+| `default_workspace` | method | `modules/db.py:320` | `def default_workspace(self, name)` |
+| `export_csv` | method | `modules/db.py:740` | `def export_csv(self, table, workspace_id)` |
+| `get_db` | function | `modules/db.py:821` | `def get_db(db_path)` |
+| `host_add` | method | `modules/db.py:357` | `def host_add(self, workspace_id, address, mac, hostname, os, state)` |
+| `host_delete` | method | `modules/db.py:390` | `def host_delete(self, host_id)` |
+| `host_find` | method | `modules/db.py:410` | `def host_find(self, workspace_id, query)` |
+| `host_list` | method | `modules/db.py:401` | `def host_list(self, workspace_id)` |
+| `import_nmap_xml` | method | `modules/db.py:664` | `def import_nmap_xml(self, workspace_id, xml_path)` |
+| `loot_add` | method | `modules/db.py:596` | `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)` |
+| `loot_list` | method | `modules/db.py:615` | `def loot_list(self, workspace_id)` |
+| `migration_status` | method | `modules/db.py:222` | `def migration_status(self)` |
+| `note_add` | method | `modules/db.py:631` | `def note_add(self, workspace_id, data, note_type, host_id)` |
+| `note_list` | method | `modules/db.py:648` | `def note_list(self, workspace_id)` |
 | `service_add` | method | `modules/db.py:427` | `def service_add(self, host_id, port, protocol, state, name, product, version)` |
 | `service_list` | method | `modules/db.py:447` | `def service_list(self, host_id)` |
 | `status` | method | `modules/db.py:775` | `def status(self, workspace_id)` |
@@ -263,51 +315,51 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `merge_estorides` | function | `modules/estorides_fusion.py:187` | `def merge_estorides(nodes, edges, est, cap)` |
 | `run_export` | function | `modules/estorides_fusion.py:84` | `def run_export(sessions_dir, cli_path, timeout_sec)` |
 | `split_lan_targets` | function | `modules/estorides_fusion.py:323` | `def split_lan_targets(est)` |
-| `EstoridesCaseReader` | class | `modules/estorides_importer.py:385` | `class EstoridesCaseReader` |
+| `EstoridesCaseReader` | class | `modules/estorides_importer.py:387` | `class EstoridesCaseReader` |
 | `EstoridesEntity` | class | `modules/estorides_importer.py:84` | `class EstoridesEntity` |
-| `EstoridesStixParser` | class | `modules/estorides_importer.py:495` | `class EstoridesStixParser` |
-| `EstoridesToLazyOwnBridge` | class | `modules/estorides_importer.py:700` | `class EstoridesToLazyOwnBridge` |
-| `FeedbackLoop` | class | `modules/estorides_importer.py:881` | `class FeedbackLoop` |
+| `EstoridesStixParser` | class | `modules/estorides_importer.py:497` | `class EstoridesStixParser` |
+| `EstoridesToLazyOwnBridge` | class | `modules/estorides_importer.py:702` | `class EstoridesToLazyOwnBridge` |
+| `FeedbackLoop` | class | `modules/estorides_importer.py:885` | `class FeedbackLoop` |
 | `ImportResult` | class | `modules/estorides_importer.py:96` | `class ImportResult` |
-| `LanBundleReader` | class | `modules/estorides_importer.py:622` | `class LanBundleReader` |
+| `LanBundleReader` | class | `modules/estorides_importer.py:624` | `class LanBundleReader` |
 | `SeedResult` | class | `modules/estorides_importer.py:128` | `class SeedResult` |
-| `__init__` | method | `modules/estorides_importer.py:388` | `def __init__(self, db_path)` |
-| `__init__` | method | `modules/estorides_importer.py:511` | `def __init__(self, stix_path)` |
-| `__init__` | method | `modules/estorides_importer.py:632` | `def __init__(self, lan_dir)` |
-| `__init__` | method | `modules/estorides_importer.py:703` | `def __init__(self, db_path, config_path)` |
-| `__init__` | method | `modules/estorides_importer.py:892` | `def __init__(self, max_iterations, max_depth, max_steps, timeout)` |
-| `_ensure_conn` | method | `modules/estorides_importer.py:396` | `def _ensure_conn(self)` |
-| `_extract_value` | method | `modules/estorides_importer.py:563` | `def _extract_value(obj, stix_type)` |
-| `_gather_seeds` | method | `modules/estorides_importer.py:1001` | `def _gather_seeds(self, methods, seen)` |
-| `_import_to_db` | method | `modules/estorides_importer.py:755` | `def _import_to_db(self, imports, result)` |
-| `_import_to_scope` | method | `modules/estorides_importer.py:801` | `def _import_to_scope(self, imports, result)` |
-| `attack_targets` | method | `modules/estorides_importer.py:683` | `def attack_targets(self)` |
-| `available` | method | `modules/estorides_importer.py:393` | `def available(self)` |
-| `available` | method | `modules/estorides_importer.py:515` | `def available(self)` |
-| `available` | method | `modules/estorides_importer.py:636` | `def available(self)` |
-| `close` | method | `modules/estorides_importer.py:489` | `def close(self)` |
-| `ensure_directories` | function | `modules/estorides_importer.py:694` | `def ensure_directories()` |
-| `export_combined_graph` | function | `modules/estorides_importer.py:1027` | `def export_combined_graph(output_path)` |
-| `extract_seeds_from_db` | function | `modules/estorides_importer.py:203` | `def extract_seeds_from_db(db_path)` |
-| `extract_seeds_from_hosts_file` | function | `modules/estorides_importer.py:175` | `def extract_seeds_from_hosts_file(path)` |
-| `extract_seeds_from_scope` | function | `modules/estorides_importer.py:242` | `def extract_seeds_from_scope(scope_entries)` |
+| `__init__` | method | `modules/estorides_importer.py:390` | `def __init__(self, db_path)` |
+| `__init__` | method | `modules/estorides_importer.py:513` | `def __init__(self, stix_path)` |
+| `__init__` | method | `modules/estorides_importer.py:634` | `def __init__(self, lan_dir)` |
+| `__init__` | method | `modules/estorides_importer.py:705` | `def __init__(self, db_path, config_path)` |
+| `__init__` | method | `modules/estorides_importer.py:896` | `def __init__(self, max_iterations, max_depth, max_steps, timeout)` |
+| `_ensure_conn` | method | `modules/estorides_importer.py:398` | `def _ensure_conn(self)` |
+| `_extract_value` | method | `modules/estorides_importer.py:565` | `def _extract_value(obj, stix_type)` |
+| `_gather_seeds` | method | `modules/estorides_importer.py:1005` | `def _gather_seeds(self, methods, seen)` |
+| `_import_to_db` | method | `modules/estorides_importer.py:757` | `def _import_to_db(self, imports, result)` |
+| `_import_to_scope` | method | `modules/estorides_importer.py:803` | `def _import_to_scope(self, imports, result)` |
+| `attack_targets` | method | `modules/estorides_importer.py:685` | `def attack_targets(self)` |
+| `available` | method | `modules/estorides_importer.py:395` | `def available(self)` |
+| `available` | method | `modules/estorides_importer.py:517` | `def available(self)` |
+| `available` | method | `modules/estorides_importer.py:638` | `def available(self)` |
+| `close` | method | `modules/estorides_importer.py:491` | `def close(self)` |
+| `ensure_directories` | function | `modules/estorides_importer.py:696` | `def ensure_directories()` |
+| `export_combined_graph` | function | `modules/estorides_importer.py:1031` | `def export_combined_graph(output_path)` |
+| `extract_seeds_from_db` | function | `modules/estorides_importer.py:205` | `def extract_seeds_from_db(db_path)` |
+| `extract_seeds_from_hosts_file` | function | `modules/estorides_importer.py:177` | `def extract_seeds_from_hosts_file(path)` |
+| `extract_seeds_from_scope` | function | `modules/estorides_importer.py:244` | `def extract_seeds_from_scope(scope_entries)` |
 | `extract_seeds_from_world_model` | function | `modules/estorides_importer.py:143` | `def extract_seeds_from_world_model(world_model_path)` |
-| `find_lan_bundle_files` | function | `modules/estorides_importer.py:586` | `def find_lan_bundle_files(lan_dir, sessions_dir)` |
-| `get_all_entities` | method | `modules/estorides_importer.py:473` | `def get_all_entities(self, case_id)` |
-| `get_combined_surface` | method | `modules/estorides_importer.py:834` | `def get_combined_surface(self)` |
-| `get_entities` | method | `modules/estorides_importer.py:414` | `def get_entities(self, case_id, entity_types, limit)` |
-| `get_host_entities` | method | `modules/estorides_importer.py:469` | `def get_host_entities(self, case_id)` |
-| `import_entities` | method | `modules/estorides_importer.py:711` | `def import_entities(self, entities, add_to_scope, add_to_db)` |
-| `list_cases` | method | `modules/estorides_importer.py:402` | `def list_cases(self, limit)` |
+| `find_lan_bundle_files` | function | `modules/estorides_importer.py:588` | `def find_lan_bundle_files(lan_dir, sessions_dir)` |
+| `get_all_entities` | method | `modules/estorides_importer.py:475` | `def get_all_entities(self, case_id)` |
+| `get_combined_surface` | method | `modules/estorides_importer.py:836` | `def get_combined_surface(self)` |
+| `get_entities` | method | `modules/estorides_importer.py:416` | `def get_entities(self, case_id, entity_types, limit)` |
+| `get_host_entities` | method | `modules/estorides_importer.py:471` | `def get_host_entities(self, case_id)` |
+| `import_entities` | method | `modules/estorides_importer.py:713` | `def import_entities(self, entities, add_to_scope, add_to_db)` |
+| `list_cases` | method | `modules/estorides_importer.py:404` | `def list_cases(self, limit)` |
 | `new_assets` | method | `modules/estorides_importer.py:139` | `def new_assets(self)` |
-| `parse` | method | `modules/estorides_importer.py:518` | `def parse(self)` |
-| `parse` | method | `modules/estorides_importer.py:652` | `def parse(self)` |
-| `parse_by_type` | method | `modules/estorides_importer.py:552` | `def parse_by_type(self, entity_types)` |
-| `read_devices` | method | `modules/estorides_importer.py:639` | `def read_devices(self)` |
-| `run` | method | `modules/estorides_importer.py:908` | `def run(self, seed_methods)` |
-| `run_estorides_discover` | function | `modules/estorides_importer.py:272` | `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` |
-| `run_estorides_run` | function | `modules/estorides_importer.py:332` | `def run_estorides_run(query, out_json, timeout)` |
-| `stats` | method | `modules/estorides_importer.py:476` | `def stats(self)` |
+| `parse` | method | `modules/estorides_importer.py:520` | `def parse(self)` |
+| `parse` | method | `modules/estorides_importer.py:654` | `def parse(self)` |
+| `parse_by_type` | method | `modules/estorides_importer.py:554` | `def parse_by_type(self, entity_types)` |
+| `read_devices` | method | `modules/estorides_importer.py:641` | `def read_devices(self)` |
+| `run` | method | `modules/estorides_importer.py:912` | `def run(self, seed_methods)` |
+| `run_estorides_discover` | function | `modules/estorides_importer.py:274` | `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` |
+| `run_estorides_run` | function | `modules/estorides_importer.py:334` | `def run_estorides_run(query, out_json, timeout)` |
+| `stats` | method | `modules/estorides_importer.py:478` | `def stats(self)` |
 | `success` | method | `modules/estorides_importer.py:110` | `def success(self)` |
 | `to_dict` | method | `modules/estorides_importer.py:113` | `def to_dict(self)` |
 | `EvasionEngine` | class | `modules/evasion_engine.py:52` | `class EvasionEngine` |
@@ -391,24 +443,24 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `write` | method | `modules/event_bus.py:151` | `def write(self, event)` |
 | `write` | method | `modules/event_bus.py:181` | `def write(self, event)` |
 | `write` | method | `modules/event_bus.py:205` | `def write(self, event)` |
-| `AutoRecommender` | class | `modules/event_consumers.py:201` | `class AutoRecommender` |
-| `CredentialReactor` | class | `modules/event_consumers.py:272` | `class CredentialReactor` |
-| `DashboardPusher` | class | `modules/event_consumers.py:358` | `class DashboardPusher` |
-| `PhaseTracker` | class | `modules/event_consumers.py:146` | `class PhaseTracker` |
-| `SoulSync` | class | `modules/event_consumers.py:320` | `class SoulSync` |
-| `__call__` | method | `modules/event_consumers.py:159` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:207` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:282` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:323` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:361` | `def __call__(self, event)` |
-| `__init__` | method | `modules/event_consumers.py:156` | `def __init__(self)` |
-| `__init__` | method | `modules/event_consumers.py:204` | `def __init__(self)` |
+| `AutoRecommender` | class | `modules/event_consumers.py:191` | `class AutoRecommender` |
+| `CredentialReactor` | class | `modules/event_consumers.py:262` | `class CredentialReactor` |
+| `DashboardPusher` | class | `modules/event_consumers.py:348` | `class DashboardPusher` |
+| `PhaseTracker` | class | `modules/event_consumers.py:136` | `class PhaseTracker` |
+| `SoulSync` | class | `modules/event_consumers.py:310` | `class SoulSync` |
+| `__call__` | method | `modules/event_consumers.py:149` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:197` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:272` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:313` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:351` | `def __call__(self, event)` |
+| `__init__` | method | `modules/event_consumers.py:146` | `def __init__(self)` |
+| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
 | `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
 | `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
-| `_update_soul` | function | `modules/event_consumers.py:110` | `def _update_soul(phase, credentials, access)` |
+| `_update_soul` | function | `modules/event_consumers.py:100` | `def _update_soul(phase, credentials, access)` |
 | `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
-| `unwire_all_consumers` | function | `modules/event_consumers.py:409` | `def unwire_all_consumers(bus)` |
-| `wire_all_consumers` | function | `modules/event_consumers.py:380` | `def wire_all_consumers(bus)` |
+| `unwire_all_consumers` | function | `modules/event_consumers.py:399` | `def unwire_all_consumers(bus)` |
+| `wire_all_consumers` | function | `modules/event_consumers.py:370` | `def wire_all_consumers(bus)` |
 | `_append_event` | function | `modules/event_engine.py:173` | `def _append_event(event)` |
 | `_read_watermark` | function | `modules/event_engine.py:130` | `def _read_watermark()` |
 | `_row_matches` | function | `modules/event_engine.py:144` | `def _row_matches(row, trigger)` |
@@ -444,57 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `SPRAY_KEY_SIZE` | macro | `modules/exp.c:65` | `#define SPRAY_KEY_SIZE` |
 | `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:71` | `#define SPRAY_NB_ENTRIES` |
 | `SPRAY_SIZE` | macro | `modules/exp.c:69` | `#define SPRAY_SIZE` |
-| `_GNU_SOURCE` | macro | `modules/exp.c:2` | `#define _GNU_SOURCE` |
-| `add_key` | function | `modules/exp.c:147` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
-| `awake_partial_keys` | function | `modules/exp.c:271` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
-| `bye` | function | `modules/exp.c:155` | `void bye(char *info)` |
-| `bye2` | function | `modules/exp.c:167` | `void bye2(char *info, char *arg)` |
-| `create_dummy_file` | function | `modules/exp.c:564` | `void create_dummy_file(void)` |
-| `create_priv_file` | function | `modules/exp.c:572` | `void create_priv_file(void)` |
-| `do_error_exit` | function | `modules/exp.c:161` | `void do_error_exit(char *info)` |
-| `fd_uring` | struct | `modules/exp.c:131` | `` |
-| `gather_mqueue` | function | `modules/exp.c:463` | `int gather_mqueue(mqd_t mqdes, int gather_size)` |
-| `gather_mqueue_nosave` | function | `modules/exp.c:485` | `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)` |
-| `get_keyring_leak` | function | `modules/exp.c:248` | `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)` |
-| `io_uring_register` | function | `modules/exp.c:524` | `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)` |
-| `io_uring_setup` | function | `modules/exp.c:520` | `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)` |
-| `key_serial_t` | type_alias | `modules/exp.c:135` | `typedef int32_t key_serial_t;` |
-| `keyctl` | function | `modules/exp.c:151` | `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...` |
-| `keyring_payload` | struct | `modules/exp.c:120` | `` |
-| `leak` | struct | `modules/exp.c:126` | `` |
-| `main` | function | `modules/exp.c:620` | `int main(int argc, char ** argv)` |
-| `msg` | struct | `modules/exp.c:84` | `` |
-| `msg_header` | struct | `modules/exp.c:90` | `` |
-| `nft_trans_phase` | enum | `modules/exp.c:77` | `` |
-| `prepare_root_shell` | function | `modules/exp.c:559` | `void prepare_root_shell(void)` |
-| `release_keys` | function | `modules/exp.c:279` | `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)` |
-| `release_partial_keys` | function | `modules/exp.c:290` | `void release_partial_keys(key_serial_t *id_buffer, int i)` |
-| `release_partial_uring` | function | `modules/exp.c:554` | `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)` |
-| `release_uring` | function | `modules/exp.c:546` | `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)` |
-| `sema_down` | function | `modules/exp.c:615` | `void sema_down(int *sema)` |
-| `sema_up` | function | `modules/exp.c:610` | `void sema_up(int *sema)` |
-| `set_cpu_affinity` | function | `modules/exp.c:438` | `void set_cpu_affinity(int cpu_n, pid_t pid)` |
-| `set_stable_table_and_set` | function | `modules/exp.c:322` | `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)` |
-| `set_trigger_set_and_overwrite` | function | `modules/exp.c:385` | `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)` |
-| `setup_modprobe_payload` | function | `modules/exp.c:601` | `void setup_modprobe_payload()` |
-| `spray_keyring` | function | `modules/exp.c:172` | `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)` |
-| `spray_keyring_list_del_purpose` | function | `modules/exp.c:190` | `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...` |
-| `spray_keyring_list_overwrite_purpose` | function | `modules/exp.c:214` | `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...` |
-| `spray_mqueue` | function | `modules/exp.c:448` | `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)` |
-| `spray_msg_msg` | function | `modules/exp.c:496` | `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)` |
-| `spray_uring` | function | `modules/exp.c:529` | `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)` |
-| `unshare_setup` | function | `modules/exp.c:297` | `void unshare_setup(uid_t uid, gid_t gid)` |
-| `user_rule_t` | struct | `modules/exp.c:105` | `` |
-| `userland_T` | function | `modules/exp.c:605` | `void userland_T(int *sema)` |
-| `write_new_modprobe` | function | `modules/exp.c:582` | `void write_new_modprobe()` |
-| `ChainResult` | class | `modules/exploit_chain.py:65` | `class ChainResult` |
-| `ExploitChain` | class | `modules/exploit_chain.py:289` | `class ExploitChain` |
-| `ExploitResult` | class | `modules/exploit_chain.py:54` | `class ExploitResult` |
-| `ServiceInfo` | class | `modules/exploit_chain.py:29` | `class ServiceInfo` |
-| `VulnerabilityMatch` | class | `modules/exploit_chain.py:41` | `class VulnerabilityMatch` |
-| `__init__` | method | `modules/exploit_chain.py:292` | `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)` |
-| `_add_vuln` | method | `modules/exploit_chain.py:485` | `def _add_vuln(self, service, sig, version)` |
-| `_compare_versions` | function | `modules/exploit_chain.py:266` | `def _compare_versions(version_a, version_b)` |
-| `_discover_xml_files` | method | `modules/exploit_chain.py:331` | `def _discover_xml_files(self)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

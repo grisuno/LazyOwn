@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **74.4%** (7209 of 9691 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,17 +8,17 @@ Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1204 | 1392 | 86.5% |
-| classmethod | 56 | 82 | 68.3% |
-| constructor | 195 | 517 | 37.7% |
-| enum | 29 | 38 | 76.3% |
+| class | 1219 | 1407 | 86.6% |
+| classmethod | 58 | 84 | 69.0% |
+| constructor | 203 | 525 | 38.7% |
+| enum | 30 | 39 | 76.9% |
 | exception | 35 | 37 | 94.6% |
-| function | 1777 | 2725 | 65.2% |
+| function | 1807 | 2755 | 65.6% |
 | macro | 3 | 113 | 2.7% |
-| method | 2827 | 3506 | 80.6% |
-| module | 673 | 795 | 84.7% |
+| method | 2904 | 3583 | 81.0% |
+| module | 695 | 817 | 85.1% |
 | property | 152 | 196 | 77.6% |
-| protocol | 14 | 14 | 100.0% |
+| protocol | 20 | 20 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
 | struct | 1 | 20 | 5.0% |
 | type_alias | 3 | 4 | 75.0% |
@@ -445,6 +445,8 @@ Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data mem
 | [`cli.commands.exfiltration`](modules/cli.commands.exfiltration.py.md) | 29 | 29 | 100.0% |
 | [`cli.commands.exploit`](modules/cli.commands.exploit.py.md) | 12 | 12 | 100.0% |
 | [`cli.commands.exploitgym`](modules/cli.commands.exploitgym.py.md) | 3 | 3 | 100.0% |
+| [`cli.commands.golden_paths`](modules/cli.commands.golden_paths.py.md) | 3 | 3 | 100.0% |
+| [`cli.commands.gym_matrix`](modules/cli.commands.gym_matrix.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.help_ui`](modules/cli.commands.help_ui.py.md) | 16 | 16 | 100.0% |
 | [`cli.commands.infra`](modules/cli.commands.infra.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lab`](modules/cli.commands.lab.py.md) | 3 | 3 | 100.0% |
@@ -497,7 +499,7 @@ Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data mem
 | [`cli.marketplace_config`](modules/cli.marketplace_config.py.md) | 46 | 46 | 100.0% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | 1 | 1 | 100.0% |
 | [`cli.ops_commands`](modules/cli.ops_commands.py.md) | 26 | 26 | 100.0% |
-| [`cli.orchestrator_assets_tabs`](modules/cli.orchestrator_assets_tabs.py.md) | 32 | 32 | 100.0% |
+| [`cli.orchestrator_assets_tabs`](modules/cli.orchestrator_assets_tabs.py.md) | 36 | 36 | 100.0% |
 | [`cli.output_mode`](modules/cli.output_mode.py.md) | 7 | 7 | 100.0% |
 | [`cli.palette`](modules/cli.palette.py.md) | 12 | 12 | 100.0% |
 | [`cli.palette_graph`](modules/cli.palette_graph.py.md) | 10 | 10 | 100.0% |
@@ -524,7 +526,7 @@ Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data mem
 | [`cli.themes`](modules/cli.themes.py.md) | 4 | 4 | 100.0% |
 | [`cli.timeline_browser`](modules/cli.timeline_browser.py.md) | 14 | 14 | 100.0% |
 | [`cli.tips_engine`](modules/cli.tips_engine.py.md) | 12 | 12 | 100.0% |
-| [`cli.toast_bus`](modules/cli.toast_bus.py.md) | 42 | 42 | 100.0% |
+| [`cli.toast_bus`](modules/cli.toast_bus.py.md) | 43 | 43 | 100.0% |
 | [`cli.tui_forms`](modules/cli.tui_forms.py.md) | 25 | 25 | 100.0% |
 | [`cli.tui_theme`](modules/cli.tui_theme.py.md) | 2 | 2 | 100.0% |
 | [`cli.tutorial`](modules/cli.tutorial.py.md) | 8 | 8 | 100.0% |
@@ -651,10 +653,12 @@ Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data mem
 | [`modules.attack_surface3d`](modules/modules.attack_surface3d.py.md) | 3 | 3 | 100.0% |
 | [`modules.auto_registry`](modules/modules.auto_registry.py.md) | 25 | 25 | 100.0% |
 | [`modules.beacon_history`](modules/modules.beacon_history.py.md) | 8 | 8 | 100.0% |
+| [`modules.beacon_recon`](modules/modules.beacon_recon.py.md) | 4 | 4 | 100.0% |
 | [`modules.bitm_engine`](modules/modules.bitm_engine.py.md) | 8 | 8 | 100.0% |
 | [`modules.c2_surfaces`](modules/modules.c2_surfaces.py.md) | 8 | 8 | 100.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | 1 | 1 | 100.0% |
 | [`modules.chain_distill`](modules/modules.chain_distill.py.md) | 10 | 10 | 100.0% |
+| [`modules.chain_facts`](modules/modules.chain_facts.py.md) | 2 | 2 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | 12 | 12 | 100.0% |
 | [`modules.chain_runner`](modules/modules.chain_runner.py.md) | 17 | 17 | 100.0% |
 | [`modules.chain_state`](modules/modules.chain_state.py.md) | 6 | 6 | 100.0% |
@@ -663,6 +667,7 @@ Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data mem
 | [`modules.cli_auth`](modules/modules.cli_auth.py.md) | 11 | 11 | 100.0% |
 | [`modules.cloud_enum`](modules/modules.cloud_enum.py.md) | 8 | 8 | 100.0% |
 | [`modules.config_store`](modules/modules.config_store.py.md) | 7 | 7 | 100.0% |
+| [`modules.ctf_capture`](modules/modules.ctf_capture.py.md) | 7 | 7 | 100.0% |
 | [`modules.custom_tools`](modules/modules.custom_tools.py.md) | 7 | 7 | 100.0% |
 | [`modules.dashboard_bp`](modules/modules.dashboard_bp.py.md) | 5 | 5 | 100.0% |
 | [`modules.db`](modules/modules.db.py.md) | 31 | 31 | 100.0% |
@@ -675,9 +680,19 @@ Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data mem
 | [`modules.estorides_fusion`](modules/modules.estorides_fusion.py.md) | 10 | 10 | 100.0% |
 | [`modules.evidence`](modules/modules.evidence.py.md) | 10 | 10 | 100.0% |
 | [`modules.exploitgym_gym`](modules/modules.exploitgym_gym.py.md) | 8 | 8 | 100.0% |
+| [`modules.factsio`](modules/modules.factsio.py.md) | 5 | 5 | 100.0% |
 | [`modules.finding_lifecycle`](modules/modules.finding_lifecycle.py.md) | 18 | 18 | 100.0% |
 | [`modules.goals`](modules/modules.goals.py.md) | 14 | 14 | 100.0% |
+| [`modules.golden_path`](modules/modules.golden_path.py.md) | 7 | 7 | 100.0% |
+| [`modules.guardrails`](modules/modules.guardrails.__init__.py.md) | 1 | 1 | 100.0% |
+| [`modules.guardrails.advisories`](modules/modules.guardrails.advisories.py.md) | 16 | 16 | 100.0% |
+| [`modules.guardrails.budget`](modules/modules.guardrails.budget.py.md) | 14 | 14 | 100.0% |
+| [`modules.guardrails.checkpoints`](modules/modules.guardrails.checkpoints.py.md) | 8 | 8 | 100.0% |
+| [`modules.guardrails.contracts`](modules/modules.guardrails.contracts.py.md) | 11 | 11 | 100.0% |
+| [`modules.guardrails.harness`](modules/modules.guardrails.harness.py.md) | 11 | 11 | 100.0% |
+| [`modules.gym_matrix_runner`](modules/modules.gym_matrix_runner.py.md) | 4 | 4 | 100.0% |
 | [`modules.gym_registry`](modules/modules.gym_registry.py.md) | 19 | 19 | 100.0% |
+| [`modules.harness`](modules/modules.harness.py.md) | 3 | 3 | 100.0% |
 | [`modules.integrations`](modules/modules.integrations.__init__.py.md) | 1 | 1 | 100.0% |
 | [`modules.integrations.misp_export`](modules/modules.integrations.misp_export.py.md) | 24 | 24 | 100.0% |
 | [`modules.intel_fusion`](modules/modules.intel_fusion.py.md) | 10 | 10 | 100.0% |
@@ -719,6 +734,13 @@ Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data mem
 | [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | 12 | 12 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | 12 | 12 | 100.0% |
 | [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | 10 | 10 | 100.0% |
+| [`modules.mediation`](modules/modules.mediation.__init__.py.md) | 1 | 1 | 100.0% |
+| [`modules.mediation.chain_mediator`](modules/modules.mediation.chain_mediator.py.md) | 9 | 9 | 100.0% |
+| [`modules.mediation.contracts`](modules/modules.mediation.contracts.py.md) | 13 | 13 | 100.0% |
+| [`modules.mediation.feedback_mediator`](modules/modules.mediation.feedback_mediator.py.md) | 4 | 4 | 100.0% |
+| [`modules.mediation.hub`](modules/modules.mediation.hub.py.md) | 8 | 8 | 100.0% |
+| [`modules.mediation.intel_mediator`](modules/modules.mediation.intel_mediator.py.md) | 10 | 10 | 100.0% |
+| [`modules.mediation.telemetry_mediator`](modules/modules.mediation.telemetry_mediator.py.md) | 12 | 12 | 100.0% |
 | [`modules.memory_embeddings`](modules/modules.memory_embeddings.py.md) | 6 | 6 | 100.0% |
 | [`modules.metasploitable_gym`](modules/modules.metasploitable_gym.py.md) | 8 | 8 | 100.0% |
 | [`modules.metasploitable_migrations`](modules/modules.metasploitable_migrations.py.md) | 4 | 4 | 100.0% |
@@ -827,7 +849,7 @@ Overall: **74.0%** (7048 of 9530 public modules, types, and callables). Data mem
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 42
+DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 43
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -967,9 +989,9 @@ DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 42
 - DOC003 `cli/commands/scan_migrated.py:730` documented parameter 'self.params['rhost']' is not in the signature of ScanMigratedCommandSet.do_enum4linux_ng
 - DOC001 `cli/commands/security.py:267` method SecurityCommandSet.complete_opsec is not documented
 - DOC001 `cli/commands/security.py:276` method SecurityCommandSet.complete_crack_hashes is not documented
-- DOC001 `cli/dashboard_tui.py:836` method LazyOwnDashboard.compose is not documented
-- DOC001 `cli/dashboard_tui.py:855` method LazyOwnDashboard.on_mount is not documented
-- DOC001 `cli/dashboard_tui.py:923` method LazyOwnDashboard.action_refresh_data is not documented
+- DOC001 `cli/dashboard_tui.py:838` method LazyOwnDashboard.compose is not documented
+- DOC001 `cli/dashboard_tui.py:857` method LazyOwnDashboard.on_mount is not documented
+- DOC001 `cli/dashboard_tui.py:925` method LazyOwnDashboard.action_refresh_data is not documented
 - DOC001 `cli/doctor.py:313` function check_command_index is not documented
 - DOC001 `cli/exploit_advisor.py:128` property ServiceInfo.display_name is not documented
 - DOC001 `cli/fuzzy_picker.py:231` method PickerView.run is not documented
@@ -1329,4 +1351,4 @@ DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 42
 - DOC001 `install.sh:128` function ensure_gum is not documented
 - DOC001 `install.sh:139` function install_system_packages is not documented
 - DOC001 `install.sh:150` function install_external_tools is not documented
-- ... 1813 more in `api/warnings.jsonl`
+- ... 1814 more in `api/warnings.jsonl`

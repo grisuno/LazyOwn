@@ -1,6 +1,6 @@
 # modules: autonomous_daemon
 
-modules: autonomous_daemon groups 163 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+modules: autonomous_daemon groups 173 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 ```mermaid
 graph LR
@@ -8,37 +8,39 @@ graph LR
     contrib["contrib"]
     core["core"]
     lazyc2["lazyc2"]
-    lazygui["lazygui"]
     modules["modules"]
     scripts["scripts"]
     skills["skills"]
     tests["tests"]
+    cli -- "depends on" --> core
     cli -- "calls into" --> modules
     cli -- "calls into" --> skills
-    contrib -- "depends on" --> cli
+    cli -- "calls into" --> tests
     contrib -- "depends on" --> core
-    contrib -- "calls into" --> modules
     lazyc2 -- "depends on" --> core
+    lazyc2 -- "calls into" --> modules
+    modules -- "depends on" --> cli
     modules -- "depends on" --> core
-    modules -- "depends on" --> lazygui
     modules -- "calls into" --> skills
+    skills -- "depends on" --> cli
     skills -- "depends on" --> core
     skills -- "calls into" --> modules
     skills -- "calls into" --> scripts
     skills -- "calls into" --> tests
-    tests -- "depends on" --> cli
+    tests -- "calls into" --> cli
     tests -- "calls into" --> core
+    tests -- "depends on" --> lazyc2
     tests -- "calls into" --> modules
     tests -- "calls into" --> skills
 ```
 
 ## cli (1.1)
 
-cli groups 5 files (py) around PwnCommandSet, do_auto_pwn, do_rich_tui, do_exploit_chain, do_lolbas_list. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+cli groups 8 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 ## contrib (1.2)
 
-contrib groups 9 files (py) around parse_github_url, github_api_get, fetch_repo_metadata, fetch_readme, fetch_root_files. parse_github_url: Extrae (owner, repo) de una URL de GitHub.
+contrib groups 4 files (py) around parse_args, setup_logging, generate_rsa_key, Server, __init__. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ## core (1.3)
 
@@ -46,65 +48,60 @@ core groups 4 files (py) around StructuredLogConfig, _JsonLineFormatter, __init_
 
 ## lazyc2 (1.4)
 
-lazyc2 groups 2 files (py) around configure, load_short_urls, save_short_urls, _get_safe_file_path, is_valid_url. Phishing blueprint for the LazyOwn C2 server.
+lazyc2 groups 3 files (py) around _sessions_dir, _db, _error, health, targets. Versioned REST API (``/api/v1``) for the LazyOwn C2 server.
 
-## lazygui (1.5)
+## modules (1.5)
 
-lazygui groups 2 files (py). LazyOwn Operator Console.
+modules groups 74 files (py) around ColoredFormatter, format, JsonFormatter, format, CorrelationFilter. AI-Driven Exploit Chaining Engine.
 
-## modules (1.6)
-
-modules groups 76 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
-
-## scripts (1.7)
+## scripts (1.6)
 
 scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_opencode, patch_hermes. Patch operator agent configs to use the Lazy llama.cpp server.
 
-## skills (1.8)
+## skills (1.7)
 
-skills groups 27 files (py) around _try_import, _update_task_status, _credential_worth_task, _task_title_open, _inject_to_tasks_json. Autonomous Campaign Intelligence (ACI) Planner
+skills groups 34 files (py) around _try_import, _update_task_status, _credential_worth_task, _task_title_open, _inject_to_tasks_json. Autonomous Campaign Intelligence (ACI) Planner
 
-## tests (1.9)
+## tests (1.8)
 
-tests groups 37 files (py) around test_autonomous_flow_integration, _make_goal, _patched_paths, _start_patches, _stop_patches. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
+tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, _patched_paths, _start_patches, _stop_patches. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
 
 **Files**:
 
 - cli/commands/caldera.py
+- cli/commands/collaboration.py
 - cli/commands/daemon_ctl.py
+- cli/commands/database.py
+- cli/commands/enum.py
 - cli/commands/estorides.py
-- cli/commands/exploitgym.py
-- cli/commands/pwn.py
-- contrib/legacy/lazyaddon_creator.py
+- cli/recommendation.py
+- cli/recommendation_signals.py
 - contrib/legacy/lazyhoneypot.py
-- contrib/legacy/lazyllmchat.py
 - contrib/legacy/lazyopenssh77enum2.py
-- contrib/legacy/lazypwn.py
 - contrib/legacy/lazysearch_bot.py
 - contrib/legacy/lazyssh.py
-- contrib/legacy/lazyvsftp.py
-- contrib/legacy/sql.py
 - core/executor.py
 - core/logging.py
 - core/scheduler.py
 - core/security.py
+- lazyc2/blueprints/api_v1.py
 - lazyc2/blueprints/phishing.py
 - lazyc2/extensions/short_urls.py
-- lazygui/__init__.py
-- lazygui/version.py
-- modules/agent_runner.py
 - modules/ai_exploit_chain.py
 - modules/ai_fallback.py
-- modules/ai_model.py
 - modules/asset_graph.py
 - modules/atomic_enricher.py
 - modules/auto_loop_memory.py
 - modules/auto_pivot.py
 - modules/autonomous_exploit_engine.py
+- modules/beacon_history.py
 - modules/c2_profile.py
+- modules/chain_tokens.py
+- modules/collab_bp.py
+- modules/compliance.py
 - modules/config_store.py
 - modules/cve_matcher.py
-- modules/dashboard_engine.py
+- modules/db.py
 - modules/detection_feed.py
 - modules/detection_oracle.py
 - modules/digest.py
@@ -114,9 +111,10 @@ tests groups 37 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/estorides_importer.py
 - modules/event_engine.py
 - modules/evidence.py
-- modules/exploit_recommender.py
-- modules/exploitgym_gym.py
+- modules/factsio.py
+- modules/finding_lifecycle.py
 - modules/goals.py
+- modules/golden_path.py
 - modules/hive_invoke.py
 - modules/ia_code_analysis.py
 - modules/ia_logs_analysis.py
@@ -132,11 +130,9 @@ tests groups 37 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/lazyownerweb.py
 - modules/lesson_ingestor.py
 - modules/lilsplunky.py
-- modules/llm_client.py
 - modules/llm_evaluator.py
-- modules/llm_factory.py
+- modules/llm_pool.py
 - modules/logging_config.py
-- modules/loop_ai_bridge.py
 - modules/mcp_agent_bridge.py
 - modules/memory_embeddings.py
 - modules/memory_store.py
@@ -144,18 +140,19 @@ tests groups 37 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/moe_router.py
 - modules/obs_parser.py
 - modules/operation.py
+- modules/osint_enrich.py
 - modules/pipeline_engine.py
 - modules/planner.py
 - modules/playbook_engine.py
 - modules/playbook_executor.py
 - modules/reactive_engine.py
 - modules/recommender.py
-- modules/rich_tui.py
 - modules/rl_trainer.py
 - modules/selector_manager.py
 - modules/session_rag.py
 - modules/session_reader.py
 - modules/session_state.py
+- modules/sinks/campaign_db.py
 - modules/sudo_tiocsti.py
 - modules/threat_model.py
 - modules/timeline_narrator.py
@@ -164,10 +161,6 @@ tests groups 37 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/ttp_coverage.py
 - modules/ttpscope_bridge.py
 - modules/unified_bridge.py
-- modules/unified_dashboard.py
-- modules/vuln_bot_cli.py
-- modules/vulnbot.py
-- modules/yaml_generator.py
 - scripts/lazy_opencode_config.py
 - skills/aci_planner.py
 - skills/autonomous_daemon.py
@@ -177,46 +170,58 @@ tests groups 37 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/hive_mind.py
 - skills/lazyown_automapper.py
 - skills/lazyown_campaign.py
+- skills/lazyown_claudemd.py
+- skills/lazyown_context.py
 - skills/lazyown_daemon.py
+- skills/lazyown_facts.py
 - skills/lazyown_groq_agents.py
+- skills/lazyown_hooks.py
 - skills/lazyown_llm.py
 - skills/lazyown_mcp.py
 - skills/lazyown_mcp_helpers.py
 - skills/lazyown_objective.py
 - skills/lazyown_parquet_db.py
+- skills/lazyown_permissions.py
 - skills/lazyown_policy.py
+- skills/lazyown_session.py
 - skills/mcp_lazy.py
 - skills/sessions_watcher.py
 - skills/swan_agent.py
 - skills/tests/test_autonomous_daemon.py
+- skills/tests/test_facts.py
+- skills/tests/test_harness_e2e.py
 - skills/tests/test_hive_mind.py
 - skills/tests/test_mcp_smoke.py
 - skills/tests/test_objectives.py
 - skills/tests/test_parquet_db.py
 - skills/toposwarm_autonomous.py
-- skills/unified_orchestrator.py
 - skills/update_knowledge.py
 - tests/integration_autonomous_flow.py
 - tests/test_aci_planner.py
+- tests/test_api_v1.py
 - tests/test_auto_loop_memory.py
+- tests/test_autonomous_ops.py
 - tests/test_autonomous_replay.py
+- tests/test_beacon_history.py
 - tests/test_boyscout_contracts.py
 - tests/test_bridge_catalog_filtered.py
+- tests/test_collab_and_onboarding.py
 - tests/test_core_executor.py
 - tests/test_core_modules.py
 - tests/test_daemon_control.py
 - tests/test_daemon_loop.py
+- tests/test_db.py
 - tests/test_detection_feed.py
 - tests/test_engage_gates.py
 - tests/test_engage_orchestrator.py
 - tests/test_engage_summary.py
-- tests/test_exploitgym_gym.py
+- tests/test_finding_lifecycle.py
+- tests/test_golden_path.py
 - tests/test_intelligence_engine.py
+- tests/test_killchain_gap_signal.py
 - tests/test_lazy_parity.py
-- tests/test_lazy_streaming.py
 - tests/test_lesson_ingestor.py
 - tests/test_logging_config.py
-- tests/test_loop_ai_bridge.py
 - tests/test_mcp_improvements.py
 - tests/test_mcp_lazy.py
 - tests/test_memory_semantics.py
@@ -224,12 +229,15 @@ tests groups 37 files (py) around test_autonomous_flow_integration, _make_goal, 
 - tests/test_metrics_aware_selector.py
 - tests/test_moe_rl_swan.py
 - tests/test_moe_router_check_regression.py
+- tests/test_mutation_verification.py
 - tests/test_nuclei_parser.py
+- tests/test_phase1_data_gaps.py
 - tests/test_pipeline_engine.py
 - tests/test_rea_mcp.py
 - tests/test_reactive_engine_semantic.py
 - tests/test_reactive_lateral_data.py
+- tests/test_recommendation.py
 - tests/test_safety_gates.py
 - tests/test_scope_bound_auto_gate.py
+- tests/test_single_source_of_truth.py
 - tests/test_structured_logging.py
-- tests/test_unified_dashboard.py

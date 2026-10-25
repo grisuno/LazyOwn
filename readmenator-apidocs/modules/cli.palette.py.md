@@ -234,7 +234,7 @@ Return command entries with the given cmd2 category label.
 def search(query: str, *, limit: int | None = None) -> list[dict[str, Any]]
 ```
 
-Substring search over ``name`` and `[`summary`](modules.metasploitable_gym.py.md#summary)` (case-insensitive).
+Substring search over ``name`` and ``summary`` (case-insensitive).
 
 **Parameters**
 

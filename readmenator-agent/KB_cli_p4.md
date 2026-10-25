@@ -99,44 +99,44 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_load_world_model` (function, line 67) `def _load_world_model(sessions_dir)`
-  - `_rank_weight` (function, line 90) `def _rank_weight(index, total)`
-  - `GraphSignal` (class, line 110) `class GraphSignal`
-  - `PolicySignal` (class, line 148) `class PolicySignal`
-  - `ReconPlanSignal` (class, line 185) `class ReconPlanSignal`
-  - `KillChainSignal` (class, line 224) `class KillChainSignal`
-  - `read_recent_commands` (function, line 275) `def read_recent_commands(sessions_dir, window)`
-  - `build_context` (function, line 308) `def build_context(payload, sessions_dir, target, limit)`
-  - `PlaybookSignal` (class, line 337) `class PlaybookSignal`
-  - `KillchainGapSignal` (class, line 386) `class KillchainGapSignal`
-  - `GraphTopologySignal` (class, line 531) `class GraphTopologySignal`
-  - `_try_build_playbook_signal` (function, line 638) `def _try_build_playbook_signal()`
-  - `build_default_engine` (function, line 649) `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)`
-  - `recommend_with_evidence` (function, line 705) `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)`
-  - `_try_build_graph_signal` (function, line 742) `def _try_build_graph_signal(graph_path)`
-  - `_try_build_policy_signal` (function, line 756) `def _try_build_policy_signal()`
-  - `_try_build_recon_signal` (function, line 772) `def _try_build_recon_signal(payload)`
-  - `_build_killchain_signal` (function, line 785) `def _build_killchain_signal()`
-  - `__init__` (method, line 115) `def __init__(self, advisor)`
-  - `propose` (method, line 125) `def propose(self, ctx)`
-  - `__init__` (method, line 153) `def __init__(self, policy)`
-  - `propose` (method, line 162) `def propose(self, ctx)`
-  - `__init__` (method, line 190) `def __init__(self, engine, builder)`
-  - `propose` (method, line 200) `def propose(self, ctx)`
-  - `__init__` (method, line 229) `def __init__(self, next_table, phase_table)`
-  - `propose` (method, line 243) `def propose(self, ctx)`
-  - `__init__` (method, line 346) `def __init__(self, playbook_engine)`
-  - `propose` (method, line 355) `def propose(self, ctx)`
-  - `__init__` (method, line 406) `def __init__(self, sessions_dir)`
-  - `propose` (method, line 409) `def propose(self, ctx)`
-  - `_gap_exploited_no_privesc` (method, line 425) `def _gap_exploited_no_privesc(self, hosts)`
-  - `_gap_owned_no_creds` (method, line 465) `def _gap_owned_no_creds(self, hosts, wm_data)`
-  - `_gap_scan_no_enum` (method, line 485) `def _gap_scan_no_enum(self, hosts, recent)`
-  - `_gap_creds_no_lateral` (method, line 507) `def _gap_creds_no_lateral(self, wm_data, hosts)`
-  - `__init__` (method, line 542) `def __init__(self, sessions_dir)`
-  - `propose` (method, line 545) `def propose(self, ctx)`
-  - `_compute_centrality` (method, line 603) `def _compute_centrality(graph_data)`
-- Depends on: `cli/exploration.py`, `cli/graph_advisor.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recon_plan.py`, `core/logging.py`, `modules/apt_playbooks.py`, `skills/lazyown_policy.py`
+  - `_load_world_model` (function, line 68) `def _load_world_model(sessions_dir)`
+  - `_rank_weight` (function, line 91) `def _rank_weight(index, total)`
+  - `GraphSignal` (class, line 111) `class GraphSignal`
+  - `PolicySignal` (class, line 149) `class PolicySignal`
+  - `ReconPlanSignal` (class, line 186) `class ReconPlanSignal`
+  - `KillChainSignal` (class, line 225) `class KillChainSignal`
+  - `read_recent_commands` (function, line 276) `def read_recent_commands(sessions_dir, window)`
+  - `build_context` (function, line 309) `def build_context(payload, sessions_dir, target, limit)`
+  - `PlaybookSignal` (class, line 338) `class PlaybookSignal`
+  - `KillchainGapSignal` (class, line 387) `class KillchainGapSignal`
+  - `GraphTopologySignal` (class, line 532) `class GraphTopologySignal`
+  - `_try_build_playbook_signal` (function, line 639) `def _try_build_playbook_signal()`
+  - `build_default_engine` (function, line 650) `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)`
+  - `recommend_with_evidence` (function, line 706) `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)`
+  - `_try_build_graph_signal` (function, line 743) `def _try_build_graph_signal(graph_path)`
+  - `_try_build_policy_signal` (function, line 757) `def _try_build_policy_signal()`
+  - `_try_build_recon_signal` (function, line 773) `def _try_build_recon_signal(payload)`
+  - `_build_killchain_signal` (function, line 786) `def _build_killchain_signal()`
+  - `__init__` (method, line 116) `def __init__(self, advisor)`
+  - `propose` (method, line 126) `def propose(self, ctx)`
+  - `__init__` (method, line 154) `def __init__(self, policy)`
+  - `propose` (method, line 163) `def propose(self, ctx)`
+  - `__init__` (method, line 191) `def __init__(self, engine, builder)`
+  - `propose` (method, line 201) `def propose(self, ctx)`
+  - `__init__` (method, line 230) `def __init__(self, next_table, phase_table)`
+  - `propose` (method, line 244) `def propose(self, ctx)`
+  - `__init__` (method, line 347) `def __init__(self, playbook_engine)`
+  - `propose` (method, line 356) `def propose(self, ctx)`
+  - `__init__` (method, line 407) `def __init__(self, sessions_dir)`
+  - `propose` (method, line 410) `def propose(self, ctx)`
+  - `_gap_exploited_no_privesc` (method, line 426) `def _gap_exploited_no_privesc(self, hosts)`
+  - `_gap_owned_no_creds` (method, line 466) `def _gap_owned_no_creds(self, hosts, wm_data)`
+  - `_gap_scan_no_enum` (method, line 486) `def _gap_scan_no_enum(self, hosts, recent)`
+  - `_gap_creds_no_lateral` (method, line 508) `def _gap_creds_no_lateral(self, wm_data, hosts)`
+  - `__init__` (method, line 543) `def __init__(self, sessions_dir)`
+  - `propose` (method, line 546) `def propose(self, ctx)`
+  - `_compute_centrality` (method, line 604) `def _compute_centrality(graph_data)`
+- Depends on: `cli/exploration.py`, `cli/graph_advisor.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recon_plan.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/world_model.py`, `skills/lazyown_policy.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `modules/engage_summary.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
 
 ## cli/recon_plan.py
@@ -253,13 +253,13 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `SessionSummary` (class, line 29) `class SessionSummary`
-  - `SessionResumerConfig` (class, line 41) `class SessionResumerConfig`
-  - `SessionResumer` (class, line 51) `class SessionResumer`
-  - `__init__` (method, line 58) `def __init__(self, config)`
-  - `_discover_targets` (method, line 62) `def _discover_targets(self)`
-  - `render_startup_panel` (method, line 129) `def render_startup_panel(self)`
-- Depends on: `core/console.py`, `core/logging.py`
+  - `SessionSummary` (class, line 28) `class SessionSummary`
+  - `SessionResumerConfig` (class, line 40) `class SessionResumerConfig`
+  - `SessionResumer` (class, line 50) `class SessionResumer`
+  - `__init__` (method, line 57) `def __init__(self, config)`
+  - `_discover_targets` (method, line 61) `def _discover_targets(self)`
+  - `render_startup_panel` (method, line 130) `def render_startup_panel(self)`
+- Depends on: `core/console.py`, `core/logging.py`, `modules/world_model.py`
 - Imported by: `cli/commands/session_ops.py`
 
 ## cli/sessions_browser.py
@@ -337,14 +337,14 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `FileSystemReader` (class, line 151) `class FileSystemReader`
   - `PayloadTargetSource` (class, line 268) `class PayloadTargetSource`
   - `WorldModelPhaseSource` (class, line 292) `class WorldModelPhaseSource`
-  - `SessionFindingSource` (class, line 319) `class SessionFindingSource`
-  - `CommandHintSuggestionSource` (class, line 416) `class CommandHintSuggestionSource`
-  - `GraphSuggestionSource` (class, line 508) `class GraphSuggestionSource`
-  - `CollabPresenceSource` (class, line 590) `class CollabPresenceSource`
-  - `StatusBarRenderer` (class, line 656) `class StatusBarRenderer`
-  - `StatusBarManager` (class, line 744) `class StatusBarManager`
-  - `_operator_presence_enabled` (function, line 948) `def _operator_presence_enabled(payload, config)`
-  - `build_default_manager` (function, line 969) `def build_default_manager(payload, sessions_dir, advisor_factory, config)`
+  - `SessionFindingSource` (class, line 321) `class SessionFindingSource`
+  - `CommandHintSuggestionSource` (class, line 418) `class CommandHintSuggestionSource`
+  - `GraphSuggestionSource` (class, line 510) `class GraphSuggestionSource`
+  - `CollabPresenceSource` (class, line 592) `class CollabPresenceSource`
+  - `StatusBarRenderer` (class, line 658) `class StatusBarRenderer`
+  - `StatusBarManager` (class, line 746) `class StatusBarManager`
+  - `_operator_presence_enabled` (function, line 950) `def _operator_presence_enabled(payload, config)`
+  - `build_default_manager` (function, line 971) `def build_default_manager(payload, sessions_dir, advisor_factory, config)`
   - `from_payload` (method, line 99) `def from_payload(cls, payload)`
   - `collect` (method, line 146) `def collect(self)`
   - `__init__` (method, line 160) `def __init__(self, config, root)`
@@ -359,43 +359,43 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `collect` (method, line 283) `def collect(self)`
   - `__init__` (method, line 295) `def __init__(self, config, reader, payload)`
   - `collect` (method, line 306) `def collect(self)`
-  - `__init__` (method, line 322) `def __init__(self, config, reader)`
-  - `collect` (method, line 327) `def collect(self)`
-  - `_latest_credential` (method, line 335) `def _latest_credential(self)`
-  - `_latest_vuln` (method, line 345) `def _latest_vuln(self)`
-  - `_latest_note` (method, line 358) `def _latest_note(self)`
-  - `_last_line` (method, line 376) `def _last_line(self, path)`
-  - `_summarise_credential` (method, line 389) `def _summarise_credential(self, filename, line)`
-  - `_extract_vuln_items` (method, line 396) `def _extract_vuln_items(self, payload)`
-  - `__init__` (method, line 426) `def __init__(self, config, reader, phase_provider, hint_provider)`
-  - `collect` (method, line 451) `def collect(self)`
-  - `_latest_command` (method, line 476) `def _latest_command(self)`
-  - `_default_provider` (method, line 500) `def _default_provider()`
-  - `__init__` (method, line 511) `def __init__(self, config, reader, advisor_factory)`
-  - `collect` (method, line 530) `def collect(self)`
-  - `_recent_commands` (method, line 551) `def _recent_commands(self)`
-  - `_suggestion_label` (method, line 579) `def _suggestion_label(entry)`
-  - `__init__` (method, line 601) `def __init__(self, config, reader, clock)`
-  - `collect` (method, line 622) `def collect(self)`
-  - `_extract_entries` (method, line 636) `def _extract_entries(payload)`
-  - `_is_active` (method, line 646) `def _is_active(entry, threshold)`
-  - `__init__` (method, line 659) `def __init__(self, config)`
-  - `render_plain` (method, line 664) `def render_plain(self, ctx)`
-  - `render_prompt` (method, line 687) `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)`
-  - `_sanitise` (method, line 724) `def _sanitise(self, value, max_chars)`
-  - `__init__` (method, line 752) `def __init__(self, config, sources, renderer, payload)`
-  - `enabled` (method, line 783) `def enabled(self)`
-  - `collect_context` (method, line 798) `def collect_context(self)`
-  - `render_prompt` (method, line 811) `def render_prompt(self, base_prompt, readline_safe)`
-  - `_resolve_theme_colors` (method, line 823) `def _resolve_theme_colors(self)`
-  - `render_plain_line` (method, line 833) `def render_plain_line(self, ctx)`
-  - `set_enabled` (method, line 847) `def set_enabled(self, enabled)`
-  - `install` (method, line 857) `def install(self, shell, base_prompt_attribute, prompt_attribute)`
-  - `_build_precmd_hook` (method, line 895) `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)`
-  - `_safe_collect` (method, line 929) `def _safe_collect(self, key)`
-  - `_fallback_for` (method, line 938) `def _fallback_for(self, key)`
-  - `_hook` (function, line 915) `def _hook(data)`
-- Depends on: `cli/reactive_hints.py`, `cli/themes.py`
+  - `__init__` (method, line 324) `def __init__(self, config, reader)`
+  - `collect` (method, line 329) `def collect(self)`
+  - `_latest_credential` (method, line 337) `def _latest_credential(self)`
+  - `_latest_vuln` (method, line 347) `def _latest_vuln(self)`
+  - `_latest_note` (method, line 360) `def _latest_note(self)`
+  - `_last_line` (method, line 378) `def _last_line(self, path)`
+  - `_summarise_credential` (method, line 391) `def _summarise_credential(self, filename, line)`
+  - `_extract_vuln_items` (method, line 398) `def _extract_vuln_items(self, payload)`
+  - `__init__` (method, line 428) `def __init__(self, config, reader, phase_provider, hint_provider)`
+  - `collect` (method, line 453) `def collect(self)`
+  - `_latest_command` (method, line 478) `def _latest_command(self)`
+  - `_default_provider` (method, line 502) `def _default_provider()`
+  - `__init__` (method, line 513) `def __init__(self, config, reader, advisor_factory)`
+  - `collect` (method, line 532) `def collect(self)`
+  - `_recent_commands` (method, line 553) `def _recent_commands(self)`
+  - `_suggestion_label` (method, line 581) `def _suggestion_label(entry)`
+  - `__init__` (method, line 603) `def __init__(self, config, reader, clock)`
+  - `collect` (method, line 624) `def collect(self)`
+  - `_extract_entries` (method, line 638) `def _extract_entries(payload)`
+  - `_is_active` (method, line 648) `def _is_active(entry, threshold)`
+  - `__init__` (method, line 661) `def __init__(self, config)`
+  - `render_plain` (method, line 666) `def render_plain(self, ctx)`
+  - `render_prompt` (method, line 689) `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)`
+  - `_sanitise` (method, line 726) `def _sanitise(self, value, max_chars)`
+  - `__init__` (method, line 754) `def __init__(self, config, sources, renderer, payload)`
+  - `enabled` (method, line 785) `def enabled(self)`
+  - `collect_context` (method, line 800) `def collect_context(self)`
+  - `render_prompt` (method, line 813) `def render_prompt(self, base_prompt, readline_safe)`
+  - `_resolve_theme_colors` (method, line 825) `def _resolve_theme_colors(self)`
+  - `render_plain_line` (method, line 835) `def render_plain_line(self, ctx)`
+  - `set_enabled` (method, line 849) `def set_enabled(self, enabled)`
+  - `install` (method, line 859) `def install(self, shell, base_prompt_attribute, prompt_attribute)`
+  - `_build_precmd_hook` (method, line 897) `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)`
+  - `_safe_collect` (method, line 931) `def _safe_collect(self, key)`
+  - `_fallback_for` (method, line 940) `def _fallback_for(self, key)`
+  - `_hook` (function, line 917) `def _hook(data)`
+- Depends on: `cli/reactive_hints.py`, `cli/themes.py`, `modules/world_model.py`
 - Imported by: `lazyown.py`, `tests/test_improvements_spec.py`, `tests/test_status_bar_operators.py`
 
 ## cli/style.py

@@ -219,6 +219,8 @@ resolution after every capture so later steps see earlier output.
 
 *Calls:* [`evaluate_when`](#evaluate_when)
 
+*Called by:* [`build_llm_recovery_chain`](cli.apt_chain_support.py.md#build_llm_recovery_chain)
+
 ---
 
 ## Functions

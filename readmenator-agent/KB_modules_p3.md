@@ -1,6 +1,21 @@
 # Subsystem: modules (page 3 of 16)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
 
+## modules/cal.sh
+- Doc: Función para calcular si un año es bisiesto
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `is_leap_year` (function, line 4)
+  - `days_in_month` (function, line 14)
+  - `first_day_of_month` (function, line 31)
+
+## modules/categories.py
+- Doc: modules/categories.py
+- Layer: utility
+- Language: py
+- Imported by: `cli/commands/automation.py`, `cli/commands/cred.py`, `cli/commands/exploit.py`, `cli/commands/lateral.py`, `cli/commands/persist.py`, `cli/commands/postexp.py`, `tests/test_categories.py`
+
 ## modules/chain_distill.py
 - Doc: chain_distill - crystallise one autonomous-loop trace into a chain YAML.
 - Layer: utility
@@ -14,18 +29,30 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_is_failed` (function, line 209) `def _is_failed(row)`
   - `_command_verb` (function, line 225) `def _command_verb(command)`
   - `_phase_for` (function, line 245) `def _phase_for(command, manifest_phase)`
-  - `_infer_target` (function, line 280) `def _infer_target(rows, graph)`
-  - `StepDecision` (class, line 312) `class StepDecision`
-  - `DistillReport` (class, line 333) `class DistillReport`
-  - `build_chain_data` (function, line 428) `def build_chain_data(task, rows, graph, manifests)`
-  - `distill` (function, line 537) `def distill(task, sessions_dir, write, chains_dir)`
-  - `kept` (method, line 361) `def kept(self)`
-  - `dropped` (method, line 366) `def dropped(self)`
-  - `to_dict` (method, line 370) `def to_dict(self)`
-  - `render` (method, line 397) `def render(self, verbose)`
-  - `note` (function, line 452) `def note(row, kept, reason)`
+  - `_is_doc_example` (function, line 280) `def _is_doc_example(host)`
+  - `_infer_target` (function, line 297) `def _infer_target(rows, graph)`
+  - `StepDecision` (class, line 325) `class StepDecision`
+  - `DistillReport` (class, line 346) `class DistillReport`
+  - `build_chain_data` (function, line 441) `def build_chain_data(task, rows, graph, manifests)`
+  - `distill` (function, line 550) `def distill(task, sessions_dir, write, chains_dir)`
+  - `kept` (method, line 374) `def kept(self)`
+  - `dropped` (method, line 379) `def dropped(self)`
+  - `to_dict` (method, line 383) `def to_dict(self)`
+  - `render` (method, line 410) `def render(self, verbose)`
+  - `note` (function, line 465) `def note(row, kept, reason)`
 - Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/lazy_cli_bridge.py`, `modules/verb_manifest.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`, `tests/test_codeql_alert_fixes.py`
+
+## modules/chain_facts.py
+- Doc: Bridge chain run outputs into the FactStore.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `spool_chain_outputs` (function, line 24) `def spool_chain_outputs(result, sessions_dir, fact_store_factory)`
+  - `_default_store` (function, line 73) `def _default_store()`
+  - `_host_hint` (function, line 84) `def _host_hint(output, phase, target_hint)`
+- Depends on: `core/logging.py`, `modules/chain_runner.py`, `skills/lazyown_facts.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/gym_matrix_runner.py`, `tests/test_f4_hardening.py`
 
 ## modules/chain_registry.py
 - Doc: Chain registry - ordered orchestration chains from ``chains/*.yaml``.
@@ -50,7 +77,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `resolve` (method, line 107) `def resolve(self, tokens)`
   - `_eval` (function, line 242) `def _eval(node)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_distill.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_distill.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
 
 ## modules/chain_runner.py
 - Doc: Single execution engine for YAML orchestration chains.
@@ -87,12 +114,13 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_first_json` (method, line 865) `def _first_json(output)`
   - `_render_command` (method, line 879) `def _render_command(self, template, variables, captured_keys)`
   - `_execute` (method, line 894) `def _execute(self, command, timeout, expect_exits)`
-  - `_is_verb` (method, line 927) `def _is_verb(self, command)`
-  - `_run_shell_verb` (method, line 938) `def _run_shell_verb(self, command)`
-  - `_run_raw` (method, line 956) `def _run_raw(self, command, timeout, allowed)`
-  - `_call` (method, line 973) `def _call(callback, timeout)`
+  - `_is_verb` (method, line 929) `def _is_verb(self, command)`
+  - `_run_shell_verb` (method, line 940) `def _run_shell_verb(self, command, timeout)`
+  - `_run_raw` (method, line 995) `def _run_raw(self, command, timeout, allowed)`
+  - `_call` (method, line 1012) `def _call(callback, timeout)`
+  - `_raise_timeout` (function, line 975) `def _raise_timeout(_signum, _frame)`
 - Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/verb_manifest.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
 
 ## modules/chain_state.py
 - Doc: Durable chain checkpoints for pause, resume and audit.
@@ -177,7 +205,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_clear_cli_session` (function, line 478) `def _clear_cli_session()`
   - `needs_login` (function, line 487) `def needs_login()`
 - Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `modules/world_model.py`, `tests/test_cli_auth_remember.py`, `tests/test_engagement_elo_and_methodology.py`
+- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `modules/world_model.py`, `tests/test_cli_auth_remember.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_engagement_elo_and_methodology.py`
 
 ## modules/cloud_enum.py
 - Doc: Native cloud enumeration modules for AWS, Azure, and GCP.
@@ -327,13 +355,14 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `generate_compliance_report` (method, line 710) `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)`
   - `_count_by_severity` (method, line 765) `def _count_by_severity(self, findings)`
   - `_count_by_category` (method, line 772) `def _count_by_category(self, findings)`
-  - `_load_findings` (method, line 779) `def _load_findings(self)`
-  - `export_pdf` (method, line 831) `def export_pdf(self, report, output_path)`
-  - `_format_compliance_report_md` (method, line 835) `def _format_compliance_report_md(self, report)`
-  - `add_evidence` (method, line 901) `def add_evidence(self, filepath, operator, description)`
-  - `verify_evidence_chain` (method, line 904) `def verify_evidence_chain(self)`
-- Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`
+  - `_compliance_finding` (method, line 780) `def _compliance_finding(fact)`
+  - `_load_findings` (method, line 808) `def _load_findings(self)`
+  - `export_pdf` (method, line 857) `def export_pdf(self, report, output_path)`
+  - `_format_compliance_report_md` (method, line 861) `def _format_compliance_report_md(self, report)`
+  - `add_evidence` (method, line 927) `def add_evidence(self, filepath, operator, description)`
+  - `verify_evidence_chain` (method, line 930) `def verify_evidence_chain(self)`
+- Depends on: `core/logging.py`, `modules/factsio.py`
+- Imported by: `lazyc2.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/conditional_hooks.py
 - Doc: Conditional Hooks System for LazyOwn (Mythic-style triggers).
@@ -426,6 +455,26 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `summary` (method, line 258) `def summary(self)`
 - Imported by: `cli/commands/cloud_attacks.py`
 
+## modules/ctf_capture.py
+- Doc: CTF capture verification for gym attack paths.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `output_dir` (function, line 28) `def output_dir(sessions_dir)`
+  - `_check_root_shell` (function, line 41) `def _check_root_shell(output)`
+  - `_check_shadow_dump` (function, line 54) `def _check_shadow_dump(output)`
+  - `_check_credentials` (function, line 74) `def _check_credentials(output)`
+  - `capture` (function, line 99) `def capture(vuln_id, target, output, sessions_dir)`
+  - `_publish_capture_outcome` (function, line 152) `def _publish_capture_outcome(record)`
+  - `record_path` (function, line 175) `def record_path(vuln_id, sessions_dir)`
+  - `_safe_dir` (function, line 188) `def _safe_dir(vuln_id)`
+  - `store_record` (function, line 201) `def store_record(record, sessions_dir)`
+  - `list_records` (function, line 219) `def list_records(sessions_dir)`
+  - `summary` (function, line 242) `def summary(sessions_dir)`
+  - `_gather_evidence` (function, line 269) `def _gather_evidence(candidates)`
+  - `_cli_capture` (function, line 291) `def _cli_capture(argv)`
+- Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
+
 ## modules/custom_tools.py
 - Doc: Operator-defined custom tools exposed to the autonomous loop.
 - Layer: utility
@@ -444,48 +493,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_run_http` (function, line 179) `def _run_http(tool, arg, on_output)`
 - Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
 - Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_lazy_loop.py`
-
-## modules/cve_matcher.py
-- Doc: modules/cve_matcher.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CVEResult` (class, line 51) `class CVEResult`
-  - `CVEMatcher` (class, line 60) `class CVEMatcher`
-  - `get_matcher` (function, line 198) `def get_matcher()`
-  - `search` (function, line 206) `def search(product, version, max_results)`
-  - `__init__` (method, line 70) `def __init__(self, api_key, cache_dir)`
-  - `search` (method, line 82) `def search(self)`
-  - `search_by_cpe` (method, line 89) `def search_by_cpe(self, cpe_name, max_results)`
-  - `_cache_path` (method, line 95) `def _cache_path(self, params)`
-  - `_load_cache` (method, line 100) `def _load_cache(self, params)`
-  - `_save_cache` (method, line 112) `def _save_cache(self, params, results)`
-  - `_rate_limit` (method, line 121) `def _rate_limit(self)`
-  - `_query` (method, line 128) `def _query(self)`
-- Depends on: `core/logging.py`
-- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-
-## modules/dacl_abuse.py
-- Doc: DACL/SACL abuse module — ACL manipulation for AD privilege escalation.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ACEntry` (class, line 67) `class ACEntry`
-  - `ACLTarget` (class, line 91) `class ACLTarget`
-  - `DACLAbuseEngine` (class, line 113) `class DACLAbuseEngine`
-  - `__init__` (method, line 136) `def __init__(self, domain, domain_sid, acl_data)`
-  - `parse_bloodhound_acls` (method, line 143) `def parse_bloodhound_acls(self, edges)`
-  - `parse_raw_aces` (method, line 182) `def parse_raw_aces(self, raw_nthashes)`
-  - `compute_attack_chains` (method, line 224) `def compute_attack_chains(self)`
-  - `adminsdholder_abuse_plan` (method, line 291) `def adminsdholder_abuse_plan(self, target_sid)`
-  - `dcsync_rights_assignment_plan` (method, line 318) `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)`
-  - `owner_takeover_plan` (method, line 348) `def owner_takeover_plan(self, target_dn, attacker_sid)`
-  - `_is_dangerous_ace` (method, line 379) `def _is_dangerous_ace(ace)`
-  - `_calculate_severity` (method, line 384) `def _calculate_severity(target)`
-  - `_guess_object_type` (method, line 397) `def _guess_object_type(dn)`
-  - `_extract_cn` (method, line 414) `def _extract_cn(dn)`
-  - `summary` (method, line 418) `def summary(self)`
-- Imported by: `cli/commands/active_directory.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

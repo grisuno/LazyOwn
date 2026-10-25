@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 795 modules, 15086 documented entities, documentation coverage 74.0% (7048/9530 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 817 modules, 15305 documented entities, documentation coverage 74.4% (7209/9691 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (682), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (704), sh (61)
 
 ## Modules
 
@@ -83,7 +83,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.marketplace_config`](modules/cli.marketplace_config.py.md) | Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools. | 5 | 40 | 100.0% |
 | [`cli.noise_verbs`](modules/cli.noise_verbs.py.md) | Canonical non-actionable verb registry for post-command surfaces. | 0 | 0 | 100.0% |
 | [`cli.ops_commands`](modules/cli.ops_commands.py.md) | Power-user operator commands: ctx, tgrep, phase, note, l00t, pivot, tasks, sitrep, scans. | 1 | 24 | 100.0% |
-| [`cli.orchestrator_assets_tabs`](modules/cli.orchestrator_assets_tabs.py.md) | Asset administration tabs for the orchestrator console. | 2 | 29 | 100.0% |
+| [`cli.orchestrator_assets_tabs`](modules/cli.orchestrator_assets_tabs.py.md) | Asset administration tabs for the orchestrator console. | 2 | 33 | 100.0% |
 | [`cli.output_mode`](modules/cli.output_mode.py.md) | Structured output modes and dry-run rendering for CLI commands. | 2 | 4 | 100.0% |
 | [`cli.palette`](modules/cli.palette.py.md) | Read-only loader for ``cli/command_index.json``. | 1 | 10 | 100.0% |
 | [`cli.palette_command`](modules/cli.palette_command.py.md) | Pure logic for the operator-facing ``palette`` command. | 11 | 29 | 87.8% |
@@ -115,7 +115,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.themes`](modules/cli.themes.py.md) | Theme registry for the LazyOwn TUI surfaces. | 1 | 2 | 100.0% |
 | [`cli.timeline_browser`](modules/cli.timeline_browser.py.md) | Textual scrubber over ``sessions/LazyOwn_session_report.csv``. | 5 | 8 | 100.0% |
 | [`cli.tips_engine`](modules/cli.tips_engine.py.md) | Unified post-command tips engine: single coordination point for all suggestion surfaces. | 2 | 9 | 100.0% |
-| [`cli.toast_bus`](modules/cli.toast_bus.py.md) | Non-blocking toast notification subsystem for the LazyOwn shell. | 7 | 34 | 100.0% |
+| [`cli.toast_bus`](modules/cli.toast_bus.py.md) | Non-blocking toast notification subsystem for the LazyOwn shell. | 7 | 35 | 100.0% |
 | [`cli.tui_forms`](modules/cli.tui_forms.py.md) | Reusable Textual modals shared by the LazyOwn operator consoles. | 4 | 20 | 100.0% |
 | [`cli.tui_theme`](modules/cli.tui_theme.py.md) | Operator-facing ``tui_theme`` command logic. | 0 | 1 | 100.0% |
 | [`cli.tutorial`](modules/cli.tutorial.py.md) | Interactive post-install tutorial for the LazyOwn framework. | 1 | 6 | 100.0% |
@@ -169,6 +169,8 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.exploit`](modules/cli.commands.exploit.py.md) | Exploitation command set (pending activation). | 1 | 10 | 100.0% |
 | [`cli.commands.exploit_migrated`](modules/cli.commands.exploit_migrated.py.md) | exploit commands migrated from lazyown.py. | 1 | 49 | 98.0% |
 | [`cli.commands.exploitgym`](modules/cli.commands.exploitgym.py.md) | ExploitGym CLI command set — real-world exploit benchmark harness. | 1 | 1 | 100.0% |
+| [`cli.commands.golden_paths`](modules/cli.commands.golden_paths.py.md) | Golden-path solver commands. | 1 | 1 | 100.0% |
+| [`cli.commands.gym_matrix`](modules/cli.commands.gym_matrix.py.md) | Metasploitable 2 gym matrix commands. | 1 | 1 | 100.0% |
 | [`cli.commands.help_ui`](modules/cli.commands.help_ui.py.md) | Help, tutorial and phase guidance extracted from the miscellaneous cluster. | 1 | 14 | 100.0% |
 | [`cli.commands.infra`](modules/cli.commands.infra.py.md) | Disposable infrastructure commands -- redirectors, C2, cloud IaC. | 1 | 1 | 100.0% |
 | [`cli.commands.lab`](modules/cli.commands.lab.py.md) | Lab environment commands -- spin up vulnerable practice targets. | 1 | 1 | 100.0% |
@@ -493,6 +495,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.aws_attacks`](modules/modules.aws_attacks.py.md) | AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining. | 2 | 9 | 83.3% |
 | [`modules.beacon_config_builder`](modules/modules.beacon_config_builder.py.md) | Beacon configuration builder — wires profile engines into beacon compile-time config. | 2 | 9 | 91.7% |
 | [`modules.beacon_history`](modules/modules.beacon_history.py.md) | Persistent beacon command/result history storage. | 1 | 6 | 100.0% |
+| [`modules.beacon_recon`](modules/modules.beacon_recon.py.md) | Beacon recon ingest — post-foothold discovery feeds the world model. | 0 | 3 | 100.0% |
 | [`modules.bin2img`](modules/modules.bin2img.py.md) |  | 0 | 2 | 0.0% |
 | [`modules.bitm_engine`](modules/modules.bitm_engine.py.md) | Browser-in-the-Middle (BitM) attack engine. | 1 | 6 | 100.0% |
 | [`modules.bof_registry`](modules/modules.bof_registry.py.md) | Beacon Object File (BOF) registry and marketplace for LazyOwn. | 7 | 33 | 95.1% |
@@ -505,6 +508,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules/cal.sh`](modules/modules.cal.sh.md) |  | 0 | 3 | 75.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | modules/categories.py ===================== cmd2 command category strings for LazyOwn. | 0 | 0 | 100.0% |
 | [`modules.chain_distill`](modules/modules.chain_distill.py.md) | chain_distill - crystallise one autonomous-loop trace into a chain YAML. | 2 | 7 | 100.0% |
+| [`modules.chain_facts`](modules/modules.chain_facts.py.md) | Bridge chain run outputs into the FactStore. | 0 | 1 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | 2 | 9 | 100.0% |
 | [`modules.chain_runner`](modules/modules.chain_runner.py.md) | Single execution engine for YAML orchestration chains. | 4 | 12 | 100.0% |
 | [`modules.chain_state`](modules/modules.chain_state.py.md) | Durable chain checkpoints for pause, resume and audit. | 0 | 5 | 100.0% |
@@ -521,6 +525,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.config_store`](modules/modules.config_store.py.md) | Thread-safe singleton facade over core.config for payload.json. | 0 | 6 | 100.0% |
 | [`modules.credential_reuse`](modules/modules.credential_reuse.py.md) | Credential Reuse Engine for LazyOwn. | 2 | 9 | 83.3% |
 | [`modules.cross_cloud`](modules/modules.cross_cloud.py.md) | Cross-cloud identity paths — multi-cloud identity federation abuse. | 2 | 8 | 81.8% |
+| [`modules.ctf_capture`](modules/modules.ctf_capture.py.md) | CTF capture verification for gym attack paths. | 0 | 6 | 100.0% |
 | [`modules.custom_tools`](modules/modules.custom_tools.py.md) | Operator-defined custom tools exposed to the autonomous loop. | 0 | 6 | 100.0% |
 | [`modules.cve_matcher`](modules/modules.cve_matcher.py.md) | modules/cve_matcher.py ======================= CVE lookup via NVD API 2.0 (no key required for basic queries). | 2 | 5 | 87.5% |
 | [`modules.dacl_abuse`](modules/modules.dacl_abuse.py.md) | DACL/SACL abuse module — ACL manipulation for AD privilege escalation. | 3 | 8 | 91.7% |
@@ -557,15 +562,19 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.exploit_chain`](modules/modules.exploit_chain.py.md) | Autonomous exploitation chain engine. | 5 | 7 | 92.3% |
 | [`modules.exploit_recommender`](modules/modules.exploit_recommender.py.md) | AI-Powered Exploit Recommendation Engine for LazyOwn. | 2 | 7 | 60.0% |
 | [`modules.exploitgym_gym`](modules/modules.exploitgym_gym.py.md) | ExploitGym integration — real-world vulnerability-to-exploit benchmark. | 0 | 7 | 100.0% |
+| [`modules.factsio`](modules/modules.factsio.py.md) | Canonical reader for the FactStore ``policy_facts.json`` document. | 0 | 4 | 100.0% |
 | [`modules/fast_run_service.sh`](modules/modules.fast_run_service.sh.md) | fast_run_service.sh LazyOwn service-mode orchestrator. | 0 | 39 | 25.0% |
 | [`modules.finding_lifecycle`](modules/modules.finding_lifecycle.py.md) | Finding confirmation lifecycle: pending -> confirmed / rejected. | 2 | 15 | 100.0% |
 | [`modules.forensic_cleaner`](modules/modules.forensic_cleaner.py.md) | Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup. | 2 | 6 | 88.9% |
 | [`modules.gcp_attacks`](modules/modules.gcp_attacks.py.md) | GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration. | 2 | 9 | 83.3% |
 | [`modules.generate_tools`](modules/modules.generate_tools.py.md) | generate_tools.py | 0 | 1 | 50.0% |
 | [`modules.goals`](modules/modules.goals.py.md) | Goal decomposition round-0 with constraints and proof. | 3 | 10 | 100.0% |
+| [`modules.golden_path`](modules/modules.golden_path.py.md) | Deterministic attack-path solver over the LazyOwn world model. | 0 | 6 | 100.0% |
 | [`modules.gpo_abuse`](modules/modules.gpo_abuse.py.md) | GPO abuse module — Group Policy Object manipulation for AD persistence and privilege escalation. | 3 | 13 | 94.1% |
 | [`modules/gui_askpass.sh`](modules/modules.gui_askpass.sh.md) | gui_askpass.sh — SUDO_ASKPASS helper for LazyOwn MCP Used by: sudo -A <script> (set SUDO_ASKPASS to this file's path) Tries GUI backends in order of preference. | 0 | 5 | 33.3% |
+| [`modules.gym_matrix_runner`](modules/modules.gym_matrix_runner.py.md) | Ordered Metasploitable 2 gym matrix runner. | 0 | 3 | 100.0% |
 | [`modules.gym_registry`](modules/modules.gym_registry.py.md) | Gym definitions and persistent run state. | 0 | 18 | 100.0% |
+| [`modules.harness`](modules/modules.harness.py.md) | Deterministic harness gate for the LazyOwn loop. | 0 | 2 | 100.0% |
 | [`modules.hash_cracker`](modules/modules.hash_cracker.py.md) | Hash cracking pipeline — John the Ripper and Hashcat integration. | 3 | 7 | 72.7% |
 | [`modules.hive_invoke`](modules/modules.hive_invoke.py.md) | modules/hive_invoke.py ======================= Invokes Claude Code CLI with the LazyOwn MCP server and forwards an operator prompt for autonomous or hive-mind... | 0 | 1 | 50.0% |
 | [`modules/hostdiscover.sh`](modules/modules.hostdiscover.sh.md) |  | 0 | 2 | 0.0% |
@@ -757,6 +766,17 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.cgi-bin.lazywebshell`](modules/modules.cgi-bin.lazywebshell.py.md) |  | 0 | 0 | 0.0% |
 | [`modules/cgi-bin/lazywebshell.sh`](modules/modules.cgi-bin.lazywebshell.sh.md) |  | 0 | 0 | 0.0% |
 
+### `modules/guardrails`
+
+| Module | Summary | Types | Callables | Coverage |
+|---|---|---|---|---|
+| [`modules.guardrails`](modules/modules.guardrails.__init__.py.md) | Operator-facing guardrail harness: tiers, capacity, checkpoints. | 0 | 0 | 100.0% |
+| [`modules.guardrails.advisories`](modules/modules.guardrails.advisories.py.md) | Non-blocking advisories and feature degradation. | 2 | 13 | 100.0% |
+| [`modules.guardrails.budget`](modules/modules.guardrails.budget.py.md) | Bounded capacity accounting with strict priority reservation. | 1 | 12 | 100.0% |
+| [`modules.guardrails.checkpoints`](modules/modules.guardrails.checkpoints.py.md) | Checkpoint ledger with warm-restart recovery. | 1 | 6 | 100.0% |
+| [`modules.guardrails.contracts`](modules/modules.guardrails.contracts.py.md) | Contracts for the execution guardrail harness. | 4 | 6 | 100.0% |
+| [`modules.guardrails.harness`](modules/modules.guardrails.harness.py.md) | Execution harness facade: guarded runs, warm restart, degradation. | 1 | 9 | 100.0% |
+
 ### `modules/integrations`
 
 | Module | Summary | Types | Callables | Coverage |
@@ -772,6 +792,18 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | Module | Summary | Types | Callables | Coverage |
 |---|---|---|---|---|
 | [`modules.legacy`](modules/modules.legacy.__init__.py.md) | Backward-compatibility shims for deprecated scripts. | 0 | 0 | 100.0% |
+
+### `modules/mediation`
+
+| Module | Summary | Types | Callables | Coverage |
+|---|---|---|---|---|
+| [`modules.mediation`](modules/modules.mediation.__init__.py.md) | Mediation layer for LazyOwn cross-module coordination. | 0 | 0 | 100.0% |
+| [`modules.mediation.chain_mediator`](modules/modules.mediation.chain_mediator.py.md) | Specialised mediator for the APT chain pipeline. | 2 | 6 | 100.0% |
+| [`modules.mediation.contracts`](modules/modules.mediation.contracts.py.md) | Mediation contracts: the abstractions every participant depends on. | 5 | 7 | 100.0% |
+| [`modules.mediation.feedback_mediator`](modules/modules.mediation.feedback_mediator.py.md) | Specialised mediator for step-ordering feedback coordination. | 1 | 2 | 100.0% |
+| [`modules.mediation.hub`](modules/modules.mediation.hub.py.md) | Thin routing hub for specialised mediators. | 1 | 6 | 100.0% |
+| [`modules.mediation.intel_mediator`](modules/modules.mediation.intel_mediator.py.md) | specialised mediator for recon-intel coordination. | 1 | 8 | 100.0% |
+| [`modules.mediation.telemetry_mediator`](modules/modules.mediation.telemetry_mediator.py.md) | Specialised mediator for loop telemetry coordination. | 1 | 10 | 100.0% |
 
 ### `modules/rootkit`
 

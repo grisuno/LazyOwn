@@ -78,7 +78,7 @@ def print_ctx(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
         payload: Live params dict.
         sessions_dir: Path to sessions directory.
     """
-    world = _read_json(_WORLD_MODEL)
+    world = _read_world_model(_WORLD_MODEL)
     rhost = payload.get("rhost") or "—"
     lhost = payload.get("lhost") or "—"
     domain = payload.get("domain") or "—"
@@ -321,7 +321,7 @@ def print_phase() -> None:
     progress display.
     """
     current = read_phase()
-    world = _read_json(_WORLD_MODEL)
+    world = _read_world_model(_WORLD_MODEL)
     kc_progress = _KC.get_progress(world_model_path=Path(_WORLD_MODEL))
 
     status_map: dict[str, str] = {ps.key: ps.status for ps in kc_progress}
@@ -428,6 +428,13 @@ def _read_json(path: str) -> dict[str, Any]:
             return json.load(fh)
     except (OSError, json.JSONDecodeError):
         return {}
+
+
+def _read_world_model(path: str) -> dict[str, Any]:
+    """Read ``world_model.json`` through the at-rest decrypting reader."""
+    from modules.world_model import read_state_dict
+
+    return read_state_dict(path)
 
 
 def _write_json_atomic(path: str, data: Any) -> None:

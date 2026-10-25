@@ -360,7 +360,7 @@ Deserialize from dict.
 
 ### `ACIPlanner`
 
-`class` | [skills/aci_planner.py:449](../../skills/aci_planner.py#L449)
+`class` | [skills/aci_planner.py:451](../../skills/aci_planner.py#L451)
 
 ```python
 class ACIPlanner
@@ -390,7 +390,7 @@ the static MITRE kill-chain template otherwise.
 
 #### `ACIPlanner.__init__`
 
-`constructor` | [skills/aci_planner.py:461](../../skills/aci_planner.py#L461)
+`constructor` | [skills/aci_planner.py:463](../../skills/aci_planner.py#L463)
 
 ```python
 def __init__(self, api_key: str = '', objectives_file: Path | None = None, plan_file: Path | None = None) -> None
@@ -410,7 +410,7 @@ def __init__(self, api_key: str = '', objectives_file: Path | None = None, plan_
 
 #### `ACIPlanner.plan`
 
-`method` | [skills/aci_planner.py:471](../../skills/aci_planner.py#L471)
+`method` | [skills/aci_planner.py:473](../../skills/aci_planner.py#L473)
 
 ```python
 def plan(self, goal: ACIGoal, phase_filter: list[str] | None = None) -> ACIPlan
@@ -437,7 +437,7 @@ Decompose *goal* into an ACIPlan, inject objectives, persist.
 
 ### `ACIEngine`
 
-`class` | [skills/aci_planner.py:593](../../skills/aci_planner.py#L593)
+`class` | [skills/aci_planner.py:595](../../skills/aci_planner.py#L595)
 
 ```python
 class ACIEngine
@@ -469,7 +469,7 @@ Monitors ACIPlan execution and triggers replanning when stalled.
 
 #### `ACIEngine.__init__`
 
-`constructor` | [skills/aci_planner.py:604](../../skills/aci_planner.py#L604)
+`constructor` | [skills/aci_planner.py:606](../../skills/aci_planner.py#L606)
 
 ```python
 def __init__(self, api_key: str = '', plan_file: Path | None = None, objectives_file: Path | None = None, history_file: Path | None = None, replan_threshold: int = REPLAN_THRESHOLD) -> None
@@ -491,7 +491,7 @@ def __init__(self, api_key: str = '', plan_file: Path | None = None, objectives_
 
 #### `ACIEngine.status`
 
-`method` | [skills/aci_planner.py:618](../../skills/aci_planner.py#L618)
+`method` | [skills/aci_planner.py:620](../../skills/aci_planner.py#L620)
 
 ```python
 def status(self) -> dict
@@ -510,7 +510,7 @@ active_phase, blocked_count, replan_count, should_replan.
 
 #### `ACIEngine.should_replan`
 
-`method` | [skills/aci_planner.py:658](../../skills/aci_planner.py#L658)
+`method` | [skills/aci_planner.py:660](../../skills/aci_planner.py#L660)
 
 ```python
 def should_replan(self, plan: ACIPlan | None = None) -> bool
@@ -532,7 +532,7 @@ Return True when the plan is stalled and a replan is warranted.
 
 #### `ACIEngine.replan`
 
-`method` | [skills/aci_planner.py:671](../../skills/aci_planner.py#L671)
+`method` | [skills/aci_planner.py:673](../../skills/aci_planner.py#L673)
 
 ```python
 def replan(self, reason: str = '') -> tuple[ACIPlan | None, str]
@@ -556,7 +556,7 @@ Generate a new set of objectives for blocked/remaining phases.
 
 #### `ACIEngine.complete`
 
-`method` | [skills/aci_planner.py:741](../../skills/aci_planner.py#L741)
+`method` | [skills/aci_planner.py:743](../../skills/aci_planner.py#L743)
 
 ```python
 def complete(self) -> str
@@ -572,7 +572,7 @@ Mark the active plan as completed and archive it.
 
 ### `ACIReflector`
 
-`class` | [skills/aci_planner.py:787](../../skills/aci_planner.py#L787)
+`class` | [skills/aci_planner.py:789](../../skills/aci_planner.py#L789)
 
 ```python
 class ACIReflector
@@ -600,7 +600,7 @@ format used by EpisodeReflectionEngine in lazyown_campaign.py.
 
 #### `ACIReflector.__init__`
 
-`constructor` | [skills/aci_planner.py:797](../../skills/aci_planner.py#L797)
+`constructor` | [skills/aci_planner.py:799](../../skills/aci_planner.py#L799)
 
 ```python
 def __init__(self, lessons_file: Path | None = None) -> None
@@ -618,7 +618,7 @@ def __init__(self, lessons_file: Path | None = None) -> None
 
 #### `ACIReflector.reflect`
 
-`method` | [skills/aci_planner.py:800](../../skills/aci_planner.py#L800)
+`method` | [skills/aci_planner.py:802](../../skills/aci_planner.py#L802)
 
 ```python
 def reflect(self, plan: ACIPlan) -> list[dict]
@@ -644,7 +644,7 @@ Analyse *plan* and generate lessons.
 
 ### `mcp_aci_plan`
 
-`function` | [skills/aci_planner.py:865](../../skills/aci_planner.py#L865)
+`function` | [skills/aci_planner.py:867](../../skills/aci_planner.py#L867)
 
 ```python
 def mcp_aci_plan(goal: str, target: str, scope: list[str] | None = None, domain: str = '', os_hint: str = 'unknown', phase_filter: list[str] | None = None) -> str
@@ -675,7 +675,7 @@ Plan an engagement goal and return a JSON summary.
 
 ### `mcp_aci_status`
 
-`function` | [skills/aci_planner.py:923](../../skills/aci_planner.py#L923)
+`function` | [skills/aci_planner.py:925](../../skills/aci_planner.py#L925)
 
 ```python
 def mcp_aci_status() -> str
@@ -695,7 +695,7 @@ Return live status of the active ACI plan as JSON.
 
 ### `mcp_aci_replan`
 
-`function` | [skills/aci_planner.py:940](../../skills/aci_planner.py#L940)
+`function` | [skills/aci_planner.py:942](../../skills/aci_planner.py#L942)
 
 ```python
 def mcp_aci_replan(reason: str = '') -> str
@@ -721,7 +721,7 @@ Force adaptive replanning of the active ACI plan.
 
 ### `main`
 
-`function` | [skills/aci_planner.py:1003](../../skills/aci_planner.py#L1003)
+`function` | [skills/aci_planner.py:1005](../../skills/aci_planner.py#L1005)
 
 ```python
 def main(argv: list[str] | None = None) -> int

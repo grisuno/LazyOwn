@@ -1,6 +1,24 @@
 # Subsystem: modules (page 5 of 16)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
 
+## modules/estorides_fusion.py
+- Doc: Estorides intel fusion: merge OSINT graph entities into campaign graphs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `estorides_checkout` (function, line 48) `def estorides_checkout()`
+  - `find_export` (function, line 68) `def find_export(sessions_dir)`
+  - `run_export` (function, line 84) `def run_export(sessions_dir, cli_path, timeout_sec)`
+  - `_norm` (function, line 123) `def _norm(value)`
+  - `load_export` (function, line 128) `def load_export(path)`
+  - `_from_raw` (function, line 142) `def _from_raw(document)`
+  - `community_for` (function, line 180) `def community_for(kind, value)`
+  - `merge_estorides` (function, line 187) `def merge_estorides(nodes, edges, est, cap)`
+  - `find_lan_bundle` (function, line 268) `def find_lan_bundle(sessions_dir)`
+  - `load_lan_bundle` (function, line 288) `def load_lan_bundle(path)`
+  - `split_lan_targets` (function, line 323) `def split_lan_targets(est)`
+- Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `tests/test_estorides_fusion.py`
+
 ## modules/estorides_importer.py
 - Doc: estorides_importer
 - Layer: utility
@@ -10,50 +28,50 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `ImportResult` (class, line 96) `class ImportResult`
   - `SeedResult` (class, line 128) `class SeedResult`
   - `extract_seeds_from_world_model` (function, line 143) `def extract_seeds_from_world_model(world_model_path)`
-  - `extract_seeds_from_hosts_file` (function, line 175) `def extract_seeds_from_hosts_file(path)`
-  - `extract_seeds_from_db` (function, line 203) `def extract_seeds_from_db(db_path)`
-  - `extract_seeds_from_scope` (function, line 242) `def extract_seeds_from_scope(scope_entries)`
-  - `run_estorides_discover` (function, line 272) `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)`
-  - `run_estorides_run` (function, line 332) `def run_estorides_run(query, out_json, timeout)`
-  - `EstoridesCaseReader` (class, line 385) `class EstoridesCaseReader`
-  - `EstoridesStixParser` (class, line 495) `class EstoridesStixParser`
-  - `find_lan_bundle_files` (function, line 586) `def find_lan_bundle_files(lan_dir, sessions_dir)`
-  - `LanBundleReader` (class, line 622) `class LanBundleReader`
-  - `ensure_directories` (function, line 694) `def ensure_directories()`
-  - `EstoridesToLazyOwnBridge` (class, line 700) `class EstoridesToLazyOwnBridge`
-  - `FeedbackLoop` (class, line 881) `class FeedbackLoop`
-  - `export_combined_graph` (function, line 1027) `def export_combined_graph(output_path)`
+  - `extract_seeds_from_hosts_file` (function, line 177) `def extract_seeds_from_hosts_file(path)`
+  - `extract_seeds_from_db` (function, line 205) `def extract_seeds_from_db(db_path)`
+  - `extract_seeds_from_scope` (function, line 244) `def extract_seeds_from_scope(scope_entries)`
+  - `run_estorides_discover` (function, line 274) `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)`
+  - `run_estorides_run` (function, line 334) `def run_estorides_run(query, out_json, timeout)`
+  - `EstoridesCaseReader` (class, line 387) `class EstoridesCaseReader`
+  - `EstoridesStixParser` (class, line 497) `class EstoridesStixParser`
+  - `find_lan_bundle_files` (function, line 588) `def find_lan_bundle_files(lan_dir, sessions_dir)`
+  - `LanBundleReader` (class, line 624) `class LanBundleReader`
+  - `ensure_directories` (function, line 696) `def ensure_directories()`
+  - `EstoridesToLazyOwnBridge` (class, line 702) `class EstoridesToLazyOwnBridge`
+  - `FeedbackLoop` (class, line 885) `class FeedbackLoop`
+  - `export_combined_graph` (function, line 1031) `def export_combined_graph(output_path)`
   - `success` (method, line 110) `def success(self)`
   - `to_dict` (method, line 113) `def to_dict(self)`
   - `new_assets` (method, line 139) `def new_assets(self)`
-  - `__init__` (method, line 388) `def __init__(self, db_path)`
-  - `available` (method, line 393) `def available(self)`
-  - `_ensure_conn` (method, line 396) `def _ensure_conn(self)`
-  - `list_cases` (method, line 402) `def list_cases(self, limit)`
-  - `get_entities` (method, line 414) `def get_entities(self, case_id, entity_types, limit)`
-  - `get_host_entities` (method, line 469) `def get_host_entities(self, case_id)`
-  - `get_all_entities` (method, line 473) `def get_all_entities(self, case_id)`
-  - `stats` (method, line 476) `def stats(self)`
-  - `close` (method, line 489) `def close(self)`
-  - `__init__` (method, line 511) `def __init__(self, stix_path)`
-  - `available` (method, line 515) `def available(self)`
-  - `parse` (method, line 518) `def parse(self)`
-  - `parse_by_type` (method, line 552) `def parse_by_type(self, entity_types)`
-  - `_extract_value` (method, line 563) `def _extract_value(obj, stix_type)`
-  - `__init__` (method, line 632) `def __init__(self, lan_dir)`
-  - `available` (method, line 636) `def available(self)`
-  - `read_devices` (method, line 639) `def read_devices(self)`
-  - `parse` (method, line 652) `def parse(self)`
-  - `attack_targets` (method, line 683) `def attack_targets(self)`
-  - `__init__` (method, line 703) `def __init__(self, db_path, config_path)`
-  - `import_entities` (method, line 711) `def import_entities(self, entities, add_to_scope, add_to_db)`
-  - `_import_to_db` (method, line 755) `def _import_to_db(self, imports, result)`
-  - `_import_to_scope` (method, line 801) `def _import_to_scope(self, imports, result)`
-  - `get_combined_surface` (method, line 834) `def get_combined_surface(self)`
-  - `__init__` (method, line 892) `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
-  - `run` (method, line 908) `def run(self, seed_methods)`
-  - `_gather_seeds` (method, line 1001) `def _gather_seeds(self, methods, seen)`
-- Depends on: `core/logging.py`, `modules/db.py`
+  - `__init__` (method, line 390) `def __init__(self, db_path)`
+  - `available` (method, line 395) `def available(self)`
+  - `_ensure_conn` (method, line 398) `def _ensure_conn(self)`
+  - `list_cases` (method, line 404) `def list_cases(self, limit)`
+  - `get_entities` (method, line 416) `def get_entities(self, case_id, entity_types, limit)`
+  - `get_host_entities` (method, line 471) `def get_host_entities(self, case_id)`
+  - `get_all_entities` (method, line 475) `def get_all_entities(self, case_id)`
+  - `stats` (method, line 478) `def stats(self)`
+  - `close` (method, line 491) `def close(self)`
+  - `__init__` (method, line 513) `def __init__(self, stix_path)`
+  - `available` (method, line 517) `def available(self)`
+  - `parse` (method, line 520) `def parse(self)`
+  - `parse_by_type` (method, line 554) `def parse_by_type(self, entity_types)`
+  - `_extract_value` (method, line 565) `def _extract_value(obj, stix_type)`
+  - `__init__` (method, line 634) `def __init__(self, lan_dir)`
+  - `available` (method, line 638) `def available(self)`
+  - `read_devices` (method, line 641) `def read_devices(self)`
+  - `parse` (method, line 654) `def parse(self)`
+  - `attack_targets` (method, line 685) `def attack_targets(self)`
+  - `__init__` (method, line 705) `def __init__(self, db_path, config_path)`
+  - `import_entities` (method, line 713) `def import_entities(self, entities, add_to_scope, add_to_db)`
+  - `_import_to_db` (method, line 757) `def _import_to_db(self, imports, result)`
+  - `_import_to_scope` (method, line 803) `def _import_to_scope(self, imports, result)`
+  - `get_combined_surface` (method, line 836) `def get_combined_surface(self)`
+  - `__init__` (method, line 896) `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
+  - `run` (method, line 912) `def run(self, seed_methods)`
+  - `_gather_seeds` (method, line 1005) `def _gather_seeds(self, methods, seen)`
+- Depends on: `core/logging.py`, `modules/db.py`, `modules/world_model.py`
 - Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
 
 ## modules/evasion_engine.py
@@ -167,22 +185,22 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `_load_payload` (function, line 43) `def _load_payload()`
   - `_inject_objective` (function, line 54) `def _inject_objective(text, priority, source)`
   - `_update_world_model_host` (function, line 72) `def _update_world_model_host(address, state, services)`
-  - `_update_soul` (function, line 110) `def _update_soul(phase, credentials, access)`
-  - `PhaseTracker` (class, line 146) `class PhaseTracker`
-  - `AutoRecommender` (class, line 201) `class AutoRecommender`
-  - `CredentialReactor` (class, line 272) `class CredentialReactor`
-  - `SoulSync` (class, line 320) `class SoulSync`
-  - `DashboardPusher` (class, line 358) `class DashboardPusher`
-  - `wire_all_consumers` (function, line 380) `def wire_all_consumers(bus)`
-  - `unwire_all_consumers` (function, line 409) `def unwire_all_consumers(bus)`
-  - `__init__` (method, line 156) `def __init__(self)`
-  - `__call__` (method, line 159) `def __call__(self, event)`
-  - `__init__` (method, line 204) `def __init__(self)`
-  - `__call__` (method, line 207) `def __call__(self, event)`
-  - `__call__` (method, line 282) `def __call__(self, event)`
-  - `__call__` (method, line 323) `def __call__(self, event)`
-  - `__call__` (method, line 361) `def __call__(self, event)`
-- Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`
+  - `_update_soul` (function, line 100) `def _update_soul(phase, credentials, access)`
+  - `PhaseTracker` (class, line 136) `class PhaseTracker`
+  - `AutoRecommender` (class, line 191) `class AutoRecommender`
+  - `CredentialReactor` (class, line 262) `class CredentialReactor`
+  - `SoulSync` (class, line 310) `class SoulSync`
+  - `DashboardPusher` (class, line 348) `class DashboardPusher`
+  - `wire_all_consumers` (function, line 370) `def wire_all_consumers(bus)`
+  - `unwire_all_consumers` (function, line 399) `def unwire_all_consumers(bus)`
+  - `__init__` (method, line 146) `def __init__(self)`
+  - `__call__` (method, line 149) `def __call__(self, event)`
+  - `__init__` (method, line 194) `def __init__(self)`
+  - `__call__` (method, line 197) `def __call__(self, event)`
+  - `__call__` (method, line 272) `def __call__(self, event)`
+  - `__call__` (method, line 313) `def __call__(self, event)`
+  - `__call__` (method, line 351) `def __call__(self, event)`
+- Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`, `modules/world_model.py`
 - Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
 
 ## modules/event_engine.py
@@ -367,6 +385,21 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Depends on: `modules/redteam_gym.py`
 - Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
 
+## modules/factsio.py
+- Doc: Canonical reader for the FactStore ``policy_facts.json`` document.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `load_policy_facts` (function, line 39) `def load_policy_facts(path)`
+  - `canonical_policy_facts` (function, line 61) `def canonical_policy_facts(data)`
+  - `iter_host_records` (function, line 81) `def iter_host_records(host_keyed)`
+  - `iter_flat_facts` (function, line 93) `def iter_flat_facts(host_keyed)`
+  - `_iter_kind` (function, line 116) `def _iter_kind(record, key, fact_type, host)`
+  - `_as_list` (function, line 131) `def _as_list(value)`
+  - `_observable` (function, line 137) `def _observable(record, fact_type)`
+- Depends on: `core/logging.py`
+- Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`
+
 ## modules/fast_run_service.sh
 - Doc: LazyOwn service-mode orchestrator.
 - Layer: business_logic
@@ -460,30 +493,6 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `windows_prefetch_parse` (method, line 221) `def windows_prefetch_parse(self, prefetch_path)`
   - `amcache_parse` (method, line 259) `def amcache_parse(self)`
 - Imported by: `cli/commands/opsec_cleanup.py`
-
-## modules/gcp_attacks.py
-- Doc: GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `GCPConfig` (class, line 57) `class GCPConfig`
-  - `GCPAttackEngine` (class, line 77) `class GCPAttackEngine`
-  - `__init__` (method, line 90) `def __init__(self, config)`
-  - `enumerate_iam_policy` (method, line 93) `def enumerate_iam_policy(self, resource)`
-  - `service_account_impersonation` (method, line 119) `def service_account_impersonation(self)`
-  - `cloud_functions_backdoor` (method, line 144) `def cloud_functions_backdoor(self)`
-  - `compute_engine_metadata_exfil` (method, line 173) `def compute_engine_metadata_exfil(self)`
-  - `gcs_enumeration` (method, line 194) `def gcs_enumeration(self)`
-  - `cloudbuild_abuse` (method, line 230) `def cloudbuild_abuse(self)`
-  - `organization_escalation` (method, line 261) `def organization_escalation(self)`
-  - `summary` (method, line 297) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/generate_tools.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `extract_cmd2_tools` (function, line 6) `def extract_cmd2_tools(script_path)`
 
 
 Next: [KB_modules_p6.md](KB_modules_p6.md)

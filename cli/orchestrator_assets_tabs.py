@@ -864,3 +864,129 @@ class OrchestratorAssetsMixin:
                 )
         except Exception:
             return
+
+    def save_guardrails(self, values: dict) -> dict:
+        """Merge harness settings into payload and reconfigure the harness.
+
+        Args:
+            values: Mapping with optional ``saturation`` and per-tier
+                ``cap_core``/``cap_mission``/``cap_support`` strings.
+
+        Returns:
+            The persisted guardrails section.
+        """
+        from core.config import save_payload
+
+        payload = self._load_payload()
+        raw_section = payload.get("orchestrator")
+        section: dict = raw_section if isinstance(raw_section, dict) else {}
+        raw_guard = section.get("guardrails")
+        guard: dict = raw_guard if isinstance(raw_guard, dict) else {}
+        raw_threshold = str(values.get("saturation", "")).strip()
+        if raw_threshold:
+            try:
+                guard["saturation_threshold"] = min(0.99, max(0.01, float(raw_threshold)))
+            except (TypeError, ValueError):
+                pass
+        raw_caps = guard.get("capacity")
+        caps: dict = raw_caps if isinstance(raw_caps, dict) else {}
+        for tier in ("core", "mission", "support"):
+            raw = str(values.get(f"cap_{tier}", "")).strip()
+            if not raw:
+                continue
+            try:
+                caps[tier] = max(1, int(raw))
+            except (TypeError, ValueError):
+                continue
+        guard["capacity"] = caps
+        section["guardrails"] = guard
+        payload["orchestrator"] = section
+        if self._payload_path:
+            save_payload(payload, self._payload_path)
+        else:
+            save_payload(payload)
+        from modules.guardrails import global_harness
+
+        global_harness().configure(guard)
+        self._refresh_harness()
+        return guard
+
+    def warm_restart_harness(self) -> dict:
+        """Run the harness warm restart and repaint the table."""
+        from modules.guardrails import global_harness
+
+        summary = global_harness().warm_restart("loop.core_round")
+        self._refresh_harness()
+        self.notify(
+            f"Warm restart: restored={summary.get('restored')} restarts={summary.get('restarts')}",
+            severity="information",
+        )
+        return summary
+
+    def rearm_harness(self) -> dict:
+        """Re-arm suspended features and clear advisories."""
+        from modules.guardrails import global_harness
+
+        summary = global_harness().rearm()
+        self._refresh_harness()
+        self.notify(
+            f"Re-armed: resumed={summary.get('resumed')} cleared={summary.get('cleared')}", severity="information"
+        )
+        return summary
+
+    def _load_guardrails_into_form(self) -> None:
+        """Fill the harness inputs with the payload guardrails section."""
+        raw_section = self._load_payload().get("orchestrator")
+        section: dict = raw_section if isinstance(raw_section, dict) else {}
+        raw_guard = section.get("guardrails")
+        guard: dict = raw_guard if isinstance(raw_guard, dict) else {}
+        raw_caps = guard.get("capacity")
+        caps: dict = raw_caps if isinstance(raw_caps, dict) else {}
+        mapping = {
+            "cfg-guardrails-saturation": guard.get("saturation_threshold", ""),
+            "cfg-guardrails-cap-core": caps.get("core", ""),
+            "cfg-guardrails-cap-mission": caps.get("mission", ""),
+            "cfg-guardrails-cap-support": caps.get("support", ""),
+        }
+        for widget_id, value in mapping.items():
+            try:
+                self.query_one(f"#{widget_id}", Input).value = "" if value in (None, "") else str(value)
+            except Exception:
+                continue
+
+    def _refresh_harness(self) -> None:
+        """Render the harness tiers, features and advisories."""
+        try:
+            table = self.query_one("#harness-table", DataTable)
+            detail = self.query_one("#harness-detail", Static)
+        except Exception:
+            return
+        table.clear(columns=True)
+        table.add_columns("tier", "usage", "capacity", "ratio", "saturated")
+        try:
+            from modules.guardrails import global_harness
+
+            snapshot = global_harness().describe()
+            tiers = snapshot.get("envelope", {}).get("tiers", {})
+            for tier in ("core", "mission", "support"):
+                row = tiers.get(tier, {})
+                table.add_row(
+                    tier,
+                    str(row.get("usage", 0)),
+                    str(row.get("capacity", 0)),
+                    str(row.get("ratio", 0.0)),
+                    "yes" if row.get("saturated") else "no",
+                    key=tier,
+                )
+            features = snapshot.get("features", {})
+            suspended = features.get("suspended", {})
+            advisories = snapshot.get("advisories", {}).get("items", [])
+            restarts = snapshot.get("checkpoints", {}).get("restarts", 0)
+            lines = [
+                f"suspended: {', '.join(suspended) or 'none'}",
+                f"advisories: {len(advisories)} | warm restarts: {restarts}",
+            ]
+            lines.extend(f"{item.get('code')}: {item.get('message', '')[:90]}" for item in advisories[:5])
+            detail.update(Text("\n".join(lines)))
+        except Exception:
+            return

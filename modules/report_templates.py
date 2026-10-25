@@ -273,7 +273,9 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
     @staticmethod
     def _read_hosts(sessions: Path) -> list[dict[str, Any]]:
         try:
-            wm = json.loads((sessions / "world_model.json").read_text(encoding="utf-8"))
+            from modules.world_model import read_state_dict
+
+            wm = read_state_dict(sessions / "world_model.json")
             hosts = wm.get("hosts", {})
         except Exception:
             hosts = {}
@@ -294,9 +296,9 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
     @staticmethod
     def _read_vulns(sessions: Path) -> list[dict[str, Any]]:
         try:
-            return (
-                json.loads((sessions / "world_model.json").read_text(encoding="utf-8")).get("vulnerabilities", []) or []
-            )
+            from modules.world_model import read_state_dict
+
+            return read_state_dict(sessions / "world_model.json").get("vulnerabilities", []) or []
         except Exception:
             return []
 

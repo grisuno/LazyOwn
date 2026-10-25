@@ -2,6 +2,17 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/dashboard_tui.py` -> `modules/killchain.py`
+- `cli/dashboard_tui.py` -> `modules/world_model.py`
+- `cli/doctor.py` -> `cli/wizard.py`
+- `cli/doctor.py` -> `core/console.py`
+- `cli/doctor.py` -> `core/profiles.py`
+- `cli/engagement_hooks.py` -> `cli/palette.py`
+- `cli/engagement_hooks.py` -> `core/config.py`
+- `cli/engagement_hooks.py` -> `modules/cli_auth.py`
+- `cli/engagement_hooks.py` -> `modules/lazy_rbac.py`
+- `cli/exploit_advisor.py` -> `core/console.py`
+- `cli/exploration_view.py` -> `cli/exploration.py`
 - `cli/exploration_view.py` -> `core/console.py`
 - `cli/fuzzy_match.py` -> `cli/fuzzy_picker.py`
 - `cli/graph_overlay.py` -> `cli/commands/containers.py`
@@ -28,6 +39,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/lazy_orchestrator.py` -> `modules/verb_catalog.py`
 - `cli/lazynmap_post.py` -> `cli/exploration.py`
 - `cli/lazynmap_post.py` -> `cli/recon_plan.py`
+- `cli/lazynmap_post.py` -> `modules/killchain.py`
 - `cli/marketplace_config.py` -> `cli/tui_forms.py`
 - `cli/ops_commands.py` -> `core/safe_console.py`
 - `cli/ops_commands.py` -> `modules/killchain.py`
@@ -37,6 +49,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/orchestrator_assets_tabs.py` -> `modules/__init__.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/apt_playbooks.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/chain_registry.py`
+- `cli/orchestrator_assets_tabs.py` -> `modules/guardrails/__init__.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/gym_registry.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/lazy_engine.py`
 - `cli/orchestrator_assets_tabs.py` -> `modules/loop_triggers.py`
@@ -70,6 +83,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/recommendation_signals.py` -> `cli/recon_plan.py`
 - `cli/recommendation_signals.py` -> `core/logging.py`
 - `cli/recommendation_signals.py` -> `modules/apt_playbooks.py`
+- `cli/recommendation_signals.py` -> `modules/world_model.py`
 - `cli/recommendation_signals.py` -> `skills/lazyown_policy.py`
 - `cli/recon_plan.py` -> `cli/exploration.py`
 - `cli/recon_plan.py` -> `modules/killchain.py`
@@ -91,12 +105,14 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/session_hud.py` -> `cli/engagement_hooks.py`
 - `cli/session_resumer.py` -> `core/console.py`
 - `cli/session_resumer.py` -> `core/logging.py`
+- `cli/session_resumer.py` -> `modules/world_model.py`
 - `cli/sessions_browser.py` -> `cli/commands/containers.py`
 - `cli/sessions_browser.py` -> `cli/themes.py`
 - `cli/splash.py` -> `cli/style.py`
 - `cli/splash.py` -> `core/console.py`
 - `cli/status_bar.py` -> `cli/reactive_hints.py`
 - `cli/status_bar.py` -> `cli/themes.py`
+- `cli/status_bar.py` -> `modules/world_model.py`
 - `cli/style.py` -> `cli/themes.py`
 - `cli/surface_tui.py` -> `cli/commands/containers.py`
 - `cli/surface_tui.py` -> `cli/surface_graph.py`
@@ -119,6 +135,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/tips_engine.py` -> `modules/cli_auth.py`
 - `cli/tips_engine.py` -> `modules/killchain.py`
 - `cli/tips_engine.py` -> `modules/lazy_rbac.py`
+- `cli/tips_engine.py` -> `modules/world_model.py`
 - `cli/toast_bus.py` -> `cli/themes.py`
 - `cli/toast_bus.py` -> `core/console.py`
 - `cli/toast_bus.py` -> `core/text_utils.py`
@@ -237,6 +254,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `modules/attack_surface3d.py`
 - `lazyc2.py` -> `modules/backdoor/server.c`
 - `lazyc2.py` -> `modules/beacon_history.py`
+- `lazyc2.py` -> `modules/beacon_recon.py`
 - `lazyc2.py` -> `modules/c2_surfaces.py`
 - `lazyc2.py` -> `modules/collab_bp.py`
 - `lazyc2.py` -> `modules/colors.py`
@@ -435,6 +453,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/services/__init__.py` -> `lazygui/services/teamserver_backend.py`
 - `lazygui/services/backend.py` -> `cli/commands/enum.py`
 - `lazygui/services/backend.py` -> `lazygui/services/models.py`
+- `lazygui/services/backend.py` -> `modules/world_model.py`
 - `lazygui/services/event_log.py` -> `lazygui/config/constants.py`
 - `lazygui/services/event_log.py` -> `lazygui/services/models.py`
 - `lazygui/services/factory.py` -> `lazygui/config/constants.py`
@@ -477,24 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/filter_bar.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/graph_view.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/status_badge.py`
-- `lazygui/widgets/__init__.py` -> `lazygui/widgets/terminal_view.py`
-- `lazygui/widgets/beacon_command_modal.py` -> `lazygui/services/backend.py`
-- `lazygui/widgets/beacon_command_modal.py` -> `lazygui/services/models.py`
-- `lazygui/widgets/command_palette_list.py` -> `lazygui/config/constants.py`
-- `lazygui/widgets/event_log_view.py` -> `lazygui/config/constants.py`
-- `lazygui/widgets/event_log_view.py` -> `lazygui/services/event_log.py`
-- `lazygui/widgets/event_log_view.py` -> `lazygui/services/models.py`
-- `lazygui/widgets/filter_bar.py` -> `lazygui/config/constants.py`
-- `lazygui/widgets/graph_view.py` -> `lazygui/config/constants.py`
-- `lazygui/widgets/graph_view.py` -> `lazygui/services/models.py`
-- `lazygui/widgets/status_badge.py` -> `lazygui/services/backend.py`
-- `lazygui/widgets/terminal_view.py` -> `lazygui/config/constants.py`
-- `lazygui/windows/__init__.py` -> `lazygui/windows/command_palette_window.py`
-- `lazygui/windows/__init__.py` -> `lazygui/windows/connect_dialog.py`
-- `lazygui/windows/__init__.py` -> `lazygui/windows/main_window.py`
-- `lazygui/windows/command_palette_window.py` -> `lazygui/config/constants.py`
-- `lazygui/windows/command_palette_window.py` -> `lazygui/widgets/command_palette_list.py`
-- `lazygui/windows/connect_dialog.py` -> `lazygui/config/c2_credentials.py`
-- `lazygui/windows/connect_dialog.py` -> `lazygui/config/constants.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

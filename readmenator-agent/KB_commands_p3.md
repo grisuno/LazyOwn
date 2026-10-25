@@ -484,8 +484,8 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_juicypotato` (method, line 632) `def do_juicypotato(self, line)`
   - `_serve_windows_tool` (method, line 656) `def _serve_windows_tool(self, binary, label, description, args)`
   - `_detect_os_for_privesc` (method, line 695) `def _detect_os_for_privesc(self)`
-  - `do_privesc_cmd_by_os` (method, line 754) `def do_privesc_cmd_by_os(self, line)`
-- Depends on: `cli/commands/_base.py`, `utils.py`
+  - `do_privesc_cmd_by_os` (method, line 755) `def do_privesc_cmd_by_os(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/world_model.py`, `utils.py`
 - Imported by: `tests/test_shell_semantics.py`
 
 

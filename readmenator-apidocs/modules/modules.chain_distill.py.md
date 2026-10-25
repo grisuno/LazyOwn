@@ -93,7 +93,7 @@ flowchart LR
 
 ### `StepDecision`
 
-`class` `dataclass` | [modules/chain_distill.py:312](../../modules/chain_distill.py#L312)
+`class` `dataclass` | [modules/chain_distill.py:325](../../modules/chain_distill.py#L325)
 
 Decorators: `@dataclass`
 
@@ -131,7 +131,7 @@ One trace row and whether it becomes a chain step.
 
 ### `DistillReport`
 
-`class` `dataclass` | [modules/chain_distill.py:333](../../modules/chain_distill.py#L333)
+`class` `dataclass` | [modules/chain_distill.py:346](../../modules/chain_distill.py#L346)
 
 Decorators: `@dataclass`
 
@@ -184,7 +184,7 @@ Full account of one distillation for operator review.
 
 #### `DistillReport.kept`
 
-`property` | [modules/chain_distill.py:361](../../modules/chain_distill.py#L361)
+`property` | [modules/chain_distill.py:374](../../modules/chain_distill.py#L374)
 
 Decorators: `@property`
 
@@ -200,7 +200,7 @@ Count decisions turned into steps.
 
 #### `DistillReport.dropped`
 
-`property` | [modules/chain_distill.py:366](../../modules/chain_distill.py#L366)
+`property` | [modules/chain_distill.py:379](../../modules/chain_distill.py#L379)
 
 Decorators: `@property`
 
@@ -216,7 +216,7 @@ Count decisions rejected with a reason.
 
 #### `DistillReport.to_dict`
 
-`method` | [modules/chain_distill.py:370](../../modules/chain_distill.py#L370)
+`method` | [modules/chain_distill.py:383](../../modules/chain_distill.py#L383)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -230,7 +230,7 @@ Return a JSON-serializable report.
 
 #### `DistillReport.render`
 
-`method` | [modules/chain_distill.py:397](../../modules/chain_distill.py#L397)
+`method` | [modules/chain_distill.py:410](../../modules/chain_distill.py#L410)
 
 ```python
 def render(self, verbose: bool = False) -> list[str]
@@ -279,7 +279,7 @@ Find the exp/traffic pair of one loop task under sessions/.
 
 ### `build_chain_data`
 
-`function` | [modules/chain_distill.py:428](../../modules/chain_distill.py#L428)
+`function` | [modules/chain_distill.py:441](../../modules/chain_distill.py#L441)
 
 ```python
 def build_chain_data(task: str, rows: list[dict], graph: dict[str, Any], manifests: dict[str, Any] | None = None) -> tuple[dict[str, Any], list[StepDecision]]
@@ -308,7 +308,7 @@ Turn deduped traffic rows and graph context into chain YAML data.
 
 ### `distill`
 
-`function` | [modules/chain_distill.py:537](../../modules/chain_distill.py#L537)
+`function` | [modules/chain_distill.py:550](../../modules/chain_distill.py#L550)
 
 ```python
 def distill(task: str, sessions_dir: Path | str | None = None, write: bool = False, chains_dir: Path | str | None = None) -> DistillReport

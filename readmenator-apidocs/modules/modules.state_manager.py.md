@@ -665,7 +665,7 @@ def status(self) -> dict[str, int]
 
 #### `StateManager.get_world_model_cache`
 
-`method` | [modules/state_manager.py:606](../../modules/state_manager.py#L606)
+`method` | [modules/state_manager.py:666](../../modules/state_manager.py#L666)
 
 ```python
 def get_world_model_cache(self) -> dict[str, Any]
@@ -679,7 +679,7 @@ def get_world_model_cache(self) -> dict[str, Any]
 
 #### `StateManager.load_world_model`
 
-`method` | [modules/state_manager.py:612](../../modules/state_manager.py#L612)
+`method` | [modules/state_manager.py:672](../../modules/state_manager.py#L672)
 
 ```python
 def load_world_model(self) -> Any
@@ -695,7 +695,7 @@ Return a WorldModel instance populated from DB state.
 
 #### `StateManager.session_snapshot`
 
-`method` | [modules/state_manager.py:653](../../modules/state_manager.py#L653)
+`method` | [modules/state_manager.py:713](../../modules/state_manager.py#L713)
 
 ```python
 def session_snapshot(self) -> SessionSnapshot
@@ -709,7 +709,7 @@ def session_snapshot(self) -> SessionSnapshot
 
 #### `StateManager.export_csv`
 
-`method` | [modules/state_manager.py:757](../../modules/state_manager.py#L757)
+`method` | [modules/state_manager.py:817](../../modules/state_manager.py#L817)
 
 ```python
 def export_csv(self, table: str) -> str
@@ -727,7 +727,7 @@ def export_csv(self, table: str) -> str
 
 #### `StateManager.export_summary`
 
-`method` | [modules/state_manager.py:761](../../modules/state_manager.py#L761)
+`method` | [modules/state_manager.py:821](../../modules/state_manager.py#L821)
 
 ```python
 def export_summary(self) -> dict[str, Any]
@@ -745,7 +745,7 @@ def export_summary(self) -> dict[str, Any]
 
 ### `get_state_manager`
 
-`function` | [modules/state_manager.py:776](../../modules/state_manager.py#L776)
+`function` | [modules/state_manager.py:836](../../modules/state_manager.py#L836)
 
 ```python
 def get_state_manager() -> StateManager

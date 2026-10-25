@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 795,
-  "entities": 15086,
+  "modules": 817,
+  "entities": 15305,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,58 +13,58 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 682,
+   "py": 704,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4273,
-   "class": 1392,
-   "classmethod": 82,
-   "constant": 1271,
-   "constructor": 517,
-   "enum": 38,
+   "attribute": 4294,
+   "class": 1407,
+   "classmethod": 84,
+   "constant": 1308,
+   "constructor": 525,
+   "enum": 39,
    "exception": 37,
-   "function": 2725,
+   "function": 2755,
    "macro": 113,
-   "method": 3506,
-   "module": 795,
+   "method": 3583,
+   "module": 817,
    "property": 196,
-   "protocol": 14,
+   "protocol": 20,
    "staticmethod": 91,
    "struct": 20,
    "type_alias": 4,
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 343,
+  "skipped_files": 354,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7048,
-   "total": 9530,
-   "percent": 74.0
+   "documented": 7209,
+   "total": 9691,
+   "percent": 74.4
   },
   "by_kind": {
    "class": {
-    "documented": 1204,
-    "total": 1392,
-    "percent": 86.5
+    "documented": 1219,
+    "total": 1407,
+    "percent": 86.6
    },
    "classmethod": {
-    "documented": 56,
-    "total": 82,
-    "percent": 68.3
+    "documented": 58,
+    "total": 84,
+    "percent": 69.0
    },
    "constructor": {
-    "documented": 195,
-    "total": 517,
-    "percent": 37.7
+    "documented": 203,
+    "total": 525,
+    "percent": 38.7
    },
    "enum": {
-    "documented": 29,
-    "total": 38,
-    "percent": 76.3
+    "documented": 30,
+    "total": 39,
+    "percent": 76.9
    },
    "exception": {
     "documented": 35,
@@ -72,9 +72,9 @@
     "percent": 94.6
    },
    "function": {
-    "documented": 1777,
-    "total": 2725,
-    "percent": 65.2
+    "documented": 1807,
+    "total": 2755,
+    "percent": 65.6
    },
    "macro": {
     "documented": 3,
@@ -82,14 +82,14 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2827,
-    "total": 3506,
-    "percent": 80.6
+    "documented": 2904,
+    "total": 3583,
+    "percent": 81.0
    },
    "module": {
-    "documented": 673,
-    "total": 795,
-    "percent": 84.7
+    "documented": 695,
+    "total": 817,
+    "percent": 85.1
    },
    "property": {
     "documented": 152,
@@ -97,8 +97,8 @@
     "percent": 77.6
    },
    "protocol": {
-    "documented": 14,
-    "total": 14,
+    "documented": 20,
+    "total": 20,
     "percent": 100.0
    },
    "staticmethod": {
@@ -414,6 +414,16 @@
     "percent": 98.0
    },
    "cli/commands/exploitgym.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/golden_paths.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/gym_matrix.py": {
     "documented": 3,
     "total": 3,
     "percent": 100.0
@@ -749,8 +759,8 @@
     "percent": 100.0
    },
    "cli/orchestrator_assets_tabs.py": {
-    "documented": 32,
-    "total": 32,
+    "documented": 36,
+    "total": 36,
     "percent": 100.0
    },
    "cli/output_mode.py": {
@@ -909,8 +919,8 @@
     "percent": 100.0
    },
    "cli/toast_bus.py": {
-    "documented": 42,
-    "total": 42,
+    "documented": 43,
+    "total": 43,
     "percent": 100.0
    },
    "cli/tui_forms.py": {
@@ -1973,6 +1983,11 @@
     "total": 8,
     "percent": 100.0
    },
+   "modules/beacon_recon.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
    "modules/bin2img.py": {
     "documented": 0,
     "total": 3,
@@ -2041,6 +2056,11 @@
    "modules/chain_distill.py": {
     "documented": 10,
     "total": 10,
+    "percent": 100.0
+   },
+   "modules/chain_facts.py": {
+    "documented": 2,
+    "total": 2,
     "percent": 100.0
    },
    "modules/chain_registry.py": {
@@ -2122,6 +2142,11 @@
     "documented": 9,
     "total": 11,
     "percent": 81.8
+   },
+   "modules/ctf_capture.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
    },
    "modules/custom_tools.py": {
     "documented": 7,
@@ -2303,6 +2328,11 @@
     "total": 8,
     "percent": 100.0
    },
+   "modules/factsio.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
    "modules/fast_run_service.sh": {
     "documented": 10,
     "total": 40,
@@ -2333,19 +2363,64 @@
     "total": 14,
     "percent": 100.0
    },
+   "modules/golden_path.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
    "modules/gpo_abuse.py": {
     "documented": 16,
     "total": 17,
     "percent": 94.1
+   },
+   "modules/guardrails/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/guardrails/advisories.py": {
+    "documented": 16,
+    "total": 16,
+    "percent": 100.0
+   },
+   "modules/guardrails/budget.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
+   "modules/guardrails/checkpoints.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "modules/guardrails/contracts.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
+   "modules/guardrails/harness.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
    },
    "modules/gui_askpass.sh": {
     "documented": 2,
     "total": 6,
     "percent": 33.3
    },
+   "modules/gym_matrix_runner.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
    "modules/gym_registry.py": {
     "documented": 19,
     "total": 19,
+    "percent": 100.0
+   },
+   "modules/harness.py": {
+    "documented": 3,
+    "total": 3,
     "percent": 100.0
    },
    "modules/hash_cracker.py": {
@@ -2802,6 +2877,41 @@
     "documented": 6,
     "total": 14,
     "percent": 42.9
+   },
+   "modules/mediation/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/mediation/chain_mediator.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "modules/mediation/contracts.py": {
+    "documented": 13,
+    "total": 13,
+    "percent": 100.0
+   },
+   "modules/mediation/feedback_mediator.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "modules/mediation/hub.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "modules/mediation/intel_mediator.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
+   "modules/mediation/telemetry_mediator.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
    },
    "modules/memory_cleaner.py": {
     "documented": 7,
@@ -4397,6 +4507,16 @@
    "entities": 5
   },
   {
+   "uid": "cli/commands/golden_paths.py",
+   "path": "modules/cli.commands.golden_paths.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/gym_matrix.py",
+   "path": "modules/cli.commands.gym_matrix.py.jsonl",
+   "entities": 5
+  },
+  {
    "uid": "cli/commands/help_ui.py",
    "path": "modules/cli.commands.help_ui.py.jsonl",
    "entities": 18
@@ -4729,7 +4849,7 @@
   {
    "uid": "cli/orchestrator_assets_tabs.py",
    "path": "modules/cli.orchestrator_assets_tabs.py.jsonl",
-   "entities": 37
+   "entities": 41
   },
   {
    "uid": "cli/output_mode.py",
@@ -4889,7 +5009,7 @@
   {
    "uid": "cli/toast_bus.py",
    "path": "modules/cli.toast_bus.py.jsonl",
-   "entities": 86
+   "entities": 87
   },
   {
    "uid": "cli/tui_forms.py",
@@ -5884,7 +6004,7 @@
   {
    "uid": "modules/atomic_exploit_bridge.py",
    "path": "modules/modules.atomic_exploit_bridge.py.jsonl",
-   "entities": 49
+   "entities": 52
   },
   {
    "uid": "modules/atomic_resolver.py",
@@ -5952,6 +6072,11 @@
    "entities": 10
   },
   {
+   "uid": "modules/beacon_recon.py",
+   "path": "modules/modules.beacon_recon.py.jsonl",
+   "entities": 6
+  },
+  {
    "uid": "modules/bin2img.py",
    "path": "modules/modules.bin2img.py.jsonl",
    "entities": 3
@@ -5969,7 +6094,7 @@
   {
    "uid": "modules/c2_agent.py",
    "path": "modules/modules.c2_agent.py.jsonl",
-   "entities": 15
+   "entities": 17
   },
   {
    "uid": "modules/c2_builder.py",
@@ -6020,6 +6145,11 @@
    "uid": "modules/chain_distill.py",
    "path": "modules/modules.chain_distill.py.jsonl",
    "entities": 30
+  },
+  {
+   "uid": "modules/chain_facts.py",
+   "path": "modules/modules.chain_facts.py.jsonl",
+   "entities": 3
   },
   {
    "uid": "modules/chain_registry.py",
@@ -6100,6 +6230,11 @@
    "uid": "modules/cross_cloud.py",
    "path": "modules/modules.cross_cloud.py.jsonl",
    "entities": 20
+  },
+  {
+   "uid": "modules/ctf_capture.py",
+   "path": "modules/modules.ctf_capture.py.jsonl",
+   "entities": 13
   },
   {
    "uid": "modules/custom_tools.py",
@@ -6282,6 +6417,11 @@
    "entities": 8
   },
   {
+   "uid": "modules/factsio.py",
+   "path": "modules/modules.factsio.py.jsonl",
+   "entities": 5
+  },
+  {
    "uid": "modules/fast_run_service.sh",
    "path": "modules/modules.fast_run_service.sh.jsonl",
    "entities": 40
@@ -6312,9 +6452,44 @@
    "entities": 20
   },
   {
+   "uid": "modules/golden_path.py",
+   "path": "modules/modules.golden_path.py.jsonl",
+   "entities": 16
+  },
+  {
    "uid": "modules/gpo_abuse.py",
    "path": "modules/modules.gpo_abuse.py.jsonl",
    "entities": 37
+  },
+  {
+   "uid": "modules/guardrails/__init__.py",
+   "path": "modules/modules.guardrails.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/guardrails/advisories.py",
+   "path": "modules/modules.guardrails.advisories.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "modules/guardrails/budget.py",
+   "path": "modules/modules.guardrails.budget.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "modules/guardrails/checkpoints.py",
+   "path": "modules/modules.guardrails.checkpoints.py.jsonl",
+   "entities": 9
+  },
+  {
+   "uid": "modules/guardrails/contracts.py",
+   "path": "modules/modules.guardrails.contracts.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/guardrails/harness.py",
+   "path": "modules/modules.guardrails.harness.py.jsonl",
+   "entities": 11
   },
   {
    "uid": "modules/gui_askpass.sh",
@@ -6322,9 +6497,19 @@
    "entities": 6
   },
   {
+   "uid": "modules/gym_matrix_runner.py",
+   "path": "modules/modules.gym_matrix_runner.py.jsonl",
+   "entities": 7
+  },
+  {
    "uid": "modules/gym_registry.py",
    "path": "modules/modules.gym_registry.py.jsonl",
    "entities": 22
+  },
+  {
+   "uid": "modules/harness.py",
+   "path": "modules/modules.harness.py.jsonl",
+   "entities": 5
   },
   {
    "uid": "modules/hash_cracker.py",
@@ -6780,6 +6965,41 @@
    "uid": "modules/mcp_agent_bridge.py",
    "path": "modules/modules.mcp_agent_bridge.py.jsonl",
    "entities": 19
+  },
+  {
+   "uid": "modules/mediation/__init__.py",
+   "path": "modules/modules.mediation.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/mediation/chain_mediator.py",
+   "path": "modules/modules.mediation.chain_mediator.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "modules/mediation/contracts.py",
+   "path": "modules/modules.mediation.contracts.py.jsonl",
+   "entities": 19
+  },
+  {
+   "uid": "modules/mediation/feedback_mediator.py",
+   "path": "modules/modules.mediation.feedback_mediator.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/mediation/hub.py",
+   "path": "modules/modules.mediation.hub.py.jsonl",
+   "entities": 8
+  },
+  {
+   "uid": "modules/mediation/intel_mediator.py",
+   "path": "modules/modules.mediation.intel_mediator.py.jsonl",
+   "entities": 11
+  },
+  {
+   "uid": "modules/mediation/telemetry_mediator.py",
+   "path": "modules/modules.mediation.telemetry_mediator.py.jsonl",
+   "entities": 13
   },
   {
    "uid": "modules/memory_cleaner.py",
@@ -7899,7 +8119,7 @@
   {
    "uid": "skills/lazyown_mcp_opencode.py",
    "path": "modules/skills.lazyown_mcp_opencode.py.jsonl",
-   "entities": 5
+   "entities": 6
   },
   {
    "uid": "skills/lazyown_objective.py",
@@ -8074,7 +8294,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2313
+  "total": 2314
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

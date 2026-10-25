@@ -305,7 +305,9 @@ class WorldModelPhaseSource:
 
     def collect(self) -> str:
         """Return the active phase from ``world_model.json`` then payload then default."""
-        wm = self._reader.read_json(self._config.world_model_filename)
+        from modules.world_model import read_state_dict
+
+        wm = read_state_dict(self._reader.root / self._config.world_model_filename)
         if isinstance(wm, dict):
             phase = wm.get(self._config.phase_world_model_key)
             if isinstance(phase, str) and phase.strip():

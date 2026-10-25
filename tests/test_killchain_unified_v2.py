@@ -26,6 +26,7 @@ from modules.killchain import (  # noqa: E402
     PhaseStatus,
     get_killchain,
 )
+from modules.world_model import read_state_dict  # noqa: E402
 
 
 class TestKillChainConfig:
@@ -208,7 +209,7 @@ class TestKillChainAdvancePhase:
             get_world_model(path=path)
             result = KillChain.advance_phase("exploit", world_model_path=path)
             assert result is True
-            raw = json.loads(path.read_text(encoding="utf-8"))
+            raw = read_state_dict(path)
             assert raw["current_phase"] == "exploit"
             assert raw["phase"] == "exploit"
 
@@ -224,7 +225,7 @@ class TestKillChainAdvancePhase:
             get_world_model(path=path)
             KillChain.advance_phase("recon", world_model_path=path)
             KillChain.advance_phase("exploit", world_model_path=path)
-            raw = json.loads(path.read_text(encoding="utf-8"))
+            raw = read_state_dict(path)
             completed = raw.get("completed_phases", [])
             assert "scan" in completed
             assert "enum" in completed

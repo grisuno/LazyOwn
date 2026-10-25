@@ -65,7 +65,7 @@ flowchart LR
 
 ### `PhaseTracker`
 
-`class` | [modules/event_consumers.py:146](../../modules/event_consumers.py#L146)
+`class` | [modules/event_consumers.py:136](../../modules/event_consumers.py#L136)
 
 ```python
 class PhaseTracker
@@ -90,7 +90,7 @@ State machine:
 
 #### `PhaseTracker.__init__`
 
-`constructor` | [modules/event_consumers.py:156](../../modules/event_consumers.py#L156)
+`constructor` | [modules/event_consumers.py:146](../../modules/event_consumers.py#L146)
 
 ```python
 def __init__(self) -> None
@@ -100,7 +100,7 @@ def __init__(self) -> None
 
 #### `PhaseTracker.__call__`
 
-`method` | [modules/event_consumers.py:159](../../modules/event_consumers.py#L159)
+`method` | [modules/event_consumers.py:149](../../modules/event_consumers.py#L149)
 
 ```python
 def __call__(self, event: Any) -> None
@@ -118,7 +118,7 @@ def __call__(self, event: Any) -> None
 
 ### `AutoRecommender`
 
-`class` | [modules/event_consumers.py:201](../../modules/event_consumers.py#L201)
+`class` | [modules/event_consumers.py:191](../../modules/event_consumers.py#L191)
 
 ```python
 class AutoRecommender
@@ -137,7 +137,7 @@ Injects objectives when significant events happen (scan done, vuln found, etc.).
 
 #### `AutoRecommender.__init__`
 
-`constructor` | [modules/event_consumers.py:204](../../modules/event_consumers.py#L204)
+`constructor` | [modules/event_consumers.py:194](../../modules/event_consumers.py#L194)
 
 ```python
 def __init__(self) -> None
@@ -147,7 +147,7 @@ def __init__(self) -> None
 
 #### `AutoRecommender.__call__`
 
-`method` | [modules/event_consumers.py:207](../../modules/event_consumers.py#L207)
+`method` | [modules/event_consumers.py:197](../../modules/event_consumers.py#L197)
 
 ```python
 def __call__(self, event: Any) -> None
@@ -165,7 +165,7 @@ def __call__(self, event: Any) -> None
 
 ### `CredentialReactor`
 
-`class` | [modules/event_consumers.py:272](../../modules/event_consumers.py#L272)
+`class` | [modules/event_consumers.py:262](../../modules/event_consumers.py#L262)
 
 ```python
 class CredentialReactor
@@ -183,7 +183,7 @@ Detects credential patterns in command output and auto-captures them.
 
 #### `CredentialReactor.__call__`
 
-`method` | [modules/event_consumers.py:282](../../modules/event_consumers.py#L282)
+`method` | [modules/event_consumers.py:272](../../modules/event_consumers.py#L272)
 
 ```python
 def __call__(self, event: Any) -> None
@@ -203,7 +203,7 @@ def __call__(self, event: Any) -> None
 
 ### `SoulSync`
 
-`class` | [modules/event_consumers.py:320](../../modules/event_consumers.py#L320)
+`class` | [modules/event_consumers.py:310](../../modules/event_consumers.py#L310)
 
 ```python
 class SoulSync
@@ -221,7 +221,7 @@ Keeps sessions/soul.md in sync with campaign state from events.
 
 #### `SoulSync.__call__`
 
-`method` | [modules/event_consumers.py:323](../../modules/event_consumers.py#L323)
+`method` | [modules/event_consumers.py:313](../../modules/event_consumers.py#L313)
 
 ```python
 def __call__(self, event: Any) -> None
@@ -239,7 +239,7 @@ def __call__(self, event: Any) -> None
 
 ### `DashboardPusher`
 
-`class` | [modules/event_consumers.py:358](../../modules/event_consumers.py#L358)
+`class` | [modules/event_consumers.py:348](../../modules/event_consumers.py#L348)
 
 ```python
 class DashboardPusher
@@ -257,7 +257,7 @@ Refreshes session_state.json and pushes to collab_bus on every event.
 
 #### `DashboardPusher.__call__`
 
-`method` | [modules/event_consumers.py:361](../../modules/event_consumers.py#L361)
+`method` | [modules/event_consumers.py:351](../../modules/event_consumers.py#L351)
 
 ```python
 def __call__(self, event: Any) -> None
@@ -279,7 +279,7 @@ def __call__(self, event: Any) -> None
 
 ### `wire_all_consumers`
 
-`function` | [modules/event_consumers.py:380](../../modules/event_consumers.py#L380)
+`function` | [modules/event_consumers.py:370](../../modules/event_consumers.py#L370)
 
 ```python
 def wire_all_consumers(bus=None) -> int
@@ -303,7 +303,7 @@ Register all event consumers on the UnifiedEventBus.
 
 ### `unwire_all_consumers`
 
-`function` | [modules/event_consumers.py:409](../../modules/event_consumers.py#L409)
+`function` | [modules/event_consumers.py:399](../../modules/event_consumers.py#L399)
 
 ```python
 def unwire_all_consumers(bus=None) -> None

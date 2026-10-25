@@ -36,10 +36,12 @@ flowchart LR
     n_modules_intel_fusion_py__group_colors(["group_colors"])
     n_modules_intel_fusion_py__bundle_settings(["bundle_settings"])
     n_modules_lazy_loop_py__ExplorationGraph_add_edge["lazy_loop.ExplorationGraph.add_edge"]
+    n_modules_world_model_py__read_state_dict["world_model.read_state_dict"]
     n_modules_intel_fusion_py__build_intel_graph --> n_modules_intel_fusion_py__node_id
     n_modules_intel_fusion_py__page_settings --> n_modules_intel_fusion_py__group_colors
     n_modules_intel_fusion_py__bundle_settings --> n_modules_intel_fusion_py__group_colors
     n_modules_intel_fusion_py__build_intel_graph -.-> n_modules_lazy_loop_py__ExplorationGraph_add_edge
+    n_modules_intel_fusion_py__build_intel_graph -.-> n_modules_world_model_py__read_state_dict
 ```
 
 ## Functions
@@ -90,7 +92,7 @@ Fuse all session artefacts into one C2-centred intel graph.
 
 **Returns:** `dict`
 
-*Calls:* [`node_id`](#node_id), [`ExplorationGraph.add_edge`](modules.lazy_loop.py.md#explorationgraph-add_edge)
+*Calls:* [`node_id`](#node_id), [`ExplorationGraph.add_edge`](modules.lazy_loop.py.md#explorationgraph-add_edge), [`read_state_dict`](modules.world_model.py.md#read_state_dict)
 
 *Called by:* [`build_attack_graph`](modules.attack_surface3d.py.md#build_attack_graph), [`apply`](modules.sinks.intel_graph.py.md#apply)
 
@@ -100,7 +102,7 @@ Fuse all session artefacts into one C2-centred intel graph.
 
 ### `group_colors`
 
-`function` | [modules/intel_fusion.py:512](../../modules/intel_fusion.py#L512)
+`function` | [modules/intel_fusion.py:577](../../modules/intel_fusion.py#L577)
 
 ```python
 def group_colors(graph: dict) -> dict
@@ -124,7 +126,7 @@ Stable colors for layer/language groupings (ReadMenator contract).
 
 ### `page_settings`
 
-`function` | [modules/intel_fusion.py:528](../../modules/intel_fusion.py#L528)
+`function` | [modules/intel_fusion.py:593](../../modules/intel_fusion.py#L593)
 
 ```python
 def page_settings(graph: dict | None = None) -> dict
@@ -148,7 +150,7 @@ Explorer page settings with ReadMenator physics sizes (exact values).
 
 ### `build_analytics`
 
-`function` | [modules/intel_fusion.py:585](../../modules/intel_fusion.py#L585)
+`function` | [modules/intel_fusion.py:650](../../modules/intel_fusion.py#L650)
 
 ```python
 def build_analytics(graph: dict, summary: dict | None = None) -> dict
@@ -171,7 +173,7 @@ Side-panel analytics (attribution funnel + intel summary).
 
 ### `build_bundle_payload`
 
-`function` | [modules/intel_fusion.py:659](../../modules/intel_fusion.py#L659)
+`function` | [modules/intel_fusion.py:737](../../modules/intel_fusion.py#L737)
 
 ```python
 def build_bundle_payload(graph: dict) -> dict
@@ -198,7 +200,7 @@ directed file index pairs.
 
 ### `bundle_settings`
 
-`function` | [modules/intel_fusion.py:769](../../modules/intel_fusion.py#L769)
+`function` | [modules/intel_fusion.py:853](../../modules/intel_fusion.py#L853)
 
 ```python
 def bundle_settings(graph: dict | None = None) -> dict
@@ -222,7 +224,7 @@ Bundle page settings with ReadMenator sizes (exact values).
 
 ### `assign_layout`
 
-`function` | [modules/intel_fusion.py:800](../../modules/intel_fusion.py#L800)
+`function` | [modules/intel_fusion.py:884](../../modules/intel_fusion.py#L884)
 
 ```python
 def assign_layout(graph: dict, mode: str = 'force') -> dict
@@ -251,7 +253,7 @@ positions so the client physics (charge -300, distance 120, 400 ticks
 
 ### `write_summary`
 
-`function` | [modules/intel_fusion.py:865](../../modules/intel_fusion.py#L865)
+`function` | [modules/intel_fusion.py:949](../../modules/intel_fusion.py#L949)
 
 ```python
 def write_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict

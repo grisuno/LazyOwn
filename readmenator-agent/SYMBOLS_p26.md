@@ -1,8 +1,220 @@
-# Symbols (page 26 of 44)
+# Symbols (page 26 of 45)
 Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_exfil_auto` | function | `skills/mcp_generated_tools.py:2386` | `def _gen_exfil_auto(arguments, tool_name, _cmd)` |
+| `_gen_exfil_discord` | function | `skills/mcp_generated_tools.py:2394` | `def _gen_exfil_discord(arguments, tool_name, _cmd)` |
+| `_gen_exfil_dns` | function | `skills/mcp_generated_tools.py:2402` | `def _gen_exfil_dns(arguments, tool_name, _cmd)` |
+| `_gen_exfil_gcs` | function | `skills/mcp_generated_tools.py:2410` | `def _gen_exfil_gcs(arguments, tool_name, _cmd)` |
+| `_gen_exfil_http` | function | `skills/mcp_generated_tools.py:2418` | `def _gen_exfil_http(arguments, tool_name, _cmd)` |
+| `_gen_exfil_s3` | function | `skills/mcp_generated_tools.py:2426` | `def _gen_exfil_s3(arguments, tool_name, _cmd)` |
+| `_gen_exfil_start_server` | function | `skills/mcp_generated_tools.py:2434` | `def _gen_exfil_start_server(arguments, tool_name, _cmd)` |
+| `_gen_exfil_telegram` | function | `skills/mcp_generated_tools.py:2442` | `def _gen_exfil_telegram(arguments, tool_name, _cmd)` |
+| `_gen_exit` | function | `skills/mcp_generated_tools.py:2450` | `def _gen_exit(arguments, tool_name, _cmd)` |
+| `_gen_explore` | function | `skills/mcp_generated_tools.py:2458` | `def _gen_explore(arguments, tool_name, _cmd)` |
+| `_gen_extract_ports` | function | `skills/mcp_generated_tools.py:2466` | `def _gen_extract_ports(arguments, tool_name, _cmd)` |
+| `_gen_extract_yaml` | function | `skills/mcp_generated_tools.py:2474` | `def _gen_extract_yaml(arguments, tool_name, _cmd)` |
+| `_gen_eyewitness` | function | `skills/mcp_generated_tools.py:2482` | `def _gen_eyewitness(arguments, tool_name, _cmd)` |
+| `_gen_eyewitness_py` | function | `skills/mcp_generated_tools.py:2490` | `def _gen_eyewitness_py(arguments, tool_name, _cmd)` |
+| `_gen_feroxbuster` | function | `skills/mcp_generated_tools.py:2498` | `def _gen_feroxbuster(arguments, tool_name, _cmd)` |
+| `_gen_filtering` | function | `skills/mcp_generated_tools.py:2506` | `def _gen_filtering(arguments, tool_name, _cmd)` |
+| `_gen_finalrecon` | function | `skills/mcp_generated_tools.py:2514` | `def _gen_finalrecon(arguments, tool_name, _cmd)` |
+| `_gen_find` | function | `skills/mcp_generated_tools.py:2522` | `def _gen_find(arguments, tool_name, _cmd)` |
+| `_gen_finger_user_enum` | function | `skills/mcp_generated_tools.py:2530` | `def _gen_finger_user_enum(arguments, tool_name, _cmd)` |
+| `_gen_fixel` | function | `skills/mcp_generated_tools.py:2538` | `def _gen_fixel(arguments, tool_name, _cmd)` |
+| `_gen_fixperm` | function | `skills/mcp_generated_tools.py:2546` | `def _gen_fixperm(arguments, tool_name, _cmd)` |
+| `_gen_follina` | function | `skills/mcp_generated_tools.py:2554` | `def _gen_follina(arguments, tool_name, _cmd)` |
+| `_gen_form` | function | `skills/mcp_generated_tools.py:2562` | `def _gen_form(arguments, tool_name, _cmd)` |
+| `_gen_ftp` | function | `skills/mcp_generated_tools.py:2570` | `def _gen_ftp(arguments, tool_name, _cmd)` |
+| `_gen_fuzz` | function | `skills/mcp_generated_tools.py:2578` | `def _gen_fuzz(arguments, tool_name, _cmd)` |
+| `_gen_fz` | function | `skills/mcp_generated_tools.py:2586` | `def _gen_fz(arguments, tool_name, _cmd)` |
+| `_gen_gencert` | function | `skills/mcp_generated_tools.py:2594` | `def _gen_gencert(arguments, tool_name, _cmd)` |
+| `_gen_generate` | function | `skills/mcp_generated_tools.py:2602` | `def _gen_generate(arguments, tool_name, _cmd)` |
+| `_gen_generate_playbook` | function | `skills/mcp_generated_tools.py:2610` | `def _gen_generate_playbook(arguments, tool_name, _cmd)` |
+| `_gen_generate_revshell` | function | `skills/mcp_generated_tools.py:2618` | `def _gen_generate_revshell(arguments, tool_name, _cmd)` |
+| `_gen_generatedic` | function | `skills/mcp_generated_tools.py:2626` | `def _gen_generatedic(arguments, tool_name, _cmd)` |
+| `_gen_getTGT` | function | `skills/mcp_generated_tools.py:2634` | `def _gen_getTGT(arguments, tool_name, _cmd)` |
+| `_gen_get_avaible_actions` | function | `skills/mcp_generated_tools.py:2642` | `def _gen_get_avaible_actions(arguments, tool_name, _cmd)` |
+| `_gen_getadusers` | function | `skills/mcp_generated_tools.py:2650` | `def _gen_getadusers(arguments, tool_name, _cmd)` |
+| `_gen_getcap` | function | `skills/mcp_generated_tools.py:2658` | `def _gen_getcap(arguments, tool_name, _cmd)` |
+| `_gen_getnpusers` | function | `skills/mcp_generated_tools.py:2666` | `def _gen_getnpusers(arguments, tool_name, _cmd)` |
+| `_gen_getnthash_py` | function | `skills/mcp_generated_tools.py:2674` | `def _gen_getnthash_py(arguments, tool_name, _cmd)` |
+| `_gen_gets4uticket_py` | function | `skills/mcp_generated_tools.py:2682` | `def _gen_gets4uticket_py(arguments, tool_name, _cmd)` |
+| `_gen_getseclist` | function | `skills/mcp_generated_tools.py:2690` | `def _gen_getseclist(arguments, tool_name, _cmd)` |
+| `_gen_gettgtpkinit_py` | function | `skills/mcp_generated_tools.py:2698` | `def _gen_gettgtpkinit_py(arguments, tool_name, _cmd)` |
+| `_gen_getuserspns` | function | `skills/mcp_generated_tools.py:2706` | `def _gen_getuserspns(arguments, tool_name, _cmd)` |
+| `_gen_gitdumper` | function | `skills/mcp_generated_tools.py:2714` | `def _gen_gitdumper(arguments, tool_name, _cmd)` |
+| `_gen_gitlab_enum` | function | `skills/mcp_generated_tools.py:2722` | `def _gen_gitlab_enum(arguments, tool_name, _cmd)` |
+| `_gen_gmsadumper` | function | `skills/mcp_generated_tools.py:2730` | `def _gen_gmsadumper(arguments, tool_name, _cmd)` |
+| `_gen_gobuster` | function | `skills/mcp_generated_tools.py:2738` | `def _gen_gobuster(arguments, tool_name, _cmd)` |
+| `_gen_god_nodes` | function | `skills/mcp_generated_tools.py:2746` | `def _gen_god_nodes(arguments, tool_name, _cmd)` |
+| `_gen_gospherus` | function | `skills/mcp_generated_tools.py:2754` | `def _gen_gospherus(arguments, tool_name, _cmd)` |
+| `_gen_gospider` | function | `skills/mcp_generated_tools.py:2762` | `def _gen_gospider(arguments, tool_name, _cmd)` |
+| `_gen_gowitness` | function | `skills/mcp_generated_tools.py:2770` | `def _gen_gowitness(arguments, tool_name, _cmd)` |
+| `_gen_gpt` | function | `skills/mcp_generated_tools.py:2778` | `def _gen_gpt(arguments, tool_name, _cmd)` |
+| `_gen_graph` | function | `skills/mcp_generated_tools.py:2786` | `def _gen_graph(arguments, tool_name, _cmd)` |
+| `_gen_graph_overlay` | function | `skills/mcp_generated_tools.py:2794` | `def _gen_graph_overlay(arguments, tool_name, _cmd)` |
+| `_gen_graudit` | function | `skills/mcp_generated_tools.py:2802` | `def _gen_graudit(arguments, tool_name, _cmd)` |
+| `_gen_greatSCT` | function | `skills/mcp_generated_tools.py:2810` | `def _gen_greatSCT(arguments, tool_name, _cmd)` |
+| `_gen_grep_log` | function | `skills/mcp_generated_tools.py:2818` | `def _gen_grep_log(arguments, tool_name, _cmd)` |
+| `_gen_grisun0` | function | `skills/mcp_generated_tools.py:2826` | `def _gen_grisun0(arguments, tool_name, _cmd)` |
+| `_gen_grisun0w` | function | `skills/mcp_generated_tools.py:2834` | `def _gen_grisun0w(arguments, tool_name, _cmd)` |
+| `_gen_groq` | function | `skills/mcp_generated_tools.py:2842` | `def _gen_groq(arguments, tool_name, _cmd)` |
+| `_gen_gtfo` | function | `skills/mcp_generated_tools.py:2850` | `def _gen_gtfo(arguments, tool_name, _cmd)` |
+| `_gen_gym` | function | `skills/mcp_generated_tools.py:2858` | `def _gen_gym(arguments, tool_name, _cmd)` |
+| `_gen_h` | function | `skills/mcp_generated_tools.py:2866` | `def _gen_h(arguments, tool_name, _cmd)` |
+| `_gen_hashcat` | function | `skills/mcp_generated_tools.py:2874` | `def _gen_hashcat(arguments, tool_name, _cmd)` |
+| `_gen_hex2shellcode` | function | `skills/mcp_generated_tools.py:2882` | `def _gen_hex2shellcode(arguments, tool_name, _cmd)` |
+| `_gen_hex_to_plaintext` | function | `skills/mcp_generated_tools.py:2890` | `def _gen_hex_to_plaintext(arguments, tool_name, _cmd)` |
+| `_gen_hooks` | function | `skills/mcp_generated_tools.py:2898` | `def _gen_hooks(arguments, tool_name, _cmd)` |
+| `_gen_hooks_add` | function | `skills/mcp_generated_tools.py:2906` | `def _gen_hooks_add(arguments, tool_name, _cmd)` |
+| `_gen_hooks_enable` | function | `skills/mcp_generated_tools.py:2914` | `def _gen_hooks_enable(arguments, tool_name, _cmd)` |
+| `_gen_hooks_fire` | function | `skills/mcp_generated_tools.py:2922` | `def _gen_hooks_fire(arguments, tool_name, _cmd)` |
+| `_gen_hooks_list` | function | `skills/mcp_generated_tools.py:2930` | `def _gen_hooks_list(arguments, tool_name, _cmd)` |
+| `_gen_hooks_remove` | function | `skills/mcp_generated_tools.py:2938` | `def _gen_hooks_remove(arguments, tool_name, _cmd)` |
+| `_gen_hostdiscover` | function | `skills/mcp_generated_tools.py:2946` | `def _gen_hostdiscover(arguments, tool_name, _cmd)` |
+| `_gen_hound` | function | `skills/mcp_generated_tools.py:2954` | `def _gen_hound(arguments, tool_name, _cmd)` |
+| `_gen_http_exfil_server` | function | `skills/mcp_generated_tools.py:2962` | `def _gen_http_exfil_server(arguments, tool_name, _cmd)` |
+| `_gen_httprobe` | function | `skills/mcp_generated_tools.py:2970` | `def _gen_httprobe(arguments, tool_name, _cmd)` |
+| `_gen_hunt` | function | `skills/mcp_generated_tools.py:2978` | `def _gen_hunt(arguments, tool_name, _cmd)` |
+| `_gen_hydra` | function | `skills/mcp_generated_tools.py:2986` | `def _gen_hydra(arguments, tool_name, _cmd)` |
+| `_gen_id_rsa` | function | `skills/mcp_generated_tools.py:2994` | `def _gen_id_rsa(arguments, tool_name, _cmd)` |
+| `_gen_ignorearp` | function | `skills/mcp_generated_tools.py:3002` | `def _gen_ignorearp(arguments, tool_name, _cmd)` |
+| `_gen_ignoreicmp` | function | `skills/mcp_generated_tools.py:3010` | `def _gen_ignoreicmp(arguments, tool_name, _cmd)` |
+| `_gen_iis_webdav_upload_asp` | function | `skills/mcp_generated_tools.py:3018` | `def _gen_iis_webdav_upload_asp(arguments, tool_name, _cmd)` |
+| `_gen_img2cookie` | function | `skills/mcp_generated_tools.py:3026` | `def _gen_img2cookie(arguments, tool_name, _cmd)` |
+| `_gen_img2vid` | function | `skills/mcp_generated_tools.py:3034` | `def _gen_img2vid(arguments, tool_name, _cmd)` |
+| `_gen_internet_proxy` | function | `skills/mcp_generated_tools.py:3042` | `def _gen_internet_proxy(arguments, tool_name, _cmd)` |
+| `_gen_ip` | function | `skills/mcp_generated_tools.py:3050` | `def _gen_ip(arguments, tool_name, _cmd)` |
+| `_gen_ip2asn` | function | `skills/mcp_generated_tools.py:3058` | `def _gen_ip2asn(arguments, tool_name, _cmd)` |
+| `_gen_ip2hex` | function | `skills/mcp_generated_tools.py:3066` | `def _gen_ip2hex(arguments, tool_name, _cmd)` |
+| `_gen_ipinfo` | function | `skills/mcp_generated_tools.py:3074` | `def _gen_ipinfo(arguments, tool_name, _cmd)` |
+| `_gen_ipp` | function | `skills/mcp_generated_tools.py:3082` | `def _gen_ipp(arguments, tool_name, _cmd)` |
+| `_gen_issue_command_to_c2` | function | `skills/mcp_generated_tools.py:3090` | `def _gen_issue_command_to_c2(arguments, tool_name, _cmd)` |
+| `_gen_ivy` | function | `skills/mcp_generated_tools.py:3098` | `def _gen_ivy(arguments, tool_name, _cmd)` |
+| `_gen_jenkins_enum` | function | `skills/mcp_generated_tools.py:3106` | `def _gen_jenkins_enum(arguments, tool_name, _cmd)` |
+| `_gen_john2hash` | function | `skills/mcp_generated_tools.py:3114` | `def _gen_john2hash(arguments, tool_name, _cmd)` |
+| `_gen_john2keepas` | function | `skills/mcp_generated_tools.py:3122` | `def _gen_john2keepas(arguments, tool_name, _cmd)` |
+| `_gen_john2zip` | function | `skills/mcp_generated_tools.py:3130` | `def _gen_john2zip(arguments, tool_name, _cmd)` |
+| `_gen_jwt_tool` | function | `skills/mcp_generated_tools.py:3138` | `def _gen_jwt_tool(arguments, tool_name, _cmd)` |
+| `_gen_k8s_enum` | function | `skills/mcp_generated_tools.py:3146` | `def _gen_k8s_enum(arguments, tool_name, _cmd)` |
+| `_gen_k8s_pods` | function | `skills/mcp_generated_tools.py:3154` | `def _gen_k8s_pods(arguments, tool_name, _cmd)` |
+| `_gen_k8s_secrets` | function | `skills/mcp_generated_tools.py:3162` | `def _gen_k8s_secrets(arguments, tool_name, _cmd)` |
+| `_gen_karma` | function | `skills/mcp_generated_tools.py:3170` | `def _gen_karma(arguments, tool_name, _cmd)` |
+| `_gen_keepass` | function | `skills/mcp_generated_tools.py:3178` | `def _gen_keepass(arguments, tool_name, _cmd)` |
+| `_gen_kerbrute` | function | `skills/mcp_generated_tools.py:3186` | `def _gen_kerbrute(arguments, tool_name, _cmd)` |
+| `_gen_kick` | function | `skills/mcp_generated_tools.py:3194` | `def _gen_kick(arguments, tool_name, _cmd)` |
+| `_gen_knokknok` | function | `skills/mcp_generated_tools.py:3202` | `def _gen_knokknok(arguments, tool_name, _cmd)` |
+| `_gen_krbrelayx_py` | function | `skills/mcp_generated_tools.py:3210` | `def _gen_krbrelayx_py(arguments, tool_name, _cmd)` |
+| `_gen_kusa` | function | `skills/mcp_generated_tools.py:3218` | `def _gen_kusa(arguments, tool_name, _cmd)` |
+| `_gen_l00t` | function | `skills/mcp_generated_tools.py:3226` | `def _gen_l00t(arguments, tool_name, _cmd)` |
+| `_gen_lab` | function | `skills/mcp_generated_tools.py:3234` | `def _gen_lab(arguments, tool_name, _cmd)` |
+| `_gen_lateral_mov_lin` | function | `skills/mcp_generated_tools.py:3242` | `def _gen_lateral_mov_lin(arguments, tool_name, _cmd)` |
+| `_gen_launchpad` | function | `skills/mcp_generated_tools.py:3250` | `def _gen_launchpad(arguments, tool_name, _cmd)` |
+| `_gen_lazy_payload_keys` | function | `skills/mcp_generated_tools.py:3258` | `def _gen_lazy_payload_keys(arguments, tool_name, _cmd)` |
+| `_gen_lazy_runtime` | function | `skills/mcp_generated_tools.py:3266` | `def _gen_lazy_runtime(arguments, tool_name, _cmd)` |
+| `_gen_lazynmap` | function | `skills/mcp_generated_tools.py:3274` | `def _gen_lazynmap(arguments, tool_name, _cmd)` |
+| `_gen_lazypwn` | function | `skills/mcp_generated_tools.py:3282` | `def _gen_lazypwn(arguments, tool_name, _cmd)` |
+| `_gen_lazyreport` | function | `skills/mcp_generated_tools.py:3290` | `def _gen_lazyreport(arguments, tool_name, _cmd)` |
+| `_gen_lazyscript` | function | `skills/mcp_generated_tools.py:3298` | `def _gen_lazyscript(arguments, tool_name, _cmd)` |
+| `_gen_lazywebshell` | function | `skills/mcp_generated_tools.py:3306` | `def _gen_lazywebshell(arguments, tool_name, _cmd)` |
+| `_gen_ldapdomaindump` | function | `skills/mcp_generated_tools.py:3314` | `def _gen_ldapdomaindump(arguments, tool_name, _cmd)` |
+| `_gen_ldapsearch` | function | `skills/mcp_generated_tools.py:3322` | `def _gen_ldapsearch(arguments, tool_name, _cmd)` |
+| `_gen_les` | function | `skills/mcp_generated_tools.py:3330` | `def _gen_les(arguments, tool_name, _cmd)` |
+| `_gen_lfi` | function | `skills/mcp_generated_tools.py:3338` | `def _gen_lfi(arguments, tool_name, _cmd)` |
+| `_gen_ligolo` | function | `skills/mcp_generated_tools.py:3346` | `def _gen_ligolo(arguments, tool_name, _cmd)` |
+| `_gen_links` | function | `skills/mcp_generated_tools.py:3354` | `def _gen_links(arguments, tool_name, _cmd)` |
+| `_gen_linpeas` | function | `skills/mcp_generated_tools.py:3362` | `def _gen_linpeas(arguments, tool_name, _cmd)` |
+| `_gen_list` | function | `skills/mcp_generated_tools.py:3370` | `def _gen_list(arguments, tool_name, _cmd)` |
+| `_gen_listaliases` | function | `skills/mcp_generated_tools.py:3378` | `def _gen_listaliases(arguments, tool_name, _cmd)` |
+| `_gen_listener` | function | `skills/mcp_generated_tools.py:3386` | `def _gen_listener(arguments, tool_name, _cmd)` |
+| `_gen_listener_go` | function | `skills/mcp_generated_tools.py:3394` | `def _gen_listener_go(arguments, tool_name, _cmd)` |
+| `_gen_listener_py` | function | `skills/mcp_generated_tools.py:3402` | `def _gen_listener_py(arguments, tool_name, _cmd)` |
+| `_gen_llm_budget` | function | `skills/mcp_generated_tools.py:3410` | `def _gen_llm_budget(arguments, tool_name, _cmd)` |
+| `_gen_load_session` | function | `skills/mcp_generated_tools.py:3418` | `def _gen_load_session(arguments, tool_name, _cmd)` |
+| `_gen_lock_target` | function | `skills/mcp_generated_tools.py:3426` | `def _gen_lock_target(arguments, tool_name, _cmd)` |
+| `_gen_login` | function | `skills/mcp_generated_tools.py:3434` | `def _gen_login(arguments, tool_name, _cmd)` |
+| `_gen_logout` | function | `skills/mcp_generated_tools.py:3442` | `def _gen_logout(arguments, tool_name, _cmd)` |
+| `_gen_lol` | function | `skills/mcp_generated_tools.py:3450` | `def _gen_lol(arguments, tool_name, _cmd)` |
+| `_gen_lookupsid` | function | `skills/mcp_generated_tools.py:3458` | `def _gen_lookupsid(arguments, tool_name, _cmd)` |
+| `_gen_lookupsid_py` | function | `skills/mcp_generated_tools.py:3466` | `def _gen_lookupsid_py(arguments, tool_name, _cmd)` |
+| `_gen_loot` | function | `skills/mcp_generated_tools.py:3474` | `def _gen_loot(arguments, tool_name, _cmd)` |
+| `_gen_loxs` | function | `skills/mcp_generated_tools.py:3482` | `def _gen_loxs(arguments, tool_name, _cmd)` |
+| `_gen_lynis` | function | `skills/mcp_generated_tools.py:3490` | `def _gen_lynis(arguments, tool_name, _cmd)` |
+| `_gen_macos_keychain` | function | `skills/mcp_generated_tools.py:3498` | `def _gen_macos_keychain(arguments, tool_name, _cmd)` |
+| `_gen_macos_persist` | function | `skills/mcp_generated_tools.py:3506` | `def _gen_macos_persist(arguments, tool_name, _cmd)` |
+| `_gen_macos_tcc` | function | `skills/mcp_generated_tools.py:3514` | `def _gen_macos_tcc(arguments, tool_name, _cmd)` |
+| `_gen_magicrecon` | function | `skills/mcp_generated_tools.py:3522` | `def _gen_magicrecon(arguments, tool_name, _cmd)` |
+| `_gen_makerc` | function | `skills/mcp_generated_tools.py:3530` | `def _gen_makerc(arguments, tool_name, _cmd)` |
+| `_gen_malwarebazar` | function | `skills/mcp_generated_tools.py:3538` | `def _gen_malwarebazar(arguments, tool_name, _cmd)` |
+| `_gen_marketplace` | function | `skills/mcp_generated_tools.py:3546` | `def _gen_marketplace(arguments, tool_name, _cmd)` |
+| `_gen_marketplace_config` | function | `skills/mcp_generated_tools.py:3554` | `def _gen_marketplace_config(arguments, tool_name, _cmd)` |
+| `_gen_medusa` | function | `skills/mcp_generated_tools.py:3562` | `def _gen_medusa(arguments, tool_name, _cmd)` |
+| `_gen_metabigor` | function | `skills/mcp_generated_tools.py:3570` | `def _gen_metabigor(arguments, tool_name, _cmd)` |
+| `_gen_mfa_bypass` | function | `skills/mcp_generated_tools.py:3578` | `def _gen_mfa_bypass(arguments, tool_name, _cmd)` |
+| `_gen_mimikatzpy` | function | `skills/mcp_generated_tools.py:3586` | `def _gen_mimikatzpy(arguments, tool_name, _cmd)` |
+| `_gen_mitre_test` | function | `skills/mcp_generated_tools.py:3594` | `def _gen_mitre_test(arguments, tool_name, _cmd)` |
+| `_gen_mkrc` | function | `skills/mcp_generated_tools.py:3602` | `def _gen_mkrc(arguments, tool_name, _cmd)` |
+| `_gen_morse` | function | `skills/mcp_generated_tools.py:3610` | `def _gen_morse(arguments, tool_name, _cmd)` |
+| `_gen_mqtt_check_py` | function | `skills/mcp_generated_tools.py:3618` | `def _gen_mqtt_check_py(arguments, tool_name, _cmd)` |
+| `_gen_ms08_067_netapi` | function | `skills/mcp_generated_tools.py:3626` | `def _gen_ms08_067_netapi(arguments, tool_name, _cmd)` |
+| `_gen_msf` | function | `skills/mcp_generated_tools.py:3634` | `def _gen_msf(arguments, tool_name, _cmd)` |
+| `_gen_msfpc` | function | `skills/mcp_generated_tools.py:3642` | `def _gen_msfpc(arguments, tool_name, _cmd)` |
+| `_gen_msfrpc` | function | `skills/mcp_generated_tools.py:3650` | `def _gen_msfrpc(arguments, tool_name, _cmd)` |
+| `_gen_msfshellcoder` | function | `skills/mcp_generated_tools.py:3658` | `def _gen_msfshellcoder(arguments, tool_name, _cmd)` |
+| `_gen_mssqlcli` | function | `skills/mcp_generated_tools.py:3666` | `def _gen_mssqlcli(arguments, tool_name, _cmd)` |
+| `_gen_mutate_shellcode` | function | `skills/mcp_generated_tools.py:3674` | `def _gen_mutate_shellcode(arguments, tool_name, _cmd)` |
+| `_gen_my_playbook` | function | `skills/mcp_generated_tools.py:3682` | `def _gen_my_playbook(arguments, tool_name, _cmd)` |
+| `_gen_name_the_hash` | function | `skills/mcp_generated_tools.py:3690` | `def _gen_name_the_hash(arguments, tool_name, _cmd)` |
+| `_gen_nano` | function | `skills/mcp_generated_tools.py:3698` | `def _gen_nano(arguments, tool_name, _cmd)` |
+| `_gen_nbtscan` | function | `skills/mcp_generated_tools.py:3706` | `def _gen_nbtscan(arguments, tool_name, _cmd)` |
+| `_gen_nc` | function | `skills/mcp_generated_tools.py:3714` | `def _gen_nc(arguments, tool_name, _cmd)` |
+| `_gen_neighbors` | function | `skills/mcp_generated_tools.py:3722` | `def _gen_neighbors(arguments, tool_name, _cmd)` |
+| `_gen_net_rpc_addmem` | function | `skills/mcp_generated_tools.py:3730` | `def _gen_net_rpc_addmem(arguments, tool_name, _cmd)` |
+| `_gen_netexec` | function | `skills/mcp_generated_tools.py:3738` | `def _gen_netexec(arguments, tool_name, _cmd)` |
+| `_gen_netview` | function | `skills/mcp_generated_tools.py:3746` | `def _gen_netview(arguments, tool_name, _cmd)` |
+| `_gen_news` | function | `skills/mcp_generated_tools.py:3754` | `def _gen_news(arguments, tool_name, _cmd)` |
+| `_gen_next` | function | `skills/mcp_generated_tools.py:3762` | `def _gen_next(arguments, tool_name, _cmd)` |
+| `_gen_ngrok` | function | `skills/mcp_generated_tools.py:3770` | `def _gen_ngrok(arguments, tool_name, _cmd)` |
+| `_gen_nikto` | function | `skills/mcp_generated_tools.py:3778` | `def _gen_nikto(arguments, tool_name, _cmd)` |
+| `_gen_nmapscript` | function | `skills/mcp_generated_tools.py:3786` | `def _gen_nmapscript(arguments, tool_name, _cmd)` |
+| `_gen_nmapscripthelp` | function | `skills/mcp_generated_tools.py:3794` | `def _gen_nmapscripthelp(arguments, tool_name, _cmd)` |
+| `_gen_note` | function | `skills/mcp_generated_tools.py:3802` | `def _gen_note(arguments, tool_name, _cmd)` |
+| `_gen_notify` | function | `skills/mcp_generated_tools.py:3810` | `def _gen_notify(arguments, tool_name, _cmd)` |
+| `_gen_ntpdate` | function | `skills/mcp_generated_tools.py:3818` | `def _gen_ntpdate(arguments, tool_name, _cmd)` |
+| `_gen_nuclei` | function | `skills/mcp_generated_tools.py:3826` | `def _gen_nuclei(arguments, tool_name, _cmd)` |
+| `_gen_odat` | function | `skills/mcp_generated_tools.py:3834` | `def _gen_odat(arguments, tool_name, _cmd)` |
+| `_gen_ofuscate_string` | function | `skills/mcp_generated_tools.py:3842` | `def _gen_ofuscate_string(arguments, tool_name, _cmd)` |
+| `_gen_ofuscatesh` | function | `skills/mcp_generated_tools.py:3850` | `def _gen_ofuscatesh(arguments, tool_name, _cmd)` |
+| `_gen_ofuscatorps1` | function | `skills/mcp_generated_tools.py:3858` | `def _gen_ofuscatorps1(arguments, tool_name, _cmd)` |
+| `_gen_op_create` | function | `skills/mcp_generated_tools.py:3866` | `def _gen_op_create(arguments, tool_name, _cmd)` |
+| `_gen_op_list` | function | `skills/mcp_generated_tools.py:3874` | `def _gen_op_list(arguments, tool_name, _cmd)` |
+| `_gen_op_pause` | function | `skills/mcp_generated_tools.py:3882` | `def _gen_op_pause(arguments, tool_name, _cmd)` |
+| `_gen_op_plan` | function | `skills/mcp_generated_tools.py:3890` | `def _gen_op_plan(arguments, tool_name, _cmd)` |
+| `_gen_op_report` | function | `skills/mcp_generated_tools.py:3898` | `def _gen_op_report(arguments, tool_name, _cmd)` |
+| `_gen_op_resume` | function | `skills/mcp_generated_tools.py:3906` | `def _gen_op_resume(arguments, tool_name, _cmd)` |
+| `_gen_op_start` | function | `skills/mcp_generated_tools.py:3914` | `def _gen_op_start(arguments, tool_name, _cmd)` |
+| `_gen_op_status` | function | `skills/mcp_generated_tools.py:3922` | `def _gen_op_status(arguments, tool_name, _cmd)` |
+| `_gen_op_stop` | function | `skills/mcp_generated_tools.py:3930` | `def _gen_op_stop(arguments, tool_name, _cmd)` |
+| `_gen_op_timeline` | function | `skills/mcp_generated_tools.py:3938` | `def _gen_op_timeline(arguments, tool_name, _cmd)` |
+| `_gen_openredirex` | function | `skills/mcp_generated_tools.py:3946` | `def _gen_openredirex(arguments, tool_name, _cmd)` |
+| `_gen_openssl_sclient` | function | `skills/mcp_generated_tools.py:3954` | `def _gen_openssl_sclient(arguments, tool_name, _cmd)` |
+| `_gen_operator_create` | function | `skills/mcp_generated_tools.py:3962` | `def _gen_operator_create(arguments, tool_name, _cmd)` |
+| `_gen_operator_delete` | function | `skills/mcp_generated_tools.py:3970` | `def _gen_operator_delete(arguments, tool_name, _cmd)` |
+| `_gen_operator_load` | function | `skills/mcp_generated_tools.py:3978` | `def _gen_operator_load(arguments, tool_name, _cmd)` |
+| `_gen_operators` | function | `skills/mcp_generated_tools.py:3986` | `def _gen_operators(arguments, tool_name, _cmd)` |
+| `_gen_opsec` | function | `skills/mcp_generated_tools.py:3994` | `def _gen_opsec(arguments, tool_name, _cmd)` |
+| `_gen_orchestrate` | function | `skills/mcp_generated_tools.py:4002` | `def _gen_orchestrate(arguments, tool_name, _cmd)` |
+| `_gen_osmedeus` | function | `skills/mcp_generated_tools.py:4010` | `def _gen_osmedeus(arguments, tool_name, _cmd)` |
+| `_gen_owneredit` | function | `skills/mcp_generated_tools.py:4018` | `def _gen_owneredit(arguments, tool_name, _cmd)` |
+| `_gen_package_squat` | function | `skills/mcp_generated_tools.py:4026` | `def _gen_package_squat(arguments, tool_name, _cmd)` |
+| `_gen_padbuster` | function | `skills/mcp_generated_tools.py:4034` | `def _gen_padbuster(arguments, tool_name, _cmd)` |
+| `_gen_palette_k` | function | `skills/mcp_generated_tools.py:4042` | `def _gen_palette_k(arguments, tool_name, _cmd)` |
+| `_gen_paranoid_meterpreter` | function | `skills/mcp_generated_tools.py:4050` | `def _gen_paranoid_meterpreter(arguments, tool_name, _cmd)` |
+| `_gen_parsero` | function | `skills/mcp_generated_tools.py:4058` | `def _gen_parsero(arguments, tool_name, _cmd)` |
+| `_gen_parth` | function | `skills/mcp_generated_tools.py:4066` | `def _gen_parth(arguments, tool_name, _cmd)` |
+| `_gen_passtightvnc` | function | `skills/mcp_generated_tools.py:4074` | `def _gen_passtightvnc(arguments, tool_name, _cmd)` |
 | `_gen_passwordspray` | function | `skills/mcp_generated_tools.py:4082` | `def _gen_passwordspray(arguments, tool_name, _cmd)` |
 | `_gen_path2hex` | function | `skills/mcp_generated_tools.py:4090` | `def _gen_path2hex(arguments, tool_name, _cmd)` |
 | `_gen_payload` | function | `skills/mcp_generated_tools.py:4098` | `def _gen_payload(arguments, tool_name, _cmd)` |
@@ -284,217 +496,5 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `_load_payload_key` | method | `skills/swan_agent.py:452` | `def _load_payload_key()` |
 | `_next_task_type` | method | `skills/swan_agent.py:893` | `def _next_task_type(task_type)` |
 | `_parallel_execute` | method | `skills/swan_agent.py:778` | `def _parallel_execute(self, experts, goal, task_type, timeout)` |
-| `_post_execution_update` | method | `skills/swan_agent.py:827` | `def _post_execution_update(self, expert_id, task_type, reward, detection_prob, state_key, next_state, candidate_ids...` |
-| `_store_to_hive` | method | `skills/swan_agent.py:860` | `def _store_to_hive(self, result, reward, detection_prob)` |
-| `_tools_for_task` | method | `skills/swan_agent.py:417` | `def _tools_for_task(task_type)` |
-| `aggregate` | method | `skills/swan_agent.py:209` | `def aggregate(self, task_type, goal, votes)` |
-| `aggregate` | method | `skills/swan_agent.py:264` | `def aggregate(self, task_type, goal, votes)` |
-| `ensemble_run` | method | `skills/swan_agent.py:236` | `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` |
-| `ensemble_run` | method | `skills/swan_agent.py:680` | `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` |
-| `evaluate` | method | `skills/swan_agent.py:479` | `def evaluate(self, result, task_type)` |
-| `execute` | method | `skills/swan_agent.py:351` | `def execute(self, expert_id, backend, model, goal, task_type, timeout, api_key)` |
-| `get_swan` | function | `skills/swan_agent.py:1039` | `def get_swan(api_key)` |
-| `is_success` | method | `skills/swan_agent.py:167` | `def is_success(self)` |
-| `mcp_swan_ensemble` | function | `skills/swan_agent.py:968` | `def mcp_swan_ensemble(task_type, goal, n_experts, phase)` |
-| `mcp_swan_route` | function | `skills/swan_agent.py:1003` | `def mcp_swan_route(task_type, goal)` |
-| `mcp_swan_run` | function | `skills/swan_agent.py:945` | `def mcp_swan_run(task_type, goal, phase)` |
-| `mcp_swan_status` | function | `skills/swan_agent.py:996` | `def mcp_swan_status()` |
-| `run` | method | `skills/swan_agent.py:226` | `def run(self, task_type, goal, engagement_phase, timeout)` |
-| `run` | method | `skills/swan_agent.py:592` | `def run(self, task_type, goal, engagement_phase, timeout)` |
-| `status` | method | `skills/swan_agent.py:763` | `def status(self)` |
-| `CapturingSelector` | class | `skills/tests/test_autonomous_daemon.py:343` | `class CapturingSelector(ICommandSelector)` |
-| `TestCascadeStrategy` | class | `skills/tests/test_autonomous_daemon.py:296` | `class TestCascadeStrategy` |
-| `TestCommandRunnerChain` | class | `skills/tests/test_autonomous_daemon.py:134` | `class TestCommandRunnerChain` |
-| `TestEmitEvent` | class | `skills/tests/test_autonomous_daemon.py:486` | `class TestEmitEvent` |
-| `TestFallbackSelector` | class | `skills/tests/test_autonomous_daemon.py:205` | `class TestFallbackSelector` |
-| `TestInjectToTasksJson` | class | `skills/tests/test_autonomous_daemon.py:360` | `class TestInjectToTasksJson` |
-| `TestMCPAutonomousInject` | class | `skills/tests/test_autonomous_daemon.py:537` | `class TestMCPAutonomousInject` |
-| `TestMCPAutonomousStatus` | class | `skills/tests/test_autonomous_daemon.py:610` | `class TestMCPAutonomousStatus` |
-| `TestMCPCommandRunner` | class | `skills/tests/test_autonomous_daemon.py:88` | `class TestMCPCommandRunner` |
-| `TestObjectiveLoopUnit` | class | `skills/tests/test_autonomous_daemon.py:666` | `class TestObjectiveLoopUnit` |
-| `TestPTYCommandRunner` | class | `skills/tests/test_autonomous_daemon.py:59` | `class TestPTYCommandRunner` |
-| `TestParquetSelector` | class | `skills/tests/test_autonomous_daemon.py:248` | `class TestParquetSelector` |
-| `TestUpdateTaskStatus` | class | `skills/tests/test_autonomous_daemon.py:437` | `class TestUpdateTaskStatus` |
-| `_R` | class | `skills/tests/test_autonomous_daemon.py:140` | `class _R(ICommandRunner)` |
-| `_S` | class | `skills/tests/test_autonomous_daemon.py:303` | `class _S(ICommandSelector)` |
-| `_failing_run_async` | function | `skills/tests/test_autonomous_daemon.py:784` | `def _failing_run_async(objective_id, objective_text, target)` |
-| `_fake_run_async` | function | `skills/tests/test_autonomous_daemon.py:721` | `def _fake_run_async(objective_id, objective_text, target)` |
-| `_make_mock_objective` | method | `skills/tests/test_autonomous_daemon.py:683` | `def _make_mock_objective(self)` |
-| `_make_mock_store` | method | `skills/tests/test_autonomous_daemon.py:550` | `def _make_mock_store(self)` |
-| `_make_runner` | method | `skills/tests/test_autonomous_daemon.py:137` | `def _make_runner(self, name, result, raises)` |
-| `_make_selector` | method | `skills/tests/test_autonomous_daemon.py:299` | `def _make_selector(self, returns)` |
-| `_next_pending` | function | `skills/tests/test_autonomous_daemon.py:706` | `def _next_pending()` |
-| `_next_pending` | function | `skills/tests/test_autonomous_daemon.py:772` | `def _next_pending()` |
-| `_patch_paths` | function | `skills/tests/test_autonomous_daemon.py:32` | `def _patch_paths(tmp_path)` |
-| `_run_loop` | function | `skills/tests/test_autonomous_daemon.py:745` | `def _run_loop()` |
-| `_run_loop` | function | `skills/tests/test_autonomous_daemon.py:807` | `def _run_loop()` |
-| `_run_loop` | function | `skills/tests/test_autonomous_daemon.py:831` | `def _run_loop()` |
-| `_stop_patchers` | function | `skills/tests/test_autonomous_daemon.py:49` | `def _stop_patchers(patchers)` |
-| `_write_tasks` | method | `skills/tests/test_autonomous_daemon.py:450` | `def _write_tasks(self, tasks)` |
-| `name` | method | `skills/tests/test_autonomous_daemon.py:142` | `def name(self)` |
-| `run` | method | `skills/tests/test_autonomous_daemon.py:145` | `def run(self, command, timeout)` |
-| `select` | method | `skills/tests/test_autonomous_daemon.py:304` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/tests/test_autonomous_daemon.py:344` | `def select(self, target, phase, context)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:363` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:440` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:489` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:540` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:613` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:673` | `def setup_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:369` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:446` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:495` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:546` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:619` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:679` | `def teardown_method(self)` |
-| `test_always_returns_decision` | method | `skills/tests/test_autonomous_daemon.py:208` | `def test_always_returns_decision(self)` |
-| `test_appends_new_task` | method | `skills/tests/test_autonomous_daemon.py:382` | `def test_appends_new_task(self)` |
-| `test_block_called_on_execution_failure` | method | `skills/tests/test_autonomous_daemon.py:760` | `def test_block_called_on_execution_failure(self)` |
-| `test_complete_called_after_successful_execution` | method | `skills/tests/test_autonomous_daemon.py:692` | `def test_complete_called_after_successful_execution(self)` |
-| `test_contains_expected_fields` | method | `skills/tests/test_autonomous_daemon.py:631` | `def test_contains_expected_fields(self)` |
-| `test_correct_schema` | method | `skills/tests/test_autonomous_daemon.py:394` | `def test_correct_schema(self)` |
-| `test_creates_file_if_missing` | method | `skills/tests/test_autonomous_daemon.py:373` | `def test_creates_file_if_missing(self)` |
-| `test_delegates_to_mcp_when_available` | method | `skills/tests/test_autonomous_daemon.py:114` | `def test_delegates_to_mcp_when_available(self)` |
-| `test_event_has_required_fields` | method | `skills/tests/test_autonomous_daemon.py:511` | `def test_event_has_required_fields(self)` |
-| `test_falls_back_to_second_on_exception` | method | `skills/tests/test_autonomous_daemon.py:162` | `def test_falls_back_to_second_on_exception(self)` |
-| `test_handles_existing_invalid_json` | method | `skills/tests/test_autonomous_daemon.py:421` | `def test_handles_existing_invalid_json(self)` |
-| `test_ignores_missing_title` | method | `skills/tests/test_autonomous_daemon.py:465` | `def test_ignores_missing_title(self)` |
-| `test_implements_icommand_runner` | method | `skills/tests/test_autonomous_daemon.py:76` | `def test_implements_icommand_runner(self)` |
-| `test_injects_to_objective_store_and_tasks_json` | method | `skills/tests/test_autonomous_daemon.py:562` | `def test_injects_to_objective_store_and_tasks_json(self)` |
-| `test_instantiation` | method | `skills/tests/test_autonomous_daemon.py:62` | `def test_instantiation(self)` |
-| `test_instantiation` | method | `skills/tests/test_autonomous_daemon.py:91` | `def test_instantiation(self)` |
-| `test_loop_disabled_when_objective_store_missing` | method | `skills/tests/test_autonomous_daemon.py:821` | `def test_loop_disabled_when_objective_store_missing(self)` |
-| `test_merges_status_file_when_present` | method | `skills/tests/test_autonomous_daemon.py:650` | `def test_merges_status_file_when_present(self)` |
-| `test_multiple_emits_append_lines` | method | `skills/tests/test_autonomous_daemon.py:521` | `def test_multiple_emits_append_lines(self)` |
-| `test_name_property` | method | `skills/tests/test_autonomous_daemon.py:69` | `def test_name_property(self)` |
-| `test_name_property` | method | `skills/tests/test_autonomous_daemon.py:98` | `def test_name_property(self)` |
-| `test_name_reflects_all_runners` | method | `skills/tests/test_autonomous_daemon.py:182` | `def test_name_reflects_all_runners(self)` |
-| `test_passes_context_to_selectors` | method | `skills/tests/test_autonomous_daemon.py:337` | `def test_passes_context_to_selectors(self)` |
-| `test_raises_when_all_fail` | method | `skills/tests/test_autonomous_daemon.py:172` | `def test_raises_when_all_fail(self)` |
-| `test_raises_when_import_fails` | method | `skills/tests/test_autonomous_daemon.py:105` | `def test_raises_when_import_fails(self)` |
-| `test_requires_at_least_one_runner` | method | `skills/tests/test_autonomous_daemon.py:192` | `def test_requires_at_least_one_runner(self)` |
-| `test_respects_fail_counts` | method | `skills/tests/test_autonomous_daemon.py:275` | `def test_respects_fail_counts(self)` |
-| `test_returns_assigned_id` | method | `skills/tests/test_autonomous_daemon.py:412` | `def test_returns_assigned_id(self)` |
-| `test_returns_candidate_when_pdb_has_history` | method | `skills/tests/test_autonomous_daemon.py:259` | `def test_returns_candidate_when_pdb_has_history(self)` |
-| `test_returns_command_decision_type` | method | `skills/tests/test_autonomous_daemon.py:216` | `def test_returns_command_decision_type(self)` |
-| `test_returns_error_string_when_store_unavailable` | method | `skills/tests/test_autonomous_daemon.py:596` | `def test_returns_error_string_when_store_unavailable(self)` |
-| `test_returns_false_when_file_missing` | method | `skills/tests/test_autonomous_daemon.py:473` | `def test_returns_false_when_file_missing(self)` |
-| `test_returns_first_non_none_result` | method | `skills/tests/test_autonomous_daemon.py:309` | `def test_returns_first_non_none_result(self)` |
-| `test_returns_json_with_both_ids` | method | `skills/tests/test_autonomous_daemon.py:581` | `def test_returns_json_with_both_ids(self)` |
-| `test_returns_none_when_pdb_unavailable` | method | `skills/tests/test_autonomous_daemon.py:251` | `def test_returns_none_when_pdb_unavailable(self)` |
-| `test_returns_valid_json` | method | `skills/tests/test_autonomous_daemon.py:623` | `def test_returns_valid_json(self)` |
-| `test_running_is_false_when_no_daemon` | method | `skills/tests/test_autonomous_daemon.py:641` | `def test_running_is_false_when_no_daemon(self)` |
-| `test_source_is_fallback` | method | `skills/tests/test_autonomous_daemon.py:225` | `def test_source_is_fallback(self)` |
-| `test_unknown_phase_returns_decision` | method | `skills/tests/test_autonomous_daemon.py:233` | `def test_unknown_phase_returns_decision(self)` |
-| `test_updates_existing_task` | method | `skills/tests/test_autonomous_daemon.py:455` | `def test_updates_existing_task(self)` |
-| `test_uses_fallback_when_all_none` | method | `skills/tests/test_autonomous_daemon.py:325` | `def test_uses_fallback_when_all_none(self)` |
-| `test_uses_first_runner_when_successful` | method | `skills/tests/test_autonomous_daemon.py:152` | `def test_uses_first_runner_when_successful(self)` |
-| `test_writes_valid_json_line` | method | `skills/tests/test_autonomous_daemon.py:499` | `def test_writes_valid_json_line(self)` |
-| `TestCrackMapExecParser` | class | `skills/tests/test_facts.py:61` | `class TestCrackMapExecParser` |
-| `TestEnum4linuxParser` | class | `skills/tests/test_facts.py:81` | `class TestEnum4linuxParser` |
-| `TestFactStore` | class | `skills/tests/test_facts.py:300` | `class TestFactStore` |
-| `TestGobusterParser` | class | `skills/tests/test_facts.py:149` | `class TestGobusterParser` |
-| `TestKerbruteParser` | class | `skills/tests/test_facts.py:119` | `class TestKerbruteParser` |
-| `TestNiktoParser` | class | `skills/tests/test_facts.py:176` | `class TestNiktoParser` |
-| `TestNmapXmlParser` | class | `skills/tests/test_facts.py:246` | `class TestNmapXmlParser` |
-| `TestNucleiParser` | class | `skills/tests/test_facts.py:196` | `class TestNucleiParser` |
-| `TestRpcclientParser` | class | `skills/tests/test_facts.py:138` | `class TestRpcclientParser` |
-| `TestSecretsdumpParser` | class | `skills/tests/test_facts.py:105` | `class TestSecretsdumpParser` |
-| `TestSslscanParser` | class | `skills/tests/test_facts.py:218` | `class TestSslscanParser` |
-| `_make_config` | function | `skills/tests/test_facts.py:42` | `def _make_config(tmp_path)` |
-| `test_context_for_command` | method | `skills/tests/test_facts.py:322` | `def test_context_for_command(self, tmp_path)` |
-| `test_context_for_unknown_host` | method | `skills/tests/test_facts.py:356` | `def test_context_for_unknown_host(self, tmp_path)` |
-| `test_crackmapexec_parser` | method | `skills/tests/test_facts.py:62` | `def test_crackmapexec_parser(self)` |
-| `test_crackmapexec_pwned` | method | `skills/tests/test_facts.py:73` | `def test_crackmapexec_pwned(self)` |
-| `test_dedup_creds` | method | `skills/tests/test_facts.py:429` | `def test_dedup_creds(self, tmp_path)` |
-| `test_enum4linux_access_when_results` | method | `skills/tests/test_facts.py:97` | `def test_enum4linux_access_when_results(self)` |
-| `test_enum4linux_parser` | method | `skills/tests/test_facts.py:82` | `def test_enum4linux_parser(self)` |
-| `test_factstore_dedup` | method | `skills/tests/test_facts.py:301` | `def test_factstore_dedup(self, tmp_path)` |
-| `test_factstore_save_and_reload` | method | `skills/tests/test_facts.py:363` | `def test_factstore_save_and_reload(self, tmp_path)` |
-| `test_gobuster_multiple_paths` | method | `skills/tests/test_facts.py:162` | `def test_gobuster_multiple_paths(self)` |
-| `test_gobuster_parser_parse_extended` | method | `skills/tests/test_facts.py:150` | `def test_gobuster_parser_parse_extended(self)` |
-| `test_ingest_text_crackmapexec` | method | `skills/tests/test_facts.py:416` | `def test_ingest_text_crackmapexec(self, tmp_path)` |
-| `test_ingest_xml` | method | `skills/tests/test_facts.py:390` | `def test_ingest_xml(self, tmp_path)` |
-| `test_kerbrute_multiple_users` | method | `skills/tests/test_facts.py:129` | `def test_kerbrute_multiple_users(self)` |
-| `test_kerbrute_parser` | method | `skills/tests/test_facts.py:120` | `def test_kerbrute_parser(self)` |
-| `test_nikto_cve_line` | method | `skills/tests/test_facts.py:189` | `def test_nikto_cve_line(self)` |
-| `test_nikto_parser_parse_extended` | method | `skills/tests/test_facts.py:177` | `def test_nikto_parser_parse_extended(self)` |
-| `test_nmap_xml_parse` | method | `skills/tests/test_facts.py:270` | `def test_nmap_xml_parse(self, tmp_path)` |
-| `test_nmap_xml_parse_invalid` | method | `skills/tests/test_facts.py:286` | `def test_nmap_xml_parse_invalid(self, tmp_path)` |
-| `test_nuclei_multiple_severities` | method | `skills/tests/test_facts.py:209` | `def test_nuclei_multiple_severities(self)` |
-| `test_nuclei_parser_parse_extended` | method | `skills/tests/test_facts.py:197` | `def test_nuclei_parser_parse_extended(self)` |
-| `test_rpcclient_parser` | method | `skills/tests/test_facts.py:139` | `def test_rpcclient_parser(self)` |
-| `test_secretsdump_parser` | method | `skills/tests/test_facts.py:106` | `def test_secretsdump_parser(self)` |
-| `test_sslscan_dedup` | method | `skills/tests/test_facts.py:231` | `def test_sslscan_dedup(self)` |
-| `test_sslscan_parser_parse_extended` | method | `skills/tests/test_facts.py:219` | `def test_sslscan_parser_parse_extended(self)` |
-| `check` | function | `skills/tests/test_harness_e2e.py:33` | `def check(label, cond, hint)` |
-| `main` | function | `skills/tests/test_harness_e2e.py:391` | `def main()` |
-| `test_auto_compact` | function | `skills/tests/test_harness_e2e.py:263` | `def test_auto_compact(tmp)` |
-| `test_claudemd` | function | `skills/tests/test_harness_e2e.py:228` | `def test_claudemd(tmp)` |
-| `test_compaction` | function | `skills/tests/test_harness_e2e.py:98` | `def test_compaction()` |
-| `test_hooks` | function | `skills/tests/test_harness_e2e.py:182` | `def test_hooks(tmp)` |
-| `test_integration` | function | `skills/tests/test_harness_e2e.py:332` | `def test_integration(tmp)` |
-| `test_metrics` | function | `skills/tests/test_harness_e2e.py:300` | `def test_metrics(tmp)` |
-| `test_permissions` | function | `skills/tests/test_harness_e2e.py:47` | `def test_permissions(tmp)` |
-| `test_transcript` | function | `skills/tests/test_harness_e2e.py:143` | `def test_transcript(tmp)` |
-| `TestDronePool` | class | `skills/tests/test_hive_mind.py:346` | `class TestDronePool` |
-| `TestDronePoolWithPersistence` | class | `skills/tests/test_hive_mind.py:770` | `class TestDronePoolWithPersistence` |
-| `TestDroneStateStore` | class | `skills/tests/test_hive_mind.py:673` | `class TestDroneStateStore` |
-| `TestEpisodicStore` | class | `skills/tests/test_hive_mind.py:72` | `class TestEpisodicStore` |
-| `TestHiveBus` | class | `skills/tests/test_hive_mind.py:293` | `class TestHiveBus` |
-| `TestHiveMemory` | class | `skills/tests/test_hive_mind.py:226` | `class TestHiveMemory` |
-| `TestHiveMind` | class | `skills/tests/test_hive_mind.py:509` | `class TestHiveMind` |
-| `TestMCPHandlers` | class | `skills/tests/test_hive_mind.py:575` | `class TestMCPHandlers` |
-| `TestQueenBrain` | class | `skills/tests/test_hive_mind.py:428` | `class TestQueenBrain` |
-| `TestSemanticStore` | class | `skills/tests/test_hive_mind.py:152` | `class TestSemanticStore` |
-| `_build_hive_and_patch` | method | `skills/tests/test_hive_mind.py:588` | `def _build_hive_and_patch(self)` |
-| `_instant_run` | function | `skills/tests/test_hive_mind.py:405` | `def _instant_run(self_inner)` |
-| `_make_episodic` | function | `skills/tests/test_hive_mind.py:32` | `def _make_episodic(tmp_path)` |
-| `_make_hive` | method | `skills/tests/test_hive_mind.py:519` | `def _make_hive(self)` |
-| `_make_hive_memory` | function | `skills/tests/test_hive_mind.py:49` | `def _make_hive_memory(tmp_path)` |
-| `_make_pool` | method | `skills/tests/test_hive_mind.py:356` | `def _make_pool(self)` |
-| `_make_pool_with_store` | method | `skills/tests/test_hive_mind.py:780` | `def _make_pool_with_store(self)` |
-| `_make_queen` | method | `skills/tests/test_hive_mind.py:438` | `def _make_queen(self)` |
-| `_make_semantic` | function | `skills/tests/test_hive_mind.py:39` | `def _make_semantic(tmp_path, episodic)` |
-| `_make_state` | method | `skills/tests/test_hive_mind.py:688` | `def _make_state(self, status)` |
-| `_make_store` | method | `skills/tests/test_hive_mind.py:683` | `def _make_store(self)` |
-| `setup_method` | method | `skills/tests/test_hive_mind.py:75` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_hive_mind.py:155` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_hive_mind.py:229` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_hive_mind.py:296` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_hive_mind.py:349` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_hive_mind.py:431` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_hive_mind.py:512` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_hive_mind.py:578` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_hive_mind.py:676` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_hive_mind.py:773` | `def setup_method(self)` |
-| `teardown_method` | method | `skills/tests/test_hive_mind.py:79` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_hive_mind.py:159` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_hive_mind.py:233` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_hive_mind.py:353` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_hive_mind.py:435` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_hive_mind.py:516` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_hive_mind.py:584` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_hive_mind.py:680` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_hive_mind.py:777` | `def teardown_method(self)` |
-| `test_active_count_decrements_when_done` | method | `skills/tests/test_hive_mind.py:401` | `def test_active_count_decrements_when_done(self)` |
-| `test_broadcast_received_by_everyone` | method | `skills/tests/test_hive_mind.py:312` | `def test_broadcast_received_by_everyone(self)` |
-| `test_count_returns_zero_when_unavailable` | method | `skills/tests/test_hive_mind.py:212` | `def test_count_returns_zero_when_unavailable(self)` |
-| `test_delete_older_than_removes_stale` | method | `skills/tests/test_hive_mind.py:750` | `def test_delete_older_than_removes_stale(self)` |
-| `test_dispatch_returns_drone_ids` | method | `skills/tests/test_hive_mind.py:480` | `def test_dispatch_returns_drone_ids(self)` |
-| `test_drone_result_unknown_id` | method | `skills/tests/test_hive_mind.py:557` | `def test_drone_result_unknown_id(self)` |
-| `test_fallback_to_episodic_when_chroma_unavailable` | method | `skills/tests/test_hive_mind.py:179` | `def test_fallback_to_episodic_when_chroma_unavailable(self)` |
-| `test_forget_by_topic` | method | `skills/tests/test_hive_mind.py:132` | `def test_forget_by_topic(self)` |
-| `test_forget_delegates_to_episodic` | method | `skills/tests/test_hive_mind.py:277` | `def test_forget_delegates_to_episodic(self)` |
-| `test_forget_old_events` | method | `skills/tests/test_hive_mind.py:121` | `def test_forget_old_events(self)` |
-| `test_forget_returns_int` | method | `skills/tests/test_hive_mind.py:563` | `def test_forget_returns_int(self)` |
-| `test_get_state_returns_drone_state` | method | `skills/tests/test_hive_mind.py:374` | `def test_get_state_returns_drone_state(self)` |
-| `test_get_state_unknown_id_returns_none` | method | `skills/tests/test_hive_mind.py:386` | `def test_get_state_unknown_id_returns_none(self)` |
-| `test_instantiation` | method | `skills/tests/test_hive_mind.py:162` | `def test_instantiation(self)` |
-| `test_list_all_includes_history` | method | `skills/tests/test_hive_mind.py:844` | `def test_list_all_includes_history(self)` |
-| `test_list_all_includes_spawned_drone` | method | `skills/tests/test_hive_mind.py:392` | `def test_list_all_includes_spawned_drone(self)` |
-| `test_load_all_empty_db` | method | `skills/tests/test_hive_mind.py:759` | `def test_load_all_empty_db(self)` |
-| `test_load_interrupted_returns_only_interrupted` | method | `skills/tests/test_hive_mind.py:737` | `def test_load_interrupted_returns_only_interrupted(self)` |
-| `test_mark_interrupted_targets_queued_and_running` | method | `skills/tests/test_hive_mind.py:722` | `def test_mark_interrupted_targets_queued_and_running(self)` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

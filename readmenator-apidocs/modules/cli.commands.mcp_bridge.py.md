@@ -259,7 +259,7 @@ def do_threat_model(self, args: argparse.Namespace) -> None
 
 Build or inspect the threat model derived from session events.
 
-Actions: ``build`` (default) regenerates the model, ``load`` shows the
+Actions: `[`build`](modules.golden_path.py.md#build)` (default) regenerates the model, ``load`` shows the
 cached one, ``ttps`` lists observed ATT&CK techniques. Mirrors the
 ``lazyown_threat_model`` MCP tool.
 

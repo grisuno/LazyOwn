@@ -1,4 +1,4 @@
-# Subsystem: tests (page 3 of 19)
+# Subsystem: tests (page 3 of 20)
 Previous: [KB_tests_p2.md](KB_tests_p2.md)
 
 ## tests/test_autosuggest.py
@@ -221,6 +221,31 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_missing_history_reads_empty` (method, line 72) `def test_missing_history_reads_empty(self, tmp_path)`
   - `test_record_without_client_id_is_rejected` (method, line 75) `def test_record_without_client_id_is_rejected(self, tmp_path)`
 - Depends on: `modules/beacon_history.py`
+
+## tests/test_beacon_recon_sink.py
+- Doc: Beacon recon ingest tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_fresh_world_model` (function, line 26) `def _fresh_world_model(tmp)`
+  - `ParseDiscoveredIpsSpec` (class, line 30) `class ParseDiscoveredIpsSpec(TestCase)`
+  - `ParseBeaconPortscanSpec` (class, line 49) `class ParseBeaconPortscanSpec(TestCase)`
+  - `IngestBeaconReconSpec` (class, line 75) `class IngestBeaconReconSpec(TestCase)`
+  - `test_flat_string` (method, line 31) `def test_flat_string(self)`
+  - `test_dict_with_list_values` (method, line 37) `def test_dict_with_list_values(self)`
+  - `test_skips_non_ips` (method, line 40) `def test_skips_non_ips(self)`
+  - `test_empty_values` (method, line 43) `def test_empty_values(self)`
+  - `test_flat_string_credits_default_host` (method, line 50) `def test_flat_string_credits_default_host(self)`
+  - `test_go_map_string` (method, line 54) `def test_go_map_string(self)`
+  - `test_dict_payload` (method, line 58) `def test_dict_payload(self)`
+  - `test_noise_and_bounds` (method, line 62) `def test_noise_and_bounds(self)`
+  - `test_host_prefix_string` (method, line 66) `def test_host_prefix_string(self)`
+  - `test_empty_values` (method, line 70) `def test_empty_values(self)`
+  - `_run` (method, line 76) `def _run(self, tmp, wm, discovered, portscan)`
+  - `test_hosts_services_ledger_and_outcome` (method, line 96) `def test_hosts_services_ledger_and_outcome(self)`
+  - `test_rerun_is_idempotent_for_hosts_and_services` (method, line 114) `def test_rerun_is_idempotent_for_hosts_and_services(self)`
+  - `test_noop_without_data_and_without_ip` (method, line 124) `def test_noop_without_data_and_without_ip(self)`
+- Depends on: `modules/beacon_recon.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 
 ## tests/test_blacksandbeacon_addon.py
 - Doc: tests/test_blacksandbeacon_addon.py  Validation suite for the blacksandbeacon and...

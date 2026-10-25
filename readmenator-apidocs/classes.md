@@ -51,6 +51,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ACLTarget`](modules/modules.dacl_abuse.py.md#acltarget) class in `modules.dacl_abuse`
 - [`ActionCategory`](modules/skills.lazyown_policy.py.md#actioncategory) enum in `skills.lazyown_policy`(StrEnum)
 - [`ActivityLog`](modules/modules.lazy_loop.py.md#activitylog) class in `modules.lazy_loop`
+- [`ActivityLogPort`](modules/modules.mediation.contracts.py.md#activitylogport) protocol in `modules.mediation.contracts`(Protocol)
 - [`ADCSCertipyWrapper`](modules/modules.adcs_attacks.py.md#adcscertipywrapper) class in `modules.adcs_attacks`
 - [`AddonCatalog`](modules/cli.exploration.py.md#addoncatalog) class in `cli.exploration`
 - [`AddonCreatorConfig`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig) class in `lazyc2.addon_creator`
@@ -63,6 +64,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`AddonValidationError`](modules/lazyc2.addon_creator.py.md#addonvalidationerror) exception in `lazyc2.addon_creator`(ValueError)
 - [`AddonValidator`](modules/lazyc2.addon_creator.py.md#addonvalidator) class in `lazyc2.addon_creator`
 - [`AddonYamlRenderer`](modules/lazyc2.addon_creator.py.md#addonyamlrenderer) class in `lazyc2.addon_creator`
+- [`AdvisoryLedger`](modules/modules.guardrails.advisories.py.md#advisoryledger) class in `modules.guardrails.advisories`
 - [`AESKeyManager`](modules/lazyc2.security.services.py.md#aeskeymanager) class in `lazyc2.security.services`
 - [`AgentBridgeWorker`](modules/modules.mcp_agent_bridge.py.md#agentbridgeworker) class in `modules.mcp_agent_bridge`
 - [`AgentRunner`](modules/modules.agent_runner.py.md#agentrunner) class in `modules.agent_runner`
@@ -182,6 +184,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`CampaignSummary`](modules/lazygui.services.models.py.md#campaignsummary) class in `lazygui.services.models`
 - [`CampaignTarget`](modules/modules.phishing_orchestrator.py.md#campaigntarget) class in `modules.phishing_orchestrator`
 - [`CampaignTask`](modules/modules.session_reader.py.md#campaigntask) class in `modules.session_reader`
+- [`CapacityEnvelope`](modules/modules.guardrails.budget.py.md#capacityenvelope) class in `modules.guardrails.budget`
 - [`CascadeClassifier`](modules/skills.lazyown_policy.py.md#cascadeclassifier) class in `skills.lazyown_policy`
 - [`CascadeStrategy`](modules/skills.autonomous_daemon.py.md#cascadestrategy) class in `skills.autonomous_daemon`
 - [`CatalogEntry`](modules/modules.lazyown_bridge.py.md#catalogentry) class in `modules.lazyown_bridge`
@@ -192,6 +195,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Chain`](modules/modules.chain_registry.py.md#chain) class in `modules.chain_registry`
 - [`ChainArgs`](modules/cli.apt_chain_support.py.md#chainargs) class in `cli.apt_chain_support`
 - [`ChainConfig`](modules/cli.command_chain.py.md#chainconfig) class in `cli.command_chain`
+- [`ChainMediator`](modules/modules.mediation.chain_mediator.py.md#chainmediator) class in `modules.mediation.chain_mediator`
 - [`ChainModeConfig`](modules/cli.chain_mode.py.md#chainmodeconfig) class in `cli.chain_mode`
 - [`ChainModeStore`](modules/cli.chain_mode.py.md#chainmodestore) class in `cli.chain_mode`
 - [`ChainOutcome`](modules/cli.chain_mode.py.md#chainoutcome) class in `cli.chain_mode`
@@ -202,6 +206,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ChainStep`](modules/modules.chain_registry.py.md#chainstep) class in `modules.chain_registry`
 - [`ChainSuggestion`](modules/cli.chain_mode.py.md#chainsuggestion) class in `cli.chain_mode`
 - [`Channel`](modules/modules.notify.py.md#channel) class in `modules.notify`
+- [`CheckpointLedger`](modules/modules.guardrails.checkpoints.py.md#checkpointledger) class in `modules.guardrails.checkpoints`
 - [`CheckpointSerializer`](modules/skills.hermes-lazyown.hermes_sync.py.md#checkpointserializer) class in `skills.hermes-lazyown.hermes_sync`
 - [`CheckResult`](modules/cli.doctor.py.md#checkresult) class in `cli.doctor`
 - [`CheckResult`](modules/skills.claude_md_orchestrator.validators.py.md#checkresult) class in `skills.claude_md_orchestrator.validators`
@@ -495,7 +500,9 @@ Project types nested under the project types they derive from. External bases ar
 - [`FakeEngine`](modules/modules.tools.loop_smoke.py.md#fakeengine) class in `modules.tools.loop_smoke`
 - [`FakeShell`](modules/modules.tools.loop_smoke.py.md#fakeshell) class in `modules.tools.loop_smoke`
 - [`fd_uring`](modules/modules.exp.c.md#fd_uring) struct in `modules/exp.c`
+- [`FeatureGate`](modules/modules.guardrails.advisories.py.md#featuregate) class in `modules.guardrails.advisories`
 - [`FeedbackLoop`](modules/modules.estorides_importer.py.md#feedbackloop) class in `modules.estorides_importer`
+- [`FeedbackMediator`](modules/modules.mediation.feedback_mediator.py.md#feedbackmediator) class in `modules.mediation.feedback_mediator`
 - [`FeedResult`](modules/modules.detection_feed.py.md#feedresult) class in `modules.detection_feed`
 - [`FieldKind`](modules/core.payload_schema.py.md#fieldkind) enum in `core.payload_schema`(StrEnum)
 - [`FieldSpec`](modules/core.payload_schema.py.md#fieldspec) class in `core.payload_schema`
@@ -571,11 +578,14 @@ Project types nested under the project types they derive from. External bases ar
 - [`GroqAgentWorker`](modules/modules.mcp_agent_bridge.py.md#groqagentworker) class in `modules.mcp_agent_bridge`
 - [`Guard`](modules/modules.intercept.py.md#guard) class in `modules.intercept`
 - [`Guard`](modules/modules.lazy_loop.py.md#guard) class in `modules.lazy_loop`
+- [`GuardHarness`](modules/modules.guardrails.harness.py.md#guardharness) class in `modules.guardrails.harness`
+- [`GuardrailContract`](modules/modules.guardrails.contracts.py.md#guardrailcontract) protocol in `modules.guardrails.contracts`(Protocol)
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h) class in `static/js/xterm.js`(a.Disposable)
   - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k) class in `static/js/xterm.js`
 - [`Handler`](modules/lazyc2.py.md#handler) class in `lazyc2`(FileSystemEventHandler)
+- [`HarnessAdminPort`](modules/modules.guardrails.contracts.py.md#harnessadminport) protocol in `modules.guardrails.contracts`(Protocol)
 - [`HashCracker`](modules/modules.hash_cracker.py.md#hashcracker) class in `modules.hash_cracker`
 - [`HashIdentifier`](modules/modules.hash_cracker.py.md#hashidentifier) class in `modules.hash_cracker`
 - [`HeaderValueSanitizer`](modules/modules.security_sanitizers.py.md#headervaluesanitizer) class in `modules.security_sanitizers`
@@ -652,6 +662,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`IntelligenceAssessment`](modules/modules.intelligence_engine.py.md#intelligenceassessment) class in `modules.intelligence_engine`
 - [`IntelligenceConfig`](modules/modules.intelligence_engine.py.md#intelligenceconfig) class in `modules.intelligence_engine`
 - [`IntelligenceEngine`](modules/modules.intelligence_engine.py.md#intelligenceengine) class in `modules.intelligence_engine`
+- [`IntelMediator`](modules/modules.mediation.intel_mediator.py.md#intelmediator) class in `modules.mediation.intel_mediator`
 - [`InteractiveForm`](modules/cli.cli_enhancements.py.md#interactiveform) class in `cli.cli_enhancements`
 - [`InterceptAction`](modules/modules.intercept.py.md#interceptaction) enum in `modules.intercept`(str, Enum)
 - [`InterceptConfig`](modules/modules.intercept.py.md#interceptconfig) class in `modules.intercept`
@@ -789,6 +800,8 @@ Project types nested under the project types they derive from. External bases ar
   - [`ExploitCommandSet`](modules/cli.commands.exploit.py.md#exploitcommandset) class in `cli.commands.exploit`
   - [`ExploitMigratedCommandSet`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset) class in `cli.commands.exploit_migrated`
   - [`ExploitGymCommandSet`](modules/cli.commands.exploitgym.py.md#exploitgymcommandset) class in `cli.commands.exploitgym`
+  - [`GoldenPathsCommandSet`](modules/cli.commands.golden_paths.py.md#goldenpathscommandset) class in `cli.commands.golden_paths`
+  - [`GymMetasploitableCommandSet`](modules/cli.commands.gym_matrix.py.md#gymmetasploitablecommandset) class in `cli.commands.gym_matrix`
   - [`HelpUiCommandSet`](modules/cli.commands.help_ui.py.md#helpuicommandset) class in `cli.commands.help_ui`
   - [`InfraCommandSet`](modules/cli.commands.infra.py.md#infracommandset) class in `cli.commands.infra`
   - [`LabCommandSet`](modules/cli.commands.lab.py.md#labcommandset) class in `cli.commands.lab`
@@ -877,10 +890,12 @@ Project types nested under the project types they derive from. External bases ar
 - [`LLMBackendUnavailableError`](modules/modules.llm_factory.py.md#llmbackendunavailableerror) exception in `modules.llm_factory`(RuntimeError)
 - [`LLMBridge`](modules/skills.lazyown_llm.py.md#llmbridge) class in `skills.lazyown_llm`
 - [`LLMClient`](modules/modules.llm_client.py.md#llmclient) class in `modules.llm_client`
+- [`LlmCompletionPort`](modules/modules.mediation.contracts.py.md#llmcompletionport) protocol in `modules.mediation.contracts`(Protocol)
 - [`LLMEngine`](modules/contrib.legacy.lazyllmchat.py.md#llmengine) class in `contrib.legacy.lazyllmchat`
 - [`LLMEvaluator`](modules/modules.llm_evaluator.py.md#llmevaluator) class in `modules.llm_evaluator`
 - [`LlmPool`](modules/modules.lazy_loop.py.md#llmpool) class in `modules.lazy_loop`
 - [`LLMPool`](modules/modules.llm_pool.py.md#llmpool) class in `modules.llm_pool`
+- [`LlmPoolPort`](modules/modules.mediation.chain_mediator.py.md#llmpoolport) class in `modules.mediation.chain_mediator`
 - [`LlmPromptConfig`](modules/modules.llm_prompts.py.md#llmpromptconfig) class in `modules.llm_prompts`
 - [`LLMTool`](modules/skills.lazyown_llm.py.md#llmtool) class in `skills.lazyown_llm`
 - [`LockManager`](modules/modules.collab_bp.py.md#lockmanager) class in `modules.collab_bp`
@@ -903,6 +918,10 @@ Project types nested under the project types they derive from. External bases ar
 - [`MarketplaceConfig`](modules/cli.marketplace_config.py.md#marketplaceconfig) class in `cli.marketplace_config`
 - [`MarketplaceSettings`](modules/cli.marketplace_config.py.md#marketplacesettings) class in `cli.marketplace_config`
 - [`MatchScorer`](modules/cli.fuzzy_picker.py.md#matchscorer) class in `cli.fuzzy_picker`
+- [`MediationDomains`](modules/modules.mediation.contracts.py.md#mediationdomains) class in `modules.mediation.contracts`
+- [`MediationHub`](modules/modules.mediation.hub.py.md#mediationhub) class in `modules.mediation.hub`
+- [`MediationHubContract`](modules/modules.mediation.contracts.py.md#mediationhubcontract) protocol in `modules.mediation.contracts`(Protocol)
+- [`MediatorContract`](modules/modules.mediation.contracts.py.md#mediatorcontract) protocol in `modules.mediation.contracts`(Protocol)
 - [`MemoryCleaner`](modules/modules.memory_cleaner.py.md#memorycleaner) class in `modules.memory_cleaner`
 - [`MemoryCleanerConfig`](modules/modules.memory_cleaner.py.md#memorycleanerconfig) class in `modules.memory_cleaner`
 - [`MemoryEntry`](modules/modules.memory_store.py.md#memoryentry) class in `modules.memory_store`
@@ -1208,6 +1227,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`RTSPScanner`](modules/contrib.legacy.lazycam.py.md#rtspscanner) class in `contrib.legacy.lazycam`
 - [`RuleSetBuilder`](modules/skills.hermes-lazyown.claudemd_rules.py.md#rulesetbuilder) class in `skills.hermes-lazyown.claudemd_rules`
 - [`RunArtifactStore`](modules/modules.pipeline_engine.py.md#runartifactstore) class in `modules.pipeline_engine`
+- [`RunTicket`](modules/modules.guardrails.contracts.py.md#runticket) class in `modules.guardrails.contracts`
 - [`RuntimeTracker`](modules/modules.lazy_loop.py.md#runtimetracker) class in `modules.lazy_loop`
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s) class in `static/js/quill-2.0.3.js`(r.EmbedBlot)
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
@@ -1390,6 +1410,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`TaskAudit`](modules/skills.lazyown_mcp_helpers.py.md#taskaudit) class in `skills.lazyown_mcp_helpers`
 - [`TaskCategory`](modules/modules.lazy_loop.py.md#taskcategory) class in `modules.lazy_loop`
 - [`TaskChat`](modules/modules.lazy_loop.py.md#taskchat) class in `modules.lazy_loop`
+- [`TaskClass`](modules/modules.guardrails.contracts.py.md#taskclass) enum in `modules.guardrails.contracts`(IntEnum)
 - [`TaskConstraints`](modules/modules.goals.py.md#taskconstraints) class in `modules.goals`
 - [`TaskScheduler`](modules/core.scheduler.py.md#taskscheduler) class in `core.scheduler`
 - [`TaskStore`](modules/modules.lazy_loop.py.md#taskstore) class in `modules.lazy_loop`
@@ -1402,6 +1423,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`TelemetryConfig`](modules/cli.palette_telemetry.py.md#telemetryconfig) class in `cli.palette_telemetry`
 - [`TelemetryIndex`](modules/cli.palette_telemetry.py.md#telemetryindex) class in `cli.palette_telemetry`
 - [`TelemetryIndexError`](modules/cli.palette_telemetry.py.md#telemetryindexerror) exception in `cli.palette_telemetry`(RuntimeError)
+- [`TelemetryMediator`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator) class in `modules.mediation.telemetry_mediator`
 - [`TemplateResolver`](modules/modules.pipeline_engine.py.md#templateresolver) class in `modules.pipeline_engine`
 - [`TemplateSelector`](modules/modules.integrations.nuclei_bridge.py.md#templateselector) class in `modules.integrations.nuclei_bridge`(ABC)
   - [`LocalTemplateIndex`](modules/modules.integrations.nuclei_bridge.py.md#localtemplateindex) class in `modules.integrations.nuclei_bridge`

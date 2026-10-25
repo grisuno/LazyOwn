@@ -6,7 +6,7 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Layer: utility
 - Language: py
 - Depends on: `cli/aliases.py`, `cli/registry.py`
-- Imported by: `tests/test_cli_command_sets.py`, `tests/test_command_palette.py`, `tests/test_doctor.py`, `tests/test_improvements_spec.py`, `tests/test_marketplace_config.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`, `tests/test_wizard_binary_check.py`
+- Imported by: `tests/test_cli_command_sets.py`, `tests/test_command_palette.py`, `tests/test_doctor.py`, `tests/test_improvements_spec.py`, `tests/test_marketplace_config.py`, `tests/test_mediation.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`, `tests/test_wizard_binary_check.py`
 
 ## cli/aliases.py
 - Doc: Declarative cmd2 alias loader.
@@ -42,11 +42,11 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `_decision_command` (function, line 368) `def _decision_command(decision)`
   - `_step_from_decision` (function, line 377) `def _step_from_decision(command, outcome, executed_count)`
   - `build_llm_recovery_chain` (function, line 399) `def build_llm_recovery_chain(result, target, task_id)`
-  - `_platform` (function, line 470) `def _platform()`
+  - `_platform` (function, line 471) `def _platform()`
   - `approve` (function, line 329) `def approve(step_id, command)`
   - `replan` (function, line 346) `def replan(context)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/lazy_loop.py`, `modules/reactive_engine.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/guardrails/__init__.py`, `modules/mediation/__init__.py`, `modules/reactive_engine.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`, `tests/test_guardrails.py`
 
 ## cli/assign.py
 - Doc: ``assign`` business logic.

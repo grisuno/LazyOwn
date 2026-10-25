@@ -1,6 +1,205 @@
 # API (page 16 of 24)
 Previous: [API_p15.md](API_p15.md)
 
+## modules/operation.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
+Imported by: `cli/commands/caldera.py`
+- `Operation.to_dict` (method) `modules/operation.py:98` `def to_dict(self)`
+- `Operation.from_dict` (method) `modules/operation.py:116` `def from_dict(cls, d)`
+- `Operation.save` (method) `modules/operation.py:134` `def save(self)`
+- `Operation.log_event` (method) `modules/operation.py:143` `def log_event(self, step_index, step_name, status, summary, findings_count, error)`
+- `Operation.record_facts` (method) `modules/operation.py:164` `def record_facts(self, findings)`
+- `OperationManager.__init__` (method) `modules/operation.py:183` `def __init__(self)`
+- `OperationManager.list` (method) `modules/operation.py:187` `def list(self)` -- List all persisted operations.
+- `OperationManager.get` (method) `modules/operation.py:199` `def get(self, op_id)`
+- `OperationManager.create` (method) `modules/operation.py:206` `def create(self, name, target, apt_name, description)` -- Create a new planned operation.
+- `OperationManager.plan_from_apt` (method) `modules/operation.py:225` `def plan_from_apt(self, op, playbook_yaml_path)` -- Populate steps from an APT playbook YAML (or fall back to a derived MITRE playbook).
+- `OperationManager.start` (method) `modules/operation.py:287` `def start(self, op_id, executor)` -- Start or resume a planned operation.
+- `OperationManager.pause` (method) `modules/operation.py:369` `def pause(self, op_id)`
+- `OperationManager.resume` (method) `modules/operation.py:378` `def resume(self, op_id, executor)`
+- `OperationManager.stop` (method) `modules/operation.py:386` `def stop(self, op_id)`
+- `OperationManager.status` (method) `modules/operation.py:396` `def status(self, op_id)` -- Return a structured status dict for an operation.
+- `OperationManager.timeline` (method) `modules/operation.py:425` `def timeline(self, op_id)`
+- `OperationManager.report` (method) `modules/operation.py:431` `def report(self, op_id)`
+- `get_manager` (function) `modules/operation.py:471` `def get_manager()` -- Return a fresh :class:`OperationManager`.
+
+## modules/operator_profiles.py
+Depends on: `core/config.py`, `core/logging.py`
+Imported by: `cli/commands/automation.py`
+- `OperatorProfile.to_dict` (method) `modules/operator_profiles.py:57` `def to_dict(self)`
+- `OperatorProfileManager.__init__` (method) `modules/operator_profiles.py:88` `def __init__(self)`
+- `OperatorProfileManager.create_profile` (method) `modules/operator_profiles.py:192` `def create_profile(self, username, display_name, role, lhost, lport, listener_port, c2_port, c2_malleable_route...` -- Create a new operator profile.
+- `OperatorProfileManager.load_profile` (method) `modules/operator_profiles.py:260` `def load_profile(self, username)` -- Load an operator profile.
+- `OperatorProfileManager.update_profile` (method) `modules/operator_profiles.py:276` `def update_profile(self, username)` -- Update fields on an existing profile.
+- `OperatorProfileManager.delete_profile` (method) `modules/operator_profiles.py:289` `def delete_profile(self, username)` -- Delete an operator profile and its directory.
+- `OperatorProfileManager.list_profiles` (method) `modules/operator_profiles.py:300` `def list_profiles(self)` -- Return all operator profiles.
+- `OperatorProfileManager.touch_activity` (method) `modules/operator_profiles.py:312` `def touch_activity(self, username)` -- Update last_active timestamp.
+- `OperatorProfileManager.set_attribute` (method) `modules/operator_profiles.py:319` `def set_attribute(self, username, key, value)` -- Set a custom attribute on an operator profile.
+- `OperatorProfileManager.get_attribute` (method) `modules/operator_profiles.py:328` `def get_attribute(self, username, key, default)` -- Get a custom attribute from an operator profile.
+- `OperatorProfileManager.log_action` (method) `modules/operator_profiles.py:335` `def log_action(self, username, action, details)` -- Append an audited action to the operator's audit log.
+- `OperatorProfileManager.effective_config` (method) `modules/operator_profiles.py:360` `def effective_config(self, username)` -- Merge team baseline (payload.json) with per-operator overrides.
+- `get_operator_profile_manager` (function) `modules/operator_profiles.py:398` `def get_operator_profile_manager()` -- Return the singleton :class:`OperatorProfileManager`.
+
+## modules/opsec_scorer.py
+Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`, `modules/db.py`, `modules/killchain.py`
+Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `tests/test_opsec_scorer.py`, `tests/test_opsec_scorer_consolidated.py`
+- `OpsecScore.to_dict` (method) `modules/opsec_scorer.py:288` `def to_dict(self)` -- Return the score serialized as a plain dictionary.
+- `OpsecScorer.__init__` (method) `modules/opsec_scorer.py:343` `def __init__(self, payload, world_model)`
+- `OpsecScorer.evasion_active` (method) `modules/opsec_scorer.py:352` `def evasion_active(self)`
+- `OpsecScorer.traffic_morphing_active` (method) `modules/opsec_scorer.py:357` `def traffic_morphing_active(self)`
+- `OpsecScorer.score` (method) `modules/opsec_scorer.py:365` `def score(self, command, rhost, phase_override)` -- Score an OPSEC risk for ``command`` against ``rhost``.
+- `OpsecScorer.score_batch` (method) `modules/opsec_scorer.py:413` `def score_batch(self, commands, rhost)` -- Score multiple commands and return {command: OpsecScore}.
+- `OpsecScorer.suggest_mitigations` (method) `modules/opsec_scorer.py:417` `def suggest_mitigations(self, command, detectable_by)` -- Return mitigation suggestions for a given command.
+- `OpsecScorerV2.__init__` (method) `modules/opsec_scorer.py:617` `def __init__(self, context)`
+- `OpsecScorerV2.assess` (method) `modules/opsec_scorer.py:622` `def assess(self, command, extra_context)` -- Assess OPSEC risk for a command in the current context.
+- `OpsecScorerV2.should_allow` (method) `modules/opsec_scorer.py:696` `def should_allow(self, command)` -- Quick gating check - returns (allowed, score).
+- `OpsecScorerV2.get_trend` (method) `modules/opsec_scorer.py:709` `def get_trend(self)` -- Analyze OPSEC risk trend over the session.
+- `score_command` (function) `modules/opsec_scorer.py:811` `def score_command(command, payload, rhost)` -- Convenience function: score a single command without creating a scorer instance.
+
+## modules/orchestrator_config.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
+Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+- `reload` (function) `modules/orchestrator_config.py:109` `def reload()` -- Invalidate every merged view after an external configuration change.
+- `profiles` (function) `modules/orchestrator_config.py:228` `def profiles()` -- Return every resolved profile, including inherited values.
+- `active_profile` (function) `modules/orchestrator_config.py:253` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
+- `profile_config` (function) `modules/orchestrator_config.py:265` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
+- `set_profile` (function) `modules/orchestrator_config.py:272` `def set_profile(name)` -- Persist the active profile name.
+- `set_harness` (function) `modules/orchestrator_config.py:296` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
+- `limits` (function) `modules/orchestrator_config.py:328` `def limits()` -- Return resolved numeric limits for the active profile.
+- `budget` (function) `modules/orchestrator_config.py:335` `def budget()` -- Return resolved budgets for the active profile.
+- `chain_defaults` (function) `modules/orchestrator_config.py:342` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
+- `sinks` (function) `modules/orchestrator_config.py:351` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
+- `stages` (function) `modules/orchestrator_config.py:362` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
+- `stage_enabled` (function) `modules/orchestrator_config.py:392` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
+- `stage_params` (function) `modules/orchestrator_config.py:398` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
+- `set_stage` (function) `modules/orchestrator_config.py:403` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
+- `effective_verbs` (function) `modules/orchestrator_config.py:428` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
+- `verb_config` (function) `modules/orchestrator_config.py:519` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
+- `verb_enabled` (function) `modules/orchestrator_config.py:528` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `upsert_verb` (function) `modules/orchestrator_config.py:534` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
+- `remove_verb` (function) `modules/orchestrator_config.py:591` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
+- `reset` (function) `modules/orchestrator_config.py:612` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
+- `validate_config` (function) `modules/orchestrator_config.py:619` `def validate_config(data)` -- Validate one raw orchestration mapping.
+
+## modules/osint_enrich.py
+Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
+- `cve_lookup` (function) `modules/osint_enrich.py:122` `def cve_lookup(cve_id, sessions_dir)` -- Assemble OSV advisory + KEV flag + EPSS score for one CVE id.
+- `reverse_dns` (function) `modules/osint_enrich.py:161` `def reverse_dns(ip, sessions_dir)` -- Best-effort PTR hostname for an IP (HackerTarget, then DoH).
+- `host_geo` (function) `modules/osint_enrich.py:183` `def host_geo(ip, sessions_dir)` -- Country/org/ISP for an IP via the keyless ip-api endpoint.
+- `domain_exposure` (function) `modules/osint_enrich.py:198` `def domain_exposure(domain, sessions_dir)` -- Count public urlscan.io results for a domain (no key needed).
+- `enrich_evidence` (function) `modules/osint_enrich.py:213` `def enrich_evidence(items, sessions_dir)` -- Append keyless OSINT verdicts to CVE mentions inside evidence items.
+
+## modules/outcome_bus.py
+Depends on: `core/logging.py`, `modules/__init__.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
+- `OutcomeEvent.host_value` (method) `modules/outcome_bus.py:101` `def host_value(self)` -- Return the best host identifier available.
+- `OutcomeEvent.key` (method) `modules/outcome_bus.py:105` `def key(self)` -- Return the idempotency key for this event.
+- `OutcomeEvent.to_dict` (method) `modules/outcome_bus.py:123` `def to_dict(self)` -- Return a JSON-serializable view.
+- `OutcomeBus.__init__` (method) `modules/outcome_bus.py:154` `def __init__(self, ledger_path, sink_map)` -- Bind the audit ledger and an optional sink map for tests.
+- `OutcomeBus.reset` (method) `modules/outcome_bus.py:167` `def reset(self)` -- Clear the in-process dedupe cache.
+- `OutcomeBus.record` (method) `modules/outcome_bus.py:199` `def record(self, event, sinks)` -- Publish one event to every enabled sink.
+- `get_bus` (function) `modules/outcome_bus.py:267` `def get_bus()` -- Return the process-wide outcome bus.
+- `reset_bus` (function) `modules/outcome_bus.py:276` `def reset_bus()` -- Reset the process-wide bus cache (tests and long-lived operators).
+- `record` (function) `modules/outcome_bus.py:281` `def record(event, sinks)` -- Publish one event through the process-wide bus.
+- `record_event` (function) `modules/outcome_bus.py:286` `def record_event()` -- Build and publish one event from keyword fields.
+- `severity_for_event` (function) `modules/outcome_bus.py:291` `def severity_for_event(severity)` -- Map an outcome severity to the event-bus severity vocabulary.
+- `category_for_event` (function) `modules/outcome_bus.py:296` `def category_for_event(kind)` -- Map an outcome kind to the event-bus category vocabulary.
+
+## modules/payload_factory.py
+Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
+- `PayloadTemplate.__init__` (method) `modules/payload_factory.py:222` `def __init__(self, name, platform, arch, description, options)`
+- `PayloadTemplate.generate` (method) `modules/payload_factory.py:237` `def generate(self)` -- Generate the raw payload bytes.
+- `PayloadTemplate.to_dict` (method) `modules/payload_factory.py:241` `def to_dict(self)`
+- `ReverseShellPayload.__init__` (method) `modules/payload_factory.py:254` `def __init__(self)`
+- `ReverseShellPayload.generate` (method) `modules/payload_factory.py:272` `def generate(self)`
+- `WindowsReverseShellPayload.__init__` (method) `modules/payload_factory.py:293` `def __init__(self)`
+- `WindowsReverseShellPayload.generate` (method) `modules/payload_factory.py:305` `def generate(self)`
+- `MsfvenomPayload.__init__` (method) `modules/payload_factory.py:325` `def __init__(self, name, platform, arch)`
+- `MsfvenomPayload.generate` (method) `modules/payload_factory.py:337` `def generate(self)`
+- `ShellcodePayload.__init__` (method) `modules/payload_factory.py:374` `def __init__(self, name, platform, arch, description, escaped_hex, patcher)`
+- `ShellcodePayload.generate` (method) `modules/payload_factory.py:397` `def generate(self)` -- Return the shellcode, optionally patching LHOST / LPORT.
+- `DynamicShellcodePayload.__init__` (method) `modules/payload_factory.py:416` `def __init__(self, name, platform, arch, description, builder)`
+- `DynamicShellcodePayload.generate` (method) `modules/payload_factory.py:436` `def generate(self)`
+- `PayloadFactory.__init__` (method) `modules/payload_factory.py:464` `def __init__(self)`
+- `PayloadFactory.register` (method) `modules/payload_factory.py:512` `def register(self, template)` -- Register a custom payload template.
+- `PayloadFactory.list` (method) `modules/payload_factory.py:516` `def list(self, platform)` -- List all registered payloads, optionally filtered by platform.
+- `PayloadFactory.get` (method) `modules/payload_factory.py:525` `def get(self, name)` -- Get a payload template by name.
+- `PayloadFactory.generate` (method) `modules/payload_factory.py:529` `def generate(self, name, format, output)` -- Generate a payload by name.
+- `PayloadFactory.list_formats` (method) `modules/payload_factory.py:664` `def list_formats()` -- List all available output formats.
+- `format_payload_table` (function) `modules/payload_factory.py:672` `def format_payload_table(payloads)` -- Format a list of payload dicts as an aligned table.
+
+## modules/phishing_orchestrator.py
+Depends on: `core/crypto.py`, `core/hardening.py`
+Imported by: `cli/commands/phishing_wizard.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
+- `PhishingOrchestrator.__init__` (method) `modules/phishing_orchestrator.py:316` `def __init__(self)`
+- `PhishingOrchestrator.get_instance` (method) `modules/phishing_orchestrator.py:321` `def get_instance(cls)`
+- `PhishingOrchestrator.launch` (method) `modules/phishing_orchestrator.py:332` `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` -- Launch a phishing campaign.
+- `PhishingOrchestrator.profile_targets` (method) `modules/phishing_orchestrator.py:441` `def profile_targets(self, domain)` -- Profile targets for a domain using OSINT techniques.
+- `PhishingOrchestrator.generate_template` (method) `modules/phishing_orchestrator.py:486` `def generate_template(self, name, target_domain, context)` -- Generate or retrieve a phishing template.
+- `PhishingOrchestrator.clone_landing_page` (method) `modules/phishing_orchestrator.py:533` `def clone_landing_page(self, url)` -- Clone a target login page for credential harvesting.
+- `PhishingOrchestrator.get_results` (method) `modules/phishing_orchestrator.py:560` `def get_results(self, campaign_id)` -- Get campaign results.
+- `PhishingOrchestrator.record_click` (method) `modules/phishing_orchestrator.py:584` `def record_click(self, campaign_id, email)` -- Record a link click.
+- `PhishingOrchestrator.record_credentials` (method) `modules/phishing_orchestrator.py:605` `def record_credentials(self, campaign_id, email, password)` -- Record harvested credentials.
+
+## modules/pipeline_engine.py
+Depends on: `core/logging.py`, `modules/engagement_hooks.py`, `skills/autonomous_daemon.py`
+Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_pipeline_engine.py`
+- `StepResult.to_context` (method) `modules/pipeline_engine.py:180` `def to_context(self)` -- Render the step result as a dict for template lookups.
+- `PipelineRun.to_dict` (method) `modules/pipeline_engine.py:213` `def to_dict(self)` -- Return a JSON-friendly representation of the full run.
+- `TemplateResolver.__init__` (method) `modules/pipeline_engine.py:275` `def __init__(self, context)`
+- `TemplateResolver.render` (method) `modules/pipeline_engine.py:278` `def render(self, template)`
+- `TemplateResolver.resolve` (method) `modules/pipeline_engine.py:289` `def resolve(self, dotted_path)` -- Return the value at dotted_path or None when not found.
+- `ConditionEvaluator.is_truthy` (method) `modules/pipeline_engine.py:330` `def is_truthy(rendered)`
+- `StepValidator.validate` (method) `modules/pipeline_engine.py:352` `def validate(predicate, output)`
+- `StepDerivers.register` (method) `modules/pipeline_engine.py:389` `def register(cls, command, deriver)` -- Bind a deriver to a top-level command name (case-insensitive).
+- `StepDerivers.derive` (method) `modules/pipeline_engine.py:396` `def derive(cls, command, output)` -- Run the registered deriver for command on output, defensive.
+- `IStepRunner.run` (method) `modules/pipeline_engine.py:513` `def run(self, command, args, target, timeout_s)` -- Execute one command.
+- `LazyOwnStepRunner.__init__` (method) `modules/pipeline_engine.py:537` `def __init__(self, runner, onecmd)`
+- `LazyOwnStepRunner.run` (method) `modules/pipeline_engine.py:548` `def run(self, command, args, target, timeout_s)`
+- `PipelineLoader.__init__` (method) `modules/pipeline_engine.py:638` `def __init__(self, pipelines_dir)`
+- `PipelineLoader.pipelines_dir` (method) `modules/pipeline_engine.py:642` `def pipelines_dir(self)`
+- `PipelineLoader.list` (method) `modules/pipeline_engine.py:645` `def list(self)` -- Return every pipeline name discoverable in pipelines_dir.
+- `PipelineLoader.resolve_path` (method) `modules/pipeline_engine.py:658` `def resolve_path(self, name)` -- Return the absolute path to the YAML file for the given name.
+- `PipelineLoader.load` (method) `modules/pipeline_engine.py:683` `def load(self, name)` -- Parse the YAML file for name and return a validated spec.
+- `RunArtifactStore.__init__` (method) `modules/pipeline_engine.py:778` `def __init__(self, runs_dir)`
+- `RunArtifactStore.runs_dir` (method) `modules/pipeline_engine.py:782` `def runs_dir(self)`
+- `RunArtifactStore.open_run` (method) `modules/pipeline_engine.py:785` `def open_run(self, pipeline_name, run_id)` -- Create and return the directory for this run.
+- `RunArtifactStore.write_plan` (method) `modules/pipeline_engine.py:797` `def write_plan(self, run_dir, spec)`
+- `RunArtifactStore.write_step` (method) `modules/pipeline_engine.py:814` `def write_step(self, run_dir, result)`
+- `RunArtifactStore.write_summary` (method) `modules/pipeline_engine.py:828` `def write_summary(self, run_dir, run)`
+- `INarratorAdapter.narrate` (method) `modules/pipeline_engine.py:852` `def narrate(self, kind, target, message, payload, severity)` -- Emit one narration event.
+- `_SilentNarrator.narrate` (method) `modules/pipeline_engine.py:864` `def narrate(self)`
+- `EngagementNarratorAdapter.__init__` (method) `modules/pipeline_engine.py:871` `def __init__(self, narrator)`
+- `EngagementNarratorAdapter.narrate` (method) `modules/pipeline_engine.py:881` `def narrate(self, kind, target, message, payload, severity)`
+- `PipelineEngine.__init__` (method) `modules/pipeline_engine.py:927` `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)`
+- `PipelineEngine.loader` (method) `modules/pipeline_engine.py:942` `def loader(self)`
+- `PipelineEngine.validate` (method) `modules/pipeline_engine.py:945` `def validate(self, name)` -- Load and validate without executing.
+- `PipelineEngine.run` (method) `modules/pipeline_engine.py:949` `def run(self, name, target, nesting_stack)` -- Execute the pipeline.
+- `get_default_engine` (function) `modules/pipeline_engine.py:1300` `def get_default_engine(onecmd)` -- Process-wide default engine for production callers.
+- `mcp_pipeline_run` (function) `modules/pipeline_engine.py:1314` `def mcp_pipeline_run(name, target, background, onecmd)` -- Public MCP / CLI entry: run a pipeline.
+- `mcp_pipeline_list` (function) `modules/pipeline_engine.py:1368` `def mcp_pipeline_list()` -- Return the list of available pipelines under pipelines/.
+- `mcp_pipeline_validate` (function) `modules/pipeline_engine.py:1385` `def mcp_pipeline_validate(name)` -- Validate a pipeline's YAML schema without executing it.
+- `mcp_pipeline_status` (function) `modules/pipeline_engine.py:1414` `def mcp_pipeline_status(last_n)` -- Return the N most recent pipeline runs and their summaries.
+- `cmd_pipeline` (function) `modules/pipeline_engine.py:1436` `def cmd_pipeline(action, name, target, background)` -- CLI helper bound to the ``pipeline`` daemon subcommand.
+
+## modules/planner.py
+Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
+Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
+- `Planner.__init__` (method) `modules/planner.py:269` `def __init__(self, world_model, obs_parser, api_key)`
+- `Planner.plan` (method) `modules/planner.py:313` `def plan(self, target, max_candidates)` -- Return a ranked list of next-step candidates for *target*.
+- `Planner.to_dict` (method) `modules/planner.py:413` `def to_dict(self, result)`
+- `get_planner` (function) `modules/planner.py:446` `def get_planner(api_key)` -- Return a fact-based planner with an optional LLM tie-break key.
+- `TodoList.__init__` (method) `modules/planner.py:468` `def __init__(self)` -- Initialize an empty todo sequence.
+- `TodoList.todo_add` (method) `modules/planner.py:472` `def todo_add(self, name, requires)` -- Append a step and return it.
+- `TodoList.todo_done` (method) `modules/planner.py:478` `def todo_done(self, name)` -- Mark a step done when its requirements hold.
+- `TodoList.next_ready` (method) `modules/planner.py:489` `def next_ready(self)` -- Return the first pending step whose requirements hold.
+- `TodoList.blocks` (method) `modules/planner.py:497` `def blocks(self, tactic)` -- Return True when a tactic must wait for an unfinished chain.
+- `Frontier.__init__` (method) `modules/planner.py:514` `def __init__(self, planner, todos)` -- Bind the frontier to a planner and an optional todo list.
+- `Frontier.todos` (method) `modules/planner.py:523` `def todos(self)` -- Expose the shared todo list.
+- `Frontier.tried` (method) `modules/planner.py:528` `def tried(self)` -- Return the tried technique identifiers.
+- `Frontier.refill` (method) `modules/planner.py:532` `def refill(self, target, max_intents)` -- Plan fresh intents, keeping only untried and unblocked ones.
+- `Frontier.pop` (method) `modules/planner.py:551` `def pop(self)` -- Claim the oldest queued intent and mark its technique tried.
+
 ## modules/playbook_admin.py
 Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`
 - `slugify` (function) `modules/playbook_admin.py:62` `def slugify(value)` -- Return a safe playbook filename stem.
@@ -85,15 +284,15 @@ Imported by: `cli/commands/crystal_ball.py`
 - `main` (function) `modules/privesc_predictor.py:908` `def main()` -- CLI entry point for crystal ball privesc analysis.
 
 ## modules/professional_report.py
-Depends on: `modules/llm_factory.py`
-Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
+Depends on: `modules/llm_factory.py`, `modules/world_model.py`
+Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_infra_disposable.py`
 - `RedTeamReportGenerator.__init__` (method) `modules/professional_report.py:173` `def __init__(self, include_credentials)`
 - `RedTeamReportGenerator.collect_data` (method) `modules/professional_report.py:179` `def collect_data(self)` -- Collect all available engagement data from sessions directory.
-- `RedTeamReportGenerator.classify_findings` (method) `modules/professional_report.py:217` `def classify_findings(self, data)` -- Classify collected data into structured findings.
-- `RedTeamReportGenerator.generate` (method) `modules/professional_report.py:244` `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` -- Generate the report in the specified format.
-- `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:841` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
-- `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:865` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
-- `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:911` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
+- `RedTeamReportGenerator.classify_findings` (method) `modules/professional_report.py:219` `def classify_findings(self, data)` -- Classify collected data into structured findings.
+- `RedTeamReportGenerator.generate` (method) `modules/professional_report.py:247` `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` -- Generate the report in the specified format.
+- `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:912` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
+- `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:936` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
+- `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:982` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
 
 ## modules/r.sh
 Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
@@ -191,7 +390,7 @@ Imported by: `cli/commands/resource_scripting.py`, `tests/test_resource_script.p
 
 ## modules/retry_session.py
 Depends on: `modules/chain_state.py`
-Imported by: `cli/retry_support.py`, `tests/test_retry_session.py`
+Imported by: `cli/retry_support.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_retry_session.py`
 - `is_active` (function) `modules/retry_session.py:56` `def is_active()` -- Return True when an elevated retry session is currently armed.
 - `secret_enabled_path` (function) `modules/retry_session.py:61` `def secret_enabled_path()` -- Return the askpass helper path advertised via ``SUDO_ASKPASS``.
 - `sudo_gate_open` (function) `modules/retry_session.py:79` `def sudo_gate_open()` -- Return True when armed and the on-disk askpass pair is sound.
@@ -284,216 +483,6 @@ Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/
 - `getdents` (function) `modules/rootkit/mrhyde.c:557` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
 - `getdents64` (function) `modules/rootkit/mrhyde.c:618` `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
 - `main` (function) `modules/rootkit/mrhyde.c:678` `int main()`
-
-## modules/rootkit/mrhyde2.c
-- `load_hidden_pids` (function) `modules/rootkit/mrhyde2.c:63` `void load_hidden_pids()`
-- `unlink` (function) `modules/rootkit/mrhyde2.c:83` `int unlink(const char *pathname)`
-- `kill` (function) `modules/rootkit/mrhyde2.c:95` `int kill(pid_t pid, int sig)`
-- `remove` (function) `modules/rootkit/mrhyde2.c:115` `int remove(const char *pathname)`
-- `unlinkat` (function) `modules/rootkit/mrhyde2.c:127` `int unlinkat(int dirfd, const char *pathname, int flags)`
-- `get_username_from_pid` (function) `modules/rootkit/mrhyde2.c:148` `char* get_username_from_pid(pid_t pid)`
-- `should_hide_pid` (function) `modules/rootkit/mrhyde2.c:167` `int should_hide_pid(const char* pid)`
-- `readdir` (function) `modules/rootkit/mrhyde2.c:182` `struct dirent* readdir(DIR* dirp)`
-- `fopen` (function) `modules/rootkit/mrhyde2.c:238` `FILE *fopen(const char *pathname, const char *mode)`
-- `my_open` (function) `modules/rootkit/mrhyde2.c:275` `int my_open(const char *pathname, int flags, mode_t mode)`
-- `my_openat` (function) `modules/rootkit/mrhyde2.c:312` `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
-- `stat` (function) `modules/rootkit/mrhyde2.c:349` `int stat(const char *pathname, struct stat *statbuf)`
-- `lstat` (function) `modules/rootkit/mrhyde2.c:386` `int lstat(const char *pathname, struct stat *statbuf)`
-- `fstat` (function) `modules/rootkit/mrhyde2.c:423` `int fstat(int fd, struct stat *statbuf)`
-- `getdents` (function) `modules/rootkit/mrhyde2.c:470` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `getdents64` (function) `modules/rootkit/mrhyde2.c:527` `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `main` (function) `modules/rootkit/mrhyde2.c:583` `int main()`
-
-## modules/rootkit/mrhyde3.c
-- `uring_queue_init` (function) `modules/rootkit/mrhyde3.c:85` `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` -- /* Syscalls static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p) { return...
-- `uring_get_sqe` (function) `modules/rootkit/mrhyde3.c:130` `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` -- ring->cq.head = (unsigned *)((char *)cq_ring + params.cq_off.head); ring->cq.tail = (unsigned *)((char *)cq_ring +...
-- `uring_submit` (function) `modules/rootkit/mrhyde3.c:141` `static int uring_submit(struct io_uring *ring)` -- } /* Obtener SQE static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring) { unsigned head = *ring->sq.head...
-- `uring_wait_cqe_timeout` (function) `modules/rootkit/mrhyde3.c:149` `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` -- struct io_uring_sqe *sqe = &ring->sq.sqes[tail & *ring->sq.ring_mask]; memset(sqe, 0, sizeof(*sqe)); return sqe; }...
-- `uring_cqe_seen` (function) `modules/rootkit/mrhyde3.c:163` `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)`
-- `init_root_ring` (function) `modules/rootkit/mrhyde3.c:176` `static int init_root_ring(void)` -- static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe) { (*ring->cq.head)++; } /* Estado global...
-- `uring_read_whole_file` (function) `modules/rootkit/mrhyde3.c:197` `static char *uring_read_whole_file(const char *path)` -- } ring_ok = 1; /* Registrar buffer (opcional) struct iovec iov; iov.iov_base = malloc(IO_URING_BUFFER_SIZE)...
-- `traditional_read_file` (function) `modules/rootkit/mrhyde3.c:253` `static char *traditional_read_file(const char *path)` -- if (bytes_read <= 0) break; buf = realloc(buf, total_read + bytes_read + 1); if (!buf) { close(fd)...
-- `load_hidden_pids` (function) `modules/rootkit/mrhyde3.c:268` `void load_hidden_pids(void)` -- FILE *f = fopen(path, "rb"); if (!f) return NULL; fseek(f, 0, SEEK_END); long size = ftell(f); fseek(f, 0...
-- `load_hidden_files` (function) `modules/rootkit/mrhyde3.c:282` `void load_hidden_files(void)`
-- `get_username_from_pid` (function) `modules/rootkit/mrhyde3.c:297` `char* get_username_from_pid(pid_t pid)` -- char *data = uring_read_whole_file(FILE_HIDE_PATH); if (!data) data = traditional_read_file(FILE_HIDE_PATH); if...
-- `should_hide_pid` (function) `modules/rootkit/mrhyde3.c:320` `int should_hide_pid(const char* pid)`
-- `should_hide_file` (function) `modules/rootkit/mrhyde3.c:329` `int should_hide_file(const char* filename)`
-- `readdir` (function) `modules/rootkit/mrhyde3.c:336` `struct dirent* readdir(DIR* dirp)`
-- `unlink` (function) `modules/rootkit/mrhyde3.c:367` `int unlink(const char *pathname)`
-- `kill` (function) `modules/rootkit/mrhyde3.c:373` `int kill(pid_t pid, int sig)`
-- `remove` (function) `modules/rootkit/mrhyde3.c:383` `int remove(const char *pathname)`
-- `unlinkat` (function) `modules/rootkit/mrhyde3.c:389` `int unlinkat(int dirfd, const char *pathname, int flags)`
-- `fopen` (function) `modules/rootkit/mrhyde3.c:407` `FILE *fopen(const char *pathname, const char *mode)`
-- `open` (function) `modules/rootkit/mrhyde3.c:430` `int open(const char *pathname, int flags, ...)`
-- `openat` (function) `modules/rootkit/mrhyde3.c:458` `int openat(int dirfd, const char *pathname, int flags, ...)`
-- `stat` (function) `modules/rootkit/mrhyde3.c:487` `int stat(const char *pathname, struct stat *statbuf)`
-- `lstat` (function) `modules/rootkit/mrhyde3.c:511` `int lstat(const char *pathname, struct stat *statbuf)`
-- `fstat` (function) `modules/rootkit/mrhyde3.c:535` `int fstat(int fd, struct stat *statbuf)`
-- `getdents` (function) `modules/rootkit/mrhyde3.c:569` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `getdents64` (function) `modules/rootkit/mrhyde3.c:605` `ssize_t getdents64(int fd, void *dirp, size_t count)`
-
-## modules/rootkit/rootkit.c
-Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-- `regs_override_return` (function) `modules/rootkit/rootkit.c:43` `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` -- Define regs_override_return function
-- `hooked_getdents` (function) `modules/rootkit/rootkit.c:75` `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked getdents function
-- `hooked_getdents64` (function) `modules/rootkit/rootkit.c:101` `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked getdents64 function
-- `hooked_read` (function) `modules/rootkit/rootkit.c:127` `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked read function to create a backdoor
-- `disable_module_signature_verification` (function) `modules/rootkit/rootkit.c:181` `static void disable_module_signature_verification(void)` -- Function to disable module signature verification
-- `hook_syscalls` (function) `modules/rootkit/rootkit.c:195` `static int __init hook_syscalls(void)` -- Function to hook system calls
-- `unhook_syscalls` (function) `modules/rootkit/rootkit.c:208` `static void __exit unhook_syscalls(void)` -- Function to unhook system calls
-
-## modules/saas_attacks.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `SaaSEnumerationTools.microsoft365_commands` (method) `modules/saas_attacks.py:75` `def microsoft365_commands()`
-- `SaaSEnumerationTools.google_workspace_commands` (method) `modules/saas_attacks.py:100` `def google_workspace_commands()`
-- `SaaSEnumerationTools.salesforce_commands` (method) `modules/saas_attacks.py:118` `def salesforce_commands()`
-- `SaaSEnumerationTools.servicenow_commands` (method) `modules/saas_attacks.py:135` `def servicenow_commands()`
-- `SaaSAttackEngine.__init__` (method) `modules/saas_attacks.py:163` `def __init__(self, config)`
-- `SaaSAttackEngine.enumerate_all` (method) `modules/saas_attacks.py:166` `def enumerate_all(self)` -- Generate enumeration commands for all supported SaaS platforms.
-- `SaaSAttackEngine.m365_ews_mail_search` (method) `modules/saas_attacks.py:179` `def m365_ews_mail_search(self, search_term)` -- Search mailboxes via Exchange Web Services (EWS).
-- `SaaSAttackEngine.google_workspace_domain_wide_delegation` (method) `modules/saas_attacks.py:228` `def google_workspace_domain_wide_delegation(self)` -- Abuse Google Workspace Domain-Wide Delegation (DWD).
-- `SaaSAttackEngine.salesforce_report_mining` (method) `modules/saas_attacks.py:257` `def salesforce_report_mining(self)` -- Mine Salesforce reports and dashboards for sensitive data.
-- `SaaSAttackEngine.slack_data_mining` (method) `modules/saas_attacks.py:286` `def slack_data_mining(self)` -- Mine Slack Enterprise for sensitive conversations and files.
-- `SaaSAttackEngine.detect_external_sharing` (method) `modules/saas_attacks.py:327` `def detect_external_sharing(self)` -- Detect external sharing configurations across SaaS platforms.
-- `SaaSAttackEngine.summary` (method) `modules/saas_attacks.py:352` `def summary(self)`
-
-## modules/security_sanitizers.py
-Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
-- `SecurityConfig.from_payload` (method) `modules/security_sanitizers.py:68` `def from_payload(cls, payload)` -- Build a configuration object from a ``payload.json`` mapping.
-- `HeaderValueSanitizer.__init__` (method) `modules/security_sanitizers.py:115` `def __init__(self, config)` -- Bind the sanitizer to a configuration instance.
-- `HeaderValueSanitizer.is_valid_name` (method) `modules/security_sanitizers.py:129` `def is_valid_name(self, name)` -- Return True iff ``name`` is a syntactically valid header token.
-- `HeaderValueSanitizer.sanitize_value` (method) `modules/security_sanitizers.py:139` `def sanitize_value(self, value)` -- Return a header value that cannot smuggle a response split.
-- `SessionPathResolver.__init__` (method) `modules/security_sanitizers.py:174` `def __init__(self, base_dir, config)` -- Bind the resolver to an absolute, real base directory.
-- `SessionPathResolver.base_dir` (method) `modules/security_sanitizers.py:192` `def base_dir(self)` -- The resolved, absolute base directory.
-- `SessionPathResolver.resolve` (method) `modules/security_sanitizers.py:196` `def resolve(self, untrusted_name)` -- Return ``(absolute, relative)`` for a safe filename.
-- `SessionPathResolver.file_exists` (method) `modules/security_sanitizers.py:238` `def file_exists(self, untrusted_name)` -- Return True iff ``untrusted_name`` resolves to an existing file.
-- `BindAddressResolver.__init__` (method) `modules/security_sanitizers.py:269` `def __init__(self, config, preferred_addresses)` -- Build a resolver with a prioritised list of candidate addresses.
-- `BindAddressResolver.resolve` (method) `modules/security_sanitizers.py:298` `def resolve(self)` -- Return the address sockets should bind to.
-- `CommandRedactor.__init__` (method) `modules/security_sanitizers.py:333` `def __init__(self, config)` -- Bind the redactor to a configuration instance.
-- `CommandRedactor.render` (method) `modules/security_sanitizers.py:359` `def render(self, template, substitutions, username, password)` -- Return ``(executable, display)`` for a templated command.
-- `OutputSanitizer.__init__` (method) `modules/security_sanitizers.py:418` `def __init__(self, config)` -- Bind the sanitizer to a configuration instance.
-- `OutputSanitizer.sanitize` (method) `modules/security_sanitizers.py:429` `def sanitize(self, value)` -- Return ``value`` projected into a JSON-serialisable form.
-- `build_default_config` (function) `modules/security_sanitizers.py:477` `def build_default_config(payload)` -- Return a :class:`SecurityConfig` populated from ``payload``.
-
-## modules/selector_manager.py
-Imported by: `skills/lazyown_mcp.py`, `tests/test_auto_loop_memory.py`
-- `select` (function) `modules/selector_manager.py:42` `def select(proposals, is_blocked)` -- Pick the first valid proposal; None when everything is filtered.
-
-## modules/selfupdate.py
-Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
-- `Updater.__init__` (method) `modules/selfupdate.py:47` `def __init__(self, live_path)` -- Bind the updater to the binary that may be replaced.
-- `Updater.verify` (method) `modules/selfupdate.py:52` `def verify(self, artifact)` -- Return True when the payload matches its recorded digest.
-- `Updater.stage` (method) `modules/selfupdate.py:57` `def stage(self, artifact, directory)` -- Write a verified payload into ``directory``.
-- `Updater.rollback` (method) `modules/selfupdate.py:77` `def rollback(self)` -- Restore the ``<name>.old`` snapshot over the live binary.
-- `current_branch` (function) `modules/selfupdate.py:96` `def current_branch(runner)` -- Return the checked-out branch name (empty on failure).
-- `dirty` (function) `modules/selfupdate.py:102` `def dirty(runner)` -- Return True when the working tree has uncommitted changes.
-- `check` (function) `modules/selfupdate.py:108` `def check(branch, runner)` -- Fetch the branch and report ahead/behind counts.
-- `apply` (function) `modules/selfupdate.py:140` `def apply(branch, confirm, runner)` -- Fast-forward the tree to origin/<branch> when safe.
-
-## modules/session_cleanup.py
-Imported by: `lazyown.py`, `tests/test_infra_disposable.py`
-- `find_cloudflared_pids` (function) `modules/session_cleanup.py:28` `def find_cloudflared_pids(ps_output)` -- Extract PIDs of ``cloudflared tunnel`` processes from ps output.
-- `stop_cloudflared_processes` (function) `modules/session_cleanup.py:94` `def stop_cloudflared_processes()` -- Terminate stray ``cloudflared tunnel`` host processes.
-- `cleanup_ephemeral_infra` (function) `modules/session_cleanup.py:120` `def cleanup_ephemeral_infra()` -- Stop all disposable infrastructure owned by this checkout.
-
-## modules/session_rag.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
-- `_KeywordFallback.__init__` (method) `modules/session_rag.py:111` `def __init__(self)`
-- `_KeywordFallback.load` (method) `modules/session_rag.py:115` `def load(self, path)` -- Load index from disk (no-op if file absent or corrupt).
-- `_KeywordFallback.save` (method) `modules/session_rag.py:126` `def save(self, path)` -- Atomically persist index to disk.
-- `_KeywordFallback.add` (method) `modules/session_rag.py:136` `def add(self, doc_id, text, meta)`
-- `_KeywordFallback.query` (method) `modules/session_rag.py:146` `def query(self, query_text, n)`
-- `_KeywordFallback.count` (method) `modules/session_rag.py:156` `def count(self)`
-- `_KeywordFallback.reset` (method) `modules/session_rag.py:159` `def reset(self)`
-- `_RagState.load` (method) `modules/session_rag.py:172` `def load(cls)`
-- `_RagState.save` (method) `modules/session_rag.py:181` `def save(self)`
-- `SessionRAG.__init__` (method) `modules/session_rag.py:191` `def __init__(self)`
-- `SessionRAG.index_new` (method) `modules/session_rag.py:301` `def index_new(self)` -- Incrementally index only new or changed files.
-- `SessionRAG.index_parquet_sources` (method) `modules/session_rag.py:322` `def index_parquet_sources(self, force)` -- Index knowledge-base parquets (techniques_enriched, binarios, lolbas_index) into the RAG store.
-- `SessionRAG.index_all` (method) `modules/session_rag.py:411` `def index_all(self)` -- Full re-index from scratch.
-- `SessionRAG.query` (method) `modules/session_rag.py:439` `def query(self, query_text, n, collection)` -- Return top-n relevant chunks as dicts with keys: text, source, chunk, score.
-- `SessionRAG.context_for_step` (method) `modules/session_rag.py:489` `def context_for_step(self, phase, target, cmd, n)` -- Return a compact RAG context string suitable for injection into an LLM prompt.
-- `SessionRAG.stats` (method) `modules/session_rag.py:509` `def stats(self)`
-- `get_rag` (function) `modules/session_rag.py:535` `def get_rag()`
-
-## modules/session_reader.py
-Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-- `ImplantRecord.is_privileged` (method) `modules/session_reader.py:55` `def is_privileged(self)`
-- `ImplantRecord.platform` (method) `modules/session_reader.py:60` `def platform(self)`
-- `ImplantRecord.ip_list` (method) `modules/session_reader.py:69` `def ip_list(self)`
-- `SessionSummary.active_client_ids` (method) `modules/session_reader.py:94` `def active_client_ids(self)`
-- `SessionSummary.privileged_sessions` (method) `modules/session_reader.py:101` `def privileged_sessions(self)`
-- `SessionSummary.unprivileged_sessions` (method) `modules/session_reader.py:108` `def unprivileged_sessions(self)`
-- `SessionSummary.latest_for` (method) `modules/session_reader.py:114` `def latest_for(self, client_id)`
-- `SessionSummary.task_by_status` (method) `modules/session_reader.py:118` `def task_by_status(self, status)`
-- `AbstractReader.read` (method) `modules/session_reader.py:129` `def read(self, sessions_dir)`
-- `ImplantCSVReader.read` (method) `modules/session_reader.py:157` `def read(self, sessions_dir)`
-- `CommandOutputReader.read` (method) `modules/session_reader.py:199` `def read(self, sessions_dir)`
-- `DiscoveredHostReader.read` (method) `modules/session_reader.py:217` `def read(self, sessions_dir)`
-- `TaskReader.read` (method) `modules/session_reader.py:235` `def read(self, sessions_dir)`
-- `TaskWriter.__init__` (method) `modules/session_reader.py:260` `def __init__(self, sessions_dir)`
-- `TaskWriter.append` (method) `modules/session_reader.py:263` `def append(self, title, description, operator, status)`
-- `TaskWriter.update_status` (method) `modules/session_reader.py:288` `def update_status(self, task_id, status)`
-- `SessionAggregator.__init__` (method) `modules/session_reader.py:319` `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
-- `SessionAggregator.aggregate` (method) `modules/session_reader.py:331` `def aggregate(self, sessions_dir)`
-- `get_aggregator` (function) `modules/session_reader.py:347` `def get_aggregator()`
-
-## modules/session_state.py
-Imported by: `modules/recommender.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
-- `build_state` (function) `modules/session_state.py:189` `def build_state()` -- Assemble and return the current session state dict.
-- `refresh` (function) `modules/session_state.py:240` `def refresh()` -- Build state and persist to sessions/session_state.json.
-- `load` (function) `modules/session_state.py:251` `def load()` -- Return the last written state, or build it fresh if stale/missing.
-
-## modules/sidequestion.py
-Imported by: `cli/commands/ai.py`, `tests/test_autonomous_ops.py`
-- `SideQuestionService.__init__` (method) `modules/sidequestion.py:55` `def __init__(self, answer_fn, config)` -- Initialize registries with an optional answer function.
-- `SideQuestionService.capture` (method) `modules/sidequestion.py:66` `def capture(self, task_id, text)` -- Freeze main-loop context into an immutable snapshot.
-- `SideQuestionService.ask` (method) `modules/sidequestion.py:75` `def ask(self, snapshot_id, question)` -- Answer from a snapshot without touching main state.
-- `SideQuestionService.cancel` (method) `modules/sidequestion.py:104` `def cancel(self, request_id)` -- Mark a pending request cancelled.
-- `SideQuestionService.history` (method) `modules/sidequestion.py:113` `def history(self, limit, before)` -- Page request history newest first.
-
-## modules/sinks/attack_graph.py
-Depends on: `modules/attack_surface3d.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/attack_graph.py:13` `def apply(event)` -- Rebuild the attack graph and its exposure summary.
-
-## modules/sinks/c2_surfaces.py
-Depends on: `modules/c2_surfaces.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/c2_surfaces.py:11` `def apply(event)` -- Write the operator-visible surfaces for one outcome.
-
-## modules/sinks/campaign_db.py
-Depends on: `modules/db.py`, `modules/outcome_bus.py`
-- `apply` (function) `modules/sinks/campaign_db.py:9` `def apply(event)` -- Mirror one outcome into the campaign database.
-
-## modules/sinks/event_bus.py
-Depends on: `modules/event_bus.py`, `modules/outcome_bus.py`
-- `apply` (function) `modules/sinks/event_bus.py:9` `def apply(event)` -- Publish one event to the unified bus.
-
-## modules/sinks/intel_graph.py
-Depends on: `modules/intel_fusion.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/intel_graph.py:13` `def apply(event)` -- Rebuild the intel graph and its summary.
-
-## modules/sinks/killchain.py
-Depends on: `modules/killchain.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/killchain.py:11` `def apply(event)` -- Advance the kill-chain phase only when the outcome proves progress.
-
-## modules/sinks/objectives.py
-Depends on: `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/objectives.py:16` `def apply(event)` -- Append one actionable objective when the outcome warrants it.
-
-## modules/sinks/routing.py
-Depends on: `modules/lazy_intel.py`, `modules/outcome_bus.py`
-Imported by: `skills/lazyown_mcp.py`
-- `apply` (function) `modules/sinks/routing.py:9` `def apply(event)` -- Record one routing outcome for cross-task priors.
-
-## modules/sinks/world_model.py
-Depends on: `modules/obs_parser.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- `apply` (function) `modules/sinks/world_model.py:12` `def apply(event)` -- Write one outcome into the world model.
 
 
 Next: [API_p17.md](API_p17.md)

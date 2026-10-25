@@ -26,8 +26,7 @@ from modules.surface_ops import (  # noqa: E402
 
 def _load_surface_graph():
     """Import cli/surface_graph.py by path (no cmd2 package import)."""
-    spec = importlib.util.spec_from_file_location(
-        "surface_graph_standalone", _ROOT / "cli" / "surface_graph.py")
+    spec = importlib.util.spec_from_file_location("surface_graph_standalone", _ROOT / "cli" / "surface_graph.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -36,18 +35,34 @@ def _load_surface_graph():
 
 def _base_nodes() -> dict:
     """One existing host node as built by the graph builders."""
-    return {"host-10-0-0-5": {"id": "host-10-0-0-5", "kind": "host",
-                              "value": "10.0.0.5", "label": "10.0.0.5",
-                              "community": "net:10.0.0.5",
-                              "sources": ["surface"]}}
+    return {
+        "host-10-0-0-5": {
+            "id": "host-10-0-0-5",
+            "kind": "host",
+            "value": "10.0.0.5",
+            "label": "10.0.0.5",
+            "community": "net:10.0.0.5",
+            "sources": ["surface"],
+        }
+    }
 
 
 def test_load_lazyown_vocabulary(tmp_path: Path) -> None:
     """The estorides --export lazyown file loads verbatim."""
-    payload = {"source": "estorides",
-               "nodes": [{"kind": "host", "etype": "ipv4", "value": "10.0.0.5",
-                          "label": "10.0.0.5", "sources": ["shodan"], "attrs": {}}],
-               "edges": []}
+    payload = {
+        "source": "estorides",
+        "nodes": [
+            {
+                "kind": "host",
+                "etype": "ipv4",
+                "value": "10.0.0.5",
+                "label": "10.0.0.5",
+                "sources": ["shodan"],
+                "attrs": {},
+            }
+        ],
+        "edges": [],
+    }
     path = tmp_path / "estorides_lazyown.json"
     path.write_text(json.dumps(payload))
     loaded = load_export(path)
@@ -57,13 +72,14 @@ def test_load_lazyown_vocabulary(tmp_path: Path) -> None:
 
 def test_load_raw_export_translates_types(tmp_path: Path) -> None:
     """Raw export_json documents map to LazyOwn kinds."""
-    payload = {"name": "estorides",
-               "nodes": [{"id": "ipv4:10.0.0.9", "type": "ipv4",
-                          "value": "10.0.0.9", "sources": ["censys"]},
-                         {"id": "cve:CVE-2024-1", "type": "cve",
-                          "value": "CVE-2024-1", "sources": ["nvd"]}],
-               "edges": [{"source": "ipv4:10.0.0.9", "target": "cve:CVE-2024-1",
-                          "relation": "affected_by"}]}
+    payload = {
+        "name": "estorides",
+        "nodes": [
+            {"id": "ipv4:10.0.0.9", "type": "ipv4", "value": "10.0.0.9", "sources": ["censys"]},
+            {"id": "cve:CVE-2024-1", "type": "cve", "value": "CVE-2024-1", "sources": ["nvd"]},
+        ],
+        "edges": [{"source": "ipv4:10.0.0.9", "target": "cve:CVE-2024-1", "relation": "affected_by"}],
+    }
     path = tmp_path / "estorides_graph.json"
     path.write_text(json.dumps(payload))
     loaded = load_export(path)
@@ -76,10 +92,19 @@ def test_merge_fuses_matching_ip() -> None:
     """Same IP fuses records instead of duplicating nodes."""
     nodes = _base_nodes()
     edges: list = []
-    est = {"nodes": [{"kind": "host", "etype": "ipv4", "value": "10.0.0.5",
-                      "label": "10.0.0.5", "sources": ["shodan"],
-                      "attrs": {"os": "linux"}}],
-           "edges": []}
+    est = {
+        "nodes": [
+            {
+                "kind": "host",
+                "etype": "ipv4",
+                "value": "10.0.0.5",
+                "label": "10.0.0.5",
+                "sources": ["shodan"],
+                "attrs": {"os": "linux"},
+            }
+        ],
+        "edges": [],
+    }
     stats = merge_estorides(nodes, edges, est)
     assert stats["fused"] == 1 and stats["added"] == 0
     assert len(nodes) == 1
@@ -92,10 +117,19 @@ def test_merge_adds_new_entities_capped() -> None:
     """Unknown entities arrive tagged until the cap."""
     nodes = _base_nodes()
     edges: list = []
-    est = {"nodes": [{"kind": "domain", "etype": "domain",
-                      "value": "Example.COM ", "label": "Example.COM",
-                      "sources": ["crtsh"], "attrs": {}}],
-           "edges": []}
+    est = {
+        "nodes": [
+            {
+                "kind": "domain",
+                "etype": "domain",
+                "value": "Example.COM ",
+                "label": "Example.COM",
+                "sources": ["crtsh"],
+                "attrs": {},
+            }
+        ],
+        "edges": [],
+    }
     stats = merge_estorides(nodes, edges, est, cap=1)
     assert stats["added"] == 1
     added = nodes["est:domain:example.com"]
@@ -108,16 +142,37 @@ def test_merge_edges_reanchor(tmp_path: Path) -> None:
     """Estorides relations re-anchor on fused ids, never on ghosts."""
     nodes = _base_nodes()
     edges: list = []
-    est = {"nodes": [{"kind": "host", "etype": "ipv4", "value": "10.0.0.5",
-                      "label": "10.0.0.5", "sources": [], "attrs": {}},
-                     {"kind": "finding", "etype": "cve", "value": "CVE-2024-1",
-                      "label": "CVE-2024-1", "sources": [], "attrs": {}}],
-           "edges": [{"source_kind": "host", "source_value": "10.0.0.5",
-                      "target_kind": "finding", "target_value": "CVE-2024-1",
-                      "type": "affected_by", "evidence": "estorides:x"},
-                     {"source_kind": "host", "source_value": "ghost",
-                      "target_kind": "finding", "target_value": "CVE-2024-1",
-                      "type": "affected_by", "evidence": "estorides:x"}]}
+    est = {
+        "nodes": [
+            {"kind": "host", "etype": "ipv4", "value": "10.0.0.5", "label": "10.0.0.5", "sources": [], "attrs": {}},
+            {
+                "kind": "finding",
+                "etype": "cve",
+                "value": "CVE-2024-1",
+                "label": "CVE-2024-1",
+                "sources": [],
+                "attrs": {},
+            },
+        ],
+        "edges": [
+            {
+                "source_kind": "host",
+                "source_value": "10.0.0.5",
+                "target_kind": "finding",
+                "target_value": "CVE-2024-1",
+                "type": "affected_by",
+                "evidence": "estorides:x",
+            },
+            {
+                "source_kind": "host",
+                "source_value": "ghost",
+                "target_kind": "finding",
+                "target_value": "CVE-2024-1",
+                "type": "affected_by",
+                "evidence": "estorides:x",
+            },
+        ],
+    }
     stats = merge_estorides(nodes, edges, est)
     assert stats["edges"] == 1
     assert edges[0]["source"] == "host-10-0-0-5"
@@ -145,13 +200,19 @@ def test_discovery_targets_reads_all_files(tmp_path: Path) -> None:
 
 def test_write_world_model_hosts(tmp_path: Path) -> None:
     """Unknown estorides IPs append, known ones never duplicate."""
+    from modules.world_model import read_state_dict
+
     world = {"hosts": {"10.0.0.1": {"ip": "10.0.0.1"}}}
     (tmp_path / "world_model.json").write_text(json.dumps(world))
-    document = {"nodes": [{"kind": "host", "value": "10.0.0.2"},
-                          {"kind": "host", "value": "10.0.0.1"},
-                          {"kind": "domain", "value": "example.com"}]}
+    document = {
+        "nodes": [
+            {"kind": "host", "value": "10.0.0.2"},
+            {"kind": "host", "value": "10.0.0.1"},
+            {"kind": "domain", "value": "example.com"},
+        ]
+    }
     assert write_world_model_hosts(document, tmp_path) == 1
-    reread = json.loads((tmp_path / "world_model.json").read_text())
+    reread = read_state_dict(tmp_path / "world_model.json")
     assert reread["hosts"]["10.0.0.2"]["state"] == "estorides"
 
 
@@ -160,13 +221,11 @@ def test_surface_readers_cover_sessions_formats(tmp_path: Path) -> None:
     sg = _load_surface_graph()
     (tmp_path / "hosts_net_discovery.txt").write_text("10.9.0.1\n")
     (tmp_path / "scan_x.csv").write_text(
-        '"IP";"FQDN";"PORT";"PROTOCOL";"SERVICE";"VERSION"\n'
-        '"10.9.0.2";"web";"80";"tcp";"http";"nginx"\n')
+        '"IP";"FQDN";"PORT";"PROTOCOL";"SERVICE";"VERSION"\n"10.9.0.2";"web";"80";"tcp";"http";"nginx"\n'
+    )
     (tmp_path / "scan_y.nmap").write_text(
-        "Nmap scan report for 10.9.0.3\n"
-        "PORT     STATE SERVICE\n"
-        "22/tcp   open  ssh\n"
-        "80/tcp   closed http\n")
+        "Nmap scan report for 10.9.0.3\nPORT     STATE SERVICE\n22/tcp   open  ssh\n80/tcp   closed http\n"
+    )
     builder = sg.SurfaceGraphBuilder(sg.SurfaceGraphConfig(sessions_dir=str(tmp_path)))
     graph = builder.build()
     hosts = sorted(n.metadata.get("ip", "") for n in graph.nodes if n.kind == "host")

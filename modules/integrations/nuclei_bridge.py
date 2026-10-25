@@ -27,25 +27,25 @@ Usage
     python3 modules/integrations/nuclei_bridge.py --target 10.10.11.78 --cve CVE-2021-41773
     python3 modules/integrations/nuclei_bridge.py --target 10.10.11.78 --service apache --dry-run
 """
+
 from __future__ import annotations
 
 import argparse
 import logging
-import os
 import re
 import shutil
 import subprocess
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 log = logging.getLogger("nuclei_bridge")
 
 _BASE_DIR = Path(__file__).parent.parent.parent
 _NUCLEI_TEMPLATES_DIR = _BASE_DIR / "external" / ".exploit" / "nuclei-templates"
 
-_SEVERITY_ORDER: Dict[str, int] = {
+_SEVERITY_ORDER: dict[str, int] = {
     "critical": 0,
     "high": 1,
     "medium": 2,
@@ -56,6 +56,7 @@ _SEVERITY_ORDER: Dict[str, int] = {
 
 try:
     import yaml as _yaml
+
     _YAML_AVAILABLE = True
 except ImportError:
     _YAML_AVAILABLE = False
@@ -65,13 +66,15 @@ except ImportError:
 # Value object
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class NucleiTemplate:
     """Metadata extracted from a Nuclei template YAML file."""
+
     id: str
     name: str
     severity: str = "info"
-    tags: List[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
     cve: str = ""
     path: str = ""
 
@@ -80,11 +83,12 @@ class NucleiTemplate:
 # Abstract selector
 # ---------------------------------------------------------------------------
 
+
 class TemplateSelector(ABC):
     """Interface for selecting Nuclei templates given service/CVE context."""
 
     @abstractmethod
-    def select(self, services: List[str], cves: List[str]) -> List[NucleiTemplate]:
+    def select(self, services: list[str], cves: list[str]) -> list[NucleiTemplate]:
         """
         Return templates relevant to the provided *services* and *cves*.
 
@@ -95,6 +99,7 @@ class TemplateSelector(ABC):
 # ---------------------------------------------------------------------------
 # Local template index
 # ---------------------------------------------------------------------------
+
 
 class LocalTemplateIndex(TemplateSelector):
     """
@@ -108,18 +113,18 @@ class LocalTemplateIndex(TemplateSelector):
 
     def __init__(self, templates_dir: str | Path = _NUCLEI_TEMPLATES_DIR) -> None:
         self._dir = Path(templates_dir)
-        self._index: List[NucleiTemplate] = []
+        self._index: list[NucleiTemplate] = []
         self._built = False
 
     # -- TemplateSelector ------------------------------------------------------
 
-    def select(self, services: List[str], cves: List[str]) -> List[NucleiTemplate]:
+    def select(self, services: list[str], cves: list[str]) -> list[NucleiTemplate]:
         self._ensure_built()
 
         service_lower = [s.lower() for s in services]
         cve_upper = [c.upper() for c in cves]
 
-        matched: List[NucleiTemplate] = []
+        matched: list[NucleiTemplate] = []
         seen: set = set()
 
         for tmpl in self._index:
@@ -154,7 +159,7 @@ class LocalTemplateIndex(TemplateSelector):
         if not self._built:
             self.build()
 
-    def _parse_template(self, path: Path) -> Optional[NucleiTemplate]:
+    def _parse_template(self, path: Path) -> NucleiTemplate | None:
         try:
             text = path.read_text(encoding="utf-8", errors="ignore")
         except OSError:
@@ -164,7 +169,7 @@ class LocalTemplateIndex(TemplateSelector):
             return self._parse_yaml(text, path)
         return self._parse_regex(text, path)
 
-    def _parse_yaml(self, text: str, path: Path) -> Optional[NucleiTemplate]:
+    def _parse_yaml(self, text: str, path: Path) -> NucleiTemplate | None:
         try:
             data = _yaml.safe_load(text)
         except Exception:
@@ -193,7 +198,7 @@ class LocalTemplateIndex(TemplateSelector):
             path=str(path),
         )
 
-    def _parse_regex(self, text: str, path: Path) -> Optional[NucleiTemplate]:
+    def _parse_regex(self, text: str, path: Path) -> NucleiTemplate | None:
         tmpl_id = ""
         id_match = re.search(r"^id:\s*(.+)$", text, re.MULTILINE)
         if id_match:
@@ -230,7 +235,7 @@ class LocalTemplateIndex(TemplateSelector):
         )
 
     @staticmethod
-    def _normalise_tags(raw: Any) -> List[str]:
+    def _normalise_tags(raw: Any) -> list[str]:
         if isinstance(raw, list):
             return [str(t).strip().lower() for t in raw if t]
         if isinstance(raw, str):
@@ -238,7 +243,7 @@ class LocalTemplateIndex(TemplateSelector):
         return []
 
     @staticmethod
-    def _extract_cve_from_tags(tags: List[str]) -> str:
+    def _extract_cve_from_tags(tags: list[str]) -> str:
         for tag in tags:
             if re.match(r"cve-\d{4}-\d+", tag, re.IGNORECASE):
                 return tag.upper()
@@ -252,8 +257,8 @@ class LocalTemplateIndex(TemplateSelector):
     @staticmethod
     def _matches(
         tmpl: NucleiTemplate,
-        service_lower: List[str],
-        cve_upper: List[str],
+        service_lower: list[str],
+        cve_upper: list[str],
     ) -> bool:
         if cve_upper and tmpl.cve.upper() in cve_upper:
             return True
@@ -270,6 +275,7 @@ class LocalTemplateIndex(TemplateSelector):
 # Nuclei runner
 # ---------------------------------------------------------------------------
 
+
 class NucleiRunner:
     """
     Builds and executes nuclei commands via subprocess.
@@ -280,15 +286,15 @@ class NucleiRunner:
     _NUCLEI_TIMEOUT = 300  # seconds
 
     def __init__(self) -> None:
-        self._binary: Optional[str] = shutil.which("nuclei")
+        self._binary: str | None = shutil.which("nuclei")
         if not self._binary:
             log.warning("nuclei not found in PATH; NucleiRunner will return error strings")
 
     def run(
         self,
         target: str,
-        templates: List[NucleiTemplate],
-        output_dir: Optional[str | Path] = None,
+        templates: list[NucleiTemplate],
+        output_dir: str | Path | None = None,
     ) -> str:
         """
         Execute nuclei against *target* using the provided *templates*.
@@ -321,8 +327,8 @@ class NucleiRunner:
         self,
         target: str,
         findings: list,
-        output_dir: Optional[str | Path] = None,
-        selector: Optional[TemplateSelector] = None,
+        output_dir: str | Path | None = None,
+        selector: TemplateSelector | None = None,
     ) -> str:
         """
         Convenience: extract services/CVEs from *findings*, select templates, run.
@@ -337,9 +343,9 @@ class NucleiRunner:
     def _build_command(
         self,
         target: str,
-        templates: List[NucleiTemplate],
-        output_dir: Optional[str | Path],
-    ) -> List[str]:
+        templates: list[NucleiTemplate],
+        output_dir: str | Path | None,
+    ) -> list[str]:
         cmd = [self._binary, "-target", target, "-silent"]
 
         # Deduplicate template paths
@@ -361,9 +367,9 @@ class NucleiRunner:
         return cmd
 
     @staticmethod
-    def _extract_context(findings: list) -> Tuple[List[str], List[str]]:
-        services: List[str] = []
-        cves: List[str] = []
+    def _extract_context(findings: list) -> tuple[list[str], list[str]]:
+        services: list[str] = []
+        cves: list[str] = []
         for f in findings:
             ftype = str(getattr(f, "type", "")).lower()
             value = str(getattr(f, "value", ""))
@@ -379,6 +385,7 @@ class NucleiRunner:
 # Top-level facade
 # ---------------------------------------------------------------------------
 
+
 class NucleiBridge:
     """
     Top-level facade combining TemplateSelector and NucleiRunner.
@@ -388,8 +395,8 @@ class NucleiBridge:
 
     def __init__(
         self,
-        selector: Optional[TemplateSelector] = None,
-        runner: Optional[NucleiRunner] = None,
+        selector: TemplateSelector | None = None,
+        runner: NucleiRunner | None = None,
     ) -> None:
         self._selector: TemplateSelector = selector or LocalTemplateIndex()
         self._runner: NucleiRunner = runner or NucleiRunner()
@@ -419,9 +426,9 @@ class NucleiBridge:
 
     def list_templates(
         self,
-        services: Optional[List[str]] = None,
-        cves: Optional[List[str]] = None,
-    ) -> List[NucleiTemplate]:
+        services: list[str] | None = None,
+        cves: list[str] | None = None,
+    ) -> list[NucleiTemplate]:
         """Return matching templates without running nuclei."""
         return self._selector.select(services or [], cves or [])
 
@@ -430,7 +437,7 @@ class NucleiBridge:
 # Module singleton
 # ---------------------------------------------------------------------------
 
-_bridge: Optional[NucleiBridge] = None
+_bridge: NucleiBridge | None = None
 
 
 def get_bridge() -> NucleiBridge:
@@ -445,11 +452,12 @@ def get_bridge() -> NucleiBridge:
 # CLI entry point
 # ---------------------------------------------------------------------------
 
+
 def _main() -> None:
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
-    parser = argparse.ArgumentParser(
-        description="Select and run Nuclei templates from LazyOwn findings"
-    )
+    import logging
+
+    logging.basicConfig(level=logging.INFO)
+    parser = argparse.ArgumentParser(description="Select and run Nuclei templates from LazyOwn findings")
     parser.add_argument("--target", metavar="HOST", required=False, help="Scan target")
     parser.add_argument("--cve", metavar="CVE_ID", help="Match templates by CVE id")
     parser.add_argument("--service", metavar="NAME", help="Match templates by service name")

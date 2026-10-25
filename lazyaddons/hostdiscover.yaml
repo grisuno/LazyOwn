@@ -5,6 +5,7 @@ description: 'Ejecuta el script hostdiscover.sh que se encuentra en la carpeta m
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 os: network
 trigger: []
 tool:

@@ -32,6 +32,9 @@ def _make_stub(params, offensive=frozenset(), aliases=None, confirm=False):
     stub.aliases = aliases or {}
     stub._resolve_offensive = lambda name: Shell._resolve_offensive(stub, name)
     stub._scope_confirm = lambda decision: confirm
+    from rich.console import Console
+
+    stub.console = Console(file=open("/dev/null", "w"))
     return stub
 
 
@@ -144,8 +147,8 @@ class TestOffensiveClassificationIsBuilt:
         def _do_benign():
             pass
 
-        setattr(_do_offensive, cmd2.constants.CMD_ATTR_HELP_CATEGORY, "02. Scanning & Enumeration")
-        setattr(_do_benign, cmd2.constants.CMD_ATTR_HELP_CATEGORY, "11. Reporting")
+        setattr(_do_offensive, cmd2.constants.COMMAND_ATTR_HELP_CATEGORY, "02. Scanning & Enumeration")
+        setattr(_do_benign, cmd2.constants.COMMAND_ATTR_HELP_CATEGORY, "11. Reporting")
         stub.do_lazynmap = _do_offensive
         stub.do_report = _do_benign
         result = Shell._build_scope_offensive(stub)
@@ -155,3 +158,25 @@ class TestOffensiveClassificationIsBuilt:
 
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-v"]))
+
+
+def test_alias_parameter_is_preserved_after_dynamic_expansion():
+    """One-command aliases keep the operator-supplied IP or flag arguments."""
+    import cmd2
+
+    shell = object.__new__(Shell)
+    cmd2.Cmd.__init__(shell)
+    shell.aliases.update({"rm_wm_host": "sh python3 -m modules.world_model remove-host"})
+    shell.params = {"scope": [], "scope_enforcement": "off", "rhost": ""}
+    shell.version = "test"
+    shell.c2_url = ""
+    shell.sessions_dir = ""
+    shell.captured_images_dir = ""
+    shell.path = ""
+    shell.url_download = ""
+    shell._scope_check = lambda name: True
+    captured: dict[str, str] = {}
+    shell.do_sh = lambda line: captured.setdefault("line", str(line))
+
+    shell.onecmd_plus_hooks("rm_wm_host 127.0.0.1")
+    assert captured["line"] == "python3 -m modules.world_model remove-host 127.0.0.1"

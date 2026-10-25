@@ -1,0 +1,6 @@
+name: apt_ci_cd_pipeline_poisoning
+description: Full APT chain for ci/cd_pipeline_poisoning (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: ci/cd_pipeline_poisoning

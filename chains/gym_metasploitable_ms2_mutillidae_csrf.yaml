@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_mutillidae_csrf
+version: 2
+description: 'Metasploitable 2: Mutillidae CSRF blog entry (T1190).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- http
+platforms:
+- linux
+defaults:
+  exploit: ms2_mutillidae_csrf
+  vuln: ms2_mutillidae_csrf
+  port: '80'

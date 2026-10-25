@@ -5,6 +5,7 @@ description: 'Ejecuta el script vuln_bot_cli.py que se encuentra en la carpeta m
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: rhost
   type: string

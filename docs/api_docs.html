@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>LazyOwn C2 API Reference</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
+  <style>
+    body { margin: 0; padding: 0; font-family: Roboto, sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="redoc-container"></div>
+  <script src="https://cdn.redoc.ly/redoc/v2.5.4/bundles/redoc.standalone.js"></script>
+  <script>
+    (function() {
+      var el = document.getElementById('redoc-container');
+      function showError(err) {
+        el.textContent = 'Failed to load API spec (openapi.yaml): ' + err;
+      }
+      if (typeof Redoc === 'undefined' || !Redoc.init) {
+        showError('Redoc library failed to load from CDN.');
+        return;
+      }
+      try {
+        var result = Redoc.init('openapi.yaml', {
+          scrollYOffset: 0,
+          hideDownloadButton: false,
+          expandResponses: '200',
+          requiredPropsFirst: true,
+          sortPropsAlphabetically: true,
+          theme: {
+            colors: { primary: { main: '#00d4aa' } },
+            typography: { fontFamily: 'Roboto, sans-serif' }
+          }
+        }, el);
+        if (result && typeof result.catch === 'function') {
+          result.catch(showError);
+        }
+      } catch (err) {
+        showError(err);
+      }
+    })();
+  </script>
+</body>
+</html>

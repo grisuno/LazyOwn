@@ -1,0 +1,36 @@
+name: estorides
+description: 'Passive OSINT aggregator and LAN device inventory. 99+ sources, knowledge graph, STIX/MISP export, plus passive-first LAN discovery with blocking consent gate and machine-readable output directory (inventory, graph, lazyown, stix) feeding LazyOwn intel and attack graphs plus auto_loop.'
+author: LazyOwn RedTeam
+version: '3.0'
+enabled: true
+update: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: Listener/attacker IP for web UI binding.
+- name: rhost
+  type: string
+  required: false
+  description: Target IP/host for initial OSINT seed.
+- name: domain
+  type: string
+  required: false
+  description: Target domain for passive discovery seed.
+- name: lan_scope
+  type: string
+  required: false
+  description: Local network scope in CIDR notation (example 192.168.1.0/24). Requires ownership or written permission.
+- name: allow_active
+  type: boolean
+  required: false
+  description: Allow active LAN scanning when the consent gate and server policy permit it. Default false (passive only).
+os: any
+trigger: []
+tool:
+  name: estorides
+  repo_url: https://github.com/grisuno/estorides.git
+  install_path: external/.exploit/estorides
+  install_command: git pull && python3 -m pip install flask networkx requests pyyaml aiohttp kuzu
+  execute_command: python3 estorides_cli.py serve --port 5050
+category: 01. Reconnaissance

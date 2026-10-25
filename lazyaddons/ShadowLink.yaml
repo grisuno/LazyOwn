@@ -9,6 +9,7 @@ description: 'ShadowLink is a next-generation, automated framework for generatin
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

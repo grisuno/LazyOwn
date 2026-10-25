@@ -27,6 +27,10 @@ Design rules:
 
 - Adding a new well-known key means adding a :class:`FieldSpec` here; no
   other module needs to change to surface the documentation.
+- Keys that several addons share do NOT belong here: declare them once in
+  the operator registry (``params/operator.yaml``, see
+  :mod:`core.param_registry`) and the schema picks them up automatically.
+  Hardcoding them here would re-introduce one payload key per addon.
 - Validation is intentionally non-fatal: unknown keys are warnings (so
   operator-private extensions keep working), and bad values are warnings
   by default. Callers that need hard failures (e.g. the wizard) inspect
@@ -38,9 +42,23 @@ Design rules:
 from __future__ import annotations
 
 import re
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
-from enum import Enum
-from typing import Any, Callable, Iterable, Mapping
+from enum import StrEnum
+from typing import Any
+
+from modules.llm_factory import (
+    DEFAULT_ANTHROPIC_MODEL,
+    DEFAULT_BACKEND,
+    DEFAULT_DEEPSEEK_MODEL,
+    DEFAULT_GROQ_MODEL,
+    DEFAULT_LLAMACPP_HOST,
+    DEFAULT_LLAMACPP_MODEL,
+    DEFAULT_OLLAMA_HOST,
+    DEFAULT_OLLAMA_MODEL,
+    DEFAULT_OPENAI_MODEL,
+    SUPPORTED_BACKENDS,
+)
 
 IPV4_REGEX = re.compile(r"\A((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)\Z")
 INTERFACE_REGEX = re.compile(r"\A[A-Za-z0-9._@:-]{1,32}\Z")
@@ -56,7 +74,7 @@ PORT_MIN = 1
 PORT_MAX = 65535
 
 
-class FieldKind(str, Enum):
+class FieldKind(StrEnum):
     """Categorical type of a payload field used by validators and the wizard."""
 
     STRING = "string"
@@ -74,7 +92,7 @@ class FieldKind(str, Enum):
     OPAQUE = "opaque"
 
 
-class Severity(str, Enum):
+class Severity(StrEnum):
     """Severity of a :class:`ValidationIssue`."""
 
     ERROR = "error"
@@ -552,9 +570,9 @@ SCHEMA: dict[str, FieldSpec] = {
             sensitive=True,
         ),
         _spec(
-            "c2_maleable_route",
+            "c2_malleable_route",
             FieldKind.STRING,
-            "/pleasesubscribe/v1/users/",
+            "/api/v1/",
             "URI prefix used by beacons when polling the C2 server.",
             long_help=(
                 "Beacons append a per-host id to this prefix. Change it to "
@@ -569,9 +587,9 @@ SCHEMA: dict[str, FieldSpec] = {
         _spec("user_agent_1", FieldKind.STRING, "", "Decoy User-Agent slot 1.", category="c2"),
         _spec("user_agent_2", FieldKind.STRING, "", "Decoy User-Agent slot 2.", category="c2"),
         _spec("user_agent_3", FieldKind.STRING, "", "Decoy User-Agent slot 3.", category="c2"),
-        _spec("url_trafic_1", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 1.", category="c2"),
-        _spec("url_trafic_2", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 2.", category="c2"),
-        _spec("url_trafic_3", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 3.", category="c2"),
+        _spec("url_traffic_1", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 1.", category="c2"),
+        _spec("url_traffic_2", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 2.", category="c2"),
+        _spec("url_traffic_3", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 3.", category="c2"),
         _spec(
             "sleep",
             FieldKind.INT,
@@ -598,35 +616,604 @@ SCHEMA: dict[str, FieldSpec] = {
         _spec(
             "rat_key",
             FieldKind.HEX,
-            "82e672ae054aa4de6f042c888111686a",
-            "XOR key used by the Go beacon stub.",
+            "",
+            "Beacon HMAC signing key (X-Signature) shared with the rebuilt implant.",
+            long_help=(
+                "Must be 64 hex characters (32 bytes). Shipped empty: the "
+                "framework generates and persists a random key the first "
+                "time the C2 or the implant builder needs it, so beacons "
+                "are never signed with a secret that is public knowledge."
+            ),
             category="c2",
             sensitive=True,
         ),
         _spec("enable_c2_implant_debug", FieldKind.BOOL, "True", "Verbose beacon logging.", category="c2"),
         _spec(
+            "enable_chainmode",
+            FieldKind.BOOL,
+            False,
+            "Allow the interactive chain-mode menu in the CLI.",
+            category="cli",
+        ),
+        _spec(
+            "debug",
+            FieldKind.BOOL,
+            False,
+            "Enable DEBUG-level logging so silently swallowed UX failures are visible.",
+            long_help=(
+                "When enabled, exceptions swallowed by post-command hooks, "
+                "first-run setup, and auto-crypto are written to the session "
+                "log files with full tracebacks."
+            ),
+            example="False",
+            category="cli",
+        ),
+        _spec(
             "enable_cloudflare", FieldKind.BOOL, False, "Route C2 traffic through Cloudflare redirector.", category="c2"
         ),
+        _spec(
+            "c2_fallback_urls",
+            FieldKind.STRING,
+            "",
+            "Comma-separated disposable redirector URLs injected into the Go beacon fallback list.",
+            example="https://abc.trycloudflare.com,https://xyz.trycloudflare.com",
+            category="c2",
+        ),
+        _spec(
+            "sandboxed",
+            FieldKind.BOOL,
+            False,
+            "Run LazyOwn inside a Docker sandbox (set to true for air-gapped or isolated environments).",
+            category="infrastructure",
+        ),
         _spec("binary_name", FieldKind.STRING, "curl", "Stub binary name produced by build helpers.", category="c2"),
+        _spec(
+            "aes_key",
+            FieldKind.HEX,
+            "",
+            "AES-256 key used to encrypt C2 traffic and beacon payloads.",
+            long_help=(
+                "Must be exactly 64 hex characters (32 bytes after decode). "
+                "When empty, the framework loads or generates one under "
+                "sessions/key.aes. The resolved value is exposed as "
+                "self.params['aes_key'] and self.aes_key for use throughout "
+                "the framework (CLI, C2, MCP, and lazyaddons via {{aes_key}} "
+                "template substitution)."
+            ),
+            example="82e672ae054aa4de6f042c888111686a82e672ae054aa4de6f042c888111686a",
+            category="c2",
+            sensitive=True,
+            min_value=0,
+            max_value=0,
+            custom_validator=lambda v: (
+                None
+                if (
+                    isinstance(v, str) and (v == "" or (len(v) == 64 and all(c in "0123456789abcdefABCDEF" for c in v)))
+                )
+                else "aes_key must be 64 hex characters (32 bytes) or empty"
+            ),
+        ),
+        _spec(
+            "c2_allowed_origins",
+            FieldKind.STRING,
+            "",
+            "Comma-separated list of origins allowed to talk to the C2 web layer.",
+            long_help=(
+                "In PROD, the C2 web layer refuses to start when this is empty. "
+                "In DEV, the framework falls back to https://{lhost}. The "
+                "wildcard '*' is never accepted; the token is dropped from "
+                "any CSV value before resolution."
+            ),
+            example="https://c2.example,https://ops.example",
+            category="c2",
+        ),
+        _spec(
+            "c2_csrf_enabled",
+            FieldKind.BOOL,
+            "True",
+            "Require a CSRF token on every mutating operator request.",
+            category="c2",
+        ),
+        _spec(
+            "c2_register_limit",
+            FieldKind.STRING,
+            "5 per minute",
+            "Flask-Limiter rate applied to the /register endpoint.",
+            category="c2",
+        ),
+        _spec(
+            "c2_open_registration",
+            FieldKind.BOOL,
+            "False",
+            "Allow new operator accounts to self-register on the C2 web UI.",
+            long_help=(
+                "Disabled by default: new operators are created by an admin "
+                "through the user management panel. When enabled, new "
+                "registrants always get the default operator role."
+            ),
+            example="False",
+            category="c2",
+        ),
+        _spec(
+            "c2_decoy_mode",
+            FieldKind.STRING,
+            "page",
+            "Behaviour for requests coming from non-operator IPs: page, deny or off.",
+            long_help=(
+                "page (default) serves a fake decoy page, deny returns HTTP "
+                "403, off disables the check entirely so operators can reach "
+                "the dashboard from any machine."
+            ),
+            example="page",
+            category="c2",
+        ),
+        _spec(
+            "c2_require_beacon_hmac",
+            FieldKind.BOOL,
+            "True",
+            "Require a valid HMAC (X-Signature) on every beacon poll and result POST.",
+            long_help=(
+                "When enabled, /command/<client_id> GET polls and result "
+                "POSTs without a valid X-Signature header derived from "
+                "rat_key are rejected, preventing command-queue spoofing "
+                "and result forgery from hosts that reach the C2. Becons "
+                "rebuilt without a signing key fail until the operator "
+                "explicitly sets c2_require_beacon_hmac=false."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "auto_privesc_on_checkin",
+            FieldKind.BOOL,
+            "False",
+            "Queue the OS-appropriate linpeas/winpeas one-liner on the first beacon check-in.",
+            long_help=(
+                "Disabled by default so the beacon cadence stays "
+                "operator-paced. When enabled the C2 queues the privesc "
+                "scan command for a beacon the first time it polls."
+            ),
+            example="False",
+            category="c2",
+        ),
+        _spec(
+            "auto_discover_on_checkin",
+            FieldKind.BOOL,
+            "False",
+            "Queue one discover: sweep on the first beacon check-in.",
+            long_help=(
+                "Disabled by default so the beacon cadence stays "
+                "operator-paced. When enabled the C2 queues a single "
+                "discover: sweep per beacon on its first check-in."
+            ),
+            example="False",
+            category="c2",
+        ),
+        _spec(
+            "session_magic",
+            FieldKind.OPAQUE,
+            "",
+            "Session activation string baked into rebuilt implants (rotated per session).",
+            long_help=(
+                "Replaces the fixed author-identifying magic string in the "
+                "listeners and the lab agent. Shipped empty: it is "
+                "generated randomly at C2 boot and rotated by clean, so it "
+                "is never a reusable signature."
+            ),
+            category="c2",
+            sensitive=True,
+        ),
+        _spec(
+            "rotate_keys_on_boot",
+            FieldKind.BOOL,
+            "True",
+            "Rotate aes_key, rat_key and session_magic on every C2 boot and clean.",
+            long_help=(
+                "Session-scoped secrets: every engagement gets fresh "
+                "random keys, artifacts built in the session stop working "
+                "after a rotation and must be rebuilt, matching the "
+                "operational assumption that old implants are burned."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "proxy_autostart",
+            FieldKind.BOOL,
+            "True",
+            "Start the recorder proxy automatically with auto_loop.",
+            long_help=(
+                "When enabled the LazyProxy instance starts alongside the "
+                "autonomous loop and the proxy dashboard, so traffic "
+                "recording never has to be started by hand."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "proxy_gc_days",
+            FieldKind.INT,
+            30,
+            "Days after which recorded proxy sessions are garbage collected.",
+            long_help=(
+                "Recorded proxy sessions older than this many days are "
+                "compacted out during proxy startup."
+            ),
+            example="30",
+            category="c2",
+            min_value=1,
+            max_value=365,
+        ),
+        _spec(
+            "proxy_upstream",
+            FieldKind.URL,
+            "",
+            "Optional upstream proxy the recorder proxy forwards through.",
+            long_help=(
+                "When set, the recorder proxy chains every request through "
+                "this upstream HTTP(S) proxy instead of reaching the "
+                "target network directly."
+            ),
+            example="http://127.0.0.1:8118",
+            category="c2",
+        ),
+        _spec(
+            "max_concurrent",
+            FieldKind.INT,
+            0,
+            "Maximum distinct targets the autonomous loop works at once.",
+            long_help=(
+                "0 disables admission control (one target at a time); any "
+                "positive value caps the number of concurrently worked "
+                "targets in the loop."
+            ),
+            example="0",
+            category="c2",
+            min_value=0,
+            max_value=64,
+        ),
+        _spec(
+            "gym_cleanup_on_exit",
+            FieldKind.BOOL,
+            "True",
+            "Stop lab and range containers when the shell exits.",
+            long_help=(
+                "When enabled, an atexit hook stops every running lab "
+                "scenario and cyber range container so no vulnerable "
+                "machines are left running after the session."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "sleep_jit_enabled",
+            FieldKind.BOOL,
+            "True",
+            "Enable random jitter on beacon sleep intervals in the implant.",
+            long_help=(
+                "When enabled, the implant applies a random jitter "
+                "percentage taken between sleep_jit_pct_min and "
+                "sleep_jit_pct_max to every beacon sleep."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "sleep_jit_pct_min",
+            FieldKind.INT,
+            30,
+            "Lower bound of the random beacon jitter percentage.",
+            long_help=(
+                "Lower bound (percent) for the randomized jitter applied "
+                "to each sleep interval when sleep_jit_enabled is true."
+            ),
+            example="30",
+            category="c2",
+            min_value=0,
+            max_value=95,
+        ),
+        _spec(
+            "sleep_jit_pct_max",
+            FieldKind.INT,
+            60,
+            "Upper bound of the random beacon jitter percentage.",
+            long_help=(
+                "Upper bound (percent) for the randomized jitter applied "
+                "to each sleep interval when sleep_jit_enabled is true."
+            ),
+            example="60",
+            category="c2",
+            min_value=0,
+            max_value=100,
+        ),
+        _spec(
+            "sleep_activation_delay_min",
+            FieldKind.STRING,
+            "0s",
+            "Minimum random activation delay before the first beacon poll.",
+            long_help=(
+                "Go duration between 1ms and 20h (for example 5m, 2h30m, "
+                "20h). The implant waits a random duration between min and "
+                "max before its first poll so artifacts do not light up "
+                "the moment they land."
+            ),
+            example="0s",
+            category="c2",
+        ),
+        _spec(
+            "sleep_activation_delay_max",
+            FieldKind.STRING,
+            "0s",
+            "Maximum random activation delay before the first beacon poll.",
+            long_help=(
+                "Go duration between 1ms and 20h. Must be greater than or "
+                "equal to sleep_activation_delay_min. Use it to spread the "
+                "first contact of a deployed fleet across hours."
+            ),
+            example="0s",
+            category="c2",
+        ),
+        _spec(
+            "persistence_cron_schedule",
+            FieldKind.STRING,
+            "*/5 * * * *",
+            "crontab schedule the persist: verb installs on Linux targets.",
+            long_help=(
+                "Five-field cron expression. The old hard-coded every-minute "
+                "schedule was a detection giveaway; pick a cadence that "
+                "matches the environment (for example */15 * * * * or "
+                "0 */4 * * *)."
+            ),
+            example="*/5 * * * *",
+            category="c2",
+        ),
+        _spec(
+            "persistence_service_name",
+            FieldKind.STRING,
+            "sysmaint",
+            "systemd/LaunchAgent service name the persist: verb installs.",
+            long_help=(
+                "Bland name for the persistence unit. Avoid anything that "
+                "reads as a compromise; match the naming style of the "
+                "target environment."
+            ),
+            example="sysmaint",
+            category="c2",
+        ),
+        _spec(
+            "c2_api_command_allowlist",
+            FieldKind.STRING,
+            "ping,set,show,help,status,sessions,sitrep,gets,get,downloader,getosession,osession,setar,getar,session,clean",
+            "Comma-separated first-token allowlist for /api/run.",
+            long_help=(
+                "Every command reaching the LazyOwn shell through /api/run "
+                "must start with one of these tokens; shell metacharacters "
+                "are always rejected regardless of the allowlist."
+            ),
+            example="ping,set,show,status",
+            category="c2",
+        ),
+        _spec(
+            "c2_trusted_proxy_count",
+            FieldKind.INT,
+            0,
+            "Number of trusted reverse proxies in front of the C2.",
+            long_help=(
+                "When greater than zero, the C2 parses X-Forwarded-For "
+                "right-to-left and skips this many hops before trusting the "
+                "leftmost address. Zero disables header parsing entirely."
+            ),
+            min_value=0,
+            max_value=8,
+            category="c2",
+        ),
+        _spec(
+            "c2_operator_ip_allowlist",
+            FieldKind.STRING,
+            "127.0.0.1",
+            "Comma-separated IPs allowed to access operator-only routes.",
+            category="c2",
+        ),
+        _spec(
+            "c2_reverse_shell_password",
+            FieldKind.STRING,
+            "",
+            "Password required to trigger the /lazyos reverse shell.",
+            long_help=(
+                "Must be at least 12 characters when set. When empty, the "
+                "framework generates a cryptographically random 32-char hex "
+                "token at startup and logs a WARNING. "
+                "Set this in payload.json to silence the warning and use a "
+                "persistent password."
+            ),
+            example="please-change-me-12+chars",
+            category="c2",
+            sensitive=True,
+        ),
+        _spec(
+            "c2_max_upload_size_mb",
+            FieldKind.INT,
+            10,
+            "Maximum upload size in megabytes enforced by the C2 web layer.",
+            min_value=1,
+            max_value=1024,
+            category="c2",
+        ),
+        _spec(
+            "c2_https_redirect",
+            FieldKind.BOOL,
+            "True",
+            "Force HTTP -> HTTPS redirect in PROD (no-op in DEV).",
+            category="c2",
+        ),
         _spec(
             "api_key",
             FieldKind.STRING,
             "your_api_key_here",
             "Groq API key (free tier available at console.groq.com).",
             long_help=(
-                "Enables AI-powered command suggestions, the phishing copy "
-                "generator, and the vulnerability analyst. The framework "
-                "degrades gracefully when missing — only AI features turn off."
+                "Key slot used by the groq backend and by the cloud leg of "
+                "the auto backend. Enables AI-powered command suggestions, "
+                "the phishing copy generator, and the vulnerability analyst. "
+                "The framework degrades gracefully when missing — only "
+                "cloud AI features turn off."
             ),
             example="gsk_********************************",
             category="ai",
             sensitive=True,
         ),
         _spec(
+            "llm_backend",
+            FieldKind.STRING,
+            DEFAULT_BACKEND,
+            "LLM provider used by every AI assistant in the framework.",
+            long_help=(
+                "Single source of truth for provider selection. Every bot "
+                "(C2 dashboard, Slack, Telegram, Discord) and the ai CLI "
+                "command resolve their backend through "
+                "modules.llm_factory from this key. Use auto to try the "
+                "cloud provider first and fall back to local Ollama."
+            ),
+            example="ollama",
+            category="ai",
+            allowed=tuple(SUPPORTED_BACKENDS),
+        ),
+        _spec(
+            "llm_model_groq",
+            FieldKind.STRING,
+            DEFAULT_GROQ_MODEL,
+            "Model identifier used by the groq backend.",
+            example=DEFAULT_GROQ_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "llm_model_ollama",
+            FieldKind.STRING,
+            DEFAULT_OLLAMA_MODEL,
+            "Model identifier used by the ollama backend.",
+            example=DEFAULT_OLLAMA_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "llm_model_openai",
+            FieldKind.STRING,
+            DEFAULT_OPENAI_MODEL,
+            "Model identifier used by the openai backend.",
+            example=DEFAULT_OPENAI_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "llm_model_anthropic",
+            FieldKind.STRING,
+            DEFAULT_ANTHROPIC_MODEL,
+            "Model identifier used by the anthropic backend.",
+            example=DEFAULT_ANTHROPIC_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "llm_model_deepseek",
+            FieldKind.STRING,
+            DEFAULT_DEEPSEEK_MODEL,
+            "Model identifier used by the deepseek backend.",
+            example=DEFAULT_DEEPSEEK_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "openai_api_key",
+            FieldKind.STRING,
+            "",
+            "OpenAI API key used by the openai backend.",
+            example="sk-********************************",
+            category="ai",
+            sensitive=True,
+        ),
+        _spec(
+            "anthropic_api_key",
+            FieldKind.STRING,
+            "",
+            "Anthropic API key used by the anthropic backend.",
+            example="sk-ant-********************************",
+            category="ai",
+            sensitive=True,
+        ),
+        _spec(
+            "deepseek_api_key",
+            FieldKind.STRING,
+            "",
+            "DeepSeek API key used by the deepseek backend.",
+            example="sk-********************************",
+            category="ai",
+            sensitive=True,
+        ),
+        _spec(
+            "ollama_host",
+            FieldKind.STRING,
+            DEFAULT_OLLAMA_HOST,
+            "Base URL of the local Ollama daemon.",
+            example=DEFAULT_OLLAMA_HOST,
+            category="ai",
+        ),
+        _spec(
             "prompt",
             FieldKind.STRING,
             "Presentate como Lazy OWN OneLiner assistant",
             "Default system prompt for the LLM agents.",
+            category="ai",
+        ),
+        _spec(
+            "orchestrator",
+            FieldKind.OPAQUE,
+            {},
+            "Autonomous loop overrides (stages, auto verbs, full_cli, installer).",
+            long_help=(
+                "Free-form section managed by lazy_verb, lazy_stage and the "
+                "orchestrator console. The loop reads stages, auto_verbs, "
+                "full_cli and installer from here; hand-editing is never needed."
+            ),
+            category="ai",
+        ),
+        _spec(
+            "local_llm",
+            FieldKind.STRING,
+            "none",
+            "Local LLM pane for fast_run (ollama, llamacpp, both, none).",
+            long_help=(
+                "fast_run_as_r00t.sh reads this to decide which local model "
+                "panes to open: ollama (deepseek via ollama run), llamacpp "
+                "(the lazy_llamacpp addon server) or both side by side."
+            ),
+            example="llamacpp",
+            allowed=("ollama", "llamacpp", "both", "none"),
+            category="ai",
+        ),
+        _spec(
+            "llamacpp_host",
+            FieldKind.STRING,
+            DEFAULT_LLAMACPP_HOST,
+            "Base URL of the local llama.cpp server.",
+            example=DEFAULT_LLAMACPP_HOST,
+            category="ai",
+        ),
+        _spec(
+            "llm_model_llamacpp",
+            FieldKind.STRING,
+            DEFAULT_LLAMACPP_MODEL,
+            "Model alias served by the local llama.cpp server.",
+            example=DEFAULT_LLAMACPP_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "agent_model_timeout",
+            FieldKind.INT,
+            300,
+            "Hard per-turn timeout (seconds) for agentic model calls.",
+            long_help=(
+                "Past this budget the turn raises into the pool failover "
+                "instead of hanging the worker. Floor is 60 seconds."
+            ),
+            example="300",
+            min_value=60,
+            max_value=3600,
             category="ai",
         ),
         _spec(
@@ -687,6 +1274,43 @@ SCHEMA: dict[str, FieldSpec] = {
             "Initial password matching start_user.",
             category="credentials",
             sensitive=True,
+        ),
+        _spec(
+            "backdoor_username",
+            FieldKind.STRING,
+            "CHANGE_ME",
+            "Username for persistent backdoor accounts.",
+            category="credentials",
+            sensitive=True,
+        ),
+        _spec(
+            "backdoor_password",
+            FieldKind.STRING,
+            "CHANGE_ME",
+            "Password for persistent backdoor accounts.",
+            category="credentials",
+            sensitive=True,
+        ),
+        _spec(
+            "backdoor_linux_home",
+            FieldKind.STRING,
+            "/home/.lazyown",
+            "Home directory path for Linux backdoor implants.",
+            category="persistence",
+        ),
+        _spec(
+            "backdoor_win_home",
+            FieldKind.STRING,
+            "C:/Users/lazyown/Documents",
+            "Home directory path for Windows backdoor implants.",
+            category="persistence",
+        ),
+        _spec(
+            "backdoor_win_service_path",
+            FieldKind.STRING,
+            "C:/Users/lazyown/Documents",
+            "Service path for Windows backdoor persistence.",
+            category="persistence",
         ),
         _spec(
             "file",
@@ -760,6 +1384,20 @@ SCHEMA: dict[str, FieldSpec] = {
             category="misc",
         ),
         _spec(
+            "hint_evidence",
+            FieldKind.BOOL,
+            True,
+            "Show inline next-step hints with their justification and confidence.",
+            long_help=(
+                "When enabled, the post-command hint fuses every 'what next' signal "
+                "(recon plan, kill-chain gaps, graph proximity, learned policy) and "
+                "renders each suggestion with a one-line reason and a 0-100 confidence "
+                "instead of a bare list of command names. Disable to fall back to the "
+                "terse name-only hints."
+            ),
+            category="misc",
+        ),
+        _spec(
             "enable_operator_presence",
             FieldKind.BOOL,
             False,
@@ -776,6 +1414,21 @@ SCHEMA: dict[str, FieldSpec] = {
             "default",
             "Colour theme for the TUI overlays (default, dim, bright, colorblind).",
             allowed=("default", "dim", "bright", "colorblind"),
+            category="misc",
+        ),
+        _spec(
+            "ui_hints",
+            FieldKind.STRING,
+            "on",
+            "Ambient coaching level: on (all surfaces), minimal (autosuggest only), off (professional mode).",
+            long_help=(
+                "Master switch for every post-command guidance surface. "
+                "'on' keeps toasts, inline hints, protips, autosuggest and engagement flavour. "
+                "'minimal' keeps only the autosuggest accelerator (press '.' to accept). "
+                "'off' silences all of them; notifications from display_toastr degrade to "
+                "single plain lines so no information is lost."
+            ),
+            allowed=("on", "minimal", "off"),
             category="misc",
         ),
         _spec(
@@ -809,8 +1462,430 @@ SCHEMA: dict[str, FieldSpec] = {
             allowed=("off", "warn", "enforce"),
             category="security",
         ),
+        _spec(
+            "target",
+            FieldKind.STRING,
+            "",
+            "Free-form target label (e.g. company name or hostname).",
+            category="metadata",
+        ),
+        _spec(
+            "cloud_provider",
+            FieldKind.STRING,
+            "aws",
+            "Cloud provider for cloud-specific commands (aws, azure, gcp).",
+            category="infrastructure",
+            allowed=("aws", "azure", "gcp"),
+        ),
+        _spec(
+            "cloud_region",
+            FieldKind.STRING,
+            "us-east-1",
+            "Cloud region for cloud-specific commands.",
+            category="infrastructure",
+        ),
+        _spec(
+            "region",
+            FieldKind.STRING,
+            "us-east-1",
+            "Geographic region identifier.",
+            category="infrastructure",
+        ),
+        _spec(
+            "scan_type",
+            FieldKind.STRING,
+            "fs",
+            "Nmap scan profile: fs (full scan), qs (quick scan), vs (vuln scan).",
+            category="network",
+            allowed=("fs", "qs", "vs"),
+        ),
+        _spec(
+            "report_output_path",
+            FieldKind.STRING,
+            "",
+            "Path for the generated report file.",
+            category="reporting",
+        ),
+        _spec(
+            "topoexploit_path",
+            FieldKind.PATH,
+            "external/.exploit/TopoExploit",
+            "TopoExploit repo root used by the lazyexploit addon.",
+            category="infrastructure",
+        ),
+        _spec(
+            "topoexploit_port",
+            FieldKind.PORT,
+            8800,
+            "TopoExploit OpenAI-compatible API port.",
+            example="8800",
+            category="network",
+        ),
+        _spec(
+            "username",
+            FieldKind.STRING,
+            "",
+            "Default username for authenticated operations (e.g. ADCS attacks).",
+            category="credentials",
+        ),
+        _spec(
+            "password",
+            FieldKind.STRING,
+            "",
+            "Default password for authenticated operations.",
+            category="credentials",
+            sensitive=True,
+        ),
+        _spec(
+            "dc_ip",
+            FieldKind.IP,
+            "",
+            "Domain controller IP address for AD operations.",
+            category="network",
+        ),
+        _spec(
+            "ca_name",
+            FieldKind.STRING,
+            "",
+            "Target certificate authority name for ADCS operations.",
+            category="credentials",
+        ),
+        _spec(
+            "template_name",
+            FieldKind.STRING,
+            "",
+            "Vulnerable certificate template name for ADCS operations.",
+            category="credentials",
+        ),
+        _spec(
+            "target_path",
+            FieldKind.PATH,
+            "",
+            "File or directory path consumed by scanner addons (e.g. YARA).",
+            category="reporting",
+        ),
+        _spec(
+            "cloud_prefix",
+            FieldKind.STRING,
+            "",
+            "Company prefix for cloud bucket name generation.",
+            category="infrastructure",
+        ),
+        _spec(
+            "exploitgym_path",
+            FieldKind.PATH,
+            "external/.exploit/exploitgym",
+            "ExploitGym repo root used by the exploitgym addon.",
+            category="infrastructure",
+        ),
+        _spec(
+            "exploitgym_model",
+            FieldKind.STRING,
+            "",
+            "LLM model used by the ExploitGym harness.",
+            category="infrastructure",
+        ),
+        _spec(
+            "exploitgym_openai_key",
+            FieldKind.STRING,
+            "",
+            "OpenAI key for the ExploitGym harness.",
+            category="infrastructure",
+            sensitive=True,
+        ),
+        _spec(
+            "exploitgym_anthropic_key",
+            FieldKind.STRING,
+            "",
+            "Anthropic key for the ExploitGym harness.",
+            category="infrastructure",
+            sensitive=True,
+        ),
+        _spec(
+            "exploitgym_admin_key",
+            FieldKind.STRING,
+            "",
+            "Admin key guarding the ExploitGym task server.",
+            category="infrastructure",
+            sensitive=True,
+        ),
+        _spec(
+            "exploitgym_server_salt",
+            FieldKind.STRING,
+            "",
+            "Salt used by the ExploitGym server for flag derivation.",
+            category="infrastructure",
+            sensitive=True,
+        ),
+        _spec(
+            "exploitgym_flag_seed",
+            FieldKind.STRING,
+            "",
+            "Seed used by the ExploitGym server for flag generation.",
+            category="infrastructure",
+            sensitive=True,
+        ),
+        _spec(
+            "exploitgym_server_api_key",
+            FieldKind.STRING,
+            "",
+            "API key clients present to the ExploitGym task server.",
+            category="infrastructure",
+            sensitive=True,
+        ),
+        _spec(
+            "cert_pass",
+            FieldKind.STRING,
+            "CHANGE_ME",
+            "Password protecting the C2 TLS certificate private key.",
+            category="credentials",
+            sensitive=True,
+        ),
+        _spec(
+            "entropia_src",
+            FieldKind.STRING,
+            "examples/bof_pslist.etpy",
+            "Entropia source file for shellcode/BOF builds.",
+            category="misc",
+        ),
+        _spec(
+            "entropia_type",
+            FieldKind.STRING,
+            "bof",
+            "Entropia build kind: standard, bof or coff.",
+            category="misc",
+        ),
+        _spec(
+            "entropia_opsec",
+            FieldKind.STRING,
+            "all",
+            "Entropia OPSEC pass list applied at compile time.",
+            category="misc",
+        ),
+        _spec(
+            "entropia_seed",
+            FieldKind.STRING,
+            "random",
+            "RNG seed driving Entropia randomised passes.",
+            category="misc",
+        ),
+        _spec(
+            "entropia_out",
+            FieldKind.STRING,
+            "entropia_shellcode.bin",
+            "Entropia output artefact path.",
+            category="misc",
+        ),
+        _spec(
+            "entropia_artifact",
+            FieldKind.STRING,
+            "entropia_bof.x64.o",
+            "Entropia expected build artefact for verification.",
+            category="misc",
+        ),
+        _spec(
+            "entropia_kind",
+            FieldKind.STRING,
+            "bof",
+            "Entropia project kind for new sources.",
+            category="misc",
+        ),
+        _spec(
+            "entropia_name",
+            FieldKind.STRING,
+            "demo_task",
+            "Entropia project/task name.",
+            category="misc",
+        ),
+        _spec(
+            "entropia_seed_a",
+            FieldKind.STRING,
+            "7",
+            "First RNG seed for Entropia differential builds.",
+            category="misc",
+        ),
+        _spec(
+            "entropia_seed_b",
+            FieldKind.STRING,
+            "77",
+            "Second RNG seed for Entropia differential builds.",
+            category="misc",
+        ),
+        _spec(
+            "entropia_harness_args",
+            FieldKind.STRING,
+            "--zarg operator",
+            "Extra arguments for the Entropia test harness.",
+            category="misc",
+        ),
+        _spec(
+            "ghidra_plugin_url",
+            FieldKind.URL,
+            "http://localhost:8089",
+            "URL of the Ghidra-side plugin HTTP endpoint.",
+            example="http://localhost:8089",
+            category="network",
+        ),
+        _spec(
+            "mcp_host",
+            FieldKind.STRING,
+            "localhost",
+            "Bind host for the Ghidra MCP bridge.",
+            category="network",
+        ),
+        _spec(
+            "mcp_port",
+            FieldKind.PORT,
+            "8081",
+            "Bind port for the Ghidra MCP bridge.",
+            category="network",
+        ),
+        _spec(
+            "grype_target",
+            FieldKind.STRING,
+            ".",
+            "Grype scan target: image, directory or SBOM file.",
+            category="recon",
+        ),
+        _spec(
+            "ghidra_server",
+            FieldKind.URL,
+            "http://127.0.0.1:8080/",
+            "URL of the GhidraMCP HTTP server inside Ghidra.",
+            example="http://127.0.0.1:8080/",
+            category="network",
+        ),
+        _spec(
+            "trivy_scan_type",
+            FieldKind.STRING,
+            "fs",
+            "Trivy scan subcommand: image, fs, repo, config or sbom.",
+            allowed=("image", "fs", "repo", "config", "sbom"),
+            category="network",
+        ),
+        _spec(
+            "trivy_target",
+            FieldKind.STRING,
+            ".",
+            "Trivy scan target: image name, path, repo URL or config dir.",
+            category="network",
+        ),
+        _spec(
+            "android_serial",
+            FieldKind.STRING,
+            "",
+            "ADB serial of the Android device driven by the mobile addons.",
+            long_help=(
+                "Serial reported by 'adb devices'. Leave empty to target the only "
+                "connected device, otherwise set it with 'assign android_serial "
+                "<serial>' before running a device-scoped addon."
+            ),
+            example="R5CT30ABCDE",
+            category="misc",
+        ),
+        _spec(
+            "dirtyinit_device_path",
+            FieldKind.STRING,
+            "/data/local/tmp/dirtyinit",
+            "Device path where the dirtyinit init-namespace client is staged.",
+            example="/data/local/tmp/dirtyinit",
+            category="misc",
+        ),
+        _spec(
+            "wifi_ssid",
+            FieldKind.STRING,
+            "",
+            "SSID of the wireless access point targeted by the radio tooling.",
+            long_help=(
+                "Exact SSID the wireless fingerprinters look for on the air. "
+                "Set it with 'assign wifi_ssid <ssid>' before running a radio "
+                "scanner so the target access point is unambiguous."
+            ),
+            example="MyAccessPoint",
+            category="network",
+        ),
+        _spec(
+            "action",
+            FieldKind.STRING,
+            "search",
+            "Addon subcommand selector (ttpscope/atomic tooling).",
+            category="general",
+        ),
+        _spec(
+            "query",
+            FieldKind.STRING,
+            "",
+            "Free-text search query for research addons.",
+            category="general",
+        ),
+        _spec(
+            "technique_id",
+            FieldKind.STRING,
+            "",
+            "MITRE ATT&CK object ID (T1059.001, G0016, ...).",
+            category="general",
+        ),
+        _spec(
+            "platform",
+            FieldKind.STRING,
+            "",
+            "Platform filter (Windows, Linux, macOS) for research addons.",
+            category="general",
+        ),
+        _spec(
+            "note_text",
+            FieldKind.STRING,
+            "",
+            "Research note body for note-taking addons.",
+            category="general",
+        ),
     )
 }
+
+# Snapshot of the hardcoded specs. Runtime-registered operator parameters
+# never override a builtin key.
+_BUILTIN_SPECS: frozenset[str] = frozenset(SCHEMA)
+
+
+def register_specs(specs: Mapping[str, FieldSpec]) -> int:
+    """Register (or replace) field specs at runtime.
+
+    The operator parameter registry (``core.param_registry``) declares
+    parameters as data, so the schema has to learn about them without a
+    source edit. Builtin specs always win: an operator entry never
+    overrides a hardcoded key.
+
+    Args:
+        specs: Mapping of payload key to its spec.
+
+    Returns:
+        Number of specs actually registered.
+    """
+    registered = 0
+    for key, spec in specs.items():
+        if key in _BUILTIN_SPECS:
+            continue
+        SCHEMA[key] = spec
+        registered += 1
+    return registered
+
+
+def unregister_specs(keys: Iterable[str]) -> int:
+    """Remove runtime-registered specs from the schema.
+
+    Args:
+        keys: Payload keys to drop.
+
+    Returns:
+        Number of specs actually removed.
+    """
+    removed = 0
+    for key in list(keys):
+        if key in _BUILTIN_SPECS:
+            continue
+        if SCHEMA.pop(key, None) is not None:
+            removed += 1
+    return removed
 
 
 def field_for(key: str) -> FieldSpec | None:
@@ -988,6 +2063,27 @@ def categories() -> dict[str, list[FieldSpec]]:
     return grouped
 
 
+def _load_operator_specs() -> int:
+    """Register the parameters declared in ``params/operator.yaml``.
+
+    The operator registry stores parameters as data, so the schema learns
+    about them at import time without a source edit. A missing or broken
+    registry file is not an error: the builtin schema stays authoritative.
+
+    Returns:
+        Number of operator parameters registered.
+    """
+    try:
+        from core.param_registry import apply_to_schema
+
+        return apply_to_schema()
+    except Exception:  # pragma: no cover - defensive: never break the import
+        return 0
+
+
+_load_operator_specs()
+
+
 __all__ = [
     "FieldKind",
     "FieldSpec",
@@ -999,6 +2095,8 @@ __all__ = [
     "default_payload",
     "field_for",
     "format_issue",
+    "register_specs",
+    "unregister_specs",
     "validate_payload",
     "validate_value",
 ]

@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_phpmyadmin_default
+version: 2
+description: 'Metasploitable 2: phpMyAdmin default root login (T1078).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- http
+platforms:
+- linux
+defaults:
+  exploit: ms2_phpmyadmin_default
+  vuln: ms2_phpmyadmin_default
+  port: '80'

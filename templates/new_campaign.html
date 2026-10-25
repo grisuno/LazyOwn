@@ -140,7 +140,7 @@ async function lazyphishingaiForm(prompt, id) {
                     try {
                         const data = JSON.parse(chunk);
                         if (data.response) {
-                            responseDiv.innerHTML +=  data.response;
+                            responseDiv.innerHTML += DOMPurify.sanitize(data.response);
                         }
                     } catch (e) {
 
@@ -152,7 +152,7 @@ async function lazyphishingaiForm(prompt, id) {
                 try {
                     const data = JSON.parse(buffer);
                     if (data.response) {
-                        responseDiv.innerHTML += data.response;
+                        responseDiv.innerHTML += DOMPurify.sanitize(data.response);
                     }
                 } catch (e) {
 

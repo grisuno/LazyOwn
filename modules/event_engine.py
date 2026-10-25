@@ -10,20 +10,18 @@ Designed to run as a lightweight background loop (see skills/heartbeat.py).
 
 import csv
 import json
-import os
-import re
 import uuid
 from datetime import datetime
 from pathlib import Path
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-BASE_DIR   = Path(__file__).parent.parent
-SESSIONS   = BASE_DIR / "sessions"
-CSV_FILE   = SESSIONS / "LazyOwn_session_report.csv"
-EVENTS_FILE= SESSIONS / "events.jsonl"
+BASE_DIR = Path(__file__).parent.parent
+SESSIONS = BASE_DIR / "sessions"
+CSV_FILE = SESSIONS / "LazyOwn_session_report.csv"
+EVENTS_FILE = SESSIONS / "events.jsonl"
 RULES_FILE = SESSIONS / "event_rules.json"
-LOGS_DIR   = SESSIONS / "logs"
-WATERMARK  = SESSIONS / ".event_engine_watermark"   # last processed CSV byte offset
+LOGS_DIR = SESSIONS / "logs"
+WATERMARK = SESSIONS / ".event_engine_watermark"  # last processed CSV byte offset
 
 
 # ── Default rules ─────────────────────────────────────────────────────────────
@@ -34,7 +32,7 @@ DEFAULT_RULES = [
         "trigger": {"command": "lazynmap", "output_contains": "80/open"},
         "event_type": "WEB_PORT_FOUND",
         "severity": "info",
-        "suggest": "Run lazywebscan or gobuster to enumerate web surface."
+        "suggest": "Run lazywebscan or gobuster to enumerate web surface.",
     },
     {
         "id": "smb_port_found",
@@ -42,7 +40,7 @@ DEFAULT_RULES = [
         "trigger": {"command": "lazynmap", "output_contains": "445/open"},
         "event_type": "SMB_PORT_FOUND",
         "severity": "info",
-        "suggest": "Run smbmap, enum4linux or crackmapexec."
+        "suggest": "Run smbmap, enum4linux or crackmapexec.",
     },
     {
         "id": "credentials_found",
@@ -50,7 +48,7 @@ DEFAULT_RULES = [
         "trigger": {"command_contains": "echo", "args_contains": "credentials"},
         "event_type": "CREDENTIALS_CAPTURED",
         "severity": "high",
-        "suggest": "Check sessions/credentials*.txt — try credential spraying."
+        "suggest": "Check sessions/credentials*.txt — try credential spraying.",
     },
     {
         "id": "new_beacon",
@@ -58,7 +56,7 @@ DEFAULT_RULES = [
         "trigger": {"command": "c2"},
         "event_type": "C2_COMMAND_ISSUED",
         "severity": "info",
-        "suggest": "Check lazyown_get_beacons() for connected implants."
+        "suggest": "Check lazyown_get_beacons() for connected implants.",
     },
     {
         "id": "vuln_scan_done",
@@ -66,7 +64,7 @@ DEFAULT_RULES = [
         "trigger": {"command_contains": "vuln"},
         "event_type": "VULN_SCAN_COMPLETE",
         "severity": "info",
-        "suggest": "Review scan output — check sessions/vulns_*.nmap for findings."
+        "suggest": "Review scan output — check sessions/vulns_*.nmap for findings.",
     },
     {
         "id": "privesc_attempt",
@@ -74,7 +72,7 @@ DEFAULT_RULES = [
         "trigger": {"command_contains": "priv"},
         "event_type": "PRIVESC_ATTEMPT",
         "severity": "high",
-        "suggest": "Monitor for root shell — check beacon output."
+        "suggest": "Monitor for root shell — check beacon output.",
     },
     {
         "id": "exfil_triggered",
@@ -82,7 +80,7 @@ DEFAULT_RULES = [
         "trigger": {"command_contains": "exfil"},
         "event_type": "EXFIL_TRIGGERED",
         "severity": "critical",
-        "suggest": "Review sessions/ for exfiltrated data."
+        "suggest": "Review sessions/ for exfiltrated data.",
     },
     {
         "id": "ldap_enum",
@@ -90,12 +88,13 @@ DEFAULT_RULES = [
         "trigger": {"command_contains": "ldap"},
         "event_type": "AD_ENUM_STARTED",
         "severity": "info",
-        "suggest": "Check for domain users, groups, and ACLs in output."
+        "suggest": "Check for domain users, groups, and ACLs in output.",
     },
 ]
 
 
 # ── Rule loading ──────────────────────────────────────────────────────────────
+
 
 def load_rules() -> list[dict]:
     """Load rules from event_rules.json, creating it with defaults if missing."""
@@ -127,6 +126,7 @@ def add_rule(rule: dict) -> str:
 
 # ── Watermark ────────────────────────────────────────────────────────────────
 
+
 def _read_watermark() -> int:
     try:
         return int(WATERMARK.read_text().strip())
@@ -140,8 +140,9 @@ def _write_watermark(offset: int):
 
 # ── Rule matching ─────────────────────────────────────────────────────────────
 
+
 def _row_matches(row: dict, trigger: dict) -> bool:
-    cmd  = row.get("command", "").lower()
+    cmd = row.get("command", "").lower()
     args = row.get("args", "").lower()
 
     if "command" in trigger and cmd != trigger["command"].lower():
@@ -168,12 +169,14 @@ def _row_matches(row: dict, trigger: dict) -> bool:
 
 # ── Event writing ─────────────────────────────────────────────────────────────
 
+
 def _append_event(event: dict):
     with open(EVENTS_FILE, "a") as f:
         f.write(json.dumps(event) + "\n")
 
 
 # ── Core: process new CSV rows ────────────────────────────────────────────────
+
 
 def process_new_rows() -> int:
     """
@@ -184,9 +187,9 @@ def process_new_rows() -> int:
     if not CSV_FILE.exists():
         return 0
 
-    offset   = _read_watermark()
-    rules    = load_rules()
-    emitted  = 0
+    offset = _read_watermark()
+    rules = load_rules()
+    emitted = 0
 
     with open(CSV_FILE, "r", newline="", errors="replace") as f:
         # If first run (offset=0) skip header but set watermark to after it
@@ -198,29 +201,40 @@ def process_new_rows() -> int:
         f.seek(offset)
         reader = csv.DictReader(
             f,
-            fieldnames=["start","end","source_ip","source_port",
-                        "destination_ip","destination_port","domain",
-                        "subdomain","url","pivot_port","command","args"]
+            fieldnames=[
+                "start",
+                "end",
+                "source_ip",
+                "source_port",
+                "destination_ip",
+                "destination_port",
+                "domain",
+                "subdomain",
+                "url",
+                "pivot_port",
+                "command",
+                "args",
+            ],
         )
 
         for row in reader:
             for rule in rules:
                 if _row_matches(row, rule.get("trigger", {})):
                     event = {
-                        "id":        str(uuid.uuid4())[:8],
+                        "id": str(uuid.uuid4())[:8],
                         "timestamp": datetime.now().isoformat(),
-                        "type":      rule.get("event_type", "UNKNOWN"),
-                        "severity":  rule.get("severity", "info"),
-                        "rule_id":   rule["id"],
+                        "type": rule.get("event_type", "UNKNOWN"),
+                        "severity": rule.get("severity", "info"),
+                        "rule_id": rule["id"],
                         "source": {
-                            "command":  row.get("command"),
-                            "args":     row.get("args"),
-                            "target":   row.get("destination_ip"),
-                            "domain":   row.get("domain"),
-                            "ts":       row.get("start"),
+                            "command": row.get("command"),
+                            "args": row.get("args"),
+                            "target": row.get("destination_ip"),
+                            "domain": row.get("domain"),
+                            "ts": row.get("start"),
                         },
-                        "suggest":   rule.get("suggest", ""),
-                        "status":    "pending",
+                        "suggest": rule.get("suggest", ""),
+                        "status": "pending",
                     }
                     _append_event(event)
                     emitted += 1
@@ -231,6 +245,7 @@ def process_new_rows() -> int:
 
 
 # ── Event reading (for MCP) ───────────────────────────────────────────────────
+
 
 def read_events(limit: int = 20, status: str = "pending") -> list[dict]:
     """Return up to `limit` events matching `status` (pending/processed/all)."""
@@ -283,6 +298,6 @@ if __name__ == "__main__":
     print(f"[event_engine] {n} event(s) emitted.")
     pending = read_events(limit=5)
     if pending:
-        print(f"[event_engine] Latest pending events:")
+        print("[event_engine] Latest pending events:")
         for ev in pending:
             print(f"  [{ev['severity'].upper()}] {ev['type']} — {ev['suggest']}")

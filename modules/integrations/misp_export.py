@@ -25,22 +25,23 @@ Usage
     python3 modules/integrations/misp_export.py --output sessions/misp_event.json \\
         --misp-url https://misp.example.com --misp-key <API_KEY>
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import logging
 import re
-import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Type
+from typing import Any
 
 log = logging.getLogger("misp_export")
 
 try:
     import requests as _requests
+
     _REQUESTS_AVAILABLE = True
 except ImportError:
     _REQUESTS_AVAILABLE = False
@@ -53,9 +54,11 @@ _SESSIONS_DIR = _BASE_DIR / "sessions"
 # Value objects
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class MISPAttribute:
     """A single MISP attribute inside an event."""
+
     type: str
     value: str
     category: str = "External analysis"
@@ -66,23 +69,25 @@ class MISPAttribute:
 @dataclass
 class MISPEvent:
     """A complete MISP event ready for JSON serialisation or API push."""
+
     info: str
-    threat_level_id: int = 2          # 1=High, 2=Medium, 3=Low, 4=Undefined
-    analysis: int = 0                  # 0=Initial, 1=Ongoing, 2=Completed
-    distribution: int = 0             # 0=Organisation only
-    attributes: List[MISPAttribute] = field(default_factory=list)
-    tags: List[str] = field(default_factory=list)
+    threat_level_id: int = 2  # 1=High, 2=Medium, 3=Low, 4=Undefined
+    analysis: int = 0  # 0=Initial, 1=Ongoing, 2=Completed
+    distribution: int = 0  # 0=Organisation only
+    attributes: list[MISPAttribute] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
 # Abstract mapper
 # ---------------------------------------------------------------------------
 
+
 class FindingMapper(ABC):
     """Maps a single Finding to a MISPAttribute (or None when not applicable)."""
 
     @abstractmethod
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         """
         Convert *finding* to a MISPAttribute.
 
@@ -94,10 +99,11 @@ class FindingMapper(ABC):
 # Concrete mappers (one per FindingType, Open/Closed)
 # ---------------------------------------------------------------------------
 
+
 class IPMapper(FindingMapper):
     """Maps IP findings to MISP ip-dst attributes."""
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_ip(finding):
             return None
         return MISPAttribute(
@@ -117,7 +123,7 @@ class IPMapper(FindingMapper):
 class CredentialMapper(FindingMapper):
     """Maps credential findings to MISP text attributes."""
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_credential(finding):
             return None
         return MISPAttribute(
@@ -137,7 +143,7 @@ class CredentialMapper(FindingMapper):
 class CVEMapper(FindingMapper):
     """Maps CVE findings to MISP vulnerability attributes."""
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_cve(finding):
             return None
         return MISPAttribute(
@@ -157,7 +163,7 @@ class CVEMapper(FindingMapper):
 class DomainMapper(FindingMapper):
     """Maps domain findings to MISP domain attributes."""
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_domain(finding):
             return None
         return MISPAttribute(
@@ -183,7 +189,7 @@ class HashMapper(FindingMapper):
       64 chars -> sha256
     """
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_hash(finding):
             return None
         value = str(finding.value).strip()
@@ -212,7 +218,7 @@ class HashMapper(FindingMapper):
 class ServiceMapper(FindingMapper):
     """Maps service_version findings to MISP text attributes."""
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_service(finding):
             return None
         return MISPAttribute(
@@ -230,7 +236,7 @@ class ServiceMapper(FindingMapper):
 
 
 # Registry of all concrete mappers (order matters: first match wins)
-_DEFAULT_MAPPERS: List[FindingMapper] = [
+_DEFAULT_MAPPERS: list[FindingMapper] = [
     IPMapper(),
     CredentialMapper(),
     CVEMapper(),
@@ -244,6 +250,7 @@ _DEFAULT_MAPPERS: List[FindingMapper] = [
 # Exporter
 # ---------------------------------------------------------------------------
 
+
 class MISPExporter:
     """
     Reads LazyOwn session artefacts and produces a MISPEvent.
@@ -253,15 +260,15 @@ class MISPExporter:
     mappers : list of FindingMapper instances (injected for testability)
     """
 
-    def __init__(self, mappers: Optional[List[FindingMapper]] = None) -> None:
-        self._mappers: List[FindingMapper] = mappers if mappers is not None else _DEFAULT_MAPPERS
+    def __init__(self, mappers: list[FindingMapper] | None = None) -> None:
+        self._mappers: list[FindingMapper] = mappers if mappers is not None else _DEFAULT_MAPPERS
 
     # -- Public API ------------------------------------------------------------
 
     def export_session(
         self,
         sessions_dir: str | Path = _SESSIONS_DIR,
-        target: Optional[str] = None,
+        target: str | None = None,
     ) -> MISPEvent:
         """
         Read policy_facts.json and events.jsonl from *sessions_dir*,
@@ -270,7 +277,7 @@ class MISPExporter:
         sdir = Path(sessions_dir)
         findings = self._load_findings(sdir)
 
-        info = f"LazyOwn engagement"
+        info = "LazyOwn engagement"
         if target:
             info += f" — {target}"
 
@@ -320,9 +327,7 @@ class MISPExporter:
         log.info("MISP event saved to %s (%d attributes)", out, len(event.attributes))
         return out
 
-    def push_to_misp(
-        self, event: MISPEvent, url: str, api_key: str
-    ) -> bool:
+    def push_to_misp(self, event: MISPEvent, url: str, api_key: str) -> bool:
         """
         HTTP-push the event to a live MISP instance.
 
@@ -412,6 +417,11 @@ class MISPExporter:
             findings.append(_DictFinding(data))
             return findings
 
+        # FactStore fact records (service / credential / vulnerability)
+        findings.extend(MISPExporter._dict_to_fact_records(data))
+        if findings:
+            return findings
+
         # Direct CVE extraction from vulnerability record: {"id": "CVE-...", "cvss": 9.8}
         if "id" in data and isinstance(data["id"], str) and data["id"].upper().startswith("CVE-"):
             findings.append(_DictFinding({"type": "cve", "value": data["id"], "host": ""}))
@@ -429,13 +439,55 @@ class MISPExporter:
         # If no known keys matched, this may be a host-map {"<ip>": {...}} or similar.
         # Recurse into all dict values so we do not silently drop nested records.
         if not matched_any:
-            for val in data.values():
-                if isinstance(val, (list, dict)):
-                    findings.extend(MISPExporter._dict_to_findings(val))
+            for key, val in data.items():
+                if isinstance(val, list):
+                    for item in val:
+                        findings.extend(MISPExporter._dict_to_findings(
+                            item if isinstance(item, dict) else {"value": item, "host": key}
+                        ))
+                elif isinstance(val, dict):
+                    nested = dict(val)
+                    nested.setdefault("host", nested.get("host") or key)
+                    findings.extend(MISPExporter._dict_to_findings(nested))
+                    matched_any = True
 
         return findings
 
-    def _map_finding(self, finding: Any) -> Optional[MISPAttribute]:
+    @staticmethod
+    def _dict_to_fact_records(data: dict) -> list:
+        """Recognise FactStore fact records (Service/Credential/Vulnerability)."""
+        findings: list = []
+        host = str(data.get("host", "") or "")
+
+        vuln_id = str(data.get("vuln_id", "") or data.get("cve", "") or "")
+        if vuln_id:
+            findings.append(
+                _DictFinding(
+                    {
+                        "type": "cve" if vuln_id.upper().startswith("CVE-") else "vulnerability",
+                        "value": vuln_id,
+                        "host": host or data.get("id", ""),
+                    }
+                )
+            )
+            return findings
+
+        username = str(data.get("username", "") or "")
+        password = str(data.get("password", "") or "")
+        hash_value = str(data.get("hash_value", "") or "")
+        if username or password or hash_value:
+            value = f"{username}:{password}" if password else (hash_value or username)
+            findings.append(_DictFinding({"type": "credential", "value": value, "host": host}))
+            return findings
+
+        service = str(data.get("service", "") or data.get("name", "") or "")
+        if service and ("port" in data or "protocol" in data):
+            findings.append(_DictFinding({"type": "service", "value": service, "host": host}))
+            return findings
+
+        return findings
+
+    def _map_finding(self, finding: Any) -> MISPAttribute | None:
         for mapper in self._mappers:
             result = mapper.map(finding)
             if result is not None:
@@ -458,7 +510,7 @@ class _DictFinding:
 # Module singleton
 # ---------------------------------------------------------------------------
 
-_exporter: Optional[MISPExporter] = None
+_exporter: MISPExporter | None = None
 
 
 def get_exporter() -> MISPExporter:
@@ -473,11 +525,12 @@ def get_exporter() -> MISPExporter:
 # CLI entry point
 # ---------------------------------------------------------------------------
 
+
 def _main() -> None:
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
-    parser = argparse.ArgumentParser(
-        description="Export LazyOwn session findings as a MISP event"
-    )
+    import logging
+
+    logging.basicConfig(level=logging.INFO)
+    parser = argparse.ArgumentParser(description="Export LazyOwn session findings as a MISP event")
     parser.add_argument(
         "--sessions",
         metavar="DIR",

@@ -97,6 +97,7 @@
         <script src="/static/js/bootstrap-4.5.2.min.js"></script>
         <script src="/static/js/vis-network.min.js"></script>
         <script src="/static/js/showdown-2.1.0.min.js"></script>
+        <script src="/static/js/purify-3.0.9.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 document.querySelector('.loading-container').style.display = 'none';
@@ -135,11 +136,11 @@
                         console.log(data['response']); 
                         if (data.error) {
                             
-                            document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">${DOMPurify.sanitize(data.error)}</p>`;
                         } else {
                             
                             var converter = new showdown.Converter();
-                            var html = converter.makeHtml(data.response);
+                            var html = DOMPurify.sanitize(converter.makeHtml(data.response));
                             document.getElementById('chatbotResponse').innerHTML += `<p>${html}</p>`;
                             if (data.response) {
                                 
@@ -150,7 +151,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
                         console.error('Error:', error);
-                        document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">Error de red: ${DOMPurify.sanitize(error.message)}</p>`;
                     });
                     
                     document.getElementById('chatbotInput').value = '';
@@ -170,7 +171,7 @@
                         const outputText = data.output.replace(/\n/g, '<br>');
                         const cleanOutputText = stripAnsi(outputText);
                         
-                        outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
+                        outputDiv.innerHTML += `<p>${DOMPurify.sanitize(cleanOutputText)}</p>`;
                         
                         console.log(data);
                     } catch (error) {
@@ -183,7 +184,7 @@
                     setTimeout(function() {
                         toastr.classList.remove('show');
                     }, 22000);
-                    toastr.innerHTML += "<div class='.neon-text'> " + command + " </div>"
+                    toastr.innerHTML += "<div class='.neon-text'> " + DOMPurify.sanitize(command) + " </div>"
                     fetchLog()
                 };
                 function atomicGen(id, type){
@@ -208,7 +209,7 @@
                         spinner.style.display = 'none';
                         const outputDiv = document.getElementById('output');
                         if (data.error) {
-                            outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            outputDiv.innerHTML += `<p style="color: red;">${DOMPurify.sanitize(data.error)}</p>`;
                         } else {
                             toastr(command)
                         }

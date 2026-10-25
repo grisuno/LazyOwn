@@ -18,11 +18,13 @@ Design contract:
 from __future__ import annotations
 
 import re
+import secrets
 import shutil
 import subprocess
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Iterable, Sequence
+from typing import Any
 
 from rich.console import Console
 from rich.panel import Panel
@@ -34,6 +36,14 @@ from core.payload_schema import (
     coerce_value,
     field_for,
     validate_value,
+)
+from core.profiles import is_light as is_light_profile
+from modules.llm_factory import (
+    DEFAULT_BACKEND,
+    SUPPORTED_BACKENDS,
+    api_key_config_key,
+    default_model_for,
+    model_config_key,
 )
 
 _console = Console(highlight=False, soft_wrap=True)
@@ -68,6 +78,13 @@ _IP_RE = re.compile(r"^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01
 
 _BINARY_NAME_RE = re.compile(r"\A[A-Za-z0-9_.+-]{1,64}\Z")
 
+_DEFAULT_SECRET_MARKERS = frozenset({"", "change_me"})
+_WEAK_SECRET_VALUES = frozenset({"admin", "password", "123456", "lazyown"})
+_C2_USER_KEY = "c2_user"
+_C2_PASS_KEY = "c2_pass"
+_GENERATED_C2_USER = "admin"
+_C2_PASS_BYTES = 18
+
 
 @dataclass(frozen=True)
 class BinarySpec:
@@ -98,6 +115,7 @@ _REQUIRED_BINARIES: tuple[BinarySpec, ...] = (
     BinarySpec("nmap", "recon", "Port and service discovery", "sudo apt install nmap"),
     BinarySpec("curl", "recon", "HTTP probing and beacon delivery", "sudo apt install curl"),
     BinarySpec("ip", "recon", "Routing and interface introspection", "sudo apt install iproute2"),
+    BinarySpec("rlwrap", "recon", "Readline wrapper for interactive shells (LazyOwnBT)", "sudo apt install rlwrap"),
     BinarySpec("gobuster", "web", "Directory and DNS brute-forcing", "sudo apt install gobuster"),
     BinarySpec("ffuf", "web", "Web fuzzing and parameter discovery", "sudo apt install ffuf"),
     BinarySpec("feroxbuster", "web", "Recursive content discovery", "cargo install feroxbuster"),
@@ -180,6 +198,11 @@ def run(
         _console.print("\n[bold yellow]  Wizard cancelled — no changes saved.[/]")
         return result
 
+    rotated = _rotate_default_secrets(params, save)
+    if rotated:
+        _print_secret_rotation(rotated)
+        result.saved = True
+
     if not updates:
         _console.print("[dim]  Nothing changed.[/]")
         result.readiness = _build_readiness(params)
@@ -208,6 +231,136 @@ def run(
     return result
 
 
+def run_non_interactive(
+    params: dict[str, Any],
+    save: Callable[[str, Any], None],
+    values: dict[str, Any],
+    *,
+    auto_detect: bool = True,
+) -> WizardResult:
+    """Apply configuration without prompts — Docker/CI/headless first runs.
+
+    Args:
+        params: Live params dict (in-memory mirror of payload.json).
+        save: Persistence callback, same contract as :func:`run`.
+        values: Keys to apply (``rhost``, ``lhost``, ``domain``, ``device``,
+            ``os_id``, ``api_key``). ``None`` values are ignored.
+        auto_detect: When ``True`` (default), fill still-empty ``lhost`` /
+            ``device`` from the routing table and wordlist paths from
+            SecLists, mirroring the interactive wizard's detected defaults.
+
+    Returns:
+        WizardResult with ``saved=True`` when at least one value was written.
+    """
+    result = WizardResult()
+    updates: dict[str, Any] = {}
+    for key in ("rhost", "lhost", "domain", "device", "os_id", "api_key"):
+        value = values.get(key)
+        if value is not None and str(value) != str(params.get(key, "")):
+            updates[key] = value
+    if auto_detect:
+        if "lhost" not in updates and not params.get("lhost"):
+            detected = _detect_lhost()
+            if detected:
+                updates["lhost"] = detected
+        if "device" not in updates and not params.get("device"):
+            detected_dev = _detect_device()
+            if detected_dev:
+                updates["device"] = detected_dev
+
+    for key, value in updates.items():
+        try:
+            coerced = coerce_value(key, value)
+            save(key, coerced)
+            params[key] = coerced
+            _ok(f"{key} = {coerced}")
+        except Exception as exc:
+            _console.print(f"[bold red]  Could not save {key}: {exc}[/]")
+
+    if auto_detect:
+        for key, value in _ask_wordlists(params).items():
+            try:
+                coerced = coerce_value(key, value)
+                save(key, coerced)
+                params[key] = coerced
+            except Exception as exc:
+                _console.print(f"[bold red]  Could not save {key}: {exc}[/]")
+
+    rotated = _rotate_default_secrets(params, save)
+    if rotated:
+        _print_secret_rotation(rotated)
+
+    result.saved = bool(updates) or bool(rotated)
+    result.updates = updates
+    result.readiness = _build_readiness(params)
+    _print_readiness(result.readiness)
+    return result
+
+
+def _rotate_default_secrets(
+    params: dict[str, Any],
+    save: Callable[[str, Any], None],
+) -> list[tuple[str, str]]:
+    """Replace factory-default C2 credentials with generated values.
+
+    The example payload ships ``CHANGE_ME`` placeholders; leaving them in
+    place means the C2 web console starts with publicly known credentials.
+    When the wizard runs, any ``c2_user``/``c2_pass`` still holding a
+    default marker is rotated: the user becomes ``admin`` and the password
+    a random URL-safe token. Weak but explicitly chosen values (``admin``,
+    ``password``...) are warned about, never silently replaced.
+
+    Args:
+        params: Live params dict, mutated in place on rotation.
+        save: Persistence callback, same contract as :func:`run`.
+
+    Returns:
+        List of ``(key, new_value)`` pairs that were rotated.
+    """
+    rotated: list[tuple[str, str]] = []
+
+    def _is_default(value: Any) -> bool:
+        return str(value or "").strip().lower() in _DEFAULT_SECRET_MARKERS
+
+    def _is_weak(value: Any) -> bool:
+        return str(value or "").strip().lower() in _WEAK_SECRET_VALUES
+
+    user = params.get(_C2_USER_KEY)
+    if _is_default(user):
+        save(_C2_USER_KEY, _GENERATED_C2_USER)
+        params[_C2_USER_KEY] = _GENERATED_C2_USER
+        rotated.append((_C2_USER_KEY, _GENERATED_C2_USER))
+    elif _is_weak(user):
+        _warn(f"{_C2_USER_KEY} is weak ({user!r}) — consider: assign {_C2_USER_KEY} <name>")
+
+    password = params.get(_C2_PASS_KEY)
+    if _is_default(password):
+        generated = secrets.token_urlsafe(_C2_PASS_BYTES)
+        save(_C2_PASS_KEY, generated)
+        params[_C2_PASS_KEY] = generated
+        rotated.append((_C2_PASS_KEY, generated))
+    elif _is_weak(password):
+        _warn(f"{_C2_PASS_KEY} is weak — consider: assign {_C2_PASS_KEY} <strong-password>")
+
+    return rotated
+
+
+def _print_secret_rotation(rotated: list[tuple[str, str]]) -> None:
+    """Tell the operator which credentials were auto-rotated and why."""
+    _console.print()
+    _console.print(
+        Panel(
+            "[bold yellow]Default C2 credentials detected and rotated[/]\n"
+            + "\n".join(f"  {key} = {value}" for key, value in rotated)
+            + "\n[dim]Stored in payload.json — change them anytime with "
+            "assign <key> <value>.[/]",
+            border_style="yellow",
+            padding=(0, 2),
+        )
+    )
+    _console.print()
+
+
 def _print_header(*, tutorial: bool = False) -> None:
     _console.print()
     subtitle = "[dim]Press [Enter] to keep the current/detected value.  Press [Ctrl-C] to cancel.[/]"
@@ -231,7 +384,8 @@ def _print_glossary_panel() -> None:
         "[bold]domain[/] — virtual host name; needed for vhost-based webapps.\n"
         "[bold]device[/] — the interface that reaches the target (tun0, eth0).\n"
         "[bold]os_id[/]  — target OS (1 = Linux, 2 = Windows).\n"
-        "[bold]api_key[/] — optional Groq key; unlocks the AI assistants.\n"
+        "[bold]llm_backend[/] — AI provider used by every assistant (groq, ollama, openai, anthropic, deepseek, auto).\n"
+        "[bold]llm_model_*[/] — model per provider; provider keys live in api_key (Groq), openai_api_key, and friends.\n"
         "[bold]wordlists[/] — SecLists paths used by gobuster/ffuf/hydra.\n"
         "Everything is stored in [bold]payload.json[/]. You can change any "
         "value later with [bold]assign <key> <value>[/]."
@@ -285,18 +439,23 @@ def _collect_values(params: dict[str, Any], *, tutorial: bool = False) -> dict[s
     if os_id is not None and str(os_id) != str(params.get("os_id", "2")):
         updates["os_id"] = os_id
 
-    api_key = _ask_api_key(params.get("api_key"), tutorial=tutorial)
-    if api_key is not None and api_key != params.get("api_key"):
-        updates["api_key"] = api_key
+    if is_light_profile():
+        _console.print("[dim]Light profile active — skipping the LLM provider step (no AI features).[/]")
+    else:
+        llm_updates = _ask_llm(params, tutorial=tutorial)
+        updates.update(llm_updates)
 
     wordlist_updates = _ask_wordlists(params)
     updates.update(wordlist_updates)
+
+    operator_updates = _ask_operator_login(params, tutorial=tutorial)
+    updates.update(operator_updates)
 
     return updates
 
 
 def _ask_rhost(current: Any, *, tutorial: bool = False) -> str | None:
-    _console.print("[bold white]Step 1 of 7 — Target IP (rhost)[/]")
+    _console.print("[bold white]Step 1 of 8 — Target IP (rhost)[/]")
     _console.print("  [dim]The IP address of the machine you are testing.  Example: 10.10.11.5 or 192.168.1.100[/]")
     if tutorial:
         _print_long_help("rhost")
@@ -325,7 +484,7 @@ def _ask_rhost(current: Any, *, tutorial: bool = False) -> str | None:
 def _ask_lhost(current: Any, *, tutorial: bool = False) -> str | None:
     detected = _detect_lhost()
     effective_default = current or detected
-    _console.print("[bold white]Step 2 of 7 — Attacker IP (lhost)[/]")
+    _console.print("[bold white]Step 2 of 8 — Attacker IP (lhost)[/]")
     _console.print("  [dim]Your machine's IP on the VPN or target network (tun0, eth0, etc.)[/]")
     if tutorial:
         _print_long_help("lhost")
@@ -354,7 +513,7 @@ def _ask_lhost(current: Any, *, tutorial: bool = False) -> str | None:
 
 
 def _ask_domain(current: Any, *, tutorial: bool = False) -> str | None:
-    _console.print("[bold white]Step 3 of 7 — Target domain (optional)[/]")
+    _console.print("[bold white]Step 3 of 8 — Target domain (optional)[/]")
     _console.print(
         "  [dim]Virtual host or DNS name of the target. Example: target.htb[/]\n"
         "  [dim]Leave blank to skip — needed for vhost-based web apps.[/]"
@@ -378,7 +537,7 @@ def _ask_domain(current: Any, *, tutorial: bool = False) -> str | None:
 def _ask_device(current: Any, *, tutorial: bool = False) -> str | None:
     detected = _detect_device()
     effective_default = current or detected
-    _console.print("[bold white]Step 4 of 7 — Network interface (device)[/]")
+    _console.print("[bold white]Step 4 of 8 — Network interface (device)[/]")
     _console.print("  [dim]Interface facing the target network.  Example: tun0, eth0, ens33[/]")
     if tutorial:
         _print_long_help("device")
@@ -402,7 +561,7 @@ def _ask_device(current: Any, *, tutorial: bool = False) -> str | None:
 
 
 def _ask_os_id(current: Any, *, tutorial: bool = False) -> str | None:
-    _console.print("[bold white]Step 5 of 7 — Target OS[/]")
+    _console.print("[bold white]Step 5 of 8 — Target OS[/]")
     _console.print("  [dim]1 = Linux, 2 = Windows.  Affects which commands the framework recommends.[/]")
     if tutorial:
         _print_long_help("os_id")
@@ -423,31 +582,115 @@ def _ask_os_id(current: Any, *, tutorial: bool = False) -> str | None:
     return raw.strip()
 
 
-def _ask_api_key(current: Any, *, tutorial: bool = False) -> str | None:
-    _console.print("[bold white]Step 6 of 7 — Groq API key (optional)[/]")
+def _normalize_provider_answer(raw: str) -> str | None:
+    """Map a wizard answer to a backend id, or None when blank/invalid.
+
+    Args:
+        raw: Raw operator input (provider name or menu number).
+
+    Returns:
+        Backend identifier, or None when the input is blank or invalid.
+    """
+    cleaned = raw.strip().lower()
+    if not cleaned:
+        return None
+    backends = list(SUPPORTED_BACKENDS)
+    if cleaned.isdigit():
+        index = int(cleaned) - 1
+        if 0 <= index < len(backends):
+            return backends[index]
+        return None
+    return cleaned if cleaned in backends else None
+
+
+def _mask_secret(value: Any) -> str:
+    """Mask a secret for display, keeping only the last four characters.
+
+    Args:
+        value: Secret value or None.
+
+    Returns:
+        Masked representation, or "not set" when empty.
+    """
+    text = str(value or "")
+    if not text:
+        return "not set"
+    return "*" * 8 + text[-4:]
+
+
+def _ask_llm(params: dict[str, Any], *, tutorial: bool = False) -> dict[str, Any]:
+    """Run the provider-agnostic LLM setup step and return payload updates.
+
+    Args:
+        params: Live params dict (in-memory mirror of payload.json).
+        tutorial: Whether to show extended help.
+
+    Returns:
+        Dict with llm_backend, the provider model slot, and the provider
+        key slot when the operator changed them.
+    """
+    updates: dict[str, Any] = {}
+    _console.print("[bold white]Step 6 of 8 — LLM provider (optional)[/]")
     _console.print(
-        "  [dim]Used by AI agents, vuln analysis, and the phishing module.\n"
-        "  Get a free key at https://console.groq.com — leave blank to skip.[/]"
+        "  [dim]Every AI assistant (C2 chat, Slack, Telegram, Discord, ai command)[/]\n"
+        "  [dim]resolves its provider from here. Pick any backend — no Groq lock-in.[/]"
     )
     if tutorial:
-        _print_long_help("api_key")
-    masked = ("*" * 8 + current[-4:]) if (current and len(current) > 8) else (current or "not set")
-    prompt = f"  api_key [{masked}]: "
-    raw = _prompt(prompt)
-    if not raw:
-        if current:
-            _ok("Keeping existing api_key")
+        _print_long_help("llm_backend")
+    backends = list(SUPPORTED_BACKENDS)
+    current = str(params.get("llm_backend") or DEFAULT_BACKEND)
+    if current not in backends:
+        current = DEFAULT_BACKEND
+    for index, name in enumerate(backends, start=1):
+        marker = "  <-- current" if name == current else ""
+        _console.print(f"  [dim]{index}. {name}{marker}[/]")
+    raw = _prompt(f"  llm_backend [{current}]: ")
+    if raw.strip():
+        chosen = _normalize_provider_answer(raw)
+        if chosen is None:
+            _warn(f"{raw.strip()!r} is not a listed provider — keeping {current}")
         else:
-            _info("api_key not set — AI features will be disabled")
-        _console.print()
-        return None
-    _ok("api_key updated")
+            if chosen != current:
+                _ok(f"llm_backend = {chosen}")
+                updates["llm_backend"] = chosen
+                current = chosen
+            else:
+                _ok(f"Keeping llm_backend = {current}")
+    else:
+        _ok(f"Keeping llm_backend = {current}")
+
+    model_slot = model_config_key(current)
+    model_default = str(params.get(model_slot) or default_model_for(current))
+    if tutorial:
+        _print_long_help(model_slot)
+    raw_model = _prompt(f"  {model_slot} [{model_default}]: ")
+    if raw_model.strip():
+        updates[model_slot] = raw_model.strip()
+        _ok(f"{model_slot} = {raw_model.strip()}")
+    else:
+        _ok(f"Keeping {model_slot} = {model_default}")
+
+    key_slot = api_key_config_key(current)
+    if key_slot is None:
+        _info("ollama needs no API key — using the local daemon")
+    else:
+        if tutorial:
+            _print_long_help(key_slot)
+        stored = params.get(key_slot)
+        raw_key = _prompt(f"  {key_slot} [{_mask_secret(stored)}]: ")
+        if raw_key.strip():
+            updates[key_slot] = raw_key.strip()
+            _ok(f"{key_slot} updated")
+        elif stored:
+            _ok(f"Keeping existing {key_slot}")
+        else:
+            _info(f"{key_slot} not set — cloud features for {current} will be disabled")
     _console.print()
-    return raw.strip()
+    return updates
 
 
 def _ask_wordlists(params: dict[str, Any]) -> dict[str, Any]:
-    _console.print("[bold white]Step 7 of 7 — Wordlists (SecLists)[/]")
+    _console.print("[bold white]Step 7 of 8 — Wordlists (SecLists)[/]")
     base = _find_seclists_root()
     if base:
         _console.print(f"  [dim cyan]SecLists found at: {base}[/]")
@@ -478,21 +721,203 @@ def _ask_wordlists(params: dict[str, Any]) -> dict[str, Any]:
     return updates
 
 
+def _ask_operator_login(params: dict[str, Any], *, tutorial: bool = False) -> dict[str, Any]:
+    """Prompt the operator to register or log in, then optionally configure marketplace.
+
+    Args:
+        params: Live params dict.
+        tutorial: Whether to show extended help.
+
+    Returns:
+        Dict with cli_auto_login / cli_remember_token if saved.
+    """
+    _console.print("[bold white]Step 8 of 8 — Operator identity (optional)[/]")
+    _console.print(
+        "  [dim]Identify yourself to track ELO, karma, gym progress, and[/]\n"
+        "  [dim]collaboration sessions. Uses the same credentials as the C2 dashboard.[/]"
+    )
+    _console.print("  [dim]Skip with Enter to run anonymously — the prompt shows [anonymous] until you 'login'.[/]")
+    _console.print()
+
+    choice = _prompt("  Do you already have an account? (Y/n): ").strip().lower()
+    has_account = choice not in ("n", "no")
+
+    if has_account:
+        username, password = _wizard_login_flow()
+    else:
+        username, password = _wizard_register_flow()
+
+    if not username or not password:
+        return {}
+
+    try:
+        from modules.cli_auth import login
+
+        result = login(username, password, remember=False)
+        if not result.get("success"):
+            _warn(f"Login failed: {result.get('error', 'unknown')}")
+            _info("Use 'login' later to retry.")
+            return {}
+    except ImportError:
+        _warn("Auth module not available — session will be anonymous.")
+        return {}
+
+    _ok(f"Authenticated as {username} ({result.get('role')}, {result.get('elo')} ELO)")
+
+    remember = _prompt("  Remember this login? (Y/n): ").strip().lower()
+    if remember in ("", "y", "yes"):
+        try:
+            from modules.cli_auth import login
+
+            login(username, password, remember=True)
+            _ok("Remember-me token saved. Auto-login enabled for future sessions.")
+            _console.print('  [dim]To disable: assign cli_auto_login "" && assign cli_remember_token ""[/]')
+        except Exception:
+            _warn("Could not persist remember-me token.")
+    else:
+        _info("Login saved for this session only. You'll need to login again next time.")
+
+    _console.print()
+    _ask_marketplace_config()
+
+    return {"cli_auto_login": username} if remember in ("", "y", "yes") else {}
+
+
+def _wizard_login_flow() -> tuple[str | None, str | None]:
+    """Handle the login path in the wizard.
+
+    Returns:
+        Tuple of (username, password) or (None, None) on skip.
+    """
+    from getpass import getpass
+
+    username = _prompt("  Username: ").strip()
+    if not username:
+        _warn("No username provided — session will be anonymous.")
+        _info("Use 'login' later to identify yourself and enable ELO tracking.")
+        return None, None
+
+    password = getpass("  Password: ")
+    if not password:
+        _warn("No password provided — session will be anonymous.")
+        _info("Use 'login' later to identify yourself and enable ELO tracking.")
+        return None, None
+
+    return username, password
+
+
+def _wizard_register_flow() -> tuple[str | None, str | None]:
+    """Handle the register path in the wizard.
+
+    Returns:
+        Tuple of (username, password) or (None, None) on skip or failure.
+    """
+    from getpass import getpass
+
+    username = _prompt("  Choose a username: ").strip()
+    if not username:
+        _warn("No username provided — session will be anonymous.")
+        _info("Use 'register' later to create an account.")
+        return None, None
+
+    password = getpass("  Choose a password (min 12 chars): ")
+    if not password:
+        _warn("No password provided — session will be anonymous.")
+        _info("Use 'register' later to create an account.")
+        return None, None
+
+    confirm = getpass("  Confirm password: ")
+    if password != confirm:
+        _warn("Passwords do not match — session will be anonymous.")
+        _info("Use 'register' later to retry.")
+        return None, None
+
+    try:
+        from modules.cli_auth import register
+    except ImportError:
+        _warn("Auth module not available — session will be anonymous.")
+        return None, None
+
+    reg_result = register(username, password)
+    if not reg_result.get("success"):
+        _warn(f"Registration failed: {reg_result.get('error', 'unknown')}")
+        _info("Use 'register' later to retry.")
+        return None, None
+
+    _ok(f"Registered as {username} ({reg_result.get('role')})")
+    _console.print()
+    return username, password
+
+
+def _ask_marketplace_config() -> None:
+    """Optionally launch the interactive marketplace configurator."""
+    choice = _prompt("  Review and configure marketplace plugins? (Y/n): ").strip().lower()
+    if choice not in ("", "y", "yes"):
+        _info("You can configure marketplace plugins later with: marketplace config")
+        return
+
+    try:
+        from cli.marketplace_config import configure_marketplace_interactive
+
+        _console.print()
+        result = configure_marketplace_interactive()
+        if result is not None:
+            enabled_count = sum(len(v) for v in result.enabled.values())
+            _ok(f"Marketplace configured: {enabled_count} addon(s) enabled")
+        else:
+            _info("Marketplace configuration cancelled.")
+    except ImportError:
+        _info("Marketplace configurator not available — run 'marketplace config' later.")
+    except Exception:
+        _info("Marketplace configurator could not start — run 'marketplace config' later.")
+
+
 def _build_readiness(params: dict[str, Any]) -> list[ReadinessItem]:
     items: list[ReadinessItem] = []
 
     def _check(key: str, label: str, hint: str) -> None:
         val = params.get(key)
+        spec = field_for(key)
         if val:
-            items.append(ReadinessItem(label, str(val)[:48], "ok"))
+            shown = _mask_secret(val) if (spec is not None and spec.sensitive) else str(val)[:48]
+            items.append(ReadinessItem(label, shown, "ok"))
         else:
             items.append(ReadinessItem(label, "not set", "missing", hint))
+
+    def _check_llm() -> None:
+        backend = str(params.get("llm_backend") or DEFAULT_BACKEND)
+        if backend not in SUPPORTED_BACKENDS:
+            items.append(
+                ReadinessItem(
+                    "LLM backend",
+                    backend,
+                    "missing",
+                    "assign llm_backend <groq|ollama|openai|anthropic|deepseek|auto>",
+                )
+            )
+            return
+        model_slot = model_config_key(backend)
+        model = str(params.get(model_slot) or default_model_for(backend))
+        slot = api_key_config_key(backend)
+        if slot is None:
+            items.append(ReadinessItem("LLM backend", f"{backend} / {model} (keyless)", "ok"))
+        elif params.get(slot):
+            items.append(ReadinessItem("LLM backend", f"{backend} / {model}", "ok"))
+        else:
+            items.append(
+                ReadinessItem(
+                    "LLM backend",
+                    f"{backend} / {model}",
+                    "missing",
+                    f"assign {slot} <key>  (optional)",
+                )
+            )
 
     _check("rhost", "Target IP (rhost)", "assign rhost <IP>")
     _check("lhost", "Attacker IP (lhost)", "assign lhost <IP>")
     _check("domain", "Domain", "assign domain <name>  (optional)")
     _check("device", "Interface (device)", "assign device eth0")
-    _check("api_key", "Groq API key", "assign api_key <key>  (optional)")
+    _check_llm()
     _check("dirwordlist", "Dir wordlist", "install seclists")
     _check("usrwordlist", "User wordlist", "install seclists")
 
@@ -611,6 +1036,7 @@ def _print_next_steps(params: dict[str, Any]) -> None:
     rhost = params.get("rhost")
     _console.print()
     _console.print("[bold cyan]  Suggested next steps:[/]")
+    _console.print("    0. [bold]doctor[/]                     verify the environment is ready")
     if not rhost:
         _console.print("    1. [bold]assign rhost <target-IP>[/]   set your target")
         _console.print("    2. [bold]lazynmap[/]                  full port + service scan")
@@ -750,4 +1176,5 @@ __all__ = [
     "WizardResult",
     "check_binaries",
     "run",
+    "run_non_interactive",
 ]

@@ -1,0 +1,349 @@
+# LazyOwn Security Contracts
+
+This document is the single source of truth for every security contract
+implemented by the LazyOwn framework. Each section describes one contract:
+its invariant, the file that owns it, the configuration keys it consumes,
+and the tests that prove it.
+
+Every contract follows the SDD + TDD + BDD methodology: the spec is
+written in the module docstring first, the failing tests are written
+next, and only then does the implementation land. Boy-scout mode is
+on by default: any tech debt or security issue encountered while
+implementing one of these contracts is fixed in the same change.
+
+## Compat strategy
+
+PROD fail-fast: when ``env == "PROD"`` and a required C2 key is missing
+or invalid, the framework refuses to start the affected service.
+
+DEV warn-and-default: when ``env != "PROD"`` missing keys print a clear
+warning and a documented default is used so existing engagements keep
+working.
+
+AES key: lives in ``payload.json`` as ``aes_key`` (64 hex chars, 32
+bytes). The resolved value is available as ``self.aes_key`` (bytes) and
+``self.params['aes_key']`` (hex string) on every consumer. Lazyaddon
+templates may use ``{{aes_key}}`` and ``{aes_key}`` for substitution.
+
+## Contract index
+
+| # | Module | Purpose | Test file | Config keys |
+|---|--------|---------|-----------|-------------|
+| 1 | `lazyc2/security/cors.py` | Origin allowlist for Socket.IO and HTTP | `tests/test_cors_policy.py`, `tests/test_cors_behavior.py` | `env`, `lhost`, `c2_allowed_origins` |
+| 2 | `lazyc2/security/csrf.py` | Per-session CSRF token gate | `tests/test_csrf_policy.py`, `tests/test_csrf_behavior.py` | `c2_csrf_enabled`, `c2_csrf_exempt_paths` |
+| 3 | `lazyc2/security/command_allowlist.py` | `/api/run` verb allowlist + audit | `tests/test_command_allowlist.py`, `tests/test_command_allowlist_behavior.py` | `c2_api_command_allowlist` |
+| 4 | `lazyc2/security/https_redirect.py` | HTTP -> HTTPS redirect in PROD | `tests/test_https_redirect.py` | `env`, `c2_https_redirect` |
+| 5 | `lazyc2/security/trusted_proxy.py` | `X-Forwarded-For` parser with operator allowlist | `tests/test_trusted_proxy.py` | `c2_trusted_proxy_count`, `c2_operator_ip_allowlist` |
+| 6 | `lazyc2/security/html_sanitizer.py` | bleach-backed HTML cleaner | `tests/test_html_sanitizer.py` | n/a (constants in `lazyc2/security/constants.py`) |
+| 7 | `core/safe_subprocess.py` | Default-deny shell runner | `tests/test_safe_subprocess.py`, `tests/test_safe_subprocess_behavior.py` | n/a |
+| 8 | `core/config.py` (`resolve_aes_key`) | AES key resolver from payload / disk / random | `tests/test_aes_key_propagation.py` | `aes_key` |
+
+Plus pre-existing contracts from the first security pass:
+
+| # | Module | Purpose | Test file | Config keys |
+|---|--------|---------|-----------|-------------|
+| 9 | `lazyc2/security/services.py::SecretKeyManager` | Flask secret key persistence | `tests/test_security_lazyc2.py` | `LAZYOWN_SECRET_KEY` env |
+| 10 | `lazyc2/security/services.py::SafeFileService` | Path-traversal-safe file I/O | `tests/test_security_lazyc2.py` | n/a |
+| 11 | `lazyc2/security/services.py::AESKeyManager` | On-disk AES key generator | `tests/test_security_lazyc2.py` | n/a |
+| 12 | `lazyc2/security/validators.py` | Pure validators (route, template, yaml, AES, password) | `tests/test_security_lazyc2.py` | n/a |
+| 13 | `core/hardening.py` (TLS, path, secret, emoji contracts) | Shared security primitives for the CodeQL batch | `tests/test_security_alerts_fix.py` | `LAZY_PROXY_ALLOW_SELF_SIGNED_LAB`, `LAZY_PROXY_TRUST_CA` |
+| 14 | `modules/lazy_proxy.py` (SSRF pinning, TLS opt-in) | Validated-IP dialing, origin-form paths, gated self-signed fallback | `tests/test_security_alerts_fix.py`, `tests/test_lazy_proxy.py` | `LAZY_PROXY_ALLOW_PRIVATE`, `LAZY_PROXY_ALLOW_SELF_SIGNED_LAB`, `LAZY_PROXY_TRUST_CA` |
+| 15 | `core/reverse_shell_secret.py` + `lazyc2.py` | Sealed reverse-shell fallback password | `tests/test_security_alerts_fix.py` | `c2_reverse_shell_password` |
+| 16 | `modules/domain_dominance.py` (loot sealing) | Sealed AD loot with legacy fallback | `tests/test_security_alerts_fix.py` | n/a (shared `key.aes`) |
+| 17 | `skills/claude_md_orchestrator/validators.py` (emoji matcher) | Regex-range-free emoji detection | `tests/test_security_alerts_fix.py` | n/a |
+| 18 | `skills/lazyown_mcp.py` (trace redaction) + `cli/commands/scan_migrated.py` (MSF rc shred) | Redacted worker traces, minimal plaintext lifetime for SMB creds | `tests/test_security_alerts_fix.py` | `LAZYOWN_KEEP_MSF_RC` |
+
+## Contract 1: CORS origin allowlist
+
+**File:** `lazyc2/security/cors.py`
+**Owns:** `CorsPolicy`
+**Invariants:**
+
+1. The wildcard `*` is never returned. CSV inputs drop `*` tokens.
+2. `env == "PROD"` with empty allowlist raises `CorsConfigError`.
+3. `env != "PROD"` with empty allowlist falls back to
+   `http://{lhost}` + `https://{lhost}` (plus a `localhost` alias when
+   the lhost is `127.0.0.1`).
+4. `is_allowed(origin)` matches scheme + hostname (port-insensitive).
+5. `origins_for_socketio()` returns the allowlist expanded with the
+   configured `c2_port` and the common C2 ports (443, 5000, 5001, 8000,
+   8080, 8443, 8888, 9000) so flask-socketio's exact-match check on the
+   `Origin` header passes for the xterm.js terminal, beacon clients, and
+   operator browser. This is what kept the websocket upgrade from being
+   rejected with HTTP 400 after the wildcard was removed.
+
+**Wire-up:** `lazyc2.py:2174` `socketio = SocketIO(..., cors_allowed_origins=_cors_policy.origins_for_socketio(), ...)`.
+
+## Contract 2: CSRF token gate
+
+**File:** `lazyc2/security/csrf.py`
+**Owns:** `CSRFPolicy`, `csrf_protect` decorator in `lazyc2.py`
+**Invariants:**
+
+1. `issue(session_id)` returns a 32-byte URL-safe token, stable per session.
+2. `validate(session_id, token)` is constant-time (`hmac.compare_digest`).
+3. `is_exempt(path)` returns `True` for `/login`, `/logout`, `/register`,
+   `/api/beacon/*`.
+4. Safe methods (`GET`, `HEAD`, `OPTIONS`, `TRACE`) bypass the check.
+
+**Wire-up:** `lazyc2.py:csrf_protect` applied to `/issue_command` and
+`/api/run` mutating routes. Set `c2_csrf_enabled=false` in
+`payload.json` to disable without code changes.
+
+## Contract 3: Command allowlist (`/api/run`)
+
+**File:** `lazyc2/security/command_allowlist.py`
+**Owns:** `CommandAllowlist`, `CommandDecision`, `CommandRejectionReason`
+**Invariants:**
+
+1. First whitespace-delimited token is matched case-insensitively.
+2. Shell metacharacters (`;`, `|`, `&`, `$`, `>`, `<`, backtick,
+   newline, carriage return, backslash) are always rejected.
+3. Empty / non-string input is rejected with reason `EMPTY`.
+4. Every decision (allowed or denied) is appended to
+   `sessions/api_command_audit.jsonl` as one JSON line.
+
+**Wire-up:** `lazyc2.py:run_command` calls `_command_allowlist.check(command)`
+before `shell.one_cmd`.
+
+## Contract 4: HTTPS redirect
+
+**File:** `lazyc2/security/https_redirect.py`
+**Owns:** `HTTPSRedirect`, `RedirectResponse`
+**Invariants:**
+
+1. `is_secure=True` request always passes through.
+2. `is_secure=False` + `env="PROD"` + `enabled=True` returns a 301
+   redirect to the same URL with the scheme replaced by `https`.
+3. Path, query string, and host header are preserved.
+
+**Wire-up:** `lazyc2.py:_enforce_https_redirect` registered as
+`@app.before_request` after `_metrics_before_request`.
+
+## Contract 5: Trusted proxy resolver
+
+**File:** `lazyc2/security/trusted_proxy.py`
+**Owns:** `TrustedProxyResolver`
+**Invariants:**
+
+1. `trusted_count == 0` ignores `X-Forwarded-For` entirely.
+2. `trusted_count > 0` parses right-to-left, skipping `trusted_count`
+   hops, and returns the leftmost untrusted address.
+3. `is_operator(ip)` does an exact-string comparison.
+
+**Wire-up:** `_trusted_proxy_resolver` exposed as a module-level object
+in `lazyc2.py` for the `decoy()` and operator-only route gates.
+
+## Contract 6: HTML sanitizer
+
+**File:** `lazyc2/security/html_sanitizer.py`
+**Owns:** `sanitize_html`
+**Invariants:**
+
+1. `<script>`, `<iframe>`, `<object>`, `<embed>`, `<style>`, `<svg>`,
+   `<math>`, `<form>`, `<input>`, `<button>`, `<textarea>`, `<select>`
+   are removed entirely (tag + content).
+2. `on*=` event handlers are stripped.
+3. `javascript:` URIs in `href` and `src` are removed.
+4. HTML comments are stripped.
+5. Benign tags (`p`, `strong`, `em`, `ul`, `ol`, `li`, `a`, `code`,
+   `pre`, `h1`..`h6`, `blockquote`) survive untouched.
+
+**Wire-up:** `lazyc2.py:_sanitize_html` now delegates to
+`lazyc2_sanitize_html`, which is the bleach-backed implementation.
+
+## Contract 7: Safe subprocess runner
+
+**File:** `core/safe_subprocess.py`
+**Owns:** `SafeRunner`, `SafeRunResult`, `ShellNotAllowedError`
+**Invariants:**
+
+1. `run_shell(cmd, allow=False)` raises `ShellNotAllowedError`.
+2. `run_shell(cmd, allow=True, reason="...")` requires a non-empty
+   `reason`; an empty `reason` raises `ValueError`.
+3. `run(argv)` is always allowed and never audits.
+4. Every `run_shell` call is appended to the audit log (one JSON line)
+   whether allowed or denied.
+
+**Wire-up:** `utils.py:run` now delegates to `SafeRunner.run_shell`
+with an explicit reason so existing CLI commands keep working.
+
+## Contract 8: AES key resolution and propagation
+
+**File:** `core/config.py` (`resolve_aes_key`, `Config`)
+**Owns:** `self.aes_key` (bytes), `self.params['aes_key']` (hex string)
+**Invariants:**
+
+1. A 64-char hex `aes_key` in the payload decodes to 32 bytes.
+2. An on-disk `sessions/key.aes` is loaded when the payload is empty.
+3. Otherwise `os.urandom(32)` is generated and persisted with mode
+   `0o600`.
+4. Lazyaddon templates can use `{{aes_key}}` and `{aes_key}` for
+   substitution; the existing addon substitution iterates over the
+   whole payload so the key flows automatically.
+
+**Wire-up:** `lazyaddons/beacon.yaml` now exports
+`LAZYOWN_AES_KEY={{aes_key}}` so the Go beacon stub can use the same
+key as the C2.
+
+## Wire-up summary (boy-scout changes inside `lazyc2.py`)
+
+- Replaced `cors_allowed_origins="*"` with `_cors_policy.origins_for_socketio()`.
+- Replaced `ENV = "PROD"` with `ENV = _env_tag()`.
+- Added `app.config['MAX_CONTENT_LENGTH']` driven by `c2_max_upload_size_mb`.
+- Added `@app.before_request _enforce_https_redirect` for HTTPS upgrade.
+- Replaced `_sanitize_html` regex with bleach-backed
+  `lazyc2.security.html_sanitizer.sanitize_html`.
+- Replaced the `/download` path resolution with `SafeFileService`.
+- Replaced the hardcoded `reverse_shell_password = "..."` fallback in
+  `/lazyos` with a payload-driven resolver that warns on legacy use.
+- Gated `/api/run` with `CommandAllowlist` and `/issue_command`,
+  `/api/run` with `@csrf_protect`.
+- Replaced `/register` rate limit with `c2_register_limit` (was
+  sharing `c2_login_limit`).
+- Imported the new policy objects at module top of `lazyc2.py`.
+
+## Contract 9: CodeQL batch — weak crypto, clear-text secrets, TLS, injection
+
+Test suite: `tests/test_security_hardening_v5.py` (31 tests).
+Mutation validation: `mutmut run` over `modules/icmp_server.py` — 29 mutants
+killed; the 5 survivors are equivalent `<`/`<=` boundary mutants in the
+length guard.
+
+| CodeQL | File | Fix |
+|--------|------|-----|
+| #895 weak crypto algo | `modules/icmp_server.py`, `modules/icmp_client.py` | `MODE_ECB` replaced with `MODE_GCM`; every payload carries a random nonce and authentication tag; `decrypt_and_verify` rejects tampering; nonce/tag/buffer lengths are module constants; `check_sudo()` moved under `__main__` |
+| #867 weak hashing on sensitive data | `modules/phishing_orchestrator.py` | `_hash_credential_for_log` keyed with `hmac.new(derived_key, ...)` instead of salted plain SHA-256 |
+| #865 clear-text storage | `utils.py` | `create_caldera_config` no longer embeds `lazyownblueadmin`/`lazyownredteam*`; all user passwords generated via `secrets`; file chmod 0600 |
+| #864 clear-text logging | `utils.py` | `Spray` success output no longer prints the sprayed password |
+| #863 clear-text storage | `cli/commands/phishing_wizard.py` | `_log_credentials` encrypts the password (`_encrypt_credential`) and hashes it for the audit log; `do_phish_report` decrypts (`_decrypt_credential`); `_ensure_session_key` provisions `sessions/.secret_key` |
+| #862 / #861 clear-text logging | `lazyc2.py` | one-time admin password written to `sessions/{rbac,users}_initial_admin.txt` (0600) via `_persist_bootstrap_password`, never printed |
+| #851 insecure TLS version | `modules/network_opsec.py` | `context.minimum_version = ssl.TLSVersion.TLSv1_2` before `wrap_socket` |
+| #859 cookie injection | `lazyc2/blueprints/addons.py` | reflected CSRF `client_id` cookie must match `^[A-Za-z0-9_-]{43}$` before reuse, else a fresh token is issued |
+| #858 / #857 exception exposure | `lazyc2/blueprints/api.py` | health responses return generic `"error"`; exception details logged server-side via `logger.exception`, never serialized to clients |
+
+**Invariants:**
+
+1. C2 tunnel payloads are authenticated with AES-256-GCM; unauthenticated
+   ECB is forbidden anywhere in `modules/icmp_*.py`.
+2. Credential log fingerprints are keyed HMACs, never unsalted/salted fast
+   hashes of the plaintext.
+3. No bootstrap admin password, sprayed password, or captured credential is
+   written to stdout or stored in clear text.
+
+## Contract 10: CodeQL batch — SSRF, TLS, clear-text storage, ReDoS, paths
+
+Test suite: `tests/test_security_alerts_fix.py` (16 tests, TDD red-to-green
+for this batch). Mutation spot-checks: metadata-guard bypass, plaintext
+sealing fallback, and `commonpath` removal are all killed by the suite
+(one overlapping guard, the `("." , "..")` tuple in `is_safe_path_segment`,
+is intentionally redundant with the leading-dot rule and documented as
+defense in depth).
+
+| CodeQL | File | Fix |
+|--------|------|-----|
+| #941, #952-954 SSRF | `modules/lazy_proxy.py` | `resolve_validated_target()` validates the target, resolves DNS, and returns pinned IP literals; `_dial_pinned()` dials the pinned IPs in order (no re-resolution, no rebinding TOCTOU) while SNI and Host keep the validated hostname; `_PinnedHTTPConnection` / `_PinnedHTTPSConnection` apply the same pinning to relayed requests; `_validate_upstream_path()` accepts origin-form paths only |
+| #949, #964, #965 insecure TLS | `modules/lazy_proxy.py`, `tests/test_lazy_proxy.py` | the `CERT_NONE` fallback is gated by `tls_lab_unverified_allowed()` (loopback/private literal plus explicit `LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1`); default is fail-closed with an actionable hint (`LAZY_PROXY_TRUST_CA` or the opt-in flag); TLS 1.2 floor lives in `core/hardening.tls_secure_context()` |
+| #963 clear-text storage | `lazyc2.py`, `core/reverse_shell_secret.py` | the generated fallback is sealed with Fernet (`enc:v2:`, key from the shared `key.aes` resolver), written owner-only (0700 dir / 0600 file), and reused across restarts; legacy plaintext files still load |
+| #961 clear-text storage | `modules/domain_dominance.py` | loot secrets sealed via `core/hardening.seal_secret()` with plaintext fallback for legacy workflows; `_unseal_loot_secret()` reveals values for operator reuse |
+| #962 clear-text storage | `modules/lazy_loop.py` | activity records are scrubbed with `scrub_secrets()` before the append-only write and stored 0600; covered by regression test, no code change needed |
+| #938 clear-text storage | `skills/lazyown_mcp.py` | `_trace_append()` redacts records with `core/hardening.redact_text()` and enforces 0700/0600 modes |
+| #924 clear-text storage | `cli/commands/scan_migrated.py` | the MSF rc file is created with `O_NOFOLLOW` + 0600 and shredded (overwrite + unlink) after `msfconsole` runs unless `LAZYOWN_KEEP_MSF_RC=1` |
+| #955-959 path injection | `lazyc2.py` (`view_yaml`) | directory and filename checks replaced with linear-scan validators (`is_safe_dir_path`, `is_safe_yaml_name`, no regex); resolution goes through `safe_join_under()` (realpath + commonpath); enumeration caps are named constants |
+| #960 polynomial regex | `lazyc2.py` (`view_yaml`) | the YAML filename regex is gone, replaced by the linear `is_safe_yaml_name()` scan |
+| #966-972 permissive regex range | `skills/claude_md_orchestrator/validators.py` | the broad emoji character class is replaced by `_EmojiPattern`, an ordinal-interval matcher over `core/hardening` intervals with the same `finditer` API; no regex literal with wide ranges remains |
+| #926 clear-text logging | `lazyc2.py` (`get_output`) | shell output (routinely credential-bearing) is no longer interpolated into server logs; only `type(output).__name__` is logged, mirroring the `/api/run` handler |
+| #942-947 exception exposure | `lazyc2.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/addons.py` | no `jsonify` / `render_template` / `flash` response carries a raw exception object: palette errors, tenant flashes, addon-save flashes, and compliance flashes are generic strings with a server-side `type(exc).__name__` log; enforced by an AST audit test over `lazyc2.py` and every blueprint |
+| #950 URL sanitization (test) | `tests/test_lazy_loop.py` | the webhook helper additionally rejects userinfo (`user:pass@host`) so credential-bearing URLs can never match; exact-host equality was already fail-closed |
+| #951 clear-text storage | `modules/lazy_loop.py` | graph node text is scrubbed with `scrub_secrets()` at the choke points (`ExplorationGraph.add_node`, engine `edit_goal`, cold-digest restore) so finding/goal stores never persist credentials; sealed credential stores stay the only home for secrets |
+
+**Invariants:**
+
+1. No upstream socket is ever opened to a hostname; only to a validated,
+   policy-filtered IP literal, with the hostname used solely for SNI,
+   Host header, and certificate verification.
+2. Cloud metadata endpoints (IPs and hostnames, including DNS-resolved
+   addresses) are always denied, independent of `LAZY_PROXY_ALLOW_PRIVATE`.
+3. Unverified TLS never engages by default; it requires an explicit
+   operator opt-in scoped to lab hosts, and the TLS 1.2 floor still applies.
+4. Path and filename validation is linear-time with no regular
+   expressions on untrusted input.
+5. Secrets at rest are sealed (`enc:v2:`) or scrubbed/redacted, files are
+   owner-only, and plaintext lifetime is minimized (shred after use).
+6. HTTP responses and flashes carry generic error strings only; exception
+   objects (paths, library internals) stay in server-side logs as type
+   names. An AST test audits every response call in `lazyc2.py` and all
+   blueprints.
+7. Server logs never interpolate command output or exception text; type
+   names only.
+
+**Operator notes (behavior changes):**
+
+- Lab targets with self-signed certificates now fail closed. For recorder
+  workflows against such targets, set `LAZY_PROXY_ALLOW_SELF_SIGNED_LAB=1`
+  or provide a bundle via `LAZY_PROXY_TRUST_CA=<path>`.
+- `LAZY_PROXY_ALLOW_PRIVATE=0` denies resolved private/loopback addresses;
+  the default (`1`) keeps lab targets reachable, as required by the
+  pentest workflow.
+- `LAZYOWN_KEEP_MSF_RC=1` preserves `sessions/meta.rc` after `smbattack`
+  for debugging; the default deletes it.
+
+## v4 reference — command execution hardening details
+
+`core/safe_exec.py`:
+- `safe_system` — rejects shell metacharacters (`;`, `|`, backtick, `$()`) before execution
+- `safe_run_argv` — shell=False enforced, null-byte rejection
+- `safe_run_shell` — gated by `allow=True` + reason, audited
+- `safe_clear_screen` — tput/ANSI escapes, never os.system
+- `validate_url` — rejects shell metacharacters in URLs, enforces http/https scheme
+- `safe_git_clone` — validates URL + subprocess list-form (no os.system)
+- `safe_ip_show` — parses `ip a show` output in Python (no shell pipes)
+- `safe_find_tool` — replaces hardcoded paths with shutil.which
+- `safe_file_read` — size-limited file reading
+
+Files hardened (v4):
+
+| Fix | File |
+|-----|------|
+| URL injection prevention | `poc_tui/plugin_loader.py` |
+| os.system eliminated | `modules/morse.py`, `modules/c2_builder.py`, `modules/ia_*.py`, `cli/commands/recon_migrated.py`, `cli/commands/misc_migrated.py` |
+| shell=False enforced | `lazyc2.py` `execute_command` |
+| shell=True eliminated | `modules/dpapi_harvester.py`, `modules/edr_detector.py` |
+| Injection prevention | `modules/conditional_hooks.py` (`shlex.quote`) |
+| Hardcoded paths removed | `telegram_hermes.py`, `modules/c2_builder.py`, `cli/commands/anti_forensics.py`, `cli/commands/persist_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/postexp_migrated.py` |
+
+## C2 transport and evasion contracts
+
+Each module below is a single-file contract for one transport or evasion
+concern. All ship with 94 percent or higher mutation-killed coverage.
+
+| Contract | Module | Tests |
+|----------|--------|-------|
+| Extended malleable C2 (TLS, DNS, SMB, WebSocket) | `modules/c2_profile_engine.py` | `test_c2_profile_engine.py` |
+| BOF catalog, marketplace, registry | `modules/bof_registry.py` | `test_bof_registry.py` |
+| Sleep obfuscation engine (9 techniques) | `modules/sleep_obfuscation.py` | `test_sleep_obfuscation.py` |
+| SOCKS5 proxy spec engine | `modules/socks_proxy.py` | `test_socks_proxy.py` |
+| HTTP malleable profiles (base) | `modules/c2_profile.py` | (built-in CLI) |
+
+## Process execution contract
+
+I ban `os.system` in production code and manual `sys.stdout` reassignment.
+The contract is enforced by `tests/test_no_shell_execution.py`, which parses
+the production tree with `ast`. A string that merely mentions `os.system` (a
+target payload or a docstring) does not count. Only a real call node or a real
+assignment node fails. The mutation gate `tests/run_mutation_no_shell.py`
+reintroduces each pattern and asserts the scanner kills it.
+
+### Shell semantics and colored output
+
+Banning `shell=True` blindly was a category error. The generic runners
+(`LazyOwnShell.cmd`, `core.process.run_command`, `SafeRunner.run_shell`,
+`ResourceScript.run_command`) carry shell command strings, so they need a
+shell. I added `core.safe_exec.needs_shell` to detect redirection, pipes,
+chaining, substitutions, globs, and tilde expansion. When the syntax is
+present the runner uses `["bash", "-c", command]`; otherwise it uses
+`shlex.split` with `shell=False`. `tests/test_shell_semantics.py` pins the
+detection, and `tests/run_mutation_shell_semantics.py` kills a mutant that
+disables it. The same tests pin `core.hardening.terminal_env`, which forces
+`CLICOLOR_FORCE` and `FORCE_COLOR` so piped tools such as gum keep their
+colors while the framework tees output to a log.

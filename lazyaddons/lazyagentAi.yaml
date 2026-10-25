@@ -5,6 +5,7 @@ description: 'Ejecuta el script lazyagentAi.py que se encuentra en la carpeta mo
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: file
   type: string

@@ -1,4 +1,4 @@
-"""Tests for LazyOwnShell._rotate_existing_credentials.
+"""Tests for CredMigratedCommandSet._rotate_existing_credentials.
 
 The helper backs up ``sessions/credentials.txt`` before ``createcredentials``
 overwrites it. It must tolerate the file vanishing between the existence check
@@ -6,8 +6,10 @@ and the rename (a concurrent CLI + daemon writer), an empty or colon-less first
 line, and rename failures, instead of raising ``FileNotFoundError`` and
 aborting the command as it did before.
 
-The method does not use ``self``, so it is exercised as an unbound function with
-``None`` as the instance to avoid the cost of constructing the full shell.
+The method moved from ``LazyOwnShell`` to ``CredMigratedCommandSet`` in the
+monolith split. It does not use ``self``, so it is exercised as an unbound
+function with ``None`` as the instance to avoid the cost of constructing the
+full shell.
 """
 
 from __future__ import annotations
@@ -21,9 +23,9 @@ import pytest
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
-import lazyown  # noqa: E402
+from cli.commands.cred_migrated import CredMigratedCommandSet  # noqa: E402
 
-_rotate = lazyown.LazyOwnShell._rotate_existing_credentials
+_rotate = CredMigratedCommandSet._rotate_existing_credentials
 
 
 @pytest.fixture

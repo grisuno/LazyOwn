@@ -15,12 +15,15 @@ Usage::
 
 from __future__ import annotations
 
+import string
 from pathlib import Path
 from typing import Any
 
 import yaml
 
 ALIASES_PATH = Path(__file__).resolve().parent / "aliases.yaml"
+
+REQUIRED_PLACEHOLDERS = frozenset({"rhost", "lhost", "lport"})
 
 
 class _SafeFormatDict(dict):
@@ -48,6 +51,50 @@ def _substitute(template: str, payload: dict[str, Any]) -> str:
         return template.format_map(safe)
     except (IndexError, ValueError):
         return template
+
+
+def template_placeholders(template: str) -> set[str]:
+    """Return the ``{name}`` placeholders referenced by ``template``.
+
+    Malformed templates (unbalanced braces from legacy strings) yield an
+    empty set — the same fail-safe spirit as :func:`_substitute`.
+    """
+    names: set[str] = set()
+    try:
+        for _, field_name, _, _ in string.Formatter().parse(template):
+            if field_name:
+                names.add(field_name.split(".")[0].split("[")[0])
+    except ValueError:
+        return set()
+    return names
+
+
+def empty_placeholders(template: str, context: dict[str, Any]) -> list[str]:
+    """Return placeholders whose rendered value against ``context`` is empty."""
+    return sorted(name for name in template_placeholders(template) if not str(context.get(name) or "").strip())
+
+
+def alias_with_trailing_args(expanded: str, original: str) -> str:
+    """Append the operator's trailing arguments to an expanded alias.
+
+    cmd2 aliases are prefix shortcuts: ``alias arg1 arg2`` must become
+    ``<expanded value> arg1 arg2``. LazyOwn's custom dynamic expander
+    replaced the whole line with the template, which silently dropped
+    parameters such as ``rm_wm_host 127.0.0.1``.
+
+    Args:
+        expanded: Fully rendered alias value.
+        original: Raw line the operator typed.
+
+    Returns:
+        The expanded value plus the original trailing arguments, if any.
+    """
+    parts = str(original or "").strip().split(maxsplit=1)
+    trailing = parts[1].strip() if len(parts) > 1 else ""
+    base = str(expanded or "").strip()
+    if not trailing:
+        return base
+    return f"{base} {trailing}".strip()
 
 
 def load_aliases(
@@ -99,4 +146,11 @@ def load_aliases(
     return resolved
 
 
-__all__ = ["ALIASES_PATH", "load_aliases"]
+__all__ = [
+    "ALIASES_PATH",
+    "alias_with_trailing_args",
+    "REQUIRED_PLACEHOLDERS",
+    "empty_placeholders",
+    "load_aliases",
+    "template_placeholders",
+]

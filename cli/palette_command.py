@@ -24,9 +24,10 @@ Design constraints driving the shape of this module:
 from __future__ import annotations
 
 import shlex
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any
 
 
 class PaletteMode(Enum):
@@ -113,11 +114,9 @@ class PaletteRenderConfig:
             A safe single-line representation; empty string when ``summary``
             is falsy.
         """
-        text = (summary or "").strip()
-        if len(text) <= self.summary_max_chars:
-            return text
-        cutoff = max(0, self.summary_max_chars - len(self.summary_truncation_marker))
-        return text[:cutoff] + self.summary_truncation_marker
+        from core.text_utils import truncate_text
+
+        return truncate_text((summary or "").strip(), self.summary_max_chars, marker=self.summary_truncation_marker)
 
 
 @dataclass(frozen=True)
@@ -386,7 +385,10 @@ class PaletteRenderer:
         names = [str(r.get("name", "")) for r in rows]
         summaries = [cfg.truncate_summary(r.get("summary")) for r in rows]
         name_width = max(cfg.name_column_min_width, max(len(n) for n in names))
-        body = [f"{name.ljust(name_width)}{cfg.column_separator}{summary}" for name, summary in zip(names, summaries)]
+        body = [
+            f"{name.ljust(name_width)}{cfg.column_separator}{summary}"
+            for name, summary in zip(names, summaries, strict=False)
+        ]
         return cfg.line_separator.join([header, *body])
 
 
@@ -466,7 +468,7 @@ def render(
     if args.mode is PaletteMode.OVERVIEW:
         return renderer.render_overview(query.phase_counts)
     if args.mode is PaletteMode.PHASE:
-        rows = _filter_phase_rows(query.in_phase(args.phase or ""), args.query)
+        rows: list[Any] = _filter_phase_rows(query.in_phase(args.phase or ""), args.query)
         return renderer.render_phase(args.phase or "", rows)
     if args.mode is PaletteMode.SEARCH:
         rows = query.search(args.query or "", limit=cfg.search_default_limit)
@@ -584,7 +586,7 @@ def render_json(
     if args.mode is PaletteMode.OVERVIEW:
         return renderer.render_overview(query.phase_counts).to_dict()
     if args.mode is PaletteMode.PHASE:
-        rows = _filter_phase_rows(query.in_phase(args.phase or ""), args.query)
+        rows: list[Any] = _filter_phase_rows(query.in_phase(args.phase or ""), args.query)
         return renderer.render_phase(args.phase or "", args.query, rows).to_dict()
     if args.mode is PaletteMode.SEARCH:
         rows = query.search(args.query or "", limit=cfg.search_default_limit)
@@ -679,9 +681,32 @@ def _enrich_commands_for_view(rows: Sequence[Mapping[str, Any]]) -> list[dict[st
         from cli.palette_telemetry import enrich_commands as telemetry_enrich_commands
         from cli.palette_telemetry import safe_load_telemetry
     except Exception:
-        return enriched
+        return _ensure_neighbour_keys(enriched)
     telemetry = safe_load_telemetry()
-    return telemetry_enrich_commands(telemetry, enriched)
+    return _ensure_neighbour_keys(telemetry_enrich_commands(telemetry, enriched))
+
+
+def _ensure_neighbour_keys(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Guarantee every view row carries ``calls``/``related`` keys.
+
+    When neither graphify nor telemetry data is present the enrichment
+    passes rows through untouched, so this normaliser adds empty neighbour
+    lists to keep the view payload schema stable — matching the guarantee
+    ``render_json`` detail mode already makes for MCP consumers.
+
+    Args:
+        rows: Command view rows, possibly missing neighbour keys.
+
+    Returns:
+        A list of row dicts each carrying ``calls`` and ``related`` keys.
+    """
+    normalised: list[dict[str, Any]] = []
+    for row in rows:
+        entry = dict(row)
+        entry.setdefault("calls", [])
+        entry.setdefault("related", [])
+        normalised.append(entry)
+    return normalised
 
 
 def _load_recent_commands() -> list[str]:

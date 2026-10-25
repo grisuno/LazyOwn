@@ -1,0 +1,1 @@
+../../contrib/legacy/lazymariadb_rce_cve_2016-662.py

@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_dvwa_brute_force
+version: 2
+description: 'Metasploitable 2: DVWA login brute force (T1110.001).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- http
+platforms:
+- linux
+defaults:
+  exploit: ms2_dvwa_brute_force
+  vuln: ms2_dvwa_brute_force
+  port: '80'

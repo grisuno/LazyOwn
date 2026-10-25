@@ -6,6 +6,7 @@ description: 'An open-source AI agent that brings the power of Gemini directly i
 author: google
 version: '1.0'
 enabled: true
+update: true
 os: any
 trigger: []
 tool:

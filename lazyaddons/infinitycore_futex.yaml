@@ -1,0 +1,18 @@
+name: infinitycore_futex
+description: CVE-2026-80775 futex LPE by V4bel. Private hash UAF in prctl
+  reclaimed with pipe ring overwriting passwd page cache. Target Ubuntu 26.04
+  7.0.0-30-generic. Stages to sessions/infinitycore_futex. Run on the lab host
+  only. Takes no free args.
+author: V4bel
+version: "1.0"
+enabled: true
+update: true
+os: linux
+trigger: []
+tool:
+  name: InfinityCore Futex
+  repo_url: https://github.com/V4bel/InfinityCore.git
+  install_path: external/.exploit/infinitycore
+  execute_command: gcc -O2 -pthread -o ../../../sessions/infinitycore_futex futex/CVE-2026-80775-ubuntu.c
+    && chmod +x ../../../sessions/infinitycore_futex && echo "staged at sessions/infinitycore_futex"
+category: 06. Privilege Escalation

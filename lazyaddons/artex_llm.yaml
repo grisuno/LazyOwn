@@ -1,0 +1,24 @@
+name: artex_llm
+description: Check ARTEX v0.3.12 LLM wiring in English (profiles, pool, models). Needs
+  artex up and assign url http://127.0.0.1:8787. API keys stay in env
+  (ANTHROPIC_API_KEY or OPENAI_API_KEY) or UI, never CLI flags. Test a profile with
+  POST /api/llm/test via free args.
+author: Hinln (fork of Autumn-27)
+version: 0.3.12
+enabled: true
+update: true
+params:
+  - name: url
+    type: string
+    required: true
+    description: ARTEX base URL, e.g. http://127.0.0.1:8787. Set with assign url.
+os: any
+trigger: []
+category: 16. Artificial Intelligence
+tool:
+  name: ARTEX LLM
+  repo_url: https://github.com/Hinln/ARTEX.git
+  install_path: external/.exploit/artex
+  install_command: git fetch --all --tags && git checkout 0ec51e3 && go build -tags
+    embedui -o artex ./cmd/artex
+  execute_command: curl -sSf {url}/api/llm

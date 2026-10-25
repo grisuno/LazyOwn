@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_apache_trace
+version: 2
+description: 'Metasploitable 2: Apache TRACE enabled (T1190).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- http
+platforms:
+- linux
+defaults:
+  exploit: ms2_apache_trace
+  vuln: ms2_apache_trace
+  port: '80'

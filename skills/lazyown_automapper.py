@@ -39,21 +39,21 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 import re
 import subprocess
-import tempfile
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 try:
     import yaml as _yaml_lib
+
     _YAML_OK = True
 except ImportError:
     _YAML_OK = False
 
 try:
     from mcp import types as mcp_types  # type: ignore
+
     _MCP_TYPES_OK = True
 except ImportError:
     _MCP_TYPES_OK = False
@@ -75,15 +75,16 @@ def _safe_name(raw: str) -> str:
 
 # ── YAML helpers ─────────────────────────────────────────────────────────────
 
-def _load_yaml(path: Path) -> Optional[Dict]:
+
+def _load_yaml(path: Path) -> dict | None:
     if not _YAML_OK:
         # Very minimal YAML loader — handles simple key: value only
-        d: Dict[str, Any] = {}
+        d: dict[str, Any] = {}
         try:
             for line in path.read_text(errors="replace").splitlines():
                 m = re.match(r"^(\w+)\s*:\s*(.+)$", line.strip())
                 if m:
-                    d[m.group(1)] = m.group(2).strip().strip('"\'')
+                    d[m.group(1)] = m.group(2).strip().strip("\"'")
         except OSError:
             return None
         return d or None
@@ -99,13 +100,14 @@ def _load_yaml(path: Path) -> Optional[Dict]:
 
 # ── Parameter schema builder ─────────────────────────────────────────────────
 
-def _params_to_schema(params: Optional[list]) -> Dict:
+
+def _params_to_schema(params: list | None) -> dict:
     """Convert a lazyaddons/plugins params list to JSON Schema."""
     if not params:
         return {"type": "object", "properties": {}, "required": []}
 
-    props: Dict[str, Dict] = {}
-    required: List[str] = []
+    props: dict[str, dict] = {}
+    required: list[str] = []
 
     for p in params:
         if not isinstance(p, dict):
@@ -115,10 +117,14 @@ def _params_to_schema(params: Optional[list]) -> Dict:
             continue
         ptype = str(p.get("type", "string")).lower()
         json_type = {
-            "string": "string", "str": "string",
-            "integer": "integer", "int": "integer",
-            "boolean": "boolean", "bool": "boolean",
-            "number": "number", "float": "number",
+            "string": "string",
+            "str": "string",
+            "integer": "integer",
+            "int": "integer",
+            "boolean": "boolean",
+            "bool": "boolean",
+            "number": "number",
+            "float": "number",
         }.get(ptype, "string")
         props[pname] = {
             "type": json_type,
@@ -132,9 +138,10 @@ def _params_to_schema(params: Optional[list]) -> Dict:
 
 # ── Source loaders ────────────────────────────────────────────────────────────
 
-def _load_addons(lazyaddons_dir: Path) -> List[Dict]:
+
+def _load_addons(lazyaddons_dir: Path) -> list[dict]:
     """Return list of addon spec dicts for enabled lazyaddons."""
-    results: List[Dict] = []
+    results: list[dict] = []
     if not lazyaddons_dir.is_dir():
         return results
 
@@ -148,22 +155,24 @@ def _load_addons(lazyaddons_dir: Path) -> List[Dict]:
         raw_name = str(data.get("name", yf.stem)).strip()
         if not raw_name:
             continue
-        results.append({
-            "source":      "addon",
-            "raw_name":    raw_name,
-            "mcp_name":    f"lazyown_addon_{_safe_name(raw_name)}",
-            "description": str(data.get("description", f"LazyOwn addon: {raw_name}")).strip(),
-            "params":      data.get("params") or [],
-            "execute_cmd": (data.get("tool") or {}).get("execute_command", ""),
-            "file":        str(yf),
-        })
+        results.append(
+            {
+                "source": "addon",
+                "raw_name": raw_name,
+                "mcp_name": f"lazyown_addon_{_safe_name(raw_name)}",
+                "description": str(data.get("description", f"LazyOwn addon: {raw_name}")).strip(),
+                "params": data.get("params") or [],
+                "execute_cmd": (data.get("tool") or {}).get("execute_command", ""),
+                "file": str(yf),
+            }
+        )
 
     return results
 
 
-def _load_dottools(tools_dir: Path) -> List[Dict]:
+def _load_dottools(tools_dir: Path) -> list[dict]:
     """Return list of spec dicts for active pwntomate .tool files."""
-    results: List[Dict] = []
+    results: list[dict] = []
     if not tools_dir.is_dir():
         return results
 
@@ -178,31 +187,33 @@ def _load_dottools(tools_dir: Path) -> List[Dict]:
             continue
 
         toolname = str(data.get("toolname", tf.stem)).strip()
-        command  = str(data.get("command", "")).strip()
+        command = str(data.get("command", "")).strip()
         triggers = data.get("trigger", [])
         if isinstance(triggers, str):
             triggers = [triggers]
 
-        results.append({
-            "source":      "tool",
-            "raw_name":    toolname,
-            "mcp_name":    f"lazyown_tool_{_safe_name(toolname)}",
-            "description": (
-                f"Run {toolname} against a target. "
-                f"Triggers on services: {', '.join(triggers) or 'any'}. "
-                f"Command template: {command[:80]}{'…' if len(command) > 80 else ''}"
-            ),
-            "command":     command,
-            "triggers":    triggers,
-            "file":        str(tf),
-        })
+        results.append(
+            {
+                "source": "tool",
+                "raw_name": toolname,
+                "mcp_name": f"lazyown_tool_{_safe_name(toolname)}",
+                "description": (
+                    f"Run {toolname} against a target. "
+                    f"Triggers on services: {', '.join(triggers) or 'any'}. "
+                    f"Command template: {command[:80]}{'…' if len(command) > 80 else ''}"
+                ),
+                "command": command,
+                "triggers": triggers,
+                "file": str(tf),
+            }
+        )
 
     return results
 
 
-def _load_plugins(plugins_dir: Path) -> List[Dict]:
+def _load_plugins(plugins_dir: Path) -> list[dict]:
     """Return list of spec dicts for enabled plugins (Lua+YAML pairs)."""
-    results: List[Dict] = []
+    results: list[dict] = []
     if not plugins_dir.is_dir():
         return results
 
@@ -216,39 +227,42 @@ def _load_plugins(plugins_dir: Path) -> List[Dict]:
         if not raw_name or raw_name.startswith("template") or "template" in yf.stem.lower():
             continue
 
-        results.append({
-            "source":      "plugin",
-            "raw_name":    raw_name,
-            "mcp_name":    f"lazyown_plugin_{_safe_name(raw_name)}",
-            "description": str(data.get("description", f"LazyOwn plugin: {raw_name}")).strip(),
-            "params":      data.get("params") or [],
-            "file":        str(yf),
-        })
+        results.append(
+            {
+                "source": "plugin",
+                "raw_name": raw_name,
+                "mcp_name": f"lazyown_plugin_{_safe_name(raw_name)}",
+                "description": str(data.get("description", f"LazyOwn plugin: {raw_name}")).strip(),
+                "params": data.get("params") or [],
+                "file": str(yf),
+            }
+        )
 
     return results
 
 
 # ── Command template expander ─────────────────────────────────────────────────
 
-def _expand_tool_command(template: str, ip: str, port: str, ssl: bool,
-                         outputdir: str, toolname: str) -> str:
+
+def _expand_tool_command(template: str, ip: str, port: str, ssl: bool, outputdir: str, toolname: str) -> str:
     """Fill pwntomate-style {placeholders} in a .tool command template."""
     s = "s" if ssl else ""
     cmd = template
-    cmd = cmd.replace("{ip}",        ip)
-    cmd = cmd.replace("{port}",      port)
-    cmd = cmd.replace("{s}",         s)
+    cmd = cmd.replace("{ip}", ip)
+    cmd = cmd.replace("{port}", port)
+    cmd = cmd.replace("{s}", s)
     cmd = cmd.replace("{outputdir}", outputdir)
-    cmd = cmd.replace("{toolname}",  toolname)
+    cmd = cmd.replace("{toolname}", toolname)
     # Also handle {domain} and {url} with simple defaults
-    cmd = cmd.replace("{domain}",    ip)
-    cmd = cmd.replace("{url}",       f"http{s}://{ip}:{port}")
+    cmd = cmd.replace("{domain}", ip)
+    cmd = cmd.replace("{url}", f"http{s}://{ip}:{port}")
     return cmd
 
 
 # ── MCP Tool builders ─────────────────────────────────────────────────────────
 
-def _addon_to_mcp_tool(spec: Dict) -> Optional[Any]:
+
+def _addon_to_mcp_tool(spec: dict) -> Any | None:
     if not _MCP_TYPES_OK:
         return None
     schema = _params_to_schema(spec.get("params"))
@@ -264,7 +278,7 @@ def _addon_to_mcp_tool(spec: Dict) -> Optional[Any]:
     )
 
 
-def _tool_to_mcp_tool(spec: Dict) -> Optional[Any]:
+def _tool_to_mcp_tool(spec: dict) -> Any | None:
     if not _MCP_TYPES_OK:
         return None
     return mcp_types.Tool(
@@ -297,7 +311,7 @@ def _tool_to_mcp_tool(spec: Dict) -> Optional[Any]:
     )
 
 
-def _plugin_to_mcp_tool(spec: Dict) -> Optional[Any]:
+def _plugin_to_mcp_tool(spec: dict) -> Any | None:
     if not _MCP_TYPES_OK:
         return None
     schema = _params_to_schema(spec.get("params"))
@@ -314,6 +328,7 @@ def _plugin_to_mcp_tool(spec: Dict) -> Optional[Any]:
 
 # ── AutoMapper ────────────────────────────────────────────────────────────────
 
+
 class AutoMapper:
     """
     Discover and cache all dynamic MCP tools from lazyaddons/, tools/, plugins/.
@@ -324,37 +339,33 @@ class AutoMapper:
     """
 
     def __init__(self, lazyown_dir: Path) -> None:
-        self._root       = lazyown_dir
+        self._root = lazyown_dir
         self._addons_dir = lazyown_dir / "lazyaddons"
-        self._tools_dir  = lazyown_dir / "tools"
+        self._tools_dir = lazyown_dir / "tools"
         self._plugins_dir = lazyown_dir / "plugins"
-        self._specs: List[Dict] = []
-        self._index: Dict[str, Dict] = {}
+        self._specs: list[dict] = []
+        self._index: dict[str, dict] = {}
         self._scan()
 
     def _scan(self) -> None:
-        specs = (
-            _load_addons(self._addons_dir)
-            + _load_dottools(self._tools_dir)
-            + _load_plugins(self._plugins_dir)
-        )
+        specs = _load_addons(self._addons_dir) + _load_dottools(self._tools_dir) + _load_plugins(self._plugins_dir)
         # Deduplicate by mcp_name — last writer wins
-        seen: Dict[str, Dict] = {}
+        seen: dict[str, dict] = {}
         for s in specs:
             seen[s["mcp_name"]] = s
         self._specs = list(seen.values())
         self._index = {s["mcp_name"]: s for s in self._specs}
         log.info(
-            f"automapper: {len([s for s in self._specs if s['source']=='addon'])} addons, "
-            f"{len([s for s in self._specs if s['source']=='tool'])} tools, "
-            f"{len([s for s in self._specs if s['source']=='plugin'])} plugins"
+            f"automapper: {len([s for s in self._specs if s['source'] == 'addon'])} addons, "
+            f"{len([s for s in self._specs if s['source'] == 'tool'])} tools, "
+            f"{len([s for s in self._specs if s['source'] == 'plugin'])} plugins"
         )
 
     def rescan(self) -> None:
         """Force a rescan of all source directories."""
         self._scan()
 
-    def mcp_tools(self) -> List[Any]:
+    def mcp_tools(self) -> list[Any]:
         """Return list of mcp types.Tool objects for all discovered extensions."""
         if not _MCP_TYPES_OK:
             return []
@@ -378,10 +389,10 @@ class AutoMapper:
     def dispatch(
         self,
         name: str,
-        arguments: Dict[str, Any],
-        config: Dict[str, Any],
+        arguments: dict[str, Any],
+        config: dict[str, Any],
         run_command_fn: Any = None,  # _run_lazyown_command(cmd, timeout) -> str
-    ) -> Optional[str]:
+    ) -> str | None:
         """
         Execute a dynamic tool.  Returns the output string or None if name
         is not a known dynamic tool (caller should fall through to static dispatch).
@@ -406,13 +417,11 @@ class AutoMapper:
 
     # ── addon dispatch ────────────────────────────────────────────────────────
 
-    def _run_addon(
-        self, spec: Dict, arguments: Dict, config: Dict, run_fn: Any
-    ) -> str:
+    def _run_addon(self, spec: dict, arguments: dict, config: dict, run_fn: Any) -> str:
         raw_name = spec["raw_name"]
         # Build positional args from params
-        param_parts: List[str] = []
-        for p in (spec.get("params") or []):
+        param_parts: list[str] = []
+        for p in spec.get("params") or []:
             pname = p.get("name", "")
             if pname and pname in arguments:
                 val = str(arguments[pname]).strip()
@@ -440,10 +449,10 @@ class AutoMapper:
 
     # ── .tool dispatch ────────────────────────────────────────────────────────
 
-    def _run_dottool(self, spec: Dict, arguments: Dict, config: Dict) -> str:
-        ip       = str(arguments.get("ip", "") or config.get("rhost", "127.0.0.1")).strip()
-        port     = str(arguments.get("port", "80")).strip()
-        ssl      = bool(arguments.get("ssl", False))
+    def _run_dottool(self, spec: dict, arguments: dict, config: dict) -> str:
+        ip = str(arguments.get("ip", "") or config.get("rhost", "127.0.0.1")).strip()
+        port = str(arguments.get("port", "80")).strip()
+        ssl = bool(arguments.get("ssl", False))
         toolname = spec["raw_name"]
 
         outputdir = str(arguments.get("outputdir", "")).strip()
@@ -454,8 +463,7 @@ class AutoMapper:
 
         try:
             cmd = _expand_tool_command(
-                spec["command"], ip=ip, port=port, ssl=ssl,
-                outputdir=outputdir, toolname=toolname
+                spec["command"], ip=ip, port=port, ssl=ssl, outputdir=outputdir, toolname=toolname
             )
         except Exception as exc:
             return f"[tool error] template expansion failed: {exc}"
@@ -464,12 +472,10 @@ class AutoMapper:
 
     # ── plugin dispatch ───────────────────────────────────────────────────────
 
-    def _run_plugin(
-        self, spec: Dict, arguments: Dict, config: Dict, run_fn: Any
-    ) -> str:
+    def _run_plugin(self, spec: dict, arguments: dict, config: dict, run_fn: Any) -> str:
         raw_name = spec["raw_name"]
-        param_parts: List[str] = []
-        for p in (spec.get("params") or []):
+        param_parts: list[str] = []
+        for p in spec.get("params") or []:
             pname = p.get("name", "")
             if pname and pname in arguments:
                 val = str(arguments[pname]).strip()
@@ -527,8 +533,8 @@ class AutoMapper:
         lines = skills_md_path.read_text(errors="replace").splitlines()
 
         # Remove existing auto block
-        start_idx: Optional[int] = None
-        end_idx: Optional[int] = None
+        start_idx: int | None = None
+        end_idx: int | None = None
         for i, line in enumerate(lines):
             if line.strip() == self._MD_HEADER:
                 start_idx = i
@@ -537,10 +543,10 @@ class AutoMapper:
                 break
 
         if start_idx is not None and end_idx is not None:
-            lines = lines[:start_idx] + lines[end_idx + 1:]
+            lines = lines[:start_idx] + lines[end_idx + 1 :]
 
         # Build new section
-        new_block: List[str] = [
+        new_block: list[str] = [
             "",
             self._MD_HEADER,
             "",
@@ -572,7 +578,7 @@ class AutoMapper:
             f"{counts['plugin']} plugins)"
         )
 
-    def list_specs(self) -> List[Dict]:
+    def list_specs(self) -> list[dict]:
         """Return raw spec dicts (useful for debugging / reporting)."""
         return list(self._specs)
 
@@ -581,6 +587,7 @@ class AutoMapper:
 
 if __name__ == "__main__":
     import sys
+
     root = Path(__file__).parent.parent
     mapper = AutoMapper(root)
     print(mapper.stats())

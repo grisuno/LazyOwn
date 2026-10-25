@@ -5,6 +5,7 @@ description: 'Shellcode loader generator with multiples features
 author: D3Ext
 version: 0.0.1
 enabled: true
+update: true
 os: linux
 trigger: []
 tool:

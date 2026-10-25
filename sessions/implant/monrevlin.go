@@ -21,7 +21,7 @@ const (
 	PID_FILE        = "/dev/shm/pid"
 	HIDE_FILE       = "/dev/shm/file"
 	KEY_FILE        = "/dev/shm/key"
-	PASSWORD        = "grisiscomebacksayknokknok"
+	PASSWORD        = "{session_magic}"
 )
 
 var (

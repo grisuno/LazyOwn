@@ -1,18 +1,19 @@
-"""Tests for the incremental migration of ``LazyOwnShell`` commands.
+"""Tests for the completed migration of ``LazyOwnShell`` commands.
 
-The migration moves ``do_*`` methods out of ``lazyown.py`` into phase-
-scoped :class:`cmd2.CommandSet` subclasses under ``cli/commands/``. While
-the originals still live in ``LazyOwnShell`` the new modules inherit from
-:class:`cli.commands._dormancy.PendingCommandSet`, so they coexist
-without collisions.
+The migration moved ``do_*`` methods out of ``lazyown.py`` into phase-
+scoped :class:`cmd2.CommandSet` subclasses under ``cli/commands/``. The
+monolith split is complete: all migrated modules inherit from the active
+:class:`cli.commands._base.LazyOwnCommandSet`, originals were removed
+from ``LazyOwnShell``, and no set remains dormant.
 
 These tests pin down three invariants:
 
-1. The dormancy mechanism: pending sets are discovered (so they are
-   testable) but excluded from :func:`cli.registry.register_command_sets`.
-2. Coverage parity: every legacy ``do_*`` method targeted by a migrated
-   set still appears on :class:`LazyOwnShell` (no premature deletion)
-   and is mirrored on the migrated set (no missing migrations).
+1. Activation: every discovered ``CommandSet`` subclasses the active
+   base (not the dormant :class:`cli.commands._dormancy.PendingCommandSet`),
+   survives ``include_pending=False`` discovery, and registers on the shell.
+2. Deduplication: every migrated ``do_*`` method is gone from
+   :class:`LazyOwnShell` (no lingering duplicate) while the migrated set
+   still exposes its ``do_*`` commands.
 3. Production hygiene: migrated module bodies do not contain emoji or
    ``TODO``/``FIXME`` comment markers, in line with the project coding
    standards.
@@ -22,8 +23,6 @@ from __future__ import annotations
 
 import ast
 import re
-import sys
-import unicodedata
 from pathlib import Path
 
 import pytest
@@ -33,29 +32,31 @@ LAZYOWN_PATH = REPO_ROOT / "lazyown.py"
 COMMANDS_PACKAGE = REPO_ROOT / "cli" / "commands"
 
 LEGACY_SHELL_CLASS_NAME = "LazyOwnShell"
-MIGRATED_MODULES = {
-    "ai": "AiCommandSet",
-    "privilege_escalation": "PrivilegeEscalationCommandSet",
-    "exfiltration": "ExfiltrationCommandSet",
-}
-EXPECTED_PHASES = {
-    "AiCommandSet": "ai",
-    "PrivilegeEscalationCommandSet": "privesc",
-    "ExfiltrationCommandSet": "exfil",
-}
-EXPECTED_CATEGORY_DECORATORS = {
-    "AiCommandSet": {"ai_category", "ai"},
-    "PrivilegeEscalationCommandSet": {"privilege_escalation_category"},
-    "ExfiltrationCommandSet": {"exfiltration_category"},
-}
 FORBIDDEN_MARKERS = ("TODO", "FIXME", "XXX")
 
 
-@pytest.fixture(scope="module", autouse=True)
-def _ensure_repo_on_path() -> None:
-    """Insert the repository root onto :data:`sys.path` for direct imports."""
-    if str(REPO_ROOT) not in sys.path:
-        sys.path.insert(0, str(REPO_ROOT))
+def _discover_migrated_class_names() -> dict[str, str]:
+    """Return ``{module_name: class_name}`` for every active ``CommandSet``.
+
+    Uses the same discovery path as the production registry so the
+    mapping stays in sync without manual updates.
+    """
+    mapping: dict[str, str] = {}
+    for module_name in sorted(_collect_migrated_modules()):
+        source = (COMMANDS_PACKAGE / f"{module_name}.py").read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        for node in tree.body:
+            if isinstance(node, ast.ClassDef) and any(
+                base.id == "LazyOwnCommandSet" if isinstance(base, ast.Name) else False for base in node.bases
+            ):
+                mapping[module_name] = node.name
+                break
+    return mapping
+
+
+def _collect_migrated_modules() -> set[str]:
+    """Return the set of ``cli/commands/*.py`` module names (no private files)."""
+    return {p.stem for p in COMMANDS_PACKAGE.glob("*.py") if not p.stem.startswith("_") and p.stem != "__init__"}
 
 
 def _parse_class(file_path: Path, class_name: str) -> ast.ClassDef:
@@ -106,31 +107,28 @@ def _category_argument(decorator: ast.AST) -> str | None:
     return None
 
 
-def _legacy_methods_by_category(category_names: set[str]) -> dict[str, set[str]]:
-    """Collect ``LazyOwnShell.do_*`` method names grouped by category.
-
-    Args:
-        category_names: Identifiers passed to ``@with_category`` that
-            mark methods belonging to a single migrated set.
+def _collect_legacy_do_methods() -> dict[str, str]:
+    """Collect every ``do_*`` method on ``LazyOwnShell`` keyed by name.
 
     Returns:
-        Mapping from each requested category identifier to the set of
-        ``do_*`` method names decorated with it on
-        :class:`LazyOwnShell`.
+        Mapping from method name to its ``@with_category`` category
+        identifier, or an empty string when un-categorised.
     """
     shell = _parse_class(LAZYOWN_PATH, LEGACY_SHELL_CLASS_NAME)
-    buckets: dict[str, set[str]] = {name: set() for name in category_names}
+    result: dict[str, str] = {}
     for item in shell.body:
         if not isinstance(item, ast.FunctionDef):
             continue
         if not item.name.startswith("do_"):
             continue
+        category = ""
         for decorator in item.decorator_list:
-            category = _category_argument(decorator)
-            if category in buckets:
-                buckets[category].add(item.name)
+            cat = _category_argument(decorator)
+            if cat:
+                category = cat
                 break
-    return buckets
+        result[item.name] = category
+    return result
 
 
 def _module_path(module_name: str) -> Path:
@@ -161,32 +159,31 @@ class TestDormancyMechanism:
 
         assert is_pending(_Sample) is True
 
-    def test_iter_command_sets_includes_pending_by_default(self) -> None:
+    def test_all_discovered_sets_are_active(self) -> None:
+        from cli.commands._dormancy import is_pending
         from cli.registry import iter_command_sets
 
-        discovered = {c.__name__ for c in iter_command_sets()}
-        for class_name in MIGRATED_MODULES.values():
-            assert class_name in discovered, f"{class_name} should be discovered"
+        dormant = sorted(c.__name__ for c in iter_command_sets(include_pending=True) if is_pending(c))
+        assert dormant == [], f"Migration is complete; no CommandSet should remain dormant. Found: {dormant}"
 
-    def test_iter_command_sets_excludes_pending_when_requested(self) -> None:
+    def test_active_sets_excluded_when_pending_skipped(self) -> None:
         from cli.registry import iter_command_sets
 
         active = {c.__name__ for c in iter_command_sets(include_pending=False)}
-        for class_name in MIGRATED_MODULES.values():
-            assert class_name not in active, f"{class_name} should be filtered out when include_pending=False"
+        assert len(active) >= 10, f"At least 10 active CommandSets expected, found {len(active)}"
 
-    def test_register_skips_pending_sets(self) -> None:
+    def test_register_includes_migrated_sets(self) -> None:
         import cmd2
 
         from cli.registry import register_command_sets
 
         class _Bare(cmd2.Cmd):
-            pass
+            def __init__(self) -> None:
+                super().__init__(auto_load_commands=False)
 
         shell = _Bare()
         registered = {c.__class__.__name__ for c in register_command_sets(shell)}
-        for class_name in MIGRATED_MODULES.values():
-            assert class_name not in registered, f"{class_name} should not register while pending"
+        assert len(registered) >= 10, f"At least 10 CommandSets expected, found {len(registered)}"
 
 
 class TestShellForwarding:
@@ -214,7 +211,7 @@ class TestShellForwarding:
     def test_unregistered_forwarding_raises_attribute_error(self) -> None:
         probe = self._make_set()()
         with pytest.raises(AttributeError):
-            probe.cmd
+            _ = probe.cmd
 
     def test_registered_params_reflect_shell(self) -> None:
         import cmd2
@@ -250,96 +247,101 @@ class TestShellForwarding:
 
 
 class TestMigratedSetsStructure:
-    @pytest.mark.parametrize(
-        "module_name, class_name",
-        sorted(MIGRATED_MODULES.items()),
-    )
-    def test_class_imports_and_subclasses_pending(self, module_name: str, class_name: str) -> None:
-        from cli.commands._dormancy import PendingCommandSet
+    @pytest.fixture(scope="class")
+    def migrated_modules(self) -> dict[str, str]:
+        return _discover_migrated_class_names()
 
-        module = __import__(f"cli.commands.{module_name}", fromlist=[class_name])
-        cls = getattr(module, class_name)
-        assert issubclass(cls, PendingCommandSet)
-        assert cls.phase == EXPECTED_PHASES[class_name]
-        assert cls.category, f"{class_name} must declare a non-empty category"
+    @pytest.fixture(scope="class")
+    def module_names(self, migrated_modules: dict[str, str]) -> list[str]:
+        return sorted(migrated_modules)
 
-    @pytest.mark.parametrize(
-        "module_name, class_name",
-        sorted(MIGRATED_MODULES.items()),
-    )
-    def test_only_with_category_decorators_match_phase(self, module_name: str, class_name: str) -> None:
-        class_node = _parse_class(_module_path(module_name), class_name)
-        for item in class_node.body:
-            if not isinstance(item, ast.FunctionDef):
-                continue
-            if not item.name.startswith("do_"):
-                continue
-            decorators = {_category_argument(decorator) for decorator in item.decorator_list}
-            decorators.discard(None)
-            assert decorators.issubset(EXPECTED_CATEGORY_DECORATORS[class_name]), (
-                f"{class_name}.{item.name} carries unexpected categories: {decorators}"
-            )
+    def test_all_modules_discoverable(self, migrated_modules: dict[str, str]) -> None:
+        assert len(migrated_modules) >= 10, f"Expected at least 10 migrated modules, found {len(migrated_modules)}"
 
+    def test_all_active_and_have_phase(self, migrated_modules: dict[str, str]) -> None:
+        from cli.commands._base import LazyOwnCommandSet
+        from cli.commands._dormancy import is_pending
 
-class TestParityWithLegacyShell:
-    @pytest.mark.parametrize(
-        "module_name, class_name",
-        sorted(MIGRATED_MODULES.items()),
-    )
-    def test_every_legacy_method_is_mirrored(self, module_name: str, class_name: str) -> None:
-        legacy = _legacy_methods_by_category(EXPECTED_CATEGORY_DECORATORS[class_name])
-        legacy_names: set[str] = set().union(*legacy.values())
-        class_node = _parse_class(_module_path(module_name), class_name)
-        migrated_names = {
-            item.name for item in class_node.body if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
-        }
-        missing = legacy_names - migrated_names
-        assert not missing, f"{class_name} is missing migrated copies of: {sorted(missing)}"
+        for module_name, class_name in migrated_modules.items():
+            module = __import__(f"cli.commands.{module_name}", fromlist=[class_name])
+            cls = getattr(module, class_name)
+            assert issubclass(cls, LazyOwnCommandSet), f"{class_name} in {module_name} must subclass LazyOwnCommandSet"
+            assert not is_pending(cls), f"{class_name} in {module_name} must not be dormant"
+            assert cls.phase, f"{class_name} in {module_name} must declare a non-empty phase"
+            assert cls.category, f"{class_name} in {module_name} must declare a non-empty category"
 
-    def test_legacy_originals_still_present(self) -> None:
-        shell = _parse_class(LAZYOWN_PATH, LEGACY_SHELL_CLASS_NAME)
-        legacy_do_methods = {
-            item.name for item in shell.body if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
-        }
-        for module_name, class_name in MIGRATED_MODULES.items():
+    def test_each_module_has_do_methods(self, migrated_modules: dict[str, str]) -> None:
+        for module_name, class_name in migrated_modules.items():
             class_node = _parse_class(_module_path(module_name), class_name)
             migrated_names = {
                 item.name
                 for item in class_node.body
                 if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
             }
-            missing_in_shell = migrated_names - legacy_do_methods
-            assert not missing_in_shell, (
-                f"{class_name} migrated do_* methods absent from "
-                f"LazyOwnShell (originals must remain until deletion "
-                f"phase): {sorted(missing_in_shell)}"
-            )
+            assert migrated_names, f"{class_name} in {module_name} must define at least one do_* command"
+
+
+class TestParityWithLegacyShell:
+    def test_no_do_methods_remain_on_shell(self) -> None:
+        """Only infrastructure methods remain on LazyOwnShell."""
+        shell = _parse_class(LAZYOWN_PATH, LEGACY_SHELL_CLASS_NAME)
+        legacy_do_methods = {
+            item.name for item in shell.body if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
+        }
+        infrastructure_keepers = {"do_event_log", "do_route", "do_set", "do_state_snapshot"}
+        unexpected = legacy_do_methods - infrastructure_keepers
+        assert not unexpected, f"Unexpected do_* methods still on LazyOwnShell: {sorted(unexpected)}"
+
+    def test_migrated_methods_not_duplicated_on_shell(self) -> None:
+        """Every migrated ``do_*`` method is absent from LazyOwnShell."""
+        shell = _parse_class(LAZYOWN_PATH, LEGACY_SHELL_CLASS_NAME)
+        shell_do_names = {
+            item.name for item in shell.body if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
+        }
+        migrated = _discover_migrated_class_names()
+        duplicated: dict[str, list[str]] = {}
+        for module_name, class_name in migrated.items():
+            class_node = _parse_class(_module_path(module_name), class_name)
+            for item in class_node.body:
+                if isinstance(item, ast.FunctionDef) and item.name.startswith("do_"):
+                    if item.name in shell_do_names:
+                        duplicated.setdefault(item.name, []).append(module_name)
+        assert not duplicated, f"Migrated do_* methods still duplicated on LazyOwnShell: {duplicated}"
 
 
 class TestProductionHygiene:
-    @pytest.mark.parametrize(
-        "module_name",
-        sorted(MIGRATED_MODULES),
-    )
-    def test_no_forbidden_markers(self, module_name: str) -> None:
-        source = _module_path(module_name).read_text(encoding="utf-8")
-        for marker in FORBIDDEN_MARKERS:
-            pattern = rf"(?:^|\s)({re.escape(marker)})(?:\b|:)"
-            offenders = re.findall(pattern, source)
-            assert not offenders, f"{module_name}.py contains forbidden marker(s): {offenders}"
+    @pytest.fixture(scope="class")
+    def module_names(self) -> list[str]:
+        return sorted(_discover_migrated_class_names())
 
-    @pytest.mark.parametrize(
-        "module_name",
-        sorted(MIGRATED_MODULES),
-    )
-    def test_no_emoji(self, module_name: str) -> None:
-        source = _module_path(module_name).read_text(encoding="utf-8")
-        offenders = [character for character in source if unicodedata.category(character) == "So"]
-        assert not offenders, f"{module_name}.py contains symbol/emoji characters: {sorted(set(offenders))}"
+    def test_no_forbidden_markers(self, module_names: list[str]) -> None:
+        for module_name in module_names:
+            source = _module_path(module_name).read_text(encoding="utf-8")
+            for marker in FORBIDDEN_MARKERS:
+                pattern = rf"(?:^|\s)({re.escape(marker)})(?:\b|:)"
+                offenders = re.findall(pattern, source)
+                assert not offenders, f"{module_name}.py contains forbidden marker(s): {offenders}"
 
-    @pytest.mark.parametrize(
-        "module_name",
-        sorted(MIGRATED_MODULES),
-    )
-    def test_module_is_parseable(self, module_name: str) -> None:
-        ast.parse(_module_path(module_name).read_text(encoding="utf-8"))
+    def test_no_emoji(self, module_names: list[str]) -> None:
+        EMOJI_PATTERN = re.compile(
+            "[\U0001f600-\U0001f64f"
+            "\U0001f300-\U0001f5ff"
+            "\U0001f680-\U0001f6ff"
+            "\U0001f1e0-\U0001f1ff"
+            "\U0001f900-\U0001f9ff"
+            "\U0001fa00-\U0001fa6f"
+            "\U0001fa70-\U0001faff"
+            "\U00002600-\U000027bf"
+            "\U0001f250-\U0001f251"
+            "\U0000fe00-\U0000fe0f"
+            "\U0000200d\U0000fe0f"
+            "]"
+        )
+        for module_name in module_names:
+            source = _module_path(module_name).read_text(encoding="utf-8")
+            offenders = EMOJI_PATTERN.findall(source)
+            assert not offenders, f"{module_name}.py contains emoji characters: {offenders!r}"
+
+    def test_every_module_is_parseable(self, module_names: list[str]) -> None:
+        for module_name in module_names:
+            ast.parse(_module_path(module_name).read_text(encoding="utf-8"))

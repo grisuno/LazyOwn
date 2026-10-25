@@ -1,0 +1,18 @@
+name: infinitycore_mm
+description: CVE-2026-89754 mm LPE by V4bel. OOB write in page table walk via
+  mincore plus madvise race. Target Ubuntu 26.04 7.0.0-30-generic. Builds with
+  gcc and stages to sessions/infinitycore_mm. Run on the lab host for a root
+  shell. Lab only never on the operator. Takes no free args.
+author: V4bel
+version: "1.0"
+enabled: true
+update: true
+os: linux
+trigger: []
+tool:
+  name: InfinityCore MM
+  repo_url: https://github.com/V4bel/InfinityCore.git
+  install_path: external/.exploit/infinitycore
+  execute_command: gcc -O2 -pthread -o ../../../sessions/infinitycore_mm mm/CVE-2026-89754-ubuntu.c
+    && chmod +x ../../../sessions/infinitycore_mm && echo "staged at sessions/infinitycore_mm"
+category: 06. Privilege Escalation

@@ -1,6 +1,6 @@
 # LazyOwn RedTeam Framework with AI agents, Linux BOF beacon, YARA+Nuclei marketplace
 
-![LazyOwn_Redteam_framework](https://github.com/user-attachments/assets/d713f163-5f4d-433f-befd-6776d43051da)
+<img width="862" height="862" alt="image" src="https://github.com/user-attachments/assets/6157c084-c743-4042-bd91-f8d2cc6a194c" />
 
 [![stars](https://img.shields.io/github/stars/grisuno/LazyOwn?style=social)](https://github.com/grisuno/LazyOwn/stargazers)
 [![release](https://img.shields.io/github/v/release/grisuno/LazyOwn?include_prereleases&logo=github)](https://github.com/grisuno/LazyOwn/releases)

@@ -2570,6 +2570,73 @@ def _enforce_password_rotation():
     return None
 
 
+_MFA_EXEMPT_ENDPOINT_SUFFIXES = (
+    "login",
+    "mfa_verify",
+    "logout",
+    "change_password",
+    "static",
+)
+
+
+def _mfa_exempt_endpoint(endpoint):
+    if not endpoint:
+        return True
+    short = endpoint.split(".")[-1]
+    return short in _MFA_EXEMPT_ENDPOINT_SUFFIXES
+
+
+def _mfa_challenge_pending():
+    """Check whether the current session still owes MFA verification.
+
+    Returns:
+        True when an MFA-enabled RBAC user is authenticated without a
+        completed second factor.
+    """
+    if not current_user.is_authenticated:
+        return False
+    if session.get("mfa_verified"):
+        return False
+    rbac_user = _get_rbac_user_obj(current_user)
+    if not rbac_user:
+        return False
+    return bool(rbac_user.mfa_enabled)
+
+
+@app.before_request
+def _enforce_mfa_verified():
+    """Block password-only sessions from reaching privileged views."""
+    if not _RBAC_AVAILABLE:
+        return None
+    if _mfa_exempt_endpoint(request.endpoint):
+        return None
+    if _mfa_challenge_pending():
+        session["mfa_pending_route"] = request.path
+        return redirect(url_for("mfa_verify"))
+    return None
+
+
+def require_mfa_socket(f):
+    """Socket.IO-compatible MFA guard for command/control namespaces.
+
+    Denies pending-MFA sessions that satisfy ``login_required`` but have
+    not completed the second factor.
+    """
+
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not current_user.is_authenticated:
+            disconnect()
+            return False
+        if _mfa_challenge_pending():
+            emit("error", {"error": "MFA verification required"})
+            disconnect()
+            return False
+        return f(*args, **kwargs)
+
+    return decorated
+
+
 @app.after_request
 def _add_security_headers(response):
     response.headers["X-Content-Type-Options"] = "nosniff"
@@ -5971,10 +6038,15 @@ def login():
             rbac_user = store.find_by_username(username)
             if rbac_user and check_password_hash(rbac_user.password_hash, password):
                 user = User(rbac_user.to_dict())
-                login_user(user)
                 if rbac_user.mfa_enabled:
+                    logout_user()
+                    session.clear()
+                    session["mfa_pending_user_id"] = user.id
                     session["mfa_user_id"] = user.id
+                    session["mfa_verified"] = False
                     return redirect(url_for("mfa_verify"))
+                login_user(user)
+                session.pop("mfa_pending_user_id", None)
                 session.pop("mfa_user_id", None)
                 session["mfa_verified"] = True
                 if rbac_user.must_change_password:
@@ -6108,16 +6180,25 @@ def mfa_verify():
     if response:
         return response
 
-    user_id = session.get("mfa_user_id")
+    user_id = session.get("mfa_pending_user_id", session.get("mfa_user_id"))
     if not user_id:
         return redirect(url_for("login"))
 
     store = get_rbac_store()
     rbac_user = store.find_by_id(int(user_id))
     if not rbac_user:
+        session.pop("mfa_pending_user_id", None)
         session.pop("mfa_user_id", None)
         flash("Session expired. Please login again.", "error")
         return redirect(url_for("login"))
+
+    def _complete_mfa_login():
+        logout_user()
+        login_user(User(rbac_user.to_dict()))
+        session["mfa_verified"] = True
+        session.pop("mfa_pending_user_id", None)
+        session.pop("mfa_user_id", None)
+        return session.pop("mfa_pending_route", url_for("profile"))
 
     if request.method == "POST":
         code = request.form.get("mfa_code", "").strip()
@@ -6126,18 +6207,14 @@ def mfa_verify():
         if use_recovery:
             if rbac_user.verify_recovery_code(code):
                 store.consume_recovery_code(rbac_user.id, code)
-                session["mfa_verified"] = True
-                session.pop("mfa_user_id", None)
-                pending = session.pop("mfa_pending_route", url_for("profile"))
+                pending = _complete_mfa_login()
                 flash("Authenticated via recovery code. Generate new codes in MFA settings.", "success")
                 return redirect(pending)
             else:
                 flash("Invalid recovery code.", "error")
         else:
             if rbac_user.verify_totp(code):
-                session["mfa_verified"] = True
-                session.pop("mfa_user_id", None)
-                pending = session.pop("mfa_pending_route", url_for("profile"))
+                pending = _complete_mfa_login()
                 flash("MFA verified successfully.", "success")
                 return redirect(pending)
             else:
@@ -6301,6 +6378,7 @@ def logout():
     if response:
         return response
     session.pop("mfa_verified", None)
+    session.pop("mfa_pending_user_id", None)
     session.pop("mfa_user_id", None)
     session.pop("mfa_setup_secret", None)
     session.pop("mfa_pending_route", None)
@@ -6874,6 +6952,7 @@ def listener():
 
 @socketio.on("connect", namespace="/listener")
 @login_required
+@require_mfa_socket
 def listener_connect():
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
@@ -6895,6 +6974,7 @@ def listener_disconnect():
 
 @socketio.on("pty-input", namespace="/pty")
 @login_required
+@require_mfa_socket
 def pty_input(data):
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
@@ -6909,6 +6989,7 @@ def pty_input(data):
 
 @socketio.on("resize", namespace="/pty")
 @login_required
+@require_mfa_socket
 def resize(data):
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
@@ -6922,6 +7003,7 @@ def resize(data):
 
 @socketio.on("connect", namespace="/pty")
 @login_required
+@require_mfa_socket
 def pty_connect():
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
@@ -6953,6 +7035,7 @@ def pty_connect():
 
 @socketio.on("input")
 @login_required
+@require_mfa_socket
 def handle_input(data):
     if not current_user.is_authenticated:
         print("[!] Error Unauthorized.", request.remote_addr)
@@ -6977,6 +7060,7 @@ def handle_input(data):
 
 @socketio.on("command", namespace="/listener")
 @login_required
+@require_mfa_socket
 def listener_command(msg):
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
@@ -7000,6 +7084,7 @@ def terminal():
 
 @socketio.on("connect", namespace="/terminal")
 @login_required
+@require_mfa_socket
 def terminal_connect():
     if not current_user.is_authenticated:
         disconnect()
@@ -7020,6 +7105,7 @@ def terminal_disconnect():
 
 @socketio.on("input", namespace="/terminal")
 @login_required
+@require_mfa_socket
 def terminal_input(data):
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
@@ -7033,6 +7119,7 @@ def terminal_input(data):
 
 @socketio.on("command", namespace="/terminal")
 @login_required
+@require_mfa_socket
 def terminal_command(data):
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
@@ -7048,6 +7135,7 @@ def terminal_command(data):
 
 @socketio.on("resize", namespace="/terminal")
 @login_required
+@require_mfa_socket
 def terminal_resize(data):
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")

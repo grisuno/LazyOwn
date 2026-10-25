@@ -746,7 +746,6 @@ Project types nested under the project types they derive from. External bases ar
 - [`KerberosTicket`](modules/modules.kerberos_core.py.md#kerberosticket) class in `modules.kerberos_core`
 - [`key_serial_t`](modules/modules.exp.c.md#key_serial_t) type_alias in `modules/exp.c`
 - [`KeybindingConstants`](modules/lazygui.config.constants.py.md#keybindingconstants) class in `lazygui.config.constants`
-- [`Keylogger`](modules/contrib.legacy.lazybotnet.py.md#keylogger) class in `contrib.legacy.lazybotnet`
 - [`keyring_payload`](modules/modules.exp.c.md#keyring_payload) struct in `modules/exp.c`
 - [`KillChain`](modules/modules.killchain.py.md#killchain) class in `modules.killchain`
 - [`KillChainConfig`](modules/modules.killchain.py.md#killchainconfig) class in `modules.killchain`

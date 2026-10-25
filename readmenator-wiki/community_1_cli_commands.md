@@ -1,10 +1,10 @@
 # cli/commands
 
-*Community 1 | 160 files | cohesion 0.53*
+*Community 1 | 158 files | cohesion 0.53*
 
 ## Definition
 
-This community groups 160 file(s) rooted at `cli/commands` with dominant language py (cohesion 0.53). Central symbols: `AESdecrypt`, `AESencrypt`, `AddonHotReloader`, `AddonInfo`, `AddonRegistry`, `AddonUpdateResult`, `AliasResolver`, `AntiForensicsCommandSet`. Core file: `utils.py` (125 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: AGPL v3  Descripción: Este archivo contiene l.
+This community groups 158 file(s) rooted at `cli/commands` with dominant language py (cohesion 0.53). Central symbols: `AESdecrypt`, `AESencrypt`, `AddonHotReloader`, `AddonInfo`, `AddonRegistry`, `AddonUpdateResult`, `AliasResolver`, `AntiForensicsCommandSet`. Core file: `utils.py` (125 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: AGPL v3  Descripción: Este archivo contiene l.
 
 ## Files
 
@@ -24,7 +24,7 @@ This community groups 160 file(s) rooted at `cli/commands` with dominant languag
 | `tests/test_api_key_resolution.py` | py | testing | 9 | yes |
 | `tests/test_atomic_exploit_bridge.py` | py | testing | 36 | yes |
 
-### `modules` (31 files)
+### `modules` (30 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -38,6 +38,7 @@ This community groups 160 file(s) rooted at `cli/commands` with dominant languag
 |------|----------|-------|---------|-----|
 | `cli/aliases.py` | py | utility | 8 | yes |
 | `cli/banner_config.py` | py | infrastructure | 120 | yes |
+| `cli/cli_enhancements.py` | py | utility | 69 | yes |
 
 ### `core` (10 files)
 
@@ -66,19 +67,13 @@ This community groups 160 file(s) rooted at `cli/commands` with dominant languag
 |------|----------|-------|---------|-----|
 | `modules/backdoor/server.c` | c | utility | 1 | no |
 
-### `modules/rootkit` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/rootkit/rootkit.c` | c | utility | 13 | yes |
-
 ### `scripts/devtools` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `scripts/devtools/core_smoke.py` | py | utility | 4 | yes |
 
-*... and 140 more files in this community.*
+*... and 138 more files in this community.*
 
 
 ## Key Symbols
@@ -116,8 +111,8 @@ This community groups 160 file(s) rooted at `cli/commands` with dominant languag
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 488
-- Cross-boundary resolved imports (EXTRACTED): 408
+- Internal resolved imports (EXTRACTED): 484
+- Cross-boundary resolved imports (EXTRACTED): 405
 
 ## Connections
 
@@ -135,24 +130,24 @@ This community groups 160 file(s) rooted at `cli/commands` with dominant languag
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `cli/banner_config.py` via `subprocess` (0 hops)
+- [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
 - [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
 - [taint high] `cli/banner_config.py` -> `core/param_registry.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
 
 ## Open Questions
 
-- Why do 5 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
+- Why do 4 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
 - Can the cycle `utils.py` -> `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` be broken with an interface?
 - Is the dangerous import `subprocess` in `cli/banner_config.py` still required, or can it be isolated?
 - What would break if the most connected file in cli/commands changed?
@@ -180,4 +175,4 @@ This community groups 160 file(s) rooted at `cli/commands` with dominant languag
 - `cli/commands/cred.py`
 - `cli/commands/cred_migrated.py`
 - `cli/commands/crystal_ball.py`
-- *... and 140 more*
+- *... and 138 more*

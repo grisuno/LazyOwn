@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 823 modules, 15461 documented entities, documentation coverage 74.5% (7266/9748 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 814 modules, 15378 documented entities, documentation coverage 74.9% (7251/9676 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (710), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (701), sh (61)
 
 ## Modules
 
@@ -22,8 +22,8 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`install.sh`](modules/install.sh.md) | LazyOwn installer. | 0 | 16 | 5.9% |
 | [`key`](modules/key.py.md) |  | 0 | 1 | 0.0% |
 | [`lazy_sentinel4`](modules/lazy_sentinel4.py.md) |  | 6 | 41 | 8.3% |
-| [`lazyc2`](modules/lazyc2.py.md) |  | 3 | 225 | 38.4% |
-| [`lazyown`](modules/lazyown.py.md) | lazyown | 1 | 74 | 97.4% |
+| [`lazyc2`](modules/lazyc2.py.md) |  | 3 | 226 | 38.7% |
+| [`lazyown`](modules/lazyown.py.md) | lazyown | 1 | 70 | 97.2% |
 | [`mutate.sh`](modules/mutate.sh.md) |  | 0 | 0 | 0.0% |
 | [`pwntomate`](modules/pwntomate.py.md) | This software must not be used by military or secret service organisations. | 0 | 0 | 100.0% |
 | [`py2elf.sh`](modules/py2elf.sh.md) | Nombre del script: py2elf.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción: Este script... | 0 | 0 | 100.0% |
@@ -224,9 +224,6 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`contrib.legacy.lazy_packet_image_sniffer`](modules/contrib.legacy.lazy_packet_image_sniffer.py.md) |  | 0 | 9 | 0.0% |
 | [`contrib.legacy.lazyaddon_creator`](modules/contrib.legacy.lazyaddon_creator.py.md) | lazyaddon_creator.py ==================== Genera automáticamente un addon YAML de LazyOwn a partir de una URL de GitHub. | 0 | 14 | 93.3% |
 | [`contrib.legacy.lazyarpspoofing`](modules/contrib.legacy.lazyarpspoofing.py.md) |  | 0 | 7 | 0.0% |
-| [`contrib.legacy.lazybinenc`](modules/contrib.legacy.lazybinenc.py.md) |  | 0 | 2 | 0.0% |
-| [`contrib.legacy.lazybotcli`](modules/contrib.legacy.lazybotcli.py.md) | main.py | 0 | 3 | 25.0% |
-| [`contrib.legacy.lazybotnet`](modules/contrib.legacy.lazybotnet.py.md) | main.py | 1 | 15 | 5.9% |
 | [`contrib.legacy.lazycam`](modules/contrib.legacy.lazycam.py.md) | This code is a portion of frigate Event Video Recorder (fEVR) Copyright (C) 2021-2022 The Bearded Tek (http://www.beardedtek.com) William Kenny This program is... | 1 | 7 | 11.1% |
 | [`contrib.legacy.lazycreate_webshell`](modules/contrib.legacy.lazycreate_webshell.py.md) |  | 0 | 0 | 0.0% |
 | [`contrib.legacy.lazydeepseekcli`](modules/contrib.legacy.lazydeepseekcli.py.md) | Unified Ollama/DeepSeek client for LazyOwn — merges lazydeepseekcli_local + lazydeepseekcli_localreport. | 0 | 10 | 9.1% |
@@ -237,7 +234,6 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`contrib.legacy.lazygptcli_unified`](modules/contrib.legacy.lazygptcli_unified.py.md) | Unified Groq LLM client for LazyOwn — merges lazygptcli2/3/4/5 + lazyagentAi + lazygpttask + lazygptvulns + lazyredopgpt. | 0 | 8 | 100.0% |
 | [`contrib.legacy.lazyhoneypot`](modules/contrib.legacy.lazyhoneypot.py.md) | main.py | 1 | 13 | 6.7% |
 | [`contrib.legacy.lazyhttpreverseshell`](modules/contrib.legacy.lazyhttpreverseshell.py.md) |  | 0 | 7 | 0.0% |
-| [`contrib.legacy.lazykeygen`](modules/contrib.legacy.lazykeygen.py.md) |  | 0 | 5 | 0.0% |
 | [`contrib.legacy.lazylfi2rce`](modules/contrib.legacy.lazylfi2rce.py.md) |  | 0 | 4 | 0.0% |
 | [`contrib.legacy.lazyllmchat`](modules/contrib.legacy.lazyllmchat.py.md) |  | 6 | 15 | 0.0% |
 | [`contrib.legacy.lazylogpoisoning`](modules/contrib.legacy.lazylogpoisoning.py.md) |  | 0 | 3 | 0.0% |
@@ -586,8 +582,6 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.ia_code_analysis`](modules/modules.ia_code_analysis.py.md) |  | 1 | 7 | 66.7% |
 | [`modules.ia_logs_analysis`](modules/modules.ia_logs_analysis.py.md) | log_monitor_bot.py | 1 | 6 | 75.0% |
 | [`modules.ia_network_analysis`](modules/modules.ia_network_analysis.py.md) | ia_network_analysis.py | 0 | 4 | 80.0% |
-| [`modules.icmp_client`](modules/modules.icmp_client.py.md) |  | 0 | 7 | 25.0% |
-| [`modules.icmp_server`](modules/modules.icmp_server.py.md) |  | 0 | 9 | 20.0% |
 | [`modules.img2bin`](modules/modules.img2bin.py.md) |  | 0 | 2 | 0.0% |
 | [`modules.intel_fusion`](modules/modules.intel_fusion.py.md) | Sessions attack-intel fusion: data -> information -> intelligence. | 0 | 9 | 100.0% |
 | [`modules.intelligence_engine`](modules/modules.intelligence_engine.py.md) | IntelligenceEngine — unified collection→analysis→intelligence pipeline. | 5 | 14 | 95.0% |
@@ -638,9 +632,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazyown_bridge`](modules/modules.lazyown_bridge.py.md) | modules/lazyown_bridge.py ========================== Full-coverage structured catalog of all LazyOwn do_ commands mapped to attack phases, MITRE ATT&CK... | 9 | 33 | 34.9% |
 | [`modules.lazyown_metaextract0r`](modules/modules.lazyown_metaextract0r.py.md) | main.py | 0 | 9 | 20.0% |
 | [`modules.lazyown_parquet_tool`](modules/modules.lazyown_parquet_tool.py.md) | main.py | 0 | 4 | 100.0% |
-| [`modules.lazyownclient`](modules/modules.lazyownclient.py.md) | main.py | 0 | 6 | 14.3% |
 | [`modules.lazyownerweb`](modules/modules.lazyownerweb.py.md) |  | 0 | 3 | 0.0% |
-| [`modules.lazyownserver`](modules/modules.lazyownserver.py.md) | main.py | 0 | 6 | 14.3% |
 | [`modules/lazypsexec.sh`](modules/modules.lazypsexec.sh.md) |  | 0 | 1 | 50.0% |
 | [`modules/lazyreverse_shell.sh`](modules/modules.lazyreverse_shell.sh.md) | Nombre del script: lazyreverse_shell.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción... | 0 | 2 | 100.0% |
 | [`modules/lazyrtpflood.sh`](modules/modules.lazyrtpflood.sh.md) |  | 0 | 0 | 0.0% |
@@ -730,7 +722,6 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.stego_video`](modules/modules.stego_video.py.md) | Video steganography addon for LazyOwn. | 0 | 10 | 54.5% |
 | [`modules.sudo_tiocsti`](modules/modules.sudo_tiocsti.py.md) | tiocsti_advanced.py – Production‑grade TIOCSTI injection with multiple attack modes. | 0 | 9 | 90.0% |
 | [`modules.surface_ops`](modules/modules.surface_ops.py.md) | Pure attack-surface helpers (no cmd2): discovery targets, confirm parsing. | 0 | 4 | 100.0% |
-| [`modules.tel`](modules/modules.tel.py.md) |  | 0 | 6 | 57.1% |
 | [`modules.threat_model`](modules/modules.threat_model.py.md) | threat_model.py — Blue team threat model builder for LazyOwn. | 1 | 3 | 40.0% |
 | [`modules.timeline_narrator`](modules/modules.timeline_narrator.py.md) | LazyOwn Timeline Narrator ========================== Reads events.jsonl, groups them into time windows, and asks Groq to generate a concise red-team prose... | 0 | 2 | 100.0% |
 | [`modules.timestomper`](modules/modules.timestomper.py.md) | Filesystem timestomping — MACB timestamp manipulation for stealth. | 3 | 8 | 91.7% |

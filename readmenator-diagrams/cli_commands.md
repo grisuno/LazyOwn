@@ -1,6 +1,6 @@
 # cli/commands
 
-cli/commands groups 160 files (c, py) around needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets, parse_ip_mac. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 158 files (c, py) around needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets, parse_ip_mac. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -19,6 +19,7 @@ graph LR
     contrib -- "calls into" --> cli
     contrib -- "depends on" --> modules
     contrib -- "depends on" --> root
+    core -- "calls into" --> contrib
     modules -- "calls into" --> cli
     modules -- "calls into" --> contrib
     modules -- "depends on" --> core
@@ -48,7 +49,7 @@ core groups 10 files (py) around check_rhost, check_lhost, check_lport, check_po
 
 ## modules (2.4)
 
-modules groups 33 files (c, py) around main, TlsProfile, get_cipher_suites, get_ja3_hash, from_dict. Git update contract for lazyaddons.
+modules groups 31 files (c, py) around main, TlsProfile, get_cipher_suites, get_ja3_hash, from_dict. Git update contract for lazyaddons.
 
 ## root (2.5)
 
@@ -161,7 +162,6 @@ tests groups 45 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - modules/edr_detector.py
 - modules/evasion_engine.py
 - modules/evasive_payloads.py
-- modules/icmp_server.py
 - modules/lab_runtime.py
 - modules/lazycloud.py
 - modules/metasploitable_migrations.py
@@ -171,7 +171,6 @@ tests groups 45 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - modules/phishing_orchestrator.py
 - modules/privesc_predictor.py
 - modules/resource_script.py
-- modules/rootkit/rootkit.c
 - modules/sleep_obfuscation.py
 - modules/socks_proxy.py
 - modules/traffic_morpher.py

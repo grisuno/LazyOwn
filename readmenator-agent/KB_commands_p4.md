@@ -36,7 +36,7 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_stealth_on` (method, line 394) `def do_stealth_on(self, line)`
   - `do_stealth_off` (method, line 422) `def do_stealth_off(self, line)`
 - Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
-- Imported by: `contrib/legacy/lazybinenc.py`, `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
+- Imported by: `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
 
 ## cli/commands/recon.py
 - Doc: Reconnaissance command set.

@@ -106,7 +106,7 @@ nonce and authentication tag prepended/appended.
 
 ### `AESdecrypt`
 
-`function` | [core/crypto.py:123](../../core/crypto.py#L123)
+`function` | [core/crypto.py:122](../../core/crypto.py#L122)
 
 ```python
 def AESdecrypt(data: bytes, key: bytes) -> bytes

@@ -1,6 +1,6 @@
 module implant
 
-go 1.24.2
+go 1.26
 
 require (
     github.com/creack/pty v1.1.24

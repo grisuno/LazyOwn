@@ -332,7 +332,7 @@ Configure LazyOwn's centralized logging system.
 
 *Calls:* [`ColoredFormatter`](#coloredformatter), [`CorrelationFilter`](#correlationfilter), [`JsonFormatter`](#jsonformatter), [`ResilientRotatingFileHandler`](#resilientrotatingfilehandler)
 
-*Called by:* [`configure_logging`](modules.agent_runner.py.md#configure_logging), [`main`](modules.icmp_server.py.md#main), [`VulnBotCLI.__init__`](modules.vulnbot.py.md#vulnbotcli-__init__), [`main`](skills.aci_planner.py.md#main), [`FactStore.__init__`](skills.lazyown_facts.py.md#factstore-__init__), [`main`](skills.lazyown_llm.py.md#main)
+*Called by:* [`configure_logging`](modules.agent_runner.py.md#configure_logging), [`VulnBotCLI.__init__`](modules.vulnbot.py.md#vulnbotcli-__init__), [`main`](skills.aci_planner.py.md#main), [`FactStore.__init__`](skills.lazyown_facts.py.md#factstore-__init__), [`main`](skills.lazyown_llm.py.md#main)
 
 ---
 

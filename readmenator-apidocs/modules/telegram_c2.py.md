@@ -43,7 +43,7 @@ flowchart LR
 
 ### `SecureSessionManager`
 
-`class` | [telegram_c2.py:18](../../telegram_c2.py#L18)
+`class` | [telegram_c2.py:20](../../telegram_c2.py#L20)
 
 ```python
 class SecureSessionManager
@@ -64,7 +64,7 @@ class SecureSessionManager
 
 #### `SecureSessionManager.__init__`
 
-`constructor` | [telegram_c2.py:19](../../telegram_c2.py#L19)
+`constructor` | [telegram_c2.py:21](../../telegram_c2.py#L21)
 
 ```python
 def __init__(self)
@@ -74,7 +74,7 @@ def __init__(self)
 
 #### `SecureSessionManager.register_failed_attempt`
 
-`method` | [telegram_c2.py:24](../../telegram_c2.py#L24)
+`method` | [telegram_c2.py:26](../../telegram_c2.py#L26)
 
 ```python
 def register_failed_attempt(self, user_id: int)
@@ -90,7 +90,7 @@ def register_failed_attempt(self, user_id: int)
 
 #### `SecureSessionManager.check_lockout`
 
-`method` | [telegram_c2.py:31](../../telegram_c2.py#L31)
+`method` | [telegram_c2.py:33](../../telegram_c2.py#L33)
 
 ```python
 def check_lockout(self, user_id: int) -> bool
@@ -108,7 +108,7 @@ def check_lockout(self, user_id: int) -> bool
 
 #### `SecureSessionManager.check_rate_limit`
 
-`method` | [telegram_c2.py:40](../../telegram_c2.py#L40)
+`method` | [telegram_c2.py:42](../../telegram_c2.py#L42)
 
 ```python
 def check_rate_limit(self, user_id: int) -> bool
@@ -126,7 +126,7 @@ def check_rate_limit(self, user_id: int) -> bool
 
 #### `SecureSessionManager.create_session`
 
-`method` | [telegram_c2.py:53](../../telegram_c2.py#L53)
+`method` | [telegram_c2.py:55](../../telegram_c2.py#L55)
 
 ```python
 def create_session(self, user_id: int, client_id: str)
@@ -143,7 +143,7 @@ def create_session(self, user_id: int, client_id: str)
 
 #### `SecureSessionManager.validate_session`
 
-`method` | [telegram_c2.py:61](../../telegram_c2.py#L61)
+`method` | [telegram_c2.py:63](../../telegram_c2.py#L63)
 
 ```python
 def validate_session(self, user_id: int) -> bool
@@ -163,7 +163,7 @@ def validate_session(self, user_id: int) -> bool
 
 ### `Config`
 
-`class` | [telegram_c2.py:77](../../telegram_c2.py#L77)
+`class` | [telegram_c2.py:79](../../telegram_c2.py#L79)
 
 ```python
 class Config
@@ -179,7 +179,7 @@ class Config
 
 #### `Config.__init__`
 
-`constructor` | [telegram_c2.py:78](../../telegram_c2.py#L78)
+`constructor` | [telegram_c2.py:80](../../telegram_c2.py#L80)
 
 ```python
 def __init__(self, config_dict)
@@ -199,7 +199,7 @@ def __init__(self, config_dict)
 
 ### `load_payload`
 
-`function` | [telegram_c2.py:87](../../telegram_c2.py#L87)
+`function` | [telegram_c2.py:89](../../telegram_c2.py#L89)
 
 ```python
 def load_payload()
@@ -211,7 +211,7 @@ def load_payload()
 
 ### `start`
 
-`function` `async` | [telegram_c2.py:93](../../telegram_c2.py#L93)
+`function` `async` | [telegram_c2.py:95](../../telegram_c2.py#L95)
 
 ```python
 async def start(update: Update, context: CallbackContext) -> None
@@ -230,7 +230,7 @@ async def start(update: Update, context: CallbackContext) -> None
 
 ### `exce_cmd`
 
-`function` `async` | [telegram_c2.py:116](../../telegram_c2.py#L116)
+`function` `async` | [telegram_c2.py:118](../../telegram_c2.py#L118)
 
 ```python
 async def exce_cmd(update: Update, context: CallbackContext) -> None
@@ -251,7 +251,7 @@ async def exce_cmd(update: Update, context: CallbackContext) -> None
 
 ### `add_cli`
 
-`function` `async` | [telegram_c2.py:191](../../telegram_c2.py#L191)
+`function` `async` | [telegram_c2.py:193](../../telegram_c2.py#L193)
 
 ```python
 async def add_cli(update: Update, context: CallbackContext) -> None
@@ -270,7 +270,7 @@ async def add_cli(update: Update, context: CallbackContext) -> None
 
 ### `handle_file`
 
-`function` `async` | [telegram_c2.py:203](../../telegram_c2.py#L203)
+`function` `async` | [telegram_c2.py:205](../../telegram_c2.py#L205)
 
 ```python
 async def handle_file(update: Update, context: CallbackContext) -> None
@@ -289,7 +289,7 @@ async def handle_file(update: Update, context: CallbackContext) -> None
 
 ### `download_c2`
 
-`function` `async` | [telegram_c2.py:230](../../telegram_c2.py#L230)
+`function` `async` | [telegram_c2.py:232](../../telegram_c2.py#L232)
 
 ```python
 async def download_c2(update: Update, context: CallbackContext) -> None
@@ -315,7 +315,7 @@ None
 
 ### `send_connected_clients`
 
-`function` `async` | [telegram_c2.py:271](../../telegram_c2.py#L271)
+`function` `async` | [telegram_c2.py:273](../../telegram_c2.py#L273)
 
 ```python
 async def send_connected_clients(update: Update, context: CallbackContext)
@@ -334,7 +334,7 @@ async def send_connected_clients(update: Update, context: CallbackContext)
 
 ### `main`
 
-`function` `async` | [telegram_c2.py:286](../../telegram_c2.py#L286)
+`function` `async` | [telegram_c2.py:288](../../telegram_c2.py#L288)
 
 ```python
 async def main() -> None
@@ -348,7 +348,7 @@ async def main() -> None
 
 ### `ENTABLEIA`
 
-`constant` | [telegram_c2.py:305](../../telegram_c2.py#L305)
+`constant` | [telegram_c2.py:339](../../telegram_c2.py#L339)
 
 ```python
 ENTABLEIA = config.enable_ia
@@ -360,7 +360,7 @@ ENTABLEIA = config.enable_ia
 
 ### `SESSION_TIMEOUT`
 
-`constant` | [telegram_c2.py:312](../../telegram_c2.py#L312)
+`constant` | [telegram_c2.py:345](../../telegram_c2.py#L345)
 
 ```python
 SESSION_TIMEOUT = 1800
@@ -372,7 +372,7 @@ SESSION_TIMEOUT = 1800
 
 ### `MAX_FAILED_ATTEMPTS`
 
-`constant` | [telegram_c2.py:313](../../telegram_c2.py#L313)
+`constant` | [telegram_c2.py:346](../../telegram_c2.py#L346)
 
 ```python
 MAX_FAILED_ATTEMPTS = 3
@@ -384,7 +384,7 @@ MAX_FAILED_ATTEMPTS = 3
 
 ### `RATE_LIMIT`
 
-`constant` | [telegram_c2.py:314](../../telegram_c2.py#L314)
+`constant` | [telegram_c2.py:347](../../telegram_c2.py#L347)
 
 ```python
 RATE_LIMIT = 5
@@ -396,7 +396,7 @@ RATE_LIMIT = 5
 
 ### `FLASK_API_URL`
 
-`constant` | [telegram_c2.py:317](../../telegram_c2.py#L317)
+`constant` | [telegram_c2.py:350](../../telegram_c2.py#L350)
 
 ```python
 FLASK_API_URL = f'https://{lhost}:{c2_port}/get_connected_clients'

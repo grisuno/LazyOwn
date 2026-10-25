@@ -1,35 +1,6 @@
 # Subsystem: modules (page 11 of 16)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
-## modules/logging_config.py
-- Doc: Centralized logging configuration for the LazyOwn framework.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `ColoredFormatter` (class, line 36) `class ColoredFormatter(Formatter)`
-  - `JsonFormatter` (class, line 53) `class JsonFormatter(Formatter)`
-  - `CorrelationFilter` (class, line 91) `class CorrelationFilter(Filter)`
-  - `ResilientRotatingFileHandler` (class, line 103) `class ResilientRotatingFileHandler(RotatingFileHandler)`
-  - `set_correlation_id` (function, line 134) `def set_correlation_id(cid)`
-  - `get_correlation_id` (function, line 139) `def get_correlation_id()`
-  - `clear_correlation_id` (function, line 144) `def clear_correlation_id()`
-  - `_ensure_log_dir_writable` (function, line 156) `def _ensure_log_dir_writable(log_dir)`
-  - `_use_json_format` (function, line 235) `def _use_json_format()`
-  - `configure` (function, line 244) `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)`
-  - `get_logger` (function, line 328) `def get_logger(name, level)`
-  - `set_level` (function, line 357) `def set_level(name, level)`
-  - `set_quiet` (function, line 367) `def set_quiet()`
-  - `set_verbose` (function, line 373) `def set_verbose()`
-  - `silence_module` (function, line 379) `def silence_module(name)`
-  - `reset` (function, line 388) `def reset()`
-  - `format` (method, line 39) `def format(self, record)`
-  - `format` (method, line 72) `def format(self, record)`
-  - `filter` (method, line 94) `def filter(self, record)`
-  - `emit` (method, line 116) `def emit(self, record)`
-  - `handleError` (method, line 122) `def handleError(self, record)`
-- Depends on: `core/logging.py`
-- Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
-
 ## modules/loop_ai_bridge.py
 - Doc: Single edge between the autonomous loop and the LazyOwn AI stack.
 - Layer: utility

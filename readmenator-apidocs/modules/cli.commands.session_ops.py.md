@@ -1150,7 +1150,7 @@ Note:
 
 **Returns:** None
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg)
+*Calls:* [`encrypt`](contrib.legacy.lazyhttpreverseshell.py.md#encrypt), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg)
 
 <a id="sessionopscommandset-do_clock"></a>
 

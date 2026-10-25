@@ -45,7 +45,7 @@ Previous: [KB_core.md](KB_core.md)
   - `copy2clip` (function, line 109) `def copy2clip(text)`
   - `getprompt` (function, line 127) `def getprompt()`
 - Depends on: `core/config.py`
-- Imported by: `contrib/legacy/lazybinenc.py`, `key.py`, `static/js/quill-2.0.3.js`
+- Imported by: `key.py`, `static/js/quill-2.0.3.js`
 
 ## core/protocols.py
 - Doc: Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration.

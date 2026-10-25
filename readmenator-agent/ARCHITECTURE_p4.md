@@ -2,11 +2,6 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
-- `modules/playbook_engine.py` -> `modules/obs_parser.py`
-- `modules/playbook_engine.py` -> `modules/world_model.py`
-- `modules/playbook_executor.py` -> `modules/pipeline_engine.py`
-- `modules/privesc_predictor.py` -> `core/console.py`
-- `modules/privesc_predictor.py` -> `modules/llm_factory.py`
 - `modules/professional_report.py` -> `modules/llm_factory.py`
 - `modules/professional_report.py` -> `modules/world_model.py`
 - `modules/reaction_bridge.py` -> `modules/lazy_loop.py`
@@ -496,5 +491,10 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_autonomous_ops.py` -> `modules/sidequestion.py`
 - `tests/test_autonomous_ops.py` -> `modules/world_model.py`
 - `tests/test_autonomous_replay.py` -> `skills/autonomous_daemon.py`
+- `tests/test_autonomous_replay.py` -> `skills/autonomous_replay.py`
+- `tests/test_autosuggest.py` -> `cli/autosuggest.py`
+- `tests/test_backdoor_random.py` -> `cli/commands/persist_migrated.py`
+- `tests/test_banner_config.py` -> `cli/banner_config.py`
+- `tests/test_bdd_infra_range_report.py` -> `cli/commands/infra.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

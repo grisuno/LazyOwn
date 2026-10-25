@@ -3,12 +3,6 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
-| `modules/killchain.py` | Unified kill-chain — single source of truth consumed by all surfaces. | modules | 21 | 22 |
-| `modules/kivi.py` | - | modules | 3 | 0 |
-| `modules/lab_runtime.py` | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | modules | 18 | 0 |
-| `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 3 |
-| `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 21 | 5 |
-| `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 14 | 8 |
 | `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 33 |
 | `modules/lazy_installer.py` | Capability installer for the Lazy autonomous loop. | modules | 6 | 3 |
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
@@ -40,9 +34,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazyown_bridge.py` | modules/lazyown_bridge.py | modules | 43 | 6 |
 | `modules/lazyown_metaextract0r.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 9 | 0 |
 | `modules/lazyown_parquet_tool.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 4 | 0 |
-| `modules/lazyownclient.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 6 | 0 |
 | `modules/lazyownerweb.py` | - | modules | 3 | 0 |
-| `modules/lazyownserver.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 6 | 0 |
 | `modules/lazypsexec.sh` | execute_psexec: Función para ejecutar psexec y verificar la salida | modules | 1 | 0 |
 | `modules/lazyreverse_shell.sh` | Nombre del script: lazyreverse_shell.sh Autor: Gris Iscomeback Correo electrónico... | modules | 2 | 0 |
 | `modules/lazyrtpflood.sh` | - | modules | 0 | 0 |
@@ -61,7 +53,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/llm_pool.py` | Ordered LLM failover pool with health-aware skipping. | modules | 20 | 8 |
 | `modules/llm_prompts.py` | Canonical prompt-template and knowledge-base contract for LLM consumers. | modules | 28 | 4 |
 | `modules/log_tamper.py` | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | modules | 9 | 1 |
-| `modules/logging_config.py` | Centralized logging configuration for the LazyOwn framework. | modules | 21 | 24 |
+| `modules/logging_config.py` | Centralized logging configuration for the LazyOwn framework. | modules | 21 | 23 |
 | `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 23 | 7 |
 | `modules/loop_guardrails.py` | Adaptive guardrails for the autonomous loop. | modules | 32 | 3 |
 | `modules/loop_progress.py` | Rich Live milestone panel for the autonomous loop. | modules | 15 | 4 |
@@ -157,7 +149,6 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/stego_video.py` | Video steganography addon for LazyOwn. | modules | 10 | 0 |
 | `modules/sudo_tiocsti.py` | – Production‑grade TIOCSTI injection with multiple attack modes. | modules | 9 | 0 |
 | `modules/surface_ops.py` | Pure attack-surface helpers (no cmd2): discovery targets, confirm parsing. | modules | 4 | 2 |
-| `modules/tel.py` | to_numbers: Simula la función toNumbers de JavaScript | modules | 6 | 0 |
 | `modules/test_lazyencoder_decoder.py` | - | modules | 0 | 0 |
 | `modules/threat_model.py` | — Blue team threat model builder for LazyOwn. | modules | 16 | 4 |
 | `modules/timeline_narrator.py` | LazyOwn Timeline Narrator | modules | 6 | 3 |
@@ -351,8 +342,8 @@ Previous: [INDEX.md](INDEX.md)
 | `static/js/xterm-addon-fit-0.7.0.js` | - | js | 0 | 0 |
 | `static/js/xterm-addon-web-links-0.5.0.js` | - | js | 4 | 0 |
 | `static/js/xterm.js` | - | js | 62 | 0 |
-| `telegram_c2.py` | download_c2: Handle the /download_c2 command to download a file from the C2. | root | 18 | 0 |
-| `telegram_hermes.py` | LazyOwn Telegram Bot with Hermes Gateway Integration  This bot bridges Telegram to the full... | root | 29 | 0 |
+| `telegram_c2.py` | download_c2: Handle the /download_c2 command to download a file from the C2. | root | 19 | 0 |
+| `telegram_hermes.py` | LazyOwn Telegram Bot with Hermes Gateway Integration  This bot bridges Telegram to the full... | root | 31 | 0 |
 | `test_bdd.sh` | - | root | 0 | 0 |
 | `testmeneitor.py` | - | root | 5 | 0 |
 | `tests/__init__.py` | - | tests | 0 | 0 |
@@ -496,5 +487,14 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_exploitgym_gym.py` | Tests for the ExploitGym integration module. | tests | 27 | 0 |
 | `tests/test_exploration_and_addons.py` | tests/test_exploration_and_addons.py  Coverage for the new exploration engine and addon schema... | tests | 36 | 0 |
 | `tests/test_f4_hardening.py` | F4 hardening: verb watchdog, chain fact spool, ctf CLI, foothold chain. | tests | 24 | 0 |
+| `tests/test_finding_lifecycle.py` | Finding confirmation lifecycle + keyless OSINT enrichment. | tests | 10 | 0 |
+| `tests/test_fuzzy_picker.py` | Tests for cli/fuzzy_picker.py and lint-regression for lazyown.py. | tests | 25 | 0 |
+| `tests/test_golden_path.py` | Contract tests for the deterministic golden-path solver. | tests | 14 | 0 |
+| `tests/test_graph_advisor.py` | Tests for cli/graph_advisor.py. | tests | 25 | 0 |
+| `tests/test_graph_overlay.py` | Tests for cli/graph_overlay.py. | tests | 14 | 0 |
+| `tests/test_guardrails.py` | Guardrail harness tests: tiers, capacity, warm restart, wiring. | tests | 59 | 0 |
+| `tests/test_gui_xss_sinks.py` | Regression gate for XSS sinks in the C2 dashboard template. | tests | 9 | 0 |
+| `tests/test_gym_cli.py` | Gym CLI lifecycle: start, status, stop by selector and stop-all. | tests | 8 | 0 |
+| `tests/test_gym_lifecycle.py` | Gym lifecycle: lab spin-up on start, teardown on stop and exit cleanup. | tests | 13 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

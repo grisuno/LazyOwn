@@ -442,18 +442,6 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
 - Depends on: `modules/world_model.py`
 - Imported by: `cli/commands/surface.py`, `tests/test_estorides_fusion.py`
 
-## modules/tel.py
-- Doc: to_numbers: Simula la función toNumbers de JavaScript
-- Layer: utility
-- Language: py
-- Symbols:
-  - `get_machine_id` (function, line 10) `def get_machine_id()`
-  - `get_version` (function, line 24) `def get_version()`
-  - `to_numbers` (function, line 36) `def to_numbers(hex_str)`
-  - `to_hex` (function, line 41) `def to_hex(byte_list)`
-  - `decrypt_cookie` (function, line 46) `def decrypt_cookie(encrypted, key, iv)`
-  - `main` (function, line 53) `def main()`
-
 ## modules/test_lazyencoder_decoder.py
 - Layer: testing
 - Language: py
@@ -482,6 +470,20 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `_add` (function, line 448) `def _add(ioc)`
 - Depends on: `core/logging.py`
 - Imported by: `cli/commands/mcp_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+
+## modules/timeline_narrator.py
+- Doc: LazyOwn Timeline Narrator
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_events` (function, line 57) `def _load_events(n)`
+  - `_format_events_for_prompt` (function, line 77) `def _format_events_for_prompt(events)`
+  - `_call_ai` (function, line 97) `def _call_ai(api_key, events_text, target)`
+  - `_write_timeline` (function, line 115) `def _write_timeline(narrative, event_count, target)`
+  - `narrate` (function, line 130) `def narrate(api_key, force)`
+  - `load_timeline` (function, line 165) `def load_timeline()`
+- Depends on: `modules/ai_fallback.py`
+- Imported by: `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
 
 
 Next: [KB_modules_p15.md](KB_modules_p15.md)

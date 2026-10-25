@@ -1,8 +1,10 @@
 import asyncio
 import csv
+import hmac
 import json
 import os
 import random
+import sys
 import time
 
 import nest_asyncio
@@ -101,7 +103,7 @@ async def start(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text("Enter the secret, Usage: /start <secret>")
         return
 
-    if context.args[0] == c2_pass:
+    if context.args[0] and c2_pass and hmac.compare_digest(context.args[0], c2_pass):
         session_manager.create_session(user_id, client_id=None)
         await update.message.reply_text(
             "h1! 1 4m 4 b0t to APT/RedTeaming .\nexcec a command!\nuse /start beggin the RedTeam LazyOwnBot."
@@ -297,15 +299,46 @@ async def main() -> None:
 
 
 nest_asyncio.apply()
+
+_REJECTED_C2_SECRETS = frozenset(
+    {
+        "",
+        "lazyown",
+        "changeme",
+        "password",
+        "123456",
+        "test",
+        "secret",
+        "telegram",
+    }
+)
+
+
+def _resolve_c2_secret(raw):
+    """Validate the operator-supplied ``/start`` secret, failing closed."""
+    secret = str(raw or "").strip()
+    if len(secret) < 16:
+        raise ValueError("c2_pass must be configured with at least 16 characters")
+    if secret.lower() in _REJECTED_C2_SECRETS:
+        raise ValueError("c2_pass must not be a documented or default value")
+    return secret
+
+
 config = Config(load_payload())
 telegram_token = config.telegram_token
+try:
+    c2_pass = _resolve_c2_secret(config.c2_pass)
+except ValueError as exc:
+    c2_pass = ""
+    _c2_auth_error = str(exc)
+else:
+    _c2_auth_error = ""
 enable_telegram_c2 = config.enable_telegram_c2
 
 rhost = config.rhost
 ENTABLEIA = config.enable_ia
 lhost = config.lhost
 c2_port = config.c2_port
-c2_pass = config.c2_pass
 shell = LazyOwnShell()
 shell.onecmd("p")
 shell.onecmd("create_session_json")
@@ -316,6 +349,13 @@ user_games = {}
 client_id = ""
 FLASK_API_URL = f"https://{lhost}:{c2_port}/get_connected_clients"
 if __name__ == "__main__":
+    if not telegram_token:
+        print("[ERROR] telegram_token not set in payload.json")
+        sys.exit(1)
+    if _c2_auth_error or not c2_pass:
+        print(f"[ERROR] Refusing to start: {_c2_auth_error or 'c2_pass is not configured'}.")
+        print("Set a strong operator secret (>=16 chars, not a default value) in payload.json.")
+        sys.exit(1)
     if ENTABLEIA:
         print("Enabled IA")
     else:

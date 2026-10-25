@@ -111,13 +111,12 @@ def AESencrypt(plaintext: bytes, key: bytes) -> tuple[bytes, bytes]:
     """
     import hashlib
 
-    from Crypto.Cipher import AES as _AES
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
     k = hashlib.sha256(key).digest()
     nonce = os.urandom(_AES_GCM_NONCE_LENGTH)
-    cipher = _AES.new(k, _AES.MODE_GCM, nonce=nonce)
-    ct, tag = cipher.encrypt_and_digest(plaintext)
-    return nonce + ct + tag, key
+    ct_and_tag = AESGCM(k).encrypt(nonce, plaintext, None)
+    return nonce + ct_and_tag, key
 
 
 def AESdecrypt(data: bytes, key: bytes) -> bytes:
@@ -138,17 +137,18 @@ def AESdecrypt(data: bytes, key: bytes) -> bytes:
     """
     import hashlib
 
-    from Crypto.Cipher import AES as _AES
+    from cryptography.exceptions import InvalidTag
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
     if len(data) < _AES_GCM_NONCE_LENGTH + _AES_GCM_TAG_LENGTH:
         raise ValueError("ciphertext too short to contain nonce and tag")
     nonce = data[:_AES_GCM_NONCE_LENGTH]
-    tag = data[-_AES_GCM_TAG_LENGTH:]
-    ct = data[_AES_GCM_NONCE_LENGTH:-_AES_GCM_TAG_LENGTH]
+    ct_and_tag = data[_AES_GCM_NONCE_LENGTH:]
     k = hashlib.sha256(key).digest()
-    cipher = _AES.new(k, _AES.MODE_GCM, nonce=nonce)
-    plaintext = cipher.decrypt_and_verify(ct, tag)
-    return plaintext
+    try:
+        return AESGCM(k).decrypt(nonce, ct_and_tag, None)
+    except InvalidTag as exc:
+        raise ValueError("authentication failed: data tampered or wrong key") from exc
 
 
 def dropFile(key: bytes, ciphertext: bytes) -> None:

@@ -376,30 +376,35 @@ class TestPhishingOrchestratorKey:
             assert len(key) > 0
 
 
-class TestIcmpServerCommandExecution:
-    """BDD: GIVEN a command for the ICMP server,
-    THEN it must not use shell=True."""
+class TestRemovedLegacyCryptoModules:
+    """BDD: GIVEN the unmaintained Crypto-based tunnel modules were removed,
+    THEN importing them must fail and no shell-execution surface may remain."""
 
-    def test_execute_command_uses_list_form(self):
-        with patch("modules.icmp_server.subprocess.run") as mock_run:
-            mock_run.return_value = subprocess.CompletedProcess([], 0, stdout="ok", stderr="")
-            from modules.icmp_server import execute_command
+    REMOVED = [
+        "modules.icmp_server",
+        "modules.icmp_client",
+        "modules.lazyownclient",
+        "modules.lazyownserver",
+        "modules.tel",
+    ]
 
-            execute_command("echo hello")
-            args = mock_run.call_args
-            assert args[1].get("shell") is False or (args[0] and isinstance(args[0][0], list))
+    @pytest.mark.parametrize("mod", REMOVED)
+    def test_module_is_gone(self, mod):
+        with pytest.raises((ImportError, ModuleNotFoundError, ValueError)):
+            __import__(mod)
 
-    def test_handles_empty_command(self):
-        from modules.icmp_server import execute_command
-
-        result = execute_command("")
-        assert "Empty command" in result
-
-    def test_handles_invalid_command(self):
-        from modules.icmp_server import execute_command
-
-        result = execute_command("nonexistent_command_xyz_12345")
-        assert len(result) > 0
+    @pytest.mark.parametrize(
+        "rel",
+        [
+            "modules/icmp_server.py",
+            "modules/icmp_client.py",
+            "modules/lazyownclient.py",
+            "modules/lazyownserver.py",
+            "modules/tel.py",
+        ],
+    )
+    def test_source_file_is_gone(self, rel):
+        assert not Path(__file__).resolve().parent.parent.joinpath(rel).exists()
 
 
 class TestResourceScriptEngine:

@@ -218,7 +218,6 @@
 - [`add_service`](modules/modules.world_model.py.md#hostentry-add_service) method of `HostEntry` in `modules.world_model`
 - [`add_service`](modules/modules.state_manager.py.md#statemanager-add_service) method of `StateManager` in `modules.state_manager`
 - [`add_service`](modules/modules.world_model.py.md#worldmodel-add_service) method of `WorldModel` in `modules.world_model`
-- [`add_to_botnet`](modules/contrib.legacy.lazybotnet.py.md#add_to_botnet) function in `contrib.legacy.lazybotnet`
 - [`add_to_knowledge_base`](modules/modules.vulnbot.py.md#vulnbotcli-add_to_knowledge_base) method of `VulnBotCLI` in `modules.vulnbot`
 - [`add_to_knowledge_base`](modules/contrib.legacy.lazydeepseekcli.py.md#add_to_knowledge_base) function in `contrib.legacy.lazydeepseekcli`
 - [`add_to_knowledge_base`](modules/contrib.legacy.lazyphishingai.py.md#add_to_knowledge_base) function in `contrib.legacy.lazyphishingai`
@@ -301,10 +300,6 @@
 - [`aes_key_hex`](modules/modules.beacon_config_builder.py.md#beaconconfig-aes_key_hex) attribute of `BeaconConfig` in `modules.beacon_config_builder`
 - [`AES_KEY_SIZE_BYTES`](modules/lazyc2.py.md#aes_key_size_bytes) constant in `lazyc2`
 - [`AES_KEY_SIZE_BYTES`](modules/lazyc2.security.constants.py.md#aes_key_size_bytes) constant in `lazyc2.security.constants`
-- [`AES_NONCE_LENGTH`](modules/modules.icmp_client.py.md#aes_nonce_length) constant in `modules.icmp_client`
-- [`AES_NONCE_LENGTH`](modules/modules.icmp_server.py.md#aes_nonce_length) constant in `modules.icmp_server`
-- [`AES_TAG_LENGTH`](modules/modules.icmp_client.py.md#aes_tag_length) constant in `modules.icmp_client`
-- [`AES_TAG_LENGTH`](modules/modules.icmp_server.py.md#aes_tag_length) constant in `modules.icmp_server`
 - [`AESdecrypt`](modules/core.crypto.py.md#aesdecrypt) function in `core.crypto`
 - [`AESencrypt`](modules/core.crypto.py.md#aesencrypt) function in `core.crypto`
 - [`AESKeyManager`](modules/lazyc2.security.services.py.md#aeskeymanager) class in `lazyc2.security.services`
@@ -378,7 +373,6 @@
 - [`allowed_field_pattern`](modules/cli.status_bar.py.md#statusbarconfig-allowed_field_pattern) attribute of `StatusBarConfig` in `cli.status_bar`
 - [`ALLOWED_HTML_ATTRIBUTES`](modules/lazyc2.security.constants.py.md#allowed_html_attributes) constant in `lazyc2.security.constants`
 - [`ALLOWED_HTML_TAGS`](modules/lazyc2.security.constants.py.md#allowed_html_tags) constant in `lazyc2.security.constants`
-- [`ALLOWED_ICMP_COMMANDS`](modules/modules.icmp_server.py.md#allowed_icmp_commands) constant in `modules.icmp_server`
 - [`ALLOWED_OS_VALUES`](modules/cli.exploration.py.md#allowed_os_values) constant in `cli.exploration`
 - [`allowed_ports`](modules/modules.socks_proxy.py.md#socksproxyconfig-allowed_ports) attribute of `SocksProxyConfig` in `modules.socks_proxy`
 - [`alpn_protocols`](modules/modules.c2_profile_engine.py.md#tlsprofile-alpn_protocols) attribute of `TlsProfile` in `modules.c2_profile_engine`
@@ -1608,8 +1602,6 @@
 - [`check_sudo`](modules/contrib.legacy.lazysniff.py.md#check_sudo) function in `contrib.legacy.lazysniff`
 - [`check_sudo`](modules/core.process.py.md#check_sudo) function in `core.process`
 - [`check_sudo`](modules/fast_run_as_r00t.sh.md#check_sudo) function in `fast_run_as_r00t.sh`
-- [`check_sudo`](modules/modules.icmp_client.py.md#check_sudo) function in `modules.icmp_client`
-- [`check_sudo`](modules/modules.icmp_server.py.md#check_sudo) function in `modules.icmp_server`
 - [`check_sudo`](modules/modules.lazylynis.sh.md#check_sudo) function in `modules/lazylynis.sh`
 - [`check_sudo`](modules/modules.lazyvpnshield.sh.md#check_sudo) function in `modules/lazyvpnshield.sh`
 - [`check_surfaces`](modules/scripts.devtools.core_smoke.py.md#check_surfaces) function in `scripts.devtools.core_smoke`
@@ -1627,8 +1619,6 @@
 - [`CheckResult`](modules/skills.claude_md_orchestrator.validators.py.md#checkresult) class in `skills.claude_md_orchestrator.validators`
 - [`checks`](modules/cli.doctor.py.md#doctorreport-checks) attribute of `DoctorReport` in `cli.doctor`
 - [`checkSignature`](modules/modules.venator.py.md#checksignature) function in `modules.venator`
-- [`checksum`](modules/modules.icmp_client.py.md#checksum) function in `modules.icmp_client`
-- [`checksum`](modules/modules.icmp_server.py.md#checksum) function in `modules.icmp_server`
 - [`CHECKSUM_TYPES`](modules/modules.kerberos_core.py.md#checksum_types) constant in `modules.kerberos_core`
 - [`children`](modules/modules.dashboard_engine.py.md#dashboardnode-children) attribute of `DashboardNode` in `modules.dashboard_engine`
 - [`children`](modules/modules.lazy_loop.py.md#explorationgraph-children) method of `ExplorationGraph` in `modules.lazy_loop`
@@ -1675,7 +1665,6 @@
 - [`claude_md_path`](modules/skills.claude_md_orchestrator.config.py.md#config-claude_md_path) attribute of `Config` in `skills.claude_md_orchestrator.config`
 - [`ClaudeMdLoader`](modules/skills.lazyown_claudemd.py.md#claudemdloader) class in `skills.lazyown_claudemd`
 - [`clean_amcache`](modules/modules.forensic_cleaner.py.md#forensiccleanerconfig-clean_amcache) attribute of `ForensicCleanerConfig` in `modules.forensic_cleaner`
-- [`clean_botnet`](modules/contrib.legacy.lazybotnet.py.md#clean_botnet) function in `contrib.legacy.lazybotnet`
 - [`clean_checkout`](modules/bootstrap.sh.md#clean_checkout) function in `bootstrap.sh`
 - [`clean_container_and_image`](modules/lazyown-docker.mkdocker.sh.md#clean_container_and_image) function in `lazyown-docker/mkdocker.sh`
 - [`clean_expired_tokens`](modules/lazyc2.py.md#clean_expired_tokens) function in `lazyc2`
@@ -2453,7 +2442,6 @@
 - [`create_session`](modules/modules.socks_proxy.py.md#socksproxyengine-create_session) method of `SocksProxyEngine` in `modules.socks_proxy`
 - [`create_short_url`](modules/lazyc2.py.md#create_short_url) function in `lazyc2`
 - [`create_short_url`](modules/lazyc2.blueprints.phishing.py.md#create_short_url) function in `lazyc2.blueprints.phishing`
-- [`create_shortcut`](modules/contrib.legacy.lazybotnet.py.md#keylogger-create_shortcut) method of `Keylogger` in `contrib.legacy.lazybotnet`
 - [`create_synthetic_yaml`](modules/utils.py.md#create_synthetic_yaml) function in `utils`
 - [`create_task`](modules/modules.tools.loop_smoke.py.md#fakeengine-create_task) method of `FakeEngine` in `modules.tools.loop_smoke`
 - [`create_task`](modules/modules.lazy_loop.py.md#lazyloopengine-create_task) method of `LazyLoopEngine` in `modules.lazy_loop`
@@ -2711,16 +2699,8 @@
 - [`decompress`](modules/contrib.legacy.lazyhttpreverseshell.py.md#decompress) function in `contrib.legacy.lazyhttpreverseshell`
 - [`decoy`](modules/lazyc2.py.md#decoy) function in `lazyc2`
 - [`decoy_response`](modules/lazyc2.extensions.decoy.py.md#decoy_response) function in `lazyc2.extensions.decoy`
-- [`decrypt`](modules/contrib.legacy.lazybotcli.py.md#decrypt) function in `contrib.legacy.lazybotcli`
-- [`decrypt`](modules/contrib.legacy.lazybotnet.py.md#decrypt) function in `contrib.legacy.lazybotnet`
 - [`decrypt`](modules/contrib.legacy.lazyhttpreverseshell.py.md#decrypt) function in `contrib.legacy.lazyhttpreverseshell`
-- [`decrypt`](modules/contrib.legacy.lazykeygen.py.md#decrypt) function in `contrib.legacy.lazykeygen`
-- [`decrypt`](modules/modules.lazyownclient.py.md#decrypt) function in `modules.lazyownclient`
-- [`decrypt`](modules/modules.lazyownserver.py.md#decrypt) function in `modules.lazyownserver`
-- [`decrypt_cookie`](modules/modules.tel.py.md#decrypt_cookie) function in `modules.tel`
 - [`decrypt_data`](modules/lazyc2.py.md#decrypt_data) function in `lazyc2`
-- [`decrypt_data`](modules/modules.icmp_client.py.md#decrypt_data) function in `modules.icmp_client`
-- [`decrypt_data`](modules/modules.icmp_server.py.md#decrypt_data) function in `modules.icmp_server`
 - [`decrypt_session`](modules/cli.auto_crypto.py.md#autocryptoengine-decrypt_session) method of `AutoCryptoEngine` in `cli.auto_crypto`
 - [`decrypt_ticket`](modules/modules.kerberos_core.py.md#kerberoscore-decrypt_ticket) method of `KerberosCore` in `modules.kerberos_core`
 - [`decrypted_hmac_key`](modules/modules.dpapi_harvester.py.md#dpapimasterkey-decrypted_hmac_key) attribute of `DPAPIMasterKey` in `modules.dpapi_harvester`
@@ -4345,15 +4325,8 @@
 - [`ENCODING_CHAINS`](modules/modules.evasive_payloads.py.md#evasivepayloadgenerator-encoding_chains) attribute of `EvasivePayloadGenerator` in `modules.evasive_payloads`
 - [`encoding_errors`](modules/lazygui.config.constants.py.md#ptyconstants-encoding_errors) attribute of `PtyConstants` in `lazygui.config.constants`
 - [`EncodingCommandSet`](modules/cli.commands.encoding.py.md#encodingcommandset) class in `cli.commands.encoding`
-- [`encrypt`](modules/contrib.legacy.lazybotcli.py.md#encrypt) function in `contrib.legacy.lazybotcli`
-- [`encrypt`](modules/contrib.legacy.lazybotnet.py.md#encrypt) function in `contrib.legacy.lazybotnet`
 - [`encrypt`](modules/contrib.legacy.lazyhttpreverseshell.py.md#encrypt) function in `contrib.legacy.lazyhttpreverseshell`
-- [`encrypt`](modules/contrib.legacy.lazykeygen.py.md#encrypt) function in `contrib.legacy.lazykeygen`
-- [`encrypt`](modules/modules.lazyownclient.py.md#encrypt) function in `modules.lazyownclient`
-- [`encrypt`](modules/modules.lazyownserver.py.md#encrypt) function in `modules.lazyownserver`
 - [`encrypt_data`](modules/lazyc2.py.md#encrypt_data) function in `lazyc2`
-- [`encrypt_data`](modules/modules.icmp_client.py.md#encrypt_data) function in `modules.icmp_client`
-- [`encrypt_data`](modules/modules.icmp_server.py.md#encrypt_data) function in `modules.icmp_server`
 - [`encrypt_heap`](modules/modules.sleep_obfuscation.py.md#sleepobfuscationconfig-encrypt_heap) attribute of `SleepObfuscationConfig` in `modules.sleep_obfuscation`
 - [`encrypt_peb`](modules/modules.sleep_obfuscation.py.md#sleepobfuscationconfig-encrypt_peb) attribute of `SleepObfuscationConfig` in `modules.sleep_obfuscation`
 - [`encrypt_session`](modules/cli.auto_crypto.py.md#autocryptoengine-encrypt_session) method of `AutoCryptoEngine` in `cli.auto_crypto`
@@ -4738,7 +4711,6 @@
 - [`execute_command`](modules/poc_tui.app.py.md#lazyowntui-execute_command) method of `LazyOwnTUI` in `poc_tui.app`
 - [`execute_command`](modules/contrib.legacy.lazysearch_bot.py.md#execute_command) function in `contrib.legacy.lazysearch_bot`
 - [`execute_command`](modules/lazyc2.py.md#execute_command) function in `lazyc2`
-- [`execute_command`](modules/modules.icmp_server.py.md#execute_command) function in `modules.icmp_server`
 - [`execute_command`](modules/telegram_hermes.py.md#execute_command) function in `telegram_hermes`
 - [`execute_command_to_file`](modules/plugins.generate_msfvenom_loader.lua.md#execute_command_to_file) function in `plugins/generate_msfvenom_loader.lua`
 - [`execute_curl`](modules/modules.lazycurl.sh.md#execute_curl) function in `modules/lazycurl.sh`
@@ -5477,8 +5449,6 @@
 - [`generate_javascript_obfuscated`](modules/modules.evasive_payloads.py.md#evasivepayloadgenerator-generate_javascript_obfuscated) method of `EvasivePayloadGenerator` in `modules.evasive_payloads`
 - [`generate_jitter`](modules/modules.traffic_morpher.py.md#trafficmorpher-generate_jitter) method of `TrafficMorpher` in `modules.traffic_morpher`
 - [`generate_kernel_module`](modules/modules.linux_advanced_payloads.py.md#linuxadvancedpayloadfactory-generate_kernel_module) method of `LinuxAdvancedPayloadFactory` in `modules.linux_advanced_payloads`
-- [`generate_key`](modules/contrib.legacy.lazykeygen.py.md#generate_key) function in `contrib.legacy.lazykeygen`
-- [`generate_key_iv`](modules/contrib.legacy.lazybinenc.py.md#generate_key_iv) function in `contrib.legacy.lazybinenc`
 - [`generate_lateral_command`](modules/plugins.generate_lateral_command.lua.md#generate_lateral_command) function in `plugins/generate_lateral_command.lua`
 - [`generate_launchd_persistence`](modules/modules.macos_payloads.py.md#macospayloadfactory-generate_launchd_persistence) method of `MacOSPayloadFactory` in `modules.macos_payloads`
 - [`generate_ld_preload_rootkit`](modules/modules.linux_advanced_payloads.py.md#linuxadvancedpayloadfactory-generate_ld_preload_rootkit) method of `LinuxAdvancedPayloadFactory` in `modules.linux_advanced_payloads`
@@ -5715,7 +5685,6 @@
 - [`get_local_ip_addresses`](modules/lazyc2.py.md#get_local_ip_addresses) function in `lazyc2`
 - [`get_local_ips`](modules/core.prompt.py.md#get_local_ips) function in `core.prompt`
 - [`get_lock_manager`](modules/modules.collab_bp.py.md#get_lock_manager) function in `modules.collab_bp`
-- [`get_log`](modules/contrib.legacy.lazybotnet.py.md#keylogger-get_log) method of `Keylogger` in `contrib.legacy.lazybotnet`
 - [`get_logger`](modules/core.logging.py.md#get_logger) function in `core.logging`
 - [`get_logger`](modules/modules.logging_config.py.md#get_logger) function in `modules.logging_config`
 - [`get_loop`](modules/modules.auto_purple.py.md#get_loop) function in `modules.auto_purple`
@@ -5723,7 +5692,6 @@
 - [`get_mac`](modules/contrib.legacy.lazymidm.py.md#get_mac) function in `contrib.legacy.lazymidm`
 - [`get_mac_address`](modules/modules.nmap2csv.py.md#host-get_mac_address) method of `Host` in `modules.nmap2csv`
 - [`get_mac_address_vendor`](modules/modules.nmap2csv.py.md#host-get_mac_address_vendor) method of `Host` in `modules.nmap2csv`
-- [`get_machine_id`](modules/modules.tel.py.md#get_machine_id) function in `modules.tel`
 - [`get_manager`](modules/modules.operation.py.md#get_manager) function in `modules.operation`
 - [`get_matcher`](modules/modules.cve_matcher.py.md#get_matcher) function in `modules.cve_matcher`
 - [`get_memory_store`](modules/modules.memory_store.py.md#get_memory_store) function in `modules.memory_store`
@@ -5830,7 +5798,6 @@
 - [`get_venv_info`](modules/core.prompt.py.md#get_venv_info) function in `core.prompt`
 - [`get_venv_info`](modules/utils.py.md#get_venv_info) function in `utils`
 - [`get_version`](modules/modules.nmap2csv.py.md#port-get_version) method of `Port` in `modules.nmap2csv`
-- [`get_version`](modules/modules.tel.py.md#get_version) function in `modules.tel`
 - [`get_world_model`](modules/modules.world_model.py.md#get_world_model) function in `modules.world_model`
 - [`get_world_model_cache`](modules/modules.state_manager.py.md#statemanager-get_world_model_cache) method of `StateManager` in `modules.state_manager`
 - [`get_xml`](modules/utils.py.md#get_xml) function in `utils`
@@ -6067,13 +6034,10 @@
 - [`handle`](modules/skills.autonomous_daemon.py.md#iobjectivehandler-handle) method of `IObjectiveHandler` in `skills.autonomous_daemon`
 - [`handle`](modules/utils.py.md#handle) function in `utils`
 - [`handle_backdoor`](modules/contrib.legacy.lazyvsftp.py.md#handle_backdoor) function in `contrib.legacy.lazyvsftp`
-- [`handle_client`](modules/contrib.legacy.lazybotnet.py.md#handle_client) function in `contrib.legacy.lazybotnet`
 - [`handle_client`](modules/lazyc2.py.md#handle_client) function in `lazyc2`
-- [`handle_client`](modules/modules.lazyownserver.py.md#handle_client) function in `modules.lazyownserver`
 - [`handle_client`](modules/modules.rootkit.mr.c.md#handle_client) function in `modules/rootkit/mr.c`
 - [`handle_client`](modules/modules.win_rootkit.backup.c.md#handle_client) function in `modules/win_rootkit/backup.c`
 - [`handle_client`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#handle_client) function in `modules/win_rootkit/win_ring3_rootkit.c`
-- [`handle_command`](modules/modules.lazyownclient.py.md#handle_command) function in `modules.lazyownclient`
 - [`handle_connection`](modules/contrib.legacy.lazyhoneypot.py.md#handle_connection) function in `contrib.legacy.lazyhoneypot`
 - [`handle_file`](modules/discord_c2.py.md#handle_file) function in `discord_c2`
 - [`handle_file`](modules/slack_c2_bot.py.md#handle_file) function in `slack_c2_bot`
@@ -6084,7 +6048,6 @@
 - [`handle_message`](modules/slack_c2_bot.py.md#handle_message) function in `slack_c2_bot`
 - [`handle_multiple_rhosts`](modules/core.process.py.md#handle_multiple_rhosts) function in `core.process`
 - [`handle_packet`](modules/contrib.legacy.lazy_packet_image_sniffer.py.md#handle_packet) function in `contrib.legacy.lazy_packet_image_sniffer`
-- [`handle_packet`](modules/modules.icmp_server.py.md#handle_packet) function in `modules.icmp_server`
 - [`handle_request`](modules/contrib.legacy.lazyproxy.py.md#handle_request) function in `contrib.legacy.lazyproxy`
 - [`handleData`](modules/contrib.legacy.lazysmbrelay.py.md#customsmbrelayserver-handledata) method of `CustomSMBRelayServer` in `contrib.legacy.lazysmbrelay`
 - [`handleError`](modules/modules.logging_config.py.md#resilientrotatingfilehandler-handleerror) method of `ResilientRotatingFileHandler` in `modules.logging_config`
@@ -6392,10 +6355,6 @@
 - [`i`](modules/static.js.xterm-addon-web-links-0.5.0.js.md#i) function in `static/js/xterm-addon-web-links-0.5.0.js`
 - [`IAAS_NAME_HINTS`](modules/scripts.backfill_addon_os_trigger.py.md#iaas_name_hints) constant in `scripts.backfill_addon_os_trigger`
 - [`IApprovalSink`](modules/skills.lazyown_policy.py.md#iapprovalsink) class in `skills.lazyown_policy`
-- [`ICMP_BUFFER_SIZE`](modules/modules.icmp_client.py.md#icmp_buffer_size) constant in `modules.icmp_client`
-- [`ICMP_BUFFER_SIZE`](modules/modules.icmp_server.py.md#icmp_buffer_size) constant in `modules.icmp_server`
-- [`ICMP_COMMAND_TIMEOUT`](modules/modules.icmp_server.py.md#icmp_command_timeout) constant in `modules.icmp_server`
-- [`ICMP_ECHO_REQUEST`](modules/modules.icmp_client.py.md#icmp_echo_request) constant in `modules.icmp_client`
 - [`ICommandRunner`](modules/skills.autonomous_daemon.py.md#icommandrunner) class in `skills.autonomous_daemon`
 - [`ICommandRunner`](modules/skills.hive_mind.py.md#icommandrunner) class in `skills.hive_mind`
 - [`ICommandSelector`](modules/skills.autonomous_daemon.py.md#icommandselector) class in `skills.autonomous_daemon`
@@ -6817,7 +6776,6 @@
 - [`__init__`](modules/modules.kerberoasting.py.md#kerberoastingengine-__init__) constructor of `KerberoastingEngine` in `modules.kerberoasting`
 - [`__init__`](modules/modules.kerberos_core.py.md#kerberoscore-__init__) constructor of `KerberosCore` in `modules.kerberos_core`
 - [`__init__`](modules/modules.kerberos_core.py.md#kerberoscrypto-__init__) constructor of `KerberosCrypto` in `modules.kerberos_core`
-- [`__init__`](modules/contrib.legacy.lazybotnet.py.md#keylogger-__init__) constructor of `Keylogger` in `contrib.legacy.lazybotnet`
 - [`__init__`](modules/lazygui.panels.killchain_panel.py.md#killchainpanel-__init__) constructor of `KillChainPanel` in `lazygui.panels.killchain_panel`
 - [`__init__`](modules/cli.autosuggest.py.md#killchainprovider-__init__) constructor of `KillChainProvider` in `cli.autosuggest`
 - [`__init__`](modules/cli.recommendation_signals.py.md#killchainsignal-__init__) constructor of `KillChainSignal` in `cli.recommendation_signals`
@@ -7490,8 +7448,6 @@
 - [`key_path`](modules/modules.c2_profile_engine.py.md#tlsprofile-key_path) attribute of `TlsProfile` in `modules.c2_profile_engine`
 - [`key_rotation_grace_seconds`](modules/core.api_authz.py.md#apiauthzconfig-key_rotation_grace_seconds) attribute of `ApiAuthzConfig` in `core.api_authz`
 - [`key_serial_t`](modules/modules.exp.c.md#key_serial_t) type_alias in `modules/exp.c`
-- [`KEY_SIZE`](modules/contrib.legacy.lazybotcli.py.md#key_size) constant in `contrib.legacy.lazybotcli`
-- [`KEY_SIZE`](modules/contrib.legacy.lazybotnet.py.md#key_size) constant in `contrib.legacy.lazybotnet`
 - [`KEY_SIZE_BYTES`](modules/lazyc2.security.services.py.md#secretkeymanager-key_size_bytes) attribute of `SecretKeyManager` in `lazyc2.security.services`
 - [`key_space`](modules/cli.banner_config.py.md#bannerconfig-key_space) attribute of `BannerConfig` in `cli.banner_config`
 - [`key_substitution`](modules/modules.lazyencoder_decoder.py.md#key_substitution) function in `modules.lazyencoder_decoder`
@@ -7499,7 +7455,6 @@
 - [`key_tab`](modules/cli.banner_config.py.md#bannerconfig-key_tab) attribute of `BannerConfig` in `cli.banner_config`
 - [`key_tab`](modules/cli.fuzzy_picker.py.md#pickerconfig-key_tab) attribute of `PickerConfig` in `cli.fuzzy_picker`
 - [`KeybindingConstants`](modules/lazygui.config.constants.py.md#keybindingconstants) class in `lazygui.config.constants`
-- [`Keylogger`](modules/contrib.legacy.lazybotnet.py.md#keylogger) class in `contrib.legacy.lazybotnet`
 - [`keyPressEvent`](modules/lazygui.windows.command_palette_window.py.md#commandpalettewindow-keypressevent) method of `CommandPaletteWindow` in `lazygui.windows.command_palette_window`
 - [`keyPressEvent`](modules/lazygui.widgets.terminal_view.py.md#terminalview-keypressevent) method of `TerminalView` in `lazygui.widgets.terminal_view`
 - [`keyring_payload`](modules/modules.exp.c.md#keyring_payload) struct in `modules/exp.c`
@@ -7943,7 +7898,6 @@
 - [`list_tools`](modules/skills.lazyown_mcp_opencode.py.md#list_tools) function in `skills.lazyown_mcp_opencode`
 - [`list_vulnerabilities`](modules/modules.state_manager.py.md#statemanager-list_vulnerabilities) method of `StateManager` in `modules.state_manager`
 - [`listar_timers`](modules/modules.lazyatack.sh.md#listar_timers) function in `modules/lazyatack.sh`
-- [`listen_for_icmp`](modules/modules.icmp_server.py.md#listen_for_icmp) function in `modules.icmp_server`
 - [`LISTENER`](modules/skills.hermes-lazyown.constants.py.md#configkeys-listener) attribute of `ConfigKeys` in `skills.hermes-lazyown.constants`
 - [`Listener`](modules/lazygui.services.models.py.md#listener) class in `lazygui.services.models`
 - [`Listener`](modules/modules.listener_manager.py.md#listener) class in `modules.listener_manager`
@@ -8250,13 +8204,10 @@
 - [`main`](modules/banner.py.md#main) function in `banner`
 - [`main`](modules/contrib.legacy.lazyaddon_creator.py.md#main) function in `contrib.legacy.lazyaddon_creator`
 - [`main`](modules/contrib.legacy.lazyarpspoofing.py.md#main) function in `contrib.legacy.lazyarpspoofing`
-- [`main`](modules/contrib.legacy.lazybinenc.py.md#main) function in `contrib.legacy.lazybinenc`
-- [`main`](modules/contrib.legacy.lazybotcli.py.md#main) function in `contrib.legacy.lazybotcli`
 - [`main`](modules/contrib.legacy.lazydisassebler.py.md#main) function in `contrib.legacy.lazydisassebler`
 - [`main`](modules/contrib.legacy.lazyftpsniff.py.md#main) function in `contrib.legacy.lazyftpsniff`
 - [`main`](modules/contrib.legacy.lazygalazy.py.md#main) function in `contrib.legacy.lazygalazy`
 - [`main`](modules/contrib.legacy.lazyhoneypot.py.md#main) function in `contrib.legacy.lazyhoneypot`
-- [`main`](modules/contrib.legacy.lazykeygen.py.md#main) function in `contrib.legacy.lazykeygen`
 - [`main`](modules/contrib.legacy.lazylfi2rce.py.md#main) function in `contrib.legacy.lazylfi2rce`
 - [`main`](modules/contrib.legacy.lazyllmchat.py.md#main) function in `contrib.legacy.lazyllmchat`
 - [`main`](modules/contrib.legacy.lazylogpoisoning.py.md#main) function in `contrib.legacy.lazylogpoisoning`
@@ -8281,14 +8232,10 @@
 - [`main`](modules/modules.exp.c.md#main) function in `modules/exp.c`
 - [`main`](modules/modules.fast_run_service.sh.md#main) function in `modules/fast_run_service.sh`
 - [`main`](modules/modules.hive_invoke.py.md#main) function in `modules.hive_invoke`
-- [`main`](modules/modules.icmp_client.py.md#main) function in `modules.icmp_client`
-- [`main`](modules/modules.icmp_server.py.md#main) function in `modules.icmp_server`
 - [`main`](modules/modules.img2bin.py.md#main) function in `modules.img2bin`
 - [`main`](modules/modules.lazyown_bprfuzzer.py.md#main) function in `modules.lazyown_bprfuzzer`
 - [`main`](modules/modules.lazyown_metaextract0r.py.md#main) function in `modules.lazyown_metaextract0r`
-- [`main`](modules/modules.lazyownclient.py.md#main) function in `modules.lazyownclient`
 - [`main`](modules/modules.lazyownerweb.py.md#main) function in `modules.lazyownerweb`
-- [`main`](modules/modules.lazyownserver.py.md#main) function in `modules.lazyownserver`
 - [`main`](modules/modules.lazyvpnshield.sh.md#main) function in `modules/lazyvpnshield.sh`
 - [`main`](modules/modules.nmap2csv.py.md#main) function in `modules.nmap2csv`
 - [`main`](modules/modules.nuclei_templates_sync.py.md#main) function in `modules.nuclei_templates_sync`
@@ -8297,7 +8244,6 @@
 - [`main`](modules/modules.rootkit.mrhyde2.c.md#main) function in `modules/rootkit/mrhyde2.c`
 - [`main`](modules/modules.stego_video.py.md#main) function in `modules.stego_video`
 - [`main`](modules/modules.sudo_tiocsti.py.md#main) function in `modules.sudo_tiocsti`
-- [`main`](modules/modules.tel.py.md#main) function in `modules.tel`
 - [`main`](modules/modules.tools.loop_smoke.py.md#main) function in `modules.tools.loop_smoke`
 - [`main`](modules/modules.tools.monitor_smoke.py.md#main) function in `modules.tools.monitor_smoke`
 - [`main`](modules/modules.ttpscope_bridge.py.md#main) function in `modules.ttpscope_bridge`
@@ -9244,7 +9190,6 @@
 - [`on_option_list_option_selected`](modules/cli.tui_forms.py.md#searchselectmodal-on_option_list_option_selected) method of `SearchSelectModal` in `cli.tui_forms`
 - [`on_phase_selected`](modules/cli.dashboard_tui.py.md#lazyowndashboard-on_phase_selected) method of `LazyOwnDashboard` in `cli.dashboard_tui`
 - [`on_planner_round`](modules/modules.lazy_loop.py.md#coldcompactor-on_planner_round) method of `ColdCompactor` in `modules.lazy_loop`
-- [`on_press`](modules/contrib.legacy.lazybotnet.py.md#keylogger-on_press) method of `Keylogger` in `contrib.legacy.lazybotnet`
 - [`on_ready`](modules/discord_c2.py.md#on_ready) function in `discord_c2`
 - [`on_row_double_click`](modules/modules.LazyOwnExplorer.py.md#lazyowngui-on_row_double_click) method of `LazyOwnGUI` in `modules.LazyOwnExplorer`
 - [`on_success`](modules/modules.chain_registry.py.md#chainstep-on_success) attribute of `ChainStep` in `modules.chain_registry`
@@ -9467,9 +9412,6 @@
 - [`packetstormsecurity`](modules/core.http.py.md#packetstormsecurity) function in `core.http`
 - [`packetstormsecurity`](modules/utils.py.md#packetstormsecurity) function in `utils`
 - [`PACSignature`](modules/modules.kerberos_core.py.md#pacsignature) class in `modules.kerberos_core`
-- [`pad`](modules/contrib.legacy.lazykeygen.py.md#pad) function in `contrib.legacy.lazykeygen`
-- [`pad`](modules/modules.lazyownclient.py.md#pad) function in `modules.lazyownclient`
-- [`pad`](modules/modules.lazyownserver.py.md#pad) function in `modules.lazyownserver`
 - [`page_not_found`](modules/lazyc2.py.md#page_not_found) function in `lazyc2`
 - [`page_settings`](modules/modules.intel_fusion.py.md#page_settings) function in `modules.intel_fusion`
 - [`PAGE_SIZE`](modules/modules.lazy_mentions.py.md#page_size) constant in `modules.lazy_mentions`
@@ -10689,7 +10631,6 @@
 - [`recall_semantic`](modules/skills.hive_mind.py.md#hivememory-recall_semantic) method of `HiveMemory` in `skills.hive_mind`
 - [`receive`](modules/skills.hive_mind.py.md#hivebus-receive) method of `HiveBus` in `skills.hive_mind`
 - [`receive_from`](modules/contrib.legacy.lazyproxy.py.md#receive_from) function in `contrib.legacy.lazyproxy`
-- [`receive_icmp_reply`](modules/modules.icmp_client.py.md#receive_icmp_reply) function in `modules.icmp_client`
 - [`receive_result`](modules/lazyc2.py.md#receive_result) function in `lazyc2`
 - [`receive_result`](modules/lazyc2.blueprints.beacon.py.md#receive_result) function in `lazyc2.blueprints.beacon`
 - [`recent`](modules/modules.collab_bp.py.md#eventbus-recent) method of `EventBus` in `modules.collab_bp`
@@ -11136,6 +11077,7 @@
 - [`require_device`](modules/scripts.dirtyinit_drive.sh.md#require_device) function in `scripts/dirtyinit_drive.sh`
 - [`require_encryption_key`](modules/core.hardening.py.md#require_encryption_key) function in `core.hardening`
 - [`require_mfa`](modules/modules.lazy_rbac.py.md#require_mfa) function in `modules.lazy_rbac`
+- [`require_mfa_socket`](modules/lazyc2.py.md#require_mfa_socket) function in `lazyc2`
 - [`require_operator_session`](modules/lazyc2.blueprints.session_auth.py.md#require_operator_session) function in `lazyc2.blueprints.session_auth`
 - [`require_paths`](modules/modules.fast_run_service.sh.md#require_paths) function in `modules/fast_run_service.sh`
 - [`require_permission`](modules/modules.lazy_rbac.py.md#require_permission) function in `modules.lazy_rbac`
@@ -11490,7 +11432,6 @@
 - [`run`](modules/skills.unified_orchestrator.py.md#iorchestratorbackend-run) method of `IOrchestratorBackend` in `skills.unified_orchestrator`
 - [`run`](modules/modules.pipeline_engine.py.md#isteprunner-run) method of `IStepRunner` in `modules.pipeline_engine`
 - [`run`](modules/skills.swan_agent.py.md#iswanorchestrator-run) method of `ISwanOrchestrator` in `skills.swan_agent`
-- [`run`](modules/contrib.legacy.lazybotnet.py.md#keylogger-run) method of `Keylogger` in `contrib.legacy.lazybotnet`
 - [`run`](modules/modules.lazy_loop.py.md#lazyloopengine-run) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`run`](modules/contrib.legacy.lazyllmchat.py.md#lazyownllmchat-run) method of `LazyOwnLLMChat` in `contrib.legacy.lazyllmchat`
 - [`run`](modules/modules.pipeline_engine.py.md#lazyownsteprunner-run) method of `LazyOwnStepRunner` in `modules.pipeline_engine`
@@ -11567,8 +11508,6 @@
 - [`run_lazyarpspoofing`](modules/lazyown.py.md#lazyownshell-run_lazyarpspoofing) method of `LazyOwnShell` in `lazyown`
 - [`run_lazyaslrcheck`](modules/lazyown.py.md#lazyownshell-run_lazyaslrcheck) method of `LazyOwnShell` in `lazyown`
 - [`run_lazyattack`](modules/lazyown.py.md#lazyownshell-run_lazyattack) method of `LazyOwnShell` in `lazyown`
-- [`run_lazybotcli`](modules/lazyown.py.md#lazyownshell-run_lazybotcli) method of `LazyOwnShell` in `lazyown`
-- [`run_lazybotnet`](modules/lazyown.py.md#lazyownshell-run_lazybotnet) method of `LazyOwnShell` in `lazyown`
 - [`run_lazyburpfuzzer`](modules/lazyown.py.md#lazyownshell-run_lazyburpfuzzer) method of `LazyOwnShell` in `lazyown`
 - [`run_lazyftpsniff`](modules/lazyown.py.md#lazyownshell-run_lazyftpsniff) method of `LazyOwnShell` in `lazyown`
 - [`run_lazygath`](modules/lazyown.py.md#lazyownshell-run_lazygath) method of `LazyOwnShell` in `lazyown`
@@ -11582,8 +11521,6 @@
 - [`run_lazynmapdiscovery`](modules/lazyown.py.md#lazyownshell-run_lazynmapdiscovery) method of `LazyOwnShell` in `lazyown`
 - [`run_lazyown`](modules/lazyown.py.md#lazyownshell-run_lazyown) method of `LazyOwnShell` in `lazyown`
 - [`run_lazyown_command`](modules/telegram_hermes.py.md#run_lazyown_command) function in `telegram_hermes`
-- [`run_lazyownrat`](modules/lazyown.py.md#lazyownshell-run_lazyownrat) method of `LazyOwnShell` in `lazyown`
-- [`run_lazyownratcli`](modules/lazyown.py.md#lazyownshell-run_lazyownratcli) method of `LazyOwnShell` in `lazyown`
 - [`run_lazypathhijacking`](modules/lazyown.py.md#lazyownshell-run_lazypathhijacking) method of `LazyOwnShell` in `lazyown`
 - [`run_lazyreverse_shell`](modules/lazyown.py.md#lazyownshell-run_lazyreverse_shell) method of `LazyOwnShell` in `lazyown`
 - [`run_lazysearch`](modules/lazyown.py.md#lazyownshell-run_lazysearch) method of `LazyOwnShell` in `lazyown`
@@ -11757,7 +11694,6 @@
 - [`save_knowledge_base`](modules/contrib.legacy.lazydeepseekcli.py.md#save_knowledge_base) function in `contrib.legacy.lazydeepseekcli`
 - [`save_knowledge_base`](modules/contrib.legacy.lazyphishingai.py.md#save_knowledge_base) function in `contrib.legacy.lazyphishingai`
 - [`save_knowledge_base`](modules/contrib.legacy.lazysearch_bot.py.md#save_knowledge_base) function in `contrib.legacy.lazysearch_bot`
-- [`save_log`](modules/contrib.legacy.lazybotnet.py.md#keylogger-save_log) method of `Keylogger` in `contrib.legacy.lazybotnet`
 - [`save_note`](modules/lazyc2.py.md#save_note) function in `lazyc2`
 - [`save_note`](modules/lazyc2.extensions.storage.py.md#save_note) function in `lazyc2.extensions.storage`
 - [`save_payload`](modules/core.config.py.md#save_payload) function in `core.config`
@@ -12034,8 +11970,6 @@
 - [`send_command`](modules/utils.py.md#send_command) function in `utils`
 - [`send_connected_clients`](modules/discord_c2.py.md#send_connected_clients) function in `discord_c2`
 - [`send_connected_clients`](modules/telegram_c2.py.md#send_connected_clients) function in `telegram_c2`
-- [`send_icmp_packet`](modules/modules.icmp_client.py.md#send_icmp_packet) function in `modules.icmp_client`
-- [`send_icmp_reply`](modules/modules.icmp_server.py.md#send_icmp_reply) function in `modules.icmp_server`
 - [`send_lcommand`](modules/lazyc2.py.md#send_lcommand) function in `lazyc2`
 - [`send_nbns_spoof`](modules/contrib.legacy.lazynetbios.py.md#send_nbns_spoof) function in `contrib.legacy.lazynetbios`
 - [`send_packet`](modules/core.network.py.md#send_packet) function in `core.network`
@@ -12047,7 +11981,6 @@
 - [`send_result`](modules/modules.websocket_beacon.py.md#websocketbeacon-send_result) method of `WebSocketBeacon` in `modules.websocket_beacon`
 - [`send_task`](modules/modules.dns_beacon.py.md#dnsc2server-send_task) method of `DNSC2Server` in `modules.dns_beacon`
 - [`send_task`](modules/modules.websocket_beacon.py.md#websocketc2handler-send_task) method of `WebSocketC2Handler` in `modules.websocket_beacon`
-- [`send_to_botnet`](modules/contrib.legacy.lazybotnet.py.md#send_to_botnet) function in `contrib.legacy.lazybotnet`
 - [`send_worker_message`](modules/modules.lazy_loop.py.md#lazyloopengine-send_worker_message) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`sender`](modules/skills.hive_mind.py.md#hivemessage-sender) attribute of `HiveMessage` in `skills.hive_mind`
 - [`sender_display`](modules/modules.phishing_orchestrator.py.md#phishingtemplate-sender_display) attribute of `PhishingTemplate` in `modules.phishing_orchestrator`
@@ -12367,7 +12300,6 @@
 - [`setup_modprobe_payload`](modules/modules.exp.c.md#setup_modprobe_payload) function in `modules/exp.c`
 - [`setup_monitor_mode`](modules/contrib.legacy.lazymidm.py.md#setup_monitor_mode) function in `contrib.legacy.lazymidm`
 - [`setup_network_manager`](modules/contrib.legacy.lazymitmap.py.md#setup_network_manager) function in `contrib.legacy.lazymitmap`
-- [`setup_persistence`](modules/contrib.legacy.lazybotnet.py.md#keylogger-setup_persistence) method of `Keylogger` in `contrib.legacy.lazybotnet`
 - [`severity`](modules/modules.dacl_abuse.py.md#acltarget-severity) attribute of `ACLTarget` in `modules.dacl_abuse`
 - [`severity`](modules/modules.cicd_enumerator.py.md#cicdfinding-severity) attribute of `CICDFinding` in `modules.cicd_enumerator`
 - [`severity`](modules/modules.cve_matcher.py.md#cveresult-severity) attribute of `CVEResult` in `modules.cve_matcher`
@@ -12501,8 +12433,6 @@
 - [`signal_handler`](modules/contrib.legacy.lazysniff.py.md#signal_handler) function in `contrib.legacy.lazysniff`
 - [`signal_handler`](modules/modules.lazyown_bprfuzzer.py.md#signal_handler) function in `modules.lazyown_bprfuzzer`
 - [`signal_handler`](modules/modules.lazyown_metaextract0r.py.md#signal_handler) function in `modules.lazyown_metaextract0r`
-- [`signal_handler`](modules/modules.lazyownclient.py.md#signal_handler) function in `modules.lazyownclient`
-- [`signal_handler`](modules/modules.lazyownserver.py.md#signal_handler) function in `modules.lazyownserver`
 - [`signal_handler`](modules/modules.rootkit.mr.c.md#signal_handler) function in `modules/rootkit/mr.c`
 - [`signal_handler`](modules/utils.py.md#signal_handler) function in `utils`
 - [`signal_weights`](modules/cli.recommendation.py.md#engineweights-signal_weights) attribute of `EngineWeights` in `cli.recommendation`
@@ -12832,7 +12762,6 @@
 - [`start`](modules/skills.daemon_health.py.md#daemonhealth-start) method of `DaemonHealth` in `skills.daemon_health`
 - [`start`](modules/skills.hive_mind.py.md#droneagent-start) method of `DroneAgent` in `skills.hive_mind`
 - [`start`](modules/cli.cli_enhancements.py.md#hotreloader-start) method of `HotReloader` in `cli.cli_enhancements`
-- [`start`](modules/contrib.legacy.lazybotnet.py.md#keylogger-start) method of `Keylogger` in `contrib.legacy.lazybotnet`
 - [`start`](modules/modules.listener_manager.py.md#listenermanager-start) method of `ListenerManager` in `modules.listener_manager`
 - [`start`](modules/lazygui.services.local_backend.py.md#localptybackend-start) method of `LocalPtyBackend` in `lazygui.services.local_backend`
 - [`start`](modules/modules.loop_progress.py.md#loopprogress-start) method of `LoopProgress` in `modules.loop_progress`
@@ -12873,7 +12802,6 @@
 - [`start_range`](modules/modules.lab_runtime.py.md#start_range) function in `modules.lab_runtime`
 - [`start_reverse_shell`](modules/lazyc2.py.md#start_reverse_shell) function in `lazyc2`
 - [`start_run`](modules/modules.gym_registry.py.md#start_run) function in `modules.gym_registry`
-- [`start_server`](modules/contrib.legacy.lazybotnet.py.md#start_server) function in `contrib.legacy.lazybotnet`
 - [`start_services`](modules/contrib.legacy.lazymitmap.py.md#start_services) function in `contrib.legacy.lazymitmap`
 - [`start_smb_relay`](modules/contrib.legacy.lazysmbrelay.py.md#start_smb_relay) function in `contrib.legacy.lazysmbrelay`
 - [`start_smb_server`](modules/contrib.legacy.lazysmbrelay.py.md#start_smb_server) function in `contrib.legacy.lazysmbrelay`
@@ -13817,11 +13745,9 @@
 - [`to_format`](modules/modules.dotnet_payload.py.md#dotnetpayloadfactory-to_format) method of `DotNetPayloadFactory` in `modules.dotnet_payload`
 - [`to_gen_beacon_args`](modules/modules.beacon_config_builder.py.md#beaconconfig-to_gen_beacon_args) method of `BeaconConfig` in `modules.beacon_config_builder`
 - [`to_go_implant_vars`](modules/modules.beacon_config_builder.py.md#beaconconfig-to_go_implant_vars) method of `BeaconConfig` in `modules.beacon_config_builder`
-- [`to_hex`](modules/modules.tel.py.md#to_hex) function in `modules.tel`
 - [`to_ids`](modules/modules.integrations.misp_export.py.md#mispattribute-to_ids) attribute of `MISPAttribute` in `modules.integrations.misp_export`
 - [`to_json`](modules/modules.event_bus.py.md#lazyevent-to_json) method of `LazyEvent` in `modules.event_bus`
 - [`to_json`](modules/modules.integrations.misp_export.py.md#mispexporter-to_json) method of `MISPExporter` in `modules.integrations.misp_export`
-- [`to_numbers`](modules/modules.tel.py.md#to_numbers) function in `modules.tel`
 - [`to_payload_block`](modules/cli.banner_config.py.md#bannersettings-to_payload_block) method of `BannerSettings` in `cli.banner_config`
 - [`to_report`](modules/modules.compliance.py.md#evidencechain-to_report) method of `EvidenceChain` in `modules.compliance`
 - [`to_serializable`](modules/lazyc2.py.md#to_serializable) function in `lazyc2`

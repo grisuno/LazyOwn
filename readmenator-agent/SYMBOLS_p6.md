@@ -457,27 +457,6 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `get_mac` | function | `contrib/legacy/lazyarpspoofing.py:49` | `def get_mac(ip, device, retries, timeout)` |
 | `main` | function | `contrib/legacy/lazyarpspoofing.py:80` | `def main()` |
 | `spoofer` | function | `contrib/legacy/lazyarpspoofing.py:69` | `def spoofer(target, spoofed, device)` |
-| `generate_key_iv` | function | `contrib/legacy/lazybinenc.py:12` | `def generate_key_iv(sessions_path)` |
-| `main` | function | `contrib/legacy/lazybinenc.py:54` | `def main()` |
-| `decrypt` | function | `contrib/legacy/lazybotcli.py:36` | `def decrypt(ciphertext, key)` |
-| `encrypt` | function | `contrib/legacy/lazybotcli.py:30` | `def encrypt(plaintext, key)` |
-| `main` | function | `contrib/legacy/lazybotcli.py:42` | `def main()` |
-| `Keylogger` | class | `contrib/legacy/lazybotnet.py:89` | `class Keylogger` |
-| `__init__` | method | `contrib/legacy/lazybotnet.py:90` | `def __init__(self, key, log_file)` |
-| `add_to_botnet` | function | `contrib/legacy/lazybotnet.py:58` | `def add_to_botnet(ip, port, botnet_file)` |
-| `clean_botnet` | function | `contrib/legacy/lazybotnet.py:62` | `def clean_botnet(ip, port, botnet_file)` |
-| `create_shortcut` | method | `contrib/legacy/lazybotnet.py:136` | `def create_shortcut(self, script_path, shortcut_path)` |
-| `decrypt` | function | `contrib/legacy/lazybotnet.py:52` | `def decrypt(ciphertext, key)` |
-| `encrypt` | function | `contrib/legacy/lazybotnet.py:46` | `def encrypt(plaintext, key)` |
-| `get_log` | method | `contrib/legacy/lazybotnet.py:110` | `def get_log(self)` |
-| `handle_client` | function | `contrib/legacy/lazybotnet.py:144` | `def handle_client(conn, key, botnet_file, log_file)` |
-| `on_press` | method | `contrib/legacy/lazybotnet.py:95` | `def on_press(self, key)` |
-| `run` | method | `contrib/legacy/lazybotnet.py:120` | `def run(self)` |
-| `save_log` | method | `contrib/legacy/lazybotnet.py:113` | `def save_log(self)` |
-| `send_to_botnet` | function | `contrib/legacy/lazybotnet.py:71` | `def send_to_botnet(cmd, key, botnet_file)` |
-| `setup_persistence` | method | `contrib/legacy/lazybotnet.py:125` | `def setup_persistence(self)` |
-| `start` | method | `contrib/legacy/lazybotnet.py:106` | `def start(self)` |
-| `start_server` | function | `contrib/legacy/lazybotnet.py:182` | `def start_server(host, port, key, botnet_file, log_file)` |
 | `RTSPScanner` | class | `contrib/legacy/lazycam.py:32` | `class RTSPScanner` |
 | `__init__` | method | `contrib/legacy/lazycam.py:33` | `def __init__(self, verbose, wspace)` |
 | `addCameras` | method | `contrib/legacy/lazycam.py:149` | `def addCameras(self)` |
@@ -496,5 +475,26 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `add_to_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:179` | `def add_to_knowledge_base(prompt, command, file_path)` |
 | `configure_logging` | function | `contrib/legacy/lazydeepseekcli.py:45` | `def configure_logging(debug)` |
 | `generate` | function | `contrib/legacy/lazydeepseekcli.py:232` | `def generate()` |
+| `get_relevant_knowledge` | function | `contrib/legacy/lazydeepseekcli.py:185` | `def get_relevant_knowledge(prompt)` |
+| `load_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:167` | `def load_knowledge_base(file_path)` |
+| `parse_args` | function | `contrib/legacy/lazydeepseekcli.py:277` | `def parse_args()` |
+| `process_prompt_local` | function | `contrib/legacy/lazydeepseekcli.py:261` | `def process_prompt_local(prompt, debug, mode)` |
+| `process_prompt_localreport` | function | `contrib/legacy/lazydeepseekcli.py:269` | `def process_prompt_localreport(prompt, debug, mode)` |
+| `save_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:174` | `def save_knowledge_base(knowledge_base, file_path)` |
+| `transform_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:193` | `def transform_knowledge_base(prompt_builder)` |
+| `truncate_message` | function | `contrib/legacy/lazydeepseekcli.py:41` | `def truncate_message(message, max_chars)` |
+| `X64Disassembler` | class | `contrib/legacy/lazydisassebler.py:24` | `class X64Disassembler` |
+| `__init__` | method | `contrib/legacy/lazydisassebler.py:34` | `def __init__(self)` |
+| `disassemble` | method | `contrib/legacy/lazydisassebler.py:305` | `def disassemble(self, bytes_data, file_offset, vaddr, size, entry_point)` |
+| `get_operand_str` | method | `contrib/legacy/lazydisassebler.py:212` | `def get_operand_str(self, mod, rm, rex, bytes_data, offset)` |
+| `main` | function | `contrib/legacy/lazydisassebler.py:489` | `def main()` |
+| `parse_modrm` | method | `contrib/legacy/lazydisassebler.py:135` | `def parse_modrm(self, modrm, rex)` |
+| `parse_sib` | method | `contrib/legacy/lazydisassebler.py:173` | `def parse_sib(self, sib, rex)` |
+| `read_elf_header` | method | `contrib/legacy/lazydisassebler.py:79` | `def read_elf_header(self, data)` |
+| `check_sudo` | function | `contrib/legacy/lazyftpsniff.py:21` | `def check_sudo()` |
+| `main` | function | `contrib/legacy/lazyftpsniff.py:69` | `def main()` |
+| `parse_arguments` | function | `contrib/legacy/lazyftpsniff.py:42` | `def parse_arguments()` |
+| `signal_handler` | function | `contrib/legacy/lazyftpsniff.py:34` | `def signal_handler(sig, frame)` |
+| `sniffer_ftp` | function | `contrib/legacy/lazyftpsniff.py:56` | `def sniffer_ftp(pkt)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

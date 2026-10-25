@@ -60,45 +60,6 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
   - `spoofer` (function, line 69) `def spoofer(target, spoofed, device)`
   - `main` (function, line 80) `def main()`
 
-## contrib/legacy/lazybinenc.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `generate_key_iv` (function, line 12) `def generate_key_iv(sessions_path)`
-  - `main` (function, line 54) `def main()`
-- Depends on: `cli/commands/pwn.py`, `core/console.py`, `core/prompt.py`
-
-## contrib/legacy/lazybotcli.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `encrypt` (function, line 30) `def encrypt(plaintext, key)`
-  - `decrypt` (function, line 36) `def decrypt(ciphertext, key)`
-  - `main` (function, line 42) `def main()`
-
-## contrib/legacy/lazybotnet.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `encrypt` (function, line 46) `def encrypt(plaintext, key)`
-  - `decrypt` (function, line 52) `def decrypt(ciphertext, key)`
-  - `add_to_botnet` (function, line 58) `def add_to_botnet(ip, port, botnet_file)`
-  - `clean_botnet` (function, line 62) `def clean_botnet(ip, port, botnet_file)`
-  - `send_to_botnet` (function, line 71) `def send_to_botnet(cmd, key, botnet_file)`
-  - `Keylogger` (class, line 89) `class Keylogger`
-  - `handle_client` (function, line 144) `def handle_client(conn, key, botnet_file, log_file)`
-  - `start_server` (function, line 182) `def start_server(host, port, key, botnet_file, log_file)`
-  - `__init__` (method, line 90) `def __init__(self, key, log_file)`
-  - `on_press` (method, line 95) `def on_press(self, key)`
-  - `start` (method, line 106) `def start(self)`
-  - `get_log` (method, line 110) `def get_log(self)`
-  - `save_log` (method, line 113) `def save_log(self)`
-  - `run` (method, line 120) `def run(self)`
-  - `setup_persistence` (method, line 125) `def setup_persistence(self)`
-  - `create_shortcut` (method, line 136) `def create_shortcut(self, script_path, shortcut_path)`
-
 ## contrib/legacy/lazycam.py
 - Doc: This code is a portion of frigate Event Video Recorder (fEVR)  Copyright (C) 2021-2022  The...
 - Layer: utility
@@ -276,16 +237,6 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
   - `do_GET` (method, line 52) `def do_GET(self)`
   - `do_POST` (method, line 65) `def do_POST(self)`
 - Depends on: `modules/backdoor/server.c`
-
-## contrib/legacy/lazykeygen.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `pad` (function, line 8) `def pad(s)`
-  - `encrypt` (function, line 11) `def encrypt(plaintext, key)`
-  - `decrypt` (function, line 17) `def decrypt(ciphertext, key)`
-  - `generate_key` (function, line 23) `def generate_key(length)`
-  - `main` (function, line 26) `def main()`
 
 ## contrib/legacy/lazylfi2rce.py
 - Layer: utility
@@ -493,6 +444,43 @@ Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
 ## contrib/legacy/lazypyautogui.py
 - Layer: utility
 - Language: py
+
+## contrib/legacy/lazyreversentlmv2.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `parse_hash_file` (function, line 11) `def parse_hash_file(file_path)`
+  - `reverse_shell` (function, line 58) `def reverse_shell(target_ip, username, domain, lmhash, nthash, callback_ip, callback_port)`
+- Depends on: `modules/lazyencoder_decoder.py`
+
+## contrib/legacy/lazysearch.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `highlight_term` (function, line 29) `def highlight_term(text, term)`
+  - `search_in_parquet` (function, line 32) `def search_in_parquet(term, parquet_files)`
+  - `main` (function, line 44) `def main()`
+
+## contrib/legacy/lazysearch_bot.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `signal_handler` (function, line 59) `def signal_handler(sig, frame)`
+  - `show_help` (function, line 65) `def show_help(message)`
+  - `check_api_key` (function, line 69) `def check_api_key()`
+  - `configure_logging` (function, line 75) `def configure_logging(debug)`
+  - `parse_args` (function, line 79) `def parse_args()`
+  - `create_complex_prompt` (function, line 86) `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)`
+  - `execute_command` (function, line 109) `def execute_command(command)`
+  - `load_knowledge_base` (function, line 112) `def load_knowledge_base(file_path)`
+  - `save_knowledge_base` (function, line 118) `def save_knowledge_base(knowledge_base, file_path)`
+  - `add_to_knowledge_base` (function, line 122) `def add_to_knowledge_base(prompt, command, file_path)`
+  - `get_relevant_knowledge` (function, line 127) `def get_relevant_knowledge(prompt)`
+  - `transform_knowledge_base` (function, line 135) `def transform_knowledge_base(client)`
+  - `main` (function, line 158) `def main()`
+- Depends on: `core/logging.py`
 
 
 Next: [KB_legacy_p2.md](KB_legacy_p2.md)

@@ -1,6 +1,6 @@
 # `lazyown`
 
-> Source: [lazyown.py:1](../../lazyown.py#L1) | language `py` | coverage 97.4% | [API index](../index.md)
+> Source: [lazyown.py:1](../../lazyown.py#L1) | language `py` | coverage 97.2% | [API index](../index.md)
 
 lazyown
 
@@ -202,12 +202,8 @@ Methods:
 | [`run_lazyhoneypot`](#lazyownshell-run_lazyhoneypot) | method | Run the internal module located at `modules/legacy/lazyhoneypot.py` with the specified parameters. |
 | [`run_lazysearch_bot`](#lazyownshell-run_lazysearch_bot) | method | Run the internal module GROQ AI located at `modules/legacy/lazysearch_bot.py` with the specified parameters. |
 | [`run_lazymetaextract0r`](#lazyownshell-run_lazymetaextract0r) | method | Run the Metadata extractor internal module located at `modules/lazyown_metaextract0r.py` with the specified parameters. |
-| [`run_lazyownratcli`](#lazyownshell-run_lazyownratcli) | method | Run the internal module located at `modules/lazyownclient.py` with the specified parameters. |
-| [`run_lazyownrat`](#lazyownshell-run_lazyownrat) | method | Run the internal module located at `modules/lazyownserver.py` with the specified parameters. |
-| [`run_lazybotnet`](#lazyownshell-run_lazybotnet) | method | Run the internal module located at `modules/legacy/lazybotnet.py` with the specified parameters. |
 | [`run_lazylfi2rce`](#lazyownshell-run_lazylfi2rce) | method | Run the internal module located at `modules/legacy/lazylfi2rce.py` with the specified parameters. |
 | [`run_lazylogpoisoning`](#lazyownshell-run_lazylogpoisoning) | method | Run the internal module located at `modules/legacy/lazylogpoisoning.py` with the specified parameters. |
-| [`run_lazybotcli`](#lazyownshell-run_lazybotcli) | method | Run the internal module located at `modules/legacy/lazybotcli.py` with the specified parameters. |
 | [`run_lazyssh77enum`](#lazyownshell-run_lazyssh77enum) | method | Run the internal module located at `modules/lazybrutesshuserenum.py` with the specified parameters. |
 | [`run_lazyburpfuzzer`](#lazyownshell-run_lazyburpfuzzer) | method | Run the internal module located at `modules/lazyown_burpfuzzer.py` with the specified parameters. |
 | [`run_lazyreverse_shell`](#lazyownshell-run_lazyreverse_shell) | method | Run the internal module located at `modules/lazyreverse_shell.sh` with the specified parameters. |
@@ -1575,174 +1571,11 @@ Note:
 
 *Calls:* [`print_error`](core.console.py.md#print_error), [`LazyOwnShell.run_script`](#lazyownshell-run_script)
 
-<a id="lazyownshell-run_lazyownratcli"></a>
-
-#### `LazyOwnShell.run_lazyownratcli`
-
-`method` | [lazyown.py:3231](../../lazyown.py#L3231)
-
-```python
-def run_lazyownratcli(self)
-```
-
-Run the internal module located at `modules/lazyownclient.py` with the specified parameters.
-
-This function executes the script with the following arguments:
-
-- [`lhost`](#lazyownshell-lhost): The IP address of the local host, specified in `self.params`.
-- [`lport`](#lazyownshell-lport): The port number of the local host, specified in `self.params`.
-- `rat_key`: The RAT key, specified in `self.params`.
-
-The function performs the following steps:
-
-1. Retrieves the values for [`lhost`](#lazyownshell-lhost), [`lport`](#lazyownshell-lport), and `rat_key` from `self.params`.
-2. Checks if all required parameters ([`lhost`](#lazyownshell-lhost), [`lport`](#lazyownshell-lport), and `rat_key`) are set. If any are missing, it prints an error message and returns.
-3. Calls the [`run_script`](#lazyownshell-run_script) method to execute the `lazyownclient.py` script with the appropriate arguments.
-
-
-
-Manual execution:
-1. Ensure that [`lhost`](#lazyownshell-lhost), [`lport`](#lazyownshell-lport), and `rat_key` are assign in `self.params`.
-2. The script `modules/lazyownclient.py` should be present in the [`modules`](modules.__init__.py.md) directory.
-3. Run the script with:
-    `python3 modules/lazyownclient.py --host <lhost> --port <lport> --key <rat_key>`
-
-Example:
-    To run `lazyownclient` with [`lhost`](#lazyownshell-lhost) assign to `192.168.1.10`, [`lport`](#lazyownshell-lport) assign to `8080`, and `rat_key` assign to `my_secret_key`, set:
-    `self.params["lhost"] = "192.168.1.10"`
-    `self.params["lport"] = 8080`
-    `self.params["rat_key"] = "my_secret_key"`
-    Then call:
-    [`run_lazyownratcli`](#lazyownshell-run_lazyownratcli)
-
-Note:
-    - Ensure that `modules/lazyownclient.py` has the appropriate permissions and dependencies to run.
-
-**Parameters**
-
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `lhost` | `str` |  | The IP address of the local host. |
-| `lport` | `int` |  | The port number of the local host. |
-| `rat_key` | `str` |  | The RAT key. |
-
-**Returns:** None
-
-*Calls:* [`print_error`](core.console.py.md#print_error), [`LazyOwnShell.run_script`](#lazyownshell-run_script)
-
-<a id="lazyownshell-run_lazyownrat"></a>
-
-#### `LazyOwnShell.run_lazyownrat`
-
-`method` | [lazyown.py:3291](../../lazyown.py#L3291)
-
-```python
-def run_lazyownrat(self)
-```
-
-Run the internal module located at `modules/lazyownserver.py` with the specified parameters.
-
-This function executes the script with the following arguments:
-
-- [`rhost`](#lazyownshell-rhost): The IP address of the remote host, specified in `self.params`.
-- `rport`: The port number of the remote host, specified in `self.params`.
-- `rat_key`: The RAT key, specified in `self.params`.
-
-The function performs the following steps:
-
-1. Retrieves the values for [`rhost`](#lazyownshell-rhost), `rport`, and `rat_key` from `self.params`.
-2. Checks if all required parameters ([`rhost`](#lazyownshell-rhost), `rport`, and `rat_key`) are set. If any are missing, it prints an error message and returns.
-3. Calls the [`run_script`](#lazyownshell-run_script) method to execute the `lazyownserver.py` script with the appropriate arguments.
-
-
-
-Manual execution:
-1. Ensure that [`rhost`](#lazyownshell-rhost), `rport`, and `rat_key` are assign in `self.params`.
-2. The script `modules/lazyownserver.py` should be present in the [`modules`](modules.__init__.py.md) directory.
-3. Run the script with:
-    `python3 modules/lazyownserver.py --host <rhost> --port <rport> --key <rat_key>`
-
-Example:
-    To run `lazyownserver` with [`rhost`](#lazyownshell-rhost) set to `192.168.1.10`, `rport` assign to `8080`, and `rat_key` assign to `my_secret_key`, set:
-    `self.params["rhost"] = "192.168.1.10"`
-    `self.params["rport"] = 8080`
-    `self.params["rat_key"] = "my_secret_key"`
-    Then call:
-    [`run_lazyownrat`](#lazyownshell-run_lazyownrat)
-
-Note:
-    - Ensure that `modules/lazyownserver.py` has the appropriate permissions and dependencies to run.
-
-**Parameters**
-
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `rhost` | `str` |  | The IP address of the remote host. |
-| `rport` | `int` |  | The port number of the remote host. |
-| `rat_key` | `str` |  | The RAT key. |
-
-**Returns:** None
-
-*Calls:* [`print_error`](core.console.py.md#print_error), [`LazyOwnShell.run_script`](#lazyownshell-run_script)
-
-<a id="lazyownshell-run_lazybotnet"></a>
-
-#### `LazyOwnShell.run_lazybotnet`
-
-`method` | [lazyown.py:3352](../../lazyown.py#L3352)
-
-```python
-def run_lazybotnet(self)
-```
-
-Run the internal module located at `modules/legacy/lazybotnet.py` with the specified parameters.
-
-This function executes the script with the following arguments:
-
-- [`rhost`](#lazyownshell-rhost): The IP address of the remote host, hardcoded to "0.0.0.0".
-- `rport`: The port number of the remote host, specified in `self.params`.
-- `rat_key`: The RAT key, specified in `self.params`.
-
-The function performs the following steps:
-
-1. Retrieves the values for `rport` and `rat_key` from `self.params`. The [`rhost`](#lazyownshell-rhost) is hardcoded to "0.0.0.0".
-2. Checks if all required parameters (`rport` and `rat_key`) are set. If any are missing, it prints an error message and returns.
-3. Calls the [`run_script`](#lazyownshell-run_script) method to execute the `lazybotnet.py` script with the appropriate arguments.
-
-
-
-Manual execution:
-1. Ensure that `rport` and `rat_key` are assign in `self.params`.
-2. The script `modules/legacy/lazybotnet.py` should be present in the [`modules`](modules.__init__.py.md) directory.
-3. Run the script with:
-    `python3 modules/legacy/lazybotnet.py --host <rhost> --port <rport> --key <rat_key>`
-
-Example:
-    To run `lazybotnet` with `rport` assign to `1234` and `rat_key` assign to `my_key`, assign:
-    `self.params["rport"] = 1234`
-    `self.params["rat_key"] = "my_key"`
-    Then call:
-    [`run_lazybotnet`](#lazyownshell-run_lazybotnet)
-
-Note:
-    - Ensure that `modules/legacy/lazybotnet.py` has the appropriate permissions and dependencies to run.
-
-**Parameters**
-
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `rport` | `int` |  | The port number of the remote host. |
-| `rat_key` | `str` |  | The RAT key. |
-
-**Returns:** None
-
-*Calls:* [`print_error`](core.console.py.md#print_error), [`LazyOwnShell.run_script`](#lazyownshell-run_script)
-
 <a id="lazyownshell-run_lazylfi2rce"></a>
 
 #### `LazyOwnShell.run_lazylfi2rce`
 
-`method` | [lazyown.py:3408](../../lazyown.py#L3408)
+`method` | [lazyown.py:3231](../../lazyown.py#L3231)
 
 ```python
 def run_lazylfi2rce(self)
@@ -1806,7 +1639,7 @@ Note:
 
 #### `LazyOwnShell.run_lazylogpoisoning`
 
-`method` | [lazyown.py:3489](../../lazyown.py#L3489)
+`method` | [lazyown.py:3312](../../lazyown.py#L3312)
 
 ```python
 def run_lazylogpoisoning(self)
@@ -1854,64 +1687,11 @@ Note:
 
 *Calls:* [`print_error`](core.console.py.md#print_error), [`LazyOwnShell.cmd`](#lazyownshell-cmd)
 
-<a id="lazyownshell-run_lazybotcli"></a>
-
-#### `LazyOwnShell.run_lazybotcli`
-
-`method` | [lazyown.py:3536](../../lazyown.py#L3536)
-
-```python
-def run_lazybotcli(self)
-```
-
-Run the internal module located at `modules/legacy/lazybotcli.py` with the specified parameters.
-
-This function executes the script with the following arguments:
-
-- [`rhost`](#lazyownshell-rhost): The IP address of the remote host (default is `"0.0.0.0"`).
-- `rport`: The port number to be used, specified in `self.params`.
-- `rat_key`: The key for the Remote Access Tool (RAT), specified in `self.params`.
-
-The function performs the following steps:
-
-1. Retrieves the values for `rport` and `rat_key` from `self.params`.
-2. Checks if the required parameters `rport` and `rat_key` are assign. If not, it prints an error message and returns.
-3. Calls the [`run_script`](#lazyownshell-run_script) method to execute the `lazybotcli.py` script with the appropriate arguments.
-
-
-
-Manual execution:
-1. Ensure that `rport` and `rat_key` are assign in `self.params`.
-2. The script `modules/legacy/lazybotcli.py` should be present in the [`modules`](modules.__init__.py.md) directory.
-3. Run the script with:
-    `python3 modules/legacy/lazybotcli.py --host 0.0.0.0 --port <rport> --key <rat_key>`
-
-Example:
-    To run the lazybotcli with port `12345` and key `mysecretkey`, set:
-    `self.params["rport"] = 12345`
-    `self.params["rat_key"] = "mysecretkey"`
-    Then call:
-    [`run_lazybotcli`](#lazyownshell-run_lazybotcli)
-
-Note:
-    - Ensure that `modules/legacy/lazybotcli.py` has the appropriate permissions and dependencies to run.
-
-**Parameters**
-
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `rport` | `int` |  | The port number for the connection. Must be assign in `self.params`. |
-| `rat_key` | `str` |  | The key for the RAT. Must be assign in `self.params`. |
-
-**Returns:** None
-
-*Calls:* [`print_error`](core.console.py.md#print_error), [`LazyOwnShell.run_script`](#lazyownshell-run_script)
-
 <a id="lazyownshell-run_lazyssh77enum"></a>
 
 #### `LazyOwnShell.run_lazyssh77enum`
 
-`method` | [lazyown.py:3592](../../lazyown.py#L3592)
+`method` | [lazyown.py:3359](../../lazyown.py#L3359)
 
 ```python
 def run_lazyssh77enum(self)
@@ -1967,7 +1747,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyburpfuzzer`
 
-`method` | [lazyown.py:3642](../../lazyown.py#L3642)
+`method` | [lazyown.py:3409](../../lazyown.py#L3409)
 
 ```python
 def run_lazyburpfuzzer(self)
@@ -2042,7 +1822,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyreverse_shell`
 
-`method` | [lazyown.py:3768](../../lazyown.py#L3768)
+`method` | [lazyown.py:3535](../../lazyown.py#L3535)
 
 ```python
 def run_lazyreverse_shell(self)
@@ -2096,7 +1876,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyarpspoofing`
 
-`method` | [lazyown.py:3818](../../lazyown.py#L3818)
+`method` | [lazyown.py:3585](../../lazyown.py#L3585)
 
 ```python
 def run_lazyarpspoofing(self)
@@ -2153,7 +1933,7 @@ Note:
 
 #### `LazyOwnShell.run_lazyattack`
 
-`method` | [lazyown.py:3872](../../lazyown.py#L3872)
+`method` | [lazyown.py:3639](../../lazyown.py#L3639)
 
 ```python
 def run_lazyattack(self)
@@ -2210,7 +1990,7 @@ Note:
 
 #### `LazyOwnShell.run_lazymsfvenom`
 
-`method` | [lazyown.py:3927](../../lazyown.py#L3927)
+`method` | [lazyown.py:3694](../../lazyown.py#L3694)
 
 ```python
 def run_lazymsfvenom(self)
@@ -2240,7 +2020,7 @@ the function will also sign the APK and perform necessary post-processing steps.
 
 #### `LazyOwnShell.run_lazyaslrcheck`
 
-`method` | [lazyown.py:4104](../../lazyown.py#L4104)
+`method` | [lazyown.py:3871](../../lazyown.py#L3871)
 
 ```python
 def run_lazyaslrcheck(self)
@@ -2290,7 +2070,7 @@ Note:
 
 #### `LazyOwnShell.run_lazypathhijacking`
 
-`method` | [lazyown.py:4151](../../lazyown.py#L4151)
+`method` | [lazyown.py:3918](../../lazyown.py#L3918)
 
 ```python
 def run_lazypathhijacking(self)
@@ -2319,7 +2099,7 @@ The function then prints out each command being executed and a message indicatin
 
 #### `LazyOwnShell.run_script`
 
-`method` | [lazyown.py:4184](../../lazyown.py#L4184)
+`method` | [lazyown.py:3951](../../lazyown.py#L3951)
 
 ```python
 def run_script(self, script_name, *args)
@@ -2358,13 +2138,13 @@ Note:
 
 *Calls:* [`LazyOwnShell.run_command`](#lazyownshell-run_command)
 
-*Called by:* [`LazyOwnShell.run_lazybotcli`](#lazyownshell-run_lazybotcli), [`LazyOwnShell.run_lazybotnet`](#lazyownshell-run_lazybotnet), [`LazyOwnShell.run_lazyhoneypot`](#lazyownshell-run_lazyhoneypot), [`LazyOwnShell.run_lazylfi2rce`](#lazyownshell-run_lazylfi2rce), [`LazyOwnShell.run_lazymetaextract0r`](#lazyownshell-run_lazymetaextract0r), [`LazyOwnShell.run_lazyown`](#lazyownshell-run_lazyown), [`LazyOwnShell.run_lazyownrat`](#lazyownshell-run_lazyownrat), [`LazyOwnShell.run_lazyownratcli`](#lazyownshell-run_lazyownratcli), [`LazyOwnShell.run_lazysearch`](#lazyownshell-run_lazysearch), [`LazyOwnShell.run_lazysearch_bot`](#lazyownshell-run_lazysearch_bot), [`LazyOwnShell.run_lazysearch_gui`](#lazyownshell-run_lazysearch_gui), [`LazyOwnShell.run_lazywerkzeugdebug`](#lazyownshell-run_lazywerkzeugdebug)
+*Called by:* [`LazyOwnShell.run_lazyhoneypot`](#lazyownshell-run_lazyhoneypot), [`LazyOwnShell.run_lazylfi2rce`](#lazyownshell-run_lazylfi2rce), [`LazyOwnShell.run_lazymetaextract0r`](#lazyownshell-run_lazymetaextract0r), [`LazyOwnShell.run_lazyown`](#lazyownshell-run_lazyown), [`LazyOwnShell.run_lazysearch`](#lazyownshell-run_lazysearch), [`LazyOwnShell.run_lazysearch_bot`](#lazyownshell-run_lazysearch_bot), [`LazyOwnShell.run_lazysearch_gui`](#lazyownshell-run_lazysearch_gui), [`LazyOwnShell.run_lazywerkzeugdebug`](#lazyownshell-run_lazywerkzeugdebug)
 
 <a id="lazyownshell-run_command"></a>
 
 #### `LazyOwnShell.run_command`
 
-`method` | [lazyown.py:4216](../../lazyown.py#L4216)
+`method` | [lazyown.py:3983](../../lazyown.py#L3983)
 
 ```python
 def run_command(self, command)
@@ -2411,7 +2191,7 @@ Note:
 
 #### `LazyOwnShell.get_output`
 
-`method` | [lazyown.py:4296](../../lazyown.py#L4296)
+`method` | [lazyown.py:4063](../../lazyown.py#L4063)
 
 Decorators: `@cmd2.with_category(command_and_control_category)`
 
@@ -2425,7 +2205,7 @@ Devuelve la salida acumulada
 
 #### `LazyOwnShell.upload_file_to_c2`
 
-`method` | [lazyown.py:4301](../../lazyown.py#L4301)
+`method` | [lazyown.py:4068](../../lazyown.py#L4068)
 
 Decorators: `@cmd2.with_category(lateral_movement_category)`
 
@@ -2450,7 +2230,7 @@ None
 
 #### `LazyOwnShell.complete_upload_c2`
 
-`method` | [lazyown.py:4327](../../lazyown.py#L4327)
+`method` | [lazyown.py:4094](../../lazyown.py#L4094)
 
 Decorators: `@cmd2.with_category(lateral_movement_category)`
 
@@ -2473,7 +2253,7 @@ Autocomplete implant names from implant_config_*.json files in sessions/ directo
 
 #### `LazyOwnShell.download_file_from_c2`
 
-`method` | [lazyown.py:4355](../../lazyown.py#L4355)
+`method` | [lazyown.py:4122](../../lazyown.py#L4122)
 
 Decorators: `@cmd2.with_category(exfiltration_category)`
 
@@ -2501,7 +2281,7 @@ None
 
 #### `LazyOwnShell.issue_command_to_c2`
 
-`method` | [lazyown.py:4424](../../lazyown.py#L4424)
+`method` | [lazyown.py:4191](../../lazyown.py#L4191)
 
 ```python
 def issue_command_to_c2(self, command, client_id='')
@@ -2527,7 +2307,7 @@ None
 
 #### `LazyOwnShell.complete_issue_command_to_c2`
 
-`method` | [lazyown.py:4458](../../lazyown.py#L4458)
+`method` | [lazyown.py:4225](../../lazyown.py#L4225)
 
 Decorators: `@cmd2.with_category(post_exploitation_category)`
 
@@ -2550,7 +2330,7 @@ Autocomplete: 1st arg = implant name, 2nd arg = beacon command (with : if needed
 
 #### `LazyOwnShell.view_code`
 
-`method` | [lazyown.py:4524](../../lazyown.py#L4524)
+`method` | [lazyown.py:4291](../../lazyown.py#L4291)
 
 Decorators: `@cmd2.with_category(reporting_category)`
 
@@ -2578,7 +2358,7 @@ from the ASM code.
 
 #### `LazyOwnShell.get_available_actions`
 
-`method` | [lazyown.py:4629](../../lazyown.py#L4629)
+`method` | [lazyown.py:4396](../../lazyown.py#L4396)
 
 Decorators: `@cmd2.with_category(post_exploitation_category)`
 
@@ -2592,7 +2372,7 @@ Returns a list of available actions using cmd2 introspection.
 
 #### `LazyOwnShell.process_scan_csv`
 
-`method` | [lazyown.py:4712](../../lazyown.py#L4712)
+`method` | [lazyown.py:4479](../../lazyown.py#L4479)
 
 Decorators: `@cmd2.with_category(reporting_category)`
 
@@ -2616,7 +2396,7 @@ Processes a single scan CSV file.
 
 #### `LazyOwnShell.process_vuln_csv`
 
-`method` | [lazyown.py:4735](../../lazyown.py#L4735)
+`method` | [lazyown.py:4502](../../lazyown.py#L4502)
 
 ```python
 def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)
@@ -2637,7 +2417,7 @@ Processes a single vulnerability CSV file.
 
 #### `LazyOwnShell.do_event_log`
 
-`method` | [lazyown.py:4867](../../lazyown.py#L4867)
+`method` | [lazyown.py:4634](../../lazyown.py#L4634)
 
 Decorators: `@cmd2.with_category('Event Bus')`
 
@@ -2661,7 +2441,7 @@ Usage: event_log [N] [category]
 
 #### `LazyOwnShell.do_state_snapshot`
 
-`method` | [lazyown.py:4897](../../lazyown.py#L4897)
+`method` | [lazyown.py:4664](../../lazyown.py#L4664)
 
 Decorators: `@cmd2.with_category('State Manager')`
 
@@ -2683,7 +2463,7 @@ Show unified StateManager snapshot (DB + JSON caches).
 
 #### `LazyOwnShell.do_route`
 
-`method` | [lazyown.py:4936](../../lazyown.py#L4936)
+`method` | [lazyown.py:4703](../../lazyown.py#L4703)
 
 Decorators: `@cmd2.with_category('Unified Bridge')`
 
@@ -2711,7 +2491,7 @@ Usage: route <prompt>
 
 ### `main`
 
-`function` | [lazyown.py:4959](../../lazyown.py#L4959)
+`function` | [lazyown.py:4726](../../lazyown.py#L4726)
 
 ```python
 def main()

@@ -199,10 +199,15 @@ def login():
             rbac_user = store.find_by_username(username) if store else None
             if rbac_user and check_password_hash(rbac_user.password_hash, password):
                 user = User(rbac_user.to_dict())
-                login_user(user)
                 if rbac_user.mfa_enabled:
+                    logout_user()
+                    session.clear()
+                    session["mfa_pending_user_id"] = user.id
                     session["mfa_user_id"] = user.id
+                    session["mfa_verified"] = False
                     return redirect(url_for("auth.mfa_verify"))
+                login_user(user)
+                session.pop("mfa_pending_user_id", None)
                 session.pop("mfa_user_id", None)
                 session["mfa_verified"] = True
                 flash("Welcome to LazyOwn.", "success")
@@ -330,15 +335,26 @@ def mfa_verify():
     decoy = decoy_response()
     if decoy:
         return decoy
-    user_id = session.get("mfa_user_id")
+    user_id = session.get("mfa_pending_user_id", session.get("mfa_user_id"))
     if not user_id:
         return redirect(url_for("auth.login"))
     store = _get_rbac_store()
     rbac_user = store.find_by_id(int(user_id))
     if not rbac_user:
+        session.pop("mfa_pending_user_id", None)
         session.pop("mfa_user_id", None)
         flash("Session expired. Please login again.", "error")
         return redirect(url_for("auth.login"))
+
+    def _complete_login():
+        from lazyc2 import User as _C2User
+
+        logout_user()
+        login_user(_C2User(rbac_user.to_dict()))
+        session["mfa_verified"] = True
+        session.pop("mfa_pending_user_id", None)
+        session.pop("mfa_user_id", None)
+        return session.pop("mfa_pending_route", url_for("auth.profile"))
 
     if request.method == "POST":
         code = request.form.get("mfa_code", "").strip()
@@ -346,17 +362,13 @@ def mfa_verify():
         if use_recovery:
             if rbac_user.verify_recovery_code(code):
                 store.consume_recovery_code(rbac_user.id, code)
-                session["mfa_verified"] = True
-                session.pop("mfa_user_id", None)
-                pending = session.pop("mfa_pending_route", url_for("auth.profile"))
+                pending = _complete_login()
                 flash("Authenticated via recovery code.", "success")
                 return redirect(pending)
             flash("Invalid recovery code.", "error")
         else:
             if rbac_user.verify_totp(code):
-                session["mfa_verified"] = True
-                session.pop("mfa_user_id", None)
-                pending = session.pop("mfa_pending_route", url_for("auth.profile"))
+                pending = _complete_login()
                 flash("MFA verified successfully.", "success")
                 return redirect(pending)
             flash("Invalid TOTP code.", "error")
@@ -398,6 +410,7 @@ def logout():
     if decoy:
         return decoy
     session.pop("mfa_verified", None)
+    session.pop("mfa_pending_user_id", None)
     session.pop("mfa_user_id", None)
     session.pop("mfa_setup_secret", None)
     session.pop("mfa_pending_route", None)

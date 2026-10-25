@@ -55,6 +55,7 @@ flowchart LR
     n_core_console_py__print_error["console.print_error"]
     n_core_console_py__print_warn["console.print_warn"]
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_EOF(["MiscMigratedCommandSet.do_EOF"])
+    n_contrib_legacy_lazyhttpreverseshell_py__encrypt["lazyhttpreverseshell.encrypt"]
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_palette(["MiscMigratedCommandSet.do_palette"])
     n_core_console_py__print_msg["console.print_msg"]
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_graph_search(["MiscMigratedCommandSet.do_graph_search"])
@@ -68,9 +69,9 @@ flowchart LR
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_recommend_next(["MiscMigratedCommandSet.do_recommend_next"])
     n_cli_autosuggest_py__build_default_engine["autosuggest.build_default_engine"]
     n_cli_recommendation_signals_py__build_context["recommendation_signals.build_context"]
-    n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_explore(["MiscMigratedCommandSet.do_explore"])
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_notify -.-> n_core_console_py__print_error
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_notify -.-> n_core_console_py__print_warn
+    n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_EOF -.-> n_contrib_legacy_lazyhttpreverseshell_py__encrypt
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_EOF -.-> n_core_console_py__print_warn
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_palette -.-> n_core_console_py__print_error
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_palette -.-> n_core_console_py__print_msg
@@ -92,7 +93,6 @@ flowchart LR
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_recommend_next -.-> n_cli_recommendation_signals_py__build_context
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_recommend_next -.-> n_core_console_py__print_msg
     n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_recommend_next -.-> n_core_console_py__print_warn
-    n_cli_commands_misc_migrated_py__MiscMigratedCommandSet_do_explore -.-> n_cli_exploration_py__ExplorationEngine___init__
 ```
 
 ## Classes
@@ -216,7 +216,7 @@ LazyOwn say Goodbye!
 (shell exits)
 ```
 
-*Calls:* [`print_warn`](core.console.py.md#print_warn)
+*Calls:* [`encrypt`](contrib.legacy.lazyhttpreverseshell.py.md#encrypt), [`print_warn`](core.console.py.md#print_warn)
 
 <a id="miscmigratedcommandset-do_palette"></a>
 
@@ -713,7 +713,7 @@ Note:
 
 **Returns:** None
 
-*Calls:* [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn)
+*Calls:* [`encrypt`](contrib.legacy.lazyhttpreverseshell.py.md#encrypt), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn)
 
 <a id="miscmigratedcommandset-do_banner"></a>
 

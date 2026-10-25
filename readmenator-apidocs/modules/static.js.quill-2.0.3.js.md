@@ -947,7 +947,7 @@ For license information please see quill.js.LICENSE.txt
 
 **Returns:** `!`
 
-*Called by:* [`require_api_auth`](core.api_authz.py.md#require_api_auth), [`requires_auth`](lazyc2.py.md#requires_auth), [`requires_auth_or_session`](lazyc2.py.md#requires_auth_or_session), [`require_mfa`](modules.lazy_rbac.py.md#require_mfa), [`require_permission`](modules.lazy_rbac.py.md#require_permission), [`require_role`](modules.lazy_rbac.py.md#require_role), [`u`](static.js.tippy-6.js.md#u)
+*Called by:* [`require_api_auth`](core.api_authz.py.md#require_api_auth), [`require_mfa_socket`](lazyc2.py.md#require_mfa_socket), [`requires_auth`](lazyc2.py.md#requires_auth), [`requires_auth_or_session`](lazyc2.py.md#requires_auth_or_session), [`require_mfa`](modules.lazy_rbac.py.md#require_mfa), [`require_permission`](modules.lazy_rbac.py.md#require_permission), [`require_role`](modules.lazy_rbac.py.md#require_role), [`u`](static.js.tippy-6.js.md#u)
 
 <a id="ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f"></a>
 

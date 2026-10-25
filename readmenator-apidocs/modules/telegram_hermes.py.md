@@ -17,7 +17,10 @@ Usage:
 
 Configuration (payload.json keys):
     telegram_token       - Telegram bot token from @BotFather
-    c2_pass              - Authentication secret for /start
+    c2_pass              - Authentication secret for /start (required,
+                           min 16 chars, never a documented default)
+    telegram_allowlist   - Optional list of Telegram user ids allowed
+                           to authenticate (extra authorization barrier)
     enable_ia            - Enable Groq AI processing (default: false)
     api_key              - Groq API key (if enable_ia is true)
     lhost, c2_port       - C2 server coordinates
@@ -79,7 +82,7 @@ flowchart LR
 
 ### `SecureSessionManager`
 
-`class` | [telegram_hermes.py:186](../../telegram_hermes.py#L186)
+`class` | [telegram_hermes.py:190](../../telegram_hermes.py#L190)
 
 ```python
 class SecureSessionManager
@@ -102,7 +105,7 @@ class SecureSessionManager
 
 #### `SecureSessionManager.__init__`
 
-`constructor` | [telegram_hermes.py:187](../../telegram_hermes.py#L187)
+`constructor` | [telegram_hermes.py:191](../../telegram_hermes.py#L191)
 
 ```python
 def __init__(self)
@@ -112,7 +115,7 @@ def __init__(self)
 
 #### `SecureSessionManager.register_failed_attempt`
 
-`method` | [telegram_hermes.py:192](../../telegram_hermes.py#L192)
+`method` | [telegram_hermes.py:196](../../telegram_hermes.py#L196)
 
 ```python
 def register_failed_attempt(self, user_id: int)
@@ -128,7 +131,7 @@ def register_failed_attempt(self, user_id: int)
 
 #### `SecureSessionManager.check_lockout`
 
-`method` | [telegram_hermes.py:199](../../telegram_hermes.py#L199)
+`method` | [telegram_hermes.py:203](../../telegram_hermes.py#L203)
 
 ```python
 def check_lockout(self, user_id: int) -> bool
@@ -146,7 +149,7 @@ def check_lockout(self, user_id: int) -> bool
 
 #### `SecureSessionManager.check_rate_limit`
 
-`method` | [telegram_hermes.py:208](../../telegram_hermes.py#L208)
+`method` | [telegram_hermes.py:212](../../telegram_hermes.py#L212)
 
 ```python
 def check_rate_limit(self, user_id: int) -> bool
@@ -164,7 +167,7 @@ def check_rate_limit(self, user_id: int) -> bool
 
 #### `SecureSessionManager.create_session`
 
-`method` | [telegram_hermes.py:221](../../telegram_hermes.py#L221)
+`method` | [telegram_hermes.py:225](../../telegram_hermes.py#L225)
 
 ```python
 def create_session(self, user_id: int, client_id: str | None = None)
@@ -181,7 +184,7 @@ def create_session(self, user_id: int, client_id: str | None = None)
 
 #### `SecureSessionManager.validate_session`
 
-`method` | [telegram_hermes.py:229](../../telegram_hermes.py#L229)
+`method` | [telegram_hermes.py:233](../../telegram_hermes.py#L233)
 
 ```python
 def validate_session(self, user_id: int) -> bool
@@ -199,7 +202,7 @@ def validate_session(self, user_id: int) -> bool
 
 #### `SecureSessionManager.get_client_id`
 
-`method` | [telegram_hermes.py:241](../../telegram_hermes.py#L241)
+`method` | [telegram_hermes.py:245](../../telegram_hermes.py#L245)
 
 ```python
 def get_client_id(self, user_id: int) -> str | None
@@ -217,7 +220,7 @@ def get_client_id(self, user_id: int) -> str | None
 
 #### `SecureSessionManager.set_client_id`
 
-`method` | [telegram_hermes.py:245](../../telegram_hermes.py#L245)
+`method` | [telegram_hermes.py:249](../../telegram_hermes.py#L249)
 
 ```python
 def set_client_id(self, user_id: int, client_id: str)
@@ -238,7 +241,7 @@ def set_client_id(self, user_id: int, client_id: str)
 
 ### `run_lazyown_command`
 
-`function` | [telegram_hermes.py:61](../../telegram_hermes.py#L61)
+`function` | [telegram_hermes.py:65](../../telegram_hermes.py#L65)
 
 ```python
 def run_lazyown_command(command: str, timeout: int = 30) -> str
@@ -265,7 +268,7 @@ Replicates the MCP server's _run_lazyown_command logic.
 
 ### `c2_request`
 
-`function` | [telegram_hermes.py:145](../../telegram_hermes.py#L145)
+`function` | [telegram_hermes.py:149](../../telegram_hermes.py#L149)
 
 ```python
 def c2_request(path: str, method: str = 'GET', body: dict | None = None) -> dict
@@ -289,7 +292,7 @@ def c2_request(path: str, method: str = 'GET', body: dict | None = None) -> dict
 
 ### `load_payload`
 
-`function` | [telegram_hermes.py:177](../../telegram_hermes.py#L177)
+`function` | [telegram_hermes.py:181](../../telegram_hermes.py#L181)
 
 ```python
 def load_payload() -> dict
@@ -305,7 +308,7 @@ def load_payload() -> dict
 
 ### `start`
 
-`function` `async` | [telegram_hermes.py:255](../../telegram_hermes.py#L255)
+`function` `async` | [telegram_hermes.py:259](../../telegram_hermes.py#L259)
 
 ```python
 async def start(update: Update, context: CallbackContext) -> None
@@ -324,7 +327,7 @@ async def start(update: Update, context: CallbackContext) -> None
 
 ### `help_cmd`
 
-`function` `async` | [telegram_hermes.py:278](../../telegram_hermes.py#L278)
+`function` `async` | [telegram_hermes.py:288](../../telegram_hermes.py#L288)
 
 ```python
 async def help_cmd(update: Update, context: CallbackContext) -> None
@@ -343,7 +346,7 @@ async def help_cmd(update: Update, context: CallbackContext) -> None
 
 ### `execute_command`
 
-`function` `async` | [telegram_hermes.py:306](../../telegram_hermes.py#L306)
+`function` `async` | [telegram_hermes.py:316](../../telegram_hermes.py#L316)
 
 ```python
 async def execute_command(update: Update, context: CallbackContext) -> None
@@ -364,7 +367,7 @@ async def execute_command(update: Update, context: CallbackContext) -> None
 
 ### `sitrep`
 
-`function` `async` | [telegram_hermes.py:337](../../telegram_hermes.py#L337)
+`function` `async` | [telegram_hermes.py:347](../../telegram_hermes.py#L347)
 
 ```python
 async def sitrep(update: Update, context: CallbackContext) -> None
@@ -385,7 +388,7 @@ async def sitrep(update: Update, context: CallbackContext) -> None
 
 ### `config_cmd`
 
-`function` `async` | [telegram_hermes.py:373](../../telegram_hermes.py#L373)
+`function` `async` | [telegram_hermes.py:383](../../telegram_hermes.py#L383)
 
 ```python
 async def config_cmd(update: Update, context: CallbackContext) -> None
@@ -406,7 +409,7 @@ async def config_cmd(update: Update, context: CallbackContext) -> None
 
 ### `add_cli`
 
-`function` `async` | [telegram_hermes.py:422](../../telegram_hermes.py#L422)
+`function` `async` | [telegram_hermes.py:432](../../telegram_hermes.py#L432)
 
 ```python
 async def add_cli(update: Update, context: CallbackContext) -> None
@@ -425,7 +428,7 @@ async def add_cli(update: Update, context: CallbackContext) -> None
 
 ### `list_clients`
 
-`function` `async` | [telegram_hermes.py:437](../../telegram_hermes.py#L437)
+`function` `async` | [telegram_hermes.py:447](../../telegram_hermes.py#L447)
 
 ```python
 async def list_clients(update: Update, context: CallbackContext) -> None
@@ -446,7 +449,7 @@ async def list_clients(update: Update, context: CallbackContext) -> None
 
 ### `c2_command`
 
-`function` `async` | [telegram_hermes.py:464](../../telegram_hermes.py#L464)
+`function` `async` | [telegram_hermes.py:474](../../telegram_hermes.py#L474)
 
 ```python
 async def c2_command(update: Update, context: CallbackContext) -> None
@@ -467,7 +470,7 @@ async def c2_command(update: Update, context: CallbackContext) -> None
 
 ### `run_agent`
 
-`function` `async` | [telegram_hermes.py:504](../../telegram_hermes.py#L504)
+`function` `async` | [telegram_hermes.py:514](../../telegram_hermes.py#L514)
 
 ```python
 async def run_agent(update: Update, context: CallbackContext) -> None
@@ -488,7 +491,7 @@ async def run_agent(update: Update, context: CallbackContext) -> None
 
 ### `delegate_task_cmd`
 
-`function` `async` | [telegram_hermes.py:533](../../telegram_hermes.py#L533)
+`function` `async` | [telegram_hermes.py:543](../../telegram_hermes.py#L543)
 
 ```python
 async def delegate_task_cmd(update: Update, context: CallbackContext) -> None
@@ -509,7 +512,7 @@ async def delegate_task_cmd(update: Update, context: CallbackContext) -> None
 
 ### `cron_schedule_cmd`
 
-`function` `async` | [telegram_hermes.py:564](../../telegram_hermes.py#L564)
+`function` `async` | [telegram_hermes.py:574](../../telegram_hermes.py#L574)
 
 ```python
 async def cron_schedule_cmd(update: Update, context: CallbackContext) -> None
@@ -530,7 +533,7 @@ async def cron_schedule_cmd(update: Update, context: CallbackContext) -> None
 
 ### `status_cmd`
 
-`function` `async` | [telegram_hermes.py:597](../../telegram_hermes.py#L597)
+`function` `async` | [telegram_hermes.py:607](../../telegram_hermes.py#L607)
 
 ```python
 async def status_cmd(update: Update, context: CallbackContext) -> None
@@ -551,7 +554,7 @@ async def status_cmd(update: Update, context: CallbackContext) -> None
 
 ### `stop_daemon_cmd`
 
-`function` `async` | [telegram_hermes.py:630](../../telegram_hermes.py#L630)
+`function` `async` | [telegram_hermes.py:640](../../telegram_hermes.py#L640)
 
 ```python
 async def stop_daemon_cmd(update: Update, context: CallbackContext) -> None
@@ -572,7 +575,7 @@ async def stop_daemon_cmd(update: Update, context: CallbackContext) -> None
 
 ### `download_file_cmd`
 
-`function` `async` | [telegram_hermes.py:647](../../telegram_hermes.py#L647)
+`function` `async` | [telegram_hermes.py:657](../../telegram_hermes.py#L657)
 
 ```python
 async def download_file_cmd(update: Update, context: CallbackContext) -> None
@@ -591,7 +594,7 @@ async def download_file_cmd(update: Update, context: CallbackContext) -> None
 
 ### `handle_file_upload`
 
-`function` `async` | [telegram_hermes.py:675](../../telegram_hermes.py#L675)
+`function` `async` | [telegram_hermes.py:685](../../telegram_hermes.py#L685)
 
 ```python
 async def handle_file_upload(update: Update, context: CallbackContext) -> None
@@ -612,7 +615,7 @@ async def handle_file_upload(update: Update, context: CallbackContext) -> None
 
 ### `text_command`
 
-`function` `async` | [telegram_hermes.py:712](../../telegram_hermes.py#L712)
+`function` `async` | [telegram_hermes.py:722](../../telegram_hermes.py#L722)
 
 ```python
 async def text_command(update: Update, context: CallbackContext) -> None
@@ -635,7 +638,7 @@ Handle any text message as a direct LazyOwn command.
 
 ### `main`
 
-`function` `async` | [telegram_hermes.py:772](../../telegram_hermes.py#L772)
+`function` `async` | [telegram_hermes.py:782](../../telegram_hermes.py#L782)
 
 ```python
 async def main() -> None
@@ -649,7 +652,7 @@ async def main() -> None
 
 ### `LAZYOWN_DIR`
 
-`constant` | [telegram_hermes.py:52](../../telegram_hermes.py#L52)
+`constant` | [telegram_hermes.py:56](../../telegram_hermes.py#L56)
 
 ```python
 LAZYOWN_DIR = Path(__file__).parent.resolve()
@@ -661,7 +664,7 @@ LAZYOWN_DIR = Path(__file__).parent.resolve()
 
 ### `SESSIONS_DIR`
 
-`constant` | [telegram_hermes.py:53](../../telegram_hermes.py#L53)
+`constant` | [telegram_hermes.py:57](../../telegram_hermes.py#L57)
 
 ```python
 SESSIONS_DIR = LAZYOWN_DIR / 'sessions'
@@ -673,7 +676,7 @@ SESSIONS_DIR = LAZYOWN_DIR / 'sessions'
 
 ### `PAYLOAD_FILE`
 
-`constant` | [telegram_hermes.py:54](../../telegram_hermes.py#L54)
+`constant` | [telegram_hermes.py:58](../../telegram_hermes.py#L58)
 
 ```python
 PAYLOAD_FILE = LAZYOWN_DIR / 'payload.json'
@@ -685,7 +688,7 @@ PAYLOAD_FILE = LAZYOWN_DIR / 'payload.json'
 
 ### `SESSION_TIMEOUT`
 
-`constant` | [telegram_hermes.py:805](../../telegram_hermes.py#L805)
+`constant` | [telegram_hermes.py:864](../../telegram_hermes.py#L864)
 
 ```python
 SESSION_TIMEOUT = 1800
@@ -697,7 +700,7 @@ SESSION_TIMEOUT = 1800
 
 ### `MAX_FAILED_ATTEMPTS`
 
-`constant` | [telegram_hermes.py:806](../../telegram_hermes.py#L806)
+`constant` | [telegram_hermes.py:865](../../telegram_hermes.py#L865)
 
 ```python
 MAX_FAILED_ATTEMPTS = 3
@@ -709,7 +712,7 @@ MAX_FAILED_ATTEMPTS = 3
 
 ### `RATE_LIMIT`
 
-`constant` | [telegram_hermes.py:807](../../telegram_hermes.py#L807)
+`constant` | [telegram_hermes.py:866](../../telegram_hermes.py#L866)
 
 ```python
 RATE_LIMIT = 5

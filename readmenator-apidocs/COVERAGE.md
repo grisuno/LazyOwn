@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **74.9%** (7251 of 9676 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,15 +8,15 @@ Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1230 | 1418 | 86.7% |
+| class | 1230 | 1417 | 86.8% |
 | classmethod | 58 | 84 | 69.0% |
-| constructor | 203 | 525 | 38.7% |
+| constructor | 203 | 524 | 38.7% |
 | enum | 30 | 39 | 76.9% |
 | exception | 36 | 38 | 94.7% |
-| function | 1837 | 2785 | 66.0% |
+| function | 1830 | 2735 | 66.9% |
 | macro | 3 | 113 | 2.7% |
-| method | 2911 | 3590 | 81.1% |
-| module | 701 | 823 | 85.2% |
+| method | 2907 | 3579 | 81.2% |
+| module | 697 | 814 | 85.6% |
 | property | 154 | 198 | 77.8% |
 | protocol | 20 | 20 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
@@ -31,12 +31,10 @@ Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data mem
 | [`contrib.legacy.lazy_http_bof`](modules/contrib.legacy.lazy_http_bof.py.md) | 0 | 3 | 0.0% |
 | [`contrib.legacy.lazy_packet_image_sniffer`](modules/contrib.legacy.lazy_packet_image_sniffer.py.md) | 0 | 10 | 0.0% |
 | [`contrib.legacy.lazyarpspoofing`](modules/contrib.legacy.lazyarpspoofing.py.md) | 0 | 8 | 0.0% |
-| [`contrib.legacy.lazybinenc`](modules/contrib.legacy.lazybinenc.py.md) | 0 | 3 | 0.0% |
 | [`contrib.legacy.lazycreate_webshell`](modules/contrib.legacy.lazycreate_webshell.py.md) | 0 | 1 | 0.0% |
 | [`contrib.legacy.lazyftpsniff`](modules/contrib.legacy.lazyftpsniff.py.md) | 0 | 6 | 0.0% |
 | [`contrib.legacy.lazygalazy`](modules/contrib.legacy.lazygalazy.py.md) | 0 | 8 | 0.0% |
 | [`contrib.legacy.lazyhttpreverseshell`](modules/contrib.legacy.lazyhttpreverseshell.py.md) | 0 | 8 | 0.0% |
-| [`contrib.legacy.lazykeygen`](modules/contrib.legacy.lazykeygen.py.md) | 0 | 6 | 0.0% |
 | [`contrib.legacy.lazylfi2rce`](modules/contrib.legacy.lazylfi2rce.py.md) | 0 | 5 | 0.0% |
 | [`contrib.legacy.lazyllmchat`](modules/contrib.legacy.lazyllmchat.py.md) | 0 | 22 | 0.0% |
 | [`contrib.legacy.lazylogpoisoning`](modules/contrib.legacy.lazylogpoisoning.py.md) | 0 | 4 | 0.0% |
@@ -121,7 +119,6 @@ Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data mem
 | [`modules.LazyOwnExplorer`](modules/modules.LazyOwnExplorer.py.md) | 1 | 21 | 4.8% |
 | [`telegram_c2`](modules/telegram_c2.py.md) | 1 | 18 | 5.6% |
 | [`bootstrap.sh`](modules/bootstrap.sh.md) | 1 | 17 | 5.9% |
-| [`contrib.legacy.lazybotnet`](modules/contrib.legacy.lazybotnet.py.md) | 1 | 17 | 5.9% |
 | [`install.sh`](modules/install.sh.md) | 1 | 17 | 5.9% |
 | [`slack_c2_bot`](modules/slack_c2_bot.py.md) | 1 | 17 | 5.9% |
 | [`contrib.legacy.lazyhoneypot`](modules/contrib.legacy.lazyhoneypot.py.md) | 1 | 15 | 6.7% |
@@ -145,13 +142,10 @@ Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data mem
 | [`contrib.legacy.lazynetbios`](modules/contrib.legacy.lazynetbios.py.md) | 1 | 8 | 12.5% |
 | [`modules/lazyvpnshield.sh`](modules/modules.lazyvpnshield.sh.md) | 1 | 8 | 12.5% |
 | [`modules.collab_bp`](modules/modules.collab_bp.py.md) | 5 | 38 | 13.2% |
-| [`modules.lazyownclient`](modules/modules.lazyownclient.py.md) | 1 | 7 | 14.3% |
-| [`modules.lazyownserver`](modules/modules.lazyownserver.py.md) | 1 | 7 | 14.3% |
 | [`modules/rootkit/rootkit.c`](modules/modules.rootkit.rootkit.c.md) | 1 | 7 | 14.3% |
 | [`modules.evasion_engine`](modules/modules.evasion_engine.py.md) | 2 | 13 | 15.4% |
 | [`contrib.legacy.lazyopenssh77enum2`](modules/contrib.legacy.lazyopenssh77enum2.py.md) | 1 | 6 | 16.7% |
 | [`contrib.legacy.lazysqli`](modules/contrib.legacy.lazysqli.py.md) | 1 | 5 | 20.0% |
-| [`modules.icmp_server`](modules/modules.icmp_server.py.md) | 2 | 10 | 20.0% |
 | [`modules.lazy_rbac`](modules/modules.lazy_rbac.py.md) | 11 | 55 | 20.0% |
 | [`modules/lazymasscan.sh`](modules/modules.lazymasscan.sh.md) | 1 | 5 | 20.0% |
 | [`modules.lazyown_metaextract0r`](modules/modules.lazyown_metaextract0r.py.md) | 2 | 10 | 20.0% |
@@ -159,13 +153,11 @@ Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data mem
 | [`skills.toposwarm_autonomous`](modules/skills.toposwarm_autonomous.py.md) | 2 | 9 | 22.2% |
 | [`cli.banner_config`](modules/cli.banner_config.py.md) | 19 | 82 | 23.2% |
 | [`banner`](modules/banner.py.md) | 1 | 4 | 25.0% |
-| [`contrib.legacy.lazybotcli`](modules/contrib.legacy.lazybotcli.py.md) | 1 | 4 | 25.0% |
 | [`contrib.legacy.lazymariadb_rce_cve_2016-662`](modules/contrib.legacy.lazymariadb_rce_cve_2016-662.py.md) | 1 | 4 | 25.0% |
 | [`contrib.legacy.lazysearch`](modules/contrib.legacy.lazysearch.py.md) | 1 | 4 | 25.0% |
 | [`modules.49803`](modules/modules.49803.py.md) | 1 | 4 | 25.0% |
 | [`modules.colors`](modules/modules.colors.py.md) | 1 | 4 | 25.0% |
 | [`modules/fast_run_service.sh`](modules/modules.fast_run_service.sh.md) | 10 | 40 | 25.0% |
-| [`modules.icmp_client`](modules/modules.icmp_client.py.md) | 2 | 8 | 25.0% |
 | [`scripts/mutate.sh`](modules/scripts.mutate.sh.md) | 1 | 4 | 25.0% |
 | [`modules.nmap2csv`](modules/modules.nmap2csv.py.md) | 12 | 45 | 26.7% |
 | [`modules/mysql_hookandroot_lib.c`](modules/modules.mysql_hookandroot_lib.c.md) | 2 | 7 | 28.6% |
@@ -188,7 +180,7 @@ Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data mem
 | [`modules.lazyown_bprfuzzer`](modules/modules.lazyown_bprfuzzer.py.md) | 5 | 14 | 35.7% |
 | [`modules/win_rootkit/mrhyde.c`](modules/modules.win_rootkit.mrhyde.c.md) | 7 | 19 | 36.8% |
 | [`modules.unified_bridge`](modules/modules.unified_bridge.py.md) | 9 | 24 | 37.5% |
-| [`lazyc2`](modules/lazyc2.py.md) | 88 | 229 | 38.4% |
+| [`lazyc2`](modules/lazyc2.py.md) | 89 | 230 | 38.7% |
 | [`cli.graph_advisor`](modules/cli.graph_advisor.py.md) | 16 | 41 | 39.0% |
 | [`modules.threat_model`](modules/modules.threat_model.py.md) | 2 | 5 | 40.0% |
 | [`plugins/rundll32_sct_from_url.lua`](modules/plugins.rundll32_sct_from_url.lua.md) | 2 | 5 | 40.0% |
@@ -233,7 +225,6 @@ Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data mem
 | [`cli.cli_enhancements`](modules/cli.cli_enhancements.py.md) | 29 | 53 | 54.7% |
 | [`core.errors`](modules/core.errors.py.md) | 13 | 23 | 56.5% |
 | [`modules.obs_parser`](modules/modules.obs_parser.py.md) | 8 | 14 | 57.1% |
-| [`modules.tel`](modules/modules.tel.py.md) | 4 | 7 | 57.1% |
 | [`modules.world_model`](modules/modules.world_model.py.md) | 34 | 59 | 57.6% |
 | [`modules.auto_purple`](modules/modules.auto_purple.py.md) | 15 | 26 | 57.7% |
 | [`modules.reactive_engine`](modules/modules.reactive_engine.py.md) | 22 | 38 | 57.9% |
@@ -391,8 +382,8 @@ Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data mem
 | [`cli.commands.recon_migrated`](modules/cli.commands.recon_migrated.py.md) | 29 | 30 | 96.7% |
 | [`modules.socks_proxy`](modules/modules.socks_proxy.py.md) | 29 | 30 | 96.7% |
 | [`cli.commands.misc_migrated`](modules/cli.commands.misc_migrated.py.md) | 30 | 31 | 96.8% |
+| [`lazyown`](modules/lazyown.py.md) | 70 | 72 | 97.2% |
 | [`cli.commands.postexp_migrated`](modules/cli.commands.postexp_migrated.py.md) | 38 | 39 | 97.4% |
-| [`lazyown`](modules/lazyown.py.md) | 74 | 76 | 97.4% |
 | [`cli.commands.scan_migrated`](modules/cli.commands.scan_migrated.py.md) | 46 | 47 | 97.9% |
 | [`cli.commands.exploit_migrated`](modules/cli.commands.exploit_migrated.py.md) | 50 | 51 | 98.0% |
 | [`static/js/quill-2.0.3.js`](modules/static.js.quill-2.0.3.js.md) | 92 | 93 | 98.9% |
@@ -855,7 +846,7 @@ Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data mem
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 43
+DOC001: 2142, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 43
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -1061,28 +1052,6 @@ DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 43
 - DOC001 `contrib/legacy/lazyarpspoofing.py:49` function get_mac is not documented
 - DOC001 `contrib/legacy/lazyarpspoofing.py:69` function spoofer is not documented
 - DOC001 `contrib/legacy/lazyarpspoofing.py:80` function main is not documented
-- DOC001 `contrib/legacy/lazybinenc.py:1` module contrib/legacy/lazybinenc.py is not documented
-- DOC001 `contrib/legacy/lazybinenc.py:12` function generate_key_iv is not documented
-- DOC001 `contrib/legacy/lazybinenc.py:54` function main is not documented
-- DOC001 `contrib/legacy/lazybotcli.py:30` function encrypt is not documented
-- DOC001 `contrib/legacy/lazybotcli.py:36` function decrypt is not documented
-- DOC001 `contrib/legacy/lazybotcli.py:42` function main is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:46` function encrypt is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:52` function decrypt is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:58` function add_to_botnet is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:62` function clean_botnet is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:71` function send_to_botnet is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:89` class Keylogger is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:90` constructor Keylogger.__init__ is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:95` method Keylogger.on_press is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:106` method Keylogger.start is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:110` method Keylogger.get_log is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:113` method Keylogger.save_log is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:120` method Keylogger.run is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:125` method Keylogger.setup_persistence is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:136` method Keylogger.create_shortcut is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:144` function handle_client is not documented
-- DOC001 `contrib/legacy/lazybotnet.py:182` function start_server is not documented
 - DOC001 `contrib/legacy/lazycam.py:32` class RTSPScanner is not documented
 - DOC001 `contrib/legacy/lazycam.py:33` constructor RTSPScanner.__init__ is not documented
 - DOC001 `contrib/legacy/lazycam.py:49` method RTSPScanner.run is not documented
@@ -1138,12 +1107,6 @@ DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 43
 - DOC001 `contrib/legacy/lazyhttpreverseshell.py:26` function reverse_http_shell_client is not documented
 - DOC001 `contrib/legacy/lazyhttpreverseshell.py:50` function reverse_http_shell_server is not documented
 - DOC001 `contrib/legacy/lazyhttpreverseshell.py:88` function parse_arguments is not documented
-- DOC001 `contrib/legacy/lazykeygen.py:1` module contrib/legacy/lazykeygen.py is not documented
-- DOC001 `contrib/legacy/lazykeygen.py:8` function pad is not documented
-- DOC001 `contrib/legacy/lazykeygen.py:11` function encrypt is not documented
-- DOC001 `contrib/legacy/lazykeygen.py:17` function decrypt is not documented
-- DOC001 `contrib/legacy/lazykeygen.py:23` function generate_key is not documented
-- DOC001 `contrib/legacy/lazykeygen.py:26` function main is not documented
 - DOC001 `contrib/legacy/lazylfi2rce.py:1` module contrib/legacy/lazylfi2rce.py is not documented
 - DOC001 `contrib/legacy/lazylfi2rce.py:29` function signal_handler is not documented
 - DOC001 `contrib/legacy/lazylfi2rce.py:35` function check_lfi_success is not documented
@@ -1357,4 +1320,32 @@ DOC001: 2199, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 43
 - DOC001 `install.sh:128` function ensure_gum is not documented
 - DOC001 `install.sh:139` function install_system_packages is not documented
 - DOC001 `install.sh:150` function install_external_tools is not documented
-- ... 1814 more in `api/warnings.jsonl`
+- DOC001 `install.sh:165` function install_python_environment is not documented
+- DOC001 `install.sh:206` function install_ollama is not documented
+- DOC001 `install.sh:218` function install_external_storage is not documented
+- DOC001 `install.sh:231` function install_lazyownbt is not documented
+- DOC001 `install.sh:251` function download_file is not documented
+- DOC001 `install.sh:263` function install_encoder_module is not documented
+- DOC001 `install.sh:274` function generate_certificates is not documented
+- DOC001 `install.sh:281` function seed_payload_config is not documented
+- DOC001 `install.sh:294` function verify_installation is not documented
+- DOC001 `install.sh:310` function main is not documented
+- DOC001 `key.py:1` module key.py is not documented
+- DOC001 `key.py:10` function main is not documented
+- DOC001 `lazy_sentinel4.py:1` module lazy_sentinel4.py is not documented
+- DOC001 `lazy_sentinel4.py:71` method RAGManager.initialize_cache_table is not documented
+- DOC001 `lazy_sentinel4.py:83` method RAGManager.get_cache_key is not documented
+- DOC001 `lazy_sentinel4.py:86` method RAGManager.load_existing_vectorstore is not documented
+- DOC001 `lazy_sentinel4.py:99` method RAGManager.ollama_llm is not documented
+- DOC001 `lazy_sentinel4.py:113` method RAGManager.process_file_to_rag is not documented
+- DOC001 `lazy_sentinel4.py:153` method RAGManager.query_rag is not documented
+- DOC001 `lazy_sentinel4.py:175` method RAGManager.invalidate_cache is not documented
+- DOC001 `lazy_sentinel4.py:189` method RAGManager.get_knowledge_base_stats is not documented
+- DOC001 `lazy_sentinel4.py:212` class Database is not documented
+- DOC001 `lazy_sentinel4.py:213` constructor Database.__init__ is not documented
+- DOC001 `lazy_sentinel4.py:217` method Database.initialize is not documented
+- DOC001 `lazy_sentinel4.py:241` method Database.execute is not documented
+- DOC001 `lazy_sentinel4.py:253` method Database.insert is not documented
+- DOC001 `lazy_sentinel4.py:269` class Alert is not documented
+- DOC001 `lazy_sentinel4.py:272` constructor Alert.__init__ is not documented
+- ... 1757 more in `api/warnings.jsonl`

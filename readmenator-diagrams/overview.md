@@ -213,7 +213,7 @@ graph LR
     static_js -- "calls into" --> poc_tui
     static_js -- "calls into" --> cli
     static_js -- "calls into" --> modules_lazy_loop
-    static_js -- "depends on" --> modules_world_model
+    static_js -- "calls into" --> modules_world_model
     static_js -- "calls into" --> lazygui_panels
     static_js -- "calls into" --> lazyc2_security
     click modules_autonomous_daemon href "./modules_autonomous_daemon.md" "Details"
@@ -236,7 +236,7 @@ graph LR
 
 ## Details
 
-Static architecture map of 1183 files (asm, c, cpp, cs, h, js, lua, php, py, sh) in 25 components: modules: autonomous_daemon, cli/commands, cli, modules: lazy_loop, modules: world_model, lazygui/panels, lazyc2/security, modules: lazyown_facts. Structure is extracted statically without LLM calls; component prose may be enriched locally.
+Static architecture map of 1174 files (asm, c, cpp, cs, h, js, lua, php, py, sh) in 25 components: modules: autonomous_daemon, cli/commands, cli, modules: lazy_loop, modules: world_model, lazygui/panels, lazyc2/security, modules: lazyown_facts. Structure is extracted statically without LLM calls; component prose may be enriched locally.
 
 ### modules: autonomous_daemon (1)
 
@@ -255,7 +255,7 @@ modules: autonomous_daemon groups 184 files (py) around StructuredLogConfig, _Js
 
 ### cli/commands (2)
 
-cli/commands groups 160 files (c, py) around needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets, parse_ip_mac. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 158 files (c, py) around needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets, parse_ip_mac. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 **Related Classes/Methods**:
 

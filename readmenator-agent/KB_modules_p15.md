@@ -1,20 +1,6 @@
 # Subsystem: modules (page 15 of 16)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
-## modules/timeline_narrator.py
-- Doc: LazyOwn Timeline Narrator
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_load_events` (function, line 57) `def _load_events(n)`
-  - `_format_events_for_prompt` (function, line 77) `def _format_events_for_prompt(events)`
-  - `_call_ai` (function, line 97) `def _call_ai(api_key, events_text, target)`
-  - `_write_timeline` (function, line 115) `def _write_timeline(narrative, event_count, target)`
-  - `narrate` (function, line 130) `def narrate(api_key, force)`
-  - `load_timeline` (function, line 165) `def load_timeline()`
-- Depends on: `modules/ai_fallback.py`
-- Imported by: `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
-
 ## modules/timestomper.py
 - Doc: Filesystem timestomping — MACB timestamp manipulation for stealth.
 - Layer: utility

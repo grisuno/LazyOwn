@@ -35,8 +35,8 @@ This community groups 22 file(s) rooted at `core` with dominant language py (coh
 |------|----------|-------|---------|-----|
 | `discord_c2.py` | py | utility | 21 | no |
 | `slack_c2_bot.py` | py | utility | 16 | yes |
-| `telegram_c2.py` | py | utility | 18 | no |
-| `telegram_hermes.py` | py | utility | 29 | yes |
+| `telegram_c2.py` | py | utility | 19 | no |
+| `telegram_hermes.py` | py | utility | 31 | yes |
 
 ### `modules` (3 files)
 
@@ -108,7 +108,7 @@ This community groups 22 file(s) rooted at `core` with dominant language py (coh
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/dependencies.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `core/llm_budget.py` via `subprocess` (5 hops)
 
 ## Open Questions
 

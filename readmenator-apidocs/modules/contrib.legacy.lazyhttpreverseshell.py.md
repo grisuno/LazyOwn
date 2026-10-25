@@ -45,7 +45,7 @@ def encrypt(data)
 |---|---|---|---|
 | `data` |  |  |  |
 
-*Called by:* [`reverse_http_shell_client`](#reverse_http_shell_client), [`reverse_http_shell_server`](#reverse_http_shell_server)
+*Called by:* [`MiscMigratedCommandSet.do_EOF`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_eof), [`MiscMigratedCommandSet.do_exit`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_exit), [`SessionOpsCommandSet.do_qa`](cli.commands.session_ops.py.md#sessionopscommandset-do_qa), [`reverse_http_shell_client`](#reverse_http_shell_client), [`reverse_http_shell_server`](#reverse_http_shell_server)
 
 ---
 

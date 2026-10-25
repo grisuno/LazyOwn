@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 823,
-  "entities": 15461,
+  "modules": 814,
+  "entities": 15378,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,21 +13,21 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 710,
+   "py": 701,
    "sh": 61
   },
   "kinds": {
    "attribute": 4369,
-   "class": 1418,
+   "class": 1417,
    "classmethod": 84,
-   "constant": 1332,
-   "constructor": 525,
+   "constant": 1321,
+   "constructor": 524,
    "enum": 39,
    "exception": 38,
-   "function": 2785,
+   "function": 2735,
    "macro": 113,
-   "method": 3590,
-   "module": 823,
+   "method": 3579,
+   "module": 814,
    "property": 198,
    "protocol": 20,
    "staticmethod": 91,
@@ -41,15 +41,15 @@
  },
  "coverage": {
   "overall": {
-   "documented": 7266,
-   "total": 9748,
-   "percent": 74.5
+   "documented": 7251,
+   "total": 9676,
+   "percent": 74.9
   },
   "by_kind": {
    "class": {
     "documented": 1230,
-    "total": 1418,
-    "percent": 86.7
+    "total": 1417,
+    "percent": 86.8
    },
    "classmethod": {
     "documented": 58,
@@ -58,7 +58,7 @@
    },
    "constructor": {
     "documented": 203,
-    "total": 525,
+    "total": 524,
     "percent": 38.7
    },
    "enum": {
@@ -72,9 +72,9 @@
     "percent": 94.7
    },
    "function": {
-    "documented": 1837,
-    "total": 2785,
-    "percent": 66.0
+    "documented": 1830,
+    "total": 2735,
+    "percent": 66.9
    },
    "macro": {
     "documented": 3,
@@ -82,14 +82,14 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2911,
-    "total": 3590,
-    "percent": 81.1
+    "documented": 2907,
+    "total": 3579,
+    "percent": 81.2
    },
    "module": {
-    "documented": 701,
-    "total": 823,
-    "percent": 85.2
+    "documented": 697,
+    "total": 814,
+    "percent": 85.6
    },
    "property": {
     "documented": 154,
@@ -973,21 +973,6 @@
     "total": 8,
     "percent": 0.0
    },
-   "contrib/legacy/lazybinenc.py": {
-    "documented": 0,
-    "total": 3,
-    "percent": 0.0
-   },
-   "contrib/legacy/lazybotcli.py": {
-    "documented": 1,
-    "total": 4,
-    "percent": 25.0
-   },
-   "contrib/legacy/lazybotnet.py": {
-    "documented": 1,
-    "total": 17,
-    "percent": 5.9
-   },
    "contrib/legacy/lazycam.py": {
     "documented": 1,
     "total": 9,
@@ -1036,11 +1021,6 @@
    "contrib/legacy/lazyhttpreverseshell.py": {
     "documented": 0,
     "total": 8,
-    "percent": 0.0
-   },
-   "contrib/legacy/lazykeygen.py": {
-    "documented": 0,
-    "total": 6,
     "percent": 0.0
    },
    "contrib/legacy/lazylfi2rce.py": {
@@ -1384,9 +1364,9 @@
     "percent": 8.3
    },
    "lazyc2.py": {
-    "documented": 88,
-    "total": 229,
-    "percent": 38.4
+    "documented": 89,
+    "total": 230,
+    "percent": 38.7
    },
    "lazyc2/__init__.py": {
     "documented": 0,
@@ -1824,9 +1804,9 @@
     "percent": 100.0
    },
    "lazyown.py": {
-    "documented": 74,
-    "total": 76,
-    "percent": 97.4
+    "documented": 70,
+    "total": 72,
+    "percent": 97.2
    },
    "modules/49803.py": {
     "documented": 1,
@@ -2478,16 +2458,6 @@
     "total": 5,
     "percent": 80.0
    },
-   "modules/icmp_client.py": {
-    "documented": 2,
-    "total": 8,
-    "percent": 25.0
-   },
-   "modules/icmp_server.py": {
-    "documented": 2,
-    "total": 10,
-    "percent": 20.0
-   },
    "modules/img2bin.py": {
     "documented": 0,
     "total": 3,
@@ -2763,20 +2733,10 @@
     "total": 5,
     "percent": 100.0
    },
-   "modules/lazyownclient.py": {
-    "documented": 1,
-    "total": 7,
-    "percent": 14.3
-   },
    "modules/lazyownerweb.py": {
     "documented": 0,
     "total": 4,
     "percent": 0.0
-   },
-   "modules/lazyownserver.py": {
-    "documented": 1,
-    "total": 7,
-    "percent": 14.3
    },
    "modules/lazypsexec.sh": {
     "documented": 1,
@@ -3347,11 +3307,6 @@
     "documented": 5,
     "total": 5,
     "percent": 100.0
-   },
-   "modules/tel.py": {
-    "documented": 4,
-    "total": 7,
-    "percent": 57.1
    },
    "modules/threat_model.py": {
     "documented": 2,
@@ -5092,21 +5047,6 @@
    "entities": 10
   },
   {
-   "uid": "contrib/legacy/lazybinenc.py",
-   "path": "modules/contrib.legacy.lazybinenc.py.jsonl",
-   "entities": 3
-  },
-  {
-   "uid": "contrib/legacy/lazybotcli.py",
-   "path": "modules/contrib.legacy.lazybotcli.py.jsonl",
-   "entities": 5
-  },
-  {
-   "uid": "contrib/legacy/lazybotnet.py",
-   "path": "modules/contrib.legacy.lazybotnet.py.jsonl",
-   "entities": 18
-  },
-  {
    "uid": "contrib/legacy/lazycam.py",
    "path": "modules/contrib.legacy.lazycam.py.jsonl",
    "entities": 9
@@ -5155,11 +5095,6 @@
    "uid": "contrib/legacy/lazyhttpreverseshell.py",
    "path": "modules/contrib.legacy.lazyhttpreverseshell.py.jsonl",
    "entities": 9
-  },
-  {
-   "uid": "contrib/legacy/lazykeygen.py",
-   "path": "modules/contrib.legacy.lazykeygen.py.jsonl",
-   "entities": 6
   },
   {
    "uid": "contrib/legacy/lazylfi2rce.py",
@@ -5504,7 +5439,7 @@
   {
    "uid": "lazyc2.py",
    "path": "modules/lazyc2.py.jsonl",
-   "entities": 259
+   "entities": 260
   },
   {
    "uid": "lazyc2/__init__.py",
@@ -5944,7 +5879,7 @@
   {
    "uid": "lazyown.py",
    "path": "modules/lazyown.py.jsonl",
-   "entities": 89
+   "entities": 85
   },
   {
    "uid": "modules/49803.py",
@@ -6597,16 +6532,6 @@
    "entities": 7
   },
   {
-   "uid": "modules/icmp_client.py",
-   "path": "modules/modules.icmp_client.py.jsonl",
-   "entities": 12
-  },
-  {
-   "uid": "modules/icmp_server.py",
-   "path": "modules/modules.icmp_server.py.jsonl",
-   "entities": 15
-  },
-  {
    "uid": "modules/img2bin.py",
    "path": "modules/modules.img2bin.py.jsonl",
    "entities": 3
@@ -6882,19 +6807,9 @@
    "entities": 5
   },
   {
-   "uid": "modules/lazyownclient.py",
-   "path": "modules/modules.lazyownclient.py.jsonl",
-   "entities": 7
-  },
-  {
    "uid": "modules/lazyownerweb.py",
    "path": "modules/modules.lazyownerweb.py.jsonl",
    "entities": 8
-  },
-  {
-   "uid": "modules/lazyownserver.py",
-   "path": "modules/modules.lazyownserver.py.jsonl",
-   "entities": 7
   },
   {
    "uid": "modules/lazypsexec.sh",
@@ -7465,11 +7380,6 @@
    "uid": "modules/surface_ops.py",
    "path": "modules/modules.surface_ops.py.jsonl",
    "entities": 5
-  },
-  {
-   "uid": "modules/tel.py",
-   "path": "modules/modules.tel.py.jsonl",
-   "entities": 7
   },
   {
    "uid": "modules/threat_model.py",
@@ -8354,7 +8264,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2314
+  "total": 2257
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

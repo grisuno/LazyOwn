@@ -182,7 +182,7 @@ Depends on: `cli/commands/_base.py`, `cli/purple_tui.py`, `core/config.py`, `mod
 
 ## cli/commands/pwn.py
 Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
-Imported by: `contrib/legacy/lazybinenc.py`, `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
+Imported by: `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
 - `PwnCommandSet.do_auto_pwn` (method) `cli/commands/pwn.py:35` `def do_auto_pwn(self, line)` -- Run the full autonomous exploitation chain against the target.
 - `PwnCommandSet.do_rich_tui` (method) `cli/commands/pwn.py:109` `def do_rich_tui(self, line)` -- Launch the Rich-based live dashboard TUI.
 - `PwnCommandSet.do_exploit_chain` (method) `cli/commands/pwn.py:158` `def do_exploit_chain(self, line)` -- AI-driven multi-step exploit chaining with fallback strategies.

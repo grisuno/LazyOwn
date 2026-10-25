@@ -287,13 +287,17 @@ Returns dict {parquet_stem: [matching rows...]}.
 
 **Returns:** `dict[str, list[dict]]`
 
+**Raises**
+
+- `ValueError`: (raised in the body, not documented)
+
 *Called by:* [`ParquetDB.query_atomic`](#parquetdb-query_atomic), [`main`](#main)
 
 <a id="parquetdb-query_atomic"></a>
 
 #### `ParquetDB.query_atomic`
 
-`method` | [skills/lazyown_parquet_db.py:576](../../skills/lazyown_parquet_db.py#L576)
+`method` | [skills/lazyown_parquet_db.py:578](../../skills/lazyown_parquet_db.py#L578)
 
 ```python
 def query_atomic(self, keyword: str = '', mitre_id: str = '', platform: str = '', scope: str = '', has_prereqs: bool | None = None, complexity: str = '', limit: int = 10, include_command: bool = False) -> list[dict]
@@ -325,7 +329,7 @@ parquet is not yet built.
 
 #### `ParquetDB.context_for_phase`
 
-`method` | [skills/lazyown_parquet_db.py:630](../../skills/lazyown_parquet_db.py#L630)
+`method` | [skills/lazyown_parquet_db.py:632](../../skills/lazyown_parquet_db.py#L632)
 
 ```python
 def context_for_phase(self, phase: str, target: str | None = None, limit: int = 10) -> dict[str, Any]
@@ -362,7 +366,7 @@ Return a rich context dict for MCP reasoning:
 
 #### `ParquetDB.stats`
 
-`method` | [skills/lazyown_parquet_db.py:729](../../skills/lazyown_parquet_db.py#L729)
+`method` | [skills/lazyown_parquet_db.py:731](../../skills/lazyown_parquet_db.py#L731)
 
 ```python
 def stats(self) -> str
@@ -376,7 +380,7 @@ def stats(self) -> str
 
 #### `ParquetDB.list_parquets`
 
-`method` | [skills/lazyown_parquet_db.py:743](../../skills/lazyown_parquet_db.py#L743)
+`method` | [skills/lazyown_parquet_db.py:745](../../skills/lazyown_parquet_db.py#L745)
 
 ```python
 def list_parquets(self) -> list[str]
@@ -390,7 +394,7 @@ def list_parquets(self) -> list[str]
 
 #### `ParquetDB.train_classifier`
 
-`method` | [skills/lazyown_parquet_db.py:748](../../skills/lazyown_parquet_db.py#L748)
+`method` | [skills/lazyown_parquet_db.py:750](../../skills/lazyown_parquet_db.py#L750)
 
 ```python
 def train_classifier(self, min_rows: int = 50) -> dict[str, Any]
@@ -421,7 +425,7 @@ Requires: scikit-learn (pip install scikit-learn)
 
 #### `ParquetDB.predict_success`
 
-`method` | [skills/lazyown_parquet_db.py:843](../../skills/lazyown_parquet_db.py#L843)
+`method` | [skills/lazyown_parquet_db.py:845](../../skills/lazyown_parquet_db.py#L845)
 
 ```python
 def predict_success(self, command: str, category: str) -> float | None
@@ -450,7 +454,7 @@ Returns float 0.0–1.0 or None if no model exists.
 
 ### `verify_model_integrity`
 
-`function` | [skills/lazyown_parquet_db.py:892](../../skills/lazyown_parquet_db.py#L892)
+`function` | [skills/lazyown_parquet_db.py:894](../../skills/lazyown_parquet_db.py#L894)
 
 ```python
 def verify_model_integrity(model_path: Path, encoder_path: Path, hash_path: Path) -> bool
@@ -476,7 +480,7 @@ Verify SHA256 integrity of classifier model and encoder files.
 
 ### `get_pdb`
 
-`function` | [skills/lazyown_parquet_db.py:948](../../skills/lazyown_parquet_db.py#L948)
+`function` | [skills/lazyown_parquet_db.py:950](../../skills/lazyown_parquet_db.py#L950)
 
 ```python
 def get_pdb(lazyown_dir: Path = BASE_DIR) -> ParquetDB | None
@@ -500,7 +504,7 @@ def get_pdb(lazyown_dir: Path = BASE_DIR) -> ParquetDB | None
 
 ### `main`
 
-`function` | [skills/lazyown_parquet_db.py:961](../../skills/lazyown_parquet_db.py#L961)
+`function` | [skills/lazyown_parquet_db.py:963](../../skills/lazyown_parquet_db.py#L963)
 
 ```python
 def main() -> None

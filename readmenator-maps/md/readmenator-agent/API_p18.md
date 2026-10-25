@@ -1,43 +1,6 @@
 # API (page 18 of 24)
 Previous: [API_p17.md](API_p17.md)
 
-## modules/ttpscope_bridge.py
-Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/atomic_resolver.py`, `skills/lazyown_parquet_db.py`
-Imported by: `skills/lazyown_mcp.py`
-- `locate_binary` (function) `modules/ttpscope_bridge.py:82` `def locate_binary()` -- Return the ttpscope binary path, preferring the vendored build.
-- `validate_object_id` (function) `modules/ttpscope_bridge.py:92` `def validate_object_id(raw)` -- Validate an ATT&CK object ID (T1059.001, G0016, S0002, ...).
-- `validate_query` (function) `modules/ttpscope_bridge.py:100` `def validate_query(raw)` -- Validate a free-text search query.
-- `validate_platform` (function) `modules/ttpscope_bridge.py:112` `def validate_platform(raw)` -- Validate a matrix platform filter (empty means all).
-- `do_sync` (function) `modules/ttpscope_bridge.py:497` `def do_sync()` -- Download the Enterprise ATT&CK bundle via ttpscope sync.
-- `do_search` (function) `modules/ttpscope_bridge.py:508` `def do_search(query)` -- Search IDs, names, aliases and descriptions.
-- `do_show` (function) `modules/ttpscope_bridge.py:520` `def do_show(object_id)` -- Show one ATT&CK object and its relationships.
-- `do_matrix` (function) `modules/ttpscope_bridge.py:535` `def do_matrix(platform)` -- Render the Enterprise matrix, optionally filtered by platform.
-- `do_note` (function) `modules/ttpscope_bridge.py:551` `def do_note(object_id, text)` -- Append a timestamped research note.
-- `do_notes` (function) `modules/ttpscope_bridge.py:570` `def do_notes(object_id)` -- Read research notes for an object.
-- `do_chain` (function) `modules/ttpscope_bridge.py:582` `def do_chain(object_id, platform, limit)` -- Join ttpscope context with Atomic tests and parquet techniques.
-- `run_action` (function) `modules/ttpscope_bridge.py:652` `def run_action(action)` -- Dispatch a validated action (used by CLI addons and MCP).
-- `main` (function) `modules/ttpscope_bridge.py:679` `def main()` -- CLI entry point for the lazyaddon execute_command.
-
-## modules/unified_bridge.py
-Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/state_manager.py`, `modules/toposwarm_bridge.py`
-Imported by: `lazyown.py`
-- `RouteBackend.available` (method) `modules/unified_bridge.py:69` `def available(self)`
-- `RouteBackend.route` (method) `modules/unified_bridge.py:72` `def route(self, prompt, context)`
-- `KeywordBackend.available` (method) `modules/unified_bridge.py:102` `def available(self)`
-- `KeywordBackend.route` (method) `modules/unified_bridge.py:105` `def route(self, prompt, context)`
-- `LazyownBridgeBackend.available` (method) `modules/unified_bridge.py:126` `def available(self)`
-- `LazyownBridgeBackend.route` (method) `modules/unified_bridge.py:134` `def route(self, prompt, context)`
-- `TopoSwarmBackend.available` (method) `modules/unified_bridge.py:164` `def available(self)`
-- `TopoSwarmBackend.route` (method) `modules/unified_bridge.py:173` `def route(self, prompt, context)`
-- `UnifiedBridge.__init__` (method) `modules/unified_bridge.py:214` `def __init__(self)`
-- `UnifiedBridge.get` (method) `modules/unified_bridge.py:225` `def get(cls)`
-- `UnifiedBridge.set_publish_callback` (method) `modules/unified_bridge.py:230` `def set_publish_callback(self, cb)`
-- `UnifiedBridge.route` (method) `modules/unified_bridge.py:253` `def route(self, prompt, context)` -- Route a natural-language prompt to the best LazyOwn tool.
-- `UnifiedBridge.delegate` (method) `modules/unified_bridge.py:300` `def delegate(self, goal, backend, timeout, max_iterations)` -- Delegate a complex task to an internal AI agent.
-- `UnifiedBridge.list_backends` (method) `modules/unified_bridge.py:461` `def list_backends(self)`
-- `route_prompt` (function) `modules/unified_bridge.py:483` `def route_prompt(prompt, context)` -- Convenience: route a prompt without instantiating UnifiedBridge.
-- `delegate_task` (function) `modules/unified_bridge.py:488` `def delegate_task(goal, backend)` -- Convenience: delegate a task to an AI agent.
-
 ## modules/unified_dashboard.py
 Depends on: `cli/graph_advisor.py`, `core/logging.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/live_surface.py`, `modules/world_model.py`, `skills/hive_mind.py`, `skills/lazyown_policy.py`
 Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
@@ -476,6 +439,50 @@ Depends on: `poc_tui/app.py`
 - `render_trigger` (function) `scripts/backfill_addon_os_trigger.py:127` `def render_trigger(trigger)` -- Render the trigger field as inline YAML matching the project style.
 - `patch` (function) `scripts/backfill_addon_os_trigger.py:141` `def patch(path)` -- Return the new file content with ``os`` and ``trigger`` inserted.
 - `main` (function) `scripts/backfill_addon_os_trigger.py:175` `def main()` -- Walk every addon and rewrite files that need backfilling.
+
+## scripts/broadcom_wps_drive.sh
+- `log` (function) `scripts/broadcom_wps_drive.sh:53`
+- `warn` (function) `scripts/broadcom_wps_drive.sh:54`
+- `die` (function) `scripts/broadcom_wps_drive.sh:55`
+- `usage` (function) `scripts/broadcom_wps_drive.sh:57`
+- `payload_value` (function) `scripts/broadcom_wps_drive.sh:61`
+- `parse_flags` (function) `scripts/broadcom_wps_drive.sh:81`
+- `detect_interface` (function) `scripts/broadcom_wps_drive.sh:151`
+- `is_wireless` (function) `scripts/broadcom_wps_drive.sh:162`
+- `apply_interface` (function) `scripts/broadcom_wps_drive.sh:166`
+- `resolve_interface` (function) `scripts/broadcom_wps_drive.sh:170`
+- `is_root` (function) `scripts/broadcom_wps_drive.sh:190`
+- `have_sudo` (function) `scripts/broadcom_wps_drive.sh:194`
+- `elevate` (function) `scripts/broadcom_wps_drive.sh:200`
+- `interface_mode` (function) `scripts/broadcom_wps_drive.sh:210`
+- `interface_up` (function) `scripts/broadcom_wps_drive.sh:216`
+- `python_bin` (function) `scripts/broadcom_wps_drive.sh:227`
+- `has_scapy` (function) `scripts/broadcom_wps_drive.sh:231`
+- `do_monitor` (function) `scripts/broadcom_wps_drive.sh:235`
+- `do_unmonitor` (function) `scripts/broadcom_wps_drive.sh:247`
+- `ensure_monitor_mode` (function) `scripts/broadcom_wps_drive.sh:259`
+- `run_fingerprint` (function) `scripts/broadcom_wps_drive.sh:268`
+- `run_yara` (function) `scripts/broadcom_wps_drive.sh:308`
+- `do_status` (function) `scripts/broadcom_wps_drive.sh:325`
+- `do_doctor` (function) `scripts/broadcom_wps_drive.sh:348`
+- `main` (function) `scripts/broadcom_wps_drive.sh:404`
+
+## scripts/check_contract_manifest.py
+Imported by: `tests/test_contract_manifest.py`
+- `check_manifest` (function) `scripts/check_contract_manifest.py:176` `def check_manifest(config)` -- Return the list of documented contracts that are missing on disk.
+- `main` (function) `scripts/check_contract_manifest.py:229` `def main(argv)` -- Run the manifest check and return the process exit code.
+
+## scripts/devtools/command_audit.py
+Depends on: `lazyown.py`
+- `argparser_commands` (function) `scripts/devtools/command_audit.py:40` `def argparser_commands(config)` -- Return the command names decorated with ``@with_argparser``.
+- `audit` (function) `scripts/devtools/command_audit.py:65` `def audit(config)` -- Run the dispatch and parser audit.
+- `main` (function) `scripts/devtools/command_audit.py:105` `def main(argv)` -- Run the audit and return the process exit code.
+
+## scripts/devtools/core_smoke.py
+Depends on: `core/hardening.py`, `core/payload_schema.py`, `modules/db.py`, `modules/killchain.py`, `modules/payload_factory.py`
+- `check_surfaces` (function) `scripts/devtools/core_smoke.py:64` `def check_surfaces(config)` -- Return the dotted names that are missing from the imported modules.
+- `check_calls` (function) `scripts/devtools/core_smoke.py:81` `def check_calls()` -- Exercise a small safe subset of the public API.
+- `main` (function) `scripts/devtools/core_smoke.py:118` `def main()` -- Run the smoke check and return the process exit code.
 
 
 Next: [API_p19.md](API_p19.md)

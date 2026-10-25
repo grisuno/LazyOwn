@@ -168,9 +168,6 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `contrib/legacy/lazy_packet_image_sniffer.py` -> argparse, atexit, cv2, datetime, ipaddress, numpy, os, scapy.all, subprocess, sys
 - `contrib/legacy/lazyaddon_creator.py` -> __future__, argparse, base64, json, os, pathlib, re, requests, sys, textwrap, typing, urllib.parse, yaml
 - `contrib/legacy/lazyarpspoofing.py` -> argparse, fcntl, os, pathlib, scapy.all, socket, struct, sys, time
-- `contrib/legacy/lazybinenc.py` -> Crypto.Cipher, argparse, binascii, os
-- `contrib/legacy/lazybotcli.py` -> Crypto.Cipher, Crypto.Random, Crypto.Util.Padding, argparse, binascii, socket
-- `contrib/legacy/lazybotnet.py` -> Crypto.Cipher, Crypto.Random, Crypto.Util.Padding, argparse, binascii, ctypes, os, platform, pynput, socket, subprocess, threading, time, win32api, win32com.client, win32con
 - `contrib/legacy/lazycam.py` -> PIL, argparse, json, os, portscan, requests, subprocess
 - `contrib/legacy/lazycreate_webshell.py` -> os
 - `contrib/legacy/lazydeepseekcli.py` -> __future__, argparse, flask, json, os, requests, typing
@@ -181,7 +178,6 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `contrib/legacy/lazygptcli_unified.py` -> __future__, groq, json, os, requests, typing
 - `contrib/legacy/lazyhoneypot.py` -> argparse, email.mime.text, os, paramiko, scapy.all, smtplib, socket, subprocess, threading, time, urllib.parse
 - `contrib/legacy/lazyhttpreverseshell.py` -> base64, cryptography.fernet, requests, subprocess, sys, time, zlib
-- `contrib/legacy/lazykeygen.py` -> Crypto.Cipher, Crypto.Random, argparse, binascii
 - `contrib/legacy/lazylfi2rce.py` -> argparse, os, requests, signal, sys, urllib.parse
 - `contrib/legacy/lazyllmchat.py` -> argparse, cmd2, contextlib, importlib.util, io, os, queue, random, socket, subprocess, sys, threading
 - `contrib/legacy/lazylogpoisoning.py` -> argparse, requests, signal, subprocess, sys
@@ -213,7 +209,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `core/config.py` -> __future__, datetime, inspect, json, os, pathlib, re, shutil, tempfile, typing
 - `core/console.py` -> __future__, os, sys
 - `core/credential_vault.py` -> __future__, base64, os, pathlib, secrets, typing
-- `core/crypto.py` -> Crypto.Cipher, __future__, base64, cryptography.hazmat.primitives, cryptography.hazmat.primitives.kdf.pbkdf2, hashlib, os, random, secrets, typing
+- `core/crypto.py` -> __future__, base64, cryptography.exceptions, cryptography.hazmat.primitives, cryptography.hazmat.primitives.ciphers.aead, cryptography.hazmat.primitives.kdf.pbkdf2, hashlib, os, random, secrets, typing
 - `core/defaults.py` -> __future__, pathlib, tomllib, typing
 - `core/dependencies.py` -> __future__, dataclasses, importlib, typing
 - `core/error_advice.py` -> __future__, dataclasses
@@ -436,8 +432,6 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/ia_code_analysis.py` -> argparse, json, os, requests, rich.markdown, subprocess, time
 - `modules/ia_logs_analysis.py` -> argparse, json, os, requests, rich.markdown, subprocess, time, watchdog.events, watchdog.observers
 - `modules/ia_network_analysis.py` -> argparse, json, requests, rich.markdown, scapy.all, scapy.layers.tls.record, subprocess, time
-- `modules/icmp_client.py` -> Crypto.Cipher, argparse, hashlib, os, secrets, socket, struct, sys, time, zlib
-- `modules/icmp_server.py` -> Crypto.Cipher, argparse, concurrent.futures, hashlib, os, secrets, shlex, socket, struct, subprocess, sys, zlib
 - `modules/img2bin.py` -> PIL, numpy, sys
 - `modules/integrations/misp_export.py` -> __future__, abc, argparse, dataclasses, json, pathlib, re, requests, typing
 - `modules/integrations/nuclei_bridge.py` -> __future__, abc, argparse, dataclasses, pathlib, re, shutil, subprocess, typing, yaml
@@ -480,9 +474,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/lazyown_bridge.py` -> __future__, abc, dataclasses, re
 - `modules/lazyown_metaextract0r.py` -> argparse, docx, exifread, olefile, os, pypdf, signal
 - `modules/lazyown_parquet_tool.py` -> argparse, colorama, os, pandas, platform, subprocess, tabulate
-- `modules/lazyownclient.py` -> Crypto.Cipher, Crypto.Random, PIL, argparse, base64, binascii, os, platform, signal, socket, subprocess
 - `modules/lazyownerweb.py` -> requests, requests.exceptions, urllib.parse
-- `modules/lazyownserver.py` -> Crypto.Cipher, Crypto.Random, argparse, binascii, os, signal, socket, subprocess, sys, threading
 - `modules/legacy/__init__.py` -> __future__, pathlib
 - `modules/lesson_ingestor.py` -> __future__, dataclasses, json, pathlib, typing
 - `modules/lilsplunky.py` -> argparse, datetime, json, os, re, requests, rich.panel, socket, time, watchdog.events, watchdog.observers
@@ -496,5 +488,13 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/llm_pool.py` -> __future__, collections.abc, dataclasses, hashlib, itertools, json, os, pathlib, threading, time
 - `modules/llm_prompts.py` -> __future__, dataclasses, json, os, typing
 - `modules/log_tamper.py` -> __future__, dataclasses, pathlib, typing
+- `modules/logging_config.py` -> contextvars, datetime, json, logging.handlers, os, sys
+- `modules/loop_ai_bridge.py` -> __future__, threading
+- `modules/loop_guardrails.py` -> __future__, collections, contextlib, dataclasses, hashlib, json, math, os, pathlib, random, re, tempfile, threading, time
+- `modules/loop_progress.py` -> __future__, dataclasses, re, rich.live, rich.panel, rich.spinner, rich.table, rich.text, sys, threading, time
+- `modules/loop_triggers.py` -> __future__
+- `modules/macos_payloads.py` -> __future__, base64, dataclasses, os, pathlib, plistlib, subprocess, typing
+- `modules/mario.py` -> os, pygame
+- `modules/mcp_agent_bridge.py` -> datetime, groq, json, os, pathlib, re, requests, sys, threading, time, uuid
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

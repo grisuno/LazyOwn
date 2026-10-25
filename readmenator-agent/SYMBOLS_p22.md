@@ -3,63 +3,6 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
-| `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
-| `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
-| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
-| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
-| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
-| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
-| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
-| `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
-| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
-| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
-| `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
-| `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
-| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
-| `HookFunctions` | function | `modules/win_rootkit/mrhyde.c:222` | `void HookFunctions()` |
-| `HookedCreateToolhelp32Snapshot` | function | `modules/win_rootkit/mrhyde.c:189` | `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` |
-| `HookedFindFirstFile` | function | `modules/win_rootkit/mrhyde.c:171` | `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` |
-| `HookedFindNextFile` | function | `modules/win_rootkit/mrhyde.c:180` | `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` |
-| `HookedProcess32First` | function | `modules/win_rootkit/mrhyde.c:198` | `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `HookedProcess32Next` | function | `modules/win_rootkit/mrhyde.c:210` | `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:7` | `#define MAX_HIDE_PIDS` |
-| `PID_FILE_PATH` | macro | `modules/win_rootkit/mrhyde.c:8` | `#define PID_FILE_PATH` |
-| `RunExperiment` | function | `modules/win_rootkit/mrhyde.c:19` | `void __cdecl RunExperiment()` |
-| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:47` | `void load_hidden_files()` |
-| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:24` | `void load_hidden_pids()` |
-| `search_pid` | function | `modules/win_rootkit/mrhyde.c:137` | `BOOL search_pid()` |
-| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:161` | `BOOL should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/win_rootkit/mrhyde.c:147` | `BOOL should_hide_pid(DWORD pid)` |
-| `GetUsernameFromPid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:145` | `` |
-| `HookCreateFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:226` | `` |
-| `HookFindFirstFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:214` | `` |
-| `SECURITY_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:64` | `` |
-| `SID` | class | `modules/win_rootkit/win_rin3_rootkit.cs:136` | `` |
-| `SID_AND_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:129` | `` |
-| `ShouldHidePid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:203` | `` |
-| `TOKEN_USER` | class | `modules/win_rootkit/win_rin3_rootkit.cs:123` | `` |
-| `WIN32_FIND_DATA` | class | `modules/win_rootkit/win_rin3_rootkit.cs:47` | `` |
-| `WinRing3Rootkit` | class | `modules/win_rootkit/win_rin3_rootkit.cs:32` | `` |
-| `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:191` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
-| `BUFFER_SIZE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:19` | `#define BUFFER_SIZE` |
-| `Command` | struct | `modules/win_rootkit/win_ring3_rootkit.c:28` | `` |
-| `DownloadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:79` | `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)` |
-| `GetProcessIdByName` | function | `modules/win_rootkit/win_ring3_rootkit.c:240` | `DWORD GetProcessIdByName(const char* processName)` |
-| `Gifted` | function | `modules/win_rootkit/win_ring3_rootkit.c:270` | `BOOL Gifted(DWORD processId, const char* dllPath)` |
-| `HIDE_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:22` | `#define HIDE_FILE` |
-| `KEY_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:23` | `#define KEY_FILE` |
-| `MAX_COMMANDS` | macro | `modules/win_rootkit/win_ring3_rootkit.c:20` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/win_rootkit/win_ring3_rootkit.c:25` | `#define PASSWORD` |
-| `PIDArray` | struct | `modules/win_rootkit/win_ring3_rootkit.c:40` | `` |
-| `PID_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:21` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/win_ring3_rootkit.c:18` | `#define PORT` |
-| `ReflectiveLoadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:99` | `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)` |
-| `VirtualFile` | struct | `modules/win_rootkit/win_ring3_rootkit.c:34` | `` |
-| `addPID` | function | `modules/win_rootkit/win_ring3_rootkit.c:153` | `void addPID(PIDArray *array, DWORD pid)` |
 | `elp` | function | `modules/win_rootkit/win_ring3_rootkit.c:362` | `void elp()` |
 | `ensure_hide_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:446` | `void ensure_hide_file_exists()` |
 | `ensure_key_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:419` | `void ensure_key_file_exists()` |
@@ -496,5 +439,62 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `_ToolAnswer` | class | `scripts/mcp_call.py:43` | `class _ToolAnswer` |
 | `__init__` | method | `scripts/mcp_call.py:46` | `def __init__(self, text, is_error)` |
 | `_build_parser` | function | `scripts/mcp_call.py:152` | `def _build_parser()` |
+| `_call_once` | function | `scripts/mcp_call.py:116` | `def _call_once(settings, command)` |
+| `_extract_answer` | function | `scripts/mcp_call.py:100` | `def _extract_answer(result)` |
+| `_parse_arguments` | function | `scripts/mcp_call.py:80` | `def _parse_arguments(raw)` |
+| `_server_command` | function | `scripts/mcp_call.py:61` | `def _server_command()` |
+| `main` | function | `scripts/mcp_call.py:173` | `def main(argv)` |
+| `_append_methods` | function | `scripts/migrate_commandsets.py:83` | `def _append_methods(clean_path, methods)` |
+| `_extract_method_source` | function | `scripts/migrate_commandsets.py:38` | `def _extract_method_source(source, method_name)` |
+| `_find_class_end` | function | `scripts/migrate_commandsets.py:69` | `def _find_class_end(source_lines)` |
+| `_method_names_from_file` | function | `scripts/migrate_commandsets.py:52` | `def _method_names_from_file(filepath)` |
+| `main` | function | `scripts/migrate_commandsets.py:158` | `def main()` |
+| `merge_phase` | function | `scripts/migrate_commandsets.py:117` | `def merge_phase(phase, dry_run)` |
+| `_category_from_decorator` | function | `scripts/migrate_lazyown.py:70` | `def _category_from_decorator(decorator)` |
+| `_indent_level` | function | `scripts/migrate_lazyown.py:84` | `def _indent_level(line)` |
+| `build_migrated_module` | function | `scripts/migrate_lazyown.py:124` | `def build_migrated_module(phase, category, methods)` |
+| `extract_method` | function | `scripts/migrate_lazyown.py:88` | `def extract_method(source, node)` |
+| `main` | function | `scripts/migrate_lazyown.py:173` | `def main()` |
+| `rewrite_globals` | function | `scripts/migrate_lazyown.py:96` | `def rewrite_globals(method_source)` |
+| `changed_sources` | function | `scripts/mutate.sh:33` | `` |
+| `runners` | function | `scripts/mutate.sh:29` | `` |
+| `usage` | function | `scripts/mutate.sh:40` | `` |
+| `discover_runners` | function | `scripts/mutation_gate.py:25` | `def discover_runners()` |
+| `main` | function | `scripts/mutation_gate.py:63` | `def main(argv)` |
+| `run_runner` | function | `scripts/mutation_gate.py:34` | `def run_runner(path, timeout_s)` |
+| `fail` | function | `scripts/publish_wiki.sh:38` | `` |
+| `log` | function | `scripts/publish_wiki.sh:37` | `` |
+| `write_c2_api` | function | `scripts/publish_wiki.sh:150` | `` |
+| `write_footer` | function | `scripts/publish_wiki.sh:207` | `` |
+| `write_home` | function | `scripts/publish_wiki.sh:58` | `` |
+| `write_installation` | function | `scripts/publish_wiki.sh:92` | `` |
+| `write_plugins` | function | `scripts/publish_wiki.sh:174` | `` |
+| `write_sidebar` | function | `scripts/publish_wiki.sh:188` | `` |
+| `_build_parser` | function | `scripts/read_journal.py:19` | `def _build_parser()` |
+| `main` | function | `scripts/read_journal.py:29` | `def main(argv)` |
+| `check` | function | `scripts/smoke_onboarding.sh:8` | `` |
+| `canonical_command_count` | function | `scripts/sync_doc_stats.py:87` | `def canonical_command_count(root)` |
+| `main` | function | `scripts/sync_doc_stats.py:165` | `def main()` |
+| `measure_stats` | function | `scripts/sync_doc_stats.py:109` | `def measure_stats(root)` |
+| `project_version` | function | `scripts/sync_doc_stats.py:100` | `def project_version(root)` |
+| `render` | function | `scripts/sync_doc_stats.py:136` | `def render(template, stats)` |
+| `sync` | function | `scripts/sync_doc_stats.py:141` | `def sync(check, stats, root)` |
+| `bdd_modules` | function | `scripts/test_bdd.sh:33` | `` |
+| `changed_tests` | function | `scripts/test_bdd.sh:37` | `` |
+| `check_doc_counts` | function | `scripts/top_tier_check.py:70` | `def check_doc_counts(commands, mcp, addons)` |
+| `check_release_inputs` | function | `scripts/top_tier_check.py:108` | `def check_release_inputs()` |
+| `check_tracked_secrets` | function | `scripts/top_tier_check.py:81` | `def check_tracked_secrets()` |
+| `check_versions` | function | `scripts/top_tier_check.py:52` | `def check_versions()` |
+| `count_addons` | function | `scripts/top_tier_check.py:48` | `def count_addons()` |
+| `count_cli_commands` | function | `scripts/top_tier_check.py:32` | `def count_cli_commands()` |
+| `count_mcp_tools` | function | `scripts/top_tier_check.py:43` | `def count_mcp_tools()` |
+| `fail` | function | `scripts/top_tier_check.py:23` | `def fail(message)` |
+| `main` | function | `scripts/top_tier_check.py:116` | `def main()` |
+| `ok` | function | `scripts/top_tier_check.py:28` | `def ok(message)` |
+| `build_technique_index` | function | `scripts/update_apt_atomic_ids.py:22` | `def build_technique_index(atomics_path)` |
+| `update_playbooks` | function | `scripts/update_apt_atomic_ids.py:46` | `def update_playbooks(index, playbook_dir)` |
+| `check` | function | `scripts/validate_agent_contract.sh:32` | `` |
+| `check_no_hardcoded_passwords` | function | `scripts/validate_agent_contract.sh:59` | `` |
+| `check_no_hardcoded_wordlists` | function | `scripts/validate_agent_contract.sh:74` | `` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

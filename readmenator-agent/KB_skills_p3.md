@@ -10,10 +10,10 @@ Previous: [KB_skills_p2.md](KB_skills_p2.md)
   - `_stable_id` (function, line 178) `def _stable_id(start, cmd, args, dest_ip)`
   - `_classify_row` (function, line 203) `def _classify_row(command, args, phase_hint)`
   - `ParquetDB` (class, line 244) `class ParquetDB`
-  - `verify_model_integrity` (function, line 892) `def verify_model_integrity(model_path, encoder_path, hash_path)`
-  - `_slim` (function, line 930) `def _slim(row)`
-  - `get_pdb` (function, line 948) `def get_pdb(lazyown_dir)`
-  - `main` (function, line 961) `def main()`
+  - `verify_model_integrity` (function, line 894) `def verify_model_integrity(model_path, encoder_path, hash_path)`
+  - `_slim` (function, line 932) `def _slim(row)`
+  - `get_pdb` (function, line 950) `def get_pdb(lazyown_dir)`
+  - `main` (function, line 963) `def main()`
   - `__init__` (method, line 295) `def __init__(self, lazyown_dir)`
   - `_load_session` (method, line 307) `def _load_session(self)`
   - `sync` (method, line 316) `def sync(self, csv_path)`
@@ -21,12 +21,12 @@ Previous: [KB_skills_p2.md](KB_skills_p2.md)
   - `annotate_rich` (method, line 434) `def annotate_rich(self, row_id, output, finding_type, target_service, target_port, campaign_id, success, category...`
   - `query_session` (method, line 490) `def query_session(self, phase, target, success_only, limit)`
   - `query_knowledge` (method, line 526) `def query_knowledge(self, keyword, parquet_name, columns, limit)`
-  - `query_atomic` (method, line 576) `def query_atomic(self, keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)`
-  - `context_for_phase` (method, line 630) `def context_for_phase(self, phase, target, limit)`
-  - `stats` (method, line 729) `def stats(self)`
-  - `list_parquets` (method, line 743) `def list_parquets(self)`
-  - `train_classifier` (method, line 748) `def train_classifier(self, min_rows)`
-  - `predict_success` (method, line 843) `def predict_success(self, command, category)`
+  - `query_atomic` (method, line 578) `def query_atomic(self, keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)`
+  - `context_for_phase` (method, line 632) `def context_for_phase(self, phase, target, limit)`
+  - `stats` (method, line 731) `def stats(self)`
+  - `list_parquets` (method, line 745) `def list_parquets(self)`
+  - `train_classifier` (method, line 750) `def train_classifier(self, min_rows)`
+  - `predict_success` (method, line 845) `def predict_success(self, command, category)`
 - Depends on: `core/logging.py`, `modules/atomic_enricher.py`, `skills/lazyown_policy.py`
 - Imported by: `cli/commands/mcp_bridge.py`, `modules/ttpscope_bridge.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/tests/test_parquet_db.py`, `skills/update_knowledge.py`, `tests/test_core_modules.py`
 

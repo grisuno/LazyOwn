@@ -372,36 +372,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `parse_args` (function, line 154) `def parse_args()`
 - Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 
-## modules/icmp_client.py
-- Doc: encrypt_data: Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `encrypt_data` (function, line 18) `def encrypt_data(data, key)`
-  - `decrypt_data` (function, line 34) `def decrypt_data(data, key)`
-  - `check_sudo` (function, line 57) `def check_sudo()`
-  - `checksum` (function, line 64) `def checksum(source_string)`
-  - `send_icmp_packet` (function, line 82) `def send_icmp_packet(dest_addr, data, key)`
-  - `receive_icmp_reply` (function, line 117) `def receive_icmp_reply(sock)`
-  - `main` (function, line 130) `def main()`
-
-## modules/icmp_server.py
-- Doc: encrypt_data: Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `check_sudo` (function, line 44) `def check_sudo()`
-  - `encrypt_data` (function, line 55) `def encrypt_data(data, key)`
-  - `decrypt_data` (function, line 71) `def decrypt_data(data, key)`
-  - `execute_command` (function, line 93) `def execute_command(command)`
-  - `send_icmp_reply` (function, line 112) `def send_icmp_reply(sock, addr, data, key)`
-  - `checksum` (function, line 132) `def checksum(source_string)`
-  - `handle_packet` (function, line 150) `def handle_packet(packet, addr, key, sock)`
-  - `listen_for_icmp` (function, line 175) `def listen_for_icmp(interface, key)`
-  - `main` (function, line 202) `def main()`
-- Depends on: `core/logging.py`, `modules/logging_config.py`
-- Imported by: `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
-
 ## modules/img2bin.py
 - Layer: utility
 - Language: py
@@ -474,6 +444,51 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `_is_placeholder` (method, line 964) `def _is_placeholder(value)`
 - Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
 - Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
+
+## modules/intercept.py
+- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
+  - `InterceptConfig` (class, line 33) `class InterceptConfig`
+  - `InterceptRule` (class, line 50) `class InterceptRule`
+  - `PendingApproval` (class, line 77) `class PendingApproval`
+  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
+  - `builtin_rules` (function, line 101) `def builtin_rules()`
+  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
+  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
+  - `Interceptor` (class, line 154) `class Interceptor`
+  - `Guard` (class, line 255) `class Guard`
+  - `__post_init__` (method, line 61) `def __post_init__(self)`
+  - `matches` (method, line 68) `def matches(self, tool, command)`
+  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
+  - `rules` (method, line 172) `def rules(self)`
+  - `add_rule` (method, line 177) `def add_rule(self, rule)`
+  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
+  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
+  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
+  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
+  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
+  - `__init__` (method, line 258) `def __init__(self, interceptor)`
+  - `interceptor` (method, line 266) `def interceptor(self)`
+  - `check` (method, line 270) `def check(self, tool, command)`
+  - `observe` (method, line 282) `def observe(self, output, source)`
+  - `record_failure` (method, line 291) `def record_failure(self, source)`
+  - `audit_log` (method, line 296) `def audit_log(self, limit)`
+  - `attribution` (method, line 301) `def attribution(self)`
+- Depends on: `cli/commands/enum.py`
+- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+
+## modules/internal_discover.sh
+- Layer: utility
+- Language: sh
+
+## modules/iptables_portforward.sh
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `display_usage` (function, line 29)
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

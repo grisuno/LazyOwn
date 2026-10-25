@@ -2,14 +2,6 @@
 Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## External Imports (continued)
-- `modules/logging_config.py` -> contextvars, datetime, json, logging.handlers, os, sys
-- `modules/loop_ai_bridge.py` -> __future__, threading
-- `modules/loop_guardrails.py` -> __future__, collections, contextlib, dataclasses, hashlib, json, math, os, pathlib, random, re, tempfile, threading, time
-- `modules/loop_progress.py` -> __future__, dataclasses, re, rich.live, rich.panel, rich.spinner, rich.table, rich.text, sys, threading, time
-- `modules/loop_triggers.py` -> __future__
-- `modules/macos_payloads.py` -> __future__, base64, dataclasses, os, pathlib, plistlib, subprocess, typing
-- `modules/mario.py` -> os, pygame
-- `modules/mcp_agent_bridge.py` -> datetime, groq, json, os, pathlib, re, requests, sys, threading, time, uuid
 - `modules/mediation/__init__.py` -> __future__
 - `modules/mediation/chain_mediator.py` -> __future__, typing
 - `modules/mediation/contracts.py` -> __future__, typing
@@ -92,7 +84,6 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `modules/stego_video.py` -> json, os, struct, subprocess, sys
 - `modules/sudo_tiocsti.py` -> argparse, fcntl, os, pathlib, subprocess, sys, time
 - `modules/surface_ops.py` -> __future__, json, pathlib, re
-- `modules/tel.py` -> Crypto.Cipher, datetime, json, re, requests, uuid
 - `modules/threat_model.py` -> __future__, argparse, csv, datetime, json, os, pathlib, re, typing
 - `modules/timeline_narrator.py` -> datetime, json, os, pathlib
 - `modules/timestomper.py` -> __future__, dataclasses, os, pathlib, random, typing
@@ -214,8 +205,8 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `static/js/quill-2.0.3.js` -> util
 - `static/js/select2-4.1.0.min.js` -> jquery, jquery.select2
 - `static/js/tippy-6.js` -> @popperjs/core
-- `telegram_c2.py` -> asyncio, csv, json, nest_asyncio, os, random, requests, telegram, telegram.ext, time
-- `telegram_hermes.py` -> asyncio, base64, fcntl, json, nest_asyncio, os, pathlib, pty, select, ssl, struct, subprocess, sys, telegram, telegram.ext, termios, time, urllib.error, urllib.request
+- `telegram_c2.py` -> asyncio, csv, hmac, json, nest_asyncio, os, random, requests, sys, telegram, telegram.ext, time
+- `telegram_hermes.py` -> asyncio, base64, fcntl, hmac, json, nest_asyncio, os, pathlib, pty, select, ssl, struct, subprocess, sys, telegram, telegram.ext, termios, time, urllib.error, urllib.request
 - `testmeneitor.py` -> ast, importlib.util, os, signal, subprocess, sys, unittest
 - `tests/conftest.py` -> __future__, importlib, pathlib, pytest, sys, tempfile
 - `tests/contract/test_suite_homologation.py` -> __future__, pathlib, pytest, re, sys
@@ -496,5 +487,14 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_safe_subprocess_behavior.py` -> __future__, json, pathlib, sys
 - `tests/test_safety_gates.py` -> __future__, os, time
 - `tests/test_scope_bound_auto_gate.py` -> __future__, engagement_hooks, importlib, json, pathlib, pytest, sys, time
+- `tests/test_scope_guard.py` -> __future__, pathlib, pytest, sys
+- `tests/test_scope_guard_integration.py` -> __future__, cmd2, pathlib, pytest, sys, types
+- `tests/test_security_alerts_fix.py` -> __future__, ast, json, os, pathlib, pytest, ssl, time
+- `tests/test_security_codeql_batch.py` -> __future__, base64, flask, flask_login, importlib.util, os, pathlib, pytest, ssl, stat, sys
+- `tests/test_security_hardening.py` -> __future__, ast, hmac, pathlib, pytest, tempfile
+- `tests/test_security_hardening_v2.py` -> __future__, pathlib, pytest, re
+- `tests/test_security_hardening_v3.py` -> __future__, ast, os, pathlib, pytest, subprocess, unittest.mock
+- `tests/test_security_hardening_v4.py` -> __future__, importlib, inspect, os, pathlib, pytest, sys, tempfile, unittest.mock
+- `tests/test_security_hardening_v5.py` -> __future__, flask, hashlib, os, pathlib, pytest, secrets, stat, subprocess, tempfile, unittest.mock
 
 Next: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)

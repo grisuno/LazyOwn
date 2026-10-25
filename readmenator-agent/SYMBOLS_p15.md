@@ -3,45 +3,6 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `save` | method | `modules/integrations/misp_export.py:322` | `def save(self, event, path)` |
-| `to_json` | method | `modules/integrations/misp_export.py:299` | `def to_json(self, event)` |
-| `LocalTemplateIndex` | class | `modules/integrations/nuclei_bridge.py:104` | `class LocalTemplateIndex(TemplateSelector)` |
-| `NucleiBridge` | class | `modules/integrations/nuclei_bridge.py:389` | `class NucleiBridge` |
-| `NucleiRunner` | class | `modules/integrations/nuclei_bridge.py:279` | `class NucleiRunner` |
-| `NucleiTemplate` | class | `modules/integrations/nuclei_bridge.py:71` | `class NucleiTemplate` |
-| `TemplateSelector` | class | `modules/integrations/nuclei_bridge.py:87` | `class TemplateSelector(ABC)` |
-| `_F` | class | `modules/integrations/nuclei_bridge.py:483` | `class _F` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:114` | `def __init__(self, templates_dir)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
-| `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
-| `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
-| `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
-| `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
-| `_extract_cve_from_text` | method | `modules/integrations/nuclei_bridge.py:253` | `def _extract_cve_from_text(text)` |
-| `_main` | function | `modules/integrations/nuclei_bridge.py:456` | `def _main()` |
-| `_matches` | method | `modules/integrations/nuclei_bridge.py:258` | `def _matches(tmpl, service_lower, cve_upper)` |
-| `_normalise_tags` | method | `modules/integrations/nuclei_bridge.py:238` | `def _normalise_tags(raw)` |
-| `_parse_regex` | method | `modules/integrations/nuclei_bridge.py:201` | `def _parse_regex(self, text, path)` |
-| `_parse_template` | method | `modules/integrations/nuclei_bridge.py:162` | `def _parse_template(self, path)` |
-| `_parse_yaml` | method | `modules/integrations/nuclei_bridge.py:172` | `def _parse_yaml(self, text, path)` |
-| `build` | method | `modules/integrations/nuclei_bridge.py:141` | `def build(self)` |
-| `get_bridge` | function | `modules/integrations/nuclei_bridge.py:443` | `def get_bridge()` |
-| `list_templates` | method | `modules/integrations/nuclei_bridge.py:427` | `def list_templates(self, services, cves)` |
-| `run` | method | `modules/integrations/nuclei_bridge.py:293` | `def run(self, target, templates, output_dir)` |
-| `run_for_findings` | method | `modules/integrations/nuclei_bridge.py:326` | `def run_for_findings(self, target, findings, output_dir, selector)` |
-| `scan` | method | `modules/integrations/nuclei_bridge.py:404` | `def scan(self, target, findings, dry_run)` |
-| `select` | method | `modules/integrations/nuclei_bridge.py:91` | `def select(self, services, cves)` |
-| `select` | method | `modules/integrations/nuclei_bridge.py:121` | `def select(self, services, cves)` |
-| `NucleiFinding` | class | `modules/integrations/nuclei_parser.py:71` | `class NucleiFinding` |
-| `NucleiParser` | class | `modules/integrations/nuclei_parser.py:99` | `class NucleiParser` |
-| `__init__` | method | `modules/integrations/nuclei_parser.py:109` | `def __init__(self, sessions_dir)` |
-| `_finding_to_dict` | method | `modules/integrations/nuclei_parser.py:504` | `def _finding_to_dict(finding)` |
-| `_parse_json_obj` | method | `modules/integrations/nuclei_parser.py:412` | `def _parse_json_obj(self, obj)` |
-| `_parse_line` | method | `modules/integrations/nuclei_parser.py:393` | `def _parse_line(self, line)` |
-| `_recommend_for_finding` | method | `modules/integrations/nuclei_parser.py:468` | `def _recommend_for_finding(self, finding, rhost)` |
-| `_summarize` | method | `modules/integrations/nuclei_parser.py:517` | `def _summarize(findings)` |
 | `enrich_world_model` | method | `modules/integrations/nuclei_parser.py:262` | `def enrich_world_model(self, findings, rhost)` |
 | `exploit_probability` | method | `modules/integrations/nuclei_parser.py:95` | `def exploit_probability(self)` |
 | `generate_recommendations` | method | `modules/integrations/nuclei_parser.py:300` | `def generate_recommendations(self, findings, rhost)` |
@@ -496,5 +457,44 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `_group` | method | `modules/lazy_loop.py:5651` | `def _group(self, eligible)` |
 | `_guard_step` | method | `modules/lazy_loop.py:4038` | `def _guard_step(self, intent, command, executor, budget, intercept, retry_state)` |
 | `_host_from_token` | function | `modules/lazy_loop.py:356` | `def _host_from_token(token)` |
+| `_intent_subtree` | method | `modules/lazy_loop.py:8247` | `def _intent_subtree(self, graph, intent_id)` |
+| `_is_ip_literal` | function | `modules/lazy_loop.py:249` | `def _is_ip_literal(value)` |
+| `_is_live_intent` | method | `modules/lazy_loop.py:5598` | `def _is_live_intent(self, node)` |
+| `_is_scan_command` | function | `modules/lazy_loop.py:5323` | `def _is_scan_command(command)` |
+| `_kill` | function | `modules/lazy_loop.py:435` | `def _kill()` |
+| `_llm_candidates` | method | `modules/lazy_loop.py:3406` | `def _llm_candidates(self, existing)` |
+| `_llm_error_reply` | function | `modules/lazy_loop.py:802` | `def _llm_error_reply(text)` |
+| `_llm_quota_reply` | function | `modules/lazy_loop.py:810` | `def _llm_quota_reply(text)` |
+| `_llm_steps` | method | `modules/lazy_loop.py:4828` | `def _llm_steps(self, intent, prior_text)` |
+| `_load` | method | `modules/lazy_loop.py:2443` | `def _load(self)` |
+| `_load` | method | `modules/lazy_loop.py:6446` | `def _load(self)` |
+| `_load` | method | `modules/lazy_loop.py:7150` | `def _load(self)` |
+| `_load` | method | `modules/lazy_loop.py:7268` | `def _load(self)` |
+| `_load` | method | `modules/lazy_loop.py:7417` | `def _load(self)` |
+| `_load_bodies` | method | `modules/lazy_loop.py:5460` | `def _load_bodies(self)` |
+| `_load_cold` | method | `modules/lazy_loop.py:5448` | `def _load_cold(self)` |
+| `_load_global` | method | `modules/lazy_loop.py:2178` | `def _load_global(self)` |
+| `_load_json` | function | `modules/lazy_loop.py:762` | `def _load_json(path, default)` |
+| `_load_task` | method | `modules/lazy_loop.py:2182` | `def _load_task(self)` |
+| `_mask_key` | function | `modules/lazy_loop.py:475` | `def _mask_key(match)` |
+| `_mask_prompt_context` | function | `modules/lazy_loop.py:6136` | `def _mask_prompt_context(text)` |
+| `_match_gate_rule` | function | `modules/lazy_loop.py:2127` | `def _match_gate_rule(rule, target)` |
+| `_maybe_import_inbox` | method | `modules/lazy_loop.py:9538` | `def _maybe_import_inbox(self)` |
+| `_maybe_proxy_gc` | method | `modules/lazy_loop.py:9512` | `def _maybe_proxy_gc(self)` |
+| `_maybe_selfupdate_check` | method | `modules/lazy_loop.py:9558` | `def _maybe_selfupdate_check(self)` |
+| `_missing_tool` | method | `modules/lazy_loop.py:4744` | `def _missing_tool(self, command)` |
+| `_noa_archive` | method | `modules/lazy_loop.py:5517` | `def _noa_archive(self, signature, members, anchors)` |
+| `_noa_enabled` | function | `modules/lazy_loop.py:702` | `def _noa_enabled()` |
+| `_normalize_refs` | method | `modules/lazy_loop.py:1758` | `def _normalize_refs(raw)` |
+| `_now` | function | `modules/lazy_loop.py:744` | `def _now()` |
+| `_open_shell_session` | method | `modules/lazy_loop.py:4311` | `def _open_shell_session(self, intent)` |
+| `_origin_fact` | method | `modules/lazy_loop.py:3224` | `def _origin_fact(self)` |
+| `_parts` | method | `modules/lazy_loop.py:7814` | `def _parts(self, task_id)` |
+| `_persist` | method | `modules/lazy_loop.py:976` | `def _persist(self)` |
+| `_persist` | method | `modules/lazy_loop.py:1147` | `def _persist(self)` |
+| `_persist` | method | `modules/lazy_loop.py:1843` | `def _persist(self)` |
+| `_persist` | method | `modules/lazy_loop.py:2578` | `def _persist(self)` |
+| `_persist` | method | `modules/lazy_loop.py:2618` | `def _persist(self)` |
+| `_prior_steps` | method | `modules/lazy_loop.py:3614` | `def _prior_steps(self, intent)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

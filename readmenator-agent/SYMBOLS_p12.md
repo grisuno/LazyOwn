@@ -3,29 +3,6 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_sync_credentials_file` | function | `modules/c2_agent.py:53` | `def _sync_credentials_file(user, password)` |
-| `_unverified_context` | function | `modules/c2_agent.py:78` | `def _unverified_context()` |
-| `build_agent` | function | `modules/c2_agent.py:376` | `def build_agent(c2_url, client_id, aes_hex, route, sleep, privilege)` |
-| `client_id_for` | function | `modules/c2_agent.py:88` | `def client_id_for(target, privilege)` |
-| `deploy` | function | `modules/c2_agent.py:497` | `def deploy(target, c2_base, route, lhost, sleep, privilege)` |
-| `ensure_http_listener` | method | `modules/c2_agent.py:740` | `def ensure_http_listener(self, http_port, auth)` |
-| `read_aes_hex` | function | `modules/c2_agent.py:492` | `def read_aes_hex()` |
-| `read_records` | function | `modules/c2_agent.py:603` | `def read_records(client_id, limit)` |
-| `start` | method | `modules/c2_agent.py:686` | `def start(self)` |
-| `status` | method | `modules/c2_agent.py:654` | `def status(self)` |
-| `stop` | method | `modules/c2_agent.py:717` | `def stop(self)` |
-| `validate_client_id` | function | `modules/c2_agent.py:113` | `def validate_client_id(raw)` |
-| `wait_record` | function | `modules/c2_agent.py:620` | `def wait_record(client_id, command, since, timeout)` |
-| `C2Builder` | class | `modules/c2_builder.py:392` | `class C2Builder` |
-| `C2Profile` | class | `modules/c2_builder.py:76` | `class C2Profile` |
-| `__init__` | method | `modules/c2_builder.py:395` | `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)` |
-| `_build_compile_commands` | function | `modules/c2_builder.py:310` | `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...` |
-| `_build_context` | function | `modules/c2_builder.py:361` | `def _build_context(sessions_dir)` |
-| `_command_output` | function | `modules/c2_builder.py:249` | `def _command_output(argv, timeout)` |
-| `_ensure_garble_toolchain` | method | `modules/c2_builder.py:413` | `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)` |
-| `_ensure_go` | function | `modules/c2_builder.py:59` | `def _ensure_go(cmd_fn)` |
-| `_garble_matches_toolchain` | function | `modules/c2_builder.py:287` | `def _garble_matches_toolchain(go_bin, garble_bin)` |
-| `_go_build_version` | function | `modules/c2_builder.py:268` | `def _go_build_version(go_bin, target)` |
 | `_go_string_list` | function | `modules/c2_builder.py:220` | `def _go_string_list(urls)` |
 | `_parse_go_version` | function | `modules/c2_builder.py:234` | `def _parse_go_version(text)` |
 | `_preflight` | function | `modules/c2_builder.py:160` | `def _preflight(profile)` |
@@ -496,5 +473,28 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `ACLTarget` | class | `modules/dacl_abuse.py:91` | `class ACLTarget` |
 | `DACLAbuseEngine` | class | `modules/dacl_abuse.py:113` | `class DACLAbuseEngine` |
 | `__init__` | method | `modules/dacl_abuse.py:136` | `def __init__(self, domain, domain_sid, acl_data)` |
+| `_calculate_severity` | method | `modules/dacl_abuse.py:384` | `def _calculate_severity(target)` |
+| `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
+| `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
+| `_is_dangerous_ace` | method | `modules/dacl_abuse.py:379` | `def _is_dangerous_ace(ace)` |
+| `adminsdholder_abuse_plan` | method | `modules/dacl_abuse.py:291` | `def adminsdholder_abuse_plan(self, target_sid)` |
+| `compute_attack_chains` | method | `modules/dacl_abuse.py:224` | `def compute_attack_chains(self)` |
+| `dcsync_rights_assignment_plan` | method | `modules/dacl_abuse.py:318` | `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` |
+| `owner_takeover_plan` | method | `modules/dacl_abuse.py:348` | `def owner_takeover_plan(self, target_dn, attacker_sid)` |
+| `parse_bloodhound_acls` | method | `modules/dacl_abuse.py:143` | `def parse_bloodhound_acls(self, edges)` |
+| `parse_raw_aces` | method | `modules/dacl_abuse.py:182` | `def parse_raw_aces(self, raw_nthashes)` |
+| `summary` | method | `modules/dacl_abuse.py:418` | `def summary(self)` |
+| `_aggregate_data` | function | `modules/dashboard_bp.py:113` | `def _aggregate_data()` |
+| `_count_lines` | function | `modules/dashboard_bp.py:103` | `def _count_lines(path)` |
+| `_normalize_ts` | function | `modules/dashboard_bp.py:913` | `def _normalize_ts(raw)` |
+| `_read_json` | function | `modules/dashboard_bp.py:93` | `def _read_json(path)` |
+| `_read_jsonl` | function | `modules/dashboard_bp.py:71` | `def _read_jsonl(path, last_n)` |
+| `_read_loot` | function | `modules/dashboard_bp.py:817` | `def _read_loot()` |
+| `_read_loot_lines` | function | `modules/dashboard_bp.py:800` | `def _read_loot_lines(pattern)` |
+| `_read_timeline` | function | `modules/dashboard_bp.py:934` | `def _read_timeline()` |
+| `_require_login` | function | `modules/dashboard_bp.py:30` | `def _require_login()` |
+| `dashboard_api_data` | function | `modules/dashboard_bp.py:784` | `def dashboard_api_data()` |
+| `dashboard_index` | function | `modules/dashboard_bp.py:778` | `def dashboard_index()` |
+| `dashboard_loot` | function | `modules/dashboard_bp.py:902` | `def dashboard_loot()` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

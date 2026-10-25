@@ -1215,7 +1215,7 @@ Append one activity record and return it.
 
 *Calls:* [`resolve`](modules.finding_lifecycle.py.md#resolve)
 
-*Called by:* [`FakeEngine.orchestrate`](modules.tools.loop_smoke.py.md#fakeengine-orchestrate), [`run`](modules.tools.monitor_smoke.py.md#run)
+*Called by:* [`require_mfa_socket`](lazyc2.py.md#require_mfa_socket), [`FakeEngine.orchestrate`](modules.tools.loop_smoke.py.md#fakeengine-orchestrate), [`run`](modules.tools.monitor_smoke.py.md#run)
 
 <a id="activitylog-read"></a>
 

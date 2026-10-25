@@ -370,33 +370,6 @@ Depends on: `modules/llm_client.py`
 - `spoofer` (function) `contrib/legacy/lazyarpspoofing.py:69` `def spoofer(target, spoofed, device)`
 - `main` (function) `contrib/legacy/lazyarpspoofing.py:80` `def main()`
 
-## contrib/legacy/lazybinenc.py
-Depends on: `cli/commands/pwn.py`, `core/console.py`, `core/prompt.py`
-- `generate_key_iv` (function) `contrib/legacy/lazybinenc.py:12` `def generate_key_iv(sessions_path)`
-- `main` (function) `contrib/legacy/lazybinenc.py:54` `def main()`
-
-## contrib/legacy/lazybotcli.py
-- `encrypt` (function) `contrib/legacy/lazybotcli.py:30` `def encrypt(plaintext, key)`
-- `decrypt` (function) `contrib/legacy/lazybotcli.py:36` `def decrypt(ciphertext, key)`
-- `main` (function) `contrib/legacy/lazybotcli.py:42` `def main()`
-
-## contrib/legacy/lazybotnet.py
-- `encrypt` (function) `contrib/legacy/lazybotnet.py:46` `def encrypt(plaintext, key)`
-- `decrypt` (function) `contrib/legacy/lazybotnet.py:52` `def decrypt(ciphertext, key)`
-- `add_to_botnet` (function) `contrib/legacy/lazybotnet.py:58` `def add_to_botnet(ip, port, botnet_file)`
-- `clean_botnet` (function) `contrib/legacy/lazybotnet.py:62` `def clean_botnet(ip, port, botnet_file)`
-- `send_to_botnet` (function) `contrib/legacy/lazybotnet.py:71` `def send_to_botnet(cmd, key, botnet_file)`
-- `Keylogger.__init__` (method) `contrib/legacy/lazybotnet.py:90` `def __init__(self, key, log_file)`
-- `Keylogger.on_press` (method) `contrib/legacy/lazybotnet.py:95` `def on_press(self, key)`
-- `Keylogger.start` (method) `contrib/legacy/lazybotnet.py:106` `def start(self)`
-- `Keylogger.get_log` (method) `contrib/legacy/lazybotnet.py:110` `def get_log(self)`
-- `Keylogger.save_log` (method) `contrib/legacy/lazybotnet.py:113` `def save_log(self)`
-- `Keylogger.run` (method) `contrib/legacy/lazybotnet.py:120` `def run(self)`
-- `Keylogger.setup_persistence` (method) `contrib/legacy/lazybotnet.py:125` `def setup_persistence(self)`
-- `Keylogger.create_shortcut` (method) `contrib/legacy/lazybotnet.py:136` `def create_shortcut(self, script_path, shortcut_path)`
-- `handle_client` (function) `contrib/legacy/lazybotnet.py:144` `def handle_client(conn, key, botnet_file, log_file)`
-- `start_server` (function) `contrib/legacy/lazybotnet.py:182` `def start_server(host, port, key, botnet_file, log_file)`
-
 ## contrib/legacy/lazycam.py
 - `RTSPScanner.__init__` (method) `contrib/legacy/lazycam.py:33` `def __init__(self, verbose, wspace)`
 - `RTSPScanner.run` (method) `contrib/legacy/lazycam.py:49` `def run(self)`
@@ -494,6 +467,24 @@ Depends on: `core/logging.py`
 - `process_packet` (function) `contrib/legacy/lazyhoneypot.py:137` `def process_packet(packet)`
 - `alert_admin` (function) `contrib/legacy/lazyhoneypot.py:147` `def alert_admin(message)`
 - `main` (function) `contrib/legacy/lazyhoneypot.py:165` `def main()`
+
+## contrib/legacy/lazyhttpreverseshell.py
+Depends on: `modules/backdoor/server.c`
+- `encrypt` (function) `contrib/legacy/lazyhttpreverseshell.py:14` `def encrypt(data)`
+- `decrypt` (function) `contrib/legacy/lazyhttpreverseshell.py:17` `def decrypt(data)`
+- `compress` (function) `contrib/legacy/lazyhttpreverseshell.py:20` `def compress(data)`
+- `decompress` (function) `contrib/legacy/lazyhttpreverseshell.py:23` `def decompress(data)`
+- `reverse_http_shell_client` (function) `contrib/legacy/lazyhttpreverseshell.py:26` `def reverse_http_shell_client(lhost, rhost, rport)`
+- `reverse_http_shell_server` (function) `contrib/legacy/lazyhttpreverseshell.py:50` `def reverse_http_shell_server(lhost, lport)`
+- `RequestHandler.do_GET` (method) `contrib/legacy/lazyhttpreverseshell.py:52` `def do_GET(self)`
+- `RequestHandler.do_POST` (method) `contrib/legacy/lazyhttpreverseshell.py:65` `def do_POST(self)`
+- `parse_arguments` (function) `contrib/legacy/lazyhttpreverseshell.py:88` `def parse_arguments(args)`
+
+## contrib/legacy/lazylfi2rce.py
+- `signal_handler` (function) `contrib/legacy/lazylfi2rce.py:29` `def signal_handler(sig, frame)`
+- `check_lfi_success` (function) `contrib/legacy/lazylfi2rce.py:35` `def check_lfi_success(response_text)`
+- `check_rfi_success` (function) `contrib/legacy/lazylfi2rce.py:39` `def check_rfi_success(response_text)`
+- `main` (function) `contrib/legacy/lazylfi2rce.py:43` `def main()`
 
 
 Next: [API_p6.md](API_p6.md)

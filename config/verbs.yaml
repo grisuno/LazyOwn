@@ -1202,12 +1202,6 @@ verbs:
     risk: safe
     description: Ejecuta el script lazyagentAi.py que se encuentra en la carpeta modules.
     source: addon
-  addon:lazybinenc:
-    enabled: false
-    phase: exploit
-    risk: safe
-    description: Ejecuta el script lazybinenc.py que se encuentra en la carpeta modules.
-    source: addon
   addon:lazyexploit:
     enabled: false
     phase: exploit

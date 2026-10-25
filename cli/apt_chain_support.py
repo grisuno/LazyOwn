@@ -409,18 +409,14 @@ def build_llm_recovery_chain(result: ChainRunResult, target: str = "", task_id: 
     failed = [outcome for outcome in result.steps if not outcome.ok]
     if not failed:
         return None
-    try:
-        from modules.lazy_loop import LlmPool
+    from modules.mediation import MediationDomains, resolve
 
-        pool = LlmPool()
-        if not pool.members():
-            return None
-    except Exception:
+    pool = resolve(MediationDomains.CHAIN).llm()
+    if not pool.has_members():
         return None
     ok_ids = [outcome.id for outcome in result.steps if outcome.ok][:8]
     failed_lines = "\n".join(
-        f"- {outcome.id}: {outcome.run[:160]} ({outcome.status}: {outcome.reason[:120]})"
-        for outcome in failed[:5]
+        f"- {outcome.id}: {outcome.run[:160]} ({outcome.status}: {outcome.reason[:120]})" for outcome in failed[:5]
     )
     prompt = (
         f"The APT chain '{result.name}' against {target or result.target} failed.\n"
@@ -431,7 +427,12 @@ def build_llm_recovery_chain(result: ChainRunResult, target: str = "", task_id: 
         "on this host. Never leave the authorized target. Never use sudo."
     )
     try:
-        reply = pool.complete(prompt, max_tokens=300, task_id=task_id) or ""
+        from modules.guardrails import TaskClass, global_harness
+
+        reply = (
+            global_harness().run_guarded(TaskClass.MISSION, pool.complete, prompt, max_tokens=300, task_id=task_id)
+            or ""
+        )
     except Exception:
         return None
     commands: list[str] = []

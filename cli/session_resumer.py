@@ -12,7 +12,6 @@ Design contract:
 
 from __future__ import annotations
 
-import json
 import logging
 import sys
 from dataclasses import dataclass
@@ -95,7 +94,9 @@ class SessionResumer:
             phase = "unknown"
             if world_model.exists():
                 try:
-                    wm_data = json.loads(world_model.read_text())
+                    from modules.world_model import read_state_dict
+
+                    wm_data = read_state_dict(world_model)
                     phase = str(wm_data.get("phase", "unknown"))
                 except (OSError, ValueError) as exc:
                     logging.getLogger(__name__).debug("Ignoring corrupt world model %s: %s", world_model, exc)

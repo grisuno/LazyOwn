@@ -870,7 +870,7 @@ class RedTeamReportGenerator:
         return captures
 
     def _load_json(self, filename: str) -> dict[str, Any]:
-        """Safely load a JSON file from sessions.
+        """Safely load a JSON file from sessions, decrypting at-rest state.
 
         Args:
             filename: Filename relative to sessions dir.
@@ -881,6 +881,10 @@ class RedTeamReportGenerator:
         path = SESSIONS_DIR / filename
         if not path.exists():
             return {}
+        if filename == "world_model.json":
+            from modules.world_model import read_state_dict
+
+            return read_state_dict(path)
         try:
             return json.loads(path.read_text())
         except (json.JSONDecodeError, OSError):

@@ -3,29 +3,6 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `target` | function | `modules/agent_runner.py:522` | `def target()` |
-| `to_api_format` | method | `modules/agent_runner.py:77` | `def to_api_format(self)` |
-| `wrapper` | function | `modules/agent_runner.py:244` | `def wrapper(command)` |
-| `AIExploitChainer` | class | `modules/ai_exploit_chain.py:247` | `class AIExploitChainer` |
-| `ExploitChainContext` | class | `modules/ai_exploit_chain.py:223` | `class ExploitChainContext` |
-| `__init__` | method | `modules/ai_exploit_chain.py:259` | `def __init__(self)` |
-| `_ensure` | method | `modules/ai_exploit_chain.py:487` | `def _ensure(context, strategy)` |
-| `_parse_shell_hints` | method | `modules/ai_exploit_chain.py:492` | `def _parse_shell_hints(self, output, context)` |
-| `adapt_chain` | method | `modules/ai_exploit_chain.py:428` | `def adapt_chain(self, context, new_info)` |
-| `build_chain_plan` | method | `modules/ai_exploit_chain.py:391` | `def build_chain_plan(self, context)` |
-| `estimate_confidence` | method | `modules/ai_exploit_chain.py:349` | `def estimate_confidence(self, strategy, profile)` |
-| `evaluate_failure` | method | `modules/ai_exploit_chain.py:306` | `def evaluate_failure(result)` |
-| `reason` | method | `modules/ai_exploit_chain.py:285` | `def reason(self, context)` |
-| `select_next_strategy` | method | `modules/ai_exploit_chain.py:318` | `def select_next_strategy(self, context)` |
-| `AIResult` | class | `modules/ai_fallback.py:95` | `class AIResult` |
-| `_best_ollama_model` | function | `modules/ai_fallback.py:113` | `def _best_ollama_model()` |
-| `_groq_call` | function | `modules/ai_fallback.py:189` | `def _groq_call(api_key, system, user, max_tokens, temperature)` |
-| `_is_quota_error` | function | `modules/ai_fallback.py:184` | `def _is_quota_error(exc)` |
-| `_ollama_available` | function | `modules/ai_fallback.py:105` | `def _ollama_available()` |
-| `_ollama_call` | function | `modules/ai_fallback.py:140` | `def _ollama_call(model, system, user, max_tokens, temperature)` |
-| `_toposwarm_call` | function | `modules/ai_fallback.py:226` | `def _toposwarm_call(prompt, system)` |
-| `call` | function | `modules/ai_fallback.py:254` | `def call(prompt, system, api_key, max_tokens, temperature)` |
-| `AIModel` | class | `modules/ai_model.py:45` | `class AIModel(ABC)` |
 | `AnthropicModel` | class | `modules/ai_model.py:493` | `class AnthropicModel(AIModel)` |
 | `DeepSeekModel` | class | `modules/ai_model.py:549` | `class DeepSeekModel(AIModel)` |
 | `GroqModel` | class | `modules/ai_model.py:129` | `class GroqModel(AIModel)` |
@@ -496,5 +473,28 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `_pid` | method | `modules/c2_agent.py:642` | `def _pid(self)` |
 | `_restore_key_from_snapshot` | function | `modules/c2_agent.py:457` | `def _restore_key_from_snapshot()` |
 | `_snapshot_key` | function | `modules/c2_agent.py:480` | `def _snapshot_key(aes_hex)` |
+| `_sync_credentials_file` | function | `modules/c2_agent.py:53` | `def _sync_credentials_file(user, password)` |
+| `_unverified_context` | function | `modules/c2_agent.py:78` | `def _unverified_context()` |
+| `build_agent` | function | `modules/c2_agent.py:376` | `def build_agent(c2_url, client_id, aes_hex, route, sleep, privilege)` |
+| `client_id_for` | function | `modules/c2_agent.py:88` | `def client_id_for(target, privilege)` |
+| `deploy` | function | `modules/c2_agent.py:497` | `def deploy(target, c2_base, route, lhost, sleep, privilege)` |
+| `ensure_http_listener` | method | `modules/c2_agent.py:740` | `def ensure_http_listener(self, http_port, auth)` |
+| `read_aes_hex` | function | `modules/c2_agent.py:492` | `def read_aes_hex()` |
+| `read_records` | function | `modules/c2_agent.py:603` | `def read_records(client_id, limit)` |
+| `start` | method | `modules/c2_agent.py:686` | `def start(self)` |
+| `status` | method | `modules/c2_agent.py:654` | `def status(self)` |
+| `stop` | method | `modules/c2_agent.py:717` | `def stop(self)` |
+| `validate_client_id` | function | `modules/c2_agent.py:113` | `def validate_client_id(raw)` |
+| `wait_record` | function | `modules/c2_agent.py:620` | `def wait_record(client_id, command, since, timeout)` |
+| `C2Builder` | class | `modules/c2_builder.py:392` | `class C2Builder` |
+| `C2Profile` | class | `modules/c2_builder.py:76` | `class C2Profile` |
+| `__init__` | method | `modules/c2_builder.py:395` | `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)` |
+| `_build_compile_commands` | function | `modules/c2_builder.py:310` | `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...` |
+| `_build_context` | function | `modules/c2_builder.py:361` | `def _build_context(sessions_dir)` |
+| `_command_output` | function | `modules/c2_builder.py:249` | `def _command_output(argv, timeout)` |
+| `_ensure_garble_toolchain` | method | `modules/c2_builder.py:413` | `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)` |
+| `_ensure_go` | function | `modules/c2_builder.py:59` | `def _ensure_go(cmd_fn)` |
+| `_garble_matches_toolchain` | function | `modules/c2_builder.py:287` | `def _garble_matches_toolchain(go_bin, garble_bin)` |
+| `_go_build_version` | function | `modules/c2_builder.py:268` | `def _go_build_version(go_bin, target)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

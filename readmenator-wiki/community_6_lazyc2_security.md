@@ -4,7 +4,7 @@
 
 ## Definition
 
-This community groups 52 file(s) rooted at `tests` with dominant language py (cohesion 0.47). Central symbols: `AESKeyManager`, `AutoRecommender`, `AutomationCommandSet`, `CSRFPolicy`, `CollabBusSink`, `CommandAllowlist`, `CommandDecision`, `CommandRejectionReason`. Core file: `lazyc2.py` (292 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
+This community groups 52 file(s) rooted at `tests` with dominant language py (cohesion 0.47). Central symbols: `AESKeyManager`, `AutoRecommender`, `AutomationCommandSet`, `CSRFPolicy`, `CollabBusSink`, `CommandAllowlist`, `CommandDecision`, `CommandRejectionReason`. Core file: `lazyc2.py` (298 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
@@ -63,7 +63,7 @@ This community groups 52 file(s) rooted at `tests` with dominant language py (co
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `lazyc2.py` | py | presentation | 292 | no |
+| `lazyc2.py` | py | presentation | 298 | no |
 
 ### `cli/commands` (1 files)
 
@@ -121,7 +121,7 @@ This community groups 52 file(s) rooted at `tests` with dominant language py (co
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 114
+- Internal resolved imports (EXTRACTED): 115
 - Cross-boundary resolved imports (EXTRACTED): 138
 
 ## Connections
@@ -142,7 +142,7 @@ This community groups 52 file(s) rooted at `tests` with dominant language py (co
 - [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
 - [dataflow UNCHECKED_ALLOC] `lazyc2.py:361` `_probe_bind` `probe`: Result of allocator stored in `probe` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `lazyc2.py:1981` `tcp_bridge` `server_socket`: Result of allocator stored in `server_socket` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `lazyc2.py:7068` `start_reverse_shell` `server_socket`: Result of allocator stored in `server_socket` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `lazyc2.py:7156` `start_reverse_shell` `server_socket`: Result of allocator stored in `server_socket` is never checked against NULL.
 
 ## Open Questions
 

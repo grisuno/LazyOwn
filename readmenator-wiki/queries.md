@@ -4,7 +4,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
-### Q: What does logging.py depend on, and what depends on it? (154 connections)
+### Q: What does logging.py depend on, and what depends on it? (153 connections)
 
 - Status: unanswered
 

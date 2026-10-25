@@ -1,10 +1,10 @@
 # static/js
 
-*Community 8 | 29 files | cohesion 0.41*
+*Community 8 | 29 files | cohesion 0.42*
 
 ## Definition
 
-This community groups 29 file(s) rooted at `static/js` with dominant language js (cohesion 0.41). Central symbols: `A`, `As`, `B`, `BUFFER`, `BackgroundSize`, `Be`, `BezierCurve`, `Bk`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
+This community groups 29 file(s) rooted at `static/js` with dominant language js (cohesion 0.42). Central symbols: `A`, `As`, `B`, `BUFFER`, `BackgroundSize`, `Be`, `BezierCurve`, `Bk`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
 
 ## Files
 
@@ -60,12 +60,6 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 |------|----------|-------|---------|-----|
 | `cli/commands/session_ops.py` | py | utility | 37 | yes |
 
-### `contrib/legacy` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `contrib/legacy/lazybinenc.py` | py | utility | 2 | no |
-
 ### `lazyc2` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
@@ -77,6 +71,12 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyown-docker/init.sh` | sh | utility | 0 | no |
+
+### `modules/rootkit` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/rootkit/rootkit.c` | c | utility | 13 | yes |
 
 *... and 9 more files in this community.*
 
@@ -117,7 +117,7 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 256
-- Cross-boundary resolved imports (EXTRACTED): 94
+- Cross-boundary resolved imports (EXTRACTED): 92
 
 ## Connections
 
@@ -133,12 +133,15 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 - [dataflow DEAD_STORE] `modules/exp.c:340` `set_stable_table_and_set` `set_id`: `set_id` assigned at line 340 but never read afterwards.
 - [dataflow DEAD_STORE] `modules/exp.c:344` `set_stable_table_and_set` `exprid`: `exprid` assigned at line 344 but never read afterwards.
 - [dataflow DEAD_STORE] `modules/exp.c:371` `set_stable_table_and_set` `seq`: `seq` assigned at line 371 but never read afterwards.
+- [dataflow DEAD_STORE] `modules/exp.c:356` `set_stable_table_and_set` `table_seq`: `table_seq` assigned at line 356 but never read afterwards.
+- [dataflow DEAD_STORE] `modules/exp.c:406` `set_trigger_set_and_overwrite` `exprid`: `exprid` assigned at line 406 but never read afterwards.
+- [dataflow DEAD_STORE] `modules/exp.c:423` `set_trigger_set_and_overwrite` `seq`: `seq` assigned at line 423 but never read afterwards.
 
 ## Open Questions
 
-- Why do 8 file(s) lack file-level docs (e.g. `contrib/legacy/lazybinenc.py`)? What purpose do they serve?
+- Why do 7 file(s) lack file-level docs (e.g. `key.py`)? What purpose do they serve?
 - What would break if the most connected file in static/js changed?
-- Should static/js be split, given cohesion 0.41?
+- Should static/js be split, given cohesion 0.42?
 
 ## Sources
 
@@ -147,13 +150,13 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 - `cli/session_resumer.py`
 - `cli/show.py`
 - `cli/style.py`
-- `contrib/legacy/lazybinenc.py`
 - `core/process.py`
 - `core/prompt.py`
 - `key.py`
 - `lazyc2/state.py`
 - `lazyown-docker/init.sh`
 - `modules/exp.c`
+- `modules/rootkit/rootkit.c`
 - `modules/search.py`
 - `static/js/3d-force-graph-1.73.4.min.js`
 - `static/js/bootstrap-4.5.2.min.js`

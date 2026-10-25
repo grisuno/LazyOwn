@@ -149,9 +149,6 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `cli/wizard.py` -> `modules/cli_auth.py`
 - `cli/wizard.py` -> `modules/llm_factory.py`
 - `contrib/legacy/lazyaddon_creator.py` -> `modules/llm_client.py`
-- `contrib/legacy/lazybinenc.py` -> `cli/commands/pwn.py`
-- `contrib/legacy/lazybinenc.py` -> `core/console.py`
-- `contrib/legacy/lazybinenc.py` -> `core/prompt.py`
 - `contrib/legacy/lazycreate_webshell.py` -> `modules/lazyencoder_decoder.py`
 - `contrib/legacy/lazydeepseekcli.py` -> `core/logging.py`
 - `contrib/legacy/lazygalazy.py` -> `modules/backdoor/server.c`
@@ -496,5 +493,8 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/filter_bar.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/graph_view.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/status_badge.py`
+- `lazygui/widgets/__init__.py` -> `lazygui/widgets/terminal_view.py`
+- `lazygui/widgets/beacon_command_modal.py` -> `lazygui/services/backend.py`
+- `lazygui/widgets/beacon_command_modal.py` -> `lazygui/services/models.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

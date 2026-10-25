@@ -17,6 +17,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           PR_BODY: ${{ github.event.pull_request.body }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
         run: |
           set -euo pipefail
           number="$(printf '%s' "$PR_BODY" | grep -Eo 'Journal:[[:space:]]*#[0-9]+' | grep -Eo '[0-9]+' | head -1 || true)"
@@ -24,10 +26,16 @@ jobs:
             echo "::error::The pull request body must cite the engineering journal, for example 'Journal: #12'. Run 'python3 -m scripts.read_journal' and read the recent entries before writing code."
             exit 1
           fi
+          case "$number" in
+            ''|*[!0-9]*)
+              echo "::error::Invalid journal reference."
+              exit 1
+              ;;
+          esac
           if ! gh api graphql \
             -f query='query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){discussion(number:$number){title}}}' \
-            -f owner="${{ github.repository_owner }}" \
-            -f name="${{ github.event.repository.name }}" \
+            -f owner="$REPO_OWNER" \
+            -f name="$REPO_NAME" \
             -F number="$number" | grep -q '"title"'; then
             echo "::error::Journal entry #$number does not exist in this repository."
             exit 1

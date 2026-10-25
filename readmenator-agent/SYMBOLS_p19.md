@@ -3,57 +3,6 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `build_parser` | function | `modules/nuclei_templates_sync.py:238` | `def build_parser()` |
-| `canonical_dest` | function | `modules/nuclei_templates_sync.py:48` | `def canonical_dest(subdir)` |
-| `clone_templates` | function | `modules/nuclei_templates_sync.py:84` | `def clone_templates(repo, staging)` |
-| `count_templates` | function | `modules/nuclei_templates_sync.py:132` | `def count_templates(tree)` |
-| `ensure_git_available` | function | `modules/nuclei_templates_sync.py:73` | `def ensure_git_available()` |
-| `main` | function | `modules/nuclei_templates_sync.py:337` | `def main(argv)` |
-| `normalize` | function | `modules/nuclei_templates_sync.py:179` | `def normalize(url)` |
-| `refresh_existing_clone` | function | `modules/nuclei_templates_sync.py:188` | `def refresh_existing_clone(path, repo)` |
-| `replace_dest` | function | `modules/nuclei_templates_sync.py:144` | `def replace_dest(src, dest, expected)` |
-| `repo_root` | function | `modules/nuclei_templates_sync.py:39` | `def repo_root()` |
-| `resolve_plan` | function | `modules/nuclei_templates_sync.py:308` | `def resolve_plan(args)` |
-| `run` | function | `modules/nuclei_templates_sync.py:60` | `def run(argv, cwd)` |
-| `same_remote` | function | `modules/nuclei_templates_sync.py:168` | `def same_remote(path, repo)` |
-| `strip_git_traces` | function | `modules/nuclei_templates_sync.py:113` | `def strip_git_traces(tree)` |
-| `sync` | function | `modules/nuclei_templates_sync.py:263` | `def sync(name, repo, dest, refresh_existing, skip_validate)` |
-| `validate_subset` | function | `modules/nuclei_templates_sync.py:209` | `def validate_subset(dest, subset)` |
-| `Extractor` | class | `modules/obs_parser.py:95` | `class Extractor(ABC)` |
-| `Finding` | class | `modules/obs_parser.py:66` | `class Finding` |
-| `FindingType` | class | `modules/obs_parser.py:50` | `class FindingType(StrEnum)` |
-| `ObsParser` | class | `modules/obs_parser.py:423` | `class ObsParser` |
-| `Observation` | class | `modules/obs_parser.py:76` | `class Observation` |
-| `_CVEExtractor` | class | `modules/obs_parser.py:283` | `class _CVEExtractor(Extractor)` |
-| `_CloudIdentityExtractor` | class | `modules/obs_parser.py:355` | `class _CloudIdentityExtractor(Extractor)` |
-| `_CredentialExtractor` | class | `modules/obs_parser.py:145` | `class _CredentialExtractor(Extractor)` |
-| `_DomainExtractor` | class | `modules/obs_parser.py:299` | `class _DomainExtractor(Extractor)` |
-| `_EmailExtractor` | class | `modules/obs_parser.py:318` | `class _EmailExtractor(Extractor)` |
-| `_ErrorExtractor` | class | `modules/obs_parser.py:334` | `class _ErrorExtractor(Extractor)` |
-| `_ExtractorRegistry` | class | `modules/obs_parser.py:103` | `class _ExtractorRegistry` |
-| `_HashExtractor` | class | `modules/obs_parser.py:257` | `class _HashExtractor(Extractor)` |
-| `_IPExtractor` | class | `modules/obs_parser.py:127` | `class _IPExtractor(Extractor)` |
-| `_PathExtractor` | class | `modules/obs_parser.py:219` | `class _PathExtractor(Extractor)` |
-| `_ServiceVersionExtractor` | class | `modules/obs_parser.py:193` | `class _ServiceVersionExtractor(Extractor)` |
-| `_SuccessDetector` | class | `modules/obs_parser.py:390` | `class _SuccessDetector` |
-| `_UsernameExtractor` | class | `modules/obs_parser.py:235` | `class _UsernameExtractor(Extractor)` |
-| `__init__` | method | `modules/obs_parser.py:106` | `def __init__(self)` |
-| `__init__` | method | `modules/obs_parser.py:431` | `def __init__(self)` |
-| `by_type` | method | `modules/obs_parser.py:83` | `def by_type(self, ftype)` |
-| `extract` | method | `modules/obs_parser.py:99` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:134` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:175` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:198` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:224` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:245` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:271` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:288` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:305` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:323` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:345` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:367` | `def extract(self, text, host)` |
-| `get_parser` | function | `modules/obs_parser.py:500` | `def get_parser()` |
-| `has` | method | `modules/obs_parser.py:86` | `def has(self, ftype)` |
 | `is_success` | method | `modules/obs_parser.py:407` | `def is_success(self, text)` |
 | `parse` | method | `modules/obs_parser.py:454` | `def parse(self, output, host, tool)` |
 | `parse` | function | `modules/obs_parser.py:508` | `def parse(output, host, tool)` |
@@ -496,5 +445,56 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `collect_command_history` | method | `modules/professional_report.py:912` | `def collect_command_history(self, max_entries)` |
 | `collect_data` | method | `modules/professional_report.py:179` | `def collect_data(self)` |
 | `collect_loot_summary` | method | `modules/professional_report.py:936` | `def collect_loot_summary(self)` |
+| `generate` | method | `modules/professional_report.py:247` | `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` |
+| `generate_executive_summary` | method | `modules/professional_report.py:982` | `def generate_executive_summary(self, data, with_ai, ai_backend)` |
+| `download_kernel_sources` | function | `modules/r.sh:10` | `` |
+| `ReactionPick` | class | `modules/reaction_bridge.py:66` | `class ReactionPick` |
+| `__init__` | method | `modules/reaction_bridge.py:69` | `def __init__(self, command, reason, priority, mitre)` |
+| `_buffer_path` | function | `modules/reaction_bridge.py:76` | `def _buffer_path(task_id)` |
+| `_load_buffer` | function | `modules/reaction_bridge.py:143` | `def _load_buffer(task_id)` |
+| `_placeholder_value` | function | `modules/reaction_bridge.py:154` | `def _placeholder_value(value)` |
+| `_write_buffer` | function | `modules/reaction_bridge.py:150` | `def _write_buffer(task_id, payload)` |
+| `find_credentials` | function | `modules/reaction_bridge.py:159` | `def find_credentials(output)` |
+| `load_reaction_triggers` | function | `modules/reaction_bridge.py:108` | `def load_reaction_triggers(task_id, consumer)` |
+| `save_decisions` | function | `modules/reaction_bridge.py:80` | `def save_decisions(task_id, decisions)` |
+| `AVBlockedMatcher` | class | `modules/reactive_engine.py:102` | `class AVBlockedMatcher(AbstractSignalMatcher)` |
+| `AbstractSignalMatcher` | class | `modules/reactive_engine.py:97` | `class AbstractSignalMatcher(ABC)` |
+| `CredentialFoundMatcher` | class | `modules/reactive_engine.py:147` | `class CredentialFoundMatcher(AbstractSignalMatcher)` |
+| `DataOfInterestMatcher` | class | `modules/reactive_engine.py:323` | `class DataOfInterestMatcher(AbstractSignalMatcher)` |
+| `EvasionAdvisor` | class | `modules/reactive_engine.py:481` | `class EvasionAdvisor` |
+| `LateralOpportunityMatcher` | class | `modules/reactive_engine.py:293` | `class LateralOpportunityMatcher(AbstractSignalMatcher)` |
+| `NewHostMatcher` | class | `modules/reactive_engine.py:209` | `class NewHostMatcher(AbstractSignalMatcher)` |
+| `ParquetAdvisor` | class | `modules/reactive_engine.py:389` | `class ParquetAdvisor` |
+| `PrivescAdvisor` | class | `modules/reactive_engine.py:537` | `class PrivescAdvisor` |
+| `PrivescHintMatcher` | class | `modules/reactive_engine.py:174` | `class PrivescHintMatcher(AbstractSignalMatcher)` |
+| `ReactiveDecision` | class | `modules/reactive_engine.py:80` | `class ReactiveDecision` |
+| `ReactiveEngine` | class | `modules/reactive_engine.py:804` | `class ReactiveEngine` |
+| `SemanticContextAdvisor` | class | `modules/reactive_engine.py:632` | `class SemanticContextAdvisor` |
+| `ServiceVersionMatcher` | class | `modules/reactive_engine.py:232` | `class ServiceVersionMatcher(AbstractSignalMatcher)` |
+| `ShellErrorMatcher` | class | `modules/reactive_engine.py:262` | `class ShellErrorMatcher(AbstractSignalMatcher)` |
+| `Signal` | class | `modules/reactive_engine.py:69` | `class Signal` |
+| `__init__` | method | `modules/reactive_engine.py:395` | `def __init__(self, root)` |
+| `__init__` | method | `modules/reactive_engine.py:644` | `def __init__(self, rag, config_loader, min_score, query_limit)` |
+| `__init__` | method | `modules/reactive_engine.py:810` | `def __init__(self, matchers, evasion, privesc, parquet, semantic)` |
+| `_default_config_loader` | function | `modules/reactive_engine.py:42` | `def _default_config_loader()` |
+| `_enabled` | method | `modules/reactive_engine.py:697` | `def _enabled(self)` |
+| `_extract_verb` | method | `modules/reactive_engine.py:715` | `def _extract_verb(source)` |
+| `_load` | method | `modules/reactive_engine.py:402` | `def _load(self)` |
+| `_load_rag` | method | `modules/reactive_engine.py:671` | `def _load_rag(self)` |
+| `analyse` | method | `modules/reactive_engine.py:835` | `def analyse(self, output, command, platform, context)` |
+| `get_engine` | function | `modules/reactive_engine.py:977` | `def get_engine()` |
+| `gtfobins_for` | method | `modules/reactive_engine.py:421` | `def gtfobins_for(self, binary)` |
+| `lolbas_for` | method | `modules/reactive_engine.py:434` | `def lolbas_for(self, binary)` |
+| `match` | method | `modules/reactive_engine.py:99` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:128` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:159` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:192` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:214` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:247` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:276` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:307` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:349` | `def match(self, output, context)` |
+| `suggest` | method | `modules/reactive_engine.py:504` | `def suggest(self, signals, platform)` |
+| `suggest` | method | `modules/reactive_engine.py:565` | `def suggest(self, signals, platform, parquet)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

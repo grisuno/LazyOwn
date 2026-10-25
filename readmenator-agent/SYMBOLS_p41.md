@@ -3,60 +3,6 @@ Previous: [SYMBOLS_p40.md](SYMBOLS_p40.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `test_summarize_window_filters_old_records` | function | `tests/test_metrics.py:124` | `def test_summarize_window_filters_old_records(tmp_path)` |
-| `test_tail_returns_newest_first` | function | `tests/test_metrics.py:163` | `def test_tail_returns_newest_first(tmp_path)` |
-| `worker` | function | `tests/test_metrics.py:180` | `def worker(tag)` |
-| `_BrokenSource` | class | `tests/test_metrics_aware_selector.py:217` | `class _BrokenSource` |
-| `_StubMetrics` | class | `tests/test_metrics_aware_selector.py:54` | `class _StubMetrics` |
-| `_StubSelector` | class | `tests/test_metrics_aware_selector.py:37` | `class _StubSelector(ICommandSelector)` |
-| `__init__` | method | `tests/test_metrics_aware_selector.py:40` | `def __init__(self, decision)` |
-| `__init__` | method | `tests/test_metrics_aware_selector.py:57` | `def __init__(self, by_command)` |
-| `_decision` | function | `tests/test_metrics_aware_selector.py:71` | `def _decision(command)` |
-| `fake_clock` | function | `tests/test_metrics_aware_selector.py:169` | `def fake_clock()` |
-| `select` | method | `tests/test_metrics_aware_selector.py:44` | `def select(self, target, phase, context)` |
-| `summarize` | method | `tests/test_metrics_aware_selector.py:62` | `def summarize(self, window_seconds)` |
-| `summarize` | method | `tests/test_metrics_aware_selector.py:218` | `def summarize(self, window_seconds)` |
-| `test_accepts_when_success_rate_at_threshold` | function | `tests/test_metrics_aware_selector.py:122` | `def test_accepts_when_success_rate_at_threshold()` |
-| `test_chain_falls_through_to_fallback_when_all_filtered` | function | `tests/test_metrics_aware_selector.py:298` | `def test_chain_falls_through_to_fallback_when_all_filtered()` |
-| `test_decorator_degrades_when_metrics_source_unavailable` | function | `tests/test_metrics_aware_selector.py:214` | `def test_decorator_degrades_when_metrics_source_unavailable()` |
-| `test_filtering_emits_skip_event` | function | `tests/test_metrics_aware_selector.py:265` | `def test_filtering_emits_skip_event(tmp_path, monkeypatch)` |
-| `test_filters_when_success_rate_below_threshold` | function | `tests/test_metrics_aware_selector.py:105` | `def test_filters_when_success_rate_below_threshold()` |
-| `test_only_filters_named_command_not_whole_decision_object` | function | `tests/test_metrics_aware_selector.py:141` | `def test_only_filters_named_command_not_whole_decision_object()` |
-| `test_passthrough_when_insufficient_attempts` | function | `tests/test_metrics_aware_selector.py:87` | `def test_passthrough_when_insufficient_attempts()` |
-| `test_passthrough_when_wrapped_returns_none` | function | `tests/test_metrics_aware_selector.py:75` | `def test_passthrough_when_wrapped_returns_none()` |
-| `test_summary_forwards_window_seconds` | function | `tests/test_metrics_aware_selector.py:188` | `def test_summary_forwards_window_seconds()` |
-| `test_summary_is_cached_within_ttl` | function | `tests/test_metrics_aware_selector.py:158` | `def test_summary_is_cached_within_ttl()` |
-| `test_wrap_chain_is_idempotent` | function | `tests/test_metrics_aware_selector.py:253` | `def test_wrap_chain_is_idempotent()` |
-| `test_wrap_chain_leaves_fallback_unwrapped` | function | `tests/test_metrics_aware_selector.py:230` | `def test_wrap_chain_leaves_fallback_unwrapped()` |
-| `test_wrap_chain_master_switch_off` | function | `tests/test_metrics_aware_selector.py:241` | `def test_wrap_chain_master_switch_off()` |
-| `test_zero_window_is_treated_as_unbounded` | function | `tests/test_metrics_aware_selector.py:201` | `def test_zero_window_is_treated_as_unbounded()` |
-| `_module_all` | function | `tests/test_migrate_lazyown_generator.py:27` | `def _module_all(source)` |
-| `test_all_is_static_and_matches_class_name` | function | `tests/test_migrate_lazyown_generator.py:62` | `def test_all_is_static_and_matches_class_name()` |
-| `test_compound_phase_title_casing` | function | `tests/test_migrate_lazyown_generator.py:68` | `def test_compound_phase_title_casing()` |
-| `test_generated_module_parses` | function | `tests/test_migrate_lazyown_generator.py:57` | `def test_generated_module_parses()` |
-| `test_method_bodies_are_embedded_in_order` | function | `tests/test_migrate_lazyown_generator.py:81` | `def test_method_bodies_are_embedded_in_order()` |
-| `test_no_unevaluated_fstring_all_literal` | function | `tests/test_migrate_lazyown_generator.py:74` | `def test_no_unevaluated_fstring_all_literal()` |
-| `TestClassify` | class | `tests/test_module_registry.py:20` | `class TestClassify` |
-| `TestFormatFunctions` | class | `tests/test_module_registry.py:185` | `class TestFormatFunctions` |
-| `TestModuleInfo` | class | `tests/test_module_registry.py:36` | `class TestModuleInfo` |
-| `TestModuleRegistry` | class | `tests/test_module_registry.py:75` | `class TestModuleRegistry` |
-| `test_by_type_shorthand` | method | `tests/test_module_registry.py:159` | `def test_by_type_shorthand(self)` |
-| `test_empty_string` | method | `tests/test_module_registry.py:31` | `def test_empty_string(self)` |
-| `test_format_module_detail` | method | `tests/test_module_registry.py:201` | `def test_format_module_detail(self)` |
-| `test_format_module_detail_minimal` | method | `tests/test_module_registry.py:217` | `def test_format_module_detail_minimal(self)` |
-| `test_format_module_table_empty` | method | `tests/test_module_registry.py:186` | `def test_format_module_table_empty(self)` |
-| `test_format_module_table_with_data` | method | `tests/test_module_registry.py:190` | `def test_format_module_table_with_data(self)` |
-| `test_full_construction` | method | `tests/test_module_registry.py:44` | `def test_full_construction(self)` |
-| `test_get_known_module` | method | `tests/test_module_registry.py:133` | `def test_get_known_module(self)` |
-| `test_get_unknown_returns_none` | method | `tests/test_module_registry.py:145` | `def test_get_unknown_returns_none(self)` |
-| `test_initial_state_not_scanned` | method | `tests/test_module_registry.py:87` | `def test_initial_state_not_scanned(self)` |
-| `test_known_categories` | method | `tests/test_module_registry.py:21` | `def test_known_categories(self)` |
-| `test_minimal_construction` | method | `tests/test_module_registry.py:37` | `def test_minimal_construction(self)` |
-| `test_repr` | method | `tests/test_module_registry.py:70` | `def test_repr(self)` |
-| `test_rescan_forces_refresh` | method | `tests/test_module_registry.py:106` | `def test_rescan_forces_refresh(self)` |
-| `test_scan_is_idempotent` | method | `tests/test_module_registry.py:99` | `def test_scan_is_idempotent(self)` |
-| `test_scan_returns_list` | method | `tests/test_module_registry.py:92` | `def test_scan_returns_list(self)` |
-| `test_search_by_category` | method | `tests/test_module_registry.py:127` | `def test_search_by_category(self)` |
 | `test_search_by_module_type` | method | `tests/test_module_registry.py:121` | `def test_search_by_module_type(self)` |
 | `test_search_enabled_only_filters_disabled` | method | `tests/test_module_registry.py:164` | `def test_search_enabled_only_filters_disabled(self)` |
 | `test_search_returns_list` | method | `tests/test_module_registry.py:115` | `def test_search_returns_list(self)` |
@@ -496,5 +442,59 @@ Previous: [SYMBOLS_p40.md](SYMBOLS_p40.md)
 | `test_shipped_payload_has_no_errors` | method | `tests/test_payload_schema.py:182` | `def test_shipped_payload_has_no_errors(self)` |
 | `test_shipped_payload_keys_are_all_in_schema` | method | `tests/test_payload_schema.py:57` | `def test_shipped_payload_keys_are_all_in_schema(self)` |
 | `test_unknown_key_in_payload_is_info` | method | `tests/test_payload_schema.py:175` | `def test_unknown_key_in_payload_is_info(self)` |
+| `test_unknown_key_passthrough` | method | `tests/test_payload_schema.py:155` | `def test_unknown_key_passthrough(self)` |
+| `test_unknown_key_returns_info` | method | `tests/test_payload_schema.py:73` | `def test_unknown_key_returns_info(self)` |
+| `test_url_validates` | method | `tests/test_payload_schema.py:112` | `def test_url_validates(self)` |
+| `test_valid_ip_passes` | method | `tests/test_payload_schema.py:86` | `def test_valid_ip_passes(self)` |
+| `TestConsumePolicyFacts` | class | `tests/test_phase1_data_gaps.py:265` | `class TestConsumePolicyFacts` |
+| `TestCredentialAwareRetry` | class | `tests/test_phase1_data_gaps.py:490` | `class TestCredentialAwareRetry` |
+| `TestEmailAndDomainEntries` | class | `tests/test_phase1_data_gaps.py:158` | `class TestEmailAndDomainEntries` |
+| `TestEmailExtractor` | class | `tests/test_phase1_data_gaps.py:103` | `class TestEmailExtractor` |
+| `TestFindingMetadata` | class | `tests/test_phase1_data_gaps.py:56` | `class TestFindingMetadata` |
+| `TestFullDataFlow` | class | `tests/test_phase1_data_gaps.py:562` | `class TestFullDataFlow` |
+| `TestGraphTopologySignal` | class | `tests/test_phase1_data_gaps.py:376` | `class TestGraphTopologySignal` |
+| `TestObsParserIncludesEmailExtractor` | class | `tests/test_phase1_data_gaps.py:130` | `class TestObsParserIncludesEmailExtractor` |
+| `TestServiceVersionExtractor` | class | `tests/test_phase1_data_gaps.py:72` | `class TestServiceVersionExtractor` |
+| `TestUpdateFromFindings` | class | `tests/test_phase1_data_gaps.py:198` | `class TestUpdateFromFindings` |
+| `TestWorldModelEmailDomain` | class | `tests/test_phase1_data_gaps.py:174` | `class TestWorldModelEmailDomain` |
+| `TestWorldModelPersistence` | class | `tests/test_phase1_data_gaps.py:332` | `class TestWorldModelPersistence` |
+| `_make_finding` | function | `tests/test_phase1_data_gaps.py:49` | `def _make_finding(ftype, value, host, metadata)` |
+| `parser` | function | `tests/test_phase1_data_gaps.py:36` | `def parser()` |
+| `test_add_domain_stores_and_adds_note` | method | `tests/test_phase1_data_gaps.py:181` | `def test_add_domain_stores_and_adds_note(self, world_model)` |
+| `test_add_domain_without_host` | method | `tests/test_phase1_data_gaps.py:189` | `def test_add_domain_without_host(self, world_model)` |
+| `test_add_email_stores_and_deduplicates` | method | `tests/test_phase1_data_gaps.py:175` | `def test_add_email_stores_and_deduplicates(self, world_model)` |
+| `test_computes_centrality_from_graph_when_no_candidates` | method | `tests/test_phase1_data_gaps.py:452` | `def test_computes_centrality_from_graph_when_no_candidates(self, tmp_path)` |
+| `test_consume_empty_file_returns_zero` | method | `tests/test_phase1_data_gaps.py:266` | `def test_consume_empty_file_returns_zero(self, world_model, tmp_path)` |
+| `test_consume_ingests_hosts_and_services` | method | `tests/test_phase1_data_gaps.py:272` | `def test_consume_ingests_hosts_and_services(self, world_model, tmp_path)` |
+| `test_consume_malformed_json_returns_zero` | method | `tests/test_phase1_data_gaps.py:322` | `def test_consume_malformed_json_returns_zero(self, world_model, tmp_path)` |
+| `test_consume_nonexistent_file_returns_zero` | method | `tests/test_phase1_data_gaps.py:318` | `def test_consume_nonexistent_file_returns_zero(self, world_model)` |
+| `test_credential_aware_rank_boosts_brute_force` | method | `tests/test_phase1_data_gaps.py:501` | `def test_credential_aware_rank_boosts_brute_force(self)` |
+| `test_credential_aware_rank_boosts_credential_reuse` | method | `tests/test_phase1_data_gaps.py:526` | `def test_credential_aware_rank_boosts_credential_reuse(self)` |
+| `test_credential_aware_rank_handles_empty_creds` | method | `tests/test_phase1_data_gaps.py:543` | `def test_credential_aware_rank_handles_empty_creds(self)` |
+| `test_deduplicates_emails` | method | `tests/test_phase1_data_gaps.py:119` | `def test_deduplicates_emails(self)` |
+| `test_domain_entry_defaults` | method | `tests/test_phase1_data_gaps.py:165` | `def test_domain_entry_defaults(self)` |
+| `test_domain_finding_calls_add_domain` | method | `tests/test_phase1_data_gaps.py:227` | `def test_domain_finding_calls_add_domain(self, world_model)` |
+| `test_email_entry_defaults` | method | `tests/test_phase1_data_gaps.py:159` | `def test_email_entry_defaults(self)` |
+| `test_email_finding_calls_add_email` | method | `tests/test_phase1_data_gaps.py:235` | `def test_email_finding_calls_add_email(self, world_model)` |
+| `test_emails_and_domains_survive_roundtrip` | method | `tests/test_phase1_data_gaps.py:333` | `def test_emails_and_domains_survive_roundtrip(self, world_model)` |
+| `test_error_finding_adds_note` | method | `tests/test_phase1_data_gaps.py:243` | `def test_error_finding_adds_note(self, world_model)` |
+| `test_error_finding_no_host_uses_sentinel` | method | `tests/test_phase1_data_gaps.py:252` | `def test_error_finding_no_host_uses_sentinel(self, world_model)` |
+| `test_extracts_multiple_emails` | method | `tests/test_phase1_data_gaps.py:111` | `def test_extracts_multiple_emails(self)` |
+| `test_extracts_single_email` | method | `tests/test_phase1_data_gaps.py:104` | `def test_extracts_single_email(self)` |
+| `test_finding_accepts_metadata` | method | `tests/test_phase1_data_gaps.py:61` | `def test_finding_accepts_metadata(self)` |
+| `test_finding_has_metadata_default_empty` | method | `tests/test_phase1_data_gaps.py:57` | `def test_finding_has_metadata_default_empty(self)` |
+| `test_ignores_non_email` | method | `tests/test_phase1_data_gaps.py:124` | `def test_ignores_non_email(self)` |
+| `test_multiple_services_extracted` | method | `tests/test_phase1_data_gaps.py:81` | `def test_multiple_services_extracted(self)` |
+| `test_parser_extracts_emails_from_output` | method | `tests/test_phase1_data_gaps.py:131` | `def test_parser_extracts_emails_from_output(self, parser)` |
+| `test_parser_still_extracts_service_versions_with_metadata` | method | `tests/test_phase1_data_gaps.py:141` | `def test_parser_still_extracts_service_versions_with_metadata(self, parser)` |
+| `test_port_and_protocol_in_metadata` | method | `tests/test_phase1_data_gaps.py:73` | `def test_port_and_protocol_in_metadata(self)` |
+| `test_produces_credential_spray_proposals` | method | `tests/test_phase1_data_gaps.py:425` | `def test_produces_credential_spray_proposals(self, tmp_path)` |
+| `test_produces_lateral_proposals_from_host_nodes` | method | `tests/test_phase1_data_gaps.py:388` | `def test_produces_lateral_proposals_from_host_nodes(self, tmp_path)` |
+| `test_recon_to_world_model_to_recommendation` | method | `tests/test_phase1_data_gaps.py:563` | `def test_recon_to_world_model_to_recommendation(self, world_model, parser)` |
+| `test_reset_clears_emails_and_domains` | method | `tests/test_phase1_data_gaps.py:349` | `def test_reset_clears_emails_and_domains(self, world_model)` |
+| `test_retry_with_no_open_ports_returns_empty` | method | `tests/test_phase1_data_gaps.py:491` | `def test_retry_with_no_open_ports_returns_empty(self)` |
+| `test_returns_empty_on_nonexistent_world_model` | method | `tests/test_phase1_data_gaps.py:377` | `def test_returns_empty_on_nonexistent_world_model(self)` |
+| `test_service_version_calls_add_service` | method | `tests/test_phase1_data_gaps.py:199` | `def test_service_version_calls_add_service(self, world_model)` |
+| `test_service_version_no_longer_adds_note` | method | `tests/test_phase1_data_gaps.py:213` | `def test_service_version_no_longer_adds_note(self, world_model)` |
 
 Next: [SYMBOLS_p42.md](SYMBOLS_p42.md)

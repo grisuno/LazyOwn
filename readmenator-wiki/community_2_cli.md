@@ -64,7 +64,7 @@ This community groups 126 file(s) rooted at `tests` with dominant language py (c
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazy_sentinel4.py` | py | utility | 47 | no |
-| `lazyown.py` | py | utility | 128 | yes |
+| `lazyown.py` | py | utility | 124 | yes |
 
 ### `scripts/devtools` (1 files)
 
@@ -117,7 +117,7 @@ This community groups 126 file(s) rooted at `tests` with dominant language py (c
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 507
-- Cross-boundary resolved imports (EXTRACTED): 331
+- Cross-boundary resolved imports (EXTRACTED): 330
 
 ## Connections
 

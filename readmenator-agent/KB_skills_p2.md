@@ -150,7 +150,7 @@ Previous: [KB_skills.md](KB_skills.md)
   - `context_for_command` (method, line 896) `def context_for_command(self, host, category)`
   - `summary` (method, line 986) `def summary(self, host)`
 - Depends on: `core/logging.py`, `modules/logging_config.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
 
 ## skills/lazyown_groq_agents.py
 - Doc: skills/lazyown_groq_agents.py
@@ -438,10 +438,14 @@ Previous: [KB_skills.md](KB_skills.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `list_tools` (function, line 62) `def list_tools()`
-  - `call_tool` (function, line 81) `def call_tool(name, arguments)`
-  - `main` (function, line 89) `def main()`
-- Depends on: `modules/backdoor/server.c`, `skills/lazyown_mcp.py`
+  - `_sync_harness` (function, line 101) `def _sync_harness()`
+  - `_harness_result` (function, line 119) `def _harness_result(payload)`
+  - `_call_harness_tool` (function, line 123) `def _call_harness_tool(name, arguments)`
+  - `list_tools` (function, line 178) `def list_tools()`
+  - `call_tool` (function, line 198) `def call_tool(name, arguments)`
+  - `main` (function, line 208) `def main()`
+- Depends on: `modules/__init__.py`, `modules/backdoor/server.c`, `modules/harness.py`, `modules/orchestrator_config.py`, `skills/lazyown_mcp.py`
+- Imported by: `tests/test_opencode_mcp_harness.py`
 
 ## skills/lazyown_objective.py
 - Doc: LazyOwn Objective Store
@@ -484,7 +488,7 @@ Previous: [KB_skills.md](KB_skills.md)
   - `update_credentials` (method, line 432) `def update_credentials(self, creds)`
   - `update_access` (method, line 459) `def update_access(self, level, target, method)`
   - `update_vulnerabilities` (method, line 466) `def update_vulnerabilities(self, vulns)`
-- Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_objectives.py`, `tests/test_daemon_loop.py`
+- Imported by: `modules/golden_path.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_objectives.py`, `tests/test_daemon_loop.py`, `tests/test_golden_path.py`
 
 
 Next: [KB_skills_p3.md](KB_skills_p3.md)

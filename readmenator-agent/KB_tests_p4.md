@@ -1,4 +1,4 @@
-# Subsystem: tests (page 4 of 19)
+# Subsystem: tests (page 4 of 20)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
 
 ## tests/test_c2_agent.py
@@ -27,6 +27,30 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `__init__` (method, line 160) `def __init__(self)`
   - `__init__` (method, line 183) `def __init__(self)`
 - Depends on: `lazyown.py`, `modules/__init__.py`
+
+## tests/test_c2_agent_dual.py
+- Doc: Dual C2 client profiles (lowpriv/root) contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_specs_dir` (function, line 23) `def _specs_dir()`
+  - `ClientIdProfiles` (class, line 46) `class ClientIdProfiles(TestCase)`
+  - `BuildAgentProfiles` (class, line 63) `class BuildAgentProfiles(TestCase)`
+  - `OpenShellPrivilegeFilter` (class, line 78) `class OpenShellPrivilegeFilter(TestCase)`
+  - `DeployProfiles` (class, line 98) `class DeployProfiles(TestCase)`
+  - `test_default_lowpriv_id` (method, line 47) `def test_default_lowpriv_id(self)`
+  - `test_root_id_suffix` (method, line 50) `def test_root_id_suffix(self)`
+  - `test_invalid_privilege_rejected` (method, line 53) `def test_invalid_privilege_rejected(self)`
+  - `test_ids_validate` (method, line 57) `def test_ids_validate(self)`
+  - `test_lowpriv_default` (method, line 64) `def test_lowpriv_default(self)`
+  - `test_root_profile` (method, line 69) `def test_root_profile(self)`
+  - `test_invalid_privilege` (method, line 73) `def test_invalid_privilege(self)`
+  - `test_root_request_excludes_lowpriv_specs` (method, line 79) `def test_root_request_excludes_lowpriv_specs(self)`
+  - `test_lowpriv_accepts_best_ranked` (method, line 86) `def test_lowpriv_accepts_best_ranked(self)`
+  - `test_unknown_privilege` (method, line 93) `def test_unknown_privilege(self)`
+  - `test_unknown_privilege` (method, line 99) `def test_unknown_privilege(self)`
+  - `test_root_without_root_primitive` (method, line 103) `def test_root_without_root_primitive(self)`
+- Depends on: `modules/__init__.py`
 
 ## tests/test_c2_profile_engine.py
 - Doc: Tests for modules/c2_profile_engine.py — TlsProfile, DnsProfile, SmbProfile, WebSocketProfile...
@@ -465,13 +489,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `claude_md_text` (function, line 22) `def claude_md_text()`
   - `test_claude_md_reports_actual_test_file_count` (function, line 28) `def test_claude_md_reports_actual_test_file_count(claude_md_text)`
   - `test_claude_md_does_not_reference_deduplicated_config` (function, line 41) `def test_claude_md_does_not_reference_deduplicated_config(claude_md_text)`
-
-## tests/test_claudemd_size.py
-- Doc: Enforce a hard cap on ``CLAUDE.md`` size.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_claude_md_under_size_budget` (function, line 22) `def test_claude_md_under_size_budget()`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

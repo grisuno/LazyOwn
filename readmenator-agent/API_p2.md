@@ -125,7 +125,7 @@ Imported by: `tests/test_encoding_command_set.py`
 
 ## cli/commands/enum.py
 Depends on: `cli/commands/_base.py`, `core/validators.py`, `utils.py`
-Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/blueprints/auth.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
+Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/blueprints/auth.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/guardrails/contracts.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
 - `EnumCommandSet.do_smbclient` (method) `cli/commands/enum.py:38` `def do_smbclient(self, line)` -- Interacts with SMB shares using the `smbclient` command to perform the following operations:
 - `EnumCommandSet.do_smbclient_impacket` (method) `cli/commands/enum.py:108` `def do_smbclient_impacket(self, line)` -- Interacts with SMB shares using the `smbclient` command to perform the following operations:
 - `EnumCommandSet.do_smbclient_py` (method) `cli/commands/enum.py:178` `def do_smbclient_py(self, line)` -- Interacts with SMB shares using the `smbclient.py` command to perform the following operations:
@@ -255,6 +255,14 @@ Depends on: `cli/commands/_base.py`, `modules/exploitgym_gym.py`, `utils.py`
 Imported by: `tests/test_exploitgym_gym.py`
 - `ExploitGymCommandSet.do_exploitgym` (method) `cli/commands/exploitgym.py:43` `def do_exploitgym(self, line)` -- ExploitGym — real-world exploit benchmark via containerised tasks.
 
+## cli/commands/golden_paths.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `GoldenPathsCommandSet.do_golden_paths` (method) `cli/commands/golden_paths.py:42` `def do_golden_paths(self, line)` -- Build, show, or push attack paths from the world model.
+
+## cli/commands/gym_matrix.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `GymMetasploitableCommandSet.do_gym_metasploitable` (method) `cli/commands/gym_matrix.py:79` `def do_gym_metasploitable(self, line)` -- Plan, run, and report the Metasploitable 2 gym matrix.
+
 ## cli/commands/help_ui.py
 Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/command_explorer.py`, `cli/commands/_base.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/engagement_hooks.py`, `cli/ops_commands.py`, `cli/tui_theme.py`, `cli/tutorial.py`, `cli/wizard.py`, `cli/wizard_scope.py`, `core/config.py`, `core/console.py`, `modules/world_model.py`, `utils.py`
 Imported by: `tests/test_help_ui_command_set.py`
@@ -321,7 +329,7 @@ Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/domain_domina
 
 ## cli/commands/lazyloop.py
 Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
-Imported by: `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
+Imported by: `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
 - `LazyQueueCommandSet.do_lazy_sync` (method) `cli/commands/lazyloop.py:36` `def do_lazy_sync(self, line)` -- Run bidirectional LAZY sync into world model and objectives.
 - `LazyQueueCommandSet.do_lazy_intents` (method) `cli/commands/lazyloop.py:51` `def do_lazy_intents(self, line)` -- List engine intents for a task, optionally filtered by state.
 - `LazyQueueCommandSet.do_lazy_delete` (method) `cli/commands/lazyloop.py:71` `def do_lazy_delete(self, line)` -- Delete an engine intent; soft keeps outputs, hard cascades.
@@ -480,17 +488,6 @@ Imported by: `tests/test_nethelpers_command_set.py`
 - `NetworkHelpersCommandSet.do_ignoreicmp` (method) `cli/commands/nethelpers.py:383` `def do_ignoreicmp(self, line)` -- Configures the system to ignore ICMP echo requests by setting a kernel parameter.
 - `NetworkHelpersCommandSet.do_acknowledgearp` (method) `cli/commands/nethelpers.py:418` `def do_acknowledgearp(self, line)` -- Configures the system to acknowledge ARP requests by setting a kernel parameter.
 - `NetworkHelpersCommandSet.do_acknowledgeicmp` (method) `cli/commands/nethelpers.py:453` `def do_acknowledgeicmp(self, line)` -- Configures the system to respond to ICMP echo requests by setting a kernel parameter.
-
-## cli/commands/opsec_cleanup.py
-Depends on: `cli/commands/_base.py`, `modules/forensic_cleaner.py`, `modules/log_tamper.py`, `modules/memory_cleaner.py`, `modules/network_opsec.py`, `modules/opsec_scorer.py`, `modules/timestomper.py`
-- `OpsecCleanupCommandSet.do_opsec_score` (method) `cli/commands/opsec_cleanup.py:25` `def do_opsec_score(self, line)` -- Real-time OPSEC risk assessment with contextual action gating (v2).
-- `OpsecCleanupCommandSet.do_log_tamper` (method) `cli/commands/opsec_cleanup.py:97` `def do_log_tamper(self, line)` -- Cross-platform log clearing commands.
-- `OpsecCleanupCommandSet.do_forensic_clean` (method) `cli/commands/opsec_cleanup.py:162` `def do_forensic_clean(self, line)` -- Clean forensic artifacts — Prefetch, Shimcache, Amcache, Jump Lists, etc.
-- `OpsecCleanupCommandSet.do_timestomp` (method) `cli/commands/opsec_cleanup.py:219` `def do_timestomp(self, line)` -- Manipulate file MACB timestamps to evade forensic timeline analysis.
-- `OpsecCleanupCommandSet.do_memory_clean` (method) `cli/commands/opsec_cleanup.py:288` `def do_memory_clean(self, line)` -- Clean memory artifacts — Kerberos tickets, clipboard, env vars, credentials.
-- `OpsecCleanupCommandSet.do_network_opsec` (method) `cli/commands/opsec_cleanup.py:342` `def do_network_opsec(self, line)` -- Network OPSEC — proxy chains, DoH, canary detection, traffic analysis.
-- `OpsecCleanupCommandSet.do_auditd_disable` (method) `cli/commands/opsec_cleanup.py:445` `def do_auditd_disable(self, line)` -- Generate commands to disable Linux auditd.
-- `OpsecCleanupCommandSet.do_sysmon_disable` (method) `cli/commands/opsec_cleanup.py:468` `def do_sysmon_disable(self, line)` -- Generate commands to disable Windows Sysmon.
 
 
 Next: [API_p3.md](API_p3.md)

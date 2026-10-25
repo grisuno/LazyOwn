@@ -854,9 +854,11 @@ class TipsEngine:
             self._print_badge("Deep Recon", "50+ commands in a single session")
         if cmd.lower() in {"linpeas", "winpeas", "crystal_ball"} and "first_owned" not in badges:
             try:
+                from modules.world_model import read_state_dict
+
                 wm_path = Path(self.config.sessions_dir) / "world_model.json"
                 if wm_path.exists():
-                    wm = json.loads(wm_path.read_text(encoding="utf-8"))
+                    wm = read_state_dict(wm_path)
                     hosts = wm.get("hosts", {})
                     if any(isinstance(h, dict) and h.get("state") == "owned" for h in hosts.values()):
                         badges.append("first_owned")

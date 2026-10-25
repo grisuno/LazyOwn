@@ -10,48 +10,50 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `command_descriptions` (function, line 99) `def command_descriptions()`
   - `verb_candidates` (function, line 113) `def verb_candidates()`
   - `LazyOrchestratorApp` (class, line 144) `class LazyOrchestratorApp(OrchestratorAssetsMixin)`
-  - `run_orchestrator_console` (function, line 994) `def run_orchestrator_console(task_id, shell)`
+  - `run_orchestrator_console` (function, line 1045) `def run_orchestrator_console(task_id, shell)`
   - `__init__` (method, line 174) `def __init__(self, payload_path, task_id, shell, param_root)`
   - `_param_root` (method, line 204) `def _param_root(self)`
   - `compose` (method, line 208) `def compose(self)`
-  - `on_mount` (method, line 260) `def on_mount(self)`
-  - `toggle_stage` (method, line 276) `def toggle_stage(self, name)`
-  - `toggle_verb` (method, line 285) `def toggle_verb(self, name)`
-  - `add_auto_verb` (method, line 301) `def add_auto_verb(self, name, keywords, needs_target, description, phases)`
-  - `remove_auto_verb` (method, line 324) `def remove_auto_verb(self, name)`
-  - `_resolve_task` (method, line 332) `def _resolve_task(self)`
-  - `_poll_now` (method, line 350) `def _poll_now(self)`
-  - `on_button_pressed` (method, line 385) `def on_button_pressed(self, event)`
-  - `action_refresh` (method, line 403) `def action_refresh(self)`
-  - `_refresh_params` (method, line 417) `def _refresh_params(self)`
-  - `create_param` (method, line 440) `def create_param(self, name, kind, default, description, category)`
-  - `update_param` (method, line 480) `def update_param(self, name, default, description)`
-  - `delete_param` (method, line 512) `def delete_param(self, name)`
-  - `_selected_row` (method, line 535) `def _selected_row(self, table_id)`
-  - `action_toggle_item` (method, line 544) `def action_toggle_item(self)`
-  - `action_save_config` (method, line 574) `def action_save_config(self)`
-  - `_active_tab` (method, line 584) `def _active_tab(self)`
-  - `action_add_item` (method, line 591) `def action_add_item(self)`
-  - `action_edit_item` (method, line 823) `def action_edit_item(self)`
-  - `action_delete_item` (method, line 902) `def action_delete_item(self)`
-  - `_done` (function, line 881) `def _done(values)`
-  - `_picked_kind` (function, line 596) `def _picked_kind(value)`
-  - `_done_param` (function, line 854) `def _done_param(values)`
-  - `_done_trigger` (function, line 600) `def _done_trigger(values)`
-  - `_done` (function, line 625) `def _done(values)`
-  - `_done_param` (function, line 642) `def _done_param(values)`
-  - `_done_rule` (function, line 672) `def _done_rule(values)`
-  - `_confirmed` (function, line 930) `def _confirmed(answer)`
-  - `_picked` (function, line 689) `def _picked(value)`
-  - `_confirmed_gym` (function, line 943) `def _confirmed_gym(answer)`
-  - `_done_verb` (function, line 693) `def _done_verb(values)`
-  - `_done_new` (function, line 735) `def _done_new(values)`
-  - `_done_new_gym` (function, line 763) `def _done_new_gym(values)`
-  - `_confirmed_param` (function, line 967) `def _confirmed_param(answer)`
-  - `_done_chain` (function, line 810) `def _done_chain(playbook)`
-  - `_confirmed_trigger` (function, line 984) `def _confirmed_trigger(answer)`
+  - `on_mount` (method, line 274) `def on_mount(self)`
+  - `toggle_stage` (method, line 292) `def toggle_stage(self, name)`
+  - `toggle_verb` (method, line 301) `def toggle_verb(self, name)`
+  - `add_auto_verb` (method, line 317) `def add_auto_verb(self, name, keywords, needs_target, description, phases)`
+  - `remove_auto_verb` (method, line 340) `def remove_auto_verb(self, name)`
+  - `_resolve_task` (method, line 348) `def _resolve_task(self)`
+  - `_poll_now` (method, line 366) `def _poll_now(self)`
+  - `on_button_pressed` (method, line 401) `def on_button_pressed(self, event)`
+  - `_submit_config_save` (method, line 415) `def _submit_config_save(self)`
+  - `_submit_harness_save` (method, line 431) `def _submit_harness_save(self)`
+  - `action_refresh` (method, line 454) `def action_refresh(self)`
+  - `_refresh_params` (method, line 468) `def _refresh_params(self)`
+  - `create_param` (method, line 491) `def create_param(self, name, kind, default, description, category)`
+  - `update_param` (method, line 531) `def update_param(self, name, default, description)`
+  - `delete_param` (method, line 563) `def delete_param(self, name)`
+  - `_selected_row` (method, line 586) `def _selected_row(self, table_id)`
+  - `action_toggle_item` (method, line 595) `def action_toggle_item(self)`
+  - `action_save_config` (method, line 625) `def action_save_config(self)`
+  - `_active_tab` (method, line 635) `def _active_tab(self)`
+  - `action_add_item` (method, line 642) `def action_add_item(self)`
+  - `action_edit_item` (method, line 874) `def action_edit_item(self)`
+  - `action_delete_item` (method, line 953) `def action_delete_item(self)`
+  - `_done` (function, line 932) `def _done(values)`
+  - `_picked_kind` (function, line 647) `def _picked_kind(value)`
+  - `_done_param` (function, line 905) `def _done_param(values)`
+  - `_done_trigger` (function, line 651) `def _done_trigger(values)`
+  - `_done` (function, line 676) `def _done(values)`
+  - `_done_param` (function, line 693) `def _done_param(values)`
+  - `_done_rule` (function, line 723) `def _done_rule(values)`
+  - `_confirmed` (function, line 981) `def _confirmed(answer)`
+  - `_picked` (function, line 740) `def _picked(value)`
+  - `_confirmed_gym` (function, line 994) `def _confirmed_gym(answer)`
+  - `_done_verb` (function, line 744) `def _done_verb(values)`
+  - `_done_new` (function, line 786) `def _done_new(values)`
+  - `_done_new_gym` (function, line 814) `def _done_new_gym(values)`
+  - `_confirmed_param` (function, line 1018) `def _confirmed_param(answer)`
+  - `_done_chain` (function, line 861) `def _done_chain(playbook)`
+  - `_confirmed_trigger` (function, line 1035) `def _confirmed_trigger(answer)`
 - Depends on: `cli/commands/containers.py`, `cli/orchestrator_assets_tabs.py`, `cli/palette.py`, `cli/tui_forms.py`, `core/param_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/redteam_gym.py`, `modules/verb_catalog.py`
-- Imported by: `cli/commands/lazyloop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_param_registry.py`
+- Imported by: `cli/commands/lazyloop.py`, `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_param_registry.py`
 
 ## cli/lazynmap_post.py
 - Doc: Post-scan side effects executed at the tail of ``do_lazynmap``.
@@ -64,11 +66,10 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `_enabled` (function, line 164) `def _enabled(payload, cfg)`
   - `_default_engine_factory` (function, line 180) `def _default_engine_factory(payload, cfg)`
   - `_update_world_model_phase` (function, line 188) `def _update_world_model_phase(cfg, target, clock_fn)`
-  - `_emit_event` (function, line 213) `def _emit_event(cfg, target, plan, plan_path, clock_fn)`
-  - `_atomic_write_json` (function, line 263) `def _atomic_write_json(path, data, mode)`
-  - `_safe_log` (function, line 291) `def _safe_log(console, message)`
-- Depends on: `cli/exploration.py`, `cli/recon_plan.py`
-- Imported by: `cli/commands/recon.py`, `lazyown.py`, `tests/test_lazynmap_post.py`
+  - `_emit_event` (function, line 212) `def _emit_event(cfg, target, plan, plan_path, clock_fn)`
+  - `_safe_log` (function, line 262) `def _safe_log(console, message)`
+- Depends on: `cli/exploration.py`, `cli/recon_plan.py`, `modules/killchain.py`
+- Imported by: `cli/commands/recon.py`, `lazyown.py`, `tests/test_lazynmap_post.py`, `tests/test_single_source_of_truth.py`
 
 ## cli/marketplace_config.py
 - Doc: Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools.
@@ -174,40 +175,41 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `_count_pivots` (function, line 385) `def _count_pivots(sessions_dir)`
   - `phase_progress` (function, line 393) `def phase_progress(world, sessions_dir)`
   - `_read_json` (function, line 425) `def _read_json(path)`
-  - `_write_json_atomic` (function, line 433) `def _write_json_atomic(path, data)`
-  - `_count_glob` (function, line 450) `def _count_glob(pattern)`
-  - `note_add` (function, line 468) `def note_add(text, rhost, phase)`
-  - `note_list` (function, line 493) `def note_list(rhost, limit)`
-  - `LootEntry` (class, line 545) `class LootEntry`
-  - `gather_loot` (function, line 571) `def gather_loot(sessions_dir)`
-  - `loot_show` (function, line 614) `def loot_show(sessions_dir)`
-  - `_loot_provenance` (function, line 657) `def _loot_provenance(query, sessions_dir)`
-  - `loot_search` (function, line 686) `def loot_search(query, sessions_dir)`
-  - `_cred_outcomes_for_host` (function, line 731) `def _cred_outcomes_for_host(world, host)`
-  - `_cred_node` (function, line 758) `def _cred_node(value)`
-  - `loot_reuse` (function, line 763) `def loot_reuse(rhost, sessions_dir)`
-  - `loot_graph` (function, line 847) `def loot_graph(sessions_dir)`
-  - `resolve_cred_value` (function, line 917) `def resolve_cred_value(selector, entries)`
-  - `loot_mark` (function, line 945) `def loot_mark(selector, outcome, host, sessions_dir)`
-  - `pivot_add` (function, line 987) `def pivot_add(new_ip, via_ip, note)`
-  - `pivot_list` (function, line 1013) `def pivot_list()`
-  - `_load_tasks` (function, line 1059) `def _load_tasks()`
-  - `_save_tasks` (function, line 1066) `def _save_tasks(tasks)`
-  - `tasks_list` (function, line 1070) `def tasks_list(status_filter, limit)`
-  - `tasks_add` (function, line 1125) `def tasks_add(title, operator)`
-  - `tasks_done` (function, line 1146) `def tasks_done(task_id)`
-  - `tasks_start` (function, line 1166) `def tasks_start(task_id)`
-  - `scans_list` (function, line 1189) `def scans_list(rhost, sessions_dir)`
-  - `sitrep` (function, line 1242) `def sitrep(payload, sessions_dir)`
-  - `_print_next_steps` (function, line 1386) `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)`
-  - `_render_steps` (function, line 1448) `def _render_steps(steps)`
-  - `_read_plan` (function, line 1453) `def _read_plan()`
-  - `_human_age` (function, line 1474) `def _human_age(seconds)`
-  - `_human_size` (function, line 1484) `def _human_size(n)`
-  - `value` (method, line 561) `def value(self)`
-  - `_bucket` (function, line 861) `def _bucket(node)`
-  - `_host_label` (function, line 864) `def _host_label(node)`
-  - `_join` (function, line 901) `def _join(items)`
+  - `_read_world_model` (function, line 433) `def _read_world_model(path)`
+  - `_write_json_atomic` (function, line 440) `def _write_json_atomic(path, data)`
+  - `_count_glob` (function, line 457) `def _count_glob(pattern)`
+  - `note_add` (function, line 475) `def note_add(text, rhost, phase)`
+  - `note_list` (function, line 500) `def note_list(rhost, limit)`
+  - `LootEntry` (class, line 552) `class LootEntry`
+  - `gather_loot` (function, line 578) `def gather_loot(sessions_dir)`
+  - `loot_show` (function, line 621) `def loot_show(sessions_dir)`
+  - `_loot_provenance` (function, line 664) `def _loot_provenance(query, sessions_dir)`
+  - `loot_search` (function, line 693) `def loot_search(query, sessions_dir)`
+  - `_cred_outcomes_for_host` (function, line 738) `def _cred_outcomes_for_host(world, host)`
+  - `_cred_node` (function, line 765) `def _cred_node(value)`
+  - `loot_reuse` (function, line 770) `def loot_reuse(rhost, sessions_dir)`
+  - `loot_graph` (function, line 854) `def loot_graph(sessions_dir)`
+  - `resolve_cred_value` (function, line 924) `def resolve_cred_value(selector, entries)`
+  - `loot_mark` (function, line 952) `def loot_mark(selector, outcome, host, sessions_dir)`
+  - `pivot_add` (function, line 994) `def pivot_add(new_ip, via_ip, note)`
+  - `pivot_list` (function, line 1020) `def pivot_list()`
+  - `_load_tasks` (function, line 1066) `def _load_tasks()`
+  - `_save_tasks` (function, line 1073) `def _save_tasks(tasks)`
+  - `tasks_list` (function, line 1077) `def tasks_list(status_filter, limit)`
+  - `tasks_add` (function, line 1132) `def tasks_add(title, operator)`
+  - `tasks_done` (function, line 1153) `def tasks_done(task_id)`
+  - `tasks_start` (function, line 1173) `def tasks_start(task_id)`
+  - `scans_list` (function, line 1196) `def scans_list(rhost, sessions_dir)`
+  - `sitrep` (function, line 1249) `def sitrep(payload, sessions_dir)`
+  - `_print_next_steps` (function, line 1393) `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)`
+  - `_render_steps` (function, line 1455) `def _render_steps(steps)`
+  - `_read_plan` (function, line 1460) `def _read_plan()`
+  - `_human_age` (function, line 1481) `def _human_age(seconds)`
+  - `_human_size` (function, line 1491) `def _human_size(n)`
+  - `value` (method, line 568) `def value(self)`
+  - `_bucket` (function, line 868) `def _bucket(node)`
+  - `_host_label` (function, line 871) `def _host_label(node)`
+  - `_join` (function, line 908) `def _join(items)`
 - Depends on: `core/safe_console.py`, `modules/killchain.py`, `modules/world_model.py`
 - Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_killchain_unified.py`, `tests/test_ops_loot_phase.py`
 
@@ -264,15 +266,21 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `add_model_member` (method, line 756) `def add_model_member(self, name, model, priority)`
   - `remove_model_member` (method, line 764) `def remove_model_member(self, name)`
   - `set_model_priority` (method, line 772) `def set_model_priority(self, name, priority)`
-  - `add_guard_rule` (method, line 784) `def add_guard_rule(self, pattern, action, reason)`
-  - `remove_guard_rule` (method, line 792) `def remove_guard_rule(self, pattern)`
-  - `_refresh_models` (method, line 800) `def _refresh_models(self)`
-  - `_refresh_guard` (method, line 821) `def _refresh_guard(self)`
+  - `set_harness` (method, line 784) `def set_harness(self, enabled)`
+  - `add_guard_rule` (method, line 809) `def add_guard_rule(self, pattern, action, reason)`
+  - `remove_guard_rule` (method, line 817) `def remove_guard_rule(self, pattern)`
+  - `_refresh_models` (method, line 825) `def _refresh_models(self)`
+  - `_refresh_guard` (method, line 846) `def _refresh_guard(self)`
+  - `save_guardrails` (method, line 868) `def save_guardrails(self, values)`
+  - `warm_restart_harness` (method, line 914) `def warm_restart_harness(self)`
+  - `rearm_harness` (method, line 926) `def rearm_harness(self)`
+  - `_load_guardrails_into_form` (method, line 937) `def _load_guardrails_into_form(self)`
+  - `_refresh_harness` (method, line 957) `def _refresh_harness(self)`
   - `_validate` (function, line 211) `def _validate(raw)`
   - `_saved` (function, line 222) `def _saved(raw)`
   - `_validate` (function, line 367) `def _validate(raw)`
   - `_saved` (function, line 378) `def _saved(raw)`
-- Depends on: `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`, `modules/trigger_policy.py`
+- Depends on: `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/guardrails/__init__.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`, `modules/trigger_policy.py`
 - Imported by: `cli/lazy_orchestrator.py`
 
 ## cli/output_mode.py

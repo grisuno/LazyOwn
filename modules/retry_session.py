@@ -50,7 +50,7 @@ Type YES (uppercase) to accept, anything else to abort."""
 
 _SESSION_SECRET_MARKER_ENV = "LAZYOWN_RETRY_SUDO"
 _ASKPASS_MAX_BYTES = 4096
-_SEGMENT_SUDO_RE = re.compile(r"^(?:\s|[A-Za-z_][A-Za-z_0-9]*=\S*\s+)*(?P<sudo>sudo)(?P<tail>\s|$)")
+_SEGMENT_SUDO_RE = re.compile(r"^(?:\s++|[A-Za-z_][A-Za-z_0-9]*+=\S*+\s++)*+(?P<sudo>sudo)(?P<tail>\s|$)")
 
 
 def is_active() -> bool:

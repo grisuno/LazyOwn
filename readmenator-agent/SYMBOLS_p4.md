@@ -1,8 +1,22 @@
-# Symbols (page 4 of 44)
+# Symbols (page 4 of 45)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_chainmode` | method | `cli/commands/session_ops.py:835` | `def do_chainmode(self, line)` |
+| `do_clock` | method | `cli/commands/session_ops.py:1462` | `def do_clock(self, line)` |
+| `do_clone_site` | method | `cli/commands/session_ops.py:1572` | `def do_clone_site(self, line)` |
+| `do_collab_join` | method | `cli/commands/session_ops.py:1320` | `def do_collab_join(self, line)` |
+| `do_download_resources` | method | `cli/commands/session_ops.py:1287` | `def do_download_resources(self, line)` |
+| `do_engage` | method | `cli/commands/session_ops.py:886` | `def do_engage(self, line)` |
+| `do_frontier` | method | `cli/commands/session_ops.py:710` | `def do_frontier(self, line)` |
+| `do_gencert` | method | `cli/commands/session_ops.py:1510` | `def do_gencert(self, line)` |
+| `do_getseclist` | method | `cli/commands/session_ops.py:1249` | `def do_getseclist(self, line)` |
+| `do_hunt` | method | `cli/commands/session_ops.py:1136` | `def do_hunt(self, line)` |
+| `do_kick` | method | `cli/commands/session_ops.py:1351` | `def do_kick(self, line)` |
+| `do_l00t` | method | `cli/commands/session_ops.py:118` | `def do_l00t(self, line)` |
+| `do_lazyscript` | method | `cli/commands/session_ops.py:1104` | `def do_lazyscript(self, line)` |
+| `do_list` | method | `cli/commands/session_ops.py:547` | `def do_list(self, line)` |
 | `do_load_session` | method | `cli/commands/session_ops.py:1522` | `def do_load_session(self, line)` |
 | `do_loot` | method | `cli/commands/session_ops.py:167` | `def do_loot(self, line)` |
 | `do_msfshellcoder` | method | `cli/commands/session_ops.py:1618` | `def do_msfshellcoder(self, line)` |
@@ -101,69 +115,69 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `hidden_panels` | function | `cli/dashboard_layout.py:45` | `def hidden_panels(mode)` |
 | `layout_mode` | function | `cli/dashboard_layout.py:28` | `def layout_mode(width, config)` |
 | `CommandRequested` | class | `cli/dashboard_tui.py:97` | `class CommandRequested(Message)` |
-| `CommandsPanel` | class | `cli/dashboard_tui.py:460` | `class CommandsPanel(Static)` |
-| `ConfigPanel` | class | `cli/dashboard_tui.py:430` | `class ConfigPanel(Static)` |
-| `HintBar` | class | `cli/dashboard_tui.py:587` | `class HintBar(Horizontal)` |
-| `KillChainPanel` | class | `cli/dashboard_tui.py:378` | `class KillChainPanel(Static)` |
-| `LazyOwnDashboard` | class | `cli/dashboard_tui.py:738` | `class LazyOwnDashboard(App)` |
-| `NextStepsPanel` | class | `cli/dashboard_tui.py:706` | `class NextStepsPanel(Static)` |
-| `OpsPanel` | class | `cli/dashboard_tui.py:532` | `class OpsPanel(Static)` |
-| `OutputPanel` | class | `cli/dashboard_tui.py:693` | `class OutputPanel(Log)` |
+| `CommandsPanel` | class | `cli/dashboard_tui.py:462` | `class CommandsPanel(Static)` |
+| `ConfigPanel` | class | `cli/dashboard_tui.py:432` | `class ConfigPanel(Static)` |
+| `HintBar` | class | `cli/dashboard_tui.py:589` | `class HintBar(Horizontal)` |
+| `KillChainPanel` | class | `cli/dashboard_tui.py:380` | `class KillChainPanel(Static)` |
+| `LazyOwnDashboard` | class | `cli/dashboard_tui.py:740` | `class LazyOwnDashboard(App)` |
+| `NextStepsPanel` | class | `cli/dashboard_tui.py:708` | `class NextStepsPanel(Static)` |
+| `OpsPanel` | class | `cli/dashboard_tui.py:534` | `class OpsPanel(Static)` |
+| `OutputPanel` | class | `cli/dashboard_tui.py:695` | `class OutputPanel(Log)` |
 | `PhaseSelected` | class | `cli/dashboard_tui.py:105` | `class PhaseSelected(Message)` |
-| `ReasoningPanel` | class | `cli/dashboard_tui.py:495` | `class ReasoningPanel(Static)` |
-| `TargetPanel` | class | `cli/dashboard_tui.py:322` | `class TargetPanel(Static)` |
-| `ToastPanel` | class | `cli/dashboard_tui.py:653` | `class ToastPanel(Static)` |
+| `ReasoningPanel` | class | `cli/dashboard_tui.py:497` | `class ReasoningPanel(Static)` |
+| `TargetPanel` | class | `cli/dashboard_tui.py:324` | `class TargetPanel(Static)` |
+| `ToastPanel` | class | `cli/dashboard_tui.py:655` | `class ToastPanel(Static)` |
 | `__init__` | method | `cli/dashboard_tui.py:100` | `def __init__(self, command)` |
 | `__init__` | method | `cli/dashboard_tui.py:108` | `def __init__(self, phase)` |
-| `__init__` | method | `cli/dashboard_tui.py:393` | `def __init__(self)` |
-| `__init__` | method | `cli/dashboard_tui.py:610` | `def __init__(self)` |
-| `__init__` | method | `cli/dashboard_tui.py:807` | `def __init__(self, payload_path, sessions_dir)` |
-| `_apply_command_result` | method | `cli/dashboard_tui.py:894` | `def _apply_command_result(self, command, success, output)` |
-| `_apply_layout` | method | `cli/dashboard_tui.py:819` | `def _apply_layout(self, mode, hidden_fn)` |
+| `__init__` | method | `cli/dashboard_tui.py:395` | `def __init__(self)` |
+| `__init__` | method | `cli/dashboard_tui.py:612` | `def __init__(self)` |
+| `__init__` | method | `cli/dashboard_tui.py:809` | `def __init__(self, payload_path, sessions_dir)` |
+| `_apply_command_result` | method | `cli/dashboard_tui.py:896` | `def _apply_command_result(self, command, success, output)` |
+| `_apply_layout` | method | `cli/dashboard_tui.py:821` | `def _apply_layout(self, mode, hidden_fn)` |
 | `_beacon_count` | function | `cli/dashboard_tui.py:265` | `def _beacon_count()` |
 | `_count_lines_in_glob` | function | `cli/dashboard_tui.py:169` | `def _count_lines_in_glob(pattern)` |
-| `_cycle_phase` | method | `cli/dashboard_tui.py:995` | `def _cycle_phase(self, direction)` |
-| `_do_refresh` | method | `cli/dashboard_tui.py:1011` | `def _do_refresh(self)` |
+| `_cycle_phase` | method | `cli/dashboard_tui.py:997` | `def _cycle_phase(self, direction)` |
+| `_do_refresh` | method | `cli/dashboard_tui.py:1013` | `def _do_refresh(self)` |
 | `_engagement_to_cli_phase` | function | `cli/dashboard_tui.py:159` | `def _engagement_to_cli_phase(engagement_phase)` |
-| `_execute` | method | `cli/dashboard_tui.py:881` | `def _execute(self, command)` |
+| `_execute` | method | `cli/dashboard_tui.py:883` | `def _execute(self, command)` |
 | `_fallback_hints` | function | `cli/dashboard_tui.py:223` | `def _fallback_hints(last_command, limit)` |
-| `_filter_commands` | method | `cli/dashboard_tui.py:1048` | `def _filter_commands(self, commands)` |
+| `_filter_commands` | method | `cli/dashboard_tui.py:1050` | `def _filter_commands(self, commands)` |
 | `_get_killchain_for_tui` | function | `cli/dashboard_tui.py:55` | `def _get_killchain_for_tui()` |
 | `_get_recommendations` | function | `cli/dashboard_tui.py:297` | `def _get_recommendations()` |
 | `_graph_hints` | function | `cli/dashboard_tui.py:209` | `def _graph_hints(limit)` |
-| `_raise_toast` | method | `cli/dashboard_tui.py:938` | `def _raise_toast(self, message, severity, event_type)` |
+| `_raise_toast` | method | `cli/dashboard_tui.py:940` | `def _raise_toast(self, message, severity, event_type)` |
 | `_read_credential_lines` | function | `cli/dashboard_tui.py:280` | `def _read_credential_lines(pattern)` |
 | `_read_json` | function | `cli/dashboard_tui.py:151` | `def _read_json(path)` |
 | `_read_recent_commands` | function | `cli/dashboard_tui.py:182` | `def _read_recent_commands(limit)` |
 | `_resolve_hints` | function | `cli/dashboard_tui.py:248` | `def _resolve_hints(recent, limit)` |
 | `_write_phase` | function | `cli/dashboard_tui.py:43` | `def _write_phase(phase)` |
-| `action_export_snapshot` | method | `cli/dashboard_tui.py:967` | `def action_export_snapshot(self)` |
-| `action_next_phase` | method | `cli/dashboard_tui.py:987` | `def action_next_phase(self)` |
-| `action_prev_phase` | method | `cli/dashboard_tui.py:991` | `def action_prev_phase(self)` |
-| `action_refresh_data` | method | `cli/dashboard_tui.py:923` | `def action_refresh_data(self)` |
-| `action_screenshot` | method | `cli/dashboard_tui.py:956` | `def action_screenshot(self)` |
-| `action_toggle_compact` | method | `cli/dashboard_tui.py:926` | `def action_toggle_compact(self)` |
-| `compose` | method | `cli/dashboard_tui.py:615` | `def compose(self)` |
-| `compose` | method | `cli/dashboard_tui.py:836` | `def compose(self)` |
+| `action_export_snapshot` | method | `cli/dashboard_tui.py:969` | `def action_export_snapshot(self)` |
+| `action_next_phase` | method | `cli/dashboard_tui.py:989` | `def action_next_phase(self)` |
+| `action_prev_phase` | method | `cli/dashboard_tui.py:993` | `def action_prev_phase(self)` |
+| `action_refresh_data` | method | `cli/dashboard_tui.py:925` | `def action_refresh_data(self)` |
+| `action_screenshot` | method | `cli/dashboard_tui.py:958` | `def action_screenshot(self)` |
+| `action_toggle_compact` | method | `cli/dashboard_tui.py:928` | `def action_toggle_compact(self)` |
+| `compose` | method | `cli/dashboard_tui.py:617` | `def compose(self)` |
+| `compose` | method | `cli/dashboard_tui.py:838` | `def compose(self)` |
 | `dispatch_command` | function | `cli/dashboard_tui.py:113` | `def dispatch_command(command, timeout)` |
-| `get_selection` | method | `cli/dashboard_tui.py:335` | `def get_selection(self, selection)` |
-| `launch` | function | `cli/dashboard_tui.py:1064` | `def launch(payload_path, sessions_dir)` |
-| `on_button_pressed` | method | `cli/dashboard_tui.py:644` | `def on_button_pressed(self, event)` |
-| `on_click` | method | `cli/dashboard_tui.py:418` | `def on_click(self, event)` |
-| `on_command_requested` | method | `cli/dashboard_tui.py:872` | `def on_command_requested(self, event)` |
-| `on_input_submitted` | method | `cli/dashboard_tui.py:860` | `def on_input_submitted(self, event)` |
-| `on_mount` | method | `cli/dashboard_tui.py:855` | `def on_mount(self)` |
-| `on_phase_selected` | method | `cli/dashboard_tui.py:912` | `def on_phase_selected(self, event)` |
-| `render_content` | method | `cli/dashboard_tui.py:348` | `def render_content(self, payload, world)` |
-| `update_data` | method | `cli/dashboard_tui.py:374` | `def update_data(self, payload, world)` |
-| `update_data` | method | `cli/dashboard_tui.py:397` | `def update_data(self, progress)` |
-| `update_data` | method | `cli/dashboard_tui.py:442` | `def update_data(self, payload)` |
-| `update_data` | method | `cli/dashboard_tui.py:472` | `def update_data(self, commands)` |
-| `update_data` | method | `cli/dashboard_tui.py:507` | `def update_data(self, entries)` |
-| `update_data` | method | `cli/dashboard_tui.py:544` | `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)` |
-| `update_data` | method | `cli/dashboard_tui.py:619` | `def update_data(self, hints)` |
-| `update_data` | method | `cli/dashboard_tui.py:671` | `def update_data(self, payload, sessions_dir, width)` |
-| `update_data` | method | `cli/dashboard_tui.py:718` | `def update_data(self, recommendations)` |
+| `get_selection` | method | `cli/dashboard_tui.py:337` | `def get_selection(self, selection)` |
+| `launch` | function | `cli/dashboard_tui.py:1066` | `def launch(payload_path, sessions_dir)` |
+| `on_button_pressed` | method | `cli/dashboard_tui.py:646` | `def on_button_pressed(self, event)` |
+| `on_click` | method | `cli/dashboard_tui.py:420` | `def on_click(self, event)` |
+| `on_command_requested` | method | `cli/dashboard_tui.py:874` | `def on_command_requested(self, event)` |
+| `on_input_submitted` | method | `cli/dashboard_tui.py:862` | `def on_input_submitted(self, event)` |
+| `on_mount` | method | `cli/dashboard_tui.py:857` | `def on_mount(self)` |
+| `on_phase_selected` | method | `cli/dashboard_tui.py:914` | `def on_phase_selected(self, event)` |
+| `render_content` | method | `cli/dashboard_tui.py:350` | `def render_content(self, payload, world)` |
+| `update_data` | method | `cli/dashboard_tui.py:376` | `def update_data(self, payload, world)` |
+| `update_data` | method | `cli/dashboard_tui.py:399` | `def update_data(self, progress)` |
+| `update_data` | method | `cli/dashboard_tui.py:444` | `def update_data(self, payload)` |
+| `update_data` | method | `cli/dashboard_tui.py:474` | `def update_data(self, commands)` |
+| `update_data` | method | `cli/dashboard_tui.py:509` | `def update_data(self, entries)` |
+| `update_data` | method | `cli/dashboard_tui.py:546` | `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)` |
+| `update_data` | method | `cli/dashboard_tui.py:621` | `def update_data(self, hints)` |
+| `update_data` | method | `cli/dashboard_tui.py:673` | `def update_data(self, payload, sessions_dir, width)` |
+| `update_data` | method | `cli/dashboard_tui.py:720` | `def update_data(self, recommendations)` |
 | `CheckResult` | class | `cli/doctor.py:96` | `class CheckResult` |
 | `DoctorReport` | class | `cli/doctor.py:113` | `class DoctorReport` |
 | `PackageSpec` | class | `cli/doctor.py:56` | `class PackageSpec` |
@@ -462,39 +476,25 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `run_monitor_session` | function | `cli/lazy_monitor.py:589` | `def run_monitor_session(engine, config, params)` |
 | `LazyOrchestratorApp` | class | `cli/lazy_orchestrator.py:144` | `class LazyOrchestratorApp(OrchestratorAssetsMixin)` |
 | `__init__` | method | `cli/lazy_orchestrator.py:174` | `def __init__(self, payload_path, task_id, shell, param_root)` |
-| `_active_tab` | method | `cli/lazy_orchestrator.py:584` | `def _active_tab(self)` |
-| `_confirmed` | function | `cli/lazy_orchestrator.py:930` | `def _confirmed(answer)` |
-| `_confirmed_gym` | function | `cli/lazy_orchestrator.py:943` | `def _confirmed_gym(answer)` |
-| `_confirmed_param` | function | `cli/lazy_orchestrator.py:967` | `def _confirmed_param(answer)` |
-| `_confirmed_trigger` | function | `cli/lazy_orchestrator.py:984` | `def _confirmed_trigger(answer)` |
-| `_done` | function | `cli/lazy_orchestrator.py:625` | `def _done(values)` |
-| `_done` | function | `cli/lazy_orchestrator.py:881` | `def _done(values)` |
-| `_done_chain` | function | `cli/lazy_orchestrator.py:810` | `def _done_chain(playbook)` |
-| `_done_new` | function | `cli/lazy_orchestrator.py:735` | `def _done_new(values)` |
-| `_done_new_gym` | function | `cli/lazy_orchestrator.py:763` | `def _done_new_gym(values)` |
-| `_done_param` | function | `cli/lazy_orchestrator.py:642` | `def _done_param(values)` |
-| `_done_param` | function | `cli/lazy_orchestrator.py:854` | `def _done_param(values)` |
-| `_done_rule` | function | `cli/lazy_orchestrator.py:672` | `def _done_rule(values)` |
-| `_done_trigger` | function | `cli/lazy_orchestrator.py:600` | `def _done_trigger(values)` |
-| `_done_verb` | function | `cli/lazy_orchestrator.py:693` | `def _done_verb(values)` |
+| `_active_tab` | method | `cli/lazy_orchestrator.py:635` | `def _active_tab(self)` |
+| `_confirmed` | function | `cli/lazy_orchestrator.py:981` | `def _confirmed(answer)` |
+| `_confirmed_gym` | function | `cli/lazy_orchestrator.py:994` | `def _confirmed_gym(answer)` |
+| `_confirmed_param` | function | `cli/lazy_orchestrator.py:1018` | `def _confirmed_param(answer)` |
+| `_confirmed_trigger` | function | `cli/lazy_orchestrator.py:1035` | `def _confirmed_trigger(answer)` |
+| `_done` | function | `cli/lazy_orchestrator.py:676` | `def _done(values)` |
+| `_done` | function | `cli/lazy_orchestrator.py:932` | `def _done(values)` |
+| `_done_chain` | function | `cli/lazy_orchestrator.py:861` | `def _done_chain(playbook)` |
+| `_done_new` | function | `cli/lazy_orchestrator.py:786` | `def _done_new(values)` |
+| `_done_new_gym` | function | `cli/lazy_orchestrator.py:814` | `def _done_new_gym(values)` |
+| `_done_param` | function | `cli/lazy_orchestrator.py:693` | `def _done_param(values)` |
+| `_done_param` | function | `cli/lazy_orchestrator.py:905` | `def _done_param(values)` |
+| `_done_rule` | function | `cli/lazy_orchestrator.py:723` | `def _done_rule(values)` |
+| `_done_trigger` | function | `cli/lazy_orchestrator.py:651` | `def _done_trigger(values)` |
+| `_done_verb` | function | `cli/lazy_orchestrator.py:744` | `def _done_verb(values)` |
 | `_param_root` | method | `cli/lazy_orchestrator.py:204` | `def _param_root(self)` |
-| `_picked` | function | `cli/lazy_orchestrator.py:689` | `def _picked(value)` |
-| `_picked_kind` | function | `cli/lazy_orchestrator.py:596` | `def _picked_kind(value)` |
-| `_poll_now` | method | `cli/lazy_orchestrator.py:350` | `def _poll_now(self)` |
-| `_refresh_params` | method | `cli/lazy_orchestrator.py:417` | `def _refresh_params(self)` |
-| `_resolve_task` | method | `cli/lazy_orchestrator.py:332` | `def _resolve_task(self)` |
-| `_selected_row` | method | `cli/lazy_orchestrator.py:535` | `def _selected_row(self, table_id)` |
-| `action_add_item` | method | `cli/lazy_orchestrator.py:591` | `def action_add_item(self)` |
-| `action_delete_item` | method | `cli/lazy_orchestrator.py:902` | `def action_delete_item(self)` |
-| `action_edit_item` | method | `cli/lazy_orchestrator.py:823` | `def action_edit_item(self)` |
-| `action_refresh` | method | `cli/lazy_orchestrator.py:403` | `def action_refresh(self)` |
-| `action_save_config` | method | `cli/lazy_orchestrator.py:574` | `def action_save_config(self)` |
-| `action_toggle_item` | method | `cli/lazy_orchestrator.py:544` | `def action_toggle_item(self)` |
-| `add_auto_verb` | method | `cli/lazy_orchestrator.py:301` | `def add_auto_verb(self, name, keywords, needs_target, description, phases)` |
-| `command_descriptions` | function | `cli/lazy_orchestrator.py:99` | `def command_descriptions()` |
-| `compose` | method | `cli/lazy_orchestrator.py:208` | `def compose(self)` |
-| `create_param` | method | `cli/lazy_orchestrator.py:440` | `def create_param(self, name, kind, default, description, category)` |
-| `delete_param` | method | `cli/lazy_orchestrator.py:512` | `def delete_param(self, name)` |
-| `discover_shell_commands` | function | `cli/lazy_orchestrator.py:66` | `def discover_shell_commands()` |
+| `_picked` | function | `cli/lazy_orchestrator.py:740` | `def _picked(value)` |
+| `_picked_kind` | function | `cli/lazy_orchestrator.py:647` | `def _picked_kind(value)` |
+| `_poll_now` | method | `cli/lazy_orchestrator.py:366` | `def _poll_now(self)` |
+| `_refresh_params` | method | `cli/lazy_orchestrator.py:468` | `def _refresh_params(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

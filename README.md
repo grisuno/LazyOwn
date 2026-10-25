@@ -9,7 +9,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/grisuno/LazyOwn)
 
-> **837 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The only OSS C2 with Linux native c BOF support + built-in YARA/Nuclei marketplaces.**
+> **837 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The First OSS C2 with Linux native c BOF support + built-in YARA/Nuclei marketplaces.**
 
 ## Install in one command
 

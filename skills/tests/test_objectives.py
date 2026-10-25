@@ -9,23 +9,19 @@ No writes to the real sessions/ directory.
 from __future__ import annotations
 
 import datetime
-import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _SKILLS_DIR = Path(__file__).parent.parent
 if str(_SKILLS_DIR) not in sys.path:
     sys.path.insert(0, str(_SKILLS_DIR))
 
-from lazyown_objective import (
+from lazyown_objective import (  # noqa: E402
     DEFAULT_SOUL,
     OBJECTIVE_TTL_HOURS,
     ObjectiveStore,
     SoulUpdater,
 )
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -39,7 +35,6 @@ def _store(tmp_path: Path) -> ObjectiveStore:
 
 def _soul_updater(tmp_path: Path) -> SoulUpdater:
     """Return a SoulUpdater whose soul file lives in tmp_path."""
-    import lazyown_objective as _mod
     soul_file = tmp_path / "soul.md"
     # Write the default soul so it exists before patching
     soul_file.write_text(DEFAULT_SOUL)
@@ -83,10 +78,7 @@ class TestObjectiveStore:
 
         # Manually backdate the created_at to 48 hours ago
         objs = store._load_all()
-        past = (
-            datetime.datetime.now(datetime.timezone.utc)
-            - datetime.timedelta(hours=48)
-        ).isoformat()
+        past = (datetime.datetime.now(datetime.UTC) - datetime.timedelta(hours=48)).isoformat()
         for o in objs:
             if o.id == obj.id:
                 o.created_at = past
@@ -107,7 +99,7 @@ class TestObjectiveStore:
     def test_next_pending_priority(self, tmp_path):
         """Inject low + critical → next_pending() returns critical."""
         store = _store(tmp_path)
-        low_obj = store.inject("Low importance task", priority="low")
+        store.inject("Low importance task", priority="low")
         critical_obj = store.inject("CRITICAL: exploit CVE-2021-41773 NOW", priority="critical")
         nxt = store.next_pending()
         assert nxt is not None
@@ -118,7 +110,7 @@ class TestObjectiveStore:
         """Two medium objectives → next_pending() returns the earlier one (FIFO)."""
         store = _store(tmp_path)
         o1 = store.inject("First medium task", priority="medium")
-        o2 = store.inject("Second medium task", priority="medium")
+        store.inject("Second medium task", priority="medium")
         nxt = store.next_pending()
         assert nxt is not None
         # Should return first injected (FIFO within same priority)
@@ -176,10 +168,7 @@ class TestObjectiveStore:
         store = _store(tmp_path)
         obj = store.inject("Medium old task", priority="medium")
         objs = store._load_all()
-        past = (
-            datetime.datetime.now(datetime.timezone.utc)
-            - datetime.timedelta(hours=80)
-        ).isoformat()
+        past = (datetime.datetime.now(datetime.UTC) - datetime.timedelta(hours=80)).isoformat()
         for o in objs:
             if o.id == obj.id:
                 o.created_at = past
@@ -195,10 +184,7 @@ class TestObjectiveStore:
         store = _store(tmp_path)
         obj = store.inject("Ancient critical task", priority="critical")
         objs = store._load_all()
-        past = (
-            datetime.datetime.now(datetime.timezone.utc)
-            - datetime.timedelta(hours=1000)
-        ).isoformat()
+        past = (datetime.datetime.now(datetime.UTC) - datetime.timedelta(hours=1000)).isoformat()
         for o in objs:
             if o.id == obj.id:
                 o.created_at = past
@@ -245,9 +231,9 @@ class TestSoulUpdater:
     def test_soul_updater_credentials_hash(self, tmp_path):
         """update_credentials with hash_value → soul.md shows truncated hash with (NTLM) tag."""
         su = _soul_updater(tmp_path)
-        su.update_credentials([
-            {"username": "jsmith", "password": "", "hash_value": "aabbccdd11223344aabbccdd11223344"}
-        ])
+        su.update_credentials(
+            [{"username": "jsmith", "password": "", "hash_value": "aabbccdd11223344aabbccdd11223344"}]
+        )
         content = su._path.read_text()
         assert "jsmith" in content
         assert "NTLM" in content
@@ -279,9 +265,7 @@ class TestSoulUpdater:
     def test_soul_updater_vulnerabilities(self, tmp_path):
         """update_vulnerabilities() → soul.md has Key Vulnerabilities section."""
         su = _soul_updater(tmp_path)
-        su.update_vulnerabilities([
-            {"vuln_id": "CVE-2021-34527", "severity": "critical", "title": "PrintNightmare"}
-        ])
+        su.update_vulnerabilities([{"vuln_id": "CVE-2021-34527", "severity": "critical", "title": "PrintNightmare"}])
         content = su._path.read_text()
         assert "## Key Vulnerabilities" in content
         assert "CVE-2021-34527" in content
@@ -294,7 +278,7 @@ class TestSoulUpdater:
         su.update_phase("exploit")
         content = su._path.read_text()
         # Should not have TWO Phase: lines with different values
-        phase_lines = [l for l in content.splitlines() if l.strip().startswith("Phase:")]
+        phase_lines = [line for line in content.splitlines() if line.strip().startswith("Phase:")]
         assert len(phase_lines) == 1, f"Expected 1 Phase: line, got {phase_lines}"
         assert "exploit" in phase_lines[0]
 

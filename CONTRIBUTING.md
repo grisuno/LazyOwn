@@ -52,3 +52,44 @@ All pull requests will be reviewed by project maintainers. Here are some things 
 Maintain open and respectful communication with other contributors and maintainers. If you have questions, do not hesitate to ask in the project's discussions.
 
 Thank you for contributing to LazyOwn. Together, we can make this project even better.
+
+
+### Reporting Issues / Security Advisories
+- Use the [Issues tab](https://github.com/grisuno/LazyOwn/issues) for bugs and feature requests.
+- For **security vulnerabilities**, please report them responsibly (contact the maintainer privately if possible).
+
+### Submitting Pull Requests
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Ensure the code follows the existing style
+5. Test your changes thoroughly
+6. Submit a Pull Request with a clear description
+
+### Development Setup
+- Follow the instructions in `README.md` and `KNOWLEDGE_BASE.md`
+- Docker is highly recommended for development: `docker run -it ghcr.io/grisuno/lazyown:latest`
+- Verify with `bash scripts/smoke_onboarding.sh` before opening a PR
+
+### Marketplace contributions (fastest merge path)
+
+One-command YARA / Nuclei additions are the ideal first PR. Use the
+`marketplace contribution` issue template (`.github/ISSUE_TEMPLATE/marketplace_contribution.yml`).
+Test with `yara_marketplace list` / `nuclei_marketplace list --severity high`
+inside `./run`. Include a reference link, no hardcoded victim IPs.
+
+### CommandSet split contract (recon/scan/postexp/cred)
+
+Each domain keeps two files by design: `cli/commands/<domain>.py` holds the
+curated commands, `cli/commands/<domain>_migrated.py` holds the legacy
+imports (zero `do_*` name overlap, verified). Do not merge them blindly.
+New commands go in the base file. Migrated files shrink only via explicit
+per-command port + test.
+
+### Special Thanks
+We want to thank **EQSTLab** for their valuable security advisories that help us make LazyOwn more robust.
+
+## Code of Conduct
+Be respectful, constructive, and open-minded. We value high-quality, secure, and well-documented contributions.
+
+Happy hacking!

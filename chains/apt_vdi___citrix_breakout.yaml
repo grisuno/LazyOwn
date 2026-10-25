@@ -1,0 +1,6 @@
+name: apt_vdi___citrix_breakout
+description: Full APT chain for vdi_/_citrix_breakout (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: vdi_/_citrix_breakout

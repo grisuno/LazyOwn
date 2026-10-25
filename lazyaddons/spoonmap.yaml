@@ -6,6 +6,7 @@ description: 'This script is simply a wrapper for NMAP and Masscan. Install them
 author: TrustedSec
 version: '0.1'
 enabled: true
+update: true
 os: network
 trigger: [microsoft-ds]
 tool:

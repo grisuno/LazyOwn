@@ -7,6 +7,7 @@ description: 'oniux is a tool that utilizes various Linux namespaces(7) in order
 author: torproject
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: url
   type: string

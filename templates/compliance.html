@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h2 class="text-center mb-4">Compliance Dashboard</h2>
+
+        <div class="d-flex justify-content-between mb-4">
+            <div>
+                <a href="{{ url_for('compliance_report') }}" class="btn btn-success">Generate Compliance Report</a>
+                <a href="{{ url_for('compliance_export', format='elastic') }}" class="btn btn-info">Export NDJSON (Elastic)</a>
+                <a href="{{ url_for('compliance_export', format='cef') }}" class="btn btn-warning">Export CEF (SIEM)</a>
+            </div>
+        </div>
+
+        <!-- Findings Summary -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card bg-dark p-3">
+                    <h5>Findings Summary</h5>
+                    {% set summary = report.get('findings_summary', {}) %}
+                    <p>Total: <strong>{{ summary.get('total', 0) }}</strong></p>
+                    {% set sv = summary.get('by_severity', {}) %}
+                    {% if sv %}
+                    <ul>
+                        {% for sev, count in sv.items() | sort %}
+                        <li>{{ sev }}: {{ count }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% set ops = summary.get('operators_involved', []) %}
+                    {% if ops %}
+                    <p>Operators: {{ ops | join(', ') }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-dark p-3">
+                    <h5>Evidence Chain</h5>
+                    {% set ev = report.get('evidence_chain', {}) %}
+                    {% if ev %}
+                    <p>Status: <span class="badge {% if ev.get('integrity_verified') %}bg-success{% else %}bg-danger{% endif %}">
+                        {{ 'VERIFIED' if ev.get('integrity_verified') else 'BROKEN' }}
+                    </span></p>
+                    <p>Entries: {{ ev.get('entries_count', 0) }}</p>
+                    <p>Digest: <code>{{ ev.get('chain_digest', 'N/A') }}</code></p>
+                    {% else %}
+                    <p>No evidence chain.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Compliance Frameworks -->
+        <h3>Compliance Framework Coverage</h3>
+        {% set compliance = report.get('compliance', {}) %}
+        {% set frameworks = compliance.get('frameworks', {}) %}
+        {% if frameworks %}
+        {% for fw_key, fw_data in frameworks.items() %}
+        <div class="card bg-dark p-3 mb-3">
+            <h5>{{ fw_data.name }}</h5>
+            <div class="mb-2">
+                {% set pct = fw_data.get('coverage_pct', 0) %}
+                <strong>{{ pct }}%</strong> ({{ fw_data.get('controls_covered', 0) }}/{{ fw_data.get('total_controls', 0) }} controls)
+                <div class="progress" style="height: 20px;">
+                    <div class="progress-bar {% if pct >= 80 %}bg-success{% elif pct >= 50 %}bg-warning{% else %}bg-danger{% endif %}"
+                         role="progressbar" style="width: {{ pct }}%" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+            </div>
+            {% set controls = fw_data.get('controls_mapped', []) %}
+            {% if controls %}
+            <table class="table table-dark table-sm">
+                <thead>
+                    <tr><th>Control</th><th>Title</th><th>Evidence</th></tr>
+                </thead>
+                <tbody>
+                    {% for c in controls[:30] %}
+                    <tr>
+                        <td><code>{{ c.control_id }}</code></td>
+                        <td>{{ c.title }}</td>
+                        <td><small>{{ c.finding_evidence.service }} @ {{ c.finding_evidence.host }}</small></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No findings to map to compliance frameworks. Execute commands to populate findings.</p>
+        {% endif %}
+
+        <!-- SIEM Exports -->
+        {% set siem = report.get('siem_exports', {}) %}
+        {% if siem %}
+        <h3>SIEM Export Files</h3>
+        <ul>
+            {% for fmt, path in siem.items() %}
+            <li><code>{{ fmt }}</code>: {{ path }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Evidence Chain Quick Verify -->
+        <div class="mt-4">
+            <button class="btn btn-outline-light btn-sm" onclick="verifyChain()">Verify Evidence Chain</button>
+            <pre id="verify-result" class="mt-2 bg-dark text-light p-2" style="display:none;"></pre>
+        </div>
+    </div>
+</div>
+
+<script>
+async function verifyChain() {
+    const resp = await fetch('{{ url_for("compliance_verify_evidence") }}');
+    const data = await resp.json();
+    const pre = document.getElementById('verify-result');
+    pre.style.display = 'block';
+    pre.textContent = JSON.stringify(data, null, 2);
+}
+</script>
+{% endblock %}

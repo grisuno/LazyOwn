@@ -7,6 +7,7 @@ description: 'Ejecuta el script bot.py que se encuentra en la carpeta modules. c
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 os: any
 trigger: []
 tool:

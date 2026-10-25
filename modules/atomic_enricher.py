@@ -21,46 +21,105 @@ load_enriched() -> pd.DataFrame   load existing enriched parquet (build if missi
 
 from __future__ import annotations
 
-import re
 import logging
+import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 log = logging.getLogger(__name__)
 
 try:
+    import numpy as np  # noqa: F401
     import pandas as pd
-    import numpy as np
+
     _PANDAS_OK = True
 except ImportError:
     _PANDAS_OK = False
 
 PARQUETS_DIR = Path(__file__).parent.parent / "parquets"
-SRC_PARQUET  = PARQUETS_DIR / "techniques.parquet"
-DST_PARQUET  = PARQUETS_DIR / "techniques_enriched.parquet"
+SRC_PARQUET = PARQUETS_DIR / "techniques.parquet"
+DST_PARQUET = PARQUETS_DIR / "techniques_enriched.parquet"
 
 # Words to strip when building keyword_tags
 _STOP = {
-    "a","an","the","and","or","for","with","from","on","in","to","of","by",
-    "using","via","via","as","at","is","are","be","use","uses","run","runs",
-    "create","creates","set","sets","local","remote","elevated","windows",
-    "linux","macos","freebsd","cloud","aws","azure","gcp","test","atomic",
-    "technique","techniques","method","methods","powershell","cmd","bash","sh",
-    "python","python3","script","scripts","command","commands","file","files",
-    "registry","process","service","system","user","admin","domain",
+    "a",
+    "an",
+    "the",
+    "and",
+    "or",
+    "for",
+    "with",
+    "from",
+    "on",
+    "in",
+    "to",
+    "of",
+    "by",
+    "using",
+    "via",
+    "as",
+    "at",
+    "is",
+    "are",
+    "be",
+    "use",
+    "uses",
+    "run",
+    "runs",
+    "create",
+    "creates",
+    "set",
+    "sets",
+    "local",
+    "remote",
+    "elevated",
+    "windows",
+    "linux",
+    "macos",
+    "freebsd",
+    "cloud",
+    "aws",
+    "azure",
+    "gcp",
+    "test",
+    "atomic",
+    "technique",
+    "techniques",
+    "method",
+    "methods",
+    "powershell",
+    "cmd",
+    "bash",
+    "sh",
+    "python",
+    "python3",
+    "script",
+    "scripts",
+    "command",
+    "commands",
+    "file",
+    "files",
+    "registry",
+    "process",
+    "service",
+    "system",
+    "user",
+    "admin",
+    "domain",
 }
 
 # Scope markers in the technique name
-_SCOPE_RE = re.compile(r'\b(elevated|remote|local)\b', re.IGNORECASE)
+_SCOPE_RE = re.compile(r"\b(elevated|remote|local)\b", re.IGNORECASE)
 
 # Complexity thresholds (number of non-empty lines in command)
 _COMPLEXITY_HIGH = 10
-_COMPLEXITY_MED  = 4
+_COMPLEXITY_MED = 4
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
-def _parse_platforms(raw: Any) -> List[str]:
+
+def _parse_platforms(raw: Any) -> list[str]:
     """Convert numpy array / list / string platform field → sorted list."""
     if raw is None:
         return []
@@ -81,7 +140,7 @@ def _parse_scope(name: str) -> str:
 
 
 def _parse_complexity(command: str) -> str:
-    lines = [l for l in str(command).splitlines() if l.strip()]
+    lines = [line for line in str(command).splitlines() if line.strip()]
     n = len(lines)
     if n >= _COMPLEXITY_HIGH:
         return "high"
@@ -90,7 +149,7 @@ def _parse_complexity(command: str) -> str:
     return "low"
 
 
-def _parse_keyword_tags(name: str, description: str = "") -> List[str]:
+def _parse_keyword_tags(name: str, description: str = "") -> list[str]:
     text = f"{name} {description[:200]}"
     tokens = re.findall(r"[a-zA-Z][a-zA-Z0-9_-]{2,}", text)
     seen: dict = {}
@@ -110,7 +169,8 @@ def _tactic_prefix(mitre_id: str) -> str:
 
 # ── main enrichment ───────────────────────────────────────────────────────────
 
-def enrich(force: bool = False) -> "pd.DataFrame":
+
+def enrich(force: bool = False) -> pd.DataFrame:
     """
     Build enriched parquet.  Skips if DST_PARQUET already exists (use force=True to rebuild).
     Returns the enriched DataFrame.
@@ -129,15 +189,11 @@ def enrich(force: bool = False) -> "pd.DataFrame":
     log.info("atomic_enricher: enriching %d rows", len(df))
 
     df["platform_list"] = df["platforms"].apply(_parse_platforms)
-    df["scope"]         = df["name"].apply(_parse_scope)
-    df["has_prereqs"]   = df["prereq_command"].apply(
-        lambda x: bool(x and str(x).strip())
-    )
-    df["complexity"]    = df["command"].apply(_parse_complexity)
+    df["scope"] = df["name"].apply(_parse_scope)
+    df["has_prereqs"] = df["prereq_command"].apply(lambda x: bool(x and str(x).strip()))
+    df["complexity"] = df["command"].apply(_parse_complexity)
     df["tactic_prefix"] = df["mitre_id"].apply(_tactic_prefix)
-    df["keyword_tags"]  = df.apply(
-        lambda r: _parse_keyword_tags(r["name"], r.get("description", "")), axis=1
-    )
+    df["keyword_tags"] = df.apply(lambda r: _parse_keyword_tags(r["name"], r.get("description", "")), axis=1)
 
     PARQUETS_DIR.mkdir(parents=True, exist_ok=True)
     df.to_parquet(DST_PARQUET, index=False)
@@ -145,7 +201,7 @@ def enrich(force: bool = False) -> "pd.DataFrame":
     return df
 
 
-def _to_pylist(val: Any) -> List[str]:
+def _to_pylist(val: Any) -> list[str]:
     """Normalise numpy array / list / None → plain Python list of strings."""
     if val is None:
         return []
@@ -156,7 +212,7 @@ def _to_pylist(val: Any) -> List[str]:
     return []
 
 
-def load_enriched() -> "pd.DataFrame":
+def load_enriched() -> pd.DataFrame:
     """Load enriched parquet, building it first if it doesn't exist.
     Normalises list columns to plain Python lists after loading."""
     if not DST_PARQUET.exists():
@@ -172,16 +228,17 @@ def load_enriched() -> "pd.DataFrame":
 
 # ── quick query helper used by parquet_db ─────────────────────────────────────
 
+
 def query_atomic(
     keyword: str = "",
     mitre_id: str = "",
     platform: str = "",
     scope: str = "",
-    has_prereqs: Optional[bool] = None,
+    has_prereqs: bool | None = None,
     complexity: str = "",
     limit: int = 10,
     include_command: bool = False,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """
     Structured query over the enriched Atomic Red Team technique catalogue.
 
@@ -214,17 +271,12 @@ def query_atomic(
         mask &= (
             df["name"].str.lower().str.contains(kl, regex=False, na=False)
             | df["description"].str.lower().str.contains(kl, regex=False, na=False)
-            | df["keyword_tags"].apply(
-                lambda tags: any(kl in t for t in (tags or []))
-            )
+            | df["keyword_tags"].apply(lambda tags: any(kl in t for t in (tags or [])))
         )
 
     if mitre_id:
         ml = mitre_id.upper().strip()
-        mask &= (
-            df["mitre_id"].str.upper().str.startswith(ml)
-            | (df["tactic_prefix"].str.upper() == ml)
-        )
+        mask &= df["mitre_id"].str.upper().str.startswith(ml) | (df["tactic_prefix"].str.upper() == ml)
 
     if platform:
         pl = platform.lower()
@@ -242,18 +294,18 @@ def query_atomic(
     filtered = df[mask].head(limit)
 
     # ── serialise ─────────────────────────────────────────────────────────────
-    results: List[Dict[str, Any]] = []
+    results: list[dict[str, Any]] = []
     for _, row in filtered.iterrows():
-        entry: Dict[str, Any] = {
-            "id":                  row["id"],
-            "name":                row["name"],
-            "mitre_id":            row["mitre_id"],
-            "tactic_prefix":       row["tactic_prefix"],
-            "platform_list":       _to_pylist(row["platform_list"]),
-            "scope":               row["scope"],
-            "complexity":          row["complexity"],
-            "has_prereqs":         bool(row["has_prereqs"]),
-            "keyword_tags":        _to_pylist(row["keyword_tags"]),
+        entry: dict[str, Any] = {
+            "id": row["id"],
+            "name": row["name"],
+            "mitre_id": row["mitre_id"],
+            "tactic_prefix": row["tactic_prefix"],
+            "platform_list": _to_pylist(row["platform_list"]),
+            "scope": row["scope"],
+            "complexity": row["complexity"],
+            "has_prereqs": bool(row["has_prereqs"]),
+            "keyword_tags": _to_pylist(row["keyword_tags"]),
             "description_preview": str(row.get("description", ""))[:200],
         }
         if include_command:
@@ -266,25 +318,27 @@ def query_atomic(
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    import argparse, json, sys
+    import argparse
+    import sys
+
     sys.path.insert(0, str(Path(__file__).parent))
 
     parser = argparse.ArgumentParser(description="Atomic Red Team technique enricher")
     sub = parser.add_subparsers(dest="cmd")
 
-    sub.add_parser("enrich",  help="Build techniques_enriched.parquet")
+    sub.add_parser("enrich", help="Build techniques_enriched.parquet")
     sub.add_parser("rebuild", help="Force-rebuild even if parquet exists")
 
-    p_q = sub.add_parser("query",  help="Query enriched techniques")
-    p_q.add_argument("--keyword",     default="")
-    p_q.add_argument("--mitre",       default="", dest="mitre_id")
-    p_q.add_argument("--platform",    default="")
-    p_q.add_argument("--scope",       default="", choices=["","local","remote","elevated","any"])
-    p_q.add_argument("--complexity",  default="", choices=["","low","medium","high"])
+    p_q = sub.add_parser("query", help="Query enriched techniques")
+    p_q.add_argument("--keyword", default="")
+    p_q.add_argument("--mitre", default="", dest="mitre_id")
+    p_q.add_argument("--platform", default="")
+    p_q.add_argument("--scope", default="", choices=["", "local", "remote", "elevated", "any"])
+    p_q.add_argument("--complexity", default="", choices=["", "low", "medium", "high"])
     p_q.add_argument("--has-prereqs", action="store_true", default=None, dest="has_prereqs")
-    p_q.add_argument("--no-prereqs",  action="store_false",             dest="has_prereqs")
-    p_q.add_argument("--limit",       type=int, default=10)
-    p_q.add_argument("--command",     action="store_true", dest="include_command")
+    p_q.add_argument("--no-prereqs", action="store_false", dest="has_prereqs")
+    p_q.add_argument("--limit", type=int, default=10)
+    p_q.add_argument("--command", action="store_true", dest="include_command")
 
     sub.add_parser("stats", help="Show enrichment stats")
 
@@ -319,12 +373,13 @@ if __name__ == "__main__":
         df = load_enriched()
         print(f"Rows: {len(df)}")
         print(f"Columns: {list(df.columns)}")
-        print(f"\nComplexity distribution:")
+        print("\nComplexity distribution:")
         print(df["complexity"].value_counts().to_string())
-        print(f"\nScope distribution:")
+        print("\nScope distribution:")
         print(df["scope"].value_counts().to_string())
-        print(f"\nTop platforms:")
+        print("\nTop platforms:")
         from collections import Counter
+
         plat_ctr: Counter = Counter()
         for lst in df["platform_list"]:
             for p in _to_pylist(lst):

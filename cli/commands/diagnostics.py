@@ -27,7 +27,7 @@ class DiagnosticsCommandSet(LazyOwnCommandSet):
     category = "Diagnostics"
 
     @with_category("Diagnostics")
-    def do_lazy_runtime(self, _statement) -> None:
+    def do_sys_runtime(self, _statement) -> None:
         """Print interpreter, platform and core LazyOwn paths."""
         info = {
             "python": sys.version.split()[0],
@@ -38,7 +38,7 @@ class DiagnosticsCommandSet(LazyOwnCommandSet):
         print(json.dumps(info, indent=2))
 
     @with_category("Diagnostics")
-    def do_lazy_payload_keys(self, _statement) -> None:
+    def do_sys_payload_keys(self, _statement) -> None:
         """List the keys currently present in the parent shell's payload."""
         payload = self.params or {}
         if not payload:

@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_telnet_default_creds
+version: 2
+description: 'Metasploitable 2: Telnet default msfadmin credentials (T1078).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- telnet
+platforms:
+- linux
+defaults:
+  exploit: ms2_telnet_default_creds
+  vuln: ms2_telnet_default_creds
+  port: '23'

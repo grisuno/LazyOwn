@@ -106,9 +106,7 @@ def test_engine_display_text_empty_without_suggestion():
 
 
 def test_engine_display_text_renders_active_suggestion():
-    engine = AutoSuggestEngine(
-        _StaticProvider(Suggestion(command="ffuf", score=0.5))
-    )
+    engine = AutoSuggestEngine(_StaticProvider(Suggestion(command="ffuf", score=0.5)))
     engine.refresh(SuggestionContext(last_command="lazynmap"))
 
     rendered = engine.display_text()
@@ -120,9 +118,7 @@ def test_engine_display_text_renders_active_suggestion():
 
 def test_engine_display_text_truncates_long_command():
     long_command = "a" * (GHOST_TEXT_LIMIT + 10)
-    engine = AutoSuggestEngine(
-        _StaticProvider(Suggestion(command=long_command, score=0.5))
-    )
+    engine = AutoSuggestEngine(_StaticProvider(Suggestion(command=long_command, score=0.5)))
     engine.refresh(SuggestionContext(last_command="lazynmap"))
 
     rendered = engine.display_text()
@@ -146,9 +142,7 @@ def test_composite_picks_highest_score():
 
 def test_composite_skips_raising_provider():
     suggestion = Suggestion(command="ok", score=0.5)
-    composite = CompositeProvider(
-        [_RaisingProvider(), _StaticProvider(suggestion)]
-    )
+    composite = CompositeProvider([_RaisingProvider(), _StaticProvider(suggestion)])
 
     result = composite.suggest(SuggestionContext())
 
@@ -165,9 +159,7 @@ def test_killchain_provider_uses_adjacency():
     chain = {"lazynmap": ["gobuster", "ffuf"]}
     provider = KillChainProvider(chain, phase_priority={})
 
-    suggestion = provider.suggest(
-        SuggestionContext(last_command="lazynmap", recent_commands=())
-    )
+    suggestion = provider.suggest(SuggestionContext(last_command="lazynmap", recent_commands=()))
 
     assert suggestion is not None
     assert suggestion.command == "gobuster"
@@ -180,7 +172,8 @@ def test_killchain_provider_skips_already_executed():
 
     suggestion = provider.suggest(
         SuggestionContext(
-            last_command="lazynmap", recent_commands=("gobuster",),
+            last_command="lazynmap",
+            recent_commands=("gobuster",),
         )
     )
 
@@ -194,9 +187,7 @@ def test_killchain_provider_falls_back_to_phase_priority():
         phase_priority={"recon": ["lazynmap"]},
     )
 
-    suggestion = provider.suggest(
-        SuggestionContext(last_command="unknown", phase="recon")
-    )
+    suggestion = provider.suggest(SuggestionContext(last_command="unknown", phase="recon"))
 
     assert suggestion is not None
     assert suggestion.command == "lazynmap"
@@ -222,15 +213,15 @@ class _FakeAdvisor:
 
 
 def test_graph_provider_returns_top_result():
-    advisor = _FakeAdvisor([
-        {"label": "gobuster", "score": 0.7},
-        {"label": "ffuf", "score": 0.3},
-    ])
+    advisor = _FakeAdvisor(
+        [
+            {"label": "gobuster", "score": 0.7},
+            {"label": "ffuf", "score": 0.3},
+        ]
+    )
     provider = GraphProvider(advisor)
 
-    suggestion = provider.suggest(
-        SuggestionContext(last_command="lazynmap", recent_commands=("lazynmap",))
-    )
+    suggestion = provider.suggest(SuggestionContext(last_command="lazynmap", recent_commands=("lazynmap",)))
 
     assert suggestion is not None
     assert suggestion.command == "gobuster"
@@ -257,12 +248,12 @@ def test_build_default_engine_includes_killchain_only_when_no_advisor():
     phase_priority = {"recon": ["lazynmap"]}
 
     engine = build_default_engine(
-        advisor=None, chain=chain, phase_priority=phase_priority,
+        advisor=None,
+        chain=chain,
+        phase_priority=phase_priority,
     )
 
-    suggestion = engine.refresh(
-        SuggestionContext(last_command="lazynmap", recent_commands=())
-    )
+    suggestion = engine.refresh(SuggestionContext(last_command="lazynmap", recent_commands=()))
     assert suggestion is not None
     assert suggestion.command == "gobuster"
 
@@ -310,9 +301,7 @@ class _CapturingConsole:
 
 
 def test_render_hint_line_emits_to_console():
-    engine = AutoSuggestEngine(
-        _StaticProvider(Suggestion(command="gobuster", reason="next", source="graph"))
-    )
+    engine = AutoSuggestEngine(_StaticProvider(Suggestion(command="gobuster", reason="next", source="graph")))
     engine.refresh(SuggestionContext(last_command="lazynmap"))
     console = _CapturingConsole()
 
@@ -386,11 +375,11 @@ def test_build_default_engine_with_unavailable_advisor():
     advisor = _FakeAdvisor([], available=False)
 
     engine = build_default_engine(
-        advisor=advisor, chain=chain, phase_priority=phase_priority,
+        advisor=advisor,
+        chain=chain,
+        phase_priority=phase_priority,
     )
 
-    suggestion = engine.refresh(
-        SuggestionContext(last_command="lazynmap", recent_commands=())
-    )
+    suggestion = engine.refresh(SuggestionContext(last_command="lazynmap", recent_commands=()))
     assert suggestion is not None
     assert suggestion.command == "ffuf"

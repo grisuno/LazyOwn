@@ -54,7 +54,6 @@ Usage
 
 from __future__ import annotations
 
-import asyncio
 import hashlib
 import json
 import logging
@@ -64,23 +63,24 @@ import threading
 import time
 import uuid
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 # Mirror lazyown_mcp.py: respect LAZYOWN_DIR env override for consistency.
 
-SKILLS_DIR   = Path(__file__).parent
-LAZYOWN_DIR  = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
+SKILLS_DIR = Path(__file__).parent
+LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
 SESSIONS_DIR = LAZYOWN_DIR / "sessions"
 PARQUETS_DIR = LAZYOWN_DIR / "parquets"
-HIVE_DIR     = SESSIONS_DIR / "hive"
+HIVE_DIR = SESSIONS_DIR / "hive"
 HIVE_DIR.mkdir(parents=True, exist_ok=True)
 
-sys.path.insert(0, str(SKILLS_DIR))
-sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+for _p in [str(SKILLS_DIR), str(LAZYOWN_DIR / "modules")]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 log = logging.getLogger("hive_mind")
 
@@ -88,7 +88,8 @@ log = logging.getLogger("hive_mind")
 
 try:
     import chromadb
-    from chromadb.config import Settings as _ChromaSettings
+    from chromadb.config import Settings  # noqa: F401 as _ChromaSettings
+
     _CHROMA_OK = True
 except ImportError:
     _CHROMA_OK = False
@@ -98,10 +99,10 @@ except ImportError:
 # module level — it would block the MCP server startup handshake. Both the
 # import and the model instantiation happen on the first call to _embed().
 
-_EMBED_MODEL      = None   # populated lazily
+_EMBED_MODEL = None  # populated lazily
 _EMBED_MODEL_LOCK = threading.Lock()
-_EMBED_CHECKED    = False  # True after first availability check
-_EMBED_OK         = False  # set after first successful import
+_EMBED_CHECKED = False  # True after first availability check
+_EMBED_OK = False  # set after first successful import
 
 
 def _get_embed_model():
@@ -118,17 +119,20 @@ def _get_embed_model():
         _EMBED_CHECKED = True
         try:
             from sentence_transformers import SentenceTransformer as _ST  # noqa: PLC0415
+
             _EMBED_MODEL = _ST("all-MiniLM-L6-v2")
-            _EMBED_OK    = True
+            _EMBED_OK = True
             log.info("sentence-transformers model loaded")
         except Exception as exc:
             log.debug("sentence-transformers unavailable: %s", exc)
     return _EMBED_MODEL
 
+
 # ── Optional numpy ────────────────────────────────────────────────────────────
 
 try:
-    import numpy as np
+    import numpy  # noqa: F401 as np
+
     _NUMPY_OK = True
 except ImportError:
     _NUMPY_OK = False
@@ -142,7 +146,7 @@ class IReadableMemory(ABC):
     """Read-only contract for memory stores."""
 
     @abstractmethod
-    def recall(self, query: str, top_k: int = 10) -> List[Dict]:
+    def recall(self, query: str, top_k: int = 10) -> list[dict]:
         """Return top_k items matching query."""
 
 
@@ -181,6 +185,7 @@ class ICommandRunner(ABC):
 # SECTION 1A — EpisodicStore  (S — Single Responsibility: SQLite FTS5 only)
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class EpisodicStore(IMemoryStore):
     """
     SQLite-backed episodic memory with FTS5 full-text search.
@@ -207,14 +212,14 @@ class EpisodicStore(IMemoryStore):
         END""",
     ]
 
-    def __init__(self, db_path: Optional[Path] = None) -> None:
-        import sqlite3
+    def __init__(self, db_path: Path | None = None) -> None:
         self._db_path = db_path or (HIVE_DIR / "hive_memory.db")
-        self._lock    = threading.RLock()
-        self._conn    = self._connect()
+        self._lock = threading.RLock()
+        self._conn = self._connect()
 
     def _connect(self):
         import sqlite3
+
         conn = sqlite3.connect(str(self._db_path), check_same_thread=False)
         conn.execute("PRAGMA journal_mode=WAL")
         for stmt in self._DDL_STMTS:
@@ -233,13 +238,13 @@ class EpisodicStore(IMemoryStore):
         agent_id: str = "queen",
         role: str = "generic",
         event_type: str = "observation",
-        meta: Optional[Dict] = None,
+        meta: dict | None = None,
         session_tag: str = "",
         **_ignored: Any,
     ) -> str:
         """Insert a row into hive_events and return event_id."""
-        event_id  = uuid.uuid4().hex
-        ts        = time.time()
+        event_id = uuid.uuid4().hex
+        ts = time.time()
         meta_json = json.dumps(meta or {}, ensure_ascii=False)
 
         with self._lock:
@@ -248,8 +253,7 @@ class EpisodicStore(IMemoryStore):
                     """INSERT OR IGNORE INTO hive_events
                        (id, agent_id, role, event_type, content, meta_json, ts, session_tag)
                        VALUES (?,?,?,?,?,?,?,?)""",
-                    (event_id, agent_id, role, event_type, content[:8000],
-                     meta_json, ts, session_tag),
+                    (event_id, agent_id, role, event_type, content[:8000], meta_json, ts, session_tag),
                 )
                 self._conn.commit()
             except Exception as exc:
@@ -262,22 +266,23 @@ class EpisodicStore(IMemoryStore):
     def _sanitize_fts(query: str) -> str:
         """Strip FTS5 special chars (dots, colons, brackets, etc.) that cause syntax errors."""
         import re
-        cleaned = re.sub(r'[^\w\s]', ' ', query)
-        cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+
+        cleaned = re.sub(r"[^\w\s]", " ", query)
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
         return cleaned or "unknown"
 
     def recall(
         self,
         query: str,
         top_k: int = 10,
-        role: Optional[str] = None,
-        event_type: Optional[str] = None,
-    ) -> List[Dict]:
+        role: str | None = None,
+        event_type: str | None = None,
+    ) -> list[dict]:
         """Keyword search via FTS5. Optionally filter by role or event_type."""
         with self._lock:
             try:
-                extra_filters: List[str] = []
-                params: List[Any] = [self._sanitize_fts(query)]
+                extra_filters: list[str] = []
+                params: list[Any] = [self._sanitize_fts(query)]
                 if role:
                     extra_filters.append("e.role = ?")
                     params.append(role)
@@ -298,9 +303,13 @@ class EpisodicStore(IMemoryStore):
                 rows = cur.fetchall()
                 return [
                     {
-                        "id": r[0], "agent_id": r[1], "role": r[2],
-                        "event_type": r[3], "content": r[4][:500],
-                        "meta": json.loads(r[5]), "ts": r[6],
+                        "id": r[0],
+                        "agent_id": r[1],
+                        "role": r[2],
+                        "event_type": r[3],
+                        "content": r[4][:500],
+                        "meta": json.loads(r[5]),
+                        "ts": r[6],
                     }
                     for r in rows
                 ]
@@ -310,15 +319,11 @@ class EpisodicStore(IMemoryStore):
 
     # Additional helpers ------------------------------------------------------
 
-    def stats(self) -> Dict[str, Any]:
+    def stats(self) -> dict[str, Any]:
         """Return row counts for status reporting."""
         with self._lock:
-            total = self._conn.execute(
-                "SELECT COUNT(*) FROM hive_events"
-            ).fetchone()[0]
-            agents = self._conn.execute(
-                "SELECT COUNT(DISTINCT agent_id) FROM hive_events"
-            ).fetchone()[0]
+            total = self._conn.execute("SELECT COUNT(*) FROM hive_events").fetchone()[0]
+            agents = self._conn.execute("SELECT COUNT(DISTINCT agent_id) FROM hive_events").fetchone()[0]
         return {"episodic_events": total, "unique_agents": agents}
 
     def forget(self, older_than_hours: float = 24.0, topic: str = "") -> int:
@@ -331,9 +336,7 @@ class EpisodicStore(IMemoryStore):
                     (cutoff, f"%{topic}%"),
                 )
             else:
-                cur = self._conn.execute(
-                    "DELETE FROM hive_events WHERE ts < ?", (cutoff,)
-                )
+                cur = self._conn.execute("DELETE FROM hive_events WHERE ts < ?", (cutoff,))
             self._conn.commit()
             return cur.rowcount
 
@@ -341,6 +344,7 @@ class EpisodicStore(IMemoryStore):
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 1B — SemanticStore  (S — Single Responsibility: ChromaDB only)
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class SemanticStore(IMemoryStore):
     """
@@ -353,10 +357,10 @@ class SemanticStore(IMemoryStore):
 
     def __init__(
         self,
-        chroma_dir: Optional[Path] = None,
-        episodic_fallback: Optional[EpisodicStore] = None,
+        chroma_dir: Path | None = None,
+        episodic_fallback: EpisodicStore | None = None,
     ) -> None:
-        self._episodic  = episodic_fallback
+        self._episodic = episodic_fallback
         self._collection = self._init_chroma(chroma_dir or (HIVE_DIR / "chroma"))
 
     def _init_chroma(self, chroma_dir: Path):
@@ -385,9 +389,9 @@ class SemanticStore(IMemoryStore):
         agent_id: str = "queen",
         role: str = "generic",
         event_type: str = "observation",
-        meta: Optional[Dict] = None,
+        meta: dict | None = None,
         session_tag: str = "",
-        event_id: Optional[str] = None,
+        event_id: str | None = None,
         **_ignored: Any,
     ) -> str:
         """Add a document to ChromaDB. Returns the event_id used."""
@@ -395,8 +399,12 @@ class SemanticStore(IMemoryStore):
         if self._collection is None:
             if self._episodic is not None:
                 return self._episodic.store(
-                    content, agent_id=agent_id, role=role,
-                    event_type=event_type, meta=meta, session_tag=session_tag,
+                    content,
+                    agent_id=agent_id,
+                    role=role,
+                    event_type=event_type,
+                    meta=meta,
+                    session_tag=session_tag,
                 )
             return eid
 
@@ -407,13 +415,15 @@ class SemanticStore(IMemoryStore):
                 ids=[eid],
                 documents=[content[:2000]],
                 embeddings=[embedding] if embedding else None,
-                metadatas=[{
-                    "agent_id":   agent_id,
-                    "role":       role,
-                    "event_type": event_type,
-                    "ts":         str(ts),
-                    "session":    session_tag,
-                }],
+                metadatas=[
+                    {
+                        "agent_id": agent_id,
+                        "role": role,
+                        "event_type": event_type,
+                        "ts": str(ts),
+                        "session": session_tag,
+                    }
+                ],
             )
         except Exception as exc:
             log.debug("ChromaDB store error: %s", exc)
@@ -425,8 +435,8 @@ class SemanticStore(IMemoryStore):
         self,
         query: str,
         top_k: int = 8,
-        where: Optional[Dict] = None,
-    ) -> List[Dict]:
+        where: dict | None = None,
+    ) -> list[dict]:
         """Vector similarity search. Falls back to episodic FTS if unavailable."""
         if self._collection is None:
             if self._episodic is not None:
@@ -434,7 +444,7 @@ class SemanticStore(IMemoryStore):
             return []
         try:
             embedding = self._embed(query)
-            kw: Dict[str, Any] = {
+            kw: dict[str, Any] = {
                 "n_results": top_k,
                 "include": ["documents", "metadatas", "distances"],
             }
@@ -444,16 +454,16 @@ class SemanticStore(IMemoryStore):
                 kw["query_texts"] = [query]
             if where:
                 kw["where"] = where
-            res   = self._collection.query(**kw)
-            docs  = res.get("documents",  [[]])[0]
-            metas = res.get("metadatas",  [[]])[0]
-            dists = res.get("distances",  [[]])[0]
-            ids_  = res.get("ids",        [[]])[0]
+            res = self._collection.query(**kw)
+            docs = res.get("documents", [[]])[0]
+            metas = res.get("metadatas", [[]])[0]
+            dists = res.get("distances", [[]])[0]
+            ids_ = res.get("ids", [[]])[0]
             return [
                 {
-                    "id":         ids_[i],
-                    "content":    docs[i],
-                    "meta":       metas[i],
+                    "id": ids_[i],
+                    "content": docs[i],
+                    "meta": metas[i],
                     "similarity": round(1.0 - dists[i], 4),
                 }
                 for i in range(len(docs))
@@ -475,7 +485,7 @@ class SemanticStore(IMemoryStore):
 
     # Internal ----------------------------------------------------------------
 
-    def _embed(self, text: str) -> Optional[List[float]]:
+    def _embed(self, text: str) -> list[float] | None:
         model = _get_embed_model()
         if model is None:
             return None
@@ -492,6 +502,7 @@ class SemanticStore(IMemoryStore):
 # SECTION 1C — LongtermStore  (S — Single Responsibility: Parquet recall only)
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class LongtermStore(IMemoryStore):
     """
     Read-only keyword recall from Parquet knowledge files.
@@ -505,10 +516,11 @@ class LongtermStore(IMemoryStore):
         """Parquet store is read-only from here. Returns empty string."""
         return ""
 
-    def recall(self, query: str, top_k: int = 10) -> List[Dict]:
+    def recall(self, query: str, top_k: int = 10) -> list[dict]:
         """Keyword search across Parquet knowledge files."""
         try:
             from lazyown_parquet_db import get_pdb
+
             pdb = get_pdb()
             if pdb is None:
                 return []
@@ -518,18 +530,17 @@ class LongtermStore(IMemoryStore):
                 all_rows = pdb.query_session(limit=50)
                 q_low = query.lower()
                 rows = [
-                    r for r in all_rows
-                    if q_low in str(r.get("command", "")).lower()
-                    or q_low in str(r.get("outcome", "")).lower()
+                    r
+                    for r in all_rows
+                    if q_low in str(r.get("command", "")).lower() or q_low in str(r.get("outcome", "")).lower()
                 ][:top_k]
             return [
                 {
-                    "id":      r.get("id", ""),
+                    "id": r.get("id", ""),
                     "content": (
-                        f"[{r.get('phase', r.get('category', '?'))}] "
-                        f"{r.get('command', '?')} -> {r.get('outcome', '?')}"
+                        f"[{r.get('phase', r.get('category', '?'))}] {r.get('command', '?')} -> {r.get('outcome', '?')}"
                     ),
-                    "meta":       {"phase": r.get("phase", r.get("category", "")), "source": "parquet"},
+                    "meta": {"phase": r.get("phase", r.get("category", "")), "source": "parquet"},
                     "similarity": None,
                 }
                 for r in rows
@@ -543,18 +554,18 @@ class LongtermStore(IMemoryStore):
 # SECTION 1D — HiveMemory  (D — Dependency Inversion: injects IMemoryStore list)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def build_default_hive_memory(db_path: Optional[Path] = None) -> "HiveMemory":
+
+def build_default_hive_memory(db_path: Path | None = None) -> HiveMemory:
     """
     Factory that creates HiveMemory with the default three-layer backend.
 
     Callers that need a custom configuration can construct each store
     explicitly and pass them to HiveMemory directly.
     """
-    episodic  = EpisodicStore(db_path=db_path)
-    semantic  = SemanticStore(episodic_fallback=episodic)
-    longterm  = LongtermStore()
-    return HiveMemory(stores=[episodic, semantic, longterm],
-                      episodic=episodic, semantic=semantic, longterm=longterm)
+    episodic = EpisodicStore(db_path=db_path)
+    semantic = SemanticStore(episodic_fallback=episodic)
+    longterm = LongtermStore()
+    return HiveMemory(stores=[episodic, semantic, longterm], episodic=episodic, semantic=semantic, longterm=longterm)
 
 
 class HiveMemory:
@@ -570,12 +581,12 @@ class HiveMemory:
 
     def __init__(
         self,
-        stores: List[IMemoryStore],
-        episodic: Optional[EpisodicStore] = None,
-        semantic: Optional[SemanticStore] = None,
-        longterm: Optional[LongtermStore] = None,
+        stores: list[IMemoryStore],
+        episodic: EpisodicStore | None = None,
+        semantic: SemanticStore | None = None,
+        longterm: LongtermStore | None = None,
     ) -> None:
-        self._stores   = stores
+        self._stores = stores
         self._episodic = episodic
         self._semantic = semantic
         self._longterm = longterm
@@ -588,7 +599,7 @@ class HiveMemory:
         agent_id: str = "queen",
         role: str = "generic",
         event_type: str = "observation",
-        meta: Optional[Dict] = None,
+        meta: dict | None = None,
         session_tag: str = "",
     ) -> str:
         """
@@ -597,10 +608,13 @@ class HiveMemory:
         Returns the event_id from the first store (episodic).
         The same id is forwarded to semantic so ChromaDB and SQLite stay aligned.
         """
-        event_id: Optional[str] = None
+        event_id: str | None = None
         kwargs = dict(
-            agent_id=agent_id, role=role, event_type=event_type,
-            meta=meta, session_tag=session_tag,
+            agent_id=agent_id,
+            role=role,
+            event_type=event_type,
+            meta=meta,
+            session_tag=session_tag,
         )
 
         for store in self._stores:
@@ -620,9 +634,9 @@ class HiveMemory:
         self,
         query: str,
         top_k: int = 10,
-        role: Optional[str] = None,
-        event_type: Optional[str] = None,
-    ) -> List[Dict]:
+        role: str | None = None,
+        event_type: str | None = None,
+    ) -> list[dict]:
         """Keyword search across hive episodic memory."""
         if self._episodic is None:
             return []
@@ -634,8 +648,8 @@ class HiveMemory:
         self,
         query: str,
         top_k: int = 8,
-        where: Optional[Dict] = None,
-    ) -> List[Dict]:
+        where: dict | None = None,
+    ) -> list[dict]:
         """Vector similarity search in ChromaDB."""
         if self._semantic is None:
             return self.recall_episodic(query, top_k)
@@ -643,7 +657,7 @@ class HiveMemory:
 
     # ── Recall — long-term (Parquet) ─────────────────────────────────────────
 
-    def recall_longterm(self, query: str, top_k: int = 10) -> List[Dict]:
+    def recall_longterm(self, query: str, top_k: int = 10) -> list[dict]:
         """Keyword search across Parquet knowledge files."""
         if self._longterm is None:
             return []
@@ -651,13 +665,13 @@ class HiveMemory:
 
     # ── Unified recall (all layers) ──────────────────────────────────────────
 
-    def recall(self, query: str, top_k: int = 10) -> List[Dict]:
+    def recall(self, query: str, top_k: int = 10) -> list[dict]:
         """
         Unified recall: semantic (ChromaDB) + episodic (SQLite) + longterm (Parquet).
         Deduplicates by content hash.
         """
         seen: set = set()
-        results: List[Dict] = []
+        results: list[dict] = []
 
         for item in self.recall_semantic(query, top_k=top_k):
             key = hashlib.md5(item["content"][:200].encode()).hexdigest()
@@ -677,9 +691,9 @@ class HiveMemory:
 
     # ── Stats ─────────────────────────────────────────────────────────────────
 
-    def stats(self) -> Dict[str, Any]:
+    def stats(self) -> dict[str, Any]:
         """Return combined statistics from all layers."""
-        result: Dict[str, Any] = {"chroma_enabled": _CHROMA_OK, "embed_enabled": _EMBED_OK}
+        result: dict[str, Any] = {"chroma_enabled": _CHROMA_OK, "embed_enabled": _EMBED_OK}
         if self._episodic is not None:
             result.update(self._episodic.stats())
         result["chroma_vectors"] = self._semantic.count() if self._semantic else 0
@@ -702,12 +716,13 @@ class HiveMemory:
 @dataclass
 class HiveMessage:
     """A message on the hive bus."""
-    msg_id:    str = field(default_factory=lambda: uuid.uuid4().hex[:8])
-    sender:    str = "queen"
-    recipient: str = "*"          # "*" = broadcast
-    kind:      str = "task"       # task | result | signal | heartbeat
-    payload:   Dict = field(default_factory=dict)
-    ts:        float = field(default_factory=time.time)
+
+    msg_id: str = field(default_factory=lambda: uuid.uuid4().hex[:8])
+    sender: str = "queen"
+    recipient: str = "*"  # "*" = broadcast
+    kind: str = "task"  # task | result | signal | heartbeat
+    payload: dict = field(default_factory=dict)
+    ts: float = field(default_factory=time.time)
 
 
 class HiveBus:
@@ -719,8 +734,8 @@ class HiveBus:
     """
 
     def __init__(self) -> None:
-        self._lock    = threading.Lock()
-        self._mailbox: Dict[str, List[HiveMessage]] = {}   # recipient -> [msgs]
+        self._lock = threading.Lock()
+        self._mailbox: dict[str, list[HiveMessage]] = {}  # recipient -> [msgs]
 
     def publish(self, msg: HiveMessage) -> None:
         """Deliver msg to recipient mailbox (and to "*" broadcast)."""
@@ -728,12 +743,12 @@ class HiveBus:
             for recipient in (msg.recipient, "*"):
                 self._mailbox.setdefault(recipient, []).append(msg)
 
-    def receive(self, agent_id: str, max_msgs: int = 10) -> List[HiveMessage]:
+    def receive(self, agent_id: str, max_msgs: int = 10) -> list[HiveMessage]:
         """Drain mailbox for agent_id (includes broadcast)."""
         with self._lock:
-            direct    = self._mailbox.pop(agent_id, [])
+            direct = self._mailbox.pop(agent_id, [])
             broadcast = self._mailbox.get("*", [])
-            combined  = direct + broadcast
+            combined = direct + broadcast
             return combined[:max_msgs]
 
     def ack_broadcast(self, agent_id: str, msg_id: str) -> None:
@@ -751,14 +766,14 @@ class HiveBus:
 # ─────────────────────────────────────────────────────────────────────────────
 
 # Role -> system prompt focus
-_ROLE_FOCUS: Dict[str, str] = {
-    "recon":             "You specialise in host discovery, port scanning, and service fingerprinting.",
-    "exploit":           "You specialise in vulnerability analysis, CVE research, and exploitation.",
-    "analyze":           "You specialise in log analysis, output parsing, and pattern detection.",
-    "cred":              "You specialise in credential hunting, hash cracking, and auth bypass.",
-    "lateral":           "You specialise in lateral movement, pivoting, and network traversal.",
-    "report":            "You specialise in synthesising findings into structured, actionable reports.",
-    "generic":           "You are a general-purpose red-team assistant.",
+_ROLE_FOCUS: dict[str, str] = {
+    "recon": "You specialise in host discovery, port scanning, and service fingerprinting.",
+    "exploit": "You specialise in vulnerability analysis, CVE research, and exploitation.",
+    "analyze": "You specialise in log analysis, output parsing, and pattern detection.",
+    "cred": "You specialise in credential hunting, hash cracking, and auth bypass.",
+    "lateral": "You specialise in lateral movement, pivoting, and network traversal.",
+    "report": "You specialise in synthesising findings into structured, actionable reports.",
+    "generic": "You are a general-purpose red-team assistant.",
     # ── Specialised swarm roles ───────────────────────────────────────────────
     "stealth_specialist": (
         "You are the Stealth Specialist. Your primary concern is remaining undetected. "
@@ -784,32 +799,93 @@ _ROLE_FOCUS: Dict[str, str] = {
 }
 
 # Role -> preferred tool subset
-_ROLE_TOOLS: Dict[str, List[str]] = {
-    "recon":   ["run_command", "facts_show", "bridge_suggest", "rag_query", "cve_lookup",
-                "parquet_context", "memory_search", "session_status"],
-    "exploit": ["run_command", "cve_lookup", "searchsploit", "bridge_suggest",
-                "atomic_search", "parquet_context", "reactive_suggest", "rag_query"],
-    "analyze": ["run_command", "rag_query", "memory_search", "reactive_suggest",
-                "threat_model", "facts_show", "parquet_context"],
-    "cred":    ["run_command", "bridge_suggest", "memory_search", "parquet_context",
-                "reactive_suggest", "facts_show", "session_status"],
-    "lateral": ["run_command", "bridge_suggest", "session_status", "c2_status",
-                "c2_command", "reactive_suggest", "parquet_context"],
-    "report":  ["run_command", "rag_query", "threat_model", "facts_show",
-                "parquet_context", "task_list", "memory_search"],
-    "generic": [],   # all tools
+_ROLE_TOOLS: dict[str, list[str]] = {
+    "recon": [
+        "run_command",
+        "facts_show",
+        "bridge_suggest",
+        "rag_query",
+        "cve_lookup",
+        "parquet_context",
+        "memory_search",
+        "session_status",
+    ],
+    "exploit": [
+        "run_command",
+        "cve_lookup",
+        "searchsploit",
+        "bridge_suggest",
+        "atomic_search",
+        "parquet_context",
+        "reactive_suggest",
+        "rag_query",
+    ],
+    "analyze": [
+        "run_command",
+        "rag_query",
+        "memory_search",
+        "reactive_suggest",
+        "threat_model",
+        "facts_show",
+        "parquet_context",
+    ],
+    "cred": [
+        "run_command",
+        "bridge_suggest",
+        "memory_search",
+        "parquet_context",
+        "reactive_suggest",
+        "facts_show",
+        "session_status",
+    ],
+    "lateral": [
+        "run_command",
+        "bridge_suggest",
+        "session_status",
+        "c2_status",
+        "c2_command",
+        "reactive_suggest",
+        "parquet_context",
+    ],
+    "report": [
+        "run_command",
+        "rag_query",
+        "threat_model",
+        "facts_show",
+        "parquet_context",
+        "task_list",
+        "memory_search",
+    ],
+    "generic": [],  # all tools
     # ── Specialised swarm roles ───────────────────────────────────────────────
     "stealth_specialist": [
-        "run_command", "reactive_suggest", "threat_model", "rag_query",
-        "bridge_suggest", "parquet_context", "memory_search",
+        "run_command",
+        "reactive_suggest",
+        "threat_model",
+        "rag_query",
+        "bridge_suggest",
+        "parquet_context",
+        "memory_search",
     ],
     "privesc_hunter": [
-        "run_command", "bridge_suggest", "atomic_search", "parquet_context",
-        "reactive_suggest", "facts_show", "cve_lookup", "searchsploit",
+        "run_command",
+        "bridge_suggest",
+        "atomic_search",
+        "parquet_context",
+        "reactive_suggest",
+        "facts_show",
+        "cve_lookup",
+        "searchsploit",
     ],
     "architect": [
-        "rag_query", "memory_search", "facts_show", "threat_model",
-        "session_status", "hive_recall", "parquet_context", "task_list",
+        "rag_query",
+        "memory_search",
+        "facts_show",
+        "threat_model",
+        "session_status",
+        "hive_recall",
+        "parquet_context",
+        "task_list",
     ],
 }
 
@@ -825,10 +901,11 @@ _HIGH_RISK_ROLES: frozenset = frozenset({"exploit", "lateral", "cred", "privesc_
 @dataclass
 class ConsensusVote:
     """A single vote cast by a drone role during consensus evaluation."""
-    voter_role:  str
-    approved:    bool
-    risk_score:  float   # estimated detection/operational risk in [0.0, 1.0]
-    rationale:   str
+
+    voter_role: str
+    approved: bool
+    risk_score: float  # estimated detection/operational risk in [0.0, 1.0]
+    rationale: str
 
 
 class ConsensusProtocol:
@@ -855,18 +932,18 @@ class ConsensusProtocol:
     - Dependency Inversion  : DetectionRiskAssessor injected, not constructed here
     """
 
-    _DETECTION_RISK_BY_ROLE: Dict[str, float] = {
-        "exploit":        0.82,
-        "lateral":        0.75,
-        "cred":           0.88,
+    _DETECTION_RISK_BY_ROLE: dict[str, float] = {
+        "exploit": 0.82,
+        "lateral": 0.75,
+        "cred": 0.88,
         "privesc_hunter": 0.65,
     }
-    _APPROVAL_QUORUM: float = 0.51   # fraction of weighted votes required
+    _APPROVAL_QUORUM: float = 0.51  # fraction of weighted votes required
 
-    def __init__(self, risk_assessor: Optional[Any] = None) -> None:
+    def __init__(self, risk_assessor: Any | None = None) -> None:
         self._risk_assessor = risk_assessor  # Optional DetectionRiskAssessor
 
-    def evaluate(self, role: str, goal: str) -> Tuple[bool, List[ConsensusVote], str]:
+    def evaluate(self, role: str, goal: str) -> tuple[bool, list[ConsensusVote], str]:
         """
         Run the consensus vote for the given (role, goal) pair.
 
@@ -884,8 +961,8 @@ class ConsensusProtocol:
             self._architect_vote(role, goal),
         ]
         weighted_score = self._weighted_approval(votes)
-        approved       = weighted_score >= self._APPROVAL_QUORUM
-        summary        = (
+        approved = weighted_score >= self._APPROVAL_QUORUM
+        summary = (
             f"Consensus {'APPROVED' if approved else 'REJECTED'} "
             f"(weighted approval {weighted_score:.0%}, "
             f"detection_risk={detection_risk:.0%}). "
@@ -897,7 +974,7 @@ class ConsensusProtocol:
 
     def _stealth_vote(self, detection_risk: float) -> ConsensusVote:
         threshold = 0.70
-        approved  = detection_risk < threshold
+        approved = detection_risk < threshold
         return ConsensusVote(
             voter_role="stealth_specialist",
             approved=approved,
@@ -927,10 +1004,19 @@ class ConsensusProtocol:
     def _architect_vote(role: str, goal: str) -> ConsensusVote:
         # Approves when the goal contains strategic keywords
         strategic_keywords = (
-            "shell", "root", "admin", "system", "lateral", "cred",
-            "pivot", "domain", "dc", "secretsdump", "hash",
+            "shell",
+            "root",
+            "admin",
+            "system",
+            "lateral",
+            "cred",
+            "pivot",
+            "domain",
+            "dc",
+            "secretsdump",
+            "hash",
         )
-        goal_lower  = goal.lower()
+        goal_lower = goal.lower()
         is_strategic = any(kw in goal_lower for kw in strategic_keywords)
         return ConsensusVote(
             voter_role="architect",
@@ -952,7 +1038,7 @@ class ConsensusProtocol:
         return self._DETECTION_RISK_BY_ROLE.get(role, 0.50)
 
     @staticmethod
-    def _weighted_approval(votes: List[ConsensusVote]) -> float:
+    def _weighted_approval(votes: list[ConsensusVote]) -> float:
         """
         Weight votes by role importance:
           stealth_specialist : 0.40 (detection risk is paramount)
@@ -961,10 +1047,10 @@ class ConsensusProtocol:
         """
         weights = {
             "stealth_specialist": 0.40,
-            "privesc_hunter":     0.30,
-            "architect":          0.30,
+            "privesc_hunter": 0.30,
+            "architect": 0.30,
         }
-        total_weight  = 0.0
+        total_weight = 0.0
         approval_weight = 0.0
         for vote in votes:
             w = weights.get(vote.voter_role, 0.0)
@@ -979,17 +1065,18 @@ class ConsensusProtocol:
 @dataclass
 class DroneState:
     """Mutable state record for a single drone instance."""
-    drone_id:   str
-    role:       str
-    goal:       str
-    backend:    str      # groq | ollama
-    status:     str = "queued"   # queued|running|completed|failed
-    result:     str = ""
-    error:      str = ""
-    started:    float = 0.0
-    finished:   float = 0.0
+
+    drone_id: str
+    role: str
+    goal: str
+    backend: str  # groq | ollama
+    status: str = "queued"  # queued|running|completed|failed
+    result: str = ""
+    error: str = ""
+    started: float = 0.0
+    finished: float = 0.0
     iterations: int = 0
-    tokens_in:  int = 0
+    tokens_in: int = 0
     tokens_out: int = 0
 
 
@@ -1010,22 +1097,25 @@ class DroneAgent:
         memory: HiveMemory,
         bus: HiveBus,
         max_iterations: int = 10,
-        api_key: Optional[str] = None,
-        model: Optional[str] = None,
-        runner: Optional[ICommandRunner] = None,
-        on_state_change: Optional[Callable[["DroneState"], None]] = None,
+        api_key: str | None = None,
+        model: str | None = None,
+        runner: ICommandRunner | None = None,
+        on_state_change: Callable[[DroneState], None] | None = None,
     ) -> None:
-        self.state    = DroneState(
-            drone_id=drone_id, role=role, goal=goal, backend=backend,
+        self.state = DroneState(
+            drone_id=drone_id,
+            role=role,
+            goal=goal,
+            backend=backend,
         )
-        self._memory           = memory
-        self._bus              = bus
-        self._max_it           = max_iterations
-        self._api_key          = api_key
-        self._model            = model
-        self._runner           = runner
-        self._on_state_change  = on_state_change
-        self._thread: Optional[threading.Thread] = None
+        self._memory = memory
+        self._bus = bus
+        self._max_it = max_iterations
+        self._api_key = api_key
+        self._model = model
+        self._runner = runner
+        self._on_state_change = on_state_change
+        self._thread: threading.Thread | None = None
 
     def _persist(self) -> None:
         """Fire the on_state_change callback if registered."""
@@ -1044,14 +1134,14 @@ class DroneAgent:
         )
         self._thread.start()
 
-    def join(self, timeout: Optional[float] = None) -> None:
+    def join(self, timeout: float | None = None) -> None:
         """Block until the drone thread finishes."""
         if self._thread:
             self._thread.join(timeout=timeout)
 
     def _run(self) -> None:
         s = self.state
-        s.status  = "running"
+        s.status = "running"
         s.started = time.time()
         self._persist()  # persist: queued -> running
 
@@ -1063,14 +1153,10 @@ class DroneAgent:
         )
 
         try:
-            from lazyown_llm import LLMBridge
             from lazyown_groq_agents import REGISTRY
+            from lazyown_llm import LLMBridge
 
-            key = (
-                self._api_key
-                or self._load_payload_key()
-                or os.environ.get("GROQ_API_KEY", "")
-            )
+            key = self._api_key or self._load_payload_key() or os.environ.get("GROQ_API_KEY", "")
             bridge = LLMBridge(backend=s.backend, model=self._model, api_key=key)
 
             tool_names = _ROLE_TOOLS.get(s.role) or list(REGISTRY.keys())
@@ -1079,7 +1165,7 @@ class DroneAgent:
                     desc, params, func = REGISTRY[name]
                     bridge.register_tool(name, desc, params, func)
 
-            hive_ctx   = self._build_hive_context()
+            hive_ctx = self._build_hive_context()
             sys_prompt = self._build_system_prompt(list(bridge._tools.keys()), hive_ctx)
 
             answer = bridge.ask(
@@ -1087,13 +1173,13 @@ class DroneAgent:
                 max_iterations=self._max_it,
                 system_prompt=sys_prompt,
             )
-            s.result  = answer
-            s.status  = "completed"
+            s.result = answer
+            s.status = "completed"
 
         except Exception as exc:
-            s.error  = str(exc)
+            s.error = str(exc)
             s.status = "failed"
-            answer   = f"[FAILED] {exc}"
+            answer = f"[FAILED] {exc}"
 
         finally:
             s.finished = time.time()
@@ -1107,19 +1193,21 @@ class DroneAgent:
             meta={"status": s.status, "duration_s": round(s.finished - s.started, 2)},
         )
 
-        self._bus.publish(HiveMessage(
-            sender=s.drone_id,
-            recipient="queen",
-            kind="result",
-            payload={
-                "drone_id": s.drone_id,
-                "role":     s.role,
-                "goal":     s.goal[:200],
-                "status":   s.status,
-                "result":   answer[:4000],
-                "duration": round(s.finished - s.started, 2),
-            },
-        ))
+        self._bus.publish(
+            HiveMessage(
+                sender=s.drone_id,
+                recipient="queen",
+                kind="result",
+                payload={
+                    "drone_id": s.drone_id,
+                    "role": s.role,
+                    "goal": s.goal[:200],
+                    "status": s.status,
+                    "result": answer[:4000],
+                    "duration": round(s.finished - s.started, 2),
+                },
+            )
+        )
 
     def _build_hive_context(self) -> str:
         """Pull relevant memories to seed this drone's context."""
@@ -1132,7 +1220,7 @@ class DroneAgent:
             lines.append(f"[{layer}] {item['content'][:300]}")
         return "\n".join(lines)
 
-    def _build_system_prompt(self, tool_names: List[str], hive_ctx: str) -> str:
+    def _build_system_prompt(self, tool_names: list[str], hive_ctx: str) -> str:
         role_focus = _ROLE_FOCUS.get(self.state.role, _ROLE_FOCUS["generic"])
         base = (
             f"You are a LazyOwn hive-mind drone. Role: {self.state.role.upper()}.\n"
@@ -1161,27 +1249,27 @@ class DroneAgent:
 # SECTION 4 — QueenBrain  (S — orchestration only; D — all deps injected)
 # ─────────────────────────────────────────────────────────────────────────────
 
-_DECOMPOSITION_TEMPLATES: Dict[str, List[Dict]] = {
+_DECOMPOSITION_TEMPLATES: dict[str, list[dict]] = {
     "enum": [
-        {"role": "recon",   "goal_suffix": "— host discovery and port scanning"},
+        {"role": "recon", "goal_suffix": "— host discovery and port scanning"},
         {"role": "analyze", "goal_suffix": "— service version fingerprinting"},
-        {"role": "cred",    "goal_suffix": "— anonymous access and default credentials"},
+        {"role": "cred", "goal_suffix": "— anonymous access and default credentials"},
     ],
     "exploit": [
-        {"role": "recon",   "goal_suffix": "— confirm target services and versions"},
+        {"role": "recon", "goal_suffix": "— confirm target services and versions"},
         {"role": "exploit", "goal_suffix": "— CVE research and exploit selection"},
         {"role": "analyze", "goal_suffix": "— post-exploit output analysis"},
     ],
     "ad": [
-        {"role": "recon",   "goal_suffix": "— AD enumeration (users, groups, GPOs)"},
-        {"role": "cred",    "goal_suffix": "— Kerberoasting and AS-REP roasting"},
+        {"role": "recon", "goal_suffix": "— AD enumeration (users, groups, GPOs)"},
+        {"role": "cred", "goal_suffix": "— Kerberoasting and AS-REP roasting"},
         {"role": "lateral", "goal_suffix": "— lateral movement and privilege escalation"},
-        {"role": "report",  "goal_suffix": "— synthesis of AD attack path"},
+        {"role": "report", "goal_suffix": "— synthesis of AD attack path"},
     ],
     "generic": [
-        {"role": "recon",   "goal_suffix": ""},
+        {"role": "recon", "goal_suffix": ""},
         {"role": "analyze", "goal_suffix": ""},
-        {"role": "report",  "goal_suffix": "— synthesis"},
+        {"role": "report", "goal_suffix": "— synthesis"},
     ],
 }
 
@@ -1214,15 +1302,15 @@ class QueenBrain:
         self,
         memory: HiveMemory,
         bus: HiveBus,
-        pool: "DronePool",
-        consensus: Optional["ConsensusProtocol"] = None,
+        pool: DronePool,
+        consensus: ConsensusProtocol | None = None,
     ) -> None:
-        self._memory    = memory
-        self._bus       = bus
-        self._pool      = pool
+        self._memory = memory
+        self._bus = bus
+        self._pool = pool
         self._consensus = consensus or ConsensusProtocol()
 
-    def plan(self, goal: str, n_drones: int = 0) -> List[Dict]:
+    def plan(self, goal: str, n_drones: int = 0) -> list[dict]:
         """
         Decompose a high-level goal into per-drone task specs.
         Returns list of {role, goal} dicts.
@@ -1232,7 +1320,7 @@ class QueenBrain:
 
         tasks = []
         for spec in template:
-            suffix    = spec["goal_suffix"]
+            suffix = spec["goal_suffix"]
             task_goal = f"{goal} {suffix}".strip()
             tasks.append({"role": spec["role"], "goal": task_goal})
 
@@ -1243,11 +1331,11 @@ class QueenBrain:
 
     def dispatch(
         self,
-        tasks: List[Dict],
+        tasks: list[dict],
         backend: str = "groq",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         max_iterations: int = 10,
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Spawn one drone per task in parallel.
 
@@ -1257,8 +1345,8 @@ class QueenBrain:
 
         Returns list of drone_ids for approved and spawned drones.
         """
-        drone_ids: List[str] = []
-        blocked:   List[str] = []
+        drone_ids: list[str] = []
+        blocked: list[str] = []
 
         for task in tasks:
             role = task.get("role", "generic")
@@ -1307,9 +1395,9 @@ class QueenBrain:
                 agent_id="queen",
                 event_type="dispatch",
                 meta={
-                    "drone_ids":  drone_ids,
+                    "drone_ids": drone_ids,
                     "task_count": len(tasks),
-                    "blocked":    blocked,
+                    "blocked": blocked,
                 },
             )
         return drone_ids
@@ -1319,27 +1407,26 @@ class QueenBrain:
         goal: str,
         n_drones: int = 0,
         backend: str = "groq",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         max_iterations: int = 10,
-    ) -> List[str]:
+    ) -> list[str]:
         """Convenience: plan + dispatch in one call."""
         tasks = self.plan(goal, n_drones=n_drones)
-        return self.dispatch(tasks, backend=backend, api_key=api_key,
-                             max_iterations=max_iterations)
+        return self.dispatch(tasks, backend=backend, api_key=api_key, max_iterations=max_iterations)
 
     def collect(
         self,
-        drone_ids: List[str],
+        drone_ids: list[str],
         timeout: float = 300.0,
         poll_interval: float = 2.0,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Wait for all drones to finish (up to timeout seconds).
         Returns aggregated results dict.
         """
         deadline = time.time() + timeout
         while time.time() < deadline:
-            states  = [self._pool.get_state(did) for did in drone_ids]
+            states = [self._pool.get_state(did) for did in drone_ids]
             pending = [s for s in states if s and s.status in ("queued", "running")]
             if not pending:
                 break
@@ -1350,20 +1437,20 @@ class QueenBrain:
             s = self._pool.get_state(did)
             if s:
                 results[did] = {
-                    "role":     s.role,
-                    "status":   s.status,
-                    "result":   s.result[:3000] if s.result else s.error,
+                    "role": s.role,
+                    "status": s.status,
+                    "result": s.result[:3000] if s.result else s.error,
                     "duration": round(s.finished - s.started, 2) if s.finished else 0,
                 }
         return results
 
-    def synthesize(self, drone_ids: List[str], original_goal: str) -> str:
+    def synthesize(self, drone_ids: list[str], original_goal: str) -> str:
         """
         Read hive memory results for these drones and produce a synthesis summary.
         Written back to hive memory by the queen.
         """
-        results  = self.collect(drone_ids, timeout=0)
-        lines    = [f"# Hive Synthesis: {original_goal[:100]}", ""]
+        results = self.collect(drone_ids, timeout=0)
+        lines = [f"# Hive Synthesis: {original_goal[:100]}", ""]
         total_ok = sum(1 for r in results.values() if r["status"] == "completed")
         lines.append(f"**Drones:** {len(drone_ids)} | **Completed:** {total_ok}")
         lines.append("")
@@ -1381,7 +1468,7 @@ class QueenBrain:
         )
         return summary
 
-    def read_bus(self) -> List[HiveMessage]:
+    def read_bus(self) -> list[HiveMessage]:
         """Drain queen's mailbox from drone result messages."""
         return self._bus.receive("queen")
 
@@ -1423,13 +1510,12 @@ class DroneStateStore:
     )
     """
 
-    def __init__(self, db_path: Optional[Path] = None) -> None:
+    def __init__(self, db_path: Path | None = None) -> None:
         import sqlite3
+
         self._db_path = db_path or (HIVE_DIR / "hive_memory.db")
-        self._lock    = threading.RLock()
-        self._conn    = sqlite3.connect(
-            str(self._db_path), check_same_thread=False
-        )
+        self._lock = threading.RLock()
+        self._conn = sqlite3.connect(str(self._db_path), check_same_thread=False)
         self._conn.execute("PRAGMA journal_mode=WAL")
         self._conn.execute(self._DDL)
         self._conn.commit()
@@ -1445,18 +1531,26 @@ class DroneStateStore:
                         ts_updated)
                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (
-                        state.drone_id, state.role, state.goal[:2000],
-                        state.backend, state.status,
-                        state.result[:8000], state.error[:2000],
-                        state.started, state.finished, state.iterations,
-                        state.tokens_in, state.tokens_out, time.time(),
+                        state.drone_id,
+                        state.role,
+                        state.goal[:2000],
+                        state.backend,
+                        state.status,
+                        state.result[:8000],
+                        state.error[:2000],
+                        state.started,
+                        state.finished,
+                        state.iterations,
+                        state.tokens_in,
+                        state.tokens_out,
+                        time.time(),
                     ),
                 )
                 self._conn.commit()
             except Exception as exc:
                 log.warning("DroneStateStore.upsert error: %s", exc)
 
-    def load_all(self, limit: int = 500) -> List[DroneState]:
+    def load_all(self, limit: int = 500) -> list[DroneState]:
         """Load all persisted drone states ordered by most recently updated."""
         with self._lock:
             try:
@@ -1475,10 +1569,18 @@ class DroneStateStore:
                 return []
         return [
             DroneState(
-                drone_id=r[0], role=r[1], goal=r[2], backend=r[3],
-                status=r[4], result=r[5], error=r[6],
-                started=r[7], finished=r[8],
-                iterations=r[9], tokens_in=r[10], tokens_out=r[11],
+                drone_id=r[0],
+                role=r[1],
+                goal=r[2],
+                backend=r[3],
+                status=r[4],
+                result=r[5],
+                error=r[6],
+                started=r[7],
+                finished=r[8],
+                iterations=r[9],
+                tokens_in=r[10],
+                tokens_out=r[11],
             )
             for r in rows
         ]
@@ -1504,7 +1606,7 @@ class DroneStateStore:
                 log.warning("DroneStateStore.mark_interrupted error: %s", exc)
                 return 0
 
-    def load_interrupted(self) -> List[DroneState]:
+    def load_interrupted(self) -> list[DroneState]:
         """Return all drones currently in 'interrupted' state."""
         with self._lock:
             try:
@@ -1522,10 +1624,18 @@ class DroneStateStore:
                 return []
         return [
             DroneState(
-                drone_id=r[0], role=r[1], goal=r[2], backend=r[3],
-                status=r[4], result=r[5], error=r[6],
-                started=r[7], finished=r[8],
-                iterations=r[9], tokens_in=r[10], tokens_out=r[11],
+                drone_id=r[0],
+                role=r[1],
+                goal=r[2],
+                backend=r[3],
+                status=r[4],
+                result=r[5],
+                error=r[6],
+                started=r[7],
+                finished=r[8],
+                iterations=r[9],
+                tokens_in=r[10],
+                tokens_out=r[11],
             )
             for r in rows
         ]
@@ -1535,9 +1645,7 @@ class DroneStateStore:
         cutoff = time.time() - days * 86400
         with self._lock:
             try:
-                cur = self._conn.execute(
-                    "DELETE FROM drone_states WHERE ts_updated < ?", (cutoff,)
-                )
+                cur = self._conn.execute("DELETE FROM drone_states WHERE ts_updated < ?", (cutoff,))
                 self._conn.commit()
                 return cur.rowcount
             except Exception as exc:
@@ -1566,14 +1674,14 @@ class DronePool:
         self,
         memory: HiveMemory,
         bus: HiveBus,
-        state_store: Optional[DroneStateStore] = None,
+        state_store: DroneStateStore | None = None,
     ) -> None:
-        self._memory      = memory
-        self._bus         = bus
+        self._memory = memory
+        self._bus = bus
         self._state_store = state_store
-        self._drones: Dict[str, DroneAgent] = {}
+        self._drones: dict[str, DroneAgent] = {}
         # Recovered states from previous runs (read-only, no live thread)
-        self._history: Dict[str, DroneState] = {}
+        self._history: dict[str, DroneState] = {}
         self._lock = threading.Lock()
 
     def recover_from_store(self) -> int:
@@ -1585,7 +1693,7 @@ class DronePool:
         if self._state_store is None:
             return 0
         interrupted = self._state_store.mark_interrupted()
-        all_states  = self._state_store.load_all()
+        all_states = self._state_store.load_all()
         with self._lock:
             for state in all_states:
                 if state.drone_id not in self._drones:
@@ -1602,14 +1710,14 @@ class DronePool:
         role: str,
         goal: str,
         backend: str = "groq",
-        api_key: Optional[str] = None,
-        model: Optional[str] = None,
+        api_key: str | None = None,
+        model: str | None = None,
         max_iterations: int = 10,
-        runner: Optional[ICommandRunner] = None,
+        runner: ICommandRunner | None = None,
     ) -> str:
         """Create and start a DroneAgent. Returns drone_id."""
         drone_id = f"{role[:4]}-{uuid.uuid4().hex[:6]}"
-        drone    = DroneAgent(
+        drone = DroneAgent(
             drone_id=drone_id,
             role=role,
             goal=goal,
@@ -1633,9 +1741,9 @@ class DronePool:
     def requeue_interrupted(
         self,
         backend: str = "groq",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         max_iterations: int = 10,
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Re-spawn all drones previously marked 'interrupted'.
         Returns list of new drone_ids.
@@ -1656,7 +1764,7 @@ class DronePool:
         log.info("DronePool: re-queued %d interrupted drone(s)", len(new_ids))
         return new_ids
 
-    def get_state(self, drone_id: str) -> Optional[DroneState]:
+    def get_state(self, drone_id: str) -> DroneState | None:
         """Return the current state snapshot for a drone, or None if unknown."""
         with self._lock:
             d = self._drones.get(drone_id)
@@ -1665,38 +1773,35 @@ class DronePool:
             # Fall back to persisted history (previous runs)
             return self._history.get(drone_id)
 
-    def list_all(self, limit: int = 30) -> List[Dict]:
+    def list_all(self, limit: int = 30) -> list[dict]:
         """
         Return a sorted list of drone summary dicts (most recent first).
         Includes live drones and recovered history from previous runs.
         """
         with self._lock:
-            live    = [(d.state, True)  for d in self._drones.values()]
-            history = [(s,       False) for s in self._history.values()
-                       if s.drone_id not in self._drones]
+            live = [(d.state, True) for d in self._drones.values()]
+            history = [(s, False) for s in self._history.values() if s.drone_id not in self._drones]
         combined = live + history
         combined.sort(key=lambda x: x[0].started, reverse=True)
         result = []
         for state, is_live in combined[:limit]:
-            result.append({
-                "drone_id": state.drone_id,
-                "role":     state.role,
-                "status":   state.status,
-                "backend":  state.backend,
-                "goal":     state.goal[:80],
-                "live":     is_live,
-                "duration": round(state.finished - state.started, 1)
-                            if state.finished else None,
-            })
+            result.append(
+                {
+                    "drone_id": state.drone_id,
+                    "role": state.role,
+                    "status": state.status,
+                    "backend": state.backend,
+                    "goal": state.goal[:80],
+                    "live": is_live,
+                    "duration": round(state.finished - state.started, 1) if state.finished else None,
+                }
+            )
         return result
 
     def active_count(self) -> int:
         """Return number of live drones currently in queued or running state."""
         with self._lock:
-            return sum(
-                1 for d in self._drones.values()
-                if d.state.status in ("queued", "running")
-            )
+            return sum(1 for d in self._drones.values() if d.state.status in ("queued", "running"))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1711,11 +1816,11 @@ class HiveMind:
     """
 
     def __init__(self) -> None:
-        self.memory      = build_default_hive_memory()
-        self.bus         = HiveBus()
+        self.memory = build_default_hive_memory()
+        self.bus = HiveBus()
         self.state_store = DroneStateStore()
-        self._pool       = DronePool(self.memory, self.bus, self.state_store)
-        self.queen       = QueenBrain(self.memory, self.bus, self._pool)
+        self._pool = DronePool(self.memory, self.bus, self.state_store)
+        self.queen = QueenBrain(self.memory, self.bus, self._pool)
         # Recover drone states from any previous run
         self._pool.recover_from_store()
 
@@ -1726,13 +1831,16 @@ class HiveMind:
         goal: str,
         role: str = "generic",
         backend: str = "groq",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         max_iterations: int = 10,
     ) -> str:
         """Spawn a single drone. Returns drone_id."""
         return self._pool.spawn(
-            role=role, goal=goal, backend=backend,
-            api_key=api_key, max_iterations=max_iterations,
+            role=role,
+            goal=goal,
+            backend=backend,
+            api_key=api_key,
+            max_iterations=max_iterations,
         )
 
     def spawn_hive(
@@ -1740,51 +1848,52 @@ class HiveMind:
         goal: str,
         n_drones: int = 0,
         backend: str = "groq",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         max_iterations: int = 10,
-    ) -> List[str]:
+    ) -> list[str]:
         """Queen plans and dispatches multiple drones in parallel."""
         return self.queen.plan_and_dispatch(
-            goal=goal, n_drones=n_drones, backend=backend,
-            api_key=api_key, max_iterations=max_iterations,
+            goal=goal,
+            n_drones=n_drones,
+            backend=backend,
+            api_key=api_key,
+            max_iterations=max_iterations,
         )
 
-    def status(self) -> Dict[str, Any]:
+    def status(self) -> dict[str, Any]:
         """Return hive-wide status dict including historical drones from previous runs."""
-        drone_list   = self._pool.list_all()
-        mem_stats    = self.memory.stats()
-        bus_msgs     = self.bus.pending_count("queen")
-        interrupted  = (
-            len(self._pool._history) if self._pool._history else 0
-        )
+        drone_list = self._pool.list_all()
+        mem_stats = self.memory.stats()
+        bus_msgs = self.bus.pending_count("queen")
+        interrupted = len(self._pool._history) if self._pool._history else 0
         return {
-            "active_drones":      self._pool.active_count(),
-            "total_drones":       len(drone_list),
-            "history_recovered":  interrupted,
-            "drones":             drone_list,
-            "memory":             mem_stats,
-            "queen_mailbox":      bus_msgs,
+            "active_drones": self._pool.active_count(),
+            "total_drones": len(drone_list),
+            "history_recovered": interrupted,
+            "drones": drone_list,
+            "memory": mem_stats,
+            "queen_mailbox": bus_msgs,
         }
 
-    def recall(self, query: str, top_k: int = 10) -> List[Dict]:
+    def recall(self, query: str, top_k: int = 10) -> list[dict]:
         """Unified recall from all memory layers."""
         return self.memory.recall(query, top_k=top_k)
 
-    def drone_result(self, drone_id: str) -> Dict[str, Any]:
+    def drone_result(self, drone_id: str) -> dict[str, Any]:
         """Return result dict for a specific drone."""
         s = self._pool.get_state(drone_id)
         if s is None:
             return {"error": f"Drone '{drone_id}' not found"}
         return {
             "drone_id": s.drone_id,
-            "role":     s.role,
-            "status":   s.status,
-            "result":   s.result,
-            "error":    s.error,
+            "role": s.role,
+            "status": s.status,
+            "result": s.result,
+            "error": s.error,
             "duration": round(s.finished - s.started, 2) if s.finished else None,
         }
 
-    def collect_and_synthesize(self, drone_ids: List[str], goal: str) -> str:
+    def collect_and_synthesize(self, drone_ids: list[str], goal: str) -> str:
         """Synthesize results from multiple drones."""
         return self.queen.synthesize(drone_ids, goal)
 
@@ -1795,7 +1904,7 @@ class HiveMind:
 
 # ── Singleton ──────────────────────────────────────────────────────────────────
 
-_hive_instance: Optional[HiveMind] = None
+_hive_instance: HiveMind | None = None
 _hive_lock = threading.Lock()
 
 
@@ -1826,30 +1935,42 @@ def mcp_hive_spawn(
     Spawn one or more hive drones for a goal.
     If n_drones > 1 or role == 'auto', queen plans and dispatches a full squad.
     """
-    hive    = get_hive()
+    hive = get_hive()
     eff_key = api_key or None
 
     if n_drones > 1 or role == "auto":
         ids = hive.spawn_hive(
-            goal=goal, n_drones=n_drones, backend=backend,
-            api_key=eff_key, max_iterations=max_iterations,
+            goal=goal,
+            n_drones=n_drones,
+            backend=backend,
+            api_key=eff_key,
+            max_iterations=max_iterations,
         )
-        return json.dumps({
-            "spawned":   len(ids),
-            "drone_ids": ids,
-            "message":   f"Hive squad dispatched: {len(ids)} drones in parallel",
-        }, indent=2)
+        return json.dumps(
+            {
+                "spawned": len(ids),
+                "drone_ids": ids,
+                "message": f"Hive squad dispatched: {len(ids)} drones in parallel",
+            },
+            indent=2,
+        )
     else:
         drone_id = hive.spawn(
-            goal=goal, role=role, backend=backend,
-            api_key=eff_key, max_iterations=max_iterations,
+            goal=goal,
+            role=role,
+            backend=backend,
+            api_key=eff_key,
+            max_iterations=max_iterations,
         )
-        return json.dumps({
-            "drone_id": drone_id,
-            "role":     role,
-            "backend":  backend,
-            "message":  f"Drone {drone_id} spawned for role={role}",
-        }, indent=2)
+        return json.dumps(
+            {
+                "drone_id": drone_id,
+                "role": role,
+                "backend": backend,
+                "message": f"Drone {drone_id} spawned for role={role}",
+            },
+            indent=2,
+        )
 
 
 def mcp_hive_status() -> str:
@@ -1865,7 +1986,7 @@ def mcp_hive_recall(query: str, top_k: int = 10) -> str:
     lines = [f"Hive recall ({len(results)} results) for: {query!r}", ""]
     for i, r in enumerate(results, 1):
         layer = r.get("layer", "?")
-        sim   = r.get("similarity")
+        sim = r.get("similarity")
         sim_s = f"  sim={sim:.3f}" if sim is not None else ""
         lines.append(f"{i}. [{layer}]{sim_s}  {r['content'][:300]}")
     return "\n".join(lines)
@@ -1912,7 +2033,7 @@ def mcp_hive_recover(
     Re-queue all drones that were interrupted by a previous process crash/restart.
     Returns the list of new drone_ids that were re-spawned.
     """
-    hive    = get_hive()
+    hive = get_hive()
     eff_key = api_key or None
     new_ids = hive._pool.requeue_interrupted(
         backend=backend,
@@ -1921,25 +2042,28 @@ def mcp_hive_recover(
     )
     if not new_ids:
         # Also report how many interrupted states exist in history
-        interrupted = [
-            s for s in hive._pool._history.values()
-            if s.status == "interrupted"
-        ]
+        interrupted = [s for s in hive._pool._history.values() if s.status == "interrupted"]
         if not interrupted:
             return "No interrupted drones found — nothing to recover."
-        return json.dumps({
-            "recovered": 0,
-            "message": (
-                f"{len(interrupted)} interrupted drone(s) found but already loaded "
-                "into history. Use mcp_hive_status to inspect them."
-            ),
-            "interrupted_ids": [s.drone_id for s in interrupted],
-        }, indent=2)
-    return json.dumps({
-        "recovered":  len(new_ids),
-        "new_ids":    new_ids,
-        "message":    f"Re-spawned {len(new_ids)} interrupted drone(s)",
-    }, indent=2)
+        return json.dumps(
+            {
+                "recovered": 0,
+                "message": (
+                    f"{len(interrupted)} interrupted drone(s) found but already loaded "
+                    "into history. Use mcp_hive_status to inspect them."
+                ),
+                "interrupted_ids": [s.drone_id for s in interrupted],
+            },
+            indent=2,
+        )
+    return json.dumps(
+        {
+            "recovered": len(new_ids),
+            "new_ids": new_ids,
+            "message": f"Re-spawned {len(new_ids)} interrupted drone(s)",
+        },
+        indent=2,
+    )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1958,12 +2082,12 @@ def _cli() -> None:  # noqa: C901
     sub = parser.add_subparsers(dest="cmd")
 
     p_sp = sub.add_parser("spawn", help="Spawn drones for a goal")
-    p_sp.add_argument("goal",      help="High-level goal")
-    p_sp.add_argument("--role",    default="auto", help="Drone role (auto = queen plans)")
-    p_sp.add_argument("--drones",  type=int, default=0, help="Number of drones (0 = template)")
+    p_sp.add_argument("goal", help="High-level goal")
+    p_sp.add_argument("--role", default="auto", help="Drone role (auto = queen plans)")
+    p_sp.add_argument("--drones", type=int, default=0, help="Number of drones (0 = template)")
     p_sp.add_argument("--backend", default="groq", choices=["groq", "ollama"])
     p_sp.add_argument("--max-iter", type=int, default=10)
-    p_sp.add_argument("--wait",    action="store_true", help="Block until all done")
+    p_sp.add_argument("--wait", action="store_true", help="Block until all done")
     p_sp.add_argument("--timeout", type=float, default=300.0)
 
     sub.add_parser("status", help="Show hive status")
@@ -1984,18 +2108,24 @@ def _cli() -> None:  # noqa: C901
     p_fg.add_argument("--topic", default="")
 
     args = parser.parse_args()
-    logging.basicConfig(level=logging.WARNING)
+    from modules.logging_config import configure
+
+    configure(level=logging.WARNING, console=True, file=False)
 
     if args.cmd == "spawn":
         role = args.role if args.role != "auto" else "generic"
-        n    = args.drones or (1 if role != "generic" else 0)
-        print(mcp_hive_spawn(
-            goal=args.goal, role=role,
-            n_drones=n if args.role == "auto" else 1,
-            backend=args.backend, max_iterations=args.max_iter,
-        ))
+        n = args.drones or (1 if role != "generic" else 0)
+        print(
+            mcp_hive_spawn(
+                goal=args.goal,
+                role=role,
+                n_drones=n if args.role == "auto" else 1,
+                backend=args.backend,
+                max_iterations=args.max_iter,
+            )
+        )
         if args.wait:
-            hive     = get_hive()
+            hive = get_hive()
             deadline = time.time() + args.timeout
             while hive._pool.active_count() > 0 and time.time() < deadline:
                 time.sleep(2.0)

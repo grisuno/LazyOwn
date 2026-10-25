@@ -40,25 +40,26 @@ import re
 import sys
 import urllib.error
 import urllib.request
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any
 
 # ─── Constants ────────────────────────────────────────────────────────────────
 
-GROQ_API_URL         = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_DEFAULT_MODEL   = "llama-3.3-70b-versatile"
-GROQ_FAST_MODEL      = "llama-3.1-8b-instant"
+GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+GROQ_DEFAULT_MODEL = "llama-3.3-70b-versatile"
+GROQ_FAST_MODEL = "llama-3.1-8b-instant"
 
-OLLAMA_HOST          = os.environ.get("OLLAMA_HOST", "127.0.0.1")
-OLLAMA_PORT          = int(os.environ.get("OLLAMA_PORT", "11434"))
+OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "127.0.0.1")
+OLLAMA_PORT = int(os.environ.get("OLLAMA_PORT", "11434"))
 OLLAMA_DEFAULT_MODEL = os.environ.get("OLLAMA_DEFAULT_MODEL", "deepseek-r1:1.5b")
 
-MAX_TOOL_OUTPUT   = int(os.environ.get("LLM_MAX_TOOL_OUTPUT", "3000"))
-MAX_ITERATIONS    = int(os.environ.get("LLM_MAX_ITERATIONS", "8"))
-HTTP_TIMEOUT      = int(os.environ.get("LLM_HTTP_TIMEOUT", "90"))
+MAX_TOOL_OUTPUT = int(os.environ.get("LLM_MAX_TOOL_OUTPUT", "3000"))
+MAX_ITERATIONS = int(os.environ.get("LLM_MAX_ITERATIONS", "8"))
+HTTP_TIMEOUT = int(os.environ.get("LLM_HTTP_TIMEOUT", "90"))
 
-BASE_DIR     = Path(__file__).parent.parent
+BASE_DIR = Path(__file__).parent.parent
 SESSIONS_DIR = BASE_DIR / "sessions"
 
 log = logging.getLogger("lazyown_llm")
@@ -72,10 +73,10 @@ class LLMTool:
 
     name: str
     description: str
-    parameters: Dict[str, Any]
+    parameters: dict[str, Any]
     func: Callable
 
-    def openai_schema(self) -> Dict:
+    def openai_schema(self) -> dict:
         return {
             "type": "function",
             "function": {
@@ -103,8 +104,8 @@ class LLMBridge:
     def __init__(
         self,
         backend: str = "groq",
-        model: Optional[str] = None,
-        api_key: Optional[str] = None,
+        model: str | None = None,
+        api_key: str | None = None,
     ) -> None:
         self._backend = backend.lower()
         self._api_key = api_key or os.environ.get("GROQ_API_KEY", "")
@@ -112,17 +113,16 @@ class LLMBridge:
             self._model = model or GROQ_DEFAULT_MODEL
         else:
             self._model = model or OLLAMA_DEFAULT_MODEL
-        self._tools: Dict[str, LLMTool] = {}
+        self._tools: dict[str, LLMTool] = {}
 
     def register_tool(
         self,
         name: str,
         description: str,
-        parameters: Dict[str, Any],
+        parameters: dict[str, Any],
         func: Callable,
     ) -> None:
-        self._tools[name] = LLMTool(name=name, description=description,
-                                    parameters=parameters, func=func)
+        self._tools[name] = LLMTool(name=name, description=description, parameters=parameters, func=func)
 
     def ask(
         self,
@@ -148,7 +148,7 @@ class LLMBridge:
             return "[groq] No API key — set GROQ_API_KEY or api_key in payload.json"
 
         sys_content = system_prompt or _default_system_prompt(list(self._tools.keys()))
-        messages: List[Dict] = [
+        messages: list[dict] = [
             {"role": "system", "content": sys_content},
         ]
         if context:
@@ -157,49 +157,49 @@ class LLMBridge:
 
         tools = [t.openai_schema() for t in self._tools.values()] or None
 
-        for iteration in range(max_iterations):
+        for _iteration in range(max_iterations):
             response = self._groq_request(messages, tools)
             if "error" in response:
                 return f"[groq error] {response['error']}"
 
             choice = response.get("choices", [{}])[0]
-            msg    = choice.get("message", {})
+            msg = choice.get("message", {})
             finish = choice.get("finish_reason", "")
 
-            messages.append({"role": "assistant", **{k: v for k, v in msg.items()
-                                                      if k != "role"}})
+            messages.append({"role": "assistant", **{k: v for k, v in msg.items() if k != "role"}})
 
             tool_calls = msg.get("tool_calls") or []
             if not tool_calls:
                 return msg.get("content") or "(no response)"
 
             for tc in tool_calls:
-                fn   = tc.get("function", {})
+                fn = tc.get("function", {})
                 name = fn.get("name", "")
                 try:
                     args = json.loads(fn.get("arguments", "{}"))
                 except json.JSONDecodeError:
                     args = {}
                 result = self._call_tool(name, args)
-                messages.append({
-                    "role": "tool",
-                    "tool_call_id": tc.get("id", ""),
-                    "name": name,
-                    "content": result,
-                })
+                messages.append(
+                    {
+                        "role": "tool",
+                        "tool_call_id": tc.get("id", ""),
+                        "name": name,
+                        "content": result,
+                    }
+                )
 
             if finish == "stop":
                 break
 
         final_msg = next(
-            (m.get("content") for m in reversed(messages)
-             if m.get("role") == "assistant" and m.get("content")),
-            "(max iterations reached without final answer)"
+            (m.get("content") for m in reversed(messages) if m.get("role") == "assistant" and m.get("content")),
+            "(max iterations reached without final answer)",
         )
         return final_msg
 
-    def _groq_request(self, messages: List[Dict], tools: Optional[List]) -> Dict:
-        body: Dict[str, Any] = {
+    def _groq_request(self, messages: list[dict], tools: list | None) -> dict:
+        body: dict[str, Any] = {
             "model": self._model,
             "messages": messages,
             "temperature": 0.1,
@@ -228,12 +228,12 @@ class LLMBridge:
 
     # ── Ollama ReAct path ─────────────────────────────────────────────────────
 
-    _THINK_RE   = re.compile(r"<think>.*?</think>", re.DOTALL | re.IGNORECASE)
-    _ACTION_RE  = re.compile(
+    _THINK_RE = re.compile(r"<think>.*?</think>", re.DOTALL | re.IGNORECASE)
+    _ACTION_RE = re.compile(
         r"Action\s*:\s*(?P<tool>\w+)\s*\n\s*Action\s*Input\s*:\s*(?P<args>\{.*?\})",
         re.DOTALL | re.IGNORECASE,
     )
-    _FINAL_RE   = re.compile(r"Final\s*Answer\s*:\s*(?P<answer>.+)", re.DOTALL | re.IGNORECASE)
+    _FINAL_RE = re.compile(r"Final\s*Answer\s*:\s*(?P<answer>.+)", re.DOTALL | re.IGNORECASE)
 
     def _ask_ollama_react(
         self,
@@ -243,9 +243,7 @@ class LLMBridge:
         system_prompt: str,
     ) -> str:
         tool_descriptions = "\n".join(
-            f"  {t.name}: {t.description}\n"
-            f"    Parameters: {json.dumps(t.parameters)}"
-            for t in self._tools.values()
+            f"  {t.name}: {t.description}\n    Parameters: {json.dumps(t.parameters)}" for t in self._tools.values()
         )
         sys_block = system_prompt or (
             "You are LazyOwn, an expert penetration testing AI assistant.\n"
@@ -300,15 +298,14 @@ Rules:
                 args = {}
 
             observation = self._call_tool(tool_name, args)
-            history += full_turn[:action_m.end()] + f"\nObservation: {observation}\n\n"
+            history += full_turn[: action_m.end()] + f"\nObservation: {observation}\n\n"
 
         return "(max iterations reached — no final answer produced)"
 
     def _ollama_generate(self, prompt: str) -> str:
         url = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/api/generate"
         body = json.dumps({"model": self._model, "prompt": prompt, "stream": False}).encode()
-        req = urllib.request.Request(url, data=body,
-                                     headers={"Content-Type": "application/json"})
+        req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
         try:
             with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
                 data = json.loads(resp.read())
@@ -318,7 +315,7 @@ Rules:
 
     # ── Tool executor ─────────────────────────────────────────────────────────
 
-    def _call_tool(self, name: str, args: Dict) -> str:
+    def _call_tool(self, name: str, args: dict) -> str:
         if name not in self._tools:
             return f"[tool error] unknown tool '{name}'. Available: {list(self._tools.keys())}"
         try:
@@ -349,6 +346,7 @@ def _make_default_tools(bridge: LLMBridge) -> None:
     def run_command(command: str) -> str:
         """Execute a LazyOwn shell command and return its output."""
         from lazyown_mcp import _run_lazyown_command  # local import to avoid circular
+
         return _run_lazyown_command(command, timeout=60)
 
     def read_nmap(target: str = "127.0.0.1") -> str:
@@ -358,6 +356,7 @@ def _make_default_tools(bridge: LLMBridge) -> None:
             SESSIONS_DIR / f"scan_{target}_*.nmap",
         ]
         import glob as _glob
+
         for pat in patterns:
             matches = _glob.glob(str(pat))
             if matches:
@@ -381,6 +380,7 @@ def _make_default_tools(bridge: LLMBridge) -> None:
             if skills_path not in sys.path:
                 sys.path.insert(0, skills_path)
             from lazyown_facts import FactStore
+
             store = FactStore()
             return store.summary(target or None)
         except Exception as exc:
@@ -390,13 +390,12 @@ def _make_default_tools(bridge: LLMBridge) -> None:
         """List the next N pending attack objectives."""
         try:
             from lazyown_objective import ObjectiveStore
+
             store = ObjectiveStore()
             objs = store.list_pending(limit=limit)
             if not objs:
                 return "No pending objectives."
-            return "\n".join(
-                f"[{o.priority}] [{o.id}] {o.text}" for o in objs
-            )
+            return "\n".join(f"[{o.priority}] [{o.id}] {o.text}" for o in objs)
         except Exception as exc:
             return f"[read_objectives error] {exc}"
 
@@ -409,8 +408,7 @@ def _make_default_tools(bridge: LLMBridge) -> None:
     )
     bridge.register_tool(
         "read_nmap",
-        "Read the nmap scan results file for a target IP. "
-        "Returns the raw nmap output text.",
+        "Read the nmap scan results file for a target IP. Returns the raw nmap output text.",
         {"target": {"type": "string", "description": "Target IP address"}},
         read_nmap,
     )
@@ -439,8 +437,8 @@ def _make_default_tools(bridge: LLMBridge) -> None:
 
 def build_bridge(
     backend: str = "groq",
-    model: Optional[str] = None,
-    api_key: Optional[str] = None,
+    model: str | None = None,
+    api_key: str | None = None,
     with_default_tools: bool = True,
 ) -> LLMBridge:
     """
@@ -454,7 +452,7 @@ def build_bridge(
     return bridge
 
 
-def _default_system_prompt(tool_names: List[str]) -> str:
+def _default_system_prompt(tool_names: list[str]) -> str:
     return (
         "You are LazyOwn, an expert autonomous penetration testing AI.\n"
         "You have access to tools to execute commands and read session data.\n"
@@ -471,11 +469,11 @@ def llm_ask(
     goal: str,
     context: str = "",
     backend: str = "groq",
-    model: Optional[str] = None,
-    api_key: Optional[str] = None,
+    model: str | None = None,
+    api_key: str | None = None,
     max_iterations: int = MAX_ITERATIONS,
     system_prompt: str = "",
-    extra_tools: Optional[Dict[str, Callable]] = None,
+    extra_tools: dict[str, Callable] | None = None,
 ) -> str:
     """
     Single-call entry point for lazyown_mcp.py.
@@ -486,8 +484,7 @@ def llm_ask(
     if extra_tools:
         for name, (desc, params, func) in extra_tools.items():
             bridge.register_tool(name, desc, params, func)
-    return bridge.ask(goal, context=context, max_iterations=max_iterations,
-                      system_prompt=system_prompt)
+    return bridge.ask(goal, context=context, max_iterations=max_iterations, system_prompt=system_prompt)
 
 
 # ─── CLI ─────────────────────────────────────────────────────────────────────
@@ -508,21 +505,21 @@ def main() -> None:
     p_ask.add_argument("--model", default=None)
     p_ask.add_argument("--context", default="", help="Additional context text")
     p_ask.add_argument("--max-iterations", type=int, default=MAX_ITERATIONS)
-    p_ask.add_argument("--no-tools", action="store_true",
-                       help="Disable default tools (pure reasoning only)")
+    p_ask.add_argument("--no-tools", action="store_true", help="Disable default tools (pure reasoning only)")
 
-    p_info = sub.add_parser("info", help="Show configured backends and models")
+    sub.add_parser("info", help="Show configured backends and models")
 
     args = parser.parse_args()
 
-    logging.basicConfig(level=logging.WARNING)
+    from modules.logging_config import configure
+
+    configure(level=logging.WARNING, console=True, file=False)
 
     if args.cmd == "ask":
         bridge = LLMBridge(backend=args.backend, model=args.model)
         if not args.no_tools:
             _make_default_tools(bridge)
-        result = bridge.ask(args.goal, context=args.context,
-                            max_iterations=args.max_iterations)
+        result = bridge.ask(args.goal, context=args.context, max_iterations=args.max_iterations)
         print(result)
     elif args.cmd == "info":
         print(f"Groq   model: {GROQ_DEFAULT_MODEL}  (fast: {GROQ_FAST_MODEL})")

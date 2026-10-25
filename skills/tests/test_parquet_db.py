@@ -11,7 +11,6 @@ from __future__ import annotations
 import csv
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
 
 import pytest
 
@@ -21,16 +20,15 @@ if str(_SKILLS_DIR) not in sys.path:
 
 try:
     import pandas as pd
-    import pyarrow as pa
+    import pyarrow  # noqa: F401 as pa
+
     _PANDAS_OK = True
 except ImportError:
     _PANDAS_OK = False
 
-pytestmark = pytest.mark.skipif(
-    not _PANDAS_OK, reason="pandas and pyarrow not installed"
-)
+pytestmark = pytest.mark.skipif(not _PANDAS_OK, reason="pandas and pyarrow not installed")
 
-from lazyown_parquet_db import ParquetDB, _stable_id
+from lazyown_parquet_db import ParquetDB, _stable_id  # noqa: E402
 
 SCHEMA_COLS = ParquetDB.SCHEMA_COLS
 
@@ -40,14 +38,22 @@ SCHEMA_COLS = ParquetDB.SCHEMA_COLS
 # ─────────────────────────────────────────────────────────────────────────────
 
 _CSV_FIELDNAMES = [
-    "start", "end", "source_ip", "source_port",
-    "destination_ip", "destination_port",
-    "domain", "subdomain", "url", "pivot_port",
-    "command", "args",
+    "start",
+    "end",
+    "source_ip",
+    "source_port",
+    "destination_ip",
+    "destination_port",
+    "domain",
+    "subdomain",
+    "url",
+    "pivot_port",
+    "command",
+    "args",
 ]
 
 
-def _write_csv(path: Path, rows: List[Dict[str, str]]) -> None:
+def _write_csv(path: Path, rows: list[dict[str, str]]) -> None:
     """Write a minimal session CSV file compatible with ParquetDB.sync()."""
     with path.open("w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=_CSV_FIELDNAMES, extrasaction="ignore")
@@ -87,22 +93,25 @@ class TestParquetDBSync:
         """Create a minimal CSV, sync() → parquet has correct rows."""
         db = _make_db(tmp_path)
         csv_path = tmp_path / "LazyOwn_session_report.csv"
-        _write_csv(csv_path, [
-            {
-                "start": "2024-01-01T00:00:00",
-                "command": "nmap",
-                "args": "-sV 10.10.11.78",
-                "destination_ip": "10.10.11.78",
-                "destination_port": "0",
-            },
-            {
-                "start": "2024-01-01T00:01:00",
-                "command": "gobuster",
-                "args": "dir -u http://10.10.11.78",
-                "destination_ip": "10.10.11.78",
-                "destination_port": "80",
-            },
-        ])
+        _write_csv(
+            csv_path,
+            [
+                {
+                    "start": "2024-01-01T00:00:00",
+                    "command": "nmap",
+                    "args": "-sV 10.10.11.78",
+                    "destination_ip": "10.10.11.78",
+                    "destination_port": "0",
+                },
+                {
+                    "start": "2024-01-01T00:01:00",
+                    "command": "gobuster",
+                    "args": "dir -u http://10.10.11.78",
+                    "destination_ip": "10.10.11.78",
+                    "destination_port": "80",
+                },
+            ],
+        )
         n = db.sync(csv_path)
         assert n == 2, f"Expected 2 new rows, got {n}"
         df = pd.read_parquet(db._session_pkt)
@@ -113,10 +122,18 @@ class TestParquetDBSync:
         """Rows with empty command → skipped by sync()."""
         db = _make_db(tmp_path)
         csv_path = tmp_path / "LazyOwn_session_report.csv"
-        _write_csv(csv_path, [
-            {"start": "2024-01-01T00:00:00", "command": "", "args": "", "destination_ip": ""},
-            {"start": "2024-01-01T00:01:00", "command": "nmap", "args": "-sV 10.0.0.1", "destination_ip": "10.0.0.1"},
-        ])
+        _write_csv(
+            csv_path,
+            [
+                {"start": "2024-01-01T00:00:00", "command": "", "args": "", "destination_ip": ""},
+                {
+                    "start": "2024-01-01T00:01:00",
+                    "command": "nmap",
+                    "args": "-sV 10.0.0.1",
+                    "destination_ip": "10.0.0.1",
+                },
+            ],
+        )
         n = db.sync(csv_path)
         assert n == 1
 
@@ -124,9 +141,12 @@ class TestParquetDBSync:
         """Syncing the same CSV twice → second sync adds 0 rows."""
         db = _make_db(tmp_path)
         csv_path = tmp_path / "LazyOwn_session_report.csv"
-        _write_csv(csv_path, [
-            {"start": "2024-01-01T00:00:00", "command": "nmap", "args": "-p 445", "destination_ip": "10.0.0.1"},
-        ])
+        _write_csv(
+            csv_path,
+            [
+                {"start": "2024-01-01T00:00:00", "command": "nmap", "args": "-p 445", "destination_ip": "10.0.0.1"},
+            ],
+        )
         n1 = db.sync(csv_path)
         n2 = db.sync(csv_path)
         assert n1 == 1
@@ -136,9 +156,12 @@ class TestParquetDBSync:
         """Synced parquet has all SCHEMA_COLS columns."""
         db = _make_db(tmp_path)
         csv_path = tmp_path / "LazyOwn_session_report.csv"
-        _write_csv(csv_path, [
-            {"start": "2024-01-01T00:00:00", "command": "nmap", "args": "-sV", "destination_ip": "10.0.0.1"},
-        ])
+        _write_csv(
+            csv_path,
+            [
+                {"start": "2024-01-01T00:00:00", "command": "nmap", "args": "-sV", "destination_ip": "10.0.0.1"},
+            ],
+        )
         db.sync(csv_path)
         df = pd.read_parquet(db._session_pkt)
         for col in SCHEMA_COLS:
@@ -155,15 +178,18 @@ class TestParquetDBAnnotate:
     def _setup_with_one_row(self, tmp_path) -> tuple:
         db = _make_db(tmp_path)
         csv_path = tmp_path / "LazyOwn_session_report.csv"
-        _write_csv(csv_path, [
-            {
-                "start": "2024-02-01T12:00:00",
-                "command": "enum4linux",
-                "args": "-a 10.10.11.78",
-                "destination_ip": "10.10.11.78",
-                "destination_port": "445",
-            }
-        ])
+        _write_csv(
+            csv_path,
+            [
+                {
+                    "start": "2024-02-01T12:00:00",
+                    "command": "enum4linux",
+                    "args": "-a 10.10.11.78",
+                    "destination_ip": "10.10.11.78",
+                    "destination_port": "445",
+                }
+            ],
+        )
         db.sync(csv_path)
         df = pd.read_parquet(db._session_pkt)
         row_id = df.iloc[0]["id"]
@@ -218,8 +244,8 @@ class TestParquetDBAnnotate:
         """annotate_rich with NTLM hash pattern → finding_type='hash'."""
         db, row_id = self._setup_with_one_row(tmp_path)
         # The annotate_rich regex requires exactly 32 lowercase hex chars on each side of ':'
-        lm  = "aad3b435b51404eeaad3b435b51404ee"  # 32 chars
-        nt  = "31d6cfe0d16ae931b73c59d7e0c089c0"  # 32 chars
+        lm = "aad3b435b51404eeaad3b435b51404ee"  # 32 chars
+        nt = "31d6cfe0d16ae931b73c59d7e0c089c0"  # 32 chars
         output = f"Administrator:500:{lm}:{nt}:::"
         ok = db.annotate_rich(row_id, output=output)
         assert ok is True
@@ -248,23 +274,26 @@ class TestParquetDBAnnotate:
 
 
 class TestParquetDBQuerySession:
-    def _setup_two_phases(self, tmp_path) -> "ParquetDB":
+    def _setup_two_phases(self, tmp_path) -> ParquetDB:
         db = _make_db(tmp_path)
         csv_path = tmp_path / "LazyOwn_session_report.csv"
-        _write_csv(csv_path, [
-            {
-                "start": "2024-03-01T10:00:00",
-                "command": "nmap",
-                "args": "-sV 10.10.11.78",
-                "destination_ip": "10.10.11.78",
-            },
-            {
-                "start": "2024-03-01T10:05:00",
-                "command": "gobuster",
-                "args": "dir -u http://10.10.11.78",
-                "destination_ip": "10.10.11.78",
-            },
-        ])
+        _write_csv(
+            csv_path,
+            [
+                {
+                    "start": "2024-03-01T10:00:00",
+                    "command": "nmap",
+                    "args": "-sV 10.10.11.78",
+                    "destination_ip": "10.10.11.78",
+                },
+                {
+                    "start": "2024-03-01T10:05:00",
+                    "command": "gobuster",
+                    "args": "dir -u http://10.10.11.78",
+                    "destination_ip": "10.10.11.78",
+                },
+            ],
+        )
         db.sync(csv_path)
         # Manually set categories so the filter is deterministic
         df = pd.read_parquet(db._session_pkt)
@@ -306,10 +335,13 @@ class TestParquetDBQuerySession:
         """query_session(target='1.2.3.4') filters by destination_ip."""
         db = _make_db(tmp_path)
         csv_path = tmp_path / "LazyOwn_session_report.csv"
-        _write_csv(csv_path, [
-            {"start": "2024-01-01", "command": "nmap", "args": "-sV", "destination_ip": "10.10.11.78"},
-            {"start": "2024-01-01", "command": "nmap", "args": "-sV", "destination_ip": "192.168.1.1"},
-        ])
+        _write_csv(
+            csv_path,
+            [
+                {"start": "2024-01-01", "command": "nmap", "args": "-sV", "destination_ip": "10.10.11.78"},
+                {"start": "2024-01-01", "command": "nmap", "args": "-sV", "destination_ip": "192.168.1.1"},
+            ],
+        )
         db.sync(csv_path)
         rows = db.query_session(target="10.10.11.78")
         assert all(r["destination_ip"] == "10.10.11.78" for r in rows)
@@ -321,10 +353,13 @@ class TestParquetDBQueryKnowledge:
         """query_knowledge searches session_knowledge.parquet for a command keyword."""
         db = _make_db(tmp_path)
         csv_path = tmp_path / "LazyOwn_session_report.csv"
-        _write_csv(csv_path, [
-            {"start": "2024-01-01", "command": "curl", "args": "-s http://10.0.0.1", "destination_ip": "10.0.0.1"},
-            {"start": "2024-01-01", "command": "nmap", "args": "-sV 10.0.0.1", "destination_ip": "10.0.0.1"},
-        ])
+        _write_csv(
+            csv_path,
+            [
+                {"start": "2024-01-01", "command": "curl", "args": "-s http://10.0.0.1", "destination_ip": "10.0.0.1"},
+                {"start": "2024-01-01", "command": "nmap", "args": "-sV 10.0.0.1", "destination_ip": "10.0.0.1"},
+            ],
+        )
         db.sync(csv_path)
         results = db.query_knowledge("curl")
         assert "session_knowledge" in results
@@ -336,9 +371,12 @@ class TestParquetDBQueryKnowledge:
         """query_knowledge for keyword that doesn't exist → empty or missing key."""
         db = _make_db(tmp_path)
         csv_path = tmp_path / "LazyOwn_session_report.csv"
-        _write_csv(csv_path, [
-            {"start": "2024-01-01", "command": "nmap", "args": "-sV", "destination_ip": "10.0.0.1"},
-        ])
+        _write_csv(
+            csv_path,
+            [
+                {"start": "2024-01-01", "command": "nmap", "args": "-sV", "destination_ip": "10.0.0.1"},
+            ],
+        )
         db.sync(csv_path)
         results = db.query_knowledge("xyzzy_nonexistent_keyword_12345")
         # Either empty dict or session_knowledge key with empty list

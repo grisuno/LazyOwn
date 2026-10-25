@@ -1,0 +1,462 @@
+# Subsystem: modules (page 13 of 16)
+Previous: [KB_modules_p12.md](KB_modules_p12.md)
+
+## modules/planner.py
+- Doc: Fact-based planner — decides the next ability to run.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PlanCandidate` (class, line 41) `class PlanCandidate`
+  - `PlanResult` (class, line 54) `class PlanResult`
+  - `_gather_facts` (function, line 64) `def _gather_facts(world_model, obs_parser)`
+  - `_risk_for` (function, line 160) `def _risk_for(technique_id)`
+  - `_score_step` (function, line 225) `def _score_step(step, facts)`
+  - `Planner` (class, line 260) `class Planner`
+  - `get_planner` (function, line 446) `def get_planner(api_key)`
+  - `TodoItem` (class, line 452) `class TodoItem`
+  - `TodoList` (class, line 460) `class TodoList`
+  - `Frontier` (class, line 505) `class Frontier`
+  - `__init__` (method, line 269) `def __init__(self, world_model, obs_parser, api_key)`
+  - `_wm` (method, line 279) `def _wm(self)`
+  - `_parser` (method, line 294) `def _parser(self)`
+  - `plan` (method, line 313) `def plan(self, target, max_candidates)`
+  - `_build_rationale` (method, line 374) `def _build_rationale(chosen, facts, target)`
+  - `_llm_tiebreak` (method, line 387) `def _llm_tiebreak(self, target, facts, candidates)`
+  - `to_dict` (method, line 413) `def to_dict(self, result)`
+  - `__init__` (method, line 468) `def __init__(self)`
+  - `todo_add` (method, line 472) `def todo_add(self, name, requires)`
+  - `todo_done` (method, line 478) `def todo_done(self, name)`
+  - `next_ready` (method, line 489) `def next_ready(self)`
+  - `blocks` (method, line 497) `def blocks(self, tactic)`
+  - `__init__` (method, line 514) `def __init__(self, planner, todos)`
+  - `todos` (method, line 523) `def todos(self)`
+  - `tried` (method, line 528) `def tried(self)`
+  - `refill` (method, line 532) `def refill(self, target, max_intents)`
+  - `pop` (method, line 551) `def pop(self)`
+  - `__len__` (method, line 560) `def __len__(self)`
+- Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
+- Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
+
+## modules/playbook_admin.py
+- Doc: Safe CRUD for the YAML playbooks under ``playbooks/``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PlaybookEntry` (class, line 40) `class PlaybookEntry`
+  - `_yaml_module` (function, line 55) `def _yaml_module()`
+  - `slugify` (function, line 62) `def slugify(value)`
+  - `playbook_path` (function, line 75) `def playbook_path(filename, directory)`
+  - `load_playbook` (function, line 102) `def load_playbook(path)`
+  - `playbook_kind` (function, line 123) `def playbook_kind(data)`
+  - `validate_playbook` (function, line 136) `def validate_playbook(data)`
+  - `_count_steps` (function, line 183) `def _count_steps(data)`
+  - `summarize` (function, line 197) `def summarize(path)`
+  - `scan_playbooks` (function, line 231) `def scan_playbooks(directory)`
+  - `preview_playbook` (function, line 251) `def preview_playbook(path, limit)`
+  - `playbook_template` (function, line 265) `def playbook_template(name, description, platforms)`
+  - `_write_atomic` (function, line 282) `def _write_atomic(target, data)`
+  - `create_playbook` (function, line 297) `def create_playbook(filename)`
+  - `_target_for_write` (function, line 337) `def _target_for_write(path, directory)`
+  - `update_playbook` (function, line 350) `def update_playbook(path, data, directory)`
+  - `save_playbook_yaml` (function, line 377) `def save_playbook_yaml(path, text, directory)`
+  - `delete_playbook` (function, line 406) `def delete_playbook(path, directory)`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`
+
+## modules/playbook_engine.py
+- Doc: modules/playbook_engine.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PlaybookStep` (class, line 101) `class PlaybookStep`
+  - `Playbook` (class, line 133) `class Playbook`
+  - `StepResult` (class, line 165) `class StepResult`
+  - `PlaybookResult` (class, line 173) `class PlaybookResult`
+  - `_StixLoader` (class, line 185) `class _StixLoader`
+  - `_AtomicIndex` (class, line 254) `class _AtomicIndex`
+  - `_TechniqueSelector` (class, line 311) `class _TechniqueSelector`
+  - `PlaybookEngine` (class, line 375) `class PlaybookEngine`
+  - `get_engine` (function, line 669) `def get_engine(api_key)`
+  - `to_dict` (method, line 113) `def to_dict(self)`
+  - `from_dict` (method, line 128) `def from_dict(cls, d)`
+  - `to_dict` (method, line 141) `def to_dict(self)`
+  - `from_dict` (method, line 152) `def from_dict(cls, d)`
+  - `__init__` (method, line 188) `def __init__(self, json_path)`
+  - `available` (method, line 192) `def available(self)`
+  - `store` (method, line 195) `def store(self)`
+  - `techniques_for_tactics` (method, line 210) `def techniques_for_tactics(self, tactic_shortnames, platform)`
+  - `__init__` (method, line 260) `def __init__(self, atomics_path)`
+  - `available` (method, line 264) `def available(self)`
+  - `build` (method, line 267) `def build(self)`
+  - `tests_for_technique` (method, line 300) `def tests_for_technique(self, technique_id, platform)`
+  - `select` (method, line 317) `def select(self, candidates, world_context, target, phase, api_key, top_n)`
+  - `__init__` (method, line 387) `def __init__(self, world_model, obs_parser, api_key, top_n)`
+  - `_world_model` (method, line 404) `def _world_model(self)`
+  - `_obs_parser` (method, line 415) `def _obs_parser(self)`
+  - `derive` (method, line 427) `def derive(self, target, phase, platform, apt_name)`
+  - `execute` (method, line 529) `def execute(self, playbook, executor, dry_run)`
+  - `save` (method, line 599) `def save(self, playbook, path)`
+  - `load` (method, line 611) `def load(self, path)`
+  - `result_summary` (method, line 640) `def result_summary(self, result)`
+  - `_local_executor` (function, line 722) `def _local_executor(command, host)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
+- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+
+## modules/playbook_executor.py
+- Doc: Playbook Executor — bridges MITRE ATT&CK playbooks to the pipeline engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PlaybookTechnique` (class, line 36) `class PlaybookTechnique`
+  - `PlaybookSpec` (class, line 48) `class PlaybookSpec`
+  - `PlaybookRunResult` (class, line 61) `class PlaybookRunResult`
+  - `ITTPMapper` (class, line 93) `class ITTPMapper(ABC)`
+  - `DefaultTTPMapper` (class, line 101) `class DefaultTTPMapper(ITTPMapper)`
+  - `PlaybookLoader` (class, line 203) `class PlaybookLoader`
+  - `_build_pipeline_yaml` (function, line 285) `def _build_pipeline_yaml(playbook, mapper, platform)`
+  - `PlaybookEngine` (class, line 336) `class PlaybookEngine`
+  - `playbook_list` (function, line 416) `def playbook_list()`
+  - `playbook_analyze` (function, line 422) `def playbook_analyze(name, platform)`
+  - `playbook_generate` (function, line 429) `def playbook_generate(name, platform)`
+  - `playbook_run` (function, line 436) `def playbook_run(name, platform, target, onecmd)`
+  - `to_dict` (method, line 74) `def to_dict(self)`
+  - `resolve` (method, line 97) `def resolve(self, technique_id, atomic_test, platform)`
+  - `register` (method, line 180) `def register(cls, technique_id, platform, command)`
+  - `resolve` (method, line 185) `def resolve(self, technique_id, atomic_test, platform)`
+  - `__init__` (method, line 208) `def __init__(self, playbooks_dir)`
+  - `list` (method, line 211) `def list(self)`
+  - `load` (method, line 224) `def load(self, name)`
+  - `_validate` (method, line 235) `def _validate(self, raw, source_path)`
+  - `__init__` (method, line 339) `def __init__(self, loader, mapper, pipelines_dir)`
+  - `loader` (method, line 350) `def loader(self)`
+  - `analyze` (method, line 353) `def analyze(self, name, platform)`
+  - `generate_pipeline` (method, line 378) `def generate_pipeline(self, name, platform)`
+  - `run` (method, line 390) `def run(self, name, platform, target, onecmd)`
+- Depends on: `modules/pipeline_engine.py`
+
+## modules/polymorphic_engine.py
+- Doc: Polymorphic code generation engine — shellcode mutation and obfuscation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MutationConfig` (class, line 93) `class MutationConfig`
+  - `MutationResult` (class, line 126) `class MutationResult`
+  - `PolymorphicEngine` (class, line 146) `class PolymorphicEngine`
+  - `__init__` (method, line 159) `def __init__(self, config)`
+  - `mutate` (method, line 163) `def mutate(self, shellcode, arch)`
+  - `_single_pass` (method, line 184) `def _single_pass(self, data, arch, pass_num, original_size)`
+  - `_nop_substitution` (method, line 231) `def _nop_substitution(self, data, arch)`
+  - `_nop_insertion` (method, line 253) `def _nop_insertion(self, data, arch)`
+  - `_register_reassignment` (method, line 262) `def _register_reassignment(self, data, arch)`
+  - `_junk_insertion` (method, line 282) `def _junk_insertion(self, data, arch)`
+  - `_xor_encrypt` (method, line 303) `def _xor_encrypt(self, data, arch)`
+  - `_multi_xor_encrypt` (method, line 309) `def _multi_xor_encrypt(self, data)`
+  - `_compress_data` (method, line 324) `def _compress_data(self, data)`
+  - `_base64_wrap` (method, line 330) `def _base64_wrap(self, data, arch)`
+  - `_estimate_entropy` (method, line 344) `def _estimate_entropy(data)`
+  - `decode_xor` (method, line 361) `def decode_xor(data)`
+  - `decode_multi_xor` (method, line 377) `def decode_multi_xor(data)`
+  - `generate_decoder_stub` (method, line 397) `def generate_decoder_stub(self, arch)`
+  - `get_audit_summary` (method, line 422) `def get_audit_summary(self)`
+- Imported by: `cli/commands/payload_arsenal.py`
+
+## modules/privesc_predictor.py
+- Doc: Crystal Ball — privilege escalation vector prediction engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PrivescVector` (class, line 97) `class PrivescVector`
+  - `SystemProfile` (class, line 114) `class SystemProfile`
+  - `_parse_kernel_version` (function, line 136) `def _parse_kernel_version(version_str)`
+  - `_parse_version_from_range` (function, line 153) `def _parse_version_from_range(range_str)`
+  - `parse_linpeas_output` (function, line 165) `def parse_linpeas_output(text)`
+  - `parse_winpeas_output` (function, line 218) `def parse_winpeas_output(text)`
+  - `match_known_cves` (function, line 249) `def match_known_cves(profile)`
+  - `suid_vectors` (function, line 287) `def suid_vectors(profile)`
+  - `capability_vectors` (function, line 361) `def capability_vectors(profile)`
+  - `group_vectors` (function, line 463) `def group_vectors(profile)`
+  - `sudo_vectors` (function, line 501) `def sudo_vectors(profile)`
+  - `cron_vectors` (function, line 578) `def cron_vectors(profile)`
+  - `_load_gtfobins_map` (function, line 617) `def _load_gtfobins_map()`
+  - `_try_llm_analysis` (function, line 655) `def _try_llm_analysis(profile)`
+  - `analyze_privesc` (function, line 742) `def analyze_privesc(filepath, text)`
+  - `format_crystal_ball_output` (function, line 827) `def format_crystal_ball_output(result)`
+  - `main` (function, line 908) `def main()`
+- Depends on: `core/console.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/crystal_ball.py`
+
+## modules/professional_report.py
+- Doc: Professional Red Team Report Generator.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReportFinding` (class, line 87) `class ReportFinding`
+  - `ReportMetadata` (class, line 102) `class ReportMetadata`
+  - `RedTeamReportGenerator` (class, line 114) `class RedTeamReportGenerator`
+  - `__init__` (method, line 173) `def __init__(self, include_credentials)`
+  - `collect_data` (method, line 179) `def collect_data(self)`
+  - `classify_findings` (method, line 219) `def classify_findings(self, data)`
+  - `generate` (method, line 247) `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)`
+  - `_generate_html` (method, line 301) `def _generate_html(self, out_path, timestamp)`
+  - `_generate_markdown` (method, line 453) `def _generate_markdown(self, out_path, timestamp)`
+  - `_generate_json` (method, line 516) `def _generate_json(self, out_path, timestamp)`
+  - `_html_to_pdf` (method, line 555) `def _html_to_pdf(self, html_path)`
+  - `_classify_services` (method, line 588) `def _classify_services(self, services, hosts)`
+  - `_classify_vulnerabilities` (method, line 643) `def _classify_vulnerabilities(self, vulns, hosts)`
+  - `_classify_credentials` (method, line 685) `def _classify_credentials(self, credentials, hosts)`
+  - `_classify_ctf_captures` (method, line 761) `def _classify_ctf_captures(self, captures)`
+  - `_classify_sessions` (method, line 806) `def _classify_sessions(self, sessions, hosts)`
+  - `_collect_ctf_captures` (method, line 853) `def _collect_ctf_captures(self)`
+  - `_load_json` (method, line 872) `def _load_json(self, filename)`
+  - `_extract_scope` (method, line 893) `def _extract_scope(self, data)`
+  - `collect_command_history` (method, line 912) `def collect_command_history(self, max_entries)`
+  - `collect_loot_summary` (method, line 936) `def collect_loot_summary(self)`
+  - `_accumulate_loot` (method, line 964) `def _accumulate_loot(self, summary, path)`
+  - `generate_executive_summary` (method, line 982) `def generate_executive_summary(self, data, with_ai, ai_backend)`
+  - `_ai_draft_summary` (method, line 1027) `def _ai_draft_summary(self, data, fallback, backend)`
+- Depends on: `modules/llm_factory.py`, `modules/world_model.py`
+- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_infra_disposable.py`
+
+## modules/r.sh
+- Doc: Obtener la versión del kernel actual
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `download_kernel_sources` (function, line 10)
+- Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
+
+## modules/reaction_bridge.py
+- Doc: Reaction bridge between the reactive engine and the loop planner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReactionPick` (class, line 66) `class ReactionPick`
+  - `_buffer_path` (function, line 76) `def _buffer_path(task_id)`
+  - `save_decisions` (function, line 80) `def save_decisions(task_id, decisions)`
+  - `load_reaction_triggers` (function, line 108) `def load_reaction_triggers(task_id, consumer)`
+  - `_load_buffer` (function, line 143) `def _load_buffer(task_id)`
+  - `_write_buffer` (function, line 150) `def _write_buffer(task_id, payload)`
+  - `_placeholder_value` (function, line 154) `def _placeholder_value(value)`
+  - `find_credentials` (function, line 159) `def find_credentials(output)`
+  - `__init__` (method, line 69) `def __init__(self, command, reason, priority, mitre)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `modules/lazy_loop.py`, `tests/test_reaction_bridge.py`
+
+## modules/reactive_engine.py
+- Doc: modules/reactive_engine.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_default_config_loader` (function, line 42) `def _default_config_loader()`
+  - `Signal` (class, line 69) `class Signal`
+  - `ReactiveDecision` (class, line 80) `class ReactiveDecision`
+  - `AbstractSignalMatcher` (class, line 97) `class AbstractSignalMatcher(ABC)`
+  - `AVBlockedMatcher` (class, line 102) `class AVBlockedMatcher(AbstractSignalMatcher)`
+  - `CredentialFoundMatcher` (class, line 147) `class CredentialFoundMatcher(AbstractSignalMatcher)`
+  - `PrivescHintMatcher` (class, line 174) `class PrivescHintMatcher(AbstractSignalMatcher)`
+  - `NewHostMatcher` (class, line 209) `class NewHostMatcher(AbstractSignalMatcher)`
+  - `ServiceVersionMatcher` (class, line 232) `class ServiceVersionMatcher(AbstractSignalMatcher)`
+  - `ShellErrorMatcher` (class, line 262) `class ShellErrorMatcher(AbstractSignalMatcher)`
+  - `LateralOpportunityMatcher` (class, line 293) `class LateralOpportunityMatcher(AbstractSignalMatcher)`
+  - `DataOfInterestMatcher` (class, line 323) `class DataOfInterestMatcher(AbstractSignalMatcher)`
+  - `ParquetAdvisor` (class, line 389) `class ParquetAdvisor`
+  - `EvasionAdvisor` (class, line 481) `class EvasionAdvisor`
+  - `PrivescAdvisor` (class, line 537) `class PrivescAdvisor`
+  - `SemanticContextAdvisor` (class, line 632) `class SemanticContextAdvisor`
+  - `ReactiveEngine` (class, line 804) `class ReactiveEngine`
+  - `get_engine` (function, line 977) `def get_engine()`
+  - `match` (method, line 99) `def match(self, output, context)`
+  - `match` (method, line 128) `def match(self, output, context)`
+  - `match` (method, line 159) `def match(self, output, context)`
+  - `match` (method, line 192) `def match(self, output, context)`
+  - `match` (method, line 214) `def match(self, output, context)`
+  - `match` (method, line 247) `def match(self, output, context)`
+  - `match` (method, line 276) `def match(self, output, context)`
+  - `match` (method, line 307) `def match(self, output, context)`
+  - `match` (method, line 349) `def match(self, output, context)`
+  - `__init__` (method, line 395) `def __init__(self, root)`
+  - `_load` (method, line 402) `def _load(self)`
+  - `gtfobins_for` (method, line 421) `def gtfobins_for(self, binary)`
+  - `lolbas_for` (method, line 434) `def lolbas_for(self, binary)`
+  - `technique_commands_for` (method, line 448) `def technique_commands_for(self, platform, keyword)`
+  - `suggest` (method, line 504) `def suggest(self, signals, platform)`
+  - `suggest` (method, line 565) `def suggest(self, signals, platform, parquet)`
+  - `__init__` (method, line 644) `def __init__(self, rag, config_loader, min_score, query_limit)`
+  - `_load_rag` (method, line 671) `def _load_rag(self)`
+  - `_enabled` (method, line 697) `def _enabled(self)`
+  - `_extract_verb` (method, line 715) `def _extract_verb(source)`
+  - `suggest` (method, line 734) `def suggest(self, output, command, platform, context)`
+  - `__init__` (method, line 810) `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
+  - `analyse` (method, line 835) `def analyse(self, output, command, platform, context)`
+  - `top_decision` (method, line 958) `def top_decision(self, output, command, platform, context)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
+- Imported by: `cli/apt_chain_support.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+
+## modules/recommender.py
+- Doc: LazyOwn Smart Command Recommender
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_build_user_prompt` (function, line 55) `def _build_user_prompt(state)`
+  - `_call_ai` (function, line 97) `def _call_ai(api_key, user_prompt)`
+  - `recommend` (function, line 143) `def recommend(state, api_key)`
+  - `recommend_and_save` (function, line 163) `def recommend_and_save(api_key)`
+- Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
+- Imported by: `skills/lazyown_mcp.py`
+
+## modules/redteam_gym.py
+- Doc: Red Team Gym — gamified pentest training mode.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `reload_challenge_definitions` (function, line 299) `def reload_challenge_definitions(directory)`
+  - `GymAttempt` (class, line 318) `class GymAttempt`
+  - `_ensure_gym_dir` (function, line 334) `def _ensure_gym_dir()`
+  - `_load_leaderboard` (function, line 339) `def _load_leaderboard()`
+  - `_save_leaderboard` (function, line 355) `def _save_leaderboard(board)`
+  - `_get_username` (function, line 366) `def _get_username()`
+  - `definition_rows` (function, line 393) `def definition_rows()`
+  - `create_gym` (function, line 398) `def create_gym(gym_id)`
+  - `save_gym_yaml` (function, line 435) `def save_gym_yaml(gym_id, text)`
+  - `delete_gym` (function, line 445) `def delete_gym(gym_id)`
+  - `list_challenges` (function, line 453) `def list_challenges()`
+  - `_resolve_active_run` (function, line 476) `def _resolve_active_run(selector, operator)`
+  - `start_challenge` (function, line 494) `def start_challenge(challenge_id, target, spin_lab)`
+  - `_spin_scenario` (function, line 586) `def _spin_scenario(scenario)`
+  - `submit_challenge` (function, line 610) `def submit_challenge(techniques_used, success, run_id)`
+  - `stop_challenges` (function, line 718) `def stop_challenges(selector)`
+  - `_teardown_stopped_scenarios` (function, line 739) `def _teardown_stopped_scenarios(stopped)`
+  - `_same_engagement` (function, line 777) `def _same_engagement(ip, target)`
+  - `engagement_context` (function, line 804) `def engagement_context(target)`
+  - `get_active_challenges` (function, line 864) `def get_active_challenges()`
+  - `_calc_speed_score` (function, line 877) `def _calc_speed_score(elapsed_seconds, max_bonus)`
+  - `_calc_stealth_score` (function, line 898) `def _calc_stealth_score(techniques, max_bonus)`
+  - `_calc_technique_score` (function, line 914) `def _calc_technique_score(techniques, chal, max_bonus)`
+  - `_update_leaderboard` (function, line 936) `def _update_leaderboard(attempt)`
+  - `_award_gym_elo` (function, line 980) `def _award_gym_elo(username, elo_bonus)`
+  - `_get_rank` (function, line 1006) `def _get_rank(username)`
+  - `show_leaderboard` (function, line 1023) `def show_leaderboard(top_n)`
+  - `get_active_challenge` (function, line 1050) `def get_active_challenge(run_id)`
+  - `record_external_attempt` (function, line 1081) `def record_external_attempt(challenge_id, success, elo_bonus, techniques)`
+  - `main` (function, line 1135) `def main()`
+- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
+
+## modules/reflective_dll.py
+- Doc: Reflective DLL loading — load PE from memory without touching disk.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PEHeader` (class, line 37) `class PEHeader`
+  - `DataDirectory` (class, line 70) `class DataDirectory`
+  - `SectionHeader` (class, line 83) `class SectionHeader`
+  - `ImportDescriptor` (class, line 104) `class ImportDescriptor`
+  - `ReflectiveLoaderConfig` (class, line 121) `class ReflectiveLoaderConfig`
+  - `PEParser` (class, line 142) `class PEParser`
+  - `ReflectiveLoader` (class, line 464) `class ReflectiveLoader`
+  - `__init__` (method, line 151) `def __init__(self, pe_data)`
+  - `parse_file_header` (method, line 166) `def parse_file_header(self)`
+  - `parse_sections` (method, line 208) `def parse_sections(self, num_sections)`
+  - `parse_data_directories` (method, line 243) `def parse_data_directories(self, num_entries)`
+  - `rva_to_offset` (method, line 265) `def rva_to_offset(self, rva, sections)`
+  - `parse_imports` (method, line 280) `def parse_imports(self, import_dir, sections)`
+  - `parse_relocations` (method, line 326) `def parse_relocations(self, reloc_dir, sections)`
+  - `parse_exports` (method, line 374) `def parse_exports(self, export_dir, sections)`
+  - `_read_asciiz_at_rva` (method, line 417) `def _read_asciiz_at_rva(self, rva, sections)`
+  - `_parse_thunk_names` (method, line 426) `def _parse_thunk_names(self, thunk_rva, sections)`
+  - `is_64bit` (method, line 456) `def is_64bit(self)`
+  - `raw_data` (method, line 460) `def raw_data(self)`
+  - `__init__` (method, line 492) `def __init__(self, pe_data, config)`
+  - `sha256` (method, line 505) `def sha256(self)`
+  - `architecture` (method, line 510) `def architecture(self)`
+  - `required_imports` (method, line 515) `def required_imports(self)`
+  - `plan_injection` (method, line 526) `def plan_injection(self)`
+  - `generate_c_stub` (method, line 588) `def generate_c_stub(self)`
+  - `generate_powershell_stub` (method, line 666) `def generate_powershell_stub(self)`
+  - `summarize` (method, line 685) `def summarize(self)`
+
+## modules/resource_script.py
+- Doc: Enhanced resource script engine — variables, conditionals, loops, macros.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ScriptError` (class, line 76) `class ScriptError(RuntimeError)`
+  - `ScriptContext` (class, line 82) `class ScriptContext`
+  - `ResourceScriptEngine` (class, line 268) `class ResourceScriptEngine`
+  - `__init__` (method, line 89) `def __init__(self, shell_params, on_command, on_print)`
+  - `_resolve` (method, line 124) `def _resolve(self, text)`
+  - `print` (method, line 138) `def print(self, msg)`
+  - `run_command` (method, line 147) `def run_command(self, cmd)`
+  - `_skip` (method, line 165) `def _skip(self)`
+  - `_lookup` (method, line 168) `def _lookup(self, name)`
+  - `_resolve_operand` (method, line 183) `def _resolve_operand(self, operand)`
+  - `eval_condition` (method, line 191) `def eval_condition(self, raw_condition)`
+  - `_compare` (method, line 220) `def _compare(left, op, right)`
+  - `_jump_past` (method, line 251) `def _jump_past(self, open_res, close_re)`
+  - `__init__` (method, line 276) `def __init__(self, context)`
+  - `execute` (method, line 279) `def execute(self, script_path)`
+  - `execute_lines` (method, line 293) `def execute_lines(self, lines, source)`
+  - `execute_string` (method, line 327) `def execute_string(self, script)`
+  - `_extract_macros` (method, line 331) `def _extract_macros(self, lines)`
+  - `_execute_line` (method, line 347) `def _execute_line(self, raw)`
+  - `_call_macro` (method, line 537) `def _call_macro(self, name, args)`
+  - `_repl` (function, line 125) `def _repl(m)`
+- Depends on: `core/safe_exec.py`
+- Imported by: `cli/commands/resource_scripting.py`, `tests/test_resource_script.py`, `tests/test_security_hardening_v3.py`
+
+## modules/retry_session.py
+- Doc: Retry sessions - safely relaunch a failed verb or a failed run.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `is_active` (function, line 56) `def is_active()`
+  - `secret_enabled_path` (function, line 61) `def secret_enabled_path()`
+  - `_verify_askpass_layout` (function, line 67) `def _verify_askpass_layout(helper, secret_file)`
+  - `sudo_gate_open` (function, line 79) `def sudo_gate_open()`
+  - `set_sudo_secret` (function, line 94) `def set_sudo_secret(secret)`
+  - `clear_sudo_secret` (function, line 125) `def clear_sudo_secret()`
+  - `apply_sudo_askpass` (function, line 137) `def apply_sudo_askpass(command)`
+  - `_rewrite_segment` (function, line 162) `def _rewrite_segment(segment)`
+  - `newest_failed_checkpoint` (function, line 180) `def newest_failed_checkpoint(chain, run_id)`
+  - `resolve_sudo_consent` (function, line 204) `def resolve_sudo_consent(confirmer, want_sudo)`
+- Depends on: `modules/chain_state.py`
+- Imported by: `cli/retry_support.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_retry_session.py`
+
+## modules/reverse-shell.c
+- Doc: reverse_shell_init: call_usermodehelper function is used to create user mode processes from...
+- Layer: utility
+- Language: c
+- Symbols:
+  - `reverse_shell_init` (function, line 12) `static int __init reverse_shell_init(void)`
+  - `reverse_shell_exit` (function, line 16) `static void __exit reverse_shell_exit(void)`
+
+## modules/revshell.c
+- Layer: utility
+- Language: c
+- Symbols:
+  - `xlAutoOpen` (function, line 5) `void __cdecl xlAutoOpen()`
+  - `DllMain` (function, line 10) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
+
+## modules/rich_tui.py
+- Doc: Rich-based live TUI dashboard for LazyOwn campaign monitoring.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RichDashboard` (class, line 66) `class RichDashboard`
+  - `__init__` (method, line 74) `def __init__(self, dashboard_engine, refresh_interval, live)`
+  - `run` (method, line 96) `def run(self)`
+  - `stop` (method, line 132) `def stop(self)`
+  - `_render` (method, line 137) `def _render(self)`
+  - `_keyboard_listener` (method, line 146) `def _keyboard_listener(self)`
+  - `_render_layout` (method, line 168) `def _render_layout(self, snapshot)`
+  - `_render_header` (method, line 193) `def _render_header(self, snapshot)`
+  - `_render_topology` (method, line 221) `def _render_topology(self, snapshot)`
+  - `_render_recommendations` (method, line 261) `def _render_recommendations(self, snapshot)`
+  - `_render_pivots_beacons` (method, line 321) `def _render_pivots_beacons(self, snapshot)`
+  - `_render_pivots` (method, line 337) `def _render_pivots(self, snapshot)`
+  - `_render_beacons` (method, line 372) `def _render_beacons(self, snapshot)`
+  - `_render_shortcuts` (method, line 413) `def _render_shortcuts(self)`
+- Depends on: `core/console.py`, `modules/dashboard_engine.py`
+- Imported by: `cli/commands/pwn.py`
+
+
+Next: [KB_modules_p14.md](KB_modules_p14.md)

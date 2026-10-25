@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h2 class="text-center mb-4">Tenant Management</h2>
+
+        <p>Tenants allow running parallel engagements with isolated payloads and sessions.</p>
+
+        <div class="mb-4">
+            <h5>Create New Tenant</h5>
+            <form method="POST" action="{{ url_for('admin_create_tenant') }}" class="row g-3">
+                <div class="col-auto">
+                    <input type="text" name="name" class="form-control" placeholder="Engagement name" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-success">Create Tenant</button>
+                </div>
+            </form>
+        </div>
+
+        <hr>
+
+        <h5>Active Tenants</h5>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Payload</th>
+                    <th>Sessions Dir</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tenant in tenants %}
+                <tr>
+                    <td>{{ tenant.name }}</td>
+                    <td><code>{{ tenant.tenant_id }}</code></td>
+                    <td><small>{{ tenant.payload_path }}</small></td>
+                    <td><small>{{ tenant.sessions_dir }}</small></td>
+                    <td>
+                        {% if active and active.tenant_id == tenant.tenant_id %}
+                        <span class="badge bg-success">Active</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not active or active.tenant_id != tenant.tenant_id %}
+                        <form method="POST" action="{{ url_for('admin_switch_tenant', tenant_id=tenant.tenant_id) }}" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-primary">Activate</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

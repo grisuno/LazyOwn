@@ -1,0 +1,28 @@
+name: infinitycore
+description: InfinityCore suite by V4bel. Six Linux kernel-core LPE PoCs (timer
+  signal mm futex sched slab). Builds all exploits with gcc and stages binaries
+  to sessions/. Run each binary ON the vulnerable lab host never on the
+  operator. Slab is panic-only DoS. First run clones the repo. Takes no free
+  args.
+author: V4bel
+version: "1.0"
+enabled: true
+update: true
+os: linux
+trigger: []
+tool:
+  name: InfinityCore
+  repo_url: https://github.com/V4bel/InfinityCore.git
+  install_path: external/.exploit/infinitycore
+  execute_command: gcc -O2 -pthread -o ../../../sessions/infinitycore_timer timer/CVE-2026-98260-ubuntu.c
+    && gcc -O2 -pthread -o ../../../sessions/infinitycore_signal signal/CVE-2026-98256-ubuntu.c
+    && gcc -O2 -pthread -o ../../../sessions/infinitycore_mm mm/CVE-2026-89754-ubuntu.c
+    && gcc -O2 -pthread -o ../../../sessions/infinitycore_futex futex/CVE-2026-80775-ubuntu.c
+    && gcc -O2 -pthread -o ../../../sessions/infinitycore_sched sched/CVE-2026-98385-arch.c
+    && gcc -O2 -pthread -o ../../../sessions/infinitycore_slab slab/CVE-2026-97941-arch.c
+    && chmod +x ../../../sessions/infinitycore_timer ../../../sessions/infinitycore_signal
+    ../../../sessions/infinitycore_mm ../../../sessions/infinitycore_futex ../../../sessions/infinitycore_sched
+    ../../../sessions/infinitycore_slab && ls ../../../sessions/infinitycore_timer
+    ../../../sessions/infinitycore_signal ../../../sessions/infinitycore_mm ../../../sessions/infinitycore_futex
+    ../../../sessions/infinitycore_sched ../../../sessions/infinitycore_slab
+category: 06. Privilege Escalation

@@ -18,6 +18,7 @@ Design (SOLID)
 - Interface Segregation : SessionAggregator exposes only what callers need.
 - Dependency Inversion  : SessionAggregator depends on AbstractReader.
 """
+
 from __future__ import annotations
 
 import csv
@@ -27,16 +28,17 @@ import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-
+from typing import Any
 
 # ---------------------------------------------------------------------------
 # Value objects
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class ImplantRecord:
     """One row from sessions/{client_id}.log."""
+
     client_id: str
     os: str
     pid: str
@@ -64,13 +66,14 @@ class ImplantRecord:
         return "unknown"
 
     @property
-    def ip_list(self) -> List[str]:
+    def ip_list(self) -> list[str]:
         return [ip.strip() for ip in self.ips.split(",") if ip.strip()]
 
 
 @dataclass
 class CampaignTask:
     """One task from sessions/tasks.json."""
+
     id: int
     title: str
     description: str
@@ -81,37 +84,38 @@ class CampaignTask:
 @dataclass
 class SessionSummary:
     """Aggregated view of all active sessions."""
-    implants: List[ImplantRecord] = field(default_factory=list)
-    tasks: List[CampaignTask] = field(default_factory=list)
-    discovered_hosts: List[str] = field(default_factory=list)
-    command_outputs: Dict[str, str] = field(default_factory=dict)
+
+    implants: list[ImplantRecord] = field(default_factory=list)
+    tasks: list[CampaignTask] = field(default_factory=list)
+    discovered_hosts: list[str] = field(default_factory=list)
+    command_outputs: dict[str, str] = field(default_factory=dict)
 
     @property
-    def active_client_ids(self) -> List[str]:
-        seen: Dict[str, ImplantRecord] = {}
+    def active_client_ids(self) -> list[str]:
+        seen: dict[str, ImplantRecord] = {}
         for r in self.implants:
             seen[r.client_id] = r
         return list(seen.keys())
 
     @property
-    def privileged_sessions(self) -> List[ImplantRecord]:
-        seen: Dict[str, ImplantRecord] = {}
+    def privileged_sessions(self) -> list[ImplantRecord]:
+        seen: dict[str, ImplantRecord] = {}
         for r in self.implants:
             seen[r.client_id] = r
         return [r for r in seen.values() if r.is_privileged]
 
     @property
-    def unprivileged_sessions(self) -> List[ImplantRecord]:
-        seen: Dict[str, ImplantRecord] = {}
+    def unprivileged_sessions(self) -> list[ImplantRecord]:
+        seen: dict[str, ImplantRecord] = {}
         for r in self.implants:
             seen[r.client_id] = r
         return [r for r in seen.values() if not r.is_privileged]
 
-    def latest_for(self, client_id: str) -> Optional[ImplantRecord]:
+    def latest_for(self, client_id: str) -> ImplantRecord | None:
         matches = [r for r in self.implants if r.client_id == client_id]
         return matches[-1] if matches else None
 
-    def task_by_status(self, status: str) -> List[CampaignTask]:
+    def task_by_status(self, status: str) -> list[CampaignTask]:
         return [t for t in self.tasks if t.status.lower() == status.lower()]
 
 
@@ -119,16 +123,16 @@ class SessionSummary:
 # Abstract reader
 # ---------------------------------------------------------------------------
 
-class AbstractReader(ABC):
 
+class AbstractReader(ABC):
     @abstractmethod
-    def read(self, sessions_dir: Path) -> Any:
-        ...
+    def read(self, sessions_dir: Path) -> Any: ...
 
 
 # ---------------------------------------------------------------------------
 # Concrete readers
 # ---------------------------------------------------------------------------
+
 
 class ImplantCSVReader(AbstractReader):
     """
@@ -137,12 +141,21 @@ class ImplantCSVReader(AbstractReader):
     """
 
     _FIELDS = [
-        "client_id", "os", "pid", "hostname", "ips", "user",
-        "discovered_ips", "result_portscan", "result_pwd", "command", "output",
+        "client_id",
+        "os",
+        "pid",
+        "hostname",
+        "ips",
+        "user",
+        "discovered_ips",
+        "result_portscan",
+        "result_pwd",
+        "command",
+        "output",
     ]
 
-    def read(self, sessions_dir: Path) -> List[ImplantRecord]:
-        records: List[ImplantRecord] = []
+    def read(self, sessions_dir: Path) -> list[ImplantRecord]:
+        records: list[ImplantRecord] = []
         pattern = str(sessions_dir / "*.log")
         for log_path in sorted(glob.glob(pattern)):
             # Skip non-implant logs (access.log, searchsploit.log, etc.)
@@ -157,19 +170,21 @@ class ImplantCSVReader(AbstractReader):
                         row = {k.strip(): (v or "").strip() for k, v in row.items()}
                         if "client_id" not in row and "os" not in row:
                             continue
-                        records.append(ImplantRecord(
-                            client_id=row.get("client_id", name),
-                            os=row.get("os", ""),
-                            pid=row.get("pid", ""),
-                            hostname=row.get("hostname", ""),
-                            ips=row.get("ips", ""),
-                            user=row.get("user", ""),
-                            discovered_ips=row.get("discovered_ips", ""),
-                            result_portscan=row.get("result_portscan", ""),
-                            result_pwd=row.get("result_pwd", ""),
-                            command=row.get("command", ""),
-                            output=row.get("output", ""),
-                        ))
+                        records.append(
+                            ImplantRecord(
+                                client_id=row.get("client_id", name),
+                                os=row.get("os", ""),
+                                pid=row.get("pid", ""),
+                                hostname=row.get("hostname", ""),
+                                ips=row.get("ips", ""),
+                                user=row.get("user", ""),
+                                discovered_ips=row.get("discovered_ips", ""),
+                                result_portscan=row.get("result_portscan", ""),
+                                result_pwd=row.get("result_pwd", ""),
+                                command=row.get("command", ""),
+                                output=row.get("output", ""),
+                            )
+                        )
             except (OSError, csv.Error):
                 continue
         return records
@@ -181,9 +196,9 @@ class CommandOutputReader(AbstractReader):
     Returns Dict[str, str]: {filename_stem -> content}
     """
 
-    def read(self, sessions_dir: Path) -> Dict[str, str]:
+    def read(self, sessions_dir: Path) -> dict[str, str]:
         log_dir = sessions_dir / "logs" / "c2"
-        outputs: Dict[str, str] = {}
+        outputs: dict[str, str] = {}
         if not log_dir.exists():
             return outputs
         for txt in sorted(log_dir.glob("command_*output*.txt"))[-200:]:
@@ -199,11 +214,11 @@ class CommandOutputReader(AbstractReader):
 class DiscoveredHostReader(AbstractReader):
     """Reads sessions/hostsdiscovery.txt."""
 
-    def read(self, sessions_dir: Path) -> List[str]:
+    def read(self, sessions_dir: Path) -> list[str]:
         path = sessions_dir / "hostsdiscovery.txt"
         if not path.exists():
             return []
-        hosts: List[str] = []
+        hosts: list[str] = []
         try:
             for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
                 h = line.strip()
@@ -217,21 +232,23 @@ class DiscoveredHostReader(AbstractReader):
 class TaskReader(AbstractReader):
     """Reads sessions/tasks.json."""
 
-    def read(self, sessions_dir: Path) -> List[CampaignTask]:
+    def read(self, sessions_dir: Path) -> list[CampaignTask]:
         path = sessions_dir / "tasks.json"
         if not path.exists():
             return []
         try:
             raw = json.loads(path.read_text(encoding="utf-8"))
-            tasks: List[CampaignTask] = []
+            tasks: list[CampaignTask] = []
             for item in raw if isinstance(raw, list) else []:
-                tasks.append(CampaignTask(
-                    id=int(item.get("id", 0)),
-                    title=item.get("title", ""),
-                    description=item.get("description", ""),
-                    operator=item.get("operator", ""),
-                    status=item.get("status", "New"),
-                ))
+                tasks.append(
+                    CampaignTask(
+                        id=int(item.get("id", 0)),
+                        title=item.get("title", ""),
+                        description=item.get("description", ""),
+                        operator=item.get("operator", ""),
+                        status=item.get("status", "New"),
+                    )
+                )
             return tasks
         except (json.JSONDecodeError, OSError):
             return []
@@ -243,17 +260,23 @@ class TaskWriter:
     def __init__(self, sessions_dir: Path) -> None:
         self._path = sessions_dir / "tasks.json"
 
-    def append(self, title: str, description: str, operator: str = "agent",
-                status: str = "New") -> CampaignTask:
+    def append(self, title: str, description: str, operator: str = "agent", status: str = "New") -> CampaignTask:
         tasks = TaskReader().read(self._path.parent)
         new_id = max((t.id for t in tasks), default=-1) + 1
-        task = CampaignTask(id=new_id, title=title, description=description,
-                            operator=operator, status=status)
-        raw = [{"id": t.id, "title": t.title, "description": t.description,
-                "operator": t.operator, "status": t.status} for t in tasks]
-        raw.append({"id": task.id, "title": task.title,
-                    "description": task.description,
-                    "operator": task.operator, "status": task.status})
+        task = CampaignTask(id=new_id, title=title, description=description, operator=operator, status=status)
+        raw = [
+            {"id": t.id, "title": t.title, "description": t.description, "operator": t.operator, "status": t.status}
+            for t in tasks
+        ]
+        raw.append(
+            {
+                "id": task.id,
+                "title": task.title,
+                "description": task.description,
+                "operator": task.operator,
+                "status": task.status,
+            }
+        )
         try:
             tmp = str(self._path) + ".tmp"
             Path(tmp).write_text(json.dumps(raw, indent=2), encoding="utf-8")
@@ -267,8 +290,7 @@ class TaskWriter:
         raw = []
         found = False
         for t in tasks:
-            d = {"id": t.id, "title": t.title, "description": t.description,
-                 "operator": t.operator, "status": t.status}
+            d = {"id": t.id, "title": t.title, "description": t.description, "operator": t.operator, "status": t.status}
             if t.id == task_id:
                 d["status"] = status
                 found = True
@@ -287,6 +309,7 @@ class TaskWriter:
 # Aggregator
 # ---------------------------------------------------------------------------
 
+
 class SessionAggregator:
     """
     Combines all readers into a single SessionSummary.
@@ -295,10 +318,10 @@ class SessionAggregator:
 
     def __init__(
         self,
-        implant_reader: Optional[AbstractReader] = None,
-        output_reader: Optional[AbstractReader] = None,
-        host_reader: Optional[AbstractReader] = None,
-        task_reader: Optional[AbstractReader] = None,
+        implant_reader: AbstractReader | None = None,
+        output_reader: AbstractReader | None = None,
+        host_reader: AbstractReader | None = None,
+        task_reader: AbstractReader | None = None,
     ) -> None:
         self._implant_reader = implant_reader or ImplantCSVReader()
         self._output_reader = output_reader or CommandOutputReader()
@@ -318,7 +341,7 @@ class SessionAggregator:
 # Module singleton
 # ---------------------------------------------------------------------------
 
-_aggregator: Optional[SessionAggregator] = None
+_aggregator: SessionAggregator | None = None
 
 
 def get_aggregator() -> SessionAggregator:

@@ -45,19 +45,19 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import Optional
 
 # Optional watchdog import (install with: pip install watchdog)
 try:
     from watchdog.events import FileSystemEventHandler
     from watchdog.observers import Observer
+
     _WATCHDOG_AVAILABLE = True
 except ImportError:
     _WATCHDOG_AVAILABLE = False
 
-BASE_DIR     = Path(__file__).parent.parent
+BASE_DIR = Path(__file__).parent.parent
 SESSIONS_DIR = BASE_DIR / "sessions"
-SKILLS_DIR   = Path(__file__).parent
+SKILLS_DIR = Path(__file__).parent
 
 # ── Shared imports from skills/ ───────────────────────────────────────────────
 
@@ -65,7 +65,8 @@ if str(SKILLS_DIR) not in sys.path:
     sys.path.insert(0, str(SKILLS_DIR))
 
 try:
-    from lazyown_objective import ObjectiveStore, PLAN_FILE, SoulUpdater
+    from lazyown_objective import PLAN_FILE, ObjectiveStore, SoulUpdater
+
     _OBJECTIVES_AVAILABLE = True
     _soul = SoulUpdater()
 except ImportError:
@@ -74,6 +75,7 @@ except ImportError:
 
 try:
     from lazyown_facts import FactStore
+
     _facts = FactStore()
     _FACTS_AVAILABLE = True
 except ImportError:
@@ -86,44 +88,48 @@ if str(BASE_DIR / "modules") not in sys.path:
 
 try:
     from event_engine import _append_event
+
     _ENGINE_AVAILABLE = True
 except ImportError:
     _ENGINE_AVAILABLE = False
+
     def _append_event(ev: dict) -> None:  # type: ignore[misc]
         pass
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
-OLLAMA_HOST  = os.environ.get("OLLAMA_HOST", "127.0.0.1")
-OLLAMA_PORT  = int(os.environ.get("OLLAMA_PORT", "11434"))
+OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "127.0.0.1")
+OLLAMA_PORT = int(os.environ.get("OLLAMA_PORT", "11434"))
 OLLAMA_MODEL = os.environ.get("OLLAMA_SMALL_MODEL", "qwen3.5:0.8b")
 
-POLL_INTERVAL_S   = float(os.environ.get("WATCHER_POLL_INTERVAL", "3"))
-MAX_PLAN_CHARS    = int(os.environ.get("WATCHER_MAX_PLAN_CHARS", "6000"))
+POLL_INTERVAL_S = float(os.environ.get("WATCHER_POLL_INTERVAL", "3"))
+MAX_PLAN_CHARS = int(os.environ.get("WATCHER_MAX_PLAN_CHARS", "6000"))
 
-logging.basicConfig(
+from modules.logging_config import configure, get_logger  # noqa: E402
+
+configure(
     level=logging.INFO,
-    format="[watcher] %(asctime)s %(levelname)s %(message)s",
-    datefmt="%H:%M:%S",
+    console=True,
+    file=False,
 )
-log = logging.getLogger("sessions_watcher")
+log = get_logger("sessions_watcher")
 
 # ── Event helper ──────────────────────────────────────────────────────────────
 
-import uuid as _uuid
-import datetime as _datetime
+import datetime as _datetime  # noqa: E402
+import uuid as _uuid  # noqa: E402
 
 
 def _emit(event_type: str, severity: str, suggest: str, source: dict) -> None:
     ev = {
-        "id":        _uuid.uuid4().hex[:8],
-        "timestamp": _datetime.datetime.now(_datetime.timezone.utc).isoformat(),
-        "type":      event_type,
-        "severity":  severity,
-        "rule_id":   f"watcher_{event_type.lower()}",
-        "source":    source,
-        "suggest":   suggest,
-        "status":    "pending",
+        "id": _uuid.uuid4().hex[:8],
+        "timestamp": _datetime.datetime.now(_datetime.UTC).isoformat(),
+        "type": event_type,
+        "severity": severity,
+        "rule_id": f"watcher_{event_type.lower()}",
+        "source": source,
+        "suggest": suggest,
+        "status": "pending",
     }
     _append_event(ev)
     log.info(f"event emitted: {event_type}  {suggest[:60]}")
@@ -132,7 +138,7 @@ def _emit(event_type: str, severity: str, suggest: str, source: dict) -> None:
 # ── Plan generation ───────────────────────────────────────────────────────────
 
 
-def _call_ollama(prompt: str) -> Optional[str]:
+def _call_ollama(prompt: str) -> str | None:
     url = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/api/generate"
     body = json.dumps({"model": OLLAMA_MODEL, "prompt": prompt, "stream": False}).encode()
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
@@ -168,6 +174,7 @@ ATTACK PLAN:"""
 
 def _minimal_plan_from_nmap(content: str) -> str:
     import re
+
     open_ports = re.findall(r"(\d+)/open\s+tcp\s+(\S+)", content)
     if not open_ports:
         return "(no open ports detected in nmap output)"
@@ -187,7 +194,7 @@ def _minimal_plan_from_nmap(content: str) -> str:
     }
     for port, svc in sorted(open_ports, key=lambda x: int(x[0])):
         tool = priority_tools.get(svc.lower(), f"manual analysis of {svc}")
-        lines.append(f"  {len(lines)-1}. Port {port}/{svc} → {tool}")
+        lines.append(f"  {len(lines) - 1}. Port {port}/{svc} → {tool}")
     return "\n".join(lines)
 
 
@@ -251,7 +258,7 @@ def _handle_tool_output(path: Path) -> None:
     parts = path.parts
     try:
         sessions_idx = next(i for i, p in enumerate(parts) if p == "sessions")
-        ip   = parts[sessions_idx + 1]
+        ip = parts[sessions_idx + 1]
         port = parts[sessions_idx + 2]
         tool = parts[sessions_idx + 3]
     except (StopIteration, IndexError):
@@ -272,8 +279,7 @@ def _handle_tool_output(path: Path) -> None:
                     if hf:
                         try:
                             cred_dicts = [
-                                {"username": c.username, "password": c.password,
-                                 "hash_value": c.hash_value}
+                                {"username": c.username, "password": c.password, "hash_value": c.hash_value}
                                 for c in hf.credentials
                             ]
                             _soul.update_credentials(cred_dicts)
@@ -283,8 +289,7 @@ def _handle_tool_output(path: Path) -> None:
                                 _soul.update_access(best, ip, method)
                             if hf.vulnerabilities:
                                 vuln_dicts = [
-                                    {"vuln_id": v.vuln_id, "severity": v.severity,
-                                     "title": v.title}
+                                    {"vuln_id": v.vuln_id, "severity": v.severity, "title": v.title}
                                     for v in hf.vulnerabilities
                                 ]
                                 _soul.update_vulnerabilities(vuln_dicts)
@@ -325,13 +330,15 @@ def _handle_plan_updated(path: Path) -> None:
 
 def _extract_target_from_filename(name: str) -> str:
     import re
+
     m = re.search(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})", name)
     return m.group(1) if m else "unknown"
 
 
 # ── Watchdog handler ─────────────────────────────────────────────────────────
 
-from collections import OrderedDict as _OrderedDict
+from collections import OrderedDict as _OrderedDict  # noqa: E402
+
 _SEEN: _OrderedDict = _OrderedDict()  # debounce LRU — max 500 entries
 _SEEN_MAX = 500
 
@@ -364,6 +371,7 @@ def _dispatch(path: Path) -> None:
 
 
 if _WATCHDOG_AVAILABLE:
+
     class _Handler(FileSystemEventHandler):
         def on_created(self, event):
             if not event.is_directory:

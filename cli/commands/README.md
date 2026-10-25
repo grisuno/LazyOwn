@@ -48,16 +48,16 @@ mirrors the `SHORT_TO_CATEGORY` mapping:
 | `ai` | done (pending) | `ai.py` | 4 |
 | `privesc` | done (pending) | `privilege_escalation.py` | 9 |
 | `exfil` | done (pending) | `exfiltration.py` | 20 (1 duplicate consolidated) |
-| `reporting` | planned | `reporting.py` | 24 |
-| `c2` | planned | `command_and_control.py` | 25 |
-| `lateral` | planned | `lateral_movement.py` | 28 |
-| `persistence` | planned | `persistence.py` | 30 |
-| `credential` | planned | `credential_access.py` | 31 |
-| `recon` | planned | `recon.py` | 37 |
-| `post` | planned | `post_exploitation.py` | 45 |
-| `exploit` | planned | `exploitation.py` | 60 |
-| `scanning` | planned | `scanning.py` | 82 |
-| `misc` | planned | `miscellaneous.py` | 87 |
+| `reporting` | scaffold | `report.py` | 8 |
+| `c2` | scaffold | `command_and_control.py` | 6 |
+| `lateral` | scaffold | `lateral.py` | 8 |
+| `persistence` | scaffold | `persist.py` | 9 |
+| `credential` | scaffold | `cred.py` | 9 |
+| `recon` | scaffold | `recon.py` | 12 |
+| `post` | scaffold | `postexp.py` | 8 |
+| `exploit` | scaffold | `exploit.py` | 10 |
+| `scanning` | scaffold | `scan.py` | 16 |
+| `misc` | planned | — | 87 |
 
 Each pending module:
 

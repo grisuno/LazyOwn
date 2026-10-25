@@ -1,0 +1,26 @@
+id: struts_ognl
+name: Struts OGNL Injection
+description: Exploit CVE-2017-5638 (OGNL injection) on Apache Struts2 to achieve RCE.
+scenario: struts
+chain: ''
+objective: Execute arbitrary commands via OGNL injection and get a reverse shell.
+difficulty: hard
+phases:
+- enum
+- exploit
+required_techniques:
+- cve_exploit
+- command_injection
+bonus_techniques:
+- reverse_shell
+- waf_bypass
+max_points: 1500
+speed_bonus_max: 400
+stealth_bonus_max: 300
+technique_diversity_bonus: 400
+hints:
+- Content-Type header is the injection point
+- 'OGNL expression: %{(#_=''multipart/form-data'')...}'
+- Search for CVE-2017-5638 PoCs on exploit-db
+success_check: RCE via OGNL injection achieved
+elo_bonus: 300

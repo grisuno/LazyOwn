@@ -51,6 +51,7 @@ Usage
     # Record outcome after execution
     router.record_outcome("groq_powerful", "exploit", reward=6, detection_prob=0.82)
 """
+
 from __future__ import annotations
 
 import json
@@ -61,15 +62,15 @@ import random
 import threading
 import time
 from abc import ABC, abstractmethod
-from dataclasses import asdict, dataclass, field
+from collections.abc import Sequence
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence, Tuple
 
 log = logging.getLogger("moe_router")
 
-_BASE_DIR          = Path(__file__).resolve().parent.parent
-_SESSIONS_DIR      = _BASE_DIR / "sessions"
-_PERF_FILE         = _SESSIONS_DIR / "expert_performance.json"
+_BASE_DIR = Path(__file__).resolve().parent.parent
+_SESSIONS_DIR = _BASE_DIR / "sessions"
+_PERF_FILE = _SESSIONS_DIR / "expert_performance.json"
 _AVAIL_CACHE_TTL_S = 120  # re-check availability every 2 minutes
 
 
@@ -82,14 +83,14 @@ _AVAIL_CACHE_TTL_S = 120  # re-check availability every 2 minutes
 class ExpertProfile:
     """Static description of a single expert model."""
 
-    expert_id:   str
-    backend:     str            # groq | ollama
-    model:       str
-    capabilities: List[str]    # task types this expert handles
-    base_weight: float         # prior weight in [0.0, 1.0]
-    cost_tier:   int           # 0=free/local, 1=cheap, 2=normal, 3=expensive
-    latency_ms:  int           # expected median latency
-    description: str           = ""
+    expert_id: str
+    backend: str  # groq | ollama
+    model: str
+    capabilities: list[str]  # task types this expert handles
+    base_weight: float  # prior weight in [0.0, 1.0]
+    cost_tier: int  # 0=free/local, 1=cheap, 2=normal, 3=expensive
+    latency_ms: int  # expected median latency
+    description: str = ""
 
     @property
     def is_local(self) -> bool:
@@ -100,34 +101,29 @@ class ExpertProfile:
 class ExpertPerformance:
     """Mutable per-(expert_id, task_type) performance record."""
 
-    expert_id:          str
-    task_type:          str
-    total_calls:        int   = 0
-    total_reward:       float = 0.0
-    avg_reward:         float = 0.0
+    expert_id: str
+    task_type: str
+    total_calls: int = 0
+    total_reward: float = 0.0
+    avg_reward: float = 0.0
     avg_detection_prob: float = 0.0
-    ema_reward:         float = 0.0   # exponential moving average
-    last_updated:       str   = ""
+    ema_reward: float = 0.0  # exponential moving average
+    last_updated: str = ""
 
-    _EMA_ALPHA: float = 0.3           # EMA smoothing factor
+    _EMA_ALPHA: float = 0.3  # EMA smoothing factor
 
     def update(self, reward: float, detection_prob: float) -> None:
-        self.total_calls        += 1
-        self.total_reward       += reward
-        self.avg_reward          = self.total_reward / self.total_calls
+        self.total_calls += 1
+        self.total_reward += reward
+        self.avg_reward = self.total_reward / self.total_calls
         # Detection-penalized EMA: high detection → lower effective reward
         effective = reward * (1.0 - min(1.0, detection_prob))
         if self.ema_reward == 0.0:
             self.ema_reward = effective
         else:
-            self.ema_reward = (
-                self._EMA_ALPHA * effective
-                + (1.0 - self._EMA_ALPHA) * self.ema_reward
-            )
+            self.ema_reward = self._EMA_ALPHA * effective + (1.0 - self._EMA_ALPHA) * self.ema_reward
         n = self.total_calls
-        self.avg_detection_prob = (
-            self.avg_detection_prob * (n - 1) / n + detection_prob / n
-        )
+        self.avg_detection_prob = self.avg_detection_prob * (n - 1) / n + detection_prob / n
         self.last_updated = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
 
@@ -136,7 +132,7 @@ class ExpertPerformance:
 # Extend this list to add new experts — no other code changes required.
 # ---------------------------------------------------------------------------
 
-_DEFAULT_EXPERTS: List[ExpertProfile] = [
+_DEFAULT_EXPERTS: list[ExpertProfile] = [
     ExpertProfile(
         expert_id="groq_fast",
         backend="groq",
@@ -152,8 +148,14 @@ _DEFAULT_EXPERTS: List[ExpertProfile] = [
         backend="groq",
         model="llama-3.3-70b-versatile",
         capabilities=[
-            "exploit", "credential", "lateral", "intrusion",
-            "privesc", "enum", "brute_force", "payload",
+            "exploit",
+            "credential",
+            "lateral",
+            "intrusion",
+            "privesc",
+            "enum",
+            "brute_force",
+            "payload",
         ],
         base_weight=0.82,
         cost_tier=2,
@@ -194,9 +196,7 @@ _DEFAULT_EXPERTS: List[ExpertProfile] = [
         base_weight=0.65,
         cost_tier=1,
         latency_ms=800,
-        description=(
-            "Gemma 2 9B for output analysis, log parsing, and report synthesis."
-        ),
+        description=("Gemma 2 9B for output analysis, log parsing, and report synthesis."),
     ),
     ExpertProfile(
         expert_id="groq_cloud",
@@ -224,12 +224,21 @@ _DEFAULT_EXPERTS: List[ExpertProfile] = [
         backend="toposwarm",
         model="toposwarm-2M-quaternionic",
         capabilities=[
-            "recon", "enum", "exploit", "credential", "lateral", "privesc",
-            "brute_force", "payload", "analyze", "report", "other",
+            "recon",
+            "enum",
+            "exploit",
+            "credential",
+            "lateral",
+            "privesc",
+            "brute_force",
+            "payload",
+            "analyze",
+            "report",
+            "other",
         ],
-        base_weight=0.35,      # lower prior — used as fallback when cloud unavailable
-        cost_tier=0,           # free: runs locally with no external calls
-        latency_ms=200,        # fast: 2M params, CPU-only inference
+        base_weight=0.35,  # lower prior — used as fallback when cloud unavailable
+        cost_tier=0,  # free: runs locally with no external calls
+        latency_ms=200,  # fast: 2M params, CPU-only inference
         description=(
             "TopoSwarm 2M-param quaternionic toroidal router trained on LazyOwn "
             "tool traces.  Zero-dependency local brain — works without Groq, "
@@ -251,9 +260,9 @@ class IExpertSelector(ABC):
     @abstractmethod
     def select(
         self,
-        candidates: List[ExpertProfile],
+        candidates: list[ExpertProfile],
         task_type: str,
-        performance_store: "ExpertPerformanceStore",
+        performance_store: ExpertPerformanceStore,
         deterministic: bool = False,
     ) -> ExpertProfile:
         """Return the selected expert from candidates."""
@@ -272,9 +281,9 @@ class ExpertPerformanceStore:
     """
 
     def __init__(self, path: Path = _PERF_FILE) -> None:
-        self._path  = path
-        self._lock  = threading.RLock()
-        self._data: Dict[str, ExpertPerformance] = {}
+        self._path = path
+        self._lock = threading.RLock()
+        self._data: dict[str, ExpertPerformance] = {}
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._load()
 
@@ -297,21 +306,19 @@ class ExpertPerformanceStore:
         key = self._key(expert_id, task_type)
         with self._lock:
             if key not in self._data:
-                self._data[key] = ExpertPerformance(
-                    expert_id=expert_id, task_type=task_type
-                )
+                self._data[key] = ExpertPerformance(expert_id=expert_id, task_type=task_type)
             self._data[key].update(reward, detection_prob)
             self._save()
         return self._data[key]
 
     # ── Read ──────────────────────────────────────────────────────────────────
 
-    def get(self, expert_id: str, task_type: str) -> Optional[ExpertPerformance]:
+    def get(self, expert_id: str, task_type: str) -> ExpertPerformance | None:
         key = self._key(expert_id, task_type)
         with self._lock:
             return self._data.get(key)
 
-    def all_for_task(self, task_type: str) -> List[ExpertPerformance]:
+    def all_for_task(self, task_type: str) -> list[ExpertPerformance]:
         with self._lock:
             return [v for v in self._data.values() if v.task_type == task_type]
 
@@ -346,10 +353,7 @@ class ExpertPerformanceStore:
         try:
             raw = json.loads(self._path.read_text(encoding="utf-8"))
             for key, val in raw.items():
-                ep = ExpertPerformance(**{
-                    k: v for k, v in val.items()
-                    if not k.startswith("_")
-                })
+                ep = ExpertPerformance(**{k: v for k, v in val.items() if not k.startswith("_")})
                 self._data[key] = ep
             log.debug("ExpertPerformanceStore: loaded %d records", len(self._data))
         except Exception as exc:
@@ -383,7 +387,7 @@ class SoftmaxSelector(IExpertSelector):
 
     def select(
         self,
-        candidates: List[ExpertProfile],
+        candidates: list[ExpertProfile],
         task_type: str,
         performance_store: ExpertPerformanceStore,
         deterministic: bool = False,
@@ -404,24 +408,24 @@ class SoftmaxSelector(IExpertSelector):
 
     @staticmethod
     def _compute_weights(
-        candidates: List[ExpertProfile],
+        candidates: list[ExpertProfile],
         task_type: str,
         store: ExpertPerformanceStore,
-    ) -> List[float]:
-        weights: List[float] = []
+    ) -> list[float]:
+        weights: list[float] = []
         for expert in candidates:
-            bonus  = store.performance_bonus(expert.expert_id, task_type)
+            bonus = store.performance_bonus(expert.expert_id, task_type)
             weight = expert.base_weight * (1.0 + bonus)
             weights.append(max(0.01, weight))  # floor at 0.01
         return weights
 
 
-def _softmax(values: Sequence[float], temperature: float = 1.0) -> List[float]:
+def _softmax(values: Sequence[float], temperature: float = 1.0) -> list[float]:
     """Numerically stable temperature-scaled softmax."""
     scaled = [v / temperature for v in values]
-    max_v  = max(scaled)
-    exps   = [math.exp(v - max_v) for v in scaled]
-    total  = sum(exps)
+    max_v = max(scaled)
+    exps = [math.exp(v - max_v) for v in scaled]
+    total = sum(exps)
     return [e / total for e in exps]
 
 
@@ -437,8 +441,8 @@ class ExpertAvailabilityChecker:
     """
 
     def __init__(self) -> None:
-        self._cache: Dict[str, Tuple[bool, float]] = {}  # backend → (available, ts)
-        self._lock  = threading.Lock()
+        self._cache: dict[str, tuple[bool, float]] = {}  # backend → (available, ts)
+        self._lock = threading.Lock()
 
     def is_available(self, expert: ExpertProfile, api_key: str = "") -> bool:
         with self._lock:
@@ -458,25 +462,21 @@ class ExpertAvailabilityChecker:
         if expert.backend == "ollama":
             try:
                 import urllib.request
+
                 host = os.environ.get("OLLAMA_HOST", "127.0.0.1")
                 port = int(os.environ.get("OLLAMA_PORT", "11434"))
-                urllib.request.urlopen(
-                    f"http://{host}:{port}/api/tags", timeout=3
-                )
+                urllib.request.urlopen(f"http://{host}:{port}/api/tags", timeout=3)
                 return True
             except Exception:
                 return False
         if expert.backend == "toposwarm":
             try:
                 from toposwarm_bridge import get_bridge
+
                 return get_bridge().available
             except ImportError:
-                default_ts_dir = (
-                    Path(__file__).parent.parent.parent / "py" / "toposwarm"
-                )
-                ts_dir = Path(
-                    os.environ.get("TOPOSWARM_DIR", str(default_ts_dir))
-                )
+                default_ts_dir = Path(__file__).parent.parent.parent / "py" / "toposwarm"
+                ts_dir = Path(os.environ.get("TOPOSWARM_DIR", str(default_ts_dir)))
                 return (ts_dir / "toposwarm_lazyown_orchestrator.py").exists()
         return False
 
@@ -499,16 +499,16 @@ class MoERouter:
 
     def __init__(
         self,
-        experts: Optional[List[ExpertProfile]] = None,
-        selector: Optional[IExpertSelector] = None,
-        performance_store: Optional[ExpertPerformanceStore] = None,
+        experts: list[ExpertProfile] | None = None,
+        selector: IExpertSelector | None = None,
+        performance_store: ExpertPerformanceStore | None = None,
         api_key: str = "",
     ) -> None:
-        self._experts   = experts if experts is not None else list(_DEFAULT_EXPERTS)
-        self._selector  = selector or SoftmaxSelector(temperature=1.2)
-        self._store     = performance_store or ExpertPerformanceStore()
-        self._avail     = ExpertAvailabilityChecker()
-        self._api_key   = api_key or _load_groq_key()
+        self._experts = experts if experts is not None else list(_DEFAULT_EXPERTS)
+        self._selector = selector or SoftmaxSelector(temperature=1.2)
+        self._store = performance_store or ExpertPerformanceStore()
+        self._avail = ExpertAvailabilityChecker()
+        self._api_key = api_key or _load_groq_key()
 
     # ── Public routing API ────────────────────────────────────────────────────
 
@@ -533,15 +533,14 @@ class MoERouter:
             candidates = self._available_for_task("other")
         if not candidates:
             raise RuntimeError(
-                f"No available expert for task_type={task_type!r}. "
-                "Check API keys and Ollama connectivity."
+                f"No available expert for task_type={task_type!r}. Check API keys and Ollama connectivity."
             )
-        expert = self._selector.select(
-            candidates, task_type, self._store, deterministic=deterministic
-        )
+        expert = self._selector.select(candidates, task_type, self._store, deterministic=deterministic)
         log.info(
             "MoERouter: routed task_type=%s → %s (%s)",
-            task_type, expert.expert_id, expert.model,
+            task_type,
+            expert.expert_id,
+            expert.model,
         )
         return expert
 
@@ -550,7 +549,7 @@ class MoERouter:
         task_type: str,
         goal: str = "",
         n: int = 2,
-    ) -> List[ExpertProfile]:
+    ) -> list[ExpertProfile]:
         """
         Return up to *n* distinct experts for ensemble execution.
         Experts are sorted by adjusted weight (best first).
@@ -591,11 +590,11 @@ class MoERouter:
         self,
         task_type: str,
         top_k: int = 3,
-    ) -> List[Tuple[ExpertProfile, float]]:
+    ) -> list[tuple[ExpertProfile, float]]:
         """
         Return (expert, adjusted_weight) sorted descending for diagnostics.
         """
-        result: List[Tuple[ExpertProfile, float]] = []
+        result: list[tuple[ExpertProfile, float]] = []
         for ep in self._experts:
             if task_type in ep.capabilities or task_type == "other":
                 bonus = self._store.performance_bonus(ep.expert_id, task_type)
@@ -603,7 +602,7 @@ class MoERouter:
                 result.append((ep, round(w, 4)))
         return sorted(result, key=lambda t: -t[1])[:top_k]
 
-    def get_expert(self, expert_id: str) -> Optional[ExpertProfile]:
+    def get_expert(self, expert_id: str) -> ExpertProfile | None:
         """Return expert by ID, or None."""
         return next((e for e in self._experts if e.expert_id == expert_id), None)
 
@@ -612,36 +611,35 @@ class MoERouter:
         rows = []
         for ep in self._experts:
             available = self._avail.is_available(ep, self._api_key)
-            all_tasks: List[ExpertPerformance] = []
+            all_tasks: list[ExpertPerformance] = []
             for cap in ep.capabilities:
                 p = self._store.get(ep.expert_id, cap)
                 if p:
                     all_tasks.append(p)
-            rows.append({
-                "expert_id":   ep.expert_id,
-                "backend":     ep.backend,
-                "model":       ep.model,
-                "capabilities": ep.capabilities,
-                "base_weight": ep.base_weight,
-                "available":   available,
-                "total_calls": sum(p.total_calls for p in all_tasks),
-                "avg_ema_reward": round(
-                    sum(p.ema_reward for p in all_tasks) / len(all_tasks), 3
-                ) if all_tasks else 0.0,
-            })
+            rows.append(
+                {
+                    "expert_id": ep.expert_id,
+                    "backend": ep.backend,
+                    "model": ep.model,
+                    "capabilities": ep.capabilities,
+                    "base_weight": ep.base_weight,
+                    "available": available,
+                    "total_calls": sum(p.total_calls for p in all_tasks),
+                    "avg_ema_reward": round(sum(p.ema_reward for p in all_tasks) / len(all_tasks), 3)
+                    if all_tasks
+                    else 0.0,
+                }
+            )
         return {
-            "experts":     rows,
-            "temperature": round(self._selector.temperature if
-                                 isinstance(self._selector, SoftmaxSelector) else -1, 3),
+            "experts": rows,
+            "temperature": round(self._selector.temperature if isinstance(self._selector, SoftmaxSelector) else -1, 3),
         }
 
     # ── Internal helpers ──────────────────────────────────────────────────────
 
-    def _available_for_task(self, task_type: str) -> List[ExpertProfile]:
+    def _available_for_task(self, task_type: str) -> list[ExpertProfile]:
         return [
-            ep for ep in self._experts
-            if task_type in ep.capabilities
-            and self._avail.is_available(ep, self._api_key)
+            ep for ep in self._experts if task_type in ep.capabilities and self._avail.is_available(ep, self._api_key)
         ]
 
     def _anneal_temperature(self) -> None:
@@ -652,10 +650,7 @@ class MoERouter:
         """
         if not isinstance(self._selector, SoftmaxSelector):
             return
-        total_calls = sum(
-            ep.total_calls
-            for ep in self._store._data.values()
-        )
+        total_calls = sum(ep.total_calls for ep in self._store._data.values())
         # Decay: T = T_max / (1 + calls / 50)
         new_temp = max(0.5, 1.5 / (1.0 + total_calls / 50.0))
         self._selector.temperature = round(new_temp, 3)
@@ -682,7 +677,7 @@ def _load_groq_key() -> str:
 # Module-level singleton
 # ---------------------------------------------------------------------------
 
-_default_router: Optional[MoERouter] = None
+_default_router: MoERouter | None = None
 _router_lock = threading.Lock()
 
 
@@ -701,9 +696,10 @@ def get_router(api_key: str = "") -> MoERouter:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    import argparse, sys
+    import argparse
+    import logging
 
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    logging.basicConfig(level=logging.INFO)
 
     parser = argparse.ArgumentParser(description="LazyOwn MoE Router CLI")
     sub = parser.add_subparsers(dest="cmd")
@@ -737,11 +733,10 @@ if __name__ == "__main__":
     elif args.cmd == "status":
         report = router.status_report()
         print(f"Temperature: {report['temperature']}")
-        print(f"{'Expert':20s}  {'Backend':8s}  {'Available':10s}  "
-              f"{'Calls':6s}  {'EMA reward':12s}  Capabilities")
+        print(f"{'Expert':20s}  {'Backend':8s}  {'Available':10s}  {'Calls':6s}  {'EMA reward':12s}  Capabilities")
         for row in report["experts"]:
             avail = "yes" if row["available"] else "no"
-            caps  = ",".join(row["capabilities"][:4])
+            caps = ",".join(row["capabilities"][:4])
             print(
                 f"{row['expert_id']:20s}  {row['backend']:8s}  {avail:10s}  "
                 f"{row['total_calls']:6d}  {row['avg_ema_reward']:12.3f}  {caps}"

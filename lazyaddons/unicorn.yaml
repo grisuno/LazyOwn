@@ -8,6 +8,7 @@ description: 'Unicorn is a simple tool for using a PowerShell downgrade attack a
 author: www.trustedsec.com
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: rhost
   type: string

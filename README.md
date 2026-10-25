@@ -425,7 +425,8 @@ Thanks to cmd2 for making this tool possible through their great work, and we lo
 
 ## ZONE.CI 全球网
 
-Many thanks to ZONE.CI for their review, but they failed to check some repositories before confirming that we're missing capabilities announced in the readme. They're not in the repo, but they load as lazy add-ons ;) https://github.com/grisuno/blacksandbeacon https://github.com/grisuno/beacon
+Many thanks to [ZONE.CI](https://zone.ci/secarticles/wx/587776.html) for their review, but they failed to check some repositories before confirming that we're missing capabilities announced in the readme. They're not in the repo, but they load as lazy add-ons ;) [blacksandbeacon](https://github.com/grisuno/blacksandbeacon) [win beacon](https://github.com/grisuno/beacon)
+
 [https://zone.ci/secarticles/wx/587776.html](https://zone.ci/secarticles/wx/587776.html?utm_source=lazyown_redteam)
 
 ## Star History

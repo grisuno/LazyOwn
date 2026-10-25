@@ -1,6 +1,6 @@
 # LazyOwn RedTeam Framework with AI agents, Linux BOF beacon, YARA+Nuclei marketplace
 
-![LazyOwn_Redteam_framework](https://github.com/user-attachments/assets/d713f163-5f4d-433f-befd-6776d43051da)
+<img width="862" height="862" alt="image" src="https://github.com/user-attachments/assets/6157c084-c743-4042-bd91-f8d2cc6a194c" />
 
 [![stars](https://img.shields.io/github/stars/grisuno/LazyOwn?style=social)](https://github.com/grisuno/LazyOwn/stargazers)
 [![release](https://img.shields.io/github/v/release/grisuno/LazyOwn?include_prereleases&logo=github)](https://github.com/grisuno/LazyOwn/releases)
@@ -20,7 +20,7 @@ curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -
 
 | Try in 60 seconds (no install) | Golden path (every engagement) | One-command auto-pwn |
 |---|---|---|
-| `docker run -it ghcr.io/grisuno/lazyown:latest` | `ping > lazynmap > auto_populate > facts_show > recommend_next` | `engage 10.10.11.5` |
+| `docker run -it ghcr.io/grisuno/lazyown:latest` | `ping > lazynmap > auto_populate > facts_show > recommend_next` | `auto_loop --target 10.10.11.5` |
 
 ![golden path demo](assets/demo/golden-path.gif)
 ![C2 collab demo](assets/demo/c2-collab.gif)
@@ -82,7 +82,7 @@ See the LICENSE file for details about using this software.
 
 LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 837 CLI commands, 130 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
 
-**New in this release:** integrated marketplace with YARA rules + Nuclei templates, `auto_pwn` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks. Plus: `retry` resume of interrupted chains/loops (with a guarded `--sudo` mode), `chain_distill` to turn one loop trace into a reusable chain YAML, typed verb manifests for the planner, and every installed lazyaddon surfacing as a toggleable `addon:*` verb.
+**New in this release:** integrated marketplace with YARA rules + Nuclei templates, `auto_loop` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks. Plus: `retry` resume of interrupted chains/loops (with a guarded `--sudo` mode), `chain_distill` to turn one loop trace into a reusable chain YAML, typed verb manifests for the planner, and every installed lazyaddon surfacing as a toggleable `addon:*` verb.
 
 **Autonomous contracts update:** the loop is now administered by
 `config/orchestrator.yaml` profiles (`default`, `stealth`, `lab`, `gym`),

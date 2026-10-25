@@ -37,14 +37,14 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `select_step_ids` (function, line 257) `def select_step_ids(chain, args)`
   - `adversarial_continue` (function, line 289) `def adversarial_continue(chain)`
   - `render_result` (function, line 297) `def render_result(result)`
-  - `build_cli_approver` (function, line 321) `def build_cli_approver(printer, input_fn)`
-  - `build_reactive_replanner` (function, line 343) `def build_reactive_replanner()`
-  - `_decision_command` (function, line 368) `def _decision_command(decision)`
-  - `_step_from_decision` (function, line 377) `def _step_from_decision(command, outcome, executed_count)`
-  - `build_llm_recovery_chain` (function, line 399) `def build_llm_recovery_chain(result, target, task_id)`
-  - `_platform` (function, line 471) `def _platform()`
-  - `approve` (function, line 329) `def approve(step_id, command)`
-  - `replan` (function, line 346) `def replan(context)`
+  - `build_cli_approver` (function, line 330) `def build_cli_approver(printer, input_fn)`
+  - `build_reactive_replanner` (function, line 352) `def build_reactive_replanner()`
+  - `_decision_command` (function, line 377) `def _decision_command(decision)`
+  - `_step_from_decision` (function, line 386) `def _step_from_decision(command, outcome, executed_count)`
+  - `build_llm_recovery_chain` (function, line 408) `def build_llm_recovery_chain(result, target, task_id)`
+  - `_platform` (function, line 480) `def _platform()`
+  - `approve` (function, line 338) `def approve(step_id, command)`
+  - `replan` (function, line 355) `def replan(context)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/guardrails/__init__.py`, `modules/mediation/__init__.py`, `modules/reactive_engine.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`, `tests/test_guardrails.py`
 

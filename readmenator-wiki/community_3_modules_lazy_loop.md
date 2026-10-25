@@ -1,14 +1,14 @@
 # modules: lazy_loop
 
-*Community 3 | 120 files | cohesion 0.58*
+*Community 3 | 122 files | cohesion 0.58*
 
 ## Definition
 
-This community groups 120 file(s) rooted at `tests` with dominant language py (cohesion 0.58). Central symbols: `ActivityLog`, `ActivityLogPort`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`. Core file: `modules/lazy_loop.py` (460 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
+This community groups 122 file(s) rooted at `tests` with dominant language py (cohesion 0.58). Central symbols: `ActivityLog`, `ActivityLogPort`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`. Core file: `modules/lazy_loop.py` (461 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
 
 ## Files
 
-### `tests` (55 files)
+### `tests` (56 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -16,7 +16,7 @@ This community groups 120 file(s) rooted at `tests` with dominant language py (c
 | `tests/test_api_authz.py` | py | testing | 48 | yes |
 | `tests/test_asset_gate.py` | py | testing | 16 | yes |
 
-### `modules` (33 files)
+### `modules` (34 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -78,7 +78,7 @@ This community groups 120 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `skills/lazyown_mcp_opencode.py` | py | utility | 6 | yes |
 
-*... and 100 more files in this community.*
+*... and 102 more files in this community.*
 
 
 ## Key Symbols
@@ -116,14 +116,14 @@ This community groups 120 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 862
-- Cross-boundary resolved imports (EXTRACTED): 366
+- Internal resolved imports (EXTRACTED): 869
+- Cross-boundary resolved imports (EXTRACTED): 378
 
 ## Connections
 
 - [EXTRACTED] depends_on community 1 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/aliases.py imports core/config.py.
 - [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/mediation/__init__.py.
-- [EXTRACTED] depends_on community 9 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/assign.py imports core/payload_schema.py.
+- [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/assign.py imports core/payload_schema.py.
 - [EXTRACTED] depends_on community 2 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
 
 ## Risks
@@ -173,4 +173,4 @@ This community groups 120 file(s) rooted at `tests` with dominant language py (c
 - `core/terminal_guard.py`
 - `lazyc2/addon_creator.py`
 - `lazyc2/blueprints/api.py`
-- *... and 100 more*
+- *... and 102 more*

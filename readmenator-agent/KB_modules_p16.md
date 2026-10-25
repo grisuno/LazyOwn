@@ -1,6 +1,99 @@
 # Subsystem: modules (page 16 of 16)
 Previous: [KB_modules_p15.md](KB_modules_p15.md)
 
+## modules/world_model.py
+- Doc: modules/world_model.py
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `_derive_crypto_key` (function, line 76) `def _derive_crypto_key(password, salt)`
+  - `_machine_password` (function, line 85) `def _machine_password()`
+  - `_master_password` (function, line 126) `def _master_password()`
+  - `_load_or_create_salt` (function, line 155) `def _load_or_create_salt(salt_path)`
+  - `_encrypt_payload` (function, line 198) `def _encrypt_payload(payload, password, salt)`
+  - `_decrypt_payload_text` (function, line 218) `def _decrypt_payload_text(text, password, salt)`
+  - `_read_encrypted_dict` (function, line 257) `def _read_encrypted_dict(path)`
+  - `read_state_dict` (function, line 290) `def read_state_dict(path)`
+  - `write_state_dict` (function, line 325) `def write_state_dict(path, data)`
+  - `HostState` (class, line 373) `class HostState(StrEnum)`
+  - `EngagementPhase` (class, line 389) `class EngagementPhase(StrEnum)`
+  - `ServiceInfo` (class, line 401) `class ServiceInfo`
+  - `CredentialEntry` (class, line 410) `class CredentialEntry`
+  - `VulnerabilityEntry` (class, line 419) `class VulnerabilityEntry`
+  - `EmailEntry` (class, line 428) `class EmailEntry`
+  - `DomainEntry` (class, line 436) `class DomainEntry`
+  - `NetworkRelation` (class, line 444) `class NetworkRelation`
+  - `NetworkGraph` (class, line 466) `class NetworkGraph`
+  - `HostEntry` (class, line 586) `class HostEntry`
+  - `_PhaseDeriver` (class, line 642) `class _PhaseDeriver`
+  - `WorldModel` (class, line 767) `class WorldModel`
+  - `get_world_model` (function, line 1455) `def get_world_model(path)`
+  - `rank` (method, line 382) `def rank(self)`
+  - `can_advance_to` (method, line 385) `def can_advance_to(self, next_state)`
+  - `__init__` (method, line 489) `def __init__(self)`
+  - `add_relation` (method, line 496) `def add_relation(self, relation)`
+  - `neighbors` (method, line 504) `def neighbors(self, node)`
+  - `in_degree` (method, line 508) `def in_degree(self, node)`
+  - `out_degree` (method, line 512) `def out_degree(self, node)`
+  - `degree_centrality` (method, line 516) `def degree_centrality(self)`
+  - `pivot_candidates` (method, line 531) `def pivot_candidates(self, top_k)`
+  - `to_dict` (method, line 553) `def to_dict(self)`
+  - `from_dict` (method, line 570) `def from_dict(cls, data)`
+  - `add_service` (method, line 595) `def add_service(self, svc)`
+  - `advance` (method, line 599) `def advance(self, new_state)`
+  - `to_dict` (method, line 607) `def to_dict(self)`
+  - `from_dict` (method, line 619) `def from_dict(cls, d)`
+  - `derive` (method, line 656) `def derive(self, hosts)`
+  - `__init__` (method, line 775) `def __init__(self, path)`
+  - `add_host` (method, line 791) `def add_host(self, ip)`
+  - `reset_host` (method, line 799) `def reset_host(self, ip)`
+  - `remove_host` (method, line 809) `def remove_host(self, ip)`
+  - `advance_host` (method, line 825) `def advance_host(self, ip, new_state)`
+  - `add_service` (method, line 834) `def add_service(self, ip, port, name, version, protocol)`
+  - `add_note` (method, line 851) `def add_note(self, ip, note)`
+  - `set_os_hint` (method, line 858) `def set_os_hint(self, ip, os_hint)`
+  - `get_host` (method, line 872) `def get_host(self, ip)`
+  - `get_hosts_summary` (method, line 884) `def get_hosts_summary(self)`
+  - `add_credential` (method, line 895) `def add_credential(self, value, host, service)`
+  - `link_credential_to_success` (method, line 927) `def link_credential_to_success(self, value, host)`
+  - `link_credential_to_failure` (method, line 948) `def link_credential_to_failure(self, value, host)`
+  - `add_vulnerability` (method, line 978) `def add_vulnerability(self, description, host, cve, severity)`
+  - `add_email` (method, line 984) `def add_email(self, address, host, context)`
+  - `add_domain` (method, line 990) `def add_domain(self, domain, host, context)`
+  - `update_from_findings` (method, line 1004) `def update_from_findings(self, findings)`
+  - `consume_policy_facts` (method, line 1077) `def consume_policy_facts(self, facts_path)`
+  - `_cred_value` (method, line 1204) `def _cred_value(cred)`
+  - `add_relation` (method, line 1216) `def add_relation(self, source, target, relation, weight)`
+  - `pivot_candidates` (method, line 1237) `def pivot_candidates(self, top_k)`
+  - `graph_snapshot` (method, line 1245) `def graph_snapshot(self)`
+  - `get_phase` (method, line 1252) `def get_phase(self)`
+  - `get_suggested_tools` (method, line 1256) `def get_suggested_tools(self)`
+  - `to_context_string` (method, line 1259) `def to_context_string(self)`
+  - `_save` (method, line 1318) `def _save(self)`
+  - `_load` (method, line 1337) `def _load(self)`
+  - `reload` (method, line 1367) `def reload(self)`
+  - `reset` (method, line 1383) `def reset(self)`
+  - `snapshot` (method, line 1394) `def snapshot(self)`
+  - `read_section` (method, line 1410) `def read_section(self, key)`
+  - `write_section` (method, line 1427) `def write_section(self, key, value)`
+- Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
+
+## modules/yaml_generator.py
+- Doc: load_payload: Carga las variables desde payload.json
+- Layer: utility
+- Language: py
+- Symbols:
+  - `YAMLPromptGenerator` (class, line 17) `class YAMLPromptGenerator`
+  - `main` (function, line 141) `def main()`
+  - `__init__` (method, line 18) `def __init__(self, provider, api_key)`
+  - `load_payload` (method, line 25) `def load_payload(self)`
+  - `_load_model` (method, line 32) `def _load_model(self)`
+  - `generate_prompt` (method, line 54) `def generate_prompt(self, user_request)`
+  - `extract_yaml_from_markdown` (method, line 100) `def extract_yaml_from_markdown(self, text)`
+  - `create_yaml_addon` (method, line 109) `def create_yaml_addon(self, user_request, output_dir)`
+- Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
+
 ## modules/yara_scanner.py
 - Doc: YARA integration for malware classification and IOC scanning.
 - Layer: utility

@@ -1,6 +1,100 @@
 # Subsystem: modules (page 6 of 16)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
 
+## modules/fast_run_service.sh
+- Doc: LazyOwn service-mode orchestrator.
+- Layer: business_logic
+- Language: sh
+- Symbols:
+  - `log_timestamp` (function, line 69)
+  - `log_info` (function, line 73)
+  - `log_warn` (function, line 77)
+  - `log_error` (function, line 81)
+  - `require_root` (function, line 89)
+  - `require_deps` (function, line 97)
+  - `require_paths` (function, line 113)
+  - `prepare_runtime_dirs` (function, line 126)
+  - `load_config` (function, line 139)
+  - `config_truthy` (function, line 155)
+  - `pid_file_for` (function, line 166)
+  - `log_file_for` (function, line 171)
+  - `read_pid_value` (function, line 176)
+  - `is_pid_alive` (function, line 189)
+  - `is_service_running` (function, line 194)
+  - `write_pid_file` (function, line 201)
+  - `ensure_log_file` (function, line 211)
+  - `spawn_as_target_user` (function, line 228)
+  - `spawn_as_root` (function, line 247)
+  - `terminate_pid_tree` (function, line 264)
+  - `stop_named_service` (function, line 292)
+  - `chown_project_tree` (function, line 310)
+  - `start_chown_watcher` (function, line 315)
+  - `start_lazyc2_service` (function, line 342)
+  - `start_www_service` (function, line 356)
+  - `start_vpn_service` (function, line 363)
+  - `start_discord_service` (function, line 380)
+  - `start_telegram_service` (function, line 390)
+  - `start_cloudflare_service` (function, line 400)
+  - `start_ollama_service` (function, line 410)
+  - `managed_services_in_order` (function, line 429)
+  - `cmd_start` (function, line 445)
+  - `cmd_stop` (function, line 465)
+  - `cmd_restart` (function, line 480)
+  - `cmd_status` (function, line 486)
+  - `cmd_logs` (function, line 505)
+  - `cmd_chown_now` (function, line 521)
+  - `usage` (function, line 528)
+  - `main` (function, line 557)
+
+## modules/finding_lifecycle.py
+- Doc: Finding confirmation lifecycle: pending -> confirmed / rejected.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_store_path` (function, line 35) `def _store_path(sessions_dir)`
+  - `_load` (function, line 40) `def _load(sessions_dir)`
+  - `_save` (function, line 53) `def _save(sessions_dir, data)`
+  - `confirm` (function, line 61) `def confirm(finding_id, evidence, sessions_dir, by)`
+  - `reject` (function, line 90) `def reject(finding_id, reason, sessions_dir, by)`
+  - `add_dead_end` (function, line 104) `def add_dead_end(kind, value, reason, sessions_dir)`
+  - `is_dead_end` (function, line 116) `def is_dead_end(kind, value, sessions_dir)`
+  - `suppressed_values` (function, line 123) `def suppressed_values(sessions_dir)`
+  - `resolve` (function, line 129) `def resolve(node, sessions_dir)`
+  - `apply_confirmation` (function, line 154) `def apply_confirmation(nodes, sessions_dir)`
+  - `FindingRecord` (class, line 182) `class FindingRecord`
+  - `RetestRecord` (class, line 195) `class RetestRecord`
+  - `_token_value` (function, line 205) `def _token_value(refs, prefix, default)`
+  - `_with_token` (function, line 213) `def _with_token(refs, prefix, value)`
+  - `_finding_from_row` (function, line 220) `def _finding_from_row(row)`
+  - `record` (function, line 234) `def record(db, workspace, host, title, severity, summary, poc)`
+  - `findings_for` (function, line 259) `def findings_for(db, workspace)`
+  - `set_status` (function, line 264) `def set_status(db, finding_id, status)`
+  - `_retests_path` (function, line 287) `def _retests_path(sessions_dir)`
+  - `_load_retests` (function, line 292) `def _load_retests(sessions_dir)`
+  - `_save_retests` (function, line 303) `def _save_retests(sessions_dir, payload)`
+  - `has_running_retest` (function, line 310) `def has_running_retest(finding_id, sessions_dir)`
+  - `request_retest` (function, line 318) `def request_retest(db, finding_id, sessions_dir)`
+  - `resolve_retest` (function, line 338) `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)`
+  - `classify_retest` (function, line 384) `def classify_retest(needle, output)`
+  - `render_markdown` (function, line 403) `def render_markdown(db, workspace, title)`
+- Depends on: `modules/osint_enrich.py`
+- Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
+
+## modules/forensic_cleaner.py
+- Doc: Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ForensicCleanerConfig` (class, line 23) `class ForensicCleanerConfig`
+  - `ForensicCleaner` (class, line 57) `class ForensicCleaner`
+  - `__init__` (method, line 67) `def __init__(self, config)`
+  - `windows_cleanup` (method, line 70) `def windows_cleanup(self)`
+  - `linux_cleanup` (method, line 165) `def linux_cleanup(self)`
+  - `macos_cleanup` (method, line 193) `def macos_cleanup(self)`
+  - `windows_prefetch_parse` (method, line 221) `def windows_prefetch_parse(self, prefetch_path)`
+  - `amcache_parse` (method, line 259) `def amcache_parse(self)`
+- Imported by: `cli/commands/opsec_cleanup.py`
+
 ## modules/gcp_attacks.py
 - Doc: GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration.
 - Layer: utility
@@ -100,6 +194,16 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `try_yad` (function, line 28)
   - `try_ssh_askpass` (function, line 33)
   - `try_kdialog` (function, line 40)
+
+## modules/gym_cleanup.py
+- Doc: Gym machine cleanup on LazyOwn exit.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `cleanup_enabled` (function, line 21) `def cleanup_enabled()`
+  - `cleanup_gym_machines` (function, line 35) `def cleanup_gym_machines(verbose)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`
+- Imported by: `lazyown.py`, `tests/test_gym_lifecycle.py`
 
 ## modules/gym_matrix_runner.py
 - Doc: Ordered Metasploitable 2 gym matrix runner.
@@ -204,6 +308,29 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Symbols:
   - `extract_ips_from_arp` (function, line 21)
   - `extract_listening_ips_from_netstat` (function, line 26)
+
+## modules/hunt_verify.py
+- Doc: Evidence verdict verification for hunting and chain stages.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EventRecord` (class, line 48) `class EventRecord`
+  - `StageSpec` (class, line 60) `class StageSpec`
+  - `Observation` (class, line 73) `class Observation`
+  - `StageAssessment` (class, line 85) `class StageAssessment`
+  - `Verification` (class, line 116) `class Verification`
+  - `_unique` (function, line 140) `def _unique(values)`
+  - `field_present` (function, line 152) `def field_present(fields, field_name)`
+  - `_field_present` (function, line 172) `def _field_present(event, field_name)`
+  - `_scalar_present` (function, line 177) `def _scalar_present(value)`
+  - `_stage_matches` (function, line 188) `def _stage_matches(spec, event)`
+  - `validate_specs` (function, line 197) `def validate_specs(specs)`
+  - `verify_stages` (function, line 232) `def verify_stages(specs, observations, events, scope_covered)`
+  - `_assess_stage` (function, line 310) `def _assess_stage(spec, observations, events, complete, warnings)`
+  - `to_dict` (method, line 99) `def to_dict(self)`
+  - `chain_proven` (method, line 124) `def chain_proven(self)`
+  - `to_dict` (method, line 130) `def to_dict(self)`
+- Imported by: `modules/chain_runner.py`, `modules/defense_stages.py`, `tests/test_hunt_verify.py`
 
 ## modules/ia_code_analysis.py
 - Doc: CodeAnalyzer: Analyzes source code in a directory and its subdirectories.
@@ -347,151 +474,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `_is_placeholder` (method, line 964) `def _is_placeholder(value)`
 - Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
 - Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
-
-## modules/intercept.py
-- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
-  - `InterceptConfig` (class, line 33) `class InterceptConfig`
-  - `InterceptRule` (class, line 50) `class InterceptRule`
-  - `PendingApproval` (class, line 77) `class PendingApproval`
-  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
-  - `builtin_rules` (function, line 101) `def builtin_rules()`
-  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
-  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
-  - `Interceptor` (class, line 154) `class Interceptor`
-  - `Guard` (class, line 255) `class Guard`
-  - `__post_init__` (method, line 61) `def __post_init__(self)`
-  - `matches` (method, line 68) `def matches(self, tool, command)`
-  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
-  - `rules` (method, line 172) `def rules(self)`
-  - `add_rule` (method, line 177) `def add_rule(self, rule)`
-  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
-  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
-  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
-  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
-  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
-  - `__init__` (method, line 258) `def __init__(self, interceptor)`
-  - `interceptor` (method, line 266) `def interceptor(self)`
-  - `check` (method, line 270) `def check(self, tool, command)`
-  - `observe` (method, line 282) `def observe(self, output, source)`
-  - `record_failure` (method, line 291) `def record_failure(self, source)`
-  - `audit_log` (method, line 296) `def audit_log(self, limit)`
-  - `attribution` (method, line 301) `def attribution(self)`
-- Depends on: `cli/commands/enum.py`
-- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-
-## modules/internal_discover.sh
-- Layer: utility
-- Language: sh
-
-## modules/iptables_portforward.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `display_usage` (function, line 29)
-
-## modules/jsonl_tail.py
-- Doc: Incremental JSONL reader shared by the monitor TUI and the loop runner.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `JsonlTail` (class, line 14) `class JsonlTail`
-  - `__init__` (method, line 17) `def __init__(self, path)`
-  - `read_new` (method, line 22) `def read_new(self, limit)`
-- Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
-
-## modules/jwtexploit.py
-- Layer: utility
-- Language: py
-
-## modules/k8s_attacks.py
-- Doc: Kubernetes attack module — RBAC enumeration, pod escape, etcd access, Helm abuse.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `K8sConfig` (class, line 57) `class K8sConfig`
-  - `K8SAttackEngine` (class, line 77) `class K8SAttackEngine`
-  - `__init__` (method, line 87) `def __init__(self, config)`
-  - `enumerate_rbac` (method, line 90) `def enumerate_rbac(self)`
-  - `privileged_pod_escape` (method, line 118) `def privileged_pod_escape(self)`
-  - `service_account_token_theft` (method, line 173) `def service_account_token_theft(self)`
-  - `kubelet_anonymous_auth_abuse` (method, line 198) `def kubelet_anonymous_auth_abuse(self)`
-  - `etcd_access_exploitation` (method, line 222) `def etcd_access_exploitation(self)`
-  - `helm_tiller_abuse` (method, line 250) `def helm_tiller_abuse(self)`
-  - `persistence_techniques` (method, line 278) `def persistence_techniques(self)`
-  - `summary` (method, line 318) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/kerberoasting.py
-- Doc: Advanced Kerberoasting — targeted SPN enumeration, AES-only attacks, hashcat integration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `KerberoastTarget` (class, line 38) `class KerberoastTarget`
-  - `KerberoastHash` (class, line 59) `class KerberoastHash`
-  - `KerberoastingEngine` (class, line 79) `class KerberoastingEngine`
-  - `__init__` (method, line 95) `def __init__(self, domain, dc_ip, username, password, hash)`
-  - `enumerate_spns` (method, line 112) `def enumerate_spns(self, ldap_output, bloodhound_data)`
-  - `_prioritize_targets` (method, line 169) `def _prioritize_targets(self)`
-  - `request_tgs_aes_only` (method, line 187) `def request_tgs_aes_only(self, user_spn)`
-  - `request_tgs_rc4` (method, line 208) `def request_tgs_rc4(self, user_spn)`
-  - `request_tgs` (method, line 219) `def request_tgs(self, user_spn, etype)`
-  - `_build_hash_string` (method, line 248) `def _build_hash_string(self, spn, etype)`
-  - `_hashcat_command` (method, line 268) `def _hashcat_command(hash_str, mode)`
-  - `targeted_kerberoast` (method, line 271) `def targeted_kerberoast(self, high_value_only)`
-  - `asreproast_check` (method, line 306) `def asreproast_check(self, usernames)`
-  - `extract_hashes_from_pcap` (method, line 321) `def extract_hashes_from_pcap(self, pcap_path)`
-  - `detect_kerberoasting_activity` (method, line 336) `def detect_kerberoasting_activity(self, event_log)`
-  - `build_hashcat_batch` (method, line 379) `def build_hashcat_batch(self, output_path)`
-  - `summary` (method, line 401) `def summary(self)`
-  - `priority` (function, line 172) `def priority(target)`
-- Depends on: `modules/kerberos_core.py`
-- Imported by: `cli/commands/active_directory.py`
-
-## modules/kerberos_core.py
-- Doc: Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `KerberosPrincipal` (class, line 139) `class KerberosPrincipal`
-  - `EncryptedData` (class, line 157) `class EncryptedData`
-  - `KerberosTicket` (class, line 172) `class KerberosTicket`
-  - `PACSignature` (class, line 213) `class PACSignature`
-  - `PACInfo` (class, line 228) `class PACInfo`
-  - `TGSRequest` (class, line 249) `class TGSRequest`
-  - `KerberosCrypto` (class, line 271) `class KerberosCrypto`
-  - `KerberosCore` (class, line 407) `class KerberosCore`
-  - `KerberosErrorParser` (class, line 683) `class KerberosErrorParser`
-  - `TicketValidator` (class, line 702) `class TicketValidator`
-  - `to_string` (method, line 152) `def to_string(self)`
-  - `has_flag` (method, line 207) `def has_flag(self, flag_name)`
-  - `__init__` (method, line 277) `def __init__(self)`
-  - `derive_aes_key` (method, line 282) `def derive_aes_key(password, salt, etype)`
-  - `derive_rc4_key` (method, line 318) `def derive_rc4_key(password)`
-  - `aes_encrypt` (method, line 329) `def aes_encrypt(self, key, plaintext, usage)`
-  - `aes_decrypt` (method, line 361) `def aes_decrypt(self, key, ciphertext, usage)`
-  - `compute_checksum` (method, line 389) `def compute_checksum(key, data, etype)`
-  - `__init__` (method, line 421) `def __init__(self, domain, dc_host, dc_ip)`
-  - `get_supported_etypes` (method, line 427) `def get_supported_etypes(self)`
-  - `build_as_req` (method, line 435) `def build_as_req(self, username, domain, password, etype)`
-  - `build_tgs_req` (method, line 489) `def build_tgs_req(self, params)`
-  - `parse_as_rep` (method, line 534) `def parse_as_rep(self, as_rep_data, key, etype)`
-  - `parse_tgs_rep` (method, line 550) `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)`
-  - `decrypt_ticket` (method, line 563) `def decrypt_ticket(self, ticket_data, key, etype)`
-  - `parse_pac` (method, line 588) `def parse_pac(self, pac_data)`
-  - `_parse_pac_buffer` (method, line 622) `def _parse_pac_buffer(pac, buf_type, buf_data)`
-  - `_build_pa_enc_timestamp` (method, line 640) `def _build_pa_enc_timestamp(self, key, etype, timestamp)`
-  - `_parse_kdc_rep` (method, line 653) `def _parse_kdc_rep(self, data, key, etype, rep_type)`
-  - `_rc4_encrypt` (method, line 667) `def _rc4_encrypt(key, data, usage)`
-  - `_rc4_decrypt` (method, line 676) `def _rc4_decrypt(key, data, usage)`
-  - `parse_error` (method, line 687) `def parse_error(error_data)`
-  - `is_expired` (method, line 706) `def is_expired(endtime, grace_period)`
-  - `validate_flags` (method, line 719) `def validate_flags(ticket, required_flags)`
-  - `validate_pac_checksums` (method, line 735) `def validate_pac_checksums(pac)`
-- Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

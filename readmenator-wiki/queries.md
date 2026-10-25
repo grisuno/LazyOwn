@@ -4,7 +4,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
-### Q: What does logging.py depend on, and what depends on it? (152 connections)
+### Q: What does logging.py depend on, and what depends on it? (154 connections)
 
 - Status: unanswered
 
@@ -12,11 +12,11 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: What does lazy_loop.py depend on, and what depends on it? (90 connections)
+### Q: What does lazy_loop.py depend on, and what depends on it? (91 connections)
 
 - Status: unanswered
 
-### Q: How are the 173 files in 'modules: autonomous_daemon' related to each other?
+### Q: How are the 184 files in 'modules: autonomous_daemon' related to each other?
 
 - Status: unanswered
 

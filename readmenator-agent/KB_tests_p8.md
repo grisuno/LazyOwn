@@ -1,6 +1,48 @@
 # Subsystem: tests (page 8 of 20)
 Previous: [KB_tests_p7.md](KB_tests_p7.md)
 
+## tests/test_dependencies.py
+- Doc: Tests for ``core.dependencies`` graceful optional-import handling.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_run_in_subprocess` (function, line 59) `def _run_in_subprocess(snippet)`
+  - `TestMissingDependencyError` (class, line 82) `class TestMissingDependencyError`
+  - `TestOptionalImportPresent` (class, line 102) `class TestOptionalImportPresent`
+  - `TestOptionalImportAbsent` (class, line 113) `class TestOptionalImportAbsent`
+  - `TestOptionalAttr` (class, line 146) `class TestOptionalAttr`
+  - `TestRegistry` (class, line 170) `class TestRegistry`
+  - `TestProbe` (class, line 204) `class TestProbe`
+  - `TestReport` (class, line 220) `class TestReport`
+  - `TestUtilsIntegration` (class, line 255) `class TestUtilsIntegration`
+  - `test_message_contains_pip_command` (method, line 85) `def test_message_contains_pip_command(self)`
+  - `test_attributes_are_exposed` (method, line 92) `def test_attributes_are_exposed(self)`
+  - `test_is_import_error_subclass` (method, line 98) `def test_is_import_error_subclass(self)`
+  - `test_returns_real_module` (method, line 105) `def test_returns_real_module(self)`
+  - `test_truthy_when_present` (method, line 109) `def test_truthy_when_present(self)`
+  - `test_returns_falsy_proxy` (method, line 116) `def test_returns_falsy_proxy(self)`
+  - `test_attribute_access_raises` (method, line 120) `def test_attribute_access_raises(self)`
+  - `test_call_raises` (method, line 125) `def test_call_raises(self)`
+  - `test_subscription_raises` (method, line 130) `def test_subscription_raises(self)`
+  - `test_iteration_raises` (method, line 135) `def test_iteration_raises(self)`
+  - `test_len_raises` (method, line 140) `def test_len_raises(self)`
+  - `test_returns_real_attribute` (method, line 149) `def test_returns_real_attribute(self)`
+  - `test_submodule_fallback` (method, line 153) `def test_submodule_fallback(self)`
+  - `test_missing_module_returns_proxy` (method, line 157) `def test_missing_module_returns_proxy(self)`
+  - `test_missing_attribute_returns_proxy` (method, line 163) `def test_missing_attribute_returns_proxy(self)`
+  - `test_every_spec_is_fully_populated` (method, line 173) `def test_every_spec_is_fully_populated(self)`
+  - `test_lazily_bound_dependency_is_registered` (method, line 200) `def test_lazily_bound_dependency_is_registered(self, import_name)`
+  - `test_present_dependency` (method, line 207) `def test_present_dependency(self)`
+  - `test_absent_dependency` (method, line 213) `def test_absent_dependency(self)`
+  - `test_collect_returns_report` (method, line 223) `def test_collect_returns_report(self)`
+  - `test_missing_and_ok_consistency` (method, line 228) `def test_missing_and_ok_consistency(self)`
+  - `test_ok_report_has_no_missing` (method, line 235) `def test_ok_report_has_no_missing(self)`
+  - `test_format_report_renders_markers` (method, line 241) `def test_format_report_renders_markers(self)`
+  - `test_main_returns_exit_code` (method, line 250) `def test_main_returns_exit_code(self)`
+  - `test_symbol_is_exported` (method, line 259) `def test_symbol_is_exported(self, name)`
+  - `test_is_binary_present_uses_path_lookup` (method, line 265) `def test_is_binary_present_uses_path_lookup(self)`
+- Depends on: `core/dependencies.py`
+
 ## tests/test_detection_feed.py
 - Doc: Tests for modules/detection_feed.py.
 - Layer: testing
@@ -441,25 +483,6 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_disabled_flag_is_noop` (method, line 508) `def test_disabled_flag_is_noop(self, tmp_path, capsys)`
   - `test_returns_required_keys` (method, line 525) `def test_returns_required_keys(self, tmp_path)`
 - Depends on: `cli/engagement_hooks.py`, `modules/cli_auth.py`
-
-## tests/test_estorides_fusion.py
-- Doc: Estorides OSINT fusion: load, merge, surface readers.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_load_surface_graph` (function, line 27) `def _load_surface_graph()`
-  - `_base_nodes` (function, line 36) `def _base_nodes()`
-  - `test_load_lazyown_vocabulary` (function, line 50) `def test_load_lazyown_vocabulary(tmp_path)`
-  - `test_load_raw_export_translates_types` (function, line 73) `def test_load_raw_export_translates_types(tmp_path)`
-  - `test_merge_fuses_matching_ip` (function, line 91) `def test_merge_fuses_matching_ip()`
-  - `test_merge_adds_new_entities_capped` (function, line 116) `def test_merge_adds_new_entities_capped()`
-  - `test_merge_edges_reanchor` (function, line 141) `def test_merge_edges_reanchor(tmp_path)`
-  - `test_find_export_prefers_lazyown` (function, line 182) `def test_find_export_prefers_lazyown(tmp_path)`
-  - `test_parse_confirm` (function, line 187) `def test_parse_confirm()`
-  - `test_discovery_targets_reads_all_files` (function, line 194) `def test_discovery_targets_reads_all_files(tmp_path)`
-  - `test_write_world_model_hosts` (function, line 201) `def test_write_world_model_hosts(tmp_path)`
-  - `test_surface_readers_cover_sessions_formats` (function, line 219) `def test_surface_readers_cover_sessions_formats(tmp_path)`
-- Depends on: `modules/estorides_fusion.py`, `modules/surface_ops.py`, `modules/world_model.py`
 
 
 Next: [KB_tests_p9.md](KB_tests_p9.md)

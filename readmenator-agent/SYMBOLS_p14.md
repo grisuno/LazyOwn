@@ -3,6 +3,48 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
+| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
+| `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
+| `_update_soul` | function | `modules/event_consumers.py:100` | `def _update_soul(phase, credentials, access)` |
+| `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
+| `unwire_all_consumers` | function | `modules/event_consumers.py:399` | `def unwire_all_consumers(bus)` |
+| `wire_all_consumers` | function | `modules/event_consumers.py:370` | `def wire_all_consumers(bus)` |
+| `_append_event` | function | `modules/event_engine.py:173` | `def _append_event(event)` |
+| `_read_watermark` | function | `modules/event_engine.py:130` | `def _read_watermark()` |
+| `_row_matches` | function | `modules/event_engine.py:144` | `def _row_matches(row, trigger)` |
+| `_write_watermark` | function | `modules/event_engine.py:137` | `def _write_watermark(offset)` |
+| `ack_event` | function | `modules/event_engine.py:270` | `def ack_event(event_id)` |
+| `add_rule` | function | `modules/event_engine.py:114` | `def add_rule(rule)` |
+| `load_rules` | function | `modules/event_engine.py:99` | `def load_rules()` |
+| `process_new_rows` | function | `modules/event_engine.py:181` | `def process_new_rows()` |
+| `read_events` | function | `modules/event_engine.py:250` | `def read_events(limit, status)` |
+| `save_rules` | function | `modules/event_engine.py:110` | `def save_rules(rules)` |
+| `EvidenceConfig` | class | `modules/evidence.py:20` | `class EvidenceConfig` |
+| `EvidenceStore` | class | `modules/evidence.py:54` | `class EvidenceStore` |
+| `__init__` | method | `modules/evidence.py:57` | `def __init__(self, base_dir)` |
+| `_validate_hash` | function | `modules/evidence.py:42` | `def _validate_hash(value)` |
+| `blob_path` | method | `modules/evidence.py:65` | `def blob_path(self, content_hash)` |
+| `exists` | method | `modules/evidence.py:98` | `def exists(self, content_hash)` |
+| `garbage_collect` | method | `modules/evidence.py:105` | `def garbage_collect(self, referenced)` |
+| `get` | method | `modules/evidence.py:90` | `def get(self, content_hash)` |
+| `hash_bytes` | function | `modules/evidence.py:37` | `def hash_bytes(data)` |
+| `put` | method | `modules/evidence.py:70` | `def put(self, data)` |
+| `BUFFER` | macro | `modules/exp.c:56` | `#define BUFFER` |
+| `DESC_MAX` | macro | `modules/exp.c:54` | `#define DESC_MAX` |
+| `ERROR_PREFIX` | macro | `modules/exp.c:58` | `#define ERROR_PREFIX` |
+| `INBOUND` | macro | `modules/exp.c:52` | `#define INBOUND` |
+| `KEY_DESC_MAX_SIZE` | macro | `modules/exp.c:60` | `#define KEY_DESC_MAX_SIZE` |
+| `MQUEUE_NUM` | macro | `modules/exp.c:49` | `#define MQUEUE_NUM` |
+| `Msg` | struct | `modules/exp.c:100` | `` |
+| `NAMELEN` | macro | `modules/exp.c:57` | `#define NAMELEN` |
+| `OUTBOUND` | macro | `modules/exp.c:53` | `#define OUTBOUND` |
+| `PHYSMAP_MASK` | macro | `modules/exp.c:67` | `#define PHYSMAP_MASK` |
+| `PREFIX_BUF_LEN` | macro | `modules/exp.c:62` | `#define PREFIX_BUF_LEN` |
+| `RCU_HEAD_LEN` | macro | `modules/exp.c:63` | `#define RCU_HEAD_LEN` |
+| `SPRAY_KEY_SIZE` | macro | `modules/exp.c:65` | `#define SPRAY_KEY_SIZE` |
+| `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:71` | `#define SPRAY_NB_ENTRIES` |
+| `SPRAY_SIZE` | macro | `modules/exp.c:69` | `#define SPRAY_SIZE` |
 | `_GNU_SOURCE` | macro | `modules/exp.c:2` | `#define _GNU_SOURCE` |
 | `add_key` | function | `modules/exp.c:147` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
 | `awake_partial_keys` | function | `modules/exp.c:271` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
@@ -301,6 +343,8 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `try_ssh_askpass` | function | `modules/gui_askpass.sh:33` | `` |
 | `try_yad` | function | `modules/gui_askpass.sh:28` | `` |
 | `try_zenity` | function | `modules/gui_askpass.sh:24` | `` |
+| `cleanup_enabled` | function | `modules/gym_cleanup.py:21` | `def cleanup_enabled()` |
+| `cleanup_gym_machines` | function | `modules/gym_cleanup.py:35` | `def cleanup_gym_machines(verbose)` |
 | `_persist` | function | `modules/gym_matrix_runner.py:217` | `def _persist(summary_result, sessions_dir)` |
 | `_stats` | function | `modules/gym_matrix_runner.py:201` | `def _stats(runs)` |
 | `load_matrix` | function | `modules/gym_matrix_runner.py:233` | `def load_matrix(sessions_dir)` |
@@ -362,6 +406,22 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `main` | function | `modules/hive_invoke.py:255` | `def main(argv)` |
 | `extract_ips_from_arp` | function | `modules/hostdiscover.sh:21` | `` |
 | `extract_listening_ips_from_netstat` | function | `modules/hostdiscover.sh:26` | `` |
+| `EventRecord` | class | `modules/hunt_verify.py:48` | `class EventRecord` |
+| `Observation` | class | `modules/hunt_verify.py:73` | `class Observation` |
+| `StageAssessment` | class | `modules/hunt_verify.py:85` | `class StageAssessment` |
+| `StageSpec` | class | `modules/hunt_verify.py:60` | `class StageSpec` |
+| `Verification` | class | `modules/hunt_verify.py:116` | `class Verification` |
+| `_assess_stage` | function | `modules/hunt_verify.py:310` | `def _assess_stage(spec, observations, events, complete, warnings)` |
+| `_field_present` | function | `modules/hunt_verify.py:172` | `def _field_present(event, field_name)` |
+| `_scalar_present` | function | `modules/hunt_verify.py:177` | `def _scalar_present(value)` |
+| `_stage_matches` | function | `modules/hunt_verify.py:188` | `def _stage_matches(spec, event)` |
+| `_unique` | function | `modules/hunt_verify.py:140` | `def _unique(values)` |
+| `chain_proven` | method | `modules/hunt_verify.py:124` | `def chain_proven(self)` |
+| `field_present` | function | `modules/hunt_verify.py:152` | `def field_present(fields, field_name)` |
+| `to_dict` | method | `modules/hunt_verify.py:99` | `def to_dict(self)` |
+| `to_dict` | method | `modules/hunt_verify.py:130` | `def to_dict(self)` |
+| `validate_specs` | function | `modules/hunt_verify.py:197` | `def validate_specs(specs)` |
+| `verify_stages` | function | `modules/hunt_verify.py:232` | `def verify_stages(specs, observations, events, scope_covered)` |
 | `CodeAnalyzer` | class | `modules/ia_code_analysis.py:28` | `class CodeAnalyzer` |
 | `__init__` | method | `modules/ia_code_analysis.py:33` | `def __init__(self, mode)` |
 | `analyze_code_file` | method | `modules/ia_code_analysis.py:49` | `def analyze_code_file(self, file_path)` |
@@ -436,65 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `map` | method | `modules/integrations/misp_export.py:192` | `def map(self, finding)` |
 | `map` | method | `modules/integrations/misp_export.py:221` | `def map(self, finding)` |
 | `push_to_misp` | method | `modules/integrations/misp_export.py:330` | `def push_to_misp(self, event, url, api_key)` |
-| `save` | method | `modules/integrations/misp_export.py:322` | `def save(self, event, path)` |
-| `to_json` | method | `modules/integrations/misp_export.py:299` | `def to_json(self, event)` |
-| `LocalTemplateIndex` | class | `modules/integrations/nuclei_bridge.py:104` | `class LocalTemplateIndex(TemplateSelector)` |
-| `NucleiBridge` | class | `modules/integrations/nuclei_bridge.py:389` | `class NucleiBridge` |
-| `NucleiRunner` | class | `modules/integrations/nuclei_bridge.py:279` | `class NucleiRunner` |
-| `NucleiTemplate` | class | `modules/integrations/nuclei_bridge.py:71` | `class NucleiTemplate` |
-| `TemplateSelector` | class | `modules/integrations/nuclei_bridge.py:87` | `class TemplateSelector(ABC)` |
-| `_F` | class | `modules/integrations/nuclei_bridge.py:483` | `class _F` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:114` | `def __init__(self, templates_dir)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
-| `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
-| `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
-| `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
-| `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
-| `_extract_cve_from_text` | method | `modules/integrations/nuclei_bridge.py:253` | `def _extract_cve_from_text(text)` |
-| `_main` | function | `modules/integrations/nuclei_bridge.py:456` | `def _main()` |
-| `_matches` | method | `modules/integrations/nuclei_bridge.py:258` | `def _matches(tmpl, service_lower, cve_upper)` |
-| `_normalise_tags` | method | `modules/integrations/nuclei_bridge.py:238` | `def _normalise_tags(raw)` |
-| `_parse_regex` | method | `modules/integrations/nuclei_bridge.py:201` | `def _parse_regex(self, text, path)` |
-| `_parse_template` | method | `modules/integrations/nuclei_bridge.py:162` | `def _parse_template(self, path)` |
-| `_parse_yaml` | method | `modules/integrations/nuclei_bridge.py:172` | `def _parse_yaml(self, text, path)` |
-| `build` | method | `modules/integrations/nuclei_bridge.py:141` | `def build(self)` |
-| `get_bridge` | function | `modules/integrations/nuclei_bridge.py:443` | `def get_bridge()` |
-| `list_templates` | method | `modules/integrations/nuclei_bridge.py:427` | `def list_templates(self, services, cves)` |
-| `run` | method | `modules/integrations/nuclei_bridge.py:293` | `def run(self, target, templates, output_dir)` |
-| `run_for_findings` | method | `modules/integrations/nuclei_bridge.py:326` | `def run_for_findings(self, target, findings, output_dir, selector)` |
-| `scan` | method | `modules/integrations/nuclei_bridge.py:404` | `def scan(self, target, findings, dry_run)` |
-| `select` | method | `modules/integrations/nuclei_bridge.py:91` | `def select(self, services, cves)` |
-| `select` | method | `modules/integrations/nuclei_bridge.py:121` | `def select(self, services, cves)` |
-| `NucleiFinding` | class | `modules/integrations/nuclei_parser.py:71` | `class NucleiFinding` |
-| `NucleiParser` | class | `modules/integrations/nuclei_parser.py:99` | `class NucleiParser` |
-| `__init__` | method | `modules/integrations/nuclei_parser.py:109` | `def __init__(self, sessions_dir)` |
-| `_finding_to_dict` | method | `modules/integrations/nuclei_parser.py:504` | `def _finding_to_dict(finding)` |
-| `_parse_json_obj` | method | `modules/integrations/nuclei_parser.py:412` | `def _parse_json_obj(self, obj)` |
-| `_parse_line` | method | `modules/integrations/nuclei_parser.py:393` | `def _parse_line(self, line)` |
-| `_recommend_for_finding` | method | `modules/integrations/nuclei_parser.py:468` | `def _recommend_for_finding(self, finding, rhost)` |
-| `_summarize` | method | `modules/integrations/nuclei_parser.py:517` | `def _summarize(findings)` |
-| `enrich_world_model` | method | `modules/integrations/nuclei_parser.py:262` | `def enrich_world_model(self, findings, rhost)` |
-| `exploit_probability` | method | `modules/integrations/nuclei_parser.py:95` | `def exploit_probability(self)` |
-| `generate_recommendations` | method | `modules/integrations/nuclei_parser.py:300` | `def generate_recommendations(self, findings, rhost)` |
-| `import_to_db` | method | `modules/integrations/nuclei_parser.py:196` | `def import_to_db(self, findings, rhost, workspace_name)` |
-| `mitre_tactic` | method | `modules/integrations/nuclei_parser.py:87` | `def mitre_tactic(self)` |
-| `parse_file` | method | `modules/integrations/nuclei_parser.py:177` | `def parse_file(self, filepath)` |
-| `parse_json` | method | `modules/integrations/nuclei_parser.py:134` | `def parse_json(self, json_text)` |
-| `parse_text` | method | `modules/integrations/nuclei_parser.py:115` | `def parse_text(self, text)` |
-| `scan_and_import` | method | `modules/integrations/nuclei_parser.py:328` | `def scan_and_import(self, target, templates, services, cves, workspace_name)` |
-| `ExploitDBAPI` | class | `modules/integrations/searchsploit.py:193` | `class ExploitDBAPI(ExploitSource)` |
-| `ExploitEntry` | class | `modules/integrations/searchsploit.py:60` | `class ExploitEntry` |
-| `ExploitSource` | class | `modules/integrations/searchsploit.py:76` | `class ExploitSource(ABC)` |
-| `SearchsploitCLI` | class | `modules/integrations/searchsploit.py:93` | `class SearchsploitCLI(ExploitSource)` |
-| `SearchsploitClient` | class | `modules/integrations/searchsploit.py:271` | `class SearchsploitClient` |
-| `__init__` | method | `modules/integrations/searchsploit.py:102` | `def __init__(self)` |
-| `__init__` | method | `modules/integrations/searchsploit.py:201` | `def __init__(self)` |
-| `__init__` | method | `modules/integrations/searchsploit.py:278` | `def __init__(self, primary, fallback)` |
-| `_extract_cve` | method | `modules/integrations/searchsploit.py:183` | `def _extract_cve(text)` |
-| `_main` | function | `modules/integrations/searchsploit.py:356` | `def _main()` |
-| `_parse` | method | `modules/integrations/searchsploit.py:133` | `def _parse(self, raw)` |
-| `_query` | method | `modules/integrations/searchsploit.py:218` | `def _query(self, cve_id)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

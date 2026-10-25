@@ -301,7 +301,10 @@ def render_result(result: ChainRunResult) -> list[str]:
         if outcome.status in ("skipped", "dry-run"):
             lines.append(f"[apt_chain] {outcome.status}: {outcome.run} ({outcome.reason})")
         elif outcome.ok:
-            lines.append(f"[apt_chain] ok: {outcome.run}")
+            verdict = f" [{outcome.verdict}]" if outcome.verdict else ""
+            lines.append(f"[apt_chain] ok{verdict}: {outcome.run}")
+            if outcome.missing_fields:
+                lines.append(f"    missing fields: {', '.join(outcome.missing_fields)}")
             if outcome.output:
                 lines.extend(f"    {part[:220]}" for part in outcome.output.splitlines()[:24])
         else:
@@ -315,6 +318,12 @@ def render_result(result: ChainRunResult) -> list[str]:
         f"[apt_chain] chain finished: {done}/{len(result.steps)} step(s) ok"
         " - a green run line means the step was issued, not that the target fell."
     )
+    if result.verdicts:
+        lines.append(
+            "[apt_chain] chain "
+            + ("evidence proven" if result.chain_proven else "evidence unproven")
+            + f": {', '.join(f'{key}={value}' for key, value in result.verdicts.items())}"
+        )
     return lines
 
 

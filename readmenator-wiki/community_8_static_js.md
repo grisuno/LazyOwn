@@ -1,6 +1,6 @@
 # static/js
 
-*Community 9 | 29 files | cohesion 0.41*
+*Community 8 | 29 files | cohesion 0.41*
 
 ## Definition
 
@@ -121,10 +121,9 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 
 ## Connections
 
-- [EXTRACTED] depends_on community 9 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/assign.py imports core/payload_schema.py.
-- [EXTRACTED] depends_on community 7 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
-- [EXTRACTED] depends_on community 1 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/commands/defaults.py imports cli/assign.py.
-- [EXTRACTED] depends_on community 2 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/commands/help_ui.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/assign.py imports core/payload_schema.py.
+- [EXTRACTED] depends_on community 7 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/commands/defaults.py imports cli/assign.py.
 
 ## Risks
 

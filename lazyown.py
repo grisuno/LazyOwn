@@ -457,6 +457,7 @@ class LazyOwnShell(cmd2.Cmd):
         import atexit as _atexit
 
         _atexit.register(self._run_auto_encrypt)
+        _atexit.register(self._run_gym_cleanup)
         try:
             from modules.lazy_loop import shutdown_loop_runtime
 
@@ -1142,10 +1143,13 @@ class LazyOwnShell(cmd2.Cmd):
 
             def _handler(received, frame, _signum=signum):
                 try:
-                    self._run_auto_encrypt()
+                    self._run_gym_cleanup()
                 finally:
-                    signal.signal(_signum, signal.SIG_DFL)
-                    os.kill(os.getpid(), _signum)
+                    try:
+                        self._run_auto_encrypt()
+                    finally:
+                        signal.signal(_signum, signal.SIG_DFL)
+                        os.kill(os.getpid(), _signum)
 
             signal.signal(signum, _handler)
 
@@ -1177,6 +1181,15 @@ class LazyOwnShell(cmd2.Cmd):
                 print_warn("session encryption skipped: no protected files found")
         except Exception as exc:
             print_warn(f"session encryption failed: {exc}")
+
+    def _run_gym_cleanup(self) -> None:
+        """Stop every running gym lab and range machine on any exit path."""
+        try:
+            from modules.gym_cleanup import cleanup_gym_machines
+
+            cleanup_gym_machines(verbose=True)
+        except Exception as exc:
+            _ux_debug("gym machine cleanup failed", exc)
 
     def _read_recent_commands_for_autosuggest(self, limit: int = 5) -> list:
         """Return the last ``limit`` first-tokens from the session transcript.

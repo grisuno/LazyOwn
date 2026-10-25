@@ -1,6 +1,33 @@
 # API (page 16 of 24)
 Previous: [API_p15.md](API_p15.md)
 
+## modules/obs_parser.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`
+Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/sinks/world_model.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
+- `Observation.by_type` (method) `modules/obs_parser.py:83` `def by_type(self, ftype)`
+- `Observation.has` (method) `modules/obs_parser.py:86` `def has(self, ftype)`
+- `Extractor.extract` (method) `modules/obs_parser.py:99` `def extract(self, text, host)` -- Return all findings of this type found in *text*.
+- `_ExtractorRegistry.__init__` (method) `modules/obs_parser.py:106` `def __init__(self)`
+- `_ExtractorRegistry.register` (method) `modules/obs_parser.py:109` `def register(self, extractor)`
+- `_ExtractorRegistry.run_all` (method) `modules/obs_parser.py:112` `def run_all(self, text, host)`
+- `_IPExtractor.extract` (method) `modules/obs_parser.py:134` `def extract(self, text, host)`
+- `_CredentialExtractor.extract` (method) `modules/obs_parser.py:175` `def extract(self, text, host)`
+- `_ServiceVersionExtractor.extract` (method) `modules/obs_parser.py:198` `def extract(self, text, host)`
+- `_PathExtractor.extract` (method) `modules/obs_parser.py:224` `def extract(self, text, host)`
+- `_UsernameExtractor.extract` (method) `modules/obs_parser.py:245` `def extract(self, text, host)`
+- `_HashExtractor.extract` (method) `modules/obs_parser.py:271` `def extract(self, text, host)`
+- `_CVEExtractor.extract` (method) `modules/obs_parser.py:288` `def extract(self, text, host)`
+- `_DomainExtractor.extract` (method) `modules/obs_parser.py:305` `def extract(self, text, host)`
+- `_EmailExtractor.extract` (method) `modules/obs_parser.py:323` `def extract(self, text, host)`
+- `_ErrorExtractor.extract` (method) `modules/obs_parser.py:345` `def extract(self, text, host)`
+- `_CloudIdentityExtractor.extract` (method) `modules/obs_parser.py:367` `def extract(self, text, host)`
+- `_SuccessDetector.is_success` (method) `modules/obs_parser.py:407` `def is_success(self, text)`
+- `ObsParser.__init__` (method) `modules/obs_parser.py:431` `def __init__(self)`
+- `ObsParser.register` (method) `modules/obs_parser.py:450` `def register(self, extractor)` -- Register an additional Extractor (Open/Closed extension point).
+- `ObsParser.parse` (method) `modules/obs_parser.py:454` `def parse(self, output, host, tool)` -- Parse *output* and return an Observation.
+- `get_parser` (function) `modules/obs_parser.py:500` `def get_parser()` -- Return (or create) the module-level singleton ObsParser.
+- `parse` (function) `modules/obs_parser.py:508` `def parse(output, host, tool)` -- Module-level convenience wrapper.
+
 ## modules/operation.py
 Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
 Imported by: `cli/commands/caldera.py`
@@ -58,28 +85,28 @@ Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `tests
 
 ## modules/orchestrator_config.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
-- `reload` (function) `modules/orchestrator_config.py:109` `def reload()` -- Invalidate every merged view after an external configuration change.
-- `profiles` (function) `modules/orchestrator_config.py:228` `def profiles()` -- Return every resolved profile, including inherited values.
-- `active_profile` (function) `modules/orchestrator_config.py:253` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
-- `profile_config` (function) `modules/orchestrator_config.py:265` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
-- `set_profile` (function) `modules/orchestrator_config.py:272` `def set_profile(name)` -- Persist the active profile name.
-- `set_harness` (function) `modules/orchestrator_config.py:296` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
-- `limits` (function) `modules/orchestrator_config.py:328` `def limits()` -- Return resolved numeric limits for the active profile.
-- `budget` (function) `modules/orchestrator_config.py:335` `def budget()` -- Return resolved budgets for the active profile.
-- `chain_defaults` (function) `modules/orchestrator_config.py:342` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
-- `sinks` (function) `modules/orchestrator_config.py:351` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
-- `stages` (function) `modules/orchestrator_config.py:362` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
-- `stage_enabled` (function) `modules/orchestrator_config.py:392` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
-- `stage_params` (function) `modules/orchestrator_config.py:398` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
-- `set_stage` (function) `modules/orchestrator_config.py:403` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
-- `effective_verbs` (function) `modules/orchestrator_config.py:428` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
-- `verb_config` (function) `modules/orchestrator_config.py:519` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
-- `verb_enabled` (function) `modules/orchestrator_config.py:528` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `upsert_verb` (function) `modules/orchestrator_config.py:534` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
-- `remove_verb` (function) `modules/orchestrator_config.py:591` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
-- `reset` (function) `modules/orchestrator_config.py:612` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
-- `validate_config` (function) `modules/orchestrator_config.py:619` `def validate_config(data)` -- Validate one raw orchestration mapping.
+Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+- `reload` (function) `modules/orchestrator_config.py:113` `def reload()` -- Invalidate every merged view after an external configuration change.
+- `profiles` (function) `modules/orchestrator_config.py:232` `def profiles()` -- Return every resolved profile, including inherited values.
+- `active_profile` (function) `modules/orchestrator_config.py:257` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
+- `profile_config` (function) `modules/orchestrator_config.py:269` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
+- `set_profile` (function) `modules/orchestrator_config.py:276` `def set_profile(name)` -- Persist the active profile name.
+- `set_harness` (function) `modules/orchestrator_config.py:300` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
+- `limits` (function) `modules/orchestrator_config.py:332` `def limits()` -- Return resolved numeric limits for the active profile.
+- `budget` (function) `modules/orchestrator_config.py:339` `def budget()` -- Return resolved budgets for the active profile.
+- `chain_defaults` (function) `modules/orchestrator_config.py:346` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
+- `sinks` (function) `modules/orchestrator_config.py:355` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
+- `stages` (function) `modules/orchestrator_config.py:366` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
+- `stage_enabled` (function) `modules/orchestrator_config.py:396` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
+- `stage_params` (function) `modules/orchestrator_config.py:402` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
+- `set_stage` (function) `modules/orchestrator_config.py:407` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
+- `effective_verbs` (function) `modules/orchestrator_config.py:432` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
+- `verb_config` (function) `modules/orchestrator_config.py:523` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
+- `verb_enabled` (function) `modules/orchestrator_config.py:532` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `upsert_verb` (function) `modules/orchestrator_config.py:538` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
+- `remove_verb` (function) `modules/orchestrator_config.py:595` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
+- `reset` (function) `modules/orchestrator_config.py:616` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
+- `validate_config` (function) `modules/orchestrator_config.py:623` `def validate_config(data)` -- Validate one raw orchestration mapping.
 
 ## modules/osint_enrich.py
 Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
@@ -91,7 +118,7 @@ Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
 
 ## modules/outcome_bus.py
 Depends on: `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
 - `OutcomeEvent.host_value` (method) `modules/outcome_bus.py:101` `def host_value(self)` -- Return the best host identifier available.
 - `OutcomeEvent.key` (method) `modules/outcome_bus.py:105` `def key(self)` -- Return the idempotency key for this event.
 - `OutcomeEvent.to_dict` (method) `modules/outcome_bus.py:123` `def to_dict(self)` -- Return a JSON-serializable view.
@@ -338,7 +365,7 @@ Imported by: `skills/lazyown_mcp.py`
 - `recommend_and_save` (function) `modules/recommender.py:163` `def recommend_and_save(api_key)` -- Build state → call Groq → write JSON → return recommendations.
 
 ## modules/redteam_gym.py
-Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
 - `reload_challenge_definitions` (function) `modules/redteam_gym.py:299` `def reload_challenge_definitions(directory)` -- Reload YAML definitions, falling back to the embedded catalogue.
 - `definition_rows` (function) `modules/redteam_gym.py:393` `def definition_rows()` -- Return one row per gym YAML file, including invalid files.
@@ -346,15 +373,15 @@ Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orc
 - `save_gym_yaml` (function) `modules/redteam_gym.py:435` `def save_gym_yaml(gym_id, text)` -- Validate and persist raw YAML for one gym definition.
 - `delete_gym` (function) `modules/redteam_gym.py:445` `def delete_gym(gym_id)` -- Delete one gym definition unless it has active runs.
 - `list_challenges` (function) `modules/redteam_gym.py:453` `def list_challenges()` -- Return all defined gym challenges with metadata.
-- `start_challenge` (function) `modules/redteam_gym.py:494` `def start_challenge(challenge_id, target)` -- Begin a gym challenge and persist the run in the world model.
-- `submit_challenge` (function) `modules/redteam_gym.py:560` `def submit_challenge(techniques_used, success, run_id)` -- Submit a completed challenge for scoring.
-- `stop_challenges` (function) `modules/redteam_gym.py:668` `def stop_challenges(selector)` -- Stop one gym by id/name/run id, or every gym when selector is empty.
-- `engagement_context` (function) `modules/redteam_gym.py:700` `def engagement_context(target)` -- Return in-scope phase, compromised hosts and live shells.
-- `get_active_challenges` (function) `modules/redteam_gym.py:760` `def get_active_challenges()` -- Return every active gym run across operators.
-- `show_leaderboard` (function) `modules/redteam_gym.py:919` `def show_leaderboard(top_n)` -- Return the top N players from the leaderboard.
-- `get_active_challenge` (function) `modules/redteam_gym.py:946` `def get_active_challenge(run_id)` -- Return one active challenge, preferring the current operator.
-- `record_external_attempt` (function) `modules/redteam_gym.py:977` `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` -- Record a scored attempt for a challenge not defined in the catalog.
-- `main` (function) `modules/redteam_gym.py:1031` `def main()` -- CLI entry point — show gym leaderboard from command line.
+- `start_challenge` (function) `modules/redteam_gym.py:494` `def start_challenge(challenge_id, target, spin_lab)` -- Begin a gym challenge and persist the run in the world model.
+- `submit_challenge` (function) `modules/redteam_gym.py:610` `def submit_challenge(techniques_used, success, run_id)` -- Submit a completed challenge for scoring.
+- `stop_challenges` (function) `modules/redteam_gym.py:718` `def stop_challenges(selector)` -- Stop one gym by id/name/run id, or every gym when selector is empty.
+- `engagement_context` (function) `modules/redteam_gym.py:804` `def engagement_context(target)` -- Return in-scope phase, compromised hosts and live shells.
+- `get_active_challenges` (function) `modules/redteam_gym.py:864` `def get_active_challenges()` -- Return every active gym run across operators.
+- `show_leaderboard` (function) `modules/redteam_gym.py:1023` `def show_leaderboard(top_n)` -- Return the top N players from the leaderboard.
+- `get_active_challenge` (function) `modules/redteam_gym.py:1050` `def get_active_challenge(run_id)` -- Return one active challenge, preferring the current operator.
+- `record_external_attempt` (function) `modules/redteam_gym.py:1081` `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` -- Record a scored attempt for a challenge not defined in the catalog.
+- `main` (function) `modules/redteam_gym.py:1135` `def main()` -- CLI entry point — show gym leaderboard from command line.
 
 ## modules/reflective_dll.py
 - `PEParser.__init__` (method) `modules/reflective_dll.py:151` `def __init__(self, pe_data)`
@@ -462,27 +489,6 @@ Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/
 - `signal_handler` (function) `modules/rootkit/mr.c:609` `void signal_handler(int signum)`
 - `reboot_system` (function) `modules/rootkit/mr.c:615` `void reboot_system()`
 - `main` (function) `modules/rootkit/mr.c:639` `int main()`
-
-## modules/rootkit/mrhyde.c
-- `load_hidden_pids` (function) `modules/rootkit/mrhyde.c:73` `void load_hidden_pids()`
-- `load_hidden_files` (function) `modules/rootkit/mrhyde.c:93` `void load_hidden_files()`
-- `unlink` (function) `modules/rootkit/mrhyde.c:113` `int unlink(const char *pathname)`
-- `kill` (function) `modules/rootkit/mrhyde.c:125` `int kill(pid_t pid, int sig)`
-- `remove` (function) `modules/rootkit/mrhyde.c:145` `int remove(const char *pathname)`
-- `unlinkat` (function) `modules/rootkit/mrhyde.c:157` `int unlinkat(int dirfd, const char *pathname, int flags)`
-- `get_username_from_pid` (function) `modules/rootkit/mrhyde.c:178` `char* get_username_from_pid(pid_t pid)`
-- `should_hide_pid` (function) `modules/rootkit/mrhyde.c:197` `int should_hide_pid(const char* pid)`
-- `should_hide_file` (function) `modules/rootkit/mrhyde.c:212` `int should_hide_file(const char* filename)`
-- `readdir` (function) `modules/rootkit/mrhyde.c:222` `struct dirent* readdir(DIR* dirp)`
-- `fopen` (function) `modules/rootkit/mrhyde.c:283` `FILE *fopen(const char *pathname, const char *mode)`
-- `my_open` (function) `modules/rootkit/mrhyde.c:327` `int my_open(const char *pathname, int flags, mode_t mode)`
-- `my_openat` (function) `modules/rootkit/mrhyde.c:371` `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
-- `stat` (function) `modules/rootkit/mrhyde.c:415` `int stat(const char *pathname, struct stat *statbuf)`
-- `lstat` (function) `modules/rootkit/mrhyde.c:459` `int lstat(const char *pathname, struct stat *statbuf)`
-- `fstat` (function) `modules/rootkit/mrhyde.c:503` `int fstat(int fd, struct stat *statbuf)`
-- `getdents` (function) `modules/rootkit/mrhyde.c:557` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `getdents64` (function) `modules/rootkit/mrhyde.c:618` `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `main` (function) `modules/rootkit/mrhyde.c:678` `int main()`
 
 
 Next: [API_p17.md](API_p17.md)

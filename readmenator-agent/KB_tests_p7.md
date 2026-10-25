@@ -1,6 +1,33 @@
 # Subsystem: tests (page 7 of 20)
 Previous: [KB_tests_p6.md](KB_tests_p6.md)
 
+## tests/test_core_defaults.py
+- Doc: Build-time defaults are data, not literals.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_fresh_cache` (function, line 22) `def _fresh_cache()`
+  - `TestLoader` (class, line 28) `class TestLoader`
+  - `TestCallSitesMigrated` (class, line 50) `class TestCallSitesMigrated`
+  - `TestWizardAndGui` (class, line 84) `class TestWizardAndGui`
+  - `TestGuiFunctional` (class, line 117) `class TestGuiFunctional`
+  - `test_sections_present` (method, line 29) `def test_sections_present(self)`
+  - `test_typed_helpers` (method, line 33) `def test_typed_helpers(self)`
+  - `test_missing_file_fails_closed` (method, line 41) `def test_missing_file_fails_closed(self, tmp_path)`
+  - `test_get_fallback` (method, line 45) `def test_get_fallback(self)`
+  - `test_no_hardcoded_rockyou_in_logic` (method, line 58) `def test_no_hardcoded_rockyou_in_logic(self)`
+  - `test_no_hardcoded_default_lport` (method, line 68) `def test_no_hardcoded_default_lport(self)`
+  - `test_helpers_imported` (method, line 78) `def test_helpers_imported(self)`
+  - `test_wizard_command_exists` (method, line 85) `def test_wizard_command_exists(self)`
+  - `test_overrides_map_to_schema_keys` (method, line 96) `def test_overrides_map_to_schema_keys(self)`
+  - `test_gui_routes_exist` (method, line 104) `def test_gui_routes_exist(self)`
+  - `test_gui_never_rewrites_toml` (method, line 110) `def test_gui_never_rewrites_toml(self)`
+  - `client` (method, line 119) `def client(self, tmp_path, monkeypatch)`
+  - `test_get_defaults` (method, line 130) `def test_get_defaults(self, client)`
+  - `test_post_defaults_rejects_unknown` (method, line 137) `def test_post_defaults_rejects_unknown(self, client)`
+  - `test_post_defaults_rejects_bad_port` (method, line 141) `def test_post_defaults_rejects_bad_port(self, client)`
+- Depends on: `core/__init__.py`, `core/payload_schema.py`, `lazyc2/blueprints/api.py`
+
 ## tests/test_core_executor.py
 - Doc: Tests for core.executor — safe_run and run_shell subprocess wrappers.
 - Layer: testing
@@ -432,47 +459,37 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_loot_and_notes` (method, line 151) `def test_loot_and_notes(self, fresh_db)`
 - Depends on: `modules/db.py`
 
-## tests/test_dependencies.py
-- Doc: Tests for ``core.dependencies`` graceful optional-import handling.
+## tests/test_defense_eval.py
+- Doc: Defense rule replay: target/control datasets, verdicts and metric counts.
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_run_in_subprocess` (function, line 59) `def _run_in_subprocess(snippet)`
-  - `TestMissingDependencyError` (class, line 82) `class TestMissingDependencyError`
-  - `TestOptionalImportPresent` (class, line 102) `class TestOptionalImportPresent`
-  - `TestOptionalImportAbsent` (class, line 113) `class TestOptionalImportAbsent`
-  - `TestOptionalAttr` (class, line 146) `class TestOptionalAttr`
-  - `TestRegistry` (class, line 170) `class TestRegistry`
-  - `TestProbe` (class, line 204) `class TestProbe`
-  - `TestReport` (class, line 220) `class TestReport`
-  - `TestUtilsIntegration` (class, line 255) `class TestUtilsIntegration`
-  - `test_message_contains_pip_command` (method, line 85) `def test_message_contains_pip_command(self)`
-  - `test_attributes_are_exposed` (method, line 92) `def test_attributes_are_exposed(self)`
-  - `test_is_import_error_subclass` (method, line 98) `def test_is_import_error_subclass(self)`
-  - `test_returns_real_module` (method, line 105) `def test_returns_real_module(self)`
-  - `test_truthy_when_present` (method, line 109) `def test_truthy_when_present(self)`
-  - `test_returns_falsy_proxy` (method, line 116) `def test_returns_falsy_proxy(self)`
-  - `test_attribute_access_raises` (method, line 120) `def test_attribute_access_raises(self)`
-  - `test_call_raises` (method, line 125) `def test_call_raises(self)`
-  - `test_subscription_raises` (method, line 130) `def test_subscription_raises(self)`
-  - `test_iteration_raises` (method, line 135) `def test_iteration_raises(self)`
-  - `test_len_raises` (method, line 140) `def test_len_raises(self)`
-  - `test_returns_real_attribute` (method, line 149) `def test_returns_real_attribute(self)`
-  - `test_submodule_fallback` (method, line 153) `def test_submodule_fallback(self)`
-  - `test_missing_module_returns_proxy` (method, line 157) `def test_missing_module_returns_proxy(self)`
-  - `test_missing_attribute_returns_proxy` (method, line 163) `def test_missing_attribute_returns_proxy(self)`
-  - `test_every_spec_is_fully_populated` (method, line 173) `def test_every_spec_is_fully_populated(self)`
-  - `test_lazily_bound_dependency_is_registered` (method, line 200) `def test_lazily_bound_dependency_is_registered(self, import_name)`
-  - `test_present_dependency` (method, line 207) `def test_present_dependency(self)`
-  - `test_absent_dependency` (method, line 213) `def test_absent_dependency(self)`
-  - `test_collect_returns_report` (method, line 223) `def test_collect_returns_report(self)`
-  - `test_missing_and_ok_consistency` (method, line 228) `def test_missing_and_ok_consistency(self)`
-  - `test_ok_report_has_no_missing` (method, line 235) `def test_ok_report_has_no_missing(self)`
-  - `test_format_report_renders_markers` (method, line 241) `def test_format_report_renders_markers(self)`
-  - `test_main_returns_exit_code` (method, line 250) `def test_main_returns_exit_code(self)`
-  - `test_symbol_is_exported` (method, line 259) `def test_symbol_is_exported(self, name)`
-  - `test_is_binary_present_uses_path_lookup` (method, line 265) `def test_is_binary_present_uses_path_lookup(self)`
-- Depends on: `core/dependencies.py`
+  - `test_parse_rule_accepts_and_rejects` (function, line 28) `def test_parse_rule_accepts_and_rejects()`
+  - `test_rule_pass_requires_control_clean` (function, line 43) `def test_rule_pass_requires_control_clean()`
+  - `test_control_match_is_fail` (function, line 55) `def test_control_match_is_fail()`
+  - `test_missing_field_is_inconclusive` (function, line 63) `def test_missing_field_is_inconclusive()`
+  - `test_empty_datasets_are_inconclusive` (function, line 71) `def test_empty_datasets_are_inconclusive()`
+  - `test_number_canonicalization` (function, line 79) `def test_number_canonicalization()`
+  - `test_neq_operator` (function, line 88) `def test_neq_operator()`
+  - `test_json_array_datasets` (function, line 99) `def test_json_array_datasets()`
+  - `test_malformed_logs_raise` (function, line 105) `def test_malformed_logs_raise()`
+  - `test_oversized_rule_rejected` (function, line 111) `def test_oversized_rule_rejected()`
+- Depends on: `modules/defense_eval.py`
+
+## tests/test_defense_stages.py
+- Doc: Defense stages: orchestrator-managed runners and YAML stage visibility.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_new_stages_declared` (function, line 29) `def test_new_stages_declared()`
+  - `test_yaml_profiles_load` (function, line 36) `def test_yaml_profiles_load(tmp_path)`
+  - `_set_stage_params` (function, line 43) `def _set_stage_params(monkeypatch, stage, params)`
+  - `test_defense_validate_writes_result` (function, line 51) `def test_defense_validate_writes_result(tmp_path, monkeypatch)`
+  - `test_defense_validate_skips_without_rule` (function, line 77) `def test_defense_validate_skips_without_rule(monkeypatch)`
+  - `test_closedloop_tune_writes_comparison` (function, line 83) `def test_closedloop_tune_writes_comparison(tmp_path, monkeypatch)`
+  - `test_hunt_verify_writes_verification` (function, line 111) `def test_hunt_verify_writes_verification(tmp_path, monkeypatch)`
+  - `test_hunt_verify_skips_without_files` (function, line 141) `def test_hunt_verify_skips_without_files(monkeypatch)`
+- Depends on: `modules/__init__.py`, `modules/defense_eval.py`, `modules/defense_stages.py`
 
 
 Next: [KB_tests_p8.md](KB_tests_p8.md)

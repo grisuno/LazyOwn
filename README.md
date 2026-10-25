@@ -20,7 +20,7 @@ curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -
 
 | Try in 60 seconds (no install) | Golden path (every engagement) | One-command auto-pwn |
 |---|---|---|
-| `docker run -it ghcr.io/grisuno/lazyown:latest` | `ping > lazynmap > auto_populate > facts_show > recommend_next` | `engage 10.10.11.5` |
+| `docker run -it ghcr.io/grisuno/lazyown:latest` | `ping > lazynmap > auto_populate > facts_show > recommend_next` | `auto_loop --target 10.10.11.5` |
 
 ![golden path demo](assets/demo/golden-path.gif)
 ![C2 collab demo](assets/demo/c2-collab.gif)

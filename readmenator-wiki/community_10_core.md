@@ -108,7 +108,6 @@ This community groups 22 file(s) rooted at `core` with dominant language py (coh
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/llm_budget.py` via `subprocess` (5 hops)
 
 ## Open Questions
 

@@ -1,6 +1,20 @@
 # API (page 9 of 24)
 Previous: [API_p8.md](API_p8.md)
 
+## lazygui/widgets/event_log_view.py
+Depends on: `lazygui/config/constants.py`, `lazygui/services/event_log.py`, `lazygui/services/models.py`
+Imported by: `lazygui/panels/event_log_panel.py`, `lazygui/widgets/__init__.py`
+- `EventLogView.__init__` (method) `lazygui/widgets/event_log_view.py:23` `def __init__(self, constants, event_log, parent)` -- Bind the view to ``event_log`` and configure columns/headers.
+- `EventLogView.set_minimum_level` (method) `lazygui/widgets/event_log_view.py:51` `def set_minimum_level(self, level)` -- Filter view to records of severity >= ``level`` and reload.
+- `EventLogView.minimum_level` (method) `lazygui/widgets/event_log_view.py:61` `def minimum_level(self)` -- Currently active severity filter.
+
+## lazygui/widgets/filter_bar.py
+Depends on: `lazygui/config/constants.py`
+Imported by: `lazygui/panels/listeners_panel.py`, `lazygui/panels/sessions_panel.py`, `lazygui/widgets/__init__.py`
+- `FilterBar.__init__` (method) `lazygui/widgets/filter_bar.py:16` `def __init__(self, constants, placeholder_text, label_text, parent)` -- Lay out a label + line edit and wire up debounce timing.
+- `FilterBar.text` (method) `lazygui/widgets/filter_bar.py:42` `def text(self)` -- Current filter text.
+- `FilterBar.clear` (method) `lazygui/widgets/filter_bar.py:46` `def clear(self)` -- Reset the filter to an empty string.
+
 ## lazygui/widgets/graph_view.py
 Depends on: `lazygui/config/constants.py`, `lazygui/services/models.py`
 Imported by: `lazygui/panels/graph_panel.py`, `lazygui/widgets/__init__.py`, `tests/test_lazygui_graph_widget.py`

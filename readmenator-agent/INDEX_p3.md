@@ -3,6 +3,8 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_gym_cli.py` | Gym CLI lifecycle: start, status, stop by selector and stop-all. | tests | 8 | 0 |
+| `tests/test_gym_lifecycle.py` | Gym lifecycle: lab spin-up on start, teardown on stop and exit cleanup. | tests | 13 | 0 |
 | `tests/test_gym_matrix_ctf.py` | Contract tests for gym matrix runner and CTF capture. | tests | 16 | 0 |
 | `tests/test_gym_ms2_cli.py` | - | tests | 1 | 0 |
 | `tests/test_gym_registry.py` | Gym YAML catalogue and persistent world-model run state. | tests | 9 | 0 |
@@ -13,6 +15,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_html_sanitizer.py` | TDD tests for the bleach-based HTML sanitizer contract. | tests | 16 | 0 |
 | `tests/test_https_redirect.py` | TDD tests for the HTTPS redirect contract. | tests | 11 | 0 |
 | `tests/test_hunt_verify.py` | Hunt verification: verdict taxonomy, scope gate and dependency gating. | tests | 12 | 0 |
+| `tests/test_implant_session_secrets.py` | ImplantSessionSecretsSpec: Contract: lab Go implant templates bind rotating session secrets. | tests | 8 | 0 |
 | `tests/test_improvements_spec.py` | Spec-driven validation of the three priority improvements. | tests | 160 | 0 |
 | `tests/test_infra_disposable.py` | TDD unit tests for the disposable infrastructure contracts. | tests | 35 | 0 |
 | `tests/test_input_fuzz.py` | Fuzzing for input validators and rating boundaries. | tests | 8 | 0 |
@@ -148,6 +151,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_security_sanitizers.py` | Unit tests for :mod:`modules.security_sanitizers`. | tests | 45 | 0 |
 | `tests/test_session_brief.py` | BDD tests for the consolidated session-start brief. | tests | 6 | 0 |
 | `tests/test_session_ops_command_set.py` | Session ops command set extraction tests. | tests | 9 | 0 |
+| `tests/test_session_secrets.py` | SessionSecretsSpec: Contract for session-scoped secret rotation. | tests | 8 | 0 |
 | `tests/test_sessions_browser.py` | Tests for cli/sessions_browser.py. | tests | 8 | 0 |
 | `tests/test_shell_semantics.py` | Contract tests for shell-semantics detection and colored child output. | tests | 10 | 0 |
 | `tests/test_shellsys_command_set.py` | Shell/sys command set extraction tests. | tests | 9 | 0 |
@@ -190,5 +194,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tools/generate_metasploitable_gym.py` | Generate the Metasploitable 2 gym catalogue. | tools | 6 | 0 |
 | `tools/set_lazyaddon_updates.py` | Set or check the ``update`` flag on every lazyaddon YAML. | tools | 3 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 125 | 98 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 99 |
 

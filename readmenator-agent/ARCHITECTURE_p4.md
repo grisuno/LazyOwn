@@ -2,6 +2,15 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/playbook_engine.py` -> `core/logging.py`
+- `modules/playbook_engine.py` -> `core/safe_exec.py`
+- `modules/playbook_engine.py` -> `modules/emulation_runner.py`
+- `modules/playbook_engine.py` -> `modules/llm_client.py`
+- `modules/playbook_engine.py` -> `modules/obs_parser.py`
+- `modules/playbook_engine.py` -> `modules/world_model.py`
+- `modules/playbook_executor.py` -> `modules/pipeline_engine.py`
+- `modules/privesc_predictor.py` -> `core/console.py`
+- `modules/privesc_predictor.py` -> `modules/llm_factory.py`
 - `modules/professional_report.py` -> `modules/llm_factory.py`
 - `modules/professional_report.py` -> `modules/world_model.py`
 - `modules/reaction_bridge.py` -> `modules/lazy_loop.py`
@@ -472,6 +481,12 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_atomic_resolver.py` -> `modules/atomic_resolver.py`
 - `tests/test_attack_surface3d.py` -> `modules/attack_surface3d.py`
 - `tests/test_attack_surface3d.py` -> `modules/intel_fusion.py`
+- `tests/test_audit_remediation.py` -> `cli/commands/audit.py`
+- `tests/test_audit_remediation.py` -> `cli/orchestrator_assets_tabs.py`
+- `tests/test_audit_remediation.py` -> `core/config.py`
+- `tests/test_audit_remediation.py` -> `core/payload_schema.py`
+- `tests/test_audit_remediation.py` -> `modules/chain_registry.py`
+- `tests/test_audit_remediation.py` -> `utils.py`
 - `tests/test_auto_crypto.py` -> `cli/auto_crypto.py`
 - `tests/test_auto_crypto.py` -> `cli/commands/misc_migrated.py`
 - `tests/test_auto_crypto.py` -> `cli/commands/session_ops.py`
@@ -481,20 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_auto_registry.py` -> `modules/auto_registry.py`
 - `tests/test_autonomous_ops.py` -> `modules/__init__.py`
 - `tests/test_autonomous_ops.py` -> `modules/asset_graph.py`
-- `tests/test_autonomous_ops.py` -> `modules/db.py`
-- `tests/test_autonomous_ops.py` -> `modules/enrich.py`
-- `tests/test_autonomous_ops.py` -> `modules/finding_lifecycle.py`
-- `tests/test_autonomous_ops.py` -> `modules/llm_pool.py`
-- `tests/test_autonomous_ops.py` -> `modules/notify.py`
-- `tests/test_autonomous_ops.py` -> `modules/planner.py`
-- `tests/test_autonomous_ops.py` -> `modules/selfupdate.py`
-- `tests/test_autonomous_ops.py` -> `modules/sidequestion.py`
-- `tests/test_autonomous_ops.py` -> `modules/world_model.py`
-- `tests/test_autonomous_replay.py` -> `skills/autonomous_daemon.py`
-- `tests/test_autonomous_replay.py` -> `skills/autonomous_replay.py`
-- `tests/test_autosuggest.py` -> `cli/autosuggest.py`
-- `tests/test_backdoor_random.py` -> `cli/commands/persist_migrated.py`
-- `tests/test_banner_config.py` -> `cli/banner_config.py`
-- `tests/test_bdd_infra_range_report.py` -> `cli/commands/infra.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

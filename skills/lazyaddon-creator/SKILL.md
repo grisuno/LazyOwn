@@ -142,6 +142,9 @@ grype_target headers headers_file hide_code ip json_data json_data_file lhost li
 mcp_host mcp_port method mode nameserver note_text os_id outputdir params params_file pass password
 path platform port prompt proxy_port query rat_key region report_output_path reverse_shell_port rhost rport
 s sandboxed scan_type scope scope_enforcement sleep sleep_start smtp_port smtp_server spoof_ip
+session_magic sleep_activation_delay_max sleep_activation_delay_min sleep_jit_enabled sleep_jit_pct_min
+sleep_jit_pct_max persistence_cron_schedule persistence_service_name rotate_keys_on_boot max_concurrent
+proxy_autostart proxy_gc_days proxy_upstream gym_cleanup_on_exit
 start_pass start_user startip subdomain target target_path technique_id template_name toast_max_per_tick toolname
 topoexploit_path topoexploit_port trivy_scan_type trivy_target tui_theme ui_hints url url_traffic_1
 url_traffic_2 url_traffic_3 user user_agent_1 user_agent_2 user_agent_3 user_agent_lin

@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `list_templates` | method | `modules/integrations/nuclei_bridge.py:427` | `def list_templates(self, services, cves)` |
+| `run` | method | `modules/integrations/nuclei_bridge.py:293` | `def run(self, target, templates, output_dir)` |
+| `run_for_findings` | method | `modules/integrations/nuclei_bridge.py:326` | `def run_for_findings(self, target, findings, output_dir, selector)` |
+| `scan` | method | `modules/integrations/nuclei_bridge.py:404` | `def scan(self, target, findings, dry_run)` |
+| `select` | method | `modules/integrations/nuclei_bridge.py:91` | `def select(self, services, cves)` |
+| `select` | method | `modules/integrations/nuclei_bridge.py:121` | `def select(self, services, cves)` |
+| `NucleiFinding` | class | `modules/integrations/nuclei_parser.py:71` | `class NucleiFinding` |
+| `NucleiParser` | class | `modules/integrations/nuclei_parser.py:99` | `class NucleiParser` |
+| `__init__` | method | `modules/integrations/nuclei_parser.py:109` | `def __init__(self, sessions_dir)` |
+| `_finding_to_dict` | method | `modules/integrations/nuclei_parser.py:504` | `def _finding_to_dict(finding)` |
+| `_parse_json_obj` | method | `modules/integrations/nuclei_parser.py:412` | `def _parse_json_obj(self, obj)` |
+| `_parse_line` | method | `modules/integrations/nuclei_parser.py:393` | `def _parse_line(self, line)` |
+| `_recommend_for_finding` | method | `modules/integrations/nuclei_parser.py:468` | `def _recommend_for_finding(self, finding, rhost)` |
+| `_summarize` | method | `modules/integrations/nuclei_parser.py:517` | `def _summarize(findings)` |
 | `enrich_world_model` | method | `modules/integrations/nuclei_parser.py:262` | `def enrich_world_model(self, findings, rhost)` |
 | `exploit_probability` | method | `modules/integrations/nuclei_parser.py:95` | `def exploit_probability(self)` |
 | `generate_recommendations` | method | `modules/integrations/nuclei_parser.py:300` | `def generate_recommendations(self, findings, rhost)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `_maybe_import_inbox` | method | `modules/lazy_loop.py:9538` | `def _maybe_import_inbox(self)` |
 | `_maybe_proxy_gc` | method | `modules/lazy_loop.py:9512` | `def _maybe_proxy_gc(self)` |
 | `_maybe_selfupdate_check` | method | `modules/lazy_loop.py:9558` | `def _maybe_selfupdate_check(self)` |
-| `_missing_tool` | method | `modules/lazy_loop.py:4744` | `def _missing_tool(self, command)` |
-| `_noa_archive` | method | `modules/lazy_loop.py:5517` | `def _noa_archive(self, signature, members, anchors)` |
-| `_noa_enabled` | function | `modules/lazy_loop.py:702` | `def _noa_enabled()` |
-| `_normalize_refs` | method | `modules/lazy_loop.py:1758` | `def _normalize_refs(raw)` |
-| `_now` | function | `modules/lazy_loop.py:744` | `def _now()` |
-| `_open_shell_session` | method | `modules/lazy_loop.py:4311` | `def _open_shell_session(self, intent)` |
-| `_origin_fact` | method | `modules/lazy_loop.py:3224` | `def _origin_fact(self)` |
-| `_parts` | method | `modules/lazy_loop.py:7814` | `def _parts(self, task_id)` |
-| `_persist` | method | `modules/lazy_loop.py:976` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:1147` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:1843` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:2578` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:2618` | `def _persist(self)` |
-| `_prior_steps` | method | `modules/lazy_loop.py:3614` | `def _prior_steps(self, intent)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

@@ -301,14 +301,16 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 
 ## cli/commands/audit.py
 Depends on: `cli/cli_enhancements.py`, `cli/commands/_base.py`
-Imported by: `tests/test_cli_enhancements.py`
-- `AuditCommandSet.__init__` (method) `cli/commands/audit.py:101` `def __init__(self)`
-- `AuditCommandSet.do_fz` (method) `cli/commands/audit.py:160` `def do_fz(self, statement)` -- Fuzzy command finder.
-- `AuditCommandSet.do_form` (method) `cli/commands/audit.py:178` `def do_form(self, statement)` -- Open an interactive form for a known command.
-- `AuditCommandSet.do_status_tail` (method) `cli/commands/audit.py:196` `def do_status_tail(self, statement)` -- Print live progress from the latest sessions/scan_*.partial file.
-- `AuditCommandSet.do_grep_log` (method) `cli/commands/audit.py:234` `def do_grep_log(self, statement)` -- Grep recent command outputs.
-- `AuditCommandSet.do_reload_addons` (method) `cli/commands/audit.py:263` `def do_reload_addons(self, _statement)` -- Re-scan lazyaddons/ and plugins/ for changes; reloads what's new.
-- `AuditCommandSet.do_audit_complete_keys` (method) `cli/commands/audit.py:288` `def do_audit_complete_keys(self, statement)` -- Print payload-aware completion suggestions for a partial command.
+Imported by: `tests/test_audit_remediation.py`, `tests/test_cli_enhancements.py`
+- `AuditCommandSet.__init__` (method) `cli/commands/audit.py:116` `def __init__(self)`
+- `AuditCommandSet.do_fz` (method) `cli/commands/audit.py:175` `def do_fz(self, statement)` -- Fuzzy command finder.
+- `AuditCommandSet.do_form` (method) `cli/commands/audit.py:193` `def do_form(self, statement)` -- Open an interactive form for a known command.
+- `AuditCommandSet.do_status_tail` (method) `cli/commands/audit.py:211` `def do_status_tail(self, statement)` -- Print live progress from the latest sessions/scan_*.partial file.
+- `AuditCommandSet.do_grep_log` (method) `cli/commands/audit.py:249` `def do_grep_log(self, statement)` -- Grep recent command outputs.
+- `AuditCommandSet.do_reload_addons` (method) `cli/commands/audit.py:278` `def do_reload_addons(self, _statement)` -- Re-scan lazyaddons/ and plugins/ for changes; reloads what's new.
+- `AuditCommandSet.do_audit_complete_keys` (method) `cli/commands/audit.py:303` `def do_audit_complete_keys(self, statement)` -- Print payload-aware completion suggestions for a partial command.
+- `AuditCommandSet.do_hygiene_audit` (method) `cli/commands/audit.py:319` `def do_hygiene_audit(self, statement)` -- Audit local deployment hygiene.
+- `collect_hygiene_findings` (function) `cli/commands/audit.py:349` `def collect_hygiene_findings(payload)` -- Collect audit-hygiene findings from payload and artifact sources.
 
 ## cli/commands/automation.py
 Depends on: `cli/commands/_base.py`, `modules/categories.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/operator_profiles.py`, `modules/state_manager.py`

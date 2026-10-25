@@ -1,6 +1,28 @@
 # API (page 8 of 24)
 Previous: [API_p7.md](API_p7.md)
 
+## lazyc2/addon_creator.py
+Depends on: `core/param_registry.py`
+Imported by: `lazyc2/blueprints/addons.py`, `tests/test_addon_creator.py`, `tests/test_param_registry.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`
+- `AddonCreatorConfig.live_placeholders` (method) `lazyc2/addon_creator.py:368` `def live_placeholders(cls)` -- Return the documented placeholders plus the operator parameters.
+- `ParamSpec.to_dict` (method) `lazyc2/addon_creator.py:409` `def to_dict(self)` -- Return the param as a schema-ordered mapping.
+- `AddonValidationError.__init__` (method) `lazyc2/addon_creator.py:465` `def __init__(self, issues)`
+- `AddonValidator.__init__` (method) `lazyc2/addon_creator.py:478` `def __init__(self, draft, config)` -- Store the draft and configuration used by every check.
+- `AddonValidator.validate` (method) `lazyc2/addon_creator.py:492` `def validate(self)` -- Run every rule and return the collected issues.
+- `AddonValidator.is_valid` (method) `lazyc2/addon_creator.py:506` `def is_valid(self)` -- Return True when the draft passes every rule.
+- `AddonYamlRenderer.__init__` (method) `lazyc2/addon_creator.py:777` `def __init__(self, config)` -- Store the configuration used for defaults.
+- `AddonYamlRenderer.render` (method) `lazyc2/addon_creator.py:785` `def render(self, draft)` -- Return the YAML document for the draft.
+- `AddonYamlRenderer.to_document` (method) `lazyc2/addon_creator.py:803` `def to_document(self, draft)` -- Build the schema-ordered document mapping for the draft.
+- `AddonStore.__init__` (method) `lazyc2/addon_creator.py:868` `def __init__(self, config, base_dir)` -- Configure the store.
+- `AddonStore.resolve_path` (method) `lazyc2/addon_creator.py:883` `def resolve_path(self, name)` -- Return the safe absolute path for a newly created addon name.
+- `AddonStore.resolve_existing_path` (method) `lazyc2/addon_creator.py:898` `def resolve_existing_path(self, name)` -- Return the safe absolute path for an existing addon file.
+- `AddonStore.exists` (method) `lazyc2/addon_creator.py:942` `def exists(self, name)` -- Return True when an addon file already exists for the name.
+- `AddonStore.save` (method) `lazyc2/addon_creator.py:953` `def save(self, name, yaml_text)` -- Persist the YAML document atomically.
+- `AddonStore.load` (method) `lazyc2/addon_creator.py:1007` `def load(self, name)` -- Return the parsed addon document for a name.
+- `AddonStore.delete` (method) `lazyc2/addon_creator.py:1030` `def delete(self, name)` -- Delete the addon file for a name.
+- `AddonStore.list_all` (method) `lazyc2/addon_creator.py:1046` `def list_all(self)` -- Return summary dicts for every parseable addon.
+- `parse_addon_form` (function) `lazyc2/addon_creator.py:1126` `def parse_addon_form(form)` -- Adapt raw form data into an AddonDraft.
+
 ## lazyc2/app_factory.py
 Depends on: `core/api_authz.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/orchestrator.py`, `lazyc2/extensions/__init__.py`, `lazyc2/security/services.py`, `modules/lazy_rbac.py`
 - `create_app` (function) `lazyc2/app_factory.py:90` `def create_app()` -- Create and return a fully configured C2 Flask application.
@@ -470,20 +492,6 @@ Imported by: `lazygui/widgets/__init__.py`, `lazygui/windows/command_palette_win
 - `CommandPaletteList.set_actions` (method) `lazygui/widgets/command_palette_list.py:53` `def set_actions(self, actions)` -- Replace the entire action registry and reset the filter.
 - `CommandPaletteList.apply_filter` (method) `lazygui/widgets/command_palette_list.py:58` `def apply_filter(self, query)` -- Filter the action set using a substring + token-order heuristic.
 - `CommandPaletteList.invoke_current` (method) `lazygui/widgets/command_palette_list.py:76` `def invoke_current(self)` -- Invoke whichever action is currently highlighted, if any.
-
-## lazygui/widgets/event_log_view.py
-Depends on: `lazygui/config/constants.py`, `lazygui/services/event_log.py`, `lazygui/services/models.py`
-Imported by: `lazygui/panels/event_log_panel.py`, `lazygui/widgets/__init__.py`
-- `EventLogView.__init__` (method) `lazygui/widgets/event_log_view.py:23` `def __init__(self, constants, event_log, parent)` -- Bind the view to ``event_log`` and configure columns/headers.
-- `EventLogView.set_minimum_level` (method) `lazygui/widgets/event_log_view.py:51` `def set_minimum_level(self, level)` -- Filter view to records of severity >= ``level`` and reload.
-- `EventLogView.minimum_level` (method) `lazygui/widgets/event_log_view.py:61` `def minimum_level(self)` -- Currently active severity filter.
-
-## lazygui/widgets/filter_bar.py
-Depends on: `lazygui/config/constants.py`
-Imported by: `lazygui/panels/listeners_panel.py`, `lazygui/panels/sessions_panel.py`, `lazygui/widgets/__init__.py`
-- `FilterBar.__init__` (method) `lazygui/widgets/filter_bar.py:16` `def __init__(self, constants, placeholder_text, label_text, parent)` -- Lay out a label + line edit and wire up debounce timing.
-- `FilterBar.text` (method) `lazygui/widgets/filter_bar.py:42` `def text(self)` -- Current filter text.
-- `FilterBar.clear` (method) `lazygui/widgets/filter_bar.py:46` `def clear(self)` -- Reset the filter to an empty string.
 
 
 Next: [API_p9.md](API_p9.md)

@@ -1,10 +1,10 @@
 # modules: lazy_loop
 
-*Community 3 | 122 files | cohesion 0.58*
+*Community 3 | 122 files | cohesion 0.57*
 
 ## Definition
 
-This community groups 122 file(s) rooted at `tests` with dominant language py (cohesion 0.58). Central symbols: `ActivityLog`, `ActivityLogPort`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`. Core file: `modules/lazy_loop.py` (461 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
+This community groups 122 file(s) rooted at `tests` with dominant language py (cohesion 0.57). Central symbols: `ActivityLog`, `ActivityLogPort`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`. Core file: `modules/lazy_loop.py` (461 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
 
 ## Files
 
@@ -50,7 +50,7 @@ This community groups 122 file(s) rooted at `tests` with dominant language py (c
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `core/api_authz.py` | py | presentation | 31 | yes |
-| `core/config.py` | py | infrastructure | 18 | yes |
+| `core/config.py` | py | infrastructure | 20 | yes |
 
 ### `modules/tools` (3 files)
 
@@ -116,8 +116,8 @@ This community groups 122 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 869
-- Cross-boundary resolved imports (EXTRACTED): 378
+- Internal resolved imports (EXTRACTED): 873
+- Cross-boundary resolved imports (EXTRACTED): 388
 
 ## Connections
 
@@ -149,7 +149,7 @@ This community groups 122 file(s) rooted at `tests` with dominant language py (c
 - Why do 1 file(s) lack file-level docs (e.g. `modules/__init__.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/exploitgym_gym.py` -> `modules/redteam_gym.py` be broken with an interface?
 - What would break if the most connected file in modules: lazy_loop changed?
-- Should modules: lazy_loop be split, given cohesion 0.58?
+- Should modules: lazy_loop be split, given cohesion 0.57?
 
 ## Sources
 

@@ -1,6 +1,53 @@
 # Subsystem: tests (page 7 of 20)
 Previous: [KB_tests_p6.md](KB_tests_p6.md)
 
+## tests/test_core_command_bridge.py
+- Doc: Tests for core.command_bridge — CommandBridge lazy shell facade.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_reset_bridge_singleton` (function, line 16) `def _reset_bridge_singleton()`
+  - `TestCommandBridgeInitialization` (class, line 25) `class TestCommandBridgeInitialization`
+  - `TestCommandBridgeOnecmd` (class, line 51) `class TestCommandBridgeOnecmd`
+  - `TestCommandBridgeOneCmdAlias` (class, line 96) `class TestCommandBridgeOneCmdAlias`
+  - `test_ready_is_false_initially` (method, line 28) `def test_ready_is_false_initially(self)`
+  - `test_error_is_none_initially` (method, line 35) `def test_error_is_none_initially(self)`
+  - `test_get_bridge_returns_same_singleton` (method, line 42) `def test_get_bridge_returns_same_singleton(self, _reset_bridge_singleton)`
+  - `test_empty_command_returns_empty_string` (method, line 54) `def test_empty_command_returns_empty_string(self)`
+  - `test_nonexistent_command_returns_error_string` (method, line 62) `def test_nonexistent_command_returns_error_string(self)`
+  - `test_thread_safety_multiple_threads` (method, line 74) `def test_thread_safety_multiple_threads(self)`
+  - `test_empty_command_returns_empty` (method, line 99) `def test_empty_command_returns_empty(self)`
+  - `test_execute_alias_returns_string` (method, line 107) `def test_execute_alias_returns_string(self)`
+  - `test_nonexistent_lazy_loaded_cmd_returns_error` (method, line 116) `def test_nonexistent_lazy_loaded_cmd_returns_error(self)`
+  - `call_onecmd` (function, line 81) `def call_onecmd()`
+- Depends on: `core/command_bridge.py`
+
+## tests/test_core_config.py
+- Doc: Tests for core.config — Config wrapper, load_payload, save_payload, load_and_validate.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestLoadPayload` (class, line 15) `class TestLoadPayload`
+  - `TestSavePayload` (class, line 76) `class TestSavePayload`
+  - `TestConfig` (class, line 99) `class TestConfig`
+  - `TestLoadAndValidate` (class, line 149) `class TestLoadAndValidate`
+  - `test_returns_dict_with_expected_keys` (method, line 18) `def test_returns_dict_with_expected_keys(self, tmp_path)`
+  - `test_roundtrips_values_correctly` (method, line 29) `def test_roundtrips_values_correctly(self, tmp_path)`
+  - `test_handles_malformed_json` (method, line 45) `def test_handles_malformed_json(self, tmp_path)`
+  - `test_copies_from_example_when_payload_missing` (method, line 54) `def test_copies_from_example_when_payload_missing(self, tmp_path)`
+  - `test_raises_when_both_payload_and_example_missing` (method, line 67) `def test_raises_when_both_payload_and_example_missing(self, tmp_path)`
+  - `test_atomic_write_no_leftover_tmp` (method, line 79) `def test_atomic_write_no_leftover_tmp(self, tmp_path)`
+  - `test_creates_parent_directories` (method, line 90) `def test_creates_parent_directories(self, tmp_path)`
+  - `test_attribute_access_for_known_keys` (method, line 102) `def test_attribute_access_for_known_keys(self)`
+  - `test_item_access_for_known_keys` (method, line 111) `def test_item_access_for_known_keys(self)`
+  - `test_unknown_key_returns_none` (method, line 118) `def test_unknown_key_returns_none(self)`
+  - `test_as_params_returns_shallow_copy` (method, line 126) `def test_as_params_returns_shallow_copy(self)`
+  - `test_aes_key_is_resolved_and_hex` (method, line 137) `def test_aes_key_is_resolved_and_hex(self)`
+  - `test_returns_validation_results_dict` (method, line 152) `def test_returns_validation_results_dict(self, tmp_path)`
+  - `test_missing_required_fields_reported_as_errors` (method, line 169) `def test_missing_required_fields_reported_as_errors(self, tmp_path)`
+  - `test_invalid_types_reported_as_warnings` (method, line 180) `def test_invalid_types_reported_as_warnings(self, tmp_path)`
+- Depends on: `core/config.py`, `core/payload_schema.py`
+
 ## tests/test_core_defaults.py
 - Doc: Build-time defaults are data, not literals.
 - Layer: testing
@@ -438,58 +485,6 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_returns_list_on_exception` (method, line 137) `def test_returns_list_on_exception(self)`
   - `test_returns_labels_from_advisor` (method, line 142) `def test_returns_labels_from_advisor(self)`
 - Depends on: `cli/dashboard_tui.py`
-
-## tests/test_db.py
-- Doc: Tests for modules.db — LazyOwnDB SQLite layer.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `fresh_db` (function, line 20) `def fresh_db()`
-  - `TestLazyOwnDB` (class, line 28) `class TestLazyOwnDB`
-  - `test_initial_schema` (method, line 29) `def test_initial_schema(self, fresh_db)`
-  - `test_workspace_create_and_list` (method, line 46) `def test_workspace_create_and_list(self, fresh_db)`
-  - `test_duplicate_workspace_returns_negative_one` (method, line 54) `def test_duplicate_workspace_returns_negative_one(self, fresh_db)`
-  - `test_host_crud` (method, line 60) `def test_host_crud(self, fresh_db)`
-  - `test_host_upsert_updates_existing` (method, line 73) `def test_host_upsert_updates_existing(self, fresh_db)`
-  - `test_service_crud` (method, line 82) `def test_service_crud(self, fresh_db)`
-  - `test_credential_storage` (method, line 94) `def test_credential_storage(self, fresh_db)`
-  - `test_csv_export` (method, line 105) `def test_csv_export(self, fresh_db)`
-  - `test_nmap_xml_import` (method, line 114) `def test_nmap_xml_import(self, fresh_db, tmp_path)`
-  - `test_workspace_delete` (method, line 144) `def test_workspace_delete(self, fresh_db)`
-  - `test_loot_and_notes` (method, line 151) `def test_loot_and_notes(self, fresh_db)`
-- Depends on: `modules/db.py`
-
-## tests/test_defense_eval.py
-- Doc: Defense rule replay: target/control datasets, verdicts and metric counts.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_parse_rule_accepts_and_rejects` (function, line 28) `def test_parse_rule_accepts_and_rejects()`
-  - `test_rule_pass_requires_control_clean` (function, line 43) `def test_rule_pass_requires_control_clean()`
-  - `test_control_match_is_fail` (function, line 55) `def test_control_match_is_fail()`
-  - `test_missing_field_is_inconclusive` (function, line 63) `def test_missing_field_is_inconclusive()`
-  - `test_empty_datasets_are_inconclusive` (function, line 71) `def test_empty_datasets_are_inconclusive()`
-  - `test_number_canonicalization` (function, line 79) `def test_number_canonicalization()`
-  - `test_neq_operator` (function, line 88) `def test_neq_operator()`
-  - `test_json_array_datasets` (function, line 99) `def test_json_array_datasets()`
-  - `test_malformed_logs_raise` (function, line 105) `def test_malformed_logs_raise()`
-  - `test_oversized_rule_rejected` (function, line 111) `def test_oversized_rule_rejected()`
-- Depends on: `modules/defense_eval.py`
-
-## tests/test_defense_stages.py
-- Doc: Defense stages: orchestrator-managed runners and YAML stage visibility.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_new_stages_declared` (function, line 29) `def test_new_stages_declared()`
-  - `test_yaml_profiles_load` (function, line 36) `def test_yaml_profiles_load(tmp_path)`
-  - `_set_stage_params` (function, line 43) `def _set_stage_params(monkeypatch, stage, params)`
-  - `test_defense_validate_writes_result` (function, line 51) `def test_defense_validate_writes_result(tmp_path, monkeypatch)`
-  - `test_defense_validate_skips_without_rule` (function, line 77) `def test_defense_validate_skips_without_rule(monkeypatch)`
-  - `test_closedloop_tune_writes_comparison` (function, line 83) `def test_closedloop_tune_writes_comparison(tmp_path, monkeypatch)`
-  - `test_hunt_verify_writes_verification` (function, line 111) `def test_hunt_verify_writes_verification(tmp_path, monkeypatch)`
-  - `test_hunt_verify_skips_without_files` (function, line 141) `def test_hunt_verify_skips_without_files(monkeypatch)`
-- Depends on: `modules/__init__.py`, `modules/defense_eval.py`, `modules/defense_stages.py`
 
 
 Next: [KB_tests_p8.md](KB_tests_p8.md)

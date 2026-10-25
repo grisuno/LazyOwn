@@ -362,6 +362,41 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_os_is_known_value` (method, line 407) `def test_os_is_known_value(self, name, addon)`
   - `test_summary_table` (method, line 421) `def test_summary_table(self)`
 
+## tests/test_audit_remediation.py
+- Doc: Audit-remediation contract tests (P0-P4).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_spec_by_key` (function, line 19) `def _spec_by_key(key)`
+  - `test_beacon_hmac_default_is_on` (function, line 27) `def test_beacon_hmac_default_is_on()`
+  - `test_auto_pipeline_flags_default_off` (function, line 32) `def test_auto_pipeline_flags_default_off()`
+  - `test_rat_key_spec_is_no_longer_published_secret` (function, line 37) `def test_rat_key_spec_is_no_longer_published_secret()`
+  - `_payload_loader` (function, line 42) `def _payload_loader(payload_path)`
+  - `_payload_writer` (function, line 49) `def _payload_writer(payload_path)`
+  - `test_ensure_rat_key_generates_and_persists` (function, line 56) `def test_ensure_rat_key_generates_and_persists(tmp_path, monkeypatch)`
+  - `test_ensure_rat_key_rotates_legacy_published_key` (function, line 71) `def test_ensure_rat_key_rotates_legacy_published_key(tmp_path, monkeypatch)`
+  - `test_ensure_rat_key_idempotent_for_fresh_key` (function, line 84) `def test_ensure_rat_key_idempotent_for_fresh_key(tmp_path, monkeypatch)`
+  - `test_ensure_rat_key_mirrors_live_config` (function, line 96) `def test_ensure_rat_key_mirrors_live_config(tmp_path, monkeypatch)`
+  - `test_lazyown_set_config_persists_and_mirrors` (function, line 113) `def test_lazyown_set_config_persists_and_mirrors(tmp_path, monkeypatch)`
+  - `test_c2_signature_guard_wired_into_routes` (function, line 134) `def test_c2_signature_guard_wired_into_routes()`
+  - `test_c2_bootstraps_session_secrets_at_boot` (function, line 144) `def test_c2_bootstraps_session_secrets_at_boot()`
+  - `test_implant_signs_wire_body` (function, line 150) `def test_implant_signs_wire_body()`
+  - `test_implant_seeds_defaults_and_pins_tls` (function, line 159) `def test_implant_seeds_defaults_and_pins_tls()`
+  - `test_builder_context_carries_beacon_keys` (function, line 170) `def test_builder_context_carries_beacon_keys()`
+  - `test_rootkit_sources_free_of_operator_identity` (function, line 177) `def test_rootkit_sources_free_of_operator_identity()`
+  - `test_rootkit_makefile_exposes_overrides` (function, line 190) `def test_rootkit_makefile_exposes_overrides()`
+  - `test_backdoor_neutralized` (function, line 196) `def test_backdoor_neutralized()`
+  - `test_hygiene_findings_clean_on_current_tree` (function, line 203) `def test_hygiene_findings_clean_on_current_tree()`
+  - `test_hygiene_findings_flag_dirty_payload` (function, line 214) `def test_hygiene_findings_flag_dirty_payload()`
+  - `test_audit_hygiene_chain_loads_and_resolves` (function, line 225) `def test_audit_hygiene_chain_loads_and_resolves()`
+  - `test_orchestrator_exposes_new_fields` (function, line 239) `def test_orchestrator_exposes_new_fields()`
+  - `test_command_index_contains_hygiene_audit` (function, line 246) `def test_command_index_contains_hygiene_audit()`
+  - `_load` (function, line 43) `def _load()`
+  - `_write` (function, line 50) `def _write(payload)`
+  - `_Live` (class, line 105) `class _Live`
+  - `_Live` (class, line 122) `class _Live`
+- Depends on: `cli/commands/audit.py`, `cli/orchestrator_assets_tabs.py`, `core/config.py`, `core/payload_schema.py`, `modules/chain_registry.py`, `utils.py`
+
 ## tests/test_auto_crypto.py
 - Doc: Tests for cli.auto_crypto — automatic session data encryption.
 - Layer: testing
@@ -443,55 +478,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `onecmd` (method, line 89) `def onecmd(self, command)`
   - `_run` (function, line 169) `def _run()`
 - Depends on: `modules/auto_registry.py`
-
-## tests/test_autonomous_ops.py
-- Doc: BDD scoped tests for integrated autonomous operations C04-C10.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_c04_dedup_anchor_coverage` (function, line 11) `def test_c04_dedup_anchor_coverage()`
-  - `test_c04_mirror_to_campaign_db` (function, line 26) `def test_c04_mirror_to_campaign_db(tmp_path)`
-  - `test_c05_frontier_emits_once_then_empty` (function, line 43) `def test_c05_frontier_emits_once_then_empty()`
-  - `test_c05_todo_blocks_lateral_until_creds` (function, line 58) `def test_c05_todo_blocks_lateral_until_creds()`
-  - `test_c06_finding_lifecycle_on_campaign_db` (function, line 70) `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)`
-  - `test_c07_pool_failover_and_exhaustion` (function, line 98) `def test_c07_pool_failover_and_exhaustion()`
-  - `test_c08_notify_filter_and_redact` (function, line 116) `def test_c08_notify_filter_and_redact()`
-  - `test_c09_side_question_isolated` (function, line 128) `def test_c09_side_question_isolated()`
-  - `test_c10_verify_rejects_bad_checksum` (function, line 143) `def test_c10_verify_rejects_bad_checksum(tmp_path)`
-  - `test_c10_rollback_restores_previous` (function, line 159) `def test_c10_rollback_restores_previous(tmp_path)`
-  - `test_i2_shared_registry_survives_rebuilds` (function, line 171) `def test_i2_shared_registry_survives_rebuilds()`
-  - `test_i2_pool_hard_trips_on_auth_errors` (function, line 186) `def test_i2_pool_hard_trips_on_auth_errors()`
-  - `test_i3_classify_retest_verdicts` (function, line 194) `def test_i3_classify_retest_verdicts()`
-  - `test_i3_retest_bumps_evidence_version` (function, line 203) `def test_i3_retest_bumps_evidence_version(tmp_path)`
-  - `test_i4_shared_engine_cooldown` (function, line 224) `def test_i4_shared_engine_cooldown()`
-  - `test_i4_should_rescan_honours_fresh_scans` (function, line 232) `def test_i4_should_rescan_honours_fresh_scans(tmp_path)`
-  - `boom` (function, line 101) `def boom(_prompt)`
-- Depends on: `modules/__init__.py`, `modules/asset_graph.py`, `modules/db.py`, `modules/enrich.py`, `modules/finding_lifecycle.py`, `modules/llm_pool.py`, `modules/notify.py`, `modules/planner.py`, `modules/selfupdate.py`, `modules/sidequestion.py`, `modules/world_model.py`
-
-## tests/test_autonomous_replay.py
-- Doc: Tests for ``skills/autonomous_replay.py``.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_event` (function, line 40) `def _event(event_id, objective_id, step, command, source, seed_override)`
-  - `_write_jsonl` (function, line 65) `def _write_jsonl(path, events)`
-  - `test_event_log_reader_returns_empty_when_missing` (function, line 71) `def test_event_log_reader_returns_empty_when_missing(tmp_path)`
-  - `test_event_log_reader_skips_malformed_lines` (function, line 78) `def test_event_log_reader_skips_malformed_lines(tmp_path)`
-  - `test_slice_is_inclusive_on_both_bounds` (function, line 96) `def test_slice_is_inclusive_on_both_bounds(tmp_path)`
-  - `test_trace_returns_one_step_per_event` (function, line 112) `def test_trace_returns_one_step_per_event(tmp_path)`
-  - `test_trace_detects_decision_seed_divergence` (function, line 131) `def test_trace_detects_decision_seed_divergence(tmp_path)`
-  - `test_execute_runs_commands_through_injected_runner` (function, line 149) `def test_execute_runs_commands_through_injected_runner(tmp_path)`
-  - `test_execute_marks_runner_errors_as_failure` (function, line 179) `def test_execute_marks_runner_errors_as_failure(tmp_path)`
-  - `test_replay_convenience_returns_dict` (function, line 195) `def test_replay_convenience_returns_dict(tmp_path)`
-  - `test_replay_rejects_unknown_mode` (function, line 206) `def test_replay_rejects_unknown_mode(tmp_path)`
-  - `test_supported_modes_constant` (function, line 215) `def test_supported_modes_constant()`
-  - `test_step_skips_events_without_command` (function, line 221) `def test_step_skips_events_without_command(tmp_path)`
-  - `_Runner` (class, line 161) `class _Runner`
-  - `_Runner` (class, line 185) `class _Runner`
-  - `__init__` (method, line 162) `def __init__(self)`
-  - `run` (method, line 165) `def run(self, command, timeout)`
-  - `run` (method, line 186) `def run(self, command, timeout)`
-- Depends on: `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`
 
 
 Next: [KB_tests_p3.md](KB_tests_p3.md)

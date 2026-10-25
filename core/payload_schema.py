@@ -572,7 +572,7 @@ SCHEMA: dict[str, FieldSpec] = {
         _spec(
             "c2_malleable_route",
             FieldKind.STRING,
-            "/pleasesubscribe/v1/users/",
+            "/api/v1/",
             "URI prefix used by beacons when polling the C2 server.",
             long_help=(
                 "Beacons append a per-host id to this prefix. Change it to "
@@ -616,8 +616,14 @@ SCHEMA: dict[str, FieldSpec] = {
         _spec(
             "rat_key",
             FieldKind.HEX,
-            "82e672ae054aa4de6f042c888111686a",
-            "XOR key used by the Go beacon stub.",
+            "",
+            "Beacon HMAC signing key (X-Signature) shared with the rebuilt implant.",
+            long_help=(
+                "Must be 64 hex characters (32 bytes). Shipped empty: the "
+                "framework generates and persists a random key the first "
+                "time the C2 or the implant builder needs it, so beacons "
+                "are never signed with a secret that is public knowledge."
+            ),
             category="c2",
             sensitive=True,
         ),
@@ -744,14 +750,234 @@ SCHEMA: dict[str, FieldSpec] = {
         _spec(
             "c2_require_beacon_hmac",
             FieldKind.BOOL,
-            "False",
-            "Require a valid HMAC (X-Signature) on every beacon result POST.",
+            "True",
+            "Require a valid HMAC (X-Signature) on every beacon poll and result POST.",
             long_help=(
-                "When enabled, /command/<client_id> POSTs without a valid "
-                "X-Signature header derived from rat_key are rejected, "
-                "preventing result forgery from hosts that reach the C2."
+                "When enabled, /command/<client_id> GET polls and result "
+                "POSTs without a valid X-Signature header derived from "
+                "rat_key are rejected, preventing command-queue spoofing "
+                "and result forgery from hosts that reach the C2. Becons "
+                "rebuilt without a signing key fail until the operator "
+                "explicitly sets c2_require_beacon_hmac=false."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "auto_privesc_on_checkin",
+            FieldKind.BOOL,
+            "False",
+            "Queue the OS-appropriate linpeas/winpeas one-liner on the first beacon check-in.",
+            long_help=(
+                "Disabled by default so the beacon cadence stays "
+                "operator-paced. When enabled the C2 queues the privesc "
+                "scan command for a beacon the first time it polls."
             ),
             example="False",
+            category="c2",
+        ),
+        _spec(
+            "auto_discover_on_checkin",
+            FieldKind.BOOL,
+            "False",
+            "Queue one discover: sweep on the first beacon check-in.",
+            long_help=(
+                "Disabled by default so the beacon cadence stays "
+                "operator-paced. When enabled the C2 queues a single "
+                "discover: sweep per beacon on its first check-in."
+            ),
+            example="False",
+            category="c2",
+        ),
+        _spec(
+            "session_magic",
+            FieldKind.OPAQUE,
+            "",
+            "Session activation string baked into rebuilt implants (rotated per session).",
+            long_help=(
+                "Replaces the fixed author-identifying magic string in the "
+                "listeners and the lab agent. Shipped empty: it is "
+                "generated randomly at C2 boot and rotated by clean, so it "
+                "is never a reusable signature."
+            ),
+            category="c2",
+            sensitive=True,
+        ),
+        _spec(
+            "rotate_keys_on_boot",
+            FieldKind.BOOL,
+            "True",
+            "Rotate aes_key, rat_key and session_magic on every C2 boot and clean.",
+            long_help=(
+                "Session-scoped secrets: every engagement gets fresh "
+                "random keys, artifacts built in the session stop working "
+                "after a rotation and must be rebuilt, matching the "
+                "operational assumption that old implants are burned."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "proxy_autostart",
+            FieldKind.BOOL,
+            "True",
+            "Start the recorder proxy automatically with auto_loop.",
+            long_help=(
+                "When enabled the LazyProxy instance starts alongside the "
+                "autonomous loop and the proxy dashboard, so traffic "
+                "recording never has to be started by hand."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "proxy_gc_days",
+            FieldKind.INT,
+            30,
+            "Days after which recorded proxy sessions are garbage collected.",
+            long_help=(
+                "Recorded proxy sessions older than this many days are "
+                "compacted out during proxy startup."
+            ),
+            example="30",
+            category="c2",
+            min_value=1,
+            max_value=365,
+        ),
+        _spec(
+            "proxy_upstream",
+            FieldKind.URL,
+            "",
+            "Optional upstream proxy the recorder proxy forwards through.",
+            long_help=(
+                "When set, the recorder proxy chains every request through "
+                "this upstream HTTP(S) proxy instead of reaching the "
+                "target network directly."
+            ),
+            example="http://127.0.0.1:8118",
+            category="c2",
+        ),
+        _spec(
+            "max_concurrent",
+            FieldKind.INT,
+            0,
+            "Maximum distinct targets the autonomous loop works at once.",
+            long_help=(
+                "0 disables admission control (one target at a time); any "
+                "positive value caps the number of concurrently worked "
+                "targets in the loop."
+            ),
+            example="0",
+            category="c2",
+            min_value=0,
+            max_value=64,
+        ),
+        _spec(
+            "gym_cleanup_on_exit",
+            FieldKind.BOOL,
+            "True",
+            "Stop lab and range containers when the shell exits.",
+            long_help=(
+                "When enabled, an atexit hook stops every running lab "
+                "scenario and cyber range container so no vulnerable "
+                "machines are left running after the session."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "sleep_jit_enabled",
+            FieldKind.BOOL,
+            "True",
+            "Enable random jitter on beacon sleep intervals in the implant.",
+            long_help=(
+                "When enabled, the implant applies a random jitter "
+                "percentage taken between sleep_jit_pct_min and "
+                "sleep_jit_pct_max to every beacon sleep."
+            ),
+            example="True",
+            category="c2",
+        ),
+        _spec(
+            "sleep_jit_pct_min",
+            FieldKind.INT,
+            30,
+            "Lower bound of the random beacon jitter percentage.",
+            long_help=(
+                "Lower bound (percent) for the randomized jitter applied "
+                "to each sleep interval when sleep_jit_enabled is true."
+            ),
+            example="30",
+            category="c2",
+            min_value=0,
+            max_value=95,
+        ),
+        _spec(
+            "sleep_jit_pct_max",
+            FieldKind.INT,
+            60,
+            "Upper bound of the random beacon jitter percentage.",
+            long_help=(
+                "Upper bound (percent) for the randomized jitter applied "
+                "to each sleep interval when sleep_jit_enabled is true."
+            ),
+            example="60",
+            category="c2",
+            min_value=0,
+            max_value=100,
+        ),
+        _spec(
+            "sleep_activation_delay_min",
+            FieldKind.STRING,
+            "0s",
+            "Minimum random activation delay before the first beacon poll.",
+            long_help=(
+                "Go duration between 1ms and 20h (for example 5m, 2h30m, "
+                "20h). The implant waits a random duration between min and "
+                "max before its first poll so artifacts do not light up "
+                "the moment they land."
+            ),
+            example="0s",
+            category="c2",
+        ),
+        _spec(
+            "sleep_activation_delay_max",
+            FieldKind.STRING,
+            "0s",
+            "Maximum random activation delay before the first beacon poll.",
+            long_help=(
+                "Go duration between 1ms and 20h. Must be greater than or "
+                "equal to sleep_activation_delay_min. Use it to spread the "
+                "first contact of a deployed fleet across hours."
+            ),
+            example="0s",
+            category="c2",
+        ),
+        _spec(
+            "persistence_cron_schedule",
+            FieldKind.STRING,
+            "*/5 * * * *",
+            "crontab schedule the persist: verb installs on Linux targets.",
+            long_help=(
+                "Five-field cron expression. The old hard-coded every-minute "
+                "schedule was a detection giveaway; pick a cadence that "
+                "matches the environment (for example */15 * * * * or "
+                "0 */4 * * *)."
+            ),
+            example="*/5 * * * *",
+            category="c2",
+        ),
+        _spec(
+            "persistence_service_name",
+            FieldKind.STRING,
+            "sysmaint",
+            "systemd/LaunchAgent service name the persist: verb installs.",
+            long_help=(
+                "Bland name for the persistence unit. Avoid anything that "
+                "reads as a compromise; match the naming style of the "
+                "target environment."
+            ),
+            example="sysmaint",
             category="c2",
         ),
         _spec(

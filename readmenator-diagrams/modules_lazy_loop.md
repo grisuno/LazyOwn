@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 120 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
+modules: lazy_loop groups 122 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
 
 ```mermaid
 graph LR
@@ -40,7 +40,7 @@ lazyc2 groups 3 files (py) around AddonCreatorConfig, live_placeholders, ParamSp
 
 ## modules (4.4)
 
-modules groups 43 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Purple Team Closed-Loop — honest measurement of offensive detection.
+modules groups 44 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Purple Team Closed-Loop — honest measurement of offensive detection.
 
 ## skills (4.5)
 
@@ -48,7 +48,7 @@ skills groups 1 files (py) around _sync_harness, _harness_result, _call_harness_
 
 ## tests (4.6)
 
-tests groups 55 files (py) around TestHexSource, test_valid_hex_decodes_to_32_bytes, test_wrong_length_raises, test_non_hex_raises, TestDiskSource. TDD tests for the AES key resolution contract.
+tests groups 56 files (py) around TestHexSource, test_valid_hex_decodes_to_32_bytes, test_wrong_length_raises, test_non_hex_raises, TestDiskSource. TDD tests for the AES key resolution contract.
 
 **Files**:
 
@@ -77,6 +77,7 @@ tests groups 55 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - modules/auto_purple.py
 - modules/auto_registry.py
 - modules/custom_tools.py
+- modules/gym_cleanup.py
 - modules/harness.py
 - modules/jsonl_tail.py
 - modules/lazy_bridge.py
@@ -125,6 +126,7 @@ tests groups 55 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - tests/test_core_config.py
 - tests/test_core_defaults.py
 - tests/test_guardrails.py
+- tests/test_gym_lifecycle.py
 - tests/test_gym_matrix_ctf.py
 - tests/test_harness_mode.py
 - tests/test_lazy_agent.py

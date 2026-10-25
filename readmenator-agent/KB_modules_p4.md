@@ -1,6 +1,25 @@
 # Subsystem: modules (page 4 of 16)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
 
+## modules/custom_tools.py
+- Doc: Operator-defined custom tools exposed to the autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_store_file` (function, line 30) `def _store_file()`
+  - `_load` (function, line 37) `def _load()`
+  - `_save` (function, line 45) `def _save(payload)`
+  - `add_tool` (function, line 52) `def add_tool(name, kind, target, description, method, body, timeout, trigger)`
+  - `remove_tool` (function, line 97) `def remove_tool(name)`
+  - `list_tools` (function, line 109) `def list_tools()`
+  - `get_tool` (function, line 114) `def get_tool(name)`
+  - `_trigger_tokens` (function, line 122) `def _trigger_tokens(raw)`
+  - `match_tools` (function, line 128) `def match_tools(text, limit)`
+  - `run_tool` (function, line 151) `def run_tool(name, arg, on_output)`
+  - `_run_http` (function, line 179) `def _run_http(tool, arg, on_output)`
+- Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_lazy_loop.py`
+
 ## modules/cve_matcher.py
 - Doc: modules/cve_matcher.py
 - Layer: utility
@@ -130,6 +149,49 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `close` (method, line 804) `def close(self)`
 - Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
 - Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
+
+## modules/defense_eval.py
+- Doc: Detection rule replay over recorded attack and control logs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RuleEvaluationError` (class, line 39) `class RuleEvaluationError(ValueError)`
+  - `Condition` (class, line 44) `class Condition`
+  - `Evaluation` (class, line 53) `class Evaluation`
+  - `DatasetSummary` (class, line 74) `class DatasetSummary`
+  - `RuleResult` (class, line 93) `class RuleResult`
+  - `parse_rule` (function, line 115) `def parse_rule(rule_text)`
+  - `_lookup` (function, line 167) `def _lookup(fields, field_name)`
+  - `_canonical_number` (function, line 179) `def _canonical_number(value)`
+  - `_compare` (function, line 194) `def _compare(actual, expected, op)`
+  - `_scalar_present` (function, line 223) `def _scalar_present(value)`
+  - `evaluate_event` (function, line 234) `def evaluate_event(conditions, fields)`
+  - `_parse_logs` (function, line 269) `def _parse_logs(text, dataset, max_events)`
+  - `evaluate_rule` (function, line 322) `def evaluate_rule(rule_text, target_logs, control_logs)`
+  - `metrics` (function, line 380) `def metrics(result)`
+  - `to_dict` (method, line 62) `def to_dict(self)`
+  - `to_dict` (method, line 82) `def to_dict(self)`
+  - `to_dict` (method, line 103) `def to_dict(self)`
+- Imported by: `modules/closedloop.py`, `modules/defense_stages.py`, `tests/test_defense_eval.py`, `tests/test_defense_stages.py`
+
+## modules/defense_stages.py
+- Doc: Orchestrator stage runners for defense validation and hunt verification.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_activity` (function, line 28) `def _activity(task_id)`
+  - `_params` (function, line 42) `def _params(stage)`
+  - `_render` (function, line 52) `def _render(value, task_id)`
+  - `_read_text` (function, line 57) `def _read_text(path)`
+  - `_load_dataset` (function, line 67) `def _load_dataset(stage, key, task_id)`
+  - `run_defense_validate` (function, line 82) `def run_defense_validate(task_id)`
+  - `run_closedloop_tune` (function, line 117) `def run_closedloop_tune(task_id)`
+  - `run_hunt_verify` (function, line 151) `def run_hunt_verify(task_id)`
+  - `_write_json` (function, line 230) `def _write_json(path, data)`
+  - `_Stub` (class, line 35) `class _Stub`
+  - `emit` (method, line 36) `def emit(self)`
+- Depends on: `core/logging.py`, `modules/closedloop.py`, `modules/defense_eval.py`, `modules/hunt_verify.py`, `modules/orchestrator_config.py`
+- Imported by: `modules/lazy_loop.py`, `tests/test_defense_stages.py`
 
 ## modules/delegation_attacks.py
 - Doc: Active Directory delegation enumeration and abuse.
@@ -403,93 +465,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `write_report` (function, line 247) `def write_report(engagement_id, target, shell, steps, sessions_dir)`
 - Depends on: `cli/recommendation_signals.py`, `modules/enrich.py`, `modules/evidence.py`
 - Imported by: `skills/unified_orchestrator.py`, `tests/test_engage_summary.py`
-
-## modules/engagement_hooks.py
-- Doc: modules/engagement_hooks.py — Engagement narration and notification fabric
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_safe_str` (function, line 78) `def _safe_str(value, maxlen)`
-  - `_load_payload` (function, line 88) `def _load_payload()`
-  - `EngagementEvent` (class, line 101) `class EngagementEvent`
-  - `INotificationSink` (class, line 150) `class INotificationSink(ABC)`
-  - `StreamEventSink` (class, line 167) `class StreamEventSink(INotificationSink)`
-  - `CollabNotificationSink` (class, line 204) `class CollabNotificationSink(INotificationSink)`
-  - `_OutboundHTTPSink` (class, line 242) `class _OutboundHTTPSink(INotificationSink)`
-  - `TelegramNotificationSink` (class, line 278) `class TelegramNotificationSink(_OutboundHTTPSink)`
-  - `DiscordNotificationSink` (class, line 311) `class DiscordNotificationSink(_OutboundHTTPSink)`
-  - `NotificationBroadcaster` (class, line 336) `class NotificationBroadcaster`
-  - `EngagementNarrator` (class, line 382) `class EngagementNarrator`
-  - `_load_seen_beacons` (function, line 444) `def _load_seen_beacons()`
-  - `_save_seen_beacons` (function, line 455) `def _save_seen_beacons(seen)`
-  - `_sanitize_client_id` (function, line 466) `def _sanitize_client_id(client_id)`
-  - `get_default_narrator` (function, line 482) `def get_default_narrator()`
-  - `publish_shell_obtained` (function, line 491) `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)`
-  - `append_approval_record` (function, line 564) `def append_approval_record(record)`
-  - `list_pending_approvals` (function, line 575) `def list_pending_approvals()`
-  - `resolve_approval` (function, line 601) `def resolve_approval(approval_id, decision, operator)`
-  - `is_valid_target` (function, line 626) `def is_valid_target(value)`
-  - `now` (method, line 124) `def now(cls, kind, target, message, payload, severity)`
-  - `render_line` (method, line 143) `def render_line(self)`
-  - `name` (method, line 155) `def name(self)`
-  - `deliver` (method, line 159) `def deliver(self, event)`
-  - `name` (method, line 178) `def name(self)`
-  - `deliver` (method, line 181) `def deliver(self, event)`
-  - `name` (method, line 213) `def name(self)`
-  - `deliver` (method, line 216) `def deliver(self, event)`
-  - `name` (method, line 252) `def name(self)`
-  - `_build_request` (method, line 255) `def _build_request(self, event)`
-  - `deliver` (method, line 258) `def deliver(self, event)`
-  - `name` (method, line 288) `def name(self)`
-  - `_build_request` (method, line 291) `def _build_request(self, event)`
-  - `name` (method, line 320) `def name(self)`
-  - `_build_request` (method, line 323) `def _build_request(self, event)`
-  - `__init__` (method, line 349) `def __init__(self, sinks)`
-  - `default` (method, line 354) `def default(cls)`
-  - `add` (method, line 365) `def add(self, sink)`
-  - `deliver` (method, line 370) `def deliver(self, event)`
-  - `__init__` (method, line 393) `def __init__(self, broadcaster)`
-  - `narrate` (method, line 400) `def narrate(self, kind, target, message, payload, severity)`
-  - `_persist` (method, line 417) `def _persist(self, event)`
-- Depends on: `core/logging.py`, `modules/collab_bp.py`
-- Imported by: `modules/event_bus.py`, `modules/pipeline_engine.py`
-
-## modules/enrich.py
-- Doc: Async target enrichment with scan dedup (LAZY enrich parity).
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EnrichResult` (class, line 30) `class EnrichResult`
-  - `scan_files_for` (function, line 40) `def scan_files_for(sessions_dir, target)`
-  - `should_rescan` (function, line 57) `def should_rescan(sessions_dir, target, fresh_sec)`
-  - `resolve_dns` (function, line 73) `def resolve_dns(target, timeout)`
-  - `fetch_http` (function, line 86) `def fetch_http(target, timeout)`
-  - `EnrichEngine` (class, line 100) `class EnrichEngine`
-  - `shared_engine` (function, line 137) `def shared_engine()`
-  - `__init__` (method, line 103) `def __init__(self, max_workers)`
-  - `submit` (method, line 108) `def submit(self, target)`
-  - `_run` (method, line 121) `def _run(self, target)`
-  - `shutdown` (method, line 128) `def shutdown(self, wait)`
-- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
-
-## modules/entra_id_attacks.py
-- Doc: Azure AD / Entra ID attack module — Graph API abuse, OAuth consent grants, device code phishing.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EntraIDConfig` (class, line 57) `class EntraIDConfig`
-  - `EntraIDAttackEngine` (class, line 81) `class EntraIDAttackEngine`
-  - `__init__` (method, line 92) `def __init__(self, config)`
-  - `device_code_phish` (method, line 96) `def device_code_phish(self, scope)`
-  - `poll_device_code` (method, line 129) `def poll_device_code(self, device_code, interval, timeout)`
-  - `oauth_consent_grant` (method, line 166) `def oauth_consent_grant(self, redirect_uri)`
-  - `service_principal_credential_theft` (method, line 203) `def service_principal_credential_theft(self)`
-  - `managed_identity_abuse` (method, line 235) `def managed_identity_abuse(self, resource)`
-  - `entra_connect_sync_abuse` (method, line 266) `def entra_connect_sync_abuse(self)`
-  - `conditional_access_bypass` (method, line 307) `def conditional_access_bypass(self)`
-  - `enumerate_tenant` (method, line 345) `def enumerate_tenant(self)`
-  - `summary` (method, line 368) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

@@ -269,6 +269,40 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_written_chain_validates_lifetime` (method, line 235) `def test_written_chain_validates_lifetime(self, trace_dir)`
 - Depends on: `modules/chain_distill.py`, `modules/chain_registry.py`
 
+## tests/test_chain_evidence.py
+- Doc: Chain-of-evidence: depends_on gating, budgets, verdicts and artefact pins.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 19) `def _chain(tmp_path, steps, name)`
+  - `_load` (function, line 25) `def _load(document, tmp_path)`
+  - `test_validate_hunting_fields` (function, line 29) `def test_validate_hunting_fields()`
+  - `test_dependency_gate_skips_unproven_chain` (function, line 53) `def test_dependency_gate_skips_unproven_chain(tmp_path)`
+  - `test_dependency_gate_passes_when_observed` (function, line 78) `def test_dependency_gate_passes_when_observed(tmp_path)`
+  - `test_observed_verdict_on_success_with_fields` (function, line 99) `def test_observed_verdict_on_success_with_fields(tmp_path)`
+  - `test_missing_required_field_is_insufficient` (function, line 118) `def test_missing_required_field_is_insufficient(tmp_path)`
+  - `test_evidence_sha256_pin` (function, line 135) `def test_evidence_sha256_pin(tmp_path)`
+  - `test_budget_caps_attempts` (function, line 162) `def test_budget_caps_attempts(tmp_path)`
+  - `test_budget_seconds_caps_timeout` (function, line 181) `def test_budget_seconds_caps_timeout(tmp_path)`
+  - `test_legacy_chains_unchanged` (function, line 196) `def test_legacy_chains_unchanged(tmp_path)`
+  - `_Runner` (class, line 63) `class _Runner(ChainRunner)`
+  - `_Runner` (class, line 90) `class _Runner(ChainRunner)`
+  - `_Runner` (class, line 108) `class _Runner(ChainRunner)`
+  - `_Runner` (class, line 127) `class _Runner(ChainRunner)`
+  - `_Runner` (class, line 146) `class _Runner(ChainRunner)`
+  - `_Runner` (class, line 170) `class _Runner(ChainRunner)`
+  - `_Runner` (class, line 185) `class _Runner(ChainRunner)`
+  - `_Runner` (class, line 203) `class _Runner(ChainRunner)`
+  - `_execute` (method, line 64) `def _execute(self, command, timeout, expect_exits)`
+  - `_execute` (method, line 91) `def _execute(self, command, timeout, expect_exits)`
+  - `_execute` (method, line 109) `def _execute(self, command, timeout, expect_exits)`
+  - `_execute` (method, line 128) `def _execute(self, command, timeout, expect_exits)`
+  - `_execute` (method, line 147) `def _execute(self, command, timeout, expect_exits)`
+  - `_execute` (method, line 171) `def _execute(self, command, timeout, expect_exits)`
+  - `_execute` (method, line 186) `def _execute(self, command, timeout, expect_exits)`
+  - `_execute` (method, line 204) `def _execute(self, command, timeout, expect_exits)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
+
 ## tests/test_chain_list_command.py
 - Doc: BDD: chain list exposes the YAML chain registry.
 - Layer: testing
@@ -424,71 +458,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_invalid_data_never_written` (method, line 69) `def test_invalid_data_never_written(self, tmp_path)`
   - `test_unknown_target_empty` (method, line 81) `def test_unknown_target_empty(self)`
 - Depends on: `modules/chain_synth.py`
-
-## tests/test_chain_v24_core.py
-- Doc: Chain v2.4 BDD contract: branching, verify, captures, gates, checkpoints.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain` (function, line 20) `def _chain(steps)`
-  - `test_runner_captures_regex_named_groups_for_later_steps` (function, line 25) `def test_runner_captures_regex_named_groups_for_later_steps()`
-  - `test_runner_captures_json_fields_from_output` (function, line 48) `def test_runner_captures_json_fields_from_output()`
-  - `test_runner_verify_fails_a_step_when_probe_fails` (function, line 68) `def test_runner_verify_fails_a_step_when_probe_fails()`
-  - `test_runner_verify_may_consume_capture` (function, line 85) `def test_runner_verify_may_consume_capture()`
-  - `test_runner_expect_exit_accepts_configured_codes_only` (function, line 106) `def test_runner_expect_exit_accepts_configured_codes_only()`
-  - `test_runner_on_fail_routes_to_fallback_step` (function, line 113) `def test_runner_on_fail_routes_to_fallback_step()`
-  - `test_runner_on_success_reorders_execution` (function, line 138) `def test_runner_on_success_reorders_execution()`
-  - `test_runner_loop_guard_blocks_infinite_branching` (function, line 160) `def test_runner_loop_guard_blocks_infinite_branching()`
-  - `test_runner_total_timeout_stops_pending_steps` (function, line 180) `def test_runner_total_timeout_stops_pending_steps()`
-  - `test_runner_confirm_requires_approver_failure_closed` (function, line 195) `def test_runner_confirm_requires_approver_failure_closed()`
-  - `test_runner_confirm_approval_grants_or_denies` (function, line 203) `def test_runner_confirm_approval_grants_or_denies()`
-  - `test_runner_checkpoints_enable_resume` (function, line 226) `def test_runner_checkpoints_enable_resume(tmp_path, monkeypatch)`
-  - `test_runner_replanner_sets_vars_and_inserts_steps` (function, line 271) `def test_runner_replanner_sets_vars_and_inserts_steps()`
-  - `test_runner_replanner_skip_rest_ends_early` (function, line 302) `def test_runner_replanner_skip_rest_ends_early()`
-  - `test_checkpoint_state_round_trip` (function, line 322) `def test_checkpoint_state_round_trip(tmp_path)`
-  - `test_schema_v24_accepts_and_rejects_new_fields` (function, line 333) `def test_schema_v24_accepts_and_rejects_new_fields()`
-  - `test_validated_shipped_chains_still_load` (function, line 382) `def test_validated_shipped_chains_still_load()`
-  - `executor` (function, line 29) `def executor(command)`
-  - `executor` (function, line 51) `def executor(command)`
-  - `executor` (function, line 72) `def executor(command)`
-  - `executor` (function, line 89) `def executor(command)`
-  - `executor` (function, line 117) `def executor(command)`
-  - `executor` (function, line 142) `def executor(command)`
-  - `executor` (function, line 164) `def executor(command)`
-  - `executor` (function, line 184) `def executor(command)`
-  - `record` (function, line 217) `def record(command)`
-  - `executor` (function, line 231) `def executor(command)`
-  - `resumed_executor` (function, line 252) `def resumed_executor(command)`
-  - `executor` (function, line 275) `def executor(command)`
-  - `replanner` (function, line 279) `def replanner(context)`
-  - `executor` (function, line 305) `def executor(command)`
-  - `replanner` (function, line 308) `def replanner(context)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`
-
-## tests/test_ci_strict.py
-- Doc: Contract tests for the strict CI workflow.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_strict_workflow_exists` (function, line 21) `def test_strict_workflow_exists()`
-  - `test_strict_workflow_contains_no_swallow_flags` (function, line 26) `def test_strict_workflow_contains_no_swallow_flags()`
-  - `test_strict_workflow_runs_lint` (function, line 38) `def test_strict_workflow_runs_lint()`
-  - `test_strict_workflow_runs_type_check` (function, line 44) `def test_strict_workflow_runs_type_check()`
-  - `test_strict_workflow_runs_security_scan` (function, line 50) `def test_strict_workflow_runs_security_scan()`
-  - `test_strict_workflow_runs_pytest` (function, line 56) `def test_strict_workflow_runs_pytest()`
-  - `test_strict_workflow_targets_main_branch` (function, line 62) `def test_strict_workflow_targets_main_branch()`
-  - `test_old_swallow_workflow_is_removed` (function, line 68) `def test_old_swallow_workflow_is_removed()`
-  - `test_ci_workflow_has_no_swallowed_quality_gate` (function, line 83) `def test_ci_workflow_has_no_swallowed_quality_gate()`
-  - `test_ci_workflow_gates_severity_and_types` (function, line 91) `def test_ci_workflow_gates_severity_and_types()`
-
-## tests/test_claudemd_consistency.py
-- Doc: Guard against drift between CLAUDE.md numeric claims and reality.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `claude_md_text` (function, line 22) `def claude_md_text()`
-  - `test_claude_md_reports_actual_test_file_count` (function, line 28) `def test_claude_md_reports_actual_test_file_count(claude_md_text)`
-  - `test_claude_md_does_not_reference_deduplicated_config` (function, line 41) `def test_claude_md_does_not_reference_deduplicated_config(claude_md_text)`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

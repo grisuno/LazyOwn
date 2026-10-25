@@ -196,6 +196,17 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             print_warn(f"Challenge already active as {result['run_id']}.")
         else:
             print_succ(f"Challenge started: {chal['name']} (run {result['run_id']})")
+        lab = result.get("lab") or {}
+        if lab.get("success"):
+            state = "already running" if lab.get("already") else "started"
+            print_succ(f"Lab '{chal['scenario']}' {state}: {lab.get('container', '')}")
+            if lab.get("ip"):
+                print_msg(f"  Container IP: {lab['ip']}")
+                print_msg(f"  Assign target: assign rhost {lab['ip']}")
+            for container_port, host_port in (lab.get("ports") or {}).items():
+                print_msg(f"  Mapped port: {host_port} -> {container_port}")
+        elif lab and not lab.get("success"):
+            print_warn(f"Lab '{chal['scenario']}' failed to start: {lab.get('error', '')[:200]}")
         print("")
         print_msg(f"  Run ID:      {result['run_id']}")
         print_msg(f"  Objective:   {chal['objective']}")

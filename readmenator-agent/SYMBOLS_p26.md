@@ -3,6 +3,87 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_cred` | function | `skills/mcp_generated_tools.py:1738` | `def _gen_cred(arguments, tool_name, _cmd)` |
+| `_gen_cred_mark_failed` | function | `skills/mcp_generated_tools.py:1746` | `def _gen_cred_mark_failed(arguments, tool_name, _cmd)` |
+| `_gen_cred_reuse` | function | `skills/mcp_generated_tools.py:1754` | `def _gen_cred_reuse(arguments, tool_name, _cmd)` |
+| `_gen_creds_py` | function | `skills/mcp_generated_tools.py:1762` | `def _gen_creds_py(arguments, tool_name, _cmd)` |
+| `_gen_cron` | function | `skills/mcp_generated_tools.py:1770` | `def _gen_cron(arguments, tool_name, _cmd)` |
+| `_gen_crunch` | function | `skills/mcp_generated_tools.py:1778` | `def _gen_crunch(arguments, tool_name, _cmd)` |
+| `_gen_crystal_ball` | function | `skills/mcp_generated_tools.py:1786` | `def _gen_crystal_ball(arguments, tool_name, _cmd)` |
+| `_gen_ctx` | function | `skills/mcp_generated_tools.py:1794` | `def _gen_ctx(arguments, tool_name, _cmd)` |
+| `_gen_cubespraying` | function | `skills/mcp_generated_tools.py:1802` | `def _gen_cubespraying(arguments, tool_name, _cmd)` |
+| `_gen_cve` | function | `skills/mcp_generated_tools.py:1810` | `def _gen_cve(arguments, tool_name, _cmd)` |
+| `_gen_d3monizedshell` | function | `skills/mcp_generated_tools.py:1818` | `def _gen_d3monizedshell(arguments, tool_name, _cmd)` |
+| `_gen_dacledit` | function | `skills/mcp_generated_tools.py:1826` | `def _gen_dacledit(arguments, tool_name, _cmd)` |
+| `_gen_darkarmour` | function | `skills/mcp_generated_tools.py:1834` | `def _gen_darkarmour(arguments, tool_name, _cmd)` |
+| `_gen_dashboard` | function | `skills/mcp_generated_tools.py:1842` | `def _gen_dashboard(arguments, tool_name, _cmd)` |
+| `_gen_davtest` | function | `skills/mcp_generated_tools.py:1850` | `def _gen_davtest(arguments, tool_name, _cmd)` |
+| `_gen_db_creds` | function | `skills/mcp_generated_tools.py:1858` | `def _gen_db_creds(arguments, tool_name, _cmd)` |
+| `_gen_db_export` | function | `skills/mcp_generated_tools.py:1866` | `def _gen_db_export(arguments, tool_name, _cmd)` |
+| `_gen_db_hosts` | function | `skills/mcp_generated_tools.py:1874` | `def _gen_db_hosts(arguments, tool_name, _cmd)` |
+| `_gen_db_import` | function | `skills/mcp_generated_tools.py:1882` | `def _gen_db_import(arguments, tool_name, _cmd)` |
+| `_gen_db_init` | function | `skills/mcp_generated_tools.py:1890` | `def _gen_db_init(arguments, tool_name, _cmd)` |
+| `_gen_db_loot` | function | `skills/mcp_generated_tools.py:1898` | `def _gen_db_loot(arguments, tool_name, _cmd)` |
+| `_gen_db_notes` | function | `skills/mcp_generated_tools.py:1906` | `def _gen_db_notes(arguments, tool_name, _cmd)` |
+| `_gen_db_services` | function | `skills/mcp_generated_tools.py:1914` | `def _gen_db_services(arguments, tool_name, _cmd)` |
+| `_gen_db_status` | function | `skills/mcp_generated_tools.py:1922` | `def _gen_db_status(arguments, tool_name, _cmd)` |
+| `_gen_db_vulns` | function | `skills/mcp_generated_tools.py:1930` | `def _gen_db_vulns(arguments, tool_name, _cmd)` |
+| `_gen_db_workspace` | function | `skills/mcp_generated_tools.py:1938` | `def _gen_db_workspace(arguments, tool_name, _cmd)` |
+| `_gen_dcomexec` | function | `skills/mcp_generated_tools.py:1946` | `def _gen_dcomexec(arguments, tool_name, _cmd)` |
+| `_gen_decode` | function | `skills/mcp_generated_tools.py:1954` | `def _gen_decode(arguments, tool_name, _cmd)` |
+| `_gen_decrypt` | function | `skills/mcp_generated_tools.py:1962` | `def _gen_decrypt(arguments, tool_name, _cmd)` |
+| `_gen_depconfuse` | function | `skills/mcp_generated_tools.py:1970` | `def _gen_depconfuse(arguments, tool_name, _cmd)` |
+| `_gen_depscan` | function | `skills/mcp_generated_tools.py:1978` | `def _gen_depscan(arguments, tool_name, _cmd)` |
+| `_gen_detect_edr` | function | `skills/mcp_generated_tools.py:1986` | `def _gen_detect_edr(arguments, tool_name, _cmd)` |
+| `_gen_dig` | function | `skills/mcp_generated_tools.py:1994` | `def _gen_dig(arguments, tool_name, _cmd)` |
+| `_gen_digdug` | function | `skills/mcp_generated_tools.py:2002` | `def _gen_digdug(arguments, tool_name, _cmd)` |
+| `_gen_dirsearch` | function | `skills/mcp_generated_tools.py:2010` | `def _gen_dirsearch(arguments, tool_name, _cmd)` |
+| `_gen_disableav` | function | `skills/mcp_generated_tools.py:2018` | `def _gen_disableav(arguments, tool_name, _cmd)` |
+| `_gen_dmitry` | function | `skills/mcp_generated_tools.py:2026` | `def _gen_dmitry(arguments, tool_name, _cmd)` |
+| `_gen_dns_beacon` | function | `skills/mcp_generated_tools.py:2034` | `def _gen_dns_beacon(arguments, tool_name, _cmd)` |
+| `_gen_dns_beacon_status` | function | `skills/mcp_generated_tools.py:2042` | `def _gen_dns_beacon_status(arguments, tool_name, _cmd)` |
+| `_gen_dns_exfil_listen` | function | `skills/mcp_generated_tools.py:2050` | `def _gen_dns_exfil_listen(arguments, tool_name, _cmd)` |
+| `_gen_dnschef` | function | `skills/mcp_generated_tools.py:2058` | `def _gen_dnschef(arguments, tool_name, _cmd)` |
+| `_gen_dnsenum` | function | `skills/mcp_generated_tools.py:2066` | `def _gen_dnsenum(arguments, tool_name, _cmd)` |
+| `_gen_dnsmap` | function | `skills/mcp_generated_tools.py:2074` | `def _gen_dnsmap(arguments, tool_name, _cmd)` |
+| `_gen_dnstool_py` | function | `skills/mcp_generated_tools.py:2082` | `def _gen_dnstool_py(arguments, tool_name, _cmd)` |
+| `_gen_docker_enum` | function | `skills/mcp_generated_tools.py:2090` | `def _gen_docker_enum(arguments, tool_name, _cmd)` |
+| `_gen_doctor` | function | `skills/mcp_generated_tools.py:2098` | `def _gen_doctor(arguments, tool_name, _cmd)` |
+| `_gen_dominion` | function | `skills/mcp_generated_tools.py:2106` | `def _gen_dominion(arguments, tool_name, _cmd)` |
+| `_gen_download_c2` | function | `skills/mcp_generated_tools.py:2114` | `def _gen_download_c2(arguments, tool_name, _cmd)` |
+| `_gen_download_exploit` | function | `skills/mcp_generated_tools.py:2122` | `def _gen_download_exploit(arguments, tool_name, _cmd)` |
+| `_gen_download_malwarebazar` | function | `skills/mcp_generated_tools.py:2130` | `def _gen_download_malwarebazar(arguments, tool_name, _cmd)` |
+| `_gen_download_resources` | function | `skills/mcp_generated_tools.py:2138` | `def _gen_download_resources(arguments, tool_name, _cmd)` |
+| `_gen_downloader` | function | `skills/mcp_generated_tools.py:2146` | `def _gen_downloader(arguments, tool_name, _cmd)` |
+| `_gen_dpapi_blob` | function | `skills/mcp_generated_tools.py:2154` | `def _gen_dpapi_blob(arguments, tool_name, _cmd)` |
+| `_gen_dpapi_harvest` | function | `skills/mcp_generated_tools.py:2162` | `def _gen_dpapi_harvest(arguments, tool_name, _cmd)` |
+| `_gen_dpapi_masterkeys` | function | `skills/mcp_generated_tools.py:2170` | `def _gen_dpapi_masterkeys(arguments, tool_name, _cmd)` |
+| `_gen_dploot` | function | `skills/mcp_generated_tools.py:2178` | `def _gen_dploot(arguments, tool_name, _cmd)` |
+| `_gen_dr0p1t` | function | `skills/mcp_generated_tools.py:2186` | `def _gen_dr0p1t(arguments, tool_name, _cmd)` |
+| `_gen_duckyspark` | function | `skills/mcp_generated_tools.py:2194` | `def _gen_duckyspark(arguments, tool_name, _cmd)` |
+| `_gen_edr_detect` | function | `skills/mcp_generated_tools.py:2202` | `def _gen_edr_detect(arguments, tool_name, _cmd)` |
+| `_gen_edr_profile` | function | `skills/mcp_generated_tools.py:2210` | `def _gen_edr_profile(arguments, tool_name, _cmd)` |
+| `_gen_edr_script` | function | `skills/mcp_generated_tools.py:2218` | `def _gen_edr_script(arguments, tool_name, _cmd)` |
+| `_gen_emp3r0r` | function | `skills/mcp_generated_tools.py:2226` | `def _gen_emp3r0r(arguments, tool_name, _cmd)` |
+| `_gen_empire` | function | `skills/mcp_generated_tools.py:2234` | `def _gen_empire(arguments, tool_name, _cmd)` |
+| `_gen_encode` | function | `skills/mcp_generated_tools.py:2242` | `def _gen_encode(arguments, tool_name, _cmd)` |
+| `_gen_encoderpayload` | function | `skills/mcp_generated_tools.py:2250` | `def _gen_encoderpayload(arguments, tool_name, _cmd)` |
+| `_gen_encodewinbase64` | function | `skills/mcp_generated_tools.py:2258` | `def _gen_encodewinbase64(arguments, tool_name, _cmd)` |
+| `_gen_encrypt` | function | `skills/mcp_generated_tools.py:2266` | `def _gen_encrypt(arguments, tool_name, _cmd)` |
+| `_gen_engage` | function | `skills/mcp_generated_tools.py:2274` | `def _gen_engage(arguments, tool_name, _cmd)` |
+| `_gen_enum4linux` | function | `skills/mcp_generated_tools.py:2282` | `def _gen_enum4linux(arguments, tool_name, _cmd)` |
+| `_gen_enum4linux_ng` | function | `skills/mcp_generated_tools.py:2290` | `def _gen_enum4linux_ng(arguments, tool_name, _cmd)` |
+| `_gen_eternal` | function | `skills/mcp_generated_tools.py:2298` | `def _gen_eternal(arguments, tool_name, _cmd)` |
+| `_gen_evasion` | function | `skills/mcp_generated_tools.py:2306` | `def _gen_evasion(arguments, tool_name, _cmd)` |
+| `_gen_evasive` | function | `skills/mcp_generated_tools.py:2314` | `def _gen_evasive(arguments, tool_name, _cmd)` |
+| `_gen_evasive_payload` | function | `skills/mcp_generated_tools.py:2322` | `def _gen_evasive_payload(arguments, tool_name, _cmd)` |
+| `_gen_event_log` | function | `skills/mcp_generated_tools.py:2330` | `def _gen_event_log(arguments, tool_name, _cmd)` |
+| `_gen_evidence` | function | `skills/mcp_generated_tools.py:2338` | `def _gen_evidence(arguments, tool_name, _cmd)` |
+| `_gen_evil_ssdp` | function | `skills/mcp_generated_tools.py:2346` | `def _gen_evil_ssdp(arguments, tool_name, _cmd)` |
+| `_gen_evilwinrm` | function | `skills/mcp_generated_tools.py:2354` | `def _gen_evilwinrm(arguments, tool_name, _cmd)` |
+| `_gen_excelntdonut` | function | `skills/mcp_generated_tools.py:2362` | `def _gen_excelntdonut(arguments, tool_name, _cmd)` |
+| `_gen_exe2bin` | function | `skills/mcp_generated_tools.py:2370` | `def _gen_exe2bin(arguments, tool_name, _cmd)` |
+| `_gen_exe2donutbin` | function | `skills/mcp_generated_tools.py:2378` | `def _gen_exe2donutbin(arguments, tool_name, _cmd)` |
 | `_gen_exfil_auto` | function | `skills/mcp_generated_tools.py:2386` | `def _gen_exfil_auto(arguments, tool_name, _cmd)` |
 | `_gen_exfil_discord` | function | `skills/mcp_generated_tools.py:2394` | `def _gen_exfil_discord(arguments, tool_name, _cmd)` |
 | `_gen_exfil_dns` | function | `skills/mcp_generated_tools.py:2402` | `def _gen_exfil_dns(arguments, tool_name, _cmd)` |
@@ -415,86 +496,5 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `_gen_wfuzz` | function | `skills/mcp_generated_tools.py:5660` | `def _gen_wfuzz(arguments, tool_name, _cmd)` |
 | `_gen_whatweb` | function | `skills/mcp_generated_tools.py:5668` | `def _gen_whatweb(arguments, tool_name, _cmd)` |
 | `_gen_whoami` | function | `skills/mcp_generated_tools.py:5676` | `def _gen_whoami(arguments, tool_name, _cmd)` |
-| `_gen_wifipass` | function | `skills/mcp_generated_tools.py:5684` | `def _gen_wifipass(arguments, tool_name, _cmd)` |
-| `_gen_winbase64payload` | function | `skills/mcp_generated_tools.py:5692` | `def _gen_winbase64payload(arguments, tool_name, _cmd)` |
-| `_gen_windapsearch` | function | `skills/mcp_generated_tools.py:5700` | `def _gen_windapsearch(arguments, tool_name, _cmd)` |
-| `_gen_windapsearchscrapeusers` | function | `skills/mcp_generated_tools.py:5708` | `def _gen_windapsearchscrapeusers(arguments, tool_name, _cmd)` |
-| `_gen_winpeas` | function | `skills/mcp_generated_tools.py:5716` | `def _gen_winpeas(arguments, tool_name, _cmd)` |
-| `_gen_wipe_free` | function | `skills/mcp_generated_tools.py:5724` | `def _gen_wipe_free(arguments, tool_name, _cmd)` |
-| `_gen_wipe_logs` | function | `skills/mcp_generated_tools.py:5732` | `def _gen_wipe_logs(arguments, tool_name, _cmd)` |
-| `_gen_wipe_timeline` | function | `skills/mcp_generated_tools.py:5740` | `def _gen_wipe_timeline(arguments, tool_name, _cmd)` |
-| `_gen_wizard` | function | `skills/mcp_generated_tools.py:5748` | `def _gen_wizard(arguments, tool_name, _cmd)` |
-| `_gen_wmi_lateral` | function | `skills/mcp_generated_tools.py:5756` | `def _gen_wmi_lateral(arguments, tool_name, _cmd)` |
-| `_gen_wmi_persist` | function | `skills/mcp_generated_tools.py:5764` | `def _gen_wmi_persist(arguments, tool_name, _cmd)` |
-| `_gen_wmi_scheduled_task` | function | `skills/mcp_generated_tools.py:5772` | `def _gen_wmi_scheduled_task(arguments, tool_name, _cmd)` |
-| `_gen_wmiexec` | function | `skills/mcp_generated_tools.py:5780` | `def _gen_wmiexec(arguments, tool_name, _cmd)` |
-| `_gen_wmiexecpro` | function | `skills/mcp_generated_tools.py:5788` | `def _gen_wmiexecpro(arguments, tool_name, _cmd)` |
-| `_gen_wpscan` | function | `skills/mcp_generated_tools.py:5796` | `def _gen_wpscan(arguments, tool_name, _cmd)` |
-| `_gen_wrapper` | function | `skills/mcp_generated_tools.py:5804` | `def _gen_wrapper(arguments, tool_name, _cmd)` |
-| `_gen_www` | function | `skills/mcp_generated_tools.py:5812` | `def _gen_www(arguments, tool_name, _cmd)` |
-| `_gen_xss` | function | `skills/mcp_generated_tools.py:5820` | `def _gen_xss(arguments, tool_name, _cmd)` |
-| `_gen_xsstrike` | function | `skills/mcp_generated_tools.py:5828` | `def _gen_xsstrike(arguments, tool_name, _cmd)` |
-| `_gen_yara_scan` | function | `skills/mcp_generated_tools.py:5836` | `def _gen_yara_scan(arguments, tool_name, _cmd)` |
-| `get_generated_tool_definitions` | function | `skills/mcp_generated_tools.py:659` | `def get_generated_tool_definitions()` |
-| `register_all_generated_handlers` | function | `skills/mcp_generated_tools.py:684` | `def register_all_generated_handlers(register_handler_fn, make_text_fn, run_lazyown_cmd_fn)` |
-| `ensure_optional` | function | `skills/mcp_lazy.py:18` | `def ensure_optional(namespace, flag, loader)` |
-| `_build_tool_schema` | function | `skills/mcp_tool_generator.py:91` | `def _build_tool_schema(command_param_name)` |
-| `extract_commands` | function | `skills/mcp_tool_generator.py:34` | `def extract_commands(index)` |
-| `extract_existing_handlers` | function | `skills/mcp_tool_generator.py:55` | `def extract_existing_handlers()` |
-| `generate_module` | function | `skills/mcp_tool_generator.py:106` | `def generate_module(commands, existing_handlers, limit)` |
-| `load_command_index` | function | `skills/mcp_tool_generator.py:29` | `def load_command_index()` |
-| `main` | function | `skills/mcp_tool_generator.py:220` | `def main()` |
-| `sanitize_description` | function | `skills/mcp_tool_generator.py:72` | `def sanitize_description(summary, max_len)` |
-| `sanitize_docstring` | function | `skills/mcp_tool_generator.py:85` | `def sanitize_docstring(text)` |
-| `verify_coverage` | function | `skills/mcp_tool_generator.py:203` | `def verify_coverage(commands, existing_handlers)` |
-| `_Handler` | class | `skills/sessions_watcher.py:375` | `class _Handler(FileSystemEventHandler)` |
-| `_append_event` | function | `skills/sessions_watcher.py:96` | `def _append_event(ev)` |
-| `_call_ollama` | function | `skills/sessions_watcher.py:141` | `def _call_ollama(prompt)` |
-| `_dispatch` | function | `skills/sessions_watcher.py:346` | `def _dispatch(path)` |
-| `_emit` | function | `skills/sessions_watcher.py:123` | `def _emit(event_type, severity, suggest, source)` |
-| `_extract_target_from_filename` | function | `skills/sessions_watcher.py:331` | `def _extract_target_from_filename(name)` |
-| `_generate_plan_from_nmap` | function | `skills/sessions_watcher.py:154` | `def _generate_plan_from_nmap(nmap_path)` |
-| `_handle_nmap_txt` | function | `skills/sessions_watcher.py:204` | `def _handle_nmap_txt(path)` |
-| `_handle_nmap_xml` | function | `skills/sessions_watcher.py:229` | `def _handle_nmap_xml(path)` |
-| `_handle_plan_updated` | function | `skills/sessions_watcher.py:318` | `def _handle_plan_updated(path)` |
-| `_handle_tool_output` | function | `skills/sessions_watcher.py:257` | `def _handle_tool_output(path)` |
-| `_minimal_plan_from_nmap` | function | `skills/sessions_watcher.py:175` | `def _minimal_plan_from_nmap(content)` |
-| `_run_poll_loop` | function | `skills/sessions_watcher.py:402` | `def _run_poll_loop()` |
-| `_run_watchdog` | function | `skills/sessions_watcher.py:388` | `def _run_watchdog()` |
-| `_scan` | function | `skills/sessions_watcher.py:406` | `def _scan()` |
-| `main` | function | `skills/sessions_watcher.py:430` | `def main()` |
-| `on_created` | method | `skills/sessions_watcher.py:376` | `def on_created(self, event)` |
-| `on_modified` | method | `skills/sessions_watcher.py:380` | `def on_modified(self, event)` |
-| `add_nopasswd` | function | `skills/setup.sh:92` | `` |
-| `die` | function | `skills/setup.sh:17` | `` |
-| `info` | function | `skills/setup.sh:15` | `` |
-| `paths_for_sudo` | function | `skills/setup.sh:61` | `` |
-| `warn` | function | `skills/setup.sh:16` | `` |
-| `EnsembleResult` | class | `skills/swan_agent.py:183` | `class EnsembleResult` |
-| `ExpertExecutor` | class | `skills/swan_agent.py:332` | `class ExpertExecutor` |
-| `ExpertVote` | class | `skills/swan_agent.py:172` | `class ExpertVote` |
-| `IResultAggregator` | class | `skills/swan_agent.py:205` | `class IResultAggregator(ABC)` |
-| `ISwanOrchestrator` | class | `skills/swan_agent.py:222` | `class ISwanOrchestrator(ABC)` |
-| `OutcomeEvaluator` | class | `skills/swan_agent.py:464` | `class OutcomeEvaluator` |
-| `SwanOrchestrator` | class | `skills/swan_agent.py:555` | `class SwanOrchestrator(ISwanOrchestrator)` |
-| `SwanResult` | class | `skills/swan_agent.py:146` | `class SwanResult` |
-| `WeightedTextAggregator` | class | `skills/swan_agent.py:252` | `class WeightedTextAggregator(IResultAggregator)` |
-| `__init__` | method | `skills/swan_agent.py:572` | `def __init__(self, executor, evaluator, aggregator, api_key)` |
-| `_base_reward` | method | `skills/swan_agent.py:508` | `def _base_reward(self, status, task_type)` |
-| `_build_synthesis` | method | `skills/swan_agent.py:284` | `def _build_synthesis(task_type, goal, experts)` |
-| `_content_boost` | method | `skills/swan_agent.py:516` | `def _content_boost(output, base_reward)` |
-| `_detection_prob` | method | `skills/swan_agent.py:540` | `def _detection_prob(goal, task_type)` |
-| `_get_hive_memory` | method | `skills/swan_agent.py:919` | `def _get_hive_memory(self)` |
-| `_get_router` | method | `skills/swan_agent.py:908` | `def _get_router(self)` |
-| `_get_trainer` | method | `skills/swan_agent.py:914` | `def _get_trainer(self)` |
-| `_import_detection_oracle` | function | `skills/swan_agent.py:118` | `def _import_detection_oracle()` |
-| `_import_policy` | function | `skills/swan_agent.py:127` | `def _import_policy()` |
-| `_import_router` | function | `skills/swan_agent.py:106` | `def _import_router()` |
-| `_import_trainer` | function | `skills/swan_agent.py:112` | `def _import_trainer()` |
-| `_invoke` | method | `skills/swan_agent.py:394` | `def _invoke(self, backend, model, goal, task_type, api_key, timeout)` |
-| `_load_key` | method | `skills/swan_agent.py:930` | `def _load_key()` |
-| `_load_payload_key` | method | `skills/swan_agent.py:452` | `def _load_payload_key()` |
-| `_next_task_type` | method | `skills/swan_agent.py:893` | `def _next_task_type(task_type)` |
-| `_parallel_execute` | method | `skills/swan_agent.py:778` | `def _parallel_execute(self, experts, goal, task_type, timeout)` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

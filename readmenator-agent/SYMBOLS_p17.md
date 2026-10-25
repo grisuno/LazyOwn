@@ -3,6 +3,85 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `decorator` | function | `modules/lazy_rbac.py:542` | `def decorator(f)` |
+| `decorator` | function | `modules/lazy_rbac.py:568` | `def decorator(f)` |
+| `delete_tenant` | method | `modules/lazy_rbac.py:495` | `def delete_tenant(self, tenant_id)` |
+| `delete_user` | method | `modules/lazy_rbac.py:295` | `def delete_user(self, user_id)` |
+| `disable_mfa` | method | `modules/lazy_rbac.py:324` | `def disable_mfa(self, user_id)` |
+| `enable_mfa` | method | `modules/lazy_rbac.py:314` | `def enable_mfa(self, user_id)` |
+| `ensure_admin` | method | `modules/lazy_rbac.py:343` | `def ensure_admin(self, username, password_hash)` |
+| `ensure_default_tenant` | method | `modules/lazy_rbac.py:504` | `def ensure_default_tenant(self)` |
+| `find_by_id` | method | `modules/lazy_rbac.py:249` | `def find_by_id(self, user_id)` |
+| `find_by_username` | method | `modules/lazy_rbac.py:255` | `def find_by_username(self, username)` |
+| `from_dict` | method | `modules/lazy_rbac.py:140` | `def from_dict(cls, data)` |
+| `from_dict` | method | `modules/lazy_rbac.py:390` | `def from_dict(cls, data)` |
+| `from_payload` | method | `modules/lazy_rbac.py:377` | `def from_payload(cls, tenant_id, name, payload_path)` |
+| `generate_mfa_qr_url` | function | `modules/lazy_rbac.py:680` | `def generate_mfa_qr_url(secret, username)` |
+| `generate_qr_svg` | function | `modules/lazy_rbac.py:689` | `def generate_qr_svg(data)` |
+| `get_active` | method | `modules/lazy_rbac.py:434` | `def get_active(self)` |
+| `get_active_payload_path` | method | `modules/lazy_rbac.py:439` | `def get_active_payload_path(self)` |
+| `get_active_sessions_dir` | method | `modules/lazy_rbac.py:445` | `def get_active_sessions_dir(self)` |
+| `get_mfa_provisioning_uri` | method | `modules/lazy_rbac.py:182` | `def get_mfa_provisioning_uri(self)` |
+| `get_payload_for_tenant` | method | `modules/lazy_rbac.py:451` | `def get_payload_for_tenant(self, tenant_id)` |
+| `get_rbac_store` | function | `modules/lazy_rbac.py:639` | `def get_rbac_store()` |
+| `get_role` | method | `modules/lazy_rbac.py:164` | `def get_role(self)` |
+| `get_tenant_manager` | function | `modules/lazy_rbac.py:648` | `def get_tenant_manager()` |
+| `get_user_role` | function | `modules/lazy_rbac.py:672` | `def get_user_role(username)` |
+| `gf_mul` | function | `modules/lazy_rbac.py:927` | `def gf_mul(a, b)` |
+| `has_permission` | method | `modules/lazy_rbac.py:170` | `def has_permission(self, permission)` |
+| `init_rbac_store` | function | `modules/lazy_rbac.py:523` | `def init_rbac_store(users_path)` |
+| `init_tenant_manager` | function | `modules/lazy_rbac.py:527` | `def init_tenant_manager(payloads_dir, config_path, default_payload)` |
+| `list_tenants` | method | `modules/lazy_rbac.py:431` | `def list_tenants(self)` |
+| `load_all` | method | `modules/lazy_rbac.py:245` | `def load_all(self)` |
+| `require_mfa` | function | `modules/lazy_rbac.py:596` | `def require_mfa(f)` |
+| `require_permission` | function | `modules/lazy_rbac.py:565` | `def require_permission()` |
+| `require_role` | function | `modules/lazy_rbac.py:539` | `def require_role()` |
+| `save` | method | `modules/lazy_rbac.py:261` | `def save(self, user)` |
+| `set_rbac_store` | function | `modules/lazy_rbac.py:643` | `def set_rbac_store(store)` |
+| `set_tenant_manager` | function | `modules/lazy_rbac.py:655` | `def set_tenant_manager(tm)` |
+| `switch_tenant` | method | `modules/lazy_rbac.py:486` | `def switch_tenant(self, tenant_id)` |
+| `to_dict` | method | `modules/lazy_rbac.py:136` | `def to_dict(self)` |
+| `to_dict` | method | `modules/lazy_rbac.py:386` | `def to_dict(self)` |
+| `update_role` | method | `modules/lazy_rbac.py:304` | `def update_role(self, user_id, new_role)` |
+| `valid_roles` | method | `modules/lazy_rbac.py:62` | `def valid_roles(cls)` |
+| `verify_recovery_code` | method | `modules/lazy_rbac.py:192` | `def verify_recovery_code(self, code)` |
+| `verify_totp` | method | `modules/lazy_rbac.py:187` | `def verify_totp(self, token)` |
+| `conformance` | function | `modules/lazy_roles.py:154` | `def conformance(role)` |
+| `list_roles` | function | `modules/lazy_roles.py:100` | `def list_roles()` |
+| `role_prompt` | function | `modules/lazy_roles.py:109` | `def role_prompt(role, goal, context)` |
+| `roles_for_phase` | function | `modules/lazy_roles.py:134` | `def roles_for_phase(phase)` |
+| `LoopRunConfig` | class | `modules/lazy_runner.py:94` | `class LoopRunConfig` |
+| `ThreadStdoutRouter` | class | `modules/lazy_runner.py:45` | `class ThreadStdoutRouter(TextIOBase)` |
+| `__init__` | method | `modules/lazy_runner.py:55` | `def __init__(self, main_stream, spool)` |
+| `_abort_run` | function | `modules/lazy_runner.py:391` | `def _abort_run(engine, task_id, reason)` |
+| `_apply_budget` | function | `modules/lazy_runner.py:506` | `def _apply_budget(engine, task_id, budget)` |
+| `_bootstrap` | function | `modules/lazy_runner.py:492` | `def _bootstrap(scan_target, executor)` |
+| `_budget_declined` | function | `modules/lazy_runner.py:519` | `def _budget_declined(config)` |
+| `_dump_thread_stacks` | function | `modules/lazy_runner.py:665` | `def _dump_thread_stacks()` |
+| `_executor` | function | `modules/lazy_runner.py:343` | `def _executor(command)` |
+| `_format_activity` | function | `modules/lazy_runner.py:651` | `def _format_activity(record)` |
+| `_limited` | function | `modules/lazy_runner.py:1042` | `def _limited()` |
+| `_overview` | function | `modules/lazy_runner.py:641` | `def _overview(task_id)` |
+| `_poll_progress` | function | `modules/lazy_runner.py:694` | `def _poll_progress(engine, config, progress, transcript, worker)` |
+| `_prepare_engine` | function | `modules/lazy_runner.py:410` | `def _prepare_engine(engine, shell, config, params)` |
+| `_resolve_alias` | function | `modules/lazy_runner.py:335` | `def _resolve_alias(command)` |
+| `_run` | function | `modules/lazy_runner.py:587` | `def _run()` |
+| `_run_plain` | function | `modules/lazy_runner.py:812` | `def _run_plain(engine, config)` |
+| `_run_targets_file` | function | `modules/lazy_runner.py:1016` | `def _run_targets_file(shell, params, config)` |
+| `_run_with_progress` | function | `modules/lazy_runner.py:535` | `def _run_with_progress(engine, config)` |
+| `_stall_thresholds` | function | `modules/lazy_runner.py:680` | `def _stall_thresholds(verb_timeout)` |
+| `_start_proxy` | function | `modules/lazy_runner.py:424` | `def _start_proxy(engine, params)` |
+| `_terminal_stream` | function | `modules/lazy_runner.py:790` | `def _terminal_stream()` |
+| `_to_float` | function | `modules/lazy_runner.py:155` | `def _to_float(raw, default)` |
+| `_to_int` | function | `modules/lazy_runner.py:147` | `def _to_int(raw, default)` |
+| `_tty_available` | function | `modules/lazy_runner.py:1003` | `def _tty_available()` |
+| `_work_one` | function | `modules/lazy_runner.py:1039` | `def _work_one(target)` |
+| `_write` | function | `modules/lazy_runner.py:802` | `def _write(text)` |
+| `build_executor` | function | `modules/lazy_runner.py:318` | `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)` |
+| `clamped` | method | `modules/lazy_runner.py:118` | `def clamped(self)` |
+| `encoding` | method | `modules/lazy_runner.py:80` | `def encoding(self)` |
+| `flush` | method | `modules/lazy_runner.py:72` | `def flush(self)` |
+| `isatty` | method | `modules/lazy_runner.py:84` | `def isatty(self)` |
 | `load_targets_file` | function | `modules/lazy_runner.py:847` | `def load_targets_file(path)` |
 | `parse_loop_line` | function | `modules/lazy_runner.py:163` | `def parse_loop_line(line)` |
 | `report_result` | function | `modules/lazy_runner.py:449` | `def report_result(result)` |
@@ -417,84 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `__init__` | method | `modules/llm_pool.py:179` | `def __init__(self, members, health, config)` |
 | `_backoff_for` | method | `modules/llm_pool.py:155` | `def _backoff_for(self, failures)` |
 | `_health_path` | function | `modules/llm_pool.py:20` | `def _health_path()` |
-| `_load` | method | `modules/llm_pool.py:92` | `def _load(self)` |
-| `_ordered` | method | `modules/llm_pool.py:201` | `def _ordered(self)` |
-| `_persist_locked` | method | `modules/llm_pool.py:116` | `def _persist_locked(self)` |
-| `_truncate` | method | `modules/llm_pool.py:217` | `def _truncate(self, text, overflow_dir)` |
-| `complete` | method | `modules/llm_pool.py:237` | `def complete(self, prompt, max_tokens, session_key, overflow_dir)` |
-| `healthy` | method | `modules/llm_pool.py:163` | `def healthy(self, member_id)` |
-| `members` | method | `modules/llm_pool.py:192` | `def members(self)` |
-| `report_failure` | method | `modules/llm_pool.py:143` | `def report_failure(self, member_id, error)` |
-| `report_success` | method | `modules/llm_pool.py:135` | `def report_success(self, member_id)` |
-| `session_key` | method | `modules/llm_pool.py:196` | `def session_key(self, conversation_id, role, index)` |
-| `shared_registry` | function | `modules/llm_pool.py:50` | `def shared_registry(config)` |
-| `KnowledgeStore` | class | `modules/llm_prompts.py:286` | `class KnowledgeStore` |
-| `LlmPromptConfig` | class | `modules/llm_prompts.py:111` | `class LlmPromptConfig` |
-| `__init__` | method | `modules/llm_prompts.py:289` | `def __init__(self, path)` |
-| `_payload_block` | function | `modules/llm_prompts.py:354` | `def _payload_block(config)` |
-| `_prompt_adversary` | function | `modules/llm_prompts.py:393` | `def _prompt_adversary(base_prompt, kb_text, config)` |
-| `_prompt_general` | function | `modules/llm_prompts.py:409` | `def _prompt_general(base_prompt, kb_text, config)` |
-| `_prompt_oneliner` | function | `modules/llm_prompts.py:362` | `def _prompt_oneliner(base_prompt, kb_text, config)` |
-| `_prompt_redop` | function | `modules/llm_prompts.py:462` | `def _prompt_redop(base_prompt, kb_text, config)` |
-| `_prompt_script` | function | `modules/llm_prompts.py:378` | `def _prompt_script(base_prompt, kb_text, config)` |
-| `_prompt_search` | function | `modules/llm_prompts.py:422` | `def _prompt_search(base_prompt, kb_text, config)` |
-| `_prompt_task` | function | `modules/llm_prompts.py:450` | `def _prompt_task(base_prompt, kb_text, config)` |
-| `_prompt_vuln` | function | `modules/llm_prompts.py:436` | `def _prompt_vuln(base_prompt, kb_text, config)` |
-| `add` | method | `modules/llm_prompts.py:324` | `def add(self, prompt, response)` |
-| `default_project_root` | function | `modules/llm_prompts.py:67` | `def default_project_root()` |
-| `from_defaults` | method | `modules/llm_prompts.py:130` | `def from_defaults(cls, project_root)` |
-| `knowledge_base_path` | method | `modules/llm_prompts.py:150` | `def knowledge_base_path(self, domain)` |
-| `knowledge_store` | method | `modules/llm_prompts.py:238` | `def knowledge_store(self, domain)` |
-| `load` | method | `modules/llm_prompts.py:297` | `def load(self)` |
-| `load_event_tool_output` | method | `modules/llm_prompts.py:176` | `def load_event_tool_output(self, event_name)` |
-| `load_payload_context` | method | `modules/llm_prompts.py:161` | `def load_payload_context(self)` |
-| `load_plan_history` | method | `modules/llm_prompts.py:203` | `def load_plan_history(self)` |
-| `load_report_context` | method | `modules/llm_prompts.py:218` | `def load_report_context(self)` |
-| `relevant` | method | `modules/llm_prompts.py:335` | `def relevant(self, prompt, limit)` |
-| `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
-| `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
-| `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
-| `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
-| `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
-| `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
-| `LogTamperConfig` | class | `modules/log_tamper.py:71` | `class LogTamperConfig` |
-| `__init__` | method | `modules/log_tamper.py:105` | `def __init__(self, config)` |
-| `auditd_disable_commands` | method | `modules/log_tamper.py:307` | `def auditd_disable_commands(self)` |
-| `generate_all` | method | `modules/log_tamper.py:295` | `def generate_all(self)` |
-| `linux_clear_commands` | method | `modules/log_tamper.py:176` | `def linux_clear_commands(self)` |
-| `macos_clear_commands` | method | `modules/log_tamper.py:243` | `def macos_clear_commands(self)` |
-| `sysmon_disable_commands` | method | `modules/log_tamper.py:341` | `def sysmon_disable_commands(self)` |
-| `windows_clear_commands` | method | `modules/log_tamper.py:108` | `def windows_clear_commands(self)` |
-| `ColoredFormatter` | class | `modules/logging_config.py:36` | `class ColoredFormatter(Formatter)` |
-| `CorrelationFilter` | class | `modules/logging_config.py:91` | `class CorrelationFilter(Filter)` |
-| `JsonFormatter` | class | `modules/logging_config.py:53` | `class JsonFormatter(Formatter)` |
-| `ResilientRotatingFileHandler` | class | `modules/logging_config.py:103` | `class ResilientRotatingFileHandler(RotatingFileHandler)` |
-| `_ensure_log_dir_writable` | function | `modules/logging_config.py:156` | `def _ensure_log_dir_writable(log_dir)` |
-| `_use_json_format` | function | `modules/logging_config.py:235` | `def _use_json_format()` |
-| `clear_correlation_id` | function | `modules/logging_config.py:144` | `def clear_correlation_id()` |
-| `configure` | function | `modules/logging_config.py:244` | `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)` |
-| `emit` | method | `modules/logging_config.py:116` | `def emit(self, record)` |
-| `filter` | method | `modules/logging_config.py:94` | `def filter(self, record)` |
-| `format` | method | `modules/logging_config.py:39` | `def format(self, record)` |
-| `format` | method | `modules/logging_config.py:72` | `def format(self, record)` |
-| `get_correlation_id` | function | `modules/logging_config.py:139` | `def get_correlation_id()` |
-| `get_logger` | function | `modules/logging_config.py:328` | `def get_logger(name, level)` |
-| `handleError` | method | `modules/logging_config.py:122` | `def handleError(self, record)` |
-| `reset` | function | `modules/logging_config.py:388` | `def reset()` |
-| `set_correlation_id` | function | `modules/logging_config.py:134` | `def set_correlation_id(cid)` |
-| `set_level` | function | `modules/logging_config.py:357` | `def set_level(name, level)` |
-| `set_quiet` | function | `modules/logging_config.py:367` | `def set_quiet()` |
-| `set_verbose` | function | `modules/logging_config.py:373` | `def set_verbose()` |
-| `silence_module` | function | `modules/logging_config.py:379` | `def silence_module(name)` |
-| `_hive_store` | function | `modules/loop_ai_bridge.py:101` | `def _hive_store(task_id, worker, kind, text)` |
-| `_open` | function | `modules/loop_ai_bridge.py:104` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:130` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:152` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:171` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:192` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:214` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:235` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:269` | `def _open()` |
-| `_singleton` | function | `modules/loop_ai_bridge.py:50` | `def _singleton(key, factory)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

@@ -1,6 +1,70 @@
 # Subsystem: tests (page 11 of 20)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
 
+## tests/test_killchain_gap_signal.py
+- Doc: Tests for :class:`cli.recommendation_signals.KillchainGapSignal`.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sessions_dir` (function, line 23) `def sessions_dir()`
+  - `_write_world_model` (function, line 28) `def _write_world_model(sessions_dir, data)`
+  - `TestKillchainGapSignalConstruction` (class, line 32) `class TestKillchainGapSignalConstruction`
+  - `TestGapExploitedNoPrivesc` (class, line 38) `class TestGapExploitedNoPrivesc`
+  - `TestGapOwnedNoCreds` (class, line 82) `class TestGapOwnedNoCreds`
+  - `TestGapScanNoEnum` (class, line 110) `class TestGapScanNoEnum`
+  - `TestGapCredsNoLateral` (class, line 141) `class TestGapCredsNoLateral`
+  - `TestKillchainGapSignalIntegration` (class, line 169) `class TestKillchainGapSignalIntegration`
+  - `test_name_is_gap_source` (method, line 33) `def test_name_is_gap_source(self)`
+  - `test_exploited_linux_recommends_linpeas` (method, line 39) `def test_exploited_linux_recommends_linpeas(self, sessions_dir)`
+  - `test_exploited_windows_recommends_winpeas` (method, line 51) `def test_exploited_windows_recommends_winpeas(self, sessions_dir)`
+  - `test_unscanned_host_no_proposals` (method, line 63) `def test_unscanned_host_no_proposals(self, sessions_dir)`
+  - `test_no_world_model_returns_empty` (method, line 75) `def test_no_world_model_returns_empty(self, sessions_dir)`
+  - `test_owned_no_credentials_recommends_lazydump` (method, line 83) `def test_owned_no_credentials_recommends_lazydump(self, sessions_dir)`
+  - `test_owned_with_credentials_no_proposals` (method, line 96) `def test_owned_with_credentials_no_proposals(self, sessions_dir)`
+  - `test_scanned_no_enum_recommends_gobuster` (method, line 111) `def test_scanned_no_enum_recommends_gobuster(self, sessions_dir)`
+  - `test_scanned_with_enum_recent_no_proposals` (method, line 123) `def test_scanned_with_enum_recent_no_proposals(self, sessions_dir)`
+  - `test_credentials_no_lateral_recommends_crackmapexec` (method, line 142) `def test_credentials_no_lateral_recommends_crackmapexec(self, sessions_dir)`
+  - `test_no_credentials_no_lateral_proposals` (method, line 155) `def test_no_credentials_no_lateral_proposals(self, sessions_dir)`
+  - `test_multiple_gaps_detected_simultaneously` (method, line 170) `def test_multiple_gaps_detected_simultaneously(self, sessions_dir)`
+- Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`
+
+## tests/test_killchain_snapshot.py
+- Doc: BDD-style tests for the unified kill-chain snapshot contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_seed_snapshot` (function, line 17) `def _seed_snapshot(path, phase, completed, current)`
+  - `_states` (function, line 37) `def _states(snapshot)`
+  - `_encrypt_at` (function, line 41) `def _encrypt_at(path, password, salt)`
+  - `TestKillChainSnapshot` (class, line 52) `class TestKillChainSnapshot`
+  - `TestEncryptedStateTransparency` (class, line 102) `class TestEncryptedStateTransparency`
+  - `test_empty_snapshot_defaults_to_recon` (method, line 53) `def test_empty_snapshot_defaults_to_recon(self, tmp_path)`
+  - `test_snapshot_reflects_explicit_phase_and_completed` (method, line 64) `def test_snapshot_reflects_explicit_phase_and_completed(self, tmp_path)`
+  - `test_snapshot_is_json_serialisable` (method, line 80) `def test_snapshot_is_json_serialisable(self, tmp_path)`
+  - `test_advance_then_snapshot_is_consistent` (method, line 90) `def test_advance_then_snapshot_is_consistent(self, tmp_path)`
+  - `test_read_state_dict_decrypts_at_rest` (method, line 103) `def test_read_state_dict_decrypts_at_rest(self, tmp_path, monkeypatch)`
+  - `test_write_state_dict_persists_fernet_token` (method, line 122) `def test_write_state_dict_persists_fernet_token(self, tmp_path, monkeypatch)`
+  - `test_write_state_dict_then_engine_encrypt_unwraps_nested` (method, line 138) `def test_write_state_dict_then_engine_encrypt_unwraps_nested(self, tmp_path, monkeypatch)`
+  - `test_missing_file_reads_empty` (method, line 157) `def test_missing_file_reads_empty(self, tmp_path)`
+  - `test_encrypted_without_password_reads_empty` (method, line 165) `def test_encrypted_without_password_reads_empty(self, tmp_path, monkeypatch)`
+- Depends on: `modules/killchain.py`, `modules/world_model.py`
+
+## tests/test_killchain_unified.py
+- Doc: Tests for unified killchain phase: read_phase, write_phase, phase mapping helpers.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestPhaseMapping` (class, line 20) `class TestPhaseMapping`
+  - `TestWritePhaseWithWorldModel` (class, line 48) `class TestWritePhaseWithWorldModel`
+  - `test_engagement_phase_to_cli_maps_all` (method, line 21) `def test_engagement_phase_to_cli_maps_all(self)`
+  - `test_cli_phase_to_host_state_maps_correctly` (method, line 30) `def test_cli_phase_to_host_state_maps_correctly(self)`
+  - `test_phase_rank_returns_correct_index` (method, line 41) `def test_phase_rank_returns_correct_index(self)`
+  - `sessions_dir` (method, line 52) `def sessions_dir(self)`
+  - `test_write_phase_advances_hosts` (method, line 80) `def test_write_phase_advances_hosts(self, sessions_dir)`
+  - `test_write_phase_invalid_returns_false` (method, line 96) `def test_write_phase_invalid_returns_false(self, sessions_dir)`
+  - `test_write_phase_completed_phases_tracks_progress` (method, line 100) `def test_write_phase_completed_phases_tracks_progress(self, sessions_dir)`
+- Depends on: `cli/ops_commands.py`, `modules/world_model.py`
+
 ## tests/test_killchain_unified_v2.py
 - Doc: Comprehensive tests for modules.killchain — the unified single source of truth.
 - Layer: testing
@@ -426,49 +490,6 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `__init__` (method, line 1509) `def __init__(self)`
   - `wait` (method, line 1515) `def wait(self, timeout)`
 - Depends on: `cli/commands/exploit_migrated.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/session_ops.py`, `core/autonomous.py`, `core/config.py`, `core/process.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/command_executor.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/lazy_skills.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_progress.py`, `modules/tools/__init__.py`
-
-## tests/test_lazy_streaming.py
-- Doc: Token-level streaming: factory, pool deltas, agent reassembly.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_sandbox` (function, line 13) `def _sandbox(tmp_path, monkeypatch)`
-  - `test_stream_complete_collects_deltas_and_falls_back` (function, line 20) `def test_stream_complete_collects_deltas_and_falls_back(monkeypatch)`
-  - `test_pool_forwards_deltas_when_stage_on` (function, line 48) `def test_pool_forwards_deltas_when_stage_on(tmp_path, monkeypatch)`
-  - `test_pool_stays_unstreamed_when_stage_off` (function, line 72) `def test_pool_stays_unstreamed_when_stage_off(tmp_path, monkeypatch)`
-  - `test_agent_streaming_reassembles_tool_calls_and_reports_deltas` (function, line 96) `def test_agent_streaming_reassembles_tool_calls_and_reports_deltas()`
-  - `_Backend` (class, line 24) `class _Backend`
-  - `_Broken` (class, line 37) `class _Broken`
-  - `_stream` (function, line 57) `def _stream(model, prompt, max_tokens, on_delta)`
-  - `_stream` (function, line 80) `def _stream()`
-  - `_plain` (function, line 84) `def _plain()`
-  - `_Delta` (class, line 100) `class _Delta`
-  - `_Completions` (class, line 106) `class _Completions`
-  - `stream_generate` (method, line 27) `def stream_generate(self, prompt)`
-  - `stream_generate` (method, line 40) `def stream_generate(self, prompt)`
-  - `__init__` (method, line 101) `def __init__(self, content, reasoning, tool_calls)`
-  - `__init__` (method, line 107) `def __init__(self)`
-  - `create` (method, line 110) `def create(self)`
-- Depends on: `modules/agent_runner.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
-
-## tests/test_lazy_worker_safety.py
-- Doc: Worker safety: step sanitizer, task-wide dedupe, sudo skip, worker pool.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `payload_store` (function, line 15) `def payload_store(tmp_path, monkeypatch)`
-  - `_engine` (function, line 28) `def _engine(tmp_path, monkeypatch)`
-  - `_worker` (function, line 37) `def _worker(loop, engine, task_id, name)`
-  - `test_sanitizer_retargets_and_repairs_commands` (function, line 53) `def test_sanitizer_retargets_and_repairs_commands(tmp_path, monkeypatch)`
-  - `test_worker_dedupes_commands_already_executed_for_task` (function, line 70) `def test_worker_dedupes_commands_already_executed_for_task(tmp_path, monkeypatch)`
-  - `test_worker_skips_sudo_when_unavailable` (function, line 88) `def test_worker_skips_sudo_when_unavailable(tmp_path, monkeypatch)`
-  - `test_run_round_reuses_worker_pool` (function, line 105) `def test_run_round_reuses_worker_pool(payload_store, monkeypatch)`
-  - `test_needs_sudo_detects_wrappers_and_segments` (function, line 140) `def test_needs_sudo_detects_wrappers_and_segments(tmp_path, monkeypatch)`
-  - `test_worker_skips_sudo_alias_before_execution` (function, line 153) `def test_worker_skips_sudo_alias_before_execution(tmp_path, monkeypatch)`
-  - `test_worker_runs_sudo_alias_when_passwordless_available` (function, line 175) `def test_worker_runs_sudo_alias_when_passwordless_available(tmp_path, monkeypatch)`
-  - `executor` (function, line 95) `def executor(command)`
-  - `_fake_execute` (function, line 122) `def _fake_execute(self, node, executor, timeout_sec)`
-- Depends on: `modules/__init__.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `utils.py`
 
 
 Next: [KB_tests_p12.md](KB_tests_p12.md)

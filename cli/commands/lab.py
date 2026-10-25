@@ -2,80 +2,26 @@
 
 Provides on-demand CTF-style lab scenarios powered by Docker containers.
 Operators can practice techniques against realistic targets without
-risking production systems.
+risking production systems. The Docker lifecycle lives in
+:mod:`modules.lab_runtime`; this command set owns the operator UX.
 """
 
 from __future__ import annotations
 
-import secrets
 import socket
 import subprocess
 import time
-from pathlib import Path
 
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
+from modules import lab_runtime
 from utils import (
     miscellaneous_category,
     print_error,
     print_msg,
     print_warn,
 )
-
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-LAB_COMPOSE = BASE_DIR / "deploy" / "lab" / "docker-compose.yml"
-RANGE_DIR = BASE_DIR / "deploy" / "range"
-
-RANGE_PROFILES: dict[str, dict] = {
-    "ad-mini": {
-        "compose": "ad-mini/docker-compose.yml",
-        "description": "Vulnerable mini Active Directory with fake users and background traffic",
-        "topology": "dc (AD DS), ws01 (implant target), traffic-gen (fake logons); IPs assigned by Docker, resolved at start",
-        "difficulty": "medium",
-    },
-}
-
-LAB_SCENARIOS: dict[str, dict] = {
-    "wordpress": {
-        "image": "vulnerables/web-dvwa:latest",
-        "ports": {"80/tcp": 8080},
-        "description": "Damn Vulnerable Web Application -- OWASP Top 10 practice",
-        "difficulty": "easy",
-    },
-    "ad-lab": {
-        "image": "ghcr.io/semperis/lab-ad:latest",
-        "ports": {"389/tcp": 389, "445/tcp": 445, "88/tcp": 88},
-        "description": "Active Directory lab with domain controller and workstations",
-        "difficulty": "medium",
-    },
-    "metasploitable": {
-        "image": "tleemcjr/metasploitable2:latest",
-        "ports": {"21/tcp": 2121, "22/tcp": 2222, "80/tcp": 8081, "445/tcp": 1445},
-        "description": "Metasploitable2 -- deliberately vulnerable Linux VM",
-        "difficulty": "easy",
-    },
-    "juice-shop": {
-        "image": "bkimminich/juice-shop:latest",
-        "ports": {"3000/tcp": 3000},
-        "description": "OWASP Juice Shop -- modern vulnerable web application",
-        "difficulty": "medium",
-    },
-    "tomcat": {
-        "image": "vulhub/tomcat:8.0",
-        "ports": {"8080/tcp": 8888},
-        "description": "Apache Tomcat 8.0 -- CVE-2017-12615 and more",
-        "difficulty": "medium",
-    },
-    "struts": {
-        "image": "vulhub/struts2:2.3.32",
-        "ports": {"8080/tcp": 9090},
-        "description": "Apache Struts2 -- CVE-2017-5638 and more",
-        "difficulty": "hard",
-    },
-}
-
-REGISTRY_PREFIX = "lazyown-lab-"
 
 
 class LabCommandSet(LazyOwnCommandSet):
@@ -86,71 +32,27 @@ class LabCommandSet(LazyOwnCommandSet):
 
     def _docker_available(self) -> bool:
         """Check if Docker is installed and the daemon is reachable."""
-        try:
-            result = subprocess.run(
-                ["docker", "info"],
-                capture_output=True,
-                timeout=10,
-                check=False,
-            )
-            return result.returncode == 0
-        except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
-            return False
+        return lab_runtime.docker_available()
 
     def _running_containers(self) -> list[str]:
         """Return list of running lab container names."""
-        try:
-            result = subprocess.run(
-                ["docker", "ps", "--format", "{{.Names}}", "--filter", f"name={REGISTRY_PREFIX}"],
-                capture_output=True,
-                text=True,
-                timeout=5,
-                check=False,
-            )
-            return [line.strip() for line in result.stdout.splitlines() if line.strip()]
-        except FileNotFoundError:
-            return []
+        return lab_runtime.running_containers()
+
+    def _running_range_containers(self) -> list[str]:
+        """Return list of running cyber range container names."""
+        return lab_runtime.running_range_containers()
 
     def _container_name(self, scenario: str) -> str:
         """Return the container name for a given scenario."""
-        return f"{REGISTRY_PREFIX}{scenario}"
+        return lab_runtime.container_name(scenario)
 
     def _container_ip(self, container_name: str) -> str:
         """Resolve a lab container IP on its Docker network."""
-        try:
-            result = subprocess.run(
-                [
-                    "docker",
-                    "inspect",
-                    "--format",
-                    "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}",
-                    container_name,
-                ],
-                capture_output=True,
-                text=True,
-                timeout=15,
-                check=False,
-            )
-        except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
-            return ""
-        if result.returncode != 0:
-            return ""
-        return result.stdout.strip()
+        return lab_runtime.container_ip(container_name)
 
     def _lab_ensure_web(self, scenario: str, container_name: str) -> None:
         """Bring the lab web stack up when the image booted without it."""
-        if scenario != "metasploitable":
-            return
-        try:
-            subprocess.run(
-                ["docker", "exec", container_name, "sh", "-c", "service apache2 start >/dev/null 2>&1 || true"],
-                capture_output=True,
-                text=True,
-                timeout=30,
-                check=False,
-            )
-        except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
-            return
+        lab_runtime.ensure_web(scenario, container_name)
 
     def _print_lab_target(self, scenario: str, container_name: str, ports: dict) -> None:
         """Print the target IP and the host-mapped ports for one lab."""
@@ -177,13 +79,8 @@ class LabCommandSet(LazyOwnCommandSet):
         """Apply gym migrations to the metasploitable lab container."""
         if scenario != "metasploitable":
             return
-        try:
-            from modules.metasploitable_migrations import apply_migrations
-        except ImportError as exc:
-            print_warn(f"Gym migrations unavailable: {exc}")
-            return
         print_msg("[*] Applying gym migrations...")
-        report = apply_migrations(container_name)
+        report = lab_runtime.apply_gym_migrations(container_name)
         for migration_id, step in report.items():
             if step.get("skipped"):
                 print_msg(f"    [skip] {migration_id}: already applied")
@@ -248,7 +145,7 @@ class LabCommandSet(LazyOwnCommandSet):
     def _lab_list(self):
         """Display available lab scenarios."""
         print_msg("\nAvailable lab scenarios:\n")
-        for name, info in LAB_SCENARIOS.items():
+        for name, info in lab_runtime.LAB_SCENARIOS.items():
             difficulty = info.get("difficulty", "unknown")
             desc = info.get("description", "")
             ports = ", ".join(info.get("ports", {}).keys())
@@ -261,7 +158,7 @@ class LabCommandSet(LazyOwnCommandSet):
 
     def _lab_start(self, scenario: str):
         """Spin up a lab scenario container."""
-        if scenario not in LAB_SCENARIOS:
+        if scenario not in lab_runtime.LAB_SCENARIOS:
             print_error(f"Unknown scenario: {scenario}. Use 'lab list' to see options.")
             return
 
@@ -270,12 +167,12 @@ class LabCommandSet(LazyOwnCommandSet):
             print_error("Install: sudo apt install docker.io && sudo systemctl start docker")
             return
 
-        info = LAB_SCENARIOS[scenario]
+        info = lab_runtime.LAB_SCENARIOS[scenario]
         image = info["image"]
-        container_name = self._container_name(scenario)
         ports = info.get("ports", {})
 
         running = self._running_containers()
+        container_name = lab_runtime.container_name(scenario)
         if container_name in running:
             print_warn(f"Lab '{scenario}' is already running.")
             self._lab_ensure_web(scenario, container_name)
@@ -284,41 +181,34 @@ class LabCommandSet(LazyOwnCommandSet):
             return
 
         print_msg(f"Pulling image {image} ...")
-        subprocess.run(["docker", "pull", image], check=False)
+        result = lab_runtime.start(scenario)
 
-        cmd = ["docker", "run", "-d", "--rm", "--name", container_name]
-        for container_port, host_port in ports.items():
-            cmd.extend(["-p", f"{host_port}:{container_port.split('/')[0]}"])
-        cmd.append(image)
-
-        print_msg(f"Starting lab: {scenario} ({info.get('description', '')})")
-        result = subprocess.run(cmd, capture_output=True, text=True, check=False)
-
-        if result.returncode == 0:
-            container_id = result.stdout.strip()[:12]
+        if result.get("success"):
+            container_id = ""
+            try:
+                inspect = subprocess.run(
+                    ["docker", "inspect", "--format", "{{.Id}}", container_name],
+                    capture_output=True,
+                    text=True,
+                    timeout=15,
+                    check=False,
+                )
+                container_id = (inspect.stdout or "").strip()[:12] if inspect.returncode == 0 else ""
+            except (OSError, ValueError):
+                container_id = ""
             print_msg(f"Lab '{scenario}' started. Container: {container_id}")
-            self._lab_ensure_web(scenario, container_name)
             self._lab_migrate(scenario, container_name)
             self._print_lab_target(scenario, container_name, ports)
         else:
-            print_error(f"Failed to start lab '{scenario}': {result.stderr}")
+            print_error(f"Failed to start lab '{scenario}': {result.get('error', '')}")
 
     def _lab_stop(self, scenario: str):
         """Stop a running lab scenario."""
-        container_name = self._container_name(scenario)
-        running = self._running_containers()
-
-        if container_name not in running:
-            print_warn(f"Lab '{scenario}' is not running.")
+        result = lab_runtime.stop(scenario)
+        if not result.get("success"):
+            print_warn(f"Lab '{scenario}' is not running." if "not running" in result.get("error", "") else f"Failed to stop lab '{scenario}': {result.get('error', '')}")
             return
-
         print_msg(f"Stopping lab: {scenario}")
-        subprocess.run(
-            ["docker", "stop", container_name],
-            capture_output=True,
-            timeout=15,
-            check=False,
-        )
         print_msg(f"Lab '{scenario}' stopped.")
 
     def _range_dispatch(self, args: list[str]) -> None:
@@ -356,30 +246,11 @@ class LabCommandSet(LazyOwnCommandSet):
     def _range_list(self) -> None:
         """Display available cyber range profiles."""
         print_msg("\nAvailable range profiles:\n")
-        for name, info in RANGE_PROFILES.items():
+        for name, info in lab_runtime.RANGE_PROFILES.items():
             print_msg(f"  {name:<20} [{info.get('difficulty', ''):<8}] {info.get('description', '')}")
             print_msg(f"  {'':20}  topology: {info.get('topology', '')}")
         print_msg("")
         print_msg("Use: lab range start ad-mini")
-
-    def _range_compose(self, profile: str) -> Path | None:
-        """Resolve the compose file for a range profile.
-
-        Args:
-            profile: Range profile name.
-
-        Returns:
-            Compose file path, or None when unknown.
-        """
-        info = RANGE_PROFILES.get(profile)
-        if not info:
-            print_error(f"Unknown range profile: {profile}. Available: {list(RANGE_PROFILES)}")
-            return None
-        compose = RANGE_DIR / info["compose"]
-        if not compose.exists():
-            print_error(f"Missing compose file: {compose}")
-            return None
-        return compose
 
     def _range_start(self, profile: str) -> None:
         """Start a cyber range profile via Docker Compose.
@@ -390,19 +261,17 @@ class LabCommandSet(LazyOwnCommandSet):
         if not self._docker_available():
             print_error("Docker is required to start ranges.")
             return
-        compose = self._range_compose(profile)
+        compose = lab_runtime.range_compose(profile)
         if compose is None:
+            print_error(f"Unknown range profile: {profile}. Available: {list(lab_runtime.RANGE_PROFILES)}")
             return
-        admin_password = self._ensure_range_secret(compose.parent)
+        result = lab_runtime.start_range(profile)
+        if not result.get("success"):
+            print_error(f"Failed to start range '{profile}': {result.get('error', '')}")
+            return
+        admin_password = result.get("admin_password", "")
         if admin_password:
             print_msg(f"[*] Range Administrator password: {admin_password} (per-deployment, disposable)")
-        print_msg(f"Starting range: {profile} ...")
-        result = subprocess.run(
-            ["docker", "compose", "-f", str(compose), "up", "-d"], capture_output=True, text=True, check=False
-        )
-        if result.returncode != 0:
-            print_error(f"Failed to start range '{profile}': {(result.stderr or result.stdout)[-1500:]}")
-            return
         print_msg(f"Range '{profile}' started.")
         self._range_wait_healthy(compose)
         ws_ip = self._range_container_ip("lazyown-range-ws01")
@@ -429,6 +298,8 @@ class LabCommandSet(LazyOwnCommandSet):
         Returns:
             State string (``running``, ``restarting``, ...) or empty.
         """
+        import subprocess
+
         try:
             result = subprocess.run(
                 ["docker", "inspect", "--format", "{{.State.Status}}", container],
@@ -443,7 +314,7 @@ class LabCommandSet(LazyOwnCommandSet):
             return ""
         return result.stdout.strip()
 
-    def _range_wait_healthy(self, compose: Path, timeout: int = 180) -> None:
+    def _range_wait_healthy(self, compose, timeout: int = 180) -> None:
         """Wait for range containers to run and probe host-side ports.
 
         Polls the DC and workstation states, then TCP-probes the published
@@ -489,6 +360,7 @@ class LabCommandSet(LazyOwnCommandSet):
             print_error(f"No verifier for profile: {profile}")
             return
         print_msg("[*] Firing vsftpd 2.3.4 backdoor against 127.0.0.1:2121 ...")
+        answer = ""
         try:
             with socket.create_connection(("127.0.0.1", 2121), timeout=10) as ftp:
                 ftp.recv(1024)
@@ -516,7 +388,7 @@ class LabCommandSet(LazyOwnCommandSet):
 
         Args:
             host: Hostname or IP to probe.
-            port: TCP port to probe.
+            port: Port to probe.
             timeout: Connection timeout in seconds.
 
         Returns:
@@ -528,36 +400,6 @@ class LabCommandSet(LazyOwnCommandSet):
         except OSError:
             return False
 
-    def _ensure_range_secret(self, profile_dir: Path) -> str:
-        """Generate the DC admin secret file when missing.
-
-        The Samba DC entrypoint reads the Administrator password from a
-        Docker secret file. The secret is generated per deployment with a
-        random value and never committed; ``secrets/`` is gitignored.
-
-        Args:
-            profile_dir: Range profile directory holding the compose file.
-
-        Returns:
-            The Administrator password string, or empty on failure.
-        """
-        secrets_dir = profile_dir / "secrets"
-        secret_file = secrets_dir / "samba-admin-password.txt"
-        try:
-            if secret_file.exists():
-                return secret_file.read_text(encoding="utf-8").strip()
-            secrets_dir.mkdir(parents=True, exist_ok=True)
-            password = f"Range-{secrets.token_urlsafe(12)}!"
-            secret_file.write_text(password, encoding="utf-8")
-            try:
-                secret_file.chmod(0o600)
-            except OSError:
-                pass
-            return password
-        except OSError as exc:
-            print_warn(f"Could not prepare range secret: {exc}")
-            return ""
-
     def _range_container_ip(self, container: str) -> str:
         """Resolve a range container's IP on its compose network.
 
@@ -567,25 +409,7 @@ class LabCommandSet(LazyOwnCommandSet):
         Returns:
             IPv4 address string, or empty when unavailable.
         """
-        try:
-            result = subprocess.run(
-                [
-                    "docker",
-                    "inspect",
-                    "--format",
-                    "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}",
-                    container,
-                ],
-                capture_output=True,
-                text=True,
-                timeout=15,
-                check=False,
-            )
-        except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
-            return ""
-        if result.returncode != 0:
-            return ""
-        return result.stdout.strip()
+        return lab_runtime.container_ip(container)
 
     def _range_stop(self, profile: str) -> None:
         """Stop a cyber range profile.
@@ -593,29 +417,37 @@ class LabCommandSet(LazyOwnCommandSet):
         Args:
             profile: Range profile name.
         """
-        compose = self._range_compose(profile)
-        if compose is None:
-            return
         print_msg(f"Stopping range: {profile}")
-        result = subprocess.run(
-            ["docker", "compose", "-f", str(compose), "down", "-v"], capture_output=True, text=True, check=False
-        )
-        if result.returncode != 0:
-            print_error(f"Failed to stop range '{profile}': {(result.stderr or result.stdout)[-1500:]}")
+        result = lab_runtime.stop_range(profile)
+        if not result.get("success"):
+            print_error(f"Failed to stop range '{profile}': {result.get('error', '')}")
             return
         print_msg(f"Range '{profile}' stopped.")
 
     def _range_status(self) -> None:
         """Show range container status."""
-        running = self._running_containers()
-        ranged = [c for c in running if "range" in c]
-        if not ranged:
+        running = self._running_range_containers()
+        if not running:
             print_msg("No ranges running. Use: lab range start ad-mini")
             return
         print_msg("\nRunning ranges:\n")
-        for container_name in ranged:
+        for container_name in running:
             print_msg(f"  {container_name}")
         print_msg("")
+
+    def _lab_container_state(self, container_name: str) -> str:
+        """Read one lab container lifecycle state."""
+        try:
+            result = subprocess.run(
+                ["docker", "inspect", "--format", "{{.State.Status}}", container_name],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                check=False,
+            )
+        except (FileNotFoundError, subprocess.TimeoutExpired, OSError):
+            return ""
+        return result.stdout.strip() if result.returncode == 0 else "unknown"
 
     def _lab_status(self):
         """Show currently running lab containers."""
@@ -631,18 +463,11 @@ class LabCommandSet(LazyOwnCommandSet):
 
         print_msg("\nRunning labs:\n")
         for container_name in running:
-            scenario = container_name.replace(REGISTRY_PREFIX, "")
-            info = LAB_SCENARIOS.get(scenario, {})
+            scenario = container_name.replace(lab_runtime.REGISTRY_PREFIX, "")
+            info = lab_runtime.LAB_SCENARIOS.get(scenario, {})
             ports = info.get("ports", {})
 
-            result = subprocess.run(
-                ["docker", "inspect", "--format", "{{.State.Status}}", container_name],
-                capture_output=True,
-                text=True,
-                timeout=5,
-                check=False,
-            )
-            status = result.stdout.strip() if result.returncode == 0 else "unknown"
+            status = self._lab_container_state(container_name) or "unknown"
 
             ip = self._container_ip(container_name)
             print_msg(f"  {scenario:<20} [{status}] {info.get('description', '')}")

@@ -49,11 +49,26 @@ _MAX_EXPECT_EXITS = 8
 _EXPECT_EXIT_MAX = 255
 _EXPECT_EXIT_RE = re.compile(r"^(0|[1-9][0-9]{0,2})$")
 _JUMP_RE = _NAME_RE
+_MAX_STEP_LIST_ITEMS = 16
+_MAX_LIST_ITEM_CHARS = 128
+_BUDGET_KEYS = frozenset({"attempts", "seconds"})
+_MAX_BUDGET_ATTEMPTS = _MAX_RETRIES + 1
+_MAX_BUDGET_SECONDS = _MAX_STEP_TIMEOUT
+_SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+_MAX_EVIDENCE_PATH_CHARS = 512
 
 
 @dataclass
 class ChainStep:
-    """One ordered step: shell line plus optional guards and outcome policy."""
+    """One ordered step: shell line plus optional guards and outcome policy.
+
+    Hunting fields (v3) turn a step into a chain-of-evidence node:
+    ``depends_on`` gates execution on predecessor evidence verdicts,
+    ``required_fields`` verifies field presence in captured evidence,
+    ``benign_alternatives`` annotates benign explanations, ``budget``
+    caps attempts and wall time, and ``evidence_sha256`` pins artefact
+    integrity across re-runs.
+    """
 
     run: str = ""
     id: str = ""
@@ -79,6 +94,12 @@ class ChainStep:
     confirm: bool = False
     artifacts: list[str] = field(default_factory=list)
     sinks: list[str] = field(default_factory=list)
+    depends_on: list[str] = field(default_factory=list)
+    required_fields: list[str] = field(default_factory=list)
+    benign_alternatives: list[str] = field(default_factory=list)
+    evidence: list[str] = field(default_factory=list)
+    evidence_sha256: dict[str, str] = field(default_factory=dict)
+    budget: dict[str, int] = field(default_factory=dict)
 
     @property
     def identifier(self) -> str:
@@ -135,6 +156,12 @@ class Chain:
                 "confirm": step.confirm,
                 "artifacts": list(step.artifacts),
                 "sinks": list(step.sinks),
+                "depends_on": list(step.depends_on),
+                "required_fields": list(step.required_fields),
+                "benign_alternatives": list(step.benign_alternatives),
+                "evidence": list(step.evidence),
+                "evidence_sha256": dict(step.evidence_sha256),
+                "budget": dict(step.budget),
                 "step": step,
             }
             if step.when and not evaluate_when(step.when, merged):
@@ -421,6 +448,54 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
             if resolver is not None:
                 if not isinstance(resolver, dict) or not resolver.get("glob") or not resolver.get("as"):
                     errors.append("resolve_newest needs glob and as keys")
+            depends_on = step.get("depends_on", [])
+            if not isinstance(depends_on, list) or len(depends_on) > _MAX_STEP_LIST_ITEMS:
+                errors.append(f"step {step_label}: depends_on must be a list of at most {_MAX_STEP_LIST_ITEMS} ids")
+            else:
+                for dependency in depends_on:
+                    if not isinstance(dependency, str) or not dependency.strip():
+                        errors.append(f"step {step_label}: depends_on entries must be non-empty strings")
+                    elif dependency == step_id:
+                        errors.append(f"step {step_label}: depends_on cannot target itself")
+                    else:
+                        jumps.append((step_label, dependency, "depends_on"))
+            for list_key in ("required_fields", "benign_alternatives", "evidence"):
+                values = step.get(list_key, [])
+                if not isinstance(values, list) or len(values) > _MAX_STEP_LIST_ITEMS:
+                    errors.append(f"step {step_label}: {list_key} must be a list of at most {_MAX_STEP_LIST_ITEMS} items")
+                    continue
+                for item in values:
+                    if not isinstance(item, str) or not item.strip() or len(item) > _MAX_LIST_ITEM_CHARS:
+                        errors.append(f"step {step_label}: {list_key} entries must be strings up to {_MAX_LIST_ITEM_CHARS} chars")
+                        break
+            evidence_sha = step.get("evidence_sha256", {})
+            if not isinstance(evidence_sha, dict) or len(evidence_sha) > _MAX_STEP_LIST_ITEMS:
+                errors.append(f"step {step_label}: evidence_sha256 must be a mapping of path to sha256")
+            else:
+                for path, digest in evidence_sha.items():
+                    if not isinstance(path, str) or not path.strip() or len(path) > _MAX_EVIDENCE_PATH_CHARS:
+                        errors.append(f"step {step_label}: evidence_sha256 keys must be non-empty paths")
+                        break
+                    if not isinstance(digest, str) or not _SHA256_RE.match(digest):
+                        errors.append(f"step {step_label}: evidence_sha256[{path!r}] must be a 64-char lowercase hex digest")
+                        break
+            budget = step.get("budget", {})
+            if not isinstance(budget, dict) or len(budget) > len(_BUDGET_KEYS):
+                errors.append(f"step {step_label}: budget must be a mapping with keys {sorted(_BUDGET_KEYS)}")
+            else:
+                for key, value in budget.items():
+                    if key not in _BUDGET_KEYS:
+                        errors.append(f"step {step_label}: unknown budget key {key!r}")
+                        break
+                    if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+                        errors.append(f"step {step_label}: budget {key} must be a non-negative integer")
+                        break
+                    if key == "attempts" and value > _MAX_BUDGET_ATTEMPTS:
+                        errors.append(f"step {step_label}: budget attempts must be 0-{_MAX_BUDGET_ATTEMPTS}")
+                        break
+                    if key == "seconds" and value > _MAX_BUDGET_SECONDS:
+                        errors.append(f"step {step_label}: budget seconds must be 0-{_MAX_BUDGET_SECONDS}")
+                        break
         for step_label, jump, jump_key in jumps:
             if jump not in seen_ids:
                 errors.append(f"step {step_label}: {jump_key} target {jump!r} is not a known step id")
@@ -519,6 +594,13 @@ def _step_from_raw(item: dict[str, Any]) -> ChainStep:
     codes = [int(raw_exits)] if isinstance(raw_exits, int) and not isinstance(raw_exits, bool) else [
         int(code) for code in raw_exits if str(code).strip().isdigit()
     ]
+    raw_budget = item.get("budget") or {}
+    budget = {}
+    if isinstance(raw_budget, dict):
+        for key in ("attempts", "seconds"):
+            value = raw_budget.get(key)
+            if isinstance(value, int) and not isinstance(value, bool) and value > 0:
+                budget[key] = value
     return ChainStep(
         run=str(item["run"]),
         id=str(item.get("id", "") or ""),
@@ -544,6 +626,18 @@ def _step_from_raw(item: dict[str, Any]) -> ChainStep:
         confirm=bool(item.get("confirm", False)),
         artifacts=[str(value) for value in (item.get("artifacts") or []) if str(value).strip()],
         sinks=[str(value) for value in (item.get("sinks") or []) if str(value).strip()],
+        depends_on=[str(value).strip() for value in (item.get("depends_on") or []) if str(value).strip()],
+        required_fields=[str(value).strip() for value in (item.get("required_fields") or []) if str(value).strip()],
+        benign_alternatives=[
+            str(value).strip() for value in (item.get("benign_alternatives") or []) if str(value).strip()
+        ],
+        evidence=[str(value).strip() for value in (item.get("evidence") or []) if str(value).strip()],
+        evidence_sha256={
+            str(path).strip(): str(digest).strip()
+            for path, digest in (item.get("evidence_sha256") or {}).items()
+            if str(path).strip() and str(digest).strip()
+        },
+        budget=budget,
     )
 
 

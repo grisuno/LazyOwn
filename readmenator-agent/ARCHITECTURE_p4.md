@@ -2,8 +2,22 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/playbook_engine.py` -> `modules/obs_parser.py`
+- `modules/playbook_engine.py` -> `modules/world_model.py`
+- `modules/playbook_executor.py` -> `modules/pipeline_engine.py`
+- `modules/privesc_predictor.py` -> `core/console.py`
+- `modules/privesc_predictor.py` -> `modules/llm_factory.py`
+- `modules/professional_report.py` -> `modules/llm_factory.py`
+- `modules/professional_report.py` -> `modules/world_model.py`
+- `modules/reaction_bridge.py` -> `modules/lazy_loop.py`
+- `modules/reactive_engine.py` -> `core/config.py`
+- `modules/reactive_engine.py` -> `core/logging.py`
+- `modules/reactive_engine.py` -> `modules/session_rag.py`
+- `modules/recommender.py` -> `modules/ai_fallback.py`
+- `modules/recommender.py` -> `modules/session_state.py`
 - `modules/redteam_gym.py` -> `cli/engagement_hooks.py`
 - `modules/redteam_gym.py` -> `core/config.py`
+- `modules/redteam_gym.py` -> `modules/__init__.py`
 - `modules/redteam_gym.py` -> `modules/atomic_exploit_bridge.py`
 - `modules/redteam_gym.py` -> `modules/cli_auth.py`
 - `modules/redteam_gym.py` -> `modules/gym_registry.py`
@@ -482,19 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_autonomous_ops.py` -> `modules/sidequestion.py`
 - `tests/test_autonomous_ops.py` -> `modules/world_model.py`
 - `tests/test_autonomous_replay.py` -> `skills/autonomous_daemon.py`
-- `tests/test_autonomous_replay.py` -> `skills/autonomous_replay.py`
-- `tests/test_autosuggest.py` -> `cli/autosuggest.py`
-- `tests/test_backdoor_random.py` -> `cli/commands/persist_migrated.py`
-- `tests/test_banner_config.py` -> `cli/banner_config.py`
-- `tests/test_bdd_infra_range_report.py` -> `cli/commands/infra.py`
-- `tests/test_bdd_infra_range_report.py` -> `cli/commands/lab.py`
-- `tests/test_bdd_infra_range_report.py` -> `modules/c2_builder.py`
-- `tests/test_bdd_infra_range_report.py` -> `modules/professional_report.py`
-- `tests/test_beacon_config_builder.py` -> `modules/beacon_config_builder.py`
-- `tests/test_beacon_history.py` -> `modules/beacon_history.py`
-- `tests/test_beacon_recon_sink.py` -> `modules/beacon_recon.py`
-- `tests/test_beacon_recon_sink.py` -> `modules/outcome_bus.py`
-- `tests/test_beacon_recon_sink.py` -> `modules/world_model.py`
-- `tests/test_bof_registry.py` -> `modules/bof_registry.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

@@ -429,6 +429,11 @@ Many thanks to [ZONE.CI](https://zone.ci/secarticles/wx/587776.html) for their r
 
 [https://zone.ci/secarticles/wx/587776.html](https://zone.ci/secarticles/wx/587776.html?utm_source=lazyown_redteam)
 
+## mcpharbor.app
+
+Many thanks to mcpharbor.app for adding the lazyown mcp to their list of tools; we are honored to be featured on their website.
+[https://mcpharbor.app/tools/grisuno-lazyown/](https://mcpharbor.app/tools/grisuno-lazyown/?utm_source=lazyown_redteam)
+
 ## Star History
 
 <a href="https://www.star-history.com/#grisuno/LazyOwn&Date">

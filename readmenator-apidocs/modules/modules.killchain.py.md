@@ -107,7 +107,7 @@ flowchart LR
 
 ### `KillChainConfig`
 
-`class` `dataclass` | [modules/killchain.py:38](../../modules/killchain.py#L38)
+`class` `dataclass` | [modules/killchain.py:40](../../modules/killchain.py#L40)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -146,7 +146,7 @@ Every colour, label, and mapping lives here. No magic values anywhere.
 
 #### `KillChainConfig.world_model_path`
 
-`method` | [modules/killchain.py:116](../../modules/killchain.py#L116)
+`method` | [modules/killchain.py:118](../../modules/killchain.py#L118)
 
 ```python
 def world_model_path(self) -> Path
@@ -160,7 +160,7 @@ Return the resolved path to world_model.json.
 
 #### `KillChainConfig.phase_index`
 
-`method` | [modules/killchain.py:120](../../modules/killchain.py#L120)
+`method` | [modules/killchain.py:122](../../modules/killchain.py#L122)
 
 ```python
 def phase_index(self, phase: str) -> int
@@ -180,7 +180,7 @@ Return the positional index of a canonical phase in the kill chain.
 
 #### `KillChainConfig.is_valid_phase`
 
-`method` | [modules/killchain.py:127](../../modules/killchain.py#L127)
+`method` | [modules/killchain.py:129](../../modules/killchain.py#L129)
 
 ```python
 def is_valid_phase(self, phase: str) -> bool
@@ -202,7 +202,7 @@ Return True when ``phase`` is a recognised canonical phase.
 
 ### `PhaseStatus`
 
-`class` `dataclass` | [modules/killchain.py:136](../../modules/killchain.py#L136)
+`class` `dataclass` | [modules/killchain.py:138](../../modules/killchain.py#L138)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -227,7 +227,7 @@ Progress for a single kill-chain phase.
 
 ### `KillChain`
 
-`class` | [modules/killchain.py:145](../../modules/killchain.py#L145)
+`class` | [modules/killchain.py:147](../../modules/killchain.py#L147)
 
 ```python
 class KillChain
@@ -262,7 +262,7 @@ keys in ``world_model.json`` provide operator overrides.
 
 #### `KillChain.config`
 
-`staticmethod` | [modules/killchain.py:154](../../modules/killchain.py#L154)
+`staticmethod` | [modules/killchain.py:156](../../modules/killchain.py#L156)
 
 Decorators: `@staticmethod`
 
@@ -278,7 +278,7 @@ Return the centralised configuration.
 
 #### `KillChain.phases`
 
-`staticmethod` | [modules/killchain.py:159](../../modules/killchain.py#L159)
+`staticmethod` | [modules/killchain.py:161](../../modules/killchain.py#L161)
 
 Decorators: `@staticmethod`
 
@@ -296,7 +296,7 @@ Return the canonical 8-phase tuple.
 
 #### `KillChain.phase_labels`
 
-`staticmethod` | [modules/killchain.py:164](../../modules/killchain.py#L164)
+`staticmethod` | [modules/killchain.py:166](../../modules/killchain.py#L166)
 
 Decorators: `@staticmethod`
 
@@ -312,7 +312,7 @@ Return the canonical phase label mapping.
 
 #### `KillChain.phase_colors`
 
-`staticmethod` | [modules/killchain.py:169](../../modules/killchain.py#L169)
+`staticmethod` | [modules/killchain.py:171](../../modules/killchain.py#L171)
 
 Decorators: `@staticmethod`
 
@@ -328,7 +328,7 @@ Return the canonical phase hex-color mapping.
 
 #### `KillChain.phase_rich_colors`
 
-`staticmethod` | [modules/killchain.py:174](../../modules/killchain.py#L174)
+`staticmethod` | [modules/killchain.py:176](../../modules/killchain.py#L176)
 
 Decorators: `@staticmethod`
 
@@ -344,7 +344,7 @@ Return the canonical phase rich-terminal color mapping.
 
 #### `KillChain.engagement_phase_to_cli`
 
-`staticmethod` | [modules/killchain.py:179](../../modules/killchain.py#L179)
+`staticmethod` | [modules/killchain.py:181](../../modules/killchain.py#L181)
 
 Decorators: `@staticmethod`
 
@@ -368,7 +368,7 @@ Map a ``WorldModel.EngagementPhase`` value to the CLI phase key.
 
 #### `KillChain.cli_phase_to_host_state`
 
-`staticmethod` | [modules/killchain.py:191](../../modules/killchain.py#L191)
+`staticmethod` | [modules/killchain.py:193](../../modules/killchain.py#L193)
 
 Decorators: `@staticmethod`
 
@@ -393,7 +393,7 @@ state advancement is warranted.
 
 #### `KillChain.current_phase`
 
-`staticmethod` | [modules/killchain.py:204](../../modules/killchain.py#L204)
+`staticmethod` | [modules/killchain.py:206](../../modules/killchain.py#L206)
 
 Decorators: `@staticmethod`
 
@@ -425,12 +425,12 @@ Resolution order:
 
 #### `KillChain.advance_phase`
 
-`staticmethod` | [modules/killchain.py:251](../../modules/killchain.py#L251)
+`staticmethod` | [modules/killchain.py:253](../../modules/killchain.py#L253)
 
 Decorators: `@staticmethod`
 
 ```python
-def advance_phase(new_phase: str, world_model_path: Path | None = None, host: str | None = None) -> bool
+def advance_phase(new_phase: str, world_model_path: Path | None = None, host: str | None = None, extras: Mapping[str, Any] | None = None) -> bool
 ```
 
 Advance the kill-chain phase for connected surfaces.
@@ -450,6 +450,7 @@ An empty string advances no host (used by report-only outcomes).
 | `new_phase` | `str` |  | A valid canonical phase key. |
 | `world_model_path` | `Path \| None` | `None` | Optional override path for the world model file. |
 | `host` | `str \| None` | `None` | Host that produced the outcome; ``None`` advances all hosts and ``""`` advances none. |
+| `extras` | `Mapping[str, Any] \| None` | `None` | Optional extra top-level keys to persist alongside the phase (caller-scoped metadata such as ``target`` or ``phase_updated_at``). Existing keys are overwritten by the same values in ``extras`` only. |
 
 **Returns:** `bool` - True when the write succeeded, False otherwise.
 
@@ -461,7 +462,7 @@ An empty string advances no host (used by report-only outcomes).
 
 #### `KillChain.get_progress`
 
-`staticmethod` | [modules/killchain.py:328](../../modules/killchain.py#L328)
+`staticmethod` | [modules/killchain.py:357](../../modules/killchain.py#L357)
 
 Decorators: `@staticmethod`
 
@@ -490,7 +491,7 @@ Suitable for rendering in any UI (CLI, web, GUI, TUI).
 
 #### `KillChain.compact_progress`
 
-`staticmethod` | [modules/killchain.py:377](../../modules/killchain.py#L377)
+`staticmethod` | [modules/killchain.py:406](../../modules/killchain.py#L406)
 
 Decorators: `@staticmethod`
 
@@ -515,7 +516,7 @@ Return a compact single-line progress indicator ``[R>E>X>P>L]``.
 
 #### `KillChain.phases_for_display`
 
-`staticmethod` | [modules/killchain.py:397](../../modules/killchain.py#L397)
+`staticmethod` | [modules/killchain.py:426](../../modules/killchain.py#L426)
 
 Decorators: `@staticmethod`
 
@@ -533,7 +534,7 @@ Convenience for UI builders that need to render every phase.
 
 #### `KillChain.phase_index`
 
-`staticmethod` | [modules/killchain.py:408](../../modules/killchain.py#L408)
+`staticmethod` | [modules/killchain.py:437](../../modules/killchain.py#L437)
 
 Decorators: `@staticmethod`
 
@@ -555,7 +556,7 @@ Return the zero-based index of a canonical phase.
 
 #### `KillChain.snapshot`
 
-`staticmethod` | [modules/killchain.py:413](../../modules/killchain.py#L413)
+`staticmethod` | [modules/killchain.py:442](../../modules/killchain.py#L442)
 
 Decorators: `@staticmethod`
 
@@ -592,7 +593,7 @@ a compact progress glyph so surfaces cannot diverge.
 
 ### `get_killchain`
 
-`function` | [modules/killchain.py:453](../../modules/killchain.py#L453)
+`function` | [modules/killchain.py:482](../../modules/killchain.py#L482)
 
 ```python
 def get_killchain() -> type[KillChain]

@@ -126,7 +126,7 @@ def _read_lines(path: Path, limit: int = 500) -> list[dict]:
     except OSError:
         return []
     out = []
-    for line in lines[-max(1, limit):]:
+    for line in lines[-max(1, limit) :]:
         try:
             item = json.loads(line)
             if isinstance(item, dict):
@@ -143,9 +143,9 @@ def _host_mentions(text: str) -> list[str]:
     return re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", text or "")
 
 
-def _file_pagerank(ids: list[str], pairs: list[tuple[str, str]],
-                   alpha: float = 0.85, max_iter: int = 100,
-                   tol: float = 1e-6) -> dict[str, float]:
+def _file_pagerank(
+    ids: list[str], pairs: list[tuple[str, str]], alpha: float = 0.85, max_iter: int = 100, tol: float = 1e-6
+) -> dict[str, float]:
     """PageRank over node ids (same contract as ReadMenator rank)."""
     n = len(ids)
     if not n:
@@ -173,8 +173,7 @@ def _file_pagerank(ids: list[str], pairs: list[tuple[str, str]],
     return {nid: rank[index[nid]] for nid in ids}
 
 
-def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
-                      est_cap: int = 300) -> dict:
+def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR, est_cap: int = 300) -> dict:
     """Fuse all session artefacts into one C2-centred intel graph."""
     root = Path(str(sessions_dir))
     nodes: dict[str, dict] = {}
@@ -184,11 +183,15 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
         """Insert node or merge extra fields into the existing one."""
         nid = node_id(kind, value)
         if nid not in nodes:
-            nodes[nid] = {"id": nid, "kind": kind, "value": value,
-                          "label": label or value,
-                          "color": NODE_COLORS.get(kind, "#e0e0e0"),
-                          "community": "misc",
-                          "sources": []}
+            nodes[nid] = {
+                "id": nid,
+                "kind": kind,
+                "value": value,
+                "label": label or value,
+                "color": NODE_COLORS.get(kind, "#e0e0e0"),
+                "community": "misc",
+                "sources": [],
+            }
         nodes[nid].update(extra)
         community = nodes[nid].get("community", "misc")
         nodes[nid]["familyColor"] = _family_color(str(community))
@@ -197,20 +200,27 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
     def add_edge(src: str, dst: str, kind: str, evidence: str = "", weight: float = 1.0) -> None:
         """Append one provenance-tagged relation."""
         if src in nodes and dst in nodes:
-            edges.append({"source": src, "target": dst, "type": kind,
-                          "evidence": (evidence or "")[:200],
-                          "color": EDGE_COLORS.get(kind, "#808080"),
-                          "weight": weight})
+            edges.append(
+                {
+                    "source": src,
+                    "target": dst,
+                    "type": kind,
+                    "evidence": (evidence or "")[:200],
+                    "color": EDGE_COLORS.get(kind, "#808080"),
+                    "weight": weight,
+                }
+            )
 
     def tag_source(nid: str, source: str) -> None:
         """Record a corroborating artefact on a node, deduped."""
         if nid in nodes and source not in nodes[nid]["sources"]:
             nodes[nid]["sources"].append(source)
 
-    c2_id = add_node("c2", "lazyown", label="LazyOwn C2", degree_hint=0,
-                     community="core")
+    c2_id = add_node("c2", "lazyown", label="LazyOwn C2", degree_hint=0, community="core")
 
-    world = _load_json(root / "world_model.json", {})
+    from modules.world_model import read_state_dict
+
+    world = read_state_dict(root / "world_model.json")
     hosts = world.get("hosts", {}) or {}
     if isinstance(hosts, list):
         hosts = {str(h.get("ip", i)): h for i, h in enumerate(hosts) if isinstance(h, dict)}
@@ -226,23 +236,32 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
         if not isinstance(host, dict):
             continue
         kind = "host-owned" if ip in owned else "host"
-        hid = add_node(kind, ip, label=ip,
-                       os=str(host.get("os_hint", "") or "")[:80],
-                       state=str(host.get("state", "")),
-                       community=f"net:{ip}")
+        hid = add_node(
+            kind,
+            ip,
+            label=ip,
+            os=str(host.get("os_hint", "") or "")[:80],
+            state=str(host.get("state", "")),
+            community=f"net:{ip}",
+        )
         tag_source(hid, "world_model.json")
-        add_edge(c2_id, hid, "owns" if ip in owned else "commands",
-                 evidence=f"world_model phase={world.get('phase', '')}")
+        add_edge(
+            c2_id, hid, "owns" if ip in owned else "commands", evidence=f"world_model phase={world.get('phase', '')}"
+        )
         services = host.get("services", {}) or {}
         items = services.items() if isinstance(services, dict) else []
         for port, svc in items:
             svc = svc if isinstance(svc, dict) else {"name": str(svc)}
             name = str(svc.get("name", "unknown"))
-            sid = add_node("service", f"{ip}:{port}",
-                           label=f"{ip}:{port} {name}",
-                           port=str(port), service=name,
-                           version=str(svc.get("version", "") or "")[:60],
-                           community=f"net:{ip}")
+            sid = add_node(
+                "service",
+                f"{ip}:{port}",
+                label=f"{ip}:{port} {name}",
+                port=str(port),
+                service=name,
+                version=str(svc.get("version", "") or "")[:60],
+                community=f"net:{ip}",
+            )
             tag_source(sid, "world_model.json")
             add_edge(hid, sid, "serves", evidence=f"world_model services[{port}]={name}")
     for vuln in world.get("vulnerabilities", []) or []:
@@ -250,18 +269,18 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
             continue
         host_ip = str(vuln.get("host", "") or vuln.get("ip", "") or "")
         sev = str(vuln.get("severity", "info")).lower()
-        fid = add_node("finding-critical" if sev == "critical" else "finding",
-                       str(vuln.get("id", vuln.get("title", "")))[:120],
-                       label=str(vuln.get("title", "finding"))[:120],
-                       severity=sev,
-                       community=f"net:{host_ip}" if host_ip else "intel")
+        fid = add_node(
+            "finding-critical" if sev == "critical" else "finding",
+            str(vuln.get("id", vuln.get("title", "")))[:120],
+            label=str(vuln.get("title", "finding"))[:120],
+            severity=sev,
+            community=f"net:{host_ip}" if host_ip else "intel",
+        )
         tag_source(fid, "world_model.json")
         if host_ip and node_id("host", host_ip) in nodes:
-            add_edge(node_id("host", host_ip), fid, "has_finding",
-                     evidence="world_model vulnerabilities")
+            add_edge(node_id("host", host_ip), fid, "has_finding", evidence="world_model vulnerabilities")
         elif host_ip and node_id("host-owned", host_ip) in nodes:
-            add_edge(node_id("host-owned", host_ip), fid, "has_finding",
-                     evidence="world_model vulnerabilities")
+            add_edge(node_id("host-owned", host_ip), fid, "has_finding", evidence="world_model vulnerabilities")
 
     lazy_dir = root / "lazy"
     tasks = {}
@@ -272,21 +291,23 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
     for task_id, record in tasks.items():
         if not isinstance(record, dict):
             continue
-        scoped = [str(s.get("value", "")) for s in record.get("scope", []) or []
-                  if s.get("value")]
+        scoped = [str(s.get("value", "")) for s in record.get("scope", []) or [] if s.get("value")]
         task_community = f"net:{scoped[0]}" if scoped else "loop"
-        tid = add_node("task", task_id, label=f"{task_id}: {str(record.get('goal', ''))[:60]}",
-                       status=str(record.get("status", "")),
-                       goal=str(record.get("goal", ""))[:200],
-                       community=task_community)
+        tid = add_node(
+            "task",
+            task_id,
+            label=f"{task_id}: {str(record.get('goal', ''))[:60]}",
+            status=str(record.get("status", "")),
+            goal=str(record.get("goal", ""))[:200],
+            community=task_community,
+        )
         tag_source(tid, "sessions/lazy/tasks.json")
         add_edge(c2_id, tid, "runs", evidence="lazy task registry")
         for scope in record.get("scope", []) or []:
             val = str(scope.get("value", ""))
             for kind in ("host", "host-owned"):
                 if node_id(kind, val) in nodes:
-                    add_edge(tid, node_id(kind, val), "targets",
-                             evidence=f"lazy scope {scope.get('kind')}:{val}")
+                    add_edge(tid, node_id(kind, val), "targets", evidence=f"lazy scope {scope.get('kind')}:{val}")
         try:
             exp = _load_json(lazy_dir / f"exp_{task_id}.json", {})
             for node in exp.get("nodes", []) or []:
@@ -294,14 +315,16 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
                     continue
                 meta = node.get("meta", {}) or {}
                 sev = str(meta.get("severity", "info")).lower()
-                fid = add_node("finding-critical" if sev == "critical" else "finding",
-                               f"{task_id}#{node.get('node_id')}",
-                               label=str(node.get("text", ""))[:120],
-                               severity=sev, status=str(meta.get("status", "")),
-                               community=task_community)
+                fid = add_node(
+                    "finding-critical" if sev == "critical" else "finding",
+                    f"{task_id}#{node.get('node_id')}",
+                    label=str(node.get("text", ""))[:120],
+                    severity=sev,
+                    status=str(meta.get("status", "")),
+                    community=task_community,
+                )
                 tag_source(fid, f"sessions/lazy/exp_{task_id}.json")
-                add_edge(tid, fid, "has_finding",
-                         evidence=f"lazy {task_id} finding #{node.get('node_id')}")
+                add_edge(tid, fid, "has_finding", evidence=f"lazy {task_id} finding #{node.get('node_id')}")
         except Exception:
             continue
 
@@ -309,16 +332,13 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
         text = str(row.get("objective", "") or row.get("text", "") or "")[:160]
         if not text:
             continue
-        oid = add_node("objective", text, label=text,
-                       status=str(row.get("status", "")),
-                       community="mission")
+        oid = add_node("objective", text, label=text, status=str(row.get("status", "")), community="mission")
         tag_source(oid, "objectives.jsonl")
         add_edge(c2_id, oid, "targets", evidence="objectives queue")
         for ip in _host_mentions(text):
             for kind in ("host", "host-owned"):
                 if node_id(kind, ip) in nodes:
-                    add_edge(oid, node_id(kind, ip), "targets",
-                             evidence="objective mentions host")
+                    add_edge(oid, node_id(kind, ip), "targets", evidence="objective mentions host")
 
     log_hits: dict[str, int] = {}
     for name in ("autonomous_events.jsonl", "access.log", "api_command_audit.jsonl"):
@@ -333,12 +353,12 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
                 tag_source(nid, "session logs")
                 break
         else:
-            lid = add_node("host", ip, label=f"{ip} (log-only)", log_only=True,
-                           community=f"net:{ip}")
+            lid = add_node("host", ip, label=f"{ip} (log-only)", log_only=True, community=f"net:{ip}")
             nodes[lid]["log_hits"] = count
             tag_source(lid, "session logs")
-            add_edge(c2_id, lid, "observed_in", evidence="mentioned in session logs",
-                     weight=min(3.0, 0.5 + count / 20.0))
+            add_edge(
+                c2_id, lid, "observed_in", evidence="mentioned in session logs", weight=min(3.0, 0.5 + count / 20.0)
+            )
 
     for path in sorted(glob.glob(str(root / "scan_*.nmap*")))[:20]:
         tag = Path(path).name
@@ -357,6 +377,7 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
         from modules.estorides_fusion import find_export as _est_find
         from modules.estorides_fusion import load_export as _est_load
         from modules.estorides_fusion import merge_estorides as _est_merge
+
         est_path = _est_find(root)
         if est_path is not None:
             _est_merge(nodes, edges, _est_load(est_path), cap=est_cap)
@@ -368,6 +389,7 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
         node["value_rank"] = round(math.log2(2 + node["degree"]), 2)
     try:
         from modules.finding_lifecycle import apply_confirmation as _apply_conf
+
         _apply_conf(nodes, root)
     except Exception:
         pass
@@ -379,12 +401,18 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR,
         else:
             community = str(node.get("community", "misc"))
         communities[community] = communities.get(community, 0) + 1
-    return {"nodes": list(nodes.values()), "edges": edges,
-            "stats": {"nodes": len(nodes), "edges": len(edges),
-                      "hosts": sum(1 for n in nodes.values() if n["kind"] in ("host", "host-owned")),
-                      "findings": sum(1 for n in nodes.values() if n["kind"].startswith("finding")),
-                      "communities": communities,
-                      "generated": time.time()}}
+    return {
+        "nodes": list(nodes.values()),
+        "edges": edges,
+        "stats": {
+            "nodes": len(nodes),
+            "edges": len(edges),
+            "hosts": sum(1 for n in nodes.values() if n["kind"] in ("host", "host-owned")),
+            "findings": sum(1 for n in nodes.values() if n["kind"].startswith("finding")),
+            "communities": communities,
+            "generated": time.time(),
+        },
+    }
 
 
 def _node_doc(node: dict) -> str:
@@ -427,8 +455,7 @@ def _symbol_list(node: dict) -> list[dict]:
 
 def _enrich_readmenator_fields(nodes: dict[str, dict], edges: list[dict]) -> None:
     """Add ReadMenator explorer fields in place (type/file/layer/rank/doc)."""
-    pairs = [(e["source"], e["target"]) for e in edges
-             if e["source"] in nodes and e["target"] in nodes]
+    pairs = [(e["source"], e["target"]) for e in edges if e["source"] in nodes and e["target"] in nodes]
     rank = _file_pagerank(sorted(nodes), pairs)
     ordered = sorted(rank.values(), reverse=True)
     finding_targets: dict[str, int] = {}
@@ -439,8 +466,7 @@ def _enrich_readmenator_fields(nodes: dict[str, dict], edges: list[dict]) -> Non
         kind = str(node.get("kind", "intel"))
         community = str(node.get("community", "misc"))
         layer = KIND_TO_LAYER.get(kind, "unknown")
-        language = str(node.get("os") or node.get("service")
-                       or node.get("severity") or node.get("status") or kind)
+        language = str(node.get("os") or node.get("service") or node.get("severity") or node.get("status") or kind)
         node["type"] = "file"
         node["file"] = str(node.get("value", nid))
         node["language"] = language
@@ -469,17 +495,30 @@ def _enrich_readmenator_fields(nodes: dict[str, dict], edges: list[dict]) -> Non
     for label, cid in community_ids.items():
         hub_id = f"community:{cid}"
         if hub_id not in nodes:
-            nodes[hub_id] = {"id": hub_id, "kind": "community", "type": "community",
-                             "label": label, "value": label, "community": label,
-                             "community_label": label, "family": label,
-                             "language": "community", "layer": "unknown",
-                             "symbols": counts.get(label, 0), "degree": counts.get(label, 0),
-                             "findings": 0, "rank": 0.0, "rank_pos": 0,
-                             "doc": f"Community {label} · {counts.get(label, 0)} nodes",
-                             "symbol_list": [], "sources": [],
-                             "color": TYPE_COLORS["community"],
-                             "community_id": cid, "size": counts.get(label, 0),
-                             "familyColor": TYPE_COLORS["community"]}
+            nodes[hub_id] = {
+                "id": hub_id,
+                "kind": "community",
+                "type": "community",
+                "label": label,
+                "value": label,
+                "community": label,
+                "community_label": label,
+                "family": label,
+                "language": "community",
+                "layer": "unknown",
+                "symbols": counts.get(label, 0),
+                "degree": counts.get(label, 0),
+                "findings": 0,
+                "rank": 0.0,
+                "rank_pos": 0,
+                "doc": f"Community {label} · {counts.get(label, 0)} nodes",
+                "symbol_list": [],
+                "sources": [],
+                "color": TYPE_COLORS["community"],
+                "community_id": cid,
+                "size": counts.get(label, 0),
+                "familyColor": TYPE_COLORS["community"],
+            }
         else:
             nodes[hub_id]["size"] = counts.get(label, 0)
     for node in list(nodes.values()):
@@ -488,25 +527,51 @@ def _enrich_readmenator_fields(nodes: dict[str, dict], edges: list[dict]) -> Non
         cid = community_ids[str(node.get("community", "misc"))]
         hub_id = f"community:{cid}"
         node["community_id"] = cid
-        edges.append({"source": f"file:{node['id']}" if False else node["id"],
-                      "target": hub_id, "type": "member_of", "weight": 1,
-                      "color": EDGE_COLORS["member_of"], "evidence": "community"})
+        edges.append(
+            {
+                "source": f"file:{node['id']}" if False else node["id"],
+                "target": hub_id,
+                "type": "member_of",
+                "weight": 1,
+                "color": EDGE_COLORS["member_of"],
+                "evidence": "community",
+            }
+        )
         layer = str(node.get("layer", "unknown"))
         layer_id = f"layer:{layer}"
         if layer_id not in nodes:
-            nodes[layer_id] = {"id": layer_id, "kind": "layer", "type": "layer",
-                               "label": layer, "value": layer, "community": "misc",
-                               "community_label": "", "family": layer,
-                               "language": "layer", "layer": layer,
-                               "symbols": 0, "degree": 0, "findings": 0,
-                               "rank": 0.0, "rank_pos": 0,
-                               "doc": f"Layer {layer}",
-                               "symbol_list": [], "sources": [],
-                               "color": TYPE_COLORS["layer"],
-                               "familyColor": TYPE_COLORS["layer"]}
-        edges.append({"source": node["id"], "target": layer_id,
-                      "type": "layered_as", "weight": 1,
-                      "color": EDGE_COLORS["layered_as"], "evidence": "layer"})
+            nodes[layer_id] = {
+                "id": layer_id,
+                "kind": "layer",
+                "type": "layer",
+                "label": layer,
+                "value": layer,
+                "community": "misc",
+                "community_label": "",
+                "family": layer,
+                "language": "layer",
+                "layer": layer,
+                "symbols": 0,
+                "degree": 0,
+                "findings": 0,
+                "rank": 0.0,
+                "rank_pos": 0,
+                "doc": f"Layer {layer}",
+                "symbol_list": [],
+                "sources": [],
+                "color": TYPE_COLORS["layer"],
+                "familyColor": TYPE_COLORS["layer"],
+            }
+        edges.append(
+            {
+                "source": node["id"],
+                "target": layer_id,
+                "type": "layered_as",
+                "weight": 1,
+                "color": EDGE_COLORS["layered_as"],
+                "evidence": "layer",
+            }
+        )
 
 
 def group_colors(graph: dict) -> dict:
@@ -597,9 +662,18 @@ def build_analytics(graph: dict, summary: dict | None = None) -> dict:
     }
 
 
-BUNDLE_RELATIONS = ("commands", "owns", "serves", "has_finding",
-                      "targets", "runs", "observed_in",
-                      "controls", "discovered", "opens")
+BUNDLE_RELATIONS = (
+    "commands",
+    "owns",
+    "serves",
+    "has_finding",
+    "targets",
+    "runs",
+    "observed_in",
+    "controls",
+    "discovered",
+    "opens",
+)
 
 BUNDLE_UNASSIGNED = "unassigned"
 BUNDLE_COORD_DIGITS = 5
@@ -623,9 +697,13 @@ def _fibonacci_sphere(count: int) -> list[tuple[float, float, float]]:
     return out
 
 
-def _split_caps(labels: list[str], sizes: dict[str, int], points: list[int],
-                lattice: list[tuple[float, float, float]],
-                out: dict[str, list[int]]) -> None:
+def _split_caps(
+    labels: list[str],
+    sizes: dict[str, int],
+    points: list[int],
+    lattice: list[tuple[float, float, float]],
+    out: dict[str, list[int]],
+) -> None:
     """Bisect lattice points between runs of groups of matching size."""
     if len(labels) == 1:
         out[labels[0]] = points
@@ -701,8 +779,7 @@ def build_bundle_payload(graph: dict) -> dict:
         angle += BUNDLE_GROUP_GAP
     lattice = _fibonacci_sphere(total)
     regions: dict[str, list[int]] = {}
-    _split_caps(ordered_keys, {k: len(members[k]) for k in ordered_keys},
-                list(range(total)), lattice, regions)
+    _split_caps(ordered_keys, {k: len(members[k]) for k in ordered_keys}, list(range(total)), lattice, regions)
     leaves: dict[str, tuple[float, float, float]] = {}
     hubs: dict[str, tuple[float, float, float]] = {}
     caps: dict[str, tuple[float, float, float]] = {}
@@ -710,12 +787,10 @@ def build_bundle_payload(graph: dict) -> dict:
         region = regions[key]
         center = _unit([sum(lattice[pi][k] for pi in region) for k in range(3)])
         caps[key] = center
-        ordered_pts = sorted(
-            region, key=lambda pi: (-sum(lattice[pi][k] * center[k] for k in range(3)), pi))
+        ordered_pts = sorted(region, key=lambda pi: (-sum(lattice[pi][k] * center[k] for k in range(3)), pi))
         for nid, pi in zip(members[key], ordered_pts, strict=True):
             leaves[nid] = lattice[pi]
-        hubs[key] = (center[0] * BUNDLE_INNER_RATIO, center[1] * BUNDLE_INNER_RATIO,
-                     center[2] * BUNDLE_INNER_RATIO)
+        hubs[key] = (center[0] * BUNDLE_INNER_RATIO, center[1] * BUNDLE_INNER_RATIO, center[2] * BUNDLE_INNER_RATIO)
     group_index = {key: i for i, key in enumerate(ordered_keys)}
     fallback = TYPE_COLORS["file"]
     groups = []
@@ -724,45 +799,54 @@ def build_bundle_payload(graph: dict) -> dict:
         mid = (start + end) / 2
         ratio = BUNDLE_INNER_RATIO
         name = group_label[key]
-        groups.append({
-            "k": key,
-            "l": name,
-            "c": fallback if key == BUNDLE_UNASSIGNED else _family_color(name),
-            "n": len(members[key]),
-            "a0": round(start, BUNDLE_COORD_DIGITS),
-            "a1": round(end, BUNDLE_COORD_DIGITS),
-            "h2": [round(ratio * math.cos(mid), BUNDLE_COORD_DIGITS),
-                   round(ratio * math.sin(mid), BUNDLE_COORD_DIGITS)],
-            "h3": [round(v, BUNDLE_COORD_DIGITS) for v in hubs[key]],
-            "u": [round(v, BUNDLE_COORD_DIGITS) for v in caps[key]],
-        })
+        groups.append(
+            {
+                "k": key,
+                "l": name,
+                "c": fallback if key == BUNDLE_UNASSIGNED else _family_color(name),
+                "n": len(members[key]),
+                "a0": round(start, BUNDLE_COORD_DIGITS),
+                "a1": round(end, BUNDLE_COORD_DIGITS),
+                "h2": [
+                    round(ratio * math.cos(mid), BUNDLE_COORD_DIGITS),
+                    round(ratio * math.sin(mid), BUNDLE_COORD_DIGITS),
+                ],
+                "h3": [round(v, BUNDLE_COORD_DIGITS) for v in hubs[key]],
+                "u": [round(v, BUNDLE_COORD_DIGITS) for v in caps[key]],
+            }
+        )
     index = {node["id"]: i for i, node in enumerate(files)}
     nodes = []
     for node in files:
         nid = node["id"]
         key = member_key[nid]
-        nodes.append({
-            "id": nid,
-            "f": str(node.get("file") or node.get("value") or nid),
-            "l": str(node.get("label") or nid),
-            "g": group_index[key],
-            "c": str(node.get("color") or fallback),
-            "ly": str(node.get("layer") or "unknown"),
-            "lg": str(node.get("language") or "unknown"),
-            "r": float(node.get("rank", 0.0)),
-            "rp": int(node.get("rank_pos", 0)),
-            "fd": int(node.get("findings", 0)),
-            "d": str(node.get("doc") or ""),
-            "a": round(angles[nid], BUNDLE_COORD_DIGITS),
-            "p": [round(v, BUNDLE_COORD_DIGITS) for v in leaves[nid]],
-        })
-    pairs = sorted({
-        (index[e["source"]], index[e["target"]])
-        for e in graph.get("edges", [])
-        if e.get("type") in BUNDLE_RELATIONS
-        and e.get("source") in index and e.get("target") in index
-        and e["source"] != e["target"]
-    })
+        nodes.append(
+            {
+                "id": nid,
+                "f": str(node.get("file") or node.get("value") or nid),
+                "l": str(node.get("label") or nid),
+                "g": group_index[key],
+                "c": str(node.get("color") or fallback),
+                "ly": str(node.get("layer") or "unknown"),
+                "lg": str(node.get("language") or "unknown"),
+                "r": float(node.get("rank", 0.0)),
+                "rp": int(node.get("rank_pos", 0)),
+                "fd": int(node.get("findings", 0)),
+                "d": str(node.get("doc") or ""),
+                "a": round(angles[nid], BUNDLE_COORD_DIGITS),
+                "p": [round(v, BUNDLE_COORD_DIGITS) for v in leaves[nid]],
+            }
+        )
+    pairs = sorted(
+        {
+            (index[e["source"]], index[e["target"]])
+            for e in graph.get("edges", [])
+            if e.get("type") in BUNDLE_RELATIONS
+            and e.get("source") in index
+            and e.get("target") in index
+            and e["source"] != e["target"]
+        }
+    )
     return {"nodes": nodes, "groups": groups, "edges": [list(p) for p in pairs]}
 
 
@@ -887,8 +971,7 @@ def write_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict:
     with_findings = set()
     confirmed_finding_ids = set()
     for node in nodes:
-        if (str(node.get("kind", "")).startswith("finding")
-                and node.get("confirmation", "pending") == "confirmed"):
+        if str(node.get("kind", "")).startswith("finding") and node.get("confirmation", "pending") == "confirmed":
             confirmed_finding_ids.add(node["id"])
     confirmed_hosts = set()
     for edge in edges:
@@ -899,21 +982,14 @@ def write_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict:
             if edge.get("target") in confirmed_finding_ids:
                 confirmed_hosts.add(edge.get("source"))
     host_ids = {n["id"] for n in hosts}
-    owned = sorted(n["value"] for n in hosts
-                   if n.get("kind") == "host-owned" or n.get("owned"))
-    owned_confirmed = sorted(v for v in owned
-                             if v in {n.get("value") for n in hosts
-                                      if n["id"] in confirmed_hosts})
+    owned = sorted(n["value"] for n in hosts if n.get("kind") == "host-owned" or n.get("owned"))
+    owned_confirmed = sorted(v for v in owned if v in {n.get("value") for n in hosts if n["id"] in confirmed_hosts})
     funnel = [
         {"stage": "discovered", "hosts": len(hosts)},
-        {"stage": "with services",
-         "hosts": len([h for h in with_services if h in host_ids])},
-        {"stage": "with findings",
-         "hosts": len([h for h in with_findings if h in host_ids])},
-        {"stage": "confirmed",
-         "hosts": len([h for h in confirmed_hosts if h in host_ids])},
-        {"stage": "owned",
-         "hosts": len(owned_confirmed)},
+        {"stage": "with services", "hosts": len([h for h in with_services if h in host_ids])},
+        {"stage": "with findings", "hosts": len([h for h in with_findings if h in host_ids])},
+        {"stage": "confirmed", "hosts": len([h for h in confirmed_hosts if h in host_ids])},
+        {"stage": "owned", "hosts": len(owned_confirmed)},
     ]
     source_yield: dict[str, int] = {}
     for node in nodes:
@@ -921,18 +997,17 @@ def write_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict:
             continue
         for src in node.get("sources", []) or []:
             source_yield[str(src)] = source_yield.get(str(src), 0) + 1
-    summary = {"generated": time.time(),
-               "hosts_scored": len(ranked),
-               "top_exposed": [{"host": host, "score": score} for host, score in ranked[:10]],
-               "suggested_intents": [
-                   f"probe {host} (intel exposure {score})" for host, score in ranked[:5]],
-               "funnel": funnel,
-               "confirmed_hosts": sorted(n.get("value") for n in hosts
-                                         if n["id"] in confirmed_hosts),
-               "owned_hosts": owned,
-               "source_yield": dict(sorted(source_yield.items(),
-                                           key=lambda kv: -kv[1])),
-               "stats": graph.get("stats", {})}
+    summary = {
+        "generated": time.time(),
+        "hosts_scored": len(ranked),
+        "top_exposed": [{"host": host, "score": score} for host, score in ranked[:10]],
+        "suggested_intents": [f"probe {host} (intel exposure {score})" for host, score in ranked[:5]],
+        "funnel": funnel,
+        "confirmed_hosts": sorted(n.get("value") for n in hosts if n["id"] in confirmed_hosts),
+        "owned_hosts": owned,
+        "source_yield": dict(sorted(source_yield.items(), key=lambda kv: -kv[1])),
+        "stats": graph.get("stats", {}),
+    }
     try:
         dest = Path(str(sessions_dir)) / "intel_summary.json"
         dest.write_text(json.dumps(summary, indent=2, ensure_ascii=False))
@@ -941,6 +1016,16 @@ def write_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict:
     return summary
 
 
-__all__ = ["build_intel_graph", "assign_layout", "write_summary", "node_id",
-           "NODE_COLORS", "EDGE_COLORS", "page_settings", "group_colors",
-           "build_analytics", "build_bundle_payload", "bundle_settings"]
+__all__ = [
+    "build_intel_graph",
+    "assign_layout",
+    "write_summary",
+    "node_id",
+    "NODE_COLORS",
+    "EDGE_COLORS",
+    "page_settings",
+    "group_colors",
+    "build_analytics",
+    "build_bundle_payload",
+    "bundle_settings",
+]

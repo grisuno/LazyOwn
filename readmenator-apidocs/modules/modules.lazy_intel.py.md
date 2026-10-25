@@ -39,9 +39,6 @@ flowchart LR
     n_modules_lazy_intel_py__mask_configured(["mask_configured"])
     n_core_config_py__load_payload["config.load_payload"]
     n_modules_world_model_py__get_world_model["world_model.get_world_model"]
-    n_modules_lazy_intel_py__export_spans(["export_spans"])
-    n_modules_lazy_loop_py__ActivityLog___init__["lazy_loop.ActivityLog.__init__"]
-    n_modules_lazy_loop_py__ActivityLog_read["lazy_loop.ActivityLog.read"]
     n_modules_lazy_intel_py__record_routing_decision --> n_modules_lazy_intel_py__describe_command
     n_modules_lazy_intel_py__record_routing_decision --> n_modules_lazy_intel_py__infer_source
     n_modules_lazy_intel_py__record_routing_outcome --> n_modules_lazy_intel_py__describe_command
@@ -51,8 +48,6 @@ flowchart LR
     n_modules_lazy_intel_py__describe_command -.-> n_modules_lazy_cli_bridge_py__risk_for
     n_modules_lazy_intel_py__mask_configured -.-> n_core_config_py__load_payload
     n_modules_lazy_intel_py__fuse_routing_decisions -.-> n_modules_world_model_py__get_world_model
-    n_modules_lazy_intel_py__export_spans -.-> n_modules_lazy_loop_py__ActivityLog___init__
-    n_modules_lazy_intel_py__export_spans -.-> n_modules_lazy_loop_py__ActivityLog_read
 ```
 
 ## Functions
@@ -61,7 +56,7 @@ flowchart LR
 
 ### `infer_source`
 
-`function` | [modules/lazy_intel.py:79](../../modules/lazy_intel.py#L79)
+`function` | [modules/lazy_intel.py:88](../../modules/lazy_intel.py#L88)
 
 ```python
 def infer_source(command: str, intent_text: str = '') -> str
@@ -88,7 +83,7 @@ Classify where a resolved step likely came from.
 
 ### `describe_command`
 
-`function` | [modules/lazy_intel.py:105](../../modules/lazy_intel.py#L105)
+`function` | [modules/lazy_intel.py:114](../../modules/lazy_intel.py#L114)
 
 ```python
 def describe_command(command: str) -> dict
@@ -116,7 +111,7 @@ Never raises.
 
 ### `record_routing_decision`
 
-`function` | [modules/lazy_intel.py:120](../../modules/lazy_intel.py#L120)
+`function` | [modules/lazy_intel.py:129](../../modules/lazy_intel.py#L129)
 
 ```python
 def record_routing_decision(task_id: str, intent_id: int, command: str, intent_text: str = '', target: str = '', stack: str = '') -> dict
@@ -145,7 +140,7 @@ Record which verb the loop chose for one intent.
 
 ### `record_routing_outcome`
 
-`function` | [modules/lazy_intel.py:160](../../modules/lazy_intel.py#L160)
+`function` | [modules/lazy_intel.py:169](../../modules/lazy_intel.py#L169)
 
 ```python
 def record_routing_outcome(task_id: str, intent_id: int, command: str, state: str = '', facts: int = 0, findings: int = 0, stack: str = '') -> dict
@@ -177,7 +172,7 @@ Record the terminal outcome of one executed command.
 
 ### `read_decisions`
 
-`function` | [modules/lazy_intel.py:202](../../modules/lazy_intel.py#L202)
+`function` | [modules/lazy_intel.py:211](../../modules/lazy_intel.py#L211)
 
 ```python
 def read_decisions(task_id: str = '', limit: int = 2000) -> list[dict]
@@ -202,7 +197,7 @@ Read routing records, optionally filtered by task.
 
 ### `mask_configured`
 
-`function` | [modules/lazy_intel.py:228](../../modules/lazy_intel.py#L228)
+`function` | [modules/lazy_intel.py:237](../../modules/lazy_intel.py#L237)
 
 ```python
 def mask_configured(text: str) -> str
@@ -232,7 +227,7 @@ only masking known-configured values in transit.
 
 ### `stack_signature`
 
-`function` | [modules/lazy_intel.py:254](../../modules/lazy_intel.py#L254)
+`function` | [modules/lazy_intel.py:272](../../modules/lazy_intel.py#L272)
 
 ```python
 def stack_signature(assets=None) -> str
@@ -258,7 +253,7 @@ stacks fall back to global priors.
 
 ### `fuse_routing_decisions`
 
-`function` | [modules/lazy_intel.py:285](../../modules/lazy_intel.py#L285)
+`function` | [modules/lazy_intel.py:303](../../modules/lazy_intel.py#L303)
 
 ```python
 def fuse_routing_decisions(task_id: str = '') -> dict
@@ -287,7 +282,7 @@ these notes as well.
 
 ### `export_spans`
 
-`function` | [modules/lazy_intel.py:324](../../modules/lazy_intel.py#L324)
+`function` | [modules/lazy_intel.py:342](../../modules/lazy_intel.py#L342)
 
 ```python
 def export_spans(task_id: str, out: str | Path | None = None) -> dict
@@ -309,7 +304,5 @@ records without a pair become single-event spans.
 | `out` | `str \| Path \| None` | `None` | Destination path. Defaults to ``spans_<task>.jsonl``. |
 
 **Returns:** `dict` - Summary with spans written and destination. Never raises.
-
-*Calls:* [`ActivityLog.__init__`](modules.lazy_loop.py.md#activitylog-__init__), [`ActivityLog.read`](modules.lazy_loop.py.md#activitylog-read)
 
 ---

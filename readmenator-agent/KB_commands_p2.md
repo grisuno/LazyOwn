@@ -138,7 +138,7 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_enum4linux` (method, line 528) `def do_enum4linux(self, line)`
   - `do_rpcclient` (method, line 558) `def do_rpcclient(self, line)`
 - Depends on: `cli/commands/_base.py`, `core/validators.py`, `utils.py`
-- Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/blueprints/auth.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
+- Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/blueprints/auth.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/guardrails/contracts.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
 
 ## cli/commands/estorides.py
 - Doc: Estorides integration commands — bidirectional feedback loop with passive OSINT.
@@ -316,6 +316,34 @@ Previous: [KB_commands.md](KB_commands.md)
 - Depends on: `cli/commands/_base.py`, `modules/exploitgym_gym.py`, `utils.py`
 - Imported by: `tests/test_exploitgym_gym.py`
 
+## cli/commands/golden_paths.py
+- Doc: Golden-path solver commands.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GoldenPathsCommandSet` (class, line 35) `class GoldenPathsCommandSet(LazyOwnCommandSet)`
+  - `do_golden_paths` (method, line 42) `def do_golden_paths(self, line)`
+  - `_build` (method, line 65) `def _build(self, top_k)`
+  - `_show` (method, line 84) `def _show(self)`
+  - `_push` (method, line 98) `def _push(self)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
+## cli/commands/gym_matrix.py
+- Doc: Metasploitable 2 gym matrix commands.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_extract_flag` (function, line 34) `def _extract_flag(args, flag)`
+  - `_extract_bool` (function, line 55) `def _extract_bool(args, flag)`
+  - `GymMetasploitableCommandSet` (class, line 72) `class GymMetasploitableCommandSet(LazyOwnCommandSet)`
+  - `do_gym_metasploitable` (method, line 79) `def do_gym_metasploitable(self, line)`
+  - `_plan` (method, line 114) `def _plan(self, top_k, only)`
+  - `_run` (method, line 141) `def _run(self, top_k, only, dry_run)`
+  - `_report` (method, line 172) `def _report(self)`
+  - `_verify` (method, line 188) `def _verify(self, rest)`
+  - `_target` (method, line 207) `def _target(self)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
 ## cli/commands/help_ui.py
 - Doc: Help, tutorial and phase guidance extracted from the miscellaneous cluster.
 - Layer: presentation
@@ -463,7 +491,7 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_lazy_orchestrator` (method, line 277) `def do_lazy_orchestrator(self, line)`
   - `do_lazy_view` (method, line 306) `def do_lazy_view(self, line)`
 - Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
-- Imported by: `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
+- Imported by: `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
 
 
 Next: [KB_commands_p3.md](KB_commands_p3.md)

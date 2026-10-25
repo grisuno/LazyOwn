@@ -40,6 +40,8 @@ import copy
 import json
 import logging
 import os
+import secrets
+import stat
 import threading
 from dataclasses import dataclass, field, fields as dataclass_fields
 from datetime import datetime
@@ -53,7 +55,12 @@ _BASE_DIR = Path(__file__).parent.parent
 _SESSIONS_DIR = _BASE_DIR / "sessions"
 _DEFAULT_PATH = _SESSIONS_DIR / "world_model.json"
 ENCRYPTED_SUFFIX: str = ".encrypted"
+_FERNET_TOKEN_PREFIX: str = "gAAAAA"
+_MAX_TOKEN_WRAP_DEPTH: int = 3
 _SALT_RELATIVE: str = ".auto_crypto_salt"
+_STATE_SECRET_RELATIVE: str = ".state_secret"
+_STATE_SECRET_BYTES: int = 32
+_RESTRICTED_FILE_MODE: int = 0o600
 
 PASSTHROUGH_KEYS: tuple[str, ...] = (
     "completed_phases",
@@ -75,16 +82,61 @@ def _derive_crypto_key(password: str, salt: bytes) -> bytes:
     return base64.urlsafe_b64encode(kdf.derive(password.encode()))
 
 
+def _machine_password() -> str | None:
+    """Return a device-bound secret used as at-rest key material of last resort.
+
+    The secret lives in ``sessions/.state_secret`` with mode 0o600. It is
+    created on first use, so any environment that can write the state file
+    can also resolve this key; the operator-facing key material (master
+    password, CLI login) always takes precedence. When neither an
+    environment password nor an operator session nor a creatable/readable
+    device secret is available, at-rest security cannot be guaranteed and
+    the caller must fail closed instead of persisting clear text.
+
+    Returns:
+        Hex-encoded secret string, or None when the secret file cannot be
+        created, read, or has the wrong mode.
+    """
+    from core.hardening import safe_path_join
+
+    secret_path = Path(safe_path_join(str(_SESSIONS_DIR), _STATE_SECRET_RELATIVE))
+    try:
+        if secret_path.exists():
+            mode = stat.S_IMODE(secret_path.stat().st_mode)
+            if mode & 0o022:
+                log.warning("world_model: %s has an unsafe mode, refusing device key", secret_path)
+                return None
+            value = secret_path.read_text(encoding="utf-8").strip()
+            if len(value) >= _STATE_SECRET_BYTES:
+                return value
+            return None
+        _SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
+        fd = os.open(secret_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, _RESTRICTED_FILE_MODE)
+        try:
+            os.write(fd, secrets.token_hex(_STATE_SECRET_BYTES).encode())
+        finally:
+            os.close(fd)
+        os.chmod(secret_path, _RESTRICTED_FILE_MODE)
+        return secret_path.read_text(encoding="utf-8").strip()
+    except Exception as exc:
+        log.warning("world_model: device key unavailable: %s", exc)
+        return None
+
+
 def _master_password() -> str | None:
     """Return the shared master password for state-at-rest protection.
 
-    Resolution order mirrors ``cli.auto_crypto.build_password_provider_from_cli_login``:
+    Resolution order mirrors ``cli.auto_crypto.build_password_provider_from_cli_login``
+    and ends with a device-bound fallback so saves never degrade to clear
+    text when the sessions directory is writable:
 
         1. ``LAZYOWN_MASTER_PASSWORD`` environment variable.
         2. ``lazyown:<operator>`` for the authenticated CLI operator
            (the same key material the auto-crypto engine derives from).
+        3. ``sessions/.state_secret`` device-bound secret (mode 0o600).
 
-    Returns None when no credential source is available.
+    Returns None only when no credential source is available, which means
+    ``write_state_dict`` must refuse to persist sensitive state.
     """
     password = os.environ.get("LAZYOWN_MASTER_PASSWORD")
     if password:
@@ -97,16 +149,154 @@ def _master_password() -> str | None:
             return f"lazyown:{operator}"
     except Exception:
         pass
-    return None
+    return _machine_password()
+
+
+def _load_or_create_salt(salt_path: Path) -> bytes:
+    """Read a persisted 16-byte salt or create one with restricted mode.
+
+    Mirrors ``cli.auto_crypto.AutoCryptoEngine._load_or_create_salt`` so
+    both writers derive keys from the same material.
+
+    Args:
+        salt_path: Destination of the salt bytes.
+
+    Returns:
+        Salt bytes (at least 16 bytes); empty when salt persistence failed.
+    """
+    salt_path = Path(salt_path)
+    try:
+        raw = salt_path.read_bytes()
+        if len(raw) >= 16:
+            return raw[:16]
+    except FileNotFoundError:
+        pass
+    except OSError as exc:
+        log.warning("world_model: cannot read salt: %s", exc)
+    salt = secrets.token_bytes(16)
+    try:
+        salt_path.parent.mkdir(parents=True, exist_ok=True)
+        fd = os.open(salt_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, _RESTRICTED_FILE_MODE)
+        try:
+            os.write(fd, salt)
+        finally:
+            os.close(fd)
+        return salt
+    except FileExistsError:
+        try:
+            raw = salt_path.read_bytes()
+            if len(raw) >= 16:
+                return raw[:16]
+        except OSError as exc:
+            log.warning("world_model: cannot re-read salt: %s", exc)
+        return salt
+    except OSError as exc:
+        log.warning("world_model: cannot write salt: %s", exc)
+        return salt
+
+
+def _encrypt_payload(payload: bytes, password: str, salt: bytes) -> str:
+    """Encrypt one JSON payload with Fernet under a PBKDF2-derived key.
+
+    Args:
+        payload: Serialized document bytes.
+        password: Key material password.
+        salt: PBKDF2 salt.
+
+    Returns:
+        A Fernet token string.
+
+    Raises:
+        Exception: when Fernet encryption fails.
+    """
+    from cryptography.fernet import Fernet
+
+    cipher = Fernet(_derive_crypto_key(password, salt))
+    return cipher.encrypt(payload).decode("ascii")
+
+
+def _decrypt_payload_text(text: str, password: str, salt: bytes) -> dict:
+    """Decrypt one Fernet token and parse the JSON document inside.
+
+    Nested tokens are unwrapped up to ``_MAX_TOKEN_WRAP_DEPTH`` levels so
+    documents re-encrypted in place by an external engine (auto-crypto)
+    remain transparently readable.
+
+    Args:
+        text: Fernet token string.
+        password: Key material password candidate.
+        salt: PBKDF2 salt.
+
+    Returns:
+        The decoded document, or an empty dict on any failure.
+    """
+    current = text
+    for _ in range(_MAX_TOKEN_WRAP_DEPTH):
+        try:
+            from cryptography.fernet import Fernet
+
+            cipher = Fernet(_derive_crypto_key(password, salt))
+            decrypted = cipher.decrypt(current.encode("ascii"))
+        except Exception as exc:
+            log.warning("world_model: failed to decrypt state: %s", exc)
+            return {}
+        try:
+            parsed = json.loads(decrypted.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            candidate = decrypted.decode("utf-8", errors="replace")
+            if candidate.startswith(_FERNET_TOKEN_PREFIX):
+                current = candidate
+                continue
+            log.warning("world_model: decrypted payload is neither JSON nor a nested token")
+            return {}
+        return parsed if isinstance(parsed, dict) else {}
+    log.warning("world_model: exceeded nested token depth")
+    return {}
+
+
+def _read_encrypted_dict(path: Path) -> dict:
+    """Decrypt an at-rest encrypted state document as ``read_state_dict``.
+
+    The plain file containing a Fernet token takes priority, while the
+    sibling with ``ENCRYPTED_SUFFIX`` is honoured for files written by the
+    auto-crypto engine. Failure returns an empty dict.
+
+    Args:
+        path: Base path (without ``ENCRYPTED_SUFFIX`` generally).
+
+    Returns:
+        The decoded document dict
+    """
+    password = _master_password()
+    if not password:
+        log.warning("world_model: %s encrypted but no key material available", path)
+        return {}
+    salt = _load_or_create_salt(path.parent / _SALT_RELATIVE)
+    if not salt:
+        log.warning("world_model: no salt available to decrypt state %s", path)
+        return {}
+    for candidate in (path, Path(str(path) + ENCRYPTED_SUFFIX)):
+        try:
+            if not candidate.is_file():
+                continue
+            document = _decrypt_payload_text(candidate.read_text(encoding="ascii", errors="strict"), password, salt)
+            if document:
+                return document
+        except Exception:
+            continue
+    return {}
 
 
 def read_state_dict(path: str | Path) -> dict:
     """Read a world-model state dict, transparently decrypting at rest.
 
     Priority:
-        1. Plain ``world_model.json``.
-        2. Auto-encrypted ``world_model.json.encrypted`` (decrypted with
-           ``LAZYOWN_MASTER_PASSWORD`` and the persisted ``.auto_crypto_salt``).
+        1. Plain ``world_model.json`` (legacy clear-text JSON).
+        2. Plain ``world_model.json`` holding a Fernet token (written by
+           ``write_state_dict`` since at-rest encryption became default).
+        3. Crypto-encrypted ``world_model.json.encrypted`` (decrypted with
+           ``LAZYOWN_MASTER_PASSWORD`` or the CLI login and the persisted
+           ``.auto_crypto_salt``).
 
     Returns an empty dict when no readable state exists.
 
@@ -120,57 +310,58 @@ def read_state_dict(path: str | Path) -> dict:
     if plain.exists():
         try:
             return json.loads(plain.read_text(encoding="utf-8"))
-        except Exception as exc:
-            log.warning("world_model.read_state_dict: %s", exc)
+        except Exception:
+            document = _read_encrypted_dict(plain)
+            if document:
+                return document
+            log.warning("world_model.read_state_dict: unreadable state %s", plain)
             return {}
     encrypted = Path(str(plain) + ENCRYPTED_SUFFIX)
     if encrypted.is_file():
-        password = _master_password()
-        if not password:
-            log.warning("world_model: %s encrypted but no LAZYOWN_MASTER_PASSWORD set", encrypted)
-            return {}
-        try:
-            salt_path = plain.parent / _SALT_RELATIVE
-            salt = salt_path.read_bytes()[:16] if salt_path.is_file() else b""
-            if not salt:
-                log.warning("world_model: no salt available to decrypt state")
-                return {}
-            from cryptography.fernet import Fernet
-
-            cipher = Fernet(_derive_crypto_key(password, salt))
-            decrypted = cipher.decrypt(encrypted.read_bytes())
-            return json.loads(decrypted.decode("utf-8"))
-        except Exception as exc:
-            log.warning("world_model: failed to decrypt encrypted state: %s", exc)
-            return {}
+        return _read_encrypted_dict(plain)
     return {}
 
 
 def write_state_dict(path: str | Path, data: dict) -> bool:
-    """Atomically write a world-model state dict as plaintext.
+    """Atomically write a world-model state dict encrypted at rest.
 
-    Writing always produces a plain file while the operator is working;
-    at-rest encryption is applied on application close by
-    ``modules.auto_crypto.AutoCryptoEngine``.
+    Every write is Fernet-encrypted (PBKDF2/SHA256 over master password
+    material and the persisted ``.auto_crypto_salt``). Key resolution
+    mirrors ``_master_password``: env password, CLI operator, device
+    secret. When no key material is available the write fails closed so
+    sensitive findings are never persisted in clear text.
 
     Args:
         path: Destination plain state file path.
         data: State document to serialise.
 
     Returns:
-        True when the write succeeded, False otherwise.
+        True when the encrypted write succeeded, False otherwise.
     """
     plain = Path(path)
+    password = _master_password()
+    tmp = plain.with_suffix(".json.tmp")
     try:
+        if not password:
+            log.warning(
+                "world_model.write_state_dict: refusing clear-text persist of sensitive state at %s", plain
+            )
+            return False
+        payload = json.dumps(data, indent=2).encode("utf-8")
+        token = _encrypt_payload(payload, password, _load_or_create_salt(plain.parent / _SALT_RELATIVE))
         plain.parent.mkdir(parents=True, exist_ok=True)
-        tmp = plain.with_suffix(".json.tmp")
-        tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        tmp.write_text(token, encoding="ascii")
+        os.chmod(tmp, _RESTRICTED_FILE_MODE)
         tmp.replace(plain)
+        os.chmod(plain, _RESTRICTED_FILE_MODE)
         return True
     except Exception as exc:
         log.warning("world_model.write_state_dict: %s", exc)
-        if tmp.exists():
-            tmp.unlink(missing_ok=True)
+        try:
+            if tmp.exists():
+                tmp.unlink()
+        except OSError:
+            pass
         return False
 
 
@@ -983,6 +1174,16 @@ class WorldModel:
                     ingested += 1
                 elif isinstance(domain, str):
                     self.add_domain(domain)
+                    ingested += 1
+
+            for vuln in data.get("vulnerabilities", []):
+                if isinstance(vuln, dict) and (vuln.get("vuln_id") or vuln.get("description")):
+                    self.add_vulnerability(
+                        description=str(vuln.get("title") or vuln.get("description") or vuln.get("vuln_id", "")),
+                        host=str(vuln.get("host", "")),
+                        cve=str(vuln.get("vuln_id", "") or vuln.get("cve", "")),
+                        severity=str(vuln.get("severity", "UNKNOWN")),
+                    )
                     ingested += 1
 
             for email in data.get("emails", []):

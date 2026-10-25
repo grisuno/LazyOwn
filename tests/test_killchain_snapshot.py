@@ -103,11 +103,10 @@ class TestEncryptedStateTransparency:
     def test_read_state_dict_decrypts_at_rest(self, tmp_path, monkeypatch):
         from modules.world_model import read_state_dict, write_state_dict
 
-        # Given: a world state persisted plaintext
+        # Given: a legacy world state persisted as clear-text JSON
         plain = tmp_path / "world_model.json"
         seed = {"phase": "lateral", "completed_phases": ["recon", "scan", "enum", "exploit", "privesc"]}
-        assert write_state_dict(plain, seed)
-        assert plain.exists()
+        plain.write_text(json.dumps(seed), encoding="utf-8")
         # Given: it is then auto-encrypted in place at rest
         salt = b"0123456789abcdef"
         (tmp_path / ".auto_crypto_salt").write_bytes(salt)
@@ -115,6 +114,41 @@ class TestEncryptedStateTransparency:
         plain.unlink()
         # When: read_state_dict is called from a domain that knows the password
         monkeypatch.setenv("LAZYOWN_MASTER_PASSWORD", "s3cret")
+        data = read_state_dict(plain)
+        # Then: the decrypted payload matches the original seed
+        assert data.get("phase") == "lateral"
+        assert data.get("completed_phases") == seed["completed_phases"]
+
+    def test_write_state_dict_persists_fernet_token(self, tmp_path, monkeypatch):
+        from modules.world_model import read_state_dict, write_state_dict
+
+        # Given: key material is available before the write
+        plain = tmp_path / "world_model.json"
+        seed = {"phase": "lateral", "completed_phases": ["recon"]}
+        monkeypatch.setenv("LAZYOWN_MASTER_PASSWORD", "s3cret")
+        # When: the state is persisted through the fail-closed writer
+        assert write_state_dict(plain, seed)
+        # Then: the on-disk document is a Fernet token, never clear text
+        raw = plain.read_text(encoding="utf-8")
+        assert raw.startswith("gAAAAA")
+        assert "lateral" not in raw
+        # And: the reader round-trips the token transparently
+        assert read_state_dict(plain).get("phase") == "lateral"
+
+    def test_write_state_dict_then_engine_encrypt_unwraps_nested(self, tmp_path, monkeypatch):
+        from modules.world_model import read_state_dict, write_state_dict
+
+        # Given: a state persisted through the fail-closed writer under s3cret
+        plain = tmp_path / "world_model.json"
+        seed = {"phase": "lateral", "completed_phases": ["recon", "scan"]}
+        salt = b"0123456789abcdef"
+        (tmp_path / ".auto_crypto_salt").write_bytes(salt)
+        monkeypatch.setenv("LAZYOWN_MASTER_PASSWORD", "s3cret")
+        assert write_state_dict(plain, seed)
+        # Given: the auto-crypto engine encrypts the token file in place
+        _encrypt_at(plain, "s3cret", salt)
+        plain.unlink()
+        # When: the reader unwraps the nested same-key token
         data = read_state_dict(plain)
         # Then: the decrypted payload matches the original seed
         assert data.get("phase") == "lateral"

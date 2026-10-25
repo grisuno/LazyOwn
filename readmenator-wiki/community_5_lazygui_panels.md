@@ -112,7 +112,7 @@ This community groups 54 file(s) rooted at `lazygui/panels` with dominant langua
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 181
-- Cross-boundary resolved imports (EXTRACTED): 13
+- Cross-boundary resolved imports (EXTRACTED): 14
 
 ## Connections
 

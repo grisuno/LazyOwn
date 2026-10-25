@@ -31,7 +31,7 @@ Security invariants:
 
 - **Classes:** [`C2Server`](#c2server)
 - **Functions:** [`client_id_for`](#client_id_for), [`validate_client_id`](#validate_client_id), [`build_agent`](#build_agent), [`read_aes_hex`](#read_aes_hex), [`deploy`](#deploy), [`read_records`](#read_records), [`wait_record`](#wait_record)
-- **Constants:** [`AGENT_TEMPLATE`](#agent_template)
+- **Constants:** [`ROOT_PRIVILEGE`](#root_privilege), [`LOW_PRIVILEGE`](#low_privilege), [`AGENT_TEMPLATE`](#agent_template)
 
 ## Call Graph
 
@@ -68,7 +68,7 @@ flowchart LR
 
 ### `C2Server`
 
-`class` | [modules/c2_agent.py:548](../../modules/c2_agent.py#L548)
+`class` | [modules/c2_agent.py:634](../../modules/c2_agent.py#L634)
 
 ```python
 class C2Server
@@ -90,7 +90,7 @@ Headless lazyc2 lifecycle (start in background, status, stop).
 
 #### `C2Server.__init__`
 
-`constructor` | [modules/c2_agent.py:551](../../modules/c2_agent.py#L551)
+`constructor` | [modules/c2_agent.py:637](../../modules/c2_agent.py#L637)
 
 ```python
 def __init__(self, port: int = 4444, user: str = '', password: str = '') -> None
@@ -110,7 +110,7 @@ def __init__(self, port: int = 4444, user: str = '', password: str = '') -> None
 
 #### `C2Server.status`
 
-`method` | [modules/c2_agent.py:568](../../modules/c2_agent.py#L568)
+`method` | [modules/c2_agent.py:654](../../modules/c2_agent.py#L654)
 
 ```python
 def status(self) -> dict[str, Any]
@@ -126,7 +126,7 @@ Report server liveness and listener reachability.
 
 #### `C2Server.start`
 
-`method` | [modules/c2_agent.py:600](../../modules/c2_agent.py#L600)
+`method` | [modules/c2_agent.py:686](../../modules/c2_agent.py#L686)
 
 ```python
 def start(self) -> dict[str, Any]
@@ -144,7 +144,7 @@ Start lazyc2 headless (no-op when already running).
 
 #### `C2Server.stop`
 
-`method` | [modules/c2_agent.py:631](../../modules/c2_agent.py#L631)
+`method` | [modules/c2_agent.py:717](../../modules/c2_agent.py#L717)
 
 ```python
 def stop(self) -> dict[str, Any]
@@ -160,7 +160,7 @@ Stop the headless server (SIGTERM, best-effort).
 
 #### `C2Server.ensure_http_listener`
 
-`method` | [modules/c2_agent.py:654](../../modules/c2_agent.py#L654)
+`method` | [modules/c2_agent.py:740](../../modules/c2_agent.py#L740)
 
 ```python
 def ensure_http_listener(self, http_port: int, auth: tuple[str, str]) -> dict[str, Any]
@@ -189,21 +189,30 @@ Idempotent: returns the existing listener when the port is taken.
 
 ### `client_id_for`
 
-`function` | [modules/c2_agent.py:85](../../modules/c2_agent.py#L85)
+`function` | [modules/c2_agent.py:88](../../modules/c2_agent.py#L88)
 
 ```python
-def client_id_for(target: str) -> str
+def client_id_for(target: str, privilege: str = LOW_PRIVILEGE) -> str
 ```
 
 Derive a stable, file-safe client id from a target IP.
+
+Root-profile deployments get a ``-root`` suffix so one box can hold
+two parallel C2 clients (a low-priv foothold and an elevated one)
+without sharing command queues or beacon logs.
 
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `target` | `str` |  |  |
+| `target` | `str` |  | Victim address. |
+| `privilege` | `str` | `LOW_PRIVILEGE` | ``lowpriv`` (default) or `[`root`](modules.workspace.py.md#root)`. |
 
-**Returns:** `str`
+**Returns:** `str` - Deterministic client id like ``msf-10-0-0-5-root``.
+
+**Raises**
+
+- `ValueError`: Unknown privilege value.
 
 *Called by:* [`C2SessionCommandSet.do_c2_loot`](cli.commands.c2_session.py.md#c2sessioncommandset-do_c2_loot), [`deploy`](#deploy)
 
@@ -213,7 +222,7 @@ Derive a stable, file-safe client id from a target IP.
 
 ### `validate_client_id`
 
-`function` | [modules/c2_agent.py:91](../../modules/c2_agent.py#L91)
+`function` | [modules/c2_agent.py:113](../../modules/c2_agent.py#L113)
 
 ```python
 def validate_client_id(raw: str) -> str
@@ -241,10 +250,10 @@ Validate a client id (alphanumerics, dash, underscore).
 
 ### `build_agent`
 
-`function` | [modules/c2_agent.py:354](../../modules/c2_agent.py#L354)
+`function` | [modules/c2_agent.py:376](../../modules/c2_agent.py#L376)
 
 ```python
-def build_agent(c2_url: str, client_id: str, aes_hex: str, route: str = '', sleep: int = 10) -> str
+def build_agent(c2_url: str, client_id: str, aes_hex: str, route: str = '', sleep: int = 10, privilege: str = LOW_PRIVILEGE) -> str
 ```
 
 Render the agent script for a target (pure function, no I/O).
@@ -253,17 +262,18 @@ Render the agent script for a target (pure function, no I/O).
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `c2_url` | `str` |  |  |
-| `client_id` | `str` |  |  |
-| `aes_hex` | `str` |  |  |
-| `route` | `str` | `''` |  |
-| `sleep` | `int` | `10` |  |
+| `c2_url` | `str` |  | Base C2 URL (http or https). |
+| `client_id` | `str` |  | Stable target-id handle for command pairing. |
+| `aes_hex` | `str` |  | Shared 64-hex AES-256 key. |
+| `route` | `str` | `''` | Malleable listener route (default ``/``). |
+| `sleep` | `int` | `10` | Beacon sleep seconds, clamped 2..300. |
+| `privilege` | `str` | `LOW_PRIVILEGE` | ``lowpriv`` (default) or `[`root`](modules.workspace.py.md#root)` profile — only the client id embedding differs. |
 
-**Returns:** `str`
+**Returns:** `str` - The full python2-compatible agent source.
 
 **Raises**
 
-- `ValueError`: (raised in the body, not documented)
+- `ValueError`: Bad key format, URL scheme or privilege value.
 
 *Calls:* [`validate_client_id`](#validate_client_id)
 
@@ -275,7 +285,7 @@ Render the agent script for a target (pure function, no I/O).
 
 ### `read_aes_hex`
 
-`function` | [modules/c2_agent.py:441](../../modules/c2_agent.py#L441)
+`function` | [modules/c2_agent.py:492](../../modules/c2_agent.py#L492)
 
 ```python
 def read_aes_hex() -> str
@@ -291,29 +301,37 @@ Read the live C2 AES key hex (snapshotted, never generated).
 
 ### `deploy`
 
-`function` | [modules/c2_agent.py:446](../../modules/c2_agent.py#L446)
+`function` | [modules/c2_agent.py:497](../../modules/c2_agent.py#L497)
 
 ```python
-def deploy(target: str, c2_base: str, route: str = '', lhost: str = '127.0.0.1', sleep: int = 10) -> dict[str, Any]
+def deploy(target: str, c2_base: str, route: str = '', lhost: str = '127.0.0.1', sleep: int = 10, privilege: str = LOW_PRIVILEGE) -> dict[str, Any]
 ```
 
 Deliver + launch the agent on *target* via a working shell primitive.
 
 Uses the highest-ranked exec-capable exploit to drop the rendered
-agent at /tmp/.sysagent, chmod +x, and launch it detached. Returns
-the client id and a callback-wait summary.
+agent, chmod +x, and launch it detached. Returns the client id and
+a callback-wait summary. ``privilege="root"`` restricts the shell
+primitive to root-capable exploits and stages the binary under a
+different name so a low-priv agent on the same box keeps running.
 
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `target` | `str` |  |  |
-| `c2_base` | `str` |  |  |
-| `route` | `str` | `''` |  |
-| `lhost` | `str` | `'127.0.0.1'` |  |
-| `sleep` | `int` | `10` |  |
+| `target` | `str` |  | Victim address. |
+| `c2_base` | `str` |  | Listener base URL (e.g. ``http://172.17.0.1:8080``). |
+| `route` | `str` | `''` | Malleable route (default ``/``). |
+| `lhost` | `str` | `'127.0.0.1'` | Attacker address for shell triggers. |
+| `sleep` | `int` | `10` | Beacon sleep seconds (clamped 2..300). |
+| `privilege` | `str` | `LOW_PRIVILEGE` | ``lowpriv`` (default) or `[`root`](modules.workspace.py.md#root)` profile. |
 
-**Returns:** `dict[str, Any]`
+**Returns:** `dict[str, Any]` - Deployment dict: ``deployed``, ``client_id``, `[`via`](modules.emulation_runner.py.md#emulationreport-via)`, `[`staged`](modules.emulation_runner.py.md#emulationreport-staged)`,
+``size_ok``, ``agent_running`` and snippets.
+
+**Raises**
+
+- `ValueError`: Unknown privilege value.
 
 *Calls:* [`AESKeyManager.__init__`](lazyc2.security.services.py.md#aeskeymanager-__init__), [`AESKeyManager.get_or_generate`](lazyc2.security.services.py.md#aeskeymanager-get_or_generate), [`open_shell`](modules.atomic_exploit_bridge.py.md#open_shell), [`remote_exec`](modules.atomic_exploit_bridge.py.md#remote_exec), [`build_agent`](#build_agent), [`client_id_for`](#client_id_for)
 
@@ -325,7 +343,7 @@ the client id and a callback-wait summary.
 
 ### `read_records`
 
-`function` | [modules/c2_agent.py:517](../../modules/c2_agent.py#L517)
+`function` | [modules/c2_agent.py:603](../../modules/c2_agent.py#L603)
 
 ```python
 def read_records(client_id: str, limit: int = 20) -> list[dict[str, Any]]
@@ -350,7 +368,7 @@ Read the latest beacon records for a client (newest last).
 
 ### `wait_record`
 
-`function` | [modules/c2_agent.py:534](../../modules/c2_agent.py#L534)
+`function` | [modules/c2_agent.py:620](../../modules/c2_agent.py#L620)
 
 ```python
 def wait_record(client_id: str, command: str, since: int = 0, timeout: int = 60) -> dict[str, Any] | None
@@ -377,11 +395,35 @@ Wait for a fresh record matching *command* (polls the JSONL log).
 
 ## Constants
 
+<a id="root_privilege"></a>
+
+### `ROOT_PRIVILEGE`
+
+`constant` | [modules/c2_agent.py:47](../../modules/c2_agent.py#L47)
+
+```python
+ROOT_PRIVILEGE = 'root'
+```
+
+---
+
+<a id="low_privilege"></a>
+
+### `LOW_PRIVILEGE`
+
+`constant` | [modules/c2_agent.py:48](../../modules/c2_agent.py#L48)
+
+```python
+LOW_PRIVILEGE = 'lowpriv'
+```
+
+---
+
 <a id="agent_template"></a>
 
 ### `AGENT_TEMPLATE`
 
-`constant` | [modules/c2_agent.py:99](../../modules/c2_agent.py#L99)
+`constant` | [modules/c2_agent.py:121](../../modules/c2_agent.py#L121)
 
 ```python
 AGENT_TEMPLATE

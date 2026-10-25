@@ -1,5 +1,12 @@
-# Subsystem: tests (page 5 of 19)
+# Subsystem: tests (page 5 of 20)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
+
+## tests/test_claudemd_size.py
+- Doc: Enforce a hard cap on ``CLAUDE.md`` size.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_claude_md_under_size_budget` (function, line 22) `def test_claude_md_under_size_budget()`
 
 ## tests/test_cli_assign.py
 - Doc: ``do_assign`` / ``do_show`` behaviour and shell wiring tests.
@@ -190,6 +197,30 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `do_lazynmap` (method, line 392) `def do_lazynmap(self, _)`
   - `do_gobuster` (method, line 395) `def do_gobuster(self, _)`
 - Depends on: `cli/aliases.py`, `cli/cli_enhancements.py`, `cli/commands/audit.py`
+
+## tests/test_codeql_alert_fixes.py
+- Doc: Regression tests for CodeQL alerts 984, 983 and 982.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestWorldModelEncryptedAtRest` (class, line 12) `class TestWorldModelEncryptedAtRest`
+  - `TestSudoSegmentRegexLinear` (class, line 86) `class TestSudoSegmentRegexLinear`
+  - `TestDocExampleDomainSanitize` (class, line 104) `class TestDocExampleDomainSanitize`
+  - `test_write_is_fernet_not_json` (method, line 15) `def test_write_is_fernet_not_json(self, tmp_path, monkeypatch)`
+  - `test_roundtrip_decrypt` (method, line 23) `def test_roundtrip_decrypt(self, tmp_path, monkeypatch)`
+  - `test_legacy_plain_json_still_readable` (method, line 30) `def test_legacy_plain_json_still_readable(self, tmp_path, monkeypatch)`
+  - `test_legacy_autocrypto_sibling_readable` (method, line 36) `def test_legacy_autocrypto_sibling_readable(self, tmp_path, monkeypatch)`
+  - `test_restricted_mode_after_write` (method, line 52) `def test_restricted_mode_after_write(self, tmp_path, monkeypatch)`
+  - `test_refuses_persist_without_key_material` (method, line 58) `def test_refuses_persist_without_key_material(self, tmp_path, monkeypatch)`
+  - `test_device_secret_created_used_then_readable` (method, line 67) `def test_device_secret_created_used_then_readable(self, tmp_path, monkeypatch)`
+  - `test_rewrites_leading_sudo` (method, line 89) `def test_rewrites_leading_sudo(self)`
+  - `test_env_prefix_sudo_rewrites` (method, line 92) `def test_env_prefix_sudo_rewrites(self)`
+  - `test_bare_mid_sentence_untouched` (method, line 96) `def test_bare_mid_sentence_untouched(self)`
+  - `test_scored_marker_never_matched` (method, line 99) `def test_scored_marker_never_matched(self)`
+  - `test_exact_and_subdomains_excluded` (method, line 107) `def test_exact_and_subdomains_excluded(self)`
+  - `test_lookalikes_not_matched` (method, line 112) `def test_lookalikes_not_matched(self)`
+  - `test_goal_prefers_real_host_over_examples` (method, line 117) `def test_goal_prefers_real_host_over_examples(self)`
+- Depends on: `modules/chain_distill.py`, `modules/cli_auth.py`, `modules/retry_session.py`, `modules/world_model.py`
 
 ## tests/test_collab_and_onboarding.py
 - Doc: tests/test_collab_and_onboarding.py  Tests for: - Gap #2 (team server): collab_bp UI route, SSE...

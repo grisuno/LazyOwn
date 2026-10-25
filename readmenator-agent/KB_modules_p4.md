@@ -1,6 +1,48 @@
 # Subsystem: modules (page 4 of 16)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
 
+## modules/cve_matcher.py
+- Doc: modules/cve_matcher.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CVEResult` (class, line 51) `class CVEResult`
+  - `CVEMatcher` (class, line 60) `class CVEMatcher`
+  - `get_matcher` (function, line 198) `def get_matcher()`
+  - `search` (function, line 206) `def search(product, version, max_results)`
+  - `__init__` (method, line 70) `def __init__(self, api_key, cache_dir)`
+  - `search` (method, line 82) `def search(self)`
+  - `search_by_cpe` (method, line 89) `def search_by_cpe(self, cpe_name, max_results)`
+  - `_cache_path` (method, line 95) `def _cache_path(self, params)`
+  - `_load_cache` (method, line 100) `def _load_cache(self, params)`
+  - `_save_cache` (method, line 112) `def _save_cache(self, params, results)`
+  - `_rate_limit` (method, line 121) `def _rate_limit(self)`
+  - `_query` (method, line 128) `def _query(self)`
+- Depends on: `core/logging.py`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+
+## modules/dacl_abuse.py
+- Doc: DACL/SACL abuse module — ACL manipulation for AD privilege escalation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ACEntry` (class, line 67) `class ACEntry`
+  - `ACLTarget` (class, line 91) `class ACLTarget`
+  - `DACLAbuseEngine` (class, line 113) `class DACLAbuseEngine`
+  - `__init__` (method, line 136) `def __init__(self, domain, domain_sid, acl_data)`
+  - `parse_bloodhound_acls` (method, line 143) `def parse_bloodhound_acls(self, edges)`
+  - `parse_raw_aces` (method, line 182) `def parse_raw_aces(self, raw_nthashes)`
+  - `compute_attack_chains` (method, line 224) `def compute_attack_chains(self)`
+  - `adminsdholder_abuse_plan` (method, line 291) `def adminsdholder_abuse_plan(self, target_sid)`
+  - `dcsync_rights_assignment_plan` (method, line 318) `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)`
+  - `owner_takeover_plan` (method, line 348) `def owner_takeover_plan(self, target_dn, attacker_sid)`
+  - `_is_dangerous_ace` (method, line 379) `def _is_dangerous_ace(ace)`
+  - `_calculate_severity` (method, line 384) `def _calculate_severity(target)`
+  - `_guess_object_type` (method, line 397) `def _guess_object_type(dn)`
+  - `_extract_cn` (method, line 414) `def _extract_cn(dn)`
+  - `summary` (method, line 418) `def summary(self)`
+- Imported by: `cli/commands/active_directory.py`
+
 ## modules/dashboard_bp.py
 - Doc: modules/dashboard_bp.py
 - Layer: presentation
@@ -448,24 +490,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `enumerate_tenant` (method, line 345) `def enumerate_tenant(self)`
   - `summary` (method, line 368) `def summary(self)`
 - Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/estorides_fusion.py
-- Doc: Estorides intel fusion: merge OSINT graph entities into campaign graphs.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `estorides_checkout` (function, line 48) `def estorides_checkout()`
-  - `find_export` (function, line 68) `def find_export(sessions_dir)`
-  - `run_export` (function, line 84) `def run_export(sessions_dir, cli_path, timeout_sec)`
-  - `_norm` (function, line 123) `def _norm(value)`
-  - `load_export` (function, line 128) `def load_export(path)`
-  - `_from_raw` (function, line 142) `def _from_raw(document)`
-  - `community_for` (function, line 180) `def community_for(kind, value)`
-  - `merge_estorides` (function, line 187) `def merge_estorides(nodes, edges, est, cap)`
-  - `find_lan_bundle` (function, line 268) `def find_lan_bundle(sessions_dir)`
-  - `load_lan_bundle` (function, line 288) `def load_lan_bundle(path)`
-  - `split_lan_targets` (function, line 323) `def split_lan_targets(est)`
-- Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `tests/test_estorides_fusion.py`
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

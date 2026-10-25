@@ -93,12 +93,9 @@ class UnifiedDashboard:
         return snapshot
 
     def _collect_world_model(self) -> dict:
-        wm_file = self._sessions_dir / "world_model.json"
-        if wm_file.exists():
-            try:
-                return json.loads(wm_file.read_text())
-            except Exception:
-                return {}
+        from modules.world_model import read_state_dict
+
+        return read_state_dict(self._sessions_dir / "world_model.json")
         return {}
 
     def _collect_hive_status(self) -> dict:

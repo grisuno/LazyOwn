@@ -16,6 +16,7 @@ import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from modules.db import LazyOwnDB
+from modules.world_model import read_state_dict
 from utils import (
     print_error,
     print_msg,
@@ -159,7 +160,7 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
         try:
             wm_path = SESSIONS_DIR / "world_model.json"
             if wm_path.exists():
-                wm = json.loads(wm_path.read_text(encoding="utf-8"))
+                wm = read_state_dict(wm_path)
                 for vuln in wm.get("vulnerabilities", []):
                     cve = vuln.get("cve", vuln.get("id", ""))
                     if cve and cve not in seen:

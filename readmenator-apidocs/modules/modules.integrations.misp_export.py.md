@@ -651,7 +651,7 @@ Returns False gracefully if requests is not available or the push fails.
 
 ### `get_exporter`
 
-`function` | [modules/integrations/misp_export.py:469](../../modules/integrations/misp_export.py#L469)
+`function` | [modules/integrations/misp_export.py:516](../../modules/integrations/misp_export.py#L516)
 
 ```python
 def get_exporter() -> MISPExporter

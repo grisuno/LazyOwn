@@ -1,6 +1,6 @@
 # cli
 
-cli groups 117 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
+cli groups 126 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 ```mermaid
 graph LR
@@ -10,6 +10,7 @@ graph LR
     poc_tui["poc_tui"]
     root["root"]
     scripts["scripts"]
+    skills["skills"]
     tests["tests"]
     cli -- "calls into" --> core
     cli -- "calls into" --> modules
@@ -17,21 +18,23 @@ graph LR
     core -- "calls into" --> root
     core -- "calls into" --> tests
     modules -- "calls into" --> cli
-    poc_tui -- "depends on" --> cli
     poc_tui -- "calls into" --> root
     root -- "calls into" --> cli
     root -- "calls into" --> core
     root -- "calls into" --> modules
+    root -- "calls into" --> skills
     scripts -- "calls into" --> root
+    skills -- "calls into" --> modules
     tests -- "calls into" --> cli
     tests -- "calls into" --> core
     tests -- "calls into" --> modules
     tests -- "calls into" --> root
+    tests -- "calls into" --> skills
 ```
 
 ## cli (3.1)
 
-cli groups 52 files (py) around Theme, get_theme, theme_from_payload, EngagementState, _load_state. LazyOwn CLI infrastructure.
+cli groups 50 files (py) around Theme, get_theme, theme_from_payload, EngagementState, _load_state. LazyOwn CLI infrastructure.
 
 ## core (3.2)
 
@@ -39,7 +42,7 @@ core groups 6 files (py) around _sanitize, colors_enabled, _paint, format_line, 
 
 ## modules (3.3)
 
-modules groups 3 files (py) around _load_users, _save_users, _load_payload, _save_payload, user_exists. Purple Team Closed-Loop — honest measurement of offensive detection.
+modules groups 4 files (py) around KillChainConfig, world_model_path, phase_index, is_valid_phase, PhaseStatus. CLI authentication module — login against users.json with remember-me.
 
 ## poc_tui (3.4)
 
@@ -53,22 +56,27 @@ root groups 2 files (py) around _ux_debug, _parse_bool_setting, _PayloadSettable
 
 scripts groups 1 files (py) around AuditConfig, argparser_commands, audit, main. Audit every registered shell command for dispatch and parser errors.
 
-## tests (3.7)
+## skills (3.7)
 
-tests groups 49 files (py) around _StaticProvider, __init__, suggest, _RaisingProvider, suggest. Unit tests for cli.autosuggest.
+skills groups 8 files (py) around ConfigKeys, EnvKeys, Defaults, PhaseNames, Paths. Dynamic Claude.md rule generator for the Hermes-LazyOwn integration.
+
+## tests (3.8)
+
+tests groups 51 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
 
 **Files**:
 
 - cli/__init__.py
+- cli/auto_crypto.py
 - cli/autosuggest.py
 - cli/chain_mode.py
 - cli/command_chain.py
 - cli/command_explorer.py
 - cli/command_form.py
+- cli/commands/__init__.py
 - cli/commands/cli_auth.py
-- cli/commands/containers.py
 - cli/commands/help_ui.py
-- cli/commands/purple_team.py
+- cli/commands/orchestration.py
 - cli/commands/recon.py
 - cli/config_status.py
 - cli/contextual_help.py
@@ -82,6 +90,7 @@ tests groups 49 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - cli/graph_advisor.py
 - cli/graph_overlay.py
 - cli/headless.py
+- cli/killchain.py
 - cli/lazynmap_post.py
 - cli/noise_verbs.py
 - cli/ops_commands.py
@@ -92,17 +101,13 @@ tests groups 49 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - cli/palette_telemetry.py
 - cli/phase_labels.py
 - cli/protips.py
-- cli/purple_tui.py
 - cli/reactive_hints.py
 - cli/reasoning_stream.py
-- cli/recommendation.py
-- cli/recommendation_signals.py
 - cli/recon_plan.py
+- cli/scope_guard.py
 - cli/sessions_browser.py
 - cli/splash.py
 - cli/status_bar.py
-- cli/surface_graph.py
-- cli/surface_tui.py
 - cli/themes.py
 - cli/timeline_browser.py
 - cli/tips_engine.py
@@ -119,14 +124,24 @@ tests groups 49 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - core/text_utils.py
 - lazy_sentinel4.py
 - lazyown.py
-- modules/auto_purple.py
 - modules/cli_auth.py
-- modules/lazyk8s.py
+- modules/kill_chain_viz.py
+- modules/killchain.py
+- modules/session_cleanup.py
 - poc_tui/__main__.py
 - poc_tui/app.py
 - poc_tui/run.py
 - poc_tui/test_app.py
 - scripts/devtools/command_audit.py
+- skills/hermes-lazyown/claudemd_rules.py
+- skills/hermes-lazyown/config_bridge.py
+- skills/hermes-lazyown/constants.py
+- skills/hermes-lazyown/executor.py
+- skills/hermes-lazyown/hermes_sync.py
+- skills/hermes-lazyown/mcp_server.py
+- skills/hermes-lazyown/output_compactor.py
+- skills/unified_orchestrator.py
+- tests/test_auto_crypto.py
 - tests/test_autosuggest.py
 - tests/test_c2_agent.py
 - tests/test_chain_mode.py
@@ -145,26 +160,27 @@ tests groups 49 files (py) around _StaticProvider, __init__, suggest, _RaisingPr
 - tests/test_exploration_and_addons.py
 - tests/test_graph_advisor.py
 - tests/test_graph_overlay.py
+- tests/test_improvements_spec.py
+- tests/test_killchain.py
 - tests/test_killchain_auto_refresh.py
-- tests/test_killchain_gap_signal.py
+- tests/test_killchain_snapshot.py
 - tests/test_killchain_unified.py
+- tests/test_killchain_unified_v2.py
 - tests/test_lazynmap_post.py
 - tests/test_marketplace_config.py
 - tests/test_ops_loot_phase.py
 - tests/test_palette_overlay.py
-- tests/test_phase1_data_gaps.py
 - tests/test_phase_labels.py
 - tests/test_profiles.py
 - tests/test_reactive_hints.py
 - tests/test_reactive_hints_expanded.py
 - tests/test_reasoning_stream.py
-- tests/test_recommendation.py
 - tests/test_recon_plan.py
 - tests/test_safe_console.py
+- tests/test_scope_guard.py
 - tests/test_scope_guard_integration.py
 - tests/test_sessions_browser.py
 - tests/test_status_bar_operators.py
-- tests/test_surface_graph.py
 - tests/test_themes.py
 - tests/test_timeline_browser.py
 - tests/test_tips_engine.py

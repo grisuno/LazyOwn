@@ -1,6 +1,6 @@
 # static/js
 
-static/js groups 43 files (c, js, py, sh) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. ``assign`` business logic.
+static/js groups 29 files (c, js, py, sh) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. ``assign`` business logic.
 
 ```mermaid
 graph LR
@@ -13,12 +13,8 @@ graph LR
     root["root"]
     static["static"]
     tests["tests"]
-    cli -- "calls into" --> core
     cli -- "calls into" --> static
     contrib -- "depends on" --> core
-    lazyc2 -- "calls into" --> core
-    modules -- "depends on" --> core
-    modules -- "depends on" --> lazyown_docker
     root -- "depends on" --> core
     static -- "depends on" --> cli
     static -- "depends on" --> core
@@ -26,68 +22,58 @@ graph LR
     static -- "depends on" --> lazyown_docker
     static -- "depends on" --> modules
     tests -- "calls into" --> cli
-    tests -- "calls into" --> core
-    tests -- "calls into" --> lazyc2
 ```
 
-## cli (7.1)
+## cli (10.1)
 
-cli groups 7 files (py) around apply_assign, format_payload, style, active_tokens, paint. ``assign`` business logic.
+cli groups 5 files (py) around apply_assign, format_payload, style, active_tokens, paint. ``assign`` business logic.
 
-## contrib (7.2)
+## contrib (10.2)
 
 contrib groups 1 files (py) around generate_key_iv, main.
 
-## core (7.3)
+## core (10.3)
 
-core groups 6 files (py) around FieldKind, Severity, FieldSpec, ValidationIssue, _validate_string. Symmetric primitives used by the framework.
+core groups 2 files (py) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. Process and subprocess utilities for the LazyOwn framework.
 
-## lazyc2 (7.4)
+## lazyc2 (10.4)
 
-lazyc2 groups 2 files (py) around AddonCreatorConfig, live_placeholders, ParamSpec, to_dict, AddonDraft. LazyAddon creator contract for the LazyOwn C2 web interface.
+lazyc2 groups 1 files (py). Global C2 server state — namespace for shared mutable objects.
 
-## lazyown-docker (7.5)
+## lazyown-docker (10.5)
 
 lazyown-docker groups 1 files (sh).
 
-## modules (7.6)
+## modules (10.6)
 
-modules groups 3 files (c, py) around _GNU_SOURCE, MQUEUE_NUM, INBOUND, OUTBOUND, DESC_MAX. gcc exp.c -o exp -l mnl -l nftnl -w
+modules groups 2 files (c, py) around _GNU_SOURCE, MQUEUE_NUM, INBOUND, OUTBOUND, DESC_MAX. gcc exp.c -o exp -l mnl -l nftnl -w
 
-## root (7.7)
+## root (10.7)
 
 root groups 1 files (py) around main.
 
-## static (7.8)
+## static (10.8)
 
 static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
 
-## tests (7.9)
+## tests (10.9)
 
-tests groups 8 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
+tests groups 2 files (py) around _add_repo_root_to_syspath, TestApplyAssign, test_returns_true_when_key_exists, test_returns_false_when_key_missing, test_does_not_invoke_save_on_failure. ``do_assign`` / ``do_show`` behaviour and shell wiring tests.
 
 **Files**:
 
 - cli/assign.py
-- cli/auto_crypto.py
-- cli/commands/params_ops.py
 - cli/commands/session_ops.py
 - cli/session_resumer.py
 - cli/show.py
 - cli/style.py
 - contrib/legacy/lazybinenc.py
-- core/crypto.py
-- core/param_registry.py
-- core/payload_schema.py
 - core/process.py
 - core/prompt.py
-- core/protocols.py
 - key.py
-- lazyc2/addon_creator.py
 - lazyc2/state.py
 - lazyown-docker/init.sh
 - modules/exp.c
-- modules/rootkit/rootkit.c
 - modules/search.py
 - static/js/3d-force-graph-1.73.4.min.js
 - static/js/bootstrap-4.5.2.min.js
@@ -103,11 +89,5 @@ tests groups 8 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConf
 - static/js/tippy-6.js
 - static/js/vis-network-9.1.2.min.js
 - static/js/vis-network.min.js
-- tests/test_auto_crypto.py
 - tests/test_cli_assign.py
-- tests/test_core.py
-- tests/test_core_config.py
-- tests/test_param_registry.py
 - tests/test_payload_schema.py
-- tests/test_php2shell_addon.py
-- tests/test_placeholder_coverage.py

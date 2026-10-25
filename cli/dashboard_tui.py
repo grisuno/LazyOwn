@@ -300,7 +300,9 @@ def _get_recommendations() -> list[dict]:
         from cli.recommendation_signals import recommend_with_evidence
 
         payload = _read_json(PAYLOAD_PATH)
-        world = _read_json(WORLD_MODEL_PATH)
+        from modules.world_model import read_state_dict
+
+        world = read_state_dict(Path(WORLD_MODEL_PATH))
         recs = recommend_with_evidence(
             payload,
             sessions_dir=SESSIONS_DIR,

@@ -480,7 +480,7 @@ target one-liner for download + execution.
 
 #### `PrivilegeEscalationCommandSet.do_privesc_cmd_by_os`
 
-`method` | [cli/commands/privilege_escalation.py:754](../../cli/commands/privilege_escalation.py#L754)
+`method` | [cli/commands/privilege_escalation.py:755](../../cli/commands/privilege_escalation.py#L755)
 
 Decorators: `@cmd2.with_category(privilege_escalation_category)`
 

@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 
+from modules.world_model import read_state_dict
 from cli.ops_commands import (
     _cli_phase_to_host_state,
     _engagement_phase_to_cli,
@@ -104,13 +105,13 @@ class TestWritePhaseWithWorldModel:
         result = write_phase("recon")
         assert result is True
 
-        world = json.loads((sessions_dir / "world_model.json").read_text())
+        world = read_state_dict(sessions_dir / "world_model.json")
         assert world.get("current_phase") == "recon"
 
         result = write_phase("exploit")
         assert result is True
 
-        world = json.loads((sessions_dir / "world_model.json").read_text())
+        world = read_state_dict(sessions_dir / "world_model.json")
         completed = world.get("completed_phases", [])
         assert "scan" in completed
         assert "enum" in completed

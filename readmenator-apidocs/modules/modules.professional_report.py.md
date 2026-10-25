@@ -223,7 +223,7 @@ Collect all available engagement data from sessions directory.
 
 #### `RedTeamReportGenerator.classify_findings`
 
-`method` | [modules/professional_report.py:217](../../modules/professional_report.py#L217)
+`method` | [modules/professional_report.py:219](../../modules/professional_report.py#L219)
 
 ```python
 def classify_findings(self, data: dict[str, Any]) -> list[ReportFinding]
@@ -245,7 +245,7 @@ Classify collected data into structured findings.
 
 #### `RedTeamReportGenerator.generate`
 
-`method` | [modules/professional_report.py:244](../../modules/professional_report.py#L244)
+`method` | [modules/professional_report.py:247](../../modules/professional_report.py#L247)
 
 ```python
 def generate(self, output_dir: str = 'reports', output_format: str = 'html', client_name: str = '', engagement_type: str = '', with_ai: bool = False, ai_backend: str = 'auto') -> str
@@ -272,7 +272,7 @@ Generate the report in the specified format.
 
 #### `RedTeamReportGenerator.collect_command_history`
 
-`method` | [modules/professional_report.py:841](../../modules/professional_report.py#L841)
+`method` | [modules/professional_report.py:912](../../modules/professional_report.py#L912)
 
 ```python
 def collect_command_history(self, max_entries: int = 200) -> list[str]
@@ -296,7 +296,7 @@ Sources: ``LazyOwn_history.dat`` and ``sessions/*.log`` tails.
 
 #### `RedTeamReportGenerator.collect_loot_summary`
 
-`method` | [modules/professional_report.py:865](../../modules/professional_report.py#L865)
+`method` | [modules/professional_report.py:936](../../modules/professional_report.py#L936)
 
 ```python
 def collect_loot_summary(self) -> dict[str, Any]
@@ -316,7 +316,7 @@ are kept, file contents are never included.
 
 #### `RedTeamReportGenerator.generate_executive_summary`
 
-`method` | [modules/professional_report.py:911](../../modules/professional_report.py#L911)
+`method` | [modules/professional_report.py:982](../../modules/professional_report.py#L982)
 
 ```python
 def generate_executive_summary(self, data: dict[str, Any], with_ai: bool = False, ai_backend: str = 'auto') -> str

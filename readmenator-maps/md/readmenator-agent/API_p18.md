@@ -1,57 +1,259 @@
 # API (page 18 of 24)
 Previous: [API_p17.md](API_p17.md)
 
+## modules/unified_bridge.py
+Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/state_manager.py`, `modules/toposwarm_bridge.py`
+Imported by: `lazyown.py`
+- `RouteBackend.available` (method) `modules/unified_bridge.py:69` `def available(self)`
+- `RouteBackend.route` (method) `modules/unified_bridge.py:72` `def route(self, prompt, context)`
+- `KeywordBackend.available` (method) `modules/unified_bridge.py:102` `def available(self)`
+- `KeywordBackend.route` (method) `modules/unified_bridge.py:105` `def route(self, prompt, context)`
+- `LazyownBridgeBackend.available` (method) `modules/unified_bridge.py:126` `def available(self)`
+- `LazyownBridgeBackend.route` (method) `modules/unified_bridge.py:134` `def route(self, prompt, context)`
+- `TopoSwarmBackend.available` (method) `modules/unified_bridge.py:164` `def available(self)`
+- `TopoSwarmBackend.route` (method) `modules/unified_bridge.py:173` `def route(self, prompt, context)`
+- `UnifiedBridge.__init__` (method) `modules/unified_bridge.py:214` `def __init__(self)`
+- `UnifiedBridge.get` (method) `modules/unified_bridge.py:225` `def get(cls)`
+- `UnifiedBridge.set_publish_callback` (method) `modules/unified_bridge.py:230` `def set_publish_callback(self, cb)`
+- `UnifiedBridge.route` (method) `modules/unified_bridge.py:253` `def route(self, prompt, context)` -- Route a natural-language prompt to the best LazyOwn tool.
+- `UnifiedBridge.delegate` (method) `modules/unified_bridge.py:300` `def delegate(self, goal, backend, timeout, max_iterations)` -- Delegate a complex task to an internal AI agent.
+- `UnifiedBridge.list_backends` (method) `modules/unified_bridge.py:461` `def list_backends(self)`
+- `route_prompt` (function) `modules/unified_bridge.py:483` `def route_prompt(prompt, context)` -- Convenience: route a prompt without instantiating UnifiedBridge.
+- `delegate_task` (function) `modules/unified_bridge.py:488` `def delegate_task(goal, backend)` -- Convenience: delegate a task to an AI agent.
+
+## modules/unified_dashboard.py
+Depends on: `cli/graph_advisor.py`, `core/logging.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/live_surface.py`, `modules/world_model.py`, `skills/hive_mind.py`, `skills/lazyown_policy.py`
+Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
+- `UnifiedDashboard.__init__` (method) `modules/unified_dashboard.py:44` `def __init__(self, sessions_dir)`
+- `UnifiedDashboard.build_unified_snapshot` (method) `modules/unified_dashboard.py:76` `def build_unified_snapshot(self)` -- Build a complete dashboard snapshot from all data sources.
+- `UnifiedDashboard.render_unified` (method) `modules/unified_dashboard.py:170` `def render_unified(self)` -- Render the unified dashboard as a text string for CLI/TUI.
+- `UnifiedDashboard.export_json` (method) `modules/unified_dashboard.py:251` `def export_json(self)` -- Export the unified snapshot as a JSON string.
+- `get_unified_dashboard` (function) `modules/unified_dashboard.py:256` `def get_unified_dashboard(sessions_dir)` -- Return a module-level :class:`UnifiedDashboard` singleton.
+
+## modules/venator.py
+- `getUUID` (function) `modules/venator.py:38` `def getUUID()`
+- `io_key` (function) `modules/venator.py:49` `def io_key(keyname)`
+- `getSystemInfo` (function) `modules/venator.py:66` `def getSystemInfo(output_file)`
+- `getVTResult` (function) `modules/venator.py:83` `def getVTResult(fileHash)`
+- `getHash` (function) `modules/venator.py:112` `def getHash(file, ignoreVFlag)`
+- `checkSignature` (function) `modules/venator.py:132` `def checkSignature(file, bundle)`
+- `datetime_handler` (function) `modules/venator.py:210` `def datetime_handler(x)`
+- `parseAgentsDaemons` (function) `modules/venator.py:215` `def parseAgentsDaemons(item, path)`
+- `getLaunchAgents` (function) `modules/venator.py:287` `def getLaunchAgents(path, output_file, ignoreVFlag)`
+- `getLaunchDaemons` (function) `modules/venator.py:302` `def getLaunchDaemons(path, output_file, ignoreVFlag)`
+- `getUsers` (function) `modules/venator.py:317` `def getUsers(output_file)`
+- `getSafariExtensions` (function) `modules/venator.py:338` `def getSafariExtensions(path, output_file)`
+- `getChromeExtensions` (function) `modules/venator.py:357` `def getChromeExtensions(path, output_file)`
+- `getChromeDownloads` (function) `modules/venator.py:388` `def getChromeDownloads(chromeHistoryDbPath, output_file)`
+- `getFirefoxExtensions` (function) `modules/venator.py:442` `def getFirefoxExtensions(path, output_file)`
+- `getInstallHistory` (function) `modules/venator.py:477` `def getInstallHistory(output_file)`
+- `getCronJobs` (function) `modules/venator.py:494` `def getCronJobs(users, output_file)`
+- `getEmond` (function) `modules/venator.py:513` `def getEmond(output_file)`
+- `getKext` (function) `modules/venator.py:530` `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)`
+- `getEnv` (function) `modules/venator.py:577` `def getEnv(output_file)`
+- `getPeriodicScripts` (function) `modules/venator.py:592` `def getPeriodicScripts(output_file)`
+- `getConnections` (function) `modules/venator.py:609` `def getConnections(output_file)`
+- `SIPStatus` (function) `modules/venator.py:637` `def SIPStatus(output_file)`
+- `GatekeeperStatus` (function) `modules/venator.py:651` `def GatekeeperStatus(output_file)`
+- `parseApp` (function) `modules/venator.py:663` `def parseApp(app, ignoreVFlag)`
+- `getLoginItems` (function) `modules/venator.py:706` `def getLoginItems(path, output_file, ignoreVFlag)`
+- `getApps` (function) `modules/venator.py:741` `def getApps(path, output_file, ignoreVFlag)`
+- `getEventTaps` (function) `modules/venator.py:763` `def getEventTaps(output_file)`
+- `getBashHistory` (function) `modules/venator.py:786` `def getBashHistory(output_file, users)`
+- `getShellStartupScripts` (function) `modules/venator.py:804` `def getShellStartupScripts(users, output_file)`
+- `hmac_sha256` (function) `modules/venator.py:842` `def hmac_sha256(key, data)`
+- `amzn_sig` (function) `modules/venator.py:846` `def amzn_sig(secret_access_key, data, aws_region, aws_service)`
+- `amzn_canonical_req` (function) `modules/venator.py:856` `def amzn_canonical_req(filename_path, headers_list)`
+- `s3_upload` (function) `modules/venator.py:866` `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
+
+## modules/verb_catalog.py
+Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
+Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
+- `index_commands` (function) `modules/verb_catalog.py:190` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
+- `validate_catalog` (function) `modules/verb_catalog.py:230` `def validate_catalog(data)` -- Validate one raw catalog document.
+- `load` (function) `modules/verb_catalog.py:263` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
+- `entries` (function) `modules/verb_catalog.py:296` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
+- `catalog_enabled` (function) `modules/verb_catalog.py:349` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
+- `catalog_source` (function) `modules/verb_catalog.py:364` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
+- `set_enabled` (function) `modules/verb_catalog.py:378` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
+- `sync` (function) `modules/verb_catalog.py:415` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
+- `stats` (function) `modules/verb_catalog.py:502` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
+- `search` (function) `modules/verb_catalog.py:516` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
+
+## modules/verb_manifest.py
+Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
+Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
+- `FactPredicate.args` (method) `modules/verb_manifest.py:152` `def args(self)` -- Return the set corner arguments.
+- `FactPredicate.is_wild` (method) `modules/verb_manifest.py:156` `def is_wild(self, key)` -- Return True when that argument is a ``{token}`` wildcard.
+- `FactPredicate.matches` (method) `modules/verb_manifest.py:161` `def matches(self, other)` -- Return True when this fact instance satisfies the other.
+- `parse_predicate` (function) `modules/verb_manifest.py:222` `def parse_predicate(data)` -- Parse one predicate mapping into a FactPredicate.
+- `parse_manifest` (function) `modules/verb_manifest.py:296` `def parse_manifest(verb, data)` -- Validate and parse one manifest document entry.
+- `manifests` (function) `modules/verb_manifest.py:371` `def manifests(path)` -- Return parsed manifests with a small TTL cache.
+- `manifest_for` (function) `modules/verb_manifest.py:396` `def manifest_for(verb, path)` -- Return the manifest of one verb, or None when untyped.
+- `facts_for_target` (function) `modules/verb_manifest.py:411` `def facts_for_target(host)` -- Project the world model facts of one host into predicates.
+- `plan_check` (function) `modules/verb_manifest.py:467` `def plan_check(steps, tokens, path, facts)` -- Check a chain semantically: every typed precondition must be supplied.
+- `coverage` (function) `modules/verb_manifest.py:522` `def coverage(total_verbs, path)` -- Summarise manifest coverage for registry reporting.
+
+## modules/vuln_bot_cli.py
+Depends on: `modules/vulnbot.py`
+- `parse_args` (function) `modules/vuln_bot_cli.py:10` `def parse_args()`
+- `main` (function) `modules/vuln_bot_cli.py:22` `def main()`
+
+## modules/vulnbot.py
+Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
+Imported by: `modules/vuln_bot_cli.py`
+- `VulnBotCLI.__init__` (method) `modules/vulnbot.py:30` `def __init__(self, provider, mode, debug, script_path)`
+- `list_files` (function) `modules/vulnbot.py:86` `def list_files(directory)` -- Lista archivos en un directorio
+- `read_file` (function) `modules/vulnbot.py:90` `def read_file(path)` -- Lee contenido de un archivo
+- `edit_file` (function) `modules/vulnbot.py:95` `def edit_file(path, content, old_text)` -- Crea o edita un archivo
+- `generate` (function) `modules/vulnbot.py:139` `def generate()`
+- `VulnBotCLI.load_knowledge_base` (method) `modules/vulnbot.py:145` `def load_knowledge_base(self)`
+- `VulnBotCLI.save_knowledge_base` (method) `modules/vulnbot.py:151` `def save_knowledge_base(self, kb)`
+- `VulnBotCLI.get_relevant_knowledge` (method) `modules/vulnbot.py:155` `def get_relevant_knowledge(self, prompt)`
+- `VulnBotCLI.create_complex_prompt` (method) `modules/vulnbot.py:160` `def create_complex_prompt(self, base_prompt, history, knowledge)`
+- `VulnBotCLI.read_file_content` (method) `modules/vulnbot.py:176` `def read_file_content(self, file_path)`
+- `VulnBotCLI.load_event_config` (method) `modules/vulnbot.py:182` `def load_event_config(self)`
+- `VulnBotCLI.process_with_context` (method) `modules/vulnbot.py:190` `def process_with_context(self, file_path, event)`
+- `VulnBotCLI.stream_response` (method) `modules/vulnbot.py:206` `def stream_response(self, prompt)`
+- `generate` (function) `modules/vulnbot.py:207` `def generate()`
+- `VulnBotCLI.add_to_knowledge_base` (method) `modules/vulnbot.py:212` `def add_to_knowledge_base(self, prompt, response)`
+
+## modules/websocket_beacon.py
+Depends on: `core/hardening.py`
+- `WebSocketBeacon.__init__` (method) `modules/websocket_beacon.py:62` `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
+- `WebSocketBeacon.connect` (method) `modules/websocket_beacon.py:122` `def connect(self)` -- Establish WebSocket connection to the C2 server.
+- `WebSocketBeacon.check_in` (method) `modules/websocket_beacon.py:157` `def check_in(self)` -- Send heartbeat and retrieve pending tasks.
+- `WebSocketBeacon.send_result` (method) `modules/websocket_beacon.py:191` `def send_result(self, task_id, output, exit_code)` -- Send command execution result back to C2.
+- `WebSocketBeacon.run` (method) `modules/websocket_beacon.py:214` `def run(self, command_handler)` -- Main beacon loop with check-in and command execution.
+- `WebSocketBeacon.shutdown` (method) `modules/websocket_beacon.py:263` `def shutdown(self)` -- Gracefully shutdown the beacon.
+- `WebSocketC2Handler.__init__` (method) `modules/websocket_beacon.py:288` `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
+- `WebSocketC2Handler.start` (method) `modules/websocket_beacon.py:382` `def start(self)` -- Start the WebSocket C2 server.
+- `WebSocketC2Handler.stop` (method) `modules/websocket_beacon.py:392` `def stop(self)` -- Stop the WebSocket C2 server.
+- `WebSocketC2Handler.start_in_thread` (method) `modules/websocket_beacon.py:399` `def start_in_thread(self)` -- Start the WebSocket C2 server in a background thread.
+- `WebSocketC2Handler.send_task` (method) `modules/websocket_beacon.py:416` `def send_task(self, beacon_id, command)` -- Send a command task to a specific beacon.
+- `WebSocketC2Handler.list_beacons` (method) `modules/websocket_beacon.py:447` `def list_beacons(self)` -- List all connected beacons.
+- `WebSocketC2Handler.remove_stale_beacons` (method) `modules/websocket_beacon.py:464` `def remove_stale_beacons(self, timeout)` -- Remove beacons that have not checked in within the timeout.
+
+## modules/win_rootkit/backup.c
+- `elp` (function) `modules/win_rootkit/backup.c:66` `void elp()`
+- `ensure_pid_file_exists` (function) `modules/win_rootkit/backup.c:86` `void ensure_pid_file_exists()`
+- `ensure_key_file_exists` (function) `modules/win_rootkit/backup.c:123` `void ensure_key_file_exists()`
+- `ensure_hide_file_exists` (function) `modules/win_rootkit/backup.c:150` `void ensure_hide_file_exists()`
+- `infect_command` (function) `modules/win_rootkit/backup.c:179` `void infect_command()`
+- `handle_client` (function) `modules/win_rootkit/backup.c:204` `DWORD WINAPI handle_client(LPVOID client_socket)`
+- `monitor_shell` (function) `modules/win_rootkit/backup.c:430` `DWORD WINAPI monitor_shell(LPVOID data)`
+- `main` (function) `modules/win_rootkit/backup.c:540` `int main()`
+
+## modules/win_rootkit/mrhyde.c
+- `RunExperiment` (function) `modules/win_rootkit/mrhyde.c:19` `void __cdecl RunExperiment()` -- Define the RunExperiment function
+- `load_hidden_pids` (function) `modules/win_rootkit/mrhyde.c:24` `void load_hidden_pids()`
+- `load_hidden_files` (function) `modules/win_rootkit/mrhyde.c:47` `void load_hidden_files()`
+- `FindProcessId` (function) `modules/win_rootkit/mrhyde.c:89` `DWORD FindProcessId(const char* processName)`
+- `HideProcessByPID` (function) `modules/win_rootkit/mrhyde.c:115` `void HideProcessByPID(DWORD pid)`
+- `search_pid` (function) `modules/win_rootkit/mrhyde.c:137` `BOOL search_pid()`
+- `should_hide_pid` (function) `modules/win_rootkit/mrhyde.c:147` `BOOL should_hide_pid(DWORD pid)`
+- `should_hide_file` (function) `modules/win_rootkit/mrhyde.c:161` `BOOL should_hide_file(const char* filename)`
+- `HookedFindFirstFile` (function) `modules/win_rootkit/mrhyde.c:171` `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` -- Hook para FindFirstFile
+- `HookedFindNextFile` (function) `modules/win_rootkit/mrhyde.c:180` `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` -- Hook para FindNextFile
+- `HookedCreateToolhelp32Snapshot` (function) `modules/win_rootkit/mrhyde.c:189` `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` -- Hook para CreateToolhelp32Snapshot
+- `HookedProcess32First` (function) `modules/win_rootkit/mrhyde.c:198` `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` -- Hook para Process32First
+- `HookedProcess32Next` (function) `modules/win_rootkit/mrhyde.c:210` `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` -- Hook para Process32Next
+- `HookFunctions` (function) `modules/win_rootkit/mrhyde.c:222` `void HookFunctions()` -- Función para realizar el hooking de las funciones
+- `DllMain` (function) `modules/win_rootkit/mrhyde.c:272` `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
+
+## modules/win_rootkit/win_rin3_rootkit.cs
+- `SID.GetUsernameFromPid` (method) `modules/win_rootkit/win_rin3_rootkit.cs:145`
+- `SID.ShouldHidePid` (method) `modules/win_rootkit/win_rin3_rootkit.cs:203`
+- `SID.HookFindFirstFile` (method) `modules/win_rootkit/win_rin3_rootkit.cs:214`
+- `SID.HookCreateFile` (method) `modules/win_rootkit/win_rin3_rootkit.cs:226`
+
+## modules/win_rootkit/win_ring3_rootkit.c
+- `DownloadDLL` (function) `modules/win_rootkit/win_ring3_rootkit.c:79` `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)`
+- `ReflectiveLoadDLL` (function) `modules/win_rootkit/win_ring3_rootkit.c:99` `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)`
+- `initPIDArray` (function) `modules/win_rootkit/win_ring3_rootkit.c:146` `void initPIDArray(PIDArray *array)` -- Función para inicializar el arreglo de PIDs
+- `addPID` (function) `modules/win_rootkit/win_ring3_rootkit.c:153` `void addPID(PIDArray *array, DWORD pid)` -- Función para agregar un PID al arreglo
+- `freePIDArray` (function) `modules/win_rootkit/win_ring3_rootkit.c:162` `void freePIDArray(PIDArray *array)` -- Función para liberar la memoria del arreglo de PIDs
+- `getPIDsFromTasklist` (function) `modules/win_rootkit/win_ring3_rootkit.c:166` `void getPIDsFromTasklist(PIDArray *pidArray)`
+- `AddDllToAppInitDLLs` (function) `modules/win_rootkit/win_ring3_rootkit.c:191` `BOOL AddDllToAppInitDLLs(const char* dllPath)`
+- `GetProcessIdByName` (function) `modules/win_rootkit/win_ring3_rootkit.c:240` `DWORD GetProcessIdByName(const char* processName)`
+- `Gifted` (function) `modules/win_rootkit/win_ring3_rootkit.c:270` `BOOL Gifted(DWORD processId, const char* dllPath)`
+- `elp` (function) `modules/win_rootkit/win_ring3_rootkit.c:362` `void elp()`
+- `ensure_pid_file_exists` (function) `modules/win_rootkit/win_ring3_rootkit.c:382` `void ensure_pid_file_exists()`
+- `ensure_key_file_exists` (function) `modules/win_rootkit/win_ring3_rootkit.c:419` `void ensure_key_file_exists()`
+- `ensure_hide_file_exists` (function) `modules/win_rootkit/win_ring3_rootkit.c:446` `void ensure_hide_file_exists()`
+- `giveGift` (function) `modules/win_rootkit/win_ring3_rootkit.c:475` `BOOL giveGift()`
+- `handle_client` (function) `modules/win_rootkit/win_ring3_rootkit.c:526` `DWORD WINAPI handle_client(LPVOID client_socket)`
+- `monitor_shell` (function) `modules/win_rootkit/win_ring3_rootkit.c:755` `DWORD WINAPI monitor_shell(LPVOID data)`
+- `main` (function) `modules/win_rootkit/win_ring3_rootkit.c:865` `int main()`
+
+## modules/win_rootkit/win_ring3_rootkit.cpp
+- `get_username_from_pid` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:42` `char* get_username_from_pid(DWORD pid)`
+- `should_hide_pid` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:65` `int should_hide_pid(const char* pid)`
+- `hook_FindFirstFile` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:75` `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)`
+- `hook_CreateFile` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:85` `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...`
+- `DllMain` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:94` `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
+
+## modules/workspace.py
+Imported by: `tests/test_lazy_loop.py`
+- `root` (function) `modules/workspace.py:21` `def root()` -- Return (and create) the workspace root directory.
+- `resolve` (function) `modules/workspace.py:27` `def resolve(rel)` -- Resolve a workspace-relative path, refusing escapes.
+- `list_entries` (function) `modules/workspace.py:46` `def list_entries(rel)` -- List one directory with names, kinds and sizes.
+- `read_text` (function) `modules/workspace.py:63` `def read_text(rel, limit)` -- Read one file, truncated to the byte limit.
+- `write_text` (function) `modules/workspace.py:72` `def write_text(rel, content)` -- Write one file, creating parents; returns the character count.
+- `make_dir` (function) `modules/workspace.py:83` `def make_dir(rel)` -- Create one directory (parents included).
+- `remove` (function) `modules/workspace.py:90` `def remove(rel)` -- Delete a file or directory tree inside the workspace.
+
 ## modules/world_model.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/cli_auth.py`
-Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/atomic_exploit_bridge.py`, `modules/exploit_recommender.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_world_model_extended.py`
-- `read_state_dict` (function) `modules/world_model.py:101` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
-- `write_state_dict` (function) `modules/world_model.py:147` `def write_state_dict(path, data)` -- Atomically write a world-model state dict as plaintext.
-- `HostState.rank` (method) `modules/world_model.py:189` `def rank(self)`
-- `HostState.can_advance_to` (method) `modules/world_model.py:192` `def can_advance_to(self, next_state)`
-- `NetworkGraph.__init__` (method) `modules/world_model.py:296` `def __init__(self)`
-- `NetworkGraph.add_relation` (method) `modules/world_model.py:303` `def add_relation(self, relation)` -- Add a directed edge.
-- `NetworkGraph.neighbors` (method) `modules/world_model.py:311` `def neighbors(self, node)` -- Return nodes reachable from *node* in one outbound hop.
-- `NetworkGraph.in_degree` (method) `modules/world_model.py:315` `def in_degree(self, node)` -- Count edges pointing INTO *node*.
-- `NetworkGraph.out_degree` (method) `modules/world_model.py:319` `def out_degree(self, node)` -- Count edges leaving *node*.
-- `NetworkGraph.degree_centrality` (method) `modules/world_model.py:323` `def degree_centrality(self)` -- Return (node, centrality_score) pairs sorted descending by score.
-- `NetworkGraph.pivot_candidates` (method) `modules/world_model.py:338` `def pivot_candidates(self, top_k)` -- Return the *top_k* highest-centrality nodes as pivot candidates.
-- `NetworkGraph.to_dict` (method) `modules/world_model.py:360` `def to_dict(self)`
-- `NetworkGraph.from_dict` (method) `modules/world_model.py:377` `def from_dict(cls, data)`
-- `HostEntry.add_service` (method) `modules/world_model.py:402` `def add_service(self, svc)`
-- `HostEntry.advance` (method) `modules/world_model.py:406` `def advance(self, new_state)` -- Advance state only if new_state is the next valid step.
-- `HostEntry.to_dict` (method) `modules/world_model.py:414` `def to_dict(self)`
-- `HostEntry.from_dict` (method) `modules/world_model.py:426` `def from_dict(cls, d)`
-- `_PhaseDeriver.derive` (method) `modules/world_model.py:459` `def derive(self, hosts)`
-- `WorldModel.__init__` (method) `modules/world_model.py:578` `def __init__(self, path)`
-- `WorldModel.add_host` (method) `modules/world_model.py:594` `def add_host(self, ip)`
-- `WorldModel.reset_host` (method) `modules/world_model.py:602` `def reset_host(self, ip)` -- Clear a single host's state back to UNSCANNED for a fresh scan.
-- `WorldModel.remove_host` (method) `modules/world_model.py:612` `def remove_host(self, ip)` -- Remove one host from the model and persist the change.
-- `WorldModel.advance_host` (method) `modules/world_model.py:628` `def advance_host(self, ip, new_state)`
-- `WorldModel.add_service` (method) `modules/world_model.py:637` `def add_service(self, ip, port, name, version, protocol)`
-- `WorldModel.add_note` (method) `modules/world_model.py:654` `def add_note(self, ip, note)`
-- `WorldModel.set_os_hint` (method) `modules/world_model.py:661` `def set_os_hint(self, ip, os_hint)` -- Set the operating system hint for a host.
-- `WorldModel.get_host` (method) `modules/world_model.py:675` `def get_host(self, ip)` -- Return a host entry by IP, or None if not found.
-- `WorldModel.get_hosts_summary` (method) `modules/world_model.py:687` `def get_hosts_summary(self)` -- Return a mapping of IP -> state for all tracked hosts.
-- `WorldModel.add_credential` (method) `modules/world_model.py:698` `def add_credential(self, value, host, service)`
-- `WorldModel.link_credential_to_success` (method) `modules/world_model.py:730` `def link_credential_to_success(self, value, host)` -- Mark a credential as working for a specific host in the graph.
-- `WorldModel.link_credential_to_failure` (method) `modules/world_model.py:751` `def link_credential_to_failure(self, value, host)` -- Mark a credential as rejected by a specific host in the graph.
-- `WorldModel.add_vulnerability` (method) `modules/world_model.py:781` `def add_vulnerability(self, description, host, cve, severity)`
-- `WorldModel.add_email` (method) `modules/world_model.py:787` `def add_email(self, address, host, context)`
-- `WorldModel.add_domain` (method) `modules/world_model.py:793` `def add_domain(self, domain, host, context)`
-- `WorldModel.update_from_findings` (method) `modules/world_model.py:807` `def update_from_findings(self, findings)` -- Integrate a list of Finding objects (from obs_parser.ObsParser).
-- `WorldModel.consume_policy_facts` (method) `modules/world_model.py:880` `def consume_policy_facts(self, facts_path)` -- Ingest structured facts from FactStore's ``policy_facts.json``.
-- `WorldModel.add_relation` (method) `modules/world_model.py:972` `def add_relation(self, source, target, relation, weight)` -- Add an arbitrary directed relationship to the network graph.
-- `WorldModel.pivot_candidates` (method) `modules/world_model.py:993` `def pivot_candidates(self, top_k)` -- Return the top_k highest-centrality nodes as pivot candidates.
-- `WorldModel.graph_snapshot` (method) `modules/world_model.py:1001` `def graph_snapshot(self)` -- Return the full network graph as a serialisable dict.
-- `WorldModel.get_phase` (method) `modules/world_model.py:1008` `def get_phase(self)`
-- `WorldModel.get_suggested_tools` (method) `modules/world_model.py:1012` `def get_suggested_tools(self)`
-- `WorldModel.to_context_string` (method) `modules/world_model.py:1015` `def to_context_string(self)` -- Compact, LLM-readable summary of the current engagement state.
-- `WorldModel.reload` (method) `modules/world_model.py:1123` `def reload(self)` -- Discard in-memory state and re-read from the persisted file.
-- `WorldModel.reset` (method) `modules/world_model.py:1139` `def reset(self)` -- Clear all state and delete the persisted file.
-- `WorldModel.snapshot` (method) `modules/world_model.py:1150` `def snapshot(self)` -- Return a plain-dict snapshot (for JSON serialisation).
-- `WorldModel.read_section` (method) `modules/world_model.py:1166` `def read_section(self, key)` -- Return one allowlisted passthrough section.
-- `WorldModel.write_section` (method) `modules/world_model.py:1183` `def write_section(self, key, value)` -- Persist one allowlisted passthrough section atomically.
-- `get_world_model` (function) `modules/world_model.py:1211` `def get_world_model(path)` -- Return (or create) the module-level singleton WorldModel.
+Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
+Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
+- `read_state_dict` (function) `modules/world_model.py:290` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
+- `write_state_dict` (function) `modules/world_model.py:325` `def write_state_dict(path, data)` -- Atomically write a world-model state dict encrypted at rest.
+- `HostState.rank` (method) `modules/world_model.py:382` `def rank(self)`
+- `HostState.can_advance_to` (method) `modules/world_model.py:385` `def can_advance_to(self, next_state)`
+- `NetworkGraph.__init__` (method) `modules/world_model.py:489` `def __init__(self)`
+- `NetworkGraph.add_relation` (method) `modules/world_model.py:496` `def add_relation(self, relation)` -- Add a directed edge.
+- `NetworkGraph.neighbors` (method) `modules/world_model.py:504` `def neighbors(self, node)` -- Return nodes reachable from *node* in one outbound hop.
+- `NetworkGraph.in_degree` (method) `modules/world_model.py:508` `def in_degree(self, node)` -- Count edges pointing INTO *node*.
+- `NetworkGraph.out_degree` (method) `modules/world_model.py:512` `def out_degree(self, node)` -- Count edges leaving *node*.
+- `NetworkGraph.degree_centrality` (method) `modules/world_model.py:516` `def degree_centrality(self)` -- Return (node, centrality_score) pairs sorted descending by score.
+- `NetworkGraph.pivot_candidates` (method) `modules/world_model.py:531` `def pivot_candidates(self, top_k)` -- Return the *top_k* highest-centrality nodes as pivot candidates.
+- `NetworkGraph.to_dict` (method) `modules/world_model.py:553` `def to_dict(self)`
+- `NetworkGraph.from_dict` (method) `modules/world_model.py:570` `def from_dict(cls, data)`
+- `HostEntry.add_service` (method) `modules/world_model.py:595` `def add_service(self, svc)`
+- `HostEntry.advance` (method) `modules/world_model.py:599` `def advance(self, new_state)` -- Advance state only if new_state is the next valid step.
+- `HostEntry.to_dict` (method) `modules/world_model.py:607` `def to_dict(self)`
+- `HostEntry.from_dict` (method) `modules/world_model.py:619` `def from_dict(cls, d)`
+- `_PhaseDeriver.derive` (method) `modules/world_model.py:656` `def derive(self, hosts)`
+- `WorldModel.__init__` (method) `modules/world_model.py:775` `def __init__(self, path)`
+- `WorldModel.add_host` (method) `modules/world_model.py:791` `def add_host(self, ip)`
+- `WorldModel.reset_host` (method) `modules/world_model.py:799` `def reset_host(self, ip)` -- Clear a single host's state back to UNSCANNED for a fresh scan.
+- `WorldModel.remove_host` (method) `modules/world_model.py:809` `def remove_host(self, ip)` -- Remove one host from the model and persist the change.
+- `WorldModel.advance_host` (method) `modules/world_model.py:825` `def advance_host(self, ip, new_state)`
+- `WorldModel.add_service` (method) `modules/world_model.py:834` `def add_service(self, ip, port, name, version, protocol)`
+- `WorldModel.add_note` (method) `modules/world_model.py:851` `def add_note(self, ip, note)`
+- `WorldModel.set_os_hint` (method) `modules/world_model.py:858` `def set_os_hint(self, ip, os_hint)` -- Set the operating system hint for a host.
+- `WorldModel.get_host` (method) `modules/world_model.py:872` `def get_host(self, ip)` -- Return a host entry by IP, or None if not found.
+- `WorldModel.get_hosts_summary` (method) `modules/world_model.py:884` `def get_hosts_summary(self)` -- Return a mapping of IP -> state for all tracked hosts.
+- `WorldModel.add_credential` (method) `modules/world_model.py:895` `def add_credential(self, value, host, service)`
+- `WorldModel.link_credential_to_success` (method) `modules/world_model.py:927` `def link_credential_to_success(self, value, host)` -- Mark a credential as working for a specific host in the graph.
+- `WorldModel.link_credential_to_failure` (method) `modules/world_model.py:948` `def link_credential_to_failure(self, value, host)` -- Mark a credential as rejected by a specific host in the graph.
+- `WorldModel.add_vulnerability` (method) `modules/world_model.py:978` `def add_vulnerability(self, description, host, cve, severity)`
+- `WorldModel.add_email` (method) `modules/world_model.py:984` `def add_email(self, address, host, context)`
+- `WorldModel.add_domain` (method) `modules/world_model.py:990` `def add_domain(self, domain, host, context)`
+- `WorldModel.update_from_findings` (method) `modules/world_model.py:1004` `def update_from_findings(self, findings)` -- Integrate a list of Finding objects (from obs_parser.ObsParser).
+- `WorldModel.consume_policy_facts` (method) `modules/world_model.py:1077` `def consume_policy_facts(self, facts_path)` -- Ingest structured facts from FactStore's ``policy_facts.json``.
+- `WorldModel.add_relation` (method) `modules/world_model.py:1216` `def add_relation(self, source, target, relation, weight)` -- Add an arbitrary directed relationship to the network graph.
+- `WorldModel.pivot_candidates` (method) `modules/world_model.py:1237` `def pivot_candidates(self, top_k)` -- Return the top_k highest-centrality nodes as pivot candidates.
+- `WorldModel.graph_snapshot` (method) `modules/world_model.py:1245` `def graph_snapshot(self)` -- Return the full network graph as a serialisable dict.
+- `WorldModel.get_phase` (method) `modules/world_model.py:1252` `def get_phase(self)`
+- `WorldModel.get_suggested_tools` (method) `modules/world_model.py:1256` `def get_suggested_tools(self)`
+- `WorldModel.to_context_string` (method) `modules/world_model.py:1259` `def to_context_string(self)` -- Compact, LLM-readable summary of the current engagement state.
+- `WorldModel.reload` (method) `modules/world_model.py:1367` `def reload(self)` -- Discard in-memory state and re-read from the persisted file.
+- `WorldModel.reset` (method) `modules/world_model.py:1383` `def reset(self)` -- Clear all state and delete the persisted file.
+- `WorldModel.snapshot` (method) `modules/world_model.py:1394` `def snapshot(self)` -- Return a plain-dict snapshot (for JSON serialisation).
+- `WorldModel.read_section` (method) `modules/world_model.py:1410` `def read_section(self, key)` -- Return one allowlisted passthrough section.
+- `WorldModel.write_section` (method) `modules/world_model.py:1427` `def write_section(self, key, value)` -- Persist one allowlisted passthrough section atomically.
+- `get_world_model` (function) `modules/world_model.py:1455` `def get_world_model(path)` -- Return (or create) the module-level singleton WorldModel.
 
 ## modules/yaml_generator.py
 Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
@@ -289,172 +491,6 @@ Depends on: `poc_tui/app.py`
 Imported by: `tests/test_contract_manifest.py`
 - `check_manifest` (function) `scripts/check_contract_manifest.py:176` `def check_manifest(config)` -- Return the list of documented contracts that are missing on disk.
 - `main` (function) `scripts/check_contract_manifest.py:229` `def main(argv)` -- Run the manifest check and return the process exit code.
-
-## scripts/devtools/command_audit.py
-Depends on: `lazyown.py`
-- `argparser_commands` (function) `scripts/devtools/command_audit.py:40` `def argparser_commands(config)` -- Return the command names decorated with ``@with_argparser``.
-- `audit` (function) `scripts/devtools/command_audit.py:65` `def audit(config)` -- Run the dispatch and parser audit.
-- `main` (function) `scripts/devtools/command_audit.py:105` `def main(argv)` -- Run the audit and return the process exit code.
-
-## scripts/devtools/core_smoke.py
-Depends on: `core/hardening.py`, `core/payload_schema.py`, `modules/db.py`, `modules/killchain.py`, `modules/payload_factory.py`
-- `check_surfaces` (function) `scripts/devtools/core_smoke.py:64` `def check_surfaces(config)` -- Return the dotted names that are missing from the imported modules.
-- `check_calls` (function) `scripts/devtools/core_smoke.py:81` `def check_calls()` -- Exercise a small safe subset of the public API.
-- `main` (function) `scripts/devtools/core_smoke.py:118` `def main()` -- Run the smoke check and return the process exit code.
-
-## scripts/dirtyinit_drive.sh
-- `log` (function) `scripts/dirtyinit_drive.sh:65`
-- `warn` (function) `scripts/dirtyinit_drive.sh:66`
-- `die` (function) `scripts/dirtyinit_drive.sh:67`
-- `payload_value` (function) `scripts/dirtyinit_drive.sh:69`
-- `parse_flags` (function) `scripts/dirtyinit_drive.sh:89`
-- `require_adb` (function) `scripts/dirtyinit_drive.sh:130`
-- `require_device` (function) `scripts/dirtyinit_drive.sh:134`
-- `find_sdk` (function) `scripts/dirtyinit_drive.sh:141`
-- `find_ndk` (function) `scripts/dirtyinit_drive.sh:152`
-- `find_build_tools` (function) `scripts/dirtyinit_drive.sh:166`
-- `find_android_jar` (function) `scripts/dirtyinit_drive.sh:173`
-- `find_ndk_clang` (function) `scripts/dirtyinit_drive.sh:185`
-- `find_java_tool` (function) `scripts/dirtyinit_drive.sh:201`
-- `pack_apk` (function) `scripts/dirtyinit_drive.sh:211`
-- `compile_activity` (function) `scripts/dirtyinit_drive.sh:255`
-- `do_build` (function) `scripts/dirtyinit_drive.sh:265`
-- `do_install` (function) `scripts/dirtyinit_drive.sh:329`
-- `do_launch` (function) `scripts/dirtyinit_drive.sh:340`
-- `tap_button` (function) `scripts/dirtyinit_drive.sh:348`
-- `do_auto` (function) `scripts/dirtyinit_drive.sh:382`
-- `do_extract` (function) `scripts/dirtyinit_drive.sh:393`
-- `do_stage` (function) `scripts/dirtyinit_drive.sh:402`
-- `do_run` (function) `scripts/dirtyinit_drive.sh:412`
-- `do_logs` (function) `scripts/dirtyinit_drive.sh:418`
-- `do_status` (function) `scripts/dirtyinit_drive.sh:423`
-- `do_doctor` (function) `scripts/dirtyinit_drive.sh:468`
-- `do_help` (function) `scripts/dirtyinit_drive.sh:525`
-- `main` (function) `scripts/dirtyinit_drive.sh:529`
-
-## scripts/generate_sbom.py
-- `parse_requirement` (function) `scripts/generate_sbom.py:25` `def parse_requirement(line)` -- Split one requirements line into (name, pinned_version|None).
-- `collect_components` (function) `scripts/generate_sbom.py:37` `def collect_components(with_ml)` -- Parse requirements files into CycloneDX components, deduplicated.
-- `project_version` (function) `scripts/generate_sbom.py:68` `def project_version()` -- Read the package version from pyproject.toml.
-- `build_sbom` (function) `scripts/generate_sbom.py:74` `def build_sbom(with_ml)` -- Assemble the CycloneDX document.
-- `main` (function) `scripts/generate_sbom.py:92` `def main()` -- CLI entry point.
-
-## scripts/journal.py
-Imported by: `scripts/read_journal.py`, `tests/test_journal.py`
-- `JournalConfig.from_git_remote` (method) `scripts/journal.py:71` `def from_git_remote(cls, remote, category)` -- Build a config from the ``origin`` remote of the current checkout.
-- `Journal.repo_id` (method) `scripts/journal.py:184` `def repo_id(self)` -- The GraphQL node id of the repository.
-- `Journal.category_id` (method) `scripts/journal.py:192` `def category_id(self)` -- The GraphQL node id of the journal category.
-- `Journal.post` (method) `scripts/journal.py:206` `def post(self, title, body)` -- Create a journal entry and return its number, url, and title.
-- `Journal.entries` (method) `scripts/journal.py:223` `def entries(self, limit)` -- Return the most recently updated journal entries.
-- `main` (function) `scripts/journal.py:264` `def main(argv)` -- Run the journal CLI and return the process exit code.
-
-## scripts/lazy_llamacpp_serve.sh
-- `healthy` (function) `scripts/lazy_llamacpp_serve.sh:33`
-
-## scripts/lazy_llamacpp_setup.sh
-- `ask` (function) `scripts/lazy_llamacpp_setup.sh:40`
-
-## scripts/lazy_opencode_config.py
-Imported by: `skills/lazyown_mcp.py`
-- `patch_opencode` (function) `scripts/lazy_opencode_config.py:46` `def patch_opencode(set_default, host)` -- Merge the llamacpp provider into the opencode config.
-- `patch_hermes` (function) `scripts/lazy_opencode_config.py:93` `def patch_hermes(host)` -- Point the hermes config at the local llama.cpp server.
-- `main` (function) `scripts/lazy_opencode_config.py:150` `def main(argv)` -- CLI entry: ``--target opencode|hermes|both [--set-default]``.
-
-## scripts/mcp_call.py
-- `_ToolAnswer.__init__` (method) `scripts/mcp_call.py:46` `def __init__(self, text, is_error)`
-- `main` (function) `scripts/mcp_call.py:173` `def main(argv)` -- Parse the CLI, execute one MCP tool and print its answer.
-
-## scripts/migrate_commandsets.py
-- `merge_phase` (function) `scripts/migrate_commandsets.py:117` `def merge_phase(phase, dry_run)` -- Merge one phase's migrated methods into its clean file.
-- `main` (function) `scripts/migrate_commandsets.py:158` `def main()`
-
-## scripts/migrate_lazyown.py
-Imported by: `tests/test_migrate_lazyown_generator.py`
-- `extract_method` (function) `scripts/migrate_lazyown.py:88` `def extract_method(source, node)` -- Return the raw source text of a function definition.
-- `rewrite_globals` (function) `scripts/migrate_lazyown.py:96` `def rewrite_globals(method_source)` -- Replace bare module-global names with ``self.params[...]``.
-- `build_migrated_module` (function) `scripts/migrate_lazyown.py:124` `def build_migrated_module(phase, category, methods)` -- Return the source text of a migrated ``CommandSet`` module.
-- `main` (function) `scripts/migrate_lazyown.py:173` `def main()`
-
-## scripts/mutate.sh
-- `runners` (function) `scripts/mutate.sh:29`
-- `changed_sources` (function) `scripts/mutate.sh:33`
-- `usage` (function) `scripts/mutate.sh:40`
-
-## scripts/mutation_gate.py
-- `discover_runners` (function) `scripts/mutation_gate.py:25` `def discover_runners()` -- Return sorted curated mutation runners.
-- `run_runner` (function) `scripts/mutation_gate.py:34` `def run_runner(path, timeout_s)` -- Execute one mutation runner.
-- `main` (function) `scripts/mutation_gate.py:63` `def main(argv)` -- Entry point for the mutation gate.
-
-## scripts/publish_wiki.sh
-- `log` (function) `scripts/publish_wiki.sh:37`
-- `fail` (function) `scripts/publish_wiki.sh:38`
-- `write_home` (function) `scripts/publish_wiki.sh:58`
-- `write_installation` (function) `scripts/publish_wiki.sh:92`
-- `write_c2_api` (function) `scripts/publish_wiki.sh:150`
-- `write_plugins` (function) `scripts/publish_wiki.sh:174`
-- `write_sidebar` (function) `scripts/publish_wiki.sh:188`
-- `write_footer` (function) `scripts/publish_wiki.sh:207`
-
-## scripts/read_journal.py
-Depends on: `scripts/journal.py`
-- `main` (function) `scripts/read_journal.py:29` `def main(argv)` -- Print the recent journal entries and return the process exit code.
-
-## scripts/smoke_onboarding.sh
-- `check` (function) `scripts/smoke_onboarding.sh:8`
-
-## scripts/sync_doc_stats.py
-- `canonical_command_count` (function) `scripts/sync_doc_stats.py:87` `def canonical_command_count(root)` -- Read the canonical command count from the committed command index.
-- `project_version` (function) `scripts/sync_doc_stats.py:100` `def project_version(root)` -- Read the package version from pyproject.toml, ``0.0.0`` when absent.
-- `measure_stats` (function) `scripts/sync_doc_stats.py:109` `def measure_stats(root)` -- Measure every published count from the live tree.
-- `render` (function) `scripts/sync_doc_stats.py:136` `def render(template, stats)` -- Format one replacement template with the measured stats.
-- `sync` (function) `scripts/sync_doc_stats.py:141` `def sync(check, stats, root)` -- Apply or verify every replacement; return the list of stale spots.
-- `main` (function) `scripts/sync_doc_stats.py:165` `def main()` -- CLI entry point.
-
-## scripts/top_tier_check.py
-- `fail` (function) `scripts/top_tier_check.py:23` `def fail(message)`
-- `ok` (function) `scripts/top_tier_check.py:28` `def ok(message)`
-- `count_cli_commands` (function) `scripts/top_tier_check.py:32` `def count_cli_commands()`
-- `count_mcp_tools` (function) `scripts/top_tier_check.py:43` `def count_mcp_tools()`
-- `count_addons` (function) `scripts/top_tier_check.py:48` `def count_addons()`
-- `check_versions` (function) `scripts/top_tier_check.py:52` `def check_versions()`
-- `check_doc_counts` (function) `scripts/top_tier_check.py:70` `def check_doc_counts(commands, mcp, addons)`
-- `check_tracked_secrets` (function) `scripts/top_tier_check.py:81` `def check_tracked_secrets()`
-- `check_release_inputs` (function) `scripts/top_tier_check.py:108` `def check_release_inputs()`
-- `main` (function) `scripts/top_tier_check.py:116` `def main()`
-
-## scripts/update_apt_atomic_ids.py
-- `build_technique_index` (function) `scripts/update_apt_atomic_ids.py:22` `def build_technique_index(atomics_path)` -- Map technique_id -> list of {atomic_id, name, description}.
-- `update_playbooks` (function) `scripts/update_apt_atomic_ids.py:46` `def update_playbooks(index, playbook_dir)`
-
-## scripts/validate_agent_contract.sh
-- `pass` (function) `scripts/validate_agent_contract.sh:23`
-- `fail` (function) `scripts/validate_agent_contract.sh:27`
-- `check` (function) `scripts/validate_agent_contract.sh:32`
-- `check_no_hardcoded_passwords` (function) `scripts/validate_agent_contract.sh:59` -- -- No hardcoded credentials outside payload.json --- Pentest help-text, doc placeholders (<...>), template vars ({{...
-- `check_no_hardcoded_wordlists` (function) `scripts/validate_agent_contract.sh:74` -- -- No hardcoded wordlist paths outside payload.json --- Help-text examples, docstrings and filesystem hints are...
-
-## skills/aci_planner.py
-Depends on: `core/logging.py`, `modules/logging_config.py`
-Imported by: `skills/lazyown_mcp.py`, `tests/test_aci_planner.py`
-- `AttackPhase.to_dict` (method) `skills/aci_planner.py:171` `def to_dict(self)` -- Serialize to dict for JSON persistence.
-- `AttackPhase.from_dict` (method) `skills/aci_planner.py:176` `def from_dict(cls, d)` -- Deserialize from dict.
-- `ACIPlan.active_phase` (method) `skills/aci_planner.py:199` `def active_phase(self)` -- Return the first phase that is active or pending.
-- `ACIPlan.completion_pct` (method) `skills/aci_planner.py:207` `def completion_pct(self)` -- Percentage of phases that are done or skipped.
-- `ACIPlan.to_dict` (method) `skills/aci_planner.py:214` `def to_dict(self)` -- Serialize to dict for JSON persistence.
-- `ACIPlan.from_dict` (method) `skills/aci_planner.py:221` `def from_dict(cls, d)` -- Deserialize from dict.
-- `ACIPlanner.__init__` (method) `skills/aci_planner.py:461` `def __init__(self, api_key, objectives_file, plan_file)`
-- `ACIPlanner.plan` (method) `skills/aci_planner.py:471` `def plan(self, goal, phase_filter)` -- Decompose *goal* into an ACIPlan, inject objectives, persist.
-- `ACIEngine.__init__` (method) `skills/aci_planner.py:604` `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)`
-- `ACIEngine.status` (method) `skills/aci_planner.py:618` `def status(self)` -- Return a structured status dict for the active plan.
-- `ACIEngine.should_replan` (method) `skills/aci_planner.py:658` `def should_replan(self, plan)` -- Return True when the plan is stalled and a replan is warranted.
-- `ACIEngine.replan` (method) `skills/aci_planner.py:671` `def replan(self, reason)` -- Generate a new set of objectives for blocked/remaining phases.
-- `ACIEngine.complete` (method) `skills/aci_planner.py:741` `def complete(self)` -- Mark the active plan as completed and archive it.
-- `ACIReflector.__init__` (method) `skills/aci_planner.py:797` `def __init__(self, lessons_file)`
-- `ACIReflector.reflect` (method) `skills/aci_planner.py:800` `def reflect(self, plan)` -- Analyse *plan* and generate lessons.
-- `mcp_aci_plan` (function) `skills/aci_planner.py:865` `def mcp_aci_plan(goal, target, scope, domain, os_hint, phase_filter)` -- Plan an engagement goal and return a JSON summary.
-- `mcp_aci_status` (function) `skills/aci_planner.py:923` `def mcp_aci_status()` -- Return live status of the active ACI plan as JSON.
-- `mcp_aci_replan` (function) `skills/aci_planner.py:940` `def mcp_aci_replan(reason)` -- Force adaptive replanning of the active ACI plan.
-- `main` (function) `skills/aci_planner.py:1003` `def main(argv)` -- Entry point for CLI usage.
 
 
 Next: [API_p19.md](API_p19.md)

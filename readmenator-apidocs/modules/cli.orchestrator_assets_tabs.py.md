@@ -187,8 +187,12 @@ Tab controllers for Playbooks, Gyms, Chains and Profiles tabs.
 | [`add_model_member`](#orchestratorassetsmixin-add_model_member) | method | Append one LLM chain member; returns the stored name. |
 | [`remove_model_member`](#orchestratorassetsmixin-remove_model_member) | method | Drop one LLM chain member by name. |
 | [`set_model_priority`](#orchestratorassetsmixin-set_model_priority) | method | Change one LLM member's failover rank and repaint the table. |
+| [`set_harness`](#orchestratorassetsmixin-set_harness) | method | Toggle the deterministic harness from the orchestrator UI. |
 | [`add_guard_rule`](#orchestratorassetsmixin-add_guard_rule) | method | Register one guard intercept rule. |
 | [`remove_guard_rule`](#orchestratorassetsmixin-remove_guard_rule) | method | Delete one guard rule by exact pattern. |
+| [`save_guardrails`](#orchestratorassetsmixin-save_guardrails) | method | Merge harness settings into payload and reconfigure the harness. |
+| [`warm_restart_harness`](#orchestratorassetsmixin-warm_restart_harness) | method | Run the harness warm restart and repaint the table. |
+| [`rearm_harness`](#orchestratorassetsmixin-rearm_harness) | method | Re-arm suspended features and clear advisories. |
 
 <a id="orchestratorassetsmixin-playbook_rows"></a>
 
@@ -717,7 +721,7 @@ Merge the given keys into the payload and persist it.
 
 *Calls:* [`save_payload`](core.config.py.md#save_payload)
 
-*Called by:* [`LazyOrchestratorApp.action_save_config`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-action_save_config), [`LazyOrchestratorApp.on_button_pressed`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-on_button_pressed)
+*Called by:* [`LazyOrchestratorApp.action_save_config`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-action_save_config)
 
 <a id="orchestratorassetsmixin-add_model_member"></a>
 
@@ -794,11 +798,36 @@ Change one LLM member's failover rank and repaint the table.
 
 *Called by:* [`LazyOrchestratorApp.action_edit_item`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-action_edit_item)
 
+<a id="orchestratorassetsmixin-set_harness"></a>
+
+#### `OrchestratorAssetsMixin.set_harness`
+
+`method` | [cli/orchestrator_assets_tabs.py:784](../../cli/orchestrator_assets_tabs.py#L784)
+
+```python
+def set_harness(self, enabled: bool) -> dict
+```
+
+Toggle the deterministic harness from the orchestrator UI.
+
+Wired through `modules.orchestrator_config.set_harness`
+so payload.json, the active profile and the loop gates stay in
+sync.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `enabled` | `bool` |  | True engages the harness, False disables it. |
+
+**Returns:** `dict` - The ``{"harness", "profile", "chain"}`` summary or an error
+form with ``{"error": "..."}`` when persistence fails.
+
 <a id="orchestratorassetsmixin-add_guard_rule"></a>
 
 #### `OrchestratorAssetsMixin.add_guard_rule`
 
-`method` | [cli/orchestrator_assets_tabs.py:784](../../cli/orchestrator_assets_tabs.py#L784)
+`method` | [cli/orchestrator_assets_tabs.py:809](../../cli/orchestrator_assets_tabs.py#L809)
 
 ```python
 def add_guard_rule(self, pattern: str, action: str = 'ask', reason: str = '') -> bool
@@ -824,7 +853,7 @@ Register one guard intercept rule.
 
 #### `OrchestratorAssetsMixin.remove_guard_rule`
 
-`method` | [cli/orchestrator_assets_tabs.py:792](../../cli/orchestrator_assets_tabs.py#L792)
+`method` | [cli/orchestrator_assets_tabs.py:817](../../cli/orchestrator_assets_tabs.py#L817)
 
 ```python
 def remove_guard_rule(self, pattern: str) -> bool
@@ -843,6 +872,64 @@ Delete one guard rule by exact pattern.
 *Calls:* [`Guard.remove_rule`](modules.lazy_loop.py.md#guard-remove_rule)
 
 *Called by:* [`LazyOrchestratorApp.action_delete_item`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-action_delete_item)
+
+<a id="orchestratorassetsmixin-save_guardrails"></a>
+
+#### `OrchestratorAssetsMixin.save_guardrails`
+
+`method` | [cli/orchestrator_assets_tabs.py:868](../../cli/orchestrator_assets_tabs.py#L868)
+
+```python
+def save_guardrails(self, values: dict) -> dict
+```
+
+Merge harness settings into payload and reconfigure the harness.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `values` | `dict` |  | Mapping with optional ``saturation`` and per-tier ``cap_core``/``cap_mission``/``cap_support`` strings. |
+
+**Returns:** `dict` - The persisted guardrails section.
+
+*Calls:* [`save_payload`](core.config.py.md#save_payload), [`global_harness`](modules.guardrails.harness.py.md#global_harness)
+
+<a id="orchestratorassetsmixin-warm_restart_harness"></a>
+
+#### `OrchestratorAssetsMixin.warm_restart_harness`
+
+`method` | [cli/orchestrator_assets_tabs.py:914](../../cli/orchestrator_assets_tabs.py#L914)
+
+```python
+def warm_restart_harness(self) -> dict
+```
+
+Run the harness warm restart and repaint the table.
+
+**Returns:** `dict`
+
+*Calls:* [`global_harness`](modules.guardrails.harness.py.md#global_harness)
+
+*Called by:* [`LazyOrchestratorApp.on_button_pressed`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-on_button_pressed)
+
+<a id="orchestratorassetsmixin-rearm_harness"></a>
+
+#### `OrchestratorAssetsMixin.rearm_harness`
+
+`method` | [cli/orchestrator_assets_tabs.py:926](../../cli/orchestrator_assets_tabs.py#L926)
+
+```python
+def rearm_harness(self) -> dict
+```
+
+Re-arm suspended features and clear advisories.
+
+**Returns:** `dict`
+
+*Calls:* [`global_harness`](modules.guardrails.harness.py.md#global_harness)
+
+*Called by:* [`LazyOrchestratorApp.on_button_pressed`](cli.lazy_orchestrator.py.md#lazyorchestratorapp-on_button_pressed)
 
 ---
 

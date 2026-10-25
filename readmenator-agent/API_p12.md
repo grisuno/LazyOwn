@@ -98,6 +98,15 @@ Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skill
 - `GoalTracker.all_achieved` (method) `modules/goals.py:148` `def all_achieved(self)` -- Return True when every goal is achieved.
 - `GoalTracker.open_goals` (method) `modules/goals.py:152` `def open_goals(self)` -- Return goals still open.
 
+## modules/golden_path.py
+Depends on: `core/logging.py`, `modules/world_model.py`, `skills/lazyown_objective.py`
+- `build_edges` (function) `modules/golden_path.py:155` `def build_edges(snapshot)` -- Build the weighted adjacency map from a world-model snapshot.
+- `resolve_paths` (function) `modules/golden_path.py:274` `def resolve_paths(snapshot, top_k, source)` -- Solve shortest attack paths toward every reachable host.
+- `build` (function) `modules/golden_path.py:350` `def build(world_model_path, top_k, sessions_dir)` -- Load the live world model, solve paths, and persist the result.
+- `load_artifact` (function) `modules/golden_path.py:401` `def load_artifact(sessions_dir)` -- Read the persisted attack-path artifact.
+- `priority_for` (function) `modules/golden_path.py:418` `def priority_for(cost)` -- Map a path cost to an objective priority band.
+- `push_objectives` (function) `modules/golden_path.py:433` `def push_objectives(paths, store_path)` -- Inject one objective per solved path into the objective store.
+
 ## modules/gpo_abuse.py
 Imported by: `cli/commands/active_directory.py`
 - `GPOAbuseEngine.__init__` (method) `modules/gpo_abuse.py:118` `def __init__(self, domain, dc_ip)`
@@ -114,12 +123,82 @@ Imported by: `cli/commands/active_directory.py`
 - `GPOAbuseEngine.detect_risky_gpos` (method) `modules/gpo_abuse.py:406` `def detect_risky_gpos(self)` -- Identify GPOs with risky configurations for post-compromise cleanup.
 - `GPOAbuseEngine.summary` (method) `modules/gpo_abuse.py:434` `def summary(self)` -- Return a summary of GPO abuse capabilities.
 
+## modules/guardrails/advisories.py
+Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/harness.py`
+- `AdvisoryLedger.__init__` (method) `modules/guardrails/advisories.py:20` `def __init__(self, limit)` -- Create an empty ledger.
+- `AdvisoryLedger.notice` (method) `modules/guardrails/advisories.py:31` `def notice(self, code, message)` -- Record one advisory without blocking the caller.
+- `AdvisoryLedger.tail` (method) `modules/guardrails/advisories.py:49` `def tail(self, limit)` -- Return the newest notices up to the limit.
+- `AdvisoryLedger.clear` (method) `modules/guardrails/advisories.py:54` `def clear(self)` -- Drop every notice, returning the discarded count.
+- `AdvisoryLedger.describe` (method) `modules/guardrails/advisories.py:61` `def describe(self)` -- Return the ledger summary for the admin console.
+- `AdvisoryLedger.tail_locked` (method) `modules/guardrails/advisories.py:66` `def tail_locked(self, limit)` -- Tail helper used by describe; caller holds the lock.
+- `FeatureGate.__init__` (method) `modules/guardrails/advisories.py:74` `def __init__(self, features)` -- Create a gate limited to the known optional features.
+- `FeatureGate.suspend` (method) `modules/guardrails/advisories.py:84` `def suspend(self, feature, reason)` -- Suspend one optional feature.
+- `FeatureGate.resume` (method) `modules/guardrails/advisories.py:102` `def resume(self, feature)` -- Resume one suspended feature, returning True when it changed.
+- `FeatureGate.resume_all` (method) `modules/guardrails/advisories.py:108` `def resume_all(self)` -- Resume every suspended feature, returning the resumed count.
+- `FeatureGate.is_suspended` (method) `modules/guardrails/advisories.py:115` `def is_suspended(self, feature)` -- Return True when the feature is currently suspended.
+- `FeatureGate.suspended` (method) `modules/guardrails/advisories.py:120` `def suspended(self)` -- Return the suspended feature map (feature -> reason).
+- `FeatureGate.describe` (method) `modules/guardrails/advisories.py:125` `def describe(self)` -- Return the gate state for the admin console.
+
+## modules/guardrails/budget.py
+Depends on: `modules/guardrails/contracts.py`
+Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/harness.py`
+- `CapacityEnvelope.__init__` (method) `modules/guardrails/budget.py:28` `def __init__(self, capacities, threshold)` -- Seed capacities and the saturation threshold.
+- `CapacityEnvelope.configure` (method) `modules/guardrails/budget.py:50` `def configure(self, capacities, threshold)` -- Apply capacity and threshold settings, clamping invalid values.
+- `CapacityEnvelope.admit` (method) `modules/guardrails/budget.py:78` `def admit(self, task_class, units)` -- Reserve units for one tier honouring the priority contract.
+- `CapacityEnvelope.account` (method) `modules/guardrails/budget.py:109` `def account(self, task_class, units)` -- Record consumed units for one tier (idempotent on refusal).
+- `CapacityEnvelope.release` (method) `modules/guardrails/budget.py:118` `def release(self, task_class, units)` -- Return units to a tier ledger once an execution finishes.
+- `CapacityEnvelope.purge` (method) `modules/guardrails/budget.py:126` `def purge(self, task_class)` -- Zero one tier ledger, returning the freed unit count.
+- `CapacityEnvelope.reclaim` (method) `modules/guardrails/budget.py:136` `def reclaim(self)` -- Purge SUPPORT allocations, returning the freed unit count.
+- `CapacityEnvelope.usage` (method) `modules/guardrails/budget.py:140` `def usage(self, task_class)` -- Return current consumed units for one tier.
+- `CapacityEnvelope.capacity` (method) `modules/guardrails/budget.py:147` `def capacity(self, task_class)` -- Return configured capacity for one tier.
+- `CapacityEnvelope.saturated` (method) `modules/guardrails/budget.py:154` `def saturated(self, task_class)` -- Return True when the tier usage ratio reaches the threshold.
+- `CapacityEnvelope.threshold` (method) `modules/guardrails/budget.py:161` `def threshold(self)` -- Return the configured saturation threshold.
+- `CapacityEnvelope.describe` (method) `modules/guardrails/budget.py:166` `def describe(self)` -- Return a per-tier usage snapshot for the admin console.
+
+## modules/guardrails/checkpoints.py
+Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/harness.py`
+- `CheckpointLedger.__init__` (method) `modules/guardrails/checkpoints.py:21` `def __init__(self, history)` -- Create an empty ledger.
+- `CheckpointLedger.capture` (method) `modules/guardrails/checkpoints.py:33` `def capture(self, key, state)` -- Store one immutable snapshot for a key.
+- `CheckpointLedger.restore` (method) `modules/guardrails/checkpoints.py:51` `def restore(self, key)` -- Return the latest snapshot for a key, or None when missing.
+- `CheckpointLedger.keys` (method) `modules/guardrails/checkpoints.py:59` `def keys(self)` -- Return the tracked checkpoint keys.
+- `CheckpointLedger.warm_restart` (method) `modules/guardrails/checkpoints.py:64` `def warm_restart(self, core_key)` -- Purge non-core runtime contexts and restore the core snapshot.
+- `CheckpointLedger.describe` (method) `modules/guardrails/checkpoints.py:92` `def describe(self)` -- Return the ledger state for the admin console.
+
+## modules/guardrails/contracts.py
+Depends on: `cli/commands/enum.py`
+Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/budget.py`, `modules/guardrails/harness.py`
+- `TaskClass.is_known` (method) `modules/guardrails/contracts.py:31` `def is_known(cls, value)` -- Return True when the value names a registered class.
+- `GuardrailContract.describe` (method) `modules/guardrails/contracts.py:52` `def describe(self)` -- Return tier usage, advisories, suspended features and checkpoints.
+- `GuardrailContract.run_guarded` (method) `modules/guardrails/contracts.py:56` `def run_guarded(self, task_class, fn)` -- Execute fn under capacity accounting and warm-restart policy.
+- `GuardrailContract.warm_restart` (method) `modules/guardrails/contracts.py:68` `def warm_restart(self)` -- Purge non-critical contexts and restore the last checkpoint.
+- `HarnessAdminPort.configure` (method) `modules/guardrails/contracts.py:76` `def configure(self, settings)` -- Apply capacity and threshold settings from the payload.
+- `HarnessAdminPort.rearm` (method) `modules/guardrails/contracts.py:80` `def rearm(self)` -- Clear advisories and resume suspended features after an operator review.
+
+## modules/guardrails/harness.py
+Depends on: `modules/guardrails/advisories.py`, `modules/guardrails/budget.py`, `modules/guardrails/checkpoints.py`, `modules/guardrails/contracts.py`
+Imported by: `modules/guardrails/__init__.py`
+- `GuardHarness.__init__` (method) `modules/guardrails/harness.py:28` `def __init__(self, threshold, capacities)` -- Create a harness with payload-driven or default settings.
+- `GuardHarness.configure` (method) `modules/guardrails/harness.py:48` `def configure(self, settings)` -- Apply settings from the payload guardrails section.
+- `GuardHarness.run_guarded` (method) `modules/guardrails/harness.py:63` `def run_guarded(self, task_class, fn)` -- Execute fn under the tier policy, degrading instead of crashing.
+- `GuardHarness.warm_restart` (method) `modules/guardrails/harness.py:124` `def warm_restart(self, core_key)` -- Purge non-critical contexts and restore the core checkpoint.
+- `GuardHarness.suspend` (method) `modules/guardrails/harness.py:138` `def suspend(self, feature, reason)` -- Suspend one optional feature until re-arm.
+- `GuardHarness.rearm` (method) `modules/guardrails/harness.py:153` `def rearm(self)` -- Resume suspended features, clear advisories and refresh budgets.
+- `GuardHarness.describe` (method) `modules/guardrails/harness.py:165` `def describe(self)` -- Return the full harness snapshot for the admin console.
+- `global_harness` (function) `modules/guardrails/harness.py:232` `def global_harness()` -- Return the process-wide harness, creating it on first use.
+- `reset_global_harness` (function) `modules/guardrails/harness.py:241` `def reset_global_harness()` -- Replace the process-wide harness (tests and warm reloads only).
+
 ## modules/gui_askpass.sh
 - `has` (function) `modules/gui_askpass.sh:22` -- ── helpers ───────────────────────────────────────────────────────────────────
 - `try_zenity` (function) `modules/gui_askpass.sh:24`
 - `try_yad` (function) `modules/gui_askpass.sh:28`
 - `try_ssh_askpass` (function) `modules/gui_askpass.sh:33`
 - `try_kdialog` (function) `modules/gui_askpass.sh:40`
+
+## modules/gym_matrix_runner.py
+Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
+- `plan_matrix` (function) `modules/gym_matrix_runner.py:36` `def plan_matrix(target, sessions_dir, only, top_k)` -- Build the ordered execution plan for the gym matrix.
+- `run_matrix` (function) `modules/gym_matrix_runner.py:89` `def run_matrix(target)` -- Execute every planned chain and verify its CTF capture.
+- `load_matrix` (function) `modules/gym_matrix_runner.py:233` `def load_matrix(sessions_dir)` -- Read the persisted matrix summary.
 
 ## modules/gym_registry.py
 Depends on: `core/logging.py`, `modules/world_model.py`
@@ -142,6 +221,12 @@ Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests
 - `pop_run` (function) `modules/gym_registry.py:724` `def pop_run(selector)` -- Resolve and remove one run, returning its final state.
 - `state_summary` (function) `modules/gym_registry.py:751` `def state_summary()` -- Return counters used by status output and the TUI.
 - `new_run_token` (function) `modules/gym_registry.py:761` `def new_run_token()` -- Return an unguessable token for external integrations.
+
+## modules/harness.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/orchestrator_config.py`
+Imported by: `modules/lazy_loop.py`, `modules/llm_factory.py`, `skills/lazyown_mcp_opencode.py`
+- `harness_enabled` (function) `modules/harness.py:30` `def harness_enabled()` -- Return True when the deterministic harness is active.
+- `gate` (function) `modules/harness.py:65` `def gate(name)` -- Return whether one decision surface may remain stochastic.
 
 ## modules/hash_cracker.py
 Depends on: `core/defaults.py`, `core/logging.py`, `modules/db.py`
@@ -216,7 +301,7 @@ Imported by: `tests/test_security_hardening_v3.py`, `tests/test_security_hardeni
 
 ## modules/integrations/misp_export.py
 Depends on: `core/logging.py`
-Imported by: `modules/integrations/__init__.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+Imported by: `modules/integrations/__init__.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_single_source_of_truth.py`
 - `FindingMapper.map` (method) `modules/integrations/misp_export.py:90` `def map(self, finding)` -- Convert *finding* to a MISPAttribute.
 - `IPMapper.map` (method) `modules/integrations/misp_export.py:106` `def map(self, finding)`
 - `CredentialMapper.map` (method) `modules/integrations/misp_export.py:126` `def map(self, finding)`
@@ -229,8 +314,8 @@ Imported by: `modules/integrations/__init__.py`, `skills/lazyown_mcp.py`, `tests
 - `MISPExporter.to_json` (method) `modules/integrations/misp_export.py:299` `def to_json(self, event)` -- Serialise *event* to a MISP-compatible JSON string.
 - `MISPExporter.save` (method) `modules/integrations/misp_export.py:322` `def save(self, event, path)` -- Write the MISP event JSON to *path* and return the resolved path.
 - `MISPExporter.push_to_misp` (method) `modules/integrations/misp_export.py:330` `def push_to_misp(self, event, url, api_key)` -- HTTP-push the event to a live MISP instance.
-- `_DictFinding.__init__` (method) `modules/integrations/misp_export.py:454` `def __init__(self, data)`
-- `get_exporter` (function) `modules/integrations/misp_export.py:469` `def get_exporter()` -- Return the module-level MISPExporter singleton.
+- `_DictFinding.__init__` (method) `modules/integrations/misp_export.py:501` `def __init__(self, data)`
+- `get_exporter` (function) `modules/integrations/misp_export.py:516` `def get_exporter()` -- Return the module-level MISPExporter singleton.
 
 ## modules/integrations/nuclei_bridge.py
 Depends on: `core/logging.py`
@@ -282,24 +367,24 @@ Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`
 - `search_service` (function) `modules/integrations/searchsploit.py:346` `def search_service(name, version)` -- Module-level convenience: search by service name and version.
 
 ## modules/intel_fusion.py
-Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`
+Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/world_model.py`
 Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
 - `node_id` (function) `modules/intel_fusion.py:106` `def node_id(kind, value)` -- Deterministic node id from kind + normalized value.
 - `build_intel_graph` (function) `modules/intel_fusion.py:176` `def build_intel_graph(sessions_dir, est_cap)` -- Fuse all session artefacts into one C2-centred intel graph.
-- `add_node` (function) `modules/intel_fusion.py:183` `def add_node(kind, value, label)` -- Insert node or merge extra fields into the existing one.
-- `add_edge` (function) `modules/intel_fusion.py:197` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation.
-- `tag_source` (function) `modules/intel_fusion.py:205` `def tag_source(nid, source)` -- Record a corroborating artefact on a node, deduped.
-- `group_colors` (function) `modules/intel_fusion.py:512` `def group_colors(graph)` -- Stable colors for layer/language groupings (ReadMenator contract).
-- `page_settings` (function) `modules/intel_fusion.py:528` `def page_settings(graph)` -- Explorer page settings with ReadMenator physics sizes (exact values).
-- `build_analytics` (function) `modules/intel_fusion.py:585` `def build_analytics(graph, summary)` -- Side-panel analytics (attribution funnel + intel summary).
-- `build_bundle_payload` (function) `modules/intel_fusion.py:659` `def build_bundle_payload(graph)` -- Derive the circular/spherical bundle payload from a fused graph.
-- `bundle_settings` (function) `modules/intel_fusion.py:769` `def bundle_settings(graph)` -- Bundle page settings with ReadMenator sizes (exact values).
-- `assign_layout` (function) `modules/intel_fusion.py:800` `def assign_layout(graph, mode)` -- Attach x/y/z for radial/spherical modes; force modes stay free.
-- `write_summary` (function) `modules/intel_fusion.py:865` `def write_summary(graph, sessions_dir)` -- Score host exposure and suggest intents for the autonomous planner.
+- `add_node` (function) `modules/intel_fusion.py:182` `def add_node(kind, value, label)` -- Insert node or merge extra fields into the existing one.
+- `add_edge` (function) `modules/intel_fusion.py:200` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation.
+- `tag_source` (function) `modules/intel_fusion.py:214` `def tag_source(nid, source)` -- Record a corroborating artefact on a node, deduped.
+- `group_colors` (function) `modules/intel_fusion.py:577` `def group_colors(graph)` -- Stable colors for layer/language groupings (ReadMenator contract).
+- `page_settings` (function) `modules/intel_fusion.py:593` `def page_settings(graph)` -- Explorer page settings with ReadMenator physics sizes (exact values).
+- `build_analytics` (function) `modules/intel_fusion.py:650` `def build_analytics(graph, summary)` -- Side-panel analytics (attribution funnel + intel summary).
+- `build_bundle_payload` (function) `modules/intel_fusion.py:737` `def build_bundle_payload(graph)` -- Derive the circular/spherical bundle payload from a fused graph.
+- `bundle_settings` (function) `modules/intel_fusion.py:853` `def bundle_settings(graph)` -- Bundle page settings with ReadMenator sizes (exact values).
+- `assign_layout` (function) `modules/intel_fusion.py:884` `def assign_layout(graph, mode)` -- Attach x/y/z for radial/spherical modes; force modes stay free.
+- `write_summary` (function) `modules/intel_fusion.py:949` `def write_summary(graph, sessions_dir)` -- Score host exposure and suggest intents for the autonomous planner.
 
 ## modules/intelligence_engine.py
-Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
-Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`
+Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
+Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
 - `IntelligenceEngine.__init__` (method) `modules/intelligence_engine.py:142` `def __init__(self, config)`
 - `IntelligenceEngine.collect_from_scan` (method) `modules/intelligence_engine.py:153` `def collect_from_scan(self, target)` -- Parse nmap XML into structured facts.
 - `IntelligenceEngine.collect_from_tool` (method) `modules/intelligence_engine.py:255` `def collect_from_tool(self, output, tool, host)` -- Parse tool output into structured facts using ObsParser.
@@ -307,13 +392,13 @@ Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazy
 - `IntelligenceEngine.collect_from_nuclei` (method) `modules/intelligence_engine.py:334` `def collect_from_nuclei(self, target)` -- Run nuclei vulnerability scanner and collect findings.
 - `IntelligenceEngine.collect_from_yara` (method) `modules/intelligence_engine.py:376` `def collect_from_yara(self, target_path)` -- Scan with YARA rules and collect IOC matches.
 - `IntelligenceEngine.collect_from_factstore` (method) `modules/intelligence_engine.py:415` `def collect_from_factstore(self)` -- Ingest structured facts from FactStore policy_facts.json.
-- `IntelligenceEngine.analyze` (method) `modules/intelligence_engine.py:477` `def analyze(self)` -- Correlate collected facts into structured intelligence.
-- `IntelligenceEngine.produce_intelligence` (method) `modules/intelligence_engine.py:685` `def produce_intelligence(self)` -- Grade and enrich intelligence assessments with MITRE mappings.
-- `IntelligenceEngine.produce_counter_intelligence` (method) `modules/intelligence_engine.py:715` `def produce_counter_intelligence(self)` -- Assess what we exposed and what can detect us.
-- `IntelligenceEngine.disseminate` (method) `modules/intelligence_engine.py:765` `def disseminate(self)` -- Write intelligence to WorldModel, killchain, and report file.
-- `IntelligenceEngine.run_full_cycle` (method) `modules/intelligence_engine.py:845` `def run_full_cycle(self, target)` -- Execute the complete intelligence cycle for a target.
-- `IntelligenceEngine.get_intel_report` (method) `modules/intelligence_engine.py:874` `def get_intel_report(self)` -- Produce a structured JSON intelligence report.
-- `get_intelligence_engine` (function) `modules/intelligence_engine.py:931` `def get_intelligence_engine(config)` -- Return the module-level singleton IntelligenceEngine.
+- `IntelligenceEngine.analyze` (method) `modules/intelligence_engine.py:516` `def analyze(self)` -- Correlate collected facts into structured intelligence.
+- `IntelligenceEngine.produce_intelligence` (method) `modules/intelligence_engine.py:724` `def produce_intelligence(self)` -- Grade and enrich intelligence assessments with MITRE mappings.
+- `IntelligenceEngine.produce_counter_intelligence` (method) `modules/intelligence_engine.py:754` `def produce_counter_intelligence(self)` -- Assess what we exposed and what can detect us.
+- `IntelligenceEngine.disseminate` (method) `modules/intelligence_engine.py:804` `def disseminate(self)` -- Write intelligence to WorldModel, killchain, and report file.
+- `IntelligenceEngine.run_full_cycle` (method) `modules/intelligence_engine.py:884` `def run_full_cycle(self, target)` -- Execute the complete intelligence cycle for a target.
+- `IntelligenceEngine.get_intel_report` (method) `modules/intelligence_engine.py:913` `def get_intel_report(self)` -- Produce a structured JSON intelligence report.
+- `get_intelligence_engine` (function) `modules/intelligence_engine.py:970` `def get_intelligence_engine(config)` -- Return the module-level singleton IntelligenceEngine.
 
 ## modules/intercept.py
 Depends on: `cli/commands/enum.py`
@@ -396,94 +481,6 @@ Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
 - `TicketValidator.is_expired` (method) `modules/kerberos_core.py:706` `def is_expired(endtime, grace_period)` -- Check if a ticket has expired.
 - `TicketValidator.validate_flags` (method) `modules/kerberos_core.py:719` `def validate_flags(ticket, required_flags)` -- Check that a ticket has all required flags.
 - `TicketValidator.validate_pac_checksums` (method) `modules/kerberos_core.py:735` `def validate_pac_checksums(pac)` -- Validate PAC server and KDC checksums.
-
-## modules/kerberos_tickets.py
-Depends on: `modules/kerberos_core.py`
-Imported by: `cli/commands/active_directory.py`
-- `SilverTicketForger.__init__` (method) `modules/kerberos_tickets.py:131` `def __init__(self)`
-- `SilverTicketForger.forge` (method) `modules/kerberos_tickets.py:134` `def forge(self, config)` -- Forge a silver ticket for the specified service.
-- `GoldenTicketForger.__init__` (method) `modules/kerberos_tickets.py:272` `def __init__(self)`
-- `GoldenTicketForger.forge` (method) `modules/kerberos_tickets.py:275` `def forge(self, config)` -- Forge a golden ticket TGT.
-- `DiamondTicketForger.__init__` (method) `modules/kerberos_tickets.py:405` `def __init__(self)`
-- `DiamondTicketForger.forge` (method) `modules/kerberos_tickets.py:408` `def forge(self, config)` -- Forge a diamond ticket with PAC enhancement.
-- `SapphireTicketForger.__init__` (method) `modules/kerberos_tickets.py:469` `def __init__(self, kerberos_core)`
-- `SapphireTicketForger.forge_s4u2self` (method) `modules/kerberos_tickets.py:472` `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)` -- Generate a TGS-REQ for S4U2self service ticket.
-- `SapphireTicketForger.forge_rbcd` (method) `modules/kerberos_tickets.py:530` `def forge_rbcd(self, machine_account_hash, target_service, domain, username)` -- Generate exploit instructions for resource-based constrained delegation.
-- `SkeletonKeyInjector.detect_skeleton_key` (method) `modules/kerberos_tickets.py:578` `def detect_skeleton_key(target_host, domain, dc_ip)` -- Check if skeleton key is active on a DC.
-- `SkeletonKeyInjector.inject_command` (method) `modules/kerberos_tickets.py:600` `def inject_command(target_host)` -- Generate mimikatz command for skeleton key injection on a DC.
-- `SkeletonKeyInjector.cleanup_command` (method) `modules/kerberos_tickets.py:612` `def cleanup_command()` -- Generate LSASS restart command to remove skeleton key patch.
-
-## modules/kill_chain_viz.py
-Depends on: `modules/killchain.py`
-Imported by: `lazyc2.py`
-- `generate_html` (function) `modules/kill_chain_viz.py:69` `def generate_html(target, sessions)`
-- `generate_svg` (function) `modules/kill_chain_viz.py:102` `def generate_svg(target, sessions)`
-
-## modules/killchain.py
-Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
-- `KillChainConfig.world_model_path` (method) `modules/killchain.py:116` `def world_model_path(self)` -- Return the resolved path to world_model.json.
-- `KillChainConfig.phase_index` (method) `modules/killchain.py:120` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
-- `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:127` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
-- `KillChain.config` (method) `modules/killchain.py:154` `def config()` -- Return the centralised configuration.
-- `KillChain.phases` (method) `modules/killchain.py:159` `def phases()` -- Return the canonical 8-phase tuple.
-- `KillChain.phase_labels` (method) `modules/killchain.py:164` `def phase_labels()` -- Return the canonical phase label mapping.
-- `KillChain.phase_colors` (method) `modules/killchain.py:169` `def phase_colors()` -- Return the canonical phase hex-color mapping.
-- `KillChain.phase_rich_colors` (method) `modules/killchain.py:174` `def phase_rich_colors()` -- Return the canonical phase rich-terminal color mapping.
-- `KillChain.engagement_phase_to_cli` (method) `modules/killchain.py:179` `def engagement_phase_to_cli(engagement_value)` -- Map a ``WorldModel.EngagementPhase`` value to the CLI phase key.
-- `KillChain.cli_phase_to_host_state` (method) `modules/killchain.py:191` `def cli_phase_to_host_state(phase)` -- Map a CLI phase to a ``WorldModel.HostState`` value.
-- `KillChain.current_phase` (method) `modules/killchain.py:204` `def current_phase(world_model_path)` -- Derive the current kill-chain phase.
-- `KillChain.advance_phase` (method) `modules/killchain.py:251` `def advance_phase(new_phase, world_model_path, host)` -- Advance the kill-chain phase for connected surfaces.
-- `KillChain.get_progress` (method) `modules/killchain.py:328` `def get_progress(world_model_path)` -- Return the current kill-chain progress as a list of status objects.
-- `KillChain.compact_progress` (method) `modules/killchain.py:377` `def compact_progress(current_phase, phases_entered)` -- Return a compact single-line progress indicator ``[R>E>X>P>L]``.
-- `KillChain.phases_for_display` (method) `modules/killchain.py:397` `def phases_for_display()` -- Return an ordered ``(key, label, hex_color)`` triple for every phase.
-- `KillChain.phase_index` (method) `modules/killchain.py:408` `def phase_index(phase)` -- Return the zero-based index of a canonical phase.
-- `KillChain.snapshot` (method) `modules/killchain.py:413` `def snapshot(world_model_path)` -- Return a single, render-agnostic snapshot of the whole kill-chain.
-- `get_killchain` (function) `modules/killchain.py:453` `def get_killchain()` -- Return the ``KillChain`` class as a module-level entry point.
-
-## modules/kivi.py
-- `ReverseShellApp.build` (method) `modules/kivi.py:12` `def build(self)`
-- `ReverseShellApp.connect_to_server` (method) `modules/kivi.py:27` `def connect_to_server(self, instance)`
-
-## modules/lazy_agent.py
-Depends on: `core/config.py`, `modules/__init__.py`, `modules/agent_runner.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
-Imported by: `cli/commands/lazyops.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`
-- `model_timeout_sec` (function) `modules/lazy_agent.py:41` `def model_timeout_sec()` -- Return the hard per-turn model timeout from configuration.
-- `tool_calling_enabled` (function) `modules/lazy_agent.py:57` `def tool_calling_enabled()` -- Return whether agentic tool calling is enabled by configuration.
-- `max_iterations` (function) `modules/lazy_agent.py:72` `def max_iterations()` -- Return the bounded agent step budget from configuration.
-- `resolve_agentic_model` (function) `modules/lazy_agent.py:83` `def resolve_agentic_model(exclude)` -- Return a raw tool-calling backend for the best pool member, or None.
-- `ObservableAgentRunner.__init__` (method) `modules/lazy_agent.py:148` `def __init__(self, model, system_prompt, max_iterations, on_event)` -- Bind the model and the optional event sink (kind, name, text).
-- `ObservableAgentRunner.run` (method) `modules/lazy_agent.py:168` `def run(self, user_input)` -- Base loop plus final-turn persistence for true resume.
-- `ConversationStore.__init__` (method) `modules/lazy_agent.py:264` `def __init__(self, task_id)` -- Bind the conversation store for one task (``main`` when empty).
-- `ConversationStore.intent_messages` (method) `modules/lazy_agent.py:273` `def intent_messages(self, intent_id)` -- Return the stored messages for one intent (resume seed).
-- `ConversationStore.save_intent` (method) `modules/lazy_agent.py:278` `def save_intent(self, intent_id, messages)` -- Persist the tail of one intent conversation.
-- `ConversationStore.session` (method) `modules/lazy_agent.py:287` `def session(self, session_id)` -- Return one main-agent session payload (empty when unknown).
-- `ConversationStore.sessions` (method) `modules/lazy_agent.py:291` `def sessions(self)` -- List main-agent sessions with title, message count and age.
-- `ConversationStore.save_session` (method) `modules/lazy_agent.py:305` `def save_session(self, session_id, messages, title)` -- Persist one main-agent session conversation tail.
-- `ConversationStore.reset_intents` (method) `modules/lazy_agent.py:315` `def reset_intents(self)` -- Drop every stored intent conversation (fresh agent start).
-- `register_tools` (function) `modules/lazy_agent.py:322` `def register_tools(runner, specs)` -- Register tool specs (name, description, func, parameters, required).
-- `run_worker_session` (function) `modules/lazy_agent.py:335` `def run_worker_session(model, task_id, intent_id, system_prompt, launch_prompt, tools, on_event)` -- Run one agentic intent attempt with resume seeding.
-- `run_main_session` (function) `modules/lazy_agent.py:374` `def run_main_session(model, session_id, system_prompt, prompt, tools, on_event)` -- Run one main-agent turn, resuming the stored session conversation.
-- `run_external_opencode` (function) `modules/lazy_agent.py:396` `def run_external_opencode(prompt, session_id, agent, cwd, timeout_sec)` -- Run one headless ``opencode run`` task with MCP tooling.
-- `run_external_hermes` (function) `modules/lazy_agent.py:472` `def run_external_hermes(prompt, session_id, cwd, timeout_sec, max_turns, run_budget)` -- Run one detached ``hermes chat --oneshot`` task.
-
-## modules/lazy_bridge.py
-Depends on: `modules/finding_lifecycle.py`, `modules/traffic_recorder.py`, `modules/world_model.py`
-Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_lazy_loop.py`
-- `lazy_tasks` (function) `modules/lazy_bridge.py:88` `def lazy_tasks()` -- Load LAZY task registry.
-- `lazy_assets` (function) `modules/lazy_bridge.py:99` `def lazy_assets()` -- Load LAZY asset nodes.
-- `lazy_graph` (function) `modules/lazy_bridge.py:110` `def lazy_graph(task_id)` -- Load experiment graph for a task.
-- `lazy_activity` (function) `modules/lazy_bridge.py:123` `def lazy_activity(task_id)` -- Load activity transcript for a task.
-- `lazy_traffic` (function) `modules/lazy_bridge.py:135` `def lazy_traffic(task_id)` -- Load traffic log for a task.
-- `lazy_guard_audit` (function) `modules/lazy_bridge.py:147` `def lazy_guard_audit(task_id)` -- Load guard audit for a task.
-- `bridge_status` (function) `modules/lazy_bridge.py:159` `def bridge_status()` -- Summarize LAZY universe and last sync cursor.
-- `pull_to_world_model` (function) `modules/lazy_bridge.py:206` `def pull_to_world_model()` -- Sync LAZY graphs and assets into LazyOwn world model.
-- `pull_to_objectives` (function) `modules/lazy_bridge.py:251` `def pull_to_objectives()` -- Inject open LAZY tasks as LazyOwn objectives without duplicates.
-- `pull_findings_to_lifecycle` (function) `modules/lazy_bridge.py:286` `def pull_findings_to_lifecycle()` -- Confirm LAZY finding nodes in LazyOwn finding lifecycle.
-- `pull_traffic_to_recorder` (function) `modules/lazy_bridge.py:361` `def pull_traffic_to_recorder(progress)` -- Mirror new LAZY traffic rows into the LazyOwn recorder index.
-- `push_objective_to_lazy` (function) `modules/lazy_bridge.py:429` `def push_objective_to_lazy(goal, scope)` -- Export a LazyOwn objective as an LAZY-compatible task draft.
-- `push_tasks_to_c2` (function) `modules/lazy_bridge.py:454` `def push_tasks_to_c2(only)` -- Mirror loop tasks into the lazyc2 Kanban board (sessions/tasks.json).
-- `sync_all` (function) `modules/lazy_bridge.py:519` `def sync_all(progress)` -- Run full bidirectional pull plus lifecycle, traffic and board mirror.
 
 
 Next: [API_p13.md](API_p13.md)

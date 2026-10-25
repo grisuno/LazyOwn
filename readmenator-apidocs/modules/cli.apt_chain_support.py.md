@@ -30,17 +30,14 @@ flowchart LR
     n_modules_chain_synth_py__facts_for_target["chain_synth.facts_for_target"]
     n_modules_chain_synth_py__synth_chain_data["chain_synth.synth_chain_data"]
     n_modules_chain_synth_py__write_generated_chain["chain_synth.write_generated_chain"]
-    n_cli_apt_chain_support_py__build_cli_approver(["build_cli_approver"])
-    n_modules_lazy_loop_py__SideQuestions_ask["lazy_loop.SideQuestions.ask"]
     n_cli_apt_chain_support_py__build_reactive_replanner(["build_reactive_replanner"])
     n_modules_chain_runner_py__ReplanContext_insert_step["chain_runner.ReplanContext.insert_step"]
     n_modules_reactive_engine_py__get_engine["reactive_engine.get_engine"]
     n_cli_apt_chain_support_py__build_llm_recovery_chain(["build_llm_recovery_chain"])
     n_modules_chain_registry_py__Chain["chain_registry.Chain"]
+    n_modules_chain_registry_py__Chain_resolve["chain_registry.Chain.resolve"]
     n_modules_chain_registry_py__ChainStep["chain_registry.ChainStep"]
-    n_modules_lazy_loop_py__LlmPool___init__["lazy_loop.LlmPool.__init__"]
-    n_modules_lazy_loop_py__LlmPool_complete["lazy_loop.LlmPool.complete"]
-    n_modules_lazy_loop_py__LlmPool_members["lazy_loop.LlmPool.members"]
+    n_modules_guardrails_harness_py__global_harness["harness.global_harness"]
     n_cli_apt_chain_support_py__parse_chain_args --> n_cli_apt_chain_support_py__ChainArgs
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_registry_py__scan_all
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_registry_py__set_enabled
@@ -49,14 +46,12 @@ flowchart LR
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_synth_py__facts_for_target
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_synth_py__synth_chain_data
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_synth_py__write_generated_chain
-    n_cli_apt_chain_support_py__build_cli_approver -.-> n_modules_lazy_loop_py__SideQuestions_ask
     n_cli_apt_chain_support_py__build_reactive_replanner -.-> n_modules_chain_runner_py__ReplanContext_insert_step
     n_cli_apt_chain_support_py__build_reactive_replanner -.-> n_modules_reactive_engine_py__get_engine
     n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_chain_registry_py__Chain
+    n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_chain_registry_py__Chain_resolve
     n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_chain_registry_py__ChainStep
-    n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_lazy_loop_py__LlmPool___init__
-    n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_lazy_loop_py__LlmPool_complete
-    n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_lazy_loop_py__LlmPool_members
+    n_cli_apt_chain_support_py__build_llm_recovery_chain -.-> n_modules_guardrails_harness_py__global_harness
 ```
 
 ## Classes
@@ -229,8 +224,6 @@ the decision; interactive mode asks the operator failure-closed.
 | `printer` |  |  |  |
 | `input_fn` |  | `None` |  |
 
-*Calls:* [`SideQuestions.ask`](modules.lazy_loop.py.md#sidequestions-ask)
-
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`retry_chain`](cli.retry_support.py.md#retry_chain)
 
 ---
@@ -282,7 +275,7 @@ pool is unavailable or replies nothing usable.
 
 **Returns:** `Chain | None`
 
-*Calls:* [`Chain`](modules.chain_registry.py.md#chain), [`ChainStep`](modules.chain_registry.py.md#chainstep), [`LlmPool.__init__`](modules.lazy_loop.py.md#llmpool-__init__), [`LlmPool.complete`](modules.lazy_loop.py.md#llmpool-complete), [`LlmPool.members`](modules.lazy_loop.py.md#llmpool-members)
+*Calls:* [`Chain`](modules.chain_registry.py.md#chain), [`Chain.resolve`](modules.chain_registry.py.md#chain-resolve), [`ChainStep`](modules.chain_registry.py.md#chainstep), [`global_harness`](modules.guardrails.harness.py.md#global_harness)
 
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
 

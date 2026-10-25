@@ -277,6 +277,23 @@ def _phase_for(command: str, manifest_phase: str) -> str:
     return "enum"
 
 
+def _is_doc_example(host: str) -> bool:
+    """Return True for RFC 2606 documentation placeholder domains.
+
+    Matches only the exact label chain ``example.com`` so lookalikes
+    such as ``evilexample.com`` still count as real targets.
+
+    Args:
+        host: Candidate host token.
+
+    Returns:
+        True when the host is the reserved example.com domain or a
+        subdomain of it.
+    """
+    lowered = host.lower().rstrip(".")
+    return lowered == "example.com" or lowered.endswith(".example.com")
+
+
 def _infer_target(rows: list[dict], graph: dict[str, Any]) -> str:
     """Pick the task target: the goal text wins, then command frequency.
 
@@ -288,11 +305,7 @@ def _infer_target(rows: list[dict], graph: dict[str, Any]) -> str:
         Target string, or '' when the trace carries no scoping signal.
     """
     goal = str(graph.get("goal", "") or "")
-    candidates = [
-        host
-        for host in _HOST_TOKEN_RE.findall(goal)
-        if host.lower() != "127.0.0.1" and not host.lower().endswith("example.com")
-    ]
+    candidates = [host for host in _HOST_TOKEN_RE.findall(goal) if host.lower() != "127.0.0.1" and not _is_doc_example(host)]
     if candidates:
         return candidates[0]
     counts: dict[str, int] = {}

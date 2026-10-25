@@ -133,7 +133,7 @@ flowchart LR
     n_modules_integrations_nuclei_parser_py__NucleiParser___init__["nuclei_parser.NucleiParser.__init__"]
     n_skills_lazyown_facts_py__NucleiParser_parse["lazyown_facts.NucleiParser.parse"]
     n_modules_yara_scanner_py__YaraScanner___init__["yara_scanner.YaraScanner.__init__"]
-    n_modules_world_model_py__get_world_model["world_model.get_world_model"]
+    n_modules_factsio_py__canonical_policy_facts["factsio.canonical_policy_facts"]
     n_modules_intelligence_engine_py__IntelligenceEngine___init__ --> n_modules_intelligence_engine_py__IntelligenceConfig
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_scan --> n_modules_intelligence_engine_py__CollectedFact
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_tool --> n_modules_intelligence_engine_py__CollectedFact
@@ -157,7 +157,7 @@ flowchart LR
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_nuclei -.-> n_modules_integrations_nuclei_parser_py__NucleiParser___init__
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_nuclei -.-> n_skills_lazyown_facts_py__NucleiParser_parse
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_yara -.-> n_modules_yara_scanner_py__YaraScanner___init__
-    n_modules_intelligence_engine_py__IntelligenceEngine_disseminate -.-> n_modules_world_model_py__get_world_model
+    n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_factstore -.-> n_modules_factsio_py__canonical_policy_facts
 ```
 
 ## Classes
@@ -476,9 +476,13 @@ def collect_from_factstore(self) -> list[CollectedFact]
 
 Ingest structured facts from FactStore policy_facts.json.
 
+Reads the canonical host-keyed document (legacy wrapped files are
+resolved transparently) and collects service, OS, credential, and
+vulnerability facts.
+
 **Returns:** `list[CollectedFact]` - List of collected facts.
 
-*Calls:* [`CollectedFact`](#collectedfact)
+*Calls:* [`canonical_policy_facts`](modules.factsio.py.md#canonical_policy_facts), [`CollectedFact`](#collectedfact)
 
 *Called by:* [`IntelligenceEngine.run_full_cycle`](#intelligenceengine-run_full_cycle)
 
@@ -486,7 +490,7 @@ Ingest structured facts from FactStore policy_facts.json.
 
 #### `IntelligenceEngine.analyze`
 
-`method` | [modules/intelligence_engine.py:477](../../modules/intelligence_engine.py#L477)
+`method` | [modules/intelligence_engine.py:516](../../modules/intelligence_engine.py#L516)
 
 ```python
 def analyze(self) -> list[IntelligenceAssessment]
@@ -505,7 +509,7 @@ domains to infrastructure, and ranks targets by value.
 
 #### `IntelligenceEngine.produce_intelligence`
 
-`method` | [modules/intelligence_engine.py:685](../../modules/intelligence_engine.py#L685)
+`method` | [modules/intelligence_engine.py:724](../../modules/intelligence_engine.py#L724)
 
 ```python
 def produce_intelligence(self) -> list[IntelligenceAssessment]
@@ -521,7 +525,7 @@ Grade and enrich intelligence assessments with MITRE mappings.
 
 #### `IntelligenceEngine.produce_counter_intelligence`
 
-`method` | [modules/intelligence_engine.py:715](../../modules/intelligence_engine.py#L715)
+`method` | [modules/intelligence_engine.py:754](../../modules/intelligence_engine.py#L754)
 
 ```python
 def produce_counter_intelligence(self) -> list[CounterIntelFinding]
@@ -539,7 +543,7 @@ Assess what we exposed and what can detect us.
 
 #### `IntelligenceEngine.disseminate`
 
-`method` | [modules/intelligence_engine.py:765](../../modules/intelligence_engine.py#L765)
+`method` | [modules/intelligence_engine.py:804](../../modules/intelligence_engine.py#L804)
 
 ```python
 def disseminate(self) -> dict[str, Any]
@@ -557,7 +561,7 @@ Write intelligence to WorldModel, killchain, and report file.
 
 #### `IntelligenceEngine.run_full_cycle`
 
-`method` | [modules/intelligence_engine.py:845](../../modules/intelligence_engine.py#L845)
+`method` | [modules/intelligence_engine.py:884](../../modules/intelligence_engine.py#L884)
 
 ```python
 def run_full_cycle(self, target: str) -> dict[str, Any]
@@ -583,7 +587,7 @@ disseminates structured results to the WorldModel.
 
 #### `IntelligenceEngine.get_intel_report`
 
-`method` | [modules/intelligence_engine.py:874](../../modules/intelligence_engine.py#L874)
+`method` | [modules/intelligence_engine.py:913](../../modules/intelligence_engine.py#L913)
 
 ```python
 def get_intel_report(self) -> dict[str, Any]
@@ -603,7 +607,7 @@ Produce a structured JSON intelligence report.
 
 ### `get_intelligence_engine`
 
-`function` | [modules/intelligence_engine.py:931](../../modules/intelligence_engine.py#L931)
+`function` | [modules/intelligence_engine.py:970](../../modules/intelligence_engine.py#L970)
 
 ```python
 def get_intelligence_engine(config: IntelligenceConfig | None = None) -> IntelligenceEngine

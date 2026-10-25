@@ -317,7 +317,7 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `HostSummary` (class, line 65) `class HostSummary`
   - `SessionSnapshot` (class, line 76) `class SessionSnapshot`
   - `StateManager` (class, line 92) `class StateManager`
-  - `get_state_manager` (function, line 776) `def get_state_manager()`
+  - `get_state_manager` (function, line 836) `def get_state_manager()`
   - `__init__` (method, line 107) `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)`
   - `instance` (method, line 129) `def instance(cls)`
   - `db` (method, line 137) `def db(self)`
@@ -348,13 +348,16 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `import_nmap_from_facts` (method, line 495) `def import_nmap_from_facts(self, facts)`
   - `status` (method, line 550) `def status(self)`
   - `_sync_world_model_cache` (method, line 556) `def _sync_world_model_cache(self)`
-  - `get_world_model_cache` (method, line 606) `def get_world_model_cache(self)`
-  - `load_world_model` (method, line 612) `def load_world_model(self)`
-  - `session_snapshot` (method, line 653) `def session_snapshot(self)`
-  - `export_csv` (method, line 757) `def export_csv(self, table)`
-  - `export_summary` (method, line 761) `def export_summary(self)`
+  - `_load_existing_world_model` (method, line 586) `def _load_existing_world_model(self)`
+  - `_merge_world_model` (method, line 599) `def _merge_world_model(existing, hosts_data, all_creds, all_vulns)`
+  - `_write_world_model` (method, line 657) `def _write_world_model(self, data)`
+  - `get_world_model_cache` (method, line 666) `def get_world_model_cache(self)`
+  - `load_world_model` (method, line 672) `def load_world_model(self)`
+  - `session_snapshot` (method, line 713) `def session_snapshot(self)`
+  - `export_csv` (method, line 817) `def export_csv(self, table)`
+  - `export_summary` (method, line 821) `def export_summary(self)`
 - Depends on: `core/logging.py`, `modules/db.py`, `modules/event_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`
+- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/stego_video.py
 - Doc: Video steganography addon for LazyOwn.
@@ -397,6 +400,7 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `parse_confirm` (function, line 26) `def parse_confirm(answer)`
   - `discovery_targets` (function, line 31) `def discovery_targets(sessions_dir)`
   - `write_world_model_hosts` (function, line 50) `def write_world_model_hosts(document, sessions)`
+- Depends on: `modules/world_model.py`
 - Imported by: `cli/commands/surface.py`, `tests/test_estorides_fusion.py`
 
 ## modules/tel.py

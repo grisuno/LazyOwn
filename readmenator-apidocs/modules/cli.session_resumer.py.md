@@ -57,7 +57,7 @@ flowchart LR
 
 ### `SessionSummary`
 
-`class` `dataclass` | [cli/session_resumer.py:29](../../cli/session_resumer.py#L29)
+`class` `dataclass` | [cli/session_resumer.py:28](../../cli/session_resumer.py#L28)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -84,7 +84,7 @@ One previous engagement discovered in sessions/.
 
 ### `SessionResumerConfig`
 
-`class` `dataclass` | [cli/session_resumer.py:41](../../cli/session_resumer.py#L41)
+`class` `dataclass` | [cli/session_resumer.py:40](../../cli/session_resumer.py#L40)
 
 Decorators: `@dataclass`
 
@@ -110,7 +110,7 @@ Centralised constants for the session resumer.
 
 ### `SessionResumer`
 
-`class` | [cli/session_resumer.py:51](../../cli/session_resumer.py#L51)
+`class` | [cli/session_resumer.py:50](../../cli/session_resumer.py#L50)
 
 ```python
 class SessionResumer
@@ -135,7 +135,7 @@ Scan sessions/ and present a resume panel.
 
 #### `SessionResumer.__init__`
 
-`constructor` | [cli/session_resumer.py:58](../../cli/session_resumer.py#L58)
+`constructor` | [cli/session_resumer.py:57](../../cli/session_resumer.py#L57)
 
 ```python
 def __init__(self, config: SessionResumerConfig | None = None) -> None
@@ -155,7 +155,7 @@ def __init__(self, config: SessionResumerConfig | None = None) -> None
 
 #### `SessionResumer.render_startup_panel`
 
-`method` | [cli/session_resumer.py:129](../../cli/session_resumer.py#L129)
+`method` | [cli/session_resumer.py:130](../../cli/session_resumer.py#L130)
 
 ```python
 def render_startup_panel(self) -> str | None

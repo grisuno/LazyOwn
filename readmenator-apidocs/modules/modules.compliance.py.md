@@ -355,7 +355,7 @@ Generate a full compliance report with evidence chain and optional SIEM export.
 
 #### `ComplianceEngine.export_pdf`
 
-`method` | [modules/compliance.py:831](../../modules/compliance.py#L831)
+`method` | [modules/compliance.py:857](../../modules/compliance.py#L857)
 
 ```python
 def export_pdf(self, report: dict[str, Any], output_path: str) -> str | None
@@ -376,7 +376,7 @@ def export_pdf(self, report: dict[str, Any], output_path: str) -> str | None
 
 #### `ComplianceEngine.add_evidence`
 
-`method` | [modules/compliance.py:901](../../modules/compliance.py#L901)
+`method` | [modules/compliance.py:927](../../modules/compliance.py#L927)
 
 ```python
 def add_evidence(self, filepath: str, operator: str, description: str = '') -> EvidenceEntry
@@ -398,7 +398,7 @@ def add_evidence(self, filepath: str, operator: str, description: str = '') -> E
 
 #### `ComplianceEngine.verify_evidence_chain`
 
-`method` | [modules/compliance.py:904](../../modules/compliance.py#L904)
+`method` | [modules/compliance.py:930](../../modules/compliance.py#L930)
 
 ```python
 def verify_evidence_chain(self) -> tuple[bool, list[str]]

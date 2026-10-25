@@ -39,6 +39,7 @@ from cli.recommendation import (
     RecommendationContext,
     RecommendationEngine,
 )
+from modules.world_model import read_state_dict
 
 _log = logging.getLogger(__name__)
 
@@ -81,7 +82,7 @@ def _load_world_model(sessions_dir: str | Path) -> dict | None:
     if not wm_path.exists():
         return None
     try:
-        data = json.loads(wm_path.read_text(encoding="utf-8"))
+        data = read_state_dict(wm_path)
         return data if isinstance(data, dict) else None
     except (OSError, json.JSONDecodeError):
         return None

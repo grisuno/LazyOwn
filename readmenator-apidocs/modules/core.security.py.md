@@ -47,7 +47,7 @@ def generate_certificates(output_dir: str | None = None) -> tuple[str, str]
 Generate a self-signed CA certificate and key pair.
 
 Creates ``cert.pem`` and ``key.pem`` in the current directory (or
-``output_dir`` if specified). Uses OpenSSL with 4096-bit RSA and
+`[`output_dir`](modules.ctf_capture.py.md#output_dir)` if specified). Uses OpenSSL with 4096-bit RSA and
 a 3650-day validity period.
 
 **Parameters**

@@ -416,7 +416,7 @@ Bind the chain, the execution primitive and operator switches.
 | `max_fallback_depth` | `int` | `_MAX_FALLBACK_DEPTH` | How many fallback hops one run may take. |
 | `fallback_depth` | `int` | `0` | Current fallback depth (internal). |
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`retry_chain`](cli.retry_support.py.md#retry_chain)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`retry_chain`](cli.retry_support.py.md#retry_chain), [`run_matrix`](modules.gym_matrix_runner.py.md#run_matrix)
 
 <a id="chainrunner-run"></a>
 
@@ -434,7 +434,7 @@ Execute the chain in order and return every step outcome.
 
 *Calls:* [`ChainRunResult`](#chainrunresult), [`StepOutcome`](#stepoutcome), [`render_text`](#render_text), [`new_run_id`](modules.chain_state.py.md#new_run_id), [`plan_check`](modules.verb_manifest.py.md#plan_check)
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`retry_chain`](cli.retry_support.py.md#retry_chain)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`retry_chain`](cli.retry_support.py.md#retry_chain), [`run_matrix`](modules.gym_matrix_runner.py.md#run_matrix)
 
 ---
 

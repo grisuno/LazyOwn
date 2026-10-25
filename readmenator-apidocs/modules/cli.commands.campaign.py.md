@@ -45,7 +45,7 @@ flowchart LR
 
 ### `CampaignCommandSet`
 
-`class` | [cli/commands/campaign.py:37](../../cli/commands/campaign.py#L37)
+`class` | [cli/commands/campaign.py:38](../../cli/commands/campaign.py#L38)
 
 ```python
 class CampaignCommandSet(LazyOwnCommandSet)
@@ -72,7 +72,7 @@ Export and import full campaign packages as portable archives.
 
 #### `CampaignCommandSet.do_campaign`
 
-`method` | [cli/commands/campaign.py:44](../../cli/commands/campaign.py#L44)
+`method` | [cli/commands/campaign.py:45](../../cli/commands/campaign.py#L45)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -120,7 +120,7 @@ campaign list
 
 ### `BASE_DIR`
 
-`constant` | [cli/commands/campaign.py:29](../../cli/commands/campaign.py#L29)
+`constant` | [cli/commands/campaign.py:30](../../cli/commands/campaign.py#L30)
 
 ```python
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -132,7 +132,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 ### `SESSIONS_DIR`
 
-`constant` | [cli/commands/campaign.py:30](../../cli/commands/campaign.py#L30)
+`constant` | [cli/commands/campaign.py:31](../../cli/commands/campaign.py#L31)
 
 ```python
 SESSIONS_DIR = BASE_DIR / 'sessions'
@@ -144,7 +144,7 @@ SESSIONS_DIR = BASE_DIR / 'sessions'
 
 ### `DB_PATH`
 
-`constant` | [cli/commands/campaign.py:31](../../cli/commands/campaign.py#L31)
+`constant` | [cli/commands/campaign.py:32](../../cli/commands/campaign.py#L32)
 
 ```python
 DB_PATH = SESSIONS_DIR / 'db' / 'lazyown.db'
@@ -156,7 +156,7 @@ DB_PATH = SESSIONS_DIR / 'db' / 'lazyown.db'
 
 ### `EXPORTS_DIR`
 
-`constant` | [cli/commands/campaign.py:32](../../cli/commands/campaign.py#L32)
+`constant` | [cli/commands/campaign.py:33](../../cli/commands/campaign.py#L33)
 
 ```python
 EXPORTS_DIR = SESSIONS_DIR / 'exports'
@@ -168,7 +168,7 @@ EXPORTS_DIR = SESSIONS_DIR / 'exports'
 
 ### `PACKAGE_VERSION`
 
-`constant` | [cli/commands/campaign.py:34](../../cli/commands/campaign.py#L34)
+`constant` | [cli/commands/campaign.py:35](../../cli/commands/campaign.py#L35)
 
 ```python
 PACKAGE_VERSION = 1

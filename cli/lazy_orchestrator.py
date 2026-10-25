@@ -24,7 +24,7 @@ from pathlib import Path
 from rich.text import Text
 from textual.app import App, ComposeResult
 from textual.binding import Binding
-from textual.containers import Vertical, VerticalScroll
+from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.widgets import (
     Button,
     DataTable,
@@ -142,7 +142,7 @@ def verb_candidates() -> list[tuple[str, str]]:
 
 
 class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
-    """Admin console: Now / Config / Verbs / Chains / Models / Guard."""
+    """Admin console: Now / Config / Verbs / Chains / Models / Guard / Harness."""
 
     CSS = """
     #now-status { height: 6; border: round $accent; padding: 0 1; }
@@ -255,6 +255,20 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
                     )
             with TabPane("Guard", id="tab-guard"):
                 yield DataTable(id="guard-table")
+            with TabPane("Harness", id="tab-harness"):
+                with VerticalScroll():
+                    yield DataTable(id="harness-table")
+                    yield Static("", id="harness-detail")
+                    yield Static("Saturation threshold (0.01-0.99)", classes="modal-label")
+                    yield Input(placeholder="0.85", id="cfg-guardrails-saturation")
+                    yield Static("Capacity per tier (core, mission, support)", classes="modal-label")
+                    yield Input(placeholder="10000", id="cfg-guardrails-cap-core")
+                    yield Input(placeholder="2000", id="cfg-guardrails-cap-mission")
+                    yield Input(placeholder="512", id="cfg-guardrails-cap-support")
+                    with Horizontal():
+                        yield Button("Save harness", id="harness-save", variant="primary")
+                        yield Button("Warm restart", id="harness-restart", variant="warning")
+                        yield Button("Re-arm", id="harness-rearm", variant="default")
         yield Footer()
 
     def on_mount(self) -> None:
@@ -271,6 +285,8 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         self._refresh_models()
         self._refresh_params()
         self._refresh_guard()
+        self._load_guardrails_into_form()
+        self._refresh_harness()
         self.set_interval(POLL_SEC, self._poll_now)
 
     def toggle_stage(self, name: str) -> bool:
@@ -383,9 +399,21 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         status.update(Text(f"task {task_id}  lines={len(self._now_lines)}\nworkers: {workers}\nlast: {latest[:160]}"))
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
-        """Handle the config save button."""
-        if event.button.id != "config-save":
+        """Handle the config and harness buttons."""
+        if event.button.id == "config-save":
+            self._submit_config_save()
             return
+        if event.button.id == "harness-save":
+            self._submit_harness_save()
+            return
+        if event.button.id == "harness-restart":
+            self.warm_restart_harness()
+            return
+        if event.button.id == "harness-rearm":
+            self.rearm_harness()
+
+    def _submit_config_save(self) -> None:
+        """Persist the config form values into the payload."""
         values = {}
         for spec in CONFIG_FIELDS:
             try:
@@ -396,6 +424,29 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         try:
             self.query_one("#config-status", Static).update(
                 Text(f"saved {len([v for v in values.values() if v])} key(s) to payload")
+            )
+        except Exception:
+            pass
+
+    def _submit_harness_save(self) -> None:
+        """Persist the harness form values and reconfigure the harness."""
+        keys = ("saturation", "cap_core", "cap_mission", "cap_support")
+        widget_ids = {
+            "saturation": "cfg-guardrails-saturation",
+            "cap_core": "cfg-guardrails-cap-core",
+            "cap_mission": "cfg-guardrails-cap-mission",
+            "cap_support": "cfg-guardrails-cap-support",
+        }
+        values = {}
+        for name, widget_id in widget_ids.items():
+            try:
+                values[name] = str(self.query_one(f"#{widget_id}", Input).value).strip()
+            except Exception:
+                values[name] = ""
+        guard = self.save_guardrails(values)
+        try:
+            self.query_one("#harness-detail", Static).update(
+                Text(f"harness saved: threshold={guard.get('saturation_threshold')} capacity={guard.get('capacity')}")
             )
         except Exception:
             pass

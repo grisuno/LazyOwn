@@ -1,6 +1,150 @@
 # API (page 21 of 24)
 Previous: [API_p20.md](API_p20.md)
 
+## skills/unified_orchestrator.py
+Depends on: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
+Imported by: `lazyown.py`, `tests/test_improvements_spec.py`
+- `OrchestratorConfig.from_payload` (method) `skills/unified_orchestrator.py:111` `def from_payload(cls, payload)` -- Return a config with ``payload.json`` overrides applied.
+- `OrchestratorGoal.with_defaults` (method) `skills/unified_orchestrator.py:156` `def with_defaults(self, config)` -- Return a copy with empty fields populated from ``config``.
+- `OrchestratorResult.to_dict` (method) `skills/unified_orchestrator.py:197` `def to_dict(self)` -- Return a JSON-serialisable dictionary of the result.
+- `IOrchestratorBackend.available` (method) `skills/unified_orchestrator.py:215` `def available(self)` -- Return ``True`` when this backend can satisfy a request.
+- `IOrchestratorBackend.run` (method) `skills/unified_orchestrator.py:219` `def run(self, goal)` -- Execute ``goal`` and return a normalised :class:`OrchestratorResult`.
+- `EventBus.__init__` (method) `skills/unified_orchestrator.py:233` `def __init__(self, config, root)` -- Bind the bus to the active config.
+- `EventBus.path` (method) `skills/unified_orchestrator.py:252` `def path(self)` -- Return the resolved event file path.
+- `EventBus.emit` (method) `skills/unified_orchestrator.py:256` `def emit(self, event)` -- Append a single sanitised event to the bus.
+- `BackendRegistry.__init__` (method) `skills/unified_orchestrator.py:303` `def __init__(self, backends)` -- Bind the registry to a fixed-order tuple of backends.
+- `BackendRegistry.names` (method) `skills/unified_orchestrator.py:327` `def names(self)` -- Return the registered backend names in declaration order.
+- `BackendRegistry.get` (method) `skills/unified_orchestrator.py:331` `def get(self, name)` -- Return the backend registered as ``name`` or ``None``.
+- `BackendRegistry.available` (method) `skills/unified_orchestrator.py:335` `def available(self)` -- Return every backend that currently reports availability.
+- `RouterPolicy.__init__` (method) `skills/unified_orchestrator.py:347` `def __init__(self, config, registry)` -- Bind the policy to config and backend registry.
+- `RouterPolicy.choose` (method) `skills/unified_orchestrator.py:352` `def choose(self, goal)` -- Return the backend that should execute ``goal``.
+- `DaemonBackend.__init__` (method) `skills/unified_orchestrator.py:413` `def __init__(self, config, factory, payload)` -- Bind to config, optional engine factory and payload mapping.
+- `DaemonBackend.available` (method) `skills/unified_orchestrator.py:435` `def available(self)` -- Return ``True`` when the underlying engine can be imported.
+- `DaemonBackend.run` (method) `skills/unified_orchestrator.py:445` `def run(self, goal)` -- Execute a single-target kill-chain engagement.
+- `DaemonBackend.effective_target` (method) `skills/unified_orchestrator.py:489` `def effective_target(self, goal)` -- Return the daemon target this backend would use for ``goal``.
+- `HiveBackend.__init__` (method) `skills/unified_orchestrator.py:610` `def __init__(self, config, factory)` -- Bind to config and an optional queen factory.
+- `HiveBackend.available` (method) `skills/unified_orchestrator.py:619` `def available(self)` -- Return ``True`` when the hive engine is importable.
+- `HiveBackend.run` (method) `skills/unified_orchestrator.py:629` `def run(self, goal)` -- Plan, dispatch, collect and synthesise via the hive.
+- `SwanBackend.__init__` (method) `skills/unified_orchestrator.py:711` `def __init__(self, config, factory)` -- Bind to config and an optional orchestrator factory.
+- `SwanBackend.available` (method) `skills/unified_orchestrator.py:720` `def available(self)` -- Return ``True`` when the SWAN engine is importable.
+- `SwanBackend.run` (method) `skills/unified_orchestrator.py:730` `def run(self, goal)` -- Execute a single SWAN task and normalise the result.
+- `GoalValidator.__init__` (method) `skills/unified_orchestrator.py:814` `def __init__(self, config)` -- Bind the validator to the active configuration.
+- `GoalValidator.validate` (method) `skills/unified_orchestrator.py:818` `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Return a normalised goal or raise :class:`ValueError`.
+- `UnifiedOrchestrator.__init__` (method) `skills/unified_orchestrator.py:874` `def __init__(self, config, registry, router, validator, bus)` -- Bind the orchestrator to its collaborators.
+- `UnifiedOrchestrator.backends` (method) `skills/unified_orchestrator.py:890` `def backends(self)` -- Return the registered backend names in declaration order.
+- `UnifiedOrchestrator.execute` (method) `skills/unified_orchestrator.py:894` `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Validate, route, execute and emit one goal end-to-end.
+- `build_default_orchestrator` (function) `skills/unified_orchestrator.py:995` `def build_default_orchestrator(payload, sessions_dir)` -- Wire the canonical three-backend orchestrator.
+
+## skills/update_knowledge.py
+Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_parquet_db.py`
+- `main` (function) `skills/update_knowledge.py:40` `def main(argv)`
+
+## slack_c2_bot.py
+Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
+- `SecureSessionManager.__init__` (method) `slack_c2_bot.py:29` `def __init__(self)`
+- `SecureSessionManager.register_failed_attempt` (method) `slack_c2_bot.py:34` `def register_failed_attempt(self, user_id)`
+- `SecureSessionManager.check_lockout` (method) `slack_c2_bot.py:42` `def check_lockout(self, user_id)`
+- `SecureSessionManager.check_rate_limit` (method) `slack_c2_bot.py:52` `def check_rate_limit(self, user_id)`
+- `SecureSessionManager.create_session` (method) `slack_c2_bot.py:63` `def create_session(self, user_id)`
+- `SecureSessionManager.validate_session` (method) `slack_c2_bot.py:71` `def validate_session(self, user_id)`
+- `SecureSessionManager.set_client` (method) `slack_c2_bot.py:81` `def set_client(self, user_id, client_id)`
+- `SecureSessionManager.get_client` (method) `slack_c2_bot.py:85` `def get_client(self, user_id)`
+- `capture_shell_output` (function) `slack_c2_bot.py:95` `def capture_shell_output(cmd)`
+- `handle_message` (function) `slack_c2_bot.py:113` `def handle_message(event, say, logger)`
+- `cmd_addcli` (function) `slack_c2_bot.py:177` `def cmd_addcli(ack, respond, command)`
+- `cmd_clients` (function) `slack_c2_bot.py:195` `def cmd_clients(ack, respond, command)`
+- `cmd_download` (function) `slack_c2_bot.py:209` `def cmd_download(ack, respond, command)`
+- `handle_file` (function) `slack_c2_bot.py:240` `def handle_file(event, say, logger)`
+- `mentioned` (function) `slack_c2_bot.py:252` `def mentioned(ack, say, event)`
+
+## static/js/3d-force-graph-1.73.4.min.js
+Depends on: `cli/assign.py`, `lazyown-docker/init.sh`, `modules/exp.c`
+- `is` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `newNode` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `update` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `insertBodies` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `insert` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `isSamePosition` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `updateBoundingBox` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `resetBoundingBox` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `Te` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `c` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `Vr` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `l` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `y` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `u` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `s` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `g` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `c` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `b` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `u` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `differentBody` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `coefficient` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `h` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `v` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `l` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `s` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `hh` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `s` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `a` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `Hh` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `Jh` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `y` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `uu` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:2` -- Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `that` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `signature` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `signature` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `signature` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `t` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `i` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `ld` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `pd` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `y` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `n` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `I` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `Md` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `cf` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `Ef` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `e` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+- `r` (function) `static/js/3d-force-graph-1.73.4.min.js:5` -- <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2) Analyze the 2 colors and returns...
+
+## static/js/bootstrap-4.5.2.min.js
+Depends on: `cli/show.py`
+- `r` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `i` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `n` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `s` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `d` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `h` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+- `i` (function) `static/js/bootstrap-4.5.2.min.js:6` -- !
+
 ## static/js/bootstrap-5.3.0.bundle.min.js
 Depends on: `cli/assign.py`, `cli/show.py`
 - `n` (function) `static/js/bootstrap-5.3.0.bundle.min.js:6` -- !

@@ -338,7 +338,7 @@ Purge non-command entries from persisted `[`commands_seen`](cli.engagement_hooks
 
 ### `build_default_tips_config`
 
-`function` | [cli/tips_engine.py:1240](../../cli/tips_engine.py#L1240)
+`function` | [cli/tips_engine.py:1242](../../cli/tips_engine.py#L1242)
 
 ```python
 def build_default_tips_config() -> TipsConfig

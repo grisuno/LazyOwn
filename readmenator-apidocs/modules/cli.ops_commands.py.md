@@ -56,7 +56,7 @@ flowchart LR
 
 ### `LootEntry`
 
-`class` `dataclass` | [cli/ops_commands.py:545](../../cli/ops_commands.py#L545)
+`class` `dataclass` | [cli/ops_commands.py:552](../../cli/ops_commands.py#L552)
 
 Decorators: `@dataclass`
 
@@ -85,7 +85,7 @@ A single captured credential or hash parsed from a loot file.
 
 #### `LootEntry.value`
 
-`property` | [cli/ops_commands.py:561](../../cli/ops_commands.py#L561)
+`property` | [cli/ops_commands.py:568](../../cli/ops_commands.py#L568)
 
 Decorators: `@property`
 
@@ -249,7 +249,7 @@ no side-channel counts. The world model IS the progress.
 
 ### `note_add`
 
-`function` | [cli/ops_commands.py:468](../../cli/ops_commands.py#L468)
+`function` | [cli/ops_commands.py:475](../../cli/ops_commands.py#L475)
 
 ```python
 def note_add(text: str, rhost: str = '', phase: str = '') -> None
@@ -273,7 +273,7 @@ Append a timestamped operator note to sessions/notes.jsonl.
 
 ### `note_list`
 
-`function` | [cli/ops_commands.py:493](../../cli/ops_commands.py#L493)
+`function` | [cli/ops_commands.py:500](../../cli/ops_commands.py#L500)
 
 ```python
 def note_list(rhost: str = '', limit: int = 20) -> None
@@ -294,7 +294,7 @@ Print recent operator notes, optionally filtered by rhost.
 
 ### `gather_loot`
 
-`function` | [cli/ops_commands.py:571](../../cli/ops_commands.py#L571)
+`function` | [cli/ops_commands.py:578](../../cli/ops_commands.py#L578)
 
 ```python
 def gather_loot(sessions_dir: str = 'sessions') -> list[LootEntry]
@@ -324,7 +324,7 @@ for loot parsing reused by show / search / reuse / mark.
 
 ### `loot_show`
 
-`function` | [cli/ops_commands.py:614](../../cli/ops_commands.py#L614)
+`function` | [cli/ops_commands.py:621](../../cli/ops_commands.py#L621)
 
 ```python
 def loot_show(sessions_dir: str = 'sessions') -> None
@@ -346,7 +346,7 @@ Print a unified table of all captured credentials and hashes.
 
 ### `loot_search`
 
-`function` | [cli/ops_commands.py:686](../../cli/ops_commands.py#L686)
+`function` | [cli/ops_commands.py:693](../../cli/ops_commands.py#L693)
 
 ```python
 def loot_search(query: str, sessions_dir: str = 'sessions') -> None
@@ -369,7 +369,7 @@ Search captured loot for ``query`` across users and secrets.
 
 ### `loot_reuse`
 
-`function` | [cli/ops_commands.py:763](../../cli/ops_commands.py#L763)
+`function` | [cli/ops_commands.py:770](../../cli/ops_commands.py#L770)
 
 ```python
 def loot_reuse(rhost: str, sessions_dir: str = 'sessions') -> None
@@ -396,7 +396,7 @@ prints ready-to-run authentication hints.
 
 ### `loot_graph`
 
-`function` | [cli/ops_commands.py:847](../../cli/ops_commands.py#L847)
+`function` | [cli/ops_commands.py:854](../../cli/ops_commands.py#L854)
 
 ```python
 def loot_graph(sessions_dir: str = 'sessions') -> None
@@ -419,7 +419,7 @@ it authenticated to, the hosts that rejected it, and candidate hosts.
 
 ### `resolve_cred_value`
 
-`function` | [cli/ops_commands.py:917](../../cli/ops_commands.py#L917)
+`function` | [cli/ops_commands.py:924](../../cli/ops_commands.py#L924)
 
 ```python
 def resolve_cred_value(selector: str, entries: list[LootEntry]) -> str | None
@@ -446,7 +446,7 @@ nothing matches.
 
 ### `loot_mark`
 
-`function` | [cli/ops_commands.py:945](../../cli/ops_commands.py#L945)
+`function` | [cli/ops_commands.py:952](../../cli/ops_commands.py#L952)
 
 ```python
 def loot_mark(selector: str, outcome: str, host: str, sessions_dir: str = 'sessions') -> bool
@@ -473,7 +473,7 @@ Record that a credential worked or was rejected against ``host``.
 
 ### `pivot_add`
 
-`function` | [cli/ops_commands.py:987](../../cli/ops_commands.py#L987)
+`function` | [cli/ops_commands.py:994](../../cli/ops_commands.py#L994)
 
 ```python
 def pivot_add(new_ip: str, via_ip: str = '', note: str = '') -> None
@@ -497,7 +497,7 @@ Record a newly discovered pivot target.
 
 ### `pivot_list`
 
-`function` | [cli/ops_commands.py:1013](../../cli/ops_commands.py#L1013)
+`function` | [cli/ops_commands.py:1020](../../cli/ops_commands.py#L1020)
 
 ```python
 def pivot_list() -> None
@@ -511,7 +511,7 @@ Print the pivot chain discovered so far.
 
 ### `tasks_list`
 
-`function` | [cli/ops_commands.py:1070](../../cli/ops_commands.py#L1070)
+`function` | [cli/ops_commands.py:1077](../../cli/ops_commands.py#L1077)
 
 ```python
 def tasks_list(status_filter: str = 'active', limit: int = 30) -> None
@@ -532,7 +532,7 @@ Print tasks from sessions/tasks.json.
 
 ### `tasks_add`
 
-`function` | [cli/ops_commands.py:1125](../../cli/ops_commands.py#L1125)
+`function` | [cli/ops_commands.py:1132](../../cli/ops_commands.py#L1132)
 
 ```python
 def tasks_add(title: str, operator: str = 'cli') -> None
@@ -553,7 +553,7 @@ Append a new task to sessions/tasks.json.
 
 ### `tasks_done`
 
-`function` | [cli/ops_commands.py:1146](../../cli/ops_commands.py#L1146)
+`function` | [cli/ops_commands.py:1153](../../cli/ops_commands.py#L1153)
 
 ```python
 def tasks_done(task_id: int) -> bool
@@ -575,7 +575,7 @@ Mark a task as Done.
 
 ### `tasks_start`
 
-`function` | [cli/ops_commands.py:1166](../../cli/ops_commands.py#L1166)
+`function` | [cli/ops_commands.py:1173](../../cli/ops_commands.py#L1173)
 
 ```python
 def tasks_start(task_id: int) -> bool
@@ -597,7 +597,7 @@ Mark a task as Started.
 
 ### `scans_list`
 
-`function` | [cli/ops_commands.py:1189](../../cli/ops_commands.py#L1189)
+`function` | [cli/ops_commands.py:1196](../../cli/ops_commands.py#L1196)
 
 ```python
 def scans_list(rhost: str = '', sessions_dir: str = 'sessions') -> None
@@ -620,7 +620,7 @@ Reads the first lines of each .nmap file to extract open ports.
 
 ### `sitrep`
 
-`function` | [cli/ops_commands.py:1242](../../cli/ops_commands.py#L1242)
+`function` | [cli/ops_commands.py:1249](../../cli/ops_commands.py#L1249)
 
 ```python
 def sitrep(payload: dict[str, Any], sessions_dir: str = 'sessions') -> None

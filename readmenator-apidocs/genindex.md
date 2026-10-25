@@ -46,6 +46,7 @@
 - [`access_token`](modules/modules.saas_attacks.py.md#saasconfig-access_token) attribute of `SaaSConfig` in `modules.saas_attacks`
 - [`accessed`](modules/modules.timestomper.py.md#filetimestamps-accessed) attribute of `FileTimestamps` in `modules.timestomper`
 - [`AccessFact`](modules/skills.lazyown_facts.py.md#accessfact) class in `skills.lazyown_facts`
+- [`account`](modules/modules.guardrails.budget.py.md#capacityenvelope-account) method of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`account_id`](modules/modules.aws_attacks.py.md#awsconfig-account_id) attribute of `AWSConfig` in `modules.aws_attacks`
 - [`ACE_FLAGS`](modules/modules.dacl_abuse.py.md#ace_flags) constant in `modules.dacl_abuse`
 - [`ace_type`](modules/modules.dacl_abuse.py.md#acentry-ace_type) attribute of `ACEntry` in `modules.dacl_abuse`
@@ -146,7 +147,9 @@
 - [`active_transport`](modules/modules.c2_profile_engine.py.md#profileengine-active_transport) property of `ProfileEngine` in `modules.c2_profile_engine`
 - [`ActiveDirectoryCommandSet`](modules/cli.commands.active_directory.py.md#activedirectorycommandset) class in `cli.commands.active_directory`
 - [`activity`](modules/cli.killchain.py.md#phaseprogress-activity) attribute of `PhaseProgress` in `cli.killchain`
+- [`activity_records`](modules/modules.mediation.intel_mediator.py.md#intelmediator-activity_records) method of `IntelMediator` in `modules.mediation.intel_mediator`
 - [`ActivityLog`](modules/modules.lazy_loop.py.md#activitylog) class in `modules.lazy_loop`
+- [`ActivityLogPort`](modules/modules.mediation.contracts.py.md#activitylogport) protocol in `modules.mediation.contracts`
 - [`actual_outcome`](modules/modules.llm_evaluator.py.md#decisionrecord-actual_outcome) attribute of `DecisionRecord` in `modules.llm_evaluator`
 - [`actually_detected`](modules/modules.auto_purple.py.md#purpleresult-actually_detected) attribute of `PurpleResult` in `modules.auto_purple`
 - [`adapt_chain`](modules/modules.ai_exploit_chain.py.md#aiexploitchainer-adapt_chain) method of `AIExploitChainer` in `modules.ai_exploit_chain`
@@ -281,6 +284,7 @@
 - [`admin_users`](modules/lazyc2.blueprints.auth.py.md#admin_users) function in `lazyc2.blueprints.auth`
 - [`adminsdholder_abuse_plan`](modules/modules.dacl_abuse.py.md#daclabuseengine-adminsdholder_abuse_plan) method of `DACLAbuseEngine` in `modules.dacl_abuse`
 - [`admission_check`](modules/modules.lazy_loop.py.md#lazyloopengine-admission_check) method of `LazyLoopEngine` in `modules.lazy_loop`
+- [`admit`](modules/modules.guardrails.budget.py.md#capacityenvelope-admit) method of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`advance`](modules/modules.world_model.py.md#hostentry-advance) method of `HostEntry` in `modules.world_model`
 - [`advance_host`](modules/modules.state_manager.py.md#statemanager-advance_host) method of `StateManager` in `modules.state_manager`
 - [`advance_host`](modules/modules.world_model.py.md#worldmodel-advance_host) method of `WorldModel` in `modules.world_model`
@@ -289,6 +293,8 @@
 - [`adversary`](modules/lazyc2.py.md#adversary) function in `lazyc2`
 - [`advise`](modules/skills.lazyown_policy.py.md#policyadvisor-advise) method of `PolicyAdvisor` in `skills.lazyown_policy`
 - [`advisor_factory`](modules/cli.graph_overlay.py.md#graphoverlaystate-advisor_factory) attribute of `GraphOverlayState` in `cli.graph_overlay`
+- [`ADVISORY_LIMIT`](modules/modules.guardrails.advisories.py.md#advisory_limit) constant in `modules.guardrails.advisories`
+- [`AdvisoryLedger`](modules/modules.guardrails.advisories.py.md#advisoryledger) class in `modules.guardrails.advisories`
 - [`AES`](modules/utils.py.md#aes) constant in `utils`
 - [`aes_decrypt`](modules/modules.kerberos_core.py.md#kerberoscrypto-aes_decrypt) method of `KerberosCrypto` in `modules.kerberos_core`
 - [`aes_encrypt`](modules/modules.kerberos_core.py.md#kerberoscrypto-aes_encrypt) method of `KerberosCrypto` in `modules.kerberos_core`
@@ -336,6 +342,7 @@
 - [`aliases`](modules/modules.playbook_executor.py.md#playbookspec-aliases) attribute of `PlaybookSpec` in `modules.playbook_executor`
 - [`ALIASES_PATH`](modules/cli.aliases.py.md#aliases_path) constant in `cli.aliases`
 - [`AliasResolver`](modules/cli.cli_enhancements.py.md#aliasresolver) class in `cli.cli_enhancements`
+- [`ALL`](modules/modules.mediation.contracts.py.md#mediationdomains-all) attribute of `MediationDomains` in `modules.mediation.contracts`
 - [`ALL`](modules/skills.hermes-lazyown.constants.py.md#phasenames-all) attribute of `PhaseNames` in `skills.hermes-lazyown.constants`
 - [`all`](modules/cli.banner_config.py.md#segmentregistry-all) method of `SegmentRegistry` in `cli.banner_config`
 - [`all`](modules/plugins.generate_c_reverse_shell.lua.md#all) function in `plugins/generate_c_reverse_shell.lua`
@@ -417,6 +424,7 @@
 - [`anchors`](modules/modules.loop_progress.py.md#loopsnapshot-anchors) attribute of `LoopSnapshot` in `modules.loop_progress`
 - [`anchors_for`](modules/modules.lazy_loop.py.md#explorationgraph-anchors_for) method of `ExplorationGraph` in `modules.lazy_loop`
 - [`annotate`](modules/skills.lazyown_parquet_db.py.md#parquetdb-annotate) method of `ParquetDB` in `skills.lazyown_parquet_db`
+- [`annotate_detection`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-annotate_detection) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`annotate_detection`](modules/modules.loop_ai_bridge.py.md#annotate_detection) function in `modules.loop_ai_bridge`
 - [`annotate_rich`](modules/skills.lazyown_parquet_db.py.md#parquetdb-annotate_rich) method of `ParquetDB` in `skills.lazyown_parquet_db`
 - [`announce`](modules/skills.lazyown_policy.py.md#broadcastapprovalsink-announce) method of `BroadcastApprovalSink` in `skills.lazyown_policy`
@@ -573,6 +581,7 @@
 - [`arsenal_tips`](modules/cli.tips_engine.py.md#tipsconfig-arsenal_tips) attribute of `TipsConfig` in `cli.tips_engine`
 - [`artefacts`](modules/skills.unified_orchestrator.py.md#orchestratorresult-artefacts) attribute of `OrchestratorResult` in `skills.unified_orchestrator`
 - [`artefacts`](modules/cli.cli_enhancements.py.md#transcriptentry-artefacts) attribute of `TranscriptEntry` in `cli.cli_enhancements`
+- [`ARTIFACT_NAME`](modules/modules.golden_path.py.md#artifact_name) constant in `modules.golden_path`
 - [`artifacts`](modules/modules.chain_runner.py.md#chainrunresult-artifacts) attribute of `ChainRunResult` in `modules.chain_runner`
 - [`artifacts`](modules/modules.chain_registry.py.md#chainstep-artifacts) attribute of `ChainStep` in `modules.chain_registry`
 - [`artifacts`](modules/modules.outcome_bus.py.md#outcomeevent-artifacts) attribute of `OutcomeEvent` in `modules.outcome_bus`
@@ -1052,6 +1061,7 @@
 - [`build`](modules/skills.hermes-lazyown.claudemd_rules.py.md#rulesetbuilder-build) method of `RuleSetBuilder` in `skills.hermes-lazyown.claudemd_rules`
 - [`build`](modules/cli.surface_graph.py.md#surfacegraphbuilder-build) method of `SurfaceGraphBuilder` in `cli.surface_graph`
 - [`build`](modules/modules.threat_model.py.md#threatmodelbuilder-build) method of `ThreatModelBuilder` in `modules.threat_model`
+- [`build`](modules/modules.golden_path.py.md#build) function in `modules.golden_path`
 - [`build_agent`](modules/modules.c2_agent.py.md#build_agent) function in `modules.c2_agent`
 - [`build_analytics`](modules/modules.intel_fusion.py.md#build_analytics) function in `modules.intel_fusion`
 - [`build_as_req`](modules/modules.kerberos_core.py.md#kerberoscore-build_as_req) method of `KerberosCore` in `modules.kerberos_core`
@@ -1079,6 +1089,7 @@
 - [`build_default_registry`](modules/cli.banner_config.py.md#build_default_registry) function in `cli.banner_config`
 - [`build_default_registry`](modules/skills.lazyown_hooks.py.md#build_default_registry) function in `skills.lazyown_hooks`
 - [`build_default_tips_config`](modules/cli.tips_engine.py.md#build_default_tips_config) function in `cli.tips_engine`
+- [`build_edges`](modules/modules.golden_path.py.md#build_edges) function in `modules.golden_path`
 - [`build_engine_digest`](modules/modules.digest.py.md#build_engine_digest) function in `modules.digest`
 - [`build_evidence_hints`](modules/cli.reactive_hints.py.md#build_evidence_hints) function in `cli.reactive_hints`
 - [`build_executor`](modules/modules.lazy_runner.py.md#build_executor) function in `modules.lazy_runner`
@@ -1277,13 +1288,18 @@
 - [`canonical_command_count`](modules/scripts.sync_doc_stats.py.md#canonical_command_count) function in `scripts.sync_doc_stats`
 - [`canonical_dest`](modules/modules.nuclei_templates_sync.py.md#canonical_dest) function in `modules.nuclei_templates_sync`
 - [`canonical_kill_chain_order`](modules/modules.lazyown_bridge.py.md#phasemapper-canonical_kill_chain_order) staticmethod of `PhaseMapper` in `modules.lazyown_bridge`
+- [`canonical_policy_facts`](modules/modules.factsio.py.md#canonical_policy_facts) function in `modules.factsio`
 - [`capabilities`](modules/modules.moe_router.py.md#expertprofile-capabilities) attribute of `ExpertProfile` in `modules.moe_router`
 - [`capabilities`](modules/modules.privesc_predictor.py.md#systemprofile-capabilities) attribute of `SystemProfile` in `modules.privesc_predictor`
 - [`capability_vectors`](modules/modules.privesc_predictor.py.md#capability_vectors) function in `modules.privesc_predictor`
+- [`capacity`](modules/modules.guardrails.budget.py.md#capacityenvelope-capacity) method of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`capacity`](modules/lazygui.services.event_log.py.md#eventlog-capacity) property of `EventLog` in `lazygui.services.event_log`
+- [`CapacityEnvelope`](modules/modules.guardrails.budget.py.md#capacityenvelope) class in `modules.guardrails.budget`
 - [`captives_file`](modules/modules.bitm_engine.py.md#bitmstate-captives_file) attribute of `BitMState` in `modules.bitm_engine`
 - [`capture`](modules/modules.chain_registry.py.md#chainstep-capture) attribute of `ChainStep` in `modules.chain_registry`
+- [`capture`](modules/modules.guardrails.checkpoints.py.md#checkpointledger-capture) method of `CheckpointLedger` in `modules.guardrails.checkpoints`
 - [`capture`](modules/modules.sidequestion.py.md#sidequestionservice-capture) method of `SideQuestionService` in `modules.sidequestion`
+- [`capture`](modules/modules.ctf_capture.py.md#capture) function in `modules.ctf_capture`
 - [`capture_audio`](modules/lazyc2.py.md#capture_audio) function in `lazyc2`
 - [`capture_baseline`](modules/cli.config_history.py.md#confighistory-capture_baseline) method of `ConfigHistory` in `cli.config_history`
 - [`capture_image`](modules/lazyc2.py.md#capture_image) function in `lazyc2`
@@ -1364,6 +1380,8 @@
 - [`category`](modules/cli.commands.exploitgym.py.md#exploitgymcommandset-category) attribute of `ExploitGymCommandSet` in `cli.commands.exploitgym`
 - [`category`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-category) attribute of `ExploitMigratedCommandSet` in `cli.commands.exploit_migrated`
 - [`category`](modules/core.payload_schema.py.md#fieldspec-category) attribute of `FieldSpec` in `core.payload_schema`
+- [`category`](modules/cli.commands.golden_paths.py.md#goldenpathscommandset-category) attribute of `GoldenPathsCommandSet` in `cli.commands.golden_paths`
+- [`category`](modules/cli.commands.gym_matrix.py.md#gymmetasploitablecommandset-category) attribute of `GymMetasploitableCommandSet` in `cli.commands.gym_matrix`
 - [`category`](modules/cli.commands.help_ui.py.md#helpuicommandset-category) attribute of `HelpUiCommandSet` in `cli.commands.help_ui`
 - [`category`](modules/cli.commands.infra.py.md#infracommandset-category) attribute of `InfraCommandSet` in `cli.commands.infra`
 - [`category`](modules/modules.intelligence_engine.py.md#intelligenceassessment-category) attribute of `IntelligenceAssessment` in `modules.intelligence_engine`
@@ -1451,6 +1469,7 @@
 - [`Chain`](modules/modules.chain_registry.py.md#chain) class in `modules.chain_registry`
 - [`chain`](modules/cli.command_chain.py.md#commandchain-chain) method of `CommandChain` in `cli.command_chain`
 - [`chain`](modules/modules.loop_progress.py.md#loopprogress-chain) attribute of `LoopProgress` in `modules.loop_progress`
+- [`CHAIN`](modules/modules.mediation.contracts.py.md#mediationdomains-chain) attribute of `MediationDomains` in `modules.mediation.contracts`
 - [`chain`](modules/cli.retry_support.py.md#retrychainreport-chain) attribute of `RetryChainReport` in `cli.retry_support`
 - [`chain_active`](modules/cli.tips_engine.py.md#tipsconfig-chain_active) attribute of `TipsConfig` in `cli.tips_engine`
 - [`chain_defaults`](modules/modules.orchestrator_config.py.md#chain_defaults) function in `modules.orchestrator_config`
@@ -1469,6 +1488,7 @@
 - [`chain_steps_preview`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-chain_steps_preview) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`ChainArgs`](modules/cli.apt_chain_support.py.md#chainargs) class in `cli.apt_chain_support`
 - [`ChainConfig`](modules/cli.command_chain.py.md#chainconfig) class in `cli.command_chain`
+- [`ChainMediator`](modules/modules.mediation.chain_mediator.py.md#chainmediator) class in `modules.mediation.chain_mediator`
 - [`ChainModeConfig`](modules/cli.chain_mode.py.md#chainmodeconfig) class in `cli.chain_mode`
 - [`ChainModeStore`](modules/cli.chain_mode.py.md#chainmodestore) class in `cli.chain_mode`
 - [`ChainOutcome`](modules/cli.chain_mode.py.md#chainoutcome) class in `cli.chain_mode`
@@ -1583,8 +1603,11 @@
 - [`check_user`](modules/contrib.legacy.lazyopenssh77enum2.py.md#check_user) function in `contrib.legacy.lazyopenssh77enum2`
 - [`check_versions`](modules/scripts.top_tier_check.py.md#check_versions) function in `scripts.top_tier_check`
 - [`check_virtualenv`](modules/cli.doctor.py.md#check_virtualenv) function in `cli.doctor`
+- [`CHECKERS`](modules/modules.ctf_capture.py.md#checkers) constant in `modules.ctf_capture`
 - [`checkpoint_dir`](modules/modules.chain_state.py.md#checkpoint_dir) function in `modules.chain_state`
+- [`CHECKPOINT_HISTORY_PER_KEY`](modules/modules.guardrails.checkpoints.py.md#checkpoint_history_per_key) constant in `modules.guardrails.checkpoints`
 - [`CHECKPOINT_VERSION`](modules/skills.hermes-lazyown.constants.py.md#defaults-checkpoint_version) attribute of `Defaults` in `skills.hermes-lazyown.constants`
+- [`CheckpointLedger`](modules/modules.guardrails.checkpoints.py.md#checkpointledger) class in `modules.guardrails.checkpoints`
 - [`CheckpointSerializer`](modules/skills.hermes-lazyown.hermes_sync.py.md#checkpointserializer) class in `skills.hermes-lazyown.hermes_sync`
 - [`CheckResult`](modules/cli.doctor.py.md#checkresult) class in `cli.doctor`
 - [`CheckResult`](modules/skills.claude_md_orchestrator.validators.py.md#checkresult) class in `skills.claude_md_orchestrator.validators`
@@ -1670,6 +1693,7 @@
 - [`cleanup_expired`](modules/modules.socks_proxy.py.md#socksproxyengine-cleanup_expired) method of `SocksProxyEngine` in `modules.socks_proxy`
 - [`cleanup_exploit_environment`](modules/contrib.legacy.lazypwnkit.py.md#cleanup_exploit_environment) function in `contrib.legacy.lazypwnkit`
 - [`cleanup_target`](modules/modules.atomic_exploit_bridge.py.md#cleanup_target) function in `modules.atomic_exploit_bridge`
+- [`clear`](modules/modules.guardrails.advisories.py.md#advisoryledger-clear) method of `AdvisoryLedger` in `modules.guardrails.advisories`
 - [`clear`](modules/cli.autosuggest.py.md#autosuggestengine-clear) method of `AutoSuggestEngine` in `cli.autosuggest`
 - [`clear`](modules/skills.hermes-lazyown.hermes_sync.py.md#checkpointserializer-clear) method of `CheckpointSerializer` in `skills.hermes-lazyown.hermes_sync`
 - [`clear`](modules/lazygui.services.event_log.py.md#eventlog-clear) method of `EventLog` in `lazygui.services.event_log`
@@ -2036,7 +2060,9 @@
 - [`complete`](modules/core.protocols.py.md#llmbackend-complete) method of `LLMBackend` in `core.protocols`
 - [`complete`](modules/core.llm_budget.py.md#llmbackendlike-complete) method of `LLMBackendLike` in `core.llm_budget`
 - [`complete`](modules/modules.llm_pool.py.md#llmpool-complete) method of `LLMPool` in `modules.llm_pool`
+- [`complete`](modules/modules.mediation.contracts.py.md#llmcompletionport-complete) method of `LlmCompletionPort` in `modules.mediation.contracts`
 - [`complete`](modules/modules.lazy_loop.py.md#llmpool-complete) method of `LlmPool` in `modules.lazy_loop`
+- [`complete`](modules/modules.mediation.chain_mediator.py.md#llmpoolport-complete) method of `LlmPoolPort` in `modules.mediation.chain_mediator`
 - [`complete`](modules/skills.lazyown_objective.py.md#objectivestore-complete) method of `ObjectiveStore` in `skills.lazyown_objective`
 - [`complete`](modules/modules.ai_model.py.md#openaimodel-complete) method of `OpenAIModel` in `modules.ai_model`
 - [`complete`](modules/cli.palette_command.py.md#palettecompleter-complete) method of `PaletteCompleter` in `cli.palette_command`
@@ -2180,6 +2206,7 @@
 - [`CONFIG_KEY_OLLAMA_HOST`](modules/modules.llm_factory.py.md#config_key_ollama_host) constant in `modules.llm_factory`
 - [`CONFIG_KEY_OPENAI_API_KEY`](modules/modules.llm_factory.py.md#config_key_openai_api_key) constant in `modules.llm_factory`
 - [`CONFIG_MISSING`](modules/core.errors.py.md#errorcode-config_missing) attribute of `ErrorCode` in `core.errors`
+- [`CONFIG_SECTION`](modules/modules.guardrails.contracts.py.md#config_section) constant in `modules.guardrails.contracts`
 - [`config_truthy`](modules/modules.fast_run_service.sh.md#config_truthy) function in `modules/fast_run_service.sh`
 - [`ConfigBridge`](modules/skills.hermes-lazyown.config_bridge.py.md#configbridge) class in `skills.hermes-lazyown.config_bridge`
 - [`ConfigBridgeError`](modules/skills.hermes-lazyown.config_bridge.py.md#configbridgeerror) exception in `skills.hermes-lazyown.config_bridge`
@@ -2193,6 +2220,9 @@
 - [`configurar_netcat`](modules/modules.lazyatack.sh.md#configurar_netcat) function in `modules/lazyatack.sh`
 - [`configurar_shell_reversa`](modules/modules.lazyatack.sh.md#configurar_shell_reversa) function in `modules/lazyatack.sh`
 - [`configurar_tty`](modules/modules.lazyatack.sh.md#configurar_tty) function in `modules/lazyatack.sh`
+- [`configure`](modules/modules.guardrails.budget.py.md#capacityenvelope-configure) method of `CapacityEnvelope` in `modules.guardrails.budget`
+- [`configure`](modules/modules.guardrails.harness.py.md#guardharness-configure) method of `GuardHarness` in `modules.guardrails.harness`
+- [`configure`](modules/modules.guardrails.contracts.py.md#harnessadminport-configure) method of `HarnessAdminPort` in `modules.guardrails.contracts`
 - [`configure`](modules/modules.sleep_obfuscation.py.md#sleepobfuscationengine-configure) method of `SleepObfuscationEngine` in `modules.sleep_obfuscation`
 - [`configure`](modules/lazyc2.extensions.short_urls.py.md#configure) function in `lazyc2.extensions.short_urls`
 - [`configure`](modules/lazyc2.extensions.storage.py.md#configure) function in `lazyc2.extensions.storage`
@@ -2313,6 +2343,7 @@
 - [`copy2clip`](modules/core.prompt.py.md#copy2clip) function in `core.prompt`
 - [`copy2clip`](modules/utils.py.md#copy2clip) function in `utils`
 - [`copy_binary`](modules/modules.rootkit.mr.c.md#copy_binary) function in `modules/rootkit/mr.c`
+- [`CORE`](modules/modules.guardrails.contracts.py.md#taskclass-core) attribute of `TaskClass` in `modules.guardrails.contracts`
 - [`core_md`](modules/scripts.check_contract_manifest.py.md#manifestconfig-core_md) attribute of `ManifestConfig` in `scripts.check_contract_manifest`
 - [`CorrelationFilter`](modules/modules.logging_config.py.md#correlationfilter) class in `modules.logging_config`
 - [`CorsConfigError`](modules/lazyc2.security.cors.py.md#corsconfigerror) exception in `lazyc2.security.cors`
@@ -2434,7 +2465,9 @@
 - [`CRED`](modules/modules.bof_registry.py.md#bofcategory-cred) attribute of `BofCategory` in `modules.bof_registry`
 - [`CRED`](modules/skills.hermes-lazyown.constants.py.md#phasenames-cred) attribute of `PhaseNames` in `skills.hermes-lazyown.constants`
 - [`cred_add`](modules/modules.db.py.md#lazyowndb-cred_add) method of `LazyOwnDB` in `modules.db`
+- [`CRED_LINE_RE`](modules/modules.ctf_capture.py.md#cred_line_re) constant in `modules.ctf_capture`
 - [`cred_list`](modules/modules.db.py.md#lazyowndb-cred_list) method of `LazyOwnDB` in `modules.db`
+- [`CRED_PREFIX`](modules/modules.golden_path.py.md#cred_prefix) constant in `modules.golden_path`
 - [`CREDENTIAL`](modules/skills.lazyown_policy.py.md#actioncategory-credential) attribute of `ActionCategory` in `skills.lazyown_policy`
 - [`CREDENTIAL`](modules/modules.event_bus.py.md#eventcategory-credential) attribute of `EventCategory` in `modules.event_bus`
 - [`CREDENTIAL`](modules/modules.obs_parser.py.md#findingtype-credential) attribute of `FindingType` in `modules.obs_parser`
@@ -2497,6 +2530,7 @@
 - [`csv_to_html`](modules/lazyc2.py.md#csv_to_html) function in `lazyc2`
 - [`CSVSessionReader`](modules/skills.lazyown_policy.py.md#csvsessionreader) class in `skills.lazyown_policy`
 - [`Ct`](modules/static.js.quill-2.0.3.js.md#ct) class in `static/js/quill-2.0.3.js`
+- [`CTF_DIRNAME`](modules/modules.ctf_capture.py.md#ctf_dirname) constant in `modules.ctf_capture`
 - [`ctrl_c`](modules/modules.lazycurl.sh.md#ctrl_c) function in `modules/lazycurl.sh`
 - [`ctrl_c`](modules/modules.lazymasscan.sh.md#ctrl_c) function in `modules/lazymasscan.sh`
 - [`ctrl_c`](modules/modules.lazynmap.sh.md#ctrl_c) function in `modules/lazynmap.sh`
@@ -2698,8 +2732,12 @@
 - [`default_author`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-default_author) attribute of `AddonCreatorConfig` in `lazyc2.addon_creator`
 - [`DEFAULT_BACKEND`](modules/modules.llm_factory.py.md#default_backend) constant in `modules.llm_factory`
 - [`DEFAULT_BRANCH`](modules/modules.selfupdate.py.md#default_branch) constant in `modules.selfupdate`
+- [`DEFAULT_CAPACITY_CORE`](modules/modules.guardrails.budget.py.md#default_capacity_core) constant in `modules.guardrails.budget`
+- [`DEFAULT_CAPACITY_MISSION`](modules/modules.guardrails.budget.py.md#default_capacity_mission) constant in `modules.guardrails.budget`
+- [`DEFAULT_CAPACITY_SUPPORT`](modules/modules.guardrails.budget.py.md#default_capacity_support) constant in `modules.guardrails.budget`
 - [`DEFAULT_CATALOG_PATH`](modules/modules.verb_catalog.py.md#default_catalog_path) constant in `modules.verb_catalog`
 - [`DEFAULT_CATEGORY`](modules/scripts.journal.py.md#default_category) constant in `scripts.journal`
+- [`DEFAULT_CHAIN`](modules/modules.golden_path.py.md#default_chain) constant in `modules.golden_path`
 - [`default_color`](modules/cli.banner_config.py.md#segmentspec-default_color) attribute of `SegmentSpec` in `cli.banner_config`
 - [`DEFAULT_COMPLETE_MAX_TOKENS`](modules/modules.ai_model.py.md#default_complete_max_tokens) constant in `modules.ai_model`
 - [`DEFAULT_COMPLETE_TEMPERATURE`](modules/modules.ai_model.py.md#default_complete_temperature) constant in `modules.ai_model`
@@ -2730,6 +2768,7 @@
 - [`DEFAULT_GROQ_MODEL`](modules/modules.llm_factory.py.md#default_groq_model) constant in `modules.llm_factory`
 - [`DEFAULT_GYM_CONTAINER`](modules/modules.atomic_exploit_bridge.py.md#default_gym_container) constant in `modules.atomic_exploit_bridge`
 - [`DEFAULT_HEALTH_FILE`](modules/skills.daemon_health.py.md#default_health_file) constant in `skills.daemon_health`
+- [`default_hub`](modules/modules.mediation.hub.py.md#default_hub) function in `modules.mediation.hub`
 - [`DEFAULT_HUD_CONFIG`](modules/cli.session_hud.py.md#default_hud_config) constant in `cli.session_hud`
 - [`DEFAULT_INDEX_PATH`](modules/cli.palette.py.md#default_index_path) constant in `cli.palette`
 - [`DEFAULT_INDEX_PATH`](modules/modules.verb_catalog.py.md#default_index_path) constant in `modules.verb_catalog`
@@ -2785,12 +2824,14 @@
 - [`DEFAULT_PROXY_PORT`](modules/modules.lazy_proxy.py.md#default_proxy_port) constant in `modules.lazy_proxy`
 - [`DEFAULT_RATINGS_FILE`](modules/cli.plugin_tiers.py.md#default_ratings_file) constant in `cli.plugin_tiers`
 - [`default_recent_command_window`](modules/cli.graph_advisor.py.md#graphadvisorconfig-default_recent_command_window) attribute of `GraphAdvisorConfig` in `cli.graph_advisor`
+- [`DEFAULT_RELATION_COST`](modules/modules.golden_path.py.md#default_relation_cost) constant in `modules.golden_path`
 - [`DEFAULT_REPEAT_WINDOW`](modules/modules.loop_guardrails.py.md#default_repeat_window) constant in `modules.loop_guardrails`
 - [`DEFAULT_RESET_AT_UTC`](modules/core.llm_budget.py.md#default_reset_at_utc) constant in `core.llm_budget`
 - [`default_role`](modules/cli.toast_bus.py.md#toastconfig-default_role) attribute of `ToastConfig` in `cli.toast_bus`
 - [`default_rport`](modules/core.defaults.py.md#default_rport) function in `core.defaults`
 - [`DEFAULT_RULES`](modules/modules.conditional_hooks.py.md#default_rules) constant in `modules.conditional_hooks`
 - [`DEFAULT_RULES`](modules/modules.event_engine.py.md#default_rules) constant in `modules.event_engine`
+- [`DEFAULT_SATURATION_THRESHOLD`](modules/modules.guardrails.budget.py.md#default_saturation_threshold) constant in `modules.guardrails.budget`
 - [`DEFAULT_SCOPE_CONFIG`](modules/cli.wizard_scope.py.md#default_scope_config) constant in `cli.wizard_scope`
 - [`default_search_limit`](modules/cli.graph_advisor.py.md#graphadvisorconfig-default_search_limit) attribute of `GraphAdvisorConfig` in `cli.graph_advisor`
 - [`DEFAULT_SESSIONS_DIR`](modules/modules.lazy_rbac.py.md#default_sessions_dir) constant in `modules.lazy_rbac`
@@ -2902,6 +2943,17 @@
 - [`desc`](modules/modules.toolset.py.md#toolseed-desc) attribute of `ToolSeed` in `modules.toolset`
 - [`DESC_MAX`](modules/modules.exp.c.md#desc_max) macro in `modules/exp.c`
 - [`descargar_seclists`](modules/modules.lazyatack.sh.md#descargar_seclists) function in `modules/lazyatack.sh`
+- [`describe`](modules/modules.guardrails.advisories.py.md#advisoryledger-describe) method of `AdvisoryLedger` in `modules.guardrails.advisories`
+- [`describe`](modules/modules.guardrails.budget.py.md#capacityenvelope-describe) method of `CapacityEnvelope` in `modules.guardrails.budget`
+- [`describe`](modules/modules.mediation.chain_mediator.py.md#chainmediator-describe) method of `ChainMediator` in `modules.mediation.chain_mediator`
+- [`describe`](modules/modules.guardrails.checkpoints.py.md#checkpointledger-describe) method of `CheckpointLedger` in `modules.guardrails.checkpoints`
+- [`describe`](modules/modules.guardrails.advisories.py.md#featuregate-describe) method of `FeatureGate` in `modules.guardrails.advisories`
+- [`describe`](modules/modules.mediation.feedback_mediator.py.md#feedbackmediator-describe) method of `FeedbackMediator` in `modules.mediation.feedback_mediator`
+- [`describe`](modules/modules.guardrails.harness.py.md#guardharness-describe) method of `GuardHarness` in `modules.guardrails.harness`
+- [`describe`](modules/modules.guardrails.contracts.py.md#guardrailcontract-describe) method of `GuardrailContract` in `modules.guardrails.contracts`
+- [`describe`](modules/modules.mediation.intel_mediator.py.md#intelmediator-describe) method of `IntelMediator` in `modules.mediation.intel_mediator`
+- [`describe`](modules/modules.mediation.contracts.py.md#mediatorcontract-describe) method of `MediatorContract` in `modules.mediation.contracts`
+- [`describe`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-describe) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`describe_command`](modules/modules.lazy_intel.py.md#describe_command) function in `modules.lazy_intel`
 - [`description`](modules/lazyc2.addon_creator.py.md#addondraft-description) attribute of `AddonDraft` in `lazyc2.addon_creator`
 - [`description`](modules/cli.exploration.py.md#addonentry-description) attribute of `AddonEntry` in `cli.exploration`
@@ -3078,6 +3130,8 @@
 - [`DiscoveredPath`](modules/skills.lazyown_facts.py.md#discoveredpath) class in `skills.lazyown_facts`
 - [`DiscoveredService`](modules/cli.exploration.py.md#discoveredservice) class in `cli.exploration`
 - [`DISCOVERY`](modules/modules.event_bus.py.md#eventcategory-discovery) attribute of `EventCategory` in `modules.event_bus`
+- [`DISCOVERY_LEDGER`](modules/modules.beacon_recon.py.md#discovery_ledger) constant in `modules.beacon_recon`
+- [`DISCOVERY_SINKS`](modules/modules.beacon_recon.py.md#discovery_sinks) constant in `modules.beacon_recon`
 - [`discovery_targets`](modules/modules.surface_ops.py.md#discovery_targets) function in `modules.surface_ops`
 - [`dispatch`](modules/skills.lazyown_automapper.py.md#automapper-dispatch) method of `AutoMapper` in `skills.lazyown_automapper`
 - [`dispatch`](modules/modules.notify.py.md#notifier-dispatch) method of `Notifier` in `modules.notify`
@@ -3441,6 +3495,7 @@
 - [`do_gmsadumper`](modules/cli.commands.exfiltration.py.md#exfiltrationcommandset-do_gmsadumper) method of `ExfiltrationCommandSet` in `cli.commands.exfiltration`
 - [`do_gobuster`](modules/cli.commands.scan.py.md#scancommandset-do_gobuster) method of `ScanCommandSet` in `cli.commands.scan`
 - [`do_god_nodes`](modules/cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_god_nodes) method of `MiscMigratedCommandSet` in `cli.commands.misc_migrated`
+- [`do_golden_paths`](modules/cli.commands.golden_paths.py.md#goldenpathscommandset-do_golden_paths) method of `GoldenPathsCommandSet` in `cli.commands.golden_paths`
 - [`do_gospherus`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset-do_gospherus) method of `LateralMigratedCommandSet` in `cli.commands.lateral_migrated`
 - [`do_gospider`](modules/cli.commands.recon_migrated.py.md#reconmigratedcommandset-do_gospider) method of `ReconMigratedCommandSet` in `cli.commands.recon_migrated`
 - [`do_gpo_abuse`](modules/cli.commands.active_directory.py.md#activedirectorycommandset-do_gpo_abuse) method of `ActiveDirectoryCommandSet` in `cli.commands.active_directory`
@@ -3455,6 +3510,7 @@
 - [`do_groq`](modules/cli.commands.ai.py.md#aicommandset-do_groq) method of `AiCommandSet` in `cli.commands.ai`
 - [`do_gtfo`](modules/cli.commands.privilege_escalation.py.md#privilegeescalationcommandset-do_gtfo) method of `PrivilegeEscalationCommandSet` in `cli.commands.privilege_escalation`
 - [`do_gym`](modules/cli.commands.redteam_gym.py.md#redteamgymcommandset-do_gym) method of `RedTeamGymCommandSet` in `cli.commands.redteam_gym`
+- [`do_gym_metasploitable`](modules/cli.commands.gym_matrix.py.md#gymmetasploitablecommandset-do_gym_metasploitable) method of `GymMetasploitableCommandSet` in `cli.commands.gym_matrix`
 - [`do_gym_ms2`](modules/cli.commands.redteam_gym.py.md#redteamgymcommandset-do_gym_ms2) method of `RedTeamGymCommandSet` in `cli.commands.redteam_gym`
 - [`do_h`](modules/cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_h) method of `MiscMigratedCommandSet` in `cli.commands.misc_migrated`
 - [`do_hashcat`](modules/cli.commands.cred.py.md#credentialaccesscommandset-do_hashcat) method of `CredentialAccessCommandSet` in `cli.commands.cred`
@@ -3989,22 +4045,27 @@
 - [`doh_provider`](modules/modules.network_opsec.py.md#networkopsecconfig-doh_provider) attribute of `NetworkOpsecConfig` in `modules.network_opsec`
 - [`domain`](modules/skills.aci_planner.py.md#acigoal-domain) attribute of `ACIGoal` in `skills.aci_planner`
 - [`domain`](modules/skills.aci_planner.py.md#aciplan-domain) attribute of `ACIPlan` in `skills.aci_planner`
+- [`domain`](modules/modules.mediation.chain_mediator.py.md#chainmediator-domain) attribute of `ChainMediator` in `modules.mediation.chain_mediator`
 - [`DOMAIN`](modules/skills.hermes-lazyown.constants.py.md#configkeys-domain) attribute of `ConfigKeys` in `skills.hermes-lazyown.constants`
 - [`domain`](modules/modules.kerberos_tickets.py.md#diamondticketconfig-domain) attribute of `DiamondTicketConfig` in `modules.kerberos_tickets`
 - [`domain`](modules/modules.c2_profile_engine.py.md#dnsprofile-domain) attribute of `DnsProfile` in `modules.c2_profile_engine`
 - [`domain`](modules/modules.world_model.py.md#domainentry-domain) attribute of `DomainEntry` in `modules.world_model`
 - [`domain`](modules/modules.domain_dominance.py.md#domaininfo-domain) attribute of `DomainInfo` in `modules.domain_dominance`
 - [`domain`](modules/modules.domain_dominance.py.md#dominanceresult-domain) attribute of `DominanceResult` in `modules.domain_dominance`
+- [`domain`](modules/modules.mediation.feedback_mediator.py.md#feedbackmediator-domain) attribute of `FeedbackMediator` in `modules.mediation.feedback_mediator`
 - [`DOMAIN`](modules/modules.obs_parser.py.md#findingtype-domain) attribute of `FindingType` in `modules.obs_parser`
 - [`domain`](modules/modules.kerberos_tickets.py.md#goldenticketconfig-domain) attribute of `GoldenTicketConfig` in `modules.kerberos_tickets`
+- [`domain`](modules/modules.mediation.intel_mediator.py.md#intelmediator-domain) attribute of `IntelMediator` in `modules.mediation.intel_mediator`
 - [`domain`](modules/lazyown.py.md#lazyownshell-domain) attribute of `LazyOwnShell` in `lazyown`
 - [`domain`](modules/modules.mfa_bypass.py.md#mfatarget-domain) attribute of `MFATarget` in `modules.mfa_bypass`
+- [`domain`](modules/modules.mediation.contracts.py.md#mediatorcontract-domain) attribute of `MediatorContract` in `modules.mediation.contracts`
 - [`domain`](modules/skills.toposwarm_autonomous.py.md#penteststate-domain) attribute of `PentestState` in `skills.toposwarm_autonomous`
 - [`domain`](modules/cli.banner_config.py.md#rendercontext-domain) attribute of `RenderContext` in `cli.banner_config`
 - [`domain`](modules/modules.state_manager.py.md#sessionsnapshot-domain) attribute of `SessionSnapshot` in `modules.state_manager`
 - [`domain`](modules/modules.kerberos_tickets.py.md#silverticketconfig-domain) attribute of `SilverTicketConfig` in `modules.kerberos_tickets`
 - [`domain`](modules/modules.c2_profile_engine.py.md#smbprofile-domain) attribute of `SmbProfile` in `modules.c2_profile_engine`
 - [`DOMAIN`](modules/modules.socks_proxy.py.md#socksaddresstype-domain) attribute of `SocksAddressType` in `modules.socks_proxy`
+- [`domain`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-domain) attribute of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`domain_admin_obtained`](modules/modules.domain_dominance.py.md#dominanceresult-domain_admin_obtained) attribute of `DominanceResult` in `modules.domain_dominance`
 - [`domain_admins`](modules/modules.domain_dominance.py.md#domaininfo-domain_admins) attribute of `DomainInfo` in `modules.domain_dominance`
 - [`domain_controllers`](modules/modules.domain_dominance.py.md#domaininfo-domain_controllers) attribute of `DomainInfo` in `modules.domain_dominance`
@@ -4885,6 +4946,7 @@
 - [`facts_for_target`](modules/modules.verb_manifest.py.md#facts_for_target) function in `modules.verb_manifest`
 - [`facts_observed`](modules/modules.planner.py.md#planresult-facts_observed) attribute of `PlanResult` in `modules.planner`
 - [`facts_produced`](modules/modules.operation.py.md#operation-facts_produced) attribute of `Operation` in `modules.operation`
+- [`FACTS_SPOOL_DIRNAME`](modules/modules.chain_facts.py.md#facts_spool_dirname) constant in `modules.chain_facts`
 - [`FactStore`](modules/skills.lazyown_facts.py.md#factstore) class in `skills.lazyown_facts`
 - [`FactVectorStore`](modules/modules.loop_guardrails.py.md#factvectorstore) class in `modules.loop_guardrails`
 - [`FAIL`](modules/skills.lazyown_policy.py.md#outcometype-fail) attribute of `OutcomeType` in `skills.lazyown_policy`
@@ -4937,13 +4999,16 @@
 - [`fd_uring`](modules/modules.exp.c.md#fd_uring) struct in `modules/exp.c`
 - [`feature`](modules/core.dependencies.py.md#dependencyspec-feature) attribute of `DependencySpec` in `core.dependencies`
 - [`feature_branch_prefix`](modules/skills.claude_md_orchestrator.config.py.md#config-feature_branch_prefix) attribute of `Config` in `skills.claude_md_orchestrator.config`
+- [`FeatureGate`](modules/modules.guardrails.advisories.py.md#featuregate) class in `modules.guardrails.advisories`
 - [`federation_metadata_url`](modules/modules.cross_cloud.py.md#crosscloudconfig-federation_metadata_url) attribute of `CrossCloudConfig` in `modules.cross_cloud`
 - [`feed_terminal_input`](modules/lazygui.services.backend.py.md#backend-feed_terminal_input) method of `Backend` in `lazygui.services.backend`
 - [`feed_terminal_input`](modules/lazygui.services.local_backend.py.md#localptybackend-feed_terminal_input) method of `LocalPtyBackend` in `lazygui.services.local_backend`
 - [`feed_terminal_input`](modules/lazygui.services.teamserver_backend.py.md#teamserverbackend-feed_terminal_input) method of `TeamserverBackend` in `lazygui.services.teamserver_backend`
+- [`FEEDBACK`](modules/modules.mediation.contracts.py.md#mediationdomains-feedback) attribute of `MediationDomains` in `modules.mediation.contracts`
 - [`feedback`](modules/modules.toposwarm_bridge.py.md#onlinefeedbackloop-feedback) method of `OnlineFeedbackLoop` in `modules.toposwarm_bridge`
 - [`feedback`](modules/modules.toposwarm_bridge.py.md#toposwarmbridge-feedback) method of `TopoSwarmBridge` in `modules.toposwarm_bridge`
 - [`FeedbackLoop`](modules/modules.estorides_importer.py.md#feedbackloop) class in `modules.estorides_importer`
+- [`FeedbackMediator`](modules/modules.mediation.feedback_mediator.py.md#feedbackmediator) class in `modules.mediation.feedback_mediator`
 - [`FeedResult`](modules/modules.detection_feed.py.md#feedresult) class in `modules.detection_feed`
 - [`FENCE`](modules/skills.claude_md_orchestrator.documentation_agent.py.md#fence) constant in `skills.claude_md_orchestrator.documentation_agent`
 - [`fetch_http`](modules/modules.enrich.py.md#fetch_http) function in `modules.enrich`
@@ -5273,7 +5338,9 @@
 - [`G`](modules/static.js.quill-2.0.3.js.md#ct-g) class of `Ct` in `static/js/quill-2.0.3.js`
 - [`g`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g) class of `Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f` in `static/js/quill-2.0.3.js`
 - [`garbage_collect`](modules/modules.evidence.py.md#evidencestore-garbage_collect) method of `EvidenceStore` in `modules.evidence`
+- [`gate`](modules/modules.harness.py.md#gate) function in `modules.harness`
 - [`gate_action`](modules/modules.opsec_scorer.py.md#gatedopsecscore-gate_action) attribute of `GatedOpsecScore` in `modules.opsec_scorer`
+- [`GATE_NAMES`](modules/modules.harness.py.md#gate_names) constant in `modules.harness`
 - [`GateAction`](modules/modules.opsec_scorer.py.md#gateaction) enum in `modules.opsec_scorer`
 - [`GatedOpsecScore`](modules/modules.opsec_scorer.py.md#gatedopsecscore) class in `modules.opsec_scorer`
 - [`GatekeeperStatus`](modules/modules.venator.py.md#gatekeeperstatus) function in `modules.venator`
@@ -5570,6 +5637,7 @@
 - [`get_host`](modules/modules.world_model.py.md#worldmodel-get_host) method of `WorldModel` in `modules.world_model`
 - [`get_host_entities`](modules/modules.estorides_importer.py.md#estoridescasereader-get_host_entities) method of `EstoridesCaseReader` in `modules.estorides_importer`
 - [`get_hosts_summary`](modules/modules.world_model.py.md#worldmodel-get_hosts_summary) method of `WorldModel` in `modules.world_model`
+- [`get_hub`](modules/modules.mediation.hub.py.md#get_hub) function in `modules.mediation.hub`
 - [`get_install_info`](modules/modules.bof_registry.py.md#bofregistry-get_install_info) method of `BofRegistry` in `modules.bof_registry`
 - [`get_instance`](modules/modules.autonomous_exploit_engine.py.md#autonomousexploitengine-get_instance) classmethod of `AutonomousExploitEngine` in `modules.autonomous_exploit_engine`
 - [`get_instance`](modules/modules.domain_dominance.py.md#domaindominance-get_instance) classmethod of `DomainDominance` in `modules.domain_dominance`
@@ -5766,6 +5834,7 @@
 - [`GitSegment`](modules/cli.banner_config.py.md#gitsegment) class in `cli.banner_config`
 - [`giveGift`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#givegift) function in `modules/win_rootkit/win_ring3_rootkit.c`
 - [`glob_latest`](modules/cli.status_bar.py.md#filesystemreader-glob_latest) method of `FileSystemReader` in `cli.status_bar`
+- [`global_harness`](modules/modules.guardrails.harness.py.md#global_harness) function in `modules.guardrails.harness`
 - [`GLOBAL_SCOPE_DENY`](modules/modules.intercept.py.md#global_scope_deny) constant in `modules.intercept`
 - [`glyph_arrow_down`](modules/cli.fuzzy_picker.py.md#pickerconfig-glyph_arrow_down) attribute of `PickerConfig` in `cli.fuzzy_picker`
 - [`glyph_arrow_up`](modules/cli.fuzzy_picker.py.md#pickerconfig-glyph_arrow_up) attribute of `PickerConfig` in `cli.fuzzy_picker`
@@ -5813,6 +5882,7 @@
 - [`GOD_NODES`](modules/cli.graph_overlay.py.md#graphoverlayview-god_nodes) attribute of `GraphOverlayView` in `cli.graph_overlay`
 - [`god_nodes_label`](modules/cli.graph_overlay.py.md#graphoverlayconfig-god_nodes_label) attribute of `GraphOverlayConfig` in `cli.graph_overlay`
 - [`GOLDEN`](modules/tools.gen_demo_gifs.py.md#golden) constant in `tools.gen_demo_gifs`
+- [`GoldenPathsCommandSet`](modules/cli.commands.golden_paths.py.md#goldenpathscommandset) class in `cli.commands.golden_paths`
 - [`GoldenTicketConfig`](modules/modules.kerberos_tickets.py.md#goldenticketconfig) class in `modules.kerberos_tickets`
 - [`GoldenTicketForger`](modules/modules.kerberos_tickets.py.md#goldenticketforger) class in `modules.kerberos_tickets`
 - [`GOOGLE_ADMIN_SDK`](modules/modules.saas_attacks.py.md#google_admin_sdk) constant in `modules.saas_attacks`
@@ -5833,6 +5903,7 @@
 - [`GPOInfo`](modules/modules.gpo_abuse.py.md#gpoinfo) class in `modules.gpo_abuse`
 - [`gpos`](modules/modules.domain_dominance.py.md#domaininfo-gpos) attribute of `DomainInfo` in `modules.domain_dominance`
 - [`gpt_path`](modules/modules.gpo_abuse.py.md#gpoinfo-gpt_path) attribute of `GPOInfo` in `modules.gpo_abuse`
+- [`granted_at`](modules/modules.guardrails.contracts.py.md#runticket-granted_at) attribute of `RunTicket` in `modules.guardrails.contracts`
 - [`graph`](modules/lazygui.panels.registry.py.md#panelregistry-graph) attribute of `PanelRegistry` in `lazygui.panels.registry`
 - [`graph`](modules/lazyc2.py.md#graph) function in `lazyc2`
 - [`graph_api_base`](modules/modules.entra_id_attacks.py.md#entraidconfig-graph_api_base) attribute of `EntraIDConfig` in `modules.entra_id_attacks`
@@ -5914,6 +5985,8 @@
 - [`gtfobins_for`](modules/modules.reactive_engine.py.md#parquetadvisor-gtfobins_for) method of `ParquetAdvisor` in `modules.reactive_engine`
 - [`Guard`](modules/modules.intercept.py.md#guard) class in `modules.intercept`
 - [`Guard`](modules/modules.lazy_loop.py.md#guard) class in `modules.lazy_loop`
+- [`GuardHarness`](modules/modules.guardrails.harness.py.md#guardharness) class in `modules.guardrails.harness`
+- [`GuardrailContract`](modules/modules.guardrails.contracts.py.md#guardrailcontract) protocol in `modules.guardrails.contracts`
 - [`guid`](modules/modules.atomic_resolver.py.md#atomictest-guid) attribute of `AtomicTest` in `modules.atomic_resolver`
 - [`guid`](modules/modules.dpapi_harvester.py.md#dpapimasterkey-guid) attribute of `DPAPIMasterKey` in `modules.dpapi_harvester`
 - [`guid`](modules/modules.emulation_runner.py.md#emulationresult-guid) attribute of `EmulationResult` in `modules.emulation_runner`
@@ -5925,6 +5998,7 @@
 - [`GYM_DIR`](modules/modules.gym_registry.py.md#gym_dir) constant in `modules.gym_registry`
 - [`gym_preview`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-gym_preview) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`gym_rows`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-gym_rows) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
+- [`GymMetasploitableCommandSet`](modules/cli.commands.gym_matrix.py.md#gymmetasploitablecommandset) class in `cli.commands.gym_matrix`
 - [`GYMS_DIR`](modules/modules.gym_registry.py.md#gyms_dir) constant in `modules.gym_registry`
 
 <a id="h"></a>
@@ -5968,6 +6042,10 @@
 - [`happy_path`](modules/skills.claude_md_orchestrator.models.py.md#spec-happy_path) attribute of `Spec` in `skills.claude_md_orchestrator.models`
 - [`HARDCODED_ABS_PATH`](modules/skills.claude_md_orchestrator.validators.py.md#hardcoded_abs_path) constant in `skills.claude_md_orchestrator.validators`
 - [`HARDCODED_IPV4`](modules/skills.claude_md_orchestrator.validators.py.md#hardcoded_ipv4) constant in `skills.claude_md_orchestrator.validators`
+- [`harness_enabled`](modules/modules.harness.py.md#harness_enabled) function in `modules.harness`
+- [`HARNESS_ENV_FLAG`](modules/modules.harness.py.md#harness_env_flag) constant in `modules.harness`
+- [`HARNESS_TOOLS`](modules/skills.lazyown_mcp_opencode.py.md#harness_tools) constant in `skills.lazyown_mcp_opencode`
+- [`HarnessAdminPort`](modules/modules.guardrails.contracts.py.md#harnessadminport) protocol in `modules.guardrails.contracts`
 - [`harvest_all`](modules/modules.lazycloud.py.md#cloudmetadataharvester-harvest_all) method of `CloudMetadataHarvester` in `modules.lazycloud`
 - [`harvest_all`](modules/modules.dpapi_harvester.py.md#dpapiharvester-harvest_all) method of `DPAPIHarvester` in `modules.dpapi_harvester`
 - [`harvest_aws`](modules/modules.lazycloud.py.md#cloudmetadataharvester-harvest_aws) method of `CloudMetadataHarvester` in `modules.lazycloud`
@@ -5982,6 +6060,8 @@
 - [`has_args`](modules/modules.agent_runner.py.md#commandmetadata-has_args) attribute of `CommandMetadata` in `modules.agent_runner`
 - [`has_finding`](modules/modules.lazy_loop.py.md#explorationgraph-has_finding) method of `ExplorationGraph` in `modules.lazy_loop`
 - [`has_flag`](modules/modules.kerberos_core.py.md#kerberosticket-has_flag) method of `KerberosTicket` in `modules.kerberos_core`
+- [`has_members`](modules/modules.mediation.contracts.py.md#llmcompletionport-has_members) method of `LlmCompletionPort` in `modules.mediation.contracts`
+- [`has_members`](modules/modules.mediation.chain_mediator.py.md#llmpoolport-has_members) method of `LlmPoolPort` in `modules.mediation.chain_mediator`
 - [`has_password`](modules/cli.auto_crypto.py.md#autocryptoengine-has_password) method of `AutoCryptoEngine` in `cli.auto_crypto`
 - [`has_permission`](modules/core.api_authz.py.md#apikey-has_permission) method of `ApiKey` in `core.api_authz`
 - [`has_permission`](modules/modules.lazy_rbac.py.md#rbacuser-has_permission) method of `RBACUser` in `modules.lazy_rbac`
@@ -6201,6 +6281,7 @@
 - [`host_find`](modules/modules.db.py.md#lazyowndb-host_find) method of `LazyOwnDB` in `modules.db`
 - [`host_geo`](modules/modules.osint_enrich.py.md#host_geo) function in `modules.osint_enrich`
 - [`host_list`](modules/modules.db.py.md#lazyowndb-host_list) method of `LazyOwnDB` in `modules.db`
+- [`HOST_PREFIX`](modules/modules.golden_path.py.md#host_prefix) constant in `modules.golden_path`
 - [`HOST_PREFIX`](modules/modules.live_surface.py.md#host_prefix) constant in `modules.live_surface`
 - [`HOST_UNREACHABLE`](modules/modules.socks_proxy.py.md#socksreply-host_unreachable) attribute of `SocksReply` in `modules.socks_proxy`
 - [`host_value`](modules/modules.outcome_bus.py.md#outcomeevent-host_value) property of `OutcomeEvent` in `modules.outcome_bus`
@@ -6418,6 +6499,7 @@
 - [`InfraCommandSet`](modules/cli.commands.infra.py.md#infracommandset) class in `cli.commands.infra`
 - [`ingest`](modules/modules.lesson_ingestor.py.md#lessoningestor-ingest) method of `LessonIngestor` in `modules.lesson_ingestor`
 - [`ingest_all`](modules/modules.lesson_ingestor.py.md#lessoningestor-ingest_all) method of `LessonIngestor` in `modules.lesson_ingestor`
+- [`ingest_beacon_recon`](modules/modules.beacon_recon.py.md#ingest_beacon_recon) function in `modules.beacon_recon`
 - [`ingest_campaign_lessons`](modules/modules.lesson_ingestor.py.md#ingest_campaign_lessons) function in `modules.lesson_ingestor`
 - [`ingest_proxy_traffic`](modules/modules.lazy_loop.py.md#lazyloopengine-ingest_proxy_traffic) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`ingest_text`](modules/skills.lazyown_facts.py.md#factstore-ingest_text) method of `FactStore` in `skills.lazyown_facts`
@@ -6441,6 +6523,7 @@
 - [`__init__`](modules/lazyc2.addon_creator.py.md#addonvalidationerror-__init__) constructor of `AddonValidationError` in `lazyc2.addon_creator`
 - [`__init__`](modules/lazyc2.addon_creator.py.md#addonvalidator-__init__) constructor of `AddonValidator` in `lazyc2.addon_creator`
 - [`__init__`](modules/lazyc2.addon_creator.py.md#addonyamlrenderer-__init__) constructor of `AddonYamlRenderer` in `lazyc2.addon_creator`
+- [`__init__`](modules/modules.guardrails.advisories.py.md#advisoryledger-__init__) constructor of `AdvisoryLedger` in `modules.guardrails.advisories`
 - [`__init__`](modules/modules.mcp_agent_bridge.py.md#agentbridgeworker-__init__) constructor of `AgentBridgeWorker` in `modules.mcp_agent_bridge`
 - [`__init__`](modules/modules.agent_runner.py.md#agentrunner-__init__) constructor of `AgentRunner` in `modules.agent_runner`
 - [`__init__`](modules/modules.agent_runner.py.md#agenttool-__init__) constructor of `AgentTool` in `modules.agent_runner`
@@ -6492,13 +6575,16 @@
 - [`__init__`](modules/lazygui.panels.cve_panel.py.md#cvepanel-__init__) constructor of `CVEPanel` in `lazygui.panels.cve_panel`
 - [`__init__`](modules/lazygui.panels.campaign_panel.py.md#campaignpanel-__init__) constructor of `CampaignPanel` in `lazygui.panels.campaign_panel`
 - [`__init__`](modules/skills.lazyown_campaign.py.md#campaignstore-__init__) constructor of `CampaignStore` in `skills.lazyown_campaign`
+- [`__init__`](modules/modules.guardrails.budget.py.md#capacityenvelope-__init__) constructor of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`__init__`](modules/skills.lazyown_policy.py.md#cascadeclassifier-__init__) constructor of `CascadeClassifier` in `skills.lazyown_policy`
 - [`__init__`](modules/skills.autonomous_daemon.py.md#cascadestrategy-__init__) constructor of `CascadeStrategy` in `skills.autonomous_daemon`
 - [`__init__`](modules/cli.recommendation.py.md#categoryresolver-__init__) constructor of `CategoryResolver` in `cli.recommendation`
 - [`__init__`](modules/modules.lazy_proxy.py.md#certificateauthority-__init__) constructor of `CertificateAuthority` in `modules.lazy_proxy`
+- [`__init__`](modules/modules.mediation.chain_mediator.py.md#chainmediator-__init__) constructor of `ChainMediator` in `modules.mediation.chain_mediator`
 - [`__init__`](modules/cli.chain_mode.py.md#chainmodestore-__init__) constructor of `ChainModeStore` in `cli.chain_mode`
 - [`__init__`](modules/cli.chain_mode.py.md#chainpromptengine-__init__) constructor of `ChainPromptEngine` in `cli.chain_mode`
 - [`__init__`](modules/modules.chain_runner.py.md#chainrunner-__init__) constructor of `ChainRunner` in `modules.chain_runner`
+- [`__init__`](modules/modules.guardrails.checkpoints.py.md#checkpointledger-__init__) constructor of `CheckpointLedger` in `modules.guardrails.checkpoints`
 - [`__init__`](modules/skills.hermes-lazyown.hermes_sync.py.md#checkpointserializer-__init__) constructor of `CheckpointSerializer` in `skills.hermes-lazyown.hermes_sync`
 - [`__init__`](modules/skills.lazyown_claudemd.py.md#claudemdloader-__init__) constructor of `ClaudeMdLoader` in `skills.lazyown_claudemd`
 - [`__init__`](modules/modules.lazycloud.py.md#cloudbucketenumerator-__init__) constructor of `CloudBucketEnumerator` in `modules.lazycloud`
@@ -6612,6 +6698,7 @@
 - [`__init__`](modules/modules.loop_guardrails.py.md#factvectorstore-__init__) constructor of `FactVectorStore` in `modules.loop_guardrails`
 - [`__init__`](modules/modules.auto_loop_memory.py.md#failurememory-__init__) constructor of `FailureMemory` in `modules.auto_loop_memory`
 - [`__init__`](modules/modules.tools.loop_smoke.py.md#fakeengine-__init__) constructor of `FakeEngine` in `modules.tools.loop_smoke`
+- [`__init__`](modules/modules.guardrails.advisories.py.md#featuregate-__init__) constructor of `FeatureGate` in `modules.guardrails.advisories`
 - [`__init__`](modules/modules.estorides_importer.py.md#feedbackloop-__init__) constructor of `FeedbackLoop` in `modules.estorides_importer`
 - [`__init__`](modules/skills.lazyown_policy.py.md#fileapprovalsink-__init__) constructor of `FileApprovalSink` in `skills.lazyown_policy`
 - [`__init__`](modules/cli.status_bar.py.md#filesystemreader-__init__) constructor of `FileSystemReader` in `cli.status_bar`
@@ -6646,6 +6733,7 @@
 - [`__init__`](modules/modules.ai_model.py.md#groqmodel-__init__) constructor of `GroqModel` in `modules.ai_model`
 - [`__init__`](modules/modules.intercept.py.md#guard-__init__) constructor of `Guard` in `modules.intercept`
 - [`__init__`](modules/modules.lazy_loop.py.md#guard-__init__) constructor of `Guard` in `modules.lazy_loop`
+- [`__init__`](modules/modules.guardrails.harness.py.md#guardharness-__init__) constructor of `GuardHarness` in `modules.guardrails.harness`
 - [`__init__`](modules/lazyc2.security.https_redirect.py.md#httpsredirect-__init__) constructor of `HTTPSRedirect` in `lazyc2.security.https_redirect`
 - [`__init__`](modules/modules.hash_cracker.py.md#hashcracker-__init__) constructor of `HashCracker` in `modules.hash_cracker`
 - [`__init__`](modules/modules.security_sanitizers.py.md#headervaluesanitizer-__init__) constructor of `HeaderValueSanitizer` in `modules.security_sanitizers`
@@ -6662,6 +6750,7 @@
 - [`__init__`](modules/skills.lazyown_hooks.py.md#hookregistry-__init__) constructor of `HookRegistry` in `skills.lazyown_hooks`
 - [`__init__`](modules/modules.nmap2csv.py.md#host-__init__) constructor of `Host` in `modules.nmap2csv`
 - [`__init__`](modules/utils.py.md#ip2asn-__init__) constructor of `IP2ASN` in `utils`
+- [`__init__`](modules/modules.mediation.intel_mediator.py.md#intelmediator-__init__) constructor of `IntelMediator` in `modules.mediation.intel_mediator`
 - [`__init__`](modules/modules.intelligence_engine.py.md#intelligenceengine-__init__) constructor of `IntelligenceEngine` in `modules.intelligence_engine`
 - [`__init__`](modules/cli.cli_enhancements.py.md#interactiveform-__init__) constructor of `InteractiveForm` in `cli.cli_enhancements`
 - [`__init__`](modules/modules.lazy_loop.py.md#interceptqueue-__init__) constructor of `InterceptQueue` in `modules.lazy_loop`
@@ -6723,6 +6812,7 @@
 - [`__init__`](modules/cli.marketplace_config.py.md#marketplaceconfigapp-__init__) constructor of `MarketplaceConfigApp` in `cli.marketplace_config`
 - [`__init__`](modules/lazygui.panels.marketplace_panel.py.md#marketplacepanel-__init__) constructor of `MarketplacePanel` in `lazygui.panels.marketplace_panel`
 - [`__init__`](modules/cli.fuzzy_picker.py.md#matchscorer-__init__) constructor of `MatchScorer` in `cli.fuzzy_picker`
+- [`__init__`](modules/modules.mediation.hub.py.md#mediationhub-__init__) constructor of `MediationHub` in `modules.mediation.hub`
 - [`__init__`](modules/modules.memory_cleaner.py.md#memorycleaner-__init__) constructor of `MemoryCleaner` in `modules.memory_cleaner`
 - [`__init__`](modules/modules.memory_store.py.md#memorystore-__init__) constructor of `MemoryStore` in `modules.memory_store`
 - [`__init__`](modules/skills.autonomous_daemon.py.md#metricsawareselector-__init__) constructor of `MetricsAwareSelector` in `skills.autonomous_daemon`
@@ -7015,12 +7105,14 @@
 - [`InstantEffect`](modules/cli.splash.py.md#instanteffect) class in `cli.splash`
 - [`instruction_reordering`](modules/modules.polymorphic_engine.py.md#mutationconfig-instruction_reordering) attribute of `MutationConfig` in `modules.polymorphic_engine`
 - [`INT`](modules/core.payload_schema.py.md#fieldkind-int) attribute of `FieldKind` in `core.payload_schema`
+- [`INTEL`](modules/modules.mediation.contracts.py.md#mediationdomains-intel) attribute of `MediationDomains` in `modules.mediation.contracts`
 - [`intel_bundle_view`](modules/lazyc2.py.md#intel_bundle_view) function in `lazyc2`
 - [`intel_report_path`](modules/modules.intelligence_engine.py.md#intelligenceconfig-intel_report_path) attribute of `IntelligenceConfig` in `modules.intelligence_engine`
 - [`intel_view`](modules/lazyc2.py.md#intel_view) function in `lazyc2`
 - [`IntelligenceAssessment`](modules/modules.intelligence_engine.py.md#intelligenceassessment) class in `modules.intelligence_engine`
 - [`IntelligenceConfig`](modules/modules.intelligence_engine.py.md#intelligenceconfig) class in `modules.intelligence_engine`
 - [`IntelligenceEngine`](modules/modules.intelligence_engine.py.md#intelligenceengine) class in `modules.intelligence_engine`
+- [`IntelMediator`](modules/modules.mediation.intel_mediator.py.md#intelmediator) class in `modules.mediation.intel_mediator`
 - [`intent_for`](modules/modules.lazy_installer.py.md#intent_for) function in `modules.lazy_installer`
 - [`intent_id`](modules/modules.outcome_bus.py.md#outcomeevent-intent_id) attribute of `OutcomeEvent` in `modules.outcome_bus`
 - [`intent_id`](modules/modules.chain_distill.py.md#stepdecision-intent_id) attribute of `StepDecision` in `modules.chain_distill`
@@ -7135,6 +7227,8 @@
 - [`is_installed`](modules/modules.bof_registry.py.md#bofregistry-is_installed) method of `BofRegistry` in `modules.bof_registry`
 - [`is_ip_in_scope`](modules/skills.lazyown_campaign.py.md#is_ip_in_scope) function in `skills.lazyown_campaign`
 - [`is_ipv4`](modules/modules.surface_ops.py.md#is_ipv4) function in `modules.surface_ops`
+- [`is_known`](modules/modules.mediation.contracts.py.md#mediationdomains-is_known) classmethod of `MediationDomains` in `modules.mediation.contracts`
+- [`is_known`](modules/modules.guardrails.contracts.py.md#taskclass-is_known) classmethod of `TaskClass` in `modules.guardrails.contracts`
 - [`is_leap_year`](modules/modules.cal.sh.md#is_leap_year) function in `modules/cal.sh`
 - [`is_light`](modules/core.profiles.py.md#is_light) function in `core.profiles`
 - [`is_likely_credential`](modules/skills.lazyown_mcp_helpers.py.md#is_likely_credential) function in `skills.lazyown_mcp_helpers`
@@ -7172,6 +7266,7 @@
 - [`is_shell_verb`](modules/modules.auto_registry.py.md#is_shell_verb) function in `modules.auto_registry`
 - [`is_socket_accessible`](modules/modules.lazyk8s.py.md#dockerenumerator-is_socket_accessible) method of `DockerEnumerator` in `modules.lazyk8s`
 - [`is_success`](modules/skills.swan_agent.py.md#swanresult-is_success) property of `SwanResult` in `skills.swan_agent`
+- [`is_suspended`](modules/modules.guardrails.advisories.py.md#featuregate-is_suspended) method of `FeatureGate` in `modules.guardrails.advisories`
 - [`is_text_file`](modules/lazy_sentinel4.py.md#lazysentinelhandler-is_text_file) method of `LazySentinelHandler` in `lazy_sentinel4`
 - [`is_truthy`](modules/modules.pipeline_engine.py.md#conditionevaluator-is_truthy) staticmethod of `ConditionEvaluator` in `modules.pipeline_engine`
 - [`is_unconstrained`](modules/modules.delegation_attacks.py.md#delegationtarget-is_unconstrained) attribute of `DelegationTarget` in `modules.delegation_attacks`
@@ -7209,6 +7304,8 @@
 - [`iter_command_sets`](modules/cli.registry.py.md#iter_command_sets) function in `cli.registry`
 - [`iter_descendants`](modules/cli.surface_graph.py.md#iter_descendants) function in `cli.surface_graph`
 - [`iter_emoji_spans`](modules/core.hardening.py.md#iter_emoji_spans) function in `core.hardening`
+- [`iter_flat_facts`](modules/modules.factsio.py.md#iter_flat_facts) function in `modules.factsio`
+- [`iter_host_records`](modules/modules.factsio.py.md#iter_host_records) function in `modules.factsio`
 - [`iter_tool_triggers`](modules/modules.auto_registry.py.md#iter_tool_triggers) function in `modules.auto_registry`
 - [`iterations`](modules/skills.hive_mind.py.md#dronestate-iterations) attribute of `DroneState` in `skills.hive_mind`
 - [`ITextOutputParser`](modules/skills.lazyown_facts.py.md#itextoutputparser) class in `skills.lazyown_facts`
@@ -7355,6 +7452,7 @@
 - [`keyPressEvent`](modules/lazygui.widgets.terminal_view.py.md#terminalview-keypressevent) method of `TerminalView` in `lazygui.widgets.terminal_view`
 - [`keyring_payload`](modules/modules.exp.c.md#keyring_payload) struct in `modules/exp.c`
 - [`keys`](modules/lazygui.config.constants.py.md#appconstants-keys) attribute of `AppConstants` in `lazygui.config.constants`
+- [`keys`](modules/modules.guardrails.checkpoints.py.md#checkpointledger-keys) method of `CheckpointLedger` in `modules.guardrails.checkpoints`
 - [`keys`](modules/cli.cli_enhancements.py.md#dictpayloadprovider-keys) method of `DictPayloadProvider` in `cli.cli_enhancements`
 - [`KEYS`](modules/modules.tools.monitor_smoke.py.md#keys) constant in `modules.tools.monitor_smoke`
 - [`keys`](modules/poc_tui.config.py.md#payloadconfig-keys) method of `PayloadConfig` in `poc_tui.config`
@@ -7758,6 +7856,7 @@
 - [`list_pods`](modules/modules.lazyk8s.py.md#k8senumerator-list_pods) method of `K8sEnumerator` in `modules.lazyk8s`
 - [`list_profiles`](modules/modules.operator_profiles.py.md#operatorprofilemanager-list_profiles) method of `OperatorProfileManager` in `modules.operator_profiles`
 - [`list_profiles`](modules/modules.c2_profile.py.md#list_profiles) function in `modules.c2_profile`
+- [`list_records`](modules/modules.ctf_capture.py.md#list_records) function in `modules.ctf_capture`
 - [`list_roles`](modules/modules.lazy_roles.py.md#list_roles) function in `modules.lazy_roles`
 - [`list_rules`](modules/modules.conditional_hooks.py.md#hookengine-list_rules) method of `HookEngine` in `modules.conditional_hooks`
 - [`list_rules`](modules/skills.lazyown_permissions.py.md#permissionsystem-list_rules) method of `PermissionSystem` in `skills.lazyown_permissions`
@@ -7806,6 +7905,7 @@
 - [`live_placeholders`](modules/lazyc2.addon_creator.py.md#addoncreatorconfig-live_placeholders) classmethod of `AddonCreatorConfig` in `lazyc2.addon_creator`
 - [`live_sessions`](modules/modules.atomic_exploit_bridge.py.md#live_sessions) function in `modules.atomic_exploit_bridge`
 - [`LiveStatusTail`](modules/cli.cli_enhancements.py.md#livestatustail) class in `cli.cli_enhancements`
+- [`llm`](modules/modules.mediation.chain_mediator.py.md#chainmediator-llm) method of `ChainMediator` in `modules.mediation.chain_mediator`
 - [`llm_ask`](modules/skills.lazyown_llm.py.md#llm_ask) function in `skills.lazyown_llm`
 - [`llm_backend`](modules/skills.claude_md_orchestrator.config.py.md#config-llm_backend) attribute of `Config` in `skills.claude_md_orchestrator.config`
 - [`llm_reasoning`](modules/modules.playbook_engine.py.md#playbookstep-llm_reasoning) attribute of `PlaybookStep` in `modules.playbook_engine`
@@ -7816,10 +7916,12 @@
 - [`LLMBackendUnavailableError`](modules/modules.llm_factory.py.md#llmbackendunavailableerror) exception in `modules.llm_factory`
 - [`LLMBridge`](modules/skills.lazyown_llm.py.md#llmbridge) class in `skills.lazyown_llm`
 - [`LLMClient`](modules/modules.llm_client.py.md#llmclient) class in `modules.llm_client`
+- [`LlmCompletionPort`](modules/modules.mediation.contracts.py.md#llmcompletionport) protocol in `modules.mediation.contracts`
 - [`LLMEngine`](modules/contrib.legacy.lazyllmchat.py.md#llmengine) class in `contrib.legacy.lazyllmchat`
 - [`LLMEvaluator`](modules/modules.llm_evaluator.py.md#llmevaluator) class in `modules.llm_evaluator`
 - [`LLMPool`](modules/modules.llm_pool.py.md#llmpool) class in `modules.llm_pool`
 - [`LlmPool`](modules/modules.lazy_loop.py.md#llmpool) class in `modules.lazy_loop`
+- [`LlmPoolPort`](modules/modules.mediation.chain_mediator.py.md#llmpoolport) class in `modules.mediation.chain_mediator`
 - [`LlmPromptConfig`](modules/modules.llm_prompts.py.md#llmpromptconfig) class in `modules.llm_prompts`
 - [`LLMSelector`](modules/skills.autonomous_daemon.py.md#llmselector) class in `skills.autonomous_daemon`
 - [`LLMTool`](modules/skills.lazyown_llm.py.md#llmtool) class in `skills.lazyown_llm`
@@ -7854,6 +7956,7 @@
 - [`load_all`](modules/modules.atomic_exploit_bridge.py.md#load_all) function in `modules.atomic_exploit_bridge`
 - [`load_all`](modules/modules.chain_registry.py.md#load_all) function in `modules.chain_registry`
 - [`load_and_validate`](modules/core.config.py.md#load_and_validate) function in `core.config`
+- [`load_artifact`](modules/modules.golden_path.py.md#load_artifact) function in `modules.golden_path`
 - [`load_banners`](modules/lazyc2.py.md#load_banners) function in `lazyc2`
 - [`load_banners`](modules/lazyc2.extensions.storage.py.md#load_banners) function in `lazyc2.extensions.storage`
 - [`load_budget_config`](modules/core.llm_budget.py.md#load_budget_config) function in `core.llm_budget`
@@ -7906,6 +8009,7 @@
 - [`load_knowledge_base`](modules/contrib.legacy.lazysearch_bot.py.md#load_knowledge_base) function in `contrib.legacy.lazysearch_bot`
 - [`load_knowledge_base`](modules/utils.py.md#load_knowledge_base) function in `utils`
 - [`load_lan_bundle`](modules/modules.estorides_fusion.py.md#load_lan_bundle) function in `modules.estorides_fusion`
+- [`load_matrix`](modules/modules.gym_matrix_runner.py.md#load_matrix) function in `modules.gym_matrix_runner`
 - [`load_mitre_data`](modules/lazyc2.py.md#load_mitre_data) function in `lazyc2`
 - [`load_note`](modules/lazyc2.py.md#load_note) function in `lazyc2`
 - [`load_note`](modules/lazyc2.extensions.storage.py.md#load_note) function in `lazyc2.extensions.storage`
@@ -7925,6 +8029,7 @@
 - [`load_playbook`](modules/modules.playbook_admin.py.md#load_playbook) function in `modules.playbook_admin`
 - [`load_plugin`](modules/plugins.init_plugins.lua.md#load_plugin) function in `plugins/init_plugins.lua`
 - [`load_plugins`](modules/lazyown.py.md#lazyownshell-load_plugins) method of `LazyOwnShell` in `lazyown`
+- [`load_policy_facts`](modules/modules.factsio.py.md#load_policy_facts) function in `modules.factsio`
 - [`load_profile`](modules/modules.operator_profiles.py.md#operatorprofilemanager-load_profile) method of `OperatorProfileManager` in `modules.operator_profiles`
 - [`load_profile`](modules/cli.headless.py.md#load_profile) function in `cli.headless`
 - [`load_reaction_triggers`](modules/modules.reaction_bridge.py.md#load_reaction_triggers) function in `modules.reaction_bridge`
@@ -8044,6 +8149,8 @@
 - [`LootEntry`](modules/cli.ops_commands.py.md#lootentry) class in `cli.ops_commands`
 - [`LOW`](modules/modules.opsec_scorer.py.md#risklevel-low) attribute of `RiskLevel` in `modules.opsec_scorer`
 - [`LOW`](modules/modules.sleep_obfuscation.py.md#techniquerisk-low) attribute of `TechniqueRisk` in `modules.sleep_obfuscation`
+- [`LOW_PRIVILEGE`](modules/modules.atomic_exploit_bridge.py.md#low_privilege) constant in `modules.atomic_exploit_bridge`
+- [`LOW_PRIVILEGE`](modules/modules.c2_agent.py.md#low_privilege) constant in `modules.c2_agent`
 - [`lport`](modules/modules.bitm_engine.py.md#bitmstate-lport) attribute of `BitMState` in `modules.bitm_engine`
 - [`LPORT`](modules/skills.hermes-lazyown.constants.py.md#configkeys-lport) attribute of `ConfigKeys` in `skills.hermes-lazyown.constants`
 - [`lport`](modules/modules.dotnet_payload.py.md#dotnetpayloadconfig-lport) attribute of `DotNetPayloadConfig` in `modules.dotnet_payload`
@@ -8236,6 +8343,7 @@
 - [`MarketplaceConfigApp`](modules/cli.marketplace_config.py.md#marketplaceconfigapp) class in `cli.marketplace_config`
 - [`MarketplacePanel`](modules/lazygui.panels.marketplace_panel.py.md#marketplacepanel) class in `lazygui.panels.marketplace_panel`
 - [`MarketplaceSettings`](modules/cli.marketplace_config.py.md#marketplacesettings) class in `cli.marketplace_config`
+- [`mask_configured`](modules/modules.mediation.intel_mediator.py.md#intelmediator-mask_configured) method of `IntelMediator` in `modules.mediation.intel_mediator`
 - [`mask_configured`](modules/modules.lazy_intel.py.md#mask_configured) function in `modules.lazy_intel`
 - [`mask_secrets`](modules/modules.notify.py.md#mask_secrets) function in `modules.notify`
 - [`MASTER_PASSWORD`](modules/modules.kerberos_tickets.py.md#skeletonkeyinjector-master_password) attribute of `SkeletonKeyInjector` in `modules.kerberos_tickets`
@@ -8267,6 +8375,7 @@
 - [`matches_service`](modules/modules.lazyown_bridge.py.md#catalogentry-matches_service) method of `CatalogEntry` in `modules.lazyown_bridge`
 - [`MatchScorer`](modules/cli.fuzzy_picker.py.md#matchscorer) class in `cli.fuzzy_picker`
 - [`matrix`](modules/modules.ttp_coverage.py.md#ttpcoverage-matrix) method of `TTPCoverage` in `modules.ttp_coverage`
+- [`MATRIX_ARTIFACT_NAME`](modules/modules.gym_matrix_runner.py.md#matrix_artifact_name) constant in `modules.gym_matrix_runner`
 - [`max_addons`](modules/cli.recon_plan.py.md#reconplanconfig-max_addons) attribute of `ReconPlanConfig` in `cli.recon_plan`
 - [`MAX_BODY_BYTES`](modules/modules.traffic_recorder.py.md#max_body_bytes) constant in `modules.traffic_recorder`
 - [`max_body_bytes`](modules/modules.traffic_recorder.py.md#recorderconfig-max_body_bytes) attribute of `RecorderConfig` in `modules.traffic_recorder`
@@ -8312,6 +8421,7 @@
 - [`MAX_LAN_NODES`](modules/modules.estorides_fusion.py.md#max_lan_nodes) constant in `modules.estorides_fusion`
 - [`MAX_LAST_SECTION_CHARS`](modules/modules.lazy_summarizer.py.md#max_last_section_chars) constant in `modules.lazy_summarizer`
 - [`max_line_chars`](modules/cli.toast_bus.py.md#toastconfig-max_line_chars) attribute of `ToastConfig` in `cli.toast_bus`
+- [`MAX_MATRIX_OUTPUT_CHARS`](modules/modules.gym_matrix_runner.py.md#max_matrix_output_chars) constant in `modules.gym_matrix_runner`
 - [`MAX_MENTIONS`](modules/modules.lazy_mentions.py.md#max_mentions) constant in `modules.lazy_mentions`
 - [`max_message_size_kb`](modules/modules.c2_profile_engine.py.md#websocketprofile-max_message_size_kb) attribute of `WebSocketProfile` in `modules.c2_profile_engine`
 - [`max_neighbors`](modules/cli.graph_overlay.py.md#graphoverlayconfig-max_neighbors) attribute of `GraphOverlayConfig` in `cli.graph_overlay`
@@ -8421,6 +8531,12 @@
 - [`measure_only`](modules/modules.auto_purple.py.md#ipurpleloop-measure_only) method of `IPurpleLoop` in `modules.auto_purple`
 - [`measure_only`](modules/modules.auto_purple.py.md#purpleteamloop-measure_only) method of `PurpleTeamLoop` in `modules.auto_purple`
 - [`measure_stats`](modules/scripts.sync_doc_stats.py.md#measure_stats) function in `scripts.sync_doc_stats`
+- [`MediationDomains`](modules/modules.mediation.contracts.py.md#mediationdomains) class in `modules.mediation.contracts`
+- [`MediationHub`](modules/modules.mediation.hub.py.md#mediationhub) class in `modules.mediation.hub`
+- [`MediationHubContract`](modules/modules.mediation.contracts.py.md#mediationhubcontract) protocol in `modules.mediation.contracts`
+- [`mediator_for`](modules/modules.mediation.hub.py.md#mediationhub-mediator_for) method of `MediationHub` in `modules.mediation.hub`
+- [`mediator_for`](modules/modules.mediation.contracts.py.md#mediationhubcontract-mediator_for) method of `MediationHubContract` in `modules.mediation.contracts`
+- [`MediatorContract`](modules/modules.mediation.contracts.py.md#mediatorcontract) protocol in `modules.mediation.contracts`
 - [`MEDIUM`](modules/modules.opsec_scorer.py.md#risklevel-medium) attribute of `RiskLevel` in `modules.opsec_scorer`
 - [`MEDIUM`](modules/modules.sleep_obfuscation.py.md#techniquerisk-medium) attribute of `TechniqueRisk` in `modules.sleep_obfuscation`
 - [`member_id`](modules/modules.llm_pool.py.md#poolmember-member_id) attribute of `PoolMember` in `modules.llm_pool`
@@ -8532,6 +8648,7 @@
 - [`missing_facts`](modules/modules.planner.py.md#plancandidate-missing_facts) attribute of `PlanCandidate` in `modules.planner`
 - [`missing_prerequisites`](modules/cli.command_chain.py.md#commandchain-missing_prerequisites) method of `CommandChain` in `cli.command_chain`
 - [`MissingDependencyError`](modules/core.dependencies.py.md#missingdependencyerror) exception in `core.dependencies`
+- [`MISSION`](modules/modules.guardrails.contracts.py.md#taskclass-mission) attribute of `TaskClass` in `modules.guardrails.contracts`
 - [`mitigation`](modules/modules.intelligence_engine.py.md#counterintelfinding-mitigation) attribute of `CounterIntelFinding` in `modules.intelligence_engine`
 - [`mitigation`](modules/modules.opsec_scorer.py.md#opsecscore-mitigation) attribute of `OpsecScore` in `modules.opsec_scorer`
 - [`mitigations`](modules/modules.opsec_scorer.py.md#gatedopsecscore-mitigations) attribute of `GatedOpsecScore` in `modules.opsec_scorer`
@@ -8600,7 +8717,9 @@
 - [`MODULES_DIR`](modules/skills.lazyown_daemon.py.md#modules_dir) constant in `skills.lazyown_daemon`
 - [`MODULES_DIR`](modules/skills.lazyown_mcp.py.md#modules_dir) constant in `skills.lazyown_mcp`
 - [`MODULES_DIR`](modules/skills.swan_agent.py.md#modules_dir) constant in `skills.swan_agent`
+- [`moe_record_outcome`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-moe_record_outcome) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`moe_record_outcome`](modules/modules.loop_ai_bridge.py.md#moe_record_outcome) function in `modules.loop_ai_bridge`
+- [`moe_route`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-moe_route) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`moe_route`](modules/modules.loop_ai_bridge.py.md#moe_route) function in `modules.loop_ai_bridge`
 - [`MoERouter`](modules/modules.moe_router.py.md#moerouter) class in `modules.moe_router`
 - [`mon_shell`](modules/modules.rootkit.mr.c.md#mon_shell) function in `modules/rootkit/mr.c`
@@ -8908,6 +9027,7 @@
 - [`notes_filename`](modules/cli.status_bar.py.md#statusbarconfig-notes_filename) attribute of `StatusBarConfig` in `cli.status_bar`
 - [`notes_globs`](modules/cli.session_hud.py.md#hudconfig-notes_globs) attribute of `HudConfig` in `cli.session_hud`
 - [`NOTES_PATH`](modules/cli.engagement_hooks.py.md#notes_path) constant in `cli.engagement_hooks`
+- [`notice`](modules/modules.guardrails.advisories.py.md#advisoryledger-notice) method of `AdvisoryLedger` in `modules.guardrails.advisories`
 - [`NotificationBroadcaster`](modules/modules.engagement_hooks.py.md#notificationbroadcaster) class in `modules.engagement_hooks`
 - [`NOTIFICATIONS_PATH`](modules/cli.engagement_hooks.py.md#notifications_path) constant in `cli.engagement_hooks`
 - [`Notifier`](modules/modules.lazy_loop.py.md#notifier) class in `modules.lazy_loop`
@@ -9102,6 +9222,7 @@
 - [`OPERATOR`](modules/modules.lazy_rbac.py.md#role-operator) attribute of `Role` in `modules.lazy_rbac`
 - [`operator`](modules/modules.collab_bp.py.md#targetlock-operator) attribute of `TargetLock` in `modules.collab_bp`
 - [`operator_changed`](modules/lazygui.services.backend.py.md#backend-operator_changed) attribute of `Backend` in `lazygui.services.backend`
+- [`OPERATOR_SOURCE`](modules/modules.golden_path.py.md#operator_source) constant in `modules.golden_path`
 - [`operator_specs`](modules/core.param_registry.py.md#operator_specs) function in `core.param_registry`
 - [`operator_stale_seconds`](modules/cli.status_bar.py.md#statusbarconfig-operator_stale_seconds) attribute of `StatusBarConfig` in `cli.status_bar`
 - [`OperatorInfo`](modules/modules.collab_bp.py.md#operatorinfo) class in `modules.collab_bp`
@@ -9145,6 +9266,7 @@
 - [`OrchestratorGoal`](modules/skills.unified_orchestrator.py.md#orchestratorgoal) class in `skills.unified_orchestrator`
 - [`OrchestratorResult`](modules/skills.unified_orchestrator.py.md#orchestratorresult) class in `skills.unified_orchestrator`
 - [`order`](modules/cli.banner_config.py.md#segmentspec-order) attribute of `SegmentSpec` in `cli.banner_config`
+- [`order_steps`](modules/modules.mediation.feedback_mediator.py.md#feedbackmediator-order_steps) method of `FeedbackMediator` in `modules.mediation.feedback_mediator`
 - [`order_steps`](modules/modules.lazy_orchestrator_feedback.py.md#order_steps) function in `modules.lazy_orchestrator_feedback`
 - [`organization_domain`](modules/lazygui.config.constants.py.md#identifierconstants-organization_domain) attribute of `IdentifierConstants` in `lazygui.config.constants`
 - [`organization_escalation`](modules/modules.gcp_attacks.py.md#gcpattackengine-organization_escalation) method of `GCPAttackEngine` in `modules.gcp_attacks`
@@ -9222,6 +9344,7 @@
 - [`output`](modules/cli.cli_enhancements.py.md#transcriptentry-output) attribute of `TranscriptEntry` in `cli.cli_enhancements`
 - [`output_binary`](modules/modules.beacon_config_builder.py.md#beaconconfig-output_binary) attribute of `BeaconConfig` in `modules.beacon_config_builder`
 - [`OUTPUT_DIR`](modules/scripts.migrate_lazyown.py.md#output_dir) constant in `scripts.migrate_lazyown`
+- [`output_dir`](modules/modules.ctf_capture.py.md#output_dir) function in `modules.ctf_capture`
 - [`OUTPUT_EVENTS_FILE`](modules/modules.lilsplunky.py.md#output_events_file) constant in `modules.lilsplunky`
 - [`output_excerpt`](modules/modules.operation.py.md#operationstep-output_excerpt) attribute of `OperationStep` in `modules.operation`
 - [`OUTPUT_FILE`](modules/modules.threat_model.py.md#output_file) constant in `modules.threat_model`
@@ -9374,6 +9497,7 @@
 - [`parse_arguments`](modules/modules.lazyown_metaextract0r.py.md#parse_arguments) function in `modules.lazyown_metaextract0r`
 - [`parse_as_rep`](modules/modules.kerberos_core.py.md#kerberoscore-parse_as_rep) method of `KerberosCore` in `modules.kerberos_core`
 - [`parse_atomic_line`](modules/modules.atomic_cli.py.md#parse_atomic_line) function in `modules.atomic_cli`
+- [`parse_beacon_portscan`](modules/modules.beacon_recon.py.md#parse_beacon_portscan) function in `modules.beacon_recon`
 - [`parse_bloodhound_acls`](modules/modules.dacl_abuse.py.md#daclabuseengine-parse_bloodhound_acls) method of `DACLAbuseEngine` in `modules.dacl_abuse`
 - [`parse_bloodhound_gpos`](modules/modules.gpo_abuse.py.md#gpoabuseengine-parse_bloodhound_gpos) method of `GPOAbuseEngine` in `modules.gpo_abuse`
 - [`parse_bloodhound_output`](modules/modules.delegation_attacks.py.md#delegationenumerator-parse_bloodhound_output) method of `DelegationEnumerator` in `modules.delegation_attacks`
@@ -9384,6 +9508,7 @@
 - [`parse_confirm`](modules/modules.surface_ops.py.md#parse_confirm) function in `modules.surface_ops`
 - [`parse_data_directories`](modules/modules.reflective_dll.py.md#peparser-parse_data_directories) method of `PEParser` in `modules.reflective_dll`
 - [`parse_deepseek_response`](modules/lazy_sentinel4.py.md#lazysentinel-parse_deepseek_response) method of `LazySentinel` in `lazy_sentinel4`
+- [`parse_discovered_ips`](modules/modules.beacon_recon.py.md#parse_discovered_ips) function in `modules.beacon_recon`
 - [`parse_error`](modules/modules.kerberos_core.py.md#kerberoserrorparser-parse_error) staticmethod of `KerberosErrorParser` in `modules.kerberos_core`
 - [`parse_execution_log`](modules/lazyc2.py.md#parse_execution_log) function in `lazyc2`
 - [`parse_exports`](modules/modules.reflective_dll.py.md#peparser-parse_exports) method of `PEParser` in `modules.reflective_dll`
@@ -9660,6 +9785,8 @@
 - [`phase`](modules/cli.commands.exploit.py.md#exploitcommandset-phase) attribute of `ExploitCommandSet` in `cli.commands.exploit`
 - [`phase`](modules/cli.commands.exploitgym.py.md#exploitgymcommandset-phase) attribute of `ExploitGymCommandSet` in `cli.commands.exploitgym`
 - [`phase`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-phase) attribute of `ExploitMigratedCommandSet` in `cli.commands.exploit_migrated`
+- [`phase`](modules/cli.commands.golden_paths.py.md#goldenpathscommandset-phase) attribute of `GoldenPathsCommandSet` in `cli.commands.golden_paths`
+- [`phase`](modules/cli.commands.gym_matrix.py.md#gymmetasploitablecommandset-phase) attribute of `GymMetasploitableCommandSet` in `cli.commands.gym_matrix`
 - [`phase`](modules/cli.commands.help_ui.py.md#helpuicommandset-phase) attribute of `HelpUiCommandSet` in `cli.commands.help_ui`
 - [`phase`](modules/cli.session_hud.py.md#hudsnapshot-phase) attribute of `HudSnapshot` in `cli.session_hud`
 - [`phase`](modules/cli.commands.infra.py.md#infracommandset-phase) attribute of `InfraCommandSet` in `cli.commands.infra`
@@ -9864,6 +9991,7 @@
 - [`plan_injection`](modules/modules.reflective_dll.py.md#reflectiveloader-plan_injection) method of `ReflectiveLoader` in `modules.reflective_dll`
 - [`plan_local_admin_addition`](modules/modules.gpo_abuse.py.md#gpoabuseengine-plan_local_admin_addition) method of `GPOAbuseEngine` in `modules.gpo_abuse`
 - [`plan_logon_script`](modules/modules.gpo_abuse.py.md#gpoabuseengine-plan_logon_script) method of `GPOAbuseEngine` in `modules.gpo_abuse`
+- [`plan_matrix`](modules/modules.gym_matrix_runner.py.md#plan_matrix) function in `modules.gym_matrix_runner`
 - [`plan_path`](modules/cli.lazynmap_post.py.md#postscanresult-plan_path) attribute of `PostScanResult` in `cli.lazynmap_post`
 - [`plan_registry_preference`](modules/modules.gpo_abuse.py.md#gpoabuseengine-plan_registry_preference) method of `GPOAbuseEngine` in `modules.gpo_abuse`
 - [`plan_scheduled_task`](modules/modules.gpo_abuse.py.md#gpoabuseengine-plan_scheduled_task) method of `GPOAbuseEngine` in `modules.gpo_abuse`
@@ -10036,6 +10164,8 @@
 - [`priority`](modules/skills.lazyown_policy.py.md#overriderule-priority) attribute of `OverrideRule` in `skills.lazyown_policy`
 - [`priority`](modules/modules.selector_manager.py.md#proposal-priority) attribute of `Proposal` in `modules.selector_manager`
 - [`priority`](modules/modules.reactive_engine.py.md#reactivedecision-priority) attribute of `ReactiveDecision` in `modules.reactive_engine`
+- [`PRIORITY_BANDS`](modules/modules.golden_path.py.md#priority_bands) constant in `modules.golden_path`
+- [`priority_for`](modules/modules.golden_path.py.md#priority_for) function in `modules.golden_path`
 - [`PRIORITY_ORDER`](modules/skills.lazyown_objective.py.md#priority_order) constant in `skills.lazyown_objective`
 - [`PRIVESC`](modules/skills.lazyown_policy.py.md#actioncategory-privesc) attribute of `ActionCategory` in `skills.lazyown_policy`
 - [`PRIVESC`](modules/modules.bof_registry.py.md#bofcategory-privesc) attribute of `BofCategory` in `modules.bof_registry`
@@ -10206,6 +10336,7 @@
 - [`publish`](modules/modules.collab_bp.py.md#publish) function in `modules.collab_bp`
 - [`publish_banner`](modules/modules.c2_surfaces.py.md#publish_banner) function in `modules.c2_surfaces`
 - [`publish_cve`](modules/modules.c2_surfaces.py.md#publish_cve) function in `modules.c2_surfaces`
+- [`publish_event`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-publish_event) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`publish_event`](modules/modules.collab_bp.py.md#publish_event) function in `modules.collab_bp`
 - [`publish_event`](modules/modules.event_bus.py.md#publish_event) function in `modules.event_bus`
 - [`publish_loop_event`](modules/modules.loop_ai_bridge.py.md#publish_loop_event) function in `modules.loop_ai_bridge`
@@ -10217,6 +10348,7 @@
 - [`pull_to_world_model`](modules/modules.lazy_bridge.py.md#pull_to_world_model) function in `modules.lazy_bridge`
 - [`pull_traffic_to_recorder`](modules/modules.lazy_bridge.py.md#pull_traffic_to_recorder) function in `modules.lazy_bridge`
 - [`PULSE_CENTRALITY_THRESHOLD`](modules/modules.live_surface.py.md#pulse_centrality_threshold) constant in `modules.live_surface`
+- [`purge`](modules/modules.guardrails.budget.py.md#capacityenvelope-purge) method of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`PurpleDashboard`](modules/cli.purple_tui.py.md#purpledashboard) class in `cli.purple_tui`
 - [`PurpleResult`](modules/modules.auto_purple.py.md#purpleresult) class in `modules.auto_purple`
 - [`PurpleScore`](modules/modules.auto_purple.py.md#purplescore) class in `modules.auto_purple`
@@ -10228,6 +10360,7 @@
 - [`push`](modules/modules.auto_loop_memory.py.md#decisionpersistence-push) method of `DecisionPersistence` in `modules.auto_loop_memory`
 - [`push_notification`](modules/lazyc2.py.md#push_notification) function in `lazyc2`
 - [`push_objective_to_lazy`](modules/modules.lazy_bridge.py.md#push_objective_to_lazy) function in `modules.lazy_bridge`
+- [`push_objectives`](modules/modules.golden_path.py.md#push_objectives) function in `modules.golden_path`
 - [`push_tasks_to_c2`](modules/modules.lazy_bridge.py.md#push_tasks_to_c2) function in `modules.lazy_bridge`
 - [`push_to_misp`](modules/modules.integrations.misp_export.py.md#mispexporter-push_to_misp) method of `MISPExporter` in `modules.integrations.misp_export`
 - [`put`](modules/modules.evidence.py.md#evidencestore-put) method of `EvidenceStore` in `modules.evidence`
@@ -10352,6 +10485,7 @@
 - [`ReactiveSelector`](modules/skills.autonomous_daemon.py.md#reactiveselector) class in `skills.autonomous_daemon`
 - [`read`](modules/modules.session_reader.py.md#abstractreader-read) method of `AbstractReader` in `modules.session_reader`
 - [`read`](modules/modules.lazy_loop.py.md#activitylog-read) method of `ActivityLog` in `modules.lazy_loop`
+- [`read`](modules/modules.mediation.contracts.py.md#activitylogport-read) method of `ActivityLogPort` in `modules.mediation.contracts`
 - [`read`](modules/skills.lazyown_policy.py.md#csvsessionreader-read) method of `CSVSessionReader` in `skills.lazyown_policy`
 - [`read`](modules/skills.hermes-lazyown.hermes_sync.py.md#checkpointserializer-read) method of `CheckpointSerializer` in `skills.hermes-lazyown.hermes_sync`
 - [`read`](modules/modules.session_reader.py.md#commandoutputreader-read) method of `CommandOutputReader` in `modules.session_reader`
@@ -10422,6 +10556,9 @@
 - [`realm`](modules/modules.kerberos_core.py.md#kerberosticket-realm) attribute of `KerberosTicket` in `modules.kerberos_core`
 - [`realm`](modules/modules.kerberos_core.py.md#tgsrequest-realm) attribute of `TGSRequest` in `modules.kerberos_core`
 - [`realtime`](modules/modules.notify.py.md#channel-realtime) attribute of `Channel` in `modules.notify`
+- [`rearm`](modules/modules.guardrails.harness.py.md#guardharness-rearm) method of `GuardHarness` in `modules.guardrails.harness`
+- [`rearm`](modules/modules.guardrails.contracts.py.md#harnessadminport-rearm) method of `HarnessAdminPort` in `modules.guardrails.contracts`
+- [`rearm_harness`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-rearm_harness) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`reason`](modules/modules.ai_exploit_chain.py.md#aiexploitchainer-reason) method of `AIExploitChainer` in `modules.ai_exploit_chain`
 - [`reason`](modules/modules.addon_updater.py.md#addonupdateresult-reason) attribute of `AddonUpdateResult` in `modules.addon_updater`
 - [`reason`](modules/skills.lazyown_policy.py.md#approvalrequest-reason) attribute of `ApprovalRequest` in `skills.lazyown_policy`
@@ -10484,6 +10621,7 @@
 - [`recents_limit`](modules/cli.palette_telemetry.py.md#telemetryconfig-recents_limit) attribute of `TelemetryConfig` in `cli.palette_telemetry`
 - [`recents_section_label`](modules/cli.palette_overlay.py.md#paletteoverlayconfig-recents_section_label) attribute of `PaletteOverlayConfig` in `cli.palette_overlay`
 - [`recipient`](modules/skills.hive_mind.py.md#hivemessage-recipient) attribute of `HiveMessage` in `skills.hive_mind`
+- [`reclaim`](modules/modules.guardrails.budget.py.md#capacityenvelope-reclaim) method of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`RECO_DIR`](modules/modules.recommender.py.md#reco_dir) constant in `modules.recommender`
 - [`recommend`](modules/modules.exploit_recommender.py.md#exploitrecommender-recommend) method of `ExploitRecommender` in `modules.exploit_recommender`
 - [`recommend`](modules/skills.lazyown_policy.py.md#policyengine-recommend) method of `PolicyEngine` in `skills.lazyown_policy`
@@ -10538,15 +10676,20 @@
 - [`record_facts`](modules/modules.operation.py.md#operation-record_facts) method of `Operation` in `modules.operation`
 - [`record_failure`](modules/modules.auto_loop_memory.py.md#failurememory-record_failure) method of `FailureMemory` in `modules.auto_loop_memory`
 - [`record_failure`](modules/modules.intercept.py.md#guard-record_failure) method of `Guard` in `modules.intercept`
+- [`RECORD_NAME`](modules/modules.ctf_capture.py.md#record_name) constant in `modules.ctf_capture`
 - [`record_outcome`](modules/modules.llm_evaluator.py.md#llmevaluator-record_outcome) method of `LLMEvaluator` in `modules.llm_evaluator`
 - [`record_outcome`](modules/modules.moe_router.py.md#moerouter-record_outcome) method of `MoERouter` in `modules.moe_router`
 - [`record_outcome`](modules/modules.atomic_exploit_bridge.py.md#record_outcome) function in `modules.atomic_exploit_bridge`
 - [`record_outcome`](modules/modules.llm_evaluator.py.md#record_outcome) function in `modules.llm_evaluator`
+- [`record_path`](modules/modules.ctf_capture.py.md#record_path) function in `modules.ctf_capture`
 - [`record_raw`](modules/modules.lazy_loop.py.md#llmpool-record_raw) method of `LlmPool` in `modules.lazy_loop`
 - [`record_round`](modules/modules.lazy_loop.py.md#budget-record_round) method of `Budget` in `modules.lazy_loop`
+- [`record_routing_decision`](modules/modules.mediation.intel_mediator.py.md#intelmediator-record_routing_decision) method of `IntelMediator` in `modules.mediation.intel_mediator`
 - [`record_routing_decision`](modules/modules.lazy_intel.py.md#record_routing_decision) function in `modules.lazy_intel`
+- [`record_routing_outcome`](modules/modules.mediation.intel_mediator.py.md#intelmediator-record_routing_outcome) method of `IntelMediator` in `modules.mediation.intel_mediator`
 - [`record_routing_outcome`](modules/modules.lazy_intel.py.md#record_routing_outcome) function in `modules.lazy_intel`
 - [`record_shell_outcome`](modules/modules.atomic_exploit_bridge.py.md#record_shell_outcome) function in `modules.atomic_exploit_bridge`
+- [`record_step`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-record_step) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`record_step`](modules/modules.loop_ai_bridge.py.md#record_step) function in `modules.loop_ai_bridge`
 - [`record_toolcall`](modules/modules.lazy_loop.py.md#budget-record_toolcall) method of `Budget` in `modules.lazy_loop`
 - [`record_verdict`](modules/modules.lazy_loop.py.md#lazyloopengine-record_verdict) method of `LazyLoopEngine` in `modules.lazy_loop`
@@ -10618,6 +10761,7 @@
 - [`register`](modules/modules.bof_registry.py.md#bofcatalog-register) method of `BofCatalog` in `modules.bof_registry`
 - [`register`](modules/modules.playbook_executor.py.md#defaultttpmapper-register) classmethod of `DefaultTTPMapper` in `modules.playbook_executor`
 - [`register`](modules/skills.lazyown_hooks.py.md#hookregistry-register) method of `HookRegistry` in `skills.lazyown_hooks`
+- [`register`](modules/modules.mediation.hub.py.md#mediationhub-register) method of `MediationHub` in `modules.mediation.hub`
 - [`register`](modules/modules.obs_parser.py.md#obsparser-register) method of `ObsParser` in `modules.obs_parser`
 - [`register`](modules/modules.toposwarm_bridge.py.md#onlinefeedbackloop-register) method of `OnlineFeedbackLoop` in `modules.toposwarm_bridge`
 - [`register`](modules/modules.payload_factory.py.md#payloadfactory-register) method of `PayloadFactory` in `modules.payload_factory`
@@ -10629,6 +10773,7 @@
 - [`register`](modules/lazyc2.blueprints.auth.py.md#register) function in `lazyc2.blueprints.auth`
 - [`register`](modules/modules.cli_auth.py.md#register) function in `modules.cli_auth`
 - [`register_action_handler`](modules/modules.conditional_hooks.py.md#hookengine-register_action_handler) method of `HookEngine` in `modules.conditional_hooks`
+- [`register_activity_log_factory`](modules/modules.mediation.intel_mediator.py.md#intelmediator-register_activity_log_factory) method of `IntelMediator` in `modules.mediation.intel_mediator`
 - [`register_all_adversary_commands`](modules/lazyown.py.md#lazyownshell-register_all_adversary_commands) method of `LazyOwnShell` in `lazyown`
 - [`register_all_generated_handlers`](modules/skills.mcp_generated_tools.py.md#register_all_generated_handlers) function in `skills.mcp_generated_tools`
 - [`register_beacon`](modules/modules.dns_beacon.py.md#dnsc2server-register_beacon) method of `DNSC2Server` in `modules.dns_beacon`
@@ -10640,6 +10785,7 @@
 - [`register_failed_attempt`](modules/telegram_c2.py.md#securesessionmanager-register_failed_attempt) method of `SecureSessionManager` in `telegram_c2`
 - [`register_failed_attempt`](modules/telegram_hermes.py.md#securesessionmanager-register_failed_attempt) method of `SecureSessionManager` in `telegram_hermes`
 - [`register_handler`](modules/skills.lazyown_mcp.py.md#register_handler) function in `skills.lazyown_mcp`
+- [`register_llm_port`](modules/modules.mediation.chain_mediator.py.md#chainmediator-register_llm_port) method of `ChainMediator` in `modules.mediation.chain_mediator`
 - [`register_loot_event`](modules/modules.c2_surfaces.py.md#register_loot_event) function in `modules.c2_surfaces`
 - [`register_many`](modules/modules.bof_registry.py.md#bofcatalog-register_many) method of `BofCatalog` in `modules.bof_registry`
 - [`register_output`](modules/skills.autonomous_daemon.py.md#reactiveselector-register_output) method of `ReactiveSelector` in `skills.autonomous_daemon`
@@ -10672,7 +10818,9 @@
 - [`relation`](modules/cli.graph_advisor.py.md#graphedge-relation) attribute of `GraphEdge` in `cli.graph_advisor`
 - [`relation`](modules/modules.world_model.py.md#networkrelation-relation) attribute of `NetworkRelation` in `modules.world_model`
 - [`relation`](modules/cli.surface_graph.py.md#surfaceedge-relation) attribute of `SurfaceEdge` in `cli.surface_graph`
+- [`RELATION_COST`](modules/modules.golden_path.py.md#relation_cost) constant in `modules.golden_path`
 - [`relative_path`](modules/cli.sessions_browser.py.md#sessionentry-relative_path) attribute of `SessionEntry` in `cli.sessions_browser`
+- [`release`](modules/modules.guardrails.budget.py.md#capacityenvelope-release) method of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`release`](modules/modules.collab_bp.py.md#lockmanager-release) method of `LockManager` in `modules.collab_bp`
 - [`release_keys`](modules/modules.exp.c.md#release_keys) function in `modules/exp.c`
 - [`release_partial_keys`](modules/modules.exp.c.md#release_partial_keys) function in `modules/exp.c`
@@ -10959,6 +11107,7 @@
 - [`reset_bus`](modules/modules.outcome_bus.py.md#reset_bus) function in `modules.outcome_bus`
 - [`reset_color_for`](modules/cli.banner_config.py.md#bannersettings-reset_color_for) method of `BannerSettings` in `cli.banner_config`
 - [`reset_colors`](modules/cli.banner_config.py.md#bannersettings-reset_colors) method of `BannerSettings` in `cli.banner_config`
+- [`reset_global_harness`](modules/modules.guardrails.harness.py.md#reset_global_harness) function in `modules.guardrails.harness`
 - [`reset_glyph_for`](modules/cli.banner_config.py.md#bannersettings-reset_glyph_for) method of `BannerSettings` in `cli.banner_config`
 - [`reset_glyphs`](modules/cli.banner_config.py.md#bannersettings-reset_glyphs) method of `BannerSettings` in `cli.banner_config`
 - [`reset_host`](modules/modules.world_model.py.md#worldmodel-reset_host) method of `WorldModel` in `modules.world_model`
@@ -10991,6 +11140,7 @@
 - [`resolve`](modules/modules.security_sanitizers.py.md#sessionpathresolver-resolve) method of `SessionPathResolver` in `modules.security_sanitizers`
 - [`resolve`](modules/modules.pipeline_engine.py.md#templateresolver-resolve) method of `TemplateResolver` in `modules.pipeline_engine`
 - [`resolve`](modules/modules.finding_lifecycle.py.md#resolve) function in `modules.finding_lifecycle`
+- [`resolve`](modules/modules.mediation.contracts.py.md#resolve) function in `modules.mediation.contracts`
 - [`resolve`](modules/modules.toolset.py.md#resolve) function in `modules.toolset`
 - [`resolve`](modules/modules.workspace.py.md#resolve) function in `modules.workspace`
 - [`resolve_admin`](modules/cli.apt_chain_support.py.md#resolve_admin) function in `cli.apt_chain_support`
@@ -11015,8 +11165,10 @@
 - [`resolve_path`](modules/cli.graph_advisor.py.md#graphloader-resolve_path) method of `GraphLoader` in `cli.graph_advisor`
 - [`resolve_path`](modules/modules.pipeline_engine.py.md#pipelineloader-resolve_path) method of `PipelineLoader` in `modules.pipeline_engine`
 - [`resolve_path`](modules/modules.stego_video.py.md#resolve_path) function in `modules.stego_video`
+- [`resolve_paths`](modules/modules.golden_path.py.md#resolve_paths) function in `modules.golden_path`
 - [`resolve_plan`](modules/modules.nuclei_templates_sync.py.md#resolve_plan) function in `modules.nuclei_templates_sync`
 - [`resolve_retest`](modules/modules.finding_lifecycle.py.md#resolve_retest) function in `modules.finding_lifecycle`
+- [`resolve_sources`](modules/cli.toast_bus.py.md#toastreader-resolve_sources) method of `ToastReader` in `cli.toast_bus`
 - [`resolve_sudo_consent`](modules/modules.retry_session.py.md#resolve_sudo_consent) function in `modules.retry_session`
 - [`resolve_target`](modules/modules.lazy_loop.py.md#resolve_target) function in `modules.lazy_loop`
 - [`resolve_target_dir`](modules/bootstrap.sh.md#resolve_target_dir) function in `bootstrap.sh`
@@ -11035,6 +11187,7 @@
 - [`RESPONSE_RE`](modules/modules.amt_auth_bypass.py.md#blankauthresponse-response_re) attribute of `BlankAuthResponse` in `modules.amt_auth_bypass`
 - [`rest`](modules/cli.output_mode.py.md#outputmode-rest) attribute of `OutputMode` in `cli.output_mode`
 - [`restart_service`](modules/contrib.legacy.lazymitmap.py.md#restart_service) function in `contrib.legacy.lazymitmap`
+- [`restore`](modules/modules.guardrails.checkpoints.py.md#checkpointledger-restore) method of `CheckpointLedger` in `modules.guardrails.checkpoints`
 - [`restore`](modules/modules.lazy_loop.py.md#taskarchive-restore) method of `TaskArchive` in `modules.lazy_loop`
 - [`restore`](modules/core.terminal_guard.py.md#terminalguard-restore) method of `TerminalGuard` in `core.terminal_guard`
 - [`restore`](modules/contrib.legacy.lazymidm.py.md#restore) function in `contrib.legacy.lazymidm`
@@ -11062,8 +11215,10 @@
 - [`results`](modules/lazyc2.state.py.md#results) variable in `lazyc2.state`
 - [`results_section_label`](modules/cli.palette_overlay.py.md#paletteoverlayconfig-results_section_label) attribute of `PaletteOverlayConfig` in `cli.palette_overlay`
 - [`resume`](modules/skills.daemon_control.py.md#daemoncontrol-resume) method of `DaemonControl` in `skills.daemon_control`
+- [`resume`](modules/modules.guardrails.advisories.py.md#featuregate-resume) method of `FeatureGate` in `modules.guardrails.advisories`
 - [`resume`](modules/modules.operation.py.md#operationmanager-resume) method of `OperationManager` in `modules.operation`
 - [`resume`](modules/modules.lazy_loop.py.md#taskstore-resume) method of `TaskStore` in `modules.lazy_loop`
+- [`resume_all`](modules/modules.guardrails.advisories.py.md#featuregate-resume_all) method of `FeatureGate` in `modules.guardrails.advisories`
 - [`resume_intent`](modules/modules.lazy_loop.py.md#lazyloopengine-resume_intent) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`resume_run_id`](modules/cli.apt_chain_support.py.md#chainargs-resume_run_id) attribute of `ChainArgs` in `cli.apt_chain_support`
 - [`resume_task`](modules/modules.lazy_loop.py.md#lazyloopengine-resume_task) method of `LazyLoopEngine` in `modules.lazy_loop`
@@ -11140,7 +11295,9 @@
 - [`risk_width`](modules/cli.commands.verb_admin.py.md#verbadminconfig-risk_width) attribute of `VerbAdminConfig` in `cli.commands.verb_admin`
 - [`RiskLevel`](modules/modules.opsec_scorer.py.md#risklevel) enum in `modules.opsec_scorer`
 - [`rl_save`](modules/modules.loop_ai_bridge.py.md#rl_save) function in `modules.loop_ai_bridge`
+- [`rl_select`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-rl_select) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`rl_select`](modules/modules.loop_ai_bridge.py.md#rl_select) function in `modules.loop_ai_bridge`
+- [`rl_update`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-rl_update) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`rl_update`](modules/modules.loop_ai_bridge.py.md#rl_update) function in `modules.loop_ai_bridge`
 - [`RLConfig`](modules/modules.rl_trainer.py.md#rlconfig) class in `modules.rl_trainer`
 - [`RLTrainer`](modules/modules.rl_trainer.py.md#rltrainer) class in `modules.rl_trainer`
@@ -11167,6 +11324,10 @@
 - [`root`](modules/cli.timeline_browser.py.md#timelinereader-root) property of `TimelineReader` in `cli.timeline_browser`
 - [`root`](modules/cli.toast_bus.py.md#toastreader-root) property of `ToastReader` in `cli.toast_bus`
 - [`root`](modules/modules.workspace.py.md#root) function in `modules.workspace`
+- [`ROOT_PRIVILEGE`](modules/modules.atomic_exploit_bridge.py.md#root_privilege) constant in `modules.atomic_exploit_bridge`
+- [`ROOT_PRIVILEGE`](modules/modules.c2_agent.py.md#root_privilege) constant in `modules.c2_agent`
+- [`ROOT_SHELL_EXPLOITS`](modules/modules.atomic_exploit_bridge.py.md#root_shell_exploits) constant in `modules.atomic_exploit_bridge`
+- [`ROOT_SHELL_RE`](modules/modules.ctf_capture.py.md#root_shell_re) constant in `modules.ctf_capture`
 - [`rop_gadget_count`](modules/modules.sleep_obfuscation.py.md#sleepobfuscationconfig-rop_gadget_count) attribute of `SleepObfuscationConfig` in `modules.sleep_obfuscation`
 - [`rotate`](modules/lazyc2.security.csrf.py.md#csrfpolicy-rotate) method of `CSRFPolicy` in `lazyc2.security.csrf`
 - [`rotate`](modules/modules.c2_profile_engine.py.md#profileengine-rotate) method of `ProfileEngine` in `modules.c2_profile_engine`
@@ -11303,6 +11464,8 @@
 - [`run_fingerprint`](modules/scripts.broadcom_wps_drive.sh.md#run_fingerprint) function in `scripts/broadcom_wps_drive.sh`
 - [`run_for_findings`](modules/modules.integrations.nuclei_bridge.py.md#nucleirunner-run_for_findings) method of `NucleiRunner` in `modules.integrations.nuclei_bridge`
 - [`run_full_cycle`](modules/modules.intelligence_engine.py.md#intelligenceengine-run_full_cycle) method of `IntelligenceEngine` in `modules.intelligence_engine`
+- [`run_guarded`](modules/modules.guardrails.harness.py.md#guardharness-run_guarded) method of `GuardHarness` in `modules.guardrails.harness`
+- [`run_guarded`](modules/modules.guardrails.contracts.py.md#guardrailcontract-run_guarded) method of `GuardrailContract` in `modules.guardrails.contracts`
 - [`run_id`](modules/modules.chain_runner.py.md#chainrunresult-run_id) attribute of `ChainRunResult` in `modules.chain_runner`
 - [`run_id`](modules/skills.claude_md_orchestrator.models.py.md#ciclestatefile-run_id) attribute of `CicleStateFile` in `skills.claude_md_orchestrator.models`
 - [`run_id`](modules/skills.claude_md_orchestrator.orchestrator.py.md#cyclesummary-run_id) attribute of `CycleSummary` in `skills.claude_md_orchestrator.orchestrator`
@@ -11341,6 +11504,7 @@
 - [`run_loop`](modules/skills.heartbeat.py.md#run_loop) function in `skills.heartbeat`
 - [`run_main_session`](modules/modules.lazy_agent.py.md#run_main_session) function in `modules.lazy_agent`
 - [`run_masscan_script`](modules/modules.lazymasscan.sh.md#run_masscan_script) function in `modules/lazymasscan.sh`
+- [`run_matrix`](modules/modules.gym_matrix_runner.py.md#run_matrix) function in `modules.gym_matrix_runner`
 - [`run_monitor_command`](modules/cli.lazy_monitor.py.md#run_monitor_command) function in `cli.lazy_monitor`
 - [`run_monitor_session`](modules/cli.lazy_monitor.py.md#run_monitor_session) function in `cli.lazy_monitor`
 - [`run_msfvenom`](modules/plugins.lolbas_certutil_exe.lua.md#run_msfvenom) function in `plugins/lolbas_certutil_exe.lua`
@@ -11382,6 +11546,7 @@
 - [`RUNS_DIR`](modules/modules.pipeline_engine.py.md#runs_dir) constant in `modules.pipeline_engine`
 - [`runs_dir`](modules/modules.pipeline_engine.py.md#runartifactstore-runs_dir) property of `RunArtifactStore` in `modules.pipeline_engine`
 - [`RUNS_SERVICE_RELATION`](modules/modules.live_surface.py.md#runs_service_relation) constant in `modules.live_surface`
+- [`RunTicket`](modules/modules.guardrails.contracts.py.md#runticket) class in `modules.guardrails.contracts`
 - [`RUNTIME_SIGNATURES`](modules/modules.lazyk8s.py.md#containerruntimedetector-runtime_signatures) attribute of `ContainerRuntimeDetector` in `modules.lazyk8s`
 - [`RuntimeTracker`](modules/modules.lazy_loop.py.md#runtimetracker) class in `modules.lazy_loop`
 - [`rva_to_offset`](modules/modules.reflective_dll.py.md#peparser-rva_to_offset) method of `PEParser` in `modules.reflective_dll`
@@ -11460,6 +11625,7 @@
 - [`sanitize_value`](modules/modules.security_sanitizers.py.md#headervaluesanitizer-sanitize_value) method of `HeaderValueSanitizer` in `modules.security_sanitizers`
 - [`sans_stack`](modules/lazygui.config.constants.py.md#fontconstants-sans_stack) attribute of `FontConstants` in `lazygui.config.constants`
 - [`SapphireTicketForger`](modules/modules.kerberos_tickets.py.md#sapphireticketforger) class in `modules.kerberos_tickets`
+- [`saturated`](modules/modules.guardrails.budget.py.md#capacityenvelope-saturated) method of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`save`](modules/lazyc2.addon_creator.py.md#addonstore-save) method of `AddonStore` in `lazyc2.addon_creator`
 - [`save`](modules/lazygui.config.settings.py.md#appsettings-save) method of `AppSettings` in `lazygui.config.settings`
 - [`save`](modules/modules.bof_registry.py.md#bofcatalog-save) method of `BofCatalog` in `modules.bof_registry`
@@ -11489,6 +11655,7 @@
 - [`save_cves`](modules/lazyc2.extensions.storage.py.md#save_cves) function in `lazyc2.extensions.storage`
 - [`save_decisions`](modules/modules.reaction_bridge.py.md#save_decisions) function in `modules.reaction_bridge`
 - [`SAVE_DIR`](modules/lazyc2.py.md#save_dir) constant in `lazyc2`
+- [`save_guardrails`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_guardrails) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`save_gym_yaml`](modules/modules.redteam_gym.py.md#save_gym_yaml) function in `modules.redteam_gym`
 - [`save_image`](modules/contrib.legacy.lazy_packet_image_sniffer.py.md#save_image) function in `contrib.legacy.lazy_packet_image_sniffer`
 - [`save_intent`](modules/modules.lazy_agent.py.md#conversationstore-save_intent) method of `ConversationStore` in `modules.lazy_agent`
@@ -12035,6 +12202,7 @@
 - [`set_fqdn`](modules/modules.nmap2csv.py.md#host-set_fqdn) method of `Host` in `modules.nmap2csv`
 - [`set_full_cli`](modules/modules.lazy_cli_bridge.py.md#set_full_cli) function in `modules.lazy_cli_bridge`
 - [`set_goals`](modules/modules.lazy_loop.py.md#lazyloopengine-set_goals) method of `LazyLoopEngine` in `modules.lazy_loop`
+- [`set_harness`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-set_harness) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`set_installer_enabled`](modules/modules.lazy_installer.py.md#set_installer_enabled) function in `modules.lazy_installer`
 - [`set_judge`](modules/modules.lazy_loop.py.md#guard-set_judge) method of `Guard` in `modules.lazy_loop`
 - [`set_ld_preload`](modules/modules.rootkit.mr.c.md#set_ld_preload) function in `modules/rootkit/mr.c`
@@ -12133,10 +12301,12 @@
 - [`severity`](modules/modules.world_model.py.md#vulnerabilityentry-severity) attribute of `VulnerabilityEntry` in `modules.world_model`
 - [`severity`](modules/skills.lazyown_facts.py.md#vulnerabilityfact-severity) attribute of `VulnerabilityFact` in `skills.lazyown_facts`
 - [`severity`](modules/modules.exploit_chain.py.md#vulnerabilitymatch-severity) attribute of `VulnerabilityMatch` in `modules.exploit_chain`
+- [`SEVERITY_COST`](modules/modules.golden_path.py.md#severity_cost) constant in `modules.golden_path`
 - [`severity_for_event`](modules/modules.outcome_bus.py.md#severity_for_event) function in `modules.outcome_bus`
 - [`SEVERITY_LEVELS`](modules/lazy_sentinel4.py.md#alert-severity_levels) attribute of `Alert` in `lazy_sentinel4`
 - [`SEVERITY_MAP`](modules/modules.integrations.nuclei_parser.py.md#severity_map) constant in `modules.integrations.nuclei_parser`
 - [`SEVERITY_ORDER`](modules/modules.professional_report.py.md#redteamreportgenerator-severity_order) attribute of `RedTeamReportGenerator` in `modules.professional_report`
+- [`SEVERITY_ORDER`](modules/modules.gym_matrix_runner.py.md#severity_order) constant in `modules.gym_matrix_runner`
 - [`severity_rank`](modules/modules.atomic_exploit_bridge.py.md#exploitspec-severity_rank) property of `ExploitSpec` in `modules.atomic_exploit_bridge`
 - [`severity_rank`](modules/modules.notify.py.md#notifyconfig-severity_rank) attribute of `NotifyConfig` in `modules.notify`
 - [`severity_rank`](modules/modules.notify.py.md#severity_rank) function in `modules.notify`
@@ -12149,6 +12319,7 @@
 - [`sha256`](modules/modules.polymorphic_engine.py.md#mutationresult-sha256) attribute of `MutationResult` in `modules.polymorphic_engine`
 - [`sha256`](modules/modules.reflective_dll.py.md#reflectiveloader-sha256) property of `ReflectiveLoader` in `modules.reflective_dll`
 - [`sha256`](modules/modules.selfupdate.py.md#releaseartifact-sha256) attribute of `ReleaseArtifact` in `modules.selfupdate`
+- [`SHADOW_LINE_RE`](modules/modules.ctf_capture.py.md#shadow_line_re) constant in `modules.ctf_capture`
 - [`shape`](modules/lazygui.services.models.py.md#graphnode-shape) attribute of `GraphNode` in `lazygui.services.models`
 - [`share_name`](modules/skills.lazyown_facts.py.md#sharefact-share_name) attribute of `ShareFact` in `skills.lazyown_facts`
 - [`shared_engine`](modules/modules.enrich.py.md#shared_engine) function in `modules.enrich`
@@ -12340,6 +12511,7 @@
 - [`snapshot`](modules/lazygui.services.event_log.py.md#eventlog-snapshot) method of `EventLog` in `lazygui.services.event_log`
 - [`snapshot`](modules/cli.graph_overlay.py.md#graphoverlaystate-snapshot) method of `GraphOverlayState` in `cli.graph_overlay`
 - [`snapshot`](modules/modules.killchain.py.md#killchain-snapshot) staticmethod of `KillChain` in `modules.killchain`
+- [`snapshot`](modules/modules.mediation.hub.py.md#mediationhub-snapshot) method of `MediationHub` in `modules.mediation.hub`
 - [`Snapshot`](modules/modules.sidequestion.py.md#snapshot) class in `modules.sidequestion`
 - [`snapshot`](modules/modules.world_model.py.md#worldmodel-snapshot) method of `WorldModel` in `modules.world_model`
 - [`SNAPSHOT_FILE_NAME`](modules/skills.lazyown_mcp_helpers.py.md#snapshot_file_name) constant in `skills.lazyown_mcp_helpers`
@@ -12507,6 +12679,7 @@
 - [`spns`](modules/modules.domain_dominance.py.md#domaininfo-spns) attribute of `DomainInfo` in `modules.domain_dominance`
 - [`spoof`](modules/contrib.legacy.lazymidm.py.md#spoof) function in `contrib.legacy.lazymidm`
 - [`spoofer`](modules/contrib.legacy.lazyarpspoofing.py.md#spoofer) function in `contrib.legacy.lazyarpspoofing`
+- [`spool_chain_outputs`](modules/modules.chain_facts.py.md#spool_chain_outputs) function in `modules.chain_facts`
 - [`Spray`](modules/utils.py.md#spray) function in `utils`
 - [`SPRAY_KEY_SIZE`](modules/modules.exp.c.md#spray_key_size) macro in `modules/exp.c`
 - [`spray_keyring`](modules/modules.exp.c.md#spray_keyring) function in `modules/exp.c`
@@ -12530,6 +12703,7 @@
 - [`St`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st) class of `Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S` in `static/js/quill-2.0.3.js`
 - [`st`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt-s-s-st) method of `Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt.s.s` in `static/js/quill-2.0.3.js`
 - [`stability_note`](modules/modules.sleep_obfuscation.py.md#sleeptechnique-stability_note) attribute of `SleepTechnique` in `modules.sleep_obfuscation`
+- [`stack_signature`](modules/modules.mediation.intel_mediator.py.md#intelmediator-stack_signature) method of `IntelMediator` in `modules.mediation.intel_mediator`
 - [`stack_signature`](modules/modules.lazy_intel.py.md#stack_signature) function in `modules.lazy_intel`
 - [`stage`](modules/skills.claude_md_orchestrator.models.py.md#ciclestate-stage) attribute of `CicleState` in `skills.claude_md_orchestrator.models`
 - [`Stage`](modules/skills.claude_md_orchestrator.models.py.md#stage) enum in `skills.claude_md_orchestrator.models`
@@ -12819,6 +12993,7 @@
 - [`store`](modules/skills.hive_mind.py.md#semanticstore-store) method of `SemanticStore` in `skills.hive_mind`
 - [`store_event`](modules/modules.lilsplunky.py.md#store_event) function in `modules.lilsplunky`
 - [`STORE_FILENAME`](modules/modules.finding_lifecycle.py.md#store_filename) constant in `modules.finding_lifecycle`
+- [`store_record`](modules/modules.ctf_capture.py.md#store_record) function in `modules.ctf_capture`
 - [`store_secret_owner_only`](modules/core.hardening.py.md#store_secret_owner_only) function in `core.hardening`
 - [`str_cut`](modules/modules.backdoor.backdoor.c.md#str_cut) function in `modules/backdoor/backdoor.c`
 - [`strategy`](modules/modules.autonomous_exploit_engine.py.md#exploitcandidate-strategy) attribute of `ExploitCandidate` in `modules.autonomous_exploit_engine`
@@ -12968,6 +13143,7 @@
 - [`summary`](modules/modules.saas_attacks.py.md#saasattackengine-summary) method of `SaaSAttackEngine` in `modules.saas_attacks`
 - [`summary`](modules/modules.timestomper.py.md#timestomper-summary) method of `Timestomper` in `modules.timestomper`
 - [`summary`](modules/cli.toast_bus.py.md#toastevent-summary) attribute of `ToastEvent` in `cli.toast_bus`
+- [`summary`](modules/modules.ctf_capture.py.md#summary) function in `modules.ctf_capture`
 - [`summary`](modules/modules.metasploitable_gym.py.md#summary) function in `modules.metasploitable_gym`
 - [`summary_max_chars`](modules/cli.graph_overlay.py.md#graphoverlayconfig-summary_max_chars) attribute of `GraphOverlayConfig` in `cli.graph_overlay`
 - [`summary_max_chars`](modules/cli.palette_overlay.py.md#paletteoverlayconfig-summary_max_chars) attribute of `PaletteOverlayConfig` in `cli.palette_overlay`
@@ -12977,6 +13153,7 @@
 - [`summary_truncation_marker`](modules/cli.palette_command.py.md#paletterenderconfig-summary_truncation_marker) attribute of `PaletteRenderConfig` in `cli.palette_command`
 - [`SUN`](modules/modules.mario.py.md#sun) constant in `modules.mario`
 - [`SupplyChainCommandSet`](modules/cli.commands.supply_chain.py.md#supplychaincommandset) class in `cli.commands.supply_chain`
+- [`SUPPORT`](modules/modules.guardrails.contracts.py.md#taskclass-support) attribute of `TaskClass` in `modules.guardrails.contracts`
 - [`SUPPORTED_BACKENDS`](modules/modules.llm_factory.py.md#supported_backends) constant in `modules.llm_factory`
 - [`SUPPORTED_EXTENSIONS`](modules/modules.pipeline_engine.py.md#pipelineloader-supported_extensions) attribute of `PipelineLoader` in `modules.pipeline_engine`
 - [`SUPPORTED_EXTENSIONS`](modules/modules.playbook_executor.py.md#playbookloader-supported_extensions) attribute of `PlaybookLoader` in `modules.playbook_executor`
@@ -12996,8 +13173,14 @@
 - [`SurfaceNode`](modules/cli.surface_graph.py.md#surfacenode) class in `cli.surface_graph`
 - [`surfaces`](modules/scripts.devtools.core_smoke.py.md#smokeconfig-surfaces) attribute of `SmokeConfig` in `scripts.devtools.core_smoke`
 - [`SURROGATE_CHARS`](modules/core.console.py.md#surrogate_chars) constant in `core.console`
+- [`suspend`](modules/modules.guardrails.advisories.py.md#featuregate-suspend) method of `FeatureGate` in `modules.guardrails.advisories`
+- [`suspend`](modules/modules.guardrails.harness.py.md#guardharness-suspend) method of `GuardHarness` in `modules.guardrails.harness`
 - [`suspend_windows_eventlog`](modules/modules.log_tamper.py.md#logtamperconfig-suspend_windows_eventlog) attribute of `LogTamperConfig` in `modules.log_tamper`
+- [`SUSPENDABLE_FEATURES`](modules/modules.guardrails.advisories.py.md#suspendable_features) constant in `modules.guardrails.advisories`
+- [`suspended`](modules/modules.guardrails.advisories.py.md#featuregate-suspended) method of `FeatureGate` in `modules.guardrails.advisories`
+- [`swan_available`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-swan_available) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`swan_available`](modules/modules.loop_ai_bridge.py.md#swan_available) function in `modules.loop_ai_bridge`
+- [`swan_consult`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-swan_consult) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`swan_consult`](modules/modules.loop_ai_bridge.py.md#swan_consult) function in `modules.loop_ai_bridge`
 - [`swan_default_timeout`](modules/skills.unified_orchestrator.py.md#orchestratorconfig-swan_default_timeout) attribute of `OrchestratorConfig` in `skills.unified_orchestrator`
 - [`swan_keyword_weight`](modules/skills.unified_orchestrator.py.md#orchestratorconfig-swan_keyword_weight) attribute of `OrchestratorConfig` in `skills.unified_orchestrator`
@@ -13062,7 +13245,9 @@
 - [`tags`](modules/modules.integrations.nuclei_parser.py.md#nucleifinding-tags) attribute of `NucleiFinding` in `modules.integrations.nuclei_parser`
 - [`tags`](modules/modules.integrations.nuclei_bridge.py.md#nucleitemplate-tags) attribute of `NucleiTemplate` in `modules.integrations.nuclei_bridge`
 - [`TagSelector`](modules/modules.lazyown_bridge.py.md#tagselector) class in `modules.lazyown_bridge`
+- [`tail`](modules/modules.guardrails.advisories.py.md#advisoryledger-tail) method of `AdvisoryLedger` in `modules.guardrails.advisories`
 - [`tail`](modules/modules.metrics.py.md#metricsrecorder-tail) method of `MetricsRecorder` in `modules.metrics`
+- [`tail_locked`](modules/modules.guardrails.advisories.py.md#advisoryledger-tail_locked) method of `AdvisoryLedger` in `modules.guardrails.advisories`
 - [`take_snapshot`](modules/skills.lazyown_mcp_helpers.py.md#take_snapshot) function in `skills.lazyown_mcp_helpers`
 - [`tap_button`](modules/scripts.dirtyinit_drive.sh.md#tap_button) function in `scripts/dirtyinit_drive.sh`
 - [`target`](modules/skills.aci_planner.py.md#acigoal-target) attribute of `ACIGoal` in `skills.aci_planner`
@@ -13145,6 +13330,7 @@
 - [`task`](modules/modules.notify.py.md#notifymessage-task) attribute of `NotifyMessage` in `modules.notify`
 - [`task`](modules/lazyc2.py.md#task) function in `lazyc2`
 - [`task_by_status`](modules/modules.session_reader.py.md#sessionsummary-task_by_status) method of `SessionSummary` in `modules.session_reader`
+- [`task_class`](modules/modules.guardrails.contracts.py.md#runticket-task_class) attribute of `RunTicket` in `modules.guardrails.contracts`
 - [`task_detail`](modules/lazyc2.blueprints.operations.py.md#task_detail) function in `lazyc2.blueprints.operations`
 - [`task_findings`](modules/modules.lazy_loop.py.md#lazyloopengine-task_findings) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`task_graph`](modules/modules.lazy_loop.py.md#lazyloopengine-task_graph) method of `LazyLoopEngine` in `modules.lazy_loop`
@@ -13167,6 +13353,7 @@
 - [`taskbot`](modules/lazyc2.py.md#taskbot) function in `lazyc2`
 - [`TaskCategory`](modules/modules.lazy_loop.py.md#taskcategory) class in `modules.lazy_loop`
 - [`TaskChat`](modules/modules.lazy_loop.py.md#taskchat) class in `modules.lazy_loop`
+- [`TaskClass`](modules/modules.guardrails.contracts.py.md#taskclass) enum in `modules.guardrails.contracts`
 - [`TaskConstraints`](modules/modules.goals.py.md#taskconstraints) class in `modules.goals`
 - [`TaskReader`](modules/modules.session_reader.py.md#taskreader) class in `modules.session_reader`
 - [`tasks`](modules/modules.session_reader.py.md#sessionsummary-tasks) attribute of `SessionSummary` in `modules.session_reader`
@@ -13219,9 +13406,11 @@
 - [`techniques_for_playbook`](modules/modules.emulation_runner.py.md#emulationrunner-techniques_for_playbook) method of `EmulationRunner` in `modules.emulation_runner`
 - [`teclado_usuario`](modules/utils.py.md#teclado_usuario) function in `utils`
 - [`TelegramNotificationSink`](modules/modules.engagement_hooks.py.md#telegramnotificationsink) class in `modules.engagement_hooks`
+- [`TELEMETRY`](modules/modules.mediation.contracts.py.md#mediationdomains-telemetry) attribute of `MediationDomains` in `modules.mediation.contracts`
 - [`TelemetryConfig`](modules/cli.palette_telemetry.py.md#telemetryconfig) class in `cli.palette_telemetry`
 - [`TelemetryIndex`](modules/cli.palette_telemetry.py.md#telemetryindex) class in `cli.palette_telemetry`
 - [`TelemetryIndexError`](modules/cli.palette_telemetry.py.md#telemetryindexerror) exception in `cli.palette_telemetry`
+- [`TelemetryMediator`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator) class in `modules.mediation.telemetry_mediator`
 - [`TEMP_UPLOADS_DIR_NAME`](modules/lazyc2.security.constants.py.md#temp_uploads_dir_name) constant in `lazyc2.security.constants`
 - [`temperature`](modules/modules.moe_router.py.md#softmaxselector-temperature) property of `SoftmaxSelector` in `modules.moe_router`
 - [`template_id`](modules/modules.integrations.nuclei_parser.py.md#nucleifinding-template_id) attribute of `NucleiFinding` in `modules.integrations.nuclei_parser`
@@ -13309,6 +13498,7 @@
 - [`thread_timeout`](modules/modules.command_executor.py.md#thread_timeout) function in `modules.command_executor`
 - [`threat_level_id`](modules/modules.integrations.misp_export.py.md#mispevent-threat_level_id) attribute of `MISPEvent` in `modules.integrations.misp_export`
 - [`ThreatModelBuilder`](modules/modules.threat_model.py.md#threatmodelbuilder) class in `modules.threat_model`
+- [`threshold`](modules/modules.guardrails.budget.py.md#capacityenvelope-threshold) method of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`TICKET_FLAG_FORWARDABLE`](modules/modules.kerberos_tickets.py.md#ticket_flag_forwardable) constant in `modules.kerberos_tickets`
 - [`TICKET_FLAG_FORWARDED`](modules/modules.kerberos_tickets.py.md#ticket_flag_forwarded) constant in `modules.kerberos_tickets`
 - [`TICKET_FLAG_INITIAL`](modules/modules.kerberos_tickets.py.md#ticket_flag_initial) constant in `modules.kerberos_tickets`
@@ -13316,6 +13506,7 @@
 - [`TICKET_FLAG_PRE_AUTHENT`](modules/modules.kerberos_tickets.py.md#ticket_flag_pre_authent) constant in `modules.kerberos_tickets`
 - [`TICKET_FLAG_PROXIABLE`](modules/modules.kerberos_tickets.py.md#ticket_flag_proxiable) constant in `modules.kerberos_tickets`
 - [`TICKET_FLAG_RENEWABLE`](modules/modules.kerberos_tickets.py.md#ticket_flag_renewable) constant in `modules.kerberos_tickets`
+- [`ticket_id`](modules/modules.guardrails.contracts.py.md#runticket-ticket_id) attribute of `RunTicket` in `modules.guardrails.contracts`
 - [`tickets`](modules/modules.domain_dominance.py.md#credentialstash-tickets) attribute of `CredentialStash` in `modules.domain_dominance`
 - [`TicketValidator`](modules/modules.kerberos_core.py.md#ticketvalidator) class in `modules.kerberos_core`
 - [`tier`](modules/skills.lazyown_policy.py.md#classificationresult-tier) attribute of `ClassificationResult` in `skills.lazyown_policy`
@@ -13796,6 +13987,7 @@
 - [`uninstall`](modules/modules.bof_registry.py.md#bofregistry-uninstall) method of `BofRegistry` in `modules.bof_registry`
 - [`uninstall`](modules/cli.fuzzy_picker.py.md#readlinebridge-uninstall) method of `ReadlineBridge` in `cli.fuzzy_picker`
 - [`unique_match_from_list`](modules/modules.nmap2csv.py.md#unique_match_from_list) function in `modules.nmap2csv`
+- [`units`](modules/modules.guardrails.contracts.py.md#runticket-units) attribute of `RunTicket` in `modules.guardrails.contracts`
 - [`unknown`](modules/skills.lazyown_policy.py.md#classificationresult-unknown) classmethod of `ClassificationResult` in `skills.lazyown_policy`
 - [`UNKNOWN`](modules/skills.lazyown_policy.py.md#outcometype-unknown) attribute of `OutcomeType` in `skills.lazyown_policy`
 - [`unlink`](modules/modules.rootkit.mrhyde.c.md#unlink) function in `modules/rootkit/mrhyde.c`
@@ -13894,6 +14086,7 @@
 - [`url_traffic_3`](modules/modules.beacon_config_builder.py.md#beaconconfig-url_traffic_3) attribute of `BeaconConfig` in `modules.beacon_config_builder`
 - [`UrlValidationError`](modules/core.safe_exec.py.md#urlvalidationerror) exception in `core.safe_exec`
 - [`usage`](modules/modules.lazy_loop.py.md#budget-usage) method of `Budget` in `modules.lazy_loop`
+- [`usage`](modules/modules.guardrails.budget.py.md#capacityenvelope-usage) method of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`usage`](modules/modules.lazy_loop.py.md#llmpool-usage) method of `LlmPool` in `modules.lazy_loop`
 - [`usage`](modules/bootstrap.sh.md#usage) function in `bootstrap.sh`
 - [`usage`](modules/install.sh.md#usage) function in `install.sh`
@@ -14197,6 +14390,10 @@
 - [`wait_for_decision`](modules/skills.daemon_control.py.md#wait_for_decision) function in `skills.daemon_control`
 - [`wait_record`](modules/modules.c2_agent.py.md#wait_record) function in `modules.c2_agent`
 - [`wait_until_unpaused`](modules/skills.daemon_control.py.md#wait_until_unpaused) function in `skills.daemon_control`
+- [`warm_restart`](modules/modules.guardrails.checkpoints.py.md#checkpointledger-warm_restart) method of `CheckpointLedger` in `modules.guardrails.checkpoints`
+- [`warm_restart`](modules/modules.guardrails.harness.py.md#guardharness-warm_restart) method of `GuardHarness` in `modules.guardrails.harness`
+- [`warm_restart`](modules/modules.guardrails.contracts.py.md#guardrailcontract-warm_restart) method of `GuardrailContract` in `modules.guardrails.contracts`
+- [`warm_restart_harness`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-warm_restart_harness) method of `OrchestratorAssetsMixin` in `cli.orchestrator_assets_tabs`
 - [`WARN`](modules/modules.opsec_scorer.py.md#gateaction-warn) attribute of `GateAction` in `modules.opsec_scorer`
 - [`WARN`](modules/cli.scope_guard.py.md#scopemode-warn) attribute of `ScopeMode` in `cli.scope_guard`
 - [`WARN`](modules/skills.claude_md_orchestrator.models.py.md#severity-warn) attribute of `Severity` in `skills.claude_md_orchestrator.models`

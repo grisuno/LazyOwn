@@ -57,7 +57,16 @@ def _mask(text: str) -> str:
         payload = load_payload() or {}
         secrets = [
             str(payload.get(key, "") or "")
-            for key in ("start_pass", "password", "backdoor_password", "api_key", "c2_pass", "hash", "rat_key", "email_password")
+            for key in (
+                "start_pass",
+                "password",
+                "backdoor_password",
+                "api_key",
+                "c2_pass",
+                "hash",
+                "rat_key",
+                "email_password",
+            )
         ]
         for secret in sorted(set(secrets), key=len, reverse=True):
             if len(secret) >= 6 and secret in masked:
@@ -241,7 +250,16 @@ def mask_configured(text: str) -> str:
         payload = load_payload() or {}
         secrets = [
             str(payload.get(key, "") or "")
-            for key in ("start_pass", "password", "backdoor_password", "api_key", "c2_pass", "hash", "rat_key", "email_password")
+            for key in (
+                "start_pass",
+                "password",
+                "backdoor_password",
+                "api_key",
+                "c2_pass",
+                "hash",
+                "rat_key",
+                "email_password",
+            )
         ]
         for secret in sorted(set(secrets), key=len, reverse=True):
             if len(secret) >= 6 and secret in masked:
@@ -337,12 +355,12 @@ def export_spans(task_id: str, out: str | Path | None = None) -> dict:
     Returns:
         Summary with spans written and destination. Never raises.
     """
-    from modules.lazy_loop import ActivityLog
+    from modules.mediation import MediationDomains, resolve
 
     dest = Path(out) if out else STORE_DIR / f"spans_{task_id}.jsonl"
     summary = {"spans": 0, "dest": str(dest)}
     try:
-        records = ActivityLog(str(task_id)).read(5000)
+        records = resolve(MediationDomains.INTEL).activity_records(str(task_id), 5000)
     except Exception:
         return summary
     starts: dict[str, dict] = {}

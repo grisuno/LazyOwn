@@ -1,34 +1,89 @@
 # Subsystem: modules (page 7 of 16)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
 
+## modules/kerberos_tickets.py
+- Doc: Kerberos ticket forgery attacks — silver, golden, diamond, sapphire tickets.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SilverTicketConfig` (class, line 36) `class SilverTicketConfig`
+  - `GoldenTicketConfig` (class, line 65) `class GoldenTicketConfig`
+  - `DiamondTicketConfig` (class, line 94) `class DiamondTicketConfig`
+  - `SilverTicketForger` (class, line 124) `class SilverTicketForger`
+  - `GoldenTicketForger` (class, line 265) `class GoldenTicketForger`
+  - `DiamondTicketForger` (class, line 397) `class DiamondTicketForger`
+  - `SapphireTicketForger` (class, line 462) `class SapphireTicketForger`
+  - `SkeletonKeyInjector` (class, line 567) `class SkeletonKeyInjector`
+  - `__init__` (method, line 131) `def __init__(self)`
+  - `forge` (method, line 134) `def forge(self, config)`
+  - `_resolve_key` (method, line 190) `def _resolve_key(self, config)`
+  - `_build_silver_pac` (method, line 200) `def _build_silver_pac(self, config, start, end)`
+  - `_build_enc_ticket_part` (method, line 206) `def _build_enc_ticket_part(self, config, start, end, flags, key, etype)`
+  - `_build_ticket_structure` (method, line 225) `def _build_ticket_structure(self, config, flags, enc_part)`
+  - `_build_kirbi` (method, line 235) `def _build_kirbi(self, ticket, enc_part, etype)`
+  - `_mimikatz_inject_command` (method, line 244) `def _mimikatz_inject_command(self, config)`
+  - `_impacket_command` (method, line 254) `def _impacket_command(self, config)`
+  - `__init__` (method, line 272) `def __init__(self)`
+  - `forge` (method, line 275) `def forge(self, config)`
+  - `_resolve_krbtgt_key` (method, line 324) `def _resolve_krbtgt_key(self, config)`
+  - `_build_golden_pac` (method, line 339) `def _build_golden_pac(self, config)`
+  - `_build_golden_enc_part` (method, line 346) `def _build_golden_enc_part(self, config, start, end, flags, key)`
+  - `_assemble_tgt` (method, line 368) `def _assemble_tgt(self, config, flags, enc_part)`
+  - `_mimikatz_command` (method, line 379) `def _mimikatz_command(self, config)`
+  - `_impacket_command` (method, line 388) `def _impacket_command(self, config)`
+  - `__init__` (method, line 405) `def __init__(self)`
+  - `forge` (method, line 408) `def forge(self, config)`
+  - `_build_diamond_pac` (method, line 446) `def _build_diamond_pac(self, config)`
+  - `__init__` (method, line 469) `def __init__(self, kerberos_core)`
+  - `forge_s4u2self` (method, line 472) `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)`
+  - `forge_rbcd` (method, line 530) `def forge_rbcd(self, machine_account_hash, target_service, domain, username)`
+  - `detect_skeleton_key` (method, line 578) `def detect_skeleton_key(target_host, domain, dc_ip)`
+  - `inject_command` (method, line 600) `def inject_command(target_host)`
+  - `cleanup_command` (method, line 612) `def cleanup_command()`
+- Depends on: `modules/kerberos_core.py`
+- Imported by: `cli/commands/active_directory.py`
+
+## modules/kill_chain_viz.py
+- Doc: SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_phases` (function, line 20) `def _load_phases(sessions)`
+  - `_read_target` (function, line 27) `def _read_target()`
+  - `_build_svg` (function, line 34) `def _build_svg(phases)`
+  - `generate_html` (function, line 69) `def generate_html(target, sessions)`
+  - `generate_svg` (function, line 102) `def generate_svg(target, sessions)`
+- Depends on: `modules/killchain.py`
+- Imported by: `lazyc2.py`
+
 ## modules/killchain.py
 - Doc: Unified kill-chain — single source of truth consumed by all surfaces.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `KillChainConfig` (class, line 38) `class KillChainConfig`
-  - `PhaseStatus` (class, line 136) `class PhaseStatus`
-  - `KillChain` (class, line 145) `class KillChain`
-  - `get_killchain` (function, line 453) `def get_killchain()`
-  - `world_model_path` (method, line 116) `def world_model_path(self)`
-  - `phase_index` (method, line 120) `def phase_index(self, phase)`
-  - `is_valid_phase` (method, line 127) `def is_valid_phase(self, phase)`
-  - `config` (method, line 154) `def config()`
-  - `phases` (method, line 159) `def phases()`
-  - `phase_labels` (method, line 164) `def phase_labels()`
-  - `phase_colors` (method, line 169) `def phase_colors()`
-  - `phase_rich_colors` (method, line 174) `def phase_rich_colors()`
-  - `engagement_phase_to_cli` (method, line 179) `def engagement_phase_to_cli(engagement_value)`
-  - `cli_phase_to_host_state` (method, line 191) `def cli_phase_to_host_state(phase)`
-  - `current_phase` (method, line 204) `def current_phase(world_model_path)`
-  - `advance_phase` (method, line 251) `def advance_phase(new_phase, world_model_path, host)`
-  - `get_progress` (method, line 328) `def get_progress(world_model_path)`
-  - `compact_progress` (method, line 377) `def compact_progress(current_phase, phases_entered)`
-  - `phases_for_display` (method, line 397) `def phases_for_display()`
-  - `phase_index` (method, line 408) `def phase_index(phase)`
-  - `snapshot` (method, line 413) `def snapshot(world_model_path)`
+  - `KillChainConfig` (class, line 40) `class KillChainConfig`
+  - `PhaseStatus` (class, line 138) `class PhaseStatus`
+  - `KillChain` (class, line 147) `class KillChain`
+  - `get_killchain` (function, line 482) `def get_killchain()`
+  - `world_model_path` (method, line 118) `def world_model_path(self)`
+  - `phase_index` (method, line 122) `def phase_index(self, phase)`
+  - `is_valid_phase` (method, line 129) `def is_valid_phase(self, phase)`
+  - `config` (method, line 156) `def config()`
+  - `phases` (method, line 161) `def phases()`
+  - `phase_labels` (method, line 166) `def phase_labels()`
+  - `phase_colors` (method, line 171) `def phase_colors()`
+  - `phase_rich_colors` (method, line 176) `def phase_rich_colors()`
+  - `engagement_phase_to_cli` (method, line 181) `def engagement_phase_to_cli(engagement_value)`
+  - `cli_phase_to_host_state` (method, line 193) `def cli_phase_to_host_state(phase)`
+  - `current_phase` (method, line 206) `def current_phase(world_model_path)`
+  - `advance_phase` (method, line 253) `def advance_phase(new_phase, world_model_path, host, extras)`
+  - `get_progress` (method, line 357) `def get_progress(world_model_path)`
+  - `compact_progress` (method, line 406) `def compact_progress(current_phase, phases_entered)`
+  - `phases_for_display` (method, line 426) `def phases_for_display()`
+  - `phase_index` (method, line 437) `def phase_index(phase)`
+  - `snapshot` (method, line 442) `def snapshot(world_model_path)`
 - Depends on: `core/logging.py`, `modules/world_model.py`
-- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
+- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/kivi.py
 - Layer: utility
@@ -160,19 +215,19 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `_now` (function, line 30) `def _now()`
   - `_log_path` (function, line 35) `def _log_path()`
   - `_mask` (function, line 41) `def _mask(text)`
-  - `_append` (function, line 70) `def _append(record)`
-  - `infer_source` (function, line 79) `def infer_source(command, intent_text)`
-  - `describe_command` (function, line 105) `def describe_command(command)`
-  - `record_routing_decision` (function, line 120) `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)`
-  - `record_routing_outcome` (function, line 160) `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)`
-  - `read_decisions` (function, line 202) `def read_decisions(task_id, limit)`
-  - `mask_configured` (function, line 228) `def mask_configured(text)`
-  - `stack_signature` (function, line 254) `def stack_signature(assets)`
-  - `_is_ip_literal` (function, line 274) `def _is_ip_literal(value)`
-  - `fuse_routing_decisions` (function, line 285) `def fuse_routing_decisions(task_id)`
-  - `export_spans` (function, line 324) `def export_spans(task_id, out)`
-- Depends on: `core/config.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/world_model.py`, `utils.py`
-- Imported by: `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/sinks/routing.py`, `tests/test_loop_supervision.py`
+  - `_append` (function, line 79) `def _append(record)`
+  - `infer_source` (function, line 88) `def infer_source(command, intent_text)`
+  - `describe_command` (function, line 114) `def describe_command(command)`
+  - `record_routing_decision` (function, line 129) `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)`
+  - `record_routing_outcome` (function, line 169) `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)`
+  - `read_decisions` (function, line 211) `def read_decisions(task_id, limit)`
+  - `mask_configured` (function, line 237) `def mask_configured(text)`
+  - `stack_signature` (function, line 272) `def stack_signature(assets)`
+  - `_is_ip_literal` (function, line 292) `def _is_ip_literal(value)`
+  - `fuse_routing_decisions` (function, line 303) `def fuse_routing_decisions(task_id)`
+  - `export_spans` (function, line 342) `def export_spans(task_id, out)`
+- Depends on: `core/config.py`, `modules/lazy_cli_bridge.py`, `modules/mediation/__init__.py`, `modules/world_model.py`, `utils.py`
+- Imported by: `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/mediation/intel_mediator.py`, `modules/sinks/routing.py`, `tests/test_loop_supervision.py`, `tests/test_mediation.py`
 
 
 Next: [KB_modules_p8.md](KB_modules_p8.md)

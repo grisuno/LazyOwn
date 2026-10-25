@@ -1,8 +1,35 @@
-# Symbols (page 10 of 44)
+# Symbols (page 10 of 45)
 Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_populate_visible` | method | `lazygui/panels/sessions_panel.py:182` | `def _populate_visible(self)` |
+| `_refresh_initial` | method | `lazygui/panels/sessions_panel.py:87` | `def _refresh_initial(self)` |
+| `TerminalPanel` | class | `lazygui/panels/terminal_panel.py:22` | `class TerminalPanel(PanelBase)` |
+| `__init__` | method | `lazygui/panels/terminal_panel.py:25` | `def __init__(self, constants, backend, parent)` |
+| `_on_beacon_result` | method | `lazygui/panels/terminal_panel.py:119` | `def _on_beacon_result(self, result)` |
+| `_send_beacon_command` | method | `lazygui/panels/terminal_panel.py:90` | `def _send_beacon_command(self)` |
+| `_update_session_combo` | method | `lazygui/panels/terminal_panel.py:104` | `def _update_session_combo(self, sessions)` |
+| `focus_terminal` | method | `lazygui/panels/terminal_panel.py:78` | `def focus_terminal(self)` |
+| `set_target_session` | method | `lazygui/panels/terminal_panel.py:82` | `def set_target_session(self, session_id)` |
+| `Backend` | class | `lazygui/services/backend.py:52` | `class Backend(QObject)` |
+| `BackendDescriptor` | class | `lazygui/services/backend.py:44` | `class BackendDescriptor` |
+| `BackendStatus` | class | `lazygui/services/backend.py:33` | `class BackendStatus(StrEnum)` |
+| `__init__` | method | `lazygui/services/backend.py:81` | `def __init__(self, descriptor, parent)` |
+| `_set_status` | method | `lazygui/services/backend.py:97` | `def _set_status(self, new_status)` |
+| `descriptor` | method | `lazygui/services/backend.py:88` | `def descriptor(self)` |
+| `feed_terminal_input` | method | `lazygui/services/backend.py:124` | `def feed_terminal_input(self, data)` |
+| `known_campaigns` | method | `lazygui/services/backend.py:140` | `def known_campaigns(self)` |
+| `known_listeners` | method | `lazygui/services/backend.py:132` | `def known_listeners(self)` |
+| `known_sessions` | method | `lazygui/services/backend.py:128` | `def known_sessions(self)` |
+| `known_topology` | method | `lazygui/services/backend.py:136` | `def known_topology(self)` |
+| `refresh` | method | `lazygui/services/backend.py:116` | `def refresh(self)` |
+| `request_beacon_history` | method | `lazygui/services/backend.py:154` | `def request_beacon_history(self, client_id)` |
+| `request_session_state` | method | `lazygui/services/backend.py:168` | `def request_session_state(self)` |
+| `request_world_model` | method | `lazygui/services/backend.py:144` | `def request_world_model(self)` |
+| `resize_terminal` | method | `lazygui/services/backend.py:120` | `def resize_terminal(self, columns, rows)` |
+| `send_command` | method | `lazygui/services/backend.py:112` | `def send_command(self, command, target_session)` |
+| `start` | method | `lazygui/services/backend.py:104` | `def start(self)` |
 | `status` | method | `lazygui/services/backend.py:93` | `def status(self)` |
 | `stop` | method | `lazygui/services/backend.py:108` | `def stop(self)` |
 | `EventLog` | class | `lazygui/services/event_log.py:20` | `class EventLog(QObject)` |
@@ -469,32 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `register_tools_from_metadata` | method | `modules/agent_runner.py:239` | `def register_tools_from_metadata(self, commands, executor)` |
 | `run` | method | `modules/agent_runner.py:271` | `def run(self, user_input)` |
 | `target` | function | `modules/agent_runner.py:522` | `def target()` |
-| `to_api_format` | method | `modules/agent_runner.py:77` | `def to_api_format(self)` |
-| `wrapper` | function | `modules/agent_runner.py:244` | `def wrapper(command)` |
-| `AIExploitChainer` | class | `modules/ai_exploit_chain.py:247` | `class AIExploitChainer` |
-| `ExploitChainContext` | class | `modules/ai_exploit_chain.py:223` | `class ExploitChainContext` |
-| `__init__` | method | `modules/ai_exploit_chain.py:259` | `def __init__(self)` |
-| `_ensure` | method | `modules/ai_exploit_chain.py:487` | `def _ensure(context, strategy)` |
-| `_parse_shell_hints` | method | `modules/ai_exploit_chain.py:492` | `def _parse_shell_hints(self, output, context)` |
-| `adapt_chain` | method | `modules/ai_exploit_chain.py:428` | `def adapt_chain(self, context, new_info)` |
-| `build_chain_plan` | method | `modules/ai_exploit_chain.py:391` | `def build_chain_plan(self, context)` |
-| `estimate_confidence` | method | `modules/ai_exploit_chain.py:349` | `def estimate_confidence(self, strategy, profile)` |
-| `evaluate_failure` | method | `modules/ai_exploit_chain.py:306` | `def evaluate_failure(result)` |
-| `reason` | method | `modules/ai_exploit_chain.py:285` | `def reason(self, context)` |
-| `select_next_strategy` | method | `modules/ai_exploit_chain.py:318` | `def select_next_strategy(self, context)` |
-| `AIResult` | class | `modules/ai_fallback.py:95` | `class AIResult` |
-| `_best_ollama_model` | function | `modules/ai_fallback.py:113` | `def _best_ollama_model()` |
-| `_groq_call` | function | `modules/ai_fallback.py:189` | `def _groq_call(api_key, system, user, max_tokens, temperature)` |
-| `_is_quota_error` | function | `modules/ai_fallback.py:184` | `def _is_quota_error(exc)` |
-| `_ollama_available` | function | `modules/ai_fallback.py:105` | `def _ollama_available()` |
-| `_ollama_call` | function | `modules/ai_fallback.py:140` | `def _ollama_call(model, system, user, max_tokens, temperature)` |
-| `_toposwarm_call` | function | `modules/ai_fallback.py:226` | `def _toposwarm_call(prompt, system)` |
-| `call` | function | `modules/ai_fallback.py:254` | `def call(prompt, system, api_key, max_tokens, temperature)` |
-| `AIModel` | class | `modules/ai_model.py:45` | `class AIModel(ABC)` |
-| `AnthropicModel` | class | `modules/ai_model.py:493` | `class AnthropicModel(AIModel)` |
-| `DeepSeekModel` | class | `modules/ai_model.py:549` | `class DeepSeekModel(AIModel)` |
-| `GroqModel` | class | `modules/ai_model.py:129` | `class GroqModel(AIModel)` |
-| `LlamaCppModel` | class | `modules/ai_model.py:313` | `class LlamaCppModel(AIModel)` |
-| `OllamaModel` | class | `modules/ai_model.py:244` | `class OllamaModel(AIModel)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

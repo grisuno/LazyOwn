@@ -75,7 +75,7 @@ flowchart LR
 
 ### `LazyOwnDashboard`
 
-`class` | [cli/dashboard_tui.py:738](../../cli/dashboard_tui.py#L738)
+`class` | [cli/dashboard_tui.py:740](../../cli/dashboard_tui.py#L740)
 
 ```python
 class LazyOwnDashboard(App)
@@ -118,7 +118,7 @@ Auto-refreshes every REFRESH_INTERVAL seconds. Press Q to quit.
 
 #### `LazyOwnDashboard.__init__`
 
-`constructor` | [cli/dashboard_tui.py:807](../../cli/dashboard_tui.py#L807)
+`constructor` | [cli/dashboard_tui.py:809](../../cli/dashboard_tui.py#L809)
 
 ```python
 def __init__(self, payload_path: str = PAYLOAD_PATH, sessions_dir: str = SESSIONS_DIR, **kwargs: Any) -> None
@@ -138,7 +138,7 @@ def __init__(self, payload_path: str = PAYLOAD_PATH, sessions_dir: str = SESSION
 
 #### `LazyOwnDashboard.compose`
 
-`method` `generator` | [cli/dashboard_tui.py:836](../../cli/dashboard_tui.py#L836)
+`method` `generator` | [cli/dashboard_tui.py:838](../../cli/dashboard_tui.py#L838)
 
 ```python
 def compose(self) -> ComposeResult
@@ -152,7 +152,7 @@ def compose(self) -> ComposeResult
 
 #### `LazyOwnDashboard.on_mount`
 
-`method` | [cli/dashboard_tui.py:855](../../cli/dashboard_tui.py#L855)
+`method` | [cli/dashboard_tui.py:857](../../cli/dashboard_tui.py#L857)
 
 ```python
 def on_mount(self) -> None
@@ -162,7 +162,7 @@ def on_mount(self) -> None
 
 #### `LazyOwnDashboard.on_input_submitted`
 
-`method` | [cli/dashboard_tui.py:860](../../cli/dashboard_tui.py#L860)
+`method` | [cli/dashboard_tui.py:862](../../cli/dashboard_tui.py#L862)
 
 ```python
 def on_input_submitted(self, event: Input.Submitted) -> None
@@ -180,7 +180,7 @@ Run the typed command and clear the input.
 
 #### `LazyOwnDashboard.on_command_requested`
 
-`method` | [cli/dashboard_tui.py:872](../../cli/dashboard_tui.py#L872)
+`method` | [cli/dashboard_tui.py:874](../../cli/dashboard_tui.py#L874)
 
 ```python
 def on_command_requested(self, event: CommandRequested) -> None
@@ -198,7 +198,7 @@ Dispatch a command in a worker so the UI never blocks.
 
 #### `LazyOwnDashboard.on_phase_selected`
 
-`method` | [cli/dashboard_tui.py:912](../../cli/dashboard_tui.py#L912)
+`method` | [cli/dashboard_tui.py:914](../../cli/dashboard_tui.py#L914)
 
 ```python
 def on_phase_selected(self, event: PhaseSelected) -> None
@@ -216,7 +216,7 @@ Filter the center panel to a phase chosen by clicking the kill chain.
 
 #### `LazyOwnDashboard.action_refresh_data`
 
-`method` | [cli/dashboard_tui.py:923](../../cli/dashboard_tui.py#L923)
+`method` | [cli/dashboard_tui.py:925](../../cli/dashboard_tui.py#L925)
 
 ```python
 def action_refresh_data(self) -> None
@@ -226,7 +226,7 @@ def action_refresh_data(self) -> None
 
 #### `LazyOwnDashboard.action_toggle_compact`
 
-`method` | [cli/dashboard_tui.py:926](../../cli/dashboard_tui.py#L926)
+`method` | [cli/dashboard_tui.py:928](../../cli/dashboard_tui.py#L928)
 
 ```python
 def action_toggle_compact(self) -> None
@@ -240,7 +240,7 @@ Toggle the compact single-column layout for narrow terminals.
 
 #### `LazyOwnDashboard.action_screenshot`
 
-`method` | [cli/dashboard_tui.py:956](../../cli/dashboard_tui.py#L956)
+`method` | [cli/dashboard_tui.py:958](../../cli/dashboard_tui.py#L958)
 
 ```python
 def action_screenshot(self) -> None
@@ -252,7 +252,7 @@ Save an SVG screenshot next to the sessions directory.
 
 #### `LazyOwnDashboard.action_export_snapshot`
 
-`method` | [cli/dashboard_tui.py:967](../../cli/dashboard_tui.py#L967)
+`method` | [cli/dashboard_tui.py:969](../../cli/dashboard_tui.py#L969)
 
 ```python
 def action_export_snapshot(self) -> None
@@ -264,7 +264,7 @@ Export the current dashboard data as JSON for automation.
 
 #### `LazyOwnDashboard.action_next_phase`
 
-`method` | [cli/dashboard_tui.py:987](../../cli/dashboard_tui.py#L987)
+`method` | [cli/dashboard_tui.py:989](../../cli/dashboard_tui.py#L989)
 
 ```python
 def action_next_phase(self) -> None
@@ -276,7 +276,7 @@ Advance to the next kill-chain phase and refresh the display.
 
 #### `LazyOwnDashboard.action_prev_phase`
 
-`method` | [cli/dashboard_tui.py:991](../../cli/dashboard_tui.py#L991)
+`method` | [cli/dashboard_tui.py:993](../../cli/dashboard_tui.py#L993)
 
 ```python
 def action_prev_phase(self) -> None
@@ -292,7 +292,7 @@ Step back to the previous kill-chain phase.
 
 ### `launch`
 
-`function` | [cli/dashboard_tui.py:1064](../../cli/dashboard_tui.py#L1064)
+`function` | [cli/dashboard_tui.py:1066](../../cli/dashboard_tui.py#L1066)
 
 ```python
 def launch(payload_path: str = PAYLOAD_PATH, sessions_dir: str = SESSIONS_DIR) -> None

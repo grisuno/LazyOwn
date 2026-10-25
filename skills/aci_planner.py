@@ -277,7 +277,9 @@ def _load_world_model() -> dict:
     """Read sessions/world_model.json for live engagement context."""
     wm_file = SESSIONS_DIR / "world_model.json"
     try:
-        return json.loads(wm_file.read_text())
+        from modules.world_model import read_state_dict
+
+        return read_state_dict(wm_file)
     except Exception:
         return {}
 

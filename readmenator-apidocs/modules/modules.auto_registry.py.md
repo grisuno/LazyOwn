@@ -138,7 +138,7 @@ One automation verb the loop may invoke autonomously.
 
 ### `ShellResult`
 
-`class` `dataclass` | [modules/auto_registry.py:864](../../modules/auto_registry.py#L864)
+`class` `dataclass` | [modules/auto_registry.py:877](../../modules/auto_registry.py#L877)
 
 Decorators: `@dataclass`
 
@@ -595,7 +595,7 @@ default bash probes) or when the verb's tooling is unavailable.
 
 ### `execute_shell_verb`
 
-`function` | [modules/auto_registry.py:899](../../modules/auto_registry.py#L899)
+`function` | [modules/auto_registry.py:912](../../modules/auto_registry.py#L912)
 
 ```python
 def execute_shell_verb(shell: object, command: str, timeout_sec: float = DEFAULT_SHELL_TIMEOUT_SEC, on_output=None) -> str
@@ -629,7 +629,7 @@ record as a fact like any other transcript.
 
 ### `track_process`
 
-`function` | [modules/auto_registry.py:1009](../../modules/auto_registry.py#L1009)
+`function` | [modules/auto_registry.py:1022](../../modules/auto_registry.py#L1022)
 
 ```python
 def track_process(process) -> None
@@ -651,7 +651,7 @@ Register a live child process for global cancellation.
 
 ### `untrack_process`
 
-`function` | [modules/auto_registry.py:1014](../../modules/auto_registry.py#L1014)
+`function` | [modules/auto_registry.py:1027](../../modules/auto_registry.py#L1027)
 
 ```python
 def untrack_process(process) -> None
@@ -673,7 +673,7 @@ Drop a finished child process from the cancellation registry.
 
 ### `cancel_running_commands`
 
-`function` | [modules/auto_registry.py:1019](../../modules/auto_registry.py#L1019)
+`function` | [modules/auto_registry.py:1032](../../modules/auto_registry.py#L1032)
 
 ```python
 def cancel_running_commands() -> int
@@ -689,7 +689,7 @@ Kill every live streaming process group (operator Ctrl+C).
 
 ### `execute_streaming`
 
-`function` | [modules/auto_registry.py:1042](../../modules/auto_registry.py#L1042)
+`function` | [modules/auto_registry.py:1055](../../modules/auto_registry.py#L1055)
 
 ```python
 def execute_streaming(command: str, on_output=None, timeout_sec: float = DEFAULT_SHELL_TIMEOUT_SEC) -> str

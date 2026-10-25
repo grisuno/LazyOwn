@@ -1,8 +1,60 @@
-# Symbols (page 14 of 44)
+# Symbols (page 14 of 45)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_GNU_SOURCE` | macro | `modules/exp.c:2` | `#define _GNU_SOURCE` |
+| `add_key` | function | `modules/exp.c:147` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
+| `awake_partial_keys` | function | `modules/exp.c:271` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
+| `bye` | function | `modules/exp.c:155` | `void bye(char *info)` |
+| `bye2` | function | `modules/exp.c:167` | `void bye2(char *info, char *arg)` |
+| `create_dummy_file` | function | `modules/exp.c:564` | `void create_dummy_file(void)` |
+| `create_priv_file` | function | `modules/exp.c:572` | `void create_priv_file(void)` |
+| `do_error_exit` | function | `modules/exp.c:161` | `void do_error_exit(char *info)` |
+| `fd_uring` | struct | `modules/exp.c:131` | `` |
+| `gather_mqueue` | function | `modules/exp.c:463` | `int gather_mqueue(mqd_t mqdes, int gather_size)` |
+| `gather_mqueue_nosave` | function | `modules/exp.c:485` | `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)` |
+| `get_keyring_leak` | function | `modules/exp.c:248` | `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)` |
+| `io_uring_register` | function | `modules/exp.c:524` | `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)` |
+| `io_uring_setup` | function | `modules/exp.c:520` | `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)` |
+| `key_serial_t` | type_alias | `modules/exp.c:135` | `typedef int32_t key_serial_t;` |
+| `keyctl` | function | `modules/exp.c:151` | `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...` |
+| `keyring_payload` | struct | `modules/exp.c:120` | `` |
+| `leak` | struct | `modules/exp.c:126` | `` |
+| `main` | function | `modules/exp.c:620` | `int main(int argc, char ** argv)` |
+| `msg` | struct | `modules/exp.c:84` | `` |
+| `msg_header` | struct | `modules/exp.c:90` | `` |
+| `nft_trans_phase` | enum | `modules/exp.c:77` | `` |
+| `prepare_root_shell` | function | `modules/exp.c:559` | `void prepare_root_shell(void)` |
+| `release_keys` | function | `modules/exp.c:279` | `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)` |
+| `release_partial_keys` | function | `modules/exp.c:290` | `void release_partial_keys(key_serial_t *id_buffer, int i)` |
+| `release_partial_uring` | function | `modules/exp.c:554` | `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)` |
+| `release_uring` | function | `modules/exp.c:546` | `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)` |
+| `sema_down` | function | `modules/exp.c:615` | `void sema_down(int *sema)` |
+| `sema_up` | function | `modules/exp.c:610` | `void sema_up(int *sema)` |
+| `set_cpu_affinity` | function | `modules/exp.c:438` | `void set_cpu_affinity(int cpu_n, pid_t pid)` |
+| `set_stable_table_and_set` | function | `modules/exp.c:322` | `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)` |
+| `set_trigger_set_and_overwrite` | function | `modules/exp.c:385` | `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)` |
+| `setup_modprobe_payload` | function | `modules/exp.c:601` | `void setup_modprobe_payload()` |
+| `spray_keyring` | function | `modules/exp.c:172` | `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)` |
+| `spray_keyring_list_del_purpose` | function | `modules/exp.c:190` | `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...` |
+| `spray_keyring_list_overwrite_purpose` | function | `modules/exp.c:214` | `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...` |
+| `spray_mqueue` | function | `modules/exp.c:448` | `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)` |
+| `spray_msg_msg` | function | `modules/exp.c:496` | `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)` |
+| `spray_uring` | function | `modules/exp.c:529` | `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)` |
+| `unshare_setup` | function | `modules/exp.c:297` | `void unshare_setup(uid_t uid, gid_t gid)` |
+| `user_rule_t` | struct | `modules/exp.c:105` | `` |
+| `userland_T` | function | `modules/exp.c:605` | `void userland_T(int *sema)` |
+| `write_new_modprobe` | function | `modules/exp.c:582` | `void write_new_modprobe()` |
+| `ChainResult` | class | `modules/exploit_chain.py:65` | `class ChainResult` |
+| `ExploitChain` | class | `modules/exploit_chain.py:289` | `class ExploitChain` |
+| `ExploitResult` | class | `modules/exploit_chain.py:54` | `class ExploitResult` |
+| `ServiceInfo` | class | `modules/exploit_chain.py:29` | `class ServiceInfo` |
+| `VulnerabilityMatch` | class | `modules/exploit_chain.py:41` | `class VulnerabilityMatch` |
+| `__init__` | method | `modules/exploit_chain.py:292` | `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)` |
+| `_add_vuln` | method | `modules/exploit_chain.py:485` | `def _add_vuln(self, service, sig, version)` |
+| `_compare_versions` | function | `modules/exploit_chain.py:266` | `def _compare_versions(version_a, version_b)` |
+| `_discover_xml_files` | method | `modules/exploit_chain.py:331` | `def _discover_xml_files(self)` |
 | `_is_richer` | method | `modules/exploit_chain.py:361` | `def _is_richer(new_svc, existing)` |
 | `_parse_all_nmap_xml` | method | `modules/exploit_chain.py:346` | `def _parse_all_nmap_xml(self)` |
 | `_parse_nmap_text` | method | `modules/exploit_chain.py:404` | `def _parse_nmap_text(self, output)` |
@@ -49,6 +101,13 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `score_task` | function | `modules/exploitgym_gym.py:565` | `def score_task(task_id, success, techniques, params)` |
 | `setup_harness` | function | `modules/exploitgym_gym.py:249` | `def setup_harness(params, steps)` |
 | `verify_flag` | function | `modules/exploitgym_gym.py:548` | `def verify_flag(task_id, params)` |
+| `_as_list` | function | `modules/factsio.py:131` | `def _as_list(value)` |
+| `_iter_kind` | function | `modules/factsio.py:116` | `def _iter_kind(record, key, fact_type, host)` |
+| `_observable` | function | `modules/factsio.py:137` | `def _observable(record, fact_type)` |
+| `canonical_policy_facts` | function | `modules/factsio.py:61` | `def canonical_policy_facts(data)` |
+| `iter_flat_facts` | function | `modules/factsio.py:93` | `def iter_flat_facts(host_keyed)` |
+| `iter_host_records` | function | `modules/factsio.py:81` | `def iter_host_records(host_keyed)` |
+| `load_policy_facts` | function | `modules/factsio.py:39` | `def load_policy_facts(path)` |
 | `chown_project_tree` | function | `modules/fast_run_service.sh:310` | `` |
 | `cmd_chown_now` | function | `modules/fast_run_service.sh:521` | `` |
 | `cmd_logs` | function | `modules/fast_run_service.sh:505` | `` |
@@ -147,6 +206,21 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `load_constraints` | function | `modules/goals.py:83` | `def load_constraints(payload)` |
 | `open_goals` | method | `modules/goals.py:152` | `def open_goals(self)` |
 | `prove_goal` | method | `modules/goals.py:129` | `def prove_goal(self, goal_text, evidence)` |
+| `_action_for` | function | `modules/golden_path.py:113` | `def _action_for(relation)` |
+| `_add` | function | `modules/golden_path.py:167` | `def _add(src, dst, relation, weight, evidence, cost)` |
+| `_bare` | function | `modules/golden_path.py:78` | `def _bare(node)` |
+| `_cost_for_relation` | function | `modules/golden_path.py:135` | `def _cost_for_relation(relation, weight)` |
+| `_diijkstra` | function | `modules/golden_path.py:244` | `def _diijkstra(adjacency, source)` |
+| `_host_node` | function | `modules/golden_path.py:66` | `def _host_node(ip)` |
+| `_label` | function | `modules/golden_path.py:97` | `def _label(node)` |
+| `_persist` | function | `modules/golden_path.py:381` | `def _persist(result, sessions_dir)` |
+| `_source_hosts` | function | `modules/golden_path.py:227` | `def _source_hosts(snapshot)` |
+| `build` | function | `modules/golden_path.py:350` | `def build(world_model_path, top_k, sessions_dir)` |
+| `build_edges` | function | `modules/golden_path.py:155` | `def build_edges(snapshot)` |
+| `load_artifact` | function | `modules/golden_path.py:401` | `def load_artifact(sessions_dir)` |
+| `priority_for` | function | `modules/golden_path.py:418` | `def priority_for(cost)` |
+| `push_objectives` | function | `modules/golden_path.py:433` | `def push_objectives(paths, store_path)` |
+| `resolve_paths` | function | `modules/golden_path.py:274` | `def resolve_paths(snapshot, top_k, source)` |
 | `GPOAbuseEngine` | class | `modules/gpo_abuse.py:105` | `class GPOAbuseEngine` |
 | `GPOAbusePlan` | class | `modules/gpo_abuse.py:83` | `class GPOAbusePlan` |
 | `GPOInfo` | class | `modules/gpo_abuse.py:54` | `class GPOInfo` |
@@ -163,11 +237,75 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `plan_startup_script` | method | `modules/gpo_abuse.py:208` | `def plan_startup_script(self, gpo, script_content, script_name)` |
 | `plan_wmi_filter_abuse` | method | `modules/gpo_abuse.py:293` | `def plan_wmi_filter_abuse(self, gpo, wmi_query)` |
 | `summary` | method | `modules/gpo_abuse.py:434` | `def summary(self)` |
+| `AdvisoryLedger` | class | `modules/guardrails/advisories.py:17` | `class AdvisoryLedger` |
+| `FeatureGate` | class | `modules/guardrails/advisories.py:71` | `class FeatureGate` |
+| `__init__` | method | `modules/guardrails/advisories.py:20` | `def __init__(self, limit)` |
+| `__init__` | method | `modules/guardrails/advisories.py:74` | `def __init__(self, features)` |
+| `clear` | method | `modules/guardrails/advisories.py:54` | `def clear(self)` |
+| `describe` | method | `modules/guardrails/advisories.py:61` | `def describe(self)` |
+| `describe` | method | `modules/guardrails/advisories.py:125` | `def describe(self)` |
+| `is_suspended` | method | `modules/guardrails/advisories.py:115` | `def is_suspended(self, feature)` |
+| `notice` | method | `modules/guardrails/advisories.py:31` | `def notice(self, code, message)` |
+| `resume` | method | `modules/guardrails/advisories.py:102` | `def resume(self, feature)` |
+| `resume_all` | method | `modules/guardrails/advisories.py:108` | `def resume_all(self)` |
+| `suspend` | method | `modules/guardrails/advisories.py:84` | `def suspend(self, feature, reason)` |
+| `suspended` | method | `modules/guardrails/advisories.py:120` | `def suspended(self)` |
+| `tail` | method | `modules/guardrails/advisories.py:49` | `def tail(self, limit)` |
+| `tail_locked` | method | `modules/guardrails/advisories.py:66` | `def tail_locked(self, limit)` |
+| `CapacityEnvelope` | class | `modules/guardrails/budget.py:25` | `class CapacityEnvelope` |
+| `__init__` | method | `modules/guardrails/budget.py:28` | `def __init__(self, capacities, threshold)` |
+| `_default_capacities` | method | `modules/guardrails/budget.py:42` | `def _default_capacities()` |
+| `_snapshot_locked` | method | `modules/guardrails/budget.py:176` | `def _snapshot_locked(self)` |
+| `_usage_ratio` | method | `modules/guardrails/budget.py:171` | `def _usage_ratio(self, tier)` |
+| `account` | method | `modules/guardrails/budget.py:109` | `def account(self, task_class, units)` |
+| `admit` | method | `modules/guardrails/budget.py:78` | `def admit(self, task_class, units)` |
+| `capacity` | method | `modules/guardrails/budget.py:147` | `def capacity(self, task_class)` |
+| `configure` | method | `modules/guardrails/budget.py:50` | `def configure(self, capacities, threshold)` |
+| `describe` | method | `modules/guardrails/budget.py:166` | `def describe(self)` |
+| `purge` | method | `modules/guardrails/budget.py:126` | `def purge(self, task_class)` |
+| `reclaim` | method | `modules/guardrails/budget.py:136` | `def reclaim(self)` |
+| `release` | method | `modules/guardrails/budget.py:118` | `def release(self, task_class, units)` |
+| `saturated` | method | `modules/guardrails/budget.py:154` | `def saturated(self, task_class)` |
+| `threshold` | method | `modules/guardrails/budget.py:161` | `def threshold(self)` |
+| `usage` | method | `modules/guardrails/budget.py:140` | `def usage(self, task_class)` |
+| `CheckpointLedger` | class | `modules/guardrails/checkpoints.py:18` | `class CheckpointLedger` |
+| `__init__` | method | `modules/guardrails/checkpoints.py:21` | `def __init__(self, history)` |
+| `capture` | method | `modules/guardrails/checkpoints.py:33` | `def capture(self, key, state)` |
+| `describe` | method | `modules/guardrails/checkpoints.py:92` | `def describe(self)` |
+| `keys` | method | `modules/guardrails/checkpoints.py:59` | `def keys(self)` |
+| `restore` | method | `modules/guardrails/checkpoints.py:51` | `def restore(self, key)` |
+| `warm_restart` | method | `modules/guardrails/checkpoints.py:64` | `def warm_restart(self, core_key)` |
+| `GuardrailContract` | class | `modules/guardrails/contracts.py:49` | `class GuardrailContract(Protocol)` |
+| `HarnessAdminPort` | class | `modules/guardrails/contracts.py:73` | `class HarnessAdminPort(Protocol)` |
+| `RunTicket` | class | `modules/guardrails/contracts.py:40` | `class RunTicket` |
+| `TaskClass` | class | `modules/guardrails/contracts.py:19` | `class TaskClass(IntEnum)` |
+| `configure` | method | `modules/guardrails/contracts.py:76` | `def configure(self, settings)` |
+| `describe` | method | `modules/guardrails/contracts.py:52` | `def describe(self)` |
+| `is_known` | method | `modules/guardrails/contracts.py:31` | `def is_known(cls, value)` |
+| `rearm` | method | `modules/guardrails/contracts.py:80` | `def rearm(self)` |
+| `run_guarded` | method | `modules/guardrails/contracts.py:56` | `def run_guarded(self, task_class, fn)` |
+| `warm_restart` | method | `modules/guardrails/contracts.py:68` | `def warm_restart(self)` |
+| `GuardHarness` | class | `modules/guardrails/harness.py:25` | `class GuardHarness` |
+| `__init__` | method | `modules/guardrails/harness.py:28` | `def __init__(self, threshold, capacities)` |
+| `_on_failure` | method | `modules/guardrails/harness.py:174` | `def _on_failure(self, tier, ticket, key, fn, args, kwargs, exc)` |
+| `configure` | method | `modules/guardrails/harness.py:48` | `def configure(self, settings)` |
+| `describe` | method | `modules/guardrails/harness.py:165` | `def describe(self)` |
+| `global_harness` | function | `modules/guardrails/harness.py:232` | `def global_harness()` |
+| `rearm` | method | `modules/guardrails/harness.py:153` | `def rearm(self)` |
+| `reset_global_harness` | function | `modules/guardrails/harness.py:241` | `def reset_global_harness()` |
+| `run_guarded` | method | `modules/guardrails/harness.py:63` | `def run_guarded(self, task_class, fn)` |
+| `suspend` | method | `modules/guardrails/harness.py:138` | `def suspend(self, feature, reason)` |
+| `warm_restart` | method | `modules/guardrails/harness.py:124` | `def warm_restart(self, core_key)` |
 | `has` | function | `modules/gui_askpass.sh:22` | `` |
 | `try_kdialog` | function | `modules/gui_askpass.sh:40` | `` |
 | `try_ssh_askpass` | function | `modules/gui_askpass.sh:33` | `` |
 | `try_yad` | function | `modules/gui_askpass.sh:28` | `` |
 | `try_zenity` | function | `modules/gui_askpass.sh:24` | `` |
+| `_persist` | function | `modules/gym_matrix_runner.py:217` | `def _persist(summary_result, sessions_dir)` |
+| `_stats` | function | `modules/gym_matrix_runner.py:201` | `def _stats(runs)` |
+| `load_matrix` | function | `modules/gym_matrix_runner.py:233` | `def load_matrix(sessions_dir)` |
+| `plan_matrix` | function | `modules/gym_matrix_runner.py:36` | `def plan_matrix(target, sessions_dir, only, top_k)` |
+| `run_matrix` | function | `modules/gym_matrix_runner.py:89` | `def run_matrix(target)` |
 | `_empty_state` | function | `modules/gym_registry.py:442` | `def _empty_state()` |
 | `_matches` | function | `modules/gym_registry.py:625` | `def _matches(run, selector)` |
 | `_merge_legacy` | function | `modules/gym_registry.py:532` | `def _merge_legacy(state)` |
@@ -196,6 +334,8 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `update_definition_yaml` | function | `modules/gym_registry.py:369` | `def update_definition_yaml(gym_id, text, directory)` |
 | `validate_definition` | function | `modules/gym_registry.py:110` | `def validate_definition(data, filename)` |
 | `write_state` | function | `modules/gym_registry.py:520` | `def write_state(state)` |
+| `gate` | function | `modules/harness.py:65` | `def gate(name)` |
+| `harness_enabled` | function | `modules/harness.py:30` | `def harness_enabled()` |
 | `CrackResult` | class | `modules/hash_cracker.py:127` | `class CrackResult` |
 | `HashCracker` | class | `modules/hash_cracker.py:151` | `class HashCracker` |
 | `HashIdentifier` | class | `modules/hash_cracker.py:140` | `class HashIdentifier` |
@@ -269,10 +409,11 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `MISPEvent` | class | `modules/integrations/misp_export.py:70` | `class MISPEvent` |
 | `MISPExporter` | class | `modules/integrations/misp_export.py:254` | `class MISPExporter` |
 | `ServiceMapper` | class | `modules/integrations/misp_export.py:218` | `class ServiceMapper(FindingMapper)` |
-| `_DictFinding` | class | `modules/integrations/misp_export.py:451` | `class _DictFinding` |
+| `_DictFinding` | class | `modules/integrations/misp_export.py:498` | `class _DictFinding` |
 | `__init__` | method | `modules/integrations/misp_export.py:263` | `def __init__(self, mappers)` |
-| `__init__` | method | `modules/integrations/misp_export.py:454` | `def __init__(self, data)` |
+| `__init__` | method | `modules/integrations/misp_export.py:501` | `def __init__(self, data)` |
 | `_detect_type` | method | `modules/integrations/misp_export.py:211` | `def _detect_type(value)` |
+| `_dict_to_fact_records` | method | `modules/integrations/misp_export.py:457` | `def _dict_to_fact_records(data)` |
 | `_dict_to_findings` | method | `modules/integrations/misp_export.py:403` | `def _dict_to_findings(data)` |
 | `_is_credential` | method | `modules/integrations/misp_export.py:138` | `def _is_credential(finding)` |
 | `_is_cve` | method | `modules/integrations/misp_export.py:158` | `def _is_cve(finding)` |
@@ -283,10 +424,10 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `_load_events` | method | `modules/integrations/misp_export.py:383` | `def _load_events(self, sdir)` |
 | `_load_findings` | method | `modules/integrations/misp_export.py:365` | `def _load_findings(self, sdir)` |
 | `_load_policy_facts` | method | `modules/integrations/misp_export.py:372` | `def _load_policy_facts(self, sdir)` |
-| `_main` | function | `modules/integrations/misp_export.py:482` | `def _main()` |
-| `_map_finding` | method | `modules/integrations/misp_export.py:443` | `def _map_finding(self, finding)` |
+| `_main` | function | `modules/integrations/misp_export.py:529` | `def _main()` |
+| `_map_finding` | method | `modules/integrations/misp_export.py:490` | `def _map_finding(self, finding)` |
 | `export_session` | method | `modules/integrations/misp_export.py:268` | `def export_session(self, sessions_dir, target)` |
-| `get_exporter` | function | `modules/integrations/misp_export.py:469` | `def get_exporter()` |
+| `get_exporter` | function | `modules/integrations/misp_export.py:516` | `def get_exporter()` |
 | `map` | method | `modules/integrations/misp_export.py:90` | `def map(self, finding)` |
 | `map` | method | `modules/integrations/misp_export.py:106` | `def map(self, finding)` |
 | `map` | method | `modules/integrations/misp_export.py:126` | `def map(self, finding)` |
@@ -355,146 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `_main` | function | `modules/integrations/searchsploit.py:356` | `def _main()` |
 | `_parse` | method | `modules/integrations/searchsploit.py:133` | `def _parse(self, raw)` |
 | `_query` | method | `modules/integrations/searchsploit.py:218` | `def _query(self, cve_id)` |
-| `_rate_limit` | method | `modules/integrations/searchsploit.py:258` | `def _rate_limit()` |
-| `_row_to_entry` | method | `modules/integrations/searchsploit.py:162` | `def _row_to_entry(self, row)` |
-| `_run` | method | `modules/integrations/searchsploit.py:118` | `def _run(self, query)` |
-| `enrich_findings` | method | `modules/integrations/searchsploit.py:300` | `def enrich_findings(self, findings)` |
-| `get_client` | function | `modules/integrations/searchsploit.py:333` | `def get_client()` |
-| `search_cve` | method | `modules/integrations/searchsploit.py:80` | `def search_cve(self, cve_id)` |
-| `search_cve` | method | `modules/integrations/searchsploit.py:109` | `def search_cve(self, cve_id)` |
-| `search_cve` | method | `modules/integrations/searchsploit.py:207` | `def search_cve(self, cve_id)` |
-| `search_cve` | method | `modules/integrations/searchsploit.py:286` | `def search_cve(self, cve_id)` |
-| `search_cve` | function | `modules/integrations/searchsploit.py:341` | `def search_cve(cve_id)` |
-| `search_service` | method | `modules/integrations/searchsploit.py:84` | `def search_service(self, name, version)` |
-| `search_service` | method | `modules/integrations/searchsploit.py:112` | `def search_service(self, name, version)` |
-| `search_service` | method | `modules/integrations/searchsploit.py:210` | `def search_service(self, name, version)` |
-| `search_service` | method | `modules/integrations/searchsploit.py:293` | `def search_service(self, name, version)` |
-| `search_service` | function | `modules/integrations/searchsploit.py:346` | `def search_service(name, version)` |
-| `_enrich_readmenator_fields` | function | `modules/intel_fusion.py:428` | `def _enrich_readmenator_fields(nodes, edges)` |
-| `_family_color` | function | `modules/intel_fusion.py:95` | `def _family_color(name)` |
-| `_fibonacci_sphere` | function | `modules/intel_fusion.py:610` | `def _fibonacci_sphere(count)` |
-| `_file_pagerank` | function | `modules/intel_fusion.py:146` | `def _file_pagerank(ids, pairs, alpha, max_iter, tol)` |
-| `_host_mentions` | function | `modules/intel_fusion.py:139` | `def _host_mentions(text)` |
-| `_load_json` | function | `modules/intel_fusion.py:112` | `def _load_json(path, default)` |
-| `_node_doc` | function | `modules/intel_fusion.py:390` | `def _node_doc(node)` |
-| `_read_lines` | function | `modules/intel_fusion.py:122` | `def _read_lines(path, limit)` |
-| `_split_caps` | function | `modules/intel_fusion.py:626` | `def _split_caps(labels, sizes, points, lattice, out)` |
-| `_symbol_list` | function | `modules/intel_fusion.py:413` | `def _symbol_list(node)` |
-| `_unit` | function | `modules/intel_fusion.py:651` | `def _unit(vec)` |
-| `add_edge` | function | `modules/intel_fusion.py:197` | `def add_edge(src, dst, kind, evidence, weight)` |
-| `add_node` | function | `modules/intel_fusion.py:183` | `def add_node(kind, value, label)` |
-| `assign_layout` | function | `modules/intel_fusion.py:800` | `def assign_layout(graph, mode)` |
-| `build_analytics` | function | `modules/intel_fusion.py:585` | `def build_analytics(graph, summary)` |
-| `build_bundle_payload` | function | `modules/intel_fusion.py:659` | `def build_bundle_payload(graph)` |
-| `build_intel_graph` | function | `modules/intel_fusion.py:176` | `def build_intel_graph(sessions_dir, est_cap)` |
-| `bundle_settings` | function | `modules/intel_fusion.py:769` | `def bundle_settings(graph)` |
-| `group_colors` | function | `modules/intel_fusion.py:512` | `def group_colors(graph)` |
-| `node_id` | function | `modules/intel_fusion.py:106` | `def node_id(kind, value)` |
-| `page_settings` | function | `modules/intel_fusion.py:528` | `def page_settings(graph)` |
-| `tag_source` | function | `modules/intel_fusion.py:205` | `def tag_source(nid, source)` |
-| `write_summary` | function | `modules/intel_fusion.py:865` | `def write_summary(graph, sessions_dir)` |
-| `CollectedFact` | class | `modules/intelligence_engine.py:78` | `class CollectedFact` |
-| `CounterIntelFinding` | class | `modules/intelligence_engine.py:108` | `class CounterIntelFinding` |
-| `IntelligenceAssessment` | class | `modules/intelligence_engine.py:93` | `class IntelligenceAssessment` |
-| `IntelligenceConfig` | class | `modules/intelligence_engine.py:57` | `class IntelligenceConfig` |
-| `IntelligenceEngine` | class | `modules/intelligence_engine.py:119` | `class IntelligenceEngine` |
-| `__init__` | method | `modules/intelligence_engine.py:142` | `def __init__(self, config)` |
-| `_correlate_creds_to_hosts` | method | `modules/intelligence_engine.py:565` | `def _correlate_creds_to_hosts(self)` |
-| `_correlate_domains_to_infrastructure` | method | `modules/intelligence_engine.py:588` | `def _correlate_domains_to_infrastructure(self)` |
-| `_correlate_services_to_vulns` | method | `modules/intelligence_engine.py:494` | `def _correlate_services_to_vulns(self)` |
-| `_detect_killchain_gaps` | method | `modules/intelligence_engine.py:644` | `def _detect_killchain_gaps(self)` |
-| `_is_placeholder` | method | `modules/intelligence_engine.py:925` | `def _is_placeholder(value)` |
-| `_map_category_to_mitre` | method | `modules/intelligence_engine.py:700` | `def _map_category_to_mitre(category)` |
-| `_match_known_vulns` | method | `modules/intelligence_engine.py:537` | `def _match_known_vulns(fact)` |
-| `_rank_targets` | method | `modules/intelligence_engine.py:604` | `def _rank_targets(self)` |
-| `analyze` | method | `modules/intelligence_engine.py:477` | `def analyze(self)` |
-| `collect_from_estorides` | method | `modules/intelligence_engine.py:292` | `def collect_from_estorides(self, target)` |
-| `collect_from_factstore` | method | `modules/intelligence_engine.py:415` | `def collect_from_factstore(self)` |
-| `collect_from_nuclei` | method | `modules/intelligence_engine.py:334` | `def collect_from_nuclei(self, target)` |
-| `collect_from_scan` | method | `modules/intelligence_engine.py:153` | `def collect_from_scan(self, target)` |
-| `collect_from_tool` | method | `modules/intelligence_engine.py:255` | `def collect_from_tool(self, output, tool, host)` |
-| `collect_from_yara` | method | `modules/intelligence_engine.py:376` | `def collect_from_yara(self, target_path)` |
-| `disseminate` | method | `modules/intelligence_engine.py:765` | `def disseminate(self)` |
-| `get_intel_report` | method | `modules/intelligence_engine.py:874` | `def get_intel_report(self)` |
-| `get_intelligence_engine` | function | `modules/intelligence_engine.py:931` | `def get_intelligence_engine(config)` |
-| `produce_counter_intelligence` | method | `modules/intelligence_engine.py:715` | `def produce_counter_intelligence(self)` |
-| `produce_intelligence` | method | `modules/intelligence_engine.py:685` | `def produce_intelligence(self)` |
-| `run_full_cycle` | method | `modules/intelligence_engine.py:845` | `def run_full_cycle(self, target)` |
-| `Guard` | class | `modules/intercept.py:255` | `class Guard` |
-| `InterceptAction` | class | `modules/intercept.py:21` | `class InterceptAction(str, Enum)` |
-| `InterceptConfig` | class | `modules/intercept.py:33` | `class InterceptConfig` |
-| `InterceptRule` | class | `modules/intercept.py:50` | `class InterceptRule` |
-| `InterceptVerdict` | class | `modules/intercept.py:92` | `class InterceptVerdict` |
-| `Interceptor` | class | `modules/intercept.py:154` | `class Interceptor` |
-| `PendingApproval` | class | `modules/intercept.py:77` | `class PendingApproval` |
-| `__init__` | method | `modules/intercept.py:157` | `def __init__(self, rules, ask_timeout_sec, timeout_action)` |
-| `__init__` | method | `modules/intercept.py:258` | `def __init__(self, interceptor)` |
-| `__post_init__` | method | `modules/intercept.py:61` | `def __post_init__(self)` |
-| `add_rule` | method | `modules/intercept.py:177` | `def add_rule(self, rule)` |
-| `approval_status` | method | `modules/intercept.py:249` | `def approval_status(self, approval_id)` |
-| `attribution` | method | `modules/intercept.py:301` | `def attribution(self)` |
-| `audit_log` | method | `modules/intercept.py:296` | `def audit_log(self, limit)` |
-| `builtin_rules` | function | `modules/intercept.py:101` | `def builtin_rules()` |
-| `check` | method | `modules/intercept.py:270` | `def check(self, tool, command)` |
-| `decide` | method | `modules/intercept.py:220` | `def decide(self, approval_id, decision)` |
-| `evaluate` | method | `modules/intercept.py:192` | `def evaluate(self, tool, command)` |
-| `interceptor` | method | `modules/intercept.py:266` | `def interceptor(self)` |
-| `matches` | method | `modules/intercept.py:68` | `def matches(self, tool, command)` |
-| `observe` | method | `modules/intercept.py:282` | `def observe(self, output, source)` |
-| `observe_post_tool` | function | `modules/intercept.py:144` | `def observe_post_tool(output)` |
-| `pending_approvals` | method | `modules/intercept.py:234` | `def pending_approvals(self)` |
-| `record_failure` | method | `modules/intercept.py:291` | `def record_failure(self, source)` |
-| `remove_rule` | method | `modules/intercept.py:183` | `def remove_rule(self, pattern)` |
-| `rules` | method | `modules/intercept.py:172` | `def rules(self)` |
-| `scope_blocked` | function | `modules/intercept.py:131` | `def scope_blocked(target)` |
-| `display_usage` | function | `modules/iptables_portforward.sh:29` | `` |
-| `JsonlTail` | class | `modules/jsonl_tail.py:14` | `class JsonlTail` |
-| `__init__` | method | `modules/jsonl_tail.py:17` | `def __init__(self, path)` |
-| `read_new` | method | `modules/jsonl_tail.py:22` | `def read_new(self, limit)` |
-| `K8SAttackEngine` | class | `modules/k8s_attacks.py:77` | `class K8SAttackEngine` |
-| `K8sConfig` | class | `modules/k8s_attacks.py:57` | `class K8sConfig` |
-| `__init__` | method | `modules/k8s_attacks.py:87` | `def __init__(self, config)` |
-| `enumerate_rbac` | method | `modules/k8s_attacks.py:90` | `def enumerate_rbac(self)` |
-| `etcd_access_exploitation` | method | `modules/k8s_attacks.py:222` | `def etcd_access_exploitation(self)` |
-| `helm_tiller_abuse` | method | `modules/k8s_attacks.py:250` | `def helm_tiller_abuse(self)` |
-| `kubelet_anonymous_auth_abuse` | method | `modules/k8s_attacks.py:198` | `def kubelet_anonymous_auth_abuse(self)` |
-| `persistence_techniques` | method | `modules/k8s_attacks.py:278` | `def persistence_techniques(self)` |
-| `privileged_pod_escape` | method | `modules/k8s_attacks.py:118` | `def privileged_pod_escape(self)` |
-| `service_account_token_theft` | method | `modules/k8s_attacks.py:173` | `def service_account_token_theft(self)` |
-| `summary` | method | `modules/k8s_attacks.py:318` | `def summary(self)` |
-| `KerberoastHash` | class | `modules/kerberoasting.py:59` | `class KerberoastHash` |
-| `KerberoastTarget` | class | `modules/kerberoasting.py:38` | `class KerberoastTarget` |
-| `KerberoastingEngine` | class | `modules/kerberoasting.py:79` | `class KerberoastingEngine` |
-| `__init__` | method | `modules/kerberoasting.py:95` | `def __init__(self, domain, dc_ip, username, password, hash)` |
-| `_build_hash_string` | method | `modules/kerberoasting.py:248` | `def _build_hash_string(self, spn, etype)` |
-| `_hashcat_command` | method | `modules/kerberoasting.py:268` | `def _hashcat_command(hash_str, mode)` |
-| `_prioritize_targets` | method | `modules/kerberoasting.py:169` | `def _prioritize_targets(self)` |
-| `asreproast_check` | method | `modules/kerberoasting.py:306` | `def asreproast_check(self, usernames)` |
-| `build_hashcat_batch` | method | `modules/kerberoasting.py:379` | `def build_hashcat_batch(self, output_path)` |
-| `detect_kerberoasting_activity` | method | `modules/kerberoasting.py:336` | `def detect_kerberoasting_activity(self, event_log)` |
-| `enumerate_spns` | method | `modules/kerberoasting.py:112` | `def enumerate_spns(self, ldap_output, bloodhound_data)` |
-| `extract_hashes_from_pcap` | method | `modules/kerberoasting.py:321` | `def extract_hashes_from_pcap(self, pcap_path)` |
-| `priority` | function | `modules/kerberoasting.py:172` | `def priority(target)` |
-| `request_tgs` | method | `modules/kerberoasting.py:219` | `def request_tgs(self, user_spn, etype)` |
-| `request_tgs_aes_only` | method | `modules/kerberoasting.py:187` | `def request_tgs_aes_only(self, user_spn)` |
-| `request_tgs_rc4` | method | `modules/kerberoasting.py:208` | `def request_tgs_rc4(self, user_spn)` |
-| `summary` | method | `modules/kerberoasting.py:401` | `def summary(self)` |
-| `targeted_kerberoast` | method | `modules/kerberoasting.py:271` | `def targeted_kerberoast(self, high_value_only)` |
-| `EncryptedData` | class | `modules/kerberos_core.py:157` | `class EncryptedData` |
-| `KerberosCore` | class | `modules/kerberos_core.py:407` | `class KerberosCore` |
-| `KerberosCrypto` | class | `modules/kerberos_core.py:271` | `class KerberosCrypto` |
-| `KerberosErrorParser` | class | `modules/kerberos_core.py:683` | `class KerberosErrorParser` |
-| `KerberosPrincipal` | class | `modules/kerberos_core.py:139` | `class KerberosPrincipal` |
-| `KerberosTicket` | class | `modules/kerberos_core.py:172` | `class KerberosTicket` |
-| `PACInfo` | class | `modules/kerberos_core.py:228` | `class PACInfo` |
-| `PACSignature` | class | `modules/kerberos_core.py:213` | `class PACSignature` |
-| `TGSRequest` | class | `modules/kerberos_core.py:249` | `class TGSRequest` |
-| `TicketValidator` | class | `modules/kerberos_core.py:702` | `class TicketValidator` |
-| `__init__` | method | `modules/kerberos_core.py:277` | `def __init__(self)` |
-| `__init__` | method | `modules/kerberos_core.py:421` | `def __init__(self, domain, dc_host, dc_ip)` |
-| `_build_pa_enc_timestamp` | method | `modules/kerberos_core.py:640` | `def _build_pa_enc_timestamp(self, key, etype, timestamp)` |
-| `_parse_kdc_rep` | method | `modules/kerberos_core.py:653` | `def _parse_kdc_rep(self, data, key, etype, rep_type)` |
-| `_parse_pac_buffer` | method | `modules/kerberos_core.py:622` | `def _parse_pac_buffer(pac, buf_type, buf_data)` |
-| `_rc4_decrypt` | method | `modules/kerberos_core.py:676` | `def _rc4_decrypt(key, data, usage)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

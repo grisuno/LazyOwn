@@ -86,7 +86,7 @@ and the task id in its payload.
 
 *Calls:* [`publish_event`](modules.event_bus.py.md#publish_event)
 
-*Called by:* [`ActivityLog.emit`](modules.lazy_loop.py.md#activitylog-emit)
+*Called by:* [`TelemetryMediator.publish_event`](modules.mediation.telemetry_mediator.py.md#telemetrymediator-publish_event)
 
 ---
 

@@ -19,6 +19,7 @@ import cmd2
 from cli.commands._base import LazyOwnCommandSet
 from core.safe_import import filter_columns, safe_copy_tree, safe_extract_zip
 from modules.db import LazyOwnDB
+from modules.world_model import read_state_dict
 from utils import (
     miscellaneous_category,
     print_error,
@@ -103,13 +104,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
                 if f.is_file() and "exports" not in str(f) and "db" not in str(f):
                     session_files.append(str(f.relative_to(SESSIONS_DIR)))
 
-        world_model = {}
-        wm_path = SESSIONS_DIR / "world_model.json"
-        if wm_path.exists():
-            try:
-                world_model = json.loads(wm_path.read_text(encoding="utf-8"))
-            except (json.JSONDecodeError, OSError):
-                pass
+        world_model = read_state_dict(SESSIONS_DIR / "world_model.json")
 
         payload_snapshot = {}
         payload_path = BASE_DIR / "payload.json"

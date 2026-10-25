@@ -3,6 +3,36 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_gym_registry.py` | Gym YAML catalogue and persistent world-model run state. | tests | 9 | 0 |
+| `tests/test_harness_mode.py` | Harness deterministic-mode contract tests. | tests | 23 | 0 |
+| `tests/test_hash_cracker.py` | Tests for modules/hash_cracker.py | tests | 22 | 0 |
+| `tests/test_help_ui_command_set.py` | Help/UI command set extraction tests. | tests | 9 | 0 |
+| `tests/test_host_policy.py` | Single host-validation policy shared by CLI gates and hardening. | tests | 9 | 0 |
+| `tests/test_html_sanitizer.py` | TDD tests for the bleach-based HTML sanitizer contract. | tests | 16 | 0 |
+| `tests/test_https_redirect.py` | TDD tests for the HTTPS redirect contract. | tests | 11 | 0 |
+| `tests/test_improvements_spec.py` | Spec-driven validation of the three priority improvements. | tests | 160 | 0 |
+| `tests/test_infra_disposable.py` | TDD unit tests for the disposable infrastructure contracts. | tests | 35 | 0 |
+| `tests/test_input_fuzz.py` | Fuzzing for input validators and rating boundaries. | tests | 8 | 0 |
+| `tests/test_intel_fusion.py` | Intel fusion + LLM defaults regression tests. | tests | 7 | 0 |
+| `tests/test_intelligence_engine.py` | Tests for IntelligenceEngine — collection, analysis, intelligence, dissemination. | tests | 27 | 0 |
+| `tests/test_journal.py` | Tests for the GitHub Discussions engineering journal. | tests | 10 | 0 |
+| `tests/test_killchain.py` | Tests for cli/killchain.py. | tests | 9 | 0 |
+| `tests/test_killchain_auto_refresh.py` | BDD-style tests for the periodic kill-chain auto-refresh in the tips engine. | tests | 8 | 0 |
+| `tests/test_killchain_gap_signal.py` | Tests for :class:`cli.recommendation_signals.KillchainGapSignal`. | tests | 20 | 0 |
+| `tests/test_killchain_snapshot.py` | BDD-style tests for the unified kill-chain snapshot contract. | tests | 14 | 0 |
+| `tests/test_killchain_unified.py` | Tests for unified killchain phase: read_phase, write_phase, phase mapping helpers. | tests | 9 | 0 |
+| `tests/test_killchain_unified_v2.py` | Comprehensive tests for modules.killchain — the unified single source of truth. | tests | 43 | 0 |
+| `tests/test_lab_target_visibility.py` | Lab target visibility: start/status always show the container IP. | tests | 2 | 0 |
+| `tests/test_lazy_agent.py` | Agentic tool-calling: worker agent path, resume and main sessions. | tests | 18 | 0 |
+| `tests/test_lazy_bridge_traffic.py` | Incremental LAZY traffic mirroring (stall regression). | tests | 7 | 0 |
+| `tests/test_lazy_engine.py` | Lazy engine (LAZY-faithful) regression tests with stub executor. | tests | 13 | 0 |
+| `tests/test_lazy_evidence.py` | Traffic recorder trigram search and frozen evidence package export. | tests | 3 | 0 |
+| `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 36 | 0 |
+| `tests/test_lazy_orchestrator.py` | Orchestrator admin console: headless smoke and real persistence. | tests | 30 | 0 |
+| `tests/test_lazy_parity.py` | LAZY parity proof tests: every ported subsystem must behave, not just exist. | tests | 26 | 0 |
+| `tests/test_lazy_proxy.py` | Recorder proxy: CA, HTTP/HTTPS capture, engine ingestion, auto-binding. | tests | 28 | 0 |
+| `tests/test_lazy_runner.py` | Shared loop runner, monitor surface and store-fidelity regressions. | tests | 143 | 0 |
+| `tests/test_lazy_streaming.py` | Token-level streaming: factory, pool deltas, agent reassembly. | tests | 17 | 0 |
 | `tests/test_lazy_worker_safety.py` | Worker safety: step sanitizer, task-wide dedupe, sudo skip, worker pool. | tests | 12 | 0 |
 | `tests/test_lazygui_backend.py` | Tests for lazygui backend services. | tests | 59 | 0 |
 | `tests/test_lazygui_graph_widget.py` | Tests for lazygui graph widget contracts. | tests | 51 | 0 |
@@ -44,6 +74,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_mcp_improvements.py` | Tests for the high/medium/low impact MCP improvements. | tests | 34 | 0 |
 | `tests/test_mcp_lazy.py` | Contract for the unified MCP lazy-import helper. | tests | 11 | 0 |
 | `tests/test_mcp_recommender_embed.py` | Contract tests for the MCP sitrep recommender embedding. | tests | 8 | 0 |
+| `tests/test_mediation.py` | Mediator pattern contract tests for the mediation package. | tests | 39 | 0 |
 | `tests/test_memory_semantics.py` | BDD tests for hashing embeddings and hybrid episodic recall. | tests | 14 | 0 |
 | `tests/test_metasploitable_gym.py` | Metasploitable 2 gym BDD contract: one exploit, one chain, one index entry. | tests | 6 | 0 |
 | `tests/test_metasploitable_migrations.py` | Unit tests for the Metasploitable 2 gym migrations module. | tests | 10 | 0 |
@@ -57,6 +88,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_nethelpers_command_set.py` | Network helpers command set extraction tests. | tests | 9 | 0 |
 | `tests/test_no_shell_execution.py` | Contract tests: no os.system and no manual sys.stdout reassignment. | tests | 8 | 0 |
 | `tests/test_nuclei_parser.py` | Tests for modules/integrations/nuclei_parser.py | tests | 21 | 0 |
+| `tests/test_opencode_mcp_harness.py` | Opencode shim harness tool tests. | tests | 5 | 0 |
 | `tests/test_ops_loot_phase.py` | Tests for unified loot, cred-graph view, and quantitative phase progress. | tests | 22 | 0 |
 | `tests/test_opsec_scorer.py` | Tests for modules/opsec_scorer.py | tests | 13 | 0 |
 | `tests/test_opsec_scorer_consolidated.py` | Consolidated OPSEC scorer contract tests (SDD/TDD/BDD). | tests | 22 | 0 |
@@ -118,6 +150,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_shellsys_command_set.py` | Shell/sys command set extraction tests. | tests | 9 | 0 |
 | `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 16 | 0 |
 | `tests/test_single_implementation.py` | Single-implementation rule for extracted helpers. | tests | 5 | 0 |
+| `tests/test_single_source_of_truth.py` | Single-source-of-truth contract tests. | tests | 26 | 0 |
 | `tests/test_sleep_obfuscation.py` | Tests for modules/sleep_obfuscation.py — SleepTechnique, SleepObfuscationConfig... | tests | 41 | 0 |
 | `tests/test_socks_proxy.py` | Tests for modules/socks_proxy.py — SocksProxyConfig, SocksSession, SocksValidator... | tests | 52 | 0 |
 | `tests/test_status_bar_operators.py` | Tests for the operator-presence segment of cli/status_bar.py. | tests | 9 | 0 |
@@ -127,7 +160,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_themes.py` | Tests for cli/themes.py. | tests | 6 | 0 |
 | `tests/test_timeline_browser.py` | Tests for cli/timeline_browser.py. | tests | 8 | 0 |
 | `tests/test_tips_engine.py` | Tests for cli.tips_engine — unified post-command suggestion engine. | tests | 67 | 0 |
-| `tests/test_toast_bus.py` | Tests for cli/toast_bus.py. | tests | 18 | 0 |
+| `tests/test_toast_bus.py` | Tests for cli/toast_bus.py. | tests | 24 | 0 |
 | `tests/test_toastr_unify.py` | BDD tests for the unified toastr presentation layer. | tests | 12 | 0 |
 | `tests/test_trigger_policy.py` | BDD contract tests for the declarative trigger policy. | tests | 7 | 0 |
 | `tests/test_trusted_proxy.py` | TDD tests for the trusted proxy resolver contract. | tests | 11 | 0 |
@@ -154,5 +187,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tools/generate_metasploitable_gym.py` | Generate the Metasploitable 2 gym catalogue. | tools | 6 | 0 |
 | `tools/set_lazyaddon_updates.py` | Set or check the ``update`` flag on every lazyaddon YAML. | tools | 3 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 125 | 96 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 125 | 98 |
 

@@ -144,13 +144,9 @@ class Backend(QObject):
     def request_world_model(self) -> dict:
         """Request the current world model state as a dict. Returns empty dict on failure."""
         try:
-            import json
-            from pathlib import Path
+            from modules.world_model import read_state_dict
 
-            sessions_dir = Path("sessions")
-            wm_path = sessions_dir / "world_model.json"
-            if wm_path.exists():
-                return json.loads(wm_path.read_text(encoding="utf-8"))
+            return read_state_dict(Path("sessions") / "world_model.json")
         except Exception:
             pass
         return {}

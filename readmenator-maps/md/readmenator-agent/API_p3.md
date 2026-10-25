@@ -1,6 +1,17 @@
 # API (page 3 of 24)
 Previous: [API_p2.md](API_p2.md)
 
+## cli/commands/opsec_cleanup.py
+Depends on: `cli/commands/_base.py`, `modules/forensic_cleaner.py`, `modules/log_tamper.py`, `modules/memory_cleaner.py`, `modules/network_opsec.py`, `modules/opsec_scorer.py`, `modules/timestomper.py`
+- `OpsecCleanupCommandSet.do_opsec_score` (method) `cli/commands/opsec_cleanup.py:25` `def do_opsec_score(self, line)` -- Real-time OPSEC risk assessment with contextual action gating (v2).
+- `OpsecCleanupCommandSet.do_log_tamper` (method) `cli/commands/opsec_cleanup.py:97` `def do_log_tamper(self, line)` -- Cross-platform log clearing commands.
+- `OpsecCleanupCommandSet.do_forensic_clean` (method) `cli/commands/opsec_cleanup.py:162` `def do_forensic_clean(self, line)` -- Clean forensic artifacts — Prefetch, Shimcache, Amcache, Jump Lists, etc.
+- `OpsecCleanupCommandSet.do_timestomp` (method) `cli/commands/opsec_cleanup.py:219` `def do_timestomp(self, line)` -- Manipulate file MACB timestamps to evade forensic timeline analysis.
+- `OpsecCleanupCommandSet.do_memory_clean` (method) `cli/commands/opsec_cleanup.py:288` `def do_memory_clean(self, line)` -- Clean memory artifacts — Kerberos tickets, clipboard, env vars, credentials.
+- `OpsecCleanupCommandSet.do_network_opsec` (method) `cli/commands/opsec_cleanup.py:342` `def do_network_opsec(self, line)` -- Network OPSEC — proxy chains, DoH, canary detection, traffic analysis.
+- `OpsecCleanupCommandSet.do_auditd_disable` (method) `cli/commands/opsec_cleanup.py:445` `def do_auditd_disable(self, line)` -- Generate commands to disable Linux auditd.
+- `OpsecCleanupCommandSet.do_sysmon_disable` (method) `cli/commands/opsec_cleanup.py:468` `def do_sysmon_disable(self, line)` -- Generate commands to disable Windows Sysmon.
+
 ## cli/commands/orchestration.py
 Depends on: `cli/commands/_base.py`, `cli/reasoning_stream.py`, `core/console.py`
 Imported by: `tests/test_improvements_spec.py`
@@ -141,7 +152,7 @@ Depends on: `cli/commands/_base.py`, `modules/yara_scanner.py`, `utils.py`
 - `PostexpMigratedCommandSet.do_yara_scan` (method) `cli/commands/postexp_migrated.py:2610` `def do_yara_scan(self, line)` -- Scan files or directories with YARA rules for malware/IOCs.
 
 ## cli/commands/privilege_escalation.py
-Depends on: `cli/commands/_base.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `modules/world_model.py`, `utils.py`
 Imported by: `tests/test_shell_semantics.py`
 - `PrivilegeEscalationCommandSet.do_smbserver` (method) `cli/commands/privilege_escalation.py:139` `def do_smbserver(self, line)` -- Stand up an Impacket SMB server with three relay variants.
 - `PrivilegeEscalationCommandSet.do_responder` (method) `cli/commands/privilege_escalation.py:197` `def do_responder(self, line)` -- Run Responder on the configured ``device`` with elevated privileges.
@@ -156,7 +167,7 @@ Imported by: `tests/test_shell_semantics.py`
 - `PrivilegeEscalationCommandSet.do_sudo_privesc` (method) `cli/commands/privilege_escalation.py:512` `def do_sudo_privesc(self, line)` -- Analyse sudo -l output and cross-reference with GTFOBins.
 - `PrivilegeEscalationCommandSet.do_printspoofer` (method) `cli/commands/privilege_escalation.py:610` `def do_printspoofer(self, line)` -- Serve PrintSpoofer over HTTP for Windows privilege escalation.
 - `PrivilegeEscalationCommandSet.do_juicypotato` (method) `cli/commands/privilege_escalation.py:632` `def do_juicypotato(self, line)` -- Serve JuicyPotato over HTTP for Windows privilege escalation.
-- `PrivilegeEscalationCommandSet.do_privesc_cmd_by_os` (method) `cli/commands/privilege_escalation.py:754` `def do_privesc_cmd_by_os(self, line)` -- Prepare and send a linpeas/winpeas command to a C2 client.
+- `PrivilegeEscalationCommandSet.do_privesc_cmd_by_os` (method) `cli/commands/privilege_escalation.py:755` `def do_privesc_cmd_by_os(self, line)` -- Prepare and send a linpeas/winpeas command to a C2 client.
 
 ## cli/commands/purple_team.py
 Depends on: `cli/commands/_base.py`, `cli/purple_tui.py`, `core/config.py`, `modules/auto_purple.py`
@@ -451,42 +462,6 @@ Imported by: `cli/commands/help_ui.py`, `tests/test_phase_labels.py`
 Imported by: `cli/dashboard_tui.py`
 - `layout_mode` (function) `cli/dashboard_layout.py:28` `def layout_mode(width, config)` -- Return the layout bucket for a terminal width.
 - `hidden_panels` (function) `cli/dashboard_layout.py:45` `def hidden_panels(mode)` -- Return panel ids hidden in the given layout mode.
-
-## cli/dashboard_tui.py
-Depends on: `cli/commands/containers.py`, `cli/dashboard_layout.py`, `cli/graph_advisor.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/recommendation_signals.py`, `cli/toast_bus.py`, `modules/killchain.py`
-Imported by: `cli/commands/misc_migrated.py`, `tests/test_dashboard_tui.py`
-- `CommandRequested.__init__` (method) `cli/dashboard_tui.py:100` `def __init__(self, command)`
-- `PhaseSelected.__init__` (method) `cli/dashboard_tui.py:108` `def __init__(self, phase)`
-- `dispatch_command` (function) `cli/dashboard_tui.py:113` `def dispatch_command(command, timeout)` -- Run one LazyOwn command headlessly and capture its output.
-- `TargetPanel.get_selection` (method) `cli/dashboard_tui.py:335` `def get_selection(self, selection)` -- Override to prevent IndexError when selection offsets exceed text length.
-- `TargetPanel.render_content` (method) `cli/dashboard_tui.py:348` `def render_content(self, payload, world)`
-- `TargetPanel.update_data` (method) `cli/dashboard_tui.py:374` `def update_data(self, payload, world)`
-- `KillChainPanel.__init__` (method) `cli/dashboard_tui.py:393` `def __init__(self)`
-- `KillChainPanel.update_data` (method) `cli/dashboard_tui.py:397` `def update_data(self, progress)` -- Render kill-chain progress.
-- `KillChainPanel.on_click` (method) `cli/dashboard_tui.py:418` `def on_click(self, event)` -- Select the phase whose row was clicked.
-- `ConfigPanel.update_data` (method) `cli/dashboard_tui.py:442` `def update_data(self, payload)`
-- `CommandsPanel.update_data` (method) `cli/dashboard_tui.py:472` `def update_data(self, commands)`
-- `ReasoningPanel.update_data` (method) `cli/dashboard_tui.py:507` `def update_data(self, entries)` -- Render the most recent daemon decisions, newest first.
-- `OpsPanel.update_data` (method) `cli/dashboard_tui.py:544` `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)`
-- `HintBar.__init__` (method) `cli/dashboard_tui.py:610` `def __init__(self)`
-- `HintBar.compose` (method) `cli/dashboard_tui.py:615` `def compose(self)`
-- `HintBar.update_data` (method) `cli/dashboard_tui.py:619` `def update_data(self, hints)` -- Replace the hint buttons with one button per suggestion.
-- `HintBar.on_button_pressed` (method) `cli/dashboard_tui.py:644` `def on_button_pressed(self, event)` -- Run the clicked suggestion as if it had been typed.
-- `ToastPanel.update_data` (method) `cli/dashboard_tui.py:671` `def update_data(self, payload, sessions_dir, width)` -- Render the latest notifications for the active theme.
-- `NextStepsPanel.update_data` (method) `cli/dashboard_tui.py:718` `def update_data(self, recommendations)`
-- `LazyOwnDashboard.__init__` (method) `cli/dashboard_tui.py:807` `def __init__(self, payload_path, sessions_dir)`
-- `LazyOwnDashboard.compose` (method) `cli/dashboard_tui.py:836` `def compose(self)`
-- `LazyOwnDashboard.on_mount` (method) `cli/dashboard_tui.py:855` `def on_mount(self)`
-- `LazyOwnDashboard.on_input_submitted` (method) `cli/dashboard_tui.py:860` `def on_input_submitted(self, event)` -- Run the typed command and clear the input.
-- `LazyOwnDashboard.on_command_requested` (method) `cli/dashboard_tui.py:872` `def on_command_requested(self, event)` -- Dispatch a command in a worker so the UI never blocks.
-- `LazyOwnDashboard.on_phase_selected` (method) `cli/dashboard_tui.py:912` `def on_phase_selected(self, event)` -- Filter the center panel to a phase chosen by clicking the kill chain.
-- `LazyOwnDashboard.action_refresh_data` (method) `cli/dashboard_tui.py:923` `def action_refresh_data(self)`
-- `LazyOwnDashboard.action_toggle_compact` (method) `cli/dashboard_tui.py:926` `def action_toggle_compact(self)` -- Toggle the compact single-column layout for narrow terminals.
-- `LazyOwnDashboard.action_screenshot` (method) `cli/dashboard_tui.py:956` `def action_screenshot(self)` -- Save an SVG screenshot next to the sessions directory.
-- `LazyOwnDashboard.action_export_snapshot` (method) `cli/dashboard_tui.py:967` `def action_export_snapshot(self)` -- Export the current dashboard data as JSON for automation.
-- `LazyOwnDashboard.action_next_phase` (method) `cli/dashboard_tui.py:987` `def action_next_phase(self)` -- Advance to the next kill-chain phase and refresh the display.
-- `LazyOwnDashboard.action_prev_phase` (method) `cli/dashboard_tui.py:991` `def action_prev_phase(self)` -- Step back to the previous kill-chain phase.
-- `launch` (function) `cli/dashboard_tui.py:1064` `def launch(payload_path, sessions_dir)` -- Launch the dashboard and block until the user quits.
 
 
 Next: [API_p4.md](API_p4.md)

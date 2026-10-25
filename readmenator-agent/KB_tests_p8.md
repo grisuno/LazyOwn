@@ -1,4 +1,4 @@
-# Subsystem: tests (page 8 of 19)
+# Subsystem: tests (page 8 of 20)
 Previous: [KB_tests_p7.md](KB_tests_p7.md)
 
 ## tests/test_detection_feed.py
@@ -448,18 +448,18 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
 - Language: py
 - Symbols:
   - `_load_surface_graph` (function, line 27) `def _load_surface_graph()`
-  - `_base_nodes` (function, line 37) `def _base_nodes()`
-  - `test_load_lazyown_vocabulary` (function, line 45) `def test_load_lazyown_vocabulary(tmp_path)`
-  - `test_load_raw_export_translates_types` (function, line 58) `def test_load_raw_export_translates_types(tmp_path)`
-  - `test_merge_fuses_matching_ip` (function, line 75) `def test_merge_fuses_matching_ip()`
-  - `test_merge_adds_new_entities_capped` (function, line 91) `def test_merge_adds_new_entities_capped()`
-  - `test_merge_edges_reanchor` (function, line 107) `def test_merge_edges_reanchor(tmp_path)`
-  - `test_find_export_prefers_lazyown` (function, line 127) `def test_find_export_prefers_lazyown(tmp_path)`
-  - `test_parse_confirm` (function, line 132) `def test_parse_confirm()`
-  - `test_discovery_targets_reads_all_files` (function, line 139) `def test_discovery_targets_reads_all_files(tmp_path)`
-  - `test_write_world_model_hosts` (function, line 146) `def test_write_world_model_hosts(tmp_path)`
-  - `test_surface_readers_cover_sessions_formats` (function, line 158) `def test_surface_readers_cover_sessions_formats(tmp_path)`
-- Depends on: `modules/estorides_fusion.py`, `modules/surface_ops.py`
+  - `_base_nodes` (function, line 36) `def _base_nodes()`
+  - `test_load_lazyown_vocabulary` (function, line 50) `def test_load_lazyown_vocabulary(tmp_path)`
+  - `test_load_raw_export_translates_types` (function, line 73) `def test_load_raw_export_translates_types(tmp_path)`
+  - `test_merge_fuses_matching_ip` (function, line 91) `def test_merge_fuses_matching_ip()`
+  - `test_merge_adds_new_entities_capped` (function, line 116) `def test_merge_adds_new_entities_capped()`
+  - `test_merge_edges_reanchor` (function, line 141) `def test_merge_edges_reanchor(tmp_path)`
+  - `test_find_export_prefers_lazyown` (function, line 182) `def test_find_export_prefers_lazyown(tmp_path)`
+  - `test_parse_confirm` (function, line 187) `def test_parse_confirm()`
+  - `test_discovery_targets_reads_all_files` (function, line 194) `def test_discovery_targets_reads_all_files(tmp_path)`
+  - `test_write_world_model_hosts` (function, line 201) `def test_write_world_model_hosts(tmp_path)`
+  - `test_surface_readers_cover_sessions_formats` (function, line 219) `def test_surface_readers_cover_sessions_formats(tmp_path)`
+- Depends on: `modules/estorides_fusion.py`, `modules/surface_ops.py`, `modules/world_model.py`
 
 
 Next: [KB_tests_p9.md](KB_tests_p9.md)

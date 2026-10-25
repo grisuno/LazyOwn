@@ -8,6 +8,7 @@ description: 'Python Risk Identification Tool for generative AI (PyRIT) by Micro
 author: Microsoft Azure
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: api_key
   type: string

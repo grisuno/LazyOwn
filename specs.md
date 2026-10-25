@@ -1,213 +1,337 @@
-# LazyOwn Operator UX Specs
+# LazyOwn -- Specifications & Architecture
 
-Spec-driven design for the two operator-experience features added in
-`release/0.2.108`: **inline reactive hints** and the **TUI dashboard**.
-
----
-
-## Feature A — Inline reactive hints
-
-### Goal
-
-Print a single dim next-step suggestion line between every command's output
-and the next cmd2 prompt, without blocking operator input.
-
-### Happy path
-
-**Trigger:** operator executes any `do_*` command that is not on
-`SKIP_COMMANDS`.
-
-**Inputs:**
-- `enable_inline_hints` in `payload.json` (default `true`).
-- `graphify-out/graph_lazyown.json` loaded by `GraphAdvisor` (mtime-cached).
-- Last executed command string from `cmd2.plugin.PostcommandData.statement`.
-
-**Successful outcome:**
-One rich-formatted line appears below the command output before the next
-prompt renders. Format: `  ↳ label_a · label_b · label_c`.
-
-**Observable signal:** operator sees the hint and may type the suggested
-command directly, or ignore it and continue.
-
-### Sad paths
-
-| Condition | Behaviour |
-|-----------|-----------|
-| `enable_inline_hints` is `false` | `render_inline_hints` returns immediately. No output. |
-| Graph file absent (`/graphify .` not yet run) | `advisor.is_available()` returns `False`. Hook skips render silently. |
-| `GraphAdvisor.suggest_next()` raises | `except Exception: pass` in hook. No output, no traceback. |
-| Command is on `SKIP_COMMANDS` | `render_inline_hints` returns on first token check. |
-| Graph returns empty suggestions | No hint line rendered. |
-| `register_postcmd_hook` fails (wrong cmd2 version) | `try/except` in `__init__` emits `print_warn` and continues. |
-| No labels extractable from suggestions | `_extract_labels` returns `[]`; render skipped. |
-
-### Implementation contract
-
-- Module: `cli/reactive_hints.py`
-- Public API: `render_inline_hints(advisor, last_command, limit, enabled) → None`
-- Hook registration: `self.register_postcmd_hook(self._inline_hint_hook)` in
-  `LazyOwnShell.__init__` (guarded by try/except).
-- The hook method `_inline_hint_hook` reads `self.params["enable_inline_hints"]`
-  at call time so changes via `set` take effect immediately.
-- Output via `rich.console.Console` — never `print()` directly.
-- Zero coupling to Flask, MCP, or autonomous daemon.
-
-### Tests
-
-File: `tests/test_reactive_hints.py`
-
-| Test | Assertion |
-|------|-----------|
-| `test_disabled_flag_skips_render` | Console.print not called when `enabled=False`. |
-| `test_skip_command_skips_render` | No output for every command in `SKIP_COMMANDS`. |
-| `test_empty_command_skips_render` | No output for whitespace input. |
-| `test_empty_suggestions_skips_render` | No output when advisor returns `[]`. |
-| `test_normal_command_renders_hint` | Console.print called once for `lazynmap`. |
-| `test_advisor_called_with_correct_command` | Advisor receives first token only. |
-| `test_exception_in_advisor_does_not_propagate` | RuntimeError swallowed, no output. |
-| `test_all_skip_commands_are_skipped` | Full `SKIP_COMMANDS` set never renders. |
-| `test_limit_is_passed_to_advisor` | `limit` parameter flows through correctly. |
+Version `release/0.2.158` -- Last updated 2026-07-31
 
 ---
 
-## Feature B — Operator TUI dashboard
+## 1. Project Overview
 
-### Goal
+LazyOwn is a red-team framework providing a unified CLI, C2 web dashboard, MCP
+server, and autonomous agent integration. It covers the full kill chain from
+reconnaissance through data exfiltration with 606+ CLI commands, 126 aliases,
+and 120+ modules.
 
-Full-screen Textual TUI showing live campaign state: target, kill chain
-phase, recent commands, objectives, credentials, beacons, graph hints.
-Launched with `dashboard` in the cmd2 shell; returns to shell on Q.
+| Component | File | Lines | Description |
+|-----------|------|-------|-------------|
+| CLI Shell | `lazyown.py` | ~4,500 | cmd2 shell + cmd2 CommandSets |
+| C2 Server | `lazyc2.py` | ~6,400 | Flask + Socket.IO dashboard |
+| MCP Server | `skills/lazyown_mcp.py` | ~10,600 | 148 tools for AI agents |
+| Utils | `utils.py` | ~3,400 | Shared config, crypto, helpers |
+| DB | `modules/db.py` | ~700 | SQLite workspace isolation |
+| Module Registry | `modules/module_registry.py` | ~540 | 120+ module catalog |
+| Payload Factory | `modules/payload_factory.py` | ~720 | Native shellcode, PS, rev shells |
+| CommandSets (active) | `cli/commands/*.py` | ~9,000 | Phase-scoped cmd2 CommandSets |
+| CommandSets (pending) | `cli/commands/*_migrated.py` | ~20,900 | Dormant migration copies |
+| Marketplace | `cli/commands/marketplace.py` | ~350 | YARA + Nuclei + addon marketplace |
+| Tips Engine | `cli/tips_engine.py` | ~300 | Post-command tips + ELO + badges |
+| Auto Crypto | `cli/auto_crypto.py` | ~200 | Session encryption/decryption |
 
-### Happy path
+---
 
-**Trigger:** operator runs `dashboard` in the cmd2 shell.
-
-**Inputs:**
-- `payload.json` → target IP, attacker IP, domain, OS, C2 port.
-- `sessions/world_model.json` → current phase, completed phases, objective.
-- `sessions/tasks.json` → task list.
-- `sessions/LazyOwn_session_report.csv` → last 10 commands.
-- `sessions/credentials*.txt` → line count → credential count.
-- `sessions/hash*.txt` → line count → hash count.
-- `sessions/beacons.json` → beacon count.
-- `graphify-out/graph_lazyown.json` → top-5 graph suggestions.
-
-**Successful outcome:**
-Full-screen TUI renders. Panels auto-refresh every 5 seconds.
-Q or Ctrl-C closes the app and returns to the cmd2 prompt.
-
-**Observable signal:** operator can monitor campaign state in real time
-without opening a browser or reading raw JSON files.
-
-### Sad paths
-
-| Condition | Behaviour |
-|-----------|-----------|
-| `textual` not installed | `do_dashboard` catches `ImportError`, prints install hint, returns. |
-| `payload.json` missing | `_read_json` returns `{}`. Panels show `—` placeholders. |
-| `sessions/world_model.json` missing | Same as above. Kill chain shows all phases uncompleted. |
-| `sessions/LazyOwn_session_report.csv` missing | `_read_recent_commands` returns `[]`. Commands panel shows placeholder. |
-| Graph absent | `_graph_hints` returns `[]`. Hint bar shows guidance to run `/graphify .`. |
-| `sessions/beacons.json` missing or malformed | `_beacon_count` returns `0`. |
-| Any `_do_refresh` call raises | Textual renders last-known data; next interval retries. |
-| Terminal too narrow | Textual handles layout gracefully via `min-width` CSS. |
-| Q pressed mid-refresh | Textual exits cleanly; in-flight interval is cancelled by the event loop. |
-| SIGINT (Ctrl-C) | Textual `App.run()` catches it and exits. cmd2 prompt returns. |
-
-### Widget architecture
+## 2. Architecture Layers
 
 ```
-LazyOwnDashboard(App)
-├── Header               (built-in Textual)
-├── TargetPanel          (Static, docked top, 3 rows)
-├── Horizontal#main-area
-│   ├── Vertical#left-col  (28 cols)
-│   │   ├── KillChainPanel (Static)
-│   │   └── ConfigPanel    (Static)
-│   ├── Vertical#center-col (1fr)
-│   │   └── CommandsPanel  (Static)
-│   └── Vertical#right-col (30 cols)
-│       └── OpsPanel       (Static)
-├── HintBar              (Static, docked bottom, 2 rows)
-└── Footer               (built-in Textual)
++------------------+     +------------------+     +------------------+
+|   CLI (cmd2)     |     |   C2 (Flask)     |     |  MCP (FastMCP)   |
+|   lazyown.py     |     |   lazyc2.py      |     | lazyown_mcp.py   |
++--------+---------+     +--------+---------+     +--------+---------+
+         |                        |                        |
+         +------------------------+------------------------+
+                         |
+                    +-----v------+
+                    |   utils.py  |  Config, run_command, helpers
+                    +-----+------+
+                          |
+          +---------------+---------------+
+          |               |               |
+   +------v------+ +-----v------+ +------v------+
+   | cli/commands/| | modules/    | | skills/     |
+   | 23 CommandSets| | db, llm,    | | mcp, auto,  |
+   | per-phase    | | registry,   | | hive, etc.  |
+   +-------------+ +------------+ +-------------+
 ```
 
-Each widget exposes a single `update_data(**typed_args) → None` method that
-receives plain Python dicts / lists from `_do_refresh`. No widget reads files
-directly — all I/O is in the module-level helpers.
+### 2.1 Shared Backend
 
-### Data helper contracts
+`utils.py` exports 150+ public names: Config class, run_command wrapper,
+color/format constants, crypto primitives, and re-exports of common stdlib
+modules. Both CLI and C2 import from it. Wildcard imports were replaced with
+66 explicit symbols (2026-06).
 
-| Helper | Inputs | Returns | Error behaviour |
-|--------|--------|---------|-----------------|
-| `_read_json(path)` | file path | `dict` | `{}` on OSError / JSONDecodeError |
-| `_read_recent_commands(limit)` | int | `list[dict]` | `[]` when file absent or malformed |
-| `_count_lines_in_glob(pattern)` | glob pattern | `int` | `0` when no files match |
-| `_beacon_count()` | — | `int` | `0` when file absent or malformed |
-| `_graph_hints(limit)` | int | `list[str]` | `[]` on any exception |
+### 2.2 Configuration
 
-### Refresh cycle
+`payload.json` (82 keys) is the single source of truth. Always read at startup;
+never written except through `do_assign`, `do_set`, or `lazyown_set_config`.
+Schema validated at module load by `core/config.py`.
 
-1. `on_mount` → calls `_do_refresh()` once.
-2. `set_interval(REFRESH_INTERVAL, _do_refresh)` → repeating timer.
-3. Operator presses **R** → `action_refresh_data` → `_do_refresh()`.
-4. Each `_do_refresh` call is synchronous; it reads all sources and calls
-   each widget's `update_data`. Textual invalidates and re-renders changed
-   widgets automatically.
+### 2.3 CommandSet Architecture
 
-### Tests
+The original monolith `lazyown.py` (~24,900 lines, 369 `do_*` methods) has been
+deconstructed into `cli/commands/` CommandSet modules. Currently:
 
-File: `tests/test_dashboard_tui.py`
+- **23 active CommandSets** registered at boot via `cli/registry.py`
+- **10 migrated modules (`*_migrated.py`)** with 20,885 lines, using
+  `PendingCommandSet` from `_dormancy.py`. These are dormant copies waiting for
+  the originals to be deleted from `lazyown.py` before activation.
 
-| Test | Assertion |
-|------|-----------|
-| `test_reads_valid_file` | `_read_json` returns parsed dict. |
-| `test_missing_file_returns_empty_dict` | Returns `{}` on absent file. |
-| `test_invalid_json_returns_empty_dict` | Returns `{}` on bad JSON. |
-| `test_counts_non_empty_lines` | `_count_lines_in_glob` counts correctly. |
-| `test_empty_file_returns_zero` | Empty file → 0. |
-| `test_no_matching_files_returns_zero` | No glob matches → 0. |
-| `test_multiple_files_summed` | Lines across multiple files summed. |
-| `test_reads_recent_commands` | CSV rows parsed into dicts. |
-| `test_missing_file_returns_empty` | Absent CSV → `[]`. |
-| `test_respects_window_limit` | Only last N rows returned. |
-| `test_skips_empty_tool_rows` | Rows with empty `tool` column skipped. |
-| `test_all_phases_present` | Kill chain has all 8 expected phase keys. |
-| `test_phases_ordered` | Recon precedes exploit precedes lateral. |
-| `test_graph_hints_returns_list` | Returns list even when advisor unavailable. |
+Migration phases completed: recon (12 commands), enum (10), scan, exploit (10),
+postexp (8), persist (7), cred (9), lateral (8), report (8). Pending phases in
+migrated files: the remaining ~200 `do_*` methods.
+
+### 2.4 CLI CommandSet Base Class
+
+`cli/commands/_base.py` defines `LazyOwnCommandSet(cmd2.CommandSet)`:
+
+- **`params` property**: Returns the live `payload.json` dict.
+- **`payload` property**: Returns the `Config` wrapper.
+- **`__getattr__` forwarding**: Unknown attribute access (e.g., `self.run_script`,
+  `self.c2_url`) is forwarded to the parent shell.
 
 ---
 
-## Payload keys added
+## 3. Data Flow
 
-| Key | Type | Default | Purpose |
-|-----|------|---------|---------|
-| `enable_inline_hints` | bool | `true` | Enable/disable postcmd hint rendering. |
+### 3.1 CLI Session
+
+```
+User input -> cmd2 parsing -> do_<name>(line) -> run_command(cmd_str)
+    -> subprocess execution -> output capture -> CSV logging -> toast/stderr
+```
+
+### 3.2 C2 Session
+
+```
+Beacon -> HTTPS POST /api/beacon -> Flask -> Socket.IO event
+    -> operator dashboard -> command queue -> beacon poll -> execute
+```
+
+### 3.3 MCP Session
+
+```
+AI agent -> MCP tool call -> lazyown_mcp dispatch table (O(1))
+    -> lazyown_set_config / lazyown_run_command -> lazyown shell
+    -> result -> JSON response
+```
 
 ---
 
-## Dependencies added
+## 4. Kill Chain Phases
 
-| Package | Version constraint | Added to |
-|---------|--------------------|---------|
-| `textual` | ≥ 0.50.0 | `install.sh`, `requirements.txt` (if present) |
+| # | Phase | Commands |
+|---|-------|----------|
+| 01 | Reconnaissance | lazynmap, dig, dnsenum, whatweb, gobuster |
+| 02 | Scanning & Enumeration | nmapscript, wfuzz, dirb, sslyze |
+| 03 | Exploitation | hunt, chain, exploit, searchsploit, auto_pwn |
+| 04 | Post-Exploitation | linpeas, winpeas, shell, upload, download |
+| 05 | Persistence | backdoor, cron, service, schtask |
+| 06 | Privilege Escalation | adcs_check, dominion, getsystem |
+| 07 | Credential Access | secretsdump, evil, getnpusers, hash |
+| 08 | Lateral Movement | psexec, wmiexec, bloodhound, pivot |
+| 09 | Data Exfiltration | exfil, zip, compress, send |
+| 10 | Command & Control | srv, beaconcfg, phisher, listener |
+| 11 | Reporting | lazyreport, chain report |
 
-`rich` was already a dependency; `textual` depends on it and a compatible
-version will be resolved by pip automatically.
+**Autonomous modes** -- `engage` (fixed chain) and `orchestrate` (daemon/hive/swan)
+can walk the full kill chain with optional human gating.
 
 ---
 
-## Files changed
+## 5. Module System
 
-| File | Change |
-|------|--------|
-| `cli/reactive_hints.py` | New module — hint renderer |
-| `cli/dashboard_tui.py` | New module — Textual dashboard |
-| `tests/test_reactive_hints.py` | New — 9 unit tests |
-| `tests/test_dashboard_tui.py` | New — 14 unit tests |
-| `lazyown.py` | Import `_render_inline_hints`; register postcmd hook; add `do_dashboard` |
-| `payload.json` | Add `enable_inline_hints: true` |
-| `install.sh` | Add `pip3 install textual` |
-| `README.md` | Add sections for inline hints and TUI dashboard |
-| `CLAUDE.md` | Add section 15b covering both features |
-| `specs.md` | This file |
+### 5.1 Discovery
+
+`modules/module_registry.py` scans five sources:
+- `lazyaddons/` -- YAML tool integrations (96 entries)
+- `plugins/` -- Lua + YAML plugins (60+ entries)
+- `modules/` -- Python modules
+- `tools/` -- pwntomate auto-jobs (72 entries)
+- `marketplace` -- community plugin index (`lazyown-community-plugins`)
+
+### 5.2 Classification
+
+Keyword-based auto-classification maps modules to kill-chain phases. Python
+modules also classified by AST docstring scanning via `_classify_module_source()`.
+
+### 5.3 Marketplace (v0.2.158)
+
+`cli/commands/marketplace.py` provides:
+- `marketplace list|search|install|update|info` -- community plugins, addons, tools
+- `yara_marketplace list|search|install|info|update` -- 10 built-in YARA rules (ransomware, C2, webshells, obfuscation, privesc) + community rules
+- `nuclei_marketplace list|search|install|info|update` -- 500+ templates from `~/nuclei-templates` with severity and CVE filtering
+
+### 5.4 Tips Engine (v0.2.158)
+
+`cli/tips_engine.py` coordinates all post-command suggestion surfaces into a unified
+hook. Includes kill-chain hints, protips, curiosity rewards, autosuggest, and
+ELO/VRI-based engagement tracking with 10 badges.
+
+### 5.5 Auto Crypto (v0.2.158)
+
+`cli/auto_crypto.py` encrypts sensitive session files on app close and decrypts on
+authenticated startup using PBKDF2HMAC + Fernet. Transparent to the operator.
+
+### 5.6 Lab Manager
+
+`cli/commands/lab.py` provides `lab list|start|stop|status` for spinning up
+Docker-based CTF practice targets (DVWA, Metasploitable2, Juice Shop, vulnerable
+Tomcat, Struts2, AD lab, etc.).
+
+### 5.7 New v0.2.158 Modules
+
+| Module | Description |
+|--------|-------------|
+| `cli/tips_engine.py` | Unified post-command tips + ELO + badges |
+| `cli/auto_crypto.py` | Session file encryption (PBKDF2HMAC + Fernet) |
+| `cli/marketplace_config.py` | Curses TUI config for marketplace tabs |
+| `modules/bitm_engine.py` | BITM (Browser In The Middle) attack engine |
+| `modules/cicd_enumerator.py` | CI/CD pipeline enumeration |
+| `modules/dns_beacon.py` | DNS-based beacon communication |
+| `modules/dpapi_harvester.py` | Windows DPAPI credential harvesting |
+| `modules/edr_detector.py` | EDR/XDR presence detection |
+| `modules/hash_cracker.py` | Multi-mode hash cracking engine |
+| `modules/mfa_bypass.py` | MFA bypass toolkit |
+| `modules/opsec_scorer.py` | OPSEC safety scoring |
+| `modules/playbook_executor.py` | YAML playbook execution engine |
+| `modules/privesc_predictor.py` | ML-based privilege escalation prediction |
+| `modules/redteam_gym.py` | Gamified red team training environment |
+| `yara_rules/` | 5 built-in YARA rule files |
+| `playbooks/apt_*.yaml` | 7 new APT adversary profiles |
+
+---
+
+## 6. Database Schema (SQLite)
+
+`modules/db.py` manages campaign state with migration system (v2->v4):
+
+- **workspaces**: Campaign isolation
+- **hosts**: Discovered targets
+- **services**: Port/protocol/service/version
+- **vulnerabilities**: CVEs matched to services
+- **credentials**: Captured creds, hashes, tokens
+- **loot**: Files, screenshots, keylogs
+- **notes**: Freeform operator notes
+- **scan_files**: nmap XML import tracking
+
+---
+
+## 7. Security Architecture
+
+### 7.1 C2 Security (`lazyc2/security/`)
+
+- **CORS policy**: Environment-aware (DEV allows `*`, PROD enforces whitelist)
+- **CSRF protection**: All state-changing endpoints; exempts `/login`, `/api/beacon`
+- **HTTPS redirect**: Enforced in production
+- **AES encryption**: Beacon traffic encrypted with per-session keys
+- **Password validation**: Rejects blank, common defaults, or < 12 chars
+- **RBAC** (optional): MFA/TOTP, multi-tenant, roles, permissions
+
+### 7.2 Scope Enforcement
+
+`scope_enforcement` in `payload.json` controls target restrictions:
+- `off`: No enforcement
+- `warn`: Log warning for out-of-scope targets
+- `enforce`: Block out-of-scope operations
+
+---
+
+## 8. Hermes AI Integration
+
+### 8.1 MCP Tools (148 total)
+
+Essential tools for AI agents:
+- `lazyown_campaign_sitrep` -- Aggregate all campaign state
+- `lazyown_session_init` -- Initialize session, check scans
+- `lazyown_set_config` -- Set target, attacker IP
+- `lazyown_run_command` -- Execute any LazyOwn command
+- `lazyown_auto_populate` -- Parse nmap XML into world model
+- `lazyown_facts_show` -- Display discovered services
+- `lazyown_recommend_next` -- Groq-ranked next commands
+
+### 8.2 Auto-Loop
+
+Multiple autonomous backends:
+- **engage**: Fixed kill-chain walk with human gating
+- **daemon**: Objective-driven autonomous loop (local, offline)
+- **hive**: Queen/drone swarm with shared memory
+- **swan**: MoE+RL router that learns from outcomes
+
+---
+
+## 9. Code Quality Standards
+
+1. English only -- identifiers, strings, logs, docstrings.
+2. No comments -- self-explanatory names + docstrings only.
+3. Docstrings on every public function/class (Args/Returns/Raises).
+4. No magic numbers -- constants in Config or UPPER_SNAKE.
+5. No hardcoded paths/ports -- use `payload.json`.
+6. SOLID: single responsibility, open for extension.
+7. Every directory gets `README.md`.
+8. Explicit imports only -- no wildcards (phased out 2026-06/07).
+
+---
+
+## 10. Branching Model
+
+| Branch | Purpose | Agent Access |
+|--------|---------|-------------|
+| `dev` | Active development, daily commits | Read/write |
+| `pp` | Pre-production / staging, QA | Read-only |
+| `main` | Production releases, tagged only | Read-only |
+
+Agents operate on `dev`. Feature branches cut from `dev`. Hotfixes from `main`.
+PRs from `dev` -> `pp` require human approval.
+
+---
+
+## 11. Key Dependencies
+
+- **cmd2**: CLI framework
+- **Flask + Socket.IO**: C2 web dashboard
+- **Impacket**: Windows exploitation suite
+- **libnmap**: nmap XML parsing
+- **Groq**: LLM inference for recommendations
+- **scapy**: Packet crafting
+- **dnslib**: DNS tunneling
+- **cryptography**: AES encryption
+- **networkx + pyvis**: Beacon graph visualization
+- **textual**: TUI dashboard and command palette
+
+---
+
+## 12. Deploy & Lab
+
+- **Docker**: `lazyown-docker/` with multi-stage build, OpenVPN integration, Docker Compose
+- **Kubernetes**: `deploy/k8s/lazyown-c2.yaml` for C2 deployment
+- **Lab**: `lab start metasploitable` spins up Docker-based practice targets
+- **Marketplace**: `marketplace install <plugin>` from community index
+
+---
+
+## 13. Autonomous Operations
+
+I integrated ten autonomous-operation contracts into the existing
+flows. The binding specification lives in
+`specs/autonomous_ops.md` and I treat it as truth. Each contract owns
+one file under `modules/` plus exactly one integration point. There
+is no parallel namespace: findings live in the campaign `vulns`
+table, assets mirror into campaign hosts, the planner frontier drives
+`_run_objective`, and approvals flow through the existing operator
+gate.
+
+| Contract | File | Integrated at |
+|----------|------|---------------|
+| Safety gate | `modules/intercept.py` | `_run_objective` pre-execution |
+| Step transcript | `modules/traffic_recorder.py` | daemon step loop, `sessions/` |
+| Evidence vault | `modules/evidence.py` | finding write-back, `sessions/` |
+| Asset graph | `modules/asset_graph.py` | `mirror_to_campaign` to db/world |
+| Frontier and todos | `modules/planner.py` | `_run_objective` selection |
+| Finding lifecycle | `modules/finding_lifecycle.py` | campaign `vulns`, retests log |
+| Provider pool | `modules/llm_pool.py` | daemon `LLMSelector` failover |
+| Notifier | `modules/notify.py` | high-value findings journal |
+| Isolated questions | `modules/sidequestion.py` | `ask snapshot` |
+| Verified updates | `modules/selfupdate.py` | library for the future `update` verb |
+
+I left `CLAUDE.md` untouched because it sits 25 bytes under its 40 KB
+budget. Quickstart: run the daemon as usual; the gate, frontier and
+proven-stop work inside the existing `orchestrate` and `auto_loop`
+verbs with no new commands to learn.

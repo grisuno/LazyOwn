@@ -9,46 +9,48 @@ Usage:
     python3 skills/update_knowledge.py [--train] [--min-rows N]
 
 Suitable for cron / post-op automation:
-    0 * * * * python3 /opt/LazyOwn/skills/update_knowledge.py --train 2>&1
+    0 * * * * python3 $(dirname "$0")/update_knowledge.py --train 2>&1
 """
 
 from __future__ import annotations
 
 import argparse
-import json
 import logging
 import sys
 from pathlib import Path
 
-logging.basicConfig(
+from modules.logging_config import configure, get_logger
+
+configure(
     level=logging.INFO,
-    format="[knowledge] %(asctime)s %(levelname)s %(message)s",
-    datefmt="%H:%M:%S",
+    console=True,
+    file=False,
 )
-log = logging.getLogger("update_knowledge")
+log = get_logger("update_knowledge")
 
 SKILLS_DIR = Path(__file__).parent
-BASE_DIR   = SKILLS_DIR.parent
+LAZYOWN_DIR = SKILLS_DIR.parent
+BASE_DIR = LAZYOWN_DIR
 
-if str(SKILLS_DIR) not in sys.path:
-    sys.path.insert(0, str(SKILLS_DIR))
+for _p in [str(SKILLS_DIR), str(LAZYOWN_DIR / "modules")]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="LazyOwn Knowledge Refresh")
-    parser.add_argument("--train",    action="store_true",
-                        help="Train RandomForest classifier after sync")
-    parser.add_argument("--min-rows", type=int, default=50,
-                        help="Minimum annotated rows to attempt training (default 50)")
-    parser.add_argument("--quiet",    action="store_true",
-                        help="Suppress informational output")
+    parser.add_argument("--train", action="store_true", help="Train RandomForest classifier after sync")
+    parser.add_argument(
+        "--min-rows", type=int, default=50, help="Minimum annotated rows to attempt training (default 50)"
+    )
+    parser.add_argument("--quiet", action="store_true", help="Suppress informational output")
     args = parser.parse_args(argv)
 
     if args.quiet:
         logging.disable(logging.WARNING)
 
     try:
-        from lazyown_parquet_db import ParquetDB, _PANDAS_OK
+        from lazyown_parquet_db import _PANDAS_OK, ParquetDB
     except ImportError as exc:
         log.error(f"Cannot import ParquetDB: {exc}. Install: pip install pandas pyarrow")
         return 1
@@ -83,16 +85,15 @@ def main(argv: list[str] | None = None) -> int:
             if "error" in result:
                 log.warning(f"Classifier not trained: {result['error']}")
             else:
-                acc   = result.get("accuracy", 0)
-                n_tr  = result.get("n_train", 0)
-                n_te  = result.get("n_test", 0)
-                path  = result.get("model_path", "")
+                acc = result.get("accuracy", 0)
+                n_tr = result.get("n_train", 0)
+                n_te = result.get("n_test", 0)
+                path = result.get("model_path", "")
                 log.info(f"Classifier ready: accuracy={acc:.2%} train={n_tr} test={n_te}")
                 log.info(f"Model saved: {path}")
                 fi = result.get("feature_importance", {})
                 if fi:
-                    log.info("Feature importance: " +
-                             " | ".join(f"{k}={v:.3f}" for k, v in fi.items()))
+                    log.info("Feature importance: " + " | ".join(f"{k}={v:.3f}" for k, v in fi.items()))
         except Exception as exc:
             log.error(f"Training failed: {exc}")
             return 1

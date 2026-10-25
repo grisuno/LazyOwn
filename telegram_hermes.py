@@ -1,4 +1,4 @@
-#!/home/grisun0/LazyOwn/venv_telegram/bin/python3
+#!/usr/bin/env python3
 """
 telegram_hermes.py
 LazyOwn Telegram Bot with Hermes Gateway Integration
@@ -16,7 +16,10 @@ Usage:
 
 Configuration (payload.json keys):
     telegram_token       - Telegram bot token from @BotFather
-    c2_pass              - Authentication secret for /start
+    c2_pass              - Authentication secret for /start (required,
+                           min 16 chars, never a documented default)
+    telegram_allowlist   - Optional list of Telegram user ids allowed
+                           to authenticate (extra authorization barrier)
     enable_ia            - Enable Groq AI processing (default: false)
     api_key              - Groq API key (if enable_ia is true)
     lhost, c2_port       - C2 server coordinates
@@ -24,10 +27,10 @@ Configuration (payload.json keys):
 
 import asyncio
 import fcntl
+import hmac
 import json
 import os
 import pty
-import re
 import select
 import ssl
 import struct
@@ -55,11 +58,8 @@ SESSIONS_DIR = LAZYOWN_DIR / "sessions"
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 
 # ── Helper: strip ANSI escape codes ───────────────────────────────────────────
-def strip_ansi(s: str) -> str:
-    ansi_regex = re.compile(
-        r'[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]'
-    )
-    return ansi_regex.sub('', s)
+from core.parsers import strip_ansi  # noqa: E402
+
 
 # ── Helper: run LazyOwn shell command via PTY (from MCP _run_lazyown_command) ──
 def run_lazyown_command(command: str, timeout: int = 30) -> str:
@@ -144,15 +144,17 @@ def run_lazyown_command(command: str, timeout: int = 30) -> str:
             pass
         return f"[error] {exc}"
 
+
 # ── Helper: C2 API request ──────────────────────────────────────────────────────
 def c2_request(path: str, method: str = "GET", body: dict | None = None) -> dict:
     host = config.get("lhost", "127.0.0.1")
     port = int(config.get("c2_port", 4444))
     user = config.get("c2_user", "LazyOwn")
-    passwd = config.get("c2_pass", "LazyOwn")
+    passwd = config.get("c2_pass") or ""
     url = f"https://{host}:{port}{path}"
 
     import base64
+
     token = base64.b64encode(f"{user}:{passwd}".encode()).decode()
     headers = {"Authorization": f"Basic {token}", "Content-Type": "application/json"}
 
@@ -174,6 +176,7 @@ def c2_request(path: str, method: str = "GET", body: dict | None = None) -> dict
     except Exception as exc:
         return {"_error": str(exc)}
 
+
 # ── Helper: load/save payload ───────────────────────────────────────────────────
 def load_payload() -> dict:
     try:
@@ -181,6 +184,7 @@ def load_payload() -> dict:
             return json.load(f)
     except Exception:
         return {}
+
 
 # ── Secure Session Manager ─────────────────────────────────────────────────────
 class SecureSessionManager:
@@ -210,9 +214,7 @@ class SecureSessionManager:
         if user_id not in self.command_timestamps:
             self.command_timestamps[user_id] = []
 
-        self.command_timestamps[user_id] = [
-            t for t in self.command_timestamps[user_id] if now - t < 60
-        ]
+        self.command_timestamps[user_id] = [t for t in self.command_timestamps[user_id] if now - t < 60]
 
         if len(self.command_timestamps[user_id]) >= RATE_LIMIT:
             return False
@@ -253,20 +255,25 @@ session_manager = SecureSessionManager()
 
 # ── Telegram Handlers ─────────────────────────────────────────────────────────
 
+
 async def start(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
 
     if session_manager.check_lockout(user_id):
-        await update.message.reply_text(
-            "[SECURITY] Account locked due to brute-force attempts. Wait 1 hour."
-        )
+        await update.message.reply_text("[SECURITY] Account locked due to brute-force attempts. Wait 1 hour.")
         return
 
     if not context.args:
         await update.message.reply_text("Usage: /start <secret>")
         return
 
-    if context.args[0] == c2_pass:
+    if telegram_allowlist and user_id not in telegram_allowlist:
+        session_manager.register_failed_attempt(user_id)
+        await update.message.reply_text("Usage: /start <secret>")
+        return
+
+    presented = context.args[0]
+    if hmac.compare_digest(presented, c2_pass):
         session_manager.create_session(user_id, client_id=None)
         await update.message.reply_text(
             "h1! 1 4m 4 b0t to APT/RedTeaming with Hermes Gateway.\n"
@@ -325,9 +332,7 @@ async def execute_command(update: Update, context: CallbackContext) -> None:
     await update.message.reply_text(f"Executing: {command}")
 
     try:
-        output = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: run_lazyown_command(command, timeout=60)
-        )
+        output = await asyncio.get_event_loop().run_in_executor(None, lambda: run_lazyown_command(command, timeout=60))
         output = strip_ansi(output)
 
         # Truncate if too long for Telegram (4096 limit)
@@ -385,7 +390,9 @@ async def config_cmd(update: Update, context: CallbackContext) -> None:
         cfg = load_payload()
         # Mask sensitive keys
         safe = {k: v for k, v in cfg.items() if k not in ("api_key", "c2_pass", "telegram_token")}
-        await update.message.reply_text(f"Current config:\n```\n{json.dumps(safe, indent=2)}\n```", parse_mode="Markdown")
+        await update.message.reply_text(
+            f"Current config:\n```\n{json.dumps(safe, indent=2)}\n```", parse_mode="Markdown"
+        )
         return
 
     if len(context.args) < 2:
@@ -486,10 +493,14 @@ async def c2_command(update: Update, context: CallbackContext) -> None:
     command = " ".join(context.args)
 
     try:
-        result = c2_request("/api/command", method="POST", body={
-            "client_id": client_id,
-            "command": command,
-        })
+        result = c2_request(
+            "/api/command",
+            method="POST",
+            body={
+                "client_id": client_id,
+                "command": command,
+            },
+        )
         if "_error" in result or "error" in result:
             await update.message.reply_text(f"C2 Error: {result}")
             return
@@ -507,10 +518,7 @@ async def run_agent(update: Update, context: CallbackContext) -> None:
         return
 
     if not context.args:
-        await update.message.reply_text(
-            "Usage: /agent <goal>\n"
-            "Example: /agent Enumerate SMB shares on rhost"
-        )
+        await update.message.reply_text("Usage: /agent <goal>\nExample: /agent Enumerate SMB shares on rhost")
         return
 
     goal = " ".join(context.args)
@@ -540,8 +548,7 @@ async def delegate_task_cmd(update: Update, context: CallbackContext) -> None:
 
     if not context.args:
         await update.message.reply_text(
-            "Usage: /delegate <goal>\n"
-            "Delegates to a Hermes subagent for parallel processing."
+            "Usage: /delegate <goal>\nDelegates to a Hermes subagent for parallel processing."
         )
         return
 
@@ -694,18 +701,21 @@ async def handle_file_upload(update: Update, context: CallbackContext) -> None:
 
     if client_id:
         try:
-            result = c2_request("/api/upload", method="POST", body={
-                "client_id": client_id,
-                "file_path": str(file_path),
-            })
+            result = c2_request(
+                "/api/upload",
+                method="POST",
+                body={
+                    "client_id": client_id,
+                    "file_path": str(file_path),
+                },
+            )
             output = result.get("output", result.get("result", "<no response>"))
             await update.message.reply_text(f"Uploaded to implant {client_id}:\n{output}")
         except Exception as exc:
             await update.message.reply_text(f"Upload error: {exc}")
     else:
         await update.message.reply_text(
-            f"File saved locally: {file_path}\n"
-            "No C2 client set. Use /addcli <client_id> to upload to implant."
+            f"File saved locally: {file_path}\nNo C2 client set. Use /addcli <client_id> to upload to implant."
         )
 
 
@@ -739,10 +749,14 @@ async def text_command(update: Update, context: CallbackContext) -> None:
 
         c2_cmd = parts[1]
         try:
-            result = c2_request("/api/command", method="POST", body={
-                "client_id": client_id,
-                "command": c2_cmd,
-            })
+            result = c2_request(
+                "/api/command",
+                method="POST",
+                body={
+                    "client_id": client_id,
+                    "command": c2_cmd,
+                },
+            )
             output = result.get("output", result.get("result", "<no output>"))
             await update.message.reply_text(f"C2 Response:\n```\n{output}\n```", parse_mode="Markdown")
         except Exception as exc:
@@ -753,9 +767,7 @@ async def text_command(update: Update, context: CallbackContext) -> None:
     await update.message.reply_text(f"Executing: {command}")
 
     try:
-        output = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: run_lazyown_command(command, timeout=60)
-        )
+        output = await asyncio.get_event_loop().run_in_executor(None, lambda: run_lazyown_command(command, timeout=60))
         output = strip_ansi(output)
 
         if len(output) > 4000:
@@ -795,9 +807,58 @@ async def main() -> None:
 
 # ── Bootstrap ───────────────────────────────────────────────────────────────────
 nest_asyncio.apply()
+
+_REJECTED_SECRETS = frozenset(
+    {
+        "",
+        "lazyown",
+        "changeme",
+        "password",
+        "123456",
+        "test",
+        "secret",
+        "telegram",
+    }
+)
+
+
+def _resolve_auth_secret(raw: object) -> str:
+    """Validate the operator-supplied ``/start`` secret, failing closed.
+
+    Returns:
+        The configured secret when it is usable.
+
+    Raises:
+        ValueError: If the secret is missing, too short, or matches a
+            documented/default value.
+    """
+    secret = str(raw or "").strip()
+    if len(secret) < 16:
+        raise ValueError("c2_pass must be configured with at least 16 characters")
+    if secret.lower() in _REJECTED_SECRETS:
+        raise ValueError("c2_pass must not be a documented or default value")
+    return secret
+
+
+def _resolve_allowlist(raw: object) -> frozenset:
+    """Normalize the optional Telegram user-id allowlist."""
+    if not raw:
+        return frozenset()
+    if isinstance(raw, (list, tuple, set)):
+        return frozenset(int(uid) for uid in raw)
+    return frozenset({int(raw)})
+
+
 config = load_payload()
-telegram_token = config.get("telegram_token", "")
-c2_pass = config.get("c2_pass", "LazyOwn")
+telegram_token = str(config.get("telegram_token", "") or "").strip()
+try:
+    c2_pass = _resolve_auth_secret(config.get("c2_pass"))
+except ValueError as exc:
+    c2_pass = ""
+    _auth_error = str(exc)
+else:
+    _auth_error = ""
+telegram_allowlist = _resolve_allowlist(config.get("telegram_allowlist"))
 enable_ia = config.get("enable_ia", False)
 
 SESSION_TIMEOUT = 1800
@@ -808,11 +869,21 @@ if __name__ == "__main__":
     if not telegram_token:
         print("[ERROR] telegram_token not set in payload.json")
         print("Get a token from @BotFather and set it with:")
-        print("  python3 -c \"import json; p=json.load(open('payload.json')); p['telegram_token']='YOUR_TOKEN'; json.dump(p,open('payload.json','w'),indent=2)\"")
+        print(
+            "  python3 -c \"import json; p=json.load(open('payload.json')); p['telegram_token']='YOUR_TOKEN'; json.dump(p,open('payload.json','w'),indent=2)\""
+        )
+        sys.exit(1)
+
+    if _auth_error or not c2_pass:
+        print(f"[ERROR] Refusing to start: {_auth_error or 'c2_pass is not configured'}.")
+        print("Set a strong operator secret (>=16 chars, not a default value) with:")
+        print(
+            "  python3 -c \"import json,secrets; p=json.load(open('payload.json')); p['c2_pass']=secrets.token_urlsafe(32); json.dump(p,open('payload.json','w'),indent=2)\""
+        )
         sys.exit(1)
 
     print("[INFO] LazyOwn Hermes Bot starting...")
-    print(f"[INFO] C2 auth secret: {c2_pass[:2]}***")
+    print("[INFO] C2 auth secret: configured" + ("; allowlist enforced" if telegram_allowlist else ""))
     print(f"[INFO] IA enabled: {enable_ia}")
     print(f"[INFO] Sessions dir: {SESSIONS_DIR}")
 

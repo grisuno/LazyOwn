@@ -9,6 +9,7 @@ panels, windows, or backends.
 from lazygui.widgets.command_palette_list import CommandPaletteAction, CommandPaletteList
 from lazygui.widgets.event_log_view import EventLogView
 from lazygui.widgets.filter_bar import FilterBar
+from lazygui.widgets.graph_view import GraphEdgeItem, GraphNodeItem, GraphScene, GraphView
 from lazygui.widgets.status_badge import StatusBadge
 from lazygui.widgets.terminal_view import TerminalView
 
@@ -17,6 +18,10 @@ __all__ = [
     "CommandPaletteList",
     "EventLogView",
     "FilterBar",
+    "GraphEdgeItem",
+    "GraphNodeItem",
+    "GraphScene",
+    "GraphView",
     "StatusBadge",
     "TerminalView",
 ]

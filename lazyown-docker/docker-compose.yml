@@ -3,7 +3,7 @@ services:
   lazyown:
     build:
       context: .
-      dockerfile: Dockerfile.dockerfile
+      dockerfile: Dockerfile
       args:
         REPO_URL: https://github.com/grisuno/LazyOwn.git
         REPO_COMMIT: main

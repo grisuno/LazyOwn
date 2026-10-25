@@ -82,6 +82,40 @@ class TestApplyAssign:
         assert apply_assign(params, "rhost", "x") is True
         assert params["rhost"] == "x"
 
+    def test_allows_windows_path_backslashes(self):
+        from cli.assign import apply_assign
+
+        params = {"backdoor_win_service_path": "C:/Users/lazyown/Documents"}
+        assert apply_assign(params, "backdoor_win_service_path", "C:\\ProgramData") is True
+        assert params["backdoor_win_service_path"] == "C:\\ProgramData"
+
+    def test_rejects_shell_operators_and_escapes(self):
+        from cli.assign import apply_assign
+
+        for value in ("x;y", "x|y", "x&y", "x`y`", "$(id)", "${HOME}", "x\ny", "x\\;y"):
+            params = {"rhost": "1.1.1.1"}
+            assert apply_assign(params, "rhost", value) is False, value
+            assert params["rhost"] == "1.1.1.1"
+
+
+class TestAssignLineParsing:
+    def test_posix_false_parses_preserve_backslashes(self):
+        import shlex
+
+        from cli.commands.session_ops import _strip_shell_quotes
+
+        args = shlex.split("backdoor_win_service_path C:\\ProgramData", posix=False)
+        assert len(args) == 2
+        assert _strip_shell_quotes(args[1]) == "C:\\ProgramData"
+
+    def test_strip_shell_quotes_variants(self):
+        from cli.commands.session_ops import _strip_shell_quotes
+
+        assert _strip_shell_quotes('"x y"') == "x y"
+        assert _strip_shell_quotes("'x y'") == "x y"
+        assert _strip_shell_quotes("plain") == "plain"
+        assert _strip_shell_quotes("C:\\Path") == "C:\\Path"
+
     def test_persists_to_disk_via_save_payload(self, tmp_path):
         """End-to-end with the real ``core.config.save_payload``."""
         from cli.assign import apply_assign
@@ -165,27 +199,36 @@ class TestLazyOwnAssignWiring:
     def src(self) -> str:
         return LAZYOWN_PATH.read_text(encoding="utf-8")
 
-    def test_imports_apply_assign(self, src):
-        assert "from cli.assign import apply_assign" in src
+    @pytest.fixture(scope="class")
+    def migrated_src(self) -> str:
+        """Text of the module that now defines ``do_assign``/``do_show``/``do_payload``.
 
-    def test_imports_save_payload_from_core(self, src):
-        assert "from core.config import save_payload" in src
+        The monolith split moved these verbs into a phase ``CommandSet``
+        while ``complete_assign`` stayed on ``LazyOwnShell``.
+        """
+        return (REPO_ROOT / "cli" / "commands" / "session_ops.py").read_text(encoding="utf-8")
 
-    def test_imports_format_payload(self, src):
-        assert "from cli.show import format_payload" in src
+    def test_imports_apply_assign(self, migrated_src):
+        assert "from cli.assign import apply_assign" in migrated_src
 
-    def test_do_assign_calls_apply_assign(self, src):
-        body = self._extract_method_body(src, "do_assign")
+    def test_imports_save_payload_from_core(self, migrated_src):
+        assert "from core.config import save_payload" in migrated_src
+
+    def test_imports_format_payload(self, migrated_src):
+        assert "from cli.show import format_payload" in migrated_src
+
+    def test_do_assign_calls_apply_assign(self, migrated_src):
+        body = self._extract_method_body(migrated_src, "do_assign")
         assert "_apply_assign(" in body
         assert "save=_save_payload" in body
 
-    def test_do_assign_refreshes_aliases(self, src):
-        body = self._extract_method_body(src, "do_assign")
+    def test_do_assign_refreshes_aliases(self, migrated_src):
+        body = self._extract_method_body(migrated_src, "do_assign")
         assert "self.aliases.update(" in body
         assert "_load_aliases(self.params)" in body
 
-    def test_do_assign_no_longer_directly_mutates_params(self, src):
-        body = self._extract_method_body(src, "do_assign")
+    def test_do_assign_no_longer_directly_mutates_params(self, migrated_src):
+        body = self._extract_method_body(migrated_src, "do_assign")
         assert "self.params[param] = value" not in body, (
             "do_assign should delegate mutation to apply_assign, not assign self.params directly"
         )
@@ -197,12 +240,12 @@ class TestLazyOwnAssignWiring:
         body = self._extract_method_body(src, "complete_assign")
         assert "self.params" in body, "completion must be data-driven from self.params"
 
-    def test_do_show_uses_format_payload(self, src):
-        body = self._extract_method_body(src, "do_show")
+    def test_do_show_uses_format_payload(self, migrated_src):
+        body = self._extract_method_body(migrated_src, "do_show")
         assert "_format_payload(self.params)" in body
 
-    def test_do_payload_refreshes_aliases(self, src):
-        body = self._extract_method_body(src, "do_payload")
+    def test_do_payload_refreshes_aliases(self, migrated_src):
+        body = self._extract_method_body(migrated_src, "do_payload")
         assert "self.aliases.update(" in body
         assert "_load_aliases(self.params)" in body
 
@@ -246,3 +289,35 @@ class TestCompleteAssignBehaviour:
         tokens = shlex.split(line[:endidx]) if line else []
         index = len(tokens) - (0 if line[:endidx].endswith(" ") else 1)
         assert index == 2
+
+    def test_refuses_null_on_required(self):
+        from cli.assign import apply_assign
+
+        params = {"rhost": "1.1.1.1"}
+        calls = []
+        assert apply_assign(params, "rhost", None, save=lambda p: calls.append(dict(p))) is False
+        assert apply_assign(params, "rhost", "", save=lambda p: calls.append(dict(p))) is False
+        assert params["rhost"] == "1.1.1.1" and not calls
+
+    def test_warn_saves_invalid_but_present(self):
+        from cli.assign import apply_assign
+
+        params = {"rhost": "1.1.1.1"}
+        issues = []
+        assert apply_assign(params, "rhost", "x", on_issue=issues.append) is True
+        assert params["rhost"] == "x" and len(issues) == 1
+
+    def test_auto_populate_refuses_shell_less_save(self):
+        from cli.commands.mcp_bridge import McpBridgeCommandSet
+
+        cmds = McpBridgeCommandSet()
+        assert cmds.params == {}
+        import argparse
+
+        args = argparse.Namespace(target="9.9.9.9", force=False)
+        before = open("payload.json", encoding="utf-8").read()
+        underlying = getattr(McpBridgeCommandSet.do_auto_populate, "__wrapped__", None)
+        assert underlying is not None
+        underlying(cmds, args)
+        after = open("payload.json", encoding="utf-8").read()
+        assert before == after

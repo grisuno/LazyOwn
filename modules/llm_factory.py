@@ -10,14 +10,23 @@ type while keeping the concrete backend choice under operator control.
 Adding a new backend means implementing :class:`AIModel` and registering
 its identifier in :data:`SUPPORTED_BACKENDS`. No other module needs to
 change.
+
+The factory wraps every returned backend with the
+:class:`core.llm_budget.BudgetedBackend` proxy so the daily cost cap
+and the per call token cap are enforced at the single chokepoint the
+framework uses. Callers that want the raw backend for testing can
+call :func:`get_llm_backend_raw` instead.
 """
 
 from __future__ import annotations
 
 import json
 import os
+import shutil
+import subprocess
 import sys
-from typing import Any, Mapping
+from collections.abc import Callable, Mapping
+from typing import Any
 
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.abspath(os.path.join(_MODULE_DIR, os.pardir))
@@ -26,41 +35,156 @@ for _entry in (_PROJECT_ROOT, _MODULE_DIR):
         sys.path.insert(0, _entry)
 
 try:
-    from modules.ai_model import AIModel, GroqModel, OllamaModel
+    from modules.ai_model import (
+        AIModel,
+        AnthropicModel,
+        DeepSeekModel,
+        GroqModel,
+        LlamaCppModel,
+        OllamaModel,
+        OpenAIModel,
+    )
 except ModuleNotFoundError:
-    from ai_model import AIModel, GroqModel, OllamaModel  # type: ignore[no-redef]
+    from ai_model import (  # type: ignore[no-redef]
+        AIModel,
+        AnthropicModel,
+        DeepSeekModel,
+        GroqModel,
+        LlamaCppModel,
+        OllamaModel,
+        OpenAIModel,
+    )
 
-from core.protocols import LLMBackend
+_BACKEND_CLASSES = {
+    "groq": GroqModel,
+    "ollama": OllamaModel,
+    "openai": OpenAIModel,
+    "anthropic": AnthropicModel,
+    "deepseek": DeepSeekModel,
+    "llamacpp": LlamaCppModel,
+}
 
 _REQUIRED_LLM_BACKEND_METHODS = ("complete",)
-for _backend_class in (GroqModel, OllamaModel):
+for _backend_class in (GroqModel, OllamaModel, OpenAIModel, AnthropicModel, DeepSeekModel, LlamaCppModel):
     for _method_name in _REQUIRED_LLM_BACKEND_METHODS:
         if not callable(getattr(_backend_class, _method_name, None)):
             raise RuntimeError(
-                f"{_backend_class.__name__} does not implement "
-                f"core.protocols.LLMBackend.{_method_name}()."
+                f"{_backend_class.__name__} does not implement core.protocols.LLMBackend.{_method_name}()."
             )
 
 
 BACKEND_GROQ = "groq"
 BACKEND_OLLAMA = "ollama"
+BACKEND_OPENAI = "openai"
+BACKEND_ANTHROPIC = "anthropic"
+BACKEND_DEEPSEEK = "deepseek"
+BACKEND_LLAMACPP = "llamacpp"
 BACKEND_AUTO = "auto"
 
-SUPPORTED_BACKENDS = (BACKEND_GROQ, BACKEND_OLLAMA, BACKEND_AUTO)
+SUPPORTED_BACKENDS = (
+    BACKEND_GROQ,
+    BACKEND_OLLAMA,
+    BACKEND_OPENAI,
+    BACKEND_ANTHROPIC,
+    BACKEND_DEEPSEEK,
+    BACKEND_LLAMACPP,
+    BACKEND_AUTO,
+)
 
 CONFIG_KEY_BACKEND = "llm_backend"
 CONFIG_KEY_MODEL_GROQ = "llm_model_groq"
 CONFIG_KEY_MODEL_OLLAMA = "llm_model_ollama"
+CONFIG_KEY_MODEL_OPENAI = "llm_model_openai"
+CONFIG_KEY_MODEL_ANTHROPIC = "llm_model_anthropic"
+CONFIG_KEY_MODEL_DEEPSEEK = "llm_model_deepseek"
+CONFIG_KEY_MODEL_LLAMACPP = "llm_model_llamacpp"
 CONFIG_KEY_OLLAMA_HOST = "ollama_host"
+CONFIG_KEY_LLAMACPP_HOST = "llamacpp_host"
 CONFIG_KEY_API_KEY = "api_key"
 CONFIG_KEY_API_KEY_PLACEHOLDER = "api_key"
+CONFIG_KEY_OPENAI_API_KEY = "openai_api_key"
+CONFIG_KEY_ANTHROPIC_API_KEY = "anthropic_api_key"
+CONFIG_KEY_DEEPSEEK_API_KEY = "deepseek_api_key"
 
 DEFAULT_BACKEND = BACKEND_AUTO
 DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
+
+ENV_GROQ_MODEL = "LAZYOWN_GROQ_MODEL"
+
+GROQ_MODEL_FALLBACKS: tuple[str, ...] = (
+    "llama-3.1-8b-instant",
+    "openai/gpt-oss-120b",
+    "gemma2-9b-it",
+)
+
+
+def is_model_missing_error(message: object) -> bool:
+    """Return True when an error text means the model id is unavailable.
+
+    Args:
+        message: Exception instance, error string, or API payload text.
+
+    Returns:
+        ``True`` for 404/model_not_found style replies from OpenAI-compatible
+        APIs, so callers can fail over to another model id.
+    """
+    text = str(message or "").lower()
+    return (
+        "model_not_found" in text
+        or "does not exist" in text
+        or "no such model" in text
+        or "unknown model" in text
+        or ("404" in text and "model" in text)
+    )
+
+
+def groq_model_chain(config: Mapping[str, Any] | None = None) -> tuple[str, ...]:
+    """Return the ordered Groq model ids to try, configured model first.
+
+    Resolution order per slot: ``LAZYOWN_GROQ_MODEL`` env var, the provided
+    config mapping, ``payload.json`` key ``llm_model_groq``, then the default.
+    Known-good fallbacks follow so an account without access to the default
+    model still gets a working backend.
+
+    Args:
+        config: Optional pre-loaded payload mapping.
+
+    Returns:
+        Tuple of unique, non-empty model ids in try order.
+    """
+    import os as _os
+
+    configured = _os.environ.get(ENV_GROQ_MODEL, "").strip()
+    if not configured and config:
+        configured = str(config.get(CONFIG_KEY_MODEL_GROQ) or "").strip()
+    if not configured:
+        try:
+            configured = str(load_payload().get(CONFIG_KEY_MODEL_GROQ) or "").strip()
+        except Exception:
+            configured = ""
+    chain: list[str] = []
+    for candidate in (configured or DEFAULT_GROQ_MODEL, *GROQ_MODEL_FALLBACKS):
+        if candidate and candidate not in chain:
+            chain.append(candidate)
+    return tuple(chain)
+
+
 DEFAULT_OLLAMA_MODEL = "deepseek-r1:1.5b"
 DEFAULT_OLLAMA_HOST = "http://localhost:11434"
+DEFAULT_OPENAI_MODEL = "gpt-4o"
+DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514"
+DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
+DEFAULT_LLAMACPP_MODEL = "local-model"
+DEFAULT_LLAMACPP_HOST = "http://127.0.0.1:8080"
+
+PI_PROVIDER_ID = "local-qwen"
+PI_DEFAULT_MODEL = "local-model"
+PI_TIMEOUT_SEC = 300
 
 ENV_GROQ_API_KEY = "GROQ_API_KEY"
+ENV_OPENAI_API_KEY = "OPENAI_API_KEY"
+ENV_ANTHROPIC_API_KEY = "ANTHROPIC_API_KEY"
+ENV_DEEPSEEK_API_KEY = "DEEPSEEK_API_KEY"
 
 
 class LLMBackendUnavailableError(RuntimeError):
@@ -69,6 +193,117 @@ class LLMBackendUnavailableError(RuntimeError):
 
 class LLMBackendNotSupportedError(ValueError):
     """Raised when the requested backend identifier is unknown."""
+
+
+_MODEL_CONFIG_KEYS = {
+    BACKEND_GROQ: CONFIG_KEY_MODEL_GROQ,
+    BACKEND_OLLAMA: CONFIG_KEY_MODEL_OLLAMA,
+    BACKEND_OPENAI: CONFIG_KEY_MODEL_OPENAI,
+    BACKEND_ANTHROPIC: CONFIG_KEY_MODEL_ANTHROPIC,
+    BACKEND_DEEPSEEK: CONFIG_KEY_MODEL_DEEPSEEK,
+    BACKEND_LLAMACPP: CONFIG_KEY_MODEL_LLAMACPP,
+}
+
+_DEFAULT_MODELS = {
+    BACKEND_GROQ: DEFAULT_GROQ_MODEL,
+    BACKEND_OLLAMA: DEFAULT_OLLAMA_MODEL,
+    BACKEND_OPENAI: DEFAULT_OPENAI_MODEL,
+    BACKEND_ANTHROPIC: DEFAULT_ANTHROPIC_MODEL,
+    BACKEND_DEEPSEEK: DEFAULT_DEEPSEEK_MODEL,
+    BACKEND_LLAMACPP: DEFAULT_LLAMACPP_MODEL,
+}
+
+_API_KEY_CONFIG_KEYS = {
+    BACKEND_GROQ: CONFIG_KEY_API_KEY,
+    BACKEND_OPENAI: CONFIG_KEY_OPENAI_API_KEY,
+    BACKEND_ANTHROPIC: CONFIG_KEY_ANTHROPIC_API_KEY,
+    BACKEND_DEEPSEEK: CONFIG_KEY_DEEPSEEK_API_KEY,
+}
+
+
+def default_model_for(backend: str | None) -> str:
+    """Return the default model identifier for a backend.
+
+    ``"auto"`` resolves to the Groq default because the auto chain tries
+    the Groq cloud leg first.
+
+    Args:
+        backend: Backend identifier or None (treated as ``"auto"``).
+
+    Returns:
+        Default model identifier.
+
+    Raises:
+        LLMBackendNotSupportedError: When the identifier is not supported.
+    """
+    normalized = _normalize_backend(backend)
+    if normalized == BACKEND_AUTO:
+        return DEFAULT_GROQ_MODEL
+    return _DEFAULT_MODELS[normalized]
+
+
+def model_config_key(backend: str | None) -> str:
+    """Return the ``payload.json`` key holding a backend's model override.
+
+    ``"auto"`` maps to the Groq model slot because the auto chain tries
+    the Groq cloud leg first.
+
+    Args:
+        backend: Backend identifier or None (treated as ``"auto"``).
+
+    Returns:
+        Config key for the model override.
+
+    Raises:
+        LLMBackendNotSupportedError: When the identifier is not supported.
+    """
+    normalized = _normalize_backend(backend)
+    if normalized == BACKEND_AUTO:
+        return CONFIG_KEY_MODEL_GROQ
+    return _MODEL_CONFIG_KEYS[normalized]
+
+
+def api_key_config_key(backend: str | None) -> str | None:
+    """Return the ``payload.json`` key holding a backend's API key slot.
+
+    Returns ``None`` for Ollama (keyless local daemon). ``"auto"`` maps
+    to the Groq key slot because the auto chain tries Groq first.
+
+    Args:
+        backend: Backend identifier or None (treated as ``"auto"``).
+
+    Returns:
+        Config key for the API key, or None when no key is needed.
+
+    Raises:
+        LLMBackendNotSupportedError: When the identifier is not supported.
+    """
+    normalized = _normalize_backend(backend)
+    if normalized == BACKEND_OLLAMA:
+        return None
+    if normalized == BACKEND_LLAMACPP:
+        return None
+    if normalized == BACKEND_AUTO:
+        return CONFIG_KEY_API_KEY
+    return _API_KEY_CONFIG_KEYS[normalized]
+
+
+def backend_requires_api_key(backend: str | None) -> bool:
+    """Report whether a backend needs an API key to operate.
+
+    Only Ollama runs keyless. ``"auto"`` reports True because its cloud
+    leg needs a key (it still degrades to keyless Ollama without one).
+
+    Args:
+        backend: Backend identifier or None (treated as ``"auto"``).
+
+    Returns:
+        True when an API key is required, False for Ollama.
+
+    Raises:
+        LLMBackendNotSupportedError: When the identifier is not supported.
+    """
+    return api_key_config_key(backend) is not None
 
 
 def load_payload(payload_path: str | None = None) -> dict[str, Any]:
@@ -118,6 +353,37 @@ def _resolve_api_key(config: Mapping[str, Any]) -> str | None:
     return None
 
 
+def _resolve_api_key_for_backend(
+    backend: str,
+    config: Mapping[str, Any],
+) -> str | None:
+    """Return a usable API key for a specific backend or ``None``.
+
+    Args:
+        backend: Normalized backend identifier (groq, openai, anthropic, deepseek).
+        config: A mapping derived from ``payload.json``.
+
+    Returns:
+        API key string or ``None`` when no valid key is configured.
+    """
+    key_map = {
+        BACKEND_GROQ: (CONFIG_KEY_API_KEY, ENV_GROQ_API_KEY),
+        BACKEND_OPENAI: (CONFIG_KEY_OPENAI_API_KEY, ENV_OPENAI_API_KEY),
+        BACKEND_ANTHROPIC: (CONFIG_KEY_ANTHROPIC_API_KEY, ENV_ANTHROPIC_API_KEY),
+        BACKEND_DEEPSEEK: (CONFIG_KEY_DEEPSEEK_API_KEY, ENV_DEEPSEEK_API_KEY),
+    }
+    config_key, env_var = key_map.get(backend, (None, None))
+    if config_key:
+        candidate = config.get(config_key)
+        if isinstance(candidate, str) and candidate and candidate != CONFIG_KEY_API_KEY_PLACEHOLDER:
+            return candidate
+    if env_var:
+        env_value = os.environ.get(env_var)
+        if env_value:
+            return env_value
+    return None
+
+
 def _normalize_backend(backend: str | None) -> str:
     """Validate and normalize a backend identifier.
 
@@ -136,10 +402,51 @@ def _normalize_backend(backend: str | None) -> str:
     candidate = backend.strip().lower()
     if candidate not in SUPPORTED_BACKENDS:
         raise LLMBackendNotSupportedError(
-            f"Unsupported LLM backend '{backend}'. "
-            f"Supported: {', '.join(SUPPORTED_BACKENDS)}"
+            f"Unsupported LLM backend '{backend}'. Supported: {', '.join(SUPPORTED_BACKENDS)}"
         )
     return candidate
+
+
+_CLOUD_BACKENDS: frozenset[str] = frozenset(
+    {
+        BACKEND_GROQ,
+        BACKEND_OPENAI,
+        BACKEND_ANTHROPIC,
+        BACKEND_DEEPSEEK,
+    }
+)
+
+
+def _require_cloud_allowed(normalized: str) -> None:
+    """Reject cloud backends while the deterministic harness is active.
+
+    The development harness is local-only: Ollama and llama.cpp stay
+    available and every other backend raises the same error a missing
+    key would produce so existing graceful-degradation fallbacks keep
+    working unchanged.
+
+    Args:
+        normalized: Normalized backend identifier.
+
+    Raises:
+        LLMBackendUnavailableError: Under the harness for cloud ids.
+    """
+    if normalized not in _CLOUD_BACKENDS:
+        return
+    try:
+        from modules.harness import harness_enabled
+
+        if harness_enabled():
+            raise LLMBackendUnavailableError(
+                f"Cloud backend '{normalized}' blocked by the deterministic harness "
+                "(local-only development mode). Configure a local "
+                f"'{CONFIG_KEY_BACKEND}' ({BACKEND_OLLAMA}/{BACKEND_LLAMACPP}) "
+                "or disable the harness."
+            )
+    except LLMBackendUnavailableError:
+        raise
+    except Exception:
+        return
 
 
 def _build_groq(config: Mapping[str, Any]) -> AIModel:
@@ -160,7 +467,7 @@ def _build_groq(config: Mapping[str, Any]) -> AIModel:
             "Groq backend selected but no API key is configured. "
             f"Set '{CONFIG_KEY_API_KEY}' in payload.json or export {ENV_GROQ_API_KEY}."
         )
-    model_name = config.get(CONFIG_KEY_MODEL_GROQ) or DEFAULT_GROQ_MODEL
+    model_name = groq_model_chain(config)[0]
     return GroqModel(api_key=api_key, model=model_name)
 
 
@@ -176,6 +483,151 @@ def _build_ollama(config: Mapping[str, Any]) -> AIModel:
     model_name = config.get(CONFIG_KEY_MODEL_OLLAMA) or DEFAULT_OLLAMA_MODEL
     host = config.get(CONFIG_KEY_OLLAMA_HOST) or DEFAULT_OLLAMA_HOST
     return OllamaModel(model=model_name, host=host)
+
+
+def _build_llamacpp(config: Mapping[str, Any]) -> AIModel:
+    """Instantiate a llama.cpp server backend (keyless, local).
+
+    Args:
+        config: A mapping derived from ``payload.json``.
+
+    Returns:
+        A configured :class:`LlamaCppModel` instance.
+    """
+    model_name = config.get(CONFIG_KEY_MODEL_LLAMACPP) or DEFAULT_LLAMACPP_MODEL
+    host = config.get(CONFIG_KEY_LLAMACPP_HOST) or DEFAULT_LLAMACPP_HOST
+    return LlamaCppModel(model=model_name, host=host)
+
+
+def _build_openai(config: Mapping[str, Any]) -> AIModel:
+    """Instantiate an OpenAI backend or raise when no API key is available.
+
+    Args:
+        config: A mapping derived from ``payload.json``.
+
+    Returns:
+        A configured :class:`OpenAIModel` instance.
+
+    Raises:
+        LLMBackendUnavailableError: When no valid OpenAI API key is found.
+    """
+    api_key = _resolve_api_key_for_backend(BACKEND_OPENAI, config)
+    if not api_key:
+        raise LLMBackendUnavailableError(
+            "OpenAI backend selected but no API key is configured. "
+            f"Set '{CONFIG_KEY_OPENAI_API_KEY}' in payload.json or export {ENV_OPENAI_API_KEY}."
+        )
+    model_name = config.get(CONFIG_KEY_MODEL_OPENAI) or DEFAULT_OPENAI_MODEL
+    return OpenAIModel(api_key=api_key, model=model_name)
+
+
+def _build_anthropic(config: Mapping[str, Any]) -> AIModel:
+    """Instantiate an Anthropic backend or raise when no API key is available.
+
+    Args:
+        config: A mapping derived from ``payload.json``.
+
+    Returns:
+        A configured :class:`AnthropicModel` instance.
+
+    Raises:
+        LLMBackendUnavailableError: When no valid Anthropic API key is found.
+    """
+    api_key = _resolve_api_key_for_backend(BACKEND_ANTHROPIC, config)
+    if not api_key:
+        raise LLMBackendUnavailableError(
+            "Anthropic backend selected but no API key is configured. "
+            f"Set '{CONFIG_KEY_ANTHROPIC_API_KEY}' in payload.json or export {ENV_ANTHROPIC_API_KEY}."
+        )
+    model_name = config.get(CONFIG_KEY_MODEL_ANTHROPIC) or DEFAULT_ANTHROPIC_MODEL
+    return AnthropicModel(api_key=api_key, model=model_name)
+
+
+def _build_deepseek(config: Mapping[str, Any]) -> AIModel:
+    """Instantiate a DeepSeek backend or raise when no API key is available.
+
+    Args:
+        config: A mapping derived from ``payload.json``.
+
+    Returns:
+        A configured :class:`DeepSeekModel` instance.
+
+    Raises:
+        LLMBackendUnavailableError: When no valid DeepSeek API key is found.
+    """
+    api_key = _resolve_api_key_for_backend(BACKEND_DEEPSEEK, config)
+    if not api_key:
+        raise LLMBackendUnavailableError(
+            "DeepSeek backend selected but no API key is configured. "
+            f"Set '{CONFIG_KEY_DEEPSEEK_API_KEY}' in payload.json or export {ENV_DEEPSEEK_API_KEY}."
+        )
+    model_name = config.get(CONFIG_KEY_MODEL_DEEPSEEK) or DEFAULT_DEEPSEEK_MODEL
+    return DeepSeekModel(api_key=api_key, model=model_name)
+
+
+def _resolve_model_identifier(
+    backend_identifier: str,
+    config: Mapping[str, Any],
+) -> str:
+    """Return the model identifier the factory would use for a backend.
+
+    Args:
+        backend_identifier: Normalized backend identifier.
+        config: Mapping derived from ``payload.json``.
+    Returns:
+        The model identifier the budget proxy records on every call.
+    """
+    if backend_identifier == BACKEND_GROQ:
+        return str(config.get(CONFIG_KEY_MODEL_GROQ) or DEFAULT_GROQ_MODEL)
+    if backend_identifier == BACKEND_OLLAMA:
+        return str(config.get(CONFIG_KEY_MODEL_OLLAMA) or DEFAULT_OLLAMA_MODEL)
+    if backend_identifier == BACKEND_OPENAI:
+        return str(config.get(CONFIG_KEY_MODEL_OPENAI) or DEFAULT_OPENAI_MODEL)
+    if backend_identifier == BACKEND_ANTHROPIC:
+        return str(config.get(CONFIG_KEY_MODEL_ANTHROPIC) or DEFAULT_ANTHROPIC_MODEL)
+    if backend_identifier == BACKEND_DEEPSEEK:
+        return str(config.get(CONFIG_KEY_MODEL_DEEPSEEK) or DEFAULT_DEEPSEEK_MODEL)
+    if _resolve_api_key(config):
+        return str(config.get(CONFIG_KEY_MODEL_GROQ) or DEFAULT_GROQ_MODEL)
+    return str(config.get(CONFIG_KEY_MODEL_OLLAMA) or DEFAULT_OLLAMA_MODEL)
+
+
+def _wrap_with_budget(
+    backend: AIModel,
+    config: Mapping[str, Any],
+    backend_identifier: str,
+) -> AIModel:
+    """Wrap a concrete backend with the budget proxy.
+
+    The wrapper is import tolerant. When the budget module is missing
+    the factory returns the raw backend so a missing dependency never
+    blocks the operator. When the budget module is present the
+    factory wraps the backend transparently.
+
+    Args:
+        backend: Concrete backend the factory built.
+        config: Mapping derived from ``payload.json``.
+        backend_identifier: Normalized backend identifier.
+    Returns:
+        Either the wrapped proxy or the raw backend when the budget
+        module is not importable.
+    """
+    try:
+        from core.llm_budget import (
+            TokenEstimator,
+            load_budget_config,
+            wrap_backend_with_budget,
+        )
+    except Exception:
+        return backend
+    budget_config = load_budget_config(payload=dict(config))
+    model = _resolve_model_identifier(backend_identifier, config)
+    return wrap_backend_with_budget(
+        backend=backend,
+        config=budget_config,
+        estimator=TokenEstimator(),
+        model=model,
+    )
 
 
 def get_llm_backend(
@@ -196,6 +648,11 @@ def get_llm_backend(
     :class:`LLMBackendUnavailableError` rather than a silent fallback so
     they can decide whether to degrade or raise.
 
+    The returned backend is wrapped with the budget proxy so the daily
+    cost cap and the per call token cap are enforced at the single
+    chokepoint the framework uses. Use :func:`get_llm_backend_raw` to
+    bypass the wrapper for tests that need a raw backend.
+
     Args:
         config: Optional pre-loaded payload mapping. When ``None`` the
             payload is read from disk.
@@ -210,25 +667,85 @@ def get_llm_backend(
     Raises:
         LLMBackendNotSupportedError: When an unsupported identifier is
             requested.
-        LLMBackendUnavailableError: When the requested backend cannot be
-            constructed from the current environment (for example, Groq
-            selected with no API key).
+        LLMBackendUnavailableError: When the requested backend cannot
+            be constructed from the current environment (for example,
+            Groq selected with no API key).
     """
     resolved_config: Mapping[str, Any] = config if config is not None else load_payload()
     raw_backend = backend if backend is not None else resolved_config.get(CONFIG_KEY_BACKEND)
     normalized = _normalize_backend(raw_backend)
+    concrete = _build_backend(normalized, resolved_config)
+    return _wrap_with_budget(
+        backend=concrete,
+        config=resolved_config,
+        backend_identifier=normalized,
+    )
 
+
+def _build_backend(
+    normalized: str,
+    resolved_config: Mapping[str, Any],
+) -> AIModel:
+    """Build the raw backend for a normalized identifier.
+
+    Args:
+        normalized: Normalized backend identifier.
+        resolved_config: Mapping derived from ``payload.json``.
+    Returns:
+        The raw concrete backend the factory would return without
+        the budget wrapper.
+    Raises:
+        LLMBackendUnavailableError: When the requested backend cannot
+            be constructed from the current environment.
+    """
     if normalized == BACKEND_GROQ:
+        _require_cloud_allowed(normalized)
         return _build_groq(resolved_config)
     if normalized == BACKEND_OLLAMA:
         return _build_ollama(resolved_config)
-
+    if normalized == BACKEND_OPENAI:
+        _require_cloud_allowed(normalized)
+        return _build_openai(resolved_config)
+    if normalized == BACKEND_ANTHROPIC:
+        _require_cloud_allowed(normalized)
+        return _build_anthropic(resolved_config)
+    if normalized == BACKEND_DEEPSEEK:
+        _require_cloud_allowed(normalized)
+        return _build_deepseek(resolved_config)
+    if normalized == BACKEND_LLAMACPP:
+        return _build_llamacpp(resolved_config)
     if _resolve_api_key(resolved_config):
         try:
-            return _build_groq(resolved_config)
+            _require_cloud_allowed(BACKEND_GROQ)
+            try:
+                return _build_groq(resolved_config)
+            except LLMBackendUnavailableError:
+                pass
         except LLMBackendUnavailableError:
             pass
     return _build_ollama(resolved_config)
+
+
+def get_llm_backend_raw(
+    config: Mapping[str, Any] | None = None,
+    backend: str | None = None,
+) -> AIModel:
+    """Return a raw :class:`AIModel` without the budget wrapper.
+
+    Tests and the CLI command ``llm_budget`` itself use this entry
+    point so the budget proxy never recurses into itself. Production
+    callers should keep using :func:`get_llm_backend`.
+
+    Args:
+        config: Optional pre-loaded payload mapping.
+        backend: Optional explicit backend identifier.
+    Returns:
+        The raw concrete backend.
+    """
+    resolved_config: Mapping[str, Any] = config if config is not None else load_payload()
+    raw_backend = backend if backend is not None else resolved_config.get(CONFIG_KEY_BACKEND)
+    normalized = _normalize_backend(raw_backend)
+    return _build_backend(normalized, resolved_config)
 
 
 def try_get_llm_backend(
@@ -255,24 +772,252 @@ def try_get_llm_backend(
         return None
 
 
+def _pi_timeout() -> int:
+    """Return the pi CLI subprocess timeout in seconds.
+
+    Returns:
+        Configured timeout from ``LAZYOWN_PI_TIMEOUT`` or the default.
+    """
+    try:
+        return max(1, int(os.environ.get("LAZYOWN_PI_TIMEOUT", str(PI_TIMEOUT_SEC))))
+    except (TypeError, ValueError):
+        return PI_TIMEOUT_SEC
+
+
+def _pi_complete(model: str | None, prompt: str, max_tokens: int = 800) -> str:
+    """Complete a prompt through the local pi coding-agent CLI (keyless).
+
+    The CLI must be installed (``pi_qwen`` lazyaddon or
+    ``scripts/pi_qwen_setup.sh``) with the ``local-qwen`` provider
+    registered in Pi models.json pointing at the llama.cpp server.
+    Uses list-form ``subprocess.run`` with ``shell=False`` so prompt
+    text never touches a shell. No secrets travel here: the leg is
+    keyless by design.
+
+    Args:
+        model: Pi model id (defaults to ``local-model``).
+        prompt: User prompt text.
+        max_tokens: Ignored; the pi CLI owns its generation budget.
+
+    Returns:
+        Response text, never empty on success.
+
+    Raises:
+        RuntimeError: When the CLI is missing, times out, exits
+            non-zero, or returns an empty reply, so pool callers can
+            fail over to the next leg.
+    """
+    exe = shutil.which("pi")
+    if not exe:
+        raise RuntimeError("pi leg unavailable: pi CLI not in PATH")
+    cmd = [exe, "--model", f"{PI_PROVIDER_ID}/{model or PI_DEFAULT_MODEL}", "--print", prompt[:6000]]
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=_pi_timeout(), shell=False)
+    except FileNotFoundError as exc:
+        raise RuntimeError("pi leg unavailable: pi CLI not in PATH") from exc
+    except subprocess.TimeoutExpired as exc:
+        raise RuntimeError(f"pi leg timed out after {_pi_timeout()}s") from exc
+    if proc.returncode != 0:
+        raise RuntimeError(f"pi leg failed: {(proc.stderr or '')[:200]}")
+    text = (proc.stdout or "").strip()
+    if not text:
+        raise RuntimeError("pi leg returned empty reply")
+    return text
+
+
+def stream_complete(
+    model: str,
+    prompt: str,
+    max_tokens: int = 800,
+    on_delta: Callable[[str], None] | None = None,
+) -> str:
+    """Completion that reports incremental deltas while it arrives.
+
+    Streams through the configured backend's ``stream_generate`` when the
+    provider supports it and silently falls back to :func:`complete` on
+    any error, so a backend without streaming never breaks a caller.
+
+    Args:
+        model: Model spec, same syntax as :func:`complete`.
+        prompt: Prompt text (truncated to 6000 chars like the pool path).
+        max_tokens: Upper bound hint for the provider.
+        on_delta: Optional callback invoked with each text fragment.
+
+    Returns:
+        The complete reply text.
+    """
+    if not (prompt or "").strip():
+        return ""
+    spec = (model or "auto").strip()
+    provider = "auto"
+    name: str | None = None
+    if ":" in spec:
+        head, tail = spec.split(":", 1)
+        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm", "llamacpp", "pi"):
+            provider = head.strip().lower()
+            name = tail.strip() or None
+        else:
+            name = spec
+    else:
+        name = spec if spec.lower() != "auto" else None
+    if provider == "toposwarm":
+        return complete(model, prompt, max_tokens=max_tokens)
+    if provider == "pi":
+        return complete(model, prompt, max_tokens=max_tokens)
+    try:
+        backend = get_llm_backend(backend=provider)
+    except Exception:
+        return complete(model, prompt, max_tokens=max_tokens)
+    streamer = getattr(backend, "stream_generate", None)
+    if not callable(streamer):
+        return complete(model, prompt, max_tokens=max_tokens)
+    if name:
+        try:
+            backend.model = name
+        except Exception:
+            pass
+    parts: list[str] = []
+    try:
+        for chunk in streamer(prompt[:6000]):
+            text = str(chunk or "")
+            if not text:
+                continue
+            if text.startswith("Error ") or text.startswith("Error streaming"):
+                return complete(model, prompt, max_tokens=max_tokens)
+            parts.append(text)
+            if on_delta is not None:
+                try:
+                    on_delta(text)
+                except Exception:
+                    pass
+    except Exception:
+        return complete(model, prompt, max_tokens=max_tokens)
+    text = "".join(parts).strip()
+    return text or complete(model, prompt, max_tokens=max_tokens)
+
+
+def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
+    """Complete a prompt through one model spec; raise when unanswered.
+
+    The ``model`` spec accepts an optional ``backend:`` prefix selecting
+    the leg: ``groq:``, ``ollama:``, ``llamacpp:``, ``pi:`` (local pi agent,
+    keyless), ``auto:`` (groq first, then ollama)
+    or ``toposwarm:`` (local agentic router, keyless). A bare model name
+    resolves through the ``auto`` chain. Empty prompt returns empty
+    string; any backend outage raises so pool callers can fail over to
+    the next leg and finally to the heuristic path.
+
+    Args:
+        model: Model spec, optionally prefixed with backend.
+        prompt: User prompt text.
+        max_tokens: Response token cap.
+
+    Returns:
+        Response text, never empty on success.
+
+    Raises:
+        RuntimeError: When no leg answers.
+    """
+    if not (prompt or "").strip():
+        return ""
+    spec = (model or "auto").strip()
+    provider = "auto"
+    name: str | None = None
+    if ":" in spec:
+        head, tail = spec.split(":", 1)
+        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm", "llamacpp", "pi"):
+            provider = head.strip().lower()
+            name = tail.strip() or None
+        else:
+            name = spec
+    else:
+        name = spec if spec.lower() != "auto" else None
+    if provider == "pi":
+        return _pi_complete(name, prompt, max_tokens)
+    if provider == "toposwarm":
+        try:
+            import sys as _sys
+            from pathlib import Path as _Path
+
+            _sys.path.insert(0, str(_Path(__file__).parent))
+            from toposwarm_bridge import get_bridge as _get_bridge
+
+            bridge = _get_bridge()
+            if not bridge.available:
+                raise RuntimeError("toposwarm bridge unavailable")
+            text = str(bridge.execute_via_orchestrator(prompt[:6000], no_model=not bridge.model_loaded) or "")
+            if not text.strip():
+                raise RuntimeError("toposwarm returned empty reply")
+            return text
+        except RuntimeError:
+            raise
+        except Exception as exc:
+            raise RuntimeError(f"toposwarm leg failed: {exc}") from exc
+    try:
+        from modules.llm_client import LLMClient as _Client
+    except ImportError as exc:
+        raise RuntimeError(f"llm client unavailable: {exc}") from exc
+    try:
+        text = str(_Client().ask(prompt[:6000], provider=provider, model=name, max_tokens=max_tokens) or "")
+    except TypeError:
+        text = str(_Client().ask(prompt[:6000], provider=provider, model=name) or "")
+    if not text.strip():
+        raise RuntimeError(f"{provider} leg returned empty reply")
+    lowered = text.lower()
+    if "all ai backends failed" in lowered or "no ai backend available" in lowered:
+        raise RuntimeError(f"{provider} leg unavailable")
+    return text
+
+
 __all__ = [
+    "BACKEND_ANTHROPIC",
     "BACKEND_AUTO",
+    "BACKEND_DEEPSEEK",
     "BACKEND_GROQ",
+    "BACKEND_LLAMACPP",
     "BACKEND_OLLAMA",
+    "BACKEND_OPENAI",
+    "CONFIG_KEY_ANTHROPIC_API_KEY",
     "CONFIG_KEY_API_KEY",
     "CONFIG_KEY_BACKEND",
+    "CONFIG_KEY_DEEPSEEK_API_KEY",
+    "CONFIG_KEY_LLAMACPP_HOST",
+    "CONFIG_KEY_MODEL_ANTHROPIC",
+    "CONFIG_KEY_MODEL_DEEPSEEK",
     "CONFIG_KEY_MODEL_GROQ",
+    "CONFIG_KEY_MODEL_LLAMACPP",
     "CONFIG_KEY_MODEL_OLLAMA",
+    "CONFIG_KEY_MODEL_OPENAI",
     "CONFIG_KEY_OLLAMA_HOST",
+    "CONFIG_KEY_OPENAI_API_KEY",
+    "DEFAULT_ANTHROPIC_MODEL",
     "DEFAULT_BACKEND",
+    "DEFAULT_DEEPSEEK_MODEL",
     "DEFAULT_GROQ_MODEL",
+    "DEFAULT_LLAMACPP_HOST",
+    "DEFAULT_LLAMACPP_MODEL",
+    "ENV_GROQ_MODEL",
+    "GROQ_MODEL_FALLBACKS",
+    "groq_model_chain",
+    "is_model_missing_error",
+    "stream_complete",
     "DEFAULT_OLLAMA_HOST",
     "DEFAULT_OLLAMA_MODEL",
+    "DEFAULT_OPENAI_MODEL",
+    "ENV_ANTHROPIC_API_KEY",
+    "ENV_DEEPSEEK_API_KEY",
     "ENV_GROQ_API_KEY",
+    "ENV_OPENAI_API_KEY",
     "LLMBackendNotSupportedError",
     "LLMBackendUnavailableError",
     "SUPPORTED_BACKENDS",
+    "api_key_config_key",
+    "backend_requires_api_key",
+    "complete",
+    "default_model_for",
+    "model_config_key",
     "get_llm_backend",
+    "get_llm_backend_raw",
     "load_payload",
     "try_get_llm_backend",
 ]

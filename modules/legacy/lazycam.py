@@ -1,0 +1,1 @@
+../../contrib/legacy/lazycam.py

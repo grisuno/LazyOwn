@@ -100,16 +100,12 @@ class TestBeaconPathSafety:
     def test_beacon_install_path_no_traversal(self, beacon):
         path = beacon["tool"]["install_path"]
         resolved = Path(REPO_ROOT / path).resolve()
-        assert str(resolved).startswith(str(REPO_ROOT)), (
-            f"blacksandbeacon install_path escapes repo root: {path}"
-        )
+        assert str(resolved).startswith(str(REPO_ROOT)), f"blacksandbeacon install_path escapes repo root: {path}"
 
     def test_bof_install_path_no_traversal(self, bof):
         path = bof["tool"]["install_path"]
         resolved = Path(REPO_ROOT / path).resolve()
-        assert str(resolved).startswith(str(REPO_ROOT)), (
-            f"blacksandbeacon_bof install_path escapes repo root: {path}"
-        )
+        assert str(resolved).startswith(str(REPO_ROOT)), f"blacksandbeacon_bof install_path escapes repo root: {path}"
 
 
 class TestBeaconCategory:
@@ -159,15 +155,15 @@ class TestBeaconParams:
 
 
 class TestBeaconCommandTemplates:
-    """Commands must reference {lhost} and {lport} for dynamic substitution."""
+    """Commands must reference {lhost} and the C2 download port for substitution."""
 
     def test_beacon_lazycommand_has_lhost(self, beacon):
         cmd = beacon["tool"].get("lazycommand", "")
         assert "{lhost}" in cmd, "lazycommand must include {lhost} placeholder"
 
-    def test_beacon_lazycommand_has_lport(self, beacon):
+    def test_beacon_lazycommand_has_c2_port(self, beacon):
         cmd = beacon["tool"].get("lazycommand", "")
-        assert "{lport}" in cmd, "lazycommand must include {lport} placeholder"
+        assert "{c2_port}" in cmd, "lazycommand must include {c2_port} placeholder"
 
     def test_bof_lazycommand_has_lhost(self, bof):
         cmd = bof["tool"].get("lazycommand", "")
@@ -179,7 +175,7 @@ class TestBeaconCommandTemplates:
 
     def test_beacon_execute_stages_to_sessions(self, beacon):
         cmd = beacon["tool"]["execute_command"]
-        assert "sessions/blacksandbeacon" in cmd
+        assert "sessions/temp_uploads/blacksandbeacon" in cmd
 
     def test_bof_execute_stages_to_sessions(self, bof):
         assert "sessions/bof_loader" in bof["tool"]["execute_command"]
@@ -226,14 +222,16 @@ class TestBeaconNoHardcodedSecrets:
 
     def test_beacon_no_hardcoded_ip(self):
         import re
+
         text = self._yaml_text(BEACON_YAML)
-        ips = re.findall(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', text)
+        ips = re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", text)
         assert ips == [], f"Hardcoded IPs found in blacksandbeacon.yaml: {ips}"
 
     def test_bof_no_hardcoded_ip(self):
         import re
+
         text = self._yaml_text(BOF_YAML)
-        ips = re.findall(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', text)
+        ips = re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", text)
         assert ips == [], f"Hardcoded IPs found in blacksandbeacon_bof.yaml: {ips}"
 
     def test_beacon_no_hardcoded_port_numbers(self):

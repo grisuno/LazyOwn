@@ -42,27 +42,31 @@ Security:
 
 from __future__ import annotations
 
+import builtins
+import contextlib
 import datetime
+import io
 import json
 import logging
 import os
 import re
 import shutil
 import threading
-import time
 import uuid
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
+from typing import Any
 
 import yaml
 
-
-_LAZYOWN_DIR = Path(os.environ.get(
-    "LAZYOWN_DIR",
-    str(Path(__file__).resolve().parent.parent),
-))
+_LAZYOWN_DIR = Path(
+    os.environ.get(
+        "LAZYOWN_DIR",
+        str(Path(__file__).resolve().parent.parent),
+    )
+)
 PIPELINES_DIR = _LAZYOWN_DIR / "pipelines"
 SESSIONS_DIR = _LAZYOWN_DIR / "sessions"
 RUNS_DIR = SESSIONS_DIR / "pipelines"
@@ -141,7 +145,7 @@ class PipelineStep:
     on_success: str = ""
     on_failure: str = "stop"
     timeout_s: int = _STEP_TIMEOUT_DEFAULT_S
-    with_inputs: Dict[str, Any] = field(default_factory=dict)
+    with_inputs: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -151,7 +155,7 @@ class PipelineSpec:
     name: str
     description: str
     target: str
-    steps: Tuple[PipelineStep, ...]
+    steps: tuple[PipelineStep, ...]
     source_path: Path
 
 
@@ -170,19 +174,19 @@ class StepResult:
     skipped: bool = False
     skipped_reason: str = ""
     error: str = ""
-    derived: Dict[str, Any] = field(default_factory=dict)
+    derived: dict[str, Any] = field(default_factory=dict)
     nested_run_id: str = ""
 
-    def to_context(self) -> Dict[str, Any]:
+    def to_context(self) -> dict[str, Any]:
         """Render the step result as a dict for template lookups."""
-        merged: Dict[str, Any] = {
-            "command":   self.command,
-            "args":      self.args,
-            "output":    self.output,
-            "success":   self.success,
-            "skipped":   self.skipped,
-            "started":   self.started_ts,
-            "finished":  self.finished_ts,
+        merged: dict[str, Any] = {
+            "command": self.command,
+            "args": self.args,
+            "output": self.output,
+            "success": self.success,
+            "skipped": self.skipped,
+            "started": self.started_ts,
+            "finished": self.finished_ts,
         }
         # Derived fields are flattened so {{ previous.has_exploit }} works.
         for key, value in (self.derived or {}).items():
@@ -201,24 +205,24 @@ class PipelineRun:
     started_ts: str
     finished_ts: str
     success: bool
-    steps: List[StepResult] = field(default_factory=list)
-    nested_runs: List[str] = field(default_factory=list)
+    steps: list[StepResult] = field(default_factory=list)
+    nested_runs: list[str] = field(default_factory=list)
     error: str = ""
     artifacts_dir: str = ""
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return a JSON-friendly representation of the full run."""
         return {
-            "run_id":        self.run_id,
-            "pipeline":      self.pipeline,
-            "target":        self.target,
-            "started_ts":    self.started_ts,
-            "finished_ts":   self.finished_ts,
-            "success":       self.success,
-            "error":         self.error,
+            "run_id": self.run_id,
+            "pipeline": self.pipeline,
+            "target": self.target,
+            "started_ts": self.started_ts,
+            "finished_ts": self.finished_ts,
+            "success": self.success,
+            "error": self.error,
             "artifacts_dir": self.artifacts_dir,
-            "nested_runs":   list(self.nested_runs),
-            "steps":         [asdict(s) for s in self.steps],
+            "nested_runs": list(self.nested_runs),
+            "steps": [asdict(s) for s in self.steps],
         }
 
 
@@ -228,7 +232,7 @@ class PipelineRun:
 
 
 def _now_iso() -> str:
-    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+    return datetime.datetime.now(datetime.UTC).isoformat()
 
 
 def _new_run_id() -> str:
@@ -241,7 +245,7 @@ def _is_valid_pipeline_name(name: str) -> bool:
     return bool(_VALID_PIPELINE_NAME_RE.match(name))
 
 
-def _load_payload() -> Dict[str, Any]:
+def _load_payload() -> dict[str, Any]:
     try:
         return json.loads(PAYLOAD_FILE.read_text(encoding="utf-8"))
     except Exception:
@@ -268,14 +272,14 @@ class TemplateResolver:
     cleanly into command-line argument strings.
     """
 
-    def __init__(self, context: Dict[str, Any]) -> None:
+    def __init__(self, context: dict[str, Any]) -> None:
         self._context = context
 
     def render(self, template: str) -> str:
         if not template or "{{" not in template:
             return template
 
-        def _replace(match: "re.Match[str]") -> str:
+        def _replace(match: re.Match[str]) -> str:
             path = match.group(1).strip()
             value = self.resolve(path)
             return self._stringify(value)
@@ -379,19 +383,17 @@ class StepDerivers:
     Extension: register a new deriver via ``StepDerivers.register``.
     """
 
-    _registry: Dict[str, Callable[[str], Dict[str, Any]]] = {}
+    _registry: dict[str, Callable[[str], dict[str, Any]]] = {}
 
     @classmethod
-    def register(
-        cls, command: str, deriver: Callable[[str], Dict[str, Any]]
-    ) -> None:
+    def register(cls, command: str, deriver: Callable[[str], dict[str, Any]]) -> None:
         """Bind a deriver to a top-level command name (case-insensitive)."""
         if not isinstance(command, str) or not command:
             return
         cls._registry[command.lower().strip()] = deriver
 
     @classmethod
-    def derive(cls, command: str, output: str) -> Dict[str, Any]:
+    def derive(cls, command: str, output: str) -> dict[str, Any]:
         """Run the registered deriver for command on output, defensive."""
         if not command:
             return {}
@@ -407,28 +409,30 @@ class StepDerivers:
             return {}
 
 
-def _derive_ping(output: str) -> Dict[str, Any]:
+def _derive_ping(output: str) -> dict[str, Any]:
     """Extract ttl, alive flag from ping output."""
     text = output or ""
     ttl_match = re.search(r"ttl=(\d+)", text, re.IGNORECASE)
     received = re.search(r"(\d+)\s+received", text, re.IGNORECASE)
     return {
-        "ttl":      int(ttl_match.group(1)) if ttl_match else None,
-        "alive":    bool(ttl_match) or (received and int(received.group(1)) > 0),
+        "ttl": int(ttl_match.group(1)) if ttl_match else None,
+        "alive": bool(ttl_match) or (received and int(received.group(1)) > 0),
         "findings": {
-            "ttl":   int(ttl_match.group(1)) if ttl_match else None,
+            "ttl": int(ttl_match.group(1)) if ttl_match else None,
             "alive": bool(ttl_match),
         },
     }
 
 
-def _derive_lazynmap(output: str) -> Dict[str, Any]:
+def _derive_lazynmap(output: str) -> dict[str, Any]:
     """Extract open ports and service names from nmap output."""
     text = output or ""
-    ports: List[int] = []
-    services: List[str] = []
+    ports: list[int] = []
+    services: list[str] = []
     for match in re.finditer(
-        r"^(\d+)/(tcp|udp)\s+open\s+(\S+)", text, re.MULTILINE,
+        r"^(\d+)/(tcp|udp)\s+open\s+(\S+)",
+        text,
+        re.MULTILINE,
     ):
         try:
             ports.append(int(match.group(1)))
@@ -440,13 +444,13 @@ def _derive_lazynmap(output: str) -> Dict[str, Any]:
         "has_open_ports": has_open,
         "open_ports_count": len(ports),
         "findings": {
-            "ports":    ports,
+            "ports": ports,
             "services": services,
         },
     }
 
 
-def _derive_searchsploit(output: str) -> Dict[str, Any]:
+def _derive_searchsploit(output: str) -> dict[str, Any]:
     """Detect whether searchsploit returned an exploit candidate.
 
     Looks for explicit exploit identifiers (CVE-YYYY-N or an
@@ -465,7 +469,7 @@ def _derive_searchsploit(output: str) -> Dict[str, Any]:
     }
 
 
-def _derive_auto_populate(output: str) -> Dict[str, Any]:
+def _derive_auto_populate(output: str) -> dict[str, Any]:
     """Auto-populate signals: domain discovered, services injected."""
     text = output or ""
     return {
@@ -474,7 +478,7 @@ def _derive_auto_populate(output: str) -> Dict[str, Any]:
     }
 
 
-def _derive_facts_show(output: str) -> Dict[str, Any]:
+def _derive_facts_show(output: str) -> dict[str, Any]:
     """facts_show emits 'found' lines per fact."""
     text = output or ""
     found = bool(re.search(r"\bfound\b|fact:", text, re.I))
@@ -507,8 +511,12 @@ class IStepRunner(ABC):
 
     @abstractmethod
     def run(
-        self, command: str, args: str, target: str, timeout_s: int,
-    ) -> Tuple[str, bool, str]:
+        self,
+        command: str,
+        args: str,
+        target: str,
+        timeout_s: int,
+    ) -> tuple[str, bool, str]:
         """Execute one command. Return (output, success, error_text)."""
 
 
@@ -519,26 +527,57 @@ class LazyOwnStepRunner(IStepRunner):
     line so steps that read payload.json[rhost] always see the pipeline's
     target value, mirroring the autonomous daemon and EngageOrchestrator
     contract.
+
+    When *onecmd* is provided (a ``LazyOwnShell.onecmd`` bound method),
+    commands execute directly inside the calling shell instead of spawning
+    a new PTY subprocess.  This is significantly faster in headless/CI
+    contexts and avoids the startup overhead of the daemon runner.
     """
 
-    def __init__(self, runner: Any = None) -> None:
-        if runner is None:
+    def __init__(self, runner: Any = None, onecmd: Any = None) -> None:
+        self._onecmd = onecmd
+        if runner is None and onecmd is None:
             try:
                 from autonomous_daemon import _build_default_runner
+
                 runner = _build_default_runner()
             except Exception as exc:
-                raise PipelineError(
-                    f"could not build default LazyOwn runner: {exc}"
-                )
+                raise PipelineError(f"could not build default LazyOwn runner: {exc}")
         self._runner = runner
 
     def run(
-        self, command: str, args: str, target: str, timeout_s: int,
-    ) -> Tuple[str, bool, str]:
+        self,
+        command: str,
+        args: str,
+        target: str,
+        timeout_s: int,
+    ) -> tuple[str, bool, str]:
+        if self._onecmd is not None:
+            return self._run_via_onecmd(command, args, target, timeout_s)
         line = command if not args else f"{command} {args}"
         prelude = f"assign rhost {target}\n" if target else ""
         try:
             output = self._runner.run(prelude + line, timeout=timeout_s)
+        except Exception as exc:
+            return "", False, str(exc)
+        success = _heuristic_success(line, output)
+        return output, success, ""
+
+    def _run_via_onecmd(
+        self,
+        command: str,
+        args: str,
+        target: str,
+        timeout_s: int,
+    ) -> tuple[str, bool, str]:
+        line = command if not args else f"{command} {args}"
+        if target:
+            self._onecmd(f"assign rhost {target}")
+        capture = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(capture):
+                self._onecmd(line)
+            output = capture.getvalue()
         except Exception as exc:
             return "", False, str(exc)
         success = _heuristic_success(line, output)
@@ -550,12 +589,27 @@ def _heuristic_success(command: str, output: str) -> bool:
         return False
     low = output.lower()
     failure_markers = (
-        "error", "failed", "no such", "command not found",
-        "traceback", "refused", "timed out", "timeout",
+        "error",
+        "failed",
+        "no such",
+        "command not found",
+        "traceback",
+        "refused",
+        "timed out",
+        "timeout",
     )
     success_markers = (
-        "found", "success", "open", "hash", "discovered",
-        "credential", "uid=", "started", "listening", "ttl=", "received",
+        "found",
+        "success",
+        "open",
+        "hash",
+        "discovered",
+        "credential",
+        "uid=",
+        "started",
+        "listening",
+        "ttl=",
+        "received",
     )
     if any(m in low for m in success_markers):
         return True
@@ -581,18 +635,18 @@ class PipelineLoader:
 
     SUPPORTED_EXTENSIONS = (".yaml", ".yml")
 
-    def __init__(self, pipelines_dir: Optional[Path] = None) -> None:
+    def __init__(self, pipelines_dir: Path | None = None) -> None:
         self._dir = pipelines_dir or PIPELINES_DIR
 
     @property
     def pipelines_dir(self) -> Path:
         return self._dir
 
-    def list(self) -> List[str]:
+    def list(self) -> builtins.list[str]:
         """Return every pipeline name discoverable in pipelines_dir."""
         if not self._dir.exists():
             return []
-        out: List[str] = []
+        out: list[str] = []
         for entry in sorted(self._dir.iterdir()):
             if entry.suffix.lower() not in self.SUPPORTED_EXTENSIONS:
                 continue
@@ -611,25 +665,19 @@ class PipelineLoader:
             try:
                 candidate.relative_to(base)
             except ValueError:
-                raise PipelineNotFoundError(
-                    f"pipeline path escapes pipelines dir: {name}"
-                )
+                raise PipelineNotFoundError(f"pipeline path escapes pipelines dir: {name}")
             if candidate.exists():
                 return candidate
-        raise PipelineNotFoundError(
-            f"pipeline {name!r} not found in {self._dir}"
-        )
+        raise PipelineNotFoundError(f"pipeline {name!r} not found in {self._dir}")
 
-    def _read(self, path: Path) -> Dict[str, Any]:
+    def _read(self, path: Path) -> dict[str, Any]:
         try:
             with path.open("r", encoding="utf-8") as fh:
                 data = yaml.safe_load(fh)
         except yaml.YAMLError as exc:
             raise PipelineSchemaError(f"invalid YAML in {path.name}: {exc}")
         if not isinstance(data, dict):
-            raise PipelineSchemaError(
-                f"{path.name}: top-level document must be a mapping"
-            )
+            raise PipelineSchemaError(f"{path.name}: top-level document must be a mapping")
         return data
 
     def load(self, name: str) -> PipelineSpec:
@@ -639,29 +687,26 @@ class PipelineLoader:
         return self._validate(raw, name=name, source=path)
 
     def _validate(
-        self, raw: Dict[str, Any], name: str, source: Path,
+        self,
+        raw: dict[str, Any],
+        name: str,
+        source: Path,
     ) -> PipelineSpec:
         steps_raw = raw.get("steps", [])
         if not isinstance(steps_raw, list) or not steps_raw:
             raise PipelineSchemaError(f"{name}: steps must be a non-empty list")
 
-        steps: List[PipelineStep] = []
+        steps: list[PipelineStep] = []
         used_names: set = set()
         for i, item in enumerate(steps_raw):
             if not isinstance(item, dict):
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} must be a mapping"
-                )
+                raise PipelineSchemaError(f"{name}: step #{i} must be a mapping")
             command = str(item.get("command", "") or "").strip()
             pipeline = str(item.get("pipeline", "") or "").strip()
             if command and pipeline:
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} may not specify both command and pipeline"
-                )
+                raise PipelineSchemaError(f"{name}: step #{i} may not specify both command and pipeline")
             if not command and not pipeline:
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} requires command or pipeline"
-                )
+                raise PipelineSchemaError(f"{name}: step #{i} requires command or pipeline")
             step_name = str(item.get("name", "") or "").strip()
             if not step_name:
                 step_name = (command or pipeline).split()[0]
@@ -673,35 +718,31 @@ class PipelineLoader:
             used_names.add(step_name)
             on_failure = str(item.get("on_failure", "stop") or "stop").lower()
             if on_failure not in ("stop", "continue", "skip"):
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} on_failure must be stop|continue|skip"
-                )
+                raise PipelineSchemaError(f"{name}: step #{i} on_failure must be stop|continue|skip")
             timeout_value = item.get("timeout_s", _STEP_TIMEOUT_DEFAULT_S)
             try:
                 timeout_s = max(1, int(timeout_value))
             except (TypeError, ValueError):
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} timeout_s must be an integer"
-                )
+                raise PipelineSchemaError(f"{name}: step #{i} timeout_s must be an integer")
             with_inputs = item.get("with_inputs", {}) or {}
             if not isinstance(with_inputs, dict):
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} with_inputs must be a mapping"
+                raise PipelineSchemaError(f"{name}: step #{i} with_inputs must be a mapping")
+            steps.append(
+                PipelineStep(
+                    index=i,
+                    name=step_name,
+                    command=command,
+                    pipeline=pipeline,
+                    args=str(item.get("args", "") or ""),
+                    input_from=str(item.get("input_from", "") or ""),
+                    validate=str(item.get("validate", "") or ""),
+                    condition=str(item.get("condition", "") or ""),
+                    on_success=str(item.get("on_success", "") or ""),
+                    on_failure=on_failure,
+                    timeout_s=timeout_s,
+                    with_inputs=dict(with_inputs),
                 )
-            steps.append(PipelineStep(
-                index=i,
-                name=step_name,
-                command=command,
-                pipeline=pipeline,
-                args=str(item.get("args", "") or ""),
-                input_from=str(item.get("input_from", "") or ""),
-                validate=str(item.get("validate", "") or ""),
-                condition=str(item.get("condition", "") or ""),
-                on_success=str(item.get("on_success", "") or ""),
-                on_failure=on_failure,
-                timeout_s=timeout_s,
-                with_inputs=dict(with_inputs),
-            ))
+            )
 
         declared_name = str(raw.get("name", "") or name).strip()
         if declared_name != name:
@@ -710,9 +751,7 @@ class PipelineLoader:
             # file name. The mismatch is surfaced as info to the operator
             # via the spec.name field, which is the declared value.
             if not _is_valid_pipeline_name(declared_name):
-                raise PipelineSchemaError(
-                    f"{name}: declared name {declared_name!r} is not safe"
-                )
+                raise PipelineSchemaError(f"{name}: declared name {declared_name!r} is not safe")
         return PipelineSpec(
             name=declared_name,
             description=str(raw.get("description", "") or ""),
@@ -736,7 +775,7 @@ class RunArtifactStore:
       - summary.json   : aggregate PipelineRun
     """
 
-    def __init__(self, runs_dir: Optional[Path] = None) -> None:
+    def __init__(self, runs_dir: Path | None = None) -> None:
         self._runs_dir = (runs_dir or RUNS_DIR).resolve()
 
     @property
@@ -815,7 +854,7 @@ class INarratorAdapter(ABC):
         kind: str,
         target: str,
         message: str,
-        payload: Optional[Dict[str, Any]] = None,
+        payload: dict[str, Any] | None = None,
         severity: str = "info",
     ) -> None:
         """Emit one narration event."""
@@ -833,6 +872,7 @@ class EngagementNarratorAdapter(INarratorAdapter):
         if narrator is None:
             try:
                 from engagement_hooks import get_default_narrator
+
                 narrator = get_default_narrator()
             except Exception:
                 narrator = None
@@ -843,7 +883,7 @@ class EngagementNarratorAdapter(INarratorAdapter):
         kind: str,
         target: str,
         message: str,
-        payload: Optional[Dict[str, Any]] = None,
+        payload: dict[str, Any] | None = None,
         severity: str = "info",
     ) -> None:
         if self._narrator is None:
@@ -886,10 +926,10 @@ class PipelineEngine:
 
     def __init__(
         self,
-        runner: Optional[IStepRunner] = None,
-        loader: Optional[PipelineLoader] = None,
-        artifact_store: Optional[RunArtifactStore] = None,
-        narrator: Optional[INarratorAdapter] = None,
+        runner: IStepRunner | None = None,
+        loader: PipelineLoader | None = None,
+        artifact_store: RunArtifactStore | None = None,
+        narrator: INarratorAdapter | None = None,
         max_nesting: int = _DEFAULT_MAX_NESTING,
     ) -> None:
         self._runner = runner or LazyOwnStepRunner()
@@ -910,18 +950,14 @@ class PipelineEngine:
         self,
         name: str,
         target: str = "",
-        nesting_stack: Optional[Tuple[str, ...]] = None,
+        nesting_stack: tuple[str, ...] | None = None,
     ) -> PipelineRun:
         """Execute the pipeline. Returns a fully-populated PipelineRun."""
         stack = tuple(nesting_stack or ())
         if name in stack:
-            raise PipelineCycleError(
-                f"nested pipeline cycle detected: {' -> '.join(stack + (name,))}"
-            )
+            raise PipelineCycleError(f"nested pipeline cycle detected: {' -> '.join(stack + (name,))}")
         if len(stack) >= self._max_nesting:
-            raise PipelineError(
-                f"max nesting depth {self._max_nesting} exceeded at {name}"
-            )
+            raise PipelineError(f"max nesting depth {self._max_nesting} exceeded at {name}")
 
         spec = self._loader.load(name)
         effective_target = target or spec.target or _load_payload().get("rhost", "")
@@ -945,14 +981,14 @@ class PipelineEngine:
             target=effective_target,
             message=f"pipeline {spec.name} run={run_id} steps={len(spec.steps)}",
             payload={
-                "run_id":   run_id,
+                "run_id": run_id,
                 "pipeline": spec.name,
-                "nesting":  list(stack),
+                "nesting": list(stack),
             },
         )
 
-        step_results: Dict[str, StepResult] = {}
-        derived_findings: Dict[str, Any] = {}
+        step_results: dict[str, StepResult] = {}
+        derived_findings: dict[str, Any] = {}
 
         try:
             for step in spec.steps:
@@ -969,7 +1005,8 @@ class PipelineEngine:
                     rendered = resolver.render(step.condition)
                     if not ConditionEvaluator.is_truthy(rendered):
                         result = self._make_skipped(
-                            step, reason=f"condition false: {step.condition}",
+                            step,
+                            reason=f"condition false: {step.condition}",
                         )
                         run.steps.append(result)
                         step_results[step.name] = result
@@ -1002,16 +1039,16 @@ class PipelineEngine:
                     if step.on_failure == "stop":
                         run.success = False
                         detail = result.error or "see step output"
-                        run.error = (
-                            f"step {step.name} failed: {detail}"
-                        )
+                        run.error = f"step {step.name} failed: {detail}"
                         break
                     if step.on_failure == "skip":
                         continue
 
                 if result.success and step.on_success and not result.skipped:
                     hook = self._run_hook(
-                        step.on_success, effective_target, step.timeout_s,
+                        step.on_success,
+                        effective_target,
+                        step.timeout_s,
                     )
                     run.steps.append(hook)
                     self._store.write_step(run_dir, hook)
@@ -1025,14 +1062,11 @@ class PipelineEngine:
             self._narrator.narrate(
                 kind="PIPELINE_DONE",
                 target=effective_target,
-                message=(
-                    f"pipeline {spec.name} run={run_id} success={run.success} "
-                    f"steps={len(run.steps)}"
-                ),
+                message=(f"pipeline {spec.name} run={run_id} success={run.success} steps={len(run.steps)}"),
                 payload={
-                    "run_id":  run_id,
+                    "run_id": run_id,
                     "success": run.success,
-                    "error":   run.error,
+                    "error": run.error,
                 },
                 severity="info" if run.success else "warning",
             )
@@ -1094,7 +1128,7 @@ class PipelineEngine:
         step: PipelineStep,
         resolver: TemplateResolver,
         target: str,
-        stack: Tuple[str, ...],
+        stack: tuple[str, ...],
         run: PipelineRun,
     ) -> StepResult:
         started = _now_iso()
@@ -1122,9 +1156,9 @@ class PipelineEngine:
         run.nested_runs.append(nested_run.run_id)
         derived = {
             "nested_pipeline": step.pipeline,
-            "nested_run_id":   nested_run.run_id,
-            "nested_success":  nested_run.success,
-            "nested_steps":    len(nested_run.steps),
+            "nested_run_id": nested_run.run_id,
+            "nested_success": nested_run.success,
+            "nested_steps": len(nested_run.steps),
         }
         return StepResult(
             step_index=step.index,
@@ -1142,7 +1176,10 @@ class PipelineEngine:
         )
 
     def _run_hook(
-        self, hook_command: str, target: str, timeout_s: int,
+        self,
+        hook_command: str,
+        target: str,
+        timeout_s: int,
     ) -> StepResult:
         started = _now_iso()
         output, success, error = self._runner.run(
@@ -1185,29 +1222,30 @@ class PipelineEngine:
         self,
         spec: PipelineSpec,
         target: str,
-        step_results: Dict[str, StepResult],
-        derived_findings: Dict[str, Any],
+        step_results: dict[str, StepResult],
+        derived_findings: dict[str, Any],
         current_step: PipelineStep,
-    ) -> Dict[str, Any]:
-        previous_ctx: Dict[str, Any] = {}
+    ) -> dict[str, Any]:
+        previous_ctx: dict[str, Any] = {}
         if step_results:
             latest_name = next(reversed(step_results))
             previous_ctx = step_results[latest_name].to_context()
         return {
             "previous": previous_ctx,
-            "steps":    {n: r.to_context() for n, r in step_results.items()},
-            "payload":  _load_payload(),
-            "inputs":   dict(current_step.with_inputs),
+            "steps": {n: r.to_context() for n, r in step_results.items()},
+            "payload": _load_payload(),
+            "inputs": dict(current_step.with_inputs),
             "findings": dict(derived_findings),
             "pipeline": {
-                "name":   spec.name,
+                "name": spec.name,
                 "target": target,
             },
         }
 
     @staticmethod
     def _merge_findings(
-        derived_findings: Dict[str, Any], result: StepResult,
+        derived_findings: dict[str, Any],
+        result: StepResult,
     ) -> None:
         derived = result.derived or {}
         more = derived.get("findings", {})
@@ -1230,7 +1268,7 @@ class PipelineEngine:
                 target=target,
                 message=f"step {result.step_name} succeeded",
                 payload={
-                    "step":    result.step_name,
+                    "step": result.step_name,
                     "command": result.command,
                     "derived": result.derived,
                 },
@@ -1241,10 +1279,10 @@ class PipelineEngine:
                 target=target,
                 message=f"step {result.step_name} failed: {result.error or 'see output'}",
                 payload={
-                    "step":    result.step_name,
+                    "step": result.step_name,
                     "command": result.command,
-                    "error":   result.error,
-                    "tail":    (result.output or "")[-200:],
+                    "error": result.error,
+                    "tail": (result.output or "")[-200:],
                 },
                 severity="warning",
             )
@@ -1256,22 +1294,35 @@ class PipelineEngine:
 
 
 _default_engine_lock = threading.Lock()
-_default_engine: Optional[PipelineEngine] = None
+_default_engine: PipelineEngine | None = None
 
 
-def get_default_engine() -> PipelineEngine:
-    """Process-wide default engine for production callers."""
+def get_default_engine(onecmd: Any = None) -> PipelineEngine:
+    """Process-wide default engine for production callers.
+
+    When *onecmd* is given, the engine's step runner will execute commands
+    directly through the caller's shell instead of spawning a new PTY.
+    """
     global _default_engine
     with _default_engine_lock:
-        if _default_engine is None:
-            _default_engine = PipelineEngine()
+        if _default_engine is None or onecmd is not None:
+            runner = LazyOwnStepRunner(onecmd=onecmd)
+            return PipelineEngine(runner=runner)
         return _default_engine
 
 
 def mcp_pipeline_run(
-    name: str, target: str = "", background: bool = False,
+    name: str,
+    target: str = "",
+    background: bool = False,
+    onecmd: Any = None,
 ) -> str:
     """Public MCP / CLI entry: run a pipeline.
+
+    When *onecmd* is provided (a ``LazyOwnShell.onecmd`` bound method),
+    commands execute directly inside the caller's shell instead of spawning
+    a new PTY subprocess.  This is the recommended path when running from
+    inside an interactive shell or headless runner.
 
     Returns a JSON string with either the full PipelineRun dict (when
     ``background=False``) or an immediate ``{status: started, run_id}``
@@ -1282,7 +1333,7 @@ def mcp_pipeline_run(
 
     if not background:
         try:
-            engine = get_default_engine()
+            engine = get_default_engine(onecmd=onecmd)
             run = engine.run(name=name, target=target)
             return json.dumps({"status": "ok", "run": run.to_dict()}, indent=2, default=str)
         except PipelineError as exc:
@@ -1292,36 +1343,41 @@ def mcp_pipeline_run(
 
     def _worker() -> None:
         try:
-            engine = get_default_engine()
+            engine = get_default_engine(onecmd=onecmd)
             engine.run(name=name, target=target)
         except Exception as exc:
             _log.error("pipeline background run failed: %s", exc)
 
     thread = threading.Thread(
-        target=_worker, name=f"pipeline-{run_id}", daemon=True,
+        target=_worker,
+        name=f"pipeline-{run_id}",
+        daemon=True,
     )
     thread.start()
-    return json.dumps({
-        "status":   "started",
-        "run_id":   run_id,
-        "pipeline": name,
-        "message": (
-            "Pipeline started in background. "
-            "Poll progress with lazyown_pipeline_status."
-        ),
-    }, indent=2)
+    return json.dumps(
+        {
+            "status": "started",
+            "run_id": run_id,
+            "pipeline": name,
+            "message": ("Pipeline started in background. Poll progress with lazyown_pipeline_status."),
+        },
+        indent=2,
+    )
 
 
 def mcp_pipeline_list() -> str:
     """Return the list of available pipelines under pipelines/."""
     try:
         names = PipelineLoader().list()
-        return json.dumps({
-            "status":    "ok",
-            "count":     len(names),
-            "pipelines": names,
-            "dir":       str(PIPELINES_DIR),
-        }, indent=2)
+        return json.dumps(
+            {
+                "status": "ok",
+                "count": len(names),
+                "pipelines": names,
+                "dir": str(PIPELINES_DIR),
+            },
+            indent=2,
+        )
     except Exception as exc:
         return json.dumps({"status": "error", "message": str(exc)})
 
@@ -1332,24 +1388,27 @@ def mcp_pipeline_validate(name: str) -> str:
         spec = PipelineLoader().load(name)
     except PipelineError as exc:
         return json.dumps({"status": "error", "message": str(exc)})
-    return json.dumps({
-        "status":      "ok",
-        "name":        spec.name,
-        "description": spec.description,
-        "target":      spec.target,
-        "step_count":  len(spec.steps),
-        "steps":       [
-            {
-                "index":      s.index,
-                "name":       s.name,
-                "command":    s.command,
-                "pipeline":   s.pipeline,
-                "condition":  s.condition,
-                "on_failure": s.on_failure,
-            }
-            for s in spec.steps
-        ],
-    }, indent=2)
+    return json.dumps(
+        {
+            "status": "ok",
+            "name": spec.name,
+            "description": spec.description,
+            "target": spec.target,
+            "step_count": len(spec.steps),
+            "steps": [
+                {
+                    "index": s.index,
+                    "name": s.name,
+                    "command": s.command,
+                    "pipeline": s.pipeline,
+                    "condition": s.condition,
+                    "on_failure": s.on_failure,
+                }
+                for s in spec.steps
+            ],
+        },
+        indent=2,
+    )
 
 
 def mcp_pipeline_status(last_n: int = 5) -> str:
@@ -1361,10 +1420,10 @@ def mcp_pipeline_status(last_n: int = 5) -> str:
         key=lambda p: p.stat().st_mtime,
         reverse=True,
     )[: max(1, int(last_n))]
-    out: List[Dict[str, Any]] = []
+    out: list[dict[str, Any]] = []
     for entry in entries:
         summary_path = entry / "summary.json"
-        record: Dict[str, Any] = {"dir": str(entry), "summary": None}
+        record: dict[str, Any] = {"dir": str(entry), "summary": None}
         if summary_path.exists():
             try:
                 record["summary"] = json.loads(summary_path.read_text(encoding="utf-8"))

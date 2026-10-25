@@ -1,0 +1,34 @@
+name: grype
+description: >
+  Grype by Anchore. Vulnerability scanner for container images, filesystems
+  and SBOMs. Matches packages against the CVE DB with severity, fix versions
+  and CVSS. Usage: grype <target> as free args (image, path or sbom:FILE).
+  Output at sessions/grype_output.json. No credentials needed, offline DB.
+
+author: Anchore
+version: 0.78.0
+enabled: true
+update: true
+os: any
+trigger: []
+params:
+- name: grype_target
+  type: string
+  required: false
+  default: .
+  description: Scan target as image name, dir PATH or sbom FILE. Change with assign grype_target <target>; extra targets append as free args.
+tool:
+  name: Grype
+  repo_url: https://github.com/anchore/grype.git
+  install_path: external/.exploit/grype
+  install_command: >
+    rm -rf grype 2>/dev/null;
+    curl -sSfL https://github.com/anchore/grype/releases/download/v0.115.0/grype_0.115.0_linux_amd64.tar.gz
+    | tar xz -C . grype && chmod +x grype
+  execute_command: >
+    ./grype
+    {grype_target}
+    --output json
+    --file ../../../sessions/grype_output.json
+    --only-fixed
+category: 02. Scanning & Enumeration

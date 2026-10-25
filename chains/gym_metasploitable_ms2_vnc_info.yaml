@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_vnc_info
+version: 2
+description: 'Metasploitable 2: VNC authentication exposure (T1021.005).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- vnc
+platforms:
+- linux
+defaults:
+  exploit: ms2_vnc_info
+  vuln: ms2_vnc_info
+  port: '5900'

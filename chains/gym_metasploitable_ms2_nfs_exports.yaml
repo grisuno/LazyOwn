@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_nfs_exports
+version: 2
+description: 'Metasploitable 2: NFS world-readable export (T1083).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- nfs
+platforms:
+- linux
+defaults:
+  exploit: ms2_nfs_exports
+  vuln: ms2_nfs_exports
+  port: '2049'

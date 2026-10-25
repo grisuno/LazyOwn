@@ -20,14 +20,12 @@ import ipaddress
 import json
 import os
 import socket
-import ssl as _ssl
 import threading
 import time
 from dataclasses import dataclass, field
 from typing import Any
 
 from utils import print_error, print_msg, print_warn
-
 
 _LOOPBACK_BIND_ADDRESS = "127.0.0.1"
 _WILDCARD_BIND_LITERALS = frozenset({"", "0.0.0.0", "::"})
@@ -161,7 +159,7 @@ class Listener:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Listener":
+    def from_dict(cls, data: dict[str, Any]) -> Listener:
         return cls(
             id=data["id"],
             port=data["port"],
@@ -280,8 +278,7 @@ class ListenerManager:
                     ssl_context = (cert_path, key_path)
                 else:
                     print_warn(
-                        f"[listener] SSL requested but cert.pem/key.pem not found. "
-                        f"Starting {listener_id} without SSL."
+                        f"[listener] SSL requested but cert.pem/key.pem not found. Starting {listener_id} without SSL."
                     )
 
             from werkzeug.serving import make_server
@@ -317,10 +314,7 @@ class ListenerManager:
             )
             listener._thread = thread
             thread.start()
-            print_msg(
-                f"[listener] {listener_id} started on {bind_address}:{listener.port} "
-                f"(ssl={listener.ssl})"
-            )
+            print_msg(f"[listener] {listener_id} started on {bind_address}:{listener.port} (ssl={listener.ssl})")
             return True
         except Exception as e:
             print_error(f"[listener] Failed to start {listener_id}: {e}")
@@ -355,17 +349,19 @@ class ListenerManager:
 
     def stop_all(self) -> None:
         """Stop every running listener."""
-        for listener_id, listener in list(self.listeners.items()):
+        for listener_id, _listener in list(self.listeners.items()):
             self.stop(listener_id)
 
     def status(self) -> list[dict[str, Any]]:
         """Return status of all listeners."""
         result = []
         for listener in self.listeners.values():
-            result.append({
-                **listener.to_dict(),
-                "running": listener._server is not None,
-            })
+            result.append(
+                {
+                    **listener.to_dict(),
+                    "running": listener._server is not None,
+                }
+            )
         return result
 
     def get_default_port(self, fallback: int = 4444) -> int:

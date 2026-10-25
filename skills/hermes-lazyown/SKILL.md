@@ -81,9 +81,9 @@ Register in Hermes config.yaml:
 mcp_servers:
   hermes-lazyown:
     command: python3
-    args: ["/home/grisun0/LazyOwn/skills/hermes-lazyown/mcp_server.py"]
+    args: ["${LAZYOWN_DIR}/skills/hermes-lazyown/mcp_server.py"]
     env:
-      LAZYOWN_DIR: "/home/grisun0/LazyOwn"
+      LAZYOWN_DIR: "${LAZYOWN_DIR}"
 ```
 
 ## Documentation

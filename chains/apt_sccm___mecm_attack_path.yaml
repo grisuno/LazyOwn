@@ -1,0 +1,6 @@
+name: apt_sccm___mecm_attack_path
+description: Full APT chain for sccm_/_mecm_attack_path (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: sccm_/_mecm_attack_path

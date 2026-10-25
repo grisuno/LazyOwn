@@ -35,18 +35,17 @@ import csv
 import datetime
 import json
 import logging
-import os
 import re
 import sys
 import urllib.error
 import urllib.request
 import uuid
-from dataclasses import asdict, dataclass, field
-from enum import Enum
+from collections.abc import Mapping, Sequence
+from dataclasses import asdict, dataclass
+from enum import StrEnum
 from pathlib import Path
 from types import MappingProxyType
-from typing import Dict, List, Mapping, Optional, Sequence, Tuple
-
+from typing import Any
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -80,7 +79,7 @@ class Config:
     log_level: str
 
     @classmethod
-    def default(cls) -> "Config":
+    def default(cls) -> Config:
         """Construct configuration anchored to this file's repository root."""
         base = Path(__file__).parent.parent
         sessions = base / "sessions"
@@ -129,7 +128,7 @@ class Config:
 # ─── Enums ───────────────────────────────────────────────────────────────────
 
 
-class ActionCategory(str, Enum):
+class ActionCategory(StrEnum):
     """Semantic category of a LazyOwn command execution."""
 
     RECON = "recon"
@@ -144,7 +143,7 @@ class ActionCategory(str, Enum):
     OTHER = "other"
 
 
-class OutcomeType(str, Enum):
+class OutcomeType(StrEnum):
     """Outcome of a classified command execution."""
 
     SUCCESS = "success"
@@ -154,25 +153,46 @@ class OutcomeType(str, Enum):
 
 # ─── Category keyword map ────────────────────────────────────────────────────
 
-_CATEGORY_KEYWORDS: List[Tuple[Sequence[str], ActionCategory]] = [
+_CATEGORY_KEYWORDS: list[tuple[Sequence[str], ActionCategory]] = [
     (
         [
-            "lazynmap", "masscan", "lazywebscan", "gobuster", "dirb",
-            "nikto", "dnsenum", "dnsrecon", "hostdiscover", "shodan", "nmap",
+            "lazynmap",
+            "masscan",
+            "lazywebscan",
+            "gobuster",
+            "dirb",
+            "nikto",
+            "dnsenum",
+            "dnsrecon",
+            "hostdiscover",
+            "shodan",
+            "nmap",
         ],
         ActionCategory.RECON,
     ),
     (
         [
-            "enum_smb", "smbmap", "smbclient", "rpcclient", "enum4linux",
-            "ldapsearch", "ldapdomaindump", "ridenum", "net rpc",
+            "enum_smb",
+            "smbmap",
+            "smbclient",
+            "rpcclient",
+            "enum4linux",
+            "ldapsearch",
+            "ldapdomaindump",
+            "ridenum",
+            "net rpc",
         ],
         ActionCategory.ENUM,
     ),
     (
         [
-            "hydra", "medusa", "john ", "hashcat", "kerbrute",
-            "crackmapexec smb", "crackmapexec -p",
+            "hydra",
+            "medusa",
+            "john ",
+            "hashcat",
+            "kerbrute",
+            "crackmapexec smb",
+            "crackmapexec -p",
         ],
         ActionCategory.BRUTE_FORCE,
     ),
@@ -182,36 +202,62 @@ _CATEGORY_KEYWORDS: List[Tuple[Sequence[str], ActionCategory]] = [
     ),
     (
         [
-            "evil-winrm", "psexec", "wmiexec", "smbexec", "atexec",
-            "dcomexec", "ssh ", "telnet ", "ftp ", "winrm",
+            "evil-winrm",
+            "psexec",
+            "wmiexec",
+            "smbexec",
+            "atexec",
+            "dcomexec",
+            "ssh ",
+            "telnet ",
+            "ftp ",
+            "winrm",
         ],
         ActionCategory.INTRUSION,
     ),
     (
         [
-            "linpeas", "winpeas", "sudo -l", "suid", "privesc",
-            "getsystem", "bypassuac", "suid3num",
+            "linpeas",
+            "winpeas",
+            "sudo -l",
+            "suid",
+            "privesc",
+            "getsystem",
+            "bypassuac",
+            "suid3num",
         ],
         ActionCategory.PRIVESC,
     ),
     (
         [
-            "secretsdump", "mimikatz", "hashdump", "lsass",
-            "procdump", "pypykatz", "credential",
+            "secretsdump",
+            "mimikatz",
+            "hashdump",
+            "lsass",
+            "procdump",
+            "pypykatz",
+            "credential",
         ],
         ActionCategory.CREDENTIAL,
     ),
     (
         [
-            "lateral", "pass-the-hash", "pass-the-ticket",
-            "crackmapexec", "impacket",
+            "lateral",
+            "pass-the-hash",
+            "pass-the-ticket",
+            "crackmapexec",
+            "impacket",
         ],
         ActionCategory.LATERAL,
     ),
     (
         [
-            "msfvenom", "generate_reverse_shell", "generate_c_reverse_shell",
-            "generate_stub", "shellcode", "payload",
+            "msfvenom",
+            "generate_reverse_shell",
+            "generate_c_reverse_shell",
+            "generate_stub",
+            "shellcode",
+            "payload",
         ],
         ActionCategory.PAYLOAD,
     ),
@@ -229,7 +275,7 @@ def infer_category(command: str, args: str = "") -> ActionCategory:
 
 # ─── Heuristic detection patterns ────────────────────────────────────────────
 
-_SUCCESS_PATTERNS: List[Tuple[re.Pattern, ActionCategory, float]] = [
+_SUCCESS_PATTERNS: list[tuple[re.Pattern, ActionCategory, float]] = [
     (re.compile(r"\d+/open", re.I), ActionCategory.RECON, 0.90),
     (re.compile(r"PORT\s+STATE\s+SERVICE", re.I), ActionCategory.RECON, 0.85),
     (re.compile(r"Host is up", re.I), ActionCategory.RECON, 0.80),
@@ -243,7 +289,7 @@ _SUCCESS_PATTERNS: List[Tuple[re.Pattern, ActionCategory, float]] = [
     (re.compile(r"(Administrator|NTLM hash|:.*:.*:.*:|aes256-cts)", re.I), ActionCategory.CREDENTIAL, 0.88),
 ]
 
-_FAIL_PATTERNS: List[Tuple[re.Pattern, float]] = [
+_FAIL_PATTERNS: list[tuple[re.Pattern, float]] = [
     (re.compile(r"(connection refused|timed?\s*out|unreachable|no route)", re.I), 0.85),
     (re.compile(r"(authentication fail|login fail|bad credential|access denied)", re.I), 0.90),
     (re.compile(r"(0 results|no hosts? up|no open port)", re.I), 0.80),
@@ -268,7 +314,7 @@ class ClassificationResult:
     tier: str
 
     @classmethod
-    def unknown(cls, tier: str) -> "ClassificationResult":
+    def unknown(cls, tier: str) -> ClassificationResult:
         """Produce a result indicating the tier could not classify."""
         return cls(
             success=False,
@@ -303,7 +349,7 @@ class EpisodeRecord:
 
     episode_id: str
     target: str
-    steps: List[StepRecord]
+    steps: list[StepRecord]
     total_reward: int
     created_at: str
     updated_at: str
@@ -313,7 +359,7 @@ class EpisodeRecord:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, d: dict) -> "EpisodeRecord":
+    def from_dict(cls, d: dict) -> EpisodeRecord:
         """Deserialise from a dict produced by to_dict."""
         raw_steps = d.pop("steps", [])
         steps = [StepRecord(**s) for s in raw_steps]
@@ -332,7 +378,7 @@ class IOutputClassifier(abc.ABC):
         command: str,
         args: str,
         output: str,
-        exit_code: Optional[int],
+        exit_code: int | None,
     ) -> ClassificationResult:
         """Classify the outcome of one command execution."""
 
@@ -357,7 +403,7 @@ class ExitCodeClassifier(IOutputClassifier):
         command: str,
         args: str,
         output: str,
-        exit_code: Optional[int],
+        exit_code: int | None,
     ) -> ClassificationResult:
         """Return a low-confidence result based solely on the exit code."""
         if exit_code is None:
@@ -369,7 +415,7 @@ class ExitCodeClassifier(IOutputClassifier):
                 confidence=self._CONFIDENCE_ZERO,
                 category=category,
                 outcome=OutcomeType.SUCCESS,
-                reason=f"exit code 0",
+                reason="exit code 0",
                 tier="exit_code",
             )
         return ClassificationResult(
@@ -400,7 +446,7 @@ class HeuristicClassifier(IOutputClassifier):
         command: str,
         args: str,
         output: str,
-        exit_code: Optional[int],
+        exit_code: int | None,
     ) -> ClassificationResult:
         """Scan output for known success or failure signatures."""
         if not output:
@@ -459,7 +505,7 @@ class _OllamaClassifierBase(IOutputClassifier):
         command: str,
         args: str,
         output: str,
-        exit_code: Optional[int],
+        exit_code: int | None,
     ) -> str:
         """Construct the classification prompt for the model."""
         ec = str(exit_code) if exit_code is not None else "unknown"
@@ -476,11 +522,9 @@ class _OllamaClassifierBase(IOutputClassifier):
             f'"reason": "one sentence"}}'
         )
 
-    def _call_ollama(self, prompt: str) -> Optional[dict]:
+    def _call_ollama(self, prompt: str) -> dict | None:
         """POST a generate request to Ollama and return the parsed response dict."""
-        payload = json.dumps(
-            {"model": self._model, "prompt": prompt, "stream": False}
-        ).encode()
+        payload = json.dumps({"model": self._model, "prompt": prompt, "stream": False}).encode()
         req = urllib.request.Request(
             self._url,
             data=payload,
@@ -493,9 +537,7 @@ class _OllamaClassifierBase(IOutputClassifier):
         except (urllib.error.URLError, json.JSONDecodeError, OSError):
             return None
 
-    def _parse_response(
-        self, data: Optional[dict], fallback: ActionCategory
-    ) -> Optional[ClassificationResult]:
+    def _parse_response(self, data: dict | None, fallback: ActionCategory) -> ClassificationResult | None:
         """Extract a ClassificationResult from the raw Ollama response."""
         if data is None:
             return None
@@ -530,7 +572,7 @@ class _OllamaClassifierBase(IOutputClassifier):
         command: str,
         args: str,
         output: str,
-        exit_code: Optional[int],
+        exit_code: int | None,
     ) -> ClassificationResult:
         """Send the command context to Ollama and parse the JSON reply."""
         fallback = infer_category(command, args)
@@ -576,7 +618,7 @@ class UserInteractiveClassifier(IOutputClassifier):
         command: str,
         args: str,
         output: str,
-        exit_code: Optional[int],
+        exit_code: int | None,
     ) -> ClassificationResult:
         """Prompt the operator and return their authoritative verdict."""
         category = infer_category(command, args)
@@ -623,7 +665,7 @@ class CascadeClassifier:
 
     def __init__(self, cfg: Config, interactive: bool = False) -> None:
         self._threshold = cfg.min_confidence_to_accept
-        self._tiers: List[IOutputClassifier] = [
+        self._tiers: list[IOutputClassifier] = [
             ExitCodeClassifier(),
             HeuristicClassifier(),
             OllamaSmallClassifier(cfg),
@@ -637,7 +679,7 @@ class CascadeClassifier:
         command: str,
         args: str,
         output: str,
-        exit_code: Optional[int],
+        exit_code: int | None,
     ) -> ClassificationResult:
         """Return the first sufficiently confident result, or the best available."""
         best = ClassificationResult.unknown("cascade")
@@ -677,10 +719,12 @@ class DetectionRiskAssessor:
         if self._oracle is None:
             try:
                 import sys as _sys
+
                 _base = Path(__file__).parent.parent
                 if str(_base) not in _sys.path:
                     _sys.path.insert(0, str(_base))
                 from modules.detection_oracle import get_oracle  # noqa: PLC0415
+
                 self._oracle = get_oracle()
             except Exception:
                 self._oracle = None
@@ -723,20 +767,18 @@ class RewardCalculator:
     still learn that failed actions carry a negative signal.
     """
 
-    _HIGH_VALUE_CATEGORIES = frozenset(
-        {ActionCategory.INTRUSION, ActionCategory.PRIVESC, ActionCategory.CREDENTIAL}
-    )
+    _HIGH_VALUE_CATEGORIES = frozenset({ActionCategory.INTRUSION, ActionCategory.PRIVESC, ActionCategory.CREDENTIAL})
     _DETECTION_ZERO_THRESHOLD: float = 0.70
 
     def __init__(
         self,
         cfg: Config,
-        risk_assessor: Optional[DetectionRiskAssessor] = None,
+        risk_assessor: DetectionRiskAssessor | None = None,
     ) -> None:
-        self._table                = cfg.reward_table
-        self._fail_reward          = self._table["any:fail"]
+        self._table = cfg.reward_table
+        self._fail_reward = self._table["any:fail"]
         self._critical_fail_reward = self._table["critical:fail"]
-        self._risk_assessor        = risk_assessor
+        self._risk_assessor = risk_assessor
 
     def calculate(self, category: ActionCategory, outcome: OutcomeType) -> int:
         """
@@ -759,7 +801,7 @@ class RewardCalculator:
         outcome: OutcomeType,
         command: str,
         args: str,
-    ) -> Tuple[int, float]:
+    ) -> tuple[int, float]:
         """
         Return (reward, detection_probability) for the given execution.
 
@@ -782,9 +824,7 @@ class RewardCalculator:
         detection_prob = 0.0
 
         if self._risk_assessor is not None and outcome is OutcomeType.SUCCESS:
-            detection_prob = self._risk_assessor.assess_probability(
-                command, args, category.value
-            )
+            detection_prob = self._risk_assessor.assess_probability(command, args, category.value)
             if detection_prob >= self._DETECTION_ZERO_THRESHOLD:
                 logging.getLogger(__name__).info(
                     "Detection risk %.0f%% for %s — zeroing reward (was %+d)",
@@ -812,11 +852,11 @@ class CSVSessionReader:
         self._heuristic = HeuristicClassifier()
         self._reward_calc = RewardCalculator(cfg)
 
-    def read(self) -> List[StepRecord]:
+    def read(self) -> list[StepRecord]:
         """Parse the CSV and return all classifiable rows as StepRecord instances."""
         if not self._path.exists():
             return []
-        steps: List[StepRecord] = []
+        steps: list[StepRecord] = []
         with self._path.open(newline="", encoding="utf-8", errors="replace") as fh:
             reader = csv.DictReader(fh)
             for row in reader:
@@ -864,11 +904,11 @@ class IEpisodeStore(abc.ABC):
         """Add a step to the episode for its target, creating the episode if needed."""
 
     @abc.abstractmethod
-    def load_all(self) -> List[EpisodeRecord]:
+    def load_all(self) -> list[EpisodeRecord]:
         """Load every stored episode."""
 
     @abc.abstractmethod
-    def get_episode(self, target: str) -> Optional[EpisodeRecord]:
+    def get_episode(self, target: str) -> EpisodeRecord | None:
         """Return the episode for the given target, or None."""
 
 
@@ -886,9 +926,9 @@ class JSONLEpisodeStore(IEpisodeStore):
 
     def append_step(self, step: StepRecord) -> None:
         """Upsert the step into its target's episode and persist."""
-        episodes: Dict[str, EpisodeRecord] = {ep.target: ep for ep in self.load_all()}
+        episodes: dict[str, EpisodeRecord] = {ep.target: ep for ep in self.load_all()}
         target = step.target or "unknown"
-        now = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        now = datetime.datetime.now(datetime.UTC).isoformat()
         if target not in episodes:
             episodes[target] = EpisodeRecord(
                 episode_id=str(uuid.uuid4()),
@@ -904,11 +944,11 @@ class JSONLEpisodeStore(IEpisodeStore):
         ep.updated_at = now
         self._write_all(list(episodes.values()))
 
-    def load_all(self) -> List[EpisodeRecord]:
+    def load_all(self) -> list[EpisodeRecord]:
         """Deserialise all episodes from the .jsonl file."""
         if not self._path.exists():
             return []
-        records: List[EpisodeRecord] = []
+        records: list[EpisodeRecord] = []
         with self._path.open(encoding="utf-8") as fh:
             for line in fh:
                 line = line.strip()
@@ -920,14 +960,14 @@ class JSONLEpisodeStore(IEpisodeStore):
                     continue
         return records
 
-    def get_episode(self, target: str) -> Optional[EpisodeRecord]:
+    def get_episode(self, target: str) -> EpisodeRecord | None:
         """Return the episode for target, or None if not found."""
         for ep in self.load_all():
             if ep.target == target:
                 return ep
         return None
 
-    def _write_all(self, episodes: List[EpisodeRecord]) -> None:
+    def _write_all(self, episodes: list[EpisodeRecord]) -> None:
         with self._path.open("w", encoding="utf-8") as fh:
             for ep in episodes:
                 fh.write(json.dumps(ep.to_dict()) + "\n")
@@ -947,7 +987,7 @@ class TransitionTable:
     def __init__(self, cfg: Config) -> None:
         self._path = cfg.transitions_file
         self._min_count = cfg.min_transition_count
-        self._data: Dict[str, Dict[str, Dict[str, int]]] = {}
+        self._data: dict[str, dict[str, dict[str, int]]] = {}
         self._load()
 
     def record(self, from_state: str, to_category: str, outcome: str) -> None:
@@ -960,7 +1000,7 @@ class TransitionTable:
         self._data[from_state][to_category][bucket] += 1
         self._save()
 
-    def query(self, from_state: str) -> List[Tuple[str, float, int]]:
+    def query(self, from_state: str) -> list[tuple[str, float, int]]:
         """
         Return (next_category, success_rate, total_count) tuples for the given
         from_state, filtered by min_transition_count and sorted by success rate
@@ -972,7 +1012,7 @@ class TransitionTable:
         self._load()
         if from_state not in self._data:
             return []
-        results: List[Tuple[str, float, int]] = []
+        results: list[tuple[str, float, int]] = []
         for category, counts in self._data[from_state].items():
             total = counts["success"] + counts["fail"] + counts["unknown"]
             if total < self._min_count:
@@ -1006,13 +1046,13 @@ class OverrideRule:
     """
 
     name: str
-    trigger_sequence: Tuple[str, ...]
+    trigger_sequence: tuple[str, ...]
     inject_category: str
     reason: str
     priority: int
 
 
-_OVERRIDE_RULES: List[OverrideRule] = [
+_OVERRIDE_RULES: list[OverrideRule] = [
     OverrideRule(
         name="enum_before_intrusion",
         trigger_sequence=("recon:success", "intrusion:fail"),
@@ -1068,7 +1108,7 @@ class PolicyEngine:
         self._top_k = cfg.top_k_recommendations
         self._transitions = transitions
 
-    def recommend(self, recent_steps: List[StepRecord]) -> List[Dict]:
+    def recommend(self, recent_steps: list[StepRecord]) -> list[dict]:
         """
         Return up to top_k dicts with keys: category, reason, confidence, source.
         """
@@ -1081,14 +1121,12 @@ class PolicyEngine:
                     "source": "default",
                 }
             ]
-        recent_states = [
-            f"{s.category}:{s.outcome}" for s in recent_steps[-self._STATE_WINDOW :]
-        ]
+        recent_states = [f"{s.category}:{s.outcome}" for s in recent_steps[-self._STATE_WINDOW :]]
         current_state = recent_states[-1]
         injected = self._apply_overrides(recent_states)
         data_driven = self._transitions.query(current_state)
 
-        recommendations: List[Dict] = []
+        recommendations: list[dict] = []
         seen: set = set()
 
         for rule_cat, rule_reason, rule_priority in injected:
@@ -1110,10 +1148,7 @@ class PolicyEngine:
                 recommendations.append(
                     {
                         "category": category,
-                        "reason": (
-                            f"Observed {count}x after '{current_state}' "
-                            f"with {rate:.0%} success rate."
-                        ),
+                        "reason": (f"Observed {count}x after '{current_state}' with {rate:.0%} success rate."),
                         "confidence": rate,
                         "source": "transition_table",
                     }
@@ -1124,20 +1159,18 @@ class PolicyEngine:
 
         return recommendations[: self._top_k]
 
-    def _apply_overrides(
-        self, recent_states: List[str]
-    ) -> List[Tuple[str, str, int]]:
+    def _apply_overrides(self, recent_states: list[str]) -> list[tuple[str, str, int]]:
         """Return (category, reason, priority) for every triggered override rule."""
-        matched: List[Tuple[str, str, int]] = []
+        matched: list[tuple[str, str, int]] = []
         for rule in sorted(_OVERRIDE_RULES, key=lambda r: -r.priority):
             window = tuple(recent_states[-len(rule.trigger_sequence) :])
             if window == rule.trigger_sequence:
                 matched.append((rule.inject_category, rule.reason, rule.priority))
         return matched
 
-    def _default_fallback(self, current_state: str) -> Dict:
+    def _default_fallback(self, current_state: str) -> dict:
         """Fall back to the standard kill-chain order when no data is available."""
-        _chain: Dict[str, str] = {
+        _chain: dict[str, str] = {
             "recon": "enum",
             "enum": "brute_force",
             "brute_force": "intrusion",
@@ -1149,10 +1182,7 @@ class PolicyEngine:
         next_cat = _chain.get(current_cat, "recon")
         return {
             "category": next_cat,
-            "reason": (
-                f"No transition data for '{current_state}' — "
-                "following default kill-chain order."
-            ),
+            "reason": (f"No transition data for '{current_state}' — following default kill-chain order."),
             "confidence": 0.40,
             "source": "default_chain",
         }
@@ -1170,12 +1200,12 @@ class SessionClassificationPipeline:
     """
 
     def __init__(self, cfg: Config, interactive: bool = False) -> None:
-        self._classifier  = CascadeClassifier(cfg, interactive=interactive)
-        risk_assessor     = DetectionRiskAssessor()
+        self._classifier = CascadeClassifier(cfg, interactive=interactive)
+        risk_assessor = DetectionRiskAssessor()
         self._reward_calc = RewardCalculator(cfg, risk_assessor=risk_assessor)
-        self._store       = JSONLEpisodeStore(cfg)
+        self._store = JSONLEpisodeStore(cfg)
         self._transitions = TransitionTable(cfg)
-        self._logger      = logging.getLogger(self.__class__.__name__)
+        self._logger = logging.getLogger(self.__class__.__name__)
 
     def process(
         self,
@@ -1183,8 +1213,8 @@ class SessionClassificationPipeline:
         command: str,
         args: str,
         output: str,
-        exit_code: Optional[int],
-        timestamp: Optional[str] = None,
+        exit_code: int | None,
+        timestamp: str | None = None,
     ) -> StepRecord:
         """Classify, reward, store, and return a StepRecord for the given execution."""
         result = self._classifier.classify(command, args, output, exit_code)
@@ -1192,7 +1222,7 @@ class SessionClassificationPipeline:
             result.category, result.outcome, command, args
         )
         step = StepRecord(
-            timestamp=timestamp or datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            timestamp=timestamp or datetime.datetime.now(datetime.UTC).isoformat(),
             target=target,
             command=command,
             args=args,
@@ -1205,7 +1235,7 @@ class SessionClassificationPipeline:
             detection_prob=detection_prob,
         )
         existing = self._store.get_episode(target)
-        prev_state: Optional[str] = None
+        prev_state: str | None = None
         if existing and existing.steps:
             last = existing.steps[-1]
             prev_state = f"{last.category}:{last.outcome}"
@@ -1213,9 +1243,9 @@ class SessionClassificationPipeline:
         if prev_state:
             self._transitions.record(prev_state, step.category, step.outcome)
         self._logger.info(
-            "Classified %s %s -> %s/%s (reward=%+d conf=%.2f tier=%s detect=%.0f%%)",
+            "Classified %s (args_len=%d) -> %s/%s (reward=%+d conf=%.2f tier=%s detect=%.0f%%)",
             command,
-            args[:40],
+            len(args),
             result.category.value,
             result.outcome.value,
             reward,
@@ -1239,21 +1269,17 @@ class PolicyAdvisor:
         self._transitions = TransitionTable(cfg)
         self._engine = PolicyEngine(cfg, self._transitions)
 
-    def advise(self, target: str) -> List[Dict]:
+    def advise(self, target: str) -> list[dict]:
         """Return the policy engine's recommendations for the given target."""
         episode = self._store.get_episode(target)
         return self._engine.recommend(episode.steps if episode else [])
 
-    def episode_summary(self, target: str) -> Optional[Dict]:
+    def episode_summary(self, target: str) -> dict | None:
         """Return a high-level summary dict for the target's episode."""
         episode = self._store.get_episode(target)
         if not episode:
             return None
-        last_state = (
-            f"{episode.steps[-1].category}:{episode.steps[-1].outcome}"
-            if episode.steps
-            else "none"
-        )
+        last_state = f"{episode.steps[-1].category}:{episode.steps[-1].outcome}" if episode.steps else "none"
         return {
             "target": episode.target,
             "total_reward": episode.total_reward,
@@ -1273,7 +1299,7 @@ class LazyOwnPolicyIntegration:
     internal cascade and storage details.
     """
 
-    def __init__(self, cfg: Optional[Config] = None) -> None:
+    def __init__(self, cfg: Config | None = None) -> None:
         resolved = cfg if cfg is not None else Config.default()
         self._pipeline = SessionClassificationPipeline(resolved)
         self._advisor = PolicyAdvisor(resolved)
@@ -1284,12 +1310,12 @@ class LazyOwnPolicyIntegration:
         command: str,
         args: str,
         output: str,
-        exit_code: Optional[int],
+        exit_code: int | None,
     ) -> StepRecord:
         """Classify a completed command and record it in the episode store."""
         return self._pipeline.process(target, command, args, output, exit_code)
 
-    def get_recommendations(self, target: str) -> List[Dict]:
+    def get_recommendations(self, target: str) -> list[dict]:
         """Return ranked next-action recommendations for the target."""
         return self._advisor.advise(target)
 
@@ -1297,7 +1323,7 @@ class LazyOwnPolicyIntegration:
 # ─── Approval gate ────────────────────────────────────────────────────────────
 
 
-class ApprovalDecision(str, Enum):
+class ApprovalDecision(StrEnum):
     """Outcome of a single ApprovalGate.request call."""
 
     APPROVED = "approved"
@@ -1359,7 +1385,7 @@ class IApprovalSink(abc.ABC):
         """Publish the request so operators can see and resolve it."""
 
     @abc.abstractmethod
-    def resolution_for(self, approval_id: str) -> Optional[ApprovalOutcome]:
+    def resolution_for(self, approval_id: str) -> ApprovalOutcome | None:
         """Return the latest resolution for the request or None if pending."""
 
 
@@ -1371,7 +1397,7 @@ class FileApprovalSink(IApprovalSink):
     record for the id so the daemon can poll without holding file handles.
     """
 
-    def __init__(self, sessions_dir: Optional[Path] = None) -> None:
+    def __init__(self, sessions_dir: Path | None = None) -> None:
         base = sessions_dir or (Path(__file__).resolve().parent.parent / "sessions")
         self._path = Path(base) / "engagement_approvals.jsonl"
 
@@ -1383,12 +1409,12 @@ class FileApprovalSink(IApprovalSink):
     def announce(self, request: ApprovalRequest) -> None:
         record = {
             "approval_id": request.approval_id,
-            "status":      "pending",
-            "target":      request.target,
-            "phase":       request.phase,
-            "command":     request.command,
-            "reason":      request.reason,
-            "created_ts":  request.created_ts,
+            "status": "pending",
+            "target": request.target,
+            "phase": request.phase,
+            "command": request.command,
+            "reason": request.reason,
+            "created_ts": request.created_ts,
         }
         try:
             self._path.parent.mkdir(parents=True, exist_ok=True)
@@ -1397,11 +1423,11 @@ class FileApprovalSink(IApprovalSink):
         except Exception:
             pass
 
-    def resolution_for(self, approval_id: str) -> Optional[ApprovalOutcome]:
+    def resolution_for(self, approval_id: str) -> ApprovalOutcome | None:
         if not self._path.exists():
             return None
         try:
-            latest: Optional[Dict] = None
+            latest: dict | None = None
             for line in self._path.read_text(encoding="utf-8").splitlines():
                 if not line.strip():
                     continue
@@ -1437,7 +1463,7 @@ class BroadcastApprovalSink(IApprovalSink):
     def __init__(
         self,
         narrator: Any = None,
-        file_sink: Optional[FileApprovalSink] = None,
+        file_sink: FileApprovalSink | None = None,
     ) -> None:
         self._file = file_sink or FileApprovalSink()
         self._narrator = narrator
@@ -1448,6 +1474,7 @@ class BroadcastApprovalSink(IApprovalSink):
         if narrator is None:
             try:
                 from engagement_hooks import get_default_narrator as _gdn
+
                 narrator = _gdn()
             except Exception:
                 narrator = None
@@ -1457,22 +1484,19 @@ class BroadcastApprovalSink(IApprovalSink):
             narrator.narrate(
                 kind="APPROVAL_PENDING",
                 target=request.target,
-                message=(
-                    f"awaiting approval for {request.command} "
-                    f"(phase={request.phase}) — {request.reason}"
-                ),
+                message=(f"awaiting approval for {request.command} (phase={request.phase}) — {request.reason}"),
                 payload={
                     "approval_id": request.approval_id,
-                    "phase":       request.phase,
-                    "command":     request.command,
-                    "reason":      request.reason,
+                    "phase": request.phase,
+                    "command": request.command,
+                    "reason": request.reason,
                 },
                 severity="warning",
             )
         except Exception:
             pass
 
-    def resolution_for(self, approval_id: str) -> Optional[ApprovalOutcome]:
+    def resolution_for(self, approval_id: str) -> ApprovalOutcome | None:
         return self._file.resolution_for(approval_id)
 
 
@@ -1484,14 +1508,11 @@ class StdinApprovalSink(IApprovalSink):
     Falls back to a pending state when no TTY is available or input fails.
     """
 
-    PROMPT = (
-        "[ENGAGE] approval required — type 'y' to approve, 'n' to deny "
-        "(timeout 0 returns pending): "
-    )
+    PROMPT = "[ENGAGE] approval required — type 'y' to approve, 'n' to deny (timeout 0 returns pending): "
 
     def __init__(self, stream: Any = None) -> None:
         self._stream = stream
-        self._answers: Dict[str, ApprovalOutcome] = {}
+        self._answers: dict[str, ApprovalOutcome] = {}
 
     def _is_interactive(self) -> bool:
         try:
@@ -1528,7 +1549,7 @@ class StdinApprovalSink(IApprovalSink):
         except Exception:
             pass
 
-    def resolution_for(self, approval_id: str) -> Optional[ApprovalOutcome]:
+    def resolution_for(self, approval_id: str) -> ApprovalOutcome | None:
         return self._answers.get(approval_id)
 
 
@@ -1540,7 +1561,7 @@ class CompositeApprovalSink(IApprovalSink):
     the slow file sink.
     """
 
-    def __init__(self, sinks: List[IApprovalSink]) -> None:
+    def __init__(self, sinks: list[IApprovalSink]) -> None:
         if not sinks:
             raise ValueError("CompositeApprovalSink requires at least one sink")
         self._sinks = list(sinks)
@@ -1552,7 +1573,7 @@ class CompositeApprovalSink(IApprovalSink):
             except Exception:
                 pass
 
-    def resolution_for(self, approval_id: str) -> Optional[ApprovalOutcome]:
+    def resolution_for(self, approval_id: str) -> ApprovalOutcome | None:
         for sink in self._sinks:
             try:
                 outcome = sink.resolution_for(approval_id)
@@ -1563,21 +1584,23 @@ class CompositeApprovalSink(IApprovalSink):
         return None
 
 
-_GATED_CATEGORIES = frozenset({
-    ActionCategory.EXPLOIT.value,
-    ActionCategory.INTRUSION.value,
-    ActionCategory.PRIVESC.value,
-    ActionCategory.LATERAL.value,
-    ActionCategory.CREDENTIAL.value,
-    ActionCategory.PAYLOAD.value,
-    "exploit",
-    "postexp",
-    "post_exploit",
-    "privesc",
-    "lateral",
-    "cred",
-    "exfil",
-})
+_GATED_CATEGORIES = frozenset(
+    {
+        ActionCategory.EXPLOIT.value,
+        ActionCategory.INTRUSION.value,
+        ActionCategory.PRIVESC.value,
+        ActionCategory.LATERAL.value,
+        ActionCategory.CREDENTIAL.value,
+        ActionCategory.PAYLOAD.value,
+        "exploit",
+        "postexp",
+        "post_exploit",
+        "privesc",
+        "lateral",
+        "cred",
+        "exfil",
+    }
+)
 
 
 class ApprovalGate:
@@ -1610,16 +1633,18 @@ class ApprovalGate:
 
     def __init__(
         self,
-        sink: Optional[IApprovalSink] = None,
-        payload_path: Optional[Path] = None,
+        sink: IApprovalSink | None = None,
+        payload_path: Path | None = None,
         poll_interval_s: float = DEFAULT_POLL_INTERVAL_S,
         poll_timeout_s: float = DEFAULT_POLL_TIMEOUT_S,
         sleep_fn: Any = None,
     ) -> None:
-        self._sink = sink or CompositeApprovalSink([
-            StdinApprovalSink(),
-            BroadcastApprovalSink(),
-        ])
+        self._sink = sink or CompositeApprovalSink(
+            [
+                StdinApprovalSink(),
+                BroadcastApprovalSink(),
+            ]
+        )
         base = Path(__file__).resolve().parent.parent
         self._payload_path = payload_path or (base / "payload.json")
         self._poll_interval_s = max(0.1, float(poll_interval_s))
@@ -1674,7 +1699,7 @@ class ApprovalGate:
             phase=phase,
             command=command,
             reason=reason or "operator approval required for gated phase",
-            created_ts=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            created_ts=datetime.datetime.now(datetime.UTC).isoformat(),
         )
         self._sink.announce(request)
 
@@ -1696,7 +1721,199 @@ class ApprovalGate:
 def _default_sleep(seconds: float) -> None:
     """Thin wrapper around time.sleep for ApprovalGate injection in tests."""
     import time as _time
+
     _time.sleep(max(0.0, seconds))
+
+
+SCOPE_KEY = "scope"
+SCOPE_ENFORCEMENT_KEY = "scope_enforcement"
+ENFORCEMENT_OFF = "off"
+ENFORCEMENT_WARN = "warn"
+ENFORCEMENT_ENFORCE = "enforce"
+
+
+_SCOPE_GUARD_MODULE_NAME = "_lazyown_scope_guard_isolated"
+_scope_guard_cache: Any = None
+
+
+def _load_scope_guard() -> Any:
+    """Load ``cli/scope_guard.py`` directly from its file path (cached).
+
+    The scope guard is pure standard library, but importing it through the
+    ``cli`` package triggers ``cli/__init__.py`` which pulls the full cmd2
+    command stack. Loading the module file in isolation keeps this gate
+    dependency-light and side-effect free. The loaded module is registered
+    in ``sys.modules`` before execution so ``@dataclass`` under
+    ``from __future__ import annotations`` can resolve its own type
+    namespace, and the result is cached across calls.
+
+    Returns:
+        The loaded ``scope_guard`` module.
+
+    Raises:
+        ImportError: When the module spec or loader cannot be built.
+        OSError: When the module file cannot be read.
+    """
+    global _scope_guard_cache
+    if _scope_guard_cache is not None:
+        return _scope_guard_cache
+
+    import importlib.util
+
+    base = Path(__file__).resolve().parent.parent
+    module_path = base / "cli" / "scope_guard.py"
+    spec = importlib.util.spec_from_file_location(_SCOPE_GUARD_MODULE_NAME, module_path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot build spec for {module_path}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[_SCOPE_GUARD_MODULE_NAME] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop(_SCOPE_GUARD_MODULE_NAME, None)
+        raise
+    _scope_guard_cache = module
+    return module
+
+
+def _default_in_scope(target: str, entries: Sequence[str]) -> bool:
+    """Return whether *target* is inside *entries*, failing closed on error.
+
+    Backed by ``cli.scope_guard.target_in_scope`` loaded in isolation. When
+    the scope guard cannot be loaded the predicate returns ``False`` so an
+    unverifiable scope check denies an out-of-scope step under ``enforce``
+    rather than attacking an unauthorized host.
+
+    Args:
+        target: The active target (IP address or hostname).
+        entries: Normalized authorized scope entries.
+
+    Returns:
+        ``True`` when the target is authorized by at least one entry.
+    """
+    try:
+        return bool(_load_scope_guard().target_in_scope(target, entries))
+    except Exception:
+        return False
+
+
+def _normalize_scope(entries: object) -> tuple[str, ...]:
+    """Normalize raw payload scope entries into a clean tuple.
+
+    Delegates to ``cli.scope_guard.normalize_scope`` and falls back to a
+    conservative string strip when the guard cannot be loaded.
+
+    Args:
+        entries: Raw ``payload.json[scope]`` value (typically a list).
+
+    Returns:
+        A tuple of non-empty, stripped scope entries.
+    """
+    try:
+        return tuple(_load_scope_guard().normalize_scope(entries))
+    except Exception:
+        if isinstance(entries, (list, tuple)):
+            return tuple(str(item).strip() for item in entries if str(item).strip())
+        return ()
+
+
+class ScopeBoundAutoGate:
+    """Headless approval gate backing the fully autonomous engage mode.
+
+    Drop-in replacement for :class:`ApprovalGate` that never blocks on a
+    human decision. Every request resolves immediately from the authorized
+    scope declared in ``payload.json``:
+
+    - scope empty OR ``scope_enforcement`` is ``off`` : APPROVED. The scope
+      guard is dormant, so unattended autonomy runs unconstrained.
+    - target inside scope                             : APPROVED.
+    - target outside scope, enforcement ``warn``      : APPROVED, with a
+      rationale flagging the out-of-scope target for the narrator/audit log.
+    - target outside scope, enforcement ``enforce``   : DENIED. This is the
+      single fail-closed boundary unattended autonomy must keep — the
+      engagement's legal authorization limit.
+
+    The payload is read at request time (never cached) so an operator can
+    tighten scope with ``scope enforce`` mid-run and have the next step
+    honour it.
+
+    SOLID:
+      S — owns only the scope-versus-target decision; no I/O beyond reading
+          the payload it is configured with.
+      L — honours the same ``request`` signature and ``ApprovalOutcome``
+          return type as :class:`ApprovalGate`, so ``EngageOrchestrator``
+          consumes either interchangeably.
+      D — the scope predicate is injected via ``in_scope_fn`` so the gate is
+          unit-testable without loading ``cli.scope_guard``.
+    """
+
+    def __init__(
+        self,
+        payload_path: Path | None = None,
+        in_scope_fn: Any = None,
+    ) -> None:
+        base = Path(__file__).resolve().parent.parent
+        self._payload_path = payload_path or (base / "payload.json")
+        self._in_scope = in_scope_fn or _default_in_scope
+
+    def _read_payload(self) -> dict:
+        """Return the parsed payload, or an empty dict on any read error."""
+        try:
+            return json.loads(self._payload_path.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+
+    def request(
+        self,
+        target: str,
+        phase: str,
+        command: str,
+        reason: str = "",
+    ) -> ApprovalOutcome:
+        """Return an ApprovalOutcome without ever prompting a human.
+
+        Args:
+            target: Target the step will run against.
+            phase: Engagement phase tag (recon, enum, exploit, ...).
+            command: LazyOwn command line about to execute.
+            reason: Optional caller rationale, retained for interface parity
+                with :class:`ApprovalGate`.
+
+        Returns:
+            APPROVED for every in-scope step and for every step when the
+            scope guard is dormant; DENIED only for an out-of-scope target
+            under ``enforce``.
+        """
+        payload = self._read_payload()
+        entries = _normalize_scope(payload.get(SCOPE_KEY, []))
+        enforcement = str(payload.get(SCOPE_ENFORCEMENT_KEY, ENFORCEMENT_WARN)).strip().lower()
+
+        if not entries or enforcement == ENFORCEMENT_OFF:
+            return ApprovalOutcome(
+                decision=ApprovalDecision.APPROVED,
+                approval_id="",
+                rationale="scope guard dormant",
+            )
+
+        if self._in_scope(target, entries):
+            return ApprovalOutcome(
+                decision=ApprovalDecision.APPROVED,
+                approval_id="",
+                rationale="target in scope",
+            )
+
+        if enforcement == ENFORCEMENT_ENFORCE:
+            return ApprovalOutcome(
+                decision=ApprovalDecision.DENIED,
+                approval_id="",
+                rationale=f"out of scope: {target} not in authorized scope (enforce)",
+            )
+
+        return ApprovalOutcome(
+            decision=ApprovalDecision.APPROVED,
+            approval_id="",
+            rationale=f"out of scope: {target} (warn — executed and flagged)",
+        )
 
 
 # ─── History bootstrapper ─────────────────────────────────────────────────────
@@ -1720,7 +1937,7 @@ class HistoryBootstrapper:
         if not steps:
             self._logger.warning("Session CSV not found or contains no rows.")
             return 0
-        grouped: Dict[str, List[StepRecord]] = {}
+        grouped: dict[str, list[StepRecord]] = {}
         for step in steps:
             grouped.setdefault(step.target or "unknown", []).append(step)
         for target_steps in grouped.values():
@@ -1733,9 +1950,7 @@ class HistoryBootstrapper:
                 from_state = f"{prev.category}:{prev.outcome}"
                 self._transitions.record(from_state, curr.category, curr.outcome)
         total = len(steps)
-        self._logger.info(
-            "Bootstrap complete: %d steps across %d targets.", total, len(grouped)
-        )
+        self._logger.info("Bootstrap complete: %d steps across %d targets.", total, len(grouped))
         return total
 
 
@@ -1743,10 +1958,12 @@ class HistoryBootstrapper:
 
 
 def _setup_logging(cfg: Config) -> None:
-    logging.basicConfig(
+    from modules.logging_config import configure
+
+    configure(
         level=getattr(logging, cfg.log_level.upper(), logging.INFO),
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        stream=sys.stderr,
+        console=True,
+        file=False,
     )
 
 
@@ -1802,18 +2019,11 @@ def _cmd_report(cfg: Config, _args: argparse.Namespace) -> int:
     col_steps = 7
     col_reward = 9
     col_state = 32
-    header = (
-        f"{'Target':<{col_target}} {'Steps':>{col_steps}} "
-        f"{'Reward':>{col_reward}} {'Last State':<{col_state}}"
-    )
+    header = f"{'Target':<{col_target}} {'Steps':>{col_steps}} {'Reward':>{col_reward}} {'Last State':<{col_state}}"
     print(header)
     print("-" * len(header))
     for ep in sorted(episodes, key=lambda e: -e.total_reward):
-        last = (
-            f"{ep.steps[-1].category}:{ep.steps[-1].outcome}"
-            if ep.steps
-            else "—"
-        )
+        last = f"{ep.steps[-1].category}:{ep.steps[-1].outcome}" if ep.steps else "—"
         print(
             f"{ep.target:<{col_target}} "
             f"{len(ep.steps):>{col_steps}} "
@@ -1847,9 +2057,7 @@ def main() -> int:
     p_analyze.add_argument("--command", required=True, help="LazyOwn command name.")
     p_analyze.add_argument("--args", default="", help="Command arguments.")
     p_analyze.add_argument("--output", default="", help="Shell output to classify.")
-    p_analyze.add_argument(
-        "--exit-code", type=int, default=None, dest="exit_code", help="Shell exit code."
-    )
+    p_analyze.add_argument("--exit-code", type=int, default=None, dest="exit_code", help="Shell exit code.")
     p_analyze.add_argument(
         "--interactive",
         action="store_true",

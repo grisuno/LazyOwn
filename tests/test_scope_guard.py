@@ -34,11 +34,14 @@ class TestScopeMode:
     def test_from_value_passthrough(self):
         assert ScopeMode.from_value(ScopeMode.ENFORCE) is ScopeMode.ENFORCE
 
-    @pytest.mark.parametrize("raw,expected", [
-        ("off", ScopeMode.OFF),
-        ("WARN", ScopeMode.WARN),
-        ("  Enforce  ", ScopeMode.ENFORCE),
-    ])
+    @pytest.mark.parametrize(
+        "raw,expected",
+        [
+            ("off", ScopeMode.OFF),
+            ("WARN", ScopeMode.WARN),
+            ("  Enforce  ", ScopeMode.ENFORCE),
+        ],
+    )
     def test_from_value_strings(self, raw, expected):
         assert ScopeMode.from_value(raw) is expected
 
@@ -188,17 +191,29 @@ class TestScopeGuardEvaluate:
         assert decision.target == "8.8.8.8"
 
 
+class TestScopeExemptions:
+    """Read-only operational commands never trip scope enforcement."""
+
+    def test_exempt_command_allowed_out_of_scope(self):
+        guard = _guard(["10.0.0.0/24"], "enforce", offensive_names=("lazy_fleet",))
+        decision = guard.evaluate("lazy_fleet", "8.8.8.8")
+        assert decision.allowed is True
+        assert decision.needs_confirmation is False
+
+    def test_exempt_set_covers_offensive_operational_surfaces(self):
+        from cli.scope_guard import SCOPE_EXEMPT_COMMANDS
+
+        for name in ("lazy_fleet", "lazy_orchestrator", "lazy_view", "lazy_findings", "lazy_evidence"):
+            assert name in SCOPE_EXEMPT_COMMANDS
+
+
 class TestOffensiveCategoryDrift:
     """The hardcoded offensive category strings must stay in sync with utils."""
 
     def test_categories_exist_in_utils(self):
         import utils
 
-        known = {
-            value
-            for name, value in vars(utils).items()
-            if name.endswith("_category") and isinstance(value, str)
-        }
-        known.add("15. Adversary YAML.")
+        known = {value for name, value in vars(utils).items() if name.endswith("_category") and isinstance(value, str)}
+        known.add("14. Adversary Emulation")
         missing = OFFENSIVE_CATEGORIES - known
         assert not missing, f"offensive categories not defined in utils: {missing}"

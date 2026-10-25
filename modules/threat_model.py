@@ -72,104 +72,103 @@ from __future__ import annotations
 
 import csv
 import json
+import logging
 import os
 import re
-import logging
-from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-SESSIONS_DIR    = Path(__file__).parent.parent / "sessions"
-REPORT_CSV      = SESSIONS_DIR / "LazyOwn_session_report.csv"
-REPORTS_DIR     = SESSIONS_DIR / "reports"
-OUTPUT_FILE     = REPORTS_DIR / "threat_model.json"
+SESSIONS_DIR = Path(__file__).parent.parent / "sessions"
+REPORT_CSV = SESSIONS_DIR / "LazyOwn_session_report.csv"
+REPORTS_DIR = SESSIONS_DIR / "reports"
+OUTPUT_FILE = REPORTS_DIR / "threat_model.json"
 
 # ---------------------------------------------------------------------------
 # MITRE ATT&CK command → (technique_id, tactic, technique_name) mapping
 # This covers the most common LazyOwn + pentest commands.
 # ---------------------------------------------------------------------------
-COMMAND_TTP_MAP: Dict[str, Tuple[str, str, str]] = {
+COMMAND_TTP_MAP: dict[str, tuple[str, str, str]] = {
     # Recon
-    "lazynmap":          ("T1046",     "Discovery",          "Network Service Discovery"),
-    "nmap":              ("T1046",     "Discovery",          "Network Service Discovery"),
-    "hosts_discover":    ("T1018",     "Discovery",          "Remote System Discovery"),
-    "enum4linux":        ("T1087.002", "Discovery",          "Account Discovery: Domain Account"),
-    "smbmap":            ("T1083",     "Discovery",          "File and Directory Discovery"),
-    "smbclient":         ("T1021.002", "Lateral Movement",   "SMB/Windows Admin Shares"),
-    "ldapsearch":        ("T1069.002", "Discovery",          "Permission Groups Discovery: Domain Groups"),
-    "gobuster":          ("T1083",     "Discovery",          "File and Directory Discovery"),
-    "ffuf":              ("T1083",     "Discovery",          "File and Directory Discovery"),
-    "nikto":             ("T1595.002", "Reconnaissance",     "Active Scanning: Vulnerability Scanning"),
-    "wfuzz":             ("T1595.002", "Reconnaissance",     "Active Scanning: Vulnerability Scanning"),
-    "dnsrecon":          ("T1590.002", "Reconnaissance",     "Gather Victim Network Information: DNS"),
-    "dig":               ("T1590.002", "Reconnaissance",     "Gather Victim Network Information: DNS"),
+    "lazynmap": ("T1046", "Discovery", "Network Service Discovery"),
+    "nmap": ("T1046", "Discovery", "Network Service Discovery"),
+    "hosts_discover": ("T1018", "Discovery", "Remote System Discovery"),
+    "enum4linux": ("T1087.002", "Discovery", "Account Discovery: Domain Account"),
+    "smbmap": ("T1083", "Discovery", "File and Directory Discovery"),
+    "smbclient": ("T1021.002", "Lateral Movement", "SMB/Windows Admin Shares"),
+    "ldapsearch": ("T1069.002", "Discovery", "Permission Groups Discovery: Domain Groups"),
+    "gobuster": ("T1083", "Discovery", "File and Directory Discovery"),
+    "ffuf": ("T1083", "Discovery", "File and Directory Discovery"),
+    "nikto": ("T1595.002", "Reconnaissance", "Active Scanning: Vulnerability Scanning"),
+    "wfuzz": ("T1595.002", "Reconnaissance", "Active Scanning: Vulnerability Scanning"),
+    "dnsrecon": ("T1590.002", "Reconnaissance", "Gather Victim Network Information: DNS"),
+    "dig": ("T1590.002", "Reconnaissance", "Gather Victim Network Information: DNS"),
     # Credential access
-    "hydra":             ("T1110.001", "Credential Access",  "Brute Force: Password Guessing"),
-    "kerbrute":          ("T1110.003", "Credential Access",  "Brute Force: Password Spraying"),
-    "kerberoasting":     ("T1558.003", "Credential Access",  "Steal or Forge Kerberos Tickets: Kerberoasting"),
-    "asreproasting":     ("T1558.004", "Credential Access",  "Steal or Forge Kerberos Tickets: AS-REP Roasting"),
-    "crackmapexec":      ("T1110",     "Credential Access",  "Brute Force"),
-    "bloodhound":        ("T1069.002", "Discovery",          "Permission Groups Discovery: Domain Groups"),
+    "hydra": ("T1110.001", "Credential Access", "Brute Force: Password Guessing"),
+    "kerbrute": ("T1110.003", "Credential Access", "Brute Force: Password Spraying"),
+    "kerberoasting": ("T1558.003", "Credential Access", "Steal or Forge Kerberos Tickets: Kerberoasting"),
+    "asreproasting": ("T1558.004", "Credential Access", "Steal or Forge Kerberos Tickets: AS-REP Roasting"),
+    "crackmapexec": ("T1110", "Credential Access", "Brute Force"),
+    "bloodhound": ("T1069.002", "Discovery", "Permission Groups Discovery: Domain Groups"),
     # Exploitation
-    "msf":               ("T1203",     "Execution",          "Exploitation for Client Execution"),
-    "msfconsole":        ("T1203",     "Execution",          "Exploitation for Client Execution"),
-    "sqlmap":            ("T1190",     "Initial Access",     "Exploit Public-Facing Application"),
-    "commix":            ("T1059.004", "Execution",          "Command and Scripting Interpreter: Unix Shell"),
+    "msf": ("T1203", "Execution", "Exploitation for Client Execution"),
+    "msfconsole": ("T1203", "Execution", "Exploitation for Client Execution"),
+    "sqlmap": ("T1190", "Initial Access", "Exploit Public-Facing Application"),
+    "commix": ("T1059.004", "Execution", "Command and Scripting Interpreter: Unix Shell"),
     # Post-exploitation
-    "venom":             ("T1587.001", "Resource Development","Develop Capabilities: Malware"),
-    "payload":           ("T1587.001", "Resource Development","Develop Capabilities: Malware"),
-    "nc":                ("T1059",     "Execution",          "Command and Scripting Interpreter"),
-    "netcat":            ("T1059",     "Execution",          "Command and Scripting Interpreter"),
-    "ligolo":            ("T1572",     "Command and Control","Protocol Tunneling"),
-    "chisel":            ("T1572",     "Command and Control","Protocol Tunneling"),
-    "socat":             ("T1090",     "Command and Control","Proxy"),
-    "lazypwn":           ("T1068",     "Privilege Escalation","Exploitation for Privilege Escalation"),
-    "sudo_exploit":      ("T1548.003", "Privilege Escalation","Abuse Elevation Control Mechanism: Sudo"),
-    "suid":              ("T1548.001", "Privilege Escalation","Abuse Elevation Control Mechanism: Setuid"),
-    "pspy":              ("T1057",     "Discovery",          "Process Discovery"),
-    "linpeas":           ("T1082",     "Discovery",          "System Information Discovery"),
-    "winpeas":           ("T1082",     "Discovery",          "System Information Discovery"),
+    "venom": ("T1587.001", "Resource Development", "Develop Capabilities: Malware"),
+    "payload": ("T1587.001", "Resource Development", "Develop Capabilities: Malware"),
+    "nc": ("T1059", "Execution", "Command and Scripting Interpreter"),
+    "netcat": ("T1059", "Execution", "Command and Scripting Interpreter"),
+    "ligolo": ("T1572", "Command and Control", "Protocol Tunneling"),
+    "chisel": ("T1572", "Command and Control", "Protocol Tunneling"),
+    "socat": ("T1090", "Command and Control", "Proxy"),
+    "lazypwn": ("T1068", "Privilege Escalation", "Exploitation for Privilege Escalation"),
+    "sudo_exploit": ("T1548.003", "Privilege Escalation", "Abuse Elevation Control Mechanism: Sudo"),
+    "suid": ("T1548.001", "Privilege Escalation", "Abuse Elevation Control Mechanism: Setuid"),
+    "pspy": ("T1057", "Discovery", "Process Discovery"),
+    "linpeas": ("T1082", "Discovery", "System Information Discovery"),
+    "winpeas": ("T1082", "Discovery", "System Information Discovery"),
     # Persistence
-    "cron":              ("T1053.003", "Persistence",        "Scheduled Task/Job: Cron"),
-    "persist":           ("T1546",     "Persistence",        "Event Triggered Execution"),
+    "cron": ("T1053.003", "Persistence", "Scheduled Task/Job: Cron"),
+    "persist": ("T1546", "Persistence", "Event Triggered Execution"),
     # Exfil
-    "exfil":             ("T1048",     "Exfiltration",       "Exfiltration Over Alternative Protocol"),
-    "download":          ("T1041",     "Exfiltration",       "Exfiltration Over C2 Channel"),
+    "exfil": ("T1048", "Exfiltration", "Exfiltration Over Alternative Protocol"),
+    "download": ("T1041", "Exfiltration", "Exfiltration Over C2 Channel"),
     # C2
-    "beacon":            ("T1095",     "Command and Control","Non-Application Layer Protocol"),
-    "lazync2":           ("T1095",     "Command and Control","Non-Application Layer Protocol"),
+    "beacon": ("T1095", "Command and Control", "Non-Application Layer Protocol"),
+    "lazync2": ("T1095", "Command and Control", "Non-Application Layer Protocol"),
     # Reporting / misc
-    "report":            ("T1119",     "Collection",         "Automated Collection"),
-    "screenshot":        ("T1113",     "Collection",         "Screen Capture"),
-    "whoami":            ("T1033",     "Discovery",          "System Owner/User Discovery"),
-    "hostname":          ("T1082",     "Discovery",          "System Information Discovery"),
-    "echo":              ("T1059",     "Execution",          "Command and Scripting Interpreter"),
-    "set":               ("T1059",     "Execution",          "Command and Scripting Interpreter"),
+    "report": ("T1119", "Collection", "Automated Collection"),
+    "screenshot": ("T1113", "Collection", "Screen Capture"),
+    "whoami": ("T1033", "Discovery", "System Owner/User Discovery"),
+    "hostname": ("T1082", "Discovery", "System Information Discovery"),
+    "echo": ("T1059", "Execution", "Command and Scripting Interpreter"),
+    "set": ("T1059", "Execution", "Command and Scripting Interpreter"),
 }
 
-SEVERITY_TACTIC: Dict[str, str] = {
-    "Exfiltration":          "critical",
-    "Credential Access":     "critical",
-    "Privilege Escalation":  "high",
-    "Lateral Movement":      "high",
-    "Command and Control":   "high",
-    "Persistence":           "high",
-    "Execution":             "medium",
-    "Initial Access":        "medium",
-    "Discovery":             "low",
-    "Reconnaissance":        "low",
-    "Collection":            "medium",
-    "Resource Development":  "low",
+SEVERITY_TACTIC: dict[str, str] = {
+    "Exfiltration": "critical",
+    "Credential Access": "critical",
+    "Privilege Escalation": "high",
+    "Lateral Movement": "high",
+    "Command and Control": "high",
+    "Persistence": "high",
+    "Execution": "medium",
+    "Initial Access": "medium",
+    "Discovery": "low",
+    "Reconnaissance": "low",
+    "Collection": "medium",
+    "Resource Development": "low",
 }
 
 # Sigma-lite detection rule templates per technique
-DETECTION_TEMPLATES: Dict[str, Dict[str, Any]] = {
+DETECTION_TEMPLATES: dict[str, dict[str, Any]] = {
     "T1046": {
         "name": "Network Port Scan Detected",
         "log_source": "network_traffic",
@@ -236,15 +235,15 @@ DETECTION_TEMPLATES: Dict[str, Dict[str, Any]] = {
 # ---------------------------------------------------------------------------
 # IOC extraction helpers
 # ---------------------------------------------------------------------------
-_RE_IP     = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
-_RE_DOMAIN = re.compile(r'\b(?:[a-zA-Z0-9-]+\.)+(?:htb|com|net|org|local|lan|internal)\b', re.IGNORECASE)
-_RE_CRED   = re.compile(r'(?i)(password|passwd|pass|hash|ntlm|secret)[=:\s]+(\S+)', re.IGNORECASE)
-_RE_PATH   = re.compile(r'(?:/[a-zA-Z0-9_./-]{4,}|[A-Z]:\\[a-zA-Z0-9_.\\-]{4,})')
-_RE_HASH   = re.compile(r'\b[a-fA-F0-9]{32,64}\b')
+_RE_IP = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+_RE_DOMAIN = re.compile(r"\b(?:[a-zA-Z0-9-]+\.)+(?:htb|com|net|org|local|lan|internal)\b", re.IGNORECASE)
+_RE_CRED = re.compile(r"(?i)(password|passwd|pass|hash|ntlm|secret)[=:\s]+(\S+)", re.IGNORECASE)
+_RE_PATH = re.compile(r"(?:/[a-zA-Z0-9_./-]{4,}|[A-Z]:\\[a-zA-Z0-9_.\\-]{4,})")
+_RE_HASH = re.compile(r"\b[a-fA-F0-9]{32,64}\b")
 
 
-def _extract_iocs(text: str, first_seen: str) -> List[Dict[str, str]]:
-    iocs: List[Dict[str, str]] = []
+def _extract_iocs(text: str, first_seen: str) -> list[dict[str, str]]:
+    iocs: list[dict[str, str]] = []
     for m in _RE_IP.finditer(text):
         ip = m.group()
         octets = ip.split(".")
@@ -268,30 +267,30 @@ def _extract_iocs(text: str, first_seen: str) -> List[Dict[str, str]]:
 class ThreatModelBuilder:
     """Builds and serialises the blue team threat model."""
 
-    def build(self) -> Dict[str, Any]:
+    def build(self) -> dict[str, Any]:
         rows = self._load_csv()
-        assets       = self._build_assets(rows)
-        ttps         = self._build_ttps(rows)
+        assets = self._build_assets(rows)
+        ttps = self._build_ttps(rows)
         ioc_registry = self._build_iocs(rows)
-        det_rules    = self._build_detection_rules(ttps)
-        purple_team  = self._build_purple_team(ttps, det_rules)
-        summary      = self._build_summary(rows, assets, ttps)
+        det_rules = self._build_detection_rules(ttps)
+        purple_team = self._build_purple_team(ttps, det_rules)
+        summary = self._build_summary(rows, assets, ttps)
 
-        model: Dict[str, Any] = {
-            "generated_at":    datetime.now(timezone.utc).isoformat(),
-            "assets":          assets,
-            "ttps":            ttps,
-            "ioc_registry":    ioc_registry,
+        model: dict[str, Any] = {
+            "generated_at": datetime.now(UTC).isoformat(),
+            "assets": assets,
+            "ttps": ttps,
+            "ioc_registry": ioc_registry,
             "detection_rules": det_rules,
-            "purple_team":     purple_team,
-            "summary":         summary,
+            "purple_team": purple_team,
+            "summary": summary,
         }
         self._save(model)
         return model
 
     # ------------------------------------------------------------------
 
-    def load(self) -> Optional[Dict[str, Any]]:
+    def load(self) -> dict[str, Any] | None:
         if OUTPUT_FILE.exists():
             try:
                 return json.loads(OUTPUT_FILE.read_text())
@@ -303,10 +302,10 @@ class ThreatModelBuilder:
     # Internal builders
     # ------------------------------------------------------------------
 
-    def _load_csv(self) -> List[Dict[str, str]]:
+    def _load_csv(self) -> list[dict[str, str]]:
         if not REPORT_CSV.exists():
             return []
-        rows: List[Dict[str, str]] = []
+        rows: list[dict[str, str]] = []
         try:
             with REPORT_CSV.open(newline="", errors="replace") as fh:
                 reader = csv.DictReader(fh)
@@ -316,20 +315,20 @@ class ThreatModelBuilder:
             log.warning("threat_model: CSV read error: %s", exc)
         return rows
 
-    def _build_assets(self, rows: List[Dict[str, str]]) -> List[Dict[str, Any]]:
-        asset_map: Dict[str, Dict[str, Any]] = {}
+    def _build_assets(self, rows: list[dict[str, str]]) -> list[dict[str, Any]]:
+        asset_map: dict[str, dict[str, Any]] = {}
         for row in rows:
             ip = row.get("destination_ip", "").strip()
             if not ip:
                 continue
             if ip not in asset_map:
                 asset_map[ip] = {
-                    "ip":                   ip,
-                    "domain":               row.get("domain", ""),
-                    "ports":                set(),
-                    "risk_score":           0,
+                    "ip": ip,
+                    "domain": row.get("domain", ""),
+                    "ports": set(),
+                    "risk_score": 0,
                     "compromise_indicators": [],
-                    "_commands":            [],
+                    "_commands": [],
                 }
             dst_port = row.get("destination_port", "").strip()
             if dst_port.isdigit():
@@ -338,27 +337,40 @@ class ThreatModelBuilder:
             asset_map[ip]["_commands"].append(cmd)
 
         assets = []
-        for ip, data in asset_map.items():
-            cmds      = data.pop("_commands")
-            risk      = self._risk_score(cmds, data["ports"])
+        for _ip, data in asset_map.items():
+            cmds = data.pop("_commands")
+            risk = self._risk_score(cmds, data["ports"])
             indicators = self._compromise_indicators(cmds)
-            data["ports"]                 = sorted(data["ports"])
-            data["risk_score"]            = risk
+            data["ports"] = sorted(data["ports"])
+            data["risk_score"] = risk
             data["compromise_indicators"] = indicators
             assets.append(data)
 
         assets.sort(key=lambda a: a["risk_score"], reverse=True)
         return assets
 
-    def _risk_score(self, commands: List[str], ports: set) -> int:
+    def _risk_score(self, commands: list[str], ports: set) -> int:
         score = 0
         high_risk_cmds = {
-            "exfil", "beacon", "payload", "venom", "lazypwn",
-            "kerberoasting", "asreproasting", "hydra", "crackmapexec",
+            "exfil",
+            "beacon",
+            "payload",
+            "venom",
+            "lazypwn",
+            "kerberoasting",
+            "asreproasting",
+            "hydra",
+            "crackmapexec",
         }
         med_risk_cmds = {
-            "smbclient", "nc", "netcat", "ligolo", "chisel",
-            "msf", "sqlmap", "commix",
+            "smbclient",
+            "nc",
+            "netcat",
+            "ligolo",
+            "chisel",
+            "msf",
+            "sqlmap",
+            "commix",
         }
         for c in commands:
             if c in high_risk_cmds:
@@ -373,8 +385,8 @@ class ThreatModelBuilder:
             score += 15
         return min(score, 100)
 
-    def _compromise_indicators(self, commands: List[str]) -> List[str]:
-        indicators: List[str] = []
+    def _compromise_indicators(self, commands: list[str]) -> list[str]:
+        indicators: list[str] = []
         if any(c in commands for c in ("beacon", "lazync2")):
             indicators.append("C2 implant activity observed")
         if any(c in commands for c in ("kerberoasting", "asreproasting")):
@@ -389,8 +401,8 @@ class ThreatModelBuilder:
             indicators.append("Persistence mechanism installed")
         return indicators
 
-    def _build_ttps(self, rows: List[Dict[str, str]]) -> List[Dict[str, Any]]:
-        ttp_map: Dict[str, Dict[str, Any]] = {}
+    def _build_ttps(self, rows: list[dict[str, str]]) -> list[dict[str, Any]]:
+        ttp_map: dict[str, dict[str, Any]] = {}
         for row in rows:
             cmd = row.get("command", "").strip().lower()
             if not cmd:
@@ -404,15 +416,15 @@ class ThreatModelBuilder:
             ts = row.get("start", "")
             if tid not in ttp_map:
                 ttp_map[tid] = {
-                    "technique_id":   tid,
-                    "tactic":         tactic,
+                    "technique_id": tid,
+                    "tactic": tactic,
                     "technique_name": tname,
-                    "commands":       set(),
-                    "occurrences":    0,
-                    "first_seen":     ts,
-                    "last_seen":      ts,
-                    "severity":       SEVERITY_TACTIC.get(tactic, "low"),
-                    "description":    f"Technique {tname} observed via LazyOwn session.",
+                    "commands": set(),
+                    "occurrences": 0,
+                    "first_seen": ts,
+                    "last_seen": ts,
+                    "severity": SEVERITY_TACTIC.get(tactic, "low"),
+                    "description": f"Technique {tname} observed via LazyOwn session.",
                 }
             entry = ttp_map[tid]
             entry["commands"].add(base_cmd)
@@ -429,18 +441,18 @@ class ThreatModelBuilder:
         ttps.sort(key=lambda t: t["occurrences"], reverse=True)
         return ttps
 
-    def _build_iocs(self, rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    def _build_iocs(self, rows: list[dict[str, str]]) -> list[dict[str, str]]:
         seen: set = set()
-        iocs: List[Dict[str, str]] = []
+        iocs: list[dict[str, str]] = []
 
-        def _add(ioc: Dict[str, str]) -> None:
+        def _add(ioc: dict[str, str]) -> None:
             key = (ioc["type"], ioc["value"])
             if key not in seen:
                 seen.add(key)
                 iocs.append(ioc)
 
         for row in rows:
-            ts   = row.get("start", "")
+            ts = row.get("start", "")
             args = row.get("args", "")
             # IPs from destination
             ip = row.get("destination_ip", "").strip()
@@ -460,8 +472,8 @@ class ThreatModelBuilder:
 
         return iocs
 
-    def _build_detection_rules(self, ttps: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        rules: List[Dict[str, Any]] = []
+    def _build_detection_rules(self, ttps: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        rules: list[dict[str, Any]] = []
         rule_id = 1
         seen_tids: set = set()
 
@@ -473,26 +485,28 @@ class ThreatModelBuilder:
             if tmpl is None or tid in seen_tids:
                 continue
             seen_tids.add(tid)
-            rules.append({
-                "rule_id":      f"LO-{rule_id:03d}",
-                "name":         tmpl["name"],
-                "tactic":       ttp["tactic"],
-                "technique_id": tid,
-                "condition":    " AND ".join(f"{k}=={v}" for k, v in tmpl["fields"].items()),
-                "log_source":   tmpl["log_source"],
-                "fields":       tmpl["fields"],
-                "severity":     ttp["severity"],
-                "response":     tmpl["response"],
-            })
+            rules.append(
+                {
+                    "rule_id": f"LO-{rule_id:03d}",
+                    "name": tmpl["name"],
+                    "tactic": ttp["tactic"],
+                    "technique_id": tid,
+                    "condition": " AND ".join(f"{k}=={v}" for k, v in tmpl["fields"].items()),
+                    "log_source": tmpl["log_source"],
+                    "fields": tmpl["fields"],
+                    "severity": ttp["severity"],
+                    "response": tmpl["response"],
+                }
+            )
             rule_id += 1
 
         return rules
 
     def _build_purple_team(
         self,
-        ttps: List[Dict[str, Any]],
-        detection_rules: List[Dict[str, Any]],
-    ) -> List[Dict[str, Any]]:
+        ttps: list[dict[str, Any]],
+        detection_rules: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
         """
         Purple team mapping: pair each observed TTP with its detection rule.
 
@@ -502,35 +516,37 @@ class ThreatModelBuilder:
           gap:   True when no detection rule covers this technique
         """
         # Build lookup: technique_id -> detection rule
-        rules_by_tid: Dict[str, Dict[str, Any]] = {}
+        rules_by_tid: dict[str, dict[str, Any]] = {}
         for rule in detection_rules:
             rules_by_tid[rule["technique_id"]] = rule
 
-        purple: List[Dict[str, Any]] = []
+        purple: list[dict[str, Any]] = []
         for ttp in ttps:
-            tid        = ttp["technique_id"]
+            tid = ttp["technique_id"]
             parent_tid = tid.split(".")[0]
             rule = rules_by_tid.get(tid) or rules_by_tid.get(parent_tid)
-            gap  = rule is None
+            gap = rule is None
 
-            entry: Dict[str, Any] = {
-                "technique_id":   tid,
+            entry: dict[str, Any] = {
+                "technique_id": tid,
                 "technique_name": ttp["technique_name"],
-                "tactic":         ttp["tactic"],
-                "severity":       ttp["severity"],
-                "gap":            gap,
+                "tactic": ttp["tactic"],
+                "severity": ttp["severity"],
+                "gap": gap,
                 "red": {
-                    "commands":   ttp["commands"],
+                    "commands": ttp["commands"],
                     "occurrences": ttp["occurrences"],
                     "first_seen": ttp["first_seen"],
-                    "last_seen":  ttp["last_seen"],
+                    "last_seen": ttp["last_seen"],
                 },
-                "blue": None if gap else {
-                    "rule_id":    rule["rule_id"],
-                    "name":       rule["name"],
+                "blue": None
+                if gap
+                else {
+                    "rule_id": rule["rule_id"],
+                    "name": rule["name"],
                     "log_source": rule["log_source"],
-                    "condition":  rule["condition"],
-                    "response":   rule["response"],
+                    "condition": rule["condition"],
+                    "response": rule["response"],
                 },
                 "coverage": "none" if gap else "partial",
             }
@@ -538,30 +554,28 @@ class ThreatModelBuilder:
 
         # Sort: gaps first (need attention), then by severity, then occurrences
         sev_order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
-        purple.sort(
-            key=lambda e: (0 if e["gap"] else 1, sev_order.get(e["severity"], 4))
-        )
+        purple.sort(key=lambda e: (0 if e["gap"] else 1, sev_order.get(e["severity"], 4)))
         return purple
 
     def _build_summary(
         self,
-        rows: List[Dict[str, str]],
-        assets: List[Dict[str, Any]],
-        ttps: List[Dict[str, Any]],
-    ) -> Dict[str, Any]:
-        targets     = {r.get("destination_ip") for r in rows if r.get("destination_ip")}
-        commands    = {r.get("command", "").split()[0] for r in rows if r.get("command")}
-        top_asset   = assets[0]["ip"] if assets else "N/A"
-        dom_tactic  = ttps[0]["tactic"] if ttps else "N/A"
+        rows: list[dict[str, str]],
+        assets: list[dict[str, Any]],
+        ttps: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        targets = {r.get("destination_ip") for r in rows if r.get("destination_ip")}
+        commands = {r.get("command", "").split()[0] for r in rows if r.get("command")}
+        top_asset = assets[0]["ip"] if assets else "N/A"
+        dom_tactic = ttps[0]["tactic"] if ttps else "N/A"
         return {
-            "total_events":       len(rows),
-            "unique_targets":     len(targets),
-            "unique_commands":    len(commands),
+            "total_events": len(rows),
+            "unique_targets": len(targets),
+            "unique_commands": len(commands),
             "highest_risk_asset": top_asset,
-            "dominant_tactic":    dom_tactic,
+            "dominant_tactic": dom_tactic,
         }
 
-    def _save(self, model: Dict[str, Any]) -> None:
+    def _save(self, model: dict[str, Any]) -> None:
         REPORTS_DIR.mkdir(parents=True, exist_ok=True)
         tmp = OUTPUT_FILE.with_suffix(".tmp")
         tmp.write_text(json.dumps(model, indent=2, default=str))
@@ -572,7 +586,7 @@ class ThreatModelBuilder:
 # ---------------------------------------------------------------------------
 # Singleton
 # ---------------------------------------------------------------------------
-_builder_instance: Optional[ThreatModelBuilder] = None
+_builder_instance: ThreatModelBuilder | None = None
 
 
 def get_builder() -> ThreatModelBuilder:
@@ -590,21 +604,23 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="LazyOwn Threat Model Builder")
     sub = parser.add_subparsers(dest="cmd")
-    sub.add_parser("build",  help="Build and save threat_model.json")
-    sub.add_parser("show",   help="Pretty-print the last saved model")
-    sub.add_parser("ttps",   help="List TTPs only")
-    sub.add_parser("iocs",   help="List IOCs only")
-    sub.add_parser("rules",  help="List detection rules only")
+    sub.add_parser("build", help="Build and save threat_model.json")
+    sub.add_parser("show", help="Pretty-print the last saved model")
+    sub.add_parser("ttps", help="List TTPs only")
+    sub.add_parser("iocs", help="List IOCs only")
+    sub.add_parser("rules", help="List detection rules only")
     sub.add_parser("purple", help="Show full purple team mapping (red + blue)")
-    sub.add_parser("gaps",   help="Show detection coverage gaps (TTPs with no rule)")
+    sub.add_parser("gaps", help="Show detection coverage gaps (TTPs with no rule)")
 
     args = parser.parse_args()
-    b    = get_builder()
+    b = get_builder()
 
     if args.cmd == "build":
         model = b.build()
-        print(f"Built: {len(model['ttps'])} TTPs, {len(model['ioc_registry'])} IOCs, "
-              f"{len(model['detection_rules'])} rules, {len(model['assets'])} assets")
+        print(
+            f"Built: {len(model['ttps'])} TTPs, {len(model['ioc_registry'])} IOCs, "
+            f"{len(model['detection_rules'])} rules, {len(model['assets'])} assets"
+        )
         print(f"Saved: {OUTPUT_FILE}")
     elif args.cmd == "show":
         m = b.load()

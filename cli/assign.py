@@ -17,19 +17,26 @@ Schema integration (additive, backwards compatible):
   is coerced to the canonical type (``"5555"`` → ``5555`` for ports) before
   being stored, so downstream consumers no longer have to defensively cast.
 - A schema validation failure for an existing key is reported through the
-  optional ``on_issue`` callback. The assignment still goes through — the
-  legacy contract was lenient, and the wizard is the right place to be
-  strict.
+  optional ``on_issue`` callback. The assignment still proceeds (legacy
+  lenient contract) except when the value contains shell metacharacters —
+  those are rejected fail-closed so injection payloads never persist.
+  The backslash is deliberately allowed: on its own it cannot form a shell
+  operator and Windows paths such as ``C:\\ProgramData`` need it; targeted
+  injection surfaces quote payload values with ``shlex.quote`` in
+  ``modules/conditional_hooks.py``.
 """
 
 from __future__ import annotations
 
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
-from core.payload_schema import ValidationIssue, coerce_value, validate_value
+from core.payload_schema import Severity, ValidationIssue, coerce_value, validate_value
 
 SaveFn = Callable[[dict[str, Any]], None]
 IssueFn = Callable[[ValidationIssue], None]
+
+REJECTED_SHELL_CHARS = ";|&$()`{}!><*?~#'\"\n\r"
 
 
 def apply_assign(
@@ -39,6 +46,7 @@ def apply_assign(
     *,
     save: SaveFn | None = None,
     on_issue: IssueFn | None = None,
+    history: Any | None = None,
 ) -> bool:
     """Validate, mutate and persist a single payload assignment.
 
@@ -50,9 +58,10 @@ def apply_assign(
             mutation. Pass :func:`core.config.save_payload` to persist to
             ``payload.json``. ``None`` skips persistence (useful for tests).
         on_issue: Optional callback invoked with the validation issue when
-            the value fails the schema for ``key``. The assignment still
-            proceeds — the callback exists only so the caller (typically
-            the CLI) can surface a hint to the operator.
+            the value fails the schema for ``key``. Values containing shell
+            metacharacters are rejected fail-closed and never persist.
+        history: Optional :class:`cli.config_history.ConfigHistory` that
+            receives a snapshot before mutation so ``undo`` can restore it.
 
     Returns:
         ``True`` if ``key`` existed in ``params`` and was updated;
@@ -62,10 +71,28 @@ def apply_assign(
     if key not in params:
         return False
     coerced = coerce_value(key, value)
-    if on_issue is not None:
-        issue = validate_value(key, coerced)
-        if issue is not None:
+    if isinstance(coerced, str) and any(ch in coerced for ch in REJECTED_SHELL_CHARS):
+        if on_issue is not None:
+            on_issue(
+                ValidationIssue(
+                    key=key,
+                    message=f"{key} contains unsafe shell characters and was rejected",
+                    severity=Severity.ERROR,
+                    value=coerced,
+                )
+            )
+        return False
+    issue = validate_value(key, coerced)
+    if issue is not None:
+        if on_issue is not None:
             on_issue(issue)
+        if issue.severity == Severity.ERROR and (coerced is None or coerced == ""):
+            return False
+    if history is not None:
+        try:
+            history.push(params)
+        except Exception:
+            pass
     params[key] = coerced
     if save is not None:
         save(params)

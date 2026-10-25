@@ -21,22 +21,52 @@ sudo apt install -y seclists 2>/dev/null || true
 
 ## Step 1 — Clone and install
 
+Fastest path (one-liner: clones into `~/LazyOwn`, installs, then asks whether
+to start a normal `./run` session or the full `fast_run_as_r00t.sh` stack):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \
+  && bash /tmp/bootstrap.sh
+```
+
+(One-command alternative: `curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash`.)
+
+If `~/LazyOwn` already exists, the installer asks whether to update in place, do a clean reinstall (backing up `payload.json` to `/tmp` first), use another directory, or abort. Use `--existing update|clean|abort` to skip the question in scripts.
+
+With install options and a custom directory:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash -s -- --with-tools --dir ~/pentest/LazyOwn
+```
+
+Or step by step:
+
 ```bash
 git clone https://github.com/grisuno/LazyOwn.git
 cd LazyOwn
 bash install.sh
 ```
 
-`install.sh` creates the virtualenv at `env/`, installs the pinned Python deps from `requirements.txt`, installs the local Ollama runtime, and generates `cert.pem` / `key.pem` for the C2. It is idempotent: re-running it updates in place.
-
-Flags for a lighter install:
+`install.sh` creates the virtualenv at `env/`, installs the pinned Python deps from `requirements.txt` (runtime-only lock), seeds `payload.json` from the example, and generates `cert.pem` / `key.pem` for the C2. It is idempotent: re-running it updates in place. The default install is light; heavy extras are opt-in:
 
 ```bash
-bash install.sh --no-ml       # skip the 2 GB torch/CUDA + scikit-learn stack (ML features degrade gracefully)
-bash install.sh --no-ollama   # skip the local Ollama runtime
+bash install.sh --with-ml       # add the 2 GB torch/CUDA + scikit-learn stack
+bash install.sh --with-ollama   # add the local Ollama runtime
+bash install.sh --with-tools    # apt-install gobuster, ffuf, enum4linux, seclists, responder, ...
 ```
 
 Dependencies are declared once in `pyproject.toml` and pinned in `requirements.txt` (cross-platform core) and `requirements-ml.txt` (optional ML). Developers can instead use `pip install -e .[ml,dev]`.
+
+### Zero-dependency evaluation with Docker
+
+```bash
+docker run -it ghcr.io/grisuno/lazyown:latest
+```
+
+The published image ships the framework ready to run — useful to evaluate
+LazyOwn or run a throwaway engagement without touching your host Python.
+Use `bash install.sh` on the host for day-to-day work; `lazyown-docker/`
+holds the legacy full-stack compose variant kept for reference.
 
 ---
 
@@ -77,11 +107,13 @@ Or run the config readiness check without changing anything:
 ```bash
 (LazyOwn) > ping           # confirm target is alive + detect OS
 (LazyOwn) > lazynmap       # full port scan → sessions/scan_<rhost>.nmap
-(LazyOwn) > auto_populate  # parse scan into world_model.json
+(LazyOwn) > auto_populate  # parse the scan XML into payload.json context
 (LazyOwn) > facts_show     # see what was discovered
 ```
 
-That is the core loop. Everything else is built on top of it.
+That is the core loop. Everything else is built on top of it. For a full
+end-to-end example with expected outputs, see the guided walkthrough:
+[`docs/examples/htb-lame-walkthrough.md`](docs/examples/htb-lame-walkthrough.md).
 
 ### Or run it all in one command
 
@@ -113,12 +145,11 @@ Or start it inline from the shell:
 (LazyOwn) > lazyc2
 ```
 
-The C2 starts at `https://<lhost>:<c2_port>` with the credentials from `payload.json` (`c2_user` / `c2_pass`, default `admin` / `admin`).
+The C2 starts at `https://<lhost>:<c2_port>` with the credentials from `payload.json` (`c2_user` / `c2_pass`). The setup `wizard` auto-rotates the factory `CHANGE_ME` placeholders into a generated random password — if you skipped the wizard, set your own with `assign c2_user <name>` and `assign c2_pass <strong-password>` before exposing the panel. On first boot the RBAC store also creates an initial web admin (`admin` / `LazyOwnAdmin2024!`) — change it immediately from the admin users panel.
 
 ---
 
 ## Step 5 — Get your first shell
-
 ```bash
 # Generate and deliver the Go beacon (two-stage, XOR-encoded)
 (LazyOwn) > lazymsfvenom
@@ -139,13 +170,51 @@ Once a beacon checks in, manage it from the C2 dashboard at `https://<lhost>:<c2
 bash scripts/setup_hermes_mcp.sh
 ```
 
-Then restart Hermes or run `/reload-mcp`. LazyOwn exposes ~131 MCP tools for AI-assisted operation.
+Then restart Hermes or run `/reload-mcp`. LazyOwn exposes 173 MCP tools for AI-assisted operation.
 
 See `AGENTS.md` for the Hermes integration guide.
 
+### Driving the framework from scripts and agents
+
+Any operator (human, script or AI agent) can call one MCP tool from the
+shell without spawning the full Hermes stack:
+
+```bash
+python3 scripts/mcp_call.py lazyown_campaign_sitrep '{"format":"json"}' --timeout 120
+python3 scripts/mcp_call.py lazyown_run_command '{"command":"list","timeout":60}' --timeout 120
+```
+
+Two quirks worth knowing:
+
+- Commands that should bypass the LazyOwn alias layer start with `!`
+  (cmd2's OS-escape), for example `"!python3 modules/atomic_exploit_bridge.py run --id ms2_dvwa_sqli --rhost <ip>"`.
+- `lazyown_run_command` spawns a real PTY session, so the output includes
+  the shell boot banner; filter it or prefer `dry_run=true` for pre-flight.
+
 ---
 
-## Step 7 (optional) — Invite teammates
+## Step 7 (optional) — Practice gym with automatic lab migrations
+
+```bash
+sudo apt install -y chromium chromium-driver python3-selenium
+(LazyOwn) > lab start metasploitable
+(LazyOwn) > assign rhost <container-ip>
+(LazyOwn) > gym_ms2 chains
+(LazyOwn) > apt_chain gym_metasploitable_ms2_dvwa_sqli --target <container-ip> --json
+```
+
+`lab start metasploitable` applies the gym migrations automatically
+(`modules/metasploitable_migrations.py`): starts every core daemon,
+opens the X display, enables anonymous FTP and the vulnerable CGI, seeds
+the mutillidae database and installs the DVWA DOM XSS page. 42 of the 45
+shipped vectors yield a shell on the lab; the three that cannot
+(`ms2_dns_recursion`, `ms2_nfs_exports`, `ms2_rlogin_trust`) are blocked
+by Docker itself — see [`docs/gym-setup.md`](docs/gym-setup.md) for the
+full setup guide and migration table.
+
+---
+
+## Step 8 (optional) — Invite teammates
 
 ```bash
 (LazyOwn) > collab_join alice
@@ -162,8 +231,9 @@ Prints the team dashboard URL. Everyone connects to `https://<lhost>:<c2_port>/c
 | `ESSENTIALS.md` | You want the 18 core commands (start here after this doc) |
 | `CHEATSHEET.md` | You know the basics and need the next 40 frequent commands |
 | `skills/lazyown.md` | You are operating via MCP (AI operator) |
-| `COMMANDS.md` | You need the full 333-command reference |
+| `COMMANDS.md` | You need the full 837-command reference |
 | `CLAUDE.md` | You are developing or extending the framework |
+| `docs/gym-setup.md` | You are configuring the Metasploitable 2 practice gym |
 
 ---
 
@@ -197,6 +267,16 @@ bash gen_cert.sh
 ```
 (LazyOwn) > assign dirwordlist /path/to/wordlist.txt
 ```
+
+**A spec fails with `No module named 'telnetlib'`** — the project
+virtualenv runs Python 3.13+, where telnetlib was removed. The shipped
+telnet spec uses plain sockets; rewrite custom specs with `socket`
+(see `exploits/ms2_telnet_default_creds.yaml`).
+
+**Playwright raises `Connection closed while reading from the driver`**
+— the Debian `python3-playwright` package lacks its node driver. The
+browser-backed gym specs use selenium + chromedriver instead:
+`sudo apt install -y chromium chromium-driver python3-selenium`.
 
 **A command fails with `MissingDependencyError`** — a heavy optional package (for
 example `pycryptodome`, `python-libnmap`, `impacket`) is not installed. The shell

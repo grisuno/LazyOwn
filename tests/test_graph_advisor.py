@@ -36,18 +36,88 @@ def small_graph_data() -> dict:
         "directed": False,
         "multigraph": False,
         "nodes": [
-            {"id": "lazyown_do_lazynmap", "label": "do_lazynmap()", "community": 1, "file_type": "code", "source_file": "lazyown.py", "source_location": "L1000"},
-            {"id": "lazyown_do_ping", "label": "do_ping()", "community": 1, "file_type": "code", "source_file": "lazyown.py", "source_location": "L500"},
-            {"id": "lazyown_do_assign", "label": "do_assign()", "community": 2, "file_type": "code", "source_file": "lazyown.py", "source_location": "L100"},
-            {"id": "utils_run_command", "label": "run_command()", "community": 2, "file_type": "code", "source_file": "utils.py", "source_location": "L42"},
-            {"id": "modules_kerberoast", "label": "kerberoast", "community": 3, "file_type": "code", "source_file": "modules/kerberoast.py", "source_location": "L1"},
-            {"id": "isolated_node", "label": "lonely", "community": 4, "file_type": "code", "source_file": "lonely.py", "source_location": "L1"},
+            {
+                "id": "lazyown_do_lazynmap",
+                "label": "do_lazynmap()",
+                "community": 1,
+                "file_type": "code",
+                "source_file": "lazyown.py",
+                "source_location": "L1000",
+            },
+            {
+                "id": "lazyown_do_ping",
+                "label": "do_ping()",
+                "community": 1,
+                "file_type": "code",
+                "source_file": "lazyown.py",
+                "source_location": "L500",
+            },
+            {
+                "id": "lazyown_do_assign",
+                "label": "do_assign()",
+                "community": 2,
+                "file_type": "code",
+                "source_file": "lazyown.py",
+                "source_location": "L100",
+            },
+            {
+                "id": "utils_run_command",
+                "label": "run_command()",
+                "community": 2,
+                "file_type": "code",
+                "source_file": "utils.py",
+                "source_location": "L42",
+            },
+            {
+                "id": "modules_kerberoast",
+                "label": "kerberoast",
+                "community": 3,
+                "file_type": "code",
+                "source_file": "modules/kerberoast.py",
+                "source_location": "L1",
+            },
+            {
+                "id": "isolated_node",
+                "label": "lonely",
+                "community": 4,
+                "file_type": "code",
+                "source_file": "lonely.py",
+                "source_location": "L1",
+            },
         ],
         "links": [
-            {"source": "lazyown_do_lazynmap", "target": "utils_run_command", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "weight": 1.0},
-            {"source": "lazyown_do_ping", "target": "utils_run_command", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "weight": 1.0},
-            {"source": "lazyown_do_assign", "target": "utils_run_command", "relation": "uses", "confidence": "INFERRED", "confidence_score": 0.7, "weight": 1.0},
-            {"source": "lazyown_do_lazynmap", "target": "modules_kerberoast", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.6, "weight": 1.0},
+            {
+                "source": "lazyown_do_lazynmap",
+                "target": "utils_run_command",
+                "relation": "calls",
+                "confidence": "EXTRACTED",
+                "confidence_score": 1.0,
+                "weight": 1.0,
+            },
+            {
+                "source": "lazyown_do_ping",
+                "target": "utils_run_command",
+                "relation": "calls",
+                "confidence": "EXTRACTED",
+                "confidence_score": 1.0,
+                "weight": 1.0,
+            },
+            {
+                "source": "lazyown_do_assign",
+                "target": "utils_run_command",
+                "relation": "uses",
+                "confidence": "INFERRED",
+                "confidence_score": 0.7,
+                "weight": 1.0,
+            },
+            {
+                "source": "lazyown_do_lazynmap",
+                "target": "modules_kerberoast",
+                "relation": "conceptually_related_to",
+                "confidence": "INFERRED",
+                "confidence_score": 0.6,
+                "weight": 1.0,
+            },
         ],
     }
 
@@ -83,11 +153,17 @@ def test_loader_returns_none_when_missing(tmp_path):
 def test_index_builds_adjacency_and_degree(small_graph_data):
     index = GraphIndex(small_graph_data)
     assert {n.id for n in index.nodes()} == {
-        "lazyown_do_lazynmap", "lazyown_do_ping", "lazyown_do_assign",
-        "utils_run_command", "modules_kerberoast", "isolated_node",
+        "lazyown_do_lazynmap",
+        "lazyown_do_ping",
+        "lazyown_do_assign",
+        "utils_run_command",
+        "modules_kerberoast",
+        "isolated_node",
     }
     assert set(index.neighbors("utils_run_command")) == {
-        "lazyown_do_lazynmap", "lazyown_do_ping", "lazyown_do_assign",
+        "lazyown_do_lazynmap",
+        "lazyown_do_ping",
+        "lazyown_do_assign",
     }
     assert index.degree("utils_run_command") == 3
     assert index.degree("isolated_node") == 0
@@ -218,9 +294,7 @@ def test_advisor_reads_recent_commands_from_csv(tmp_path, advisor):
     sessions.mkdir()
     csv_path = sessions / "LazyOwn_session_report.csv"
     csv_path.write_text(
-        "timestamp,tool,args,domain,output_path\n"
-        "1,do_ping,,target.htb,foo\n"
-        "2,do_lazynmap,,target.htb,bar\n",
+        "timestamp,tool,args,domain,output_path\n1,do_ping,,target.htb,foo\n2,do_lazynmap,,target.htb,bar\n",
         encoding="utf-8",
     )
     cfg = GraphAdvisorConfig(sessions_dir=str(sessions))

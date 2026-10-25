@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 import sys
 import threading
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -124,24 +124,34 @@ def test_summarize_aggregates_by_command(tmp_path: Path) -> None:
 def test_summarize_window_filters_old_records(tmp_path: Path) -> None:
     """Window in seconds drops events older than the cutoff."""
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     fresh = now - timedelta(seconds=30)
     old = now - timedelta(hours=2)
 
     path = tmp_path / "metrics.jsonl"
     with path.open("w", encoding="utf-8") as handle:
-        handle.write(json.dumps({
-            "ts": fresh.isoformat(),
-            "command": "nmap",
-            "duration_ms": 200,
-            "success": True,
-        }) + "\n")
-        handle.write(json.dumps({
-            "ts": old.isoformat(),
-            "command": "ping",
-            "duration_ms": 80,
-            "success": True,
-        }) + "\n")
+        handle.write(
+            json.dumps(
+                {
+                    "ts": fresh.isoformat(),
+                    "command": "nmap",
+                    "duration_ms": 200,
+                    "success": True,
+                }
+            )
+            + "\n"
+        )
+        handle.write(
+            json.dumps(
+                {
+                    "ts": old.isoformat(),
+                    "command": "ping",
+                    "duration_ms": 80,
+                    "success": True,
+                }
+            )
+            + "\n"
+        )
 
     recorder = reset_recorder_for_tests(writer=MetricsWriter(path=path))
     summary = recorder.summarize(window_seconds=300)
@@ -177,10 +187,7 @@ def test_concurrent_writes_do_not_corrupt(tmp_path: Path) -> None:
                 exit_code=0,
             )
 
-    threads = [
-        threading.Thread(target=worker, args=(f"t{i}",))
-        for i in range(writers)
-    ]
+    threads = [threading.Thread(target=worker, args=(f"t{i}",)) for i in range(writers)]
     for t in threads:
         t.start()
     for t in threads:

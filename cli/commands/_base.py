@@ -26,7 +26,28 @@ from typing import Any
 from cmd2 import CommandSet
 from cmd2.exceptions import CommandSetRegistrationError
 
+from core.validators import require_lhost, require_lport, require_rhost, require_rport
+
 SHELL_INJECTION_ATTRIBUTE = "_cmd"
+
+_FORWARDED_WRITES = frozenset({"custom_prompt", "prompt"})
+
+
+def extract_flag(args: list[str], flag: str) -> str | None:
+    """Extract ``--flag <value>`` pair shared by CommandSets.
+
+    Args:
+        args: Tokenised argument list.
+        flag: Flag name to locate.
+
+    Returns:
+        Value following flag, else None.
+    """
+    try:
+        idx = args.index(flag)
+        return args[idx + 1]
+    except (ValueError, IndexError):
+        return None
 
 
 class LazyOwnCommandSet(CommandSet):
@@ -89,30 +110,85 @@ class LazyOwnCommandSet(CommandSet):
         return getattr(shell, "config", None) or getattr(shell, "params", {})
 
     def __getattr__(self, name: str) -> Any:
-        """Forward unknown attribute access to the bound shell.
+        """Forward unknown attribute access to the bound shell or utils.
 
         ``cmd2`` binds the parent shell to ``self._cmd`` when the
         ``CommandSet`` is registered. Migrated methods reference shell
         state directly (``self.run_script``, ``self.c2_url``, ...) so this
         forwarder lets them execute unmodified once they are wired in.
 
+        Migrated ``do_*`` methods also call single-underscore shell helpers
+        that stayed on ``LazyOwnShell`` (``self._scope_save``,
+        ``self._load_adversaries``, ``self._payload_factory``, ...). Those
+        are forwarded to the bound shell as well; only dunder names and
+        ``complete_*`` completion probes are refused outright, because
+        forwarding them would leak Python/cmd2 machinery. Private names are
+        never resolved from ``utils`` — a private helper only ever lives on
+        the shell.
+
+        When a public name is not on the shell, the forwarder falls back to
+        the ``utils`` module namespace, giving migrated CommandSets access
+        to every re-exported symbol (``os``, ``json``, ``glob``,
+        ``getprompt``, category constants, etc.) without per-file import
+        boilerplate.
+
         Args:
             name: Attribute name requested by the caller.
 
         Returns:
-            The attribute value resolved on the bound shell.
+            The attribute value resolved on the bound shell or utils.
 
         Raises:
-            AttributeError: When ``name`` starts with an underscore, when
-                the shell is not yet bound, or when the shell itself does
-                not expose ``name``.
+            AttributeError: When ``name`` is a dunder or ``complete_*``
+                probe, when the shell is not yet bound (inert before
+                registration), or when neither the shell nor ``utils``
+                expose a public ``name``.
         """
-        if name.startswith("_"):
+        if name.startswith("__") or name.startswith("complete_"):
             raise AttributeError(name)
         shell = self._resolve_shell()
-        if shell is None:
+        if shell is not None:
+            try:
+                return getattr(shell, name)
+            except AttributeError:
+                pass
+        if name.startswith("_"):
             raise AttributeError(name)
-        return getattr(shell, name)
+        try:
+            import utils as _utils
+
+            return getattr(_utils, name)
+        except AttributeError:
+            raise AttributeError(name)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        """Forward prompt attribute writes to the bound shell.
+
+        The migrated ``do_*`` methods were written against ``LazyOwnShell``
+        and assign ``self.custom_prompt`` / ``self.prompt`` expecting the
+        shell to hold them. Without forwarding, those writes landed on the
+        CommandSet and the Neon Box prompt never refreshed after ``assign``.
+        Only the two prompt names are forwarded; every other attribute stays
+        on the CommandSet so cmd2 internals remain untouched.
+
+        Args:
+            name: Attribute name being set.
+            value: Attribute value.
+        """
+        if name in _FORWARDED_WRITES:
+            shell = self._resolve_shell()
+            if shell is not None:
+                setattr(shell, name, value)
+                return
+        super().__setattr__(name, value)
 
 
-__all__ = ["LazyOwnCommandSet", "SHELL_INJECTION_ATTRIBUTE"]
+__all__ = [
+    "LazyOwnCommandSet",
+    "SHELL_INJECTION_ATTRIBUTE",
+    "extract_flag",
+    "require_lhost",
+    "require_lport",
+    "require_rhost",
+    "require_rport",
+]

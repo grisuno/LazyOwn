@@ -17,21 +17,21 @@ import asyncio
 import json
 import os
 import sys
-from pathlib import Path
 from typing import Any
+
+from claudemd_rules import generate_rules
+from config_bridge import ConfigBridge
+
+# ── Local integration modules ────────────────────────────────────────────────
+from constants import Defaults, EnvKeys, Paths, PhaseNames
+from executor import ExecutionResult, LazyOwnExecutor
+from hermes_sync import CheckpointSerializer, DelegationPlanner, HermesSyncError, ObjectiveTodoSync
+from mcp import types
 
 # ── MCP SDK (required) ────────────────────────────────────────────────────────
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
-from mcp import types
-
-# ── Local integration modules ────────────────────────────────────────────────
-from constants import Defaults, EnvKeys, Paths, PhaseNames
-from config_bridge import ConfigBridge, ConfigBridgeError
 from output_compactor import OutputCompactor
-from hermes_sync import CheckpointSerializer, ObjectiveTodoSync, DelegationPlanner, HermesSyncError
-from claudemd_rules import generate_rules
-from executor import LazyOwnExecutor, ExecutionResult
 
 # ── Lazy singletons ─────────────────────────────────────────────────────────────
 _config: ConfigBridge | None = None
@@ -87,6 +87,7 @@ def _get_delegation_planner() -> DelegationPlanner:
 
 
 # ── Helper: compact and wrap result ───────────────────────────────────────────
+
 
 def _compact(result: ExecutionResult, phase: str = "", tool_name: str = "") -> str:
     """Compact an ExecutionResult based on the current phase."""
@@ -181,9 +182,7 @@ TOOLS: list[types.Tool] = [
     # ── Intel ─────────────────────────────────────────────────────────────────
     types.Tool(
         name="lazyown_intel_facts_show",
-        description=_desc(
-            "Show structured facts from nmap scans and tool output: ports, services, creds, shares."
-        ),
+        description=_desc("Show structured facts from nmap scans and tool output: ports, services, creds, shares."),
         inputSchema={
             "type": "object",
             "properties": {
@@ -194,9 +193,7 @@ TOOLS: list[types.Tool] = [
     ),
     types.Tool(
         name="lazyown_intel_recommend_next",
-        description=_desc(
-            "Ask the AI to recommend the best 3-5 LazyOwn commands to run next, ranked by confidence."
-        ),
+        description=_desc("Ask the AI to recommend the best 3-5 LazyOwn commands to run next, ranked by confidence."),
         inputSchema={
             "type": "object",
             "properties": {},
@@ -239,8 +236,7 @@ TOOLS: list[types.Tool] = [
     types.Tool(
         name="lazyown_auto_inject_objective",
         description=_desc(
-            "Inject a high-level attack objective into the autonomous queue. "
-            "The daemon or auto_loop will pick it up."
+            "Inject a high-level attack objective into the autonomous queue. The daemon or auto_loop will pick it up."
         ),
         inputSchema={
             "type": "object",
@@ -274,9 +270,7 @@ TOOLS: list[types.Tool] = [
     ),
     types.Tool(
         name="lazyown_hermes_rules_generate",
-        description=_desc(
-            "Generate dynamic Claude.md rules based on current phase, target, and services."
-        ),
+        description=_desc("Generate dynamic Claude.md rules based on current phase, target, and services."),
         inputSchema={
             "type": "object",
             "properties": {
@@ -348,6 +342,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
 # ── Tool handlers ─────────────────────────────────────────────────────────────
 
+
 async def _handle_tool(name: str, arguments: dict[str, Any]) -> str:
     """Route tool names to their handlers."""
 
@@ -395,6 +390,7 @@ async def _handle_tool(name: str, arguments: dict[str, Any]) -> str:
 
 
 # ── Core handlers ─────────────────────────────────────────────────────────────
+
 
 def _core_session_init(arguments: dict[str, Any]) -> str:
     """Build a structured SITREP from payload.json and session files."""
@@ -493,6 +489,7 @@ def _core_command_help(arguments: dict[str, Any]) -> str:
 
     try:
         import ast
+
         source = lazyown_path.read_text(encoding="utf-8")
         tree = ast.parse(source)
 
@@ -510,6 +507,7 @@ def _core_command_help(arguments: dict[str, Any]) -> str:
 
 
 # ── Intel handlers ────────────────────────────────────────────────────────────
+
 
 def _intel_facts_show(arguments: dict[str, Any]) -> str:
     """Show structured facts from session files."""
@@ -589,6 +587,7 @@ def _intel_searchsploit(arguments: dict[str, Any]) -> str:
 
 # ── Autonomous handlers ───────────────────────────────────────────────────────
 
+
 def _auto_loop(arguments: dict[str, Any]) -> str:
     """Run the autonomous attack loop."""
     max_steps = arguments.get("max_steps", 5)
@@ -634,6 +633,7 @@ def _auto_inject_objective(arguments: dict[str, Any]) -> str:
 
 
 # ── Hermes Integration handlers ───────────────────────────────────────────────
+
 
 def _hermes_checkpoint_write(arguments: dict[str, Any]) -> str:
     """Write a checkpoint for Hermes resume."""
@@ -702,14 +702,15 @@ def _hermes_delegate_plan(arguments: dict[str, Any]) -> str:
 
 # ── C2 handlers ───────────────────────────────────────────────────────────────
 
+
 def _c2_status() -> str:
     """Check C2 server reachability."""
     cfg = _get_config()
     c2_host = cfg.get_str("lhost", "127.0.0.1")
     c2_port = cfg.get_int("c2_port", 4444)
 
-    import urllib.request
     import urllib.error
+    import urllib.request
 
     url = f"http://{c2_host}:{c2_port}/api/status"
     try:
@@ -729,8 +730,8 @@ def _c2_get_beacons() -> str:
     c2_host = cfg.get_str("lhost", "127.0.0.1")
     c2_port = cfg.get_int("c2_port", 4444)
 
-    import urllib.request
     import urllib.error
+    import urllib.request
 
     url = f"http://{c2_host}:{c2_port}/api/beacons"
     try:
@@ -745,6 +746,7 @@ def _c2_get_beacons() -> str:
 
 
 # ── Main entrypoint ───────────────────────────────────────────────────────────
+
 
 async def main() -> None:
     async with stdio_server() as (read_stream, write_stream):

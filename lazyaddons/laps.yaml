@@ -5,6 +5,7 @@ description: 'Dumping LAPS from Python
 author: n00py
 version: '0.1'
 enabled: true
+update: true
 params:
 - name: rhost
   type: string

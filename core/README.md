@@ -15,6 +15,8 @@ low-level protocol constants. Nothing in `core/` imports from `lazyown.py`,
 | `protocols.py` | `typing.Protocol` definitions shared across `cli/`, `modules/`, and `skills/`: `PayloadProvider`, `CommandLister`, `TerminalIO`, `LLMBackend`, `MemoryStore`, `Selector`. Enables Dependency Inversion without circular imports. |
 | `console.py` | Rich console singleton and ANSI colour helpers used by `print_msg`, `print_warn`, `print_error`. |
 | `dependencies.py` | Graceful optional-import handling. `optional_import` / `optional_attr` bind heavy third-party packages lazily so a missing dependency (for example `pycryptodome`) degrades a single feature instead of crashing the framework at import time. `OPTIONAL_PYTHON_DEPENDENCIES` is the single source of truth for each lazily-imported package's install hint. Standard-library only, so `python3 -m core.dependencies` works even when `rich` or `cmd2` are broken. |
+| `api_authz.py` | Tenant-bound API key authorization. ``ApiKeyStore`` persists SHA-256-hashed keys with atomic writes. ``require_api_auth`` decorator enforces key validation + permission + tenant checks on Flask routes. Keys are never stored in plaintext; the secret is returned only at creation time. |
+| `logging.py` | Structured JSON-lines logging. ``StructuredLogger`` extends Python's ``logging.Logger`` to promote ``extra`` kwargs into top-level JSON fields. ``StructuredLogConfig`` centralises every setting. Drop-in replacement for ``core.console.print_msg`` et al. |
 | `__init__.py` | Re-exports `Config`, `load_payload`, the validators, and `optional_import` / `optional_attr` / `MissingDependencyError` so callers can do `from core import Config`. |
 
 ## Usage
@@ -24,8 +26,8 @@ from core import Config
 from core.validators import check_rhost, check_lhost
 
 cfg = Config({"rhost": "10.10.11.5", "lhost": "10.10.14.3"})
-print(cfg.rhost)          # "10.10.11.5"
-print(cfg["nonexistent"]) # None
+print(cfg.rhost)  # "10.10.11.5"
+print(cfg["nonexistent"])  # None
 
 if not check_rhost(cfg.rhost):
     print("rhost is not set")
@@ -55,10 +57,9 @@ if not check_rhost(cfg.rhost):
 ```python
 from core.dependencies import optional_attr, optional_import
 
-AES = optional_attr("Crypto.Cipher", "AES")   # real class when installed
-pandas = optional_import("pandas")             # deferred proxy when missing
+AES = optional_attr("Crypto.Cipher", "AES")  # real class when installed
+pandas = optional_import("pandas")  # deferred proxy when missing
 
-if pandas:                                     # proxy is falsy
+if pandas:  # proxy is falsy
     frame = pandas.DataFrame(rows)
 ```
-

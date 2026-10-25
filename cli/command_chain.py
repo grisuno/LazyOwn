@@ -29,8 +29,8 @@ Zero coupling to ``cmd2``, ``flask``, ``rich`` or ``lazyown.py``.
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Mapping, Sequence
 
 from cli.exploration import (
     ANY_OS,
@@ -76,7 +76,11 @@ _DEFAULT_PREREQUISITES: Mapping[str, tuple[str, ...]] = {
     "pspy64": ("ssh",),
     "find_suid": ("ssh",),
     "sudo_privesc": ("ssh",),
+    "whoami_priv": ("ssh",),
+    "crystal_ball": ("linpeas",),
     "winpeas": ("evil-winrm",),
+    "printspoofer": ("evil-winrm",),
+    "juicypotato": ("evil-winrm",),
     "evil-winrm": ("secretsdump",),
     "psexec": ("secretsdump",),
     "mimikatz": ("evil-winrm",),
@@ -262,6 +266,12 @@ class DynamicNextResolver:
 
         steps: list[NextStep] = []
         seen: set[str] = set()
+
+        if not verb:
+            for verb_p in self.static_registry.phase_priority(phase):
+                self._append(steps, seen, verb_p, SOURCE_PHASE, f"phase {phase or 'recon'}", history)
+                if len(steps) >= bound:
+                    return steps
 
         for static_next in self.static_registry.next_for(verb):
             self._append(steps, seen, static_next, SOURCE_STATIC, f"after {verb}", history)

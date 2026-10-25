@@ -4,7 +4,7 @@
   "trigger": [
     "ssh"
   ],
-  "active": false,
+  "active": true,
   "category": "02. Scanning & Enumeration",
   "description": "Pwntomate tool: ssh-audit \u2014 triggers on ['ssh']"
 }

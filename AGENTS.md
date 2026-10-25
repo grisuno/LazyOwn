@@ -1,9 +1,13 @@
-# LazyOwn — Hermes Agent Context
+# LazyOwn - Hermes Agent Context
 
 Project: LazyOwn RedTeam Framework
-Repo: /home/grisun0/LazyOwn
+Repo root: the working directory that holds `payload.json` and `lazyown.py`
 Language: Python 3.11+, Bash
 Domain: penetration testing, red teaming, C2 operations
+
+> **Role routing:** this file is for an agent that modifies the repository.
+> `CORE.md` is for an agent that consumes LazyOwn as a dependency. `CLAUDE.md`
+> is the shared durable contract. Load only the file that matches the role.
 
 ---
 
@@ -11,9 +15,13 @@ Domain: penetration testing, red teaming, C2 operations
 
 LazyOwn is a professional pentest/red-team framework:
 
-- **CLI** (`lazyown.py`): cmd2 shell with 333+ commands and 200+ aliases covering the full kill chain.
+- **CLI** (`lazyown.py`): cmd2 shell with 837 commands and 130 aliases covering the full kill chain.
 - **C2** (`lazyc2.py`): Flask + Socket.IO web dashboard, beacon protocol, phishing, multi-operator collaboration.
-- **MCP** (`skills/lazyown_mcp.py`): ~131 tools exposing the framework to AI agents.
+- **MCP** (`skills/lazyown_mcp.py`): 176 tools exposing the framework to AI agents.
+- **DB** (`modules/db.py`): SQLite database layer — workspaces, hosts, services, vulns, creds, loot, notes, nmap import.
+- **Module Registry** (`modules/module_registry.py`): Catalog of 120+ modules from lazyaddons, plugins, tools, playbooks — search, use, run workflow.
+- **Payload Factory** (`modules/payload_factory.py`): Native payload generation (reverse shells, PowerShell, shellcode) with format conversion.
+- **Resource Scripting** (`modules/resource_script.py`): Enhanced `.ls` scripts with variables, if/while/for, macros, spool.
 
 All configuration lives in `payload.json`. All campaign state lives in `sessions/` (gitignored, never delete without confirmation).
 
@@ -31,9 +39,41 @@ Hermes Agent -> MCP -> skills/lazyown_mcp.py -> lazyown.py (CLI) / lazyc2.py (C2
 
 - `utils.py`: shared helpers, Config class, run_command wrapper. Imported by both CLI and C2.
 - `skills/`: MCP server, autonomous daemon, hive mind, SWAN (MoE+RL), policy engine, parquet DB.
-- `modules/`: LLM clients, blueprints, world model, playbook engine.
+- `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**, **orchestrator_config (YAML profiles)**, **chain_registry/chain_runner (chain v2)**, **outcome_bus (sink fan-out)**, **emulation_runner (Atomic execution)**, **metasploitable_gym (MS2 matrix)**, **gym_registry (YAML gyms + world-model runs)**, **addon_updater (git updates)**.
 - `parquets/`: columnar knowledge bases (GTFOBins, LOLBas, MITRE ATT&CK).
-- `lazyaddons/`: 76 YAML tool integrations. `plugins/`: Lua plugins. `tools/`: pwntomate auto-jobs.
+- `lazyaddons/`: 124 YAML tool integrations. `plugins/`: Lua + YAML plugins. `tools/`: pwntomate auto-jobs.
+
+---
+
+## Security hardening (SDD+TDD+BDD)
+
+Critical security fixes applied with full test coverage. Run: `pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py tests/test_security_hardening_v3.py tests/test_security_hardening_v4.py -v`
+
+| Fix | File | Contract |
+|-----|------|----------|
+| SQL injection prevention | `modules/db.py` | Table name allowlist via `VALID_TABLES` frozenset |
+| LIKE escape injection | `modules/db.py` | Special LIKE chars escaped with `ESCAPE '\\'` |
+| Timing-safe auth | `lazyc2.py` | `hmac.compare_digest` replaces `==` in `check_auth` |
+| SafeRunner shell=False | `core/safe_subprocess.py` | `subprocess.run(argv, shell=False)` |
+| pickle removed | `utils.py` | RCE vector eliminated |
+| Hardcoded secrets removed | `utils.py` | `secrets.token_hex`/`secrets.token_urlsafe` at runtime |
+| Config constants consolidated | `modules/ai_fallback.py`, `cli/commands/ai.py` | Import from `modules/llm_factory` |
+| Credential encryption logging | `modules/db.py` | Warnings instead of silent plaintext fallback |
+| CORS dev fallback expanded | `lazyc2/security/cors.py` | Always includes `127.0.0.1` + `localhost` + `lhost` |
+| Hardcoded credentials removed | `cli/commands/postexp_migrated.py`, `cli/commands/report_migrated.py`, `cli/commands/exploit_migrated.py`, `templates/index.html` | All passwords read from config or require explicit input |
+| Command injection in AI module | `cli/commands/ai.py` | `os.system` replaced with `subprocess.run` list-form; API key via env var |
+| SSH credential injection | `cli/commands/postexp_migrated.py` | `sshpass -e` + `SSHPASS` env var replaces `sshpass -p` |
+| DNS command allowlist | `lazyc2.py` | `_DNS_COMMAND_ALLOWLIST` frozenset + length cap |
+| Safe shell execution | `cli/commands/misc_migrated.py` | `do_sys` uses `subprocess.run` with output capture |
+| Credential encryption at rest | `modules/phishing_orchestrator.py` | AES-256-GCM encryption for harvested passwords |
+| URL injection prevention | `poc_tui/plugin_loader.py` | `_validate_clone_url` rejects metacharacters; git clone uses subprocess list-form |
+| os.system eliminated | `modules/morse.py`, `modules/c2_builder.py`, `modules/bot.py`, `modules/ia_*.py` | Replaced with subprocess.run or Python-native operations |
+| shell=False enforced | `lazyc2.py` | `execute_command` uses `shlex.split` + `shell=False` |
+| Hardcoded paths removed | `telegram_hermes.py`, `modules/c2_builder.py`, `cli/commands/anti_forensics.py` | Replaced with Path.home() or shutil.which |
+| Placeholder injection prevention | `modules/conditional_hooks.py` | `shlex.quote` applied to all placeholder values before shell insertion |
+- `core/hardening.py`: Centralized security primitives — `safe_subprocess_run`, `safe_clipboard_copy`, `set_sshpass_env`, `escape_html_content`, `safe_path_join`, `validate_host`, `validate_network_cidr`, `validate_port_spec`, `require_encryption_key`, `defused_xml_parse`, `sanitize_filename`.
+- `core/safe_exec.py`: Safe command execution — `safe_system`, `safe_run_argv`, `safe_run_shell`, `safe_clear_screen`, `validate_url`, `safe_git_clone`, `safe_ip_show`, `safe_find_tool`, `safe_file_read`.
+- `cli/commands/`: CommandSets for **db_***, **search/use/back**, **generate**, **resource** — auto-registered at boot.
 
 ---
 
@@ -69,10 +109,10 @@ Do NOT import `lazyc2` from CLI. Do NOT write to `payload.json` outside `do_assi
 ### Loading this skill
 
 ```bash
-# Option A: install from repo
-hermes skills install /home/grisun0/LazyOwn/skills/lazyown/SKILL.md
+# Option A: install from repo (run from the repository root)
+hermes skills install skills/lazyown/SKILL.md
 
-# Option B: auto-discovered via AGENTS.md when cwd is /home/grisun0/LazyOwn
+# Option B: auto-discovered via AGENTS.md when the cwd is the repository root
 ```
 
 ### The LazyOwn Soul
@@ -88,7 +128,7 @@ Key principles: evidence over assumption, abstraction over mechanics, phase disc
 ### MCP registration
 
 ```bash
-bash /home/grisun0/LazyOwn/scripts/setup_hermes_mcp.sh
+bash scripts/setup_hermes_mcp.sh
 ```
 
 ### Key files Hermes should read
@@ -115,7 +155,7 @@ bash /home/grisun0/LazyOwn/scripts/setup_hermes_mcp.sh
 | `lazyown_facts_show` | After auto_populate — displays discovered ports, services, versions |
 | `lazyown_recommend_next` | When unsure what to do — Groq ranks 3-5 next commands |
 
-For the full 131-tool reference see `skills/lazyown.md`.
+For the full 173-tool reference see `skills/lazyown.md`.
 
 ---
 
@@ -134,7 +174,7 @@ For the full 131-tool reference see `skills/lazyown.md`.
 
 **LazyOwn shell not responding**: check that `payload.json` exists and has `rhost` set.
 
-**Sessions/ files missing**: verify you are in `/home/grisun0/LazyOwn` and `sessions/` is writable.
+**Sessions/ files missing**: verify you are in the repository root and `sessions/` is writable.
 
 **C2 not starting**: ensure `lhost` and `c2_port` are set in payload.json; check `cert.pem` / `key.pem` exist.
 
@@ -152,7 +192,7 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 
 ### Rules for agents
 
-- Start every session on `dev` (`git checkout dev`).
+- Start every session on `dev`, but SYNC it with `main` first: `git fetch origin main dev && git checkout dev && git merge --ff-only origin/main || git merge --no-edit origin/main`. Verify with `git merge-base --is-ancestor origin/main HEAD`. Never work on a stale `dev`.
 - Never commit directly to `main` or `pp`.
 - Feature branches: `feature/<description>` cut from `dev`.
 - Hotfix branches: `hotfix/<description>` cut from `main`, then back-merge to `pp` and `dev`.
@@ -168,6 +208,117 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 | `CHEATSHEET.md` | ~300 | ~40 frequent commands by user goal |
 | `QUICKSTART.md` | ~140 | First-time setup and onboarding |
 | `skills/lazyown/SKILL.md` | ~120 | Hermes skill definition |
-| `skills/lazyown.md` | ~1600 | Complete 131-tool MCP playbook |
-| `COMMANDS.md` | ~5000 | Full 333-command reference (auto-generated) |
+| `skills/lazyown.md` | ~1600 | Complete 173-tool MCP playbook |
+| `COMMANDS.md` | ~1600 | Full 837-command reference (auto-generated) |
 | `CLAUDE.md` | ~540 | Architecture and developer reference |
+
+---
+
+## Connectivity Contracts (v3 — unified killchain)
+
+These modules were created to close the gaps between kill-chain phases,
+suggestion surfaces, and operational state. Each file is autonomous with a
+single contract.
+
+### `modules/killchain.py` — Single Source of Truth for Kill-Chain (NEW v3)
+
+**Contract:** ``KillChain`` is the canonical authority for kill-chain data — phases,
+progress, mapping, and atomic updates. Every display surface imports from here.
+No other file defines its own phases. See ``CLAUDE.md`` Sections 16 and 16.1.
+
+**Transport:** state is read/written only via ``modules/world_model`` (transparent
+decrypt of the ``world_model.json.encrypted`` sibling). Beacon history is owned by
+``modules/beacon_history.py``. Exposed over HTTP at ``/api/killchain`` and
+``/api/beacon_results/<client_id>``. C2 decrypts on boot and re-encrypts on exit.
+
+### `cli/tips_engine.py` — Unified post-command tips engine
+
+**Contract:** Coordinate all suggestion surfaces (kill-chain hints, protips,
+curiosity, autosuggest, ELO/VRI rewards) into ONE postcmd hook. Replaces the
+five fragmented hooks that previously competed for operator attention.
+
+**Key types:**
+- `TipsConfig` — Centralised config (paths, tables, thresholds, tip registries)
+- `EngagementState` — Persisted cross-session metrics (ELO, badges, commands_seen)
+- `TipsEngine` — Coordination engine. Constructor injects config + autosuggest handle.
+
+**Usage:** `TipsEngine(config, autosuggest_engine).render(cmd, phase)`
+
+**Tests:** `tests/test_tips_engine.py` (49 tests, 6 mutation-killed)
+
+### `cli/auto_crypto.py` — Automatic session data encryption
+
+**Contract:** Encrypt sensitive session files on app close and decrypt on authenticated
+startup. Uses PBKDF2HMAC + Fernet (same as lazyenc.py). Never blocks the shell.
+
+**Key types:**
+- `AutoCryptoConfig` — protect_globs, sessions_dir, password_provider, auto_enabled
+- `AutoCryptoEngine` — encrypt_session(), decrypt_session(), is_encrypted property
+
+**Usage:** `engine.encrypt_session()` on exit, `engine.decrypt_session()` on startup
+
+**Tests:** `tests/test_auto_crypto.py` (7 tests, 2 mutation-killed)
+
+### `cli/reactive_hints.py` — Expanded kill-chain adjacency tables
+
+**Contract:** `_KILL_CHAIN_NEXT` and `_PHASE_PRIORITY` now cover 60+ commands (was 20).
+Missing commands added: auto_pwn, chain, hunt, nuclei, lazynuclei, yara_scan,
+playbook_generate, playbook_run, campaign, collab_join, dashboard, encrypt, decrypt.
+
+### `cli/protips.py` — Expanded tip registry with 6 categories
+
+**Categories:** privesc, ai, ops, ecosystem, automation, security, collab, discovery.
+New tips surface: auto_pwn, chain, hunt, nuclei, playbook_generate, encrypt, decrypt,
+yara_scan, yara_marketplace, campaign, collab_join, dashboard, marketplace config,
+nuclei_marketplace, palette.
+
+### `cli/engagement_hooks.py` — Badges and expanded ELO coverage
+
+**Badges awarded:** arsenal_master (100 commands), arsenal_legend (250), arsenal_god (500),
+deep_recon (50/session), hacker_rank (3000 ELO), elite_rank (5000 ELO),
+first_blood (5 commands), kill_chain_master (6 phases).
+
+**ELO bonuses added:** auto_pwn (+30), chain (+20), hunt (+25), nuclei (+18),
+yara_scan (+15), playbook_run (+15), playbook_generate (+12), collab_join (+8),
+campaign (+10), encrypt/decrypt (+12), lazynuclei (+15), dashboard/marketplace (+5).
+
+### `cli/recommendation_signals.py` — PlaybookSignal integration
+
+**Contract:** New `PlaybookSignal` adapts `AptPlaybookEngine.list_playbooks()` into
+concrete `Proposal` objects. Registered in `build_default_engine()` after the recon
+signal, before the kill-chain fallback.
+
+### `cli/commands/marketplace.py` — YARA + Nuclei marketplace
+
+**New commands:** `yara_marketplace list|search|install|info|update|download-community`
+and `nuclei_marketplace list|search|install|info|update [--severity <level>] [--cve <id>]`.
+Both follow the same pattern as the existing addon marketplace.
+
+### `lazyown.py` — Wiring (single unified hook + auto-crypto)
+
+**Changes:**
+1. Import `TipsEngine`, `AutoCryptoEngine`, `AutoCryptoConfig` at module level.
+2. Initialise `self._tips_engine` and `self._auto_crypto` in `__init__`.
+3. Register ONE postcmd hook: `self._unified_tips_hook` (replaces 5 hooks).
+4. Register `atexit` handler for `self._run_auto_encrypt`.
+5. `_run_auto_decrypt()` called at startup (after login).
+6. `self._autosuggest` wired into tips_engine via `_tips_engine._autosuggest`.
+7. Keep `_refresh_autosuggest` and `_read_recent_commands_for_autosuggest` for
+   `do_next` and chain command compatibility.
+
+<!-- readmenator-agent-kb-link -->
+## Project Knowledge Base (MUST read before coding)
+
+Generated offline by [ReadMenator](https://github.com/grisuno/ReadMenator) (zero-token static analysis). Humans: `KNOWLEDGE_BASE.md`.
+
+0. Memory: `cat readmenator-agent/MEMORY.md` (business rules, workflow, constraints, style, done criteria, session log). Record new decisions with `readmenator . remember "<note>" --kind decision`.
+1. Freshness: `readmenator . fresh` (exit 1 means stale: run `readmenator . --rebuild`). Without the CLI, compare `git_commit` in `readmenator-agent/MANIFEST.json` with `git log -1`.
+2. Orient: `ls *.md readmenator-agent/ readmenator-wiki/`, then read `readmenator-wiki/index.md` (big picture, communities, god nodes).
+3. Locate: `grep -n '<keyword>' readmenator-agent/INDEX*.md readmenator-agent/SYMBOLS*.md` before any `glob` over sources; for questions use `readmenator . ask "<question>"` (GraphRAG, `--global` for overviews).
+4. Context: `cat readmenator-agent/KB_<subsystem>.md` for the subsystem you touch.
+5. Before editing: `grep -n '<file>' readmenator-agent/GOTCHAS.md readmenator-agent/SECURITY.md` (blast radius, cycles, findings).
+
+Also: `API*.md` (public functions, one line each), `ARCHITECTURE*.md` (dependency pairs), `recipes/*.md` (grounded task steps). Large docs are paged as `NAME_p2.md`, so always grep with `NAME*.md`.
+
+    pip install readmenator && readmenator . --rebuild
+<!-- /readmenator-agent-kb-link -->

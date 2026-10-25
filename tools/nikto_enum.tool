@@ -1,6 +1,6 @@
 {
   "toolname": "nikto_host",
-  "command": "nikto -h {ip} -p {port} -ssl {s} > {outputdir}/nikto.txt",
+  "command": "nikto -h {ip} -p {port}{ssl_flag} > {outputdir}/nikto.txt",
   "trigger": [
     "http",
     "https"

@@ -1,0 +1,6 @@
+name: apt_lazarusgroup
+description: Full APT chain for lazarusgroup (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: lazarusgroup

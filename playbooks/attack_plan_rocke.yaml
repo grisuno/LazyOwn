@@ -1,0 +1,31 @@
+apt_name: Rocke
+description: 'Rocke is a China-nexus cryptojacking group active since 2016, documented
+  by Cisco Talos and Anomali.
+
+  Initial access via public-facing web application exploits (Oracle WebLogic CVE-2017-10271,
+  Apache Struts2 CVE-2017-5638, JBoss/Tomcat manager brute-force followed by WAR deployment).
+  Payloads are base64-obfuscated shell downloaders, persistence via cron, and Monero
+  mining (XMRig) as the objective.
+
+  This playbook adapts Rocke TTPs to a vintage Linux lab (Metasploitable2): Tomcat
+  manager deploy stands in for the web-exploit vector and Samba usermap_script (CVE-2007-2447)
+  is provided as an alternate LAN initial-access vector so the autonomous loop can
+  score two options.
+
+  '
+platform: linux
+platforms:
+- linux
+steps:
+- atomic_id: T1190
+- atomic_id: T1110.001
+- atomic_id: T1210
+- atomic_id: T1059.004
+- atomic_id: T1027
+- atomic_id: T1053.003
+- atomic_id: T1018
+- atomic_id: T1083
+- atomic_id: T1057
+- atomic_id: T1003.008
+- atomic_id: T1005
+- atomic_id: T1071.001

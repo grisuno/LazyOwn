@@ -25,9 +25,10 @@ import ast
 import hashlib
 import json
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LAZYOWN_PATH = REPO_ROOT / "lazyown.py"
@@ -67,13 +68,22 @@ CATEGORY_TO_PHASE: dict[str, str] = {
     "12. Miscellaneous": "misc",
     "13. Lua Plugin": "plugin",
     "14. Yaml Addon.": "addon",
-    "15. Adversary YAML.": "adversary",
+    "14. Adversary Emulation": "adversary",
     "16. Artificial Intelligence": "ai",
     "Diagnostics": "diagnostics",
 }
 
 UNCATEGORIZED_PHASE = "uncategorized"
 SUMMARY_MAX_CHARS = 160
+
+_HTTP_HANDLER_BASES = frozenset(
+    {
+        "BaseHTTPRequestHandler",
+        "SimpleHTTPRequestHandler",
+        "CGIHTTPRequestHandler",
+        "StreamRequestHandler",
+    }
+)
 
 
 @dataclass
@@ -145,12 +155,29 @@ def _summary_from_docstring(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str
     return first_line
 
 
+def _is_http_handler_class(cls: ast.ClassDef) -> bool:
+    """Return True for ``http.server`` handler subclasses, not CLI commands.
+
+    Nested HTTP request handlers (``do_GET``, ``do_POST``, ``do_OPTIONS``)
+    are exfiltration server internals that must never surface as operator
+    commands in the index.
+    """
+    for base in cls.bases:
+        if isinstance(base, ast.Name) and base.id in _HTTP_HANDLER_BASES:
+            return True
+        if isinstance(base, ast.Attribute) and base.attr in _HTTP_HANDLER_BASES:
+            return True
+    return False
+
+
 def _collect_commands_from_file(path: Path) -> list[Command]:
     src = path.read_text(encoding="utf-8")
     tree = ast.parse(src, filename=str(path))
     relpath = str(path.relative_to(REPO_ROOT))
     out: list[Command] = []
     for cls in _iter_class_defs(tree):
+        if _is_http_handler_class(cls):
+            continue
         for child in cls.body:
             if not isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 continue

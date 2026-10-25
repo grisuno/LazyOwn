@@ -1,0 +1,28 @@
+---
+name: Good first contribution
+about: Add a YARA rule or Nuclei template to the marketplace
+title: "[marketplace] add <name>"
+labels: ["good first issue", "marketplace"]
+---
+
+## What to add (pick one)
+
+- [ ] YARA rule (`yara_marketplace`): detection for a common implant / webshell / loader
+- [ ] Nuclei template (`nuclei_marketplace`): check for a CVE with severity + reference
+
+## Checklist
+
+- [ ] Tested locally with `yara_marketplace install <name>` or `nuclei_marketplace install <name>`
+- [ ] Includes reference link (CVE, blog, sandbox report)
+- [ ] No hardcoded victim IPs, no live credentials
+- [ ] Docs line added under marketplace section if user-facing
+
+## How to test
+
+```bash
+./run
+(LazyOwn) > yara_marketplace list
+(LazyOwn) > nuclei_marketplace list --severity high
+```
+
+Maintainers review within 7 days. Small focused PRs merge fastest.

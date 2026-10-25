@@ -41,8 +41,12 @@
 #define HIDDEN_FILE9 "listener_{line}.sh"
 #define PATHMRHYDE "mrhyde.so"
 
-#define HIDE_DIR ".grisun0"
-#define HIDE_USER "grisun0"
+#ifndef HIDE_DIR
+#define HIDE_DIR ".rootkit_dir"
+#endif
+#ifndef HIDE_USER
+#define HIDE_USER "rootkit_user"
+#endif
 #define MAX_HIDE_PIDS 140
 #define PID_FILE_PATH "/dev/shm/pid"
 

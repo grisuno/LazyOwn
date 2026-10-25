@@ -23,7 +23,7 @@
         {% endif %}
         {% endwith %}
         <h1>Create Tool</h1>
-        <form action="{{ url_for('create_tool') }}" method="post" onsubmit="submitForm();">
+        <form id="createToolForm" action="{{ url_for('create_tool') }}" method="post" onsubmit="return submitForm(event);">
             
             <div class="form-group">
                 <label for="toolname">Tool Name</label>
@@ -77,11 +77,9 @@
                     <option value="coap">coap</option>
                     <option value="modbus">modbus</option>
                     <option value="bacnet">bacnet</option>
-                    <option value="microsoft-ds"endif %}>microsoft-ds</option>
+                    <option value="microsoft-ds">microsoft-ds</option>
                     <option value="rdp">rdp</option>
-                    <option value="smb">smb</option>
                     <option value="nfs_acl">nfs_acl</option>
-                    <option value="nfs">nfs</option>
                     <option value="otro">otro</option>
                 </select>
                 <input type="text" id="customTrigger" class="form-control mt-2" placeholder="Enter the protocol" style="display: none;">
@@ -117,61 +115,67 @@
 </div>
 <script src="/static/js/quill-2.0.3.js"></script>
 <script>
-    function submitForm() {
+    function submitForm(event) {
+        event.preventDefault();
         const form = document.getElementById('createToolForm');
+        const triggerSelect = document.getElementById('trigger');
+        const customTriggerInput = document.getElementById('customTrigger');
+        const customValue = customTriggerInput.value.trim();
+        if (triggerSelect.value === 'otro' && customValue) {
+            const hidden = document.createElement('input');
+            hidden.type = 'hidden';
+            hidden.name = 'trigger';
+            hidden.value = customValue;
+            form.appendChild(hidden);
+        }
         const formData = new FormData(form);
-        const url = '/tools/create';
         const toolname = formData.get('toolname');
-        const command = formData.get('command');
-        const trigger = formData.get('trigger');
         const active = formData.get('active');
-        operator = '{{ current_user.username }}'; 
-        fetch(url, {
+        const description = 'Tool ' + toolname + ' registered from the C2 dashboard.';
+        const operator = '{{ current_user.username }}';
+        fetch('/tools/create', {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            src_path = '{BASE_DIR}{rhost}/{port}/' + toolname + '/' + toolname + '.txt';
-            size = '222';
-            outputtype = 'txt';
-            outputtodelete = '  ';
-            prompt = '  and VALID '+ toolname +' remember the mission, it\'s imperant inform the lsit of the vulns of  '+ toolname +'  get in the test  ';
-            submitEventConfigForm(
+        .then(function () {
+            const srcPath = '{BASE_DIR}{rhost}/{port}/' + toolname + '/' + toolname + '.txt';
+            const prompt = ' and VALID ' + toolname +
+                ' remember the mission, inform the list of the vulns of ' + toolname +
+                ' from the test ';
+            return submitEventConfigForm(
                 toolname,
-                src_path, 
-                size, 
-                description, 
-                outputtype,
-                outputtodelete,
+                srcPath,
+                '222',
+                description,
+                'txt',
+                ' ',
                 prompt,
                 operator,
                 active
-            )
+            );
         })
-        .catch((error) => {
-            console.error('Error:', error);
-            // Handle error (e.g., show an error message)
+        .then(function () {
+            window.location.href = '/tools';
+        })
+        .catch(function (error) {
+            alert('Could not create the tool: ' + error);
         });
+        return false;
     }
     function submitEventConfigForm(
         title,
-        src_path, 
-        size, 
-        description, 
+        srcPath,
+        size,
+        description,
         outputtype,
         outputtodelete,
         prompt,
         operator,
         status
     ) {
-        const url = '/event_config_view';
-
-       
         const formData = new FormData();
-        formData.append('title', title); 
-        formData.append('src_path', src_path);
+        formData.append('title', title);
+        formData.append('src_path', srcPath);
         formData.append('size', size);
         formData.append('description', description);
         formData.append('outputtype', outputtype);
@@ -179,57 +183,41 @@
         formData.append('prompt', prompt);
         formData.append('operator', operator);
         formData.append('status', status);
-
-        fetch(url, {
+        return fetch('/event_config_view', {
             method: 'POST',
             body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
         });
     }
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.loading-container').style.display = 'none';
-        
+
         const draggables = document.querySelectorAll('.draggable');
         const commandInput = document.getElementById('command');
-        
-        draggables.forEach(draggable => {
-            draggable.addEventListener('dragstart', (event) => {
+        const triggerSelect = document.getElementById('trigger');
+        const customTriggerInput = document.getElementById('customTrigger');
+
+        draggables.forEach(function(draggable) {
+            draggable.addEventListener('dragstart', function(event) {
                 event.dataTransfer.setData('text/plain', draggable.textContent);
-                console.log(draggable)
             });
         });
-        
-        commandInput.addEventListener('dragover', (event) => {
+
+        commandInput.addEventListener('dragover', function(event) {
             event.preventDefault();
-            console.log(draggable)
         });
-        
-        commandInput.addEventListener('drop', (event) => {
+
+        commandInput.addEventListener('drop', function(event) {
             event.preventDefault();
             const data = event.dataTransfer.getData('text/plain');
-            console.log(data)
-            
             const cursorPosition = commandInput.selectionStart;
-            console.log(cursorPosition)
             const currentValue = commandInput.value;
-            console.log(currentValue)
-            const newValue = currentValue.substring(0, cursorPosition) + data + currentValue.substring(cursorPosition);
-            console.log(newValue)
-            commandInput.value = newValue;
-            console.log(draggable)
-            // Set the cursor position after the inserted text
-            commandInput.selectionStart = cursorPosition + data.length;
-            console.log(commandInput.selectionStart)
-            commandInput.selectionEnd = cursorPosition + data.length;
-            console.log(commandInput.selectionEnd)
+            commandInput.value = currentValue.substring(0, cursorPosition) + data + currentValue.substring(cursorPosition);
+            const position = cursorPosition + data.length;
+            commandInput.selectionStart = position;
+            commandInput.selectionEnd = position;
             commandInput.focus();
         });
+
         triggerSelect.addEventListener('change', function() {
             if (triggerSelect.value === 'otro') {
                 customTriggerInput.style.display = 'block';
@@ -237,7 +225,7 @@
                 customTriggerInput.style.display = 'none';
             }
         });
-        
+
     });
 </script>
 </body>

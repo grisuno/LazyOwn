@@ -10,7 +10,6 @@ Follows the Strategy pattern: each phase implements a CompactionStrategy.
 
 import re
 from abc import ABC, abstractmethod
-from typing import Any
 
 from constants import Defaults, PhaseNames
 
@@ -31,10 +30,7 @@ class CompactionResult:
         return 1.0 - (self.compacted_lines / self.original_lines)
 
     def __str__(self) -> str:
-        return (
-            f"[{self.original_lines} -> {self.compacted_lines} lines "
-            f"({self.reduction_ratio:.0%})]\n{self.comparted}"
-        )
+        return f"[{self.original_lines} -> {self.compacted_lines} lines ({self.reduction_ratio:.0%})]\n{self.comparted}"
 
 
 class CompactionStrategy(ABC):
@@ -105,7 +101,7 @@ class EnumCompaction(CompactionStrategy):
 
         if not kept:
             # Fallback: keep first 20 lines if no findings matched
-            kept = [l for l in lines[:20] if l.strip()]
+            kept = [ln for ln in lines[:20] if ln.strip()]
 
         summary = f"# {tool_name or 'enum'} findings: {len(kept)} lines\n"
         compacted = summary + "\n".join(kept)

@@ -10,6 +10,7 @@ description: 'Vulnhuntr leverages the power of LLMs to automatically create and 
 author: protectai
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: path
   type: string

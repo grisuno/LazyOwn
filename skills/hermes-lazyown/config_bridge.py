@@ -156,9 +156,7 @@ class ConfigBridge:
             with path.open("r", encoding="utf-8") as fh:
                 data = json.load(fh)
         except (json.JSONDecodeError, OSError) as exc:
-            raise ConfigBridgeError(
-                f"Failed to parse payload.json at {path}: {exc}"
-            ) from exc
+            raise ConfigBridgeError(f"Failed to parse payload.json at {path}: {exc}") from exc
 
         self._payload_cache = data if isinstance(data, dict) else {}
         self._payload_mtime = mtime

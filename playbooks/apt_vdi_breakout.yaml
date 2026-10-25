@@ -1,0 +1,40 @@
+apt_name: VDI / Citrix Breakout
+description: Escape Virtual Desktop Infrastructure (Citrix, VMware Horizon, WVD) to gain host access and pivot to hypervisor management.
+target: ""
+phase: exploit
+steps:
+  - atomic_id: T1611.001
+    technique_id: T1611
+    tactic: discovery
+    name: Detect VDI Environment
+    description: Fingerprint Citrix, Horizon, or WVD via registry and process list.
+    command: echo "[T1611] Detect VDI environment — vdi_detect_citrix; vdi_detect_horizon"
+    platform: windows
+  - atomic_id: T1202.001
+    technique_id: T1202
+    tactic: execution
+    name: Escape via VDI Helper
+    description: Abuse Citrix HDX Helper or Horizon Agent dialogs to spawn shells.
+    command: echo "[T1202] VDI helper shell escape — vdi_citrix_hdx_escape"
+    platform: windows
+  - atomic_id: T1068.001
+    technique_id: T1068
+    tactic: privilege_escalation
+    name: Drive Redirection Escape to Host
+    description: Exploit misconfigured drive mapping to access host filesystem.
+    command: echo "[T1068] Drive redirection escape — vdi_drive_redirection_escape"
+    platform: windows
+  - atomic_id: T1021.006
+    technique_id: T1021.006
+    tactic: lateral_movement
+    name: Pivot to vCenter from VDI
+    description: Scan hypervisor management network from compromised VDI session.
+    command: echo "[T1021.006] Pivot to hypervisor — vdi_hypervisor_scan; vdi_vcenter_pivot"
+    platform: windows
+  - atomic_id: T1048.003
+    technique_id: T1048.003
+    tactic: exfiltration
+    name: Exfiltrate via Virtual Channel
+    description: Use VDI clipboard/drive channel to exfiltrate bypassing network DLP.
+    command: echo "[T1048.003] Exfiltrate via virtual channel — vdi_clipboard_exfil"
+    platform: windows

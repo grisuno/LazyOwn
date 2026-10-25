@@ -1,0 +1,494 @@
+# Subsystem: cli (page 3 of 5)
+Previous: [KB_cli_p2.md](KB_cli_p2.md)
+
+## cli/lazy_orchestrator.py
+- Doc: Orchestrator admin console for the autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `discover_shell_commands` (function, line 66) `def discover_shell_commands()`
+  - `command_descriptions` (function, line 99) `def command_descriptions()`
+  - `verb_candidates` (function, line 113) `def verb_candidates()`
+  - `LazyOrchestratorApp` (class, line 144) `class LazyOrchestratorApp(OrchestratorAssetsMixin)`
+  - `run_orchestrator_console` (function, line 1045) `def run_orchestrator_console(task_id, shell)`
+  - `__init__` (method, line 174) `def __init__(self, payload_path, task_id, shell, param_root)`
+  - `_param_root` (method, line 204) `def _param_root(self)`
+  - `compose` (method, line 208) `def compose(self)`
+  - `on_mount` (method, line 274) `def on_mount(self)`
+  - `toggle_stage` (method, line 292) `def toggle_stage(self, name)`
+  - `toggle_verb` (method, line 301) `def toggle_verb(self, name)`
+  - `add_auto_verb` (method, line 317) `def add_auto_verb(self, name, keywords, needs_target, description, phases)`
+  - `remove_auto_verb` (method, line 340) `def remove_auto_verb(self, name)`
+  - `_resolve_task` (method, line 348) `def _resolve_task(self)`
+  - `_poll_now` (method, line 366) `def _poll_now(self)`
+  - `on_button_pressed` (method, line 401) `def on_button_pressed(self, event)`
+  - `_submit_config_save` (method, line 415) `def _submit_config_save(self)`
+  - `_submit_harness_save` (method, line 431) `def _submit_harness_save(self)`
+  - `action_refresh` (method, line 454) `def action_refresh(self)`
+  - `_refresh_params` (method, line 468) `def _refresh_params(self)`
+  - `create_param` (method, line 491) `def create_param(self, name, kind, default, description, category)`
+  - `update_param` (method, line 531) `def update_param(self, name, default, description)`
+  - `delete_param` (method, line 563) `def delete_param(self, name)`
+  - `_selected_row` (method, line 586) `def _selected_row(self, table_id)`
+  - `action_toggle_item` (method, line 595) `def action_toggle_item(self)`
+  - `action_save_config` (method, line 625) `def action_save_config(self)`
+  - `_active_tab` (method, line 635) `def _active_tab(self)`
+  - `action_add_item` (method, line 642) `def action_add_item(self)`
+  - `action_edit_item` (method, line 874) `def action_edit_item(self)`
+  - `action_delete_item` (method, line 953) `def action_delete_item(self)`
+  - `_done` (function, line 932) `def _done(values)`
+  - `_picked_kind` (function, line 647) `def _picked_kind(value)`
+  - `_done_param` (function, line 905) `def _done_param(values)`
+  - `_done_trigger` (function, line 651) `def _done_trigger(values)`
+  - `_done` (function, line 676) `def _done(values)`
+  - `_done_param` (function, line 693) `def _done_param(values)`
+  - `_done_rule` (function, line 723) `def _done_rule(values)`
+  - `_confirmed` (function, line 981) `def _confirmed(answer)`
+  - `_picked` (function, line 740) `def _picked(value)`
+  - `_confirmed_gym` (function, line 994) `def _confirmed_gym(answer)`
+  - `_done_verb` (function, line 744) `def _done_verb(values)`
+  - `_done_new` (function, line 786) `def _done_new(values)`
+  - `_done_new_gym` (function, line 814) `def _done_new_gym(values)`
+  - `_confirmed_param` (function, line 1018) `def _confirmed_param(answer)`
+  - `_done_chain` (function, line 861) `def _done_chain(playbook)`
+  - `_confirmed_trigger` (function, line 1035) `def _confirmed_trigger(answer)`
+- Depends on: `cli/commands/containers.py`, `cli/orchestrator_assets_tabs.py`, `cli/palette.py`, `cli/tui_forms.py`, `core/param_registry.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/redteam_gym.py`, `modules/verb_catalog.py`
+- Imported by: `cli/commands/lazyloop.py`, `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_param_registry.py`
+
+## cli/lazynmap_post.py
+- Doc: Post-scan side effects executed at the tail of ``do_lazynmap``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PostScanConfig` (class, line 57) `class PostScanConfig`
+  - `PostScanResult` (class, line 76) `class PostScanResult`
+  - `run_post_scan` (function, line 94) `def run_post_scan(target, payload, console, config, engine_factory, plan_config, clock)`
+  - `_enabled` (function, line 164) `def _enabled(payload, cfg)`
+  - `_default_engine_factory` (function, line 180) `def _default_engine_factory(payload, cfg)`
+  - `_update_world_model_phase` (function, line 188) `def _update_world_model_phase(cfg, target, clock_fn)`
+  - `_emit_event` (function, line 212) `def _emit_event(cfg, target, plan, plan_path, clock_fn)`
+  - `_safe_log` (function, line 262) `def _safe_log(console, message)`
+- Depends on: `cli/exploration.py`, `cli/recon_plan.py`, `modules/killchain.py`
+- Imported by: `cli/commands/recon.py`, `lazyown.py`, `tests/test_lazynmap_post.py`, `tests/test_single_source_of_truth.py`
+
+## cli/marketplace_config.py
+- Doc: Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `MarketplaceConfig` (class, line 78) `class MarketplaceConfig`
+  - `AddonInfo` (class, line 134) `class AddonInfo`
+  - `AddonRegistry` (class, line 314) `class AddonRegistry`
+  - `MarketplaceSettings` (class, line 508) `class MarketplaceSettings`
+  - `MarketplaceConfigApp` (class, line 546) `class MarketplaceConfigApp`
+  - `configure_marketplace_interactive` (function, line 872) `def configure_marketplace_interactive(config, start_tab)`
+  - `_build_initial_settings` (function, line 896) `def _build_initial_settings(registry)`
+  - `marketplace_summary` (function, line 907) `def marketplace_summary(registry)`
+  - `from_path` (method, line 151) `def from_path(cls, path, kind)`
+  - `_from_yaml` (method, line 160) `def _from_yaml(cls, path, kind)`
+  - `_from_json` (method, line 184) `def _from_json(cls, path, kind)`
+  - `_from_read_only` (method, line 206) `def _from_read_only(cls, path, kind)`
+  - `toggleable` (method, line 221) `def toggleable(self)`
+  - `read_text` (method, line 225) `def read_text(self)`
+  - `read_data` (method, line 229) `def read_data(self)`
+  - `validate_text` (method, line 238) `def validate_text(self, text)`
+  - `save_text` (method, line 260) `def save_text(self, text)`
+  - `set_enabled` (method, line 278) `def set_enabled(self, enabled)`
+  - `toggle_enabled` (method, line 299) `def toggle_enabled(self)`
+  - `save_yaml` (method, line 303) `def save_yaml(self, data)`
+  - `__init__` (method, line 331) `def __init__(self)`
+  - `_nuclei_dir` (method, line 335) `def _nuclei_dir(self)`
+  - `scan` (method, line 342) `def scan(self, tab)`
+  - `_scan_files` (method, line 357) `def _scan_files(self, tab)`
+  - `_scan_yara` (method, line 370) `def _scan_yara(self)`
+  - `_scan_nuclei` (method, line 382) `def _scan_nuclei(self)`
+  - `_parse_yara_meta` (method, line 403) `def _parse_yara_meta(path)`
+  - `_parse_nuclei_severity` (method, line 415) `def _parse_nuclei_severity(path)`
+  - `rescan` (method, line 426) `def rescan(self, tab)`
+  - `tab_order` (method, line 431) `def tab_order(self)`
+  - `tab_label` (method, line 435) `def tab_label(self, tab)`
+  - `tab_count` (method, line 439) `def tab_count(self, tab)`
+  - `tab_is_read_only` (method, line 443) `def tab_is_read_only(self, tab)`
+  - `create_addon` (method, line 447) `def create_addon(self, tab, name)`
+  - `delete_addon` (method, line 491) `def delete_addon(self, addon)`
+  - `is_enabled` (method, line 513) `def is_enabled(self, kind, name)`
+  - `toggle` (method, line 517) `def toggle(self, addon)`
+  - `enable_all` (method, line 529) `def enable_all(self, addons)`
+  - `disable_all` (method, line 537) `def disable_all(self, addons)`
+  - `__init__` (method, line 578) `def __init__(self, config, registry, initial, start_tab)`
+  - `compose` (method, line 593) `def compose(self)`
+  - `on_mount` (method, line 604) `def on_mount(self)`
+  - `_active_tab` (method, line 614) `def _active_tab(self)`
+  - `_rows` (method, line 622) `def _rows(self, tab)`
+  - `_refresh_all` (method, line 637) `def _refresh_all(self)`
+  - `_refresh_tab_labels` (method, line 643) `def _refresh_tab_labels(self, tab)`
+  - `_refresh_table` (method, line 651) `def _refresh_table(self, tab)`
+  - `_selected_addon` (method, line 674) `def _selected_addon(self, tab)`
+  - `_selected_row` (method, line 681) `def _selected_row(self, tab)`
+  - `_update_detail` (method, line 690) `def _update_detail(self, row_key, tab)`
+  - `on_data_table_row_highlighted` (method, line 722) `def on_data_table_row_highlighted(self, event)`
+  - `on_input_changed` (method, line 732) `def on_input_changed(self, event)`
+  - `on_tabbed_content_tab_activated` (method, line 738) `def on_tabbed_content_tab_activated(self, event)`
+  - `action_focus_filter` (method, line 747) `def action_focus_filter(self)`
+  - `action_rescan` (method, line 754) `def action_rescan(self)`
+  - `action_toggle` (method, line 761) `def action_toggle(self)`
+  - `action_enable_all` (method, line 772) `def action_enable_all(self)`
+  - `action_disable_all` (method, line 779) `def action_disable_all(self)`
+  - `action_create` (method, line 786) `def action_create(self)`
+  - `action_edit` (method, line 811) `def action_edit(self)`
+  - `action_delete` (method, line 839) `def action_delete(self)`
+  - `action_save` (method, line 863) `def action_save(self)`
+  - `action_cancel` (method, line 867) `def action_cancel(self)`
+  - `_created` (function, line 793) `def _created(values)`
+  - `_saved` (function, line 825) `def _saved(raw)`
+  - `_confirmed` (function, line 849) `def _confirmed(answer)`
+- Depends on: `cli/tui_forms.py`
+- Imported by: `cli/commands/marketplace.py`, `cli/wizard.py`
+
+## cli/noise_verbs.py
+- Doc: Canonical non-actionable verb registry for post-command surfaces.
+- Layer: utility
+- Language: py
+- Imported by: `cli/chain_mode.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/tips_engine.py`
+
+## cli/ops_commands.py
+- Doc: Power-user operator commands: ctx, tgrep, phase, note, l00t, pivot, tasks, sitrep, scans.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `print_ctx` (function, line 74) `def print_ctx(payload, sessions_dir)`
+  - `tgrep` (function, line 115) `def tgrep(pattern)`
+  - `_search_transcript_jsonl` (function, line 177) `def _search_transcript_jsonl(rx, hits, limit)`
+  - `_search_csv` (function, line 211) `def _search_csv(rx, hits, limit)`
+  - `_search_logs` (function, line 236) `def _search_logs(rx, hits, limit, sessions_dir)`
+  - `_highlight_match` (function, line 265) `def _highlight_match(line, rx)`
+  - `read_phase` (function, line 279) `def read_phase()`
+  - `_phase_rank` (function, line 287) `def _phase_rank(phase)`
+  - `_engagement_phase_to_cli` (function, line 292) `def _engagement_phase_to_cli(phase_value)`
+  - `_cli_phase_to_host_state` (function, line 297) `def _cli_phase_to_host_state(phase)`
+  - `write_phase` (function, line 302) `def write_phase(phase)`
+  - `print_phase` (function, line 317) `def print_phase()`
+  - `_render_progress_bar` (function, line 359) `def _render_progress_bar(ratio)`
+  - `_os_identified` (function, line 367) `def _os_identified(sessions_dir)`
+  - `_glob_count` (function, line 375) `def _glob_count(sessions_dir, pattern)`
+  - `_report_artifact_exists` (function, line 380) `def _report_artifact_exists(sessions_dir)`
+  - `_count_pivots` (function, line 385) `def _count_pivots(sessions_dir)`
+  - `phase_progress` (function, line 393) `def phase_progress(world, sessions_dir)`
+  - `_read_json` (function, line 425) `def _read_json(path)`
+  - `_read_world_model` (function, line 433) `def _read_world_model(path)`
+  - `_write_json_atomic` (function, line 440) `def _write_json_atomic(path, data)`
+  - `_count_glob` (function, line 457) `def _count_glob(pattern)`
+  - `note_add` (function, line 475) `def note_add(text, rhost, phase)`
+  - `note_list` (function, line 500) `def note_list(rhost, limit)`
+  - `LootEntry` (class, line 552) `class LootEntry`
+  - `gather_loot` (function, line 578) `def gather_loot(sessions_dir)`
+  - `loot_show` (function, line 621) `def loot_show(sessions_dir)`
+  - `_loot_provenance` (function, line 664) `def _loot_provenance(query, sessions_dir)`
+  - `loot_search` (function, line 693) `def loot_search(query, sessions_dir)`
+  - `_cred_outcomes_for_host` (function, line 738) `def _cred_outcomes_for_host(world, host)`
+  - `_cred_node` (function, line 765) `def _cred_node(value)`
+  - `loot_reuse` (function, line 770) `def loot_reuse(rhost, sessions_dir)`
+  - `loot_graph` (function, line 854) `def loot_graph(sessions_dir)`
+  - `resolve_cred_value` (function, line 924) `def resolve_cred_value(selector, entries)`
+  - `loot_mark` (function, line 952) `def loot_mark(selector, outcome, host, sessions_dir)`
+  - `pivot_add` (function, line 994) `def pivot_add(new_ip, via_ip, note)`
+  - `pivot_list` (function, line 1020) `def pivot_list()`
+  - `_load_tasks` (function, line 1066) `def _load_tasks()`
+  - `_save_tasks` (function, line 1073) `def _save_tasks(tasks)`
+  - `tasks_list` (function, line 1077) `def tasks_list(status_filter, limit)`
+  - `tasks_add` (function, line 1132) `def tasks_add(title, operator)`
+  - `tasks_done` (function, line 1153) `def tasks_done(task_id)`
+  - `tasks_start` (function, line 1173) `def tasks_start(task_id)`
+  - `scans_list` (function, line 1196) `def scans_list(rhost, sessions_dir)`
+  - `sitrep` (function, line 1249) `def sitrep(payload, sessions_dir)`
+  - `_print_next_steps` (function, line 1393) `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)`
+  - `_render_steps` (function, line 1455) `def _render_steps(steps)`
+  - `_read_plan` (function, line 1460) `def _read_plan()`
+  - `_human_age` (function, line 1481) `def _human_age(seconds)`
+  - `_human_size` (function, line 1491) `def _human_size(n)`
+  - `value` (method, line 568) `def value(self)`
+  - `_bucket` (function, line 868) `def _bucket(node)`
+  - `_host_label` (function, line 871) `def _host_label(node)`
+  - `_join` (function, line 908) `def _join(items)`
+- Depends on: `core/safe_console.py`, `modules/killchain.py`, `modules/world_model.py`
+- Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_killchain_unified.py`, `tests/test_ops_loot_phase.py`
+
+## cli/orchestrator_assets_tabs.py
+- Doc: Asset administration tabs for the orchestrator console.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ConfigField` (class, line 21) `class ConfigField`
+  - `_coerce` (function, line 43) `def _coerce(raw)`
+  - `OrchestratorAssetsMixin` (class, line 60) `class OrchestratorAssetsMixin`
+  - `_playbooks_dir` (method, line 63) `def _playbooks_dir(self)`
+  - `playbook_rows` (method, line 71) `def playbook_rows(self)`
+  - `playbook_preview` (method, line 95) `def playbook_preview(self, filename, limit)`
+  - `create_playbook_file` (method, line 104) `def create_playbook_file(self, filename, name, description, platforms)`
+  - `save_playbook_text` (method, line 125) `def save_playbook_text(self, filename, text)`
+  - `delete_playbook_file` (method, line 137) `def delete_playbook_file(self, filename)`
+  - `playbook_candidates` (method, line 145) `def playbook_candidates(self)`
+  - `_refresh_playbooks` (method, line 163) `def _refresh_playbooks(self)`
+  - `_update_playbooks_detail` (method, line 185) `def _update_playbooks_detail(self, filename)`
+  - `_edit_playbook` (method, line 198) `def _edit_playbook(self, filename)`
+  - `gym_rows` (method, line 228) `def gym_rows(self)`
+  - `gym_preview` (method, line 265) `def gym_preview(self, gym_id, limit)`
+  - `_refresh_gyms` (method, line 279) `def _refresh_gyms(self)`
+  - `_update_gyms_detail` (method, line 301) `def _update_gyms_detail(self, gym_id)`
+  - `start_gym` (method, line 333) `def start_gym(self, gym_id, target)`
+  - `stop_gym` (method, line 341) `def stop_gym(self, selector)`
+  - `toggle_gym` (method, line 349) `def toggle_gym(self, gym_id)`
+  - `_edit_gym` (method, line 357) `def _edit_gym(self, gym_id)`
+  - `profile_rows` (method, line 391) `def profile_rows(self)`
+  - `activate_profile` (method, line 416) `def activate_profile(self, name)`
+  - `_refresh_profiles` (method, line 427) `def _refresh_profiles(self)`
+  - `_update_profile_detail` (method, line 448) `def _update_profile_detail(self, name)`
+  - `_chains_dir` (method, line 468) `def _chains_dir(self)`
+  - `chain_rows` (method, line 476) `def chain_rows(self)`
+  - `chain_steps_preview` (method, line 485) `def chain_steps_preview(self, name, limit)`
+  - `toggle_chain` (method, line 502) `def toggle_chain(self, name)`
+  - `generate_chain` (method, line 513) `def generate_chain(self, playbook_key)`
+  - `remove_chain` (method, line 527) `def remove_chain(self, name)`
+  - `_refresh_chains` (method, line 553) `def _refresh_chains(self)`
+  - `_update_chains_detail` (method, line 576) `def _update_chains_detail(self, name)`
+  - `on_data_table_row_highlighted` (method, line 583) `def on_data_table_row_highlighted(self, event)`
+  - `_refresh_triggers` (method, line 603) `def _refresh_triggers(self)`
+  - `_update_trigger_detail` (method, line 624) `def _update_trigger_detail(self)`
+  - `toggle_trigger` (method, line 637) `def toggle_trigger(self, trigger_id)`
+  - `remove_trigger` (method, line 647) `def remove_trigger(self, trigger_id)`
+  - `add_trigger` (method, line 655) `def add_trigger(self, kind, every_sec, arg)`
+  - `trigger_kind_options` (method, line 667) `def trigger_kind_options(self)`
+  - `_refresh_stages` (method, line 673) `def _refresh_stages(self)`
+  - `_refresh_verbs` (method, line 689) `def _refresh_verbs(self)`
+  - `_load_payload` (method, line 713) `def _load_payload(self)`
+  - `_load_payload_into_form` (method, line 723) `def _load_payload_into_form(self)`
+  - `save_config` (method, line 734) `def save_config(self, values)`
+  - `add_model_member` (method, line 756) `def add_model_member(self, name, model, priority)`
+  - `remove_model_member` (method, line 764) `def remove_model_member(self, name)`
+  - `set_model_priority` (method, line 772) `def set_model_priority(self, name, priority)`
+  - `set_harness` (method, line 784) `def set_harness(self, enabled)`
+  - `add_guard_rule` (method, line 809) `def add_guard_rule(self, pattern, action, reason)`
+  - `remove_guard_rule` (method, line 817) `def remove_guard_rule(self, pattern)`
+  - `_refresh_models` (method, line 825) `def _refresh_models(self)`
+  - `_refresh_guard` (method, line 846) `def _refresh_guard(self)`
+  - `save_guardrails` (method, line 868) `def save_guardrails(self, values)`
+  - `warm_restart_harness` (method, line 914) `def warm_restart_harness(self)`
+  - `rearm_harness` (method, line 926) `def rearm_harness(self)`
+  - `_load_guardrails_into_form` (method, line 937) `def _load_guardrails_into_form(self)`
+  - `_refresh_harness` (method, line 957) `def _refresh_harness(self)`
+  - `_validate` (function, line 211) `def _validate(raw)`
+  - `_saved` (function, line 222) `def _saved(raw)`
+  - `_validate` (function, line 367) `def _validate(raw)`
+  - `_saved` (function, line 378) `def _saved(raw)`
+- Depends on: `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/guardrails/__init__.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`, `modules/trigger_policy.py`
+- Imported by: `cli/lazy_orchestrator.py`
+
+## cli/output_mode.py
+- Doc: Structured output modes and dry-run rendering for CLI commands.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `OutputModeConfig` (class, line 20) `class OutputModeConfig`
+  - `OutputMode` (class, line 33) `class OutputMode`
+  - `parse_output_flags` (function, line 43) `def parse_output_flags(args, config)`
+  - `strip_ansi` (function, line 65) `def strip_ansi(text)`
+  - `format_output` (function, line 77) `def format_output(data, mode)`
+  - `dry_run_line` (function, line 98) `def dry_run_line(command)`
+- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`
+
+## cli/palette.py
+- Doc: Read-only loader for ``cli/command_index.json``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CommandIndexError` (class, line 25) `class CommandIndexError(RuntimeError)`
+  - `load_index` (function, line 30) `def load_index(path)`
+  - `all_commands` (function, line 55) `def all_commands()`
+  - `all_phases` (function, line 72) `def all_phases()`
+  - `all_categories` (function, line 77) `def all_categories()`
+  - `filter_by_phase` (function, line 82) `def filter_by_phase(phase)`
+  - `filter_by_category` (function, line 92) `def filter_by_category(category)`
+  - `search` (function, line 97) `def search(query)`
+  - `get` (function, line 114) `def get(name)`
+  - `duplicates` (function, line 125) `def duplicates()`
+  - `totals` (function, line 130) `def totals()`
+- Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`
+
+## cli/palette_command.py
+- Doc: Pure logic for the operator-facing ``palette`` command.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PaletteMode` (class, line 33) `class PaletteMode(Enum)`
+  - `PaletteRenderConfig` (class, line 44) `class PaletteRenderConfig`
+  - `PaletteArgs` (class, line 123) `class PaletteArgs`
+  - `PaletteArgumentParser` (class, line 132) `class PaletteArgumentParser`
+  - `PaletteIndexQuery` (class, line 184) `class PaletteIndexQuery`
+  - `PaletteRenderer` (class, line 277) `class PaletteRenderer`
+  - `_filter_phase_rows` (function, line 395) `def _filter_phase_rows(rows, query)`
+  - `_enrich_detail_entry` (function, line 409) `def _enrich_detail_entry(entry)`
+  - `render` (function, line 447) `def render(index, line)`
+  - `PaletteJsonResult` (class, line 487) `class PaletteJsonResult`
+  - `PaletteJsonRenderer` (class, line 514) `class PaletteJsonRenderer`
+  - `render_json` (function, line 566) `def render_json(index, line)`
+  - `PaletteViewConfig` (class, line 605) `class PaletteViewConfig`
+  - `build_palette_view` (function, line 619) `def build_palette_view(index)`
+  - `_enrich_commands_for_view` (function, line 665) `def _enrich_commands_for_view(rows)`
+  - `_ensure_neighbour_keys` (function, line 689) `def _ensure_neighbour_keys(rows)`
+  - `_load_recent_commands` (function, line 712) `def _load_recent_commands()`
+  - `_ordered_phase_ids` (function, line 728) `def _ordered_phase_ids(config, phase_counts)`
+  - `CompletionPosition` (class, line 737) `class CompletionPosition`
+  - `PaletteCompleter` (class, line 744) `class PaletteCompleter`
+  - `truncate_summary` (method, line 107) `def truncate_summary(self, summary)`
+  - `__init__` (method, line 149) `def __init__(self, config)`
+  - `parse` (method, line 152) `def parse(self, line)`
+  - `__init__` (method, line 193) `def __init__(self, index)`
+  - `commands` (method, line 197) `def commands(self)`
+  - `phases` (method, line 203) `def phases(self)`
+  - `phase_counts` (method, line 208) `def phase_counts(self)`
+  - `in_phase` (method, line 213) `def in_phase(self, phase)`
+  - `search` (method, line 218) `def search(self, query)`
+  - `detail` (method, line 234) `def detail(self, target)`
+  - `next_phase` (method, line 249) `def next_phase(self, current)`
+  - `__init__` (method, line 285) `def __init__(self, config)`
+  - `render_overview` (method, line 288) `def render_overview(self, phase_counts)`
+  - `render_phase` (method, line 304) `def render_phase(self, phase, rows)`
+  - `render_search` (method, line 312) `def render_search(self, query, rows)`
+  - `render_detail` (method, line 320) `def render_detail(self, entry)`
+  - `render_next` (method, line 360) `def render_next(self, phase, rows)`
+  - `_format_neighbours` (method, line 370) `def _format_neighbours(self, values)`
+  - `_ordered_phases` (method, line 376) `def _ordered_phases(self, phase_counts)`
+  - `_format_name_summary_table` (method, line 383) `def _format_name_summary_table(self, header, rows)`
+  - `to_dict` (method, line 502) `def to_dict(self)`
+  - `__init__` (method, line 522) `def __init__(self, config)`
+  - `render_overview` (method, line 525) `def render_overview(self, phase_counts)`
+  - `render_phase` (method, line 532) `def render_phase(self, phase, query, rows)`
+  - `render_search` (method, line 541) `def render_search(self, query, rows)`
+  - `render_detail` (method, line 549) `def render_detail(self, target, entry)`
+  - `render_next` (method, line 557) `def render_next(self, phase, rows)`
+  - `__init__` (method, line 755) `def __init__(self, config)`
+  - `complete` (method, line 758) `def complete(self, text, line, endidx, index)`
+  - `_tokenise` (method, line 784) `def _tokenise(self, line, endidx)`
+  - `_filter_prefix` (method, line 797) `def _filter_prefix(candidates, text)`
+- Depends on: `cli/commands/enum.py`, `cli/palette_graph.py`, `cli/palette_telemetry.py`, `core/text_utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/palette_overlay.py`, `lazyc2.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`
+
+## cli/palette_graph.py
+- Doc: Graph-aware neighbour lookups for the operator command palette.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GraphIndexError` (class, line 39) `class GraphIndexError(RuntimeError)`
+  - `GraphLookupConfig` (class, line 44) `class GraphLookupConfig`
+  - `_looks_like_command_label` (function, line 63) `def _looks_like_command_label(label)`
+  - `_command_name_from_label` (function, line 68) `def _command_name_from_label(label)`
+  - `GraphIndex` (class, line 74) `class GraphIndex`
+  - `_build_adjacency` (function, line 90) `def _build_adjacency(document)`
+  - `load_graph` (function, line 127) `def load_graph(path)`
+  - `safe_load_graph` (function, line 149) `def safe_load_graph(path)`
+  - `_filter_neighbours` (function, line 161) `def _filter_neighbours(neighbours)`
+  - `callees` (function, line 179) `def callees(graph, command_name)`
+  - `related_commands` (function, line 226) `def related_commands(graph, command_name)`
+  - `enrich_detail` (function, line 287) `def enrich_detail(graph, entry)`
+  - `enrich_commands` (function, line 309) `def enrich_commands(graph, rows)`
+- Imported by: `cli/palette_command.py`, `tests/test_command_palette.py`
+
+## cli/palette_overlay.py
+- Doc: Textual Cmd-K palette overlay for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PaletteOverlayConfig` (class, line 38) `class PaletteOverlayConfig`
+  - `PaletteRow` (class, line 59) `class PaletteRow`
+  - `PaletteOverlayState` (class, line 70) `class PaletteOverlayState`
+  - `_load_recents` (function, line 136) `def _load_recents()`
+  - `_load_index` (function, line 151) `def _load_index()`
+  - `build_state` (function, line 162) `def build_state(payload, index, recents, config)`
+  - `launch_overlay` (function, line 188) `def launch_overlay(payload, state, runner)`
+  - `_build_app` (function, line 228) `def _build_app(state, theme)`
+  - `set_query` (method, line 83) `def set_query(self, value)`
+  - `rows` (method, line 87) `def rows(self)`
+  - `_score` (method, line 113) `def _score(self, name, summary, needle, is_recent)`
+  - `_truncate` (method, line 130) `def _truncate(self, value, max_chars)`
+  - `_PaletteOverlayApp` (class, line 240) `class _PaletteOverlayApp(App)`
+  - `__init__` (method, line 255) `def __init__(self)`
+  - `compose` (method, line 261) `def compose(self)`
+  - `on_mount` (method, line 269) `def on_mount(self)`
+  - `on_input_changed` (method, line 272) `def on_input_changed(self, event)`
+  - `on_input_submitted` (method, line 276) `def on_input_submitted(self, event)`
+  - `on_list_view_selected` (method, line 279) `def on_list_view_selected(self, event)`
+  - `action_cancel` (method, line 282) `def action_cancel(self)`
+  - `action_select_current` (method, line 285) `def action_select_current(self)`
+  - `_commit_from_item` (method, line 292) `def _commit_from_item(self, item)`
+  - `_refresh_rows` (method, line 300) `def _refresh_rows(self)`
+  - `_format_row` (method, line 314) `def _format_row(self, row)`
+- Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_telemetry.py`, `cli/themes.py`, `core/text_utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `tests/test_palette_overlay.py`
+
+## cli/palette_telemetry.py
+- Doc: Behavioural telemetry derived from ``sessions/LazyOwn_session_report.csv``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TelemetryIndexError` (class, line 37) `class TelemetryIndexError(RuntimeError)`
+  - `TelemetryConfig` (class, line 42) `class TelemetryConfig`
+  - `CommandStat` (class, line 61) `class CommandStat`
+  - `TelemetryIndex` (class, line 78) `class TelemetryIndex`
+  - `_normalise_command` (function, line 97) `def _normalise_command(value)`
+  - `_read_csv_rows` (function, line 107) `def _read_csv_rows(path)`
+  - `_build_index` (function, line 123) `def _build_index(rows)`
+  - `load_telemetry` (function, line 186) `def load_telemetry(path)`
+  - `safe_load_telemetry` (function, line 204) `def safe_load_telemetry(path)`
+  - `command_stats` (function, line 216) `def command_stats(telemetry, command_name)`
+  - `runs_after` (function, line 239) `def runs_after(telemetry, command_name)`
+  - `recents` (function, line 259) `def recents(telemetry)`
+  - `enrich_detail` (function, line 275) `def enrich_detail(telemetry, entry)`
+  - `enrich_commands` (function, line 300) `def enrich_commands(telemetry, rows)`
+- Imported by: `cli/palette_command.py`, `cli/palette_overlay.py`, `tests/test_command_palette.py`
+
+## cli/phase_labels.py
+- Doc: Canonical human-readable labels for kill-chain command phases.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `phase_label` (function, line 29) `def phase_label(phase)`
+- Imported by: `cli/contextual_help.py`, `cli/tips_engine.py`, `tests/test_phase_labels.py`
+
+## cli/plugin_tiers.py
+- Doc: Plugin tiers and operator ratings for the marketplace.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `load_tier_manifest` (function, line 35) `def load_tier_manifest(manifest)`
+  - `tier_of` (function, line 61) `def tier_of(name, manifest_tiers, metadata_tier)`
+  - `_load_ratings` (function, line 79) `def _load_ratings(store)`
+  - `rate_plugin` (function, line 98) `def rate_plugin(name, stars, store)`
+  - `rating_summary` (function, line 121) `def rating_summary(name, store)`
+  - `format_rating` (function, line 137) `def format_rating(average, count)`
+  - `default_store` (function, line 144) `def default_store(base_dir)`
+  - `read_metadata_tier` (function, line 149) `def read_metadata_tier(path)`
+- Imported by: `cli/commands/marketplace.py`, `tests/test_input_fuzz.py`, `tests/test_plugin_tiers.py`
+
+## cli/protips.py
+- Doc: Pro tips system for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ProTip` (class, line 34) `class ProTip`
+  - `_os_linux` (function, line 43) `def _os_linux(ctx)`
+  - `_os_windows` (function, line 47) `def _os_windows(ctx)`
+  - `_has_rhost` (function, line 51) `def _has_rhost(ctx)`
+  - `_has_domain` (function, line 55) `def _has_domain(ctx)`
+  - `_has_api_key` (function, line 59) `def _has_api_key(ctx)`
+  - `_phase_in` (function, line 63) `def _phase_in(ctx)`
+  - `_last_cmd_is` (function, line 67) `def _last_cmd_is(ctx)`
+  - `_after` (function, line 75) `def _after(ctx)`
+  - `get_session_tip` (function, line 301) `def get_session_tip(ctx)`
+  - `render_contextual_tip` (function, line 327) `def render_contextual_tip(last_cmd, ctx)`
+  - `print_session_tip` (function, line 357) `def print_session_tip(ctx)`
+  - `_safe_trigger` (function, line 369) `def _safe_trigger(tip, ctx)`
+- Depends on: `cli/noise_verbs.py`, `core/console.py`
+- Imported by: `lazyown.py`, `tests/test_reactive_hints_expanded.py`
+
+
+Next: [KB_cli_p4.md](KB_cli_p4.md)

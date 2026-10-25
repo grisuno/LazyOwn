@@ -1,0 +1,1 @@
+../../contrib/legacy/lazydisassebler.py

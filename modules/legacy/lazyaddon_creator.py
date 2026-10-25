@@ -1,0 +1,1 @@
+../../contrib/legacy/lazyaddon_creator.py

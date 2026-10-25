@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeyEvent
@@ -57,7 +57,9 @@ class CommandPaletteWindow(QWidget):
             event.accept()
             return
         if key == Qt.Key.Key_Down:
-            self._list.setCurrentIndex(self._list.model().index(min(self._list.currentIndex().row() + 1, self._list.model().rowCount() - 1), 0))
+            self._list.setCurrentIndex(
+                self._list.model().index(min(self._list.currentIndex().row() + 1, self._list.model().rowCount() - 1), 0)
+            )
             event.accept()
             return
         if key == Qt.Key.Key_Up:

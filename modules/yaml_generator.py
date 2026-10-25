@@ -3,10 +3,9 @@ import json
 import os
 import re
 import sys
-from typing import Dict, Optional
+
 from ai_model import AIModel
 from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
-
 
 _PROVIDER_ALIAS = {
     "groq": BACKEND_GROQ,
@@ -16,14 +15,14 @@ _PROVIDER_ALIAS = {
 
 
 class YAMLPromptGenerator:
-    def __init__(self, provider: str = "groq", api_key: Optional[str] = None):
+    def __init__(self, provider: str = "groq", api_key: str | None = None):
         self.provider = provider
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
         self.payload_file = "../payload.json"
         self.payload_data = self.load_payload()
         self.model = self._load_model()
 
-    def load_payload(self) -> Dict:
+    def load_payload(self) -> dict:
         """Carga las variables desde payload.json"""
         if not os.path.exists(self.payload_file):
             raise FileNotFoundError(f"No se encontró {self.payload_file} en la raíz del proyecto.")
@@ -62,7 +61,7 @@ Create a complete, valid YAML addon configuration based on the user's request.
 Use only the following available parameters (from payload.json). Do NOT hardcode values. Use mustache-style {{}} placeholders.
 
 Available parameters:
-{', '.join(available_params)}
+{", ".join(available_params)}
 
 Rules:
 - Output ONLY a single YAML block wrapped in ```yaml ... ```
@@ -138,11 +137,14 @@ tool:
         print(f"[+] YAML generado y guardado en: {filename}")
         return filename
 
+
 def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Generador de YAMLs para LazyAddons usando IA")
-    parser.add_argument("--request", type=str, help="Descripción de la herramienta a generar (ej: 'Herramienta para explotar Log4j')")
+    parser.add_argument(
+        "--request", type=str, help="Descripción de la herramienta a generar (ej: 'Herramienta para explotar Log4j')"
+    )
     parser.add_argument("--provider", choices=["groq", "deepseek"], default="groq", help="Modelo a usar")
     parser.add_argument("--api-key", type=str, help="API Key (opcional, si no está en env)")
     parser.add_argument("--output", type=str, default="../lazyaddons", help="Directorio de salida")
@@ -151,6 +153,7 @@ def main():
 
     generator = YAMLPromptGenerator(provider=args.provider, api_key=args.api_key)
     generator.create_yaml_addon(user_request=args.request, output_dir=args.output)
+
 
 if __name__ == "__main__":
     main()

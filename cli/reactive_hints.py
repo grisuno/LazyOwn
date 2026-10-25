@@ -14,81 +14,203 @@ Design notes:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+import csv
+import logging
+import math
+from collections.abc import Sequence
+from dataclasses import dataclass
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 from rich.console import Console
 from rich.text import Text
 
+from cli.noise_verbs import BASE_NOISE_VERBS, HINTS_EXTRA_VERBS
+
 if TYPE_CHECKING:
     from cli.graph_advisor import GraphAdvisor
 
-SKIP_COMMANDS: frozenset[str] = frozenset(
-    {
-        "help",
-        "?",
-        "exit",
-        "quit",
-        "history",
-        "shell",
-        "dashboard",
-        "suggest_next",
-        "graph_search",
-        "neighbors",
-        "god_nodes",
-        "set",
-        "show",
-        "palette",
-        "palette_k",
-        "browse",
-        "timeline_browser",
-        "form",
-        "graph_overlay",
-        "toast_clear",
-        "assign",
-        "edit",
-        "run_script",
-        "shortcuts",
-        "_relative_run",
-    }
-)
+SKIP_COMMANDS: frozenset[str] = BASE_NOISE_VERBS | HINTS_EXTRA_VERBS
+
+_log = logging.getLogger(__name__)
 
 # Ordered kill-chain: after running X, suggest Y (phase-agnostic sensible defaults)
 _KILL_CHAIN_NEXT: dict[str, list[str]] = {
-    "ping": ["lazynmap", "arpscan", "hosts_discovery"],
-    "lazynmap": ["gobuster", "ffuf", "enum4linux", "searchsploit"],
-    "rustscan": ["gobuster", "ffuf", "enum4linux", "searchsploit"],
-    "nmap": ["gobuster", "ffuf", "enum4linux", "searchsploit"],
-    "gobuster": ["ffuf", "nikto", "whatweb", "feroxbuster"],
-    "ffuf": ["nikto", "whatweb", "burpsuite", "sqlmap"],
-    "enum4linux": ["crackmapexec", "secretsdump", "kerbrute"],
-    "crackmapexec": ["secretsdump", "evil-winrm", "psexec"],
-    "secretsdump": ["evil-winrm", "psexec", "hashcat"],
-    "linpeas": ["pspy64", "find_suid", "sudo_privesc"],
-    "winpeas": ["printspoofer", "juicypotato", "whoami_priv"],
-    "searchsploit": ["lazynmap", "gobuster", "exploit_db"],
-    "kerbrute": ["GetNPUsers", "GetUserSPNs", "crackmapexec"],
-    "nikto": ["sqlmap", "burpsuite", "ffuf"],
-    "whatweb": ["gobuster", "nikto", "burpsuite"],
-    "feroxbuster": ["ffuf", "nikto", "whatweb"],
+    "ping": ["lazynmap", "arpscan", "hosts_discovery", "auto_pwn"],
+    "lazynmap": ["gobuster", "ffuf", "enum4linux", "searchsploit", "auto_populate", "auto_pwn", "chain"],
+    "rustscan": ["gobuster", "ffuf", "enum4linux", "searchsploit", "chain"],
+    "nmap": ["gobuster", "ffuf", "enum4linux", "searchsploit", "chain", "nuclei"],
+    "gobuster": ["ffuf", "nikto", "whatweb", "feroxbuster", "nuclei", "wfuzz"],
+    "ffuf": ["nikto", "whatweb", "burpsuite", "sqlmap", "nuclei"],
+    "enum4linux": ["crackmapexec", "secretsdump", "kerbrute", "hunt", "auto_pwn"],
+    "crackmapexec": ["secretsdump", "evil-winrm", "psexec", "l00t", "sitrep"],
+    "secretsdump": ["evil-winrm", "psexec", "hashcat", "l00t", "encrypt"],
+    "linpeas": ["pspy64", "find_suid", "sudo_privesc", "gtfo", "les", "whoami_priv"],
+    "winpeas": ["printspoofer", "juicypotato", "whoami_priv", "mimikatz"],
+    "whoami_priv": ["linpeas", "winpeas", "crystal_ball", "sudo_privesc", "gtfo"],
+    "sudo_privesc": ["gtfo", "les", "crystal_ball", "linpeas"],
+    "printspoofer": ["whoami_priv", "juicypotato", "mimikatz"],
+    "juicypotato": ["whoami_priv", "printspoofer", "mimikatz"],
+    "crystal_ball": ["sudo_privesc", "gtfo", "les", "printspoofer", "juicypotato"],
+    "searchsploit": ["lazynmap", "gobuster", "exploit_db", "chain", "hunt"],
+    "kerbrute": ["GetNPUsers", "GetUserSPNs", "crackmapexec", "hashcat"],
+    "nikto": ["sqlmap", "burpsuite", "ffuf", "nuclei", "whatweb"],
+    "whatweb": ["gobuster", "nikto", "burpsuite", "nuclei", "ffuf"],
+    "feroxbuster": ["ffuf", "nikto", "whatweb", "nuclei"],
     "sqlmap": ["burpsuite", "ffuf", "wfuzz"],
-    "hashcat": ["evil-winrm", "ssh", "crackmapexec"],
-    "john": ["evil-winrm", "ssh", "crackmapexec"],
-    "evil-winrm": ["winpeas", "secretsdump", "mimikatz"],
-    "ssh": ["linpeas", "pspy64", "sudo_privesc"],
+    "hashcat": ["evil-winrm", "ssh", "crackmapexec", "l00t"],
+    "john": ["evil-winrm", "ssh", "crackmapexec", "l00t"],
+    "evil-winrm": ["winpeas", "secretsdump", "mimikatz", "whoami_priv"],
+    "ssh": ["linpeas", "pspy64", "sudo_privesc", "yara_scan"],
     "ftp": ["gobuster", "enum4linux", "searchsploit"],
     "smb": ["enum4linux", "crackmapexec", "secretsdump"],
     "responder": ["crackmapexec", "hashcat", "secretsdump"],
+    "arpscan": ["lazynmap", "hosts_discovery"],
+    "auto_populate": ["sitrep", "ask", "phase", "auto_pwn"],
+    "auto_pwn": ["hunt", "l00t", "sitrep", "note", "dashboard"],
+    "chain": ["hunt", "auto_pwn", "nuclei", "playbook_generate"],
+    "hunt": ["auto_pwn", "l00t", "sitrep", "linpeas", "winpeas"],
+    "nuclei": ["lazynmap", "gobuster", "sitrep", "auto_pwn"],
+    "lazynuclei": ["sitrep", "auto_pwn"],
+    "yara_scan": ["l00t", "note", "sitrep"],
+    "playbook_generate": ["playbook_run", "auto_pwn", "hunt"],
+    "playbook_run": ["l00t", "sitrep", "note"],
+    "campaign": ["sitrep", "phase", "note"],
+    "collab_join": ["sitrep", "note"],
+    "dashboard": ["sitrep", "phase", "tasks"],
+    "phase": ["lazynmap", "auto_pwn", "sitrep"],
+    "dotnet_payload": ["staged_delivery", "polymorphic", "payload"],
+    "staged_delivery": ["dotnet_payload", "polymorphic", "createrevshell"],
+    "polymorphic": ["dotnet_payload", "evasive_payload", "mutate_shellcode"],
+    "macos_payload": ["timestomp", "log_tamper", "memory_clean"],
+    "linux_advanced_payload": ["log_tamper", "timestomp", "forensic_clean"],
+    "kerberos_ticket": ["kerberoast", "delegation_enum", "dacl_abuse"],
+    "delegation_enum": ["delegation_attack", "kerberos_ticket", "dacl_abuse"],
+    "delegation_attack": ["kerberos_ticket", "secretsdump", "evil-winrm"],
+    "dacl_abuse": ["delegation_enum", "gpo_abuse", "kerberoast"],
+    "gpo_abuse": ["dacl_abuse", "delegation_enum", "forensic_clean"],
+    "kerberoast": ["hashcat", "kerberos_ticket", "secretsdump"],
+    "adcs_check": ["kerberos_ticket", "certipy_ad", "delegation_attack"],
+    "entra_attack": ["cross_cloud", "saas_enum", "opsec_score"],
+    "aws_privesc": ["cross_cloud", "entra_attack", "opsec_score"],
+    "gcp_privesc": ["cross_cloud", "aws_privesc", "entra_attack"],
+    "k8s_attack": ["cross_cloud", "container_escape", "opsec_score"],
+    "cross_cloud": ["aws_privesc", "entra_attack", "gcp_privesc"],
+    "saas_enum": ["entra_attack", "cross_cloud", "sitrep"],
+    "opsec_score": ["log_tamper", "forensic_clean", "memory_clean"],
+    "log_tamper": ["forensic_clean", "timestomp", "memory_clean"],
+    "forensic_clean": ["log_tamper", "timestomp", "memory_clean"],
+    "timestomp": ["forensic_clean", "log_tamper", "memory_clean"],
+    "memory_clean": ["forensic_clean", "log_tamper", "timestomp"],
+    "network_opsec": ["opsec_score", "log_tamper", "timestomp"],
+    "auditd_disable": ["log_tamper", "forensic_clean", "network_opsec"],
+    "sysmon_disable": ["log_tamper", "forensic_clean", "network_opsec"],
 }
 
 _PHASE_PRIORITY: dict[str, list[str]] = {
-    "recon": ["ping", "lazynmap", "rustscan", "arpscan", "whois"],
-    "enum": ["gobuster", "ffuf", "enum4linux", "nikto", "whatweb", "feroxbuster", "kerbrute"],
-    "exploit": ["searchsploit", "crackmapexec", "sqlmap", "burpsuite", "evil-winrm"],
-    "privesc": ["linpeas", "winpeas", "pspy64", "sudo_privesc", "printspoofer"],
-    "lateral": ["crackmapexec", "evil-winrm", "chisel", "secretsdump", "psexec"],
-    "cred": ["hashcat", "john", "responder", "kerbrute", "secretsdump"],
-    "postexp": ["linpeas", "winpeas", "mimikatz", "secretsdump", "whoami_priv"],
-    "exfil": ["download_c2", "nc", "curl", "scp", "rsync"],
+    "recon": ["ping", "lazynmap", "rustscan", "arpscan", "whois", "hosts_discovery", "auto_populate"],
+    "enum": [
+        "gobuster",
+        "ffuf",
+        "enum4linux",
+        "nikto",
+        "whatweb",
+        "feroxbuster",
+        "kerbrute",
+        "nuclei",
+        "lazynuclei",
+        "wfuzz",
+        "dnsenum",
+        "snmpwalk",
+    ],
+    "exploit": [
+        "searchsploit",
+        "crackmapexec",
+        "sqlmap",
+        "burpsuite",
+        "evil-winrm",
+        "auto_pwn",
+        "chain",
+        "hunt",
+        "exploit_db",
+        "hydra",
+    ],
+    "privesc": [
+        "linpeas",
+        "winpeas",
+        "pspy64",
+        "sudo_privesc",
+        "printspoofer",
+        "juicypotato",
+        "whoami_priv",
+        "gtfo",
+        "les",
+        "crystal_ball",
+        "kerberos_ticket",
+        "adcs_check",
+    ],
+    "lateral": [
+        "crackmapexec",
+        "evil-winrm",
+        "chisel",
+        "secretsdump",
+        "psexec",
+        "ssh",
+        "xfreerdp",
+        "collab_join",
+        "kerberos_ticket",
+        "delegation_attack",
+    ],
+    "cred": [
+        "hashcat",
+        "john",
+        "responder",
+        "kerbrute",
+        "secretsdump",
+        "l00t",
+        "mimikatz",
+        "lazagne",
+        "kerberoast",
+        "dacl_abuse",
+    ],
+    "postexp": [
+        "linpeas",
+        "winpeas",
+        "mimikatz",
+        "secretsdump",
+        "whoami_priv",
+        "yara_scan",
+        "note",
+        "sitrep",
+        "dashboard",
+        "encrypt",
+        "opsec_score",
+        "log_tamper",
+        "forensic_clean",
+        "timestomp",
+        "memory_clean",
+    ],
+    "exfil": ["download_c2", "nc", "curl", "scp", "rsync", "l00t", "encrypt", "network_opsec"],
+    "persist": [
+        "campaign",
+        "sitrep",
+        "note",
+        "encrypt",
+        "gpo_abuse",
+        "dacl_abuse",
+        "macos_payload",
+        "linux_advanced_payload",
+        "dotnet_payload",
+    ],
+    "cloud": [
+        "entra_attack",
+        "aws_privesc",
+        "gcp_privesc",
+        "k8s_attack",
+        "cross_cloud",
+        "saas_enum",
+        "opsec_score",
+    ],
 }
 
 _MAX_LABEL_LEN: int = 24
@@ -126,7 +248,8 @@ def render_inline_hints(
         return
     try:
         suggestions = advisor.suggest_next(recent_commands=[cmd], limit=limit)
-    except Exception:
+    except Exception as exc:
+        _log.warning("Graph advisor hints failed for '%s': %s", cmd, exc)
         return
     if not suggestions:
         return
@@ -153,7 +276,9 @@ def _extract_labels(suggestions: list[dict], limit: int) -> list[str]:
 
 
 def _truncate(value: str, max_len: int) -> str:
-    return value if len(value) <= max_len else value[: max_len - 1] + "…"
+    from core.text_utils import truncate_text
+
+    return truncate_text(value, max_len)
 
 
 def _render(labels: list[str]) -> None:
@@ -163,11 +288,173 @@ def _render(labels: list[str]) -> None:
     _HINT_CONSOLE.print(hint)
 
 
-def _read_run_commands(sessions_dir: str = "sessions") -> set[str]:
-    """Return the set of command names already executed this session."""
-    import csv
-    from pathlib import Path
+_CONFIDENCE_HALF_SCORE: float = 1.0
+_EVIDENCE_VERB_MAX: int = 22
+_EVIDENCE_REASON_MAX: int = 54
+_CONFIDENCE_HIGH_THRESHOLD: int = 50
+_SOURCE_SEP: str = "+"
 
+
+@dataclass(frozen=True)
+class EvidenceHint:
+    """A next-step suggestion enriched with its justification and confidence.
+
+    The bare inline hint prints only command names, forcing the operator to
+    trust an unexplained list. This value object carries the *why* and *how
+    sure* so the hint line reads like advice rather than a menu.
+
+    Attributes:
+        verb: The command (or copy-paste preview) to run next.
+        confidence: Display confidence in ``[0, 100]`` derived from the fused
+            recommendation score via :func:`confidence_from_score`.
+        reason: One-line English justification, stripped of the ``[source]``
+            provenance tag and truncated for the inline hint line.
+        sources: Names of the signals that agreed on this action.
+    """
+
+    verb: str
+    confidence: int
+    reason: str
+    sources: tuple[str, ...]
+
+
+def confidence_from_score(score: float) -> int:
+    """Map an unbounded fused recommendation score to a 0-100 display confidence.
+
+    :class:`cli.recommendation.RecommendationEngine` produces scores that are
+    unbounded above because multiple agreeing signals add up, so a raw
+    percentage would be meaningless. This applies a saturating map
+    ``100 * s / (s + K)`` where ``K`` (:data:`_CONFIDENCE_HALF_SCORE`) is the
+    score at which confidence reaches 50%. The map is monotonic — more signal
+    agreement yields higher confidence — and floors at 99 so the display never
+    claims a dishonest 100%.
+
+    Args:
+        score: The fused recommendation score. Negative values are floored at
+            zero.
+
+    Returns:
+        Integer confidence in ``[0, 99]``.
+    """
+    positive = score if score > 0.0 else 0.0
+    return min(math.floor(100.0 * positive / (positive + _CONFIDENCE_HALF_SCORE)), 99)
+
+
+def _clean_reason(reasons: Sequence[str]) -> str:
+    """Return the primary reason without its ``[source]`` tag, truncated.
+
+    Args:
+        reasons: The ordered provenance lines from a fused recommendation, each
+            shaped ``"[signal] justification"`` by the engine accumulator.
+
+    Returns:
+        The first justification with any leading ``[signal] `` tag removed and
+        truncated to :data:`_EVIDENCE_REASON_MAX`. Empty when no reason exists.
+    """
+    if not reasons:
+        return ""
+    first = reasons[0]
+    if first.startswith("[") and "] " in first:
+        first = first.split("] ", 1)[1]
+    return _truncate(first.strip(), _EVIDENCE_REASON_MAX)
+
+
+def build_evidence_hints(recommendations: Sequence[Any], limit: int) -> list[EvidenceHint]:
+    """Convert fused recommendations into display-ready evidence hints.
+
+    A recommendation without a usable verb or without a justification is
+    skipped so the operator never sees a bare, unexplained suggestion — an
+    explained shorter list beats a padded opaque one.
+
+    Args:
+        recommendations: Ranked objects exposing ``action``, ``score``,
+            ``reasons``, ``sources`` and optional ``command_preview`` (a
+            :class:`cli.recommendation.Recommendation` or any duck-typed
+            equivalent), best first.
+        limit: Maximum number of hints to return.
+
+    Returns:
+        Up to ``limit`` :class:`EvidenceHint` items preserving input order.
+    """
+    out: list[EvidenceHint] = []
+    for rec in recommendations:
+        verb_raw = str(getattr(rec, "command_preview", "") or getattr(rec, "action", "") or "").strip()
+        if not verb_raw:
+            continue
+        reason = _clean_reason(tuple(getattr(rec, "reasons", ()) or ()))
+        if not reason:
+            continue
+        out.append(
+            EvidenceHint(
+                verb=_truncate(verb_raw, _EVIDENCE_VERB_MAX),
+                confidence=confidence_from_score(float(getattr(rec, "score", 0.0) or 0.0)),
+                reason=reason,
+                sources=tuple(getattr(rec, "sources", ()) or ()),
+            )
+        )
+        if len(out) >= limit:
+            break
+    return out
+
+
+def render_evidence_hints(hints: Sequence[EvidenceHint]) -> None:
+    """Print evidence-backed hint lines: verb, confidence, reason, provenance.
+
+    The first hint carries the ``↳`` arrow; the rest are indented to align, so
+    a glance reads as one ranked block of advice.
+
+    Args:
+        hints: The hints to render, already truncated and ranked.
+
+    Returns:
+        None — writes one dim line per hint to stdout.
+    """
+    for line in build_evidence_hint_lines(hints):
+        _HINT_CONSOLE.print(line)
+
+
+def build_evidence_hint_lines(hints: Sequence[EvidenceHint]) -> list[Text]:
+    """Build evidence-backed hint lines as Rich Text objects.
+
+    Same layout as :func:`render_evidence_hints` but returns the lines
+    instead of printing them, so the caller can embed them in a panel
+    or other container.
+
+    Args:
+        hints: The hints to render, already truncated and ranked.
+
+    Returns:
+        A list of :class:`Text` objects, one per hint.
+    """
+    lines: list[Text] = []
+    for index, hint in enumerate(hints):
+        line = Text()
+        line.append("  \u21b3 " if index == 0 else "    ", style="bold dim cyan")
+        line.append(hint.verb, style="cyan")
+        confidence_style = "dim green" if hint.confidence >= _CONFIDENCE_HIGH_THRESHOLD else "dim yellow"
+        line.append(f"  {hint.confidence}%  ", style=confidence_style)
+        line.append(hint.reason, style="dim white italic")
+        if hint.sources:
+            line.append(f"  {_SOURCE_SEP.join(hint.sources)}", style="dim")
+        lines.append(line)
+    return lines
+
+
+def read_run_commands(sessions_dir: str = "sessions") -> set[str]:
+    """Return the set of command names already executed this session.
+
+    Reads the CSV transcript and extracts the first token of the first
+    populated column (``tool``, ``command``, or ``name``). Shared by the
+    inline hint renderer, the tips engine, and any other surface that must
+    filter already-run commands out of its suggestions.
+
+    Args:
+        sessions_dir: Directory containing ``LazyOwn_session_report.csv``.
+
+    Returns:
+        A set of command verbs, empty when the transcript is missing or
+        unreadable.
+    """
     path = Path(sessions_dir) / "LazyOwn_session_report.csv"
     seen: set[str] = set()
     if not path.exists():
@@ -184,6 +471,44 @@ def _read_run_commands(sessions_dir: str = "sessions") -> set[str]:
     except Exception:
         pass
     return seen
+
+
+def _collect_command_hints(
+    cmd: str,
+    phase: str,
+    already_run: set[str],
+    limit: int,
+) -> list[str]:
+    """Collect forward-looking hint verbs from adjacency then phase priority.
+
+    Kill-chain adjacency (``_KILL_CHAIN_NEXT``) feeds the list first; when it
+    falls short of ``limit`` the phase-priority table fills the remainder.
+    Commands already executed this session and the predecessor itself are
+    excluded so the hint always looks forward.
+
+    Args:
+        cmd: The command that just ran. Empty disables the adjacency lookup
+            and collects phase priority only.
+        phase: Current engagement phase identifier.
+        already_run: Set of verbs already present in the transcript.
+        limit: Maximum number of verbs to return.
+
+    Returns:
+        Ordered candidate verbs, length at most ``limit``.
+    """
+    candidates: list[str] = []
+    if cmd:
+        candidates = [c for c in _KILL_CHAIN_NEXT.get(cmd, []) if c not in already_run]
+    if len(candidates) < limit:
+        phase_key = phase.lower().strip() if phase else "recon"
+        priority = _PHASE_PRIORITY.get(phase_key) or _PHASE_PRIORITY.get("recon", [])
+        for verb in priority:
+            if verb == cmd or verb in already_run or verb in candidates:
+                continue
+            candidates.append(verb)
+            if len(candidates) >= limit:
+                break
+    return candidates[:limit]
 
 
 def render_command_hints(
@@ -215,21 +540,8 @@ def render_command_hints(
     if not cmd or cmd in SKIP_COMMANDS:
         return
 
-    already_run = _read_run_commands(sessions_dir)
-
-    # 1. Kill-chain adjacency: known follow-up for this specific command
-    candidates: list[str] = [c for c in _KILL_CHAIN_NEXT.get(cmd, []) if c not in already_run]
-
-    # 2. Phase priority fallback
-    if len(candidates) < limit:
-        phase_key = phase.lower() if phase else "recon"
-        for c in _PHASE_PRIORITY.get(phase_key, _PHASE_PRIORITY.get("recon", [])):
-            if c not in already_run and c not in candidates and c != cmd:
-                candidates.append(c)
-            if len(candidates) >= limit * 2:
-                break
-
-    labels = [_truncate(c, _MAX_LABEL_LEN) for c in candidates[:limit]]
+    candidates = _collect_command_hints(cmd, phase, read_run_commands(sessions_dir), limit)
+    labels = [_truncate(c, _MAX_LABEL_LEN) for c in candidates]
     if labels:
         _render(labels)
 
@@ -249,7 +561,9 @@ def command_hints(
 
     Args:
         last_command: Raw command string that most recently executed.
-            Only the first token is considered.
+            Only the first token is considered. When empty or in
+            :data:`SKIP_COMMANDS` the adjacency lookup is skipped and the
+            phase priority table feeds the result.
         phase: Current engagement phase identifier. Falls back to
             ``recon`` when empty.
         sessions_dir: Path to ``sessions/`` used to filter out commands
@@ -258,26 +572,22 @@ def command_hints(
 
     Returns:
         Ordered list of suggested command verbs, length ``<= limit``.
-        Returns an empty list when ``last_command`` is empty, falls in
-        :data:`SKIP_COMMANDS`, or no candidates remain after filtering.
+        Returns an empty list when no candidates remain after filtering.
     """
     cmd = _first_token(last_command)
     if not cmd or cmd in SKIP_COMMANDS:
         cmd = ""
-    already_run = _read_run_commands(sessions_dir)
-    candidates: list[str] = []
-    if cmd:
-        candidates = [c for c in _KILL_CHAIN_NEXT.get(cmd, []) if c not in already_run]
-    if len(candidates) < limit:
-        phase_key = phase.lower().strip() if phase else "recon"
-        priority = _PHASE_PRIORITY.get(phase_key) or _PHASE_PRIORITY.get("recon", [])
-        for verb in priority:
-            if verb == cmd or verb in already_run or verb in candidates:
-                continue
-            candidates.append(verb)
-            if len(candidates) >= limit:
-                break
-    return candidates[:limit]
+    return _collect_command_hints(cmd, phase, read_run_commands(sessions_dir), limit)
 
 
-__all__ = ["SKIP_COMMANDS", "render_inline_hints", "render_command_hints", "command_hints"]
+__all__ = [
+    "SKIP_COMMANDS",
+    "render_inline_hints",
+    "render_command_hints",
+    "command_hints",
+    "read_run_commands",
+    "EvidenceHint",
+    "confidence_from_score",
+    "build_evidence_hints",
+    "render_evidence_hints",
+]

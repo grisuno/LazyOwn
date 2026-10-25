@@ -1,0 +1,15 @@
+name: gym_metasploitable_ms2_webdav_put
+version: 2
+description: 'Metasploitable 2: Apache WebDAV PUT (T1105).'
+enabled: true
+extends: gym_metasploitable_chain
+tags:
+- gym
+- metasploitable2
+- http
+platforms:
+- linux
+defaults:
+  exploit: ms2_webdav_put
+  vuln: ms2_webdav_put
+  port: '80'

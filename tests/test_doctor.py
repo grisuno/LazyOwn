@@ -50,30 +50,22 @@ class TestPythonVersion:
 
 class TestVirtualEnv:
     def test_active_venv_is_ok(self, tmp_path):
-        result = doctor.check_virtualenv(
-            prefix="/repo/env", base_prefix="/usr", root=tmp_path
-        )
+        result = doctor.check_virtualenv(prefix="/repo/env", base_prefix="/usr", root=tmp_path)
         assert result.status == doctor.STATUS_OK
 
     def test_inactive_with_env_dir_warns_to_activate(self, tmp_path):
         (tmp_path / "env").mkdir()
-        result = doctor.check_virtualenv(
-            prefix="/usr", base_prefix="/usr", root=tmp_path
-        )
+        result = doctor.check_virtualenv(prefix="/usr", base_prefix="/usr", root=tmp_path)
         assert result.status == doctor.STATUS_WARN
         assert "activate" in result.hint
 
     def test_no_venv_anywhere_warns_to_install(self, tmp_path):
-        result = doctor.check_virtualenv(
-            prefix="/usr", base_prefix="/usr", root=tmp_path
-        )
+        result = doctor.check_virtualenv(prefix="/usr", base_prefix="/usr", root=tmp_path)
         assert result.status == doctor.STATUS_WARN
         assert "install.sh" in result.hint
 
     def test_none_base_prefix_collapses_to_prefix(self, tmp_path):
-        result = doctor.check_virtualenv(
-            prefix="/usr", base_prefix=None, root=tmp_path
-        )
+        result = doctor.check_virtualenv(prefix="/usr", base_prefix=None, root=tmp_path)
         assert result.status == doctor.STATUS_WARN
 
 
@@ -162,9 +154,7 @@ class TestSecListsAndTools:
 
 class TestReportAggregation:
     def test_overall_status_ok_when_all_ok(self):
-        report = doctor.DoctorReport(
-            checks=[doctor.CheckResult("a", doctor.STATUS_OK, "")]
-        )
+        report = doctor.DoctorReport(checks=[doctor.CheckResult("a", doctor.STATUS_OK, "")])
         assert report.overall_status == doctor.STATUS_OK
         assert report.healthy is True
 

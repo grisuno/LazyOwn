@@ -164,8 +164,7 @@ def test_implant_log_creates_client_and_links_hosts(tmp_path: Path, sessions_dir
     assert client_node.metadata["port_map"] == {"10.0.0.5": [22, 80], "10.0.0.6": [3389]}
 
     assert any(
-        edge.source == NODE_C2 and edge.target == client_id and edge.relation == EDGE_CONTROLS
-        for edge in graph.edges
+        edge.source == NODE_C2 and edge.target == client_id and edge.relation == EDGE_CONTROLS for edge in graph.edges
     )
     assert any(
         edge.source == client_id and edge.target == "host-10-0-0-5" and edge.relation == EDGE_DISCOVERED
@@ -180,9 +179,7 @@ def test_implant_log_creates_client_and_links_hosts(tmp_path: Path, sessions_dir
 
 def test_non_implant_logs_are_ignored(tmp_path: Path, sessions_dir: Path) -> None:
     (sessions_dir / "access.log").write_text("not csv at all\n", encoding="utf-8")
-    (sessions_dir / "scan_192.168.1.1.nmap.xml_searchsploit.log").write_text(
-        "ssploit data\n", encoding="utf-8"
-    )
+    (sessions_dir / "scan_192.168.1.1.nmap.xml_searchsploit.log").write_text("ssploit data\n", encoding="utf-8")
     cfg = _build(tmp_path, sessions_dir)
     graph = SurfaceGraphBuilder(cfg).build()
 

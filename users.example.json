@@ -1,0 +1,13 @@
+[
+    {
+        "id": 1,
+        "username": "admin",
+        "password_hash": "scrypt:REPLACE_WITH:werkzeug.generate_password_hash(...)",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
+    }
+]

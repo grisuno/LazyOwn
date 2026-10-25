@@ -6,6 +6,7 @@ description: 'raven is a project that stems from the Invoke-PSObfuscation framew
 author: gh0x0st
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

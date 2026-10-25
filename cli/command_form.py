@@ -26,8 +26,9 @@ Design (SOLID):
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Mapping, MutableMapping
 from dataclasses import dataclass, field
-from typing import Any, Iterable, Mapping, MutableMapping
+from typing import Any
 
 from cli.themes import Theme, theme_from_payload
 

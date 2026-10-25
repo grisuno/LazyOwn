@@ -5,6 +5,7 @@ description: 'win_shellcode shellcode in windows custom (no msfvenom) and xored
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

@@ -45,5 +45,6 @@ def test_autonomous_flow_integration():
     stats = rag.stats()
     assert "backend" in stats
 
+
 if __name__ == "__main__":
     pytest.main([__file__])

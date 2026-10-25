@@ -1,43 +1,20 @@
 #!/usr/bin/env python3
-"""
-modules/config_store.py
-========================
-Thread-safe, singleton wrapper around payload.json.
+"""Thread-safe singleton facade over core.config for payload.json.
 
-Features
---------
-- Single source of truth for all payload.json reads/writes in LazyOwn
-- RLock guards every read and write (safe for multi-threaded Flask + MCP)
-- Optional file-watcher: auto-reloads when payload.json is modified on disk
-- Deep-copy on get() prevents callers from mutating the cached dict
-
-Usage
------
-    from modules.config_store import get_config, set_config, reload_config
-
-    # Read a value (with optional default)
-    rhost = get_config("rhost", "127.0.0.1")
-
-    # Write one or more keys and persist to disk
-    set_config(rhost="10.10.10.10", lhost="10.10.14.5")
-
-    # Force reload from disk (e.g. after external edit)
-    reload_config()
-
-    # Get the full config dict (deep copy)
-    cfg = get_config()
+Contract: preserves the get_config/set_config/reload_config API while
+delegating all file parsing and atomic persistence to core.config. This
+removes the duplicated JSON load and dump logic without changing behavior.
 """
 
 from __future__ import annotations
 
 import copy
-import json
 import logging
-import os
 import threading
-import time
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
+
+from core.config import load_payload, save_payload
 
 log = logging.getLogger("config_store")
 
@@ -49,11 +26,12 @@ _lock: threading.RLock = threading.RLock()
 _data: dict[str, Any] = {}
 _payload_path: Path = _DEFAULT_PATH
 _last_mtime: float = 0.0
-_watcher_thread: Optional[threading.Thread] = None
+_watcher_thread: threading.Thread | None = None
 _watcher_stop: threading.Event = threading.Event()
 
 
 # ── Public API ─────────────────────────────────────────────────────────────────
+
 
 def init(path: str | Path = _DEFAULT_PATH, watch: bool = False) -> None:
     """
@@ -124,6 +102,7 @@ def stop_watcher() -> None:
 
 # ── Internal ───────────────────────────────────────────────────────────────────
 
+
 def _ensure_loaded() -> None:
     """Lazy-load on first access."""
     with _lock:
@@ -132,7 +111,7 @@ def _ensure_loaded() -> None:
 
 
 def _load() -> None:
-    """Load payload.json into _data. Caller must hold _lock."""
+    """Load payload.json into _data via core.config. Caller must hold _lock."""
     global _last_mtime
     p = _payload_path
     if not p.exists():
@@ -140,32 +119,25 @@ def _load() -> None:
         _data.clear()
         return
     try:
-        stat = p.stat()
-        with p.open("r", encoding="utf-8") as fh:
-            loaded = json.load(fh)
+        loaded = load_payload(str(p))
         _data.clear()
         _data.update(loaded)
-        _last_mtime = stat.st_mtime
+        _last_mtime = p.stat().st_mtime
         log.debug("Config loaded from %s (%d keys)", p, len(_data))
-    except Exception as exc:
+    except (OSError, ValueError) as exc:
         log.error("Failed to load config from %s: %s", p, exc)
 
 
 def _persist() -> None:
-    """Write _data back to disk. Caller must hold _lock."""
+    """Write _data back to disk via core.config. Caller must hold _lock."""
     global _last_mtime
     p = _payload_path
-    tmp = p.with_suffix(".json.tmp")
     try:
-        with tmp.open("w", encoding="utf-8") as fh:
-            json.dump(_data, fh, indent=2)
-        tmp.replace(p)
+        save_payload(dict(_data), str(p))
         _last_mtime = p.stat().st_mtime
         log.debug("Config persisted to %s", p)
-    except Exception as exc:
+    except (OSError, ValueError) as exc:
         log.error("Failed to persist config to %s: %s", p, exc)
-        if tmp.exists():
-            tmp.unlink(missing_ok=True)
 
 
 def _start_watcher(interval: float = 2.0) -> None:

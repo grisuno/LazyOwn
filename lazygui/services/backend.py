@@ -12,16 +12,25 @@ from :mod:`lazygui.services.models`.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from enum import Enum
-from typing import Sequence
+from enum import StrEnum
 
 from PySide6.QtCore import QObject, Signal
 
-from lazygui.services.models import EventRecord, Listener, Operator, Session
+from lazygui.services.models import (
+    BeaconResult,
+    CampaignSummary,
+    DashboardPayload,
+    EventRecord,
+    Listener,
+    Operator,
+    Session,
+    Topology,
+)
 
 
-class BackendStatus(str, Enum):
+class BackendStatus(StrEnum):
     """Lifecycle state of a backend connection."""
 
     DISCONNECTED = "disconnected"
@@ -64,6 +73,10 @@ class Backend(QObject):
     listeners_changed = Signal(list)
     operator_changed = Signal(Operator)
     event_logged = Signal(EventRecord)
+    topology_changed = Signal(Topology)
+    dashboard_updated = Signal(DashboardPayload)
+    beacon_result = Signal(BeaconResult)
+    campaign_changed = Signal(list)
 
     def __init__(self, descriptor: BackendDescriptor, parent: QObject | None = None) -> None:
         """Store the descriptor that uniquely identifies this backend."""
@@ -119,3 +132,68 @@ class Backend(QObject):
     def known_listeners(self) -> Sequence[Listener]:
         """Return the most recent snapshot of listeners, never ``None``."""
         return ()
+
+    def known_topology(self) -> Topology:
+        """Return the most recent graph topology."""
+        return Topology.empty()
+
+    def known_campaigns(self) -> Sequence[CampaignSummary]:
+        """Return the most recent snapshot of campaigns."""
+        return ()
+
+    def request_world_model(self) -> dict:
+        """Request the current world model state as a dict. Returns empty dict on failure."""
+        try:
+            from modules.world_model import read_state_dict
+
+            return read_state_dict(Path("sessions") / "world_model.json")
+        except Exception:
+            pass
+        return {}
+
+    def request_beacon_history(self, client_id: str) -> list[dict]:
+        """Return the persistent command/result history for a beacon.
+
+        Default implementation returns an empty list; backends that can reach
+        the teamserver override this to fetch from the REST API.
+
+        Args:
+            client_id: The beacon id whose history is requested.
+
+        Returns:
+            An ordered list of record dicts (oldest first).
+        """
+        return []
+
+    def request_session_state(self) -> dict:
+        """Request the current session state (creds, hashes, loot) as a dict."""
+        result: dict[str, list] = {"credentials": [], "hashes": [], "loot": []}
+        try:
+            from pathlib import Path
+
+            sessions_dir = Path("sessions")
+            for fpath in sorted(sessions_dir.glob("credentials*.txt")):
+                for line in fpath.read_text(encoding="utf-8", errors="ignore").splitlines():
+                    line = line.strip()
+                    if line and not line.startswith("#"):
+                        parts = line.split(":", 2)
+                        result["credentials"].append(
+                            {
+                                "username": parts[0] if parts else "",
+                                "type": parts[1] if len(parts) > 1 else "password",
+                                "source": fpath.name,
+                            }
+                        )
+            for fpath in sorted(sessions_dir.glob("hash*")):
+                for line in fpath.read_text(encoding="utf-8", errors="ignore").splitlines():
+                    line = line.strip()
+                    if line:
+                        result["hashes"].append(line)
+            loot_dir = sessions_dir / "loot"
+            if loot_dir.exists():
+                for fpath in sorted(loot_dir.iterdir()):
+                    if fpath.is_file():
+                        result["loot"].append({"name": fpath.name, "size": str(fpath.stat().st_size)})
+        except Exception:
+            pass
+        return result

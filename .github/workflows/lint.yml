@@ -1,0 +1,51 @@
+name: lint
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  ruff:
+    name: ruff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install dev deps
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      - name: ruff check
+        run: ruff check --output-format=github .
+      - name: ruff format check
+        run: ruff format --check .
+      - name: check command_index.json
+        run: python scripts/build_command_index.py --check
+      - name: check doc stats
+        run: python scripts/sync_doc_stats.py --check
+
+  mypy:
+    name: mypy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install dev deps
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      - name: mypy (core + cli)
+        run: mypy --config-file pyproject.toml --no-strict-optional --no-site-packages --explicit-package-bases core cli

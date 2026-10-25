@@ -1,0 +1,51 @@
+# Architecture (page 9 of 9)
+Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
+
+## External Imports (continued)
+- `tests/test_security_lazyc2.py` -> os, pathlib, pytest
+- `tests/test_security_sanitizers.py` -> __future__, json, os, pytest
+- `tests/test_session_brief.py` -> __future__, pathlib, pytest
+- `tests/test_session_ops_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
+- `tests/test_sessions_browser.py` -> __future__, json, pathlib, sys
+- `tests/test_shell_semantics.py` -> __future__
+- `tests/test_shellsys_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
+- `tests/test_short_url_file_containment.py` -> __future__, ast, pathlib, pytest
+- `tests/test_single_implementation.py` -> __future__
+- `tests/test_single_source_of_truth.py` -> __future__, json, pathlib, tempfile, unittest
+- `tests/test_sleep_obfuscation.py` -> __future__, pytest
+- `tests/test_socks_proxy.py` -> __future__
+- `tests/test_status_bar_operators.py` -> __future__, json, pathlib, sys
+- `tests/test_structured_logging.py` -> __future__, json, logging.handlers, pathlib, sys
+- `tests/test_surface_graph.py` -> __future__, csv, io, json, pathlib, pytest, sys
+- `tests/test_sync_doc_stats.py` -> __future__, importlib.util, json, pathlib, pytest
+- `tests/test_themes.py` -> __future__, pathlib, sys
+- `tests/test_timeline_browser.py` -> __future__, csv, pathlib, sys
+- `tests/test_tips_engine.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_toast_bus.py` -> __future__, io, json, pathlib, sys, tempfile
+- `tests/test_toastr_unify.py` -> __future__
+- `tests/test_trigger_policy.py` -> pathlib
+- `tests/test_trusted_proxy.py` -> __future__
+- `tests/test_ttpscope_bridge.py` -> __future__, pathlib, pytest, sys, yaml
+- `tests/test_tui_splash.py` -> __future__, io, unittest
+- `tests/test_tui_style.py` -> __future__, io, unittest
+- `tests/test_tui_theme_command.py` -> __future__, unittest
+- `tests/test_tui_themes.py` -> __future__, io, rich.text, unittest
+- `tests/test_unified_bridge_delegate.py` -> __future__, itertools, pytest
+- `tests/test_unified_dashboard.py` -> __future__, json
+- `tests/test_utils_import_silent.py` -> __future__, pathlib, subprocess, sys
+- `tests/test_verb_catalog.py` -> json, pathlib, pytest, types
+- `tests/test_verb_manifest.py` -> __future__, pathlib, pytest
+- `tests/test_viral_adoption.py` -> ast, glob, json, pathlib
+- `tests/test_vuln_mitigations.py` -> __future__, ast, collections.abc, dataclasses, pathlib, pytest, re
+- `tests/test_wizard_binary_check.py` -> __future__, pathlib, pytest, subprocess, sys
+- `tests/test_wizard_llm.py` -> __future__
+- `tests/test_world_model_extended.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_xss_sanitization.py` -> __future__, pathlib, re
+- `tools/contract_check.py` -> __future__, ast, pathlib, sys
+- `tools/extract_cluster.py` -> __future__, ast, pathlib, sys, textwrap
+- `tools/gen_demo_gifs.py` -> PIL, os
+- `tools/gen_demo_gifs_extra.py` -> os, sys
+- `tools/generate_metasploitable_gym.py` -> __future__, pathlib, yaml
+- `tools/set_lazyaddon_updates.py` -> __future__, argparse, pathlib, re, yaml
+- `utils.py` -> argparse, base64, binascii, bisect, bs4, concurrent.futures, csv, ctypes, curses, datetime, glob, gzip, hashlib, importlib.util, io, itertools, json, os, pathlib, random, re, readline, requests, requests.exceptions, rich.panel, rich.text, secrets, shlex, shutil, signal, socket, ssl, string, struct, subprocess, sys, tempfile, threading, time, urllib.parse, urllib.request, uuid, xml.etree.ElementTree, yaml
+

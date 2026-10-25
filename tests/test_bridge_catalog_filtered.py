@@ -25,6 +25,7 @@ sys.path.insert(0, str(REPO_ROOT / "skills"))
 @pytest.fixture(scope="module")
 def dispatcher():
     from lazyown_bridge import get_dispatcher
+
     return get_dispatcher()
 
 
@@ -45,10 +46,7 @@ class TestCatalogSummaryFiltered:
         assert canonical == aliased
 
     def _entries_for(self, dispatcher, phase, command_name):
-        return [
-            entry for entry in dispatcher._catalog.by_phase(phase)
-            if entry.command == command_name
-        ]
+        return [entry for entry in dispatcher._catalog.by_phase(phase) if entry.command == command_name]
 
     def test_os_hint_linux_excludes_windows_only_entries(self, dispatcher):
         linux_summary = dispatcher.catalog_summary_filtered(os_hint="linux")
@@ -113,6 +111,7 @@ class TestCatalogSummaryFiltered:
 class TestBridgeCatalogToolFunction:
     def test_no_args_returns_full_catalog_header(self):
         from lazyown_groq_agents import _t_bridge_catalog
+
         out = _t_bridge_catalog()
         assert "Bridge catalog" in out
         assert "phase=" not in out
@@ -120,23 +119,27 @@ class TestBridgeCatalogToolFunction:
 
     def test_phase_arg_appears_in_header(self):
         from lazyown_groq_agents import _t_bridge_catalog
+
         out = _t_bridge_catalog(phase="recon")
         assert "phase=recon" in out
         assert "os=any" in out
 
     def test_os_hint_only_appears_in_header(self):
         from lazyown_groq_agents import _t_bridge_catalog
+
         out = _t_bridge_catalog(os_hint="linux")
         assert "os=linux" in out
         assert "phase=" not in out
 
     def test_unknown_phase_returns_friendly_no_match(self):
         from lazyown_groq_agents import _t_bridge_catalog
+
         out = _t_bridge_catalog(phase="recon", os_hint="windows")
         assert "Bridge catalog" in out
 
     def test_registry_exposes_optional_phase_and_os(self):
         from lazyown_groq_agents import REGISTRY
+
         _desc, params, _func = REGISTRY["bridge_catalog"]
         assert "phase" in params
         assert "os_hint" in params

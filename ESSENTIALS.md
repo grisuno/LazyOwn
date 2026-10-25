@@ -1,6 +1,6 @@
 # LazyOwn Essentials — The Commands You Actually Need
 
-This is the 80/20 reference. 18 commands cover the majority of engagements. Everything else lives in `CHEATSHEET.md` and `COMMANDS.md`.
+This is the 80/20 reference. 18 commands cover the majority of engagements. Everything else lives in `CHEATSHEET.md` and `COMMANDS.md` (837 commands).
 
 ---
 
@@ -16,9 +16,9 @@ ping -> lazynmap -> auto_populate -> facts_show -> recommend_next
 | 2 | `assign lhost 10.10.14.3` | Set your IP | Used by beacon callbacks, C2, payloads |
 | 3 | `ping` | ICMP TTL probe | TTL ~64 = Linux, ~128 = Windows. Sets `os_id` automatically |
 | 4 | `lazynmap` | Full port scan | Writes to `sessions/scan_<rhost>.nmap`. Never re-run if file exists |
-| 5 | `auto_populate` | Parse scan into structured data | Populates `sessions/world_model.json` with services, versions, OS |
-| 6 | `facts_show` | Display discovered facts | Quick read of what the scan found: ports, services, versions |
-| 7 | `recommend_next` | AI-ranked next steps | Groq suggests the 3-5 best commands for current phase |
+| 5 | `auto_populate` | Parse scan into payload context | Fills `domain`, `os_id`, services and first creds from the nmap XML into `payload.json` |
+| 6 | `facts_show` | Display discovered facts | Quick read of what the scan found: ports, services, versions (`--refresh` re-parses `sessions/`) |
+| 7 | `recommend_next` | Ranked next steps | Local engine fuses policy + recon plan + knowledge graph into the 3-5 best commands for the current phase — no API key needed |
 
 ---
 
@@ -44,6 +44,29 @@ for your go-ahead, so you stay in control. Useful flags:
 Every action is narrated to `sessions/engagement.log` and broadcast to
 connected teammates. Run the manual seven-step path above when you want to
 understand or control each step; reach for `engage` when you want speed.
+
+---
+
+## One goal — `orchestrate`
+
+`engage` walks a fixed chain. `orchestrate` hands a free-text goal to the
+autonomous backends and lets them plan the steps:
+
+```
+orchestrate "gain initial access and dump hashes"
+```
+
+| Form | Effect |
+|------|--------|
+| `orchestrate "<goal>"` | Auto-routes to the best backend (daemon, hive or swan) |
+| `orchestrate "<goal>" --mode daemon` | Force the objective-driven daemon (`auto_loop "<goal>"` is a shortcut for this) |
+| `orchestrate "<goal>" --mode hive` | Queen/drone swarm with shared memory |
+| `orchestrate "<goal>" --mode swan` | MoE+RL router, learns from outcomes |
+
+The daemon backend is fully local and works offline. LLM-backed reasoning
+uses `api_key` (Groq) when set and falls back to the local Ollama runtime
+when it is not — if neither is available the shell tells you at startup
+instead of failing silently.
 
 ---
 
@@ -106,6 +129,24 @@ understand or control each step; reach for `engage` when you want speed.
 | `dashboard` | TUI with target, phase, commands, hints |
 | `collab_join alice` | Team dashboard URL |
 
+### I want to practice — the Metasploitable 2 gym
+
+| Command | What it does |
+|---------|-------------|
+| `lab start metasploitable` | Spin up the lab container and apply the gym migrations automatically (core daemons, open X display, anonymous FTP, vulnerable CGI, mutillidae database, DVWA DOM page) |
+| `assign rhost <container-ip>` | Point the framework at the lab |
+| `gym_ms2 chains` | List the 45 shipped vectors with their exploit and chain ids |
+| `apt_chain gym_metasploitable_ms2_dvwa_sqli --target <ip> --json` | Run one vector end to end; outcome lands in `sessions/outcomes.jsonl` |
+| `gym start metasploitable_full_chain` | Start the scored gym run (ELO) |
+| `gym status` / `gym top` | Track active runs / leaderboard |
+
+42 of the 45 vectors yield a shell on the lab; `ms2_dns_recursion`,
+`ms2_nfs_exports` and `ms2_rlogin_trust` are blocked by Docker itself.
+Three vectors (`ms2_dvwa_xss_dom`, `ms2_twiki_xss`,
+`ms2_mutillidae_csrf`) drive a real headless Chromium session — they
+need `sudo apt install -y chromium chromium-driver python3-selenium`.
+Full setup guide: `docs/gym-setup.md`.
+
 ---
 
 ## The Three Rules
@@ -116,12 +157,30 @@ understand or control each step; reach for `engage` when you want speed.
 
 ---
 
+## New in v0.2.158 — Commands you should know
+
+| Command | What it does | Why it matters |
+|---------|--------------|----------------|
+| `yara_marketplace list` | Browse 10 built-in YARA rules (ransomware, C2, webshells, privesc) | Signature-based threat detection |
+| `nuclei_marketplace list` | Browse 500+ Nuclei templates | Automated vulnerability scanning |
+| `auto_pwn` | Autonomous kill-chain walk | Recon to exploitation without manual steps |
+| `hunt` | Threat-informed discovery | Maps known TTPs to discovered services |
+| `yara_scan <file>` | Scan files/dirs with YARA rules | Malware and IoC detection |
+| `nuclei` | Run Nuclei templates against rhost | CVD/CVE vulnerability scanning |
+| `marketplace update` | Update all addons/plugins/tools/rules | Keep your toolkit current |
+| `collab_join handle` | Print team dashboard URL | Multi-operator collaboration |
+| `encrypt` / `decrypt` | PBKDF2HMAC + Fernet file crypto | Secure session data |
+| `campaign_sitrep` | Full situation report | Current state at a glance |
+
+---
+
 ## Where the full lists live
 
 | Need | File |
 |------|------|
-| 40 most frequent commands by goal | `CHEATSHEET.md` |
-| All 333 commands with descriptions | `COMMANDS.md` (auto-generated) |
-| All 200+ aliases | `COMMANDS.md` alias section |
-| Full MCP tool reference (131 tools) | `skills/lazyown.md` |
+| 50 frequent commands by goal | `CHEATSHEET.md` |
+| All 837 commands with descriptions | `COMMANDS.md` (auto-generated) |
+| All 130 aliases | `COMMANDS.md` alias section |
+| Full MCP tool reference (173 tools) | `skills/lazyown.md` |
 | Architecture and dev reference | `CLAUDE.md` |
+| Honest framework comparison | `COMPARISON.md` |

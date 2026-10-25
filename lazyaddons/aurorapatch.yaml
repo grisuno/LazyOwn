@@ -9,6 +9,7 @@ description: 'AuroraPatch is a lightweight, offensive Go tool that bypasses Wind
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

@@ -32,14 +32,19 @@ def _load_yaml() -> dict[str, str]:
 
 
 def _legacy_alias_keys_from_lazyown() -> set[str]:
-    """Snapshot of the historical aliases dict keys.
+    """Canonical snapshot of the YAML alias keys.
 
     The inline dict in ``lazyown.py`` was replaced by a YAML-driven loader.
     This snapshot is embedded so the test does not depend on git or the
-    previous file revision.
+    previous file revision. The monolith split renamed three aliases that
+    collided with newly promoted commands (``loot`` -> ``loot2``,
+    ``trace`` -> ``trace_kernel``, ``lol`` -> ``lol_list``); the set below
+    reflects the post-split canonical alias names.
     """
     return {
+        "ae",
         "amnesiac",
+        "ap",
         "aslr",
         "asm",
         "atomic_update",
@@ -54,12 +59,16 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "bettercap_netrecon",
         "caja",
         "cc",
+        "c2qs",
+        "c2i",
         "chown",
         "cloudflare_tunnel",
         "coerce_plus",
         "control_dynamic_debug",
         "creds",
+        "dd",
         "diable_selinux",
+        "disable_selinux",
         "disable_apparmor",
         "disable_aslr",
         "disable_ftrace",
@@ -67,6 +76,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "discovery",
         "dolphin",
         "duckdns",
+        "ech",
         "ed",
         "empire_client",
         "empire_server",
@@ -78,6 +88,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "event_trace",
         "ftpd",
         "ftpsniff",
+        "full",
         "gdb",
         "get_all_domains",
         "halt",
@@ -90,9 +101,12 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "ipy",
         "kallsyms",
         "kvpn",
-        "loot",
+        "lol_list",
+        "loot2",
+        "lr",
         "ls",
         "lsof",
+        "luse",
         "man",
         "mitre_update",
         "moo",
@@ -110,12 +124,15 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "pass",
         "poison",
         "powersploit",
+        "pr",
         "pwnat",
         "py",
         "q",
         "qq",
         "randomuser",
         "report",
+        "rm_wm_host",
+        "rt",
         "rtpflood",
         "rustrevmakerlin",
         "rustrevmakerwin",
@@ -125,6 +142,8 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "showmount",
         "smbd",
         "sniff",
+        "soff",
+        "son",
         "spiderfoot",
         "sshr",
         "start_apt",
@@ -143,7 +162,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "tcpdumpt",
         "tor",
         "touched_functions",
-        "trace",
+        "trace_kernel",
         "unshadow",
         "update",
         "venom",
@@ -170,8 +189,8 @@ class TestAliasYamlIntegrity:
         assert missing == set(), f"YAML lost legacy aliases: {sorted(missing)}"
         assert extra == set(), f"YAML introduced unknown aliases: {sorted(extra)}"
 
-    def test_yaml_count_is_114(self):
-        assert len(_load_yaml()) == 114
+    def test_yaml_count_is_125(self):
+        assert len(_load_yaml()) == 130
 
     def test_all_values_are_strings(self):
         for name, value in _load_yaml().items():
@@ -264,7 +283,7 @@ class TestAliasLoaderSubstitution:
         from core.config import load_payload
 
         aliases = load_aliases(load_payload(), lazy=False)
-        assert len(aliases) == 114
+        assert len(aliases) == 130
         for name, command in aliases.items():
             assert "{rhost}" not in command, f"unsubstituted placeholder in {name}"
 
@@ -331,8 +350,8 @@ class TestCommandSetDiscovery:
         from cli.commands.diagnostics import DiagnosticsCommandSet
 
         do_methods = [m for m in dir(DiagnosticsCommandSet) if m.startswith("do_")]
-        assert "do_lazy_runtime" in do_methods
-        assert "do_lazy_payload_keys" in do_methods
+        assert "do_sys_runtime" in do_methods
+        assert "do_sys_payload_keys" in do_methods
 
 
 class TestRegisterCommandSets:
@@ -344,7 +363,7 @@ class TestRegisterCommandSets:
         class _Bare(cmd2.Cmd):
             pass
 
-        shell = _Bare()
+        shell = _Bare(auto_load_commands=False)
         registered = register_command_sets(shell)
         assert any(c.__class__.__name__ == "DiagnosticsCommandSet" for c in registered)
 
@@ -354,7 +373,7 @@ class TestRegisterCommandSets:
         from cli import registry
 
         class _ExplosiveCommandSet(cmd2.CommandSet):
-            def __init__(self):
+            def __init__(self, *args, **kwargs):
                 raise RuntimeError("boom")
 
         def fake_iter():
@@ -368,7 +387,7 @@ class TestRegisterCommandSets:
         class _Bare(cmd2.Cmd):
             pass
 
-        shell = _Bare()
+        shell = _Bare(auto_load_commands=False)
         registered = registry.register_command_sets(shell)
         assert any(c.__class__.__name__ == "DiagnosticsCommandSet" for c in registered)
 
@@ -376,3 +395,99 @@ class TestRegisterCommandSets:
 class TestLazyOwnStillParses:
     def test_ast_parse(self):
         ast.parse(LAZYOWN_PATH.read_text(encoding="utf-8"))
+
+
+class TestPrivateHelperForwarding:
+    """LazyOwnCommandSet forwards single-underscore shell helpers.
+
+    The monolith split left several private helpers (``_scope_save``,
+    ``_load_adversaries``, ...) on ``LazyOwnShell`` while their ``do_*``
+    callers moved into CommandSets. ``__getattr__`` must forward those
+    single-underscore reads to the bound shell, stay inert before
+    registration, and still refuse dunder / ``complete_`` probes.
+    """
+
+    def _probe_class(self):
+        import cmd2
+
+        from cli.commands._base import LazyOwnCommandSet
+
+        class _Probe(LazyOwnCommandSet):
+            phase = "test"
+            category = "test"
+
+            @cmd2.with_category("test")
+            def do_probe(self, line):
+                return self._scope_helper()
+
+        return _Probe
+
+    def _shell_class(self):
+        import cmd2
+
+        class _Shell(cmd2.Cmd):
+            def __init__(self) -> None:
+                super().__init__(auto_load_commands=False)
+                self.params = {"scope": ["10.0.0.0/8"]}
+
+            def _scope_helper(self):
+                return list(self.params.get("scope", []))
+
+        return _Shell
+
+    def test_private_helper_inert_before_registration(self):
+        probe = self._probe_class()()
+        with pytest.raises(AttributeError):
+            probe._scope_helper()
+
+    def test_private_helper_forwards_after_registration(self):
+        probe = self._probe_class()()
+        shell = self._shell_class()()
+        shell.register_command_set(probe)
+        assert probe._scope_helper() == ["10.0.0.0/8"]
+
+    def test_dunder_still_refused_after_registration(self):
+        probe = self._probe_class()()
+        shell = self._shell_class()()
+        shell.register_command_set(probe)
+        with pytest.raises(AttributeError):
+            probe.__does_not_exist__
+
+    def test_missing_private_raises_not_utils_fallback(self):
+        probe = self._probe_class()()
+        shell = self._shell_class()()
+        shell.register_command_set(probe)
+        with pytest.raises(AttributeError):
+            probe._name_absent_everywhere
+
+
+def test_rm_wm_host_alias_appends_the_ip_parameter():
+    """The declarative alias forwards the address to the world-model CLI."""
+    import cmd2
+
+    from cli.aliases import load_aliases
+
+    class Shell(cmd2.Cmd):
+        def __init__(self) -> None:
+            super().__init__()
+            self.aliases.update(load_aliases({}, lazy=False))
+            self.seen = ""
+
+        def do_sh(self, line: str) -> None:
+            self.seen = line
+
+    shell = Shell()
+    shell.onecmd_plus_hooks("rm_wm_host 127.0.0.1")
+    assert shell.seen == "python3 -m modules.world_model remove-host 127.0.0.1"
+
+
+def test_alias_with_trailing_args_keeps_operator_parameters():
+    """The dynamic expander must append parameters after the alias template."""
+    from cli.aliases import alias_with_trailing_args
+
+    expanded = "sh python3 -m modules.world_model remove-host"
+    assert alias_with_trailing_args(expanded, "rm_wm_host 127.0.0.1") == (
+        "sh python3 -m modules.world_model remove-host 127.0.0.1"
+    )
+    assert alias_with_trailing_args(expanded, "rm_wm_host") == expanded
+    assert alias_with_trailing_args(expanded, "rm_wm_host --force 10.0.0.5") == f"{expanded} --force 10.0.0.5"

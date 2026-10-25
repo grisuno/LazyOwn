@@ -1,0 +1,46 @@
+# ==============================================================================
+# LazyOwn Centralized Logging + SIEM Shippers
+# ==============================================================================
+# Usage: docker compose -f docker-compose.yml -f docker-compose.logging.yml up
+#
+# Components:
+#   - fluent-bit: Collects C2 logs and forwards to Elasticsearch + stdout
+#   - elasticsearch: Single-node for SIEM/dashboard use (optional, comment out if external)
+#   - Exports CEF/NDJSON compliance reports to mounted volume for SIEM ingestion
+
+version: "3.8"
+
+services:
+  fluent-bit:
+    image: fluent/fluent-bit:3.2
+    container_name: lazyown-fluentbit
+    restart: unless-stopped
+    volumes:
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - ./sessions:/var/log/lazyown:ro
+    depends_on:
+      - lazyown
+    networks:
+      - lazyown-net
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.0
+    container_name: lazyown-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - lazyown-net
+
+volumes:
+  esdata:
+
+networks:
+  lazyown-net:
+    external: false

@@ -28,8 +28,9 @@ from __future__ import annotations
 import ipaddress
 import os
 import re
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, fields, replace
-from typing import Any, Mapping, Optional, Sequence, Tuple
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -64,7 +65,7 @@ class SecurityConfig:
     path_segment_pattern: str = r"^[A-Za-z0-9._-]+$"
 
     @classmethod
-    def from_payload(cls, payload: Mapping[str, Any]) -> "SecurityConfig":
+    def from_payload(cls, payload: Mapping[str, Any]) -> SecurityConfig:
         """Build a configuration object from a ``payload.json`` mapping.
 
         Unknown keys are ignored so adding a new tunable in code
@@ -109,7 +110,7 @@ class HeaderValueSanitizer:
     abnormal upstream behaviour in proxy logs.
     """
 
-    _FORBIDDEN_CHARS: Tuple[str, ...] = ("\r", "\n", "\x00")
+    _FORBIDDEN_CHARS: tuple[str, ...] = ("\r", "\n", "\x00")
 
     def __init__(self, config: SecurityConfig):
         """Bind the sanitizer to a configuration instance.
@@ -192,7 +193,7 @@ class SessionPathResolver:
         """The resolved, absolute base directory."""
         return self._base_real
 
-    def resolve(self, untrusted_name: Any) -> Optional[Tuple[str, str]]:
+    def resolve(self, untrusted_name: Any) -> tuple[str, str] | None:
         """Return ``(absolute, relative)`` for a safe filename.
 
         ``relative`` is suitable for ``send_from_directory`` while
@@ -361,7 +362,7 @@ class CommandRedactor:
         substitutions: Mapping[str, str],
         username: str,
         password: str,
-    ) -> Tuple[str, str]:
+    ) -> tuple[str, str]:
         """Return ``(executable, display)`` for a templated command.
 
         ``substitutions`` provides the non-credential replacements
@@ -473,7 +474,7 @@ class OutputSanitizer:
         return self._config.non_serializable_placeholder
 
 
-def build_default_config(payload: Optional[Mapping[str, Any]] = None) -> SecurityConfig:
+def build_default_config(payload: Mapping[str, Any] | None = None) -> SecurityConfig:
     """Return a :class:`SecurityConfig` populated from ``payload``.
 
     Convenience entry point so callers do not need to import the

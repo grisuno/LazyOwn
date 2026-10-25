@@ -23,8 +23,9 @@ Design notes:
 from __future__ import annotations
 
 import time
+from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Mapping, Protocol
+from typing import Protocol
 
 from rich.console import Console
 from rich.text import Text

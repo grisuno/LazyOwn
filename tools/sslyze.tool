@@ -4,7 +4,7 @@
   "trigger": [
     "https"
   ],
-  "active": false,
+  "active": true,
   "category": "02. Scanning & Enumeration",
   "description": "Pwntomate tool: sslyze_tool \u2014 triggers on ['https']"
 }

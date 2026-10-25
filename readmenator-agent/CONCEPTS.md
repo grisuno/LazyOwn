@@ -1,0 +1,120 @@
+# Concepts
+
+Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
+
+- `returns` | files=565 | mentions=3176 | `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_explorer.py`
+- `when` | files=514 | mentions=2195 | `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_form.py`
+- `command` | files=472 | mentions=3197 | `.claude/skills/run-lazyown/driver.sh`, `bootstrap.sh`, `cli/__init__.py`, `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`
+- `return` | files=465 | mentions=4258 | `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_form.py`
+- `modules` | files=464 | mentions=840 | `cli/__init__.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/commands/__init__.py`, `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/ai.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`
+- `file` | files=431 | mentions=1942 | `cli/aliases.py`, `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/commands/_base.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`
+- `one` | files=429 | mentions=1311 | `.claude/skills/run-lazyown/driver.sh`, `bootstrap.sh`, `cli/apt_chain_support.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_form.py`
+- `lazy` | files=420 | mentions=1271 | `.claude/skills/run-lazyown/driver.sh`, `banner.py`, `bootstrap.sh`, `cli/__init__.py`, `cli/aliases.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/cli_enhancements.py`
+- `args` | files=411 | mentions=1974 | `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_chain.py`, `cli/command_explorer.py`, `cli/command_form.py`
+- `every` | files=401 | mentions=993 | `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/ai.py`
+- `list` | files=399 | mentions=1450 | `banner.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_form.py`, `cli/commands/_base.py`, `cli/commands/automation.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`
+- `not` | files=397 | mentions=1198 | `.claude/skills/run-lazyown/driver.sh`, `cli/aliases.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/_base.py`
+- `path` | files=395 | mentions=1538 | `bootstrap.sh`, `cli/aliases.py`, `cli/auto_crypto.py`, `cli/commands/anti_forensics.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_session.py`, `cli/commands/caldera.py`, `cli/commands/cicd.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`
+- `all` | files=395 | mentions=1042 | `.claude/skills/run-lazyown/driver.sh`, `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_explorer.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/automation.py`
+- `run` | files=391 | mentions=1706 | `.claude/skills/run-lazyown/driver.sh`, `bootstrap.sh`, `cli/apt_chain_support.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/commands/_base.py`
+- `only` | files=377 | mentions=811 | `.claude/skills/run-lazyown/driver.sh`, `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/commands/active_directory.py`
+- `name` | files=370 | mentions=1540 | `bootstrap.sh`, `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_form.py`, `cli/commands/_base.py`, `cli/commands/ai.py`
+- `json` | files=369 | mentions=1458 | `.claude/skills/run-lazyown/driver.sh`, `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`
+- `without` | files=368 | mentions=744 | `cli/__init__.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/ai.py`
+- `cli` | files=363 | mentions=838 | `cli/__init__.py`, `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`
+- `own` | files=362 | mentions=827 | `.claude/skills/run-lazyown/driver.sh`, `banner.py`, `bootstrap.sh`, `cli/__init__.py`, `cli/aliases.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`
+- `empty` | files=358 | mentions=935 | `cli/aliases.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_chain.py`, `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/_base.py`, `cli/commands/ai.py`
+- `set` | files=336 | mentions=1490 | `bootstrap.sh`, `cli/__init__.py`, `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_form.py`, `cli/commands/__init__.py`
+- `payload` | files=324 | mentions=1454 | `bootstrap.sh`, `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_form.py`, `cli/commands/_base.py`
+- `never` | files=322 | mentions=700 | `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_form.py`, `cli/commands/_base.py`, `cli/commands/audit.py`, `cli/commands/c2_session.py`, `cli/commands/cli_auth.py`
+- `shell` | files=320 | mentions=1473 | `.claude/skills/run-lazyown/driver.sh`, `cli/__init__.py`, `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_explorer.py`
+- `commands` | files=309 | mentions=1010 | `.claude/skills/run-lazyown/driver.sh`, `cli/__init__.py`, `cli/apt_chain_support.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/__init__.py`
+- `operator` | files=307 | mentions=916 | `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_explorer.py`
+- `single` | files=306 | mentions=616 | `bootstrap.sh`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_form.py`, `cli/commands/_base.py`
+- `string` | files=301 | mentions=959 | `cli/aliases.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_chain.py`, `cli/command_form.py`, `cli/commands/ai.py`, `cli/commands/automation.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`
+- `none` | files=300 | mentions=1035 | `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_form.py`, `cli/commands/_base.py`, `cli/commands/ai.py`
+- `default` | files=292 | mentions=781 | `bootstrap.sh`, `cli/aliases.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_form.py`, `cli/commands/bof_registry.py`, `cli/commands/caldera.py`, `cli/commands/collaboration.py`
+- `build` | files=283 | mentions=630 | `.claude/skills/run-lazyown/driver.sh`, `cli/apt_chain_support.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_form.py`, `cli/commands/audit.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_session.py`
+- `target` | files=281 | mentions=1559 | `bootstrap.sh`, `cli/apt_chain_support.py`, `cli/autosuggest.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_form.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/audit.py`, `cli/commands/bitm.py`
+- `true` | files=279 | mentions=646 | `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_form.py`, `cli/commands/_dormancy.py`, `cli/commands/bof_registry.py`
+- `sessions` | files=278 | mentions=998 | `cli/auto_crypto.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/audit.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_session.py`, `cli/commands/campaign.py`
+- `config` | files=274 | mentions=1064 | `cli/aliases.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_chain.py`, `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/_base.py`, `cli/commands/automation.py`
+- `module` | files=274 | mentions=654 | `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/commands/ai.py`, `cli/commands/audit.py`, `cli/commands/command_and_control.py`
+- `get` | files=271 | mentions=1409 | `DEPLOY.sh`, `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/cli_enhancements.py`, `cli/commands/applocker_bypass.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/collaboration.py`, `cli/commands/cred_migrated.py`, `cli/commands/database.py`
+- `load` | files=271 | mentions=715 | `cli/__init__.py`, `cli/aliases.py`, `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/_base.py`, `cli/commands/automation.py`
+- `key` | files=268 | mentions=1097 | `cli/aliases.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_form.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/audit.py`, `cli/commands/automation.py`
+- `value` | files=263 | mentions=1277 | `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_chain.py`, `cli/command_form.py`, `cli/commands/_base.py`, `cli/commands/active_directory.py`
+- `can` | files=263 | mentions=506 | `bootstrap.sh`, `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_form.py`, `cli/commands/_base.py`, `cli/commands/_dormancy.py`
+- `text` | files=261 | mentions=701 | `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/commands/ai.py`, `cli/commands/audit.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/collaboration.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`
+- `output` | files=259 | mentions=841 | `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_explorer.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/cicd.py`, `cli/commands/command_and_control.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`
+- `contract` | files=254 | mentions=577 | `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_explorer.py`, `cli/commands/lazyops.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/fuzzy_picker.py`
+- `data` | files=252 | mentions=985 | `cli/__init__.py`, `cli/assign.py`, `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_form.py`, `cli/commands/__init__.py`, `cli/commands/anti_forensics.py`, `cli/commands/bitm.py`, `cli/commands/cloud.py`
+- `dict` | files=248 | mentions=762 | `cli/aliases.py`, `cli/apt_chain_support.py`, `cli/assign.py`, `cli/cli_enhancements.py`, `cli/command_chain.py`, `cli/command_explorer.py`, `cli/commands/_base.py`, `cli/commands/audit.py`, `cli/commands/infra.py`, `cli/commands/marketplace.py`
+- `new` | files=247 | mentions=1397 | `bootstrap.sh`, `cli/assign.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_form.py`, `cli/commands/_dormancy.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/c2_session.py`, `cli/commands/caldera.py`
+- `via` | files=246 | mentions=453 | `cli/auto_crypto.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/cli_enhancements.py`, `cli/command_explorer.py`, `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`
+
+## Verb Edges
+
+- `command` --depends_on--> `returns` (strength 1.00)
+- `command` --depends_on--> `return` (strength 0.98)
+- `when` --depends_on--> `return` (strength 0.96)
+- `returns` --depends_on--> `return` (strength 0.95)
+- `when` --depends_on--> `returns` (strength 0.95)
+- `command` --depends_on--> `args` (strength 0.93)
+- `command` --depends_on--> `when` (strength 0.93)
+- `returns` --depends_on--> `when` (strength 0.90)
+- `cli` --depends_on--> `returns` (strength 0.88)
+- `one` --depends_on--> `return` (strength 0.88)
+- `one` --depends_on--> `returns` (strength 0.88)
+- `returns` --depends_on--> `args` (strength 0.87)
+- `when` --depends_on--> `args` (strength 0.87)
+- `return` --depends_on--> `returns` (strength 0.86)
+- `lazy` --depends_on--> `returns` (strength 0.85)
+- `command` --depends_on--> `single` (strength 0.84)
+- `lazy` --depends_on--> `return` (strength 0.84)
+- `one` --depends_on--> `when` (strength 0.84)
+- `run` --depends_on--> `return` (strength 0.84)
+- `set` --depends_on--> `returns` (strength 0.84)
+- `cli` --depends_on--> `return` (strength 0.83)
+- `every` --depends_on--> `return` (strength 0.83)
+- `run` --depends_on--> `returns` (strength 0.83)
+- `cli` --depends_on--> `args` (strength 0.82)
+- `every` --depends_on--> `returns` (strength 0.82)
+- `name` --depends_on--> `returns` (strength 0.82)
+- `all` --depends_on--> `returns` (strength 0.81)
+- `file` --depends_on--> `returns` (strength 0.81)
+- `json` --depends_on--> `returns` (strength 0.81)
+- `list` --depends_on--> `returns` (strength 0.81)
+- `name` --depends_on--> `return` (strength 0.81)
+- `returns` --depends_on--> `single` (strength 0.81)
+- `set` --depends_on--> `return` (strength 0.81)
+- `cli` --depends_on--> `when` (strength 0.80)
+- `command` --depends_on--> `lazy` (strength 0.80)
+- `file` --depends_on--> `return` (strength 0.80)
+- `list` --depends_on--> `return` (strength 0.80)
+- `one` --depends_on--> `args` (strength 0.80)
+- `only` --depends_on--> `returns` (strength 0.80)
+- `return` --depends_on--> `when` (strength 0.80)
+- `run` --depends_on--> `when` (strength 0.80)
+- `when` --depends_on--> `single` (strength 0.80)
+- `all` --depends_on--> `return` (strength 0.79)
+- `every` --depends_on--> `when` (strength 0.79)
+- `json` --depends_on--> `return` (strength 0.79)
+- `lazy` --depends_on--> `when` (strength 0.79)
+- `only` --depends_on--> `return` (strength 0.79)
+- `path` --depends_on--> `returns` (strength 0.79)
+- `without` --depends_on--> `returns` (strength 0.79)
+- `command` --depends_on--> `every` (strength 0.78)
+
+## Dialectic
+
+- Thesis: `all` centralizes 395 files; Antithesis: `args` pulls 411 files with 200 shared (Jaccard 0.33); Synthesis: should they merge, split by layer, or keep `depends_on` explicit?
+- Thesis: `all` centralizes 395 files; Antithesis: `command` pulls 472 files with 217 shared (Jaccard 0.33); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 395 files; Antithesis: `data` pulls 252 files with 150 shared (Jaccard 0.30); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 395 files; Antithesis: `dict` pulls 248 files with 162 shared (Jaccard 0.34); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 395 files; Antithesis: `file` pulls 431 files with 209 shared (Jaccard 0.34); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 395 files; Antithesis: `get` pulls 271 files with 160 shared (Jaccard 0.32); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 395 files; Antithesis: `json` pulls 369 files with 201 shared (Jaccard 0.36); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 395 files; Antithesis: `list` pulls 399 files with 230 shared (Jaccard 0.41); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 395 files; Antithesis: `modules` pulls 464 files with 200 shared (Jaccard 0.30); Synthesis: should they merge, split by layer, or keep `bridges` explicit?
+- Thesis: `all` centralizes 395 files; Antithesis: `name` pulls 370 files with 199 shared (Jaccard 0.35); Synthesis: should they merge, split by layer, or keep `bridges` explicit?

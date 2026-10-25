@@ -23,10 +23,11 @@ Design contract:
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable, Sequence
 
 from rich.console import Console
 from rich.panel import Panel
@@ -38,6 +39,7 @@ from cli.wizard import (
     _find_seclists_root,
     check_binaries,
 )
+from core.profiles import specs_for_profile
 
 MIN_PYTHON_VERSION: tuple[int, int] = (3, 10)
 
@@ -139,7 +141,7 @@ class DoctorReport:
 
 
 def check_python_version(
-    version_info: Sequence[int] = sys.version_info,
+    version_info: Sequence[int] | None = None,
 ) -> CheckResult:
     """Verify the interpreter satisfies :data:`MIN_PYTHON_VERSION`.
 
@@ -151,7 +153,10 @@ def check_python_version(
     Returns:
         A :class:`CheckResult` flagged ``fail`` below the minimum version.
     """
-    major, minor = version_info[0], version_info[1]
+    if version_info is None:
+        major, minor = sys.version_info[0], sys.version_info[1]
+    else:
+        major, minor = version_info[0], version_info[1]
     current = f"{major}.{minor}"
     required = f"{MIN_PYTHON_VERSION[0]}.{MIN_PYTHON_VERSION[1]}"
     if (major, minor) >= MIN_PYTHON_VERSION:
@@ -305,6 +310,36 @@ def check_seclists(
     )
 
 
+def check_command_index(root: Path) -> CheckResult:
+    try:
+        from scripts.build_command_index import build_index, render_document
+
+        fresh = render_document(build_index())
+        index_path = root / "cli" / "command_index.json"
+        on_disk = json.loads(index_path.read_text(encoding="utf-8"))
+        if fresh == on_disk:
+            return CheckResult("Command index", STATUS_OK, "command index matches AST")
+        return CheckResult(
+            "Command index",
+            STATUS_WARN,
+            "command index is stale",
+            hint="python scripts/build_command_index.py",
+        )
+    except FileNotFoundError:
+        return CheckResult(
+            "Command index",
+            STATUS_FAIL,
+            "cli/command_index.json not found",
+            hint="python scripts/build_command_index.py",
+        )
+    except ImportError as e:
+        return CheckResult(
+            "Command index",
+            STATUS_WARN,
+            f"cannot verify -- import error: {e}",
+        )
+
+
 def check_external_tools(
     checker: Callable[[], list[BinaryStatus]] = check_binaries,
 ) -> list[CheckResult]:
@@ -340,12 +375,22 @@ def gather_report(root: Path) -> DoctorReport:
         A populated :class:`DoctorReport`.
     """
     report = DoctorReport()
-    report.checks.append(check_python_version())
+    try:
+        specs = specs_for_profile(_REQUIRED_PACKAGES)
+    except ValueError as exc:
+        report.checks.append(check_python_version())
+        report.checks.append(
+            CheckResult("profile", STATUS_WARN, str(exc), hint="Set LAZYOWN_PROFILE to 'light' or 'full'.")
+        )
+        specs = list(_REQUIRED_PACKAGES)
+    else:
+        report.checks.append(check_python_version())
     report.checks.append(check_virtualenv(root=root))
     report.checks.append(check_payload(root))
     report.checks.append(check_certificates(root))
     report.checks.append(check_seclists())
-    report.checks.extend(check_packages())
+    report.checks.append(check_command_index(root))
+    report.checks.extend(check_packages(specs))
     report.checks.extend(check_external_tools())
     return report
 
@@ -420,17 +465,152 @@ def run(root: Path | None = None, console: Console | None = None) -> DoctorRepor
     return report
 
 
+def fix_report(
+    report: DoctorReport,
+    *,
+    root: Path | None = None,
+    console: Console | None = None,
+    auto_yes: bool = False,
+) -> DoctorReport:
+    """Interactively offer to fix every failure and warning in the report.
+
+    For each non-ok check the operator is prompted (unless *auto_yes* is set)
+    whether to attempt automatic remediation.  After all fixes the report is
+    re-gathered and re-rendered so the operator sees the updated status.
+
+    Args:
+        report: The pre-flight report to fix.
+        root: Repository root for re-checking after fixes.
+        console: Rich console for I/O.
+        auto_yes: When ``True``, fix every check without prompting.
+
+    Returns:
+        A fresh :class:`DoctorReport` after attempted fixes.
+    """
+
+    out = console or Console(highlight=False, soft_wrap=True)
+    resolved_root = root if root is not None else Path(__file__).resolve().parent.parent
+    venv_pip = resolved_root / "env" / "bin" / "pip"
+
+    fixable = [c for c in report.checks if c.status != STATUS_OK and c.hint]
+    if not fixable:
+        out.print("[green]Nothing to fix — all checks passed or have no auto-fix.[/]")
+        return report
+
+    out.print(f"\n[bold]Found {len(fixable)} fixable issue(s):[/]\n")
+
+    for check in fixable:
+        label = f"[{'red' if check.status == STATUS_FAIL else 'yellow'}]{check.name}[/]"
+        out.print(f"  {label} — {check.detail}")
+        out.print(f"    Fix: [dim]{check.hint}[/]")
+
+        if not auto_yes:
+            answer = input("    Install? [Y/n] ").strip().lower()
+            if answer and answer not in ("y", "yes"):
+                out.print("    [dim]Skipped.[/]\n")
+                continue
+
+        success = _apply_fix(check, resolved_root, venv_pip, out)
+        if success:
+            out.print("    [green]Fixed.[/]\n")
+        else:
+            out.print("    [red]Fix failed — you may need to install manually.[/]\n")
+
+    out.print("[bold]Re-checking environment...[/]\n")
+    new_report = gather_report(resolved_root)
+    render_report(new_report, out)
+    return new_report
+
+
+def _apply_fix(
+    check: CheckResult,
+    root: Path,
+    venv_pip: Path,
+    console: Console,
+) -> bool:
+    """Execute the remediation for a single check. Returns True on success."""
+    import subprocess
+
+    hint = check.hint
+    if not hint:
+        return False
+
+    pip_bin = str(venv_pip) if venv_pip.exists() else "pip"
+
+    if check.name in _PACKAGE_FIX_MAP:
+        pkg = _PACKAGE_FIX_MAP[check.name]
+        cmd = [pip_bin, "install", pkg]
+    elif hint.startswith("pip install "):
+        pkg = hint[len("pip install ") :].strip()
+        cmd = [pip_bin, "install", pkg]
+    elif hint.startswith("pipx install "):
+        pkg = hint[len("pipx install ") :].strip()
+        cmd = ["pipx", "install", pkg]
+    elif hint.startswith("sudo apt install "):
+        pkg = hint[len("sudo apt install ") :].strip()
+        cmd = ["sudo", "apt-get", "install", "-y", pkg]
+    elif hint.startswith("bash gen_cert.sh"):
+        cmd = ["bash", str(root / "gen_cert.sh")]
+    elif hint.startswith("python scripts/build_command_index.py"):
+        cmd = [sys.executable, str(root / "scripts" / "build_command_index.py")]
+    elif hint.startswith("source env/bin/activate"):
+        console.print("    [dim]Activate the venv manually: source env/bin/activate[/]")
+        return True
+    elif hint == "bash install.sh":
+        cmd = ["bash", str(root / "install.sh")]
+    else:
+        console.print(f"    [dim]Unknown fix: {hint}[/]")
+        return False
+
+    try:
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        return result.returncode == 0
+    except FileNotFoundError:
+        console.print(f"    [dim]Command not found: {cmd[0]}[/]")
+        return False
+    except subprocess.TimeoutExpired:
+        console.print("    [dim]Install timed out (5 min limit)[/]")
+        return False
+
+
+_PACKAGE_FIX_MAP: dict[str, str] = {
+    "networkx": "networkx",
+    "libnmap": "python-libnmap",
+    "cmd2": "cmd2",
+    "flask": "flask",
+    "flask_socketio": "flask-socketio",
+    "requests": "requests",
+    "rich": "rich",
+    "yaml": "pyyaml",
+    "pandas": "pandas",
+    "pyarrow": "pyarrow",
+    "bs4": "beautifulsoup4",
+    "Crypto": "pycryptodome",
+    "scapy": "scapy",
+    "groq": "groq",
+    "impacket": "impacket",
+    "textual": "textual",
+}
+
+
 __all__ = [
     "CheckResult",
     "DoctorReport",
     "PackageSpec",
     "check_certificates",
+    "check_command_index",
     "check_external_tools",
     "check_packages",
     "check_payload",
     "check_python_version",
     "check_seclists",
     "check_virtualenv",
+    "fix_report",
     "gather_report",
     "render_report",
     "run",

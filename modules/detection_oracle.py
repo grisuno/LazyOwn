@@ -28,12 +28,18 @@ Usage
               f"{assessment.sigma_names}")
         print(assessment.recommendation)
 """
+
 from __future__ import annotations
 
+import logging
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from modules.detection_feed import DetectionFeed
+
+log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Value objects
@@ -46,11 +52,11 @@ class SigmaRule:
 
     rule_id: str
     name: str
-    log_source: str           # e.g. "windows/security", "network/firewall"
-    mitre_technique: str      # e.g. "T1003.001"
-    base_probability: float   # inherent detection probability in [0.0, 1.0]
-    keywords: Tuple[str, ...]
-    category_tags: Tuple[str, ...]  # action category labels that trigger this rule
+    log_source: str  # e.g. "windows/security", "network/firewall"
+    mitre_technique: str  # e.g. "T1003.001"
+    base_probability: float  # inherent detection probability in [0.0, 1.0]
+    keywords: tuple[str, ...]
+    category_tags: tuple[str, ...]  # action category labels that trigger this rule
 
 
 @dataclass
@@ -59,11 +65,11 @@ class DetectionAssessment:
 
     command: str
     action_category: str
-    probability: float               # final score in [0.0, 1.0]
-    triggered_rules: List[str]       # matched rule_ids
-    predicted_log_sources: List[str] # log sources where evidence would appear
-    sigma_names: List[str]           # human-readable rule names
-    recommendation: str              # operator-facing mitigation advice
+    probability: float  # final score in [0.0, 1.0]
+    triggered_rules: list[str]  # matched rule_ids
+    predicted_log_sources: list[str]  # log sources where evidence would appear
+    sigma_names: list[str]  # human-readable rule names
+    recommendation: str  # operator-facing mitigation advice
 
     @property
     def is_high_risk(self) -> bool:
@@ -102,7 +108,7 @@ class IDetectionOracle(ABC):
 # Sigma-lite rule catalog (O — Open/Closed: extend this list, not the class)
 # ---------------------------------------------------------------------------
 
-_SIGMA_RULES: List[SigmaRule] = [
+_SIGMA_RULES: list[SigmaRule] = [
     # ── Credential Access ────────────────────────────────────────────────────
     SigmaRule(
         rule_id="LAZ-001",
@@ -223,8 +229,7 @@ _SIGMA_RULES: List[SigmaRule] = [
         log_source="windows/security",
         mitre_technique="T1562.001",
         base_probability=0.88,
-        keywords=("amsi", "disableav", "darkarmour", "bypass defender",
-                  "add-mppreference", "set-mppreference"),
+        keywords=("amsi", "disableav", "darkarmour", "bypass defender", "add-mppreference", "set-mppreference"),
         category_tags=("payload",),
     ),
     # ── Brute Force ──────────────────────────────────────────────────────────
@@ -263,8 +268,7 @@ _SIGMA_RULES: List[SigmaRule] = [
         log_source="windows/sysmon",
         mitre_technique="T1055",
         base_probability=0.88,
-        keywords=("process hollow", "inject", "shellcode", "virtualalloc",
-                  "writeprocessmemory"),
+        keywords=("process hollow", "inject", "shellcode", "virtualalloc", "writeprocessmemory"),
         category_tags=("payload", "exploit"),
     ),
 ]
@@ -273,40 +277,35 @@ _SIGMA_RULES: List[SigmaRule] = [
 # Category-level fallback probabilities (used when no rule keyword matches)
 # ---------------------------------------------------------------------------
 
-_CATEGORY_BASE_PROBABILITY: Dict[str, float] = {
-    "recon":       0.20,
-    "enum":        0.30,
+_CATEGORY_BASE_PROBABILITY: dict[str, float] = {
+    "recon": 0.20,
+    "enum": 0.30,
     "brute_force": 0.70,
-    "exploit":     0.82,
-    "intrusion":   0.60,
-    "privesc":     0.65,
-    "credential":  0.85,
-    "lateral":     0.75,
-    "payload":     0.80,
-    "other":       0.25,
+    "exploit": 0.82,
+    "intrusion": 0.60,
+    "privesc": 0.65,
+    "credential": 0.85,
+    "lateral": 0.75,
+    "payload": 0.80,
+    "other": 0.25,
 }
 
 # ---------------------------------------------------------------------------
 # Mitigation advice per risk tier
 # ---------------------------------------------------------------------------
 
-_STEALTH_ADVICE: Dict[str, str] = {
-    "credential":  "Consider using DCSync over LDAP instead of direct LSASS access.",
-    "lateral":     "Use native LOLBas tools (e.g. msiexec, regsvr32) to blend with "
-                   "legitimate traffic.",
-    "payload":     "Apply polymorphic encoding and stage payload in memory only; "
-                   "avoid dropping files to disk.",
-    "privesc":     "Prefer service misconfigurations over known-CVE exploits to "
-                   "reduce detection rule hits.",
+_STEALTH_ADVICE: dict[str, str] = {
+    "credential": "Consider using DCSync over LDAP instead of direct LSASS access.",
+    "lateral": "Use native LOLBas tools (e.g. msiexec, regsvr32) to blend with legitimate traffic.",
+    "payload": "Apply polymorphic encoding and stage payload in memory only; avoid dropping files to disk.",
+    "privesc": "Prefer service misconfigurations over known-CVE exploits to reduce detection rule hits.",
     "brute_force": "Use password-spraying with slow intervals (one attempt per 30 min) "
-                   "to stay below lockout and SIEM thresholds.",
-    "exploit":     "Fingerprint the target first and select a PoC that avoids "
-                   "known AV/EDR signatures.",
-    "recon":       "Limit scan rate; use passive OSINT sources before active probing.",
-    "enum":        "Favour read-only LDAP and Kerberos queries over noisy SMB enumeration.",
-    "intrusion":   "Use encrypted channels (SSH, HTTPS-based C2) to reduce cleartext "
-                   "signatures in network logs.",
-    "other":       "Review the detection rules matched and consult the evasion advisor.",
+    "to stay below lockout and SIEM thresholds.",
+    "exploit": "Fingerprint the target first and select a PoC that avoids known AV/EDR signatures.",
+    "recon": "Limit scan rate; use passive OSINT sources before active probing.",
+    "enum": "Favour read-only LDAP and Kerberos queries over noisy SMB enumeration.",
+    "intrusion": "Use encrypted channels (SSH, HTTPS-based C2) to reduce clelazyt signatures in network logs.",
+    "other": "Review the detection rules matched and consult the evasion advisor.",
 }
 
 
@@ -330,8 +329,42 @@ class DetectionOracle(IDetectionOracle):
     6. Fall back to _CATEGORY_BASE_PROBABILITY when no rules matched.
     """
 
-    def __init__(self, rules: Optional[List[SigmaRule]] = None) -> None:
-        self._rules: List[SigmaRule] = rules if rules is not None else _SIGMA_RULES
+    def __init__(self, rules: list[SigmaRule] | None = None, feed: DetectionFeed | None = None) -> None:
+        self._rules: list[SigmaRule] = rules if rules is not None else _SIGMA_RULES
+        self._feed = feed
+
+    def refresh(self) -> int:
+        """Update rules from the detection feed (if available).
+
+        Downloads new Sigma rules from the feed source, caches them locally,
+        and merges them with the existing static rules.  Also adjusts
+        probabilities based on historical detection feedback.
+
+        Returns:
+            Number of new rules added to the oracle.
+        """
+        if self._feed is None:
+            try:
+                from modules.detection_feed import get_feed
+
+                self._feed = get_feed()
+            except Exception as exc:
+                log.debug("DetectionOracle: feed unavailable: %s", exc)
+                return 0
+
+        new_rules = self._feed.update_rules()
+        if new_rules:
+            existing_ids = {r.rule_id for r in self._rules}
+            merged = [r for r in self._rules]
+            for rule in new_rules:
+                if rule.rule_id not in existing_ids:
+                    merged.append(rule)
+            self._rules = merged
+            log.info("DetectionOracle: %d rules added from feed", len(new_rules))
+
+        self._feed.adjust_from_feedback()
+
+        return len(new_rules)
 
     # IDetectionOracle --------------------------------------------------------
 
@@ -361,7 +394,7 @@ class DetectionOracle(IDetectionOracle):
 
     # Internal helpers --------------------------------------------------------
 
-    def _match_rules(self, text: str, action_category: str) -> List[SigmaRule]:
+    def _match_rules(self, text: str, action_category: str) -> list[SigmaRule]:
         """
         A rule matches when EITHER condition holds:
         - A keyword from the rule appears in the command text (direct evidence), OR
@@ -373,7 +406,7 @@ class DetectionOracle(IDetectionOracle):
         The category tag is used exclusively to boost the probability of already-
         matched rules via _effective_probability().
         """
-        matched: List[SigmaRule] = []
+        matched: list[SigmaRule] = []
         for rule in self._rules:
             keyword_hit = any(kw.lower() in text for kw in rule.keywords)
             if keyword_hit:
@@ -393,7 +426,7 @@ class DetectionOracle(IDetectionOracle):
 
     def _aggregate_probability(
         self,
-        matched: List[SigmaRule],
+        matched: list[SigmaRule],
         action_category: str,
     ) -> float:
         """
@@ -410,7 +443,7 @@ class DetectionOracle(IDetectionOracle):
     @staticmethod
     def _build_recommendation(
         probability: float,
-        matched: List[SigmaRule],
+        matched: list[SigmaRule],
         action_category: str,
     ) -> str:
         if probability < 0.40:
@@ -418,16 +451,13 @@ class DetectionOracle(IDetectionOracle):
         elif probability < 0.70:
             tier_label = f"Moderate detection risk ({probability:.0%})."
         else:
-            tier_label = (
-                f"High detection risk ({probability:.0%}) — "
-                "consider an evasive alternative."
-            )
+            tier_label = f"High detection risk ({probability:.0%}) — consider an evasive alternative."
 
         category_advice = _STEALTH_ADVICE.get(action_category, _STEALTH_ADVICE["other"])
 
         if matched:
             log_sources = ", ".join(dict.fromkeys(r.log_source for r in matched))
-            techniques  = ", ".join(dict.fromkeys(r.mitre_technique for r in matched))
+            techniques = ", ".join(dict.fromkeys(r.mitre_technique for r in matched))
             return (
                 f"{tier_label} "
                 f"Evidence predicted in: [{log_sources}]. "
@@ -442,7 +472,7 @@ class DetectionOracle(IDetectionOracle):
 # Module-level singleton
 # ---------------------------------------------------------------------------
 
-_default_oracle: Optional[DetectionOracle] = None
+_default_oracle: DetectionOracle | None = None
 
 
 def get_oracle() -> DetectionOracle:
@@ -461,19 +491,19 @@ if __name__ == "__main__":
     import argparse
     import sys
 
-    parser = argparse.ArgumentParser(
-        description="LazyOwn Detection Oracle — predict detection probability"
-    )
-    parser.add_argument("command",  help="Command name (e.g. mimikatz)")
-    parser.add_argument("args",     help="Command arguments")
+    parser = argparse.ArgumentParser(description="LazyOwn Detection Oracle — predict detection probability")
+    parser.add_argument("command", help="Command name (e.g. mimikatz)")
+    parser.add_argument("args", help="Command arguments")
     parser.add_argument("category", help="Action category (e.g. credential, lateral)")
     cli_args = parser.parse_args()
 
-    oracle     = DetectionOracle()
+    oracle = DetectionOracle()
     assessment = oracle.assess(cli_args.command, cli_args.args, cli_args.category)
 
     print(f"Detection probability : {assessment.probability:.1%}")
-    print(f"Risk level            : {'CRITICAL' if assessment.is_critical_risk else 'HIGH' if assessment.is_high_risk else 'LOW/MODERATE'}")
+    print(
+        f"Risk level            : {'CRITICAL' if assessment.is_critical_risk else 'HIGH' if assessment.is_high_risk else 'LOW/MODERATE'}"
+    )
     print(f"Triggered rules       : {', '.join(assessment.triggered_rules) or '(none)'}")
     print(f"Sigma rule names      : {', '.join(assessment.sigma_names) or '(none)'}")
     print(f"Predicted log sources : {', '.join(assessment.predicted_log_sources) or '(none)'}")

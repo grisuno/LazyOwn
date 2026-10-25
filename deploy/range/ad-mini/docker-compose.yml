@@ -1,0 +1,65 @@
+services:
+  dc:
+    image: instantlinux/samba-dc:latest
+    container_name: lazyown-range-dc
+    hostname: dc01
+    domainname: range.local
+    privileged: true
+    ports:
+      - "389:389"
+      - "1446:445"
+      - "88:88"
+    secrets:
+      - samba-admin-password
+    environment:
+      - DOMAIN=range.local
+      - REALM=range.local
+      - WORKGROUP=RANGE
+      - ADMIN_PASSWORD_SECRET=samba-admin-password
+    networks:
+      - range_net
+    restart: unless-stopped
+
+  ws01:
+    image: tleemcjr/metasploitable2:latest
+    container_name: lazyown-range-ws01
+    hostname: ws01
+    stdin_open: true
+    tty: true
+    ports:
+      - "2121:21"
+      - "6200:6200"
+      - "2323:23"
+      - "2525:25"
+      - "2222:22"
+      - "1139:139"
+      - "8081:80"
+      - "3307:3306"
+      - "3632:3632"
+      - "6667:6667"
+      - "1445:445"
+      - "8180:8180"
+    networks:
+      - range_net
+    restart: unless-stopped
+
+  traffic-gen:
+    image: python:3.11-alpine
+    container_name: lazyown-range-traffic
+    depends_on:
+      - dc
+      - ws01
+    volumes:
+      - ./traffic-gen.py:/traffic-gen.py:ro
+    command: python /traffic-gen.py
+    networks:
+      - range_net
+    restart: unless-stopped
+
+networks:
+  range_net:
+    driver: bridge
+
+secrets:
+  samba-admin-password:
+    file: ./secrets/samba-admin-password.txt

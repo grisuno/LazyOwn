@@ -21,6 +21,7 @@ description: 'Linux BOF (Beacon Object File) loader for BlackSandBeacon. Compile
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

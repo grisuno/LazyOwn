@@ -16,15 +16,18 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
+
+from modules.memory_embeddings import EmbeddingError, embed, semantic_top_k
 
 try:
-    import numpy as np
+    import numpy as np  # noqa: F401
+
     _NUMPY_AVAILABLE = True
 except ImportError:
     _NUMPY_AVAILABLE = False
 
 _DB_PATH = Path(__file__).parent.parent / "sessions" / "memory.db"
+_SEMANTIC_SCAN = 600
 
 _DDL_MAIN = """
 CREATE TABLE IF NOT EXISTS memories (
@@ -87,8 +90,8 @@ class MemoryEntry:
     findings_json: str
     success: bool
     ts: float
-    embedding: Optional[bytes] = field(default=None, repr=False)
-    id: Optional[int] = field(default=None, repr=False)
+    embedding: bytes | None = field(default=None, repr=False)
+    id: int | None = field(default=None, repr=False)
 
 
 class StorageBackend(ABC):
@@ -96,16 +99,16 @@ class StorageBackend(ABC):
     def save(self, entry: MemoryEntry) -> None: ...
 
     @abstractmethod
-    def search(self, query: str, top_k: int) -> List[MemoryEntry]: ...
+    def search(self, query: str, top_k: int) -> list[MemoryEntry]: ...
 
     @abstractmethod
-    def by_host(self, host: str, top_k: int) -> List[MemoryEntry]: ...
+    def by_host(self, host: str, top_k: int) -> list[MemoryEntry]: ...
 
     @abstractmethod
-    def by_service(self, service: str, top_k: int) -> List[MemoryEntry]: ...
+    def by_service(self, service: str, top_k: int) -> list[MemoryEntry]: ...
 
     @abstractmethod
-    def all_entries(self, limit: int) -> List[MemoryEntry]: ...
+    def all_entries(self, limit: int) -> list[MemoryEntry]: ...
 
     @abstractmethod
     def close(self) -> None: ...
@@ -137,8 +140,7 @@ class SQLiteBackend(StorageBackend):
         conn = sqlite3.connect(str(self._db_path), check_same_thread=False)
         conn.execute("PRAGMA journal_mode=WAL")
         conn.execute("PRAGMA foreign_keys=ON")
-        for stmt in (_DDL_MAIN, _DDL_FTS, _DDL_TRIGGER_INSERT,
-                     _DDL_TRIGGER_DELETE, _DDL_TRIGGER_UPDATE):
+        for stmt in (_DDL_MAIN, _DDL_FTS, _DDL_TRIGGER_INSERT, _DDL_TRIGGER_DELETE, _DDL_TRIGGER_UPDATE):
             conn.execute(stmt)
         conn.commit()
         return conn
@@ -170,12 +172,12 @@ class SQLiteBackend(StorageBackend):
                 self._conn.rollback()
                 raise
 
-    def _fetch(self, sql: str, params: tuple) -> List[MemoryEntry]:
+    def _fetch(self, sql: str, params: tuple) -> list[MemoryEntry]:
         with self._lock:
             cur = self._conn.execute(sql, params)
             return [_row_to_entry(r) for r in cur.fetchall()]
 
-    def search(self, query: str, top_k: int) -> List[MemoryEntry]:
+    def search(self, query: str, top_k: int) -> list[MemoryEntry]:
         sql = """
             SELECT m.id, m.session_id, m.host, m.tool, m.command,
                    m.output_snippet, m.findings_json, m.success, m.ts, m.embedding
@@ -187,7 +189,7 @@ class SQLiteBackend(StorageBackend):
         """
         return self._fetch(sql, (query, top_k))
 
-    def by_host(self, host: str, top_k: int) -> List[MemoryEntry]:
+    def by_host(self, host: str, top_k: int) -> list[MemoryEntry]:
         sql = """
             SELECT id, session_id, host, tool, command, output_snippet,
                    findings_json, success, ts, embedding
@@ -198,7 +200,7 @@ class SQLiteBackend(StorageBackend):
         """
         return self._fetch(sql, (host, top_k))
 
-    def by_service(self, service: str, top_k: int) -> List[MemoryEntry]:
+    def by_service(self, service: str, top_k: int) -> list[MemoryEntry]:
         pattern = f"%{service}%"
         sql = """
             SELECT id, session_id, host, tool, command, output_snippet,
@@ -210,7 +212,7 @@ class SQLiteBackend(StorageBackend):
         """
         return self._fetch(sql, (pattern, pattern, top_k))
 
-    def all_entries(self, limit: int) -> List[MemoryEntry]:
+    def all_entries(self, limit: int) -> list[MemoryEntry]:
         sql = """
             SELECT id, session_id, host, tool, command, output_snippet,
                    findings_json, success, ts, embedding
@@ -223,12 +225,8 @@ class SQLiteBackend(StorageBackend):
     def stats_raw(self) -> dict:
         with self._lock:
             total = self._conn.execute("SELECT COUNT(*) FROM memories").fetchone()[0]
-            hosts = self._conn.execute(
-                "SELECT COUNT(DISTINCT host) FROM memories"
-            ).fetchone()[0]
-            tools = self._conn.execute(
-                "SELECT COUNT(DISTINCT tool) FROM memories"
-            ).fetchone()[0]
+            hosts = self._conn.execute("SELECT COUNT(DISTINCT host) FROM memories").fetchone()[0]
+            tools = self._conn.execute("SELECT COUNT(DISTINCT tool) FROM memories").fetchone()[0]
         return {"total": total, "hosts": hosts, "tools": tools}
 
     def close(self) -> None:
@@ -269,14 +267,27 @@ class MemoryStore:
         )
         self._backend.save(entry)
 
-    def recall(self, query: str, top_k: int = 5) -> List[MemoryEntry]:
+    def recall(self, query: str, top_k: int = 5) -> list[MemoryEntry]:
         return self._backend.search(query, top_k)
 
-    def recall_by_host(self, host: str, top_k: int = 10) -> List[MemoryEntry]:
+    def recall_by_host(self, host: str, top_k: int = 10) -> list[MemoryEntry]:
         return self._backend.by_host(host, top_k)
 
-    def recall_for_service(self, service_name: str, top_k: int = 5) -> List[MemoryEntry]:
+    def recall_for_service(self, service_name: str, top_k: int = 5) -> list[MemoryEntry]:
         return self._backend.by_service(service_name, top_k)
+
+    def recall_hybrid(self, query: str, top_k: int = 5) -> list[MemoryEntry]:
+        """FTS5 keyword hits first; semantic fallback when keywords miss."""
+        try:
+            keyword_hits = self._backend.search(query, top_k)
+        except sqlite3.Error:
+            keyword_hits = []
+        if keyword_hits:
+            return keyword_hits
+        semantic_search = getattr(self._backend, "search_semantic", None)
+        if semantic_search is None:
+            return []
+        return semantic_search(query, top_k)
 
     def stats(self) -> dict:
         if isinstance(self._backend, SQLiteBackend):
@@ -294,18 +305,34 @@ class MemoryStore:
                 if not e.success:
                     continue
                 record = {
-                    "prompt": (
-                        f"Host: {e.host} Tool: {e.tool} Command: {e.command}"
-                    ),
-                    "completion": (
-                        f"Success: {e.success} Findings: {e.findings_json}"
-                    ),
+                    "prompt": (f"Host: {e.host} Tool: {e.tool} Command: {e.command}"),
+                    "completion": (f"Success: {e.success} Findings: {e.findings_json}"),
                 }
                 fh.write(json.dumps(record, ensure_ascii=False) + "\n")
         return path
 
 
-_store_instance: Optional[MemoryStore] = None
+class VectorSQLiteBackend(SQLiteBackend):
+    """SQLite backend that auto-embeds entries and adds semantic search."""
+
+    _EMBED_LIMIT = 256
+
+    def save(self, entry: MemoryEntry) -> None:
+        try:
+            text = f"{entry.command} {entry.findings_json or ''} {entry.output_snippet}"
+            entry.embedding = embed(text[: self._EMBED_LIMIT])
+        except EmbeddingError:
+            entry.embedding = None
+        super().save(entry)
+
+    def search_semantic(self, query: str, top_k: int) -> list[MemoryEntry]:
+        rows = self.all_entries(limit=_SEMANTIC_SCAN)
+        matches = semantic_top_k(query, [(row.id, row.embedding) for row in rows], top_k)
+        by_id = {row.id: row for row in rows}
+        return [by_id[row_id] for row_id, _score in matches if row_id in by_id]
+
+
+_store_instance: MemoryStore | None = None
 _store_lock = threading.Lock()
 
 
@@ -314,7 +341,7 @@ def get_memory_store() -> MemoryStore:
     if _store_instance is None:
         with _store_lock:
             if _store_instance is None:
-                _store_instance = MemoryStore(SQLiteBackend())
+                _store_instance = MemoryStore(VectorSQLiteBackend())
     return _store_instance
 
 
@@ -330,11 +357,15 @@ def remember(
     get_memory_store().remember(session_id, host, tool, command, output, findings, success)
 
 
-def recall(query: str, top_k: int = 5) -> List[MemoryEntry]:
+def recall(query: str, top_k: int = 5) -> list[MemoryEntry]:
     return get_memory_store().recall(query, top_k)
 
 
-def _print_entries(entries: List[MemoryEntry]) -> None:
+def recall_hybrid(query: str, top_k: int = 5) -> list[MemoryEntry]:
+    return get_memory_store().recall_hybrid(query, top_k)
+
+
+def _print_entries(entries: list[MemoryEntry]) -> None:
     if not entries:
         print("No results.")
         return
@@ -348,9 +379,7 @@ def _print_entries(entries: List[MemoryEntry]) -> None:
 
 
 def _cli() -> None:
-    parser = argparse.ArgumentParser(
-        description="Query the LazyOwn episodic memory store."
-    )
+    parser = argparse.ArgumentParser(description="Query the LazyOwn episodic memory store.")
     parser.add_argument("--query", "-q", help="FTS5 search query")
     parser.add_argument("--host", help="Filter by host")
     parser.add_argument("--service", help="Filter by service name in command/output")

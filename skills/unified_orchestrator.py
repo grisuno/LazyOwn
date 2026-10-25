@@ -26,17 +26,15 @@ working until they are deprecated.
 
 from __future__ import annotations
 
-import errno
 import json
 import os
-import tempfile
 import threading
 import time
 import uuid
-from dataclasses import asdict, dataclass, field, replace
+from collections.abc import Callable, Mapping, Sequence
+from dataclasses import dataclass, field, replace
 from pathlib import Path
-from typing import Any, Callable, Mapping, Optional, Protocol, Sequence
-
+from typing import Any, Protocol
 
 _BACKEND_DAEMON = "daemon"
 _BACKEND_HIVE = "hive"
@@ -110,7 +108,7 @@ class OrchestratorConfig:
     backend_missing_message: str = "no backend available for the requested mode"
 
     @classmethod
-    def from_payload(cls, payload: Mapping[str, Any] | None) -> "OrchestratorConfig":
+    def from_payload(cls, payload: Mapping[str, Any] | None) -> OrchestratorConfig:
         """Return a config with ``payload.json`` overrides applied.
 
         Args:
@@ -155,7 +153,7 @@ class OrchestratorGoal:
     api_key: str = ""
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
-    def with_defaults(self, config: OrchestratorConfig) -> "OrchestratorGoal":
+    def with_defaults(self, config: OrchestratorConfig) -> OrchestratorGoal:
         """Return a copy with empty fields populated from ``config``.
 
         Only fields whose absence is unambiguous are populated here.
@@ -330,7 +328,7 @@ class BackendRegistry:
         """Return the registered backend names in declaration order."""
         return self._order
 
-    def get(self, name: str) -> Optional[IOrchestratorBackend]:
+    def get(self, name: str) -> IOrchestratorBackend | None:
         """Return the backend registered as ``name`` or ``None``."""
         return self._by_name.get(name)
 
@@ -351,7 +349,7 @@ class RouterPolicy:
         self._config = config
         self._registry = registry
 
-    def choose(self, goal: OrchestratorGoal) -> Optional[IOrchestratorBackend]:
+    def choose(self, goal: OrchestratorGoal) -> IOrchestratorBackend | None:
         """Return the backend that should execute ``goal``."""
         if goal.mode != _MODE_AUTO:
             backend = self._registry.get(goal.mode)
@@ -415,7 +413,7 @@ class DaemonBackend:
     def __init__(
         self,
         config: OrchestratorConfig,
-        factory: Optional[Callable[[OrchestratorGoal], Any]] = None,
+        factory: Callable[[OrchestratorGoal], Any] | None = None,
         payload: Mapping[str, Any] | None = None,
     ) -> None:
         """Bind to config, optional engine factory and payload mapping.
@@ -516,28 +514,91 @@ class DaemonBackend:
         if self._factory is not None:
             return self._factory(replace(goal, target=target))
         EngageOrchestrator = self._import_class()
-        return EngageOrchestrator(
+        engine = EngageOrchestrator(
             target=target,
             max_switches_per_step=self._config.daemon_default_max_switches,
         )
+        # LAZY-style max_steps: truncate the fixed kill-chain plan when the
+        # caller supplied metadata max_steps (orchestrate --max-steps).
+        try:
+            _ms = int((goal.metadata or {}).get("max_steps", 0) or 0)
+        except (TypeError, ValueError):
+            _ms = 0
+        if _ms > 0:
+            try:
+                engine._plan = tuple(engine._plan[:max(1, _ms)])
+            except Exception:
+                pass
+        return engine
 
     @staticmethod
     def _import_class() -> Any:
         from skills.autonomous_daemon import EngageOrchestrator  # noqa: PLC0415
+
         return EngageOrchestrator
 
     @staticmethod
     def _summarise(raw: Any, target: str) -> str:
-        if isinstance(raw, dict):
-            flag = raw.get("flag") or raw.get("status") or raw.get("engagement_id")
-            if flag:
-                return f"daemon engaged {target}: {flag}"
-        return f"daemon engaged {target}"
+        if not isinstance(raw, dict):
+            return f"daemon engaged {target}"
+        engagement_id = str(raw.get("engagement_id", "") or "")
+        steps = raw.get("steps")
+        if not isinstance(steps, list) or not steps:
+            flag = raw.get("flag") or raw.get("status") or engagement_id
+            return f"daemon engaged {target}: {flag}" if flag else f"daemon engaged {target}"
+        try:
+            from modules.engage_summary import next_actions as _next
+            from modules.engage_summary import render_text as _render
+            from modules.engage_summary import write_report as _persist
+            shell = bool(raw.get("shell_obtained"))
+            text = _render(engagement_id, target, shell, steps)
+            report_path = _persist(engagement_id, target, shell, steps)
+            upcoming = _next(target)
+            if upcoming:
+                rendered = [f"  next: {item['action']}" +
+                            (f" — `{item['command']}`" if item.get("command") else "")
+                            for item in upcoming[:3]]
+                text += "\n" + "\n".join(rendered)
+            return text + f"\n  report: {report_path}"
+        except Exception:
+            lines = [f"daemon engaged {target}: {engagement_id}"]
+            for idx, step in enumerate(steps, 1):
+                if not isinstance(step, dict):
+                    continue
+                phase = step.get("phase", "?")
+                label = step.get("label", "")
+                command = step.get("command", "")
+                skipped = step.get("skipped_reason", "")
+                success = step.get("success", False)
+                if skipped:
+                    mark, detail = "SKIP", skipped
+                elif success:
+                    mark, detail = "ok", "success"
+                else:
+                    mark, detail = "FAIL", (step.get("output_tail", "") or "")[-80:]
+                title = f"{label}:" if label else ""
+                lines.append(f"  {idx}. [{mark}] {phase} {title} {command} ({detail})".rstrip())
+            lines.append(f"  shell={'YES' if raw.get('shell_obtained') else 'no'} steps={len(steps)}")
+            return "\n".join(lines)
 
     @staticmethod
     def _artefacts(raw: Any) -> dict[str, Any]:
         if isinstance(raw, dict):
-            return {k: v for k, v in raw.items() if isinstance(k, str)}
+            kept: dict[str, Any] = {}
+            for key, value in raw.items():
+                if not isinstance(key, str):
+                    continue
+                if key == "steps" and isinstance(value, list):
+                    kept[key] = [
+                        {k: s.get(k, "") for k in
+                         ("phase", "label", "command", "success",
+                          "skipped_reason", "switched_from", "evidence",
+                          "output_tail")}
+                        for s in value if isinstance(s, dict)
+                    ]
+                elif isinstance(value, (str, int, float, bool)):
+                    kept[key] = value
+            return kept
         return {}
 
 
@@ -549,7 +610,7 @@ class HiveBackend:
     def __init__(
         self,
         config: OrchestratorConfig,
-        factory: Optional[Callable[[], Any]] = None,
+        factory: Callable[[], Any] | None = None,
     ) -> None:
         """Bind to config and an optional queen factory."""
         self._config = config
@@ -630,6 +691,7 @@ class HiveBackend:
             QueenBrain,
             build_default_hive_memory,
         )
+
         return build_default_hive_memory, HiveBus, DronePool, QueenBrain
 
     @staticmethod
@@ -649,7 +711,7 @@ class SwanBackend:
     def __init__(
         self,
         config: OrchestratorConfig,
-        factory: Optional[Callable[[str], Any]] = None,
+        factory: Callable[[str], Any] | None = None,
     ) -> None:
         """Bind to config and an optional orchestrator factory."""
         self._config = config
@@ -716,6 +778,7 @@ class SwanBackend:
     @staticmethod
     def _import_factory() -> tuple[Any, Any]:
         from skills.swan_agent import SwanOrchestrator, get_swan  # noqa: PLC0415
+
         return get_swan, SwanOrchestrator
 
     @staticmethod

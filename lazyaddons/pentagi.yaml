@@ -1,0 +1,23 @@
+name: pentagi
+description: >
+  pentagi multi-agent flow ops: self-hosted Docker platform that plans and
+  executes penetration-test flows with specialist agents. First time: copy
+  .env.example to .env inside external/.exploit/lazy_flow_ops and set one
+  LLM key, then run docker compose up -d. Operate with free args after the
+  command (ps, logs, up -d). Web UI at https://localhost:8443. Takes no
+  free args by default (reports stack status).
+author: vxcontrol
+version: '1.0'
+enabled: true
+update: true
+params: []
+os: any
+trigger: []
+tool:
+  name: Lazy Flow Ops
+  repo_url: https://github.com/vxcontrol/pentagi.git
+  install_path: external/.exploit/pentagi
+  install_command: docker compose pull 2>/dev/null || true
+  execute_command: >
+    docker compose ps 2>/dev/null || echo "Lazy flow ops idle - start with up -d"
+category: 16. Artificial Intelligence

@@ -4,7 +4,7 @@ Declarative tool integration layer for LazyOwn. Each YAML file in this
 directory registers an external tool as a first-class CLI command, a pwntomate
 job, and an MCP-accessible tool — without touching any Python source.
 
-There are currently 76 addons covering C2 frameworks, shellcode loaders,
+There are currently 140 addons covering C2 frameworks, shellcode loaders,
 exploitation tools, scanners, AI agents, and post-exploitation utilities.
 
 ## How it works
@@ -101,7 +101,33 @@ only declare services the addon genuinely operates against.
 | `{rport}` | `payload.json["rport"]` |
 | `{domain}` | `payload.json["domain"]` |
 | `{c2_port}` | `payload.json["c2_port"]` |
-| `{<key>}` | Any key present in `payload.json` |
+| `{<key>}` | Any key present in `payload.json` or `params/*.yaml` |
+
+### Shared parameters: declare once, reuse everywhere
+
+Never brand a token after the tool that first needed it. A knob that more
+than one addon could use is declared **once** in the shared parameter
+registry and then referenced by every addon:
+
+```bash
+param create c2_profile --kind string --default "default" --desc "C2 profile name"
+# or: lazy_orchestrator -> Params tab -> a
+```
+
+The registry stores the declaration as data in `params/operator.yaml`
+(`core/param_registry.py` owns the CRUD), so the payload schema and the
+addon-creator validator pick the key up automatically — no edit to
+`core/payload_schema.py`, `lazyc2/addon_creator.py` or the skill key list.
+The same registry backs the `param` shell command and the orchestrator tab.
+
+Naming rules:
+
+- Name the **concept**, not the tool: `url`, `target`, `path`, `profile`,
+  `exploit_profile`, `outputdir`, `data`.
+- `php2shell_url` is a defect; `url` (builtin) or a shared `exploit_profile`
+  is the fix.
+- A parameter that only one addon understands may stay in that addon's
+  `params:` block.
 
 ### Install path convention
 
@@ -132,6 +158,42 @@ Current beacon addons:
 - `beacon.yaml` — Windows C beacon with Early Bird APC injection and BOF support
 - `blacksandbeacon.yaml` — Linux C beacon with ELF dlopen BOF support (unique to LazyOwn)
 - `blacksandbeacon_bof.yaml` — Linux BOF loader companion
+
+## OpenCode autonomous agent addons
+
+The `opencode_*` family launches the opencode CLI non-interactively
+(`opencode run --auto`) with the local `ollama/qwen3.8:27b-c16k` model to drive
+the LazyOwn MCP server autonomously. Each addon is a phase-focused agent; the
+operator task is appended to the agent prompt as CLI arguments.
+
+```
+(LazyOwn) > opencode_agent "recon 10.10.10.5 and report findings"
+(LazyOwn) > opencode_recon
+(LazyOwn) > opencode_exploit "target the web service on 8080"
+(LazyOwn) > opencode_c2 "stage the beacon and verify callback"
+(LazyOwn) > opencode_report
+```
+
+Infrastructure required (already configured in this repo):
+
+- `opencode.json` (project root) — registers the `lazyown` MCP server for
+  opencode. `minios` is disabled project-wide so autonomous runs are not slowed
+  by its timeout.
+- `skills/lazyown_mcp_opencode.py` — curated 15-tool MCP bridge with short names
+  (`sitrep`, `run`, `facts`, ...) proxying to the full 148-tool server. Local
+  models mishandle the long `lazyown_lazyown_*` names and large catalogs.
+- `qwen3.8:27b-c16k` — ollama variant of `qwen3.8:27b` with `num_ctx 16384`.
+  The stock 4096-token context truncates the opencode system prompt and drops
+  the MCP tools from the model's view. Create it with a Modelfile:
+
+  ```dockerfile
+  FROM qwen3.8:27b
+  PARAMETER num_ctx 16384
+  ```
+  then `ollama create qwen3.8:27b-c16k -f Modelfile`.
+
+The local 27B model runs mostly on CPU: expect minutes per step, and warm the
+model with a first call before long autonomous tasks.
 
 ## Category reference
 
@@ -185,3 +247,18 @@ Use `assign <key> <value>` from the CLI to set it.
 
 **Command not found after adding YAML** — run `reload_addons` or restart the
 shell.
+
+## GUI addons and the Qt path
+
+The `gui` and `gui2` addons boot the PySide6 operator console from a separate
+Qt virtualenv. Set `LAZYOWN_QT_SITE_PACKAGES` to that environment's
+`site-packages` directory so the addon imports PySide6 without duplicating the
+Qt binaries inside `env/`:
+
+```bash
+export LAZYOWN_QT_SITE_PACKAGES=/path/to/qt-venv/lib/python3.13/site-packages
+```
+
+When the variable is unset the addon runs `python3 -m lazygui` with the
+current environment unchanged, so it still works when PySide6 is installed in
+the active environment.

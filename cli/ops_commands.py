@@ -19,24 +19,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 
-_console = Console(highlight=False, soft_wrap=True)
+from core.safe_console import get_console, milestone_glyph, progress_bar
+from modules.killchain import KillChain as _KC
 
-PHASES: tuple[str, ...] = ("recon", "scan", "enum", "exploit", "privesc", "lateral", "exfil", "report")
+_console = get_console()
 
-_PHASE_COLORS: dict[str, str] = {
-    "recon": "cyan",
-    "scan": "blue",
-    "enum": "magenta",
-    "exploit": "bold red",
-    "privesc": "bold yellow",
-    "lateral": "orange3",
-    "exfil": "dark_orange",
-    "report": "green",
-}
+PHASES: tuple[str, ...] = _KC.phases()
+_PHASE_COLORS: dict[str, str] = _KC.phase_rich_colors()
 
 _WORLD_MODEL = "sessions/world_model.json"
 _SESSION_CSV = "sessions/LazyOwn_session_report.csv"
@@ -86,13 +78,13 @@ def print_ctx(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
         payload: Live params dict.
         sessions_dir: Path to sessions directory.
     """
-    world = _read_json(_WORLD_MODEL)
+    world = _read_world_model(_WORLD_MODEL)
     rhost = payload.get("rhost") or "—"
     lhost = payload.get("lhost") or "—"
     domain = payload.get("domain") or "—"
     os_id = str(payload.get("os_id", "?"))
     os_label = {"1": "Linux", "2": "Win"}.get(os_id, "?")
-    phase = (world.get("phase") or world.get("current_phase") or "unknown").lower()
+    phase = read_phase()
     phase_color = _PHASE_COLORS.get(phase, "white")
     creds = _count_glob(_CRED_GLOB)
     hashes = _count_glob(_HASH_GLOB)
@@ -285,13 +277,33 @@ def _highlight_match(line: str, rx: re.Pattern) -> Text:
 
 
 def read_phase() -> str:
-    """Return the current kill-chain phase from world_model.json."""
-    world = _read_json(_WORLD_MODEL)
-    return (world.get("phase") or world.get("current_phase") or "unknown").lower()
+    """Return the current kill-chain phase from the unified killchain module."""
+    try:
+        return _KC.current_phase(world_model_path=Path(_WORLD_MODEL))
+    except Exception:
+        return "recon"
+
+
+def _phase_rank(phase: str) -> int:
+    """Return the positional index of a phase in the kill chain."""
+    return _KC.phase_index(phase)
+
+
+def _engagement_phase_to_cli(phase_value: str) -> str:
+    """Map a WorldModel EngagementPhase to a CLI PHASES value."""
+    return _KC.engagement_phase_to_cli(phase_value)
+
+
+def _cli_phase_to_host_state(phase: str) -> str:
+    """Map a CLI phase to a WorldModel HostState value."""
+    return _KC.cli_phase_to_host_state(phase)
 
 
 def write_phase(phase: str) -> bool:
-    """Set the current kill-chain phase in world_model.json.
+    """Set the current kill-chain phase via the unified killchain module.
+
+    Delegates to ``KillChain.advance_phase`` which atomically writes
+    ``world_model.json`` and advances all WorldModel hosts.
 
     Args:
         phase: One of the PHASES values.
@@ -299,45 +311,34 @@ def write_phase(phase: str) -> bool:
     Returns:
         True on success, False if the phase name is invalid.
     """
-    if phase not in PHASES:
-        return False
-    world = _read_json(_WORLD_MODEL)
-    old_phase = (world.get("phase") or world.get("current_phase") or "").lower()
-    world["phase"] = phase
-    world["current_phase"] = phase
-
-    completed: list[str] = world.get("completed_phases") or []
-    if old_phase and old_phase in PHASES and old_phase not in completed:
-        old_idx = PHASES.index(old_phase)
-        new_idx = PHASES.index(phase)
-        if new_idx > old_idx:
-            for p in PHASES[old_idx:new_idx]:
-                if p not in completed:
-                    completed.append(p)
-    world["completed_phases"] = completed
-
-    _write_json_atomic(_WORLD_MODEL, world)
-    return True
+    return _KC.advance_phase(phase, world_model_path=Path(_WORLD_MODEL))
 
 
 def print_phase() -> None:
-    """Print the current phase and the full kill-chain progress bar."""
+    """Print the current phase and the full kill-chain progress bar.
+
+    Reads data from the unified killchain module and renders a rich
+    progress display.
+    """
     current = read_phase()
-    world = _read_json(_WORLD_MODEL)
-    completed: list[str] = world.get("completed_phases") or []
+    world = _read_world_model(_WORLD_MODEL)
+    kc_progress = _KC.get_progress(world_model_path=Path(_WORLD_MODEL))
+
+    status_map: dict[str, str] = {ps.key: ps.status for ps in kc_progress}
 
     t = Text()
     t.append("  Kill chain: ", style="dim white")
     for i, phase in enumerate(PHASES):
-        if phase in completed:
+        status = status_map.get(phase, "pending")
+        if status == "done":
             style = "bold green"
-            icon = "✔"
-        elif phase == current:
+            icon = milestone_glyph("done")
+        elif status == "active":
             style = f"bold {_PHASE_COLORS.get(phase, 'white')}"
-            icon = "▶"
+            icon = milestone_glyph("active")
         else:
             style = "dim white"
-            icon = "○"
+            icon = milestone_glyph("pending")
         t.append(f"{icon}{phase}", style=style)
         if i < len(PHASES) - 1:
             t.append("  ", style="dim")
@@ -357,9 +358,10 @@ def print_phase() -> None:
 
 def _render_progress_bar(ratio: float) -> str:
     """Return a fixed-width filled/empty block bar for ``ratio`` in [0, 1]."""
-    clamped = max(0.0, min(1.0, ratio))
-    filled = int(round(clamped * _PROGRESS_BAR_WIDTH))
-    return "█" * filled + "░" * (_PROGRESS_BAR_WIDTH - filled)
+    try:
+        return progress_bar(float(ratio))
+    except (TypeError, ValueError):
+        return progress_bar(0.0)
 
 
 def _os_identified(sessions_dir: str) -> bool:
@@ -389,60 +391,32 @@ def _count_pivots(sessions_dir: str) -> int:
 
 
 def phase_progress(world: dict[str, Any], sessions_dir: str = "sessions") -> dict[str, float]:
-    """Estimate per-phase completion in [0, 1] from world-model state.
+    """Return per-phase completion ratios from the unified kill-chain progress.
 
-    Signals are data-driven: host state ranks, nmap scan files, discovered
-    services, captured loot, recorded pivots, and report artefacts. Any phase
-    listed in ``completed_phases`` is forced to 1.0.
+    Delegates entirely to ``KillChain.get_progress`` — no filesystem heuristics,
+    no side-channel counts. The world model IS the progress.
 
     Args:
-        world: Parsed world_model.json document.
-        sessions_dir: Base sessions directory for filesystem signals.
+        world: Parsed world_model.json document (unused; kept for backward compat).
+        sessions_dir: Base sessions directory. Used to resolve the world_model path
+            when it is a relative path under this directory.
 
     Returns:
-        A mapping of each :data:`PHASES` value to a completion ratio.
+        A mapping of each :data:`PHASES` value to a completion ratio in [0, 1].
     """
-    hosts = world.get("hosts", {}) or {}
-    ranks = [_HOST_STATE_RANK.get((h.get("state") or "unscanned"), 0) for h in hosts.values()]
-    n_hosts = len(ranks)
-    n_services = sum(len(h.get("services", {}) or {}) for h in hosts.values())
-    n_loot = _glob_count(sessions_dir, "credentials*.txt") + _glob_count(sessions_dir, "hash*.txt")
-    n_owned = sum(1 for r in ranks if r >= _HOST_STATE_RANK["owned"])
-    n_pivots = _count_pivots(sessions_dir)
-    has_scan_files = _glob_count(sessions_dir, "scan_*.nmap") > 0
+    from modules.killchain import KillChain as _KC
 
-    def frac_at_least(min_rank: int) -> float:
-        if n_hosts == 0:
-            return 0.0
-        return sum(1 for r in ranks if r >= min_rank) / n_hosts
-
-    recon = (_RECON_HOST_WEIGHT if n_hosts else 0.0) + (_RECON_OS_WEIGHT if _os_identified(sessions_dir) else 0.0)
-    scan = frac_at_least(_HOST_STATE_RANK["scanned"]) if n_hosts else (0.5 if has_scan_files else 0.0)
-    enum = max(frac_at_least(_HOST_STATE_RANK["enumerated"]), _ENUM_SERVICE_FLOOR if n_services else 0.0)
-    exploit = frac_at_least(_HOST_STATE_RANK["exploited"])
-    privesc = frac_at_least(_HOST_STATE_RANK["owned"])
-    lateral = (
-        0.0 if n_owned == 0 else min(1.0, n_pivots / max(n_hosts - 1, 1)) if n_hosts > 1 else (1.0 if n_pivots else 0.0)
-    )
-    exfil = 1.0 if n_loot else 0.0
-    report = 1.0 if _report_artifact_exists(sessions_dir) else 0.0
-
-    progress = {
-        "recon": recon,
-        "scan": scan,
-        "enum": enum,
-        "exploit": exploit,
-        "privesc": privesc,
-        "lateral": lateral,
-        "exfil": exfil,
-        "report": report,
-    }
-
-    for phase in world.get("completed_phases") or []:
-        if phase in progress:
-            progress[phase] = 1.0
-
-    return {phase: round(progress.get(phase, 0.0), 4) for phase in PHASES}
+    wm_path = Path(sessions_dir) / _WORLD_MODEL_NAME if sessions_dir else Path(_WORLD_MODEL)
+    kc_progress = _KC.get_progress(world_model_path=wm_path)
+    result: dict[str, float] = {}
+    for ps in kc_progress:
+        if ps.status == "done":
+            result[ps.key] = 1.0
+        elif ps.status == "active":
+            result[ps.key] = 0.5
+        else:
+            result[ps.key] = 0.0
+    return {phase: round(result.get(phase, 0.0), 4) for phase in PHASES}
 
 
 # ── shared helpers ────────────────────────────────────────────────────────────
@@ -450,13 +424,20 @@ def phase_progress(world: dict[str, Any], sessions_dir: str = "sessions") -> dic
 
 def _read_json(path: str) -> dict[str, Any]:
     try:
-        with open(path, "r", encoding="utf-8") as fh:
+        with open(path, encoding="utf-8") as fh:
             return json.load(fh)
     except (OSError, json.JSONDecodeError):
         return {}
 
 
-def _write_json_atomic(path: str, data: dict[str, Any]) -> None:
+def _read_world_model(path: str) -> dict[str, Any]:
+    """Read ``world_model.json`` through the at-rest decrypting reader."""
+    from modules.world_model import read_state_dict
+
+    return read_state_dict(path)
+
+
+def _write_json_atomic(path: str, data: Any) -> None:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     tmp_fd, tmp_path = tempfile.mkstemp(dir=str(target.parent), suffix=".tmp")
@@ -479,7 +460,7 @@ def _count_glob(pattern: str) -> int:
     total = 0
     for fpath in _glob.glob(pattern):
         try:
-            with open(fpath, "r", encoding="utf-8", errors="ignore") as fh:
+            with open(fpath, encoding="utf-8", errors="ignore") as fh:
                 total += sum(1 for line in fh if line.strip())
         except OSError:
             pass
@@ -511,7 +492,7 @@ def note_add(text: str, rhost: str = "", phase: str = "") -> None:
         fh.write(json.dumps(entry) + "\n")
 
     _console.print(
-        f"  [bold green]note saved[/]  [{entry['phase'].upper()}] "
+        f"  [bold green]note saved[/]  [{str(entry['phase']).upper()}] "
         f"[dim]{entry['rhost'] or 'no target'}[/]  {text.strip()[:80]}"
     )
 
@@ -573,7 +554,7 @@ class LootEntry:
 
     Attributes:
         source: Basename of the file the entry was read from.
-        kind: ``cleartext`` for credentials*.txt, ``hash`` for hash*.txt.
+        kind: ``clelazyt`` for credentials*.txt, ``hash`` for hash*.txt.
         user: Username portion (text before the first colon), full length.
         secret: Password or hash portion (text after the first colon).
     """
@@ -609,7 +590,7 @@ def gather_loot(sessions_dir: str = "sessions") -> list[LootEntry]:
     """
     entries: list[LootEntry] = []
     for pattern, kind in (
-        (f"{sessions_dir}/credentials*.txt", "cleartext"),
+        (f"{sessions_dir}/credentials*.txt", "clelazyt"),
         (f"{sessions_dir}/hash*.txt", "hash"),
     ):
         for fpath in sorted(glob.glob(pattern)):
@@ -667,7 +648,7 @@ def loot_show(sessions_dir: str = "sessions") -> None:
         dup_style = "dim" if key in seen else ""
         seen.add(key)
         secret_cell = Text(secret)
-        secret_cell.stylize("bold green" if entry.kind == "cleartext" else "bold red")
+        secret_cell.stylize("bold green" if entry.kind == "clelazyt" else "bold red")
         if dup_style:
             secret_cell.stylize("dim")
         table.add_row(
@@ -741,7 +722,7 @@ def loot_search(query: str, sessions_dir: str = "sessions") -> None:
 
     for entry in hits:
         secret_cell = Text(entry.secret[:_LOOT_SECRET_MAX])
-        secret_cell.stylize("bold green" if entry.kind == "cleartext" else "bold red")
+        secret_cell.stylize("bold green" if entry.kind == "clelazyt" else "bold red")
         table.add_row(entry.source, entry.kind, entry.user[:_LOOT_USER_MAX], secret_cell)
 
     _console.print(table)
@@ -790,7 +771,7 @@ def loot_reuse(rhost: str, sessions_dir: str = "sessions") -> None:
     """Suggest captured credentials worth trying against ``rhost``.
 
     Ranks credentials that have not yet been rejected by the target, favouring
-    cleartext over hashes and credentials already confirmed elsewhere, and
+    clelazyt over hashes and credentials already confirmed elsewhere, and
     prints ready-to-run authentication hints.
 
     Args:
@@ -824,7 +805,7 @@ def loot_reuse(rhost: str, sessions_dir: str = "sessions") -> None:
         if node in rejected_here:
             continue
         status = ""
-        score = 1.0 if entry.kind == "cleartext" else 0.5
+        score = 1.0 if entry.kind == "clelazyt" else 0.5
         if node in worked_here:
             status = "already works here"
             score += 2.0
@@ -852,7 +833,7 @@ def loot_reuse(rhost: str, sessions_dir: str = "sessions") -> None:
     table.add_column("Try", no_wrap=False)
 
     for _score, entry, status in ranked:
-        if entry.kind == "cleartext":
+        if entry.kind == "clelazyt":
             secret_style = "bold green"
             hint = f"nxc smb {rhost} -u '{entry.user}' -p '{entry.secret}'"
         else:
@@ -1382,6 +1363,17 @@ def sitrep(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
     # Plan row
     if plan_snippet:
         _console.print(f"  [bold]Plan[/]          [dim]{plan_snippet}[/]")
+
+    # Approvals row (operator gate for autonomous steps)
+    try:
+        _control_raw = json.loads(Path(f"{sessions_dir}/daemon_control.json").read_text(encoding="utf-8"))
+        _pending = _control_raw.get("pending")
+    except (OSError, ValueError):
+        _pending = None
+    if _pending:
+        _console.print(
+            f"  [bold]Approvals[/]     [bold yellow]1 pending[/]  [dim]{str(_pending.get('command', ''))[:60]}[/]"
+        )
 
     # What's next
     _console.print()

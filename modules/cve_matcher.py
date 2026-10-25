@@ -20,6 +20,7 @@ Usage:
     # CLI:
     python3 modules/cve_matcher.py --product openssh --version 8.4 [--max 10] [--json]
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -32,17 +33,16 @@ import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
 
 log = logging.getLogger("cve_matcher")
 
-NVD_API_BASE  = "https://services.nvd.nist.gov/rest/json/cves/2.0"
-_CACHE_TTL    = 3600   # seconds
-_RATE_NO_KEY  = 6.1    # seconds between requests without API key
-_RATE_WITH_KEY = 0.7   # seconds between requests with API key
+NVD_API_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0"
+_CACHE_TTL = 3600  # seconds
+_RATE_NO_KEY = 6.1  # seconds between requests without API key
+_RATE_WITH_KEY = 0.7  # seconds between requests with API key
 
-_BASE_DIR     = Path(__file__).parent.parent
-_CACHE_DIR    = _BASE_DIR / "sessions" / "cve_cache"
+_BASE_DIR = Path(__file__).parent.parent
+_CACHE_DIR = _BASE_DIR / "sessions" / "cve_cache"
 
 _last_request_time: float = 0.0
 
@@ -54,7 +54,7 @@ class CVEResult:
     severity: str
     description: str
     published: str
-    references: List[str] = field(default_factory=list)
+    references: list[str] = field(default_factory=list)
 
 
 class CVEMatcher:
@@ -70,23 +70,23 @@ class CVEMatcher:
     def __init__(
         self,
         api_key: str = "",
-        cache_dir: Optional[str | Path] = None,
+        cache_dir: str | Path | None = None,
     ) -> None:
-        self.api_key   = api_key or os.environ.get("NVD_API_KEY", "")
+        self.api_key = api_key or os.environ.get("NVD_API_KEY", "")
         self.rate_delay = _RATE_WITH_KEY if self.api_key else _RATE_NO_KEY
-        self.cache_dir  = Path(cache_dir) if cache_dir else _CACHE_DIR
+        self.cache_dir = Path(cache_dir) if cache_dir else _CACHE_DIR
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
     # ── Public API ────────────────────────────────────────────────────────────
 
-    def search(self, *keywords: str, max_results: int = 10) -> List[CVEResult]:
+    def search(self, *keywords: str, max_results: int = 10) -> list[CVEResult]:
         """Search CVEs by product / version keywords."""
         query = " ".join(k for k in keywords if k and k.strip())
         if not query.strip():
             return []
         return self._query(keywordSearch=query, resultsPerPage=max_results)
 
-    def search_by_cpe(self, cpe_name: str, max_results: int = 10) -> List[CVEResult]:
+    def search_by_cpe(self, cpe_name: str, max_results: int = 10) -> list[CVEResult]:
         """Search CVEs by CPE 2.3 string."""
         return self._query(cpeName=cpe_name, resultsPerPage=max_results)
 
@@ -97,7 +97,7 @@ class CVEMatcher:
         digest = hashlib.md5(key.encode()).hexdigest()
         return self.cache_dir / f"{digest}.json"
 
-    def _load_cache(self, params: dict) -> Optional[List[CVEResult]]:
+    def _load_cache(self, params: dict) -> list[CVEResult] | None:
         p = self._cache_path(params)
         if not p.exists():
             return None
@@ -109,7 +109,7 @@ class CVEMatcher:
         except Exception:
             return None
 
-    def _save_cache(self, params: dict, results: List[CVEResult]) -> None:
+    def _save_cache(self, params: dict, results: list[CVEResult]) -> None:
         try:
             self._cache_path(params).write_text(
                 json.dumps([vars(r) for r in results], indent=2),
@@ -125,7 +125,7 @@ class CVEMatcher:
             time.sleep(self.rate_delay - elapsed)
         _last_request_time = time.time()
 
-    def _query(self, **params) -> List[CVEResult]:
+    def _query(self, **params) -> list[CVEResult]:
         cached = self._load_cache(params)
         if cached is not None:
             log.debug("CVE cache hit for %s", params)
@@ -149,38 +149,40 @@ class CVEMatcher:
             log.warning("NVD API error: %s", exc)
             return []
 
-        results: List[CVEResult] = []
+        results: list[CVEResult] = []
         for item in data.get("vulnerabilities", []):
-            cve      = item.get("cve", {})
-            cve_id   = cve.get("id", "")
-            desc     = next(
+            cve = item.get("cve", {})
+            cve_id = cve.get("id", "")
+            desc = next(
                 (d["value"] for d in cve.get("descriptions", []) if d.get("lang") == "en"),
                 "",
             )
-            refs      = [r["url"] for r in cve.get("references", [])[:3]]
+            refs = [r["url"] for r in cve.get("references", [])[:3]]
             published = cve.get("published", "")[:10]
 
             # CVSS: prefer v3.1 > v3.0 > v2
-            metrics  = cve.get("metrics", {})
-            cvss     = 0.0
+            metrics = cve.get("metrics", {})
+            cvss = 0.0
             severity = "UNKNOWN"
             for key in ("cvssMetricV31", "cvssMetricV30", "cvssMetricV2"):
                 bucket = metrics.get(key)
                 if bucket:
-                    m         = bucket[0]
+                    m = bucket[0]
                     cvss_data = m.get("cvssData", {})
-                    cvss      = float(cvss_data.get("baseScore", 0.0))
-                    severity  = cvss_data.get("baseSeverity", m.get("baseSeverity", "UNKNOWN"))
+                    cvss = float(cvss_data.get("baseScore", 0.0))
+                    severity = cvss_data.get("baseSeverity", m.get("baseSeverity", "UNKNOWN"))
                     break
 
-            results.append(CVEResult(
-                id=cve_id,
-                cvss=cvss,
-                severity=severity,
-                description=desc,
-                published=published,
-                references=refs,
-            ))
+            results.append(
+                CVEResult(
+                    id=cve_id,
+                    cvss=cvss,
+                    severity=severity,
+                    description=desc,
+                    published=published,
+                    references=refs,
+                )
+            )
 
         results.sort(key=lambda r: r.cvss, reverse=True)
         self._save_cache(params, results)
@@ -190,7 +192,7 @@ class CVEMatcher:
 
 # ── Module-level singleton ────────────────────────────────────────────────────
 
-_default: Optional[CVEMatcher] = None
+_default: CVEMatcher | None = None
 
 
 def get_matcher() -> CVEMatcher:
@@ -201,7 +203,7 @@ def get_matcher() -> CVEMatcher:
     return _default
 
 
-def search(product: str, version: str = "", max_results: int = 10) -> List[CVEResult]:
+def search(product: str, version: str = "", max_results: int = 10) -> list[CVEResult]:
     """Module-level convenience wrapper."""
     return get_matcher().search(product, version, max_results=max_results)
 
@@ -210,15 +212,16 @@ def search(product: str, version: str = "", max_results: int = 10) -> List[CVERe
 
 if __name__ == "__main__":
     import argparse
+    import logging
     import sys
 
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn CVE Matcher")
-    p.add_argument("--product",  required=True,          help="Product name (e.g. openssh)")
-    p.add_argument("--version",  default="",             help="Version string (e.g. 8.4)")
-    p.add_argument("--max",      type=int, default=10,   help="Max results (default 10)")
-    p.add_argument("--json",     action="store_true",    help="Output raw JSON")
+    p.add_argument("--product", required=True, help="Product name (e.g. openssh)")
+    p.add_argument("--version", default="", help="Version string (e.g. 8.4)")
+    p.add_argument("--max", type=int, default=10, help="Max results (default 10)")
+    p.add_argument("--json", action="store_true", help="Output raw JSON")
     args = p.parse_args()
 
     matcher = CVEMatcher()

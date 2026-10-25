@@ -14,8 +14,9 @@ data structures via constructor injection (Dependency Inversion).
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Any, Protocol, Sequence
+from typing import Any, Protocol
 
 GHOST_TEXT_LIMIT: int = 48
 HINT_COMMAND_LIMIT: int = 72
@@ -333,11 +334,9 @@ class AutoSuggestEngine:
 
 def _truncate(value: str, max_len: int) -> str:
     """Return ``value`` shortened to ``max_len`` characters with an ellipsis."""
-    if max_len <= 3:
-        return value[:max_len]
-    if len(value) <= max_len:
-        return value
-    return value[: max_len - 3] + "..."
+    from core.text_utils import truncate_text
+
+    return truncate_text(value, max_len, marker="...")
 
 
 def format_hint_line(
@@ -418,9 +417,9 @@ def _hint_console() -> Any:
     """
     if _HINT_CONSOLE_CACHE:
         return _HINT_CONSOLE_CACHE[0]
-    from rich.console import Console
+    from core.safe_console import get_console
 
-    console = Console(stderr=False, highlight=False, soft_wrap=True)
+    console = get_console(stderr=False)
     _HINT_CONSOLE_CACHE.append(console)
     return console
 

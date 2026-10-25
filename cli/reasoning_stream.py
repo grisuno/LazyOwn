@@ -140,10 +140,9 @@ def _format_size(num_bytes: int) -> str:
 
 def _truncate(text: str, limit: int) -> str:
     """Trim ``text`` to ``limit`` characters with an ellipsis marker."""
-    text = text.strip()
-    if len(text) <= limit:
-        return text
-    return text[: max(0, limit - 1)] + "…"
+    from core.text_utils import truncate_text
+
+    return truncate_text(text.strip(), limit)
 
 
 def _summarize(kind: str, payload: dict[str, Any]) -> str:
@@ -225,3 +224,21 @@ def latest_reasoning(path: str = DEFAULT_EVENTS_FILE, limit: int = DEFAULT_LIMIT
         A list of :class:`ReasoningEntry`, oldest first.
     """
     return [event_to_entry(event) for event in read_raw_events(path, limit)]
+
+
+def latest_hint(events_path: str = DEFAULT_EVENTS_FILE) -> str:
+    """Return the newest human-readable reasoning line for spinners.
+
+    Reads the tail of the autonomous events log and renders the most
+    recent entry as ``icon kind — summary``. Returns an empty string
+    when the log is missing or unreadable so spinners fall back to a
+    generic waiting message instead of failing.
+    """
+    events = read_raw_events(events_path, 1)
+    if not events:
+        return ""
+    entry = event_to_entry(events[-1])
+    if not entry.kind and not entry.summary and not entry.command:
+        return ""
+    text = f"{entry.icon} {entry.kind} — {entry.command or entry.summary}"
+    return text.strip()

@@ -1,0 +1,488 @@
+# Subsystem: modules (page 9 of 16)
+Previous: [KB_modules_p8.md](KB_modules_p8.md)
+
+## modules/lazy_orchestrator_feedback.py
+- Doc: Organic orchestrator training from loop usage.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_priors_path` (function, line 41) `def _priors_path()`
+  - `_dataset_path` (function, line 47) `def _dataset_path()`
+  - `_reward_of` (function, line 53) `def _reward_of(outcome)`
+  - `adjust_from_usage` (function, line 61) `def adjust_from_usage(limit)`
+  - `_normalize` (function, line 129) `def _normalize(priors)`
+  - `_load_priors` (function, line 144) `def _load_priors()`
+  - `verb_prior` (function, line 162) `def verb_prior(phase, verb, stack)`
+  - `rank_verbs` (function, line 189) `def rank_verbs(phase, verbs, stack)`
+  - `order_steps` (function, line 213) `def order_steps(steps, stack)`
+  - `export_dataset` (function, line 238) `def export_dataset(out, limit)`
+  - `_key` (function, line 228) `def _key(line)`
+- Depends on: `modules/lazy_cli_bridge.py`, `modules/lazy_intel.py`
+- Imported by: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/mediation/feedback_mediator.py`, `tests/test_loop_supervision.py`, `tests/test_mediation.py`
+
+## modules/lazy_proxy.py
+- Doc: Recording HTTP/HTTPS proxy for the autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_proxy_allow_private` (function, line 105) `def _proxy_allow_private()`
+  - `_proxy_insecure_tls` (function, line 117) `def _proxy_insecure_tls()`
+  - `_proxy_trust_ca` (function, line 122) `def _proxy_trust_ca()`
+  - `_is_metadata_ip` (function, line 127) `def _is_metadata_ip(value)`
+  - `_is_metadata_hostname` (function, line 141) `def _is_metadata_hostname(host)`
+  - `_host_syntax_valid` (function, line 153) `def _host_syntax_valid(host)`
+  - `_resolved_ips` (function, line 169) `def _resolved_ips(host)`
+  - `_validate_proxy_target` (function, line 183) `def _validate_proxy_target(host, port, scheme)`
+  - `_upstream_tls_context` (function, line 236) `def _upstream_tls_context(server_hostname)`
+  - `tls_lab_unverified_allowed` (function, line 253) `def tls_lab_unverified_allowed(host)`
+  - `_validate_upstream_path` (function, line 265) `def _validate_upstream_path(path)`
+  - `resolve_validated_target` (function, line 282) `def resolve_validated_target(host, port, scheme)`
+  - `_dial_pinned` (function, line 329) `def _dial_pinned(ips, port)`
+  - `connect_pinned` (function, line 355) `def connect_pinned(host, ips, port, scheme)`
+  - `_PinnedHTTPConnection` (class, line 381) `class _PinnedHTTPConnection(HTTPConnection)`
+  - `_PinnedHTTPSConnection` (class, line 394) `class _PinnedHTTPSConnection(HTTPSConnection)`
+  - `_is_lab_host` (function, line 416) `def _is_lab_host(host)`
+  - `_https_connection` (function, line 428) `def _https_connection(host, port)`
+  - `_default_traffic_dir` (function, line 439) `def _default_traffic_dir()`
+  - `_parse_upstream` (function, line 444) `def _parse_upstream(spec)`
+  - `_upstream_auth_header` (function, line 475) `def _upstream_auth_header(auth)`
+  - `_cert_stem` (function, line 485) `def _cert_stem(host)`
+  - `detect_trust_target` (function, line 490) `def detect_trust_target()`
+  - `ca_trusted` (function, line 498) `def ca_trusted(ca_path)`
+  - `_run_root` (function, line 510) `def _run_root(argv)`
+  - `detect_nss_profiles` (function, line 517) `def detect_nss_profiles()`
+  - `install_ca_nss` (function, line 532) `def install_ca_nss(ca_path, runner, profiles)`
+  - `install_ca_trust` (function, line 572) `def install_ca_trust(ca_path, runner)`
+  - `CertificateAuthority` (class, line 623) `class CertificateAuthority`
+  - `_utc` (function, line 757) `def _utc(timestamp)`
+  - `_sha256` (function, line 764) `def _sha256()`
+  - `_server_class` (function, line 771) `def _server_class()`
+  - `ProxyController` (class, line 803) `class ProxyController`
+  - `_make_handler` (function, line 911) `def _make_handler()`
+  - `get_proxy` (function, line 1336) `def get_proxy()`
+  - `env_for_ca` (function, line 1345) `def env_for_ca(ca_path, host, port)`
+  - `apply_env` (function, line 1361) `def apply_env(ca_path, host, port)`
+  - `restore_env` (function, line 1368) `def restore_env(previous)`
+  - `__init__` (method, line 384) `def __init__(self, host, port)`
+  - `connect` (method, line 389) `def connect(self)`
+  - `__init__` (method, line 397) `def __init__(self, host, port)`
+  - `connect` (method, line 410) `def connect(self)`
+  - `__init__` (method, line 626) `def __init__(self, pki_dir)`
+  - `_ensure_ca` (method, line 638) `def _ensure_ca(self)`
+  - `_write_leaf` (method, line 693) `def _write_leaf(self, host, cert_path, key_path)`
+  - `context_for` (method, line 736) `def context_for(self, host)`
+  - `RecorderServer` (class, line 775) `class RecorderServer(ThreadingHTTPServer)`
+  - `__init__` (method, line 806) `def __init__(self)`
+  - `start` (method, line 819) `def start(self, host, port, task_id, traffic_dir, upstream)`
+  - `stop` (method, line 864) `def stop(self)`
+  - `status` (method, line 880) `def status(self)`
+  - `recorder` (method, line 902) `def recorder(self)`
+  - `ca_path` (method, line 906) `def ca_path(self)`
+  - `ProxyHandler` (class, line 915) `class ProxyHandler(BaseHTTPRequestHandler)`
+  - `__init__` (method, line 779) `def __init__(self, address, handler)`
+  - `handle_error` (method, line 786) `def handle_error(self, request, client_address)`
+  - `log_message` (method, line 921) `def log_message(self, fmt)`
+  - `do_CONNECT` (method, line 925) `def do_CONNECT(self)`
+  - `_safe_send_error` (method, line 971) `def _safe_send_error(self, code, message)`
+  - `do_GET` (method, line 978) `def do_GET(self)`
+  - `_forward_plain` (method, line 989) `def _forward_plain(self)`
+  - `_relay` (method, line 1063) `def _relay(self, scheme, host, port, path, url, headers, body)`
+  - `_open_target` (method, line 1161) `def _open_target(self, scheme, host, port)`
+  - `_maybe_tls` (method, line 1183) `def _maybe_tls(sock, scheme, host)`
+  - `_read_headers_from` (method, line 1199) `def _read_headers_from(sock, limit)`
+  - `_handle_websocket` (method, line 1209) `def _handle_websocket(self, scheme, host, port, path, url, req_headers)`
+  - `_record` (method, line 1294) `def _record(self, scheme, host, port, url, status, req_headers, resp_headers, req_body, resp_body, content_type, error)`
+- Depends on: `core/hardening.py`, `core/logging.py`, `modules/backdoor/server.c`, `modules/traffic_recorder.py`
+- Imported by: `cli/commands/lazyops.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_codeql_batch.py`
+
+## modules/lazy_rbac.py
+- Doc: modules/lazy_rbac.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `Role` (class, line 55) `class Role(Enum)`
+  - `Permission` (class, line 66) `class Permission(Enum)`
+  - `_UsersFileUnreadable` (class, line 115) `class _UsersFileUnreadable(Exception)`
+  - `RBACUser` (class, line 124) `class RBACUser`
+  - `RBACStore` (class, line 210) `class RBACStore`
+  - `_generate_recovery_codes` (function, line 356) `def _generate_recovery_codes(count)`
+  - `TenantConfig` (class, line 368) `class TenantConfig`
+  - `TenantManager` (class, line 394) `class TenantManager`
+  - `_slugify` (function, line 514) `def _slugify(name)`
+  - `init_rbac_store` (function, line 523) `def init_rbac_store(users_path)`
+  - `init_tenant_manager` (function, line 527) `def init_tenant_manager(payloads_dir, config_path, default_payload)`
+  - `require_role` (function, line 539) `def require_role()`
+  - `require_permission` (function, line 565) `def require_permission()`
+  - `require_mfa` (function, line 596) `def require_mfa(f)`
+  - `_get_rbac_user` (function, line 619) `def _get_rbac_user(flask_user)`
+  - `_get_rbac_store` (function, line 632) `def _get_rbac_store()`
+  - `get_rbac_store` (function, line 639) `def get_rbac_store()`
+  - `set_rbac_store` (function, line 643) `def set_rbac_store(store)`
+  - `get_tenant_manager` (function, line 648) `def get_tenant_manager()`
+  - `set_tenant_manager` (function, line 655) `def set_tenant_manager(tm)`
+  - `check_cli_permission` (function, line 660) `def check_cli_permission(username, permission)`
+  - `get_user_role` (function, line 672) `def get_user_role(username)`
+  - `generate_mfa_qr_url` (function, line 680) `def generate_mfa_qr_url(secret, username)`
+  - `generate_qr_svg` (function, line 689) `def generate_qr_svg(data)`
+  - `_qr_choose_version` (function, line 744) `def _qr_choose_version(data)`
+  - `_qr_ec_codewords` (function, line 752) `def _qr_ec_codewords(version)`
+  - `_qr_encode_alphanumeric` (function, line 757) `def _qr_encode_alphanumeric(data, version)`
+  - `_qr_data_bits_for_version` (function, line 812) `def _qr_data_bits_for_version(version)`
+  - `_qr_blank_matrix` (function, line 823) `def _qr_blank_matrix(version)`
+  - `_qr_place_dark_module` (function, line 832) `def _qr_place_dark_module(matrix, size, version)`
+  - `_qr_add_format_info` (function, line 836) `def _qr_add_format_info(modules, size, ecl_bits, mask)`
+  - `_qr_svg_error` (function, line 860) `def _qr_svg_error(msg)`
+  - `_qr_place_finders` (function, line 869) `def _qr_place_finders(matrix, size)`
+  - `_qr_place_timing` (function, line 878) `def _qr_place_timing(matrix, size)`
+  - `_qr_data_bits_positions` (function, line 884) `def _qr_data_bits_positions(matrix, size)`
+  - `_bits_to_bytes` (function, line 903) `def _bits_to_bytes(bits, data_bits)`
+  - `_reed_solomon_encode` (function, line 914) `def _reed_solomon_encode(data, ec_words)`
+  - `_qr_best_mask` (function, line 950) `def _qr_best_mask(modules, size)`
+  - `_qr_apply_mask` (function, line 963) `def _qr_apply_mask(modules, size, mask)`
+  - `_qr_penalty` (function, line 996) `def _qr_penalty(modules, size)`
+  - `_qr_render_svg` (function, line 1058) `def _qr_render_svg(modules, size, modules_per_pixel)`
+  - `valid_roles` (method, line 62) `def valid_roles(cls)`
+  - `to_dict` (method, line 136) `def to_dict(self)`
+  - `from_dict` (method, line 140) `def from_dict(cls, data)`
+  - `get_role` (method, line 164) `def get_role(self)`
+  - `has_permission` (method, line 170) `def has_permission(self, permission)`
+  - `can_manage_role` (method, line 174) `def can_manage_role(self, target_role)`
+  - `get_mfa_provisioning_uri` (method, line 182) `def get_mfa_provisioning_uri(self)`
+  - `verify_totp` (method, line 187) `def verify_totp(self, token)`
+  - `verify_recovery_code` (method, line 192) `def verify_recovery_code(self, code)`
+  - `consume_recovery_code` (method, line 200) `def consume_recovery_code(self, code)`
+  - `__init__` (method, line 213) `def __init__(self, users_path)`
+  - `_read_users` (method, line 217) `def _read_users(self)`
+  - `_write_users` (method, line 232) `def _write_users(self, users)`
+  - `load_all` (method, line 245) `def load_all(self)`
+  - `find_by_id` (method, line 249) `def find_by_id(self, user_id)`
+  - `find_by_username` (method, line 255) `def find_by_username(self, username)`
+  - `save` (method, line 261) `def save(self, user)`
+  - `create_user` (method, line 274) `def create_user(self, username, password_hash, role, tenant_id)`
+  - `delete_user` (method, line 295) `def delete_user(self, user_id)`
+  - `update_role` (method, line 304) `def update_role(self, user_id, new_role)`
+  - `enable_mfa` (method, line 314) `def enable_mfa(self, user_id)`
+  - `disable_mfa` (method, line 324) `def disable_mfa(self, user_id)`
+  - `consume_recovery_code` (method, line 334) `def consume_recovery_code(self, user_id, code)`
+  - `ensure_admin` (method, line 343) `def ensure_admin(self, username, password_hash)`
+  - `from_payload` (method, line 377) `def from_payload(cls, tenant_id, name, payload_path)`
+  - `to_dict` (method, line 386) `def to_dict(self)`
+  - `from_dict` (method, line 390) `def from_dict(cls, data)`
+  - `__init__` (method, line 397) `def __init__(self, payloads_dir, config_path, default_payload)`
+  - `_load_config` (method, line 410) `def _load_config(self)`
+  - `_save_config` (method, line 421) `def _save_config(self)`
+  - `list_tenants` (method, line 431) `def list_tenants(self)`
+  - `get_active` (method, line 434) `def get_active(self)`
+  - `get_active_payload_path` (method, line 439) `def get_active_payload_path(self)`
+  - `get_active_sessions_dir` (method, line 445) `def get_active_sessions_dir(self)`
+  - `get_payload_for_tenant` (method, line 451) `def get_payload_for_tenant(self, tenant_id)`
+  - `create_tenant` (method, line 457) `def create_tenant(self, name, base_payload)`
+  - `switch_tenant` (method, line 486) `def switch_tenant(self, tenant_id)`
+  - `delete_tenant` (method, line 495) `def delete_tenant(self, tenant_id)`
+  - `ensure_default_tenant` (method, line 504) `def ensure_default_tenant(self)`
+  - `decorator` (function, line 542) `def decorator(f)`
+  - `decorator` (function, line 568) `def decorator(f)`
+  - `decorated` (function, line 600) `def decorated()`
+  - `gf_mul` (function, line 927) `def gf_mul(a, b)`
+  - `decorated` (function, line 544) `def decorated()`
+  - `decorated` (function, line 570) `def decorated()`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`
+- Imported by: `cli/commands/session_ops.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/app_factory.py`, `lazyc2/blueprints/auth.py`, `lazyc2/extensions/users.py`, `lazyc2/models.py`, `modules/cli_auth.py`, `modules/collab_bp.py`
+
+## modules/lazy_roles.py
+- Doc: Lazy specialist roles for the autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `list_roles` (function, line 100) `def list_roles()`
+  - `role_prompt` (function, line 109) `def role_prompt(role, goal, context)`
+  - `roles_for_phase` (function, line 134) `def roles_for_phase(phase)`
+  - `conformance` (function, line 154) `def conformance(role)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`
+
+## modules/lazy_runner.py
+- Doc: Single execution path for ``lazy_loop`` and ``auto_loop``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ThreadStdoutRouter` (class, line 45) `class ThreadStdoutRouter(TextIOBase)`
+  - `LoopRunConfig` (class, line 94) `class LoopRunConfig`
+  - `_to_int` (function, line 147) `def _to_int(raw, default)`
+  - `_to_float` (function, line 155) `def _to_float(raw, default)`
+  - `parse_loop_line` (function, line 163) `def parse_loop_line(line)`
+  - `resolve_loop_defaults` (function, line 282) `def resolve_loop_defaults(config)`
+  - `build_executor` (function, line 318) `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)`
+  - `_abort_run` (function, line 391) `def _abort_run(engine, task_id, reason)`
+  - `_prepare_engine` (function, line 410) `def _prepare_engine(engine, shell, config, params)`
+  - `_start_proxy` (function, line 424) `def _start_proxy(engine, params)`
+  - `report_result` (function, line 449) `def report_result(result)`
+  - `_bootstrap` (function, line 492) `def _bootstrap(scan_target, executor)`
+  - `_apply_budget` (function, line 506) `def _apply_budget(engine, task_id, budget)`
+  - `_budget_declined` (function, line 519) `def _budget_declined(config)`
+  - `_run_with_progress` (function, line 535) `def _run_with_progress(engine, config)`
+  - `_overview` (function, line 641) `def _overview(task_id)`
+  - `_format_activity` (function, line 651) `def _format_activity(record)`
+  - `_dump_thread_stacks` (function, line 665) `def _dump_thread_stacks()`
+  - `_stall_thresholds` (function, line 680) `def _stall_thresholds(verb_timeout)`
+  - `_poll_progress` (function, line 694) `def _poll_progress(engine, config, progress, transcript, worker)`
+  - `_terminal_stream` (function, line 790) `def _terminal_stream()`
+  - `_run_plain` (function, line 812) `def _run_plain(engine, config)`
+  - `load_targets_file` (function, line 847) `def load_targets_file(path)`
+  - `run_loop` (function, line 902) `def run_loop(shell, params, config)`
+  - `_tty_available` (function, line 1003) `def _tty_available()`
+  - `_run_targets_file` (function, line 1016) `def _run_targets_file(shell, params, config)`
+  - `__init__` (method, line 55) `def __init__(self, main_stream, spool)`
+  - `write` (method, line 61) `def write(self, data)`
+  - `flush` (method, line 72) `def flush(self)`
+  - `encoding` (method, line 80) `def encoding(self)`
+  - `isatty` (method, line 84) `def isatty(self)`
+  - `clamped` (method, line 118) `def clamped(self)`
+  - `_resolve_alias` (function, line 335) `def _resolve_alias(command)`
+  - `_executor` (function, line 343) `def _executor(command)`
+  - `stream` (function, line 550) `def stream(text)`
+  - `_run` (function, line 587) `def _run()`
+  - `_write` (function, line 802) `def _write(text)`
+  - `_work_one` (function, line 1039) `def _work_one(target)`
+  - `_limited` (function, line 1042) `def _limited()`
+- Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_progress.py`, `utils.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_multi_target.py`, `tests/test_loop_nmap_guard.py`, `tests/test_orchestrator_yaml.py`
+
+## modules/lazy_sandbox.py
+- Doc: Per-task Docker sandbox for the Lazy autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_payload_value` (function, line 41) `def _payload_value(key, default)`
+  - `image_name` (function, line 52) `def image_name(configured)`
+  - `container_name` (function, line 67) `def container_name(task_id)`
+  - `docker_available` (function, line 73) `def docker_available()`
+  - `image_available` (function, line 78) `def image_available(image)`
+  - `container_running` (function, line 94) `def container_running(task_id)`
+  - `ensure_container` (function, line 112) `def ensure_container(task_id, image)`
+  - `exec_command` (function, line 180) `def exec_command(task_id, command, timeout_sec, image)`
+  - `remove_container` (function, line 214) `def remove_container(task_id)`
+  - `status` (function, line 223) `def status(task_id)`
+  - `executor_for` (function, line 251) `def executor_for(task_id, image)`
+  - `_sandbox_executor` (function, line 265) `def _sandbox_executor(command)`
+- Depends on: `core/config.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_runner.py`
+
+## modules/lazy_skill_mirror.py
+- Doc: Mirror LazyOwn skills for Hermes discovery.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_split_frontmatter` (function, line 30) `def _split_frontmatter(text)`
+  - `_hermes_frontmatter` (function, line 45) `def _hermes_frontmatter(name, fields)`
+  - `available_skills` (function, line 67) `def available_skills()`
+  - `mirror_skill` (function, line 78) `def mirror_skill(name)`
+  - `mirror_all` (function, line 106) `def mirror_all()`
+  - `_hermes_config_path` (function, line 112) `def _hermes_config_path()`
+  - `register_external_dirs` (function, line 117) `def register_external_dirs()`
+- Imported by: `cli/commands/lazyops.py`
+
+## modules/lazy_skills.py
+- Doc: Skill context injection for planner/worker prompts.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_frontmatter` (function, line 28) `def _frontmatter(text)`
+  - `_skill_files` (function, line 42) `def _skill_files()`
+  - `_load` (function, line 53) `def _load(path)`
+  - `list_skills` (function, line 85) `def list_skills()`
+  - `get_skill` (function, line 91) `def get_skill(name)`
+  - `match_skills` (function, line 102) `def match_skills(text, limit)`
+  - `skills_context` (function, line 118) `def skills_context(text, explicit, auto, budget)`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`
+
+## modules/lazy_summarizer.py
+- Doc: Bounded chain summarizer for the Lazy autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_text_of` (function, line 26) `def _text_of(record)`
+  - `should_compact` (function, line 35) `def should_compact(used_chars, budget_chars)`
+  - `summarize_chain` (function, line 50) `def summarize_chain(records, budget_chars, complete)`
+  - `_digest` (function, line 100) `def _digest(older, complete)`
+  - `_truncate_records` (function, line 126) `def _truncate_records(records, budget)`
+
+## modules/lazyatack.sh
+- Doc: Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `mostrar_ayuda` (function, line 21)
+  - `validar_ip` (function, line 33)
+  - `validar_url` (function, line 49)
+  - `descargar_seclists` (function, line 107)
+  - `escanear_puertos` (function, line 115)
+  - `escanear_puertos_especificos` (function, line 121)
+  - `enumerar_http` (function, line 127)
+  - `iniciar_servidor_http` (function, line 133)
+  - `configurar_netcat` (function, line 139)
+  - `enviar_archivo_netcat` (function, line 145)
+  - `verificar_conectividad` (function, line 151)
+  - `verificar_curl` (function, line 158)
+  - `configurar_shell_reversa` (function, line 165)
+  - `escuchar_shell` (function, line 171)
+  - `monitorear_procesos` (function, line 177)
+  - `ejecutar_wfuzz` (function, line 188)
+  - `comprobar_sudo` (function, line 194)
+  - `explotar_lfi` (function, line 200)
+  - `configurar_tty` (function, line 206)
+  - `eliminar_archivos` (function, line 217)
+  - `obtener_root_shell` (function, line 223)
+  - `enumerar_suid` (function, line 230)
+  - `listar_timers` (function, line 236)
+  - `comprobar_rutas` (function, line 242)
+  - `abusar_tar` (function, line 248)
+  - `enumerar_puertos` (function, line 254)
+  - `eliminar_contenedores_docker` (function, line 260)
+  - `escanear_red` (function, line 266)
+  - `menu_servidor` (function, line 272)
+  - `menu_cliente` (function, line 307)
+
+## modules/lazybrutesshuserenum.sh
+- Doc: Función para manejar el interruptor de señal Ctrl+C
+- Layer: utility
+- Language: sh
+
+## modules/lazyclonewars.sh
+- Doc: Lista de repositorios (nombre y URL)
+- Layer: utility
+- Language: sh
+
+## modules/lazycloud.py
+- Doc: Cloud-native attack module for AWS, Azure, and GCP.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CloudResource` (class, line 87) `class CloudResource`
+  - `CloudFinding` (class, line 98) `class CloudFinding`
+  - `CloudMetadataHarvester` (class, line 108) `class CloudMetadataHarvester`
+  - `CloudBucketEnumerator` (class, line 248) `class CloudBucketEnumerator`
+  - `CloudIAMEnumerator` (class, line 342) `class CloudIAMEnumerator`
+  - `CloudScanner` (class, line 390) `class CloudScanner`
+  - `__init__` (method, line 111) `def __init__(self, timeout)`
+  - `session` (method, line 116) `def session(self)`
+  - `_get` (method, line 122) `def _get(self, url, headers)`
+  - `harvest_aws` (method, line 139) `def harvest_aws(self)`
+  - `harvest_azure` (method, line 184) `def harvest_azure(self)`
+  - `harvest_gcp` (method, line 208) `def harvest_gcp(self)`
+  - `harvest_all` (method, line 231) `def harvest_all(self)`
+  - `__init__` (method, line 251) `def __init__(self, timeout)`
+  - `session` (method, line 256) `def session(self)`
+  - `_check_url` (method, line 262) `def _check_url(self, url)`
+  - `enumerate_s3` (method, line 278) `def enumerate_s3(self, prefix, buckets)`
+  - `enumerate_azure_storage` (method, line 303) `def enumerate_azure_storage(self, prefix, accounts)`
+  - `enumerate_gcp_storage` (method, line 321) `def enumerate_gcp_storage(self, prefix, buckets)`
+  - `enumerate_aws_iam` (method, line 345) `def enumerate_aws_iam(self, access_key, secret_key, session_token)`
+  - `__init__` (method, line 393) `def __init__(self, target_domain, timeout)`
+  - `full_scan` (method, line 400) `def full_scan(self, target_prefix, sessions_dir)`
+  - `quick_metadata` (method, line 456) `def quick_metadata(self)`
+  - `quick_buckets` (method, line 460) `def quick_buckets(self, prefix)`
+  - `_aws_sig` (function, line 361) `def _aws_sig(key, msg)`
+  - `_sign` (function, line 364) `def _sign(key, msg)`
+- Imported by: `cli/commands/cloud.py`
+
+## modules/lazycurl.sh
+- Doc: Nombre del script: lazycurl.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `ctrl_c` (function, line 23)
+  - `show_help` (function, line 29)
+  - `execute_curl` (function, line 52)
+
+## modules/lazyencoder_decoder.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `base64_encode` (function, line 4) `def base64_encode(data)`
+  - `base64_decode` (function, line 8) `def base64_decode(data)`
+  - `caesar_cipher` (function, line 13) `def caesar_cipher(text, shift)`
+  - `caesar_decipher` (function, line 27) `def caesar_decipher(text, shift)`
+  - `key_substitution` (function, line 31) `def key_substitution(text, key)`
+  - `key_substitution_reverse` (function, line 47) `def key_substitution_reverse(text, key)`
+  - `encode` (function, line 63) `def encode(data, shift, key)`
+  - `encode_string` (function, line 75) `def encode_string(data, shift, key)`
+  - `decode` (function, line 82) `def decode(data, shift, key)`
+  - `decode_string` (function, line 94) `def decode_string(data, shift, key)`
+- Imported by: `contrib/legacy/lazycreate_webshell.py`, `contrib/legacy/lazylogpoisoning.py`, `contrib/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
+
+## modules/lazyevilwimrm.sh
+- Doc: execute_evil_winrm: Función para ejecutar evil-winrm y verificar la salida
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `execute_evil_winrm` (function, line 14)
+
+## modules/lazygat.sh
+- Doc: Nombre del script: lazygath.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+
+## modules/lazyk8s.py
+- Doc: Container and Kubernetes attack module.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ContainerResource` (class, line 20) `class ContainerResource`
+  - `ContainerFinding` (class, line 30) `class ContainerFinding`
+  - `DockerEnumerator` (class, line 41) `class DockerEnumerator`
+  - `K8sEnumerator` (class, line 264) `class K8sEnumerator`
+  - `ContainerEscapeTechniques` (class, line 624) `class ContainerEscapeTechniques`
+  - `ContainerRuntimeDetector` (class, line 759) `class ContainerRuntimeDetector`
+  - `__init__` (method, line 44) `def __init__(self, socket_path)`
+  - `is_socket_accessible` (method, line 47) `def is_socket_accessible(self)`
+  - `_docker_api` (method, line 51) `def _docker_api(self, endpoint)`
+  - `list_containers` (method, line 70) `def list_containers(self)`
+  - `list_images` (method, line 94) `def list_images(self)`
+  - `inspect_container` (method, line 118) `def inspect_container(self, container_id)`
+  - `check_privileged_containers` (method, line 137) `def check_privileged_containers(self)`
+  - `check_sensitive_mounts` (method, line 162) `def check_sensitive_mounts(self)`
+  - `check_docker_socket_mount` (method, line 196) `def check_docker_socket_mount(self)`
+  - `check_capabilities` (method, line 217) `def check_capabilities(self)`
+  - `full_check` (method, line 250) `def full_check(self)`
+  - `__init__` (method, line 267) `def __init__(self, kubeconfig, token, api_server)`
+  - `_load_kubeconfig` (method, line 274) `def _load_kubeconfig(self)`
+  - `_get_k8s_api` (method, line 285) `def _get_k8s_api(self, path)`
+  - `list_pods` (method, line 366) `def list_pods(self, namespace)`
+  - `list_namespaces` (method, line 390) `def list_namespaces(self)`
+  - `list_secrets` (method, line 410) `def list_secrets(self, namespace)`
+  - `list_service_accounts` (method, line 462) `def list_service_accounts(self, namespace)`
+  - `check_rbac` (method, line 498) `def check_rbac(self)`
+  - `check_pod_escape_vectors` (method, line 530) `def check_pod_escape_vectors(self)`
+  - `full_check` (method, line 582) `def full_check(self, sessions_dir)`
+  - `detect_current_environment` (method, line 684) `def detect_current_environment()`
+  - `detect_runtime` (method, line 803) `def detect_runtime()`
+  - `detect_mounts` (method, line 874) `def detect_mounts()`
+  - `detect_dangerous_capabilities` (method, line 921) `def detect_dangerous_capabilities()`
+  - `auto_detect_all` (method, line 992) `def auto_detect_all()`
+- Imported by: `cli/commands/containers.py`
+
+## modules/lazylynis.sh
+- Doc: Verificar si se proporcionó un argumento para el host remoto
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `check_sudo` (function, line 32)
+
+## modules/lazymasscan.sh
+- Doc: Nombre del script: lazymasscan.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `extract_ports_info` (function, line 74)
+  - `run_masscan_script` (function, line 94)
+  - `print_row` (function, line 117)
+  - `ctrl_c` (function, line 20)
+
+## modules/lazymobilerevshell.sh
+- Doc: Verificar si se pasaron los argumentos de IP y puerto
+- Layer: utility
+- Language: sh
+
+
+Next: [KB_modules_p10.md](KB_modules_p10.md)

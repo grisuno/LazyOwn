@@ -77,7 +77,8 @@ def test_passthrough_when_wrapped_returns_none() -> None:
 
     metrics = _StubMetrics(by_command={})
     decorator = MetricsAwareSelector(
-        wrapped=_StubSelector(None), metrics_source=metrics,
+        wrapped=_StubSelector(None),
+        metrics_source=metrics,
     )
     assert decorator.select("t", "recon", {}) is None
     assert metrics.summarize_calls == 0
@@ -86,9 +87,11 @@ def test_passthrough_when_wrapped_returns_none() -> None:
 def test_passthrough_when_insufficient_attempts() -> None:
     """Commands with fewer attempts than ``min_attempts`` are accepted."""
 
-    metrics = _StubMetrics(by_command={
-        "nmap": {"count": 1, "success_rate": 0.0, "mean_duration_ms": 100},
-    })
+    metrics = _StubMetrics(
+        by_command={
+            "nmap": {"count": 1, "success_rate": 0.0, "mean_duration_ms": 100},
+        }
+    )
     decorator = MetricsAwareSelector(
         wrapped=_StubSelector(_decision("nmap")),
         metrics_source=metrics,
@@ -102,9 +105,11 @@ def test_passthrough_when_insufficient_attempts() -> None:
 def test_filters_when_success_rate_below_threshold() -> None:
     """Failing command is filtered out (selector returns ``None``)."""
 
-    metrics = _StubMetrics(by_command={
-        "nmap": {"count": 10, "success_rate": 0.1, "mean_duration_ms": 100},
-    })
+    metrics = _StubMetrics(
+        by_command={
+            "nmap": {"count": 10, "success_rate": 0.1, "mean_duration_ms": 100},
+        }
+    )
     decorator = MetricsAwareSelector(
         wrapped=_StubSelector(_decision("nmap")),
         metrics_source=metrics,
@@ -117,9 +122,11 @@ def test_filters_when_success_rate_below_threshold() -> None:
 def test_accepts_when_success_rate_at_threshold() -> None:
     """Boundary case: ``success_rate == min_success_rate`` is accepted."""
 
-    metrics = _StubMetrics(by_command={
-        "nmap": {"count": 10, "success_rate": 0.5, "mean_duration_ms": 100},
-    })
+    metrics = _StubMetrics(
+        by_command={
+            "nmap": {"count": 10, "success_rate": 0.5, "mean_duration_ms": 100},
+        }
+    )
     decorator = MetricsAwareSelector(
         wrapped=_StubSelector(_decision("nmap")),
         metrics_source=metrics,
@@ -134,9 +141,11 @@ def test_accepts_when_success_rate_at_threshold() -> None:
 def test_only_filters_named_command_not_whole_decision_object() -> None:
     """The decorator uses the first token of ``decision.command`` only."""
 
-    metrics = _StubMetrics(by_command={
-        "lazynmap": {"count": 5, "success_rate": 0.0},
-    })
+    metrics = _StubMetrics(
+        by_command={
+            "lazynmap": {"count": 5, "success_rate": 0.0},
+        }
+    )
     decorator = MetricsAwareSelector(
         wrapped=_StubSelector(_decision("lazynmap -sV 10.0.0.1")),
         metrics_source=metrics,
@@ -149,9 +158,11 @@ def test_only_filters_named_command_not_whole_decision_object() -> None:
 def test_summary_is_cached_within_ttl() -> None:
     """Repeated calls within ``cache_ttl_s`` reuse the cached summary."""
 
-    metrics = _StubMetrics(by_command={
-        "nmap": {"count": 10, "success_rate": 1.0},
-    })
+    metrics = _StubMetrics(
+        by_command={
+            "nmap": {"count": 10, "success_rate": 1.0},
+        }
+    )
 
     clock_value = {"now": 100.0}
 
@@ -233,7 +244,8 @@ def test_wrap_chain_master_switch_off() -> None:
     parquet = ParquetSelector(pdb=None, fail_counts={})
     fallback = FallbackSelector()
     wrapped = _wrap_chain_with_metrics_bias(
-        [parquet, fallback], enabled=False,
+        [parquet, fallback],
+        enabled=False,
     )
     assert wrapped == [parquet, fallback]
 
@@ -259,9 +271,11 @@ def test_filtering_emits_skip_event(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(auto, "EVENTS_FILE", events_file)
     monkeypatch.setattr(auto, "SESSIONS_DIR", tmp_path)
 
-    metrics = _StubMetrics(by_command={
-        "nmap": {"count": 10, "success_rate": 0.0},
-    })
+    metrics = _StubMetrics(
+        by_command={
+            "nmap": {"count": 10, "success_rate": 0.0},
+        }
+    )
     decorator = MetricsAwareSelector(
         wrapped=_StubSelector(_decision("nmap")),
         metrics_source=metrics,
@@ -271,6 +285,7 @@ def test_filtering_emits_skip_event(tmp_path: Path, monkeypatch) -> None:
     assert decorator.select("t", "recon", {}) is None
     assert events_file.exists()
     import json
+
     contents = [json.loads(line) for line in events_file.read_text().splitlines()]
     skip_events = [e for e in contents if e["type"] == "METRICS_BIAS_SKIP"]
     assert len(skip_events) == 1
@@ -285,22 +300,28 @@ def test_chain_falls_through_to_fallback_when_all_filtered() -> None:
 
     from skills.autonomous_daemon import CascadeStrategy
 
-    metrics = _StubMetrics(by_command={
-        "nmap": {"count": 10, "success_rate": 0.0},
-        "lazyburp": {"count": 10, "success_rate": 0.0},
-    })
+    metrics = _StubMetrics(
+        by_command={
+            "nmap": {"count": 10, "success_rate": 0.0},
+            "lazyburp": {"count": 10, "success_rate": 0.0},
+        }
+    )
 
     upstream_a = _StubSelector(_decision("nmap"))
     upstream_b = _StubSelector(_decision("lazyburp"))
     fallback = FallbackSelector()
 
     wrapped_a = MetricsAwareSelector(
-        wrapped=upstream_a, metrics_source=metrics,
-        min_attempts=3, min_success_rate=0.5,
+        wrapped=upstream_a,
+        metrics_source=metrics,
+        min_attempts=3,
+        min_success_rate=0.5,
     )
     wrapped_b = MetricsAwareSelector(
-        wrapped=upstream_b, metrics_source=metrics,
-        min_attempts=3, min_success_rate=0.5,
+        wrapped=upstream_b,
+        metrics_source=metrics,
+        min_attempts=3,
+        min_success_rate=0.5,
     )
 
     cascade = CascadeStrategy([wrapped_a, wrapped_b, fallback])

@@ -1,0 +1,655 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .chip {
+        cursor: grab;
+        display: inline-block;
+        margin: 3px;
+        padding: 6px 10px;
+        border: 1px solid #6c757d;
+        border-radius: 4px;
+        background: #343a40;
+        color: #8be9fd;
+        font-family: ui-monospace, Menlo, monospace;
+        user-select: none;
+    }
+    .chip:hover {
+        border-color: #0d6efd;
+        background: #3b4252;
+    }
+    .chip.dragging {
+        opacity: 0.4;
+    }
+    [data-drop-target].drop-active {
+        border-color: #0d6efd;
+        background: #262b36;
+    }
+    .param-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: start;
+        padding: 8px;
+        border: 1px solid #495057;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        background: rgba(0, 0, 0, 0.15);
+    }
+    .param-row .param-name {
+        width: 160px;
+    }
+    .param-row .param-type {
+        width: 110px;
+    }
+    .param-row .param-required {
+        width: 90px;
+    }
+    .param-row .param-default {
+        width: 160px;
+    }
+    .param-row .param-description {
+        flex: 1;
+        min-width: 220px;
+    }
+    .help-box {
+        border-left: 3px solid #0d6efd;
+        background: rgba(13, 110, 253, 0.08);
+        padding: 10px 14px;
+        margin-bottom: 18px;
+    }
+    .section-title {
+        margin-top: 26px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid #495057;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h1>Create LazyAddon</h1>
+        <p class="mb-0">
+            Guided form to integrate an external tool into LazyOwn. The file is
+            written to the addons directory and registered as a CLI command
+            after a reload.
+        </p>
+
+        <div class="help-box mt-3">
+            <strong>How to use this form</strong>
+            <ul class="mb-0">
+                <li>Hover any field label to read what it accepts.</li>
+                <li>Drag the placeholder chips into command boxes instead of typing them.</li>
+                <li>Every field is validated on the server; mistakes are reported per field.</li>
+            </ul>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form id="addon-form" action="{{ url_for('addons.create_addon') }}" method="post">
+            <input type="hidden" name="xsrf_token" value="{{ xsrf_token }}">
+
+            <h2 class="section-title">Identity</h2>
+            <div class="row">
+                <div class="col-md-4 form-group mb-3">
+                    <label for="name" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Command name. Lowercase, starts with a letter, only letters, digits, and underscores. Maximum 64 characters.">
+                        Name
+                    </label>
+                    <input type="text" class="form-control {{ 'is-invalid' if issue_map.get('name') }}" id="name" name="name"
+                        placeholder="nmap_scanner" value="{{ draft.name }}" required
+                        pattern="[a-z][a-z0-9_]{0,63}" maxlength="64">
+                    <small class="form-text text-muted">
+                        Becomes the CLI command and the file name. No spaces, no uppercase.
+                    </small>
+                    {% for message in issue_map.get('name', []) %}
+                    <div class="invalid-feedback d-block">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4 form-group mb-3">
+                    <label for="author" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Author shown in the addon metadata. Maximum 80 characters.">
+                        Author
+                    </label>
+                    <input type="text" class="form-control {{ 'is-invalid' if issue_map.get('author') }}" id="author" name="author"
+                        placeholder="LazyOwn" value="{{ draft.author or default_author }}" maxlength="80">
+                    {% for message in issue_map.get('author', []) %}
+                    <div class="invalid-feedback d-block">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4 form-group mb-3">
+                    <label for="version" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Semver-like version using digits and dots only, for example 1.0 or 2.1.0.">
+                        Version
+                    </label>
+                    <input type="text" class="form-control {{ 'is-invalid' if issue_map.get('version') }}" id="version" name="version"
+                        placeholder="1.0" value="{{ draft.version or default_version }}" required
+                        pattern="\d+(\.\d+){0,3}" maxlength="16">
+                    {% for message in issue_map.get('version', []) %}
+                    <div class="invalid-feedback d-block">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="description" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Short summary of what the tool does. Shown in the command palette. Maximum 500 characters.">
+                    Description
+                </label>
+                <textarea class="form-control {{ 'is-invalid' if issue_map.get('description') }}" id="description" name="description"
+                    rows="3" placeholder="Scans the target host with Nmap and reports open ports and services." required
+                    maxlength="500">{{ draft.description }}</textarea>
+                <small class="form-text text-muted">Red-team focused, one or two sentences.</small>
+                {% for message in issue_map.get('description', []) %}
+                <div class="invalid-feedback d-block">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <h2 class="section-title">Behaviour</h2>
+            <div class="row">
+                <div class="col-md-3 form-group mb-3">
+                    <label for="enabled" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="When enabled the addon is registered as a command on the next reload.">
+                        Enabled
+                    </label>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" id="enabled" name="enabled" value="true"
+                            {% if draft.enabled %}checked{% endif %}>
+                        <label class="form-check-label" for="enabled">Register command</label>
+                    </div>
+                </div>
+                <div class="col-md-3 form-group mb-3">
+                    <label for="os" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Platform the tool targets. Picked up by the exploration engine so the tool is only suggested on matching hosts.">
+                        Target OS
+                    </label>
+                    <select class="form-control {{ 'is-invalid' if issue_map.get('os') }}" id="os" name="os">
+                        {% for option in os_options %}
+                        <option value="{{ option }}" {% if draft.os == option %}selected{% endif %}>{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    {% for message in issue_map.get('os', []) %}
+                    <div class="invalid-feedback d-block">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-3 form-group mb-3">
+                    <label for="category" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Kill-chain phase the tool belongs to. Format must look like '03. Exploitation'.">
+                        Category
+                    </label>
+                    <select class="form-control {{ 'is-invalid' if issue_map.get('category') }}" id="category" name="category" required>
+                        {% for option in category_options %}
+                        <option value="{{ option }}" {% if draft.category == option %}selected{% endif %}>{{ option }}</option>
+                        {% endfor %}
+                        {% if draft.category and draft.category not in category_options %}
+                        <option value="{{ draft.category }}" selected>{{ draft.category }}</option>
+                        {% endif %}
+                    </select>
+                    {% for message in issue_map.get('category', []) %}
+                    <div class="invalid-feedback d-block">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-3 form-group mb-3">
+                    <label for="module_type" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Optional module type used by the module registry.">
+                        Module Type
+                    </label>
+                    <select class="form-control {{ 'is-invalid' if issue_map.get('module_type') }}" id="module_type" name="module_type">
+                        <option value="">Not set</option>
+                        {% for option in module_type_options %}
+                        <option value="{{ option }}" {% if draft.module_type == option %}selected{% endif %}>{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    {% for message in issue_map.get('module_type', []) %}
+                    <div class="invalid-feedback d-block">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 form-group mb-3">
+                    <label for="install_type" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="How the tool is fetched. Only git is supported today.">
+                        Install Type
+                    </label>
+                    <select class="form-control {{ 'is-invalid' if issue_map.get('install_type') }}" id="install_type" name="install_type">
+                        <option value="">Not set</option>
+                        {% for option in install_type_options %}
+                        <option value="{{ option }}" {% if draft.install_type == option %}selected{% endif %}>{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    {% for message in issue_map.get('install_type', []) %}
+                    <div class="invalid-feedback d-block">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-9 form-group mb-3">
+                    <label for="trigger" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Nmap service names that make the exploration engine suggest this addon. Select several with Ctrl or Cmd. Custom services can be added below.">
+                        Trigger Services
+                    </label>
+                    <select class="form-control {{ 'is-invalid' if issue_map.get('trigger') }}" id="trigger" name="trigger" multiple size="6">
+                        {% set selected_triggers = draft.triggers %}
+                        {% for option in trigger_options %}
+                        <option value="{{ option }}" {% if option in selected_triggers %}selected{% endif %}>{{ option }}</option>
+                        {% endfor %}
+                        {% for custom in selected_triggers %}
+                        {% if custom not in trigger_options %}
+                        <option value="{{ custom }}" selected>{{ custom }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <div class="input-group mt-2" style="max-width: 340px;">
+                        <input type="text" class="form-control" id="custom-trigger" placeholder="Custom service, e.g. gitlab">
+                        <button type="button" class="btn btn-outline-light" id="add-custom-trigger" data-bs-toggle="tooltip"
+                            data-bs-placement="top" title="Adds the typed service name to the selected triggers.">
+                            Add
+                        </button>
+                    </div>
+                    <small class="form-text text-muted">
+                        Use lowercase service names with letters, digits, and hyphens.
+                    </small>
+                    {% for message in issue_map.get('trigger', []) %}
+                    <div class="invalid-feedback d-block">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <h2 class="section-title">Tool</h2>
+            <div class="row">
+                <div class="col-md-4 form-group mb-3">
+                    <label for="tool_name" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Name of the upstream tool. Defaults to the addon name when left empty.">
+                        Tool Name
+                    </label>
+                    <input type="text" class="form-control" id="tool_name" name="tool_name"
+                        placeholder="{{ draft.name or 'nmap_scanner' }}" value="{{ draft.tool_name }}">
+                </div>
+                <div class="col-md-8 form-group mb-3">
+                    <label for="repo_url" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Git repository the CLI clones when the tool is not installed. Required when an install path is set.">
+                        Repository URL
+                    </label>
+                    <input type="url" class="form-control {{ 'is-invalid' if issue_map.get('repo_url') }}" id="repo_url" name="repo_url"
+                        placeholder="https://github.com/user/repo" value="{{ draft.repo_url }}">
+                    {% for message in issue_map.get('repo_url', []) %}
+                    <div class="invalid-feedback d-block">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="install_path" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Directory where the tool is cloned, relative to the framework root. No spaces, backslashes, or '..' segments.">
+                    Install Path
+                </label>
+                <input type="text" class="form-control {{ 'is-invalid' if issue_map.get('install_path') }}" id="install_path" name="install_path"
+                    placeholder="external/.exploit/nmap_scanner" value="{{ draft.install_path }}">
+                <small class="form-text text-muted">
+                    Leave empty for tools already present in PATH. Example: external/.exploit/my_tool.
+                </small>
+                {% for message in issue_map.get('install_path', []) %}
+                <div class="invalid-feedback d-block">{{ message }}</div>
+                {% endfor %}
+            </div>
+            <div class="form-group mb-3">
+                <label for="install_command" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Build command run inside the cloned directory after git clone. Drag placeholders in when needed. Leave empty when no build is required.">
+                    Install Command
+                </label>
+                <textarea class="form-control {{ 'is-invalid' if issue_map.get('install_command') }}" id="install_command" name="install_command"
+                    rows="2" data-drop-target placeholder="pip install -r requirements.txt">{{ draft.install_command }}</textarea>
+                {% for message in issue_map.get('install_command', []) %}
+                <div class="invalid-feedback d-block">{{ message }}</div>
+                {% endfor %}
+            </div>
+            <div class="form-group mb-3">
+                <label for="execute_command" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Main command the CLI runs. Drag the placeholders below into the box instead of typing them. Required.">
+                    Execute Command
+                </label>
+                <textarea class="form-control {{ 'is-invalid' if issue_map.get('execute_command') }}" id="execute_command" name="execute_command"
+                    rows="3" data-drop-target required placeholder="python3 scanner.py -t {rhost} -p {port}">{{ draft.execute_command }}</textarea>
+                <small class="form-text text-muted">
+                    Use single braces for placeholders, for example {rhost}.
+                </small>
+                {% for message in issue_map.get('execute_command', []) %}
+                <div class="invalid-feedback d-block">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <h2 class="section-title">Post-Exploitation Extras</h2>
+            <p class="text-muted">Optional. These fields automate C2 file transfer and command execution after the tool runs.</p>
+            <div class="row">
+                <div class="col-md-6 form-group mb-3">
+                    <label for="upload_file" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Comma-separated list of files uploaded to the beacon after the tool runs.">
+                        Upload Files
+                    </label>
+                    <input type="text" class="form-control" id="upload_file" name="upload_file"
+                        placeholder="payload.bin, config.ini" value="{{ draft.upload_file }}">
+                </div>
+                <div class="col-md-6 form-group mb-3">
+                    <label for="download_file" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Comma-separated list of files pulled back from the beacon.">
+                        Download Files
+                    </label>
+                    <input type="text" class="form-control" id="download_file" name="download_file"
+                        placeholder="C:\Users\admin\flags.txt" value="{{ draft.download_file }}">
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="remote_command" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Command issued on the C2 beacon. Placeholders are allowed; drag chips into the box.">
+                    Remote Command
+                </label>
+                <textarea class="form-control {{ 'is-invalid' if issue_map.get('remote_command') }}" id="remote_command" name="remote_command"
+                    rows="2" data-drop-target placeholder="whoami /priv">{{ draft.remote_command }}</textarea>
+                {% for message in issue_map.get('remote_command', []) %}
+                <div class="invalid-feedback d-block">{{ message }}</div>
+                {% endfor %}
+            </div>
+            <div class="form-group mb-3">
+                <label for="lazycommand" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Lazy command executed through the C2 channel. Placeholders are allowed.">
+                    Lazy Command
+                </label>
+                <textarea class="form-control" id="lazycommand" name="lazycommand"
+                    rows="2" data-drop-target placeholder="encodewinbase64 powershell -c 'whoami'">{{ draft.lazycommand }}</textarea>
+            </div>
+            <div class="form-group mb-3">
+                <label for="env" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Environment variables exposed to the tool. One 'KEY: value' entry per line.">
+                    Environment Variables
+                </label>
+                <textarea class="form-control {{ 'is-invalid' if issue_map.get('env') }}" id="env" name="env" rows="3"
+                    placeholder="LAZYOWN_AES_KEY: {aes_key}">{{ draft.env | join('\n') }}</textarea>
+                <small class="form-text text-muted">One KEY: value pair per line.</small>
+                {% for message in issue_map.get('env', []) %}
+                <div class="invalid-feedback d-block">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <h2 class="section-title">Parameters</h2>
+            <p class="text-muted">
+                Declare every placeholder the tool expects. Required parameters must exist
+                in payload.json or provide a default value.
+            </p>
+            <div id="param-rows">
+                {% for param in draft.params %}
+                <div class="param-row" data-param-index="{{ loop.index0 }}">
+                    <input type="text" class="form-control param-name" name="params-{{ loop.index0 }}-name"
+                        placeholder="target_host" value="{{ param.name }}"
+                        data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Placeholder token. Lowercase letters, digits, underscores; used as {token} in commands.">
+                    <select class="form-control param-type" name="params-{{ loop.index0 }}-type"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Value type used for validation.">
+                        {% for ptype in param_types %}
+                        <option value="{{ ptype }}" {% if param.type == ptype %}selected{% endif %}>{{ ptype }}</option>
+                        {% endfor %}
+                    </select>
+                    <label class="param-required form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" name="params-{{ loop.index0 }}-required" value="true"
+                            {% if param.required %}checked{% endif %}
+                            data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="When checked the command refuses to run without a value.">
+                        <span class="form-check-label">Required</span>
+                    </label>
+                    <input type="text" class="form-control param-default" name="params-{{ loop.index0 }}-default"
+                        placeholder="default value" value="{{ param.default or '' }}"
+                        data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Optional fallback value used when payload.json does not define the parameter.">
+                    <input type="text" class="form-control param-description" name="params-{{ loop.index0 }}-description"
+                        placeholder="What the operator must provide" value="{{ param.description }}"
+                        data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Short help text shown to the operator.">
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeParamRow(this)"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Remove this parameter.">
+                        Remove
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            {% for message in issue_map.get('params', []) %}
+            <div class="invalid-feedback d-block">{{ message }}</div>
+            {% endfor %}
+            <button type="button" class="btn btn-outline-light mb-4" id="add-param"
+                data-bs-toggle="tooltip" data-bs-placement="top"
+                title="Appends a new parameter row. Maximum {{ max_params }} parameters.">
+                Add Parameter
+            </button>
+
+            <h2 class="section-title">Placeholders</h2>
+            <p class="text-muted">Drag any chip into an Install, Execute, Remote, or Lazy command box.</p>
+            <div class="mb-2">
+                <strong>Declared parameters</strong>
+                <div id="param-chips" class="mt-1">
+                    <span class="text-muted">None yet. Add rows under Parameters and chips will appear here.</span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <strong>payload.json keys</strong>
+                <div id="payload-chips" class="mt-1">
+                    {% for placeholder in payload_placeholders %}
+                    <span class="chip" draggable="true">{ {{ placeholder }} }</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="Validates every field server-side and writes the addon file.">
+                Create Addon
+            </button>
+            <a class="btn btn-outline-light" href="{{ url_for('addons.list_addons') }}">Cancel</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    (function () {
+        'use strict';
+
+        function escapeHtml(text) {
+            return String(text === null || text === undefined ? '' : text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function initTooltips(scope) {
+            var root = scope || document;
+            root.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (element) {
+                if (!element._tooltipInitialized) {
+                    new bootstrap.Tooltip(element, { container: 'body' });
+                    element._tooltipInitialized = true;
+                }
+            });
+        }
+
+        function insertAtCursor(target, text) {
+            var start = target.selectionStart || 0;
+            var end = target.selectionEnd || 0;
+            target.value = target.value.substring(0, start) + text + target.value.substring(end);
+            var position = start + text.length;
+            target.setSelectionRange(position, position);
+            target.focus();
+        }
+
+        function wireDragAndDrop() {
+            document.querySelectorAll('.chip').forEach(function (chip) {
+                chip.addEventListener('dragstart', function (event) {
+                    event.dataTransfer.setData('text/plain', chip.textContent.trim());
+                    event.dataTransfer.effectAllowed = 'copy';
+                    chip.classList.add('dragging');
+                });
+                chip.addEventListener('dragend', function () {
+                    chip.classList.remove('dragging');
+                });
+            });
+            document.querySelectorAll('[data-drop-target]').forEach(function (target) {
+                target.addEventListener('dragover', function (event) {
+                    event.preventDefault();
+                    event.dataTransfer.dropEffect = 'copy';
+                    target.classList.add('drop-active');
+                });
+                target.addEventListener('dragleave', function () {
+                    target.classList.remove('drop-active');
+                });
+                target.addEventListener('drop', function (event) {
+                    event.preventDefault();
+                    target.classList.remove('drop-active');
+                    var data = event.dataTransfer.getData('text/plain');
+                    if (data) {
+                        insertAtCursor(target, data);
+                    }
+                });
+            });
+        }
+
+        function renderParamChips() {
+            var container = document.getElementById('param-chips');
+            var rows = document.querySelectorAll('#param-rows .param-row');
+            var chips = [];
+            rows.forEach(function (row) {
+                var nameInput = row.querySelector('.param-name');
+                var name = nameInput.value.trim();
+                if (name) {
+                    chips.push(name);
+                }
+            });
+            if (!chips.length) {
+                container.innerHTML = '<span class="text-muted">None yet. Add rows under Parameters and chips will appear here.</span>';
+                return;
+            }
+            container.innerHTML = chips.map(function (name) {
+                return '<span class="chip" draggable="true">{ ' + escapeHtml(name) + ' }</span>';
+            }).join('');
+            wireDragAndDrop();
+        }
+
+        function reindexParamRows() {
+            document.querySelectorAll('#param-rows .param-row').forEach(function (row, index) {
+                row.setAttribute('data-param-index', String(index));
+                ['name', 'type', 'required', 'default', 'description'].forEach(function (field) {
+                    var input = row.querySelector('[name^="params-"]' +
+                        '[name$="-' + field + '"]');
+                    if (input) {
+                        input.name = 'params-' + index + '-' + field;
+                    }
+                });
+            });
+            renderParamChips();
+        }
+
+        function addParamRow() {
+            var maxParams = {{ max_params }};
+            var rows = document.querySelectorAll('#param-rows .param-row');
+            if (rows.length >= maxParams) {
+                alert('Maximum of ' + maxParams + ' parameters reached.');
+                return;
+            }
+            var row = document.createElement('div');
+            row.className = 'param-row';
+            row.innerHTML =
+                '<input type="text" class="form-control param-name" placeholder="target_host" ' +
+                'data-bs-toggle="tooltip" data-bs-placement="top" title="Placeholder token used as {token} in commands.">' +
+                '<select class="form-control param-type" data-bs-toggle="tooltip" data-bs-placement="top" title="Value type used for validation.">' +
+                '{% for ptype in param_types %}<option value="{{ ptype }}">{{ ptype }}</option>{% endfor %}</select>' +
+                '<label class="param-required form-check form-switch mt-2">' +
+                '<input class="form-check-input" type="checkbox" value="true" ' +
+                'data-bs-toggle="tooltip" data-bs-placement="top" title="When checked the command refuses to run without a value.">' +
+                '<span class="form-check-label">Required</span></label>' +
+                '<input type="text" class="form-control param-default" placeholder="default value" ' +
+                'data-bs-toggle="tooltip" data-bs-placement="top" title="Optional fallback value.">' +
+                '<input type="text" class="form-control param-description" placeholder="What the operator must provide" ' +
+                'data-bs-toggle="tooltip" data-bs-placement="top" title="Short help text shown to the operator.">' +
+                '<button type="button" class="btn btn-outline-danger btn-sm" onclick="removeParamRow(this)" ' +
+                'data-bs-toggle="tooltip" data-bs-placement="top" title="Remove this parameter.">Remove</button>';
+            document.getElementById('param-rows').appendChild(row);
+            reindexParamRows();
+            initTooltips(row);
+        }
+
+        window.removeParamRow = function (button) {
+            button.closest('.param-row').remove();
+            reindexParamRows();
+        };
+
+        function applyParamDescriptionPlaceholders() {
+            document.querySelectorAll('#param-rows .param-row').forEach(function (row) {
+                row.querySelectorAll('input').forEach(function (input) {
+                    var field = input.name.split('-').pop();
+                    var placeholders = {
+                        name: 'target_host',
+                        type: 'string',
+                        default: 'default value',
+                        description: 'What the operator must provide'
+                    };
+                    if (placeholders[field]) {
+                        input.placeholder = placeholders[field];
+                    }
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initTooltips();
+            wireDragAndDrop();
+            renderParamChips();
+            applyParamDescriptionPlaceholders();
+
+            document.getElementById('add-param').addEventListener('click', addParamRow);
+
+            var customTriggerInput = document.getElementById('custom-trigger');
+            var triggerSelect = document.getElementById('trigger');
+            document.getElementById('add-custom-trigger').addEventListener('click', function () {
+                var value = customTriggerInput.value.trim().toLowerCase();
+                if (!value) {
+                    return;
+                }
+                if (!/^[a-z0-9][a-z0-9\-]{0,63}$/.test(value)) {
+                    alert('Trigger must be lowercase using letters, digits, and hyphens.');
+                    return;
+                }
+                var exists = Array.from(triggerSelect.options).some(function (option) {
+                    return option.value === value;
+                });
+                if (!exists) {
+                    var option = document.createElement('option');
+                    option.value = value;
+                    option.textContent = value;
+                    option.selected = true;
+                    triggerSelect.appendChild(option);
+                }
+                triggerSelect.querySelector('option[value="' + value + '"]').selected = true;
+                customTriggerInput.value = '';
+            });
+
+            var nameInput = document.getElementById('name');
+            var toolNameInput = document.getElementById('tool_name');
+            nameInput.addEventListener('input', function () {
+                if (!toolNameInput.value) {
+                    toolNameInput.placeholder = nameInput.value || 'nmap_scanner';
+                }
+            });
+
+            document.getElementById('addon-form').addEventListener('submit', function (event) {
+                var execute = document.getElementById('execute_command');
+                if (!execute.value.trim()) {
+                    event.preventDefault();
+                    alert('Execute Command is required. Drag placeholders into the box to build it.');
+                    execute.focus();
+                }
+            });
+        });
+    })();
+</script>
+
+{% endblock %}

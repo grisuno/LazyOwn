@@ -1,0 +1,6 @@
+name: apt_azure_entra_id_graph_api_attacks
+description: Full APT chain for azure/entra_id_graph_api_attacks (extends apt_chain).
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: azure/entra_id_graph_api_attacks

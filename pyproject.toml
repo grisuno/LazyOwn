@@ -5,24 +5,21 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lazyown"
-version = "1.0.0"
+version = "0.2.161"
 description = "LazyOwn Framework - Red Team & Post-Exploitation Tool"
 authors = [{ name = "Gris Iscomeback", email = "grisiscomeback@gmail.com" }]
-license = { text = "GPL-3.0-only" }
+license = { text = "AGPL-3.0-only" }
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
-    "requests>=2.33.0",
+    "requests>=2.28.0",
     "cmd2",
     "python-libnmap",
-    "pwncat-cs",
-    "pwn",
     "groq",
     "pypdf>=6.1.1",
     "python-docx",
     "olefile",
     "exifread",
-    "pycryptodome",
     "impacket",
     "pandas",
     "colorama",
@@ -47,12 +44,14 @@ dependencies = [
     "bcrypt",
     "pyyaml",
     "bs4",
+    "bleach>=6.0.0",
+    "defusedxml",
+    "textual",
     "dnslib",
     "python-telegram-bot",
     "nest_asyncio",
     "rich",
     "flask_socketio",
-    "autobloody",
     "minikerberos",
     "tinydb",
     "msldap",
@@ -72,7 +71,8 @@ dependencies = [
     "ua_parser",
     "pdf2image",
     "python-magic",
-    "packaging"
+    "packaging",
+    "mcp>=1.0.0"
 ]
 
 
@@ -94,70 +94,76 @@ ml = [
     "joblib",
 ]
 dev = [
-    "ruff>=0.6.0",
+    "ruff==0.16.10",
     "pytest>=7.0",
     "pytest-cov>=4.0",
+    "pytest-timeout>=2.3",
     "mypy>=1.10",
     "bandit>=1.7",
     "detect-secrets>=1.5",
     "pip-audit>=2.7",
+    "pre-commit>=3.5",
+    "coverage>=7.15.4",
+    "nodeenv>=1.10",
 ]
 
-[tool.setuptools]
-py-modules = ["lazyown", "lazyc2", "utils"]
+[tool.setuptools.packages.find]
+include = ["lazyown*", "lazyc2*", "utils", "cli*", "core*", "modules*", "skills*", "plugins*", "lazyaddons*", "lazyscripts*", "profiles*"]
+exclude = ["tests*", "env*", "build*", "external*", "modules_ext*", "parquets*", "sessions*", "graphify-out*", "deploy*"]
 
 [tool.ruff]
 line-length = 120
-target-version = "py38"
+target-version = "py311"
 extend-exclude = [
+    "*.md",
     "env",
     "build",
     "external",
     "modules_ext",
+    "mutants",
     "graphify-out",
     "sessions",
     "parquets",
+    "cli/commands/*_migrated.py",
+    "lazyown.py",
+    "contrib/legacy",
+    "modules/legacy",
 ]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "S"]
 ignore = [
     "E501",
-    "S101",
-    "S105",
-    "S106",
-    "S107",
-    "S108",
-    "S110",
-    "S112",
-    "S113",
-    "S301",
-    "S307",
-    "S310",
-    "S311",
-    "S324",
-    "S404",
-    "S602",
-    "S603",
-    "S605",
-    "S607",
-    "B008",
-    "B904",
-    "B905",
-    "UP007",
-    "UP008",
-    "UP015",
-    "UP032",
+    # Security rules we accept for a pentest framework (many intentional)
+    "S101", "S105", "S106", "S107", "S108",
+    "S110", "S112", "S113",
+    "S301", "S310", "S311", "S324",
+    "S404", "S602", "S603", "S605", "S607",
+    "B008", "B904",
+    # Wildcard import — in lazyown.py, still 100+ symbols needed; gradual cleanup in progress
+    "F405",
+    # Unused variable — too aggressive with auto-fix, can break side-effect assignments
+    "F841",
+    # Gradual typing — will fix file by file
+    "UP007", "UP008", "UP015", "UP032",
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S", "B"]
-"lazyown.py" = ["E", "F", "W", "B", "UP", "I", "S"]
-"lazyc2.py" = ["E", "F", "W", "B", "UP", "I", "S"]
-"utils.py" = ["E", "F", "W", "B", "UP", "I", "S"]
-"modules/*" = ["E", "F", "W", "B", "UP", "I", "S"]
-"skills/*" = ["E", "F", "W", "B", "UP", "I", "S"]
-"plugins/*" = ["E", "F", "W", "B", "UP", "I", "S"]
+# cli/commands: S103/S104/S608 are intentional in a pentest framework
+# (payloads chmod 0o755, C2 binding 0.0.0.0, imports over hardcoded tables).
+"cli/commands/*" = ["S103", "S104", "S608"]
+# Legacy monoliths — gradual cleanup in progress
+# Tier 1: core/ and cli/ have full linting enabled
+# Tier 2: modules/, skills/, plugins/ get security-only ignores
+"modules/*" = ["S"]
+"modules/report_templates.py" = ["S", "UP031"]
+"skills/*" = ["S"]
+"plugins/*" = ["S"]
+# Tier 3: god classes still need broad ignores during refactor
+"lazyown.py" = ["S", "B", "UP", "F841"]
+"lazyc2.py" = ["S", "B", "UP", "F841"]
+"utils.py" = ["S", "B", "UP", "F841"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
@@ -171,12 +177,18 @@ addopts = [
     "--strict-config",
 ]
 markers = [
+    "unit: fast isolated unit tests with no network or sessions state",
     "integration: integration tests touching real services or sessions/ fixtures",
+    "bdd: behaviour scenarios stating Given/When/Then in the docstring",
+    "contract: SDD specification contracts pinning public behaviour",
+    "mutation: mutation gate probes asserting weak tests fail on mutants",
+    "sdd: specification-driven design contract tests",
+    "tdd: test-driven development regression tests",
     "slow: tests that take more than a few seconds",
 ]
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.11"
 ignore_missing_imports = true
 warn_unused_configs = true
 warn_redundant_casts = true
@@ -211,4 +223,13 @@ skips = [
     "B603",
     "B605",
     "B607",
+    # Accepted for a red-team framework. pycryptodome is flagged as the old
+    # pyCrypto (B413); the C2 talks to its own self-signed endpoints (B501);
+    # Kerberos requires MD4, MD5 and RC4 by protocol (B324, B304); the C2
+    # renders bleach-sanitized HTML, so Jinja2 autoescape stays off (B701).
+    "B304",
+    "B324",
+    "B413",
+    "B501",
+    "B701",
 ]

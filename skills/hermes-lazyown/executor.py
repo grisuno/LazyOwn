@@ -10,10 +10,8 @@ ExecutionResult with metadata.
 
 import os
 import select
-import struct
 import subprocess
 import sys
-import termios
 from pathlib import Path
 from typing import Any
 
@@ -148,9 +146,7 @@ class LazyOwnExecutor:
             duration_ms=duration,
         )
 
-    def _run_without_pty(
-        self, argv: list[str], command: str, timeout: int, env: dict[str, str]
-    ) -> dict[str, Any]:
+    def _run_without_pty(self, argv: list[str], command: str, timeout: int, env: dict[str, str]) -> dict[str, Any]:
         """Run without PTY (fallback for constrained environments)."""
         proc = subprocess.Popen(
             argv,
@@ -178,9 +174,7 @@ class LazyOwnExecutor:
                 "timed_out": True,
             }
 
-    def _run_with_pty(
-        self, argv: list[str], command: str, timeout: int, env: dict[str, str]
-    ) -> dict[str, Any]:
+    def _run_with_pty(self, argv: list[str], command: str, timeout: int, env: dict[str, str]) -> dict[str, Any]:
         """Run with PTY for proper cmd2 shell handling."""
         import pty as pty_module
 
@@ -235,7 +229,8 @@ class LazyOwnExecutor:
     def _has_pty(self) -> bool:
         """Return True if the platform supports PTY subprocesses."""
         try:
-            import pty as _pty_test
+            import pty as _pty_test  # noqa: F401
+
             return True
         except ImportError:
             return False

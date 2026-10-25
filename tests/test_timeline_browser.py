@@ -43,8 +43,20 @@ def test_reader_parses_rows(tmp_path: Path) -> None:
     _write_report(
         report,
         [
-            {"timestamp": "2026-05-24T10:00:00", "tool": "ping", "status": "ok", "target": "10.0.0.1", "phase": "recon"},
-            {"timestamp": "2026-05-24T10:05:00", "tool": "lazynmap", "status": "ok", "target": "10.0.0.1", "phase": "recon"},
+            {
+                "timestamp": "2026-05-24T10:00:00",
+                "tool": "ping",
+                "status": "ok",
+                "target": "10.0.0.1",
+                "phase": "recon",
+            },
+            {
+                "timestamp": "2026-05-24T10:05:00",
+                "tool": "lazynmap",
+                "status": "ok",
+                "target": "10.0.0.1",
+                "phase": "recon",
+            },
         ],
     )
     reader = TimelineReader(TimelineConfig(sessions_dir=str(tmp_path)), root=tmp_path)

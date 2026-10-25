@@ -87,7 +87,7 @@ class EnumCommandSet(LazyOwnCommandSet):
 
             return
         else:
-            with open(path_cred, "r") as file:
+            with open(path_cred) as file:
                 for file_line in file:
                     params = file_line.split(":")
                     user = params[0]
@@ -157,7 +157,7 @@ class EnumCommandSet(LazyOwnCommandSet):
 
             return
         else:
-            with open(path_cred, "r") as file:
+            with open(path_cred) as file:
                 for file_line in file:
                     params = file_line.split(":")
                     user = params[0]
@@ -205,7 +205,7 @@ class EnumCommandSet(LazyOwnCommandSet):
             print_error(f"You need credentialts use:{GREEN} createcredentials admin:admin")
             return
         else:
-            with open(path_cred, "r") as file:
+            with open(path_cred) as file:
                 for file_line in file:
                     params = file_line.split(":")
                     user = params[0]
@@ -297,7 +297,7 @@ class EnumCommandSet(LazyOwnCommandSet):
                 else:
                     execute = ""
 
-            with open(path_cred, "r") as file:
+            with open(path_cred) as file:
                 for file_line in file:
                     params = file_line.split(":")
                     user = params[0]
@@ -373,7 +373,7 @@ class EnumCommandSet(LazyOwnCommandSet):
             if line.startswith("hashs"):
                 hashes = get_users_dic()
                 username = input("   [!] Enter username to sprayhashes (default: admin) ") or "admin"
-                with open(hashes, "r") as file:
+                with open(hashes) as file:
                     hashes = file.readlines()
                     for hash_line in hashes:
                         hash_line = hash_line.strip()
@@ -579,8 +579,8 @@ class EnumCommandSet(LazyOwnCommandSet):
             return
         rhost = self.params["rhost"]
         domain = self.params["domain"]
-        adomain = domain.split(".")
-        machine = adomain[0]
+        adomain = domain.split(".") if domain else []
+        machine = adomain[0] if len(adomain) > 0 else ""
         if not line:
             path_cred = "sessions/credentials.txt"
 
@@ -590,7 +590,7 @@ class EnumCommandSet(LazyOwnCommandSet):
                 self.cmd(command)
 
             else:
-                with open(path_cred, "r") as file:
+                with open(path_cred) as file:
                     for file_line in file:
                         params = file_line.split(":")
                         username = params[0]

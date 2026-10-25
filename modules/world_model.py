@@ -32,79 +32,412 @@ Usage
     # Called automatically after ObsParser runs:
     wm.update_from_findings(obs.findings)
 """
+
 from __future__ import annotations
 
+import base64
+import copy
 import json
 import logging
 import os
+import secrets
+import stat
 import threading
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields as dataclass_fields
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 log = logging.getLogger("world_model")
 
-_BASE_DIR     = Path(__file__).parent.parent
+_BASE_DIR = Path(__file__).parent.parent
 _SESSIONS_DIR = _BASE_DIR / "sessions"
 _DEFAULT_PATH = _SESSIONS_DIR / "world_model.json"
+ENCRYPTED_SUFFIX: str = ".encrypted"
+_FERNET_TOKEN_PREFIX: str = "gAAAAA"
+_MAX_TOKEN_WRAP_DEPTH: int = 3
+_SALT_RELATIVE: str = ".auto_crypto_salt"
+_STATE_SECRET_RELATIVE: str = ".state_secret"
+_STATE_SECRET_BYTES: int = 32
+_RESTRICTED_FILE_MODE: int = 0o600
+
+PASSTHROUGH_KEYS: tuple[str, ...] = (
+    "completed_phases",
+    "phase",
+    "current_phase",
+    "notes",
+    "gyms",
+    "target",
+    "phase_updated_at",
+)
+
+
+def _derive_crypto_key(password: str, salt: bytes) -> bytes:
+    """Derive a Fernet key from a password and salt (PBKDF2HMAC/SHA256)."""
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100_000)
+    return base64.urlsafe_b64encode(kdf.derive(password.encode()))
+
+
+def _machine_password() -> str | None:
+    """Return a device-bound secret used as at-rest key material of last resort.
+
+    The secret lives in ``sessions/.state_secret`` with mode 0o600. It is
+    created on first use, so any environment that can write the state file
+    can also resolve this key; the operator-facing key material (master
+    password, CLI login) always takes precedence. When neither an
+    environment password nor an operator session nor a creatable/readable
+    device secret is available, at-rest security cannot be guaranteed and
+    the caller must fail closed instead of persisting clear text.
+
+    Returns:
+        Hex-encoded secret string, or None when the secret file cannot be
+        created, read, or has the wrong mode.
+    """
+    from core.hardening import safe_path_join
+
+    secret_path = Path(safe_path_join(str(_SESSIONS_DIR), _STATE_SECRET_RELATIVE))
+    try:
+        if secret_path.exists():
+            mode = stat.S_IMODE(secret_path.stat().st_mode)
+            if mode & 0o022:
+                log.warning("world_model: %s has an unsafe mode, refusing device key", secret_path)
+                return None
+            value = secret_path.read_text(encoding="utf-8").strip()
+            if len(value) >= _STATE_SECRET_BYTES:
+                return value
+            return None
+        _SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
+        fd = os.open(secret_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, _RESTRICTED_FILE_MODE)
+        try:
+            os.write(fd, secrets.token_hex(_STATE_SECRET_BYTES).encode())
+        finally:
+            os.close(fd)
+        os.chmod(secret_path, _RESTRICTED_FILE_MODE)
+        return secret_path.read_text(encoding="utf-8").strip()
+    except Exception as exc:
+        log.warning("world_model: device key unavailable: %s", exc)
+        return None
+
+
+def _master_password() -> str | None:
+    """Return the shared master password for state-at-rest protection.
+
+    Resolution order mirrors ``cli.auto_crypto.build_password_provider_from_cli_login``
+    and ends with a device-bound fallback so saves never degrade to clear
+    text when the sessions directory is writable:
+
+        1. ``LAZYOWN_MASTER_PASSWORD`` environment variable.
+        2. ``lazyown:<operator>`` for the authenticated CLI operator
+           (the same key material the auto-crypto engine derives from).
+        3. ``sessions/.state_secret`` device-bound secret (mode 0o600).
+
+    Returns None only when no credential source is available, which means
+    ``write_state_dict`` must refuse to persist sensitive state.
+    """
+    password = os.environ.get("LAZYOWN_MASTER_PASSWORD")
+    if password:
+        return password
+    try:
+        from modules.cli_auth import get_current_operator
+
+        operator = get_current_operator()
+        if operator:
+            return f"lazyown:{operator}"
+    except Exception:
+        pass
+    return _machine_password()
+
+
+def _load_or_create_salt(salt_path: Path) -> bytes:
+    """Read a persisted 16-byte salt or create one with restricted mode.
+
+    Mirrors ``cli.auto_crypto.AutoCryptoEngine._load_or_create_salt`` so
+    both writers derive keys from the same material.
+
+    Args:
+        salt_path: Destination of the salt bytes.
+
+    Returns:
+        Salt bytes (at least 16 bytes); empty when salt persistence failed.
+    """
+    salt_path = Path(salt_path)
+    try:
+        raw = salt_path.read_bytes()
+        if len(raw) >= 16:
+            return raw[:16]
+    except FileNotFoundError:
+        pass
+    except OSError as exc:
+        log.warning("world_model: cannot read salt: %s", exc)
+    salt = secrets.token_bytes(16)
+    try:
+        salt_path.parent.mkdir(parents=True, exist_ok=True)
+        fd = os.open(salt_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, _RESTRICTED_FILE_MODE)
+        try:
+            os.write(fd, salt)
+        finally:
+            os.close(fd)
+        return salt
+    except FileExistsError:
+        try:
+            raw = salt_path.read_bytes()
+            if len(raw) >= 16:
+                return raw[:16]
+        except OSError as exc:
+            log.warning("world_model: cannot re-read salt: %s", exc)
+        return salt
+    except OSError as exc:
+        log.warning("world_model: cannot write salt: %s", exc)
+        return salt
+
+
+def _encrypt_payload(payload: bytes, password: str, salt: bytes) -> str:
+    """Encrypt one JSON payload with Fernet under a PBKDF2-derived key.
+
+    Args:
+        payload: Serialized document bytes.
+        password: Key material password.
+        salt: PBKDF2 salt.
+
+    Returns:
+        A Fernet token string.
+
+    Raises:
+        Exception: when Fernet encryption fails.
+    """
+    from cryptography.fernet import Fernet
+
+    cipher = Fernet(_derive_crypto_key(password, salt))
+    return cipher.encrypt(payload).decode("ascii")
+
+
+def _decrypt_payload_text(text: str, password: str, salt: bytes) -> dict:
+    """Decrypt one Fernet token and parse the JSON document inside.
+
+    Nested tokens are unwrapped up to ``_MAX_TOKEN_WRAP_DEPTH`` levels so
+    documents re-encrypted in place by an external engine (auto-crypto)
+    remain transparently readable.
+
+    Args:
+        text: Fernet token string.
+        password: Key material password candidate.
+        salt: PBKDF2 salt.
+
+    Returns:
+        The decoded document, or an empty dict on any failure.
+    """
+    current = text
+    for _ in range(_MAX_TOKEN_WRAP_DEPTH):
+        try:
+            from cryptography.fernet import Fernet
+
+            cipher = Fernet(_derive_crypto_key(password, salt))
+            decrypted = cipher.decrypt(current.encode("ascii"))
+        except Exception as exc:
+            log.warning("world_model: failed to decrypt state: %s", exc)
+            return {}
+        try:
+            parsed = json.loads(decrypted.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            candidate = decrypted.decode("utf-8", errors="replace")
+            if candidate.startswith(_FERNET_TOKEN_PREFIX):
+                current = candidate
+                continue
+            log.warning("world_model: decrypted payload is neither JSON nor a nested token")
+            return {}
+        return parsed if isinstance(parsed, dict) else {}
+    log.warning("world_model: exceeded nested token depth")
+    return {}
+
+
+def _read_encrypted_dict(path: Path) -> dict:
+    """Decrypt an at-rest encrypted state document as ``read_state_dict``.
+
+    The plain file containing a Fernet token takes priority, while the
+    sibling with ``ENCRYPTED_SUFFIX`` is honoured for files written by the
+    auto-crypto engine. Failure returns an empty dict.
+
+    Args:
+        path: Base path (without ``ENCRYPTED_SUFFIX`` generally).
+
+    Returns:
+        The decoded document dict
+    """
+    password = _master_password()
+    if not password:
+        log.warning("world_model: %s encrypted but no key material available", path)
+        return {}
+    salt = _load_or_create_salt(path.parent / _SALT_RELATIVE)
+    if not salt:
+        log.warning("world_model: no salt available to decrypt state %s", path)
+        return {}
+    for candidate in (path, Path(str(path) + ENCRYPTED_SUFFIX)):
+        try:
+            if not candidate.is_file():
+                continue
+            document = _decrypt_payload_text(candidate.read_text(encoding="ascii", errors="strict"), password, salt)
+            if document:
+                return document
+        except Exception:
+            continue
+    return {}
+
+
+def read_state_dict(path: str | Path) -> dict:
+    """Read a world-model state dict, transparently decrypting at rest.
+
+    Priority:
+        1. Plain ``world_model.json`` (legacy clear-text JSON).
+        2. Plain ``world_model.json`` holding a Fernet token (written by
+           ``write_state_dict`` since at-rest encryption became default).
+        3. Crypto-encrypted ``world_model.json.encrypted`` (decrypted with
+           ``LAZYOWN_MASTER_PASSWORD`` or the CLI login and the persisted
+           ``.auto_crypto_salt``).
+
+    Returns an empty dict when no readable state exists.
+
+    Args:
+        path: Path to the plain state file.
+
+    Returns:
+        The decoded JSON document as a dict.
+    """
+    plain = Path(path)
+    if plain.exists():
+        try:
+            return json.loads(plain.read_text(encoding="utf-8"))
+        except Exception:
+            document = _read_encrypted_dict(plain)
+            if document:
+                return document
+            log.warning("world_model.read_state_dict: unreadable state %s", plain)
+            return {}
+    encrypted = Path(str(plain) + ENCRYPTED_SUFFIX)
+    if encrypted.is_file():
+        return _read_encrypted_dict(plain)
+    return {}
+
+
+def write_state_dict(path: str | Path, data: dict) -> bool:
+    """Atomically write a world-model state dict encrypted at rest.
+
+    Every write is Fernet-encrypted (PBKDF2/SHA256 over master password
+    material and the persisted ``.auto_crypto_salt``). Key resolution
+    mirrors ``_master_password``: env password, CLI operator, device
+    secret. When no key material is available the write fails closed so
+    sensitive findings are never persisted in clear text.
+
+    Args:
+        path: Destination plain state file path.
+        data: State document to serialise.
+
+    Returns:
+        True when the encrypted write succeeded, False otherwise.
+    """
+    plain = Path(path)
+    password = _master_password()
+    tmp = plain.with_suffix(".json.tmp")
+    try:
+        if not password:
+            log.warning(
+                "world_model.write_state_dict: refusing clear-text persist of sensitive state at %s", plain
+            )
+            return False
+        payload = json.dumps(data, indent=2).encode("utf-8")
+        token = _encrypt_payload(payload, password, _load_or_create_salt(plain.parent / _SALT_RELATIVE))
+        plain.parent.mkdir(parents=True, exist_ok=True)
+        tmp.write_text(token, encoding="ascii")
+        os.chmod(tmp, _RESTRICTED_FILE_MODE)
+        tmp.replace(plain)
+        os.chmod(plain, _RESTRICTED_FILE_MODE)
+        return True
+    except Exception as exc:
+        log.warning("world_model.write_state_dict: %s", exc)
+        try:
+            if tmp.exists():
+                tmp.unlink()
+        except OSError:
+            pass
+        return False
 
 
 # ---------------------------------------------------------------------------
 # Value objects
 # ---------------------------------------------------------------------------
 
-class HostState(str, Enum):
+
+class HostState(StrEnum):
     """Ordered engagement states for a single host."""
-    UNSCANNED   = "unscanned"
-    SCANNED     = "scanned"       # nmap completed
-    ENUMERATED  = "enumerated"    # services enumerated (gobuster, smb, ldap…)
-    EXPLOITED   = "exploited"     # initial foothold obtained
-    OWNED       = "owned"         # privilege escalation successful
+
+    UNSCANNED = "unscanned"
+    SCANNED = "scanned"  # nmap completed
+    ENUMERATED = "enumerated"  # services enumerated (gobuster, smb, ldap…)
+    EXPLOITED = "exploited"  # initial foothold obtained
+    OWNED = "owned"  # privilege escalation successful
 
     def rank(self) -> int:
         return list(HostState).index(self)
 
-    def can_advance_to(self, next_state: "HostState") -> bool:
+    def can_advance_to(self, next_state: HostState) -> bool:
         return next_state.rank() == self.rank() + 1
 
 
-class EngagementPhase(str, Enum):
+class EngagementPhase(StrEnum):
     """Derived from the aggregate host state across all targets."""
-    RECON            = "recon"
-    SCANNING         = "scanning"
-    ENUMERATION      = "enumeration"
-    EXPLOITATION     = "exploitation"
+
+    RECON = "recon"
+    SCANNING = "scanning"
+    ENUMERATION = "enumeration"
+    EXPLOITATION = "exploitation"
     POST_EXPLOITATION = "post_exploitation"
-    COMPLETE         = "complete"
+    COMPLETE = "complete"
 
 
 @dataclass
 class ServiceInfo:
-    port:     int
-    protocol: str  = "tcp"
-    name:     str  = ""
-    version:  str  = ""
-    state:    str  = "open"
+    port: int
+    protocol: str = "tcp"
+    name: str = ""
+    version: str = ""
+    state: str = "open"
 
 
 @dataclass
 class CredentialEntry:
-    value:     str                     # "user:pass" or hash
-    host:      str  = ""
-    service:   str  = ""
+    value: str  # "user:pass" or hash
+    host: str = ""
+    service: str = ""
     confirmed: bool = False
-    found_at:  str  = field(default_factory=lambda: datetime.now().isoformat())
+    found_at: str = field(default_factory=lambda: datetime.now().isoformat())
 
 
 @dataclass
 class VulnerabilityEntry:
     description: str
-    host:        str  = ""
-    cve:         str  = ""
-    severity:    str  = "UNKNOWN"
-    found_at:    str  = field(default_factory=lambda: datetime.now().isoformat())
+    host: str = ""
+    cve: str = ""
+    severity: str = "UNKNOWN"
+    found_at: str = field(default_factory=lambda: datetime.now().isoformat())
+
+
+@dataclass
+class EmailEntry:
+    address: str
+    host: str = ""
+    context: str = ""
+    found_at: str = field(default_factory=lambda: datetime.now().isoformat())
+
+
+@dataclass
+class DomainEntry:
+    domain: str
+    host: str = ""
+    context: str = ""
+    found_at: str = field(default_factory=lambda: datetime.now().isoformat())
 
 
 @dataclass
@@ -117,11 +450,12 @@ class NetworkRelation:
         service:<name>     — a running service (e.g. service:smb)
         cred:<hash>        — a captured credential (first 12 chars)
     """
-    source:     str
-    target:     str
-    relation:   str             # e.g. has_session, runs_service, shares_cred_with
-    weight:     float = 1.0
-    attributes: Dict[str, str] = field(default_factory=dict)
+
+    source: str
+    target: str
+    relation: str  # e.g. has_session, runs_service, shares_cred_with
+    weight: float = 1.0
+    attributes: dict[str, str] = field(default_factory=dict)
 
 
 # ---------------------------------------------------------------------------
@@ -154,7 +488,7 @@ class NetworkGraph:
 
     def __init__(self) -> None:
         # adjacency[source][target] = [NetworkRelation, ...]
-        self._adjacency: Dict[str, Dict[str, List[NetworkRelation]]] = {}
+        self._adjacency: dict[str, dict[str, list[NetworkRelation]]] = {}
         self._nodes: set = set()
 
     # ── Mutations ─────────────────────────────────────────────────────────────
@@ -163,28 +497,23 @@ class NetworkGraph:
         """Add a directed edge. Duplicate edges accumulate (multi-graph)."""
         self._nodes.add(relation.source)
         self._nodes.add(relation.target)
-        self._adjacency \
-            .setdefault(relation.source, {}) \
-            .setdefault(relation.target, []) \
-            .append(relation)
+        self._adjacency.setdefault(relation.source, {}).setdefault(relation.target, []).append(relation)
 
     # ── Queries ───────────────────────────────────────────────────────────────
 
-    def neighbors(self, node: str) -> List[str]:
+    def neighbors(self, node: str) -> list[str]:
         """Return nodes reachable from *node* in one outbound hop."""
         return list(self._adjacency.get(node, {}).keys())
 
     def in_degree(self, node: str) -> int:
         """Count edges pointing INTO *node*."""
-        return sum(
-            1 for targets in self._adjacency.values() if node in targets
-        )
+        return sum(1 for targets in self._adjacency.values() if node in targets)
 
     def out_degree(self, node: str) -> int:
         """Count edges leaving *node*."""
         return len(self._adjacency.get(node, {}))
 
-    def degree_centrality(self) -> List[tuple]:
+    def degree_centrality(self) -> list[tuple]:
         """
         Return (node, centrality_score) pairs sorted descending by score.
         Score is normalized to [0.0, 1.0] over all discovered nodes.
@@ -193,71 +522,75 @@ class NetworkGraph:
         if n <= 1:
             return [(node, 0.0) for node in self._nodes]
         denominator = 2.0 * (n - 1)
-        scores: Dict[str, float] = {}
+        scores: dict[str, float] = {}
         for node in self._nodes:
             total = self.in_degree(node) + self.out_degree(node)
             scores[node] = round(total / denominator, 4)
         return sorted(scores.items(), key=lambda kv: -kv[1])
 
-    def pivot_candidates(self, top_k: int = 5) -> List[Dict]:
+    def pivot_candidates(self, top_k: int = 5) -> list[dict]:
         """
         Return the *top_k* highest-centrality nodes as pivot candidates.
         The returned list is suitable for injection into an LLM prompt as
         strategic network context.
         """
         centrality = dict(self.degree_centrality())
-        candidates: List[Dict] = []
-        for node, score in sorted(
-            centrality.items(), key=lambda kv: -kv[1]
-        )[:top_k]:
-            candidates.append({
-                "node":       node,
-                "centrality": score,
-                "out_degree": self.out_degree(node),
-                "in_degree":  self.in_degree(node),
-                "neighbors":  self.neighbors(node)[:8],
-            })
+        candidates: list[dict] = []
+        for node, score in sorted(centrality.items(), key=lambda kv: -kv[1])[:top_k]:
+            candidates.append(
+                {
+                    "node": node,
+                    "centrality": score,
+                    "out_degree": self.out_degree(node),
+                    "in_degree": self.in_degree(node),
+                    "neighbors": self.neighbors(node)[:8],
+                }
+            )
         return candidates
 
     # ── Serialization ─────────────────────────────────────────────────────────
 
     def to_dict(self) -> dict:
-        relations: List[dict] = []
-        for src, targets in self._adjacency.items():
-            for tgt, rels in targets.items():
+        relations: list[dict] = []
+        for _src, targets in self._adjacency.items():
+            for _tgt, rels in targets.items():
                 for r in rels:
-                    relations.append({
-                        "source":     r.source,
-                        "target":     r.target,
-                        "relation":   r.relation,
-                        "weight":     r.weight,
-                        "attributes": r.attributes,
-                    })
+                    relations.append(
+                        {
+                            "source": r.source,
+                            "target": r.target,
+                            "relation": r.relation,
+                            "weight": r.weight,
+                            "attributes": r.attributes,
+                        }
+                    )
         return {"nodes": list(self._nodes), "relations": relations}
 
     @classmethod
-    def from_dict(cls, data: dict) -> "NetworkGraph":
+    def from_dict(cls, data: dict) -> NetworkGraph:
         g = cls()
         for r in data.get("relations", []):
-            g.add_relation(NetworkRelation(
-                source=r["source"],
-                target=r["target"],
-                relation=r["relation"],
-                weight=r.get("weight", 1.0),
-                attributes=r.get("attributes", {}),
-            ))
+            g.add_relation(
+                NetworkRelation(
+                    source=r["source"],
+                    target=r["target"],
+                    relation=r["relation"],
+                    weight=r.get("weight", 1.0),
+                    attributes=r.get("attributes", {}),
+                )
+            )
         return g
 
 
 @dataclass
 class HostEntry:
-    ip:              str
-    state:           HostState              = HostState.UNSCANNED
-    os_hint:         str                    = ""
-    services:        Dict[int, ServiceInfo] = field(default_factory=dict)
-    notes:           List[str]              = field(default_factory=list)
-    cloud_metadata:  Dict[str, str]         = field(default_factory=dict)
-    last_updated:    str                    = field(default_factory=lambda: datetime.now().isoformat())
+    ip: str
+    state: HostState = HostState.UNSCANNED
+    os_hint: str = ""
+    services: dict[int, ServiceInfo] = field(default_factory=dict)
+    notes: list[str] = field(default_factory=list)
+    cloud_metadata: dict[str, str] = field(default_factory=dict)
+    last_updated: str = field(default_factory=lambda: datetime.now().isoformat())
 
     def add_service(self, svc: ServiceInfo) -> None:
         self.services[svc.port] = svc
@@ -266,34 +599,38 @@ class HostEntry:
     def advance(self, new_state: HostState) -> bool:
         """Advance state only if new_state is the next valid step. Returns True if changed."""
         if new_state.rank() > self.state.rank():
-            self.state        = new_state
+            self.state = new_state
             self.last_updated = datetime.now().isoformat()
             return True
         return False
 
     def to_dict(self) -> dict:
         return {
-            "ip":             self.ip,
-            "state":          self.state.value,
-            "os_hint":        self.os_hint,
-            "services":       {str(p): vars(s) for p, s in self.services.items()},
-            "notes":          self.notes,
+            "ip": self.ip,
+            "state": self.state.value,
+            "os_hint": self.os_hint,
+            "services": {str(p): vars(s) for p, s in self.services.items()},
+            "notes": self.notes,
             "cloud_metadata": self.cloud_metadata,
-            "last_updated":   self.last_updated,
+            "last_updated": self.last_updated,
         }
 
     @classmethod
-    def from_dict(cls, d: dict) -> "HostEntry":
+    def from_dict(cls, d: dict) -> HostEntry:
+        raw_state = str(d.get("state", "")).strip().lower()
+        if raw_state not in {item.value for item in HostState}:
+            raw_state = HostState.UNSCANNED.value
         h = cls(
-            ip             = d["ip"],
-            state          = HostState(d.get("state", HostState.UNSCANNED.value)),
-            os_hint        = d.get("os_hint", ""),
-            notes          = d.get("notes", []),
-            cloud_metadata = d.get("cloud_metadata", {}),
-            last_updated   = d.get("last_updated", ""),
+            ip=d["ip"],
+            state=HostState(raw_state),
+            os_hint=d.get("os_hint", ""),
+            notes=d.get("notes", []),
+            cloud_metadata=d.get("cloud_metadata", {}),
+            last_updated=d.get("last_updated", ""),
         )
+        service_fields = {f.name for f in dataclass_fields(ServiceInfo)}
         for port_str, svc in d.get("services", {}).items():
-            h.services[int(port_str)] = ServiceInfo(**svc)
+            h.services[int(port_str)] = ServiceInfo(**{k: v for k, v in svc.items() if k in service_fields})
         return h
 
 
@@ -301,21 +638,22 @@ class HostEntry:
 # Phase derivation
 # ---------------------------------------------------------------------------
 
+
 class _PhaseDeriver:
     """
     Derives the current EngagementPhase from the aggregate host states.
     Keeps the derivation logic isolated so it can be swapped or extended.
     """
 
-    _STATE_TO_PHASE: Dict[str, EngagementPhase] = {
-        HostState.UNSCANNED.value:  EngagementPhase.RECON,
-        HostState.SCANNED.value:    EngagementPhase.SCANNING,
+    _STATE_TO_PHASE: dict[str, EngagementPhase] = {
+        HostState.UNSCANNED.value: EngagementPhase.RECON,
+        HostState.SCANNED.value: EngagementPhase.SCANNING,
         HostState.ENUMERATED.value: EngagementPhase.ENUMERATION,
-        HostState.EXPLOITED.value:  EngagementPhase.EXPLOITATION,
-        HostState.OWNED.value:      EngagementPhase.POST_EXPLOITATION,
+        HostState.EXPLOITED.value: EngagementPhase.EXPLOITATION,
+        HostState.OWNED.value: EngagementPhase.POST_EXPLOITATION,
     }
 
-    def derive(self, hosts: Dict[str, HostEntry]) -> EngagementPhase:
+    def derive(self, hosts: dict[str, HostEntry]) -> EngagementPhase:
         if not hosts:
             return EngagementPhase.RECON
         if all(h.state == HostState.OWNED for h in hosts.values()):
@@ -328,40 +666,95 @@ class _PhaseDeriver:
 # MITRE tactic → phase mapping
 # ---------------------------------------------------------------------------
 
-PHASE_TO_MITRE_TACTICS: Dict[EngagementPhase, List[str]] = {
-    EngagementPhase.RECON:             ["TA0043 - Reconnaissance"],
-    EngagementPhase.SCANNING:          ["TA0007 - Discovery"],
-    EngagementPhase.ENUMERATION:       ["TA0007 - Discovery", "TA0006 - Credential Access"],
-    EngagementPhase.EXPLOITATION:      ["TA0001 - Initial Access", "TA0002 - Execution"],
-    EngagementPhase.POST_EXPLOITATION: ["TA0004 - Privilege Escalation", "TA0008 - Lateral Movement",
-                                        "TA0010 - Exfiltration"],
-    EngagementPhase.COMPLETE:          ["TA0040 - Impact"],
+PHASE_TO_MITRE_TACTICS: dict[EngagementPhase, list[str]] = {
+    EngagementPhase.RECON: ["TA0043 - Reconnaissance"],
+    EngagementPhase.SCANNING: ["TA0007 - Discovery"],
+    EngagementPhase.ENUMERATION: ["TA0007 - Discovery", "TA0006 - Credential Access"],
+    EngagementPhase.EXPLOITATION: ["TA0001 - Initial Access", "TA0002 - Execution"],
+    EngagementPhase.POST_EXPLOITATION: [
+        "TA0004 - Privilege Escalation",
+        "TA0008 - Lateral Movement",
+        "TA0010 - Exfiltration",
+        "TA0003 - Persistence",
+    ],
+    EngagementPhase.COMPLETE: ["TA0040 - Impact", "TA0003 - Persistence", "TA0010 - Exfiltration"],
 }
 
 # Phase → MCP tool names that are most relevant
-PHASE_TO_TOOLS: Dict[EngagementPhase, List[str]] = {
+PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
     EngagementPhase.RECON: [
-        "lazyown_tool_dig_any", "lazyown_tool_dig_reverse",
-        "lazyown_tool_gobuster_dns", "lazyown_tool_dnsrecon_axfr",
+        "lazyown_tool_dig_any",
+        "lazyown_tool_dig_reverse",
+        "lazyown_tool_gobuster_dns",
+        "lazyown_tool_dnsrecon_axfr",
+        "entra_attack",
+        "saas_enum",
+        "opsec_score",
     ],
     EngagementPhase.SCANNING: [
-        "lazyown_tool_enum_smb", "lazyown_tool_enum4linux_tool",
-        "lazyown_tool_ffuf_tool", "lazyown_tool_nikto_host",
-        "lazyown_tool_showmount_tool", "lazyown_tool_enum_rpcbind",
+        "lazyown_tool_enum_smb",
+        "lazyown_tool_enum4linux_tool",
+        "lazyown_tool_ffuf_tool",
+        "lazyown_tool_nikto_host",
+        "lazyown_tool_showmount_tool",
+        "lazyown_tool_enum_rpcbind",
+        "aws_privesc",
+        "gcp_privesc",
+        "k8s_attack",
+        "cross_cloud",
     ],
     EngagementPhase.ENUMERATION: [
-        "lazyown_tool_ldapsearch_tool", "lazyown_tool_smbclient_list",
-        "lazyown_tool_kerbrute_tool_user", "lazyown_tool_nxc_ldap",
+        "lazyown_tool_ldapsearch_tool",
+        "lazyown_tool_smbclient_list",
+        "lazyown_tool_kerbrute_tool_user",
+        "lazyown_tool_nxc_ldap",
         "lazyown_tool_gobuster_web",
+        "delegation_enum",
+        "delegation_attack",
+        "kerberoast",
+        "dacl_abuse",
+        "gpo_abuse",
+        "adcs_check",
     ],
     EngagementPhase.EXPLOITATION: [
-        "lazyown_tool_evil_winrm_tool", "lazyown_tool_hydrardp_tool",
-        "lazyown_tool_kerberoasting_tool", "lazyown_tool_asrep_roast",
+        "lazyown_tool_evil_winrm_tool",
+        "lazyown_tool_hydrardp_tool",
+        "lazyown_tool_kerberoasting_tool",
+        "lazyown_tool_asrep_roast",
         "lazyown_plugin_generate_reverse_shell",
+        "kerberos_ticket",
+        "dotnet_payload",
+        "staged_delivery",
+        "polymorphic",
+        "macos_payload",
+        "linux_advanced_payload",
     ],
     EngagementPhase.POST_EXPLOITATION: [
-        "lazyown_c2_command", "lazyown_c2_adversary",
-        "lazyown_tool_bloodhound-python", "lazyown_tool_crackmapexec_smb",
+        "lazyown_c2_command",
+        "lazyown_c2_adversary",
+        "lazyown_tool_bloodhound-python",
+        "lazyown_tool_crackmapexec_smb",
+        "opsec_score",
+        "log_tamper",
+        "forensic_clean",
+        "timestomp",
+        "memory_clean",
+        "network_opsec",
+        "kerberos_ticket",
+        "dacl_abuse",
+        "gpo_abuse",
+    ],
+    EngagementPhase.COMPLETE: [
+        "opsec_score",
+        "log_tamper",
+        "forensic_clean",
+        "timestomp",
+        "memory_clean",
+        "network_opsec",
+        "sitrep",
+        "note",
+        "encrypt",
+        "report",
     ],
 }
 
@@ -369,6 +762,7 @@ PHASE_TO_TOOLS: Dict[EngagementPhase, List[str]] = {
 # ---------------------------------------------------------------------------
 # WorldModel
 # ---------------------------------------------------------------------------
+
 
 class WorldModel:
     """
@@ -379,13 +773,17 @@ class WorldModel:
     """
 
     def __init__(self, path: str | Path = _DEFAULT_PATH) -> None:
-        self._path:    Path                       = Path(path)
-        self._lock:    threading.RLock             = threading.RLock()
-        self._hosts:   Dict[str, HostEntry]       = {}
-        self._creds:   List[CredentialEntry]      = []
-        self._vulns:   List[VulnerabilityEntry]   = []
-        self._graph:   NetworkGraph               = NetworkGraph()
-        self._deriver: _PhaseDeriver              = _PhaseDeriver()
+
+        self._path: Path = Path(path)
+        self._lock: threading.RLock = threading.RLock()
+        self._hosts: dict[str, HostEntry] = {}
+        self._creds: list[CredentialEntry] = []
+        self._vulns: list[VulnerabilityEntry] = []
+        self._emails: list[EmailEntry] = []
+        self._domains: list[DomainEntry] = []
+        self._graph: NetworkGraph = NetworkGraph()
+        self._deriver: _PhaseDeriver = _PhaseDeriver()
+        self._passthrough: dict[str, Any] = {}
         self._load()
 
     # ── Host management ───────────────────────────────────────────────────────
@@ -398,6 +796,32 @@ class WorldModel:
                 self._save()
             return self._hosts[ip]
 
+    def reset_host(self, ip: str) -> None:
+        """Clear a single host's state back to UNSCANNED for a fresh scan. Retains other hosts.
+
+        Args:
+            ip: Target host IP address.
+        """
+        with self._lock:
+            self._hosts[ip] = HostEntry(ip=ip)
+            self._save()
+
+    def remove_host(self, ip: str) -> bool:
+        """Remove one host from the model and persist the change.
+
+        Args:
+            ip: Host address to remove.
+
+        Returns:
+            True when the host existed and was removed.
+        """
+        with self._lock:
+            if ip not in self._hosts:
+                return False
+            self._hosts.pop(ip, None)
+            self._save()
+            return True
+
     def advance_host(self, ip: str, new_state: HostState) -> bool:
         with self._lock:
             host = self._hosts.get(ip) or self.add_host(ip)
@@ -407,20 +831,21 @@ class WorldModel:
                 self._save()
             return changed
 
-    def add_service(self, ip: str, port: int, name: str = "", version: str = "",
-                    protocol: str = "tcp") -> None:
+    def add_service(self, ip: str, port: int, name: str = "", version: str = "", protocol: str = "tcp") -> None:
         with self._lock:
             host = self._hosts.get(ip) or self.add_host(ip)
             host.add_service(ServiceInfo(port=port, name=name, version=version, protocol=protocol))
             if host.state == HostState.UNSCANNED:
                 host.advance(HostState.SCANNED)
             if name:
-                self._graph.add_relation(NetworkRelation(
-                    source=f"host:{ip}",
-                    target=f"service:{name}",
-                    relation="runs_service",
-                    attributes={"port": str(port), "version": version},
-                ))
+                self._graph.add_relation(
+                    NetworkRelation(
+                        source=f"host:{ip}",
+                        target=f"service:{name}",
+                        relation="runs_service",
+                        attributes={"port": str(port), "version": version},
+                    )
+                )
             self._save()
 
     def add_note(self, ip: str, note: str) -> None:
@@ -430,30 +855,73 @@ class WorldModel:
                 host.notes.append(note)
                 self._save()
 
+    def set_os_hint(self, ip: str, os_hint: str) -> None:
+        """Set the operating system hint for a host.
+
+        Args:
+            ip: Target host IP address.
+            os_hint: OS name hint (``"linux"``, ``"windows"``, or ``""``).
+        """
+        with self._lock:
+            host = self._hosts.get(ip) or self.add_host(ip)
+            if host.os_hint != os_hint:
+                host.os_hint = os_hint
+                host.last_updated = datetime.now().isoformat()
+                self._save()
+
+    def get_host(self, ip: str) -> HostEntry | None:
+        """Return a host entry by IP, or None if not found.
+
+        Args:
+            ip: Target host IP address.
+
+        Returns:
+            :class:`HostEntry` if found, otherwise ``None``.
+        """
+        with self._lock:
+            return self._hosts.get(ip)
+
+    def get_hosts_summary(self) -> dict[str, str]:
+        """Return a mapping of IP -> state for all tracked hosts.
+
+        Returns:
+            Dict of ``{ip: state_value}`` for every host in the model.
+        """
+        with self._lock:
+            return {ip: h.state.value for ip, h in self._hosts.items()}
+
     # ── Credential / vulnerability tracking ───────────────────────────────────
 
     def add_credential(self, value: str, host: str = "", service: str = "") -> None:
+        _PLACEHOLDER_TOKENS = ("CHANGE_ME", "CHANGEME", "YOUR_API_KEY_HERE", "YOUR_API_KEY")
+        upper_value = value.upper()
+        if any(t.upper() in upper_value for t in _PLACEHOLDER_TOKENS):
+            return
         with self._lock:
             if not any(c.value == value for c in self._creds):
                 self._creds.append(CredentialEntry(value=value, host=host, service=service))
                 log.info("WorldModel: credential captured for %s", host or "unknown")
                 cred_node = f"cred:{value[:12]}"
                 if host:
-                    self._graph.add_relation(NetworkRelation(
-                        source=f"host:{host}",
-                        target=cred_node,
-                        relation="exposes_credential",
-                        attributes={"service": service},
-                    ))
+                    self._graph.add_relation(
+                        NetworkRelation(
+                            source=f"host:{host}",
+                            target=cred_node,
+                            relation="exposes_credential",
+                            attributes={"service": service},
+                        )
+                    )
                     # Credential potentially grants access to other hosts
                     for other_ip in self._hosts:
                         if other_ip != host:
-                            self._graph.add_relation(NetworkRelation(
-                                source=cred_node,
-                                target=f"host:{other_ip}",
-                                relation="may_authenticate_to",
-                                weight=0.5,
-                            ))
+                            self._graph.add_relation(
+                                NetworkRelation(
+                                    source=cred_node,
+                                    target=f"host:{other_ip}",
+                                    relation="may_authenticate_to",
+                                    weight=0.5,
+                                )
+                            )
                 self._save()
 
     def link_credential_to_success(self, value: str, host: str) -> None:
@@ -463,12 +931,14 @@ class WorldModel:
         with self._lock:
             cred_node = f"cred:{value[:12]}"
             host_node = f"host:{host}"
-            self._graph.add_relation(NetworkRelation(
-                source=cred_node,
-                target=host_node,
-                relation="authenticates_to",
-                weight=1.0,
-            ))
+            self._graph.add_relation(
+                NetworkRelation(
+                    source=cred_node,
+                    target=host_node,
+                    relation="authenticates_to",
+                    weight=1.0,
+                )
+            )
             # Also find the CredentialEntry and mark as confirmed
             for c in self._creds:
                 if c.value == value:
@@ -492,23 +962,42 @@ class WorldModel:
         with self._lock:
             cred_node = f"cred:{value[:12]}"
             host_node = f"host:{host}"
-            self._graph.add_relation(NetworkRelation(
-                source=cred_node,
-                target=host_node,
-                relation="rejected_by",
-                weight=0.0,
-            ))
+            self._graph.add_relation(
+                NetworkRelation(
+                    source=cred_node,
+                    target=host_node,
+                    relation="rejected_by",
+                    weight=0.0,
+                )
+            )
             for c in self._creds:
                 if c.value == value:
                     c.confirmed = False
             self._save()
 
-    def add_vulnerability(self, description: str, host: str = "",
-                           cve: str = "", severity: str = "UNKNOWN") -> None:
+    def add_vulnerability(self, description: str, host: str = "", cve: str = "", severity: str = "UNKNOWN") -> None:
         with self._lock:
             entry = VulnerabilityEntry(description=description, host=host, cve=cve, severity=severity)
             self._vulns.append(entry)
             self._save()
+
+    def add_email(self, address: str, host: str = "", context: str = "") -> None:
+        with self._lock:
+            if not any(e.address == address for e in self._emails):
+                self._emails.append(EmailEntry(address=address, host=host, context=context))
+                self._save()
+
+    def add_domain(self, domain: str, host: str = "", context: str = "") -> None:
+        with self._lock:
+            if not any(d.domain == domain for d in self._domains):
+                self._domains.append(DomainEntry(domain=domain, host=host, context=context))
+                if host:
+                    existing = self._hosts.get(host)
+                    if existing:
+                        note = f"domain: {domain}" + (f" ({context})" if context else "")
+                        if note not in existing.notes:
+                            existing.notes.append(note)
+                self._save()
 
     # ── Finding integration ───────────────────────────────────────────────────
 
@@ -520,7 +1009,9 @@ class WorldModel:
         for f in findings:
             ftype = getattr(f, "type", "")
             value = getattr(f, "value", "")
-            host  = getattr(f, "host",  "")
+
+            host = getattr(f, "host", "")
+            meta = getattr(f, "metadata", {}) or {}
             if not value:
                 continue
             try:
@@ -530,10 +1021,16 @@ class WorldModel:
                     self.add_credential(value, host=host)
                 elif ftype == "service_version":
                     if host:
-                        parts = value.split(" ", 1)
-                        name    = parts[0]
-                        version = parts[1] if len(parts) > 1 else ""
-                        self.add_note(host, f"service: {value}")
+                        name, _, version = value.partition(" ")
+                        port = meta.get("port", 0)
+                        protocol = meta.get("protocol", "tcp")
+                        self.add_service(
+                            host,
+                            port=int(port) if port else 0,
+                            name=name.strip(),
+                            version=version.strip(),
+                            protocol=str(protocol),
+                        )
                 elif ftype == "cve":
                     self.add_vulnerability(value, host=host, cve=value)
                 elif ftype == "hash":
@@ -544,21 +1041,175 @@ class WorldModel:
                 elif ftype == "username":
                     if host:
                         self.add_note(host, f"user: {value}")
+                elif ftype == "domain":
+                    if host:
+                        self.add_domain(value, host=host)
+                    else:
+                        self.add_domain(value)
+                elif ftype == "email":
+                    if host:
+                        self.add_email(value, host=host)
+                    else:
+                        self.add_email(value)
+                elif ftype == "error":
+                    if host:
+                        self.add_note(host, f"error: {value}")
+                    else:
+                        self.add_note("0.0.0.0", f"global_error: {value}")
                 elif ftype == "cloud_role":
                     if host:
                         h = self._hosts.get(host) or self.add_host(host)
                         h.cloud_metadata["iam_role"] = value
-                        self._graph.add_relation(NetworkRelation(
-                            source=f"host:{host}",
-                            target=f"cloud:{value}",
-                            relation="has_role",
-                        ))
+                        self._graph.add_relation(
+                            NetworkRelation(
+                                source=f"host:{host}",
+                                target=f"cloud:{value}",
+                                relation="has_role",
+                            )
+                        )
                 elif ftype == "k8s_resource":
                     if host:
                         h = self._hosts.get(host) or self.add_host(host)
                         h.cloud_metadata["k8s_resource"] = value
             except Exception as exc:
                 log.debug("WorldModel.update_from_findings: %s", exc)
+
+    def consume_policy_facts(self, facts_path: str | Path | None = None) -> int:
+        """Ingest structured facts from FactStore's ``policy_facts.json``.
+
+        Reads hosts, services, credentials, and vulnerabilities discovered by
+        the FactStore parser and merges them into the world model. Returns the
+        total number of new facts ingested.
+
+        Args:
+            facts_path: Path to ``policy_facts.json``. Defaults to
+                ``sessions/policy_facts.json``.
+
+        Returns:
+            Count of newly ingested fact entries.
+        """
+        if facts_path is None:
+            facts_path = _SESSIONS_DIR / "policy_facts.json"
+        facts_file = Path(facts_path)
+        if not facts_file.exists():
+            log.debug("consume_policy_facts: %s not found", facts_file)
+            return 0
+
+        try:
+            data = json.loads(facts_file.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            log.warning("consume_policy_facts: failed to read %s: %s", facts_file, exc)
+            return 0
+
+        try:
+            from modules.factsio import canonical_policy_facts
+
+            hosts_cell = canonical_policy_facts(data)
+        except ImportError:
+            legacy_hosts = data.get("hosts") if isinstance(data, dict) else None
+            legacy_hosts = legacy_hosts if isinstance(legacy_hosts, dict) else {}
+            hosts_cell = legacy_hosts or {
+                key: value
+                for key, value in (data.items() if isinstance(data, dict) else [])
+                if isinstance(value, dict)
+            }
+        legacy_credentials = data.get("credentials", []) if isinstance(data, dict) else []
+        legacy_credentials = legacy_credentials if isinstance(legacy_credentials, list) else []
+
+        ingested = 0
+        with self._lock:
+            for host_ip, host_data in hosts_cell.items():
+                self.add_host(host_ip)
+
+                for svc in host_data.get("services", []):
+                    if isinstance(svc, dict):
+                        self.add_service(
+                            ip=host_ip,
+                            port=int(svc.get("port", 0)),
+                            name=str(svc.get("service", "") or svc.get("name", "")),
+                            version=str(svc.get("version", "")),
+                            protocol=str(svc.get("protocol", "tcp")),
+                        )
+                        ingested += 1
+
+                if host_data.get("os_hint"):
+                    self.set_os_hint(host_ip, str(host_data["os_hint"]))
+
+                for cred in host_data.get("credentials", []):
+                    if isinstance(cred, dict) and self._cred_value(cred):
+                        self.add_credential(
+                            value=self._cred_value(cred),
+                            host=str(cred.get("host", "") or host_ip),
+                            service=str(cred.get("service", "")),
+                        )
+                        ingested += 1
+
+                for vuln in host_data.get("vulnerabilities", []):
+                    if isinstance(vuln, dict) and (vuln.get("vuln_id") or vuln.get("description")):
+                        self.add_vulnerability(
+                            description=str(
+                                vuln.get("title") or vuln.get("description") or vuln.get("vuln_id", "")
+                            ),
+                            host=str(vuln.get("host", "") or host_ip),
+                            cve=str(vuln.get("vuln_id", "") or vuln.get("cve", "")),
+                            severity=str(vuln.get("severity", "UNKNOWN")),
+                        )
+                        ingested += 1
+
+            for cred in legacy_credentials:
+                if isinstance(cred, dict) and cred.get("value"):
+                    self.add_credential(
+                        value=str(cred["value"]),
+                        host=str(cred.get("host", "")),
+                        service=str(cred.get("service", "")),
+                    )
+                    ingested += 1
+
+            for domain in data.get("domains", []):
+                if isinstance(domain, dict) and domain.get("domain"):
+                    self.add_domain(
+                        domain=str(domain["domain"]),
+                        host=str(domain.get("host", "")),
+                    )
+                    ingested += 1
+                elif isinstance(domain, str):
+                    self.add_domain(domain)
+                    ingested += 1
+
+            for vuln in data.get("vulnerabilities", []):
+                if isinstance(vuln, dict) and (vuln.get("vuln_id") or vuln.get("description")):
+                    self.add_vulnerability(
+                        description=str(vuln.get("title") or vuln.get("description") or vuln.get("vuln_id", "")),
+                        host=str(vuln.get("host", "")),
+                        cve=str(vuln.get("vuln_id", "") or vuln.get("cve", "")),
+                        severity=str(vuln.get("severity", "UNKNOWN")),
+                    )
+                    ingested += 1
+
+            for email in data.get("emails", []):
+                if isinstance(email, dict) and email.get("address"):
+                    self.add_email(
+                        address=str(email["address"]),
+                        host=str(email.get("host", "")),
+                    )
+                    ingested += 1
+                elif isinstance(email, str):
+                    self.add_email(email)
+                    ingested += 1
+
+        log.info("consume_policy_facts: ingested %d facts from %s", ingested, facts_file)
+        return ingested
+
+    @staticmethod
+    def _cred_value(cred: dict) -> str:
+        username = str(cred.get("username", "") or "")
+        password = str(cred.get("password", "") or "")
+        hash_value = str(cred.get("hash_value", "") or "")
+        if password:
+            return f"{username}:{password}"
+        if hash_value:
+            return hash_value
+        return username
 
     # ── Network graph ─────────────────────────────────────────────────────────
 
@@ -572,16 +1223,18 @@ class WorldModel:
     ) -> None:
         """Add an arbitrary directed relationship to the network graph."""
         with self._lock:
-            self._graph.add_relation(NetworkRelation(
-                source=source,
-                target=target,
-                relation=relation,
-                weight=weight,
-                attributes=dict(attributes),
-            ))
+            self._graph.add_relation(
+                NetworkRelation(
+                    source=source,
+                    target=target,
+                    relation=relation,
+                    weight=weight,
+                    attributes=dict(attributes),
+                )
+            )
             self._save()
 
-    def pivot_candidates(self, top_k: int = 5) -> List[Dict]:
+    def pivot_candidates(self, top_k: int = 5) -> list[dict]:
         """
         Return the top_k highest-centrality nodes as pivot candidates.
         Uses normalized degree centrality over the full network graph.
@@ -600,7 +1253,7 @@ class WorldModel:
         with self._lock:
             return self._deriver.derive(self._hosts)
 
-    def get_suggested_tools(self) -> List[str]:
+    def get_suggested_tools(self) -> list[str]:
         return PHASE_TO_TOOLS.get(self.get_phase(), [])
 
     def to_context_string(self) -> str:
@@ -610,19 +1263,19 @@ class WorldModel:
         """
         with self._lock:
             phase = self._deriver.derive(self._hosts)
-            lines: List[str] = [
+            lines: list[str] = [
                 f"Phase: {phase.value}",
                 f"Hosts: {len(self._hosts)}  "
                 f"Credentials: {len(self._creds)}  "
-                f"Vulnerabilities: {len(self._vulns)}",
+                f"Vulnerabilities: {len(self._vulns)}  "
+                f"Emails: {len(self._emails)}  "
+                f"Domains: {len(self._domains)}",
                 "",
             ]
             for ip, host in self._hosts.items():
-                svc_summary = ", ".join(
-                    f"{p}/{s.name}" for p, s in sorted(host.services.items())
-                ) or "no services"
+                svc_summary = ", ".join(f"{p}/{s.name}" for p, s in sorted(host.services.items())) or "no services"
                 lines.append(f"  [{host.state.value:11s}] {ip}  {host.os_hint or ''}  | {svc_summary}")
-                for note in host.notes[-3:]:          # last 3 notes per host
+                for note in host.notes[-3:]:  # last 3 notes per host
                     lines.append(f"             note: {note}")
 
             if self._creds:
@@ -636,16 +1289,26 @@ class WorldModel:
                     sev = f"[{v.severity}]" if v.severity != "UNKNOWN" else ""
                     lines.append(f"  {v.host or 'unknown'} {sev} {v.cve or ''} {v.description[:80]}")
 
-            lines.append(f"\nSuggested tools for {phase.value}: "
-                         + ", ".join(self.get_suggested_tools()[:5] or ["(any)"]))
+            if self._emails:
+                lines.append("\nDiscovered emails (latest 5):")
+                for e in self._emails[-5:]:
+                    lines.append(f"  {e.address}  host={e.host or 'unknown'}")
+
+            if self._domains:
+                lines.append("\nDiscovered domains (latest 10):")
+                for d in self._domains[-10:]:
+                    lines.append(f"  {d.domain}  host={d.host or 'unknown'}")
+
+            lines.append(
+                f"\nSuggested tools for {phase.value}: " + ", ".join(self.get_suggested_tools()[:5] or ["(any)"])
+            )
 
             pivots = self._graph.pivot_candidates(top_k=3)
             if pivots:
                 lines.append("\nTop pivot candidates (by network centrality):")
                 for p in pivots:
                     lines.append(
-                        f"  {p['node']}  centrality={p['centrality']:.3f}  "
-                        f"out={p['out_degree']} in={p['in_degree']}"
+                        f"  {p['node']}  centrality={p['centrality']:.3f}  out={p['out_degree']} in={p['in_degree']}"
                     )
 
             return "\n".join(lines)
@@ -655,38 +1318,67 @@ class WorldModel:
     def _save(self) -> None:
         """Write state to disk. Caller must hold _lock."""
         self._path.parent.mkdir(parents=True, exist_ok=True)
-        tmp = self._path.with_suffix(".json.tmp")
         try:
             data = {
-                "hosts":           {ip: h.to_dict() for ip, h in self._hosts.items()},
-                "credentials":     [vars(c) for c in self._creds],
+                "hosts": {ip: h.to_dict() for ip, h in self._hosts.items()},
+                "credentials": [vars(c) for c in self._creds],
                 "vulnerabilities": [vars(v) for v in self._vulns],
-                "network_graph":   self._graph.to_dict(),
-                "saved_at":        datetime.now().isoformat(),
+                "emails": [vars(e) for e in self._emails],
+                "domains": [vars(d) for d in self._domains],
+                "network_graph": self._graph.to_dict(),
+                "saved_at": datetime.now().isoformat(),
             }
-            tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
-            tmp.replace(self._path)
+            if self._passthrough:
+                data.update(self._passthrough)
+            write_state_dict(self._path, data)
         except Exception as exc:
             log.warning("WorldModel._save failed: %s", exc)
-            if tmp.exists():
-                tmp.unlink(missing_ok=True)
 
     def _load(self) -> None:
-        if not self._path.exists():
+        if not self._path.exists() and not Path(str(self._path) + ENCRYPTED_SUFFIX).is_file():
             return
         try:
-            data = json.loads(self._path.read_text(encoding="utf-8"))
+            data = read_state_dict(self._path)
             self._hosts = {ip: HostEntry.from_dict(h) for ip, h in data.get("hosts", {}).items()}
             self._creds = [CredentialEntry(**c) for c in data.get("credentials", [])]
             self._vulns = [VulnerabilityEntry(**v) for v in data.get("vulnerabilities", [])]
+            self._emails = [EmailEntry(**e) for e in data.get("emails", [])]
+            self._domains = [DomainEntry(**d) for d in data.get("domains", [])]
             if "network_graph" in data:
                 self._graph = NetworkGraph.from_dict(data["network_graph"])
-            log.info("WorldModel: loaded %d hosts, %d creds from %s",
-                     len(self._hosts), len(self._creds), self._path)
+
+            self._passthrough = {}
+            for key in PASSTHROUGH_KEYS:
+                if key in data:
+                    self._passthrough[key] = data[key]
+            log.info(
+                "WorldModel: loaded %d hosts, %d creds, %d emails, %d domains from %s",
+                len(self._hosts),
+                len(self._creds),
+                len(self._emails),
+                len(self._domains),
+                self._path,
+            )
         except Exception as exc:
             log.warning("WorldModel._load failed: %s — starting fresh", exc)
 
     # ── Convenience ───────────────────────────────────────────────────────────
+
+    def reload(self) -> None:
+        """Discard in-memory state and re-read from the persisted file.
+
+        Safe to call from any thread. Acquires the write lock during the
+        load to guarantee a consistent snapshot.
+        """
+        with self._lock:
+            self._hosts.clear()
+            self._creds.clear()
+            self._vulns.clear()
+            self._emails.clear()
+            self._domains.clear()
+            self._graph = NetworkGraph()
+            self._passthrough = {}
+            self._load()
 
     def reset(self) -> None:
         """Clear all state and delete the persisted file."""
@@ -694,6 +1386,8 @@ class WorldModel:
             self._hosts.clear()
             self._creds.clear()
             self._vulns.clear()
+            self._emails.clear()
+            self._domains.clear()
             if self._path.exists():
                 self._path.unlink()
 
@@ -701,26 +1395,73 @@ class WorldModel:
         """Return a plain-dict snapshot (for JSON serialisation)."""
         with self._lock:
             return {
-                "phase":           self.get_phase().value,
-                "hosts":           {ip: h.to_dict() for ip, h in self._hosts.items()},
-                "credentials":     [vars(c) for c in self._creds],
+                "phase": self.get_phase().value,
+                "hosts": {ip: h.to_dict() for ip, h in self._hosts.items()},
+                "credentials": [vars(c) for c in self._creds],
                 "vulnerabilities": [vars(v) for v in self._vulns],
+                "emails": [vars(e) for e in self._emails],
+                "domains": [vars(d) for d in self._domains],
                 "pivot_candidates": self._graph.pivot_candidates(top_k=5),
+                "sections": {key: copy.deepcopy(value) for key, value in self._passthrough.items()},
             }
+
+    # ── Generic allowlisted sections ─────────────────────────────────────────
+
+    def read_section(self, key: str) -> Any:
+        """Return one allowlisted passthrough section.
+
+        Args:
+            key: Section name from :data:`PASSTHROUGH_KEYS`.
+
+        Returns:
+            A deep copy of the stored value, or ``None``.
+
+        Raises:
+            KeyError: The section is not allowlisted.
+        """
+        if key not in PASSTHROUGH_KEYS:
+            raise KeyError(f"section not allowed: {key!r}")
+        with self._lock:
+            return copy.deepcopy(self._passthrough.get(key))
+
+    def write_section(self, key: str, value: Any) -> bool:
+        """Persist one allowlisted passthrough section atomically.
+
+        Args:
+            key: Section name from :data:`PASSTHROUGH_KEYS`.
+            value: JSON-serializable value.
+
+        Returns:
+            True when the state was written.
+
+        Raises:
+            KeyError: The section is not allowlisted.
+        """
+        if key not in PASSTHROUGH_KEYS:
+            raise KeyError(f"section not allowed: {key!r}")
+        with self._lock:
+            self._passthrough[key] = copy.deepcopy(value)
+            self._save()
+            return True
 
 
 # ---------------------------------------------------------------------------
 # Module-level singleton
 # ---------------------------------------------------------------------------
 
-_default_wm: Optional[WorldModel] = None
+_default_wm: WorldModel | None = None
 
 
-def get_world_model(path: str | Path = _DEFAULT_PATH) -> WorldModel:
-    """Return (or create) the module-level singleton WorldModel."""
+def get_world_model(path: str | Path | None = None) -> WorldModel:
+    """Return (or create) the module-level singleton WorldModel.
+
+    ``path`` defaults to the module's live :data:`_DEFAULT_PATH` at call
+    time rather than a captured import-time value, so callers (and tests)
+    that reassign ``_DEFAULT_PATH`` to redirect state get the redirect.
+    """
     global _default_wm
     if _default_wm is None:
-        _default_wm = WorldModel(path=path)
+        _default_wm = WorldModel(path=path if path is not None else _DEFAULT_PATH)
     return _default_wm
 
 
@@ -729,18 +1470,23 @@ def get_world_model(path: str | Path = _DEFAULT_PATH) -> WorldModel:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    import argparse, sys
+    import argparse
+    import logging
 
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn World Model CLI")
     sub = p.add_subparsers(dest="cmd")
 
-    sub.add_parser("show",  help="Print current world model context")
+    sub.add_parser("show", help="Print current world model context")
     sub.add_parser("reset", help="Clear world model")
     add_p = sub.add_parser("add-host", help="Add a host")
     add_p.add_argument("ip")
     add_p.add_argument("--state", default="scanned")
+    reset_host_p = sub.add_parser("reset-host", help="Reset one host to UNSCANNED")
+    reset_host_p.add_argument("ip")
+    remove_p = sub.add_parser("remove-host", help="Remove one host from the model")
+    remove_p.add_argument("ip")
 
     args = p.parse_args()
     wm = WorldModel()
@@ -755,3 +1501,9 @@ if __name__ == "__main__":
         wm.add_host(args.ip)
         wm.advance_host(args.ip, HostState(args.state))
         print(wm.to_context_string())
+    elif args.cmd == "reset-host":
+        wm.reset_host(args.ip)
+        print(f"Host {args.ip} reset to unscanned.")
+    elif args.cmd == "remove-host":
+        removed = wm.remove_host(args.ip)
+        print(f"Host {args.ip} removed." if removed else f"Host {args.ip} not found.")

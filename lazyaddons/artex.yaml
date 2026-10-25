@@ -1,0 +1,22 @@
+name: artex
+description: ARTEX v0.3.12 (commit 0ec51e3) AI autonomous pentest platform, Go backend
+  + Next.js UI. Pinned pre-restriction build with full git history. First run builds
+  ./artex then serves http://localhost:8787 (open /setup for admin, set Postgres +
+  LLM key via env ANTHROPIC_API_KEY or UI). Run artex, keep it up, then use
+  artex_tasks, findings, assets, traffic, llm, guard. Free args append to the binary,
+  e.g. artex -addr :9000.
+author: Hinln (fork of Autumn-27)
+version: 0.3.12
+enabled: true
+update: true
+os: any
+trigger: []
+category: 16. Artificial Intelligence
+tool:
+  name: ARTEX 0.3.12 Server
+  repo_url: https://github.com/Hinln/ARTEX.git
+  install_path: external/.exploit/artex
+  install_command: git fetch --all --tags && git checkout 0ec51e3 && go build -tags
+    embedui -o artex ./cmd/artex
+  execute_command: test -x ./artex || go build -tags embedui -o artex ./cmd/artex;
+    ./artex -addr :8787 -proxy 127.0.0.1:8788

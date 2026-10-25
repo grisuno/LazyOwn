@@ -1,0 +1,22 @@
+# Operator-declared parameters.
+#
+# One place to declare a parameter that every surface can use: lazyaddons
+# ({param} substitution), aliases, pipelines and the shell `assign` command.
+# Manage it from the lazy_orchestrator TUI (Params tab) or with
+# `param create <name> --kind string --default "" --desc "..."`.
+#
+# Format per entry:
+#   name:
+#     kind: string          # string|integer|boolean|url|path|ip|port|...
+#     default: value
+#     description: "help text"
+#     category: general
+#
+# Use generic names: a key only one addon understands belongs in that
+# addon, not in the shared catalog.
+exploit_profile:
+  category: network
+  default: bookworm
+  description: Calibration profile of the target build. php2shell expects 'bookworm'
+    (official php:8.4.26-apache image) or 'lab' (Apache 2.4.68 build).
+  kind: string

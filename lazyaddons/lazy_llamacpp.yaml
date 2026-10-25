@@ -1,0 +1,22 @@
+name: lazy_llamacpp
+description: >
+  Local LLM server for the Lazy autonomous loop: llama.cpp with the Qwen
+  27B model over an OpenAI-compatible API. First time: run
+  lazy_llamacpp_setup (builds llama.cpp, offers the ~8GB model download,
+  starts the server, optionally patches opencode and hermes configs).
+  Daily use: lazy_llamacpp (ensures the server is up, idempotent).
+  Health at http://127.0.0.1:8080/health. Takes no free args.
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: true
+params: []
+os: linux
+trigger: []
+tool:
+  name: Lazy LlamaCpp
+  repo_url: https://github.com/ggml-org/llama.cpp.git
+  install_path: external/.exploit/lazy_llamacpp
+  install_command: bash scripts/lazy_llamacpp_setup.sh --no-download --no-opencode --no-hermes --no-payload
+  execute_command: bash scripts/lazy_llamacpp_serve.sh
+category: 16. Artificial Intelligence

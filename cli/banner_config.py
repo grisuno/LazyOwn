@@ -52,6 +52,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from core.parsers import strip_ansi
+
 
 @dataclass(frozen=True)
 class BannerConfig:
@@ -75,6 +77,8 @@ class BannerConfig:
     fallback_label_battery: str = "PWR"
 
     time_format: str = "%H:%M:%S"
+    readline_start_marker: str = "\x01"
+    readline_end_marker: str = "\x02"
     public_ip_cache_seconds: float = 60.0
     public_ip_timeout_seconds: float = 1.5
     public_ip_endpoint: str = "https://api.ipify.org"
@@ -281,6 +285,9 @@ class RenderContext:
     public_ip: str
     battery_or_load: str
     palette: ColorPalette
+    elo: int = 0
+    karma_name: str = ""
+    operator: str = ""
 
 
 def _bracketed(
@@ -521,6 +528,36 @@ class VersionSegment(SegmentRenderer):
         return _middle(cfg.fallback_label_version, ctx.version, color, ctx, glyphs)
 
 
+class KarmaSegment(SegmentRenderer):
+    spec = SegmentSpec(
+        id="karma",
+        label="karma",
+        description="ELO score and karma rank (Noob → Godlike) — shows operator if logged in",
+        group="top",
+        default_enabled=True,
+        order=50,
+        default_color="bright_cyan",
+    )
+
+    def render(self, ctx, cfg, color, glyphs):
+        if ctx.operator:
+            parts = [ctx.operator]
+            if ctx.karma_name:
+                parts.append(ctx.karma_name)
+            if ctx.elo > 0:
+                parts.append(f"{ctx.elo}ELO")
+            return _bracketed("", " ".join(parts), glyphs["bullet_primary"], color, ctx, glyphs)
+
+        return _bracketed(
+            "",
+            "anonymous",
+            glyphs["bullet_primary"],
+            "\033[90m",
+            ctx,
+            glyphs,
+        )
+
+
 class BatteryLoadSegment(SegmentRenderer):
     spec = SegmentSpec(
         id="battery_load",
@@ -574,6 +611,7 @@ def build_default_registry() -> SegmentRegistry:
         RhostSegment(),
         DomainSegment(),
         PublicIpSegment(),
+        KarmaSegment(),
         CwdSegment(),
         GitSegment(),
         VenvSegment(),
@@ -711,6 +749,8 @@ class ContextResolver:
         user = "root" if os.geteuid() == 0 else (os.getenv("USER") or cfg.fallback_user)
         hostname = socket.gethostname()
         iface_name, iface_ip = _select_iface(network, cfg.fallback_iface_ip_token)
+        elo, karma_name = self._engagement_stats()
+        operator = self._operator_name()
         return RenderContext(
             user=user,
             hostname=hostname,
@@ -728,6 +768,9 @@ class ContextResolver:
             version=self._version(),
             public_ip=self._public_ip(payload),
             battery_or_load=_battery_or_load(),
+            elo=elo,
+            karma_name=karma_name,
+            operator=operator,
             palette=self._palette,
         )
 
@@ -779,23 +822,70 @@ class ContextResolver:
         ContextResolver._version_cache = (time.time(), text)
         return text
 
+    @staticmethod
+    def _engagement_stats() -> tuple[int, str]:
+        """Read ELO and karma — user's personal ELO if logged in, else engagement ELO.
+
+        Returns:
+            Tuple of (elo, karma_name).
+        """
+        try:
+            from cli.engagement_hooks import get_karma_name
+            from modules.cli_auth import get_current_operator
+
+            operator = get_current_operator()
+            if operator:
+                users_path = Path("users.json")
+                if users_path.exists():
+                    with users_path.open("r") as fh:
+                        users = json.load(fh)
+                    if isinstance(users, list):
+                        for u in users:
+                            if isinstance(u, dict) and u.get("username") == operator:
+                                elo = int(u.get("elo", 0))
+                                return elo, get_karma_name(elo)
+
+            state_path = Path("sessions") / "engagement_state.json"
+            if state_path.exists():
+                with state_path.open("r") as fh:
+                    state = json.load(fh)
+                elo = state.get("elo", 0)
+                return int(elo), get_karma_name(elo)
+        except Exception:
+            pass
+        return 0, ""
+
+    @staticmethod
+    def _operator_name() -> str:
+        """Read the current operator name from the CLI session.
+
+        Returns:
+            Operator username, or empty string if not logged in.
+        """
+        try:
+            from modules.cli_auth import get_current_operator
+
+            return get_current_operator() or ""
+        except Exception:
+            return ""
+
 
 def _read_network_info() -> dict[str, str]:
     """Return ``{interface: ip}`` for every globally-scoped IPv4 link."""
-    cmd = (
-        "ip a show scope global | "
-        'awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } '
-        '/^[[:space:]]*inet / { split($2, a, "/"); print iface " " a[1] }\''
-    )
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=1.5)
-    except (FileNotFoundError, subprocess.SubprocessError):
+        from core.safe_exec import safe_ip_show
+    except ImportError:
+        return {}
+    try:
+        entries = safe_ip_show("scope global")
+    except Exception:
         return {}
     info: dict[str, str] = {}
-    for line in (result.stdout or "").splitlines():
-        parts = line.split(maxsplit=1)
-        if len(parts) == 2:
-            info[parts[0]] = parts[1]
+    for entry in entries:
+        iface = entry.get("interface", "")
+        addr = entry.get("address", "")
+        if iface and addr and ":" not in addr:
+            info[iface] = addr
     return info
 
 
@@ -848,7 +938,7 @@ def _battery_or_load() -> str:
         except (OSError, ValueError):
             continue
     try:
-        with open("/proc/loadavg", "r", encoding="utf-8") as fh:
+        with open("/proc/loadavg", encoding="utf-8") as fh:
             first = fh.read().split()[0]
             return first
     except (OSError, IndexError):
@@ -866,13 +956,6 @@ def default_palette() -> ColorPalette:
         danger="\033[91m",
         success="\033[92m",
     )
-
-
-_ANSI_RE = re.compile(r"\x1b\[[0-9;]*[a-zA-Z]")
-
-
-def strip_ansi(value: str) -> str:
-    return _ANSI_RE.sub("", value)
 
 
 class BannerRenderer:
@@ -999,7 +1082,7 @@ class BannerConfigurator:
     def _tty_available() -> bool:
         return sys.stdin.isatty() and sys.stdout.isatty() and os.environ.get("TERM", "") not in {"", "dumb"}
 
-    def _loop(self, stdscr: curses._CursesWindow) -> BannerSettings | None:
+    def _loop(self, stdscr: curses.window) -> BannerSettings | None:
         curses.curs_set(0)
         stdscr.keypad(True)
         self._init_colors()
@@ -1104,7 +1187,7 @@ class BannerConfigurator:
             except curses.error:
                 continue
 
-    def _render(self, stdscr: curses._CursesWindow, rows: list, cursor: int) -> None:
+    def _render(self, stdscr: curses.window, rows: list, cursor: int) -> None:
         cfg = self._cfg
         max_y, max_x = stdscr.getmaxyx()
         width = max(cfg.wizard_min_width, min(cfg.wizard_max_width, max_x))
@@ -1267,13 +1350,76 @@ class BannerConfigurator:
             return curses.A_NORMAL
 
 
-def render_prompt(payload: dict | None, config: BannerConfig | None = None) -> str:
+def _readline_safe(prompt: str, config: BannerConfig | None = None) -> str:
+    """Wrap ANSI escape sequences with readline zero-width markers.
+
+    Readline measures cursor position by counting visible characters, so
+    every non-printing ANSI escape must sit between the SOH/STX markers
+    from :class:`BannerConfig`. Newlines are printable line breaks and
+    are always left bare: wrapping them corrupts multiline redisplay and
+    leaks visible ``^A``/``^B`` glyphs on terminals whose input layer
+    does not interpret readline markers.
+
+    Args:
+        prompt: Raw ANSI prompt produced by :class:`BannerRenderer`.
+        config: Centralised constants. ``None`` uses defaults.
+
+    Returns:
+        Prompt with ANSI escapes wrapped and newlines untouched.
+    """
+    cfg = config or BannerConfig()
+    ansi_re = re.compile(r"(\033\[[0-9;]*m)")
+    parts = ansi_re.split(prompt)
+    fenced = []
+    for part in parts:
+        if ansi_re.match(part):
+            fenced.append(f"{cfg.readline_start_marker}{part}{cfg.readline_end_marker}")
+        else:
+            fenced.append(part)
+    return "".join(fenced)
+
+
+def strip_readline_markers(text: str, config: BannerConfig | None = None) -> str:
+    """Remove readline zero-width markers from prompt text.
+
+    Args:
+        text: Prompt that may contain SOH/STX markers.
+        config: Centralised constants. ``None`` uses defaults.
+
+    Returns:
+        Text without readline markers. ANSI escapes are preserved.
+    """
+    cfg = config or BannerConfig()
+    return text.replace(cfg.readline_start_marker, "").replace(cfg.readline_end_marker, "")
+
+
+def render_prompt(
+    payload: dict | None,
+    config: BannerConfig | None = None,
+    readline_safe: bool = False,
+) -> str:
     """Render the Neon Box prompt from a payload dictionary.
 
     Reads the operator's segment, color and glyph selection from
     ``payload[banner]`` and walks the canonical registry. Segments whose
     underlying value cannot be resolved (no git, no venv, no network) drop
     silently so the prompt never shows empty brackets.
+
+    The shell runs on cmd2 with prompt_toolkit, which parses ANSI
+    natively and renders SOH/STX bytes as visible ``^A``/``^B`` glyphs.
+    Marker fencing therefore defaults to off. Enable it only for
+    genuine GNU-readline consumers, never for the interactive shell.
+
+    Args:
+        payload: Loaded ``payload.json`` mapping. ``None`` uses defaults.
+        config: Centralised constants. ``None`` uses defaults.
+        readline_safe: When ``True`` wrap ANSI escapes with readline
+            zero-width markers for GNU-readline ``input()`` consumption.
+            When ``False`` return the raw ANSI prompt for prompt_toolkit
+            and every direct-display surface.
+
+    Returns:
+        Three-line Neon Box prompt string.
     """
     cfg = config or BannerConfig()
     registry = build_default_registry()
@@ -1281,7 +1427,10 @@ def render_prompt(payload: dict | None, config: BannerConfig | None = None) -> s
     glyphs = GlyphRegistry()
     settings = BannerSettings.from_payload(registry, payload, cfg.payload_key, colors, glyphs)
     ctx = ContextResolver(cfg, default_palette()).resolve(payload)
-    return BannerRenderer(cfg, registry, colors, glyphs).render(settings, ctx)
+    raw = BannerRenderer(cfg, registry, colors, glyphs).render(settings, ctx)
+    if readline_safe:
+        return _readline_safe(raw, cfg)
+    return raw
 
 
 def configure_banner_interactive(
@@ -1343,4 +1492,5 @@ __all__ = [
     "default_palette",
     "render_prompt",
     "strip_ansi",
+    "strip_readline_markers",
 ]

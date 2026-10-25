@@ -8,6 +8,7 @@ description: 'Dirty Frag is a case that extends the bug class to which Dirty Pip
 author: V4bel
 version: '1.0'
 enabled: true
+update: true
 params:
 - name: lhost
   type: string

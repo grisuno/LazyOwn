@@ -1,0 +1,29 @@
+id: juice_shop_xss
+name: Juice Shop XSS Chain
+description: Find and exploit a stored XSS in Juice Shop to steal another user's session,
+  then escalate to admin.
+scenario: juice-shop
+chain: ''
+objective: Chain stored XSS to session theft and admin access.
+difficulty: medium
+phases:
+- enum
+- exploit
+- cred
+required_techniques:
+- xss_stored
+- session_hijack
+bonus_techniques:
+- csrf
+- idor
+- sqli
+max_points: 1500
+speed_bonus_max: 400
+stealth_bonus_max: 300
+technique_diversity_bonus: 400
+hints:
+- The search bar and feedback form are good places to start
+- Try <img src=x onerror=alert(document.cookie)>
+- Check /administration after getting admin cookie
+success_check: admin session cookie obtained
+elo_bonus: 250

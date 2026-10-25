@@ -10,18 +10,29 @@ Registration (one line in lazyc2.py after app creation):
 
 Then visit: http://localhost:4444/dashboard/
 """
+
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-from flask import Blueprint, jsonify, render_template_string
+from flask import Blueprint, jsonify, redirect, render_template_string, url_for
+from flask_login import current_user
 
 # ---------------------------------------------------------------------------
 # Blueprint definition
 # ---------------------------------------------------------------------------
 dashboard_bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
+
+
+@dashboard_bp.before_request
+def _require_login():
+    """Reject unauthenticated access to every dashboard route."""
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    return None
+
 
 # ---------------------------------------------------------------------------
 # Session file paths
@@ -33,28 +44,29 @@ _SESSIONS_DIR = Path(__file__).parent.parent / "sessions"
 # MITRE ATT&CK tactic mapping (from categories.py)
 # ---------------------------------------------------------------------------
 TACTICS = [
-    ("01", "Reconnaissance",       "recon"),
-    ("02", "Scanning & Enum",      "scanning"),
-    ("03", "Exploitation",         "exploit"),
-    ("04", "Post-Exploitation",    "post"),
-    ("05", "Persistence",          "persistence"),
+    ("01", "Reconnaissance", "recon"),
+    ("02", "Scanning & Enum", "scanning"),
+    ("03", "Exploitation", "exploit"),
+    ("04", "Post-Exploitation", "post"),
+    ("05", "Persistence", "persistence"),
     ("06", "Privilege Escalation", "privesc"),
-    ("07", "Credential Access",    "credential"),
-    ("08", "Lateral Movement",     "lateral"),
-    ("09", "Data Exfiltration",    "exfil"),
-    ("10", "C2",                   "c2"),
-    ("11", "Reporting",            "reporting"),
-    ("12", "Miscellaneous",        "misc"),
-    ("13", "Lua Plugins",          "lua"),
-    ("14", "YAML Addons",          "yaml"),
-    ("15", "Adversary YAML",       "adversary"),
-    ("16", "AI",                   "ai"),
+    ("07", "Credential Access", "credential"),
+    ("08", "Lateral Movement", "lateral"),
+    ("09", "Data Exfiltration", "exfil"),
+    ("10", "C2", "c2"),
+    ("11", "Reporting", "reporting"),
+    ("12", "Miscellaneous", "misc"),
+    ("13", "Lua Plugins", "lua"),
+    ("14", "YAML Addons", "yaml"),
+    ("17", "Adversary Emulation", "adversary"),
+    ("16", "AI", "ai"),
 ]
 
 
 # ---------------------------------------------------------------------------
 # Internal data aggregation
 # ---------------------------------------------------------------------------
+
 
 def _read_jsonl(path: Path, last_n: int = 0) -> list:
     """Read a .jsonl file, optionally returning only the last N lines."""
@@ -110,12 +122,14 @@ def _aggregate_data() -> dict:
     events_raw = _read_jsonl(sessions / "events.jsonl", last_n=20)
     recent_events = []
     for ev in events_raw:
-        recent_events.append({
-            "timestamp": ev.get("timestamp", ev.get("ts", "")),
-            "type":      ev.get("event_type", ev.get("type", "UNKNOWN")),
-            "detail":    ev.get("suggest", ev.get("detail", ev.get("description", ""))),
-            "severity":  ev.get("severity", "info"),
-        })
+        recent_events.append(
+            {
+                "timestamp": ev.get("timestamp", ev.get("ts", "")),
+                "type": ev.get("event_type", ev.get("type", "UNKNOWN")),
+                "detail": ev.get("suggest", ev.get("detail", ev.get("description", ""))),
+                "severity": ev.get("severity", "info"),
+            }
+        )
 
     # -- Tactic event counts for MITRE grid -----------------------------------
     tactic_counts: dict[str, int] = {t[2]: 0 for t in TACTICS}
@@ -139,13 +153,15 @@ def _aggregate_data() -> dict:
         done = bool(obj.get("done", obj.get("completed", obj.get("status", "") == "done")))
         if done:
             objectives_done += 1
-        objectives.append({
-            "id":          obj.get("id", ""),
-            "title":       obj.get("title", obj.get("objective", obj.get("description", ""))),
-            "description": obj.get("description", ""),
-            "done":        done,
-            "priority":    obj.get("priority", "normal"),
-        })
+        objectives.append(
+            {
+                "id": obj.get("id", ""),
+                "title": obj.get("title", obj.get("objective", obj.get("description", ""))),
+                "description": obj.get("description", ""),
+                "done": done,
+                "priority": obj.get("priority", "normal"),
+            }
+        )
 
     # -- Policy facts (hosts) -------------------------------------------------
     raw_facts = _read_json(sessions / "policy_facts.json")
@@ -156,18 +172,22 @@ def _aggregate_data() -> dict:
                 continue
             services_raw = hdata.get("services", {})
             services_list = (
-                list(services_raw.keys()) if isinstance(services_raw, dict)
-                else services_raw if isinstance(services_raw, list)
+                list(services_raw.keys())
+                if isinstance(services_raw, dict)
+                else services_raw
+                if isinstance(services_raw, list)
                 else []
             )
-            hosts.append({
-                "ip":              host_ip,
-                "os":              hdata.get("os_hint", hdata.get("os", "")),
-                "services":        services_list,
-                "service_count":   len(services_list),
-                "credential_count": len(hdata.get("credentials", [])),
-                "vuln_count":      len(hdata.get("vulnerabilities", [])),
-            })
+            hosts.append(
+                {
+                    "ip": host_ip,
+                    "os": hdata.get("os_hint", hdata.get("os", "")),
+                    "services": services_list,
+                    "service_count": len(services_list),
+                    "credential_count": len(hdata.get("credentials", [])),
+                    "vuln_count": len(hdata.get("vulnerabilities", [])),
+                }
+            )
 
     # -- Credentials ----------------------------------------------------------
     cred_count = _count_lines(sessions / "credentials.txt")
@@ -185,18 +205,18 @@ def _aggregate_data() -> dict:
 
     # -- Assemble -------------------------------------------------------------
     return {
-        "generated_at":    datetime.now(tz=timezone.utc).isoformat(),
-        "beacon_count":    beacon_count,
-        "active_beacons":  active_beacons,
+        "generated_at": datetime.now(tz=UTC).isoformat(),
+        "beacon_count": beacon_count,
+        "active_beacons": active_beacons,
         "hosts_discovered": len(hosts),
         "credentials_found": cred_count,
-        "objectives_done":  objectives_done,
+        "objectives_done": objectives_done,
         "objectives_total": len(objectives),
-        "tactic_counts":   tactic_counts,
-        "recent_events":   recent_events,
-        "hosts":           hosts,
-        "objectives":      objectives,
-        "campaign":        campaign,
+        "tactic_counts": tactic_counts,
+        "recent_events": recent_events,
+        "hosts": hosts,
+        "objectives": objectives,
+        "campaign": campaign,
     }
 
 
@@ -365,6 +385,8 @@ a{color:var(--accent);text-decoration:none}
 <header class="header">
   <div class="header-title">LazyOwn <span>SOC Dashboard</span></div>
   <div class="header-meta">
+    <span><a href="/dashboard/loot">Loot</a></span>
+    <span><a href="/dashboard/timeline">Timeline</a></span>
     <span><span class="pulse"></span></span>
     <span id="last-updated">Initializing...</span>
     <span class="refresh-counter">Next refresh: <span id="countdown">5</span>s</span>
@@ -456,7 +478,7 @@ a{color:var(--accent);text-decoration:none}
     ["12","Miscellaneous",        "misc"],
     ["13","Lua Plugins",          "lua"],
     ["14","YAML Addons",          "yaml"],
-    ["15","Adversary YAML",       "adversary"],
+    ["17","Adversary Emulation",  "adversary"],
     ["16","AI",                   "ai"],
   ];
 
@@ -751,6 +773,7 @@ a{color:var(--accent);text-decoration:none}
 # Routes
 # ---------------------------------------------------------------------------
 
+
 @dashboard_bp.route("/")
 def dashboard_index():
     """Render the main SOC dashboard HTML page."""
@@ -766,3 +789,231 @@ def dashboard_api_data():
     the full lazyc2.py runtime context (e.g. during testing).
     """
     return jsonify(_aggregate_data())
+
+
+# ---------------------------------------------------------------------------
+# Loot view
+# ---------------------------------------------------------------------------
+_LOOT_MAX_ENTRIES = 500
+
+
+def _read_loot_lines(pattern: str) -> list[dict]:
+    """Collect non-comment lines from every sessions file matching ``pattern``."""
+    entries: list[dict] = []
+    for path in sorted(_SESSIONS_DIR.glob(pattern)):
+        try:
+            lines = path.read_text(errors="replace").splitlines()
+        except OSError:
+            continue
+        for line in lines:
+            value = line.strip()
+            if value and not value.startswith("#"):
+                entries.append({"source": path.name, "value": value})
+                if len(entries) >= _LOOT_MAX_ENTRIES:
+                    return entries
+    return entries
+
+
+def _read_loot() -> dict:
+    """Aggregate credentials, hashes and loot files from ``sessions/``."""
+    files: list[dict] = []
+    loot_dir = _SESSIONS_DIR / "loot"
+    if loot_dir.is_dir():
+        for path in sorted(loot_dir.rglob("*")):
+            if path.is_file():
+                try:
+                    size = path.stat().st_size
+                except OSError:
+                    size = 0
+                files.append({"name": str(path.relative_to(loot_dir)), "size": size})
+    return {
+        "credentials": _read_loot_lines("credentials*.txt"),
+        "hashes": _read_loot_lines("hash*.txt"),
+        "files": files,
+    }
+
+
+_LOOT_HTML = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LazyOwn — Loot</title>
+<style>
+:root{--bg:#0d1117;--surface:#161b22;--border:#30363d;--accent:#00ff88;--text:#e6edf3;--text-muted:#8b949e;--radius:6px;--font:'Courier New',Courier,monospace}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;margin:0;padding:0}
+a{color:var(--accent);text-decoration:none}
+.header{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px}
+.header-title{font-size:18px;font-weight:700;color:var(--accent)}
+.header-title span{color:var(--text);font-weight:400}
+.container{padding:20px 24px;max-width:1200px;margin:0 auto}
+.section{margin-bottom:28px}
+.section-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;color:var(--text-muted);text-transform:uppercase;font-size:11px;letter-spacing:.08em;padding:6px 8px;border-bottom:1px solid var(--border)}
+td{padding:6px 8px;border-bottom:1px solid var(--border);word-break:break-all}
+.empty{color:var(--text-muted);font-style:italic}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-title">LazyOwn <span>Loot</span></div>
+  <div><a href="/dashboard/">Dashboard</a> &middot; <a href="/dashboard/timeline">Timeline</a></div>
+</header>
+<div class="container">
+  <div class="section">
+    <div class="section-title">Credentials ({{ loot.credentials|length }})</div>
+    <div class="card">
+      {% if loot.credentials %}
+      <table><tr><th>Source</th><th>Entry</th></tr>
+      {% for item in loot.credentials %}<tr><td>{{ item.source }}</td><td>{{ item.value }}</td></tr>{% endfor %}
+      </table>
+      {% else %}<span class="empty">No credentials captured yet.</span>{% endif %}
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Hashes ({{ loot.hashes|length }})</div>
+    <div class="card">
+      {% if loot.hashes %}
+      <table><tr><th>Source</th><th>Entry</th></tr>
+      {% for item in loot.hashes %}<tr><td>{{ item.source }}</td><td>{{ item.value }}</td></tr>{% endfor %}
+      </table>
+      {% else %}<span class="empty">No hashes captured yet.</span>{% endif %}
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Files ({{ loot.files|length }})</div>
+    <div class="card">
+      {% if loot.files %}
+      <table><tr><th>Path (sessions/loot/)</th><th>Size (bytes)</th></tr>
+      {% for item in loot.files %}<tr><td>{{ item.name }}</td><td>{{ item.size }}</td></tr>{% endfor %}
+      </table>
+      {% else %}<span class="empty">No loot files yet.</span>{% endif %}
+    </div>
+  </div>
+</div>
+</body>
+</html>
+"""
+
+
+@dashboard_bp.route("/loot")
+def dashboard_loot():
+    """Render the loot browser: captured credentials, hashes and files."""
+    return render_template_string(_LOOT_HTML, loot=_read_loot())
+
+
+# ---------------------------------------------------------------------------
+# Timeline view
+# ---------------------------------------------------------------------------
+_TIMELINE_MAX_ROWS = 200
+
+
+def _normalize_ts(raw: object) -> tuple[str, str]:
+    """Return ``(sortable_iso, display)`` for epoch floats or CSV timestamps."""
+    if raw is None:
+        return ("", "")
+    text = str(raw).strip()
+    if not text:
+        return ("", "")
+    try:
+        moment = datetime.fromtimestamp(float(text), tz=UTC)
+        return (moment.isoformat(), moment.strftime("%Y-%m-%d %H:%M:%S"))
+    except (TypeError, ValueError, OSError):
+        pass
+    for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S"):
+        try:
+            moment = datetime.strptime(text[:19], fmt).replace(tzinfo=UTC)
+            return (moment.isoformat(), text[:19])
+        except ValueError:
+            continue
+    return (text, text)
+
+
+def _read_timeline() -> list[dict]:
+    """Merge command log and events into one newest-first timeline."""
+    import csv as _csv
+
+    rows: list[dict] = []
+    report_path = _SESSIONS_DIR / "LazyOwn_session_report.csv"
+    if report_path.exists():
+        try:
+            with report_path.open(newline="", errors="replace") as fh:
+                for record in _csv.DictReader(fh):
+                    sortable, display = _normalize_ts(record.get("start"))
+                    command = (record.get("command") or record.get("tool") or "").strip()
+                    if not command:
+                        continue
+                    duration = record.get("duration_ms") or ""
+                    target = record.get("destination_ip") or ""
+                    detail = " ".join(
+                        part
+                        for part in (f"target={target}" if target else "", f"{duration}ms" if duration else "")
+                        if part
+                    )
+                    rows.append(
+                        {"ts": sortable, "display": display, "kind": "command", "label": command, "detail": detail}
+                    )
+        except OSError:
+            pass
+    for event in _read_jsonl(_SESSIONS_DIR / "events.jsonl"):
+        sortable, display = _normalize_ts(event.get("timestamp", event.get("ts")))
+        label = str(event.get("event_type", event.get("type", "event")))
+        detail = str(event.get("suggest", event.get("detail", event.get("description", ""))))
+        rows.append({"ts": sortable, "display": display, "kind": "event", "label": label, "detail": detail})
+    rows.sort(key=lambda row: row["ts"], reverse=True)
+    return rows[:_TIMELINE_MAX_ROWS]
+
+
+_TIMELINE_HTML = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LazyOwn — Timeline</title>
+<style>
+:root{--bg:#0d1117;--surface:#161b22;--border:#30363d;--accent:#00ff88;--text:#e6edf3;--text-muted:#8b949e;--info:#4fc3f7;--radius:6px;--font:'Courier New',Courier,monospace}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;margin:0;padding:0}
+a{color:var(--accent);text-decoration:none}
+.header{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px}
+.header-title{font-size:18px;font-weight:700;color:var(--accent)}
+.header-title span{color:var(--text);font-weight:400}
+.container{padding:20px 24px;max-width:1200px;margin:0 auto}
+table{width:100%;border-collapse:collapse;font-size:13px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+th{text-align:left;color:var(--text-muted);text-transform:uppercase;font-size:11px;letter-spacing:.08em;padding:8px;border-bottom:1px solid var(--border)}
+td{padding:6px 8px;border-bottom:1px solid var(--border);word-break:break-all}
+.kind-command{color:var(--accent)}
+.kind-event{color:var(--info)}
+.empty{color:var(--text-muted);font-style:italic;padding:16px;display:block}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-title">LazyOwn <span>Timeline</span></div>
+  <div><a href="/dashboard/">Dashboard</a> &middot; <a href="/dashboard/loot">Loot</a></div>
+</header>
+<div class="container">
+  {% if rows %}
+  <table>
+    <tr><th>Time (UTC)</th><th>Kind</th><th>Item</th><th>Detail</th></tr>
+    {% for row in rows %}
+    <tr>
+      <td>{{ row.display }}</td>
+      <td class="kind-{{ row.kind }}">{{ row.kind }}</td>
+      <td>{{ row.label }}</td>
+      <td>{{ row.detail }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}<span class="empty">No timeline entries yet — run some commands first.</span>{% endif %}
+</div>
+</body>
+</html>
+"""
+
+
+@dashboard_bp.route("/timeline")
+def dashboard_timeline():
+    """Render the campaign timeline: commands and events, newest first."""
+    return render_template_string(_TIMELINE_HTML, rows=_read_timeline())

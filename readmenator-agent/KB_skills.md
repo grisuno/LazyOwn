@@ -1,0 +1,489 @@
+# Subsystem: skills (page 1 of 5)
+Pages: [KB_skills.md](KB_skills.md), [KB_skills_p2.md](KB_skills_p2.md), [KB_skills_p3.md](KB_skills_p3.md), [KB_skills_p4.md](KB_skills_p4.md), [KB_skills_p5.md](KB_skills_p5.md)
+
+## skills/aci_planner.py
+- Doc: Autonomous Campaign Intelligence (ACI) Planner
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ACIGoal` (class, line 146) `class ACIGoal`
+  - `AttackPhase` (class, line 157) `class AttackPhase`
+  - `ACIPlan` (class, line 182) `class ACIPlan`
+  - `_now_iso` (function, line 231) `def _now_iso()`
+  - `_save_plan` (function, line 235) `def _save_plan(plan, plan_file)`
+  - `_load_plan` (function, line 245) `def _load_plan(plan_file)`
+  - `_archive_plan` (function, line 258) `def _archive_plan(plan, history_file)`
+  - `_load_payload` (function, line 267) `def _load_payload()`
+  - `_load_world_model` (function, line 276) `def _load_world_model()`
+  - `_count_objectives_by_status` (function, line 287) `def _count_objectives_by_status(obj_ids, objectives_file)`
+  - `_llm_decompose` (function, line 337) `def _llm_decompose(goal, api_key)`
+  - `_llm_replan` (function, line 402) `def _llm_replan(plan, reason, api_key)`
+  - `ACIPlanner` (class, line 451) `class ACIPlanner`
+  - `ACIEngine` (class, line 595) `class ACIEngine`
+  - `ACIReflector` (class, line 789) `class ACIReflector`
+  - `mcp_aci_plan` (function, line 867) `def mcp_aci_plan(goal, target, scope, domain, os_hint, phase_filter)`
+  - `mcp_aci_status` (function, line 925) `def mcp_aci_status()`
+  - `mcp_aci_replan` (function, line 942) `def mcp_aci_replan(reason)`
+  - `_build_parser` (function, line 980) `def _build_parser()`
+  - `main` (function, line 1005) `def main(argv)`
+  - `to_dict` (method, line 171) `def to_dict(self)`
+  - `from_dict` (method, line 176) `def from_dict(cls, d)`
+  - `active_phase` (method, line 199) `def active_phase(self)`
+  - `completion_pct` (method, line 207) `def completion_pct(self)`
+  - `to_dict` (method, line 214) `def to_dict(self)`
+  - `from_dict` (method, line 221) `def from_dict(cls, d)`
+  - `__init__` (method, line 463) `def __init__(self, api_key, objectives_file, plan_file)`
+  - `plan` (method, line 473) `def plan(self, goal, phase_filter)`
+  - `_build_phases_from_llm` (method, line 511) `def _build_phases_from_llm(self, raw, goal, phase_filter)`
+  - `_build_phases_static` (method, line 536) `def _build_phases_static(self, goal, phase_filter)`
+  - `_inject_all_objectives` (method, line 564) `def _inject_all_objectives(self, plan)`
+  - `_write_objective` (method, line 573) `def _write_objective(self, text, phase, target)`
+  - `__init__` (method, line 606) `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)`
+  - `status` (method, line 620) `def status(self)`
+  - `should_replan` (method, line 660) `def should_replan(self, plan)`
+  - `replan` (method, line 673) `def replan(self, reason)`
+  - `complete` (method, line 743) `def complete(self)`
+  - `_sync_phase_statuses` (method, line 756) `def _sync_phase_statuses(self, plan)`
+  - `_count_blocked` (method, line 775) `def _count_blocked(self, plan)`
+  - `__init__` (method, line 799) `def __init__(self, lessons_file)`
+  - `reflect` (method, line 802) `def reflect(self, plan)`
+  - `_persist_lessons` (method, line 854) `def _persist_lessons(self, lessons)`
+- Depends on: `core/logging.py`, `modules/logging_config.py`, `modules/world_model.py`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_aci_planner.py`
+
+## skills/autonomous_daemon.py
+- Doc: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_try_import` (function, line 126) `def _try_import(module, attr)`
+  - `_update_task_status` (function, line 185) `def _update_task_status(title, new_status)`
+  - `_credential_worth_task` (function, line 206) `def _credential_worth_task(cred)`
+  - `_task_title_open` (function, line 228) `def _task_title_open(title)`
+  - `_inject_to_tasks_json` (function, line 247) `def _inject_to_tasks_json(title, description, operator, status)`
+  - `_emit` (function, line 290) `def _emit(event_type, payload, severity)`
+  - `_record_intent` (function, line 313) `def _record_intent(objective_id, step_n, command, state, reason)`
+  - `_notify_finding` (function, line 328) `def _notify_finding(title, body, severity)`
+  - `_objective_proven` (function, line 353) `def _objective_proven(objective_text, world_model, target, credential_found)`
+  - `compute_decision_seed` (function, line 394) `def compute_decision_seed(objective_id, step_n, source)`
+  - `ICommandRunner` (class, line 422) `class ICommandRunner(ABC)`
+  - `_with_markers` (function, line 435) `def _with_markers(command, marker)`
+  - `_strip_between_markers` (function, line 444) `def _strip_between_markers(output, marker)`
+  - `_daemon_tool` (function, line 457) `def _daemon_tool(command)`
+  - `MCPCommandRunner` (class, line 475) `class MCPCommandRunner(ICommandRunner)`
+  - `PTYCommandRunner` (class, line 494) `class PTYCommandRunner(ICommandRunner)`
+  - `CommandRunnerChain` (class, line 583) `class CommandRunnerChain(ICommandRunner)`
+  - `_build_default_runner` (function, line 613) `def _build_default_runner()`
+  - `_run_lazyown` (function, line 622) `def _run_lazyown(command, timeout)`
+  - `CommandDecision` (class, line 674) `class CommandDecision`
+  - `ICommandSelector` (class, line 685) `class ICommandSelector(ABC)`
+  - `ReactiveSelector` (class, line 698) `class ReactiveSelector(ICommandSelector)`
+  - `ParquetSelector` (class, line 744) `class ParquetSelector(ICommandSelector)`
+  - `BridgeSelector` (class, line 790) `class BridgeSelector(ICommandSelector)`
+  - `_get_phase_command_catalog` (function, line 840) `def _get_phase_command_catalog(phase)`
+  - `LLMSelector` (class, line 859) `class LLMSelector(ICommandSelector)`
+  - `SWANSelector` (class, line 959) `class SWANSelector(ICommandSelector)`
+  - `FallbackSelector` (class, line 1029) `class FallbackSelector(ICommandSelector)`
+  - `MetricsAwareSelector` (class, line 1052) `class MetricsAwareSelector(ICommandSelector)`
+  - `_wrap_chain_with_metrics_bias` (function, line 1245) `def _wrap_chain_with_metrics_bias(selectors, enabled)`
+  - `CredentialSpraySelector` (class, line 1283) `class CredentialSpraySelector(ICommandSelector)`
+  - `CascadeStrategy` (class, line 1339) `class CascadeStrategy`
+  - `StrategyEngine` (class, line 1370) `class StrategyEngine`
+  - `StepResult` (class, line 1443) `class StepResult`
+  - `IObjectiveHandler` (class, line 1455) `class IObjectiveHandler(ABC)`
+  - `ExecutionEngine` (class, line 1469) `class ExecutionEngine(IObjectiveHandler)`
+  - `_load_payload` (function, line 1579) `def _load_payload()`
+  - `_read_recent_csv_commands` (function, line 1587) `def _read_recent_csv_commands(limit)`
+  - `_load_campaign_blacklist` (function, line 1608) `def _load_campaign_blacklist()`
+  - `_get_campaign_blacklist` (function, line 1638) `def _get_campaign_blacklist()`
+  - `_compute_step_reward` (function, line 1648) `def _compute_step_reward(output, command, phase, success, findings, prev_cmds)`
+  - `_detect_target_os` (function, line 1721) `def _detect_target_os(target, loop)`
+  - `_run_objective` (function, line 1768) `def _run_objective(objective_id, objective_text, target, max_steps, strategy, world_model, obs_parser, facts, loop...`
+  - `DroneCoordinator` (class, line 2808) `class DroneCoordinator`
+  - `_world_fingerprint` (function, line 3011) `def _world_fingerprint()`
+  - `_current_bridge_phase` (function, line 3020) `def _current_bridge_phase()`
+  - `_target_services` (function, line 3033) `def _target_services(target)`
+  - `_tactic_phase` (function, line 3054) `def _tactic_phase(tactic)`
+  - `_ledger_path` (function, line 3059) `def _ledger_path()`
+  - `_ledger_write` (function, line 3069) `def _ledger_write(engagement_id, intent_id, command, phase, state, reason)`
+  - `_settle_state` (function, line 3083) `def _settle_state(result)`
+  - `EnginePhaseStep` (class, line 3096) `class EnginePhaseStep`
+  - `EnginePhaseResult` (class, line 3113) `class EnginePhaseResult`
+  - `IToolFallbackResolver` (class, line 3130) `class IToolFallbackResolver(ABC)`
+  - `StaticFallbackResolver` (class, line 3143) `class StaticFallbackResolver(IToolFallbackResolver)`
+  - `BridgeFallbackResolver` (class, line 3164) `class BridgeFallbackResolver(IToolFallbackResolver)`
+  - `_ShellDetector` (class, line 3212) `class _ShellDetector`
+  - `EngageOrchestrator` (class, line 3303) `class EngageOrchestrator`
+  - `_maybe_generate_report` (function, line 3941) `def _maybe_generate_report()`
+  - `_engage_run_sync` (function, line 3967) `def _engage_run_sync(target, max_switches_per_step, auto)`
+  - `mcp_engage_target` (function, line 4010) `def mcp_engage_target(target, max_switches_per_step, detach, auto)`
+  - `mcp_engage_status` (function, line 4100) `def mcp_engage_status(last_n)`
+  - `mcp_engage_approve` (function, line 4126) `def mcp_engage_approve(approval_id, decision, operator)`
+  - `mcp_engage_list_pending` (function, line 4151) `def mcp_engage_list_pending()`
+  - `cmd_engage` (function, line 4169) `def cmd_engage(target, max_switches_per_step, detach)`
+  - `_write_status` (function, line 4197) `def _write_status()`
+  - `objective_loop` (function, line 4208) `def objective_loop(max_steps, loop)`
+  - `world_model_watcher` (function, line 4351) `def world_model_watcher(loop)`
+  - `heartbeat_loop` (function, line 4544) `def heartbeat_loop()`
+  - `_main_async` (function, line 4592) `def _main_async(max_steps)`
+  - `_write_pid` (function, line 4643) `def _write_pid()`
+  - `_clear_pid` (function, line 4648) `def _clear_pid()`
+  - `_read_pid` (function, line 4653) `def _read_pid()`
+  - `_is_running` (function, line 4660) `def _is_running()`
+  - `cmd_run` (function, line 4671) `def cmd_run(max_steps)`
+  - `cmd_start` (function, line 4680) `def cmd_start(max_steps)`
+  - `cmd_stop` (function, line 4710) `def cmd_stop()`
+  - `cmd_status` (function, line 4727) `def cmd_status()`
+  - `cmd_inject` (function, line 4743) `def cmd_inject(text, priority)`
+  - `mcp_autonomous_start` (function, line 4777) `def mcp_autonomous_start(max_steps, backend)`
+  - `mcp_autonomous_stop` (function, line 4819) `def mcp_autonomous_stop()`
+  - `mcp_autonomous_status` (function, line 4835) `def mcp_autonomous_status()`
+  - `mcp_autonomous_inject` (function, line 4848) `def mcp_autonomous_inject(text, priority, target)`
+  - `mcp_autonomous_events` (function, line 4892) `def mcp_autonomous_events(last_n)`
+  - `_dispatch_pipeline` (function, line 4923) `def _dispatch_pipeline(args)`
+  - `run` (method, line 426) `def run(self, command, timeout)`
+  - `name` (method, line 431) `def name(self)`
+  - `name` (method, line 482) `def name(self)`
+  - `run` (method, line 485) `def run(self, command, timeout)`
+  - `name` (method, line 502) `def name(self)`
+  - `run` (method, line 505) `def run(self, command, timeout)`
+  - `__init__` (method, line 592) `def __init__(self, runners)`
+  - `name` (method, line 598) `def name(self)`
+  - `run` (method, line 601) `def run(self, command, timeout)`
+  - `select` (method, line 689) `def select(self, target, phase, context)`
+  - `__init__` (method, line 704) `def __init__(self, reactive_engine)`
+  - `register_output` (method, line 708) `def register_output(self, output, command, platform)`
+  - `select` (method, line 735) `def select(self, target, phase, context)`
+  - `__init__` (method, line 750) `def __init__(self, pdb, fail_counts)`
+  - `select` (method, line 754) `def select(self, target, phase, context)`
+  - `_parquet_candidate` (method, line 767) `def _parquet_candidate(self, category, target)`
+  - `__init__` (method, line 796) `def __init__(self, dispatcher, fail_counts)`
+  - `select` (method, line 800) `def select(self, target, phase, context)`
+  - `_bridge_candidate` (method, line 811) `def _bridge_candidate(self, phase, services, tag, os_hint)`
+  - `select` (method, line 866) `def select(self, target, phase, context)`
+  - `_llm_candidate` (method, line 872) `def _llm_candidate(self, target, phase, context)`
+  - `select` (method, line 990) `def select(self, target, phase, context)`
+  - `_swan_candidate` (method, line 996) `def _swan_candidate(self, target, phase, context)`
+  - `select` (method, line 1036) `def select(self, target, phase, context)`
+  - `__init__` (method, line 1073) `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)`
+  - `wrapped` (method, line 1119) `def wrapped(self)`
+  - `_resolve_source` (method, line 1124) `def _resolve_source(self)`
+  - `_current_summary` (method, line 1151) `def _current_summary(self)`
+  - `_should_skip` (method, line 1181) `def _should_skip(self, command)`
+  - `select` (method, line 1205) `def select(self, target, phase, context)`
+  - `__init__` (method, line 1306) `def __init__(self, fail_counts)`
+  - `select` (method, line 1310) `def select(self, target, phase, context)`
+  - `__init__` (method, line 1346) `def __init__(self, selectors)`
+  - `next_command` (method, line 1349) `def next_command(self, target, phase, context)`
+  - `__init__` (method, line 1384) `def __init__(self, runner, selectors)`
+  - `register_output` (method, line 1411) `def register_output(self, output, command, platform, success)`
+  - `next_command` (method, line 1425) `def next_command(self, target, phase, services, os_hint)`
+  - `handle` (method, line 1459) `def handle(self, objective_id, objective_text, target, context)`
+  - `__init__` (method, line 1481) `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)`
+  - `handle` (method, line 1497) `def handle(self, objective_id, objective_text, target, context)`
+  - `run_async` (method, line 1507) `def run_async(self, objective_id, objective_text, target)`
+  - `_run_sync` (method, line 1527) `def _run_sync(self, objective_id, objective_text, target)`
+  - `__init__` (method, line 2817) `def __init__(self)`
+  - `process_findings` (method, line 2822) `def process_findings(self, findings, target, objective_id, payload_key)`
+  - `did_switch` (method, line 3125) `def did_switch(self)`
+  - `next_tool` (method, line 3134) `def next_tool(self, failed_command, phase, attempt)`
+  - `next_tool` (method, line 3151) `def next_tool(self, failed_command, phase, attempt)`
+  - `__init__` (method, line 3173) `def __init__(self, dispatcher)`
+  - `_candidates` (method, line 3178) `def _candidates(self, primary, phase)`
+  - `next_tool` (method, line 3198) `def next_tool(self, failed_command, phase, attempt)`
+  - `__init__` (method, line 3225) `def __init__(self, narrator)`
+  - `poll` (method, line 3230) `def poll(self, target)`
+  - `detect_in_output` (method, line 3271) `def detect_in_output(self, output, target)`
+  - `__init__` (method, line 3317) `def __init__(self, target, runner, narrator, approval_gate, fallback_resolver, shell_detector, plan...`
+  - `engagement_id` (method, line 3362) `def engagement_id(self)`
+  - `run` (method, line 3366) `def run(self)`
+  - `_run_planner_intents` (method, line 3525) `def _run_planner_intents(self, results, fp_before, max_intents, planner)`
+  - `_planner_fallback_verb` (method, line 3644) `def _planner_fallback_verb(self, tried)`
+  - `_run_step` (method, line 3668) `def _run_step(self, step)`
+  - `_consult_gate` (method, line 3888) `def _consult_gate(self, step)`
+  - `_execute` (method, line 3903) `def _execute(self, command, timeout_s)`
+  - `_step_succeeded` (method, line 3909) `def _step_succeeded(command, output)`
+  - `_worker` (function, line 4064) `def _worker()`
+  - `_run` (function, line 4791) `def _run()`
+  - `_ask_via` (function, line 928) `def _ask_via(_backend, _goal, _key)`
+- Depends on: `core/logging.py`, `modules/asset_graph.py`, `modules/db.py`, `modules/detection_oracle.py`, `modules/enrich.py`, `modules/event_consumers.py`, `modules/evidence.py`, `modules/finding_lifecycle.py`, `modules/goals.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/llm_pool.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/notify.py`, `modules/obs_parser.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/toolset.py`, `modules/traffic_recorder.py`, `modules/world_model.py`, `skills/daemon_control.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`
+- Imported by: `cli/commands/database.py`, `cli/commands/session_ops.py`, `modules/pipeline_engine.py`, `skills/autonomous_replay.py`, `skills/lazyown_mcp.py`, `skills/tests/test_autonomous_daemon.py`, `skills/unified_orchestrator.py`, `tests/test_autonomous_replay.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_engage_orchestrator.py`, `tests/test_metrics_aware_selector.py`, `tests/test_moe_rl_swan.py`, `tests/test_pipeline_engine.py`, `tests/test_scope_bound_auto_gate.py`
+
+## skills/autonomous_replay.py
+- Doc: Deterministic replay of past autonomous-daemon runs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReplayStep` (class, line 53) `class ReplayStep`
+  - `ReplayDivergence` (class, line 82) `class ReplayDivergence`
+  - `ReplayReport` (class, line 93) `class ReplayReport`
+  - `EventLogReader` (class, line 127) `class EventLogReader`
+  - `ReplayDispatcher` (class, line 212) `class ReplayDispatcher`
+  - `replay` (function, line 473) `def replay(from_event_id, to_event_id, mode, events_path, runner, timeout)`
+  - `to_dict` (method, line 114) `def to_dict(self)`
+  - `__init__` (method, line 136) `def __init__(self, path)`
+  - `path` (method, line 147) `def path(self)`
+  - `read` (method, line 152) `def read(self)`
+  - `slice` (method, line 177) `def slice(self, events, from_event_id, to_event_id)`
+  - `__init__` (method, line 221) `def __init__(self, reader, seed_fn)`
+  - `_default_seed_fn` (method, line 241) `def _default_seed_fn()`
+  - `_collect_step_events` (method, line 261) `def _collect_step_events(self, from_event_id, to_event_id)`
+  - `_build_step` (method, line 278) `def _build_step(self, event, divergences)`
+  - `trace` (method, line 325) `def trace(self, from_event_id, to_event_id)`
+  - `execute` (method, line 357) `def execute(self, from_event_id, to_event_id, runner, timeout)`
+  - `_default_runner` (method, line 413) `def _default_runner()`
+  - `_invoke_runner` (method, line 441) `def _invoke_runner(runner, command, timeout)`
+- Depends on: `core/logging.py`, `skills/autonomous_daemon.py`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_autonomous_replay.py`
+
+## skills/daemon_control.py
+- Doc: Operator steering layer for the LazyOwn autonomous daemon.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PendingAction` (class, line 49) `class PendingAction`
+  - `ControlState` (class, line 88) `class ControlState`
+  - `_first_token` (function, line 154) `def _first_token(command)`
+  - `DaemonControl` (class, line 162) `class DaemonControl`
+  - `wait_for_decision` (function, line 394) `def wait_for_decision(control, action)`
+  - `wait_until_unpaused` (function, line 445) `def wait_until_unpaused(control)`
+  - `is_expired` (method, line 79) `def is_expired(self, now)`
+  - `to_dict` (method, line 110) `def to_dict(self)`
+  - `from_dict` (method, line 121) `def from_dict(cls, data)`
+  - `__init__` (method, line 171) `def __init__(self, sessions_dir)`
+  - `path` (method, line 184) `def path(self)`
+  - `load` (method, line 188) `def load(self)`
+  - `save` (method, line 201) `def save(self, state)`
+  - `set_mode` (method, line 231) `def set_mode(self, mode)`
+  - `pause` (method, line 240) `def pause(self)`
+  - `resume` (method, line 244) `def resume(self)`
+  - `require_approval` (method, line 248) `def require_approval(self)`
+  - `add_veto` (method, line 252) `def add_veto(self, command_token)`
+  - `remove_veto` (method, line 267) `def remove_veto(self, command_token)`
+  - `clear_vetoes` (method, line 275) `def clear_vetoes(self)`
+  - `set_focus` (method, line 282) `def set_focus(self, targets)`
+  - `propose` (method, line 290) `def propose(self, command)`
+  - `decide` (method, line 317) `def decide(self, action_id, decision)`
+  - `consume` (method, line 343) `def consume(self, action_id)`
+  - `is_paused` (method, line 375) `def is_paused(self)`
+  - `is_vetoed` (method, line 379) `def is_vetoed(self, command)`
+  - `target_in_focus` (method, line 386) `def target_in_focus(self, target)`
+- Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_daemon_control.py`
+
+## skills/daemon_health.py
+- Doc: Daemon health monitor — watchdog for the autonomous daemon and C2 listeners.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_health_path` (function, line 32) `def _health_path()`
+  - `is_daemon_alive` (function, line 36) `def is_daemon_alive(timeout)`
+  - `daemon_status` (function, line 58) `def daemon_status(timeout)`
+  - `DaemonHealth` (class, line 94) `class DaemonHealth`
+  - `__init__` (method, line 102) `def __init__(self, interval, health_file)`
+  - `error_count` (method, line 114) `def error_count(self)`
+  - `error_count` (method, line 119) `def error_count(self, value)`
+  - `phase` (method, line 124) `def phase(self)`
+  - `phase` (method, line 129) `def phase(self, value)`
+  - `_write_heartbeat` (method, line 133) `def _write_heartbeat(self)`
+  - `_loop` (method, line 147) `def _loop(self)`
+  - `start` (method, line 155) `def start(self)`
+  - `stop` (method, line 164) `def stop(self)`
+  - `record_error` (method, line 175) `def record_error(self)`
+  - `set_phase` (method, line 180) `def set_phase(self, phase)`
+  - `increment_cycles` (method, line 185) `def increment_cycles(self)`
+- Imported by: `lazyc2.py`
+
+## skills/heartbeat.py
+- Doc: LazyOwn Heartbeat
+- Layer: utility
+- Language: py
+- Symbols:
+  - `write_pid` (function, line 53) `def write_pid()`
+  - `clear_pid` (function, line 57) `def clear_pid()`
+  - `is_running` (function, line 62) `def is_running()`
+  - `run_loop` (function, line 74) `def run_loop(interval, once)`
+  - `main` (function, line 127) `def main()`
+- Depends on: `modules/event_engine.py`, `modules/session_state.py`, `modules/timeline_narrator.py`
+
+## skills/hive_mind.py
+- Doc: skills/hive_mind.py — LazyOwn Borg Hive Mind
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_get_embed_model` (function, line 108) `def _get_embed_model()`
+  - `IReadableMemory` (class, line 145) `class IReadableMemory(ABC)`
+  - `IWritableMemory` (class, line 153) `class IWritableMemory(ABC)`
+  - `IMemoryStore` (class, line 161) `class IMemoryStore(IReadableMemory, IWritableMemory)`
+  - `ICommandRunner` (class, line 171) `class ICommandRunner(ABC)`
+  - `EpisodicStore` (class, line 189) `class EpisodicStore(IMemoryStore)`
+  - `SemanticStore` (class, line 349) `class SemanticStore(IMemoryStore)`
+  - `LongtermStore` (class, line 506) `class LongtermStore(IMemoryStore)`
+  - `build_default_hive_memory` (function, line 558) `def build_default_hive_memory(db_path)`
+  - `HiveMemory` (class, line 571) `class HiveMemory`
+  - `HiveMessage` (class, line 717) `class HiveMessage`
+  - `HiveBus` (class, line 728) `class HiveBus`
+  - `ConsensusVote` (class, line 902) `class ConsensusVote`
+  - `ConsensusProtocol` (class, line 911) `class ConsensusProtocol`
+  - `DroneState` (class, line 1066) `class DroneState`
+  - `DroneAgent` (class, line 1083) `class DroneAgent`
+  - `_classify_objective` (function, line 1277) `def _classify_objective(goal)`
+  - `QueenBrain` (class, line 1289) `class QueenBrain`
+  - `DroneStateStore` (class, line 1481) `class DroneStateStore`
+  - `DronePool` (class, line 1661) `class DronePool`
+  - `HiveMind` (class, line 1812) `class HiveMind`
+  - `get_hive` (function, line 1911) `def get_hive()`
+  - `mcp_hive_spawn` (function, line 1926) `def mcp_hive_spawn(goal, role, n_drones, backend, max_iterations, api_key)`
+  - `mcp_hive_status` (function, line 1976) `def mcp_hive_status()`
+  - `mcp_hive_recall` (function, line 1981) `def mcp_hive_recall(query, top_k)`
+  - `mcp_hive_plan` (function, line 1995) `def mcp_hive_plan(goal, n_drones)`
+  - `mcp_hive_result` (function, line 2004) `def mcp_hive_result(drone_id)`
+  - `mcp_hive_collect` (function, line 2010) `def mcp_hive_collect(drone_ids_csv, goal)`
+  - `mcp_hive_forget` (function, line 2021) `def mcp_hive_forget(older_than_hours, topic)`
+  - `mcp_hive_recover` (function, line 2027) `def mcp_hive_recover(backend, api_key, max_iterations)`
+  - `_cli` (function, line 2074) `def _cli()`
+  - `recall` (method, line 149) `def recall(self, query, top_k)`
+  - `store` (method, line 157) `def store(self, content)`
+  - `run` (method, line 175) `def run(self, command, timeout)`
+  - `name` (method, line 180) `def name(self)`
+  - `__init__` (method, line 215) `def __init__(self, db_path)`
+  - `_connect` (method, line 220) `def _connect(self)`
+  - `store` (method, line 235) `def store(self, content, agent_id, role, event_type, meta, session_tag)`
+  - `_sanitize_fts` (method, line 266) `def _sanitize_fts(query)`
+  - `recall` (method, line 274) `def recall(self, query, top_k, role, event_type)`
+  - `stats` (method, line 322) `def stats(self)`
+  - `forget` (method, line 329) `def forget(self, older_than_hours, topic)`
+  - `__init__` (method, line 358) `def __init__(self, chroma_dir, episodic_fallback)`
+  - `_init_chroma` (method, line 366) `def _init_chroma(self, chroma_dir)`
+  - `available` (method, line 380) `def available(self)`
+  - `store` (method, line 386) `def store(self, content, agent_id, role, event_type, meta, session_tag, event_id)`
+  - `recall` (method, line 434) `def recall(self, query, top_k, where)`
+  - `count` (method, line 477) `def count(self)`
+  - `_embed` (method, line 488) `def _embed(self, text)`
+  - `store` (method, line 515) `def store(self, content)`
+  - `recall` (method, line 519) `def recall(self, query, top_k)`
+  - `__init__` (method, line 582) `def __init__(self, stores, episodic, semantic, longterm)`
+  - `store` (method, line 596) `def store(self, content, agent_id, role, event_type, meta, session_tag)`
+  - `recall_episodic` (method, line 633) `def recall_episodic(self, query, top_k, role, event_type)`
+  - `recall_semantic` (method, line 647) `def recall_semantic(self, query, top_k, where)`
+  - `recall_longterm` (method, line 660) `def recall_longterm(self, query, top_k)`
+  - `recall` (method, line 668) `def recall(self, query, top_k)`
+  - `stats` (method, line 694) `def stats(self)`
+  - `forget` (method, line 704) `def forget(self, older_than_hours, topic)`
+  - `__init__` (method, line 736) `def __init__(self)`
+  - `publish` (method, line 740) `def publish(self, msg)`
+  - `receive` (method, line 746) `def receive(self, agent_id, max_msgs)`
+  - `ack_broadcast` (method, line 754) `def ack_broadcast(self, agent_id, msg_id)`
+  - `pending_count` (method, line 758) `def pending_count(self, agent_id)`
+  - `__init__` (method, line 943) `def __init__(self, risk_assessor)`
+  - `evaluate` (method, line 946) `def evaluate(self, role, goal)`
+  - `_stealth_vote` (method, line 975) `def _stealth_vote(self, detection_risk)`
+  - `_privesc_hunter_vote` (method, line 989) `def _privesc_hunter_vote(role, goal)`
+  - `_architect_vote` (method, line 1004) `def _architect_vote(role, goal)`
+  - `_estimate_detection_risk` (method, line 1032) `def _estimate_detection_risk(self, role, goal)`
+  - `_weighted_approval` (method, line 1041) `def _weighted_approval(votes)`
+  - `__init__` (method, line 1091) `def __init__(self, drone_id, role, goal, backend, memory, bus, max_iterations, api_key, model, runner, on_state_change)`
+  - `_persist` (method, line 1120) `def _persist(self)`
+  - `start` (method, line 1128) `def start(self)`
+  - `join` (method, line 1137) `def join(self, timeout)`
+  - `_run` (method, line 1142) `def _run(self)`
+  - `_build_hive_context` (method, line 1212) `def _build_hive_context(self)`
+  - `_build_system_prompt` (method, line 1223) `def _build_system_prompt(self, tool_names, hive_ctx)`
+  - `_load_payload_key` (method, line 1240) `def _load_payload_key()`
+  - `__init__` (method, line 1301) `def __init__(self, memory, bus, pool, consensus)`
+  - `plan` (method, line 1313) `def plan(self, goal, n_drones)`
+  - `dispatch` (method, line 1332) `def dispatch(self, tasks, backend, api_key, max_iterations)`
+  - `plan_and_dispatch` (method, line 1405) `def plan_and_dispatch(self, goal, n_drones, backend, api_key, max_iterations)`
+  - `collect` (method, line 1417) `def collect(self, drone_ids, timeout, poll_interval)`
+  - `synthesize` (method, line 1447) `def synthesize(self, drone_ids, original_goal)`
+  - `read_bus` (method, line 1471) `def read_bus(self)`
+  - `__init__` (method, line 1513) `def __init__(self, db_path)`
+  - `upsert` (method, line 1523) `def upsert(self, state)`
+  - `load_all` (method, line 1553) `def load_all(self, limit)`
+  - `mark_interrupted` (method, line 1588) `def mark_interrupted(self)`
+  - `load_interrupted` (method, line 1609) `def load_interrupted(self)`
+  - `delete_older_than` (method, line 1643) `def delete_older_than(self, days)`
+  - `__init__` (method, line 1673) `def __init__(self, memory, bus, state_store)`
+  - `recover_from_store` (method, line 1687) `def recover_from_store(self)`
+  - `spawn` (method, line 1708) `def spawn(self, role, goal, backend, api_key, model, max_iterations, runner)`
+  - `requeue_interrupted` (method, line 1741) `def requeue_interrupted(self, backend, api_key, max_iterations)`
+  - `get_state` (method, line 1767) `def get_state(self, drone_id)`
+  - `list_all` (method, line 1776) `def list_all(self, limit)`
+  - `active_count` (method, line 1801) `def active_count(self)`
+  - `__init__` (method, line 1818) `def __init__(self)`
+  - `spawn` (method, line 1829) `def spawn(self, goal, role, backend, api_key, max_iterations)`
+  - `spawn_hive` (method, line 1846) `def spawn_hive(self, goal, n_drones, backend, api_key, max_iterations)`
+  - `status` (method, line 1863) `def status(self)`
+  - `recall` (method, line 1878) `def recall(self, query, top_k)`
+  - `drone_result` (method, line 1882) `def drone_result(self, drone_id)`
+  - `collect_and_synthesize` (method, line 1896) `def collect_and_synthesize(self, drone_ids, goal)`
+  - `forget` (method, line 1900) `def forget(self, older_than_hours, topic)`
+- Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_parquet_db.py`
+- Imported by: `modules/loop_ai_bridge.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `skills/swan_agent.py`, `skills/tests/test_hive_mind.py`, `skills/unified_orchestrator.py`
+
+## skills/lazyown_automapper.py
+- Doc: LazyOwn MCP Auto-Mapper
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_safe_name` (function, line 68) `def _safe_name(raw)`
+  - `_load_yaml` (function, line 79) `def _load_yaml(path)`
+  - `_params_to_schema` (function, line 104) `def _params_to_schema(params)`
+  - `_load_addons` (function, line 142) `def _load_addons(lazyaddons_dir)`
+  - `_load_dottools` (function, line 173) `def _load_dottools(tools_dir)`
+  - `_load_plugins` (function, line 214) `def _load_plugins(plugins_dir)`
+  - `_expand_tool_command` (function, line 247) `def _expand_tool_command(template, ip, port, ssl, outputdir, toolname)`
+  - `_addon_to_mcp_tool` (function, line 265) `def _addon_to_mcp_tool(spec)`
+  - `_tool_to_mcp_tool` (function, line 281) `def _tool_to_mcp_tool(spec)`
+  - `_plugin_to_mcp_tool` (function, line 314) `def _plugin_to_mcp_tool(spec)`
+  - `AutoMapper` (class, line 332) `class AutoMapper`
+  - `__init__` (method, line 341) `def __init__(self, lazyown_dir)`
+  - `_scan` (method, line 350) `def _scan(self)`
+  - `rescan` (method, line 364) `def rescan(self)`
+  - `mcp_tools` (method, line 368) `def mcp_tools(self)`
+  - `dispatch` (method, line 389) `def dispatch(self, name, arguments, config, run_command_fn)`
+  - `_run_addon` (method, line 420) `def _run_addon(self, spec, arguments, config, run_fn)`
+  - `_run_dottool` (method, line 452) `def _run_dottool(self, spec, arguments, config)`
+  - `_run_plugin` (method, line 475) `def _run_plugin(self, spec, arguments, config, run_fn)`
+  - `_shell_run` (method, line 503) `def _shell_run(cmd, timeout)`
+  - `update_skills_md` (method, line 524) `def update_skills_md(self, skills_md_path)`
+  - `stats` (method, line 571) `def stats(self)`
+  - `list_specs` (method, line 581) `def list_specs(self)`
+- Depends on: `core/logging.py`
+- Imported by: `skills/lazyown_mcp.py`
+
+## skills/lazyown_campaign.py
+- Doc: LazyOwn CampaignStore
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_now_iso` (function, line 59) `def _now_iso()`
+  - `is_ip_in_scope` (function, line 64) `def is_ip_in_scope(ip, scope)`
+  - `Campaign` (class, line 105) `class Campaign`
+  - `LessonLearned` (class, line 175) `class LessonLearned`
+  - `EpisodeReflectionEngine` (class, line 193) `class EpisodeReflectionEngine`
+  - `CampaignStore` (class, line 375) `class CampaignStore`
+  - `_build_parser` (function, line 623) `def _build_parser()`
+  - `main` (function, line 667) `def main(argv)`
+  - `is_active` (method, line 148) `def is_active(self)`
+  - `to_dict` (method, line 152) `def to_dict(self)`
+  - `from_dict` (method, line 157) `def from_dict(cls, data)`
+  - `to_dict` (method, line 189) `def to_dict(self)`
+  - `__init__` (method, line 256) `def __init__(self, hive_memory)`
+  - `reflect` (method, line 268) `def reflect(self, campaign)`
+  - `_persist_lessons` (method, line 332) `def _persist_lessons(self, lessons)`
+  - `__init__` (method, line 382) `def __init__(self, campaign_file)`
+  - `_save` (method, line 388) `def _save(self, campaign)`
+  - `load` (method, line 395) `def load(self)`
+  - `create` (method, line 414) `def create(self, name, scope, notes)`
+  - `complete` (method, line 445) `def complete(self, notes, run_reflection, hive_memory)`
+  - `update_phase` (method, line 500) `def update_phase(self, host, phase)`
+  - `add_milestone` (method, line 516) `def add_milestone(self, host, milestone_type, notes)`
+  - `add_to_scope` (method, line 540) `def add_to_scope(self, ip_or_cidr)`
+  - `in_scope` (method, line 559) `def in_scope(self, ip)`
+  - `summary` (method, line 566) `def summary(self)`
+  - `_require` (method, line 610) `def _require(self)`
+- Depends on: `core/logging.py`, `modules/lesson_ingestor.py`, `modules/logging_config.py`
+- Imported by: `skills/lazyown_mcp.py`
+
+
+Next: [KB_skills_p2.md](KB_skills_p2.md)

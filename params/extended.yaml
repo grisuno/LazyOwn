@@ -1,0 +1,57 @@
+# Extended parameters for lazyaddons and pipelines.
+# Add any new parameter here to make it available in the shell
+# without modifying payload.json or Python code.
+#
+# Usage:
+#   params:
+#     my_param: "value"
+#   Then reference as {my_param} in any lazyaddon YAML or alias.
+#
+# Add more files under params/*.yaml to extend further.
+# All files are loaded alphabetically at shell startup.
+
+target: ""
+action: "search"
+query: ""
+technique_id: ""
+platform: ""
+note_text: ""
+cloud_provider: "aws"
+cloud_region: "us-east-1"
+region: "us-east-1"
+scan_type: "fs"
+report_output_path: ""
+topoexploit_path: "external/.exploit/TopoExploit"
+topoexploit_port: "8800"
+username: ""
+password: ""
+dc_ip: ""
+ca_name: ""
+template_name: ""
+target_path: ""
+cloud_prefix: ""
+exploitgym_path: "external/.exploit/exploitgym"
+exploitgym_model: ""
+ghidra_server: "http://127.0.0.1:8080/"
+ghidra_plugin_url: "http://localhost:8089"
+mcp_host: "localhost"
+mcp_port: "8081"
+grype_target: "."
+entropia_src: "examples/bof_pslist.etpy"
+entropia_type: "bof"
+entropia_opsec: "all"
+entropia_seed: "random"
+entropia_out: "entropia_shellcode.bin"
+entropia_artifact: "entropia_bof.x64.o"
+entropia_seed_a: "7"
+entropia_seed_b: "77"
+entropia_kind: "bof"
+entropia_name: "demo_task"
+entropia_harness_args: "--zarg operator"
+trivy_scan_type: "fs"
+trivy_target: "."
+llamacpp_host: "http://127.0.0.1:8080"
+llm_model_llamacpp: "local-model"
+android_serial: ""
+dirtyinit_device_path: "/data/local/tmp/dirtyinit"
+wifi_ssid: ""

@@ -1,6 +1,6 @@
 # LazyOwn vs Other Open-Source Red Team Frameworks
 
-Honest, side-by-side comparison. Updated 2026-05-17.
+Honest, side-by-side comparison. Updated 2026-09-08.
 
 If you find a row that is inaccurate, open an issue. We will fix it. We would
 rather lose a tick than mislead an operator.
@@ -22,6 +22,8 @@ rather lose a tick than mislead an operator.
 | macOS beacon | yes (Go) | yes | no | yes | partial | yes | yes |
 | **Linux BOF support** | **yes (ELF dlopen)** | **no** | **no** | **no** | **no** | **no** | **no** |
 | Windows BOF support | partial (via beacon.yaml addon) | yes (COFF loader) | yes | yes (apollo, athena) | partial | no | no |
+| YARA rules marketplace | **yes (built-in + community)** | no | no | no | no | no | no |
+| Nuclei template marketplace | **yes (500+ templates)** | no | no | no | no | no | no |
 | Malleable C2 HTTP profile | yes | yes | yes | yes (via containers) | partial | partial | yes (advanced) |
 | DNS C2 | yes (built-in resolver) | yes | partial | yes | yes | no | yes |
 | TLS / mTLS | yes (self-signed + mTLS-ready) | yes | yes | yes | yes | partial | yes |
@@ -31,7 +33,7 @@ rather lose a tick than mislead an operator.
 | Automated kill-chain loop | yes (`autonomous_daemon`) | no | no | no | no | yes (operations) | no |
 | LLM-assisted operator (built-in) | **yes** (Groq, Ollama, Claude via MCP) | no | no | no | no | no | no |
 | Multi-agent AI (hive-mind / MoE) | **yes** (SWAN + hive_mind) | no | no | no | no | no | no |
-| MCP server for Claude / agents | **yes (95+ tools)** | no | no | no | no | no | no |
+| MCP server for Claude / agents | **yes (173 tools)** | no | no | no | no | no | no |
 | Knowledge graph navigation | yes (`graphify-out/`) | no | no | no | no | no | no |
 | Knowledge bases (GTFOBins, LOLBas, ATT&CK) | yes (parquet) | no | no | no | no | partial | yes (modules db) |
 | Plugin system | yes (YAML addons + Lua + .tool) | yes (armory + extensions) | yes (modules) | yes (containers) | yes (modules) | yes (plugins) | yes (modules) |
@@ -62,7 +64,7 @@ IDs and references published CTI. Replay one with `playbook_run apt_apt28`.
 LazyOwn the model orchestrates the engagement: `autonomous_daemon` drives a
 reward-shaped kill chain, `swan_ensemble` routes tasks through a mixture of
 experts, and `hive_spawn` runs role-specialised drones in parallel. The MCP
-server exposes 95+ tools to Claude Code so the operator can drive the whole
+server exposes 173 tools to Claude Code so the operator can drive the whole
 framework from a conversational interface.
 
 **Breadth in a single repo.** Recon, exploitation, lateral movement,
@@ -128,10 +130,10 @@ Tracked in GitHub issues, summarised here:
 
 - Windows COFF loader parity with Sliver inside the Go beacon.
 - ARM/IoT beacon (`blackzincbeacon`) for embedded targets.
-- Operator handbook with screenshots and a guided demo engagement.
-- Reproducible end-to-end demo video pinned to the README.
 - Signed releases (cosign) and SBOM publication.
 - Plugin marketplace index at addons.lazyown.io.
+- YARA rules community contributions pipeline.
+- Nuclei template auto-sync with upstream ProjectDiscovery.
 
 ---
 

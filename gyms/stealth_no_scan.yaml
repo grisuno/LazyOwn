@@ -1,0 +1,34 @@
+id: stealth_no_scan
+name: Ghost Protocol
+description: Complete the Metasploitable full chain WITHOUT running any port scanner
+  (nmap, masscan, etc.). Use only passive recon and targeted probing.
+scenario: metasploitable
+chain: ''
+objective: Root the box without ever running a full port scan. Use banner grabbing,
+  targeted connections, OSINT.
+difficulty: hard
+phases:
+- recon
+- enum
+- exploit
+- postexp
+- privesc
+required_techniques:
+- passive_recon
+- banner_grab
+- targeted_exploit
+bonus_techniques:
+- osint
+- social_eng
+- living_off_land
+max_points: 3500
+speed_bonus_max: 500
+stealth_bonus_max: 1200
+technique_diversity_bonus: 800
+hints:
+- curl, netcat, telnet - one port at a time
+- Check /robots.txt on port 80
+- What services run on common ports by convention?
+- Searchsploit for known services on Metasploitable2
+success_check: root without running nmap or masscan
+elo_bonus: 600

@@ -1,6 +1,6 @@
 # `core.config`
 
-> Source: [core/config.py:1](../../core/config.py#L1) | language `py` | coverage 88.9% | [API index](../index.md)
+> Source: [core/config.py:1](../../core/config.py#L1) | language `py` | coverage 90.0% | [API index](../index.md)
 
 Configuration loader and Config wrapper.
 
@@ -21,7 +21,7 @@ leaves the operator with a corrupt payload file.
 ## Contents
 
 - **Classes:** [`Config`](#config)
-- **Functions:** [`resolve_aes_key`](#resolve_aes_key), [`load_payload`](#load_payload), [`load_and_validate`](#load_and_validate), [`save_payload`](#save_payload)
+- **Functions:** [`resolve_aes_key`](#resolve_aes_key), [`load_payload`](#load_payload), [`load_and_validate`](#load_and_validate), [`save_payload`](#save_payload), [`ensure_rat_key`](#ensure_rat_key)
 - **Constants:** [`PAYLOAD_FILENAME`](#payload_filename), [`PAYLOAD_PATH`](#payload_path), [`LAZYOWN_ENV_PREFIX`](#lazyown_env_prefix)
 
 ## Call Graph
@@ -34,9 +34,13 @@ flowchart LR
     n_core_config_py__resolve_aes_key(["resolve_aes_key"])
     n_core_config_py__load_and_validate(["load_and_validate"])
     n_core_config_py__load_payload(["load_payload"])
+    n_core_config_py__ensure_rat_key(["ensure_rat_key"])
+    n_core_config_py__save_payload(["save_payload"])
     n_core_payload_schema_py__validate_payload["payload_schema.validate_payload"]
     n_core_config_py__Config___init__ --> n_core_config_py__resolve_aes_key
     n_core_config_py__load_and_validate --> n_core_config_py__load_payload
+    n_core_config_py__ensure_rat_key --> n_core_config_py__load_payload
+    n_core_config_py__ensure_rat_key --> n_core_config_py__save_payload
     n_core_config_py__load_and_validate -.-> n_core_payload_schema_py__validate_payload
 ```
 
@@ -46,7 +50,7 @@ flowchart LR
 
 ### `Config`
 
-`class` | [core/config.py:206](../../core/config.py#L206)
+`class` | [core/config.py:211](../../core/config.py#L211)
 
 ```python
 class Config
@@ -75,7 +79,7 @@ substitute ``{{aes_key}}`` and other tokens in lazyaddons.
 
 #### `Config.__init__`
 
-`constructor` | [core/config.py:219](../../core/config.py#L219)
+`constructor` | [core/config.py:224](../../core/config.py#L224)
 
 ```python
 def __init__(self, config_dict: dict[str, Any], sessions_dir: str | os.PathLike[str] | None = None) -> None
@@ -96,7 +100,7 @@ def __init__(self, config_dict: dict[str, Any], sessions_dir: str | os.PathLike[
 
 #### `Config.as_params`
 
-`method` | [core/config.py:234](../../core/config.py#L234)
+`method` | [core/config.py:239](../../core/config.py#L239)
 
 ```python
 def as_params(self) -> dict[str, Any]
@@ -112,7 +116,7 @@ consumed by lazyaddon template substitution.
 
 #### `Config.overridden_keys`
 
-`method` | [core/config.py:244](../../core/config.py#L244)
+`method` | [core/config.py:249](../../core/config.py#L249)
 
 ```python
 def overridden_keys(self) -> list[str]
@@ -130,7 +134,7 @@ Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
 
 ### `resolve_aes_key`
 
-`function` | [core/config.py:261](../../core/config.py#L261)
+`function` | [core/config.py:266](../../core/config.py#L266)
 
 ```python
 def resolve_aes_key(config_dict: dict[str, Any], *, sessions_dir: str | os.PathLike[str]) -> bytes
@@ -159,7 +163,7 @@ Return a 32-byte AES key derived from config, disk, or randomness.
 
 ### `load_payload`
 
-`function` | [core/config.py:327](../../core/config.py#L327)
+`function` | [core/config.py:332](../../core/config.py#L332)
 
 ```python
 def load_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, Any]
@@ -187,7 +191,7 @@ Environment variable overrides
 - `FileNotFoundError`: if neither the payload nor the example exists.
 - `json.JSONDecodeError`: if the payload is not valid JSON.
 
-*Called by:* [`load_aliases`](cli.aliases.py.md#load_aliases), [`BofMarketplaceCommandSet.do_bof_run`](cli.commands.bof_registry.py.md#bofmarketplacecommandset-do_bof_run), [`MiscMigratedCommandSet.do_config_banner`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_config_banner), [`PurpleTeamCommandSet.do_purple_config`](cli.commands.purple_team.py.md#purpleteamcommandset-do_purple_config), [`SecurityCommandSet.do_opsec`](cli.commands.security.py.md#securitycommandset-do_opsec), [`SecurityCommandSet.do_rotate_aes`](cli.commands.security.py.md#securitycommandset-do_rotate_aes), [`SecurityCommandSet.do_seal_credentials`](cli.commands.security.py.md#securitycommandset-do_seal_credentials), [`SecurityCommandSet.do_unseal_credentials`](cli.commands.security.py.md#securitycommandset-do_unseal_credentials), [`load_and_validate`](#load_and_validate), [`get_defaults`](lazyc2.blueprints.api.py.md#get_defaults), [`set_default`](lazyc2.blueprints.api.py.md#set_default), [`LazyOwnShell.__init__`](lazyown.py.md#lazyownshell-__init__) and 13 more
+*Called by:* [`load_aliases`](cli.aliases.py.md#load_aliases), [`BofMarketplaceCommandSet.do_bof_run`](cli.commands.bof_registry.py.md#bofmarketplacecommandset-do_bof_run), [`MiscMigratedCommandSet.do_config_banner`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_config_banner), [`PurpleTeamCommandSet.do_purple_config`](cli.commands.purple_team.py.md#purpleteamcommandset-do_purple_config), [`SecurityCommandSet.do_opsec`](cli.commands.security.py.md#securitycommandset-do_opsec), [`SecurityCommandSet.do_rotate_aes`](cli.commands.security.py.md#securitycommandset-do_rotate_aes), [`SecurityCommandSet.do_seal_credentials`](cli.commands.security.py.md#securitycommandset-do_seal_credentials), [`SecurityCommandSet.do_unseal_credentials`](cli.commands.security.py.md#securitycommandset-do_unseal_credentials), [`ensure_rat_key`](#ensure_rat_key), [`load_and_validate`](#load_and_validate), [`ensure_session_secrets`](core.session_secrets.py.md#ensure_session_secrets), [`rotate_session_secrets`](core.session_secrets.py.md#rotate_session_secrets) and 18 more
 
 ---
 
@@ -195,7 +199,7 @@ Environment variable overrides
 
 ### `load_and_validate`
 
-`function` | [core/config.py:345](../../core/config.py#L345)
+`function` | [core/config.py:350](../../core/config.py#L350)
 
 ```python
 def load_and_validate(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, Any]
@@ -231,13 +235,20 @@ Validation never raises: problems are collected in the ``warnings`` and
 
 ### `save_payload`
 
-`function` | [core/config.py:396](../../core/config.py#L396)
+`function` | [core/config.py:401](../../core/config.py#L401)
 
 ```python
 def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> None
 ```
 
-Atomically write ``payload`` as pretty-printed JSON to ``path``.
+Atomically merge ``payload`` into the JSON file at ``path``.
+
+Concurrent writers mutate ``payload.json`` at the same time (the C2
+rotates session secrets while the shell assigns parameters), so the
+write is merged over the on-disk snapshot instead of replacing it:
+keys absent from ``payload`` keep their current on-disk value.
+Deleting a key is done by writing it with ``None``, never by omitting
+it from the saved dict.
 
 Uses a sibling ``*.tmp`` file plus ``os.replace`` so a crash mid-write
 cannot leave the operator with a half-written payload.
@@ -251,7 +262,41 @@ Configuration changes are audited to ``sessions/config_changes.jsonl``.
 | `payload` | `dict[str, Any]` |  |  |
 | `path` | `str \| os.PathLike[str]` | `PAYLOAD_FILENAME` |  |
 
-*Called by:* [`McpBridgeCommandSet.do_auto_populate`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_populate), [`PurpleTeamCommandSet.do_purple_config`](cli.commands.purple_team.py.md#purpleteamcommandset-do_purple_config), [`SecurityCommandSet.do_rotate_aes`](cli.commands.security.py.md#securitycommandset-do_rotate_aes), [`SecurityCommandSet.do_seal_credentials`](cli.commands.security.py.md#securitycommandset-do_seal_credentials), [`SecurityCommandSet.do_unseal_credentials`](cli.commands.security.py.md#securitycommandset-do_unseal_credentials), [`OrchestratorAssetsMixin.save_config`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_config), [`OrchestratorAssetsMixin.save_guardrails`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_guardrails), [`set_default`](lazyc2.blueprints.api.py.md#set_default), [`LazyOwnShell.preloop`](lazyown.py.md#lazyownshell-preloop), [`set_full_cli`](modules.lazy_cli_bridge.py.md#set_full_cli), [`set_installer_enabled`](modules.lazy_installer.py.md#set_installer_enabled)
+*Called by:* [`McpBridgeCommandSet.do_auto_populate`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_populate), [`PurpleTeamCommandSet.do_purple_config`](cli.commands.purple_team.py.md#purpleteamcommandset-do_purple_config), [`SecurityCommandSet.do_rotate_aes`](cli.commands.security.py.md#securitycommandset-do_rotate_aes), [`SecurityCommandSet.do_seal_credentials`](cli.commands.security.py.md#securitycommandset-do_seal_credentials), [`SecurityCommandSet.do_unseal_credentials`](cli.commands.security.py.md#securitycommandset-do_unseal_credentials), [`OrchestratorAssetsMixin.save_config`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_config), [`OrchestratorAssetsMixin.save_guardrails`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-save_guardrails), [`ensure_rat_key`](#ensure_rat_key), [`rotate_session_secrets`](core.session_secrets.py.md#rotate_session_secrets), [`set_default`](lazyc2.blueprints.api.py.md#set_default), [`LazyOwnShell.preloop`](lazyown.py.md#lazyownshell-preloop), [`set_full_cli`](modules.lazy_cli_bridge.py.md#set_full_cli) and 2 more
+
+---
+
+<a id="ensure_rat_key"></a>
+
+### `ensure_rat_key`
+
+`function` | [core/config.py:468](../../core/config.py#L468)
+
+```python
+def ensure_rat_key(config_obj: Any = None) -> str
+```
+
+Bootstrap the beacon HMAC signing key from ``payload.json``.
+
+When the stored ``rat_key`` is empty, a placeholder, or the published
+schema default, a fresh random 32-byte key is generated, persisted via
+[`save_payload`](#save_payload), and (when given) mirrored onto the live config
+object so the C2 enforcement and the implant builder read the same
+secret in the same deployment.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `config_obj` | `Any` | `None` | Optional live config wrapper (`[`core.config.Config`](#config)`) whose ``rat_key`` attribute is refreshed in memory. |
+
+**Returns:** `str` - The rat_key currently in effect as 64 lowercase hex characters.
+
+**Raises**
+
+- `RuntimeError`: if ``payload.json`` cannot be resolved to a dict and no key can be ensured.
+
+*Calls:* [`load_payload`](#load_payload), [`save_payload`](#save_payload)
 
 ---
 
@@ -261,7 +306,7 @@ Configuration changes are audited to ``sessions/config_changes.jsonl``.
 
 ### `PAYLOAD_FILENAME`
 
-`constant` | [core/config.py:32](../../core/config.py#L32)
+`constant` | [core/config.py:33](../../core/config.py#L33)
 
 ```python
 PAYLOAD_FILENAME = 'payload.json'
@@ -273,7 +318,7 @@ PAYLOAD_FILENAME = 'payload.json'
 
 ### `PAYLOAD_PATH`
 
-`constant` | [core/config.py:33](../../core/config.py#L33)
+`constant` | [core/config.py:34](../../core/config.py#L34)
 
 ```python
 PAYLOAD_PATH = Path(PAYLOAD_FILENAME)
@@ -285,7 +330,7 @@ PAYLOAD_PATH = Path(PAYLOAD_FILENAME)
 
 ### `LAZYOWN_ENV_PREFIX`
 
-`constant` | [core/config.py:40](../../core/config.py#L40)
+`constant` | [core/config.py:45](../../core/config.py#L45)
 
 ```python
 LAZYOWN_ENV_PREFIX = 'LAZYOWN_'

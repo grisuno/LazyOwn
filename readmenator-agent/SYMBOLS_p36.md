@@ -3,6 +3,48 @@ Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_obs_parser_error` | function | `tests/test_core_modules.py:39` | `def test_obs_parser_error()` |
+| `test_obs_parser_nmap` | function | `tests/test_core_modules.py:16` | `def test_obs_parser_nmap()` |
+| `test_parquet_db_query_atomic` | function | `tests/test_core_modules.py:1139` | `def test_parquet_db_query_atomic()` |
+| `test_playbook_engine_derive_save_load` | function | `tests/test_core_modules.py:79` | `def test_playbook_engine_derive_save_load(tmp_path)` |
+| `test_playbook_engine_execute` | function | `tests/test_core_modules.py:90` | `def test_playbook_engine_execute()` |
+| `test_reactive_engine_av_detection` | function | `tests/test_core_modules.py:702` | `def test_reactive_engine_av_detection()` |
+| `test_reactive_engine_credential_found` | function | `tests/test_core_modules.py:728` | `def test_reactive_engine_credential_found()` |
+| `test_reactive_engine_new_host` | function | `tests/test_core_modules.py:737` | `def test_reactive_engine_new_host()` |
+| `test_reactive_engine_no_signal` | function | `tests/test_core_modules.py:755` | `def test_reactive_engine_no_signal()` |
+| `test_reactive_engine_priority_ordering` | function | `tests/test_core_modules.py:766` | `def test_reactive_engine_priority_ordering()` |
+| `test_reactive_engine_privesc_sudo` | function | `tests/test_core_modules.py:717` | `def test_reactive_engine_privesc_sudo()` |
+| `test_reactive_engine_shell_error` | function | `tests/test_core_modules.py:746` | `def test_reactive_engine_shell_error()` |
+| `test_report_empty` | function | `tests/test_core_modules.py:170` | `def test_report_empty(tmp_path)` |
+| `test_report_with_data` | function | `tests/test_core_modules.py:148` | `def test_report_with_data(tmp_path)` |
+| `test_searchsploit_client` | function | `tests/test_core_modules.py:253` | `def test_searchsploit_client()` |
+| `test_searchsploit_graceful` | function | `tests/test_core_modules.py:246` | `def test_searchsploit_graceful()` |
+| `test_session_rag_chunk_text` | function | `tests/test_core_modules.py:796` | `def test_session_rag_chunk_text()` |
+| `test_session_rag_context_for_step` | function | `tests/test_core_modules.py:828` | `def test_session_rag_context_for_step()` |
+| `test_session_rag_fallback_dedup` | function | `tests/test_core_modules.py:939` | `def test_session_rag_fallback_dedup()` |
+| `test_session_rag_fallback_persistence` | function | `tests/test_core_modules.py:919` | `def test_session_rag_fallback_persistence(tmp_path)` |
+| `test_session_rag_fallback_ring_buffer` | function | `tests/test_core_modules.py:949` | `def test_session_rag_fallback_ring_buffer()` |
+| `test_session_rag_index_new` | function | `tests/test_core_modules.py:807` | `def test_session_rag_index_new()` |
+| `test_session_rag_index_parquet_sources` | function | `tests/test_core_modules.py:1150` | `def test_session_rag_index_parquet_sources()` |
+| `test_session_rag_init` | function | `tests/test_core_modules.py:778` | `def test_session_rag_init()` |
+| `test_session_rag_query_returns_list` | function | `tests/test_core_modules.py:817` | `def test_session_rag_query_returns_list()` |
+| `test_session_rag_stats` | function | `tests/test_core_modules.py:785` | `def test_session_rag_stats()` |
+| `test_session_reader_discovered_hosts` | function | `tests/test_core_modules.py:679` | `def test_session_reader_discovered_hosts(tmp_path)` |
+| `test_session_reader_empty` | function | `tests/test_core_modules.py:614` | `def test_session_reader_empty(tmp_path)` |
+| `test_session_reader_implant_csv` | function | `tests/test_core_modules.py:625` | `def test_session_reader_implant_csv(tmp_path)` |
+| `test_session_reader_privileged_sessions` | function | `tests/test_core_modules.py:642` | `def test_session_reader_privileged_sessions(tmp_path)` |
+| `test_session_reader_skips_non_implant_logs` | function | `tests/test_core_modules.py:688` | `def test_session_reader_skips_non_implant_logs(tmp_path)` |
+| `test_session_reader_tasks` | function | `tests/test_core_modules.py:663` | `def test_session_reader_tasks(tmp_path)` |
+| `test_threat_model_build` | function | `tests/test_core_modules.py:847` | `def test_threat_model_build()` |
+| `test_threat_model_builder_init` | function | `tests/test_core_modules.py:840` | `def test_threat_model_builder_init()` |
+| `test_threat_model_detection_rules_structure` | function | `tests/test_core_modules.py:885` | `def test_threat_model_detection_rules_structure()` |
+| `test_threat_model_has_purple_team` | function | `tests/test_core_modules.py:971` | `def test_threat_model_has_purple_team()` |
+| `test_threat_model_ioc_types` | function | `tests/test_core_modules.py:908` | `def test_threat_model_ioc_types()` |
+| `test_threat_model_load_after_build` | function | `tests/test_core_modules.py:898` | `def test_threat_model_load_after_build()` |
+| `test_threat_model_purple_coverage_field` | function | `tests/test_core_modules.py:1013` | `def test_threat_model_purple_coverage_field()` |
+| `test_threat_model_purple_gaps_sorted_first` | function | `tests/test_core_modules.py:996` | `def test_threat_model_purple_gaps_sorted_first()` |
+| `test_threat_model_purple_team_structure` | function | `tests/test_core_modules.py:980` | `def test_threat_model_purple_team_structure()` |
+| `test_threat_model_summary_fields` | function | `tests/test_core_modules.py:860` | `def test_threat_model_summary_fields()` |
 | `test_threat_model_ttps_have_required_fields` | function | `tests/test_core_modules.py:872` | `def test_threat_model_ttps_have_required_fields()` |
 | `test_world_model_basic` | function | `tests/test_core_modules.py:47` | `def test_world_model_basic(tmp_path)` |
 | `test_world_model_from_findings` | function | `tests/test_core_modules.py:68` | `def test_world_model_from_findings()` |
@@ -454,47 +496,5 @@ Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 | `TestFileApprovalSink` | class | `tests/test_engage_orchestrator.py:385` | `class TestFileApprovalSink` |
 | `TestIsValidTarget` | class | `tests/test_engage_orchestrator.py:241` | `class TestIsValidTarget` |
 | `TestMcpEntryPoints` | class | `tests/test_engage_orchestrator.py:632` | `class TestMcpEntryPoints` |
-| `TestNotificationBroadcaster` | class | `tests/test_engage_orchestrator.py:139` | `class TestNotificationBroadcaster` |
-| `TestShellObtainedPublisher` | class | `tests/test_engage_orchestrator.py:191` | `class TestShellObtainedPublisher` |
-| `TestStaticFallbackResolver` | class | `tests/test_engage_orchestrator.py:451` | `class TestStaticFallbackResolver` |
-| `TestStdinApprovalSink` | class | `tests/test_engage_orchestrator.py:431` | `class TestStdinApprovalSink` |
-| `TestWiring` | class | `tests/test_engage_orchestrator.py:676` | `class TestWiring` |
-| `_BoomSink` | class | `tests/test_engage_orchestrator.py:165` | `class _BoomSink(INotificationSink)` |
-| `_CountingSink` | class | `tests/test_engage_orchestrator.py:145` | `class _CountingSink(INotificationSink)` |
-| `_GoodSink` | class | `tests/test_engage_orchestrator.py:173` | `class _GoodSink(INotificationSink)` |
-| `_NoOpGate` | class | `tests/test_engage_orchestrator.py:497` | `class _NoOpGate` |
-| `_RecordingSink` | class | `tests/test_engage_orchestrator.py:280` | `class _RecordingSink` |
-| `_RejectingGate` | class | `tests/test_engage_orchestrator.py:508` | `class _RejectingGate` |
-| `_ScriptedRunner` | class | `tests/test_engage_orchestrator.py:473` | `class _ScriptedRunner` |
-| `__init__` | method | `tests/test_engage_orchestrator.py:146` | `def __init__(self, name)` |
-| `__init__` | method | `tests/test_engage_orchestrator.py:283` | `def __init__(self)` |
-| `__init__` | method | `tests/test_engage_orchestrator.py:481` | `def __init__(self, scripted)` |
-| `__init__` | method | `tests/test_engage_orchestrator.py:509` | `def __init__(self, rejected_phase)` |
-| `_injected_sleep` | function | `tests/test_engage_orchestrator.py:330` | `def _injected_sleep(_seconds)` |
-| `announce` | method | `tests/test_engage_orchestrator.py:287` | `def announce(self, request)` |
-| `deliver` | method | `tests/test_engage_orchestrator.py:153` | `def deliver(self, event)` |
-| `deliver` | method | `tests/test_engage_orchestrator.py:170` | `def deliver(self, event)` |
-| `deliver` | method | `tests/test_engage_orchestrator.py:178` | `def deliver(self, event)` |
-| `name` | method | `tests/test_engage_orchestrator.py:150` | `def name(self)` |
-| `name` | method | `tests/test_engage_orchestrator.py:167` | `def name(self)` |
-| `name` | method | `tests/test_engage_orchestrator.py:175` | `def name(self)` |
-| `name` | method | `tests/test_engage_orchestrator.py:493` | `def name(self)` |
-| `policy_module` | function | `tests/test_engage_orchestrator.py:270` | `def policy_module(temp_sessions, monkeypatch)` |
-| `request` | method | `tests/test_engage_orchestrator.py:498` | `def request(self, target, phase, command, reason)` |
-| `request` | method | `tests/test_engage_orchestrator.py:512` | `def request(self, target, phase, command, reason)` |
-| `resolution_for` | method | `tests/test_engage_orchestrator.py:290` | `def resolution_for(self, approval_id)` |
-| `run` | method | `tests/test_engage_orchestrator.py:485` | `def run(self, command, timeout)` |
-| `temp_sessions` | function | `tests/test_engage_orchestrator.py:47` | `def temp_sessions(tmp_path, monkeypatch)` |
-| `test_accepts_hostname` | method | `tests/test_engage_orchestrator.py:248` | `def test_accepts_hostname(self)` |
-| `test_accepts_ipv4` | method | `tests/test_engage_orchestrator.py:242` | `def test_accepts_ipv4(self)` |
-| `test_announce_writes_pending_record` | method | `tests/test_engage_orchestrator.py:386` | `def test_announce_writes_pending_record(self, policy_module, temp_sessions)` |
-| `test_approval_gate_defaults_to_true_when_key_missing` | method | `tests/test_engage_orchestrator.py:708` | `def test_approval_gate_defaults_to_true_when_key_missing(self, tmp_path)` |
-| `test_auto_approve_true_returns_approved_for_gated_phase` | method | `tests/test_engage_orchestrator.py:295` | `def test_auto_approve_true_returns_approved_for_gated_phase(self, policy_module, temp_sessions)` |
-| `test_client_id_is_sanitised` | method | `tests/test_engage_orchestrator.py:223` | `def test_client_id_is_sanitised(self, temp_sessions)` |
-| `test_daemon_has_engage_subcommand` | method | `tests/test_engage_orchestrator.py:698` | `def test_daemon_has_engage_subcommand(self)` |
-| `test_denied_step_is_skipped` | method | `tests/test_engage_orchestrator.py:585` | `def test_denied_step_is_skipped(self, temp_sessions, policy_module)` |
-| `test_do_engage_method_exists_in_lazyown` | method | `tests/test_engage_orchestrator.py:677` | `def test_do_engage_method_exists_in_lazyown(self)` |
-| `test_engage_approve_accepts_valid_decision` | method | `tests/test_engage_orchestrator.py:662` | `def test_engage_approve_accepts_valid_decision(self, temp_sessions, policy_module)` |
-| `test_engage_approve_rejects_bad_decision` | method | `tests/test_engage_orchestrator.py:656` | `def test_engage_approve_rejects_bad_decision(self, temp_sessions, policy_module)` |
 
 Next: [SYMBOLS_p37.md](SYMBOLS_p37.md)

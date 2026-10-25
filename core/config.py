@@ -21,6 +21,7 @@ import json
 import logging
 import os
 import re
+import secrets
 import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
@@ -36,6 +37,10 @@ _AES_KEY_FILENAME = "key.aes"
 _AES_KEY_BYTES = 32
 _AES_KEY_HEX_LEN = 64
 _AES_KEY_FILE_MODE = 0o600
+
+_RAT_KEY_BYTES = 32
+_RAT_KEY_HEX_LEN = 64
+_PUBLISHED_LEGACY_RAT_KEY = "82e672ae054aa4de6f042c888111686a"
 
 LAZYOWN_ENV_PREFIX = "LAZYOWN_"
 
@@ -394,7 +399,14 @@ def load_and_validate(
 
 
 def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> None:
-    """Atomically write ``payload`` as pretty-printed JSON to ``path``.
+    """Atomically merge ``payload`` into the JSON file at ``path``.
+
+    Concurrent writers mutate ``payload.json`` at the same time (the C2
+    rotates session secrets while the shell assigns parameters), so the
+    write is merged over the on-disk snapshot instead of replacing it:
+    keys absent from ``payload`` keep their current on-disk value.
+    Deleting a key is done by writing it with ``None``, never by omitting
+    it from the saved dict.
 
     Uses a sibling ``*.tmp`` file plus ``os.replace`` so a crash mid-write
     cannot leave the operator with a half-written payload.
@@ -409,16 +421,15 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
             previous = _load_raw_payload(target)
         except (json.JSONDecodeError, OSError) as exc:
             logger.warning("Could not load existing payload for audit: %s", exc)
+    if previous is None:
+        disk_payload = payload
+    else:
+        disk_payload = {**previous, **payload}
     if previous is not None:
         for key, new_val in payload.items():
             old_val = previous.get(key)
             if key not in previous or old_val != new_val:
                 _log_config_change(key, old_val, new_val)
-        for key in previous:
-            if key not in payload:
-                _log_config_change(key, previous.get(key), "<deleted>")
-
-    disk_payload = payload
 
     target.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp_name = tempfile.mkstemp(
@@ -441,9 +452,64 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
         raise
 
 
+def _rat_key_is_valid(value: str) -> bool:
+    """Return True when ``value`` is a real 32-byte deploy-time rat_key."""
+    if not value:
+        return False
+    if value.upper() in _DEFAULT_VALUE_MARKERS or _UNRESOLVED_PLACEHOLDER_RE.search(value):
+        return False
+    if value == _PUBLISHED_LEGACY_RAT_KEY:
+        return False
+    if len(value) != _RAT_KEY_HEX_LEN or any(char not in "0123456789abcdefABCDEF" for char in value):
+        return False
+    return True
+
+
+def ensure_rat_key(config_obj: Any = None) -> str:
+    """Bootstrap the beacon HMAC signing key from ``payload.json``.
+
+    When the stored ``rat_key`` is empty, a placeholder, or the published
+    schema default, a fresh random 32-byte key is generated, persisted via
+    :func:`save_payload`, and (when given) mirrored onto the live config
+    object so the C2 enforcement and the implant builder read the same
+    secret in the same deployment.
+
+    Args:
+        config_obj: Optional live config wrapper (``core.config.Config``)
+            whose ``rat_key`` attribute is refreshed in memory.
+
+    Returns:
+        The rat_key currently in effect as 64 lowercase hex characters.
+
+    Raises:
+        RuntimeError: if ``payload.json`` cannot be resolved to a dict and
+            no key can be ensured.
+    """
+    payload = load_payload()
+    value = str(payload.get("rat_key", "") or "")
+    if _rat_key_is_valid(value):
+        return value
+    value = secrets.token_hex(_RAT_KEY_BYTES).lower()
+    payload["rat_key"] = value
+    try:
+        save_payload(payload)
+        logger.info("Generated a fresh rat_key and persisted it to %s", PAYLOAD_FILENAME)
+    except (OSError, TypeError, ValueError) as exc:
+        logger.warning("Could not persist the generated rat_key: %s", exc)
+    if config_obj is not None:
+        try:
+            config_obj.rat_key = value
+            if hasattr(config_obj, "config") and isinstance(config_obj.config, dict):
+                config_obj.config["rat_key"] = value
+        except Exception as exc:
+            logger.debug("Could not mirror rat_key onto the live config: %s", exc)
+    return value
+
+
 __all__ = [
     "Config",
     "LAZYOWN_ENV_PREFIX",
+    "ensure_rat_key",
     "load_payload",
     "load_and_validate",
     "save_payload",

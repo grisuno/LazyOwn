@@ -93,12 +93,12 @@
     "cli/commands/verb_admin.py"
   ],
   "source_sha256": {
-    "lazyown.py": "781a3dc2972f6808ef18ab661e4ad196220d547488a64c4b0d26aee35af9dfbc",
+    "lazyown.py": "5d816e7051c36d8cca29869fbcd11df7d327ba747f2097b16f38675939ee2477",
     "cli/commands/active_directory.py": "192e0142d72873886f4999c8f43c0bc847fc521431ffd370fd7168343fe7aeea",
     "cli/commands/ai.py": "f37d1b498788a83aed906f77ffc707885bdc118f3c39e7756b7eb5e40ee668d2",
     "cli/commands/anti_forensics.py": "8aa4e0ceaa3c58c24f884dc828edd4557288108825331c600f1143074591b791",
     "cli/commands/applocker_bypass.py": "b8338d5a39be0d9424409d9e5e2dc83f966a1ec4bf829bdf380c471fcea7ec40",
-    "cli/commands/audit.py": "f374f86060903ce1ca64333f191ee9a68f05588aa064e8fe02c18e2e5240d47b",
+    "cli/commands/audit.py": "14c827d8cedb5d8993f7c02f2dc85fb62161a511bfdc926e15a5ab500f79b0aa",
     "cli/commands/automation.py": "0d4ee2afb478faa2a2f8978ca362b35d995250b9913fded4f29f9679fb4a8b7c",
     "cli/commands/bitm.py": "254d77ee1ff099769a0639f90c25e2e9329b74624341cb52849c64fde65880cc",
     "cli/commands/bof_registry.py": "7bbf190448801cdcca2d99754f78747a34f8721639691dfb46874eabcaac7141",
@@ -138,7 +138,7 @@
     "cli/commands/gym_matrix.py": "8b216720bf0fe3dab656ffd3f5509536793ec04bd32c595c645c041baca7c27e",
     "cli/commands/help_ui.py": "a841a890187be73bf0c85e666b39c14407ede6f34b85d5a68d49170105f1bd37",
     "cli/commands/infra.py": "b6b9031230e32ca71e5372c7a9438f99b64889956a54685ea42a00bff7c5c1ef",
-    "cli/commands/lab.py": "6c51f9b0c95f9442ea230885f959c9c878a3b6e634912aba66ef7875c8f0dcc8",
+    "cli/commands/lab.py": "fb02e3e1e9a74619edae3a33867d10dfb2c6bb57d6238175085aef486dbf84f9",
     "cli/commands/lateral.py": "1d42361ff3341c33ff2a3761e5516822f2de672d824f5aa592750355b7b380e8",
     "cli/commands/lateral_migrated.py": "13b097f71511d9c64add437942afa3e80a9490525b811b1cad9818e83ce20212",
     "cli/commands/lazyloop.py": "b970cbecd518d47d3e9fe56fddc1314701d6122df905fe192ffbdcac2a6431e2",
@@ -165,9 +165,9 @@
     "cli/commands/pwn.py": "9960e3f6aac315ff1e5a8855bf5f034b8e08d78cc292fd20bd892c4ab534c05d",
     "cli/commands/recon.py": "963408382c270a281f18712f3a3c34c379210de92208648b6bcb7b7c10e46b1a",
     "cli/commands/recon_migrated.py": "b4d3fe069b028c2e21bb8d34117389cf2ea3a584757d1f332b32a6eff6b5eceb",
-    "cli/commands/redteam_gym.py": "cc10a56867cd6a93c9541415585d254bc115765e8f81e39ed16c1883a3a0e5a9",
+    "cli/commands/redteam_gym.py": "18e004bcaa7ebf1315671f09486a76563ad272d25e1683ba4971a5f8dee7cb12",
     "cli/commands/report.py": "4045e672ec29aa8840ade8ba5e53cfa61a99a90d4e65c82bbd63b912c32a5415",
-    "cli/commands/report_enhanced.py": "0f666708d9ff735f45e4f0137f34caa1cf2dc8aa485e09cc7b2406bf2b7aed2c",
+    "cli/commands/report_enhanced.py": "98a90162b98fde872a6fca66c6c474e3184c27cbf5325de5bb12fbc77a73ac94",
     "cli/commands/report_migrated.py": "b3233c56eacc37c807f385b2f61c7ab8c171f5c880f3a07569ff7d17b07ab3ce",
     "cli/commands/reporting.py": "eff4961ab39d81f96903d172649c91e24a26fc489234abdc16c50935f6c5ec0d",
     "cli/commands/resource_scripting.py": "d5ae946b5a429043c6fe4e781fd6f14eed3b7d3bf8bb650595e8bb1c40a44bba",
@@ -185,8 +185,8 @@
     "cli/commands/verb_admin.py": "a8a3e29349b6f9d0d73250858e06852d1c0bc337ecd94bba5170f97846ded898"
   },
   "totals": {
-    "method_definitions": 840,
-    "unique_commands": 840,
+    "method_definitions": 841,
+    "unique_commands": 841,
     "duplicates": 0,
     "phases": 14,
     "categories": 17
@@ -269,6 +269,7 @@
       "do_gpo_abuse",
       "do_grep_log",
       "do_groq",
+      "do_hygiene_audit",
       "do_jenkins_enum",
       "do_k8s_attack",
       "do_k8s_enum",
@@ -1067,6 +1068,7 @@
       "do_form",
       "do_fz",
       "do_grep_log",
+      "do_hygiene_audit",
       "do_reload_addons",
       "do_status_tail"
     ],
@@ -2032,7 +2034,7 @@
     },
     {
       "name": "do_fz",
-      "line": 160,
+      "line": 175,
       "summary": "Fuzzy command finder. Usage: fz [query]. Empty lists every command.",
       "category": "Audit",
       "phase": "uncategorized",
@@ -2043,7 +2045,7 @@
     },
     {
       "name": "do_form",
-      "line": 178,
+      "line": 193,
       "summary": "Open an interactive form for a known command. Usage: form <command>.",
       "category": "Audit",
       "phase": "uncategorized",
@@ -2054,7 +2056,7 @@
     },
     {
       "name": "do_status_tail",
-      "line": 196,
+      "line": 211,
       "summary": "Print live progress from the latest sessions/scan_*.partial file.",
       "category": "Audit",
       "phase": "uncategorized",
@@ -2065,7 +2067,7 @@
     },
     {
       "name": "do_grep_log",
-      "line": 234,
+      "line": 249,
       "summary": "Grep recent command outputs. Usage: grep_log <pattern> [--cmd <name>].",
       "category": "Audit",
       "phase": "uncategorized",
@@ -2076,7 +2078,7 @@
     },
     {
       "name": "do_reload_addons",
-      "line": 263,
+      "line": 278,
       "summary": "Re-scan lazyaddons/ and plugins/ for changes; reloads what's new.",
       "category": "Audit",
       "phase": "uncategorized",
@@ -2087,8 +2089,19 @@
     },
     {
       "name": "do_audit_complete_keys",
-      "line": 288,
+      "line": 303,
       "summary": "Print payload-aware completion suggestions for a partial command.",
+      "category": "Audit",
+      "phase": "uncategorized",
+      "source_file": "cli/commands/audit.py",
+      "class_name": "AuditCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_hygiene_audit",
+      "line": 319,
+      "summary": "Audit local deployment hygiene. Usage: hygiene_audit.",
       "category": "Audit",
       "phase": "uncategorized",
       "source_file": "cli/commands/audit.py",
@@ -5541,7 +5554,7 @@
     },
     {
       "name": "do_lab",
-      "line": 196,
+      "line": 93,
       "summary": "Manage local CTF practice labs.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10942,7 +10955,7 @@
     },
     {
       "name": "do_set",
-      "line": 907,
+      "line": 908,
       "summary": "Set a parameter — the unified ``set``/``assign`` surface.",
       "category": null,
       "phase": "uncategorized",
@@ -10953,7 +10966,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 4854,
+      "line": 4634,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -10964,7 +10977,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 4884,
+      "line": 4664,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -10975,7 +10988,7 @@
     },
     {
       "name": "do_route",
-      "line": 4923,
+      "line": 4703,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

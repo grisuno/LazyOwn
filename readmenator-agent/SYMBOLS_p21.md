@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `list_by_platform` | method | `modules/sleep_obfuscation.py:192` | `def list_by_platform(self, platform)` |
+| `list_names` | method | `modules/sleep_obfuscation.py:196` | `def list_names(self)` |
+| `recommend` | method | `modules/sleep_obfuscation.py:500` | `def recommend(self, platform)` |
+| `register` | method | `modules/sleep_obfuscation.py:173` | `def register(self, technique)` |
+| `select` | method | `modules/sleep_obfuscation.py:442` | `def select(self, technique_name)` |
+| `to_dict` | method | `modules/sleep_obfuscation.py:129` | `def to_dict(self)` |
+| `to_dict` | method | `modules/sleep_obfuscation.py:513` | `def to_dict(self)` |
+| `validate` | method | `modules/sleep_obfuscation.py:369` | `def validate(config, technique)` |
+| `validate` | method | `modules/sleep_obfuscation.py:484` | `def validate(self, config)` |
+| `validate_config` | method | `modules/sleep_obfuscation.py:386` | `def validate_config(config)` |
+| `SocksAddressType` | class | `modules/socks_proxy.py:82` | `class SocksAddressType(IntEnum)` |
+| `SocksAuthMethod` | class | `modules/socks_proxy.py:65` | `class SocksAuthMethod(IntEnum)` |
+| `SocksCommand` | class | `modules/socks_proxy.py:74` | `class SocksCommand(IntEnum)` |
+| `SocksProxyConfig` | class | `modules/socks_proxy.py:166` | `class SocksProxyConfig` |
 | `SocksProxyEngine` | class | `modules/socks_proxy.py:368` | `class SocksProxyEngine` |
 | `SocksReply` | class | `modules/socks_proxy.py:90` | `class SocksReply(IntEnum)` |
 | `SocksSession` | class | `modules/socks_proxy.py:120` | `class SocksSession` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `WinRing3Rootkit` | class | `modules/win_rootkit/win_rin3_rootkit.cs:32` | `` |
 | `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:191` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
 | `BUFFER_SIZE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:19` | `#define BUFFER_SIZE` |
-| `Command` | struct | `modules/win_rootkit/win_ring3_rootkit.c:28` | `` |
-| `DownloadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:79` | `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)` |
-| `GetProcessIdByName` | function | `modules/win_rootkit/win_ring3_rootkit.c:240` | `DWORD GetProcessIdByName(const char* processName)` |
-| `Gifted` | function | `modules/win_rootkit/win_ring3_rootkit.c:270` | `BOOL Gifted(DWORD processId, const char* dllPath)` |
-| `HIDE_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:22` | `#define HIDE_FILE` |
-| `KEY_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:23` | `#define KEY_FILE` |
-| `MAX_COMMANDS` | macro | `modules/win_rootkit/win_ring3_rootkit.c:20` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/win_rootkit/win_ring3_rootkit.c:25` | `#define PASSWORD` |
-| `PIDArray` | struct | `modules/win_rootkit/win_ring3_rootkit.c:40` | `` |
-| `PID_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:21` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/win_ring3_rootkit.c:18` | `#define PORT` |
-| `ReflectiveLoadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:99` | `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)` |
-| `VirtualFile` | struct | `modules/win_rootkit/win_ring3_rootkit.c:34` | `` |
-| `addPID` | function | `modules/win_rootkit/win_ring3_rootkit.c:153` | `void addPID(PIDArray *array, DWORD pid)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

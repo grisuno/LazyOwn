@@ -3,6 +3,48 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_observed_verdict_on_success_with_fields` | function | `tests/test_chain_evidence.py:99` | `def test_observed_verdict_on_success_with_fields(tmp_path)` |
+| `test_validate_hunting_fields` | function | `tests/test_chain_evidence.py:29` | `def test_validate_hunting_fields()` |
+| `test_chain_list_filters` | function | `tests/test_chain_list_command.py:22` | `def test_chain_list_filters(capsys)` |
+| `test_chain_list_lists_registry` | function | `tests/test_chain_list_command.py:12` | `def test_chain_list_lists_registry(capsys)` |
+| `_Step` | class | `tests/test_chain_mode.py:36` | `class _Step` |
+| `__init__` | method | `tests/test_chain_mode.py:39` | `def __init__(self, name, source, reason)` |
+| `_engine` | function | `tests/test_chain_mode.py:52` | `def _engine(resolver)` |
+| `_resolver` | function | `tests/test_chain_mode.py:45` | `def _resolver()` |
+| `broken` | function | `tests/test_chain_mode.py:212` | `def broken(cmd, phase)` |
+| `fake_input` | function | `tests/test_chain_mode.py:63` | `def fake_input(prompt)` |
+| `raise_ki` | function | `tests/test_chain_mode.py:179` | `def raise_ki(prompt)` |
+| `resolve` | function | `tests/test_chain_mode.py:46` | `def resolve(cmd, phase)` |
+| `test_auto_pause_after_max_steps` | function | `tests/test_chain_mode.py:195` | `def test_auto_pause_after_max_steps(tmp_path)` |
+| `test_engine_reads_persisted_state` | function | `tests/test_chain_mode.py:239` | `def test_engine_reads_persisted_state(tmp_path)` |
+| `test_enter_runs_top_suggestion` | function | `tests/test_chain_mode.py:106` | `def test_enter_runs_top_suggestion()` |
+| `test_exit_words_disable_chain_mode` | function | `tests/test_chain_mode.py:144` | `def test_exit_words_disable_chain_mode(word)` |
+| `test_invalid_number_re_prompts_then_accepts_valid_pick` | function | `tests/test_chain_mode.py:168` | `def test_invalid_number_re_prompts_then_accepts_valid_pick()` |
+| `test_invalid_number_re_prompts_then_skips` | function | `tests/test_chain_mode.py:160` | `def test_invalid_number_re_prompts_then_skips()` |
+| `test_keyboard_interrupt_disables` | function | `tests/test_chain_mode.py:178` | `def test_keyboard_interrupt_disables(tmp_path)` |
+| `test_no_suggestions_enter_skips_custom_command_runs` | function | `tests/test_chain_mode.py:151` | `def test_no_suggestions_enter_skips_custom_command_runs()` |
+| `test_number_selects_ranked_alternative` | function | `tests/test_chain_mode.py:116` | `def test_number_selects_ranked_alternative()` |
+| `test_override_runs_operator_command` | function | `tests/test_chain_mode.py:126` | `def test_override_runs_operator_command()` |
+| `test_persist_toggle_writes_state_file` | function | `tests/test_chain_mode.py:252` | `def test_persist_toggle_writes_state_file(tmp_path)` |
+| `test_prompt_exit_words_persist_off` | function | `tests/test_chain_mode.py:267` | `def test_prompt_exit_words_persist_off(tmp_path)` |
+| `test_resolver_failure_degrades_to_no_suggestions` | function | `tests/test_chain_mode.py:211` | `def test_resolver_failure_degrades_to_no_suggestions()` |
+| `test_skip_keeps_chain_mode_enabled` | function | `tests/test_chain_mode.py:136` | `def test_skip_keeps_chain_mode_enabled()` |
+| `test_step_none_for_skip_verbs` | function | `tests/test_chain_mode.py:101` | `def test_step_none_for_skip_verbs(verb)` |
+| `test_step_none_when_disabled` | function | `tests/test_chain_mode.py:90` | `def test_step_none_when_disabled()` |
+| `test_step_none_when_not_interactive` | function | `tests/test_chain_mode.py:95` | `def test_step_none_when_not_interactive()` |
+| `test_store_roundtrip_and_missing` | function | `tests/test_chain_mode.py:221` | `def test_store_roundtrip_and_missing(tmp_path)` |
+| `test_store_survives_malformed_file` | function | `tests/test_chain_mode.py:230` | `def test_store_survives_malformed_file(tmp_path)` |
+| `test_suggestion_from_step_and_string` | function | `tests/test_chain_mode.py:85` | `def test_suggestion_from_step_and_string()` |
+| `_SlowFirst` | class | `tests/test_chain_parallel_fallback.py:48` | `class _SlowFirst` |
+| `__call__` | method | `tests/test_chain_parallel_fallback.py:51` | `def __call__(self, command)` |
+| `_chain` | function | `tests/test_chain_parallel_fallback.py:16` | `def _chain(steps)` |
+| `_run` | function | `tests/test_chain_parallel_fallback.py:60` | `def _run()` |
+| `executor` | function | `tests/test_chain_parallel_fallback.py:29` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_parallel_fallback.py:84` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_parallel_fallback.py:108` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_parallel_fallback.py:131` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_parallel_fallback.py:154` | `def executor(command)` |
+| `executor` | function | `tests/test_chain_parallel_fallback.py:169` | `def executor(command)` |
 | `executor` | function | `tests/test_chain_parallel_fallback.py:212` | `def executor(command)` |
 | `loader` | function | `tests/test_chain_parallel_fallback.py:180` | `def loader(name)` |
 | `loader` | function | `tests/test_chain_parallel_fallback.py:197` | `def loader(name)` |
@@ -454,47 +496,5 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `test_unplatformed_runs_follow_generated_tests_only` | method | `tests/test_command_control_agent.py:49` | `def test_unplatformed_runs_follow_generated_tests_only(self, select)` |
 | `test_windows_platform_forces_powershell` | method | `tests/test_command_control_agent.py:42` | `def test_windows_platform_forces_powershell(self, select)` |
 | `_index` | function | `tests/test_command_form.py:23` | `def _index()` |
-| `runner` | function | `tests/test_command_form.py:151` | `def runner(context)` |
-| `test_build_command_preview_renders_annotations_and_verb` | function | `tests/test_command_form.py:109` | `def test_build_command_preview_renders_annotations_and_verb()` |
-| `test_build_state_loads_from_default_index` | function | `tests/test_command_form.py:162` | `def test_build_state_loads_from_default_index(monkeypatch)` |
-| `test_fields_default_set_when_command_unknown` | function | `tests/test_command_form.py:32` | `def test_fields_default_set_when_command_unknown()` |
-| `test_fields_specific_set_for_known_command` | function | `tests/test_command_form.py:44` | `def test_fields_specific_set_for_known_command()` |
-| `test_initial_values_come_from_payload` | function | `tests/test_command_form.py:57` | `def test_initial_values_come_from_payload()` |
-| `test_is_valid_false_for_unknown_command` | function | `tests/test_command_form.py:136` | `def test_is_valid_false_for_unknown_command()` |
-| `test_is_valid_true_when_command_known` | function | `tests/test_command_form.py:124` | `def test_is_valid_true_when_command_known()` |
-| `test_launch_form_runner_returns_state` | function | `tests/test_command_form.py:147` | `def test_launch_form_runner_returns_state()` |
-| `test_overrides_empty_when_values_match_payload` | function | `tests/test_command_form.py:84` | `def test_overrides_empty_when_values_match_payload()` |
-| `test_overrides_lists_diverging_field_payload_pairs` | function | `tests/test_command_form.py:70` | `def test_overrides_lists_diverging_field_payload_pairs()` |
-| `test_verb_line_returns_just_verb_without_extras` | function | `tests/test_command_form.py:96` | `def test_verb_line_returns_just_verb_without_extras()` |
-| `_command_definitions` | function | `tests/test_command_namespace_uniqueness.py:28` | `def _command_definitions()` |
-| `_is_command_set` | function | `tests/test_command_namespace_uniqueness.py:19` | `def _is_command_set(node)` |
-| `test_no_command_defined_by_two_command_sets` | function | `tests/test_command_namespace_uniqueness.py:42` | `def test_no_command_defined_by_two_command_sets()` |
-| `PaletteSuiteConfig` | class | `tests/test_command_palette.py:43` | `class PaletteSuiteConfig` |
-| `TestBaseTemplateOverlay` | class | `tests/test_command_palette.py:1920` | `class TestBaseTemplateOverlay` |
-| `TestBaseTemplateOverlayTelemetry` | class | `tests/test_command_palette.py:2225` | `class TestBaseTemplateOverlayTelemetry` |
-| `TestC2PaletteApiRateLimit` | class | `tests/test_command_palette.py:2198` | `class TestC2PaletteApiRateLimit` |
-| `TestC2PaletteApiRoute` | class | `tests/test_command_palette.py:1873` | `class TestC2PaletteApiRoute` |
-| `TestC2PaletteRoute` | class | `tests/test_command_palette.py:1405` | `class TestC2PaletteRoute` |
-| `TestCommandIndexInvariants` | class | `tests/test_command_palette.py:412` | `class TestCommandIndexInvariants` |
-| `TestGeneratorDeterminism` | class | `tests/test_command_palette.py:505` | `class TestGeneratorDeterminism` |
-| `TestGeneratorHelpers` | class | `tests/test_command_palette.py:524` | `class TestGeneratorHelpers` |
-| `TestKnownLegacyDuplicates` | class | `tests/test_command_palette.py:473` | `class TestKnownLegacyDuplicates` |
-| `TestLazyOwnWiring` | class | `tests/test_command_palette.py:1014` | `class TestLazyOwnWiring` |
-| `TestMcpPaletteDescription` | class | `tests/test_command_palette.py:1952` | `class TestMcpPaletteDescription` |
-| `TestMcpPaletteWiring` | class | `tests/test_command_palette.py:1338` | `class TestMcpPaletteWiring` |
-| `TestPaletteArgumentParser` | class | `tests/test_command_palette.py:647` | `class TestPaletteArgumentParser` |
-| `TestPaletteCompleter` | class | `tests/test_command_palette.py:879` | `class TestPaletteCompleter` |
-| `TestPaletteDetailEnrichment` | class | `tests/test_command_palette.py:1643` | `class TestPaletteDetailEnrichment` |
-| `TestPaletteDetailTelemetryRendering` | class | `tests/test_command_palette.py:2140` | `class TestPaletteDetailTelemetryRendering` |
-| `TestPaletteEnrichmentBlend` | class | `tests/test_command_palette.py:2249` | `class TestPaletteEnrichmentBlend` |
-| `TestPaletteEntryPoint` | class | `tests/test_command_palette.py:965` | `class TestPaletteEntryPoint` |
-| `TestPaletteGraphLoader` | class | `tests/test_command_palette.py:1523` | `class TestPaletteGraphLoader` |
-| `TestPaletteIndexQuery` | class | `tests/test_command_palette.py:729` | `class TestPaletteIndexQuery` |
-| `TestPaletteJsonRenderer` | class | `tests/test_command_palette.py:1075` | `class TestPaletteJsonRenderer` |
-| `TestPaletteLoader` | class | `tests/test_command_palette.py:566` | `class TestPaletteLoader` |
-| `TestPaletteNextMode` | class | `tests/test_command_palette.py:1751` | `class TestPaletteNextMode` |
-| `TestPaletteRenderer` | class | `tests/test_command_palette.py:795` | `class TestPaletteRenderer` |
-| `TestPaletteTelemetryLoader` | class | `tests/test_command_palette.py:2015` | `class TestPaletteTelemetryLoader` |
-| `TestPaletteViewBuilder` | class | `tests/test_command_palette.py:1192` | `class TestPaletteViewBuilder` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

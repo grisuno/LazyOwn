@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 814 modules, 15378 documented entities, documentation coverage 74.9% (7251/9676 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 815 modules, 15385 documented entities, documentation coverage 74.9% (7257/9683 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (701), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (702), sh (61)
 
 ## Modules
 
@@ -36,7 +36,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`telegram_hermes`](modules/telegram_hermes.py.md) | telegram_hermes.py LazyOwn Telegram Bot with Hermes Gateway Integration | 1 | 28 | 10.0% |
 | [`testmeneitor`](modules/testmeneitor.py.md) |  | 0 | 4 | 0.0% |
 | [`user_split.sh`](modules/user_split.sh.md) |  | 0 | 0 | 0.0% |
-| [`utils`](modules/utils.py.md) | utils.py | 4 | 110 | 85.2% |
+| [`utils`](modules/utils.py.md) | utils.py | 4 | 111 | 85.3% |
 
 ### `.claude/skills/run-lazyown`
 
@@ -133,7 +133,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.ai`](modules/cli.commands.ai.py.md) | Artificial Intelligence command set. | 1 | 6 | 100.0% |
 | [`cli.commands.anti_forensics`](modules/cli.commands.anti_forensics.py.md) | Anti-Forensics command set. | 1 | 6 | 100.0% |
 | [`cli.commands.applocker_bypass`](modules/cli.commands.applocker_bypass.py.md) | AppLocker and WDAC bypass command set. | 1 | 7 | 100.0% |
-| [`cli.commands.audit`](modules/cli.commands.audit.py.md) | Audit-mode CommandSet: fuzzy finder, forms, status tail, transcript grep. | 1 | 7 | 88.9% |
+| [`cli.commands.audit`](modules/cli.commands.audit.py.md) | Audit-mode CommandSet: fuzzy finder, forms, status tail, transcript grep. | 1 | 8 | 90.0% |
 | [`cli.commands.automation`](modules/cli.commands.automation.py.md) | Automation command set — credential reuse, conditional hooks, operator profiles. | 1 | 12 | 100.0% |
 | [`cli.commands.bitm`](modules/cli.commands.bitm.py.md) | Browser-in-the-Middle CLI command set. | 1 | 1 | 100.0% |
 | [`cli.commands.bof_registry`](modules/cli.commands.bof_registry.py.md) | BOF marketplace CommandSet — Beacon Object File discovery, install, and execution. | 1 | 7 | 100.0% |
@@ -268,7 +268,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`core.api_authz`](modules/core.api_authz.py.md) | Tenant-bound API authorization for the LazyOwn C2 dashboard. | 3 | 16 | 65.0% |
 | [`core.autonomous`](modules/core.autonomous.py.md) | Autonomous-run mode for the loop engine. | 0 | 2 | 100.0% |
 | [`core.command_bridge`](modules/core.command_bridge.py.md) | Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell. | 1 | 7 | 88.9% |
-| [`core.config`](modules/core.config.py.md) | Configuration loader and Config wrapper. | 1 | 7 | 88.9% |
+| [`core.config`](modules/core.config.py.md) | Configuration loader and Config wrapper. | 1 | 8 | 90.0% |
 | [`core.console`](modules/core.console.py.md) | ANSI color constants and console output helpers. | 0 | 8 | 100.0% |
 | [`core.credential_vault`](modules/core.credential_vault.py.md) | Credential vault — AES-256-GCM encryption for sensitive config values. | 0 | 7 | 100.0% |
 | [`core.crypto`](modules/core.crypto.py.md) | Symmetric primitives used by the framework. | 0 | 5 | 100.0% |
@@ -297,6 +297,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`core.safe_subprocess`](modules/core.safe_subprocess.py.md) | Safe subprocess runner for the LazyOwn framework. | 3 | 3 | 100.0% |
 | [`core.scheduler`](modules/core.scheduler.py.md) | Centralized task scheduler for the LazyOwn framework. | 1 | 9 | 90.9% |
 | [`core.security`](modules/core.security.py.md) | Security helpers for LazyOwn — anti-debug, certificate generation. | 0 | 2 | 100.0% |
+| [`core.session_secrets`](modules/core.session_secrets.py.md) | Session-scoped secret rotation. | 0 | 2 | 100.0% |
 | [`core.terminal_guard`](modules/core.terminal_guard.py.md) | Terminal state guard for interactive automation. | 1 | 6 | 100.0% |
 | [`core.text_utils`](modules/core.text_utils.py.md) | Shared text helpers for terminal surfaces. | 0 | 1 | 100.0% |
 | [`core.validators`](modules/core.validators.py.md) | Input validators for runtime configuration values. | 0 | 4 | 100.0% |
@@ -752,7 +753,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 
 | Module | Summary | Types | Callables | Coverage |
 |---|---|---|---|---|
-| [`modules/backdoor/backdoor.c`](modules/modules.backdoor.backdoor.c.md) |  | 0 | 5 | 0.0% |
+| [`modules/backdoor/backdoor.c`](modules/modules.backdoor.backdoor.c.md) |  | 0 | 6 | 0.0% |
 | [`modules/backdoor/keylogger.h`](modules/modules.backdoor.keylogger.h.md) |  | 0 | 1 | 0.0% |
 | [`modules/backdoor/server.c`](modules/modules.backdoor.server.c.md) |  | 0 | 1 | 0.0% |
 
@@ -811,7 +812,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules/rootkit/mrhyde2.c`](modules/modules.rootkit.mrhyde2.c.md) |  | 2 | 33 | 2.8% |
 | [`modules/rootkit/mrhyde3.c`](modules/modules.rootkit.mrhyde3.c.md) |  | 5 | 41 | 10.6% |
 | [`modules/rootkit/rootkit.asm`](modules/modules.rootkit.rootkit.asm.md) |  | 0 | 1 | 0.0% |
-| [`modules/rootkit/rootkit.c`](modules/modules.rootkit.rootkit.c.md) |  | 0 | 6 | 14.3% |
+| [`modules/rootkit/rootkit.c`](modules/modules.rootkit.rootkit.c.md) | Define the process name and file name to hide Operable values are provided via the Makefile (ccflags-y defines); the defaults below are inert placeholders so... | 0 | 6 | 14.3% |
 
 ### `modules/scripts`
 

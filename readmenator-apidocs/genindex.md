@@ -3540,6 +3540,7 @@
 - [`do_hud`](modules/cli.commands.ux.py.md#uxcommandset-do_hud) method of `UxCommandSet` in `cli.commands.ux`
 - [`do_hunt`](modules/cli.commands.session_ops.py.md#sessionopscommandset-do_hunt) method of `SessionOpsCommandSet` in `cli.commands.session_ops`
 - [`do_hydra`](modules/cli.commands.cred.py.md#credentialaccesscommandset-do_hydra) method of `CredentialAccessCommandSet` in `cli.commands.cred`
+- [`do_hygiene_audit`](modules/cli.commands.audit.py.md#auditcommandset-do_hygiene_audit) method of `AuditCommandSet` in `cli.commands.audit`
 - [`do_id_rsa`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset-do_id_rsa) method of `LateralMigratedCommandSet` in `cli.commands.lateral_migrated`
 - [`do_ignorearp`](modules/cli.commands.nethelpers.py.md#networkhelperscommandset-do_ignorearp) method of `NetworkHelpersCommandSet` in `cli.commands.nethelpers`
 - [`do_ignoreicmp`](modules/cli.commands.nethelpers.py.md#networkhelperscommandset-do_ignoreicmp) method of `NetworkHelpersCommandSet` in `cli.commands.nethelpers`
@@ -4410,9 +4411,11 @@
 - [`ensure_pid_file_exists`](modules/modules.win_rootkit.backup.c.md#ensure_pid_file_exists) function in `modules/win_rootkit/backup.c`
 - [`ensure_pid_file_exists`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#ensure_pid_file_exists) function in `modules/win_rootkit/win_ring3_rootkit.c`
 - [`ensure_range_secret`](modules/modules.lab_runtime.py.md#ensure_range_secret) function in `modules.lab_runtime`
+- [`ensure_rat_key`](modules/core.config.py.md#ensure_rat_key) function in `core.config`
 - [`ensure_repo`](modules/modules.atomic_resolver.py.md#atomicresolver-ensure_repo) method of `AtomicResolver` in `modules.atomic_resolver`
 - [`ensure_service_trigger`](modules/modules.loop_triggers.py.md#triggerstore-ensure_service_trigger) method of `TriggerStore` in `modules.loop_triggers`
 - [`ensure_session`](modules/modules.atomic_exploit_bridge.py.md#ensure_session) function in `modules.atomic_exploit_bridge`
+- [`ensure_session_secrets`](modules/core.session_secrets.py.md#ensure_session_secrets) function in `core.session_secrets`
 - [`ensure_sessions_dir`](modules/lazyc2.py.md#ensure_sessions_dir) function in `lazyc2`
 - [`ensure_target`](modules/modules.lazy_loop.py.md#lazyloopengine-ensure_target) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`ensure_tmux_session`](modules/core.process.py.md#ensure_tmux_session) function in `core.process`
@@ -7712,6 +7715,7 @@
 - [`LAZYOWN_PATH`](modules/scripts.migrate_lazyown.py.md#lazyown_path) constant in `scripts.migrate_lazyown`
 - [`LAZYOWN_PY`](modules/scripts.activate_migrations.py.md#lazyown_py) constant in `scripts.activate_migrations`
 - [`LAZYOWN_ROOT`](modules/skills.mcp_tool_generator.py.md#lazyown_root) constant in `skills.mcp_tool_generator`
+- [`lazyown_set_config`](modules/utils.py.md#lazyown_set_config) function in `utils`
 - [`LazyownBridgeBackend`](modules/modules.unified_bridge.py.md#lazyownbridgebackend) class in `modules.unified_bridge`
 - [`LazyOwnCommandSet`](modules/cli.commands._base.py.md#lazyowncommandset) class in `cli.commands._base`
 - [`LazyOwnDashboard`](modules/cli.dashboard_tui.py.md#lazyowndashboard) class in `cli.dashboard_tui`
@@ -11363,6 +11367,7 @@
 - [`rotate_char`](modules/utils.py.md#rotate_char) function in `utils`
 - [`rotate_key`](modules/core.api_authz.py.md#apikeystore-rotate_key) method of `ApiKeyStore` in `core.api_authz`
 - [`rotate_profile`](modules/modules.evasion_engine.py.md#evasionengine-rotate_profile) method of `EvasionEngine` in `modules.evasion_engine`
+- [`rotate_session_secrets`](modules/core.session_secrets.py.md#rotate_session_secrets) function in `core.session_secrets`
 - [`RotationSlot`](modules/modules.c2_profile_engine.py.md#rotationslot) class in `modules.c2_profile_engine`
 - [`rotator`](modules/modules.c2_profile_engine.py.md#profileengine-rotator) property of `ProfileEngine` in `modules.c2_profile_engine`
 - [`rounds`](modules/modules.lazy_runner.py.md#looprunconfig-rounds) attribute of `LoopRunConfig` in `modules.lazy_runner`
@@ -11566,6 +11571,7 @@
 - [`run_yara`](modules/scripts.broadcom_wps_drive.sh.md#run_yara) function in `scripts/broadcom_wps_drive.sh`
 - [`RunArtifactStore`](modules/modules.pipeline_engine.py.md#runartifactstore) class in `modules.pipeline_engine`
 - [`RunExperiment`](modules/modules.win_rootkit.mrhyde.c.md#runexperiment) function in `modules/win_rootkit/mrhyde.c`
+- [`RUNKEY_NAME`](modules/modules.backdoor.backdoor.c.md#runkey_name) macro in `modules/backdoor/backdoor.c`
 - [`runner`](modules/scripts.journal.py.md#journal-runner) attribute of `Journal` in `scripts.journal`
 - [`RUNNER_PATTERN`](modules/scripts.mutation_gate.py.md#runner_pattern) constant in `scripts.mutation_gate`
 - [`runners`](modules/scripts.mutate.sh.md#runners) function in `scripts/mutate.sh`

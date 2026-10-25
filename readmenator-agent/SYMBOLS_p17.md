@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `has_permission` | method | `modules/lazy_rbac.py:170` | `def has_permission(self, permission)` |
+| `init_rbac_store` | function | `modules/lazy_rbac.py:523` | `def init_rbac_store(users_path)` |
+| `init_tenant_manager` | function | `modules/lazy_rbac.py:527` | `def init_tenant_manager(payloads_dir, config_path, default_payload)` |
+| `list_tenants` | method | `modules/lazy_rbac.py:431` | `def list_tenants(self)` |
+| `load_all` | method | `modules/lazy_rbac.py:245` | `def load_all(self)` |
+| `require_mfa` | function | `modules/lazy_rbac.py:596` | `def require_mfa(f)` |
+| `require_permission` | function | `modules/lazy_rbac.py:565` | `def require_permission()` |
+| `require_role` | function | `modules/lazy_rbac.py:539` | `def require_role()` |
+| `save` | method | `modules/lazy_rbac.py:261` | `def save(self, user)` |
+| `set_rbac_store` | function | `modules/lazy_rbac.py:643` | `def set_rbac_store(store)` |
+| `set_tenant_manager` | function | `modules/lazy_rbac.py:655` | `def set_tenant_manager(tm)` |
+| `switch_tenant` | method | `modules/lazy_rbac.py:486` | `def switch_tenant(self, tenant_id)` |
+| `to_dict` | method | `modules/lazy_rbac.py:136` | `def to_dict(self)` |
+| `to_dict` | method | `modules/lazy_rbac.py:386` | `def to_dict(self)` |
 | `update_role` | method | `modules/lazy_rbac.py:304` | `def update_role(self, user_id, new_role)` |
 | `valid_roles` | method | `modules/lazy_rbac.py:62` | `def valid_roles(cls)` |
 | `verify_recovery_code` | method | `modules/lazy_rbac.py:192` | `def verify_recovery_code(self, code)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
 | `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
 | `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
-| `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
-| `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
-| `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
-| `LogTamperConfig` | class | `modules/log_tamper.py:71` | `class LogTamperConfig` |
-| `__init__` | method | `modules/log_tamper.py:105` | `def __init__(self, config)` |
-| `auditd_disable_commands` | method | `modules/log_tamper.py:307` | `def auditd_disable_commands(self)` |
-| `generate_all` | method | `modules/log_tamper.py:295` | `def generate_all(self)` |
-| `linux_clear_commands` | method | `modules/log_tamper.py:176` | `def linux_clear_commands(self)` |
-| `macos_clear_commands` | method | `modules/log_tamper.py:243` | `def macos_clear_commands(self)` |
-| `sysmon_disable_commands` | method | `modules/log_tamper.py:341` | `def sysmon_disable_commands(self)` |
-| `windows_clear_commands` | method | `modules/log_tamper.py:108` | `def windows_clear_commands(self)` |
-| `ColoredFormatter` | class | `modules/logging_config.py:36` | `class ColoredFormatter(Formatter)` |
-| `CorrelationFilter` | class | `modules/logging_config.py:91` | `class CorrelationFilter(Filter)` |
-| `JsonFormatter` | class | `modules/logging_config.py:53` | `class JsonFormatter(Formatter)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

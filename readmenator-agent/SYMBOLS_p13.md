@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parse_raw_aces` | method | `modules/dacl_abuse.py:182` | `def parse_raw_aces(self, raw_nthashes)` |
+| `summary` | method | `modules/dacl_abuse.py:418` | `def summary(self)` |
+| `_aggregate_data` | function | `modules/dashboard_bp.py:113` | `def _aggregate_data()` |
+| `_count_lines` | function | `modules/dashboard_bp.py:103` | `def _count_lines(path)` |
+| `_normalize_ts` | function | `modules/dashboard_bp.py:913` | `def _normalize_ts(raw)` |
+| `_read_json` | function | `modules/dashboard_bp.py:93` | `def _read_json(path)` |
+| `_read_jsonl` | function | `modules/dashboard_bp.py:71` | `def _read_jsonl(path, last_n)` |
+| `_read_loot` | function | `modules/dashboard_bp.py:817` | `def _read_loot()` |
+| `_read_loot_lines` | function | `modules/dashboard_bp.py:800` | `def _read_loot_lines(pattern)` |
+| `_read_timeline` | function | `modules/dashboard_bp.py:934` | `def _read_timeline()` |
+| `_require_login` | function | `modules/dashboard_bp.py:30` | `def _require_login()` |
+| `dashboard_api_data` | function | `modules/dashboard_bp.py:784` | `def dashboard_api_data()` |
+| `dashboard_index` | function | `modules/dashboard_bp.py:778` | `def dashboard_index()` |
+| `dashboard_loot` | function | `modules/dashboard_bp.py:902` | `def dashboard_loot()` |
 | `dashboard_timeline` | function | `modules/dashboard_bp.py:1017` | `def dashboard_timeline()` |
 | `DashboardEdge` | class | `modules/dashboard_engine.py:111` | `class DashboardEdge` |
 | `DashboardEngine` | class | `modules/dashboard_engine.py:118` | `class DashboardEngine` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `wire_all_consumers` | function | `modules/event_consumers.py:370` | `def wire_all_consumers(bus)` |
 | `_append_event` | function | `modules/event_engine.py:173` | `def _append_event(event)` |
 | `_read_watermark` | function | `modules/event_engine.py:130` | `def _read_watermark()` |
-| `_row_matches` | function | `modules/event_engine.py:144` | `def _row_matches(row, trigger)` |
-| `_write_watermark` | function | `modules/event_engine.py:137` | `def _write_watermark(offset)` |
-| `ack_event` | function | `modules/event_engine.py:270` | `def ack_event(event_id)` |
-| `add_rule` | function | `modules/event_engine.py:114` | `def add_rule(rule)` |
-| `load_rules` | function | `modules/event_engine.py:99` | `def load_rules()` |
-| `process_new_rows` | function | `modules/event_engine.py:181` | `def process_new_rows()` |
-| `read_events` | function | `modules/event_engine.py:250` | `def read_events(limit, status)` |
-| `save_rules` | function | `modules/event_engine.py:110` | `def save_rules(rules)` |
-| `EvidenceConfig` | class | `modules/evidence.py:20` | `class EvidenceConfig` |
-| `EvidenceStore` | class | `modules/evidence.py:54` | `class EvidenceStore` |
-| `__init__` | method | `modules/evidence.py:57` | `def __init__(self, base_dir)` |
-| `_validate_hash` | function | `modules/evidence.py:42` | `def _validate_hash(value)` |
-| `blob_path` | method | `modules/evidence.py:65` | `def blob_path(self, content_hash)` |
-| `exists` | method | `modules/evidence.py:98` | `def exists(self, content_hash)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

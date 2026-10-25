@@ -97,7 +97,7 @@ This community groups 38 file(s) rooted at `tests` with dominant language py (co
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 121
-- Cross-boundary resolved imports (EXTRACTED): 99
+- Cross-boundary resolved imports (EXTRACTED): 100
 
 ## Connections
 
@@ -106,7 +106,7 @@ This community groups 38 file(s) rooted at `tests` with dominant language py (co
 - [EXTRACTED] depends_on community 7 <-> 16 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
 - [EXTRACTED] depends_on community 7 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
 - [EXTRACTED] depends_on community 7 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 7 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/atomic_exploit_bridge.py.
+- [EXTRACTED] depends_on community 7 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/c2_builder.py.
 
 ## Risks
 

@@ -15,6 +15,7 @@ import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from core.safe_exec import safe_run_shell as _safe_run_shell
+from core.session_secrets import rotate_session_secrets
 from utils import RESET, check_rhost, print_error, print_msg, print_warn
 
 __all__ = ["ShellSysCommandSet"]
@@ -258,7 +259,6 @@ class ShellSysCommandSet(LazyOwnCommandSet):
             "download_resources.sh",
             "implant",
             "ip2asn-v4.tsv.gz",
-            "key.aes",
             "LazyOwn_session_report.csv",
             "lin",
             "logs",
@@ -296,6 +296,8 @@ class ShellSysCommandSet(LazyOwnCommandSet):
                 except Exception as e:
                     print_error(f"Failed to delete {item_path}: {e}")
 
+        rotate_session_secrets(self.params)
+        print_msg("Rotated session secrets (key.aes, rat_key, session_magic).")
         print_msg(f"Cleaned sessions directory. {RESET}")
         return
 

@@ -2,6 +2,8 @@
 
 > Source: [modules/rootkit/rootkit.c:1](../../modules/rootkit/rootkit.c#L1) | language `c` | coverage 14.3% | [API index](../index.md)
 
+Define the process name and file name to hide Operable values are provided via the Makefile (ccflags-y defines); the defaults below are inert placeholders so the artifact never embeds a hard-coded attacker IP or operator username.
+
 ## Contents
 
 - **Macros:** [`HIDDEN_PROCESS_NAME`](#hidden_process_name), [`HIDDEN_FILE_NAME`](#hidden_file_name), [`LISTENER_IP`](#listener_ip), [`LISTENER_PORT`](#listener_port), [`SPECIAL_STRING`](#special_string), [`SPECIAL_STRING_PORT`](#special_string_port)
@@ -12,13 +14,11 @@
 
 ### `HIDDEN_PROCESS_NAME`
 
-`macro` | [modules/rootkit/rootkit.c:26](../../modules/rootkit/rootkit.c#L26)
+`macro` | [modules/rootkit/rootkit.c:30](../../modules/rootkit/rootkit.c#L30)
 
 ```c
 #define HIDDEN_PROCESS_NAME
 ```
-
-Define the process name and file name to hide
 
 ---
 
@@ -26,7 +26,7 @@ Define the process name and file name to hide
 
 ### `HIDDEN_FILE_NAME`
 
-`macro` | [modules/rootkit/rootkit.c:27](../../modules/rootkit/rootkit.c#L27)
+`macro` | [modules/rootkit/rootkit.c:33](../../modules/rootkit/rootkit.c#L33)
 
 ```c
 #define HIDDEN_FILE_NAME
@@ -38,7 +38,7 @@ Define the process name and file name to hide
 
 ### `LISTENER_IP`
 
-`macro` | [modules/rootkit/rootkit.c:28](../../modules/rootkit/rootkit.c#L28)
+`macro` | [modules/rootkit/rootkit.c:36](../../modules/rootkit/rootkit.c#L36)
 
 ```c
 #define LISTENER_IP
@@ -50,7 +50,7 @@ Define the process name and file name to hide
 
 ### `LISTENER_PORT`
 
-`macro` | [modules/rootkit/rootkit.c:29](../../modules/rootkit/rootkit.c#L29)
+`macro` | [modules/rootkit/rootkit.c:39](../../modules/rootkit/rootkit.c#L39)
 
 ```c
 #define LISTENER_PORT
@@ -62,7 +62,7 @@ Define the process name and file name to hide
 
 ### `SPECIAL_STRING`
 
-`macro` | [modules/rootkit/rootkit.c:31](../../modules/rootkit/rootkit.c#L31)
+`macro` | [modules/rootkit/rootkit.c:42](../../modules/rootkit/rootkit.c#L42)
 
 ```c
 #define SPECIAL_STRING
@@ -74,7 +74,7 @@ Define the process name and file name to hide
 
 ### `SPECIAL_STRING_PORT`
 
-`macro` | [modules/rootkit/rootkit.c:34](../../modules/rootkit/rootkit.c#L34)
+`macro` | [modules/rootkit/rootkit.c:45](../../modules/rootkit/rootkit.c#L45)
 
 ```c
 #define SPECIAL_STRING_PORT

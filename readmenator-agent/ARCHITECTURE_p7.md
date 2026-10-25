@@ -206,7 +206,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `core/api_authz.py` -> __future__, collections.abc, dataclasses, flask, functools, hashlib, hmac, json, pathlib, secrets, threading, time, typing
 - `core/autonomous.py` -> __future__, builtins, collections.abc, contextlib, os
 - `core/command_bridge.py` -> __future__, contextlib, io, threading, typing
-- `core/config.py` -> __future__, datetime, inspect, json, os, pathlib, re, shutil, tempfile, typing
+- `core/config.py` -> __future__, datetime, inspect, json, os, pathlib, re, secrets, shutil, tempfile, typing
 - `core/console.py` -> __future__, os, sys
 - `core/credential_vault.py` -> __future__, base64, os, pathlib, secrets, typing
 - `core/crypto.py` -> __future__, base64, cryptography.exceptions, cryptography.hazmat.primitives, cryptography.hazmat.primitives.ciphers.aead, cryptography.hazmat.primitives.kdf.pbkdf2, hashlib, os, random, secrets, typing
@@ -234,6 +234,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `core/safe_subprocess.py` -> __future__, collections.abc, dataclasses, datetime, json, pathlib, shlex, subprocess, time
 - `core/scheduler.py` -> __future__, apscheduler.schedulers.background, collections.abc, dataclasses, sched, threading, time, typing
 - `core/security.py` -> __future__, ctypes, os, pathlib, subprocess
+- `core/session_secrets.py` -> __future__, os, pathlib, secrets, typing
 - `core/terminal_guard.py` -> __future__, atexit, subprocess, sys, termios, typing
 - `core/text_utils.py` -> __future__
 - `core/validators.py` -> __future__, typing
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/loop_triggers.py` -> __future__
 - `modules/macos_payloads.py` -> __future__, base64, dataclasses, os, pathlib, plistlib, subprocess, typing
 - `modules/mario.py` -> os, pygame
-- `modules/mcp_agent_bridge.py` -> datetime, groq, json, os, pathlib, re, requests, sys, threading, time, uuid
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

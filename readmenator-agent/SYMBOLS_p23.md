@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `check_release_inputs` | function | `scripts/top_tier_check.py:108` | `def check_release_inputs()` |
+| `check_tracked_secrets` | function | `scripts/top_tier_check.py:81` | `def check_tracked_secrets()` |
+| `check_versions` | function | `scripts/top_tier_check.py:52` | `def check_versions()` |
+| `count_addons` | function | `scripts/top_tier_check.py:48` | `def count_addons()` |
+| `count_cli_commands` | function | `scripts/top_tier_check.py:32` | `def count_cli_commands()` |
+| `count_mcp_tools` | function | `scripts/top_tier_check.py:43` | `def count_mcp_tools()` |
+| `fail` | function | `scripts/top_tier_check.py:23` | `def fail(message)` |
+| `main` | function | `scripts/top_tier_check.py:116` | `def main()` |
+| `ok` | function | `scripts/top_tier_check.py:28` | `def ok(message)` |
+| `build_technique_index` | function | `scripts/update_apt_atomic_ids.py:22` | `def build_technique_index(atomics_path)` |
+| `update_playbooks` | function | `scripts/update_apt_atomic_ids.py:46` | `def update_playbooks(index, playbook_dir)` |
+| `check` | function | `scripts/validate_agent_contract.sh:32` | `` |
+| `check_no_hardcoded_passwords` | function | `scripts/validate_agent_contract.sh:59` | `` |
+| `check_no_hardcoded_wordlists` | function | `scripts/validate_agent_contract.sh:74` | `` |
 | `fail` | function | `scripts/validate_agent_contract.sh:27` | `` |
 | `pass` | function | `scripts/validate_agent_contract.sh:23` | `` |
 | `ACIEngine` | class | `skills/aci_planner.py:595` | `class ACIEngine` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `vulns_file` | method | `skills/hermes-lazyown/constants.py:130` | `def vulns_file(rhost)` |
 | `world_model_file` | method | `skills/hermes-lazyown/constants.py:135` | `def world_model_file()` |
 | `ExecutionResult` | class | `skills/hermes-lazyown/executor.py:21` | `class ExecutionResult` |
-| `LazyOwnExecutor` | class | `skills/hermes-lazyown/executor.py:58` | `class LazyOwnExecutor` |
-| `__init__` | method | `skills/hermes-lazyown/executor.py:24` | `def __init__(self, stdout, stderr, returncode, timed_out, duration_ms)` |
-| `__init__` | method | `skills/hermes-lazyown/executor.py:66` | `def __init__(self, lazyown_dir, timeout)` |
-| `__str__` | method | `skills/hermes-lazyown/executor.py:51` | `def __str__(self)` |
-| `_has_pty` | method | `skills/hermes-lazyown/executor.py:229` | `def _has_pty(self)` |
-| `_run_via_subprocess` | method | `skills/hermes-lazyown/executor.py:114` | `def _run_via_subprocess(self, command, timeout)` |
-| `_run_with_pty` | method | `skills/hermes-lazyown/executor.py:177` | `def _run_with_pty(self, argv, command, timeout, env)` |
-| `_run_without_pty` | method | `skills/hermes-lazyown/executor.py:149` | `def _run_without_pty(self, argv, command, timeout, env)` |
-| `combined` | method | `skills/hermes-lazyown/executor.py:39` | `def combined(self)` |
-| `execute` | method | `skills/hermes-lazyown/executor.py:77` | `def execute(self, command, timeout)` |
-| `execute_batch` | method | `skills/hermes-lazyown/executor.py:98` | `def execute_batch(self, commands, timeout)` |
-| `success` | method | `skills/hermes-lazyown/executor.py:47` | `def success(self)` |
-| `CheckpointSerializer` | class | `skills/hermes-lazyown/hermes_sync.py:27` | `class CheckpointSerializer` |
-| `DelegationPlanner` | class | `skills/hermes-lazyown/hermes_sync.py:145` | `class DelegationPlanner` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

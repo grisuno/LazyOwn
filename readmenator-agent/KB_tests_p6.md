@@ -1,6 +1,56 @@
 # Subsystem: tests (page 6 of 20)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
 
+## tests/test_command_chain.py
+- Doc: Tests for cli/command_chain.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_svc` (function, line 39) `def _svc(service, port, host, proto)`
+  - `_FakeEngine` (class, line 43) `class _FakeEngine`
+  - `test_normalise_strips_do_prefix_and_extra_tokens` (function, line 71) `def test_normalise_strips_do_prefix_and_extra_tokens()`
+  - `test_prerequisites_known_and_unknown` (function, line 78) `def test_prerequisites_known_and_unknown()`
+  - `test_missing_prerequisites_skips_already_run` (function, line 86) `def test_missing_prerequisites_skips_already_run()`
+  - `test_static_next_registry_uses_killchain_table` (function, line 93) `def test_static_next_registry_uses_killchain_table()`
+  - `test_static_next_registry_phase_priority_fallback` (function, line 101) `def test_static_next_registry_phase_priority_fallback()`
+  - `test_service_next_resolver_maps_known_services_only` (function, line 108) `def test_service_next_resolver_maps_known_services_only()`
+  - `test_service_next_resolver_dedupes_repeated_services` (function, line 118) `def test_service_next_resolver_dedupes_repeated_services()`
+  - `test_dynamic_next_resolver_orders_static_before_dynamic` (function, line 125) `def test_dynamic_next_resolver_orders_static_before_dynamic()`
+  - `test_dynamic_next_resolver_filters_history` (function, line 136) `def test_dynamic_next_resolver_filters_history()`
+  - `test_dynamic_next_resolver_empty_verb_prefers_phase_priority` (function, line 143) `def test_dynamic_next_resolver_empty_verb_prefers_phase_priority()`
+  - `test_dynamic_next_resolver_includes_unexplored_addons_and_tools` (function, line 152) `def test_dynamic_next_resolver_includes_unexplored_addons_and_tools()`
+  - `test_dynamic_next_resolver_phase_fallback_when_no_signal` (function, line 181) `def test_dynamic_next_resolver_phase_fallback_when_no_signal()`
+  - `test_dynamic_next_resolver_respects_limit` (function, line 189) `def test_dynamic_next_resolver_respects_limit()`
+  - `test_chain_facade_returns_serialisable_view` (function, line 196) `def test_chain_facade_returns_serialisable_view()`
+  - `test_chain_missing_prerequisites_when_history_empty` (function, line 207) `def test_chain_missing_prerequisites_when_history_empty()`
+  - `test_next_step_to_dict_round_trip` (function, line 213) `def test_next_step_to_dict_round_trip()`
+  - `test_chain_config_defaults_are_isolated_per_instance` (function, line 218) `def test_chain_config_defaults_are_isolated_per_instance()`
+  - `__init__` (method, line 46) `def __init__(self, services, addons, tools, history)`
+  - `services` (method, line 58) `def services(self, target)`
+  - `unexplored_addons` (method, line 61) `def unexplored_addons(self, target)`
+  - `unexplored_tools` (method, line 64) `def unexplored_tools(self, target)`
+  - `history` (method, line 67) `def history(self)`
+- Depends on: `cli/command_chain.py`, `cli/exploration.py`
+
+## tests/test_command_control_agent.py
+- Doc: Agent flavour selection and agent-staging regression tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_add_repo_root_to_syspath` (function, line 30) `def _add_repo_root_to_syspath()`
+  - `TestSelectAgentFlavour` (class, line 35) `class TestSelectAgentFlavour`
+  - `TestAttackPlanSources` (class, line 63) `class TestAttackPlanSources`
+  - `select` (method, line 37) `def select(self)`
+  - `test_windows_platform_forces_powershell` (method, line 42) `def test_windows_platform_forces_powershell(self, select)`
+  - `test_non_windows_platform_forces_shell` (method, line 45) `def test_non_windows_platform_forces_shell(self, select)`
+  - `test_unplatformed_runs_follow_generated_tests_only` (method, line 49) `def test_unplatformed_runs_follow_generated_tests_only(self, select)`
+  - `test_mixed_run_prefers_majority` (method, line 53) `def test_mixed_run_prefers_majority(self, select)`
+  - `test_mixed_tie_falls_back_to_shell` (method, line 59) `def test_mixed_tie_falls_back_to_shell(self, select)`
+  - `test_agent_scripts_derived_from_current_run` (method, line 64) `def test_agent_scripts_derived_from_current_run(self)`
+  - `test_stale_glob_counting_removed` (method, line 70) `def test_stale_glob_counting_removed(self)`
+  - `test_atomic_agent_extension_from_latest_script` (method, line 76) `def test_atomic_agent_extension_from_latest_script(self)`
+- Depends on: `cli/commands/command_and_control_migrated.py`
+
 ## tests/test_command_form.py
 - Doc: Tests for cli/command_form.py.
 - Layer: testing
@@ -433,53 +483,6 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `Bogus` (class, line 262) `class Bogus`
   - `suggest` (method, line 253) `def suggest(self, target, phase, context)`
 - Depends on: `core/config.py`, `core/console.py`, `core/crypto.py`, `core/protocols.py`, `core/validators.py`
-
-## tests/test_core_command_bridge.py
-- Doc: Tests for core.command_bridge — CommandBridge lazy shell facade.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_reset_bridge_singleton` (function, line 16) `def _reset_bridge_singleton()`
-  - `TestCommandBridgeInitialization` (class, line 25) `class TestCommandBridgeInitialization`
-  - `TestCommandBridgeOnecmd` (class, line 51) `class TestCommandBridgeOnecmd`
-  - `TestCommandBridgeOneCmdAlias` (class, line 96) `class TestCommandBridgeOneCmdAlias`
-  - `test_ready_is_false_initially` (method, line 28) `def test_ready_is_false_initially(self)`
-  - `test_error_is_none_initially` (method, line 35) `def test_error_is_none_initially(self)`
-  - `test_get_bridge_returns_same_singleton` (method, line 42) `def test_get_bridge_returns_same_singleton(self, _reset_bridge_singleton)`
-  - `test_empty_command_returns_empty_string` (method, line 54) `def test_empty_command_returns_empty_string(self)`
-  - `test_nonexistent_command_returns_error_string` (method, line 62) `def test_nonexistent_command_returns_error_string(self)`
-  - `test_thread_safety_multiple_threads` (method, line 74) `def test_thread_safety_multiple_threads(self)`
-  - `test_empty_command_returns_empty` (method, line 99) `def test_empty_command_returns_empty(self)`
-  - `test_execute_alias_returns_string` (method, line 107) `def test_execute_alias_returns_string(self)`
-  - `test_nonexistent_lazy_loaded_cmd_returns_error` (method, line 116) `def test_nonexistent_lazy_loaded_cmd_returns_error(self)`
-  - `call_onecmd` (function, line 81) `def call_onecmd()`
-- Depends on: `core/command_bridge.py`
-
-## tests/test_core_config.py
-- Doc: Tests for core.config — Config wrapper, load_payload, save_payload, load_and_validate.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestLoadPayload` (class, line 15) `class TestLoadPayload`
-  - `TestSavePayload` (class, line 76) `class TestSavePayload`
-  - `TestConfig` (class, line 99) `class TestConfig`
-  - `TestLoadAndValidate` (class, line 149) `class TestLoadAndValidate`
-  - `test_returns_dict_with_expected_keys` (method, line 18) `def test_returns_dict_with_expected_keys(self, tmp_path)`
-  - `test_roundtrips_values_correctly` (method, line 29) `def test_roundtrips_values_correctly(self, tmp_path)`
-  - `test_handles_malformed_json` (method, line 45) `def test_handles_malformed_json(self, tmp_path)`
-  - `test_copies_from_example_when_payload_missing` (method, line 54) `def test_copies_from_example_when_payload_missing(self, tmp_path)`
-  - `test_raises_when_both_payload_and_example_missing` (method, line 67) `def test_raises_when_both_payload_and_example_missing(self, tmp_path)`
-  - `test_atomic_write_no_leftover_tmp` (method, line 79) `def test_atomic_write_no_leftover_tmp(self, tmp_path)`
-  - `test_creates_parent_directories` (method, line 90) `def test_creates_parent_directories(self, tmp_path)`
-  - `test_attribute_access_for_known_keys` (method, line 102) `def test_attribute_access_for_known_keys(self)`
-  - `test_item_access_for_known_keys` (method, line 111) `def test_item_access_for_known_keys(self)`
-  - `test_unknown_key_returns_none` (method, line 118) `def test_unknown_key_returns_none(self)`
-  - `test_as_params_returns_shallow_copy` (method, line 126) `def test_as_params_returns_shallow_copy(self)`
-  - `test_aes_key_is_resolved_and_hex` (method, line 137) `def test_aes_key_is_resolved_and_hex(self)`
-  - `test_returns_validation_results_dict` (method, line 152) `def test_returns_validation_results_dict(self, tmp_path)`
-  - `test_missing_required_fields_reported_as_errors` (method, line 169) `def test_missing_required_fields_reported_as_errors(self, tmp_path)`
-  - `test_invalid_types_reported_as_warnings` (method, line 180) `def test_invalid_types_reported_as_warnings(self, tmp_path)`
-- Depends on: `core/config.py`, `core/payload_schema.py`
 
 
 Next: [KB_tests_p7.md](KB_tests_p7.md)

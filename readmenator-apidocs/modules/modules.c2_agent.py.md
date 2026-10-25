@@ -47,6 +47,7 @@ flowchart LR
     n_modules_c2_agent_py__read_records(["read_records"])
     n_modules_c2_agent_py__C2Server_start(["C2Server.start"])
     n_modules_c2_agent_py__C2Server_status(["C2Server.status"])
+    n_core_session_secrets_py__ensure_session_secrets["session_secrets.ensure_session_secrets"]
     n_lazyc2_security_services_py__AESKeyManager___init__["services.AESKeyManager.__init__"]
     n_lazyc2_security_services_py__AESKeyManager_get_or_generate["services.AESKeyManager.get_or_generate"]
     n_modules_atomic_exploit_bridge_py__open_shell["atomic_exploit_bridge.open_shell"]
@@ -56,6 +57,8 @@ flowchart LR
     n_modules_c2_agent_py__deploy --> n_modules_c2_agent_py__client_id_for
     n_modules_c2_agent_py__wait_record --> n_modules_c2_agent_py__read_records
     n_modules_c2_agent_py__C2Server_start --> n_modules_c2_agent_py__C2Server_status
+    n_modules_c2_agent_py__build_agent -.-> n_core_session_secrets_py__ensure_session_secrets
+    n_modules_c2_agent_py__deploy -.-> n_core_session_secrets_py__ensure_session_secrets
     n_modules_c2_agent_py__deploy -.-> n_lazyc2_security_services_py__AESKeyManager___init__
     n_modules_c2_agent_py__deploy -.-> n_lazyc2_security_services_py__AESKeyManager_get_or_generate
     n_modules_c2_agent_py__deploy -.-> n_modules_atomic_exploit_bridge_py__open_shell
@@ -68,7 +71,7 @@ flowchart LR
 
 ### `C2Server`
 
-`class` | [modules/c2_agent.py:634](../../modules/c2_agent.py#L634)
+`class` | [modules/c2_agent.py:673](../../modules/c2_agent.py#L673)
 
 ```python
 class C2Server
@@ -90,7 +93,7 @@ Headless lazyc2 lifecycle (start in background, status, stop).
 
 #### `C2Server.__init__`
 
-`constructor` | [modules/c2_agent.py:637](../../modules/c2_agent.py#L637)
+`constructor` | [modules/c2_agent.py:676](../../modules/c2_agent.py#L676)
 
 ```python
 def __init__(self, port: int = 4444, user: str = '', password: str = '') -> None
@@ -110,7 +113,7 @@ def __init__(self, port: int = 4444, user: str = '', password: str = '') -> None
 
 #### `C2Server.status`
 
-`method` | [modules/c2_agent.py:654](../../modules/c2_agent.py#L654)
+`method` | [modules/c2_agent.py:693](../../modules/c2_agent.py#L693)
 
 ```python
 def status(self) -> dict[str, Any]
@@ -126,7 +129,7 @@ Report server liveness and listener reachability.
 
 #### `C2Server.start`
 
-`method` | [modules/c2_agent.py:686](../../modules/c2_agent.py#L686)
+`method` | [modules/c2_agent.py:725](../../modules/c2_agent.py#L725)
 
 ```python
 def start(self) -> dict[str, Any]
@@ -144,7 +147,7 @@ Start lazyc2 headless (no-op when already running).
 
 #### `C2Server.stop`
 
-`method` | [modules/c2_agent.py:717](../../modules/c2_agent.py#L717)
+`method` | [modules/c2_agent.py:756](../../modules/c2_agent.py#L756)
 
 ```python
 def stop(self) -> dict[str, Any]
@@ -160,7 +163,7 @@ Stop the headless server (SIGTERM, best-effort).
 
 #### `C2Server.ensure_http_listener`
 
-`method` | [modules/c2_agent.py:740](../../modules/c2_agent.py#L740)
+`method` | [modules/c2_agent.py:779](../../modules/c2_agent.py#L779)
 
 ```python
 def ensure_http_listener(self, http_port: int, auth: tuple[str, str]) -> dict[str, Any]
@@ -250,10 +253,10 @@ Validate a client id (alphanumerics, dash, underscore).
 
 ### `build_agent`
 
-`function` | [modules/c2_agent.py:376](../../modules/c2_agent.py#L376)
+`function` | [modules/c2_agent.py:388](../../modules/c2_agent.py#L388)
 
 ```python
-def build_agent(c2_url: str, client_id: str, aes_hex: str, route: str = '', sleep: int = 10, privilege: str = LOW_PRIVILEGE) -> str
+def build_agent(c2_url: str, client_id: str, aes_hex: str, rat_key: str = '', route: str = '', sleep: int = 10, privilege: str = LOW_PRIVILEGE) -> str
 ```
 
 Render the agent script for a target (pure function, no I/O).
@@ -265,6 +268,7 @@ Render the agent script for a target (pure function, no I/O).
 | `c2_url` | `str` |  | Base C2 URL (http or https). |
 | `client_id` | `str` |  | Stable target-id handle for command pairing. |
 | `aes_hex` | `str` |  | Shared 64-hex AES-256 key. |
+| `rat_key` | `str` | `''` | Session HMAC signing key (64-hex) for X-Signature headers. |
 | `route` | `str` | `''` | Malleable listener route (default ``/``). |
 | `sleep` | `int` | `10` | Beacon sleep seconds, clamped 2..300. |
 | `privilege` | `str` | `LOW_PRIVILEGE` | ``lowpriv`` (default) or `[`root`](modules.workspace.py.md#root)` profile — only the client id embedding differs. |
@@ -275,7 +279,7 @@ Render the agent script for a target (pure function, no I/O).
 
 - `ValueError`: Bad key format, URL scheme or privilege value.
 
-*Calls:* [`validate_client_id`](#validate_client_id)
+*Calls:* [`ensure_session_secrets`](core.session_secrets.py.md#ensure_session_secrets), [`validate_client_id`](#validate_client_id)
 
 *Called by:* [`deploy`](#deploy)
 
@@ -285,7 +289,7 @@ Render the agent script for a target (pure function, no I/O).
 
 ### `read_aes_hex`
 
-`function` | [modules/c2_agent.py:492](../../modules/c2_agent.py#L492)
+`function` | [modules/c2_agent.py:517](../../modules/c2_agent.py#L517)
 
 ```python
 def read_aes_hex() -> str
@@ -301,7 +305,7 @@ Read the live C2 AES key hex (snapshotted, never generated).
 
 ### `deploy`
 
-`function` | [modules/c2_agent.py:497](../../modules/c2_agent.py#L497)
+`function` | [modules/c2_agent.py:522](../../modules/c2_agent.py#L522)
 
 ```python
 def deploy(target: str, c2_base: str, route: str = '', lhost: str = '127.0.0.1', sleep: int = 10, privilege: str = LOW_PRIVILEGE) -> dict[str, Any]
@@ -332,8 +336,9 @@ different name so a low-priv agent on the same box keeps running.
 **Raises**
 
 - `ValueError`: Unknown privilege value.
+- `RuntimeError`: (raised in the body, not documented)
 
-*Calls:* [`AESKeyManager.__init__`](lazyc2.security.services.py.md#aeskeymanager-__init__), [`AESKeyManager.get_or_generate`](lazyc2.security.services.py.md#aeskeymanager-get_or_generate), [`open_shell`](modules.atomic_exploit_bridge.py.md#open_shell), [`remote_exec`](modules.atomic_exploit_bridge.py.md#remote_exec), [`build_agent`](#build_agent), [`client_id_for`](#client_id_for)
+*Calls:* [`ensure_session_secrets`](core.session_secrets.py.md#ensure_session_secrets), [`AESKeyManager.__init__`](lazyc2.security.services.py.md#aeskeymanager-__init__), [`AESKeyManager.get_or_generate`](lazyc2.security.services.py.md#aeskeymanager-get_or_generate), [`open_shell`](modules.atomic_exploit_bridge.py.md#open_shell), [`remote_exec`](modules.atomic_exploit_bridge.py.md#remote_exec), [`build_agent`](#build_agent), [`client_id_for`](#client_id_for)
 
 *Called by:* [`C2SessionCommandSet.do_c2_deploy`](cli.commands.c2_session.py.md#c2sessioncommandset-do_c2_deploy)
 
@@ -343,7 +348,7 @@ different name so a low-priv agent on the same box keeps running.
 
 ### `read_records`
 
-`function` | [modules/c2_agent.py:603](../../modules/c2_agent.py#L603)
+`function` | [modules/c2_agent.py:642](../../modules/c2_agent.py#L642)
 
 ```python
 def read_records(client_id: str, limit: int = 20) -> list[dict[str, Any]]
@@ -368,7 +373,7 @@ Read the latest beacon records for a client (newest last).
 
 ### `wait_record`
 
-`function` | [modules/c2_agent.py:620](../../modules/c2_agent.py#L620)
+`function` | [modules/c2_agent.py:659](../../modules/c2_agent.py#L659)
 
 ```python
 def wait_record(client_id: str, command: str, since: int = 0, timeout: int = 60) -> dict[str, Any] | None

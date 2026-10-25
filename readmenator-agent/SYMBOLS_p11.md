@@ -3,6 +3,17 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `reason` | method | `modules/ai_exploit_chain.py:285` | `def reason(self, context)` |
+| `select_next_strategy` | method | `modules/ai_exploit_chain.py:318` | `def select_next_strategy(self, context)` |
+| `AIResult` | class | `modules/ai_fallback.py:95` | `class AIResult` |
+| `_best_ollama_model` | function | `modules/ai_fallback.py:113` | `def _best_ollama_model()` |
+| `_groq_call` | function | `modules/ai_fallback.py:189` | `def _groq_call(api_key, system, user, max_tokens, temperature)` |
+| `_is_quota_error` | function | `modules/ai_fallback.py:184` | `def _is_quota_error(exc)` |
+| `_ollama_available` | function | `modules/ai_fallback.py:105` | `def _ollama_available()` |
+| `_ollama_call` | function | `modules/ai_fallback.py:140` | `def _ollama_call(model, system, user, max_tokens, temperature)` |
+| `_toposwarm_call` | function | `modules/ai_fallback.py:226` | `def _toposwarm_call(prompt, system)` |
+| `call` | function | `modules/ai_fallback.py:254` | `def call(prompt, system, api_key, max_tokens, temperature)` |
+| `AIModel` | class | `modules/ai_model.py:45` | `class AIModel(ABC)` |
 | `AnthropicModel` | class | `modules/ai_model.py:493` | `class AnthropicModel(AIModel)` |
 | `DeepSeekModel` | class | `modules/ai_model.py:549` | `class DeepSeekModel(AIModel)` |
 | `GroqModel` | class | `modules/ai_model.py:129` | `class GroqModel(AIModel)` |
@@ -369,11 +380,12 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `s3_enumeration` | method | `modules/aws_attacks.py:206` | `def s3_enumeration(self)` |
 | `sts_role_chain` | method | `modules/aws_attacks.py:155` | `def sts_role_chain(self, target_role_arn)` |
 | `summary` | method | `modules/aws_attacks.py:293` | `def summary(self)` |
-| `Shell` | function | `modules/backdoor/backdoor.c:84` | `void Shell()` |
-| `WinMain` | function | `modules/backdoor/backdoor.c:125` | `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)` |
-| `bootRun` | function | `modules/backdoor/backdoor.c:18` | `int bootRun()` |
+| `RUNKEY_NAME` | macro | `modules/backdoor/backdoor.c:17` | `#define RUNKEY_NAME` |
+| `Shell` | function | `modules/backdoor/backdoor.c:88` | `void Shell()` |
+| `WinMain` | function | `modules/backdoor/backdoor.c:129` | `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)` |
+| `bootRun` | function | `modules/backdoor/backdoor.c:22` | `int bootRun()` |
 | `bzero` | macro | `modules/backdoor/backdoor.c:14` | `#define bzero(p, size)` |
-| `str_cut` | function | `modules/backdoor/backdoor.c:49` | `char * str_cut(char str[], int slice_from, int slice_to)` |
+| `str_cut` | function | `modules/backdoor/backdoor.c:53` | `char * str_cut(char str[], int slice_from, int slice_to)` |
 | `logg` | function | `modules/backdoor/keylogger.h:1` | `DWORD WINAPI logg(LPVOID lpParam)` |
 | `main` | function | `modules/backdoor/server.c:10` | `int main()` |
 | `BeaconConfig` | class | `modules/beacon_config_builder.py:44` | `class BeaconConfig` |
@@ -466,35 +478,23 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `uninstall` | method | `modules/bof_registry.py:736` | `def uninstall(self, name)` |
 | `validate_args` | method | `modules/bof_registry.py:540` | `def validate_args(entry, args)` |
 | `verify_entry` | method | `modules/bof_registry.py:524` | `def verify_entry(entry, filepath)` |
-| `C2Server` | class | `modules/c2_agent.py:634` | `class C2Server` |
-| `__init__` | method | `modules/c2_agent.py:637` | `def __init__(self, port, user, password)` |
-| `_api` | function | `modules/c2_agent.py:748` | `def _api(path, data)` |
-| `_ensure_key` | function | `modules/c2_agent.py:426` | `def _ensure_key()` |
-| `_pid` | method | `modules/c2_agent.py:642` | `def _pid(self)` |
-| `_restore_key_from_snapshot` | function | `modules/c2_agent.py:457` | `def _restore_key_from_snapshot()` |
-| `_snapshot_key` | function | `modules/c2_agent.py:480` | `def _snapshot_key(aes_hex)` |
+| `C2Server` | class | `modules/c2_agent.py:673` | `class C2Server` |
+| `__init__` | method | `modules/c2_agent.py:676` | `def __init__(self, port, user, password)` |
+| `_api` | function | `modules/c2_agent.py:787` | `def _api(path, data)` |
+| `_ensure_key` | function | `modules/c2_agent.py:451` | `def _ensure_key()` |
+| `_pid` | method | `modules/c2_agent.py:681` | `def _pid(self)` |
+| `_restore_key_from_snapshot` | function | `modules/c2_agent.py:482` | `def _restore_key_from_snapshot()` |
+| `_snapshot_key` | function | `modules/c2_agent.py:505` | `def _snapshot_key(aes_hex)` |
 | `_sync_credentials_file` | function | `modules/c2_agent.py:53` | `def _sync_credentials_file(user, password)` |
 | `_unverified_context` | function | `modules/c2_agent.py:78` | `def _unverified_context()` |
-| `build_agent` | function | `modules/c2_agent.py:376` | `def build_agent(c2_url, client_id, aes_hex, route, sleep, privilege)` |
+| `build_agent` | function | `modules/c2_agent.py:388` | `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` |
 | `client_id_for` | function | `modules/c2_agent.py:88` | `def client_id_for(target, privilege)` |
-| `deploy` | function | `modules/c2_agent.py:497` | `def deploy(target, c2_base, route, lhost, sleep, privilege)` |
-| `ensure_http_listener` | method | `modules/c2_agent.py:740` | `def ensure_http_listener(self, http_port, auth)` |
-| `read_aes_hex` | function | `modules/c2_agent.py:492` | `def read_aes_hex()` |
-| `read_records` | function | `modules/c2_agent.py:603` | `def read_records(client_id, limit)` |
-| `start` | method | `modules/c2_agent.py:686` | `def start(self)` |
-| `status` | method | `modules/c2_agent.py:654` | `def status(self)` |
-| `stop` | method | `modules/c2_agent.py:717` | `def stop(self)` |
-| `validate_client_id` | function | `modules/c2_agent.py:113` | `def validate_client_id(raw)` |
-| `wait_record` | function | `modules/c2_agent.py:620` | `def wait_record(client_id, command, since, timeout)` |
-| `C2Builder` | class | `modules/c2_builder.py:392` | `class C2Builder` |
-| `C2Profile` | class | `modules/c2_builder.py:76` | `class C2Profile` |
-| `__init__` | method | `modules/c2_builder.py:395` | `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)` |
-| `_build_compile_commands` | function | `modules/c2_builder.py:310` | `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...` |
-| `_build_context` | function | `modules/c2_builder.py:361` | `def _build_context(sessions_dir)` |
-| `_command_output` | function | `modules/c2_builder.py:249` | `def _command_output(argv, timeout)` |
-| `_ensure_garble_toolchain` | method | `modules/c2_builder.py:413` | `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)` |
-| `_ensure_go` | function | `modules/c2_builder.py:59` | `def _ensure_go(cmd_fn)` |
-| `_garble_matches_toolchain` | function | `modules/c2_builder.py:287` | `def _garble_matches_toolchain(go_bin, garble_bin)` |
-| `_go_build_version` | function | `modules/c2_builder.py:268` | `def _go_build_version(go_bin, target)` |
+| `deploy` | function | `modules/c2_agent.py:522` | `def deploy(target, c2_base, route, lhost, sleep, privilege)` |
+| `ensure_http_listener` | method | `modules/c2_agent.py:779` | `def ensure_http_listener(self, http_port, auth)` |
+| `read_aes_hex` | function | `modules/c2_agent.py:517` | `def read_aes_hex()` |
+| `read_records` | function | `modules/c2_agent.py:642` | `def read_records(client_id, limit)` |
+| `start` | method | `modules/c2_agent.py:725` | `def start(self)` |
+| `status` | method | `modules/c2_agent.py:693` | `def status(self)` |
+| `stop` | method | `modules/c2_agent.py:756` | `def stop(self)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

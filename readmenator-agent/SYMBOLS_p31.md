@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:33` | `` |
+| `t` | function | `static/js/vis-network.min.js:48` | `` |
+| `u` | function | `static/js/vis-network.min.js:48` | `` |
+| `uE` | function | `static/js/vis-network.min.js:33` | `` |
+| `v` | function | `static/js/vis-network.min.js:33` | `` |
+| `v` | function | `static/js/vis-network.min.js:48` | `` |
+| `vE` | function | `static/js/vis-network.min.js:33` | `` |
+| `vp` | function | `static/js/vis-network.min.js:33` | `` |
+| `yk` | function | `static/js/vis-network.min.js:33` | `` |
+| `zo` | function | `static/js/vis-network.min.js:26` | `` |
+| `a` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
+| `i` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
+| `i` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
 | `r` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
 | `P` | class | `static/js/xterm.js:1` | `` |
 | `S` | class | `static/js/xterm.js:1` | `` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 | `test_old_key_stays_valid_during_rotation_grace` | method | `tests/test_api_authz.py:217` | `def test_old_key_stays_valid_during_rotation_grace(self, tmp_path)` |
 | `test_rejects_empty_plaintext_key` | method | `tests/test_api_authz.py:137` | `def test_rejects_empty_plaintext_key(self, tmp_path)` |
 | `test_rejects_expired_key` | method | `tests/test_api_authz.py:141` | `def test_rejects_expired_key(self, tmp_path)` |
-| `test_rejects_invalid_key_with_401` | method | `tests/test_api_authz.py:357` | `def test_rejects_invalid_key_with_401(self, tmp_path)` |
-| `test_rejects_key_with_insufficient_permissions_with_403` | method | `tests/test_api_authz.py:362` | `def test_rejects_key_with_insufficient_permissions_with_403(self, tmp_path)` |
-| `test_rejects_missing_key_with_401` | method | `tests/test_api_authz.py:352` | `def test_rejects_missing_key_with_401(self, tmp_path)` |
-| `test_rejects_unknown_key_returning_none` | method | `tests/test_api_authz.py:133` | `def test_rejects_unknown_key_returning_none(self, tmp_path)` |
-| `test_retired_keys_are_pruned_after_grace_expires` | method | `tests/test_api_authz.py:240` | `def test_retired_keys_are_pruned_after_grace_expires(self, tmp_path)` |
-| `test_returns_a_validatable_token` | method | `tests/test_api_authz.py:389` | `def test_returns_a_validatable_token(self, tmp_path)` |
-| `test_revocation_is_idempotent` | method | `tests/test_api_authz.py:179` | `def test_revocation_is_idempotent(self, tmp_path)` |
-| `test_revokes_key_preventing_future_validation` | method | `tests/test_api_authz.py:173` | `def test_revokes_key_preventing_future_validation(self, tmp_path)` |
-| `test_rotates_key_preserving_tenant_label_and_permissions` | method | `tests/test_api_authz.py:196` | `def test_rotates_key_preserving_tenant_label_and_permissions(self, tmp_path)` |
-| `test_rotation_copies_permissions_from_the_rotated_key` | method | `tests/test_api_authz.py:206` | `def test_rotation_copies_permissions_from_the_rotated_key(self, tmp_path)` |
-| `test_rotation_does_not_grow_active_key_count` | method | `tests/test_api_authz.py:258` | `def test_rotation_does_not_grow_active_key_count(self, tmp_path)` |
-| `test_serialization_roundtrip_preserves_all_fields` | method | `tests/test_api_authz.py:48` | `def test_serialization_roundtrip_preserves_all_fields(self)` |
-| `test_sets_expiration_when_days_are_provided` | method | `tests/test_api_authz.py:412` | `def test_sets_expiration_when_days_are_provided(self, tmp_path)` |
-| `test_sets_g_variables_with_api_key_context_on_success` | method | `tests/test_api_authz.py:368` | `def test_sets_g_variables_with_api_key_context_on_success(self, tmp_path)` |
 
 Next: [SYMBOLS_p32.md](SYMBOLS_p32.md)

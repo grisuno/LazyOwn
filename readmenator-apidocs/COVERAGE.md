@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **74.9%** (7251 of 9676 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **74.9%** (7257 of 9683 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -13,10 +13,10 @@ Overall: **74.9%** (7251 of 9676 public modules, types, and callables). Data mem
 | constructor | 203 | 524 | 38.7% |
 | enum | 30 | 39 | 76.9% |
 | exception | 36 | 38 | 94.7% |
-| function | 1830 | 2735 | 66.9% |
-| macro | 3 | 113 | 2.7% |
-| method | 2907 | 3579 | 81.2% |
-| module | 697 | 814 | 85.6% |
+| function | 1834 | 2739 | 67.0% |
+| macro | 2 | 114 | 1.8% |
+| method | 2908 | 3580 | 81.2% |
+| module | 699 | 815 | 85.8% |
 | property | 154 | 198 | 77.8% |
 | protocol | 20 | 20 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
@@ -60,7 +60,7 @@ Overall: **74.9%** (7251 of 9676 public modules, types, and callables). Data mem
 | [`modules.CVE-2023-28432`](modules/modules.CVE-2023-28432.py.md) | 0 | 2 | 0.0% |
 | [`modules`](modules/modules.__init__.py.md) | 0 | 1 | 0.0% |
 | [`modules.amt_auth_bypass`](modules/modules.amt_auth_bypass.py.md) | 0 | 4 | 0.0% |
-| [`modules/backdoor/backdoor.c`](modules/modules.backdoor.backdoor.c.md) | 0 | 6 | 0.0% |
+| [`modules/backdoor/backdoor.c`](modules/modules.backdoor.backdoor.c.md) | 0 | 7 | 0.0% |
 | [`modules/backdoor/keylogger.h`](modules/modules.backdoor.keylogger.h.md) | 0 | 2 | 0.0% |
 | [`modules/backdoor/server.c`](modules/modules.backdoor.server.c.md) | 0 | 2 | 0.0% |
 | [`modules.bin2img`](modules/modules.bin2img.py.md) | 0 | 3 | 0.0% |
@@ -310,7 +310,7 @@ Overall: **74.9%** (7251 of 9676 public modules, types, and callables). Data mem
 | [`modules.logging_config`](modules/modules.logging_config.py.md) | 17 | 20 | 85.0% |
 | [`skills.hermes-lazyown.output_compactor`](modules/skills.hermes-lazyown.output_compactor.py.md) | 17 | 20 | 85.0% |
 | [`skills.lazyown_mcp_helpers`](modules/skills.lazyown_mcp_helpers.py.md) | 17 | 20 | 85.0% |
-| [`utils`](modules/utils.py.md) | 98 | 115 | 85.2% |
+| [`utils`](modules/utils.py.md) | 99 | 116 | 85.3% |
 | [`cli.headless`](modules/cli.headless.py.md) | 6 | 7 | 85.7% |
 | [`core.logging`](modules/core.logging.py.md) | 6 | 7 | 85.7% |
 | [`modules.event_engine`](modules/modules.event_engine.py.md) | 6 | 7 | 85.7% |
@@ -331,11 +331,11 @@ Overall: **74.9%** (7251 of 9676 public modules, types, and callables). Data mem
 | [`cli.palette_command`](modules/cli.palette_command.py.md) | 36 | 41 | 87.8% |
 | [`skills.autonomous_daemon`](modules/skills.autonomous_daemon.py.md) | 79 | 90 | 87.8% |
 | [`modules.autonomous_exploit_engine`](modules/modules.autonomous_exploit_engine.py.md) | 15 | 17 | 88.2% |
-| [`cli.commands.audit`](modules/cli.commands.audit.py.md) | 8 | 9 | 88.9% |
 | [`core.command_bridge`](modules/core.command_bridge.py.md) | 8 | 9 | 88.9% |
-| [`core.config`](modules/core.config.py.md) | 8 | 9 | 88.9% |
 | [`modules.forensic_cleaner`](modules/modules.forensic_cleaner.py.md) | 8 | 9 | 88.9% |
 | [`skills.hive_mind`](modules/skills.hive_mind.py.md) | 81 | 91 | 89.0% |
+| [`cli.commands.audit`](modules/cli.commands.audit.py.md) | 9 | 10 | 90.0% |
+| [`core.config`](modules/core.config.py.md) | 9 | 10 | 90.0% |
 | [`modules.ai_exploit_chain`](modules/modules.ai_exploit_chain.py.md) | 9 | 10 | 90.0% |
 | [`modules.log_tamper`](modules/modules.log_tamper.py.md) | 9 | 10 | 90.0% |
 | [`modules.polymorphic_engine`](modules/modules.polymorphic_engine.py.md) | 9 | 10 | 90.0% |
@@ -552,6 +552,7 @@ Overall: **74.9%** (7251 of 9676 public modules, types, and callables). Data mem
 | [`core.safe_import`](modules/core.safe_import.py.md) | 5 | 5 | 100.0% |
 | [`core.safe_subprocess`](modules/core.safe_subprocess.py.md) | 7 | 7 | 100.0% |
 | [`core.security`](modules/core.security.py.md) | 3 | 3 | 100.0% |
+| [`core.session_secrets`](modules/core.session_secrets.py.md) | 3 | 3 | 100.0% |
 | [`core.terminal_guard`](modules/core.terminal_guard.py.md) | 8 | 8 | 100.0% |
 | [`core.text_utils`](modules/core.text_utils.py.md) | 2 | 2 | 100.0% |
 | [`core.validators`](modules/core.validators.py.md) | 5 | 5 | 100.0% |
@@ -846,7 +847,7 @@ Overall: **74.9%** (7251 of 9676 public modules, types, and callables). Data mem
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2142, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 43
+DOC001: 2143, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 44
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -1277,7 +1278,7 @@ DOC001: 2142, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 43
 - DOC001 `core/api_authz.py:124` method ApiKey.is_retired is not documented
 - DOC001 `core/api_authz.py:127` method ApiKey.has_permission is not documented
 - DOC001 `core/api_authz.py:130` method ApiKey.has_all_permissions is not documented
-- DOC004 `core/config.py:327` return value of load_payload is not documented
+- DOC004 `core/config.py:332` return value of load_payload is not documented
 - DOC004 `core/crypto.py:67` return value of xor_encrypt_decrypt is not documented
 - DOC005 `core/crypto.py:83` generate_xor_key raises ValueError but does not document it
 - DOC005 `core/defaults.py:21` load_defaults raises ValueError but does not document it
@@ -1348,4 +1349,4 @@ DOC001: 2142, DOC002: 8, DOC003: 21, DOC004: 43, DOC005: 43
 - DOC001 `lazy_sentinel4.py:253` method Database.insert is not documented
 - DOC001 `lazy_sentinel4.py:269` class Alert is not documented
 - DOC001 `lazy_sentinel4.py:272` constructor Alert.__init__ is not documented
-- ... 1757 more in `api/warnings.jsonl`
+- ... 1759 more in `api/warnings.jsonl`

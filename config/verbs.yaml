@@ -3586,6 +3586,12 @@ verbs:
     risk: safe
     description: Show the most-connected nodes ("god nodes") from the graph.
     source: cli
+  golden_paths:
+    enabled: false
+    phase: report
+    risk: safe
+    description: Build, show, or push attack paths from the world model.
+    source: cli
   gospherus:
     enabled: false
     phase: lateral
@@ -3687,6 +3693,12 @@ verbs:
     phase: misc
     risk: safe
     description: "Red Team Gym \u2014 gamified pentest training with ELO scoring."
+    source: cli
+  gym_metasploitable:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Plan, run, and report the Metasploitable 2 gym matrix.
     source: cli
   gym_ms2:
     enabled: false
@@ -3813,6 +3825,12 @@ verbs:
     phase: cred
     risk: safe
     description: Run Hydra for online password attacks.
+    source: cli
+  hygiene_audit:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Audit local deployment hygiene. Usage: hygiene_audit.'
     source: cli
   id_rsa:
     enabled: false

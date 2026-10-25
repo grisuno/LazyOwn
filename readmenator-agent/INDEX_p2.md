@@ -3,6 +3,7 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 14 | 8 |
 | `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 33 |
 | `modules/lazy_installer.py` | Capability installer for the Lazy autonomous loop. | modules | 6 | 3 |
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
@@ -115,11 +116,11 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/rich_tui.py` | Rich-based live TUI dashboard for LazyOwn campaign monitoring. | modules | 14 | 1 |
 | `modules/rl_trainer.py` | modules/rl_trainer.py | modules | 31 | 5 |
 | `modules/rootkit/mr.c` | - | rootkit | 33 | 0 |
-| `modules/rootkit/mrhyde.c` | original_dirent: define HIDE_DIR ".grisun0" define HIDE_USER "grisun0" define MAX_HIDE_PIDS 140... | rootkit | 38 | 0 |
-| `modules/rootkit/mrhyde2.c` | original_dirent: define HIDE_DIR ".grisun0" define HIDE_USER "grisun0" define MAX_HIDE_PIDS 140... | rootkit | 35 | 0 |
-| `modules/rootkit/mrhyde3.c` | io_uring_sq: #define HIDDEN_FILE9 "listener_{line}.sh" #define PATHMRHYDE "mrhyde.so" #define... | rootkit | 57 | 0 |
+| `modules/rootkit/mrhyde.c` | original_dirent: ifndef HIDE_DIR define HIDE_DIR ".rootkit_dir" endif ifndef HIDE_USER define... | rootkit | 38 | 0 |
+| `modules/rootkit/mrhyde2.c` | original_dirent: ifndef HIDE_DIR define HIDE_DIR ".rootkit_dir" endif ifndef HIDE_USER define... | rootkit | 35 | 0 |
+| `modules/rootkit/mrhyde3.c` | io_uring_sq: #endif #ifndef HIDE_USER #define HIDE_USER "rootkit_user" #endif #define... | rootkit | 57 | 0 |
 | `modules/rootkit/rootkit.asm` | - | rootkit | 1 | 0 |
-| `modules/rootkit/rootkit.c` | Define the process name and file name to hide | rootkit | 13 | 0 |
+| `modules/rootkit/rootkit.c` | Define the process name and file name to hide Operable values are provided via the Makefile... | rootkit | 13 | 0 |
 | `modules/saas_attacks.py` | SaaS attacks — Microsoft 365, Google Workspace, Salesforce, ServiceNow exploitation. | modules | 15 | 1 |
 | `modules/scripts/clean_history.sh.sh` | - | misc | 0 | 0 |
 | `modules/search.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 0 | 1 |
@@ -390,6 +391,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_atomic_resolver.py` | MITRE ATT&CK <-> Atomic Red Team translator contract. | tests | 9 | 0 |
 | `tests/test_attack_surface3d.py` | Attack-surface 3D module: surface+intel fusion + embedded pages. | tests | 8 | 0 |
 | `tests/test_attack_surface_addons.py` | tests/test_attack_surface_addons.py  BDD: Validate cloud, supply-chain, and web attack-surface... | tests | 76 | 0 |
+| `tests/test_audit_remediation.py` | Audit-remediation contract tests (P0-P4). | tests | 28 | 0 |
 | `tests/test_auto_crypto.py` | Tests for cli.auto_crypto — automatic session data encryption. | tests | 22 | 0 |
 | `tests/test_auto_loop_memory.py` | BDD tests for the auto-loop persistent memory and selector cascade. | tests | 19 | 0 |
 | `tests/test_auto_registry.py` | Auto-verb registry: loop-ready automation commands. | tests | 20 | 0 |
@@ -494,7 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_graph_overlay.py` | Tests for cli/graph_overlay.py. | tests | 14 | 0 |
 | `tests/test_guardrails.py` | Guardrail harness tests: tiers, capacity, warm restart, wiring. | tests | 59 | 0 |
 | `tests/test_gui_xss_sinks.py` | Regression gate for XSS sinks in the C2 dashboard template. | tests | 9 | 0 |
-| `tests/test_gym_cli.py` | Gym CLI lifecycle: start, status, stop by selector and stop-all. | tests | 8 | 0 |
-| `tests/test_gym_lifecycle.py` | Gym lifecycle: lab spin-up on start, teardown on stop and exit cleanup. | tests | 13 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

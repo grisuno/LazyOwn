@@ -170,6 +170,18 @@ Previous: [KB_core.md](KB_core.md)
   - `generate_certificates` (function, line 58) `def generate_certificates(output_dir)`
 - Depends on: `core/logging.py`
 
+## core/session_secrets.py
+- Doc: Session-scoped secret rotation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `rotate_session_secrets` (function, line 38) `def rotate_session_secrets(config_obj, sessions_dir)`
+  - `ensure_session_secrets` (function, line 70) `def ensure_session_secrets(config_obj, rotate, sessions_dir)`
+  - `_valid_session_token` (function, line 104) `def _valid_session_token(value, hex_len)`
+  - `_mirror` (function, line 113) `def _mirror(config_obj, aes_hex, rat_key, session_magic)`
+- Depends on: `core/config.py`, `core/logging.py`
+- Imported by: `cli/commands/shellsys.py`, `lazyc2.py`, `modules/c2_agent.py`, `modules/c2_builder.py`, `tests/test_session_secrets.py`
+
 ## core/terminal_guard.py
 - Doc: Terminal state guard for interactive automation.
 - Layer: utility

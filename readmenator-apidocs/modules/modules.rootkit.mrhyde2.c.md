@@ -55,7 +55,7 @@ flowchart LR
 
 ### `linux_dirent64`
 
-`struct` | [modules/rootkit/mrhyde2.c:461](../../modules/rootkit/mrhyde2.c#L461)
+`struct` | [modules/rootkit/mrhyde2.c:465](../../modules/rootkit/mrhyde2.c#L465)
 
 ```c
 struct linux_dirent64
@@ -69,13 +69,13 @@ struct linux_dirent64
 
 ### `original_dirent`
 
-`type_alias` | [modules/rootkit/mrhyde2.c:48](../../modules/rootkit/mrhyde2.c#L48)
+`type_alias` | [modules/rootkit/mrhyde2.c:52](../../modules/rootkit/mrhyde2.c#L52)
 
 ```c
 typedef struct dirent original_dirent;
 ```
 
-define HIDE_DIR ".grisun0" define HIDE_USER "grisun0" define MAX_HIDE_PIDS 140 define PID_FILE_PATH "/dev/shm/pid"
+ifndef HIDE_DIR define HIDE_DIR ".rootkit_dir" endif ifndef HIDE_USER define HIDE_USER "rootkit_user" endif define MAX_HIDE_PIDS 140 define PID_FILE_PATH "/dev/shm/pid"
 
 ---
 
@@ -85,7 +85,7 @@ define HIDE_DIR ".grisun0" define HIDE_USER "grisun0" define MAX_HIDE_PIDS 140 d
 
 ### `load_hidden_pids`
 
-`function` | [modules/rootkit/mrhyde2.c:63](../../modules/rootkit/mrhyde2.c#L63)
+`function` | [modules/rootkit/mrhyde2.c:67](../../modules/rootkit/mrhyde2.c#L67)
 
 ```c
 void load_hidden_pids()
@@ -101,7 +101,7 @@ void load_hidden_pids()
 
 ### `unlink`
 
-`function` | [modules/rootkit/mrhyde2.c:83](../../modules/rootkit/mrhyde2.c#L83)
+`function` | [modules/rootkit/mrhyde2.c:87](../../modules/rootkit/mrhyde2.c#L87)
 
 ```c
 int unlink(const char *pathname)
@@ -121,7 +121,7 @@ int unlink(const char *pathname)
 
 ### `kill`
 
-`function` | [modules/rootkit/mrhyde2.c:95](../../modules/rootkit/mrhyde2.c#L95)
+`function` | [modules/rootkit/mrhyde2.c:99](../../modules/rootkit/mrhyde2.c#L99)
 
 ```c
 int kill(pid_t pid, int sig)
@@ -144,7 +144,7 @@ int kill(pid_t pid, int sig)
 
 ### `remove`
 
-`function` | [modules/rootkit/mrhyde2.c:115](../../modules/rootkit/mrhyde2.c#L115)
+`function` | [modules/rootkit/mrhyde2.c:119](../../modules/rootkit/mrhyde2.c#L119)
 
 ```c
 int remove(const char *pathname)
@@ -164,7 +164,7 @@ int remove(const char *pathname)
 
 ### `unlinkat`
 
-`function` | [modules/rootkit/mrhyde2.c:127](../../modules/rootkit/mrhyde2.c#L127)
+`function` | [modules/rootkit/mrhyde2.c:131](../../modules/rootkit/mrhyde2.c#L131)
 
 ```c
 int unlinkat(int dirfd, const char *pathname, int flags)
@@ -186,7 +186,7 @@ int unlinkat(int dirfd, const char *pathname, int flags)
 
 ### `get_username_from_pid`
 
-`function` | [modules/rootkit/mrhyde2.c:148](../../modules/rootkit/mrhyde2.c#L148)
+`function` | [modules/rootkit/mrhyde2.c:152](../../modules/rootkit/mrhyde2.c#L152)
 
 ```c
 char* get_username_from_pid(pid_t pid)
@@ -210,7 +210,7 @@ char* get_username_from_pid(pid_t pid)
 
 ### `should_hide_pid`
 
-`function` | [modules/rootkit/mrhyde2.c:167](../../modules/rootkit/mrhyde2.c#L167)
+`function` | [modules/rootkit/mrhyde2.c:171](../../modules/rootkit/mrhyde2.c#L171)
 
 ```c
 int should_hide_pid(const char* pid)
@@ -234,7 +234,7 @@ int should_hide_pid(const char* pid)
 
 ### `readdir`
 
-`function` | [modules/rootkit/mrhyde2.c:182](../../modules/rootkit/mrhyde2.c#L182)
+`function` | [modules/rootkit/mrhyde2.c:186](../../modules/rootkit/mrhyde2.c#L186)
 
 ```c
 struct dirent* readdir(DIR* dirp)
@@ -258,7 +258,7 @@ struct dirent* readdir(DIR* dirp)
 
 ### `fopen`
 
-`function` | [modules/rootkit/mrhyde2.c:238](../../modules/rootkit/mrhyde2.c#L238)
+`function` | [modules/rootkit/mrhyde2.c:242](../../modules/rootkit/mrhyde2.c#L242)
 
 ```c
 FILE *fopen(const char *pathname, const char *mode)
@@ -281,7 +281,7 @@ FILE *fopen(const char *pathname, const char *mode)
 
 ### `my_open`
 
-`function` | [modules/rootkit/mrhyde2.c:275](../../modules/rootkit/mrhyde2.c#L275)
+`function` | [modules/rootkit/mrhyde2.c:279](../../modules/rootkit/mrhyde2.c#L279)
 
 ```c
 int my_open(const char *pathname, int flags, mode_t mode)
@@ -303,7 +303,7 @@ int my_open(const char *pathname, int flags, mode_t mode)
 
 ### `my_openat`
 
-`function` | [modules/rootkit/mrhyde2.c:312](../../modules/rootkit/mrhyde2.c#L312)
+`function` | [modules/rootkit/mrhyde2.c:316](../../modules/rootkit/mrhyde2.c#L316)
 
 ```c
 int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)
@@ -326,7 +326,7 @@ int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)
 
 ### `stat`
 
-`function` | [modules/rootkit/mrhyde2.c:349](../../modules/rootkit/mrhyde2.c#L349)
+`function` | [modules/rootkit/mrhyde2.c:353](../../modules/rootkit/mrhyde2.c#L353)
 
 ```c
 int stat(const char *pathname, struct stat *statbuf)
@@ -349,7 +349,7 @@ int stat(const char *pathname, struct stat *statbuf)
 
 ### `lstat`
 
-`function` | [modules/rootkit/mrhyde2.c:386](../../modules/rootkit/mrhyde2.c#L386)
+`function` | [modules/rootkit/mrhyde2.c:390](../../modules/rootkit/mrhyde2.c#L390)
 
 ```c
 int lstat(const char *pathname, struct stat *statbuf)
@@ -370,7 +370,7 @@ int lstat(const char *pathname, struct stat *statbuf)
 
 ### `fstat`
 
-`function` | [modules/rootkit/mrhyde2.c:423](../../modules/rootkit/mrhyde2.c#L423)
+`function` | [modules/rootkit/mrhyde2.c:427](../../modules/rootkit/mrhyde2.c#L427)
 
 ```c
 int fstat(int fd, struct stat *statbuf)
@@ -391,7 +391,7 @@ int fstat(int fd, struct stat *statbuf)
 
 ### `getdents`
 
-`function` | [modules/rootkit/mrhyde2.c:470](../../modules/rootkit/mrhyde2.c#L470)
+`function` | [modules/rootkit/mrhyde2.c:474](../../modules/rootkit/mrhyde2.c#L474)
 
 ```c
 int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)
@@ -415,7 +415,7 @@ int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)
 
 ### `getdents64`
 
-`function` | [modules/rootkit/mrhyde2.c:527](../../modules/rootkit/mrhyde2.c#L527)
+`function` | [modules/rootkit/mrhyde2.c:531](../../modules/rootkit/mrhyde2.c#L531)
 
 ```c
 int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)
@@ -439,7 +439,7 @@ int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)
 
 ### `main`
 
-`function` | [modules/rootkit/mrhyde2.c:583](../../modules/rootkit/mrhyde2.c#L583)
+`function` | [modules/rootkit/mrhyde2.c:587](../../modules/rootkit/mrhyde2.c#L587)
 
 ```c
 int main()
@@ -601,7 +601,7 @@ int main()
 
 ### `HIDE_DIR`
 
-`macro` | [modules/rootkit/mrhyde2.c:44](../../modules/rootkit/mrhyde2.c#L44)
+`macro` | [modules/rootkit/mrhyde2.c:45](../../modules/rootkit/mrhyde2.c#L45)
 
 ```c
 #define HIDE_DIR
@@ -613,7 +613,7 @@ int main()
 
 ### `HIDE_USER`
 
-`macro` | [modules/rootkit/mrhyde2.c:45](../../modules/rootkit/mrhyde2.c#L45)
+`macro` | [modules/rootkit/mrhyde2.c:48](../../modules/rootkit/mrhyde2.c#L48)
 
 ```c
 #define HIDE_USER
@@ -625,7 +625,7 @@ int main()
 
 ### `MAX_HIDE_PIDS`
 
-`macro` | [modules/rootkit/mrhyde2.c:46](../../modules/rootkit/mrhyde2.c#L46)
+`macro` | [modules/rootkit/mrhyde2.c:50](../../modules/rootkit/mrhyde2.c#L50)
 
 ```c
 #define MAX_HIDE_PIDS
@@ -637,7 +637,7 @@ int main()
 
 ### `PID_FILE_PATH`
 
-`macro` | [modules/rootkit/mrhyde2.c:47](../../modules/rootkit/mrhyde2.c#L47)
+`macro` | [modules/rootkit/mrhyde2.c:51](../../modules/rootkit/mrhyde2.c#L51)
 
 ```c
 #define PID_FILE_PATH

@@ -3,6 +3,9 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gather_campaign_manifest` | method | `cli/commands/campaign.py:94` | `def _gather_campaign_manifest(self, name)` |
+| `do_campaign` | method | `cli/commands/campaign.py:45` | `def do_campaign(self, line)` |
+| `CatalogCommandSet` | class | `cli/commands/catalog.py:19` | `class CatalogCommandSet(LazyOwnCommandSet)` |
 | `_filter_commands` | method | `cli/commands/catalog.py:88` | `def _filter_commands(self, commands, keyword)` |
 | `_index` | method | `cli/commands/catalog.py:25` | `def _index(self)` |
 | `_print_hits` | method | `cli/commands/catalog.py:95` | `def _print_hits(self, hits, label)` |
@@ -493,8 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_lazy_enrich` | method | `cli/commands/lazyops.py:861` | `def do_lazy_enrich(self, line)` |
 | `do_lazy_evidence` | method | `cli/commands/lazyops.py:1447` | `def do_lazy_evidence(self, line)` |
 | `do_lazy_fact` | method | `cli/commands/lazyops.py:1399` | `def do_lazy_fact(self, line)` |
-| `do_lazy_finding` | method | `cli/commands/lazyops.py:1195` | `def do_lazy_finding(self, line)` |
-| `do_lazy_frontier` | method | `cli/commands/lazyops.py:503` | `def do_lazy_frontier(self, line)` |
-| `do_lazy_gate` | method | `cli/commands/lazyops.py:2613` | `def do_lazy_gate(self, line)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

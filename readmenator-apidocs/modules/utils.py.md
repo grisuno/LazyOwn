@@ -1,6 +1,6 @@
 # `utils`
 
-> Source: [utils.py:1](../../utils.py#L1) | language `py` | coverage 85.2% | [API index](../index.md)
+> Source: [utils.py:1](../../utils.py#L1) | language `py` | coverage 85.3% | [API index](../index.md)
 
 utils.py
 
@@ -21,7 +21,7 @@ Description: This file contains the logic for all functions used in the LazyOwnS
 ## Contents
 
 - **Classes:** [`MyServer`](#myserver), [`SimpleHTTPRequestHandler`](#simplehttprequesthandler), [`IP2ASN`](#ip2asn), [`VulnerabilityScanner`](#vulnerabilityscanner)
-- **Functions:** [`needs_sudo`](#needs_sudo), [`sudo_available`](#sudo_available), [`redact_secrets`](#redact_secrets), [`parse_ip_mac`](#parse_ip_mac), [`create_arp_packet`](#create_arp_packet), [`send_packet`](#send_packet), [`load_version`](#load_version), [`parse_bool`](#parse_bool), [`signal_handler`](#signal_handler), [`activate_virtualenv`](#activate_virtualenv), [`parse_proc_net_file`](#parse_proc_net_file), [`get_open_ports`](#get_open_ports), [`rotate_char`](#rotate_char), [`get_network_info`](#get_network_info), [`get_git_info`](#get_git_info), [`get_venv_info`](#get_venv_info), [`getprompt`](#getprompt), [`copy2clip`](#copy2clip), [`clean_output`](#clean_output), [`teclado_usuario`](#teclado_usuario), [`salida_strace`](#salida_strace), [`exploitalert`](#exploitalert), [`packetstormsecurity`](#packetstormsecurity), [`nvddb`](#nvddb), [`find_ss`](#find_ss), [`find_ea`](#find_ea), [`find_ps`](#find_ps), [`run`](#run), [`is_exist`](#is_exist), [`get_domain`](#get_domain), [`generate_random_cve_id`](#generate_random_cve_id), [`generate_certificates`](#generate_certificates), [`generate_emails`](#generate_emails), [`clean_url`](#clean_url), [`random_string`](#random_string), [`generate_http_req`](#generate_http_req), [`format_openssh_key`](#format_openssh_key), [`format_rsa_key`](#format_rsa_key), [`is_package_installed`](#is_package_installed), [`extract`](#extract), [`clean_html`](#clean_html), [`get_credentials`](#get_credentials), [`obfuscate_payload`](#obfuscate_payload), [`read_payloads`](#read_payloads), [`inject_payloads`](#inject_payloads), [`prompt`](#prompt), [`add`](#add), [`detect_delimiter`](#detect_delimiter), [`transform`](#transform), [`handle`](#handle), [`get_users_dic`](#get_users_dic), [`get_hash`](#get_hash), [`is_digit`](#is_digit), [`crack_password`](#crack_password), [`get_terminal_size`](#get_terminal_size), [`halp`](#halp), [`ensure_tmux_session`](#ensure_tmux_session), [`get_xml`](#get_xml), [`get_domain_from_xml`](#get_domain_from_xml), [`shellcode_to_sylk`](#shellcode_to_sylk), [`get_banner`](#get_banner), [`list_binaries`](#list_binaries), [`select_binary`](#select_binary), [`decode`](#decode), [`get_command`](#get_command), [`send_command`](#send_command), [`activate_server`](#activate_server), [`Spray`](#spray), [`ProcessResults`](#processresults), [`generate_index`](#generate_index), [`replace_variables`](#replace_variables), [`create_caldera_config`](#create_caldera_config), [`extract_banners`](#extract_banners), [`scrape_news`](#scrape_news), [`display_news`](#display_news), [`htmlify`](#htmlify), [`de_htmlify`](#de_htmlify), [`is_port_in_use`](#is_port_in_use), [`return_creds`](#return_creds), [`query_arin_ip`](#query_arin_ip), [`get_org`](#get_org), [`load_adversary`](#load_adversary), [`replace_placeholders`](#replace_placeholders), [`replace_command_placeholders`](#replace_command_placeholders), [`parse_nmap_csv`](#parse_nmap_csv), [`query_ollama`](#query_ollama), [`preprocess_llm_response`](#preprocess_llm_response), [`manual_yaml_extraction`](#manual_yaml_extraction), [`create_synthetic_yaml`](#create_synthetic_yaml), [`parse_yaml_response`](#parse_yaml_response), [`fix_common_yaml_issues`](#fix_common_yaml_issues), [`aggressive_yaml_fix`](#aggressive_yaml_fix), [`save_playbook`](#save_playbook), [`load_knowledge_base`](#load_knowledge_base), [`anti_debug`](#anti_debug), [`create_msfshellcoder_parser`](#create_msfshellcoder_parser), [`load_user_aliases`](#load_user_aliases)
+- **Functions:** [`lazyown_set_config`](#lazyown_set_config), [`needs_sudo`](#needs_sudo), [`sudo_available`](#sudo_available), [`redact_secrets`](#redact_secrets), [`parse_ip_mac`](#parse_ip_mac), [`create_arp_packet`](#create_arp_packet), [`send_packet`](#send_packet), [`load_version`](#load_version), [`parse_bool`](#parse_bool), [`signal_handler`](#signal_handler), [`activate_virtualenv`](#activate_virtualenv), [`parse_proc_net_file`](#parse_proc_net_file), [`get_open_ports`](#get_open_ports), [`rotate_char`](#rotate_char), [`get_network_info`](#get_network_info), [`get_git_info`](#get_git_info), [`get_venv_info`](#get_venv_info), [`getprompt`](#getprompt), [`copy2clip`](#copy2clip), [`clean_output`](#clean_output), [`teclado_usuario`](#teclado_usuario), [`salida_strace`](#salida_strace), [`exploitalert`](#exploitalert), [`packetstormsecurity`](#packetstormsecurity), [`nvddb`](#nvddb), [`find_ss`](#find_ss), [`find_ea`](#find_ea), [`find_ps`](#find_ps), [`run`](#run), [`is_exist`](#is_exist), [`get_domain`](#get_domain), [`generate_random_cve_id`](#generate_random_cve_id), [`generate_certificates`](#generate_certificates), [`generate_emails`](#generate_emails), [`clean_url`](#clean_url), [`random_string`](#random_string), [`generate_http_req`](#generate_http_req), [`format_openssh_key`](#format_openssh_key), [`format_rsa_key`](#format_rsa_key), [`is_package_installed`](#is_package_installed), [`extract`](#extract), [`clean_html`](#clean_html), [`get_credentials`](#get_credentials), [`obfuscate_payload`](#obfuscate_payload), [`read_payloads`](#read_payloads), [`inject_payloads`](#inject_payloads), [`prompt`](#prompt), [`add`](#add), [`detect_delimiter`](#detect_delimiter), [`transform`](#transform), [`handle`](#handle), [`get_users_dic`](#get_users_dic), [`get_hash`](#get_hash), [`is_digit`](#is_digit), [`crack_password`](#crack_password), [`get_terminal_size`](#get_terminal_size), [`halp`](#halp), [`ensure_tmux_session`](#ensure_tmux_session), [`get_xml`](#get_xml), [`get_domain_from_xml`](#get_domain_from_xml), [`shellcode_to_sylk`](#shellcode_to_sylk), [`get_banner`](#get_banner), [`list_binaries`](#list_binaries), [`select_binary`](#select_binary), [`decode`](#decode), [`get_command`](#get_command), [`send_command`](#send_command), [`activate_server`](#activate_server), [`Spray`](#spray), [`ProcessResults`](#processresults), [`generate_index`](#generate_index), [`replace_variables`](#replace_variables), [`create_caldera_config`](#create_caldera_config), [`extract_banners`](#extract_banners), [`scrape_news`](#scrape_news), [`display_news`](#display_news), [`htmlify`](#htmlify), [`de_htmlify`](#de_htmlify), [`is_port_in_use`](#is_port_in_use), [`return_creds`](#return_creds), [`query_arin_ip`](#query_arin_ip), [`get_org`](#get_org), [`load_adversary`](#load_adversary), [`replace_placeholders`](#replace_placeholders), [`replace_command_placeholders`](#replace_command_placeholders), [`parse_nmap_csv`](#parse_nmap_csv), [`query_ollama`](#query_ollama), [`preprocess_llm_response`](#preprocess_llm_response), [`manual_yaml_extraction`](#manual_yaml_extraction), [`create_synthetic_yaml`](#create_synthetic_yaml), [`parse_yaml_response`](#parse_yaml_response), [`fix_common_yaml_issues`](#fix_common_yaml_issues), [`aggressive_yaml_fix`](#aggressive_yaml_fix), [`save_playbook`](#save_playbook), [`load_knowledge_base`](#load_knowledge_base), [`anti_debug`](#anti_debug), [`create_msfshellcoder_parser`](#create_msfshellcoder_parser), [`load_user_aliases`](#load_user_aliases)
 - **Constants:** [`AES`](#aes), [`RPC_C_AUTHN_LEVEL_NONE`](#rpc_c_authn_level_none), [`NOBANNER`](#nobanner), [`COMMAND`](#command), [`NOLOGS`](#nologs), [`RUN_AS_ROOT`](#run_as_root), [`USER_ALIASES_FILE`](#user_aliases_file), [`HEADLESS`](#headless), [`REQUIRED_KEYS`](#required_keys), [`OLD_BANNER`](#old_banner), [`BANNER`](#banner), [`SYLK_TEMPLATE`](#sylk_template), [`VULN_SESSION_FILE_TEMPLATE`](#vuln_session_file_template), [`VULN_SCHEMA_VERSION`](#vuln_schema_version), [`VULN_REPORT_PRINT_HEADER`](#vuln_report_print_header), [`VULN_CVSS_UNAVAILABLE`](#vuln_cvss_unavailable), [`VULN_DEFAULT_MAX_WORKERS`](#vuln_default_max_workers), [`VULN_DEFAULT_DESCRIPTION_LANG`](#vuln_default_description_lang), [`VULN_DEFAULT_USER_AGENT`](#vuln_default_user_agent), [`VULN_NVD_URL_TEMPLATE`](#vuln_nvd_url_template), [`VULN_CVE_DETAILS_URL_TEMPLATE`](#vuln_cve_details_url_template), [`VULN_HTTP_OK`](#vuln_http_ok)
 
 ## Type Diagram
@@ -80,6 +80,9 @@ flowchart LR
     n_utils_py__decode(["decode"])
     n_utils_py__IP2ASN_open_file(["IP2ASN.open_file"])
     n_utils_py__IP2ASN_open_reader(["IP2ASN.open_reader"])
+    n_utils_py__lazyown_set_config(["lazyown_set_config"])
+    n_core_config_py__load_payload["config.load_payload"]
+    n_core_config_py__save_payload["config.save_payload"]
     n_utils_py__parse_ip_mac(["parse_ip_mac"])
     n_core_console_py__print_error["console.print_error"]
     n_utils_py__signal_handler(["signal_handler"])
@@ -89,7 +92,6 @@ flowchart LR
     n_utils_py__getprompt(["getprompt"])
     n_cli_banner_config_py__render_prompt["banner_config.render_prompt"]
     n_utils_py__copy2clip(["copy2clip"])
-    n_utils_py__exploitalert(["exploitalert"])
     n_utils_py__get_open_ports --> n_utils_py__parse_proc_net_file
     n_utils_py__salida_strace --> n_utils_py__clean_output
     n_utils_py__generate_http_req --> n_utils_py__random_string
@@ -105,6 +107,8 @@ flowchart LR
     n_utils_py__SimpleHTTPRequestHandler_do_GET --> n_utils_py__decode
     n_utils_py__SimpleHTTPRequestHandler_do_GET --> n_utils_py__get_command
     n_utils_py__IP2ASN_open_file --> n_utils_py__IP2ASN_open_reader
+    n_utils_py__lazyown_set_config -.-> n_core_config_py__load_payload
+    n_utils_py__lazyown_set_config -.-> n_core_config_py__save_payload
     n_utils_py__parse_ip_mac -.-> n_core_console_py__print_error
     n_utils_py__signal_handler -.-> n_core_console_py__print_warn
     n_utils_py__activate_virtualenv -.-> n_core_console_py__print_msg
@@ -112,8 +116,6 @@ flowchart LR
     n_utils_py__getprompt -.-> n_cli_banner_config_py__render_prompt
     n_utils_py__copy2clip -.-> n_core_console_py__print_error
     n_utils_py__copy2clip -.-> n_core_console_py__print_msg
-    n_utils_py__exploitalert -.-> n_core_console_py__print_error
-    n_utils_py__exploitalert -.-> n_core_console_py__print_msg
 ```
 
 ## Classes
@@ -122,7 +124,7 @@ flowchart LR
 
 ### `MyServer`
 
-`class` | [utils.py:3122](../../utils.py#L3122)
+`class` | [utils.py:3157](../../utils.py#L3157)
 
 ```python
 class MyServer(HTTPServer)
@@ -138,7 +140,7 @@ Custom HTTP server to handle incoming connections from certutil.
 
 ### `SimpleHTTPRequestHandler`
 
-`class` | [utils.py:3130](../../utils.py#L3130)
+`class` | [utils.py:3165](../../utils.py#L3165)
 
 ```python
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler)
@@ -160,7 +162,7 @@ Custom HTTP request handler to intercept and decode GET requests from certutil.
 
 #### `SimpleHTTPRequestHandler.log_request`
 
-`method` | [utils.py:3135](../../utils.py#L3135)
+`method` | [utils.py:3170](../../utils.py#L3170)
 
 ```python
 def log_request(self, *args, **kwargs)
@@ -177,7 +179,7 @@ def log_request(self, *args, **kwargs)
 
 #### `SimpleHTTPRequestHandler.log_message`
 
-`method` | [utils.py:3138](../../utils.py#L3138)
+`method` | [utils.py:3173](../../utils.py#L3173)
 
 ```python
 def log_message(self, *args, **kwargs)
@@ -194,7 +196,7 @@ def log_message(self, *args, **kwargs)
 
 #### `SimpleHTTPRequestHandler.do_GET`
 
-`method` | [utils.py:3141](../../utils.py#L3141)
+`method` | [utils.py:3176](../../utils.py#L3176)
 
 ```python
 def do_GET(self)
@@ -210,7 +212,7 @@ Serve certutil callback using centralized payload config.
 
 ### `IP2ASN`
 
-`class` | [utils.py:3160](../../utils.py#L3160)
+`class` | [utils.py:3195](../../utils.py#L3195)
 
 ```python
 class IP2ASN
@@ -231,7 +233,7 @@ class IP2ASN
 
 #### `IP2ASN.__init__`
 
-`constructor` | [utils.py:3161](../../utils.py#L3161)
+`constructor` | [utils.py:3196](../../utils.py#L3196)
 
 ```python
 def __init__(self)
@@ -243,7 +245,7 @@ def __init__(self)
 
 #### `IP2ASN.open_file`
 
-`method` | [utils.py:3166](../../utils.py#L3166)
+`method` | [utils.py:3201](../../utils.py#L3201)
 
 ```python
 def open_file(self, filename)
@@ -263,7 +265,7 @@ Open and parse the IP-to-ASN file.
 
 #### `IP2ASN.open_reader`
 
-`method` | [utils.py:3171](../../utils.py#L3171)
+`method` | [utils.py:3206](../../utils.py#L3206)
 
 ```python
 def open_reader(self, reader)
@@ -283,7 +285,7 @@ Parse the reader stream, handling both regular and gzipped files.
 
 #### `IP2ASN.as_of_ip`
 
-`method` | [utils.py:3211](../../utils.py#L3211)
+`method` | [utils.py:3246](../../utils.py#L3246)
 
 ```python
 def as_of_ip(self, ip)
@@ -301,7 +303,7 @@ Return the ASN associated with the given IP address.
 
 #### `IP2ASN.as_name`
 
-`method` | [utils.py:3226](../../utils.py#L3226)
+`method` | [utils.py:3261](../../utils.py#L3261)
 
 ```python
 def as_name(self, asn)
@@ -319,7 +321,7 @@ Get the AS name by ASN.
 
 #### `IP2ASN.as_country`
 
-`method` | [utils.py:3230](../../utils.py#L3230)
+`method` | [utils.py:3265](../../utils.py#L3265)
 
 ```python
 def as_country(self, asn)
@@ -339,7 +341,7 @@ Get the country by ASN.
 
 ### `VulnerabilityScanner`
 
-`class` | [utils.py:3249](../../utils.py#L3249)
+`class` | [utils.py:3284](../../utils.py#L3284)
 
 ```python
 class VulnerabilityScanner
@@ -374,7 +376,7 @@ avoids hardcoded browser strings duplicated across modules.
 
 #### `VulnerabilityScanner.__init__`
 
-`constructor` | [utils.py:3267](../../utils.py#L3267)
+`constructor` | [utils.py:3302](../../utils.py#L3302)
 
 ```python
 def __init__(self, user_agent: str | None = None, max_workers: int = VULN_DEFAULT_MAX_WORKERS, sessions_dir: str | None = None, description_language: str = VULN_DEFAULT_DESCRIPTION_LANG) -> None
@@ -395,7 +397,7 @@ Initialize the scanner with configurable network and storage knobs.
 
 #### `VulnerabilityScanner.search_cves`
 
-`method` | [utils.py:3293](../../utils.py#L3293)
+`method` | [utils.py:3328](../../utils.py#L3328)
 
 ```python
 def search_cves(self, service: str) -> list[dict]
@@ -422,7 +424,7 @@ unreachable or returns no matches.
 
 #### `VulnerabilityScanner.persist`
 
-`method` | [utils.py:3363](../../utils.py#L3363)
+`method` | [utils.py:3398](../../utils.py#L3398)
 
 ```python
 def persist(self, service: str, target: str, cves: list[dict]) -> str
@@ -450,7 +452,7 @@ need history should retain the prior file out of band.
 
 #### `VulnerabilityScanner.pretty_print`
 
-`method` | [utils.py:3400](../../utils.py#L3400)
+`method` | [utils.py:3435](../../utils.py#L3435)
 
 ```python
 def pretty_print(self, cves_details: list[dict]) -> None
@@ -474,11 +476,47 @@ bottom of the scroll buffer, closest to the prompt.
 
 ## Functions
 
+<a id="lazyown_set_config"></a>
+
+### `lazyown_set_config`
+
+`function` | [utils.py:324](../../utils.py#L324)
+
+```python
+def lazyown_set_config(key: str, value, config_obj=None)
+```
+
+Persist a key to ``payload.json`` and refresh any live config object.
+
+This is the sanctioned writer for runtime configuration changes made
+outside `[`do_assign`](cli.commands.session_ops.py.md#sessionopscommandset-do_assign)` / `[`do_set`](lazyown.py.md#lazyownshell-do_set)` so every write is audited and atomic.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `key` | `str` |  | Payload key to set. Must not be empty. |
+| `value` |  |  | Value to store as JSON. |
+| `config_obj` |  | `None` | Optional live config wrapper (`[`core.config.Config`](core.config.py.md#config)`) or dict-params shell object kept in sync with the write. |
+
+**Returns:** The value that was stored.
+
+**Raises**
+
+- `ValueError`: if `[`key`](key.py.md)` is empty.
+- `OSError`: if the payload file cannot be written.
+
+*Calls:* [`load_payload`](core.config.py.md#load_payload), [`save_payload`](core.config.py.md#save_payload)
+
+*Called by:* [`PhishingWizardCommandSet.do_phish_report`](cli.commands.phishing_wizard.py.md#phishingwizardcommandset-do_phish_report)
+
+---
+
 <a id="needs_sudo"></a>
 
 ### `needs_sudo`
 
-`function` | [utils.py:323](../../utils.py#L323)
+`function` | [utils.py:358](../../utils.py#L358)
 
 ```python
 def needs_sudo(command: str) -> bool
@@ -506,7 +544,7 @@ sudo behind an alias expansion is still detected.
 
 ### `sudo_available`
 
-`function` | [utils.py:347](../../utils.py#L347)
+`function` | [utils.py:382](../../utils.py#L382)
 
 ```python
 def sudo_available() -> bool
@@ -531,7 +569,7 @@ is armed.
 
 ### `redact_secrets`
 
-`function` | [utils.py:399](../../utils.py#L399)
+`function` | [utils.py:434](../../utils.py#L434)
 
 ```python
 def redact_secrets(text)
@@ -556,7 +594,7 @@ neither the operator console nor the event log stores them.
 
 ### `parse_ip_mac`
 
-`function` | [utils.py:419](../../utils.py#L419)
+`function` | [utils.py:454](../../utils.py#L454)
 
 ```python
 def parse_ip_mac(input_string)
@@ -585,7 +623,7 @@ The function uses a regular expression to match and extract the IP address and M
 
 ### `create_arp_packet`
 
-`function` | [utils.py:441](../../utils.py#L441)
+`function` | [utils.py:476](../../utils.py#L476)
 
 ```python
 def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac)
@@ -614,7 +652,7 @@ The function creates both Ethernet and ARP headers, combining them into a comple
 
 ### `send_packet`
 
-`function` | [utils.py:476](../../utils.py#L476)
+`function` | [utils.py:511](../../utils.py#L511)
 
 ```python
 def send_packet(packet, iface)
@@ -643,7 +681,7 @@ The function creates a raw socket, binds it to the specified network interface, 
 
 ### `load_version`
 
-`function` | [utils.py:494](../../utils.py#L494)
+`function` | [utils.py:529](../../utils.py#L529)
 
 ```python
 def load_version()
@@ -666,7 +704,7 @@ The version.json is the single source of truth, updated by deploy.sh.
 
 ### `parse_bool`
 
-`function` | [utils.py:520](../../utils.py#L520)
+`function` | [utils.py:555](../../utils.py#L555)
 
 ```python
 def parse_bool(value)
@@ -693,7 +731,7 @@ never silently enable a feature.
 
 ### `signal_handler`
 
-`function` | [utils.py:538](../../utils.py#L538)
+`function` | [utils.py:573](../../utils.py#L573)
 
 ```python
 def signal_handler(sig, frame)
@@ -722,7 +760,7 @@ commands 'exit', 'q', or 'qa'.
 
 ### `activate_virtualenv`
 
-`function` | [utils.py:563](../../utils.py#L563)
+`function` | [utils.py:598](../../utils.py#L598)
 
 ```python
 def activate_virtualenv(venv_path)
@@ -749,7 +787,7 @@ launches an interactive bash shell with the virtual environment activated.
 
 ### `parse_proc_net_file`
 
-`function` | [utils.py:588](../../utils.py#L588)
+`function` | [utils.py:623](../../utils.py#L623)
 
 ```python
 def parse_proc_net_file(file_path)
@@ -781,7 +819,7 @@ and a port number.
 
 ### `get_open_ports`
 
-`function` | [utils.py:632](../../utils.py#L632)
+`function` | [utils.py:667](../../utils.py#L667)
 
 ```python
 def get_open_ports()
@@ -805,7 +843,7 @@ ports and one for UDP ports.
 
 ### `rotate_char`
 
-`function` | [utils.py:651](../../utils.py#L651)
+`function` | [utils.py:686](../../utils.py#L686)
 
 ```python
 def rotate_char(c, shift)
@@ -834,7 +872,7 @@ non-alphabetical characters unchanged.
 
 ### `get_network_info`
 
-`function` | [utils.py:673](../../utils.py#L673)
+`function` | [utils.py:708](../../utils.py#L708)
 
 ```python
 def get_network_info()
@@ -855,7 +893,7 @@ interface names, and the values are IP addresses.
 
 ### `get_git_info`
 
-`function` | [utils.py:708](../../utils.py#L708)
+`function` | [utils.py:743](../../utils.py#L743)
 
 ```python
 def get_git_info()
@@ -867,7 +905,7 @@ def get_git_info()
 
 ### `get_venv_info`
 
-`function` | [utils.py:727](../../utils.py#L727)
+`function` | [utils.py:762](../../utils.py#L762)
 
 ```python
 def get_venv_info()
@@ -879,7 +917,7 @@ def get_venv_info()
 
 ### `getprompt`
 
-`function` | [utils.py:748](../../utils.py#L748)
+`function` | [utils.py:783](../../utils.py#L783)
 
 ```python
 def getprompt()
@@ -904,7 +942,7 @@ minimal single-line prompt so the shell stays usable.
 
 ### `copy2clip`
 
-`function` | [utils.py:766](../../utils.py#L766)
+`function` | [utils.py:801](../../utils.py#L801)
 
 ```python
 def copy2clip(text)
@@ -934,7 +972,7 @@ copy2clip("Hello, World!")
 
 ### `clean_output`
 
-`function` | [utils.py:786](../../utils.py#L786)
+`function` | [utils.py:821](../../utils.py#L821)
 
 ```python
 def clean_output(output)
@@ -956,7 +994,7 @@ Removes color escape sequences and other non-printable characters.
 
 ### `teclado_usuario`
 
-`function` | [utils.py:799](../../utils.py#L799)
+`function` | [utils.py:834](../../utils.py#L834)
 
 ```python
 def teclado_usuario(filename)
@@ -983,7 +1021,7 @@ Processes a file to extract and display characters from specific write sequences
 
 ### `salida_strace`
 
-`function` | [utils.py:835](../../utils.py#L835)
+`function` | [utils.py:870](../../utils.py#L870)
 
 ```python
 def salida_strace(filename)
@@ -1012,7 +1050,7 @@ Lee un archivo, extrae texto desde secuencias de escritura y muestra el contenid
 
 ### `exploitalert`
 
-`function` | [utils.py:871](../../utils.py#L871)
+`function` | [utils.py:906](../../utils.py#L906)
 
 ```python
 def exploitalert(content)
@@ -1047,7 +1085,7 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 
 ### `packetstormsecurity`
 
-`function` | [utils.py:910](../../utils.py#L910)
+`function` | [utils.py:945](../../utils.py#L945)
 
 ```python
 def packetstormsecurity(content)
@@ -1082,7 +1120,7 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 
 ### `nvddb`
 
-`function` | [utils.py:948](../../utils.py#L948)
+`function` | [utils.py:983](../../utils.py#L983)
 
 ```python
 def nvddb(content)
@@ -1117,7 +1155,7 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 
 ### `find_ss`
 
-`function` | [utils.py:994](../../utils.py#L994)
+`function` | [utils.py:1029](../../utils.py#L1029)
 
 ```python
 def find_ss(keyword='')
@@ -1152,7 +1190,7 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 
 ### `find_ea`
 
-`function` | [utils.py:1056](../../utils.py#L1056)
+`function` | [utils.py:1091](../../utils.py#L1091)
 
 ```python
 def find_ea(keyword='')
@@ -1185,7 +1223,7 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 
 ### `find_ps`
 
-`function` | [utils.py:1106](../../utils.py#L1106)
+`function` | [utils.py:1141](../../utils.py#L1141)
 
 ```python
 def find_ps(keyword='')
@@ -1220,7 +1258,7 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 
 ### `run`
 
-`function` | [utils.py:1138](../../utils.py#L1138)
+`function` | [utils.py:1173](../../utils.py#L1173)
 
 ```python
 def run(command)
@@ -1263,7 +1301,7 @@ Secrets in the command line are redacted from console output.
 
 ### `is_exist`
 
-`function` | [utils.py:1197](../../utils.py#L1197)
+`function` | [utils.py:1232](../../utils.py#L1232)
 
 ```python
 def is_exist(file)
@@ -1306,7 +1344,7 @@ False
 
 ### `get_domain`
 
-`function` | [utils.py:1226](../../utils.py#L1226)
+`function` | [utils.py:1261](../../utils.py#L1261)
 
 ```python
 def get_domain(url)
@@ -1332,7 +1370,7 @@ str: The extracted domain from the URL, or None if it cannot be extracted.
 
 ### `generate_random_cve_id`
 
-`function` | [utils.py:1243](../../utils.py#L1243)
+`function` | [utils.py:1278](../../utils.py#L1278)
 
 ```python
 def generate_random_cve_id()
@@ -1350,7 +1388,7 @@ Generate a random CVE identifier in the form CVE-{year}-{code}.
 
 ### `generate_certificates`
 
-`function` | [utils.py:1255](../../utils.py#L1255)
+`function` | [utils.py:1290](../../utils.py#L1290)
 
 ```python
 def generate_certificates()
@@ -1370,7 +1408,7 @@ Generates a certificate authority (CA), client certificate, and client key.
 
 ### `generate_emails`
 
-`function` | [utils.py:1338](../../utils.py#L1338)
+`function` | [utils.py:1373](../../utils.py#L1373)
 
 ```python
 def generate_emails(full_name, domain)
@@ -1410,7 +1448,7 @@ list: A list of generated email permutations.
 
 ### `clean_url`
 
-`function` | [utils.py:1398](../../utils.py#L1398)
+`function` | [utils.py:1433](../../utils.py#L1433)
 
 ```python
 def clean_url(host)
@@ -1430,7 +1468,7 @@ Checks if the last character is a slash and removes it if so.
 
 ### `random_string`
 
-`function` | [utils.py:1405](../../utils.py#L1405)
+`function` | [utils.py:1440](../../utils.py#L1440)
 
 ```python
 def random_string(length=15)
@@ -1452,7 +1490,7 @@ Generates a random alphanumeric string.
 
 ### `generate_http_req`
 
-`function` | [utils.py:1411](../../utils.py#L1411)
+`function` | [utils.py:1446](../../utils.py#L1446)
 
 ```python
 def generate_http_req(host, port, uri, custom_header=None, cmd=None)
@@ -1478,7 +1516,7 @@ Generates an HTTP request with the Shellshock payload.
 
 ### `format_openssh_key`
 
-`function` | [utils.py:1435](../../utils.py#L1435)
+`function` | [utils.py:1470](../../utils.py#L1470)
 
 ```python
 def format_openssh_key(raw_key)
@@ -1507,7 +1545,7 @@ It ensures the key follows the correct OpenSSH format.
 
 ### `format_rsa_key`
 
-`function` | [utils.py:1467](../../utils.py#L1467)
+`function` | [utils.py:1502](../../utils.py#L1502)
 
 ```python
 def format_rsa_key(raw_key)
@@ -1536,7 +1574,7 @@ It ensures the key follows the correct RSA format.
 
 ### `is_package_installed`
 
-`function` | [utils.py:1498](../../utils.py#L1498)
+`function` | [utils.py:1533](../../utils.py#L1533)
 
 ```python
 def is_package_installed(package_name)
@@ -1560,7 +1598,7 @@ Check if a Python package is installed.
 
 ### `extract`
 
-`function` | [utils.py:1509](../../utils.py#L1509)
+`function` | [utils.py:1544](../../utils.py#L1544)
 
 ```python
 def extract(string, extract_flag)
@@ -1590,7 +1628,7 @@ or the original string if [`extract_flag`](cli.commands._base.py.md#extract_flag
 
 ### `clean_html`
 
-`function` | [utils.py:1533](../../utils.py#L1533)
+`function` | [utils.py:1568](../../utils.py#L1568)
 
 ```python
 def clean_html(html_string)
@@ -1616,7 +1654,7 @@ This function uses a regular expression to strip HTML tags and return plain text
 
 ### `get_credentials`
 
-`function` | [utils.py:1560](../../utils.py#L1560)
+`function` | [utils.py:1595](../../utils.py#L1595)
 
 ```python
 def get_credentials(file=None, ncred=None)
@@ -1649,7 +1687,7 @@ list of tuples: A list containing tuples with (username, password) for each cred
 
 ### `obfuscate_payload`
 
-`function` | [utils.py:1616](../../utils.py#L1616)
+`function` | [utils.py:1651](../../utils.py#L1651)
 
 ```python
 def obfuscate_payload(payload)
@@ -1678,7 +1716,7 @@ with every third character wrapped in a comment.
 
 ### `read_payloads`
 
-`function` | [utils.py:1641](../../utils.py#L1641)
+`function` | [utils.py:1676](../../utils.py#L1676)
 
 ```python
 def read_payloads(file_path)
@@ -1707,7 +1745,7 @@ leading and trailing double quotes if necessary.
 
 ### `inject_payloads`
 
-`function` | [utils.py:1663](../../utils.py#L1663)
+`function` | [utils.py:1698](../../utils.py#L1698)
 
 ```python
 def inject_payloads(urls, payload_url, request_timeout=15)
@@ -1745,7 +1783,7 @@ form submission to the console.
 
 ### `prompt`
 
-`function` | [utils.py:1763](../../utils.py#L1763)
+`function` | [utils.py:1798](../../utils.py#L1798)
 
 ```python
 def prompt(label, default=None)
@@ -1768,7 +1806,7 @@ Return the prompt in the function do_xss
 
 ### `add`
 
-`function` | [utils.py:1771](../../utils.py#L1771)
+`function` | [utils.py:1806](../../utils.py#L1806)
 
 ```python
 def add(str_part, delimiter, i)
@@ -1794,7 +1832,7 @@ Adds a delimiter between string parts if it's not the first part.
 
 ### `detect_delimiter`
 
-`function` | [utils.py:1788](../../utils.py#L1788)
+`function` | [utils.py:1823](../../utils.py#L1823)
 
 ```python
 def detect_delimiter(foo_bar)
@@ -1818,7 +1856,7 @@ Detects the delimiter used in the input string (e.g., "-", "_", ".").
 
 ### `transform`
 
-`function` | [utils.py:1807](../../utils.py#L1807)
+`function` | [utils.py:1842](../../utils.py#L1842)
 
 ```python
 def transform(parts, delimiter, casing)
@@ -1846,7 +1884,7 @@ Transforms a list of string parts based on the chosen casing style.
 
 ### `handle`
 
-`function` | [utils.py:1837](../../utils.py#L1837)
+`function` | [utils.py:1872](../../utils.py#L1872)
 
 ```python
 def handle(input_str)
@@ -1870,7 +1908,7 @@ Splits the input string into parts based on delimiters or mixed casing.
 
 ### `get_users_dic`
 
-`function` | [utils.py:1867](../../utils.py#L1867)
+`function` | [utils.py:1902](../../utils.py#L1902)
 
 ```python
 def get_users_dic(txt=None)
@@ -1896,7 +1934,7 @@ List all .txt files in the 'sessions/' directory and prompt the user to select o
 
 ### `get_hash`
 
-`function` | [utils.py:1902](../../utils.py#L1902)
+`function` | [utils.py:1937](../../utils.py#L1937)
 
 ```python
 def get_hash(dir=None)
@@ -1926,7 +1964,7 @@ str: The hash content from the selected file as a single string. If no files are
 
 ### `is_digit`
 
-`function` | [utils.py:1943](../../utils.py#L1943)
+`function` | [utils.py:1978](../../utils.py#L1978)
 
 ```python
 def is_digit(the_digit)
@@ -1950,7 +1988,7 @@ Check if the given character is a digit.
 
 ### `crack_password`
 
-`function` | [utils.py:1955](../../utils.py#L1955)
+`function` | [utils.py:1990](../../utils.py#L1990)
 
 ```python
 def crack_password(crypttext)
@@ -1976,7 +2014,7 @@ Crack a Cisco Type 7 password.
 
 ### `get_terminal_size`
 
-`function` | [utils.py:1995](../../utils.py#L1995)
+`function` | [utils.py:2030](../../utils.py#L2030)
 
 ```python
 def get_terminal_size()
@@ -1992,7 +2030,7 @@ def get_terminal_size()
 
 ### `halp`
 
-`function` | [utils.py:2004](../../utils.py#L2004)
+`function` | [utils.py:2039](../../utils.py#L2039)
 
 ```python
 def halp()
@@ -2035,7 +2073,7 @@ To see the help panel, call the function as follows:
 
 ### `ensure_tmux_session`
 
-`function` | [utils.py:2059](../../utils.py#L2059)
+`function` | [utils.py:2094](../../utils.py#L2094)
 
 ```python
 def ensure_tmux_session(session_name)
@@ -2077,7 +2115,7 @@ call the function as follows:
 
 ### `get_xml`
 
-`function` | [utils.py:2095](../../utils.py#L2095)
+`function` | [utils.py:2130](../../utils.py#L2130)
 
 ```python
 def get_xml(directory)
@@ -2099,7 +2137,7 @@ Retrieves a list of XML files from the specified directory.
 
 ### `get_domain_from_xml`
 
-`function` | [utils.py:2108](../../utils.py#L2108)
+`function` | [utils.py:2143](../../utils.py#L2143)
 
 ```python
 def get_domain_from_xml(xml_file)
@@ -2119,7 +2157,7 @@ Extracts the first domain or IP address from an Nmap scan XML file.
 
 ### `shellcode_to_sylk`
 
-`function` | [utils.py:2138](../../utils.py#L2138)
+`function` | [utils.py:2173](../../utils.py#L2173)
 
 ```python
 def shellcode_to_sylk(shellcode_path)
@@ -2139,7 +2177,7 @@ def shellcode_to_sylk(shellcode_path)
 
 ### `get_banner`
 
-`function` | [utils.py:2163](../../utils.py#L2163)
+`function` | [utils.py:2198](../../utils.py#L2198)
 
 ```python
 def get_banner(ip, port)
@@ -2158,7 +2196,7 @@ def get_banner(ip, port)
 
 ### `list_binaries`
 
-`function` | [utils.py:2180](../../utils.py#L2180)
+`function` | [utils.py:2215](../../utils.py#L2215)
 
 ```python
 def list_binaries(directory='sessions')
@@ -2184,7 +2222,7 @@ list: A list of paths to executable binaries.
 
 ### `select_binary`
 
-`function` | [utils.py:2200](../../utils.py#L2200)
+`function` | [utils.py:2235](../../utils.py#L2235)
 
 ```python
 def select_binary(binaries)
@@ -2212,7 +2250,7 @@ str: The path of the selected binary.
 
 ### `decode`
 
-`function` | [utils.py:2225](../../utils.py#L2225)
+`function` | [utils.py:2260](../../utils.py#L2260)
 
 ```python
 def decode(data)
@@ -2238,7 +2276,7 @@ str: Decoded string output, or an error message if decoding fails.
 
 ### `get_command`
 
-`function` | [utils.py:2243](../../utils.py#L2243)
+`function` | [utils.py:2278](../../utils.py#L2278)
 
 ```python
 def get_command(url, lhost)
@@ -2261,7 +2299,7 @@ Reads a command from standard input and initiates a thread to send the command t
 
 ### `send_command`
 
-`function` | [utils.py:2254](../../utils.py#L2254)
+`function` | [utils.py:2289](../../utils.py#L2289)
 
 ```python
 def send_command(cmd, url, lhost)
@@ -2287,7 +2325,7 @@ cmd (str): Command to be executed on the remote MSSQL server.
 
 ### `activate_server`
 
-`function` | [utils.py:2282](../../utils.py#L2282)
+`function` | [utils.py:2317](../../utils.py#L2317)
 
 ```python
 def activate_server(httpd, url, lhost)
@@ -2315,7 +2353,7 @@ httpd (HTTPServer): The server instance to activate.
 
 ### `Spray`
 
-`function` | [utils.py:2293](../../utils.py#L2293)
+`function` | [utils.py:2328](../../utils.py#L2328)
 
 ```python
 def Spray(domain, users, password, target_url, wait, verbose, more_verbose)
@@ -2341,7 +2379,7 @@ def Spray(domain, users, password, target_url, wait, verbose, more_verbose)
 
 ### `ProcessResults`
 
-`function` | [utils.py:2340](../../utils.py#L2340)
+`function` | [utils.py:2375](../../utils.py#L2375)
 
 ```python
 def ProcessResults(results, outfile)
@@ -2362,7 +2400,7 @@ def ProcessResults(results, outfile)
 
 ### `generate_index`
 
-`function` | [utils.py:2355](../../utils.py#L2355)
+`function` | [utils.py:2390](../../utils.py#L2390)
 
 ```python
 def generate_index(repo_dir)
@@ -2388,7 +2426,7 @@ None
 
 ### `replace_variables`
 
-`function` | [utils.py:2405](../../utils.py#L2405)
+`function` | [utils.py:2440](../../utils.py#L2440)
 
 ```python
 def replace_variables(command, variables)
@@ -2414,7 +2452,7 @@ It replaces each occurrence of a variable in the command string with its corresp
 
 ### `create_caldera_config`
 
-`function` | [utils.py:2426](../../utils.py#L2426)
+`function` | [utils.py:2461](../../utils.py#L2461)
 
 ```python
 def create_caldera_config(file_path)
@@ -2442,7 +2480,7 @@ None
 
 ### `extract_banners`
 
-`function` | [utils.py:2522](../../utils.py#L2522)
+`function` | [utils.py:2557](../../utils.py#L2557)
 
 ```python
 def extract_banners(xml_file)
@@ -2479,7 +2517,7 @@ banners = extract_banners('path/to/file.xml')
 
 ### `scrape_news`
 
-`function` | [utils.py:2571](../../utils.py#L2571)
+`function` | [utils.py:2606](../../utils.py#L2606)
 
 ```python
 def scrape_news()
@@ -2499,7 +2537,7 @@ Makes a request to the Hacker News page and extracts titles, links, and scores.
 
 ### `display_news`
 
-`function` | [utils.py:2606](../../utils.py#L2606)
+`function` | [utils.py:2641](../../utils.py#L2641)
 
 ```python
 def display_news(titles, links, scores)
@@ -2525,7 +2563,7 @@ Creates a pandas DataFrame and prints it, showing titles, links, and scores.
 
 ### `htmlify`
 
-`function` | [utils.py:2620](../../utils.py#L2620)
+`function` | [utils.py:2655](../../utils.py#L2655)
 
 ```python
 def htmlify(data)
@@ -2545,7 +2583,7 @@ Wrap C2 comms in html and html2 code to make requests look more legitimate
 
 ### `de_htmlify`
 
-`function` | [utils.py:2631](../../utils.py#L2631)
+`function` | [utils.py:2666](../../utils.py#L2666)
 
 ```python
 def de_htmlify(data)
@@ -2565,7 +2603,7 @@ Cleant wrap C2 comms of html and html2 code to get the command from request
 
 ### `is_port_in_use`
 
-`function` | [utils.py:2643](../../utils.py#L2643)
+`function` | [utils.py:2678](../../utils.py#L2678)
 
 ```python
 def is_port_in_use(port, host='127.0.0.1')
@@ -2586,7 +2624,7 @@ def is_port_in_use(port, host='127.0.0.1')
 
 ### `return_creds`
 
-`function` | [utils.py:2652](../../utils.py#L2652)
+`function` | [utils.py:2687](../../utils.py#L2687)
 
 ```python
 def return_creds()
@@ -2600,7 +2638,7 @@ def return_creds()
 
 ### `query_arin_ip`
 
-`function` | [utils.py:2666](../../utils.py#L2666)
+`function` | [utils.py:2701](../../utils.py#L2701)
 
 ```python
 def query_arin_ip(ip)
@@ -2626,7 +2664,7 @@ Queries ARIN whois API for organization information of an IP address.
 
 ### `get_org`
 
-`function` | [utils.py:2685](../../utils.py#L2685)
+`function` | [utils.py:2720](../../utils.py#L2720)
 
 ```python
 def get_org(data)
@@ -2650,7 +2688,7 @@ Extracts organization name from ARIN whois response data.
 
 ### `load_adversary`
 
-`function` | [utils.py:2702](../../utils.py#L2702)
+`function` | [utils.py:2737](../../utils.py#L2737)
 
 ```python
 def load_adversary()
@@ -2666,7 +2704,7 @@ def load_adversary()
 
 ### `replace_placeholders`
 
-`function` | [utils.py:2708](../../utils.py#L2708)
+`function` | [utils.py:2743](../../utils.py#L2743)
 
 ```python
 def replace_placeholders(template, replacements)
@@ -2697,7 +2735,7 @@ stays literal instead of triggering a second substitution.
 
 ### `replace_command_placeholders`
 
-`function` | [utils.py:2726](../../utils.py#L2726)
+`function` | [utils.py:2761](../../utils.py#L2761)
 
 ```python
 def replace_command_placeholders(command, params)
@@ -2727,7 +2765,7 @@ keys are left intact so an unresolved placeholder is easy to spot.
 
 ### `parse_nmap_csv`
 
-`function` | [utils.py:2752](../../utils.py#L2752)
+`function` | [utils.py:2787](../../utils.py#L2787)
 
 ```python
 def parse_nmap_csv(csv_path)
@@ -2747,7 +2785,7 @@ def parse_nmap_csv(csv_path)
 
 ### `query_ollama`
 
-`function` | [utils.py:2766](../../utils.py#L2766)
+`function` | [utils.py:2801](../../utils.py#L2801)
 
 ```python
 def query_ollama(prompt, model='deepseek-r1:1.5b')
@@ -2772,7 +2810,7 @@ Sends query to Ollama and returns model response.
 
 ### `preprocess_llm_response`
 
-`function` | [utils.py:2781](../../utils.py#L2781)
+`function` | [utils.py:2816](../../utils.py#L2816)
 
 ```python
 def preprocess_llm_response(response)
@@ -2794,7 +2832,7 @@ Pre-process LLM response to handle common issues before YAML parsing
 
 ### `manual_yaml_extraction`
 
-`function` | [utils.py:2816](../../utils.py#L2816)
+`function` | [utils.py:2851](../../utils.py#L2851)
 
 ```python
 def manual_yaml_extraction(content)
@@ -2816,7 +2854,7 @@ Fallback method to manually extract YAML data from malformed content
 
 ### `create_synthetic_yaml`
 
-`function` | [utils.py:2882](../../utils.py#L2882)
+`function` | [utils.py:2917](../../utils.py#L2917)
 
 ```python
 def create_synthetic_yaml(nmap_services)
@@ -2838,7 +2876,7 @@ Create a basic synthetic YAML playbook when all else fails
 
 ### `parse_yaml_response`
 
-`function` | [utils.py:2955](../../utils.py#L2955)
+`function` | [utils.py:2990](../../utils.py#L2990)
 
 ```python
 def parse_yaml_response(content)
@@ -2862,7 +2900,7 @@ Improved function to extract and parse YAML content from LLM response with bette
 
 ### `fix_common_yaml_issues`
 
-`function` | [utils.py:2990](../../utils.py#L2990)
+`function` | [utils.py:3025](../../utils.py#L3025)
 
 ```python
 def fix_common_yaml_issues(yaml_content)
@@ -2884,7 +2922,7 @@ Fixes common YAML formatting issues
 
 ### `aggressive_yaml_fix`
 
-`function` | [utils.py:3030](../../utils.py#L3030)
+`function` | [utils.py:3065](../../utils.py#L3065)
 
 ```python
 def aggressive_yaml_fix(yaml_content)
@@ -2906,7 +2944,7 @@ More aggressive YAML fixing for recovery attempts
 
 ### `save_playbook`
 
-`function` | [utils.py:3061](../../utils.py#L3061)
+`function` | [utils.py:3096](../../utils.py#L3096)
 
 ```python
 def save_playbook(playbook_data, playbook_name)
@@ -2929,7 +2967,7 @@ Guarda el playbook generado en disco
 
 ### `load_knowledge_base`
 
-`function` | [utils.py:3073](../../utils.py#L3073)
+`function` | [utils.py:3108](../../utils.py#L3108)
 
 ```python
 def load_knowledge_base(knowledge_file='my_techniques.json')
@@ -2951,7 +2989,7 @@ Carga la base de conocimientos personalizada.
 
 ### `anti_debug`
 
-`function` | [utils.py:3081](../../utils.py#L3081)
+`function` | [utils.py:3116](../../utils.py#L3116)
 
 ```python
 def anti_debug()
@@ -2965,7 +3003,7 @@ def anti_debug()
 
 ### `create_msfshellcoder_parser`
 
-`function` | [utils.py:3090](../../utils.py#L3090)
+`function` | [utils.py:3125](../../utils.py#L3125)
 
 ```python
 def create_msfshellcoder_parser()
@@ -2977,7 +3015,7 @@ def create_msfshellcoder_parser()
 
 ### `load_user_aliases`
 
-`function` | [utils.py:3110](../../utils.py#L3110)
+`function` | [utils.py:3145](../../utils.py#L3145)
 
 ```python
 def load_user_aliases()
@@ -2997,7 +3035,7 @@ Carga los aliases del archivo JSON si existe.
 
 ### `AES`
 
-`constant` | [utils.py:138](../../utils.py#L138)
+`constant` | [utils.py:139](../../utils.py#L139)
 
 ```python
 AES = optional_attr('Crypto.Cipher', 'AES')
@@ -3009,7 +3047,7 @@ AES = optional_attr('Crypto.Cipher', 'AES')
 
 ### `RPC_C_AUTHN_LEVEL_NONE`
 
-`constant` | [utils.py:154](../../utils.py#L154)
+`constant` | [utils.py:155](../../utils.py#L155)
 
 ```python
 RPC_C_AUTHN_LEVEL_NONE = optional_attr('impacket.dcerpc.v5.rpcrt', 'RPC_C_AUTHN_LEVEL_NONE')
@@ -3021,7 +3059,7 @@ RPC_C_AUTHN_LEVEL_NONE = optional_attr('impacket.dcerpc.v5.rpcrt', 'RPC_C_AUTHN_
 
 ### `NOBANNER`
 
-`constant` | [utils.py:176](../../utils.py#L176)
+`constant` | [utils.py:177](../../utils.py#L177)
 
 ```python
 NOBANNER = False
@@ -3033,7 +3071,7 @@ NOBANNER = False
 
 ### `COMMAND`
 
-`constant` | [utils.py:177](../../utils.py#L177)
+`constant` | [utils.py:178](../../utils.py#L178)
 
 ```python
 COMMAND = None
@@ -3045,7 +3083,7 @@ COMMAND = None
 
 ### `NOLOGS`
 
-`constant` | [utils.py:178](../../utils.py#L178)
+`constant` | [utils.py:179](../../utils.py#L179)
 
 ```python
 NOLOGS = False
@@ -3057,7 +3095,7 @@ NOLOGS = False
 
 ### `RUN_AS_ROOT`
 
-`constant` | [utils.py:179](../../utils.py#L179)
+`constant` | [utils.py:180](../../utils.py#L180)
 
 ```python
 RUN_AS_ROOT = False
@@ -3069,7 +3107,7 @@ RUN_AS_ROOT = False
 
 ### `USER_ALIASES_FILE`
 
-`constant` | [utils.py:180](../../utils.py#L180)
+`constant` | [utils.py:181](../../utils.py#L181)
 
 ```python
 USER_ALIASES_FILE = 'user_aliases.json'
@@ -3081,7 +3119,7 @@ USER_ALIASES_FILE = 'user_aliases.json'
 
 ### `HEADLESS`
 
-`constant` | [utils.py:181](../../utils.py#L181)
+`constant` | [utils.py:182](../../utils.py#L182)
 
 ```python
 HEADLESS = False
@@ -3093,7 +3131,7 @@ HEADLESS = False
 
 ### `REQUIRED_KEYS`
 
-`constant` | [utils.py:184](../../utils.py#L184)
+`constant` | [utils.py:185](../../utils.py#L185)
 
 ```python
 REQUIRED_KEYS
@@ -3105,7 +3143,7 @@ REQUIRED_KEYS
 
 ### `OLD_BANNER`
 
-`constant` | [utils.py:205](../../utils.py#L205)
+`constant` | [utils.py:206](../../utils.py#L206)
 
 ```python
 OLD_BANNER
@@ -3117,7 +3155,7 @@ OLD_BANNER
 
 ### `BANNER`
 
-`constant` | [utils.py:249](../../utils.py#L249)
+`constant` | [utils.py:250](../../utils.py#L250)
 
 ```python
 BANNER = '[⚠] Starting 👽 LazyOwn RedTeam Framew0rk ☠ [;,;] '
@@ -3129,7 +3167,7 @@ BANNER = '[⚠] Starting 👽 LazyOwn RedTeam Framew0rk ☠ [;,;] '
 
 ### `SYLK_TEMPLATE`
 
-`constant` | [utils.py:250](../../utils.py#L250)
+`constant` | [utils.py:251](../../utils.py#L251)
 
 ```python
 SYLK_TEMPLATE
@@ -3141,7 +3179,7 @@ SYLK_TEMPLATE
 
 ### `VULN_SESSION_FILE_TEMPLATE`
 
-`constant` | [utils.py:3235](../../utils.py#L3235)
+`constant` | [utils.py:3270](../../utils.py#L3270)
 
 ```python
 VULN_SESSION_FILE_TEMPLATE = 'vulns_{target}.json'
@@ -3153,7 +3191,7 @@ VULN_SESSION_FILE_TEMPLATE = 'vulns_{target}.json'
 
 ### `VULN_SCHEMA_VERSION`
 
-`constant` | [utils.py:3236](../../utils.py#L3236)
+`constant` | [utils.py:3271](../../utils.py#L3271)
 
 ```python
 VULN_SCHEMA_VERSION = 1
@@ -3165,7 +3203,7 @@ VULN_SCHEMA_VERSION = 1
 
 ### `VULN_REPORT_PRINT_HEADER`
 
-`constant` | [utils.py:3237](../../utils.py#L3237)
+`constant` | [utils.py:3272](../../utils.py#L3272)
 
 ```python
 VULN_REPORT_PRINT_HEADER = 'CVE ID;   Description;   CVSS;  URL'
@@ -3177,7 +3215,7 @@ VULN_REPORT_PRINT_HEADER = 'CVE ID;   Description;   CVSS;  URL'
 
 ### `VULN_CVSS_UNAVAILABLE`
 
-`constant` | [utils.py:3238](../../utils.py#L3238)
+`constant` | [utils.py:3273](../../utils.py#L3273)
 
 ```python
 VULN_CVSS_UNAVAILABLE = 'unavailable'
@@ -3189,7 +3227,7 @@ VULN_CVSS_UNAVAILABLE = 'unavailable'
 
 ### `VULN_DEFAULT_MAX_WORKERS`
 
-`constant` | [utils.py:3239](../../utils.py#L3239)
+`constant` | [utils.py:3274](../../utils.py#L3274)
 
 ```python
 VULN_DEFAULT_MAX_WORKERS = 20
@@ -3201,7 +3239,7 @@ VULN_DEFAULT_MAX_WORKERS = 20
 
 ### `VULN_DEFAULT_DESCRIPTION_LANG`
 
-`constant` | [utils.py:3240](../../utils.py#L3240)
+`constant` | [utils.py:3275](../../utils.py#L3275)
 
 ```python
 VULN_DEFAULT_DESCRIPTION_LANG = 'en'
@@ -3213,7 +3251,7 @@ VULN_DEFAULT_DESCRIPTION_LANG = 'en'
 
 ### `VULN_DEFAULT_USER_AGENT`
 
-`constant` | [utils.py:3241](../../utils.py#L3241)
+`constant` | [utils.py:3276](../../utils.py#L3276)
 
 ```python
 VULN_DEFAULT_USER_AGENT
@@ -3225,7 +3263,7 @@ VULN_DEFAULT_USER_AGENT
 
 ### `VULN_NVD_URL_TEMPLATE`
 
-`constant` | [utils.py:3244](../../utils.py#L3244)
+`constant` | [utils.py:3279](../../utils.py#L3279)
 
 ```python
 VULN_NVD_URL_TEMPLATE = 'https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={service}'
@@ -3237,7 +3275,7 @@ VULN_NVD_URL_TEMPLATE = 'https://services.nvd.nist.gov/rest/json/cves/2.0?keywor
 
 ### `VULN_CVE_DETAILS_URL_TEMPLATE`
 
-`constant` | [utils.py:3245](../../utils.py#L3245)
+`constant` | [utils.py:3280](../../utils.py#L3280)
 
 ```python
 VULN_CVE_DETAILS_URL_TEMPLATE = 'https://www.cvedetails.com/cve/{cve_id}/'
@@ -3249,7 +3287,7 @@ VULN_CVE_DETAILS_URL_TEMPLATE = 'https://www.cvedetails.com/cve/{cve_id}/'
 
 ### `VULN_HTTP_OK`
 
-`constant` | [utils.py:3246](../../utils.py#L3246)
+`constant` | [utils.py:3281](../../utils.py#L3281)
 
 ```python
 VULN_HTTP_OK = 200

@@ -3,6 +3,9 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_parse_network` | function | `cli/scope_guard.py:202` | `def _parse_network(value)` |
+| `build_offensive_commands` | function | `cli/scope_guard.py:147` | `def build_offensive_commands(command_categories)` |
+| `evaluate` | method | `cli/scope_guard.py:283` | `def evaluate(self, command, target)` |
 | `from_value` | method | `cli/scope_guard.py:105` | `def from_value(cls, value)` |
 | `normalize_scope` | function | `cli/scope_guard.py:163` | `def normalize_scope(entries)` |
 | `target_in_scope` | function | `cli/scope_guard.py:218` | `def target_in_scope(target, entries)` |
@@ -493,8 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `read_elf_header` | method | `contrib/legacy/lazydisassebler.py:79` | `def read_elf_header(self, data)` |
 | `check_sudo` | function | `contrib/legacy/lazyftpsniff.py:21` | `def check_sudo()` |
 | `main` | function | `contrib/legacy/lazyftpsniff.py:69` | `def main()` |
-| `parse_arguments` | function | `contrib/legacy/lazyftpsniff.py:42` | `def parse_arguments()` |
-| `signal_handler` | function | `contrib/legacy/lazyftpsniff.py:34` | `def signal_handler(sig, frame)` |
-| `sniffer_ftp` | function | `contrib/legacy/lazyftpsniff.py:56` | `def sniffer_ftp(pkt)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

@@ -48,6 +48,7 @@ flowchart LR
     n_core_console_py__print_warn["console.print_warn"]
     n_cli_commands_shellsys_py__ShellSysCommandSet_do_cron(["ShellSysCommandSet.do_cron"])
     n_cli_commands_shellsys_py__ShellSysCommandSet_do_clean(["ShellSysCommandSet.do_clean"])
+    n_core_session_secrets_py__rotate_session_secrets["session_secrets.rotate_session_secrets"]
     n_core_validators_py__check_rhost["validators.check_rhost"]
     n_cli_commands_shellsys_py__ShellSysCommandSet_do_fixperm(["ShellSysCommandSet.do_fixperm"])
     n_cli_commands_shellsys_py__ShellSysCommandSet_do_tab(["ShellSysCommandSet.do_tab"])
@@ -61,6 +62,7 @@ flowchart LR
     n_cli_commands_shellsys_py__ShellSysCommandSet_do_cron -.-> n_core_console_py__print_msg
     n_cli_commands_shellsys_py__ShellSysCommandSet_do_clean -.-> n_core_console_py__print_error
     n_cli_commands_shellsys_py__ShellSysCommandSet_do_clean -.-> n_core_console_py__print_msg
+    n_cli_commands_shellsys_py__ShellSysCommandSet_do_clean -.-> n_core_session_secrets_py__rotate_session_secrets
     n_cli_commands_shellsys_py__ShellSysCommandSet_do_clean -.-> n_core_validators_py__check_rhost
     n_cli_commands_shellsys_py__ShellSysCommandSet_do_fixperm -.-> n_core_console_py__print_msg
     n_cli_commands_shellsys_py__ShellSysCommandSet_do_tab -.-> n_core_console_py__print_msg
@@ -72,7 +74,7 @@ flowchart LR
 
 ### `ShellSysCommandSet`
 
-`class` | [cli/commands/shellsys.py:23](../../cli/commands/shellsys.py#L23)
+`class` | [cli/commands/shellsys.py:24](../../cli/commands/shellsys.py#L24)
 
 ```python
 class ShellSysCommandSet(LazyOwnCommandSet)
@@ -108,7 +110,7 @@ Local shell and system.
 
 #### `ShellSysCommandSet.do_sh`
 
-`method` | [cli/commands/shellsys.py:30](../../cli/commands/shellsys.py#L30)
+`method` | [cli/commands/shellsys.py:31](../../cli/commands/shellsys.py#L31)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -151,7 +153,7 @@ Note:
 
 #### `ShellSysCommandSet.do_sys`
 
-`method` | [cli/commands/shellsys.py:62](../../cli/commands/shellsys.py#L62)
+`method` | [cli/commands/shellsys.py:63](../../cli/commands/shellsys.py#L63)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -194,7 +196,7 @@ Note:
 
 #### `ShellSysCommandSet.do_pwd`
 
-`method` | [cli/commands/shellsys.py:110](../../cli/commands/shellsys.py#L110)
+`method` | [cli/commands/shellsys.py:111](../../cli/commands/shellsys.py#L111)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -240,7 +242,7 @@ Note:
 
 #### `ShellSysCommandSet.do_nano`
 
-`method` | [cli/commands/shellsys.py:146](../../cli/commands/shellsys.py#L146)
+`method` | [cli/commands/shellsys.py:147](../../cli/commands/shellsys.py#L147)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -264,7 +266,7 @@ Opens or creates the file using line in the sessions directory for editing using
 
 #### `ShellSysCommandSet.do_cron`
 
-`method` | [cli/commands/shellsys.py:170](../../cli/commands/shellsys.py#L170)
+`method` | [cli/commands/shellsys.py:171](../../cli/commands/shellsys.py#L171)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -297,7 +299,7 @@ None
 
 #### `ShellSysCommandSet.do_clean`
 
-`method` | [cli/commands/shellsys.py:216](../../cli/commands/shellsys.py#L216)
+`method` | [cli/commands/shellsys.py:217](../../cli/commands/shellsys.py#L217)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -336,13 +338,13 @@ Note: This function performs a cleanup by removing various files and directories
 
 **Returns:** None
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`check_rhost`](core.validators.py.md#check_rhost)
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`rotate_session_secrets`](core.session_secrets.py.md#rotate_session_secrets), [`check_rhost`](core.validators.py.md#check_rhost)
 
 <a id="shellsyscommandset-do_fixperm"></a>
 
 #### `ShellSysCommandSet.do_fixperm`
 
-`method` | [cli/commands/shellsys.py:303](../../cli/commands/shellsys.py#L303)
+`method` | [cli/commands/shellsys.py:305](../../cli/commands/shellsys.py#L305)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -386,7 +388,7 @@ Note:
 
 #### `ShellSysCommandSet.do_fixel`
 
-`method` | [cli/commands/shellsys.py:336](../../cli/commands/shellsys.py#L336)
+`method` | [cli/commands/shellsys.py:338](../../cli/commands/shellsys.py#L338)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -428,7 +430,7 @@ Note:
 
 #### `ShellSysCommandSet.do_pop`
 
-`method` | [cli/commands/shellsys.py:369](../../cli/commands/shellsys.py#L369)
+`method` | [cli/commands/shellsys.py:371](../../cli/commands/shellsys.py#L371)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 
@@ -459,7 +461,7 @@ or the environment is invalid, an error message is displayed and execution abort
 
 #### `ShellSysCommandSet.do_tab`
 
-`method` | [cli/commands/shellsys.py:406](../../cli/commands/shellsys.py#L406)
+`method` | [cli/commands/shellsys.py:408](../../cli/commands/shellsys.py#L408)
 
 Decorators: `@cmd2.with_category('12. Miscellaneous')`
 

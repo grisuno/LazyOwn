@@ -4,6 +4,7 @@ import dataclasses
 import errno
 import fcntl
 import glob
+import hashlib
 import hmac
 import html
 import json
@@ -72,6 +73,18 @@ from werkzeug.utils import secure_filename
 from cli.palette import CommandIndexError as _PaletteIndexError
 from cli.palette import load_index as _palette_load_index
 from cli.palette_command import build_palette_view as _palette_build_view
+from core.hardening import (
+    is_safe_dir_path as _is_safe_dir_path,
+)
+from core.hardening import (
+    is_safe_yaml_name as _is_safe_yaml_name,
+)
+from core.hardening import (
+    safe_join_under as _safe_join_under,
+)
+from core.hardening import (
+    store_secret_owner_only as _store_secret_owner_only,
+)
 from lazyc2.security.command_allowlist import CommandAllowlist
 from lazyc2.security.constants import AES_KEY_SIZE_BYTES as _AES_KEY_SIZE_BYTES
 from lazyc2.security.cors import CorsPolicy
@@ -128,18 +141,6 @@ from modules.security_sanitizers import (
     SessionPathResolver,
     build_default_config,
 )
-from core.hardening import (
-    is_safe_dir_path as _is_safe_dir_path,
-)
-from core.hardening import (
-    is_safe_yaml_name as _is_safe_yaml_name,
-)
-from core.hardening import (
-    safe_join_under as _safe_join_under,
-)
-from core.hardening import (
-    store_secret_owner_only as _store_secret_owner_only,
-)
 from utils import Config, anti_debug, getprompt, load_payload
 
 _YAML_VIEW_MAX_FILES = 500
@@ -185,6 +186,12 @@ except ImportError:
 
 _payload_snapshot = load_payload()
 config = Config(_payload_snapshot)
+try:
+    from core.session_secrets import ensure_session_secrets as _ensure_session_secrets
+
+    _ensure_session_secrets(config, rotate=bool(getattr(config, "rotate_keys_on_boot", True)))
+except Exception as _rat_exc:
+    logging.getLogger(__name__).warning("[c2] session secrets bootstrap deferred: %s", _rat_exc)
 _security_config = build_default_config(_payload_snapshot)
 _output_sanitizer = OutputSanitizer(_security_config)
 
@@ -2052,9 +2059,28 @@ def decoy():
     return None
 
 
+def _current_aes_key():
+    """Return the on-disk AES key, reloading it when it changed.
+
+    Key rotation can happen out of process (``clean``, a fresh C2 boot
+    while the dashboard lives on); beacons always encrypt with the file
+    the latest writer produced, so the reader must follow the file too.
+    """
+    global AES_KEY
+    try:
+        key_bytes = _AES_KEY_PATH.read_bytes()
+        if len(key_bytes) != AES_KEY_SIZE_BYTES:
+            return AES_KEY
+        if key_bytes != AES_KEY:
+            AES_KEY = key_bytes
+        return AES_KEY
+    except OSError:
+        return AES_KEY
+
+
 def encrypt_data(data):
     iv = os.urandom(16)
-    cipher = Cipher(algorithms.AES(AES_KEY), modes.CFB(iv), backend=default_backend())
+    cipher = Cipher(algorithms.AES(_current_aes_key()), modes.CFB(iv), backend=default_backend())
     encryptor = cipher.encryptor()
     encrypted_data = encryptor.update(data) + encryptor.finalize()
     combined = iv + encrypted_data
@@ -2065,7 +2091,7 @@ def decrypt_data(encrypted_data, is_file=False):
     encrypted_data = base64.b64decode(encrypted_data)
     iv = encrypted_data[:16]
     encrypted_data = encrypted_data[16:]
-    cipher = Cipher(algorithms.AES(AES_KEY), modes.CFB(iv), backend=default_backend())
+    cipher = Cipher(algorithms.AES(_current_aes_key()), modes.CFB(iv), backend=default_backend())
     decryptor = cipher.decryptor()
     decrypted_data = decryptor.update(encrypted_data) + decryptor.finalize()
     if is_file:
@@ -3373,6 +3399,9 @@ def index():
 @app.route(f"{route_malleable}<client_id>", methods=["GET"])
 @limiter.exempt
 def send_command(client_id):
+    _signature_error = _beacon_signature_guard()
+    if _signature_error is not None:
+        return _signature_error
     _was_new_for_kc = client_id not in connected_clients
     connected_clients.add(client_id)
 
@@ -3403,22 +3432,23 @@ def send_command(client_id):
             _KC.advance_phase("exploit", host=_primary_ip)
             _KC.advance_phase("privesc", host=_primary_ip)
             logging.info("[killchain] Phase advanced to privesc via beacon GET %s", client_id)
-            _privesc_cmd = _build_privesc_command(_platform)
-            if _privesc_cmd:
-                _queue_path = _secure_command_queue_path(client_id)
-                _cmds = []
-                if os.path.isfile(_queue_path):
-                    with open(_queue_path) as _qf:
-                        _cmds = json.load(_qf)
-                if _privesc_cmd not in _cmds:
-                    _cmds.append(_privesc_cmd)
-                    with open(_queue_path, "w") as _qf:
-                        json.dump(_cmds, _qf)
-                    logging.info(
-                        "[privesc] Queued %s for %s on first GET",
-                        "linpeas" if _platform == "linux" else "winpeas",
-                        client_id,
-                    )
+            if bool(getattr(config, "auto_privesc_on_checkin", False)):
+                _privesc_cmd = _build_privesc_command(_platform)
+                if _privesc_cmd:
+                    _queue_path = _secure_command_queue_path(client_id)
+                    _cmds = []
+                    if os.path.isfile(_queue_path):
+                        with open(_queue_path) as _qf:
+                            _cmds = json.load(_qf)
+                    if _privesc_cmd not in _cmds:
+                        _cmds.append(_privesc_cmd)
+                        with open(_queue_path, "w") as _qf:
+                            json.dump(_cmds, _qf)
+                        logging.info(
+                            "[privesc] Queued %s for %s on first GET",
+                            "linpeas" if _platform == "linux" else "winpeas",
+                            client_id,
+                        )
         except Exception as _kc_exc:
             logging.debug("[killchain] GET advance failed: %s", _kc_exc)
 
@@ -3514,33 +3544,62 @@ def _build_privesc_command(platform: str) -> str | None:
     return None
 
 
+def _beacon_signature_guard() -> tuple[Response, int] | None:
+    """Validate the beacon HMAC signature on beacon-channel requests.
+
+    Compares the ``X-Signature`` header (HMAC-SHA256 over the raw wire
+    body, derived from ``rat_key``) against the expected digest for both
+    beacon polling GETs and result POSTs.
+
+    The expected key is re-read from ``payload.json`` on every request:
+    key rotation can happen out of process (``clean``, the shell) while
+    the C2 keeps running, and a stale in-memory copy would reject every
+    fresh agent forever.
+
+    Returns:
+        ``None`` when the request may proceed, otherwise the
+        ``(response, status)`` tuple Flask should return directly.
+    """
+    _rat_key = ""
+    try:
+        from core.config import load_payload
+
+        _rat_key = str(load_payload().get("rat_key") or "")
+    except Exception:
+        pass
+    if not _rat_key:
+        _rat_key = str(getattr(config, "rat_key", "") or "")
+    _sig_header = request.headers.get("X-Signature", "")
+    _body = request.get_data()
+    if _sig_header and _rat_key:
+        _expected = hmac.new(_rat_key.encode(), _body, hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(_sig_header, _expected):
+            return jsonify({"status": "error", "message": "Invalid signature"}), 403
+    if not bool(getattr(config, "c2_require_beacon_hmac", True)):
+        return None
+    if not _rat_key:
+        from core.session_secrets import rotate_session_secrets
+
+        _rat_key = rotate_session_secrets(config)["rat_key"]
+    if not _rat_key:
+        return jsonify(
+            {
+                "status": "error",
+                "message": "Beacon HMAC enforcement is enabled but rat_key is not configured",
+            }
+        ), 500
+    if not _sig_header:
+        return jsonify({"status": "error", "message": "Missing signature"}), 401
+    return None
+
+
 @app.route("/command/<client_id>", methods=["POST"])
 @app.route(f"{route_malleable}<client_id>", methods=["POST"])
 @limiter.exempt
 def receive_result(client_id):
-    # HMAC validation — mandatory when c2_require_beacon_hmac is enabled
-    import hashlib as _hashlib_mod
-    import hmac as _hmac_mod
-
-    _rat_key = getattr(config, "rat_key", "") or ""
-    _require_hmac = bool(getattr(config, "c2_require_beacon_hmac", False))
-    _sig_header = request.headers.get("X-Signature", "")
-    if _require_hmac:
-        if not _rat_key:
-            return jsonify(
-                {
-                    "status": "error",
-                    "message": "Beacon HMAC enforcement is enabled but rat_key is not configured",
-                }
-            ), 500
-        if not _sig_header:
-            return jsonify({"status": "error", "message": "Missing signature"}), 401
-    if _sig_header:
-        if _rat_key:
-            _body = request.get_data()
-            _expected = _hmac_mod.new(_rat_key.encode(), _body, _hashlib_mod.sha256).hexdigest()
-            if not _hmac_mod.compare_digest(_sig_header, _expected):
-                return jsonify({"status": "error", "message": "Invalid signature"}), 403
+    _signature_error = _beacon_signature_guard()
+    if _signature_error is not None:
+        return _signature_error
     try:
         logging.info(f"Receiving result from client {client_id}")
         encrypted_data = request.get_data()
@@ -3840,7 +3899,7 @@ def receive_result(client_id):
                 _hook_engine.fire("command_executed", _hctx)
 
                 # ── Queue linpeas/winpeas on first check-in only ─────────
-                if _was_new:
+                if _was_new and bool(getattr(config, "auto_privesc_on_checkin", False)):
                     try:
                         _platform = _normalise_platform(str(client))
                         _privesc_cmd = _build_privesc_command(_platform)
@@ -3858,7 +3917,9 @@ def receive_result(client_id):
                                 _privesc_cmd,
                             )
                         _recon_state = _load_malleable_recon_state(sanitized_client_id)
-                        if not _recon_state.get("discover_queued"):
+                        if not _recon_state.get("discover_queued") and bool(
+                            getattr(config, "auto_discover_on_checkin", False)
+                        ):
                             _cmds.append("discover:")
                             _recon_state["discover_queued"] = True
                             logging.info(

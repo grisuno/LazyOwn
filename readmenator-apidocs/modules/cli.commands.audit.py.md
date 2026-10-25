@@ -1,6 +1,6 @@
 # `cli.commands.audit`
 
-> Source: [cli/commands/audit.py:1](../../cli/commands/audit.py#L1) | language `py` | coverage 88.9% | [API index](../index.md)
+> Source: [cli/commands/audit.py:1](../../cli/commands/audit.py#L1) | language `py` | coverage 90.0% | [API index](../index.md)
 
 Audit-mode CommandSet: fuzzy finder, forms, status tail, transcript grep.
 
@@ -42,6 +42,7 @@ classDiagram
     AuditCommandSet : do_grep_log()
     AuditCommandSet : do_reload_addons()
     AuditCommandSet : do_audit_complete_keys()
+    AuditCommandSet : do_hygiene_audit()
     class LazyOwnCommandSet
     LazyOwnCommandSet <|-- AuditCommandSet
 ```
@@ -70,7 +71,7 @@ flowchart LR
 
 ### `AuditCommandSet`
 
-`class` | [cli/commands/audit.py:92](../../cli/commands/audit.py#L92)
+`class` | [cli/commands/audit.py:107](../../cli/commands/audit.py#L107)
 
 ```python
 class AuditCommandSet(LazyOwnCommandSet)
@@ -100,12 +101,13 @@ Phase: `[`audit`](scripts.devtools.command_audit.py.md#audit)` (cross-cutting; n
 | [`do_grep_log`](#auditcommandset-do_grep_log) | method | Grep recent command outputs. |
 | [`do_reload_addons`](#auditcommandset-do_reload_addons) | method | Re-scan lazyaddons/ and plugins/ for changes; reloads what's new. |
 | [`do_audit_complete_keys`](#auditcommandset-do_audit_complete_keys) | method | Print payload-aware completion suggestions for a partial command. |
+| [`do_hygiene_audit`](#auditcommandset-do_hygiene_audit) | method | Audit local deployment hygiene. |
 
 <a id="auditcommandset-__init__"></a>
 
 #### `AuditCommandSet.__init__`
 
-`constructor` | [cli/commands/audit.py:101](../../cli/commands/audit.py#L101)
+`constructor` | [cli/commands/audit.py:116](../../cli/commands/audit.py#L116)
 
 ```python
 def __init__(self) -> None
@@ -115,7 +117,7 @@ def __init__(self) -> None
 
 #### `AuditCommandSet.do_fz`
 
-`method` | [cli/commands/audit.py:160](../../cli/commands/audit.py#L160)
+`method` | [cli/commands/audit.py:175](../../cli/commands/audit.py#L175)
 
 Decorators: `@with_category('Audit')`
 
@@ -137,7 +139,7 @@ Usage: fz [query]. Empty lists every command.
 
 #### `AuditCommandSet.do_form`
 
-`method` | [cli/commands/audit.py:178](../../cli/commands/audit.py#L178)
+`method` | [cli/commands/audit.py:193](../../cli/commands/audit.py#L193)
 
 Decorators: `@with_category('Audit')`
 
@@ -161,7 +163,7 @@ Usage: form <command>.
 
 #### `AuditCommandSet.do_status_tail`
 
-`method` | [cli/commands/audit.py:196](../../cli/commands/audit.py#L196)
+`method` | [cli/commands/audit.py:211](../../cli/commands/audit.py#L211)
 
 Decorators: `@with_category('Audit')`
 
@@ -183,7 +185,7 @@ Print live progress from the latest sessions/scan_*.partial file.
 
 #### `AuditCommandSet.do_grep_log`
 
-`method` | [cli/commands/audit.py:234](../../cli/commands/audit.py#L234)
+`method` | [cli/commands/audit.py:249](../../cli/commands/audit.py#L249)
 
 Decorators: `@with_category('Audit')`
 
@@ -205,7 +207,7 @@ Usage: grep_log <pattern> [--cmd <name>].
 
 #### `AuditCommandSet.do_reload_addons`
 
-`method` | [cli/commands/audit.py:263](../../cli/commands/audit.py#L263)
+`method` | [cli/commands/audit.py:278](../../cli/commands/audit.py#L278)
 
 Decorators: `@with_category('Audit')`
 
@@ -225,7 +227,7 @@ Re-scan lazyaddons/ and plugins/ for changes; reloads what's new.
 
 #### `AuditCommandSet.do_audit_complete_keys`
 
-`method` | [cli/commands/audit.py:288](../../cli/commands/audit.py#L288)
+`method` | [cli/commands/audit.py:303](../../cli/commands/audit.py#L303)
 
 Decorators: `@with_category('Audit')`
 
@@ -234,6 +236,32 @@ def do_audit_complete_keys(self, statement) -> None
 ```
 
 Print payload-aware completion suggestions for a partial command.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `statement` |  |  |  |
+
+<a id="auditcommandset-do_hygiene_audit"></a>
+
+#### `AuditCommandSet.do_hygiene_audit`
+
+`method` | [cli/commands/audit.py:319](../../cli/commands/audit.py#L319)
+
+Decorators: `@with_category('Audit')`
+
+```python
+def do_hygiene_audit(self, statement) -> None
+```
+
+Audit local deployment hygiene.
+
+Usage: hygiene_audit.
+
+Checks beacon HMAC enforcement, signing-key freshness, noisy
+check-in pipeline flags and identity leaks in shipped artifact
+sources, then writes sessions/hygiene_report.json.
 
 **Parameters**
 

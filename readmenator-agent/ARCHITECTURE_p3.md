@@ -2,6 +2,11 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/widgets/__init__.py` -> `lazygui/widgets/graph_view.py`
+- `lazygui/widgets/__init__.py` -> `lazygui/widgets/status_badge.py`
+- `lazygui/widgets/__init__.py` -> `lazygui/widgets/terminal_view.py`
+- `lazygui/widgets/beacon_command_modal.py` -> `lazygui/services/backend.py`
+- `lazygui/widgets/beacon_command_modal.py` -> `lazygui/services/models.py`
 - `lazygui/widgets/command_palette_list.py` -> `lazygui/config/constants.py`
 - `lazygui/widgets/event_log_view.py` -> `lazygui/config/constants.py`
 - `lazygui/widgets/event_log_view.py` -> `lazygui/services/event_log.py`
@@ -141,9 +146,13 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/bof_registry.py` -> `cli/commands/enum.py`
 - `modules/bof_registry.py` -> `core/logging.py`
 - `modules/c2_agent.py` -> `core/logging.py`
+- `modules/c2_agent.py` -> `core/session_secrets.py`
 - `modules/c2_agent.py` -> `lazyc2/security/services.py`
 - `modules/c2_agent.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/c2_builder.py` -> `core/config.py`
+- `modules/c2_builder.py` -> `core/session_secrets.py`
 - `modules/c2_builder.py` -> `core/validators.py`
+- `modules/c2_builder.py` -> `modules/beacon_config_builder.py`
 - `modules/c2_builder.py` -> `modules/metrics.py`
 - `modules/c2_builder.py` -> `utils.py`
 - `modules/c2_profile.py` -> `core/logging.py`
@@ -487,14 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/planner.py` -> `modules/obs_parser.py`
 - `modules/planner.py` -> `modules/playbook_engine.py`
 - `modules/planner.py` -> `modules/world_model.py`
-- `modules/playbook_engine.py` -> `core/logging.py`
-- `modules/playbook_engine.py` -> `core/safe_exec.py`
-- `modules/playbook_engine.py` -> `modules/emulation_runner.py`
-- `modules/playbook_engine.py` -> `modules/llm_client.py`
-- `modules/playbook_engine.py` -> `modules/obs_parser.py`
-- `modules/playbook_engine.py` -> `modules/world_model.py`
-- `modules/playbook_executor.py` -> `modules/pipeline_engine.py`
-- `modules/privesc_predictor.py` -> `core/console.py`
-- `modules/privesc_predictor.py` -> `modules/llm_factory.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

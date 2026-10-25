@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `LazyOwnExecutor` | class | `skills/hermes-lazyown/executor.py:58` | `class LazyOwnExecutor` |
+| `__init__` | method | `skills/hermes-lazyown/executor.py:24` | `def __init__(self, stdout, stderr, returncode, timed_out, duration_ms)` |
+| `__init__` | method | `skills/hermes-lazyown/executor.py:66` | `def __init__(self, lazyown_dir, timeout)` |
+| `__str__` | method | `skills/hermes-lazyown/executor.py:51` | `def __str__(self)` |
+| `_has_pty` | method | `skills/hermes-lazyown/executor.py:229` | `def _has_pty(self)` |
+| `_run_via_subprocess` | method | `skills/hermes-lazyown/executor.py:114` | `def _run_via_subprocess(self, command, timeout)` |
+| `_run_with_pty` | method | `skills/hermes-lazyown/executor.py:177` | `def _run_with_pty(self, argv, command, timeout, env)` |
+| `_run_without_pty` | method | `skills/hermes-lazyown/executor.py:149` | `def _run_without_pty(self, argv, command, timeout, env)` |
+| `combined` | method | `skills/hermes-lazyown/executor.py:39` | `def combined(self)` |
+| `execute` | method | `skills/hermes-lazyown/executor.py:77` | `def execute(self, command, timeout)` |
+| `execute_batch` | method | `skills/hermes-lazyown/executor.py:98` | `def execute_batch(self, commands, timeout)` |
+| `success` | method | `skills/hermes-lazyown/executor.py:47` | `def success(self)` |
+| `CheckpointSerializer` | class | `skills/hermes-lazyown/hermes_sync.py:27` | `class CheckpointSerializer` |
+| `DelegationPlanner` | class | `skills/hermes-lazyown/hermes_sync.py:145` | `class DelegationPlanner` |
 | `HermesSyncError` | class | `skills/hermes-lazyown/hermes_sync.py:21` | `class HermesSyncError(Exception)` |
 | `ObjectiveTodoSync` | class | `skills/hermes-lazyown/hermes_sync.py:73` | `class ObjectiveTodoSync` |
 | `__init__` | method | `skills/hermes-lazyown/hermes_sync.py:33` | `def __init__(self, sessions_dir)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `_h_lazy_board` | function | `skills/lazyown_mcp.py:1381` | `def _h_lazy_board(arguments, tool_name)` |
 | `_h_lazy_compact` | function | `skills/lazyown_mcp.py:1582` | `def _h_lazy_compact(arguments, tool_name)` |
 | `_h_lazy_delete` | function | `skills/lazyown_mcp.py:1557` | `def _h_lazy_delete(arguments, tool_name)` |
-| `_h_lazy_finding` | function | `skills/lazyown_mcp.py:1486` | `def _h_lazy_finding(arguments, tool_name)` |
-| `_h_lazy_hint` | function | `skills/lazyown_mcp.py:1421` | `def _h_lazy_hint(arguments, tool_name)` |
-| `_h_lazy_mention` | function | `skills/lazyown_mcp.py:1526` | `def _h_lazy_mention(arguments, tool_name)` |
-| `_h_lazy_proxy` | function | `skills/lazyown_mcp.py:1461` | `def _h_lazy_proxy(arguments, tool_name)` |
-| `_h_lazy_status` | function | `skills/lazyown_mcp.py:1361` | `def _h_lazy_status(arguments, tool_name)` |
-| `_h_lazy_sync` | function | `skills/lazyown_mcp.py:1371` | `def _h_lazy_sync(arguments, tool_name)` |
-| `_h_lazy_trace` | function | `skills/lazyown_mcp.py:1404` | `def _h_lazy_trace(arguments, tool_name)` |
-| `_h_lazy_workspace` | function | `skills/lazyown_mcp.py:1440` | `def _h_lazy_workspace(arguments, tool_name)` |
-| `_h_list_modules` | function | `skills/lazyown_mcp.py:900` | `def _h_list_modules(arguments, tool_name)` |
-| `_h_lolbas_list` | function | `skills/lazyown_mcp.py:1634` | `def _h_lolbas_list(arguments, tool_name)` |
-| `_h_lolbas_use` | function | `skills/lazyown_mcp.py:1674` | `def _h_lolbas_use(arguments, tool_name)` |
-| `_h_loop_smoke` | function | `skills/lazyown_mcp.py:1972` | `def _h_loop_smoke(arguments, tool_name)` |
-| `_h_opencode_config` | function | `skills/lazyown_mcp.py:1950` | `def _h_opencode_config(arguments, tool_name)` |
-| `_h_pivot_status` | function | `skills/lazyown_mcp.py:1209` | `def _h_pivot_status(arguments, tool_name)` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_rejects_invalid_key_with_401` | method | `tests/test_api_authz.py:357` | `def test_rejects_invalid_key_with_401(self, tmp_path)` |
+| `test_rejects_key_with_insufficient_permissions_with_403` | method | `tests/test_api_authz.py:362` | `def test_rejects_key_with_insufficient_permissions_with_403(self, tmp_path)` |
+| `test_rejects_missing_key_with_401` | method | `tests/test_api_authz.py:352` | `def test_rejects_missing_key_with_401(self, tmp_path)` |
+| `test_rejects_unknown_key_returning_none` | method | `tests/test_api_authz.py:133` | `def test_rejects_unknown_key_returning_none(self, tmp_path)` |
+| `test_retired_keys_are_pruned_after_grace_expires` | method | `tests/test_api_authz.py:240` | `def test_retired_keys_are_pruned_after_grace_expires(self, tmp_path)` |
+| `test_returns_a_validatable_token` | method | `tests/test_api_authz.py:389` | `def test_returns_a_validatable_token(self, tmp_path)` |
+| `test_revocation_is_idempotent` | method | `tests/test_api_authz.py:179` | `def test_revocation_is_idempotent(self, tmp_path)` |
+| `test_revokes_key_preventing_future_validation` | method | `tests/test_api_authz.py:173` | `def test_revokes_key_preventing_future_validation(self, tmp_path)` |
+| `test_rotates_key_preserving_tenant_label_and_permissions` | method | `tests/test_api_authz.py:196` | `def test_rotates_key_preserving_tenant_label_and_permissions(self, tmp_path)` |
+| `test_rotation_copies_permissions_from_the_rotated_key` | method | `tests/test_api_authz.py:206` | `def test_rotation_copies_permissions_from_the_rotated_key(self, tmp_path)` |
+| `test_rotation_does_not_grow_active_key_count` | method | `tests/test_api_authz.py:258` | `def test_rotation_does_not_grow_active_key_count(self, tmp_path)` |
+| `test_serialization_roundtrip_preserves_all_fields` | method | `tests/test_api_authz.py:48` | `def test_serialization_roundtrip_preserves_all_fields(self)` |
+| `test_sets_expiration_when_days_are_provided` | method | `tests/test_api_authz.py:412` | `def test_sets_expiration_when_days_are_provided(self, tmp_path)` |
+| `test_sets_g_variables_with_api_key_context_on_success` | method | `tests/test_api_authz.py:368` | `def test_sets_g_variables_with_api_key_context_on_success(self, tmp_path)` |
 | `test_stores_permissions_on_the_key_record` | method | `tests/test_api_authz.py:397` | `def test_stores_permissions_on_the_key_record(self, tmp_path)` |
 | `test_updates_last_used_on_successful_validation` | method | `tests/test_api_authz.py:162` | `def test_updates_last_used_on_successful_validation(self, tmp_path)` |
 | `test_validates_a_known_key_and_returns_record` | method | `tests/test_api_authz.py:125` | `def test_validates_a_known_key_and_returns_record(self, tmp_path)` |
@@ -218,6 +232,34 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `test_trigger_is_list_when_present` | method | `tests/test_attack_surface_addons.py:402` | `def test_trigger_is_list_when_present(self, name, addon)` |
 | `test_triggers_docker` | method | `tests/test_attack_surface_addons.py:328` | `def test_triggers_docker(self, addon)` |
 | `test_yaml_parses` | method | `tests/test_attack_surface_addons.py:76` | `def test_yaml_parses(self, name, path)` |
+| `_Live` | class | `tests/test_audit_remediation.py:105` | `class _Live` |
+| `_Live` | class | `tests/test_audit_remediation.py:122` | `class _Live` |
+| `_load` | function | `tests/test_audit_remediation.py:43` | `def _load()` |
+| `_payload_loader` | function | `tests/test_audit_remediation.py:42` | `def _payload_loader(payload_path)` |
+| `_payload_writer` | function | `tests/test_audit_remediation.py:49` | `def _payload_writer(payload_path)` |
+| `_spec_by_key` | function | `tests/test_audit_remediation.py:19` | `def _spec_by_key(key)` |
+| `_write` | function | `tests/test_audit_remediation.py:50` | `def _write(payload)` |
+| `test_audit_hygiene_chain_loads_and_resolves` | function | `tests/test_audit_remediation.py:225` | `def test_audit_hygiene_chain_loads_and_resolves()` |
+| `test_auto_pipeline_flags_default_off` | function | `tests/test_audit_remediation.py:32` | `def test_auto_pipeline_flags_default_off()` |
+| `test_backdoor_neutralized` | function | `tests/test_audit_remediation.py:196` | `def test_backdoor_neutralized()` |
+| `test_beacon_hmac_default_is_on` | function | `tests/test_audit_remediation.py:27` | `def test_beacon_hmac_default_is_on()` |
+| `test_builder_context_carries_beacon_keys` | function | `tests/test_audit_remediation.py:170` | `def test_builder_context_carries_beacon_keys()` |
+| `test_c2_bootstraps_session_secrets_at_boot` | function | `tests/test_audit_remediation.py:144` | `def test_c2_bootstraps_session_secrets_at_boot()` |
+| `test_c2_signature_guard_wired_into_routes` | function | `tests/test_audit_remediation.py:134` | `def test_c2_signature_guard_wired_into_routes()` |
+| `test_command_index_contains_hygiene_audit` | function | `tests/test_audit_remediation.py:246` | `def test_command_index_contains_hygiene_audit()` |
+| `test_ensure_rat_key_generates_and_persists` | function | `tests/test_audit_remediation.py:56` | `def test_ensure_rat_key_generates_and_persists(tmp_path, monkeypatch)` |
+| `test_ensure_rat_key_idempotent_for_fresh_key` | function | `tests/test_audit_remediation.py:84` | `def test_ensure_rat_key_idempotent_for_fresh_key(tmp_path, monkeypatch)` |
+| `test_ensure_rat_key_mirrors_live_config` | function | `tests/test_audit_remediation.py:96` | `def test_ensure_rat_key_mirrors_live_config(tmp_path, monkeypatch)` |
+| `test_ensure_rat_key_rotates_legacy_published_key` | function | `tests/test_audit_remediation.py:71` | `def test_ensure_rat_key_rotates_legacy_published_key(tmp_path, monkeypatch)` |
+| `test_hygiene_findings_clean_on_current_tree` | function | `tests/test_audit_remediation.py:203` | `def test_hygiene_findings_clean_on_current_tree()` |
+| `test_hygiene_findings_flag_dirty_payload` | function | `tests/test_audit_remediation.py:214` | `def test_hygiene_findings_flag_dirty_payload()` |
+| `test_implant_seeds_defaults_and_pins_tls` | function | `tests/test_audit_remediation.py:159` | `def test_implant_seeds_defaults_and_pins_tls()` |
+| `test_implant_signs_wire_body` | function | `tests/test_audit_remediation.py:150` | `def test_implant_signs_wire_body()` |
+| `test_lazyown_set_config_persists_and_mirrors` | function | `tests/test_audit_remediation.py:113` | `def test_lazyown_set_config_persists_and_mirrors(tmp_path, monkeypatch)` |
+| `test_orchestrator_exposes_new_fields` | function | `tests/test_audit_remediation.py:239` | `def test_orchestrator_exposes_new_fields()` |
+| `test_rat_key_spec_is_no_longer_published_secret` | function | `tests/test_audit_remediation.py:37` | `def test_rat_key_spec_is_no_longer_published_secret()` |
+| `test_rootkit_makefile_exposes_overrides` | function | `tests/test_audit_remediation.py:190` | `def test_rootkit_makefile_exposes_overrides()` |
+| `test_rootkit_sources_free_of_operator_identity` | function | `tests/test_audit_remediation.py:177` | `def test_rootkit_sources_free_of_operator_identity()` |
 | `TestAutoCryptoConfig` | class | `tests/test_auto_crypto.py:33` | `class TestAutoCryptoConfig` |
 | `TestAutoCryptoEngine` | class | `tests/test_auto_crypto.py:54` | `class TestAutoCryptoEngine` |
 | `TestExitEncryptWiring` | class | `tests/test_auto_crypto.py:169` | `class TestExitEncryptWiring` |
@@ -454,47 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `test_settings_from_payload_ignores_unknown_ids` | function | `tests/test_banner_config.py:125` | `def test_settings_from_payload_ignores_unknown_ids(registry)` |
 | `test_settings_reset_color_and_glyph_for_specific_id` | function | `tests/test_banner_config.py:405` | `def test_settings_reset_color_and_glyph_for_specific_id(registry, color_registry, glyph_registry)` |
 | `test_settings_round_trip_carries_colors_and_glyphs` | function | `tests/test_banner_config.py:364` | `def test_settings_round_trip_carries_colors_and_glyphs(registry, color_registry, glyph_registry)` |
-| `test_settings_round_trip_through_payload_block` | function | `tests/test_banner_config.py:113` | `def test_settings_round_trip_through_payload_block(registry)` |
-| `test_settings_toggle_adds_then_removes` | function | `tests/test_banner_config.py:131` | `def test_settings_toggle_adds_then_removes()` |
-| `Completed` | class | `tests/test_bdd_infra_range_report.py:28` | `class Completed` |
-| `test_bdd_beacon_build_injects_fallback_urls` | function | `tests/test_bdd_infra_range_report.py:51` | `def test_bdd_beacon_build_injects_fallback_urls()` |
-| `test_bdd_range_compose_topology` | function | `tests/test_bdd_infra_range_report.py:65` | `def test_bdd_range_compose_topology()` |
-| `test_bdd_redirector_spawn_registers_urls` | function | `tests/test_bdd_infra_range_report.py:15` | `def test_bdd_redirector_spawn_registers_urls()` |
-| `test_bdd_report_executive_summary_without_ai` | function | `tests/test_bdd_infra_range_report.py:83` | `def test_bdd_report_executive_summary_without_ai()` |
-| `TestBeaconConfig` | class | `tests/test_beacon_config_builder.py:22` | `class TestBeaconConfig` |
-| `TestBeaconConfigBuilder` | class | `tests/test_beacon_config_builder.py:141` | `class TestBeaconConfigBuilder` |
-| `TestGenerateBofExecutionCommand` | class | `tests/test_beacon_config_builder.py:205` | `class TestGenerateBofExecutionCommand` |
-| `test_basic_bof_command` | method | `tests/test_beacon_config_builder.py:206` | `def test_basic_bof_command(self)` |
-| `test_bof_with_args` | method | `tests/test_beacon_config_builder.py:214` | `def test_bof_with_args(self)` |
-| `test_build_falls_back_on_missing_engines` | method | `tests/test_beacon_config_builder.py:197` | `def test_build_falls_back_on_missing_engines(self)` |
-| `test_build_injects_dns_from_payload` | method | `tests/test_beacon_config_builder.py:183` | `def test_build_injects_dns_from_payload(self)` |
-| `test_build_injects_tls_from_payload` | method | `tests/test_beacon_config_builder.py:170` | `def test_build_injects_tls_from_payload(self)` |
-| `test_build_minimal` | method | `tests/test_beacon_config_builder.py:142` | `def test_build_minimal(self)` |
-| `test_build_with_malleable_route` | method | `tests/test_beacon_config_builder.py:157` | `def test_build_with_malleable_route(self)` |
-| `test_custom_bofs_dir` | method | `tests/test_beacon_config_builder.py:224` | `def test_custom_bofs_dir(self)` |
-| `test_default_construction` | method | `tests/test_beacon_config_builder.py:23` | `def test_default_construction(self)` |
-| `test_to_config_json` | method | `tests/test_beacon_config_builder.py:85` | `def test_to_config_json(self)` |
-| `test_to_dict_serialization` | method | `tests/test_beacon_config_builder.py:113` | `def test_to_dict_serialization(self)` |
-| `test_to_gen_beacon_args` | method | `tests/test_beacon_config_builder.py:36` | `def test_to_gen_beacon_args(self)` |
-| `test_to_go_implant_vars` | method | `tests/test_beacon_config_builder.py:59` | `def test_to_go_implant_vars(self)` |
-| `TestAppendRead` | class | `tests/test_beacon_history.py:38` | `class TestAppendRead` |
-| `TestSanitization` | class | `tests/test_beacon_history.py:23` | `class TestSanitization` |
-| `_config` | function | `tests/test_beacon_history.py:19` | `def _config(tmp_path)` |
-| `test_append_then_read_round_trips` | method | `tests/test_beacon_history.py:39` | `def test_append_then_read_round_trips(self, tmp_path)` |
-| `test_missing_history_reads_empty` | method | `tests/test_beacon_history.py:72` | `def test_missing_history_reads_empty(self, tmp_path)` |
-| `test_multiple_beacons_do_not_interleave` | method | `tests/test_beacon_history.py:50` | `def test_multiple_beacons_do_not_interleave(self, tmp_path)` |
-| `test_record_without_client_id_is_rejected` | method | `tests/test_beacon_history.py:75` | `def test_record_without_client_id_is_rejected(self, tmp_path)` |
-| `test_records_path_is_bounded_inside_sessions` | method | `tests/test_beacon_history.py:29` | `def test_records_path_is_bounded_inside_sessions(self, tmp_path)` |
-| `test_sanitize_client_id_strips_unsafe_chars` | method | `tests/test_beacon_history.py:24` | `def test_sanitize_client_id_strips_unsafe_chars(self)` |
-| `test_skips_malformed_lines` | method | `tests/test_beacon_history.py:59` | `def test_skips_malformed_lines(self, tmp_path)` |
-| `IngestBeaconReconSpec` | class | `tests/test_beacon_recon_sink.py:75` | `class IngestBeaconReconSpec(TestCase)` |
-| `ParseBeaconPortscanSpec` | class | `tests/test_beacon_recon_sink.py:49` | `class ParseBeaconPortscanSpec(TestCase)` |
-| `ParseDiscoveredIpsSpec` | class | `tests/test_beacon_recon_sink.py:30` | `class ParseDiscoveredIpsSpec(TestCase)` |
-| `_fresh_world_model` | function | `tests/test_beacon_recon_sink.py:26` | `def _fresh_world_model(tmp)` |
-| `_run` | method | `tests/test_beacon_recon_sink.py:76` | `def _run(self, tmp, wm, discovered, portscan)` |
-| `test_dict_payload` | method | `tests/test_beacon_recon_sink.py:58` | `def test_dict_payload(self)` |
-| `test_dict_with_list_values` | method | `tests/test_beacon_recon_sink.py:37` | `def test_dict_with_list_values(self)` |
-| `test_empty_values` | method | `tests/test_beacon_recon_sink.py:43` | `def test_empty_values(self)` |
-| `test_empty_values` | method | `tests/test_beacon_recon_sink.py:70` | `def test_empty_values(self)` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

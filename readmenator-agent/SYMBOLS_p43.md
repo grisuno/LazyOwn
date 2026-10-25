@@ -3,6 +3,56 @@ Previous: [SYMBOLS_p42.md](SYMBOLS_p42.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_valid_files` | method | `tests/test_report_banners_endpoints.py:220` | `def test_valid_files(self, tmp_path)` |
+| `test_valid_json` | method | `tests/test_report_banners_endpoints.py:344` | `def test_valid_json(self, tmp_path)` |
+| `TestRequireGuards` | class | `tests/test_require_guards.py:21` | `class TestRequireGuards` |
+| `test_equivalent_to_checkers_on_present_values` | method | `tests/test_require_guards.py:41` | `def test_equivalent_to_checkers_on_present_values(self, capsys)` |
+| `test_invalid_values_rejected` | method | `tests/test_require_guards.py:35` | `def test_invalid_values_rejected(self, capsys)` |
+| `test_missing_keys_fail_closed_without_keyerror` | method | `tests/test_require_guards.py:29` | `def test_missing_keys_fail_closed_without_keyerror(self, capsys)` |
+| `test_present_valid_values_pass` | method | `tests/test_require_guards.py:22` | `def test_present_valid_values_pass(self, capsys)` |
+| `TestResourceScript` | class | `tests/test_resource_script.py:10` | `class TestResourceScript` |
+| `_execute` | method | `tests/test_resource_script.py:14` | `def _execute(script)` |
+| `test_break` | method | `tests/test_resource_script.py:197` | `def test_break(self)` |
+| `test_builtin_timestamp` | method | `tests/test_resource_script.py:53` | `def test_builtin_timestamp(self)` |
+| `test_comment` | method | `tests/test_resource_script.py:219` | `def test_comment(self)` |
+| `test_continue` | method | `tests/test_resource_script.py:208` | `def test_continue(self)` |
+| `test_dry_run_mode` | method | `tests/test_resource_script.py:116` | `def test_dry_run_mode(self)` |
+| `test_eval_condition_contains` | method | `tests/test_resource_script.py:91` | `def test_eval_condition_contains(self)` |
+| `test_eval_condition_defined` | method | `tests/test_resource_script.py:97` | `def test_eval_condition_defined(self)` |
+| `test_eval_condition_equals` | method | `tests/test_resource_script.py:66` | `def test_eval_condition_equals(self)` |
+| `test_eval_condition_fallback_falsy` | method | `tests/test_resource_script.py:104` | `def test_eval_condition_fallback_falsy(self)` |
+| `test_eval_condition_fallback_truthy` | method | `tests/test_resource_script.py:110` | `def test_eval_condition_fallback_truthy(self)` |
+| `test_eval_condition_not_equals` | method | `tests/test_resource_script.py:72` | `def test_eval_condition_not_equals(self)` |
+| `test_eval_condition_numeric` | method | `tests/test_resource_script.py:83` | `def test_eval_condition_numeric(self)` |
+| `test_eval_condition_regex` | method | `tests/test_resource_script.py:77` | `def test_eval_condition_regex(self)` |
+| `test_for_loop` | method | `tests/test_resource_script.py:170` | `def test_for_loop(self)` |
+| `test_for_loop_empty` | method | `tests/test_resource_script.py:178` | `def test_for_loop_empty(self)` |
+| `test_if_else_endif_false` | method | `tests/test_resource_script.py:153` | `def test_if_else_endif_false(self)` |
+| `test_if_else_endif_true` | method | `tests/test_resource_script.py:143` | `def test_if_else_endif_true(self)` |
+| `test_macro_and_call` | method | `tests/test_resource_script.py:228` | `def test_macro_and_call(self)` |
+| `test_nested_if` | method | `tests/test_resource_script.py:267` | `def test_nested_if(self)` |
+| `test_resolve_unresolved` | method | `tests/test_resource_script.py:60` | `def test_resolve_unresolved(self)` |
+| `test_set_and_echo` | method | `tests/test_resource_script.py:163` | `def test_set_and_echo(self)` |
+| `test_set_and_get` | method | `tests/test_resource_script.py:25` | `def test_set_and_get(self)` |
+| `test_setg_and_get` | method | `tests/test_resource_script.py:31` | `def test_setg_and_get(self)` |
+| `test_skip_depth` | method | `tests/test_resource_script.py:125` | `def test_skip_depth(self)` |
+| `test_spool` | method | `tests/test_resource_script.py:238` | `def test_spool(self, tmp_path)` |
+| `test_undefined_macro_raises` | method | `tests/test_resource_script.py:253` | `def test_undefined_macro_raises(self)` |
+| `test_unset_removes_var` | method | `tests/test_resource_script.py:37` | `def test_unset_removes_var(self)` |
+| `test_unset_variable` | method | `tests/test_resource_script.py:258` | `def test_unset_variable(self)` |
+| `test_var_substitution` | method | `tests/test_resource_script.py:46` | `def test_var_substitution(self)` |
+| `test_while_loop` | method | `tests/test_resource_script.py:187` | `def test_while_loop(self)` |
+| `TestCheckpointSelectionRun` | class | `tests/test_retry_session.py:126` | `class TestCheckpointSelectionRun` |
+| `TestConsent` | class | `tests/test_retry_session.py:96` | `class TestConsent` |
+| `TestElevatedSession` | class | `tests/test_retry_session.py:57` | `class TestElevatedSession` |
+| `TestRetryStatus` | class | `tests/test_retry_session.py:238` | `class TestRetryStatus` |
+| `TestRunnerCommandFilter` | class | `tests/test_retry_session.py:201` | `class TestRunnerCommandFilter` |
+| `TestUtilsGate` | class | `tests/test_retry_session.py:220` | `class TestUtilsGate` |
+| `capture` | function | `tests/test_retry_session.py:208` | `def capture(command)` |
+| `checkpoint` | function | `tests/test_retry_session.py:35` | `def checkpoint(tmp_path, monkeypatch)` |
+| `clean_session` | function | `tests/test_retry_session.py:24` | `def clean_session(monkeypatch, tmp_path)` |
+| `fake_scan` | function | `tests/test_retry_session.py:193` | `def fake_scan(chains_dir)` |
+| `test_apply_sudo_askpass_rewrite` | method | `tests/test_retry_session.py:85` | `def test_apply_sudo_askpass_rewrite(self)` |
 | `test_arm_and_gate` | method | `tests/test_retry_session.py:60` | `def test_arm_and_gate(self)` |
 | `test_chain_filter_selection` | method | `tests/test_retry_session.py:129` | `def test_chain_filter_selection(self, tmp_path)` |
 | `test_clear_revokes` | method | `tests/test_retry_session.py:72` | `def test_clear_revokes(self)` |
@@ -446,55 +496,5 @@ Previous: [SYMBOLS_p42.md](SYMBOLS_p42.md)
 | `test_logs_success_without_secret` | method | `tests/test_security_hardening_v5.py:188` | `def test_logs_success_without_secret(self)` |
 | `test_no_crypto_cipher_imports_remain` | method | `tests/test_security_hardening_v5.py:66` | `def test_no_crypto_cipher_imports_remain(self)` |
 | `test_no_exception_interpolation` | method | `tests/test_security_hardening_v5.py:288` | `def test_no_exception_interpolation(self)` |
-| `test_no_hardcoded_user_passwords` | method | `tests/test_security_hardening_v5.py:148` | `def test_no_hardcoded_user_passwords(self)` |
-| `test_no_password_print` | method | `tests/test_security_hardening_v5.py:225` | `def test_no_password_print(self)` |
-| `test_no_salted_sha256_fingerprint` | method | `tests/test_security_hardening_v5.py:126` | `def test_no_salted_sha256_fingerprint(self)` |
-| `test_persist_helper_exists` | method | `tests/test_security_hardening_v5.py:229` | `def test_persist_helper_exists(self)` |
-| `test_persist_uses_owner_only_permissions` | method | `tests/test_security_hardening_v5.py:233` | `def test_persist_uses_owner_only_permissions(self)` |
-| `test_persist_writes_to_file` | method | `tests/test_security_hardening_v5.py:237` | `def test_persist_writes_to_file(self)` |
-| `test_pins_minimum_version` | method | `tests/test_security_hardening_v5.py:250` | `def test_pins_minimum_version(self)` |
-| `test_uses_hmac_not_plain_sha256` | method | `tests/test_security_hardening_v5.py:122` | `def test_uses_hmac_not_plain_sha256(self)` |
-| `test_validates_client_id` | method | `tests/test_security_hardening_v5.py:264` | `def test_validates_client_id(self)` |
-| `test_validator_accepts_only_urlsafe_token` | method | `tests/test_security_hardening_v5.py:268` | `def test_validator_accepts_only_urlsafe_token(self)` |
-| `test_writes_with_owner_permissions` | method | `tests/test_security_hardening_v5.py:159` | `def test_writes_with_owner_permissions(self)` |
-| `TestAESKeyManager` | class | `tests/test_security_lazyc2.py:321` | `class TestAESKeyManager` |
-| `TestAESKeyValidator` | class | `tests/test_security_lazyc2.py:151` | `class TestAESKeyValidator` |
-| `TestFilePathWithinBaseValidator` | class | `tests/test_security_lazyc2.py:212` | `class TestFilePathWithinBaseValidator` |
-| `TestPasswordLengthValidator` | class | `tests/test_security_lazyc2.py:174` | `class TestPasswordLengthValidator` |
-| `TestRequestDataValidator` | class | `tests/test_security_lazyc2.py:127` | `class TestRequestDataValidator` |
-| `TestRoutePathValidator` | class | `tests/test_security_lazyc2.py:59` | `class TestRoutePathValidator` |
-| `TestSafeFileService` | class | `tests/test_security_lazyc2.py:272` | `class TestSafeFileService` |
-| `TestSecretKeyManager` | class | `tests/test_security_lazyc2.py:249` | `class TestSecretKeyManager` |
-| `TestSecureCommandQueuePath` | class | `tests/test_security_lazyc2.py:366` | `class TestSecureCommandQueuePath` |
-| `TestTemplateNameValidator` | class | `tests/test_security_lazyc2.py:84` | `class TestTemplateNameValidator` |
-| `TestUploadSizeValidator` | class | `tests/test_security_lazyc2.py:192` | `class TestUploadSizeValidator` |
-| `TestUploadSizeValidatorService` | class | `tests/test_security_lazyc2.py:345` | `class TestUploadSizeValidatorService` |
-| `TestYamlFilenameValidator` | class | `tests/test_security_lazyc2.py:107` | `class TestYamlFilenameValidator` |
-| `_build_command_queue_path` | function | `tests/test_security_lazyc2.py:32` | `def _build_command_queue_path(client_id, base_dir)` |
-| `test_alphanumeric_plus_hyphen_underscore_accepted` | method | `tests/test_security_lazyc2.py:404` | `def test_alphanumeric_plus_hyphen_underscore_accepted(self, tmp_path)` |
-| `test_below_minimum_length` | method | `tests/test_security_lazyc2.py:182` | `def test_below_minimum_length(self)` |
-| `test_empty_after_sanitization_raises` | method | `tests/test_security_lazyc2.py:381` | `def test_empty_after_sanitization_raises(self, tmp_path)` |
-| `test_empty_key_is_invalid` | method | `tests/test_security_lazyc2.py:169` | `def test_empty_key_is_invalid(self)` |
-| `test_exact_max` | method | `tests/test_security_lazyc2.py:207` | `def test_exact_max(self)` |
-| `test_exact_max_length_is_valid` | method | `tests/test_security_lazyc2.py:135` | `def test_exact_max_length_is_valid(self)` |
-| `test_exact_max_passes` | method | `tests/test_security_lazyc2.py:352` | `def test_exact_max_passes(self)` |
-| `test_exact_minimum_length` | method | `tests/test_security_lazyc2.py:177` | `def test_exact_minimum_length(self)` |
-| `test_exceeds_max` | method | `tests/test_security_lazyc2.py:203` | `def test_exceeds_max(self)` |
-| `test_exceeds_max_raises` | method | `tests/test_security_lazyc2.py:356` | `def test_exceeds_max_raises(self)` |
-| `test_exists_returns_false_for_missing` | method | `tests/test_security_lazyc2.py:307` | `def test_exists_returns_false_for_missing(self, tmp_path)` |
-| `test_exists_returns_true_for_valid_path` | method | `tests/test_security_lazyc2.py:300` | `def test_exists_returns_true_for_valid_path(self, tmp_path)` |
-| `test_exists_traversal_raises` | method | `tests/test_security_lazyc2.py:313` | `def test_exists_traversal_raises(self, tmp_path)` |
-| `test_generates_new_key` | method | `tests/test_security_lazyc2.py:324` | `def test_generates_new_key(self, tmp_path)` |
-| `test_generates_new_key_on_first_run` | method | `tests/test_security_lazyc2.py:252` | `def test_generates_new_key_on_first_run(self, tmp_path)` |
-| `test_invalid_16_byte_key` | method | `tests/test_security_lazyc2.py:160` | `def test_invalid_16_byte_key(self)` |
-| `test_invalid_string_key` | method | `tests/test_security_lazyc2.py:165` | `def test_invalid_string_key(self)` |
-| `test_key_file_has_restrictive_permissions` | method | `tests/test_security_lazyc2.py:264` | `def test_key_file_has_restrictive_permissions(self, tmp_path)` |
-| `test_non_string_is_invalid` | method | `tests/test_security_lazyc2.py:146` | `def test_non_string_is_invalid(self)` |
-| `test_non_string_password` | method | `tests/test_security_lazyc2.py:187` | `def test_non_string_password(self)` |
-| `test_none_content_length` | method | `tests/test_security_lazyc2.py:195` | `def test_none_content_length(self)` |
-| `test_none_passes` | method | `tests/test_security_lazyc2.py:361` | `def test_none_passes(self)` |
-| `test_normal_path_is_valid` | method | `tests/test_security_lazyc2.py:215` | `def test_normal_path_is_valid(self, tmp_path)` |
-| `test_over_max_length_is_invalid` | method | `tests/test_security_lazyc2.py:140` | `def test_over_max_length_is_invalid(self)` |
-| `test_raises_on_invalid_existing_key` | method | `tests/test_security_lazyc2.py:337` | `def test_raises_on_invalid_existing_key(self, tmp_path)` |
 
 Next: [SYMBOLS_p44.md](SYMBOLS_p44.md)

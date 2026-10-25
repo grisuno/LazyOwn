@@ -5,7 +5,7 @@
 ## Contents
 
 - **Functions:** [`bootRun`](#bootrun), [`str_cut`](#str_cut), [`Shell`](#shell), [`WinMain`](#winmain)
-- **Macros:** [`bzero`](#bzero)
+- **Macros:** [`bzero`](#bzero), [`RUNKEY_NAME`](#runkey_name)
 
 ## Call Graph
 
@@ -30,7 +30,7 @@ flowchart LR
 
 ### `bootRun`
 
-`function` | [modules/backdoor/backdoor.c:18](../../modules/backdoor/backdoor.c#L18)
+`function` | [modules/backdoor/backdoor.c:22](../../modules/backdoor/backdoor.c#L22)
 
 ```c
 int bootRun()
@@ -46,7 +46,7 @@ int bootRun()
 
 ### `str_cut`
 
-`function` | [modules/backdoor/backdoor.c:49](../../modules/backdoor/backdoor.c#L49)
+`function` | [modules/backdoor/backdoor.c:53](../../modules/backdoor/backdoor.c#L53)
 
 ```c
 char * str_cut(char str[], int slice_from, int slice_to)
@@ -70,7 +70,7 @@ char * str_cut(char str[], int slice_from, int slice_to)
 
 ### `Shell`
 
-`function` | [modules/backdoor/backdoor.c:84](../../modules/backdoor/backdoor.c#L84)
+`function` | [modules/backdoor/backdoor.c:88](../../modules/backdoor/backdoor.c#L88)
 
 ```c
 void Shell()
@@ -86,7 +86,7 @@ void Shell()
 
 ### `WinMain`
 
-`function` | [modules/backdoor/backdoor.c:125](../../modules/backdoor/backdoor.c#L125)
+`function` | [modules/backdoor/backdoor.c:129](../../modules/backdoor/backdoor.c#L129)
 
 ```c
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)
@@ -120,5 +120,17 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int 
 ```
 
 *Called by:* [`Shell`](#shell), [`main`](modules.backdoor.server.c.md#main)
+
+---
+
+<a id="runkey_name"></a>
+
+### `RUNKEY_NAME`
+
+`macro` | [modules/backdoor/backdoor.c:17](../../modules/backdoor/backdoor.c#L17)
+
+```c
+#define RUNKEY_NAME
+```
 
 ---

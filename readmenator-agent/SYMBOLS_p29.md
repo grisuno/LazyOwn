@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `asap` | method | `static/js/html2pdf.bundle.min.js:7551` | `` |
+| `asap` | method | `static/js/html2pdf.bundle.min.js:7641` | `` |
+| `attemptVertx` | function | `static/js/html2pdf.bundle.min.js:7513` | `` |
+| `backgroundImageSize` | function | `static/js/html2pdf.bundle.min.js:5639` | `` |
+| `backgroundImageSize` | function | `static/js/html2pdf.bundle.min.js:5652` | `` |
+| `backgroundPaintingArea` | function | `static/js/html2pdf.bundle.min.js:5592` | `` |
+| `backgroundPositioningArea` | function | `static/js/html2pdf.bundle.min.js:5638` | `` |
+| `backgroundPositioningArea` | function | `static/js/html2pdf.bundle.min.js:5651` | `` |
+| `bounds` | function | `static/js/html2pdf.bundle.min.js:3956` | `` |
+| `breakWords` | function | `static/js/html2pdf.bundle.min.js:3872` | `` |
+| `breaker` | function | `static/js/html2pdf.bundle.min.js:3873` | `` |
+| `buffer` | function | `static/js/html2pdf.bundle.min.js:3088` | `` |
+| `c` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `c` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
 | `c` | function | `static/js/html2pdf.bundle.min.js:115` | `` |
 | `calculateBackgroundPosition` | function | `static/js/html2pdf.bundle.min.js:1493` | `` |
 | `calculateBackgroundRepeatPath` | function | `static/js/html2pdf.bundle.min.js:1497` | `` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `toContainer` | function | `static/js/html2pdf.bundle.min.js:9182` | `` |
 | `toContainer` | function | `static/js/html2pdf.bundle.min.js:9287` | `` |
 | `toFloat` | function | `static/js/html2pdf.bundle.min.js:2490` | `` |
-| `toFloat` | function | `static/js/html2pdf.bundle.min.js:2490` | `` |
-| `toImg` | function | `static/js/html2pdf.bundle.min.js:8718` | `` |
-| `toPdf` | function | `static/js/html2pdf.bundle.min.js:8732` | `` |
-| `toPdf` | function | `static/js/html2pdf.bundle.min.js:9317` | `` |
-| `toPx` | function | `static/js/html2pdf.bundle.min.js:7376` | `` |
-| `toPx` | function | `static/js/html2pdf.bundle.min.js:7376` | `` |
-| `toString` | function | `static/js/html2pdf.bundle.min.js:319` | `` |
-| `transform` | function | `static/js/html2pdf.bundle.min.js:814` | `` |
-| `transform` | function | `static/js/html2pdf.bundle.min.js:4015` | `` |
-| `transform` | function | `static/js/html2pdf.bundle.min.js:4015` | `` |
-| `transformObsoleteColorStops` | function | `static/js/html2pdf.bundle.min.js:5465` | `` |
-| `transformObsoleteColorStops` | function | `static/js/html2pdf.bundle.min.js:5465` | `` |
-| `transformWebkitRadialGradientArgs` | function | `static/js/html2pdf.bundle.min.js:5392` | `` |
-| `tryCatch` | function | `static/js/html2pdf.bundle.min.js:7783` | `` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

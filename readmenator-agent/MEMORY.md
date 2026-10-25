@@ -2,17 +2,17 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1174 files at commit `d752caa6305d`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1178 files at commit `625c38d8f73e`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `command` (471), `modules` (464), `file` (430), `one` (428), `lazy` (420), `not` (397), `path` (395), `all` (393), `run` (391), `name` (369), `without` (368), `json` (367), `cli` (363), `own` (362), `set` (333)
+- Domain vocabulary (term, files): `command` (472), `modules` (464), `file` (431), `one` (429), `lazy` (420), `not` (397), `path` (395), `all` (395), `run` (391), `name` (370), `json` (369), `without` (368), `cli` (363), `own` (362), `set` (336)
 - Subsystem `modules: autonomous_daemon`: 184 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `cli/commands`: 158 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `cli/commands`: 157 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
 - Subsystem `cli`: 126 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
 - Subsystem `modules: lazy_loop`: 122 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `modules: world_model`: 62 files, core `modules/world_model.py`: modules/world_model.py
+- Subsystem `modules: world_model`: 67 files, core `modules/world_model.py`: modules/world_model.py
 - Subsystem `lazygui/panels`: 54 files, core `lazygui/services/teamserver_backend.py`: Teamserver backend with Socket.IO real-time and full HTTP API coverage.
 - Subsystem `lazyc2/security`: 52 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
 - Subsystem `modules: lazyown_facts`: 38 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1043 files, 19770 symbols; docstrings on 55% of symbols; functions snake_case (99%); types PascalCase (100%); median file 215 lines, max 13286.
+- py: 1047 files, 19828 symbols; docstrings on 55% of symbols; functions snake_case (99%); types PascalCase (100%); median file 215 lines, max 13286.
 - sh: 64 files, 257 symbols; docstrings on 32% of symbols; functions snake_case (100%); median file 79 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 21 files, 1606 symbols; docstrings on 49% of symbols; functions snake_case (46%); types PascalCase (26%); median file 6 lines, max 9358.
-- Tests: 344 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 347 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
@@ -125,4 +125,7 @@ Append with `readmenator . remember "<note>" --kind <kind>` (kinds: business, de
 - 2026-10-20 [decision] Metasploitable2 docker lab: three documented-failing vectors now validate via lab migrations in modules/metasploitable_migrations.py (bind-udp-fallback python2.5 DNS responder, nfs-mountd-fallback userspace rpc.mountd, rlogin-root-trust /root/.rhosts + loopback hosts.allow) and spec edits (ms2_dns_recursion full dig; ms2_rlogin_trust rsh+docker-exec fallback). Verified [SHELL] x3 on a fresh container.
 - 2026-10-20 [decision] pytest census chunked 12-chunk run green 5781/0 after fixing 7 failures: stale cli/command_index.json (regenerated 837), RetryOpsCommandSet missing phase/category attrs, ruff cli F401/I001 F821 YamlEditorModal import, unformatted cli files, unused Panel/Text imports in lazyown.py, CLAUDE.md test count 265 to 276, CLAUDE.md size over 40KB budget (moved section 10 to docs/coding_standards.md and 16b to docs/lint_contract.md), stale gym test object stub lacking owner attr
 - 2026-10-20 [decision] lazyaddons surface as loop verbs: verb_catalog indexes enabled lazyaddons/*.yaml as addon:<name> pseudo-verbs (off by default, phase from category, trigger tokens as keywords); steps_for('auto addon:x') maps to 'lazy addon x [target]'; VerbCatalogConfig.addons_dir injectable (None keeps sandbox single-surface); docs updated (README short sentences + links, autonomous-loop.md Retry/Distill/Catalog sections, lazyaddons-yaml.md verb section, CHEATSHEET rows, COMMANDS.md regen)
+- 2026-10-25 [decision] zone.ci audit cross-check on dev (0.2.160 claims): confirmed JA3 simulating c2_profile_engine.py:158; socks specification-only modules/socks_proxy.py:8; static AES {key} embedded implant_crypt.go:1799; plaintext /config.json implant_crypt.go:1716; beacon HMAC default off lazyc2.py:3526 (server impl exists, gated c2_require_beacon_hmac); rootkit LISTENER_IP hardcoded modules/rootkit/rootkit.c:28; backdoor Hacked runkey+MessageBox modules/backdoor/backdoor.c:38,158; auto-privesc now first-check...
+- 2026-10-25 [note] Audit remediation P0-P4 applied on feature/audit-remediation-p0: beacon HMAC default-on + per-build rat_key bootstrap via core.config.ensure_rat_key; implant signs wire body and seeds baked-in defaults; noisy check-in pipelines behind auto_privesc_on_checkin/auto_discover_on_checkin (default off); rootkit/backdoor operator-identity hardcodes guarded; hygiene_audit command + audit_hygiene chain; lazyown_set_config sanctioned writer in utils
+- 2026-10-25 [decision] Audit wave 2 (rotative session secrets) applied: core/session_secrets.py rotates aes_key (sessions/key.aes 32B 0600) + rat_key (64 hex) + session_magic (32 hex); C2 boot rotates when rotate_keys_on_boot=true; _beacon_signature_guard re-reads rat_key from payload.json per request and encrypt_data/decrypt_data reload key.aes on byte change so out-of-process rotation never strands the running C2; clean (shellsys.do_clean) deletes key.aes + c2_lab.json then rotates; payload.json writes now MERGE...
 <!-- readmenator:memory:notes:end -->

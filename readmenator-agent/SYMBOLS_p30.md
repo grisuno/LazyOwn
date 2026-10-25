@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `toFloat` | function | `static/js/html2pdf.bundle.min.js:2490` | `` |
+| `toImg` | function | `static/js/html2pdf.bundle.min.js:8718` | `` |
+| `toPdf` | function | `static/js/html2pdf.bundle.min.js:8732` | `` |
+| `toPdf` | function | `static/js/html2pdf.bundle.min.js:9317` | `` |
+| `toPx` | function | `static/js/html2pdf.bundle.min.js:7376` | `` |
+| `toPx` | function | `static/js/html2pdf.bundle.min.js:7376` | `` |
+| `toString` | function | `static/js/html2pdf.bundle.min.js:319` | `` |
+| `transform` | function | `static/js/html2pdf.bundle.min.js:814` | `` |
+| `transform` | function | `static/js/html2pdf.bundle.min.js:4015` | `` |
+| `transform` | function | `static/js/html2pdf.bundle.min.js:4015` | `` |
+| `transformObsoleteColorStops` | function | `static/js/html2pdf.bundle.min.js:5465` | `` |
+| `transformObsoleteColorStops` | function | `static/js/html2pdf.bundle.min.js:5465` | `` |
+| `transformWebkitRadialGradientArgs` | function | `static/js/html2pdf.bundle.min.js:5392` | `` |
+| `tryCatch` | function | `static/js/html2pdf.bundle.min.js:7783` | `` |
 | `tryThen` | function | `static/js/html2pdf.bundle.min.js:7632` | `` |
 | `u` | function | `static/js/html2pdf.bundle.min.js:201` | `` |
 | `unitConvert` | function | `static/js/html2pdf.bundle.min.js:7363` | `` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `t` | function | `static/js/vis-network.min.js:33` | `` |
 | `t` | function | `static/js/vis-network.min.js:33` | `` |
 | `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:48` | `` |
-| `u` | function | `static/js/vis-network.min.js:48` | `` |
-| `uE` | function | `static/js/vis-network.min.js:33` | `` |
-| `v` | function | `static/js/vis-network.min.js:33` | `` |
-| `v` | function | `static/js/vis-network.min.js:48` | `` |
-| `vE` | function | `static/js/vis-network.min.js:33` | `` |
-| `vp` | function | `static/js/vis-network.min.js:33` | `` |
-| `yk` | function | `static/js/vis-network.min.js:33` | `` |
-| `zo` | function | `static/js/vis-network.min.js:26` | `` |
-| `a` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
-| `i` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
-| `i` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

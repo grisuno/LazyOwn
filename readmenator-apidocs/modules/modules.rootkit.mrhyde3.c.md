@@ -55,7 +55,7 @@ flowchart LR
 
 ### `io_uring_sq`
 
-`struct` | [modules/rootkit/mrhyde3.c:57](../../modules/rootkit/mrhyde3.c#L57)
+`struct` | [modules/rootkit/mrhyde3.c:61](../../modules/rootkit/mrhyde3.c#L61)
 
 ```c
 struct io_uring_sq
@@ -69,7 +69,7 @@ Estructuras para io_uring manual
 
 ### `io_uring_cq`
 
-`struct` | [modules/rootkit/mrhyde3.c:61](../../modules/rootkit/mrhyde3.c#L61)
+`struct` | [modules/rootkit/mrhyde3.c:65](../../modules/rootkit/mrhyde3.c#L65)
 
 ```c
 struct io_uring_cq
@@ -81,7 +81,7 @@ struct io_uring_cq
 
 ### `io_uring`
 
-`struct` | [modules/rootkit/mrhyde3.c:65](../../modules/rootkit/mrhyde3.c#L65)
+`struct` | [modules/rootkit/mrhyde3.c:69](../../modules/rootkit/mrhyde3.c#L69)
 
 ```c
 struct io_uring
@@ -93,7 +93,7 @@ struct io_uring
 
 ### `linux_dirent64`
 
-`struct` | [modules/rootkit/mrhyde3.c:560](../../modules/rootkit/mrhyde3.c#L560)
+`struct` | [modules/rootkit/mrhyde3.c:564](../../modules/rootkit/mrhyde3.c#L564)
 
 ```c
 struct linux_dirent64
@@ -107,7 +107,7 @@ struct linux_dirent64
 
 ### `original_dirent`
 
-`type_alias` | [modules/rootkit/mrhyde3.c:312](../../modules/rootkit/mrhyde3.c#L312)
+`type_alias` | [modules/rootkit/mrhyde3.c:316](../../modules/rootkit/mrhyde3.c#L316)
 
 ```c
 typedef struct dirent original_dirent;
@@ -125,7 +125,7 @@ HOOKS TRADICIONALES (sin cambios, usan hide_pids/hide_files)
 
 ### `load_hidden_pids`
 
-`function` | [modules/rootkit/mrhyde3.c:268](../../modules/rootkit/mrhyde3.c#L268)
+`function` | [modules/rootkit/mrhyde3.c:272](../../modules/rootkit/mrhyde3.c#L272)
 
 ```c
 void load_hidden_pids(void)
@@ -139,7 +139,7 @@ Cargar listas con fallback
 
 ### `load_hidden_files`
 
-`function` | [modules/rootkit/mrhyde3.c:282](../../modules/rootkit/mrhyde3.c#L282)
+`function` | [modules/rootkit/mrhyde3.c:286](../../modules/rootkit/mrhyde3.c#L286)
 
 ```c
 void load_hidden_files(void)
@@ -151,7 +151,7 @@ void load_hidden_files(void)
 
 ### `get_username_from_pid`
 
-`function` | [modules/rootkit/mrhyde3.c:297](../../modules/rootkit/mrhyde3.c#L297)
+`function` | [modules/rootkit/mrhyde3.c:301](../../modules/rootkit/mrhyde3.c#L301)
 
 ```c
 char* get_username_from_pid(pid_t pid)
@@ -177,7 +177,7 @@ get_username_from_pid (tradicional)
 
 ### `should_hide_pid`
 
-`function` | [modules/rootkit/mrhyde3.c:320](../../modules/rootkit/mrhyde3.c#L320)
+`function` | [modules/rootkit/mrhyde3.c:324](../../modules/rootkit/mrhyde3.c#L324)
 
 ```c
 int should_hide_pid(const char* pid)
@@ -201,7 +201,7 @@ int should_hide_pid(const char* pid)
 
 ### `should_hide_file`
 
-`function` | [modules/rootkit/mrhyde3.c:329](../../modules/rootkit/mrhyde3.c#L329)
+`function` | [modules/rootkit/mrhyde3.c:333](../../modules/rootkit/mrhyde3.c#L333)
 
 ```c
 int should_hide_file(const char* filename)
@@ -223,7 +223,7 @@ int should_hide_file(const char* filename)
 
 ### `readdir`
 
-`function` | [modules/rootkit/mrhyde3.c:336](../../modules/rootkit/mrhyde3.c#L336)
+`function` | [modules/rootkit/mrhyde3.c:340](../../modules/rootkit/mrhyde3.c#L340)
 
 ```c
 struct dirent* readdir(DIR* dirp)
@@ -245,7 +245,7 @@ struct dirent* readdir(DIR* dirp)
 
 ### `unlink`
 
-`function` | [modules/rootkit/mrhyde3.c:367](../../modules/rootkit/mrhyde3.c#L367)
+`function` | [modules/rootkit/mrhyde3.c:371](../../modules/rootkit/mrhyde3.c#L371)
 
 ```c
 int unlink(const char *pathname)
@@ -265,7 +265,7 @@ int unlink(const char *pathname)
 
 ### `kill`
 
-`function` | [modules/rootkit/mrhyde3.c:373](../../modules/rootkit/mrhyde3.c#L373)
+`function` | [modules/rootkit/mrhyde3.c:377](../../modules/rootkit/mrhyde3.c#L377)
 
 ```c
 int kill(pid_t pid, int sig)
@@ -286,7 +286,7 @@ int kill(pid_t pid, int sig)
 
 ### `remove`
 
-`function` | [modules/rootkit/mrhyde3.c:383](../../modules/rootkit/mrhyde3.c#L383)
+`function` | [modules/rootkit/mrhyde3.c:387](../../modules/rootkit/mrhyde3.c#L387)
 
 ```c
 int remove(const char *pathname)
@@ -306,7 +306,7 @@ int remove(const char *pathname)
 
 ### `unlinkat`
 
-`function` | [modules/rootkit/mrhyde3.c:389](../../modules/rootkit/mrhyde3.c#L389)
+`function` | [modules/rootkit/mrhyde3.c:393](../../modules/rootkit/mrhyde3.c#L393)
 
 ```c
 int unlinkat(int dirfd, const char *pathname, int flags)
@@ -328,7 +328,7 @@ int unlinkat(int dirfd, const char *pathname, int flags)
 
 ### `fopen`
 
-`function` | [modules/rootkit/mrhyde3.c:407](../../modules/rootkit/mrhyde3.c#L407)
+`function` | [modules/rootkit/mrhyde3.c:411](../../modules/rootkit/mrhyde3.c#L411)
 
 ```c
 FILE *fopen(const char *pathname, const char *mode)
@@ -349,7 +349,7 @@ FILE *fopen(const char *pathname, const char *mode)
 
 ### `open`
 
-`function` | [modules/rootkit/mrhyde3.c:430](../../modules/rootkit/mrhyde3.c#L430)
+`function` | [modules/rootkit/mrhyde3.c:434](../../modules/rootkit/mrhyde3.c#L434)
 
 ```c
 int open(const char *pathname, int flags, ...)
@@ -371,7 +371,7 @@ int open(const char *pathname, int flags, ...)
 
 ### `openat`
 
-`function` | [modules/rootkit/mrhyde3.c:458](../../modules/rootkit/mrhyde3.c#L458)
+`function` | [modules/rootkit/mrhyde3.c:462](../../modules/rootkit/mrhyde3.c#L462)
 
 ```c
 int openat(int dirfd, const char *pathname, int flags, ...)
@@ -394,7 +394,7 @@ int openat(int dirfd, const char *pathname, int flags, ...)
 
 ### `stat`
 
-`function` | [modules/rootkit/mrhyde3.c:487](../../modules/rootkit/mrhyde3.c#L487)
+`function` | [modules/rootkit/mrhyde3.c:491](../../modules/rootkit/mrhyde3.c#L491)
 
 ```c
 int stat(const char *pathname, struct stat *statbuf)
@@ -417,7 +417,7 @@ int stat(const char *pathname, struct stat *statbuf)
 
 ### `lstat`
 
-`function` | [modules/rootkit/mrhyde3.c:511](../../modules/rootkit/mrhyde3.c#L511)
+`function` | [modules/rootkit/mrhyde3.c:515](../../modules/rootkit/mrhyde3.c#L515)
 
 ```c
 int lstat(const char *pathname, struct stat *statbuf)
@@ -438,7 +438,7 @@ int lstat(const char *pathname, struct stat *statbuf)
 
 ### `fstat`
 
-`function` | [modules/rootkit/mrhyde3.c:535](../../modules/rootkit/mrhyde3.c#L535)
+`function` | [modules/rootkit/mrhyde3.c:539](../../modules/rootkit/mrhyde3.c#L539)
 
 ```c
 int fstat(int fd, struct stat *statbuf)
@@ -459,7 +459,7 @@ int fstat(int fd, struct stat *statbuf)
 
 ### `getdents`
 
-`function` | [modules/rootkit/mrhyde3.c:569](../../modules/rootkit/mrhyde3.c#L569)
+`function` | [modules/rootkit/mrhyde3.c:573](../../modules/rootkit/mrhyde3.c#L573)
 
 ```c
 int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)
@@ -483,7 +483,7 @@ int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)
 
 ### `getdents64`
 
-`function` | [modules/rootkit/mrhyde3.c:605](../../modules/rootkit/mrhyde3.c#L605)
+`function` | [modules/rootkit/mrhyde3.c:609](../../modules/rootkit/mrhyde3.c#L609)
 
 ```c
 ssize_t getdents64(int fd, void *dirp, size_t count)
@@ -667,7 +667,7 @@ Constantes de ocultación
 
 ### `HIDE_DIR`
 
-`macro` | [modules/rootkit/mrhyde3.c:45](../../modules/rootkit/mrhyde3.c#L45)
+`macro` | [modules/rootkit/mrhyde3.c:46](../../modules/rootkit/mrhyde3.c#L46)
 
 ```c
 #define HIDE_DIR
@@ -679,7 +679,7 @@ Constantes de ocultación
 
 ### `HIDE_USER`
 
-`macro` | [modules/rootkit/mrhyde3.c:46](../../modules/rootkit/mrhyde3.c#L46)
+`macro` | [modules/rootkit/mrhyde3.c:49](../../modules/rootkit/mrhyde3.c#L49)
 
 ```c
 #define HIDE_USER
@@ -691,7 +691,7 @@ Constantes de ocultación
 
 ### `MAX_HIDE_PIDS`
 
-`macro` | [modules/rootkit/mrhyde3.c:47](../../modules/rootkit/mrhyde3.c#L47)
+`macro` | [modules/rootkit/mrhyde3.c:51](../../modules/rootkit/mrhyde3.c#L51)
 
 ```c
 #define MAX_HIDE_PIDS
@@ -703,7 +703,7 @@ Constantes de ocultación
 
 ### `PID_FILE_PATH`
 
-`macro` | [modules/rootkit/mrhyde3.c:48](../../modules/rootkit/mrhyde3.c#L48)
+`macro` | [modules/rootkit/mrhyde3.c:52](../../modules/rootkit/mrhyde3.c#L52)
 
 ```c
 #define PID_FILE_PATH
@@ -715,7 +715,7 @@ Constantes de ocultación
 
 ### `FILE_HIDE_PATH`
 
-`macro` | [modules/rootkit/mrhyde3.c:49](../../modules/rootkit/mrhyde3.c#L49)
+`macro` | [modules/rootkit/mrhyde3.c:53](../../modules/rootkit/mrhyde3.c#L53)
 
 ```c
 #define FILE_HIDE_PATH
@@ -727,7 +727,7 @@ Constantes de ocultación
 
 ### `IO_URING_QUEUE_DEPTH`
 
-`macro` | [modules/rootkit/mrhyde3.c:50](../../modules/rootkit/mrhyde3.c#L50)
+`macro` | [modules/rootkit/mrhyde3.c:54](../../modules/rootkit/mrhyde3.c#L54)
 
 ```c
 #define IO_URING_QUEUE_DEPTH
@@ -739,7 +739,7 @@ Constantes de ocultación
 
 ### `IO_URING_BUFFER_SIZE`
 
-`macro` | [modules/rootkit/mrhyde3.c:51](../../modules/rootkit/mrhyde3.c#L51)
+`macro` | [modules/rootkit/mrhyde3.c:55](../../modules/rootkit/mrhyde3.c#L55)
 
 ```c
 #define IO_URING_BUFFER_SIZE
@@ -751,7 +751,7 @@ Constantes de ocultación
 
 ### `C2_SERVER_IP`
 
-`macro` | [modules/rootkit/mrhyde3.c:52](../../modules/rootkit/mrhyde3.c#L52)
+`macro` | [modules/rootkit/mrhyde3.c:56](../../modules/rootkit/mrhyde3.c#L56)
 
 ```c
 #define C2_SERVER_IP
@@ -763,7 +763,7 @@ Constantes de ocultación
 
 ### `C2_PORT`
 
-`macro` | [modules/rootkit/mrhyde3.c:53](../../modules/rootkit/mrhyde3.c#L53)
+`macro` | [modules/rootkit/mrhyde3.c:57](../../modules/rootkit/mrhyde3.c#L57)
 
 ```c
 #define C2_PORT
@@ -775,7 +775,7 @@ Constantes de ocultación
 
 ### `CQE_TIMEOUT_MS`
 
-`macro` | [modules/rootkit/mrhyde3.c:54](../../modules/rootkit/mrhyde3.c#L54)
+`macro` | [modules/rootkit/mrhyde3.c:58](../../modules/rootkit/mrhyde3.c#L58)
 
 ```c
 #define CQE_TIMEOUT_MS

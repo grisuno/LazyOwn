@@ -1,6 +1,52 @@
 # Subsystem: tests (page 10 of 20)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
 
+## tests/test_gym_matrix_ctf.py
+- Doc: Contract tests for gym matrix runner and CTF capture.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `CtfCaptureSpec` (class, line 13) `class CtfCaptureSpec(TestCase)`
+  - `GymMatrixRunnerSpec` (class, line 62) `class GymMatrixRunnerSpec(TestCase)`
+  - `ReportIntegrationSpec` (class, line 120) `class ReportIntegrationSpec(TestCase)`
+  - `test_root_shell_capture` (method, line 16) `def test_root_shell_capture(self)`
+  - `test_failed_capture_without_evidence` (method, line 29) `def test_failed_capture_without_evidence(self)`
+  - `test_unknown_vuln_rejected` (method, line 39) `def test_unknown_vuln_rejected(self)`
+  - `test_shadow_evidence_masked` (method, line 44) `def test_shadow_evidence_masked(self)`
+  - `test_load_artifact` (method, line 57) `def test_load_artifact(self)`
+  - `test_plan_ordered_by_severity` (method, line 65) `def test_plan_ordered_by_severity(self)`
+  - `test_plan_isolates_only_filter` (method, line 72) `def test_plan_isolates_only_filter(self)`
+  - `test_plan_rejects_empty_target` (method, line 76) `def test_plan_rejects_empty_target(self)`
+  - `test_run_matrix_dry_run_writes_no_capture` (method, line 80) `def test_run_matrix_dry_run_writes_no_capture(self)`
+  - `test_run_matrix_executes_and_captures` (method, line 91) `def test_run_matrix_executes_and_captures(self)`
+  - `test_run_matrix_flags_missing_chain` (method, line 110) `def test_run_matrix_flags_missing_chain(self)`
+  - `test_captured_findings_enter_report` (method, line 123) `def test_captured_findings_enter_report(self)`
+  - `executor` (function, line 92) `def executor(cmd)`
+- Depends on: `modules/__init__.py`, `modules/professional_report.py`
+
+## tests/test_gym_ms2_cli.py
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_gym_ms2_chains_lists_index` (function, line 4) `def test_gym_ms2_chains_lists_index(capsys)`
+- Depends on: `cli/commands/redteam_gym.py`
+
+## tests/test_gym_registry.py
+- Doc: Gym YAML catalogue and persistent world-model run state.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sandbox` (function, line 14) `def sandbox(tmp_path, monkeypatch)`
+  - `_write_definition` (function, line 35) `def _write_definition(directory, gym_id)`
+  - `test_shipped_catalogue_loads` (function, line 63) `def test_shipped_catalogue_loads()`
+  - `test_definition_crud_is_confined` (function, line 71) `def test_definition_crud_is_confined(sandbox, tmp_path)`
+  - `test_start_status_stop_all_persists` (function, line 93) `def test_start_status_stop_all_persists(sandbox)`
+  - `test_stop_by_id_and_name` (function, line 116) `def test_stop_by_id_and_name(sandbox)`
+  - `test_submit_requires_disambiguation` (function, line 129) `def test_submit_requires_disambiguation(sandbox)`
+  - `test_delete_refuses_active_definition` (function, line 145) `def test_delete_refuses_active_definition(sandbox)`
+  - `test_legacy_active_files_are_imported_once` (function, line 156) `def test_legacy_active_files_are_imported_once(sandbox, monkeypatch)`
+- Depends on: `modules/__init__.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/world_model.py`
+
 ## tests/test_harness_mode.py
 - Doc: Harness deterministic-mode contract tests.
 - Layer: testing
@@ -151,6 +197,21 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_caps_enforced` (function, line 118) `def test_caps_enforced()`
   - `test_field_present_helper` (function, line 126) `def test_field_present_helper()`
 - Depends on: `modules/hunt_verify.py`
+
+## tests/test_implant_session_secrets.py
+- Doc: ImplantSessionSecretsSpec: Contract: lab Go implant templates bind rotating session secrets.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `ImplantSessionSecretsSpec` (class, line 22) `class ImplantSessionSecretsSpec(TestCase)`
+  - `test_implant_binds_sleep_and_persistence_placeholders` (method, line 25) `def test_implant_binds_sleep_and_persistence_placeholders(self)`
+  - `test_implant_uses_obfuscated_sleep_and_jitter_bounds` (method, line 30) `def test_implant_uses_obfuscated_sleep_and_jitter_bounds(self)`
+  - `test_implant_uses_utls_for_real_tls_fingerprint` (method, line 38) `def test_implant_uses_utls_for_real_tls_fingerprint(self)`
+  - `test_listener_and_monrevlin_bind_session_magic` (method, line 45) `def test_listener_and_monrevlin_bind_session_magic(self)`
+  - `test_rootkit_listener_default_is_neutral` (method, line 53) `def test_rootkit_listener_default_is_neutral(self)`
+  - `test_lkm_makefile_carries_deployment_values` (method, line 57) `def test_lkm_makefile_carries_deployment_values(self)`
+  - `test_url_traffic_template_keys_match_builder_context` (method, line 64) `def test_url_traffic_template_keys_match_builder_context(self)`
+- Depends on: `modules/c2_builder.py`
 
 ## tests/test_improvements_spec.py
 - Doc: Spec-driven validation of the three priority improvements.
@@ -423,54 +484,6 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_is_placeholder_detects_change_me` (method, line 216) `def test_is_placeholder_detects_change_me(self, engine)`
   - `test_is_placeholder_rejects_real_values` (method, line 220) `def test_is_placeholder_rejects_real_values(self, engine)`
 - Depends on: `modules/intelligence_engine.py`
-
-## tests/test_journal.py
-- Doc: Tests for the GitHub Discussions engineering journal.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `FakeRunner` (class, line 16) `class FakeRunner`
-  - `_success_responses` (function, line 34) `def _success_responses()`
-  - `test_config_from_remote_slug` (function, line 51) `def test_config_from_remote_slug()`
-  - `test_config_rejects_bare_name` (function, line 58) `def test_config_rejects_bare_name()`
-  - `test_post_entry_uses_resolved_ids` (function, line 64) `def test_post_entry_uses_resolved_ids()`
-  - `test_entries_returns_nodes` (function, line 73) `def test_entries_returns_nodes()`
-  - `test_missing_category_raises` (function, line 81) `def test_missing_category_raises()`
-  - `test_graphql_errors_raise` (function, line 93) `def test_graphql_errors_raise()`
-  - `__init__` (method, line 19) `def __init__(self, responses)`
-  - `__call__` (method, line 24) `def __call__(self, args)`
-- Depends on: `scripts/journal.py`
-
-## tests/test_killchain.py
-- Doc: Tests for cli/killchain.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_states` (function, line 28) `def _states(progress)`
-  - `test_empty_events_all_pending_without_world` (function, line 32) `def test_empty_events_all_pending_without_world()`
-  - `test_current_phase_from_step_events` (function, line 38) `def test_current_phase_from_step_events()`
-  - `test_phase_advance_event_sets_current` (function, line 49) `def test_phase_advance_event_sets_current()`
-  - `test_activity_and_reward_accumulate` (function, line 62) `def test_activity_and_reward_accumulate()`
-  - `test_world_phase_fallback_when_no_events` (function, line 75) `def test_world_phase_fallback_when_no_events()`
-  - `test_explicit_completed_phases_respected` (function, line 81) `def test_explicit_completed_phases_respected()`
-  - `test_unknown_phase_in_event_is_ignored` (function, line 86) `def test_unknown_phase_in_event_is_ignored()`
-  - `test_non_dict_payload_is_tolerated` (function, line 92) `def test_non_dict_payload_is_tolerated()`
-- Depends on: `cli/killchain.py`
-
-## tests/test_killchain_auto_refresh.py
-- Doc: BDD-style tests for the periodic kill-chain auto-refresh in the tips engine.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_engine` (function, line 12) `def _engine()`
-  - `TestPeriodicAutoRefresh` (class, line 22) `class TestPeriodicAutoRefresh`
-  - `test_shows_immediately_on_phase_change` (method, line 23) `def test_shows_immediately_on_phase_change(self)`
-  - `test_shows_on_cadence_without_phase_change` (method, line 31) `def test_shows_on_cadence_without_phase_change(self)`
-  - `test_cadence_below_every_surpresses` (method, line 41) `def test_cadence_below_every_surpresses(self)`
-  - `test_phase_change_beats_periodic_cadence` (method, line 50) `def test_phase_change_beats_periodic_cadence(self)`
-  - `test_disabled_engine_never_shows` (method, line 59) `def test_disabled_engine_never_shows(self)`
-  - `test_zero_every_and_no_phase_change_never_shows` (method, line 67) `def test_zero_every_and_no_phase_change_never_shows(self)`
-- Depends on: `cli/tips_engine.py`
 
 
 Next: [KB_tests_p11.md](KB_tests_p11.md)

@@ -60,11 +60,11 @@ Imported by: `cli/commands/cloud_attacks.py`
 
 ## modules/backdoor/backdoor.c
 Depends on: `modules/backdoor/keylogger.h`
-- `bootRun` (function) `modules/backdoor/backdoor.c:18` `int bootRun()`
-- `str_cut` (function) `modules/backdoor/backdoor.c:49` `char *
+- `bootRun` (function) `modules/backdoor/backdoor.c:22` `int bootRun()`
+- `str_cut` (function) `modules/backdoor/backdoor.c:53` `char *
 str_cut(char str[], int slice_from, int slice_to)`
-- `Shell` (function) `modules/backdoor/backdoor.c:84` `void Shell()`
-- `WinMain` (function) `modules/backdoor/backdoor.c:125` `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)`
+- `Shell` (function) `modules/backdoor/backdoor.c:88` `void Shell()`
+- `WinMain` (function) `modules/backdoor/backdoor.c:129` `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)`
 
 ## modules/backdoor/keylogger.h
 Imported by: `modules/backdoor/backdoor.c`
@@ -76,7 +76,7 @@ Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `co
 
 ## modules/beacon_config_builder.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/c2_profile_engine.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`
-Imported by: `cli/commands/bof_registry.py`, `tests/test_beacon_config_builder.py`
+Imported by: `cli/commands/bof_registry.py`, `modules/c2_builder.py`, `tests/test_beacon_config_builder.py`
 - `BeaconConfig.to_gen_beacon_args` (method) `modules/beacon_config_builder.py:117` `def to_gen_beacon_args(self)` -- Produce CLI arguments for gen_beacon.sh.
 - `BeaconConfig.to_go_implant_vars` (method) `modules/beacon_config_builder.py:137` `def to_go_implant_vars(self)` -- Produce template variables for the Go implant builder.
 - `BeaconConfig.to_config_json` (method) `modules/beacon_config_builder.py:160` `def to_config_json(self)` -- Produce the config.json that beacons fetch on startup.
@@ -156,26 +156,26 @@ Imported by: `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
 - `BofMarketplace.bulk_install` (method) `modules/bof_registry.py:769` `def bulk_install(self, names)` -- Install multiple BOFs at once.
 
 ## modules/c2_agent.py
-Depends on: `core/logging.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
+Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
 Imported by: `cli/commands/c2_session.py`
 - `client_id_for` (function) `modules/c2_agent.py:88` `def client_id_for(target, privilege)` -- Derive a stable, file-safe client id from a target IP.
 - `validate_client_id` (function) `modules/c2_agent.py:113` `def validate_client_id(raw)` -- Validate a client id (alphanumerics, dash, underscore).
-- `build_agent` (function) `modules/c2_agent.py:376` `def build_agent(c2_url, client_id, aes_hex, route, sleep, privilege)` -- Render the agent script for a target (pure function, no I/O).
-- `read_aes_hex` (function) `modules/c2_agent.py:492` `def read_aes_hex()` -- Read the live C2 AES key hex (snapshotted, never generated).
-- `deploy` (function) `modules/c2_agent.py:497` `def deploy(target, c2_base, route, lhost, sleep, privilege)` -- Deliver + launch the agent on *target* via a working shell primitive.
-- `read_records` (function) `modules/c2_agent.py:603` `def read_records(client_id, limit)` -- Read the latest beacon records for a client (newest last).
-- `wait_record` (function) `modules/c2_agent.py:620` `def wait_record(client_id, command, since, timeout)` -- Wait for a fresh record matching *command* (polls the JSONL log).
-- `C2Server.__init__` (method) `modules/c2_agent.py:637` `def __init__(self, port, user, password)`
-- `C2Server.status` (method) `modules/c2_agent.py:654` `def status(self)` -- Report server liveness and listener reachability.
-- `C2Server.start` (method) `modules/c2_agent.py:686` `def start(self)` -- Start lazyc2 headless (no-op when already running).
-- `C2Server.stop` (method) `modules/c2_agent.py:717` `def stop(self)` -- Stop the headless server (SIGTERM, best-effort).
-- `C2Server.ensure_http_listener` (method) `modules/c2_agent.py:740` `def ensure_http_listener(self, http_port, auth)` -- Add + start a plaintext lab listener via the C2 API (py2 agents lack TLS).
+- `build_agent` (function) `modules/c2_agent.py:388` `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` -- Render the agent script for a target (pure function, no I/O).
+- `read_aes_hex` (function) `modules/c2_agent.py:517` `def read_aes_hex()` -- Read the live C2 AES key hex (snapshotted, never generated).
+- `deploy` (function) `modules/c2_agent.py:522` `def deploy(target, c2_base, route, lhost, sleep, privilege)` -- Deliver + launch the agent on *target* via a working shell primitive.
+- `read_records` (function) `modules/c2_agent.py:642` `def read_records(client_id, limit)` -- Read the latest beacon records for a client (newest last).
+- `wait_record` (function) `modules/c2_agent.py:659` `def wait_record(client_id, command, since, timeout)` -- Wait for a fresh record matching *command* (polls the JSONL log).
+- `C2Server.__init__` (method) `modules/c2_agent.py:676` `def __init__(self, port, user, password)`
+- `C2Server.status` (method) `modules/c2_agent.py:693` `def status(self)` -- Report server liveness and listener reachability.
+- `C2Server.start` (method) `modules/c2_agent.py:725` `def start(self)` -- Start lazyc2 headless (no-op when already running).
+- `C2Server.stop` (method) `modules/c2_agent.py:756` `def stop(self)` -- Stop the headless server (SIGTERM, best-effort).
+- `C2Server.ensure_http_listener` (method) `modules/c2_agent.py:779` `def ensure_http_listener(self, http_port, auth)` -- Add + start a plaintext lab listener via the C2 API (py2 agents lack TLS).
 
 ## modules/c2_builder.py
-Depends on: `core/validators.py`, `modules/metrics.py`, `utils.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
-- `C2Builder.__init__` (method) `modules/c2_builder.py:395` `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
-- `C2Builder.run` (method) `modules/c2_builder.py:453` `def run(self, line, choice, use_tunnel)` -- Execute the full C2 build pipeline.
+Depends on: `core/config.py`, `core/session_secrets.py`, `core/validators.py`, `modules/beacon_config_builder.py`, `modules/metrics.py`, `utils.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_implant_session_secrets.py`, `tests/test_infra_disposable.py`
+- `C2Builder.__init__` (method) `modules/c2_builder.py:452` `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
+- `C2Builder.run` (method) `modules/c2_builder.py:510` `def run(self, line, choice, use_tunnel)` -- Execute the full C2 build pipeline.
 
 ## modules/c2_messaging_base.py
 - `SecureSessionManager.__init__` (method) `modules/c2_messaging_base.py:22` `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)`
@@ -287,7 +287,7 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `modules/gym_matrix
 
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_distill.py`, `tests/test_chain_evidence.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_evidence.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
 - `ChainStep.identifier` (method) `modules/chain_registry.py:105` `def identifier(self)` -- Return the declared id or a stable generated one.
 - `Chain.resolve` (method) `modules/chain_registry.py:128` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
 - `evaluate_when` (function) `modules/chain_registry.py:247` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.

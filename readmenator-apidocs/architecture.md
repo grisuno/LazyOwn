@@ -6,7 +6,7 @@
 
 38 components stacked in 9 dependency tiers (weighted Eades-Lin-Smyth ordering: arrows point from dependent to dependency, top to bottom). Labels are import counts, thick arrows the top quartile; 35 transitively implied edges are omitted. Dashed red arrows are upward dependencies: the smallest set of imports that closes every cycle and breaks the layering. Cyan components hold entry points. Interactive version: `readmenator-apidocs/index.html#/flows`.
 
-Upward dependencies to fix first: `modules: autonomous_daemon` -> `modules: lazy_loop` (45 imports); `cli` -> `cli/commands` (32 imports); `cli` -> `modules: autonomous_daemon` (27 imports); `modules: world_model` -> `modules: autonomous_daemon` (27 imports); `cli/commands` -> `modules: autonomous_daemon` (26 imports); `cli/commands` -> `modules: lazy_loop` (24 imports); `modules: world_model` -> `cli/commands` (21 imports); `cli` -> `modules: lazy_loop` (20 imports); `modules: autonomous_daemon` -> `modules: lazyown_facts` (13 imports); `cli` -> `lazyc2/security` (13 imports); `modules: autonomous_daemon` -> `lazyc2/security` (9 imports); `modules: lazy_loop` -> `modules: lazyown_facts` (9 imports); `cli/commands` -> `static/js` (8 imports); `modules: world_model` -> `cli` (7 imports); `modules: world_model` -> `modules: lazy_loop` (6 imports); `modules: lazy_loop` -> `static/js` (4 imports); `modules: world_model` -> `modules: lazyown_facts` (4 imports); `skills/claude_md_orchestrator` -> `modules: autonomous_daemon` (4 imports); `cli/commands` -> `core` (3 imports); `skills/claude_md_orchestrator` -> `static/js` (3 imports); `modules: autonomous_daemon` -> `core` (2 imports); `cli` -> `static/js` (2 imports); `skills/claude_md_orchestrator` -> `cli/commands` (2 imports); `cli/commands` -> `modules: opsec_scorer` (1 imports); `cli/commands` -> `lazyc2/security` (1 imports); `cli/commands` -> `modules: lazyown_facts` (1 imports); `core` -> `static/js` (1 imports); `modules: defense_eval` -> `modules: lazy_loop` (1 imports); `cli` -> `modules: opsec_scorer` (1 imports); `modules: world_model` -> `lazyc2/security` (1 imports); `modules: lazyown_facts` -> `static/js` (1 imports); `static/js` -> `lazyc2/security` (1 imports)
+Upward dependencies to fix first: `modules: autonomous_daemon` -> `modules: lazy_loop` (45 imports); `cli` -> `cli/commands` (32 imports); `modules: world_model` -> `modules: autonomous_daemon` (29 imports); `cli` -> `modules: autonomous_daemon` (27 imports); `cli/commands` -> `modules: autonomous_daemon` (26 imports); `cli/commands` -> `modules: lazy_loop` (23 imports); `cli` -> `modules: lazy_loop` (20 imports); `modules: autonomous_daemon` -> `modules: lazyown_facts` (13 imports); `cli` -> `lazyc2/security` (13 imports); `cli/commands` -> `modules: world_model` (10 imports); `cli` -> `modules: world_model` (10 imports); `modules: autonomous_daemon` -> `lazyc2/security` (9 imports); `modules: lazy_loop` -> `modules: lazyown_facts` (9 imports); `modules: world_model` -> `modules: lazy_loop` (9 imports); `cli/commands` -> `static/js` (8 imports); `modules: lazy_loop` -> `static/js` (4 imports); `modules: world_model` -> `modules: lazyown_facts` (4 imports); `skills/claude_md_orchestrator` -> `modules: autonomous_daemon` (4 imports); `cli/commands` -> `core` (3 imports); `skills/claude_md_orchestrator` -> `static/js` (3 imports); `modules: autonomous_daemon` -> `core` (2 imports); `cli` -> `static/js` (2 imports); `skills/claude_md_orchestrator` -> `cli/commands` (2 imports); `cli/commands` -> `modules: opsec_scorer` (1 imports); `cli/commands` -> `lazyc2/security` (1 imports); `cli/commands` -> `modules: lazyown_facts` (1 imports); `core` -> `static/js` (1 imports); `modules: defense_eval` -> `modules: lazy_loop` (1 imports); `cli` -> `modules: opsec_scorer` (1 imports); `modules: world_model` -> `lazyc2/security` (1 imports); `modules: lazyown_facts` -> `static/js` (1 imports); `static/js` -> `lazyc2/security` (1 imports)
 
 ```mermaid
 flowchart TB
@@ -38,13 +38,13 @@ flowchart TB
         n_c23["scripts: migrate_lazyown<br/>1 files, 6 symbols<br/>Core / utility"]:::default
         n_c22["scripts: check_contract_manifest<br/>1 files, 13 symbols<br/>Core / utility"]:::default
         n_c21["poc_tui<br/>2 files, 33 symbols<br/>Infrastructure"]:::default
-        n_c20["modules/backdoor<br/>2 files, 6 symbols<br/>Core / utility"]:::default
+        n_c20["modules/backdoor<br/>2 files, 7 symbols<br/>Core / utility"]:::default
         n_c19["scripts: journal<br/>2 files, 16 symbols<br/>Core / utility"]:::default
         n_c18["tests<br/>1 files, 1 symbols<br/>Business logic"]:::default
     end
     subgraph lane_1["Tier 2"]
         direction LR
-        n_c6["lazyc2/security<br/>35 files, 750 symbols<br/>Core / utility"]:::cycle
+        n_c6["lazyc2/security<br/>35 files, 752 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_2["Tier 3"]
         direction LR
@@ -53,7 +53,7 @@ flowchart TB
     end
     subgraph lane_3["Tier 4"]
         direction LR
-        n_c3["modules: lazy_loop<br/>66 files, 1584 symbols<br/>Core / utility"]:::cycle
+        n_c3["modules: lazy_loop<br/>66 files, 1586 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_4["Tier 5"]
         direction LR
@@ -66,19 +66,19 @@ flowchart TB
     end
     subgraph lane_6["Tier 7"]
         direction LR
-        n_c1["cli/commands<br/>113 files, 1937 symbols<br/>Core / utility"]:::entry
+        n_c4["modules: world_model<br/>46 files, 650 symbols<br/>Core / utility"]:::cycle
     end
     subgraph lane_7["Tier 8"]
         direction LR
-        n_c2["cli<br/>74 files, 1500 symbols<br/>Core / utility"]:::entry
-        n_c9["skills/claude_md_orchestrator<br/>22 files, 321 symbols<br/>Core / utility"]:::cycle
-        n_c17["contrib/legacy<br/>4 files, 15 symbols<br/>Core / utility"]:::default
+        n_c1["cli/commands<br/>113 files, 1925 symbols<br/>Core / utility"]:::entry
     end
     subgraph lane_8["Tier 9 - foundation"]
         direction LR
-        n_c4["modules: world_model<br/>45 files, 628 symbols<br/>Core / utility"]:::cycle
+        n_c9["skills/claude_md_orchestrator<br/>22 files, 321 symbols<br/>Core / utility"]:::cycle
+        n_c2["cli<br/>74 files, 1500 symbols<br/>Core / utility"]:::entry
+        n_c17["contrib/legacy<br/>4 files, 15 symbols<br/>Core / utility"]:::default
     end
-    n_c0 ==>|"31"| n_c1
+    n_c0 ==>|"37"| n_c4
     n_c1 -->|"1"| n_c17
     n_c1 ==>|"56"| n_c2
     n_c1 -->|"1"| n_c9
@@ -89,9 +89,9 @@ flowchart TB
     n_c14 -->|"1"| n_c1
     n_c15 -->|"1"| n_c1
     n_c16 -->|"1"| n_c0
-    n_c2 ==>|"10"| n_c4
     n_c3 -->|"3"| n_c12
     n_c3 ==>|"7"| n_c16
+    n_c4 ==>|"24"| n_c1
     n_c5 -->|"1"| n_c6
     n_c6 -->|"2"| n_c10
     n_c6 -->|"2"| n_c7
@@ -104,7 +104,8 @@ flowchart TB
     n_c0 <-.-|"26 upward"| n_c1
     n_c10 <-.-|"3 upward"| n_c1
     n_c11 <-.-|"1 upward"| n_c1
-    n_c3 <-.-|"24 upward"| n_c1
+    n_c3 <-.-|"23 upward"| n_c1
+    n_c4 <-.-|"10 upward"| n_c1
     n_c6 <-.-|"1 upward"| n_c1
     n_c7 <-.-|"1 upward"| n_c1
     n_c8 <-.-|"8 upward"| n_c1
@@ -114,14 +115,13 @@ flowchart TB
     n_c1 <-.-|"32 upward"| n_c2
     n_c11 <-.-|"1 upward"| n_c2
     n_c3 <-.-|"20 upward"| n_c2
+    n_c4 <-.-|"10 upward"| n_c2
     n_c6 <-.-|"13 upward"| n_c2
     n_c8 <-.-|"2 upward"| n_c2
     n_c7 <-.-|"9 upward"| n_c3
     n_c8 <-.-|"4 upward"| n_c3
-    n_c0 <-.-|"27 upward"| n_c4
-    n_c1 <-.-|"21 upward"| n_c4
-    n_c2 <-.-|"7 upward"| n_c4
-    n_c3 <-.-|"6 upward"| n_c4
+    n_c0 <-.-|"29 upward"| n_c4
+    n_c3 <-.-|"9 upward"| n_c4
     n_c6 <-.-|"1 upward"| n_c4
     n_c7 <-.-|"4 upward"| n_c4
     n_c8 <-.-|"1 upward"| n_c7
@@ -135,9 +135,9 @@ flowchart TB
     n_c7 ~~~ n_c3
     n_c3 ~~~ n_c12
     n_c12 ~~~ n_c0
-    n_c0 ~~~ n_c1
-    n_c1 ~~~ n_c2
-    n_c2 ~~~ n_c4
+    n_c0 ~~~ n_c4
+    n_c4 ~~~ n_c1
+    n_c1 ~~~ n_c9
 ```
 
 ---

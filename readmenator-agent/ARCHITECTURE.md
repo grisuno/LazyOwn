@@ -457,6 +457,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/session_ops.py` -> `utils.py`
 - `cli/commands/shellsys.py` -> `cli/commands/_base.py`
 - `cli/commands/shellsys.py` -> `core/safe_exec.py`
+- `cli/commands/shellsys.py` -> `core/session_secrets.py`
 - `cli/commands/shellsys.py` -> `utils.py`
 - `cli/commands/sleep_obfuscation.py` -> `cli/commands/_base.py`
 - `cli/commands/sleep_obfuscation.py` -> `modules/sleep_obfuscation.py`
@@ -495,6 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/dashboard_tui.py` -> `cli/reactive_hints.py`
 - `cli/dashboard_tui.py` -> `cli/reasoning_stream.py`
 - `cli/dashboard_tui.py` -> `cli/recommendation_signals.py`
-- `cli/dashboard_tui.py` -> `cli/toast_bus.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

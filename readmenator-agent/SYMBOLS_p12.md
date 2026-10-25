@@ -3,17 +3,31 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_go_string_list` | function | `modules/c2_builder.py:220` | `def _go_string_list(urls)` |
-| `_parse_go_version` | function | `modules/c2_builder.py:234` | `def _parse_go_version(text)` |
-| `_preflight` | function | `modules/c2_builder.py:160` | `def _preflight(profile)` |
-| `_read` | function | `modules/c2_builder.py:641` | `def _read(path_)` |
-| `_read_required` | function | `modules/c2_builder.py:648` | `def _read_required(path_)` |
-| `_render_template` | function | `modules/c2_builder.py:169` | `def _render_template(content, context)` |
-| `_replacer` | function | `modules/c2_builder.py:173` | `def _replacer(match)` |
-| `_resolve_fallback_urls` | function | `modules/c2_builder.py:180` | `def _resolve_fallback_urls(params)` |
-| `_resolve_go_bin` | function | `modules/c2_builder.py:44` | `def _resolve_go_bin()` |
-| `_write` | function | `modules/c2_builder.py:652` | `def _write(path_, content)` |
-| `run` | method | `modules/c2_builder.py:453` | `def run(self, line, choice, use_tunnel)` |
+| `validate_client_id` | function | `modules/c2_agent.py:113` | `def validate_client_id(raw)` |
+| `wait_record` | function | `modules/c2_agent.py:659` | `def wait_record(client_id, command, since, timeout)` |
+| `C2Builder` | class | `modules/c2_builder.py:449` | `class C2Builder` |
+| `C2Profile` | class | `modules/c2_builder.py:77` | `class C2Profile` |
+| `__init__` | method | `modules/c2_builder.py:452` | `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)` |
+| `_beacon_scan_ports_csv` | function | `modules/c2_builder.py:274` | `def _beacon_scan_ports_csv(params)` |
+| `_build_compile_commands` | function | `modules/c2_builder.py:367` | `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out...` |
+| `_build_context` | function | `modules/c2_builder.py:418` | `def _build_context(sessions_dir)` |
+| `_command_output` | function | `modules/c2_builder.py:306` | `def _command_output(argv, timeout)` |
+| `_ensure_garble_toolchain` | method | `modules/c2_builder.py:470` | `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)` |
+| `_ensure_go` | function | `modules/c2_builder.py:60` | `def _ensure_go(cmd_fn)` |
+| `_garble_matches_toolchain` | function | `modules/c2_builder.py:344` | `def _garble_matches_toolchain(go_bin, garble_bin)` |
+| `_go_build_version` | function | `modules/c2_builder.py:325` | `def _go_build_version(go_bin, target)` |
+| `_go_string_list` | function | `modules/c2_builder.py:221` | `def _go_string_list(urls)` |
+| `_lkm_makefile_text` | function | `modules/c2_builder.py:238` | `def _lkm_makefile_text(listener_ip, listener_port)` |
+| `_parse_go_version` | function | `modules/c2_builder.py:291` | `def _parse_go_version(text)` |
+| `_preflight` | function | `modules/c2_builder.py:161` | `def _preflight(profile)` |
+| `_read` | function | `modules/c2_builder.py:713` | `def _read(path_)` |
+| `_read_required` | function | `modules/c2_builder.py:720` | `def _read_required(path_)` |
+| `_render_template` | function | `modules/c2_builder.py:170` | `def _render_template(content, context)` |
+| `_replacer` | function | `modules/c2_builder.py:174` | `def _replacer(match)` |
+| `_resolve_fallback_urls` | function | `modules/c2_builder.py:181` | `def _resolve_fallback_urls(params)` |
+| `_resolve_go_bin` | function | `modules/c2_builder.py:45` | `def _resolve_go_bin()` |
+| `_write` | function | `modules/c2_builder.py:724` | `def _write(path_, content)` |
+| `run` | method | `modules/c2_builder.py:510` | `def run(self, line, choice, use_tunnel)` |
 | `PayloadConfigAdapter` | class | `modules/c2_messaging_base.py:117` | `class PayloadConfigAdapter` |
 | `SecureSessionManager` | class | `modules/c2_messaging_base.py:9` | `class SecureSessionManager` |
 | `__getitem__` | method | `modules/c2_messaging_base.py:129` | `def __getitem__(self, key)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `dcsync_rights_assignment_plan` | method | `modules/dacl_abuse.py:318` | `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` |
 | `owner_takeover_plan` | method | `modules/dacl_abuse.py:348` | `def owner_takeover_plan(self, target_dn, attacker_sid)` |
 | `parse_bloodhound_acls` | method | `modules/dacl_abuse.py:143` | `def parse_bloodhound_acls(self, edges)` |
-| `parse_raw_aces` | method | `modules/dacl_abuse.py:182` | `def parse_raw_aces(self, raw_nthashes)` |
-| `summary` | method | `modules/dacl_abuse.py:418` | `def summary(self)` |
-| `_aggregate_data` | function | `modules/dashboard_bp.py:113` | `def _aggregate_data()` |
-| `_count_lines` | function | `modules/dashboard_bp.py:103` | `def _count_lines(path)` |
-| `_normalize_ts` | function | `modules/dashboard_bp.py:913` | `def _normalize_ts(raw)` |
-| `_read_json` | function | `modules/dashboard_bp.py:93` | `def _read_json(path)` |
-| `_read_jsonl` | function | `modules/dashboard_bp.py:71` | `def _read_jsonl(path, last_n)` |
-| `_read_loot` | function | `modules/dashboard_bp.py:817` | `def _read_loot()` |
-| `_read_loot_lines` | function | `modules/dashboard_bp.py:800` | `def _read_loot_lines(pattern)` |
-| `_read_timeline` | function | `modules/dashboard_bp.py:934` | `def _read_timeline()` |
-| `_require_login` | function | `modules/dashboard_bp.py:30` | `def _require_login()` |
-| `dashboard_api_data` | function | `modules/dashboard_bp.py:784` | `def dashboard_api_data()` |
-| `dashboard_index` | function | `modules/dashboard_bp.py:778` | `def dashboard_index()` |
-| `dashboard_loot` | function | `modules/dashboard_bp.py:902` | `def dashboard_loot()` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

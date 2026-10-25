@@ -39,6 +39,7 @@ flowchart LR
     n_core_console_py__print_warn["console.print_warn"]
     n_cli_commands_phishing_wizard_py__PhishingWizardCommandSet_do_phish_serve(["PhishingWizardCommandSet.do_phish_serve"])
     n_cli_commands_phishing_wizard_py__PhishingWizardCommandSet_do_phish_report(["PhishingWizardCommandSet.do_phish_report"])
+    n_utils_py__lazyown_set_config["utils.lazyown_set_config"]
     n_cli_commands_phishing_wizard_py__PhishingWizardCommandSet_do_phish_wizard -.-> n_core_console_py__print_error
     n_cli_commands_phishing_wizard_py__PhishingWizardCommandSet_do_phish_wizard -.-> n_core_console_py__print_msg
     n_cli_commands_phishing_wizard_py__PhishingWizardCommandSet_do_phish_wizard -.-> n_core_console_py__print_warn
@@ -46,6 +47,7 @@ flowchart LR
     n_cli_commands_phishing_wizard_py__PhishingWizardCommandSet_do_phish_serve -.-> n_core_console_py__print_msg
     n_cli_commands_phishing_wizard_py__PhishingWizardCommandSet_do_phish_report -.-> n_core_console_py__print_error
     n_cli_commands_phishing_wizard_py__PhishingWizardCommandSet_do_phish_report -.-> n_core_console_py__print_msg
+    n_cli_commands_phishing_wizard_py__PhishingWizardCommandSet_do_phish_report -.-> n_utils_py__lazyown_set_config
 ```
 
 ## Classes
@@ -157,6 +159,6 @@ Displays click count, captured credentials, and campaign stats.
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg)
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`lazyown_set_config`](utils.py.md#lazyown_set_config)
 
 ---

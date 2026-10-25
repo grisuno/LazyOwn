@@ -30,6 +30,7 @@ import importlib.util
 import io  # noqa: F401
 import itertools  # noqa: F401
 import json
+import logging
 import os
 import random
 import re
@@ -318,6 +319,40 @@ _SECRET_PATTERNS = (
 
 
 _SUDO_STATE: dict = {"checked": False, "ok": False}
+
+
+def lazyown_set_config(key: str, value, config_obj=None):
+    """Persist a key to ``payload.json`` and refresh any live config object.
+
+    This is the sanctioned writer for runtime configuration changes made
+    outside ``do_assign`` / ``do_set`` so every write is audited and atomic.
+
+    Args:
+        key: Payload key to set. Must not be empty.
+        value: Value to store as JSON.
+        config_obj: Optional live config wrapper (``core.config.Config``)
+            or dict-params shell object kept in sync with the write.
+
+    Returns:
+        The value that was stored.
+
+    Raises:
+        ValueError: if ``key`` is empty.
+        OSError: if the payload file cannot be written.
+    """
+    if not key:
+        raise ValueError("lazyown_set_config requires a non-empty key")
+    payload = load_payload()
+    payload[key] = value
+    save_payload(payload)
+    if config_obj is not None:
+        try:
+            setattr(config_obj, key, value)
+            if hasattr(config_obj, "config") and isinstance(config_obj.config, dict):
+                config_obj.config[key] = value
+        except Exception as exc:
+            logging.debug("Could not mirror %s onto the live config: %s", key, exc)
+    return value
 
 
 def needs_sudo(command: str) -> bool:

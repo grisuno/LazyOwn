@@ -1,6 +1,265 @@
 # Subsystem: tests (page 20 of 20)
 Previous: [KB_tests_p19.md](KB_tests_p19.md)
 
+## tests/test_tui_theme_command.py
+- Doc: Tests for the cli.tui_theme command logic.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `RecordingSave` (class, line 11) `class RecordingSave`
+  - `_payload` (function, line 21) `def _payload()`
+  - `TuiThemeListingTests` (class, line 28) `class TuiThemeListingTests(TestCase)`
+  - `TuiThemeSwitchTests` (class, line 46) `class TuiThemeSwitchTests(TestCase)`
+  - `TuiThemeCycleTests` (class, line 78) `class TuiThemeCycleTests(TestCase)`
+  - `TuiThemeRegistrationConsistencyTests` (class, line 105) `class TuiThemeRegistrationConsistencyTests(TestCase)`
+  - `__init__` (method, line 14) `def __init__(self)`
+  - `__call__` (method, line 17) `def __call__(self, payload)`
+  - `test_empty_args_lists_every_registered_theme` (method, line 29) `def test_empty_args_lists_every_registered_theme(self)`
+  - `test_listing_marks_current_theme` (method, line 38) `def test_listing_marks_current_theme(self)`
+  - `test_known_name_switches_and_persists` (method, line 47) `def test_known_name_switches_and_persists(self)`
+  - `test_unknown_name_does_not_mutate` (method, line 55) `def test_unknown_name_does_not_mutate(self)`
+  - `test_case_insensitive_lookup` (method, line 63) `def test_case_insensitive_lookup(self)`
+  - `test_reset_returns_to_default` (method, line 70) `def test_reset_returns_to_default(self)`
+  - `test_cycle_advances_in_theme_order` (method, line 79) `def test_cycle_advances_in_theme_order(self)`
+  - `test_cycle_wraps_around` (method, line 87) `def test_cycle_wraps_around(self)`
+  - `test_prev_walks_backwards_and_wraps` (method, line 94) `def test_prev_walks_backwards_and_wraps(self)`
+  - `test_theme_order_covers_every_registered_theme` (method, line 106) `def test_theme_order_covers_every_registered_theme(self)`
+  - `test_theme_order_has_no_duplicates` (method, line 109) `def test_theme_order_has_no_duplicates(self)`
+- Depends on: `cli/__init__.py`, `cli/themes.py`
+
+## tests/test_tui_themes.py
+- Doc: Tests for the four new themes added on top of the original four.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `NewThemeRegistrationTests` (class, line 39) `class NewThemeRegistrationTests(TestCase)`
+  - `NewThemeRenderTests` (class, line 86) `class NewThemeRenderTests(TestCase)`
+  - `ThemeOrderTests` (class, line 130) `class ThemeOrderTests(TestCase)`
+  - `test_every_new_theme_is_registered` (method, line 40) `def test_every_new_theme_is_registered(self)`
+  - `test_original_themes_remain_registered` (method, line 45) `def test_original_themes_remain_registered(self)`
+  - `test_get_theme_resolves_every_new_name` (method, line 50) `def test_get_theme_resolves_every_new_name(self)`
+  - `test_get_theme_uses_case_insensitive_lookup` (method, line 55) `def test_get_theme_uses_case_insensitive_lookup(self)`
+  - `test_unknown_name_falls_back_to_default` (method, line 59) `def test_unknown_name_falls_back_to_default(self)`
+  - `test_theme_from_payload_picks_each_new_theme` (method, line 64) `def test_theme_from_payload_picks_each_new_theme(self)`
+  - `test_new_themes_have_unique_color_palettes` (method, line 72) `def test_new_themes_have_unique_color_palettes(self)`
+  - `test_new_themes_have_non_empty_token_values` (method, line 76) `def test_new_themes_have_non_empty_token_values(self)`
+  - `test_every_token_renders_with_ansi_escapes` (method, line 95) `def test_every_token_renders_with_ansi_escapes(self)`
+  - `test_every_token_renders_with_ansi_escapes_in_256color` (method, line 112) `def test_every_token_renders_with_ansi_escapes_in_256color(self)`
+  - `test_order_covers_every_registered_theme_exactly_once` (method, line 131) `def test_order_covers_every_registered_theme_exactly_once(self)`
+  - `test_order_is_reexported_by_tui_theme_command` (method, line 135) `def test_order_is_reexported_by_tui_theme_command(self)`
+- Depends on: `cli/__init__.py`, `cli/themes.py`, `core/console.py`
+
+## tests/test_unified_bridge_delegate.py
+- Doc: Contract tests for UnifiedBridge.delegate agent polling.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `unified_bridge` (function, line 16) `def unified_bridge(monkeypatch)`
+  - `_patch_bridge_api` (function, line 25) `def _patch_bridge_api(monkeypatch, statuses, result)`
+  - `test_delegate_polls_until_completion` (function, line 40) `def test_delegate_polls_until_completion(monkeypatch, unified_bridge)`
+  - `test_delegate_times_out_when_agent_never_finishes` (function, line 55) `def test_delegate_times_out_when_agent_never_finishes(monkeypatch, unified_bridge)`
+  - `test_delegate_reports_agent_failure` (function, line 66) `def test_delegate_reports_agent_failure(monkeypatch, unified_bridge)`
+  - `test_delegate_surfaces_missing_agent` (function, line 77) `def test_delegate_surfaces_missing_agent(monkeypatch, unified_bridge)`
+  - `test_delegate_wraps_start_errors` (function, line 87) `def test_delegate_wraps_start_errors(monkeypatch, unified_bridge)`
+  - `fake_start` (function, line 30) `def fake_start(goal, backend, runner, max_iterations)`
+  - `boom` (function, line 90) `def boom()`
+- Depends on: `modules/__init__.py`
+
+## tests/test_unified_dashboard.py
+- Doc: Tests for modules/unified_dashboard.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestUnifiedDashboardInit` (class, line 10) `class TestUnifiedDashboardInit`
+  - `TestWorldModelCollection` (class, line 21) `class TestWorldModelCollection`
+  - `TestDaemonStatus` (class, line 36) `class TestDaemonStatus`
+  - `TestUnifiedSnapshot` (class, line 51) `class TestUnifiedSnapshot`
+  - `TestRenderUnified` (class, line 74) `class TestRenderUnified`
+  - `TestExportJson` (class, line 95) `class TestExportJson`
+  - `test_default_init` (method, line 11) `def test_default_init(self, tmp_path)`
+  - `test_get_unified_dashboard_singleton` (method, line 15) `def test_get_unified_dashboard_singleton(self, tmp_path)`
+  - `test_collect_world_model_exists` (method, line 22) `def test_collect_world_model_exists(self, tmp_path)`
+  - `test_collect_world_model_missing` (method, line 30) `def test_collect_world_model_missing(self, tmp_path)`
+  - `test_collect_daemon_status_exists` (method, line 37) `def test_collect_daemon_status_exists(self, tmp_path)`
+  - `test_collect_daemon_status_missing` (method, line 45) `def test_collect_daemon_status_missing(self, tmp_path)`
+  - `test_snapshot_keys` (method, line 52) `def test_snapshot_keys(self, tmp_path)`
+  - `test_snapshot_timestamp` (method, line 67) `def test_snapshot_timestamp(self, tmp_path)`
+  - `test_render_contains_header` (method, line 75) `def test_render_contains_header(self, tmp_path)`
+  - `test_render_contains_sections` (method, line 80) `def test_render_contains_sections(self, tmp_path)`
+  - `test_render_contains_timestamp` (method, line 89) `def test_render_contains_timestamp(self, tmp_path)`
+  - `test_export_json` (method, line 96) `def test_export_json(self, tmp_path)`
+- Depends on: `modules/unified_dashboard.py`
+
+## tests/test_utils_import_silent.py
+- Doc: utils as a library: importing it must never parse the importer's argv.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_import_with_foreign_argv_is_silent` (function, line 12) `def test_import_with_foreign_argv_is_silent()`
+  - `test_lazy_import_chains_stay_silent` (function, line 34) `def test_lazy_import_chains_stay_silent()`
+
+## tests/test_verb_catalog.py
+- Doc: BDD contract tests for the operator verb catalog.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sandbox` (function, line 19) `def sandbox(tmp_path)`
+  - `test_sync_generates_catalog_with_builtins_on_and_new_off` (function, line 32) `def test_sync_generates_catalog_with_builtins_on_and_new_off(sandbox)`
+  - `test_sync_preserves_operator_choices` (function, line 41) `def test_sync_preserves_operator_choices(sandbox)`
+  - `test_sync_prunes_stale_commands` (function, line 51) `def test_sync_prunes_stale_commands(sandbox)`
+  - `test_load_returns_empty_on_missing_invalid_or_oversize` (function, line 64) `def test_load_returns_empty_on_missing_invalid_or_oversize(sandbox, tmp_path)`
+  - `test_set_enabled_unknown_command_raises` (function, line 73) `def test_set_enabled_unknown_command_raises(sandbox)`
+  - `test_set_enabled_persists_atomically` (function, line 79) `def test_set_enabled_persists_atomically(sandbox)`
+  - `test_validate_catalog_rejects_bad_documents` (function, line 88) `def test_validate_catalog_rejects_bad_documents(sandbox)`
+  - `test_effective_verbs_include_catalog_entries` (function, line 97) `def test_effective_verbs_include_catalog_entries(sandbox, monkeypatch)`
+  - `test_loop_refuses_disabled_cli_verb_and_allows_enabled` (function, line 111) `def test_loop_refuses_disabled_cli_verb_and_allows_enabled(sandbox, monkeypatch)`
+  - `test_stats_reports_on_off_counts` (function, line 133) `def test_stats_reports_on_off_counts(sandbox)`
+  - `test_search_filters_catalog` (function, line 141) `def test_search_filters_catalog(sandbox)`
+  - `_addon_sandbox` (function, line 150) `def _addon_sandbox(tmp_path, enabled)`
+  - `test_sync_indexes_enabled_lazyaddons_disabled_by_default` (function, line 169) `def test_sync_indexes_enabled_lazyaddons_disabled_by_default(tmp_path)`
+  - `test_sync_prunes_renamed_or_disabled_addons` (function, line 187) `def test_sync_prunes_renamed_or_disabled_addons(tmp_path)`
+  - `test_operator_can_turn_addon_verb_on` (function, line 202) `def test_operator_can_turn_addon_verb_on(tmp_path)`
+  - `test_steps_for_addon_verb_runs_lazy_addon` (function, line 215) `def test_steps_for_addon_verb_runs_lazy_addon(tmp_path, monkeypatch)`
+- Depends on: `modules/__init__.py`
+
+## tests/test_verb_manifest.py
+- Doc: BDD tests for the typed verb manifest store.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `manifest_path` (function, line 14) `def manifest_path(tmp_path)`
+  - `TestSchema` (class, line 50) `class TestSchema`
+  - `TestPlanCheck` (class, line 81) `class TestPlanCheck`
+  - `TestNoiseAndCost` (class, line 118) `class TestNoiseAndCost`
+  - `test_valid_manifest_parses` (method, line 53) `def test_valid_manifest_parses(self, manifest_path)`
+  - `test_unknown_fact_id_dropped` (method, line 65) `def test_unknown_fact_id_dropped(self, manifest_path)`
+  - `test_parse_manifest_rejects_junk` (method, line 73) `def test_parse_manifest_rejects_junk(self)`
+  - `test_unmet_precondition_reported` (method, line 84) `def test_unmet_precondition_reported(self, manifest_path)`
+  - `test_effect_paid_forward` (method, line 91) `def test_effect_paid_forward(self, manifest_path)`
+  - `test_world_model_facts_default` (method, line 104) `def test_world_model_facts_default(self)`
+  - `test_fallback_when_store_empty` (method, line 112) `def test_fallback_when_store_empty(self, tmp_path)`
+  - `test_noise_clamped` (method, line 121) `def test_noise_clamped(self)`
+  - `test_cost_tolerates_junk` (method, line 129) `def test_cost_tolerates_junk(self)`
+- Depends on: `modules/chain_registry.py`, `modules/verb_manifest.py`
+
+## tests/test_viral_adoption.py
+- Doc: Viral adoption assets: GIFs, smoke script, drift CI, launch kit.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_demo_gifs_exist_and_nonempty` (function, line 8) `def test_demo_gifs_exist_and_nonempty()`
+  - `test_demo_gif_commands_exist_in_source` (function, line 23) `def test_demo_gif_commands_exist_in_source()`
+  - `test_readme_links_viral_assets` (function, line 75) `def test_readme_links_viral_assets()`
+  - `test_smoke_script_covers_onboarding` (function, line 83) `def test_smoke_script_covers_onboarding()`
+  - `test_docs_drift_workflow_exists` (function, line 89) `def test_docs_drift_workflow_exists()`
+  - `test_marketplace_template_exists` (function, line 95) `def test_marketplace_template_exists()`
+  - `test_launch_kit_exists` (function, line 101) `def test_launch_kit_exists()`
+
+## tests/test_vuln_mitigations.py
+- Doc: Regression suite for the GitHub code-scanning mitigations.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `MitigationSuiteConfig` (class, line 29) `class MitigationSuiteConfig`
+  - `mitigation_config` (function, line 64) `def mitigation_config()`
+  - `_read_module` (function, line 69) `def _read_module(config, relative_path)`
+  - `_iter_function_bodies` (function, line 77) `def _iter_function_bodies(src)`
+  - `TestStackTraceSanitisation` (class, line 89) `class TestStackTraceSanitisation`
+  - `TestSentinelRegexSafety` (class, line 166) `class TestSentinelRegexSafety`
+  - `TestMitigationConfigInvariants` (class, line 224) `class TestMitigationConfigInvariants`
+  - `repo_root` (method, line 58) `def repo_root(self)`
+  - `lazyc2_src` (method, line 93) `def lazyc2_src(self, mitigation_config)`
+  - `phishingai_src` (method, line 98) `def phishingai_src(self, mitigation_config)`
+  - `test_log_handler_returns_generic_message` (method, line 102) `def test_log_handler_returns_generic_message(self, lazyc2_src)`
+  - `test_log_handler_keeps_server_side_logging` (method, line 112) `def test_log_handler_keeps_server_side_logging(self, lazyc2_src)`
+  - `test_palette_api_returns_generic_message` (method, line 121) `def test_palette_api_returns_generic_message(self, lazyc2_src)`
+  - `test_palette_api_keeps_server_side_logging` (method, line 131) `def test_palette_api_keeps_server_side_logging(self, lazyc2_src)`
+  - `test_dynamic_route_drops_raw_save_to_log_payload` (method, line 140) `def test_dynamic_route_drops_raw_save_to_log_payload(self, lazyc2_src)`
+  - `test_phishing_ai_returns_generic_message` (method, line 149) `def test_phishing_ai_returns_generic_message(self, phishingai_src)`
+  - `test_no_forbidden_response_substrings_remain` (method, line 154) `def test_no_forbidden_response_substrings_remain(self, lazyc2_src, phishingai_src, mitigation_config)`
+  - `src` (method, line 177) `def src(self, mitigation_config)`
+  - `_extract_sanitise_pattern` (method, line 181) `def _extract_sanitise_pattern(self, src)`
+  - `test_no_redundant_character_range_in_sanitise` (method, line 188) `def test_no_redundant_character_range_in_sanitise(self, src)`
+  - `test_pattern_matches_simplified_form` (method, line 193) `def test_pattern_matches_simplified_form(self, src)`
+  - `test_pattern_keeps_printable_ascii` (method, line 197) `def test_pattern_keeps_printable_ascii(self, src)`
+  - `test_pattern_keeps_tab_and_newline` (method, line 203) `def test_pattern_keeps_tab_and_newline(self, src)`
+  - `test_pattern_strips_control_bytes` (method, line 209) `def test_pattern_strips_control_bytes(self, src)`
+  - `test_pattern_does_not_strip_brackets` (method, line 217) `def test_pattern_does_not_strip_brackets(self, src)`
+  - `test_handler_module_paths_exist` (method, line 227) `def test_handler_module_paths_exist(self, mitigation_config)`
+  - `test_sentinel_module_exists` (method, line 232) `def test_sentinel_module_exists(self, mitigation_config)`
+  - `test_sentinel_function_exposed` (method, line 236) `def test_sentinel_function_exposed(self, mitigation_config)`
+
+## tests/test_wizard_binary_check.py
+- Doc: tests/test_wizard_binary_check.py  Tests for the wizard binary-readiness check added to...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestBinarySpecRegistry` (class, line 32) `class TestBinarySpecRegistry`
+  - `TestBinaryNameRegex` (class, line 58) `class TestBinaryNameRegex`
+  - `TestCheckBinariesContract` (class, line 92) `class TestCheckBinariesContract`
+  - `TestGroupByCategory` (class, line 143) `class TestGroupByCategory`
+  - `TestRunIntegratesBinaryCheck` (class, line 156) `class TestRunIntegratesBinaryCheck`
+  - `TestPublicSurface` (class, line 199) `class TestPublicSurface`
+  - `test_default_registry_is_not_empty` (method, line 33) `def test_default_registry_is_not_empty(self)`
+  - `test_every_spec_has_required_fields` (method, line 36) `def test_every_spec_has_required_fields(self)`
+  - `test_every_name_matches_safety_regex` (method, line 44) `def test_every_name_matches_safety_regex(self)`
+  - `test_no_duplicate_binary_names` (method, line 48) `def test_no_duplicate_binary_names(self)`
+  - `test_kill_chain_categories_covered` (method, line 52) `def test_kill_chain_categories_covered(self)`
+  - `test_accepts_known_safe_names` (method, line 72) `def test_accepts_known_safe_names(self, name)`
+  - `test_rejects_unsafe_names` (method, line 88) `def test_rejects_unsafe_names(self, name)`
+  - `test_returns_one_status_per_spec` (method, line 93) `def test_returns_one_status_per_spec(self)`
+  - `test_marks_missing_when_which_returns_none` (method, line 103) `def test_marks_missing_when_which_returns_none(self)`
+  - `test_marks_present_when_which_returns_path` (method, line 109) `def test_marks_present_when_which_returns_path(self)`
+  - `test_skips_specs_with_unsafe_names` (method, line 115) `def test_skips_specs_with_unsafe_names(self)`
+  - `test_check_does_not_invoke_subprocess` (method, line 122) `def test_check_does_not_invoke_subprocess(self, monkeypatch)`
+  - `test_default_specs_used_when_omitted` (method, line 138) `def test_default_specs_used_when_omitted(self)`
+  - `test_groups_preserve_order` (method, line 144) `def test_groups_preserve_order(self)`
+  - `test_run_populates_binaries_when_nothing_changes` (method, line 157) `def test_run_populates_binaries_when_nothing_changes(self, monkeypatch)`
+  - `test_run_populates_binaries_after_updates` (method, line 176) `def test_run_populates_binaries_after_updates(self, monkeypatch)`
+  - `test_check_binaries_in_dunder_all` (method, line 200) `def test_check_binaries_in_dunder_all(self)`
+  - `_fail` (function, line 127) `def _fail()`
+  - `fake_check` (function, line 160) `def fake_check()`
+  - `fake_check` (function, line 179) `def fake_check()`
+- Depends on: `cli/__init__.py`
+
+## tests/test_wizard_llm.py
+- Doc: Contract tests for the wizard LLM provider setup step.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_scripted_prompt` (function, line 14) `def _scripted_prompt(answers)`
+  - `TestNormalizeProviderAnswer` (class, line 23) `class TestNormalizeProviderAnswer`
+  - `TestMaskSecret` (class, line 45) `class TestMaskSecret`
+  - `TestAskLlm` (class, line 59) `class TestAskLlm`
+  - `TestReadinessLlm` (class, line 121) `class TestReadinessLlm`
+  - `_fake` (function, line 17) `def _fake(message)`
+  - `test_blank_returns_none` (method, line 24) `def test_blank_returns_none(self)`
+  - `test_name_case_insensitive` (method, line 28) `def test_name_case_insensitive(self)`
+  - `test_number_selects_backend` (method, line 32) `def test_number_selects_backend(self)`
+  - `test_out_of_range_number_returns_none` (method, line 37) `def test_out_of_range_number_returns_none(self)`
+  - `test_unknown_name_returns_none` (method, line 41) `def test_unknown_name_returns_none(self)`
+  - `test_empty_returns_not_set` (method, line 46) `def test_empty_returns_not_set(self)`
+  - `test_long_value_masked_with_tail` (method, line 50) `def test_long_value_masked_with_tail(self)`
+  - `test_short_value_never_shown_clear` (method, line 53) `def test_short_value_never_shown_clear(self)`
+  - `test_blank_answers_keep_everything` (method, line 60) `def test_blank_answers_keep_everything(self, monkeypatch)`
+  - `test_provider_change_by_name` (method, line 65) `def test_provider_change_by_name(self, monkeypatch)`
+  - `test_provider_change_by_number` (method, line 70) `def test_provider_change_by_number(self, monkeypatch)`
+  - `test_invalid_provider_keeps_current` (method, line 76) `def test_invalid_provider_keeps_current(self, monkeypatch)`
+  - `test_model_override_stored_in_provider_slot` (method, line 80) `def test_model_override_stored_in_provider_slot(self, monkeypatch)`
+  - `test_ollama_skips_key_prompt` (method, line 89) `def test_ollama_skips_key_prompt(self, monkeypatch)`
+  - `test_key_kept_when_blank` (method, line 102) `def test_key_kept_when_blank(self, monkeypatch)`
+  - `test_existing_key_prompt_shows_mask` (method, line 106) `def test_existing_key_prompt_shows_mask(self, monkeypatch)`
+  - `_row` (method, line 122) `def _row(self, params, label)`
+  - `test_cloud_with_key_ok` (method, line 126) `def test_cloud_with_key_ok(self)`
+  - `test_cloud_without_key_missing` (method, line 131) `def test_cloud_without_key_missing(self)`
+  - `test_ollama_keyless_ok` (method, line 136) `def test_ollama_keyless_ok(self)`
+  - `test_invalid_backend_missing_with_fix_hint` (method, line 141) `def test_invalid_backend_missing_with_fix_hint(self)`
+  - `test_model_shown_in_value` (method, line 146) `def test_model_shown_in_value(self)`
+  - `test_sensitive_values_masked` (method, line 150) `def test_sensitive_values_masked(self)`
+  - `_fake` (function, line 92) `def _fake(message)`
+  - `_fake` (function, line 109) `def _fake(message)`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
 ## tests/test_world_model_extended.py
 - Doc: Tests for extended WorldModel methods: set_os_hint, get_host, get_hosts_summary.
 - Layer: testing

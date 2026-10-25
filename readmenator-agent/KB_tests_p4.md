@@ -1,6 +1,62 @@
 # Subsystem: tests (page 4 of 20)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
 
+## tests/test_broadcom_wps_addon.py
+- Doc: tests/test_broadcom_wps_addon.py  Validation suite for the broadcom_wps lazyaddon and its...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_load` (function, line 32) `def _load(path)`
+  - `addon` (function, line 38) `def addon()`
+  - `driver_text` (function, line 43) `def driver_text()`
+  - `TestBroadcomWpsAddonExists` (class, line 47) `class TestBroadcomWpsAddonExists`
+  - `TestBroadcomWpsRequiredFields` (class, line 63) `class TestBroadcomWpsRequiredFields`
+  - `TestBroadcomWpsToolSection` (class, line 102) `class TestBroadcomWpsToolSection`
+  - `TestBroadcomWpsPlaceholders` (class, line 137) `class TestBroadcomWpsPlaceholders`
+  - `TestBroadcomWpsDriverContract` (class, line 177) `class TestBroadcomWpsDriverContract`
+  - `test_addon_present` (method, line 48) `def test_addon_present(self)`
+  - `test_driver_present` (method, line 51) `def test_driver_present(self)`
+  - `test_addon_parses` (method, line 54) `def test_addon_parses(self, addon)`
+  - `test_driver_is_executable` (method, line 57) `def test_driver_is_executable(self)`
+  - `test_addon_has_field` (method, line 65) `def test_addon_has_field(self, addon, field)`
+  - `test_name_matches_file` (method, line 68) `def test_name_matches_file(self, addon)`
+  - `test_name_pattern` (method, line 71) `def test_name_pattern(self, addon)`
+  - `test_version_pattern` (method, line 74) `def test_version_pattern(self, addon)`
+  - `test_description_length` (method, line 77) `def test_description_length(self, addon)`
+  - `test_enabled` (method, line 80) `def test_enabled(self, addon)`
+  - `test_category` (method, line 83) `def test_category(self, addon)`
+  - `test_category_pattern` (method, line 86) `def test_category_pattern(self, addon)`
+  - `test_os_is_known` (method, line 89) `def test_os_is_known(self, addon)`
+  - `test_tool_has_key` (method, line 104) `def test_tool_has_key(self, addon, key)`
+  - `test_repo_url` (method, line 107) `def test_repo_url(self, addon)`
+  - `test_repo_url_ends_with_git` (method, line 110) `def test_repo_url_ends_with_git(self, addon)`
+  - `test_install_path` (method, line 113) `def test_install_path(self, addon)`
+  - `test_install_path_no_traversal` (method, line 116) `def test_install_path_no_traversal(self, addon)`
+  - `test_install_command_installs_scapy` (method, line 120) `def test_install_command_installs_scapy(self, addon)`
+  - `test_install_command_is_non_interactive` (method, line 123) `def test_install_command_is_non_interactive(self, addon)`
+  - `test_execute_command_runs_driver` (method, line 126) `def test_execute_command_runs_driver(self, addon)`
+  - `test_execute_command_uses_env_prefix` (method, line 129) `def test_execute_command_uses_env_prefix(self, addon)`
+  - `test_execute_command_is_complete` (method, line 133) `def test_execute_command_is_complete(self, addon)`
+  - `test_no_double_braces` (method, line 138) `def test_no_double_braces(self, addon)`
+  - `test_declared_params` (method, line 142) `def test_declared_params(self, addon)`
+  - `test_param_names_are_valid` (method, line 146) `def test_param_names_are_valid(self, addon)`
+  - `test_tokens_are_declared` (method, line 153) `def test_tokens_are_declared(self, addon)`
+  - `test_no_secret_placeholders` (method, line 158) `def test_no_secret_placeholders(self, addon)`
+  - `test_no_required_params` (method, line 163) `def test_no_required_params(self, addon)`
+  - `test_params_are_live` (method, line 167) `def test_params_are_live(self)`
+  - `test_driver_syntax` (method, line 178) `def test_driver_syntax(self)`
+  - `test_driver_resolves_repo_root` (method, line 187) `def test_driver_resolves_repo_root(self, driver_text)`
+  - `test_driver_exposes_action` (method, line 194) `def test_driver_exposes_action(self, driver_text, action)`
+  - `test_driver_manages_monitor_mode` (method, line 197) `def test_driver_manages_monitor_mode(self, driver_text)`
+  - `test_driver_uses_yara_rules` (method, line 201) `def test_driver_uses_yara_rules(self, driver_text)`
+  - `test_driver_archives_evidence` (method, line 204) `def test_driver_archives_evidence(self, driver_text)`
+  - `test_driver_falls_back_to_payload` (method, line 207) `def test_driver_falls_back_to_payload(self, driver_text)`
+  - `test_driver_has_no_hardcoded_host_paths` (method, line 212) `def test_driver_has_no_hardcoded_host_paths(self, driver_text)`
+  - `test_driver_help_runs` (method, line 216) `def test_driver_help_runs(self)`
+  - `test_driver_status_runs` (method, line 226) `def test_driver_status_runs(self)`
+  - `test_driver_rejects_unknown_action` (method, line 236) `def test_driver_rejects_unknown_action(self)`
+  - `test_driver_yara_requires_target` (method, line 245) `def test_driver_yara_requires_target(self)`
+
 ## tests/test_c2_agent.py
 - Doc: Malleable C2 agent: template safety, key ownership, record reading.
 - Layer: testing
@@ -395,69 +451,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_disabled_chains_skip_but_stay_visible` (function, line 124) `def test_disabled_chains_skip_but_stay_visible(tmp_path)`
   - `test_generate_for_playbook_roundtrip` (function, line 143) `def test_generate_for_playbook_roundtrip(tmp_path)`
 - Depends on: `modules/chain_registry.py`
-
-## tests/test_chain_runner.py
-- Doc: Chain v2 BDD contract: safe conditions, retries, capture and error policy.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain` (function, line 16) `def _chain(steps)`
-  - `test_when_evaluator_is_safe_and_expressive` (function, line 21) `def test_when_evaluator_is_safe_and_expressive()`
-  - `test_runner_captures_output_for_later_steps` (function, line 35) `def test_runner_captures_output_for_later_steps()`
-  - `test_runner_retries_then_succeeds` (function, line 58) `def test_runner_retries_then_succeeds()`
-  - `test_runner_aborts_unless_continue_on_error` (function, line 75) `def test_runner_aborts_unless_continue_on_error()`
-  - `test_runner_continues_when_policy_allows` (function, line 97) `def test_runner_continues_when_policy_allows()`
-  - `test_runner_dry_run_never_executes` (function, line 120) `def test_runner_dry_run_never_executes()`
-  - `test_runner_skips_when_and_unresolved_and_checks_expect` (function, line 131) `def test_runner_skips_when_and_unresolved_and_checks_expect()`
-  - `test_runner_resolves_newest_and_skip_if_exists` (function, line 153) `def test_runner_resolves_newest_and_skip_if_exists(tmp_path, monkeypatch)`
-  - `test_v2_schema_accepts_policy_and_rejects_bad_values` (function, line 180) `def test_v2_schema_accepts_policy_and_rejects_bad_values(tmp_path)`
-  - `test_runner_falls_back_to_os_commands` (function, line 222) `def test_runner_falls_back_to_os_commands()`
-  - `test_runner_executes_python_module_commands` (function, line 236) `def test_runner_executes_python_module_commands()`
-  - `test_runner_keeps_verbs_on_calling_thread` (function, line 247) `def test_runner_keeps_verbs_on_calling_thread()`
-  - `test_runner_fails_on_nonzero_exit` (function, line 269) `def test_runner_fails_on_nonzero_exit()`
-  - `test_runner_routes_known_verb_through_shell` (function, line 280) `def test_runner_routes_known_verb_through_shell()`
-  - `test_runner_timeout_marks_step_timeout` (function, line 300) `def test_runner_timeout_marks_step_timeout()`
-  - `test_when_evaluator_accepts_list_literals` (function, line 308) `def test_when_evaluator_accepts_list_literals()`
-  - `test_validate_rejects_malformed_when` (function, line 315) `def test_validate_rejects_malformed_when()`
-  - `test_runner_quotes_captured_values_in_raw_shell_steps` (function, line 323) `def test_runner_quotes_captured_values_in_raw_shell_steps()`
-  - `test_runner_captures_verb_stdout` (function, line 341) `def test_runner_captures_verb_stdout()`
-  - `executor` (function, line 39) `def executor(command)`
-  - `executor` (function, line 62) `def executor(command)`
-  - `executor` (function, line 79) `def executor(command)`
-  - `executor` (function, line 101) `def executor(command)`
-  - `executor` (function, line 135) `def executor(command)`
-  - `Shell` (class, line 224) `class Shell`
-  - `Shell` (class, line 238) `class Shell`
-  - `Shell` (class, line 251) `class Shell`
-  - `Shell` (class, line 271) `class Shell`
-  - `Shell` (class, line 284) `class Shell`
-  - `executor` (function, line 327) `def executor(command)`
-  - `FakeShell` (class, line 343) `class FakeShell`
-  - `do_echo` (method, line 227) `def do_echo(self, line)`
-  - `do_assign` (method, line 254) `def do_assign(self, line)`
-  - `onecmd` (method, line 257) `def onecmd(self, command)`
-  - `do_assign` (method, line 287) `def do_assign(self, line)`
-  - `onecmd` (method, line 290) `def onecmd(self, command)`
-  - `do_lazy_note` (method, line 346) `def do_lazy_note(self, line)`
-  - `onecmd` (method, line 349) `def onecmd(self, command)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
-
-## tests/test_chain_synth.py
-- Doc: BDD tests for runtime chain synthesis.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestSynthData` (class, line 12) `class TestSynthData`
-  - `json_text` (function, line 52) `def json_text(data)`
-  - `TestGeneratedFile` (class, line 58) `class TestGeneratedFile`
-  - `TestFactsForTarget` (class, line 78) `class TestFactsForTarget`
-  - `test_spine_steps_present` (method, line 15) `def test_spine_steps_present(self)`
-  - `test_service_variants` (method, line 27) `def test_service_variants(self)`
-  - `test_cred_reuse_and_c2_flags` (method, line 43) `def test_cred_reuse_and_c2_flags(self)`
-  - `test_write_ok_then_registry_sees_it` (method, line 61) `def test_write_ok_then_registry_sees_it(self, tmp_path)`
-  - `test_invalid_data_never_written` (method, line 69) `def test_invalid_data_never_written(self, tmp_path)`
-  - `test_unknown_target_empty` (method, line 81) `def test_unknown_target_empty(self)`
-- Depends on: `modules/chain_synth.py`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

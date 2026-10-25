@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
+| `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
+| `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
+| `LogTamperConfig` | class | `modules/log_tamper.py:71` | `class LogTamperConfig` |
+| `__init__` | method | `modules/log_tamper.py:105` | `def __init__(self, config)` |
+| `auditd_disable_commands` | method | `modules/log_tamper.py:307` | `def auditd_disable_commands(self)` |
+| `generate_all` | method | `modules/log_tamper.py:295` | `def generate_all(self)` |
+| `linux_clear_commands` | method | `modules/log_tamper.py:176` | `def linux_clear_commands(self)` |
+| `macos_clear_commands` | method | `modules/log_tamper.py:243` | `def macos_clear_commands(self)` |
+| `sysmon_disable_commands` | method | `modules/log_tamper.py:341` | `def sysmon_disable_commands(self)` |
+| `windows_clear_commands` | method | `modules/log_tamper.py:108` | `def windows_clear_commands(self)` |
+| `ColoredFormatter` | class | `modules/logging_config.py:36` | `class ColoredFormatter(Formatter)` |
+| `CorrelationFilter` | class | `modules/logging_config.py:91` | `class CorrelationFilter(Filter)` |
+| `JsonFormatter` | class | `modules/logging_config.py:53` | `class JsonFormatter(Formatter)` |
 | `ResilientRotatingFileHandler` | class | `modules/logging_config.py:103` | `class ResilientRotatingFileHandler(RotatingFileHandler)` |
 | `_ensure_log_dir_writable` | function | `modules/logging_config.py:156` | `def _ensure_log_dir_writable(log_dir)` |
 | `_use_json_format` | function | `modules/logging_config.py:235` | `def _use_json_format()` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `__init__` | method | `modules/obs_parser.py:106` | `def __init__(self)` |
 | `__init__` | method | `modules/obs_parser.py:431` | `def __init__(self)` |
 | `by_type` | method | `modules/obs_parser.py:83` | `def by_type(self, ftype)` |
-| `extract` | method | `modules/obs_parser.py:99` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:134` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:175` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:198` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:224` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:245` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:271` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:288` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:305` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:323` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:345` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:367` | `def extract(self, text, host)` |
-| `get_parser` | function | `modules/obs_parser.py:500` | `def get_parser()` |
-| `has` | method | `modules/obs_parser.py:86` | `def has(self, ftype)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

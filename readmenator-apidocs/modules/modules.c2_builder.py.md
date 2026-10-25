@@ -39,19 +39,23 @@ Solid arrows stay in this module, dashed arrows leave it.
 ```mermaid
 flowchart LR
     n_modules_c2_builder_py__C2Builder_run(["C2Builder.run"])
+    n_core_config_py__load_payload["config.load_payload"]
     n_core_console_py__print_msg["console.print_msg"]
     n_core_console_py__print_warn["console.print_warn"]
     n_core_process_py__check_go_tool_installed["process.check_go_tool_installed"]
     n_core_process_py__is_binary_present["process.is_binary_present"]
+    n_core_session_secrets_py__ensure_session_secrets["session_secrets.ensure_session_secrets"]
     n_core_validators_py__check_lhost["validators.check_lhost"]
     n_core_validators_py__check_lport["validators.check_lport"]
     n_utils_py__copy2clip["utils.copy2clip"]
     n_utils_py__is_exist["utils.is_exist"]
     n_utils_py__is_port_in_use["utils.is_port_in_use"]
+    n_modules_c2_builder_py__C2Builder_run -.-> n_core_config_py__load_payload
     n_modules_c2_builder_py__C2Builder_run -.-> n_core_console_py__print_msg
     n_modules_c2_builder_py__C2Builder_run -.-> n_core_console_py__print_warn
     n_modules_c2_builder_py__C2Builder_run -.-> n_core_process_py__check_go_tool_installed
     n_modules_c2_builder_py__C2Builder_run -.-> n_core_process_py__is_binary_present
+    n_modules_c2_builder_py__C2Builder_run -.-> n_core_session_secrets_py__ensure_session_secrets
     n_modules_c2_builder_py__C2Builder_run -.-> n_core_validators_py__check_lhost
     n_modules_c2_builder_py__C2Builder_run -.-> n_core_validators_py__check_lport
     n_modules_c2_builder_py__C2Builder_run -.-> n_utils_py__copy2clip
@@ -65,7 +69,7 @@ flowchart LR
 
 ### `C2Profile`
 
-`class` `dataclass` | [modules/c2_builder.py:76](../../modules/c2_builder.py#L76)
+`class` `dataclass` | [modules/c2_builder.py:77](../../modules/c2_builder.py#L77)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -95,7 +99,7 @@ Compilation profile for a target platform.
 
 ### `C2Builder`
 
-`class` | [modules/c2_builder.py:392](../../modules/c2_builder.py#L392)
+`class` | [modules/c2_builder.py:449](../../modules/c2_builder.py#L449)
 
 ```python
 class C2Builder
@@ -114,7 +118,7 @@ Build C2 agents for multiple platforms.
 
 #### `C2Builder.__init__`
 
-`constructor` | [modules/c2_builder.py:395](../../modules/c2_builder.py#L395)
+`constructor` | [modules/c2_builder.py:452](../../modules/c2_builder.py#L452)
 
 ```python
 def __init__(self, params: dict[str, Any], sessions_dir: str, cmd_fn: Callable[[str], Any], onecmd_fn: Callable[[str], Any], toastr_fn: Callable[[str, str], Any], c2_user: str, c2_pass: str)
@@ -138,7 +142,7 @@ def __init__(self, params: dict[str, Any], sessions_dir: str, cmd_fn: Callable[[
 
 #### `C2Builder.run`
 
-`method` | [modules/c2_builder.py:453](../../modules/c2_builder.py#L453)
+`method` | [modules/c2_builder.py:510](../../modules/c2_builder.py#L510)
 
 ```python
 def run(self, line: str, choice: str | None, use_tunnel: bool) -> dict[str, Any]
@@ -159,7 +163,7 @@ update shell state (`[`c2_url`](modules.beacon_config_builder.py.md#beaconconfig
 
 **Returns:** `dict[str, Any]`
 
-*Calls:* [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`check_go_tool_installed`](core.process.py.md#check_go_tool_installed), [`is_binary_present`](core.process.py.md#is_binary_present), [`check_lhost`](core.validators.py.md#check_lhost), [`check_lport`](core.validators.py.md#check_lport), [`copy2clip`](utils.py.md#copy2clip), [`is_exist`](utils.py.md#is_exist), [`is_port_in_use`](utils.py.md#is_port_in_use)
+*Calls:* [`load_payload`](core.config.py.md#load_payload), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`check_go_tool_installed`](core.process.py.md#check_go_tool_installed), [`is_binary_present`](core.process.py.md#is_binary_present), [`ensure_session_secrets`](core.session_secrets.py.md#ensure_session_secrets), [`check_lhost`](core.validators.py.md#check_lhost), [`check_lport`](core.validators.py.md#check_lport), [`copy2clip`](utils.py.md#copy2clip), [`is_exist`](utils.py.md#is_exist), [`is_port_in_use`](utils.py.md#is_port_in_use)
 
 *Called by:* [`CommandAndControlMigratedCommandSet.do_c2`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_c2)
 
@@ -171,7 +175,7 @@ update shell state (`[`c2_url`](modules.beacon_config_builder.py.md#beaconconfig
 
 ### `C2_PROFILES`
 
-`constant` | [modules/c2_builder.py:90](../../modules/c2_builder.py#L90)
+`constant` | [modules/c2_builder.py:91](../../modules/c2_builder.py#L91)
 
 ```python
 C2_PROFILES: dict[str, C2Profile]

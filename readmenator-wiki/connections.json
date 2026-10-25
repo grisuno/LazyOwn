@@ -147,7 +147,7 @@
     "community_a": 7,
     "community_b": 4,
     "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/atomic_exploit_bridge.py.",
+    "explanation": "Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/c2_builder.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   },

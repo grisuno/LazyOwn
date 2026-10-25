@@ -1,6 +1,69 @@
 # Subsystem: tests (page 5 of 20)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
 
+## tests/test_chain_runner.py
+- Doc: Chain v2 BDD contract: safe conditions, retries, capture and error policy.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 16) `def _chain(steps)`
+  - `test_when_evaluator_is_safe_and_expressive` (function, line 21) `def test_when_evaluator_is_safe_and_expressive()`
+  - `test_runner_captures_output_for_later_steps` (function, line 35) `def test_runner_captures_output_for_later_steps()`
+  - `test_runner_retries_then_succeeds` (function, line 58) `def test_runner_retries_then_succeeds()`
+  - `test_runner_aborts_unless_continue_on_error` (function, line 75) `def test_runner_aborts_unless_continue_on_error()`
+  - `test_runner_continues_when_policy_allows` (function, line 97) `def test_runner_continues_when_policy_allows()`
+  - `test_runner_dry_run_never_executes` (function, line 120) `def test_runner_dry_run_never_executes()`
+  - `test_runner_skips_when_and_unresolved_and_checks_expect` (function, line 131) `def test_runner_skips_when_and_unresolved_and_checks_expect()`
+  - `test_runner_resolves_newest_and_skip_if_exists` (function, line 153) `def test_runner_resolves_newest_and_skip_if_exists(tmp_path, monkeypatch)`
+  - `test_v2_schema_accepts_policy_and_rejects_bad_values` (function, line 180) `def test_v2_schema_accepts_policy_and_rejects_bad_values(tmp_path)`
+  - `test_runner_falls_back_to_os_commands` (function, line 222) `def test_runner_falls_back_to_os_commands()`
+  - `test_runner_executes_python_module_commands` (function, line 236) `def test_runner_executes_python_module_commands()`
+  - `test_runner_keeps_verbs_on_calling_thread` (function, line 247) `def test_runner_keeps_verbs_on_calling_thread()`
+  - `test_runner_fails_on_nonzero_exit` (function, line 269) `def test_runner_fails_on_nonzero_exit()`
+  - `test_runner_routes_known_verb_through_shell` (function, line 280) `def test_runner_routes_known_verb_through_shell()`
+  - `test_runner_timeout_marks_step_timeout` (function, line 300) `def test_runner_timeout_marks_step_timeout()`
+  - `test_when_evaluator_accepts_list_literals` (function, line 308) `def test_when_evaluator_accepts_list_literals()`
+  - `test_validate_rejects_malformed_when` (function, line 315) `def test_validate_rejects_malformed_when()`
+  - `test_runner_quotes_captured_values_in_raw_shell_steps` (function, line 323) `def test_runner_quotes_captured_values_in_raw_shell_steps()`
+  - `test_runner_captures_verb_stdout` (function, line 341) `def test_runner_captures_verb_stdout()`
+  - `executor` (function, line 39) `def executor(command)`
+  - `executor` (function, line 62) `def executor(command)`
+  - `executor` (function, line 79) `def executor(command)`
+  - `executor` (function, line 101) `def executor(command)`
+  - `executor` (function, line 135) `def executor(command)`
+  - `Shell` (class, line 224) `class Shell`
+  - `Shell` (class, line 238) `class Shell`
+  - `Shell` (class, line 251) `class Shell`
+  - `Shell` (class, line 271) `class Shell`
+  - `Shell` (class, line 284) `class Shell`
+  - `executor` (function, line 327) `def executor(command)`
+  - `FakeShell` (class, line 343) `class FakeShell`
+  - `do_echo` (method, line 227) `def do_echo(self, line)`
+  - `do_assign` (method, line 254) `def do_assign(self, line)`
+  - `onecmd` (method, line 257) `def onecmd(self, command)`
+  - `do_assign` (method, line 287) `def do_assign(self, line)`
+  - `onecmd` (method, line 290) `def onecmd(self, command)`
+  - `do_lazy_note` (method, line 346) `def do_lazy_note(self, line)`
+  - `onecmd` (method, line 349) `def onecmd(self, command)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
+
+## tests/test_chain_synth.py
+- Doc: BDD tests for runtime chain synthesis.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestSynthData` (class, line 12) `class TestSynthData`
+  - `json_text` (function, line 52) `def json_text(data)`
+  - `TestGeneratedFile` (class, line 58) `class TestGeneratedFile`
+  - `TestFactsForTarget` (class, line 78) `class TestFactsForTarget`
+  - `test_spine_steps_present` (method, line 15) `def test_spine_steps_present(self)`
+  - `test_service_variants` (method, line 27) `def test_service_variants(self)`
+  - `test_cred_reuse_and_c2_flags` (method, line 43) `def test_cred_reuse_and_c2_flags(self)`
+  - `test_write_ok_then_registry_sees_it` (method, line 61) `def test_write_ok_then_registry_sees_it(self, tmp_path)`
+  - `test_invalid_data_never_written` (method, line 69) `def test_invalid_data_never_written(self, tmp_path)`
+  - `test_unknown_target_empty` (method, line 81) `def test_unknown_target_empty(self)`
+- Depends on: `modules/chain_synth.py`
+
 ## tests/test_chain_v24_core.py
 - Doc: Chain v2.4 BDD contract: branching, verify, captures, gates, checkpoints.
 - Layer: testing
@@ -428,56 +491,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_given_rm_when_checked_then_denied` (function, line 18) `def test_given_rm_when_checked_then_denied()`
   - `test_given_injection_when_checked_then_denied` (function, line 26) `def test_given_injection_when_checked_then_denied(tmp_path)`
 - Depends on: `lazyc2/security/command_allowlist.py`
-
-## tests/test_command_chain.py
-- Doc: Tests for cli/command_chain.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_svc` (function, line 39) `def _svc(service, port, host, proto)`
-  - `_FakeEngine` (class, line 43) `class _FakeEngine`
-  - `test_normalise_strips_do_prefix_and_extra_tokens` (function, line 71) `def test_normalise_strips_do_prefix_and_extra_tokens()`
-  - `test_prerequisites_known_and_unknown` (function, line 78) `def test_prerequisites_known_and_unknown()`
-  - `test_missing_prerequisites_skips_already_run` (function, line 86) `def test_missing_prerequisites_skips_already_run()`
-  - `test_static_next_registry_uses_killchain_table` (function, line 93) `def test_static_next_registry_uses_killchain_table()`
-  - `test_static_next_registry_phase_priority_fallback` (function, line 101) `def test_static_next_registry_phase_priority_fallback()`
-  - `test_service_next_resolver_maps_known_services_only` (function, line 108) `def test_service_next_resolver_maps_known_services_only()`
-  - `test_service_next_resolver_dedupes_repeated_services` (function, line 118) `def test_service_next_resolver_dedupes_repeated_services()`
-  - `test_dynamic_next_resolver_orders_static_before_dynamic` (function, line 125) `def test_dynamic_next_resolver_orders_static_before_dynamic()`
-  - `test_dynamic_next_resolver_filters_history` (function, line 136) `def test_dynamic_next_resolver_filters_history()`
-  - `test_dynamic_next_resolver_empty_verb_prefers_phase_priority` (function, line 143) `def test_dynamic_next_resolver_empty_verb_prefers_phase_priority()`
-  - `test_dynamic_next_resolver_includes_unexplored_addons_and_tools` (function, line 152) `def test_dynamic_next_resolver_includes_unexplored_addons_and_tools()`
-  - `test_dynamic_next_resolver_phase_fallback_when_no_signal` (function, line 181) `def test_dynamic_next_resolver_phase_fallback_when_no_signal()`
-  - `test_dynamic_next_resolver_respects_limit` (function, line 189) `def test_dynamic_next_resolver_respects_limit()`
-  - `test_chain_facade_returns_serialisable_view` (function, line 196) `def test_chain_facade_returns_serialisable_view()`
-  - `test_chain_missing_prerequisites_when_history_empty` (function, line 207) `def test_chain_missing_prerequisites_when_history_empty()`
-  - `test_next_step_to_dict_round_trip` (function, line 213) `def test_next_step_to_dict_round_trip()`
-  - `test_chain_config_defaults_are_isolated_per_instance` (function, line 218) `def test_chain_config_defaults_are_isolated_per_instance()`
-  - `__init__` (method, line 46) `def __init__(self, services, addons, tools, history)`
-  - `services` (method, line 58) `def services(self, target)`
-  - `unexplored_addons` (method, line 61) `def unexplored_addons(self, target)`
-  - `unexplored_tools` (method, line 64) `def unexplored_tools(self, target)`
-  - `history` (method, line 67) `def history(self)`
-- Depends on: `cli/command_chain.py`, `cli/exploration.py`
-
-## tests/test_command_control_agent.py
-- Doc: Agent flavour selection and agent-staging regression tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 30) `def _add_repo_root_to_syspath()`
-  - `TestSelectAgentFlavour` (class, line 35) `class TestSelectAgentFlavour`
-  - `TestAttackPlanSources` (class, line 63) `class TestAttackPlanSources`
-  - `select` (method, line 37) `def select(self)`
-  - `test_windows_platform_forces_powershell` (method, line 42) `def test_windows_platform_forces_powershell(self, select)`
-  - `test_non_windows_platform_forces_shell` (method, line 45) `def test_non_windows_platform_forces_shell(self, select)`
-  - `test_unplatformed_runs_follow_generated_tests_only` (method, line 49) `def test_unplatformed_runs_follow_generated_tests_only(self, select)`
-  - `test_mixed_run_prefers_majority` (method, line 53) `def test_mixed_run_prefers_majority(self, select)`
-  - `test_mixed_tie_falls_back_to_shell` (method, line 59) `def test_mixed_tie_falls_back_to_shell(self, select)`
-  - `test_agent_scripts_derived_from_current_run` (method, line 64) `def test_agent_scripts_derived_from_current_run(self)`
-  - `test_stale_glob_counting_removed` (method, line 70) `def test_stale_glob_counting_removed(self)`
-  - `test_atomic_agent_extension_from_latest_script` (method, line 76) `def test_atomic_agent_extension_from_latest_script(self)`
-- Depends on: `cli/commands/command_and_control_migrated.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

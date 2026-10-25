@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 814,
-  "entities": 15378,
+  "modules": 815,
+  "entities": 15385,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,7 +13,7 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 701,
+   "py": 702,
    "sh": 61
   },
   "kinds": {
@@ -24,10 +24,10 @@
    "constructor": 524,
    "enum": 39,
    "exception": 38,
-   "function": 2735,
-   "macro": 113,
-   "method": 3579,
-   "module": 814,
+   "function": 2739,
+   "macro": 114,
+   "method": 3580,
+   "module": 815,
    "property": 198,
    "protocol": 20,
    "staticmethod": 91,
@@ -36,13 +36,13 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 360,
+  "skipped_files": 363,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7251,
-   "total": 9676,
+   "documented": 7257,
+   "total": 9683,
    "percent": 74.9
   },
   "by_kind": {
@@ -72,24 +72,24 @@
     "percent": 94.7
    },
    "function": {
-    "documented": 1830,
-    "total": 2735,
-    "percent": 66.9
+    "documented": 1834,
+    "total": 2739,
+    "percent": 67.0
    },
    "macro": {
-    "documented": 3,
-    "total": 113,
-    "percent": 2.7
+    "documented": 2,
+    "total": 114,
+    "percent": 1.8
    },
    "method": {
-    "documented": 2907,
-    "total": 3579,
+    "documented": 2908,
+    "total": 3580,
     "percent": 81.2
    },
    "module": {
-    "documented": 697,
-    "total": 814,
-    "percent": 85.6
+    "documented": 699,
+    "total": 815,
+    "percent": 85.8
    },
    "property": {
     "documented": 154,
@@ -239,9 +239,9 @@
     "percent": 100.0
    },
    "cli/commands/audit.py": {
-    "documented": 8,
-    "total": 9,
-    "percent": 88.9
+    "documented": 9,
+    "total": 10,
+    "percent": 90.0
    },
    "cli/commands/automation.py": {
     "documented": 14,
@@ -1169,9 +1169,9 @@
     "percent": 88.9
    },
    "core/config.py": {
-    "documented": 8,
-    "total": 9,
-    "percent": 88.9
+    "documented": 9,
+    "total": 10,
+    "percent": 90.0
    },
    "core/console.py": {
     "documented": 9,
@@ -1309,6 +1309,11 @@
     "percent": 90.9
    },
    "core/security.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "core/session_secrets.py": {
     "documented": 3,
     "total": 3,
     "percent": 100.0
@@ -1940,7 +1945,7 @@
    },
    "modules/backdoor/backdoor.c": {
     "documented": 0,
-    "total": 6,
+    "total": 7,
     "percent": 0.0
    },
    "modules/backdoor/keylogger.h": {
@@ -4184,9 +4189,9 @@
     "percent": 0.0
    },
    "utils.py": {
-    "documented": 98,
-    "total": 115,
-    "percent": 85.2
+    "documented": 99,
+    "total": 116,
+    "percent": 85.3
    }
   }
  },
@@ -4314,7 +4319,7 @@
   {
    "uid": "cli/commands/audit.py",
    "path": "modules/cli.commands.audit.py.jsonl",
-   "entities": 11
+   "entities": 12
   },
   {
    "uid": "cli/commands/automation.py",
@@ -5244,7 +5249,7 @@
   {
    "uid": "core/config.py",
    "path": "modules/core.config.py.jsonl",
-   "entities": 12
+   "entities": 13
   },
   {
    "uid": "core/console.py",
@@ -5384,6 +5389,11 @@
   {
    "uid": "core/security.py",
    "path": "modules/core.security.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "core/session_secrets.py",
+   "path": "modules/core.session_secrets.py.jsonl",
    "entities": 3
   },
   {
@@ -6014,7 +6024,7 @@
   {
    "uid": "modules/backdoor/backdoor.c",
    "path": "modules/modules.backdoor.backdoor.c.jsonl",
-   "entities": 6
+   "entities": 7
   },
   {
    "uid": "modules/backdoor/keylogger.h",
@@ -8259,12 +8269,12 @@
   {
    "uid": "utils.py",
    "path": "modules/utils.py.jsonl",
-   "entities": 137
+   "entities": 138
   }
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2257
+  "total": 2259
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

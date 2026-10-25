@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `Command` | struct | `modules/win_rootkit/win_ring3_rootkit.c:28` | `` |
+| `DownloadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:79` | `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)` |
+| `GetProcessIdByName` | function | `modules/win_rootkit/win_ring3_rootkit.c:240` | `DWORD GetProcessIdByName(const char* processName)` |
+| `Gifted` | function | `modules/win_rootkit/win_ring3_rootkit.c:270` | `BOOL Gifted(DWORD processId, const char* dllPath)` |
+| `HIDE_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:22` | `#define HIDE_FILE` |
+| `KEY_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:23` | `#define KEY_FILE` |
+| `MAX_COMMANDS` | macro | `modules/win_rootkit/win_ring3_rootkit.c:20` | `#define MAX_COMMANDS` |
+| `PASSWORD` | macro | `modules/win_rootkit/win_ring3_rootkit.c:25` | `#define PASSWORD` |
+| `PIDArray` | struct | `modules/win_rootkit/win_ring3_rootkit.c:40` | `` |
+| `PID_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:21` | `#define PID_FILE` |
+| `PORT` | macro | `modules/win_rootkit/win_ring3_rootkit.c:18` | `#define PORT` |
+| `ReflectiveLoadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:99` | `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)` |
+| `VirtualFile` | struct | `modules/win_rootkit/win_ring3_rootkit.c:34` | `` |
+| `addPID` | function | `modules/win_rootkit/win_ring3_rootkit.c:153` | `void addPID(PIDArray *array, DWORD pid)` |
 | `elp` | function | `modules/win_rootkit/win_ring3_rootkit.c:362` | `void elp()` |
 | `ensure_hide_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:446` | `void ensure_hide_file_exists()` |
 | `ensure_key_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:419` | `void ensure_key_file_exists()` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `bdd_modules` | function | `scripts/test_bdd.sh:33` | `` |
 | `changed_tests` | function | `scripts/test_bdd.sh:37` | `` |
 | `check_doc_counts` | function | `scripts/top_tier_check.py:70` | `def check_doc_counts(commands, mcp, addons)` |
-| `check_release_inputs` | function | `scripts/top_tier_check.py:108` | `def check_release_inputs()` |
-| `check_tracked_secrets` | function | `scripts/top_tier_check.py:81` | `def check_tracked_secrets()` |
-| `check_versions` | function | `scripts/top_tier_check.py:52` | `def check_versions()` |
-| `count_addons` | function | `scripts/top_tier_check.py:48` | `def count_addons()` |
-| `count_cli_commands` | function | `scripts/top_tier_check.py:32` | `def count_cli_commands()` |
-| `count_mcp_tools` | function | `scripts/top_tier_check.py:43` | `def count_mcp_tools()` |
-| `fail` | function | `scripts/top_tier_check.py:23` | `def fail(message)` |
-| `main` | function | `scripts/top_tier_check.py:116` | `def main()` |
-| `ok` | function | `scripts/top_tier_check.py:28` | `def ok(message)` |
-| `build_technique_index` | function | `scripts/update_apt_atomic_ids.py:22` | `def build_technique_index(atomics_path)` |
-| `update_playbooks` | function | `scripts/update_apt_atomic_ids.py:46` | `def update_playbooks(index, playbook_dir)` |
-| `check` | function | `scripts/validate_agent_contract.sh:32` | `` |
-| `check_no_hardcoded_passwords` | function | `scripts/validate_agent_contract.sh:59` | `` |
-| `check_no_hardcoded_wordlists` | function | `scripts/validate_agent_contract.sh:74` | `` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

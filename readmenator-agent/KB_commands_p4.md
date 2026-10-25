@@ -293,19 +293,19 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ShellSysCommandSet` (class, line 23) `class ShellSysCommandSet(LazyOwnCommandSet)`
-  - `do_sh` (method, line 30) `def do_sh(self, line)`
-  - `do_sys` (method, line 62) `def do_sys(self, line)`
-  - `do_pwd` (method, line 110) `def do_pwd(self, line)`
-  - `do_nano` (method, line 146) `def do_nano(self, line)`
-  - `do_cron` (method, line 170) `def do_cron(self, line)`
-  - `do_clean` (method, line 216) `def do_clean(self, line)`
-  - `do_fixperm` (method, line 303) `def do_fixperm(self, line)`
-  - `do_fixel` (method, line 336) `def do_fixel(self, line)`
-  - `do_pop` (method, line 369) `def do_pop(self, line)`
-  - `do_tab` (method, line 406) `def do_tab(self, line)`
-  - `lazyrun_command` (function, line 205) `def lazyrun_command()`
-- Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `utils.py`
+  - `ShellSysCommandSet` (class, line 24) `class ShellSysCommandSet(LazyOwnCommandSet)`
+  - `do_sh` (method, line 31) `def do_sh(self, line)`
+  - `do_sys` (method, line 63) `def do_sys(self, line)`
+  - `do_pwd` (method, line 111) `def do_pwd(self, line)`
+  - `do_nano` (method, line 147) `def do_nano(self, line)`
+  - `do_cron` (method, line 171) `def do_cron(self, line)`
+  - `do_clean` (method, line 217) `def do_clean(self, line)`
+  - `do_fixperm` (method, line 305) `def do_fixperm(self, line)`
+  - `do_fixel` (method, line 338) `def do_fixel(self, line)`
+  - `do_pop` (method, line 371) `def do_pop(self, line)`
+  - `do_tab` (method, line 408) `def do_tab(self, line)`
+  - `lazyrun_command` (function, line 206) `def lazyrun_command()`
+- Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/session_secrets.py`, `utils.py`
 - Imported by: `tests/test_shellsys_command_set.py`
 
 ## cli/commands/sleep_obfuscation.py

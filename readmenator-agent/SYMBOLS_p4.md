@@ -3,6 +3,9 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_flag_value` | function | `cli/commands/session_ops.py:1062` | `def _flag_value(flag_name)` |
+| `_strip_shell_quotes` | function | `cli/commands/session_ops.py:72` | `def _strip_shell_quotes(value)` |
+| `do_assign` | method | `cli/commands/session_ops.py:267` | `def do_assign(self, line)` |
 | `do_chainmode` | method | `cli/commands/session_ops.py:835` | `def do_chainmode(self, line)` |
 | `do_clock` | method | `cli/commands/session_ops.py:1462` | `def do_clock(self, line)` |
 | `do_clone_site` | method | `cli/commands/session_ops.py:1572` | `def do_clone_site(self, line)` |
@@ -35,18 +38,18 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `do_tasks` | method | `cli/commands/session_ops.py:200` | `def do_tasks(self, line)` |
 | `do_tenant` | method | `cli/commands/session_ops.py:332` | `def do_tenant(self, line)` |
 | `do_traces` | method | `cli/commands/session_ops.py:754` | `def do_traces(self, line)` |
-| `ShellSysCommandSet` | class | `cli/commands/shellsys.py:23` | `class ShellSysCommandSet(LazyOwnCommandSet)` |
-| `do_clean` | method | `cli/commands/shellsys.py:216` | `def do_clean(self, line)` |
-| `do_cron` | method | `cli/commands/shellsys.py:170` | `def do_cron(self, line)` |
-| `do_fixel` | method | `cli/commands/shellsys.py:336` | `def do_fixel(self, line)` |
-| `do_fixperm` | method | `cli/commands/shellsys.py:303` | `def do_fixperm(self, line)` |
-| `do_nano` | method | `cli/commands/shellsys.py:146` | `def do_nano(self, line)` |
-| `do_pop` | method | `cli/commands/shellsys.py:369` | `def do_pop(self, line)` |
-| `do_pwd` | method | `cli/commands/shellsys.py:110` | `def do_pwd(self, line)` |
-| `do_sh` | method | `cli/commands/shellsys.py:30` | `def do_sh(self, line)` |
-| `do_sys` | method | `cli/commands/shellsys.py:62` | `def do_sys(self, line)` |
-| `do_tab` | method | `cli/commands/shellsys.py:406` | `def do_tab(self, line)` |
-| `lazyrun_command` | function | `cli/commands/shellsys.py:205` | `def lazyrun_command()` |
+| `ShellSysCommandSet` | class | `cli/commands/shellsys.py:24` | `class ShellSysCommandSet(LazyOwnCommandSet)` |
+| `do_clean` | method | `cli/commands/shellsys.py:217` | `def do_clean(self, line)` |
+| `do_cron` | method | `cli/commands/shellsys.py:171` | `def do_cron(self, line)` |
+| `do_fixel` | method | `cli/commands/shellsys.py:338` | `def do_fixel(self, line)` |
+| `do_fixperm` | method | `cli/commands/shellsys.py:305` | `def do_fixperm(self, line)` |
+| `do_nano` | method | `cli/commands/shellsys.py:147` | `def do_nano(self, line)` |
+| `do_pop` | method | `cli/commands/shellsys.py:371` | `def do_pop(self, line)` |
+| `do_pwd` | method | `cli/commands/shellsys.py:111` | `def do_pwd(self, line)` |
+| `do_sh` | method | `cli/commands/shellsys.py:31` | `def do_sh(self, line)` |
+| `do_sys` | method | `cli/commands/shellsys.py:63` | `def do_sys(self, line)` |
+| `do_tab` | method | `cli/commands/shellsys.py:408` | `def do_tab(self, line)` |
+| `lazyrun_command` | function | `cli/commands/shellsys.py:206` | `def lazyrun_command()` |
 | `SleepObfuscationCommandSet` | class | `cli/commands/sleep_obfuscation.py:16` | `class SleepObfuscationCommandSet(LazyOwnCommandSet)` |
 | `do_sleep_configure` | method | `cli/commands/sleep_obfuscation.py:82` | `def do_sleep_configure(self, line)` |
 | `do_sleep_info` | method | `cli/commands/sleep_obfuscation.py:50` | `def do_sleep_info(self, line)` |
@@ -493,8 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_done_verb` | function | `cli/lazy_orchestrator.py:744` | `def _done_verb(values)` |
 | `_param_root` | method | `cli/lazy_orchestrator.py:204` | `def _param_root(self)` |
 | `_picked` | function | `cli/lazy_orchestrator.py:740` | `def _picked(value)` |
-| `_picked_kind` | function | `cli/lazy_orchestrator.py:647` | `def _picked_kind(value)` |
-| `_poll_now` | method | `cli/lazy_orchestrator.py:366` | `def _poll_now(self)` |
-| `_refresh_params` | method | `cli/lazy_orchestrator.py:468` | `def _refresh_params(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

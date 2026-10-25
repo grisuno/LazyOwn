@@ -3,6 +3,9 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_lazy_finding` | method | `cli/commands/lazyops.py:1195` | `def do_lazy_finding(self, line)` |
+| `do_lazy_frontier` | method | `cli/commands/lazyops.py:503` | `def do_lazy_frontier(self, line)` |
+| `do_lazy_gate` | method | `cli/commands/lazyops.py:2613` | `def do_lazy_gate(self, line)` |
 | `do_lazy_goal` | method | `cli/commands/lazyops.py:723` | `def do_lazy_goal(self, line)` |
 | `do_lazy_graph` | method | `cli/commands/lazyops.py:269` | `def do_lazy_graph(self, line)` |
 | `do_lazy_guard` | method | `cli/commands/lazyops.py:1094` | `def do_lazy_guard(self, line)` |
@@ -493,8 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_unseal_credentials` | method | `cli/commands/security.py:150` | `def do_unseal_credentials(self, _line)` |
 | `SessionOpsCommandSet` | class | `cli/commands/session_ops.py:86` | `class SessionOpsCommandSet(LazyOwnCommandSet)` |
 | `_flag_value` | function | `cli/commands/session_ops.py:950` | `def _flag_value(flag_name)` |
-| `_flag_value` | function | `cli/commands/session_ops.py:1062` | `def _flag_value(flag_name)` |
-| `_strip_shell_quotes` | function | `cli/commands/session_ops.py:72` | `def _strip_shell_quotes(value)` |
-| `do_assign` | method | `cli/commands/session_ops.py:267` | `def do_assign(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

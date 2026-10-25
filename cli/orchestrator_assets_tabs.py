@@ -37,6 +37,17 @@ CONFIG_FIELDS = (
     ConfigField("proxy_autostart", "Recorder proxy autostart", "true"),
     ConfigField("proxy_port", "Recorder proxy port", "8080"),
     ConfigField("agent_backend", "Main agent backend", "native"),
+    ConfigField("c2_require_beacon_hmac", "Require beacon HMAC", "true"),
+    ConfigField("auto_privesc_on_checkin", "Auto privesc on check-in", "false"),
+    ConfigField("auto_discover_on_checkin", "Auto discover on check-in", "false"),
+    ConfigField("rotate_keys_on_boot", "Rotate keys on boot", "true"),
+    ConfigField("sleep_jit_enabled", "Sleep jitter enabled", "true"),
+    ConfigField("sleep_jit_pct_min", "Sleep jitter min pct", "30"),
+    ConfigField("sleep_jit_pct_max", "Sleep jitter max pct", "60"),
+    ConfigField("sleep_activation_delay_min", "Activation delay min", "0s"),
+    ConfigField("sleep_activation_delay_max", "Activation delay max", "0s"),
+    ConfigField("persistence_cron_schedule", "Persistence cron schedule", "*/5 * * * *"),
+    ConfigField("persistence_service_name", "Persistence service name", "sysmaint"),
 )
 
 

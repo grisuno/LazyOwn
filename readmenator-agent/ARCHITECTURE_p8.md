@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## External Imports (continued)
+- `modules/mcp_agent_bridge.py` -> datetime, groq, json, os, pathlib, re, requests, sys, threading, time, uuid
 - `modules/mediation/__init__.py` -> __future__
 - `modules/mediation/chain_mediator.py` -> __future__, typing
 - `modules/mediation/contracts.py` -> __future__, typing
@@ -250,6 +251,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_atomic_resolver.py` -> __future__, pathlib, pytest, sys, yaml
 - `tests/test_attack_surface3d.py` -> __future__, json, pathlib, sys
 - `tests/test_attack_surface_addons.py` -> __future__, pathlib, pytest, re, yaml
+- `tests/test_audit_remediation.py` -> __future__, json, pathlib, pytest
 - `tests/test_auto_crypto.py` -> __future__, builtins, pathlib, pytest, tempfile, types
 - `tests/test_auto_loop_memory.py` -> __future__, pathlib, pytest
 - `tests/test_auto_registry.py` -> __future__, pathlib, pytest, sys, threading, time
@@ -365,6 +367,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_html_sanitizer.py` -> __future__
 - `tests/test_https_redirect.py` -> __future__
 - `tests/test_hunt_verify.py` -> __future__, pathlib, pytest, sys
+- `tests/test_implant_session_secrets.py` -> __future__, pathlib, unittest
 - `tests/test_improvements_spec.py` -> __future__, cmd2, cmd2.plugin, collections.abc, dataclasses, json, pathlib, skills, sys, tempfile, typing, unittest
 - `tests/test_infra_disposable.py` -> __future__, cli.commands.report_enhanced, os, pathlib, types, unittest.mock
 - `tests/test_input_fuzz.py` -> __future__, pathlib, pytest, random, string
@@ -493,8 +496,5 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_security_codeql_batch.py` -> __future__, base64, flask, flask_login, importlib.util, os, pathlib, pytest, ssl, stat, sys
 - `tests/test_security_hardening.py` -> __future__, ast, hmac, pathlib, pytest, tempfile
 - `tests/test_security_hardening_v2.py` -> __future__, pathlib, pytest, re
-- `tests/test_security_hardening_v3.py` -> __future__, ast, os, pathlib, pytest, subprocess, unittest.mock
-- `tests/test_security_hardening_v4.py` -> __future__, importlib, inspect, os, pathlib, pytest, sys, tempfile, unittest.mock
-- `tests/test_security_hardening_v5.py` -> __future__, flask, hashlib, os, pathlib, pytest, secrets, stat, subprocess, tempfile, unittest.mock
 
 Next: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)

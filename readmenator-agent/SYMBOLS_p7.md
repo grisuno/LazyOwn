@@ -3,6 +3,9 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parse_arguments` | function | `contrib/legacy/lazyftpsniff.py:42` | `def parse_arguments()` |
+| `signal_handler` | function | `contrib/legacy/lazyftpsniff.py:34` | `def signal_handler(sig, frame)` |
+| `sniffer_ftp` | function | `contrib/legacy/lazyftpsniff.py:56` | `def sniffer_ftp(pkt)` |
 | `SamsungKnoxExploitServer` | class | `contrib/legacy/lazygalazy.py:8` | `class SamsungKnoxExploitServer(BaseHTTPRequestHandler)` |
 | `apk_bytes` | method | `contrib/legacy/lazygalazy.py:33` | `def apk_bytes(self)` |
 | `do_GET` | method | `contrib/legacy/lazygalazy.py:11` | `def do_GET(self)` |
@@ -301,24 +304,26 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `one_cmd` | method | `core/command_bridge.py:89` | `def one_cmd(self, command)` |
 | `onecmd` | method | `core/command_bridge.py:65` | `def onecmd(self, command)` |
 | `ready` | method | `core/command_bridge.py:25` | `def ready(self)` |
-| `Config` | class | `core/config.py:206` | `class Config` |
-| `__getattr__` | method | `core/config.py:228` | `def __getattr__(self, name)` |
-| `__getitem__` | method | `core/config.py:231` | `def __getitem__(self, key)` |
-| `__init__` | method | `core/config.py:219` | `def __init__(self, config_dict, sessions_dir)` |
-| `_apply_env_overrides` | function | `core/config.py:70` | `def _apply_env_overrides(payload)` |
-| `_calling_frame` | function | `core/config.py:168` | `def _calling_frame()` |
-| `_coerce_env_value` | function | `core/config.py:103` | `def _coerce_env_value(raw, existing)` |
-| `_collect_validation_warnings` | function | `core/config.py:182` | `def _collect_validation_warnings(payload)` |
-| `_load_raw_payload` | function | `core/config.py:304` | `def _load_raw_payload(path)` |
-| `_log_config_change` | function | `core/config.py:146` | `def _log_config_change(key, old_value, new_value)` |
-| `_mask_if_sensitive` | function | `core/config.py:128` | `def _mask_if_sensitive(key, value)` |
-| `_migrate_keys` | function | `core/config.py:249` | `def _migrate_keys(config_dict)` |
-| `as_params` | method | `core/config.py:234` | `def as_params(self)` |
-| `load_and_validate` | function | `core/config.py:345` | `def load_and_validate(path)` |
-| `load_payload` | function | `core/config.py:327` | `def load_payload(path)` |
-| `overridden_keys` | method | `core/config.py:244` | `def overridden_keys(self)` |
-| `resolve_aes_key` | function | `core/config.py:261` | `def resolve_aes_key(config_dict)` |
-| `save_payload` | function | `core/config.py:396` | `def save_payload(payload, path)` |
+| `Config` | class | `core/config.py:211` | `class Config` |
+| `__getattr__` | method | `core/config.py:233` | `def __getattr__(self, name)` |
+| `__getitem__` | method | `core/config.py:236` | `def __getitem__(self, key)` |
+| `__init__` | method | `core/config.py:224` | `def __init__(self, config_dict, sessions_dir)` |
+| `_apply_env_overrides` | function | `core/config.py:75` | `def _apply_env_overrides(payload)` |
+| `_calling_frame` | function | `core/config.py:173` | `def _calling_frame()` |
+| `_coerce_env_value` | function | `core/config.py:108` | `def _coerce_env_value(raw, existing)` |
+| `_collect_validation_warnings` | function | `core/config.py:187` | `def _collect_validation_warnings(payload)` |
+| `_load_raw_payload` | function | `core/config.py:309` | `def _load_raw_payload(path)` |
+| `_log_config_change` | function | `core/config.py:151` | `def _log_config_change(key, old_value, new_value)` |
+| `_mask_if_sensitive` | function | `core/config.py:133` | `def _mask_if_sensitive(key, value)` |
+| `_migrate_keys` | function | `core/config.py:254` | `def _migrate_keys(config_dict)` |
+| `_rat_key_is_valid` | function | `core/config.py:455` | `def _rat_key_is_valid(value)` |
+| `as_params` | method | `core/config.py:239` | `def as_params(self)` |
+| `ensure_rat_key` | function | `core/config.py:468` | `def ensure_rat_key(config_obj)` |
+| `load_and_validate` | function | `core/config.py:350` | `def load_and_validate(path)` |
+| `load_payload` | function | `core/config.py:332` | `def load_payload(path)` |
+| `overridden_keys` | method | `core/config.py:249` | `def overridden_keys(self)` |
+| `resolve_aes_key` | function | `core/config.py:266` | `def resolve_aes_key(config_dict)` |
+| `save_payload` | function | `core/config.py:401` | `def save_payload(payload, path)` |
 | `_emit` | function | `core/console.py:208` | `def _emit(line)` |
 | `_paint` | function | `core/console.py:114` | `def _paint(code, text)` |
 | `_sanitize` | function | `core/console.py:93` | `def _sanitize(text)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `estimate_cost` | method | `core/llm_budget.py:343` | `def estimate_cost(self, model, input_tokens, output_tokens)` |
 | `format_budget_status` | function | `core/llm_budget.py:616` | `def format_budget_status(config, ledger)` |
 | `from_mapping` | method | `core/llm_budget.py:81` | `def from_mapping(cls, data)` |
-| `generate` | method | `core/llm_budget.py:61` | `def generate(self, prompt)` |
-| `generate` | method | `core/llm_budget.py:422` | `def generate(self, prompt)` |
-| `load_budget_config` | function | `core/llm_budget.py:552` | `def load_budget_config(payload, sessions_dir)` |
-| `price_for` | method | `core/llm_budget.py:329` | `def price_for(self, model)` |
-| `read_budget_status` | function | `core/llm_budget.py:585` | `def read_budget_status(payload, sessions_dir)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

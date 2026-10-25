@@ -2,6 +2,21 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_autonomous_ops.py` -> `modules/db.py`
+- `tests/test_autonomous_ops.py` -> `modules/enrich.py`
+- `tests/test_autonomous_ops.py` -> `modules/finding_lifecycle.py`
+- `tests/test_autonomous_ops.py` -> `modules/llm_pool.py`
+- `tests/test_autonomous_ops.py` -> `modules/notify.py`
+- `tests/test_autonomous_ops.py` -> `modules/planner.py`
+- `tests/test_autonomous_ops.py` -> `modules/selfupdate.py`
+- `tests/test_autonomous_ops.py` -> `modules/sidequestion.py`
+- `tests/test_autonomous_ops.py` -> `modules/world_model.py`
+- `tests/test_autonomous_replay.py` -> `skills/autonomous_daemon.py`
+- `tests/test_autonomous_replay.py` -> `skills/autonomous_replay.py`
+- `tests/test_autosuggest.py` -> `cli/autosuggest.py`
+- `tests/test_backdoor_random.py` -> `cli/commands/persist_migrated.py`
+- `tests/test_banner_config.py` -> `cli/banner_config.py`
+- `tests/test_bdd_infra_range_report.py` -> `cli/commands/infra.py`
 - `tests/test_bdd_infra_range_report.py` -> `cli/commands/lab.py`
 - `tests/test_bdd_infra_range_report.py` -> `modules/c2_builder.py`
 - `tests/test_bdd_infra_range_report.py` -> `modules/professional_report.py`
@@ -228,6 +243,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_html_sanitizer.py` -> `lazyc2/security/html_sanitizer.py`
 - `tests/test_https_redirect.py` -> `lazyc2/security/https_redirect.py`
 - `tests/test_hunt_verify.py` -> `modules/hunt_verify.py`
+- `tests/test_implant_session_secrets.py` -> `modules/c2_builder.py`
 - `tests/test_improvements_spec.py` -> `cli/__init__.py`
 - `tests/test_improvements_spec.py` -> `cli/commands/__init__.py`
 - `tests/test_improvements_spec.py` -> `cli/commands/_dormancy.py`
@@ -480,21 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_outcome_bus.py` -> `modules/sinks/killchain.py`
 - `tests/test_outcome_bus.py` -> `modules/sinks/objectives.py`
 - `tests/test_palette_overlay.py` -> `cli/palette_overlay.py`
-- `tests/test_param_registry.py` -> `cli/commands/params_ops.py`
-- `tests/test_param_registry.py` -> `cli/lazy_orchestrator.py`
-- `tests/test_param_registry.py` -> `cli/registry.py`
-- `tests/test_param_registry.py` -> `core/param_registry.py`
-- `tests/test_param_registry.py` -> `core/payload_schema.py`
-- `tests/test_param_registry.py` -> `lazyc2/addon_creator.py`
-- `tests/test_payload_factory.py` -> `modules/payload_factory.py`
-- `tests/test_payload_schema.py` -> `cli/assign.py`
-- `tests/test_payload_schema.py` -> `core/payload_schema.py`
-- `tests/test_payload_schema.py` -> `modules/llm_factory.py`
-- `tests/test_phase1_data_gaps.py` -> `cli/recommendation_signals.py`
-- `tests/test_phase1_data_gaps.py` -> `modules/autonomous_exploit_engine.py`
-- `tests/test_phase1_data_gaps.py` -> `modules/obs_parser.py`
-- `tests/test_phase1_data_gaps.py` -> `modules/world_model.py`
-- `tests/test_phase_labels.py` -> `cli/contextual_help.py`
-- `tests/test_phase_labels.py` -> `cli/phase_labels.py`
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

@@ -2,10 +2,14 @@
 Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 ## External Imports (continued)
+- `tests/test_security_hardening_v3.py` -> __future__, ast, os, pathlib, pytest, subprocess, unittest.mock
+- `tests/test_security_hardening_v4.py` -> __future__, importlib, inspect, os, pathlib, pytest, sys, tempfile, unittest.mock
+- `tests/test_security_hardening_v5.py` -> __future__, flask, hashlib, os, pathlib, pytest, secrets, stat, subprocess, tempfile, unittest.mock
 - `tests/test_security_lazyc2.py` -> os, pathlib, pytest
 - `tests/test_security_sanitizers.py` -> __future__, json, os, pytest
 - `tests/test_session_brief.py` -> __future__, pathlib, pytest
 - `tests/test_session_ops_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
+- `tests/test_session_secrets.py` -> __future__, os, pathlib, tempfile, unittest
 - `tests/test_sessions_browser.py` -> __future__, json, pathlib, sys
 - `tests/test_shell_semantics.py` -> __future__
 - `tests/test_shellsys_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys

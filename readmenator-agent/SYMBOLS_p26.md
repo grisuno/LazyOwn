@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_dnstool_py` | function | `skills/mcp_generated_tools.py:2082` | `def _gen_dnstool_py(arguments, tool_name, _cmd)` |
+| `_gen_docker_enum` | function | `skills/mcp_generated_tools.py:2090` | `def _gen_docker_enum(arguments, tool_name, _cmd)` |
+| `_gen_doctor` | function | `skills/mcp_generated_tools.py:2098` | `def _gen_doctor(arguments, tool_name, _cmd)` |
+| `_gen_dominion` | function | `skills/mcp_generated_tools.py:2106` | `def _gen_dominion(arguments, tool_name, _cmd)` |
+| `_gen_download_c2` | function | `skills/mcp_generated_tools.py:2114` | `def _gen_download_c2(arguments, tool_name, _cmd)` |
+| `_gen_download_exploit` | function | `skills/mcp_generated_tools.py:2122` | `def _gen_download_exploit(arguments, tool_name, _cmd)` |
+| `_gen_download_malwarebazar` | function | `skills/mcp_generated_tools.py:2130` | `def _gen_download_malwarebazar(arguments, tool_name, _cmd)` |
+| `_gen_download_resources` | function | `skills/mcp_generated_tools.py:2138` | `def _gen_download_resources(arguments, tool_name, _cmd)` |
+| `_gen_downloader` | function | `skills/mcp_generated_tools.py:2146` | `def _gen_downloader(arguments, tool_name, _cmd)` |
+| `_gen_dpapi_blob` | function | `skills/mcp_generated_tools.py:2154` | `def _gen_dpapi_blob(arguments, tool_name, _cmd)` |
+| `_gen_dpapi_harvest` | function | `skills/mcp_generated_tools.py:2162` | `def _gen_dpapi_harvest(arguments, tool_name, _cmd)` |
+| `_gen_dpapi_masterkeys` | function | `skills/mcp_generated_tools.py:2170` | `def _gen_dpapi_masterkeys(arguments, tool_name, _cmd)` |
+| `_gen_dploot` | function | `skills/mcp_generated_tools.py:2178` | `def _gen_dploot(arguments, tool_name, _cmd)` |
+| `_gen_dr0p1t` | function | `skills/mcp_generated_tools.py:2186` | `def _gen_dr0p1t(arguments, tool_name, _cmd)` |
 | `_gen_duckyspark` | function | `skills/mcp_generated_tools.py:2194` | `def _gen_duckyspark(arguments, tool_name, _cmd)` |
 | `_gen_edr_detect` | function | `skills/mcp_generated_tools.py:2202` | `def _gen_edr_detect(arguments, tool_name, _cmd)` |
 | `_gen_edr_profile` | function | `skills/mcp_generated_tools.py:2210` | `def _gen_edr_profile(arguments, tool_name, _cmd)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `_handle_nmap_xml` | function | `skills/sessions_watcher.py:229` | `def _handle_nmap_xml(path)` |
 | `_handle_plan_updated` | function | `skills/sessions_watcher.py:318` | `def _handle_plan_updated(path)` |
 | `_handle_tool_output` | function | `skills/sessions_watcher.py:257` | `def _handle_tool_output(path)` |
-| `_minimal_plan_from_nmap` | function | `skills/sessions_watcher.py:175` | `def _minimal_plan_from_nmap(content)` |
-| `_run_poll_loop` | function | `skills/sessions_watcher.py:402` | `def _run_poll_loop()` |
-| `_run_watchdog` | function | `skills/sessions_watcher.py:388` | `def _run_watchdog()` |
-| `_scan` | function | `skills/sessions_watcher.py:406` | `def _scan()` |
-| `main` | function | `skills/sessions_watcher.py:430` | `def main()` |
-| `on_created` | method | `skills/sessions_watcher.py:376` | `def on_created(self, event)` |
-| `on_modified` | method | `skills/sessions_watcher.py:380` | `def on_modified(self, event)` |
-| `add_nopasswd` | function | `skills/setup.sh:92` | `` |
-| `die` | function | `skills/setup.sh:17` | `` |
-| `info` | function | `skills/setup.sh:15` | `` |
-| `paths_for_sudo` | function | `skills/setup.sh:61` | `` |
-| `warn` | function | `skills/setup.sh:16` | `` |
-| `EnsembleResult` | class | `skills/swan_agent.py:183` | `class EnsembleResult` |
-| `ExpertExecutor` | class | `skills/swan_agent.py:332` | `class ExpertExecutor` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_h_lazy_finding` | function | `skills/lazyown_mcp.py:1486` | `def _h_lazy_finding(arguments, tool_name)` |
+| `_h_lazy_hint` | function | `skills/lazyown_mcp.py:1421` | `def _h_lazy_hint(arguments, tool_name)` |
+| `_h_lazy_mention` | function | `skills/lazyown_mcp.py:1526` | `def _h_lazy_mention(arguments, tool_name)` |
+| `_h_lazy_proxy` | function | `skills/lazyown_mcp.py:1461` | `def _h_lazy_proxy(arguments, tool_name)` |
+| `_h_lazy_status` | function | `skills/lazyown_mcp.py:1361` | `def _h_lazy_status(arguments, tool_name)` |
+| `_h_lazy_sync` | function | `skills/lazyown_mcp.py:1371` | `def _h_lazy_sync(arguments, tool_name)` |
+| `_h_lazy_trace` | function | `skills/lazyown_mcp.py:1404` | `def _h_lazy_trace(arguments, tool_name)` |
+| `_h_lazy_workspace` | function | `skills/lazyown_mcp.py:1440` | `def _h_lazy_workspace(arguments, tool_name)` |
+| `_h_list_modules` | function | `skills/lazyown_mcp.py:900` | `def _h_list_modules(arguments, tool_name)` |
+| `_h_lolbas_list` | function | `skills/lazyown_mcp.py:1634` | `def _h_lolbas_list(arguments, tool_name)` |
+| `_h_lolbas_use` | function | `skills/lazyown_mcp.py:1674` | `def _h_lolbas_use(arguments, tool_name)` |
+| `_h_loop_smoke` | function | `skills/lazyown_mcp.py:1972` | `def _h_loop_smoke(arguments, tool_name)` |
+| `_h_opencode_config` | function | `skills/lazyown_mcp.py:1950` | `def _h_opencode_config(arguments, tool_name)` |
+| `_h_pivot_status` | function | `skills/lazyown_mcp.py:1209` | `def _h_pivot_status(arguments, tool_name)` |
 | `_h_rea` | function | `skills/lazyown_mcp.py:1041` | `def _h_rea(arguments, tool_name)` |
 | `_h_rich_tui_snapshot` | function | `skills/lazyown_mcp.py:1748` | `def _h_rich_tui_snapshot(arguments, tool_name)` |
 | `_h_run_command` | function | `skills/lazyown_mcp.py:922` | `def _h_run_command(arguments, tool_name)` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `_gen_dnschef` | function | `skills/mcp_generated_tools.py:2058` | `def _gen_dnschef(arguments, tool_name, _cmd)` |
 | `_gen_dnsenum` | function | `skills/mcp_generated_tools.py:2066` | `def _gen_dnsenum(arguments, tool_name, _cmd)` |
 | `_gen_dnsmap` | function | `skills/mcp_generated_tools.py:2074` | `def _gen_dnsmap(arguments, tool_name, _cmd)` |
-| `_gen_dnstool_py` | function | `skills/mcp_generated_tools.py:2082` | `def _gen_dnstool_py(arguments, tool_name, _cmd)` |
-| `_gen_docker_enum` | function | `skills/mcp_generated_tools.py:2090` | `def _gen_docker_enum(arguments, tool_name, _cmd)` |
-| `_gen_doctor` | function | `skills/mcp_generated_tools.py:2098` | `def _gen_doctor(arguments, tool_name, _cmd)` |
-| `_gen_dominion` | function | `skills/mcp_generated_tools.py:2106` | `def _gen_dominion(arguments, tool_name, _cmd)` |
-| `_gen_download_c2` | function | `skills/mcp_generated_tools.py:2114` | `def _gen_download_c2(arguments, tool_name, _cmd)` |
-| `_gen_download_exploit` | function | `skills/mcp_generated_tools.py:2122` | `def _gen_download_exploit(arguments, tool_name, _cmd)` |
-| `_gen_download_malwarebazar` | function | `skills/mcp_generated_tools.py:2130` | `def _gen_download_malwarebazar(arguments, tool_name, _cmd)` |
-| `_gen_download_resources` | function | `skills/mcp_generated_tools.py:2138` | `def _gen_download_resources(arguments, tool_name, _cmd)` |
-| `_gen_downloader` | function | `skills/mcp_generated_tools.py:2146` | `def _gen_downloader(arguments, tool_name, _cmd)` |
-| `_gen_dpapi_blob` | function | `skills/mcp_generated_tools.py:2154` | `def _gen_dpapi_blob(arguments, tool_name, _cmd)` |
-| `_gen_dpapi_harvest` | function | `skills/mcp_generated_tools.py:2162` | `def _gen_dpapi_harvest(arguments, tool_name, _cmd)` |
-| `_gen_dpapi_masterkeys` | function | `skills/mcp_generated_tools.py:2170` | `def _gen_dpapi_masterkeys(arguments, tool_name, _cmd)` |
-| `_gen_dploot` | function | `skills/mcp_generated_tools.py:2178` | `def _gen_dploot(arguments, tool_name, _cmd)` |
-| `_gen_dr0p1t` | function | `skills/mcp_generated_tools.py:2186` | `def _gen_dr0p1t(arguments, tool_name, _cmd)` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

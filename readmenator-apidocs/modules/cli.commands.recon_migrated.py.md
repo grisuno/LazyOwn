@@ -268,7 +268,7 @@ Notes:
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `line` |  |  | The search term to be used for querying Launchpad. The `line` parameter should be a string containing the search term, e.g., "8.2p1 Ubuntu 4ubuntu0.11". |
+| `line` |  |  | The search term to be used for querying Launchpad. The [`line`](modules.defense_eval.py.md#evaluation-line) parameter should be a string containing the search term, e.g., "8.2p1 Ubuntu 4ubuntu0.11". |
 
 **Returns:** None
 
@@ -333,8 +333,8 @@ Usage:
     gospider
 
 
-- If `line` is "url", the method uses the URL specified in `self.params['url']`.
-- If `line` is not "url", the method uses the remote host specified in `self.params['rhost']`.
+- If [`line`](modules.defense_eval.py.md#evaluation-line) is "url", the method uses the URL specified in `self.params['url']`.
+- If [`line`](modules.defense_eval.py.md#evaluation-line) is not "url", the method uses the remote host specified in `self.params['rhost']`.
 
 
 Manual execution:
@@ -465,7 +465,7 @@ def do_tcpdump_icmp(self, line)
 
 Starts `tcpdump` to capture ICMP traffic on the specified interface.
 
-1. Checks if the `line` argument (interface) is provided:
+1. Checks if the [`line`](modules.defense_eval.py.md#evaluation-line) argument (interface) is provided:
 - Displays an error message and exits if the interface is missing.
 
 2. If the interface is provided:
@@ -504,7 +504,7 @@ def do_tcpdump_capture(self, line)
 
 Starts packet capture using `tcpdump` on the specified interface.
 
-1. Checks if the `line` argument (interface) is provided:
+1. Checks if the [`line`](modules.defense_eval.py.md#evaluation-line) argument (interface) is provided:
 - Displays an error message and exits if the interface is missing.
 
 2. Validates the `self.params['rhost']` (remote host IP):
@@ -617,7 +617,7 @@ Run an SSL scan on the specified remote host.
 
 This function initiates an SSL scan on a specified remote host (`self.params['rhost']`)
 using the `sslscan-singleip.sh` script. If a specific port is provided in the
-`line` argument, the scan will target that port; otherwise, it will scan
+[`line`](modules.defense_eval.py.md#evaluation-line) argument, the scan will target that port; otherwise, it will scan
 all available ports.
 
 line (str): The port number to scan (optional). If omitted, the scan will target all ports.
@@ -818,7 +818,7 @@ Traces the DNS information for a given self.params['domain'] using the FreeDNS s
 
 This method performs a DNS trace lookup for the specified self.params['domain'] by
 sending an HTTP GET request to the FreeDNS service. If no self.params['domain'] is provided
-in the input parameter `line`, it defaults to using the URL specified in the
+in the input parameter [`line`](modules.defense_eval.py.md#evaluation-line), it defaults to using the URL specified in the
 instance's parameters.
 
 line (str): The self.params['domain'] name to trace. If not provided, the method uses the
@@ -882,7 +882,7 @@ Steps performed by the function:
 4. **Obtain the self.params['domain']:**
 - Retrieves the URL from the class parameter `self.params['url']`.
 - Extracts the self.params['domain'] from the URL using `get_domain(url)`.
-- If no self.params['domain'] is provided as an argument in `line`, prompts the user to input a self.params['domain'], defaulting to
+- If no self.params['domain'] is provided as an argument in [`line`](modules.defense_eval.py.md#evaluation-line), prompts the user to input a self.params['domain'], defaulting to
     the previously extracted self.params['domain'].
 
 5. **Execute 'alterx' on the self.params['domain']:**
@@ -1147,7 +1147,7 @@ This function automates the process of gathering subdomains for a given self.par
 their reachability, and generating a report using the EyeWitness tool.
 
 Workflow:
-    1. Determines the target self.params['domain'] from the `line` argument or defaults to `self.params['domain']`.
+    1. Determines the target self.params['domain'] from the [`line`](modules.defense_eval.py.md#evaluation-line) argument or defaults to `self.params['domain']`.
     2. Queries the crt.sh certificate transparency logs for subdomains using `curl`.
     3. Filters and extracts self.params['domain']-related text data using `pup`.
     4. Sorts and removes duplicate entries, then validates subdomains with `httprobe`.

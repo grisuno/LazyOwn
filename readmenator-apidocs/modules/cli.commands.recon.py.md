@@ -197,7 +197,7 @@ def do_dig(self, line)
 
 Executes the `dig` command to query DNS information.
 
-1. Retrieves the DNS server IP from the `line` parameter and the target host from the `rhost` parameter.
+1. Retrieves the DNS server IP from the [`line`](modules.defense_eval.py.md#evaluation-line) parameter and the target host from the `rhost` parameter.
 2. If either the DNS server or `rhost` is not provided, an error message is printed.
 3. Executes the `dig` command to query the version of the DNS server and additional records.
 
@@ -545,7 +545,7 @@ Example:
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `line` |  |  | The options and arguments for `wfuzz`. The `line` parameter can include the following: - `sub <domain>`: Fuzz DNS subdomains. Requires `dnswordlist` to be assign. - `iis`: Fuzz IIS directories. Uses a default wordlist if `iiswordlist` is not assign. - Any other argument: General directory and file fuzzing. |
+| `line` |  |  | The options and arguments for `wfuzz`. The [`line`](modules.defense_eval.py.md#evaluation-line) parameter can include the following: - `sub <domain>`: Fuzz DNS subdomains. Requires `dnswordlist` to be assign. - `iis`: Fuzz IIS directories. Uses a default wordlist if `iiswordlist` is not assign. - Any other argument: General directory and file fuzzing. |
 
 **Returns:** None
 

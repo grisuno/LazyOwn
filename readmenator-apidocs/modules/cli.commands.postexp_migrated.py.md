@@ -297,7 +297,7 @@ is saved to a file named `strace.txt` in the `sessions` directory.
 
 - line (str): The PID of the process to attach strace to.
 
-- ValueError: If the `line` parameter is empty.
+- ValueError: If the [`line`](modules.defense_eval.py.md#evaluation-line) parameter is empty.
 - FileNotFoundError: If `strace` is not installed.
 
 - Ensure the `sessions` directory exists or is created before running the command.

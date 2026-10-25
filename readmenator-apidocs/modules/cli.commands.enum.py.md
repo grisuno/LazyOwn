@@ -133,9 +133,9 @@ def do_smbclient(self, line)
 Interacts with SMB shares using the `smbclient` command to perform the following operations:
 
 1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
-2. If `line` (share name) is provided:
+2. If [`line`](modules.defense_eval.py.md#evaluation-line) (share name) is provided:
 - Attempts to access the specified SMB share on the remote host using the command: `smbclient -N \\{rhost}\{line}`
-3. If `line` is not provided:
+3. If [`line`](modules.defense_eval.py.md#evaluation-line) is not provided:
 - Lists available SMB shares on the remote host with the command: `smbclient -N -L \\{rhost}`
 4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/share" /mnt/smb`
 
@@ -164,9 +164,9 @@ def do_smbclient_impacket(self, line)
 Interacts with SMB shares using the `smbclient` command to perform the following operations:
 
 1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
-2. If `line` (share name) is provided:
+2. If [`line`](modules.defense_eval.py.md#evaluation-line) (share name) is provided:
 - Attempts to access the specified SMB share on the remote host using the command: `smbclient -N \\{rhost}\{line}`
-3. If `line` is not provided:
+3. If [`line`](modules.defense_eval.py.md#evaluation-line) is not provided:
 - Lists available SMB shares on the remote host with the command: `smbclient -N -L \\{rhost}`
 4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/share" /mnt/smb`
 
@@ -195,9 +195,9 @@ def do_smbclient_py(self, line)
 Interacts with SMB shares using the `smbclient.py` command to perform the following operations:
 
 1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
-2. If `line` (share name) is provided:
+2. If [`line`](modules.defense_eval.py.md#evaluation-line) (share name) is provided:
 - Attempts to access the specified SMB share on the remote host using the command: `smbclient.py -N \\{rhost}\{line}`
-3. If `line` is not provided:
+3. If [`line`](modules.defense_eval.py.md#evaluation-line) is not provided:
 - Lists available SMB shares on the remote host with the command: `smbclient.py -N -L \\{rhost}`
 4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/share" /mnt/smb`
 
@@ -226,9 +226,9 @@ def do_smbmap(self, line)
 smbmap -H 10.10.10.3 [OPTIONS] Uses the `smbmap` tool to interact with SMB shares on a remote host:
 
 1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
-2. If no `line` (share name or options) is provided:
+2. If no [`line`](modules.defense_eval.py.md#evaluation-line) (share name or options) is provided:
 - Attempts to access SMB shares on the remote host with a default user `deefbeef` using the command: `smbmap -H {rhost} -u 'deefbeef'`
-3. If `line` is provided:
+3. If [`line`](modules.defense_eval.py.md#evaluation-line) is provided:
 - Executes `smbmap` with the specified options or share name using the command: `smbmap -H {rhost} -R {line}`
 4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/documents" /mnt/smb`
 
@@ -256,7 +256,7 @@ def do_getnpusers(self, line)
 
 sudo impacket-GetNPUsers mist.htb/ -no-pass -usersfile sessions/users.txt Executes the `impacket-GetNPUsers` command to enumerate users with Kerberos pre-authentication disabled.
 
-1. Checks if the `line` (domain) argument is provided; if not, an error message is displayed, instructing the user to provide a domain.
+1. Checks if the [`line`](modules.defense_eval.py.md#evaluation-line) (domain) argument is provided; if not, an error message is displayed, instructing the user to provide a domain.
 2. Executes `impacket-GetNPUsers` with the following options:
 - `-no-pass`: Skips password prompt.
 - `-usersfile sessions/users.txt`: Specifies the file containing the list of users to check.
@@ -293,9 +293,9 @@ Executes the Impacket PSExec tool to attempt remote execution on the specified t
 
 This function performs the following actions:
 1. Checks if the provided target host (`rhost`) is valid.
-2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+2. If the [`line`](modules.defense_eval.py.md#evaluation-line) argument is "pass", it searches for credential files with the pattern `credentials*.txt`
 and allows the user to select which file to use for executing the command.
-3. If the `line` argument is not "pass", it assumes execution without a password (using the current credentials).
+3. If the [`line`](modules.defense_eval.py.md#evaluation-line) argument is not "pass", it assumes execution without a password (using the current credentials).
 4. Copies the `rhost` IP address to the clipboard for ease of use.
 
 line (str): A command argument to determine the action.
@@ -328,9 +328,9 @@ Executes the Impacket PSExec tool to attempt remote execution on the specified t
 
 This function performs the following actions:
 1. Checks if the provided target host (`rhost`) is valid.
-2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+2. If the [`line`](modules.defense_eval.py.md#evaluation-line) argument is "pass", it searches for credential files with the pattern `credentials*.txt`
 and allows the user to select which file to use for executing the command.
-3. If the `line` argument is not "pass", it assumes execution without a password (using the current credentials).
+3. If the [`line`](modules.defense_eval.py.md#evaluation-line) argument is not "pass", it assumes execution without a password (using the current credentials).
 4. Copies the `rhost` IP address to the clipboard for ease of use.
 
 line (str): A command argument to determine the action.

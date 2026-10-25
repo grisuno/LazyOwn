@@ -6,12 +6,12 @@ Lab environment commands -- spin up vulnerable practice targets.
 
 Provides on-demand CTF-style lab scenarios powered by Docker containers.
 Operators can practice techniques against realistic targets without
-risking production systems.
+risking production systems. The Docker lifecycle lives in
+[`modules.lab_runtime`](modules.lab_runtime.py.md); this command set owns the operator UX.
 
 ## Contents
 
 - **Classes:** [`LabCommandSet`](#labcommandset)
-- **Constants:** [`BASE_DIR`](#base_dir), [`LAB_COMPOSE`](#lab_compose), [`RANGE_DIR`](#range_dir), [`RANGE_PROFILES`](#range_profiles), [`LAB_SCENARIOS`](#lab_scenarios), [`REGISTRY_PREFIX`](#registry_prefix)
 
 ## Type Diagram
 
@@ -45,7 +45,7 @@ flowchart LR
 
 ### `LabCommandSet`
 
-`class` | [cli/commands/lab.py:81](../../cli/commands/lab.py#L81)
+`class` | [cli/commands/lab.py:27](../../cli/commands/lab.py#L27)
 
 ```python
 class LabCommandSet(LazyOwnCommandSet)
@@ -72,7 +72,7 @@ Manage local CTF lab environments via Docker.
 
 #### `LabCommandSet.do_lab`
 
-`method` | [cli/commands/lab.py:196](../../cli/commands/lab.py#L196)
+`method` | [cli/commands/lab.py:93](../../cli/commands/lab.py#L93)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 
@@ -112,79 +112,5 @@ Requires Docker. Lab containers are isolated and safe for practice.
 ```
 
 *Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg)
-
----
-
-## Constants
-
-<a id="base_dir"></a>
-
-### `BASE_DIR`
-
-`constant` | [cli/commands/lab.py:26](../../cli/commands/lab.py#L26)
-
-```python
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-```
-
----
-
-<a id="lab_compose"></a>
-
-### `LAB_COMPOSE`
-
-`constant` | [cli/commands/lab.py:27](../../cli/commands/lab.py#L27)
-
-```python
-LAB_COMPOSE = BASE_DIR / 'deploy' / 'lab' / 'docker-compose.yml'
-```
-
----
-
-<a id="range_dir"></a>
-
-### `RANGE_DIR`
-
-`constant` | [cli/commands/lab.py:28](../../cli/commands/lab.py#L28)
-
-```python
-RANGE_DIR = BASE_DIR / 'deploy' / 'range'
-```
-
----
-
-<a id="range_profiles"></a>
-
-### `RANGE_PROFILES`
-
-`constant` | [cli/commands/lab.py:30](../../cli/commands/lab.py#L30)
-
-```python
-RANGE_PROFILES: dict[str, dict]
-```
-
----
-
-<a id="lab_scenarios"></a>
-
-### `LAB_SCENARIOS`
-
-`constant` | [cli/commands/lab.py:39](../../cli/commands/lab.py#L39)
-
-```python
-LAB_SCENARIOS: dict[str, dict]
-```
-
----
-
-<a id="registry_prefix"></a>
-
-### `REGISTRY_PREFIX`
-
-`constant` | [cli/commands/lab.py:78](../../cli/commands/lab.py#L78)
-
-```python
-REGISTRY_PREFIX = 'lazyown-lab-'
-```
 
 ---

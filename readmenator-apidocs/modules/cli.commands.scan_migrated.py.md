@@ -301,7 +301,7 @@ This method constructs and executes a `swaks` command to send an email from an a
 to a victim’s address, with a specified message body. The command is executed using the SMTP server
 address provided in the parameters.
 
-- `line`: (str) Input line that is not used in this function.
+- [`line`](modules.defense_eval.py.md#evaluation-line): (str) Input line that is not used in this function.
 
 Functionality:
 1. Retrieves the SMTP server address (`self.params['rhost']`) from the object's parameters.

@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **74.4%** (7209 of 9691 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **74.5%** (7266 of 9748 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,16 +8,16 @@ Overall: **74.4%** (7209 of 9691 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1219 | 1407 | 86.6% |
+| class | 1230 | 1418 | 86.7% |
 | classmethod | 58 | 84 | 69.0% |
 | constructor | 203 | 525 | 38.7% |
 | enum | 30 | 39 | 76.9% |
-| exception | 35 | 37 | 94.6% |
-| function | 1807 | 2755 | 65.6% |
+| exception | 36 | 38 | 94.7% |
+| function | 1837 | 2785 | 66.0% |
 | macro | 3 | 113 | 2.7% |
-| method | 2904 | 3583 | 81.0% |
-| module | 695 | 817 | 85.1% |
-| property | 152 | 196 | 77.6% |
+| method | 2911 | 3590 | 81.1% |
+| module | 701 | 823 | 85.2% |
+| property | 154 | 198 | 77.8% |
 | protocol | 20 | 20 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
 | struct | 1 | 20 | 5.0% |
@@ -660,17 +660,20 @@ Overall: **74.4%** (7209 of 9691 public modules, types, and callables). Data mem
 | [`modules.chain_distill`](modules/modules.chain_distill.py.md) | 10 | 10 | 100.0% |
 | [`modules.chain_facts`](modules/modules.chain_facts.py.md) | 2 | 2 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | 12 | 12 | 100.0% |
-| [`modules.chain_runner`](modules/modules.chain_runner.py.md) | 17 | 17 | 100.0% |
+| [`modules.chain_runner`](modules/modules.chain_runner.py.md) | 18 | 18 | 100.0% |
 | [`modules.chain_state`](modules/modules.chain_state.py.md) | 6 | 6 | 100.0% |
 | [`modules.chain_synth`](modules/modules.chain_synth.py.md) | 4 | 4 | 100.0% |
 | [`modules.chain_tokens`](modules/modules.chain_tokens.py.md) | 3 | 3 | 100.0% |
 | [`modules.cli_auth`](modules/modules.cli_auth.py.md) | 11 | 11 | 100.0% |
+| [`modules.closedloop`](modules/modules.closedloop.py.md) | 7 | 7 | 100.0% |
 | [`modules.cloud_enum`](modules/modules.cloud_enum.py.md) | 8 | 8 | 100.0% |
 | [`modules.config_store`](modules/modules.config_store.py.md) | 7 | 7 | 100.0% |
 | [`modules.ctf_capture`](modules/modules.ctf_capture.py.md) | 7 | 7 | 100.0% |
 | [`modules.custom_tools`](modules/modules.custom_tools.py.md) | 7 | 7 | 100.0% |
 | [`modules.dashboard_bp`](modules/modules.dashboard_bp.py.md) | 5 | 5 | 100.0% |
 | [`modules.db`](modules/modules.db.py.md) | 31 | 31 | 100.0% |
+| [`modules.defense_eval`](modules/modules.defense_eval.py.md) | 13 | 13 | 100.0% |
+| [`modules.defense_stages`](modules/modules.defense_stages.py.md) | 4 | 4 | 100.0% |
 | [`modules.digest`](modules/modules.digest.py.md) | 4 | 4 | 100.0% |
 | [`modules.dns_beacon`](modules/modules.dns_beacon.py.md) | 13 | 13 | 100.0% |
 | [`modules/duckdns.sh`](modules/modules.duckdns.sh.md) | 1 | 1 | 100.0% |
@@ -690,9 +693,11 @@ Overall: **74.4%** (7209 of 9691 public modules, types, and callables). Data mem
 | [`modules.guardrails.checkpoints`](modules/modules.guardrails.checkpoints.py.md) | 8 | 8 | 100.0% |
 | [`modules.guardrails.contracts`](modules/modules.guardrails.contracts.py.md) | 11 | 11 | 100.0% |
 | [`modules.guardrails.harness`](modules/modules.guardrails.harness.py.md) | 11 | 11 | 100.0% |
+| [`modules.gym_cleanup`](modules/modules.gym_cleanup.py.md) | 3 | 3 | 100.0% |
 | [`modules.gym_matrix_runner`](modules/modules.gym_matrix_runner.py.md) | 4 | 4 | 100.0% |
 | [`modules.gym_registry`](modules/modules.gym_registry.py.md) | 19 | 19 | 100.0% |
 | [`modules.harness`](modules/modules.harness.py.md) | 3 | 3 | 100.0% |
+| [`modules.hunt_verify`](modules/modules.hunt_verify.py.md) | 12 | 12 | 100.0% |
 | [`modules.integrations`](modules/modules.integrations.__init__.py.md) | 1 | 1 | 100.0% |
 | [`modules.integrations.misp_export`](modules/modules.integrations.misp_export.py.md) | 24 | 24 | 100.0% |
 | [`modules.intel_fusion`](modules/modules.intel_fusion.py.md) | 10 | 10 | 100.0% |
@@ -700,6 +705,7 @@ Overall: **74.4%** (7209 of 9691 public modules, types, and callables). Data mem
 | [`modules/iptables_portforward.sh`](modules/modules.iptables_portforward.sh.md) | 2 | 2 | 100.0% |
 | [`modules.jsonl_tail`](modules/modules.jsonl_tail.py.md) | 4 | 4 | 100.0% |
 | [`modules.killchain`](modules/modules.killchain.py.md) | 22 | 22 | 100.0% |
+| [`modules.lab_runtime`](modules/modules.lab_runtime.py.md) | 17 | 17 | 100.0% |
 | [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | 19 | 19 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | 15 | 15 | 100.0% |
 | [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | 11 | 11 | 100.0% |

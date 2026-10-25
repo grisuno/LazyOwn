@@ -1,6 +1,93 @@
 # Subsystem: modules (page 5 of 16)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
 
+## modules/engagement_hooks.py
+- Doc: modules/engagement_hooks.py — Engagement narration and notification fabric
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_safe_str` (function, line 78) `def _safe_str(value, maxlen)`
+  - `_load_payload` (function, line 88) `def _load_payload()`
+  - `EngagementEvent` (class, line 101) `class EngagementEvent`
+  - `INotificationSink` (class, line 150) `class INotificationSink(ABC)`
+  - `StreamEventSink` (class, line 167) `class StreamEventSink(INotificationSink)`
+  - `CollabNotificationSink` (class, line 204) `class CollabNotificationSink(INotificationSink)`
+  - `_OutboundHTTPSink` (class, line 242) `class _OutboundHTTPSink(INotificationSink)`
+  - `TelegramNotificationSink` (class, line 278) `class TelegramNotificationSink(_OutboundHTTPSink)`
+  - `DiscordNotificationSink` (class, line 311) `class DiscordNotificationSink(_OutboundHTTPSink)`
+  - `NotificationBroadcaster` (class, line 336) `class NotificationBroadcaster`
+  - `EngagementNarrator` (class, line 382) `class EngagementNarrator`
+  - `_load_seen_beacons` (function, line 444) `def _load_seen_beacons()`
+  - `_save_seen_beacons` (function, line 455) `def _save_seen_beacons(seen)`
+  - `_sanitize_client_id` (function, line 466) `def _sanitize_client_id(client_id)`
+  - `get_default_narrator` (function, line 482) `def get_default_narrator()`
+  - `publish_shell_obtained` (function, line 491) `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)`
+  - `append_approval_record` (function, line 564) `def append_approval_record(record)`
+  - `list_pending_approvals` (function, line 575) `def list_pending_approvals()`
+  - `resolve_approval` (function, line 601) `def resolve_approval(approval_id, decision, operator)`
+  - `is_valid_target` (function, line 626) `def is_valid_target(value)`
+  - `now` (method, line 124) `def now(cls, kind, target, message, payload, severity)`
+  - `render_line` (method, line 143) `def render_line(self)`
+  - `name` (method, line 155) `def name(self)`
+  - `deliver` (method, line 159) `def deliver(self, event)`
+  - `name` (method, line 178) `def name(self)`
+  - `deliver` (method, line 181) `def deliver(self, event)`
+  - `name` (method, line 213) `def name(self)`
+  - `deliver` (method, line 216) `def deliver(self, event)`
+  - `name` (method, line 252) `def name(self)`
+  - `_build_request` (method, line 255) `def _build_request(self, event)`
+  - `deliver` (method, line 258) `def deliver(self, event)`
+  - `name` (method, line 288) `def name(self)`
+  - `_build_request` (method, line 291) `def _build_request(self, event)`
+  - `name` (method, line 320) `def name(self)`
+  - `_build_request` (method, line 323) `def _build_request(self, event)`
+  - `__init__` (method, line 349) `def __init__(self, sinks)`
+  - `default` (method, line 354) `def default(cls)`
+  - `add` (method, line 365) `def add(self, sink)`
+  - `deliver` (method, line 370) `def deliver(self, event)`
+  - `__init__` (method, line 393) `def __init__(self, broadcaster)`
+  - `narrate` (method, line 400) `def narrate(self, kind, target, message, payload, severity)`
+  - `_persist` (method, line 417) `def _persist(self, event)`
+- Depends on: `core/logging.py`, `modules/collab_bp.py`
+- Imported by: `modules/event_bus.py`, `modules/pipeline_engine.py`
+
+## modules/enrich.py
+- Doc: Async target enrichment with scan dedup (LAZY enrich parity).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EnrichResult` (class, line 30) `class EnrichResult`
+  - `scan_files_for` (function, line 40) `def scan_files_for(sessions_dir, target)`
+  - `should_rescan` (function, line 57) `def should_rescan(sessions_dir, target, fresh_sec)`
+  - `resolve_dns` (function, line 73) `def resolve_dns(target, timeout)`
+  - `fetch_http` (function, line 86) `def fetch_http(target, timeout)`
+  - `EnrichEngine` (class, line 100) `class EnrichEngine`
+  - `shared_engine` (function, line 137) `def shared_engine()`
+  - `__init__` (method, line 103) `def __init__(self, max_workers)`
+  - `submit` (method, line 108) `def submit(self, target)`
+  - `_run` (method, line 121) `def _run(self, target)`
+  - `shutdown` (method, line 128) `def shutdown(self, wait)`
+- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
+
+## modules/entra_id_attacks.py
+- Doc: Azure AD / Entra ID attack module — Graph API abuse, OAuth consent grants, device code phishing.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EntraIDConfig` (class, line 57) `class EntraIDConfig`
+  - `EntraIDAttackEngine` (class, line 81) `class EntraIDAttackEngine`
+  - `__init__` (method, line 92) `def __init__(self, config)`
+  - `device_code_phish` (method, line 96) `def device_code_phish(self, scope)`
+  - `poll_device_code` (method, line 129) `def poll_device_code(self, device_code, interval, timeout)`
+  - `oauth_consent_grant` (method, line 166) `def oauth_consent_grant(self, redirect_uri)`
+  - `service_principal_credential_theft` (method, line 203) `def service_principal_credential_theft(self)`
+  - `managed_identity_abuse` (method, line 235) `def managed_identity_abuse(self, resource)`
+  - `entra_connect_sync_abuse` (method, line 266) `def entra_connect_sync_abuse(self)`
+  - `conditional_access_bypass` (method, line 307) `def conditional_access_bypass(self)`
+  - `enumerate_tenant` (method, line 345) `def enumerate_tenant(self)`
+  - `summary` (method, line 368) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
+
 ## modules/estorides_fusion.py
 - Doc: Estorides intel fusion: merge OSINT graph entities into campaign graphs.
 - Layer: utility
@@ -399,100 +486,6 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `_observable` (function, line 137) `def _observable(record, fact_type)`
 - Depends on: `core/logging.py`
 - Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`
-
-## modules/fast_run_service.sh
-- Doc: LazyOwn service-mode orchestrator.
-- Layer: business_logic
-- Language: sh
-- Symbols:
-  - `log_timestamp` (function, line 69)
-  - `log_info` (function, line 73)
-  - `log_warn` (function, line 77)
-  - `log_error` (function, line 81)
-  - `require_root` (function, line 89)
-  - `require_deps` (function, line 97)
-  - `require_paths` (function, line 113)
-  - `prepare_runtime_dirs` (function, line 126)
-  - `load_config` (function, line 139)
-  - `config_truthy` (function, line 155)
-  - `pid_file_for` (function, line 166)
-  - `log_file_for` (function, line 171)
-  - `read_pid_value` (function, line 176)
-  - `is_pid_alive` (function, line 189)
-  - `is_service_running` (function, line 194)
-  - `write_pid_file` (function, line 201)
-  - `ensure_log_file` (function, line 211)
-  - `spawn_as_target_user` (function, line 228)
-  - `spawn_as_root` (function, line 247)
-  - `terminate_pid_tree` (function, line 264)
-  - `stop_named_service` (function, line 292)
-  - `chown_project_tree` (function, line 310)
-  - `start_chown_watcher` (function, line 315)
-  - `start_lazyc2_service` (function, line 342)
-  - `start_www_service` (function, line 356)
-  - `start_vpn_service` (function, line 363)
-  - `start_discord_service` (function, line 380)
-  - `start_telegram_service` (function, line 390)
-  - `start_cloudflare_service` (function, line 400)
-  - `start_ollama_service` (function, line 410)
-  - `managed_services_in_order` (function, line 429)
-  - `cmd_start` (function, line 445)
-  - `cmd_stop` (function, line 465)
-  - `cmd_restart` (function, line 480)
-  - `cmd_status` (function, line 486)
-  - `cmd_logs` (function, line 505)
-  - `cmd_chown_now` (function, line 521)
-  - `usage` (function, line 528)
-  - `main` (function, line 557)
-
-## modules/finding_lifecycle.py
-- Doc: Finding confirmation lifecycle: pending -> confirmed / rejected.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_store_path` (function, line 35) `def _store_path(sessions_dir)`
-  - `_load` (function, line 40) `def _load(sessions_dir)`
-  - `_save` (function, line 53) `def _save(sessions_dir, data)`
-  - `confirm` (function, line 61) `def confirm(finding_id, evidence, sessions_dir, by)`
-  - `reject` (function, line 90) `def reject(finding_id, reason, sessions_dir, by)`
-  - `add_dead_end` (function, line 104) `def add_dead_end(kind, value, reason, sessions_dir)`
-  - `is_dead_end` (function, line 116) `def is_dead_end(kind, value, sessions_dir)`
-  - `suppressed_values` (function, line 123) `def suppressed_values(sessions_dir)`
-  - `resolve` (function, line 129) `def resolve(node, sessions_dir)`
-  - `apply_confirmation` (function, line 154) `def apply_confirmation(nodes, sessions_dir)`
-  - `FindingRecord` (class, line 182) `class FindingRecord`
-  - `RetestRecord` (class, line 195) `class RetestRecord`
-  - `_token_value` (function, line 205) `def _token_value(refs, prefix, default)`
-  - `_with_token` (function, line 213) `def _with_token(refs, prefix, value)`
-  - `_finding_from_row` (function, line 220) `def _finding_from_row(row)`
-  - `record` (function, line 234) `def record(db, workspace, host, title, severity, summary, poc)`
-  - `findings_for` (function, line 259) `def findings_for(db, workspace)`
-  - `set_status` (function, line 264) `def set_status(db, finding_id, status)`
-  - `_retests_path` (function, line 287) `def _retests_path(sessions_dir)`
-  - `_load_retests` (function, line 292) `def _load_retests(sessions_dir)`
-  - `_save_retests` (function, line 303) `def _save_retests(sessions_dir, payload)`
-  - `has_running_retest` (function, line 310) `def has_running_retest(finding_id, sessions_dir)`
-  - `request_retest` (function, line 318) `def request_retest(db, finding_id, sessions_dir)`
-  - `resolve_retest` (function, line 338) `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)`
-  - `classify_retest` (function, line 384) `def classify_retest(needle, output)`
-  - `render_markdown` (function, line 403) `def render_markdown(db, workspace, title)`
-- Depends on: `modules/osint_enrich.py`
-- Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
-
-## modules/forensic_cleaner.py
-- Doc: Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ForensicCleanerConfig` (class, line 23) `class ForensicCleanerConfig`
-  - `ForensicCleaner` (class, line 57) `class ForensicCleaner`
-  - `__init__` (method, line 67) `def __init__(self, config)`
-  - `windows_cleanup` (method, line 70) `def windows_cleanup(self)`
-  - `linux_cleanup` (method, line 165) `def linux_cleanup(self)`
-  - `macos_cleanup` (method, line 193) `def macos_cleanup(self)`
-  - `windows_prefetch_parse` (method, line 221) `def windows_prefetch_parse(self, prefetch_path)`
-  - `amcache_parse` (method, line 259) `def amcache_parse(self)`
-- Imported by: `cli/commands/opsec_cleanup.py`
 
 
 Next: [KB_modules_p6.md](KB_modules_p6.md)

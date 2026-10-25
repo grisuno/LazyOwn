@@ -1,6 +1,37 @@
 # API (page 12 of 24)
 Previous: [API_p11.md](API_p11.md)
 
+## modules/exploit_recommender.py
+Depends on: `lazygui/version.py`, `modules/world_model.py`
+Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
+- `parse_version` (function) `modules/exploit_recommender.py:25` `def parse_version(v)`
+- `ExploitRecommender.__init__` (method) `modules/exploit_recommender.py:120` `def __init__(self, world_model)`
+- `ExploitRecommender.set_world_model` (method) `modules/exploit_recommender.py:129` `def set_world_model(self, world_model)`
+- `ExploitRecommender.set_nvd_api_key` (method) `modules/exploit_recommender.py:132` `def set_nvd_api_key(self, key)`
+- `ExploitRecommender.match_services` (method) `modules/exploit_recommender.py:244` `def match_services(self, hosts)` -- Match discovered services against known CVEs with confidence scoring.
+- `ExploitRecommender.recommend` (method) `modules/exploit_recommender.py:337` `def recommend(self, hosts, top_n)` -- Return top-N recommended exploits as structured dicts for MCP/CLI.
+- `ExploitRecommender.persist_recommendations` (method) `modules/exploit_recommender.py:370` `def persist_recommendations(self, matches)` -- Save recommendations to sessions/ for audit and replay.
+- `ExploitRecommender.format_for_llm` (method) `modules/exploit_recommender.py:390` `def format_for_llm(self, matches, max_items)` -- Format recommendations as compact text for LLM context injection.
+
+## modules/exploitgym_gym.py
+Depends on: `modules/redteam_gym.py`
+Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
+- `check_readiness` (function) `modules/exploitgym_gym.py:112` `def check_readiness(params)` -- Report whether the ExploitGym harness can run.
+- `list_tasks` (function) `modules/exploitgym_gym.py:178` `def list_tasks(params, domain, limit)` -- List available ExploitGym tasks, optionally filtered by domain.
+- `setup_harness` (function) `modules/exploitgym_gym.py:249` `def setup_harness(params, steps)` -- Automate ExploitGym installation (clone, deps, data, firewall, images).
+- `pull_task` (function) `modules/exploitgym_gym.py:344` `def pull_task(task_id, params, timeout)` -- Pull the Docker image required by a task.
+- `run_task` (function) `modules/exploitgym_gym.py:423` `def run_task(task_id, params, model, mitigations, timeout)` -- Run the agent against an ExploitGym task and capture the outcome.
+- `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
+- `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
+
+## modules/factsio.py
+Depends on: `core/logging.py`
+Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`
+- `load_policy_facts` (function) `modules/factsio.py:39` `def load_policy_facts(path)` -- Load ``policy_facts.json`` into canonical host-keyed form.
+- `canonical_policy_facts` (function) `modules/factsio.py:61` `def canonical_policy_facts(data)` -- Project any legacy or canonical facts document to host-keyed form.
+- `iter_host_records` (function) `modules/factsio.py:81` `def iter_host_records(host_keyed)` -- Yield ``(ip, record)`` pairs from canonical host-keyed facts.
+- `iter_flat_facts` (function) `modules/factsio.py:93` `def iter_flat_facts(host_keyed)` -- Yield one flat record per fact kind found in the host map.
+
 ## modules/fast_run_service.sh
 - `log_timestamp` (function) `modules/fast_run_service.sh:69` -- # # Logging primitives.
 - `log_info` (function) `modules/fast_run_service.sh:73`
@@ -194,6 +225,12 @@ Imported by: `modules/guardrails/__init__.py`
 - `try_ssh_askpass` (function) `modules/gui_askpass.sh:33`
 - `try_kdialog` (function) `modules/gui_askpass.sh:40`
 
+## modules/gym_cleanup.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/__init__.py`
+Imported by: `lazyown.py`, `tests/test_gym_lifecycle.py`
+- `cleanup_enabled` (function) `modules/gym_cleanup.py:21` `def cleanup_enabled()` -- Return whether exit cleanup is enabled (default on).
+- `cleanup_gym_machines` (function) `modules/gym_cleanup.py:35` `def cleanup_gym_machines(verbose)` -- Stop every running lab and range machine.
+
 ## modules/gym_matrix_runner.py
 Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
 - `plan_matrix` (function) `modules/gym_matrix_runner.py:36` `def plan_matrix(target, sessions_dir, only, top_k)` -- Build the ordered execution plan for the gym matrix.
@@ -246,6 +283,15 @@ Depends on: `modules/toposwarm_bridge.py`
 ## modules/hostdiscover.sh
 - `extract_ips_from_arp` (function) `modules/hostdiscover.sh:21`
 - `extract_listening_ips_from_netstat` (function) `modules/hostdiscover.sh:26`
+
+## modules/hunt_verify.py
+Imported by: `modules/chain_runner.py`, `modules/defense_stages.py`, `tests/test_hunt_verify.py`
+- `StageAssessment.to_dict` (method) `modules/hunt_verify.py:99` `def to_dict(self)` -- Return a JSON-serializable view.
+- `Verification.chain_proven` (method) `modules/hunt_verify.py:124` `def chain_proven(self)` -- Return whether every stage has observed evidence.
+- `Verification.to_dict` (method) `modules/hunt_verify.py:130` `def to_dict(self)` -- Return a JSON-serializable view.
+- `field_present` (function) `modules/hunt_verify.py:152` `def field_present(fields, field_name)` -- Return whether one required field exists with a present scalar value.
+- `validate_specs` (function) `modules/hunt_verify.py:197` `def validate_specs(specs)` -- Validate stage structure: caps, unique ids and known dependencies.
+- `verify_stages` (function) `modules/hunt_verify.py:232` `def verify_stages(specs, observations, events, scope_covered)` -- Verify AI observations against retained events per stage.
 
 ## modules/ia_code_analysis.py
 Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
@@ -442,45 +488,6 @@ Imported by: `cli/commands/cloud_attacks.py`
 - `K8SAttackEngine.helm_tiller_abuse` (method) `modules/k8s_attacks.py:250` `def helm_tiller_abuse(self)` -- Abuse Helm (v2 Tiller or v3 RBAC) for privilege escalation.
 - `K8SAttackEngine.persistence_techniques` (method) `modules/k8s_attacks.py:278` `def persistence_techniques(self)` -- Kubernetes persistence techniques for long-term access.
 - `K8SAttackEngine.summary` (method) `modules/k8s_attacks.py:318` `def summary(self)`
-
-## modules/kerberoasting.py
-Depends on: `modules/kerberos_core.py`
-Imported by: `cli/commands/active_directory.py`
-- `KerberoastingEngine.__init__` (method) `modules/kerberoasting.py:95` `def __init__(self, domain, dc_ip, username, password, hash)`
-- `KerberoastingEngine.enumerate_spns` (method) `modules/kerberoasting.py:112` `def enumerate_spns(self, ldap_output, bloodhound_data)` -- Enumerate kerberoastable service principals.
-- `priority` (function) `modules/kerberoasting.py:172` `def priority(target)`
-- `KerberoastingEngine.request_tgs_aes_only` (method) `modules/kerberoasting.py:187` `def request_tgs_aes_only(self, user_spn)` -- Request a TGS ticket using only AES encryption (evades RC4 detection).
-- `KerberoastingEngine.request_tgs_rc4` (method) `modules/kerberoasting.py:208` `def request_tgs_rc4(self, user_spn)` -- Request a TGS ticket using RC4-HMAC (mode 13100 for Hashcat).
-- `KerberoastingEngine.request_tgs` (method) `modules/kerberoasting.py:219` `def request_tgs(self, user_spn, etype)` -- Request a TGS service ticket for kerberoasting.
-- `KerberoastingEngine.targeted_kerberoast` (method) `modules/kerberoasting.py:271` `def targeted_kerberoast(self, high_value_only)` -- Perform targeted Kerberoasting on enumerated SPNs.
-- `KerberoastingEngine.asreproast_check` (method) `modules/kerberoasting.py:306` `def asreproast_check(self, usernames)` -- Check which users do NOT require Kerberos pre-authentication (AS-REP roastable).
-- `KerberoastingEngine.extract_hashes_from_pcap` (method) `modules/kerberoasting.py:321` `def extract_hashes_from_pcap(self, pcap_path)` -- Extract Kerberoast hashes from a PCAP/PCAPNG network capture.
-- `KerberoastingEngine.detect_kerberoasting_activity` (method) `modules/kerberoasting.py:336` `def detect_kerberoasting_activity(self, event_log)` -- Analyze Windows Event Logs for signs of Kerberoasting attacks.
-- `KerberoastingEngine.build_hashcat_batch` (method) `modules/kerberoasting.py:379` `def build_hashcat_batch(self, output_path)` -- Build a batch file with all extracted hashes for Hashcat cracking.
-- `KerberoastingEngine.summary` (method) `modules/kerberoasting.py:401` `def summary(self)` -- Return a summary of kerberoasting operations.
-
-## modules/kerberos_core.py
-Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
-- `KerberosPrincipal.to_string` (method) `modules/kerberos_core.py:152` `def to_string(self)`
-- `KerberosTicket.has_flag` (method) `modules/kerberos_core.py:207` `def has_flag(self, flag_name)`
-- `KerberosCrypto.__init__` (method) `modules/kerberos_core.py:277` `def __init__(self)`
-- `KerberosCrypto.derive_aes_key` (method) `modules/kerberos_core.py:282` `def derive_aes_key(password, salt, etype)` -- Derive an AES Kerberos key from a password using string-to-key.
-- `KerberosCrypto.derive_rc4_key` (method) `modules/kerberos_core.py:318` `def derive_rc4_key(password)` -- Derive RC4-HMAC Kerberos key from password (hash = MD4(UTF16LE(password))).
-- `KerberosCrypto.aes_encrypt` (method) `modules/kerberos_core.py:329` `def aes_encrypt(self, key, plaintext, usage)` -- AES encrypt with Kerberos ciphertext stealing (CTS) mode.
-- `KerberosCrypto.aes_decrypt` (method) `modules/kerberos_core.py:361` `def aes_decrypt(self, key, ciphertext, usage)` -- AES decrypt with Kerberos CTS mode.
-- `KerberosCrypto.compute_checksum` (method) `modules/kerberos_core.py:389` `def compute_checksum(key, data, etype)` -- Compute a Kerberos checksum using HMAC-SHA1-96-AES.
-- `KerberosCore.__init__` (method) `modules/kerberos_core.py:421` `def __init__(self, domain, dc_host, dc_ip)`
-- `KerberosCore.get_supported_etypes` (method) `modules/kerberos_core.py:427` `def get_supported_etypes(self)` -- Return encryption types supported by this implementation.
-- `KerberosCore.build_as_req` (method) `modules/kerberos_core.py:435` `def build_as_req(self, username, domain, password, etype)` -- Build an AS-REQ message for TGT retrieval.
-- `KerberosCore.build_tgs_req` (method) `modules/kerberos_core.py:489` `def build_tgs_req(self, params)` -- Build a TGS-REQ message for service ticket retrieval.
-- `KerberosCore.parse_as_rep` (method) `modules/kerberos_core.py:534` `def parse_as_rep(self, as_rep_data, key, etype)` -- Parse an AS-REP response and extract the TGT and session key.
-- `KerberosCore.parse_tgs_rep` (method) `modules/kerberos_core.py:550` `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)` -- Parse a TGS-REP response and extract the service ticket.
-- `KerberosCore.decrypt_ticket` (method) `modules/kerberos_core.py:563` `def decrypt_ticket(self, ticket_data, key, etype)` -- Decrypt the encrypted portion of a Kerberos ticket.
-- `KerberosCore.parse_pac` (method) `modules/kerberos_core.py:588` `def parse_pac(self, pac_data)` -- Parse a Privilege Attribute Certificate (PAC) from decrypted auth data.
-- `KerberosErrorParser.parse_error` (method) `modules/kerberos_core.py:687` `def parse_error(error_data)` -- Extract error code, message, and client/server realm from a KRB-ERROR.
-- `TicketValidator.is_expired` (method) `modules/kerberos_core.py:706` `def is_expired(endtime, grace_period)` -- Check if a ticket has expired.
-- `TicketValidator.validate_flags` (method) `modules/kerberos_core.py:719` `def validate_flags(ticket, required_flags)` -- Check that a ticket has all required flags.
-- `TicketValidator.validate_pac_checksums` (method) `modules/kerberos_core.py:735` `def validate_pac_checksums(pac)` -- Validate PAC server and KDC checksums.
 
 
 Next: [API_p13.md](API_p13.md)

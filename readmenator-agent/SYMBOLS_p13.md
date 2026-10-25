@@ -3,6 +3,20 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_calculate_severity` | method | `modules/dacl_abuse.py:384` | `def _calculate_severity(target)` |
+| `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
+| `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
+| `_is_dangerous_ace` | method | `modules/dacl_abuse.py:379` | `def _is_dangerous_ace(ace)` |
+| `adminsdholder_abuse_plan` | method | `modules/dacl_abuse.py:291` | `def adminsdholder_abuse_plan(self, target_sid)` |
+| `compute_attack_chains` | method | `modules/dacl_abuse.py:224` | `def compute_attack_chains(self)` |
+| `dcsync_rights_assignment_plan` | method | `modules/dacl_abuse.py:318` | `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` |
+| `owner_takeover_plan` | method | `modules/dacl_abuse.py:348` | `def owner_takeover_plan(self, target_dn, attacker_sid)` |
+| `parse_bloodhound_acls` | method | `modules/dacl_abuse.py:143` | `def parse_bloodhound_acls(self, edges)` |
+| `parse_raw_aces` | method | `modules/dacl_abuse.py:182` | `def parse_raw_aces(self, raw_nthashes)` |
+| `summary` | method | `modules/dacl_abuse.py:418` | `def summary(self)` |
+| `_aggregate_data` | function | `modules/dashboard_bp.py:113` | `def _aggregate_data()` |
+| `_count_lines` | function | `modules/dashboard_bp.py:103` | `def _count_lines(path)` |
+| `_normalize_ts` | function | `modules/dashboard_bp.py:913` | `def _normalize_ts(raw)` |
 | `_read_json` | function | `modules/dashboard_bp.py:93` | `def _read_json(path)` |
 | `_read_jsonl` | function | `modules/dashboard_bp.py:71` | `def _read_jsonl(path, last_n)` |
 | `_read_loot` | function | `modules/dashboard_bp.py:817` | `def _read_loot()` |
@@ -66,6 +80,34 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `workspace_delete` | method | `modules/db.py:333` | `def workspace_delete(self, name)` |
 | `workspace_get` | method | `modules/db.py:313` | `def workspace_get(self, name)` |
 | `workspace_list` | method | `modules/db.py:307` | `def workspace_list(self)` |
+| `Condition` | class | `modules/defense_eval.py:44` | `class Condition` |
+| `DatasetSummary` | class | `modules/defense_eval.py:74` | `class DatasetSummary` |
+| `Evaluation` | class | `modules/defense_eval.py:53` | `class Evaluation` |
+| `RuleEvaluationError` | class | `modules/defense_eval.py:39` | `class RuleEvaluationError(ValueError)` |
+| `RuleResult` | class | `modules/defense_eval.py:93` | `class RuleResult` |
+| `_canonical_number` | function | `modules/defense_eval.py:179` | `def _canonical_number(value)` |
+| `_compare` | function | `modules/defense_eval.py:194` | `def _compare(actual, expected, op)` |
+| `_lookup` | function | `modules/defense_eval.py:167` | `def _lookup(fields, field_name)` |
+| `_parse_logs` | function | `modules/defense_eval.py:269` | `def _parse_logs(text, dataset, max_events)` |
+| `_scalar_present` | function | `modules/defense_eval.py:223` | `def _scalar_present(value)` |
+| `evaluate_event` | function | `modules/defense_eval.py:234` | `def evaluate_event(conditions, fields)` |
+| `evaluate_rule` | function | `modules/defense_eval.py:322` | `def evaluate_rule(rule_text, target_logs, control_logs)` |
+| `metrics` | function | `modules/defense_eval.py:380` | `def metrics(result)` |
+| `parse_rule` | function | `modules/defense_eval.py:115` | `def parse_rule(rule_text)` |
+| `to_dict` | method | `modules/defense_eval.py:62` | `def to_dict(self)` |
+| `to_dict` | method | `modules/defense_eval.py:82` | `def to_dict(self)` |
+| `to_dict` | method | `modules/defense_eval.py:103` | `def to_dict(self)` |
+| `_Stub` | class | `modules/defense_stages.py:35` | `class _Stub` |
+| `_activity` | function | `modules/defense_stages.py:28` | `def _activity(task_id)` |
+| `_load_dataset` | function | `modules/defense_stages.py:67` | `def _load_dataset(stage, key, task_id)` |
+| `_params` | function | `modules/defense_stages.py:42` | `def _params(stage)` |
+| `_read_text` | function | `modules/defense_stages.py:57` | `def _read_text(path)` |
+| `_render` | function | `modules/defense_stages.py:52` | `def _render(value, task_id)` |
+| `_write_json` | function | `modules/defense_stages.py:230` | `def _write_json(path, data)` |
+| `emit` | method | `modules/defense_stages.py:36` | `def emit(self)` |
+| `run_closedloop_tune` | function | `modules/defense_stages.py:117` | `def run_closedloop_tune(task_id)` |
+| `run_defense_validate` | function | `modules/defense_stages.py:82` | `def run_defense_validate(task_id)` |
+| `run_hunt_verify` | function | `modules/defense_stages.py:151` | `def run_hunt_verify(task_id)` |
 | `DelegationAttackPath` | class | `modules/delegation_attacks.py:63` | `class DelegationAttackPath` |
 | `DelegationEnumerator` | class | `modules/delegation_attacks.py:85` | `class DelegationEnumerator` |
 | `DelegationTarget` | class | `modules/delegation_attacks.py:32` | `class DelegationTarget` |
@@ -454,47 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `__call__` | method | `modules/event_consumers.py:313` | `def __call__(self, event)` |
 | `__call__` | method | `modules/event_consumers.py:351` | `def __call__(self, event)` |
 | `__init__` | method | `modules/event_consumers.py:146` | `def __init__(self)` |
-| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
-| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
-| `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
-| `_update_soul` | function | `modules/event_consumers.py:100` | `def _update_soul(phase, credentials, access)` |
-| `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
-| `unwire_all_consumers` | function | `modules/event_consumers.py:399` | `def unwire_all_consumers(bus)` |
-| `wire_all_consumers` | function | `modules/event_consumers.py:370` | `def wire_all_consumers(bus)` |
-| `_append_event` | function | `modules/event_engine.py:173` | `def _append_event(event)` |
-| `_read_watermark` | function | `modules/event_engine.py:130` | `def _read_watermark()` |
-| `_row_matches` | function | `modules/event_engine.py:144` | `def _row_matches(row, trigger)` |
-| `_write_watermark` | function | `modules/event_engine.py:137` | `def _write_watermark(offset)` |
-| `ack_event` | function | `modules/event_engine.py:270` | `def ack_event(event_id)` |
-| `add_rule` | function | `modules/event_engine.py:114` | `def add_rule(rule)` |
-| `load_rules` | function | `modules/event_engine.py:99` | `def load_rules()` |
-| `process_new_rows` | function | `modules/event_engine.py:181` | `def process_new_rows()` |
-| `read_events` | function | `modules/event_engine.py:250` | `def read_events(limit, status)` |
-| `save_rules` | function | `modules/event_engine.py:110` | `def save_rules(rules)` |
-| `EvidenceConfig` | class | `modules/evidence.py:20` | `class EvidenceConfig` |
-| `EvidenceStore` | class | `modules/evidence.py:54` | `class EvidenceStore` |
-| `__init__` | method | `modules/evidence.py:57` | `def __init__(self, base_dir)` |
-| `_validate_hash` | function | `modules/evidence.py:42` | `def _validate_hash(value)` |
-| `blob_path` | method | `modules/evidence.py:65` | `def blob_path(self, content_hash)` |
-| `exists` | method | `modules/evidence.py:98` | `def exists(self, content_hash)` |
-| `garbage_collect` | method | `modules/evidence.py:105` | `def garbage_collect(self, referenced)` |
-| `get` | method | `modules/evidence.py:90` | `def get(self, content_hash)` |
-| `hash_bytes` | function | `modules/evidence.py:37` | `def hash_bytes(data)` |
-| `put` | method | `modules/evidence.py:70` | `def put(self, data)` |
-| `BUFFER` | macro | `modules/exp.c:56` | `#define BUFFER` |
-| `DESC_MAX` | macro | `modules/exp.c:54` | `#define DESC_MAX` |
-| `ERROR_PREFIX` | macro | `modules/exp.c:58` | `#define ERROR_PREFIX` |
-| `INBOUND` | macro | `modules/exp.c:52` | `#define INBOUND` |
-| `KEY_DESC_MAX_SIZE` | macro | `modules/exp.c:60` | `#define KEY_DESC_MAX_SIZE` |
-| `MQUEUE_NUM` | macro | `modules/exp.c:49` | `#define MQUEUE_NUM` |
-| `Msg` | struct | `modules/exp.c:100` | `` |
-| `NAMELEN` | macro | `modules/exp.c:57` | `#define NAMELEN` |
-| `OUTBOUND` | macro | `modules/exp.c:53` | `#define OUTBOUND` |
-| `PHYSMAP_MASK` | macro | `modules/exp.c:67` | `#define PHYSMAP_MASK` |
-| `PREFIX_BUF_LEN` | macro | `modules/exp.c:62` | `#define PREFIX_BUF_LEN` |
-| `RCU_HEAD_LEN` | macro | `modules/exp.c:63` | `#define RCU_HEAD_LEN` |
-| `SPRAY_KEY_SIZE` | macro | `modules/exp.c:65` | `#define SPRAY_KEY_SIZE` |
-| `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:71` | `#define SPRAY_NB_ENTRIES` |
-| `SPRAY_SIZE` | macro | `modules/exp.c:69` | `#define SPRAY_SIZE` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

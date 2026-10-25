@@ -3,13 +3,94 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `record_external_attempt` | function | `modules/redteam_gym.py:977` | `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` |
+| `generate` | method | `modules/professional_report.py:247` | `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` |
+| `generate_executive_summary` | method | `modules/professional_report.py:982` | `def generate_executive_summary(self, data, with_ai, ai_backend)` |
+| `download_kernel_sources` | function | `modules/r.sh:10` | `` |
+| `ReactionPick` | class | `modules/reaction_bridge.py:66` | `class ReactionPick` |
+| `__init__` | method | `modules/reaction_bridge.py:69` | `def __init__(self, command, reason, priority, mitre)` |
+| `_buffer_path` | function | `modules/reaction_bridge.py:76` | `def _buffer_path(task_id)` |
+| `_load_buffer` | function | `modules/reaction_bridge.py:143` | `def _load_buffer(task_id)` |
+| `_placeholder_value` | function | `modules/reaction_bridge.py:154` | `def _placeholder_value(value)` |
+| `_write_buffer` | function | `modules/reaction_bridge.py:150` | `def _write_buffer(task_id, payload)` |
+| `find_credentials` | function | `modules/reaction_bridge.py:159` | `def find_credentials(output)` |
+| `load_reaction_triggers` | function | `modules/reaction_bridge.py:108` | `def load_reaction_triggers(task_id, consumer)` |
+| `save_decisions` | function | `modules/reaction_bridge.py:80` | `def save_decisions(task_id, decisions)` |
+| `AVBlockedMatcher` | class | `modules/reactive_engine.py:102` | `class AVBlockedMatcher(AbstractSignalMatcher)` |
+| `AbstractSignalMatcher` | class | `modules/reactive_engine.py:97` | `class AbstractSignalMatcher(ABC)` |
+| `CredentialFoundMatcher` | class | `modules/reactive_engine.py:147` | `class CredentialFoundMatcher(AbstractSignalMatcher)` |
+| `DataOfInterestMatcher` | class | `modules/reactive_engine.py:323` | `class DataOfInterestMatcher(AbstractSignalMatcher)` |
+| `EvasionAdvisor` | class | `modules/reactive_engine.py:481` | `class EvasionAdvisor` |
+| `LateralOpportunityMatcher` | class | `modules/reactive_engine.py:293` | `class LateralOpportunityMatcher(AbstractSignalMatcher)` |
+| `NewHostMatcher` | class | `modules/reactive_engine.py:209` | `class NewHostMatcher(AbstractSignalMatcher)` |
+| `ParquetAdvisor` | class | `modules/reactive_engine.py:389` | `class ParquetAdvisor` |
+| `PrivescAdvisor` | class | `modules/reactive_engine.py:537` | `class PrivescAdvisor` |
+| `PrivescHintMatcher` | class | `modules/reactive_engine.py:174` | `class PrivescHintMatcher(AbstractSignalMatcher)` |
+| `ReactiveDecision` | class | `modules/reactive_engine.py:80` | `class ReactiveDecision` |
+| `ReactiveEngine` | class | `modules/reactive_engine.py:804` | `class ReactiveEngine` |
+| `SemanticContextAdvisor` | class | `modules/reactive_engine.py:632` | `class SemanticContextAdvisor` |
+| `ServiceVersionMatcher` | class | `modules/reactive_engine.py:232` | `class ServiceVersionMatcher(AbstractSignalMatcher)` |
+| `ShellErrorMatcher` | class | `modules/reactive_engine.py:262` | `class ShellErrorMatcher(AbstractSignalMatcher)` |
+| `Signal` | class | `modules/reactive_engine.py:69` | `class Signal` |
+| `__init__` | method | `modules/reactive_engine.py:395` | `def __init__(self, root)` |
+| `__init__` | method | `modules/reactive_engine.py:644` | `def __init__(self, rag, config_loader, min_score, query_limit)` |
+| `__init__` | method | `modules/reactive_engine.py:810` | `def __init__(self, matchers, evasion, privesc, parquet, semantic)` |
+| `_default_config_loader` | function | `modules/reactive_engine.py:42` | `def _default_config_loader()` |
+| `_enabled` | method | `modules/reactive_engine.py:697` | `def _enabled(self)` |
+| `_extract_verb` | method | `modules/reactive_engine.py:715` | `def _extract_verb(source)` |
+| `_load` | method | `modules/reactive_engine.py:402` | `def _load(self)` |
+| `_load_rag` | method | `modules/reactive_engine.py:671` | `def _load_rag(self)` |
+| `analyse` | method | `modules/reactive_engine.py:835` | `def analyse(self, output, command, platform, context)` |
+| `get_engine` | function | `modules/reactive_engine.py:977` | `def get_engine()` |
+| `gtfobins_for` | method | `modules/reactive_engine.py:421` | `def gtfobins_for(self, binary)` |
+| `lolbas_for` | method | `modules/reactive_engine.py:434` | `def lolbas_for(self, binary)` |
+| `match` | method | `modules/reactive_engine.py:99` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:128` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:159` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:192` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:214` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:247` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:276` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:307` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:349` | `def match(self, output, context)` |
+| `suggest` | method | `modules/reactive_engine.py:504` | `def suggest(self, signals, platform)` |
+| `suggest` | method | `modules/reactive_engine.py:565` | `def suggest(self, signals, platform, parquet)` |
+| `suggest` | method | `modules/reactive_engine.py:734` | `def suggest(self, output, command, platform, context)` |
+| `technique_commands_for` | method | `modules/reactive_engine.py:448` | `def technique_commands_for(self, platform, keyword)` |
+| `top_decision` | method | `modules/reactive_engine.py:958` | `def top_decision(self, output, command, platform, context)` |
+| `_build_user_prompt` | function | `modules/recommender.py:55` | `def _build_user_prompt(state)` |
+| `_call_ai` | function | `modules/recommender.py:97` | `def _call_ai(api_key, user_prompt)` |
+| `recommend` | function | `modules/recommender.py:143` | `def recommend(state, api_key)` |
+| `recommend_and_save` | function | `modules/recommender.py:163` | `def recommend_and_save(api_key)` |
+| `GymAttempt` | class | `modules/redteam_gym.py:318` | `class GymAttempt` |
+| `_award_gym_elo` | function | `modules/redteam_gym.py:980` | `def _award_gym_elo(username, elo_bonus)` |
+| `_calc_speed_score` | function | `modules/redteam_gym.py:877` | `def _calc_speed_score(elapsed_seconds, max_bonus)` |
+| `_calc_stealth_score` | function | `modules/redteam_gym.py:898` | `def _calc_stealth_score(techniques, max_bonus)` |
+| `_calc_technique_score` | function | `modules/redteam_gym.py:914` | `def _calc_technique_score(techniques, chal, max_bonus)` |
+| `_ensure_gym_dir` | function | `modules/redteam_gym.py:334` | `def _ensure_gym_dir()` |
+| `_get_rank` | function | `modules/redteam_gym.py:1006` | `def _get_rank(username)` |
+| `_get_username` | function | `modules/redteam_gym.py:366` | `def _get_username()` |
+| `_load_leaderboard` | function | `modules/redteam_gym.py:339` | `def _load_leaderboard()` |
+| `_resolve_active_run` | function | `modules/redteam_gym.py:476` | `def _resolve_active_run(selector, operator)` |
+| `_same_engagement` | function | `modules/redteam_gym.py:777` | `def _same_engagement(ip, target)` |
+| `_save_leaderboard` | function | `modules/redteam_gym.py:355` | `def _save_leaderboard(board)` |
+| `_spin_scenario` | function | `modules/redteam_gym.py:586` | `def _spin_scenario(scenario)` |
+| `_teardown_stopped_scenarios` | function | `modules/redteam_gym.py:739` | `def _teardown_stopped_scenarios(stopped)` |
+| `_update_leaderboard` | function | `modules/redteam_gym.py:936` | `def _update_leaderboard(attempt)` |
+| `create_gym` | function | `modules/redteam_gym.py:398` | `def create_gym(gym_id)` |
+| `definition_rows` | function | `modules/redteam_gym.py:393` | `def definition_rows()` |
+| `delete_gym` | function | `modules/redteam_gym.py:445` | `def delete_gym(gym_id)` |
+| `engagement_context` | function | `modules/redteam_gym.py:804` | `def engagement_context(target)` |
+| `get_active_challenge` | function | `modules/redteam_gym.py:1050` | `def get_active_challenge(run_id)` |
+| `get_active_challenges` | function | `modules/redteam_gym.py:864` | `def get_active_challenges()` |
+| `list_challenges` | function | `modules/redteam_gym.py:453` | `def list_challenges()` |
+| `main` | function | `modules/redteam_gym.py:1135` | `def main()` |
+| `record_external_attempt` | function | `modules/redteam_gym.py:1081` | `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` |
 | `reload_challenge_definitions` | function | `modules/redteam_gym.py:299` | `def reload_challenge_definitions(directory)` |
 | `save_gym_yaml` | function | `modules/redteam_gym.py:435` | `def save_gym_yaml(gym_id, text)` |
-| `show_leaderboard` | function | `modules/redteam_gym.py:919` | `def show_leaderboard(top_n)` |
-| `start_challenge` | function | `modules/redteam_gym.py:494` | `def start_challenge(challenge_id, target)` |
-| `stop_challenges` | function | `modules/redteam_gym.py:668` | `def stop_challenges(selector)` |
-| `submit_challenge` | function | `modules/redteam_gym.py:560` | `def submit_challenge(techniques_used, success, run_id)` |
+| `show_leaderboard` | function | `modules/redteam_gym.py:1023` | `def show_leaderboard(top_n)` |
+| `start_challenge` | function | `modules/redteam_gym.py:494` | `def start_challenge(challenge_id, target, spin_lab)` |
+| `stop_challenges` | function | `modules/redteam_gym.py:718` | `def stop_challenges(selector)` |
+| `submit_challenge` | function | `modules/redteam_gym.py:610` | `def submit_challenge(techniques_used, success, run_id)` |
 | `DataDirectory` | class | `modules/reflective_dll.py:70` | `class DataDirectory` |
 | `ImportDescriptor` | class | `modules/reflective_dll.py:104` | `class ImportDescriptor` |
 | `PEHeader` | class | `modules/reflective_dll.py:37` | `class PEHeader` |
@@ -415,86 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_summarise_commands` | function | `modules/session_state.py:175` | `def _summarise_commands(rows)` |
 | `build_state` | function | `modules/session_state.py:189` | `def build_state()` |
 | `load` | function | `modules/session_state.py:251` | `def load()` |
-| `refresh` | function | `modules/session_state.py:240` | `def refresh()` |
-| `SideConfig` | class | `modules/sidequestion.py:19` | `class SideConfig` |
-| `SideQuestion` | class | `modules/sidequestion.py:42` | `class SideQuestion` |
-| `SideQuestionService` | class | `modules/sidequestion.py:52` | `class SideQuestionService` |
-| `Snapshot` | class | `modules/sidequestion.py:32` | `class Snapshot` |
-| `__init__` | method | `modules/sidequestion.py:55` | `def __init__(self, answer_fn, config)` |
-| `ask` | method | `modules/sidequestion.py:75` | `def ask(self, snapshot_id, question)` |
-| `cancel` | method | `modules/sidequestion.py:104` | `def cancel(self, request_id)` |
-| `capture` | method | `modules/sidequestion.py:66` | `def capture(self, task_id, text)` |
-| `history` | method | `modules/sidequestion.py:113` | `def history(self, limit, before)` |
-| `apply` | function | `modules/sinks/attack_graph.py:13` | `def apply(event)` |
-| `apply` | function | `modules/sinks/c2_surfaces.py:11` | `def apply(event)` |
-| `apply` | function | `modules/sinks/campaign_db.py:9` | `def apply(event)` |
-| `apply` | function | `modules/sinks/event_bus.py:9` | `def apply(event)` |
-| `apply` | function | `modules/sinks/intel_graph.py:13` | `def apply(event)` |
-| `apply` | function | `modules/sinks/killchain.py:11` | `def apply(event)` |
-| `apply` | function | `modules/sinks/objectives.py:16` | `def apply(event)` |
-| `apply` | function | `modules/sinks/routing.py:9` | `def apply(event)` |
-| `apply` | function | `modules/sinks/world_model.py:12` | `def apply(event)` |
-| `OsPlatform` | class | `modules/sleep_obfuscation.py:57` | `class OsPlatform(str, Enum)` |
-| `SleepObfuscationConfig` | class | `modules/sleep_obfuscation.py:100` | `class SleepObfuscationConfig` |
-| `SleepObfuscationEngine` | class | `modules/sleep_obfuscation.py:394` | `class SleepObfuscationEngine` |
-| `SleepTechnique` | class | `modules/sleep_obfuscation.py:73` | `class SleepTechnique` |
-| `SleepTechniqueCatalog` | class | `modules/sleep_obfuscation.py:163` | `class SleepTechniqueCatalog` |
-| `SleepTechniqueValidator` | class | `modules/sleep_obfuscation.py:365` | `class SleepTechniqueValidator` |
-| `TechniqueRisk` | class | `modules/sleep_obfuscation.py:64` | `class TechniqueRisk(str, Enum)` |
-| `__init__` | method | `modules/sleep_obfuscation.py:170` | `def __init__(self)` |
-| `__init__` | method | `modules/sleep_obfuscation.py:407` | `def __init__(self, catalog)` |
-| `_build_default_catalog` | function | `modules/sleep_obfuscation.py:201` | `def _build_default_catalog()` |
-| `catalog` | method | `modules/sleep_obfuscation.py:416` | `def catalog(self)` |
-| `config` | method | `modules/sleep_obfuscation.py:421` | `def config(self)` |
-| `configure` | method | `modules/sleep_obfuscation.py:449` | `def configure(self, technique, overrides)` |
-| `detection_resistance` | method | `modules/sleep_obfuscation.py:426` | `def detection_resistance(self)` |
-| `from_dict` | method | `modules/sleep_obfuscation.py:146` | `def from_dict(cls, raw)` |
-| `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
-| `get` | method | `modules/sleep_obfuscation.py:177` | `def get(self, name)` |
-| `list_all` | method | `modules/sleep_obfuscation.py:184` | `def list_all(self)` |
-| `list_by_platform` | method | `modules/sleep_obfuscation.py:192` | `def list_by_platform(self, platform)` |
-| `list_names` | method | `modules/sleep_obfuscation.py:196` | `def list_names(self)` |
-| `recommend` | method | `modules/sleep_obfuscation.py:500` | `def recommend(self, platform)` |
-| `register` | method | `modules/sleep_obfuscation.py:173` | `def register(self, technique)` |
-| `select` | method | `modules/sleep_obfuscation.py:442` | `def select(self, technique_name)` |
-| `to_dict` | method | `modules/sleep_obfuscation.py:129` | `def to_dict(self)` |
-| `to_dict` | method | `modules/sleep_obfuscation.py:513` | `def to_dict(self)` |
-| `validate` | method | `modules/sleep_obfuscation.py:369` | `def validate(config, technique)` |
-| `validate` | method | `modules/sleep_obfuscation.py:484` | `def validate(self, config)` |
-| `validate_config` | method | `modules/sleep_obfuscation.py:386` | `def validate_config(config)` |
-| `SocksAddressType` | class | `modules/socks_proxy.py:82` | `class SocksAddressType(IntEnum)` |
-| `SocksAuthMethod` | class | `modules/socks_proxy.py:65` | `class SocksAuthMethod(IntEnum)` |
-| `SocksCommand` | class | `modules/socks_proxy.py:74` | `class SocksCommand(IntEnum)` |
-| `SocksProxyConfig` | class | `modules/socks_proxy.py:166` | `class SocksProxyConfig` |
-| `SocksProxyEngine` | class | `modules/socks_proxy.py:368` | `class SocksProxyEngine` |
-| `SocksReply` | class | `modules/socks_proxy.py:90` | `class SocksReply(IntEnum)` |
-| `SocksSession` | class | `modules/socks_proxy.py:120` | `class SocksSession` |
-| `SocksValidator` | class | `modules/socks_proxy.py:244` | `class SocksValidator` |
-| `__init__` | method | `modules/socks_proxy.py:381` | `def __init__(self, config)` |
-| `_check_access_control` | method | `modules/socks_proxy.py:340` | `def _check_access_control(host, port, config)` |
-| `_find_oldest_session` | method | `modules/socks_proxy.py:515` | `def _find_oldest_session(self)` |
-| `add_bytes` | method | `modules/socks_proxy.py:486` | `def add_bytes(self, session_id, sent, received)` |
-| `build_spec` | method | `modules/socks_proxy.py:413` | `def build_spec(self)` |
-| `cleanup_expired` | method | `modules/socks_proxy.py:497` | `def cleanup_expired(self)` |
-| `config` | method | `modules/socks_proxy.py:387` | `def config(self)` |
-| `create_session` | method | `modules/socks_proxy.py:436` | `def create_session(self, session_id, target_host, target_port, beacon_client_id)` |
-| `elapsed_seconds` | method | `modules/socks_proxy.py:144` | `def elapsed_seconds(self)` |
-| `from_dict` | method | `modules/socks_proxy.py:218` | `def from_dict(cls, raw)` |
-| `from_dict` | method | `modules/socks_proxy.py:522` | `def from_dict(cls, raw)` |
-| `from_payload` | method | `modules/socks_proxy.py:528` | `def from_payload(cls, payload)` |
-| `get_session` | method | `modules/socks_proxy.py:482` | `def get_session(self, session_id)` |
-| `list_sessions` | method | `modules/socks_proxy.py:511` | `def list_sessions(self)` |
-| `message` | method | `modules/socks_proxy.py:103` | `def message(self)` |
-| `remove_session` | method | `modules/socks_proxy.py:475` | `def remove_session(self, session_id)` |
-| `session_count` | method | `modules/socks_proxy.py:397` | `def session_count(self)` |
-| `sessions` | method | `modules/socks_proxy.py:392` | `def sessions(self)` |
-| `to_dict` | method | `modules/socks_proxy.py:150` | `def to_dict(self)` |
-| `to_dict` | method | `modules/socks_proxy.py:199` | `def to_dict(self)` |
-| `validate` | method | `modules/socks_proxy.py:401` | `def validate(self, config)` |
-| `validate_config` | method | `modules/socks_proxy.py:253` | `def validate_config(config)` |
-| `validate_request` | method | `modules/socks_proxy.py:300` | `def validate_request(command, address_type, host, port, config)` |
-| `StageDeliveryConfig` | class | `modules/staged_delivery.py:25` | `class StageDeliveryConfig` |
-| `StagedDeliveryFactory` | class | `modules/staged_delivery.py:51` | `class StagedDeliveryFactory` |
-| `__init__` | method | `modules/staged_delivery.py:83` | `def __init__(self, config, output_dir)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

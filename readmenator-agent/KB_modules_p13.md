@@ -320,23 +320,25 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `delete_gym` (function, line 445) `def delete_gym(gym_id)`
   - `list_challenges` (function, line 453) `def list_challenges()`
   - `_resolve_active_run` (function, line 476) `def _resolve_active_run(selector, operator)`
-  - `start_challenge` (function, line 494) `def start_challenge(challenge_id, target)`
-  - `submit_challenge` (function, line 560) `def submit_challenge(techniques_used, success, run_id)`
-  - `stop_challenges` (function, line 668) `def stop_challenges(selector)`
-  - `_same_engagement` (function, line 673) `def _same_engagement(ip, target)`
-  - `engagement_context` (function, line 700) `def engagement_context(target)`
-  - `get_active_challenges` (function, line 760) `def get_active_challenges()`
-  - `_calc_speed_score` (function, line 773) `def _calc_speed_score(elapsed_seconds, max_bonus)`
-  - `_calc_stealth_score` (function, line 794) `def _calc_stealth_score(techniques, max_bonus)`
-  - `_calc_technique_score` (function, line 810) `def _calc_technique_score(techniques, chal, max_bonus)`
-  - `_update_leaderboard` (function, line 832) `def _update_leaderboard(attempt)`
-  - `_award_gym_elo` (function, line 876) `def _award_gym_elo(username, elo_bonus)`
-  - `_get_rank` (function, line 902) `def _get_rank(username)`
-  - `show_leaderboard` (function, line 919) `def show_leaderboard(top_n)`
-  - `get_active_challenge` (function, line 946) `def get_active_challenge(run_id)`
-  - `record_external_attempt` (function, line 977) `def record_external_attempt(challenge_id, success, elo_bonus, techniques)`
-  - `main` (function, line 1031) `def main()`
-- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+  - `start_challenge` (function, line 494) `def start_challenge(challenge_id, target, spin_lab)`
+  - `_spin_scenario` (function, line 586) `def _spin_scenario(scenario)`
+  - `submit_challenge` (function, line 610) `def submit_challenge(techniques_used, success, run_id)`
+  - `stop_challenges` (function, line 718) `def stop_challenges(selector)`
+  - `_teardown_stopped_scenarios` (function, line 739) `def _teardown_stopped_scenarios(stopped)`
+  - `_same_engagement` (function, line 777) `def _same_engagement(ip, target)`
+  - `engagement_context` (function, line 804) `def engagement_context(target)`
+  - `get_active_challenges` (function, line 864) `def get_active_challenges()`
+  - `_calc_speed_score` (function, line 877) `def _calc_speed_score(elapsed_seconds, max_bonus)`
+  - `_calc_stealth_score` (function, line 898) `def _calc_stealth_score(techniques, max_bonus)`
+  - `_calc_technique_score` (function, line 914) `def _calc_technique_score(techniques, chal, max_bonus)`
+  - `_update_leaderboard` (function, line 936) `def _update_leaderboard(attempt)`
+  - `_award_gym_elo` (function, line 980) `def _award_gym_elo(username, elo_bonus)`
+  - `_get_rank` (function, line 1006) `def _get_rank(username)`
+  - `show_leaderboard` (function, line 1023) `def show_leaderboard(top_n)`
+  - `get_active_challenge` (function, line 1050) `def get_active_challenge(run_id)`
+  - `record_external_attempt` (function, line 1081) `def record_external_attempt(challenge_id, success, elo_bonus, techniques)`
+  - `main` (function, line 1135) `def main()`
+- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 - Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
 
 ## modules/reflective_dll.py
@@ -455,45 +457,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `_render_shortcuts` (method, line 413) `def _render_shortcuts(self)`
 - Depends on: `core/console.py`, `modules/dashboard_engine.py`
 - Imported by: `cli/commands/pwn.py`
-
-## modules/rl_trainer.py
-- Doc: modules/rl_trainer.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RLConfig` (class, line 84) `class RLConfig`
-  - `IStateEncoder` (class, line 101) `class IStateEncoder(ABC)`
-  - `BucketedStateEncoder` (class, line 114) `class BucketedStateEncoder(IStateEncoder)`
-  - `QValueStore` (class, line 150) `class QValueStore`
-  - `EpsilonTracker` (class, line 215) `class EpsilonTracker`
-  - `RLTrainer` (class, line 267) `class RLTrainer`
-  - `get_trainer` (function, line 425) `def get_trainer(config)`
-  - `encode` (method, line 105) `def encode(self, task_type, engagement_phase, recent_reward_ema)`
-  - `encode` (method, line 131) `def encode(self, task_type, engagement_phase, recent_reward_ema)`
-  - `__init__` (method, line 156) `def __init__(self, path, optimistic_init)`
-  - `get` (method, line 168) `def get(self, state, action)`
-  - `set` (method, line 172) `def set(self, state, action, value)`
-  - `max_q` (method, line 176) `def max_q(self, state, candidates)`
-  - `argmax` (method, line 182) `def argmax(self, state, candidates)`
-  - `save` (method, line 188) `def save(self)`
-  - `_persist` (method, line 192) `def _persist(self)`
-  - `_load` (method, line 200) `def _load(self)`
-  - `__init__` (method, line 218) `def __init__(self, start, minimum, decay, path)`
-  - `epsilon` (method, line 233) `def epsilon(self)`
-  - `step` (method, line 236) `def step(self)`
-  - `_save` (method, line 241) `def _save(self)`
-  - `_load` (method, line 250) `def _load(self)`
-  - `__init__` (method, line 284) `def __init__(self, config, state_encoder, q_store, epsilon_tracker)`
-  - `encode_state` (method, line 304) `def encode_state(self, task_type, engagement_phase, recent_reward_ema)`
-  - `select_action` (method, line 313) `def select_action(self, state, candidates, force_exploit)`
-  - `update` (method, line 347) `def update(self, state, action, reward, next_state, candidates, detection_prob)`
-  - `best_expert_for_state` (method, line 389) `def best_expert_for_state(self, state, candidates)`
-  - `q_values_for_state` (method, line 393) `def q_values_for_state(self, state, candidates)`
-  - `save` (method, line 397) `def save(self)`
-  - `epsilon` (method, line 402) `def epsilon(self)`
-  - `_penalize` (method, line 407) `def _penalize(self, reward, detection_prob)`
-- Depends on: `core/logging.py`
-- Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/swan_agent.py`, `tests/test_moe_rl_swan.py`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

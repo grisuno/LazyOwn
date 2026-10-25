@@ -189,7 +189,7 @@ Example:
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `line` |  |  | The options and arguments for `gobuster`. The `line` parameter can include the following: - `url`: Perform directory fuzzing on a specified URL. Requires `url` and `dirwordlist` to be assign. - `vhost`: Perform virtual host discovery on a specified URL. Requires `url` and `dirwordlist` to be assign. - Any other argument: General directory fuzzing with additional parameters. |
+| `line` |  |  | The options and arguments for `gobuster`. The [`line`](modules.defense_eval.py.md#evaluation-line) parameter can include the following: - `url`: Perform directory fuzzing on a specified URL. Requires `url` and `dirwordlist` to be assign. - `vhost`: Perform virtual host discovery on a specified URL. Requires `url` and `dirwordlist` to be assign. - Any other argument: General directory fuzzing with additional parameters. |
 
 **Returns:** None
 
@@ -754,8 +754,8 @@ It allows scanning a specified target (rhost) and saves the results in a designa
 Function Flow:
 1. Default values are set for the target IP (rhost), port (port), and output directory (outputdir).
 2. The validity of the target (rhost) is checked using the [`check_rhost`](core.validators.py.md#check_rhost) function.
-3. If no argument is provided in `line`, a `skipfish` command is constructed using the default values.
-4. If `line` starts with 'url', the URL configured in `self.params['url']` is retrieved and used to construct the `skipfish` command.
+3. If no argument is provided in [`line`](modules.defense_eval.py.md#evaluation-line), a `skipfish` command is constructed using the default values.
+4. If [`line`](modules.defense_eval.py.md#evaluation-line) starts with 'url', the URL configured in `self.params['url']` is retrieved and used to construct the `skipfish` command.
 5. If the URL is not configured and an attempt is made to use the 'url' option, an error message is printed, and the function exits.
 6. The constructed `skipfish` command is displayed on the console and executed using `os.system`.
 

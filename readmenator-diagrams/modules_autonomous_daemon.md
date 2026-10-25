@@ -1,6 +1,6 @@
 # modules: autonomous_daemon
 
-modules: autonomous_daemon groups 173 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+modules: autonomous_daemon groups 184 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 ```mermaid
 graph LR
@@ -17,6 +17,7 @@ graph LR
     cli -- "calls into" --> skills
     cli -- "calls into" --> tests
     contrib -- "depends on" --> core
+    contrib -- "calls into" --> modules
     lazyc2 -- "depends on" --> core
     lazyc2 -- "calls into" --> modules
     modules -- "depends on" --> cli
@@ -40,7 +41,7 @@ cli groups 8 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impack
 
 ## contrib (1.2)
 
-contrib groups 4 files (py) around parse_args, setup_logging, generate_rsa_key, Server, __init__. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+contrib groups 6 files (py) around parse_github_url, github_api_get, fetch_repo_metadata, fetch_readme, fetch_root_files. parse_github_url: Extrae (owner, repo) de una URL de GitHub.
 
 ## core (1.3)
 
@@ -52,7 +53,7 @@ lazyc2 groups 3 files (py) around _sessions_dir, _db, _error, health, targets. V
 
 ## modules (1.5)
 
-modules groups 74 files (py) around ColoredFormatter, format, JsonFormatter, format, CorrelationFilter. AI-Driven Exploit Chaining Engine.
+modules groups 82 files (py) around is_model_missing_error, groq_model_chain, LLMBackendUnavailableError, LLMBackendNotSupportedError, default_model_for. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
 
 ## scripts (1.6)
 
@@ -60,11 +61,11 @@ scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_
 
 ## skills (1.7)
 
-skills groups 34 files (py) around _try_import, _update_task_status, _credential_worth_task, _task_title_open, _inject_to_tasks_json. Autonomous Campaign Intelligence (ACI) Planner
+skills groups 32 files (py) around _try_import, _update_task_status, _credential_worth_task, _task_title_open, _inject_to_tasks_json. Autonomous Campaign Intelligence (ACI) Planner
 
 ## tests (1.8)
 
-tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, _patched_paths, _start_patches, _stop_patches. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
+tests groups 48 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
 
 **Files**:
 
@@ -76,7 +77,9 @@ tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, 
 - cli/commands/estorides.py
 - cli/recommendation.py
 - cli/recommendation_signals.py
+- contrib/legacy/lazyaddon_creator.py
 - contrib/legacy/lazyhoneypot.py
+- contrib/legacy/lazyllmchat.py
 - contrib/legacy/lazyopenssh77enum2.py
 - contrib/legacy/lazysearch_bot.py
 - contrib/legacy/lazyssh.py
@@ -87,8 +90,10 @@ tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, 
 - lazyc2/blueprints/api_v1.py
 - lazyc2/blueprints/phishing.py
 - lazyc2/extensions/short_urls.py
+- modules/agent_runner.py
 - modules/ai_exploit_chain.py
 - modules/ai_fallback.py
+- modules/ai_model.py
 - modules/asset_graph.py
 - modules/atomic_enricher.py
 - modules/auto_loop_memory.py
@@ -96,7 +101,6 @@ tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/autonomous_exploit_engine.py
 - modules/beacon_history.py
 - modules/c2_profile.py
-- modules/chain_tokens.py
 - modules/collab_bp.py
 - modules/compliance.py
 - modules/config_store.py
@@ -126,13 +130,17 @@ tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/integrations/searchsploit.py
 - modules/intelligence_engine.py
 - modules/intercept.py
+- modules/lazy_agent.py
 - modules/lazyown_bridge.py
 - modules/lazyownerweb.py
 - modules/lesson_ingestor.py
 - modules/lilsplunky.py
+- modules/llm_client.py
 - modules/llm_evaluator.py
+- modules/llm_factory.py
 - modules/llm_pool.py
 - modules/logging_config.py
+- modules/loop_ai_bridge.py
 - modules/mcp_agent_bridge.py
 - modules/memory_embeddings.py
 - modules/memory_store.py
@@ -161,6 +169,9 @@ tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/ttp_coverage.py
 - modules/ttpscope_bridge.py
 - modules/unified_bridge.py
+- modules/vuln_bot_cli.py
+- modules/vulnbot.py
+- modules/yaml_generator.py
 - scripts/lazy_opencode_config.py
 - skills/aci_planner.py
 - skills/autonomous_daemon.py
@@ -173,7 +184,6 @@ tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/lazyown_claudemd.py
 - skills/lazyown_context.py
 - skills/lazyown_daemon.py
-- skills/lazyown_facts.py
 - skills/lazyown_groq_agents.py
 - skills/lazyown_hooks.py
 - skills/lazyown_llm.py
@@ -188,7 +198,6 @@ tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/sessions_watcher.py
 - skills/swan_agent.py
 - skills/tests/test_autonomous_daemon.py
-- skills/tests/test_facts.py
 - skills/tests/test_harness_e2e.py
 - skills/tests/test_hive_mind.py
 - skills/tests/test_mcp_smoke.py
@@ -196,6 +205,7 @@ tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, 
 - skills/tests/test_parquet_db.py
 - skills/toposwarm_autonomous.py
 - skills/update_knowledge.py
+- tests/conftest.py
 - tests/integration_autonomous_flow.py
 - tests/test_aci_planner.py
 - tests/test_api_v1.py
@@ -220,8 +230,10 @@ tests groups 45 files (py) around test_autonomous_flow_integration, _make_goal, 
 - tests/test_intelligence_engine.py
 - tests/test_killchain_gap_signal.py
 - tests/test_lazy_parity.py
+- tests/test_lazy_streaming.py
 - tests/test_lesson_ingestor.py
 - tests/test_logging_config.py
+- tests/test_loop_ai_bridge.py
 - tests/test_mcp_improvements.py
 - tests/test_mcp_lazy.py
 - tests/test_memory_semantics.py

@@ -2,6 +2,20 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_autonomous_replay.py` -> `skills/autonomous_replay.py`
+- `tests/test_autosuggest.py` -> `cli/autosuggest.py`
+- `tests/test_backdoor_random.py` -> `cli/commands/persist_migrated.py`
+- `tests/test_banner_config.py` -> `cli/banner_config.py`
+- `tests/test_bdd_infra_range_report.py` -> `cli/commands/infra.py`
+- `tests/test_bdd_infra_range_report.py` -> `cli/commands/lab.py`
+- `tests/test_bdd_infra_range_report.py` -> `modules/c2_builder.py`
+- `tests/test_bdd_infra_range_report.py` -> `modules/professional_report.py`
+- `tests/test_beacon_config_builder.py` -> `modules/beacon_config_builder.py`
+- `tests/test_beacon_history.py` -> `modules/beacon_history.py`
+- `tests/test_beacon_recon_sink.py` -> `modules/beacon_recon.py`
+- `tests/test_beacon_recon_sink.py` -> `modules/outcome_bus.py`
+- `tests/test_beacon_recon_sink.py` -> `modules/world_model.py`
+- `tests/test_bof_registry.py` -> `modules/bof_registry.py`
 - `tests/test_boyscout_contracts.py` -> `skills/lazyown_mcp.py`
 - `tests/test_boyscout_contracts.py` -> `utils.py`
 - `tests/test_bridge_catalog_filtered.py` -> `modules/lazyown_bridge.py`
@@ -17,6 +31,8 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_categories.py` -> `modules/categories.py`
 - `tests/test_chain_distill.py` -> `modules/chain_distill.py`
 - `tests/test_chain_distill.py` -> `modules/chain_registry.py`
+- `tests/test_chain_evidence.py` -> `modules/chain_registry.py`
+- `tests/test_chain_evidence.py` -> `modules/chain_runner.py`
 - `tests/test_chain_list_command.py` -> `cli/commands/exploit_migrated.py`
 - `tests/test_chain_mode.py` -> `cli/chain_mode.py`
 - `tests/test_chain_parallel_fallback.py` -> `modules/chain_registry.py`
@@ -43,6 +59,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_cli_enhancements.py` -> `cli/aliases.py`
 - `tests/test_cli_enhancements.py` -> `cli/cli_enhancements.py`
 - `tests/test_cli_enhancements.py` -> `cli/commands/audit.py`
+- `tests/test_closedloop.py` -> `modules/closedloop.py`
 - `tests/test_codeql_alert_fixes.py` -> `modules/chain_distill.py`
 - `tests/test_codeql_alert_fixes.py` -> `modules/cli_auth.py`
 - `tests/test_codeql_alert_fixes.py` -> `modules/retry_session.py`
@@ -115,6 +132,10 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_dashboard_routes.py` -> `modules/dashboard_bp.py`
 - `tests/test_dashboard_tui.py` -> `cli/dashboard_tui.py`
 - `tests/test_db.py` -> `modules/db.py`
+- `tests/test_defense_eval.py` -> `modules/defense_eval.py`
+- `tests/test_defense_stages.py` -> `modules/__init__.py`
+- `tests/test_defense_stages.py` -> `modules/defense_eval.py`
+- `tests/test_defense_stages.py` -> `modules/defense_stages.py`
 - `tests/test_dependencies.py` -> `core/dependencies.py`
 - `tests/test_detection_feed.py` -> `modules/detection_feed.py`
 - `tests/test_detection_feed.py` -> `modules/detection_oracle.py`
@@ -184,6 +205,11 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_gym_cli.py` -> `modules/outcome_bus.py`
 - `tests/test_gym_cli.py` -> `modules/redteam_gym.py`
 - `tests/test_gym_cli.py` -> `modules/world_model.py`
+- `tests/test_gym_lifecycle.py` -> `core/config.py`
+- `tests/test_gym_lifecycle.py` -> `modules/__init__.py`
+- `tests/test_gym_lifecycle.py` -> `modules/gym_cleanup.py`
+- `tests/test_gym_lifecycle.py` -> `modules/outcome_bus.py`
+- `tests/test_gym_lifecycle.py` -> `modules/world_model.py`
 - `tests/test_gym_matrix_ctf.py` -> `modules/__init__.py`
 - `tests/test_gym_matrix_ctf.py` -> `modules/professional_report.py`
 - `tests/test_gym_ms2_cli.py` -> `cli/commands/redteam_gym.py`
@@ -206,6 +232,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_host_policy.py` -> `core/validators.py`
 - `tests/test_html_sanitizer.py` -> `lazyc2/security/html_sanitizer.py`
 - `tests/test_https_redirect.py` -> `lazyc2/security/https_redirect.py`
+- `tests/test_hunt_verify.py` -> `modules/hunt_verify.py`
 - `tests/test_improvements_spec.py` -> `cli/__init__.py`
 - `tests/test_improvements_spec.py` -> `cli/commands/__init__.py`
 - `tests/test_improvements_spec.py` -> `cli/commands/_dormancy.py`
@@ -469,32 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_payload_schema.py` -> `core/payload_schema.py`
 - `tests/test_payload_schema.py` -> `modules/llm_factory.py`
 - `tests/test_phase1_data_gaps.py` -> `cli/recommendation_signals.py`
-- `tests/test_phase1_data_gaps.py` -> `modules/autonomous_exploit_engine.py`
-- `tests/test_phase1_data_gaps.py` -> `modules/obs_parser.py`
-- `tests/test_phase1_data_gaps.py` -> `modules/world_model.py`
-- `tests/test_phase_labels.py` -> `cli/contextual_help.py`
-- `tests/test_phase_labels.py` -> `cli/phase_labels.py`
-- `tests/test_phase_labels.py` -> `cli/tips_engine.py`
-- `tests/test_php2shell_addon.py` -> `core/param_registry.py`
-- `tests/test_php2shell_addon.py` -> `core/payload_schema.py`
-- `tests/test_php2shell_addon.py` -> `lazyc2/addon_creator.py`
-- `tests/test_php2shell_addon.py` -> `utils.py`
-- `tests/test_pi_leg.py` -> `modules/__init__.py`
-- `tests/test_pi_leg.py` -> `modules/lazy_loop.py`
-- `tests/test_pipeline_engine.py` -> `modules/pipeline_engine.py`
-- `tests/test_pipeline_engine.py` -> `skills/autonomous_daemon.py`
-- `tests/test_placeholder_coverage.py` -> `core/payload_schema.py`
-- `tests/test_placeholder_coverage.py` -> `lazyc2/addon_creator.py`
-- `tests/test_playbook_admin.py` -> `modules/playbook_admin.py`
-- `tests/test_plugin_tiers.py` -> `cli/plugin_tiers.py`
-- `tests/test_profiles.py` -> `core/profiles.py`
-- `tests/test_prompt_readline_markers.py` -> `cli/banner_config.py`
-- `tests/test_prompt_refresh.py` -> `cli/banner_config.py`
-- `tests/test_prompt_refresh.py` -> `cli/commands/_base.py`
-- `tests/test_rea_mcp.py` -> `skills/lazyown_mcp.py`
-- `tests/test_reaction_bridge.py` -> `modules/reaction_bridge.py`
-- `tests/test_reactive_engine_semantic.py` -> `modules/reactive_engine.py`
-- `tests/test_reactive_hints.py` -> `cli/reactive_hints.py`
-- `tests/test_reactive_hints_expanded.py` -> `cli/protips.py`
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

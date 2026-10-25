@@ -34,19 +34,19 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `load_aliases` | function | `cli/aliases.py:100` | `def load_aliases(payload, path, lazy)` |
 | `template_placeholders` | function | `cli/aliases.py:56` | `def template_placeholders(template)` |
 | `ChainArgs` | class | `cli/apt_chain_support.py:48` | `class ChainArgs` |
-| `_decision_command` | function | `cli/apt_chain_support.py:368` | `def _decision_command(decision)` |
-| `_platform` | function | `cli/apt_chain_support.py:471` | `def _platform()` |
+| `_decision_command` | function | `cli/apt_chain_support.py:377` | `def _decision_command(decision)` |
+| `_platform` | function | `cli/apt_chain_support.py:480` | `def _platform()` |
 | `_set_value` | function | `cli/apt_chain_support.py:141` | `def _set_value(args, flag, value)` |
-| `_step_from_decision` | function | `cli/apt_chain_support.py:377` | `def _step_from_decision(command, outcome, executed_count)` |
+| `_step_from_decision` | function | `cli/apt_chain_support.py:386` | `def _step_from_decision(command, outcome, executed_count)` |
 | `_token_name_ok` | function | `cli/apt_chain_support.py:42` | `def _token_name_ok(name)` |
 | `adversarial_continue` | function | `cli/apt_chain_support.py:289` | `def adversarial_continue(chain)` |
-| `approve` | function | `cli/apt_chain_support.py:329` | `def approve(step_id, command)` |
-| `build_cli_approver` | function | `cli/apt_chain_support.py:321` | `def build_cli_approver(printer, input_fn)` |
-| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:399` | `def build_llm_recovery_chain(result, target, task_id)` |
-| `build_reactive_replanner` | function | `cli/apt_chain_support.py:343` | `def build_reactive_replanner()` |
+| `approve` | function | `cli/apt_chain_support.py:338` | `def approve(step_id, command)` |
+| `build_cli_approver` | function | `cli/apt_chain_support.py:330` | `def build_cli_approver(printer, input_fn)` |
+| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:408` | `def build_llm_recovery_chain(result, target, task_id)` |
+| `build_reactive_replanner` | function | `cli/apt_chain_support.py:352` | `def build_reactive_replanner()` |
 | `parse_chain_args` | function | `cli/apt_chain_support.py:72` | `def parse_chain_args(line)` |
 | `render_result` | function | `cli/apt_chain_support.py:297` | `def render_result(result)` |
-| `replan` | function | `cli/apt_chain_support.py:346` | `def replan(context)` |
+| `replan` | function | `cli/apt_chain_support.py:355` | `def replan(context)` |
 | `resolve_admin` | function | `cli/apt_chain_support.py:169` | `def resolve_admin(args)` |
 | `select_step_ids` | function | `cli/apt_chain_support.py:257` | `def select_step_ids(chain, args)` |
 | `apply_assign` | function | `cli/assign.py:42` | `def apply_assign(params, key, value)` |

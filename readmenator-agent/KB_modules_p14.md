@@ -1,6 +1,45 @@
 # Subsystem: modules (page 14 of 16)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
 
+## modules/rl_trainer.py
+- Doc: modules/rl_trainer.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RLConfig` (class, line 84) `class RLConfig`
+  - `IStateEncoder` (class, line 101) `class IStateEncoder(ABC)`
+  - `BucketedStateEncoder` (class, line 114) `class BucketedStateEncoder(IStateEncoder)`
+  - `QValueStore` (class, line 150) `class QValueStore`
+  - `EpsilonTracker` (class, line 215) `class EpsilonTracker`
+  - `RLTrainer` (class, line 267) `class RLTrainer`
+  - `get_trainer` (function, line 425) `def get_trainer(config)`
+  - `encode` (method, line 105) `def encode(self, task_type, engagement_phase, recent_reward_ema)`
+  - `encode` (method, line 131) `def encode(self, task_type, engagement_phase, recent_reward_ema)`
+  - `__init__` (method, line 156) `def __init__(self, path, optimistic_init)`
+  - `get` (method, line 168) `def get(self, state, action)`
+  - `set` (method, line 172) `def set(self, state, action, value)`
+  - `max_q` (method, line 176) `def max_q(self, state, candidates)`
+  - `argmax` (method, line 182) `def argmax(self, state, candidates)`
+  - `save` (method, line 188) `def save(self)`
+  - `_persist` (method, line 192) `def _persist(self)`
+  - `_load` (method, line 200) `def _load(self)`
+  - `__init__` (method, line 218) `def __init__(self, start, minimum, decay, path)`
+  - `epsilon` (method, line 233) `def epsilon(self)`
+  - `step` (method, line 236) `def step(self)`
+  - `_save` (method, line 241) `def _save(self)`
+  - `_load` (method, line 250) `def _load(self)`
+  - `__init__` (method, line 284) `def __init__(self, config, state_encoder, q_store, epsilon_tracker)`
+  - `encode_state` (method, line 304) `def encode_state(self, task_type, engagement_phase, recent_reward_ema)`
+  - `select_action` (method, line 313) `def select_action(self, state, candidates, force_exploit)`
+  - `update` (method, line 347) `def update(self, state, action, reward, next_state, candidates, detection_prob)`
+  - `best_expert_for_state` (method, line 389) `def best_expert_for_state(self, state, candidates)`
+  - `q_values_for_state` (method, line 393) `def q_values_for_state(self, state, candidates)`
+  - `save` (method, line 397) `def save(self)`
+  - `epsilon` (method, line 402) `def epsilon(self)`
+  - `_penalize` (method, line 407) `def _penalize(self, reward, detection_prob)`
+- Depends on: `core/logging.py`
+- Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/swan_agent.py`, `tests/test_moe_rl_swan.py`
+
 ## modules/saas_attacks.py
 - Doc: SaaS attacks — Microsoft 365, Google Workspace, Salesforce, ServiceNow exploitation.
 - Layer: utility
@@ -443,55 +482,6 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `_add` (function, line 448) `def _add(ioc)`
 - Depends on: `core/logging.py`
 - Imported by: `cli/commands/mcp_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-
-## modules/timeline_narrator.py
-- Doc: LazyOwn Timeline Narrator
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_load_events` (function, line 57) `def _load_events(n)`
-  - `_format_events_for_prompt` (function, line 77) `def _format_events_for_prompt(events)`
-  - `_call_ai` (function, line 97) `def _call_ai(api_key, events_text, target)`
-  - `_write_timeline` (function, line 115) `def _write_timeline(narrative, event_count, target)`
-  - `narrate` (function, line 130) `def narrate(api_key, force)`
-  - `load_timeline` (function, line 165) `def load_timeline()`
-- Depends on: `modules/ai_fallback.py`
-- Imported by: `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
-
-## modules/timestomper.py
-- Doc: Filesystem timestomping — MACB timestamp manipulation for stealth.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `TimestompConfig` (class, line 24) `class TimestompConfig`
-  - `FileTimestamps` (class, line 51) `class FileTimestamps`
-  - `Timestomper` (class, line 69) `class Timestomper`
-  - `__init__` (method, line 106) `def __init__(self, config)`
-  - `windows_timestomp_powershell` (method, line 110) `def windows_timestomp_powershell(self)`
-  - `windows_timestomp_c` (method, line 152) `def windows_timestomp_c(self)`
-  - `linux_timestomp_commands` (method, line 200) `def linux_timestomp_commands(self)`
-  - `macos_timestomp_commands` (method, line 241) `def macos_timestomp_commands(self)`
-  - `_pick_reference` (method, line 269) `def _pick_reference(self, path, platform)`
-  - `generate_random_timestamps` (method, line 280) `def generate_random_timestamps(self, reference_ts, window_days)`
-  - `verify_timestamps` (method, line 300) `def verify_timestamps(self, target_paths)`
-  - `summary` (method, line 326) `def summary(self)`
-- Imported by: `cli/commands/opsec_cleanup.py`
-
-## modules/tmp.sh
-- Layer: utility
-- Language: sh
-
-## modules/toolset.py
-- Doc: Typed tool sets per agent role with shell allowlists.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ToolSeed` (class, line 27) `class ToolSeed`
-  - `builtin_seeds` (function, line 35) `def builtin_seeds()`
-  - `resolve` (function, line 72) `def resolve(agent, tool_key)`
-  - `extract_tool` (function, line 105) `def extract_tool(command)`
-  - `validate_shell` (function, line 128) `def validate_shell(role, command)`
-- Imported by: `skills/autonomous_daemon.py`
 
 
 Next: [KB_modules_p15.md](KB_modules_p15.md)

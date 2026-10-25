@@ -1,6 +1,36 @@
 # Subsystem: tests (page 10 of 20)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
 
+## tests/test_harness_mode.py
+- Doc: Harness deterministic-mode contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `HarnessFlagSpec` (class, line 14) `class HarnessFlagSpec(TestCase)`
+  - `HarnessProfileSpec` (class, line 46) `class HarnessProfileSpec(TestCase)`
+  - `GateSpec` (class, line 65) `class GateSpec(TestCase)`
+  - `ChainDirectiveSpec` (class, line 123) `class ChainDirectiveSpec(TestCase)`
+  - `ObjectiveDirectiveSpec` (class, line 144) `class ObjectiveDirectiveSpec(TestCase)`
+  - `setUp` (method, line 17) `def setUp(self)`
+  - `tearDown` (method, line 20) `def tearDown(self)`
+  - `test_env_flag_enables` (method, line 26) `def test_env_flag_enables(self)`
+  - `test_env_flag_off_overrides_profile` (method, line 32) `def test_env_flag_off_overrides_profile(self)`
+  - `test_payload_section_enables` (method, line 37) `def test_payload_section_enables(self)`
+  - `test_payload_section_disables` (method, line 41) `def test_payload_section_disables(self)`
+  - `test_profile_present` (method, line 49) `def test_profile_present(self)`
+  - `test_profile_flags` (method, line 54) `def test_profile_flags(self)`
+  - `_planner_returns_none_without_llm` (method, line 68) `def _planner_returns_none_without_llm(self)`
+  - `test_plan_llm_gate_blocked_under_harness` (method, line 79) `def test_plan_llm_gate_blocked_under_harness(self)`
+  - `test_worker_agentic_gate_blocked_under_harness` (method, line 84) `def test_worker_agentic_gate_blocked_under_harness(self)`
+  - `test_worker_llm_steps_gate_keeps_base_steps` (method, line 104) `def test_worker_llm_steps_gate_keeps_base_steps(self)`
+  - `test_known_chain_resolves` (method, line 126) `def test_known_chain_resolves(self)`
+  - `test_unknown_chain_rejected` (method, line 132) `def test_unknown_chain_rejected(self)`
+  - `test_target_token_fallback` (method, line 137) `def test_target_token_fallback(self)`
+  - `test_push_objective_text_carries_directive` (method, line 147) `def test_push_objective_text_carries_directive(self)`
+  - `_explode` (function, line 93) `def _explode()`
+  - `_llm_steps` (function, line 112) `def _llm_steps(_intent, _prior)`
+- Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`
+
 ## tests/test_hash_cracker.py
 - Doc: Tests for modules/hash_cracker.py
 - Layer: testing
@@ -102,6 +132,25 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_root_path_preserved` (method, line 67) `def test_root_path_preserved(self)`
   - `test_response_is_named_tuple_like` (method, line 77) `def test_response_is_named_tuple_like(self)`
 - Depends on: `lazyc2/security/https_redirect.py`
+
+## tests/test_hunt_verify.py
+- Doc: Hunt verification: verdict taxonomy, scope gate and dependency gating.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_event` (function, line 29) `def _event(ref, fields, kind, path)`
+  - `test_observed_verdict_requires_fields` (function, line 33) `def test_observed_verdict_requires_fields()`
+  - `test_missing_fields_block_observed` (function, line 43) `def test_missing_fields_block_observed()`
+  - `test_out_of_scope_ref_rejected` (function, line 52) `def test_out_of_scope_ref_rejected()`
+  - `test_not_observed_requires_scope_covered` (function, line 60) `def test_not_observed_requires_scope_covered()`
+  - `test_stage_filters_exclude_events` (function, line 70) `def test_stage_filters_exclude_events()`
+  - `test_inferred_requires_alternatives` (function, line 78) `def test_inferred_requires_alternatives()`
+  - `test_dependency_gating_notes_unproven_chain` (function, line 91) `def test_dependency_gating_notes_unproven_chain()`
+  - `test_known_self_refs_separated` (function, line 100) `def test_known_self_refs_separated()`
+  - `test_validate_specs_checks_dependencies` (function, line 109) `def test_validate_specs_checks_dependencies()`
+  - `test_caps_enforced` (function, line 118) `def test_caps_enforced()`
+  - `test_field_present_helper` (function, line 126) `def test_field_present_helper()`
+- Depends on: `modules/hunt_verify.py`
 
 ## tests/test_improvements_spec.py
 - Doc: Spec-driven validation of the three priority improvements.
@@ -422,70 +471,6 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_disabled_engine_never_shows` (method, line 59) `def test_disabled_engine_never_shows(self)`
   - `test_zero_every_and_no_phase_change_never_shows` (method, line 67) `def test_zero_every_and_no_phase_change_never_shows(self)`
 - Depends on: `cli/tips_engine.py`
-
-## tests/test_killchain_gap_signal.py
-- Doc: Tests for :class:`cli.recommendation_signals.KillchainGapSignal`.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `sessions_dir` (function, line 23) `def sessions_dir()`
-  - `_write_world_model` (function, line 28) `def _write_world_model(sessions_dir, data)`
-  - `TestKillchainGapSignalConstruction` (class, line 32) `class TestKillchainGapSignalConstruction`
-  - `TestGapExploitedNoPrivesc` (class, line 38) `class TestGapExploitedNoPrivesc`
-  - `TestGapOwnedNoCreds` (class, line 82) `class TestGapOwnedNoCreds`
-  - `TestGapScanNoEnum` (class, line 110) `class TestGapScanNoEnum`
-  - `TestGapCredsNoLateral` (class, line 141) `class TestGapCredsNoLateral`
-  - `TestKillchainGapSignalIntegration` (class, line 169) `class TestKillchainGapSignalIntegration`
-  - `test_name_is_gap_source` (method, line 33) `def test_name_is_gap_source(self)`
-  - `test_exploited_linux_recommends_linpeas` (method, line 39) `def test_exploited_linux_recommends_linpeas(self, sessions_dir)`
-  - `test_exploited_windows_recommends_winpeas` (method, line 51) `def test_exploited_windows_recommends_winpeas(self, sessions_dir)`
-  - `test_unscanned_host_no_proposals` (method, line 63) `def test_unscanned_host_no_proposals(self, sessions_dir)`
-  - `test_no_world_model_returns_empty` (method, line 75) `def test_no_world_model_returns_empty(self, sessions_dir)`
-  - `test_owned_no_credentials_recommends_lazydump` (method, line 83) `def test_owned_no_credentials_recommends_lazydump(self, sessions_dir)`
-  - `test_owned_with_credentials_no_proposals` (method, line 96) `def test_owned_with_credentials_no_proposals(self, sessions_dir)`
-  - `test_scanned_no_enum_recommends_gobuster` (method, line 111) `def test_scanned_no_enum_recommends_gobuster(self, sessions_dir)`
-  - `test_scanned_with_enum_recent_no_proposals` (method, line 123) `def test_scanned_with_enum_recent_no_proposals(self, sessions_dir)`
-  - `test_credentials_no_lateral_recommends_crackmapexec` (method, line 142) `def test_credentials_no_lateral_recommends_crackmapexec(self, sessions_dir)`
-  - `test_no_credentials_no_lateral_proposals` (method, line 155) `def test_no_credentials_no_lateral_proposals(self, sessions_dir)`
-  - `test_multiple_gaps_detected_simultaneously` (method, line 170) `def test_multiple_gaps_detected_simultaneously(self, sessions_dir)`
-- Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`
-
-## tests/test_killchain_snapshot.py
-- Doc: BDD-style tests for the unified kill-chain snapshot contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_seed_snapshot` (function, line 17) `def _seed_snapshot(path, phase, completed, current)`
-  - `_states` (function, line 37) `def _states(snapshot)`
-  - `_encrypt_at` (function, line 41) `def _encrypt_at(path, password, salt)`
-  - `TestKillChainSnapshot` (class, line 52) `class TestKillChainSnapshot`
-  - `TestEncryptedStateTransparency` (class, line 102) `class TestEncryptedStateTransparency`
-  - `test_empty_snapshot_defaults_to_recon` (method, line 53) `def test_empty_snapshot_defaults_to_recon(self, tmp_path)`
-  - `test_snapshot_reflects_explicit_phase_and_completed` (method, line 64) `def test_snapshot_reflects_explicit_phase_and_completed(self, tmp_path)`
-  - `test_snapshot_is_json_serialisable` (method, line 80) `def test_snapshot_is_json_serialisable(self, tmp_path)`
-  - `test_advance_then_snapshot_is_consistent` (method, line 90) `def test_advance_then_snapshot_is_consistent(self, tmp_path)`
-  - `test_read_state_dict_decrypts_at_rest` (method, line 103) `def test_read_state_dict_decrypts_at_rest(self, tmp_path, monkeypatch)`
-  - `test_write_state_dict_persists_fernet_token` (method, line 122) `def test_write_state_dict_persists_fernet_token(self, tmp_path, monkeypatch)`
-  - `test_write_state_dict_then_engine_encrypt_unwraps_nested` (method, line 138) `def test_write_state_dict_then_engine_encrypt_unwraps_nested(self, tmp_path, monkeypatch)`
-  - `test_missing_file_reads_empty` (method, line 157) `def test_missing_file_reads_empty(self, tmp_path)`
-  - `test_encrypted_without_password_reads_empty` (method, line 165) `def test_encrypted_without_password_reads_empty(self, tmp_path, monkeypatch)`
-- Depends on: `modules/killchain.py`, `modules/world_model.py`
-
-## tests/test_killchain_unified.py
-- Doc: Tests for unified killchain phase: read_phase, write_phase, phase mapping helpers.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestPhaseMapping` (class, line 20) `class TestPhaseMapping`
-  - `TestWritePhaseWithWorldModel` (class, line 48) `class TestWritePhaseWithWorldModel`
-  - `test_engagement_phase_to_cli_maps_all` (method, line 21) `def test_engagement_phase_to_cli_maps_all(self)`
-  - `test_cli_phase_to_host_state_maps_correctly` (method, line 30) `def test_cli_phase_to_host_state_maps_correctly(self)`
-  - `test_phase_rank_returns_correct_index` (method, line 41) `def test_phase_rank_returns_correct_index(self)`
-  - `sessions_dir` (method, line 52) `def sessions_dir(self)`
-  - `test_write_phase_advances_hosts` (method, line 80) `def test_write_phase_advances_hosts(self, sessions_dir)`
-  - `test_write_phase_invalid_returns_false` (method, line 96) `def test_write_phase_invalid_returns_false(self, sessions_dir)`
-  - `test_write_phase_completed_phases_tracks_progress` (method, line 100) `def test_write_phase_completed_phases_tracks_progress(self, sessions_dir)`
-- Depends on: `cli/ops_commands.py`, `modules/world_model.py`
 
 
 Next: [KB_tests_p11.md](KB_tests_p11.md)

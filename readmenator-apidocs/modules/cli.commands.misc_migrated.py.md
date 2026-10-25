@@ -931,7 +931,7 @@ Displays a list of useful links and allows the user to select and copy a link to
 
 This function performs the following actions:
 1. Defines a list of links with their aliases.
-2. Filters the links based on the input `line` if provided.
+2. Filters the links based on the input [`line`](modules.defense_eval.py.md#evaluation-line) if provided.
 3. Displays the filtered links with their aliases and URLs.
 4. Prompts the user to select a link by entering the corresponding number.
 5. Copies the selected link to the clipboard.

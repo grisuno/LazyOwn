@@ -1,6 +1,41 @@
 # Subsystem: tests (page 13 of 20)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
 
+## tests/test_loop_auto_orchestrator.py
+- Doc: Loop orchestrates every auto verb plus addon/tool triggers.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_exfil_auto_registered_as_verb` (function, line 6) `def test_exfil_auto_registered_as_verb()`
+  - `test_service_tokens_split_and_alias` (function, line 15) `def test_service_tokens_split_and_alias()`
+  - `test_addon_hits_rank_specific_before_generic` (function, line 22) `def test_addon_hits_rank_specific_before_generic()`
+  - `test_propose_addon_intents_shape_and_tool_collapse` (function, line 31) `def test_propose_addon_intents_shape_and_tool_collapse()`
+  - `test_steps_for_lazy_addon_routes_to_command` (function, line 40) `def test_steps_for_lazy_addon_routes_to_command()`
+  - `test_worker_routes_verbs_via_bound_shell` (function, line 49) `def test_worker_routes_verbs_via_bound_shell(tmp_path, monkeypatch)`
+  - `test_worker_without_shell_reports_honestly` (function, line 85) `def test_worker_without_shell_reports_honestly(tmp_path, monkeypatch)`
+  - `test_execute_streaming_streams_and_captures` (function, line 109) `def test_execute_streaming_streams_and_captures()`
+  - `test_execute_streaming_timeout_reports` (function, line 119) `def test_execute_streaming_timeout_reports()`
+  - `test_execute_shell_verb_forwards_output` (function, line 127) `def test_execute_shell_verb_forwards_output()`
+  - `test_autonomous_mode_suppresses_and_restores_input` (function, line 141) `def test_autonomous_mode_suppresses_and_restores_input(monkeypatch)`
+  - `test_lazy_addon_command_registered` (function, line 153) `def test_lazy_addon_command_registered()`
+  - `test_worker_skips_missing_binary_and_records_gap` (function, line 163) `def test_worker_skips_missing_binary_and_records_gap(tmp_path, monkeypatch)`
+  - `test_service_trigger_fires_with_addon_hits` (function, line 194) `def test_service_trigger_fires_with_addon_hits(tmp_path, monkeypatch)`
+  - `_Shell` (class, line 59) `class _Shell`
+  - `_Shell` (class, line 131) `class _Shell`
+  - `onecmd` (method, line 60) `def onecmd(self, command)`
+  - `onecmd_plus_hooks` (method, line 132) `def onecmd_plus_hooks(self, command)`
+- Depends on: `cli/commands/mcp_bridge.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
+## tests/test_loop_broadcast.py
+- Doc: Broadcast board timeline regression tests (lazy 0.3.12 parity).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `test_broadcast_rows_carry_neighbours_and_assets` (function, line 15) `def test_broadcast_rows_carry_neighbours_and_assets(tmp_path, monkeypatch)`
+  - `test_broadcast_search_id_and_kind_filter` (function, line 36) `def test_broadcast_search_id_and_kind_filter(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
 ## tests/test_loop_budget.py
 - Doc: BDD tests for first-class budget flags on the loop runner.
 - Layer: testing
@@ -443,58 +478,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_database_mirror_uses_dump_and_restore` (function, line 90) `def test_database_mirror_uses_dump_and_restore()`
   - `_fake_exec` (function, line 69) `def _fake_exec(container, script, payload, timeout)`
 - Depends on: `modules/metasploitable_migrations.py`
-
-## tests/test_metrics.py
-- Doc: Tests for ``modules/metrics.py``.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_build_recorder` (function, line 35) `def _build_recorder(tmp_path)`
-  - `test_legacy_registry_inc_and_render` (function, line 42) `def test_legacy_registry_inc_and_render()`
-  - `test_recorder_appends_record_line` (function, line 57) `def test_recorder_appends_record_line(tmp_path)`
-  - `test_recorder_clamps_negative_duration` (function, line 83) `def test_recorder_clamps_negative_duration(tmp_path)`
-  - `test_summarize_aggregates_by_command` (function, line 92) `def test_summarize_aggregates_by_command(tmp_path)`
-  - `test_summarize_window_filters_old_records` (function, line 124) `def test_summarize_window_filters_old_records(tmp_path)`
-  - `test_tail_returns_newest_first` (function, line 163) `def test_tail_returns_newest_first(tmp_path)`
-  - `test_concurrent_writes_do_not_corrupt` (function, line 173) `def test_concurrent_writes_do_not_corrupt(tmp_path)`
-  - `test_get_recorder_is_singleton` (function, line 202) `def test_get_recorder_is_singleton(tmp_path)`
-  - `test_aggregator_handles_empty_iterable` (function, line 211) `def test_aggregator_handles_empty_iterable()`
-  - `test_aggregator_skips_malformed_records` (function, line 220) `def test_aggregator_skips_malformed_records()`
-  - `test_p95_uses_nearest_rank` (function, line 227) `def test_p95_uses_nearest_rank()`
-  - `test_metric_record_to_dict_roundtrip` (function, line 234) `def test_metric_record_to_dict_roundtrip()`
-  - `worker` (function, line 180) `def worker(tag)`
-- Depends on: `modules/metrics.py`
-
-## tests/test_metrics_aware_selector.py
-- Doc: Tests for ``MetricsAwareSelector`` in ``skills/autonomous_daemon.py``.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_StubSelector` (class, line 37) `class _StubSelector(ICommandSelector)`
-  - `_StubMetrics` (class, line 54) `class _StubMetrics`
-  - `_decision` (function, line 71) `def _decision(command)`
-  - `test_passthrough_when_wrapped_returns_none` (function, line 75) `def test_passthrough_when_wrapped_returns_none()`
-  - `test_passthrough_when_insufficient_attempts` (function, line 87) `def test_passthrough_when_insufficient_attempts()`
-  - `test_filters_when_success_rate_below_threshold` (function, line 105) `def test_filters_when_success_rate_below_threshold()`
-  - `test_accepts_when_success_rate_at_threshold` (function, line 122) `def test_accepts_when_success_rate_at_threshold()`
-  - `test_only_filters_named_command_not_whole_decision_object` (function, line 141) `def test_only_filters_named_command_not_whole_decision_object()`
-  - `test_summary_is_cached_within_ttl` (function, line 158) `def test_summary_is_cached_within_ttl()`
-  - `test_summary_forwards_window_seconds` (function, line 188) `def test_summary_forwards_window_seconds()`
-  - `test_zero_window_is_treated_as_unbounded` (function, line 201) `def test_zero_window_is_treated_as_unbounded()`
-  - `test_decorator_degrades_when_metrics_source_unavailable` (function, line 214) `def test_decorator_degrades_when_metrics_source_unavailable()`
-  - `test_wrap_chain_leaves_fallback_unwrapped` (function, line 230) `def test_wrap_chain_leaves_fallback_unwrapped()`
-  - `test_wrap_chain_master_switch_off` (function, line 241) `def test_wrap_chain_master_switch_off()`
-  - `test_wrap_chain_is_idempotent` (function, line 253) `def test_wrap_chain_is_idempotent()`
-  - `test_filtering_emits_skip_event` (function, line 265) `def test_filtering_emits_skip_event(tmp_path, monkeypatch)`
-  - `test_chain_falls_through_to_fallback_when_all_filtered` (function, line 298) `def test_chain_falls_through_to_fallback_when_all_filtered()`
-  - `__init__` (method, line 40) `def __init__(self, decision)`
-  - `select` (method, line 44) `def select(self, target, phase, context)`
-  - `__init__` (method, line 57) `def __init__(self, by_command)`
-  - `summarize` (method, line 62) `def summarize(self, window_seconds)`
-  - `fake_clock` (function, line 169) `def fake_clock()`
-  - `_BrokenSource` (class, line 217) `class _BrokenSource`
-  - `summarize` (method, line 218) `def summarize(self, window_seconds)`
-- Depends on: `skills/autonomous_daemon.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

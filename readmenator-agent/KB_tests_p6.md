@@ -1,6 +1,35 @@
 # Subsystem: tests (page 6 of 20)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
 
+## tests/test_command_form.py
+- Doc: Tests for cli/command_form.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_index` (function, line 23) `def _index()`
+  - `test_fields_default_set_when_command_unknown` (function, line 32) `def test_fields_default_set_when_command_unknown()`
+  - `test_fields_specific_set_for_known_command` (function, line 44) `def test_fields_specific_set_for_known_command()`
+  - `test_initial_values_come_from_payload` (function, line 57) `def test_initial_values_come_from_payload()`
+  - `test_overrides_lists_diverging_field_payload_pairs` (function, line 70) `def test_overrides_lists_diverging_field_payload_pairs()`
+  - `test_overrides_empty_when_values_match_payload` (function, line 84) `def test_overrides_empty_when_values_match_payload()`
+  - `test_verb_line_returns_just_verb_without_extras` (function, line 96) `def test_verb_line_returns_just_verb_without_extras()`
+  - `test_build_command_preview_renders_annotations_and_verb` (function, line 109) `def test_build_command_preview_renders_annotations_and_verb()`
+  - `test_is_valid_true_when_command_known` (function, line 124) `def test_is_valid_true_when_command_known()`
+  - `test_is_valid_false_for_unknown_command` (function, line 136) `def test_is_valid_false_for_unknown_command()`
+  - `test_launch_form_runner_returns_state` (function, line 147) `def test_launch_form_runner_returns_state()`
+  - `test_build_state_loads_from_default_index` (function, line 162) `def test_build_state_loads_from_default_index(monkeypatch)`
+  - `runner` (function, line 151) `def runner(context)`
+- Depends on: `cli/command_form.py`
+
+## tests/test_command_namespace_uniqueness.py
+- Doc: Cross-CommandSet command-name uniqueness contract.  cmd2 refuses to register a second...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_is_command_set` (function, line 19) `def _is_command_set(node)`
+  - `_command_definitions` (function, line 28) `def _command_definitions()`
+  - `test_no_command_defined_by_two_command_sets` (function, line 42) `def test_no_command_defined_by_two_command_sets()`
+
 ## tests/test_command_palette.py
 - Doc: Command palette test suite.
 - Layer: testing
@@ -451,33 +480,6 @@ Previous: [KB_tests_p5.md](KB_tests_p5.md)
   - `test_missing_required_fields_reported_as_errors` (method, line 169) `def test_missing_required_fields_reported_as_errors(self, tmp_path)`
   - `test_invalid_types_reported_as_warnings` (method, line 180) `def test_invalid_types_reported_as_warnings(self, tmp_path)`
 - Depends on: `core/config.py`, `core/payload_schema.py`
-
-## tests/test_core_defaults.py
-- Doc: Build-time defaults are data, not literals.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_fresh_cache` (function, line 22) `def _fresh_cache()`
-  - `TestLoader` (class, line 28) `class TestLoader`
-  - `TestCallSitesMigrated` (class, line 50) `class TestCallSitesMigrated`
-  - `TestWizardAndGui` (class, line 84) `class TestWizardAndGui`
-  - `TestGuiFunctional` (class, line 117) `class TestGuiFunctional`
-  - `test_sections_present` (method, line 29) `def test_sections_present(self)`
-  - `test_typed_helpers` (method, line 33) `def test_typed_helpers(self)`
-  - `test_missing_file_fails_closed` (method, line 41) `def test_missing_file_fails_closed(self, tmp_path)`
-  - `test_get_fallback` (method, line 45) `def test_get_fallback(self)`
-  - `test_no_hardcoded_rockyou_in_logic` (method, line 58) `def test_no_hardcoded_rockyou_in_logic(self)`
-  - `test_no_hardcoded_default_lport` (method, line 68) `def test_no_hardcoded_default_lport(self)`
-  - `test_helpers_imported` (method, line 78) `def test_helpers_imported(self)`
-  - `test_wizard_command_exists` (method, line 85) `def test_wizard_command_exists(self)`
-  - `test_overrides_map_to_schema_keys` (method, line 96) `def test_overrides_map_to_schema_keys(self)`
-  - `test_gui_routes_exist` (method, line 104) `def test_gui_routes_exist(self)`
-  - `test_gui_never_rewrites_toml` (method, line 110) `def test_gui_never_rewrites_toml(self)`
-  - `client` (method, line 119) `def client(self, tmp_path, monkeypatch)`
-  - `test_get_defaults` (method, line 130) `def test_get_defaults(self, client)`
-  - `test_post_defaults_rejects_unknown` (method, line 137) `def test_post_defaults_rejects_unknown(self, client)`
-  - `test_post_defaults_rejects_bad_port` (method, line 141) `def test_post_defaults_rejects_bad_port(self, client)`
-- Depends on: `core/__init__.py`, `core/payload_schema.py`, `lazyc2/blueprints/api.py`
 
 
 Next: [KB_tests_p7.md](KB_tests_p7.md)

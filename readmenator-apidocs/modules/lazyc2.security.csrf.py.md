@@ -81,7 +81,7 @@ Per-session CSRF token issuer and validator.
 | [`issue`](#csrfpolicy-issue) | method | Return the token bound to ``session_id``. |
 | [`rotate`](#csrfpolicy-rotate) | method | Force a fresh token for ``session_id``. |
 | [`forget`](#csrfpolicy-forget) | method | Drop the token bound to ``session_id`` (e.g. on logout). |
-| [`validate`](#csrfpolicy-validate) | method | Return ``True`` iff `[`candidate`](modules.autonomous_exploit_engine.py.md#exploitresult-candidate)` matches the stored token. |
+| [`validate`](#csrfpolicy-validate) | method | Return ``True`` iff ``candidate`` matches the stored token. |
 | [`is_exempt`](#csrfpolicy-is_exempt) | method | Return ``True`` if ``path`` is in the exempt set. |
 | [`extract_token`](#csrfpolicy-extract_token) | method | Return the token from a Flask-shaped request. |
 | [`check_request`](#csrfpolicy-check_request) | method | Run the full CSRF gate against a request. |
@@ -214,7 +214,7 @@ Drop the token bound to ``session_id`` (e.g. on logout).
 def validate(self, session_id: str, candidate: str | None) -> bool
 ```
 
-Return ``True`` iff `[`candidate`](modules.autonomous_exploit_engine.py.md#exploitresult-candidate)` matches the stored token.
+Return ``True`` iff ``candidate`` matches the stored token.
 
 **Parameters**
 

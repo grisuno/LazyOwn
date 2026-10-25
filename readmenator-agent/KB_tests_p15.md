@@ -1,6 +1,23 @@
 # Subsystem: tests (page 15 of 20)
 Previous: [KB_tests_p14.md](KB_tests_p14.md)
 
+## tests/test_palette_overlay.py
+- Doc: Tests for cli/palette_overlay.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_fake_index` (function, line 24) `def _fake_index()`
+  - `test_rows_returns_all_commands_when_query_empty` (function, line 36) `def test_rows_returns_all_commands_when_query_empty()`
+  - `test_rows_filter_by_substring` (function, line 44) `def test_rows_filter_by_substring()`
+  - `test_rows_rank_recents_above_substrings` (function, line 52) `def test_rows_rank_recents_above_substrings()`
+  - `test_rows_respect_max_rows` (function, line 65) `def test_rows_respect_max_rows()`
+  - `test_build_state_returns_none_when_index_missing` (function, line 73) `def test_build_state_returns_none_when_index_missing(monkeypatch)`
+  - `test_launch_overlay_uses_runner_for_tests` (function, line 79) `def test_launch_overlay_uses_runner_for_tests()`
+  - `test_truncate_summary_uses_truncation_suffix` (function, line 90) `def test_truncate_summary_uses_truncation_suffix()`
+  - `test_set_query_strips_whitespace` (function, line 106) `def test_set_query_strips_whitespace()`
+  - `runner` (function, line 83) `def runner(context)`
+- Depends on: `cli/palette_overlay.py`
+
 ## tests/test_param_registry.py
 - Doc: tests/test_param_registry.py  Contract suite for the shared parameter registry.
 - Layer: testing
@@ -470,22 +487,6 @@ Previous: [KB_tests_p14.md](KB_tests_p14.md)
   - `test_strip_readline_markers_restores_raw` (function, line 79) `def test_strip_readline_markers_restores_raw()`
   - `test_stripped_prompt_matches_box_shape` (function, line 87) `def test_stripped_prompt_matches_box_shape()`
 - Depends on: `cli/banner_config.py`
-
-## tests/test_prompt_refresh.py
-- Doc: Contract tests for live prompt refresh after a payload change.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_command_set_with_fake_shell` (function, line 22) `def _command_set_with_fake_shell()`
-  - `test_prompt_write_forwards_to_shell` (function, line 29) `def test_prompt_write_forwards_to_shell()`
-  - `test_prompt_read_after_forward` (function, line 37) `def test_prompt_read_after_forward()`
-  - `test_unrelated_write_stays_local` (function, line 44) `def test_unrelated_write_stays_local()`
-  - `test_do_assign_calls_refresh_prompt` (function, line 52) `def test_do_assign_calls_refresh_prompt()`
-  - `test_shell_defines_refresh_prompt` (function, line 59) `def test_shell_defines_refresh_prompt()`
-  - `test_render_prompt_includes_rhost` (function, line 65) `def test_render_prompt_includes_rhost()`
-  - `test_no_bracket_replace_hack` (function, line 71) `def test_no_bracket_replace_hack()`
-  - `test_rhost_commands_use_refresh_prompt` (function, line 78) `def test_rhost_commands_use_refresh_prompt()`
-- Depends on: `cli/banner_config.py`, `cli/commands/_base.py`
 
 
 Next: [KB_tests_p16.md](KB_tests_p16.md)

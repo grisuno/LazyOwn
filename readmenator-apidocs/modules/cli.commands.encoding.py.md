@@ -355,7 +355,7 @@ Applies various obfuscations to a given command line string to create multiple o
 
 1. Defines a helper function `double_base64_encode(cmd)` that performs double Base64 encoding on a given command.
 2. Defines the `apply_obfuscations(cmd)` function to create a list of obfuscated commands using different techniques.
-3. Applies these obfuscations to the provided `line` argument and prints each obfuscated command.
+3. Applies these obfuscations to the provided [`line`](modules.defense_eval.py.md#evaluation-line) argument and prints each obfuscated command.
 
 
 Manual execution:

@@ -46,11 +46,11 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.
 - `select_step_ids` (function) `cli/apt_chain_support.py:257` `def select_step_ids(chain, args)` -- Resolve --step/--from-step/--to-step into one id set.
 - `adversarial_continue` (function) `cli/apt_chain_support.py:289` `def adversarial_continue(chain)` -- Return a copy of the chain where every step continues on error.
 - `render_result` (function) `cli/apt_chain_support.py:297` `def render_result(result)` -- Render one chain result as operator lines (JSON mode prints dict).
-- `build_cli_approver` (function) `cli/apt_chain_support.py:321` `def build_cli_approver(printer, input_fn)` -- Return an approver baked for interactive operators.
-- `approve` (function) `cli/apt_chain_support.py:329` `def approve(step_id, command)`
-- `build_reactive_replanner` (function) `cli/apt_chain_support.py:343` `def build_reactive_replanner()` -- Return a replanner driven by ``modules.reactive_engine``.
-- `replan` (function) `cli/apt_chain_support.py:346` `def replan(context)`
-- `build_llm_recovery_chain` (function) `cli/apt_chain_support.py:399` `def build_llm_recovery_chain(result, target, task_id)` -- Ask the LLM pool for a temporary recovery chain after a failed run.
+- `build_cli_approver` (function) `cli/apt_chain_support.py:330` `def build_cli_approver(printer, input_fn)` -- Return an approver baked for interactive operators.
+- `approve` (function) `cli/apt_chain_support.py:338` `def approve(step_id, command)`
+- `build_reactive_replanner` (function) `cli/apt_chain_support.py:352` `def build_reactive_replanner()` -- Return a replanner driven by ``modules.reactive_engine``.
+- `replan` (function) `cli/apt_chain_support.py:355` `def replan(context)`
+- `build_llm_recovery_chain` (function) `cli/apt_chain_support.py:408` `def build_llm_recovery_chain(result, target, task_id)` -- Ask the LLM pool for a temporary recovery chain after a failed run.
 
 ## cli/assign.py
 Depends on: `core/payload_schema.py`

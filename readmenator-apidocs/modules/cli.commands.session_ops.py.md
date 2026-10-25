@@ -581,7 +581,7 @@ def do_payload(self, line)
 
 Load parameters from a specified payload JSON file.
 
-This function loads parameters from a JSON file specified by the `line` argument and updates the instance's `params` dictionary with the values from the file. If the file does not exist or contains invalid JSON, it will print an appropriate error message.
+This function loads parameters from a JSON file specified by the [`line`](modules.defense_eval.py.md#evaluation-line) argument and updates the instance's `params` dictionary with the values from the file. If the file does not exist or contains invalid JSON, it will print an appropriate error message.
 
 Usage:
     payload <filename>

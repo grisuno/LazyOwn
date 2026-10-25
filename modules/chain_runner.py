@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import concurrent.futures as futures
 import glob
+import hashlib
 import json
 import os
 import re
@@ -22,6 +23,7 @@ import subprocess
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
 from modules.chain_registry import Chain, ChainStep, evaluate_when
@@ -41,10 +43,21 @@ _EXPECT_EXIT_MAX = 255
 _MAX_PARALLEL_GROUP = 8
 _MAX_FALLBACK_DEPTH = 1
 
+VERDICT_OBSERVED = "evidence_observed"
+VERDICT_INFERRED = "inferred"
+VERDICT_NOT_OBSERVED = "not_observed"
+VERDICT_INSUFFICIENT = "insufficient_data"
+
 
 @dataclass
 class StepOutcome:
-    """One executed or skipped step."""
+    """One executed or skipped step.
+
+    ``verdict`` carries the chain-of-evidence result for steps that
+    declare hunting fields: ``evidence_observed`` (success with every
+    required field present in the captured evidence), ``insufficient_data``
+    (success but required fields missing) and ``not_observed`` (failure).
+    """
 
     id: str = ""
     run: str = ""
@@ -58,6 +71,11 @@ class StepOutcome:
     artifacts: list[str] = field(default_factory=list)
     sinks: list[str] = field(default_factory=list)
     duration_ms: float = 0.0
+    verdict: str = ""
+    evidence_refs: list[str] = field(default_factory=list)
+    missing_fields: list[str] = field(default_factory=list)
+    alternatives: list[str] = field(default_factory=list)
+    budget_used: dict[str, int] = field(default_factory=dict)
 
     @property
     def ok(self) -> bool:
@@ -79,6 +97,11 @@ class StepOutcome:
             "artifacts": list(self.artifacts),
             "sinks": list(self.sinks),
             "duration_ms": round(self.duration_ms, 2),
+            "verdict": self.verdict,
+            "evidence_refs": list(self.evidence_refs),
+            "missing_fields": list(self.missing_fields),
+            "alternatives": list(self.alternatives),
+            "budget_used": dict(self.budget_used),
         }
 
 
@@ -102,6 +125,7 @@ class ChainRunResult:
     plan_warnings: list[str] = field(default_factory=list)
     fallback_used: str = ""
     fallback_depth: int = 0
+    verdicts: dict[str, str] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable view."""
@@ -122,8 +146,14 @@ class ChainRunResult:
             "plan_warnings": list(self.plan_warnings),
             "fallback_used": self.fallback_used,
             "fallback_depth": self.fallback_depth,
+            "verdicts": dict(self.verdicts),
             "duration_ms": round(max(0.0, self.finished_at - self.started_at) * 1000, 2),
         }
+
+    @property
+    def chain_proven(self) -> bool:
+        """Return whether every declared hunting dependency is observed."""
+        return bool(self.verdicts) and all(value == VERDICT_OBSERVED for value in self.verdicts.values())
 
 
 @dataclass
@@ -262,6 +292,7 @@ class ChainRunner:
         state_variables = {str(key): str(value) for key, value in (state.get("variables") or {}).items()}
         variables = {**self.chain.defaults, **self.chain.vars, **state_variables, **self.tokens}
         captured_keys: set[str] = {str(key) for key in (state.get("captured_keys") or [])}
+        verdicts: dict[str, str] = {str(key): str(value) for key, value in (state.get("verdicts") or {}).items()}
         resumed_ok = {
             str(entry.get("id"))
             for entry in (state.get("steps") or [])
@@ -284,7 +315,7 @@ class ChainRunner:
             run_id=result_run_id,
             filtered=filtered,
         )
-        self._save_checkpoint(result, variables, captured_keys, 0, "running")
+        self._save_checkpoint(result, variables, captured_keys, 0, "running", verdicts)
         step_index: dict[str, int] = {step.identifier: pos for pos, step in enumerate(steps)}
         executions: dict[str, int] = {}
         index = 0
@@ -328,8 +359,10 @@ class ChainRunner:
                 while cursor < len(steps) and steps[cursor].parallel and len(group) < _MAX_PARALLEL_GROUP:
                     group.append(steps[cursor])
                     cursor += 1
-                outcomes, group_failure = self._run_parallel_group(group, executions, resumed_ok, variables, captured_keys)
+                outcomes, group_failure = self._run_parallel_group(group, executions, resumed_ok, variables, captured_keys, dict(verdicts))
                 result.steps.extend(outcomes)
+                for group_outcome in outcomes:
+                    self._record_verdict(verdicts, group_outcome)
                 for group_outcome in outcomes:
                     for artifact in group_outcome.artifacts:
                         if artifact and artifact not in result.artifacts:
@@ -340,7 +373,7 @@ class ChainRunner:
                     if self._apply_replanner(result, cursor - 1, group_outcome, steps, step_index, variables, captured_keys):
                         replan_skip = True
                         break
-                self._save_checkpoint(result, variables, captured_keys, cursor, "running")
+                self._save_checkpoint(result, variables, captured_keys, cursor, "running", verdicts)
                 if replan_skip:
                     break
                 if group_failure:
@@ -350,14 +383,15 @@ class ChainRunner:
                     break
                 index = cursor
                 continue
-            outcome = self._run_step(step, variables, captured_keys)
+            outcome = self._run_step(step, variables, captured_keys, verdicts)
             result.steps.append(outcome)
+            self._record_verdict(verdicts, outcome)
             for artifact in outcome.artifacts:
                 if artifact and artifact not in result.artifacts:
                     result.artifacts.append(artifact)
             self._notify(outcome)
             replan_skip = self._apply_replanner(result, index, outcome, steps, step_index, variables, captured_keys)
-            self._save_checkpoint(result, variables, captured_keys, index + 1, "running")
+            self._save_checkpoint(result, variables, captured_keys, index + 1, "running", verdicts)
             if replan_skip:
                 break
             if not outcome.ok:
@@ -420,9 +454,10 @@ class ChainRunner:
             except Exception:
                 result.plan_warnings = []
         result.variables = dict(variables)
+        result.verdicts = dict(verdicts)
         result.finished_at = time.time()
         state_name = "aborted" if result.aborted else "finished"
-        self._save_checkpoint(result, variables, captured_keys, index, state_name)
+        self._save_checkpoint(result, variables, captured_keys, index, state_name, verdicts)
         return result
 
     def _skip_remaining(self, steps: list[ChainStep], start: int, reason: str) -> list[StepOutcome]:
@@ -447,6 +482,7 @@ class ChainRunner:
         resumed_ok: set[str],
         variables: dict[str, str],
         captured_keys: set[str],
+        prior_verdicts: dict[str, str] | None = None,
     ) -> tuple[list[StepOutcome], str]:
         """Execute consecutive ``parallel`` steps concurrently.
 
@@ -500,8 +536,9 @@ class ChainRunner:
         thread_outcomes: dict[str, StepOutcome] = {}
         if runnable:
             pool = futures.ThreadPoolExecutor(max_workers=min(len(runnable), _MAX_PARALLEL_GROUP))
+            snapshot = dict(prior_verdicts or {})
             scheduled = [
-                (step, pool.submit(self._run_step, step, dict(variables), set(captured_keys)))
+                (step, pool.submit(self._run_step, step, dict(variables), set(captured_keys), snapshot))
                 for step in runnable
             ]
             try:
@@ -667,6 +704,7 @@ class ChainRunner:
         captured_keys: set[str],
         next_index: int,
         state_name: str,
+        verdicts: dict[str, str] | None = None,
     ) -> None:
         """Persist a resumable snapshot when checkpointing is enabled."""
         if not self.checkpoint_dir or self.dry_run or not self.run_id:
@@ -681,6 +719,7 @@ class ChainRunner:
                     "state": state_name,
                     "variables": {**result.variables, **variables} if state_name != "running" else dict(variables),
                     "captured_keys": sorted(captured_keys),
+                    "verdicts": dict(verdicts or {}),
                     "steps": [
                         {"id": entry.id, "status": entry.status, "reason": entry.reason} for entry in result.steps
                     ],
@@ -695,11 +734,20 @@ class ChainRunner:
         except Exception:
             pass
 
+    @staticmethod
+    def _record_verdict(verdicts: dict[str, str], outcome: StepOutcome) -> None:
+        """Track one executed step's evidence verdict for dependency gates."""
+        if outcome.verdict:
+            verdicts[outcome.id] = outcome.verdict
+        else:
+            verdicts.pop(outcome.id, None)
+
     def _run_step(
         self,
         step: ChainStep,
         variables: dict[str, str],
         captured_keys: set[str],
+        prior_verdicts: dict[str, str] | None = None,
     ) -> StepOutcome:
         """Resolve and run one step according to its policy."""
         rendered = self._render_command(step.run, variables, captured_keys)
@@ -709,6 +757,7 @@ class ChainRunner:
             phase=step.phase,
             artifacts=list(step.artifacts),
             sinks=list(step.sinks),
+            alternatives=list(step.benign_alternatives),
         )
         if step.when and not evaluate_when(step.when, variables):
             outcome.status = "skipped"
@@ -718,6 +767,11 @@ class ChainRunner:
         if skip_path and os.path.exists(skip_path):
             outcome.status = "skipped"
             outcome.reason = f"exists: {skip_path}"
+            return outcome
+        blocked = self._dependency_block(step, prior_verdicts)
+        if blocked:
+            outcome.status = "skipped"
+            outcome.reason = blocked
             return outcome
         if step.resolve_newest_glob and step.resolve_newest_as:
             matches = sorted(glob.glob(render_text(step.resolve_newest_glob, variables)), key=os.path.getmtime)
@@ -759,9 +813,21 @@ class ChainRunner:
         started = time.time()
         attempts = 0
         attempts_allowed = max(0, min(_MAX_RETRIES, int(step.retries or 0))) + 1
+        budget_attempts = int((step.budget or {}).get("attempts") or 0)
+        if budget_attempts:
+            attempts_allowed = min(attempts_allowed, budget_attempts)
+        timeout_used = step.timeout
+        budget_seconds = int((step.budget or {}).get("seconds") or 0)
+        if budget_seconds and (not timeout_used or timeout_used > budget_seconds):
+            timeout_used = budget_seconds
+        if attempts_allowed < 1:
+            outcome.status = "skipped"
+            outcome.reason = "budget: zero attempts configured"
+            outcome.budget_used = {"attempts": 0}
+            return outcome
         while attempts < attempts_allowed:
             attempts += 1
-            ok, output, reason = self._execute(rendered, step.timeout, tuple(step.expect_exit))
+            ok, output, reason = self._execute(rendered, timeout_used, tuple(step.expect_exit))
             outcome.attempts = attempts
             outcome.output = output
             outcome.reason = reason
@@ -778,18 +844,104 @@ class ChainRunner:
                     ok = False
                     outcome.reason = f"verify failed: {verify_reason or 'no output'}"
             if ok:
-                outcome.status = "ok"
+                evidence_ok, evidence_reason, refs, missing = self._verify_evidence(step, outcome, variables)
+                outcome.evidence_refs = refs
+                outcome.missing_fields = missing
+                outcome.budget_used = {"attempts": attempts}
                 outcome.duration_ms = (time.time() - started) * 1000
+                if not evidence_ok:
+                    outcome.status = "failed"
+                    outcome.reason = evidence_reason
+                    outcome.verdict = VERDICT_NOT_OBSERVED
+                    return outcome
+                outcome.status = "ok"
                 self._store_capture(step, output, outcome, variables, captured_keys)
                 outcome.artifacts = [
                     render_text(path, variables) for path in step.artifacts if render_text(path, variables)
                 ]
+                if step.required_fields and missing:
+                    outcome.verdict = VERDICT_INSUFFICIENT
+                elif step.required_fields or step.evidence:
+                    outcome.verdict = VERDICT_OBSERVED
+                else:
+                    outcome.verdict = ""
                 return outcome
             if attempts < attempts_allowed and self.retry_backoff:
                 time.sleep(min(self.retry_backoff * attempts, 3.0))
         outcome.status = "timeout" if outcome.reason == "timeout" else "failed"
         outcome.duration_ms = (time.time() - started) * 1000
+        outcome.budget_used = {"attempts": attempts}
+        if step.required_fields or step.evidence or step.depends_on:
+            outcome.verdict = VERDICT_NOT_OBSERVED
         return outcome
+
+    @staticmethod
+    def _dependency_block(step: ChainStep, prior_verdicts: dict[str, str] | None) -> str:
+        """Return a block reason when a declared dependency lacks evidence.
+
+        Args:
+            step: The step about to run.
+            prior_verdicts: Verdicts of the steps executed so far in this
+                run (id to verdict).
+
+        Returns:
+            Empty string when every dependency holds ``evidence_observed``
+            evidence; otherwise the skip reason.
+        """
+        if not step.depends_on:
+            return ""
+        verdicts = prior_verdicts or {}
+        for dependency in step.depends_on:
+            state = verdicts.get(dependency, "")
+            if state != VERDICT_OBSERVED:
+                shown = state or "not executed"
+                return f"dependency {dependency}: {shown}; attack chain unproven"
+        return ""
+
+    def _verify_evidence(
+        self,
+        step: ChainStep,
+        outcome: StepOutcome,
+        variables: dict[str, str],
+    ) -> tuple[bool, str, list[str], list[str]]:
+        """Verify artefact integrity and required-field presence.
+
+        Args:
+            step: The executed step.
+            outcome: The outcome being filled.
+            variables: Current chain variables (token rendering).
+
+        Returns:
+            Tuple of (ok, failure reason, evidence refs, missing fields).
+        """
+        from modules.hunt_verify import field_present
+
+        events: list[dict[str, Any]] = []
+        refs: list[str] = []
+        rendered_keys = {render_text(key, variables): value for key, value in (step.evidence_sha256 or {}).items()}
+        for template in step.evidence:
+            path = render_text(template, variables)
+            if any(marker in path for marker in "*?["):
+                matches = sorted(glob.glob(path), key=os.path.getmtime)
+                if not matches:
+                    return False, f"evidence missing: {path}", refs, []
+                path = os.path.abspath(matches[-1])
+            if not path or not os.path.isfile(path):
+                return False, f"evidence missing: {path}", refs, []
+            refs.append(path)
+            expected = rendered_keys.get(path) or step.evidence_sha256.get(template, "")
+            if expected:
+                digest = hashlib.sha256(Path(path).read_bytes()).hexdigest()
+                if digest != expected.lower():
+                    return False, f"evidence hash mismatch: {path}", refs, []
+            events.extend(_load_json_events(path))
+        if not step.evidence and step.required_fields:
+            events.extend(_all_json_objects(outcome.output))
+        missing: list[str] = []
+        for field_name in step.required_fields:
+            if not any(field_present(event, field_name) for event in events):
+                missing.append(field_name)
+        return True, "", refs, sorted(missing)
 
     def _ask_approval(self, step_id: str, command: str) -> bool:
         """Ask the bound approver, failure-closed."""
@@ -1027,3 +1179,69 @@ class ChainRunner:
 
 
 __all__ = ["ChainRunResult", "ChainRunner", "ReplanContext", "StepOutcome", "render_text"]
+
+
+def _all_json_objects(text: str) -> list[dict[str, Any]]:
+    """Return every top-level JSON object embedded in one output text."""
+    objects: list[dict[str, Any]] = []
+    text = str(text or "")
+    decoder = json.JSONDecoder()
+    position = 0
+    while position < len(text):
+        brace = text.find("{", position)
+        if brace < 0:
+            break
+        try:
+            value, end = decoder.raw_decode(text, brace)
+        except ValueError:
+            position = brace + 1
+            continue
+        position = max(end, brace + 1)
+        if isinstance(value, dict):
+            objects.append(value)
+    return objects
+
+
+def _load_json_events(path: str) -> list[dict[str, Any]]:
+    """Parse one evidence file as a JSON array or JSON lines.
+
+    Args:
+        path: Evidence file path.
+
+    Returns:
+        The parsed field mappings; unparsable lines are skipped so a
+        banner-polluted artefact still contributes its clean records.
+    """
+    events: list[dict[str, Any]] = []
+    try:
+        text = Path(path).read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return events
+    stripped = text.strip()
+    if stripped.startswith("["):
+        try:
+            parsed = json.loads(stripped)
+            if isinstance(parsed, list):
+                return [item for item in parsed if isinstance(item, dict)]
+        except ValueError:
+            return events
+        return events
+    if stripped.startswith("{"):
+        try:
+            parsed = json.loads(stripped)
+            if isinstance(parsed, dict):
+                return [parsed]
+        except ValueError:
+            return events
+        return events
+    for line in stripped.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            parsed = json.loads(line)
+        except ValueError:
+            continue
+        if isinstance(parsed, dict):
+            events.append(parsed)
+    return events

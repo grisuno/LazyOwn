@@ -302,7 +302,7 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `build_migrations` (function, line 194) `def build_migrations(subnet)`
   - `apply_migrations` (function, line 354) `def apply_migrations(container, subnet)`
 - Depends on: `core/safe_exec.py`
-- Imported by: `cli/commands/lab.py`, `tests/test_metasploitable_migrations.py`
+- Imported by: `modules/lab_runtime.py`, `tests/test_metasploitable_migrations.py`
 
 ## modules/metrics.py
 - Doc: LazyOwn metrics surface.

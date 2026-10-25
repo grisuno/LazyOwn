@@ -61,7 +61,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `cli/commands/gym_matrix.py` -> __future__, cmd2, shlex
 - `cli/commands/help_ui.py` -> __future__, cmd2, pathlib, rich.table, shlex
 - `cli/commands/infra.py` -> __future__, cmd2, json, pathlib, re, shlex, shutil, subprocess, sys, time
-- `cli/commands/lab.py` -> __future__, cmd2, pathlib, secrets, socket, subprocess, time
+- `cli/commands/lab.py` -> __future__, cmd2, socket, subprocess, time
 - `cli/commands/lateral.py` -> __future__, cmd2
 - `cli/commands/lateral_migrated.py` -> __future__, cmd2, os
 - `cli/commands/lazyloop.py` -> __future__, cmd2, json, shlex
@@ -360,12 +360,13 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/chain_distill.py` -> __future__, dataclasses, json, pathlib, re, typing, yaml
 - `modules/chain_facts.py` -> __future__, collections.abc, datetime, pathlib, re
 - `modules/chain_registry.py` -> __future__, ast, dataclasses, glob, hashlib, os, pathlib, re, typing, yaml
-- `modules/chain_runner.py` -> __future__, collections.abc, concurrent.futures, contextlib, dataclasses, glob, io, json, math, os, re, shlex, signal, subprocess, threading, time, typing
+- `modules/chain_runner.py` -> __future__, collections.abc, concurrent.futures, contextlib, dataclasses, glob, hashlib, io, json, math, os, pathlib, re, shlex, signal, subprocess, threading, time, typing
 - `modules/chain_state.py` -> __future__, json, os, pathlib, time, typing
 - `modules/chain_synth.py` -> __future__, json, pathlib, re, typing, yaml
 - `modules/chain_tokens.py` -> __future__, pathlib
 - `modules/cicd_enumerator.py` -> __future__, dataclasses, json, os, re
 - `modules/cli_auth.py` -> __future__, hmac, json, os, pathlib, secrets, time, typing, werkzeug.security
+- `modules/closedloop.py` -> __future__, dataclasses, typing
 - `modules/cloud_enum.py` -> json, requests, subprocess, typing
 - `modules/collab_bp.py` -> __future__, dataclasses, flask, flask_login, functools, json, queue, threading, time, uuid
 - `modules/colors.py` -> bs4, random
@@ -382,6 +383,8 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/dashboard_bp.py` -> __future__, csv, datetime, flask, flask_login, json, pathlib
 - `modules/dashboard_engine.py` -> __future__, collections, dataclasses, datetime, json, pathlib, time, typing, xml.etree.ElementTree
 - `modules/db.py` -> __future__, collections.abc, contextlib, csv, io, pathlib, sqlite3, threading, typing, xml.etree.ElementTree
+- `modules/defense_eval.py` -> __future__, dataclasses, decimal, json, typing
+- `modules/defense_stages.py` -> __future__, glob, json, modules.activity_log, os, pathlib, typing
 - `modules/delegation_attacks.py` -> __future__, dataclasses, typing
 - `modules/detailed_search.py` -> bs4, csv, os, requests, time, urllib.parse
 - `modules/detection_feed.py` -> __future__, dataclasses, json, pathlib, re, requests, yaml
@@ -423,11 +426,13 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/guardrails/checkpoints.py` -> __future__, copy, threading, typing
 - `modules/guardrails/contracts.py` -> __future__, collections.abc, dataclasses, typing
 - `modules/guardrails/harness.py` -> __future__, collections.abc, threading, time, typing
+- `modules/gym_cleanup.py` -> __future__, typing
 - `modules/gym_matrix_runner.py` -> __future__, collections.abc, datetime, json, pathlib, typing
 - `modules/gym_registry.py` -> __future__, hashlib, json, os, pathlib, re, secrets, threading, time, typing, yaml
 - `modules/harness.py` -> __future__, os
 - `modules/hash_cracker.py` -> __future__, dataclasses, pathlib, re, shutil, subprocess, tempfile, typing
 - `modules/hive_invoke.py` -> __future__, pathlib, shutil, subprocess, sys
+- `modules/hunt_verify.py` -> __future__, dataclasses, typing
 - `modules/ia_code_analysis.py` -> argparse, json, os, requests, rich.markdown, subprocess, time
 - `modules/ia_logs_analysis.py` -> argparse, json, os, requests, rich.markdown, subprocess, time, watchdog.events, watchdog.observers
 - `modules/ia_network_analysis.py` -> argparse, json, requests, rich.markdown, scapy.all, scapy.layers.tls.record, subprocess, time
@@ -450,6 +455,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/kill_chain_viz.py` -> __future__, datetime, json, os, pathlib, typing
 - `modules/killchain.py` -> __future__, collections.abc, dataclasses, datetime, os, pathlib, typing
 - `modules/kivi.py` -> kivy.app, kivy.uix.boxlayout, kivy.uix.button, kivy.uix.label, kivy.uix.textinput, socket, subprocess
+- `modules/lab_runtime.py` -> __future__, pathlib, secrets, subprocess
 - `modules/lazy_agent.py` -> __future__, collections.abc, json, os, shutil, signal, subprocess, threading, time
 - `modules/lazy_bridge.py` -> __future__, json, pathlib, re, time, uuid
 - `modules/lazy_cli_bridge.py` -> __future__, pathlib, re, threading, time
@@ -490,11 +496,5 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/llm_pool.py` -> __future__, collections.abc, dataclasses, hashlib, itertools, json, os, pathlib, threading, time
 - `modules/llm_prompts.py` -> __future__, dataclasses, json, os, typing
 - `modules/log_tamper.py` -> __future__, dataclasses, pathlib, typing
-- `modules/logging_config.py` -> contextvars, datetime, json, logging.handlers, os, sys
-- `modules/loop_ai_bridge.py` -> __future__, threading
-- `modules/loop_guardrails.py` -> __future__, collections, contextlib, dataclasses, hashlib, json, math, os, pathlib, random, re, tempfile, threading, time
-- `modules/loop_progress.py` -> __future__, dataclasses, re, rich.live, rich.panel, rich.spinner, rich.table, rich.text, sys, threading, time
-- `modules/loop_triggers.py` -> __future__
-- `modules/macos_payloads.py` -> __future__, base64, dataclasses, os, pathlib, plistlib, subprocess, typing
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

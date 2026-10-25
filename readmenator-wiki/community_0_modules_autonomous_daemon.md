@@ -1,40 +1,33 @@
 # modules: autonomous_daemon
 
-*Community 0 | 173 files | cohesion 0.56*
+*Community 0 | 184 files | cohesion 0.57*
 
 ## Definition
 
-This community groups 173 file(s) rooted at `modules` with dominant language py (cohesion 0.56). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AIExploitChainer`, `AIResult`, `AVBlockedMatcher`. Core file: `skills/autonomous_daemon.py` (150 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
+This community groups 184 file(s) rooted at `modules` with dominant language py (cohesion 0.57). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AIExploitChainer`, `AIModel`, `AIResult`. Core file: `skills/autonomous_daemon.py` (150 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
 
 ## Files
 
-### `modules` (68 files)
+### `modules` (76 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `modules/agent_runner.py` | py | utility | 38 | yes |
 | `modules/ai_exploit_chain.py` | py | utility | 11 | yes |
-| `modules/ai_fallback.py` | py | utility | 8 | yes |
 
-### `tests` (45 files)
+### `tests` (48 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `tests/conftest.py` | py | testing | 10 | yes |
 | `tests/integration_autonomous_flow.py` | py | testing | 1 | no |
-| `tests/test_aci_planner.py` | py | testing | 95 | yes |
 
-### `skills` (27 files)
+### `skills` (26 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `skills/aci_planner.py` | py | utility | 42 | yes |
 | `skills/autonomous_daemon.py` | py | utility | 150 | yes |
-
-### `skills/tests` (7 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `skills/tests/test_autonomous_daemon.py` | py | testing | 88 | yes |
-| `skills/tests/test_facts.py` | py | testing | 37 | yes |
 
 ### `cli/commands` (6 files)
 
@@ -43,19 +36,26 @@ This community groups 173 file(s) rooted at `modules` with dominant language py 
 | `cli/commands/caldera.py` | py | utility | 21 | yes |
 | `cli/commands/collaboration.py` | py | utility | 8 | yes |
 
+### `contrib/legacy` (6 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `contrib/legacy/lazyaddon_creator.py` | py | utility | 14 | yes |
+| `contrib/legacy/lazyhoneypot.py` | py | utility | 15 | yes |
+
+### `skills/tests` (6 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `skills/tests/test_autonomous_daemon.py` | py | testing | 88 | yes |
+| `skills/tests/test_harness_e2e.py` | py | testing | 10 | yes |
+
 ### `modules/integrations` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/integrations/__init__.py` | py | utility | 0 | yes |
 | `modules/integrations/misp_export.py` | py | utility | 39 | yes |
-
-### `contrib/legacy` (4 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `contrib/legacy/lazyhoneypot.py` | py | utility | 15 | yes |
-| `contrib/legacy/lazyopenssh77enum2.py` | py | utility | 5 | yes |
 
 ### `core` (4 files)
 
@@ -93,7 +93,7 @@ This community groups 173 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `scripts/lazy_opencode_config.py` | py | infrastructure | 6 | yes |
 
-*... and 153 more files in this community.*
+*... and 164 more files in this community.*
 
 
 ## Key Symbols
@@ -131,20 +131,21 @@ This community groups 173 file(s) rooted at `modules` with dominant language py 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 949
-- Cross-boundary resolved imports (EXTRACTED): 417
+- Internal resolved imports (EXTRACTED): 1003
+- Cross-boundary resolved imports (EXTRACTED): 465
 
 ## Connections
 
 - [EXTRACTED] depends_on community 7 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
 - [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
-- [EXTRACTED] depends_on community 8 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
+- [EXTRACTED] depends_on community 10 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_factory.py.
 - [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
+- [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/exploitgym_gym.py` -> `modules/redteam_gym.py` -> `core/config.py`
 - [cycle] `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_factory.py`
 - [cycle] `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_factory.py`
@@ -157,14 +158,13 @@ This community groups 173 file(s) rooted at `modules` with dominant language py 
 - [cycle] `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `core/payload_schema.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/autonomous_exploit_engine.py` -> `modules/db.py` -> `core/config.py`
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/reactive_engine.py` -> `core/config.py`
 
 ## Open Questions
 
-- Why do 4 file(s) lack file-level docs (e.g. `contrib/legacy/lazyssh.py`)? What purpose do they serve?
+- Why do 5 file(s) lack file-level docs (e.g. `contrib/legacy/lazyllmchat.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/exploitgym_gym.py` -> `modules/redteam_gym.py` be broken with an interface?
 - What would break if the most connected file in modules: autonomous_daemon changed?
-- Should modules: autonomous_daemon be split, given cohesion 0.56?
+- Should modules: autonomous_daemon be split, given cohesion 0.57?
 
 ## Sources
 
@@ -176,7 +176,9 @@ This community groups 173 file(s) rooted at `modules` with dominant language py 
 - `cli/commands/estorides.py`
 - `cli/recommendation.py`
 - `cli/recommendation_signals.py`
+- `contrib/legacy/lazyaddon_creator.py`
 - `contrib/legacy/lazyhoneypot.py`
+- `contrib/legacy/lazyllmchat.py`
 - `contrib/legacy/lazyopenssh77enum2.py`
 - `contrib/legacy/lazysearch_bot.py`
 - `contrib/legacy/lazyssh.py`
@@ -186,6 +188,4 @@ This community groups 173 file(s) rooted at `modules` with dominant language py 
 - `core/security.py`
 - `lazyc2/blueprints/api_v1.py`
 - `lazyc2/blueprints/phishing.py`
-- `lazyc2/extensions/short_urls.py`
-- `modules/ai_exploit_chain.py`
-- *... and 153 more*
+- *... and 164 more*

@@ -399,31 +399,31 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_run_capture` | function | `cli/commands/infra.py:52` | `def _run_capture(argv, timeout)` |
 | `_save_state` | method | `cli/commands/infra.py:123` | `def _save_state(self, state)` |
 | `do_infra` | method | `cli/commands/infra.py:136` | `def do_infra(self, line)` |
-| `LabCommandSet` | class | `cli/commands/lab.py:81` | `class LabCommandSet(LazyOwnCommandSet)` |
-| `_container_ip` | method | `cli/commands/lab.py:118` | `def _container_ip(self, container_name)` |
-| `_container_name` | method | `cli/commands/lab.py:114` | `def _container_name(self, scenario)` |
-| `_docker_available` | method | `cli/commands/lab.py:87` | `def _docker_available(self)` |
-| `_ensure_range_secret` | method | `cli/commands/lab.py:531` | `def _ensure_range_secret(self, profile_dir)` |
-| `_lab_ensure_web` | method | `cli/commands/lab.py:140` | `def _lab_ensure_web(self, scenario, container_name)` |
-| `_lab_list` | method | `cli/commands/lab.py:248` | `def _lab_list(self)` |
-| `_lab_migrate` | method | `cli/commands/lab.py:176` | `def _lab_migrate(self, scenario, container_name)` |
-| `_lab_start` | method | `cli/commands/lab.py:262` | `def _lab_start(self, scenario)` |
-| `_lab_status` | method | `cli/commands/lab.py:620` | `def _lab_status(self)` |
-| `_lab_stop` | method | `cli/commands/lab.py:306` | `def _lab_stop(self, scenario)` |
-| `_print_lab_target` | method | `cli/commands/lab.py:155` | `def _print_lab_target(self, scenario, container_name, ports)` |
-| `_range_compose` | method | `cli/commands/lab.py:365` | `def _range_compose(self, profile)` |
-| `_range_container_ip` | method | `cli/commands/lab.py:561` | `def _range_container_ip(self, container)` |
-| `_range_container_state` | method | `cli/commands/lab.py:423` | `def _range_container_state(self, container)` |
-| `_range_dispatch` | method | `cli/commands/lab.py:324` | `def _range_dispatch(self, args)` |
-| `_range_list` | method | `cli/commands/lab.py:356` | `def _range_list(self)` |
-| `_range_start` | method | `cli/commands/lab.py:384` | `def _range_start(self, profile)` |
-| `_range_status` | method | `cli/commands/lab.py:608` | `def _range_status(self)` |
-| `_range_stop` | method | `cli/commands/lab.py:590` | `def _range_stop(self, profile)` |
-| `_range_verify` | method | `cli/commands/lab.py:478` | `def _range_verify(self, profile)` |
-| `_range_wait_healthy` | method | `cli/commands/lab.py:446` | `def _range_wait_healthy(self, compose, timeout)` |
-| `_running_containers` | method | `cli/commands/lab.py:100` | `def _running_containers(self)` |
-| `_tcp_reachable` | method | `cli/commands/lab.py:514` | `def _tcp_reachable(host, port, timeout)` |
-| `do_lab` | method | `cli/commands/lab.py:196` | `def do_lab(self, line)` |
+| `LabCommandSet` | class | `cli/commands/lab.py:27` | `class LabCommandSet(LazyOwnCommandSet)` |
+| `_container_ip` | method | `cli/commands/lab.py:49` | `def _container_ip(self, container_name)` |
+| `_container_name` | method | `cli/commands/lab.py:45` | `def _container_name(self, scenario)` |
+| `_docker_available` | method | `cli/commands/lab.py:33` | `def _docker_available(self)` |
+| `_lab_container_state` | method | `cli/commands/lab.py:438` | `def _lab_container_state(self, container_name)` |
+| `_lab_ensure_web` | method | `cli/commands/lab.py:53` | `def _lab_ensure_web(self, scenario, container_name)` |
+| `_lab_list` | method | `cli/commands/lab.py:145` | `def _lab_list(self)` |
+| `_lab_migrate` | method | `cli/commands/lab.py:78` | `def _lab_migrate(self, scenario, container_name)` |
+| `_lab_start` | method | `cli/commands/lab.py:159` | `def _lab_start(self, scenario)` |
+| `_lab_status` | method | `cli/commands/lab.py:452` | `def _lab_status(self)` |
+| `_lab_stop` | method | `cli/commands/lab.py:205` | `def _lab_stop(self, scenario)` |
+| `_print_lab_target` | method | `cli/commands/lab.py:57` | `def _print_lab_target(self, scenario, container_name, ports)` |
+| `_range_container_ip` | method | `cli/commands/lab.py:403` | `def _range_container_ip(self, container)` |
+| `_range_container_state` | method | `cli/commands/lab.py:292` | `def _range_container_state(self, container)` |
+| `_range_dispatch` | method | `cli/commands/lab.py:214` | `def _range_dispatch(self, args)` |
+| `_range_list` | method | `cli/commands/lab.py:246` | `def _range_list(self)` |
+| `_range_start` | method | `cli/commands/lab.py:255` | `def _range_start(self, profile)` |
+| `_range_status` | method | `cli/commands/lab.py:427` | `def _range_status(self)` |
+| `_range_stop` | method | `cli/commands/lab.py:414` | `def _range_stop(self, profile)` |
+| `_range_verify` | method | `cli/commands/lab.py:349` | `def _range_verify(self, profile)` |
+| `_range_wait_healthy` | method | `cli/commands/lab.py:317` | `def _range_wait_healthy(self, compose, timeout)` |
+| `_running_containers` | method | `cli/commands/lab.py:37` | `def _running_containers(self)` |
+| `_running_range_containers` | method | `cli/commands/lab.py:41` | `def _running_range_containers(self)` |
+| `_tcp_reachable` | method | `cli/commands/lab.py:386` | `def _tcp_reachable(host, port, timeout)` |
+| `do_lab` | method | `cli/commands/lab.py:93` | `def do_lab(self, line)` |
 | `LateralMovementCommandSet` | class | `cli/commands/lateral.py:24` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
 | `do_chisel` | method | `cli/commands/lateral.py:43` | `def do_chisel(self, line)` |
 | `do_ligolo` | method | `cli/commands/lateral.py:79` | `def do_ligolo(self, line)` |

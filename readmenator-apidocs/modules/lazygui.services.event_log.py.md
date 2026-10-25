@@ -2,7 +2,7 @@
 
 > Source: [lazygui/services/event_log.py:1](../../lazygui/services/event_log.py#L1) | language `py` | coverage 100.0% | [API index](../index.md)
 
-In-memory ring buffer for [`EventRecord`](lazygui.services.models.py.md#eventrecord).
+In-memory ring buffer for `EventRecord`.
 
 Centralising log retention here lets every backend feed events in and every
 panel observe them without coupling the two sides directly. The buffer

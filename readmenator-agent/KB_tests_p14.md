@@ -1,6 +1,58 @@
 # Subsystem: tests (page 14 of 20)
 Previous: [KB_tests_p13.md](KB_tests_p13.md)
 
+## tests/test_metrics.py
+- Doc: Tests for ``modules/metrics.py``.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_build_recorder` (function, line 35) `def _build_recorder(tmp_path)`
+  - `test_legacy_registry_inc_and_render` (function, line 42) `def test_legacy_registry_inc_and_render()`
+  - `test_recorder_appends_record_line` (function, line 57) `def test_recorder_appends_record_line(tmp_path)`
+  - `test_recorder_clamps_negative_duration` (function, line 83) `def test_recorder_clamps_negative_duration(tmp_path)`
+  - `test_summarize_aggregates_by_command` (function, line 92) `def test_summarize_aggregates_by_command(tmp_path)`
+  - `test_summarize_window_filters_old_records` (function, line 124) `def test_summarize_window_filters_old_records(tmp_path)`
+  - `test_tail_returns_newest_first` (function, line 163) `def test_tail_returns_newest_first(tmp_path)`
+  - `test_concurrent_writes_do_not_corrupt` (function, line 173) `def test_concurrent_writes_do_not_corrupt(tmp_path)`
+  - `test_get_recorder_is_singleton` (function, line 202) `def test_get_recorder_is_singleton(tmp_path)`
+  - `test_aggregator_handles_empty_iterable` (function, line 211) `def test_aggregator_handles_empty_iterable()`
+  - `test_aggregator_skips_malformed_records` (function, line 220) `def test_aggregator_skips_malformed_records()`
+  - `test_p95_uses_nearest_rank` (function, line 227) `def test_p95_uses_nearest_rank()`
+  - `test_metric_record_to_dict_roundtrip` (function, line 234) `def test_metric_record_to_dict_roundtrip()`
+  - `worker` (function, line 180) `def worker(tag)`
+- Depends on: `modules/metrics.py`
+
+## tests/test_metrics_aware_selector.py
+- Doc: Tests for ``MetricsAwareSelector`` in ``skills/autonomous_daemon.py``.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_StubSelector` (class, line 37) `class _StubSelector(ICommandSelector)`
+  - `_StubMetrics` (class, line 54) `class _StubMetrics`
+  - `_decision` (function, line 71) `def _decision(command)`
+  - `test_passthrough_when_wrapped_returns_none` (function, line 75) `def test_passthrough_when_wrapped_returns_none()`
+  - `test_passthrough_when_insufficient_attempts` (function, line 87) `def test_passthrough_when_insufficient_attempts()`
+  - `test_filters_when_success_rate_below_threshold` (function, line 105) `def test_filters_when_success_rate_below_threshold()`
+  - `test_accepts_when_success_rate_at_threshold` (function, line 122) `def test_accepts_when_success_rate_at_threshold()`
+  - `test_only_filters_named_command_not_whole_decision_object` (function, line 141) `def test_only_filters_named_command_not_whole_decision_object()`
+  - `test_summary_is_cached_within_ttl` (function, line 158) `def test_summary_is_cached_within_ttl()`
+  - `test_summary_forwards_window_seconds` (function, line 188) `def test_summary_forwards_window_seconds()`
+  - `test_zero_window_is_treated_as_unbounded` (function, line 201) `def test_zero_window_is_treated_as_unbounded()`
+  - `test_decorator_degrades_when_metrics_source_unavailable` (function, line 214) `def test_decorator_degrades_when_metrics_source_unavailable()`
+  - `test_wrap_chain_leaves_fallback_unwrapped` (function, line 230) `def test_wrap_chain_leaves_fallback_unwrapped()`
+  - `test_wrap_chain_master_switch_off` (function, line 241) `def test_wrap_chain_master_switch_off()`
+  - `test_wrap_chain_is_idempotent` (function, line 253) `def test_wrap_chain_is_idempotent()`
+  - `test_filtering_emits_skip_event` (function, line 265) `def test_filtering_emits_skip_event(tmp_path, monkeypatch)`
+  - `test_chain_falls_through_to_fallback_when_all_filtered` (function, line 298) `def test_chain_falls_through_to_fallback_when_all_filtered()`
+  - `__init__` (method, line 40) `def __init__(self, decision)`
+  - `select` (method, line 44) `def select(self, target, phase, context)`
+  - `__init__` (method, line 57) `def __init__(self, by_command)`
+  - `summarize` (method, line 62) `def summarize(self, window_seconds)`
+  - `fake_clock` (function, line 169) `def fake_clock()`
+  - `_BrokenSource` (class, line 217) `class _BrokenSource`
+  - `summarize` (method, line 218) `def summarize(self, window_seconds)`
+- Depends on: `skills/autonomous_daemon.py`
+
 ## tests/test_migrate_lazyown_generator.py
 - Doc: Regression guard for the ``cli/commands`` migration generator.
 - Layer: testing
@@ -438,23 +490,6 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
   - `test_installs_from_pinned_lock` (method, line 363) `def test_installs_from_pinned_lock(self, text)`
   - `test_no_absolute_modules_ext_path` (method, line 366) `def test_no_absolute_modules_ext_path(self, text)`
   - `test_parses` (method, line 374) `def test_parses(self, filename)`
-
-## tests/test_palette_overlay.py
-- Doc: Tests for cli/palette_overlay.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_fake_index` (function, line 24) `def _fake_index()`
-  - `test_rows_returns_all_commands_when_query_empty` (function, line 36) `def test_rows_returns_all_commands_when_query_empty()`
-  - `test_rows_filter_by_substring` (function, line 44) `def test_rows_filter_by_substring()`
-  - `test_rows_rank_recents_above_substrings` (function, line 52) `def test_rows_rank_recents_above_substrings()`
-  - `test_rows_respect_max_rows` (function, line 65) `def test_rows_respect_max_rows()`
-  - `test_build_state_returns_none_when_index_missing` (function, line 73) `def test_build_state_returns_none_when_index_missing(monkeypatch)`
-  - `test_launch_overlay_uses_runner_for_tests` (function, line 79) `def test_launch_overlay_uses_runner_for_tests()`
-  - `test_truncate_summary_uses_truncation_suffix` (function, line 90) `def test_truncate_summary_uses_truncation_suffix()`
-  - `test_set_query_strips_whitespace` (function, line 106) `def test_set_query_strips_whitespace()`
-  - `runner` (function, line 83) `def runner(context)`
-- Depends on: `cli/palette_overlay.py`
 
 
 Next: [KB_tests_p15.md](KB_tests_p15.md)

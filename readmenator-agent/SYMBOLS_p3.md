@@ -388,14 +388,14 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
 | `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
 | `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:33` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
-| `_format_elapsed` | method | `cli/commands/redteam_gym.py:268` | `def _format_elapsed(seconds)` |
-| `_gym_hint` | method | `cli/commands/redteam_gym.py:395` | `def _gym_hint(self, args)` |
-| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:361` | `def _gym_leaderboard(self, args)` |
+| `_format_elapsed` | method | `cli/commands/redteam_gym.py:279` | `def _format_elapsed(seconds)` |
+| `_gym_hint` | method | `cli/commands/redteam_gym.py:406` | `def _gym_hint(self, args)` |
+| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:372` | `def _gym_leaderboard(self, args)` |
 | `_gym_list` | method | `cli/commands/redteam_gym.py:137` | `def _gym_list(self)` |
 | `_gym_start` | method | `cli/commands/redteam_gym.py:171` | `def _gym_start(self, args)` |
-| `_gym_status` | method | `cli/commands/redteam_gym.py:273` | `def _gym_status(self, args)` |
-| `_gym_stop` | method | `cli/commands/redteam_gym.py:341` | `def _gym_stop(self, args)` |
-| `_gym_submit` | method | `cli/commands/redteam_gym.py:220` | `def _gym_submit(self, args)` |
+| `_gym_status` | method | `cli/commands/redteam_gym.py:284` | `def _gym_status(self, args)` |
+| `_gym_stop` | method | `cli/commands/redteam_gym.py:352` | `def _gym_stop(self, args)` |
+| `_gym_submit` | method | `cli/commands/redteam_gym.py:231` | `def _gym_submit(self, args)` |
 | `do_gym` | method | `cli/commands/redteam_gym.py:40` | `def do_gym(self, line)` |
 | `do_gym_ms2` | method | `cli/commands/redteam_gym.py:92` | `def do_gym_ms2(self, line)` |
 | `ResourceCommandSet` | class | `cli/commands/resource_scripting.py:25` | `class ResourceCommandSet(LazyOwnCommandSet)` |

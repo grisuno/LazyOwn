@@ -240,7 +240,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/infra.py` -> `cli/confirm.py`
 - `cli/commands/infra.py` -> `utils.py`
 - `cli/commands/lab.py` -> `cli/commands/_base.py`
-- `cli/commands/lab.py` -> `modules/metasploitable_migrations.py`
+- `cli/commands/lab.py` -> `modules/__init__.py`
 - `cli/commands/lab.py` -> `utils.py`
 - `cli/commands/lateral.py` -> `cli/commands/_base.py`
 - `cli/commands/lateral.py` -> `modules/categories.py`

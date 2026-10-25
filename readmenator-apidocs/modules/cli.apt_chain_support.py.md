@@ -206,7 +206,7 @@ Render one chain result as operator lines (JSON mode prints dict).
 
 ### `build_cli_approver`
 
-`function` | [cli/apt_chain_support.py:321](../../cli/apt_chain_support.py#L321)
+`function` | [cli/apt_chain_support.py:330](../../cli/apt_chain_support.py#L330)
 
 ```python
 def build_cli_approver(printer, input_fn=None)
@@ -232,7 +232,7 @@ the decision; interactive mode asks the operator failure-closed.
 
 ### `build_reactive_replanner`
 
-`function` | [cli/apt_chain_support.py:343](../../cli/apt_chain_support.py#L343)
+`function` | [cli/apt_chain_support.py:352](../../cli/apt_chain_support.py#L352)
 
 ```python
 def build_reactive_replanner()
@@ -250,7 +250,7 @@ Return a replanner driven by `[`modules.reactive_engine`](modules.reactive_engin
 
 ### `build_llm_recovery_chain`
 
-`function` | [cli/apt_chain_support.py:399](../../cli/apt_chain_support.py#L399)
+`function` | [cli/apt_chain_support.py:408](../../cli/apt_chain_support.py#L408)
 
 ```python
 def build_llm_recovery_chain(result: ChainRunResult, target: str = '', task_id: str = '') -> Chain | None

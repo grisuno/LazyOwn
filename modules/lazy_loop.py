@@ -6806,6 +6806,15 @@ class LlmPool:
         payload.setdefault("calls", []).append({"ts": _now(), "member": member, "ok": ok, "text": text[:500]})
         _save_json(self._usage, payload)
 
+    def _breaker_active(self) -> bool:
+        """Return whether the orchestrator llm_pool stage is enabled."""
+        try:
+            from modules.orchestrator_config import stage_enabled
+
+            return bool(stage_enabled("llm_pool"))
+        except Exception:
+            return True
+
     def _rotated_chain(self, chain: list[dict]) -> list[dict]:
         """Round-robin equal-priority members with a persisted cursor.
 
@@ -6946,7 +6955,7 @@ class LlmPool:
             name = str(member.get("name", "?"))
             attempted = name
             model_spec = str(member.get("model", ""))
-            if self._health is not None:
+            if self._health is not None and self._breaker_active():
                 try:
                     if not self._health.healthy(name):
                         if live_log is not None:
@@ -7005,7 +7014,7 @@ class LlmPool:
                         time.sleep(LLM_CONNECT_BACKOFF_SEC)
                         continue
                     self._record(name, False, last_error)
-                    if self._health is not None:
+                    if self._health is not None and self._breaker_active():
                         try:
                             self._health.report_failure(name, last_error)
                         except Exception:
@@ -9125,6 +9134,27 @@ class LazyLoopEngine:
             try:
                 if _stage_enabled("report") and ExplorationGraph(task_id).list("finding"):
                     self.export_findings_report(task_id)
+            except Exception:
+                pass
+            try:
+                if _stage_enabled("defense_validate"):
+                    from modules.defense_stages import run_defense_validate
+
+                    run_defense_validate(task_id)
+            except Exception:
+                pass
+            try:
+                if _stage_enabled("closedloop_tune"):
+                    from modules.defense_stages import run_closedloop_tune
+
+                    run_closedloop_tune(task_id)
+            except Exception:
+                pass
+            try:
+                if _stage_enabled("hunt_verify"):
+                    from modules.defense_stages import run_hunt_verify
+
+                    run_hunt_verify(task_id)
             except Exception:
                 pass
             try:

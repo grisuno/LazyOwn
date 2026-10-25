@@ -1,6 +1,22 @@
 # Subsystem: tests (page 16 of 20)
 Previous: [KB_tests_p15.md](KB_tests_p15.md)
 
+## tests/test_prompt_refresh.py
+- Doc: Contract tests for live prompt refresh after a payload change.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_command_set_with_fake_shell` (function, line 22) `def _command_set_with_fake_shell()`
+  - `test_prompt_write_forwards_to_shell` (function, line 29) `def test_prompt_write_forwards_to_shell()`
+  - `test_prompt_read_after_forward` (function, line 37) `def test_prompt_read_after_forward()`
+  - `test_unrelated_write_stays_local` (function, line 44) `def test_unrelated_write_stays_local()`
+  - `test_do_assign_calls_refresh_prompt` (function, line 52) `def test_do_assign_calls_refresh_prompt()`
+  - `test_shell_defines_refresh_prompt` (function, line 59) `def test_shell_defines_refresh_prompt()`
+  - `test_render_prompt_includes_rhost` (function, line 65) `def test_render_prompt_includes_rhost()`
+  - `test_no_bracket_replace_hack` (function, line 71) `def test_no_bracket_replace_hack()`
+  - `test_rhost_commands_use_refresh_prompt` (function, line 78) `def test_rhost_commands_use_refresh_prompt()`
+- Depends on: `cli/banner_config.py`, `cli/commands/_base.py`
+
 ## tests/test_pwntomate_tools.py
 - Doc: Regression guard for pwntomate tool templates (tools/*.tool).
 - Layer: testing

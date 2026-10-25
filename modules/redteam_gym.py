@@ -491,15 +491,21 @@ def _resolve_active_run(selector: str = "", operator: str = "") -> tuple[dict[st
     return run, ""
 
 
-def start_challenge(challenge_id: str, target: str = "") -> dict[str, Any]:
+def start_challenge(challenge_id: str, target: str = "", spin_lab: bool = True) -> dict[str, Any]:
     """Begin a gym challenge and persist the run in the world model.
+
+    When ``spin_lab`` is set the challenge's scenario container is also
+    started through :mod:`modules.lab_runtime` (best effort: Docker
+    missing or an unknown scenario never fails the run registration;
+    the result then keeps the manual ``lab start`` hint).
 
     Args:
         challenge_id: ID from the YAML catalogue.
         target: Optional engagement target stored with the run.
+        spin_lab: Also spin up the scenario target container.
 
     Returns:
-        Dict with the run id, challenge info and next steps.
+        Dict with the run id, challenge info, lab info and next steps.
     """
     definitions = reload_challenge_definitions()
     chal = definitions.get(str(challenge_id or "").strip())
@@ -515,6 +521,11 @@ def start_challenge(challenge_id: str, target: str = "") -> dict[str, Any]:
         return started
     run = dict(started.get("run", {}))
     active = get_active_runs()
+    lab: dict[str, Any] = {}
+    lab_started = False
+    if spin_lab:
+        lab = _spin_scenario(chal.get("scenario", ""))
+        lab_started = bool(lab.get("success"))
     result = {
         "success": True,
         "run_id": str(run.get("run_id", "")),
@@ -554,7 +565,46 @@ def start_challenge(challenge_id: str, target: str = "") -> dict[str, Any]:
             + ([f"apt_chain {chal['chain']} <target>"] if chal.get("chain") else [])
         ),
     }
+    if lab:
+        result["lab"] = lab
+        container_ip = str(lab.get("ip", "") or "")
+        if lab_started and container_ip:
+            result["message"] = (
+                f"Challenge '{chal['name']}' started. Lab '{chal['scenario']}' is up on {container_ip}."
+            )
+            result["next_steps"] = (
+                [
+                    f"assign rhost {container_ip}",
+                    "lazynmap",
+                ]
+                + ([f"apt_chain {chal['chain']} {container_ip}"] if chal.get("chain") else [])
+                + ([f"assign rhost {target}", "lazynmap"] if target else [])
+            )
     return result
+
+
+def _spin_scenario(scenario: str) -> dict[str, Any]:
+    """Spin up one lab scenario container, best effort.
+
+    Args:
+        scenario: Scenario key from ``LAB_SCENARIOS`` (empty and range
+            scenarios like ``ad-mini`` are skipped).
+
+    Returns:
+        The :mod:`modules.lab_runtime` start mapping, or ``{}`` when the
+        scenario is not a spin-up-able lab.
+    """
+    scenario = str(scenario or "").strip()
+    if not scenario or scenario == "ad-mini":
+        return {}
+    try:
+        from modules import lab_runtime
+
+        if scenario not in lab_runtime.LAB_SCENARIOS or not lab_runtime.docker_available():
+            return {}
+        return lab_runtime.start(scenario)
+    except Exception:
+        return {}
 
 
 def submit_challenge(
@@ -666,8 +716,62 @@ def submit_challenge(
 
 
 def stop_challenges(selector: str = "") -> dict[str, Any]:
-    """Stop one gym by id/name/run id, or every gym when selector is empty."""
-    return stop_runs(selector)
+    """Stop one gym by id/name/run id, or every gym when selector is empty.
+
+    After the runs are removed from the world model, each scenario
+    container without any remaining active run is stopped through
+    :mod:`modules.lab_runtime` so gym machines never outlive their runs.
+
+    Args:
+        selector: Optional run id, challenge id or gym name. Empty stops
+            every active run.
+
+    Returns:
+        The stop result with the stopped run rows and a ``labs`` key.
+    """
+    result = stop_runs(selector)
+    labs = _teardown_stopped_scenarios(result.get("stopped", []) or [])
+    if labs:
+        result["labs"] = labs
+    return result
+
+
+def _teardown_stopped_scenarios(stopped: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    """Stop scenario containers whose gym runs are all gone.
+
+    Args:
+        stopped: The stopped run rows (challenge_id included).
+
+    Returns:
+        Mapping of scenario to the lab_runtime stop result.
+    """
+    scenarios: list[str] = []
+    for run in stopped:
+        definition = reload_challenge_definitions().get(str(run.get("challenge_id", ""))) or {}
+        scenario = str(definition.get("scenario", "") or "").strip()
+        if scenario and scenario not in scenarios and scenario != "ad-mini":
+            scenarios.append(scenario)
+    if not scenarios:
+        return {}
+    labs: dict[str, dict[str, Any]] = {}
+    try:
+        from modules import lab_runtime
+
+        remaining = {
+            str(row.get("challenge_id", ""))
+            for row in get_active_runs()
+        }
+        remaining_scenarios = {
+            str((reload_challenge_definitions().get(cid) or {}).get("scenario", "") or "").strip()
+            for cid in remaining
+        }
+        for scenario in scenarios:
+            if scenario in remaining_scenarios:
+                continue
+            labs[scenario] = lab_runtime.stop(scenario)
+    except Exception:
+        return labs
+    return labs
 
 
 def _same_engagement(ip: str, target: str) -> bool:

@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `target` | function | `modules/agent_runner.py:522` | `def target()` |
 | `to_api_format` | method | `modules/agent_runner.py:77` | `def to_api_format(self)` |
 | `wrapper` | function | `modules/agent_runner.py:244` | `def wrapper(command)` |
 | `AIExploitChainer` | class | `modules/ai_exploit_chain.py:247` | `class AIExploitChainer` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `_pid` | method | `modules/c2_agent.py:642` | `def _pid(self)` |
 | `_restore_key_from_snapshot` | function | `modules/c2_agent.py:457` | `def _restore_key_from_snapshot()` |
 | `_snapshot_key` | function | `modules/c2_agent.py:480` | `def _snapshot_key(aes_hex)` |
-| `_sync_credentials_file` | function | `modules/c2_agent.py:53` | `def _sync_credentials_file(user, password)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

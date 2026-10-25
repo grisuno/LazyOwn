@@ -1,6 +1,19 @@
 # API (page 11 of 24)
 Previous: [API_p10.md](API_p10.md)
 
+## modules/credential_reuse.py
+Depends on: `core/logging.py`
+Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `modules/conditional_hooks.py`
+- `ReuseCandidate.to_dict` (method) `modules/credential_reuse.py:43` `def to_dict(self)`
+- `CredentialReuseEngine.__init__` (method) `modules/credential_reuse.py:80` `def __init__(self)`
+- `CredentialReuseEngine.mark_failed` (method) `modules/credential_reuse.py:107` `def mark_failed(self, username, password, host)` -- Record that a credential did NOT work against a host.
+- `CredentialReuseEngine.mark_confirmed` (method) `modules/credential_reuse.py:112` `def mark_confirmed(self, username, password, host)` -- Record that a credential worked against a host.
+- `CredentialReuseEngine.rank` (method) `modules/credential_reuse.py:226` `def rank(self, hosts, creds, host_services, limit)` -- Score all (cred, host) pairs and return top candidates.
+- `CredentialReuseEngine.suggest_from_state_manager` (method) `modules/credential_reuse.py:278` `def suggest_from_state_manager(self, state_manager, limit)` -- Convenience: rank creds using hosts and creds from StateManager.
+- `CredentialReuseEngine.suggest_from_world_model` (method) `modules/credential_reuse.py:308` `def suggest_from_world_model(self, world_model, limit)` -- Convenience: rank creds using hosts and creds from WorldModel.
+- `CredentialReuseEngine.get_summary` (method) `modules/credential_reuse.py:338` `def get_summary(self, candidates)` -- Format candidates as a human-readable summary string.
+- `get_credential_reuse_engine` (function) `modules/credential_reuse.py:358` `def get_credential_reuse_engine()` -- Return the singleton :class:`CredentialReuseEngine`.
+
 ## modules/cross_cloud.py
 Imported by: `cli/commands/cloud_attacks.py`
 - `CrossCloudAttackEngine.__init__` (method) `modules/cross_cloud.py:64` `def __init__(self, config)`
@@ -104,6 +117,24 @@ Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/c
 - `LazyOwnDB.status` (method) `modules/db.py:775` `def status(self, workspace_id)` -- Return counts for every entity type in a workspace.
 - `LazyOwnDB.close` (method) `modules/db.py:804` `def close(self)` -- Close the database connection for the current thread.
 - `get_db` (function) `modules/db.py:821` `def get_db(db_path)` -- Get or create a :class:`LazyOwnDB` instance.
+
+## modules/defense_eval.py
+Imported by: `modules/closedloop.py`, `modules/defense_stages.py`, `tests/test_defense_eval.py`, `tests/test_defense_stages.py`
+- `Evaluation.to_dict` (method) `modules/defense_eval.py:62` `def to_dict(self)` -- Return a JSON-serializable view.
+- `DatasetSummary.to_dict` (method) `modules/defense_eval.py:82` `def to_dict(self)` -- Return a JSON-serializable view.
+- `RuleResult.to_dict` (method) `modules/defense_eval.py:103` `def to_dict(self)` -- Return a JSON-serializable view.
+- `parse_rule` (function) `modules/defense_eval.py:115` `def parse_rule(rule_text)` -- Parse the rule JSON document into a condition list.
+- `evaluate_event` (function) `modules/defense_eval.py:234` `def evaluate_event(conditions, fields)` -- Apply every condition to one event.
+- `evaluate_rule` (function) `modules/defense_eval.py:322` `def evaluate_rule(rule_text, target_logs, control_logs)` -- Replay one rule against target and control datasets.
+- `metrics` (function) `modules/defense_eval.py:380` `def metrics(result)` -- Return tp/fn/fp/tn metrics for one replay result.
+
+## modules/defense_stages.py
+Depends on: `core/logging.py`, `modules/closedloop.py`, `modules/defense_eval.py`, `modules/hunt_verify.py`, `modules/orchestrator_config.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_defense_stages.py`
+- `_Stub.emit` (method) `modules/defense_stages.py:36` `def emit(self)` -- Swallow emissions when no activity log exists.
+- `run_defense_validate` (function) `modules/defense_stages.py:82` `def run_defense_validate(task_id)` -- Replay the configured detection rule over attack and control logs.
+- `run_closedloop_tune` (function) `modules/defense_stages.py:117` `def run_closedloop_tune(task_id)` -- Compare baseline vs candidate detection rules with suggestions.
+- `run_hunt_verify` (function) `modules/defense_stages.py:151` `def run_hunt_verify(task_id)` -- Verify hunting observations against retained evidence per stage.
 
 ## modules/delegation_attacks.py
 Imported by: `cli/commands/active_directory.py`
@@ -463,37 +494,6 @@ Imported by: `cli/commands/exploit_migrated.py`
 - `ExploitChain.get_post_exploit_commands` (method) `modules/exploit_chain.py:519` `def get_post_exploit_commands(self, platform)` -- Return recommended post-exploitation commands for the platform.
 - `ExploitChain.generate_report` (method) `modules/exploit_chain.py:531` `def generate_report(self)` -- Generate a structured exploitation chain report.
 - `ExploitChain.save_report` (method) `modules/exploit_chain.py:566` `def save_report(self, path)` -- Save the exploitation chain report to a file.
-
-## modules/exploit_recommender.py
-Depends on: `lazygui/version.py`, `modules/world_model.py`
-Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
-- `parse_version` (function) `modules/exploit_recommender.py:25` `def parse_version(v)`
-- `ExploitRecommender.__init__` (method) `modules/exploit_recommender.py:120` `def __init__(self, world_model)`
-- `ExploitRecommender.set_world_model` (method) `modules/exploit_recommender.py:129` `def set_world_model(self, world_model)`
-- `ExploitRecommender.set_nvd_api_key` (method) `modules/exploit_recommender.py:132` `def set_nvd_api_key(self, key)`
-- `ExploitRecommender.match_services` (method) `modules/exploit_recommender.py:244` `def match_services(self, hosts)` -- Match discovered services against known CVEs with confidence scoring.
-- `ExploitRecommender.recommend` (method) `modules/exploit_recommender.py:337` `def recommend(self, hosts, top_n)` -- Return top-N recommended exploits as structured dicts for MCP/CLI.
-- `ExploitRecommender.persist_recommendations` (method) `modules/exploit_recommender.py:370` `def persist_recommendations(self, matches)` -- Save recommendations to sessions/ for audit and replay.
-- `ExploitRecommender.format_for_llm` (method) `modules/exploit_recommender.py:390` `def format_for_llm(self, matches, max_items)` -- Format recommendations as compact text for LLM context injection.
-
-## modules/exploitgym_gym.py
-Depends on: `modules/redteam_gym.py`
-Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
-- `check_readiness` (function) `modules/exploitgym_gym.py:112` `def check_readiness(params)` -- Report whether the ExploitGym harness can run.
-- `list_tasks` (function) `modules/exploitgym_gym.py:178` `def list_tasks(params, domain, limit)` -- List available ExploitGym tasks, optionally filtered by domain.
-- `setup_harness` (function) `modules/exploitgym_gym.py:249` `def setup_harness(params, steps)` -- Automate ExploitGym installation (clone, deps, data, firewall, images).
-- `pull_task` (function) `modules/exploitgym_gym.py:344` `def pull_task(task_id, params, timeout)` -- Pull the Docker image required by a task.
-- `run_task` (function) `modules/exploitgym_gym.py:423` `def run_task(task_id, params, model, mitigations, timeout)` -- Run the agent against an ExploitGym task and capture the outcome.
-- `verify_flag` (function) `modules/exploitgym_gym.py:548` `def verify_flag(task_id, params)` -- Verify whether a task flag was captured from a previous run.
-- `score_task` (function) `modules/exploitgym_gym.py:565` `def score_task(task_id, success, techniques, params)` -- Award Red Team Gym ELO and leaderboard points for a task outcome.
-
-## modules/factsio.py
-Depends on: `core/logging.py`
-Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`
-- `load_policy_facts` (function) `modules/factsio.py:39` `def load_policy_facts(path)` -- Load ``policy_facts.json`` into canonical host-keyed form.
-- `canonical_policy_facts` (function) `modules/factsio.py:61` `def canonical_policy_facts(data)` -- Project any legacy or canonical facts document to host-keyed form.
-- `iter_host_records` (function) `modules/factsio.py:81` `def iter_host_records(host_keyed)` -- Yield ``(ip, record)`` pairs from canonical host-keyed facts.
-- `iter_flat_facts` (function) `modules/factsio.py:93` `def iter_flat_facts(host_keyed)` -- Yield one flat record per fact kind found in the host map.
 
 
 Next: [API_p12.md](API_p12.md)

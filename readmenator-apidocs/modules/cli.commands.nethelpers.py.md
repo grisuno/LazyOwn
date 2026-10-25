@@ -226,9 +226,9 @@ Usage:
 
 
 Manual execution:
-1. If `line` is 'clean':
+1. If [`line`](modules.defense_eval.py.md#evaluation-line) is 'clean':
 - The command prompt is reset to its default format.
-2. If `line` is any other value:
+2. If [`line`](modules.defense_eval.py.md#evaluation-line) is any other value:
 - The command prompt is updated to show the `self.params['rhost']` and the current working directory.
 - The `self.params['rhost']` is copied to the clipboard using `xclip`.
 
@@ -270,17 +270,17 @@ def do_rrhost(self, line)
 Updates the command prompt to include the remote host (self.params['rhost']) and current working directory.
 
 This function performs two tasks:
-1. It updates the command prompt to include the `self.params['rhost']` and the current working directory if `line` is not 'clean'.
-2. It resets the command prompt to its default format if `line` is 'clean'.
+1. It updates the command prompt to include the `self.params['rhost']` and the current working directory if [`line`](modules.defense_eval.py.md#evaluation-line) is not 'clean'.
+2. It resets the command prompt to its default format if [`line`](modules.defense_eval.py.md#evaluation-line) is 'clean'.
 
 Usage:
     self.params['rhost'] [clean]
 
 
 Manual execution:
-1. If `line` is 'clean':
+1. If [`line`](modules.defense_eval.py.md#evaluation-line) is 'clean':
 - The command prompt is reset to its default format.
-2. If `line` is any other value:
+2. If [`line`](modules.defense_eval.py.md#evaluation-line) is any other value:
 - The command prompt is updated to show the `self.params['rhost']` and the current working directory.
 
 Example:

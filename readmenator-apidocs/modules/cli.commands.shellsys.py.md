@@ -471,7 +471,7 @@ Executes the `lazypyautogui.py` script with optional arguments.
 
 This open new terminal tab and then run and instance of LazyOwn strokes the keyboard with pyautogui
 
-If a `line` argument is provided, it appends the argument to the command.
+If a [`line`](modules.defense_eval.py.md#evaluation-line) argument is provided, it appends the argument to the command.
 Otherwise, it runs the script without additional parameters. The constructed
 command is displayed and executed in the system shell.
 

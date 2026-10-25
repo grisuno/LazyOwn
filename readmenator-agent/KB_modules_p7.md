@@ -1,6 +1,151 @@
 # Subsystem: modules (page 7 of 16)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
 
+## modules/intercept.py
+- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
+  - `InterceptConfig` (class, line 33) `class InterceptConfig`
+  - `InterceptRule` (class, line 50) `class InterceptRule`
+  - `PendingApproval` (class, line 77) `class PendingApproval`
+  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
+  - `builtin_rules` (function, line 101) `def builtin_rules()`
+  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
+  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
+  - `Interceptor` (class, line 154) `class Interceptor`
+  - `Guard` (class, line 255) `class Guard`
+  - `__post_init__` (method, line 61) `def __post_init__(self)`
+  - `matches` (method, line 68) `def matches(self, tool, command)`
+  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
+  - `rules` (method, line 172) `def rules(self)`
+  - `add_rule` (method, line 177) `def add_rule(self, rule)`
+  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
+  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
+  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
+  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
+  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
+  - `__init__` (method, line 258) `def __init__(self, interceptor)`
+  - `interceptor` (method, line 266) `def interceptor(self)`
+  - `check` (method, line 270) `def check(self, tool, command)`
+  - `observe` (method, line 282) `def observe(self, output, source)`
+  - `record_failure` (method, line 291) `def record_failure(self, source)`
+  - `audit_log` (method, line 296) `def audit_log(self, limit)`
+  - `attribution` (method, line 301) `def attribution(self)`
+- Depends on: `cli/commands/enum.py`
+- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+
+## modules/internal_discover.sh
+- Layer: utility
+- Language: sh
+
+## modules/iptables_portforward.sh
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `display_usage` (function, line 29)
+
+## modules/jsonl_tail.py
+- Doc: Incremental JSONL reader shared by the monitor TUI and the loop runner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `JsonlTail` (class, line 14) `class JsonlTail`
+  - `__init__` (method, line 17) `def __init__(self, path)`
+  - `read_new` (method, line 22) `def read_new(self, limit)`
+- Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
+
+## modules/jwtexploit.py
+- Layer: utility
+- Language: py
+
+## modules/k8s_attacks.py
+- Doc: Kubernetes attack module — RBAC enumeration, pod escape, etcd access, Helm abuse.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `K8sConfig` (class, line 57) `class K8sConfig`
+  - `K8SAttackEngine` (class, line 77) `class K8SAttackEngine`
+  - `__init__` (method, line 87) `def __init__(self, config)`
+  - `enumerate_rbac` (method, line 90) `def enumerate_rbac(self)`
+  - `privileged_pod_escape` (method, line 118) `def privileged_pod_escape(self)`
+  - `service_account_token_theft` (method, line 173) `def service_account_token_theft(self)`
+  - `kubelet_anonymous_auth_abuse` (method, line 198) `def kubelet_anonymous_auth_abuse(self)`
+  - `etcd_access_exploitation` (method, line 222) `def etcd_access_exploitation(self)`
+  - `helm_tiller_abuse` (method, line 250) `def helm_tiller_abuse(self)`
+  - `persistence_techniques` (method, line 278) `def persistence_techniques(self)`
+  - `summary` (method, line 318) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
+
+## modules/kerberoasting.py
+- Doc: Advanced Kerberoasting — targeted SPN enumeration, AES-only attacks, hashcat integration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `KerberoastTarget` (class, line 38) `class KerberoastTarget`
+  - `KerberoastHash` (class, line 59) `class KerberoastHash`
+  - `KerberoastingEngine` (class, line 79) `class KerberoastingEngine`
+  - `__init__` (method, line 95) `def __init__(self, domain, dc_ip, username, password, hash)`
+  - `enumerate_spns` (method, line 112) `def enumerate_spns(self, ldap_output, bloodhound_data)`
+  - `_prioritize_targets` (method, line 169) `def _prioritize_targets(self)`
+  - `request_tgs_aes_only` (method, line 187) `def request_tgs_aes_only(self, user_spn)`
+  - `request_tgs_rc4` (method, line 208) `def request_tgs_rc4(self, user_spn)`
+  - `request_tgs` (method, line 219) `def request_tgs(self, user_spn, etype)`
+  - `_build_hash_string` (method, line 248) `def _build_hash_string(self, spn, etype)`
+  - `_hashcat_command` (method, line 268) `def _hashcat_command(hash_str, mode)`
+  - `targeted_kerberoast` (method, line 271) `def targeted_kerberoast(self, high_value_only)`
+  - `asreproast_check` (method, line 306) `def asreproast_check(self, usernames)`
+  - `extract_hashes_from_pcap` (method, line 321) `def extract_hashes_from_pcap(self, pcap_path)`
+  - `detect_kerberoasting_activity` (method, line 336) `def detect_kerberoasting_activity(self, event_log)`
+  - `build_hashcat_batch` (method, line 379) `def build_hashcat_batch(self, output_path)`
+  - `summary` (method, line 401) `def summary(self)`
+  - `priority` (function, line 172) `def priority(target)`
+- Depends on: `modules/kerberos_core.py`
+- Imported by: `cli/commands/active_directory.py`
+
+## modules/kerberos_core.py
+- Doc: Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `KerberosPrincipal` (class, line 139) `class KerberosPrincipal`
+  - `EncryptedData` (class, line 157) `class EncryptedData`
+  - `KerberosTicket` (class, line 172) `class KerberosTicket`
+  - `PACSignature` (class, line 213) `class PACSignature`
+  - `PACInfo` (class, line 228) `class PACInfo`
+  - `TGSRequest` (class, line 249) `class TGSRequest`
+  - `KerberosCrypto` (class, line 271) `class KerberosCrypto`
+  - `KerberosCore` (class, line 407) `class KerberosCore`
+  - `KerberosErrorParser` (class, line 683) `class KerberosErrorParser`
+  - `TicketValidator` (class, line 702) `class TicketValidator`
+  - `to_string` (method, line 152) `def to_string(self)`
+  - `has_flag` (method, line 207) `def has_flag(self, flag_name)`
+  - `__init__` (method, line 277) `def __init__(self)`
+  - `derive_aes_key` (method, line 282) `def derive_aes_key(password, salt, etype)`
+  - `derive_rc4_key` (method, line 318) `def derive_rc4_key(password)`
+  - `aes_encrypt` (method, line 329) `def aes_encrypt(self, key, plaintext, usage)`
+  - `aes_decrypt` (method, line 361) `def aes_decrypt(self, key, ciphertext, usage)`
+  - `compute_checksum` (method, line 389) `def compute_checksum(key, data, etype)`
+  - `__init__` (method, line 421) `def __init__(self, domain, dc_host, dc_ip)`
+  - `get_supported_etypes` (method, line 427) `def get_supported_etypes(self)`
+  - `build_as_req` (method, line 435) `def build_as_req(self, username, domain, password, etype)`
+  - `build_tgs_req` (method, line 489) `def build_tgs_req(self, params)`
+  - `parse_as_rep` (method, line 534) `def parse_as_rep(self, as_rep_data, key, etype)`
+  - `parse_tgs_rep` (method, line 550) `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)`
+  - `decrypt_ticket` (method, line 563) `def decrypt_ticket(self, ticket_data, key, etype)`
+  - `parse_pac` (method, line 588) `def parse_pac(self, pac_data)`
+  - `_parse_pac_buffer` (method, line 622) `def _parse_pac_buffer(pac, buf_type, buf_data)`
+  - `_build_pa_enc_timestamp` (method, line 640) `def _build_pa_enc_timestamp(self, key, etype, timestamp)`
+  - `_parse_kdc_rep` (method, line 653) `def _parse_kdc_rep(self, data, key, etype, rep_type)`
+  - `_rc4_encrypt` (method, line 667) `def _rc4_encrypt(key, data, usage)`
+  - `_rc4_decrypt` (method, line 676) `def _rc4_decrypt(key, data, usage)`
+  - `parse_error` (method, line 687) `def parse_error(error_data)`
+  - `is_expired` (method, line 706) `def is_expired(endtime, grace_period)`
+  - `validate_flags` (method, line 719) `def validate_flags(ticket, required_flags)`
+  - `validate_pac_checksums` (method, line 735) `def validate_pac_checksums(pac)`
+- Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
+
 ## modules/kerberos_tickets.py
 - Doc: Kerberos ticket forgery attacks — silver, golden, diamond, sapphire tickets.
 - Layer: utility
@@ -92,6 +237,31 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `ReverseShellApp` (class, line 11) `class ReverseShellApp(App)`
   - `build` (method, line 12) `def build(self)`
   - `connect_to_server` (method, line 27) `def connect_to_server(self, instance)`
+
+## modules/lab_runtime.py
+- Doc: Lab runtime: Docker lifecycle for practice targets and cyber ranges.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `docker_available` (function, line 81) `def docker_available()`
+  - `_docker` (function, line 95) `def _docker()`
+  - `running_containers` (function, line 103) `def running_containers()`
+  - `existing_containers` (function, line 119) `def existing_containers()`
+  - `running_range_containers` (function, line 136) `def running_range_containers()`
+  - `container_name` (function, line 152) `def container_name(scenario)`
+  - `container_ip` (function, line 157) `def container_ip(container_name)`
+  - `ensure_web` (function, line 171) `def ensure_web(scenario, name)`
+  - `apply_gym_migrations` (function, line 185) `def apply_gym_migrations(name)`
+  - `start` (function, line 193) `def start(scenario)`
+  - `stop` (function, line 241) `def stop(scenario)`
+  - `stop_all` (function, line 259) `def stop_all()`
+  - `range_compose` (function, line 277) `def range_compose(profile)`
+  - `start_range` (function, line 286) `def start_range(profile)`
+  - `stop_range` (function, line 305) `def stop_range(profile)`
+  - `stop_ranges` (function, line 316) `def stop_ranges()`
+  - `_docker_compose` (function, line 349) `def _docker_compose(args)`
+  - `ensure_range_secret` (function, line 357) `def ensure_range_secret(profile_dir)`
+- Depends on: `modules/metasploitable_migrations.py`
 
 ## modules/lazy_agent.py
 - Doc: Agentic tool-calling bridge for the loop and the main agent.

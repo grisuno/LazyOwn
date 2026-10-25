@@ -268,11 +268,13 @@ Project types nested under the project types they derive from. External bases ar
   - [`PrivescCompaction`](modules/skills.hermes-lazyown.output_compactor.py.md#privesccompaction) class in `skills.hermes-lazyown.output_compactor`
   - [`ReconCompaction`](modules/skills.hermes-lazyown.output_compactor.py.md#reconcompaction) class in `skills.hermes-lazyown.output_compactor`
 - [`CompanyScope`](modules/modules.lazy_loop.py.md#companyscope) class in `modules.lazy_loop`
+- [`Comparison`](modules/modules.closedloop.py.md#comparison) class in `modules.closedloop`
 - [`CompletionPosition`](modules/cli.palette_command.py.md#completionposition) class in `cli.palette_command`
 - [`CompletionResult`](modules/cli.cli_enhancements.py.md#completionresult) class in `cli.cli_enhancements`
 - [`ComplianceEngine`](modules/modules.compliance.py.md#complianceengine) class in `modules.compliance`
 - [`ComplianceFinding`](modules/modules.compliance.py.md#compliancefinding) class in `modules.compliance`
 - [`CompositeProvider`](modules/cli.autosuggest.py.md#compositeprovider) class in `cli.autosuggest`
+- [`Condition`](modules/modules.defense_eval.py.md#condition) class in `modules.defense_eval`
 - [`ConditionEvaluator`](modules/modules.pipeline_engine.py.md#conditionevaluator) class in `modules.pipeline_engine`
 - [`Config`](modules/contrib.legacy.lazyseo.py.md#config) class in `contrib.legacy.lazyseo`
 - [`Config`](modules/core.config.py.md#config) class in `core.config`
@@ -340,6 +342,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`DashboardPusher`](modules/modules.event_consumers.py.md#dashboardpusher) class in `modules.event_consumers`
 - [`Database`](modules/lazy_sentinel4.py.md#database) class in `lazy_sentinel4`
 - [`DataDirectory`](modules/modules.reflective_dll.py.md#datadirectory) class in `modules.reflective_dll`
+- [`DatasetSummary`](modules/modules.defense_eval.py.md#datasetsummary) class in `modules.defense_eval`
 - [`DecisionPersistence`](modules/modules.auto_loop_memory.py.md#decisionpersistence) class in `modules.auto_loop_memory`
 - [`DecisionRecord`](modules/modules.llm_evaluator.py.md#decisionrecord) class in `modules.llm_evaluator`
 - [`Defaults`](modules/skills.hermes-lazyown.constants.py.md#defaults) class in `skills.hermes-lazyown.constants`
@@ -419,6 +422,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`EstoridesEntity`](modules/modules.estorides_importer.py.md#estoridesentity) class in `modules.estorides_importer`
 - [`EstoridesStixParser`](modules/modules.estorides_importer.py.md#estoridesstixparser) class in `modules.estorides_importer`
 - [`EstoridesToLazyOwnBridge`](modules/modules.estorides_importer.py.md#estoridestolazyownbridge) class in `modules.estorides_importer`
+- [`Evaluation`](modules/modules.defense_eval.py.md#evaluation) class in `modules.defense_eval`
 - [`EvasionAdvisor`](modules/modules.reactive_engine.py.md#evasionadvisor) class in `modules.reactive_engine`
 - [`EvasionEngine`](modules/modules.evasion_engine.py.md#evasionengine) class in `modules.evasion_engine`
 - [`EvasivePayloadGenerator`](modules/modules.evasive_payloads.py.md#evasivepayloadgenerator) class in `modules.evasive_payloads`
@@ -431,6 +435,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`EventLogReader`](modules/skills.autonomous_replay.py.md#eventlogreader) class in `skills.autonomous_replay`
 - [`EventLogView`](modules/lazygui.widgets.event_log_view.py.md#eventlogview) class in `lazygui.widgets.event_log_view`(QTreeWidget)
 - [`EventRecord`](modules/lazygui.services.models.py.md#eventrecord) class in `lazygui.services.models`
+- [`EventRecord`](modules/modules.hunt_verify.py.md#eventrecord) class in `modules.hunt_verify`
 - [`EventSeverity`](modules/modules.event_bus.py.md#eventseverity) enum in `modules.event_bus`(str, Enum)
 - [`EvidenceChain`](modules/modules.compliance.py.md#evidencechain) class in `modules.compliance`
 - [`EvidenceConfig`](modules/modules.evidence.py.md#evidenceconfig) class in `modules.evidence`
@@ -987,6 +992,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Objective`](modules/skills.lazyown_objective.py.md#objective) class in `skills.lazyown_objective`
 - [`ObjectiveStore`](modules/skills.lazyown_objective.py.md#objectivestore) class in `skills.lazyown_objective`
 - [`ObjectiveTodoSync`](modules/skills.hermes-lazyown.hermes_sync.py.md#objectivetodosync) class in `skills.hermes-lazyown.hermes_sync`
+- [`Observation`](modules/modules.hunt_verify.py.md#observation) class in `modules.hunt_verify`
 - [`Observation`](modules/modules.obs_parser.py.md#observation) class in `modules.obs_parser`
 - [`ObsParser`](modules/modules.obs_parser.py.md#obsparser) class in `modules.obs_parser`
 - [`OllamaLargeClassifier`](modules/skills.lazyown_policy.py.md#ollamalargeclassifier) class in `skills.lazyown_policy`(_OllamaClassifierBase)
@@ -1225,6 +1231,9 @@ Project types nested under the project types they derive from. External bases ar
 - [`RouterPolicy`](modules/skills.unified_orchestrator.py.md#routerpolicy) class in `skills.unified_orchestrator`
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o.o.o.o.ot.qt.rt`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o-o-o-o-ot-qt-rt) class in `static/js/quill-2.0.3.js`(r.BlockBlot, F)
 - [`RTSPScanner`](modules/contrib.legacy.lazycam.py.md#rtspscanner) class in `contrib.legacy.lazycam`
+- [`RuleEvaluationError`](modules/modules.defense_eval.py.md#ruleevaluationerror) exception in `modules.defense_eval`(ValueError)
+- [`RuleMetrics`](modules/modules.closedloop.py.md#rulemetrics) class in `modules.closedloop`
+- [`RuleResult`](modules/modules.defense_eval.py.md#ruleresult) class in `modules.defense_eval`
 - [`RuleSetBuilder`](modules/skills.hermes-lazyown.claudemd_rules.py.md#rulesetbuilder) class in `skills.hermes-lazyown.claudemd_rules`
 - [`RunArtifactStore`](modules/modules.pipeline_engine.py.md#runartifactstore) class in `modules.pipeline_engine`
 - [`RunTicket`](modules/modules.guardrails.contracts.py.md#runticket) class in `modules.guardrails.contracts`
@@ -1361,9 +1370,11 @@ Project types nested under the project types they derive from. External bases ar
 - [`SplashConfig`](modules/cli.splash.py.md#splashconfig) class in `cli.splash`
 - [`SplashEffect`](modules/cli.splash.py.md#splasheffect) protocol in `cli.splash`(Protocol)
 - [`Stage`](modules/skills.claude_md_orchestrator.models.py.md#stage) enum in `skills.claude_md_orchestrator.models`(StrEnum)
+- [`StageAssessment`](modules/modules.hunt_verify.py.md#stageassessment) class in `modules.hunt_verify`
 - [`StagedDeliveryFactory`](modules/modules.staged_delivery.py.md#stageddeliveryfactory) class in `modules.staged_delivery`
 - [`StageDeliveryConfig`](modules/modules.staged_delivery.py.md#stagedeliveryconfig) class in `modules.staged_delivery`
 - [`StagerConfig`](modules/modules.c2_profile.py.md#stagerconfig) class in `modules.c2_profile`
+- [`StageSpec`](modules/modules.hunt_verify.py.md#stagespec) class in `modules.hunt_verify`
 - [`StateManager`](modules/modules.state_manager.py.md#statemanager) class in `modules.state_manager`
 - [`StaticCommandLister`](modules/cli.cli_enhancements.py.md#staticcommandlister) class in `cli.cli_enhancements`
 - [`StaticNextRegistry`](modules/cli.command_chain.py.md#staticnextregistry) class in `cli.command_chain`
@@ -1502,6 +1513,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`VerbAdminConfig`](modules/cli.commands.verb_admin.py.md#verbadminconfig) class in `cli.commands.verb_admin`
 - [`VerbCatalogConfig`](modules/modules.verb_catalog.py.md#verbcatalogconfig) class in `modules.verb_catalog`
 - [`VerbManifest`](modules/modules.verb_manifest.py.md#verbmanifest) class in `modules.verb_manifest`
+- [`Verification`](modules/modules.hunt_verify.py.md#verification) class in `modules.hunt_verify`
 - [`VirtualFile`](modules/modules.rootkit.mr.c.md#virtualfile) struct in `modules/rootkit/mr.c`
 - [`VirtualFile`](modules/modules.win_rootkit.backup.c.md#virtualfile) struct in `modules/win_rootkit/backup.c`
 - [`VirtualFile`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#virtualfile) struct in `modules/win_rootkit/win_ring3_rootkit.c`

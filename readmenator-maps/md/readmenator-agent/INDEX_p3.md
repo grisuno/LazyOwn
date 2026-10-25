@@ -3,6 +3,17 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_finding_lifecycle.py` | Finding confirmation lifecycle + keyless OSINT enrichment. | tests | 10 | 0 |
+| `tests/test_fuzzy_picker.py` | Tests for cli/fuzzy_picker.py and lint-regression for lazyown.py. | tests | 25 | 0 |
+| `tests/test_golden_path.py` | Contract tests for the deterministic golden-path solver. | tests | 14 | 0 |
+| `tests/test_graph_advisor.py` | Tests for cli/graph_advisor.py. | tests | 25 | 0 |
+| `tests/test_graph_overlay.py` | Tests for cli/graph_overlay.py. | tests | 14 | 0 |
+| `tests/test_guardrails.py` | Guardrail harness tests: tiers, capacity, warm restart, wiring. | tests | 59 | 0 |
+| `tests/test_gui_xss_sinks.py` | Regression gate for XSS sinks in the C2 dashboard template. | tests | 9 | 0 |
+| `tests/test_gym_cli.py` | Gym CLI lifecycle: start, status, stop by selector and stop-all. | tests | 8 | 0 |
+| `tests/test_gym_lifecycle.py` | Gym lifecycle: lab spin-up on start, teardown on stop and exit cleanup. | tests | 13 | 0 |
+| `tests/test_gym_matrix_ctf.py` | Contract tests for gym matrix runner and CTF capture. | tests | 16 | 0 |
+| `tests/test_gym_ms2_cli.py` | - | tests | 1 | 0 |
 | `tests/test_gym_registry.py` | Gym YAML catalogue and persistent world-model run state. | tests | 9 | 0 |
 | `tests/test_harness_mode.py` | Harness deterministic-mode contract tests. | tests | 23 | 0 |
 | `tests/test_hash_cracker.py` | Tests for modules/hash_cracker.py | tests | 22 | 0 |
@@ -10,6 +21,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_host_policy.py` | Single host-validation policy shared by CLI gates and hardening. | tests | 9 | 0 |
 | `tests/test_html_sanitizer.py` | TDD tests for the bleach-based HTML sanitizer contract. | tests | 16 | 0 |
 | `tests/test_https_redirect.py` | TDD tests for the HTTPS redirect contract. | tests | 11 | 0 |
+| `tests/test_hunt_verify.py` | Hunt verification: verdict taxonomy, scope gate and dependency gating. | tests | 12 | 0 |
 | `tests/test_improvements_spec.py` | Spec-driven validation of the three priority improvements. | tests | 160 | 0 |
 | `tests/test_infra_disposable.py` | TDD unit tests for the disposable infrastructure contracts. | tests | 35 | 0 |
 | `tests/test_input_fuzz.py` | Fuzzing for input validators and rating boundaries. | tests | 8 | 0 |

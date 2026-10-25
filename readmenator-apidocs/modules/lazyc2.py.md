@@ -3886,7 +3886,7 @@ Query params `[`task`](#task)` (required), ``kind`` (repeatable),
 upstream/downstream neighbours and anchored assets inline so the
 board expands without extra requests.
 
-**Returns:** A JSON object with ``items``, `[`total`](modules.auto_purple.py.md#purplescore-total)`, ``page``,
+**Returns:** A JSON object with ``items``, ``total``, ``page``,
 ``per_page``, ``has_more`` and ``days`` keys.
 
 ---

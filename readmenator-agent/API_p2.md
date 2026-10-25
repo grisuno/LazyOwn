@@ -287,9 +287,9 @@ Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposabl
 - `InfraCommandSet.do_infra` (method) `cli/commands/infra.py:136` `def do_infra(self, line)` -- Manage disposable C2 infrastructure.
 
 ## cli/commands/lab.py
-Depends on: `cli/commands/_base.py`, `modules/metasploitable_migrations.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
-- `LabCommandSet.do_lab` (method) `cli/commands/lab.py:196` `def do_lab(self, line)` -- Manage local CTF practice labs.
+- `LabCommandSet.do_lab` (method) `cli/commands/lab.py:93` `def do_lab(self, line)` -- Manage local CTF practice labs.
 
 ## cli/commands/lateral.py
 Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`

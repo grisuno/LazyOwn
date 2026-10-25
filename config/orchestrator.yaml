@@ -73,6 +73,37 @@ stages:
     enabled: true
     label: Annotate commands with detection probability
     fires_when: before every executed command
+  defense_validate:
+    enabled: true
+    label: Detection rule replay over attack and control logs
+    fires_when: on terminal status when rule_path and log files are configured
+    params:
+      rule_path: ""
+      target_glob: "sessions/{task}/traffic/*.jsonl"
+      control_glob: ""
+      output: "sessions/{task}/defense_eval.json"
+  closedloop_tune:
+    enabled: true
+    label: Baseline vs candidate detection rule comparison with tuning suggestions
+    fires_when: on terminal status after defense_validate when both rules are configured
+    params:
+      baseline_path: ""
+      candidate_path: ""
+      target_glob: "sessions/{task}/traffic/*.jsonl"
+      control_glob: ""
+      output: "sessions/{task}/closedloop.json"
+  hunt_verify:
+    enabled: true
+    label: Evidence verdicts per chain stage
+    fires_when: on terminal status when a hunt design and evidence file exist
+    params:
+      design: "sessions/{task}/hunt_design.json"
+      evidence: "sessions/{task}/hunt_evidence.json"
+      output: "sessions/{task}/hunt_verification.json"
+  llm_pool:
+    enabled: true
+    label: LLM provider pool with circuit breaker and backoff ladder
+    fires_when: every pool and agent LLM call while providers trip
   rl_feedback:
     enabled: true
     label: MoE router and RL trainer outcome learning
@@ -91,6 +122,25 @@ triggers:
 profiles:
   default:
     description: Balanced autonomous engagement.
+    stages:
+      defense_validate:
+        params:
+          rule_path: ""
+          target_glob: "sessions/{task}/traffic/*.jsonl"
+          control_glob: ""
+          output: "sessions/{task}/defense_eval.json"
+      closedloop_tune:
+        params:
+          baseline_path: ""
+          candidate_path: ""
+          target_glob: "sessions/{task}/traffic/*.jsonl"
+          control_glob: ""
+          output: "sessions/{task}/closedloop.json"
+      hunt_verify:
+        params:
+          design: "sessions/{task}/hunt_design.json"
+          evidence: "sessions/{task}/hunt_evidence.json"
+          output: "sessions/{task}/hunt_verification.json"
     limits:
       rounds: 10
       workers: 3
@@ -199,6 +249,33 @@ profiles:
       max_rounds: 15
       max_toolcalls: 300
       max_findings: 80
+  purple:
+    description: Purple-team engagement with defense validation, closed-loop rule tuning and hunt verification.
+    extends: default
+    stages:
+      defense_validate:
+        enabled: true
+        params:
+          rule_path: ""
+          target_glob: "sessions/{task}/traffic/*.jsonl"
+          control_glob: "sessions/{task}/traffic/benign/*.jsonl"
+          output: "sessions/{task}/defense_eval.json"
+      closedloop_tune:
+        enabled: true
+        params:
+          baseline_path: ""
+          candidate_path: ""
+          target_glob: "sessions/{task}/traffic/*.jsonl"
+          control_glob: "sessions/{task}/traffic/benign/*.jsonl"
+          output: "sessions/{task}/closedloop.json"
+      hunt_verify:
+        enabled: true
+        params:
+          design: "sessions/{task}/hunt_design.json"
+          evidence: "sessions/{task}/hunt_evidence.json"
+          output: "sessions/{task}/hunt_verification.json"
+    chain: apt_chain
+    playbook: rocke
   harness:
     description: Deterministic-only loop (no planner/worker LLM, no SWAN); objectives and chains drive everything.
     extends: default

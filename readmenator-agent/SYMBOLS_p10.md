@@ -288,127 +288,128 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `__init__` | method | `lazyown.py:244` | `def __init__(self, params)` |
 | `__init__` | method | `lazyown.py:372` | `def __init__(self)` |
 | `__setattr__` | method | `lazyown.py:254` | `def __setattr__(self, name, value)` |
-| `_build_chain_prompt_engine` | method | `lazyown.py:1037` | `def _build_chain_prompt_engine(self)` |
-| `_build_command_stack` | method | `lazyown.py:4814` | `def _build_command_stack(self, adversary, r)` |
-| `_build_scope_offensive` | method | `lazyown.py:1679` | `def _build_scope_offensive(self)` |
-| `_chain_boot_prompt` | method | `lazyown.py:1022` | `def _chain_boot_prompt(self)` |
-| `_chain_part_exists` | method | `lazyown.py:1651` | `def _chain_part_exists(self, part)` |
-| `_chain_perror` | function | `lazyown.py:1606` | `def _chain_perror()` |
-| `_chain_resolver` | method | `lazyown.py:1062` | `def _chain_resolver(self, cmd, phase)` |
-| `_create_strict_yaml_prompt` | method | `lazyown.py:4622` | `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)` |
-| `_did_you_mean` | method | `lazyown.py:1247` | `def _did_you_mean(self, query, limit)` |
-| `_display_adversary_info` | method | `lazyown.py:4828` | `def _display_adversary_info(self, adversary, commands)` |
-| `_execute_commands` | method | `lazyown.py:4835` | `def _execute_commands(self, confirm, remote_cmds)` |
-| `_handler` | function | `lazyown.py:1143` | `def _handler(received, frame, _signum)` |
-| `_install_crypto_signal_handlers` | method | `lazyown.py:1126` | `def _install_crypto_signal_handlers(self)` |
-| `_load_adversaries` | method | `lazyown.py:4781` | `def _load_adversaries(self)` |
-| `_load_extended_params` | method | `lazyown.py:746` | `def _load_extended_params(self)` |
-| `_maybe_chain_prompt` | method | `lazyown.py:1080` | `def _maybe_chain_prompt(self, cmd, phase)` |
-| `_parse_adversary_args` | method | `lazyown.py:4795` | `def _parse_adversary_args(self, line)` |
+| `_build_chain_prompt_engine` | method | `lazyown.py:1038` | `def _build_chain_prompt_engine(self)` |
+| `_build_command_stack` | method | `lazyown.py:4827` | `def _build_command_stack(self, adversary, r)` |
+| `_build_scope_offensive` | method | `lazyown.py:1692` | `def _build_scope_offensive(self)` |
+| `_chain_boot_prompt` | method | `lazyown.py:1023` | `def _chain_boot_prompt(self)` |
+| `_chain_part_exists` | method | `lazyown.py:1664` | `def _chain_part_exists(self, part)` |
+| `_chain_perror` | function | `lazyown.py:1619` | `def _chain_perror()` |
+| `_chain_resolver` | method | `lazyown.py:1063` | `def _chain_resolver(self, cmd, phase)` |
+| `_create_strict_yaml_prompt` | method | `lazyown.py:4635` | `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)` |
+| `_did_you_mean` | method | `lazyown.py:1260` | `def _did_you_mean(self, query, limit)` |
+| `_display_adversary_info` | method | `lazyown.py:4841` | `def _display_adversary_info(self, adversary, commands)` |
+| `_execute_commands` | method | `lazyown.py:4848` | `def _execute_commands(self, confirm, remote_cmds)` |
+| `_handler` | function | `lazyown.py:1144` | `def _handler(received, frame, _signum)` |
+| `_install_crypto_signal_handlers` | method | `lazyown.py:1127` | `def _install_crypto_signal_handlers(self)` |
+| `_load_adversaries` | method | `lazyown.py:4794` | `def _load_adversaries(self)` |
+| `_load_extended_params` | method | `lazyown.py:747` | `def _load_extended_params(self)` |
+| `_maybe_chain_prompt` | method | `lazyown.py:1081` | `def _maybe_chain_prompt(self, cmd, phase)` |
+| `_parse_adversary_args` | method | `lazyown.py:4808` | `def _parse_adversary_args(self, line)` |
 | `_parse_bool_setting` | function | `lazyown.py:210` | `def _parse_bool_setting(value)` |
-| `_patch_template_if_needed` | method | `lazyown.py:4804` | `def _patch_template_if_needed(self, adversary, path, replacements)` |
-| `_persist` | function | `lazyown.py:692` | `def _persist(name, _old, _new)` |
-| `_read_recent_commands_for_autosuggest` | method | `lazyown.py:1181` | `def _read_recent_commands_for_autosuggest(self, limit)` |
-| `_recording_hook` | method | `lazyown.py:1234` | `def _recording_hook(self, data)` |
-| `_refresh_autosuggest` | method | `lazyown.py:1208` | `def _refresh_autosuggest(self, executed_command)` |
-| `_register_adversary_command` | method | `lazyown.py:2282` | `def _register_adversary_command(self, adv)` |
-| `_register_lua_command` | method | `lazyown.py:2043` | `def _register_lua_command(self, command_name, lua_function)` |
-| `_register_ux_settables` | method | `lazyown.py:675` | `def _register_ux_settables(self)` |
-| `_render_chain_next` | method | `lazyown.py:4250` | `def _render_chain_next(self, raw_args)` |
-| `_resolve_offensive` | method | `lazyown.py:1698` | `def _resolve_offensive(self, name)` |
-| `_run_and_chain` | method | `lazyown.py:1569` | `def _run_and_chain(self, parts, add_to_history, raise_keyboard_interrupt)` |
-| `_run_auto_decrypt` | method | `lazyown.py:1152` | `def _run_auto_decrypt(self)` |
-| `_run_auto_encrypt` | method | `lazyown.py:1164` | `def _run_auto_encrypt(self)` |
-| `_scope_check` | method | `lazyown.py:1717` | `def _scope_check(self, cmd_name)` |
-| `_scope_confirm` | method | `lazyown.py:1764` | `def _scope_confirm(self, decision)` |
-| `_scope_entries` | method | `lazyown.py:2587` | `def _scope_entries(self)` |
-| `_scope_render` | method | `lazyown.py:2611` | `def _scope_render(self, entries, mode)` |
-| `_scope_save` | method | `lazyown.py:2593` | `def _scope_save(self, entries, mode)` |
-| `_split_and_chain` | method | `lazyown.py:1524` | `def _split_and_chain(raw_input)` |
-| `_sync_c2_credentials` | method | `lazyown.py:4374` | `def _sync_c2_credentials(self)` |
-| `_sync_chain_active` | method | `lazyown.py:1008` | `def _sync_chain_active(self, tips_engine)` |
-| `_toast_hook` | method | `lazyown.py:943` | `def _toast_hook(self, data)` |
-| `_ui_hints_level` | method | `lazyown.py:932` | `def _ui_hints_level(self)` |
-| `_unified_tips_hook` | method | `lazyown.py:972` | `def _unified_tips_hook(self, data)` |
+| `_patch_template_if_needed` | method | `lazyown.py:4817` | `def _patch_template_if_needed(self, adversary, path, replacements)` |
+| `_persist` | function | `lazyown.py:693` | `def _persist(name, _old, _new)` |
+| `_read_recent_commands_for_autosuggest` | method | `lazyown.py:1194` | `def _read_recent_commands_for_autosuggest(self, limit)` |
+| `_recording_hook` | method | `lazyown.py:1247` | `def _recording_hook(self, data)` |
+| `_refresh_autosuggest` | method | `lazyown.py:1221` | `def _refresh_autosuggest(self, executed_command)` |
+| `_register_adversary_command` | method | `lazyown.py:2295` | `def _register_adversary_command(self, adv)` |
+| `_register_lua_command` | method | `lazyown.py:2056` | `def _register_lua_command(self, command_name, lua_function)` |
+| `_register_ux_settables` | method | `lazyown.py:676` | `def _register_ux_settables(self)` |
+| `_render_chain_next` | method | `lazyown.py:4263` | `def _render_chain_next(self, raw_args)` |
+| `_resolve_offensive` | method | `lazyown.py:1711` | `def _resolve_offensive(self, name)` |
+| `_run_and_chain` | method | `lazyown.py:1582` | `def _run_and_chain(self, parts, add_to_history, raise_keyboard_interrupt)` |
+| `_run_auto_decrypt` | method | `lazyown.py:1156` | `def _run_auto_decrypt(self)` |
+| `_run_auto_encrypt` | method | `lazyown.py:1168` | `def _run_auto_encrypt(self)` |
+| `_run_gym_cleanup` | method | `lazyown.py:1185` | `def _run_gym_cleanup(self)` |
+| `_scope_check` | method | `lazyown.py:1730` | `def _scope_check(self, cmd_name)` |
+| `_scope_confirm` | method | `lazyown.py:1777` | `def _scope_confirm(self, decision)` |
+| `_scope_entries` | method | `lazyown.py:2600` | `def _scope_entries(self)` |
+| `_scope_render` | method | `lazyown.py:2624` | `def _scope_render(self, entries, mode)` |
+| `_scope_save` | method | `lazyown.py:2606` | `def _scope_save(self, entries, mode)` |
+| `_split_and_chain` | method | `lazyown.py:1537` | `def _split_and_chain(raw_input)` |
+| `_sync_c2_credentials` | method | `lazyown.py:4387` | `def _sync_c2_credentials(self)` |
+| `_sync_chain_active` | method | `lazyown.py:1009` | `def _sync_chain_active(self, tips_engine)` |
+| `_toast_hook` | method | `lazyown.py:944` | `def _toast_hook(self, data)` |
+| `_ui_hints_level` | method | `lazyown.py:933` | `def _ui_hints_level(self)` |
+| `_unified_tips_hook` | method | `lazyown.py:973` | `def _unified_tips_hook(self, data)` |
 | `_ux_debug` | function | `lazyown.py:155` | `def _ux_debug(context, exc)` |
-| `cmd` | method | `lazyown.py:1329` | `def cmd(self, line)` |
-| `cmd_wrapper` | function | `lazyown.py:2291` | `def cmd_wrapper(_)` |
-| `complete_assign` | method | `lazyown.py:2557` | `def complete_assign(self, text, line, begidx, endidx)` |
-| `complete_issue_command_to_c2` | method | `lazyown.py:4445` | `def complete_issue_command_to_c2(self, text, line, begidx, endidx)` |
-| `complete_l00t` | method | `lazyown.py:2546` | `def complete_l00t(self, text, line, begidx, endidx)` |
-| `complete_loot` | method | `lazyown.py:2552` | `def complete_loot(self, text, line, begidx, endidx)` |
-| `complete_palette` | method | `lazyown.py:2625` | `def complete_palette(self, text, line, begidx, endidx)` |
-| `complete_phase` | method | `lazyown.py:2541` | `def complete_phase(self, text, line, begidx, endidx)` |
-| `complete_scope` | method | `lazyown.py:2574` | `def complete_scope(self, text, line, begidx, endidx)` |
-| `complete_upload_c2` | method | `lazyown.py:4314` | `def complete_upload_c2(self, text, line, begidx, endidx)` |
-| `completedefault` | method | `lazyown.py:2311` | `def completedefault(self, text, line, begidx, endidx)` |
-| `default` | method | `lazyown.py:848` | `def default(self, line)` |
-| `display_toastr` | method | `lazyown.py:2298` | `def display_toastr(self, message, type)` |
-| `do_event_log` | method | `lazyown.py:4854` | `def do_event_log(self, line)` |
-| `do_route` | method | `lazyown.py:4923` | `def do_route(self, line)` |
-| `do_set` | method | `lazyown.py:907` | `def do_set(self, line)` |
-| `do_state_snapshot` | method | `lazyown.py:4884` | `def do_state_snapshot(self, line)` |
-| `download_file_from_c2` | method | `lazyown.py:4342` | `def download_file_from_c2(self, file_name, clientid)` |
-| `emptyline` | method | `lazyown.py:1831` | `def emptyline(self)` |
-| `get_available_actions` | method | `lazyown.py:4616` | `def get_available_actions(self)` |
-| `get_output` | method | `lazyown.py:4283` | `def get_output(self)` |
-| `issue_command_to_c2` | method | `lazyown.py:4411` | `def issue_command_to_c2(self, command, client_id)` |
-| `list_files_in_directory` | method | `lazyown.py:1880` | `def list_files_in_directory(self, directory)` |
-| `load_plugins` | method | `lazyown.py:2070` | `def load_plugins(self)` |
-| `load_user_commands` | method | `lazyown.py:1856` | `def load_user_commands(self)` |
-| `load_yaml_plugins` | method | `lazyown.py:2100` | `def load_yaml_plugins(self)` |
-| `log_command` | method | `lazyown.py:785` | `def log_command(self, cmd_name, cmd_args, start_time, end_time, duration_ms)` |
-| `logcsv` | method | `lazyown.py:1288` | `def logcsv(self, line, start_time, end_time, duration_ms)` |
-| `main` | function | `lazyown.py:4946` | `def main()` |
-| `make_wrapper` | function | `lazyown.py:1945` | `def make_wrapper(cmd_template, tname, default_target)` |
-| `one_cmd` | method | `lazyown.py:1785` | `def one_cmd(self, command)` |
-| `onecmd_plus_hooks` | method | `lazyown.py:1421` | `def onecmd_plus_hooks(self, statement, add_to_history, raise_keyboard_interrupt, orig_rl_history_length)` |
-| `postloop` | method | `lazyown.py:2508` | `def postloop(self)` |
-| `postparsing_precmd` | method | `lazyown.py:2480` | `def postparsing_precmd(self, statement)` |
-| `preloop` | method | `lazyown.py:2336` | `def preloop(self)` |
-| `process_scan_csv` | method | `lazyown.py:4699` | `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)` |
-| `process_vuln_csv` | method | `lazyown.py:4722` | `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)` |
-| `refresh_prompt` | method | `lazyown.py:896` | `def refresh_prompt(self)` |
-| `register_all_adversary_commands` | method | `lazyown.py:2269` | `def register_all_adversary_commands(self)` |
-| `register_tool_commands` | method | `lazyown.py:1886` | `def register_tool_commands(self)` |
-| `register_yaml_plugin` | method | `lazyown.py:2123` | `def register_yaml_plugin(self, plugin_data)` |
-| `run_command` | method | `lazyown.py:4203` | `def run_command(self, command)` |
-| `run_lazyarpspoofing` | method | `lazyown.py:3805` | `def run_lazyarpspoofing(self)` |
-| `run_lazyaslrcheck` | method | `lazyown.py:4091` | `def run_lazyaslrcheck(self)` |
-| `run_lazyattack` | method | `lazyown.py:3859` | `def run_lazyattack(self)` |
-| `run_lazybotcli` | method | `lazyown.py:3523` | `def run_lazybotcli(self)` |
-| `run_lazybotnet` | method | `lazyown.py:3339` | `def run_lazybotnet(self)` |
-| `run_lazyburpfuzzer` | method | `lazyown.py:3629` | `def run_lazyburpfuzzer(self)` |
-| `run_lazyftpsniff` | method | `lazyown.py:2963` | `def run_lazyftpsniff(self)` |
-| `run_lazygath` | method | `lazyown.py:2867` | `def run_lazygath(self)` |
-| `run_lazyhoneypot` | method | `lazyown.py:3060` | `def run_lazyhoneypot(self)` |
-| `run_lazylfi2rce` | method | `lazyown.py:3395` | `def run_lazylfi2rce(self)` |
-| `run_lazylogpoisoning` | method | `lazyown.py:3476` | `def run_lazylogpoisoning(self)` |
-| `run_lazymetaextract0r` | method | `lazyown.py:3177` | `def run_lazymetaextract0r(self)` |
-| `run_lazymsfvenom` | method | `lazyown.py:3914` | `def run_lazymsfvenom(self)` |
-| `run_lazynetbios` | method | `lazyown.py:3009` | `def run_lazynetbios(self)` |
-| `run_lazynmap` | method | `lazyown.py:2745` | `def run_lazynmap(self)` |
-| `run_lazynmapdiscovery` | method | `lazyown.py:2899` | `def run_lazynmapdiscovery(self)` |
-| `run_lazyown` | method | `lazyown.py:2689` | `def run_lazyown(self)` |
-| `run_lazyownrat` | method | `lazyown.py:3278` | `def run_lazyownrat(self)` |
-| `run_lazyownratcli` | method | `lazyown.py:3218` | `def run_lazyownratcli(self)` |
-| `run_lazypathhijacking` | method | `lazyown.py:4138` | `def run_lazypathhijacking(self)` |
-| `run_lazyreverse_shell` | method | `lazyown.py:3755` | `def run_lazyreverse_shell(self)` |
-| `run_lazysearch` | method | `lazyown.py:2642` | `def run_lazysearch(self)` |
-| `run_lazysearch_bot` | method | `lazyown.py:3126` | `def run_lazysearch_bot(self)` |
-| `run_lazysearch_gui` | method | `lazyown.py:2659` | `def run_lazysearch_gui(self)` |
-| `run_lazysniff` | method | `lazyown.py:2914` | `def run_lazysniff(self)` |
-| `run_lazyssh77enum` | method | `lazyown.py:3579` | `def run_lazyssh77enum(self)` |
-| `run_lazywerkzeugdebug` | method | `lazyown.py:2810` | `def run_lazywerkzeugdebug(self)` |
-| `run_script` | method | `lazyown.py:4171` | `def run_script(self, script_name)` |
-| `run_update_db` | method | `lazyown.py:2715` | `def run_update_db(self)` |
-| `save_user_command` | method | `lazyown.py:1868` | `def save_user_command(self, alias, command)` |
-| `scripts` | method | `lazyown.py:877` | `def scripts(self)` |
-| `tool_wrapper` | function | `lazyown.py:1946` | `def tool_wrapper(arg)` |
-| `upload_file_to_c2` | method | `lazyown.py:4288` | `def upload_file_to_c2(self, file_path, clientid)` |
-| `view_code` | method | `lazyown.py:4511` | `def view_code(self, stdscr)` |
-| `wrapper` | function | `lazyown.py:2047` | `def wrapper(arg)` |
-| `wrapper_yaml` | function | `lazyown.py:2163` | `def wrapper_yaml(arg)` |
+| `cmd` | method | `lazyown.py:1342` | `def cmd(self, line)` |
+| `cmd_wrapper` | function | `lazyown.py:2304` | `def cmd_wrapper(_)` |
+| `complete_assign` | method | `lazyown.py:2570` | `def complete_assign(self, text, line, begidx, endidx)` |
+| `complete_issue_command_to_c2` | method | `lazyown.py:4458` | `def complete_issue_command_to_c2(self, text, line, begidx, endidx)` |
+| `complete_l00t` | method | `lazyown.py:2559` | `def complete_l00t(self, text, line, begidx, endidx)` |
+| `complete_loot` | method | `lazyown.py:2565` | `def complete_loot(self, text, line, begidx, endidx)` |
+| `complete_palette` | method | `lazyown.py:2638` | `def complete_palette(self, text, line, begidx, endidx)` |
+| `complete_phase` | method | `lazyown.py:2554` | `def complete_phase(self, text, line, begidx, endidx)` |
+| `complete_scope` | method | `lazyown.py:2587` | `def complete_scope(self, text, line, begidx, endidx)` |
+| `complete_upload_c2` | method | `lazyown.py:4327` | `def complete_upload_c2(self, text, line, begidx, endidx)` |
+| `completedefault` | method | `lazyown.py:2324` | `def completedefault(self, text, line, begidx, endidx)` |
+| `default` | method | `lazyown.py:849` | `def default(self, line)` |
+| `display_toastr` | method | `lazyown.py:2311` | `def display_toastr(self, message, type)` |
+| `do_event_log` | method | `lazyown.py:4867` | `def do_event_log(self, line)` |
+| `do_route` | method | `lazyown.py:4936` | `def do_route(self, line)` |
+| `do_set` | method | `lazyown.py:908` | `def do_set(self, line)` |
+| `do_state_snapshot` | method | `lazyown.py:4897` | `def do_state_snapshot(self, line)` |
+| `download_file_from_c2` | method | `lazyown.py:4355` | `def download_file_from_c2(self, file_name, clientid)` |
+| `emptyline` | method | `lazyown.py:1844` | `def emptyline(self)` |
+| `get_available_actions` | method | `lazyown.py:4629` | `def get_available_actions(self)` |
+| `get_output` | method | `lazyown.py:4296` | `def get_output(self)` |
+| `issue_command_to_c2` | method | `lazyown.py:4424` | `def issue_command_to_c2(self, command, client_id)` |
+| `list_files_in_directory` | method | `lazyown.py:1893` | `def list_files_in_directory(self, directory)` |
+| `load_plugins` | method | `lazyown.py:2083` | `def load_plugins(self)` |
+| `load_user_commands` | method | `lazyown.py:1869` | `def load_user_commands(self)` |
+| `load_yaml_plugins` | method | `lazyown.py:2113` | `def load_yaml_plugins(self)` |
+| `log_command` | method | `lazyown.py:786` | `def log_command(self, cmd_name, cmd_args, start_time, end_time, duration_ms)` |
+| `logcsv` | method | `lazyown.py:1301` | `def logcsv(self, line, start_time, end_time, duration_ms)` |
+| `main` | function | `lazyown.py:4959` | `def main()` |
+| `make_wrapper` | function | `lazyown.py:1958` | `def make_wrapper(cmd_template, tname, default_target)` |
+| `one_cmd` | method | `lazyown.py:1798` | `def one_cmd(self, command)` |
+| `onecmd_plus_hooks` | method | `lazyown.py:1434` | `def onecmd_plus_hooks(self, statement, add_to_history, raise_keyboard_interrupt, orig_rl_history_length)` |
+| `postloop` | method | `lazyown.py:2521` | `def postloop(self)` |
+| `postparsing_precmd` | method | `lazyown.py:2493` | `def postparsing_precmd(self, statement)` |
+| `preloop` | method | `lazyown.py:2349` | `def preloop(self)` |
+| `process_scan_csv` | method | `lazyown.py:4712` | `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)` |
+| `process_vuln_csv` | method | `lazyown.py:4735` | `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)` |
+| `refresh_prompt` | method | `lazyown.py:897` | `def refresh_prompt(self)` |
+| `register_all_adversary_commands` | method | `lazyown.py:2282` | `def register_all_adversary_commands(self)` |
+| `register_tool_commands` | method | `lazyown.py:1899` | `def register_tool_commands(self)` |
+| `register_yaml_plugin` | method | `lazyown.py:2136` | `def register_yaml_plugin(self, plugin_data)` |
+| `run_command` | method | `lazyown.py:4216` | `def run_command(self, command)` |
+| `run_lazyarpspoofing` | method | `lazyown.py:3818` | `def run_lazyarpspoofing(self)` |
+| `run_lazyaslrcheck` | method | `lazyown.py:4104` | `def run_lazyaslrcheck(self)` |
+| `run_lazyattack` | method | `lazyown.py:3872` | `def run_lazyattack(self)` |
+| `run_lazybotcli` | method | `lazyown.py:3536` | `def run_lazybotcli(self)` |
+| `run_lazybotnet` | method | `lazyown.py:3352` | `def run_lazybotnet(self)` |
+| `run_lazyburpfuzzer` | method | `lazyown.py:3642` | `def run_lazyburpfuzzer(self)` |
+| `run_lazyftpsniff` | method | `lazyown.py:2976` | `def run_lazyftpsniff(self)` |
+| `run_lazygath` | method | `lazyown.py:2880` | `def run_lazygath(self)` |
+| `run_lazyhoneypot` | method | `lazyown.py:3073` | `def run_lazyhoneypot(self)` |
+| `run_lazylfi2rce` | method | `lazyown.py:3408` | `def run_lazylfi2rce(self)` |
+| `run_lazylogpoisoning` | method | `lazyown.py:3489` | `def run_lazylogpoisoning(self)` |
+| `run_lazymetaextract0r` | method | `lazyown.py:3190` | `def run_lazymetaextract0r(self)` |
+| `run_lazymsfvenom` | method | `lazyown.py:3927` | `def run_lazymsfvenom(self)` |
+| `run_lazynetbios` | method | `lazyown.py:3022` | `def run_lazynetbios(self)` |
+| `run_lazynmap` | method | `lazyown.py:2758` | `def run_lazynmap(self)` |
+| `run_lazynmapdiscovery` | method | `lazyown.py:2912` | `def run_lazynmapdiscovery(self)` |
+| `run_lazyown` | method | `lazyown.py:2702` | `def run_lazyown(self)` |
+| `run_lazyownrat` | method | `lazyown.py:3291` | `def run_lazyownrat(self)` |
+| `run_lazyownratcli` | method | `lazyown.py:3231` | `def run_lazyownratcli(self)` |
+| `run_lazypathhijacking` | method | `lazyown.py:4151` | `def run_lazypathhijacking(self)` |
+| `run_lazyreverse_shell` | method | `lazyown.py:3768` | `def run_lazyreverse_shell(self)` |
+| `run_lazysearch` | method | `lazyown.py:2655` | `def run_lazysearch(self)` |
+| `run_lazysearch_bot` | method | `lazyown.py:3139` | `def run_lazysearch_bot(self)` |
+| `run_lazysearch_gui` | method | `lazyown.py:2672` | `def run_lazysearch_gui(self)` |
+| `run_lazysniff` | method | `lazyown.py:2927` | `def run_lazysniff(self)` |
+| `run_lazyssh77enum` | method | `lazyown.py:3592` | `def run_lazyssh77enum(self)` |
+| `run_lazywerkzeugdebug` | method | `lazyown.py:2823` | `def run_lazywerkzeugdebug(self)` |
+| `run_script` | method | `lazyown.py:4184` | `def run_script(self, script_name)` |
+| `run_update_db` | method | `lazyown.py:2728` | `def run_update_db(self)` |
+| `save_user_command` | method | `lazyown.py:1881` | `def save_user_command(self, alias, command)` |
+| `scripts` | method | `lazyown.py:878` | `def scripts(self)` |
+| `tool_wrapper` | function | `lazyown.py:1959` | `def tool_wrapper(arg)` |
+| `upload_file_to_c2` | method | `lazyown.py:4301` | `def upload_file_to_c2(self, file_path, clientid)` |
+| `view_code` | method | `lazyown.py:4524` | `def view_code(self, stdscr)` |
+| `wrapper` | function | `lazyown.py:2060` | `def wrapper(arg)` |
+| `wrapper_yaml` | function | `lazyown.py:2176` | `def wrapper_yaml(arg)` |
 | `auth` | function | `modules/49803.py:43` | `def auth()` |
 | `connection` | function | `modules/49803.py:106` | `def connection()` |
 | `injection` | function | `modules/49803.py:69` | `def injection()` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `register_tool_from_instance` | method | `modules/agent_runner.py:221` | `def register_tool_from_instance(self, func)` |
 | `register_tools_from_metadata` | method | `modules/agent_runner.py:239` | `def register_tools_from_metadata(self, commands, executor)` |
 | `run` | method | `modules/agent_runner.py:271` | `def run(self, user_input)` |
-| `target` | function | `modules/agent_runner.py:522` | `def target()` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

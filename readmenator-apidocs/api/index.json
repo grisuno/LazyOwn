@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 817,
-  "entities": 15305,
+  "modules": 823,
+  "entities": 15461,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,22 +13,22 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 704,
+   "py": 710,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4294,
-   "class": 1407,
+   "attribute": 4369,
+   "class": 1418,
    "classmethod": 84,
-   "constant": 1308,
+   "constant": 1332,
    "constructor": 525,
    "enum": 39,
-   "exception": 37,
-   "function": 2755,
+   "exception": 38,
+   "function": 2785,
    "macro": 113,
-   "method": 3583,
-   "module": 817,
-   "property": 196,
+   "method": 3590,
+   "module": 823,
+   "property": 198,
    "protocol": 20,
    "staticmethod": 91,
    "struct": 20,
@@ -36,20 +36,20 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 354,
+  "skipped_files": 360,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7209,
-   "total": 9691,
-   "percent": 74.4
+   "documented": 7266,
+   "total": 9748,
+   "percent": 74.5
   },
   "by_kind": {
    "class": {
-    "documented": 1219,
-    "total": 1407,
-    "percent": 86.6
+    "documented": 1230,
+    "total": 1418,
+    "percent": 86.7
    },
    "classmethod": {
     "documented": 58,
@@ -67,14 +67,14 @@
     "percent": 76.9
    },
    "exception": {
-    "documented": 35,
-    "total": 37,
-    "percent": 94.6
+    "documented": 36,
+    "total": 38,
+    "percent": 94.7
    },
    "function": {
-    "documented": 1807,
-    "total": 2755,
-    "percent": 65.6
+    "documented": 1837,
+    "total": 2785,
+    "percent": 66.0
    },
    "macro": {
     "documented": 3,
@@ -82,19 +82,19 @@
     "percent": 2.7
    },
    "method": {
-    "documented": 2904,
-    "total": 3583,
-    "percent": 81.0
+    "documented": 2911,
+    "total": 3590,
+    "percent": 81.1
    },
    "module": {
-    "documented": 695,
-    "total": 817,
-    "percent": 85.1
+    "documented": 701,
+    "total": 823,
+    "percent": 85.2
    },
    "property": {
-    "documented": 152,
-    "total": 196,
-    "percent": 77.6
+    "documented": 154,
+    "total": 198,
+    "percent": 77.8
    },
    "protocol": {
     "documented": 20,
@@ -2069,8 +2069,8 @@
     "percent": 100.0
    },
    "modules/chain_runner.py": {
-    "documented": 17,
-    "total": 17,
+    "documented": 18,
+    "total": 18,
     "percent": 100.0
    },
    "modules/chain_state.py": {
@@ -2096,6 +2096,11 @@
    "modules/cli_auth.py": {
     "documented": 11,
     "total": 11,
+    "percent": 100.0
+   },
+   "modules/closedloop.py": {
+    "documented": 7,
+    "total": 7,
     "percent": 100.0
    },
    "modules/cloud_enum.py": {
@@ -2176,6 +2181,16 @@
    "modules/db.py": {
     "documented": 31,
     "total": 31,
+    "percent": 100.0
+   },
+   "modules/defense_eval.py": {
+    "documented": 13,
+    "total": 13,
+    "percent": 100.0
+   },
+   "modules/defense_stages.py": {
+    "documented": 4,
+    "total": 4,
     "percent": 100.0
    },
    "modules/delegation_attacks.py": {
@@ -2408,6 +2423,11 @@
     "total": 6,
     "percent": 33.3
    },
+   "modules/gym_cleanup.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
    "modules/gym_matrix_runner.py": {
     "documented": 4,
     "total": 4,
@@ -2437,6 +2457,11 @@
     "documented": 0,
     "total": 3,
     "percent": 0.0
+   },
+   "modules/hunt_verify.py": {
+    "documented": 12,
+    "total": 12,
+    "percent": 100.0
    },
    "modules/ia_code_analysis.py": {
     "documented": 6,
@@ -2562,6 +2587,11 @@
     "documented": 0,
     "total": 4,
     "percent": 0.0
+   },
+   "modules/lab_runtime.py": {
+    "documented": 17,
+    "total": 17,
+    "percent": 100.0
    },
    "modules/lazy_agent.py": {
     "documented": 19,
@@ -4529,7 +4559,7 @@
   {
    "uid": "cli/commands/lab.py",
    "path": "modules/cli.commands.lab.py.jsonl",
-   "entities": 11
+   "entities": 5
   },
   {
    "uid": "cli/commands/lateral.py",
@@ -6154,12 +6184,12 @@
   {
    "uid": "modules/chain_registry.py",
    "path": "modules/modules.chain_registry.py.jsonl",
-   "entities": 50
+   "entities": 56
   },
   {
    "uid": "modules/chain_runner.py",
    "path": "modules/modules.chain_runner.py.jsonl",
-   "entities": 50
+   "entities": 57
   },
   {
    "uid": "modules/chain_state.py",
@@ -6185,6 +6215,11 @@
    "uid": "modules/cli_auth.py",
    "path": "modules/modules.cli_auth.py.jsonl",
    "entities": 11
+  },
+  {
+   "uid": "modules/closedloop.py",
+   "path": "modules/modules.closedloop.py.jsonl",
+   "entities": 24
   },
   {
    "uid": "modules/cloud_enum.py",
@@ -6265,6 +6300,16 @@
    "uid": "modules/db.py",
    "path": "modules/modules.db.py.jsonl",
    "entities": 32
+  },
+  {
+   "uid": "modules/defense_eval.py",
+   "path": "modules/modules.defense_eval.py.jsonl",
+   "entities": 37
+  },
+  {
+   "uid": "modules/defense_stages.py",
+   "path": "modules/modules.defense_stages.py.jsonl",
+   "entities": 7
   },
   {
    "uid": "modules/delegation_attacks.py",
@@ -6497,6 +6542,11 @@
    "entities": 6
   },
   {
+   "uid": "modules/gym_cleanup.py",
+   "path": "modules/modules.gym_cleanup.py.jsonl",
+   "entities": 4
+  },
+  {
    "uid": "modules/gym_matrix_runner.py",
    "path": "modules/modules.gym_matrix_runner.py.jsonl",
    "entities": 7
@@ -6525,6 +6575,11 @@
    "uid": "modules/hostdiscover.sh",
    "path": "modules/modules.hostdiscover.sh.jsonl",
    "entities": 3
+  },
+  {
+   "uid": "modules/hunt_verify.py",
+   "path": "modules/modules.hunt_verify.py.jsonl",
+   "entities": 53
   },
   {
    "uid": "modules/ia_code_analysis.py",
@@ -6650,6 +6705,11 @@
    "uid": "modules/kivi.py",
    "path": "modules/modules.kivi.py.jsonl",
    "entities": 4
+  },
+  {
+   "uid": "modules/lab_runtime.py",
+   "path": "modules/modules.lab_runtime.py.jsonl",
+   "entities": 24
   },
   {
    "uid": "modules/lazy_agent.py",

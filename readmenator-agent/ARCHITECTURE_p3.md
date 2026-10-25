@@ -73,6 +73,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `lazyown.py` -> `modules/command_executor.py`
 - `lazyown.py` -> `modules/event_bus.py`
 - `lazyown.py` -> `modules/event_consumers.py`
+- `lazyown.py` -> `modules/gym_cleanup.py`
 - `lazyown.py` -> `modules/lazy_loop.py`
 - `lazyown.py` -> `modules/llm_factory.py`
 - `lazyown.py` -> `modules/logging_config.py`
@@ -165,6 +166,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/chain_runner.py` -> `core/safe_exec.py`
 - `modules/chain_runner.py` -> `modules/chain_registry.py`
 - `modules/chain_runner.py` -> `modules/chain_state.py`
+- `modules/chain_runner.py` -> `modules/hunt_verify.py`
 - `modules/chain_runner.py` -> `modules/verb_manifest.py`
 - `modules/chain_synth.py` -> `modules/chain_registry.py`
 - `modules/chain_synth.py` -> `skills/lazyown_facts.py`
@@ -172,6 +174,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/cli_auth.py` -> `cli/engagement_hooks.py`
 - `modules/cli_auth.py` -> `core/config.py`
 - `modules/cli_auth.py` -> `modules/lazy_rbac.py`
+- `modules/closedloop.py` -> `modules/defense_eval.py`
 - `modules/collab_bp.py` -> `core/logging.py`
 - `modules/collab_bp.py` -> `modules/lazy_rbac.py`
 - `modules/command_executor.py` -> `core/logging.py`
@@ -197,6 +200,11 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/db.py` -> `core/config.py`
 - `modules/db.py` -> `core/crypto.py`
 - `modules/db.py` -> `core/logging.py`
+- `modules/defense_stages.py` -> `core/logging.py`
+- `modules/defense_stages.py` -> `modules/closedloop.py`
+- `modules/defense_stages.py` -> `modules/defense_eval.py`
+- `modules/defense_stages.py` -> `modules/hunt_verify.py`
+- `modules/defense_stages.py` -> `modules/orchestrator_config.py`
 - `modules/detection_feed.py` -> `core/logging.py`
 - `modules/detection_feed.py` -> `modules/detection_oracle.py`
 - `modules/detection_oracle.py` -> `core/logging.py`
@@ -244,6 +252,9 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/guardrails/harness.py` -> `modules/guardrails/budget.py`
 - `modules/guardrails/harness.py` -> `modules/guardrails/checkpoints.py`
 - `modules/guardrails/harness.py` -> `modules/guardrails/contracts.py`
+- `modules/gym_cleanup.py` -> `core/config.py`
+- `modules/gym_cleanup.py` -> `core/logging.py`
+- `modules/gym_cleanup.py` -> `modules/__init__.py`
 - `modules/gym_matrix_runner.py` -> `core/logging.py`
 - `modules/gym_matrix_runner.py` -> `modules/__init__.py`
 - `modules/gym_matrix_runner.py` -> `modules/chain_facts.py`
@@ -296,6 +307,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/kill_chain_viz.py` -> `modules/killchain.py`
 - `modules/killchain.py` -> `core/logging.py`
 - `modules/killchain.py` -> `modules/world_model.py`
+- `modules/lab_runtime.py` -> `modules/metasploitable_migrations.py`
 - `modules/lazy_agent.py` -> `core/config.py`
 - `modules/lazy_agent.py` -> `modules/__init__.py`
 - `modules/lazy_agent.py` -> `modules/agent_runner.py`
@@ -326,6 +338,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `modules/auto_registry.py`
 - `modules/lazy_loop.py` -> `modules/autonomous_exploit_engine.py`
 - `modules/lazy_loop.py` -> `modules/custom_tools.py`
+- `modules/lazy_loop.py` -> `modules/defense_stages.py`
 - `modules/lazy_loop.py` -> `modules/digest.py`
 - `modules/lazy_loop.py` -> `modules/finding_lifecycle.py`
 - `modules/lazy_loop.py` -> `modules/guardrails/__init__.py`
@@ -483,18 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/playbook_engine.py` -> `core/safe_exec.py`
 - `modules/playbook_engine.py` -> `modules/emulation_runner.py`
 - `modules/playbook_engine.py` -> `modules/llm_client.py`
-- `modules/playbook_engine.py` -> `modules/obs_parser.py`
-- `modules/playbook_engine.py` -> `modules/world_model.py`
-- `modules/playbook_executor.py` -> `modules/pipeline_engine.py`
-- `modules/privesc_predictor.py` -> `core/console.py`
-- `modules/privesc_predictor.py` -> `modules/llm_factory.py`
-- `modules/professional_report.py` -> `modules/llm_factory.py`
-- `modules/professional_report.py` -> `modules/world_model.py`
-- `modules/reaction_bridge.py` -> `modules/lazy_loop.py`
-- `modules/reactive_engine.py` -> `core/config.py`
-- `modules/reactive_engine.py` -> `core/logging.py`
-- `modules/reactive_engine.py` -> `modules/session_rag.py`
-- `modules/recommender.py` -> `modules/ai_fallback.py`
-- `modules/recommender.py` -> `modules/session_state.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

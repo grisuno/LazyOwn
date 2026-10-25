@@ -187,7 +187,7 @@ Environment variable overrides
 - `FileNotFoundError`: if neither the payload nor the example exists.
 - `json.JSONDecodeError`: if the payload is not valid JSON.
 
-*Called by:* [`load_aliases`](cli.aliases.py.md#load_aliases), [`BofMarketplaceCommandSet.do_bof_run`](cli.commands.bof_registry.py.md#bofmarketplacecommandset-do_bof_run), [`MiscMigratedCommandSet.do_config_banner`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_config_banner), [`PurpleTeamCommandSet.do_purple_config`](cli.commands.purple_team.py.md#purpleteamcommandset-do_purple_config), [`SecurityCommandSet.do_opsec`](cli.commands.security.py.md#securitycommandset-do_opsec), [`SecurityCommandSet.do_rotate_aes`](cli.commands.security.py.md#securitycommandset-do_rotate_aes), [`SecurityCommandSet.do_seal_credentials`](cli.commands.security.py.md#securitycommandset-do_seal_credentials), [`SecurityCommandSet.do_unseal_credentials`](cli.commands.security.py.md#securitycommandset-do_unseal_credentials), [`load_and_validate`](#load_and_validate), [`get_defaults`](lazyc2.blueprints.api.py.md#get_defaults), [`set_default`](lazyc2.blueprints.api.py.md#set_default), [`LazyOwnShell.__init__`](lazyown.py.md#lazyownshell-__init__) and 12 more
+*Called by:* [`load_aliases`](cli.aliases.py.md#load_aliases), [`BofMarketplaceCommandSet.do_bof_run`](cli.commands.bof_registry.py.md#bofmarketplacecommandset-do_bof_run), [`MiscMigratedCommandSet.do_config_banner`](cli.commands.misc_migrated.py.md#miscmigratedcommandset-do_config_banner), [`PurpleTeamCommandSet.do_purple_config`](cli.commands.purple_team.py.md#purpleteamcommandset-do_purple_config), [`SecurityCommandSet.do_opsec`](cli.commands.security.py.md#securitycommandset-do_opsec), [`SecurityCommandSet.do_rotate_aes`](cli.commands.security.py.md#securitycommandset-do_rotate_aes), [`SecurityCommandSet.do_seal_credentials`](cli.commands.security.py.md#securitycommandset-do_seal_credentials), [`SecurityCommandSet.do_unseal_credentials`](cli.commands.security.py.md#securitycommandset-do_unseal_credentials), [`load_and_validate`](#load_and_validate), [`get_defaults`](lazyc2.blueprints.api.py.md#get_defaults), [`set_default`](lazyc2.blueprints.api.py.md#set_default), [`LazyOwnShell.__init__`](lazyown.py.md#lazyownshell-__init__) and 13 more
 
 ---
 
@@ -203,7 +203,7 @@ def load_and_validate(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[s
 
 Load ``payload.json``, validate against the schema, and return a result dict.
 
-Validation never raises: problems are collected in the `[`warnings`](cli.doctor.py.md#doctorreport-warnings)` and
+Validation never raises: problems are collected in the ``warnings`` and
 ``errors`` lists of the result dict. The payload is returned in the
 ``payload`` key as loaded.
 
@@ -216,7 +216,7 @@ Validation never raises: problems are collected in the `[`warnings`](cli.doctor.
 **Returns:** `dict[str, Any]` - A dict with keys:
 - ``payload`` (``dict``): the loaded configuration dictionary.
 - `[`valid`](modules.playbook_admin.py.md#playbookentry-valid)` (``bool``): ``True`` when no errors were found.
-- `[`warnings`](cli.doctor.py.md#doctorreport-warnings)` (``list[str]``): advisory issues (schema warnings,
+- ``warnings`` (``list[str]``): advisory issues (schema warnings,
   unresolved placeholders, default-looking values).
 - ``errors`` (``list[str]``): blocking issues from schema
   validation.

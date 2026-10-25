@@ -368,7 +368,7 @@ Compute aggregate statistics over the supplied records.
 | `window_seconds` | `int \| None` | `None` | If set, ignore records older than this many seconds relative to *now_utc*. |
 | `now_utc` | `datetime \| None` | `None` | Reference timestamp for the window. Defaults to the current UTC time. Supplied explicitly in tests. |
 
-**Returns:** `dict[str, object]` - A dictionary with keys `[`total`](modules.auto_purple.py.md#purplescore-total)`, ``window_seconds``,
+**Returns:** `dict[str, object]` - A dictionary with keys ``total``, ``window_seconds``,
 ``by_command`` and ``top_failures``.
 
 *Called by:* [`MetricsRecorder.summarize`](#metricsrecorder-summarize)

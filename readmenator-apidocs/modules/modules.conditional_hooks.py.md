@@ -373,7 +373,7 @@ Fire an event, evaluating all matching rules.
 | `event` | `str` |  | Event type (must be in ``_VALID_EVENTS``). |
 | `context` | `dict[str, Any] \| None` | `None` | Key-value data about the event. |
 
-**Returns:** `list[dict[str, Any]]` - List of dicts with `[`rule`](skills.claude_md_orchestrator.models.py.md#finding-rule)`, ``action``, and ``result`` keys.
+**Returns:** `list[dict[str, Any]]` - List of dicts with ``rule``, ``action``, and ``result`` keys.
 
 <a id="hookengine-list_rules"></a>
 

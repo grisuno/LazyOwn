@@ -1,6 +1,25 @@
 # Subsystem: tests (page 9 of 20)
 Previous: [KB_tests_p8.md](KB_tests_p8.md)
 
+## tests/test_estorides_fusion.py
+- Doc: Estorides OSINT fusion: load, merge, surface readers.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_load_surface_graph` (function, line 27) `def _load_surface_graph()`
+  - `_base_nodes` (function, line 36) `def _base_nodes()`
+  - `test_load_lazyown_vocabulary` (function, line 50) `def test_load_lazyown_vocabulary(tmp_path)`
+  - `test_load_raw_export_translates_types` (function, line 73) `def test_load_raw_export_translates_types(tmp_path)`
+  - `test_merge_fuses_matching_ip` (function, line 91) `def test_merge_fuses_matching_ip()`
+  - `test_merge_adds_new_entities_capped` (function, line 116) `def test_merge_adds_new_entities_capped()`
+  - `test_merge_edges_reanchor` (function, line 141) `def test_merge_edges_reanchor(tmp_path)`
+  - `test_find_export_prefers_lazyown` (function, line 182) `def test_find_export_prefers_lazyown(tmp_path)`
+  - `test_parse_confirm` (function, line 187) `def test_parse_confirm()`
+  - `test_discovery_targets_reads_all_files` (function, line 194) `def test_discovery_targets_reads_all_files(tmp_path)`
+  - `test_write_world_model_hosts` (function, line 201) `def test_write_world_model_hosts(tmp_path)`
+  - `test_surface_readers_cover_sessions_formats` (function, line 219) `def test_surface_readers_cover_sessions_formats(tmp_path)`
+- Depends on: `modules/estorides_fusion.py`, `modules/surface_ops.py`, `modules/world_model.py`
+
 ## tests/test_evidence_hints.py
 - Doc: Tests for evidence-backed inline hints.
 - Layer: testing
@@ -392,6 +411,26 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_atomic_shell_marks_target_compromised` (function, line 123) `def test_atomic_shell_marks_target_compromised(sandbox, monkeypatch, capsys)`
 - Depends on: `cli/commands/command_and_control_migrated.py`, `cli/commands/redteam_gym.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/world_model.py`
 
+## tests/test_gym_lifecycle.py
+- Doc: Gym lifecycle: lab spin-up on start, teardown on stop and exit cleanup.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sandbox` (function, line 20) `def sandbox(tmp_path, monkeypatch)`
+  - `_FakeDocker` (class, line 38) `class _FakeDocker`
+  - `_result` (class, line 53) `class _result`
+  - `test_start_spins_scenario_and_resolves_ip` (function, line 60) `def test_start_spins_scenario_and_resolves_ip(sandbox, monkeypatch)`
+  - `test_start_without_lab_flag_still_registers` (function, line 89) `def test_start_without_lab_flag_still_registers(sandbox, monkeypatch)`
+  - `test_start_without_docker_degrades_gracefully` (function, line 99) `def test_start_without_docker_degrades_gracefully(sandbox, monkeypatch)`
+  - `test_start_removes_stale_container_first` (function, line 107) `def test_start_removes_stale_container_first(sandbox, monkeypatch)`
+  - `test_stop_teardowns_scenario_container` (function, line 122) `def test_stop_teardowns_scenario_container(sandbox, monkeypatch)`
+  - `test_stop_keeps_scenario_with_active_runs` (function, line 142) `def test_stop_keeps_scenario_with_active_runs(sandbox, monkeypatch)`
+  - `test_cleanup_gym_machines_stops_all` (function, line 162) `def test_cleanup_gym_machines_stops_all(tmp_path, monkeypatch, capsys)`
+  - `__init__` (method, line 41) `def __init__(self, responses)`
+  - `__call__` (method, line 45) `def __call__(self)`
+  - `__init__` (method, line 54) `def __init__(self, returncode, stdout, stderr)`
+- Depends on: `core/config.py`, `modules/__init__.py`, `modules/gym_cleanup.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+
 ## tests/test_gym_matrix_ctf.py
 - Doc: Contract tests for gym matrix runner and CTF capture.
 - Layer: testing
@@ -437,36 +476,6 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_delete_refuses_active_definition` (function, line 145) `def test_delete_refuses_active_definition(sandbox)`
   - `test_legacy_active_files_are_imported_once` (function, line 156) `def test_legacy_active_files_are_imported_once(sandbox, monkeypatch)`
 - Depends on: `modules/__init__.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/world_model.py`
-
-## tests/test_harness_mode.py
-- Doc: Harness deterministic-mode contract tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `HarnessFlagSpec` (class, line 14) `class HarnessFlagSpec(TestCase)`
-  - `HarnessProfileSpec` (class, line 46) `class HarnessProfileSpec(TestCase)`
-  - `GateSpec` (class, line 65) `class GateSpec(TestCase)`
-  - `ChainDirectiveSpec` (class, line 123) `class ChainDirectiveSpec(TestCase)`
-  - `ObjectiveDirectiveSpec` (class, line 144) `class ObjectiveDirectiveSpec(TestCase)`
-  - `setUp` (method, line 17) `def setUp(self)`
-  - `tearDown` (method, line 20) `def tearDown(self)`
-  - `test_env_flag_enables` (method, line 26) `def test_env_flag_enables(self)`
-  - `test_env_flag_off_overrides_profile` (method, line 32) `def test_env_flag_off_overrides_profile(self)`
-  - `test_payload_section_enables` (method, line 37) `def test_payload_section_enables(self)`
-  - `test_payload_section_disables` (method, line 41) `def test_payload_section_disables(self)`
-  - `test_profile_present` (method, line 49) `def test_profile_present(self)`
-  - `test_profile_flags` (method, line 54) `def test_profile_flags(self)`
-  - `_planner_returns_none_without_llm` (method, line 68) `def _planner_returns_none_without_llm(self)`
-  - `test_plan_llm_gate_blocked_under_harness` (method, line 79) `def test_plan_llm_gate_blocked_under_harness(self)`
-  - `test_worker_agentic_gate_blocked_under_harness` (method, line 84) `def test_worker_agentic_gate_blocked_under_harness(self)`
-  - `test_worker_llm_steps_gate_keeps_base_steps` (method, line 104) `def test_worker_llm_steps_gate_keeps_base_steps(self)`
-  - `test_known_chain_resolves` (method, line 126) `def test_known_chain_resolves(self)`
-  - `test_unknown_chain_rejected` (method, line 132) `def test_unknown_chain_rejected(self)`
-  - `test_target_token_fallback` (method, line 137) `def test_target_token_fallback(self)`
-  - `test_push_objective_text_carries_directive` (method, line 147) `def test_push_objective_text_carries_directive(self)`
-  - `_explode` (function, line 93) `def _explode()`
-  - `_llm_steps` (function, line 112) `def _llm_steps(_intent, _prior)`
-- Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`
 
 
 Next: [KB_tests_p10.md](KB_tests_p10.md)

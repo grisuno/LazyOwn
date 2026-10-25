@@ -160,7 +160,7 @@ explained shorter list beats a padded opaque one.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `recommendations` | `Sequence[Any]` |  | Ranked objects exposing ``action``, ``score``, `[`reasons`](cli.recommendation.py.md#recommendation-reasons)`, `[`sources`](#evidencehint-sources)` and optional ``command_preview`` (a [`cli.recommendation.Recommendation`](cli.recommendation.py.md#recommendation) or any duck-typed equivalent), best first. |
+| `recommendations` | `Sequence[Any]` |  | Ranked objects exposing ``action``, ``score``, ``reasons``, `[`sources`](#evidencehint-sources)` and optional ``command_preview`` (a [`cli.recommendation.Recommendation`](cli.recommendation.py.md#recommendation) or any duck-typed equivalent), best first. |
 | `limit` | `int` |  | Maximum number of hints to return. |
 
 **Returns:** `list[EvidenceHint]` - Up to ``limit`` [`EvidenceHint`](#evidencehint) items preserving input order.

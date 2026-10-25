@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 817 modules, 15305 documented entities, documentation coverage 74.4% (7209/9691 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 823 modules, 15461 documented entities, documentation coverage 74.5% (7266/9748 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (704), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (710), sh (61)
 
 ## Modules
 
@@ -510,12 +510,13 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.chain_distill`](modules/modules.chain_distill.py.md) | chain_distill - crystallise one autonomous-loop trace into a chain YAML. | 2 | 7 | 100.0% |
 | [`modules.chain_facts`](modules/modules.chain_facts.py.md) | Bridge chain run outputs into the FactStore. | 0 | 1 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | 2 | 9 | 100.0% |
-| [`modules.chain_runner`](modules/modules.chain_runner.py.md) | Single execution engine for YAML orchestration chains. | 4 | 12 | 100.0% |
+| [`modules.chain_runner`](modules/modules.chain_runner.py.md) | Single execution engine for YAML orchestration chains. | 4 | 13 | 100.0% |
 | [`modules.chain_state`](modules/modules.chain_state.py.md) | Durable chain checkpoints for pause, resume and audit. | 0 | 5 | 100.0% |
 | [`modules.chain_synth`](modules/modules.chain_synth.py.md) | Runtime chain synthesis from fact-store evidence. | 0 | 3 | 100.0% |
 | [`modules.chain_tokens`](modules/modules.chain_tokens.py.md) | Engagement-state tokens for YAML chains. | 0 | 2 | 100.0% |
 | [`modules.cicd_enumerator`](modules/modules.cicd_enumerator.py.md) | CI/CD Pipeline Enumeration Module. | 2 | 5 | 87.5% |
 | [`modules.cli_auth`](modules/modules.cli_auth.py.md) | CLI authentication module — login against users.json with remember-me. | 0 | 10 | 100.0% |
+| [`modules.closedloop`](modules/modules.closedloop.py.md) | Closed-loop detection rule tuning: baseline vs candidate comparison. | 2 | 4 | 100.0% |
 | [`modules.cloud_enum`](modules/modules.cloud_enum.py.md) | Native cloud enumeration modules for AWS, Azure, and GCP. | 1 | 6 | 100.0% |
 | [`modules.collab_bp`](modules/modules.collab_bp.py.md) | modules/collab_bp.py ==================== Multi-operator collaboration layer for LazyOwn. | 6 | 31 | 13.2% |
 | [`modules.colors`](modules/modules.colors.py.md) |  | 0 | 3 | 25.0% |
@@ -532,6 +533,8 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.dashboard_bp`](modules/modules.dashboard_bp.py.md) | modules/dashboard_bp.py ======================== Real-time SOC dashboard as a Flask Blueprint. | 0 | 4 | 100.0% |
 | [`modules.dashboard_engine`](modules/modules.dashboard_engine.py.md) | Live Network Map Dashboard for LazyOwn. | 3 | 11 | 53.3% |
 | [`modules.db`](modules/modules.db.py.md) | SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes. | 1 | 29 | 100.0% |
+| [`modules.defense_eval`](modules/modules.defense_eval.py.md) | Detection rule replay over recorded attack and control logs. | 5 | 7 | 100.0% |
+| [`modules.defense_stages`](modules/modules.defense_stages.py.md) | Orchestrator stage runners for defense validation and hunt verification. | 0 | 3 | 100.0% |
 | [`modules.delegation_attacks`](modules/modules.delegation_attacks.py.md) | Active Directory delegation enumeration and abuse. | 3 | 9 | 92.3% |
 | [`modules.detailed_search`](modules/modules.detailed_search.py.md) | main.py | 0 | 1 | 50.0% |
 | [`modules.detection_feed`](modules/modules.detection_feed.py.md) | Dynamic detection feed for the Detection Oracle. | 2 | 5 | 87.5% |
@@ -572,12 +575,14 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.golden_path`](modules/modules.golden_path.py.md) | Deterministic attack-path solver over the LazyOwn world model. | 0 | 6 | 100.0% |
 | [`modules.gpo_abuse`](modules/modules.gpo_abuse.py.md) | GPO abuse module — Group Policy Object manipulation for AD persistence and privilege escalation. | 3 | 13 | 94.1% |
 | [`modules/gui_askpass.sh`](modules/modules.gui_askpass.sh.md) | gui_askpass.sh — SUDO_ASKPASS helper for LazyOwn MCP Used by: sudo -A <script> (set SUDO_ASKPASS to this file's path) Tries GUI backends in order of preference. | 0 | 5 | 33.3% |
+| [`modules.gym_cleanup`](modules/modules.gym_cleanup.py.md) | Gym machine cleanup on LazyOwn exit. | 0 | 2 | 100.0% |
 | [`modules.gym_matrix_runner`](modules/modules.gym_matrix_runner.py.md) | Ordered Metasploitable 2 gym matrix runner. | 0 | 3 | 100.0% |
 | [`modules.gym_registry`](modules/modules.gym_registry.py.md) | Gym definitions and persistent run state. | 0 | 18 | 100.0% |
 | [`modules.harness`](modules/modules.harness.py.md) | Deterministic harness gate for the LazyOwn loop. | 0 | 2 | 100.0% |
 | [`modules.hash_cracker`](modules/modules.hash_cracker.py.md) | Hash cracking pipeline — John the Ripper and Hashcat integration. | 3 | 7 | 72.7% |
 | [`modules.hive_invoke`](modules/modules.hive_invoke.py.md) | modules/hive_invoke.py ======================= Invokes Claude Code CLI with the LazyOwn MCP server and forwards an operator prompt for autonomous or hive-mind... | 0 | 1 | 50.0% |
 | [`modules/hostdiscover.sh`](modules/modules.hostdiscover.sh.md) |  | 0 | 2 | 0.0% |
+| [`modules.hunt_verify`](modules/modules.hunt_verify.py.md) | Evidence verdict verification for hunting and chain stages. | 5 | 6 | 100.0% |
 | [`modules.ia_code_analysis`](modules/modules.ia_code_analysis.py.md) |  | 1 | 7 | 66.7% |
 | [`modules.ia_logs_analysis`](modules/modules.ia_logs_analysis.py.md) | log_monitor_bot.py | 1 | 6 | 75.0% |
 | [`modules.ia_network_analysis`](modules/modules.ia_network_analysis.py.md) | ia_network_analysis.py | 0 | 4 | 80.0% |
@@ -598,6 +603,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.kill_chain_viz`](modules/modules.kill_chain_viz.py.md) | SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG. | 0 | 2 | 33.3% |
 | [`modules.killchain`](modules/modules.killchain.py.md) | Unified kill-chain — single source of truth consumed by all surfaces. | 3 | 18 | 100.0% |
 | [`modules.kivi`](modules/modules.kivi.py.md) |  | 1 | 2 | 0.0% |
+| [`modules.lab_runtime`](modules/modules.lab_runtime.py.md) | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | 0 | 16 | 100.0% |
 | [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | Agentic tool-calling bridge for the loop and the main agent. | 2 | 16 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | Bidirectional LAZY <-> LazyOwn bridge. | 0 | 14 | 100.0% |
 | [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | Full CLI catalog for the Lazy autonomous loop. | 0 | 10 | 100.0% |

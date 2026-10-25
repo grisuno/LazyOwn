@@ -121,7 +121,7 @@ def stop(self) -> None
 
 Stop the scheduler and cancel all pending tasks.
 
-Idempotent: calling `[`stop`](#taskscheduler-stop)` on an already-stopped scheduler is a
+Idempotent: calling `[`stop`](modules.lab_runtime.py.md#stop)` on an already-stopped scheduler is a
 no-op.
 
 <a id="taskscheduler-schedule_task"></a>

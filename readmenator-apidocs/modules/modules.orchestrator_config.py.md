@@ -70,7 +70,7 @@ flowchart LR
 
 ### `reload`
 
-`function` | [modules/orchestrator_config.py:109](../../modules/orchestrator_config.py#L109)
+`function` | [modules/orchestrator_config.py:113](../../modules/orchestrator_config.py#L113)
 
 ```python
 def reload() -> None
@@ -84,7 +84,7 @@ Invalidate every merged view after an external configuration change.
 
 ### `profiles`
 
-`function` | [modules/orchestrator_config.py:228](../../modules/orchestrator_config.py#L228)
+`function` | [modules/orchestrator_config.py:232](../../modules/orchestrator_config.py#L232)
 
 ```python
 def profiles() -> dict[str, dict]
@@ -102,7 +102,7 @@ Return every resolved profile, including inherited values.
 
 ### `active_profile`
 
-`function` | [modules/orchestrator_config.py:253](../../modules/orchestrator_config.py#L253)
+`function` | [modules/orchestrator_config.py:257](../../modules/orchestrator_config.py#L257)
 
 ```python
 def active_profile() -> str
@@ -122,7 +122,7 @@ Return the profile selected by the payload, falling back safely.
 
 ### `profile_config`
 
-`function` | [modules/orchestrator_config.py:265](../../modules/orchestrator_config.py#L265)
+`function` | [modules/orchestrator_config.py:269](../../modules/orchestrator_config.py#L269)
 
 ```python
 def profile_config(name: str = '') -> dict
@@ -148,7 +148,7 @@ Return one resolved profile by name, or the active profile.
 
 ### `set_profile`
 
-`function` | [modules/orchestrator_config.py:272](../../modules/orchestrator_config.py#L272)
+`function` | [modules/orchestrator_config.py:276](../../modules/orchestrator_config.py#L276)
 
 ```python
 def set_profile(name: str) -> dict
@@ -176,7 +176,7 @@ Persist the active profile name.
 
 ### `limits`
 
-`function` | [modules/orchestrator_config.py:328](../../modules/orchestrator_config.py#L328)
+`function` | [modules/orchestrator_config.py:332](../../modules/orchestrator_config.py#L332)
 
 ```python
 def limits() -> dict
@@ -194,7 +194,7 @@ Return resolved numeric limits for the active profile.
 
 ### `budget`
 
-`function` | [modules/orchestrator_config.py:335](../../modules/orchestrator_config.py#L335)
+`function` | [modules/orchestrator_config.py:339](../../modules/orchestrator_config.py#L339)
 
 ```python
 def budget() -> dict
@@ -212,7 +212,7 @@ Return resolved budgets for the active profile.
 
 ### `chain_defaults`
 
-`function` | [modules/orchestrator_config.py:342](../../modules/orchestrator_config.py#L342)
+`function` | [modules/orchestrator_config.py:346](../../modules/orchestrator_config.py#L346)
 
 ```python
 def chain_defaults() -> dict
@@ -230,7 +230,7 @@ Return the default chain and playbook for the active profile.
 
 ### `sinks`
 
-`function` | [modules/orchestrator_config.py:351](../../modules/orchestrator_config.py#L351)
+`function` | [modules/orchestrator_config.py:355](../../modules/orchestrator_config.py#L355)
 
 ```python
 def sinks() -> dict
@@ -248,7 +248,7 @@ Return outcome sink toggles for the active profile plus payload overrides.
 
 ### `stages`
 
-`function` | [modules/orchestrator_config.py:362](../../modules/orchestrator_config.py#L362)
+`function` | [modules/orchestrator_config.py:366](../../modules/orchestrator_config.py#L366)
 
 ```python
 def stages() -> dict[str, dict]
@@ -268,7 +268,7 @@ Merged stage view: enabled flag, label, firing condition and params.
 
 ### `stage_enabled`
 
-`function` | [modules/orchestrator_config.py:392](../../modules/orchestrator_config.py#L392)
+`function` | [modules/orchestrator_config.py:396](../../modules/orchestrator_config.py#L396)
 
 ```python
 def stage_enabled(name: str) -> bool
@@ -294,7 +294,7 @@ Return whether one pipeline stage is enabled (unknown = enabled).
 
 ### `stage_params`
 
-`function` | [modules/orchestrator_config.py:398](../../modules/orchestrator_config.py#L398)
+`function` | [modules/orchestrator_config.py:402](../../modules/orchestrator_config.py#L402)
 
 ```python
 def stage_params(name: str) -> dict
@@ -318,7 +318,7 @@ Return the resolved parameter mapping of one stage.
 
 ### `set_stage`
 
-`function` | [modules/orchestrator_config.py:403](../../modules/orchestrator_config.py#L403)
+`function` | [modules/orchestrator_config.py:407](../../modules/orchestrator_config.py#L407)
 
 ```python
 def set_stage(name: str, enabled: bool) -> dict
@@ -349,7 +349,7 @@ Persist the enabled flag of one stage.
 
 ### `effective_verbs`
 
-`function` | [modules/orchestrator_config.py:428](../../modules/orchestrator_config.py#L428)
+`function` | [modules/orchestrator_config.py:432](../../modules/orchestrator_config.py#L432)
 
 ```python
 def effective_verbs() -> list[dict]
@@ -367,7 +367,7 @@ Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
 
 ### `verb_config`
 
-`function` | [modules/orchestrator_config.py:519](../../modules/orchestrator_config.py#L519)
+`function` | [modules/orchestrator_config.py:523](../../modules/orchestrator_config.py#L523)
 
 ```python
 def verb_config(name: str) -> dict | None
@@ -393,7 +393,7 @@ Return the merged configuration of one auto verb, or None.
 
 ### `verb_enabled`
 
-`function` | [modules/orchestrator_config.py:528](../../modules/orchestrator_config.py#L528)
+`function` | [modules/orchestrator_config.py:532](../../modules/orchestrator_config.py#L532)
 
 ```python
 def verb_enabled(name: str) -> bool
@@ -419,7 +419,7 @@ Return whether one auto verb may be proposed or executed.
 
 ### `upsert_verb`
 
-`function` | [modules/orchestrator_config.py:534](../../modules/orchestrator_config.py#L534)
+`function` | [modules/orchestrator_config.py:538](../../modules/orchestrator_config.py#L538)
 
 ```python
 def upsert_verb(name: str, *, enabled: bool | None = None, keywords: list[str] | None = None, phases: list[str] | None = None, needs_target: bool | None = None, extra_args: str | None = None, description: str | None = None, custom: bool = False) -> dict
@@ -456,7 +456,7 @@ Create or update one auto-verb override in the payload.
 
 ### `remove_verb`
 
-`function` | [modules/orchestrator_config.py:591](../../modules/orchestrator_config.py#L591)
+`function` | [modules/orchestrator_config.py:595](../../modules/orchestrator_config.py#L595)
 
 ```python
 def remove_verb(name: str) -> bool
@@ -482,7 +482,7 @@ Remove a custom verb, or disable a built-in one.
 
 ### `reset`
 
-`function` | [modules/orchestrator_config.py:612](../../modules/orchestrator_config.py#L612)
+`function` | [modules/orchestrator_config.py:616](../../modules/orchestrator_config.py#L616)
 
 ```python
 def reset() -> None
@@ -498,7 +498,7 @@ Drop every orchestrator override (back to YAML defaults).
 
 ### `validate_config`
 
-`function` | [modules/orchestrator_config.py:619](../../modules/orchestrator_config.py#L619)
+`function` | [modules/orchestrator_config.py:623](../../modules/orchestrator_config.py#L623)
 
 ```python
 def validate_config(data: Any) -> list[str]
@@ -548,7 +548,7 @@ STAGE_DEFS
 
 ### `FALLBACK_STAGES`
 
-`constant` | [modules/orchestrator_config.py:54](../../modules/orchestrator_config.py#L54)
+`constant` | [modules/orchestrator_config.py:58](../../modules/orchestrator_config.py#L58)
 
 ```python
 FALLBACK_STAGES: dict[str, dict[str, Any]]
@@ -560,7 +560,7 @@ FALLBACK_STAGES: dict[str, dict[str, Any]]
 
 ### `FALLBACK_LIMITS`
 
-`constant` | [modules/orchestrator_config.py:64](../../modules/orchestrator_config.py#L64)
+`constant` | [modules/orchestrator_config.py:68](../../modules/orchestrator_config.py#L68)
 
 ```python
 FALLBACK_LIMITS: dict[str, int | float]
@@ -572,7 +572,7 @@ FALLBACK_LIMITS: dict[str, int | float]
 
 ### `FALLBACK_BUDGET`
 
-`constant` | [modules/orchestrator_config.py:80](../../modules/orchestrator_config.py#L80)
+`constant` | [modules/orchestrator_config.py:84](../../modules/orchestrator_config.py#L84)
 
 ```python
 FALLBACK_BUDGET: dict[str, int] = {'max_rounds': 10, 'max_toolcalls': 200, 'max_findings': 50}
@@ -584,7 +584,7 @@ FALLBACK_BUDGET: dict[str, int] = {'max_rounds': 10, 'max_toolcalls': 200, 'max_
 
 ### `FALLBACK_SINKS`
 
-`constant` | [modules/orchestrator_config.py:82](../../modules/orchestrator_config.py#L82)
+`constant` | [modules/orchestrator_config.py:86](../../modules/orchestrator_config.py#L86)
 
 ```python
 FALLBACK_SINKS: dict[str, bool]
@@ -596,7 +596,7 @@ FALLBACK_SINKS: dict[str, bool]
 
 ### `DEFAULT_STAGES`
 
-`constant` | [modules/orchestrator_config.py:94](../../modules/orchestrator_config.py#L94)
+`constant` | [modules/orchestrator_config.py:98](../../modules/orchestrator_config.py#L98)
 
 ```python
 DEFAULT_STAGES: dict[str, bool] = {name: bool(data['enabled']) for name, data in FALLBACK_STAGES.items()}

@@ -321,7 +321,7 @@ Routing rules (deterministic, in declaration order):
 | Member | Kind | Summary |
 |---|---|---|
 | [`__init__`](#paletteargumentparser-__init__) | constructor |  |
-| [`parse`](#paletteargumentparser-parse) | method | Return a [`PaletteArgs`](#paletteargs) for ``line``. |
+| [`parse`](#paletteargumentparser-parse) | method | Return a [`PaletteArgs`](#paletteargs) for `[`line`](modules.defense_eval.py.md#evaluation-line)`. |
 
 <a id="paletteargumentparser-__init__"></a>
 
@@ -351,7 +351,7 @@ def __init__(self, config: PaletteRenderConfig) -> None
 def parse(self, line: str, *, known_phases: Iterable[str]) -> PaletteArgs
 ```
 
-Return a [`PaletteArgs`](#paletteargs) for ``line``.
+Return a [`PaletteArgs`](#paletteargs) for `[`line`](modules.defense_eval.py.md#evaluation-line)`.
 
 **Parameters**
 

@@ -276,7 +276,7 @@ Connects to an ftp host using credentials from a file and a specified port.
 This function performs the following actions:
 1. Retrieves the remote host (`self.params['rhost']`) from the parameters.
 2. Checks if the `self.params['rhost']` is valid using the [`check_rhost`](core.validators.py.md#check_rhost) function.
-3. Sets the ftp port to the value provided in the `line` parameter.
+3. Sets the ftp port to the value provided in the [`line`](modules.defense_eval.py.md#evaluation-line) parameter.
 4. Checks if the `credentials.txt` file exists in the `./sessions` directory.
 5. Reads credentials (username and password) from the `credentials.txt` file, where each line is formatted as `user:password`.
 6. Constructs and executes an ftp command using `sshpass` to handle password authentication and `ftp` to initiate the connection.

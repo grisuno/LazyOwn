@@ -233,10 +233,15 @@ Return all defined gym challenges with metadata.
 `function` | [modules/redteam_gym.py:494](../../modules/redteam_gym.py#L494)
 
 ```python
-def start_challenge(challenge_id: str, target: str = '') -> dict[str, Any]
+def start_challenge(challenge_id: str, target: str = '', spin_lab: bool = True) -> dict[str, Any]
 ```
 
 Begin a gym challenge and persist the run in the world model.
+
+When ``spin_lab`` is set the challenge's scenario container is also
+started through [`modules.lab_runtime`](modules.lab_runtime.py.md) (best effort: Docker
+missing or an unknown scenario never fails the run registration;
+the result then keeps the manual ``lab start`` hint).
 
 **Parameters**
 
@@ -244,8 +249,9 @@ Begin a gym challenge and persist the run in the world model.
 |---|---|---|---|
 | `challenge_id` | `str` |  | ID from the YAML catalogue. |
 | `target` | `str` | `''` | Optional engagement target stored with the run. |
+| `spin_lab` | `bool` | `True` | Also spin up the scenario target container. |
 
-**Returns:** `dict[str, Any]` - Dict with the run id, challenge info and next steps.
+**Returns:** `dict[str, Any]` - Dict with the run id, challenge info, lab info and next steps.
 
 *Calls:* [`get_active_runs`](modules.gym_registry.py.md#get_active_runs), [`start_run`](modules.gym_registry.py.md#start_run), [`reload_challenge_definitions`](#reload_challenge_definitions)
 
@@ -257,7 +263,7 @@ Begin a gym challenge and persist the run in the world model.
 
 ### `submit_challenge`
 
-`function` | [modules/redteam_gym.py:560](../../modules/redteam_gym.py#L560)
+`function` | [modules/redteam_gym.py:610](../../modules/redteam_gym.py#L610)
 
 ```python
 def submit_challenge(techniques_used: list[str] | None = None, success: bool = True, run_id: str = '') -> dict[str, Any]
@@ -283,7 +289,7 @@ Submit a completed challenge for scoring.
 
 ### `stop_challenges`
 
-`function` | [modules/redteam_gym.py:668](../../modules/redteam_gym.py#L668)
+`function` | [modules/redteam_gym.py:718](../../modules/redteam_gym.py#L718)
 
 ```python
 def stop_challenges(selector: str = '') -> dict[str, Any]
@@ -291,13 +297,17 @@ def stop_challenges(selector: str = '') -> dict[str, Any]
 
 Stop one gym by id/name/run id, or every gym when selector is empty.
 
+After the runs are removed from the world model, each scenario
+container without any remaining active run is stopped through
+[`modules.lab_runtime`](modules.lab_runtime.py.md) so gym machines never outlive their runs.
+
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `selector` | `str` | `''` |  |
+| `selector` | `str` | `''` | Optional run id, challenge id or gym name. Empty stops every active run. |
 
-**Returns:** `dict[str, Any]`
+**Returns:** `dict[str, Any]` - The stop result with the stopped run rows and a ``labs`` key.
 
 *Calls:* [`stop_runs`](modules.gym_registry.py.md#stop_runs)
 
@@ -309,7 +319,7 @@ Stop one gym by id/name/run id, or every gym when selector is empty.
 
 ### `get_active_challenges`
 
-`function` | [modules/redteam_gym.py:760](../../modules/redteam_gym.py#L760)
+`function` | [modules/redteam_gym.py:864](../../modules/redteam_gym.py#L864)
 
 ```python
 def get_active_challenges() -> list[dict[str, Any]]
@@ -329,7 +339,7 @@ Return every active gym run across operators.
 
 ### `show_leaderboard`
 
-`function` | [modules/redteam_gym.py:919](../../modules/redteam_gym.py#L919)
+`function` | [modules/redteam_gym.py:1023](../../modules/redteam_gym.py#L1023)
 
 ```python
 def show_leaderboard(top_n: int = 15) -> list[dict[str, Any]]
@@ -351,7 +361,7 @@ Return the top N players from the leaderboard.
 
 ### `get_active_challenge`
 
-`function` | [modules/redteam_gym.py:946](../../modules/redteam_gym.py#L946)
+`function` | [modules/redteam_gym.py:1050](../../modules/redteam_gym.py#L1050)
 
 ```python
 def get_active_challenge(run_id: str = '') -> dict[str, Any] | None
@@ -377,7 +387,7 @@ operator label changed between sessions.
 
 ### `record_external_attempt`
 
-`function` | [modules/redteam_gym.py:977](../../modules/redteam_gym.py#L977)
+`function` | [modules/redteam_gym.py:1081](../../modules/redteam_gym.py#L1081)
 
 ```python
 def record_external_attempt(challenge_id: str, success: bool, elo_bonus: int = 150, techniques: list[str] | None = None) -> dict[str, Any]

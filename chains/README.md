@@ -60,6 +60,19 @@ steps:                       # executed in order through the runner
     resolve_newest:
       glob: playbooks/attack_plan_*.yaml
       as: plan_file
+  - id: loot_grab
+    phase: post_exploitation
+    run: c2_loot {target} /etc/shadow
+    evidence: [sessions/loot_{target}_shadow.txt]
+    evidence_sha256:
+      sessions/loot_{target}_shadow.txt: "<64-hex digest pin>"
+    required_fields: [user, hash]
+    benign_alternatives: ["backup script ran first"]
+    budget: {attempts: 2, seconds: 120}
+  - id: confirm_chain
+    phase: post_exploitation
+    run: create_session_json
+    depends_on: [loot_grab]
 ```
 
 Tokens: `{playbook}`, `{target}`, plus any token an earlier `capture`
@@ -72,6 +85,21 @@ chain moving after a failure. `capture` stores stripped output (up to
 2000 chars) for later steps. `expect` fails the step when the text is
 missing. `artifacts` and `sinks` travel in the result for reporting and
 the outcome bus.
+
+Chain-of-evidence fields (schema v2): `evidence` lists artefact files
+that must exist after the step succeeds; `evidence_sha256` pins a file
+to a 64-hex digest (re-run integrity); `required_fields` verifies the
+fields exist with a present scalar in the captured JSON events
+(JSONL or array) or in the step's first JSON object; `benign_alternatives`
+annotates benign explanations reviewed before escalation;
+`budget` caps total `attempts` (0-6, including retries) and `seconds`
+(wall clock, also caps `timeout`). Steps declaring any of these get an
+evidence verdict in the result: `evidence_observed` (success with every
+required field present), `insufficient_data` (success but fields
+missing) or `not_observed` (failure). `depends_on: [id]` skips a step
+while a predecessor verdict is not `evidence_observed`, marking the
+attack chain unproven; without hunting fields every step behaves as
+before.
 
 Steps run through `modules/chain_runner.py`. A first token that matches
 a live shell verb (for example `assign`, `lazynmap`, `lazy_sync`) goes

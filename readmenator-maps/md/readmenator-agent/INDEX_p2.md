@@ -3,10 +3,16 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/killchain.py` | Unified kill-chain — single source of truth consumed by all surfaces. | modules | 21 | 22 |
+| `modules/kivi.py` | - | modules | 3 | 0 |
+| `modules/lab_runtime.py` | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | modules | 18 | 0 |
+| `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 3 |
+| `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 21 | 5 |
+| `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 14 | 8 |
 | `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 33 |
 | `modules/lazy_installer.py` | Capability installer for the Lazy autonomous loop. | modules | 6 | 3 |
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 460 | 57 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 461 | 57 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_orchestrator_feedback.py` | Organic orchestrator training from loop usage. | modules | 11 | 5 |
 | `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 67 | 5 |
@@ -91,9 +97,9 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/operation.py` | Caldera-style operation lifecycle: create, start, pause, resume, stop, status. | modules | 23 | 1 |
 | `modules/operator_profiles.py` | Multi-operator profile management for LazyOwn team server. | modules | 20 | 1 |
 | `modules/opsec_scorer.py` | OPSEC scoring engine — pre-execution noise assessment and gated scoring. | modules | 36 | 4 |
-| `modules/orchestrator_config.py` | Operator configuration for the loop core: profiles, stages and auto verbs. | modules | 32 | 15 |
+| `modules/orchestrator_config.py` | Operator configuration for the loop core: profiles, stages and auto verbs. | modules | 32 | 16 |
 | `modules/osint_enrich.py` | Keyless OSINT enrichment for finding evidence. | modules | 13 | 2 |
-| `modules/outcome_bus.py` | Single fan-out contract for engagement outcomes. | modules | 17 | 23 |
+| `modules/outcome_bus.py` | Single fan-out contract for engagement outcomes. | modules | 17 | 24 |
 | `modules/payload_factory.py` | Native payload generation framework — stagers, stages, singles, formats. | modules | 32 | 6 |
 | `modules/phishing_orchestrator.py` | Smart Phishing Campaign Orchestrator. | modules | 23 | 3 |
 | `modules/pipeline_engine.py` | modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn | modules | 80 | 5 |
@@ -108,7 +114,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/reaction_bridge.py` | Reaction bridge between the reactive engine and the loop planner. | modules | 9 | 2 |
 | `modules/reactive_engine.py` | modules/reactive_engine.py | modules | 42 | 9 |
 | `modules/recommender.py` | LazyOwn Smart Command Recommender | modules | 4 | 1 |
-| `modules/redteam_gym.py` | Red Team Gym — gamified pentest training mode. | modules | 28 | 8 |
+| `modules/redteam_gym.py` | Red Team Gym — gamified pentest training mode. | modules | 30 | 8 |
 | `modules/reflective_dll.py` | Reflective DLL loading — load PE from memory without touching disk. | modules | 27 | 0 |
 | `modules/resource_script.py` | Enhanced resource script engine — variables, conditionals, loops, macros. | modules | 21 | 3 |
 | `modules/retry_session.py` | Retry sessions - safely relaunch a failed verb or a failed run. | modules | 10 | 3 |
@@ -183,7 +189,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 | 0 |
 | `modules/wineconfig.sh` | - | modules | 0 | 0 |
 | `modules/workspace.py` | Confined workspace file browser for operators and loop agents. | modules | 7 | 1 |
-| `modules/world_model.py` | modules/world_model.py | modules | 70 | 65 |
+| `modules/world_model.py` | modules/world_model.py | modules | 70 | 66 |
 | `modules/yaml_generator.py` | load_payload: Carga las variables desde payload.json | modules | 8 | 0 |
 | `modules/yara_scanner.py` | YARA integration for malware classification and IOC scanning. | modules | 16 | 2 |
 | `mutate.sh` | - | root | 0 | 0 |
@@ -421,6 +427,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_campaign_import_safety.py` | Campaign import trust boundaries hold against hostile packages. | tests | 14 | 0 |
 | `tests/test_categories.py` | Tests for modules/categories.py — category constants and look-up tables. | tests | 47 | 0 |
 | `tests/test_chain_distill.py` | BDD tests for chain_distill trace crystallisation. | tests | 15 | 0 |
+| `tests/test_chain_evidence.py` | Chain-of-evidence: depends_on gating, budgets, verdicts and artefact pins. | tests | 27 | 0 |
 | `tests/test_chain_list_command.py` | BDD: chain list exposes the YAML chain registry. | tests | 2 | 0 |
 | `tests/test_chain_mode.py` | Tests for cli/chain_mode.py. | tests | 28 | 0 |
 | `tests/test_chain_parallel_fallback.py` | Chain v2 adaptive execution: parallel groups, fallback, pre-checks. | tests | 26 | 0 |
@@ -435,6 +442,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_cli_auth_remember.py` | Remember-me token comparison must be timing-safe. | tests | 7 | 0 |
 | `tests/test_cli_command_sets.py` | ``cli`` package declarativeness and ``CommandSet`` registration tests. | tests | 61 | 0 |
 | `tests/test_cli_enhancements.py` | Tests for cli/cli_enhancements.py and the audit CommandSet. | tests | 50 | 0 |
+| `tests/test_closedloop.py` | Closed-loop tuning: baseline vs candidate comparison and suggestions. | tests | 6 | 0 |
 | `tests/test_codeql_alert_fixes.py` | Regression tests for CodeQL alerts 984, 983 and 982. | tests | 17 | 0 |
 | `tests/test_collab_and_onboarding.py` | tests/test_collab_and_onboarding.py  Tests for: - Gap #2 (team server): collab_bp UI route, SSE... | tests | 91 | 0 |
 | `tests/test_command_allowlist.py` | TDD tests for the command allowlist contract. | tests | 14 | 0 |
@@ -467,6 +475,8 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_dashboard_routes.py` | Integration tests for dashboard_bp loot and timeline routes. | tests | 29 | 0 |
 | `tests/test_dashboard_tui.py` | Tests for cli/dashboard_tui.py. | tests | 23 | 0 |
 | `tests/test_db.py` | Tests for modules.db — LazyOwnDB SQLite layer. | tests | 13 | 0 |
+| `tests/test_defense_eval.py` | Defense rule replay: target/control datasets, verdicts and metric counts. | tests | 10 | 0 |
+| `tests/test_defense_stages.py` | Defense stages: orchestrator-managed runners and YAML stage visibility. | tests | 8 | 0 |
 | `tests/test_dependencies.py` | Tests for ``core.dependencies`` graceful optional-import handling. | tests | 35 | 0 |
 | `tests/test_detection_feed.py` | Tests for modules/detection_feed.py. | tests | 19 | 0 |
 | `tests/test_dirtyinit_addon.py` | tests/test_dirtyinit_addon.py  Validation suite for the dirtyinit lazyaddon and its phone-side... | tests | 48 | 0 |
@@ -486,15 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_exploitgym_gym.py` | Tests for the ExploitGym integration module. | tests | 27 | 0 |
 | `tests/test_exploration_and_addons.py` | tests/test_exploration_and_addons.py  Coverage for the new exploration engine and addon schema... | tests | 36 | 0 |
 | `tests/test_f4_hardening.py` | F4 hardening: verb watchdog, chain fact spool, ctf CLI, foothold chain. | tests | 24 | 0 |
-| `tests/test_finding_lifecycle.py` | Finding confirmation lifecycle + keyless OSINT enrichment. | tests | 10 | 0 |
-| `tests/test_fuzzy_picker.py` | Tests for cli/fuzzy_picker.py and lint-regression for lazyown.py. | tests | 25 | 0 |
-| `tests/test_golden_path.py` | Contract tests for the deterministic golden-path solver. | tests | 14 | 0 |
-| `tests/test_graph_advisor.py` | Tests for cli/graph_advisor.py. | tests | 25 | 0 |
-| `tests/test_graph_overlay.py` | Tests for cli/graph_overlay.py. | tests | 14 | 0 |
-| `tests/test_guardrails.py` | Guardrail harness tests: tiers, capacity, warm restart, wiring. | tests | 59 | 0 |
-| `tests/test_gui_xss_sinks.py` | Regression gate for XSS sinks in the C2 dashboard template. | tests | 9 | 0 |
-| `tests/test_gym_cli.py` | Gym CLI lifecycle: start, status, stop by selector and stop-all. | tests | 8 | 0 |
-| `tests/test_gym_matrix_ctf.py` | Contract tests for gym matrix runner and CTF capture. | tests | 16 | 0 |
-| `tests/test_gym_ms2_cli.py` | - | tests | 1 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

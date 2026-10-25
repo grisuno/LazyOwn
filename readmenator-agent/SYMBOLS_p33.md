@@ -3,6 +3,87 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_renderer_omits_disabled_segments` | function | `tests/test_banner_config.py:187` | `def test_renderer_omits_disabled_segments(registry, neutral_palette)` |
+| `test_renderer_uses_glyph_overrides_in_box` | function | `tests/test_banner_config.py:438` | `def test_renderer_uses_glyph_overrides_in_box(registry, color_registry, glyph_registry, neutral_palette)` |
+| `test_settings_cycle_color_uses_registry_order` | function | `tests/test_banner_config.py:391` | `def test_settings_cycle_color_uses_registry_order(registry, color_registry)` |
+| `test_settings_cycle_glyph_uses_registry_order` | function | `tests/test_banner_config.py:398` | `def test_settings_cycle_glyph_uses_registry_order(registry, color_registry, glyph_registry)` |
+| `test_settings_defaults_match_registry_defaults` | function | `tests/test_banner_config.py:103` | `def test_settings_defaults_match_registry_defaults(registry)` |
+| `test_settings_enable_all_then_disable_all` | function | `tests/test_banner_config.py:139` | `def test_settings_enable_all_then_disable_all(registry)` |
+| `test_settings_from_payload_falls_back_to_defaults_when_missing` | function | `tests/test_banner_config.py:120` | `def test_settings_from_payload_falls_back_to_defaults_when_missing(registry)` |
+| `test_settings_from_payload_ignores_unknown_color_names` | function | `tests/test_banner_config.py:379` | `def test_settings_from_payload_ignores_unknown_color_names(registry, color_registry, glyph_registry)` |
+| `test_settings_from_payload_ignores_unknown_glyph_chars` | function | `tests/test_banner_config.py:385` | `def test_settings_from_payload_ignores_unknown_glyph_chars(registry, color_registry, glyph_registry)` |
+| `test_settings_from_payload_ignores_unknown_ids` | function | `tests/test_banner_config.py:125` | `def test_settings_from_payload_ignores_unknown_ids(registry)` |
+| `test_settings_reset_color_and_glyph_for_specific_id` | function | `tests/test_banner_config.py:405` | `def test_settings_reset_color_and_glyph_for_specific_id(registry, color_registry, glyph_registry)` |
+| `test_settings_round_trip_carries_colors_and_glyphs` | function | `tests/test_banner_config.py:364` | `def test_settings_round_trip_carries_colors_and_glyphs(registry, color_registry, glyph_registry)` |
+| `test_settings_round_trip_through_payload_block` | function | `tests/test_banner_config.py:113` | `def test_settings_round_trip_through_payload_block(registry)` |
+| `test_settings_toggle_adds_then_removes` | function | `tests/test_banner_config.py:131` | `def test_settings_toggle_adds_then_removes()` |
+| `Completed` | class | `tests/test_bdd_infra_range_report.py:28` | `class Completed` |
+| `test_bdd_beacon_build_injects_fallback_urls` | function | `tests/test_bdd_infra_range_report.py:51` | `def test_bdd_beacon_build_injects_fallback_urls()` |
+| `test_bdd_range_compose_topology` | function | `tests/test_bdd_infra_range_report.py:65` | `def test_bdd_range_compose_topology()` |
+| `test_bdd_redirector_spawn_registers_urls` | function | `tests/test_bdd_infra_range_report.py:15` | `def test_bdd_redirector_spawn_registers_urls()` |
+| `test_bdd_report_executive_summary_without_ai` | function | `tests/test_bdd_infra_range_report.py:83` | `def test_bdd_report_executive_summary_without_ai()` |
+| `TestBeaconConfig` | class | `tests/test_beacon_config_builder.py:22` | `class TestBeaconConfig` |
+| `TestBeaconConfigBuilder` | class | `tests/test_beacon_config_builder.py:141` | `class TestBeaconConfigBuilder` |
+| `TestGenerateBofExecutionCommand` | class | `tests/test_beacon_config_builder.py:205` | `class TestGenerateBofExecutionCommand` |
+| `test_basic_bof_command` | method | `tests/test_beacon_config_builder.py:206` | `def test_basic_bof_command(self)` |
+| `test_bof_with_args` | method | `tests/test_beacon_config_builder.py:214` | `def test_bof_with_args(self)` |
+| `test_build_falls_back_on_missing_engines` | method | `tests/test_beacon_config_builder.py:197` | `def test_build_falls_back_on_missing_engines(self)` |
+| `test_build_injects_dns_from_payload` | method | `tests/test_beacon_config_builder.py:183` | `def test_build_injects_dns_from_payload(self)` |
+| `test_build_injects_tls_from_payload` | method | `tests/test_beacon_config_builder.py:170` | `def test_build_injects_tls_from_payload(self)` |
+| `test_build_minimal` | method | `tests/test_beacon_config_builder.py:142` | `def test_build_minimal(self)` |
+| `test_build_with_malleable_route` | method | `tests/test_beacon_config_builder.py:157` | `def test_build_with_malleable_route(self)` |
+| `test_custom_bofs_dir` | method | `tests/test_beacon_config_builder.py:224` | `def test_custom_bofs_dir(self)` |
+| `test_default_construction` | method | `tests/test_beacon_config_builder.py:23` | `def test_default_construction(self)` |
+| `test_to_config_json` | method | `tests/test_beacon_config_builder.py:85` | `def test_to_config_json(self)` |
+| `test_to_dict_serialization` | method | `tests/test_beacon_config_builder.py:113` | `def test_to_dict_serialization(self)` |
+| `test_to_gen_beacon_args` | method | `tests/test_beacon_config_builder.py:36` | `def test_to_gen_beacon_args(self)` |
+| `test_to_go_implant_vars` | method | `tests/test_beacon_config_builder.py:59` | `def test_to_go_implant_vars(self)` |
+| `TestAppendRead` | class | `tests/test_beacon_history.py:38` | `class TestAppendRead` |
+| `TestSanitization` | class | `tests/test_beacon_history.py:23` | `class TestSanitization` |
+| `_config` | function | `tests/test_beacon_history.py:19` | `def _config(tmp_path)` |
+| `test_append_then_read_round_trips` | method | `tests/test_beacon_history.py:39` | `def test_append_then_read_round_trips(self, tmp_path)` |
+| `test_missing_history_reads_empty` | method | `tests/test_beacon_history.py:72` | `def test_missing_history_reads_empty(self, tmp_path)` |
+| `test_multiple_beacons_do_not_interleave` | method | `tests/test_beacon_history.py:50` | `def test_multiple_beacons_do_not_interleave(self, tmp_path)` |
+| `test_record_without_client_id_is_rejected` | method | `tests/test_beacon_history.py:75` | `def test_record_without_client_id_is_rejected(self, tmp_path)` |
+| `test_records_path_is_bounded_inside_sessions` | method | `tests/test_beacon_history.py:29` | `def test_records_path_is_bounded_inside_sessions(self, tmp_path)` |
+| `test_sanitize_client_id_strips_unsafe_chars` | method | `tests/test_beacon_history.py:24` | `def test_sanitize_client_id_strips_unsafe_chars(self)` |
+| `test_skips_malformed_lines` | method | `tests/test_beacon_history.py:59` | `def test_skips_malformed_lines(self, tmp_path)` |
+| `IngestBeaconReconSpec` | class | `tests/test_beacon_recon_sink.py:75` | `class IngestBeaconReconSpec(TestCase)` |
+| `ParseBeaconPortscanSpec` | class | `tests/test_beacon_recon_sink.py:49` | `class ParseBeaconPortscanSpec(TestCase)` |
+| `ParseDiscoveredIpsSpec` | class | `tests/test_beacon_recon_sink.py:30` | `class ParseDiscoveredIpsSpec(TestCase)` |
+| `_fresh_world_model` | function | `tests/test_beacon_recon_sink.py:26` | `def _fresh_world_model(tmp)` |
+| `_run` | method | `tests/test_beacon_recon_sink.py:76` | `def _run(self, tmp, wm, discovered, portscan)` |
+| `test_dict_payload` | method | `tests/test_beacon_recon_sink.py:58` | `def test_dict_payload(self)` |
+| `test_dict_with_list_values` | method | `tests/test_beacon_recon_sink.py:37` | `def test_dict_with_list_values(self)` |
+| `test_empty_values` | method | `tests/test_beacon_recon_sink.py:43` | `def test_empty_values(self)` |
+| `test_empty_values` | method | `tests/test_beacon_recon_sink.py:70` | `def test_empty_values(self)` |
+| `test_flat_string` | method | `tests/test_beacon_recon_sink.py:31` | `def test_flat_string(self)` |
+| `test_flat_string_credits_default_host` | method | `tests/test_beacon_recon_sink.py:50` | `def test_flat_string_credits_default_host(self)` |
+| `test_go_map_string` | method | `tests/test_beacon_recon_sink.py:54` | `def test_go_map_string(self)` |
+| `test_host_prefix_string` | method | `tests/test_beacon_recon_sink.py:66` | `def test_host_prefix_string(self)` |
+| `test_hosts_services_ledger_and_outcome` | method | `tests/test_beacon_recon_sink.py:96` | `def test_hosts_services_ledger_and_outcome(self)` |
+| `test_noise_and_bounds` | method | `tests/test_beacon_recon_sink.py:62` | `def test_noise_and_bounds(self)` |
+| `test_noop_without_data_and_without_ip` | method | `tests/test_beacon_recon_sink.py:124` | `def test_noop_without_data_and_without_ip(self)` |
+| `test_rerun_is_idempotent_for_hosts_and_services` | method | `tests/test_beacon_recon_sink.py:114` | `def test_rerun_is_idempotent_for_hosts_and_services(self)` |
+| `test_skips_non_ips` | method | `tests/test_beacon_recon_sink.py:40` | `def test_skips_non_ips(self)` |
+| `TestBeaconCategory` | class | `tests/test_blacksandbeacon_addon.py:111` | `class TestBeaconCategory` |
+| `TestBeaconCommandTemplates` | class | `tests/test_blacksandbeacon_addon.py:157` | `class TestBeaconCommandTemplates` |
+| `TestBeaconDescriptionQuality` | class | `tests/test_blacksandbeacon_addon.py:192` | `class TestBeaconDescriptionQuality` |
+| `TestBeaconEnabled` | class | `tests/test_blacksandbeacon_addon.py:119` | `class TestBeaconEnabled` |
+| `TestBeaconNoHardcodedSecrets` | class | `tests/test_blacksandbeacon_addon.py:217` | `class TestBeaconNoHardcodedSecrets` |
+| `TestBeaconParams` | class | `tests/test_blacksandbeacon_addon.py:127` | `class TestBeaconParams` |
+| `TestBeaconPathSafety` | class | `tests/test_blacksandbeacon_addon.py:97` | `class TestBeaconPathSafety` |
+| `TestBeaconRequiredFields` | class | `tests/test_blacksandbeacon_addon.py:55` | `class TestBeaconRequiredFields` |
+| `TestBeaconToolSection` | class | `tests/test_blacksandbeacon_addon.py:67` | `class TestBeaconToolSection` |
+| `TestBeaconYamlExists` | class | `tests/test_blacksandbeacon_addon.py:41` | `class TestBeaconYamlExists` |
+| `_load` | function | `tests/test_blacksandbeacon_addon.py:26` | `def _load(path)` |
+| `_param_names` | method | `tests/test_blacksandbeacon_addon.py:130` | `def _param_names(self, addon)` |
+| `_yaml_text` | method | `tests/test_blacksandbeacon_addon.py:220` | `def _yaml_text(self, path)` |
+| `beacon` | function | `tests/test_blacksandbeacon_addon.py:32` | `def beacon()` |
+| `bof` | function | `tests/test_blacksandbeacon_addon.py:37` | `def bof()` |
+| `test_beacon_category` | method | `tests/test_blacksandbeacon_addon.py:112` | `def test_beacon_category(self, beacon)` |
+| `test_beacon_description_mentions_bof` | method | `tests/test_blacksandbeacon_addon.py:195` | `def test_beacon_description_mentions_bof(self, beacon)` |
+| `test_beacon_description_mentions_linux` | method | `tests/test_blacksandbeacon_addon.py:199` | `def test_beacon_description_mentions_linux(self, beacon)` |
 | `test_beacon_enabled` | method | `tests/test_blacksandbeacon_addon.py:120` | `def test_beacon_enabled(self, beacon)` |
 | `test_beacon_execute_resets_before_pull` | method | `tests/test_blacksandbeacon_addon.py:183` | `def test_beacon_execute_resets_before_pull(self, beacon)` |
 | `test_beacon_execute_stages_to_sessions` | method | `tests/test_blacksandbeacon_addon.py:176` | `def test_beacon_execute_stages_to_sessions(self, beacon)` |
@@ -402,99 +483,18 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 | `test_unknown_task_is_none` | method | `tests/test_chain_distill.py:142` | `def test_unknown_task_is_none(self, trace_dir)` |
 | `test_written_chain_validates_lifetime` | method | `tests/test_chain_distill.py:235` | `def test_written_chain_validates_lifetime(self, trace_dir)` |
 | `trace_dir` | function | `tests/test_chain_distill.py:22` | `def trace_dir(tmp_path)` |
-| `test_chain_list_filters` | function | `tests/test_chain_list_command.py:22` | `def test_chain_list_filters(capsys)` |
-| `test_chain_list_lists_registry` | function | `tests/test_chain_list_command.py:12` | `def test_chain_list_lists_registry(capsys)` |
-| `_Step` | class | `tests/test_chain_mode.py:36` | `class _Step` |
-| `__init__` | method | `tests/test_chain_mode.py:39` | `def __init__(self, name, source, reason)` |
-| `_engine` | function | `tests/test_chain_mode.py:52` | `def _engine(resolver)` |
-| `_resolver` | function | `tests/test_chain_mode.py:45` | `def _resolver()` |
-| `broken` | function | `tests/test_chain_mode.py:212` | `def broken(cmd, phase)` |
-| `fake_input` | function | `tests/test_chain_mode.py:63` | `def fake_input(prompt)` |
-| `raise_ki` | function | `tests/test_chain_mode.py:179` | `def raise_ki(prompt)` |
-| `resolve` | function | `tests/test_chain_mode.py:46` | `def resolve(cmd, phase)` |
-| `test_auto_pause_after_max_steps` | function | `tests/test_chain_mode.py:195` | `def test_auto_pause_after_max_steps(tmp_path)` |
-| `test_engine_reads_persisted_state` | function | `tests/test_chain_mode.py:239` | `def test_engine_reads_persisted_state(tmp_path)` |
-| `test_enter_runs_top_suggestion` | function | `tests/test_chain_mode.py:106` | `def test_enter_runs_top_suggestion()` |
-| `test_exit_words_disable_chain_mode` | function | `tests/test_chain_mode.py:144` | `def test_exit_words_disable_chain_mode(word)` |
-| `test_invalid_number_re_prompts_then_accepts_valid_pick` | function | `tests/test_chain_mode.py:168` | `def test_invalid_number_re_prompts_then_accepts_valid_pick()` |
-| `test_invalid_number_re_prompts_then_skips` | function | `tests/test_chain_mode.py:160` | `def test_invalid_number_re_prompts_then_skips()` |
-| `test_keyboard_interrupt_disables` | function | `tests/test_chain_mode.py:178` | `def test_keyboard_interrupt_disables(tmp_path)` |
-| `test_no_suggestions_enter_skips_custom_command_runs` | function | `tests/test_chain_mode.py:151` | `def test_no_suggestions_enter_skips_custom_command_runs()` |
-| `test_number_selects_ranked_alternative` | function | `tests/test_chain_mode.py:116` | `def test_number_selects_ranked_alternative()` |
-| `test_override_runs_operator_command` | function | `tests/test_chain_mode.py:126` | `def test_override_runs_operator_command()` |
-| `test_persist_toggle_writes_state_file` | function | `tests/test_chain_mode.py:252` | `def test_persist_toggle_writes_state_file(tmp_path)` |
-| `test_prompt_exit_words_persist_off` | function | `tests/test_chain_mode.py:267` | `def test_prompt_exit_words_persist_off(tmp_path)` |
-| `test_resolver_failure_degrades_to_no_suggestions` | function | `tests/test_chain_mode.py:211` | `def test_resolver_failure_degrades_to_no_suggestions()` |
-| `test_skip_keeps_chain_mode_enabled` | function | `tests/test_chain_mode.py:136` | `def test_skip_keeps_chain_mode_enabled()` |
-| `test_step_none_for_skip_verbs` | function | `tests/test_chain_mode.py:101` | `def test_step_none_for_skip_verbs(verb)` |
-| `test_step_none_when_disabled` | function | `tests/test_chain_mode.py:90` | `def test_step_none_when_disabled()` |
-| `test_step_none_when_not_interactive` | function | `tests/test_chain_mode.py:95` | `def test_step_none_when_not_interactive()` |
-| `test_store_roundtrip_and_missing` | function | `tests/test_chain_mode.py:221` | `def test_store_roundtrip_and_missing(tmp_path)` |
-| `test_store_survives_malformed_file` | function | `tests/test_chain_mode.py:230` | `def test_store_survives_malformed_file(tmp_path)` |
-| `test_suggestion_from_step_and_string` | function | `tests/test_chain_mode.py:85` | `def test_suggestion_from_step_and_string()` |
-| `_SlowFirst` | class | `tests/test_chain_parallel_fallback.py:48` | `class _SlowFirst` |
-| `__call__` | method | `tests/test_chain_parallel_fallback.py:51` | `def __call__(self, command)` |
-| `_chain` | function | `tests/test_chain_parallel_fallback.py:16` | `def _chain(steps)` |
-| `_run` | function | `tests/test_chain_parallel_fallback.py:60` | `def _run()` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:29` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:84` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:108` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:131` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:154` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:169` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_parallel_fallback.py:212` | `def executor(command)` |
-| `loader` | function | `tests/test_chain_parallel_fallback.py:180` | `def loader(name)` |
-| `loader` | function | `tests/test_chain_parallel_fallback.py:197` | `def loader(name)` |
-| `loader` | function | `tests/test_chain_parallel_fallback.py:220` | `def loader(name)` |
-| `test_dry_run_treats_parallel_steps_sequentially` | function | `tests/test_chain_parallel_fallback.py:274` | `def test_dry_run_treats_parallel_steps_sequentially()` |
-| `test_fallback_chain_runs_on_failure` | function | `tests/test_chain_parallel_fallback.py:165` | `def test_fallback_chain_runs_on_failure()` |
-| `test_fallback_depth_is_capped` | function | `tests/test_chain_parallel_fallback.py:208` | `def test_fallback_depth_is_capped()` |
-| `test_fallback_skipped_when_primary_succeeds` | function | `tests/test_chain_parallel_fallback.py:192` | `def test_fallback_skipped_when_primary_succeeds()` |
-| `test_parallel_failure_with_continue_keeps_going` | function | `tests/test_chain_parallel_fallback.py:103` | `def test_parallel_failure_with_continue_keeps_going()` |
-| `test_parallel_failure_without_continue_aborts` | function | `tests/test_chain_parallel_fallback.py:79` | `def test_parallel_failure_without_continue_aborts()` |
-| `test_parallel_steps_execute_concurrently` | function | `tests/test_chain_parallel_fallback.py:21` | `def test_parallel_steps_execute_concurrently()` |
-| `test_pre_check_failure_skips_step` | function | `tests/test_chain_parallel_fallback.py:126` | `def test_pre_check_failure_skips_step()` |
-| `test_pre_check_success_executes_step` | function | `tests/test_chain_parallel_fallback.py:150` | `def test_pre_check_success_executes_step()` |
-| `test_registry_parses_parallel_and_pre_check` | function | `tests/test_chain_parallel_fallback.py:257` | `def test_registry_parses_parallel_and_pre_check()` |
-| `test_registry_validation_rejects_parallel_with_capture` | function | `tests/test_chain_parallel_fallback.py:230` | `def test_registry_validation_rejects_parallel_with_capture()` |
-| `test_registry_validation_rejects_unknown_fallback` | function | `tests/test_chain_parallel_fallback.py:241` | `def test_registry_validation_rejects_unknown_fallback()` |
-| `test_chain_yaml_matches_skill_contract` | function | `tests/test_chain_registry.py:73` | `def test_chain_yaml_matches_skill_contract()` |
-| `test_disabled_chains_skip_but_stay_visible` | function | `tests/test_chain_registry.py:124` | `def test_disabled_chains_skip_but_stay_visible(tmp_path)` |
-| `test_extends_cycle_and_unknown_parent_rejected` | function | `tests/test_chain_registry.py:110` | `def test_extends_cycle_and_unknown_parent_rejected(tmp_path)` |
-| `test_extends_inherits_steps_and_merges_defaults` | function | `tests/test_chain_registry.py:80` | `def test_extends_inherits_steps_and_merges_defaults(tmp_path)` |
-| `test_generate_for_playbook_roundtrip` | function | `tests/test_chain_registry.py:143` | `def test_generate_for_playbook_roundtrip(tmp_path)` |
-| `test_resolve_flags_unresolved_tokens` | function | `tests/test_chain_registry.py:65` | `def test_resolve_flags_unresolved_tokens()` |
-| `test_resolve_substitutes_and_skips` | function | `tests/test_chain_registry.py:43` | `def test_resolve_substitutes_and_skips(tmp_path, monkeypatch)` |
-| `test_shipped_chain_loads` | function | `tests/test_chain_registry.py:18` | `def test_shipped_chain_loads()` |
-| `test_validate_rejects_bad_chains` | function | `tests/test_chain_registry.py:33` | `def test_validate_rejects_bad_chains()` |
-| `FakeShell` | class | `tests/test_chain_runner.py:343` | `class FakeShell` |
-| `Shell` | class | `tests/test_chain_runner.py:224` | `class Shell` |
-| `Shell` | class | `tests/test_chain_runner.py:238` | `class Shell` |
-| `Shell` | class | `tests/test_chain_runner.py:251` | `class Shell` |
-| `Shell` | class | `tests/test_chain_runner.py:271` | `class Shell` |
-| `Shell` | class | `tests/test_chain_runner.py:284` | `class Shell` |
-| `_chain` | function | `tests/test_chain_runner.py:16` | `def _chain(steps)` |
-| `do_assign` | method | `tests/test_chain_runner.py:254` | `def do_assign(self, line)` |
-| `do_assign` | method | `tests/test_chain_runner.py:287` | `def do_assign(self, line)` |
-| `do_echo` | method | `tests/test_chain_runner.py:227` | `def do_echo(self, line)` |
-| `do_lazy_note` | method | `tests/test_chain_runner.py:346` | `def do_lazy_note(self, line)` |
-| `executor` | function | `tests/test_chain_runner.py:39` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_runner.py:62` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_runner.py:79` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_runner.py:101` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_runner.py:135` | `def executor(command)` |
-| `executor` | function | `tests/test_chain_runner.py:327` | `def executor(command)` |
-| `onecmd` | method | `tests/test_chain_runner.py:257` | `def onecmd(self, command)` |
-| `onecmd` | method | `tests/test_chain_runner.py:290` | `def onecmd(self, command)` |
-| `onecmd` | method | `tests/test_chain_runner.py:349` | `def onecmd(self, command)` |
-| `test_runner_aborts_unless_continue_on_error` | function | `tests/test_chain_runner.py:75` | `def test_runner_aborts_unless_continue_on_error()` |
-| `test_runner_captures_output_for_later_steps` | function | `tests/test_chain_runner.py:35` | `def test_runner_captures_output_for_later_steps()` |
-| `test_runner_captures_verb_stdout` | function | `tests/test_chain_runner.py:341` | `def test_runner_captures_verb_stdout()` |
-| `test_runner_continues_when_policy_allows` | function | `tests/test_chain_runner.py:97` | `def test_runner_continues_when_policy_allows()` |
-| `test_runner_dry_run_never_executes` | function | `tests/test_chain_runner.py:120` | `def test_runner_dry_run_never_executes()` |
-| `test_runner_executes_python_module_commands` | function | `tests/test_chain_runner.py:236` | `def test_runner_executes_python_module_commands()` |
-| `test_runner_fails_on_nonzero_exit` | function | `tests/test_chain_runner.py:269` | `def test_runner_fails_on_nonzero_exit()` |
-| `test_runner_falls_back_to_os_commands` | function | `tests/test_chain_runner.py:222` | `def test_runner_falls_back_to_os_commands()` |
-| `test_runner_keeps_verbs_on_calling_thread` | function | `tests/test_chain_runner.py:247` | `def test_runner_keeps_verbs_on_calling_thread()` |
+| `_Runner` | class | `tests/test_chain_evidence.py:63` | `class _Runner(ChainRunner)` |
+| `_Runner` | class | `tests/test_chain_evidence.py:90` | `class _Runner(ChainRunner)` |
+| `_Runner` | class | `tests/test_chain_evidence.py:108` | `class _Runner(ChainRunner)` |
+| `_Runner` | class | `tests/test_chain_evidence.py:127` | `class _Runner(ChainRunner)` |
+| `_Runner` | class | `tests/test_chain_evidence.py:146` | `class _Runner(ChainRunner)` |
+| `_Runner` | class | `tests/test_chain_evidence.py:170` | `class _Runner(ChainRunner)` |
+| `_Runner` | class | `tests/test_chain_evidence.py:185` | `class _Runner(ChainRunner)` |
+| `_Runner` | class | `tests/test_chain_evidence.py:203` | `class _Runner(ChainRunner)` |
+| `_chain` | function | `tests/test_chain_evidence.py:19` | `def _chain(tmp_path, steps, name)` |
+| `_execute` | method | `tests/test_chain_evidence.py:64` | `def _execute(self, command, timeout, expect_exits)` |
+| `_execute` | method | `tests/test_chain_evidence.py:91` | `def _execute(self, command, timeout, expect_exits)` |
+| `_execute` | method | `tests/test_chain_evidence.py:109` | `def _execute(self, command, timeout, expect_exits)` |
+| `_execute` | method | `tests/test_chain_evidence.py:128` | `def _execute(self, command, timeout, expect_exits)` |
 
 Next: [SYMBOLS_p34.md](SYMBOLS_p34.md)

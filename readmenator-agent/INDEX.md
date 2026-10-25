@@ -217,7 +217,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/api_authz.py` | Tenant-bound API authorization for the LazyOwn C2 dashboard. | core | 31 | 5 |
 | `core/autonomous.py` | Autonomous-run mode for the loop engine. | core | 3 | 5 |
 | `core/command_bridge.py` | Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell. | core | 9 | 1 |
-| `core/config.py` | Configuration loader and Config wrapper. | core | 18 | 54 |
+| `core/config.py` | Configuration loader and Config wrapper. | core | 18 | 56 |
 | `core/console.py` | ANSI color constants and console output helpers. | core | 11 | 52 |
 | `core/credential_vault.py` | Credential vault — AES-256-GCM encryption for sensitive config values. | core | 8 | 4 |
 | `core/crypto.py` | Symmetric primitives used by the framework. | core | 7 | 10 |
@@ -230,7 +230,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/host_policy.py` | Single source of truth for host and network shape validation. | core | 3 | 3 |
 | `core/http.py` | HTTP and API utilities for the LazyOwn framework. | core | 10 | 1 |
 | `core/llm_budget.py` | LLM budget cap and per call token counter. | core | 45 | 4 |
-| `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 152 |
+| `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 154 |
 | `core/network.py` | Network primitives for the LazyOwn framework. | core | 8 | 1 |
 | `core/param_registry.py` | Operator-managed parameter registry. | core | 17 | 9 |
 | `core/parsers.py` | Shared text kernel for the LazyOwn framework. | core | 1 | 9 |
@@ -345,12 +345,12 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `lazyown-docker/hostdiscover.sh` | - | lazyown-docker | 2 | 0 |
 | `lazyown-docker/init.sh` | - | lazyown-docker | 0 | 10 |
 | `lazyown-docker/mkdocker.sh` | LazyOwn Dockerizer Script Builds, runs, and manages Docker containers for LazyOwn red teaming... | lazyown-docker | 12 | 0 |
-| `lazyown.py` | lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date... | root | 127 | 9 |
+| `lazyown.py` | lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date... | root | 128 | 9 |
 | `modules/49803.py` | Exploit Title: OpenPLC 3 - Remote Code Execution (Authenticated) Date: 25/04/2021 Exploit... | modules | 3 | 0 |
 | `modules/CVE-2018-15133.php` | - | modules | 0 | 0 |
 | `modules/CVE-2023-28432.py` | - | modules | 1 | 0 |
 | `modules/LazyOwnExplorer.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 23 | 0 |
-| `modules/__init__.py` | - | modules | 0 | 43 |
+| `modules/__init__.py` | - | modules | 0 | 48 |
 | `modules/adcs_attacks.py` | Active Directory Certificate Services (AD CS) attack module. | modules | 14 | 1 |
 | `modules/addon_updater.py` | Git update contract for lazyaddons. | modules | 10 | 3 |
 | `modules/agent_runner.py` | LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory management, argument... | modules | 38 | 3 |
@@ -393,13 +393,14 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/cgi-bin/lazywebshell.sh` | - | cgi-bin | 0 | 0 |
 | `modules/chain_distill.py` | chain_distill - crystallise one autonomous-loop trace into a chain YAML. | modules | 19 | 3 |
 | `modules/chain_facts.py` | Bridge chain run outputs into the FactStore. | modules | 3 | 3 |
-| `modules/chain_registry.py` | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | modules | 17 | 24 |
-| `modules/chain_runner.py` | Single execution engine for YAML orchestration chains. | modules | 35 | 11 |
+| `modules/chain_registry.py` | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | modules | 17 | 25 |
+| `modules/chain_runner.py` | Single execution engine for YAML orchestration chains. | modules | 41 | 12 |
 | `modules/chain_state.py` | Durable chain checkpoints for pause, resume and audit. | modules | 5 | 8 |
 | `modules/chain_synth.py` | Runtime chain synthesis from fact-store evidence. | modules | 6 | 2 |
 | `modules/chain_tokens.py` | Engagement-state tokens for YAML chains. | modules | 6 | 2 |
 | `modules/cicd_enumerator.py` | CI/CD Pipeline Enumeration Module. | modules | 12 | 1 |
 | `modules/cli_auth.py` | CLI authentication module — login against users.json with remember-me. | modules | 18 | 12 |
+| `modules/closedloop.py` | Closed-loop detection rule tuning: baseline vs candidate comparison. | modules | 7 | 2 |
 | `modules/cloud_enum.py` | Native cloud enumeration modules for AWS, Azure, and GCP. | modules | 17 | 1 |
 | `modules/collab_bp.py` | modules/collab_bp.py | modules | 49 | 7 |
 | `modules/colors.py` | retModel: gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k... | modules | 3 | 7 |
@@ -416,6 +417,8 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/dashboard_bp.py` | modules/dashboard_bp.py | modules | 13 | 3 |
 | `modules/dashboard_engine.py` | Live Network Map Dashboard for LazyOwn. | modules | 16 | 4 |
 | `modules/db.py` | SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes. | modules | 37 | 20 |
+| `modules/defense_eval.py` | Detection rule replay over recorded attack and control logs. | modules | 17 | 4 |
+| `modules/defense_stages.py` | Orchestrator stage runners for defense validation and hunt verification. | modules | 11 | 2 |
 | `modules/delegation_attacks.py` | Active Directory delegation enumeration and abuse. | modules | 12 | 1 |
 | `modules/detailed_search.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 1 | 0 |
 | `modules/detection_feed.py` | Dynamic detection feed for the Detection Oracle. | modules | 13 | 2 |
@@ -462,12 +465,14 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/guardrails/contracts.py` | Contracts for the execution guardrail harness. | guardrails | 10 | 3 |
 | `modules/guardrails/harness.py` | Execution harness facade: guarded runs, warm restart, degradation. | guardrails | 11 | 1 |
 | `modules/gui_askpass.sh` | — SUDO_ASKPASS helper for LazyOwn MCP  Used by: sudo -A <script>  (set SUDO_ASKPASS to this... | modules | 5 | 0 |
+| `modules/gym_cleanup.py` | Gym machine cleanup on LazyOwn exit. | modules | 2 | 2 |
 | `modules/gym_matrix_runner.py` | Ordered Metasploitable 2 gym matrix runner. | modules | 5 | 0 |
 | `modules/gym_registry.py` | Gym definitions and persistent run state. | modules | 28 | 4 |
 | `modules/harness.py` | Deterministic harness gate for the LazyOwn loop. | modules | 2 | 3 |
 | `modules/hash_cracker.py` | Hash cracking pipeline — John the Ripper and Hashcat integration. | modules | 17 | 2 |
 | `modules/hive_invoke.py` | modules/hive_invoke.py | modules | 7 | 0 |
 | `modules/hostdiscover.sh` | - | modules | 2 | 0 |
+| `modules/hunt_verify.py` | Evidence verdict verification for hunting and chain stages. | modules | 16 | 3 |
 | `modules/ia_code_analysis.py` | CodeAnalyzer: Analyzes source code in a directory and its subdirectories. | modules | 8 | 0 |
 | `modules/ia_logs_analysis.py` | Author: Your Name Email: youremail@example.com Creation Date: 10/06/2024 License: AGPL v3... | modules | 7 | 0 |
 | `modules/ia_network_analysis.py` | Autor: grisun0 Fecha de creación: 30/01/2025 Licencia: AGPL v3  Descripción: Bot de monitoreo de... | modules | 4 | 0 |
@@ -491,10 +496,5 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/kerberos_core.py` | Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption. | modules | 35 | 2 |
 | `modules/kerberos_tickets.py` | Kerberos ticket forgery attacks — silver, golden, diamond, sapphire tickets. | modules | 34 | 1 |
 | `modules/kill_chain_viz.py` | SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG. | modules | 5 | 1 |
-| `modules/killchain.py` | Unified kill-chain — single source of truth consumed by all surfaces. | modules | 21 | 22 |
-| `modules/kivi.py` | - | modules | 3 | 0 |
-| `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 3 |
-| `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 21 | 5 |
-| `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 14 | 8 |
 
 Next: [INDEX_p2.md](INDEX_p2.md)

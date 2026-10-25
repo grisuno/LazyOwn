@@ -335,27 +335,11 @@ Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skil
 - `buscar_binarios` (function) `modules/lazyown_parquet_tool.py:53` `def buscar_binarios(args)` -- Search for binaries with special permissions and generate a results CSV.
 - `ejecutar_opciones` (function) `modules/lazyown_parquet_tool.py:136` `def ejecutar_opciones()` -- Execute options based on the found data.
 
-## modules/lazyownclient.py
-- `signal_handler` (function) `modules/lazyownclient.py:34` `def signal_handler(sig, frame)`
-- `pad` (function) `modules/lazyownclient.py:51` `def pad(s)`
-- `encrypt` (function) `modules/lazyownclient.py:55` `def encrypt(plaintext, key)`
-- `decrypt` (function) `modules/lazyownclient.py:62` `def decrypt(ciphertext, key)`
-- `handle_command` (function) `modules/lazyownclient.py:69` `def handle_command(cmd, key)`
-- `main` (function) `modules/lazyownclient.py:198` `def main()`
-
 ## modules/lazyownerweb.py
 Depends on: `core/logging.py`, `modules/logging_config.py`
 - `send_request` (function) `modules/lazyownerweb.py:36` `def send_request(url, params, method)`
 - `test_injection` (function) `modules/lazyownerweb.py:49` `def test_injection(url, payloads, param_name, detection_strings, method)`
 - `main` (function) `modules/lazyownerweb.py:59` `def main()`
-
-## modules/lazyownserver.py
-- `signal_handler` (function) `modules/lazyownserver.py:34` `def signal_handler(sig, frame)`
-- `pad` (function) `modules/lazyownserver.py:42` `def pad(s)`
-- `encrypt` (function) `modules/lazyownserver.py:46` `def encrypt(plaintext, key)`
-- `decrypt` (function) `modules/lazyownserver.py:53` `def decrypt(ciphertext, key)`
-- `handle_client` (function) `modules/lazyownserver.py:60` `def handle_client(conn, addr, key)`
-- `main` (function) `modules/lazyownserver.py:97` `def main()`
 
 ## modules/lazypsexec.sh
 - `execute_psexec` (function) `modules/lazypsexec.sh:15` -- Función para ejecutar psexec y verificar la salida
@@ -485,6 +469,22 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
 - `get_evaluator` (function) `modules/llm_evaluator.py:293` `def get_evaluator()`
 - `record_decision` (function) `modules/llm_evaluator.py:302` `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)`
 - `record_outcome` (function) `modules/llm_evaluator.py:313` `def record_outcome(decision_id, actual_outcome, findings_count, success)`
+
+## modules/llm_factory.py
+Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/toposwarm_bridge.py`
+Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+- `is_model_missing_error` (function) `modules/llm_factory.py:121` `def is_model_missing_error(message)` -- Return True when an error text means the model id is unavailable.
+- `groq_model_chain` (function) `modules/llm_factory.py:141` `def groq_model_chain(config)` -- Return the ordered Groq model ids to try, configured model first.
+- `default_model_for` (function) `modules/llm_factory.py:224` `def default_model_for(backend)` -- Return the default model identifier for a backend.
+- `model_config_key` (function) `modules/llm_factory.py:245` `def model_config_key(backend)` -- Return the ``payload.json`` key holding a backend's model override.
+- `api_key_config_key` (function) `modules/llm_factory.py:266` `def api_key_config_key(backend)` -- Return the ``payload.json`` key holding a backend's API key slot.
+- `backend_requires_api_key` (function) `modules/llm_factory.py:291` `def backend_requires_api_key(backend)` -- Report whether a backend needs an API key to operate.
+- `load_payload` (function) `modules/llm_factory.py:309` `def load_payload(payload_path)` -- Read ``payload.json`` from disk and return it as a dictionary.
+- `get_llm_backend` (function) `modules/llm_factory.py:633` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
+- `get_llm_backend_raw` (function) `modules/llm_factory.py:729` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
+- `try_get_llm_backend` (function) `modules/llm_factory.py:751` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
+- `stream_complete` (function) `modules/llm_factory.py:828` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
+- `complete` (function) `modules/llm_factory.py:899` `def complete(model, prompt, max_tokens)` -- Complete a prompt through one model spec; raise when unanswered.
 
 
 Next: [API_p15.md](API_p15.md)

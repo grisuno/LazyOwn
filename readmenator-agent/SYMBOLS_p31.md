@@ -3,63 +3,6 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `o` | function | `static/js/vis-network.min.js:33` | `` |
-| `o` | function | `static/js/vis-network.min.js:33` | `` |
-| `o` | function | `static/js/vis-network.min.js:33` | `` |
-| `or` | function | `static/js/vis-network.min.js:33` | `` |
-| `ov` | function | `static/js/vis-network.min.js:33` | `` |
-| `qw` | function | `static/js/vis-network.min.js:33` | `` |
-| `qx` | function | `static/js/vis-network.min.js:33` | `` |
-| `rO` | function | `static/js/vis-network.min.js:48` | `` |
-| `s` | function | `static/js/vis-network.min.js:33` | `` |
-| `s` | function | `static/js/vis-network.min.js:33` | `` |
-| `sk` | function | `static/js/vis-network.min.js:33` | `` |
-| `su` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:26` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:33` | `` |
-| `t` | function | `static/js/vis-network.min.js:48` | `` |
-| `u` | function | `static/js/vis-network.min.js:48` | `` |
-| `uE` | function | `static/js/vis-network.min.js:33` | `` |
-| `v` | function | `static/js/vis-network.min.js:33` | `` |
-| `v` | function | `static/js/vis-network.min.js:48` | `` |
-| `vE` | function | `static/js/vis-network.min.js:33` | `` |
-| `vp` | function | `static/js/vis-network.min.js:33` | `` |
-| `yk` | function | `static/js/vis-network.min.js:33` | `` |
-| `zo` | function | `static/js/vis-network.min.js:26` | `` |
-| `a` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
-| `i` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
-| `i` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
 | `r` | function | `static/js/xterm-addon-web-links-0.5.0.js:1` | `` |
 | `P` | class | `static/js/xterm.js:1` | `` |
 | `S` | class | `static/js/xterm.js:1` | `` |
@@ -123,53 +66,56 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 | `s` | class | `static/js/xterm.js:1` | `` |
 | `t` | function | `static/js/xterm.js:1` | `` |
 | `t` | function | `static/js/xterm.js:1` | `` |
-| `Config` | class | `telegram_c2.py:77` | `class Config` |
-| `SecureSessionManager` | class | `telegram_c2.py:18` | `class SecureSessionManager` |
-| `__getitem__` | method | `telegram_c2.py:83` | `def __getitem__(self, key)` |
-| `__init__` | method | `telegram_c2.py:19` | `def __init__(self)` |
-| `__init__` | method | `telegram_c2.py:78` | `def __init__(self, config_dict)` |
-| `add_cli` | function | `telegram_c2.py:191` | `def add_cli(update, context)` |
-| `check_lockout` | method | `telegram_c2.py:31` | `def check_lockout(self, user_id)` |
-| `check_rate_limit` | method | `telegram_c2.py:40` | `def check_rate_limit(self, user_id)` |
-| `create_session` | method | `telegram_c2.py:53` | `def create_session(self, user_id, client_id)` |
-| `download_c2` | function | `telegram_c2.py:230` | `def download_c2(update, context)` |
-| `exce_cmd` | function | `telegram_c2.py:116` | `def exce_cmd(update, context)` |
-| `handle_file` | function | `telegram_c2.py:203` | `def handle_file(update, context)` |
-| `load_payload` | function | `telegram_c2.py:87` | `def load_payload()` |
-| `main` | function | `telegram_c2.py:286` | `def main()` |
-| `register_failed_attempt` | method | `telegram_c2.py:24` | `def register_failed_attempt(self, user_id)` |
-| `send_connected_clients` | function | `telegram_c2.py:271` | `def send_connected_clients(update, context)` |
-| `start` | function | `telegram_c2.py:93` | `def start(update, context)` |
-| `validate_session` | method | `telegram_c2.py:61` | `def validate_session(self, user_id)` |
-| `SecureSessionManager` | class | `telegram_hermes.py:186` | `class SecureSessionManager` |
-| `__init__` | method | `telegram_hermes.py:187` | `def __init__(self)` |
-| `add_cli` | function | `telegram_hermes.py:422` | `def add_cli(update, context)` |
-| `c2_command` | function | `telegram_hermes.py:464` | `def c2_command(update, context)` |
-| `c2_request` | function | `telegram_hermes.py:145` | `def c2_request(path, method, body)` |
-| `check_lockout` | method | `telegram_hermes.py:199` | `def check_lockout(self, user_id)` |
-| `check_rate_limit` | method | `telegram_hermes.py:208` | `def check_rate_limit(self, user_id)` |
-| `config_cmd` | function | `telegram_hermes.py:373` | `def config_cmd(update, context)` |
-| `create_session` | method | `telegram_hermes.py:221` | `def create_session(self, user_id, client_id)` |
-| `cron_schedule_cmd` | function | `telegram_hermes.py:564` | `def cron_schedule_cmd(update, context)` |
-| `delegate_task_cmd` | function | `telegram_hermes.py:533` | `def delegate_task_cmd(update, context)` |
-| `download_file_cmd` | function | `telegram_hermes.py:647` | `def download_file_cmd(update, context)` |
-| `execute_command` | function | `telegram_hermes.py:306` | `def execute_command(update, context)` |
-| `get_client_id` | method | `telegram_hermes.py:241` | `def get_client_id(self, user_id)` |
-| `handle_file_upload` | function | `telegram_hermes.py:675` | `def handle_file_upload(update, context)` |
-| `help_cmd` | function | `telegram_hermes.py:278` | `def help_cmd(update, context)` |
-| `list_clients` | function | `telegram_hermes.py:437` | `def list_clients(update, context)` |
-| `load_payload` | function | `telegram_hermes.py:177` | `def load_payload()` |
-| `main` | function | `telegram_hermes.py:772` | `def main()` |
-| `register_failed_attempt` | method | `telegram_hermes.py:192` | `def register_failed_attempt(self, user_id)` |
-| `run_agent` | function | `telegram_hermes.py:504` | `def run_agent(update, context)` |
-| `run_lazyown_command` | function | `telegram_hermes.py:61` | `def run_lazyown_command(command, timeout)` |
-| `set_client_id` | method | `telegram_hermes.py:245` | `def set_client_id(self, user_id, client_id)` |
-| `sitrep` | function | `telegram_hermes.py:337` | `def sitrep(update, context)` |
-| `start` | function | `telegram_hermes.py:255` | `def start(update, context)` |
-| `status_cmd` | function | `telegram_hermes.py:597` | `def status_cmd(update, context)` |
-| `stop_daemon_cmd` | function | `telegram_hermes.py:630` | `def stop_daemon_cmd(update, context)` |
-| `text_command` | function | `telegram_hermes.py:712` | `def text_command(update, context)` |
-| `validate_session` | method | `telegram_hermes.py:229` | `def validate_session(self, user_id)` |
+| `Config` | class | `telegram_c2.py:79` | `class Config` |
+| `SecureSessionManager` | class | `telegram_c2.py:20` | `class SecureSessionManager` |
+| `__getitem__` | method | `telegram_c2.py:85` | `def __getitem__(self, key)` |
+| `__init__` | method | `telegram_c2.py:21` | `def __init__(self)` |
+| `__init__` | method | `telegram_c2.py:80` | `def __init__(self, config_dict)` |
+| `_resolve_c2_secret` | function | `telegram_c2.py:317` | `def _resolve_c2_secret(raw)` |
+| `add_cli` | function | `telegram_c2.py:193` | `def add_cli(update, context)` |
+| `check_lockout` | method | `telegram_c2.py:33` | `def check_lockout(self, user_id)` |
+| `check_rate_limit` | method | `telegram_c2.py:42` | `def check_rate_limit(self, user_id)` |
+| `create_session` | method | `telegram_c2.py:55` | `def create_session(self, user_id, client_id)` |
+| `download_c2` | function | `telegram_c2.py:232` | `def download_c2(update, context)` |
+| `exce_cmd` | function | `telegram_c2.py:118` | `def exce_cmd(update, context)` |
+| `handle_file` | function | `telegram_c2.py:205` | `def handle_file(update, context)` |
+| `load_payload` | function | `telegram_c2.py:89` | `def load_payload()` |
+| `main` | function | `telegram_c2.py:288` | `def main()` |
+| `register_failed_attempt` | method | `telegram_c2.py:26` | `def register_failed_attempt(self, user_id)` |
+| `send_connected_clients` | function | `telegram_c2.py:273` | `def send_connected_clients(update, context)` |
+| `start` | function | `telegram_c2.py:95` | `def start(update, context)` |
+| `validate_session` | method | `telegram_c2.py:63` | `def validate_session(self, user_id)` |
+| `SecureSessionManager` | class | `telegram_hermes.py:190` | `class SecureSessionManager` |
+| `__init__` | method | `telegram_hermes.py:191` | `def __init__(self)` |
+| `_resolve_allowlist` | function | `telegram_hermes.py:843` | `def _resolve_allowlist(raw)` |
+| `_resolve_auth_secret` | function | `telegram_hermes.py:825` | `def _resolve_auth_secret(raw)` |
+| `add_cli` | function | `telegram_hermes.py:432` | `def add_cli(update, context)` |
+| `c2_command` | function | `telegram_hermes.py:474` | `def c2_command(update, context)` |
+| `c2_request` | function | `telegram_hermes.py:149` | `def c2_request(path, method, body)` |
+| `check_lockout` | method | `telegram_hermes.py:203` | `def check_lockout(self, user_id)` |
+| `check_rate_limit` | method | `telegram_hermes.py:212` | `def check_rate_limit(self, user_id)` |
+| `config_cmd` | function | `telegram_hermes.py:383` | `def config_cmd(update, context)` |
+| `create_session` | method | `telegram_hermes.py:225` | `def create_session(self, user_id, client_id)` |
+| `cron_schedule_cmd` | function | `telegram_hermes.py:574` | `def cron_schedule_cmd(update, context)` |
+| `delegate_task_cmd` | function | `telegram_hermes.py:543` | `def delegate_task_cmd(update, context)` |
+| `download_file_cmd` | function | `telegram_hermes.py:657` | `def download_file_cmd(update, context)` |
+| `execute_command` | function | `telegram_hermes.py:316` | `def execute_command(update, context)` |
+| `get_client_id` | method | `telegram_hermes.py:245` | `def get_client_id(self, user_id)` |
+| `handle_file_upload` | function | `telegram_hermes.py:685` | `def handle_file_upload(update, context)` |
+| `help_cmd` | function | `telegram_hermes.py:288` | `def help_cmd(update, context)` |
+| `list_clients` | function | `telegram_hermes.py:447` | `def list_clients(update, context)` |
+| `load_payload` | function | `telegram_hermes.py:181` | `def load_payload()` |
+| `main` | function | `telegram_hermes.py:782` | `def main()` |
+| `register_failed_attempt` | method | `telegram_hermes.py:196` | `def register_failed_attempt(self, user_id)` |
+| `run_agent` | function | `telegram_hermes.py:514` | `def run_agent(update, context)` |
+| `run_lazyown_command` | function | `telegram_hermes.py:65` | `def run_lazyown_command(command, timeout)` |
+| `set_client_id` | method | `telegram_hermes.py:249` | `def set_client_id(self, user_id, client_id)` |
+| `sitrep` | function | `telegram_hermes.py:347` | `def sitrep(update, context)` |
+| `start` | function | `telegram_hermes.py:259` | `def start(update, context)` |
+| `status_cmd` | function | `telegram_hermes.py:607` | `def status_cmd(update, context)` |
+| `stop_daemon_cmd` | function | `telegram_hermes.py:640` | `def stop_daemon_cmd(update, context)` |
+| `text_command` | function | `telegram_hermes.py:722` | `def text_command(update, context)` |
+| `validate_session` | method | `telegram_hermes.py:233` | `def validate_session(self, user_id)` |
 | `TestFunctions` | class | `testmeneitor.py:35` | `class TestFunctions(TestCase)` |
 | `extract_functions` | function | `testmeneitor.py:13` | `def extract_functions(script_path)` |
 | `run_command_with_timeout` | function | `testmeneitor.py:54` | `def run_command_with_timeout(command, timeout)` |
@@ -496,5 +442,59 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 | `_factory` | function | `tests/test_ai_commands_llm.py:77` | `def _factory()` |
 | `_raise` | function | `tests/test_ai_commands_llm.py:57` | `def _raise()` |
 | `complete` | method | `tests/test_ai_commands_llm.py:72` | `def complete(self, system, user)` |
+| `complete` | method | `tests/test_ai_commands_llm.py:94` | `def complete(self, system, user)` |
+| `complete` | method | `tests/test_ai_commands_llm.py:107` | `def complete(self, system, user)` |
+| `test_backend_error_surfaces_as_message` | method | `tests/test_ai_commands_llm.py:45` | `def test_backend_error_surfaces_as_message(self, monkeypatch)` |
+| `test_completion_failure_prints_error` | method | `tests/test_ai_commands_llm.py:90` | `def test_completion_failure_prints_error(self, monkeypatch)` |
+| `test_empty_line_falls_back_to_shell_prompt` | method | `tests/test_ai_commands_llm.py:103` | `def test_empty_line_falls_back_to_shell_prompt(self, monkeypatch)` |
+| `test_empty_question_prints_usage` | method | `tests/test_ai_commands_llm.py:27` | `def test_empty_question_prints_usage(self, monkeypatch)` |
+| `test_question_forwarded_with_session_context` | method | `tests/test_ai_commands_llm.py:33` | `def test_question_forwarded_with_session_context(self, monkeypatch)` |
+| `test_success_completes_oneliner_and_prints` | method | `tests/test_ai_commands_llm.py:66` | `def test_success_completes_oneliner_and_prints(self, monkeypatch)` |
+| `test_unavailable_backend_prints_actionable_error` | method | `tests/test_ai_commands_llm.py:54` | `def test_unavailable_backend_prints_actionable_error(self, monkeypatch)` |
+| `TestApiAuthzConfig` | class | `tests/test_api_authz.py:21` | `class TestApiAuthzConfig` |
+| `TestApiKey` | class | `tests/test_api_authz.py:45` | `class TestApiKey` |
+| `TestApiKeyStore` | class | `tests/test_api_authz.py:102` | `class TestApiKeyStore` |
+| `TestCreateApiToken` | class | `tests/test_api_authz.py:377` | `class TestCreateApiToken` |
+| `TestEdgeCases` | class | `tests/test_api_authz.py:423` | `class TestEdgeCases` |
+| `TestRequireApiAuth` | class | `tests/test_api_authz.py:288` | `class TestRequireApiAuth` |
+| `_build_client` | method | `tests/test_api_authz.py:301` | `def _build_client(self, tmp_path, store)` |
+| `_make_app` | method | `tests/test_api_authz.py:291` | `def _make_app(self, tmp_path)` |
+| `_make_store` | method | `tests/test_api_authz.py:105` | `def _make_store(self, tmp_path)` |
+| `_make_store` | method | `tests/test_api_authz.py:380` | `def _make_store(self, tmp_path)` |
+| `_make_store` | method | `tests/test_api_authz.py:426` | `def _make_store(self, tmp_path)` |
+| `admin_only` | function | `tests/test_api_authz.py:328` | `def admin_only()` |
+| `g_check` | function | `tests/test_api_authz.py:318` | `def g_check()` |
+| `secure` | function | `tests/test_api_authz.py:313` | `def secure()` |
+| `test_allows_valid_key_in_bearer_header` | method | `tests/test_api_authz.py:333` | `def test_allows_valid_key_in_bearer_header(self, tmp_path)` |
+| `test_allows_valid_key_in_query_param` | method | `tests/test_api_authz.py:346` | `def test_allows_valid_key_in_query_param(self, tmp_path)` |
+| `test_allows_valid_key_in_x_api_key_header` | method | `tests/test_api_authz.py:340` | `def test_allows_valid_key_in_x_api_key_header(self, tmp_path)` |
+| `test_atomic_write_leaves_no_tmp_files` | method | `tests/test_api_authz.py:450` | `def test_atomic_write_leaves_no_tmp_files(self, tmp_path)` |
+| `test_checks_permissions_with_set_operations` | method | `tests/test_api_authz.py:87` | `def test_checks_permissions_with_set_operations(self)` |
+| `test_constant_time_comparison_rejects_wrong_secrets` | method | `tests/test_api_authz.py:435` | `def test_constant_time_comparison_rejects_wrong_secrets(self)` |
+| `test_creates_and_lists_keys_scoped_by_tenant` | method | `tests/test_api_authz.py:114` | `def test_creates_and_lists_keys_scoped_by_tenant(self, tmp_path)` |
+| `test_custom_overrides_preserve_typed_semantics` | method | `tests/test_api_authz.py:32` | `def test_custom_overrides_preserve_typed_semantics(self)` |
+| `test_defaults_are_secure_by_default` | method | `tests/test_api_authz.py:24` | `def test_defaults_are_secure_by_default(self)` |
+| `test_detects_expiration_correctly` | method | `tests/test_api_authz.py:65` | `def test_detects_expiration_correctly(self)` |
+| `test_enforces_max_keys_per_tenant_raises_value_error` | method | `tests/test_api_authz.py:183` | `def test_enforces_max_keys_per_tenant_raises_value_error(self, tmp_path)` |
+| `test_generates_50_unique_tokens_without_collision` | method | `tests/test_api_authz.py:444` | `def test_generates_50_unique_tokens_without_collision(self)` |
+| `test_never_stores_plaintext_token_on_disk` | method | `tests/test_api_authz.py:275` | `def test_never_stores_plaintext_token_on_disk(self, tmp_path)` |
+| `test_old_key_rejected_after_rotation_grace_expires` | method | `tests/test_api_authz.py:225` | `def test_old_key_rejected_after_rotation_grace_expires(self, tmp_path)` |
+| `test_old_key_stays_valid_during_rotation_grace` | method | `tests/test_api_authz.py:217` | `def test_old_key_stays_valid_during_rotation_grace(self, tmp_path)` |
+| `test_rejects_empty_plaintext_key` | method | `tests/test_api_authz.py:137` | `def test_rejects_empty_plaintext_key(self, tmp_path)` |
+| `test_rejects_expired_key` | method | `tests/test_api_authz.py:141` | `def test_rejects_expired_key(self, tmp_path)` |
+| `test_rejects_invalid_key_with_401` | method | `tests/test_api_authz.py:357` | `def test_rejects_invalid_key_with_401(self, tmp_path)` |
+| `test_rejects_key_with_insufficient_permissions_with_403` | method | `tests/test_api_authz.py:362` | `def test_rejects_key_with_insufficient_permissions_with_403(self, tmp_path)` |
+| `test_rejects_missing_key_with_401` | method | `tests/test_api_authz.py:352` | `def test_rejects_missing_key_with_401(self, tmp_path)` |
+| `test_rejects_unknown_key_returning_none` | method | `tests/test_api_authz.py:133` | `def test_rejects_unknown_key_returning_none(self, tmp_path)` |
+| `test_retired_keys_are_pruned_after_grace_expires` | method | `tests/test_api_authz.py:240` | `def test_retired_keys_are_pruned_after_grace_expires(self, tmp_path)` |
+| `test_returns_a_validatable_token` | method | `tests/test_api_authz.py:389` | `def test_returns_a_validatable_token(self, tmp_path)` |
+| `test_revocation_is_idempotent` | method | `tests/test_api_authz.py:179` | `def test_revocation_is_idempotent(self, tmp_path)` |
+| `test_revokes_key_preventing_future_validation` | method | `tests/test_api_authz.py:173` | `def test_revokes_key_preventing_future_validation(self, tmp_path)` |
+| `test_rotates_key_preserving_tenant_label_and_permissions` | method | `tests/test_api_authz.py:196` | `def test_rotates_key_preserving_tenant_label_and_permissions(self, tmp_path)` |
+| `test_rotation_copies_permissions_from_the_rotated_key` | method | `tests/test_api_authz.py:206` | `def test_rotation_copies_permissions_from_the_rotated_key(self, tmp_path)` |
+| `test_rotation_does_not_grow_active_key_count` | method | `tests/test_api_authz.py:258` | `def test_rotation_does_not_grow_active_key_count(self, tmp_path)` |
+| `test_serialization_roundtrip_preserves_all_fields` | method | `tests/test_api_authz.py:48` | `def test_serialization_roundtrip_preserves_all_fields(self)` |
+| `test_sets_expiration_when_days_are_provided` | method | `tests/test_api_authz.py:412` | `def test_sets_expiration_when_days_are_provided(self, tmp_path)` |
+| `test_sets_g_variables_with_api_key_context_on_success` | method | `tests/test_api_authz.py:368` | `def test_sets_g_variables_with_api_key_context_on_success(self, tmp_path)` |
 
 Next: [SYMBOLS_p32.md](SYMBOLS_p32.md)

@@ -1,33 +1,6 @@
 # API (page 16 of 24)
 Previous: [API_p15.md](API_p15.md)
 
-## modules/obs_parser.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/sinks/world_model.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
-- `Observation.by_type` (method) `modules/obs_parser.py:83` `def by_type(self, ftype)`
-- `Observation.has` (method) `modules/obs_parser.py:86` `def has(self, ftype)`
-- `Extractor.extract` (method) `modules/obs_parser.py:99` `def extract(self, text, host)` -- Return all findings of this type found in *text*.
-- `_ExtractorRegistry.__init__` (method) `modules/obs_parser.py:106` `def __init__(self)`
-- `_ExtractorRegistry.register` (method) `modules/obs_parser.py:109` `def register(self, extractor)`
-- `_ExtractorRegistry.run_all` (method) `modules/obs_parser.py:112` `def run_all(self, text, host)`
-- `_IPExtractor.extract` (method) `modules/obs_parser.py:134` `def extract(self, text, host)`
-- `_CredentialExtractor.extract` (method) `modules/obs_parser.py:175` `def extract(self, text, host)`
-- `_ServiceVersionExtractor.extract` (method) `modules/obs_parser.py:198` `def extract(self, text, host)`
-- `_PathExtractor.extract` (method) `modules/obs_parser.py:224` `def extract(self, text, host)`
-- `_UsernameExtractor.extract` (method) `modules/obs_parser.py:245` `def extract(self, text, host)`
-- `_HashExtractor.extract` (method) `modules/obs_parser.py:271` `def extract(self, text, host)`
-- `_CVEExtractor.extract` (method) `modules/obs_parser.py:288` `def extract(self, text, host)`
-- `_DomainExtractor.extract` (method) `modules/obs_parser.py:305` `def extract(self, text, host)`
-- `_EmailExtractor.extract` (method) `modules/obs_parser.py:323` `def extract(self, text, host)`
-- `_ErrorExtractor.extract` (method) `modules/obs_parser.py:345` `def extract(self, text, host)`
-- `_CloudIdentityExtractor.extract` (method) `modules/obs_parser.py:367` `def extract(self, text, host)`
-- `_SuccessDetector.is_success` (method) `modules/obs_parser.py:407` `def is_success(self, text)`
-- `ObsParser.__init__` (method) `modules/obs_parser.py:431` `def __init__(self)`
-- `ObsParser.register` (method) `modules/obs_parser.py:450` `def register(self, extractor)` -- Register an additional Extractor (Open/Closed extension point).
-- `ObsParser.parse` (method) `modules/obs_parser.py:454` `def parse(self, output, host, tool)` -- Parse *output* and return an Observation.
-- `get_parser` (function) `modules/obs_parser.py:500` `def get_parser()` -- Return (or create) the module-level singleton ObsParser.
-- `parse` (function) `modules/obs_parser.py:508` `def parse(output, host, tool)` -- Module-level convenience wrapper.
-
 ## modules/operation.py
 Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
 Imported by: `cli/commands/caldera.py`
@@ -489,6 +462,27 @@ Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/
 - `signal_handler` (function) `modules/rootkit/mr.c:609` `void signal_handler(int signum)`
 - `reboot_system` (function) `modules/rootkit/mr.c:615` `void reboot_system()`
 - `main` (function) `modules/rootkit/mr.c:639` `int main()`
+
+## modules/rootkit/mrhyde.c
+- `load_hidden_pids` (function) `modules/rootkit/mrhyde.c:73` `void load_hidden_pids()`
+- `load_hidden_files` (function) `modules/rootkit/mrhyde.c:93` `void load_hidden_files()`
+- `unlink` (function) `modules/rootkit/mrhyde.c:113` `int unlink(const char *pathname)`
+- `kill` (function) `modules/rootkit/mrhyde.c:125` `int kill(pid_t pid, int sig)`
+- `remove` (function) `modules/rootkit/mrhyde.c:145` `int remove(const char *pathname)`
+- `unlinkat` (function) `modules/rootkit/mrhyde.c:157` `int unlinkat(int dirfd, const char *pathname, int flags)`
+- `get_username_from_pid` (function) `modules/rootkit/mrhyde.c:178` `char* get_username_from_pid(pid_t pid)`
+- `should_hide_pid` (function) `modules/rootkit/mrhyde.c:197` `int should_hide_pid(const char* pid)`
+- `should_hide_file` (function) `modules/rootkit/mrhyde.c:212` `int should_hide_file(const char* filename)`
+- `readdir` (function) `modules/rootkit/mrhyde.c:222` `struct dirent* readdir(DIR* dirp)`
+- `fopen` (function) `modules/rootkit/mrhyde.c:283` `FILE *fopen(const char *pathname, const char *mode)`
+- `my_open` (function) `modules/rootkit/mrhyde.c:327` `int my_open(const char *pathname, int flags, mode_t mode)`
+- `my_openat` (function) `modules/rootkit/mrhyde.c:371` `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
+- `stat` (function) `modules/rootkit/mrhyde.c:415` `int stat(const char *pathname, struct stat *statbuf)`
+- `lstat` (function) `modules/rootkit/mrhyde.c:459` `int lstat(const char *pathname, struct stat *statbuf)`
+- `fstat` (function) `modules/rootkit/mrhyde.c:503` `int fstat(int fd, struct stat *statbuf)`
+- `getdents` (function) `modules/rootkit/mrhyde.c:557` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+- `getdents64` (function) `modules/rootkit/mrhyde.c:618` `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+- `main` (function) `modules/rootkit/mrhyde.c:678` `int main()`
 
 
 Next: [API_p17.md](API_p17.md)

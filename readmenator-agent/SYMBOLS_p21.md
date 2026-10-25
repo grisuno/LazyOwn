@@ -3,57 +3,6 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `refresh` | function | `modules/session_state.py:240` | `def refresh()` |
-| `SideConfig` | class | `modules/sidequestion.py:19` | `class SideConfig` |
-| `SideQuestion` | class | `modules/sidequestion.py:42` | `class SideQuestion` |
-| `SideQuestionService` | class | `modules/sidequestion.py:52` | `class SideQuestionService` |
-| `Snapshot` | class | `modules/sidequestion.py:32` | `class Snapshot` |
-| `__init__` | method | `modules/sidequestion.py:55` | `def __init__(self, answer_fn, config)` |
-| `ask` | method | `modules/sidequestion.py:75` | `def ask(self, snapshot_id, question)` |
-| `cancel` | method | `modules/sidequestion.py:104` | `def cancel(self, request_id)` |
-| `capture` | method | `modules/sidequestion.py:66` | `def capture(self, task_id, text)` |
-| `history` | method | `modules/sidequestion.py:113` | `def history(self, limit, before)` |
-| `apply` | function | `modules/sinks/attack_graph.py:13` | `def apply(event)` |
-| `apply` | function | `modules/sinks/c2_surfaces.py:11` | `def apply(event)` |
-| `apply` | function | `modules/sinks/campaign_db.py:9` | `def apply(event)` |
-| `apply` | function | `modules/sinks/event_bus.py:9` | `def apply(event)` |
-| `apply` | function | `modules/sinks/intel_graph.py:13` | `def apply(event)` |
-| `apply` | function | `modules/sinks/killchain.py:11` | `def apply(event)` |
-| `apply` | function | `modules/sinks/objectives.py:16` | `def apply(event)` |
-| `apply` | function | `modules/sinks/routing.py:9` | `def apply(event)` |
-| `apply` | function | `modules/sinks/world_model.py:12` | `def apply(event)` |
-| `OsPlatform` | class | `modules/sleep_obfuscation.py:57` | `class OsPlatform(str, Enum)` |
-| `SleepObfuscationConfig` | class | `modules/sleep_obfuscation.py:100` | `class SleepObfuscationConfig` |
-| `SleepObfuscationEngine` | class | `modules/sleep_obfuscation.py:394` | `class SleepObfuscationEngine` |
-| `SleepTechnique` | class | `modules/sleep_obfuscation.py:73` | `class SleepTechnique` |
-| `SleepTechniqueCatalog` | class | `modules/sleep_obfuscation.py:163` | `class SleepTechniqueCatalog` |
-| `SleepTechniqueValidator` | class | `modules/sleep_obfuscation.py:365` | `class SleepTechniqueValidator` |
-| `TechniqueRisk` | class | `modules/sleep_obfuscation.py:64` | `class TechniqueRisk(str, Enum)` |
-| `__init__` | method | `modules/sleep_obfuscation.py:170` | `def __init__(self)` |
-| `__init__` | method | `modules/sleep_obfuscation.py:407` | `def __init__(self, catalog)` |
-| `_build_default_catalog` | function | `modules/sleep_obfuscation.py:201` | `def _build_default_catalog()` |
-| `catalog` | method | `modules/sleep_obfuscation.py:416` | `def catalog(self)` |
-| `config` | method | `modules/sleep_obfuscation.py:421` | `def config(self)` |
-| `configure` | method | `modules/sleep_obfuscation.py:449` | `def configure(self, technique, overrides)` |
-| `detection_resistance` | method | `modules/sleep_obfuscation.py:426` | `def detection_resistance(self)` |
-| `from_dict` | method | `modules/sleep_obfuscation.py:146` | `def from_dict(cls, raw)` |
-| `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
-| `get` | method | `modules/sleep_obfuscation.py:177` | `def get(self, name)` |
-| `list_all` | method | `modules/sleep_obfuscation.py:184` | `def list_all(self)` |
-| `list_by_platform` | method | `modules/sleep_obfuscation.py:192` | `def list_by_platform(self, platform)` |
-| `list_names` | method | `modules/sleep_obfuscation.py:196` | `def list_names(self)` |
-| `recommend` | method | `modules/sleep_obfuscation.py:500` | `def recommend(self, platform)` |
-| `register` | method | `modules/sleep_obfuscation.py:173` | `def register(self, technique)` |
-| `select` | method | `modules/sleep_obfuscation.py:442` | `def select(self, technique_name)` |
-| `to_dict` | method | `modules/sleep_obfuscation.py:129` | `def to_dict(self)` |
-| `to_dict` | method | `modules/sleep_obfuscation.py:513` | `def to_dict(self)` |
-| `validate` | method | `modules/sleep_obfuscation.py:369` | `def validate(config, technique)` |
-| `validate` | method | `modules/sleep_obfuscation.py:484` | `def validate(self, config)` |
-| `validate_config` | method | `modules/sleep_obfuscation.py:386` | `def validate_config(config)` |
-| `SocksAddressType` | class | `modules/socks_proxy.py:82` | `class SocksAddressType(IntEnum)` |
-| `SocksAuthMethod` | class | `modules/socks_proxy.py:65` | `class SocksAuthMethod(IntEnum)` |
-| `SocksCommand` | class | `modules/socks_proxy.py:74` | `class SocksCommand(IntEnum)` |
-| `SocksProxyConfig` | class | `modules/socks_proxy.py:166` | `class SocksProxyConfig` |
 | `SocksProxyEngine` | class | `modules/socks_proxy.py:368` | `class SocksProxyEngine` |
 | `SocksReply` | class | `modules/socks_proxy.py:90` | `class SocksReply(IntEnum)` |
 | `SocksSession` | class | `modules/socks_proxy.py:120` | `class SocksSession` |
@@ -166,12 +115,6 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `is_ipv4` | function | `modules/surface_ops.py:18` | `def is_ipv4(value)` |
 | `parse_confirm` | function | `modules/surface_ops.py:26` | `def parse_confirm(answer)` |
 | `write_world_model_hosts` | function | `modules/surface_ops.py:50` | `def write_world_model_hosts(document, sessions)` |
-| `decrypt_cookie` | function | `modules/tel.py:46` | `def decrypt_cookie(encrypted, key, iv)` |
-| `get_machine_id` | function | `modules/tel.py:10` | `def get_machine_id()` |
-| `get_version` | function | `modules/tel.py:24` | `def get_version()` |
-| `main` | function | `modules/tel.py:53` | `def main()` |
-| `to_hex` | function | `modules/tel.py:41` | `def to_hex(byte_list)` |
-| `to_numbers` | function | `modules/tel.py:36` | `def to_numbers(hex_str)` |
 | `ThreatModelBuilder` | class | `modules/threat_model.py:267` | `class ThreatModelBuilder` |
 | `_add` | function | `modules/threat_model.py:448` | `def _add(ioc)` |
 | `_build_assets` | method | `modules/threat_model.py:318` | `def _build_assets(self, rows)` |
@@ -496,5 +439,62 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `Command` | struct | `modules/win_rootkit/backup.c:27` | `` |
 | `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
 | `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
+| `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
+| `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
+| `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
+| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
+| `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
+| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
+| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
+| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
+| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
+| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
+| `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
+| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
+| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
+| `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
+| `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
+| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
+| `HookFunctions` | function | `modules/win_rootkit/mrhyde.c:222` | `void HookFunctions()` |
+| `HookedCreateToolhelp32Snapshot` | function | `modules/win_rootkit/mrhyde.c:189` | `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` |
+| `HookedFindFirstFile` | function | `modules/win_rootkit/mrhyde.c:171` | `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` |
+| `HookedFindNextFile` | function | `modules/win_rootkit/mrhyde.c:180` | `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` |
+| `HookedProcess32First` | function | `modules/win_rootkit/mrhyde.c:198` | `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
+| `HookedProcess32Next` | function | `modules/win_rootkit/mrhyde.c:210` | `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
+| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:7` | `#define MAX_HIDE_PIDS` |
+| `PID_FILE_PATH` | macro | `modules/win_rootkit/mrhyde.c:8` | `#define PID_FILE_PATH` |
+| `RunExperiment` | function | `modules/win_rootkit/mrhyde.c:19` | `void __cdecl RunExperiment()` |
+| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:47` | `void load_hidden_files()` |
+| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:24` | `void load_hidden_pids()` |
+| `search_pid` | function | `modules/win_rootkit/mrhyde.c:137` | `BOOL search_pid()` |
+| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:161` | `BOOL should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/win_rootkit/mrhyde.c:147` | `BOOL should_hide_pid(DWORD pid)` |
+| `GetUsernameFromPid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:145` | `` |
+| `HookCreateFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:226` | `` |
+| `HookFindFirstFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:214` | `` |
+| `SECURITY_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:64` | `` |
+| `SID` | class | `modules/win_rootkit/win_rin3_rootkit.cs:136` | `` |
+| `SID_AND_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:129` | `` |
+| `ShouldHidePid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:203` | `` |
+| `TOKEN_USER` | class | `modules/win_rootkit/win_rin3_rootkit.cs:123` | `` |
+| `WIN32_FIND_DATA` | class | `modules/win_rootkit/win_rin3_rootkit.cs:47` | `` |
+| `WinRing3Rootkit` | class | `modules/win_rootkit/win_rin3_rootkit.cs:32` | `` |
+| `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:191` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
+| `BUFFER_SIZE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:19` | `#define BUFFER_SIZE` |
+| `Command` | struct | `modules/win_rootkit/win_ring3_rootkit.c:28` | `` |
+| `DownloadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:79` | `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)` |
+| `GetProcessIdByName` | function | `modules/win_rootkit/win_ring3_rootkit.c:240` | `DWORD GetProcessIdByName(const char* processName)` |
+| `Gifted` | function | `modules/win_rootkit/win_ring3_rootkit.c:270` | `BOOL Gifted(DWORD processId, const char* dllPath)` |
+| `HIDE_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:22` | `#define HIDE_FILE` |
+| `KEY_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:23` | `#define KEY_FILE` |
+| `MAX_COMMANDS` | macro | `modules/win_rootkit/win_ring3_rootkit.c:20` | `#define MAX_COMMANDS` |
+| `PASSWORD` | macro | `modules/win_rootkit/win_ring3_rootkit.c:25` | `#define PASSWORD` |
+| `PIDArray` | struct | `modules/win_rootkit/win_ring3_rootkit.c:40` | `` |
+| `PID_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:21` | `#define PID_FILE` |
+| `PORT` | macro | `modules/win_rootkit/win_ring3_rootkit.c:18` | `#define PORT` |
+| `ReflectiveLoadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:99` | `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)` |
+| `VirtualFile` | struct | `modules/win_rootkit/win_ring3_rootkit.c:34` | `` |
+| `addPID` | function | `modules/win_rootkit/win_ring3_rootkit.c:153` | `void addPID(PIDArray *array, DWORD pid)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

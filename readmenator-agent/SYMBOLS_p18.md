@@ -3,57 +3,6 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_load` | method | `modules/llm_pool.py:92` | `def _load(self)` |
-| `_ordered` | method | `modules/llm_pool.py:201` | `def _ordered(self)` |
-| `_persist_locked` | method | `modules/llm_pool.py:116` | `def _persist_locked(self)` |
-| `_truncate` | method | `modules/llm_pool.py:217` | `def _truncate(self, text, overflow_dir)` |
-| `complete` | method | `modules/llm_pool.py:237` | `def complete(self, prompt, max_tokens, session_key, overflow_dir)` |
-| `healthy` | method | `modules/llm_pool.py:163` | `def healthy(self, member_id)` |
-| `members` | method | `modules/llm_pool.py:192` | `def members(self)` |
-| `report_failure` | method | `modules/llm_pool.py:143` | `def report_failure(self, member_id, error)` |
-| `report_success` | method | `modules/llm_pool.py:135` | `def report_success(self, member_id)` |
-| `session_key` | method | `modules/llm_pool.py:196` | `def session_key(self, conversation_id, role, index)` |
-| `shared_registry` | function | `modules/llm_pool.py:50` | `def shared_registry(config)` |
-| `KnowledgeStore` | class | `modules/llm_prompts.py:286` | `class KnowledgeStore` |
-| `LlmPromptConfig` | class | `modules/llm_prompts.py:111` | `class LlmPromptConfig` |
-| `__init__` | method | `modules/llm_prompts.py:289` | `def __init__(self, path)` |
-| `_payload_block` | function | `modules/llm_prompts.py:354` | `def _payload_block(config)` |
-| `_prompt_adversary` | function | `modules/llm_prompts.py:393` | `def _prompt_adversary(base_prompt, kb_text, config)` |
-| `_prompt_general` | function | `modules/llm_prompts.py:409` | `def _prompt_general(base_prompt, kb_text, config)` |
-| `_prompt_oneliner` | function | `modules/llm_prompts.py:362` | `def _prompt_oneliner(base_prompt, kb_text, config)` |
-| `_prompt_redop` | function | `modules/llm_prompts.py:462` | `def _prompt_redop(base_prompt, kb_text, config)` |
-| `_prompt_script` | function | `modules/llm_prompts.py:378` | `def _prompt_script(base_prompt, kb_text, config)` |
-| `_prompt_search` | function | `modules/llm_prompts.py:422` | `def _prompt_search(base_prompt, kb_text, config)` |
-| `_prompt_task` | function | `modules/llm_prompts.py:450` | `def _prompt_task(base_prompt, kb_text, config)` |
-| `_prompt_vuln` | function | `modules/llm_prompts.py:436` | `def _prompt_vuln(base_prompt, kb_text, config)` |
-| `add` | method | `modules/llm_prompts.py:324` | `def add(self, prompt, response)` |
-| `default_project_root` | function | `modules/llm_prompts.py:67` | `def default_project_root()` |
-| `from_defaults` | method | `modules/llm_prompts.py:130` | `def from_defaults(cls, project_root)` |
-| `knowledge_base_path` | method | `modules/llm_prompts.py:150` | `def knowledge_base_path(self, domain)` |
-| `knowledge_store` | method | `modules/llm_prompts.py:238` | `def knowledge_store(self, domain)` |
-| `load` | method | `modules/llm_prompts.py:297` | `def load(self)` |
-| `load_event_tool_output` | method | `modules/llm_prompts.py:176` | `def load_event_tool_output(self, event_name)` |
-| `load_payload_context` | method | `modules/llm_prompts.py:161` | `def load_payload_context(self)` |
-| `load_plan_history` | method | `modules/llm_prompts.py:203` | `def load_plan_history(self)` |
-| `load_report_context` | method | `modules/llm_prompts.py:218` | `def load_report_context(self)` |
-| `relevant` | method | `modules/llm_prompts.py:335` | `def relevant(self, prompt, limit)` |
-| `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
-| `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
-| `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
-| `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
-| `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
-| `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
-| `LogTamperConfig` | class | `modules/log_tamper.py:71` | `class LogTamperConfig` |
-| `__init__` | method | `modules/log_tamper.py:105` | `def __init__(self, config)` |
-| `auditd_disable_commands` | method | `modules/log_tamper.py:307` | `def auditd_disable_commands(self)` |
-| `generate_all` | method | `modules/log_tamper.py:295` | `def generate_all(self)` |
-| `linux_clear_commands` | method | `modules/log_tamper.py:176` | `def linux_clear_commands(self)` |
-| `macos_clear_commands` | method | `modules/log_tamper.py:243` | `def macos_clear_commands(self)` |
-| `sysmon_disable_commands` | method | `modules/log_tamper.py:341` | `def sysmon_disable_commands(self)` |
-| `windows_clear_commands` | method | `modules/log_tamper.py:108` | `def windows_clear_commands(self)` |
-| `ColoredFormatter` | class | `modules/logging_config.py:36` | `class ColoredFormatter(Formatter)` |
-| `CorrelationFilter` | class | `modules/logging_config.py:91` | `class CorrelationFilter(Filter)` |
-| `JsonFormatter` | class | `modules/logging_config.py:53` | `class JsonFormatter(Formatter)` |
 | `ResilientRotatingFileHandler` | class | `modules/logging_config.py:103` | `class ResilientRotatingFileHandler(RotatingFileHandler)` |
 | `_ensure_log_dir_writable` | function | `modules/logging_config.py:156` | `def _ensure_log_dir_writable(log_dir)` |
 | `_use_json_format` | function | `modules/logging_config.py:235` | `def _use_json_format()` |
@@ -496,5 +445,56 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `severity_rank` | function | `modules/notify.py:31` | `def severity_rank(severity, config)` |
 | `should_send` | method | `modules/notify.py:215` | `def should_send(self, message, channel)` |
 | `url_allowed` | function | `modules/notify.py:57` | `def url_allowed(url)` |
+| `build_parser` | function | `modules/nuclei_templates_sync.py:238` | `def build_parser()` |
+| `canonical_dest` | function | `modules/nuclei_templates_sync.py:48` | `def canonical_dest(subdir)` |
+| `clone_templates` | function | `modules/nuclei_templates_sync.py:84` | `def clone_templates(repo, staging)` |
+| `count_templates` | function | `modules/nuclei_templates_sync.py:132` | `def count_templates(tree)` |
+| `ensure_git_available` | function | `modules/nuclei_templates_sync.py:73` | `def ensure_git_available()` |
+| `main` | function | `modules/nuclei_templates_sync.py:337` | `def main(argv)` |
+| `normalize` | function | `modules/nuclei_templates_sync.py:179` | `def normalize(url)` |
+| `refresh_existing_clone` | function | `modules/nuclei_templates_sync.py:188` | `def refresh_existing_clone(path, repo)` |
+| `replace_dest` | function | `modules/nuclei_templates_sync.py:144` | `def replace_dest(src, dest, expected)` |
+| `repo_root` | function | `modules/nuclei_templates_sync.py:39` | `def repo_root()` |
+| `resolve_plan` | function | `modules/nuclei_templates_sync.py:308` | `def resolve_plan(args)` |
+| `run` | function | `modules/nuclei_templates_sync.py:60` | `def run(argv, cwd)` |
+| `same_remote` | function | `modules/nuclei_templates_sync.py:168` | `def same_remote(path, repo)` |
+| `strip_git_traces` | function | `modules/nuclei_templates_sync.py:113` | `def strip_git_traces(tree)` |
+| `sync` | function | `modules/nuclei_templates_sync.py:263` | `def sync(name, repo, dest, refresh_existing, skip_validate)` |
+| `validate_subset` | function | `modules/nuclei_templates_sync.py:209` | `def validate_subset(dest, subset)` |
+| `Extractor` | class | `modules/obs_parser.py:95` | `class Extractor(ABC)` |
+| `Finding` | class | `modules/obs_parser.py:66` | `class Finding` |
+| `FindingType` | class | `modules/obs_parser.py:50` | `class FindingType(StrEnum)` |
+| `ObsParser` | class | `modules/obs_parser.py:423` | `class ObsParser` |
+| `Observation` | class | `modules/obs_parser.py:76` | `class Observation` |
+| `_CVEExtractor` | class | `modules/obs_parser.py:283` | `class _CVEExtractor(Extractor)` |
+| `_CloudIdentityExtractor` | class | `modules/obs_parser.py:355` | `class _CloudIdentityExtractor(Extractor)` |
+| `_CredentialExtractor` | class | `modules/obs_parser.py:145` | `class _CredentialExtractor(Extractor)` |
+| `_DomainExtractor` | class | `modules/obs_parser.py:299` | `class _DomainExtractor(Extractor)` |
+| `_EmailExtractor` | class | `modules/obs_parser.py:318` | `class _EmailExtractor(Extractor)` |
+| `_ErrorExtractor` | class | `modules/obs_parser.py:334` | `class _ErrorExtractor(Extractor)` |
+| `_ExtractorRegistry` | class | `modules/obs_parser.py:103` | `class _ExtractorRegistry` |
+| `_HashExtractor` | class | `modules/obs_parser.py:257` | `class _HashExtractor(Extractor)` |
+| `_IPExtractor` | class | `modules/obs_parser.py:127` | `class _IPExtractor(Extractor)` |
+| `_PathExtractor` | class | `modules/obs_parser.py:219` | `class _PathExtractor(Extractor)` |
+| `_ServiceVersionExtractor` | class | `modules/obs_parser.py:193` | `class _ServiceVersionExtractor(Extractor)` |
+| `_SuccessDetector` | class | `modules/obs_parser.py:390` | `class _SuccessDetector` |
+| `_UsernameExtractor` | class | `modules/obs_parser.py:235` | `class _UsernameExtractor(Extractor)` |
+| `__init__` | method | `modules/obs_parser.py:106` | `def __init__(self)` |
+| `__init__` | method | `modules/obs_parser.py:431` | `def __init__(self)` |
+| `by_type` | method | `modules/obs_parser.py:83` | `def by_type(self, ftype)` |
+| `extract` | method | `modules/obs_parser.py:99` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:134` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:175` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:198` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:224` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:245` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:271` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:288` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:305` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:323` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:345` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:367` | `def extract(self, text, host)` |
+| `get_parser` | function | `modules/obs_parser.py:500` | `def get_parser()` |
+| `has` | method | `modules/obs_parser.py:86` | `def has(self, ftype)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

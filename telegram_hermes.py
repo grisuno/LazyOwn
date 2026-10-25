@@ -16,7 +16,10 @@ Usage:
 
 Configuration (payload.json keys):
     telegram_token       - Telegram bot token from @BotFather
-    c2_pass              - Authentication secret for /start
+    c2_pass              - Authentication secret for /start (required,
+                           min 16 chars, never a documented default)
+    telegram_allowlist   - Optional list of Telegram user ids allowed
+                           to authenticate (extra authorization barrier)
     enable_ia            - Enable Groq AI processing (default: false)
     api_key              - Groq API key (if enable_ia is true)
     lhost, c2_port       - C2 server coordinates
@@ -24,6 +27,7 @@ Configuration (payload.json keys):
 
 import asyncio
 import fcntl
+import hmac
 import json
 import os
 import pty
@@ -146,7 +150,7 @@ def c2_request(path: str, method: str = "GET", body: dict | None = None) -> dict
     host = config.get("lhost", "127.0.0.1")
     port = int(config.get("c2_port", 4444))
     user = config.get("c2_user", "LazyOwn")
-    passwd = config.get("c2_pass", "LazyOwn")
+    passwd = config.get("c2_pass") or ""
     url = f"https://{host}:{port}{path}"
 
     import base64
@@ -263,7 +267,13 @@ async def start(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text("Usage: /start <secret>")
         return
 
-    if context.args[0] == c2_pass:
+    if telegram_allowlist and user_id not in telegram_allowlist:
+        session_manager.register_failed_attempt(user_id)
+        await update.message.reply_text("Usage: /start <secret>")
+        return
+
+    presented = context.args[0]
+    if hmac.compare_digest(presented, c2_pass):
         session_manager.create_session(user_id, client_id=None)
         await update.message.reply_text(
             "h1! 1 4m 4 b0t to APT/RedTeaming with Hermes Gateway.\n"
@@ -797,9 +807,58 @@ async def main() -> None:
 
 # ── Bootstrap ───────────────────────────────────────────────────────────────────
 nest_asyncio.apply()
+
+_REJECTED_SECRETS = frozenset(
+    {
+        "",
+        "lazyown",
+        "changeme",
+        "password",
+        "123456",
+        "test",
+        "secret",
+        "telegram",
+    }
+)
+
+
+def _resolve_auth_secret(raw: object) -> str:
+    """Validate the operator-supplied ``/start`` secret, failing closed.
+
+    Returns:
+        The configured secret when it is usable.
+
+    Raises:
+        ValueError: If the secret is missing, too short, or matches a
+            documented/default value.
+    """
+    secret = str(raw or "").strip()
+    if len(secret) < 16:
+        raise ValueError("c2_pass must be configured with at least 16 characters")
+    if secret.lower() in _REJECTED_SECRETS:
+        raise ValueError("c2_pass must not be a documented or default value")
+    return secret
+
+
+def _resolve_allowlist(raw: object) -> frozenset:
+    """Normalize the optional Telegram user-id allowlist."""
+    if not raw:
+        return frozenset()
+    if isinstance(raw, (list, tuple, set)):
+        return frozenset(int(uid) for uid in raw)
+    return frozenset({int(raw)})
+
+
 config = load_payload()
-telegram_token = config.get("telegram_token", "")
-c2_pass = config.get("c2_pass", "LazyOwn")
+telegram_token = str(config.get("telegram_token", "") or "").strip()
+try:
+    c2_pass = _resolve_auth_secret(config.get("c2_pass"))
+except ValueError as exc:
+    c2_pass = ""
+    _auth_error = str(exc)
+else:
+    _auth_error = ""
+telegram_allowlist = _resolve_allowlist(config.get("telegram_allowlist"))
 enable_ia = config.get("enable_ia", False)
 
 SESSION_TIMEOUT = 1800
@@ -815,8 +874,16 @@ if __name__ == "__main__":
         )
         sys.exit(1)
 
+    if _auth_error or not c2_pass:
+        print(f"[ERROR] Refusing to start: {_auth_error or 'c2_pass is not configured'}.")
+        print("Set a strong operator secret (>=16 chars, not a default value) with:")
+        print(
+            "  python3 -c \"import json,secrets; p=json.load(open('payload.json')); p['c2_pass']=secrets.token_urlsafe(32); json.dump(p,open('payload.json','w'),indent=2)\""
+        )
+        sys.exit(1)
+
     print("[INFO] LazyOwn Hermes Bot starting...")
-    print(f"[INFO] C2 auth secret: {c2_pass[:2]}***")
+    print("[INFO] C2 auth secret: configured" + ("; allowlist enforced" if telegram_allowlist else ""))
     print(f"[INFO] IA enabled: {enable_ia}")
     print(f"[INFO] Sessions dir: {SESSIONS_DIR}")
 

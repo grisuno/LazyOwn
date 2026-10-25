@@ -2,11 +2,6 @@
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## Internal Dependencies (continued)
-- `tests/test_phase1_data_gaps.py` -> `modules/autonomous_exploit_engine.py`
-- `tests/test_phase1_data_gaps.py` -> `modules/obs_parser.py`
-- `tests/test_phase1_data_gaps.py` -> `modules/world_model.py`
-- `tests/test_phase_labels.py` -> `cli/contextual_help.py`
-- `tests/test_phase_labels.py` -> `cli/phase_labels.py`
 - `tests/test_phase_labels.py` -> `cli/tips_engine.py`
 - `tests/test_php2shell_addon.py` -> `core/param_registry.py`
 - `tests/test_php2shell_addon.py` -> `core/payload_schema.py`
@@ -74,13 +69,12 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_security_hardening.py` -> `core/safe_subprocess.py`
 - `tests/test_security_hardening.py` -> `modules/db.py`
 - `tests/test_security_hardening_v3.py` -> `core/hardening.py`
-- `tests/test_security_hardening_v3.py` -> `modules/icmp_server.py`
 - `tests/test_security_hardening_v3.py` -> `modules/phishing_orchestrator.py`
 - `tests/test_security_hardening_v3.py` -> `modules/resource_script.py`
 - `tests/test_security_hardening_v4.py` -> `core/safe_exec.py`
+- `tests/test_security_hardening_v5.py` -> `core/crypto.py`
 - `tests/test_security_hardening_v5.py` -> `lazyc2/blueprints/addons.py`
 - `tests/test_security_hardening_v5.py` -> `lazyc2/blueprints/api.py`
-- `tests/test_security_hardening_v5.py` -> `modules/icmp_server.py`
 - `tests/test_security_hardening_v5.py` -> `modules/phishing_orchestrator.py`
 - `tests/test_security_hardening_v5.py` -> `utils.py`
 - `tests/test_security_lazyc2.py` -> `lazyc2/security/__init__.py`

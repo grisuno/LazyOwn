@@ -423,6 +423,10 @@ We love your post bro :D Thank you so much.
 Thanks to cmd2 for making this tool possible through their great work, and we love being recommended as a good example of tools made with cmd2, we are honored.
 [https://pypi.org/project/cmd2/](https://pypi.org/project/cmd2/)
 
+## ZONE.CI 全球网
+
+Many thanks to ZONE.CI for their review, but they failed to check some repositories before confirming that we're missing capabilities announced in the readme. They're not in the repo, but they load as lazy add-ons ;) https://github.com/grisuno/blacksandbeacon https://github.com/grisuno/beacon
+[https://zone.ci/secarticles/wx/587776.html](https://zone.ci/secarticles/wx/587776.html?utm_source=lazyown_redteam)
 
 ## Star History
 

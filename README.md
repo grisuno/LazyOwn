@@ -82,7 +82,7 @@ See the LICENSE file for details about using this software.
 
 LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 837 CLI commands, 130 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
 
-**New in this release:** integrated marketplace with YARA rules + Nuclei templates, `auto_pwn` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks. Plus: `retry` resume of interrupted chains/loops (with a guarded `--sudo` mode), `chain_distill` to turn one loop trace into a reusable chain YAML, typed verb manifests for the planner, and every installed lazyaddon surfacing as a toggleable `addon:*` verb.
+**New in this release:** integrated marketplace with YARA rules + Nuclei templates, `auto_loop` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks. Plus: `retry` resume of interrupted chains/loops (with a guarded `--sudo` mode), `chain_distill` to turn one loop trace into a reusable chain YAML, typed verb manifests for the planner, and every installed lazyaddon surfacing as a toggleable `addon:*` verb.
 
 **Autonomous contracts update:** the loop is now administered by
 `config/orchestrator.yaml` profiles (`default`, `stealth`, `lab`, `gym`),

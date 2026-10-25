@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 115 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. exploit commands migrated from lazyown.py.
+modules: lazy_loop groups 120 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
 
 ```mermaid
 graph LR
@@ -8,65 +8,77 @@ graph LR
     core["core"]
     lazyc2["lazyc2"]
     modules["modules"]
+    skills["skills"]
     tests["tests"]
     cli -- "calls into" --> core
     cli -- "calls into" --> modules
     core -- "calls into" --> modules
+    lazyc2 -- "calls into" --> core
     lazyc2 -- "calls into" --> modules
     modules -- "calls into" --> cli
     modules -- "calls into" --> core
     modules -- "calls into" --> tests
+    skills -- "calls into" --> modules
     tests -- "calls into" --> cli
     tests -- "calls into" --> core
-    tests -- "depends on" --> lazyc2
+    tests -- "calls into" --> lazyc2
     tests -- "calls into" --> modules
+    tests -- "calls into" --> skills
 ```
 
 ## cli (4.1)
 
-cli groups 10 files (py) around filter_candidates, FormModal, __init__, compose, _values. exploit commands migrated from lazyown.py.
+cli groups 13 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
 
 ## core (4.2)
 
-core groups 3 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Autonomous-run mode for the loop engine.
+core groups 5 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Tenant-bound API authorization for the LazyOwn C2 dashboard.
 
 ## lazyc2 (4.3)
 
-lazyc2 groups 1 files (py) around _error, _namespaced_path, _world_snapshot, _status_payload, status. Orchestrator REST + web panel for the LazyOwn C2 dashboard.
+lazyc2 groups 3 files (py) around AddonCreatorConfig, live_placeholders, ParamSpec, to_dict, AddonDraft. LazyAddon creator contract for the LazyOwn C2 web interface.
 
 ## modules (4.4)
 
-modules groups 50 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Active Directory Certificate Services (AD CS) attack module.
+modules groups 43 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Purple Team Closed-Loop — honest measurement of offensive detection.
 
-## tests (4.5)
+## skills (4.5)
 
-tests groups 51 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _offline_llm_for_loop_tests. Global pytest isolation hooks.
+skills groups 1 files (py) around _sync_harness, _harness_result, _call_harness_tool, list_tools, call_tool. LazyOwn MCP OpenCode bridge.
+
+## tests (4.6)
+
+tests groups 55 files (py) around TestHexSource, test_valid_hex_decodes_to_32_bytes, test_wrong_length_raises, test_non_hex_raises, TestDiskSource. TDD tests for the AES key resolution contract.
 
 **Files**:
 
-- cli/commands/exploit_migrated.py
+- cli/commands/containers.py
+- cli/commands/golden_paths.py
+- cli/commands/gym_matrix.py
 - cli/commands/lazyloop.py
 - cli/commands/lazyops.py
-- cli/commands/redteam_gym.py
-- cli/commands/retry_ops.py
+- cli/commands/params_ops.py
+- cli/commands/purple_team.py
 - cli/lazy_monitor.py
 - cli/lazy_orchestrator.py
 - cli/orchestrator_assets_tabs.py
+- cli/purple_tui.py
 - cli/session_brief.py
 - cli/tui_forms.py
-- core/autonomous.py
+- core/api_authz.py
 - core/config.py
+- core/param_registry.py
+- core/payload_schema.py
 - core/terminal_guard.py
+- lazyc2/addon_creator.py
+- lazyc2/blueprints/api.py
 - lazyc2/blueprints/orchestrator.py
 - modules/__init__.py
-- modules/adcs_attacks.py
-- modules/atomic_exploit_bridge.py
+- modules/auto_purple.py
 - modules/auto_registry.py
 - modules/custom_tools.py
-- modules/exploit_chain.py
-- modules/gym_registry.py
+- modules/harness.py
 - modules/jsonl_tail.py
-- modules/lazy_agent.py
 - modules/lazy_bridge.py
 - modules/lazy_cli_bridge.py
 - modules/lazy_engine.py
@@ -81,25 +93,22 @@ tests groups 51 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/lazy_sandbox.py
 - modules/lazy_skill_mirror.py
 - modules/lazy_skills.py
-- modules/llm_pool.py
+- modules/lazyk8s.py
 - modules/loop_guardrails.py
 - modules/loop_progress.py
 - modules/loop_triggers.py
-- modules/metasploitable_gym.py
+- modules/mediation/__init__.py
+- modules/mediation/chain_mediator.py
+- modules/mediation/contracts.py
+- modules/mediation/feedback_mediator.py
+- modules/mediation/hub.py
+- modules/mediation/intel_mediator.py
+- modules/mediation/telemetry_mediator.py
 - modules/notify.py
 - modules/orchestrator_config.py
-- modules/outcome_bus.py
 - modules/playbook_admin.py
 - modules/reaction_bridge.py
-- modules/redteam_gym.py
 - modules/selfupdate.py
-- modules/sinks/attack_graph.py
-- modules/sinks/c2_surfaces.py
-- modules/sinks/intel_graph.py
-- modules/sinks/killchain.py
-- modules/sinks/objectives.py
-- modules/sinks/routing.py
-- modules/sinks/world_model.py
 - modules/tools/__init__.py
 - modules/tools/loop_smoke.py
 - modules/tools/monitor_smoke.py
@@ -107,15 +116,17 @@ tests groups 51 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/trigger_policy.py
 - modules/verb_catalog.py
 - modules/workspace.py
-- modules/world_model.py
-- tests/conftest.py
+- skills/lazyown_mcp_opencode.py
 - tests/test_aes_key_propagation.py
+- tests/test_api_authz.py
+- tests/test_asset_gate.py
 - tests/test_auto_registry.py
-- tests/test_autonomous_ops.py
-- tests/test_chain_list_command.py
-- tests/test_gym_cli.py
-- tests/test_gym_ms2_cli.py
-- tests/test_gym_registry.py
+- tests/test_c2_agent_dual.py
+- tests/test_core_config.py
+- tests/test_core_defaults.py
+- tests/test_guardrails.py
+- tests/test_gym_matrix_ctf.py
+- tests/test_harness_mode.py
 - tests/test_lazy_agent.py
 - tests/test_lazy_bridge_traffic.py
 - tests/test_lazy_engine.py
@@ -144,12 +155,15 @@ tests groups 51 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_loop_store_race.py
 - tests/test_loop_supervision.py
 - tests/test_loop_worker_traces.py
-- tests/test_metasploitable_gym.py
+- tests/test_mediation.py
+- tests/test_opencode_mcp_harness.py
 - tests/test_orchestrator_api.py
 - tests/test_orchestrator_triggers.py
 - tests/test_orchestrator_yaml.py
-- tests/test_outcome_bus.py
+- tests/test_param_registry.py
+- tests/test_php2shell_addon.py
 - tests/test_pi_leg.py
+- tests/test_placeholder_coverage.py
 - tests/test_playbook_admin.py
 - tests/test_reaction_bridge.py
 - tests/test_security_codeql_batch.py
@@ -158,4 +172,3 @@ tests groups 51 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_ttpscope_bridge.py
 - tests/test_unified_bridge_delegate.py
 - tests/test_verb_catalog.py
-- tests/test_world_model_extended.py

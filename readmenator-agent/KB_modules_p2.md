@@ -82,22 +82,22 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_playbook_steps` (function, line 711) `def _playbook_steps(text)`
   - `_apt_chain_steps` (function, line 726) `def _apt_chain_steps(embedded, target, strict)`
   - `steps_for` (function, line 754) `def steps_for(text, target)`
-  - `ShellResult` (class, line 864) `class ShellResult`
-  - `_TeeCapture` (class, line 871) `class _TeeCapture(StringIO)`
-  - `execute_shell_verb` (function, line 899) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
-  - `_register_process` (function, line 997) `def _register_process(process)`
-  - `_unregister_process` (function, line 1003) `def _unregister_process(process)`
-  - `track_process` (function, line 1009) `def track_process(process)`
-  - `untrack_process` (function, line 1014) `def untrack_process(process)`
-  - `cancel_running_commands` (function, line 1019) `def cancel_running_commands()`
-  - `execute_streaming` (function, line 1042) `def execute_streaming(command, on_output, timeout_sec)`
-  - `__init__` (method, line 881) `def __init__(self, observer)`
-  - `write` (method, line 886) `def write(self, data)`
-  - `_invoke` (function, line 922) `def _invoke()`
-  - `_target` (function, line 933) `def _target()`
-  - `_kill` (function, line 1074) `def _kill()`
-- Depends on: `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
+  - `ShellResult` (class, line 877) `class ShellResult`
+  - `_TeeCapture` (class, line 884) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 912) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 1010) `def _register_process(process)`
+  - `_unregister_process` (function, line 1016) `def _unregister_process(process)`
+  - `track_process` (function, line 1022) `def track_process(process)`
+  - `untrack_process` (function, line 1027) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 1032) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 1055) `def execute_streaming(command, on_output, timeout_sec)`
+  - `__init__` (method, line 894) `def __init__(self, observer)`
+  - `write` (method, line 899) `def write(self, data)`
+  - `_invoke` (function, line 935) `def _invoke()`
+  - `_target` (function, line 946) `def _target()`
+  - `_kill` (function, line 1087) `def _kill()`
+- Depends on: `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
 
 ## modules/autonomous_exploit_engine.py
 - Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
@@ -130,27 +130,27 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_register_session` (method, line 1479) `def _register_session(self, ip, output)`
   - `_load_payload_config` (method, line 1507) `def _load_payload_config(self)`
   - `_load_world_model` (method, line 1518) `def _load_world_model(self, target)`
-  - `_detect_os_from_payload` (method, line 1615) `def _detect_os_from_payload(self)`
-  - `_load_from_nmap_xml` (method, line 1633) `def _load_from_nmap_xml(self, target)`
-  - `_get_os_type` (method, line 1712) `def _get_os_type(self, profile)`
-  - `_apply_stealth_delay` (method, line 1728) `def _apply_stealth_delay(self)`
-  - `scan_vulnerabilities` (method, line 1739) `def scan_vulnerabilities(self, profile)`
-  - `_parse_nse_output` (method, line 1765) `def _parse_nse_output(self, target_ip)`
-  - `_extract_cves_from_text` (method, line 1800) `def _extract_cves_from_text(self, text)`
-  - `_match_service_banners` (method, line 1848) `def _match_service_banners(self, profile)`
-  - `_check_known_cves` (method, line 2028) `def _check_known_cves(self, profile)`
-  - `chain_privesc` (method, line 2054) `def chain_privesc(self, profile, session_id)`
-  - `_run_linux_privesc_checks` (method, line 2082) `def _run_linux_privesc_checks(self, profile, session_id)`
-  - `_run_windows_privesc_checks` (method, line 2151) `def _run_windows_privesc_checks(self, profile, session_id)`
-  - `_match_privesc_techniques` (method, line 2194) `def _match_privesc_techniques(self, findings, os_type)`
-  - `_execute_privesc` (method, line 2384) `def _execute_privesc(self, technique, profile, session_id)`
-  - `trigger_pivot` (method, line 2484) `def trigger_pivot(self, profile, session_id)`
-  - `_discover_internal_interfaces` (method, line 2549) `def _discover_internal_interfaces(self, profile)`
-  - `enable_stealth` (method, line 2610) `def enable_stealth(self, stealth_level)`
-  - `_get_stealth_scan_flags` (method, line 2655) `def _get_stealth_scan_flags(self)`
-  - `full_auto_pwn` (method, line 2674) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
+  - `_detect_os_from_payload` (method, line 1617) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1635) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1714) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1730) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1741) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1767) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1802) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1850) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 2030) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 2056) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 2084) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2153) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2196) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2386) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2486) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2551) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2612) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2657) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2676) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
   - `_is_placeholder` (function, line 299) `def _is_placeholder(value)`
-- Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`
+- Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 - Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_phase1_data_gaps.py`
 
 ## modules/aws_attacks.py
@@ -207,6 +207,20 @@ Previous: [KB_modules.md](KB_modules.md)
   - `records_path` (method, line 43) `def records_path(self, client_id)`
 - Depends on: `core/logging.py`
 - Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
+
+## modules/beacon_recon.py
+- Doc: Beacon recon ingest — post-foothold discovery feeds the world model.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_looks_like_ip` (function, line 42) `def _looks_like_ip(value)`
+  - `parse_discovered_ips` (function, line 50) `def parse_discovered_ips(raw)`
+  - `parse_beacon_portscan` (function, line 94) `def parse_beacon_portscan(raw, default_host)`
+  - `ingest_beacon_recon` (function, line 169) `def ingest_beacon_recon(primary_ip, discovered_ips, portscan, hostname, user, client_id, sessions_dir)`
+  - `_append_discovery_ledger` (function, line 264) `def _append_discovery_ledger(primary_ip, discovered, sessions_dir)`
+  - `_ports_from` (function, line 111) `def _ports_from(value)`
+- Depends on: `core/logging.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `lazyc2.py`, `tests/test_beacon_recon_sink.py`
 
 ## modules/bin2img.py
 - Layer: utility
@@ -296,26 +310,26 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_sync_credentials_file` (function, line 50) `def _sync_credentials_file(user, password)`
-  - `_unverified_context` (function, line 75) `def _unverified_context()`
-  - `client_id_for` (function, line 85) `def client_id_for(target)`
-  - `validate_client_id` (function, line 91) `def validate_client_id(raw)`
-  - `build_agent` (function, line 354) `def build_agent(c2_url, client_id, aes_hex, route, sleep)`
-  - `_ensure_key` (function, line 375) `def _ensure_key()`
-  - `_restore_key_from_snapshot` (function, line 406) `def _restore_key_from_snapshot()`
-  - `_snapshot_key` (function, line 429) `def _snapshot_key(aes_hex)`
-  - `read_aes_hex` (function, line 441) `def read_aes_hex()`
-  - `deploy` (function, line 446) `def deploy(target, c2_base, route, lhost, sleep)`
-  - `read_records` (function, line 517) `def read_records(client_id, limit)`
-  - `wait_record` (function, line 534) `def wait_record(client_id, command, since, timeout)`
-  - `C2Server` (class, line 548) `class C2Server`
-  - `__init__` (method, line 551) `def __init__(self, port, user, password)`
-  - `_pid` (method, line 556) `def _pid(self)`
-  - `status` (method, line 568) `def status(self)`
-  - `start` (method, line 600) `def start(self)`
-  - `stop` (method, line 631) `def stop(self)`
-  - `ensure_http_listener` (method, line 654) `def ensure_http_listener(self, http_port, auth)`
-  - `_api` (function, line 662) `def _api(path, data)`
+  - `_sync_credentials_file` (function, line 53) `def _sync_credentials_file(user, password)`
+  - `_unverified_context` (function, line 78) `def _unverified_context()`
+  - `client_id_for` (function, line 88) `def client_id_for(target, privilege)`
+  - `validate_client_id` (function, line 113) `def validate_client_id(raw)`
+  - `build_agent` (function, line 376) `def build_agent(c2_url, client_id, aes_hex, route, sleep, privilege)`
+  - `_ensure_key` (function, line 426) `def _ensure_key()`
+  - `_restore_key_from_snapshot` (function, line 457) `def _restore_key_from_snapshot()`
+  - `_snapshot_key` (function, line 480) `def _snapshot_key(aes_hex)`
+  - `read_aes_hex` (function, line 492) `def read_aes_hex()`
+  - `deploy` (function, line 497) `def deploy(target, c2_base, route, lhost, sleep, privilege)`
+  - `read_records` (function, line 603) `def read_records(client_id, limit)`
+  - `wait_record` (function, line 620) `def wait_record(client_id, command, since, timeout)`
+  - `C2Server` (class, line 634) `class C2Server`
+  - `__init__` (method, line 637) `def __init__(self, port, user, password)`
+  - `_pid` (method, line 642) `def _pid(self)`
+  - `status` (method, line 654) `def status(self)`
+  - `start` (method, line 686) `def start(self)`
+  - `stop` (method, line 717) `def stop(self)`
+  - `ensure_http_listener` (method, line 740) `def ensure_http_listener(self, http_port, auth)`
+  - `_api` (function, line 748) `def _api(path, data)`
 - Depends on: `core/logging.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
 - Imported by: `cli/commands/c2_session.py`
 
@@ -479,21 +493,6 @@ Previous: [KB_modules.md](KB_modules.md)
   - `group_tasks_for_display` (function, line 261) `def group_tasks_for_display(tasks)`
 - Depends on: `core/logging.py`, `skills/lazyown_mcp_helpers.py`
 - Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/sinks/c2_surfaces.py`, `tests/test_c2_surfaces.py`
-
-## modules/cal.sh
-- Doc: Función para calcular si un año es bisiesto
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `is_leap_year` (function, line 4)
-  - `days_in_month` (function, line 14)
-  - `first_day_of_month` (function, line 31)
-
-## modules/categories.py
-- Doc: modules/categories.py
-- Layer: utility
-- Language: py
-- Imported by: `cli/commands/automation.py`, `cli/commands/cred.py`, `cli/commands/exploit.py`, `cli/commands/lateral.py`, `cli/commands/persist.py`, `cli/commands/postexp.py`, `tests/test_categories.py`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

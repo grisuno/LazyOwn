@@ -21,9 +21,9 @@
   - `HashMapper` (class, line 183) `class HashMapper(FindingMapper)`
   - `ServiceMapper` (class, line 218) `class ServiceMapper(FindingMapper)`
   - `MISPExporter` (class, line 254) `class MISPExporter`
-  - `_DictFinding` (class, line 451) `class _DictFinding`
-  - `get_exporter` (function, line 469) `def get_exporter()`
-  - `_main` (function, line 482) `def _main()`
+  - `_DictFinding` (class, line 498) `class _DictFinding`
+  - `get_exporter` (function, line 516) `def get_exporter()`
+  - `_main` (function, line 529) `def _main()`
   - `map` (method, line 90) `def map(self, finding)`
   - `map` (method, line 106) `def map(self, finding)`
   - `_is_ip` (method, line 118) `def _is_ip(finding)`
@@ -47,10 +47,11 @@
   - `_load_policy_facts` (method, line 372) `def _load_policy_facts(self, sdir)`
   - `_load_events` (method, line 383) `def _load_events(self, sdir)`
   - `_dict_to_findings` (method, line 403) `def _dict_to_findings(data)`
-  - `_map_finding` (method, line 443) `def _map_finding(self, finding)`
-  - `__init__` (method, line 454) `def __init__(self, data)`
+  - `_dict_to_fact_records` (method, line 457) `def _dict_to_fact_records(data)`
+  - `_map_finding` (method, line 490) `def _map_finding(self, finding)`
+  - `__init__` (method, line 501) `def __init__(self, data)`
 - Depends on: `core/logging.py`
-- Imported by: `modules/integrations/__init__.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- Imported by: `modules/integrations/__init__.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/integrations/nuclei_bridge.py
 - Doc: modules/integrations/nuclei_bridge.py

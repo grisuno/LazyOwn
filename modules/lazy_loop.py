@@ -81,7 +81,7 @@ REFINE_MAX_PENDING = 12
 MAX_FACTS_PAGE = 100
 MAX_WORKER_STEPS = 6
 RETEST_MAX_ATTEMPTS = 2
-ABORT_CAUSES = ("shutdown", "goal_met", "paused", "killed", "timeout", "budget", "user")
+ABORT_CAUSES = ("shutdown", "goal_met", "paused", "killed", "timeout", "budget", "user", "degraded")
 DEFAULT_MAX_TOOLCALLS = 200
 DEFAULT_MAX_FINDINGS = 50
 LLM_EMPTY_RETRIES = 2
@@ -1453,9 +1453,9 @@ class ActivityLog:
         if str(kind) not in WAKE_SUPPRESSED_KINDS:
             wake_task(self.task_id)
         try:
-            from modules.loop_ai_bridge import publish_loop_event
+            from modules.mediation import MediationDomains, resolve
 
-            publish_loop_event(self.task_id, worker, kind, cleaned)
+            resolve(MediationDomains.TELEMETRY).publish_event(self.task_id, worker, kind, cleaned)
         except Exception:
             pass
         return record
@@ -3430,10 +3430,12 @@ class Planner:
             )
             reply = ""
             try:
-                from modules.loop_ai_bridge import swan_available, swan_consult
+                from modules.mediation import MediationDomains, resolve
 
-                if swan_available():
-                    reply = swan_consult(prompt, task_type="recon", phase="enumeration", timeout=90.0)
+                _ai = resolve(MediationDomains.TELEMETRY)
+
+                if _ai.swan_available():
+                    reply = _ai.swan_consult(prompt, task_type="recon", phase="enumeration", timeout=90.0)
                     if reply:
                         self.activity.emit("planner", "swan", "SWAN ensemble produced the planning reply")
             except Exception:
@@ -3678,15 +3680,16 @@ class Worker:
         prior_commands, prior_text = self._prior_steps(intent)
         steps = self._with_llm_steps(intent, self._steps_for(intent), prior_text)
         try:
-            from modules.lazy_intel import record_routing_decision as _record_decision
-            from modules.lazy_intel import stack_signature as _stack_sig
-            from modules.lazy_orchestrator_feedback import order_steps as _order_steps
+            from modules.mediation import MediationDomains, resolve
+
+            _intel = resolve(MediationDomains.INTEL)
+            _feedback = resolve(MediationDomains.FEEDBACK)
 
             _target = self._target_for(intent)
-            _stack = _stack_sig(self.assets)
-            steps = _order_steps(steps, _stack)
+            _stack = _intel.stack_signature(self.assets)
+            steps = _feedback.order_steps(steps, _stack)
             for _step in steps[:MAX_WORKER_STEPS]:
-                _record_decision(self.task_id, intent.node_id, _step, intent.text, _target, _stack)
+                _intel.record_routing_decision(self.task_id, intent.node_id, _step, intent.text, _target, _stack)
         except Exception:
             pass
         if prior_commands:
@@ -3917,12 +3920,13 @@ class Worker:
             )
         self.graph.set_state(intent.node_id, outcome["state"])
         try:
-            from modules.lazy_intel import record_routing_outcome as _record_outcome
-            from modules.lazy_intel import stack_signature as _stack_sig
+            from modules.mediation import MediationDomains, resolve
 
-            _stack = _stack_sig(self.assets)
+            _intel = resolve(MediationDomains.INTEL)
+
+            _stack = _intel.stack_signature(self.assets)
             for _cmd, _out in transcripts:
-                _record_outcome(
+                _intel.record_routing_outcome(
                     self.task_id,
                     intent.node_id,
                     _cmd,
@@ -4106,9 +4110,9 @@ class Worker:
         )
         detection: dict = {}
         try:
-            from modules.loop_ai_bridge import annotate_detection
+            from modules.mediation import MediationDomains, resolve
 
-            detection = annotate_detection(command) or {}
+            detection = resolve(MediationDomains.TELEMETRY).annotate_detection(command) or {}
         except Exception:
             detection = {}
         detection_prob = float(detection.get("probability", 0.0) or 0.0)
@@ -4206,9 +4210,9 @@ class Worker:
             tool_use_id=str(decision.get("tool_use_id", "")),
         )
         try:
-            from modules.loop_ai_bridge import record_step
+            from modules.mediation import MediationDomains, resolve
 
-            record_step(self.task_id, self.name, command, output, detection_prob)
+            resolve(MediationDomains.TELEMETRY).record_step(self.task_id, self.name, command, output, detection_prob)
         except Exception:
             pass
         return output, "ok", ""
@@ -6132,9 +6136,9 @@ def build_prompt_context(
 def _mask_prompt_context(text: str) -> str:
     """Strip operator-configured secrets from LLM-bound context."""
     try:
-        from modules.lazy_intel import mask_configured as _mask_cfg
+        from modules.mediation import MediationDomains, resolve
 
-        return _mask_cfg(text)
+        return resolve(MediationDomains.INTEL).mask_configured(text)
     except Exception:
         return str(text or "")
 
@@ -6841,12 +6845,14 @@ class LlmPool:
         if len(chain) < 2:
             return chain
         try:
-            from modules.loop_ai_bridge import moe_route, rl_select
+            from modules.mediation import MediationDomains, resolve
+
+            _ai = resolve(MediationDomains.TELEMETRY)
         except Exception:
             return chain
         names = [str(member.get("name", "")) for member in chain]
         preferred = ""
-        expert = moe_route("other")
+        expert = _ai.moe_route("other")
         if expert is not None:
             candidate = str(getattr(expert, "expert_id", "") or "")
             model = str(getattr(expert, "model", "") or "")
@@ -6861,7 +6867,7 @@ class LlmPool:
                 )
             preferred = candidate if candidate in names else ""
         if not preferred:
-            pick = rl_select("other", "engage", names, deterministic=True)
+            pick = _ai.rl_select("other", "engage", names, deterministic=True)
             preferred = pick if pick in names else ""
         if not preferred or names[0] == preferred:
             return chain
@@ -6876,11 +6882,13 @@ class LlmPool:
         if not member:
             return
         try:
-            from modules.loop_ai_bridge import moe_record_outcome, rl_update
+            from modules.mediation import MediationDomains, resolve
+
+            _ai = resolve(MediationDomains.TELEMETRY)
 
             reward = 1.0 if ok else 0.0
-            moe_record_outcome(member, "other", reward)
-            rl_update("other", "engage", member, reward, [member])
+            _ai.moe_record_outcome(member, "other", reward)
+            _ai.rl_update("other", "engage", member, reward, [member])
         except Exception:
             return
 
@@ -7651,16 +7659,98 @@ class LazyLoopEngine:
             resolved.get("intel_sync_sec", INTEL_SYNC_INTERVAL_SEC) or INTEL_SYNC_INTERVAL_SEC
         )
         self.retest_limit = max(0, int(resolved.get("retest_limit", 3) or 0))
-        self.enrich_limit = max(0, int(resolved.get("enrich_limit", 2) or 0))
+        self.enrich_limit = max(0, int(resolved.get("enrich_limit", 2) or 2))
         self.enrich_cooldown_sec = max(
             0.0, float(resolved.get("enrich_cooldown_sec", 300) or 300)
         )
         self.worker_cap = max(1, int(resolved.get("worker_parallel_cap", 5) or 5))
+        self._register_mediators()
+        self._register_guardrails()
         return profile
 
     def bind_shell(self, shell) -> None:
         """Attach the live shell so workers route auto/addon verbs via it."""
         self.shell = shell
+
+    def _register_mediators(self) -> None:
+        """Publish loop-owned collaborators to the mediation hub."""
+        try:
+            from modules.mediation import MediationDomains, get_hub
+
+            intel = get_hub().mediator_for(MediationDomains.INTEL)
+            if intel is not None:
+                intel.register_activity_log_factory(ActivityLog)
+        except Exception:
+            return
+
+    def _register_guardrails(self) -> None:
+        """Configure the guardrail harness from the payload section."""
+        try:
+            from modules.guardrails import global_harness
+
+            settings: dict = {}
+            try:
+                from core.config import load_payload
+
+                section = (load_payload() or {}).get("orchestrator") or {}
+                if isinstance(section, dict) and isinstance(section.get("guardrails"), dict):
+                    settings = section["guardrails"]
+            except Exception:
+                settings = {}
+            global_harness().configure(settings)
+        except Exception:
+            return
+
+    def _run_round_guarded(self, task_id: str, round_index: int, workers: int, executor) -> dict | None:
+        """Run one round under the core guardrail policy.
+
+        Args:
+            task_id: Task identifier.
+            round_index: Round number stored in the round checkpoint.
+            workers: Worker count for the round.
+            executor: Optional executor override.
+
+        Returns:
+            The round summary or the warm-restart retry summary; None
+            when the harness halted the round.
+        """
+        try:
+            from modules.guardrails import TaskClass, global_harness
+
+            return global_harness().run_guarded(
+                TaskClass.CORE,
+                self.run_round,
+                task_id,
+                workers=workers,
+                executor=executor,
+                key="loop.core_round",
+                state={"task_id": task_id, "round": round_index},
+            )
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except Exception:
+            return None
+
+    def _run_worker_guarded(self, worker: Worker, node: ExplorationNode, executor) -> dict | None:
+        """Run one worker intent under the mission guardrail policy.
+
+        Args:
+            worker: Worker bound to the intent.
+            node: Claimed exploration intent.
+            executor: Optional executor override.
+
+        Returns:
+            The worker outcome dict, or None when the harness refused
+            or degraded the execution.
+        """
+        try:
+            from modules.guardrails import TaskClass, global_harness
+
+            return global_harness().run_guarded(TaskClass.MISSION, worker.execute, node, executor=executor)
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except Exception:
+            return None
 
     def ensure_target(self, task_id: str, target: str, reason: str = "") -> dict:
         """Register scope + asset for target like lazy_scope/lazy_asset."""
@@ -8523,7 +8613,17 @@ class LazyLoopEngine:
                         self.store,
                         shell=getattr(self, "shell", None),
                     )
-                return worker.execute(node, executor=executor)
+                outcome = self._run_worker_guarded(worker, node, executor)
+                if outcome is None:
+                    return {
+                        "intent_id": node.node_id,
+                        "worker": worker.name,
+                        "facts": 0,
+                        "assets": 0,
+                        "findings": 0,
+                        "state": "degraded",
+                    }
+                return outcome
 
             workers_exec = _futures.ThreadPoolExecutor(max_workers=budget)
             _register_loop_executor(workers_exec)
@@ -8927,7 +9027,10 @@ class LazyLoopEngine:
                 if not self.budget.check(task_id)["ok"]:
                     self.runtime.abort(task_id, "budget", self.budget.check(task_id)["reason"])
                     break
-                summary = self.run_round(task_id, workers=workers, executor=executor)
+                summary = self._run_round_guarded(task_id, round_index, workers, executor)
+                if summary is None:
+                    self.runtime.abort(task_id, "degraded", "warm restart exhausted; round halted by guardrails")
+                    break
                 rounds.append({"new_intents": summary["new_intents"], "executed": summary["executed"]})
                 last_results = list(summary.get("results", []) or [])
                 if self._goals_met(task_id):

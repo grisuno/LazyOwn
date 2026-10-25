@@ -2,9 +2,6 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
-- `lazygui/widgets/__init__.py` -> `lazygui/widgets/terminal_view.py`
-- `lazygui/widgets/beacon_command_modal.py` -> `lazygui/services/backend.py`
-- `lazygui/widgets/beacon_command_modal.py` -> `lazygui/services/models.py`
 - `lazygui/widgets/command_palette_list.py` -> `lazygui/config/constants.py`
 - `lazygui/widgets/event_log_view.py` -> `lazygui/config/constants.py`
 - `lazygui/widgets/event_log_view.py` -> `lazygui/services/event_log.py`
@@ -278,8 +275,6 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/ia_network_analysis.py` -> `core/console.py`
 - `modules/ia_network_analysis.py` -> `core/logging.py`
 - `modules/ia_network_analysis.py` -> `modules/logging_config.py`
-- `modules/icmp_server.py` -> `core/logging.py`
-- `modules/icmp_server.py` -> `modules/logging_config.py`
 - `modules/integrations/__init__.py` -> `modules/integrations/misp_export.py`
 - `modules/integrations/__init__.py` -> `modules/integrations/nuclei_bridge.py`
 - `modules/integrations/__init__.py` -> `modules/integrations/searchsploit.py`
@@ -496,5 +491,10 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/playbook_engine.py` -> `core/safe_exec.py`
 - `modules/playbook_engine.py` -> `modules/emulation_runner.py`
 - `modules/playbook_engine.py` -> `modules/llm_client.py`
+- `modules/playbook_engine.py` -> `modules/obs_parser.py`
+- `modules/playbook_engine.py` -> `modules/world_model.py`
+- `modules/playbook_executor.py` -> `modules/pipeline_engine.py`
+- `modules/privesc_predictor.py` -> `core/console.py`
+- `modules/privesc_predictor.py` -> `modules/llm_factory.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

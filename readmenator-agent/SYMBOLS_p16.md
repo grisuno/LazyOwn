@@ -3,45 +3,6 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_intent_subtree` | method | `modules/lazy_loop.py:8247` | `def _intent_subtree(self, graph, intent_id)` |
-| `_is_ip_literal` | function | `modules/lazy_loop.py:249` | `def _is_ip_literal(value)` |
-| `_is_live_intent` | method | `modules/lazy_loop.py:5598` | `def _is_live_intent(self, node)` |
-| `_is_scan_command` | function | `modules/lazy_loop.py:5323` | `def _is_scan_command(command)` |
-| `_kill` | function | `modules/lazy_loop.py:435` | `def _kill()` |
-| `_llm_candidates` | method | `modules/lazy_loop.py:3406` | `def _llm_candidates(self, existing)` |
-| `_llm_error_reply` | function | `modules/lazy_loop.py:802` | `def _llm_error_reply(text)` |
-| `_llm_quota_reply` | function | `modules/lazy_loop.py:810` | `def _llm_quota_reply(text)` |
-| `_llm_steps` | method | `modules/lazy_loop.py:4828` | `def _llm_steps(self, intent, prior_text)` |
-| `_load` | method | `modules/lazy_loop.py:2443` | `def _load(self)` |
-| `_load` | method | `modules/lazy_loop.py:6446` | `def _load(self)` |
-| `_load` | method | `modules/lazy_loop.py:7150` | `def _load(self)` |
-| `_load` | method | `modules/lazy_loop.py:7268` | `def _load(self)` |
-| `_load` | method | `modules/lazy_loop.py:7417` | `def _load(self)` |
-| `_load_bodies` | method | `modules/lazy_loop.py:5460` | `def _load_bodies(self)` |
-| `_load_cold` | method | `modules/lazy_loop.py:5448` | `def _load_cold(self)` |
-| `_load_global` | method | `modules/lazy_loop.py:2178` | `def _load_global(self)` |
-| `_load_json` | function | `modules/lazy_loop.py:762` | `def _load_json(path, default)` |
-| `_load_task` | method | `modules/lazy_loop.py:2182` | `def _load_task(self)` |
-| `_mask_key` | function | `modules/lazy_loop.py:475` | `def _mask_key(match)` |
-| `_mask_prompt_context` | function | `modules/lazy_loop.py:6136` | `def _mask_prompt_context(text)` |
-| `_match_gate_rule` | function | `modules/lazy_loop.py:2127` | `def _match_gate_rule(rule, target)` |
-| `_maybe_import_inbox` | method | `modules/lazy_loop.py:9538` | `def _maybe_import_inbox(self)` |
-| `_maybe_proxy_gc` | method | `modules/lazy_loop.py:9512` | `def _maybe_proxy_gc(self)` |
-| `_maybe_selfupdate_check` | method | `modules/lazy_loop.py:9558` | `def _maybe_selfupdate_check(self)` |
-| `_missing_tool` | method | `modules/lazy_loop.py:4744` | `def _missing_tool(self, command)` |
-| `_noa_archive` | method | `modules/lazy_loop.py:5517` | `def _noa_archive(self, signature, members, anchors)` |
-| `_noa_enabled` | function | `modules/lazy_loop.py:702` | `def _noa_enabled()` |
-| `_normalize_refs` | method | `modules/lazy_loop.py:1758` | `def _normalize_refs(raw)` |
-| `_now` | function | `modules/lazy_loop.py:744` | `def _now()` |
-| `_open_shell_session` | method | `modules/lazy_loop.py:4311` | `def _open_shell_session(self, intent)` |
-| `_origin_fact` | method | `modules/lazy_loop.py:3224` | `def _origin_fact(self)` |
-| `_parts` | method | `modules/lazy_loop.py:7814` | `def _parts(self, task_id)` |
-| `_persist` | method | `modules/lazy_loop.py:976` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:1147` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:1843` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:2578` | `def _persist(self)` |
-| `_persist` | method | `modules/lazy_loop.py:2618` | `def _persist(self)` |
-| `_prior_steps` | method | `modules/lazy_loop.py:3614` | `def _prior_steps(self, intent)` |
 | `_reader` | function | `modules/lazy_loop.py:4333` | `def _reader()` |
 | `_recall_facts` | method | `modules/lazy_loop.py:3979` | `def _recall_facts(self, query, k)` |
 | `_record` | method | `modules/lazy_loop.py:6803` | `def _record(self, member, ok, text)` |
@@ -496,5 +457,44 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `decorated` | function | `modules/lazy_rbac.py:544` | `def decorated()` |
 | `decorated` | function | `modules/lazy_rbac.py:570` | `def decorated()` |
 | `decorated` | function | `modules/lazy_rbac.py:600` | `def decorated()` |
+| `decorator` | function | `modules/lazy_rbac.py:542` | `def decorator(f)` |
+| `decorator` | function | `modules/lazy_rbac.py:568` | `def decorator(f)` |
+| `delete_tenant` | method | `modules/lazy_rbac.py:495` | `def delete_tenant(self, tenant_id)` |
+| `delete_user` | method | `modules/lazy_rbac.py:295` | `def delete_user(self, user_id)` |
+| `disable_mfa` | method | `modules/lazy_rbac.py:324` | `def disable_mfa(self, user_id)` |
+| `enable_mfa` | method | `modules/lazy_rbac.py:314` | `def enable_mfa(self, user_id)` |
+| `ensure_admin` | method | `modules/lazy_rbac.py:343` | `def ensure_admin(self, username, password_hash)` |
+| `ensure_default_tenant` | method | `modules/lazy_rbac.py:504` | `def ensure_default_tenant(self)` |
+| `find_by_id` | method | `modules/lazy_rbac.py:249` | `def find_by_id(self, user_id)` |
+| `find_by_username` | method | `modules/lazy_rbac.py:255` | `def find_by_username(self, username)` |
+| `from_dict` | method | `modules/lazy_rbac.py:140` | `def from_dict(cls, data)` |
+| `from_dict` | method | `modules/lazy_rbac.py:390` | `def from_dict(cls, data)` |
+| `from_payload` | method | `modules/lazy_rbac.py:377` | `def from_payload(cls, tenant_id, name, payload_path)` |
+| `generate_mfa_qr_url` | function | `modules/lazy_rbac.py:680` | `def generate_mfa_qr_url(secret, username)` |
+| `generate_qr_svg` | function | `modules/lazy_rbac.py:689` | `def generate_qr_svg(data)` |
+| `get_active` | method | `modules/lazy_rbac.py:434` | `def get_active(self)` |
+| `get_active_payload_path` | method | `modules/lazy_rbac.py:439` | `def get_active_payload_path(self)` |
+| `get_active_sessions_dir` | method | `modules/lazy_rbac.py:445` | `def get_active_sessions_dir(self)` |
+| `get_mfa_provisioning_uri` | method | `modules/lazy_rbac.py:182` | `def get_mfa_provisioning_uri(self)` |
+| `get_payload_for_tenant` | method | `modules/lazy_rbac.py:451` | `def get_payload_for_tenant(self, tenant_id)` |
+| `get_rbac_store` | function | `modules/lazy_rbac.py:639` | `def get_rbac_store()` |
+| `get_role` | method | `modules/lazy_rbac.py:164` | `def get_role(self)` |
+| `get_tenant_manager` | function | `modules/lazy_rbac.py:648` | `def get_tenant_manager()` |
+| `get_user_role` | function | `modules/lazy_rbac.py:672` | `def get_user_role(username)` |
+| `gf_mul` | function | `modules/lazy_rbac.py:927` | `def gf_mul(a, b)` |
+| `has_permission` | method | `modules/lazy_rbac.py:170` | `def has_permission(self, permission)` |
+| `init_rbac_store` | function | `modules/lazy_rbac.py:523` | `def init_rbac_store(users_path)` |
+| `init_tenant_manager` | function | `modules/lazy_rbac.py:527` | `def init_tenant_manager(payloads_dir, config_path, default_payload)` |
+| `list_tenants` | method | `modules/lazy_rbac.py:431` | `def list_tenants(self)` |
+| `load_all` | method | `modules/lazy_rbac.py:245` | `def load_all(self)` |
+| `require_mfa` | function | `modules/lazy_rbac.py:596` | `def require_mfa(f)` |
+| `require_permission` | function | `modules/lazy_rbac.py:565` | `def require_permission()` |
+| `require_role` | function | `modules/lazy_rbac.py:539` | `def require_role()` |
+| `save` | method | `modules/lazy_rbac.py:261` | `def save(self, user)` |
+| `set_rbac_store` | function | `modules/lazy_rbac.py:643` | `def set_rbac_store(store)` |
+| `set_tenant_manager` | function | `modules/lazy_rbac.py:655` | `def set_tenant_manager(tm)` |
+| `switch_tenant` | method | `modules/lazy_rbac.py:486` | `def switch_tenant(self, tenant_id)` |
+| `to_dict` | method | `modules/lazy_rbac.py:136` | `def to_dict(self)` |
+| `to_dict` | method | `modules/lazy_rbac.py:386` | `def to_dict(self)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

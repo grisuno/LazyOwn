@@ -10,7 +10,7 @@ Previous: [KB_root.md](KB_root.md)
   - `_parse_bool_setting` (function, line 210) `def _parse_bool_setting(value)`
   - `_PayloadSettableProxy` (class, line 232) `class _PayloadSettableProxy`
   - `LazyOwnShell` (class, line 297) `class LazyOwnShell(Cmd)`
-  - `main` (function, line 4959) `def main()`
+  - `main` (function, line 4726) `def main()`
   - `__init__` (method, line 244) `def __init__(self, params)`
   - `__getattr__` (method, line 248) `def __getattr__(self, name)`
   - `__setattr__` (method, line 254) `def __setattr__(self, name, value)`
@@ -88,44 +88,40 @@ Previous: [KB_root.md](KB_root.md)
   - `run_lazyhoneypot` (method, line 3073) `def run_lazyhoneypot(self)`
   - `run_lazysearch_bot` (method, line 3139) `def run_lazysearch_bot(self)`
   - `run_lazymetaextract0r` (method, line 3190) `def run_lazymetaextract0r(self)`
-  - `run_lazyownratcli` (method, line 3231) `def run_lazyownratcli(self)`
-  - `run_lazyownrat` (method, line 3291) `def run_lazyownrat(self)`
-  - `run_lazybotnet` (method, line 3352) `def run_lazybotnet(self)`
-  - `run_lazylfi2rce` (method, line 3408) `def run_lazylfi2rce(self)`
-  - `run_lazylogpoisoning` (method, line 3489) `def run_lazylogpoisoning(self)`
-  - `run_lazybotcli` (method, line 3536) `def run_lazybotcli(self)`
-  - `run_lazyssh77enum` (method, line 3592) `def run_lazyssh77enum(self)`
-  - `run_lazyburpfuzzer` (method, line 3642) `def run_lazyburpfuzzer(self)`
-  - `run_lazyreverse_shell` (method, line 3768) `def run_lazyreverse_shell(self)`
-  - `run_lazyarpspoofing` (method, line 3818) `def run_lazyarpspoofing(self)`
-  - `run_lazyattack` (method, line 3872) `def run_lazyattack(self)`
-  - `run_lazymsfvenom` (method, line 3927) `def run_lazymsfvenom(self)`
-  - `run_lazyaslrcheck` (method, line 4104) `def run_lazyaslrcheck(self)`
-  - `run_lazypathhijacking` (method, line 4151) `def run_lazypathhijacking(self)`
-  - `run_script` (method, line 4184) `def run_script(self, script_name)`
-  - `run_command` (method, line 4216) `def run_command(self, command)`
-  - `_render_chain_next` (method, line 4263) `def _render_chain_next(self, raw_args)`
-  - `get_output` (method, line 4296) `def get_output(self)`
-  - `upload_file_to_c2` (method, line 4301) `def upload_file_to_c2(self, file_path, clientid)`
-  - `complete_upload_c2` (method, line 4327) `def complete_upload_c2(self, text, line, begidx, endidx)`
-  - `download_file_from_c2` (method, line 4355) `def download_file_from_c2(self, file_name, clientid)`
-  - `_sync_c2_credentials` (method, line 4387) `def _sync_c2_credentials(self)`
-  - `issue_command_to_c2` (method, line 4424) `def issue_command_to_c2(self, command, client_id)`
-  - `complete_issue_command_to_c2` (method, line 4458) `def complete_issue_command_to_c2(self, text, line, begidx, endidx)`
-  - `view_code` (method, line 4524) `def view_code(self, stdscr)`
-  - `get_available_actions` (method, line 4629) `def get_available_actions(self)`
-  - `_create_strict_yaml_prompt` (method, line 4635) `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)`
-  - `process_scan_csv` (method, line 4712) `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)`
-  - `process_vuln_csv` (method, line 4735) `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)`
-  - `_load_adversaries` (method, line 4794) `def _load_adversaries(self)`
-  - `_parse_adversary_args` (method, line 4808) `def _parse_adversary_args(self, line)`
-  - `_patch_template_if_needed` (method, line 4817) `def _patch_template_if_needed(self, adversary, path, replacements)`
-  - `_build_command_stack` (method, line 4827) `def _build_command_stack(self, adversary, r)`
-  - `_display_adversary_info` (method, line 4841) `def _display_adversary_info(self, adversary, commands)`
-  - `_execute_commands` (method, line 4848) `def _execute_commands(self, confirm, remote_cmds)`
-  - `do_event_log` (method, line 4867) `def do_event_log(self, line)`
-  - `do_state_snapshot` (method, line 4897) `def do_state_snapshot(self, line)`
-  - `do_route` (method, line 4936) `def do_route(self, line)`
+  - `run_lazylfi2rce` (method, line 3231) `def run_lazylfi2rce(self)`
+  - `run_lazylogpoisoning` (method, line 3312) `def run_lazylogpoisoning(self)`
+  - `run_lazyssh77enum` (method, line 3359) `def run_lazyssh77enum(self)`
+  - `run_lazyburpfuzzer` (method, line 3409) `def run_lazyburpfuzzer(self)`
+  - `run_lazyreverse_shell` (method, line 3535) `def run_lazyreverse_shell(self)`
+  - `run_lazyarpspoofing` (method, line 3585) `def run_lazyarpspoofing(self)`
+  - `run_lazyattack` (method, line 3639) `def run_lazyattack(self)`
+  - `run_lazymsfvenom` (method, line 3694) `def run_lazymsfvenom(self)`
+  - `run_lazyaslrcheck` (method, line 3871) `def run_lazyaslrcheck(self)`
+  - `run_lazypathhijacking` (method, line 3918) `def run_lazypathhijacking(self)`
+  - `run_script` (method, line 3951) `def run_script(self, script_name)`
+  - `run_command` (method, line 3983) `def run_command(self, command)`
+  - `_render_chain_next` (method, line 4030) `def _render_chain_next(self, raw_args)`
+  - `get_output` (method, line 4063) `def get_output(self)`
+  - `upload_file_to_c2` (method, line 4068) `def upload_file_to_c2(self, file_path, clientid)`
+  - `complete_upload_c2` (method, line 4094) `def complete_upload_c2(self, text, line, begidx, endidx)`
+  - `download_file_from_c2` (method, line 4122) `def download_file_from_c2(self, file_name, clientid)`
+  - `_sync_c2_credentials` (method, line 4154) `def _sync_c2_credentials(self)`
+  - `issue_command_to_c2` (method, line 4191) `def issue_command_to_c2(self, command, client_id)`
+  - `complete_issue_command_to_c2` (method, line 4225) `def complete_issue_command_to_c2(self, text, line, begidx, endidx)`
+  - `view_code` (method, line 4291) `def view_code(self, stdscr)`
+  - `get_available_actions` (method, line 4396) `def get_available_actions(self)`
+  - `_create_strict_yaml_prompt` (method, line 4402) `def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base)`
+  - `process_scan_csv` (method, line 4479) `def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips)`
+  - `process_vuln_csv` (method, line 4502) `def process_vuln_csv(self, csv_file, ip, all_data, processed_ips)`
+  - `_load_adversaries` (method, line 4561) `def _load_adversaries(self)`
+  - `_parse_adversary_args` (method, line 4575) `def _parse_adversary_args(self, line)`
+  - `_patch_template_if_needed` (method, line 4584) `def _patch_template_if_needed(self, adversary, path, replacements)`
+  - `_build_command_stack` (method, line 4594) `def _build_command_stack(self, adversary, r)`
+  - `_display_adversary_info` (method, line 4608) `def _display_adversary_info(self, adversary, commands)`
+  - `_execute_commands` (method, line 4615) `def _execute_commands(self, confirm, remote_cmds)`
+  - `do_event_log` (method, line 4634) `def do_event_log(self, line)`
+  - `do_state_snapshot` (method, line 4664) `def do_state_snapshot(self, line)`
+  - `do_route` (method, line 4703) `def do_route(self, line)`
   - `_persist` (function, line 693) `def _persist(name, _old, _new)`
   - `wrapper` (function, line 2060) `def wrapper(arg)`
   - `wrapper_yaml` (function, line 2176) `def wrapper_yaml(arg)`
@@ -218,24 +214,25 @@ Previous: [KB_root.md](KB_root.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `SecureSessionManager` (class, line 18) `class SecureSessionManager`
-  - `Config` (class, line 77) `class Config`
-  - `load_payload` (function, line 87) `def load_payload()`
-  - `start` (function, line 93) `def start(update, context)`
-  - `exce_cmd` (function, line 116) `def exce_cmd(update, context)`
-  - `add_cli` (function, line 191) `def add_cli(update, context)`
-  - `handle_file` (function, line 203) `def handle_file(update, context)`
-  - `download_c2` (function, line 230) `def download_c2(update, context)`
-  - `send_connected_clients` (function, line 271) `def send_connected_clients(update, context)`
-  - `main` (function, line 286) `def main()`
-  - `__init__` (method, line 19) `def __init__(self)`
-  - `register_failed_attempt` (method, line 24) `def register_failed_attempt(self, user_id)`
-  - `check_lockout` (method, line 31) `def check_lockout(self, user_id)`
-  - `check_rate_limit` (method, line 40) `def check_rate_limit(self, user_id)`
-  - `create_session` (method, line 53) `def create_session(self, user_id, client_id)`
-  - `validate_session` (method, line 61) `def validate_session(self, user_id)`
-  - `__init__` (method, line 78) `def __init__(self, config_dict)`
-  - `__getitem__` (method, line 83) `def __getitem__(self, key)`
+  - `SecureSessionManager` (class, line 20) `class SecureSessionManager`
+  - `Config` (class, line 79) `class Config`
+  - `load_payload` (function, line 89) `def load_payload()`
+  - `start` (function, line 95) `def start(update, context)`
+  - `exce_cmd` (function, line 118) `def exce_cmd(update, context)`
+  - `add_cli` (function, line 193) `def add_cli(update, context)`
+  - `handle_file` (function, line 205) `def handle_file(update, context)`
+  - `download_c2` (function, line 232) `def download_c2(update, context)`
+  - `send_connected_clients` (function, line 273) `def send_connected_clients(update, context)`
+  - `main` (function, line 288) `def main()`
+  - `_resolve_c2_secret` (function, line 317) `def _resolve_c2_secret(raw)`
+  - `__init__` (method, line 21) `def __init__(self)`
+  - `register_failed_attempt` (method, line 26) `def register_failed_attempt(self, user_id)`
+  - `check_lockout` (method, line 33) `def check_lockout(self, user_id)`
+  - `check_rate_limit` (method, line 42) `def check_rate_limit(self, user_id)`
+  - `create_session` (method, line 55) `def create_session(self, user_id, client_id)`
+  - `validate_session` (method, line 63) `def validate_session(self, user_id)`
+  - `__init__` (method, line 80) `def __init__(self, config_dict)`
+  - `__getitem__` (method, line 85) `def __getitem__(self, key)`
 - Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ## telegram_hermes.py
@@ -243,35 +240,37 @@ Previous: [KB_root.md](KB_root.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `run_lazyown_command` (function, line 61) `def run_lazyown_command(command, timeout)`
-  - `c2_request` (function, line 145) `def c2_request(path, method, body)`
-  - `load_payload` (function, line 177) `def load_payload()`
-  - `SecureSessionManager` (class, line 186) `class SecureSessionManager`
-  - `start` (function, line 255) `def start(update, context)`
-  - `help_cmd` (function, line 278) `def help_cmd(update, context)`
-  - `execute_command` (function, line 306) `def execute_command(update, context)`
-  - `sitrep` (function, line 337) `def sitrep(update, context)`
-  - `config_cmd` (function, line 373) `def config_cmd(update, context)`
-  - `add_cli` (function, line 422) `def add_cli(update, context)`
-  - `list_clients` (function, line 437) `def list_clients(update, context)`
-  - `c2_command` (function, line 464) `def c2_command(update, context)`
-  - `run_agent` (function, line 504) `def run_agent(update, context)`
-  - `delegate_task_cmd` (function, line 533) `def delegate_task_cmd(update, context)`
-  - `cron_schedule_cmd` (function, line 564) `def cron_schedule_cmd(update, context)`
-  - `status_cmd` (function, line 597) `def status_cmd(update, context)`
-  - `stop_daemon_cmd` (function, line 630) `def stop_daemon_cmd(update, context)`
-  - `download_file_cmd` (function, line 647) `def download_file_cmd(update, context)`
-  - `handle_file_upload` (function, line 675) `def handle_file_upload(update, context)`
-  - `text_command` (function, line 712) `def text_command(update, context)`
-  - `main` (function, line 772) `def main()`
-  - `__init__` (method, line 187) `def __init__(self)`
-  - `register_failed_attempt` (method, line 192) `def register_failed_attempt(self, user_id)`
-  - `check_lockout` (method, line 199) `def check_lockout(self, user_id)`
-  - `check_rate_limit` (method, line 208) `def check_rate_limit(self, user_id)`
-  - `create_session` (method, line 221) `def create_session(self, user_id, client_id)`
-  - `validate_session` (method, line 229) `def validate_session(self, user_id)`
-  - `get_client_id` (method, line 241) `def get_client_id(self, user_id)`
-  - `set_client_id` (method, line 245) `def set_client_id(self, user_id, client_id)`
+  - `run_lazyown_command` (function, line 65) `def run_lazyown_command(command, timeout)`
+  - `c2_request` (function, line 149) `def c2_request(path, method, body)`
+  - `load_payload` (function, line 181) `def load_payload()`
+  - `SecureSessionManager` (class, line 190) `class SecureSessionManager`
+  - `start` (function, line 259) `def start(update, context)`
+  - `help_cmd` (function, line 288) `def help_cmd(update, context)`
+  - `execute_command` (function, line 316) `def execute_command(update, context)`
+  - `sitrep` (function, line 347) `def sitrep(update, context)`
+  - `config_cmd` (function, line 383) `def config_cmd(update, context)`
+  - `add_cli` (function, line 432) `def add_cli(update, context)`
+  - `list_clients` (function, line 447) `def list_clients(update, context)`
+  - `c2_command` (function, line 474) `def c2_command(update, context)`
+  - `run_agent` (function, line 514) `def run_agent(update, context)`
+  - `delegate_task_cmd` (function, line 543) `def delegate_task_cmd(update, context)`
+  - `cron_schedule_cmd` (function, line 574) `def cron_schedule_cmd(update, context)`
+  - `status_cmd` (function, line 607) `def status_cmd(update, context)`
+  - `stop_daemon_cmd` (function, line 640) `def stop_daemon_cmd(update, context)`
+  - `download_file_cmd` (function, line 657) `def download_file_cmd(update, context)`
+  - `handle_file_upload` (function, line 685) `def handle_file_upload(update, context)`
+  - `text_command` (function, line 722) `def text_command(update, context)`
+  - `main` (function, line 782) `def main()`
+  - `_resolve_auth_secret` (function, line 825) `def _resolve_auth_secret(raw)`
+  - `_resolve_allowlist` (function, line 843) `def _resolve_allowlist(raw)`
+  - `__init__` (method, line 191) `def __init__(self)`
+  - `register_failed_attempt` (method, line 196) `def register_failed_attempt(self, user_id)`
+  - `check_lockout` (method, line 203) `def check_lockout(self, user_id)`
+  - `check_rate_limit` (method, line 212) `def check_rate_limit(self, user_id)`
+  - `create_session` (method, line 225) `def create_session(self, user_id, client_id)`
+  - `validate_session` (method, line 233) `def validate_session(self, user_id)`
+  - `get_client_id` (method, line 245) `def get_client_id(self, user_id)`
+  - `set_client_id` (method, line 249) `def set_client_id(self, user_id, client_id)`
 - Depends on: `core/parsers.py`
 
 ## test_bdd.sh

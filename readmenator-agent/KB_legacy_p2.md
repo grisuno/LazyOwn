@@ -1,43 +1,6 @@
 # Subsystem: legacy (page 2 of 2)
 Previous: [KB_legacy.md](KB_legacy.md)
 
-## contrib/legacy/lazyreversentlmv2.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `parse_hash_file` (function, line 11) `def parse_hash_file(file_path)`
-  - `reverse_shell` (function, line 58) `def reverse_shell(target_ip, username, domain, lmhash, nthash, callback_ip, callback_port)`
-- Depends on: `modules/lazyencoder_decoder.py`
-
-## contrib/legacy/lazysearch.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `highlight_term` (function, line 29) `def highlight_term(text, term)`
-  - `search_in_parquet` (function, line 32) `def search_in_parquet(term, parquet_files)`
-  - `main` (function, line 44) `def main()`
-
-## contrib/legacy/lazysearch_bot.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `signal_handler` (function, line 59) `def signal_handler(sig, frame)`
-  - `show_help` (function, line 65) `def show_help(message)`
-  - `check_api_key` (function, line 69) `def check_api_key()`
-  - `configure_logging` (function, line 75) `def configure_logging(debug)`
-  - `parse_args` (function, line 79) `def parse_args()`
-  - `create_complex_prompt` (function, line 86) `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)`
-  - `execute_command` (function, line 109) `def execute_command(command)`
-  - `load_knowledge_base` (function, line 112) `def load_knowledge_base(file_path)`
-  - `save_knowledge_base` (function, line 118) `def save_knowledge_base(knowledge_base, file_path)`
-  - `add_to_knowledge_base` (function, line 122) `def add_to_knowledge_base(prompt, command, file_path)`
-  - `get_relevant_knowledge` (function, line 127) `def get_relevant_knowledge(prompt)`
-  - `transform_knowledge_base` (function, line 135) `def transform_knowledge_base(client)`
-  - `main` (function, line 158) `def main()`
-- Depends on: `core/logging.py`
-
 ## contrib/legacy/lazyseo.py
 - Layer: utility
 - Language: py

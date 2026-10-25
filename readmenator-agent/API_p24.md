@@ -160,52 +160,52 @@ Depends on: `lazyown-docker/init.sh`, `modules/colors.py`, `skills/claude_md_orc
 
 ## telegram_c2.py
 Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
-- `SecureSessionManager.__init__` (method) `telegram_c2.py:19` `def __init__(self)`
-- `SecureSessionManager.register_failed_attempt` (method) `telegram_c2.py:24` `def register_failed_attempt(self, user_id)`
-- `SecureSessionManager.check_lockout` (method) `telegram_c2.py:31` `def check_lockout(self, user_id)`
-- `SecureSessionManager.check_rate_limit` (method) `telegram_c2.py:40` `def check_rate_limit(self, user_id)`
-- `SecureSessionManager.create_session` (method) `telegram_c2.py:53` `def create_session(self, user_id, client_id)`
-- `SecureSessionManager.validate_session` (method) `telegram_c2.py:61` `def validate_session(self, user_id)`
-- `Config.__init__` (method) `telegram_c2.py:78` `def __init__(self, config_dict)`
-- `load_payload` (function) `telegram_c2.py:87` `def load_payload()`
-- `start` (function) `telegram_c2.py:93` `def start(update, context)`
-- `exce_cmd` (function) `telegram_c2.py:116` `def exce_cmd(update, context)`
-- `add_cli` (function) `telegram_c2.py:191` `def add_cli(update, context)`
-- `handle_file` (function) `telegram_c2.py:203` `def handle_file(update, context)`
-- `download_c2` (function) `telegram_c2.py:230` `def download_c2(update, context)` -- Handle the /download_c2 command to download a file from the C2.
-- `send_connected_clients` (function) `telegram_c2.py:271` `def send_connected_clients(update, context)`
-- `main` (function) `telegram_c2.py:286` `def main()`
+- `SecureSessionManager.__init__` (method) `telegram_c2.py:21` `def __init__(self)`
+- `SecureSessionManager.register_failed_attempt` (method) `telegram_c2.py:26` `def register_failed_attempt(self, user_id)`
+- `SecureSessionManager.check_lockout` (method) `telegram_c2.py:33` `def check_lockout(self, user_id)`
+- `SecureSessionManager.check_rate_limit` (method) `telegram_c2.py:42` `def check_rate_limit(self, user_id)`
+- `SecureSessionManager.create_session` (method) `telegram_c2.py:55` `def create_session(self, user_id, client_id)`
+- `SecureSessionManager.validate_session` (method) `telegram_c2.py:63` `def validate_session(self, user_id)`
+- `Config.__init__` (method) `telegram_c2.py:80` `def __init__(self, config_dict)`
+- `load_payload` (function) `telegram_c2.py:89` `def load_payload()`
+- `start` (function) `telegram_c2.py:95` `def start(update, context)`
+- `exce_cmd` (function) `telegram_c2.py:118` `def exce_cmd(update, context)`
+- `add_cli` (function) `telegram_c2.py:193` `def add_cli(update, context)`
+- `handle_file` (function) `telegram_c2.py:205` `def handle_file(update, context)`
+- `download_c2` (function) `telegram_c2.py:232` `def download_c2(update, context)` -- Handle the /download_c2 command to download a file from the C2.
+- `send_connected_clients` (function) `telegram_c2.py:273` `def send_connected_clients(update, context)`
+- `main` (function) `telegram_c2.py:288` `def main()`
 
 ## telegram_hermes.py
 Depends on: `core/parsers.py`
-- `run_lazyown_command` (function) `telegram_hermes.py:61` `def run_lazyown_command(command, timeout)` -- Execute one or more LazyOwn shell commands non-interactively via PTY.
-- `c2_request` (function) `telegram_hermes.py:145` `def c2_request(path, method, body)`
-- `load_payload` (function) `telegram_hermes.py:177` `def load_payload()`
-- `SecureSessionManager.__init__` (method) `telegram_hermes.py:187` `def __init__(self)`
-- `SecureSessionManager.register_failed_attempt` (method) `telegram_hermes.py:192` `def register_failed_attempt(self, user_id)`
-- `SecureSessionManager.check_lockout` (method) `telegram_hermes.py:199` `def check_lockout(self, user_id)`
-- `SecureSessionManager.check_rate_limit` (method) `telegram_hermes.py:208` `def check_rate_limit(self, user_id)`
-- `SecureSessionManager.create_session` (method) `telegram_hermes.py:221` `def create_session(self, user_id, client_id)`
-- `SecureSessionManager.validate_session` (method) `telegram_hermes.py:229` `def validate_session(self, user_id)`
-- `SecureSessionManager.get_client_id` (method) `telegram_hermes.py:241` `def get_client_id(self, user_id)`
-- `SecureSessionManager.set_client_id` (method) `telegram_hermes.py:245` `def set_client_id(self, user_id, client_id)`
-- `start` (function) `telegram_hermes.py:255` `def start(update, context)`
-- `help_cmd` (function) `telegram_hermes.py:278` `def help_cmd(update, context)`
-- `execute_command` (function) `telegram_hermes.py:306` `def execute_command(update, context)`
-- `sitrep` (function) `telegram_hermes.py:337` `def sitrep(update, context)`
-- `config_cmd` (function) `telegram_hermes.py:373` `def config_cmd(update, context)`
-- `add_cli` (function) `telegram_hermes.py:422` `def add_cli(update, context)`
-- `list_clients` (function) `telegram_hermes.py:437` `def list_clients(update, context)`
-- `c2_command` (function) `telegram_hermes.py:464` `def c2_command(update, context)`
-- `run_agent` (function) `telegram_hermes.py:504` `def run_agent(update, context)`
-- `delegate_task_cmd` (function) `telegram_hermes.py:533` `def delegate_task_cmd(update, context)`
-- `cron_schedule_cmd` (function) `telegram_hermes.py:564` `def cron_schedule_cmd(update, context)`
-- `status_cmd` (function) `telegram_hermes.py:597` `def status_cmd(update, context)`
-- `stop_daemon_cmd` (function) `telegram_hermes.py:630` `def stop_daemon_cmd(update, context)`
-- `download_file_cmd` (function) `telegram_hermes.py:647` `def download_file_cmd(update, context)`
-- `handle_file_upload` (function) `telegram_hermes.py:675` `def handle_file_upload(update, context)`
-- `text_command` (function) `telegram_hermes.py:712` `def text_command(update, context)` -- Handle any text message as a direct LazyOwn command.
-- `main` (function) `telegram_hermes.py:772` `def main()`
+- `run_lazyown_command` (function) `telegram_hermes.py:65` `def run_lazyown_command(command, timeout)` -- Execute one or more LazyOwn shell commands non-interactively via PTY.
+- `c2_request` (function) `telegram_hermes.py:149` `def c2_request(path, method, body)`
+- `load_payload` (function) `telegram_hermes.py:181` `def load_payload()`
+- `SecureSessionManager.__init__` (method) `telegram_hermes.py:191` `def __init__(self)`
+- `SecureSessionManager.register_failed_attempt` (method) `telegram_hermes.py:196` `def register_failed_attempt(self, user_id)`
+- `SecureSessionManager.check_lockout` (method) `telegram_hermes.py:203` `def check_lockout(self, user_id)`
+- `SecureSessionManager.check_rate_limit` (method) `telegram_hermes.py:212` `def check_rate_limit(self, user_id)`
+- `SecureSessionManager.create_session` (method) `telegram_hermes.py:225` `def create_session(self, user_id, client_id)`
+- `SecureSessionManager.validate_session` (method) `telegram_hermes.py:233` `def validate_session(self, user_id)`
+- `SecureSessionManager.get_client_id` (method) `telegram_hermes.py:245` `def get_client_id(self, user_id)`
+- `SecureSessionManager.set_client_id` (method) `telegram_hermes.py:249` `def set_client_id(self, user_id, client_id)`
+- `start` (function) `telegram_hermes.py:259` `def start(update, context)`
+- `help_cmd` (function) `telegram_hermes.py:288` `def help_cmd(update, context)`
+- `execute_command` (function) `telegram_hermes.py:316` `def execute_command(update, context)`
+- `sitrep` (function) `telegram_hermes.py:347` `def sitrep(update, context)`
+- `config_cmd` (function) `telegram_hermes.py:383` `def config_cmd(update, context)`
+- `add_cli` (function) `telegram_hermes.py:432` `def add_cli(update, context)`
+- `list_clients` (function) `telegram_hermes.py:447` `def list_clients(update, context)`
+- `c2_command` (function) `telegram_hermes.py:474` `def c2_command(update, context)`
+- `run_agent` (function) `telegram_hermes.py:514` `def run_agent(update, context)`
+- `delegate_task_cmd` (function) `telegram_hermes.py:543` `def delegate_task_cmd(update, context)`
+- `cron_schedule_cmd` (function) `telegram_hermes.py:574` `def cron_schedule_cmd(update, context)`
+- `status_cmd` (function) `telegram_hermes.py:607` `def status_cmd(update, context)`
+- `stop_daemon_cmd` (function) `telegram_hermes.py:640` `def stop_daemon_cmd(update, context)`
+- `download_file_cmd` (function) `telegram_hermes.py:657` `def download_file_cmd(update, context)`
+- `handle_file_upload` (function) `telegram_hermes.py:685` `def handle_file_upload(update, context)`
+- `text_command` (function) `telegram_hermes.py:722` `def text_command(update, context)` -- Handle any text message as a direct LazyOwn command.
+- `main` (function) `telegram_hermes.py:782` `def main()`
 
 ## tests/run_mutation_api_authz.py
 - `run` (function) `tests/run_mutation_api_authz.py:83` `def run()` -- Run all mutations.

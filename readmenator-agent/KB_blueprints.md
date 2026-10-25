@@ -78,18 +78,19 @@
   - `_get_tenant_manager` (function, line 114) `def _get_tenant_manager()`
   - `register` (function, line 128) `def register()`
   - `login` (function, line 187) `def login()`
-  - `mfa_setup` (function, line 232) `def mfa_setup()`
-  - `mfa_qr` (function, line 305) `def mfa_qr(username)`
-  - `mfa_verify` (function, line 327) `def mfa_verify()`
-  - `profile` (function, line 371) `def profile()`
-  - `logout` (function, line 396) `def logout()`
-  - `admin_users` (function, line 415) `def admin_users()`
-  - `admin_set_role` (function, line 432) `def admin_set_role(user_id)`
-  - `admin_reset_mfa` (function, line 454) `def admin_reset_mfa(user_id)`
-  - `admin_delete_user` (function, line 466) `def admin_delete_user(user_id)`
-  - `admin_tenants` (function, line 484) `def admin_tenants()`
-  - `admin_create_tenant` (function, line 504) `def admin_create_tenant()`
-  - `admin_switch_tenant` (function, line 523) `def admin_switch_tenant(tenant_id)`
+  - `mfa_setup` (function, line 237) `def mfa_setup()`
+  - `mfa_qr` (function, line 310) `def mfa_qr(username)`
+  - `mfa_verify` (function, line 332) `def mfa_verify()`
+  - `profile` (function, line 383) `def profile()`
+  - `logout` (function, line 408) `def logout()`
+  - `admin_users` (function, line 428) `def admin_users()`
+  - `admin_set_role` (function, line 445) `def admin_set_role(user_id)`
+  - `admin_reset_mfa` (function, line 467) `def admin_reset_mfa(user_id)`
+  - `admin_delete_user` (function, line 479) `def admin_delete_user(user_id)`
+  - `admin_tenants` (function, line 497) `def admin_tenants()`
+  - `admin_create_tenant` (function, line 517) `def admin_create_tenant()`
+  - `admin_switch_tenant` (function, line 536) `def admin_switch_tenant(tenant_id)`
+  - `_complete_login` (function, line 349) `def _complete_login()`
   - `Role` (class, line 38) `class Role(Enum)`
   - `require_role` (function, line 59) `def require_role(role)`
   - `valid_roles` (method, line 51) `def valid_roles(cls)`

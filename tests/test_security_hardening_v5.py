@@ -5,7 +5,8 @@ and would detect a regression (mutation-killed). Tests are written
 behaviourally so they read as specifications.
 
 Covers (CodeQL alert ids):
-  - #895 modules/icmp_server.py + icmp_client.py: AES-ECB -> AES-256-GCM
+  - #895 unmaintained Crypto tunnel scripts removed; AES-256-GCM kept in
+    core/crypto.py on the maintained cryptography backend
   - #867 modules/phishing_orchestrator.py: keyed HMAC-SHA-256 instead of salted SHA-256
   - #865 utils.py create_caldera_config: hardcoded credentials removed + 0600 perms
   - #864 utils.py Spray: password no longer logged in clear text
@@ -36,53 +37,77 @@ def _read(rel: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# SDD Contract 1: ICMP tunnel uses authenticated AES-GCM, never ECB
+# SDD Contract 1: unmaintained Crypto tunnel modules removed; authenticated
+# AES-256-GCM lives only in core/crypto.py (cryptography backend)
 # ---------------------------------------------------------------------------
 
 
-class TestIcmpAuthenticatedCrypto:
-    """CONTRACT: the ICMP C2 tunnel must encrypt with AES-256-GCM and
-    authenticate every payload; ECB mode must be gone."""
+class TestRemovedCryptoTunnelModules:
+    """CONTRACT: the unmaintained Crypto-based tunnel scripts were deleted,
+    so no ECB/GCM tunnel code in modules/ can regress; the maintained
+    AES-256-GCM implementation in core/crypto.py stays authenticated."""
 
-    def test_server_has_no_ecb(self):
-        assert "MODE_ECB" not in _read("modules/icmp_server.py")
+    REMOVED_FILES = [
+        "modules/icmp_server.py",
+        "modules/icmp_client.py",
+        "modules/lazyownclient.py",
+        "modules/lazyownserver.py",
+        "modules/tel.py",
+        "contrib/legacy/lazybinenc.py",
+        "contrib/legacy/lazybotcli.py",
+        "contrib/legacy/lazybotnet.py",
+        "contrib/legacy/lazykeygen.py",
+    ]
 
-    def test_client_has_no_ecb(self):
-        assert "MODE_ECB" not in _read("modules/icmp_client.py")
+    @pytest.mark.parametrize("rel", REMOVED_FILES)
+    def test_dead_module_source_is_gone(self, rel):
+        assert not (ROOT / rel).exists()
 
-    def test_server_uses_gcm(self):
-        assert "MODE_GCM" in _read("modules/icmp_server.py")
+    def test_no_crypto_cipher_imports_remain(self):
+        import subprocess as _sp
 
-    def test_client_uses_gcm(self):
-        assert "MODE_GCM" in _read("modules/icmp_client.py")
+        out = _sp.run(
+            ["git", "grep", "-l", "-E", "from Crypto|import Crypto", "--", "."],
+            capture_output=True,
+            text=True,
+            cwd=ROOT,
+        ).stdout
+        tracked = [
+            line
+            for line in out.splitlines()
+            if "readmenator" not in line and not line.endswith("test_security_hardening_v5.py")
+        ]
+        assert tracked == [], f"stale Crypto imports: {tracked}"
 
-    def test_encrypt_decrypt_roundtrip(self):
-        from modules.icmp_server import decrypt_data, encrypt_data
+    def test_core_crypto_roundtrip_is_gcm_authenticated(self):
+        from core.crypto import AESdecrypt, AESencrypt
 
         key = hashlib.sha256(b"test-password").digest()
         plaintext = b"whoami"
-        ciphertext = encrypt_data(plaintext, key)
-        assert decrypt_data(ciphertext, key) == plaintext
+        ciphertext, _ = AESencrypt(plaintext, key)
+        assert len(ciphertext) == 12 + len(plaintext) + 16
+        assert AESdecrypt(ciphertext, key) == plaintext
 
-    def test_tampered_payload_rejected(self):
-        from modules.icmp_server import decrypt_data, encrypt_data
+    def test_core_crypto_tamper_rejected(self):
+        from core.crypto import AESdecrypt, AESencrypt
 
         key = hashlib.sha256(b"test-password").digest()
-        ciphertext = bytearray(encrypt_data(b"whoami", key))
+        ciphertext = bytearray(AESencrypt(b"whoami", key)[0])
         ciphertext[-1] ^= 0x01
         with pytest.raises(ValueError):
-            decrypt_data(bytes(ciphertext), key)
+            AESdecrypt(bytes(ciphertext), key)
 
-    def test_short_payload_rejected(self):
-        from modules.icmp_server import decrypt_data
+    def test_core_crypto_short_payload_rejected(self):
+        from core.crypto import AESdecrypt
 
         with pytest.raises(ValueError):
-            decrypt_data(b"short", hashlib.sha256(b"k").digest())
+            AESdecrypt(b"short", hashlib.sha256(b"k").digest())
 
-    def test_client_sudo_is_guarded(self):
-        source = _read("modules/icmp_client.py")
-        assert "check_sudo()\n    main()" in source
-        assert "check_sudo()\n\ndef checksum" not in source
+    def test_core_crypto_uses_maintained_backend(self):
+        source = _read("core/crypto.py")
+        assert "cryptography" in source
+        assert "from Crypto" not in source
+        assert "import Crypto" not in source
 
 
 # ---------------------------------------------------------------------------

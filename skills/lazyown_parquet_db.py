@@ -541,6 +541,8 @@ class ParquetDB:
         results: dict[str, list[dict]] = {}
 
         if parquet_name:
+            if not re.fullmatch(r"[A-Za-z0-9_-]+", parquet_name):
+                raise ValueError(f"Invalid parquet name: {parquet_name!r}")
             targets = [self._parquets / f"{parquet_name}.parquet"]
         else:
             targets = sorted(self._parquets.glob("*.parquet"))

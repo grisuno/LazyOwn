@@ -1,14 +1,14 @@
 # orphans
 
-*Community 25 | 241 files | cohesion 0.00*
+*Community 25 | 234 files | cohesion 0.00*
 
 ## Definition
 
-This community groups 241 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
+This community groups 234 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
 
 ## Files
 
-### `modules` (61 files)
+### `modules` (57 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -32,7 +32,7 @@ This community groups 241 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `scripts/__init__.py` | py | utility | 0 | yes |
 
-### `contrib/legacy` (22 files)
+### `contrib/legacy` (19 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -128,7 +128,7 @@ This community groups 241 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `modules/scripts/clean_history.sh.sh` | sh | utility | 0 | no |
 
-*... and 221 more files in this community.*
+*... and 214 more files in this community.*
 
 
 ## Key Symbols
@@ -177,16 +177,13 @@ This community groups 241 file(s) rooted at `modules` with dominant language py 
 
 - [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazy_http_bof.py:30` `exploit` `sock`: Result of allocator stored in `sock` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazyarpspoofing.py:42` `get_local_ip` `s`: Result of allocator stored in `s` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazybotcli.py:59` `main` `conn`: Result of allocator stored in `conn` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazybotnet.py:79` `send_to_botnet` `conn`: Result of allocator stored in `conn` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazybotnet.py:188` `start_server` `server`: Result of allocator stored in `server` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazylfi2rce.py:86` `main` `wordlist`: Result of allocator stored in `wordlist` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `modules/bin2img.py:17` `binario_a_imagen` `img`: Result of allocator stored in `img` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `modules/detailed_search.py:91` `obtener_informacion` `csv_file`: Result of allocator stored in `csv_file` is never checked against NULL.
 
 ## Open Questions
 
-- Why do 89 file(s) lack file-level docs (e.g. `DEPLOY.sh`)? What purpose do they serve?
+- Why do 86 file(s) lack file-level docs (e.g. `DEPLOY.sh`)? What purpose do they serve?
 - What would break if the most connected file in orphans changed?
 - Should orphans be split, given cohesion 0.00?
 
@@ -200,16 +197,16 @@ This community groups 241 file(s) rooted at `modules` with dominant language py 
 - `contrib/legacy/lazy_http_bof.py`
 - `contrib/legacy/lazy_packet_image_sniffer.py`
 - `contrib/legacy/lazyarpspoofing.py`
-- `contrib/legacy/lazybotcli.py`
-- `contrib/legacy/lazybotnet.py`
 - `contrib/legacy/lazycam.py`
 - `contrib/legacy/lazydisassebler.py`
 - `contrib/legacy/lazyftpsniff.py`
-- `contrib/legacy/lazykeygen.py`
 - `contrib/legacy/lazylfi2rce.py`
 - `contrib/legacy/lazymariadb_rce_cve_2016-662.py`
 - `contrib/legacy/lazymidm.py`
 - `contrib/legacy/lazymitmap.py`
 - `contrib/legacy/lazynetbios.py`
 - `contrib/legacy/lazyntlrelayx.py`
-- *... and 221 more*
+- `contrib/legacy/lazypwnkit.py`
+- `contrib/legacy/lazypyautogui.py`
+- `contrib/legacy/lazysearch.py`
+- *... and 214 more*

@@ -79,7 +79,7 @@ dnspython==2.7.0
 donut-shellcode==1.1; platform_machine == "x86_64"
 donut==0.2.2
 encutils==1.0.0
-executing==2.2.1
+executing==2.3.0
 ExifRead==3.5.1
 filelock==4.2.1
 fire==0.7.1

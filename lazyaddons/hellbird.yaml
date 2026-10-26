@@ -15,7 +15,7 @@ params:
   type: string
   required: true
   description: lhost target.
-os: any
+os: windows
 trigger: [ssh]
 tool:
   name: hellbird

@@ -31,6 +31,39 @@ SESSIONS_DIR = BASE_DIR / "sessions"
 STORE_FILENAME = "finding_lifecycle.json"
 AUTO_CONFIRM_SOURCES = 2
 
+# Evidence fragments that carry hard proof: a classification may never
+# fall below what they set, and they alone justify confirmation even
+# with a single source (a model's opinion can never create or dismiss
+# them). A "likely false positive" read stays listed, never deleted.
+HARD_EVIDENCE_MARKERS = (
+    "version in affected range",
+    "version matches affected",
+    "exploited-in-the-wild",
+    "kev",
+    "template hit",
+    "nuclei matched",
+    "answered with no credentials",
+    "unauthenticated",
+    "reproduced",
+    "cve-",
+)
+
+
+def evidence_floor(items: list[str] | None) -> bool:
+    """Whether hard evidence is present in a list of evidence strings.
+
+    Args:
+        items: Evidence strings (operator notes, OSINT verdicts, PoC output).
+
+    Returns:
+        True when at least one item carries hard evidence.
+    """
+    for item in items or []:
+        text = str(item or "").lower()
+        if any(marker in text for marker in HARD_EVIDENCE_MARKERS):
+            return True
+    return False
+
 
 def _store_path(sessions_dir: str | Path) -> Path:
     """Return the lifecycle store path for a sessions directory."""
@@ -147,6 +180,9 @@ def resolve(node: dict, sessions_dir: str | Path = SESSIONS_DIR) -> str:
         return CONFIRMED
     sources = {str(s) for s in (node.get("sources", []) or [])}
     if len(sources) >= AUTO_CONFIRM_SOURCES:
+        return CONFIRMED
+    hard = evidence_floor(list(sources) + [str(node.get("text", "")), str((node.get("meta") or {}).get("evidence", ""))])
+    if hard:
         return CONFIRMED
     return PENDING
 
@@ -420,6 +456,7 @@ __all__ = [
     "STORE_FILENAME",
     "AUTO_CONFIRM_SOURCES",
     "FINDING_STATUSES",
+    "HARD_EVIDENCE_MARKERS",
     "RETEST_CONCLUSIONS",
     "FindingRecord",
     "RetestRecord",
@@ -427,6 +464,7 @@ __all__ = [
     "apply_confirmation",
     "classify_retest",
     "confirm",
+    "evidence_floor",
     "findings_for",
     "has_running_retest",
     "is_dead_end",

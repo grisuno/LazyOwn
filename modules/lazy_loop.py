@@ -3731,6 +3731,7 @@ class Worker:
             outcome["resumed"] = True
             return outcome
         skipped_tools: set[str] = set()
+        os_skipped = 0
         deadline = (_now() + float(timeout_sec)) if timeout_sec else 0.0
         for index, command in enumerate(steps[:MAX_WORKER_STEPS], start=1):
             trailing = 0
@@ -3832,6 +3833,16 @@ class Worker:
             if steer:
                 self.activity.emit(self.name, "steer", f"course correction: {steer}", intent_id=intent.node_id)
                 self.store.clear_steer(self.task_id, intent.node_id)
+            os_allowed, os_reason = self._os_gate(intent, command)
+            if not os_allowed:
+                os_skipped += 1
+                self.activity.emit(
+                    self.name,
+                    "os-gate",
+                    f"skipped {command[:120]}: {os_reason}",
+                    intent_id=intent.node_id,
+                )
+                continue
             quiet = self._pacer.quieten(command)
             if quiet != command:
                 self.activity.emit(
@@ -3857,6 +3868,7 @@ class Worker:
                 skipped_tools.add(detail)
                 continue
             transcripts.append((command, output))
+            self._learn_os(intent, command, output)
             self._absorb_reaction(intent, command, output)
             try:
                 self._repeats.record(command)
@@ -3883,6 +3895,16 @@ class Worker:
                     intent_id=intent.node_id,
                 )
                 time.sleep(delay)
+        if not transcripts and os_skipped and os_skipped >= len(steps[:MAX_WORKER_STEPS]):
+            self.graph.set_state(intent.node_id, "blocked")
+            self.activity.emit(
+                self.name,
+                "os-gate",
+                f"intent #{intent.node_id} fully OS-mismatched; blocked for operator review",
+                intent_id=intent.node_id,
+            )
+            outcome["state"] = "blocked"
+            return outcome
         return self._finish(intent, outcome, transcripts, worker_tools, skipped_tools)
 
     def _finish(
@@ -3958,6 +3980,57 @@ class Worker:
             if asset is not None:
                 return str(asset.value)
         return resolve_target(self.task_id, self.store, self.graph)
+
+    def _os_gate(self, intent: ExplorationNode, command: str) -> tuple[bool, str]:
+        """Block OS-mismatched verbs before they reach the shell.
+
+        A Windows-only verb (a shellcode loader, an AD privesc tool)
+        must never fire against an inferred Linux host and vice versa.
+        Unknown host OS or ``any`` verbs never block.
+
+        Args:
+            intent: Owning intent (for target resolution).
+            command: Resolved shell command line.
+
+        Returns:
+            ``(allowed, reason)``; reason is empty when allowed.
+        """
+        try:
+            from modules import lazy_osinfer
+
+            target = self._target_for(intent)
+            host_os = lazy_osinfer.host_os_for_target(target)
+            if host_os not in ("linux", "windows"):
+                return True, ""
+            allowed, _verb_os, reason = lazy_osinfer.verb_compatible_with_host(command, host_os)
+            return allowed, reason
+        except Exception:
+            return True, ""
+
+    def _learn_os(self, intent: ExplorationNode, command: str, output: str) -> None:
+        """Feed ping/TTL and banner evidence into host OS memory.
+
+        The loop's first step is a ping; its reply's TTL infers the
+        target OS which is remembered on the asset graph and world
+        model so every later verb choice can read it.
+
+        Args:
+            intent: Owning intent (for target resolution).
+            command: Executed command line.
+            output: Captured stdout/stderr.
+        """
+        if not output:
+            return
+        try:
+            from modules import lazy_osinfer
+
+            target = self._target_for(intent)
+            lowered = command.lower()
+            if lowered.startswith("ping") or " ttl=" in output.lower() or "ttl " in output.lower()[:200]:
+                lazy_osinfer.learn_from_transcripts(target, [(command, output)])
+        except Exception:
+            pass
+
 
     _ABSORB_OUTPUT_LIMIT = 4000
 
@@ -4063,6 +4136,15 @@ class Worker:
                 intent_id=intent.node_id,
             )
             return "", "blocked", "scope"
+        os_allowed, os_reason = self._os_gate(intent, command)
+        if not os_allowed:
+            self.activity.emit(
+                self.name,
+                "os-gate",
+                f"os-enforce: {os_reason}: {command[:160]}",
+                intent_id=intent.node_id,
+            )
+            return "", "skipped", "os-mismatch"
         denied = self._denied(command)
         if denied:
             self.activity.emit(
@@ -5140,24 +5222,25 @@ class Worker:
             return [f"echo no-target: cannot probe without scope; register scope first: {intent.text[:120]}"]
         host_flag = f" {target}"
         use_lazynmap = getattr(self, "shell", None) is not None
+        ping_first = [f"ping -c 1 -W 2 {target} 2>&1"] if _host_like_target(target) else []
         if "baseline recon" in text or "enumerate" in text:
             if use_lazynmap:
-                return [f"lazynmap {target}".strip()]
-            return [
+                return ping_first + [f"lazynmap {target}".strip()]
+            return ping_first + [
                 f"nmap -sV --top-ports 100{host_flag}".strip(),
                 f"curl -sSI --max-time 15 http://{target}".strip(),
             ]
         if "extend finding" in text:
             if use_lazynmap:
-                return [f"lazynmap {target}".strip()]
-            return [
+                return ping_first + [f"lazynmap {target}".strip()]
+            return ping_first + [
                 f"curl -sS -m 20 http://{target}".strip(),
                 f"nmap -sV -p- --min-rate 500{host_flag}".strip(),
             ]
         if "re-drive" in text or "serial chain" in text:
             if use_lazynmap:
-                return [f"lazynmap {target}".strip()]
-            return [
+                return ping_first + [f"lazynmap {target}".strip()]
+            return ping_first + [
                 f"nmap -sV -p 80,443,8080,8000,22,21,25,53,135,139,445,3306,3389 {target}".strip(),
                 f"curl -sS -m 20 -I http://{target}".strip(),
             ]
@@ -5165,14 +5248,14 @@ class Worker:
 
         keyword_resolved = _auto_keyword_steps(intent.text, target)
         if keyword_resolved:
-            return keyword_resolved
+            return ping_first + keyword_resolved
         if use_lazynmap:
-            return [
+            return ping_first + [
                 f"lazynmap {target}".strip(),
                 f"curl -sS -m 20 -I http://{target}".strip(),
                 f"dig +short {target}".strip(),
             ]
-        return [
+        return ping_first + [
             f"nmap -sV -p 80,443,8080,8000,22,21,25,53,135,139,445,3306,3389 {target}".strip(),
             f"curl -sS -m 20 -I http://{target}".strip(),
             f"dig +short {target}".strip(),
@@ -5329,6 +5412,14 @@ def _is_scan_command(command: str) -> bool:
     return os.path.basename(head).lower() in _RETEST_SCAN_HEADS
 
 
+def _host_like_target(target: str) -> bool:
+    """Whether a target looks like a host (IP or resolvable name), not a URL."""
+    value = str(target or "").strip()
+    if not value or "://" in value or value.startswith("/"):
+        return False
+    return bool(re.match(r"^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$", value, re.IGNORECASE))
+
+
 class Retester:
     """Replay finding evidence to a verdict like the Lazy retester agent."""
 
@@ -5371,29 +5462,33 @@ class Retester:
             verdict = "inconclusive"
             evidence = "[skipped] scan commands are not replayed during retest"
         else:
-            for _ in range(RETEST_MAX_ATTEMPTS):
-                attempts += 1
-                try:
-                    if executor is not None:
-                        evidence = str(executor(command) or "")
-                    else:
-                        from core.process import run_command as _run_command
+            structured = self._structured_verdict(finding)
+            if structured is not None:
+                verdict, evidence, attempts = structured
+            else:
+                for _ in range(RETEST_MAX_ATTEMPTS):
+                    attempts += 1
+                    try:
+                        if executor is not None:
+                            evidence = str(executor(command) or "")
+                        else:
+                            from core.process import run_command as _run_command
 
-                        evidence = str(_run_command(command) or "")
-                except Exception as exc:
-                    evidence = f"retest failed: {exc}"
-                self.traffic.record("bash", command, evidence, {"retest": finding_id})
-                lowered = evidence.lower()
-                if any(mark in lowered for mark in ("200", "vulnerable", "cve", "exploit", "open tcp")):
-                    verdict = "reproduced"
-                    break
-                if any(mark in lowered for mark in ("404", "no longer", "patched", "remediated")):
-                    verdict = "fixed"
-                    break
-                if any(mark in lowered for mark in blocked_marks) or not evidence.strip():
-                    verdict = "inconclusive"
-                    evidence += f"\n[blocked: {note or 'environment or evidence too thin to decide'}]"[:300]
-                    break
+                            evidence = str(_run_command(command) or "")
+                    except Exception as exc:
+                        evidence = f"retest failed: {exc}"
+                    self.traffic.record("bash", command, evidence, {"retest": finding_id})
+                    lowered = evidence.lower()
+                    if any(mark in lowered for mark in ("200", "vulnerable", "cve", "exploit", "open tcp")):
+                        verdict = "reproduced"
+                        break
+                    if any(mark in lowered for mark in ("patched", "no longer", "remediated", "not vulnerable")):
+                        verdict = "fixed"
+                        break
+                    if any(mark in lowered for mark in blocked_marks) or not evidence.strip():
+                        verdict = "inconclusive"
+                        evidence += f"\n[blocked: {note or 'environment or evidence too thin to decide'}]"[:300]
+                        break
         finding.meta["retest"] = {
             "verdict": verdict,
             "attempts": attempts,
@@ -5413,6 +5508,33 @@ class Retester:
         self.graph._persist()
         self.activity.emit("retester", "verdict", f"finding #{finding_id}: {verdict} ({attempts} attempts)")
         return {"finding_id": finding_id, "verdict": verdict, "attempts": attempts}
+
+    def _structured_verdict(self, finding: ExplorationNode) -> tuple[str, str, int] | None:
+        """Try read-only structured checks before any heuristic grep.
+
+        Args:
+            finding: Finding node with text/poc evidence.
+
+        Returns:
+            ``(verdict, evidence, attempts)`` when checks ran, None when
+            no check could be planned.
+        """
+        try:
+            from modules import lazy_verify
+
+            poc = str(finding.meta.get("poc", "") or finding.text or "")
+            result = lazy_verify.verify_finding(finding.text, poc)
+        except Exception:
+            return None
+        checks = result.get("checks") or []
+        if not checks:
+            return None
+        lines = [
+            f"[{row.get('verdict')}] {row.get('kind')}: {row.get('command', '')[:120]}"
+            f" :: {str(row.get('evidence', ''))[:160]}"
+            for row in checks
+        ]
+        return result.get("verdict", "inconclusive"), "\n".join(lines), len(checks)
 
     def retest_context(self, finding_id: int) -> dict:
         """Return finding + PoC + assets + constraints like get_finding_retest_context."""
@@ -8460,6 +8582,20 @@ class LazyLoopEngine:
             return {}
         world = summary.get("world", {}) if isinstance(summary, dict) else {}
         try:
+            from modules import lazy_surface_diff
+
+            diff = lazy_surface_diff.refresh(None)
+            if diff.get("changed"):
+                activity.emit(
+                    "intel",
+                    "surface-change",
+                    f"surface diff: {len(diff['changes'])} change(s), hosts touched: "
+                    f"{', '.join(lazy_surface_diff.changed_hosts(5))[:200]}",
+                    intent_id=0,
+                )
+        except Exception:
+            pass
+        try:
             from modules.lazy_intel import fuse_routing_decisions as _fuse_routing
             from modules.lazy_orchestrator_feedback import adjust_from_usage as _adjust_priors
             from modules.lazy_orchestrator_feedback import export_dataset as _export_dataset
@@ -8562,6 +8698,10 @@ class LazyLoopEngine:
         if stage_enabled("scheduler"):
             try:
                 trigger_store.ensure_service_trigger()
+            except Exception:
+                pass
+            try:
+                trigger_store.ensure_cve_hot_trigger()
             except Exception:
                 pass
             scheduler_hits = trigger_store.due(task_id, graph, activity, assets=self.assets, store=self.store)

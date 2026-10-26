@@ -69,6 +69,7 @@ KIND_TO_LAYER = {
     "intel": "unknown",
     "finding": "testing",
     "finding-critical": "testing",
+    "cve": "testing",
     "objective": "utility",
     "task": "utility",
 }
@@ -281,6 +282,25 @@ def build_attack_graph(sessions_dir: str | Path = SESSIONS_DIR,
         est_path = _est_find(root)
         if est_path is not None:
             _est_merge(nodes, edges, _est_load(est_path), cap=est_cap)
+    except Exception:
+        pass
+
+    try:
+        from modules import lazy_surface_diff
+
+        diff = lazy_surface_diff.refresh(None, root)
+        if diff.get("changes"):
+            touched: dict[str, set] = {}
+            for change in diff["changes"][:200]:
+                host = str(change.get("host", ""))
+                if not host:
+                    continue
+                touched.setdefault(host, set()).add(str(change.get("kind", "")))
+            for host, kinds in touched.items():
+                nid = by_host.get(host.lower())
+                if nid and nid in nodes:
+                    nodes[nid]["changed"] = sorted(kinds)
+                    nodes[nid]["changed_at"] = diff.get("ts", 0)
     except Exception:
         pass
 

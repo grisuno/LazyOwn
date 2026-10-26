@@ -109,6 +109,7 @@ class AutoVerb:
         needs_target: When True the built line carries the loop target.
         extra_args: Fixed tail args appended after the target.
         description: Human/operators note shown in intent text.
+        os: Target OS family this verb serves (``any``/``windows``/``linux``).
     """
 
     verb: str
@@ -117,6 +118,7 @@ class AutoVerb:
     needs_target: bool = True
     extra_args: str = ""
     description: str = ""
+    os: str = "any"
 
 
 AUTO_VERBS: tuple[AutoVerb, ...] = (
@@ -145,6 +147,7 @@ AUTO_VERBS: tuple[AutoVerb, ...] = (
         phases=("privesc", "cred"),
         keywords=("privesc", "privilege escalation", "active directory", "domain", "bloody", "dacl", "kerberos"),
         description="automated AD privilege-escalation path finder",
+        os="windows",
     ),
     AutoVerb(
         verb="auto_populate",
@@ -240,6 +243,14 @@ AUTO_VERBS: tuple[AutoVerb, ...] = (
 )
 
 
+def _os_default_for_verb(verb: str) -> str:
+    """Return the target OS for one built-in auto verb."""
+    for entry in AUTO_VERBS:
+        if entry.verb == verb:
+            return entry.os
+    return "any"
+
+
 def _verb_rows() -> list:
     """Merged auto-verb rows (built-ins + operator overrides) as objects.
 
@@ -277,6 +288,7 @@ def _verb_rows() -> list:
             needs_target=bool(row.get("needs_target", True)),
             extra_args=str(row.get("extra_args") or ""),
             description=str(row.get("description") or ""),
+            os=str(row.get("os", "any") or "any"),
             source=str(row.get("source", "builtin")),
         )
         for row in rows
@@ -580,8 +592,18 @@ def propose_addon_intents(service_texts: list[str], target: str = "", limit: int
 
     Lazyaddons run one-to-one via ``lazy addon <name>``; pwntomate tool
     hits collapse into a single ``auto pyautomate`` intent since tools
-    only execute as a batch over nmap XML.
+    only execute as a batch over nmap XML. Addons whose ``os:`` target
+    is incompatible with the host's inferred OS are skipped so the
+    planner never proposes them (the worker gate stays as a backstop).
     """
+    host_os = ""
+    if (target or "").strip():
+        try:
+            from modules import lazy_osinfer
+
+            host_os = lazy_osinfer.host_os_for_target(target)
+        except Exception:
+            host_os = ""
     seen: list[str] = []
     tool_hit = False
     for service in service_texts or []:
@@ -589,6 +611,14 @@ def propose_addon_intents(service_texts: list[str], target: str = "", limit: int
             if source == "tool":
                 tool_hit = True
                 continue
+            if host_os in ("linux", "windows"):
+                try:
+                    from modules import lazy_osinfer
+
+                    if not lazy_osinfer.os_compatible(lazy_osinfer.addon_target_os(name), host_os):
+                        continue
+                except Exception:
+                    pass
             line = f"lazy addon {name} {(target or '').strip()}".strip()
             if line not in seen:
                 seen.append(line)

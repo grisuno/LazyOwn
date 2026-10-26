@@ -555,22 +555,82 @@ class IntelligenceEngine:
                     )
                 )
 
-            known_cves = self._match_known_vulns(sf)
-            for cve in known_cves:
+            known_cves = self._match_vulns_versioned(sf)
+            for entry in known_cves:
+                cve = str(entry.get("cve", ""))
                 key = f"{sf.host}:{cve}"
                 if key not in seen:
                     seen.add(key)
+                    severity = str(entry.get("severity", "unknown")).upper()
                     self._assessments.append(
                         IntelligenceAssessment(
                             subject=f"{sf.host}:{sf.port}/{sf.value}",
                             category="potential_vulnerability",
-                            confidence=0.5,
-                            severity="UNKNOWN",
+                            confidence=float(entry.get("confidence", 0.5)),
+                            severity=severity,
                             source_facts=[sf.value],
                             recommendation=f"Verify {cve} against {sf.host}:{sf.port}",
-                            impact=f"{product} {version} may be affected by {cve}",
+                            impact=f"{product} {version} may be affected by {cve} "
+                            f"(heat {entry.get('heat', 'cold')}, confidence {entry.get('confidence', 0.5):.2f})",
                         )
                     )
+
+    def _match_vulns_versioned(self, fact: CollectedFact) -> list[dict]:
+        """Version-aware CVE candidates for one service fact.
+
+        The primary path correlates product+version through
+        :mod:`modules.lazy_cve_feed` (KEV product matches plus OSV
+        version ranges, heat-graded). The legacy product table is the
+        offline fallback with a low confidence so an unreachable feed
+        never silences a lead and never overstates one either.
+
+        Args:
+            fact: Collected service fact with product/version metadata.
+
+        Returns:
+            List of ``{"cve", "heat", "cvss", "kev", "in_range",
+            "confidence", "severity"}`` rows, hottest first.
+        """
+        product = (fact.metadata.get("product") or fact.value or "").strip()
+        version = (fact.metadata.get("version") or "").strip()
+        rows: list[dict] = []
+        try:
+            from modules import lazy_cve_feed
+
+            rows = lazy_cve_feed.correlate(product, version, allow_network=True)
+        except Exception:
+            rows = []
+        if rows:
+            return rows
+        return self._legacy_match_rows(fact)
+
+    def _legacy_match_rows(self, fact: CollectedFact) -> list[dict]:
+        """Heat-grade the legacy product table without overstating it."""
+        from modules.lazy_heat import SEVERITY_FROM_HEAT, COLD, match_heat
+
+        out: list[dict] = []
+        for cve in self._match_known_vulns(fact):
+            heat, cvss, kev = COLD, 0.0, False
+            try:
+                from modules import lazy_cve_feed
+
+                intel = lazy_cve_feed.cve_intel(cve, allow_network=False)
+                heat, cvss, kev = intel["heat"], intel["cvss"], intel["kev"]
+                heat = match_heat(heat, cvss=cvss)
+            except Exception:
+                pass
+            out.append(
+                {
+                    "cve": cve,
+                    "heat": heat,
+                    "cvss": cvss,
+                    "kev": kev,
+                    "in_range": None,
+                    "confidence": 0.3,
+                    "severity": SEVERITY_FROM_HEAT.get(heat, "medium"),
+                }
+            )
+        return out
 
     @staticmethod
     def _match_known_vulns(fact: CollectedFact) -> list[str]:

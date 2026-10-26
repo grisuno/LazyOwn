@@ -10,7 +10,7 @@ keep applying to every user of this module.
 
 from __future__ import annotations
 
-TRIGGER_KINDS = ("interval", "finding", "goal", "timeout", "toolcall", "hint", "service", "task_create")
+TRIGGER_KINDS = ("interval", "finding", "goal", "timeout", "toolcall", "hint", "service", "task_create", "cve_hot")
 
 
 def _core():
@@ -139,6 +139,19 @@ class TriggerStore:
         self.add("service")
         return True
 
+    def ensure_cve_hot_trigger(self) -> bool:
+        """Register the hot-CVE trigger once so fresh intel fires the loop.
+
+        Every round, services newer than the watermark are correlated
+        against keyless exploit intelligence (KEV, EPSS, public
+        exploits); hot or warm matches steer the planner with a
+        verification hint instead of raw scanning.
+        """
+        if any(item.get("kind") == "cve_hot" for item in self.list()):
+            return False
+        self.add("cve_hot", every_sec=3600.0)
+        return True
+
     def due(self, task_id: str, graph, activity, assets=None, store=None) -> list[dict]:
         """Evaluate triggers like the scheduler tick; fires at most once each.
 
@@ -217,6 +230,73 @@ class TriggerStore:
                 if fresh:
                     item["fired_tasks"] = sorted(seen | set(fresh))
                     fired.append({"kind": "task_create", "ids": fresh, "id": item["id"]})
+            elif kind == "cve_hot":
+                if assets is None:
+                    continue
+                fresh = [a for a in assets.list("service") if a.asset_id > int(item.get("watermark", 0))]
+                if not fresh:
+                    continue
+                batch = fresh[:8]
+                item["watermark"] = max(a.asset_id for a in batch)
+                hits: list[dict] = []
+                try:
+                    from modules import lazy_cve_feed
+
+                    services = []
+                    try:
+                        from modules.world_model import get_world_model
+
+                        world = get_world_model().snapshot()
+                        for ip, host in (world.get("hosts", {}) or {}).items():
+                            if not isinstance(host, dict):
+                                continue
+                            for port, svc in (host.get("services", {}) or {}).items():
+                                svc = svc if isinstance(svc, dict) else {"name": str(svc)}
+                                full_version = str(svc.get("version", "") or "")
+                                services.append(
+                                    {
+                                        "name": str(svc.get("name", "")),
+                                        "product": full_version or str(svc.get("name", "")),
+                                        "version": full_version,
+                                        "host": str(ip),
+                                        "port": str(port),
+                                    }
+                                )
+                    except Exception:
+                        services = []
+                    if not services:
+                        services = [
+                            {
+                                "name": (str(a.value or "").split() + [""])[1] or str(a.value),
+                                "product": str(a.value or ""),
+                                "host": "",
+                                "port": "",
+                            }
+                            for a in batch
+                        ]
+                    hits = lazy_cve_feed.hot_matches(services[:24], allow_network=False)[:8]
+                except Exception:
+                    hits = []
+                if hits:
+                    for row in hits:
+                        text = (
+                            f"verify hot cve {row.get('cve', '')} (heat {row.get('heat', '')}, "
+                            f"cvss {row.get('cvss', 0.0)}) on {row.get('host', '')}:{row.get('port', '')} "
+                            f"{row.get('product', '')}: confirm the version and reproduce read-only"
+                        )
+                        try:
+                            graph.add_node("hint", text, state="pending", meta={"cve": row.get("cve", ""), "heat": row.get("heat", "")})
+                        except Exception:
+                            pass
+                    fired.append(
+                        {
+                            "kind": "cve_hot",
+                            "ids": [a.asset_id for a in batch],
+                            "services": [str(a.value) for a in batch],
+                            "matches": hits,
+                            "id": item["id"],
+                        }
+                    )
             elif kind == "timeout":
                 fired.append({"kind": "timeout", "id": item["id"]})
         if fired:

@@ -6,29 +6,29 @@ These files have the most connections. Changes here have high blast radius.
 
 - `core/logging.py` (score: 311.20, imported by 155 files)
 - `utils.py` (score: 236.60, imported by 99 files)
-- `modules/lazy_loop.py` (score: 228.10, imported by 57 files)
+- `modules/lazy_loop.py` (score: 230.50, imported by 58 files)
 - `skills/lazyown_mcp.py` (score: 202.60, imported by 8 files)
 - `cli/commands/_base.py` (score: 194.70, imported by 95 files)
-- `modules/world_model.py` (score: 149.00, imported by 66 files)
-- `lazyc2.py` (score: 134.00)
+- `modules/world_model.py` (score: 157.00, imported by 70 files)
+- `lazyc2.py` (score: 138.60)
 - `core/config.py` (score: 128.00, imported by 61 files)
 - `lazyown.py` (score: 124.40, imported by 9 files)
-- `core/console.py` (score: 103.10, imported by 51 files)
+- `modules/__init__.py` (score: 108.00, imported by 54 files)
 
 ## Blast Radius (change impact)
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `core/logging.py` -- 50 direct, 155 total dependents
-- `core/host_policy.py` -- 3 direct, 124 total dependents
-- `modules/backdoor/server.c` -- 12 direct, 115 total dependents
+- `core/crypto.py` -- 11 direct, 131 total dependents
+- `core/process.py` -- 13 direct, 121 total dependents
+- `core/validators.py` -- 12 direct, 121 total dependents
+- `modules/backdoor/server.c` -- 12 direct, 117 total dependents
 - `skills/claude_md_orchestrator/models.py` -- 11 direct, 115 total dependents
 - `skills/claude_md_orchestrator/config.py` -- 10 direct, 113 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 111 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 112 total dependents
 - `cli/banner_config.py` -- 6 direct, 110 total dependents
-- `core/parsers.py` -- 9 direct, 108 total dependents
-- `core/dependencies.py` -- 3 direct, 104 total dependents
-- `core/validators.py` -- 12 direct, 104 total dependents
+- `core/parsers.py` -- 9 direct, 110 total dependents
 
 ## Hotspots (complexity + centrality)
 

@@ -1,10 +1,10 @@
 # modules: lazy_loop
 
-*Community 3 | 122 files | cohesion 0.57*
+*Community 3 | 126 files | cohesion 0.56*
 
 ## Definition
 
-This community groups 122 file(s) rooted at `tests` with dominant language py (cohesion 0.57). Central symbols: `ActivityLog`, `ActivityLogPort`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`. Core file: `modules/lazy_loop.py` (461 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
+This community groups 126 file(s) rooted at `tests` with dominant language py (cohesion 0.56). Central symbols: `ActivityLog`, `ActivityLogPort`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`. Core file: `modules/lazy_loop.py` (465 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
 
 ## Files
 
@@ -16,20 +16,27 @@ This community groups 122 file(s) rooted at `tests` with dominant language py (c
 | `tests/test_api_authz.py` | py | testing | 48 | yes |
 | `tests/test_asset_gate.py` | py | testing | 16 | yes |
 
-### `modules` (34 files)
+### `modules` (35 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/__init__.py` | py | utility | 0 | no |
 | `modules/auto_purple.py` | py | utility | 40 | yes |
-| `modules/auto_registry.py` | py | utility | 42 | yes |
+| `modules/auto_registry.py` | py | utility | 43 | yes |
 
-### `cli/commands` (7 files)
+### `cli/commands` (8 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/commands/containers.py` | py | infrastructure | 7 | yes |
-| `cli/commands/golden_paths.py` | py | utility | 5 | yes |
+| `cli/commands/defaults.py` | py | utility | 4 | yes |
+
+### `core` (7 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `core/api_authz.py` | py | presentation | 31 | yes |
+| `core/config.py` | py | infrastructure | 20 | yes |
 
 ### `modules/mediation` (7 files)
 
@@ -44,13 +51,6 @@ This community groups 122 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `cli/lazy_monitor.py` | py | utility | 46 | yes |
 | `cli/lazy_orchestrator.py` | py | utility | 46 | yes |
-
-### `core` (5 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `core/api_authz.py` | py | presentation | 31 | yes |
-| `core/config.py` | py | infrastructure | 20 | yes |
 
 ### `modules/tools` (3 files)
 
@@ -78,7 +78,7 @@ This community groups 122 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `skills/lazyown_mcp_opencode.py` | py | utility | 6 | yes |
 
-*... and 102 more files in this community.*
+*... and 106 more files in this community.*
 
 
 ## Key Symbols
@@ -90,6 +90,10 @@ This community groups 122 file(s) rooted at `tests` with dominant language py (c
 - `do_k8s_pods` (method, `cli/commands/containers.py:239`) `def do_k8s_pods(self, line)` - List Kubernetes pods with security-relevant details.
 - `do_k8s_secrets` (method, `cli/commands/containers.py:283`) `def do_k8s_secrets(self, line)` - List and decode Kubernetes secrets.
 - `do_container_detect` (method, `cli/commands/containers.py:334`) `def do_container_detect(self, _line)` - Auto-detect container runtime and escape primitives.
+- `DefaultsCommandSet` (class, `cli/commands/defaults.py:38`) `class DefaultsCommandSet(LazyOwnCommandSet)` - Inspect and override build-time default constants.
+- `do_defaults` (method, `cli/commands/defaults.py:45`) `def do_defaults(self, line)` - Show or override build-time defaults (TOML + payload.json).
+- `_show` (method, `cli/commands/defaults.py:60`) `def _show(self, section)` - Print TOML defaults alongside live payload values.
+- `_set` (method, `cli/commands/defaults.py:77`) `def _set(self, name, value)` - Persist an override into payload.json via the assign path.
 - `GoldenPathsCommandSet` (class, `cli/commands/golden_paths.py:35`) `class GoldenPathsCommandSet(LazyOwnCommandSet)` - Deterministic attack-path solver commands.
 - `do_golden_paths` (method, `cli/commands/golden_paths.py:42`) `def do_golden_paths(self, line)` - Build, show, or push attack paths from the world model.
 - `_build` (method, `cli/commands/golden_paths.py:65`) `def _build(self, top_k)` - Solve paths from the live world model and persist them.
@@ -109,15 +113,11 @@ This community groups 122 file(s) rooted at `tests` with dominant language py (c
 - `do_lazy_sync` (method, `cli/commands/lazyloop.py:36`) `def do_lazy_sync(self, line)` - Run bidirectional LAZY sync into world model and objectives.
 - `do_lazy_intents` (method, `cli/commands/lazyloop.py:51`) `def do_lazy_intents(self, line)` - List engine intents for a task, optionally filtered by state.
 - `do_lazy_delete` (method, `cli/commands/lazyloop.py:71`) `def do_lazy_delete(self, line)` - Delete an engine intent; soft keeps outputs, hard cascades.
-- `do_lazy_findings` (method, `cli/commands/lazyloop.py:110`) `def do_lazy_findings(self, line)` - List engine findings for a task, optionally filtered by status.
-- `do_lazy_verdict` (method, `cli/commands/lazyloop.py:132`) `def do_lazy_verdict(self, line)` - Record a manual retest verdict on an engine finding.
-- `do_lazy_mention` (method, `cli/commands/lazyloop.py:155`) `def do_lazy_mention(self, line)` - Search @ mention candidates with scroll pagination.
-- `do_lazy_approve` (method, `cli/commands/lazyloop.py:190`) `def do_lazy_approve(self, line)` - List engine guard reviews filtered by decision and source.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 873
-- Cross-boundary resolved imports (EXTRACTED): 388
+- Internal resolved imports (EXTRACTED): 886
+- Cross-boundary resolved imports (EXTRACTED): 419
 
 ## Connections
 
@@ -149,11 +149,12 @@ This community groups 122 file(s) rooted at `tests` with dominant language py (c
 - Why do 1 file(s) lack file-level docs (e.g. `modules/__init__.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/exploitgym_gym.py` -> `modules/redteam_gym.py` be broken with an interface?
 - What would break if the most connected file in modules: lazy_loop changed?
-- Should modules: lazy_loop be split, given cohesion 0.57?
+- Should modules: lazy_loop be split, given cohesion 0.56?
 
 ## Sources
 
 - `cli/commands/containers.py`
+- `cli/commands/defaults.py`
 - `cli/commands/golden_paths.py`
 - `cli/commands/gym_matrix.py`
 - `cli/commands/lazyloop.py`
@@ -168,9 +169,8 @@ This community groups 122 file(s) rooted at `tests` with dominant language py (c
 - `cli/tui_forms.py`
 - `core/api_authz.py`
 - `core/config.py`
+- `core/defaults.py`
 - `core/param_registry.py`
 - `core/payload_schema.py`
-- `core/terminal_guard.py`
-- `lazyc2/addon_creator.py`
-- `lazyc2/blueprints/api.py`
-- *... and 102 more*
+- `core/process.py`
+- *... and 106 more*

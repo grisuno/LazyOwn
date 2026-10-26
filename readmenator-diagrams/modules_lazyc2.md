@@ -1,6 +1,6 @@
-# lazyc2/security
+# modules: lazyc2
 
-lazyc2/security groups 52 files (js, py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Automation command set — credential reuse, conditional hooks, operator profiles.
+modules: lazyc2 groups 67 files (js, py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Automation command set — credential reuse, conditional hooks, operator profiles.
 
 ```mermaid
 graph LR
@@ -14,6 +14,7 @@ graph LR
     cli -- "calls into" --> modules
     lazyc2 -- "calls into" --> modules
     lazyc2 -- "calls into" --> root
+    modules -- "calls into" --> lazyc2
     root -- "calls into" --> lazyc2
     root -- "calls into" --> modules
     root -- "depends on" --> skills
@@ -23,42 +24,44 @@ graph LR
     tests -- "calls into" --> root
 ```
 
-## cli (7.1)
+## cli (5.1)
 
-cli groups 1 files (py) around AutomationCommandSet, do_cred_reuse, do_cred_mark_failed, do_hooks_list, do_hooks_enable. Automation command set — credential reuse, conditional hooks, operator profiles.
+cli groups 2 files (py) around AutomationCommandSet, do_cred_reuse, do_cred_mark_failed, do_hooks_list, do_hooks_enable. Automation command set — credential reuse, conditional hooks, operator profiles.
 
-## lazyc2 (7.2)
+## lazyc2 (5.2)
 
-lazyc2 groups 23 files (py) around CorsConfigError, CorsPolicy, __init__, env, resolve_origins. Flask application factory for the LazyOwn C2 server.
+lazyc2 groups 24 files (py) around CorsConfigError, CorsPolicy, __init__, env, resolve_origins. Flask application factory for the LazyOwn C2 server.
 
-## modules (7.3)
+## modules (5.3)
 
-modules groups 9 files (py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Conditional Hooks System for LazyOwn (Mythic-style triggers).
+modules groups 15 files (py) around Role, valid_roles, Permission, _UsersFileUnreadable, RBACUser. Persistent beacon command/result history storage.
 
-## root (7.4)
+## root (5.4)
 
 root groups 1 files (py) around _env_tag, is_insecure_credential, _listen_address, _is_unspecified_bind_literal, _select_specific_bind_address. is_insecure_credential: Check for weak or default credentials
 
-## skills (7.5)
+## skills (5.5)
 
 skills groups 1 files (py) around _health_path, is_daemon_alive, daemon_status, DaemonHealth, __init__. Daemon health monitor — watchdog for the autonomous daemon and C2 listeners.
 
-## static (7.6)
+## static (5.6)
 
 static groups 2 files (js) around as, as, as, as, as. as: !
 
-## tests (7.7)
+## tests (5.7)
 
-tests groups 15 files (py) around _valid_draft, TestConfig, test_name_pattern_rejects_traversal, test_patterns_accept_canonical_values, test_os_options_cover_mitre_platforms. Tests for the LazyAddon creator contract and C2 blueprint.
+tests groups 22 files (py) around _valid_draft, TestConfig, test_name_pattern_rejects_traversal, test_patterns_accept_canonical_values, test_os_options_cover_mitre_platforms. Tests for the LazyAddon creator contract and C2 blueprint.
 
 **Files**:
 
 - cli/commands/automation.py
+- cli/commands/collaboration.py
 - lazyc2.py
 - lazyc2/__init__.py
 - lazyc2/app_factory.py
 - lazyc2/blueprints/__init__.py
 - lazyc2/blueprints/addons.py
+- lazyc2/blueprints/api_v1.py
 - lazyc2/blueprints/auth.py
 - lazyc2/blueprints/beacon.py
 - lazyc2/blueprints/operations.py
@@ -78,19 +81,28 @@ tests groups 15 files (py) around _valid_draft, TestConfig, test_name_pattern_re
 - lazyc2/security/services.py
 - lazyc2/security/trusted_proxy.py
 - lazyc2/security/validators.py
+- modules/beacon_history.py
+- modules/collab_bp.py
 - modules/conditional_hooks.py
 - modules/credential_reuse.py
 - modules/dashboard_bp.py
+- modules/db.py
 - modules/event_bus.py
 - modules/event_consumers.py
 - modules/lazy_rbac.py
+- modules/live_surface.py
+- modules/loop_manager.py
 - modules/operator_profiles.py
+- modules/sinks/campaign_db.py
 - modules/sinks/event_bus.py
 - modules/state_manager.py
 - skills/daemon_health.py
 - static/js/socket.io-4.0.0.min.js
 - static/js/socket.io-4.3.2.min.js
 - tests/test_addon_creator.py
+- tests/test_api_v1.py
+- tests/test_beacon_history.py
+- tests/test_collab_and_onboarding.py
 - tests/test_command_allowlist.py
 - tests/test_command_allowlist_behavior.py
 - tests/test_conditional_hooks_extended.py
@@ -100,8 +112,12 @@ tests groups 15 files (py) around _valid_draft, TestConfig, test_name_pattern_re
 - tests/test_csrf_behavior.py
 - tests/test_csrf_policy.py
 - tests/test_dashboard_routes.py
+- tests/test_db.py
 - tests/test_html_sanitizer.py
 - tests/test_https_redirect.py
+- tests/test_live_surface.py
+- tests/test_loop_manager.py
+- tests/test_mutation_verification.py
 - tests/test_security_lazyc2.py
 - tests/test_short_url_file_containment.py
 - tests/test_trusted_proxy.py

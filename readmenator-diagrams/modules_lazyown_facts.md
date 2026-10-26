@@ -1,6 +1,6 @@
 # modules: lazyown_facts
 
-modules: lazyown_facts groups 38 files (py) around ChainStep, identifier, Chain, resolve, _render. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+modules: lazyown_facts groups 46 files (py) around ChainStep, identifier, Chain, resolve, _render. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
 ```mermaid
 graph LR
@@ -22,7 +22,7 @@ cli groups 4 files (py) around select_agent_flavour, CommandAndControlMigratedCo
 
 ## modules (8.2)
 
-modules groups 15 files (py) around ChainStep, identifier, Chain, resolve, _render. APT Playbook Engine — map public APT reports to executable Atomic Red Team chains.
+modules groups 22 files (py) around ChainStep, identifier, Chain, resolve, _render. Non-interactive, agent-safe implementation for atomic_tests / atomic_gen.
 
 ## skills (8.3)
 
@@ -30,7 +30,7 @@ skills groups 2 files (py) around Config, default, ServiceFact, CredentialFact, 
 
 ## tests (8.4)
 
-tests groups 17 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
+tests groups 18 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
 
 **Files**:
 
@@ -38,9 +38,7 @@ tests groups 17 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - cli/commands/command_and_control_migrated.py
 - cli/commands/retry_ops.py
 - cli/retry_support.py
-- modules/apt_playbooks.py
 - modules/atomic_cli.py
-- modules/atomic_resolver.py
 - modules/chain_distill.py
 - modules/chain_facts.py
 - modules/chain_registry.py
@@ -48,8 +46,17 @@ tests groups 17 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - modules/chain_state.py
 - modules/chain_synth.py
 - modules/chain_tokens.py
-- modules/emulation_runner.py
+- modules/closedloop.py
+- modules/defense_eval.py
+- modules/defense_stages.py
+- modules/guardrails/__init__.py
+- modules/guardrails/advisories.py
+- modules/guardrails/budget.py
+- modules/guardrails/checkpoints.py
+- modules/guardrails/contracts.py
+- modules/guardrails/harness.py
 - modules/gym_matrix_runner.py
+- modules/hunt_verify.py
 - modules/listener_manager.py
 - modules/retry_session.py
 - modules/verb_manifest.py
@@ -57,8 +64,6 @@ tests groups 17 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - skills/tests/test_facts.py
 - tests/test_apt_chain_admin.py
 - tests/test_apt_chain_integration.py
-- tests/test_atomic_loop.py
-- tests/test_atomic_resolver.py
 - tests/test_chain_distill.py
 - tests/test_chain_evidence.py
 - tests/test_chain_parallel_fallback.py
@@ -66,9 +71,12 @@ tests groups 17 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_chain_runner.py
 - tests/test_chain_synth.py
 - tests/test_chain_v24_core.py
+- tests/test_closedloop.py
 - tests/test_codeql_alert_fixes.py
 - tests/test_command_control_agent.py
-- tests/test_emulation_runner.py
+- tests/test_defense_eval.py
+- tests/test_defense_stages.py
 - tests/test_f4_hardening.py
+- tests/test_hunt_verify.py
 - tests/test_retry_session.py
 - tests/test_verb_manifest.py

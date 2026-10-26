@@ -1,8 +1,123 @@
-# Symbols (page 23 of 45)
+# Symbols (page 23 of 46)
 Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_resolve` | method | `scripts/check_contract_manifest.py:58` | `def _resolve(self, path)` |
+| `_resolve_reference` | function | `scripts/check_contract_manifest.py:154` | `def _resolve_reference(token, config)` |
+| `_top_level_names` | function | `scripts/check_contract_manifest.py:72` | `def _top_level_names(path)` |
+| `check_manifest` | function | `scripts/check_contract_manifest.py:176` | `def check_manifest(config)` |
+| `main` | function | `scripts/check_contract_manifest.py:229` | `def main(argv)` |
+| `AuditConfig` | class | `scripts/devtools/command_audit.py:25` | `class AuditConfig` |
+| `argparser_commands` | function | `scripts/devtools/command_audit.py:40` | `def argparser_commands(config)` |
+| `audit` | function | `scripts/devtools/command_audit.py:65` | `def audit(config)` |
+| `main` | function | `scripts/devtools/command_audit.py:105` | `def main(argv)` |
+| `SmokeConfig` | class | `scripts/devtools/core_smoke.py:20` | `class SmokeConfig` |
+| `check_calls` | function | `scripts/devtools/core_smoke.py:81` | `def check_calls()` |
+| `check_surfaces` | function | `scripts/devtools/core_smoke.py:64` | `def check_surfaces(config)` |
+| `main` | function | `scripts/devtools/core_smoke.py:118` | `def main()` |
+| `compile_activity` | function | `scripts/dirtyinit_drive.sh:255` | `` |
+| `die` | function | `scripts/dirtyinit_drive.sh:67` | `` |
+| `do_auto` | function | `scripts/dirtyinit_drive.sh:382` | `` |
+| `do_build` | function | `scripts/dirtyinit_drive.sh:265` | `` |
+| `do_doctor` | function | `scripts/dirtyinit_drive.sh:468` | `` |
+| `do_extract` | function | `scripts/dirtyinit_drive.sh:393` | `` |
+| `do_help` | function | `scripts/dirtyinit_drive.sh:525` | `` |
+| `do_install` | function | `scripts/dirtyinit_drive.sh:329` | `` |
+| `do_launch` | function | `scripts/dirtyinit_drive.sh:340` | `` |
+| `do_logs` | function | `scripts/dirtyinit_drive.sh:418` | `` |
+| `do_run` | function | `scripts/dirtyinit_drive.sh:412` | `` |
+| `do_stage` | function | `scripts/dirtyinit_drive.sh:402` | `` |
+| `do_status` | function | `scripts/dirtyinit_drive.sh:423` | `` |
+| `find_android_jar` | function | `scripts/dirtyinit_drive.sh:173` | `` |
+| `find_build_tools` | function | `scripts/dirtyinit_drive.sh:166` | `` |
+| `find_java_tool` | function | `scripts/dirtyinit_drive.sh:201` | `` |
+| `find_ndk` | function | `scripts/dirtyinit_drive.sh:152` | `` |
+| `find_ndk_clang` | function | `scripts/dirtyinit_drive.sh:185` | `` |
+| `find_sdk` | function | `scripts/dirtyinit_drive.sh:141` | `` |
+| `log` | function | `scripts/dirtyinit_drive.sh:65` | `` |
+| `main` | function | `scripts/dirtyinit_drive.sh:529` | `` |
+| `pack_apk` | function | `scripts/dirtyinit_drive.sh:211` | `` |
+| `parse_flags` | function | `scripts/dirtyinit_drive.sh:89` | `` |
+| `payload_value` | function | `scripts/dirtyinit_drive.sh:69` | `` |
+| `require_adb` | function | `scripts/dirtyinit_drive.sh:130` | `` |
+| `require_device` | function | `scripts/dirtyinit_drive.sh:134` | `` |
+| `tap_button` | function | `scripts/dirtyinit_drive.sh:348` | `` |
+| `warn` | function | `scripts/dirtyinit_drive.sh:66` | `` |
+| `build_sbom` | function | `scripts/generate_sbom.py:74` | `def build_sbom(with_ml)` |
+| `collect_components` | function | `scripts/generate_sbom.py:37` | `def collect_components(with_ml)` |
+| `main` | function | `scripts/generate_sbom.py:92` | `def main()` |
+| `parse_requirement` | function | `scripts/generate_sbom.py:25` | `def parse_requirement(line)` |
+| `project_version` | function | `scripts/generate_sbom.py:68` | `def project_version()` |
+| `Journal` | class | `scripts/journal.py:149` | `class Journal` |
+| `JournalConfig` | class | `scripts/journal.py:53` | `class JournalConfig` |
+| `JournalError` | class | `scripts/journal.py:48` | `class JournalError(RuntimeError)` |
+| `_build_parser` | function | `scripts/journal.py:245` | `def _build_parser()` |
+| `_default_runner` | function | `scripts/journal.py:124` | `def _default_runner(args)` |
+| `_git_remote_slug` | function | `scripts/journal.py:114` | `def _git_remote_slug()` |
+| `_graphql` | method | `scripts/journal.py:163` | `def _graphql(self, query, variables)` |
+| `_run_git` | function | `scripts/journal.py:90` | `def _run_git(args)` |
+| `category_id` | method | `scripts/journal.py:192` | `def category_id(self)` |
+| `entries` | method | `scripts/journal.py:223` | `def entries(self, limit)` |
+| `from_git_remote` | method | `scripts/journal.py:71` | `def from_git_remote(cls, remote, category)` |
+| `main` | function | `scripts/journal.py:264` | `def main(argv)` |
+| `post` | method | `scripts/journal.py:206` | `def post(self, title, body)` |
+| `repo_id` | method | `scripts/journal.py:184` | `def repo_id(self)` |
+| `healthy` | function | `scripts/lazy_llamacpp_serve.sh:33` | `` |
+| `ask` | function | `scripts/lazy_llamacpp_setup.sh:40` | `` |
+| `_backup` | function | `scripts/lazy_opencode_config.py:29` | `def _backup(path)` |
+| `_hermes_path` | function | `scripts/lazy_opencode_config.py:41` | `def _hermes_path()` |
+| `_opencode_path` | function | `scripts/lazy_opencode_config.py:36` | `def _opencode_path()` |
+| `main` | function | `scripts/lazy_opencode_config.py:150` | `def main(argv)` |
+| `patch_hermes` | function | `scripts/lazy_opencode_config.py:93` | `def patch_hermes(host)` |
+| `patch_opencode` | function | `scripts/lazy_opencode_config.py:46` | `def patch_opencode(set_default, host)` |
+| `_LoopSettings` | class | `scripts/mcp_call.py:52` | `class _LoopSettings` |
+| `_ToolAnswer` | class | `scripts/mcp_call.py:43` | `class _ToolAnswer` |
+| `__init__` | method | `scripts/mcp_call.py:46` | `def __init__(self, text, is_error)` |
+| `_build_parser` | function | `scripts/mcp_call.py:152` | `def _build_parser()` |
+| `_call_once` | function | `scripts/mcp_call.py:116` | `def _call_once(settings, command)` |
+| `_extract_answer` | function | `scripts/mcp_call.py:100` | `def _extract_answer(result)` |
+| `_parse_arguments` | function | `scripts/mcp_call.py:80` | `def _parse_arguments(raw)` |
+| `_server_command` | function | `scripts/mcp_call.py:61` | `def _server_command()` |
+| `main` | function | `scripts/mcp_call.py:173` | `def main(argv)` |
+| `_append_methods` | function | `scripts/migrate_commandsets.py:83` | `def _append_methods(clean_path, methods)` |
+| `_extract_method_source` | function | `scripts/migrate_commandsets.py:38` | `def _extract_method_source(source, method_name)` |
+| `_find_class_end` | function | `scripts/migrate_commandsets.py:69` | `def _find_class_end(source_lines)` |
+| `_method_names_from_file` | function | `scripts/migrate_commandsets.py:52` | `def _method_names_from_file(filepath)` |
+| `main` | function | `scripts/migrate_commandsets.py:158` | `def main()` |
+| `merge_phase` | function | `scripts/migrate_commandsets.py:117` | `def merge_phase(phase, dry_run)` |
+| `_category_from_decorator` | function | `scripts/migrate_lazyown.py:70` | `def _category_from_decorator(decorator)` |
+| `_indent_level` | function | `scripts/migrate_lazyown.py:84` | `def _indent_level(line)` |
+| `build_migrated_module` | function | `scripts/migrate_lazyown.py:124` | `def build_migrated_module(phase, category, methods)` |
+| `extract_method` | function | `scripts/migrate_lazyown.py:88` | `def extract_method(source, node)` |
+| `main` | function | `scripts/migrate_lazyown.py:173` | `def main()` |
+| `rewrite_globals` | function | `scripts/migrate_lazyown.py:96` | `def rewrite_globals(method_source)` |
+| `changed_sources` | function | `scripts/mutate.sh:33` | `` |
+| `runners` | function | `scripts/mutate.sh:29` | `` |
+| `usage` | function | `scripts/mutate.sh:40` | `` |
+| `discover_runners` | function | `scripts/mutation_gate.py:25` | `def discover_runners()` |
+| `main` | function | `scripts/mutation_gate.py:63` | `def main(argv)` |
+| `run_runner` | function | `scripts/mutation_gate.py:34` | `def run_runner(path, timeout_s)` |
+| `fail` | function | `scripts/publish_wiki.sh:38` | `` |
+| `log` | function | `scripts/publish_wiki.sh:37` | `` |
+| `write_c2_api` | function | `scripts/publish_wiki.sh:150` | `` |
+| `write_footer` | function | `scripts/publish_wiki.sh:207` | `` |
+| `write_home` | function | `scripts/publish_wiki.sh:58` | `` |
+| `write_installation` | function | `scripts/publish_wiki.sh:92` | `` |
+| `write_plugins` | function | `scripts/publish_wiki.sh:174` | `` |
+| `write_sidebar` | function | `scripts/publish_wiki.sh:188` | `` |
+| `_build_parser` | function | `scripts/read_journal.py:19` | `def _build_parser()` |
+| `main` | function | `scripts/read_journal.py:29` | `def main(argv)` |
+| `check` | function | `scripts/smoke_onboarding.sh:8` | `` |
+| `canonical_command_count` | function | `scripts/sync_doc_stats.py:87` | `def canonical_command_count(root)` |
+| `main` | function | `scripts/sync_doc_stats.py:165` | `def main()` |
+| `measure_stats` | function | `scripts/sync_doc_stats.py:109` | `def measure_stats(root)` |
+| `project_version` | function | `scripts/sync_doc_stats.py:100` | `def project_version(root)` |
+| `render` | function | `scripts/sync_doc_stats.py:136` | `def render(template, stats)` |
+| `sync` | function | `scripts/sync_doc_stats.py:141` | `def sync(check, stats, root)` |
+| `bdd_modules` | function | `scripts/test_bdd.sh:33` | `` |
+| `changed_tests` | function | `scripts/test_bdd.sh:37` | `` |
+| `check_doc_counts` | function | `scripts/top_tier_check.py:70` | `def check_doc_counts(commands, mcp, addons)` |
 | `check_release_inputs` | function | `scripts/top_tier_check.py:108` | `def check_release_inputs()` |
 | `check_tracked_secrets` | function | `scripts/top_tier_check.py:81` | `def check_tracked_secrets()` |
 | `check_versions` | function | `scripts/top_tier_check.py:52` | `def check_versions()` |
@@ -381,120 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `test_sdd_agent_writes_spec` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:86` | `def test_sdd_agent_writes_spec(config)` |
 | `test_tdd_agent_lands_red` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:102` | `def test_tdd_agent_lands_red(config)` |
 | `tmp_run_dir` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:46` | `def tmp_run_dir(tmp_path)` |
-| `CheckResult` | class | `skills/claude_md_orchestrator/validators.py:96` | `class CheckResult` |
-| `_EmojiPattern` | class | `skills/claude_md_orchestrator/validators.py:74` | `class _EmojiPattern` |
-| `_EmojiSpan` | class | `skills/claude_md_orchestrator/validators.py:57` | `class _EmojiSpan` |
-| `__init__` | method | `skills/claude_md_orchestrator/validators.py:60` | `def __init__(self, start, text)` |
-| `blocks` | method | `skills/claude_md_orchestrator/validators.py:111` | `def blocks(self)` |
-| `check_docstrings` | function | `skills/claude_md_orchestrator/validators.py:249` | `def check_docstrings(source, path)` |
-| `check_english_only` | function | `skills/claude_md_orchestrator/validators.py:225` | `def check_english_only(source, path)` |
-| `check_magic_numbers` | function | `skills/claude_md_orchestrator/validators.py:324` | `def check_magic_numbers(source, path, allow)` |
-| `check_markdown` | function | `skills/claude_md_orchestrator/validators.py:372` | `def check_markdown(content, path)` |
-| `check_no_comments` | function | `skills/claude_md_orchestrator/validators.py:155` | `def check_no_comments(source, path)` |
-| `check_no_emoji` | function | `skills/claude_md_orchestrator/validators.py:186` | `def check_no_emoji(content, path)` |
-| `check_no_forbidden_markers` | function | `skills/claude_md_orchestrator/validators.py:208` | `def check_no_forbidden_markers(content, path)` |
-| `check_no_hardcoded_paths_or_ips` | function | `skills/claude_md_orchestrator/validators.py:290` | `def check_no_hardcoded_paths_or_ips(source, path)` |
-| `check_source` | function | `skills/claude_md_orchestrator/validators.py:359` | `def check_source(source, path, allow_numbers)` |
-| `check_spec` | function | `skills/claude_md_orchestrator/validators.py:381` | `def check_spec(spec, min_sad_paths)` |
-| `find_block_comments` | function | `skills/claude_md_orchestrator/validators.py:116` | `def find_block_comments(source)` |
-| `find_inline_comments` | function | `skills/claude_md_orchestrator/validators.py:138` | `def find_inline_comments(source)` |
-| `finditer` | method | `skills/claude_md_orchestrator/validators.py:81` | `def finditer(self, content)` |
-| `group` | method | `skills/claude_md_orchestrator/validators.py:69` | `def group(self, index)` |
-| `passed` | method | `skills/claude_md_orchestrator/validators.py:107` | `def passed(self)` |
-| `start` | method | `skills/claude_md_orchestrator/validators.py:65` | `def start(self)` |
-| `ControlState` | class | `skills/daemon_control.py:88` | `class ControlState` |
-| `DaemonControl` | class | `skills/daemon_control.py:162` | `class DaemonControl` |
-| `PendingAction` | class | `skills/daemon_control.py:49` | `class PendingAction` |
-| `__init__` | method | `skills/daemon_control.py:171` | `def __init__(self, sessions_dir)` |
-| `_first_token` | function | `skills/daemon_control.py:154` | `def _first_token(command)` |
-| `add_veto` | method | `skills/daemon_control.py:252` | `def add_veto(self, command_token)` |
-| `clear_vetoes` | method | `skills/daemon_control.py:275` | `def clear_vetoes(self)` |
-| `consume` | method | `skills/daemon_control.py:343` | `def consume(self, action_id)` |
-| `decide` | method | `skills/daemon_control.py:317` | `def decide(self, action_id, decision)` |
-| `from_dict` | method | `skills/daemon_control.py:121` | `def from_dict(cls, data)` |
-| `is_expired` | method | `skills/daemon_control.py:79` | `def is_expired(self, now)` |
-| `is_paused` | method | `skills/daemon_control.py:375` | `def is_paused(self)` |
-| `is_vetoed` | method | `skills/daemon_control.py:379` | `def is_vetoed(self, command)` |
-| `load` | method | `skills/daemon_control.py:188` | `def load(self)` |
-| `path` | method | `skills/daemon_control.py:184` | `def path(self)` |
-| `pause` | method | `skills/daemon_control.py:240` | `def pause(self)` |
-| `propose` | method | `skills/daemon_control.py:290` | `def propose(self, command)` |
-| `remove_veto` | method | `skills/daemon_control.py:267` | `def remove_veto(self, command_token)` |
-| `require_approval` | method | `skills/daemon_control.py:248` | `def require_approval(self)` |
-| `resume` | method | `skills/daemon_control.py:244` | `def resume(self)` |
-| `save` | method | `skills/daemon_control.py:201` | `def save(self, state)` |
-| `set_focus` | method | `skills/daemon_control.py:282` | `def set_focus(self, targets)` |
-| `set_mode` | method | `skills/daemon_control.py:231` | `def set_mode(self, mode)` |
-| `target_in_focus` | method | `skills/daemon_control.py:386` | `def target_in_focus(self, target)` |
-| `to_dict` | method | `skills/daemon_control.py:110` | `def to_dict(self)` |
-| `wait_for_decision` | function | `skills/daemon_control.py:394` | `def wait_for_decision(control, action)` |
-| `wait_until_unpaused` | function | `skills/daemon_control.py:445` | `def wait_until_unpaused(control)` |
-| `DaemonHealth` | class | `skills/daemon_health.py:94` | `class DaemonHealth` |
-| `__init__` | method | `skills/daemon_health.py:102` | `def __init__(self, interval, health_file)` |
-| `_health_path` | function | `skills/daemon_health.py:32` | `def _health_path()` |
-| `_loop` | method | `skills/daemon_health.py:147` | `def _loop(self)` |
-| `_write_heartbeat` | method | `skills/daemon_health.py:133` | `def _write_heartbeat(self)` |
-| `daemon_status` | function | `skills/daemon_health.py:58` | `def daemon_status(timeout)` |
-| `error_count` | method | `skills/daemon_health.py:114` | `def error_count(self)` |
-| `error_count` | method | `skills/daemon_health.py:119` | `def error_count(self, value)` |
-| `increment_cycles` | method | `skills/daemon_health.py:185` | `def increment_cycles(self)` |
-| `is_daemon_alive` | function | `skills/daemon_health.py:36` | `def is_daemon_alive(timeout)` |
-| `phase` | method | `skills/daemon_health.py:124` | `def phase(self)` |
-| `phase` | method | `skills/daemon_health.py:129` | `def phase(self, value)` |
-| `record_error` | method | `skills/daemon_health.py:175` | `def record_error(self)` |
-| `set_phase` | method | `skills/daemon_health.py:180` | `def set_phase(self, phase)` |
-| `start` | method | `skills/daemon_health.py:155` | `def start(self)` |
-| `stop` | method | `skills/daemon_health.py:164` | `def stop(self)` |
-| `clear_pid` | function | `skills/heartbeat.py:57` | `def clear_pid()` |
-| `is_running` | function | `skills/heartbeat.py:62` | `def is_running()` |
-| `main` | function | `skills/heartbeat.py:127` | `def main()` |
-| `run_loop` | function | `skills/heartbeat.py:74` | `def run_loop(interval, once)` |
-| `write_pid` | function | `skills/heartbeat.py:53` | `def write_pid()` |
-| `RuleSetBuilder` | class | `skills/hermes-lazyown/claudemd_rules.py:14` | `class RuleSetBuilder` |
-| `__init__` | method | `skills/hermes-lazyown/claudemd_rules.py:24` | `def __init__(self)` |
-| `_base_rules` | method | `skills/hermes-lazyown/claudemd_rules.py:70` | `def _base_rules(self)` |
-| `_credential_rules` | method | `skills/hermes-lazyown/claudemd_rules.py:157` | `def _credential_rules(self)` |
-| `_hermes_rules` | method | `skills/hermes-lazyown/claudemd_rules.py:170` | `def _hermes_rules(self)` |
-| `_phase_rules` | method | `skills/hermes-lazyown/claudemd_rules.py:82` | `def _phase_rules(self)` |
-| `_service_rules` | method | `skills/hermes-lazyown/claudemd_rules.py:138` | `def _service_rules(self)` |
-| `build` | method | `skills/hermes-lazyown/claudemd_rules.py:56` | `def build(self)` |
-| `generate_rules` | function | `skills/hermes-lazyown/claudemd_rules.py:185` | `def generate_rules(phase, rhost, services, creds_found, is_hermes)` |
-| `with_creds` | method | `skills/hermes-lazyown/claudemd_rules.py:46` | `def with_creds(self, found)` |
-| `with_hermes` | method | `skills/hermes-lazyown/claudemd_rules.py:51` | `def with_hermes(self, is_hermes)` |
-| `with_phase` | method | `skills/hermes-lazyown/claudemd_rules.py:31` | `def with_phase(self, phase)` |
-| `with_services` | method | `skills/hermes-lazyown/claudemd_rules.py:41` | `def with_services(self, services)` |
-| `with_target` | method | `skills/hermes-lazyown/claudemd_rules.py:36` | `def with_target(self, rhost)` |
-| `ConfigBridge` | class | `skills/hermes-lazyown/config_bridge.py:23` | `class ConfigBridge` |
-| `ConfigBridgeError` | class | `skills/hermes-lazyown/config_bridge.py:17` | `class ConfigBridgeError(Exception)` |
-| `__init__` | method | `skills/hermes-lazyown/config_bridge.py:35` | `def __init__(self, payload_path)` |
-| `_from_env` | method | `skills/hermes-lazyown/config_bridge.py:117` | `def _from_env(self, key)` |
-| `_from_payload` | method | `skills/hermes-lazyown/config_bridge.py:134` | `def _from_payload(self, key)` |
-| `_load_payload` | method | `skills/hermes-lazyown/config_bridge.py:139` | `def _load_payload(self)` |
-| `_resolve` | method | `skills/hermes-lazyown/config_bridge.py:105` | `def _resolve(self, key, default)` |
-| `active_target` | method | `skills/hermes-lazyown/config_bridge.py:80` | `def active_target(self)` |
-| `attacker_context` | method | `skills/hermes-lazyown/config_bridge.py:90` | `def attacker_context(self)` |
-| `get` | method | `skills/hermes-lazyown/config_bridge.py:42` | `def get(self, key, default)` |
-| `get_bool` | method | `skills/hermes-lazyown/config_bridge.py:66` | `def get_bool(self, key, default)` |
-| `get_int` | method | `skills/hermes-lazyown/config_bridge.py:58` | `def get_int(self, key, default)` |
-| `get_required` | method | `skills/hermes-lazyown/config_bridge.py:46` | `def get_required(self, key)` |
-| `get_str` | method | `skills/hermes-lazyown/config_bridge.py:53` | `def get_str(self, key, default)` |
-| `is_hermes_session` | method | `skills/hermes-lazyown/config_bridge.py:99` | `def is_hermes_session(self)` |
-| `refresh` | method | `skills/hermes-lazyown/config_bridge.py:75` | `def refresh(self)` |
-| `ConfigKeys` | class | `skills/hermes-lazyown/constants.py:12` | `class ConfigKeys` |
-| `Defaults` | class | `skills/hermes-lazyown/constants.py:45` | `class Defaults` |
-| `EnvKeys` | class | `skills/hermes-lazyown/constants.py:35` | `class EnvKeys` |
-| `Paths` | class | `skills/hermes-lazyown/constants.py:102` | `class Paths` |
-| `PhaseNames` | class | `skills/hermes-lazyown/constants.py:59` | `class PhaseNames` |
-| `claude_md_file` | method | `skills/hermes-lazyown/constants.py:155` | `def claude_md_file()` |
-| `lazyown_dir` | method | `skills/hermes-lazyown/constants.py:106` | `def lazyown_dir()` |
-| `objectives_file` | method | `skills/hermes-lazyown/constants.py:140` | `def objectives_file()` |
-| `payload_file` | method | `skills/hermes-lazyown/constants.py:115` | `def payload_file()` |
-| `scan_file` | method | `skills/hermes-lazyown/constants.py:125` | `def scan_file(rhost)` |
-| `sessions_dir` | method | `skills/hermes-lazyown/constants.py:120` | `def sessions_dir()` |
-| `soul_file` | method | `skills/hermes-lazyown/constants.py:150` | `def soul_file()` |
-| `tasks_file` | method | `skills/hermes-lazyown/constants.py:145` | `def tasks_file()` |
-| `vulns_file` | method | `skills/hermes-lazyown/constants.py:130` | `def vulns_file(rhost)` |
-| `world_model_file` | method | `skills/hermes-lazyown/constants.py:135` | `def world_model_file()` |
-| `ExecutionResult` | class | `skills/hermes-lazyown/executor.py:21` | `class ExecutionResult` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

@@ -1,6 +1,52 @@
 # Subsystem: modules (page 16 of 16)
 Previous: [KB_modules_p15.md](KB_modules_p15.md)
 
+## modules/websocket_beacon.py
+- Doc: WebSocket beacon transport for modern C2 channels.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `WebSocketBeacon` (class, line 46) `class WebSocketBeacon`
+  - `WebSocketC2Handler` (class, line 274) `class WebSocketC2Handler`
+  - `__init__` (method, line 62) `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
+  - `_encrypt` (method, line 91) `def _encrypt(self, data)`
+  - `_decrypt` (method, line 97) `def _decrypt(self, data)`
+  - `_build_message` (method, line 103) `def _build_message(self, msg_type, payload)`
+  - `_jittered_sleep` (method, line 114) `def _jittered_sleep(self)`
+  - `connect` (method, line 122) `def connect(self)`
+  - `check_in` (method, line 157) `def check_in(self)`
+  - `send_result` (method, line 191) `def send_result(self, task_id, output, exit_code)`
+  - `run` (method, line 214) `def run(self, command_handler)`
+  - `shutdown` (method, line 263) `def shutdown(self)`
+  - `__init__` (method, line 288) `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
+  - `_handle_connection` (method, line 310) `def _handle_connection(self, websocket, path)`
+  - `start` (method, line 382) `def start(self)`
+  - `stop` (method, line 392) `def stop(self)`
+  - `start_in_thread` (method, line 399) `def start_in_thread(self)`
+  - `_run_loop` (method, line 410) `def _run_loop(self, loop)`
+  - `send_task` (method, line 416) `def send_task(self, beacon_id, command)`
+  - `list_beacons` (method, line 447) `def list_beacons(self)`
+  - `remove_stale_beacons` (method, line 464) `def remove_stale_beacons(self, timeout)`
+- Depends on: `core/hardening.py`
+
+## modules/wineconfig.sh
+- Layer: utility
+- Language: sh
+
+## modules/workspace.py
+- Doc: Confined workspace file browser for operators and loop agents.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `root` (function, line 21) `def root()`
+  - `resolve` (function, line 27) `def resolve(rel)`
+  - `list_entries` (function, line 46) `def list_entries(rel)`
+  - `read_text` (function, line 63) `def read_text(rel, limit)`
+  - `write_text` (function, line 72) `def write_text(rel, content)`
+  - `make_dir` (function, line 83) `def make_dir(rel)`
+  - `remove` (function, line 90) `def remove(rel)`
+- Imported by: `tests/test_lazy_loop.py`
+
 ## modules/world_model.py
 - Doc: modules/world_model.py
 - Layer: business_logic
@@ -77,7 +123,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `read_section` (method, line 1410) `def read_section(self, key)`
   - `write_section` (method, line 1427) `def write_section(self, key, value)`
 - Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
 
 ## modules/yaml_generator.py
 - Doc: load_payload: Carga las variables desde payload.json

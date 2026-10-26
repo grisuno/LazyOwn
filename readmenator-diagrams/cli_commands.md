@@ -1,6 +1,6 @@
 # cli/commands
 
-cli/commands groups 158 files (c, py) around needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets, parse_ip_mac. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 155 files (c, py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -23,7 +23,6 @@ graph LR
     modules -- "calls into" --> cli
     modules -- "calls into" --> contrib
     modules -- "depends on" --> core
-    modules -- "calls into" --> root
     root -- "calls into" --> cli
     root -- "depends on" --> core
     root -- "depends on" --> modules
@@ -37,7 +36,7 @@ graph LR
 
 ## cli (2.1)
 
-cli groups 66 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
+cli groups 65 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
 
 ## contrib (2.2)
 
@@ -45,7 +44,7 @@ contrib groups 3 files (py) around SamsungKnoxExploitServer, do_GET, apk_bytes, 
 
 ## core (2.3)
 
-core groups 10 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Symmetric primitives used by the framework.
+core groups 9 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Symmetric primitives used by the framework.
 
 ## modules (2.4)
 
@@ -53,7 +52,7 @@ modules groups 31 files (c, py) around main, TlsProfile, get_cipher_suites, get_
 
 ## root (2.5)
 
-root groups 2 files (py) around needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets, parse_ip_mac. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+root groups 2 files (py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ## scripts (2.6)
 
@@ -61,7 +60,7 @@ scripts groups 1 files (py) around SmokeConfig, check_surfaces, check_calls, mai
 
 ## tests (2.7)
 
-tests groups 45 files (py) around _git, _repo_with_remote, _addon, test_every_shipped_addon_opts_in, test_update_disabled_is_skipped. Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware.
+tests groups 44 files (py) around _git, _repo_with_remote, _addon, test_every_shipped_addon_opts_in, test_update_disabled_is_skipped. Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware.
 
 **Files**:
 
@@ -85,7 +84,6 @@ tests groups 45 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/commands/cred.py
 - cli/commands/cred_migrated.py
 - cli/commands/crystal_ball.py
-- cli/commands/defaults.py
 - cli/commands/demo.py
 - cli/commands/diagnostics.py
 - cli/commands/dns_exfil.py
@@ -95,8 +93,8 @@ tests groups 45 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/commands/evasive_payload.py
 - cli/commands/exfiltration.py
 - cli/commands/exploit.py
+- cli/commands/exploitgym.py
 - cli/commands/infra.py
-- cli/commands/lab.py
 - cli/commands/lateral.py
 - cli/commands/lateral_migrated.py
 - cli/commands/marketplace.py
@@ -136,7 +134,6 @@ tests groups 45 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - contrib/legacy/lazyhttpreverseshell.py
 - contrib/legacy/lazysmbrelay.py
 - core/crypto.py
-- core/defaults.py
 - core/hardening.py
 - core/host_policy.py
 - core/protocols.py
@@ -150,7 +147,6 @@ tests groups 45 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - modules/beacon_config_builder.py
 - modules/bitm_engine.py
 - modules/bof_registry.py
-- modules/c2_builder.py
 - modules/c2_profile_engine.py
 - modules/categories.py
 - modules/cicd_enumerator.py
@@ -162,6 +158,7 @@ tests groups 45 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - modules/edr_detector.py
 - modules/evasion_engine.py
 - modules/evasive_payloads.py
+- modules/exploitgym_gym.py
 - modules/lab_runtime.py
 - modules/lazycloud.py
 - modules/metasploitable_migrations.py
@@ -182,7 +179,6 @@ tests groups 45 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - tests/test_atomic_exploit_bridge.py
 - tests/test_backdoor_random.py
 - tests/test_banner_config.py
-- tests/test_bdd_infra_range_report.py
 - tests/test_beacon_config_builder.py
 - tests/test_bof_registry.py
 - tests/test_c2_profile_engine.py
@@ -196,11 +192,11 @@ tests groups 45 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - tests/test_daemon_ctl_command_set.py
 - tests/test_encoding_command_set.py
 - tests/test_executor_kernel.py
+- tests/test_exploitgym_gym.py
 - tests/test_fuzzy_picker.py
 - tests/test_help_ui_command_set.py
 - tests/test_host_policy.py
 - tests/test_input_fuzz.py
-- tests/test_lab_target_visibility.py
 - tests/test_metasploitable_migrations.py
 - tests/test_module_registry.py
 - tests/test_nethelpers_command_set.py

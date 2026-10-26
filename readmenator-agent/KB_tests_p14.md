@@ -1,6 +1,54 @@
 # Subsystem: tests (page 14 of 20)
 Previous: [KB_tests_p13.md](KB_tests_p13.md)
 
+## tests/test_loop_supervision.py
+- Doc: Supervision upgrades: repetition watchdog, stack priors, prompt masking.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `_isolate_intel` (function, line 16) `def _isolate_intel(tmp_path, monkeypatch)`
+  - `_DeadPool` (class, line 25) `class _DeadPool`
+  - `_kill_llm` (function, line 37) `def _kill_llm(monkeypatch)`
+  - `test_repetition_watchdog_settles` (function, line 46) `def test_repetition_watchdog_settles(tmp_path, monkeypatch)`
+  - `test_stack_priors_prefer_same_stack` (function, line 75) `def test_stack_priors_prefer_same_stack(tmp_path, monkeypatch)`
+  - `test_prompt_context_masks_configured_only` (function, line 99) `def test_prompt_context_masks_configured_only(tmp_path, monkeypatch)`
+  - `members` (method, line 28) `def members(self)`
+  - `complete` (method, line 32) `def complete(self)`
+- Depends on: `core/config.py`, `modules/lazy_engine.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`
+
+## tests/test_loop_worker_traces.py
+- Doc: Worker cross-work trace tools (lazy 0.3.10 parity).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `_seed_two_works` (function, line 15) `def _seed_two_works(engine, task_id)`
+  - `test_search_all_spans_works_without_intent` (function, line 27) `def test_search_all_spans_works_without_intent(tmp_path, monkeypatch)`
+  - `test_trace_steps_and_single_step` (function, line 40) `def test_trace_steps_and_single_step(tmp_path, monkeypatch)`
+  - `test_worker_lane_binds_node_detail` (function, line 57) `def test_worker_lane_binds_node_detail(tmp_path, monkeypatch)`
+  - `test_add_hint_emits_explicit_planner_trigger` (function, line 65) `def test_add_hint_emits_explicit_planner_trigger(tmp_path, monkeypatch)`
+  - `test_worker_bash_unbound_blocks_without_execution` (function, line 81) `def test_worker_bash_unbound_blocks_without_execution(tmp_path, monkeypatch)`
+  - `test_planner_intent_unbound_emits_nothing` (function, line 100) `def test_planner_intent_unbound_emits_nothing(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
+## tests/test_marketplace_config.py
+- Doc: Marketplace registry and settings: formats, toggles, CRUD.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_registry` (function, line 12) `def _registry(tmp_path, monkeypatch)`
+  - `test_tool_rows_use_json_and_active_key` (function, line 33) `def test_tool_rows_use_json_and_active_key(tmp_path, monkeypatch)`
+  - `test_plugin_rows_skip_lua_and_templates` (function, line 61) `def test_plugin_rows_skip_lua_and_templates(tmp_path, monkeypatch)`
+  - `test_read_only_tabs_never_toggle_or_delete` (function, line 76) `def test_read_only_tabs_never_toggle_or_delete(tmp_path, monkeypatch)`
+  - `test_create_and_delete_across_tabs` (function, line 89) `def test_create_and_delete_across_tabs(tmp_path, monkeypatch)`
+  - `test_settings_toggle_tracks_only_success` (function, line 105) `def test_settings_toggle_tracks_only_success(tmp_path, monkeypatch)`
+  - `test_marketplace_app_filters_rows` (function, line 118) `def test_marketplace_app_filters_rows(tmp_path, monkeypatch)`
+  - `test_filter_input_keeps_printable_keys` (function, line 145) `def test_filter_input_keeps_printable_keys(tmp_path, monkeypatch)`
+  - `_drive` (function, line 128) `def _drive()`
+  - `_drive` (function, line 151) `def _drive()`
+- Depends on: `cli/__init__.py`
+
 ## tests/test_mcp_dispatch.py
 - Doc: call_tool dispatches through the handler registry.
 - Layer: testing
@@ -436,47 +484,6 @@ Previous: [KB_tests_p13.md](KB_tests_p13.md)
   - `test_generate_for_critical` (method, line 135) `def test_generate_for_critical(self)`
   - `test_skip_low_severity` (method, line 151) `def test_skip_low_severity(self)`
 - Depends on: `modules/integrations/nuclei_parser.py`
-
-## tests/test_opencode_mcp_harness.py
-- Doc: Opencode shim harness tool tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `OpencodeShimHarnessSpec` (class, line 16) `class OpencodeShimHarnessSpec(TestCase)`
-  - `test_harness_tools_listed` (method, line 19) `def test_harness_tools_listed(self)`
-  - `test_harness_status_shape` (method, line 25) `def test_harness_status_shape(self)`
-  - `test_golden_paths_and_ctf` (method, line 32) `def test_golden_paths_and_ctf(self)`
-  - `test_unknown_tool_rejected` (method, line 47) `def test_unknown_tool_rejected(self)`
-- Depends on: `modules/__init__.py`, `skills/lazyown_mcp_opencode.py`
-
-## tests/test_ops_loot_phase.py
-- Doc: Tests for unified loot, cred-graph view, and quantitative phase progress.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_seed_loot` (function, line 34) `def _seed_loot(sessions_dir)`
-  - `_write_world` (function, line 46) `def _write_world(sessions_dir, world)`
-  - `test_gather_loot_parses_kinds_and_skips_noise` (function, line 53) `def test_gather_loot_parses_kinds_and_skips_noise(tmp_path)`
-  - `test_loot_entry_value` (function, line 65) `def test_loot_entry_value()`
-  - `test_resolve_cred_value_precedence` (function, line 70) `def test_resolve_cred_value_precedence()`
-  - `test_loot_show_renders_table` (function, line 85) `def test_loot_show_renders_table(tmp_path, capsys)`
-  - `test_loot_show_empty` (function, line 94) `def test_loot_show_empty(tmp_path, capsys)`
-  - `test_loot_search_hits_and_provenance` (function, line 101) `def test_loot_search_hits_and_provenance(tmp_path, capsys)`
-  - `test_loot_search_no_match` (function, line 115) `def test_loot_search_no_match(tmp_path, capsys)`
-  - `test_loot_search_requires_query` (function, line 123) `def test_loot_search_requires_query(tmp_path, capsys)`
-  - `test_loot_reuse_no_target` (function, line 133) `def test_loot_reuse_no_target(tmp_path, capsys)`
-  - `test_loot_reuse_no_loot` (function, line 141) `def test_loot_reuse_no_loot(tmp_path, capsys)`
-  - `test_loot_reuse_excludes_rejected_and_flags_confirmed` (function, line 148) `def test_loot_reuse_excludes_rejected_and_flags_confirmed(tmp_path, capsys)`
-  - `test_loot_graph_renders_edges` (function, line 174) `def test_loot_graph_renders_edges(tmp_path, capsys)`
-  - `test_loot_graph_empty` (function, line 196) `def test_loot_graph_empty(tmp_path, capsys)`
-  - `test_loot_mark_writes_rejected_edge` (function, line 206) `def test_loot_mark_writes_rejected_edge(tmp_path)`
-  - `test_loot_mark_rejects_bad_outcome` (function, line 222) `def test_loot_mark_rejects_bad_outcome(tmp_path, capsys)`
-  - `test_loot_mark_unknown_credential` (function, line 230) `def test_loot_mark_unknown_credential(tmp_path, capsys)`
-  - `test_phase_progress_ranks` (function, line 241) `def test_phase_progress_ranks(tmp_path)`
-  - `test_phase_progress_completed_override` (function, line 262) `def test_phase_progress_completed_override(tmp_path)`
-  - `test_phase_progress_os_owned_report_and_loot` (function, line 283) `def test_phase_progress_os_owned_report_and_loot(tmp_path)`
-  - `test_link_credential_to_failure_edge_and_roundtrip` (function, line 310) `def test_link_credential_to_failure_edge_and_roundtrip(tmp_path)`
-- Depends on: `cli/ops_commands.py`, `modules/world_model.py`
 
 
 Next: [KB_tests_p15.md](KB_tests_p15.md)

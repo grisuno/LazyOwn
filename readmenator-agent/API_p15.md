@@ -1,6 +1,43 @@
 # API (page 15 of 24)
 Previous: [API_p14.md](API_p14.md)
 
+## modules/llm_evaluator.py
+Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- `OutcomeRecorder.record` (method) `modules/llm_evaluator.py:57` `def record(self, decision)`
+- `OutcomeRecorder.update_outcome` (method) `modules/llm_evaluator.py:60` `def update_outcome(self, decision_id, actual, findings_count, success)`
+- `OutcomeRecorder.load_all` (method) `modules/llm_evaluator.py:69` `def load_all(self)`
+- `OutcomeRecorder.load_by_session` (method) `modules/llm_evaluator.py:72` `def load_by_session(self, session_id)`
+- `JSONLRecorder.__init__` (method) `modules/llm_evaluator.py:76` `def __init__(self, path)`
+- `JSONLRecorder.record` (method) `modules/llm_evaluator.py:81` `def record(self, decision)`
+- `JSONLRecorder.update_outcome` (method) `modules/llm_evaluator.py:86` `def update_outcome(self, decision_id, actual, findings_count, success)`
+- `JSONLRecorder.load_all` (method) `modules/llm_evaluator.py:120` `def load_all(self)`
+- `JSONLRecorder.load_by_session` (method) `modules/llm_evaluator.py:135` `def load_by_session(self, session_id)`
+- `LLMEvaluator.__init__` (method) `modules/llm_evaluator.py:162` `def __init__(self, recorder)`
+- `LLMEvaluator.record_decision` (method) `modules/llm_evaluator.py:165` `def record_decision(self, session_id, thought, action, mitre_tactic, expected_outcome, confidence)`
+- `LLMEvaluator.record_outcome` (method) `modules/llm_evaluator.py:191` `def record_outcome(self, decision_id, actual_outcome, findings_count, success)`
+- `LLMEvaluator.compute_metrics` (method) `modules/llm_evaluator.py:200` `def compute_metrics(self, session_id)`
+- `LLMEvaluator.quality_report` (method) `modules/llm_evaluator.py:241` `def quality_report(self, session_id)`
+- `LLMEvaluator.export_finetuning_dataset` (method) `modules/llm_evaluator.py:256` `def export_finetuning_dataset(self, path)`
+- `get_evaluator` (function) `modules/llm_evaluator.py:293` `def get_evaluator()`
+- `record_decision` (function) `modules/llm_evaluator.py:302` `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)`
+- `record_outcome` (function) `modules/llm_evaluator.py:313` `def record_outcome(decision_id, actual_outcome, findings_count, success)`
+
+## modules/llm_factory.py
+Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/toposwarm_bridge.py`
+Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+- `is_model_missing_error` (function) `modules/llm_factory.py:121` `def is_model_missing_error(message)` -- Return True when an error text means the model id is unavailable.
+- `groq_model_chain` (function) `modules/llm_factory.py:141` `def groq_model_chain(config)` -- Return the ordered Groq model ids to try, configured model first.
+- `default_model_for` (function) `modules/llm_factory.py:224` `def default_model_for(backend)` -- Return the default model identifier for a backend.
+- `model_config_key` (function) `modules/llm_factory.py:245` `def model_config_key(backend)` -- Return the ``payload.json`` key holding a backend's model override.
+- `api_key_config_key` (function) `modules/llm_factory.py:266` `def api_key_config_key(backend)` -- Return the ``payload.json`` key holding a backend's API key slot.
+- `backend_requires_api_key` (function) `modules/llm_factory.py:291` `def backend_requires_api_key(backend)` -- Report whether a backend needs an API key to operate.
+- `load_payload` (function) `modules/llm_factory.py:309` `def load_payload(payload_path)` -- Read ``payload.json`` from disk and return it as a dictionary.
+- `get_llm_backend` (function) `modules/llm_factory.py:633` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
+- `get_llm_backend_raw` (function) `modules/llm_factory.py:729` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
+- `try_get_llm_backend` (function) `modules/llm_factory.py:751` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
+- `stream_complete` (function) `modules/llm_factory.py:828` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
+- `complete` (function) `modules/llm_factory.py:899` `def complete(model, prompt, max_tokens)` -- Complete a prompt through one model spec; raise when unanswered.
+
 ## modules/llm_pool.py
 Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`
 - `shared_registry` (function) `modules/llm_pool.py:50` `def shared_registry(config)` -- Return the process-wide health registry (LAZY Registry parity).
@@ -105,6 +142,23 @@ Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_
 - `FactVectorStore.clear` (method) `modules/loop_guardrails.py:388` `def clear(self)` -- Drop every fact (manual reset path).
 - `FactVectorStore.save` (method) `modules/loop_guardrails.py:394` `def save(self)` -- Persist atomically; I/O errors never surface to the loop.
 
+## modules/loop_manager.py
+Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
+- `LoopValidationError.__init__` (method) `modules/loop_manager.py:90` `def __init__(self, field, message)` -- Store the offending field alongside the human message.
+- `validate_target` (function) `modules/loop_manager.py:100` `def validate_target(raw)` -- Return the canonical string form of a validated IP address target.
+- `sanitize_goal` (function) `modules/loop_manager.py:123` `def sanitize_goal(raw)` -- Return a safe goal string accepted by the loop parser.
+- `clamp_int` (function) `modules/loop_manager.py:150` `def clamp_int(raw, field, default, minimum, maximum)` -- Parse and clamp an integer knob to the supported range.
+- `clamp_float` (function) `modules/loop_manager.py:175` `def clamp_float(raw, field, default, minimum, maximum)` -- Parse and clamp a float knob to the supported range.
+- `validate_loop_id` (function) `modules/loop_manager.py:200` `def validate_loop_id(loop_id)` -- Validate a loop id and return its normalized hex form.
+- `LoopManager.__init__` (method) `modules/loop_manager.py:327` `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` -- Create the manager and its persistence lock.
+- `LoopManager.loops_dir` (method) `modules/loop_manager.py:349` `def loops_dir(self)` -- Return the root directory for loop workspaces.
+- `LoopManager.start` (method) `modules/loop_manager.py:353` `def start(self, spec, operator)` -- Validate, spawn and register one autonomous loop.
+- `LoopManager.list_loops` (method) `modules/loop_manager.py:493` `def list_loops(self)` -- Return every registry record with refreshed live status.
+- `LoopManager.get_loop` (method) `modules/loop_manager.py:528` `def get_loop(self, loop_id)` -- Return one registry record by id.
+- `LoopManager.read_log` (method) `modules/loop_manager.py:547` `def read_log(self, loop_id, offset)` -- Read one chunk of a loop's output log.
+- `LoopManager.stop` (method) `modules/loop_manager.py:614` `def stop(self, loop_id)` -- Stop one running loop by terminating its process group.
+- `LoopManager.summary` (method) `modules/loop_manager.py:679` `def summary(self)` -- Return an aggregate view of loop activity for the report.
+
 ## modules/loop_progress.py
 Depends on: `core/safe_console.py`
 Imported by: `cli/lazy_monitor.py`, `modules/lazy_runner.py`, `tests/test_lazy_runner.py`, `tests/test_loop_progress.py`
@@ -118,7 +172,7 @@ Imported by: `cli/lazy_monitor.py`, `modules/lazy_runner.py`, `tests/test_lazy_r
 - `LoopProgress.emit` (method) `modules/loop_progress.py:268` `def emit(self, line)` -- Print a transcript line above the live panel, colors preserved.
 
 ## modules/loop_triggers.py
-Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`
+Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `modules/world_model.py`
 Imported by: `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
 - `TriggerStore.__init__` (method) `modules/loop_triggers.py:26` `def __init__(self, task_id)` -- Bind trigger table (global when task_id empty).
 - `TriggerStore.add` (method) `modules/loop_triggers.py:36` `def add(self, kind, arg, every_sec)` -- Register a trigger; interval needs every_sec, events fire on new rows.
@@ -127,7 +181,8 @@ Imported by: `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.
 - `TriggerStore.set_enabled` (method) `modules/loop_triggers.py:111` `def set_enabled(self, trigger_id, enabled)` -- Flip one trigger's enabled flag in place.
 - `TriggerStore.list` (method) `modules/loop_triggers.py:125` `def list(self)` -- Return all triggers.
 - `TriggerStore.ensure_service_trigger` (method) `modules/loop_triggers.py:129` `def ensure_service_trigger(self)` -- Register the catalog trigger once so services fire the loop.
-- `TriggerStore.due` (method) `modules/loop_triggers.py:142` `def due(self, task_id, graph, activity, assets, store)` -- Evaluate triggers like the scheduler tick; fires at most once each.
+- `TriggerStore.ensure_cve_hot_trigger` (method) `modules/loop_triggers.py:142` `def ensure_cve_hot_trigger(self)` -- Register the hot-CVE trigger once so fresh intel fires the loop.
+- `TriggerStore.due` (method) `modules/loop_triggers.py:155` `def due(self, task_id, graph, activity, assets, store)` -- Evaluate triggers like the scheduler tick; fires at most once each.
 
 ## modules/macos_payloads.py
 Imported by: `cli/commands/payload_arsenal.py`
@@ -430,64 +485,6 @@ Imported by: `cli/commands/opsec_cleanup.py`
 - `repeat_attributes` (function) `modules/nmap2csv.py:639` `def repeat_attributes(attribute_list)` -- repeat attribute lists to the maximum for the
 - `generate_csv` (function) `modules/nmap2csv.py:653` `def generate_csv(fd, results, options)` -- Generate a plain ';' separated csv file with the desired or default attribute format
 - `main` (function) `modules/nmap2csv.py:688` `def main()`
-
-## modules/notify.py
-Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`, `tests/test_security_codeql_batch.py`
-- `severity_rank` (function) `modules/notify.py:31` `def severity_rank(severity, config)` -- Return the comparable order for a severity label.
-- `mask_secrets` (function) `modules/notify.py:39` `def mask_secrets(text, config)` -- Replace known secret prefixes with a redaction marker.
-- `url_allowed` (function) `modules/notify.py:57` `def url_allowed(url)` -- SSRF dial-guard for webhook delivery (LAZY parity).
-- `post_url_validated` (function) `modules/notify.py:145` `def post_url_validated(url, data, timeout)` -- POST data to a webhook URL after SSRF validation, guarding redirects.
-- `_GuardRedirect.redirect_request` (method) `modules/notify.py:159` `def redirect_request(self, req, fp, code, msg, headers, newurl)`
-- `Notifier.__init__` (method) `modules/notify.py:207` `def __init__(self, config)` -- Initialize with shared notification constants.
-- `Notifier.should_send` (method) `modules/notify.py:215` `def should_send(self, message, channel)` -- Apply event, severity, keyword and scope gates (LAZY parity).
-- `Notifier.render` (method) `modules/notify.py:238` `def render(self, message)` -- Render masked Markdown text for a message.
-- `Notifier.dispatch` (method) `modules/notify.py:244` `def dispatch(self, message, channels)` -- Fan out to eligible channels and journal deliveries.
-- `Notifier.flush_digest` (method) `modules/notify.py:260` `def flush_digest(self, max_age_sec)` -- Emit one digest per channel when due (default 30m, LAZY parity).
-
-## modules/nuclei_templates_sync.py
-- `repo_root` (function) `modules/nuclei_templates_sync.py:39` `def repo_root()` -- Return the LazyOwn repository root derived from this file location.
-- `canonical_dest` (function) `modules/nuclei_templates_sync.py:48` `def canonical_dest(subdir)` -- Return the canonical marketplace destination for a source.
-- `run` (function) `modules/nuclei_templates_sync.py:60` `def run(argv, cwd)` -- Run a subprocess capturing output as text without raising.
-- `ensure_git_available` (function) `modules/nuclei_templates_sync.py:73` `def ensure_git_available()` -- Abort with a clear message when the git binary is missing.
-- `clone_templates` (function) `modules/nuclei_templates_sync.py:84` `def clone_templates(repo, staging)` -- Shallow-clone the template repository into the staging directory.
-- `strip_git_traces` (function) `modules/nuclei_templates_sync.py:113` `def strip_git_traces(tree)` -- Remove every .git file or directory under the staged tree.
-- `count_templates` (function) `modules/nuclei_templates_sync.py:132` `def count_templates(tree)` -- Count Nuclei template files under a directory tree.
-- `replace_dest` (function) `modules/nuclei_templates_sync.py:144` `def replace_dest(src, dest, expected)` -- Atomically replace the destination with the staged tree contents.
-- `same_remote` (function) `modules/nuclei_templates_sync.py:168` `def same_remote(path, repo)` -- Check whether an existing clone points at the expected remote.
-- `normalize` (function) `modules/nuclei_templates_sync.py:179` `def normalize(url)`
-- `refresh_existing_clone` (function) `modules/nuclei_templates_sync.py:188` `def refresh_existing_clone(path, repo)` -- Fast-forward an existing clean clone of the same remote.
-- `validate_subset` (function) `modules/nuclei_templates_sync.py:209` `def validate_subset(dest, subset)` -- Validate a template subset with the nuclei binary when available.
-- `build_parser` (function) `modules/nuclei_templates_sync.py:238` `def build_parser()` -- Build the command line parser for the sync script.
-- `sync` (function) `modules/nuclei_templates_sync.py:263` `def sync(name, repo, dest, refresh_existing, skip_validate)` -- Clone, clean, and install one template source.
-- `resolve_plan` (function) `modules/nuclei_templates_sync.py:308` `def resolve_plan(args)` -- Resolve the requested sources into (name, repo, dest) work items.
-- `main` (function) `modules/nuclei_templates_sync.py:337` `def main(argv)` -- Entry point for the template sync script.
-
-## modules/obs_parser.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/sinks/world_model.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
-- `Observation.by_type` (method) `modules/obs_parser.py:83` `def by_type(self, ftype)`
-- `Observation.has` (method) `modules/obs_parser.py:86` `def has(self, ftype)`
-- `Extractor.extract` (method) `modules/obs_parser.py:99` `def extract(self, text, host)` -- Return all findings of this type found in *text*.
-- `_ExtractorRegistry.__init__` (method) `modules/obs_parser.py:106` `def __init__(self)`
-- `_ExtractorRegistry.register` (method) `modules/obs_parser.py:109` `def register(self, extractor)`
-- `_ExtractorRegistry.run_all` (method) `modules/obs_parser.py:112` `def run_all(self, text, host)`
-- `_IPExtractor.extract` (method) `modules/obs_parser.py:134` `def extract(self, text, host)`
-- `_CredentialExtractor.extract` (method) `modules/obs_parser.py:175` `def extract(self, text, host)`
-- `_ServiceVersionExtractor.extract` (method) `modules/obs_parser.py:198` `def extract(self, text, host)`
-- `_PathExtractor.extract` (method) `modules/obs_parser.py:224` `def extract(self, text, host)`
-- `_UsernameExtractor.extract` (method) `modules/obs_parser.py:245` `def extract(self, text, host)`
-- `_HashExtractor.extract` (method) `modules/obs_parser.py:271` `def extract(self, text, host)`
-- `_CVEExtractor.extract` (method) `modules/obs_parser.py:288` `def extract(self, text, host)`
-- `_DomainExtractor.extract` (method) `modules/obs_parser.py:305` `def extract(self, text, host)`
-- `_EmailExtractor.extract` (method) `modules/obs_parser.py:323` `def extract(self, text, host)`
-- `_ErrorExtractor.extract` (method) `modules/obs_parser.py:345` `def extract(self, text, host)`
-- `_CloudIdentityExtractor.extract` (method) `modules/obs_parser.py:367` `def extract(self, text, host)`
-- `_SuccessDetector.is_success` (method) `modules/obs_parser.py:407` `def is_success(self, text)`
-- `ObsParser.__init__` (method) `modules/obs_parser.py:431` `def __init__(self)`
-- `ObsParser.register` (method) `modules/obs_parser.py:450` `def register(self, extractor)` -- Register an additional Extractor (Open/Closed extension point).
-- `ObsParser.parse` (method) `modules/obs_parser.py:454` `def parse(self, output, host, tool)` -- Parse *output* and return an Observation.
-- `get_parser` (function) `modules/obs_parser.py:500` `def get_parser()` -- Return (or create) the module-level singleton ObsParser.
-- `parse` (function) `modules/obs_parser.py:508` `def parse(output, host, tool)` -- Module-level convenience wrapper.
 
 
 Next: [API_p16.md](API_p16.md)

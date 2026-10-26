@@ -1,6 +1,25 @@
 # Subsystem: modules (page 3 of 16)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
 
+## modules/c2_surfaces.py
+- Doc: C2 dashboard surfaces fed by the autonomous loop and APT chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_read_json` (function, line 42) `def _read_json(path, default)`
+  - `_write_json` (function, line 54) `def _write_json(path, data)`
+  - `_stamp` (function, line 68) `def _stamp()`
+  - `publish_banner` (function, line 73) `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)`
+  - `publish_cve` (function, line 115) `def publish_cve(title, description, operator, risk, sessions_dir)`
+  - `append_note` (function, line 155) `def append_note(line, sessions_dir)`
+  - `register_loot_event` (function, line 184) `def register_loot_event(name, path_glob, description, event_config)`
+  - `refresh_session_report` (function, line 229) `def refresh_session_report(timeout)`
+  - `severity_to_risk` (function, line 251) `def severity_to_risk(severity)`
+  - `_normalize_task_title` (function, line 256) `def _normalize_task_title(title)`
+  - `group_tasks_for_display` (function, line 261) `def group_tasks_for_display(tasks)`
+- Depends on: `core/logging.py`, `skills/lazyown_mcp_helpers.py`
+- Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/sinks/c2_surfaces.py`, `tests/test_c2_surfaces.py`
+
 ## modules/cal.sh
 - Doc: Función para calcular si un año es bisiesto
 - Layer: utility
@@ -475,26 +494,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `detect_cross_cloud_federation` (method, line 234) `def detect_cross_cloud_federation(self)`
   - `summary` (method, line 258) `def summary(self)`
 - Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/ctf_capture.py
-- Doc: CTF capture verification for gym attack paths.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `output_dir` (function, line 28) `def output_dir(sessions_dir)`
-  - `_check_root_shell` (function, line 41) `def _check_root_shell(output)`
-  - `_check_shadow_dump` (function, line 54) `def _check_shadow_dump(output)`
-  - `_check_credentials` (function, line 74) `def _check_credentials(output)`
-  - `capture` (function, line 99) `def capture(vuln_id, target, output, sessions_dir)`
-  - `_publish_capture_outcome` (function, line 152) `def _publish_capture_outcome(record)`
-  - `record_path` (function, line 175) `def record_path(vuln_id, sessions_dir)`
-  - `_safe_dir` (function, line 188) `def _safe_dir(vuln_id)`
-  - `store_record` (function, line 201) `def store_record(record, sessions_dir)`
-  - `list_records` (function, line 219) `def list_records(sessions_dir)`
-  - `summary` (function, line 242) `def summary(sessions_dir)`
-  - `_gather_evidence` (function, line 269) `def _gather_evidence(candidates)`
-  - `_cli_capture` (function, line 291) `def _cli_capture(argv)`
-- Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

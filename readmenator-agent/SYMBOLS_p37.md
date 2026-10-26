@@ -1,8 +1,148 @@
-# Symbols (page 37 of 45)
+# Symbols (page 37 of 46)
 Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_driver_has_no_hardcoded_host_paths` | method | `tests/test_dirtyinit_addon.py:209` | `def test_driver_has_no_hardcoded_host_paths(self, driver_text)` |
+| `test_driver_help_runs` | method | `tests/test_dirtyinit_addon.py:213` | `def test_driver_help_runs(self)` |
+| `test_driver_is_executable` | method | `tests/test_dirtyinit_addon.py:58` | `def test_driver_is_executable(self)` |
+| `test_driver_present` | method | `tests/test_dirtyinit_addon.py:52` | `def test_driver_present(self)` |
+| `test_driver_rejects_unknown_action` | method | `tests/test_dirtyinit_addon.py:233` | `def test_driver_rejects_unknown_action(self)` |
+| `test_driver_resolves_repo_root` | method | `tests/test_dirtyinit_addon.py:185` | `def test_driver_resolves_repo_root(self, driver_text)` |
+| `test_driver_status_runs` | method | `tests/test_dirtyinit_addon.py:223` | `def test_driver_status_runs(self)` |
+| `test_driver_syntax` | method | `tests/test_dirtyinit_addon.py:176` | `def test_driver_syntax(self)` |
+| `test_driver_targets_expected_package` | method | `tests/test_dirtyinit_addon.py:202` | `def test_driver_targets_expected_package(self, driver_text)` |
+| `test_driver_uses_adb` | method | `tests/test_dirtyinit_addon.py:195` | `def test_driver_uses_adb(self, driver_text)` |
+| `test_enabled` | method | `tests/test_dirtyinit_addon.py:81` | `def test_enabled(self, addon)` |
+| `test_execute_command_is_complete` | method | `tests/test_dirtyinit_addon.py:131` | `def test_execute_command_is_complete(self, addon)` |
+| `test_execute_command_runs_driver` | method | `tests/test_dirtyinit_addon.py:124` | `def test_execute_command_runs_driver(self, addon)` |
+| `test_execute_command_uses_env_prefix` | method | `tests/test_dirtyinit_addon.py:127` | `def test_execute_command_uses_env_prefix(self, addon)` |
+| `test_install_command_runs_doctor` | method | `tests/test_dirtyinit_addon.py:121` | `def test_install_command_runs_doctor(self, addon)` |
+| `test_install_path` | method | `tests/test_dirtyinit_addon.py:114` | `def test_install_path(self, addon)` |
+| `test_install_path_no_traversal` | method | `tests/test_dirtyinit_addon.py:117` | `def test_install_path_no_traversal(self, addon)` |
+| `test_name_matches_file` | method | `tests/test_dirtyinit_addon.py:69` | `def test_name_matches_file(self, addon)` |
+| `test_name_pattern` | method | `tests/test_dirtyinit_addon.py:72` | `def test_name_pattern(self, addon)` |
+| `test_no_double_braces` | method | `tests/test_dirtyinit_addon.py:136` | `def test_no_double_braces(self, addon)` |
+| `test_no_required_params` | method | `tests/test_dirtyinit_addon.py:161` | `def test_no_required_params(self, addon)` |
+| `test_no_secret_placeholders` | method | `tests/test_dirtyinit_addon.py:156` | `def test_no_secret_placeholders(self, addon)` |
+| `test_os_is_known` | method | `tests/test_dirtyinit_addon.py:90` | `def test_os_is_known(self, addon)` |
+| `test_param_names_are_valid` | method | `tests/test_dirtyinit_addon.py:144` | `def test_param_names_are_valid(self, addon)` |
+| `test_params_are_live` | method | `tests/test_dirtyinit_addon.py:165` | `def test_params_are_live(self)` |
+| `test_repo_url` | method | `tests/test_dirtyinit_addon.py:108` | `def test_repo_url(self, addon)` |
+| `test_repo_url_ends_with_git` | method | `tests/test_dirtyinit_addon.py:111` | `def test_repo_url_ends_with_git(self, addon)` |
+| `test_tokens_are_declared` | method | `tests/test_dirtyinit_addon.py:151` | `def test_tokens_are_declared(self, addon)` |
+| `test_tool_has_key` | method | `tests/test_dirtyinit_addon.py:105` | `def test_tool_has_key(self, addon, key)` |
+| `test_version_pattern` | method | `tests/test_dirtyinit_addon.py:75` | `def test_version_pattern(self, addon)` |
+| `_runs_command` | function | `tests/test_docs_drift_contract.py:38` | `def _runs_command(step, command)` |
+| `test_diffs_command_index` | function | `tests/test_docs_drift_contract.py:65` | `def test_diffs_command_index(workflow_steps)` |
+| `test_diffs_commands_reference` | function | `tests/test_docs_drift_contract.py:71` | `def test_diffs_commands_reference(workflow_steps)` |
+| `test_diffs_utils_reference` | function | `tests/test_docs_drift_contract.py:77` | `def test_diffs_utils_reference(workflow_steps)` |
+| `test_regenerates_command_index` | function | `tests/test_docs_drift_contract.py:47` | `def test_regenerates_command_index(workflow_steps)` |
+| `test_regenerates_commands_reference` | function | `tests/test_docs_drift_contract.py:53` | `def test_regenerates_commands_reference(workflow_steps)` |
+| `test_regenerates_utils_reference` | function | `tests/test_docs_drift_contract.py:59` | `def test_regenerates_utils_reference(workflow_steps)` |
+| `test_trigger_watches_generator_inputs` | function | `tests/test_docs_drift_contract.py:81` | `def test_trigger_watches_generator_inputs(workflow_text)` |
+| `test_workflow_exists` | function | `tests/test_docs_drift_contract.py:43` | `def test_workflow_exists()` |
+| `workflow_steps` | function | `tests/test_docs_drift_contract.py:27` | `def workflow_steps(workflow_text)` |
+| `workflow_text` | function | `tests/test_docs_drift_contract.py:22` | `def workflow_text()` |
+| `TestFileChecks` | class | `tests/test_doctor.py:107` | `class TestFileChecks` |
+| `TestGatherAndRun` | class | `tests/test_doctor.py:184` | `class TestGatherAndRun` |
+| `TestPackages` | class | `tests/test_doctor.py:72` | `class TestPackages` |
+| `TestPythonVersion` | class | `tests/test_doctor.py:32` | `class TestPythonVersion` |
+| `TestReportAggregation` | class | `tests/test_doctor.py:155` | `class TestReportAggregation` |
+| `TestSecListsAndTools` | class | `tests/test_doctor.py:129` | `class TestSecListsAndTools` |
+| `TestVirtualEnv` | class | `tests/test_doctor.py:51` | `class TestVirtualEnv` |
+| `boom` | function | `tests/test_doctor.py:90` | `def boom(name)` |
+| `test_active_venv_is_ok` | method | `tests/test_doctor.py:52` | `def test_active_venv_is_ok(self, tmp_path)` |
+| `test_certificates_partial_warns` | method | `tests/test_doctor.py:122` | `def test_certificates_partial_warns(self, tmp_path)` |
+| `test_certificates_present_is_ok` | method | `tests/test_doctor.py:117` | `def test_certificates_present_is_ok(self, tmp_path)` |
+| `test_default_registry_has_core_packages` | method | `tests/test_doctor.py:97` | `def test_default_registry_has_core_packages(self)` |
+| `test_exact_minimum_is_ok` | method | `tests/test_doctor.py:37` | `def test_exact_minimum_is_ok(self)` |
+| `test_external_tools_present_and_missing` | method | `tests/test_doctor.py:139` | `def test_external_tools_present_and_missing(self)` |
+| `test_finder_exception_treated_as_missing` | method | `tests/test_doctor.py:89` | `def test_finder_exception_treated_as_missing(self)` |
+| `test_gather_report_populates_all_sections` | method | `tests/test_doctor.py:185` | `def test_gather_report_populates_all_sections(self, tmp_path)` |
+| `test_import_name_differs_from_pip_name_where_expected` | method | `tests/test_doctor.py:101` | `def test_import_name_differs_from_pip_name_where_expected(self)` |
+| `test_inactive_with_env_dir_warns_to_activate` | method | `tests/test_doctor.py:56` | `def test_inactive_with_env_dir_warns_to_activate(self, tmp_path)` |
+| `test_missing_optional_package_warns` | method | `tests/test_doctor.py:84` | `def test_missing_optional_package_warns(self)` |
+| `test_missing_required_package_fails` | method | `tests/test_doctor.py:78` | `def test_missing_required_package_fails(self)` |
+| `test_no_venv_anywhere_warns_to_install` | method | `tests/test_doctor.py:62` | `def test_no_venv_anywhere_warns_to_install(self, tmp_path)` |
+| `test_none_base_prefix_collapses_to_prefix` | method | `tests/test_doctor.py:67` | `def test_none_base_prefix_collapses_to_prefix(self, tmp_path)` |
+| `test_old_version_fails` | method | `tests/test_doctor.py:41` | `def test_old_version_fails(self)` |
+| `test_overall_status_fail_trips_healthy` | method | `tests/test_doctor.py:171` | `def test_overall_status_fail_trips_healthy(self)` |
+| `test_overall_status_ok_when_all_ok` | method | `tests/test_doctor.py:156` | `def test_overall_status_ok_when_all_ok(self)` |
+| `test_overall_status_warn_with_warnings_only` | method | `tests/test_doctor.py:161` | `def test_overall_status_warn_with_warnings_only(self)` |
+| `test_payload_missing_fails` | method | `tests/test_doctor.py:112` | `def test_payload_missing_fails(self, tmp_path)` |
+| `test_payload_present_is_ok` | method | `tests/test_doctor.py:108` | `def test_payload_present_is_ok(self, tmp_path)` |
+| `test_present_required_package_is_ok` | method | `tests/test_doctor.py:73` | `def test_present_required_package_is_ok(self)` |
+| `test_run_returns_report_without_raising` | method | `tests/test_doctor.py:194` | `def test_run_returns_report_without_raising(self, tmp_path)` |
+| `test_seclists_found_is_ok` | method | `tests/test_doctor.py:130` | `def test_seclists_found_is_ok(self)` |
+| `test_seclists_missing_warns` | method | `tests/test_doctor.py:135` | `def test_seclists_missing_warns(self)` |
+| `test_supported_version_is_ok` | method | `tests/test_doctor.py:33` | `def test_supported_version_is_ok(self)` |
+| `test_uses_live_interpreter_by_default` | method | `tests/test_doctor.py:46` | `def test_uses_live_interpreter_by_default(self)` |
+| `Broken` | class | `tests/test_emulation_runner.py:210` | `class Broken(FakeResolver)` |
+| `FakeResolver` | class | `tests/test_emulation_runner.py:30` | `class FakeResolver` |
+| `FakeTest` | class | `tests/test_emulation_runner.py:19` | `class FakeTest` |
+| `_Runner` | class | `tests/test_emulation_runner.py:144` | `class _Runner` |
+| `__init__` | method | `tests/test_emulation_runner.py:33` | `def __init__(self, tests)` |
+| `__init__` | method | `tests/test_emulation_runner.py:145` | `def __init__(self)` |
+| `executor` | function | `tests/test_emulation_runner.py:45` | `def executor(command)` |
+| `executor` | function | `tests/test_emulation_runner.py:128` | `def executor(command)` |
+| `list_for_technique` | method | `tests/test_emulation_runner.py:36` | `def list_for_technique(self, technique, platform)` |
+| `list_for_technique` | method | `tests/test_emulation_runner.py:211` | `def list_for_technique(self, technique, platform)` |
+| `run` | method | `tests/test_emulation_runner.py:148` | `def run(self, target)` |
+| `test_bridge_emulate_delegates_to_runner` | function | `tests/test_emulation_runner.py:138` | `def test_bridge_emulate_delegates_to_runner(monkeypatch, tmp_path)` |
+| `test_engine_prefers_yaml_command_chain` | function | `tests/test_emulation_runner.py:160` | `def test_engine_prefers_yaml_command_chain(monkeypatch)` |
+| `test_outcome_metadata_uses_scan_dir` | function | `tests/test_emulation_runner.py:195` | `def test_outcome_metadata_uses_scan_dir(tmp_path)` |
+| `test_resolver_errors_are_reported_not_hidden` | function | `tests/test_emulation_runner.py:208` | `def test_resolver_errors_are_reported_not_hidden(tmp_path)` |
+| `test_run_steps_dry_run_never_publishes` | function | `tests/test_emulation_runner.py:185` | `def test_run_steps_dry_run_never_publishes()` |
+| `test_run_steps_handles_dry_run_and_failures` | function | `tests/test_emulation_runner.py:119` | `def test_run_steps_handles_dry_run_and_failures()` |
+| `test_runner_dry_run_never_calls_executor` | function | `tests/test_emulation_runner.py:64` | `def test_runner_dry_run_never_calls_executor(tmp_path)` |
+| `test_runner_executes_normalizes_and_publishes` | function | `tests/test_emulation_runner.py:40` | `def test_runner_executes_normalizes_and_publishes(tmp_path)` |
+| `test_runner_requires_techniques` | function | `tests/test_emulation_runner.py:112` | `def test_runner_requires_techniques(tmp_path)` |
+| `test_runner_resolves_playbook_techniques` | function | `tests/test_emulation_runner.py:94` | `def test_runner_resolves_playbook_techniques(tmp_path)` |
+| `test_runner_skips_manual_tests_by_default` | function | `tests/test_emulation_runner.py:79` | `def test_runner_skips_manual_tests_by_default(tmp_path)` |
+| `EncodingSuiteConfig` | class | `tests/test_encoding_command_set.py:34` | `class EncodingSuiteConfig` |
+| `_add_repo_root_to_syspath` | function | `tests/test_encoding_command_set.py:28` | `def _add_repo_root_to_syspath()` |
+| `_methods_of` | function | `tests/test_encoding_command_set.py:59` | `def _methods_of(path, class_name)` |
+| `test_no_command_collisions_with_source` | function | `tests/test_encoding_command_set.py:106` | `def test_no_command_collisions_with_source()` |
+| `test_registry_registers_target` | function | `tests/test_encoding_command_set.py:99` | `def test_registry_registers_target()` |
+| `test_source_no_longer_defines_cluster` | function | `tests/test_encoding_command_set.py:93` | `def test_source_no_longer_defines_cluster()` |
+| `test_target_exposes_full_encoding_cluster` | function | `tests/test_encoding_command_set.py:80` | `def test_target_exposes_full_encoding_cluster()` |
+| `test_target_is_active_command_set` | function | `tests/test_encoding_command_set.py:71` | `def test_target_is_active_command_set()` |
+| `test_target_phase_metadata` | function | `tests/test_encoding_command_set.py:87` | `def test_target_phase_metadata()` |
+| `_Dispatcher` | class | `tests/test_engage_gates.py:182` | `class _Dispatcher` |
+| `_Dispatcher` | class | `tests/test_engage_gates.py:209` | `class _Dispatcher` |
+| `_EmptyPlanner` | class | `tests/test_engage_gates.py:203` | `class _EmptyPlanner` |
+| `_Narrator` | class | `tests/test_engage_gates.py:248` | `class _Narrator(_RecorderNarrator)` |
+| `_RecorderNarrator` | class | `tests/test_engage_gates.py:44` | `class _RecorderNarrator` |
+| `_ScriptedRunner` | class | `tests/test_engage_gates.py:23` | `class _ScriptedRunner` |
+| `__init__` | method | `tests/test_engage_gates.py:26` | `def __init__(self, scripted)` |
+| `__init__` | method | `tests/test_engage_gates.py:47` | `def __init__(self)` |
+| `_approved_gate` | function | `tests/test_engage_gates.py:56` | `def _approved_gate()` |
+| `_orch` | function | `tests/test_engage_gates.py:74` | `def _orch(target, scripted, plan, guard)` |
+| `name` | method | `tests/test_engage_gates.py:39` | `def name(self)` |
+| `narrate` | method | `tests/test_engage_gates.py:51` | `def narrate(self, kind)` |
+| `narrate` | method | `tests/test_engage_gates.py:249` | `def narrate(self, kind, message)` |
+| `plan` | method | `tests/test_engage_gates.py:204` | `def plan(self, target, max_candidates)` |
+| `run` | method | `tests/test_engage_gates.py:31` | `def run(self, command, timeout)` |
+| `suggest` | method | `tests/test_engage_gates.py:183` | `def suggest(self)` |
+| `suggest` | method | `tests/test_engage_gates.py:210` | `def suggest(self)` |
+| `temp_sessions` | function | `tests/test_engage_gates.py:63` | `def temp_sessions(tmp_path, monkeypatch)` |
+| `test_denied_command_never_executes` | function | `tests/test_engage_gates.py:89` | `def test_denied_command_never_executes(temp_sessions)` |
+| `test_duplicate_success_is_skipped` | function | `tests/test_engage_gates.py:109` | `def test_duplicate_success_is_skipped(temp_sessions)` |
+| `test_engage_summary_counts_ran_and_skipped` | function | `tests/test_engage_gates.py:241` | `def test_engage_summary_counts_ran_and_skipped(temp_sessions, monkeypatch)` |
+| `test_executed_steps_leave_transcript_and_evidence` | function | `tests/test_engage_gates.py:138` | `def test_executed_steps_leave_transcript_and_evidence(temp_sessions)` |
+| `test_latest_hint_renders_newest_event` | function | `tests/test_engage_gates.py:225` | `def test_latest_hint_renders_newest_event(tmp_path)` |
+| `test_no_new_direction_when_world_unchanged` | function | `tests/test_engage_gates.py:164` | `def test_no_new_direction_when_world_unchanged(temp_sessions, monkeypatch)` |
+| `test_notify_journal_written_for_findings` | function | `tests/test_engage_gates.py:153` | `def test_notify_journal_written_for_findings(temp_sessions)` |
+| `test_planner_fallback_pushes_forward` | function | `tests/test_engage_gates.py:196` | `def test_planner_fallback_pushes_forward(temp_sessions, monkeypatch)` |
+| `test_planner_intent_executes_mapped_verb` | function | `tests/test_engage_gates.py:175` | `def test_planner_intent_executes_mapped_verb(temp_sessions, monkeypatch)` |
+| `test_scan_step_skipped_when_scan_held` | function | `tests/test_engage_gates.py:123` | `def test_scan_step_skipped_when_scan_held(temp_sessions)` |
+| `TestApprovalGate` | class | `tests/test_engage_orchestrator.py:294` | `class TestApprovalGate` |
+| `TestEngageOrchestrator` | class | `tests/test_engage_orchestrator.py:528` | `class TestEngageOrchestrator` |
+| `TestEngagementNarrator` | class | `tests/test_engage_orchestrator.py:86` | `class TestEngagementNarrator` |
+| `TestFileApprovalSink` | class | `tests/test_engage_orchestrator.py:385` | `class TestFileApprovalSink` |
+| `TestIsValidTarget` | class | `tests/test_engage_orchestrator.py:241` | `class TestIsValidTarget` |
+| `TestMcpEntryPoints` | class | `tests/test_engage_orchestrator.py:632` | `class TestMcpEntryPoints` |
 | `TestNotificationBroadcaster` | class | `tests/test_engage_orchestrator.py:139` | `class TestNotificationBroadcaster` |
 | `TestShellObtainedPublisher` | class | `tests/test_engage_orchestrator.py:191` | `class TestShellObtainedPublisher` |
 | `TestStaticFallbackResolver` | class | `tests/test_engage_orchestrator.py:451` | `class TestStaticFallbackResolver` |
@@ -356,145 +496,5 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 | `test_config_from_payload_returns_defaults_when_no_block` | function | `tests/test_fuzzy_picker.py:124` | `def test_config_from_payload_returns_defaults_when_no_block()` |
 | `test_empty_query_returns_all_items_in_order` | function | `tests/test_fuzzy_picker.py:72` | `def test_empty_query_returns_all_items_in_order(scorer, sample_items)` |
 | `test_exact_match_scores_highest` | function | `tests/test_fuzzy_picker.py:78` | `def test_exact_match_scores_highest(scorer, sample_items)` |
-| `test_getprompt_renders_three_lines_and_includes_payload_segments` | function | `tests/test_fuzzy_picker.py:280` | `def test_getprompt_renders_three_lines_and_includes_payload_segments()` |
-| `test_lazyown_runtime_strings_preserve_shell_payload` | function | `tests/test_fuzzy_picker.py:260` | `def test_lazyown_runtime_strings_preserve_shell_payload(expected_substring)` |
-| `test_lazyown_source_has_no_invalid_escape_warning` | function | `tests/test_fuzzy_picker.py:265` | `def test_lazyown_source_has_no_invalid_escape_warning()` |
-| `test_picker_cancel_returns_none` | function | `tests/test_fuzzy_picker.py:146` | `def test_picker_cancel_returns_none(sample_items)` |
-| `test_picker_empty_input_returns_none` | function | `tests/test_fuzzy_picker.py:152` | `def test_picker_empty_input_returns_none()` |
-| `test_picker_routes_through_view_for_multiple_items` | function | `tests/test_fuzzy_picker.py:138` | `def test_picker_routes_through_view_for_multiple_items(sample_items)` |
-| `test_picker_short_circuits_single_item` | function | `tests/test_fuzzy_picker.py:132` | `def test_picker_short_circuits_single_item()` |
-| `test_prefix_match_outranks_substring` | function | `tests/test_fuzzy_picker.py:84` | `def test_prefix_match_outranks_substring(scorer)` |
-| `test_similarity_floor_excludes_unrelated_text` | function | `tests/test_fuzzy_picker.py:98` | `def test_similarity_floor_excludes_unrelated_text(scorer)` |
-| `test_strip_ansi_passes_through_plain_text` | function | `tests/test_fuzzy_picker.py:165` | `def test_strip_ansi_passes_through_plain_text()` |
-| `test_strip_ansi_removes_csi_sequences` | function | `tests/test_fuzzy_picker.py:160` | `def test_strip_ansi_removes_csi_sequences()` |
-| `test_subsequence_match_emits_positions` | function | `tests/test_fuzzy_picker.py:90` | `def test_subsequence_match_emits_positions(scorer, sample_items)` |
-| `test_subsequence_positions_helper_returns_empty_when_no_match` | function | `tests/test_fuzzy_picker.py:104` | `def test_subsequence_positions_helper_returns_empty_when_no_match()` |
-| `ArtifactSpec` | class | `tests/test_golden_path.py:86` | `class ArtifactSpec(TestCase)` |
-| `PushObjectivesSpec` | class | `tests/test_golden_path.py:114` | `class PushObjectivesSpec(TestCase)` |
-| `ResolvePathsSpec` | class | `tests/test_golden_path.py:45` | `class ResolvePathsSpec(TestCase)` |
-| `_snapshot` | function | `tests/test_golden_path.py:13` | `def _snapshot()` |
-| `test_anchor_excluded_from_targets` | method | `tests/test_golden_path.py:48` | `def test_anchor_excluded_from_targets(self)` |
-| `test_build_writes_artifact_from_world_model` | method | `tests/test_golden_path.py:89` | `def test_build_writes_artifact_from_world_model(self)` |
-| `test_confirmed_credential_beats_unconfirmed` | method | `tests/test_golden_path.py:62` | `def test_confirmed_credential_beats_unconfirmed(self)` |
-| `test_critical_exploit_ranked_first_with_severity_cost` | method | `tests/test_golden_path.py:54` | `def test_critical_exploit_ranked_first_with_severity_cost(self)` |
-| `test_deterministic_and_stable` | method | `tests/test_golden_path.py:79` | `def test_deterministic_and_stable(self)` |
-| `test_lateral_relation_via_anchor` | method | `tests/test_golden_path.py:67` | `def test_lateral_relation_via_anchor(self)` |
-| `test_load_artifact_tolerant_when_missing` | method | `tests/test_golden_path.py:109` | `def test_load_artifact_tolerant_when_missing(self)` |
-| `test_priority_bands` | method | `tests/test_golden_path.py:136` | `def test_priority_bands(self)` |
-| `test_push_and_dedupe` | method | `tests/test_golden_path.py:117` | `def test_push_and_dedupe(self)` |
-| `test_runs_service_edges_ignored` | method | `tests/test_golden_path.py:73` | `def test_runs_service_edges_ignored(self)` |
-| `advisor` | function | `tests/test_graph_advisor.py:133` | `def advisor(small_graph_path)` |
-| `small_graph_data` | function | `tests/test_graph_advisor.py:34` | `def small_graph_data()` |
-| `small_graph_path` | function | `tests/test_graph_advisor.py:126` | `def small_graph_path(tmp_path, small_graph_data)` |
-| `test_advisor_did_you_mean_returns_close_labels` | function | `tests/test_graph_advisor.py:268` | `def test_advisor_did_you_mean_returns_close_labels(advisor)` |
-| `test_advisor_god_nodes_ranks_by_degree` | function | `tests/test_graph_advisor.py:254` | `def test_advisor_god_nodes_ranks_by_degree(advisor)` |
-| `test_advisor_handles_missing_graph_gracefully` | function | `tests/test_graph_advisor.py:280` | `def test_advisor_handles_missing_graph_gracefully(tmp_path)` |
-| `test_advisor_neighbors_respects_depth` | function | `tests/test_graph_advisor.py:248` | `def test_advisor_neighbors_respects_depth(advisor)` |
-| `test_advisor_neighbors_returns_layered_walk` | function | `tests/test_graph_advisor.py:239` | `def test_advisor_neighbors_returns_layered_walk(advisor)` |
-| `test_advisor_reads_recent_commands_from_csv` | function | `tests/test_graph_advisor.py:292` | `def test_advisor_reads_recent_commands_from_csv(tmp_path, advisor)` |
-| `test_advisor_search_returns_ranked_nodes` | function | `tests/test_graph_advisor.py:231` | `def test_advisor_search_returns_ranked_nodes(advisor)` |
-| `test_advisor_suggest_next_walks_from_recent` | function | `tests/test_graph_advisor.py:260` | `def test_advisor_suggest_next_walks_from_recent(advisor)` |
-| `test_advisor_summary_flags_empty_graph` | function | `tests/test_graph_advisor.py:199` | `def test_advisor_summary_flags_empty_graph(tmp_path)` |
-| `test_advisor_summary_flags_stale_graph` | function | `tests/test_graph_advisor.py:212` | `def test_advisor_summary_flags_stale_graph(tmp_path)` |
-| `test_advisor_summary_reports_topology` | function | `tests/test_graph_advisor.py:188` | `def test_advisor_summary_reports_topology(advisor)` |
-| `test_advisor_truncate_respects_token_budget` | function | `tests/test_graph_advisor.py:274` | `def test_advisor_truncate_respects_token_budget(advisor)` |
-| `test_format_god_nodes_handles_empty` | function | `tests/test_graph_advisor.py:322` | `def test_format_god_nodes_handles_empty()` |
-| `test_format_neighbors_renders_when_match_found` | function | `tests/test_graph_advisor.py:316` | `def test_format_neighbors_renders_when_match_found(advisor)` |
-| `test_format_search_table_renders_rows` | function | `tests/test_graph_advisor.py:309` | `def test_format_search_table_renders_rows(advisor)` |
-| `test_format_suggestions_handles_empty` | function | `tests/test_graph_advisor.py:326` | `def test_format_suggestions_handles_empty()` |
-| `test_index_builds_adjacency_and_degree` | function | `tests/test_graph_advisor.py:153` | `def test_index_builds_adjacency_and_degree(small_graph_data)` |
-| `test_loader_resolves_explicit_path` | function | `tests/test_graph_advisor.py:138` | `def test_loader_resolves_explicit_path(tmp_path, small_graph_data)` |
-| `test_loader_returns_none_when_missing` | function | `tests/test_graph_advisor.py:147` | `def test_loader_returns_none_when_missing(tmp_path)` |
-| `test_real_graph_summary_when_available` | function | `tests/test_graph_advisor.py:333` | `def test_real_graph_summary_when_available()` |
-| `test_scorer_prefers_prefix_match` | function | `tests/test_graph_advisor.py:174` | `def test_scorer_prefers_prefix_match(small_graph_data)` |
-| `test_scorer_returns_empty_for_unrelated_query` | function | `tests/test_graph_advisor.py:182` | `def test_scorer_returns_empty_for_unrelated_query(small_graph_data)` |
-| `_FakeAdvisor` | class | `tests/test_graph_overlay.py:25` | `class _FakeAdvisor` |
-| `__init__` | method | `tests/test_graph_overlay.py:26` | `def __init__(self, available)` |
-| `god_nodes` | method | `tests/test_graph_overlay.py:32` | `def god_nodes(self, limit)` |
-| `is_available` | method | `tests/test_graph_overlay.py:29` | `def is_available(self)` |
-| `neighbors` | method | `tests/test_graph_overlay.py:39` | `def neighbors(self, query, depth, limit)` |
-| `runner` | function | `tests/test_graph_overlay.py:129` | `def runner(context)` |
-| `test_build_state_uses_default_factory_signature` | function | `tests/test_graph_overlay.py:135` | `def test_build_state_uses_default_factory_signature()` |
-| `test_focus_switches_to_neighbors_view` | function | `tests/test_graph_overlay.py:72` | `def test_focus_switches_to_neighbors_view()` |
-| `test_focus_unknown_returns_no_match_message` | function | `tests/test_graph_overlay.py:85` | `def test_focus_unknown_returns_no_match_message()` |
-| `test_god_nodes_view_returns_hubs` | function | `tests/test_graph_overlay.py:61` | `def test_god_nodes_view_returns_hubs()` |
-| `test_is_available_returns_false_when_advisor_missing` | function | `tests/test_graph_overlay.py:55` | `def test_is_available_returns_false_when_advisor_missing()` |
-| `test_launch_overlay_uses_runner` | function | `tests/test_graph_overlay.py:122` | `def test_launch_overlay_uses_runner()` |
-| `test_toggle_view_round_trip` | function | `tests/test_graph_overlay.py:108` | `def test_toggle_view_round_trip()` |
-| `test_unavailable_advisor_returns_no_graph_message` | function | `tests/test_graph_overlay.py:97` | `def test_unavailable_advisor_returns_no_graph_message()` |
-| `TestAdvisoriesAndFeatures` | class | `tests/test_guardrails.py:116` | `class TestAdvisoriesAndFeatures` |
-| `TestAptChainWiring` | class | `tests/test_guardrails.py:298` | `class TestAptChainWiring` |
-| `TestCapacityEnvelope` | class | `tests/test_guardrails.py:36` | `class TestCapacityEnvelope` |
-| `TestCheckpointLedger` | class | `tests/test_guardrails.py:83` | `class TestCheckpointLedger` |
-| `TestGlobalHarness` | class | `tests/test_guardrails.py:229` | `class TestGlobalHarness` |
-| `TestGuardHarness` | class | `tests/test_guardrails.py:144` | `class TestGuardHarness` |
-| `TestLazyLoopWiring` | class | `tests/test_guardrails.py:243` | `class TestLazyLoopWiring` |
-| `TestOrchestratorHarnessTab` | class | `tests/test_guardrails.py:344` | `class TestOrchestratorHarnessTab` |
-| `TestTaskClass` | class | `tests/test_guardrails.py:26` | `class TestTaskClass` |
-| `_drive` | function | `tests/test_guardrails.py:385` | `def _drive()` |
-| `_fresh_global_harness` | method | `tests/test_guardrails.py:231` | `def _fresh_global_harness(self)` |
-| `_fresh_global_harness` | method | `tests/test_guardrails.py:245` | `def _fresh_global_harness(self)` |
-| `_fresh_global_harness` | method | `tests/test_guardrails.py:300` | `def _fresh_global_harness(self)` |
-| `_load` | function | `tests/test_guardrails.py:361` | `def _load(target)` |
-| `_save` | function | `tests/test_guardrails.py:364` | `def _save(data, target)` |
-| `always_fails` | function | `tests/test_guardrails.py:182` | `def always_fails()` |
-| `boom` | function | `tests/test_guardrails.py:154` | `def boom()` |
-| `boom` | function | `tests/test_guardrails.py:190` | `def boom()` |
-| `flaky` | function | `tests/test_guardrails.py:171` | `def flaky()` |
-| `harness` | method | `tests/test_guardrails.py:146` | `def harness(self)` |
-| `interrupted` | function | `tests/test_guardrails.py:198` | `def interrupted()` |
-| `sandbox` | method | `tests/test_guardrails.py:346` | `def sandbox(self, tmp_path, monkeypatch)` |
-| `test_admit_and_account_roundtrip` | method | `tests/test_guardrails.py:43` | `def test_admit_and_account_roundtrip(self)` |
-| `test_apply_profile_configures_harness` | method | `tests/test_guardrails.py:250` | `def test_apply_profile_configures_harness(self, tmp_path, monkeypatch)` |
-| `test_capture_rejects_blank_keys` | method | `tests/test_guardrails.py:112` | `def test_capture_rejects_blank_keys(self)` |
-| `test_capture_restore_roundtrip` | method | `tests/test_guardrails.py:84` | `def test_capture_restore_roundtrip(self)` |
-| `test_clear_returns_count` | method | `tests/test_guardrails.py:125` | `def test_clear_returns_count(self)` |
-| `test_command_registered` | method | `tests/test_guardrails.py:353` | `def test_command_registered(self)` |
-| `test_config_section_constant_shape` | method | `tests/test_guardrails.py:239` | `def test_config_section_constant_shape(self)` |
-| `test_configure_clamps_and_accepts_names` | method | `tests/test_guardrails.py:75` | `def test_configure_clamps_and_accepts_names(self)` |
-| `test_configure_from_payload_section` | method | `tests/test_guardrails.py:215` | `def test_configure_from_payload_section(self, harness)` |
-| `test_core_gives_up_after_second_failure` | method | `tests/test_guardrails.py:181` | `def test_core_gives_up_after_second_failure(self, harness)` |
-| `test_core_retries_once_after_warm_restart` | method | `tests/test_guardrails.py:168` | `def test_core_retries_once_after_warm_restart(self, harness)` |
-| `test_core_without_checkpoint_never_retries` | method | `tests/test_guardrails.py:189` | `def test_core_without_checkpoint_never_retries(self, harness)` |
-| `test_defaults_snapshot` | method | `tests/test_guardrails.py:37` | `def test_defaults_snapshot(self)` |
-| `test_feature_gate_known_set` | method | `tests/test_guardrails.py:139` | `def test_feature_gate_known_set(self)` |
-| `test_feature_gate_unknown_feature_never_suspends` | method | `tests/test_guardrails.py:132` | `def test_feature_gate_unknown_feature_never_suspends(self)` |
-| `test_guardrails_persist_via_payload` | method | `tests/test_guardrails.py:358` | `def test_guardrails_persist_via_payload(self, monkeypatch, sandbox)` |
-| `test_harness_tab_composes_headless` | method | `tests/test_guardrails.py:380` | `def test_harness_tab_composes_headless(self, sandbox, monkeypatch)` |
-| `test_higher_tier_saturation_refuses_lower_tiers` | method | `tests/test_guardrails.py:58` | `def test_higher_tier_saturation_refuses_lower_tiers(self)` |
-| `test_history_is_bounded` | method | `tests/test_guardrails.py:89` | `def test_history_is_bounded(self)` |
-| `test_is_known_accepts_values_and_rejects_strays` | method | `tests/test_guardrails.py:30` | `def test_is_known_accepts_values_and_rejects_strays(self)` |
-| `test_keyboard_interrupt_propagates` | method | `tests/test_guardrails.py:197` | `def test_keyboard_interrupt_propagates(self, harness)` |
-| `test_mission_failure_degrades_with_advisory` | method | `tests/test_guardrails.py:153` | `def test_mission_failure_degrades_with_advisory(self, harness)` |
-| `test_mission_success_accounts_usage` | method | `tests/test_guardrails.py:149` | `def test_mission_success_accounts_usage(self, harness)` |
-| `test_notice_is_bounded_newest_first` | method | `tests/test_guardrails.py:117` | `def test_notice_is_bounded_newest_first(self)` |
-| `test_priority_reservation_refuses_lower_tiers` | method | `tests/test_guardrails.py:204` | `def test_priority_reservation_refuses_lower_tiers(self, harness)` |
-| `test_reclaim_purges_support_only` | method | `tests/test_guardrails.py:66` | `def test_reclaim_purges_support_only(self)` |
-| `test_recovery_guard_returns_none_when_refused` | method | `tests/test_guardrails.py:305` | `def test_recovery_guard_returns_none_when_refused(self, monkeypatch)` |
-| `test_restore_missing_is_none` | method | `tests/test_guardrails.py:96` | `def test_restore_missing_is_none(self)` |
-| `test_round_guard_halt_maps_to_degraded_abort` | method | `tests/test_guardrails.py:285` | `def test_round_guard_halt_maps_to_degraded_abort(self, tmp_path, monkeypatch)` |
-| `test_saturated_tier_refuses_admission` | method | `tests/test_guardrails.py:51` | `def test_saturated_tier_refuses_admission(self)` |
-| `test_singleton_shared` | method | `tests/test_guardrails.py:236` | `def test_singleton_shared(self)` |
-| `test_support_refused_while_render_suspended` | method | `tests/test_guardrails.py:161` | `def test_support_refused_while_render_suspended(self, harness)` |
-| `test_tier_ordering_is_strict` | method | `tests/test_guardrails.py:27` | `def test_tier_ordering_is_strict(self)` |
-| `test_warm_restart_purges_support_and_notifies` | method | `tests/test_guardrails.py:220` | `def test_warm_restart_purges_support_and_notifies(self, harness)` |
-| `test_warm_restart_restores_and_counts` | method | `tests/test_guardrails.py:99` | `def test_warm_restart_restores_and_counts(self)` |
-| `test_warm_restart_without_key_reports_unrestored` | method | `tests/test_guardrails.py:107` | `def test_warm_restart_without_key_reports_unrestored(self)` |
-| `test_worker_guard_maps_refusal_to_degraded_outcome` | method | `tests/test_guardrails.py:266` | `def test_worker_guard_maps_refusal_to_degraded_outcome(self, tmp_path, monkeypatch)` |
-| `SafeHtmlHelperTests` | class | `tests/test_gui_xss_sinks.py:26` | `class SafeHtmlHelperTests(TestCase)` |
-| `SinkSanitizationTests` | class | `tests/test_gui_xss_sinks.py:37` | `class SinkSanitizationTests(TestCase)` |
-| `_read_template` | function | `tests/test_gui_xss_sinks.py:21` | `def _read_template()` |
-| `test_helper_is_defined_exactly_once` | method | `tests/test_gui_xss_sinks.py:27` | `def test_helper_is_defined_exactly_once(self)` |
-| `test_helper_prefers_dompurify_with_text_fallback` | method | `tests/test_gui_xss_sinks.py:31` | `def test_helper_prefers_dompurify_with_text_fallback(self)` |
-| `test_no_raw_error_interpolation` | method | `tests/test_gui_xss_sinks.py:50` | `def test_no_raw_error_interpolation(self)` |
-| `test_no_raw_html_interpolation` | method | `tests/test_gui_xss_sinks.py:43` | `def test_no_raw_html_interpolation(self)` |
-| `test_no_raw_output_interpolation` | method | `tests/test_gui_xss_sinks.py:61` | `def test_no_raw_output_interpolation(self)` |
-| `test_no_raw_response_interpolation` | method | `tests/test_gui_xss_sinks.py:38` | `def test_no_raw_response_interpolation(self)` |
-| `sandbox` | function | `tests/test_gym_cli.py:11` | `def sandbox(tmp_path, monkeypatch)` |
-| `test_atomic_shell_marks_target_compromised` | function | `tests/test_gym_cli.py:123` | `def test_atomic_shell_marks_target_compromised(sandbox, monkeypatch, capsys)` |
-| `test_gym_start_status_stop_lifecycle` | function | `tests/test_gym_cli.py:39` | `def test_gym_start_status_stop_lifecycle(sandbox, capsys)` |
-| `test_gym_status_explains_live_shell_without_gym` | function | `tests/test_gym_cli.py:82` | `def test_gym_status_explains_live_shell_without_gym(sandbox, monkeypatch, capsys)` |
-| `test_gym_status_filters_hosts_by_current_target` | function | `tests/test_gym_cli.py:103` | `def test_gym_status_filters_hosts_by_current_target(sandbox, monkeypatch, capsys)` |
-| `test_gym_stop_all_and_by_name` | function | `tests/test_gym_cli.py:65` | `def test_gym_stop_all_and_by_name(sandbox, capsys)` |
 
 Next: [SYMBOLS_p38.md](SYMBOLS_p38.md)

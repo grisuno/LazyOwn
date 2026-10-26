@@ -2,6 +2,12 @@
 Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## External Imports (continued)
+- `modules/loop_guardrails.py` -> __future__, collections, contextlib, dataclasses, hashlib, json, math, os, pathlib, random, re, tempfile, threading, time
+- `modules/loop_manager.py` -> __future__, dataclasses, datetime, ipaddress, json, os, pathlib, re, signal, subprocess, sys, threading, time, typing, uuid
+- `modules/loop_progress.py` -> __future__, dataclasses, re, rich.live, rich.panel, rich.spinner, rich.table, rich.text, sys, threading, time
+- `modules/loop_triggers.py` -> __future__
+- `modules/macos_payloads.py` -> __future__, base64, dataclasses, os, pathlib, plistlib, subprocess, typing
+- `modules/mario.py` -> os, pygame
 - `modules/mcp_agent_bridge.py` -> datetime, groq, json, os, pathlib, re, requests, sys, threading, time, uuid
 - `modules/mediation/__init__.py` -> __future__
 - `modules/mediation/chain_mediator.py` -> __future__, typing
@@ -272,7 +278,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_bridge_catalog_filtered.py` -> __future__, pathlib, pytest, sys
 - `tests/test_broadcom_wps_addon.py` -> __future__, json, os, pathlib, pytest, re, subprocess, yaml
 - `tests/test_c2_agent.py` -> __future__, ast, importlib, inspect, json, os, pathlib, re, stat, sys
-- `tests/test_c2_agent_dual.py` -> __future__, pathlib, sys, tempfile, unittest, unittest.mock
+- `tests/test_c2_agent_dual.py` -> __future__, pathlib, re, sys, tempfile, unittest, unittest.mock
 - `tests/test_c2_profile_engine.py` -> __future__, pytest
 - `tests/test_c2_route_auth.py` -> __future__, ast, pathlib, pytest
 - `tests/test_c2_shell_lazy.py` -> __future__, ast, pathlib
@@ -322,6 +328,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_credentials_rotation.py` -> __future__, os, pathlib, pytest, sys
 - `tests/test_csrf_behavior.py` -> __future__
 - `tests/test_csrf_policy.py` -> __future__
+- `tests/test_cve_pipeline.py` -> json, pathlib, pytest
 - `tests/test_daemon_control.py` -> __future__, json, pathlib, pytest, sys
 - `tests/test_daemon_ctl_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
 - `tests/test_daemon_loop.py` -> __future__, asyncio, json, pathlib, sys
@@ -418,6 +425,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_loop_guardrails.py` -> __future__, threading, time
 - `tests/test_loop_intent_delete.py` -> __future__, pytest
 - `tests/test_loop_llm_resilience.py` -> __future__
+- `tests/test_loop_manager.py` -> __future__, json, pathlib, pytest, tempfile, time
 - `tests/test_loop_mentions.py` -> __future__
 - `tests/test_loop_multi_target.py` -> __future__, pytest
 - `tests/test_loop_nmap_guard.py` -> __future__
@@ -488,13 +496,5 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_safe_console.py` -> __future__, io, pathlib, rich, sys
 - `tests/test_safe_subprocess.py` -> __future__, json, pathlib, pytest, sys
 - `tests/test_safe_subprocess_behavior.py` -> __future__, json, pathlib, sys
-- `tests/test_safety_gates.py` -> __future__, os, time
-- `tests/test_scope_bound_auto_gate.py` -> __future__, engagement_hooks, importlib, json, pathlib, pytest, sys, time
-- `tests/test_scope_guard.py` -> __future__, pathlib, pytest, sys
-- `tests/test_scope_guard_integration.py` -> __future__, cmd2, pathlib, pytest, sys, types
-- `tests/test_security_alerts_fix.py` -> __future__, ast, json, os, pathlib, pytest, ssl, time
-- `tests/test_security_codeql_batch.py` -> __future__, base64, flask, flask_login, importlib.util, os, pathlib, pytest, ssl, stat, sys
-- `tests/test_security_hardening.py` -> __future__, ast, hmac, pathlib, pytest, tempfile
-- `tests/test_security_hardening_v2.py` -> __future__, pathlib, pytest, re
 
 Next: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)

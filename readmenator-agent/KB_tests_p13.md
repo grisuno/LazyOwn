@@ -344,6 +344,64 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `scripted` (function, line 213) `def scripted(model, prompt, max_tokens)`
 - Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`
 
+## tests/test_loop_manager.py
+- Doc: Tests for modules.loop_manager — safe autonomous loop orchestration.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `loops_dir` (function, line 37) `def loops_dir()`
+  - `stub_script` (function, line 43) `def stub_script(tmp_path)`
+  - `manager` (function, line 56) `def manager(loops_dir, stub_script)`
+  - `TestValidateTarget` (class, line 64) `class TestValidateTarget`
+  - `TestSanitizeGoal` (class, line 95) `class TestSanitizeGoal`
+  - `TestClampInt` (class, line 123) `class TestClampInt`
+  - `TestValidateLoopId` (class, line 138) `class TestValidateLoopId`
+  - `TestSpawnAndRegistry` (class, line 151) `class TestSpawnAndRegistry`
+  - `TestLogReading` (class, line 222) `class TestLogReading`
+  - `TestStop` (class, line 251) `class TestStop`
+  - `TestLifecycle` (class, line 281) `class TestLifecycle`
+  - `test_accepts_ipv4` (method, line 65) `def test_accepts_ipv4(self)`
+  - `test_accepts_ipv6` (method, line 68) `def test_accepts_ipv6(self)`
+  - `test_strips_whitespace` (method, line 71) `def test_strips_whitespace(self)`
+  - `test_rejects_hostname` (method, line 74) `def test_rejects_hostname(self)`
+  - `test_rejects_command_injection` (method, line 78) `def test_rejects_command_injection(self)`
+  - `test_rejects_metacharacters` (method, line 82) `def test_rejects_metacharacters(self)`
+  - `test_rejects_non_string` (method, line 86) `def test_rejects_non_string(self)`
+  - `test_rejects_empty` (method, line 90) `def test_rejects_empty(self)`
+  - `test_defaults_on_empty` (method, line 96) `def test_defaults_on_empty(self)`
+  - `test_collapses_whitespace` (method, line 100) `def test_collapses_whitespace(self)`
+  - `test_rejects_newlines` (method, line 103) `def test_rejects_newlines(self)`
+  - `test_rejects_quotes` (method, line 107) `def test_rejects_quotes(self)`
+  - `test_rejects_semicolons` (method, line 111) `def test_rejects_semicolons(self)`
+  - `test_rejects_too_long` (method, line 115) `def test_rejects_too_long(self)`
+  - `test_accepts_plain_words` (method, line 119) `def test_accepts_plain_words(self)`
+  - `test_default_on_none` (method, line 124) `def test_default_on_none(self)`
+  - `test_clamps_low` (method, line 127) `def test_clamps_low(self)`
+  - `test_clamps_high` (method, line 130) `def test_clamps_high(self)`
+  - `test_rejects_non_numeric` (method, line 133) `def test_rejects_non_numeric(self)`
+  - `test_accepts_hex32` (method, line 139) `def test_accepts_hex32(self)`
+  - `test_rejects_traversal` (method, line 142) `def test_rejects_traversal(self)`
+  - `test_rejects_non_hex` (method, line 146) `def test_rejects_non_hex(self)`
+  - `test_start_spawns_and_records` (method, line 152) `def test_start_spawns_and_records(self, manager, loops_dir)`
+  - `test_argv_has_no_shell` (method, line 164) `def test_argv_has_no_shell(self, manager)`
+  - `test_invalid_kind_rejected` (method, line 179) `def test_invalid_kind_rejected(self, manager)`
+  - `test_invalid_target_rejected` (method, line 183) `def test_invalid_target_rejected(self, manager)`
+  - `test_concurrency_cap` (method, line 187) `def test_concurrency_cap(self, manager)`
+  - `test_list_loops_sorted_newest_first` (method, line 195) `def test_list_loops_sorted_newest_first(self, manager)`
+  - `test_registry_survives_restart` (method, line 205) `def test_registry_survives_restart(self, manager, loops_dir)`
+  - `test_metadata_written` (method, line 212) `def test_metadata_written(self, manager, loops_dir)`
+  - `test_read_log_chunk` (method, line 223) `def test_read_log_chunk(self, manager, loops_dir)`
+  - `test_read_log_unknown_loop` (method, line 231) `def test_read_log_unknown_loop(self, manager)`
+  - `test_read_log_confinement` (method, line 235) `def test_read_log_confinement(self, manager, loops_dir)`
+  - `test_read_log_offset_beyond_size` (method, line 243) `def test_read_log_offset_beyond_size(self, manager)`
+  - `test_stop_terminates_process` (method, line 252) `def test_stop_terminates_process(self, manager)`
+  - `test_stop_unknown_loop` (method, line 264) `def test_stop_unknown_loop(self, manager)`
+  - `test_stop_finished_loop_rejected` (method, line 268) `def test_stop_finished_loop_rejected(self, manager)`
+  - `test_quick_exit_marks_finished` (method, line 282) `def test_quick_exit_marks_finished(self, loops_dir, tmp_path)`
+  - `test_sigterm_resistant_process_is_killed` (method, line 297) `def test_sigterm_resistant_process_is_killed(self, loops_dir, tmp_path)`
+  - `test_summary_shape` (method, line 314) `def test_summary_shape(self, manager)`
+- Depends on: `modules/loop_manager.py`
+
 ## tests/test_loop_mentions.py
 - Doc: Lazy mentions multi-type search and scroll pagination.
 - Layer: testing
@@ -432,54 +490,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_save_json_survives_parallel_writers` (function, line 8) `def test_save_json_survives_parallel_writers(tmp_path, monkeypatch)`
   - `writer` (function, line 16) `def writer(worker)`
 - Depends on: `modules/lazy_loop.py`
-
-## tests/test_loop_supervision.py
-- Doc: Supervision upgrades: repetition watchdog, stack priors, prompt masking.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
-  - `_isolate_intel` (function, line 16) `def _isolate_intel(tmp_path, monkeypatch)`
-  - `_DeadPool` (class, line 25) `class _DeadPool`
-  - `_kill_llm` (function, line 37) `def _kill_llm(monkeypatch)`
-  - `test_repetition_watchdog_settles` (function, line 46) `def test_repetition_watchdog_settles(tmp_path, monkeypatch)`
-  - `test_stack_priors_prefer_same_stack` (function, line 75) `def test_stack_priors_prefer_same_stack(tmp_path, monkeypatch)`
-  - `test_prompt_context_masks_configured_only` (function, line 99) `def test_prompt_context_masks_configured_only(tmp_path, monkeypatch)`
-  - `members` (method, line 28) `def members(self)`
-  - `complete` (method, line 32) `def complete(self)`
-- Depends on: `core/config.py`, `modules/lazy_engine.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`
-
-## tests/test_loop_worker_traces.py
-- Doc: Worker cross-work trace tools (lazy 0.3.10 parity).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
-  - `_seed_two_works` (function, line 15) `def _seed_two_works(engine, task_id)`
-  - `test_search_all_spans_works_without_intent` (function, line 27) `def test_search_all_spans_works_without_intent(tmp_path, monkeypatch)`
-  - `test_trace_steps_and_single_step` (function, line 40) `def test_trace_steps_and_single_step(tmp_path, monkeypatch)`
-  - `test_worker_lane_binds_node_detail` (function, line 57) `def test_worker_lane_binds_node_detail(tmp_path, monkeypatch)`
-  - `test_add_hint_emits_explicit_planner_trigger` (function, line 65) `def test_add_hint_emits_explicit_planner_trigger(tmp_path, monkeypatch)`
-  - `test_worker_bash_unbound_blocks_without_execution` (function, line 81) `def test_worker_bash_unbound_blocks_without_execution(tmp_path, monkeypatch)`
-  - `test_planner_intent_unbound_emits_nothing` (function, line 100) `def test_planner_intent_unbound_emits_nothing(tmp_path, monkeypatch)`
-- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
-
-## tests/test_marketplace_config.py
-- Doc: Marketplace registry and settings: formats, toggles, CRUD.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_registry` (function, line 12) `def _registry(tmp_path, monkeypatch)`
-  - `test_tool_rows_use_json_and_active_key` (function, line 33) `def test_tool_rows_use_json_and_active_key(tmp_path, monkeypatch)`
-  - `test_plugin_rows_skip_lua_and_templates` (function, line 61) `def test_plugin_rows_skip_lua_and_templates(tmp_path, monkeypatch)`
-  - `test_read_only_tabs_never_toggle_or_delete` (function, line 76) `def test_read_only_tabs_never_toggle_or_delete(tmp_path, monkeypatch)`
-  - `test_create_and_delete_across_tabs` (function, line 89) `def test_create_and_delete_across_tabs(tmp_path, monkeypatch)`
-  - `test_settings_toggle_tracks_only_success` (function, line 105) `def test_settings_toggle_tracks_only_success(tmp_path, monkeypatch)`
-  - `test_marketplace_app_filters_rows` (function, line 118) `def test_marketplace_app_filters_rows(tmp_path, monkeypatch)`
-  - `test_filter_input_keeps_printable_keys` (function, line 145) `def test_filter_input_keeps_printable_keys(tmp_path, monkeypatch)`
-  - `_drive` (function, line 128) `def _drive()`
-  - `_drive` (function, line 151) `def _drive()`
-- Depends on: `cli/__init__.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

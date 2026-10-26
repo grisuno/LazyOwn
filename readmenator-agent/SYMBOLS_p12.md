@@ -1,10 +1,18 @@
-# Symbols (page 12 of 45)
+# Symbols (page 12 of 46)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `validate_client_id` | function | `modules/c2_agent.py:113` | `def validate_client_id(raw)` |
-| `wait_record` | function | `modules/c2_agent.py:659` | `def wait_record(client_id, command, since, timeout)` |
+| `client_id_for` | function | `modules/c2_agent.py:94` | `def client_id_for(target, privilege)` |
+| `deploy` | function | `modules/c2_agent.py:533` | `def deploy(target, c2_base, route, lhost, sleep, privilege)` |
+| `ensure_http_listener` | method | `modules/c2_agent.py:817` | `def ensure_http_listener(self, http_port, auth)` |
+| `read_aes_hex` | function | `modules/c2_agent.py:528` | `def read_aes_hex()` |
+| `read_records` | function | `modules/c2_agent.py:680` | `def read_records(client_id, limit)` |
+| `start` | method | `modules/c2_agent.py:763` | `def start(self)` |
+| `status` | method | `modules/c2_agent.py:731` | `def status(self)` |
+| `stop` | method | `modules/c2_agent.py:794` | `def stop(self)` |
+| `validate_client_id` | function | `modules/c2_agent.py:119` | `def validate_client_id(raw)` |
+| `wait_record` | function | `modules/c2_agent.py:697` | `def wait_record(client_id, command, since, timeout)` |
 | `C2Builder` | class | `modules/c2_builder.py:449` | `class C2Builder` |
 | `C2Profile` | class | `modules/c2_builder.py:77` | `class C2Profile` |
 | `__init__` | method | `modules/c2_builder.py:452` | `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `DACLAbuseEngine` | class | `modules/dacl_abuse.py:113` | `class DACLAbuseEngine` |
 | `__init__` | method | `modules/dacl_abuse.py:136` | `def __init__(self, domain, domain_sid, acl_data)` |
 | `_calculate_severity` | method | `modules/dacl_abuse.py:384` | `def _calculate_severity(target)` |
-| `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
-| `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
-| `_is_dangerous_ace` | method | `modules/dacl_abuse.py:379` | `def _is_dangerous_ace(ace)` |
-| `adminsdholder_abuse_plan` | method | `modules/dacl_abuse.py:291` | `def adminsdholder_abuse_plan(self, target_sid)` |
-| `compute_attack_chains` | method | `modules/dacl_abuse.py:224` | `def compute_attack_chains(self)` |
-| `dcsync_rights_assignment_plan` | method | `modules/dacl_abuse.py:318` | `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` |
-| `owner_takeover_plan` | method | `modules/dacl_abuse.py:348` | `def owner_takeover_plan(self, target_dn, attacker_sid)` |
-| `parse_bloodhound_acls` | method | `modules/dacl_abuse.py:143` | `def parse_bloodhound_acls(self, edges)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

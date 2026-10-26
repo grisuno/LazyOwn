@@ -1,6 +1,6 @@
 # static/js
 
-static/js groups 29 files (c, js, py, sh) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. ``assign`` business logic.
+static/js groups 28 files (c, js, py, sh) around apply_assign, format_payload, style, active_tokens, paint. ``assign`` business logic.
 
 ```mermaid
 graph LR
@@ -29,7 +29,7 @@ cli groups 5 files (py) around apply_assign, format_payload, style, active_token
 
 ## core (9.2)
 
-core groups 2 files (py) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. Process and subprocess utilities for the LazyOwn framework.
+core groups 1 files (py) around _load_prompt_payload, get_git_info, get_venv_info, get_kernel, get_terminal_size. Prompt builder for LazyOwn CLI and C2 dashboard banner.
 
 ## lazyc2 (9.3)
 
@@ -62,7 +62,6 @@ tests groups 2 files (py) around _add_repo_root_to_syspath, TestApplyAssign, tes
 - cli/session_resumer.py
 - cli/show.py
 - cli/style.py
-- core/process.py
 - core/prompt.py
 - key.py
 - lazyc2/state.py

@@ -51,32 +51,33 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_store_path` (function, line 35) `def _store_path(sessions_dir)`
-  - `_load` (function, line 40) `def _load(sessions_dir)`
-  - `_save` (function, line 53) `def _save(sessions_dir, data)`
-  - `confirm` (function, line 61) `def confirm(finding_id, evidence, sessions_dir, by)`
-  - `reject` (function, line 90) `def reject(finding_id, reason, sessions_dir, by)`
-  - `add_dead_end` (function, line 104) `def add_dead_end(kind, value, reason, sessions_dir)`
-  - `is_dead_end` (function, line 116) `def is_dead_end(kind, value, sessions_dir)`
-  - `suppressed_values` (function, line 123) `def suppressed_values(sessions_dir)`
-  - `resolve` (function, line 129) `def resolve(node, sessions_dir)`
-  - `apply_confirmation` (function, line 154) `def apply_confirmation(nodes, sessions_dir)`
-  - `FindingRecord` (class, line 182) `class FindingRecord`
-  - `RetestRecord` (class, line 195) `class RetestRecord`
-  - `_token_value` (function, line 205) `def _token_value(refs, prefix, default)`
-  - `_with_token` (function, line 213) `def _with_token(refs, prefix, value)`
-  - `_finding_from_row` (function, line 220) `def _finding_from_row(row)`
-  - `record` (function, line 234) `def record(db, workspace, host, title, severity, summary, poc)`
-  - `findings_for` (function, line 259) `def findings_for(db, workspace)`
-  - `set_status` (function, line 264) `def set_status(db, finding_id, status)`
-  - `_retests_path` (function, line 287) `def _retests_path(sessions_dir)`
-  - `_load_retests` (function, line 292) `def _load_retests(sessions_dir)`
-  - `_save_retests` (function, line 303) `def _save_retests(sessions_dir, payload)`
-  - `has_running_retest` (function, line 310) `def has_running_retest(finding_id, sessions_dir)`
-  - `request_retest` (function, line 318) `def request_retest(db, finding_id, sessions_dir)`
-  - `resolve_retest` (function, line 338) `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)`
-  - `classify_retest` (function, line 384) `def classify_retest(needle, output)`
-  - `render_markdown` (function, line 403) `def render_markdown(db, workspace, title)`
+  - `evidence_floor` (function, line 52) `def evidence_floor(items)`
+  - `_store_path` (function, line 68) `def _store_path(sessions_dir)`
+  - `_load` (function, line 73) `def _load(sessions_dir)`
+  - `_save` (function, line 86) `def _save(sessions_dir, data)`
+  - `confirm` (function, line 94) `def confirm(finding_id, evidence, sessions_dir, by)`
+  - `reject` (function, line 123) `def reject(finding_id, reason, sessions_dir, by)`
+  - `add_dead_end` (function, line 137) `def add_dead_end(kind, value, reason, sessions_dir)`
+  - `is_dead_end` (function, line 149) `def is_dead_end(kind, value, sessions_dir)`
+  - `suppressed_values` (function, line 156) `def suppressed_values(sessions_dir)`
+  - `resolve` (function, line 162) `def resolve(node, sessions_dir)`
+  - `apply_confirmation` (function, line 190) `def apply_confirmation(nodes, sessions_dir)`
+  - `FindingRecord` (class, line 218) `class FindingRecord`
+  - `RetestRecord` (class, line 231) `class RetestRecord`
+  - `_token_value` (function, line 241) `def _token_value(refs, prefix, default)`
+  - `_with_token` (function, line 249) `def _with_token(refs, prefix, value)`
+  - `_finding_from_row` (function, line 256) `def _finding_from_row(row)`
+  - `record` (function, line 270) `def record(db, workspace, host, title, severity, summary, poc)`
+  - `findings_for` (function, line 295) `def findings_for(db, workspace)`
+  - `set_status` (function, line 300) `def set_status(db, finding_id, status)`
+  - `_retests_path` (function, line 323) `def _retests_path(sessions_dir)`
+  - `_load_retests` (function, line 328) `def _load_retests(sessions_dir)`
+  - `_save_retests` (function, line 339) `def _save_retests(sessions_dir, payload)`
+  - `has_running_retest` (function, line 346) `def has_running_retest(finding_id, sessions_dir)`
+  - `request_retest` (function, line 354) `def request_retest(db, finding_id, sessions_dir)`
+  - `resolve_retest` (function, line 374) `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)`
+  - `classify_retest` (function, line 420) `def classify_retest(needle, output)`
+  - `render_markdown` (function, line 439) `def render_markdown(db, workspace, title)`
 - Depends on: `modules/osint_enrich.py`
 - Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
 
@@ -384,65 +385,73 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_family_color` (function, line 95) `def _family_color(name)`
-  - `node_id` (function, line 106) `def node_id(kind, value)`
-  - `_load_json` (function, line 112) `def _load_json(path, default)`
-  - `_read_lines` (function, line 122) `def _read_lines(path, limit)`
-  - `_host_mentions` (function, line 139) `def _host_mentions(text)`
-  - `_file_pagerank` (function, line 146) `def _file_pagerank(ids, pairs, alpha, max_iter, tol)`
-  - `build_intel_graph` (function, line 176) `def build_intel_graph(sessions_dir, est_cap)`
-  - `_node_doc` (function, line 418) `def _node_doc(node)`
-  - `_symbol_list` (function, line 441) `def _symbol_list(node)`
-  - `_enrich_readmenator_fields` (function, line 456) `def _enrich_readmenator_fields(nodes, edges)`
-  - `group_colors` (function, line 577) `def group_colors(graph)`
-  - `page_settings` (function, line 593) `def page_settings(graph)`
-  - `build_analytics` (function, line 650) `def build_analytics(graph, summary)`
-  - `_fibonacci_sphere` (function, line 684) `def _fibonacci_sphere(count)`
-  - `_split_caps` (function, line 700) `def _split_caps(labels, sizes, points, lattice, out)`
-  - `_unit` (function, line 729) `def _unit(vec)`
-  - `build_bundle_payload` (function, line 737) `def build_bundle_payload(graph)`
-  - `bundle_settings` (function, line 853) `def bundle_settings(graph)`
-  - `assign_layout` (function, line 884) `def assign_layout(graph, mode)`
-  - `write_summary` (function, line 949) `def write_summary(graph, sessions_dir)`
-  - `add_node` (function, line 182) `def add_node(kind, value, label)`
-  - `add_edge` (function, line 200) `def add_edge(src, dst, kind, evidence, weight)`
-  - `tag_source` (function, line 214) `def tag_source(nid, source)`
-- Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/world_model.py`
-- Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
+  - `_service_cve_matches` (function, line 65) `def _service_cve_matches(service_name, version_text, svc)`
+  - `_extract_cve_id` (function, line 115) `def _extract_cve_id(vuln)`
+  - `_family_color` (function, line 162) `def _family_color(name)`
+  - `node_id` (function, line 173) `def node_id(kind, value)`
+  - `_load_json` (function, line 179) `def _load_json(path, default)`
+  - `_read_lines` (function, line 189) `def _read_lines(path, limit)`
+  - `_host_mentions` (function, line 206) `def _host_mentions(text)`
+  - `_file_pagerank` (function, line 213) `def _file_pagerank(ids, pairs, alpha, max_iter, tol)`
+  - `build_intel_graph` (function, line 243) `def build_intel_graph(sessions_dir, est_cap)`
+  - `_node_doc` (function, line 533) `def _node_doc(node)`
+  - `_symbol_list` (function, line 556) `def _symbol_list(node)`
+  - `_enrich_readmenator_fields` (function, line 571) `def _enrich_readmenator_fields(nodes, edges)`
+  - `group_colors` (function, line 692) `def group_colors(graph)`
+  - `page_settings` (function, line 708) `def page_settings(graph)`
+  - `build_analytics` (function, line 765) `def build_analytics(graph, summary)`
+  - `_fibonacci_sphere` (function, line 799) `def _fibonacci_sphere(count)`
+  - `_split_caps` (function, line 815) `def _split_caps(labels, sizes, points, lattice, out)`
+  - `_unit` (function, line 844) `def _unit(vec)`
+  - `build_bundle_payload` (function, line 852) `def build_bundle_payload(graph)`
+  - `bundle_settings` (function, line 968) `def bundle_settings(graph)`
+  - `assign_layout` (function, line 999) `def assign_layout(graph, mode)`
+  - `write_summary` (function, line 1064) `def write_summary(graph, sessions_dir)`
+  - `add_node` (function, line 249) `def add_node(kind, value, label)`
+  - `add_edge` (function, line 267) `def add_edge(src, dst, kind, evidence, weight)`
+  - `tag_source` (function, line 285) `def tag_source(nid, source)`
+- Depends on: `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/world_model.py`
+- Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_cve_pipeline.py`, `tests/test_intel_fusion.py`
 
 ## modules/intelligence_engine.py
 - Doc: IntelligenceEngine — unified collection→analysis→intelligence pipeline.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `IntelligenceConfig` (class, line 57) `class IntelligenceConfig`
-  - `CollectedFact` (class, line 78) `class CollectedFact`
-  - `IntelligenceAssessment` (class, line 93) `class IntelligenceAssessment`
-  - `CounterIntelFinding` (class, line 108) `class CounterIntelFinding`
-  - `IntelligenceEngine` (class, line 119) `class IntelligenceEngine`
-  - `get_intelligence_engine` (function, line 970) `def get_intelligence_engine(config)`
-  - `__init__` (method, line 142) `def __init__(self, config)`
-  - `collect_from_scan` (method, line 153) `def collect_from_scan(self, target)`
-  - `collect_from_tool` (method, line 255) `def collect_from_tool(self, output, tool, host)`
-  - `collect_from_estorides` (method, line 292) `def collect_from_estorides(self, target)`
-  - `collect_from_nuclei` (method, line 334) `def collect_from_nuclei(self, target)`
-  - `collect_from_yara` (method, line 376) `def collect_from_yara(self, target_path)`
-  - `collect_from_factstore` (method, line 415) `def collect_from_factstore(self)`
-  - `analyze` (method, line 516) `def analyze(self)`
-  - `_correlate_services_to_vulns` (method, line 533) `def _correlate_services_to_vulns(self)`
-  - `_match_known_vulns` (method, line 576) `def _match_known_vulns(fact)`
-  - `_correlate_creds_to_hosts` (method, line 604) `def _correlate_creds_to_hosts(self)`
-  - `_correlate_domains_to_infrastructure` (method, line 627) `def _correlate_domains_to_infrastructure(self)`
-  - `_rank_targets` (method, line 643) `def _rank_targets(self)`
-  - `_detect_killchain_gaps` (method, line 683) `def _detect_killchain_gaps(self)`
-  - `produce_intelligence` (method, line 724) `def produce_intelligence(self)`
-  - `_map_category_to_mitre` (method, line 739) `def _map_category_to_mitre(category)`
-  - `produce_counter_intelligence` (method, line 754) `def produce_counter_intelligence(self)`
-  - `disseminate` (method, line 804) `def disseminate(self)`
-  - `run_full_cycle` (method, line 884) `def run_full_cycle(self, target)`
-  - `get_intel_report` (method, line 913) `def get_intel_report(self)`
-  - `_is_placeholder` (method, line 964) `def _is_placeholder(value)`
-- Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
+  - `IntelligenceConfig` (class, line 58) `class IntelligenceConfig`
+  - `CollectedFact` (class, line 79) `class CollectedFact`
+  - `IntelligenceAssessment` (class, line 94) `class IntelligenceAssessment`
+  - `CounterIntelFinding` (class, line 109) `class CounterIntelFinding`
+  - `IntelligenceEngine` (class, line 120) `class IntelligenceEngine`
+  - `get_intelligence_engine` (function, line 1126) `def get_intelligence_engine(config)`
+  - `__init__` (method, line 143) `def __init__(self, config)`
+  - `_newest_scan_xml_with_versions` (method, line 154) `def _newest_scan_xml_with_versions(self, target)`
+  - `_xml_scan_weight` (method, line 177) `def _xml_scan_weight(self, xml_path)`
+  - `_xml_has_versions` (method, line 193) `def _xml_has_versions(self, xml_path)`
+  - `collect_from_scan` (method, line 197) `def collect_from_scan(self, target)`
+  - `_collect_from_scan_xml` (method, line 237) `def _collect_from_scan_xml(self, xml_path, target)`
+  - `collect_from_tool` (method, line 326) `def collect_from_tool(self, output, tool, host)`
+  - `collect_from_estorides` (method, line 363) `def collect_from_estorides(self, target)`
+  - `collect_from_nuclei` (method, line 405) `def collect_from_nuclei(self, target)`
+  - `collect_from_yara` (method, line 447) `def collect_from_yara(self, target_path)`
+  - `collect_from_factstore` (method, line 486) `def collect_from_factstore(self)`
+  - `analyze` (method, line 587) `def analyze(self)`
+  - `_correlate_services_to_vulns` (method, line 604) `def _correlate_services_to_vulns(self)`
+  - `_match_vulns_versioned` (method, line 649) `def _match_vulns_versioned(self, fact)`
+  - `_legacy_match_rows` (method, line 679) `def _legacy_match_rows(self, fact)`
+  - `_match_known_vulns` (method, line 708) `def _match_known_vulns(fact)`
+  - `_correlate_creds_to_hosts` (method, line 736) `def _correlate_creds_to_hosts(self)`
+  - `_correlate_domains_to_infrastructure` (method, line 759) `def _correlate_domains_to_infrastructure(self)`
+  - `_rank_targets` (method, line 775) `def _rank_targets(self)`
+  - `_detect_killchain_gaps` (method, line 815) `def _detect_killchain_gaps(self)`
+  - `produce_intelligence` (method, line 856) `def produce_intelligence(self)`
+  - `_map_category_to_mitre` (method, line 871) `def _map_category_to_mitre(category)`
+  - `produce_counter_intelligence` (method, line 886) `def produce_counter_intelligence(self)`
+  - `disseminate` (method, line 936) `def disseminate(self)`
+  - `run_full_cycle` (method, line 1040) `def run_full_cycle(self, target)`
+  - `get_intel_report` (method, line 1069) `def get_intel_report(self)`
+  - `_is_placeholder` (method, line 1120) `def _is_placeholder(value)`
+- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_heat.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
 - Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/intercept.py
@@ -483,12 +492,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 ## modules/internal_discover.sh
 - Layer: utility
 - Language: sh
-
-## modules/iptables_portforward.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `display_usage` (function, line 29)
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

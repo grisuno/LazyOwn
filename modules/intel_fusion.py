@@ -58,6 +58,59 @@ SEV_RANK = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
 
 _CVE_TEXT_RE = re.compile(r"CVE-\d{4}-\d{4,7}", re.IGNORECASE)
 
+_CVE_CORRELATION_CACHE: dict[str, list[dict]] = {}
+_CVE_CORRELATION_CAP_SERVICES = 40
+
+
+def _service_cve_matches(service_name: str, version_text: str, svc: dict) -> list[dict]:
+    """Heat-graded CVE candidates for one world-model service row.
+
+    Correlation is cache-only (``allow_network=False``) so graph
+    rebuilds stay fast and offline; a feed that was never downloaded
+    degrades to no candidates instead of blocking the graph.
+
+    Args:
+        service_name: nmap service name (``ftp``, ``ssh``).
+        version_text: Version/product text captured for the service.
+        svc: Full service row (``version`` carries the full banner).
+
+    Returns:
+        List of ``{cve, heat, cvss, kev, epss, exploit, in_range,
+        heat_rank}`` rows, hottest first.
+    """
+    banner = str(svc.get("version", "") or version_text or service_name or "")
+    if not banner.strip():
+        return []
+    cache_key = banner.lower()
+    if cache_key in _CVE_CORRELATION_CACHE:
+        return _CVE_CORRELATION_CACHE[cache_key]
+    _CVE_CORRELATION_CACHE[cache_key] = []
+    if len(_CVE_CORRELATION_CACHE) > _CVE_CORRELATION_CAP_SERVICES:
+        return []
+    try:
+        from modules import lazy_cve_feed
+        from modules.lazy_heat import HEAT_RANK
+
+        rows = lazy_cve_feed.correlate(banner, "", allow_network=False)
+        graded = [
+            {
+                "cve": row["cve"],
+                "heat": row.get("heat", "cold"),
+                "cvss": row.get("cvss", 0.0),
+                "kev": row.get("kev", False),
+                "epss": row.get("epss"),
+                "exploit": row.get("exploit", False),
+                "in_range": row.get("in_range"),
+                "heat_rank": HEAT_RANK.get(row.get("heat", "cold"), 0),
+            }
+            for row in rows
+            if row.get("heat") != "cold" or row.get("kev")
+        ]
+        _CVE_CORRELATION_CACHE[cache_key] = graded[:8]
+    except Exception:
+        pass
+    return _CVE_CORRELATION_CACHE[cache_key]
+
 
 def _extract_cve_id(vuln: dict) -> str:
     """Best CVE id from one world-model vulnerability row."""
@@ -212,8 +265,12 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR, est_cap: int = 30
         return nid
 
     def add_edge(src: str, dst: str, kind: str, evidence: str = "", weight: float = 1.0) -> None:
-        """Append one provenance-tagged relation."""
+        """Append one provenance-tagged relation, deduped by (src, dst, kind)."""
         if src in nodes and dst in nodes:
+            if any(
+                e["source"] == src and e["target"] == dst and e["type"] == kind for e in edges
+            ):
+                return
             edges.append(
                 {
                     "source": src,
@@ -267,17 +324,36 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR, est_cap: int = 30
         for port, svc in items:
             svc = svc if isinstance(svc, dict) else {"name": str(svc)}
             name = str(svc.get("name", "unknown"))
+            svc_version = str(svc.get("version", "") or "")[:60]
             sid = add_node(
                 "service",
                 f"{ip}:{port}",
                 label=f"{ip}:{port} {name}",
                 port=str(port),
                 service=name,
-                version=str(svc.get("version", "") or "")[:60],
+                version=svc_version,
                 community=f"net:{ip}",
             )
             tag_source(sid, "world_model.json")
             add_edge(hid, sid, "serves", evidence=f"world_model services[{port}]={name}")
+            for cve_row in _service_cve_matches(name, svc_version, svc):
+                cid = add_node(
+                    "cve",
+                    cve_row["cve"],
+                    label=cve_row["cve"],
+                    cve=cve_row["cve"],
+                    heat=cve_row.get("heat", "cold"),
+                    cvss=cve_row.get("cvss", 0.0),
+                    kev=cve_row.get("kev", False),
+                    epss=cve_row.get("epss"),
+                    exploit=cve_row.get("exploit", False),
+                    heat_rank=cve_row.get("heat_rank", 0),
+                    candidate=True,
+                    in_range=cve_row.get("in_range"),
+                    community=f"net:{ip}",
+                )
+                tag_source(cid, "lazy_cve_feed")
+                add_edge(sid, cid, "matched", evidence=f"heat-correlated candidate on {name} {svc_version}")
     for vuln in world.get("vulnerabilities", []) or []:
         if not isinstance(vuln, dict):
             continue

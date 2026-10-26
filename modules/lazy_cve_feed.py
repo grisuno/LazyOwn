@@ -606,6 +606,56 @@ def hot_matches(services: list[dict], allow_network: bool = False) -> list[dict]
     return out
 
 
+_FEED_REFRESH_STARTED = False
+
+
+def refresh_feeds_async(products: list[str] | None = None) -> None:
+    """Refresh bulk feeds in one background daemon thread.
+
+    Call once per process (idempotent): KEV, EPSS, Exploit-DB and
+    Metasploit re-download only when their TTL expired, and each
+    product gets one OSV prefetch so later cache-only correlations
+    find candidates without blocking the pipeline on network.
+
+    Args:
+        products: Banner strings to prefetch OSV advisories for.
+    """
+    global _FEED_REFRESH_STARTED
+    if _FEED_REFRESH_STARTED:
+        return
+    _FEED_REFRESH_STARTED = True
+
+    def _worker() -> None:
+        try:
+            load_kev()
+        except Exception:
+            pass
+        try:
+            load_epss()
+        except Exception:
+            pass
+        try:
+            load_exploit_cves()
+        except Exception:
+            pass
+        try:
+            load_msf_cves()
+        except Exception:
+            pass
+        for product in (products or [])[:20]:
+            try:
+                fetch_product_advisories(product)
+            except Exception:
+                continue
+
+    import threading
+
+    try:
+        threading.Thread(target=_worker, daemon=True, name="lazy-cve-feed-refresh").start()
+    except Exception:
+        pass
+
+
 __all__ = [
     "CACHE_DIR",
     "correlate",
@@ -618,4 +668,5 @@ __all__ = [
     "load_kev",
     "load_kev_matches",
     "load_msf_cves",
+    "refresh_feeds_async",
 ]

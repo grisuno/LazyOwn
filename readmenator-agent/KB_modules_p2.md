@@ -57,47 +57,48 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_looks_like_target` (function, line 37) `def _looks_like_target(value)`
   - `auto_verb_target` (function, line 66) `def auto_verb_target(command)`
   - `AutoVerb` (class, line 102) `class AutoVerb`
-  - `_verb_rows` (function, line 243) `def _verb_rows()`
-  - `_verb_row` (function, line 287) `def _verb_row(name)`
-  - `verb_enabled` (function, line 296) `def verb_enabled(name)`
-  - `_cli_verb_allowed` (function, line 371) `def _cli_verb_allowed(name)`
-  - `_repo_base` (function, line 399) `def _repo_base()`
-  - `binary_available` (function, line 406) `def binary_available(name)`
-  - `missing_binary` (function, line 422) `def missing_binary(command)`
-  - `verb_gap` (function, line 434) `def verb_gap(verb)`
-  - `verb_available` (function, line 446) `def verb_available(verb)`
-  - `service_tokens` (function, line 451) `def service_tokens(service_text)`
-  - `_parse_trigger_lines` (function, line 462) `def _parse_trigger_lines(lines, start)`
-  - `iter_addon_triggers` (function, line 493) `def iter_addon_triggers()`
-  - `iter_tool_triggers` (function, line 529) `def iter_tool_triggers()`
-  - `addon_hits_for` (function, line 552) `def addon_hits_for(service_text, limit)`
-  - `propose_addon_intents` (function, line 578) `def propose_addon_intents(service_texts, target, limit)`
-  - `is_routable_command` (function, line 604) `def is_routable_command(line)`
-  - `verbs` (function, line 622) `def verbs()`
-  - `is_shell_verb` (function, line 627) `def is_shell_verb(token)`
-  - `build_command` (function, line 651) `def build_command(verb, target)`
-  - `verbs_for` (function, line 662) `def verbs_for(text)`
-  - `propose_intents` (function, line 668) `def propose_intents(goal, target, finding_texts)`
-  - `_atomic_steps` (function, line 692) `def _atomic_steps(verb, text)`
-  - `_playbook_steps` (function, line 711) `def _playbook_steps(text)`
-  - `_apt_chain_steps` (function, line 726) `def _apt_chain_steps(embedded, target, strict)`
-  - `steps_for` (function, line 754) `def steps_for(text, target)`
-  - `ShellResult` (class, line 877) `class ShellResult`
-  - `_TeeCapture` (class, line 884) `class _TeeCapture(StringIO)`
-  - `execute_shell_verb` (function, line 912) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
-  - `_register_process` (function, line 1010) `def _register_process(process)`
-  - `_unregister_process` (function, line 1016) `def _unregister_process(process)`
-  - `track_process` (function, line 1022) `def track_process(process)`
-  - `untrack_process` (function, line 1027) `def untrack_process(process)`
-  - `cancel_running_commands` (function, line 1032) `def cancel_running_commands()`
-  - `execute_streaming` (function, line 1055) `def execute_streaming(command, on_output, timeout_sec)`
-  - `__init__` (method, line 894) `def __init__(self, observer)`
-  - `write` (method, line 899) `def write(self, data)`
-  - `_invoke` (function, line 935) `def _invoke()`
-  - `_target` (function, line 946) `def _target()`
-  - `_kill` (function, line 1087) `def _kill()`
-- Depends on: `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
+  - `_os_default_for_verb` (function, line 246) `def _os_default_for_verb(verb)`
+  - `_verb_rows` (function, line 254) `def _verb_rows()`
+  - `_verb_row` (function, line 299) `def _verb_row(name)`
+  - `verb_enabled` (function, line 308) `def verb_enabled(name)`
+  - `_cli_verb_allowed` (function, line 383) `def _cli_verb_allowed(name)`
+  - `_repo_base` (function, line 411) `def _repo_base()`
+  - `binary_available` (function, line 418) `def binary_available(name)`
+  - `missing_binary` (function, line 434) `def missing_binary(command)`
+  - `verb_gap` (function, line 446) `def verb_gap(verb)`
+  - `verb_available` (function, line 458) `def verb_available(verb)`
+  - `service_tokens` (function, line 463) `def service_tokens(service_text)`
+  - `_parse_trigger_lines` (function, line 474) `def _parse_trigger_lines(lines, start)`
+  - `iter_addon_triggers` (function, line 505) `def iter_addon_triggers()`
+  - `iter_tool_triggers` (function, line 541) `def iter_tool_triggers()`
+  - `addon_hits_for` (function, line 564) `def addon_hits_for(service_text, limit)`
+  - `propose_addon_intents` (function, line 590) `def propose_addon_intents(service_texts, target, limit)`
+  - `is_routable_command` (function, line 634) `def is_routable_command(line)`
+  - `verbs` (function, line 652) `def verbs()`
+  - `is_shell_verb` (function, line 657) `def is_shell_verb(token)`
+  - `build_command` (function, line 681) `def build_command(verb, target)`
+  - `verbs_for` (function, line 692) `def verbs_for(text)`
+  - `propose_intents` (function, line 698) `def propose_intents(goal, target, finding_texts)`
+  - `_atomic_steps` (function, line 722) `def _atomic_steps(verb, text)`
+  - `_playbook_steps` (function, line 741) `def _playbook_steps(text)`
+  - `_apt_chain_steps` (function, line 756) `def _apt_chain_steps(embedded, target, strict)`
+  - `steps_for` (function, line 784) `def steps_for(text, target)`
+  - `ShellResult` (class, line 907) `class ShellResult`
+  - `_TeeCapture` (class, line 914) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 942) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 1040) `def _register_process(process)`
+  - `_unregister_process` (function, line 1046) `def _unregister_process(process)`
+  - `track_process` (function, line 1052) `def track_process(process)`
+  - `untrack_process` (function, line 1057) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 1062) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 1085) `def execute_streaming(command, on_output, timeout_sec)`
+  - `__init__` (method, line 924) `def __init__(self, observer)`
+  - `write` (method, line 929) `def write(self, data)`
+  - `_invoke` (function, line 965) `def _invoke()`
+  - `_target` (function, line 976) `def _target()`
+  - `_kill` (function, line 1117) `def _kill()`
+- Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
 
 ## modules/autonomous_exploit_engine.py
 - Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
@@ -310,26 +311,26 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_sync_credentials_file` (function, line 53) `def _sync_credentials_file(user, password)`
-  - `_unverified_context` (function, line 78) `def _unverified_context()`
-  - `client_id_for` (function, line 88) `def client_id_for(target, privilege)`
-  - `validate_client_id` (function, line 113) `def validate_client_id(raw)`
-  - `build_agent` (function, line 388) `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)`
-  - `_ensure_key` (function, line 451) `def _ensure_key()`
-  - `_restore_key_from_snapshot` (function, line 482) `def _restore_key_from_snapshot()`
-  - `_snapshot_key` (function, line 505) `def _snapshot_key(aes_hex)`
-  - `read_aes_hex` (function, line 517) `def read_aes_hex()`
-  - `deploy` (function, line 522) `def deploy(target, c2_base, route, lhost, sleep, privilege)`
-  - `read_records` (function, line 642) `def read_records(client_id, limit)`
-  - `wait_record` (function, line 659) `def wait_record(client_id, command, since, timeout)`
-  - `C2Server` (class, line 673) `class C2Server`
-  - `__init__` (method, line 676) `def __init__(self, port, user, password)`
-  - `_pid` (method, line 681) `def _pid(self)`
-  - `status` (method, line 693) `def status(self)`
-  - `start` (method, line 725) `def start(self)`
-  - `stop` (method, line 756) `def stop(self)`
-  - `ensure_http_listener` (method, line 779) `def ensure_http_listener(self, http_port, auth)`
-  - `_api` (function, line 787) `def _api(path, data)`
+  - `_sync_credentials_file` (function, line 59) `def _sync_credentials_file(user, password)`
+  - `_unverified_context` (function, line 84) `def _unverified_context()`
+  - `client_id_for` (function, line 94) `def client_id_for(target, privilege)`
+  - `validate_client_id` (function, line 119) `def validate_client_id(raw)`
+  - `build_agent` (function, line 398) `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)`
+  - `_ensure_key` (function, line 462) `def _ensure_key()`
+  - `_restore_key_from_snapshot` (function, line 493) `def _restore_key_from_snapshot()`
+  - `_snapshot_key` (function, line 516) `def _snapshot_key(aes_hex)`
+  - `read_aes_hex` (function, line 528) `def read_aes_hex()`
+  - `deploy` (function, line 533) `def deploy(target, c2_base, route, lhost, sleep, privilege)`
+  - `read_records` (function, line 680) `def read_records(client_id, limit)`
+  - `wait_record` (function, line 697) `def wait_record(client_id, command, since, timeout)`
+  - `C2Server` (class, line 711) `class C2Server`
+  - `__init__` (method, line 714) `def __init__(self, port, user, password)`
+  - `_pid` (method, line 719) `def _pid(self)`
+  - `status` (method, line 731) `def status(self)`
+  - `start` (method, line 763) `def start(self)`
+  - `stop` (method, line 794) `def stop(self)`
+  - `ensure_http_listener` (method, line 817) `def ensure_http_listener(self, http_port, auth)`
+  - `_api` (function, line 825) `def _api(path, data)`
 - Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
 - Imported by: `cli/commands/c2_session.py`
 
@@ -476,25 +477,6 @@ Previous: [KB_modules.md](KB_modules.md)
   - `from_config` (method, line 771) `def from_config(cls, config)`
 - Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
 - Imported by: `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
-
-## modules/c2_surfaces.py
-- Doc: C2 dashboard surfaces fed by the autonomous loop and APT chains.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_read_json` (function, line 42) `def _read_json(path, default)`
-  - `_write_json` (function, line 54) `def _write_json(path, data)`
-  - `_stamp` (function, line 68) `def _stamp()`
-  - `publish_banner` (function, line 73) `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)`
-  - `publish_cve` (function, line 115) `def publish_cve(title, description, operator, risk, sessions_dir)`
-  - `append_note` (function, line 155) `def append_note(line, sessions_dir)`
-  - `register_loot_event` (function, line 184) `def register_loot_event(name, path_glob, description, event_config)`
-  - `refresh_session_report` (function, line 229) `def refresh_session_report(timeout)`
-  - `severity_to_risk` (function, line 251) `def severity_to_risk(severity)`
-  - `_normalize_task_title` (function, line 256) `def _normalize_task_title(title)`
-  - `group_tasks_for_display` (function, line 261) `def group_tasks_for_display(tasks)`
-- Depends on: `core/logging.py`, `skills/lazyown_mcp_helpers.py`
-- Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/sinks/c2_surfaces.py`, `tests/test_c2_surfaces.py`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

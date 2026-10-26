@@ -1,10 +1,10 @@
 # static/js
 
-*Community 8 | 29 files | cohesion 0.42*
+*Community 8 | 28 files | cohesion 0.45*
 
 ## Definition
 
-This community groups 29 file(s) rooted at `static/js` with dominant language js (cohesion 0.42). Central symbols: `A`, `As`, `B`, `BUFFER`, `BackgroundSize`, `Be`, `BezierCurve`, `Bk`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
+This community groups 28 file(s) rooted at `static/js` with dominant language js (cohesion 0.45). Central symbols: `A`, `As`, `B`, `BUFFER`, `BackgroundSize`, `Be`, `BezierCurve`, `Bk`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
 
 ## Files
 
@@ -17,6 +17,7 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 | `static/js/bootstrap-5.3.0.bundle.min.js` | js | infrastructure | 28 | yes |
 | `static/js/chart.min.js` | js | utility | 88 | yes |
 | `static/js/force-graph-1.43.5.min.js` | js | utility | 31 | yes |
+| `static/js/html2pdf.bundle.min.js` | js | utility | 738 | no |
 
 ### `cli` (4 files)
 
@@ -26,13 +27,6 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 | `cli/session_resumer.py` | py | utility | 6 | yes |
 | `cli/show.py` | py | utility | 1 | yes |
 | `cli/style.py` | py | utility | 4 | yes |
-
-### `core` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `core/process.py` | py | business_logic | 12 | yes |
-| `core/prompt.py` | py | utility | 8 | yes |
 
 ### `modules` (2 files)
 
@@ -60,6 +54,12 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 |------|----------|-------|---------|-----|
 | `cli/commands/session_ops.py` | py | utility | 37 | yes |
 
+### `core` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `core/prompt.py` | py | utility | 8 | yes |
+
 ### `lazyc2` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
@@ -78,7 +78,7 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 |------|----------|-------|---------|-----|
 | `modules/rootkit/rootkit.c` | c | utility | 13 | yes |
 
-*... and 9 more files in this community.*
+*... and 8 more files in this community.*
 
 
 ## Key Symbols
@@ -116,14 +116,13 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 256
-- Cross-boundary resolved imports (EXTRACTED): 92
+- Internal resolved imports (EXTRACTED): 245
+- Cross-boundary resolved imports (EXTRACTED): 89
 
 ## Connections
 
 - [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/assign.py imports core/payload_schema.py.
 - [EXTRACTED] depends_on community 7 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
-- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/commands/defaults.py imports cli/assign.py.
 
 ## Risks
 
@@ -141,7 +140,7 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 
 - Why do 7 file(s) lack file-level docs (e.g. `key.py`)? What purpose do they serve?
 - What would break if the most connected file in static/js changed?
-- Should static/js be split, given cohesion 0.42?
+- Should static/js be split, given cohesion 0.45?
 
 ## Sources
 
@@ -150,7 +149,6 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 - `cli/session_resumer.py`
 - `cli/show.py`
 - `cli/style.py`
-- `core/process.py`
 - `core/prompt.py`
 - `key.py`
 - `lazyc2/state.py`
@@ -165,4 +163,5 @@ This community groups 29 file(s) rooted at `static/js` with dominant language js
 - `static/js/force-graph-1.43.5.min.js`
 - `static/js/html2pdf.bundle.min.js`
 - `static/js/jquery-3.5.1.slim.min.js`
-- *... and 9 more*
+- `static/js/particles.js`
+- *... and 8 more*

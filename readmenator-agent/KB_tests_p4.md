@@ -94,6 +94,7 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `BuildAgentProfiles` (class, line 63) `class BuildAgentProfiles(TestCase)`
   - `OpenShellPrivilegeFilter` (class, line 78) `class OpenShellPrivilegeFilter(TestCase)`
   - `DeployProfiles` (class, line 98) `class DeployProfiles(TestCase)`
+  - `DeployStagingSecurity` (class, line 113) `class DeployStagingSecurity(TestCase)`
   - `test_default_lowpriv_id` (method, line 47) `def test_default_lowpriv_id(self)`
   - `test_root_id_suffix` (method, line 50) `def test_root_id_suffix(self)`
   - `test_invalid_privilege_rejected` (method, line 53) `def test_invalid_privilege_rejected(self)`
@@ -106,6 +107,19 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_unknown_privilege` (method, line 93) `def test_unknown_privilege(self)`
   - `test_unknown_privilege` (method, line 99) `def test_unknown_privilege(self)`
   - `test_root_without_root_primitive` (method, line 103) `def test_root_without_root_primitive(self)`
+  - `_FakeSpec` (class, line 116) `class _FakeSpec`
+  - `_fake_session` (method, line 120) `def _fake_session(self, commands)`
+  - `test_deploy_never_uses_predictable_tmp_path` (method, line 136) `def test_deploy_never_uses_predictable_tmp_path(self)`
+  - `test_deploy_hash_gates_launch` (method, line 149) `def test_deploy_hash_gates_launch(self)`
+  - `test_deploy_aborts_when_staging_not_root_owned` (method, line 162) `def test_deploy_aborts_when_staging_not_root_owned(self)`
+  - `test_deploy_aborts_without_private_dir` (method, line 179) `def test_deploy_aborts_without_private_dir(self)`
+  - `test_agent_files_have_unique_names` (method, line 192) `def test_agent_files_have_unique_names(self)`
+  - `_FakeSession` (class, line 121) `class _FakeSession`
+  - `_ForeignSession` (class, line 163) `class _ForeignSession`
+  - `_BareSession` (class, line 180) `class _BareSession`
+  - `run` (method, line 122) `def run(self, cmd, timeout)`
+  - `run` (method, line 164) `def run(self, cmd, timeout)`
+  - `run` (method, line 181) `def run(self, cmd, timeout)`
 - Depends on: `modules/__init__.py`
 
 ## tests/test_c2_profile_engine.py

@@ -1,6 +1,12 @@
 # Subsystem: modules (page 7 of 16)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
 
+## modules/iptables_portforward.sh
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `display_usage` (function, line 29)
+
 ## modules/jsonl_tail.py
 - Doc: Incremental JSONL reader shared by the monitor TUI and the loop runner.
 - Layer: utility
@@ -264,28 +270,28 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
 - Language: py
 - Symbols:
   - `_data_dir` (function, line 35) `def _data_dir()`
-  - `_read_json` (function, line 47) `def _read_json(path, default)`
-  - `_read_jsonl` (function, line 64) `def _read_jsonl(path)`
-  - `lazy_tasks` (function, line 88) `def lazy_tasks()`
-  - `lazy_assets` (function, line 99) `def lazy_assets()`
-  - `lazy_graph` (function, line 110) `def lazy_graph(task_id)`
-  - `lazy_activity` (function, line 123) `def lazy_activity(task_id)`
-  - `lazy_traffic` (function, line 135) `def lazy_traffic(task_id)`
-  - `lazy_guard_audit` (function, line 147) `def lazy_guard_audit(task_id)`
-  - `bridge_status` (function, line 159) `def bridge_status()`
-  - `_extract_hosts_from_graph` (function, line 180) `def _extract_hosts_from_graph(graph)`
-  - `pull_to_world_model` (function, line 206) `def pull_to_world_model()`
-  - `pull_to_objectives` (function, line 251) `def pull_to_objectives()`
-  - `pull_findings_to_lifecycle` (function, line 286) `def pull_findings_to_lifecycle()`
-  - `_read_new_traffic` (function, line 314) `def _read_new_traffic(path, offset)`
-  - `_notify` (function, line 351) `def _notify(progress, text)`
-  - `pull_traffic_to_recorder` (function, line 361) `def pull_traffic_to_recorder(progress)`
-  - `push_objective_to_lazy` (function, line 429) `def push_objective_to_lazy(goal, scope)`
-  - `push_tasks_to_c2` (function, line 454) `def push_tasks_to_c2(only)`
-  - `sync_all` (function, line 519) `def sync_all(progress)`
-  - `_record_sync` (function, line 545) `def _record_sync(action, summary)`
+  - `_read_json` (function, line 51) `def _read_json(path, default)`
+  - `_read_jsonl` (function, line 68) `def _read_jsonl(path)`
+  - `lazy_tasks` (function, line 92) `def lazy_tasks()`
+  - `lazy_assets` (function, line 103) `def lazy_assets()`
+  - `lazy_graph` (function, line 114) `def lazy_graph(task_id)`
+  - `lazy_activity` (function, line 127) `def lazy_activity(task_id)`
+  - `lazy_traffic` (function, line 139) `def lazy_traffic(task_id)`
+  - `lazy_guard_audit` (function, line 151) `def lazy_guard_audit(task_id)`
+  - `bridge_status` (function, line 163) `def bridge_status()`
+  - `_extract_hosts_from_graph` (function, line 184) `def _extract_hosts_from_graph(graph)`
+  - `pull_to_world_model` (function, line 221) `def pull_to_world_model()`
+  - `pull_to_objectives` (function, line 298) `def pull_to_objectives()`
+  - `pull_findings_to_lifecycle` (function, line 333) `def pull_findings_to_lifecycle()`
+  - `_read_new_traffic` (function, line 361) `def _read_new_traffic(path, offset)`
+  - `_notify` (function, line 398) `def _notify(progress, text)`
+  - `pull_traffic_to_recorder` (function, line 408) `def pull_traffic_to_recorder(progress)`
+  - `push_objective_to_lazy` (function, line 476) `def push_objective_to_lazy(goal, scope)`
+  - `push_tasks_to_c2` (function, line 501) `def push_tasks_to_c2(only)`
+  - `sync_all` (function, line 566) `def sync_all(progress)`
+  - `_record_sync` (function, line 592) `def _record_sync(action, summary)`
 - Depends on: `modules/finding_lifecycle.py`, `modules/traffic_recorder.py`, `modules/world_model.py`
-- Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_lazy_loop.py`
+- Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_cve_pipeline.py`, `tests/test_lazy_loop.py`
 
 ## modules/lazy_cli_bridge.py
 - Doc: Full CLI catalog for the Lazy autonomous loop.
@@ -309,6 +315,37 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
 - Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
 - Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
 
+## modules/lazy_cve_feed.py
+- Doc: Keyless CVE intelligence feeds and version-aware service correlation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_env_flag` (function, line 90) `def _env_flag(name, default)`
+  - `_cache_path` (function, line 95) `def _cache_path(name)`
+  - `_cache_fresh` (function, line 104) `def _cache_fresh(path, ttl_sec)`
+  - `_fetch` (function, line 112) `def _fetch(url)`
+  - `_store_bytes` (function, line 134) `def _store_bytes(name, payload)`
+  - `_store_json` (function, line 142) `def _store_json(name, data)`
+  - `_load_json` (function, line 150) `def _load_json(name)`
+  - `load_kev` (function, line 158) `def load_kev(force)`
+  - `load_epss` (function, line 192) `def load_epss(force)`
+  - `_exploit_cves_from_text` (function, line 228) `def _exploit_cves_from_text(text)`
+  - `load_exploit_cves` (function, line 233) `def load_exploit_cves(force)`
+  - `load_msf_cves` (function, line 257) `def load_msf_cves(force)`
+  - `_osv_cache_path` (function, line 281) `def _osv_cache_path(product)`
+  - `fetch_product_advisories` (function, line 291) `def fetch_product_advisories(product, force)`
+  - `cve_intel` (function, line 360) `def cve_intel(cve_id, feeds, allow_network)`
+  - `_advisory_cve_id` (function, line 398) `def _advisory_cve_id(advisory)`
+  - `_advisory_cvss` (function, line 407) `def _advisory_cvss(advisory)`
+  - `_advisory_matches_product` (function, line 421) `def _advisory_matches_product(advisory, banner_words)`
+  - `correlate` (function, line 438) `def correlate(product, version, allow_network)`
+  - `load_kev_matches` (function, line 526) `def load_kev_matches(product, feeds)`
+  - `hot_matches` (function, line 568) `def hot_matches(services, allow_network)`
+  - `refresh_feeds_async` (function, line 612) `def refresh_feeds_async(products)`
+  - `_worker` (function, line 628) `def _worker()`
+- Depends on: `modules/lazy_heat.py`
+- Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`
+
 ## modules/lazy_engine.py
 - Doc: Lazy autonomous loop engine: single orchestrator for lazy_* commands.
 - Layer: utility
@@ -317,6 +354,24 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `LazyEngine` (class, line 55) `class LazyEngine(LazyLoopEngine)`
 - Depends on: `modules/lazy_loop.py`
 - Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_session_brief.py`
+
+## modules/lazy_heat.py
+- Doc: Heat tiers and version math for CVE correlation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `classify_heat` (function, line 68) `def classify_heat(kev, epss, exploit, cvss)`
+  - `match_heat` (function, line 91) `def match_heat(tier, cvss, verdict, distro_status)`
+  - `parse_version` (function, line 118) `def parse_version(value, strict)`
+  - `compare_versions` (function, line 154) `def compare_versions(a, b)`
+  - `version_in_range` (function, line 162) `def version_in_range(ver, rng)`
+  - `cvss3_base_score` (function, line 204) `def cvss3_base_score(vector)`
+  - `product_token` (function, line 246) `def product_token(value)`
+  - `token_matches` (function, line 269) `def token_matches(haystack, needle)`
+  - `parse_distro_revision` (function, line 303) `def parse_distro_revision(banner)`
+  - `backport_status` (function, line 342) `def backport_status(banner, fixed_revision)`
+  - `label_for` (function, line 370) `def label_for(status, fixed_revision)`
+- Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_cve_feed.py`
 
 ## modules/lazy_installer.py
 - Doc: Capability installer for the Lazy autonomous loop.

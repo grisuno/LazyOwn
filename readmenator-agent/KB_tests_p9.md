@@ -1,6 +1,31 @@
 # Subsystem: tests (page 9 of 20)
 Previous: [KB_tests_p8.md](KB_tests_p8.md)
 
+## tests/test_engagement_command_gate.py
+- Doc: Tests for the command-recording gate of cli/engagement_hooks.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_redirect_paths` (function, line 34) `def _redirect_paths(tmp_path)`
+  - `_restore_paths` (function, line 56) `def _restore_paths(saved)`
+  - `TestIsRecordableCommand` (class, line 68) `class TestIsRecordableCommand`
+  - `TestHookRejectsNoise` (class, line 106) `class TestHookRejectsNoise`
+  - `TestSanitizeSeen` (class, line 141) `class TestSanitizeSeen`
+  - `TestHealCommandsSeen` (class, line 187) `class TestHealCommandsSeen`
+  - `test_accepts_command_shaped_tokens` (method, line 72) `def test_accepts_command_shaped_tokens(self, cmd)`
+  - `test_rejects_syntactic_garbage` (method, line 81) `def test_rejects_syntactic_garbage(self, cmd)`
+  - `test_quoted_path_rejected` (method, line 86) `def test_quoted_path_rejected(self)`
+  - `test_do_prefixed_input_is_accepted` (method, line 91) `def test_do_prefixed_input_is_accepted(self)`
+  - `test_normalize_is_idempotent` (method, line 96) `def test_normalize_is_idempotent(self)`
+  - `test_garbage_does_not_enter_commands_seen` (method, line 109) `def test_garbage_does_not_enter_commands_seen(self, tmp_path)`
+  - `test_real_command_recorded_between_garbage` (method, line 123) `def test_real_command_recorded_between_garbage(self, tmp_path)`
+  - `test_syntactic_only_drops_ugly_garbage` (method, line 144) `def test_syntactic_only_drops_ugly_garbage(self)`
+  - `test_roster_drops_valid_but_unknown_tokens` (method, line 158) `def test_roster_drops_valid_but_unknown_tokens(self)`
+  - `test_load_state_heals_polluted_file` (method, line 165) `def test_load_state_heals_polluted_file(self, tmp_path)`
+  - `test_purges_and_persists` (method, line 190) `def test_purges_and_persists(self, tmp_path)`
+  - `test_idempotent_on_clean_state` (method, line 207) `def test_idempotent_on_clean_state(self, tmp_path)`
+- Depends on: `cli/engagement_hooks.py`
+
 ## tests/test_engagement_elo_and_methodology.py
 - Doc: Tests for the ELO + karma + methodology extensions of cli/engagement_hooks.py.
 - Layer: testing
@@ -460,26 +485,6 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_gym_status_filters_hosts_by_current_target` (function, line 103) `def test_gym_status_filters_hosts_by_current_target(sandbox, monkeypatch, capsys)`
   - `test_atomic_shell_marks_target_compromised` (function, line 123) `def test_atomic_shell_marks_target_compromised(sandbox, monkeypatch, capsys)`
 - Depends on: `cli/commands/command_and_control_migrated.py`, `cli/commands/redteam_gym.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/world_model.py`
-
-## tests/test_gym_lifecycle.py
-- Doc: Gym lifecycle: lab spin-up on start, teardown on stop and exit cleanup.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `sandbox` (function, line 20) `def sandbox(tmp_path, monkeypatch)`
-  - `_FakeDocker` (class, line 38) `class _FakeDocker`
-  - `_result` (class, line 53) `class _result`
-  - `test_start_spins_scenario_and_resolves_ip` (function, line 60) `def test_start_spins_scenario_and_resolves_ip(sandbox, monkeypatch)`
-  - `test_start_without_lab_flag_still_registers` (function, line 89) `def test_start_without_lab_flag_still_registers(sandbox, monkeypatch)`
-  - `test_start_without_docker_degrades_gracefully` (function, line 99) `def test_start_without_docker_degrades_gracefully(sandbox, monkeypatch)`
-  - `test_start_removes_stale_container_first` (function, line 107) `def test_start_removes_stale_container_first(sandbox, monkeypatch)`
-  - `test_stop_teardowns_scenario_container` (function, line 122) `def test_stop_teardowns_scenario_container(sandbox, monkeypatch)`
-  - `test_stop_keeps_scenario_with_active_runs` (function, line 142) `def test_stop_keeps_scenario_with_active_runs(sandbox, monkeypatch)`
-  - `test_cleanup_gym_machines_stops_all` (function, line 162) `def test_cleanup_gym_machines_stops_all(tmp_path, monkeypatch, capsys)`
-  - `__init__` (method, line 41) `def __init__(self, responses)`
-  - `__call__` (method, line 45) `def __call__(self)`
-  - `__init__` (method, line 54) `def __init__(self, returncode, stdout, stderr)`
-- Depends on: `core/config.py`, `modules/__init__.py`, `modules/gym_cleanup.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 
 
 Next: [KB_tests_p10.md](KB_tests_p10.md)

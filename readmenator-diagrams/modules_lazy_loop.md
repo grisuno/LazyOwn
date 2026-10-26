@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 122 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
+modules: lazy_loop groups 126 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Container and Kubernetes attack command set.
 
 ```mermaid
 graph LR
@@ -16,7 +16,7 @@ graph LR
     lazyc2 -- "calls into" --> core
     lazyc2 -- "calls into" --> modules
     modules -- "calls into" --> cli
-    modules -- "calls into" --> core
+    modules -- "depends on" --> core
     modules -- "calls into" --> tests
     skills -- "calls into" --> modules
     tests -- "calls into" --> cli
@@ -28,11 +28,11 @@ graph LR
 
 ## cli (4.1)
 
-cli groups 13 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
+cli groups 14 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
 
 ## core (4.2)
 
-core groups 5 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Tenant-bound API authorization for the LazyOwn C2 dashboard.
+core groups 7 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Tenant-bound API authorization for the LazyOwn C2 dashboard.
 
 ## lazyc2 (4.3)
 
@@ -40,7 +40,7 @@ lazyc2 groups 3 files (py) around AddonCreatorConfig, live_placeholders, ParamSp
 
 ## modules (4.4)
 
-modules groups 44 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Purple Team Closed-Loop — honest measurement of offensive detection.
+modules groups 45 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Purple Team Closed-Loop — honest measurement of offensive detection.
 
 ## skills (4.5)
 
@@ -53,6 +53,7 @@ tests groups 56 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 **Files**:
 
 - cli/commands/containers.py
+- cli/commands/defaults.py
 - cli/commands/golden_paths.py
 - cli/commands/gym_matrix.py
 - cli/commands/lazyloop.py
@@ -67,8 +68,10 @@ tests groups 56 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - cli/tui_forms.py
 - core/api_authz.py
 - core/config.py
+- core/defaults.py
 - core/param_registry.py
 - core/payload_schema.py
+- core/process.py
 - core/terminal_guard.py
 - lazyc2/addon_creator.py
 - lazyc2/blueprints/api.py
@@ -80,7 +83,6 @@ tests groups 56 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - modules/gym_cleanup.py
 - modules/harness.py
 - modules/jsonl_tail.py
-- modules/lazy_bridge.py
 - modules/lazy_cli_bridge.py
 - modules/lazy_engine.py
 - modules/lazy_installer.py
@@ -88,12 +90,14 @@ tests groups 56 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - modules/lazy_loop.py
 - modules/lazy_mentions.py
 - modules/lazy_orchestrator_feedback.py
+- modules/lazy_osinfer.py
 - modules/lazy_proxy.py
 - modules/lazy_roles.py
 - modules/lazy_runner.py
 - modules/lazy_sandbox.py
 - modules/lazy_skill_mirror.py
 - modules/lazy_skills.py
+- modules/lazy_verify.py
 - modules/lazyk8s.py
 - modules/loop_guardrails.py
 - modules/loop_progress.py
@@ -121,13 +125,13 @@ tests groups 56 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - tests/test_aes_key_propagation.py
 - tests/test_api_authz.py
 - tests/test_asset_gate.py
+- tests/test_audit_remediation.py
 - tests/test_auto_registry.py
 - tests/test_c2_agent_dual.py
 - tests/test_core_config.py
 - tests/test_core_defaults.py
 - tests/test_guardrails.py
 - tests/test_gym_lifecycle.py
-- tests/test_gym_matrix_ctf.py
 - tests/test_harness_mode.py
 - tests/test_lazy_agent.py
 - tests/test_lazy_bridge_traffic.py

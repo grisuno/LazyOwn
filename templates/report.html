@@ -152,6 +152,65 @@
                     {{ report_data.appendix_a_changes | replace('\n', '<br>') | markdown | safe }}
                 </div>
             </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Appendix B: Autonomous Loop Activity</div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        {{ loops_summary.total }} autonomous loop(s) recorded —
+                        {{ loops_summary.by_status.get('finished', 0) }} finished,
+                        {{ loops_summary.by_status.get('failed', 0) }} failed,
+                        {{ loops_summary.by_status.get('running', 0) }} running,
+                        {{ loops_summary.by_status.get('stopped', 0) }} stopped.
+                    </p>
+                    {% if loops_summary.by_target %}
+                    <table class="table table-bordered mb-3">
+                        <thead>
+                            <tr>
+                                <th>Target</th>
+                                <th>Loops</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for target, count in loops_summary.by_target.items() %}
+                            <tr>
+                                <td>{{ target }}</td>
+                                <td>{{ count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                    {% if loops_summary.recent %}
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Started</th>
+                                <th>Kind</th>
+                                <th>Target</th>
+                                <th>Goal</th>
+                                <th>Status</th>
+                                <th>Operator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for run in loops_summary.recent %}
+                            <tr>
+                                <td>{{ run.started_at }}</td>
+                                <td>{{ run.kind }}</td>
+                                <td>{{ run.target }}</td>
+                                <td>{{ run.goal }}</td>
+                                <td><span class="badge bg-secondary">{{ run.status }}</span></td>
+                                <td>{{ run.started_by }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-muted">No autonomous loops recorded yet. Start one from the dashboard Auto Loops panel.</p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         <button type="button" onclick="window.location.href = '/teamserver';" class="btn btn-primary">Update</button>
         <button  type="button" id="downloadPdf" class="btn btn-primary">Download PDF</button>

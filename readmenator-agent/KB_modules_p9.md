@@ -1,6 +1,29 @@
 # Subsystem: modules (page 9 of 16)
 Previous: [KB_modules_p8.md](KB_modules_p8.md)
 
+## modules/lazy_mentions.py
+- Doc: LAZY chat mentions with multi-type search and scroll pagination.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyMention` (class, line 35) `class LazyMention`
+  - `LazyMentionPage` (class, line 45) `class LazyMentionPage`
+  - `InvalidCursor` (class, line 52) `class InvalidCursor(ValueError)`
+  - `_encode_cursor` (function, line 56) `def _encode_cursor(last_id, last_kind, exact, scope, query)`
+  - `_decode_cursor` (function, line 64) `def _decode_cursor(cursor, scope, query)`
+  - `_literal_match` (function, line 84) `def _literal_match(haystack, query)`
+  - `_collect_candidates` (function, line 91) `def _collect_candidates(kind, query)`
+  - `_finding_hits` (function, line 108) `def _finding_hits(query)`
+  - `_company_hits` (function, line 142) `def _company_hits(query)`
+  - `_asset_hits` (function, line 167) `def _asset_hits(kind, query)`
+  - `_store_glob` (function, line 186) `def _store_glob(pattern)`
+  - `search_mentions_page` (function, line 193) `def search_mentions_page(kind, query, cursor)`
+  - `parse_mentions` (function, line 237) `def parse_mentions(message)`
+  - `compose_message` (function, line 268) `def compose_message(message)`
+  - `_load_snapshot` (function, line 296) `def _load_snapshot(kind, ref_id)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `cli/commands/lazyloop.py`, `lazyc2.py`, `skills/lazyown_mcp.py`, `tests/test_security_codeql_batch.py`
+
 ## modules/lazy_orchestrator_feedback.py
 - Doc: Organic orchestrator training from loop usage.
 - Layer: utility
@@ -19,6 +42,24 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `_key` (function, line 228) `def _key(line)`
 - Depends on: `modules/lazy_cli_bridge.py`, `modules/lazy_intel.py`
 - Imported by: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/mediation/feedback_mediator.py`, `tests/test_loop_supervision.py`, `tests/test_mediation.py`
+
+## modules/lazy_osinfer.py
+- Doc: Target OS inference and OS-aware verb gating.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `infer_from_ttl` (function, line 47) `def infer_from_ttl(ttl)`
+  - `infer_from_ping_output` (function, line 72) `def infer_from_ping_output(output)`
+  - `infer_from_banner` (function, line 97) `def infer_from_banner(text)`
+  - `merge_os` (function, line 118) `def merge_os(current, new)`
+  - `addon_target_os` (function, line 130) `def addon_target_os(name)`
+  - `verb_target_os` (function, line 157) `def verb_target_os(command)`
+  - `os_compatible` (function, line 194) `def os_compatible(verb_os, host_os)`
+  - `verb_compatible_with_host` (function, line 216) `def verb_compatible_with_host(command, host_os)`
+  - `host_os_for_target` (function, line 239) `def host_os_for_target(target)`
+  - `remember_host_os` (function, line 287) `def remember_host_os(target, os_name, reason)`
+  - `learn_from_transcripts` (function, line 330) `def learn_from_transcripts(target, transcripts)`
+- Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/world_model.py`
 
 ## modules/lazy_proxy.py
 - Doc: Recording HTTP/HTTPS proxy for the autonomous loop.
@@ -307,6 +348,37 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `_digest` (function, line 100) `def _digest(older, complete)`
   - `_truncate_records` (function, line 126) `def _truncate_records(records, budget)`
 
+## modules/lazy_surface_diff.py
+- Doc: Surface snapshot and diff: what changed about a host since last look.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `snapshot_host` (function, line 52) `def snapshot_host(host)`
+  - `fingerprint` (function, line 79) `def fingerprint(state)`
+  - `_port_number` (function, line 85) `def _port_number(key)`
+  - `diff_hosts` (function, line 93) `def diff_hosts(before, after)`
+  - `_load_previous` (function, line 149) `def _load_previous(path)`
+  - `current_snapshots` (function, line 160) `def current_snapshots(world)`
+  - `refresh` (function, line 186) `def refresh(world, sessions_dir)`
+  - `last_diff` (function, line 234) `def last_diff(sessions_dir)`
+  - `changed_hosts` (function, line 253) `def changed_hosts(limit, sessions_dir)`
+- Depends on: `modules/world_model.py`
+
+## modules/lazy_verify.py
+- Doc: Structured read-only verification of loop findings.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_cap` (function, line 52) `def _cap(text, cap)`
+  - `_host_port` (function, line 57) `def _host_port(finding_text, poc)`
+  - `plan_checks` (function, line 84) `def plan_checks(finding_text, poc)`
+  - `_nmap_available` (function, line 133) `def _nmap_available()`
+  - `run_check` (function, line 143) `def run_check(check, executor)`
+  - `verdict_from_checks` (function, line 214) `def verdict_from_checks(checks_results)`
+  - `verify_finding` (function, line 232) `def verify_finding(finding_text, poc, executor)`
+  - `_add` (function, line 104) `def _add(kind, command, check_port)`
+- Depends on: `core/process.py`
+
 ## modules/lazyatack.sh
 - Doc: Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico...
 - Layer: utility
@@ -420,67 +492,6 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
 
 ## modules/lazygat.sh
 - Doc: Nombre del script: lazygath.sh Autor: Gris Iscomeback Correo electrónico...
-- Layer: utility
-- Language: sh
-
-## modules/lazyk8s.py
-- Doc: Container and Kubernetes attack module.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ContainerResource` (class, line 20) `class ContainerResource`
-  - `ContainerFinding` (class, line 30) `class ContainerFinding`
-  - `DockerEnumerator` (class, line 41) `class DockerEnumerator`
-  - `K8sEnumerator` (class, line 264) `class K8sEnumerator`
-  - `ContainerEscapeTechniques` (class, line 624) `class ContainerEscapeTechniques`
-  - `ContainerRuntimeDetector` (class, line 759) `class ContainerRuntimeDetector`
-  - `__init__` (method, line 44) `def __init__(self, socket_path)`
-  - `is_socket_accessible` (method, line 47) `def is_socket_accessible(self)`
-  - `_docker_api` (method, line 51) `def _docker_api(self, endpoint)`
-  - `list_containers` (method, line 70) `def list_containers(self)`
-  - `list_images` (method, line 94) `def list_images(self)`
-  - `inspect_container` (method, line 118) `def inspect_container(self, container_id)`
-  - `check_privileged_containers` (method, line 137) `def check_privileged_containers(self)`
-  - `check_sensitive_mounts` (method, line 162) `def check_sensitive_mounts(self)`
-  - `check_docker_socket_mount` (method, line 196) `def check_docker_socket_mount(self)`
-  - `check_capabilities` (method, line 217) `def check_capabilities(self)`
-  - `full_check` (method, line 250) `def full_check(self)`
-  - `__init__` (method, line 267) `def __init__(self, kubeconfig, token, api_server)`
-  - `_load_kubeconfig` (method, line 274) `def _load_kubeconfig(self)`
-  - `_get_k8s_api` (method, line 285) `def _get_k8s_api(self, path)`
-  - `list_pods` (method, line 366) `def list_pods(self, namespace)`
-  - `list_namespaces` (method, line 390) `def list_namespaces(self)`
-  - `list_secrets` (method, line 410) `def list_secrets(self, namespace)`
-  - `list_service_accounts` (method, line 462) `def list_service_accounts(self, namespace)`
-  - `check_rbac` (method, line 498) `def check_rbac(self)`
-  - `check_pod_escape_vectors` (method, line 530) `def check_pod_escape_vectors(self)`
-  - `full_check` (method, line 582) `def full_check(self, sessions_dir)`
-  - `detect_current_environment` (method, line 684) `def detect_current_environment()`
-  - `detect_runtime` (method, line 803) `def detect_runtime()`
-  - `detect_mounts` (method, line 874) `def detect_mounts()`
-  - `detect_dangerous_capabilities` (method, line 921) `def detect_dangerous_capabilities()`
-  - `auto_detect_all` (method, line 992) `def auto_detect_all()`
-- Imported by: `cli/commands/containers.py`
-
-## modules/lazylynis.sh
-- Doc: Verificar si se proporcionó un argumento para el host remoto
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `check_sudo` (function, line 32)
-
-## modules/lazymasscan.sh
-- Doc: Nombre del script: lazymasscan.sh Autor: Gris Iscomeback Correo electrónico...
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `extract_ports_info` (function, line 74)
-  - `run_masscan_script` (function, line 94)
-  - `print_row` (function, line 117)
-  - `ctrl_c` (function, line 20)
-
-## modules/lazymobilerevshell.sh
-- Doc: Verificar si se pasaron los argumentos de IP y puerto
 - Layer: utility
 - Language: sh
 

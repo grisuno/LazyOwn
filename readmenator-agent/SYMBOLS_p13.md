@@ -1,8 +1,16 @@
-# Symbols (page 13 of 45)
+# Symbols (page 13 of 46)
 Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
+| `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
+| `_is_dangerous_ace` | method | `modules/dacl_abuse.py:379` | `def _is_dangerous_ace(ace)` |
+| `adminsdholder_abuse_plan` | method | `modules/dacl_abuse.py:291` | `def adminsdholder_abuse_plan(self, target_sid)` |
+| `compute_attack_chains` | method | `modules/dacl_abuse.py:224` | `def compute_attack_chains(self)` |
+| `dcsync_rights_assignment_plan` | method | `modules/dacl_abuse.py:318` | `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` |
+| `owner_takeover_plan` | method | `modules/dacl_abuse.py:348` | `def owner_takeover_plan(self, target_dn, attacker_sid)` |
+| `parse_bloodhound_acls` | method | `modules/dacl_abuse.py:143` | `def parse_bloodhound_acls(self, edges)` |
 | `parse_raw_aces` | method | `modules/dacl_abuse.py:182` | `def parse_raw_aces(self, raw_nthashes)` |
 | `summary` | method | `modules/dacl_abuse.py:418` | `def summary(self)` |
 | `_aggregate_data` | function | `modules/dashboard_bp.py:113` | `def _aggregate_data()` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `__call__` | method | `modules/event_consumers.py:351` | `def __call__(self, event)` |
 | `__init__` | method | `modules/event_consumers.py:146` | `def __init__(self)` |
 | `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
-| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
-| `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
-| `_update_soul` | function | `modules/event_consumers.py:100` | `def _update_soul(phase, credentials, access)` |
-| `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
-| `unwire_all_consumers` | function | `modules/event_consumers.py:399` | `def unwire_all_consumers(bus)` |
-| `wire_all_consumers` | function | `modules/event_consumers.py:370` | `def wire_all_consumers(bus)` |
-| `_append_event` | function | `modules/event_engine.py:173` | `def _append_event(event)` |
-| `_read_watermark` | function | `modules/event_engine.py:130` | `def _read_watermark()` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

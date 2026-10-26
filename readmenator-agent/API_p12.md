@@ -76,21 +76,22 @@ Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules
 ## modules/finding_lifecycle.py
 Depends on: `modules/osint_enrich.py`
 Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
-- `confirm` (function) `modules/finding_lifecycle.py:61` `def confirm(finding_id, evidence, sessions_dir, by)` -- Mark a finding confirmed with linked evidence (CAIRN seed-add).
-- `reject` (function) `modules/finding_lifecycle.py:90` `def reject(finding_id, reason, sessions_dir, by)` -- Mark a finding rejected (disproven lead, CAIRN dead-end discipline).
-- `add_dead_end` (function) `modules/finding_lifecycle.py:104` `def add_dead_end(kind, value, reason, sessions_dir)` -- Suppress a value campaign-wide with a labeled reason (dead_end_hashes).
-- `is_dead_end` (function) `modules/finding_lifecycle.py:116` `def is_dead_end(kind, value, sessions_dir)` -- Return True when a kind/value pair sits on the suppression list.
-- `suppressed_values` (function) `modules/finding_lifecycle.py:123` `def suppressed_values(sessions_dir)` -- Return every suppressed value for text-level filtering by the loop.
-- `resolve` (function) `modules/finding_lifecycle.py:129` `def resolve(node, sessions_dir)` -- Resolve a finding node's confirmation state.
-- `apply_confirmation` (function) `modules/finding_lifecycle.py:154` `def apply_confirmation(nodes, sessions_dir)` -- Stamp ``confirmation``/``status`` on every finding node in place.
-- `record` (function) `modules/finding_lifecycle.py:234` `def record(db, workspace, host, title, severity, summary, poc)` -- Record a campaign finding on the DB for one host.
-- `findings_for` (function) `modules/finding_lifecycle.py:259` `def findings_for(db, workspace)` -- List campaign findings with parsed status markers.
-- `set_status` (function) `modules/finding_lifecycle.py:264` `def set_status(db, finding_id, status)` -- Set the lifecycle status marker on one finding.
-- `has_running_retest` (function) `modules/finding_lifecycle.py:310` `def has_running_retest(finding_id, sessions_dir)` -- Return True while a retest for the finding is still running.
-- `request_retest` (function) `modules/finding_lifecycle.py:318` `def request_retest(db, finding_id, sessions_dir)` -- Queue a retest; an already-running one is returned unchanged.
-- `resolve_retest` (function) `modules/finding_lifecycle.py:338` `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` -- Close a retest, bump the evidence version and apply the verdict.
-- `classify_retest` (function) `modules/finding_lifecycle.py:384` `def classify_retest(needle, output)` -- Map retest output onto reproducible / fixed / inconclusive.
-- `render_markdown` (function) `modules/finding_lifecycle.py:403` `def render_markdown(db, workspace, title)` -- Render campaign findings as a markdown report.
+- `evidence_floor` (function) `modules/finding_lifecycle.py:52` `def evidence_floor(items)` -- Whether hard evidence is present in a list of evidence strings.
+- `confirm` (function) `modules/finding_lifecycle.py:94` `def confirm(finding_id, evidence, sessions_dir, by)` -- Mark a finding confirmed with linked evidence (CAIRN seed-add).
+- `reject` (function) `modules/finding_lifecycle.py:123` `def reject(finding_id, reason, sessions_dir, by)` -- Mark a finding rejected (disproven lead, CAIRN dead-end discipline).
+- `add_dead_end` (function) `modules/finding_lifecycle.py:137` `def add_dead_end(kind, value, reason, sessions_dir)` -- Suppress a value campaign-wide with a labeled reason (dead_end_hashes).
+- `is_dead_end` (function) `modules/finding_lifecycle.py:149` `def is_dead_end(kind, value, sessions_dir)` -- Return True when a kind/value pair sits on the suppression list.
+- `suppressed_values` (function) `modules/finding_lifecycle.py:156` `def suppressed_values(sessions_dir)` -- Return every suppressed value for text-level filtering by the loop.
+- `resolve` (function) `modules/finding_lifecycle.py:162` `def resolve(node, sessions_dir)` -- Resolve a finding node's confirmation state.
+- `apply_confirmation` (function) `modules/finding_lifecycle.py:190` `def apply_confirmation(nodes, sessions_dir)` -- Stamp ``confirmation``/``status`` on every finding node in place.
+- `record` (function) `modules/finding_lifecycle.py:270` `def record(db, workspace, host, title, severity, summary, poc)` -- Record a campaign finding on the DB for one host.
+- `findings_for` (function) `modules/finding_lifecycle.py:295` `def findings_for(db, workspace)` -- List campaign findings with parsed status markers.
+- `set_status` (function) `modules/finding_lifecycle.py:300` `def set_status(db, finding_id, status)` -- Set the lifecycle status marker on one finding.
+- `has_running_retest` (function) `modules/finding_lifecycle.py:346` `def has_running_retest(finding_id, sessions_dir)` -- Return True while a retest for the finding is still running.
+- `request_retest` (function) `modules/finding_lifecycle.py:354` `def request_retest(db, finding_id, sessions_dir)` -- Queue a retest; an already-running one is returned unchanged.
+- `resolve_retest` (function) `modules/finding_lifecycle.py:374` `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` -- Close a retest, bump the evidence version and apply the verdict.
+- `classify_retest` (function) `modules/finding_lifecycle.py:420` `def classify_retest(needle, output)` -- Map retest output onto reproducible / fixed / inconclusive.
+- `render_markdown` (function) `modules/finding_lifecycle.py:439` `def render_markdown(db, workspace, title)` -- Render campaign findings as a markdown report.
 
 ## modules/forensic_cleaner.py
 Imported by: `cli/commands/opsec_cleanup.py`
@@ -391,38 +392,38 @@ Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`
 - `search_service` (function) `modules/integrations/searchsploit.py:346` `def search_service(name, version)` -- Module-level convenience: search by service name and version.
 
 ## modules/intel_fusion.py
-Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/world_model.py`
-Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
-- `node_id` (function) `modules/intel_fusion.py:106` `def node_id(kind, value)` -- Deterministic node id from kind + normalized value.
-- `build_intel_graph` (function) `modules/intel_fusion.py:176` `def build_intel_graph(sessions_dir, est_cap)` -- Fuse all session artefacts into one C2-centred intel graph.
-- `add_node` (function) `modules/intel_fusion.py:182` `def add_node(kind, value, label)` -- Insert node or merge extra fields into the existing one.
-- `add_edge` (function) `modules/intel_fusion.py:200` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation.
-- `tag_source` (function) `modules/intel_fusion.py:214` `def tag_source(nid, source)` -- Record a corroborating artefact on a node, deduped.
-- `group_colors` (function) `modules/intel_fusion.py:577` `def group_colors(graph)` -- Stable colors for layer/language groupings (ReadMenator contract).
-- `page_settings` (function) `modules/intel_fusion.py:593` `def page_settings(graph)` -- Explorer page settings with ReadMenator physics sizes (exact values).
-- `build_analytics` (function) `modules/intel_fusion.py:650` `def build_analytics(graph, summary)` -- Side-panel analytics (attribution funnel + intel summary).
-- `build_bundle_payload` (function) `modules/intel_fusion.py:737` `def build_bundle_payload(graph)` -- Derive the circular/spherical bundle payload from a fused graph.
-- `bundle_settings` (function) `modules/intel_fusion.py:853` `def bundle_settings(graph)` -- Bundle page settings with ReadMenator sizes (exact values).
-- `assign_layout` (function) `modules/intel_fusion.py:884` `def assign_layout(graph, mode)` -- Attach x/y/z for radial/spherical modes; force modes stay free.
-- `write_summary` (function) `modules/intel_fusion.py:949` `def write_summary(graph, sessions_dir)` -- Score host exposure and suggest intents for the autonomous planner.
+Depends on: `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/world_model.py`
+Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_cve_pipeline.py`, `tests/test_intel_fusion.py`
+- `node_id` (function) `modules/intel_fusion.py:173` `def node_id(kind, value)` -- Deterministic node id from kind + normalized value.
+- `build_intel_graph` (function) `modules/intel_fusion.py:243` `def build_intel_graph(sessions_dir, est_cap)` -- Fuse all session artefacts into one C2-centred intel graph.
+- `add_node` (function) `modules/intel_fusion.py:249` `def add_node(kind, value, label)` -- Insert node or merge extra fields into the existing one.
+- `add_edge` (function) `modules/intel_fusion.py:267` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation, deduped by (src, dst, kind).
+- `tag_source` (function) `modules/intel_fusion.py:285` `def tag_source(nid, source)` -- Record a corroborating artefact on a node, deduped.
+- `group_colors` (function) `modules/intel_fusion.py:692` `def group_colors(graph)` -- Stable colors for layer/language groupings (ReadMenator contract).
+- `page_settings` (function) `modules/intel_fusion.py:708` `def page_settings(graph)` -- Explorer page settings with ReadMenator physics sizes (exact values).
+- `build_analytics` (function) `modules/intel_fusion.py:765` `def build_analytics(graph, summary)` -- Side-panel analytics (attribution funnel + intel summary).
+- `build_bundle_payload` (function) `modules/intel_fusion.py:852` `def build_bundle_payload(graph)` -- Derive the circular/spherical bundle payload from a fused graph.
+- `bundle_settings` (function) `modules/intel_fusion.py:968` `def bundle_settings(graph)` -- Bundle page settings with ReadMenator sizes (exact values).
+- `assign_layout` (function) `modules/intel_fusion.py:999` `def assign_layout(graph, mode)` -- Attach x/y/z for radial/spherical modes; force modes stay free.
+- `write_summary` (function) `modules/intel_fusion.py:1064` `def write_summary(graph, sessions_dir)` -- Score host exposure with a per-component breakdown.
 
 ## modules/intelligence_engine.py
-Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
+Depends on: `core/logging.py`, `modules/__init__.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_heat.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
 Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
-- `IntelligenceEngine.__init__` (method) `modules/intelligence_engine.py:142` `def __init__(self, config)`
-- `IntelligenceEngine.collect_from_scan` (method) `modules/intelligence_engine.py:153` `def collect_from_scan(self, target)` -- Parse nmap XML into structured facts.
-- `IntelligenceEngine.collect_from_tool` (method) `modules/intelligence_engine.py:255` `def collect_from_tool(self, output, tool, host)` -- Parse tool output into structured facts using ObsParser.
-- `IntelligenceEngine.collect_from_estorides` (method) `modules/intelligence_engine.py:292` `def collect_from_estorides(self, target)` -- Run estorides OSINT aggregator and collect findings.
-- `IntelligenceEngine.collect_from_nuclei` (method) `modules/intelligence_engine.py:334` `def collect_from_nuclei(self, target)` -- Run nuclei vulnerability scanner and collect findings.
-- `IntelligenceEngine.collect_from_yara` (method) `modules/intelligence_engine.py:376` `def collect_from_yara(self, target_path)` -- Scan with YARA rules and collect IOC matches.
-- `IntelligenceEngine.collect_from_factstore` (method) `modules/intelligence_engine.py:415` `def collect_from_factstore(self)` -- Ingest structured facts from FactStore policy_facts.json.
-- `IntelligenceEngine.analyze` (method) `modules/intelligence_engine.py:516` `def analyze(self)` -- Correlate collected facts into structured intelligence.
-- `IntelligenceEngine.produce_intelligence` (method) `modules/intelligence_engine.py:724` `def produce_intelligence(self)` -- Grade and enrich intelligence assessments with MITRE mappings.
-- `IntelligenceEngine.produce_counter_intelligence` (method) `modules/intelligence_engine.py:754` `def produce_counter_intelligence(self)` -- Assess what we exposed and what can detect us.
-- `IntelligenceEngine.disseminate` (method) `modules/intelligence_engine.py:804` `def disseminate(self)` -- Write intelligence to WorldModel, killchain, and report file.
-- `IntelligenceEngine.run_full_cycle` (method) `modules/intelligence_engine.py:884` `def run_full_cycle(self, target)` -- Execute the complete intelligence cycle for a target.
-- `IntelligenceEngine.get_intel_report` (method) `modules/intelligence_engine.py:913` `def get_intel_report(self)` -- Produce a structured JSON intelligence report.
-- `get_intelligence_engine` (function) `modules/intelligence_engine.py:970` `def get_intelligence_engine(config)` -- Return the module-level singleton IntelligenceEngine.
+- `IntelligenceEngine.__init__` (method) `modules/intelligence_engine.py:143` `def __init__(self, config)`
+- `IntelligenceEngine.collect_from_scan` (method) `modules/intelligence_engine.py:197` `def collect_from_scan(self, target)` -- Parse every nmap XML of the target into structured facts.
+- `IntelligenceEngine.collect_from_tool` (method) `modules/intelligence_engine.py:326` `def collect_from_tool(self, output, tool, host)` -- Parse tool output into structured facts using ObsParser.
+- `IntelligenceEngine.collect_from_estorides` (method) `modules/intelligence_engine.py:363` `def collect_from_estorides(self, target)` -- Run estorides OSINT aggregator and collect findings.
+- `IntelligenceEngine.collect_from_nuclei` (method) `modules/intelligence_engine.py:405` `def collect_from_nuclei(self, target)` -- Run nuclei vulnerability scanner and collect findings.
+- `IntelligenceEngine.collect_from_yara` (method) `modules/intelligence_engine.py:447` `def collect_from_yara(self, target_path)` -- Scan with YARA rules and collect IOC matches.
+- `IntelligenceEngine.collect_from_factstore` (method) `modules/intelligence_engine.py:486` `def collect_from_factstore(self)` -- Ingest structured facts from FactStore policy_facts.json.
+- `IntelligenceEngine.analyze` (method) `modules/intelligence_engine.py:587` `def analyze(self)` -- Correlate collected facts into structured intelligence.
+- `IntelligenceEngine.produce_intelligence` (method) `modules/intelligence_engine.py:856` `def produce_intelligence(self)` -- Grade and enrich intelligence assessments with MITRE mappings.
+- `IntelligenceEngine.produce_counter_intelligence` (method) `modules/intelligence_engine.py:886` `def produce_counter_intelligence(self)` -- Assess what we exposed and what can detect us.
+- `IntelligenceEngine.disseminate` (method) `modules/intelligence_engine.py:936` `def disseminate(self)` -- Write intelligence to WorldModel, killchain, and report file.
+- `IntelligenceEngine.run_full_cycle` (method) `modules/intelligence_engine.py:1040` `def run_full_cycle(self, target)` -- Execute the complete intelligence cycle for a target.
+- `IntelligenceEngine.get_intel_report` (method) `modules/intelligence_engine.py:1069` `def get_intel_report(self)` -- Produce a structured JSON intelligence report.
+- `get_intelligence_engine` (function) `modules/intelligence_engine.py:1126` `def get_intelligence_engine(config)` -- Return the module-level singleton IntelligenceEngine.
 
 ## modules/intercept.py
 Depends on: `cli/commands/enum.py`

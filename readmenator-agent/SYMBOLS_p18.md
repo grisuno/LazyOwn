@@ -1,8 +1,91 @@
-# Symbols (page 18 of 45)
+# Symbols (page 18 of 46)
 Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `record` | method | `modules/llm_evaluator.py:57` | `def record(self, decision)` |
+| `record` | method | `modules/llm_evaluator.py:81` | `def record(self, decision)` |
+| `record_decision` | method | `modules/llm_evaluator.py:165` | `def record_decision(self, session_id, thought, action, mitre_tactic, expected_outcome, confidence)` |
+| `record_decision` | function | `modules/llm_evaluator.py:302` | `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)` |
+| `record_outcome` | method | `modules/llm_evaluator.py:191` | `def record_outcome(self, decision_id, actual_outcome, findings_count, success)` |
+| `record_outcome` | function | `modules/llm_evaluator.py:313` | `def record_outcome(decision_id, actual_outcome, findings_count, success)` |
+| `update_outcome` | method | `modules/llm_evaluator.py:60` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
+| `update_outcome` | method | `modules/llm_evaluator.py:86` | `def update_outcome(self, decision_id, actual, findings_count, success)` |
+| `LLMBackendNotSupportedError` | class | `modules/llm_factory.py:194` | `class LLMBackendNotSupportedError(ValueError)` |
+| `LLMBackendUnavailableError` | class | `modules/llm_factory.py:190` | `class LLMBackendUnavailableError(RuntimeError)` |
+| `_build_anthropic` | function | `modules/llm_factory.py:524` | `def _build_anthropic(config)` |
+| `_build_backend` | function | `modules/llm_factory.py:685` | `def _build_backend(normalized, resolved_config)` |
+| `_build_deepseek` | function | `modules/llm_factory.py:546` | `def _build_deepseek(config)` |
+| `_build_groq` | function | `modules/llm_factory.py:452` | `def _build_groq(config)` |
+| `_build_llamacpp` | function | `modules/llm_factory.py:488` | `def _build_llamacpp(config)` |
+| `_build_ollama` | function | `modules/llm_factory.py:474` | `def _build_ollama(config)` |
+| `_build_openai` | function | `modules/llm_factory.py:502` | `def _build_openai(config)` |
+| `_normalize_backend` | function | `modules/llm_factory.py:387` | `def _normalize_backend(backend)` |
+| `_pi_complete` | function | `modules/llm_factory.py:787` | `def _pi_complete(model, prompt, max_tokens)` |
+| `_pi_timeout` | function | `modules/llm_factory.py:775` | `def _pi_timeout()` |
+| `_require_cloud_allowed` | function | `modules/llm_factory.py:420` | `def _require_cloud_allowed(normalized)` |
+| `_resolve_api_key` | function | `modules/llm_factory.py:333` | `def _resolve_api_key(config)` |
+| `_resolve_api_key_for_backend` | function | `modules/llm_factory.py:356` | `def _resolve_api_key_for_backend(backend, config)` |
+| `_resolve_model_identifier` | function | `modules/llm_factory.py:568` | `def _resolve_model_identifier(backend_identifier, config)` |
+| `_wrap_with_budget` | function | `modules/llm_factory.py:595` | `def _wrap_with_budget(backend, config, backend_identifier)` |
+| `api_key_config_key` | function | `modules/llm_factory.py:266` | `def api_key_config_key(backend)` |
+| `backend_requires_api_key` | function | `modules/llm_factory.py:291` | `def backend_requires_api_key(backend)` |
+| `complete` | function | `modules/llm_factory.py:899` | `def complete(model, prompt, max_tokens)` |
+| `default_model_for` | function | `modules/llm_factory.py:224` | `def default_model_for(backend)` |
+| `get_llm_backend` | function | `modules/llm_factory.py:633` | `def get_llm_backend(config, backend)` |
+| `get_llm_backend_raw` | function | `modules/llm_factory.py:729` | `def get_llm_backend_raw(config, backend)` |
+| `groq_model_chain` | function | `modules/llm_factory.py:141` | `def groq_model_chain(config)` |
+| `is_model_missing_error` | function | `modules/llm_factory.py:121` | `def is_model_missing_error(message)` |
+| `load_payload` | function | `modules/llm_factory.py:309` | `def load_payload(payload_path)` |
+| `model_config_key` | function | `modules/llm_factory.py:245` | `def model_config_key(backend)` |
+| `stream_complete` | function | `modules/llm_factory.py:828` | `def stream_complete(model, prompt, max_tokens, on_delta)` |
+| `try_get_llm_backend` | function | `modules/llm_factory.py:751` | `def try_get_llm_backend(config, backend)` |
+| `HealthRegistry` | class | `modules/llm_pool.py:75` | `class HealthRegistry` |
+| `LLMPool` | class | `modules/llm_pool.py:176` | `class LLMPool` |
+| `PoolConfig` | class | `modules/llm_pool.py:29` | `class PoolConfig` |
+| `PoolExhausted` | class | `modules/llm_pool.py:42` | `class PoolExhausted(RuntimeError)` |
+| `PoolMember` | class | `modules/llm_pool.py:64` | `class PoolMember` |
+| `__init__` | method | `modules/llm_pool.py:83` | `def __init__(self, config)` |
+| `__init__` | method | `modules/llm_pool.py:179` | `def __init__(self, members, health, config)` |
+| `_backoff_for` | method | `modules/llm_pool.py:155` | `def _backoff_for(self, failures)` |
+| `_health_path` | function | `modules/llm_pool.py:20` | `def _health_path()` |
+| `_load` | method | `modules/llm_pool.py:92` | `def _load(self)` |
+| `_ordered` | method | `modules/llm_pool.py:201` | `def _ordered(self)` |
+| `_persist_locked` | method | `modules/llm_pool.py:116` | `def _persist_locked(self)` |
+| `_truncate` | method | `modules/llm_pool.py:217` | `def _truncate(self, text, overflow_dir)` |
+| `complete` | method | `modules/llm_pool.py:237` | `def complete(self, prompt, max_tokens, session_key, overflow_dir)` |
+| `healthy` | method | `modules/llm_pool.py:163` | `def healthy(self, member_id)` |
+| `members` | method | `modules/llm_pool.py:192` | `def members(self)` |
+| `report_failure` | method | `modules/llm_pool.py:143` | `def report_failure(self, member_id, error)` |
+| `report_success` | method | `modules/llm_pool.py:135` | `def report_success(self, member_id)` |
+| `session_key` | method | `modules/llm_pool.py:196` | `def session_key(self, conversation_id, role, index)` |
+| `shared_registry` | function | `modules/llm_pool.py:50` | `def shared_registry(config)` |
+| `KnowledgeStore` | class | `modules/llm_prompts.py:286` | `class KnowledgeStore` |
+| `LlmPromptConfig` | class | `modules/llm_prompts.py:111` | `class LlmPromptConfig` |
+| `__init__` | method | `modules/llm_prompts.py:289` | `def __init__(self, path)` |
+| `_payload_block` | function | `modules/llm_prompts.py:354` | `def _payload_block(config)` |
+| `_prompt_adversary` | function | `modules/llm_prompts.py:393` | `def _prompt_adversary(base_prompt, kb_text, config)` |
+| `_prompt_general` | function | `modules/llm_prompts.py:409` | `def _prompt_general(base_prompt, kb_text, config)` |
+| `_prompt_oneliner` | function | `modules/llm_prompts.py:362` | `def _prompt_oneliner(base_prompt, kb_text, config)` |
+| `_prompt_redop` | function | `modules/llm_prompts.py:462` | `def _prompt_redop(base_prompt, kb_text, config)` |
+| `_prompt_script` | function | `modules/llm_prompts.py:378` | `def _prompt_script(base_prompt, kb_text, config)` |
+| `_prompt_search` | function | `modules/llm_prompts.py:422` | `def _prompt_search(base_prompt, kb_text, config)` |
+| `_prompt_task` | function | `modules/llm_prompts.py:450` | `def _prompt_task(base_prompt, kb_text, config)` |
+| `_prompt_vuln` | function | `modules/llm_prompts.py:436` | `def _prompt_vuln(base_prompt, kb_text, config)` |
+| `add` | method | `modules/llm_prompts.py:324` | `def add(self, prompt, response)` |
+| `default_project_root` | function | `modules/llm_prompts.py:67` | `def default_project_root()` |
+| `from_defaults` | method | `modules/llm_prompts.py:130` | `def from_defaults(cls, project_root)` |
+| `knowledge_base_path` | method | `modules/llm_prompts.py:150` | `def knowledge_base_path(self, domain)` |
+| `knowledge_store` | method | `modules/llm_prompts.py:238` | `def knowledge_store(self, domain)` |
+| `load` | method | `modules/llm_prompts.py:297` | `def load(self)` |
+| `load_event_tool_output` | method | `modules/llm_prompts.py:176` | `def load_event_tool_output(self, event_name)` |
+| `load_payload_context` | method | `modules/llm_prompts.py:161` | `def load_payload_context(self)` |
+| `load_plan_history` | method | `modules/llm_prompts.py:203` | `def load_plan_history(self)` |
+| `load_report_context` | method | `modules/llm_prompts.py:218` | `def load_report_context(self)` |
+| `relevant` | method | `modules/llm_prompts.py:335` | `def relevant(self, prompt, limit)` |
+| `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
+| `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
+| `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
 | `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
 | `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
 | `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
@@ -90,6 +173,37 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `signal` | method | `modules/loop_guardrails.py:179` | `def signal(self)` |
 | `slot` | method | `modules/loop_guardrails.py:234` | `def slot(self, target)` |
 | `stuck` | method | `modules/loop_guardrails.py:110` | `def stuck(self)` |
+| `LoopManager` | class | `modules/loop_manager.py:316` | `class LoopManager` |
+| `LoopNotFoundError` | class | `modules/loop_manager.py:96` | `class LoopNotFoundError(KeyError)` |
+| `LoopSpec` | class | `modules/loop_manager.py:264` | `class LoopSpec` |
+| `LoopValidationError` | class | `modules/loop_manager.py:87` | `class LoopValidationError(ValueError)` |
+| `__init__` | method | `modules/loop_manager.py:90` | `def __init__(self, field, message)` |
+| `__init__` | method | `modules/loop_manager.py:327` | `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` |
+| `_load_registry_locked` | method | `modules/loop_manager.py:764` | `def _load_registry_locked(self)` |
+| `_loop_command` | function | `modules/loop_manager.py:284` | `def _loop_command(spec)` |
+| `_now_iso` | function | `modules/loop_manager.py:217` | `def _now_iso()` |
+| `_pid_alive` | function | `modules/loop_manager.py:246` | `def _pid_alive(pid, start_ticks)` |
+| `_process_start_ticks` | function | `modules/loop_manager.py:222` | `def _process_start_ticks(pid)` |
+| `_prune_locked` | method | `modules/loop_manager.py:715` | `def _prune_locked(self)` |
+| `_reap` | method | `modules/loop_manager.py:470` | `def _reap(self, loop_id, process)` |
+| `_refresh_log_bytes` | method | `modules/loop_manager.py:517` | `def _refresh_log_bytes(self, record)` |
+| `_remove_workspace` | method | `modules/loop_manager.py:740` | `def _remove_workspace(self, loop_id)` |
+| `_resolve_log_path` | method | `modules/loop_manager.py:588` | `def _resolve_log_path(self, record)` |
+| `_save_registry_locked` | method | `modules/loop_manager.py:779` | `def _save_registry_locked(self, records)` |
+| `_spawn_locked` | method | `modules/loop_manager.py:394` | `def _spawn_locked(self, spec, operator)` |
+| `_update_status_locked` | method | `modules/loop_manager.py:662` | `def _update_status_locked(self, loop_id, status)` |
+| `clamp_float` | function | `modules/loop_manager.py:175` | `def clamp_float(raw, field, default, minimum, maximum)` |
+| `clamp_int` | function | `modules/loop_manager.py:150` | `def clamp_int(raw, field, default, minimum, maximum)` |
+| `get_loop` | method | `modules/loop_manager.py:528` | `def get_loop(self, loop_id)` |
+| `list_loops` | method | `modules/loop_manager.py:493` | `def list_loops(self)` |
+| `loops_dir` | method | `modules/loop_manager.py:349` | `def loops_dir(self)` |
+| `read_log` | method | `modules/loop_manager.py:547` | `def read_log(self, loop_id, offset)` |
+| `sanitize_goal` | function | `modules/loop_manager.py:123` | `def sanitize_goal(raw)` |
+| `start` | method | `modules/loop_manager.py:353` | `def start(self, spec, operator)` |
+| `stop` | method | `modules/loop_manager.py:614` | `def stop(self, loop_id)` |
+| `summary` | method | `modules/loop_manager.py:679` | `def summary(self)` |
+| `validate_loop_id` | function | `modules/loop_manager.py:200` | `def validate_loop_id(loop_id)` |
+| `validate_target` | function | `modules/loop_manager.py:100` | `def validate_target(raw)` |
 | `LoopProgress` | class | `modules/loop_progress.py:169` | `class LoopProgress` |
 | `LoopSnapshot` | class | `modules/loop_progress.py:80` | `class LoopSnapshot` |
 | `__post_init__` | method | `modules/loop_progress.py:182` | `def __post_init__(self)` |
@@ -110,7 +224,8 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `_core` | function | `modules/loop_triggers.py:16` | `def _core()` |
 | `_load` | method | `modules/loop_triggers.py:32` | `def _load(self)` |
 | `add` | method | `modules/loop_triggers.py:36` | `def add(self, kind, arg, every_sec)` |
-| `due` | method | `modules/loop_triggers.py:142` | `def due(self, task_id, graph, activity, assets, store)` |
+| `due` | method | `modules/loop_triggers.py:155` | `def due(self, task_id, graph, activity, assets, store)` |
+| `ensure_cve_hot_trigger` | method | `modules/loop_triggers.py:142` | `def ensure_cve_hot_trigger(self)` |
 | `ensure_service_trigger` | method | `modules/loop_triggers.py:129` | `def ensure_service_trigger(self)` |
 | `list` | method | `modules/loop_triggers.py:125` | `def list(self)` |
 | `remove` | method | `modules/loop_triggers.py:100` | `def remove(self, trigger_id)` |
@@ -381,120 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `run_driver` | function | `modules/morse.py:186` | `def run_driver(config)` |
 | `text_to_morse` | function | `modules/morse.py:109` | `def text_to_morse(text, config)` |
 | `ATTACKERS_IP` | macro | `modules/mysql_hookandroot_lib.c:64` | `#define ATTACKERS_IP` |
-| `INJECTED_CONF` | macro | `modules/mysql_hookandroot_lib.c:66` | `#define INJECTED_CONF` |
-| `SHELL_PORT` | macro | `modules/mysql_hookandroot_lib.c:65` | `#define SHELL_PORT` |
-| `_GNU_SOURCE` | macro | `modules/mysql_hookandroot_lib.c:50` | `#define _GNU_SOURCE` |
-| `execvp` | function | `modules/mysql_hookandroot_lib.c:128` | `int execvp(const char* filename, char* const argv[])` |
-| `reverse_shell` | function | `modules/mysql_hookandroot_lib.c:74` | `void reverse_shell(void)` |
-| `NetworkOpsecConfig` | class | `modules/network_opsec.py:23` | `class NetworkOpsecConfig` |
-| `NetworkOpsecEngine` | class | `modules/network_opsec.py:53` | `class NetworkOpsecEngine` |
-| `__init__` | method | `modules/network_opsec.py:83` | `def __init__(self, config)` |
-| `_build_proxychains_config` | method | `modules/network_opsec.py:119` | `def _build_proxychains_config(proxies)` |
-| `analyze_traffic_with_canary_check` | method | `modules/network_opsec.py:179` | `def analyze_traffic_with_canary_check(self, target_host, target_port)` |
-| `canary_detection_setup` | method | `modules/network_opsec.py:317` | `def canary_detection_setup(self)` |
-| `check_canary_tokens` | method | `modules/network_opsec.py:131` | `def check_canary_tokens(self)` |
-| `configure_proxy_chain` | method | `modules/network_opsec.py:87` | `def configure_proxy_chain(self, chain_type)` |
-| `connection_jitter_schedule` | method | `modules/network_opsec.py:294` | `def connection_jitter_schedule(self, beacon_interval)` |
-| `dns_over_https_config` | method | `modules/network_opsec.py:246` | `def dns_over_https_config(self)` |
-| `source_port_randomize` | method | `modules/network_opsec.py:269` | `def source_port_randomize(self)` |
-| `summary` | method | `modules/network_opsec.py:349` | `def summary(self)` |
-| `Host` | class | `modules/nmap2csv.py:176` | `class Host` |
-| `Port` | class | `modules/nmap2csv.py:282` | `class Port` |
-| `__init__` | method | `modules/nmap2csv.py:177` | `def __init__(self, ip, fqdn)` |
-| `__init__` | method | `modules/nmap2csv.py:283` | `def __init__(self, number, protocol, service, version, script)` |
-| `add_port` | method | `modules/nmap2csv.py:188` | `def add_port(self, port)` |
-| `dottedquad_to_num` | function | `modules/nmap2csv.py:126` | `def dottedquad_to_num(ip)` |
-| `extract_matching_pattern` | function | `modules/nmap2csv.py:156` | `def extract_matching_pattern(regex, group_name, unfiltered_list)` |
-| `formatted_item` | function | `modules/nmap2csv.py:606` | `def formatted_item(host, format_item)` |
-| `generate_csv` | function | `modules/nmap2csv.py:653` | `def generate_csv(fd, results, options)` |
-| `get_fqdn` | method | `modules/nmap2csv.py:198` | `def get_fqdn(self)` |
-| `get_ip_dotted_format` | method | `modules/nmap2csv.py:195` | `def get_ip_dotted_format(self)` |
-| `get_ip_num_format` | method | `modules/nmap2csv.py:192` | `def get_ip_num_format(self)` |
-| `get_mac_address` | method | `modules/nmap2csv.py:255` | `def get_mac_address(self)` |
-| `get_mac_address_vendor` | method | `modules/nmap2csv.py:258` | `def get_mac_address_vendor(self)` |
-| `get_network_distance` | method | `modules/nmap2csv.py:261` | `def get_network_distance(self)` |
-| `get_number` | method | `modules/nmap2csv.py:290` | `def get_number(self)` |
-| `get_os` | method | `modules/nmap2csv.py:252` | `def get_os(self)` |
-| `get_port_list` | method | `modules/nmap2csv.py:204` | `def get_port_list(self)` |
-| `get_port_number_list` | method | `modules/nmap2csv.py:207` | `def get_port_number_list(self)` |
-| `get_port_protocol_list` | method | `modules/nmap2csv.py:216` | `def get_port_protocol_list(self)` |
-| `get_port_script_list` | method | `modules/nmap2csv.py:243` | `def get_port_script_list(self)` |
-| `get_port_service_list` | method | `modules/nmap2csv.py:225` | `def get_port_service_list(self)` |
-| `get_port_version_list` | method | `modules/nmap2csv.py:234` | `def get_port_version_list(self)` |
-| `get_protocol` | method | `modules/nmap2csv.py:293` | `def get_protocol(self)` |
-| `get_rdns_record` | method | `modules/nmap2csv.py:201` | `def get_rdns_record(self)` |
-| `get_script` | method | `modules/nmap2csv.py:302` | `def get_script(self)` |
-| `get_service` | method | `modules/nmap2csv.py:296` | `def get_service(self)` |
-| `get_version` | method | `modules/nmap2csv.py:299` | `def get_version(self)` |
-| `is_format_valid` | function | `modules/nmap2csv.py:572` | `def is_format_valid(fmt)` |
-| `main` | function | `modules/nmap2csv.py:688` | `def main()` |
-| `num_to_dottedquad` | function | `modules/nmap2csv.py:133` | `def num_to_dottedquad(n)` |
-| `parse` | function | `modules/nmap2csv.py:362` | `def parse(fd)` |
-| `parse_xml` | function | `modules/nmap2csv.py:492` | `def parse_xml(xml_file)` |
-| `repeat_attributes` | function | `modules/nmap2csv.py:639` | `def repeat_attributes(attribute_list)` |
-| `set_fqdn` | method | `modules/nmap2csv.py:265` | `def set_fqdn(self, fqdn)` |
-| `set_mac` | method | `modules/nmap2csv.py:274` | `def set_mac(self, mac_address, mac_address_vendor)` |
-| `set_network_distance` | method | `modules/nmap2csv.py:278` | `def set_network_distance(self, network_distance)` |
-| `set_os` | method | `modules/nmap2csv.py:271` | `def set_os(self, os)` |
-| `set_rdns_record` | method | `modules/nmap2csv.py:268` | `def set_rdns_record(self, rdns_record)` |
-| `set_script` | method | `modules/nmap2csv.py:311` | `def set_script(self, script)` |
-| `set_service` | method | `modules/nmap2csv.py:305` | `def set_service(self, service)` |
-| `set_version` | method | `modules/nmap2csv.py:308` | `def set_version(self, version)` |
-| `split_grepable_match` | function | `modules/nmap2csv.py:315` | `def split_grepable_match(raw_string)` |
-| `unique_match_from_list` | function | `modules/nmap2csv.py:140` | `def unique_match_from_list(list)` |
-| `Channel` | class | `modules/notify.py:186` | `class Channel` |
-| `Notifier` | class | `modules/notify.py:204` | `class Notifier` |
-| `NotifyConfig` | class | `modules/notify.py:15` | `class NotifyConfig` |
-| `NotifyMessage` | class | `modules/notify.py:173` | `class NotifyMessage` |
-| `_GuardRedirect` | class | `modules/notify.py:158` | `class _GuardRedirect(HTTPRedirectHandler)` |
-| `__init__` | method | `modules/notify.py:207` | `def __init__(self, config)` |
-| `__post_init__` | method | `modules/notify.py:198` | `def __post_init__(self)` |
-| `_addr_denied` | function | `modules/notify.py:105` | `def _addr_denied(addr)` |
-| `dispatch` | method | `modules/notify.py:244` | `def dispatch(self, message, channels)` |
-| `flush_digest` | method | `modules/notify.py:260` | `def flush_digest(self, max_age_sec)` |
-| `mask_secrets` | function | `modules/notify.py:39` | `def mask_secrets(text, config)` |
-| `post_url_validated` | function | `modules/notify.py:145` | `def post_url_validated(url, data, timeout)` |
-| `redirect_request` | method | `modules/notify.py:159` | `def redirect_request(self, req, fp, code, msg, headers, newurl)` |
-| `render` | method | `modules/notify.py:238` | `def render(self, message)` |
-| `severity_rank` | function | `modules/notify.py:31` | `def severity_rank(severity, config)` |
-| `should_send` | method | `modules/notify.py:215` | `def should_send(self, message, channel)` |
-| `url_allowed` | function | `modules/notify.py:57` | `def url_allowed(url)` |
-| `build_parser` | function | `modules/nuclei_templates_sync.py:238` | `def build_parser()` |
-| `canonical_dest` | function | `modules/nuclei_templates_sync.py:48` | `def canonical_dest(subdir)` |
-| `clone_templates` | function | `modules/nuclei_templates_sync.py:84` | `def clone_templates(repo, staging)` |
-| `count_templates` | function | `modules/nuclei_templates_sync.py:132` | `def count_templates(tree)` |
-| `ensure_git_available` | function | `modules/nuclei_templates_sync.py:73` | `def ensure_git_available()` |
-| `main` | function | `modules/nuclei_templates_sync.py:337` | `def main(argv)` |
-| `normalize` | function | `modules/nuclei_templates_sync.py:179` | `def normalize(url)` |
-| `refresh_existing_clone` | function | `modules/nuclei_templates_sync.py:188` | `def refresh_existing_clone(path, repo)` |
-| `replace_dest` | function | `modules/nuclei_templates_sync.py:144` | `def replace_dest(src, dest, expected)` |
-| `repo_root` | function | `modules/nuclei_templates_sync.py:39` | `def repo_root()` |
-| `resolve_plan` | function | `modules/nuclei_templates_sync.py:308` | `def resolve_plan(args)` |
-| `run` | function | `modules/nuclei_templates_sync.py:60` | `def run(argv, cwd)` |
-| `same_remote` | function | `modules/nuclei_templates_sync.py:168` | `def same_remote(path, repo)` |
-| `strip_git_traces` | function | `modules/nuclei_templates_sync.py:113` | `def strip_git_traces(tree)` |
-| `sync` | function | `modules/nuclei_templates_sync.py:263` | `def sync(name, repo, dest, refresh_existing, skip_validate)` |
-| `validate_subset` | function | `modules/nuclei_templates_sync.py:209` | `def validate_subset(dest, subset)` |
-| `Extractor` | class | `modules/obs_parser.py:95` | `class Extractor(ABC)` |
-| `Finding` | class | `modules/obs_parser.py:66` | `class Finding` |
-| `FindingType` | class | `modules/obs_parser.py:50` | `class FindingType(StrEnum)` |
-| `ObsParser` | class | `modules/obs_parser.py:423` | `class ObsParser` |
-| `Observation` | class | `modules/obs_parser.py:76` | `class Observation` |
-| `_CVEExtractor` | class | `modules/obs_parser.py:283` | `class _CVEExtractor(Extractor)` |
-| `_CloudIdentityExtractor` | class | `modules/obs_parser.py:355` | `class _CloudIdentityExtractor(Extractor)` |
-| `_CredentialExtractor` | class | `modules/obs_parser.py:145` | `class _CredentialExtractor(Extractor)` |
-| `_DomainExtractor` | class | `modules/obs_parser.py:299` | `class _DomainExtractor(Extractor)` |
-| `_EmailExtractor` | class | `modules/obs_parser.py:318` | `class _EmailExtractor(Extractor)` |
-| `_ErrorExtractor` | class | `modules/obs_parser.py:334` | `class _ErrorExtractor(Extractor)` |
-| `_ExtractorRegistry` | class | `modules/obs_parser.py:103` | `class _ExtractorRegistry` |
-| `_HashExtractor` | class | `modules/obs_parser.py:257` | `class _HashExtractor(Extractor)` |
-| `_IPExtractor` | class | `modules/obs_parser.py:127` | `class _IPExtractor(Extractor)` |
-| `_PathExtractor` | class | `modules/obs_parser.py:219` | `class _PathExtractor(Extractor)` |
-| `_ServiceVersionExtractor` | class | `modules/obs_parser.py:193` | `class _ServiceVersionExtractor(Extractor)` |
-| `_SuccessDetector` | class | `modules/obs_parser.py:390` | `class _SuccessDetector` |
-| `_UsernameExtractor` | class | `modules/obs_parser.py:235` | `class _UsernameExtractor(Extractor)` |
-| `__init__` | method | `modules/obs_parser.py:106` | `def __init__(self)` |
-| `__init__` | method | `modules/obs_parser.py:431` | `def __init__(self)` |
-| `by_type` | method | `modules/obs_parser.py:83` | `def by_type(self, ftype)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

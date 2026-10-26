@@ -26,6 +26,9 @@ Security invariants:
        explicit start()/deploy() calls with timeouts.
     3. All C2 API calls use operator basic-auth; the agent channel
        itself is AES-encrypted like every other beacon.
+    4. Remote staging uses a fresh mktemp -d private directory and the
+       decoded agent is hash-verified before launch; fixed names in
+       shared /tmp are never used for privileged execution.
 
 ## Contents
 
@@ -71,7 +74,7 @@ flowchart LR
 
 ### `C2Server`
 
-`class` | [modules/c2_agent.py:673](../../modules/c2_agent.py#L673)
+`class` | [modules/c2_agent.py:711](../../modules/c2_agent.py#L711)
 
 ```python
 class C2Server
@@ -93,7 +96,7 @@ Headless lazyc2 lifecycle (start in background, status, stop).
 
 #### `C2Server.__init__`
 
-`constructor` | [modules/c2_agent.py:676](../../modules/c2_agent.py#L676)
+`constructor` | [modules/c2_agent.py:714](../../modules/c2_agent.py#L714)
 
 ```python
 def __init__(self, port: int = 4444, user: str = '', password: str = '') -> None
@@ -113,7 +116,7 @@ def __init__(self, port: int = 4444, user: str = '', password: str = '') -> None
 
 #### `C2Server.status`
 
-`method` | [modules/c2_agent.py:693](../../modules/c2_agent.py#L693)
+`method` | [modules/c2_agent.py:731](../../modules/c2_agent.py#L731)
 
 ```python
 def status(self) -> dict[str, Any]
@@ -129,7 +132,7 @@ Report server liveness and listener reachability.
 
 #### `C2Server.start`
 
-`method` | [modules/c2_agent.py:725](../../modules/c2_agent.py#L725)
+`method` | [modules/c2_agent.py:763](../../modules/c2_agent.py#L763)
 
 ```python
 def start(self) -> dict[str, Any]
@@ -147,7 +150,7 @@ Start lazyc2 headless (no-op when already running).
 
 #### `C2Server.stop`
 
-`method` | [modules/c2_agent.py:756](../../modules/c2_agent.py#L756)
+`method` | [modules/c2_agent.py:794](../../modules/c2_agent.py#L794)
 
 ```python
 def stop(self) -> dict[str, Any]
@@ -163,7 +166,7 @@ Stop the headless server (SIGTERM, best-effort).
 
 #### `C2Server.ensure_http_listener`
 
-`method` | [modules/c2_agent.py:779](../../modules/c2_agent.py#L779)
+`method` | [modules/c2_agent.py:817](../../modules/c2_agent.py#L817)
 
 ```python
 def ensure_http_listener(self, http_port: int, auth: tuple[str, str]) -> dict[str, Any]
@@ -192,7 +195,7 @@ Idempotent: returns the existing listener when the port is taken.
 
 ### `client_id_for`
 
-`function` | [modules/c2_agent.py:88](../../modules/c2_agent.py#L88)
+`function` | [modules/c2_agent.py:94](../../modules/c2_agent.py#L94)
 
 ```python
 def client_id_for(target: str, privilege: str = LOW_PRIVILEGE) -> str
@@ -225,7 +228,7 @@ without sharing command queues or beacon logs.
 
 ### `validate_client_id`
 
-`function` | [modules/c2_agent.py:113](../../modules/c2_agent.py#L113)
+`function` | [modules/c2_agent.py:119](../../modules/c2_agent.py#L119)
 
 ```python
 def validate_client_id(raw: str) -> str
@@ -253,7 +256,7 @@ Validate a client id (alphanumerics, dash, underscore).
 
 ### `build_agent`
 
-`function` | [modules/c2_agent.py:388](../../modules/c2_agent.py#L388)
+`function` | [modules/c2_agent.py:398](../../modules/c2_agent.py#L398)
 
 ```python
 def build_agent(c2_url: str, client_id: str, aes_hex: str, rat_key: str = '', route: str = '', sleep: int = 10, privilege: str = LOW_PRIVILEGE) -> str
@@ -289,7 +292,7 @@ Render the agent script for a target (pure function, no I/O).
 
 ### `read_aes_hex`
 
-`function` | [modules/c2_agent.py:517](../../modules/c2_agent.py#L517)
+`function` | [modules/c2_agent.py:528](../../modules/c2_agent.py#L528)
 
 ```python
 def read_aes_hex() -> str
@@ -305,7 +308,7 @@ Read the live C2 AES key hex (snapshotted, never generated).
 
 ### `deploy`
 
-`function` | [modules/c2_agent.py:522](../../modules/c2_agent.py#L522)
+`function` | [modules/c2_agent.py:533](../../modules/c2_agent.py#L533)
 
 ```python
 def deploy(target: str, c2_base: str, route: str = '', lhost: str = '127.0.0.1', sleep: int = 10, privilege: str = LOW_PRIVILEGE) -> dict[str, Any]
@@ -316,8 +319,11 @@ Deliver + launch the agent on *target* via a working shell primitive.
 Uses the highest-ranked exec-capable exploit to drop the rendered
 agent, chmod +x, and launch it detached. Returns the client id and
 a callback-wait summary. ``privilege="root"`` restricts the shell
-primitive to root-capable exploits and stages the binary under a
-different name so a low-priv agent on the same box keeps running.
+primitive to root-capable exploits. Staging happens inside a fresh
+``mktemp -d`` private directory (mode 0700, random name, never a
+predictable shared /tmp path); for root deployments the staging
+owner is verified and the decoded agent is hash-checked before
+launch, so a low-priv agent on the same box keeps running.
 
 **Parameters**
 
@@ -348,7 +354,7 @@ different name so a low-priv agent on the same box keeps running.
 
 ### `read_records`
 
-`function` | [modules/c2_agent.py:642](../../modules/c2_agent.py#L642)
+`function` | [modules/c2_agent.py:680](../../modules/c2_agent.py#L680)
 
 ```python
 def read_records(client_id: str, limit: int = 20) -> list[dict[str, Any]]
@@ -373,7 +379,7 @@ Read the latest beacon records for a client (newest last).
 
 ### `wait_record`
 
-`function` | [modules/c2_agent.py:659](../../modules/c2_agent.py#L659)
+`function` | [modules/c2_agent.py:697](../../modules/c2_agent.py#L697)
 
 ```python
 def wait_record(client_id: str, command: str, since: int = 0, timeout: int = 60) -> dict[str, Any] | None
@@ -404,7 +410,7 @@ Wait for a fresh record matching *command* (polls the JSONL log).
 
 ### `ROOT_PRIVILEGE`
 
-`constant` | [modules/c2_agent.py:47](../../modules/c2_agent.py#L47)
+`constant` | [modules/c2_agent.py:52](../../modules/c2_agent.py#L52)
 
 ```python
 ROOT_PRIVILEGE = 'root'
@@ -416,7 +422,7 @@ ROOT_PRIVILEGE = 'root'
 
 ### `LOW_PRIVILEGE`
 
-`constant` | [modules/c2_agent.py:48](../../modules/c2_agent.py#L48)
+`constant` | [modules/c2_agent.py:53](../../modules/c2_agent.py#L53)
 
 ```python
 LOW_PRIVILEGE = 'lowpriv'
@@ -428,7 +434,7 @@ LOW_PRIVILEGE = 'lowpriv'
 
 ### `AGENT_TEMPLATE`
 
-`constant` | [modules/c2_agent.py:121](../../modules/c2_agent.py#L121)
+`constant` | [modules/c2_agent.py:127](../../modules/c2_agent.py#L127)
 
 ```python
 AGENT_TEMPLATE

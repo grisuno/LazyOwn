@@ -1,6 +1,87 @@
 # Subsystem: modules (page 11 of 16)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
+## modules/llm_prompts.py
+- Doc: Canonical prompt-template and knowledge-base contract for LLM consumers.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `default_project_root` (function, line 67) `def default_project_root()`
+  - `resolve_model` (function, line 76) `def resolve_model(model)`
+  - `truncate_message` (function, line 95) `def truncate_message(message, max_chars)`
+  - `LlmPromptConfig` (class, line 111) `class LlmPromptConfig`
+  - `render_kb_tail` (function, line 271) `def render_kb_tail(lines)`
+  - `KnowledgeStore` (class, line 286) `class KnowledgeStore`
+  - `_payload_block` (function, line 354) `def _payload_block(config)`
+  - `_prompt_oneliner` (function, line 362) `def _prompt_oneliner(base_prompt, kb_text, config)`
+  - `_prompt_script` (function, line 378) `def _prompt_script(base_prompt, kb_text, config)`
+  - `_prompt_adversary` (function, line 393) `def _prompt_adversary(base_prompt, kb_text, config)`
+  - `_prompt_general` (function, line 409) `def _prompt_general(base_prompt, kb_text, config)`
+  - `_prompt_search` (function, line 422) `def _prompt_search(base_prompt, kb_text, config)`
+  - `_prompt_vuln` (function, line 436) `def _prompt_vuln(base_prompt, kb_text, config)`
+  - `_prompt_task` (function, line 450) `def _prompt_task(base_prompt, kb_text, config)`
+  - `_prompt_redop` (function, line 462) `def _prompt_redop(base_prompt, kb_text, config)`
+  - `from_defaults` (method, line 130) `def from_defaults(cls, project_root)`
+  - `knowledge_base_path` (method, line 150) `def knowledge_base_path(self, domain)`
+  - `load_payload_context` (method, line 161) `def load_payload_context(self)`
+  - `load_event_tool_output` (method, line 176) `def load_event_tool_output(self, event_name)`
+  - `load_plan_history` (method, line 203) `def load_plan_history(self)`
+  - `load_report_context` (method, line 218) `def load_report_context(self)`
+  - `knowledge_store` (method, line 238) `def knowledge_store(self, domain)`
+  - `render` (method, line 249) `def render(self, template, base_prompt)`
+  - `__init__` (method, line 289) `def __init__(self, path)`
+  - `load` (method, line 297) `def load(self)`
+  - `save` (method, line 312) `def save(self, records)`
+  - `add` (method, line 324) `def add(self, prompt, response)`
+  - `relevant` (method, line 335) `def relevant(self, prompt, limit)`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`
+
+## modules/log_tamper.py
+- Doc: Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LogTamperConfig` (class, line 71) `class LogTamperConfig`
+  - `LogTamper` (class, line 95) `class LogTamper`
+  - `__init__` (method, line 105) `def __init__(self, config)`
+  - `windows_clear_commands` (method, line 108) `def windows_clear_commands(self)`
+  - `linux_clear_commands` (method, line 176) `def linux_clear_commands(self)`
+  - `macos_clear_commands` (method, line 243) `def macos_clear_commands(self)`
+  - `generate_all` (method, line 295) `def generate_all(self)`
+  - `auditd_disable_commands` (method, line 307) `def auditd_disable_commands(self)`
+  - `sysmon_disable_commands` (method, line 341) `def sysmon_disable_commands(self)`
+- Imported by: `cli/commands/opsec_cleanup.py`
+
+## modules/logging_config.py
+- Doc: Centralized logging configuration for the LazyOwn framework.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ColoredFormatter` (class, line 36) `class ColoredFormatter(Formatter)`
+  - `JsonFormatter` (class, line 53) `class JsonFormatter(Formatter)`
+  - `CorrelationFilter` (class, line 91) `class CorrelationFilter(Filter)`
+  - `ResilientRotatingFileHandler` (class, line 103) `class ResilientRotatingFileHandler(RotatingFileHandler)`
+  - `set_correlation_id` (function, line 134) `def set_correlation_id(cid)`
+  - `get_correlation_id` (function, line 139) `def get_correlation_id()`
+  - `clear_correlation_id` (function, line 144) `def clear_correlation_id()`
+  - `_ensure_log_dir_writable` (function, line 156) `def _ensure_log_dir_writable(log_dir)`
+  - `_use_json_format` (function, line 235) `def _use_json_format()`
+  - `configure` (function, line 244) `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)`
+  - `get_logger` (function, line 328) `def get_logger(name, level)`
+  - `set_level` (function, line 357) `def set_level(name, level)`
+  - `set_quiet` (function, line 367) `def set_quiet()`
+  - `set_verbose` (function, line 373) `def set_verbose()`
+  - `silence_module` (function, line 379) `def silence_module(name)`
+  - `reset` (function, line 388) `def reset()`
+  - `format` (method, line 39) `def format(self, record)`
+  - `format` (method, line 72) `def format(self, record)`
+  - `filter` (method, line 94) `def filter(self, record)`
+  - `emit` (method, line 116) `def emit(self, record)`
+  - `handleError` (method, line 122) `def handleError(self, record)`
+- Depends on: `core/logging.py`
+- Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
+
 ## modules/loop_ai_bridge.py
 - Doc: Single edge between the autonomous loop and the LazyOwn AI stack.
 - Layer: utility
@@ -71,6 +152,44 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `_load` (method, line 415) `def _load(self)`
 - Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`
 
+## modules/loop_manager.py
+- Doc: Parallel autonomous loop orchestration for the LazyOwn C2 dashboard.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LoopValidationError` (class, line 87) `class LoopValidationError(ValueError)`
+  - `LoopNotFoundError` (class, line 96) `class LoopNotFoundError(KeyError)`
+  - `validate_target` (function, line 100) `def validate_target(raw)`
+  - `sanitize_goal` (function, line 123) `def sanitize_goal(raw)`
+  - `clamp_int` (function, line 150) `def clamp_int(raw, field, default, minimum, maximum)`
+  - `clamp_float` (function, line 175) `def clamp_float(raw, field, default, minimum, maximum)`
+  - `validate_loop_id` (function, line 200) `def validate_loop_id(loop_id)`
+  - `_now_iso` (function, line 217) `def _now_iso()`
+  - `_process_start_ticks` (function, line 222) `def _process_start_ticks(pid)`
+  - `_pid_alive` (function, line 246) `def _pid_alive(pid, start_ticks)`
+  - `LoopSpec` (class, line 264) `class LoopSpec`
+  - `_loop_command` (function, line 284) `def _loop_command(spec)`
+  - `LoopManager` (class, line 316) `class LoopManager`
+  - `__init__` (method, line 90) `def __init__(self, field, message)`
+  - `__init__` (method, line 327) `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)`
+  - `loops_dir` (method, line 349) `def loops_dir(self)`
+  - `start` (method, line 353) `def start(self, spec, operator)`
+  - `_spawn_locked` (method, line 394) `def _spawn_locked(self, spec, operator)`
+  - `_reap` (method, line 470) `def _reap(self, loop_id, process)`
+  - `list_loops` (method, line 493) `def list_loops(self)`
+  - `_refresh_log_bytes` (method, line 517) `def _refresh_log_bytes(self, record)`
+  - `get_loop` (method, line 528) `def get_loop(self, loop_id)`
+  - `read_log` (method, line 547) `def read_log(self, loop_id, offset)`
+  - `_resolve_log_path` (method, line 588) `def _resolve_log_path(self, record)`
+  - `stop` (method, line 614) `def stop(self, loop_id)`
+  - `_update_status_locked` (method, line 662) `def _update_status_locked(self, loop_id, status)`
+  - `summary` (method, line 679) `def summary(self)`
+  - `_prune_locked` (method, line 715) `def _prune_locked(self)`
+  - `_remove_workspace` (method, line 740) `def _remove_workspace(self, loop_id)`
+  - `_load_registry_locked` (method, line 764) `def _load_registry_locked(self)`
+  - `_save_registry_locked` (method, line 779) `def _save_registry_locked(self, records)`
+- Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
+
 ## modules/loop_progress.py
 - Doc: Rich Live milestone panel for the autonomous loop.
 - Layer: utility
@@ -109,8 +228,9 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `set_enabled` (method, line 111) `def set_enabled(self, trigger_id, enabled)`
   - `list` (method, line 125) `def list(self)`
   - `ensure_service_trigger` (method, line 129) `def ensure_service_trigger(self)`
-  - `due` (method, line 142) `def due(self, task_id, graph, activity, assets, store)`
-- Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`
+  - `ensure_cve_hot_trigger` (method, line 142) `def ensure_cve_hot_trigger(self)`
+  - `due` (method, line 155) `def due(self, task_id, graph, activity, assets, store)`
+- Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `modules/world_model.py`
 - Imported by: `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
 
 ## modules/macos_payloads.py
@@ -365,97 +485,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `__contains__` (method, line 536) `def __contains__(self, name)`
 - Depends on: `core/logging.py`
 - Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`
-
-## modules/moe_router.py
-- Doc: modules/moe_router.py
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `ExpertProfile` (class, line 83) `class ExpertProfile`
-  - `ExpertPerformance` (class, line 101) `class ExpertPerformance`
-  - `IExpertSelector` (class, line 257) `class IExpertSelector(ABC)`
-  - `ExpertPerformanceStore` (class, line 276) `class ExpertPerformanceStore`
-  - `SoftmaxSelector` (class, line 368) `class SoftmaxSelector(IExpertSelector)`
-  - `_softmax` (function, line 423) `def _softmax(values, temperature)`
-  - `ExpertAvailabilityChecker` (class, line 437) `class ExpertAvailabilityChecker`
-  - `MoERouter` (class, line 489) `class MoERouter`
-  - `_load_groq_key` (function, line 665) `def _load_groq_key()`
-  - `get_router` (function, line 684) `def get_router(api_key)`
-  - `is_local` (method, line 96) `def is_local(self)`
-  - `update` (method, line 115) `def update(self, reward, detection_prob)`
-  - `select` (method, line 261) `def select(self, candidates, task_type, performance_store, deterministic)`
-  - `__init__` (method, line 283) `def __init__(self, path)`
-  - `_key` (method, line 293) `def _key(expert_id, task_type)`
-  - `record` (method, line 298) `def record(self, expert_id, task_type, reward, detection_prob)`
-  - `get` (method, line 316) `def get(self, expert_id, task_type)`
-  - `all_for_task` (method, line 321) `def all_for_task(self, task_type)`
-  - `performance_bonus` (method, line 325) `def performance_bonus(self, expert_id, task_type)`
-  - `_save` (method, line 341) `def _save(self)`
-  - `_load` (method, line 350) `def _load(self)`
-  - `__init__` (method, line 377) `def __init__(self, temperature)`
-  - `temperature` (method, line 381) `def temperature(self)`
-  - `temperature` (method, line 385) `def temperature(self, value)`
-  - `select` (method, line 388) `def select(self, candidates, task_type, performance_store, deterministic)`
-  - `_compute_weights` (method, line 410) `def _compute_weights(candidates, task_type, store)`
-  - `__init__` (method, line 443) `def __init__(self)`
-  - `is_available` (method, line 447) `def is_available(self, expert, api_key)`
-  - `_check` (method, line 458) `def _check(expert, api_key)`
-  - `__init__` (method, line 500) `def __init__(self, experts, selector, performance_store, api_key)`
-  - `route` (method, line 515) `def route(self, task_type, goal, deterministic)`
-  - `ensemble` (method, line 547) `def ensemble(self, task_type, goal, n)`
-  - `record_outcome` (method, line 575) `def record_outcome(self, expert_id, task_type, reward, detection_prob)`
-  - `top_experts_for_task` (method, line 589) `def top_experts_for_task(self, task_type, top_k)`
-  - `get_expert` (method, line 605) `def get_expert(self, expert_id)`
-  - `status_report` (method, line 609) `def status_report(self)`
-  - `_available_for_task` (method, line 640) `def _available_for_task(self, task_type)`
-  - `_anneal_temperature` (method, line 645) `def _anneal_temperature(self)`
-  - `adjusted_weight` (function, line 562) `def adjusted_weight(ep)`
-- Depends on: `core/logging.py`, `modules/toposwarm_bridge.py`
-- Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/swan_agent.py`, `tests/integration_autonomous_flow.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_router_check_regression.py`
-
-## modules/morse.py
-- Doc: Morse code conversion service with interactive driver.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `MorseConfig` (class, line 16) `class MorseConfig`
-  - `reverse_morse_code` (function, line 98) `def reverse_morse_code()`
-  - `text_to_morse` (function, line 109) `def text_to_morse(text, config)`
-  - `morse_to_text` (function, line 130) `def morse_to_text(morse_code, config)`
-  - `clear_screen` (function, line 157) `def clear_screen(config)`
-  - `read_choice` (function, line 171) `def read_choice(config)`
-  - `run_driver` (function, line 186) `def run_driver(config)`
-
-## modules/mysql_hookandroot_lib.c
-- Doc: reverse_shell: fork & send a bash shell to the attacker before starting mysqld
-- Layer: utility
-- Language: c
-- Symbols:
-  - `reverse_shell` (function, line 74) `void reverse_shell(void)`
-  - `execvp` (function, line 128) `int execvp(const char* filename, char* const argv[])`
-  - `_GNU_SOURCE` (macro, line 50) `#define _GNU_SOURCE`
-  - `ATTACKERS_IP` (macro, line 64) `#define ATTACKERS_IP`
-  - `SHELL_PORT` (macro, line 65) `#define SHELL_PORT`
-  - `INJECTED_CONF` (macro, line 66) `#define INJECTED_CONF`
-
-## modules/network_opsec.py
-- Doc: Network OPSEC — proxy chain enforcement, canary detection, traffic randomization.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `NetworkOpsecConfig` (class, line 23) `class NetworkOpsecConfig`
-  - `NetworkOpsecEngine` (class, line 53) `class NetworkOpsecEngine`
-  - `__init__` (method, line 83) `def __init__(self, config)`
-  - `configure_proxy_chain` (method, line 87) `def configure_proxy_chain(self, chain_type)`
-  - `_build_proxychains_config` (method, line 119) `def _build_proxychains_config(proxies)`
-  - `check_canary_tokens` (method, line 131) `def check_canary_tokens(self)`
-  - `analyze_traffic_with_canary_check` (method, line 179) `def analyze_traffic_with_canary_check(self, target_host, target_port)`
-  - `dns_over_https_config` (method, line 246) `def dns_over_https_config(self)`
-  - `source_port_randomize` (method, line 269) `def source_port_randomize(self)`
-  - `connection_jitter_schedule` (method, line 294) `def connection_jitter_schedule(self, beacon_interval)`
-  - `canary_detection_setup` (method, line 317) `def canary_detection_setup(self)`
-  - `summary` (method, line 349) `def summary(self)`
-- Imported by: `cli/commands/opsec_cleanup.py`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

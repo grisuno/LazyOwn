@@ -120,7 +120,7 @@ Abstract interface every backend implementation must satisfy.
 Subclasses must:
 
 * implement `start`, [`stop`](modules.lab_runtime.py.md#stop), `send_command`,
-  [`refresh`](modules.session_state.py.md#refresh), [`resize_terminal`](#backend-resize_terminal), [`feed_terminal_input`](#backend-feed_terminal_input);
+  `refresh`, [`resize_terminal`](#backend-resize_terminal), [`feed_terminal_input`](#backend-feed_terminal_input);
 * emit `[`status_changed`](#backend-status_changed)` whenever their connection lifecycle moves;
 * emit `[`terminal_output`](#backend-terminal_output)` whenever new bytes are available for the
   terminal widget;

@@ -2,6 +2,26 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/opsec_scorer.py` -> `core/logging.py`
+- `modules/opsec_scorer.py` -> `modules/db.py`
+- `modules/opsec_scorer.py` -> `modules/killchain.py`
+- `modules/orchestrator_config.py` -> `core/config.py`
+- `modules/orchestrator_config.py` -> `core/logging.py`
+- `modules/orchestrator_config.py` -> `modules/auto_registry.py`
+- `modules/orchestrator_config.py` -> `modules/trigger_policy.py`
+- `modules/orchestrator_config.py` -> `modules/verb_catalog.py`
+- `modules/outcome_bus.py` -> `core/logging.py`
+- `modules/outcome_bus.py` -> `modules/__init__.py`
+- `modules/phishing_orchestrator.py` -> `core/crypto.py`
+- `modules/phishing_orchestrator.py` -> `core/hardening.py`
+- `modules/pipeline_engine.py` -> `core/logging.py`
+- `modules/pipeline_engine.py` -> `modules/engagement_hooks.py`
+- `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
+- `modules/planner.py` -> `core/logging.py`
+- `modules/planner.py` -> `modules/llm_client.py`
+- `modules/planner.py` -> `modules/obs_parser.py`
+- `modules/planner.py` -> `modules/playbook_engine.py`
+- `modules/planner.py` -> `modules/world_model.py`
 - `modules/playbook_engine.py` -> `core/logging.py`
 - `modules/playbook_engine.py` -> `core/safe_exec.py`
 - `modules/playbook_engine.py` -> `modules/emulation_runner.py`
@@ -476,25 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_atomic_exploit_bridge.py` -> `modules/atomic_exploit_bridge.py`
 - `tests/test_atomic_exploit_bridge.py` -> `modules/autonomous_exploit_engine.py`
 - `tests/test_atomic_loop.py` -> `modules/apt_playbooks.py`
-- `tests/test_atomic_loop.py` -> `modules/atomic_resolver.py`
-- `tests/test_atomic_loop.py` -> `modules/auto_registry.py`
-- `tests/test_atomic_resolver.py` -> `modules/atomic_resolver.py`
-- `tests/test_attack_surface3d.py` -> `modules/attack_surface3d.py`
-- `tests/test_attack_surface3d.py` -> `modules/intel_fusion.py`
-- `tests/test_audit_remediation.py` -> `cli/commands/audit.py`
-- `tests/test_audit_remediation.py` -> `cli/orchestrator_assets_tabs.py`
-- `tests/test_audit_remediation.py` -> `core/config.py`
-- `tests/test_audit_remediation.py` -> `core/payload_schema.py`
-- `tests/test_audit_remediation.py` -> `modules/chain_registry.py`
-- `tests/test_audit_remediation.py` -> `utils.py`
-- `tests/test_auto_crypto.py` -> `cli/auto_crypto.py`
-- `tests/test_auto_crypto.py` -> `cli/commands/misc_migrated.py`
-- `tests/test_auto_crypto.py` -> `cli/commands/session_ops.py`
-- `tests/test_auto_crypto.py` -> `modules/lazy_loop.py`
-- `tests/test_auto_loop_memory.py` -> `modules/auto_loop_memory.py`
-- `tests/test_auto_loop_memory.py` -> `modules/selector_manager.py`
-- `tests/test_auto_registry.py` -> `modules/auto_registry.py`
-- `tests/test_autonomous_ops.py` -> `modules/__init__.py`
-- `tests/test_autonomous_ops.py` -> `modules/asset_graph.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

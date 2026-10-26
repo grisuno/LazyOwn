@@ -1,6 +1,26 @@
 # Subsystem: tests (page 10 of 20)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
 
+## tests/test_gym_lifecycle.py
+- Doc: Gym lifecycle: lab spin-up on start, teardown on stop and exit cleanup.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sandbox` (function, line 20) `def sandbox(tmp_path, monkeypatch)`
+  - `_FakeDocker` (class, line 38) `class _FakeDocker`
+  - `_result` (class, line 53) `class _result`
+  - `test_start_spins_scenario_and_resolves_ip` (function, line 60) `def test_start_spins_scenario_and_resolves_ip(sandbox, monkeypatch)`
+  - `test_start_without_lab_flag_still_registers` (function, line 89) `def test_start_without_lab_flag_still_registers(sandbox, monkeypatch)`
+  - `test_start_without_docker_degrades_gracefully` (function, line 99) `def test_start_without_docker_degrades_gracefully(sandbox, monkeypatch)`
+  - `test_start_removes_stale_container_first` (function, line 107) `def test_start_removes_stale_container_first(sandbox, monkeypatch)`
+  - `test_stop_teardowns_scenario_container` (function, line 122) `def test_stop_teardowns_scenario_container(sandbox, monkeypatch)`
+  - `test_stop_keeps_scenario_with_active_runs` (function, line 142) `def test_stop_keeps_scenario_with_active_runs(sandbox, monkeypatch)`
+  - `test_cleanup_gym_machines_stops_all` (function, line 162) `def test_cleanup_gym_machines_stops_all(tmp_path, monkeypatch, capsys)`
+  - `__init__` (method, line 41) `def __init__(self, responses)`
+  - `__call__` (method, line 45) `def __call__(self)`
+  - `__init__` (method, line 54) `def __init__(self, returncode, stdout, stderr)`
+- Depends on: `core/config.py`, `modules/__init__.py`, `modules/gym_cleanup.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+
 ## tests/test_gym_matrix_ctf.py
 - Doc: Contract tests for gym matrix runner and CTF capture.
 - Layer: testing
@@ -450,40 +470,6 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_llm_defaults_seeded` (function, line 78) `def test_llm_defaults_seeded()`
   - `test_factory_complete_rejects_empty` (function, line 90) `def test_factory_complete_rejects_empty()`
 - Depends on: `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`
-
-## tests/test_intelligence_engine.py
-- Doc: Tests for IntelligenceEngine — collection, analysis, intelligence, dissemination.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `engine` (function, line 19) `def engine()`
-  - `nmap_xml` (function, line 24) `def nmap_xml(tmp_path)`
-  - `TestCollection` (class, line 45) `class TestCollection`
-  - `TestAnalysis` (class, line 108) `class TestAnalysis`
-  - `TestIntelligenceProduction` (class, line 159) `class TestIntelligenceProduction`
-  - `TestCounterIntelligence` (class, line 178) `class TestCounterIntelligence`
-  - `TestFullCycle` (class, line 198) `class TestFullCycle`
-  - `TestPlaceholderFiltering` (class, line 215) `class TestPlaceholderFiltering`
-  - `test_collect_from_scan_services` (method, line 46) `def test_collect_from_scan_services(self, engine, nmap_xml)`
-  - `test_collect_from_scan_os` (method, line 56) `def test_collect_from_scan_os(self, engine, nmap_xml)`
-  - `test_collect_from_scan_domain` (method, line 63) `def test_collect_from_scan_domain(self, engine, nmap_xml)`
-  - `test_collect_from_scan_hosts` (method, line 70) `def test_collect_from_scan_hosts(self, engine, nmap_xml)`
-  - `test_collect_from_scan_missing_xml` (method, line 76) `def test_collect_from_scan_missing_xml(self, engine)`
-  - `test_collect_from_tool_parses_creds` (method, line 81) `def test_collect_from_tool_parses_creds(self, engine)`
-  - `test_collect_from_tool_filters_placeholders` (method, line 86) `def test_collect_from_tool_filters_placeholders(self, engine)`
-  - `test_collect_from_factstore` (method, line 91) `def test_collect_from_factstore(self, engine, tmp_path)`
-  - `test_analyze_produces_assessments` (method, line 109) `def test_analyze_produces_assessments(self, engine, nmap_xml)`
-  - `test_analyze_maps_apache_cve` (method, line 115) `def test_analyze_maps_apache_cve(self, engine)`
-  - `test_analyze_correlates_creds_to_hosts` (method, line 131) `def test_analyze_correlates_creds_to_hosts(self, engine)`
-  - `test_analyze_ranks_targets` (method, line 143) `def test_analyze_ranks_targets(self, engine)`
-  - `test_produce_intelligence_grades_assessments` (method, line 160) `def test_produce_intelligence_grades_assessments(self, engine)`
-  - `test_credential_exposure_detected` (method, line 179) `def test_credential_exposure_detected(self, engine)`
-  - `test_high_scan_volume_detected` (method, line 188) `def test_high_scan_volume_detected(self, engine)`
-  - `test_run_full_cycle_returns_summary` (method, line 199) `def test_run_full_cycle_returns_summary(self, engine, nmap_xml)`
-  - `test_get_intel_report_structured` (method, line 205) `def test_get_intel_report_structured(self, engine, nmap_xml)`
-  - `test_is_placeholder_detects_change_me` (method, line 216) `def test_is_placeholder_detects_change_me(self, engine)`
-  - `test_is_placeholder_rejects_real_values` (method, line 220) `def test_is_placeholder_rejects_real_values(self, engine)`
-- Depends on: `modules/intelligence_engine.py`
 
 
 Next: [KB_tests_p11.md](KB_tests_p11.md)

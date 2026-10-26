@@ -1,8 +1,16 @@
-# Symbols (page 14 of 45)
+# Symbols (page 14 of 46)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
+| `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
+| `_update_soul` | function | `modules/event_consumers.py:100` | `def _update_soul(phase, credentials, access)` |
+| `_update_world_model_host` | function | `modules/event_consumers.py:72` | `def _update_world_model_host(address, state, services)` |
+| `unwire_all_consumers` | function | `modules/event_consumers.py:399` | `def unwire_all_consumers(bus)` |
+| `wire_all_consumers` | function | `modules/event_consumers.py:370` | `def wire_all_consumers(bus)` |
+| `_append_event` | function | `modules/event_engine.py:173` | `def _append_event(event)` |
+| `_read_watermark` | function | `modules/event_engine.py:130` | `def _read_watermark()` |
 | `_row_matches` | function | `modules/event_engine.py:144` | `def _row_matches(row, trigger)` |
 | `_write_watermark` | function | `modules/event_engine.py:137` | `def _write_watermark(offset)` |
 | `ack_event` | function | `modules/event_engine.py:270` | `def ack_event(event_id)` |
@@ -180,32 +188,33 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `terminate_pid_tree` | function | `modules/fast_run_service.sh:264` | `` |
 | `usage` | function | `modules/fast_run_service.sh:528` | `` |
 | `write_pid_file` | function | `modules/fast_run_service.sh:201` | `` |
-| `FindingRecord` | class | `modules/finding_lifecycle.py:182` | `class FindingRecord` |
-| `RetestRecord` | class | `modules/finding_lifecycle.py:195` | `class RetestRecord` |
-| `_finding_from_row` | function | `modules/finding_lifecycle.py:220` | `def _finding_from_row(row)` |
-| `_load` | function | `modules/finding_lifecycle.py:40` | `def _load(sessions_dir)` |
-| `_load_retests` | function | `modules/finding_lifecycle.py:292` | `def _load_retests(sessions_dir)` |
-| `_retests_path` | function | `modules/finding_lifecycle.py:287` | `def _retests_path(sessions_dir)` |
-| `_save` | function | `modules/finding_lifecycle.py:53` | `def _save(sessions_dir, data)` |
-| `_save_retests` | function | `modules/finding_lifecycle.py:303` | `def _save_retests(sessions_dir, payload)` |
-| `_store_path` | function | `modules/finding_lifecycle.py:35` | `def _store_path(sessions_dir)` |
-| `_token_value` | function | `modules/finding_lifecycle.py:205` | `def _token_value(refs, prefix, default)` |
-| `_with_token` | function | `modules/finding_lifecycle.py:213` | `def _with_token(refs, prefix, value)` |
-| `add_dead_end` | function | `modules/finding_lifecycle.py:104` | `def add_dead_end(kind, value, reason, sessions_dir)` |
-| `apply_confirmation` | function | `modules/finding_lifecycle.py:154` | `def apply_confirmation(nodes, sessions_dir)` |
-| `classify_retest` | function | `modules/finding_lifecycle.py:384` | `def classify_retest(needle, output)` |
-| `confirm` | function | `modules/finding_lifecycle.py:61` | `def confirm(finding_id, evidence, sessions_dir, by)` |
-| `findings_for` | function | `modules/finding_lifecycle.py:259` | `def findings_for(db, workspace)` |
-| `has_running_retest` | function | `modules/finding_lifecycle.py:310` | `def has_running_retest(finding_id, sessions_dir)` |
-| `is_dead_end` | function | `modules/finding_lifecycle.py:116` | `def is_dead_end(kind, value, sessions_dir)` |
-| `record` | function | `modules/finding_lifecycle.py:234` | `def record(db, workspace, host, title, severity, summary, poc)` |
-| `reject` | function | `modules/finding_lifecycle.py:90` | `def reject(finding_id, reason, sessions_dir, by)` |
-| `render_markdown` | function | `modules/finding_lifecycle.py:403` | `def render_markdown(db, workspace, title)` |
-| `request_retest` | function | `modules/finding_lifecycle.py:318` | `def request_retest(db, finding_id, sessions_dir)` |
-| `resolve` | function | `modules/finding_lifecycle.py:129` | `def resolve(node, sessions_dir)` |
-| `resolve_retest` | function | `modules/finding_lifecycle.py:338` | `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` |
-| `set_status` | function | `modules/finding_lifecycle.py:264` | `def set_status(db, finding_id, status)` |
-| `suppressed_values` | function | `modules/finding_lifecycle.py:123` | `def suppressed_values(sessions_dir)` |
+| `FindingRecord` | class | `modules/finding_lifecycle.py:218` | `class FindingRecord` |
+| `RetestRecord` | class | `modules/finding_lifecycle.py:231` | `class RetestRecord` |
+| `_finding_from_row` | function | `modules/finding_lifecycle.py:256` | `def _finding_from_row(row)` |
+| `_load` | function | `modules/finding_lifecycle.py:73` | `def _load(sessions_dir)` |
+| `_load_retests` | function | `modules/finding_lifecycle.py:328` | `def _load_retests(sessions_dir)` |
+| `_retests_path` | function | `modules/finding_lifecycle.py:323` | `def _retests_path(sessions_dir)` |
+| `_save` | function | `modules/finding_lifecycle.py:86` | `def _save(sessions_dir, data)` |
+| `_save_retests` | function | `modules/finding_lifecycle.py:339` | `def _save_retests(sessions_dir, payload)` |
+| `_store_path` | function | `modules/finding_lifecycle.py:68` | `def _store_path(sessions_dir)` |
+| `_token_value` | function | `modules/finding_lifecycle.py:241` | `def _token_value(refs, prefix, default)` |
+| `_with_token` | function | `modules/finding_lifecycle.py:249` | `def _with_token(refs, prefix, value)` |
+| `add_dead_end` | function | `modules/finding_lifecycle.py:137` | `def add_dead_end(kind, value, reason, sessions_dir)` |
+| `apply_confirmation` | function | `modules/finding_lifecycle.py:190` | `def apply_confirmation(nodes, sessions_dir)` |
+| `classify_retest` | function | `modules/finding_lifecycle.py:420` | `def classify_retest(needle, output)` |
+| `confirm` | function | `modules/finding_lifecycle.py:94` | `def confirm(finding_id, evidence, sessions_dir, by)` |
+| `evidence_floor` | function | `modules/finding_lifecycle.py:52` | `def evidence_floor(items)` |
+| `findings_for` | function | `modules/finding_lifecycle.py:295` | `def findings_for(db, workspace)` |
+| `has_running_retest` | function | `modules/finding_lifecycle.py:346` | `def has_running_retest(finding_id, sessions_dir)` |
+| `is_dead_end` | function | `modules/finding_lifecycle.py:149` | `def is_dead_end(kind, value, sessions_dir)` |
+| `record` | function | `modules/finding_lifecycle.py:270` | `def record(db, workspace, host, title, severity, summary, poc)` |
+| `reject` | function | `modules/finding_lifecycle.py:123` | `def reject(finding_id, reason, sessions_dir, by)` |
+| `render_markdown` | function | `modules/finding_lifecycle.py:439` | `def render_markdown(db, workspace, title)` |
+| `request_retest` | function | `modules/finding_lifecycle.py:354` | `def request_retest(db, finding_id, sessions_dir)` |
+| `resolve` | function | `modules/finding_lifecycle.py:162` | `def resolve(node, sessions_dir)` |
+| `resolve_retest` | function | `modules/finding_lifecycle.py:374` | `def resolve_retest(db, retest_id, conclusion, evidence, sessions_dir)` |
+| `set_status` | function | `modules/finding_lifecycle.py:300` | `def set_status(db, finding_id, status)` |
+| `suppressed_values` | function | `modules/finding_lifecycle.py:156` | `def suppressed_values(sessions_dir)` |
 | `ForensicCleaner` | class | `modules/forensic_cleaner.py:57` | `class ForensicCleaner` |
 | `ForensicCleanerConfig` | class | `modules/forensic_cleaner.py:23` | `class ForensicCleanerConfig` |
 | `__init__` | method | `modules/forensic_cleaner.py:67` | `def __init__(self, config)` |
@@ -487,14 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
 | `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
 | `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
-| `_extract_cve_from_text` | method | `modules/integrations/nuclei_bridge.py:253` | `def _extract_cve_from_text(text)` |
-| `_main` | function | `modules/integrations/nuclei_bridge.py:456` | `def _main()` |
-| `_matches` | method | `modules/integrations/nuclei_bridge.py:258` | `def _matches(tmpl, service_lower, cve_upper)` |
-| `_normalise_tags` | method | `modules/integrations/nuclei_bridge.py:238` | `def _normalise_tags(raw)` |
-| `_parse_regex` | method | `modules/integrations/nuclei_bridge.py:201` | `def _parse_regex(self, text, path)` |
-| `_parse_template` | method | `modules/integrations/nuclei_bridge.py:162` | `def _parse_template(self, path)` |
-| `_parse_yaml` | method | `modules/integrations/nuclei_bridge.py:172` | `def _parse_yaml(self, text, path)` |
-| `build` | method | `modules/integrations/nuclei_bridge.py:141` | `def build(self)` |
-| `get_bridge` | function | `modules/integrations/nuclei_bridge.py:443` | `def get_bridge()` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

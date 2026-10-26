@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 815,
-  "entities": 15385,
+  "modules": 821,
+  "entities": 15497,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,22 +13,22 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 702,
+   "py": 708,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4369,
-   "class": 1417,
+   "attribute": 4376,
+   "class": 1419,
    "classmethod": 84,
-   "constant": 1321,
-   "constructor": 524,
+   "constant": 1353,
+   "constructor": 526,
    "enum": 39,
-   "exception": 38,
-   "function": 2739,
+   "exception": 40,
+   "function": 2792,
    "macro": 114,
-   "method": 3580,
-   "module": 815,
-   "property": 198,
+   "method": 3587,
+   "module": 821,
+   "property": 199,
    "protocol": 20,
    "staticmethod": 91,
    "struct": 20,
@@ -36,19 +36,19 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 363,
+  "skipped_files": 365,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7257,
-   "total": 9683,
-   "percent": 74.9
+   "documented": 7330,
+   "total": 9756,
+   "percent": 75.1
   },
   "by_kind": {
    "class": {
-    "documented": 1230,
-    "total": 1417,
+    "documented": 1232,
+    "total": 1419,
     "percent": 86.8
    },
    "classmethod": {
@@ -57,9 +57,9 @@
     "percent": 69.0
    },
    "constructor": {
-    "documented": 203,
-    "total": 524,
-    "percent": 38.7
+    "documented": 205,
+    "total": 526,
+    "percent": 39.0
    },
    "enum": {
     "documented": 30,
@@ -67,14 +67,14 @@
     "percent": 76.9
    },
    "exception": {
-    "documented": 36,
-    "total": 38,
-    "percent": 94.7
+    "documented": 38,
+    "total": 40,
+    "percent": 95.0
    },
    "function": {
-    "documented": 1834,
-    "total": 2739,
-    "percent": 67.0
+    "documented": 1887,
+    "total": 2792,
+    "percent": 67.6
    },
    "macro": {
     "documented": 2,
@@ -82,19 +82,19 @@
     "percent": 1.8
    },
    "method": {
-    "documented": 2908,
-    "total": 3580,
-    "percent": 81.2
+    "documented": 2915,
+    "total": 3587,
+    "percent": 81.3
    },
    "module": {
-    "documented": 699,
-    "total": 815,
-    "percent": 85.8
+    "documented": 705,
+    "total": 821,
+    "percent": 85.9
    },
    "property": {
-    "documented": 154,
-    "total": 198,
-    "percent": 77.8
+    "documented": 155,
+    "total": 199,
+    "percent": 77.9
    },
    "protocol": {
     "documented": 20,
@@ -1344,9 +1344,9 @@
     "percent": 0.0
    },
    "fast_run_as_r00t.sh": {
-    "documented": 11,
-    "total": 13,
-    "percent": 84.6
+    "documented": 12,
+    "total": 14,
+    "percent": 85.7
    },
    "gen_cert.sh": {
     "documented": 1,
@@ -1369,9 +1369,9 @@
     "percent": 8.3
    },
    "lazyc2.py": {
-    "documented": 89,
-    "total": 230,
-    "percent": 38.7
+    "documented": 93,
+    "total": 234,
+    "percent": 39.7
    },
    "lazyc2/__init__.py": {
     "documented": 0,
@@ -2339,8 +2339,8 @@
     "percent": 25.0
    },
    "modules/finding_lifecycle.py": {
-    "documented": 18,
-    "total": 18,
+    "documented": 19,
+    "total": 19,
     "percent": 100.0
    },
    "modules/forensic_cleaner.py": {
@@ -2583,9 +2583,19 @@
     "total": 11,
     "percent": 100.0
    },
+   "modules/lazy_cve_feed.py": {
+    "documented": 11,
+    "total": 11,
+    "percent": 100.0
+   },
    "modules/lazy_engine.py": {
     "documented": 2,
     "total": 2,
+    "percent": 100.0
+   },
+   "modules/lazy_heat.py": {
+    "documented": 12,
+    "total": 12,
     "percent": 100.0
    },
    "modules/lazy_installer.py": {
@@ -2611,6 +2621,11 @@
    "modules/lazy_orchestrator_feedback.py": {
     "documented": 6,
     "total": 6,
+    "percent": 100.0
+   },
+   "modules/lazy_osinfer.py": {
+    "documented": 12,
+    "total": 12,
     "percent": 100.0
    },
    "modules/lazy_proxy.py": {
@@ -2651,6 +2666,16 @@
    "modules/lazy_summarizer.py": {
     "documented": 3,
     "total": 3,
+    "percent": 100.0
+   },
+   "modules/lazy_surface_diff.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
+   "modules/lazy_verify.py": {
+    "documented": 5,
+    "total": 5,
     "percent": 100.0
    },
    "modules/lazyatack.sh": {
@@ -2848,14 +2873,19 @@
     "total": 28,
     "percent": 92.9
    },
+   "modules/loop_manager.py": {
+    "documented": 18,
+    "total": 18,
+    "percent": 100.0
+   },
    "modules/loop_progress.py": {
     "documented": 12,
     "total": 12,
     "percent": 100.0
    },
    "modules/loop_triggers.py": {
-    "documented": 10,
-    "total": 10,
+    "documented": 11,
+    "total": 11,
     "percent": 100.0
    },
    "modules/macos_payloads.py": {
@@ -5424,7 +5454,7 @@
   {
    "uid": "fast_run_as_r00t.sh",
    "path": "modules/fast_run_as_r00t.sh.jsonl",
-   "entities": 13
+   "entities": 14
   },
   {
    "uid": "gen_cert.sh",
@@ -5449,7 +5479,7 @@
   {
    "uid": "lazyc2.py",
    "path": "modules/lazyc2.py.jsonl",
-   "entities": 260
+   "entities": 264
   },
   {
    "uid": "lazyc2/__init__.py",
@@ -6009,7 +6039,7 @@
   {
    "uid": "modules/auto_registry.py",
    "path": "modules/modules.auto_registry.py.jsonl",
-   "entities": 40
+   "entities": 41
   },
   {
    "uid": "modules/autonomous_exploit_engine.py",
@@ -6419,7 +6449,7 @@
   {
    "uid": "modules/finding_lifecycle.py",
    "path": "modules/modules.finding_lifecycle.py.jsonl",
-   "entities": 37
+   "entities": 39
   },
   {
    "uid": "modules/forensic_cleaner.py",
@@ -6662,9 +6692,19 @@
    "entities": 12
   },
   {
+   "uid": "modules/lazy_cve_feed.py",
+   "path": "modules/modules.lazy_cve_feed.py.jsonl",
+   "entities": 12
+  },
+  {
    "uid": "modules/lazy_engine.py",
    "path": "modules/modules.lazy_engine.py.jsonl",
    "entities": 2
+  },
+  {
+   "uid": "modules/lazy_heat.py",
+   "path": "modules/modules.lazy_heat.py.jsonl",
+   "entities": 25
   },
   {
    "uid": "modules/lazy_installer.py",
@@ -6690,6 +6730,11 @@
    "uid": "modules/lazy_orchestrator_feedback.py",
    "path": "modules/modules.lazy_orchestrator_feedback.py.jsonl",
    "entities": 7
+  },
+  {
+   "uid": "modules/lazy_osinfer.py",
+   "path": "modules/modules.lazy_osinfer.py.jsonl",
+   "entities": 16
   },
   {
    "uid": "modules/lazy_proxy.py",
@@ -6730,6 +6775,16 @@
    "uid": "modules/lazy_summarizer.py",
    "path": "modules/modules.lazy_summarizer.py.jsonl",
    "entities": 10
+  },
+  {
+   "uid": "modules/lazy_surface_diff.py",
+   "path": "modules/modules.lazy_surface_diff.py.jsonl",
+   "entities": 10
+  },
+  {
+   "uid": "modules/lazy_verify.py",
+   "path": "modules/modules.lazy_verify.py.jsonl",
+   "entities": 7
   },
   {
    "uid": "modules/lazyatack.sh",
@@ -6927,6 +6982,11 @@
    "entities": 30
   },
   {
+   "uid": "modules/loop_manager.py",
+   "path": "modules/modules.loop_manager.py.jsonl",
+   "entities": 33
+  },
+  {
    "uid": "modules/loop_progress.py",
    "path": "modules/modules.loop_progress.py.jsonl",
    "entities": 30
@@ -6934,7 +6994,7 @@
   {
    "uid": "modules/loop_triggers.py",
    "path": "modules/modules.loop_triggers.py.jsonl",
-   "entities": 11
+   "entities": 12
   },
   {
    "uid": "modules/macos_payloads.py",
@@ -8274,7 +8334,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2259
+  "total": 2262
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

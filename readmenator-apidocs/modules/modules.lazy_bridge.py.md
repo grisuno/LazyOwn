@@ -60,7 +60,7 @@ flowchart LR
 
 ### `lazy_tasks`
 
-`function` | [modules/lazy_bridge.py:88](../../modules/lazy_bridge.py#L88)
+`function` | [modules/lazy_bridge.py:92](../../modules/lazy_bridge.py#L92)
 
 ```python
 def lazy_tasks() -> dict
@@ -78,7 +78,7 @@ Load LAZY task registry.
 
 ### `lazy_assets`
 
-`function` | [modules/lazy_bridge.py:99](../../modules/lazy_bridge.py#L99)
+`function` | [modules/lazy_bridge.py:103](../../modules/lazy_bridge.py#L103)
 
 ```python
 def lazy_assets() -> list[dict]
@@ -96,7 +96,7 @@ Load LAZY asset nodes.
 
 ### `lazy_graph`
 
-`function` | [modules/lazy_bridge.py:110](../../modules/lazy_bridge.py#L110)
+`function` | [modules/lazy_bridge.py:114](../../modules/lazy_bridge.py#L114)
 
 ```python
 def lazy_graph(task_id: str) -> dict
@@ -120,7 +120,7 @@ Load experiment graph for a task.
 
 ### `lazy_activity`
 
-`function` | [modules/lazy_bridge.py:123](../../modules/lazy_bridge.py#L123)
+`function` | [modules/lazy_bridge.py:127](../../modules/lazy_bridge.py#L127)
 
 ```python
 def lazy_activity(task_id: str) -> list[dict]
@@ -144,7 +144,7 @@ Load activity transcript for a task.
 
 ### `lazy_traffic`
 
-`function` | [modules/lazy_bridge.py:135](../../modules/lazy_bridge.py#L135)
+`function` | [modules/lazy_bridge.py:139](../../modules/lazy_bridge.py#L139)
 
 ```python
 def lazy_traffic(task_id: str) -> list[dict]
@@ -168,7 +168,7 @@ Load traffic log for a task.
 
 ### `lazy_guard_audit`
 
-`function` | [modules/lazy_bridge.py:147](../../modules/lazy_bridge.py#L147)
+`function` | [modules/lazy_bridge.py:151](../../modules/lazy_bridge.py#L151)
 
 ```python
 def lazy_guard_audit(task_id: str) -> list[dict]
@@ -192,7 +192,7 @@ Load guard audit for a task.
 
 ### `bridge_status`
 
-`function` | [modules/lazy_bridge.py:159](../../modules/lazy_bridge.py#L159)
+`function` | [modules/lazy_bridge.py:163](../../modules/lazy_bridge.py#L163)
 
 ```python
 def bridge_status() -> dict
@@ -210,7 +210,7 @@ Summarize LAZY universe and last sync cursor.
 
 ### `pull_to_world_model`
 
-`function` | [modules/lazy_bridge.py:206](../../modules/lazy_bridge.py#L206)
+`function` | [modules/lazy_bridge.py:221](../../modules/lazy_bridge.py#L221)
 
 ```python
 def pull_to_world_model() -> dict
@@ -218,7 +218,11 @@ def pull_to_world_model() -> dict
 
 Sync LAZY graphs and assets into LazyOwn world model.
 
-**Returns:** `dict` - Summary with hosts, services and facts synced.
+Hosts, services (with the version nmap captured), finding CVE ids
+and OS hints all land on the world model, which feeds the intel
+graph, the attack graph and the exposure scoring.
+
+**Returns:** `dict` - Summary with hosts, services, vulnerabilities and facts synced.
 
 *Calls:* [`lazy_assets`](#lazy_assets), [`lazy_graph`](#lazy_graph), [`lazy_tasks`](#lazy_tasks)
 
@@ -230,7 +234,7 @@ Sync LAZY graphs and assets into LazyOwn world model.
 
 ### `pull_to_objectives`
 
-`function` | [modules/lazy_bridge.py:251](../../modules/lazy_bridge.py#L251)
+`function` | [modules/lazy_bridge.py:298](../../modules/lazy_bridge.py#L298)
 
 ```python
 def pull_to_objectives() -> dict
@@ -250,7 +254,7 @@ Inject open LAZY tasks as LazyOwn objectives without duplicates.
 
 ### `pull_findings_to_lifecycle`
 
-`function` | [modules/lazy_bridge.py:286](../../modules/lazy_bridge.py#L286)
+`function` | [modules/lazy_bridge.py:333](../../modules/lazy_bridge.py#L333)
 
 ```python
 def pull_findings_to_lifecycle() -> dict
@@ -270,7 +274,7 @@ Confirm LAZY finding nodes in LazyOwn finding lifecycle.
 
 ### `pull_traffic_to_recorder`
 
-`function` | [modules/lazy_bridge.py:361](../../modules/lazy_bridge.py#L361)
+`function` | [modules/lazy_bridge.py:408](../../modules/lazy_bridge.py#L408)
 
 ```python
 def pull_traffic_to_recorder(progress=None) -> dict
@@ -300,7 +304,7 @@ the whole transcript (which used to stall the loop watchdog).
 
 ### `push_objective_to_lazy`
 
-`function` | [modules/lazy_bridge.py:429](../../modules/lazy_bridge.py#L429)
+`function` | [modules/lazy_bridge.py:476](../../modules/lazy_bridge.py#L476)
 
 ```python
 def push_objective_to_lazy(goal: str, scope: list[str] | None = None) -> dict
@@ -323,7 +327,7 @@ Export a LazyOwn objective as an LAZY-compatible task draft.
 
 ### `push_tasks_to_c2`
 
-`function` | [modules/lazy_bridge.py:454](../../modules/lazy_bridge.py#L454)
+`function` | [modules/lazy_bridge.py:501](../../modules/lazy_bridge.py#L501)
 
 ```python
 def push_tasks_to_c2(only: list[str] | None = None) -> dict
@@ -353,7 +357,7 @@ follow the C2 vocabulary (New/Started/Blocked/Review/Done).
 
 ### `sync_all`
 
-`function` | [modules/lazy_bridge.py:519](../../modules/lazy_bridge.py#L519)
+`function` | [modules/lazy_bridge.py:566](../../modules/lazy_bridge.py#L566)
 
 ```python
 def sync_all(progress=None) -> dict

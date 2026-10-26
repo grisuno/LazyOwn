@@ -1,6 +1,125 @@
 # Subsystem: modules (page 13 of 16)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/phishing_orchestrator.py
+- Doc: Smart Phishing Campaign Orchestrator.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_derive_credential_key` (function, line 57) `def _derive_credential_key()`
+  - `_encrypt_credential` (function, line 84) `def _encrypt_credential(plaintext)`
+  - `_decrypt_credential` (function, line 100) `def _decrypt_credential(encrypted_b64)`
+  - `_hash_credential_for_log` (function, line 116) `def _hash_credential_for_log(plaintext)`
+  - `CampaignTarget` (class, line 139) `class CampaignTarget`
+  - `PhishingTemplate` (class, line 154) `class PhishingTemplate`
+  - `CampaignResult` (class, line 167) `class CampaignResult`
+  - `PhishingOrchestrator` (class, line 180) `class PhishingOrchestrator`
+  - `__init__` (method, line 316) `def __init__(self)`
+  - `get_instance` (method, line 321) `def get_instance(cls)`
+  - `launch` (method, line 332) `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)`
+  - `profile_targets` (method, line 441) `def profile_targets(self, domain)`
+  - `generate_template` (method, line 486) `def generate_template(self, name, target_domain, context)`
+  - `clone_landing_page` (method, line 533) `def clone_landing_page(self, url)`
+  - `get_results` (method, line 560) `def get_results(self, campaign_id)`
+  - `record_click` (method, line 584) `def record_click(self, campaign_id, email)`
+  - `record_credentials` (method, line 605) `def record_credentials(self, campaign_id, email, password)`
+  - `_load_targets_from_file` (method, line 644) `def _load_targets_from_file(self, filepath)`
+  - `_generate_landing_page` (method, line 683) `def _generate_landing_page(self, template, target_domain, campaign_id)`
+  - `_setup_harvesting_endpoint` (method, line 723) `def _setup_harvesting_endpoint(self, campaign_id)`
+  - `_send_email` (method, line 735) `def _send_email(self, to_email, subject, html_body, smtp_config)`
+  - `_inject_harvester` (method, line 769) `def _inject_harvester(self, html, page_id)`
+  - `_load_config` (method, line 808) `def _load_config(self)`
+- Depends on: `core/crypto.py`, `core/hardening.py`
+- Imported by: `cli/commands/phishing_wizard.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
+
+## modules/pipeline_engine.py
+- Doc: modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PipelineError` (class, line 89) `class PipelineError(Exception)`
+  - `PipelineSchemaError` (class, line 93) `class PipelineSchemaError(PipelineError)`
+  - `PipelineNotFoundError` (class, line 97) `class PipelineNotFoundError(PipelineError)`
+  - `PipelineCycleError` (class, line 101) `class PipelineCycleError(PipelineError)`
+  - `PipelineStep` (class, line 111) `class PipelineStep`
+  - `PipelineSpec` (class, line 152) `class PipelineSpec`
+  - `StepResult` (class, line 163) `class StepResult`
+  - `PipelineRun` (class, line 199) `class PipelineRun`
+  - `_now_iso` (function, line 234) `def _now_iso()`
+  - `_new_run_id` (function, line 238) `def _new_run_id()`
+  - `_is_valid_pipeline_name` (function, line 242) `def _is_valid_pipeline_name(name)`
+  - `_load_payload` (function, line 248) `def _load_payload()`
+  - `TemplateResolver` (class, line 260) `class TemplateResolver`
+  - `ConditionEvaluator` (class, line 326) `class ConditionEvaluator`
+  - `StepValidator` (class, line 341) `class StepValidator`
+  - `StepDerivers` (class, line 375) `class StepDerivers`
+  - `_derive_ping` (function, line 412) `def _derive_ping(output)`
+  - `_derive_lazynmap` (function, line 427) `def _derive_lazynmap(output)`
+  - `_derive_searchsploit` (function, line 453) `def _derive_searchsploit(output)`
+  - `_derive_auto_populate` (function, line 472) `def _derive_auto_populate(output)`
+  - `_derive_facts_show` (function, line 481) `def _derive_facts_show(output)`
+  - `IStepRunner` (class, line 509) `class IStepRunner(ABC)`
+  - `LazyOwnStepRunner` (class, line 523) `class LazyOwnStepRunner(IStepRunner)`
+  - `_heuristic_success` (function, line 587) `def _heuristic_success(command, output)`
+  - `PipelineLoader` (class, line 626) `class PipelineLoader`
+  - `RunArtifactStore` (class, line 769) `class RunArtifactStore`
+  - `INarratorAdapter` (class, line 848) `class INarratorAdapter(ABC)`
+  - `_SilentNarrator` (class, line 863) `class _SilentNarrator(INarratorAdapter)`
+  - `EngagementNarratorAdapter` (class, line 868) `class EngagementNarratorAdapter(INarratorAdapter)`
+  - `PipelineEngine` (class, line 908) `class PipelineEngine`
+  - `get_default_engine` (function, line 1300) `def get_default_engine(onecmd)`
+  - `mcp_pipeline_run` (function, line 1314) `def mcp_pipeline_run(name, target, background, onecmd)`
+  - `mcp_pipeline_list` (function, line 1368) `def mcp_pipeline_list()`
+  - `mcp_pipeline_validate` (function, line 1385) `def mcp_pipeline_validate(name)`
+  - `mcp_pipeline_status` (function, line 1414) `def mcp_pipeline_status(last_n)`
+  - `cmd_pipeline` (function, line 1436) `def cmd_pipeline(action, name, target, background)`
+  - `to_context` (method, line 180) `def to_context(self)`
+  - `to_dict` (method, line 213) `def to_dict(self)`
+  - `__init__` (method, line 275) `def __init__(self, context)`
+  - `render` (method, line 278) `def render(self, template)`
+  - `resolve` (method, line 289) `def resolve(self, dotted_path)`
+  - `_stringify` (method, line 314) `def _stringify(value)`
+  - `is_truthy` (method, line 330) `def is_truthy(rendered)`
+  - `validate` (method, line 352) `def validate(predicate, output)`
+  - `register` (method, line 389) `def register(cls, command, deriver)`
+  - `derive` (method, line 396) `def derive(cls, command, output)`
+  - `run` (method, line 513) `def run(self, command, args, target, timeout_s)`
+  - `__init__` (method, line 537) `def __init__(self, runner, onecmd)`
+  - `run` (method, line 548) `def run(self, command, args, target, timeout_s)`
+  - `_run_via_onecmd` (method, line 566) `def _run_via_onecmd(self, command, args, target, timeout_s)`
+  - `__init__` (method, line 638) `def __init__(self, pipelines_dir)`
+  - `pipelines_dir` (method, line 642) `def pipelines_dir(self)`
+  - `list` (method, line 645) `def list(self)`
+  - `resolve_path` (method, line 658) `def resolve_path(self, name)`
+  - `_read` (method, line 673) `def _read(self, path)`
+  - `load` (method, line 683) `def load(self, name)`
+  - `_validate` (method, line 689) `def _validate(self, raw, name, source)`
+  - `__init__` (method, line 778) `def __init__(self, runs_dir)`
+  - `runs_dir` (method, line 782) `def runs_dir(self)`
+  - `open_run` (method, line 785) `def open_run(self, pipeline_name, run_id)`
+  - `write_plan` (method, line 797) `def write_plan(self, run_dir, spec)`
+  - `write_step` (method, line 814) `def write_step(self, run_dir, result)`
+  - `write_summary` (method, line 828) `def write_summary(self, run_dir, run)`
+  - `narrate` (method, line 852) `def narrate(self, kind, target, message, payload, severity)`
+  - `narrate` (method, line 864) `def narrate(self)`
+  - `__init__` (method, line 871) `def __init__(self, narrator)`
+  - `narrate` (method, line 881) `def narrate(self, kind, target, message, payload, severity)`
+  - `__init__` (method, line 927) `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)`
+  - `loader` (method, line 942) `def loader(self)`
+  - `validate` (method, line 945) `def validate(self, name)`
+  - `run` (method, line 949) `def run(self, name, target, nesting_stack)`
+  - `_run_command` (method, line 1077) `def _run_command(self, step, resolver, target)`
+  - `_run_nested` (method, line 1126) `def _run_nested(self, step, resolver, target, stack, run)`
+  - `_run_hook` (method, line 1178) `def _run_hook(self, hook_command, target, timeout_s)`
+  - `_make_skipped` (method, line 1206) `def _make_skipped(step, reason)`
+  - `_build_context` (method, line 1221) `def _build_context(self, spec, target, step_results, derived_findings, current_step)`
+  - `_merge_findings` (method, line 1246) `def _merge_findings(derived_findings, result)`
+  - `_narrate_step` (method, line 1256) `def _narrate_step(self, result, target)`
+  - `_worker` (function, line 1344) `def _worker()`
+  - `_replace` (function, line 282) `def _replace(match)`
+- Depends on: `core/logging.py`, `modules/engagement_hooks.py`, `skills/autonomous_daemon.py`
+- Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_pipeline_engine.py`
+
 ## modules/planner.py
 - Doc: Fact-based planner — decides the next ability to run.
 - Layer: utility
@@ -373,90 +492,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `generate_c_stub` (method, line 588) `def generate_c_stub(self)`
   - `generate_powershell_stub` (method, line 666) `def generate_powershell_stub(self)`
   - `summarize` (method, line 685) `def summarize(self)`
-
-## modules/resource_script.py
-- Doc: Enhanced resource script engine — variables, conditionals, loops, macros.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ScriptError` (class, line 76) `class ScriptError(RuntimeError)`
-  - `ScriptContext` (class, line 82) `class ScriptContext`
-  - `ResourceScriptEngine` (class, line 268) `class ResourceScriptEngine`
-  - `__init__` (method, line 89) `def __init__(self, shell_params, on_command, on_print)`
-  - `_resolve` (method, line 124) `def _resolve(self, text)`
-  - `print` (method, line 138) `def print(self, msg)`
-  - `run_command` (method, line 147) `def run_command(self, cmd)`
-  - `_skip` (method, line 165) `def _skip(self)`
-  - `_lookup` (method, line 168) `def _lookup(self, name)`
-  - `_resolve_operand` (method, line 183) `def _resolve_operand(self, operand)`
-  - `eval_condition` (method, line 191) `def eval_condition(self, raw_condition)`
-  - `_compare` (method, line 220) `def _compare(left, op, right)`
-  - `_jump_past` (method, line 251) `def _jump_past(self, open_res, close_re)`
-  - `__init__` (method, line 276) `def __init__(self, context)`
-  - `execute` (method, line 279) `def execute(self, script_path)`
-  - `execute_lines` (method, line 293) `def execute_lines(self, lines, source)`
-  - `execute_string` (method, line 327) `def execute_string(self, script)`
-  - `_extract_macros` (method, line 331) `def _extract_macros(self, lines)`
-  - `_execute_line` (method, line 347) `def _execute_line(self, raw)`
-  - `_call_macro` (method, line 537) `def _call_macro(self, name, args)`
-  - `_repl` (function, line 125) `def _repl(m)`
-- Depends on: `core/safe_exec.py`
-- Imported by: `cli/commands/resource_scripting.py`, `tests/test_resource_script.py`, `tests/test_security_hardening_v3.py`
-
-## modules/retry_session.py
-- Doc: Retry sessions - safely relaunch a failed verb or a failed run.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `is_active` (function, line 56) `def is_active()`
-  - `secret_enabled_path` (function, line 61) `def secret_enabled_path()`
-  - `_verify_askpass_layout` (function, line 67) `def _verify_askpass_layout(helper, secret_file)`
-  - `sudo_gate_open` (function, line 79) `def sudo_gate_open()`
-  - `set_sudo_secret` (function, line 94) `def set_sudo_secret(secret)`
-  - `clear_sudo_secret` (function, line 125) `def clear_sudo_secret()`
-  - `apply_sudo_askpass` (function, line 137) `def apply_sudo_askpass(command)`
-  - `_rewrite_segment` (function, line 162) `def _rewrite_segment(segment)`
-  - `newest_failed_checkpoint` (function, line 180) `def newest_failed_checkpoint(chain, run_id)`
-  - `resolve_sudo_consent` (function, line 204) `def resolve_sudo_consent(confirmer, want_sudo)`
-- Depends on: `modules/chain_state.py`
-- Imported by: `cli/retry_support.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_retry_session.py`
-
-## modules/reverse-shell.c
-- Doc: reverse_shell_init: call_usermodehelper function is used to create user mode processes from...
-- Layer: utility
-- Language: c
-- Symbols:
-  - `reverse_shell_init` (function, line 12) `static int __init reverse_shell_init(void)`
-  - `reverse_shell_exit` (function, line 16) `static void __exit reverse_shell_exit(void)`
-
-## modules/revshell.c
-- Layer: utility
-- Language: c
-- Symbols:
-  - `xlAutoOpen` (function, line 5) `void __cdecl xlAutoOpen()`
-  - `DllMain` (function, line 10) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
-
-## modules/rich_tui.py
-- Doc: Rich-based live TUI dashboard for LazyOwn campaign monitoring.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RichDashboard` (class, line 66) `class RichDashboard`
-  - `__init__` (method, line 74) `def __init__(self, dashboard_engine, refresh_interval, live)`
-  - `run` (method, line 96) `def run(self)`
-  - `stop` (method, line 132) `def stop(self)`
-  - `_render` (method, line 137) `def _render(self)`
-  - `_keyboard_listener` (method, line 146) `def _keyboard_listener(self)`
-  - `_render_layout` (method, line 168) `def _render_layout(self, snapshot)`
-  - `_render_header` (method, line 193) `def _render_header(self, snapshot)`
-  - `_render_topology` (method, line 221) `def _render_topology(self, snapshot)`
-  - `_render_recommendations` (method, line 261) `def _render_recommendations(self, snapshot)`
-  - `_render_pivots_beacons` (method, line 321) `def _render_pivots_beacons(self, snapshot)`
-  - `_render_pivots` (method, line 337) `def _render_pivots(self, snapshot)`
-  - `_render_beacons` (method, line 372) `def _render_beacons(self, snapshot)`
-  - `_render_shortcuts` (method, line 413) `def _render_shortcuts(self)`
-- Depends on: `core/console.py`, `modules/dashboard_engine.py`
-- Imported by: `cli/commands/pwn.py`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

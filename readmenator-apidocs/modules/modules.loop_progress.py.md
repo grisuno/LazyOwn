@@ -132,7 +132,7 @@ Decorators: `@dataclass`
 class LoopProgress
 ```
 
-Live milestone panel; call [`refresh`](modules.session_state.py.md#refresh) from the poll loop.
+Live milestone panel; call `refresh` from the poll loop.
 
 **Attributes**
 

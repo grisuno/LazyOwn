@@ -1,33 +1,57 @@
 # Changelog
 
-### Documentation
+### Features
 
-  * docs: deterministic harness loop reference (7b0f75df) by grisun0
+  * feat(audit): wave 2 - rotative session secrets, sleep obfuscation, configurable persistence, utls JA3 (8d2c7745) by grisun0
+
+### Bug Fixes
+
+  * fix(c2): decrypt polled commands, configurable stealth, private root staging (9b9a220d) by grisun0
+  * fix(c2): decrypt polled commands, configurable stealth, private root staging (1cec16c6) by grisun0
+  * fix(implant): bump x/crypto, compress, sys to patched versions (d8733d02) by grisun0
+  * fix(implant): bump x/crypto, compress, sys to patched versions (9917b3ce) by grisun0
 
 ### Chores
 
-  * Update requirements.txt (49386884) by Grisuno
-  * Update README.md (624b98db) by Grisuno
-  * Merge pull request #320 from grisuno/dependabot/pip/virtualenv-21.14.13 (9b730867) by Grisuno
-  * chore(deps): bump virtualenv from 21.14.9 to 21.14.13 (562a3121) by dependabot[bot]
-  * Update requirements-light.txt (bb75fddf) by Grisuno
-  * Update requirements.txt (e2821091) by Grisuno
-  * Merge pull request #318 from grisuno/dependabot/pip/certifi-2026.10.19 (1dcfde82) by Grisuno
-  * Update requirements-light.txt (d7ea4c90) by Grisuno
-  * Update requirements.txt (d0d3dc79) by Grisuno
-  * Update requirements-light.txt (95b7d1f6) by Grisuno
-  * Update requirements.txt (9278e423) by Grisuno
-  * chore(deps): bump certifi from 2026.7.22 to 2026.10.19 (808565e1) by dependabot[bot]
-  * toast_bus: readable summaries + restored scheduler triggers (e523bb2f) by grisun0
-  * tests: alias atomic_exploit_bridge module name so patches reach deploy (23d68866) by grisun0
-  * toast_bus: F7 textual-style glyphs + timestamped prominent panels (6eada5d8) by grisun0
-  * c2_agent: F5 dual client profiles (lowpriv/root) (7efe1f47) by grisun0
-  * harness: F3.5 local-only LLM + orchestrator harness toggle + opencode MCP tools (df6d93e6) by grisun0
-  * harness: F3 deterministic gates + chain directive + harness profile (741aa806) by grisun0
-  * harness: F4 apt_chain hardening (3322aa8d) by grisun0
-  * harness: single-source state, beacon recon sink, golden paths, gym matrix CTF (62c58e3d) by grisun0
-  * Update requirements.txt (5a9afbd4) by Grisuno
-  * Update requirements-light.txt (c53ee0ee) by Grisuno
+  * intel fussion and inteligence engine now feed the cve founded in the campaing and the report automated feeded in /report endpoint (a2fa9e27) by grisun0
+  * cve_feed and heat map osinfer now the auto loop don't try launch hcecllbircd on a linux box (137049d5) by grisun0
+  * Merge pull request #332 from grisuno/pp (f402adce) by Grisuno
+  * Merge pull request #331 from grisuno/dev (43c632b6) by Grisuno
+  * Merge remote-tracking branch 'origin/main' into sync/pp-after-330 (4d779324) by grisun0
+  * Merge remote-tracking branch 'origin/main' into dev (59b8e993) by grisun0
+  * Merge pull request #330 from grisuno/fix/c2-agent-tmp-staging (b4e87bb9) by Grisuno
+  * Merge remote-tracking branch 'origin/main' into dev (9b04525e) by grisun0
+  * Merge pull request #329 from grisuno/main (9c7107d9) by Grisuno
+  * Merge pull request #328 from grisuno/hotfix/implant-crypto-deps (395838e7) by Grisuno
+  * Merge remote-tracking branch 'origin/main' into feature/audit-remediation-p0 (7df32abb) by grisun0
+  * Update README.md (f1dc51c9) by Grisuno
+  * Update README.md (5b86d6ef) by Grisuno
+  * Update README.md (af038aa8) by Grisuno
+  * Update README.md (625c38d8) by Grisuno
+  * Update README.md (260a9e0d) by Grisuno
+  * Merge pull request #323 from grisuno/dependabot/pip/kiwisolver-1.5.1 (db24395a) by Grisuno
+  * Merge pull request #324 from grisuno/dependabot/pip/executing-2.3.0 (5264454e) by Grisuno
+  * Merge pull request #325 from grisuno/dependabot/pip/distlib-0.4.4 (9d5bc58f) by Grisuno
+  * Merge pull request #326 from grisuno/dependabot/pip/python-socketio-5.17.0 (9897f83d) by Grisuno
+  * Merge pull request #327 from grisuno/dependabot/pip/openai-3.36.1 (5bdb4017) by Grisuno
+  * chore(deps): bump openai from 1.102.0 to 3.36.1 (8f4f7d88) by dependabot[bot]
+  * chore(deps): bump python-socketio from 5.16.3 to 5.17.0 (de6a74c2) by dependabot[bot]
+  * chore(deps): bump distlib from 0.4.0 to 0.4.4 (34142699) by dependabot[bot]
+  * chore(deps): bump executing from 2.2.1 to 2.3.0 (f4976677) by dependabot[bot]
+  * chore(deps): bump kiwisolver from 1.5.0 to 1.5.1 (841631e1) by dependabot[bot]
+  * bug fixing, deprecated old modules, telegram bug, etc (ac5ace30) by grisun0
+  * some callbacks in auto_loop, new aliases, new model, bug fixing in the gym (d752caa6) by grisun0
+  * Merge pull request #321 from grisuno/dependabot/pip/setuptools-84.1.0 (804ebc91) by Grisuno
+  * Merge pull request #322 from grisuno/dev (c1a4ed26) by Grisuno
+  * Update README.md (973d519d) by Grisuno
+  * Update README.md (89cd1857) by Grisuno
+  * Update README.md (bd1a181a) by Grisuno
+  * chore(deps): bump setuptools from 83.0.0 to 84.1.0 (9833b975) by dependabot[bot]
+  * Update requirements-light.txt (ef76c802) by Grisuno
+
+### Tests
+
+  * test: A mediator architecture is implemented with a safety harness inspired by Apollo 11. (cbeaa850) by grisun0
 
 
 _Generated by [deploynator](https://github.com/grisuno/deploynator)_

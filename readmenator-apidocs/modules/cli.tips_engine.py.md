@@ -202,7 +202,7 @@ Wire the engine with its configuration and optional autosuggest handle.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `config` | `TipsConfig \| None` | `None` | Centralised configuration. Built from defaults when omitted. |
-| `autosuggest_engine` | `Any` | `None` | An [`cli.autosuggest.AutoSuggestEngine`](cli.autosuggest.py.md#autosuggestengine) instance (or any object exposing `[`refresh`](modules.session_state.py.md#refresh)`, `[`current`](cli.autosuggest.py.md#autosuggestengine-current)`, `[`enabled`](#tipsconfig-enabled)`). |
+| `autosuggest_engine` | `Any` | `None` | An [`cli.autosuggest.AutoSuggestEngine`](cli.autosuggest.py.md#autosuggestengine) instance (or any object exposing ``refresh``, `[`current`](cli.autosuggest.py.md#autosuggestengine-current)`, `[`enabled`](#tipsconfig-enabled)`). |
 
 *Calls:* [`TipsConfig`](#tipsconfig), [`get_console`](core.safe_console.py.md#get_console)
 

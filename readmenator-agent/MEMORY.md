@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1178 files at commit `625c38d8f73e`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1186 files at commit `a2fa9e276b96`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `command` (472), `modules` (464), `file` (431), `one` (429), `lazy` (420), `not` (397), `path` (395), `all` (395), `run` (391), `name` (370), `json` (369), `without` (368), `cli` (363), `own` (362), `set` (336)
-- Subsystem `modules: autonomous_daemon`: 184 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `cli/commands`: 157 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Domain vocabulary (term, files): `command` (476), `modules` (471), `file` (435), `one` (435), `lazy` (427), `not` (403), `path` (400), `all` (396), `run` (395), `name` (374), `json` (373), `without` (373), `own` (365), `cli` (363), `set` (339)
+- Subsystem `modules: autonomous_daemon`: 186 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
+- Subsystem `cli/commands`: 155 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
 - Subsystem `cli`: 126 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: lazy_loop`: 122 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `modules: world_model`: 67 files, core `modules/world_model.py`: modules/world_model.py
+- Subsystem `modules: lazy_loop`: 126 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Subsystem `modules: lazyc2`: 67 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `modules: world_model`: 63 files, core `modules/world_model.py`: modules/world_model.py
 - Subsystem `lazygui/panels`: 54 files, core `lazygui/services/teamserver_backend.py`: Teamserver backend with Socket.IO real-time and full HTTP API coverage.
-- Subsystem `lazyc2/security`: 52 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
-- Subsystem `modules: lazyown_facts`: 38 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
+- Subsystem `modules: lazyown_facts`: 46 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1047 files, 19828 symbols; docstrings on 55% of symbols; functions snake_case (99%); types PascalCase (100%); median file 215 lines, max 13286.
-- sh: 64 files, 257 symbols; docstrings on 32% of symbols; functions snake_case (100%); median file 79 lines, max 1539.
+- py: 1055 files, 20018 symbols; docstrings on 55% of symbols; functions snake_case (99%); types PascalCase (100%); median file 216 lines, max 13286.
+- sh: 64 files, 258 symbols; docstrings on 33% of symbols; functions snake_case (100%); median file 79 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 21 files, 1606 symbols; docstrings on 49% of symbols; functions snake_case (46%); types PascalCase (26%); median file 6 lines, max 9358.
-- Tests: 347 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 349 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 

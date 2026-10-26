@@ -1,8 +1,123 @@
-# Symbols (page 27 of 45)
+# Symbols (page 27 of 46)
 Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_spraykatz` | function | `skills/mcp_generated_tools.py:5106` | `def _gen_spraykatz(arguments, tool_name, _cmd)` |
+| `_gen_sqli` | function | `skills/mcp_generated_tools.py:5114` | `def _gen_sqli(arguments, tool_name, _cmd)` |
+| `_gen_sqli_mssql_test` | function | `skills/mcp_generated_tools.py:5122` | `def _gen_sqli_mssql_test(arguments, tool_name, _cmd)` |
+| `_gen_sqlmap` | function | `skills/mcp_generated_tools.py:5130` | `def _gen_sqlmap(arguments, tool_name, _cmd)` |
+| `_gen_sqsh` | function | `skills/mcp_generated_tools.py:5138` | `def _gen_sqsh(arguments, tool_name, _cmd)` |
+| `_gen_ss` | function | `skills/mcp_generated_tools.py:5146` | `def _gen_ss(arguments, tool_name, _cmd)` |
+| `_gen_ssh` | function | `skills/mcp_generated_tools.py:5154` | `def _gen_ssh(arguments, tool_name, _cmd)` |
+| `_gen_ssh_cmd` | function | `skills/mcp_generated_tools.py:5162` | `def _gen_ssh_cmd(arguments, tool_name, _cmd)` |
+| `_gen_sshd` | function | `skills/mcp_generated_tools.py:5170` | `def _gen_sshd(arguments, tool_name, _cmd)` |
+| `_gen_sshexploit` | function | `skills/mcp_generated_tools.py:5178` | `def _gen_sshexploit(arguments, tool_name, _cmd)` |
+| `_gen_sshkey` | function | `skills/mcp_generated_tools.py:5186` | `def _gen_sshkey(arguments, tool_name, _cmd)` |
+| `_gen_sslscan` | function | `skills/mcp_generated_tools.py:5194` | `def _gen_sslscan(arguments, tool_name, _cmd)` |
+| `_gen_stage` | function | `skills/mcp_generated_tools.py:5202` | `def _gen_stage(arguments, tool_name, _cmd)` |
+| `_gen_state_snapshot` | function | `skills/mcp_generated_tools.py:5210` | `def _gen_state_snapshot(arguments, tool_name, _cmd)` |
+| `_gen_status_bar` | function | `skills/mcp_generated_tools.py:5218` | `def _gen_status_bar(arguments, tool_name, _cmd)` |
+| `_gen_status_tail` | function | `skills/mcp_generated_tools.py:5226` | `def _gen_status_tail(arguments, tool_name, _cmd)` |
+| `_gen_stealth_off` | function | `skills/mcp_generated_tools.py:5234` | `def _gen_stealth_off(arguments, tool_name, _cmd)` |
+| `_gen_stealth_on` | function | `skills/mcp_generated_tools.py:5242` | `def _gen_stealth_on(arguments, tool_name, _cmd)` |
+| `_gen_stormbreaker` | function | `skills/mcp_generated_tools.py:5250` | `def _gen_stormbreaker(arguments, tool_name, _cmd)` |
+| `_gen_sudo` | function | `skills/mcp_generated_tools.py:5258` | `def _gen_sudo(arguments, tool_name, _cmd)` |
+| `_gen_suggest_next` | function | `skills/mcp_generated_tools.py:5266` | `def _gen_suggest_next(arguments, tool_name, _cmd)` |
+| `_gen_suid_check` | function | `skills/mcp_generated_tools.py:5274` | `def _gen_suid_check(arguments, tool_name, _cmd)` |
+| `_gen_surface` | function | `skills/mcp_generated_tools.py:5282` | `def _gen_surface(arguments, tool_name, _cmd)` |
+| `_gen_swaks` | function | `skills/mcp_generated_tools.py:5290` | `def _gen_swaks(arguments, tool_name, _cmd)` |
+| `_gen_sys` | function | `skills/mcp_generated_tools.py:5298` | `def _gen_sys(arguments, tool_name, _cmd)` |
+| `_gen_tab` | function | `skills/mcp_generated_tools.py:5306` | `def _gen_tab(arguments, tool_name, _cmd)` |
+| `_gen_targetedKerberoas` | function | `skills/mcp_generated_tools.py:5314` | `def _gen_targetedKerberoas(arguments, tool_name, _cmd)` |
+| `_gen_tasks` | function | `skills/mcp_generated_tools.py:5322` | `def _gen_tasks(arguments, tool_name, _cmd)` |
+| `_gen_tcpdump_capture` | function | `skills/mcp_generated_tools.py:5330` | `def _gen_tcpdump_capture(arguments, tool_name, _cmd)` |
+| `_gen_tcpdump_icmp` | function | `skills/mcp_generated_tools.py:5338` | `def _gen_tcpdump_icmp(arguments, tool_name, _cmd)` |
+| `_gen_team_chat` | function | `skills/mcp_generated_tools.py:5346` | `def _gen_team_chat(arguments, tool_name, _cmd)` |
+| `_gen_team_status` | function | `skills/mcp_generated_tools.py:5354` | `def _gen_team_status(arguments, tool_name, _cmd)` |
+| `_gen_template_helper_serializer` | function | `skills/mcp_generated_tools.py:5362` | `def _gen_template_helper_serializer(arguments, tool_name, _cmd)` |
+| `_gen_tenant` | function | `skills/mcp_generated_tools.py:5372` | `def _gen_tenant(arguments, tool_name, _cmd)` |
+| `_gen_tgrep` | function | `skills/mcp_generated_tools.py:5380` | `def _gen_tgrep(arguments, tool_name, _cmd)` |
+| `_gen_ticketer` | function | `skills/mcp_generated_tools.py:5388` | `def _gen_ticketer(arguments, tool_name, _cmd)` |
+| `_gen_timeline_browser` | function | `skills/mcp_generated_tools.py:5396` | `def _gen_timeline_browser(arguments, tool_name, _cmd)` |
+| `_gen_toast_clear` | function | `skills/mcp_generated_tools.py:5404` | `def _gen_toast_clear(arguments, tool_name, _cmd)` |
+| `_gen_toctoc` | function | `skills/mcp_generated_tools.py:5412` | `def _gen_toctoc(arguments, tool_name, _cmd)` |
+| `_gen_tord` | function | `skills/mcp_generated_tools.py:5420` | `def _gen_tord(arguments, tool_name, _cmd)` |
+| `_gen_trace` | function | `skills/mcp_generated_tools.py:5428` | `def _gen_trace(arguments, tool_name, _cmd)` |
+| `_gen_transform` | function | `skills/mcp_generated_tools.py:5436` | `def _gen_transform(arguments, tool_name, _cmd)` |
+| `_gen_trufflehog` | function | `skills/mcp_generated_tools.py:5444` | `def _gen_trufflehog(arguments, tool_name, _cmd)` |
+| `_gen_tshark_analyze` | function | `skills/mcp_generated_tools.py:5452` | `def _gen_tshark_analyze(arguments, tool_name, _cmd)` |
+| `_gen_ttp_matrix` | function | `skills/mcp_generated_tools.py:5460` | `def _gen_ttp_matrix(arguments, tool_name, _cmd)` |
+| `_gen_ttp_rebuild` | function | `skills/mcp_generated_tools.py:5468` | `def _gen_ttp_rebuild(arguments, tool_name, _cmd)` |
+| `_gen_ttp_show` | function | `skills/mcp_generated_tools.py:5476` | `def _gen_ttp_show(arguments, tool_name, _cmd)` |
+| `_gen_tui_theme` | function | `skills/mcp_generated_tools.py:5484` | `def _gen_tui_theme(arguments, tool_name, _cmd)` |
+| `_gen_unicode_WAFbypass` | function | `skills/mcp_generated_tools.py:5492` | `def _gen_unicode_WAFbypass(arguments, tool_name, _cmd)` |
+| `_gen_unlock_target` | function | `skills/mcp_generated_tools.py:5500` | `def _gen_unlock_target(arguments, tool_name, _cmd)` |
+| `_gen_unseal_credentials` | function | `skills/mcp_generated_tools.py:5508` | `def _gen_unseal_credentials(arguments, tool_name, _cmd)` |
+| `_gen_unzip` | function | `skills/mcp_generated_tools.py:5516` | `def _gen_unzip(arguments, tool_name, _cmd)` |
+| `_gen_upload_bypass` | function | `skills/mcp_generated_tools.py:5524` | `def _gen_upload_bypass(arguments, tool_name, _cmd)` |
+| `_gen_upload_c2` | function | `skills/mcp_generated_tools.py:5532` | `def _gen_upload_c2(arguments, tool_name, _cmd)` |
+| `_gen_upload_gofile` | function | `skills/mcp_generated_tools.py:5540` | `def _gen_upload_gofile(arguments, tool_name, _cmd)` |
+| `_gen_urldecode` | function | `skills/mcp_generated_tools.py:5548` | `def _gen_urldecode(arguments, tool_name, _cmd)` |
+| `_gen_urlencode` | function | `skills/mcp_generated_tools.py:5556` | `def _gen_urlencode(arguments, tool_name, _cmd)` |
+| `_gen_use` | function | `skills/mcp_generated_tools.py:5564` | `def _gen_use(arguments, tool_name, _cmd)` |
+| `_gen_username_anarchy` | function | `skills/mcp_generated_tools.py:5572` | `def _gen_username_anarchy(arguments, tool_name, _cmd)` |
+| `_gen_utf` | function | `skills/mcp_generated_tools.py:5580` | `def _gen_utf(arguments, tool_name, _cmd)` |
+| `_gen_v` | function | `skills/mcp_generated_tools.py:5588` | `def _gen_v(arguments, tool_name, _cmd)` |
+| `_gen_veil` | function | `skills/mcp_generated_tools.py:5596` | `def _gen_veil(arguments, tool_name, _cmd)` |
+| `_gen_vpn` | function | `skills/mcp_generated_tools.py:5604` | `def _gen_vpn(arguments, tool_name, _cmd)` |
+| `_gen_vscan` | function | `skills/mcp_generated_tools.py:5612` | `def _gen_vscan(arguments, tool_name, _cmd)` |
+| `_gen_vuln_list` | function | `skills/mcp_generated_tools.py:5620` | `def _gen_vuln_list(arguments, tool_name, _cmd)` |
+| `_gen_vulns` | function | `skills/mcp_generated_tools.py:5628` | `def _gen_vulns(arguments, tool_name, _cmd)` |
+| `_gen_waybackmachine` | function | `skills/mcp_generated_tools.py:5636` | `def _gen_waybackmachine(arguments, tool_name, _cmd)` |
+| `_gen_weevely` | function | `skills/mcp_generated_tools.py:5644` | `def _gen_weevely(arguments, tool_name, _cmd)` |
+| `_gen_weevelygen` | function | `skills/mcp_generated_tools.py:5652` | `def _gen_weevelygen(arguments, tool_name, _cmd)` |
+| `_gen_wfuzz` | function | `skills/mcp_generated_tools.py:5660` | `def _gen_wfuzz(arguments, tool_name, _cmd)` |
+| `_gen_whatweb` | function | `skills/mcp_generated_tools.py:5668` | `def _gen_whatweb(arguments, tool_name, _cmd)` |
+| `_gen_whoami` | function | `skills/mcp_generated_tools.py:5676` | `def _gen_whoami(arguments, tool_name, _cmd)` |
+| `_gen_wifipass` | function | `skills/mcp_generated_tools.py:5684` | `def _gen_wifipass(arguments, tool_name, _cmd)` |
+| `_gen_winbase64payload` | function | `skills/mcp_generated_tools.py:5692` | `def _gen_winbase64payload(arguments, tool_name, _cmd)` |
+| `_gen_windapsearch` | function | `skills/mcp_generated_tools.py:5700` | `def _gen_windapsearch(arguments, tool_name, _cmd)` |
+| `_gen_windapsearchscrapeusers` | function | `skills/mcp_generated_tools.py:5708` | `def _gen_windapsearchscrapeusers(arguments, tool_name, _cmd)` |
+| `_gen_winpeas` | function | `skills/mcp_generated_tools.py:5716` | `def _gen_winpeas(arguments, tool_name, _cmd)` |
+| `_gen_wipe_free` | function | `skills/mcp_generated_tools.py:5724` | `def _gen_wipe_free(arguments, tool_name, _cmd)` |
+| `_gen_wipe_logs` | function | `skills/mcp_generated_tools.py:5732` | `def _gen_wipe_logs(arguments, tool_name, _cmd)` |
+| `_gen_wipe_timeline` | function | `skills/mcp_generated_tools.py:5740` | `def _gen_wipe_timeline(arguments, tool_name, _cmd)` |
+| `_gen_wizard` | function | `skills/mcp_generated_tools.py:5748` | `def _gen_wizard(arguments, tool_name, _cmd)` |
+| `_gen_wmi_lateral` | function | `skills/mcp_generated_tools.py:5756` | `def _gen_wmi_lateral(arguments, tool_name, _cmd)` |
+| `_gen_wmi_persist` | function | `skills/mcp_generated_tools.py:5764` | `def _gen_wmi_persist(arguments, tool_name, _cmd)` |
+| `_gen_wmi_scheduled_task` | function | `skills/mcp_generated_tools.py:5772` | `def _gen_wmi_scheduled_task(arguments, tool_name, _cmd)` |
+| `_gen_wmiexec` | function | `skills/mcp_generated_tools.py:5780` | `def _gen_wmiexec(arguments, tool_name, _cmd)` |
+| `_gen_wmiexecpro` | function | `skills/mcp_generated_tools.py:5788` | `def _gen_wmiexecpro(arguments, tool_name, _cmd)` |
+| `_gen_wpscan` | function | `skills/mcp_generated_tools.py:5796` | `def _gen_wpscan(arguments, tool_name, _cmd)` |
+| `_gen_wrapper` | function | `skills/mcp_generated_tools.py:5804` | `def _gen_wrapper(arguments, tool_name, _cmd)` |
+| `_gen_www` | function | `skills/mcp_generated_tools.py:5812` | `def _gen_www(arguments, tool_name, _cmd)` |
+| `_gen_xss` | function | `skills/mcp_generated_tools.py:5820` | `def _gen_xss(arguments, tool_name, _cmd)` |
+| `_gen_xsstrike` | function | `skills/mcp_generated_tools.py:5828` | `def _gen_xsstrike(arguments, tool_name, _cmd)` |
+| `_gen_yara_scan` | function | `skills/mcp_generated_tools.py:5836` | `def _gen_yara_scan(arguments, tool_name, _cmd)` |
+| `get_generated_tool_definitions` | function | `skills/mcp_generated_tools.py:659` | `def get_generated_tool_definitions()` |
+| `register_all_generated_handlers` | function | `skills/mcp_generated_tools.py:684` | `def register_all_generated_handlers(register_handler_fn, make_text_fn, run_lazyown_cmd_fn)` |
+| `ensure_optional` | function | `skills/mcp_lazy.py:18` | `def ensure_optional(namespace, flag, loader)` |
+| `_build_tool_schema` | function | `skills/mcp_tool_generator.py:91` | `def _build_tool_schema(command_param_name)` |
+| `extract_commands` | function | `skills/mcp_tool_generator.py:34` | `def extract_commands(index)` |
+| `extract_existing_handlers` | function | `skills/mcp_tool_generator.py:55` | `def extract_existing_handlers()` |
+| `generate_module` | function | `skills/mcp_tool_generator.py:106` | `def generate_module(commands, existing_handlers, limit)` |
+| `load_command_index` | function | `skills/mcp_tool_generator.py:29` | `def load_command_index()` |
+| `main` | function | `skills/mcp_tool_generator.py:220` | `def main()` |
+| `sanitize_description` | function | `skills/mcp_tool_generator.py:72` | `def sanitize_description(summary, max_len)` |
+| `sanitize_docstring` | function | `skills/mcp_tool_generator.py:85` | `def sanitize_docstring(text)` |
+| `verify_coverage` | function | `skills/mcp_tool_generator.py:203` | `def verify_coverage(commands, existing_handlers)` |
+| `_Handler` | class | `skills/sessions_watcher.py:375` | `class _Handler(FileSystemEventHandler)` |
+| `_append_event` | function | `skills/sessions_watcher.py:96` | `def _append_event(ev)` |
+| `_call_ollama` | function | `skills/sessions_watcher.py:141` | `def _call_ollama(prompt)` |
+| `_dispatch` | function | `skills/sessions_watcher.py:346` | `def _dispatch(path)` |
+| `_emit` | function | `skills/sessions_watcher.py:123` | `def _emit(event_type, severity, suggest, source)` |
+| `_extract_target_from_filename` | function | `skills/sessions_watcher.py:331` | `def _extract_target_from_filename(name)` |
+| `_generate_plan_from_nmap` | function | `skills/sessions_watcher.py:154` | `def _generate_plan_from_nmap(nmap_path)` |
+| `_handle_nmap_txt` | function | `skills/sessions_watcher.py:204` | `def _handle_nmap_txt(path)` |
+| `_handle_nmap_xml` | function | `skills/sessions_watcher.py:229` | `def _handle_nmap_xml(path)` |
+| `_handle_plan_updated` | function | `skills/sessions_watcher.py:318` | `def _handle_plan_updated(path)` |
+| `_handle_tool_output` | function | `skills/sessions_watcher.py:257` | `def _handle_tool_output(path)` |
 | `_minimal_plan_from_nmap` | function | `skills/sessions_watcher.py:175` | `def _minimal_plan_from_nmap(content)` |
 | `_run_poll_loop` | function | `skills/sessions_watcher.py:402` | `def _run_poll_loop()` |
 | `_run_watchdog` | function | `skills/sessions_watcher.py:388` | `def _run_watchdog()` |
@@ -381,120 +496,5 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 | `OrchestratorResult` | class | `skills/unified_orchestrator.py:174` | `class OrchestratorResult` |
 | `RouterPolicy` | class | `skills/unified_orchestrator.py:340` | `class RouterPolicy` |
 | `SwanBackend` | class | `skills/unified_orchestrator.py:706` | `class SwanBackend` |
-| `UnifiedOrchestrator` | class | `skills/unified_orchestrator.py:871` | `class UnifiedOrchestrator` |
-| `__init__` | method | `skills/unified_orchestrator.py:233` | `def __init__(self, config, root)` |
-| `__init__` | method | `skills/unified_orchestrator.py:303` | `def __init__(self, backends)` |
-| `__init__` | method | `skills/unified_orchestrator.py:347` | `def __init__(self, config, registry)` |
-| `__init__` | method | `skills/unified_orchestrator.py:413` | `def __init__(self, config, factory, payload)` |
-| `__init__` | method | `skills/unified_orchestrator.py:610` | `def __init__(self, config, factory)` |
-| `__init__` | method | `skills/unified_orchestrator.py:711` | `def __init__(self, config, factory)` |
-| `__init__` | method | `skills/unified_orchestrator.py:814` | `def __init__(self, config)` |
-| `__init__` | method | `skills/unified_orchestrator.py:874` | `def __init__(self, config, registry, router, validator, bus)` |
-| `_artefacts` | method | `skills/unified_orchestrator.py:585` | `def _artefacts(raw)` |
-| `_artefacts` | method | `skills/unified_orchestrator.py:795` | `def _artefacts(swan_result)` |
-| `_build` | method | `skills/unified_orchestrator.py:513` | `def _build(self, goal, target)` |
-| `_build` | method | `skills/unified_orchestrator.py:677` | `def _build(self)` |
-| `_build` | method | `skills/unified_orchestrator.py:772` | `def _build(self, api_key)` |
-| `_emit` | method | `skills/unified_orchestrator.py:948` | `def _emit(self, result, mode, goal)` |
-| `_import_class` | method | `skills/unified_orchestrator.py:535` | `def _import_class()` |
-| `_import_factory` | method | `skills/unified_orchestrator.py:687` | `def _import_factory()` |
-| `_import_factory` | method | `skills/unified_orchestrator.py:779` | `def _import_factory()` |
-| `_keyword_score` | method | `skills/unified_orchestrator.py:404` | `def _keyword_score(text, keywords)` |
-| `_make_result` | function | `skills/unified_orchestrator.py:968` | `def _make_result(request_id, backend, status, summary, artefacts, events, duration, raw)` |
-| `_new_request_id` | function | `skills/unified_orchestrator.py:963` | `def _new_request_id()` |
-| `_score` | method | `skills/unified_orchestrator.py:367` | `def _score(self, goal, backend)` |
-| `_summarise` | method | `skills/unified_orchestrator.py:541` | `def _summarise(raw, target)` |
-| `_summarise` | method | `skills/unified_orchestrator.py:698` | `def _summarise(tasks, synthesis)` |
-| `_summarise` | method | `skills/unified_orchestrator.py:785` | `def _summarise(swan_result)` |
-| `_target_from_metadata` | method | `skills/unified_orchestrator.py:502` | `def _target_from_metadata(self, goal)` |
-| `available` | method | `skills/unified_orchestrator.py:215` | `def available(self)` |
-| `available` | method | `skills/unified_orchestrator.py:335` | `def available(self)` |
-| `available` | method | `skills/unified_orchestrator.py:435` | `def available(self)` |
-| `available` | method | `skills/unified_orchestrator.py:619` | `def available(self)` |
-| `available` | method | `skills/unified_orchestrator.py:720` | `def available(self)` |
-| `backends` | method | `skills/unified_orchestrator.py:890` | `def backends(self)` |
-| `build_default_orchestrator` | function | `skills/unified_orchestrator.py:995` | `def build_default_orchestrator(payload, sessions_dir)` |
-| `choose` | method | `skills/unified_orchestrator.py:352` | `def choose(self, goal)` |
-| `effective_target` | method | `skills/unified_orchestrator.py:489` | `def effective_target(self, goal)` |
-| `emit` | method | `skills/unified_orchestrator.py:256` | `def emit(self, event)` |
-| `execute` | method | `skills/unified_orchestrator.py:894` | `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` |
-| `from_payload` | method | `skills/unified_orchestrator.py:111` | `def from_payload(cls, payload)` |
-| `get` | method | `skills/unified_orchestrator.py:331` | `def get(self, name)` |
-| `names` | method | `skills/unified_orchestrator.py:327` | `def names(self)` |
-| `path` | method | `skills/unified_orchestrator.py:252` | `def path(self)` |
-| `run` | method | `skills/unified_orchestrator.py:219` | `def run(self, goal)` |
-| `run` | method | `skills/unified_orchestrator.py:445` | `def run(self, goal)` |
-| `run` | method | `skills/unified_orchestrator.py:629` | `def run(self, goal)` |
-| `run` | method | `skills/unified_orchestrator.py:730` | `def run(self, goal)` |
-| `to_dict` | method | `skills/unified_orchestrator.py:197` | `def to_dict(self)` |
-| `validate` | method | `skills/unified_orchestrator.py:818` | `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` |
-| `with_defaults` | method | `skills/unified_orchestrator.py:156` | `def with_defaults(self, config)` |
-| `main` | function | `skills/update_knowledge.py:40` | `def main(argv)` |
-| `SecureSessionManager` | class | `slack_c2_bot.py:28` | `class SecureSessionManager` |
-| `__init__` | method | `slack_c2_bot.py:29` | `def __init__(self)` |
-| `capture_shell_output` | function | `slack_c2_bot.py:95` | `def capture_shell_output(cmd)` |
-| `check_lockout` | method | `slack_c2_bot.py:42` | `def check_lockout(self, user_id)` |
-| `check_rate_limit` | method | `slack_c2_bot.py:52` | `def check_rate_limit(self, user_id)` |
-| `cmd_addcli` | function | `slack_c2_bot.py:177` | `def cmd_addcli(ack, respond, command)` |
-| `cmd_clients` | function | `slack_c2_bot.py:195` | `def cmd_clients(ack, respond, command)` |
-| `cmd_download` | function | `slack_c2_bot.py:209` | `def cmd_download(ack, respond, command)` |
-| `create_session` | method | `slack_c2_bot.py:63` | `def create_session(self, user_id)` |
-| `get_client` | method | `slack_c2_bot.py:85` | `def get_client(self, user_id)` |
-| `handle_file` | function | `slack_c2_bot.py:240` | `def handle_file(event, say, logger)` |
-| `handle_message` | function | `slack_c2_bot.py:113` | `def handle_message(event, say, logger)` |
-| `mentioned` | function | `slack_c2_bot.py:252` | `def mentioned(ack, say, event)` |
-| `register_failed_attempt` | method | `slack_c2_bot.py:34` | `def register_failed_attempt(self, user_id)` |
-| `set_client` | method | `slack_c2_bot.py:81` | `def set_client(self, user_id, client_id)` |
-| `validate_session` | method | `slack_c2_bot.py:71` | `def validate_session(self, user_id)` |
-| `As` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Be` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Cs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Do` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Ds` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Ef` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `Fp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `Fs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Gd` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `Ge` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Gs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `He` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Hh` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `I` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `In` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Ir` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Is` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Jh` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Jo` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Jp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `Js` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Ke` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Kp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `Lo` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Ls` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Md` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `Mi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Mn` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Ne` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Oe` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `On` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Pi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Ps` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Qp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `Sn` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Te` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Us` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Ve` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Vh` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Vr` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `We` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Wo` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Wr` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Ws` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Xe` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Xo` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Xp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
-| `Yi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Ys` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
-| `Zi` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
 
 Next: [SYMBOLS_p28.md](SYMBOLS_p28.md)

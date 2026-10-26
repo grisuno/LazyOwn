@@ -907,9 +907,13 @@ Project types nested under the project types they derive from. External bases ar
 - [`LogFileHandler`](modules/modules.lilsplunky.py.md#logfilehandler) class in `modules.lilsplunky`(FileSystemEventHandler)
 - [`LogTamper`](modules/modules.log_tamper.py.md#logtamper) class in `modules.log_tamper`
 - [`LogTamperConfig`](modules/modules.log_tamper.py.md#logtamperconfig) class in `modules.log_tamper`
+- [`LoopManager`](modules/modules.loop_manager.py.md#loopmanager) class in `modules.loop_manager`
+- [`LoopNotFoundError`](modules/modules.loop_manager.py.md#loopnotfounderror) exception in `modules.loop_manager`(KeyError)
 - [`LoopProgress`](modules/modules.loop_progress.py.md#loopprogress) class in `modules.loop_progress`
 - [`LoopRunConfig`](modules/modules.lazy_runner.py.md#looprunconfig) class in `modules.lazy_runner`
 - [`LoopSnapshot`](modules/modules.loop_progress.py.md#loopsnapshot) class in `modules.loop_progress`
+- [`LoopSpec`](modules/modules.loop_manager.py.md#loopspec) class in `modules.loop_manager`
+- [`LoopValidationError`](modules/modules.loop_manager.py.md#loopvalidationerror) exception in `modules.loop_manager`(ValueError)
 - [`LootEntry`](modules/cli.ops_commands.py.md#lootentry) class in `cli.ops_commands`
 - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m) class in `static/js/quill-2.0.3.js`(r.BlockBlot)
 - [`MacOSPayloadConfig`](modules/modules.macos_payloads.py.md#macospayloadconfig) class in `modules.macos_payloads`

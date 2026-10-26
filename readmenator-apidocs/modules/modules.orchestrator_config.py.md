@@ -367,7 +367,7 @@ Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
 
 ### `verb_config`
 
-`function` | [modules/orchestrator_config.py:523](../../modules/orchestrator_config.py#L523)
+`function` | [modules/orchestrator_config.py:524](../../modules/orchestrator_config.py#L524)
 
 ```python
 def verb_config(name: str) -> dict | None
@@ -393,7 +393,7 @@ Return the merged configuration of one auto verb, or None.
 
 ### `verb_enabled`
 
-`function` | [modules/orchestrator_config.py:532](../../modules/orchestrator_config.py#L532)
+`function` | [modules/orchestrator_config.py:533](../../modules/orchestrator_config.py#L533)
 
 ```python
 def verb_enabled(name: str) -> bool
@@ -419,7 +419,7 @@ Return whether one auto verb may be proposed or executed.
 
 ### `upsert_verb`
 
-`function` | [modules/orchestrator_config.py:538](../../modules/orchestrator_config.py#L538)
+`function` | [modules/orchestrator_config.py:539](../../modules/orchestrator_config.py#L539)
 
 ```python
 def upsert_verb(name: str, *, enabled: bool | None = None, keywords: list[str] | None = None, phases: list[str] | None = None, needs_target: bool | None = None, extra_args: str | None = None, description: str | None = None, custom: bool = False) -> dict
@@ -456,7 +456,7 @@ Create or update one auto-verb override in the payload.
 
 ### `remove_verb`
 
-`function` | [modules/orchestrator_config.py:595](../../modules/orchestrator_config.py#L595)
+`function` | [modules/orchestrator_config.py:596](../../modules/orchestrator_config.py#L596)
 
 ```python
 def remove_verb(name: str) -> bool
@@ -482,7 +482,7 @@ Remove a custom verb, or disable a built-in one.
 
 ### `reset`
 
-`function` | [modules/orchestrator_config.py:616](../../modules/orchestrator_config.py#L616)
+`function` | [modules/orchestrator_config.py:617](../../modules/orchestrator_config.py#L617)
 
 ```python
 def reset() -> None
@@ -498,7 +498,7 @@ Drop every orchestrator override (back to YAML defaults).
 
 ### `validate_config`
 
-`function` | [modules/orchestrator_config.py:623](../../modules/orchestrator_config.py#L623)
+`function` | [modules/orchestrator_config.py:624](../../modules/orchestrator_config.py#L624)
 
 ```python
 def validate_config(data: Any) -> list[str]

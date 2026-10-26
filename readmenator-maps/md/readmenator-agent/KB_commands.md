@@ -98,21 +98,24 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Layer: utility
 - Language: py
 - Symbols:
-  - `AuditCommandSet` (class, line 92) `class AuditCommandSet(LazyOwnCommandSet)`
-  - `_read_credentials` (function, line 304) `def _read_credentials(shell)`
-  - `__init__` (method, line 101) `def __init__(self)`
-  - `_ensure_fuzzy` (method, line 110) `def _ensure_fuzzy(self)`
-  - `_ensure_completer` (method, line 117) `def _ensure_completer(self)`
-  - `_ensure_transcript` (method, line 138) `def _ensure_transcript(self)`
-  - `_ensure_hot_reloader` (method, line 145) `def _ensure_hot_reloader(self)`
-  - `do_fz` (method, line 160) `def do_fz(self, statement)`
-  - `do_form` (method, line 178) `def do_form(self, statement)`
-  - `do_status_tail` (method, line 196) `def do_status_tail(self, statement)`
-  - `do_grep_log` (method, line 234) `def do_grep_log(self, statement)`
-  - `do_reload_addons` (method, line 263) `def do_reload_addons(self, _statement)`
-  - `do_audit_complete_keys` (method, line 288) `def do_audit_complete_keys(self, statement)`
+  - `AuditCommandSet` (class, line 107) `class AuditCommandSet(LazyOwnCommandSet)`
+  - `collect_hygiene_findings` (function, line 349) `def collect_hygiene_findings(payload)`
+  - `_read_credentials` (function, line 394) `def _read_credentials(shell)`
+  - `__init__` (method, line 116) `def __init__(self)`
+  - `_ensure_fuzzy` (method, line 125) `def _ensure_fuzzy(self)`
+  - `_ensure_completer` (method, line 132) `def _ensure_completer(self)`
+  - `_ensure_transcript` (method, line 153) `def _ensure_transcript(self)`
+  - `_ensure_hot_reloader` (method, line 160) `def _ensure_hot_reloader(self)`
+  - `do_fz` (method, line 175) `def do_fz(self, statement)`
+  - `do_form` (method, line 193) `def do_form(self, statement)`
+  - `do_status_tail` (method, line 211) `def do_status_tail(self, statement)`
+  - `do_grep_log` (method, line 249) `def do_grep_log(self, statement)`
+  - `do_reload_addons` (method, line 278) `def do_reload_addons(self, _statement)`
+  - `do_audit_complete_keys` (method, line 303) `def do_audit_complete_keys(self, statement)`
+  - `do_hygiene_audit` (method, line 319) `def do_hygiene_audit(self, statement)`
+  - `_truthy` (function, line 360) `def _truthy(raw)`
 - Depends on: `cli/cli_enhancements.py`, `cli/commands/_base.py`
-- Imported by: `tests/test_cli_enhancements.py`
+- Imported by: `tests/test_audit_remediation.py`, `tests/test_cli_enhancements.py`
 
 ## cli/commands/automation.py
 - Doc: Automation command set — credential reuse, conditional hooks, operator profiles.

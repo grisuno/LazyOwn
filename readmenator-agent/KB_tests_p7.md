@@ -331,6 +331,24 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_exempt_path_with_no_token_still_passes` (method, line 146) `def test_exempt_path_with_no_token_still_passes(self)`
 - Depends on: `lazyc2/security/csrf.py`
 
+## tests/test_cve_pipeline.py
+- Doc: CVE pipeline tests: loop/apt_chain findings must reach the intel graph.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_graph_payload` (function, line 11) `def _graph_payload(nodes)`
+  - `test_extract_hosts_captures_services_versions_and_cves` (function, line 16) `def test_extract_hosts_captures_services_versions_and_cves()`
+  - `_StubWorld` (class, line 33) `class _StubWorld`
+  - `test_pull_to_world_model_writes_services_and_cves` (function, line 57) `def test_pull_to_world_model_writes_services_and_cves(tmp_path, monkeypatch)`
+  - `test_intel_graph_exposes_cve_nodes_with_heat` (function, line 85) `def test_intel_graph_exposes_cve_nodes_with_heat()`
+  - `__init__` (method, line 36) `def __init__(self)`
+  - `add_host` (method, line 39) `def add_host(self, ip)`
+  - `set_os_hint` (method, line 42) `def set_os_hint(self, ip, hint)`
+  - `add_service` (method, line 46) `def add_service(self, ip, port, name, version, protocol)`
+  - `add_vulnerability` (method, line 50) `def add_vulnerability(self, description, host, cve, severity)`
+  - `snapshot` (method, line 53) `def snapshot(self)`
+- Depends on: `modules/intel_fusion.py`, `modules/lazy_bridge.py`, `modules/world_model.py`
+
 ## tests/test_daemon_control.py
 - Doc: Unit tests for skills.daemon_control.
 - Layer: testing
@@ -455,36 +473,6 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_dashboard_index_returns_200` (method, line 394) `def test_dashboard_index_returns_200(self, client)`
   - `test_dashboard_api_data_returns_json` (method, line 401) `def test_dashboard_api_data_returns_json(self, client)`
 - Depends on: `modules/dashboard_bp.py`
-
-## tests/test_dashboard_tui.py
-- Doc: Tests for cli/dashboard_tui.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestReadJson` (class, line 29) `class TestReadJson`
-  - `TestCountLinesInGlob` (class, line 44) `class TestCountLinesInGlob`
-  - `TestReadRecentCommands` (class, line 65) `class TestReadRecentCommands`
-  - `TestKillChainPhases` (class, line 117) `class TestKillChainPhases`
-  - `TestGraphHints` (class, line 131) `class TestGraphHints`
-  - `test_reads_valid_file` (method, line 30) `def test_reads_valid_file(self, tmp_path)`
-  - `test_missing_file_returns_empty_dict` (method, line 35) `def test_missing_file_returns_empty_dict(self, tmp_path)`
-  - `test_invalid_json_returns_empty_dict` (method, line 38) `def test_invalid_json_returns_empty_dict(self, tmp_path)`
-  - `test_counts_non_empty_lines` (method, line 45) `def test_counts_non_empty_lines(self, tmp_path)`
-  - `test_empty_file_returns_zero` (method, line 51) `def test_empty_file_returns_zero(self, tmp_path)`
-  - `test_no_matching_files_returns_zero` (method, line 56) `def test_no_matching_files_returns_zero(self, tmp_path)`
-  - `test_multiple_files_summed` (method, line 59) `def test_multiple_files_summed(self, tmp_path)`
-  - `_make_transcript` (method, line 66) `def _make_transcript(self, tmp_path, rows)`
-  - `test_reads_recent_commands` (method, line 77) `def test_reads_recent_commands(self, tmp_path)`
-  - `test_missing_file_returns_empty` (method, line 89) `def test_missing_file_returns_empty(self, tmp_path)`
-  - `test_empty_file_returns_empty` (method, line 93) `def test_empty_file_returns_empty(self, tmp_path)`
-  - `test_respects_window_limit` (method, line 98) `def test_respects_window_limit(self, tmp_path)`
-  - `test_skips_empty_tool_rows` (method, line 105) `def test_skips_empty_tool_rows(self, tmp_path)`
-  - `test_all_phases_present` (method, line 118) `def test_all_phases_present(self)`
-  - `test_phases_ordered` (method, line 125) `def test_phases_ordered(self)`
-  - `test_returns_list_when_advisor_unavailable` (method, line 132) `def test_returns_list_when_advisor_unavailable(self)`
-  - `test_returns_list_on_exception` (method, line 137) `def test_returns_list_on_exception(self)`
-  - `test_returns_labels_from_advisor` (method, line 142) `def test_returns_labels_from_advisor(self)`
-- Depends on: `cli/dashboard_tui.py`
 
 
 Next: [KB_tests_p8.md](KB_tests_p8.md)

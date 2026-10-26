@@ -1,6 +1,6 @@
 # `fast_run_as_r00t.sh`
 
-> Source: [fast_run_as_r00t.sh:1](../../fast_run_as_r00t.sh#L1) | language `sh` | coverage 84.6% | [API index](../index.md)
+> Source: [fast_run_as_r00t.sh:1](../../fast_run_as_r00t.sh#L1) | language `sh` | coverage 85.7% | [API index](../index.md)
 
 fast_run_as_r00t.sh — LazyOwn full-stack orchestrator  Speed-run launcher: brings up every core service in a tmux session.
 
@@ -8,7 +8,7 @@ Fixed panes: [0] Recon        — lazynmap full scan [1] Network      — addhos
 
 ## Contents
 
-- **Functions:** [`_jq`](#_jq), [`log`](#log), [`spin`](#spin), [`err_box`](#err_box), [`ensure_gum`](#ensure_gum), [`check_deps`](#check_deps), [`check_sudo`](#check_sudo), [`parse_args`](#parse_args), [`t_send`](#t_send), [`t_lazyown`](#t_lazyown), [`t_priv_user`](#t_priv_user), [`start_chown_watcher`](#start_chown_watcher)
+- **Functions:** [`_jq`](#_jq), [`log`](#log), [`spin`](#spin), [`err_box`](#err_box), [`ensure_gum`](#ensure_gum), [`check_deps`](#check_deps), [`check_sudo`](#check_sudo), [`parse_args`](#parse_args), [`t_send`](#t_send), [`t_lazyown`](#t_lazyown), [`t_priv_user`](#t_priv_user), [`start_chown_watcher`](#start_chown_watcher), [`kill_stale_c2`](#kill_stale_c2)
 
 ## Functions
 
@@ -179,5 +179,21 @@ start_chown_watcher()
 ── Background chown watcher ────────────────────────────────────────────────── Re-chowns the project tree to the operator UID/GID every $CHOWN_INTERVAL seconds while the tmux session is alive, so root-owned writes from the panes do not leave files the unprivileged user cannot read on the next ./run.
 
 Survives the parent script exiting (MCP mode --no-attach).
+
+---
+
+<a id="kill_stale_c2"></a>
+
+### `kill_stale_c2`
+
+`function` | [fast_run_as_r00t.sh:166](../../fast_run_as_r00t.sh#L166)
+
+```bash
+kill_stale_c2()
+```
+
+── Stale C2 cleanup ────────────────────────────────────────────────────────── A lazyc2.py left over from a previous run keeps the C2 port bound, so the fresh instance dies with "Address already in use".
+
+Kill only stale C2 processes whose working directory is THIS installation.
 
 ---

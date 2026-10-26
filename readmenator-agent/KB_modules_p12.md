@@ -1,6 +1,97 @@
 # Subsystem: modules (page 12 of 16)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/moe_router.py
+- Doc: modules/moe_router.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `ExpertProfile` (class, line 83) `class ExpertProfile`
+  - `ExpertPerformance` (class, line 101) `class ExpertPerformance`
+  - `IExpertSelector` (class, line 257) `class IExpertSelector(ABC)`
+  - `ExpertPerformanceStore` (class, line 276) `class ExpertPerformanceStore`
+  - `SoftmaxSelector` (class, line 368) `class SoftmaxSelector(IExpertSelector)`
+  - `_softmax` (function, line 423) `def _softmax(values, temperature)`
+  - `ExpertAvailabilityChecker` (class, line 437) `class ExpertAvailabilityChecker`
+  - `MoERouter` (class, line 489) `class MoERouter`
+  - `_load_groq_key` (function, line 665) `def _load_groq_key()`
+  - `get_router` (function, line 684) `def get_router(api_key)`
+  - `is_local` (method, line 96) `def is_local(self)`
+  - `update` (method, line 115) `def update(self, reward, detection_prob)`
+  - `select` (method, line 261) `def select(self, candidates, task_type, performance_store, deterministic)`
+  - `__init__` (method, line 283) `def __init__(self, path)`
+  - `_key` (method, line 293) `def _key(expert_id, task_type)`
+  - `record` (method, line 298) `def record(self, expert_id, task_type, reward, detection_prob)`
+  - `get` (method, line 316) `def get(self, expert_id, task_type)`
+  - `all_for_task` (method, line 321) `def all_for_task(self, task_type)`
+  - `performance_bonus` (method, line 325) `def performance_bonus(self, expert_id, task_type)`
+  - `_save` (method, line 341) `def _save(self)`
+  - `_load` (method, line 350) `def _load(self)`
+  - `__init__` (method, line 377) `def __init__(self, temperature)`
+  - `temperature` (method, line 381) `def temperature(self)`
+  - `temperature` (method, line 385) `def temperature(self, value)`
+  - `select` (method, line 388) `def select(self, candidates, task_type, performance_store, deterministic)`
+  - `_compute_weights` (method, line 410) `def _compute_weights(candidates, task_type, store)`
+  - `__init__` (method, line 443) `def __init__(self)`
+  - `is_available` (method, line 447) `def is_available(self, expert, api_key)`
+  - `_check` (method, line 458) `def _check(expert, api_key)`
+  - `__init__` (method, line 500) `def __init__(self, experts, selector, performance_store, api_key)`
+  - `route` (method, line 515) `def route(self, task_type, goal, deterministic)`
+  - `ensemble` (method, line 547) `def ensemble(self, task_type, goal, n)`
+  - `record_outcome` (method, line 575) `def record_outcome(self, expert_id, task_type, reward, detection_prob)`
+  - `top_experts_for_task` (method, line 589) `def top_experts_for_task(self, task_type, top_k)`
+  - `get_expert` (method, line 605) `def get_expert(self, expert_id)`
+  - `status_report` (method, line 609) `def status_report(self)`
+  - `_available_for_task` (method, line 640) `def _available_for_task(self, task_type)`
+  - `_anneal_temperature` (method, line 645) `def _anneal_temperature(self)`
+  - `adjusted_weight` (function, line 562) `def adjusted_weight(ep)`
+- Depends on: `core/logging.py`, `modules/toposwarm_bridge.py`
+- Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/swan_agent.py`, `tests/integration_autonomous_flow.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_router_check_regression.py`
+
+## modules/morse.py
+- Doc: Morse code conversion service with interactive driver.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MorseConfig` (class, line 16) `class MorseConfig`
+  - `reverse_morse_code` (function, line 98) `def reverse_morse_code()`
+  - `text_to_morse` (function, line 109) `def text_to_morse(text, config)`
+  - `morse_to_text` (function, line 130) `def morse_to_text(morse_code, config)`
+  - `clear_screen` (function, line 157) `def clear_screen(config)`
+  - `read_choice` (function, line 171) `def read_choice(config)`
+  - `run_driver` (function, line 186) `def run_driver(config)`
+
+## modules/mysql_hookandroot_lib.c
+- Doc: reverse_shell: fork & send a bash shell to the attacker before starting mysqld
+- Layer: utility
+- Language: c
+- Symbols:
+  - `reverse_shell` (function, line 74) `void reverse_shell(void)`
+  - `execvp` (function, line 128) `int execvp(const char* filename, char* const argv[])`
+  - `_GNU_SOURCE` (macro, line 50) `#define _GNU_SOURCE`
+  - `ATTACKERS_IP` (macro, line 64) `#define ATTACKERS_IP`
+  - `SHELL_PORT` (macro, line 65) `#define SHELL_PORT`
+  - `INJECTED_CONF` (macro, line 66) `#define INJECTED_CONF`
+
+## modules/network_opsec.py
+- Doc: Network OPSEC — proxy chain enforcement, canary detection, traffic randomization.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `NetworkOpsecConfig` (class, line 23) `class NetworkOpsecConfig`
+  - `NetworkOpsecEngine` (class, line 53) `class NetworkOpsecEngine`
+  - `__init__` (method, line 83) `def __init__(self, config)`
+  - `configure_proxy_chain` (method, line 87) `def configure_proxy_chain(self, chain_type)`
+  - `_build_proxychains_config` (method, line 119) `def _build_proxychains_config(proxies)`
+  - `check_canary_tokens` (method, line 131) `def check_canary_tokens(self)`
+  - `analyze_traffic_with_canary_check` (method, line 179) `def analyze_traffic_with_canary_check(self, target_host, target_port)`
+  - `dns_over_https_config` (method, line 246) `def dns_over_https_config(self)`
+  - `source_port_randomize` (method, line 269) `def source_port_randomize(self)`
+  - `connection_jitter_schedule` (method, line 294) `def connection_jitter_schedule(self, beacon_interval)`
+  - `canary_detection_setup` (method, line 317) `def canary_detection_setup(self)`
+  - `summary` (method, line 349) `def summary(self)`
+- Imported by: `cli/commands/opsec_cleanup.py`
+
 ## modules/nmap2csv.py
 - Doc: This file is part of nmaptocsv.
 - Layer: utility
@@ -283,13 +374,13 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `stage_params` (function, line 402) `def stage_params(name)`
   - `set_stage` (function, line 407) `def set_stage(name, enabled)`
   - `effective_verbs` (function, line 432) `def effective_verbs()`
-  - `_catalog_verbs` (function, line 486) `def _catalog_verbs(seen, overrides)`
-  - `verb_config` (function, line 523) `def verb_config(name)`
-  - `verb_enabled` (function, line 532) `def verb_enabled(name)`
-  - `upsert_verb` (function, line 538) `def upsert_verb(name)`
-  - `remove_verb` (function, line 595) `def remove_verb(name)`
-  - `reset` (function, line 616) `def reset()`
-  - `validate_config` (function, line 623) `def validate_config(data)`
+  - `_catalog_verbs` (function, line 487) `def _catalog_verbs(seen, overrides)`
+  - `verb_config` (function, line 524) `def verb_config(name)`
+  - `verb_enabled` (function, line 533) `def verb_enabled(name)`
+  - `upsert_verb` (function, line 539) `def upsert_verb(name)`
+  - `remove_verb` (function, line 596) `def remove_verb(name)`
+  - `reset` (function, line 617) `def reset()`
+  - `validate_config` (function, line 624) `def validate_config(data)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
 - Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
 
@@ -376,125 +467,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `_apply_format` (method, line 575) `def _apply_format(data, fmt)`
   - `list_formats` (method, line 664) `def list_formats()`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
-
-## modules/phishing_orchestrator.py
-- Doc: Smart Phishing Campaign Orchestrator.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_derive_credential_key` (function, line 57) `def _derive_credential_key()`
-  - `_encrypt_credential` (function, line 84) `def _encrypt_credential(plaintext)`
-  - `_decrypt_credential` (function, line 100) `def _decrypt_credential(encrypted_b64)`
-  - `_hash_credential_for_log` (function, line 116) `def _hash_credential_for_log(plaintext)`
-  - `CampaignTarget` (class, line 139) `class CampaignTarget`
-  - `PhishingTemplate` (class, line 154) `class PhishingTemplate`
-  - `CampaignResult` (class, line 167) `class CampaignResult`
-  - `PhishingOrchestrator` (class, line 180) `class PhishingOrchestrator`
-  - `__init__` (method, line 316) `def __init__(self)`
-  - `get_instance` (method, line 321) `def get_instance(cls)`
-  - `launch` (method, line 332) `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)`
-  - `profile_targets` (method, line 441) `def profile_targets(self, domain)`
-  - `generate_template` (method, line 486) `def generate_template(self, name, target_domain, context)`
-  - `clone_landing_page` (method, line 533) `def clone_landing_page(self, url)`
-  - `get_results` (method, line 560) `def get_results(self, campaign_id)`
-  - `record_click` (method, line 584) `def record_click(self, campaign_id, email)`
-  - `record_credentials` (method, line 605) `def record_credentials(self, campaign_id, email, password)`
-  - `_load_targets_from_file` (method, line 644) `def _load_targets_from_file(self, filepath)`
-  - `_generate_landing_page` (method, line 683) `def _generate_landing_page(self, template, target_domain, campaign_id)`
-  - `_setup_harvesting_endpoint` (method, line 723) `def _setup_harvesting_endpoint(self, campaign_id)`
-  - `_send_email` (method, line 735) `def _send_email(self, to_email, subject, html_body, smtp_config)`
-  - `_inject_harvester` (method, line 769) `def _inject_harvester(self, html, page_id)`
-  - `_load_config` (method, line 808) `def _load_config(self)`
-- Depends on: `core/crypto.py`, `core/hardening.py`
-- Imported by: `cli/commands/phishing_wizard.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
-
-## modules/pipeline_engine.py
-- Doc: modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PipelineError` (class, line 89) `class PipelineError(Exception)`
-  - `PipelineSchemaError` (class, line 93) `class PipelineSchemaError(PipelineError)`
-  - `PipelineNotFoundError` (class, line 97) `class PipelineNotFoundError(PipelineError)`
-  - `PipelineCycleError` (class, line 101) `class PipelineCycleError(PipelineError)`
-  - `PipelineStep` (class, line 111) `class PipelineStep`
-  - `PipelineSpec` (class, line 152) `class PipelineSpec`
-  - `StepResult` (class, line 163) `class StepResult`
-  - `PipelineRun` (class, line 199) `class PipelineRun`
-  - `_now_iso` (function, line 234) `def _now_iso()`
-  - `_new_run_id` (function, line 238) `def _new_run_id()`
-  - `_is_valid_pipeline_name` (function, line 242) `def _is_valid_pipeline_name(name)`
-  - `_load_payload` (function, line 248) `def _load_payload()`
-  - `TemplateResolver` (class, line 260) `class TemplateResolver`
-  - `ConditionEvaluator` (class, line 326) `class ConditionEvaluator`
-  - `StepValidator` (class, line 341) `class StepValidator`
-  - `StepDerivers` (class, line 375) `class StepDerivers`
-  - `_derive_ping` (function, line 412) `def _derive_ping(output)`
-  - `_derive_lazynmap` (function, line 427) `def _derive_lazynmap(output)`
-  - `_derive_searchsploit` (function, line 453) `def _derive_searchsploit(output)`
-  - `_derive_auto_populate` (function, line 472) `def _derive_auto_populate(output)`
-  - `_derive_facts_show` (function, line 481) `def _derive_facts_show(output)`
-  - `IStepRunner` (class, line 509) `class IStepRunner(ABC)`
-  - `LazyOwnStepRunner` (class, line 523) `class LazyOwnStepRunner(IStepRunner)`
-  - `_heuristic_success` (function, line 587) `def _heuristic_success(command, output)`
-  - `PipelineLoader` (class, line 626) `class PipelineLoader`
-  - `RunArtifactStore` (class, line 769) `class RunArtifactStore`
-  - `INarratorAdapter` (class, line 848) `class INarratorAdapter(ABC)`
-  - `_SilentNarrator` (class, line 863) `class _SilentNarrator(INarratorAdapter)`
-  - `EngagementNarratorAdapter` (class, line 868) `class EngagementNarratorAdapter(INarratorAdapter)`
-  - `PipelineEngine` (class, line 908) `class PipelineEngine`
-  - `get_default_engine` (function, line 1300) `def get_default_engine(onecmd)`
-  - `mcp_pipeline_run` (function, line 1314) `def mcp_pipeline_run(name, target, background, onecmd)`
-  - `mcp_pipeline_list` (function, line 1368) `def mcp_pipeline_list()`
-  - `mcp_pipeline_validate` (function, line 1385) `def mcp_pipeline_validate(name)`
-  - `mcp_pipeline_status` (function, line 1414) `def mcp_pipeline_status(last_n)`
-  - `cmd_pipeline` (function, line 1436) `def cmd_pipeline(action, name, target, background)`
-  - `to_context` (method, line 180) `def to_context(self)`
-  - `to_dict` (method, line 213) `def to_dict(self)`
-  - `__init__` (method, line 275) `def __init__(self, context)`
-  - `render` (method, line 278) `def render(self, template)`
-  - `resolve` (method, line 289) `def resolve(self, dotted_path)`
-  - `_stringify` (method, line 314) `def _stringify(value)`
-  - `is_truthy` (method, line 330) `def is_truthy(rendered)`
-  - `validate` (method, line 352) `def validate(predicate, output)`
-  - `register` (method, line 389) `def register(cls, command, deriver)`
-  - `derive` (method, line 396) `def derive(cls, command, output)`
-  - `run` (method, line 513) `def run(self, command, args, target, timeout_s)`
-  - `__init__` (method, line 537) `def __init__(self, runner, onecmd)`
-  - `run` (method, line 548) `def run(self, command, args, target, timeout_s)`
-  - `_run_via_onecmd` (method, line 566) `def _run_via_onecmd(self, command, args, target, timeout_s)`
-  - `__init__` (method, line 638) `def __init__(self, pipelines_dir)`
-  - `pipelines_dir` (method, line 642) `def pipelines_dir(self)`
-  - `list` (method, line 645) `def list(self)`
-  - `resolve_path` (method, line 658) `def resolve_path(self, name)`
-  - `_read` (method, line 673) `def _read(self, path)`
-  - `load` (method, line 683) `def load(self, name)`
-  - `_validate` (method, line 689) `def _validate(self, raw, name, source)`
-  - `__init__` (method, line 778) `def __init__(self, runs_dir)`
-  - `runs_dir` (method, line 782) `def runs_dir(self)`
-  - `open_run` (method, line 785) `def open_run(self, pipeline_name, run_id)`
-  - `write_plan` (method, line 797) `def write_plan(self, run_dir, spec)`
-  - `write_step` (method, line 814) `def write_step(self, run_dir, result)`
-  - `write_summary` (method, line 828) `def write_summary(self, run_dir, run)`
-  - `narrate` (method, line 852) `def narrate(self, kind, target, message, payload, severity)`
-  - `narrate` (method, line 864) `def narrate(self)`
-  - `__init__` (method, line 871) `def __init__(self, narrator)`
-  - `narrate` (method, line 881) `def narrate(self, kind, target, message, payload, severity)`
-  - `__init__` (method, line 927) `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)`
-  - `loader` (method, line 942) `def loader(self)`
-  - `validate` (method, line 945) `def validate(self, name)`
-  - `run` (method, line 949) `def run(self, name, target, nesting_stack)`
-  - `_run_command` (method, line 1077) `def _run_command(self, step, resolver, target)`
-  - `_run_nested` (method, line 1126) `def _run_nested(self, step, resolver, target, stack, run)`
-  - `_run_hook` (method, line 1178) `def _run_hook(self, hook_command, target, timeout_s)`
-  - `_make_skipped` (method, line 1206) `def _make_skipped(step, reason)`
-  - `_build_context` (method, line 1221) `def _build_context(self, spec, target, step_results, derived_findings, current_step)`
-  - `_merge_findings` (method, line 1246) `def _merge_findings(derived_findings, result)`
-  - `_narrate_step` (method, line 1256) `def _narrate_step(self, result, target)`
-  - `_worker` (function, line 1344) `def _worker()`
-  - `_replace` (function, line 282) `def _replace(match)`
-- Depends on: `core/logging.py`, `modules/engagement_hooks.py`, `skills/autonomous_daemon.py`
-- Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_pipeline_engine.py`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

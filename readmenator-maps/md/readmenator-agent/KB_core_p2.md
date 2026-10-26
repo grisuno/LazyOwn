@@ -19,7 +19,7 @@ Previous: [KB_core.md](KB_core.md)
   - `wrapper` (function, line 82) `def wrapper(self)`
   - `_drain_stderr` (function, line 220) `def _drain_stderr()`
 - Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `modules/lazy_loop.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_lazy_runner.py`, `tests/test_shell_semantics.py`, `utils.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `modules/lazy_loop.py`, `modules/lazy_verify.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_lazy_runner.py`, `tests/test_shell_semantics.py`, `utils.py`
 
 ## core/profiles.py
 - Doc: Runtime profiles: ``light`` vs ``full`` installations.
@@ -169,6 +169,18 @@ Previous: [KB_core.md](KB_core.md)
   - `anti_debug` (function, line 18) `def anti_debug()`
   - `generate_certificates` (function, line 58) `def generate_certificates(output_dir)`
 - Depends on: `core/logging.py`
+
+## core/session_secrets.py
+- Doc: Session-scoped secret rotation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `rotate_session_secrets` (function, line 38) `def rotate_session_secrets(config_obj, sessions_dir)`
+  - `ensure_session_secrets` (function, line 70) `def ensure_session_secrets(config_obj, rotate, sessions_dir)`
+  - `_valid_session_token` (function, line 104) `def _valid_session_token(value, hex_len)`
+  - `_mirror` (function, line 113) `def _mirror(config_obj, aes_hex, rat_key, session_magic)`
+- Depends on: `core/config.py`, `core/logging.py`
+- Imported by: `cli/commands/shellsys.py`, `lazyc2.py`, `modules/c2_agent.py`, `modules/c2_builder.py`, `tests/test_session_secrets.py`
 
 ## core/terminal_guard.py
 - Doc: Terminal state guard for interactive automation.

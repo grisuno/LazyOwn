@@ -56,7 +56,7 @@ flowchart LR
 
 ### `build_attack_graph`
 
-`function` | [modules/attack_surface3d.py:147](../../modules/attack_surface3d.py#L147)
+`function` | [modules/attack_surface3d.py:148](../../modules/attack_surface3d.py#L148)
 
 ```python
 def build_attack_graph(sessions_dir: str | Path = SESSIONS_DIR, payload_path: str = 'payload.json', est_cap: int = 300) -> dict
@@ -84,7 +84,7 @@ Fuse surface scans with campaign intel into one C2-centred graph.
 
 ### `refresh_summary`
 
-`function` | [modules/attack_surface3d.py:460](../../modules/attack_surface3d.py#L460)
+`function` | [modules/attack_surface3d.py:480](../../modules/attack_surface3d.py#L480)
 
 ```python
 def refresh_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict
@@ -125,7 +125,7 @@ KIND_TO_LAYER
 
 ### `EDGE_COLORS`
 
-`constant` | [modules/attack_surface3d.py:86](../../modules/attack_surface3d.py#L86)
+`constant` | [modules/attack_surface3d.py:87](../../modules/attack_surface3d.py#L87)
 
 ```python
 EDGE_COLORS

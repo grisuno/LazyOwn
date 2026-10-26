@@ -236,6 +236,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `cli/palette.py`
 - `lazyc2.py` -> `cli/palette_command.py`
 - `lazyc2.py` -> `core/config.py`
+- `lazyc2.py` -> `core/console.py`
 - `lazyc2.py` -> `core/hardening.py`
 - `lazyc2.py` -> `core/logging.py`
 - `lazyc2.py` -> `core/parsers.py`
@@ -277,6 +278,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `modules/live_surface.py`
 - `lazyc2.py` -> `modules/llm_adapter.py`
 - `lazyc2.py` -> `modules/logging_config.py`
+- `lazyc2.py` -> `modules/loop_manager.py`
 - `lazyc2.py` -> `modules/metrics.py`
 - `lazyc2.py` -> `modules/security_sanitizers.py`
 - `lazyc2.py` -> `modules/state_manager.py`
@@ -494,7 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/theme/qss_builder.py` -> `lazygui/config/constants.py`
 - `lazygui/theme/qss_builder.py` -> `lazygui/theme/tokens.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/command_palette_list.py`
-- `lazygui/widgets/__init__.py` -> `lazygui/widgets/event_log_view.py`
-- `lazygui/widgets/__init__.py` -> `lazygui/widgets/filter_bar.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

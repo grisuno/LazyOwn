@@ -120,6 +120,23 @@ from lazyc2.security.validators import (
 from modules.colors import retModel
 from modules.listener_manager import ListenerManager
 from modules.live_surface import build_live_graph
+from modules.loop_manager import (
+    DEFAULT_ROUNDS,
+    DEFAULT_WORKERS,
+    KIND_AUTO_LOOP,
+    KIND_LAZY_NMAP,
+    MAX_ROUNDS,
+    MAX_TIMEOUT_SECONDS,
+    MAX_WORKERS,
+    LoopManager,
+    LoopNotFoundError,
+    LoopSpec,
+    LoopValidationError,
+    clamp_float as _loop_clamp_float,
+    clamp_int as _loop_clamp_int,
+    sanitize_goal as _loop_sanitize_goal,
+    validate_target as _loop_validate_target,
+)
 from modules.llm_adapter import (
     process_prompt,
     process_prompt_adversary,
@@ -6912,6 +6929,121 @@ def api_beacon_results(client_id):
     return jsonify({"client_id": safe_id, "records": records}), 200
 
 
+_loop_manager = LoopManager()
+
+
+def _generic_loop_error():
+    """Return the generic JSON error used for internal loop failures.
+
+    Returns:
+        Tuple of (payload, status) hiding internal details from clients.
+    """
+    return jsonify({"error": "loop request failed"}), 500
+
+
+@app.route("/api/loops", methods=["POST"])
+@requires_auth
+@csrf_protect
+@limiter.limit("10 per minute")
+def api_loops_start():
+    """Start one autonomous loop subprocess from the dashboard.
+
+    The request body must be a JSON object with a ``kind`` of either
+    ``auto_loop`` or ``lazynmap``, a valid IP ``target`` and, for
+    ``auto_loop``, optional ``goal``/``rounds``/``workers``/``timeout``
+    knobs. Every field is validated by :mod:`modules.loop_manager`
+    before a subprocess is spawned; failures answer with a generic
+    error that never leaks internals.
+    """
+    try:
+        data = request.get_json(silent=True)
+        if not isinstance(data, dict):
+            return jsonify({"error": "Invalid request body"}), 400
+        kind = data.get("kind")
+        if kind not in (KIND_AUTO_LOOP, KIND_LAZY_NMAP):
+            return jsonify({"error": "kind must be auto_loop or lazynmap"}), 400
+        try:
+            spec = LoopSpec(
+                kind=str(kind),
+                target=_loop_validate_target(data.get("target")),
+                goal=_loop_sanitize_goal(data.get("goal")) if kind == KIND_AUTO_LOOP else "",
+                rounds=_loop_clamp_int(
+                    data.get("rounds", DEFAULT_ROUNDS), "rounds", DEFAULT_ROUNDS, 1, MAX_ROUNDS
+                ),
+                workers=_loop_clamp_int(
+                    data.get("workers", DEFAULT_WORKERS), "workers", DEFAULT_WORKERS, 1, MAX_WORKERS
+                ),
+                timeout=_loop_clamp_float(
+                    data.get("timeout", 0), "timeout", 0.0, 0.0, MAX_TIMEOUT_SECONDS
+                ),
+            )
+            operator = str(getattr(current_user, "username", "") or "")
+            record = _loop_manager.start(spec, operator=operator)
+        except LoopValidationError as exc:
+            return jsonify({"error": str(exc), "field": exc.field}), 400
+        except OSError:
+            logger.exception("loop spawn failed")
+            return _generic_loop_error()
+        return jsonify(record), 201
+    except Exception:
+        logger.exception("api_loops_start failed")
+        return _generic_loop_error()
+
+
+@app.route("/api/loops", methods=["GET"])
+@requires_auth
+@limiter.limit("120 per minute")
+def api_loops_list():
+    """List every autonomous loop with refreshed live status."""
+    try:
+        return jsonify({"loops": _loop_manager.list_loops()}), 200
+    except Exception:
+        logger.exception("api_loops_list failed")
+        return _generic_loop_error()
+
+
+@app.route("/api/loops/<loop_id>/log", methods=["GET"])
+@requires_auth
+@limiter.limit("300 per minute")
+def api_loop_log(loop_id):
+    """Return one chunk of a loop's output log.
+
+    Args:
+        loop_id: Hex loop identifier from the URL.
+    """
+    try:
+        offset = request.args.get("offset", 0)
+        return jsonify(_loop_manager.read_log(loop_id, offset)), 200
+    except LoopNotFoundError:
+        return jsonify({"error": "loop not found"}), 404
+    except LoopValidationError as exc:
+        return jsonify({"error": str(exc)}), 400
+    except Exception:
+        logger.exception("api_loop_log failed")
+        return _generic_loop_error()
+
+
+@app.route("/api/loops/<loop_id>/stop", methods=["POST"])
+@requires_auth
+@csrf_protect
+@limiter.limit("30 per minute")
+def api_loop_stop(loop_id):
+    """Stop one running loop by terminating its process group.
+
+    Args:
+        loop_id: Hex loop identifier from the URL.
+    """
+    try:
+        return jsonify(_loop_manager.stop(loop_id)), 200
+    except LoopNotFoundError:
+        return jsonify({"error": "loop not found"}), 404
+    except LoopValidationError as exc:
+        return jsonify({"error": str(exc)}), 409
+    except Exception:
+        logger.exception("api_loop_stop failed")
+        return _generic_loop_error()
+
+
 def _render_enhanced_report():
     try:
         from modules.report_templates import ReportGenerator
@@ -6960,6 +7092,12 @@ def _render_legacy_report():
             logger.info("Error: TOOLS_DIR not found")
     tasks = load_tasks()
     cves = load_cves()
+    try:
+        loops_summary = _loop_manager.summary()
+    except Exception:
+        if config.enable_c2_debug:
+            logger.info("loop summary unavailable")
+        loops_summary = {"total": 0, "by_status": {}, "by_kind": {}, "by_target": {}, "recent": []}
 
     try:
         with open(json_path, "r") as f:
@@ -6992,6 +7130,7 @@ def _render_legacy_report():
         cves=cves,
         session_data=session_data,
         implants=implants,
+        loops_summary=loops_summary,
     )
 
 

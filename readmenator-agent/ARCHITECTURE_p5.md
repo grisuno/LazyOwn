@@ -2,6 +2,26 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_atomic_loop.py` -> `modules/atomic_resolver.py`
+- `tests/test_atomic_loop.py` -> `modules/auto_registry.py`
+- `tests/test_atomic_resolver.py` -> `modules/atomic_resolver.py`
+- `tests/test_attack_surface3d.py` -> `modules/attack_surface3d.py`
+- `tests/test_attack_surface3d.py` -> `modules/intel_fusion.py`
+- `tests/test_audit_remediation.py` -> `cli/commands/audit.py`
+- `tests/test_audit_remediation.py` -> `cli/orchestrator_assets_tabs.py`
+- `tests/test_audit_remediation.py` -> `core/config.py`
+- `tests/test_audit_remediation.py` -> `core/payload_schema.py`
+- `tests/test_audit_remediation.py` -> `modules/chain_registry.py`
+- `tests/test_audit_remediation.py` -> `utils.py`
+- `tests/test_auto_crypto.py` -> `cli/auto_crypto.py`
+- `tests/test_auto_crypto.py` -> `cli/commands/misc_migrated.py`
+- `tests/test_auto_crypto.py` -> `cli/commands/session_ops.py`
+- `tests/test_auto_crypto.py` -> `modules/lazy_loop.py`
+- `tests/test_auto_loop_memory.py` -> `modules/auto_loop_memory.py`
+- `tests/test_auto_loop_memory.py` -> `modules/selector_manager.py`
+- `tests/test_auto_registry.py` -> `modules/auto_registry.py`
+- `tests/test_autonomous_ops.py` -> `modules/__init__.py`
+- `tests/test_autonomous_ops.py` -> `modules/asset_graph.py`
 - `tests/test_autonomous_ops.py` -> `modules/db.py`
 - `tests/test_autonomous_ops.py` -> `modules/enrich.py`
 - `tests/test_autonomous_ops.py` -> `modules/finding_lifecycle.py`
@@ -128,6 +148,9 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_credentials_rotation.py` -> `cli/commands/cred_migrated.py`
 - `tests/test_csrf_behavior.py` -> `lazyc2/security/csrf.py`
 - `tests/test_csrf_policy.py` -> `lazyc2/security/csrf.py`
+- `tests/test_cve_pipeline.py` -> `modules/intel_fusion.py`
+- `tests/test_cve_pipeline.py` -> `modules/lazy_bridge.py`
+- `tests/test_cve_pipeline.py` -> `modules/world_model.py`
 - `tests/test_daemon_control.py` -> `skills/daemon_control.py`
 - `tests/test_daemon_ctl_command_set.py` -> `cli/commands/_base.py`
 - `tests/test_daemon_ctl_command_set.py` -> `cli/commands/_dormancy.py`
@@ -410,6 +433,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_loop_llm_resilience.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/llm_factory.py`
+- `tests/test_loop_manager.py` -> `modules/loop_manager.py`
 - `tests/test_loop_mentions.py` -> `modules/__init__.py`
 - `tests/test_loop_multi_target.py` -> `modules/lazy_runner.py`
 - `tests/test_loop_nmap_guard.py` -> `modules/lazy_loop.py`
@@ -472,29 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_orchestrator_api.py` -> `core/api_authz.py`
 - `tests/test_orchestrator_api.py` -> `lazyc2/blueprints/orchestrator.py`
 - `tests/test_orchestrator_api.py` -> `modules/__init__.py`
-- `tests/test_orchestrator_api.py` -> `modules/lazy_loop.py`
-- `tests/test_orchestrator_api.py` -> `modules/orchestrator_config.py`
-- `tests/test_orchestrator_api.py` -> `modules/trigger_policy.py`
-- `tests/test_orchestrator_api.py` -> `modules/verb_catalog.py`
-- `tests/test_orchestrator_api.py` -> `modules/world_model.py`
-- `tests/test_orchestrator_triggers.py` -> `cli/lazy_orchestrator.py`
-- `tests/test_orchestrator_triggers.py` -> `modules/lazy_loop.py`
-- `tests/test_orchestrator_triggers.py` -> `modules/loop_triggers.py`
-- `tests/test_orchestrator_triggers.py` -> `modules/trigger_policy.py`
-- `tests/test_orchestrator_yaml.py` -> `cli/lazy_orchestrator.py`
-- `tests/test_orchestrator_yaml.py` -> `core/config.py`
-- `tests/test_orchestrator_yaml.py` -> `modules/__init__.py`
-- `tests/test_orchestrator_yaml.py` -> `modules/lazy_loop.py`
-- `tests/test_orchestrator_yaml.py` -> `modules/lazy_runner.py`
-- `tests/test_orchestrator_yaml.py` -> `modules/orchestrator_config.py`
-- `tests/test_outcome_bus.py` -> `modules/atomic_exploit_bridge.py`
-- `tests/test_outcome_bus.py` -> `modules/orchestrator_config.py`
-- `tests/test_outcome_bus.py` -> `modules/outcome_bus.py`
-- `tests/test_outcome_bus.py` -> `modules/sinks/attack_graph.py`
-- `tests/test_outcome_bus.py` -> `modules/sinks/c2_surfaces.py`
-- `tests/test_outcome_bus.py` -> `modules/sinks/intel_graph.py`
-- `tests/test_outcome_bus.py` -> `modules/sinks/killchain.py`
-- `tests/test_outcome_bus.py` -> `modules/sinks/objectives.py`
-- `tests/test_palette_overlay.py` -> `cli/palette_overlay.py`
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

@@ -2,6 +2,8 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/widgets/__init__.py` -> `lazygui/widgets/event_log_view.py`
+- `lazygui/widgets/__init__.py` -> `lazygui/widgets/filter_bar.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/graph_view.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/status_badge.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/terminal_view.py`
@@ -106,13 +108,17 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/atomic_enricher.py` -> `core/logging.py`
 - `modules/atomic_exploit_bridge.py` -> `core/logging.py`
 - `modules/atomic_exploit_bridge.py` -> `core/safe_exec.py`
+- `modules/atomic_exploit_bridge.py` -> `modules/__init__.py`
 - `modules/atomic_exploit_bridge.py` -> `modules/c2_surfaces.py`
 - `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py`
+- `modules/atomic_exploit_bridge.py` -> `modules/lazy_cve_feed.py`
+- `modules/atomic_exploit_bridge.py` -> `modules/lazy_heat.py`
 - `modules/atomic_exploit_bridge.py` -> `modules/outcome_bus.py`
 - `modules/atomic_exploit_bridge.py` -> `modules/world_model.py`
 - `modules/atomic_resolver.py` -> `core/logging.py`
 - `modules/atomic_resolver.py` -> `core/safe_exec.py`
 - `modules/attack_surface3d.py` -> `cli/surface_graph.py`
+- `modules/attack_surface3d.py` -> `modules/__init__.py`
 - `modules/attack_surface3d.py` -> `modules/estorides_fusion.py`
 - `modules/attack_surface3d.py` -> `modules/finding_lifecycle.py`
 - `modules/attack_surface3d.py` -> `modules/intel_fusion.py`
@@ -120,6 +126,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/auto_purple.py` -> `core/logging.py`
 - `modules/auto_purple.py` -> `core/process.py`
 - `modules/auto_purple.py` -> `modules/detection_oracle.py`
+- `modules/auto_registry.py` -> `modules/__init__.py`
 - `modules/auto_registry.py` -> `modules/chain_registry.py`
 - `modules/auto_registry.py` -> `modules/command_executor.py`
 - `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py`
@@ -294,14 +301,19 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/integrations/nuclei_parser.py` -> `modules/integrations/nuclei_bridge.py`
 - `modules/integrations/nuclei_parser.py` -> `modules/world_model.py`
 - `modules/integrations/searchsploit.py` -> `core/logging.py`
+- `modules/intel_fusion.py` -> `modules/__init__.py`
 - `modules/intel_fusion.py` -> `modules/estorides_fusion.py`
 - `modules/intel_fusion.py` -> `modules/finding_lifecycle.py`
+- `modules/intel_fusion.py` -> `modules/lazy_cve_feed.py`
+- `modules/intel_fusion.py` -> `modules/lazy_heat.py`
 - `modules/intel_fusion.py` -> `modules/world_model.py`
 - `modules/intelligence_engine.py` -> `core/logging.py`
+- `modules/intelligence_engine.py` -> `modules/__init__.py`
 - `modules/intelligence_engine.py` -> `modules/estorides_importer.py`
 - `modules/intelligence_engine.py` -> `modules/factsio.py`
 - `modules/intelligence_engine.py` -> `modules/integrations/nuclei_bridge.py`
 - `modules/intelligence_engine.py` -> `modules/integrations/nuclei_parser.py`
+- `modules/intelligence_engine.py` -> `modules/lazy_heat.py`
 - `modules/intelligence_engine.py` -> `modules/obs_parser.py`
 - `modules/intelligence_engine.py` -> `modules/world_model.py`
 - `modules/intelligence_engine.py` -> `modules/yara_scanner.py`
@@ -325,6 +337,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_cli_bridge.py` -> `core/config.py`
 - `modules/lazy_cli_bridge.py` -> `modules/killchain.py`
 - `modules/lazy_cli_bridge.py` -> `modules/verb_catalog.py`
+- `modules/lazy_cve_feed.py` -> `modules/lazy_heat.py`
 - `modules/lazy_engine.py` -> `modules/lazy_loop.py`
 - `modules/lazy_installer.py` -> `core/config.py`
 - `modules/lazy_installer.py` -> `modules/auto_registry.py`
@@ -375,6 +388,9 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
 - `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_cli_bridge.py`
 - `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py`
+- `modules/lazy_osinfer.py` -> `modules/auto_registry.py`
+- `modules/lazy_osinfer.py` -> `modules/lazy_loop.py`
+- `modules/lazy_osinfer.py` -> `modules/world_model.py`
 - `modules/lazy_proxy.py` -> `core/hardening.py`
 - `modules/lazy_proxy.py` -> `core/logging.py`
 - `modules/lazy_proxy.py` -> `modules/backdoor/server.c`
@@ -398,6 +414,8 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_runner.py` -> `modules/loop_progress.py`
 - `modules/lazy_runner.py` -> `utils.py`
 - `modules/lazy_sandbox.py` -> `core/config.py`
+- `modules/lazy_surface_diff.py` -> `modules/world_model.py`
+- `modules/lazy_verify.py` -> `core/process.py`
 - `modules/lazyown_bprfuzzer.py` -> `modules/backdoor/server.c`
 - `modules/lazyown_bprfuzzer.py` -> `modules/security_sanitizers.py`
 - `modules/lazyown_bridge.py` -> `modules/killchain.py`
@@ -433,9 +451,11 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/loop_ai_bridge.py` -> `skills/hive_mind.py`
 - `modules/loop_ai_bridge.py` -> `skills/swan_agent.py`
 - `modules/loop_progress.py` -> `core/safe_console.py`
+- `modules/loop_triggers.py` -> `modules/__init__.py`
 - `modules/loop_triggers.py` -> `modules/auto_registry.py`
 - `modules/loop_triggers.py` -> `modules/lazy_loop.py`
 - `modules/loop_triggers.py` -> `modules/trigger_policy.py`
+- `modules/loop_triggers.py` -> `modules/world_model.py`
 - `modules/mcp_agent_bridge.py` -> `core/logging.py`
 - `modules/mcp_agent_bridge.py` -> `modules/llm_factory.py`
 - `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py`
@@ -476,25 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/operator_profiles.py` -> `core/logging.py`
 - `modules/opsec_scorer.py` -> `cli/commands/enum.py`
 - `modules/opsec_scorer.py` -> `core/config.py`
-- `modules/opsec_scorer.py` -> `core/logging.py`
-- `modules/opsec_scorer.py` -> `modules/db.py`
-- `modules/opsec_scorer.py` -> `modules/killchain.py`
-- `modules/orchestrator_config.py` -> `core/config.py`
-- `modules/orchestrator_config.py` -> `core/logging.py`
-- `modules/orchestrator_config.py` -> `modules/auto_registry.py`
-- `modules/orchestrator_config.py` -> `modules/trigger_policy.py`
-- `modules/orchestrator_config.py` -> `modules/verb_catalog.py`
-- `modules/outcome_bus.py` -> `core/logging.py`
-- `modules/outcome_bus.py` -> `modules/__init__.py`
-- `modules/phishing_orchestrator.py` -> `core/crypto.py`
-- `modules/phishing_orchestrator.py` -> `core/hardening.py`
-- `modules/pipeline_engine.py` -> `core/logging.py`
-- `modules/pipeline_engine.py` -> `modules/engagement_hooks.py`
-- `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
-- `modules/planner.py` -> `core/logging.py`
-- `modules/planner.py` -> `modules/llm_client.py`
-- `modules/planner.py` -> `modules/obs_parser.py`
-- `modules/planner.py` -> `modules/playbook_engine.py`
-- `modules/planner.py` -> `modules/world_model.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

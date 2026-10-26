@@ -1,8 +1,123 @@
-# Symbols (page 21 of 45)
+# Symbols (page 21 of 46)
 Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ReleaseArtifact` | class | `modules/selfupdate.py:24` | `class ReleaseArtifact` |
+| `Updater` | class | `modules/selfupdate.py:38` | `class Updater` |
+| `__init__` | method | `modules/selfupdate.py:47` | `def __init__(self, live_path)` |
+| `_git` | function | `modules/selfupdate.py:90` | `def _git(args, runner, cwd, timeout)` |
+| `_run` | function | `modules/selfupdate.py:85` | `def _run(argv, cwd, timeout)` |
+| `apply` | function | `modules/selfupdate.py:140` | `def apply(branch, confirm, runner)` |
+| `check` | function | `modules/selfupdate.py:108` | `def check(branch, runner)` |
+| `current_branch` | function | `modules/selfupdate.py:96` | `def current_branch(runner)` |
+| `dirty` | function | `modules/selfupdate.py:102` | `def dirty(runner)` |
+| `rollback` | method | `modules/selfupdate.py:77` | `def rollback(self)` |
+| `stage` | method | `modules/selfupdate.py:57` | `def stage(self, artifact, directory)` |
+| `verify` | method | `modules/selfupdate.py:52` | `def verify(self, artifact)` |
+| `_compose_down` | function | `modules/session_cleanup.py:66` | `def _compose_down(compose_file, label)` |
+| `_run_quiet` | function | `modules/session_cleanup.py:49` | `def _run_quiet(argv, timeout)` |
+| `cleanup_ephemeral_infra` | function | `modules/session_cleanup.py:120` | `def cleanup_ephemeral_infra()` |
+| `find_cloudflared_pids` | function | `modules/session_cleanup.py:28` | `def find_cloudflared_pids(ps_output)` |
+| `stop_cloudflared_processes` | function | `modules/session_cleanup.py:94` | `def stop_cloudflared_processes()` |
+| `SessionRAG` | class | `modules/session_rag.py:188` | `class SessionRAG` |
+| `_KeywordFallback` | class | `modules/session_rag.py:103` | `class _KeywordFallback` |
+| `_RagState` | class | `modules/session_rag.py:168` | `class _RagState` |
+| `__init__` | method | `modules/session_rag.py:111` | `def __init__(self)` |
+| `__init__` | method | `modules/session_rag.py:191` | `def __init__(self)` |
+| `_chunk_text` | function | `modules/session_rag.py:88` | `def _chunk_text(text, size, overlap)` |
+| `_index_file` | method | `modules/session_rag.py:265` | `def _index_file(self, path, collection_key)` |
+| `_init_backend` | method | `modules/session_rag.py:202` | `def _init_backend(self)` |
+| `_iter_artefacts` | method | `modules/session_rag.py:248` | `def _iter_artefacts(self)` |
+| `add` | method | `modules/session_rag.py:136` | `def add(self, doc_id, text, meta)` |
+| `context_for_step` | method | `modules/session_rag.py:489` | `def context_for_step(self, phase, target, cmd, n)` |
+| `count` | method | `modules/session_rag.py:156` | `def count(self)` |
+| `get_rag` | function | `modules/session_rag.py:535` | `def get_rag()` |
+| `index_all` | method | `modules/session_rag.py:411` | `def index_all(self)` |
+| `index_new` | method | `modules/session_rag.py:301` | `def index_new(self)` |
+| `index_parquet_sources` | method | `modules/session_rag.py:322` | `def index_parquet_sources(self, force)` |
+| `load` | method | `modules/session_rag.py:115` | `def load(self, path)` |
+| `load` | method | `modules/session_rag.py:172` | `def load(cls)` |
+| `query` | method | `modules/session_rag.py:146` | `def query(self, query_text, n)` |
+| `query` | method | `modules/session_rag.py:439` | `def query(self, query_text, n, collection)` |
+| `reset` | method | `modules/session_rag.py:159` | `def reset(self)` |
+| `save` | method | `modules/session_rag.py:126` | `def save(self, path)` |
+| `save` | method | `modules/session_rag.py:181` | `def save(self)` |
+| `stats` | method | `modules/session_rag.py:509` | `def stats(self)` |
+| `AbstractReader` | class | `modules/session_reader.py:127` | `class AbstractReader(ABC)` |
+| `CampaignTask` | class | `modules/session_reader.py:74` | `class CampaignTask` |
+| `CommandOutputReader` | class | `modules/session_reader.py:193` | `class CommandOutputReader(AbstractReader)` |
+| `DiscoveredHostReader` | class | `modules/session_reader.py:214` | `class DiscoveredHostReader(AbstractReader)` |
+| `ImplantCSVReader` | class | `modules/session_reader.py:137` | `class ImplantCSVReader(AbstractReader)` |
+| `ImplantRecord` | class | `modules/session_reader.py:39` | `class ImplantRecord` |
+| `SessionAggregator` | class | `modules/session_reader.py:313` | `class SessionAggregator` |
+| `SessionSummary` | class | `modules/session_reader.py:85` | `class SessionSummary` |
+| `TaskReader` | class | `modules/session_reader.py:232` | `class TaskReader(AbstractReader)` |
+| `TaskWriter` | class | `modules/session_reader.py:257` | `class TaskWriter` |
+| `__init__` | method | `modules/session_reader.py:260` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `modules/session_reader.py:319` | `def __init__(self, implant_reader, output_reader, host_reader, task_reader)` |
+| `active_client_ids` | method | `modules/session_reader.py:94` | `def active_client_ids(self)` |
+| `aggregate` | method | `modules/session_reader.py:331` | `def aggregate(self, sessions_dir)` |
+| `append` | method | `modules/session_reader.py:263` | `def append(self, title, description, operator, status)` |
+| `get_aggregator` | function | `modules/session_reader.py:347` | `def get_aggregator()` |
+| `ip_list` | method | `modules/session_reader.py:69` | `def ip_list(self)` |
+| `is_privileged` | method | `modules/session_reader.py:55` | `def is_privileged(self)` |
+| `latest_for` | method | `modules/session_reader.py:114` | `def latest_for(self, client_id)` |
+| `platform` | method | `modules/session_reader.py:60` | `def platform(self)` |
+| `privileged_sessions` | method | `modules/session_reader.py:101` | `def privileged_sessions(self)` |
+| `read` | method | `modules/session_reader.py:129` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:157` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:199` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:217` | `def read(self, sessions_dir)` |
+| `read` | method | `modules/session_reader.py:235` | `def read(self, sessions_dir)` |
+| `task_by_status` | method | `modules/session_reader.py:118` | `def task_by_status(self, status)` |
+| `unprivileged_sessions` | method | `modules/session_reader.py:108` | `def unprivileged_sessions(self)` |
+| `update_status` | method | `modules/session_reader.py:288` | `def update_status(self, task_id, status)` |
+| `_detect_phase` | function | `modules/session_state.py:50` | `def _detect_phase(event_types)` |
+| `_extract_creds_from_events` | function | `modules/session_state.py:118` | `def _extract_creds_from_events(events)` |
+| `_extract_hosts` | function | `modules/session_state.py:133` | `def _extract_hosts(rows, payload)` |
+| `_read_events` | function | `modules/session_state.py:93` | `def _read_events(n)` |
+| `_read_last_commands` | function | `modules/session_state.py:75` | `def _read_last_commands(n)` |
+| `_summarise_commands` | function | `modules/session_state.py:175` | `def _summarise_commands(rows)` |
+| `build_state` | function | `modules/session_state.py:189` | `def build_state()` |
+| `load` | function | `modules/session_state.py:251` | `def load()` |
+| `refresh` | function | `modules/session_state.py:240` | `def refresh()` |
+| `SideConfig` | class | `modules/sidequestion.py:19` | `class SideConfig` |
+| `SideQuestion` | class | `modules/sidequestion.py:42` | `class SideQuestion` |
+| `SideQuestionService` | class | `modules/sidequestion.py:52` | `class SideQuestionService` |
+| `Snapshot` | class | `modules/sidequestion.py:32` | `class Snapshot` |
+| `__init__` | method | `modules/sidequestion.py:55` | `def __init__(self, answer_fn, config)` |
+| `ask` | method | `modules/sidequestion.py:75` | `def ask(self, snapshot_id, question)` |
+| `cancel` | method | `modules/sidequestion.py:104` | `def cancel(self, request_id)` |
+| `capture` | method | `modules/sidequestion.py:66` | `def capture(self, task_id, text)` |
+| `history` | method | `modules/sidequestion.py:113` | `def history(self, limit, before)` |
+| `apply` | function | `modules/sinks/attack_graph.py:13` | `def apply(event)` |
+| `apply` | function | `modules/sinks/c2_surfaces.py:11` | `def apply(event)` |
+| `apply` | function | `modules/sinks/campaign_db.py:9` | `def apply(event)` |
+| `apply` | function | `modules/sinks/event_bus.py:9` | `def apply(event)` |
+| `apply` | function | `modules/sinks/intel_graph.py:13` | `def apply(event)` |
+| `apply` | function | `modules/sinks/killchain.py:11` | `def apply(event)` |
+| `apply` | function | `modules/sinks/objectives.py:16` | `def apply(event)` |
+| `apply` | function | `modules/sinks/routing.py:9` | `def apply(event)` |
+| `apply` | function | `modules/sinks/world_model.py:12` | `def apply(event)` |
+| `OsPlatform` | class | `modules/sleep_obfuscation.py:57` | `class OsPlatform(str, Enum)` |
+| `SleepObfuscationConfig` | class | `modules/sleep_obfuscation.py:100` | `class SleepObfuscationConfig` |
+| `SleepObfuscationEngine` | class | `modules/sleep_obfuscation.py:394` | `class SleepObfuscationEngine` |
+| `SleepTechnique` | class | `modules/sleep_obfuscation.py:73` | `class SleepTechnique` |
+| `SleepTechniqueCatalog` | class | `modules/sleep_obfuscation.py:163` | `class SleepTechniqueCatalog` |
+| `SleepTechniqueValidator` | class | `modules/sleep_obfuscation.py:365` | `class SleepTechniqueValidator` |
+| `TechniqueRisk` | class | `modules/sleep_obfuscation.py:64` | `class TechniqueRisk(str, Enum)` |
+| `__init__` | method | `modules/sleep_obfuscation.py:170` | `def __init__(self)` |
+| `__init__` | method | `modules/sleep_obfuscation.py:407` | `def __init__(self, catalog)` |
+| `_build_default_catalog` | function | `modules/sleep_obfuscation.py:201` | `def _build_default_catalog()` |
+| `catalog` | method | `modules/sleep_obfuscation.py:416` | `def catalog(self)` |
+| `config` | method | `modules/sleep_obfuscation.py:421` | `def config(self)` |
+| `configure` | method | `modules/sleep_obfuscation.py:449` | `def configure(self, technique, overrides)` |
+| `detection_resistance` | method | `modules/sleep_obfuscation.py:426` | `def detection_resistance(self)` |
+| `from_dict` | method | `modules/sleep_obfuscation.py:146` | `def from_dict(cls, raw)` |
+| `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
+| `get` | method | `modules/sleep_obfuscation.py:177` | `def get(self, name)` |
+| `list_all` | method | `modules/sleep_obfuscation.py:184` | `def list_all(self)` |
 | `list_by_platform` | method | `modules/sleep_obfuscation.py:192` | `def list_by_platform(self, platform)` |
 | `list_names` | method | `modules/sleep_obfuscation.py:196` | `def list_names(self)` |
 | `recommend` | method | `modules/sleep_obfuscation.py:500` | `def recommend(self, platform)` |
@@ -381,120 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `catalog_enabled` | function | `modules/verb_catalog.py:349` | `def catalog_enabled(name, config)` |
 | `catalog_source` | function | `modules/verb_catalog.py:364` | `def catalog_source(name, config)` |
 | `entries` | function | `modules/verb_catalog.py:296` | `def entries(config)` |
-| `index_commands` | function | `modules/verb_catalog.py:190` | `def index_commands(config)` |
-| `load` | function | `modules/verb_catalog.py:263` | `def load(config)` |
-| `search` | function | `modules/verb_catalog.py:516` | `def search(query, config, phase, enabled, limit)` |
-| `set_enabled` | function | `modules/verb_catalog.py:378` | `def set_enabled(name, enabled, config)` |
-| `stats` | function | `modules/verb_catalog.py:502` | `def stats(config)` |
-| `sync` | function | `modules/verb_catalog.py:415` | `def sync(config)` |
-| `validate_catalog` | function | `modules/verb_catalog.py:230` | `def validate_catalog(data)` |
-| `FactPredicate` | class | `modules/verb_manifest.py:123` | `class FactPredicate` |
-| `ManifestCost` | class | `modules/verb_manifest.py:93` | `class ManifestCost` |
-| `ManifestNoise` | class | `modules/verb_manifest.py:108` | `class ManifestNoise` |
-| `VerbManifest` | class | `modules/verb_manifest.py:188` | `class VerbManifest` |
-| `_load_document` | function | `modules/verb_manifest.py:338` | `def _load_document(path)` |
-| `_parse_cost` | function | `modules/verb_manifest.py:254` | `def _parse_cost(data)` |
-| `_parse_noise` | function | `modules/verb_manifest.py:276` | `def _parse_noise(data)` |
-| `args` | method | `modules/verb_manifest.py:152` | `def args(self)` |
-| `coverage` | function | `modules/verb_manifest.py:522` | `def coverage(total_verbs, path)` |
-| `facts_for_target` | function | `modules/verb_manifest.py:411` | `def facts_for_target(host)` |
-| `is_wild` | method | `modules/verb_manifest.py:156` | `def is_wild(self, key)` |
-| `manifest_for` | function | `modules/verb_manifest.py:396` | `def manifest_for(verb, path)` |
-| `manifests` | function | `modules/verb_manifest.py:371` | `def manifests(path)` |
-| `matches` | method | `modules/verb_manifest.py:161` | `def matches(self, other)` |
-| `parse_manifest` | function | `modules/verb_manifest.py:296` | `def parse_manifest(verb, data)` |
-| `parse_predicate` | function | `modules/verb_manifest.py:222` | `def parse_predicate(data)` |
-| `plan_check` | function | `modules/verb_manifest.py:467` | `def plan_check(steps, tokens, path, facts)` |
-| `main` | function | `modules/vuln_bot_cli.py:22` | `def main()` |
-| `parse_args` | function | `modules/vuln_bot_cli.py:10` | `def parse_args()` |
-| `VulnBotCLI` | class | `modules/vulnbot.py:29` | `class VulnBotCLI` |
-| `__init__` | method | `modules/vulnbot.py:30` | `def __init__(self, provider, mode, debug, script_path)` |
-| `_load_external_tools` | method | `modules/vulnbot.py:109` | `def _load_external_tools(self, script_path)` |
-| `_load_model` | method | `modules/vulnbot.py:46` | `def _load_model(self)` |
-| `_register_file_tools` | method | `modules/vulnbot.py:83` | `def _register_file_tools(self)` |
-| `_setup_agent` | method | `modules/vulnbot.py:61` | `def _setup_agent(self, script_path)` |
-| `_stream_agent_response` | method | `modules/vulnbot.py:136` | `def _stream_agent_response(self, prompt)` |
-| `add_to_knowledge_base` | method | `modules/vulnbot.py:212` | `def add_to_knowledge_base(self, prompt, response)` |
-| `create_complex_prompt` | method | `modules/vulnbot.py:160` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
-| `edit_file` | function | `modules/vulnbot.py:95` | `def edit_file(path, content, old_text)` |
-| `generate` | function | `modules/vulnbot.py:139` | `def generate()` |
-| `generate` | function | `modules/vulnbot.py:207` | `def generate()` |
-| `get_relevant_knowledge` | method | `modules/vulnbot.py:155` | `def get_relevant_knowledge(self, prompt)` |
-| `list_files` | function | `modules/vulnbot.py:86` | `def list_files(directory)` |
-| `load_event_config` | method | `modules/vulnbot.py:182` | `def load_event_config(self)` |
-| `load_knowledge_base` | method | `modules/vulnbot.py:145` | `def load_knowledge_base(self)` |
-| `process_with_context` | method | `modules/vulnbot.py:190` | `def process_with_context(self, file_path, event)` |
-| `read_file` | function | `modules/vulnbot.py:90` | `def read_file(path)` |
-| `read_file_content` | method | `modules/vulnbot.py:176` | `def read_file_content(self, file_path)` |
-| `save_knowledge_base` | method | `modules/vulnbot.py:151` | `def save_knowledge_base(self, kb)` |
-| `stream_response` | method | `modules/vulnbot.py:206` | `def stream_response(self, prompt)` |
-| `WebSocketBeacon` | class | `modules/websocket_beacon.py:46` | `class WebSocketBeacon` |
-| `WebSocketC2Handler` | class | `modules/websocket_beacon.py:274` | `class WebSocketC2Handler` |
-| `__init__` | method | `modules/websocket_beacon.py:62` | `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)` |
-| `__init__` | method | `modules/websocket_beacon.py:288` | `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)` |
-| `_build_message` | method | `modules/websocket_beacon.py:103` | `def _build_message(self, msg_type, payload)` |
-| `_decrypt` | method | `modules/websocket_beacon.py:97` | `def _decrypt(self, data)` |
-| `_encrypt` | method | `modules/websocket_beacon.py:91` | `def _encrypt(self, data)` |
-| `_handle_connection` | method | `modules/websocket_beacon.py:310` | `def _handle_connection(self, websocket, path)` |
-| `_jittered_sleep` | method | `modules/websocket_beacon.py:114` | `def _jittered_sleep(self)` |
-| `_run_loop` | method | `modules/websocket_beacon.py:410` | `def _run_loop(self, loop)` |
-| `check_in` | method | `modules/websocket_beacon.py:157` | `def check_in(self)` |
-| `connect` | method | `modules/websocket_beacon.py:122` | `def connect(self)` |
-| `list_beacons` | method | `modules/websocket_beacon.py:447` | `def list_beacons(self)` |
-| `remove_stale_beacons` | method | `modules/websocket_beacon.py:464` | `def remove_stale_beacons(self, timeout)` |
-| `run` | method | `modules/websocket_beacon.py:214` | `def run(self, command_handler)` |
-| `send_result` | method | `modules/websocket_beacon.py:191` | `def send_result(self, task_id, output, exit_code)` |
-| `send_task` | method | `modules/websocket_beacon.py:416` | `def send_task(self, beacon_id, command)` |
-| `shutdown` | method | `modules/websocket_beacon.py:263` | `def shutdown(self)` |
-| `start` | method | `modules/websocket_beacon.py:382` | `def start(self)` |
-| `start_in_thread` | method | `modules/websocket_beacon.py:399` | `def start_in_thread(self)` |
-| `stop` | method | `modules/websocket_beacon.py:392` | `def stop(self)` |
-| `BUFFER_SIZE` | macro | `modules/win_rootkit/backup.c:18` | `#define BUFFER_SIZE` |
-| `Command` | struct | `modules/win_rootkit/backup.c:27` | `` |
-| `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
-| `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
-| `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
-| `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
-| `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
-| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
-| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
-| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
-| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
-| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
-| `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
-| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
-| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
-| `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
-| `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
-| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
-| `HookFunctions` | function | `modules/win_rootkit/mrhyde.c:222` | `void HookFunctions()` |
-| `HookedCreateToolhelp32Snapshot` | function | `modules/win_rootkit/mrhyde.c:189` | `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` |
-| `HookedFindFirstFile` | function | `modules/win_rootkit/mrhyde.c:171` | `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` |
-| `HookedFindNextFile` | function | `modules/win_rootkit/mrhyde.c:180` | `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` |
-| `HookedProcess32First` | function | `modules/win_rootkit/mrhyde.c:198` | `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `HookedProcess32Next` | function | `modules/win_rootkit/mrhyde.c:210` | `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:7` | `#define MAX_HIDE_PIDS` |
-| `PID_FILE_PATH` | macro | `modules/win_rootkit/mrhyde.c:8` | `#define PID_FILE_PATH` |
-| `RunExperiment` | function | `modules/win_rootkit/mrhyde.c:19` | `void __cdecl RunExperiment()` |
-| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:47` | `void load_hidden_files()` |
-| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:24` | `void load_hidden_pids()` |
-| `search_pid` | function | `modules/win_rootkit/mrhyde.c:137` | `BOOL search_pid()` |
-| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:161` | `BOOL should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/win_rootkit/mrhyde.c:147` | `BOOL should_hide_pid(DWORD pid)` |
-| `GetUsernameFromPid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:145` | `` |
-| `HookCreateFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:226` | `` |
-| `HookFindFirstFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:214` | `` |
-| `SECURITY_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:64` | `` |
-| `SID` | class | `modules/win_rootkit/win_rin3_rootkit.cs:136` | `` |
-| `SID_AND_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:129` | `` |
-| `ShouldHidePid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:203` | `` |
-| `TOKEN_USER` | class | `modules/win_rootkit/win_rin3_rootkit.cs:123` | `` |
-| `WIN32_FIND_DATA` | class | `modules/win_rootkit/win_rin3_rootkit.cs:47` | `` |
-| `WinRing3Rootkit` | class | `modules/win_rootkit/win_rin3_rootkit.cs:32` | `` |
-| `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:191` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
-| `BUFFER_SIZE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:19` | `#define BUFFER_SIZE` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

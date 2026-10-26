@@ -2,33 +2,33 @@
 Previous: [API_p9.md](API_p9.md)
 
 ## modules/auto_registry.py
-Depends on: `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
+Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
 - `auto_verb_target` (function) `modules/auto_registry.py:66` `def auto_verb_target(command)` -- Return the target an ``auto <verb> <target>`` line carries, else ''.
-- `verb_enabled` (function) `modules/auto_registry.py:296` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `binary_available` (function) `modules/auto_registry.py:406` `def binary_available(name)` -- Return True when a command token can actually execute here.
-- `missing_binary` (function) `modules/auto_registry.py:422` `def missing_binary(command)` -- Return the first binary a shell command needs but PATH lacks.
-- `verb_gap` (function) `modules/auto_registry.py:434` `def verb_gap(verb)` -- Return a human reason when an automation verb cannot run, else ''.
-- `verb_available` (function) `modules/auto_registry.py:446` `def verb_available(verb)` -- Return True when every binary an automation verb needs is installed.
-- `service_tokens` (function) `modules/auto_registry.py:451` `def service_tokens(service_text)` -- Normalize a service asset value into matchable tokens.
-- `iter_addon_triggers` (function) `modules/auto_registry.py:493` `def iter_addon_triggers()` -- Scan enabled lazyaddons for (name, trigger tokens) pairs.
-- `iter_tool_triggers` (function) `modules/auto_registry.py:529` `def iter_tool_triggers()` -- Scan active pwntomate tools for (toolname, trigger tokens) pairs.
-- `addon_hits_for` (function) `modules/auto_registry.py:552` `def addon_hits_for(service_text, limit)` -- Rank addon/tool names matching one service value.
-- `propose_addon_intents` (function) `modules/auto_registry.py:578` `def propose_addon_intents(service_texts, target, limit)` -- Propose addon intents for discovered services.
-- `is_routable_command` (function) `modules/auto_registry.py:604` `def is_routable_command(line)` -- Return True when the loop executor must route via the shell.
-- `verbs` (function) `modules/auto_registry.py:622` `def verbs()` -- Return every canonical automation verb name.
-- `is_shell_verb` (function) `modules/auto_registry.py:627` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
-- `build_command` (function) `modules/auto_registry.py:651` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
-- `verbs_for` (function) `modules/auto_registry.py:662` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
-- `propose_intents` (function) `modules/auto_registry.py:668` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
-- `steps_for` (function) `modules/auto_registry.py:754` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
-- `_TeeCapture.__init__` (method) `modules/auto_registry.py:894` `def __init__(self, observer)`
-- `_TeeCapture.write` (method) `modules/auto_registry.py:899` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
-- `execute_shell_verb` (function) `modules/auto_registry.py:912` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
-- `track_process` (function) `modules/auto_registry.py:1022` `def track_process(process)` -- Register a live child process for global cancellation.
-- `untrack_process` (function) `modules/auto_registry.py:1027` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
-- `cancel_running_commands` (function) `modules/auto_registry.py:1032` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
-- `execute_streaming` (function) `modules/auto_registry.py:1055` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
+- `verb_enabled` (function) `modules/auto_registry.py:308` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `binary_available` (function) `modules/auto_registry.py:418` `def binary_available(name)` -- Return True when a command token can actually execute here.
+- `missing_binary` (function) `modules/auto_registry.py:434` `def missing_binary(command)` -- Return the first binary a shell command needs but PATH lacks.
+- `verb_gap` (function) `modules/auto_registry.py:446` `def verb_gap(verb)` -- Return a human reason when an automation verb cannot run, else ''.
+- `verb_available` (function) `modules/auto_registry.py:458` `def verb_available(verb)` -- Return True when every binary an automation verb needs is installed.
+- `service_tokens` (function) `modules/auto_registry.py:463` `def service_tokens(service_text)` -- Normalize a service asset value into matchable tokens.
+- `iter_addon_triggers` (function) `modules/auto_registry.py:505` `def iter_addon_triggers()` -- Scan enabled lazyaddons for (name, trigger tokens) pairs.
+- `iter_tool_triggers` (function) `modules/auto_registry.py:541` `def iter_tool_triggers()` -- Scan active pwntomate tools for (toolname, trigger tokens) pairs.
+- `addon_hits_for` (function) `modules/auto_registry.py:564` `def addon_hits_for(service_text, limit)` -- Rank addon/tool names matching one service value.
+- `propose_addon_intents` (function) `modules/auto_registry.py:590` `def propose_addon_intents(service_texts, target, limit)` -- Propose addon intents for discovered services.
+- `is_routable_command` (function) `modules/auto_registry.py:634` `def is_routable_command(line)` -- Return True when the loop executor must route via the shell.
+- `verbs` (function) `modules/auto_registry.py:652` `def verbs()` -- Return every canonical automation verb name.
+- `is_shell_verb` (function) `modules/auto_registry.py:657` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
+- `build_command` (function) `modules/auto_registry.py:681` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
+- `verbs_for` (function) `modules/auto_registry.py:692` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
+- `propose_intents` (function) `modules/auto_registry.py:698` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
+- `steps_for` (function) `modules/auto_registry.py:784` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
+- `_TeeCapture.__init__` (method) `modules/auto_registry.py:924` `def __init__(self, observer)`
+- `_TeeCapture.write` (method) `modules/auto_registry.py:929` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
+- `execute_shell_verb` (function) `modules/auto_registry.py:942` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
+- `track_process` (function) `modules/auto_registry.py:1052` `def track_process(process)` -- Register a live child process for global cancellation.
+- `untrack_process` (function) `modules/auto_registry.py:1057` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
+- `cancel_running_commands` (function) `modules/auto_registry.py:1062` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
+- `execute_streaming` (function) `modules/auto_registry.py:1085` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
 
 ## modules/autonomous_exploit_engine.py
 Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
@@ -60,11 +60,11 @@ Imported by: `cli/commands/cloud_attacks.py`
 
 ## modules/backdoor/backdoor.c
 Depends on: `modules/backdoor/keylogger.h`
-- `bootRun` (function) `modules/backdoor/backdoor.c:18` `int bootRun()`
-- `str_cut` (function) `modules/backdoor/backdoor.c:49` `char *
+- `bootRun` (function) `modules/backdoor/backdoor.c:22` `int bootRun()`
+- `str_cut` (function) `modules/backdoor/backdoor.c:53` `char *
 str_cut(char str[], int slice_from, int slice_to)`
-- `Shell` (function) `modules/backdoor/backdoor.c:84` `void Shell()`
-- `WinMain` (function) `modules/backdoor/backdoor.c:125` `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)`
+- `Shell` (function) `modules/backdoor/backdoor.c:88` `void Shell()`
+- `WinMain` (function) `modules/backdoor/backdoor.c:129` `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)`
 
 ## modules/backdoor/keylogger.h
 Imported by: `modules/backdoor/backdoor.c`
@@ -76,7 +76,7 @@ Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `co
 
 ## modules/beacon_config_builder.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/c2_profile_engine.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`
-Imported by: `cli/commands/bof_registry.py`, `tests/test_beacon_config_builder.py`
+Imported by: `cli/commands/bof_registry.py`, `modules/c2_builder.py`, `tests/test_beacon_config_builder.py`
 - `BeaconConfig.to_gen_beacon_args` (method) `modules/beacon_config_builder.py:117` `def to_gen_beacon_args(self)` -- Produce CLI arguments for gen_beacon.sh.
 - `BeaconConfig.to_go_implant_vars` (method) `modules/beacon_config_builder.py:137` `def to_go_implant_vars(self)` -- Produce template variables for the Go implant builder.
 - `BeaconConfig.to_config_json` (method) `modules/beacon_config_builder.py:160` `def to_config_json(self)` -- Produce the config.json that beacons fetch on startup.
@@ -156,26 +156,26 @@ Imported by: `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
 - `BofMarketplace.bulk_install` (method) `modules/bof_registry.py:769` `def bulk_install(self, names)` -- Install multiple BOFs at once.
 
 ## modules/c2_agent.py
-Depends on: `core/logging.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
+Depends on: `core/logging.py`, `core/session_secrets.py`, `lazyc2/security/services.py`, `modules/atomic_exploit_bridge.py`
 Imported by: `cli/commands/c2_session.py`
-- `client_id_for` (function) `modules/c2_agent.py:88` `def client_id_for(target, privilege)` -- Derive a stable, file-safe client id from a target IP.
-- `validate_client_id` (function) `modules/c2_agent.py:113` `def validate_client_id(raw)` -- Validate a client id (alphanumerics, dash, underscore).
-- `build_agent` (function) `modules/c2_agent.py:376` `def build_agent(c2_url, client_id, aes_hex, route, sleep, privilege)` -- Render the agent script for a target (pure function, no I/O).
-- `read_aes_hex` (function) `modules/c2_agent.py:492` `def read_aes_hex()` -- Read the live C2 AES key hex (snapshotted, never generated).
-- `deploy` (function) `modules/c2_agent.py:497` `def deploy(target, c2_base, route, lhost, sleep, privilege)` -- Deliver + launch the agent on *target* via a working shell primitive.
-- `read_records` (function) `modules/c2_agent.py:603` `def read_records(client_id, limit)` -- Read the latest beacon records for a client (newest last).
-- `wait_record` (function) `modules/c2_agent.py:620` `def wait_record(client_id, command, since, timeout)` -- Wait for a fresh record matching *command* (polls the JSONL log).
-- `C2Server.__init__` (method) `modules/c2_agent.py:637` `def __init__(self, port, user, password)`
-- `C2Server.status` (method) `modules/c2_agent.py:654` `def status(self)` -- Report server liveness and listener reachability.
-- `C2Server.start` (method) `modules/c2_agent.py:686` `def start(self)` -- Start lazyc2 headless (no-op when already running).
-- `C2Server.stop` (method) `modules/c2_agent.py:717` `def stop(self)` -- Stop the headless server (SIGTERM, best-effort).
-- `C2Server.ensure_http_listener` (method) `modules/c2_agent.py:740` `def ensure_http_listener(self, http_port, auth)` -- Add + start a plaintext lab listener via the C2 API (py2 agents lack TLS).
+- `client_id_for` (function) `modules/c2_agent.py:94` `def client_id_for(target, privilege)` -- Derive a stable, file-safe client id from a target IP.
+- `validate_client_id` (function) `modules/c2_agent.py:119` `def validate_client_id(raw)` -- Validate a client id (alphanumerics, dash, underscore).
+- `build_agent` (function) `modules/c2_agent.py:398` `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` -- Render the agent script for a target (pure function, no I/O).
+- `read_aes_hex` (function) `modules/c2_agent.py:528` `def read_aes_hex()` -- Read the live C2 AES key hex (snapshotted, never generated).
+- `deploy` (function) `modules/c2_agent.py:533` `def deploy(target, c2_base, route, lhost, sleep, privilege)` -- Deliver + launch the agent on *target* via a working shell primitive.
+- `read_records` (function) `modules/c2_agent.py:680` `def read_records(client_id, limit)` -- Read the latest beacon records for a client (newest last).
+- `wait_record` (function) `modules/c2_agent.py:697` `def wait_record(client_id, command, since, timeout)` -- Wait for a fresh record matching *command* (polls the JSONL log).
+- `C2Server.__init__` (method) `modules/c2_agent.py:714` `def __init__(self, port, user, password)`
+- `C2Server.status` (method) `modules/c2_agent.py:731` `def status(self)` -- Report server liveness and listener reachability.
+- `C2Server.start` (method) `modules/c2_agent.py:763` `def start(self)` -- Start lazyc2 headless (no-op when already running).
+- `C2Server.stop` (method) `modules/c2_agent.py:794` `def stop(self)` -- Stop the headless server (SIGTERM, best-effort).
+- `C2Server.ensure_http_listener` (method) `modules/c2_agent.py:817` `def ensure_http_listener(self, http_port, auth)` -- Add + start a plaintext lab listener via the C2 API (py2 agents lack TLS).
 
 ## modules/c2_builder.py
-Depends on: `core/validators.py`, `modules/metrics.py`, `utils.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
-- `C2Builder.__init__` (method) `modules/c2_builder.py:395` `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
-- `C2Builder.run` (method) `modules/c2_builder.py:453` `def run(self, line, choice, use_tunnel)` -- Execute the full C2 build pipeline.
+Depends on: `core/config.py`, `core/session_secrets.py`, `core/validators.py`, `modules/beacon_config_builder.py`, `modules/metrics.py`, `utils.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_implant_session_secrets.py`, `tests/test_infra_disposable.py`
+- `C2Builder.__init__` (method) `modules/c2_builder.py:452` `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
+- `C2Builder.run` (method) `modules/c2_builder.py:510` `def run(self, line, choice, use_tunnel)` -- Execute the full C2 build pipeline.
 
 ## modules/c2_messaging_base.py
 - `SecureSessionManager.__init__` (method) `modules/c2_messaging_base.py:22` `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)`
@@ -287,7 +287,7 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `modules/gym_matrix
 
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_chain_distill.py`, `tests/test_chain_evidence.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_evidence.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
 - `ChainStep.identifier` (method) `modules/chain_registry.py:105` `def identifier(self)` -- Return the declared id or a stable generated one.
 - `Chain.resolve` (method) `modules/chain_registry.py:128` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
 - `evaluate_when` (function) `modules/chain_registry.py:247` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.

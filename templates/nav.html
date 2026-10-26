@@ -21,6 +21,9 @@
                 <a class="nav-link" href="#" data-target="local-shell">Local Shell</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="#" data-target="auto-loops">Auto Loops</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#" data-target="session-data">Session Data</a>
             </li>
             <li class="nav-item">
@@ -763,5 +766,93 @@
                 </div>
             </div>
         </div>                    
+    </div>
+</div>
+<div id="auto-loops" class="section">
+    <h1 class="neon-text mb-3">Autonomous Loops</h1>
+    <p class="text-muted">Run isolated lazyown subprocesses per target. Every loop streams its live output below.</p>
+
+    <div class="card bg-dark text-light mb-4">
+        <div class="card-header">Launch new loop</div>
+        <div class="card-body">
+            <form id="loopStartForm" class="form-row align-items-end" autocomplete="off">
+                <div class="form-group col-md-2">
+                    <label for="loopKind">Kind</label>
+                    <select id="loopKind" class="form-control form-control-sm">
+                        <option value="lazynmap">lazynmap scan</option>
+                        <option value="auto_loop">auto_loop (AI)</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="loopTarget">Target IP</label>
+                    <input type="text" id="loopTarget" class="form-control form-control-sm"
+                           placeholder="192.168.1.10" required>
+                </div>
+                <div class="form-group col-md-4" id="loopGoalGroup">
+                    <label for="loopGoal">Goal</label>
+                    <input type="text" id="loopGoal" class="form-control form-control-sm"
+                           placeholder="gain initial access">
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="loopRounds">Rounds</label>
+                    <input type="number" id="loopRounds" class="form-control form-control-sm"
+                           min="1" max="50" value="6">
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="loopWorkers">Workers</label>
+                    <input type="number" id="loopWorkers" class="form-control form-control-sm"
+                           min="1" max="5" value="2">
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="loopTimeout">Timeout</label>
+                    <input type="number" id="loopTimeout" class="form-control form-control-sm"
+                           min="0" max="86400" value="0" title="Seconds, 0 = none">
+                </div>
+                <div class="form-group col-md-1">
+                    <button type="submit" class="btn btn-success btn-sm btn-block">Start</button>
+                </div>
+            </form>
+            <div id="loopStartMessage" class="mt-2"></div>
+        </div>
+    </div>
+
+    <div class="card bg-dark text-light mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Active loops</span>
+            <span id="loopCountBadge" class="badge badge-secondary">0</span>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-dark table-striped table-sm mb-0" id="loopsTable">
+                <thead>
+                    <tr>
+                        <th>Started</th>
+                        <th>Kind</th>
+                        <th>Target</th>
+                        <th>Goal</th>
+                        <th>Status</th>
+                        <th>Operator</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="loopsTableBody">
+                    <tr><td colspan="7" class="text-muted text-center py-3">Loading loops...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="terminal-window" id="loopLogWindow" style="max-width:100%;">
+        <div class="terminal-header">
+            <div class="terminal-title" id="loopLogTitle">Loop output</div>
+            <div class="terminal-controls">
+                <div class="terminal-control-button close-button" id="loopLogClear" title="Clear view"><span aria-hidden="true">×</span></div>
+                <div class="terminal-control-button minimize-button" id="loopLogAutoscrollToggle" title="Toggle autoscroll"><span aria-hidden="true">-</span></div>
+                <div class="terminal-control-button maximize-button" id="loopLogFullscreen" title="Toggle width"><span aria-hidden="true">+</span></div>
+            </div>
+        </div>
+        <div class="card-body p-2">
+            <pre id="loopLogViewer" class="loop-log-viewer">Select a loop from the table to stream its output.
+</pre>
+        </div>
     </div>
 </div>

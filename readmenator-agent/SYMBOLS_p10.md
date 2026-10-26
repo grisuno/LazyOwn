@@ -1,8 +1,15 @@
-# Symbols (page 10 of 45)
+# Symbols (page 10 of 46)
 Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_refresh_initial` | method | `lazygui/panels/sessions_panel.py:87` | `def _refresh_initial(self)` |
+| `TerminalPanel` | class | `lazygui/panels/terminal_panel.py:22` | `class TerminalPanel(PanelBase)` |
+| `__init__` | method | `lazygui/panels/terminal_panel.py:25` | `def __init__(self, constants, backend, parent)` |
+| `_on_beacon_result` | method | `lazygui/panels/terminal_panel.py:119` | `def _on_beacon_result(self, result)` |
+| `_send_beacon_command` | method | `lazygui/panels/terminal_panel.py:90` | `def _send_beacon_command(self)` |
+| `_update_session_combo` | method | `lazygui/panels/terminal_panel.py:104` | `def _update_session_combo(self, sessions)` |
+| `focus_terminal` | method | `lazygui/panels/terminal_panel.py:78` | `def focus_terminal(self)` |
 | `set_target_session` | method | `lazygui/panels/terminal_panel.py:82` | `def set_target_session(self, session_id)` |
 | `Backend` | class | `lazygui/services/backend.py:52` | `class Backend(QObject)` |
 | `BackendDescriptor` | class | `lazygui/services/backend.py:44` | `class BackendDescriptor` |
@@ -489,12 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `wrapper` | function | `modules/agent_runner.py:244` | `def wrapper(command)` |
 | `AIExploitChainer` | class | `modules/ai_exploit_chain.py:247` | `class AIExploitChainer` |
 | `ExploitChainContext` | class | `modules/ai_exploit_chain.py:223` | `class ExploitChainContext` |
-| `__init__` | method | `modules/ai_exploit_chain.py:259` | `def __init__(self)` |
-| `_ensure` | method | `modules/ai_exploit_chain.py:487` | `def _ensure(context, strategy)` |
-| `_parse_shell_hints` | method | `modules/ai_exploit_chain.py:492` | `def _parse_shell_hints(self, output, context)` |
-| `adapt_chain` | method | `modules/ai_exploit_chain.py:428` | `def adapt_chain(self, context, new_info)` |
-| `build_chain_plan` | method | `modules/ai_exploit_chain.py:391` | `def build_chain_plan(self, context)` |
-| `estimate_confidence` | method | `modules/ai_exploit_chain.py:349` | `def estimate_confidence(self, strategy, profile)` |
-| `evaluate_failure` | method | `modules/ai_exploit_chain.py:306` | `def evaluate_failure(result)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

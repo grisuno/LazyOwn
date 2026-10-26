@@ -111,9 +111,8 @@ Solid arrows stay in this module, dashed arrows leave it.
 flowchart LR
     n_modules_intelligence_engine_py__IntelligenceEngine___init__(["IntelligenceEngine.__init__"])
     n_modules_intelligence_engine_py__IntelligenceConfig(["IntelligenceConfig"])
-    n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_scan(["IntelligenceEngine.collect_from_scan"])
-    n_modules_intelligence_engine_py__CollectedFact(["CollectedFact"])
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_tool(["IntelligenceEngine.collect_from_tool"])
+    n_modules_intelligence_engine_py__CollectedFact(["CollectedFact"])
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_estorides(["IntelligenceEngine.collect_from_estorides"])
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_nuclei(["IntelligenceEngine.collect_from_nuclei"])
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_yara(["IntelligenceEngine.collect_from_yara"])
@@ -124,6 +123,7 @@ flowchart LR
     n_modules_intelligence_engine_py__IntelligenceEngine_get_intel_report(["IntelligenceEngine.get_intel_report"])
     n_modules_intelligence_engine_py__IntelligenceEngine_run_full_cycle(["IntelligenceEngine.run_full_cycle"])
     n_modules_intelligence_engine_py__IntelligenceEngine_analyze(["IntelligenceEngine.analyze"])
+    n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_scan(["IntelligenceEngine.collect_from_scan"])
     n_modules_intelligence_engine_py__IntelligenceEngine_produce_intelligence(["IntelligenceEngine.produce_intelligence"])
     n_modules_intelligence_engine_py__get_intelligence_engine(["get_intelligence_engine"])
     n_modules_obs_parser_py__ObsParser___init__["obs_parser.ObsParser.__init__"]
@@ -134,8 +134,8 @@ flowchart LR
     n_skills_lazyown_facts_py__NucleiParser_parse["lazyown_facts.NucleiParser.parse"]
     n_modules_yara_scanner_py__YaraScanner___init__["yara_scanner.YaraScanner.__init__"]
     n_modules_factsio_py__canonical_policy_facts["factsio.canonical_policy_facts"]
+    n_modules_world_model_py__get_world_model["world_model.get_world_model"]
     n_modules_intelligence_engine_py__IntelligenceEngine___init__ --> n_modules_intelligence_engine_py__IntelligenceConfig
-    n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_scan --> n_modules_intelligence_engine_py__CollectedFact
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_tool --> n_modules_intelligence_engine_py__CollectedFact
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_estorides --> n_modules_intelligence_engine_py__CollectedFact
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_nuclei --> n_modules_intelligence_engine_py__CollectedFact
@@ -158,6 +158,7 @@ flowchart LR
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_nuclei -.-> n_skills_lazyown_facts_py__NucleiParser_parse
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_yara -.-> n_modules_yara_scanner_py__YaraScanner___init__
     n_modules_intelligence_engine_py__IntelligenceEngine_collect_from_factstore -.-> n_modules_factsio_py__canonical_policy_facts
+    n_modules_intelligence_engine_py__IntelligenceEngine_disseminate -.-> n_modules_world_model_py__get_world_model
 ```
 
 ## Classes
@@ -166,7 +167,7 @@ flowchart LR
 
 ### `IntelligenceConfig`
 
-`class` `dataclass` | [modules/intelligence_engine.py:57](../../modules/intelligence_engine.py#L57)
+`class` `dataclass` | [modules/intelligence_engine.py:58](../../modules/intelligence_engine.py#L58)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -198,7 +199,7 @@ Centralized configuration for the intelligence pipeline.
 
 ### `CollectedFact`
 
-`class` `dataclass` | [modules/intelligence_engine.py:78](../../modules/intelligence_engine.py#L78)
+`class` `dataclass` | [modules/intelligence_engine.py:79](../../modules/intelligence_engine.py#L79)
 
 Decorators: `@dataclass`
 
@@ -228,7 +229,7 @@ A single piece of raw data collected from any source.
 
 ### `IntelligenceAssessment`
 
-`class` `dataclass` | [modules/intelligence_engine.py:93](../../modules/intelligence_engine.py#L93)
+`class` `dataclass` | [modules/intelligence_engine.py:94](../../modules/intelligence_engine.py#L94)
 
 Decorators: `@dataclass`
 
@@ -258,7 +259,7 @@ Graded intelligence produced from correlated facts.
 
 ### `CounterIntelFinding`
 
-`class` `dataclass` | [modules/intelligence_engine.py:108](../../modules/intelligence_engine.py#L108)
+`class` `dataclass` | [modules/intelligence_engine.py:109](../../modules/intelligence_engine.py#L109)
 
 Decorators: `@dataclass`
 
@@ -285,7 +286,7 @@ What we exposed, what detected us, how to evade.
 
 ### `IntelligenceEngine`
 
-`class` | [modules/intelligence_engine.py:119](../../modules/intelligence_engine.py#L119)
+`class` | [modules/intelligence_engine.py:120](../../modules/intelligence_engine.py#L120)
 
 ```python
 class IntelligenceEngine
@@ -317,7 +318,7 @@ Public API:
 | Member | Kind | Summary |
 |---|---|---|
 | [`__init__`](#intelligenceengine-__init__) | constructor |  |
-| [`collect_from_scan`](#intelligenceengine-collect_from_scan) | method | Parse nmap XML into structured facts. |
+| [`collect_from_scan`](#intelligenceengine-collect_from_scan) | method | Parse every nmap XML of the target into structured facts. |
 | [`collect_from_tool`](#intelligenceengine-collect_from_tool) | method | Parse tool output into structured facts using ObsParser. |
 | [`collect_from_estorides`](#intelligenceengine-collect_from_estorides) | method | Run estorides OSINT aggregator and collect findings. |
 | [`collect_from_nuclei`](#intelligenceengine-collect_from_nuclei) | method | Run nuclei vulnerability scanner and collect findings. |
@@ -334,7 +335,7 @@ Public API:
 
 #### `IntelligenceEngine.__init__`
 
-`constructor` | [modules/intelligence_engine.py:142](../../modules/intelligence_engine.py#L142)
+`constructor` | [modules/intelligence_engine.py:143](../../modules/intelligence_engine.py#L143)
 
 ```python
 def __init__(self, config: IntelligenceConfig | None = None) -> None
@@ -354,13 +355,18 @@ def __init__(self, config: IntelligenceConfig | None = None) -> None
 
 #### `IntelligenceEngine.collect_from_scan`
 
-`method` | [modules/intelligence_engine.py:153](../../modules/intelligence_engine.py#L153)
+`method` | [modules/intelligence_engine.py:197](../../modules/intelligence_engine.py#L197)
 
 ```python
 def collect_from_scan(self, target: str) -> list[CollectedFact]
 ```
 
-Parse nmap XML into structured facts.
+Parse every nmap XML of the target into structured facts.
+
+The loop and apt_chain write per-port scan files
+(``scan_<target>_<port>.nmap.xml``), so this reads the canonical
+``scan_<target>.nmap.xml`` first and then every sidecar scan,
+merging facts and dropping duplicate port/service rows.
 
 **Parameters**
 
@@ -370,15 +376,13 @@ Parse nmap XML into structured facts.
 
 **Returns:** `list[CollectedFact]` - List of collected facts.
 
-*Calls:* [`CollectedFact`](#collectedfact)
-
 *Called by:* [`IntelligenceEngine.run_full_cycle`](#intelligenceengine-run_full_cycle)
 
 <a id="intelligenceengine-collect_from_tool"></a>
 
 #### `IntelligenceEngine.collect_from_tool`
 
-`method` | [modules/intelligence_engine.py:255](../../modules/intelligence_engine.py#L255)
+`method` | [modules/intelligence_engine.py:326](../../modules/intelligence_engine.py#L326)
 
 ```python
 def collect_from_tool(self, output: str, tool: str, host: str = '') -> list[CollectedFact]
@@ -402,7 +406,7 @@ Parse tool output into structured facts using ObsParser.
 
 #### `IntelligenceEngine.collect_from_estorides`
 
-`method` | [modules/intelligence_engine.py:292](../../modules/intelligence_engine.py#L292)
+`method` | [modules/intelligence_engine.py:363](../../modules/intelligence_engine.py#L363)
 
 ```python
 def collect_from_estorides(self, target: str) -> list[CollectedFact]
@@ -424,7 +428,7 @@ Run estorides OSINT aggregator and collect findings.
 
 #### `IntelligenceEngine.collect_from_nuclei`
 
-`method` | [modules/intelligence_engine.py:334](../../modules/intelligence_engine.py#L334)
+`method` | [modules/intelligence_engine.py:405](../../modules/intelligence_engine.py#L405)
 
 ```python
 def collect_from_nuclei(self, target: str) -> list[CollectedFact]
@@ -446,7 +450,7 @@ Run nuclei vulnerability scanner and collect findings.
 
 #### `IntelligenceEngine.collect_from_yara`
 
-`method` | [modules/intelligence_engine.py:376](../../modules/intelligence_engine.py#L376)
+`method` | [modules/intelligence_engine.py:447](../../modules/intelligence_engine.py#L447)
 
 ```python
 def collect_from_yara(self, target_path: str) -> list[CollectedFact]
@@ -468,7 +472,7 @@ Scan with YARA rules and collect IOC matches.
 
 #### `IntelligenceEngine.collect_from_factstore`
 
-`method` | [modules/intelligence_engine.py:415](../../modules/intelligence_engine.py#L415)
+`method` | [modules/intelligence_engine.py:486](../../modules/intelligence_engine.py#L486)
 
 ```python
 def collect_from_factstore(self) -> list[CollectedFact]
@@ -490,7 +494,7 @@ vulnerability facts.
 
 #### `IntelligenceEngine.analyze`
 
-`method` | [modules/intelligence_engine.py:516](../../modules/intelligence_engine.py#L516)
+`method` | [modules/intelligence_engine.py:587](../../modules/intelligence_engine.py#L587)
 
 ```python
 def analyze(self) -> list[IntelligenceAssessment]
@@ -509,7 +513,7 @@ domains to infrastructure, and ranks targets by value.
 
 #### `IntelligenceEngine.produce_intelligence`
 
-`method` | [modules/intelligence_engine.py:724](../../modules/intelligence_engine.py#L724)
+`method` | [modules/intelligence_engine.py:856](../../modules/intelligence_engine.py#L856)
 
 ```python
 def produce_intelligence(self) -> list[IntelligenceAssessment]
@@ -525,7 +529,7 @@ Grade and enrich intelligence assessments with MITRE mappings.
 
 #### `IntelligenceEngine.produce_counter_intelligence`
 
-`method` | [modules/intelligence_engine.py:754](../../modules/intelligence_engine.py#L754)
+`method` | [modules/intelligence_engine.py:886](../../modules/intelligence_engine.py#L886)
 
 ```python
 def produce_counter_intelligence(self) -> list[CounterIntelFinding]
@@ -543,7 +547,7 @@ Assess what we exposed and what can detect us.
 
 #### `IntelligenceEngine.disseminate`
 
-`method` | [modules/intelligence_engine.py:804](../../modules/intelligence_engine.py#L804)
+`method` | [modules/intelligence_engine.py:936](../../modules/intelligence_engine.py#L936)
 
 ```python
 def disseminate(self) -> dict[str, Any]
@@ -561,7 +565,7 @@ Write intelligence to WorldModel, killchain, and report file.
 
 #### `IntelligenceEngine.run_full_cycle`
 
-`method` | [modules/intelligence_engine.py:884](../../modules/intelligence_engine.py#L884)
+`method` | [modules/intelligence_engine.py:1040](../../modules/intelligence_engine.py#L1040)
 
 ```python
 def run_full_cycle(self, target: str) -> dict[str, Any]
@@ -587,7 +591,7 @@ disseminates structured results to the WorldModel.
 
 #### `IntelligenceEngine.get_intel_report`
 
-`method` | [modules/intelligence_engine.py:913](../../modules/intelligence_engine.py#L913)
+`method` | [modules/intelligence_engine.py:1069](../../modules/intelligence_engine.py#L1069)
 
 ```python
 def get_intel_report(self) -> dict[str, Any]
@@ -607,7 +611,7 @@ Produce a structured JSON intelligence report.
 
 ### `get_intelligence_engine`
 
-`function` | [modules/intelligence_engine.py:970](../../modules/intelligence_engine.py#L970)
+`function` | [modules/intelligence_engine.py:1126](../../modules/intelligence_engine.py#L1126)
 
 ```python
 def get_intelligence_engine(config: IntelligenceConfig | None = None) -> IntelligenceEngine

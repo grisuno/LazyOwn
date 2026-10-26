@@ -1,6 +1,40 @@
 # Subsystem: tests (page 11 of 20)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
 
+## tests/test_intelligence_engine.py
+- Doc: Tests for IntelligenceEngine — collection, analysis, intelligence, dissemination.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `engine` (function, line 19) `def engine()`
+  - `nmap_xml` (function, line 24) `def nmap_xml(tmp_path)`
+  - `TestCollection` (class, line 45) `class TestCollection`
+  - `TestAnalysis` (class, line 108) `class TestAnalysis`
+  - `TestIntelligenceProduction` (class, line 159) `class TestIntelligenceProduction`
+  - `TestCounterIntelligence` (class, line 178) `class TestCounterIntelligence`
+  - `TestFullCycle` (class, line 198) `class TestFullCycle`
+  - `TestPlaceholderFiltering` (class, line 215) `class TestPlaceholderFiltering`
+  - `test_collect_from_scan_services` (method, line 46) `def test_collect_from_scan_services(self, engine, nmap_xml)`
+  - `test_collect_from_scan_os` (method, line 56) `def test_collect_from_scan_os(self, engine, nmap_xml)`
+  - `test_collect_from_scan_domain` (method, line 63) `def test_collect_from_scan_domain(self, engine, nmap_xml)`
+  - `test_collect_from_scan_hosts` (method, line 70) `def test_collect_from_scan_hosts(self, engine, nmap_xml)`
+  - `test_collect_from_scan_missing_xml` (method, line 76) `def test_collect_from_scan_missing_xml(self, engine)`
+  - `test_collect_from_tool_parses_creds` (method, line 81) `def test_collect_from_tool_parses_creds(self, engine)`
+  - `test_collect_from_tool_filters_placeholders` (method, line 86) `def test_collect_from_tool_filters_placeholders(self, engine)`
+  - `test_collect_from_factstore` (method, line 91) `def test_collect_from_factstore(self, engine, tmp_path)`
+  - `test_analyze_produces_assessments` (method, line 109) `def test_analyze_produces_assessments(self, engine, nmap_xml)`
+  - `test_analyze_maps_apache_cve` (method, line 115) `def test_analyze_maps_apache_cve(self, engine)`
+  - `test_analyze_correlates_creds_to_hosts` (method, line 131) `def test_analyze_correlates_creds_to_hosts(self, engine)`
+  - `test_analyze_ranks_targets` (method, line 143) `def test_analyze_ranks_targets(self, engine)`
+  - `test_produce_intelligence_grades_assessments` (method, line 160) `def test_produce_intelligence_grades_assessments(self, engine)`
+  - `test_credential_exposure_detected` (method, line 179) `def test_credential_exposure_detected(self, engine)`
+  - `test_high_scan_volume_detected` (method, line 188) `def test_high_scan_volume_detected(self, engine)`
+  - `test_run_full_cycle_returns_summary` (method, line 199) `def test_run_full_cycle_returns_summary(self, engine, nmap_xml)`
+  - `test_get_intel_report_structured` (method, line 205) `def test_get_intel_report_structured(self, engine, nmap_xml)`
+  - `test_is_placeholder_detects_change_me` (method, line 216) `def test_is_placeholder_detects_change_me(self, engine)`
+  - `test_is_placeholder_rejects_real_values` (method, line 220) `def test_is_placeholder_rejects_real_values(self, engine)`
+- Depends on: `modules/intelligence_engine.py`
+
 ## tests/test_journal.py
 - Doc: Tests for the GitHub Discussions engineering journal.
 - Layer: testing

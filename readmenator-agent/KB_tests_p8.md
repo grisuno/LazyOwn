@@ -1,6 +1,36 @@
 # Subsystem: tests (page 8 of 20)
 Previous: [KB_tests_p7.md](KB_tests_p7.md)
 
+## tests/test_dashboard_tui.py
+- Doc: Tests for cli/dashboard_tui.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestReadJson` (class, line 29) `class TestReadJson`
+  - `TestCountLinesInGlob` (class, line 44) `class TestCountLinesInGlob`
+  - `TestReadRecentCommands` (class, line 65) `class TestReadRecentCommands`
+  - `TestKillChainPhases` (class, line 117) `class TestKillChainPhases`
+  - `TestGraphHints` (class, line 131) `class TestGraphHints`
+  - `test_reads_valid_file` (method, line 30) `def test_reads_valid_file(self, tmp_path)`
+  - `test_missing_file_returns_empty_dict` (method, line 35) `def test_missing_file_returns_empty_dict(self, tmp_path)`
+  - `test_invalid_json_returns_empty_dict` (method, line 38) `def test_invalid_json_returns_empty_dict(self, tmp_path)`
+  - `test_counts_non_empty_lines` (method, line 45) `def test_counts_non_empty_lines(self, tmp_path)`
+  - `test_empty_file_returns_zero` (method, line 51) `def test_empty_file_returns_zero(self, tmp_path)`
+  - `test_no_matching_files_returns_zero` (method, line 56) `def test_no_matching_files_returns_zero(self, tmp_path)`
+  - `test_multiple_files_summed` (method, line 59) `def test_multiple_files_summed(self, tmp_path)`
+  - `_make_transcript` (method, line 66) `def _make_transcript(self, tmp_path, rows)`
+  - `test_reads_recent_commands` (method, line 77) `def test_reads_recent_commands(self, tmp_path)`
+  - `test_missing_file_returns_empty` (method, line 89) `def test_missing_file_returns_empty(self, tmp_path)`
+  - `test_empty_file_returns_empty` (method, line 93) `def test_empty_file_returns_empty(self, tmp_path)`
+  - `test_respects_window_limit` (method, line 98) `def test_respects_window_limit(self, tmp_path)`
+  - `test_skips_empty_tool_rows` (method, line 105) `def test_skips_empty_tool_rows(self, tmp_path)`
+  - `test_all_phases_present` (method, line 118) `def test_all_phases_present(self)`
+  - `test_phases_ordered` (method, line 125) `def test_phases_ordered(self)`
+  - `test_returns_list_when_advisor_unavailable` (method, line 132) `def test_returns_list_when_advisor_unavailable(self)`
+  - `test_returns_list_on_exception` (method, line 137) `def test_returns_list_on_exception(self)`
+  - `test_returns_labels_from_advisor` (method, line 142) `def test_returns_labels_from_advisor(self)`
+- Depends on: `cli/dashboard_tui.py`
+
 ## tests/test_db.py
 - Doc: Tests for modules.db — LazyOwnDB SQLite layer.
 - Layer: testing
@@ -459,31 +489,6 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `test_no_advisor_reference_before_definition` (method, line 470) `def test_no_advisor_reference_before_definition(self)`
   - `test_rule_not_used_without_import` (method, line 509) `def test_rule_not_used_without_import(self)`
   - `test_fallback_message_present` (method, line 517) `def test_fallback_message_present(self)`
-- Depends on: `cli/engagement_hooks.py`
-
-## tests/test_engagement_command_gate.py
-- Doc: Tests for the command-recording gate of cli/engagement_hooks.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_redirect_paths` (function, line 34) `def _redirect_paths(tmp_path)`
-  - `_restore_paths` (function, line 56) `def _restore_paths(saved)`
-  - `TestIsRecordableCommand` (class, line 68) `class TestIsRecordableCommand`
-  - `TestHookRejectsNoise` (class, line 106) `class TestHookRejectsNoise`
-  - `TestSanitizeSeen` (class, line 141) `class TestSanitizeSeen`
-  - `TestHealCommandsSeen` (class, line 187) `class TestHealCommandsSeen`
-  - `test_accepts_command_shaped_tokens` (method, line 72) `def test_accepts_command_shaped_tokens(self, cmd)`
-  - `test_rejects_syntactic_garbage` (method, line 81) `def test_rejects_syntactic_garbage(self, cmd)`
-  - `test_quoted_path_rejected` (method, line 86) `def test_quoted_path_rejected(self)`
-  - `test_do_prefixed_input_is_accepted` (method, line 91) `def test_do_prefixed_input_is_accepted(self)`
-  - `test_normalize_is_idempotent` (method, line 96) `def test_normalize_is_idempotent(self)`
-  - `test_garbage_does_not_enter_commands_seen` (method, line 109) `def test_garbage_does_not_enter_commands_seen(self, tmp_path)`
-  - `test_real_command_recorded_between_garbage` (method, line 123) `def test_real_command_recorded_between_garbage(self, tmp_path)`
-  - `test_syntactic_only_drops_ugly_garbage` (method, line 144) `def test_syntactic_only_drops_ugly_garbage(self)`
-  - `test_roster_drops_valid_but_unknown_tokens` (method, line 158) `def test_roster_drops_valid_but_unknown_tokens(self)`
-  - `test_load_state_heals_polluted_file` (method, line 165) `def test_load_state_heals_polluted_file(self, tmp_path)`
-  - `test_purges_and_persists` (method, line 190) `def test_purges_and_persists(self, tmp_path)`
-  - `test_idempotent_on_clean_state` (method, line 207) `def test_idempotent_on_clean_state(self, tmp_path)`
 - Depends on: `cli/engagement_hooks.py`
 
 

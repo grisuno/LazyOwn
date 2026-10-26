@@ -1,6 +1,67 @@
 # Subsystem: modules (page 10 of 16)
 Previous: [KB_modules_p9.md](KB_modules_p9.md)
 
+## modules/lazyk8s.py
+- Doc: Container and Kubernetes attack module.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ContainerResource` (class, line 20) `class ContainerResource`
+  - `ContainerFinding` (class, line 30) `class ContainerFinding`
+  - `DockerEnumerator` (class, line 41) `class DockerEnumerator`
+  - `K8sEnumerator` (class, line 264) `class K8sEnumerator`
+  - `ContainerEscapeTechniques` (class, line 624) `class ContainerEscapeTechniques`
+  - `ContainerRuntimeDetector` (class, line 759) `class ContainerRuntimeDetector`
+  - `__init__` (method, line 44) `def __init__(self, socket_path)`
+  - `is_socket_accessible` (method, line 47) `def is_socket_accessible(self)`
+  - `_docker_api` (method, line 51) `def _docker_api(self, endpoint)`
+  - `list_containers` (method, line 70) `def list_containers(self)`
+  - `list_images` (method, line 94) `def list_images(self)`
+  - `inspect_container` (method, line 118) `def inspect_container(self, container_id)`
+  - `check_privileged_containers` (method, line 137) `def check_privileged_containers(self)`
+  - `check_sensitive_mounts` (method, line 162) `def check_sensitive_mounts(self)`
+  - `check_docker_socket_mount` (method, line 196) `def check_docker_socket_mount(self)`
+  - `check_capabilities` (method, line 217) `def check_capabilities(self)`
+  - `full_check` (method, line 250) `def full_check(self)`
+  - `__init__` (method, line 267) `def __init__(self, kubeconfig, token, api_server)`
+  - `_load_kubeconfig` (method, line 274) `def _load_kubeconfig(self)`
+  - `_get_k8s_api` (method, line 285) `def _get_k8s_api(self, path)`
+  - `list_pods` (method, line 366) `def list_pods(self, namespace)`
+  - `list_namespaces` (method, line 390) `def list_namespaces(self)`
+  - `list_secrets` (method, line 410) `def list_secrets(self, namespace)`
+  - `list_service_accounts` (method, line 462) `def list_service_accounts(self, namespace)`
+  - `check_rbac` (method, line 498) `def check_rbac(self)`
+  - `check_pod_escape_vectors` (method, line 530) `def check_pod_escape_vectors(self)`
+  - `full_check` (method, line 582) `def full_check(self, sessions_dir)`
+  - `detect_current_environment` (method, line 684) `def detect_current_environment()`
+  - `detect_runtime` (method, line 803) `def detect_runtime()`
+  - `detect_mounts` (method, line 874) `def detect_mounts()`
+  - `detect_dangerous_capabilities` (method, line 921) `def detect_dangerous_capabilities()`
+  - `auto_detect_all` (method, line 992) `def auto_detect_all()`
+- Imported by: `cli/commands/containers.py`
+
+## modules/lazylynis.sh
+- Doc: Verificar si se proporcionó un argumento para el host remoto
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `check_sudo` (function, line 32)
+
+## modules/lazymasscan.sh
+- Doc: Nombre del script: lazymasscan.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `extract_ports_info` (function, line 74)
+  - `run_masscan_script` (function, line 94)
+  - `print_row` (function, line 117)
+  - `ctrl_c` (function, line 20)
+
+## modules/lazymobilerevshell.sh
+- Doc: Verificar si se pasaron los argumentos de IP y puerto
+- Layer: utility
+- Language: sh
+
 ## modules/lazynmap.sh
 - Doc: Nombre del script: lazynmap.sh Autor: Gris Iscomeback Correo electrónico...
 - Layer: utility
@@ -245,12 +306,12 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `add` (method, line 229) `def add(self, port, ssl, listener_id)`
   - `remove` (method, line 242) `def remove(self, listener_id)`
   - `start` (method, line 255) `def start(self, listener_id)`
-  - `stop` (method, line 323) `def stop(self, listener_id)`
-  - `_stop` (method, line 331) `def _stop(self, listener)`
-  - `start_all` (method, line 344) `def start_all(self)`
-  - `stop_all` (method, line 350) `def stop_all(self)`
-  - `status` (method, line 355) `def status(self)`
-  - `get_default_port` (method, line 367) `def get_default_port(self, fallback)`
+  - `stop` (method, line 335) `def stop(self, listener_id)`
+  - `_stop` (method, line 343) `def _stop(self, listener)`
+  - `start_all` (method, line 356) `def start_all(self)`
+  - `stop_all` (method, line 362) `def stop_all(self)`
+  - `status` (method, line 367) `def status(self)`
+  - `get_default_port` (method, line 379) `def get_default_port(self, fallback)`
 - Depends on: `utils.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `lazyc2.py`
 
@@ -410,87 +471,6 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `_truncate` (method, line 217) `def _truncate(self, text, overflow_dir)`
   - `complete` (method, line 237) `def complete(self, prompt, max_tokens, session_key, overflow_dir)`
 - Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`
-
-## modules/llm_prompts.py
-- Doc: Canonical prompt-template and knowledge-base contract for LLM consumers.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `default_project_root` (function, line 67) `def default_project_root()`
-  - `resolve_model` (function, line 76) `def resolve_model(model)`
-  - `truncate_message` (function, line 95) `def truncate_message(message, max_chars)`
-  - `LlmPromptConfig` (class, line 111) `class LlmPromptConfig`
-  - `render_kb_tail` (function, line 271) `def render_kb_tail(lines)`
-  - `KnowledgeStore` (class, line 286) `class KnowledgeStore`
-  - `_payload_block` (function, line 354) `def _payload_block(config)`
-  - `_prompt_oneliner` (function, line 362) `def _prompt_oneliner(base_prompt, kb_text, config)`
-  - `_prompt_script` (function, line 378) `def _prompt_script(base_prompt, kb_text, config)`
-  - `_prompt_adversary` (function, line 393) `def _prompt_adversary(base_prompt, kb_text, config)`
-  - `_prompt_general` (function, line 409) `def _prompt_general(base_prompt, kb_text, config)`
-  - `_prompt_search` (function, line 422) `def _prompt_search(base_prompt, kb_text, config)`
-  - `_prompt_vuln` (function, line 436) `def _prompt_vuln(base_prompt, kb_text, config)`
-  - `_prompt_task` (function, line 450) `def _prompt_task(base_prompt, kb_text, config)`
-  - `_prompt_redop` (function, line 462) `def _prompt_redop(base_prompt, kb_text, config)`
-  - `from_defaults` (method, line 130) `def from_defaults(cls, project_root)`
-  - `knowledge_base_path` (method, line 150) `def knowledge_base_path(self, domain)`
-  - `load_payload_context` (method, line 161) `def load_payload_context(self)`
-  - `load_event_tool_output` (method, line 176) `def load_event_tool_output(self, event_name)`
-  - `load_plan_history` (method, line 203) `def load_plan_history(self)`
-  - `load_report_context` (method, line 218) `def load_report_context(self)`
-  - `knowledge_store` (method, line 238) `def knowledge_store(self, domain)`
-  - `render` (method, line 249) `def render(self, template, base_prompt)`
-  - `__init__` (method, line 289) `def __init__(self, path)`
-  - `load` (method, line 297) `def load(self)`
-  - `save` (method, line 312) `def save(self, records)`
-  - `add` (method, line 324) `def add(self, prompt, response)`
-  - `relevant` (method, line 335) `def relevant(self, prompt, limit)`
-- Depends on: `modules/colors.py`
-- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`
-
-## modules/log_tamper.py
-- Doc: Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LogTamperConfig` (class, line 71) `class LogTamperConfig`
-  - `LogTamper` (class, line 95) `class LogTamper`
-  - `__init__` (method, line 105) `def __init__(self, config)`
-  - `windows_clear_commands` (method, line 108) `def windows_clear_commands(self)`
-  - `linux_clear_commands` (method, line 176) `def linux_clear_commands(self)`
-  - `macos_clear_commands` (method, line 243) `def macos_clear_commands(self)`
-  - `generate_all` (method, line 295) `def generate_all(self)`
-  - `auditd_disable_commands` (method, line 307) `def auditd_disable_commands(self)`
-  - `sysmon_disable_commands` (method, line 341) `def sysmon_disable_commands(self)`
-- Imported by: `cli/commands/opsec_cleanup.py`
-
-## modules/logging_config.py
-- Doc: Centralized logging configuration for the LazyOwn framework.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `ColoredFormatter` (class, line 36) `class ColoredFormatter(Formatter)`
-  - `JsonFormatter` (class, line 53) `class JsonFormatter(Formatter)`
-  - `CorrelationFilter` (class, line 91) `class CorrelationFilter(Filter)`
-  - `ResilientRotatingFileHandler` (class, line 103) `class ResilientRotatingFileHandler(RotatingFileHandler)`
-  - `set_correlation_id` (function, line 134) `def set_correlation_id(cid)`
-  - `get_correlation_id` (function, line 139) `def get_correlation_id()`
-  - `clear_correlation_id` (function, line 144) `def clear_correlation_id()`
-  - `_ensure_log_dir_writable` (function, line 156) `def _ensure_log_dir_writable(log_dir)`
-  - `_use_json_format` (function, line 235) `def _use_json_format()`
-  - `configure` (function, line 244) `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)`
-  - `get_logger` (function, line 328) `def get_logger(name, level)`
-  - `set_level` (function, line 357) `def set_level(name, level)`
-  - `set_quiet` (function, line 367) `def set_quiet()`
-  - `set_verbose` (function, line 373) `def set_verbose()`
-  - `silence_module` (function, line 379) `def silence_module(name)`
-  - `reset` (function, line 388) `def reset()`
-  - `format` (method, line 39) `def format(self, record)`
-  - `format` (method, line 72) `def format(self, record)`
-  - `filter` (method, line 94) `def filter(self, record)`
-  - `emit` (method, line 116) `def emit(self, record)`
-  - `handleError` (method, line 122) `def handleError(self, record)`
-- Depends on: `core/logging.py`
-- Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
 
 
 Next: [KB_modules_p11.md](KB_modules_p11.md)

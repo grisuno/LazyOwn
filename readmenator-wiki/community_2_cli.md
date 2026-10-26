@@ -117,7 +117,7 @@ This community groups 126 file(s) rooted at `tests` with dominant language py (c
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 507
-- Cross-boundary resolved imports (EXTRACTED): 330
+- Cross-boundary resolved imports (EXTRACTED): 331
 
 ## Connections
 

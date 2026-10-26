@@ -200,6 +200,13 @@
         </div>
         <div id="toastr" onclick="clearToastr();" class="toastr alert alert-success" role="alert">
         </div>
+        <div id="nodeContextMenu" class="node-context-menu">
+            <div class="node-context-header" id="nodeContextMenuTitle">host</div>
+            <button type="button" class="node-context-item" id="menuScanLazynmap">Nmap scan (lazynmap)</button>
+            <button type="button" class="node-context-item" id="menuRunAutoLoop">AI auto_loop on this host...</button>
+            <button type="button" class="node-context-item" id="menuFillTerminal">Fill local shell command</button>
+            <button type="button" class="node-context-item" id="menuCopyIp">Copy IP</button>
+        </div>
         <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
         <script src="/static/js/popper-2.5.4.min.js"></script>
         <script src="/static/js/bootstrap-4.5.2.min.js"></script>
@@ -367,6 +374,388 @@
             function sendCommand(cmd) {
                 term.write(cmd);
                 commandBuffer = cmd;
+            }
+            var IPV4_RE = /^(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$/;
+            var IPV6_RE = /^[0-9a-fA-F:]{2,45}$/;
+            function isValidIp(ip) {
+                return IPV4_RE.test(ip) || (IPV6_RE.test(ip) && ip.indexOf(':') !== -1);
+            }
+            var nodeMenu = document.getElementById('nodeContextMenu');
+            var nodeMenuTitle = document.getElementById('nodeContextMenuTitle');
+            var nodeMenuIp = '';
+            document.addEventListener('mousemove', function(e) {
+                window._lastMouseX = e.pageX;
+                window._lastMouseY = e.pageY;
+            });
+            document.addEventListener('mousedown', function(e) {
+                if (nodeMenu && !nodeMenu.contains(e.target)) {
+                    nodeMenu.style.display = 'none';
+                }
+            });
+            window.addEventListener('scroll', hideNodeMenu);
+            window.addEventListener('resize', hideNodeMenu);
+            function hideNodeMenu() {
+                if (nodeMenu) {
+                    nodeMenu.style.display = 'none';
+                }
+            }
+            function showNodeMenu(x, y, ip) {
+                if (!nodeMenu) {
+                    return;
+                }
+                nodeMenuIp = ip;
+                nodeMenuTitle.textContent = 'host ' + ip;
+                var menuWidth = nodeMenu.offsetWidth || 240;
+                var menuHeight = nodeMenu.offsetHeight || 180;
+                var left = Math.min(x, Math.max(0, window.pageXOffset + window.innerWidth - menuWidth - 12));
+                var top = Math.min(y, Math.max(0, window.pageYOffset + window.innerHeight - menuHeight - 12));
+                nodeMenu.style.left = left + 'px';
+                nodeMenu.style.top = top + 'px';
+                nodeMenu.style.display = 'block';
+            }
+            function switchToSection(target) {
+                var link = document.querySelector('.nav-link[data-target="' + target + '"]');
+                if (link) {
+                    link.click();
+                }
+            }
+            var loopsState = {
+                loops: [],
+                selectedId: null,
+                logOffset: 0,
+                autoscroll: true,
+                timer: null
+            };
+            var loopViewer = null;
+            function getLoopViewer() {
+                if (!loopViewer) {
+                    loopViewer = document.getElementById('loopLogViewer');
+                }
+                return loopViewer;
+            }
+            function loopStatusLabel(status) {
+                var labels = {
+                    running: 'RUNNING',
+                    stopping: 'STOPPING',
+                    finished: 'FINISHED',
+                    failed: 'FAILED',
+                    stopped: 'STOPPED',
+                    lost: 'LOST'
+                };
+                return labels[status] || String(status || '?').toUpperCase();
+            }
+            function fmtLoopStarted(iso) {
+                if (!iso) {
+                    return '';
+                }
+                var d = new Date(iso);
+                return isNaN(d.getTime()) ? iso : d.toLocaleString();
+            }
+            function renderLoopsTable() {
+                var body = document.getElementById('loopsTableBody');
+                var badge = document.getElementById('loopCountBadge');
+                if (!body) {
+                    return;
+                }
+                var running = loopsState.loops.filter(function(l) { return l.status === 'running'; }).length;
+                if (badge) {
+                    badge.textContent = running + '/' + loopsState.loops.length + ' running';
+                }
+                body.textContent = '';
+                if (!loopsState.loops.length) {
+                    var emptyTr = document.createElement('tr');
+                    var emptyTd = document.createElement('td');
+                    emptyTd.colSpan = 7;
+                    emptyTd.className = 'text-muted text-center py-3';
+                    emptyTd.textContent = 'No autonomous loops yet. Click a host node or use the form above.';
+                    emptyTr.appendChild(emptyTd);
+                    body.appendChild(emptyTr);
+                    return;
+                }
+                loopsState.loops.forEach(function(loop) {
+                    var tr = document.createElement('tr');
+                    if (loop.id === loopsState.selectedId) {
+                        tr.classList.add('selected');
+                    }
+                    var cells = [
+                        fmtLoopStarted(loop.started_at),
+                        loop.kind,
+                        loop.target,
+                        loop.goal || '',
+                        loopStatusLabel(loop.status),
+                        loop.started_by || ''
+                    ];
+                    cells.forEach(function(value) {
+                        var td = document.createElement('td');
+                        td.textContent = value;
+                        tr.appendChild(td);
+                    });
+                    var statusTd = tr.children[4];
+                    statusTd.classList.add('loop-status-' + (loop.status || 'lost'));
+                    var actionsTd = document.createElement('td');
+                    var viewBtn = document.createElement('button');
+                    viewBtn.type = 'button';
+                    viewBtn.className = 'btn btn-sm btn-primary mr-1';
+                    viewBtn.textContent = 'View';
+                    viewBtn.addEventListener('click', function(ev) {
+                        ev.stopPropagation();
+                        selectLoop(loop.id);
+                    });
+                    actionsTd.appendChild(viewBtn);
+                    if (loop.status === 'running' || loop.status === 'stopping') {
+                        var stopBtn = document.createElement('button');
+                        stopBtn.type = 'button';
+                        stopBtn.className = 'btn btn-sm btn-danger';
+                        stopBtn.textContent = 'Stop';
+                        stopBtn.addEventListener('click', function(ev) {
+                            ev.stopPropagation();
+                            stopLoop(loop.id);
+                        });
+                        actionsTd.appendChild(stopBtn);
+                    }
+                    tr.appendChild(actionsTd);
+                    tr.addEventListener('click', function() {
+                        selectLoop(loop.id);
+                    });
+                    body.appendChild(tr);
+                });
+            }
+            function updateLoopLogTitle(loop) {
+                var title = document.getElementById('loopLogTitle');
+                if (!title || !loop) {
+                    return;
+                }
+                title.textContent = loop.kind + ' ' + loop.target + ' — ' + loopStatusLabel(loop.status);
+            }
+            function selectLoop(loopId) {
+                loopsState.selectedId = loopId;
+                loopsState.logOffset = 0;
+                var viewer = getLoopViewer();
+                if (viewer) {
+                    viewer.textContent = '';
+                }
+                renderLoopsTable();
+                switchToSection('auto-loops');
+                pollSelectedLog();
+            }
+            async function pollSelectedLog() {
+                if (!loopsState.selectedId) {
+                    return;
+                }
+                var current = null;
+                for (var i = 0; i < loopsState.loops.length; i++) {
+                    if (loopsState.loops[i].id === loopsState.selectedId) {
+                        current = loopsState.loops[i];
+                        break;
+                    }
+                }
+                if (!current) {
+                    return;
+                }
+                try {
+                    var res = await fetch('/api/loops/' + encodeURIComponent(loopsState.selectedId) + '/log?offset=' + loopsState.logOffset);
+                    if (!res.ok) {
+                        return;
+                    }
+                    var data = await res.json();
+                    var viewer = getLoopViewer();
+                    if (!viewer) {
+                        return;
+                    }
+                    if (loopsState.logOffset === 0) {
+                        viewer.textContent = '';
+                    }
+                    if (data.chunk) {
+                        viewer.appendChild(document.createTextNode(data.chunk));
+                        if (loopsState.autoscroll) {
+                            viewer.scrollTop = viewer.scrollHeight;
+                        }
+                    }
+                    loopsState.logOffset = data.offset || 0;
+                    updateLoopLogTitle(current);
+                } catch (err) {
+                    return;
+                }
+            }
+            async function pollLoops() {
+                try {
+                    var res = await fetch('/api/loops');
+                    if (!res.ok) {
+                        return;
+                    }
+                    var data = await res.json();
+                    loopsState.loops = data.loops || [];
+                    renderLoopsTable();
+                    await pollSelectedLog();
+                } catch (err) {
+                    return;
+                }
+            }
+            function startLoopsPolling() {
+                if (loopsState.timer) {
+                    return;
+                }
+                pollLoops();
+                loopsState.timer = setInterval(pollLoops, 2500);
+            }
+            async function startLoop(payload) {
+                var msg = document.getElementById('loopStartMessage');
+                var showMessage = function(text, ok) {
+                    if (!msg) {
+                        return;
+                    }
+                    msg.textContent = text;
+                    msg.className = ok ? 'text-success' : 'text-danger';
+                };
+                try {
+                    var res = await fetch('/api/loops', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    var data = await res.json().catch(function() { return {}; });
+                    if (!res.ok) {
+                        showMessage(data.error || ('loop start failed (' + res.status + ')'), false);
+                        return null;
+                    }
+                    showMessage('loop ' + (data.id || '').slice(0, 8) + ' started on ' + data.target, true);
+                    selectLoop(data.id);
+                    return data;
+                } catch (err) {
+                    showMessage('network error while starting loop', false);
+                    return null;
+                }
+            }
+            async function stopLoop(loopId) {
+                try {
+                    var res = await fetch('/api/loops/' + encodeURIComponent(loopId) + '/stop', { method: 'POST' });
+                    if (!res.ok) {
+                        var data = await res.json().catch(function() { return {}; });
+                        var msg = document.getElementById('loopStartMessage');
+                        if (msg) {
+                            msg.textContent = data.error || ('stop failed (' + res.status + ')');
+                            msg.className = 'text-danger';
+                        }
+                    }
+                } catch (err) {
+                    return;
+                }
+            }
+            function setupLoopsUi() {
+                var form = document.getElementById('loopStartForm');
+                if (form) {
+                    form.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        var kind = document.getElementById('loopKind').value;
+                        var target = document.getElementById('loopTarget').value.trim();
+                        if (!isValidIp(target)) {
+                            var msg = document.getElementById('loopStartMessage');
+                            if (msg) {
+                                msg.textContent = 'target must be a valid IP address';
+                                msg.className = 'text-danger';
+                            }
+                            return;
+                        }
+                        var payload = { kind: kind, target: target };
+                        if (kind === 'auto_loop') {
+                            payload.goal = document.getElementById('loopGoal').value;
+                            payload.rounds = parseInt(document.getElementById('loopRounds').value, 10) || 6;
+                            payload.workers = parseInt(document.getElementById('loopWorkers').value, 10) || 2;
+                            payload.timeout = parseInt(document.getElementById('loopTimeout').value, 10) || 0;
+                        }
+                        startLoop(payload);
+                    });
+                    var kindSelect = document.getElementById('loopKind');
+                    var toggleGoal = function() {
+                        var group = document.getElementById('loopGoalGroup');
+                        if (group) {
+                            group.style.display = kindSelect.value === 'auto_loop' ? '' : 'none';
+                        }
+                    };
+                    kindSelect.addEventListener('change', toggleGoal);
+                    toggleGoal();
+                }
+                var scanBtn = document.getElementById('menuScanLazynmap');
+                if (scanBtn) {
+                    scanBtn.addEventListener('click', function() {
+                        var ip = nodeMenuIp;
+                        hideNodeMenu();
+                        if (!isValidIp(ip)) {
+                            return;
+                        }
+                        startLoop({ kind: 'lazynmap', target: ip });
+                    });
+                }
+                var loopBtn = document.getElementById('menuRunAutoLoop');
+                if (loopBtn) {
+                    loopBtn.addEventListener('click', function() {
+                        var ip = nodeMenuIp;
+                        hideNodeMenu();
+                        if (!isValidIp(ip)) {
+                            return;
+                        }
+                        document.getElementById('loopKind').value = 'auto_loop';
+                        document.getElementById('loopTarget').value = ip;
+                        document.getElementById('loopKind').dispatchEvent(new Event('change'));
+                        switchToSection('auto-loops');
+                        var goal = document.getElementById('loopGoal');
+                        goal.value = 'gain initial access on ' + ip;
+                        goal.focus();
+                    });
+                }
+                var fillBtn = document.getElementById('menuFillTerminal');
+                if (fillBtn) {
+                    fillBtn.addEventListener('click', function() {
+                        var ip = nodeMenuIp;
+                        hideNodeMenu();
+                        if (!isValidIp(ip)) {
+                            return;
+                        }
+                        switchToSection('local-shell');
+                        sendCommand('lazynmap ' + ip);
+                    });
+                }
+                var copyBtn = document.getElementById('menuCopyIp');
+                if (copyBtn) {
+                    copyBtn.addEventListener('click', function() {
+                        var ip = nodeMenuIp;
+                        hideNodeMenu();
+                        if (!isValidIp(ip)) {
+                            return;
+                        }
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            navigator.clipboard.writeText(ip);
+                        }
+                    });
+                }
+                var clearBtn = document.getElementById('loopLogClear');
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', function() {
+                        loopsState.logOffset = 0;
+                        var viewer = getLoopViewer();
+                        if (viewer) {
+                            viewer.textContent = '';
+                        }
+                        pollSelectedLog();
+                    });
+                }
+                var autoscrollBtn = document.getElementById('loopLogAutoscrollToggle');
+                if (autoscrollBtn) {
+                    autoscrollBtn.addEventListener('click', function() {
+                        loopsState.autoscroll = !loopsState.autoscroll;
+                        autoscrollBtn.style.opacity = loopsState.autoscroll ? '1' : '0.4';
+                    });
+                }
+                var fullscreenBtn = document.getElementById('loopLogFullscreen');
+                if (fullscreenBtn) {
+                    fullscreenBtn.addEventListener('click', function() {
+                        var viewer = getLoopViewer();
+                        if (viewer) {
+                            viewer.style.height = viewer.style.height === '80vh' ? '' : '80vh';
+                        }
+                    });
+                }
+                startLoopsPolling();
             }
             function applyFilters() {
                 var filterClients = document.getElementById('filter-clients').checked;
@@ -1321,10 +1710,11 @@
                         if (params.nodes.length > 0) {
                             var selectedNodeId = params.nodes[0];
                             var selectElements = document.querySelectorAll('select');
-                            if (selectedNodeId.startsWith("host")) {
+                            if (selectedNodeId.startsWith("host-")) {
                                 var host = selectedNodeId.replace('host-', '').replace(/-/g, '.');
-                                cmd = "lazynmap " + host;
-                                sendCommand(cmd);
+                                if (isValidIp(host)) {
+                                    showNodeMenu(window._lastMouseX || 240, window._lastMouseY || 240, host);
+                                }
                             }
                             selectElements.forEach(function(selectElement) {
                                 Array.from(selectElement.options).forEach(function(option) {
@@ -1363,6 +1753,7 @@
 
                 updateStatus();
                 generateGraph(connectedClients, connectedHosts);
+                setupLoopsUi();
 
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.addEventListener('click', function(event) {

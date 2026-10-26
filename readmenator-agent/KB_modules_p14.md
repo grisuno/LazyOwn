@@ -1,6 +1,90 @@
 # Subsystem: modules (page 14 of 16)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
 
+## modules/resource_script.py
+- Doc: Enhanced resource script engine — variables, conditionals, loops, macros.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ScriptError` (class, line 76) `class ScriptError(RuntimeError)`
+  - `ScriptContext` (class, line 82) `class ScriptContext`
+  - `ResourceScriptEngine` (class, line 268) `class ResourceScriptEngine`
+  - `__init__` (method, line 89) `def __init__(self, shell_params, on_command, on_print)`
+  - `_resolve` (method, line 124) `def _resolve(self, text)`
+  - `print` (method, line 138) `def print(self, msg)`
+  - `run_command` (method, line 147) `def run_command(self, cmd)`
+  - `_skip` (method, line 165) `def _skip(self)`
+  - `_lookup` (method, line 168) `def _lookup(self, name)`
+  - `_resolve_operand` (method, line 183) `def _resolve_operand(self, operand)`
+  - `eval_condition` (method, line 191) `def eval_condition(self, raw_condition)`
+  - `_compare` (method, line 220) `def _compare(left, op, right)`
+  - `_jump_past` (method, line 251) `def _jump_past(self, open_res, close_re)`
+  - `__init__` (method, line 276) `def __init__(self, context)`
+  - `execute` (method, line 279) `def execute(self, script_path)`
+  - `execute_lines` (method, line 293) `def execute_lines(self, lines, source)`
+  - `execute_string` (method, line 327) `def execute_string(self, script)`
+  - `_extract_macros` (method, line 331) `def _extract_macros(self, lines)`
+  - `_execute_line` (method, line 347) `def _execute_line(self, raw)`
+  - `_call_macro` (method, line 537) `def _call_macro(self, name, args)`
+  - `_repl` (function, line 125) `def _repl(m)`
+- Depends on: `core/safe_exec.py`
+- Imported by: `cli/commands/resource_scripting.py`, `tests/test_resource_script.py`, `tests/test_security_hardening_v3.py`
+
+## modules/retry_session.py
+- Doc: Retry sessions - safely relaunch a failed verb or a failed run.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `is_active` (function, line 56) `def is_active()`
+  - `secret_enabled_path` (function, line 61) `def secret_enabled_path()`
+  - `_verify_askpass_layout` (function, line 67) `def _verify_askpass_layout(helper, secret_file)`
+  - `sudo_gate_open` (function, line 79) `def sudo_gate_open()`
+  - `set_sudo_secret` (function, line 94) `def set_sudo_secret(secret)`
+  - `clear_sudo_secret` (function, line 125) `def clear_sudo_secret()`
+  - `apply_sudo_askpass` (function, line 137) `def apply_sudo_askpass(command)`
+  - `_rewrite_segment` (function, line 162) `def _rewrite_segment(segment)`
+  - `newest_failed_checkpoint` (function, line 180) `def newest_failed_checkpoint(chain, run_id)`
+  - `resolve_sudo_consent` (function, line 204) `def resolve_sudo_consent(confirmer, want_sudo)`
+- Depends on: `modules/chain_state.py`
+- Imported by: `cli/retry_support.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_retry_session.py`
+
+## modules/reverse-shell.c
+- Doc: reverse_shell_init: call_usermodehelper function is used to create user mode processes from...
+- Layer: utility
+- Language: c
+- Symbols:
+  - `reverse_shell_init` (function, line 12) `static int __init reverse_shell_init(void)`
+  - `reverse_shell_exit` (function, line 16) `static void __exit reverse_shell_exit(void)`
+
+## modules/revshell.c
+- Layer: utility
+- Language: c
+- Symbols:
+  - `xlAutoOpen` (function, line 5) `void __cdecl xlAutoOpen()`
+  - `DllMain` (function, line 10) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
+
+## modules/rich_tui.py
+- Doc: Rich-based live TUI dashboard for LazyOwn campaign monitoring.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RichDashboard` (class, line 66) `class RichDashboard`
+  - `__init__` (method, line 74) `def __init__(self, dashboard_engine, refresh_interval, live)`
+  - `run` (method, line 96) `def run(self)`
+  - `stop` (method, line 132) `def stop(self)`
+  - `_render` (method, line 137) `def _render(self)`
+  - `_keyboard_listener` (method, line 146) `def _keyboard_listener(self)`
+  - `_render_layout` (method, line 168) `def _render_layout(self, snapshot)`
+  - `_render_header` (method, line 193) `def _render_header(self, snapshot)`
+  - `_render_topology` (method, line 221) `def _render_topology(self, snapshot)`
+  - `_render_recommendations` (method, line 261) `def _render_recommendations(self, snapshot)`
+  - `_render_pivots_beacons` (method, line 321) `def _render_pivots_beacons(self, snapshot)`
+  - `_render_pivots` (method, line 337) `def _render_pivots(self, snapshot)`
+  - `_render_beacons` (method, line 372) `def _render_beacons(self, snapshot)`
+  - `_render_shortcuts` (method, line 413) `def _render_shortcuts(self)`
+- Depends on: `core/console.py`, `modules/dashboard_engine.py`
+- Imported by: `cli/commands/pwn.py`
+
 ## modules/rl_trainer.py
 - Doc: modules/rl_trainer.py
 - Layer: utility
@@ -397,93 +481,6 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `export_summary` (method, line 821) `def export_summary(self)`
 - Depends on: `core/logging.py`, `modules/db.py`, `modules/event_bus.py`, `modules/world_model.py`
 - Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`, `tests/test_single_source_of_truth.py`
-
-## modules/stego_video.py
-- Doc: Video steganography addon for LazyOwn.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `load_payload_file` (function, line 26) `def load_payload_file()`
-  - `is_zip` (function, line 36) `def is_zip(path)`
-  - `is_video` (function, line 40) `def is_video(path)`
-  - `prompt_path` (function, line 44) `def prompt_path(message)`
-  - `resolve_path` (function, line 52) `def resolve_path(arg_path, payload_file, validator, kind)`
-  - `generate_carrier` (function, line 61) `def generate_carrier(output)`
-  - `encode` (function, line 75) `def encode(zip_path, output_video)`
-  - `decode` (function, line 93) `def decode(stego_video, output_zip)`
-  - `default_output` (function, line 113) `def default_output(zip_path)`
-  - `main` (function, line 118) `def main(argv)`
-
-## modules/sudo_tiocsti.py
-- Doc: – Production‑grade TIOCSTI injection with multiple attack modes.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `get_controlling_tty` (function, line 52) `def get_controlling_tty()`
-  - `inject_byte` (function, line 64) `def inject_byte(fd, byte_char)`
-  - `inject_payload` (function, line 79) `def inject_payload(fd, payload, char_delay)`
-  - `get_sudo_pids_on_tty` (function, line 102) `def get_sudo_pids_on_tty(tty_path)`
-  - `sudo_cache_valid` (function, line 139) `def sudo_cache_valid()`
-  - `mode_poll` (function, line 149) `def mode_poll(fd, tty_path)`
-  - `mode_prefill` (function, line 175) `def mode_prefill(fd)`
-  - `mode_cache` (function, line 185) `def mode_cache(fd)`
-  - `main` (function, line 198) `def main()`
-- Depends on: `core/logging.py`
-
-## modules/surface_ops.py
-- Doc: Pure attack-surface helpers (no cmd2): discovery targets, confirm parsing.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `is_ipv4` (function, line 18) `def is_ipv4(value)`
-  - `parse_confirm` (function, line 26) `def parse_confirm(answer)`
-  - `discovery_targets` (function, line 31) `def discovery_targets(sessions_dir)`
-  - `write_world_model_hosts` (function, line 50) `def write_world_model_hosts(document, sessions)`
-- Depends on: `modules/world_model.py`
-- Imported by: `cli/commands/surface.py`, `tests/test_estorides_fusion.py`
-
-## modules/test_lazyencoder_decoder.py
-- Layer: testing
-- Language: py
-- Depends on: `modules/lazyencoder_decoder.py`
-
-## modules/threat_model.py
-- Doc: — Blue team threat model builder for LazyOwn.
-- Layer: business_logic
-- Language: py
-- Symbols:
-  - `_extract_iocs` (function, line 245) `def _extract_iocs(text, first_seen)`
-  - `ThreatModelBuilder` (class, line 267) `class ThreatModelBuilder`
-  - `get_builder` (function, line 592) `def get_builder()`
-  - `build` (method, line 270) `def build(self)`
-  - `load` (method, line 293) `def load(self)`
-  - `_load_csv` (method, line 305) `def _load_csv(self)`
-  - `_build_assets` (method, line 318) `def _build_assets(self, rows)`
-  - `_risk_score` (method, line 352) `def _risk_score(self, commands, ports)`
-  - `_compromise_indicators` (method, line 388) `def _compromise_indicators(self, commands)`
-  - `_build_ttps` (method, line 404) `def _build_ttps(self, rows)`
-  - `_build_iocs` (method, line 444) `def _build_iocs(self, rows)`
-  - `_build_detection_rules` (method, line 475) `def _build_detection_rules(self, ttps)`
-  - `_build_purple_team` (method, line 505) `def _build_purple_team(self, ttps, detection_rules)`
-  - `_build_summary` (method, line 560) `def _build_summary(self, rows, assets, ttps)`
-  - `_save` (method, line 578) `def _save(self, model)`
-  - `_add` (function, line 448) `def _add(ioc)`
-- Depends on: `core/logging.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-
-## modules/timeline_narrator.py
-- Doc: LazyOwn Timeline Narrator
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_load_events` (function, line 57) `def _load_events(n)`
-  - `_format_events_for_prompt` (function, line 77) `def _format_events_for_prompt(events)`
-  - `_call_ai` (function, line 97) `def _call_ai(api_key, events_text, target)`
-  - `_write_timeline` (function, line 115) `def _write_timeline(narrative, event_count, target)`
-  - `narrate` (function, line 130) `def narrate(api_key, force)`
-  - `load_timeline` (function, line 165) `def load_timeline()`
-- Depends on: `modules/ai_fallback.py`
-- Imported by: `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
 
 
 Next: [KB_modules_p15.md](KB_modules_p15.md)

@@ -4,12 +4,15 @@ Previous: [INDEX.md](INDEX.md)
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
 | `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 14 | 8 |
+| `modules/lazy_cve_feed.py` | Keyless CVE intelligence feeds and version-aware service correlation. | modules | 23 | 2 |
 | `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 33 |
+| `modules/lazy_heat.py` | Heat tiers and version math for CVE correlation. | modules | 11 | 4 |
 | `modules/lazy_installer.py` | Capability installer for the Lazy autonomous loop. | modules | 6 | 3 |
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 461 | 57 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 465 | 58 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_orchestrator_feedback.py` | Organic orchestrator training from loop usage. | modules | 11 | 5 |
+| `modules/lazy_osinfer.py` | Target OS inference and OS-aware verb gating. | modules | 11 | 0 |
 | `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 67 | 5 |
 | `modules/lazy_rbac.py` | modules/lazy_rbac.py | modules | 86 | 10 |
 | `modules/lazy_roles.py` | Lazy specialist roles for the autonomous loop. | modules | 4 | 2 |
@@ -18,6 +21,8 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_skill_mirror.py` | Mirror LazyOwn skills for Hermes discovery. | modules | 7 | 1 |
 | `modules/lazy_skills.py` | Skill context injection for planner/worker prompts. | modules | 7 | 4 |
 | `modules/lazy_summarizer.py` | Bounded chain summarizer for the Lazy autonomous loop. | modules | 5 | 0 |
+| `modules/lazy_surface_diff.py` | Surface snapshot and diff: what changed about a host since last look. | modules | 9 | 0 |
+| `modules/lazy_verify.py` | Structured read-only verification of loop findings. | modules | 8 | 0 |
 | `modules/lazyatack.sh` | Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico... | modules | 30 | 0 |
 | `modules/lazybrutesshuserenum.sh` | Función para manejar el interruptor de señal Ctrl+C | modules | 0 | 0 |
 | `modules/lazyclonewars.sh` | Lista de repositorios (nombre y URL) | modules | 0 | 0 |
@@ -57,8 +62,9 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/logging_config.py` | Centralized logging configuration for the LazyOwn framework. | modules | 21 | 23 |
 | `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 23 | 7 |
 | `modules/loop_guardrails.py` | Adaptive guardrails for the autonomous loop. | modules | 32 | 3 |
+| `modules/loop_manager.py` | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | modules | 31 | 2 |
 | `modules/loop_progress.py` | Rich Live milestone panel for the autonomous loop. | modules | 15 | 4 |
-| `modules/loop_triggers.py` | TriggerStore: persistent loop triggers extracted from the loop core. | modules | 11 | 6 |
+| `modules/loop_triggers.py` | TriggerStore: persistent loop triggers extracted from the loop core. | modules | 12 | 6 |
 | `modules/macos_payloads.py` | macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC. | modules | 16 | 1 |
 | `modules/mario.py` | - | modules | 1 | 0 |
 | `modules/mcp_agent_bridge.py` | LazyOwn MCP Agent Bridge | modules | 21 | 2 |
@@ -181,7 +187,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 | 0 |
 | `modules/wineconfig.sh` | - | modules | 0 | 0 |
 | `modules/workspace.py` | Confined workspace file browser for operators and loop agents. | modules | 7 | 1 |
-| `modules/world_model.py` | modules/world_model.py | modules | 70 | 66 |
+| `modules/world_model.py` | modules/world_model.py | modules | 70 | 70 |
 | `modules/yaml_generator.py` | load_payload: Carga las variables desde payload.json | modules | 8 | 0 |
 | `modules/yara_scanner.py` | YARA integration for malware classification and IOC scanning. | modules | 16 | 2 |
 | `mutate.sh` | - | root | 0 | 0 |
@@ -412,7 +418,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_bridge_catalog_filtered.py` | tests/test_bridge_catalog_filtered.py  Tests for ``BridgeDispatcher.catalog_summary_filtered``... | tests | 20 | 0 |
 | `tests/test_broadcom_wps_addon.py` | tests/test_broadcom_wps_addon.py  Validation suite for the broadcom_wps lazyaddon and its... | tests | 50 | 0 |
 | `tests/test_c2_agent.py` | Malleable C2 agent: template safety, key ownership, record reading. | tests | 20 | 0 |
-| `tests/test_c2_agent_dual.py` | Dual C2 client profiles (lowpriv/root) contract tests. | tests | 17 | 0 |
+| `tests/test_c2_agent_dual.py` | Dual C2 client profiles (lowpriv/root) contract tests. | tests | 31 | 0 |
 | `tests/test_c2_profile_engine.py` | Tests for modules/c2_profile_engine.py — TlsProfile, DnsProfile, SmbProfile, WebSocketProfile... | tests | 63 | 0 |
 | `tests/test_c2_route_auth.py` | Guard the C2 route-level auth boundaries. | tests | 5 | 0 |
 | `tests/test_c2_shell_lazy.py` | The C2 must not build the CLI shell at module load. | tests | 14 | 0 |
@@ -462,6 +468,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_credentials_rotation.py` | Tests for CredMigratedCommandSet._rotate_existing_credentials. | tests | 9 | 0 |
 | `tests/test_csrf_behavior.py` | BDD behavior scenarios for the CSRF contract. | tests | 6 | 0 |
 | `tests/test_csrf_policy.py` | TDD tests for the CSRF policy contract. | tests | 24 | 0 |
+| `tests/test_cve_pipeline.py` | CVE pipeline tests: loop/apt_chain findings must reach the intel graph. | tests | 11 | 0 |
 | `tests/test_daemon_control.py` | Unit tests for skills.daemon_control. | tests | 29 | 0 |
 | `tests/test_daemon_ctl_command_set.py` | Daemon command set extraction tests. | tests | 9 | 0 |
 | `tests/test_daemon_loop.py` | BDD tests for the integrated autonomous loop in the daemon. | tests | 30 | 0 |
@@ -489,12 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_exploitgym_gym.py` | Tests for the ExploitGym integration module. | tests | 27 | 0 |
 | `tests/test_exploration_and_addons.py` | tests/test_exploration_and_addons.py  Coverage for the new exploration engine and addon schema... | tests | 36 | 0 |
 | `tests/test_f4_hardening.py` | F4 hardening: verb watchdog, chain fact spool, ctf CLI, foothold chain. | tests | 24 | 0 |
-| `tests/test_finding_lifecycle.py` | Finding confirmation lifecycle + keyless OSINT enrichment. | tests | 10 | 0 |
-| `tests/test_fuzzy_picker.py` | Tests for cli/fuzzy_picker.py and lint-regression for lazyown.py. | tests | 25 | 0 |
-| `tests/test_golden_path.py` | Contract tests for the deterministic golden-path solver. | tests | 14 | 0 |
-| `tests/test_graph_advisor.py` | Tests for cli/graph_advisor.py. | tests | 25 | 0 |
-| `tests/test_graph_overlay.py` | Tests for cli/graph_overlay.py. | tests | 14 | 0 |
-| `tests/test_guardrails.py` | Guardrail harness tests: tiers, capacity, warm restart, wiring. | tests | 59 | 0 |
-| `tests/test_gui_xss_sinks.py` | Regression gate for XSS sinks in the C2 dashboard template. | tests | 9 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

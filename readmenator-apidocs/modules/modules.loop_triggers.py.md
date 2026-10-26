@@ -24,10 +24,16 @@ Solid arrows stay in this module, dashed arrows leave it.
 flowchart LR
     n_modules_loop_triggers_py__TriggerStore_ensure_service_trigger(["TriggerStore.ensure_service_trigger"])
     n_modules_loop_triggers_py__TriggerStore_add(["TriggerStore.add"])
+    n_modules_loop_triggers_py__TriggerStore_ensure_cve_hot_trigger(["TriggerStore.ensure_cve_hot_trigger"])
     n_modules_loop_triggers_py__TriggerStore_due(["TriggerStore.due"])
     n_modules_auto_registry_py__addon_hits_for["auto_registry.addon_hits_for"]
+    n_modules_lazy_cve_feed_py__hot_matches["lazy_cve_feed.hot_matches"]
+    n_modules_world_model_py__get_world_model["world_model.get_world_model"]
     n_modules_loop_triggers_py__TriggerStore_ensure_service_trigger --> n_modules_loop_triggers_py__TriggerStore_add
+    n_modules_loop_triggers_py__TriggerStore_ensure_cve_hot_trigger --> n_modules_loop_triggers_py__TriggerStore_add
     n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_auto_registry_py__addon_hits_for
+    n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_lazy_cve_feed_py__hot_matches
+    n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_world_model_py__get_world_model
 ```
 
 ## Classes
@@ -55,6 +61,7 @@ Persistent event/interval triggers like server/scheduler (P3).
 | [`set_enabled`](#triggerstore-set_enabled) | method | Flip one trigger's enabled flag in place. |
 | [`list`](#triggerstore-list) | method | Return all triggers. |
 | [`ensure_service_trigger`](#triggerstore-ensure_service_trigger) | method | Register the catalog trigger once so services fire the loop. |
+| [`ensure_cve_hot_trigger`](#triggerstore-ensure_cve_hot_trigger) | method | Register the hot-CVE trigger once so fresh intel fires the loop. |
 | [`due`](#triggerstore-due) | method | Evaluate triggers like the scheduler tick; fires at most once each. |
 
 <a id="triggerstore-__init__"></a>
@@ -103,7 +110,7 @@ Register a trigger; interval needs every_sec, events fire on new rows.
 
 - `ValueError`: (raised in the body, not documented)
 
-*Called by:* [`LazyCommandSet.do_lazy_trigger`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_trigger), [`OrchestratorAssetsMixin.add_trigger`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-add_trigger), [`triggers_add`](lazyc2.blueprints.orchestrator.py.md#triggers_add), [`TriggerStore.ensure_service_trigger`](#triggerstore-ensure_service_trigger)
+*Called by:* [`LazyCommandSet.do_lazy_trigger`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_trigger), [`OrchestratorAssetsMixin.add_trigger`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-add_trigger), [`triggers_add`](lazyc2.blueprints.orchestrator.py.md#triggers_add), [`TriggerStore.ensure_cve_hot_trigger`](#triggerstore-ensure_cve_hot_trigger), [`TriggerStore.ensure_service_trigger`](#triggerstore-ensure_service_trigger)
 
 <a id="triggerstore-upsert_defaults"></a>
 
@@ -207,11 +214,32 @@ tool names attached.
 
 *Calls:* [`TriggerStore.add`](#triggerstore-add)
 
+<a id="triggerstore-ensure_cve_hot_trigger"></a>
+
+#### `TriggerStore.ensure_cve_hot_trigger`
+
+`method` | [modules/loop_triggers.py:142](../../modules/loop_triggers.py#L142)
+
+```python
+def ensure_cve_hot_trigger(self) -> bool
+```
+
+Register the hot-CVE trigger once so fresh intel fires the loop.
+
+Every round, services newer than the watermark are correlated
+against keyless exploit intelligence (KEV, EPSS, public
+exploits); hot or warm matches steer the planner with a
+verification hint instead of raw scanning.
+
+**Returns:** `bool`
+
+*Calls:* [`TriggerStore.add`](#triggerstore-add)
+
 <a id="triggerstore-due"></a>
 
 #### `TriggerStore.due`
 
-`method` | [modules/loop_triggers.py:142](../../modules/loop_triggers.py#L142)
+`method` | [modules/loop_triggers.py:155](../../modules/loop_triggers.py#L155)
 
 ```python
 def due(self, task_id: str, graph, activity, assets=None, store=None) -> list[dict]
@@ -235,7 +263,7 @@ graph/activity driven.
 
 **Returns:** `list[dict]`
 
-*Calls:* [`addon_hits_for`](modules.auto_registry.py.md#addon_hits_for)
+*Calls:* [`addon_hits_for`](modules.auto_registry.py.md#addon_hits_for), [`hot_matches`](modules.lazy_cve_feed.py.md#hot_matches), [`get_world_model`](modules.world_model.py.md#get_world_model)
 
 *Called by:* [`LazyCommandSet.do_lazy_scheduler`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_scheduler)
 

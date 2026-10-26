@@ -20,8 +20,8 @@ Stdlib only.
 ## Contents
 
 - **Classes:** [`FindingRecord`](#findingrecord), [`RetestRecord`](#retestrecord)
-- **Functions:** [`confirm`](#confirm), [`reject`](#reject), [`add_dead_end`](#add_dead_end), [`is_dead_end`](#is_dead_end), [`suppressed_values`](#suppressed_values), [`resolve`](#resolve), [`apply_confirmation`](#apply_confirmation), [`record`](#record), [`findings_for`](#findings_for), [`set_status`](#set_status), [`has_running_retest`](#has_running_retest), [`request_retest`](#request_retest), [`resolve_retest`](#resolve_retest), [`classify_retest`](#classify_retest), [`render_markdown`](#render_markdown)
-- **Constants:** [`PENDING`](#pending), [`CONFIRMED`](#confirmed), [`REJECTED`](#rejected), [`STORE_FILENAME`](#store_filename), [`AUTO_CONFIRM_SOURCES`](#auto_confirm_sources), [`FINDING_STATUSES`](#finding_statuses), [`RETEST_CONCLUSIONS`](#retest_conclusions)
+- **Functions:** [`evidence_floor`](#evidence_floor), [`confirm`](#confirm), [`reject`](#reject), [`add_dead_end`](#add_dead_end), [`is_dead_end`](#is_dead_end), [`suppressed_values`](#suppressed_values), [`resolve`](#resolve), [`apply_confirmation`](#apply_confirmation), [`record`](#record), [`findings_for`](#findings_for), [`set_status`](#set_status), [`has_running_retest`](#has_running_retest), [`request_retest`](#request_retest), [`resolve_retest`](#resolve_retest), [`classify_retest`](#classify_retest), [`render_markdown`](#render_markdown)
+- **Constants:** [`PENDING`](#pending), [`CONFIRMED`](#confirmed), [`REJECTED`](#rejected), [`STORE_FILENAME`](#store_filename), [`AUTO_CONFIRM_SOURCES`](#auto_confirm_sources), [`HARD_EVIDENCE_MARKERS`](#hard_evidence_markers), [`FINDING_STATUSES`](#finding_statuses), [`RETEST_CONCLUSIONS`](#retest_conclusions)
 
 ## Type Diagram
 
@@ -51,6 +51,7 @@ Solid arrows stay in this module, dashed arrows leave it.
 ```mermaid
 flowchart LR
     n_modules_finding_lifecycle_py__resolve(["resolve"])
+    n_modules_finding_lifecycle_py__evidence_floor(["evidence_floor"])
     n_modules_finding_lifecycle_py__is_dead_end(["is_dead_end"])
     n_modules_finding_lifecycle_py__apply_confirmation(["apply_confirmation"])
     n_modules_finding_lifecycle_py__record(["record"])
@@ -58,6 +59,7 @@ flowchart LR
     n_modules_finding_lifecycle_py__request_retest(["request_retest"])
     n_modules_finding_lifecycle_py__RetestRecord(["RetestRecord"])
     n_modules_finding_lifecycle_py__resolve_retest(["resolve_retest"])
+    n_modules_finding_lifecycle_py__resolve --> n_modules_finding_lifecycle_py__evidence_floor
     n_modules_finding_lifecycle_py__resolve --> n_modules_finding_lifecycle_py__is_dead_end
     n_modules_finding_lifecycle_py__apply_confirmation --> n_modules_finding_lifecycle_py__resolve
     n_modules_finding_lifecycle_py__record --> n_modules_finding_lifecycle_py__FindingRecord
@@ -71,7 +73,7 @@ flowchart LR
 
 ### `FindingRecord`
 
-`class` `dataclass` | [modules/finding_lifecycle.py:182](../../modules/finding_lifecycle.py#L182)
+`class` `dataclass` | [modules/finding_lifecycle.py:218](../../modules/finding_lifecycle.py#L218)
 
 Decorators: `@dataclass`
 
@@ -99,7 +101,7 @@ One campaign finding as stored on a vuln row.
 
 ### `RetestRecord`
 
-`class` `dataclass` | [modules/finding_lifecycle.py:195](../../modules/finding_lifecycle.py#L195)
+`class` `dataclass` | [modules/finding_lifecycle.py:231](../../modules/finding_lifecycle.py#L231)
 
 Decorators: `@dataclass`
 
@@ -123,11 +125,35 @@ One retest request/attempt for a finding.
 
 ## Functions
 
+<a id="evidence_floor"></a>
+
+### `evidence_floor`
+
+`function` | [modules/finding_lifecycle.py:52](../../modules/finding_lifecycle.py#L52)
+
+```python
+def evidence_floor(items: list[str] | None) -> bool
+```
+
+Whether hard evidence is present in a list of evidence strings.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `items` | `list[str] \| None` |  | Evidence strings (operator notes, OSINT verdicts, PoC output). |
+
+**Returns:** `bool` - True when at least one item carries hard evidence.
+
+*Called by:* [`resolve`](#resolve)
+
+---
+
 <a id="confirm"></a>
 
 ### `confirm`
 
-`function` | [modules/finding_lifecycle.py:61](../../modules/finding_lifecycle.py#L61)
+`function` | [modules/finding_lifecycle.py:94](../../modules/finding_lifecycle.py#L94)
 
 ```python
 def confirm(finding_id: str, evidence: list[str] | None = None, sessions_dir: str | Path = SESSIONS_DIR, by: str = 'operator') -> dict
@@ -155,7 +181,7 @@ Evidence mentioning a CVE id is auto-enriched with keyless OSINT
 
 ### `reject`
 
-`function` | [modules/finding_lifecycle.py:90](../../modules/finding_lifecycle.py#L90)
+`function` | [modules/finding_lifecycle.py:123](../../modules/finding_lifecycle.py#L123)
 
 ```python
 def reject(finding_id: str, reason: str = '', sessions_dir: str | Path = SESSIONS_DIR, by: str = 'operator') -> dict
@@ -180,7 +206,7 @@ Mark a finding rejected (disproven lead, CAIRN dead-end discipline).
 
 ### `add_dead_end`
 
-`function` | [modules/finding_lifecycle.py:104](../../modules/finding_lifecycle.py#L104)
+`function` | [modules/finding_lifecycle.py:137](../../modules/finding_lifecycle.py#L137)
 
 ```python
 def add_dead_end(kind: str, value: str, reason: str = '', sessions_dir: str | Path = SESSIONS_DIR) -> dict
@@ -205,7 +231,7 @@ Suppress a value campaign-wide with a labeled reason (dead_end_hashes).
 
 ### `is_dead_end`
 
-`function` | [modules/finding_lifecycle.py:116](../../modules/finding_lifecycle.py#L116)
+`function` | [modules/finding_lifecycle.py:149](../../modules/finding_lifecycle.py#L149)
 
 ```python
 def is_dead_end(kind: str, value: str, sessions_dir: str | Path = SESSIONS_DIR) -> bool
@@ -231,7 +257,7 @@ Return True when a kind/value pair sits on the suppression list.
 
 ### `suppressed_values`
 
-`function` | [modules/finding_lifecycle.py:123](../../modules/finding_lifecycle.py#L123)
+`function` | [modules/finding_lifecycle.py:156](../../modules/finding_lifecycle.py#L156)
 
 ```python
 def suppressed_values(sessions_dir: str | Path = SESSIONS_DIR) -> list[str]
@@ -253,7 +279,7 @@ Return every suppressed value for text-level filtering by the loop.
 
 ### `resolve`
 
-`function` | [modules/finding_lifecycle.py:129](../../modules/finding_lifecycle.py#L129)
+`function` | [modules/finding_lifecycle.py:162](../../modules/finding_lifecycle.py#L162)
 
 ```python
 def resolve(node: dict, sessions_dir: str | Path = SESSIONS_DIR) -> str
@@ -275,7 +301,7 @@ Non-finding nodes always resolve to pending.
 
 **Returns:** `str`
 
-*Calls:* [`is_dead_end`](#is_dead_end)
+*Calls:* [`evidence_floor`](#evidence_floor), [`is_dead_end`](#is_dead_end)
 
 *Called by:* [`apply_confirmation`](#apply_confirmation), [`ActivityLog.emit`](modules.lazy_loop.py.md#activitylog-emit), [`Worker.execute`](modules.lazy_loop.py.md#worker-execute)
 
@@ -285,7 +311,7 @@ Non-finding nodes always resolve to pending.
 
 ### `apply_confirmation`
 
-`function` | [modules/finding_lifecycle.py:154](../../modules/finding_lifecycle.py#L154)
+`function` | [modules/finding_lifecycle.py:190](../../modules/finding_lifecycle.py#L190)
 
 ```python
 def apply_confirmation(nodes: dict[str, dict], sessions_dir: str | Path = SESSIONS_DIR) -> None
@@ -308,7 +334,7 @@ Stamp ``confirmation``/``status`` on every finding node in place.
 
 ### `record`
 
-`function` | [modules/finding_lifecycle.py:234](../../modules/finding_lifecycle.py#L234)
+`function` | [modules/finding_lifecycle.py:270](../../modules/finding_lifecycle.py#L270)
 
 ```python
 def record(db, workspace: int, host: str, title: str, severity: str, summary: str = '', poc: str = '') -> FindingRecord
@@ -338,7 +364,7 @@ Record a campaign finding on the DB for one host.
 
 ### `findings_for`
 
-`function` | [modules/finding_lifecycle.py:259](../../modules/finding_lifecycle.py#L259)
+`function` | [modules/finding_lifecycle.py:295](../../modules/finding_lifecycle.py#L295)
 
 ```python
 def findings_for(db, workspace: int) -> list[FindingRecord]
@@ -361,7 +387,7 @@ List campaign findings with parsed status markers.
 
 ### `set_status`
 
-`function` | [modules/finding_lifecycle.py:264](../../modules/finding_lifecycle.py#L264)
+`function` | [modules/finding_lifecycle.py:300](../../modules/finding_lifecycle.py#L300)
 
 ```python
 def set_status(db, finding_id: str, status: str) -> bool
@@ -389,7 +415,7 @@ Set the lifecycle status marker on one finding.
 
 ### `has_running_retest`
 
-`function` | [modules/finding_lifecycle.py:310](../../modules/finding_lifecycle.py#L310)
+`function` | [modules/finding_lifecycle.py:346](../../modules/finding_lifecycle.py#L346)
 
 ```python
 def has_running_retest(finding_id: str, sessions_dir: str | Path = SESSIONS_DIR) -> bool
@@ -412,7 +438,7 @@ Return True while a retest for the finding is still running.
 
 ### `request_retest`
 
-`function` | [modules/finding_lifecycle.py:318](../../modules/finding_lifecycle.py#L318)
+`function` | [modules/finding_lifecycle.py:354](../../modules/finding_lifecycle.py#L354)
 
 ```python
 def request_retest(db, finding_id: str, sessions_dir: str | Path = SESSIONS_DIR) -> RetestRecord
@@ -438,7 +464,7 @@ Queue a retest; an already-running one is returned unchanged.
 
 ### `resolve_retest`
 
-`function` | [modules/finding_lifecycle.py:338](../../modules/finding_lifecycle.py#L338)
+`function` | [modules/finding_lifecycle.py:374](../../modules/finding_lifecycle.py#L374)
 
 ```python
 def resolve_retest(db, retest_id: str, conclusion: str, evidence: str = '', sessions_dir: str | Path = SESSIONS_DIR) -> RetestRecord
@@ -471,7 +497,7 @@ Close a retest, bump the evidence version and apply the verdict.
 
 ### `classify_retest`
 
-`function` | [modules/finding_lifecycle.py:384](../../modules/finding_lifecycle.py#L384)
+`function` | [modules/finding_lifecycle.py:420](../../modules/finding_lifecycle.py#L420)
 
 ```python
 def classify_retest(needle: str, output: str) -> str
@@ -498,7 +524,7 @@ original marker still present means reproducible; everything else
 
 ### `render_markdown`
 
-`function` | [modules/finding_lifecycle.py:403](../../modules/finding_lifecycle.py#L403)
+`function` | [modules/finding_lifecycle.py:439](../../modules/finding_lifecycle.py#L439)
 
 ```python
 def render_markdown(db, workspace: int, title: str = 'Findings') -> str
@@ -580,11 +606,23 @@ AUTO_CONFIRM_SOURCES = 2
 
 ---
 
+<a id="hard_evidence_markers"></a>
+
+### `HARD_EVIDENCE_MARKERS`
+
+`constant` | [modules/finding_lifecycle.py:38](../../modules/finding_lifecycle.py#L38)
+
+```python
+HARD_EVIDENCE_MARKERS
+```
+
+---
+
 <a id="finding_statuses"></a>
 
 ### `FINDING_STATUSES`
 
-`constant` | [modules/finding_lifecycle.py:164](../../modules/finding_lifecycle.py#L164)
+`constant` | [modules/finding_lifecycle.py:200](../../modules/finding_lifecycle.py#L200)
 
 ```python
 FINDING_STATUSES
@@ -596,7 +634,7 @@ FINDING_STATUSES
 
 ### `RETEST_CONCLUSIONS`
 
-`constant` | [modules/finding_lifecycle.py:175](../../modules/finding_lifecycle.py#L175)
+`constant` | [modules/finding_lifecycle.py:211](../../modules/finding_lifecycle.py#L211)
 
 ```python
 RETEST_CONCLUSIONS = ('reproducible', 'fixed', 'inconclusive')

@@ -1,6 +1,47 @@
 # Subsystem: tests (page 15 of 20)
 Previous: [KB_tests_p14.md](KB_tests_p14.md)
 
+## tests/test_opencode_mcp_harness.py
+- Doc: Opencode shim harness tool tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `OpencodeShimHarnessSpec` (class, line 16) `class OpencodeShimHarnessSpec(TestCase)`
+  - `test_harness_tools_listed` (method, line 19) `def test_harness_tools_listed(self)`
+  - `test_harness_status_shape` (method, line 25) `def test_harness_status_shape(self)`
+  - `test_golden_paths_and_ctf` (method, line 32) `def test_golden_paths_and_ctf(self)`
+  - `test_unknown_tool_rejected` (method, line 47) `def test_unknown_tool_rejected(self)`
+- Depends on: `modules/__init__.py`, `skills/lazyown_mcp_opencode.py`
+
+## tests/test_ops_loot_phase.py
+- Doc: Tests for unified loot, cred-graph view, and quantitative phase progress.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_seed_loot` (function, line 34) `def _seed_loot(sessions_dir)`
+  - `_write_world` (function, line 46) `def _write_world(sessions_dir, world)`
+  - `test_gather_loot_parses_kinds_and_skips_noise` (function, line 53) `def test_gather_loot_parses_kinds_and_skips_noise(tmp_path)`
+  - `test_loot_entry_value` (function, line 65) `def test_loot_entry_value()`
+  - `test_resolve_cred_value_precedence` (function, line 70) `def test_resolve_cred_value_precedence()`
+  - `test_loot_show_renders_table` (function, line 85) `def test_loot_show_renders_table(tmp_path, capsys)`
+  - `test_loot_show_empty` (function, line 94) `def test_loot_show_empty(tmp_path, capsys)`
+  - `test_loot_search_hits_and_provenance` (function, line 101) `def test_loot_search_hits_and_provenance(tmp_path, capsys)`
+  - `test_loot_search_no_match` (function, line 115) `def test_loot_search_no_match(tmp_path, capsys)`
+  - `test_loot_search_requires_query` (function, line 123) `def test_loot_search_requires_query(tmp_path, capsys)`
+  - `test_loot_reuse_no_target` (function, line 133) `def test_loot_reuse_no_target(tmp_path, capsys)`
+  - `test_loot_reuse_no_loot` (function, line 141) `def test_loot_reuse_no_loot(tmp_path, capsys)`
+  - `test_loot_reuse_excludes_rejected_and_flags_confirmed` (function, line 148) `def test_loot_reuse_excludes_rejected_and_flags_confirmed(tmp_path, capsys)`
+  - `test_loot_graph_renders_edges` (function, line 174) `def test_loot_graph_renders_edges(tmp_path, capsys)`
+  - `test_loot_graph_empty` (function, line 196) `def test_loot_graph_empty(tmp_path, capsys)`
+  - `test_loot_mark_writes_rejected_edge` (function, line 206) `def test_loot_mark_writes_rejected_edge(tmp_path)`
+  - `test_loot_mark_rejects_bad_outcome` (function, line 222) `def test_loot_mark_rejects_bad_outcome(tmp_path, capsys)`
+  - `test_loot_mark_unknown_credential` (function, line 230) `def test_loot_mark_unknown_credential(tmp_path, capsys)`
+  - `test_phase_progress_ranks` (function, line 241) `def test_phase_progress_ranks(tmp_path)`
+  - `test_phase_progress_completed_override` (function, line 262) `def test_phase_progress_completed_override(tmp_path)`
+  - `test_phase_progress_os_owned_report_and_loot` (function, line 283) `def test_phase_progress_os_owned_report_and_loot(tmp_path)`
+  - `test_link_credential_to_failure_edge_and_roundtrip` (function, line 310) `def test_link_credential_to_failure_edge_and_roundtrip(tmp_path)`
+- Depends on: `cli/ops_commands.py`, `modules/world_model.py`
+
 ## tests/test_opsec_scorer.py
 - Doc: Tests for modules/opsec_scorer.py
 - Layer: testing

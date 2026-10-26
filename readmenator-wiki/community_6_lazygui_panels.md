@@ -1,6 +1,6 @@
 # lazygui/panels
 
-*Community 5 | 54 files | cohesion 0.94*
+*Community 6 | 54 files | cohesion 0.94*
 
 ## Definition
 

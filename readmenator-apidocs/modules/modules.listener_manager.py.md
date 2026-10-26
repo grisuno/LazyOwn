@@ -291,7 +291,7 @@ when called without one (CLI config-only mode).
 
 #### `ListenerManager.stop`
 
-`method` | [modules/listener_manager.py:323](../../modules/listener_manager.py#L323)
+`method` | [modules/listener_manager.py:335](../../modules/listener_manager.py#L335)
 
 ```python
 def stop(self, listener_id: str) -> bool
@@ -315,7 +315,7 @@ Stop a single listener.
 
 #### `ListenerManager.start_all`
 
-`method` | [modules/listener_manager.py:344](../../modules/listener_manager.py#L344)
+`method` | [modules/listener_manager.py:356](../../modules/listener_manager.py#L356)
 
 ```python
 def start_all(self) -> None
@@ -329,7 +329,7 @@ Start every listener marked as active.
 
 #### `ListenerManager.stop_all`
 
-`method` | [modules/listener_manager.py:350](../../modules/listener_manager.py#L350)
+`method` | [modules/listener_manager.py:362](../../modules/listener_manager.py#L362)
 
 ```python
 def stop_all(self) -> None
@@ -343,7 +343,7 @@ Stop every running listener.
 
 #### `ListenerManager.status`
 
-`method` | [modules/listener_manager.py:355](../../modules/listener_manager.py#L355)
+`method` | [modules/listener_manager.py:367](../../modules/listener_manager.py#L367)
 
 ```python
 def status(self) -> list[dict[str, Any]]
@@ -359,7 +359,7 @@ Return status of all listeners.
 
 #### `ListenerManager.get_default_port`
 
-`method` | [modules/listener_manager.py:367](../../modules/listener_manager.py#L367)
+`method` | [modules/listener_manager.py:379](../../modules/listener_manager.py#L379)
 
 ```python
 def get_default_port(self, fallback: int = 4444) -> int

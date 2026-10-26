@@ -377,19 +377,19 @@ Imported by: `tests/test_auto_crypto.py`, `tests/test_cli_assign.py`, `tests/tes
 - `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1618` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
 
 ## cli/commands/shellsys.py
-Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/session_secrets.py`, `utils.py`
 Imported by: `tests/test_shellsys_command_set.py`
-- `ShellSysCommandSet.do_sh` (method) `cli/commands/shellsys.py:30` `def do_sh(self, line)` -- Executes a shell command directly from the LazyOwn interface.
-- `ShellSysCommandSet.do_sys` (method) `cli/commands/shellsys.py:62` `def do_sys(self, line)` -- Executes a shell command directly from the LazyOwn interface.
-- `ShellSysCommandSet.do_pwd` (method) `cli/commands/shellsys.py:110` `def do_pwd(self, line)` -- Displays the current working directory and lists files, and copies the current directory path to the clipboard.
-- `ShellSysCommandSet.do_nano` (method) `cli/commands/shellsys.py:146` `def do_nano(self, line)` -- Opens or creates the file using line in the sessions directory for editing using nano.
-- `ShellSysCommandSet.do_cron` (method) `cli/commands/shellsys.py:170` `def do_cron(self, line)` -- Schedules a command to run at a specified time.
-- `lazyrun_command` (function) `cli/commands/shellsys.py:205` `def lazyrun_command()`
-- `ShellSysCommandSet.do_clean` (method) `cli/commands/shellsys.py:216` `def do_clean(self, line)` -- Deletes files and directories in the `sessions` directory, excluding specified files and directories.
-- `ShellSysCommandSet.do_fixperm` (method) `cli/commands/shellsys.py:303` `def do_fixperm(self, line)` -- Fix permissions for LazyOwn shell scripts.
-- `ShellSysCommandSet.do_fixel` (method) `cli/commands/shellsys.py:336` `def do_fixel(self, line)` -- Fixes file permissions and line endings in the project directories.
-- `ShellSysCommandSet.do_pop` (method) `cli/commands/shellsys.py:369` `def do_pop(self, line)` -- Open a centered popup in the current tmux session to execute a shell command.
-- `ShellSysCommandSet.do_tab` (method) `cli/commands/shellsys.py:406` `def do_tab(self, line)` -- Executes the `lazypyautogui.py` script with optional arguments.
+- `ShellSysCommandSet.do_sh` (method) `cli/commands/shellsys.py:31` `def do_sh(self, line)` -- Executes a shell command directly from the LazyOwn interface.
+- `ShellSysCommandSet.do_sys` (method) `cli/commands/shellsys.py:63` `def do_sys(self, line)` -- Executes a shell command directly from the LazyOwn interface.
+- `ShellSysCommandSet.do_pwd` (method) `cli/commands/shellsys.py:111` `def do_pwd(self, line)` -- Displays the current working directory and lists files, and copies the current directory path to the clipboard.
+- `ShellSysCommandSet.do_nano` (method) `cli/commands/shellsys.py:147` `def do_nano(self, line)` -- Opens or creates the file using line in the sessions directory for editing using nano.
+- `ShellSysCommandSet.do_cron` (method) `cli/commands/shellsys.py:171` `def do_cron(self, line)` -- Schedules a command to run at a specified time.
+- `lazyrun_command` (function) `cli/commands/shellsys.py:206` `def lazyrun_command()`
+- `ShellSysCommandSet.do_clean` (method) `cli/commands/shellsys.py:217` `def do_clean(self, line)` -- Deletes files and directories in the `sessions` directory, excluding specified files and directories.
+- `ShellSysCommandSet.do_fixperm` (method) `cli/commands/shellsys.py:305` `def do_fixperm(self, line)` -- Fix permissions for LazyOwn shell scripts.
+- `ShellSysCommandSet.do_fixel` (method) `cli/commands/shellsys.py:338` `def do_fixel(self, line)` -- Fixes file permissions and line endings in the project directories.
+- `ShellSysCommandSet.do_pop` (method) `cli/commands/shellsys.py:371` `def do_pop(self, line)` -- Open a centered popup in the current tmux session to execute a shell command.
+- `ShellSysCommandSet.do_tab` (method) `cli/commands/shellsys.py:408` `def do_tab(self, line)` -- Executes the `lazypyautogui.py` script with optional arguments.
 
 ## cli/commands/sleep_obfuscation.py
 Depends on: `cli/commands/_base.py`, `modules/sleep_obfuscation.py`, `utils.py`

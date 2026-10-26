@@ -1,6 +1,64 @@
 # API (page 16 of 24)
 Previous: [API_p15.md](API_p15.md)
 
+## modules/notify.py
+Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`, `tests/test_security_codeql_batch.py`
+- `severity_rank` (function) `modules/notify.py:31` `def severity_rank(severity, config)` -- Return the comparable order for a severity label.
+- `mask_secrets` (function) `modules/notify.py:39` `def mask_secrets(text, config)` -- Replace known secret prefixes with a redaction marker.
+- `url_allowed` (function) `modules/notify.py:57` `def url_allowed(url)` -- SSRF dial-guard for webhook delivery (LAZY parity).
+- `post_url_validated` (function) `modules/notify.py:145` `def post_url_validated(url, data, timeout)` -- POST data to a webhook URL after SSRF validation, guarding redirects.
+- `_GuardRedirect.redirect_request` (method) `modules/notify.py:159` `def redirect_request(self, req, fp, code, msg, headers, newurl)`
+- `Notifier.__init__` (method) `modules/notify.py:207` `def __init__(self, config)` -- Initialize with shared notification constants.
+- `Notifier.should_send` (method) `modules/notify.py:215` `def should_send(self, message, channel)` -- Apply event, severity, keyword and scope gates (LAZY parity).
+- `Notifier.render` (method) `modules/notify.py:238` `def render(self, message)` -- Render masked Markdown text for a message.
+- `Notifier.dispatch` (method) `modules/notify.py:244` `def dispatch(self, message, channels)` -- Fan out to eligible channels and journal deliveries.
+- `Notifier.flush_digest` (method) `modules/notify.py:260` `def flush_digest(self, max_age_sec)` -- Emit one digest per channel when due (default 30m, LAZY parity).
+
+## modules/nuclei_templates_sync.py
+- `repo_root` (function) `modules/nuclei_templates_sync.py:39` `def repo_root()` -- Return the LazyOwn repository root derived from this file location.
+- `canonical_dest` (function) `modules/nuclei_templates_sync.py:48` `def canonical_dest(subdir)` -- Return the canonical marketplace destination for a source.
+- `run` (function) `modules/nuclei_templates_sync.py:60` `def run(argv, cwd)` -- Run a subprocess capturing output as text without raising.
+- `ensure_git_available` (function) `modules/nuclei_templates_sync.py:73` `def ensure_git_available()` -- Abort with a clear message when the git binary is missing.
+- `clone_templates` (function) `modules/nuclei_templates_sync.py:84` `def clone_templates(repo, staging)` -- Shallow-clone the template repository into the staging directory.
+- `strip_git_traces` (function) `modules/nuclei_templates_sync.py:113` `def strip_git_traces(tree)` -- Remove every .git file or directory under the staged tree.
+- `count_templates` (function) `modules/nuclei_templates_sync.py:132` `def count_templates(tree)` -- Count Nuclei template files under a directory tree.
+- `replace_dest` (function) `modules/nuclei_templates_sync.py:144` `def replace_dest(src, dest, expected)` -- Atomically replace the destination with the staged tree contents.
+- `same_remote` (function) `modules/nuclei_templates_sync.py:168` `def same_remote(path, repo)` -- Check whether an existing clone points at the expected remote.
+- `normalize` (function) `modules/nuclei_templates_sync.py:179` `def normalize(url)`
+- `refresh_existing_clone` (function) `modules/nuclei_templates_sync.py:188` `def refresh_existing_clone(path, repo)` -- Fast-forward an existing clean clone of the same remote.
+- `validate_subset` (function) `modules/nuclei_templates_sync.py:209` `def validate_subset(dest, subset)` -- Validate a template subset with the nuclei binary when available.
+- `build_parser` (function) `modules/nuclei_templates_sync.py:238` `def build_parser()` -- Build the command line parser for the sync script.
+- `sync` (function) `modules/nuclei_templates_sync.py:263` `def sync(name, repo, dest, refresh_existing, skip_validate)` -- Clone, clean, and install one template source.
+- `resolve_plan` (function) `modules/nuclei_templates_sync.py:308` `def resolve_plan(args)` -- Resolve the requested sources into (name, repo, dest) work items.
+- `main` (function) `modules/nuclei_templates_sync.py:337` `def main(argv)` -- Entry point for the template sync script.
+
+## modules/obs_parser.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`
+Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/sinks/world_model.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
+- `Observation.by_type` (method) `modules/obs_parser.py:83` `def by_type(self, ftype)`
+- `Observation.has` (method) `modules/obs_parser.py:86` `def has(self, ftype)`
+- `Extractor.extract` (method) `modules/obs_parser.py:99` `def extract(self, text, host)` -- Return all findings of this type found in *text*.
+- `_ExtractorRegistry.__init__` (method) `modules/obs_parser.py:106` `def __init__(self)`
+- `_ExtractorRegistry.register` (method) `modules/obs_parser.py:109` `def register(self, extractor)`
+- `_ExtractorRegistry.run_all` (method) `modules/obs_parser.py:112` `def run_all(self, text, host)`
+- `_IPExtractor.extract` (method) `modules/obs_parser.py:134` `def extract(self, text, host)`
+- `_CredentialExtractor.extract` (method) `modules/obs_parser.py:175` `def extract(self, text, host)`
+- `_ServiceVersionExtractor.extract` (method) `modules/obs_parser.py:198` `def extract(self, text, host)`
+- `_PathExtractor.extract` (method) `modules/obs_parser.py:224` `def extract(self, text, host)`
+- `_UsernameExtractor.extract` (method) `modules/obs_parser.py:245` `def extract(self, text, host)`
+- `_HashExtractor.extract` (method) `modules/obs_parser.py:271` `def extract(self, text, host)`
+- `_CVEExtractor.extract` (method) `modules/obs_parser.py:288` `def extract(self, text, host)`
+- `_DomainExtractor.extract` (method) `modules/obs_parser.py:305` `def extract(self, text, host)`
+- `_EmailExtractor.extract` (method) `modules/obs_parser.py:323` `def extract(self, text, host)`
+- `_ErrorExtractor.extract` (method) `modules/obs_parser.py:345` `def extract(self, text, host)`
+- `_CloudIdentityExtractor.extract` (method) `modules/obs_parser.py:367` `def extract(self, text, host)`
+- `_SuccessDetector.is_success` (method) `modules/obs_parser.py:407` `def is_success(self, text)`
+- `ObsParser.__init__` (method) `modules/obs_parser.py:431` `def __init__(self)`
+- `ObsParser.register` (method) `modules/obs_parser.py:450` `def register(self, extractor)` -- Register an additional Extractor (Open/Closed extension point).
+- `ObsParser.parse` (method) `modules/obs_parser.py:454` `def parse(self, output, host, tool)` -- Parse *output* and return an Observation.
+- `get_parser` (function) `modules/obs_parser.py:500` `def get_parser()` -- Return (or create) the module-level singleton ObsParser.
+- `parse` (function) `modules/obs_parser.py:508` `def parse(output, host, tool)` -- Module-level convenience wrapper.
+
 ## modules/operation.py
 Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
 Imported by: `cli/commands/caldera.py`
@@ -74,12 +132,12 @@ Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchest
 - `stage_params` (function) `modules/orchestrator_config.py:402` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
 - `set_stage` (function) `modules/orchestrator_config.py:407` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
 - `effective_verbs` (function) `modules/orchestrator_config.py:432` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
-- `verb_config` (function) `modules/orchestrator_config.py:523` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
-- `verb_enabled` (function) `modules/orchestrator_config.py:532` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `upsert_verb` (function) `modules/orchestrator_config.py:538` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
-- `remove_verb` (function) `modules/orchestrator_config.py:595` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
-- `reset` (function) `modules/orchestrator_config.py:616` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
-- `validate_config` (function) `modules/orchestrator_config.py:623` `def validate_config(data)` -- Validate one raw orchestration mapping.
+- `verb_config` (function) `modules/orchestrator_config.py:524` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
+- `verb_enabled` (function) `modules/orchestrator_config.py:533` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `upsert_verb` (function) `modules/orchestrator_config.py:539` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
+- `remove_verb` (function) `modules/orchestrator_config.py:596` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
+- `reset` (function) `modules/orchestrator_config.py:617` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
+- `validate_config` (function) `modules/orchestrator_config.py:624` `def validate_config(data)` -- Validate one raw orchestration mapping.
 
 ## modules/osint_enrich.py
 Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
@@ -414,75 +472,6 @@ Imported by: `cli/commands/pwn.py`
 - `RichDashboard.__init__` (method) `modules/rich_tui.py:74` `def __init__(self, dashboard_engine, refresh_interval, live)` -- Initialize the Rich dashboard.
 - `RichDashboard.run` (method) `modules/rich_tui.py:96` `def run(self)` -- Run the dashboard.
 - `RichDashboard.stop` (method) `modules/rich_tui.py:132` `def stop(self)` -- Gracefully shut down the dashboard and restore terminal state.
-
-## modules/rl_trainer.py
-Depends on: `core/logging.py`
-Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/swan_agent.py`, `tests/test_moe_rl_swan.py`
-- `IStateEncoder.encode` (method) `modules/rl_trainer.py:105` `def encode(self, task_type, engagement_phase, recent_reward_ema)` -- Return a string key representing the current state.
-- `BucketedStateEncoder.encode` (method) `modules/rl_trainer.py:131` `def encode(self, task_type, engagement_phase, recent_reward_ema)`
-- `QValueStore.__init__` (method) `modules/rl_trainer.py:156` `def __init__(self, path, optimistic_init)`
-- `QValueStore.get` (method) `modules/rl_trainer.py:168` `def get(self, state, action)`
-- `QValueStore.set` (method) `modules/rl_trainer.py:172` `def set(self, state, action, value)`
-- `QValueStore.max_q` (method) `modules/rl_trainer.py:176` `def max_q(self, state, candidates)` -- Return max Q(state, a) over the given candidate actions.
-- `QValueStore.argmax` (method) `modules/rl_trainer.py:182` `def argmax(self, state, candidates)` -- Return the action with highest Q(state, a).
-- `QValueStore.save` (method) `modules/rl_trainer.py:188` `def save(self)`
-- `EpsilonTracker.__init__` (method) `modules/rl_trainer.py:218` `def __init__(self, start, minimum, decay, path)`
-- `EpsilonTracker.epsilon` (method) `modules/rl_trainer.py:233` `def epsilon(self)`
-- `EpsilonTracker.step` (method) `modules/rl_trainer.py:236` `def step(self)` -- Apply one decay step and persist.
-- `RLTrainer.__init__` (method) `modules/rl_trainer.py:284` `def __init__(self, config, state_encoder, q_store, epsilon_tracker)`
-- `RLTrainer.encode_state` (method) `modules/rl_trainer.py:304` `def encode_state(self, task_type, engagement_phase, recent_reward_ema)` -- Convert environment observations into a discrete state key.
-- `RLTrainer.select_action` (method) `modules/rl_trainer.py:313` `def select_action(self, state, candidates, force_exploit)` -- Epsilon-greedy expert selection.
-- `RLTrainer.update` (method) `modules/rl_trainer.py:347` `def update(self, state, action, reward, next_state, candidates, detection_prob)` -- Apply one Q-learning update.
-- `RLTrainer.best_expert_for_state` (method) `modules/rl_trainer.py:389` `def best_expert_for_state(self, state, candidates)` -- Return the highest Q-value expert for the given state (greedy).
-- `RLTrainer.q_values_for_state` (method) `modules/rl_trainer.py:393` `def q_values_for_state(self, state, candidates)` -- Return {expert_id: q_value} for diagnostics.
-- `RLTrainer.save` (method) `modules/rl_trainer.py:397` `def save(self)` -- Persist Q-table to disk.
-- `RLTrainer.epsilon` (method) `modules/rl_trainer.py:402` `def epsilon(self)`
-- `get_trainer` (function) `modules/rl_trainer.py:425` `def get_trainer(config)` -- Return (or create) the module-level singleton RLTrainer.
-
-## modules/rootkit/mr.c
-- `get_ld_preload` (function) `modules/rootkit/mr.c:84` `char *get_ld_preload()`
-- `set_ld_preload` (function) `modules/rootkit/mr.c:87` `void set_ld_preload(const char *ld_preload)`
-- `ensure_ld_preload` (function) `modules/rootkit/mr.c:100` `void ensure_ld_preload()`
-- `ensure_pid_file_exists` (function) `modules/rootkit/mr.c:117` `void ensure_pid_file_exists()`
-- `check_elevate` (function) `modules/rootkit/mr.c:136` `int check_elevate()`
-- `write_file` (function) `modules/rootkit/mr.c:145` `void write_file(const char *path, const char *content, mode_t mode)`
-- `crontab` (function) `modules/rootkit/mr.c:156` `void crontab(const char *path)`
-- `generate_random_string` (function) `modules/rootkit/mr.c:168` `char *generate_random_string()`
-- `xdg` (function) `modules/rootkit/mr.c:178` `void xdg(const char *path, int admin)`
-- `kde_plasma` (function) `modules/rootkit/mr.c:200` `void kde_plasma(const char *path)`
-- `copy_binary` (function) `modules/rootkit/mr.c:215` `void copy_binary(const char *source, const char *destination)`
-- `persist` (function) `modules/rootkit/mr.c:234` `void persist(const char *path)`
-- `ensure_key_file_exists` (function) `modules/rootkit/mr.c:253` `void ensure_key_file_exists()`
-- `ensure_hide_file_exists` (function) `modules/rootkit/mr.c:271` `void ensure_hide_file_exists()`
-- `infect_command` (function) `modules/rootkit/mr.c:289` `void infect_command()`
-- `load_rootkit` (function) `modules/rootkit/mr.c:303` `void load_rootkit()`
-- `unload_rootkit` (function) `modules/rootkit/mr.c:314` `void unload_rootkit()`
-- `handle_client` (function) `modules/rootkit/mr.c:321` `void *handle_client(void *client_socket)`
-- `mon_shell` (function) `modules/rootkit/mr.c:521` `void *mon_shell(void *data)`
-- `signal_handler` (function) `modules/rootkit/mr.c:609` `void signal_handler(int signum)`
-- `reboot_system` (function) `modules/rootkit/mr.c:615` `void reboot_system()`
-- `main` (function) `modules/rootkit/mr.c:639` `int main()`
-
-## modules/rootkit/mrhyde.c
-- `load_hidden_pids` (function) `modules/rootkit/mrhyde.c:73` `void load_hidden_pids()`
-- `load_hidden_files` (function) `modules/rootkit/mrhyde.c:93` `void load_hidden_files()`
-- `unlink` (function) `modules/rootkit/mrhyde.c:113` `int unlink(const char *pathname)`
-- `kill` (function) `modules/rootkit/mrhyde.c:125` `int kill(pid_t pid, int sig)`
-- `remove` (function) `modules/rootkit/mrhyde.c:145` `int remove(const char *pathname)`
-- `unlinkat` (function) `modules/rootkit/mrhyde.c:157` `int unlinkat(int dirfd, const char *pathname, int flags)`
-- `get_username_from_pid` (function) `modules/rootkit/mrhyde.c:178` `char* get_username_from_pid(pid_t pid)`
-- `should_hide_pid` (function) `modules/rootkit/mrhyde.c:197` `int should_hide_pid(const char* pid)`
-- `should_hide_file` (function) `modules/rootkit/mrhyde.c:212` `int should_hide_file(const char* filename)`
-- `readdir` (function) `modules/rootkit/mrhyde.c:222` `struct dirent* readdir(DIR* dirp)`
-- `fopen` (function) `modules/rootkit/mrhyde.c:283` `FILE *fopen(const char *pathname, const char *mode)`
-- `my_open` (function) `modules/rootkit/mrhyde.c:327` `int my_open(const char *pathname, int flags, mode_t mode)`
-- `my_openat` (function) `modules/rootkit/mrhyde.c:371` `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
-- `stat` (function) `modules/rootkit/mrhyde.c:415` `int stat(const char *pathname, struct stat *statbuf)`
-- `lstat` (function) `modules/rootkit/mrhyde.c:459` `int lstat(const char *pathname, struct stat *statbuf)`
-- `fstat` (function) `modules/rootkit/mrhyde.c:503` `int fstat(int fd, struct stat *statbuf)`
-- `getdents` (function) `modules/rootkit/mrhyde.c:557` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `getdents64` (function) `modules/rootkit/mrhyde.c:618` `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `main` (function) `modules/rootkit/mrhyde.c:678` `int main()`
 
 
 Next: [API_p17.md](API_p17.md)

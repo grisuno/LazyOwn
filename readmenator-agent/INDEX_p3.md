@@ -3,6 +3,13 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_finding_lifecycle.py` | Finding confirmation lifecycle + keyless OSINT enrichment. | tests | 10 | 0 |
+| `tests/test_fuzzy_picker.py` | Tests for cli/fuzzy_picker.py and lint-regression for lazyown.py. | tests | 25 | 0 |
+| `tests/test_golden_path.py` | Contract tests for the deterministic golden-path solver. | tests | 14 | 0 |
+| `tests/test_graph_advisor.py` | Tests for cli/graph_advisor.py. | tests | 25 | 0 |
+| `tests/test_graph_overlay.py` | Tests for cli/graph_overlay.py. | tests | 14 | 0 |
+| `tests/test_guardrails.py` | Guardrail harness tests: tiers, capacity, warm restart, wiring. | tests | 59 | 0 |
+| `tests/test_gui_xss_sinks.py` | Regression gate for XSS sinks in the C2 dashboard template. | tests | 9 | 0 |
 | `tests/test_gym_cli.py` | Gym CLI lifecycle: start, status, stop by selector and stop-all. | tests | 8 | 0 |
 | `tests/test_gym_lifecycle.py` | Gym lifecycle: lab spin-up on start, teardown on stop and exit cleanup. | tests | 13 | 0 |
 | `tests/test_gym_matrix_ctf.py` | Contract tests for gym matrix runner and CTF capture. | tests | 16 | 0 |
@@ -66,6 +73,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_loop_guardrails.py` | Loop guardrails: repetition detection, EDR pacing, target caps, vector fact memory. | tests | 12 | 0 |
 | `tests/test_loop_intent_delete.py` | Intent delete modes regression tests (lazy 0.3.12 parity). | tests | 4 | 0 |
 | `tests/test_loop_llm_resilience.py` | LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity). | tests | 18 | 0 |
+| `tests/test_loop_manager.py` | Tests for modules.loop_manager — safe autonomous loop orchestration. | tests | 51 | 0 |
 | `tests/test_loop_mentions.py` | Lazy mentions multi-type search and scroll pagination. | tests | 2 | 0 |
 | `tests/test_loop_multi_target.py` | Multi-target loop entry: scope-file parsing, validation and caps. | tests | 6 | 0 |
 | `tests/test_loop_nmap_guard.py` | Loop guardrails: command repair and bounded scanning retests. | tests | 8 | 0 |

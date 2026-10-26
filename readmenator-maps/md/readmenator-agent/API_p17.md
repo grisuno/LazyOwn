@@ -1,62 +1,131 @@
 # API (page 17 of 24)
 Previous: [API_p16.md](API_p16.md)
 
+## modules/rl_trainer.py
+Depends on: `core/logging.py`
+Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/swan_agent.py`, `tests/test_moe_rl_swan.py`
+- `IStateEncoder.encode` (method) `modules/rl_trainer.py:105` `def encode(self, task_type, engagement_phase, recent_reward_ema)` -- Return a string key representing the current state.
+- `BucketedStateEncoder.encode` (method) `modules/rl_trainer.py:131` `def encode(self, task_type, engagement_phase, recent_reward_ema)`
+- `QValueStore.__init__` (method) `modules/rl_trainer.py:156` `def __init__(self, path, optimistic_init)`
+- `QValueStore.get` (method) `modules/rl_trainer.py:168` `def get(self, state, action)`
+- `QValueStore.set` (method) `modules/rl_trainer.py:172` `def set(self, state, action, value)`
+- `QValueStore.max_q` (method) `modules/rl_trainer.py:176` `def max_q(self, state, candidates)` -- Return max Q(state, a) over the given candidate actions.
+- `QValueStore.argmax` (method) `modules/rl_trainer.py:182` `def argmax(self, state, candidates)` -- Return the action with highest Q(state, a).
+- `QValueStore.save` (method) `modules/rl_trainer.py:188` `def save(self)`
+- `EpsilonTracker.__init__` (method) `modules/rl_trainer.py:218` `def __init__(self, start, minimum, decay, path)`
+- `EpsilonTracker.epsilon` (method) `modules/rl_trainer.py:233` `def epsilon(self)`
+- `EpsilonTracker.step` (method) `modules/rl_trainer.py:236` `def step(self)` -- Apply one decay step and persist.
+- `RLTrainer.__init__` (method) `modules/rl_trainer.py:284` `def __init__(self, config, state_encoder, q_store, epsilon_tracker)`
+- `RLTrainer.encode_state` (method) `modules/rl_trainer.py:304` `def encode_state(self, task_type, engagement_phase, recent_reward_ema)` -- Convert environment observations into a discrete state key.
+- `RLTrainer.select_action` (method) `modules/rl_trainer.py:313` `def select_action(self, state, candidates, force_exploit)` -- Epsilon-greedy expert selection.
+- `RLTrainer.update` (method) `modules/rl_trainer.py:347` `def update(self, state, action, reward, next_state, candidates, detection_prob)` -- Apply one Q-learning update.
+- `RLTrainer.best_expert_for_state` (method) `modules/rl_trainer.py:389` `def best_expert_for_state(self, state, candidates)` -- Return the highest Q-value expert for the given state (greedy).
+- `RLTrainer.q_values_for_state` (method) `modules/rl_trainer.py:393` `def q_values_for_state(self, state, candidates)` -- Return {expert_id: q_value} for diagnostics.
+- `RLTrainer.save` (method) `modules/rl_trainer.py:397` `def save(self)` -- Persist Q-table to disk.
+- `RLTrainer.epsilon` (method) `modules/rl_trainer.py:402` `def epsilon(self)`
+- `get_trainer` (function) `modules/rl_trainer.py:425` `def get_trainer(config)` -- Return (or create) the module-level singleton RLTrainer.
+
+## modules/rootkit/mr.c
+- `get_ld_preload` (function) `modules/rootkit/mr.c:84` `char *get_ld_preload()`
+- `set_ld_preload` (function) `modules/rootkit/mr.c:87` `void set_ld_preload(const char *ld_preload)`
+- `ensure_ld_preload` (function) `modules/rootkit/mr.c:100` `void ensure_ld_preload()`
+- `ensure_pid_file_exists` (function) `modules/rootkit/mr.c:117` `void ensure_pid_file_exists()`
+- `check_elevate` (function) `modules/rootkit/mr.c:136` `int check_elevate()`
+- `write_file` (function) `modules/rootkit/mr.c:145` `void write_file(const char *path, const char *content, mode_t mode)`
+- `crontab` (function) `modules/rootkit/mr.c:156` `void crontab(const char *path)`
+- `generate_random_string` (function) `modules/rootkit/mr.c:168` `char *generate_random_string()`
+- `xdg` (function) `modules/rootkit/mr.c:178` `void xdg(const char *path, int admin)`
+- `kde_plasma` (function) `modules/rootkit/mr.c:200` `void kde_plasma(const char *path)`
+- `copy_binary` (function) `modules/rootkit/mr.c:215` `void copy_binary(const char *source, const char *destination)`
+- `persist` (function) `modules/rootkit/mr.c:234` `void persist(const char *path)`
+- `ensure_key_file_exists` (function) `modules/rootkit/mr.c:253` `void ensure_key_file_exists()`
+- `ensure_hide_file_exists` (function) `modules/rootkit/mr.c:271` `void ensure_hide_file_exists()`
+- `infect_command` (function) `modules/rootkit/mr.c:289` `void infect_command()`
+- `load_rootkit` (function) `modules/rootkit/mr.c:303` `void load_rootkit()`
+- `unload_rootkit` (function) `modules/rootkit/mr.c:314` `void unload_rootkit()`
+- `handle_client` (function) `modules/rootkit/mr.c:321` `void *handle_client(void *client_socket)`
+- `mon_shell` (function) `modules/rootkit/mr.c:521` `void *mon_shell(void *data)`
+- `signal_handler` (function) `modules/rootkit/mr.c:609` `void signal_handler(int signum)`
+- `reboot_system` (function) `modules/rootkit/mr.c:615` `void reboot_system()`
+- `main` (function) `modules/rootkit/mr.c:639` `int main()`
+
+## modules/rootkit/mrhyde.c
+- `load_hidden_pids` (function) `modules/rootkit/mrhyde.c:77` `void load_hidden_pids()`
+- `load_hidden_files` (function) `modules/rootkit/mrhyde.c:97` `void load_hidden_files()`
+- `unlink` (function) `modules/rootkit/mrhyde.c:117` `int unlink(const char *pathname)`
+- `kill` (function) `modules/rootkit/mrhyde.c:129` `int kill(pid_t pid, int sig)`
+- `remove` (function) `modules/rootkit/mrhyde.c:149` `int remove(const char *pathname)`
+- `unlinkat` (function) `modules/rootkit/mrhyde.c:161` `int unlinkat(int dirfd, const char *pathname, int flags)`
+- `get_username_from_pid` (function) `modules/rootkit/mrhyde.c:182` `char* get_username_from_pid(pid_t pid)`
+- `should_hide_pid` (function) `modules/rootkit/mrhyde.c:201` `int should_hide_pid(const char* pid)`
+- `should_hide_file` (function) `modules/rootkit/mrhyde.c:216` `int should_hide_file(const char* filename)`
+- `readdir` (function) `modules/rootkit/mrhyde.c:226` `struct dirent* readdir(DIR* dirp)`
+- `fopen` (function) `modules/rootkit/mrhyde.c:287` `FILE *fopen(const char *pathname, const char *mode)`
+- `my_open` (function) `modules/rootkit/mrhyde.c:331` `int my_open(const char *pathname, int flags, mode_t mode)`
+- `my_openat` (function) `modules/rootkit/mrhyde.c:375` `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
+- `stat` (function) `modules/rootkit/mrhyde.c:419` `int stat(const char *pathname, struct stat *statbuf)`
+- `lstat` (function) `modules/rootkit/mrhyde.c:463` `int lstat(const char *pathname, struct stat *statbuf)`
+- `fstat` (function) `modules/rootkit/mrhyde.c:507` `int fstat(int fd, struct stat *statbuf)`
+- `getdents` (function) `modules/rootkit/mrhyde.c:561` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+- `getdents64` (function) `modules/rootkit/mrhyde.c:622` `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+- `main` (function) `modules/rootkit/mrhyde.c:682` `int main()`
+
 ## modules/rootkit/mrhyde2.c
-- `load_hidden_pids` (function) `modules/rootkit/mrhyde2.c:63` `void load_hidden_pids()`
-- `unlink` (function) `modules/rootkit/mrhyde2.c:83` `int unlink(const char *pathname)`
-- `kill` (function) `modules/rootkit/mrhyde2.c:95` `int kill(pid_t pid, int sig)`
-- `remove` (function) `modules/rootkit/mrhyde2.c:115` `int remove(const char *pathname)`
-- `unlinkat` (function) `modules/rootkit/mrhyde2.c:127` `int unlinkat(int dirfd, const char *pathname, int flags)`
-- `get_username_from_pid` (function) `modules/rootkit/mrhyde2.c:148` `char* get_username_from_pid(pid_t pid)`
-- `should_hide_pid` (function) `modules/rootkit/mrhyde2.c:167` `int should_hide_pid(const char* pid)`
-- `readdir` (function) `modules/rootkit/mrhyde2.c:182` `struct dirent* readdir(DIR* dirp)`
-- `fopen` (function) `modules/rootkit/mrhyde2.c:238` `FILE *fopen(const char *pathname, const char *mode)`
-- `my_open` (function) `modules/rootkit/mrhyde2.c:275` `int my_open(const char *pathname, int flags, mode_t mode)`
-- `my_openat` (function) `modules/rootkit/mrhyde2.c:312` `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
-- `stat` (function) `modules/rootkit/mrhyde2.c:349` `int stat(const char *pathname, struct stat *statbuf)`
-- `lstat` (function) `modules/rootkit/mrhyde2.c:386` `int lstat(const char *pathname, struct stat *statbuf)`
-- `fstat` (function) `modules/rootkit/mrhyde2.c:423` `int fstat(int fd, struct stat *statbuf)`
-- `getdents` (function) `modules/rootkit/mrhyde2.c:470` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `getdents64` (function) `modules/rootkit/mrhyde2.c:527` `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `main` (function) `modules/rootkit/mrhyde2.c:583` `int main()`
+- `load_hidden_pids` (function) `modules/rootkit/mrhyde2.c:67` `void load_hidden_pids()`
+- `unlink` (function) `modules/rootkit/mrhyde2.c:87` `int unlink(const char *pathname)`
+- `kill` (function) `modules/rootkit/mrhyde2.c:99` `int kill(pid_t pid, int sig)`
+- `remove` (function) `modules/rootkit/mrhyde2.c:119` `int remove(const char *pathname)`
+- `unlinkat` (function) `modules/rootkit/mrhyde2.c:131` `int unlinkat(int dirfd, const char *pathname, int flags)`
+- `get_username_from_pid` (function) `modules/rootkit/mrhyde2.c:152` `char* get_username_from_pid(pid_t pid)`
+- `should_hide_pid` (function) `modules/rootkit/mrhyde2.c:171` `int should_hide_pid(const char* pid)`
+- `readdir` (function) `modules/rootkit/mrhyde2.c:186` `struct dirent* readdir(DIR* dirp)`
+- `fopen` (function) `modules/rootkit/mrhyde2.c:242` `FILE *fopen(const char *pathname, const char *mode)`
+- `my_open` (function) `modules/rootkit/mrhyde2.c:279` `int my_open(const char *pathname, int flags, mode_t mode)`
+- `my_openat` (function) `modules/rootkit/mrhyde2.c:316` `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
+- `stat` (function) `modules/rootkit/mrhyde2.c:353` `int stat(const char *pathname, struct stat *statbuf)`
+- `lstat` (function) `modules/rootkit/mrhyde2.c:390` `int lstat(const char *pathname, struct stat *statbuf)`
+- `fstat` (function) `modules/rootkit/mrhyde2.c:427` `int fstat(int fd, struct stat *statbuf)`
+- `getdents` (function) `modules/rootkit/mrhyde2.c:474` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+- `getdents64` (function) `modules/rootkit/mrhyde2.c:531` `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+- `main` (function) `modules/rootkit/mrhyde2.c:587` `int main()`
 
 ## modules/rootkit/mrhyde3.c
-- `uring_queue_init` (function) `modules/rootkit/mrhyde3.c:85` `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` -- /* Syscalls static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p) { return...
-- `uring_get_sqe` (function) `modules/rootkit/mrhyde3.c:130` `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` -- ring->cq.head = (unsigned *)((char *)cq_ring + params.cq_off.head); ring->cq.tail = (unsigned *)((char *)cq_ring +...
-- `uring_submit` (function) `modules/rootkit/mrhyde3.c:141` `static int uring_submit(struct io_uring *ring)` -- } /* Obtener SQE static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring) { unsigned head = *ring->sq.head...
-- `uring_wait_cqe_timeout` (function) `modules/rootkit/mrhyde3.c:149` `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` -- struct io_uring_sqe *sqe = &ring->sq.sqes[tail & *ring->sq.ring_mask]; memset(sqe, 0, sizeof(*sqe)); return sqe; }...
-- `uring_cqe_seen` (function) `modules/rootkit/mrhyde3.c:163` `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)`
-- `init_root_ring` (function) `modules/rootkit/mrhyde3.c:176` `static int init_root_ring(void)` -- static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe) { (*ring->cq.head)++; } /* Estado global...
-- `uring_read_whole_file` (function) `modules/rootkit/mrhyde3.c:197` `static char *uring_read_whole_file(const char *path)` -- } ring_ok = 1; /* Registrar buffer (opcional) struct iovec iov; iov.iov_base = malloc(IO_URING_BUFFER_SIZE)...
-- `traditional_read_file` (function) `modules/rootkit/mrhyde3.c:253` `static char *traditional_read_file(const char *path)` -- if (bytes_read <= 0) break; buf = realloc(buf, total_read + bytes_read + 1); if (!buf) { close(fd)...
-- `load_hidden_pids` (function) `modules/rootkit/mrhyde3.c:268` `void load_hidden_pids(void)` -- FILE *f = fopen(path, "rb"); if (!f) return NULL; fseek(f, 0, SEEK_END); long size = ftell(f); fseek(f, 0...
-- `load_hidden_files` (function) `modules/rootkit/mrhyde3.c:282` `void load_hidden_files(void)`
-- `get_username_from_pid` (function) `modules/rootkit/mrhyde3.c:297` `char* get_username_from_pid(pid_t pid)` -- char *data = uring_read_whole_file(FILE_HIDE_PATH); if (!data) data = traditional_read_file(FILE_HIDE_PATH); if...
-- `should_hide_pid` (function) `modules/rootkit/mrhyde3.c:320` `int should_hide_pid(const char* pid)`
-- `should_hide_file` (function) `modules/rootkit/mrhyde3.c:329` `int should_hide_file(const char* filename)`
-- `readdir` (function) `modules/rootkit/mrhyde3.c:336` `struct dirent* readdir(DIR* dirp)`
-- `unlink` (function) `modules/rootkit/mrhyde3.c:367` `int unlink(const char *pathname)`
-- `kill` (function) `modules/rootkit/mrhyde3.c:373` `int kill(pid_t pid, int sig)`
-- `remove` (function) `modules/rootkit/mrhyde3.c:383` `int remove(const char *pathname)`
-- `unlinkat` (function) `modules/rootkit/mrhyde3.c:389` `int unlinkat(int dirfd, const char *pathname, int flags)`
-- `fopen` (function) `modules/rootkit/mrhyde3.c:407` `FILE *fopen(const char *pathname, const char *mode)`
-- `open` (function) `modules/rootkit/mrhyde3.c:430` `int open(const char *pathname, int flags, ...)`
-- `openat` (function) `modules/rootkit/mrhyde3.c:458` `int openat(int dirfd, const char *pathname, int flags, ...)`
-- `stat` (function) `modules/rootkit/mrhyde3.c:487` `int stat(const char *pathname, struct stat *statbuf)`
-- `lstat` (function) `modules/rootkit/mrhyde3.c:511` `int lstat(const char *pathname, struct stat *statbuf)`
-- `fstat` (function) `modules/rootkit/mrhyde3.c:535` `int fstat(int fd, struct stat *statbuf)`
-- `getdents` (function) `modules/rootkit/mrhyde3.c:569` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `getdents64` (function) `modules/rootkit/mrhyde3.c:605` `ssize_t getdents64(int fd, void *dirp, size_t count)`
+- `uring_queue_init` (function) `modules/rootkit/mrhyde3.c:89` `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` -- /* Syscalls static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p) { return...
+- `uring_get_sqe` (function) `modules/rootkit/mrhyde3.c:134` `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` -- ring->cq.head = (unsigned *)((char *)cq_ring + params.cq_off.head); ring->cq.tail = (unsigned *)((char *)cq_ring +...
+- `uring_submit` (function) `modules/rootkit/mrhyde3.c:145` `static int uring_submit(struct io_uring *ring)` -- } /* Obtener SQE static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring) { unsigned head = *ring->sq.head...
+- `uring_wait_cqe_timeout` (function) `modules/rootkit/mrhyde3.c:153` `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` -- struct io_uring_sqe *sqe = &ring->sq.sqes[tail & *ring->sq.ring_mask]; memset(sqe, 0, sizeof(*sqe)); return sqe; }...
+- `uring_cqe_seen` (function) `modules/rootkit/mrhyde3.c:167` `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)`
+- `init_root_ring` (function) `modules/rootkit/mrhyde3.c:180` `static int init_root_ring(void)` -- static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe) { (*ring->cq.head)++; } /* Estado global...
+- `uring_read_whole_file` (function) `modules/rootkit/mrhyde3.c:201` `static char *uring_read_whole_file(const char *path)` -- } ring_ok = 1; /* Registrar buffer (opcional) struct iovec iov; iov.iov_base = malloc(IO_URING_BUFFER_SIZE)...
+- `traditional_read_file` (function) `modules/rootkit/mrhyde3.c:257` `static char *traditional_read_file(const char *path)` -- if (bytes_read <= 0) break; buf = realloc(buf, total_read + bytes_read + 1); if (!buf) { close(fd)...
+- `load_hidden_pids` (function) `modules/rootkit/mrhyde3.c:272` `void load_hidden_pids(void)` -- FILE *f = fopen(path, "rb"); if (!f) return NULL; fseek(f, 0, SEEK_END); long size = ftell(f); fseek(f, 0...
+- `load_hidden_files` (function) `modules/rootkit/mrhyde3.c:286` `void load_hidden_files(void)`
+- `get_username_from_pid` (function) `modules/rootkit/mrhyde3.c:301` `char* get_username_from_pid(pid_t pid)` -- char *data = uring_read_whole_file(FILE_HIDE_PATH); if (!data) data = traditional_read_file(FILE_HIDE_PATH); if...
+- `should_hide_pid` (function) `modules/rootkit/mrhyde3.c:324` `int should_hide_pid(const char* pid)`
+- `should_hide_file` (function) `modules/rootkit/mrhyde3.c:333` `int should_hide_file(const char* filename)`
+- `readdir` (function) `modules/rootkit/mrhyde3.c:340` `struct dirent* readdir(DIR* dirp)`
+- `unlink` (function) `modules/rootkit/mrhyde3.c:371` `int unlink(const char *pathname)`
+- `kill` (function) `modules/rootkit/mrhyde3.c:377` `int kill(pid_t pid, int sig)`
+- `remove` (function) `modules/rootkit/mrhyde3.c:387` `int remove(const char *pathname)`
+- `unlinkat` (function) `modules/rootkit/mrhyde3.c:393` `int unlinkat(int dirfd, const char *pathname, int flags)`
+- `fopen` (function) `modules/rootkit/mrhyde3.c:411` `FILE *fopen(const char *pathname, const char *mode)`
+- `open` (function) `modules/rootkit/mrhyde3.c:434` `int open(const char *pathname, int flags, ...)`
+- `openat` (function) `modules/rootkit/mrhyde3.c:462` `int openat(int dirfd, const char *pathname, int flags, ...)`
+- `stat` (function) `modules/rootkit/mrhyde3.c:491` `int stat(const char *pathname, struct stat *statbuf)`
+- `lstat` (function) `modules/rootkit/mrhyde3.c:515` `int lstat(const char *pathname, struct stat *statbuf)`
+- `fstat` (function) `modules/rootkit/mrhyde3.c:539` `int fstat(int fd, struct stat *statbuf)`
+- `getdents` (function) `modules/rootkit/mrhyde3.c:573` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+- `getdents64` (function) `modules/rootkit/mrhyde3.c:609` `ssize_t getdents64(int fd, void *dirp, size_t count)`
 
 ## modules/rootkit/rootkit.c
 Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-- `regs_override_return` (function) `modules/rootkit/rootkit.c:43` `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` -- Define regs_override_return function
-- `hooked_getdents` (function) `modules/rootkit/rootkit.c:75` `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked getdents function
-- `hooked_getdents64` (function) `modules/rootkit/rootkit.c:101` `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked getdents64 function
-- `hooked_read` (function) `modules/rootkit/rootkit.c:127` `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked read function to create a backdoor
-- `disable_module_signature_verification` (function) `modules/rootkit/rootkit.c:181` `static void disable_module_signature_verification(void)` -- Function to disable module signature verification
-- `hook_syscalls` (function) `modules/rootkit/rootkit.c:195` `static int __init hook_syscalls(void)` -- Function to hook system calls
-- `unhook_syscalls` (function) `modules/rootkit/rootkit.c:208` `static void __exit unhook_syscalls(void)` -- Function to unhook system calls
+- `regs_override_return` (function) `modules/rootkit/rootkit.c:54` `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` -- Define regs_override_return function
+- `hooked_getdents` (function) `modules/rootkit/rootkit.c:86` `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked getdents function
+- `hooked_getdents64` (function) `modules/rootkit/rootkit.c:112` `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked getdents64 function
+- `hooked_read` (function) `modules/rootkit/rootkit.c:138` `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked read function to create a backdoor
+- `disable_module_signature_verification` (function) `modules/rootkit/rootkit.c:192` `static void disable_module_signature_verification(void)` -- Function to disable module signature verification
+- `hook_syscalls` (function) `modules/rootkit/rootkit.c:206` `static int __init hook_syscalls(void)` -- Function to hook system calls
+- `unhook_syscalls` (function) `modules/rootkit/rootkit.c:219` `static void __exit unhook_syscalls(void)` -- Function to unhook system calls
 
 ## modules/saas_attacks.py
 Imported by: `cli/commands/cloud_attacks.py`
@@ -415,83 +484,6 @@ Imported by: `cli/commands/persist_migrated.py`
 - `TrafficMorpher.generate_websocket_masking` (method) `modules/traffic_morpher.py:190` `def generate_websocket_masking(self, data)` -- Apply WebSocket frame masking with random key.
 - `TrafficMorpher.generate_cloudflare_worker_proxy_config` (method) `modules/traffic_morpher.py:205` `def generate_cloudflare_worker_proxy_config(self, c2_host, c2_port, auth_token)` -- Generate a Cloudflare Worker script that proxies C2 traffic.
 - `TrafficMorpher.generate_beacon_profile` (method) `modules/traffic_morpher.py:270` `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)` -- Generate a complete C2 beacon profile configuration.
-
-## modules/traffic_recorder.py
-Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
-- `url_template` (function) `modules/traffic_recorder.py:69` `def url_template(url)` -- Collapse numeric path segments so similar URLs group together.
-- `TrafficRecorder.__init__` (method) `modules/traffic_recorder.py:94` `def __init__(self, base_dir)` -- Create storage directories and initialize the index.
-- `TrafficRecorder.record` (method) `modules/traffic_recorder.py:138` `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...` -- Persist one exchange and return its descriptor.
-- `TrafficRecorder.since` (method) `modules/traffic_recorder.py:230` `def since(self, rowid, limit)` -- Page exchanges newer than a rowid watermark for loop ingestion.
-- `TrafficRecorder.latest_rowid` (method) `modules/traffic_recorder.py:247` `def latest_rowid(self)` -- Return the current max rowid (0 when the index is empty).
-- `TrafficRecorder.query` (method) `modules/traffic_recorder.py:253` `def query(self, host, status, limit, offset, task)` -- Page exchanges with optional host, status and task filters.
-- `TrafficRecorder.get_body` (method) `modules/traffic_recorder.py:275` `def get_body(self, exchange_id)` -- Load the stored body document for one exchange.
-- `TrafficRecorder.read_body` (method) `modules/traffic_recorder.py:284` `def read_body(self, exchange_id, part, offset, length)` -- Read one body in ranges like a blob store.
-- `TrafficRecorder.count` (method) `modules/traffic_recorder.py:317` `def count(self)` -- Return the total number of recorded exchanges.
-- `TrafficRecorder.backfill_fts` (method) `modules/traffic_recorder.py:343` `def backfill_fts(self, batch)` -- Index stored bodies missing from the FTS table.
-- `TrafficRecorder.search_body` (method) `modules/traffic_recorder.py:382` `def search_body(self, query, limit)` -- Full-text search request/response bodies.
-- `TrafficRecorder.export_archive` (method) `modules/traffic_recorder.py:451` `def export_archive(self, path, limit, task)` -- Export the index plus bodies into a portable zip archive.
-- `TrafficRecorder.import_archive` (method) `modules/traffic_recorder.py:493` `def import_archive(self, path)` -- Merge an archive exported by :meth:`export_archive`.
-- `TrafficRecorder.import_inbox` (method) `modules/traffic_recorder.py:554` `def import_inbox(self, inbox_dir)` -- Import every zip dropped in the inbox, moving handled files away.
-- `TrafficRecorder.gc` (method) `modules/traffic_recorder.py:587` `def gc(self, older_than_sec)` -- Delete exchanges older than a cut-off with their bodies and index rows.
-
-## modules/trigger_policy.py
-Depends on: `core/logging.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`
-Imported by: `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`
-- `validate_triggers` (function) `modules/trigger_policy.py:40` `def validate_triggers(raw)` -- Validate the raw ``triggers`` section of the orchestrator YAML.
-- `seeds` (function) `modules/trigger_policy.py:87` `def seeds(raw)` -- Coerce validated trigger rows into seed dicts for the store.
-- `read_policy` (function) `modules/trigger_policy.py:120` `def read_policy(path)` -- Read the shipped orchestrator YAML triggers section.
-- `seed_store` (function) `modules/trigger_policy.py:146` `def seed_store(policy, store, task_id)` -- Merge declarative seeds into a persistent TriggerStore.
-- `export_store` (function) `modules/trigger_policy.py:171` `def export_store(task_id)` -- Return the current store rows for TUI and API surfaces.
-- `remove_seed` (function) `modules/trigger_policy.py:185` `def remove_seed(kind, arg, task_id)` -- Drop the first runtime trigger matching a declarative signature.
-
-## modules/ttp_coverage.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/caldera.py`
-- `TTPCoverage.__init__` (method) `modules/ttp_coverage.py:68` `def __init__(self)`
-- `TTPCoverage.rebuild_from_operations` (method) `modules/ttp_coverage.py:76` `def rebuild_from_operations(self)` -- Re-walk every operation on disk and refresh the matrix.
-- `TTPCoverage.add` (method) `modules/ttp_coverage.py:125` `def add(self, technique_id, name, tactic, status, operation_id)`
-- `TTPCoverage.compute_ready` (method) `modules/ttp_coverage.py:149` `def compute_ready(self, available_facts)` -- Return the techniques that could run given available facts.
-- `TTPCoverage.matrix` (method) `modules/ttp_coverage.py:190` `def matrix(self)` -- Render a coloured-by-tactic table of all techniques.
-- `TTPCoverage.status_by_id` (method) `modules/ttp_coverage.py:231` `def status_by_id(self, technique_id)`
-- `TTPCoverage.to_dict` (method) `modules/ttp_coverage.py:234` `def to_dict(self)`
-- `get_coverage` (function) `modules/ttp_coverage.py:260` `def get_coverage()` -- Return a fresh :class:`TTPCoverage`.
-
-## modules/ttpscope_bridge.py
-Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/atomic_resolver.py`, `skills/lazyown_parquet_db.py`
-Imported by: `skills/lazyown_mcp.py`
-- `locate_binary` (function) `modules/ttpscope_bridge.py:82` `def locate_binary()` -- Return the ttpscope binary path, preferring the vendored build.
-- `validate_object_id` (function) `modules/ttpscope_bridge.py:92` `def validate_object_id(raw)` -- Validate an ATT&CK object ID (T1059.001, G0016, S0002, ...).
-- `validate_query` (function) `modules/ttpscope_bridge.py:100` `def validate_query(raw)` -- Validate a free-text search query.
-- `validate_platform` (function) `modules/ttpscope_bridge.py:112` `def validate_platform(raw)` -- Validate a matrix platform filter (empty means all).
-- `do_sync` (function) `modules/ttpscope_bridge.py:497` `def do_sync()` -- Download the Enterprise ATT&CK bundle via ttpscope sync.
-- `do_search` (function) `modules/ttpscope_bridge.py:508` `def do_search(query)` -- Search IDs, names, aliases and descriptions.
-- `do_show` (function) `modules/ttpscope_bridge.py:520` `def do_show(object_id)` -- Show one ATT&CK object and its relationships.
-- `do_matrix` (function) `modules/ttpscope_bridge.py:535` `def do_matrix(platform)` -- Render the Enterprise matrix, optionally filtered by platform.
-- `do_note` (function) `modules/ttpscope_bridge.py:551` `def do_note(object_id, text)` -- Append a timestamped research note.
-- `do_notes` (function) `modules/ttpscope_bridge.py:570` `def do_notes(object_id)` -- Read research notes for an object.
-- `do_chain` (function) `modules/ttpscope_bridge.py:582` `def do_chain(object_id, platform, limit)` -- Join ttpscope context with Atomic tests and parquet techniques.
-- `run_action` (function) `modules/ttpscope_bridge.py:652` `def run_action(action)` -- Dispatch a validated action (used by CLI addons and MCP).
-- `main` (function) `modules/ttpscope_bridge.py:679` `def main()` -- CLI entry point for the lazyaddon execute_command.
-
-## modules/unified_bridge.py
-Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/state_manager.py`, `modules/toposwarm_bridge.py`
-Imported by: `lazyown.py`
-- `RouteBackend.available` (method) `modules/unified_bridge.py:69` `def available(self)`
-- `RouteBackend.route` (method) `modules/unified_bridge.py:72` `def route(self, prompt, context)`
-- `KeywordBackend.available` (method) `modules/unified_bridge.py:102` `def available(self)`
-- `KeywordBackend.route` (method) `modules/unified_bridge.py:105` `def route(self, prompt, context)`
-- `LazyownBridgeBackend.available` (method) `modules/unified_bridge.py:126` `def available(self)`
-- `LazyownBridgeBackend.route` (method) `modules/unified_bridge.py:134` `def route(self, prompt, context)`
-- `TopoSwarmBackend.available` (method) `modules/unified_bridge.py:164` `def available(self)`
-- `TopoSwarmBackend.route` (method) `modules/unified_bridge.py:173` `def route(self, prompt, context)`
-- `UnifiedBridge.__init__` (method) `modules/unified_bridge.py:214` `def __init__(self)`
-- `UnifiedBridge.get` (method) `modules/unified_bridge.py:225` `def get(cls)`
-- `UnifiedBridge.set_publish_callback` (method) `modules/unified_bridge.py:230` `def set_publish_callback(self, cb)`
-- `UnifiedBridge.route` (method) `modules/unified_bridge.py:253` `def route(self, prompt, context)` -- Route a natural-language prompt to the best LazyOwn tool.
-- `UnifiedBridge.delegate` (method) `modules/unified_bridge.py:300` `def delegate(self, goal, backend, timeout, max_iterations)` -- Delegate a complex task to an internal AI agent.
-- `UnifiedBridge.list_backends` (method) `modules/unified_bridge.py:461` `def list_backends(self)`
-- `route_prompt` (function) `modules/unified_bridge.py:483` `def route_prompt(prompt, context)` -- Convenience: route a prompt without instantiating UnifiedBridge.
-- `delegate_task` (function) `modules/unified_bridge.py:488` `def delegate_task(goal, backend)` -- Convenience: delegate a task to an AI agent.
 
 
 Next: [API_p18.md](API_p18.md)

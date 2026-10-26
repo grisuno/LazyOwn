@@ -358,34 +358,34 @@ Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/l
 - `query_atomic` (function) `modules/atomic_enricher.py:232` `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` -- Structured query over the enriched Atomic Red Team technique catalogue.
 
 ## modules/atomic_exploit_bridge.py
-Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 Imported by: `cli/commands/command_and_control_migrated.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 - `ExploitSpec.severity_rank` (method) `modules/atomic_exploit_bridge.py:117` `def severity_rank(self)` -- Return numeric severity for ranking (mirrors the engine).
 - `ExploitSpec.to_dict` (method) `modules/atomic_exploit_bridge.py:121` `def to_dict(self)` -- Return a JSON-serializable view.
 - `validate_spec` (function) `modules/atomic_exploit_bridge.py:150` `def validate_spec(data, filename)` -- Validate raw YAML data against the exploit schema.
 - `load_all` (function) `modules/atomic_exploit_bridge.py:226` `def load_all(exploits_dir)` -- Load every enabled, valid exploit YAML (skips the rest loudly).
-- `match_score` (function) `modules/atomic_exploit_bridge.py:281` `def match_score(spec, service, product, version)` -- Score a spec against one discovered service (0 when no match).
-- `parse_scan_xml` (function) `modules/atomic_exploit_bridge.py:300` `def parse_scan_xml(xml_path)` -- Parse open TCP ports from a lazynmap XML file (stdlib only).
-- `auto` (function) `modules/atomic_exploit_bridge.py:337` `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` -- Pwntomate-style sweep: triggers from scan XML, ranked, stop on SHELL.
-- `rank` (function) `modules/atomic_exploit_bridge.py:435` `def rank(services, exploits_dir)` -- Rank every spec against discovered services (severity, then confidence).
-- `build_commands` (function) `modules/atomic_exploit_bridge.py:466` `def build_commands(spec, rhost, lhost, lport, port)` -- Substitute ``{tokens}`` into a spec's commands (no shell involved).
-- `detect_shell` (function) `modules/atomic_exploit_bridge.py:484` `def detect_shell(spec, output)` -- Return True when output carries any shell indicator.
-- `run_spec` (function) `modules/atomic_exploit_bridge.py:526` `def run_spec(spec, rhost, lhost, lport, port)` -- Execute a spec's commands in order; stop at the first SHELL hit.
-- `open_shell` (function) `modules/atomic_exploit_bridge.py:606` `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` -- Return the first exec-capable spec with a live multiplexed session.
-- `_ShellSession.__init__` (method) `modules/atomic_exploit_bridge.py:670` `def __init__(self, target, port, sock, owner)`
-- `_ShellSession.alive` (method) `modules/atomic_exploit_bridge.py:680` `def alive(self, timeout)` -- Return True when the session answers a no-op probe.
-- `_ShellSession.run` (method) `modules/atomic_exploit_bridge.py:687` `def run(self, command, timeout)` -- Run one command, return stdout+stderr (never raises).
-- `_ShellSession.close` (method) `modules/atomic_exploit_bridge.py:729` `def close(self)` -- End the remote shell cleanly so its listener dies too.
-- `record_shell_outcome` (function) `modules/atomic_exploit_bridge.py:780` `def record_shell_outcome(target, via)` -- Mark one target as compromised after an operator obtains a shell.
-- `live_sessions` (function) `modules/atomic_exploit_bridge.py:809` `def live_sessions()` -- Return in-process shell sessions without probing the target.
-- `close_sessions` (function) `modules/atomic_exploit_bridge.py:828` `def close_sessions(target)` -- Close cached sessions (all, or one target).
-- `cleanup_target` (function) `modules/atomic_exploit_bridge.py:866` `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` -- Clean up after an engagement (soft default, hard on request).
-- `ensure_session` (function) `modules/atomic_exploit_bridge.py:942` `def ensure_session(spec, target, lhost)` -- Return a live multiplexed session, establishing it when needed.
-- `remote_exec` (function) `modules/atomic_exploit_bridge.py:1038` `def remote_exec(spec, target, command, lhost)` -- Run one command through the persistent multiplexed session.
-- `interactive_shell` (function) `modules/atomic_exploit_bridge.py:1056` `def interactive_shell(target, lhost, interactive, exploits_dir)` -- Open a multiplexed session; drop into a REPL only when allowed.
-- `emulate` (function) `modules/atomic_exploit_bridge.py:1111` `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` -- Execute emulation tests on the target through one working shell.
-- `record_outcome` (function) `modules/atomic_exploit_bridge.py:1145` `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` -- Feed one exploit outcome to every shared surface through the bus.
-- `main` (function) `modules/atomic_exploit_bridge.py:1233` `def main()` -- CLI: validate | list | rank | run (used by the addon and operators).
+- `match_score` (function) `modules/atomic_exploit_bridge.py:281` `def match_score(spec, service, product, version, os_hint)` -- Score a spec against one discovered service (0 when no match).
+- `parse_scan_xml` (function) `modules/atomic_exploit_bridge.py:314` `def parse_scan_xml(xml_path)` -- Parse open TCP ports from a lazynmap XML file (stdlib only).
+- `auto` (function) `modules/atomic_exploit_bridge.py:351` `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` -- Pwntomate-style sweep: triggers from scan XML, ranked, stop on SHELL.
+- `rank` (function) `modules/atomic_exploit_bridge.py:456` `def rank(services, exploits_dir, os_hint)` -- Rank every spec against discovered services (severity, then confidence).
+- `build_commands` (function) `modules/atomic_exploit_bridge.py:511` `def build_commands(spec, rhost, lhost, lport, port)` -- Substitute ``{tokens}`` into a spec's commands (no shell involved).
+- `detect_shell` (function) `modules/atomic_exploit_bridge.py:529` `def detect_shell(spec, output)` -- Return True when output carries any shell indicator.
+- `run_spec` (function) `modules/atomic_exploit_bridge.py:571` `def run_spec(spec, rhost, lhost, lport, port)` -- Execute a spec's commands in order; stop at the first SHELL hit.
+- `open_shell` (function) `modules/atomic_exploit_bridge.py:651` `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` -- Return the first exec-capable spec with a live multiplexed session.
+- `_ShellSession.__init__` (method) `modules/atomic_exploit_bridge.py:715` `def __init__(self, target, port, sock, owner)`
+- `_ShellSession.alive` (method) `modules/atomic_exploit_bridge.py:725` `def alive(self, timeout)` -- Return True when the session answers a no-op probe.
+- `_ShellSession.run` (method) `modules/atomic_exploit_bridge.py:732` `def run(self, command, timeout)` -- Run one command, return stdout+stderr (never raises).
+- `_ShellSession.close` (method) `modules/atomic_exploit_bridge.py:774` `def close(self)` -- End the remote shell cleanly so its listener dies too.
+- `record_shell_outcome` (function) `modules/atomic_exploit_bridge.py:825` `def record_shell_outcome(target, via)` -- Mark one target as compromised after an operator obtains a shell.
+- `live_sessions` (function) `modules/atomic_exploit_bridge.py:854` `def live_sessions()` -- Return in-process shell sessions without probing the target.
+- `close_sessions` (function) `modules/atomic_exploit_bridge.py:873` `def close_sessions(target)` -- Close cached sessions (all, or one target).
+- `cleanup_target` (function) `modules/atomic_exploit_bridge.py:915` `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` -- Clean up after an engagement (soft default, hard on request).
+- `ensure_session` (function) `modules/atomic_exploit_bridge.py:992` `def ensure_session(spec, target, lhost)` -- Return a live multiplexed session, establishing it when needed.
+- `remote_exec` (function) `modules/atomic_exploit_bridge.py:1088` `def remote_exec(spec, target, command, lhost)` -- Run one command through the persistent multiplexed session.
+- `interactive_shell` (function) `modules/atomic_exploit_bridge.py:1106` `def interactive_shell(target, lhost, interactive, exploits_dir)` -- Open a multiplexed session; drop into a REPL only when allowed.
+- `emulate` (function) `modules/atomic_exploit_bridge.py:1161` `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` -- Execute emulation tests on the target through one working shell.
+- `record_outcome` (function) `modules/atomic_exploit_bridge.py:1195` `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` -- Feed one exploit outcome to every shared surface through the bus.
+- `main` (function) `modules/atomic_exploit_bridge.py:1283` `def main()` -- CLI: validate | list | rank | run (used by the addon and operators).
 
 ## modules/atomic_resolver.py
 Depends on: `core/logging.py`, `core/safe_exec.py`
@@ -415,12 +415,12 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `modules/apt_playbo
 - `technique_env_override` (function) `modules/atomic_resolver.py:496` `def technique_env_override()` -- Return atomics dir override from env (empty when unset).
 
 ## modules/attack_surface3d.py
-Depends on: `cli/surface_graph.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/intel_fusion.py`
+Depends on: `cli/surface_graph.py`, `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/intel_fusion.py`
 Imported by: `cli/commands/surface.py`, `lazyc2.py`, `modules/sinks/attack_graph.py`, `tests/test_attack_surface3d.py`
-- `build_attack_graph` (function) `modules/attack_surface3d.py:147` `def build_attack_graph(sessions_dir, payload_path, est_cap)` -- Fuse surface scans with campaign intel into one C2-centred graph.
-- `add_edge` (function) `modules/attack_surface3d.py:155` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation between known nodes.
-- `tag` (function) `modules/attack_surface3d.py:166` `def tag(nid, source)` -- Record a corroborating artefact on a node, deduped.
-- `refresh_summary` (function) `modules/attack_surface3d.py:460` `def refresh_summary(graph, sessions_dir)` -- Score exposure into intel_summary.json for the autonomous loop.
+- `build_attack_graph` (function) `modules/attack_surface3d.py:148` `def build_attack_graph(sessions_dir, payload_path, est_cap)` -- Fuse surface scans with campaign intel into one C2-centred graph.
+- `add_edge` (function) `modules/attack_surface3d.py:156` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation between known nodes.
+- `tag` (function) `modules/attack_surface3d.py:167` `def tag(nid, source)` -- Record a corroborating artefact on a node, deduped.
+- `refresh_summary` (function) `modules/attack_surface3d.py:480` `def refresh_summary(graph, sessions_dir)` -- Score exposure into intel_summary.json for the autonomous loop.
 
 ## modules/auto_loop_memory.py
 Imported by: `skills/lazyown_mcp.py`, `tests/test_auto_loop_memory.py`

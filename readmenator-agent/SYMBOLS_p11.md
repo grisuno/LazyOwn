@@ -1,8 +1,15 @@
-# Symbols (page 11 of 45)
+# Symbols (page 11 of 46)
 Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `modules/ai_exploit_chain.py:259` | `def __init__(self)` |
+| `_ensure` | method | `modules/ai_exploit_chain.py:487` | `def _ensure(context, strategy)` |
+| `_parse_shell_hints` | method | `modules/ai_exploit_chain.py:492` | `def _parse_shell_hints(self, output, context)` |
+| `adapt_chain` | method | `modules/ai_exploit_chain.py:428` | `def adapt_chain(self, context, new_info)` |
+| `build_chain_plan` | method | `modules/ai_exploit_chain.py:391` | `def build_chain_plan(self, context)` |
+| `estimate_confidence` | method | `modules/ai_exploit_chain.py:349` | `def estimate_confidence(self, strategy, profile)` |
+| `evaluate_failure` | method | `modules/ai_exploit_chain.py:306` | `def evaluate_failure(result)` |
 | `reason` | method | `modules/ai_exploit_chain.py:285` | `def reason(self, context)` |
 | `select_next_strategy` | method | `modules/ai_exploit_chain.py:318` | `def select_next_strategy(self, context)` |
 | `AIResult` | class | `modules/ai_fallback.py:95` | `class AIResult` |
@@ -119,38 +126,38 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `query_atomic` | function | `modules/atomic_enricher.py:232` | `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` |
 | `ExploitCommand` | class | `modules/atomic_exploit_bridge.py:84` | `class ExploitCommand` |
 | `ExploitSpec` | class | `modules/atomic_exploit_bridge.py:92` | `class ExploitSpec` |
-| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:662` | `class _ShellSession` |
-| `__init__` | method | `modules/atomic_exploit_bridge.py:670` | `def __init__(self, target, port, sock, owner)` |
-| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:997` | `def _adopt_live_shell(spec, target, port)` |
-| `_claim_port` | function | `modules/atomic_exploit_bridge.py:757` | `def _claim_port(spec_id, target, port)` |
-| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:924` | `def _destroy_gym(container)` |
-| `_install_missing_binaries` | function | `modules/atomic_exploit_bridge.py:496` | `def _install_missing_binaries(names)` |
-| `_read_until` | method | `modules/atomic_exploit_bridge.py:701` | `def _read_until(self, marker, timeout)` |
-| `_release_port` | function | `modules/atomic_exploit_bridge.py:775` | `def _release_port(target, port)` |
+| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:707` | `class _ShellSession` |
+| `__init__` | method | `modules/atomic_exploit_bridge.py:715` | `def __init__(self, target, port, sock, owner)` |
+| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:1047` | `def _adopt_live_shell(spec, target, port)` |
+| `_claim_port` | function | `modules/atomic_exploit_bridge.py:802` | `def _claim_port(spec_id, target, port)` |
+| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:974` | `def _destroy_gym(container)` |
+| `_install_missing_binaries` | function | `modules/atomic_exploit_bridge.py:541` | `def _install_missing_binaries(names)` |
+| `_read_until` | method | `modules/atomic_exploit_bridge.py:746` | `def _read_until(self, marker, timeout)` |
+| `_release_port` | function | `modules/atomic_exploit_bridge.py:820` | `def _release_port(target, port)` |
 | `_string_list` | function | `modules/atomic_exploit_bridge.py:142` | `def _string_list(value)` |
-| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:1023` | `def _wait_port_closed(target, port, timeout)` |
-| `alive` | method | `modules/atomic_exploit_bridge.py:680` | `def alive(self, timeout)` |
-| `auto` | function | `modules/atomic_exploit_bridge.py:337` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
-| `build_commands` | function | `modules/atomic_exploit_bridge.py:466` | `def build_commands(spec, rhost, lhost, lport, port)` |
-| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:866` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
-| `close` | method | `modules/atomic_exploit_bridge.py:729` | `def close(self)` |
-| `close_sessions` | function | `modules/atomic_exploit_bridge.py:828` | `def close_sessions(target)` |
-| `detect_shell` | function | `modules/atomic_exploit_bridge.py:484` | `def detect_shell(spec, output)` |
-| `emulate` | function | `modules/atomic_exploit_bridge.py:1111` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
-| `ensure_session` | function | `modules/atomic_exploit_bridge.py:942` | `def ensure_session(spec, target, lhost)` |
-| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1056` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
-| `live_sessions` | function | `modules/atomic_exploit_bridge.py:809` | `def live_sessions()` |
+| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:1073` | `def _wait_port_closed(target, port, timeout)` |
+| `alive` | method | `modules/atomic_exploit_bridge.py:725` | `def alive(self, timeout)` |
+| `auto` | function | `modules/atomic_exploit_bridge.py:351` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
+| `build_commands` | function | `modules/atomic_exploit_bridge.py:511` | `def build_commands(spec, rhost, lhost, lport, port)` |
+| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:915` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
+| `close` | method | `modules/atomic_exploit_bridge.py:774` | `def close(self)` |
+| `close_sessions` | function | `modules/atomic_exploit_bridge.py:873` | `def close_sessions(target)` |
+| `detect_shell` | function | `modules/atomic_exploit_bridge.py:529` | `def detect_shell(spec, output)` |
+| `emulate` | function | `modules/atomic_exploit_bridge.py:1161` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
+| `ensure_session` | function | `modules/atomic_exploit_bridge.py:992` | `def ensure_session(spec, target, lhost)` |
+| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1106` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
+| `live_sessions` | function | `modules/atomic_exploit_bridge.py:854` | `def live_sessions()` |
 | `load_all` | function | `modules/atomic_exploit_bridge.py:226` | `def load_all(exploits_dir)` |
-| `main` | function | `modules/atomic_exploit_bridge.py:1233` | `def main()` |
-| `match_score` | function | `modules/atomic_exploit_bridge.py:281` | `def match_score(spec, service, product, version)` |
-| `open_shell` | function | `modules/atomic_exploit_bridge.py:606` | `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` |
-| `parse_scan_xml` | function | `modules/atomic_exploit_bridge.py:300` | `def parse_scan_xml(xml_path)` |
-| `rank` | function | `modules/atomic_exploit_bridge.py:435` | `def rank(services, exploits_dir)` |
-| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1145` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
-| `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:780` | `def record_shell_outcome(target, via)` |
-| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1038` | `def remote_exec(spec, target, command, lhost)` |
-| `run` | method | `modules/atomic_exploit_bridge.py:687` | `def run(self, command, timeout)` |
-| `run_spec` | function | `modules/atomic_exploit_bridge.py:526` | `def run_spec(spec, rhost, lhost, lport, port)` |
+| `main` | function | `modules/atomic_exploit_bridge.py:1283` | `def main()` |
+| `match_score` | function | `modules/atomic_exploit_bridge.py:281` | `def match_score(spec, service, product, version, os_hint)` |
+| `open_shell` | function | `modules/atomic_exploit_bridge.py:651` | `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` |
+| `parse_scan_xml` | function | `modules/atomic_exploit_bridge.py:314` | `def parse_scan_xml(xml_path)` |
+| `rank` | function | `modules/atomic_exploit_bridge.py:456` | `def rank(services, exploits_dir, os_hint)` |
+| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1195` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
+| `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:825` | `def record_shell_outcome(target, via)` |
+| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1088` | `def remote_exec(spec, target, command, lhost)` |
+| `run` | method | `modules/atomic_exploit_bridge.py:732` | `def run(self, command, timeout)` |
+| `run_spec` | function | `modules/atomic_exploit_bridge.py:571` | `def run_spec(spec, rhost, lhost, lport, port)` |
 | `severity_rank` | method | `modules/atomic_exploit_bridge.py:117` | `def severity_rank(self)` |
 | `to_dict` | method | `modules/atomic_exploit_bridge.py:121` | `def to_dict(self)` |
 | `validate_spec` | function | `modules/atomic_exploit_bridge.py:150` | `def validate_spec(data, filename)` |
@@ -181,17 +188,17 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `stats` | method | `modules/atomic_resolver.py:415` | `def stats(self)` |
 | `technique_env_override` | function | `modules/atomic_resolver.py:496` | `def technique_env_override()` |
 | `to_dict` | method | `modules/atomic_resolver.py:151` | `def to_dict(self)` |
-| `_doc` | function | `modules/attack_surface3d.py:327` | `def _doc(node)` |
-| `_enrich` | function | `modules/attack_surface3d.py:365` | `def _enrich(nodes, edges)` |
-| `_family_color` | function | `modules/attack_surface3d.py:100` | `def _family_color(name)` |
-| `_host_of` | function | `modules/attack_surface3d.py:141` | `def _host_of(node)` |
-| `_intel_id_map` | function | `modules/attack_surface3d.py:315` | `def _intel_id_map(intel, key_to_id)` |
-| `_pagerank` | function | `modules/attack_surface3d.py:111` | `def _pagerank(ids, pairs, alpha, max_iter, tol)` |
-| `_symbols` | function | `modules/attack_surface3d.py:346` | `def _symbols(node)` |
-| `add_edge` | function | `modules/attack_surface3d.py:155` | `def add_edge(src, dst, kind, evidence, weight)` |
-| `build_attack_graph` | function | `modules/attack_surface3d.py:147` | `def build_attack_graph(sessions_dir, payload_path, est_cap)` |
-| `refresh_summary` | function | `modules/attack_surface3d.py:460` | `def refresh_summary(graph, sessions_dir)` |
-| `tag` | function | `modules/attack_surface3d.py:166` | `def tag(nid, source)` |
+| `_doc` | function | `modules/attack_surface3d.py:347` | `def _doc(node)` |
+| `_enrich` | function | `modules/attack_surface3d.py:385` | `def _enrich(nodes, edges)` |
+| `_family_color` | function | `modules/attack_surface3d.py:101` | `def _family_color(name)` |
+| `_host_of` | function | `modules/attack_surface3d.py:142` | `def _host_of(node)` |
+| `_intel_id_map` | function | `modules/attack_surface3d.py:335` | `def _intel_id_map(intel, key_to_id)` |
+| `_pagerank` | function | `modules/attack_surface3d.py:112` | `def _pagerank(ids, pairs, alpha, max_iter, tol)` |
+| `_symbols` | function | `modules/attack_surface3d.py:366` | `def _symbols(node)` |
+| `add_edge` | function | `modules/attack_surface3d.py:156` | `def add_edge(src, dst, kind, evidence, weight)` |
+| `build_attack_graph` | function | `modules/attack_surface3d.py:148` | `def build_attack_graph(sessions_dir, payload_path, est_cap)` |
+| `refresh_summary` | function | `modules/attack_surface3d.py:480` | `def refresh_summary(graph, sessions_dir)` |
+| `tag` | function | `modules/attack_surface3d.py:167` | `def tag(nid, source)` |
 | `DecisionPersistence` | class | `modules/auto_loop_memory.py:212` | `class DecisionPersistence` |
 | `FailureMemory` | class | `modules/auto_loop_memory.py:53` | `class FailureMemory` |
 | `PendingDecision` | class | `modules/auto_loop_memory.py:45` | `class PendingDecision` |
@@ -282,47 +289,48 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `to_csv_row` | method | `modules/auto_purple.py:146` | `def to_csv_row(self)` |
 | `to_dict` | method | `modules/auto_purple.py:160` | `def to_dict(self)` |
 | `AutoVerb` | class | `modules/auto_registry.py:102` | `class AutoVerb` |
-| `ShellResult` | class | `modules/auto_registry.py:877` | `class ShellResult` |
-| `_TeeCapture` | class | `modules/auto_registry.py:884` | `class _TeeCapture(StringIO)` |
-| `__init__` | method | `modules/auto_registry.py:894` | `def __init__(self, observer)` |
-| `_apt_chain_steps` | function | `modules/auto_registry.py:726` | `def _apt_chain_steps(embedded, target, strict)` |
-| `_atomic_steps` | function | `modules/auto_registry.py:692` | `def _atomic_steps(verb, text)` |
-| `_cli_verb_allowed` | function | `modules/auto_registry.py:371` | `def _cli_verb_allowed(name)` |
-| `_invoke` | function | `modules/auto_registry.py:935` | `def _invoke()` |
-| `_kill` | function | `modules/auto_registry.py:1087` | `def _kill()` |
+| `ShellResult` | class | `modules/auto_registry.py:907` | `class ShellResult` |
+| `_TeeCapture` | class | `modules/auto_registry.py:914` | `class _TeeCapture(StringIO)` |
+| `__init__` | method | `modules/auto_registry.py:924` | `def __init__(self, observer)` |
+| `_apt_chain_steps` | function | `modules/auto_registry.py:756` | `def _apt_chain_steps(embedded, target, strict)` |
+| `_atomic_steps` | function | `modules/auto_registry.py:722` | `def _atomic_steps(verb, text)` |
+| `_cli_verb_allowed` | function | `modules/auto_registry.py:383` | `def _cli_verb_allowed(name)` |
+| `_invoke` | function | `modules/auto_registry.py:965` | `def _invoke()` |
+| `_kill` | function | `modules/auto_registry.py:1117` | `def _kill()` |
 | `_looks_like_target` | function | `modules/auto_registry.py:37` | `def _looks_like_target(value)` |
-| `_parse_trigger_lines` | function | `modules/auto_registry.py:462` | `def _parse_trigger_lines(lines, start)` |
-| `_playbook_steps` | function | `modules/auto_registry.py:711` | `def _playbook_steps(text)` |
-| `_register_process` | function | `modules/auto_registry.py:1010` | `def _register_process(process)` |
-| `_repo_base` | function | `modules/auto_registry.py:399` | `def _repo_base()` |
-| `_target` | function | `modules/auto_registry.py:946` | `def _target()` |
-| `_unregister_process` | function | `modules/auto_registry.py:1016` | `def _unregister_process(process)` |
-| `_verb_row` | function | `modules/auto_registry.py:287` | `def _verb_row(name)` |
-| `_verb_rows` | function | `modules/auto_registry.py:243` | `def _verb_rows()` |
-| `addon_hits_for` | function | `modules/auto_registry.py:552` | `def addon_hits_for(service_text, limit)` |
+| `_os_default_for_verb` | function | `modules/auto_registry.py:246` | `def _os_default_for_verb(verb)` |
+| `_parse_trigger_lines` | function | `modules/auto_registry.py:474` | `def _parse_trigger_lines(lines, start)` |
+| `_playbook_steps` | function | `modules/auto_registry.py:741` | `def _playbook_steps(text)` |
+| `_register_process` | function | `modules/auto_registry.py:1040` | `def _register_process(process)` |
+| `_repo_base` | function | `modules/auto_registry.py:411` | `def _repo_base()` |
+| `_target` | function | `modules/auto_registry.py:976` | `def _target()` |
+| `_unregister_process` | function | `modules/auto_registry.py:1046` | `def _unregister_process(process)` |
+| `_verb_row` | function | `modules/auto_registry.py:299` | `def _verb_row(name)` |
+| `_verb_rows` | function | `modules/auto_registry.py:254` | `def _verb_rows()` |
+| `addon_hits_for` | function | `modules/auto_registry.py:564` | `def addon_hits_for(service_text, limit)` |
 | `auto_verb_target` | function | `modules/auto_registry.py:66` | `def auto_verb_target(command)` |
-| `binary_available` | function | `modules/auto_registry.py:406` | `def binary_available(name)` |
-| `build_command` | function | `modules/auto_registry.py:651` | `def build_command(verb, target)` |
-| `cancel_running_commands` | function | `modules/auto_registry.py:1032` | `def cancel_running_commands()` |
-| `execute_shell_verb` | function | `modules/auto_registry.py:912` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
-| `execute_streaming` | function | `modules/auto_registry.py:1055` | `def execute_streaming(command, on_output, timeout_sec)` |
-| `is_routable_command` | function | `modules/auto_registry.py:604` | `def is_routable_command(line)` |
-| `is_shell_verb` | function | `modules/auto_registry.py:627` | `def is_shell_verb(token)` |
-| `iter_addon_triggers` | function | `modules/auto_registry.py:493` | `def iter_addon_triggers()` |
-| `iter_tool_triggers` | function | `modules/auto_registry.py:529` | `def iter_tool_triggers()` |
-| `missing_binary` | function | `modules/auto_registry.py:422` | `def missing_binary(command)` |
-| `propose_addon_intents` | function | `modules/auto_registry.py:578` | `def propose_addon_intents(service_texts, target, limit)` |
-| `propose_intents` | function | `modules/auto_registry.py:668` | `def propose_intents(goal, target, finding_texts)` |
-| `service_tokens` | function | `modules/auto_registry.py:451` | `def service_tokens(service_text)` |
-| `steps_for` | function | `modules/auto_registry.py:754` | `def steps_for(text, target)` |
-| `track_process` | function | `modules/auto_registry.py:1022` | `def track_process(process)` |
-| `untrack_process` | function | `modules/auto_registry.py:1027` | `def untrack_process(process)` |
-| `verb_available` | function | `modules/auto_registry.py:446` | `def verb_available(verb)` |
-| `verb_enabled` | function | `modules/auto_registry.py:296` | `def verb_enabled(name)` |
-| `verb_gap` | function | `modules/auto_registry.py:434` | `def verb_gap(verb)` |
-| `verbs` | function | `modules/auto_registry.py:622` | `def verbs()` |
-| `verbs_for` | function | `modules/auto_registry.py:662` | `def verbs_for(text)` |
-| `write` | method | `modules/auto_registry.py:899` | `def write(self, data)` |
+| `binary_available` | function | `modules/auto_registry.py:418` | `def binary_available(name)` |
+| `build_command` | function | `modules/auto_registry.py:681` | `def build_command(verb, target)` |
+| `cancel_running_commands` | function | `modules/auto_registry.py:1062` | `def cancel_running_commands()` |
+| `execute_shell_verb` | function | `modules/auto_registry.py:942` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
+| `execute_streaming` | function | `modules/auto_registry.py:1085` | `def execute_streaming(command, on_output, timeout_sec)` |
+| `is_routable_command` | function | `modules/auto_registry.py:634` | `def is_routable_command(line)` |
+| `is_shell_verb` | function | `modules/auto_registry.py:657` | `def is_shell_verb(token)` |
+| `iter_addon_triggers` | function | `modules/auto_registry.py:505` | `def iter_addon_triggers()` |
+| `iter_tool_triggers` | function | `modules/auto_registry.py:541` | `def iter_tool_triggers()` |
+| `missing_binary` | function | `modules/auto_registry.py:434` | `def missing_binary(command)` |
+| `propose_addon_intents` | function | `modules/auto_registry.py:590` | `def propose_addon_intents(service_texts, target, limit)` |
+| `propose_intents` | function | `modules/auto_registry.py:698` | `def propose_intents(goal, target, finding_texts)` |
+| `service_tokens` | function | `modules/auto_registry.py:463` | `def service_tokens(service_text)` |
+| `steps_for` | function | `modules/auto_registry.py:784` | `def steps_for(text, target)` |
+| `track_process` | function | `modules/auto_registry.py:1052` | `def track_process(process)` |
+| `untrack_process` | function | `modules/auto_registry.py:1057` | `def untrack_process(process)` |
+| `verb_available` | function | `modules/auto_registry.py:458` | `def verb_available(verb)` |
+| `verb_enabled` | function | `modules/auto_registry.py:308` | `def verb_enabled(name)` |
+| `verb_gap` | function | `modules/auto_registry.py:446` | `def verb_gap(verb)` |
+| `verbs` | function | `modules/auto_registry.py:652` | `def verbs()` |
+| `verbs_for` | function | `modules/auto_registry.py:692` | `def verbs_for(text)` |
+| `write` | method | `modules/auto_registry.py:929` | `def write(self, data)` |
 | `AutonomousExploitEngine` | class | `modules/autonomous_exploit_engine.py:101` | `class AutonomousExploitEngine` |
 | `ExploitCandidate` | class | `modules/autonomous_exploit_engine.py:74` | `class ExploitCandidate` |
 | `ExploitResult` | class | `modules/autonomous_exploit_engine.py:89` | `class ExploitResult` |
@@ -478,23 +486,15 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `uninstall` | method | `modules/bof_registry.py:736` | `def uninstall(self, name)` |
 | `validate_args` | method | `modules/bof_registry.py:540` | `def validate_args(entry, args)` |
 | `verify_entry` | method | `modules/bof_registry.py:524` | `def verify_entry(entry, filepath)` |
-| `C2Server` | class | `modules/c2_agent.py:673` | `class C2Server` |
-| `__init__` | method | `modules/c2_agent.py:676` | `def __init__(self, port, user, password)` |
-| `_api` | function | `modules/c2_agent.py:787` | `def _api(path, data)` |
-| `_ensure_key` | function | `modules/c2_agent.py:451` | `def _ensure_key()` |
-| `_pid` | method | `modules/c2_agent.py:681` | `def _pid(self)` |
-| `_restore_key_from_snapshot` | function | `modules/c2_agent.py:482` | `def _restore_key_from_snapshot()` |
-| `_snapshot_key` | function | `modules/c2_agent.py:505` | `def _snapshot_key(aes_hex)` |
-| `_sync_credentials_file` | function | `modules/c2_agent.py:53` | `def _sync_credentials_file(user, password)` |
-| `_unverified_context` | function | `modules/c2_agent.py:78` | `def _unverified_context()` |
-| `build_agent` | function | `modules/c2_agent.py:388` | `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` |
-| `client_id_for` | function | `modules/c2_agent.py:88` | `def client_id_for(target, privilege)` |
-| `deploy` | function | `modules/c2_agent.py:522` | `def deploy(target, c2_base, route, lhost, sleep, privilege)` |
-| `ensure_http_listener` | method | `modules/c2_agent.py:779` | `def ensure_http_listener(self, http_port, auth)` |
-| `read_aes_hex` | function | `modules/c2_agent.py:517` | `def read_aes_hex()` |
-| `read_records` | function | `modules/c2_agent.py:642` | `def read_records(client_id, limit)` |
-| `start` | method | `modules/c2_agent.py:725` | `def start(self)` |
-| `status` | method | `modules/c2_agent.py:693` | `def status(self)` |
-| `stop` | method | `modules/c2_agent.py:756` | `def stop(self)` |
+| `C2Server` | class | `modules/c2_agent.py:711` | `class C2Server` |
+| `__init__` | method | `modules/c2_agent.py:714` | `def __init__(self, port, user, password)` |
+| `_api` | function | `modules/c2_agent.py:825` | `def _api(path, data)` |
+| `_ensure_key` | function | `modules/c2_agent.py:462` | `def _ensure_key()` |
+| `_pid` | method | `modules/c2_agent.py:719` | `def _pid(self)` |
+| `_restore_key_from_snapshot` | function | `modules/c2_agent.py:493` | `def _restore_key_from_snapshot()` |
+| `_snapshot_key` | function | `modules/c2_agent.py:516` | `def _snapshot_key(aes_hex)` |
+| `_sync_credentials_file` | function | `modules/c2_agent.py:59` | `def _sync_credentials_file(user, password)` |
+| `_unverified_context` | function | `modules/c2_agent.py:84` | `def _unverified_context()` |
+| `build_agent` | function | `modules/c2_agent.py:398` | `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

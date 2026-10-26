@@ -699,7 +699,7 @@ chmod +x /tmp/stub && \
             "persistence_service_name": str(self.params.get("persistence_service_name", "sysmaint")),
             "reverse_shell_port": str(self.params.get("reverse_shell_port", "") or ""),
             "beacon_scan_ports": _beacon_scan_ports_csv(self.params),
-            "stealth": "True",
+            "stealth": str(self.params.get("new_implant_stealth", "True")),
             "user_agent_1": user_agent_1,
             "user_agent_2": user_agent_2,
             "user_agent_3": user_agent_3,

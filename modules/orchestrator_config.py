@@ -454,6 +454,7 @@ def effective_verbs() -> list[dict]:
                 "needs_target": bool(raw.get("needs_target", spec.needs_target)),
                 "extra_args": str(raw.get("extra_args", spec.extra_args) or ""),
                 "description": str(raw.get("description", spec.description) or ""),
+                "os": str(raw.get("os", getattr(spec, "os", "any") or "any") or "any"),
                 "source": "builtin",
             }
         )

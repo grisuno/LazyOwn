@@ -13,6 +13,7 @@ import os
 import pty
 import re
 import secrets
+import signal
 import select
 import socket
 import sqlite3
@@ -141,6 +142,7 @@ from modules.security_sanitizers import (
     SessionPathResolver,
     build_default_config,
 )
+from core.console import print_error
 from utils import Config, anti_debug, getprompt, load_payload
 
 _YAML_VIEW_MAX_FILES = 500
@@ -8619,6 +8621,17 @@ if __name__ == "__main__":
     # Remove any stale persisted config so a fresh listener is always created
     # with the current SSL setting (avoids cached ssl=False from previous runs).
     listener_manager.remove("default")
+    # Drop persisted listeners that would collide with the fresh default:
+    # two active listeners on the same port turn the second bind into a
+    # werkzeug sys.exit that kills the whole C2 process.
+    try:
+        for _row in list(listener_manager.status()):
+            _sid = str(_row.get("id", ""))
+            if _sid != "default" and int(_row.get("port", -1)) == int(lport):
+                listener_manager.remove(_sid)
+                print(f"[listener] Removed stale persisted listener '{_sid}' colliding on port {lport}")
+    except Exception as _lst_err:
+        print(f"[listener] Persisted-listener cleanup skipped: {_lst_err}")
     listener_manager.add(port=int(lport), ssl=ssl_default, listener_id="default")
 
     try:
@@ -8630,6 +8643,25 @@ if __name__ == "__main__":
         print(f"[c2] Event consumers not wired: {_ew_err}")
 
     listener_manager.start_all()
+
+    running_ports = {int(row.get("port", 0)) for row in listener_manager.status() if row.get("running")}
+    if int(lport) not in running_ports:
+        print_error(
+            f"[c2] Web UI port {lport} could not be bound — another process is holding it. "
+            f"Stop the stale instance (pkill -f lazyc2.py) or change c2_port in payload.json, then retry."
+        )
+        sys.exit(1)
+
+    def _on_terminate(signum, _frame):
+        print(f"\n[c2] Signal {signum} received; shutting down listeners...")
+        listener_manager.stop_all()
+        raise SystemExit(0)
+
+    try:
+        signal.signal(signal.SIGTERM, _on_terminate)
+        signal.signal(signal.SIGINT, _on_terminate)
+    except Exception:
+        pass
 
     # Keep the main thread alive so daemon threads (DNS, watchers, listeners)
     # continue running.  Using a simple Event so the process can be interrupted

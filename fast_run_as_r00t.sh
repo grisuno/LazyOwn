@@ -159,6 +159,27 @@ start_chown_watcher() {
     disown
 }
 
+# ── Stale C2 cleanup ──────────────────────────────────────────────────────────
+# A lazyc2.py left over from a previous run keeps the C2 port bound, so the
+# fresh instance dies with "Address already in use". Kill only stale C2
+# processes whose working directory is THIS installation.
+kill_stale_c2() {
+    local port="$1"
+    for pid in $(pgrep -f "lazyc2\.py" 2>/dev/null); do
+        local cwd
+        cwd=$(readlink "/proc/${pid}/cwd" 2>/dev/null)
+        if [[ "$cwd" == "$PWD" ]]; then
+            kill "$pid" 2>/dev/null || true
+            log "Killed stale C2 process (pid ${pid})."
+        fi
+    done
+    sleep 1
+    if command -v fuser &>/dev/null; then
+        fuser -k "${port}/tcp" 2>/dev/null || true
+        sleep 1
+    fi
+}
+
 # ── Entry point ───────────────────────────────────────────────────────────────
 ensure_gum
 log "Start the OPSEC."
@@ -173,6 +194,8 @@ spin "Host discovery..."
 
 log "Checking sudo."
 check_sudo
+
+kill_stale_c2 "$C2_PORT"
 
 python3 key.py
 log "Start the session."

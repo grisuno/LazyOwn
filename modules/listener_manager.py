@@ -299,6 +299,18 @@ class ListenerManager:
                         f"configured addresses {configured!r} were not bindable on this host"
                     )
 
+            # Pre-bind availability probe: werkzeug's make_server calls
+            # sys.exit(1) on EADDRINUSE, which would kill the whole C2.
+            # A busy port is a listener-manager error, never a process exit.
+            bindable, probe_errno = _probe_listener_bind(bind_address, int(listener.port))
+            if not bindable:
+                print_error(
+                    f"[listener] {listener_id} cannot bind {bind_address}:{listener.port} "
+                    f"(errno {probe_errno}: address already in use or unavailable). "
+                    f"Stop the stale listener or change the port."
+                )
+                return False
+
             server = make_server(
                 bind_address,
                 listener.port,

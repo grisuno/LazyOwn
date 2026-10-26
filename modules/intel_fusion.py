@@ -22,6 +22,7 @@ import glob
 import hashlib
 import json
 import math
+import re
 import time
 from pathlib import Path
 
@@ -35,6 +36,7 @@ NODE_COLORS = {
     "service": "#3ddc84",
     "finding": "#ff9f1c",
     "finding-critical": "#ff2d55",
+    "cve": "#ff6b35",
     "objective": "#b388ff",
     "task": "#4dd0e1",
     "intel": "#e0e0e0",
@@ -54,6 +56,17 @@ EDGE_COLORS = {
 
 SEV_RANK = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
 
+_CVE_TEXT_RE = re.compile(r"CVE-\d{4}-\d{4,7}", re.IGNORECASE)
+
+
+def _extract_cve_id(vuln: dict) -> str:
+    """Best CVE id from one world-model vulnerability row."""
+    for source in (vuln.get("cve", ""), vuln.get("id", ""), vuln.get("title", "")):
+        match = _CVE_TEXT_RE.search(str(source or ""))
+        if match:
+            return match.group(0).upper()
+    return ""
+
 KIND_TO_LAYER = {
     "c2": "infrastructure",
     "host": "presentation",
@@ -66,6 +79,7 @@ KIND_TO_LAYER = {
     "mac": "utility",
     "finding": "testing",
     "finding-critical": "testing",
+    "cve": "testing",
     "objective": "utility",
     "task": "utility",
     "intel": "unknown",
@@ -281,6 +295,31 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR, est_cap: int = 30
             add_edge(node_id("host", host_ip), fid, "has_finding", evidence="world_model vulnerabilities")
         elif host_ip and node_id("host-owned", host_ip) in nodes:
             add_edge(node_id("host-owned", host_ip), fid, "has_finding", evidence="world_model vulnerabilities")
+        cve_id = _extract_cve_id(vuln)
+        if cve_id:
+            try:
+                from modules.lazy_cve_feed import cve_intel as _cve_intel
+                from modules.lazy_heat import HEAT_RANK
+
+                intel = _cve_intel(cve_id, allow_network=False)
+                cid = add_node(
+                    "cve",
+                    cve_id,
+                    label=cve_id,
+                    cve=cve_id,
+                    heat=intel["heat"],
+                    cvss=intel["cvss"],
+                    kev=intel["kev"],
+                    epss=intel["epss"],
+                    exploit=intel["exploit"],
+                    heat_rank=HEAT_RANK.get(intel["heat"], 0),
+                    community=f"net:{host_ip}" if host_ip else "intel",
+                )
+                tag_source(cid, "lazy_cve_feed")
+                if host_ip and (node_id("host", host_ip) in nodes or node_id("host-owned", host_ip) in nodes):
+                    add_edge(node_id("host", host_ip) if node_id("host", host_ip) in nodes else node_id("host-owned", host_ip), cid, "matched", evidence="heat-correlated CVE")
+            except Exception:
+                pass
 
     lazy_dir = root / "lazy"
     tasks = {}
@@ -947,24 +986,60 @@ def assign_layout(graph: dict, mode: str = "force") -> dict:
 
 
 def write_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict:
-    """Score host exposure and suggest intents for the autonomous planner."""
+    """Score host exposure with a per-component breakdown.
+
+    Every point a host earns carries a label so the planner and the
+    operator can read why one host outranks another:
+
+    - connectivity: base 1 plus capped node degree;
+    - owned: the C2 controls the host;
+    - activity: recent log mentions;
+    - findings: severity and heat of attached findings (heat bonus hot
+      +3, warm +1), capped at 20.
+
+    Args:
+        graph: Intel graph from :func:`build_intel_graph`.
+        sessions_dir: Sessions directory for ``intel_summary.json``.
+
+    Returns:
+        Summary dict; ``top_exposed`` rows gain ``score_detail``.
+    """
     nodes = graph.get("nodes", []) or []
     edges = graph.get("edges", []) or []
+    node_by_id = {n["id"]: n for n in nodes}
     scores: dict[str, float] = {}
+    details: dict[str, list[dict]] = {}
     for node in nodes:
         if node.get("kind") not in ("host", "host-owned"):
             continue
-        score = 1.0 + node.get("degree", 0)
-        score += 5.0 if node.get("kind") == "host-owned" else 0.0
-        score += min(5.0, float(node.get("log_hits", 0)) / 10.0)
-        scores[node["value"]] = round(score, 2)
+        degree = float(node.get("degree", 0) or 0)
+        base = 1.0 + degree
+        detail = [{"label": f"connectivity (degree {int(degree)})", "points": round(base, 2)}]
+        if node.get("kind") == "host-owned":
+            detail.append({"label": "controlled by C2", "points": 5.0})
+        activity = min(5.0, float(node.get("log_hits", 0) or 0) / 10.0)
+        if activity:
+            detail.append({"label": "log activity", "points": round(activity, 2)})
+        scores[node["value"]] = round(base + (5.0 if node.get("kind") == "host-owned" else 0.0) + activity, 2)
+        details[node["value"]] = detail
+    finding_points: dict[str, float] = {}
     for edge in edges:
-        target = next((n for n in nodes if n["id"] == edge.get("target")), None)
+        target = node_by_id.get(edge.get("target"))
         if target is not None and target.get("kind", "").startswith("finding"):
             sev = SEV_RANK.get(str(target.get("severity", "info")), 4)
-            src = next((n for n in nodes if n["id"] == edge.get("source")), None)
+            weight = 5 - sev
+            heat = str(target.get("heat", "") or "")
+            if heat == "hot":
+                weight += 3.0
+            elif heat == "warm":
+                weight += 1.0
+            src = node_by_id.get(edge.get("source"))
             if src is not None and src.get("value") in scores:
-                scores[src["value"]] = round(scores[src["value"]] + (5 - sev), 2)
+                finding_points[src["value"]] = min(20.0, finding_points.get(src["value"], 0.0) + weight)
+    for value, points in finding_points.items():
+        if points:
+            scores[value] = round(scores[value] + points, 2)
+            details[value].append({"label": "findings and CVE heat", "points": round(points, 2)})
     ranked = sorted(scores.items(), key=lambda kv: -kv[1])
     hosts = [n for n in nodes if n.get("kind") in ("host", "host-owned")]
     with_services = set()
@@ -1000,7 +1075,10 @@ def write_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict:
     summary = {
         "generated": time.time(),
         "hosts_scored": len(ranked),
-        "top_exposed": [{"host": host, "score": score} for host, score in ranked[:10]],
+        "top_exposed": [
+            {"host": host, "score": score, "score_detail": details.get(host, [])}
+            for host, score in ranked[:10]
+        ],
         "suggested_intents": [f"probe {host} (intel exposure {score})" for host, score in ranked[:5]],
         "funnel": funnel,
         "confirmed_hosts": sorted(n.get("value") for n in hosts if n["id"] in confirmed_hosts),

@@ -110,5 +110,95 @@ class DeployProfiles(unittest.TestCase):
         self.assertEqual(fake_open.call_args.kwargs.get("privilege"), "root")
 
 
+class DeployStagingSecurity(unittest.TestCase):
+    """Private mktemp staging: no predictable /tmp path, hash-gated launch."""
+
+    class _FakeSpec:
+        id = "vsftpd_backdoor"
+        exec_timeout = 10
+
+    def _fake_session(self, commands: list):
+        class _FakeSession:
+            def run(self, cmd, timeout=None):
+                commands.append(cmd)
+                if "mktemp -d" in cmd:
+                    return "/tmp/.lzdep.Aa1Bb2Cc3Dd\n"
+                if "wc -c" in cmd:
+                    return "12\n#!/usr/bin/env python"
+                if "stat -c" in cmd:
+                    return "0\n"
+                if "grep -c" in cmd:
+                    return "1\n"
+                return "\n"
+
+        return _FakeSession()
+
+    def test_deploy_never_uses_predictable_tmp_path(self):
+        commands = []
+        with patch.object(agent, "_ensure_key", return_value=_KEY):
+            with patch.object(bridge, "open_shell", return_value=self._FakeSpec()):
+                with patch.object(bridge, "ensure_session", return_value=self._fake_session(commands)):
+                    with patch.object(bridge, "close_sessions", return_value=1):
+                        result = agent.deploy("10.0.0.9", "http://127.0.0.1:8080", privilege="root")
+        self.assertTrue(result["deployed"])
+        joined = "\n".join(commands)
+        self.assertIn("mktemp -d /tmp/.lzdep.", joined)
+        self.assertNotIn("/tmp/.sysagent", joined)
+        self.assertNotIn("chmod +x", joined)
+
+    def test_deploy_hash_gates_launch(self):
+        commands = []
+        with patch.object(agent, "_ensure_key", return_value=_KEY):
+            with patch.object(bridge, "open_shell", return_value=self._FakeSpec()):
+                with patch.object(bridge, "ensure_session", return_value=self._fake_session(commands)):
+                    with patch.object(bridge, "close_sessions", return_value=1):
+                        agent.deploy("10.0.0.9", "http://127.0.0.1:8080", privilege="root")
+        joined = "\n".join(commands)
+        self.assertIn("sha256sum --check --status", joined)
+        self.assertIn("chmod 700", joined)
+        self.assertIn("stat -c '%u'", joined)
+        self.assertIn("rm -rf /tmp/.lzdep.", joined)
+
+    def test_deploy_aborts_when_staging_not_root_owned(self):
+        class _ForeignSession:
+            def run(self, cmd, timeout=None):
+                if "mktemp -d" in cmd:
+                    return "/tmp/.lzdep.Aa1Bb2Cc3Dd\n"
+                if "stat -c" in cmd:
+                    return "1000\n"
+                return "\n"
+
+        with patch.object(agent, "_ensure_key", return_value=_KEY):
+            with patch.object(bridge, "open_shell", return_value=self._FakeSpec()):
+                with patch.object(bridge, "ensure_session", return_value=_ForeignSession()):
+                    with patch.object(bridge, "close_sessions", return_value=1):
+                        result = agent.deploy("10.0.0.9", "http://127.0.0.1:8080", privilege="root")
+        self.assertFalse(result["deployed"])
+        self.assertIn("not root-owned", result["reason"])
+
+    def test_deploy_aborts_without_private_dir(self):
+        class _BareSession:
+            def run(self, cmd, timeout=None):
+                return "[error] mktemp refused\n"
+
+        with patch.object(agent, "_ensure_key", return_value=_KEY):
+            with patch.object(bridge, "open_shell", return_value=self._FakeSpec()):
+                with patch.object(bridge, "ensure_session", return_value=_BareSession()):
+                    with patch.object(bridge, "close_sessions", return_value=1):
+                        result = agent.deploy("10.0.0.9", "http://127.0.0.1:8080", privilege="root")
+        self.assertFalse(result["deployed"])
+        self.assertEqual(result["reason"], "private staging dir unavailable")
+
+    def test_agent_files_have_unique_names(self):
+        import re
+
+        text = agent.build_agent("http://1.2.3.4:8080", "msf-1-2-3-4", _KEY, privilege="root")
+        self.assertNotIn("/tmp/.agent.log", text)
+        self.assertNotIn('"/tmp/.bct"', text)
+        self.assertNotIn('"/tmp/.bpt"', text)
+        match = re.search(r'FILEUNIQ = "([0-9a-f]{16})"', text)
+        self.assertIsNotNone(match)
+
+
 if __name__ == "__main__":
     unittest.main()

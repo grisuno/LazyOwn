@@ -39,6 +39,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -150,8 +151,56 @@ class IntelligenceEngine:
     # Collection
     # ------------------------------------------------------------------
 
+    def _newest_scan_xml_with_versions(self, target: str) -> Path | None:
+        """Best ``scan_<target>*.nmap.xml`` carrying product/version data.
+
+        Per-port loop scans flood the sessions dir, so the pick ranks by
+        the count of open ports (most complete inventory wins) and only
+        then by recency.
+        """
+        candidates = []
+        try:
+            for path in self._config.sessions_dir.glob(f"scan_{target}*.nmap.xml"):
+                score = self._xml_scan_weight(path)
+                if score > 0:
+                    try:
+                        candidates.append((score, path.stat().st_mtime, path))
+                    except OSError:
+                        continue
+        except OSError:
+            return None
+        if not candidates:
+            return None
+        candidates.sort(key=lambda row: (-row[0], -row[1]))
+        return candidates[0][2]
+
+    def _xml_scan_weight(self, xml_path: Path) -> int:
+        """Count of version-bearing open ports in one nmap XML."""
+        try:
+            root = ET.parse(str(xml_path)).getroot()
+        except (ET.ParseError, OSError, ValueError):
+            return 0
+        weight = 0
+        for port_el in root.iter("port"):
+            state_el = port_el.find("state")
+            if state_el is None or state_el.get("state") != "open":
+                continue
+            svc_el = port_el.find("service")
+            if svc_el is not None and (svc_el.get("product", "") or svc_el.get("version", "")):
+                weight += 1
+        return weight
+
+    def _xml_has_versions(self, xml_path: Path) -> bool:
+        """Whether one nmap XML carries at least one service product/version."""
+        return self._xml_scan_weight(xml_path) > 0
+
     def collect_from_scan(self, target: str) -> list[CollectedFact]:
-        """Parse nmap XML into structured facts.
+        """Parse every nmap XML of the target into structured facts.
+
+        The loop and apt_chain write per-port scan files
+        (``scan_<target>_<port>.nmap.xml``), so this reads the canonical
+        ``scan_<target>.nmap.xml`` first and then every sidecar scan,
+        merging facts and dropping duplicate port/service rows.
 
         Args:
             target: Target IP or hostname.
@@ -159,11 +208,34 @@ class IntelligenceEngine:
         Returns:
             List of collected facts.
         """
-        xml_path = self._config.sessions_dir / f"scan_{target}.nmap.xml"
-        if not xml_path.exists():
-            self._warnings.append(f"No nmap XML at {xml_path}")
+        xml_paths: list[Path] = []
+        canonical = self._config.sessions_dir / f"scan_{target}.nmap.xml"
+        if canonical.exists():
+            xml_paths.append(canonical)
+        try:
+            for path in self._config.sessions_dir.glob(f"scan_{target}*.nmap.xml"):
+                if path not in xml_paths:
+                    xml_paths.append(path)
+        except OSError:
+            pass
+        if not xml_paths:
+            self._warnings.append(f"No nmap XML for {target}")
             return []
+        before = len(self._facts)
+        seen_ports: set[tuple] = set()
+        for xml_path in xml_paths[:24]:
+            new_facts = self._collect_from_scan_xml(xml_path, target)
+            for fact in new_facts:
+                if fact.fact_type == "service":
+                    key = (fact.host, fact.port, fact.value, fact.metadata.get("product", ""), fact.metadata.get("version", ""))
+                    if key in seen_ports:
+                        continue
+                    seen_ports.add(key)
+                self._facts.append(fact)
+        return self._facts[before:]
 
+    def _collect_from_scan_xml(self, xml_path: Path, target: str) -> list[CollectedFact]:
+        """Parse one nmap XML file into facts (ports, hosts, os, domains)."""
         new_facts: list[CollectedFact] = []
         try:
             root = ET.parse(str(xml_path)).getroot()
@@ -249,7 +321,6 @@ class IntelligenceEngine:
         except Exception as exc:
             self._warnings.append(f"Nmap XML parse failed: {exc}")
 
-        self._facts.extend(new_facts)
         return new_facts
 
     def collect_from_tool(self, output: str, tool: str, host: str = "") -> list[CollectedFact]:
@@ -597,7 +668,8 @@ class IntelligenceEngine:
         try:
             from modules import lazy_cve_feed
 
-            rows = lazy_cve_feed.correlate(product, version, allow_network=True)
+            lazy_cve_feed.refresh_feeds_async(products=[product])
+            rows = lazy_cve_feed.correlate(product, version, allow_network=False)
         except Exception:
             rows = []
         if rows:
@@ -879,6 +951,30 @@ class IntelligenceEngine:
             from modules.world_model import HostState, get_world_model
 
             wm = get_world_model()
+            existing_cves: set[tuple[str, str]] = set()
+            try:
+                for vuln in wm.snapshot().get("vulnerabilities", []) or []:
+                    existing_cves.add((str(vuln.get("cve", "")).upper(), str(vuln.get("host", ""))))
+            except Exception:
+                existing_cves = set()
+            for assessment in self._assessments:
+                if assessment.category != "potential_vulnerability":
+                    continue
+                cve_match = re.search(r"CVE-\d{4}-\d{4,7}", assessment.recommendation or "", re.IGNORECASE)
+                if not cve_match:
+                    continue
+                cve_id = cve_match.group(0).upper()
+                host = (assessment.subject or "").split(":", 1)[0]
+                if not host or (cve_id, host) in existing_cves:
+                    continue
+                existing_cves.add((cve_id, host))
+                wm.add_vulnerability(
+                    assessment.impact or assessment.recommendation[:200],
+                    host=host,
+                    cve=cve_id,
+                    severity=str(assessment.severity or "UNKNOWN").upper(),
+                )
+                result["facts_ingested"] += 1
             for fact in self._facts:
                 if self._is_placeholder(fact.value):
                     continue

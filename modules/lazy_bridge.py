@@ -41,6 +41,10 @@ def _data_dir() -> Path:
     return LAZY_DIR
 
 IP_RE = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+CVE_RE = re.compile(r"CVE-\d{4}-\d{4,7}", re.IGNORECASE)
+OS_RE = re.compile(
+    r"(?i)\b(?:os[:\s]+)?((?:gnu/)?linux[\w. -]{0,24}|windows (?:xp|vista|[789](?:\.\d)?(?: \w+)?|server \d{4}[\w ]*|10[\w ]*|11[\w ]*)|ubuntu[\w. -]{0,20}|debian[\w. -]{0,20}|centos[\w. -]{0,20}|unix\b|freebsd[\w. -]{0,12})"
+)
 SERVICE_RE = re.compile(r"(\d+)/tcp\s+(\w+)\s+(\S+)\s+([^\n]*)")
 
 
@@ -178,36 +182,51 @@ def bridge_status() -> dict:
 
 
 def _extract_hosts_from_graph(graph: dict) -> dict:
-    """Derive host, service and vuln observations from graph facts.
+    """Derive host, service, vuln and OS observations from graph nodes.
 
     Args:
         graph: Experiment graph.
 
     Returns:
-        Observation dict keyed by ip.
+        Observation dict keyed by ip with ``services`` (with port/name/
+        version), ``facts``, ``cves`` (structured CVE ids found in
+        finding/fact text), ``os`` and ``open``.
     """
     observations: dict[str, dict] = {}
     for node in graph.get("nodes", []):
         if not isinstance(node, dict):
             continue
         text = str(node.get("text", ""))
+        kind = str(node.get("kind", ""))
         for ip in IP_RE.findall(text):
-            entry = observations.setdefault(ip, {"services": [], "facts": [], "open": False})
+            entry = observations.setdefault(ip, {"services": [], "facts": [], "cves": [], "os": "", "open": False})
             entry["facts"].append(text[:1000])
             for match in SERVICE_RE.finditer(text):
-                port, name, _state, _version = match.groups()
-                if _state.lower() == "closed":
+                port, state, name, version = match.groups()
+                if state.lower() not in ("open", "filtered"):
                     continue
-                entry["services"].append({"port": port, "name": name})
+                version_parts = str(version or "").strip().split()[:2]
+                entry["services"].append({"port": port, "name": name, "version": " ".join(version_parts)})
                 entry["open"] = True
+            if kind.startswith("finding") or "cve-" in text.lower():
+                for cve in CVE_RE.findall(text):
+                    if cve.upper() not in entry["cves"]:
+                        entry["cves"].append(cve.upper())
+            os_match = OS_RE.search(text)
+            if os_match and not entry["os"]:
+                entry["os"] = str(os_match.group(1) or "")[:80]
     return observations
 
 
 def pull_to_world_model() -> dict:
     """Sync LAZY graphs and assets into LazyOwn world model.
 
+    Hosts, services (with the version nmap captured), finding CVE ids
+    and OS hints all land on the world model, which feeds the intel
+    graph, the attack graph and the exposure scoring.
+
     Returns:
-        Summary with hosts, services and facts synced.
+        Summary with hosts, services, vulnerabilities and facts synced.
     """
     from modules.world_model import get_world_model as _get_world_model
 
@@ -215,11 +234,19 @@ def pull_to_world_model() -> dict:
     assets = lazy_assets()
     hosts_synced: set[str] = set()
     services_synced = 0
+    vulns_synced = 0
     facts_synced = 0
     try:
         world = _get_world_model()
     except Exception:
         world = None
+    existing_vulns: set[tuple[str, str]] = set()
+    if world is not None:
+        try:
+            for vuln in world.snapshot().get("vulnerabilities", []) or []:
+                existing_vulns.add((str(vuln.get("cve", "")).upper(), str(vuln.get("host", ""))))
+        except Exception:
+            existing_vulns = set()
     for task_id in tasks:
         graph = lazy_graph(task_id)
         observations = _extract_hosts_from_graph(graph)
@@ -230,11 +257,30 @@ def pull_to_world_model() -> dict:
             if world is None:
                 continue
             try:
-                world.observe_host(ip, state="scanned")
+                world.add_host(ip)
+                if observation.get("os"):
+                    world.set_os_hint(ip, observation["os"])
                 for service in observation["services"]:
-                    world.observe_service(ip, service.get("name", ""),
-                                          product="", version="",
-                                          port=int(service.get("port", 0) or 0))
+                    try:
+                        world.add_service(
+                            ip,
+                            int(str(service.get("port", 0)) or 0),
+                            name=str(service.get("name", "")),
+                            version=str(service.get("version", "")),
+                        )
+                    except (TypeError, ValueError):
+                        continue
+                for cve in observation.get("cves", []):
+                    if (cve, ip) in existing_vulns:
+                        continue
+                    world.add_vulnerability(
+                        f"loop finding references {cve}",
+                        host=ip,
+                        cve=cve,
+                        severity="HIGH",
+                    )
+                    existing_vulns.add((cve, ip))
+                    vulns_synced += 1
             except Exception:
                 continue
     for asset in assets:
@@ -243,7 +289,8 @@ def pull_to_world_model() -> dict:
         if str(asset.get("kind")) == "ip":
             hosts_synced.add(str(asset.get("value", "")))
     summary = {"hosts": sorted(hosts_synced), "services": services_synced,
-               "facts": facts_synced, "tasks": len(tasks), "assets": len(assets)}
+               "vulnerabilities": vulns_synced, "facts": facts_synced,
+               "tasks": len(tasks), "assets": len(assets)}
     _record_sync("pull_world", summary)
     return summary
 

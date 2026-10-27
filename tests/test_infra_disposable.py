@@ -169,7 +169,7 @@ def test_gym_range_challenges_registered() -> None:
 
 def test_lab_range_profiles_registered() -> None:
     """Lab exposes the ad-mini cyber range profile with compose file."""
-    from cli.commands.lab import RANGE_PROFILES
+    from modules.lab_runtime import RANGE_PROFILES
 
     assert "ad-mini" in RANGE_PROFILES
     compose = BASE_DIR / "deploy" / "range" / RANGE_PROFILES["ad-mini"]["compose"]
@@ -178,7 +178,7 @@ def test_lab_range_profiles_registered() -> None:
 
 def test_range_compose_uses_valid_images() -> None:
     """Range compose references verified images (no fictional repositories)."""
-    from cli.commands.lab import RANGE_PROFILES
+    from modules.lab_runtime import RANGE_PROFILES
 
     compose = (BASE_DIR / "deploy" / "range" / RANGE_PROFILES["ad-mini"]["compose"]).read_text()
     assert "instantlinux/samba-dc" in compose
@@ -188,7 +188,7 @@ def test_range_compose_uses_valid_images() -> None:
 
 def test_range_workstation_stays_alive() -> None:
     """ws01 keeps a foreground shell so boot services stay reachable."""
-    from cli.commands.lab import RANGE_PROFILES
+    from modules.lab_runtime import RANGE_PROFILES
 
     compose = (BASE_DIR / "deploy" / "range" / RANGE_PROFILES["ad-mini"]["compose"]).read_text()
     assert "tty: true" in compose
@@ -197,7 +197,7 @@ def test_range_workstation_stays_alive() -> None:
 
 def test_range_dc_secret_wired() -> None:
     """DC consumes the per-deployment admin secret the CLI generates."""
-    from cli.commands.lab import RANGE_PROFILES
+    from modules.lab_runtime import RANGE_PROFILES
 
     compose = (BASE_DIR / "deploy" / "range" / RANGE_PROFILES["ad-mini"]["compose"]).read_text()
     assert "samba-admin-password" in compose
@@ -206,10 +206,10 @@ def test_range_dc_secret_wired() -> None:
 
 def test_range_secret_generator_roundtrip(tmp_path) -> None:
     """Secret helper creates a 0600 file once and reuses it after."""
-    from cli.commands.lab import LabCommandSet
+    from modules.lab_runtime import ensure_range_secret
 
-    first = LabCommandSet()._ensure_range_secret(tmp_path)
-    second = LabCommandSet()._ensure_range_secret(tmp_path)
+    first = ensure_range_secret(tmp_path)
+    second = ensure_range_secret(tmp_path)
     assert first and first == second
     assert (tmp_path / "secrets" / "samba-admin-password.txt").exists()
 
@@ -308,7 +308,7 @@ def test_mitre_matrix_keeps_unknown_tactics() -> None:
 
 def test_range_backdoor_shell_published() -> None:
     """vsftpd backdoor shell port is reachable from the host."""
-    from cli.commands.lab import RANGE_PROFILES
+    from modules.lab_runtime import RANGE_PROFILES
 
     compose = (BASE_DIR / "deploy" / "range" / RANGE_PROFILES["ad-mini"]["compose"]).read_text()
     assert "6200:6200" in compose
@@ -343,11 +343,13 @@ def test_range_verify_unknown_profile(capsys) -> None:
 
 def test_gym_range_next_steps(tmp_path, monkeypatch) -> None:
     """Range challenges point at range commands, others stay classic."""
+    import modules.redteam_gym as redteam_gym
     import modules.world_model as world_model
     from modules.redteam_gym import start_challenge, stop_challenges
 
     monkeypatch.setattr(world_model, "_DEFAULT_PATH", tmp_path / "world_model.json")
     monkeypatch.setattr(world_model, "_default_wm", None)
+    monkeypatch.setattr(redteam_gym, "_spin_scenario", lambda scenario: {"success": False})
     assert start_challenge("first_implant")["next_steps"][0] == "lab range start ad-mini"
     assert start_challenge("first_blood_web")["next_steps"][0] == "lab start wordpress"
     stop_challenges()

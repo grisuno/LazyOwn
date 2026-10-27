@@ -124,7 +124,9 @@ class LazynmapPostSingleWriterSpec(unittest.TestCase):
             )
             self.assertFalse(result.skipped)
             self.assertTrue(result.world_model_updated)
-            raw = json.loads((sessions / "world_model.json").read_text(encoding="utf-8"))
+            from modules.world_model import read_state_dict
+
+            raw = read_state_dict(sessions / "world_model.json")
             self.assertEqual(raw["campaign_id"], "abc")
             self.assertEqual(raw["phase"], "enum")
             self.assertEqual(raw["current_phase"], "enum")

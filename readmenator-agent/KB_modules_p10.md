@@ -1,6 +1,43 @@
 # Subsystem: modules (page 10 of 16)
 Previous: [KB_modules_p9.md](KB_modules_p9.md)
 
+## modules/lazycurl.sh
+- Doc: Nombre del script: lazycurl.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `ctrl_c` (function, line 23)
+  - `show_help` (function, line 29)
+  - `execute_curl` (function, line 52)
+
+## modules/lazyencoder_decoder.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `base64_encode` (function, line 4) `def base64_encode(data)`
+  - `base64_decode` (function, line 8) `def base64_decode(data)`
+  - `caesar_cipher` (function, line 13) `def caesar_cipher(text, shift)`
+  - `caesar_decipher` (function, line 27) `def caesar_decipher(text, shift)`
+  - `key_substitution` (function, line 31) `def key_substitution(text, key)`
+  - `key_substitution_reverse` (function, line 47) `def key_substitution_reverse(text, key)`
+  - `encode` (function, line 63) `def encode(data, shift, key)`
+  - `encode_string` (function, line 75) `def encode_string(data, shift, key)`
+  - `decode` (function, line 82) `def decode(data, shift, key)`
+  - `decode_string` (function, line 94) `def decode_string(data, shift, key)`
+- Imported by: `contrib/legacy/lazycreate_webshell.py`, `contrib/legacy/lazylogpoisoning.py`, `contrib/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
+
+## modules/lazyevilwimrm.sh
+- Doc: execute_evil_winrm: Función para ejecutar evil-winrm y verificar la salida
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `execute_evil_winrm` (function, line 14)
+
+## modules/lazygat.sh
+- Doc: Nombre del script: lazygath.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+
 ## modules/lazyk8s.py
 - Doc: Container and Kubernetes attack module.
 - Layer: utility
@@ -335,23 +372,24 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `safe_groq_client` (function, line 48) `def safe_groq_client(api_key)`
-  - `_configure_logging` (function, line 65) `def _configure_logging(debug)`
-  - `_read_prompt_file` (function, line 70) `def _read_prompt_file(prompt)`
-  - `_read_error` (function, line 78) `def _read_error(prompt)`
-  - `_complete` (function, line 82) `def _complete(client, full_prompt, model)`
-  - `_process` (function, line 96) `def _process(client, prompt, debug, template, config)`
-  - `process_prompt` (function, line 119) `def process_prompt(client, prompt, debug)`
-  - `process_prompt_script` (function, line 133) `def process_prompt_script(client, prompt, debug)`
-  - `process_prompt_adversary` (function, line 147) `def process_prompt_adversary(client, prompt, debug)`
-  - `process_prompt_general` (function, line 161) `def process_prompt_general(client, prompt, debug)`
-  - `process_prompt_search` (function, line 175) `def process_prompt_search(client, prompt, debug)`
-  - `process_prompt_task` (function, line 189) `def process_prompt_task(client, prompt, debug)`
-  - `process_prompt_vuln` (function, line 206) `def process_prompt_vuln(client, prompt, debug, event)`
-  - `process_prompt_redop` (function, line 237) `def process_prompt_redop(client, prompt, debug)`
-  - `ask_general` (function, line 254) `def ask_general(prompt, debug)`
-- Depends on: `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazyphishingai.py`, `core/logging.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
-- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+  - `safe_groq_client` (function, line 55) `def safe_groq_client(api_key)`
+  - `_configure_logging` (function, line 72) `def _configure_logging(debug)`
+  - `_read_prompt_file` (function, line 77) `def _read_prompt_file(prompt)`
+  - `_read_error` (function, line 85) `def _read_error(prompt)`
+  - `_complete` (function, line 89) `def _complete(client, full_prompt, model)`
+  - `_process` (function, line 103) `def _process(client, prompt, debug, template, config)`
+  - `_orchestrated` (function, line 124) `def _orchestrated(full_prompt, prompt, store, primary_error)`
+  - `process_prompt` (function, line 155) `def process_prompt(client, prompt, debug)`
+  - `process_prompt_script` (function, line 169) `def process_prompt_script(client, prompt, debug)`
+  - `process_prompt_adversary` (function, line 183) `def process_prompt_adversary(client, prompt, debug)`
+  - `process_prompt_general` (function, line 197) `def process_prompt_general(client, prompt, debug)`
+  - `process_prompt_search` (function, line 211) `def process_prompt_search(client, prompt, debug)`
+  - `process_prompt_task` (function, line 225) `def process_prompt_task(client, prompt, debug)`
+  - `process_prompt_vuln` (function, line 242) `def process_prompt_vuln(client, prompt, debug, event)`
+  - `process_prompt_redop` (function, line 273) `def process_prompt_redop(client, prompt, debug)`
+  - `ask_general` (function, line 290) `def ask_general(prompt, debug)`
+- Depends on: `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazyphishingai.py`, `core/logging.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`
 
 ## modules/llm_client.py
 - Doc: LazyOwn Unified LLM Client
@@ -422,55 +460,29 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `api_key_config_key` (function, line 266) `def api_key_config_key(backend)`
   - `backend_requires_api_key` (function, line 291) `def backend_requires_api_key(backend)`
   - `load_payload` (function, line 309) `def load_payload(payload_path)`
-  - `_resolve_api_key` (function, line 333) `def _resolve_api_key(config)`
-  - `_resolve_api_key_for_backend` (function, line 356) `def _resolve_api_key_for_backend(backend, config)`
-  - `_normalize_backend` (function, line 387) `def _normalize_backend(backend)`
-  - `_require_cloud_allowed` (function, line 420) `def _require_cloud_allowed(normalized)`
-  - `_build_groq` (function, line 452) `def _build_groq(config)`
-  - `_build_ollama` (function, line 474) `def _build_ollama(config)`
-  - `_build_llamacpp` (function, line 488) `def _build_llamacpp(config)`
-  - `_build_openai` (function, line 502) `def _build_openai(config)`
-  - `_build_anthropic` (function, line 524) `def _build_anthropic(config)`
-  - `_build_deepseek` (function, line 546) `def _build_deepseek(config)`
-  - `_resolve_model_identifier` (function, line 568) `def _resolve_model_identifier(backend_identifier, config)`
-  - `_wrap_with_budget` (function, line 595) `def _wrap_with_budget(backend, config, backend_identifier)`
-  - `get_llm_backend` (function, line 633) `def get_llm_backend(config, backend)`
-  - `_build_backend` (function, line 685) `def _build_backend(normalized, resolved_config)`
-  - `get_llm_backend_raw` (function, line 729) `def get_llm_backend_raw(config, backend)`
-  - `try_get_llm_backend` (function, line 751) `def try_get_llm_backend(config, backend)`
-  - `_pi_timeout` (function, line 775) `def _pi_timeout()`
-  - `_pi_complete` (function, line 787) `def _pi_complete(model, prompt, max_tokens)`
-  - `stream_complete` (function, line 828) `def stream_complete(model, prompt, max_tokens, on_delta)`
-  - `complete` (function, line 899) `def complete(model, prompt, max_tokens)`
-- Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/toposwarm_bridge.py`
-- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
-
-## modules/llm_pool.py
-- Doc: Ordered LLM failover pool with health-aware skipping.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_health_path` (function, line 20) `def _health_path()`
-  - `PoolConfig` (class, line 29) `class PoolConfig`
-  - `PoolExhausted` (class, line 42) `class PoolExhausted(RuntimeError)`
-  - `shared_registry` (function, line 50) `def shared_registry(config)`
-  - `PoolMember` (class, line 64) `class PoolMember`
-  - `HealthRegistry` (class, line 75) `class HealthRegistry`
-  - `LLMPool` (class, line 176) `class LLMPool`
-  - `__init__` (method, line 83) `def __init__(self, config)`
-  - `_load` (method, line 92) `def _load(self)`
-  - `_persist_locked` (method, line 116) `def _persist_locked(self)`
-  - `report_success` (method, line 135) `def report_success(self, member_id)`
-  - `report_failure` (method, line 143) `def report_failure(self, member_id, error)`
-  - `_backoff_for` (method, line 155) `def _backoff_for(self, failures)`
-  - `healthy` (method, line 163) `def healthy(self, member_id)`
-  - `__init__` (method, line 179) `def __init__(self, members, health, config)`
-  - `members` (method, line 192) `def members(self)`
-  - `session_key` (method, line 196) `def session_key(self, conversation_id, role, index)`
-  - `_ordered` (method, line 201) `def _ordered(self)`
-  - `_truncate` (method, line 217) `def _truncate(self, text, overflow_dir)`
-  - `complete` (method, line 237) `def complete(self, prompt, max_tokens, session_key, overflow_dir)`
-- Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`
+  - `_is_placeholder_key` (function, line 333) `def _is_placeholder_key(value)`
+  - `_resolve_api_key` (function, line 353) `def _resolve_api_key(config)`
+  - `_resolve_api_key_for_backend` (function, line 376) `def _resolve_api_key_for_backend(backend, config)`
+  - `_normalize_backend` (function, line 407) `def _normalize_backend(backend)`
+  - `_require_cloud_allowed` (function, line 440) `def _require_cloud_allowed(normalized)`
+  - `_build_groq` (function, line 472) `def _build_groq(config)`
+  - `_build_ollama` (function, line 494) `def _build_ollama(config)`
+  - `_build_llamacpp` (function, line 508) `def _build_llamacpp(config)`
+  - `_build_openai` (function, line 522) `def _build_openai(config)`
+  - `_build_anthropic` (function, line 544) `def _build_anthropic(config)`
+  - `_build_deepseek` (function, line 566) `def _build_deepseek(config)`
+  - `_resolve_model_identifier` (function, line 588) `def _resolve_model_identifier(backend_identifier, config)`
+  - `_wrap_with_budget` (function, line 615) `def _wrap_with_budget(backend, config, backend_identifier)`
+  - `get_llm_backend` (function, line 653) `def get_llm_backend(config, backend)`
+  - `_build_backend` (function, line 705) `def _build_backend(normalized, resolved_config)`
+  - `get_llm_backend_raw` (function, line 749) `def get_llm_backend_raw(config, backend)`
+  - `try_get_llm_backend` (function, line 771) `def try_get_llm_backend(config, backend)`
+  - `_pi_timeout` (function, line 795) `def _pi_timeout()`
+  - `_pi_complete` (function, line 807) `def _pi_complete(model, prompt, max_tokens)`
+  - `stream_complete` (function, line 848) `def stream_complete(model, prompt, max_tokens, on_delta)`
+  - `complete` (function, line 919) `def complete(model, prompt, max_tokens)`
+- Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
 
 
 Next: [KB_modules_p11.md](KB_modules_p11.md)

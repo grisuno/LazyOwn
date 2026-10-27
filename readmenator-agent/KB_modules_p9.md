@@ -379,6 +379,36 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `_add` (function, line 104) `def _add(kind, command, check_port)`
 - Depends on: `core/process.py`
 
+## modules/lazy_world_diff.py
+- Doc: World-surface diff: host snapshots, change detection, ghost liveness.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SurfaceChange` (class, line 65) `class SurfaceChange`
+  - `host_snapshot` (function, line 78) `def host_snapshot(world, ip)`
+  - `snapshot_fingerprint` (function, line 119) `def snapshot_fingerprint(state)`
+  - `_port_number` (function, line 124) `def _port_number(key)`
+  - `diff_snapshots` (function, line 131) `def diff_snapshots(before, after)`
+  - `_changes_path` (function, line 172) `def _changes_path(sessions_dir)`
+  - `_load_changes` (function, line 176) `def _load_changes(sessions_dir)`
+  - `_as_change` (function, line 192) `def _as_change(change)`
+  - `record_changes` (function, line 200) `def record_changes(changes, sessions_dir, now)`
+  - `recent_changes` (function, line 260) `def recent_changes(sessions_dir, days, host)`
+  - `prune_changes` (function, line 270) `def prune_changes(sessions_dir, keep_days)`
+  - `load_host_snapshots` (function, line 290) `def load_host_snapshots(sessions_dir)`
+  - `save_host_snapshots` (function, line 301) `def save_host_snapshots(snapshots, sessions_dir)`
+  - `campaign_snapshots` (function, line 312) `def campaign_snapshots(sessions_dir)`
+  - `ghost_endpoints` (function, line 366) `def ghost_endpoints(snapshot, limit)`
+  - `name_resolves` (function, line 395) `def name_resolves(host, resolver)`
+  - `_default_resolve` (function, line 406) `def _default_resolve(host)`
+  - `_default_probe` (function, line 415) `def _default_probe(ip, port, scheme, host)`
+  - `load_ghosts` (function, line 435) `def load_ghosts(sessions_dir)`
+  - `ghost_state_apply` (function, line 447) `def ghost_state_apply(host, answers, sessions_dir, now)`
+  - `find_ghost_hosts` (function, line 489) `def find_ghost_hosts(candidates, snapshots, checker, resolver, cap)`
+  - `snapshot_engagement` (function, line 528) `def snapshot_engagement(sessions_dir, now, world)`
+- Depends on: `modules/world_model.py`
+- Imported by: `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`
+
 ## modules/lazyatack.sh
 - Doc: Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico...
 - Layer: utility
@@ -457,43 +487,6 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `_aws_sig` (function, line 361) `def _aws_sig(key, msg)`
   - `_sign` (function, line 364) `def _sign(key, msg)`
 - Imported by: `cli/commands/cloud.py`
-
-## modules/lazycurl.sh
-- Doc: Nombre del script: lazycurl.sh Autor: Gris Iscomeback Correo electrónico...
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `ctrl_c` (function, line 23)
-  - `show_help` (function, line 29)
-  - `execute_curl` (function, line 52)
-
-## modules/lazyencoder_decoder.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `base64_encode` (function, line 4) `def base64_encode(data)`
-  - `base64_decode` (function, line 8) `def base64_decode(data)`
-  - `caesar_cipher` (function, line 13) `def caesar_cipher(text, shift)`
-  - `caesar_decipher` (function, line 27) `def caesar_decipher(text, shift)`
-  - `key_substitution` (function, line 31) `def key_substitution(text, key)`
-  - `key_substitution_reverse` (function, line 47) `def key_substitution_reverse(text, key)`
-  - `encode` (function, line 63) `def encode(data, shift, key)`
-  - `encode_string` (function, line 75) `def encode_string(data, shift, key)`
-  - `decode` (function, line 82) `def decode(data, shift, key)`
-  - `decode_string` (function, line 94) `def decode_string(data, shift, key)`
-- Imported by: `contrib/legacy/lazycreate_webshell.py`, `contrib/legacy/lazylogpoisoning.py`, `contrib/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
-
-## modules/lazyevilwimrm.sh
-- Doc: execute_evil_winrm: Función para ejecutar evil-winrm y verificar la salida
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `execute_evil_winrm` (function, line 14)
-
-## modules/lazygat.sh
-- Doc: Nombre del script: lazygath.sh Autor: Gris Iscomeback Correo electrónico...
-- Layer: utility
-- Language: sh
 
 
 Next: [KB_modules_p10.md](KB_modules_p10.md)

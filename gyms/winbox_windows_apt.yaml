@@ -1,0 +1,38 @@
+id: winbox_windows_apt
+name: WinBox Windows APT Simulation
+description: Full Windows APT emulation against the isolated WinBox lab guest —
+  network recon, SMB/RDP mapping, exploit sweep, SYSTEM command execution,
+  defense posture review, APT playbook emulation and post-engagement snapshot.
+scenario: winbox
+chain: apt_winbox_windows
+objective: Complete the Windows golden path against the lab VM without leaving
+  the isolated lab.
+difficulty: hard
+phases:
+- recon
+- scan
+- enum
+- exploit
+- postexp
+- c2
+required_techniques:
+- service_scan
+- smb_enum
+- guest_agent_exec
+- defense_review
+- playbook_emulation
+bonus_techniques:
+- rdp_probe
+- eventlog_query
+- snapshot_rollback
+max_points: 2000
+speed_bonus_max: 400
+stealth_bonus_max: 300
+technique_diversity_bonus: 400
+hints:
+- apt_chain apt_winbox_windows <vm-ip> runs the whole path
+- winbox av status and winbox applocker status are bidirectional - flip them to test bypass tools
+- apt_playbook run lockbit emulates the LockBit technique chain on the guest
+- winbox snapshot post-engagement keeps a rollback point
+success_check: APT chain completes and CTF captures land in sessions/ctf
+elo_bonus: 400

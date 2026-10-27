@@ -1,0 +1,15 @@
+name: gym_winbox_rdp_probe
+version: 1
+description: 'WinBox: RDP endpoint discovery (T1021.001).'
+enabled: true
+extends: gym_winbox_chain
+tags:
+- gym
+- winbox
+- windows
+platforms:
+- windows
+defaults:
+  exploit: winbox_rdp_probe
+  vuln: winbox_rdp_probe
+  port: '3389'

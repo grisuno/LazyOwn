@@ -3,6 +3,152 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `main` | function | `tests/run_mutation_ux_usability.py:84` | `def main()` |
+| `main` | function | `tests/run_mutation_verb_catalog.py:52` | `def main()` |
+| `backup_files` | function | `tests/run_mutation_world_diff.py:48` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_world_diff.py:77` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_world_diff.py:58` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_world_diff.py:65` | `def run_tests()` |
+| `TestACIEngineComplete` | class | `tests/test_aci_planner.py:596` | `class TestACIEngineComplete` |
+| `TestACIEngineReplan` | class | `tests/test_aci_planner.py:522` | `class TestACIEngineReplan` |
+| `TestACIEngineShouldReplan` | class | `tests/test_aci_planner.py:462` | `class TestACIEngineShouldReplan` |
+| `TestACIEngineStatus` | class | `tests/test_aci_planner.py:421` | `class TestACIEngineStatus` |
+| `TestACIGoal` | class | `tests/test_aci_planner.py:111` | `class TestACIGoal` |
+| `TestACIPlan` | class | `tests/test_aci_planner.py:177` | `class TestACIPlan` |
+| `TestACIPlannerLLM` | class | `tests/test_aci_planner.py:345` | `class TestACIPlannerLLM` |
+| `TestACIPlannerStatic` | class | `tests/test_aci_planner.py:244` | `class TestACIPlannerStatic` |
+| `TestACIReflector` | class | `tests/test_aci_planner.py:626` | `class TestACIReflector` |
+| `TestAttackPhase` | class | `tests/test_aci_planner.py:134` | `class TestAttackPhase` |
+| `TestCLI` | class | `tests/test_aci_planner.py:914` | `class TestCLI` |
+| `TestMCPBridges` | class | `tests/test_aci_planner.py:723` | `class TestMCPBridges` |
+| `TestPersistenceHelpers` | class | `tests/test_aci_planner.py:829` | `class TestPersistenceHelpers` |
+| `_llm_response` | method | `tests/test_aci_planner.py:346` | `def _llm_response(self, phases)` |
+| `_make_engine` | function | `tests/test_aci_planner.py:94` | `def _make_engine(tmp_path, api_key)` |
+| `_make_goal` | function | `tests/test_aci_planner.py:33` | `def _make_goal()` |
+| `_make_plan` | method | `tests/test_aci_planner.py:178` | `def _make_plan(self, phase_statuses)` |
+| `_make_plan_with_statuses` | method | `tests/test_aci_planner.py:627` | `def _make_plan_with_statuses(self, phase_statuses, replan_count)` |
+| `_make_planner` | function | `tests/test_aci_planner.py:82` | `def _make_planner(tmp_path, api_key)` |
+| `_patched_paths` | function | `tests/test_aci_planner.py:47` | `def _patched_paths(tmp_path)` |
+| `_start_patches` | function | `tests/test_aci_planner.py:60` | `def _start_patches(tmp_path)` |
+| `_stop_patches` | function | `tests/test_aci_planner.py:77` | `def _stop_patches(patchers)` |
+| `_write_objectives_blocked` | method | `tests/test_aci_planner.py:463` | `def _write_objectives_blocked(self, obj_file, obj_ids)` |
+| `test_active_phase_none_when_all_done` | method | `tests/test_aci_planner.py:221` | `def test_active_phase_none_when_all_done(self)` |
+| `test_active_phase_returns_first_pending_or_active` | method | `tests/test_aci_planner.py:216` | `def test_active_phase_returns_first_pending_or_active(self)` |
+| `test_archive_plan_appends` | method | `tests/test_aci_planner.py:859` | `def test_archive_plan_appends(self, tmp_path)` |
+| `test_complete_archives_plan` | method | `tests/test_aci_planner.py:597` | `def test_complete_archives_plan(self, tmp_path)` |
+| `test_complete_marks_plan_as_completed` | method | `tests/test_aci_planner.py:607` | `def test_complete_marks_plan_as_completed(self, tmp_path)` |
+| `test_complete_no_plan` | method | `tests/test_aci_planner.py:617` | `def test_complete_no_plan(self, tmp_path)` |
+| `test_completion_pct_all_done` | method | `tests/test_aci_planner.py:204` | `def test_completion_pct_all_done(self)` |
+| `test_completion_pct_none_done` | method | `tests/test_aci_planner.py:208` | `def test_completion_pct_none_done(self)` |
+| `test_completion_pct_partial` | method | `tests/test_aci_planner.py:212` | `def test_completion_pct_partial(self)` |
+| `test_count_objectives_by_status` | method | `tests/test_aci_planner.py:876` | `def test_count_objectives_by_status(self, tmp_path)` |
+| `test_count_objectives_returns_empty_for_missing_file` | method | `tests/test_aci_planner.py:904` | `def test_count_objectives_returns_empty_for_missing_file(self, tmp_path)` |
+| `test_defaults` | method | `tests/test_aci_planner.py:122` | `def test_defaults(self)` |
+| `test_fields` | method | `tests/test_aci_planner.py:112` | `def test_fields(self)` |
+| `test_first_phase_is_active` | method | `tests/test_aci_planner.py:257` | `def test_first_phase_is_active(self, tmp_path)` |
+| `test_from_dict_ignores_extra_keys` | method | `tests/test_aci_planner.py:154` | `def test_from_dict_ignores_extra_keys(self)` |
+| `test_llm_bad_json_falls_back_to_static` | method | `tests/test_aci_planner.py:407` | `def test_llm_bad_json_falls_back_to_static(self, tmp_path)` |
+| `test_llm_failure_falls_back_to_static` | method | `tests/test_aci_planner.py:399` | `def test_llm_failure_falls_back_to_static(self, tmp_path)` |
+| `test_llm_objectives_injected` | method | `tests/test_aci_planner.py:380` | `def test_llm_objectives_injected(self, tmp_path)` |
+| `test_llm_phases_used_when_api_key_set` | method | `tests/test_aci_planner.py:355` | `def test_llm_phases_used_when_api_key_set(self, tmp_path)` |
+| `test_load_plan_returns_none_for_corrupt` | method | `tests/test_aci_planner.py:851` | `def test_load_plan_returns_none_for_corrupt(self, tmp_path)` |
+| `test_load_plan_returns_none_for_missing` | method | `tests/test_aci_planner.py:845` | `def test_load_plan_returns_none_for_missing(self, tmp_path)` |
+| `test_mcp_aci_plan_phase_filter` | method | `tests/test_aci_planner.py:806` | `def test_mcp_aci_plan_phase_filter(self, tmp_path)` |
+| `test_mcp_aci_plan_returns_json` | method | `tests/test_aci_planner.py:734` | `def test_mcp_aci_plan_returns_json(self, tmp_path)` |
+| `test_mcp_aci_plan_static_backend` | method | `tests/test_aci_planner.py:758` | `def test_mcp_aci_plan_static_backend(self, tmp_path)` |
+| `test_mcp_aci_plan_uses_rhost_from_payload` | method | `tests/test_aci_planner.py:747` | `def test_mcp_aci_plan_uses_rhost_from_payload(self, tmp_path)` |
+| `test_mcp_aci_replan_no_plan` | method | `tests/test_aci_planner.py:769` | `def test_mcp_aci_replan_no_plan(self, tmp_path)` |
+| `test_mcp_aci_replan_with_plan` | method | `tests/test_aci_planner.py:780` | `def test_mcp_aci_replan_with_plan(self, tmp_path)` |
+| `test_mcp_aci_status_after_plan` | method | `tests/test_aci_planner.py:793` | `def test_mcp_aci_status_after_plan(self, tmp_path)` |
+| `test_mcp_aci_status_no_plan` | method | `tests/test_aci_planner.py:724` | `def test_mcp_aci_status_no_plan(self, tmp_path)` |
+| `test_no_subcommand_returns_nonzero` | method | `tests/test_aci_planner.py:954` | `def test_no_subcommand_returns_nonzero(self, tmp_path)` |
+| `test_objective_source_is_aci_planner` | method | `tests/test_aci_planner.py:293` | `def test_objective_source_is_aci_planner(self, tmp_path)` |
+| `test_objectives_contain_target_in_text` | method | `tests/test_aci_planner.py:323` | `def test_objectives_contain_target_in_text(self, tmp_path)` |
+| `test_objectives_ids_match_phase_objectives` | method | `tests/test_aci_planner.py:276` | `def test_objectives_ids_match_phase_objectives(self, tmp_path)` |
+| `test_objectives_injected_into_file` | method | `tests/test_aci_planner.py:268` | `def test_objectives_injected_into_file(self, tmp_path)` |
+| `test_phase_filter_restricts_phases` | method | `tests/test_aci_planner.py:287` | `def test_phase_filter_restricts_phases(self, tmp_path)` |
+| `test_plan_command` | method | `tests/test_aci_planner.py:915` | `def test_plan_command(self, tmp_path)` |
+| `test_plan_creates_file` | method | `tests/test_aci_planner.py:245` | `def test_plan_creates_file(self, tmp_path)` |
+| `test_plan_domain_stored` | method | `tests/test_aci_planner.py:318` | `def test_plan_domain_stored(self, tmp_path)` |
+| `test_plan_has_phases` | method | `tests/test_aci_planner.py:252` | `def test_plan_has_phases(self, tmp_path)` |
+| `test_plan_id_is_unique` | method | `tests/test_aci_planner.py:307` | `def test_plan_id_is_unique(self, tmp_path)` |
+| `test_plan_roundtrip_from_disk` | method | `tests/test_aci_planner.py:330` | `def test_plan_roundtrip_from_disk(self, tmp_path)` |
+| `test_plan_status_is_active` | method | `tests/test_aci_planner.py:302` | `def test_plan_status_is_active(self, tmp_path)` |
+| `test_plan_target_stored` | method | `tests/test_aci_planner.py:313` | `def test_plan_target_stored(self, tmp_path)` |
+| `test_reflect_blocked_phase_generates_lesson` | method | `tests/test_aci_planner.py:655` | `def test_reflect_blocked_phase_generates_lesson(self, tmp_path)` |
+| `test_reflect_command_no_plan` | method | `tests/test_aci_planner.py:960` | `def test_reflect_command_no_plan(self, tmp_path, capsys)` |
+| `test_reflect_done_after_replan_generates_lesson` | method | `tests/test_aci_planner.py:665` | `def test_reflect_done_after_replan_generates_lesson(self, tmp_path)` |
+| `test_reflect_lesson_has_required_fields` | method | `tests/test_aci_planner.py:698` | `def test_reflect_lesson_has_required_fields(self, tmp_path)` |
+| `test_reflect_no_lessons_clean_plan` | method | `tests/test_aci_planner.py:674` | `def test_reflect_no_lessons_clean_plan(self, tmp_path)` |
+| `test_reflect_persists_to_file` | method | `tests/test_aci_planner.py:683` | `def test_reflect_persists_to_file(self, tmp_path)` |
+| `test_replan_command_no_plan` | method | `tests/test_aci_planner.py:940` | `def test_replan_command_no_plan(self, tmp_path, capsys)` |
+| `test_replan_increments_count` | method | `tests/test_aci_planner.py:529` | `def test_replan_increments_count(self, tmp_path)` |
+| `test_replan_injects_new_objectives` | method | `tests/test_aci_planner.py:543` | `def test_replan_injects_new_objectives(self, tmp_path)` |
+| `test_replan_no_plan` | method | `tests/test_aci_planner.py:523` | `def test_replan_no_plan(self, tmp_path)` |
+| `test_replan_records_reason` | method | `tests/test_aci_planner.py:536` | `def test_replan_records_reason(self, tmp_path)` |
+| `test_replan_status_returns_to_active` | method | `tests/test_aci_planner.py:553` | `def test_replan_status_returns_to_active(self, tmp_path)` |
+| `test_replan_twice_counts_two` | method | `tests/test_aci_planner.py:560` | `def test_replan_twice_counts_two(self, tmp_path)` |
+| `test_replan_with_llm` | method | `tests/test_aci_planner.py:568` | `def test_replan_with_llm(self, tmp_path)` |
+| `test_round_trip` | method | `tests/test_aci_planner.py:231` | `def test_round_trip(self)` |
+| `test_save_load_plan_roundtrip` | method | `tests/test_aci_planner.py:830` | `def test_save_load_plan_roundtrip(self, tmp_path)` |
+| `test_should_replan_false_below_threshold` | method | `tests/test_aci_planner.py:487` | `def test_should_replan_false_below_threshold(self, tmp_path)` |
+| `test_should_replan_false_for_completed_plan` | method | `tests/test_aci_planner.py:507` | `def test_should_replan_false_for_completed_plan(self, tmp_path)` |
+| `test_should_replan_false_when_no_plan` | method | `tests/test_aci_planner.py:483` | `def test_should_replan_false_when_no_plan(self, tmp_path)` |
+| `test_should_replan_true_at_threshold` | method | `tests/test_aci_planner.py:496` | `def test_should_replan_true_at_threshold(self, tmp_path)` |
+| `test_status_blocked_count_zero_at_start` | method | `tests/test_aci_planner.py:451` | `def test_status_blocked_count_zero_at_start(self, tmp_path)` |
+| `test_status_command_no_plan` | method | `tests/test_aci_planner.py:926` | `def test_status_command_no_plan(self, tmp_path, capsys)` |
+| `test_status_completion_zero_at_start` | method | `tests/test_aci_planner.py:444` | `def test_status_completion_zero_at_start(self, tmp_path)` |
+| `test_status_has_active_phase` | method | `tests/test_aci_planner.py:437` | `def test_status_has_active_phase(self, tmp_path)` |
+| `test_status_no_plan` | method | `tests/test_aci_planner.py:422` | `def test_status_no_plan(self, tmp_path)` |
+| `test_status_with_plan` | method | `tests/test_aci_planner.py:427` | `def test_status_with_plan(self, tmp_path)` |
+| `test_subsequent_phases_are_pending` | method | `tests/test_aci_planner.py:262` | `def test_subsequent_phases_are_pending(self, tmp_path)` |
+| `test_to_dict_has_completion_pct` | method | `tests/test_aci_planner.py:225` | `def test_to_dict_has_completion_pct(self)` |
+| `test_to_dict_round_trip` | method | `tests/test_aci_planner.py:135` | `def test_to_dict_round_trip(self)` |
+| `TestAddonStore` | class | `tests/test_addon_creator.py:328` | `class TestAddonStore` |
+| `TestBlueprint` | class | `tests/test_addon_creator.py:591` | `class TestBlueprint` |
+| `TestConfig` | class | `tests/test_addon_creator.py:86` | `class TestConfig` |
+| `TestParseAddonForm` | class | `tests/test_addon_creator.py:460` | `class TestParseAddonForm` |
+| `TestTemplateSanity` | class | `tests/test_addon_creator.py:805` | `class TestTemplateSanity` |
+| `TestValidator` | class | `tests/test_addon_creator.py:117` | `class TestValidator` |
+| `TestYamlRenderer` | class | `tests/test_addon_creator.py:263` | `class TestYamlRenderer` |
+| `_FakeOperator` | class | `tests/test_addon_creator.py:570` | `class _FakeOperator(UserMixin)` |
+| `_build_test_app` | function | `tests/test_addon_creator.py:521` | `def _build_test_app(tmp_path)` |
+| `_csrf_token` | method | `tests/test_addon_creator.py:650` | `def _csrf_token(self, client)` |
+| `_form_data` | method | `tests/test_addon_creator.py:626` | `def _form_data(self)` |
+| `_load_user` | function | `tests/test_addon_creator.py:577` | `def _load_user(user_id)` |
+| `_login` | function | `tests/test_addon_creator.py:585` | `def _login(client)` |
+| `_valid_draft` | function | `tests/test_addon_creator.py:45` | `def _valid_draft()` |
+| `test_bad_repo_url_reports_issue` | method | `tests/test_addon_creator.py:205` | `def test_bad_repo_url_reports_issue(self)` |
+| `test_boolean_default_whitelist` | method | `tests/test_addon_creator.py:232` | `def test_boolean_default_whitelist(self)` |
+| `test_create_form_issues_csrf_cookie` | method | `tests/test_addon_creator.py:602` | `def test_create_form_issues_csrf_cookie(self, tmp_path)` |
+| `test_creator_template_forbids_emojis_and_console_spam` | method | `tests/test_addon_creator.py:816` | `def test_creator_template_forbids_emojis_and_console_spam(self)` |
+| `test_creator_template_has_help_affordances` | method | `tests/test_addon_creator.py:808` | `def test_creator_template_has_help_affordances(self)` |
+| `test_declared_param_placeholder_is_allowed` | method | `tests/test_addon_creator.py:186` | `def test_declared_param_placeholder_is_allowed(self)` |
+| `test_default_author_and_version_applied` | method | `tests/test_addon_creator.py:315` | `def test_default_author_and_version_applied(self)` |
+| `test_delete_legacy_uppercase_addon` | method | `tests/test_addon_creator.py:774` | `def test_delete_legacy_uppercase_addon(self, tmp_path)` |
+| `test_delete_rejects_unsafe_existing_names` | method | `tests/test_addon_creator.py:425` | `def test_delete_rejects_unsafe_existing_names(self, tmp_path)` |
+| `test_delete_removes_addon` | method | `tests/test_addon_creator.py:722` | `def test_delete_removes_addon(self, tmp_path)` |
+| `test_delete_unknown_addon_flashes_and_redirects` | method | `tests/test_addon_creator.py:734` | `def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path)` |
+| `test_delete_without_csrf_is_rejected` | method | `tests/test_addon_creator.py:619` | `def test_delete_without_csrf_is_rejected(self, tmp_path)` |
+| `test_duplicate_name_rerenders_with_error` | method | `tests/test_addon_creator.py:685` | `def test_duplicate_name_rerenders_with_error(self, tmp_path)` |
+| `test_duplicate_param_reports_issue` | method | `tests/test_addon_creator.py:212` | `def test_duplicate_param_reports_issue(self)` |
+| `test_exists_swallows_invalid_names` | method | `tests/test_addon_creator.py:434` | `def test_exists_swallows_invalid_names(self, tmp_path)` |
+| `test_install_path_without_repo_url_reports_issue` | method | `tests/test_addon_creator.py:192` | `def test_install_path_without_repo_url_reports_issue(self)` |
+| `test_integer_default_must_parse` | method | `tests/test_addon_creator.py:224` | `def test_integer_default_must_parse(self)` |
+| `test_invalid_name_reports_issue` | method | `tests/test_addon_creator.py:131` | `def test_invalid_name_reports_issue(self)` |
+| `test_invalid_post_rerenders_with_field_errors` | method | `tests/test_addon_creator.py:673` | `def test_invalid_post_rerenders_with_field_errors(self, tmp_path)` |
+| `test_list_all_is_sorted_and_has_expected_keys` | method | `tests/test_addon_creator.py:383` | `def test_list_all_is_sorted_and_has_expected_keys(self, tmp_path)` |
+| `test_list_all_reports_file_stem_as_filename` | method | `tests/test_addon_creator.py:400` | `def test_list_all_reports_file_stem_as_filename(self, tmp_path)` |
+| `test_list_all_skips_broken_files` | method | `tests/test_addon_creator.py:374` | `def test_list_all_skips_broken_files(self, tmp_path)` |
+| `test_list_page_links_by_filename_for_legacy_names` | method | `tests/test_addon_creator.py:764` | `def test_list_page_links_by_filename_for_legacy_names(self, tmp_path)` |
+| `test_list_page_shows_created_addon` | method | `tests/test_addon_creator.py:710` | `def test_list_page_shows_created_addon(self, tmp_path)` |
+| `test_load_accepts_pre_existing_dots_and_hyphens` | method | `tests/test_addon_creator.py:413` | `def test_load_accepts_pre_existing_dots_and_hyphens(self, tmp_path)` |
+| `test_load_accepts_pre_existing_uppercase_names` | method | `tests/test_addon_creator.py:407` | `def test_load_accepts_pre_existing_uppercase_names(self, tmp_path)` |
+| `test_load_missing_raises_file_not_found` | method | `tests/test_addon_creator.py:369` | `def test_load_missing_raises_file_not_found(self, tmp_path)` |
+| `test_load_still_rejects_traversal_through_existing_path` | method | `tests/test_addon_creator.py:419` | `def test_load_still_rejects_traversal_through_existing_path(self, tmp_path)` |
+| `test_malformed_category_reports_issue` | method | `tests/test_addon_creator.py:156` | `def test_malformed_category_reports_issue(self)` |
+| `test_malformed_env_entry_reports_issue` | method | `tests/test_addon_creator.py:249` | `def test_malformed_env_entry_reports_issue(self)` |
+| `test_missing_description_reports_issue` | method | `tests/test_addon_creator.py:138` | `def test_missing_description_reports_issue(self)` |
 | `test_missing_directory_lists_empty` | method | `tests/test_addon_creator.py:430` | `def test_missing_directory_lists_empty(self, tmp_path)` |
 | `test_missing_execute_command_reports_issue` | method | `tests/test_addon_creator.py:168` | `def test_missing_execute_command_reports_issue(self)` |
 | `test_missing_name_reports_issue` | method | `tests/test_addon_creator.py:125` | `def test_missing_name_reports_issue(self)` |
@@ -350,151 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `_Live` | class | `tests/test_audit_remediation.py:105` | `class _Live` |
 | `_Live` | class | `tests/test_audit_remediation.py:122` | `class _Live` |
 | `_load` | function | `tests/test_audit_remediation.py:43` | `def _load()` |
-| `_payload_loader` | function | `tests/test_audit_remediation.py:42` | `def _payload_loader(payload_path)` |
-| `_payload_writer` | function | `tests/test_audit_remediation.py:49` | `def _payload_writer(payload_path)` |
-| `_spec_by_key` | function | `tests/test_audit_remediation.py:19` | `def _spec_by_key(key)` |
-| `_write` | function | `tests/test_audit_remediation.py:50` | `def _write(payload)` |
-| `test_audit_hygiene_chain_loads_and_resolves` | function | `tests/test_audit_remediation.py:225` | `def test_audit_hygiene_chain_loads_and_resolves()` |
-| `test_auto_pipeline_flags_default_off` | function | `tests/test_audit_remediation.py:32` | `def test_auto_pipeline_flags_default_off()` |
-| `test_backdoor_neutralized` | function | `tests/test_audit_remediation.py:196` | `def test_backdoor_neutralized()` |
-| `test_beacon_hmac_default_is_on` | function | `tests/test_audit_remediation.py:27` | `def test_beacon_hmac_default_is_on()` |
-| `test_builder_context_carries_beacon_keys` | function | `tests/test_audit_remediation.py:170` | `def test_builder_context_carries_beacon_keys()` |
-| `test_c2_bootstraps_session_secrets_at_boot` | function | `tests/test_audit_remediation.py:144` | `def test_c2_bootstraps_session_secrets_at_boot()` |
-| `test_c2_signature_guard_wired_into_routes` | function | `tests/test_audit_remediation.py:134` | `def test_c2_signature_guard_wired_into_routes()` |
-| `test_command_index_contains_hygiene_audit` | function | `tests/test_audit_remediation.py:246` | `def test_command_index_contains_hygiene_audit()` |
-| `test_ensure_rat_key_generates_and_persists` | function | `tests/test_audit_remediation.py:56` | `def test_ensure_rat_key_generates_and_persists(tmp_path, monkeypatch)` |
-| `test_ensure_rat_key_idempotent_for_fresh_key` | function | `tests/test_audit_remediation.py:84` | `def test_ensure_rat_key_idempotent_for_fresh_key(tmp_path, monkeypatch)` |
-| `test_ensure_rat_key_mirrors_live_config` | function | `tests/test_audit_remediation.py:96` | `def test_ensure_rat_key_mirrors_live_config(tmp_path, monkeypatch)` |
-| `test_ensure_rat_key_rotates_legacy_published_key` | function | `tests/test_audit_remediation.py:71` | `def test_ensure_rat_key_rotates_legacy_published_key(tmp_path, monkeypatch)` |
-| `test_hygiene_findings_clean_on_current_tree` | function | `tests/test_audit_remediation.py:203` | `def test_hygiene_findings_clean_on_current_tree()` |
-| `test_hygiene_findings_flag_dirty_payload` | function | `tests/test_audit_remediation.py:214` | `def test_hygiene_findings_flag_dirty_payload()` |
-| `test_implant_seeds_defaults_and_pins_tls` | function | `tests/test_audit_remediation.py:159` | `def test_implant_seeds_defaults_and_pins_tls()` |
-| `test_implant_signs_wire_body` | function | `tests/test_audit_remediation.py:150` | `def test_implant_signs_wire_body()` |
-| `test_lazyown_set_config_persists_and_mirrors` | function | `tests/test_audit_remediation.py:113` | `def test_lazyown_set_config_persists_and_mirrors(tmp_path, monkeypatch)` |
-| `test_orchestrator_exposes_new_fields` | function | `tests/test_audit_remediation.py:239` | `def test_orchestrator_exposes_new_fields()` |
-| `test_rat_key_spec_is_no_longer_published_secret` | function | `tests/test_audit_remediation.py:37` | `def test_rat_key_spec_is_no_longer_published_secret()` |
-| `test_rootkit_makefile_exposes_overrides` | function | `tests/test_audit_remediation.py:190` | `def test_rootkit_makefile_exposes_overrides()` |
-| `test_rootkit_sources_free_of_operator_identity` | function | `tests/test_audit_remediation.py:177` | `def test_rootkit_sources_free_of_operator_identity()` |
-| `TestAutoCryptoConfig` | class | `tests/test_auto_crypto.py:33` | `class TestAutoCryptoConfig` |
-| `TestAutoCryptoEngine` | class | `tests/test_auto_crypto.py:54` | `class TestAutoCryptoEngine` |
-| `TestExitEncryptWiring` | class | `tests/test_auto_crypto.py:169` | `class TestExitEncryptWiring` |
-| `TestHasPassword` | class | `tests/test_auto_crypto.py:152` | `class TestHasPassword` |
-| `TestPasswordProvider` | class | `tests/test_auto_crypto.py:144` | `class TestPasswordProvider` |
-| `_stub_shell` | method | `tests/test_auto_crypto.py:172` | `def _stub_shell(self, calls)` |
-| `crypto_module` | function | `tests/test_auto_crypto.py:21` | `def crypto_module()` |
-| `test_build_provider_returns_callable` | method | `tests/test_auto_crypto.py:145` | `def test_build_provider_returns_callable(self)` |
-| `test_custom_config` | method | `tests/test_auto_crypto.py:42` | `def test_custom_config(self, crypto_module)` |
-| `test_default_config` | method | `tests/test_auto_crypto.py:34` | `def test_default_config(self, crypto_module)` |
-| `test_disabled_engine_is_noop` | method | `tests/test_auto_crypto.py:55` | `def test_disabled_engine_is_noop(self, crypto_module, tmp_sessions)` |
-| `test_empty_directory_is_not_encrypted` | method | `tests/test_auto_crypto.py:77` | `def test_empty_directory_is_not_encrypted(self, crypto_module, tmp_sessions)` |
-| `test_encrypt_decrypt_roundtrip` | method | `tests/test_auto_crypto.py:86` | `def test_encrypt_decrypt_roundtrip(self, crypto_module, tmp_sessions)` |
-| `test_eof_encrypts_before_returning` | method | `tests/test_auto_crypto.py:213` | `def test_eof_encrypts_before_returning(self, monkeypatch)` |
-| `test_exit_encrypts_after_confirmation` | method | `tests/test_auto_crypto.py:195` | `def test_exit_encrypts_after_confirmation(self, monkeypatch)` |
-| `test_false_when_provider_returns_empty` | method | `tests/test_auto_crypto.py:163` | `def test_false_when_provider_returns_empty(self, crypto_module, tmp_sessions)` |
-| `test_false_without_provider` | method | `tests/test_auto_crypto.py:153` | `def test_false_without_provider(self, crypto_module, tmp_sessions)` |
-| `test_no_password_provider_returns_false` | method | `tests/test_auto_crypto.py:66` | `def test_no_password_provider_returns_false(self, crypto_module, tmp_sessions)` |
-| `test_qa_encrypts_before_exit` | method | `tests/test_auto_crypto.py:180` | `def test_qa_encrypts_before_exit(self, monkeypatch)` |
-| `test_salt_is_persisted` | method | `tests/test_auto_crypto.py:122` | `def test_salt_is_persisted(self, crypto_module, tmp_sessions)` |
-| `test_true_with_provider` | method | `tests/test_auto_crypto.py:158` | `def test_true_with_provider(self, crypto_module, tmp_sessions)` |
-| `tmp_sessions` | function | `tests/test_auto_crypto.py:28` | `def tmp_sessions()` |
-| `TestDecisionPersistence` | class | `tests/test_auto_loop_memory.py:86` | `class TestDecisionPersistence` |
-| `TestFailureMemory` | class | `tests/test_auto_loop_memory.py:13` | `class TestFailureMemory` |
-| `TestFailureMemorySanctioned` | class | `tests/test_auto_loop_memory.py:71` | `class TestFailureMemorySanctioned` |
-| `TestSelectorManager` | class | `tests/test_auto_loop_memory.py:121` | `class TestSelectorManager` |
-| `test_all_blocked_returns_none` | method | `tests/test_auto_loop_memory.py:144` | `def test_all_blocked_returns_none(self)` |
-| `test_blocked_after_threshold_by_base` | method | `tests/test_auto_loop_memory.py:25` | `def test_blocked_after_threshold_by_base(self, tmp_path)` |
-| `test_blocked_proposal_skipped_with_trace` | method | `tests/test_auto_loop_memory.py:130` | `def test_blocked_proposal_skipped_with_trace(self)` |
-| `test_clear_target_forgets_records` | method | `tests/test_auto_loop_memory.py:53` | `def test_clear_target_forgets_records(self, tmp_path)` |
-| `test_counts_persist_across_reload` | method | `tests/test_auto_loop_memory.py:16` | `def test_counts_persist_across_reload(self, tmp_path)` |
-| `test_duplicates_deduped` | method | `tests/test_auto_loop_memory.py:149` | `def test_duplicates_deduped(self)` |
-| `test_empty_command_rejected` | method | `tests/test_auto_loop_memory.py:155` | `def test_empty_command_rejected(self)` |
-| `test_invalid_key_raises` | method | `tests/test_auto_loop_memory.py:63` | `def test_invalid_key_raises(self, tmp_path)` |
-| `test_newest_First_and_persisted` | method | `tests/test_auto_loop_memory.py:99` | `def test_newest_First_and_persisted(self, tmp_path)` |
-| `test_priority_order_wins` | method | `tests/test_auto_loop_memory.py:124` | `def test_priority_order_wins(self)` |
-| `test_push_ignores_empty_and_caps` | method | `tests/test_auto_loop_memory.py:110` | `def test_push_ignores_empty_and_caps(self, tmp_path)` |
-| `test_push_pop_round_trip` | method | `tests/test_auto_loop_memory.py:89` | `def test_push_pop_round_trip(self, tmp_path)` |
-| `test_sanctioned_lists_sorted_rows` | method | `tests/test_auto_loop_memory.py:74` | `def test_sanctioned_lists_sorted_rows(self, tmp_path)` |
-| `test_trims_to_capacity` | method | `tests/test_auto_loop_memory.py:43` | `def test_trims_to_capacity(self, tmp_path)` |
-| `test_veto_blocks_immediately_and_persists` | method | `tests/test_auto_loop_memory.py:35` | `def test_veto_blocks_immediately_and_persists(self, tmp_path)` |
-| `_FakeShell` | class | `tests/test_auto_registry.py:73` | `class _FakeShell` |
-| `_HangingShell` | class | `tests/test_auto_registry.py:86` | `class _HangingShell` |
-| `__init__` | method | `tests/test_auto_registry.py:76` | `def __init__(self, output)` |
-| `_run` | function | `tests/test_auto_registry.py:169` | `def _run()` |
-| `onecmd` | method | `tests/test_auto_registry.py:89` | `def onecmd(self, command)` |
-| `onecmd_plus_hooks` | method | `tests/test_auto_registry.py:80` | `def onecmd_plus_hooks(self, command)` |
-| `test_build_command_binds_target` | function | `tests/test_auto_registry.py:38` | `def test_build_command_binds_target()` |
-| `test_cancel_running_commands_kills_streaming` | function | `tests/test_auto_registry.py:160` | `def test_cancel_running_commands_kills_streaming()` |
-| `test_execute_shell_verb_captures_output` | function | `tests/test_auto_registry.py:96` | `def test_execute_shell_verb_captures_output()` |
-| `test_execute_shell_verb_rejects_non_verbs` | function | `tests/test_auto_registry.py:104` | `def test_execute_shell_verb_rejects_non_verbs()` |
-| `test_execute_shell_verb_timeout_never_hangs` | function | `tests/test_auto_registry.py:112` | `def test_execute_shell_verb_timeout_never_hangs()` |
-| `test_execute_shell_verb_without_shell` | function | `tests/test_auto_registry.py:118` | `def test_execute_shell_verb_without_shell()` |
-| `test_is_shell_verb_matches_first_token` | function | `tests/test_auto_registry.py:47` | `def test_is_shell_verb_matches_first_token()` |
-| `test_missing_binary_skips_builtins_paths_and_scripts` | function | `tests/test_auto_registry.py:134` | `def test_missing_binary_skips_builtins_paths_and_scripts(monkeypatch)` |
-| `test_propose_and_steps_skip_unavailable_verbs` | function | `tests/test_auto_registry.py:144` | `def test_propose_and_steps_skip_unavailable_verbs(monkeypatch)` |
-| `test_propose_and_translate_roundtrip` | function | `tests/test_auto_registry.py:63` | `def test_propose_and_translate_roundtrip()` |
-| `test_registry_covers_auto_family` | function | `tests/test_auto_registry.py:28` | `def test_registry_covers_auto_family()` |
-| `test_steps_for_uses_next_available_keyword_verb` | function | `tests/test_auto_registry.py:154` | `def test_steps_for_uses_next_available_keyword_verb(monkeypatch)` |
-| `test_verb_gap_flags_missing_tooling` | function | `tests/test_auto_registry.py:124` | `def test_verb_gap_flags_missing_tooling(monkeypatch)` |
-| `test_verbs_for_matches_keywords` | function | `tests/test_auto_registry.py:55` | `def test_verbs_for_matches_keywords()` |
-| `boom` | function | `tests/test_autonomous_ops.py:101` | `def boom(_prompt)` |
-| `test_c04_dedup_anchor_coverage` | function | `tests/test_autonomous_ops.py:11` | `def test_c04_dedup_anchor_coverage()` |
-| `test_c04_mirror_to_campaign_db` | function | `tests/test_autonomous_ops.py:26` | `def test_c04_mirror_to_campaign_db(tmp_path)` |
-| `test_c05_frontier_emits_once_then_empty` | function | `tests/test_autonomous_ops.py:43` | `def test_c05_frontier_emits_once_then_empty()` |
-| `test_c05_todo_blocks_lateral_until_creds` | function | `tests/test_autonomous_ops.py:58` | `def test_c05_todo_blocks_lateral_until_creds()` |
-| `test_c06_finding_lifecycle_on_campaign_db` | function | `tests/test_autonomous_ops.py:70` | `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)` |
-| `test_c07_pool_failover_and_exhaustion` | function | `tests/test_autonomous_ops.py:98` | `def test_c07_pool_failover_and_exhaustion()` |
-| `test_c08_notify_filter_and_redact` | function | `tests/test_autonomous_ops.py:116` | `def test_c08_notify_filter_and_redact()` |
-| `test_c09_side_question_isolated` | function | `tests/test_autonomous_ops.py:128` | `def test_c09_side_question_isolated()` |
-| `test_c10_rollback_restores_previous` | function | `tests/test_autonomous_ops.py:159` | `def test_c10_rollback_restores_previous(tmp_path)` |
-| `test_c10_verify_rejects_bad_checksum` | function | `tests/test_autonomous_ops.py:143` | `def test_c10_verify_rejects_bad_checksum(tmp_path)` |
-| `test_i2_pool_hard_trips_on_auth_errors` | function | `tests/test_autonomous_ops.py:186` | `def test_i2_pool_hard_trips_on_auth_errors()` |
-| `test_i2_shared_registry_survives_rebuilds` | function | `tests/test_autonomous_ops.py:171` | `def test_i2_shared_registry_survives_rebuilds()` |
-| `test_i3_classify_retest_verdicts` | function | `tests/test_autonomous_ops.py:194` | `def test_i3_classify_retest_verdicts()` |
-| `test_i3_retest_bumps_evidence_version` | function | `tests/test_autonomous_ops.py:203` | `def test_i3_retest_bumps_evidence_version(tmp_path)` |
-| `test_i4_shared_engine_cooldown` | function | `tests/test_autonomous_ops.py:224` | `def test_i4_shared_engine_cooldown()` |
-| `test_i4_should_rescan_honours_fresh_scans` | function | `tests/test_autonomous_ops.py:232` | `def test_i4_should_rescan_honours_fresh_scans(tmp_path)` |
-| `_Runner` | class | `tests/test_autonomous_replay.py:161` | `class _Runner` |
-| `_Runner` | class | `tests/test_autonomous_replay.py:185` | `class _Runner` |
-| `__init__` | method | `tests/test_autonomous_replay.py:162` | `def __init__(self)` |
-| `_event` | function | `tests/test_autonomous_replay.py:40` | `def _event(event_id, objective_id, step, command, source, seed_override)` |
-| `_write_jsonl` | function | `tests/test_autonomous_replay.py:65` | `def _write_jsonl(path, events)` |
-| `run` | method | `tests/test_autonomous_replay.py:165` | `def run(self, command, timeout)` |
-| `run` | method | `tests/test_autonomous_replay.py:186` | `def run(self, command, timeout)` |
-| `test_event_log_reader_returns_empty_when_missing` | function | `tests/test_autonomous_replay.py:71` | `def test_event_log_reader_returns_empty_when_missing(tmp_path)` |
-| `test_event_log_reader_skips_malformed_lines` | function | `tests/test_autonomous_replay.py:78` | `def test_event_log_reader_skips_malformed_lines(tmp_path)` |
-| `test_execute_marks_runner_errors_as_failure` | function | `tests/test_autonomous_replay.py:179` | `def test_execute_marks_runner_errors_as_failure(tmp_path)` |
-| `test_execute_runs_commands_through_injected_runner` | function | `tests/test_autonomous_replay.py:149` | `def test_execute_runs_commands_through_injected_runner(tmp_path)` |
-| `test_replay_convenience_returns_dict` | function | `tests/test_autonomous_replay.py:195` | `def test_replay_convenience_returns_dict(tmp_path)` |
-| `test_replay_rejects_unknown_mode` | function | `tests/test_autonomous_replay.py:206` | `def test_replay_rejects_unknown_mode(tmp_path)` |
-| `test_slice_is_inclusive_on_both_bounds` | function | `tests/test_autonomous_replay.py:96` | `def test_slice_is_inclusive_on_both_bounds(tmp_path)` |
-| `test_step_skips_events_without_command` | function | `tests/test_autonomous_replay.py:221` | `def test_step_skips_events_without_command(tmp_path)` |
-| `test_supported_modes_constant` | function | `tests/test_autonomous_replay.py:215` | `def test_supported_modes_constant()` |
-| `test_trace_detects_decision_seed_divergence` | function | `tests/test_autonomous_replay.py:131` | `def test_trace_detects_decision_seed_divergence(tmp_path)` |
-| `test_trace_returns_one_step_per_event` | function | `tests/test_autonomous_replay.py:112` | `def test_trace_returns_one_step_per_event(tmp_path)` |
-| `_CapturingConsole` | class | `tests/test_autosuggest.py:295` | `class _CapturingConsole` |
-| `_FakeAdvisor` | class | `tests/test_autosuggest.py:203` | `class _FakeAdvisor` |
-| `_RaisingProvider` | class | `tests/test_autosuggest.py:52` | `class _RaisingProvider` |
-| `_SequenceProvider` | class | `tests/test_autosuggest.py:339` | `class _SequenceProvider` |
-| `_StaticProvider` | class | `tests/test_autosuggest.py:42` | `class _StaticProvider` |
-| `__init__` | method | `tests/test_autosuggest.py:45` | `def __init__(self, suggestion)` |
-| `__init__` | method | `tests/test_autosuggest.py:204` | `def __init__(self, results, available)` |
-| `__init__` | method | `tests/test_autosuggest.py:296` | `def __init__(self)` |
-| `__init__` | method | `tests/test_autosuggest.py:342` | `def __init__(self, suggestions)` |
-| `is_available` | method | `tests/test_autosuggest.py:208` | `def is_available(self)` |
-| `print` | method | `tests/test_autosuggest.py:299` | `def print(self, value)` |
-| `suggest` | method | `tests/test_autosuggest.py:48` | `def suggest(self, context)` |
-| `suggest` | method | `tests/test_autosuggest.py:55` | `def suggest(self, context)` |
-| `suggest` | method | `tests/test_autosuggest.py:346` | `def suggest(self, context)` |
-| `suggest_next` | method | `tests/test_autosuggest.py:211` | `def suggest_next(self, recent_commands, limit)` |
-| `test_build_default_engine_includes_killchain_only_when_no_advisor` | function | `tests/test_autosuggest.py:246` | `def test_build_default_engine_includes_killchain_only_when_no_advisor()` |
-| `test_build_default_engine_with_unavailable_advisor` | function | `tests/test_autosuggest.py:372` | `def test_build_default_engine_with_unavailable_advisor()` |
-| `test_composite_picks_highest_score` | function | `tests/test_autosuggest.py:133` | `def test_composite_picks_highest_score()` |
-| `test_composite_returns_none_when_no_provider_responds` | function | `tests/test_autosuggest.py:152` | `def test_composite_returns_none_when_no_provider_responds()` |
-| `test_composite_skips_raising_provider` | function | `tests/test_autosuggest.py:143` | `def test_composite_skips_raising_provider()` |
-| `test_engine_accept_returns_command_and_clears` | function | `tests/test_autosuggest.py:69` | `def test_engine_accept_returns_command_and_clears()` |
-| `test_engine_advances_suggestion_after_accept_refresh` | function | `tests/test_autosuggest.py:354` | `def test_engine_advances_suggestion_after_accept_refresh()` |
-| `test_engine_disabled_clears_state_and_returns_none` | function | `tests/test_autosuggest.py:81` | `def test_engine_disabled_clears_state_and_returns_none()` |
-| `test_engine_display_text_empty_without_suggestion` | function | `tests/test_autosuggest.py:102` | `def test_engine_display_text_empty_without_suggestion()` |
-| `test_engine_display_text_renders_active_suggestion` | function | `tests/test_autosuggest.py:108` | `def test_engine_display_text_renders_active_suggestion()` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

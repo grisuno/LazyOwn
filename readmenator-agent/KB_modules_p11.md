@@ -1,6 +1,62 @@
 # Subsystem: modules (page 11 of 16)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
+## modules/llm_orchestrator.py
+- Doc: Orchestrator-governed LLM failover chain for every AI module.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_blank_error` (function, line 87) `def _blank_error(message)`
+  - `OrchestratorResult` (class, line 92) `class OrchestratorResult`
+  - `sort_members` (function, line 130) `def sort_members(members)`
+  - `pool_chain` (function, line 148) `def pool_chain()`
+  - `backend_kind` (function, line 175) `def backend_kind(model_spec)`
+  - `is_error_reply` (function, line 192) `def is_error_reply(text)`
+  - `is_placeholder_key` (function, line 211) `def is_placeholder_key(value)`
+  - `_dedupe` (function, line 229) `def _dedupe(chain)`
+  - `_ensure_groq_env_key` (function, line 242) `def _ensure_groq_env_key(api_key)`
+  - `_default_health` (function, line 278) `def _default_health()`
+  - `_breaker_active` (function, line 288) `def _breaker_active()`
+  - `_ledger_record` (function, line 298) `def _ledger_record(name, ok, text)`
+  - `_factory_executor` (function, line 308) `def _factory_executor(model_spec, prompt, max_tokens)`
+  - `_notice_fallback` (function, line 330) `def _notice_fallback(primary, attempts, served)`
+  - `complete_with_fallback` (function, line 349) `def complete_with_fallback(prompt, system, max_tokens, api_key, members, executor, health, record)`
+  - `_bare_model_name` (function, line 423) `def _bare_model_name(model_spec)`
+  - `_walk_chain` (function, line 431) `def _walk_chain(chain, walk, health, attempts, specs, max_tokens, system, prompt, record, healthy_only, skipped)`
+  - `_exhausted_result` (function, line 512) `def _exhausted_result(attempts, specs, record)`
+  - `ok` (method, line 118) `def ok(self)`
+  - `display_text` (method, line 123) `def display_text(self)`
+  - `_weight` (function, line 139) `def _weight(member)`
+- Depends on: `modules/lazy_engine.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/orchestrator_config.py`
+- Imported by: `lazyc2.py`, `modules/ai_fallback.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_vulnbot_fallback.py`
+
+## modules/llm_pool.py
+- Doc: Ordered LLM failover pool with health-aware skipping.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_health_path` (function, line 20) `def _health_path()`
+  - `PoolConfig` (class, line 29) `class PoolConfig`
+  - `PoolExhausted` (class, line 42) `class PoolExhausted(RuntimeError)`
+  - `shared_registry` (function, line 50) `def shared_registry(config)`
+  - `PoolMember` (class, line 64) `class PoolMember`
+  - `HealthRegistry` (class, line 75) `class HealthRegistry`
+  - `LLMPool` (class, line 176) `class LLMPool`
+  - `__init__` (method, line 83) `def __init__(self, config)`
+  - `_load` (method, line 92) `def _load(self)`
+  - `_persist_locked` (method, line 116) `def _persist_locked(self)`
+  - `report_success` (method, line 135) `def report_success(self, member_id)`
+  - `report_failure` (method, line 143) `def report_failure(self, member_id, error)`
+  - `_backoff_for` (method, line 155) `def _backoff_for(self, failures)`
+  - `healthy` (method, line 163) `def healthy(self, member_id)`
+  - `__init__` (method, line 179) `def __init__(self, members, health, config)`
+  - `members` (method, line 192) `def members(self)`
+  - `session_key` (method, line 196) `def session_key(self, conversation_id, role, index)`
+  - `_ordered` (method, line 201) `def _ordered(self)`
+  - `_truncate` (method, line 217) `def _truncate(self, text, overflow_dir)`
+  - `complete` (method, line 237) `def complete(self, prompt, max_tokens, session_key, overflow_dir)`
+- Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
+
 ## modules/llm_prompts.py
 - Doc: Canonical prompt-template and knowledge-base contract for LLM consumers.
 - Layer: utility
@@ -35,7 +91,7 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `add` (method, line 324) `def add(self, prompt, response)`
   - `relevant` (method, line 335) `def relevant(self, prompt, limit)`
 - Depends on: `modules/colors.py`
-- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_llm_prompts.py`
 
 ## modules/log_tamper.py
 - Doc: Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log.
@@ -426,65 +482,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `tail` (method, line 430) `def tail(self, n)`
 - Depends on: `core/logging.py`
 - Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
-
-## modules/mfa_bypass.py
-- Doc: MFA Bypass Toolkit — techniques for circumventing multi-factor authentication.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `MFATarget` (class, line 103) `class MFATarget`
-  - `MFABypassResult` (class, line 113) `class MFABypassResult`
-  - `MFABypassEngine` (class, line 121) `class MFABypassEngine`
-  - `__init__` (method, line 128) `def __init__(self, sessions_dir)`
-  - `enumerate_techniques` (method, line 133) `def enumerate_techniques(self, target)`
-  - `generate_phishing_templates` (method, line 153) `def generate_phishing_templates(self, target)`
-  - `mfa_conditional_access_scan` (method, line 223) `def mfa_conditional_access_scan(self, domain)`
-  - `replay_oauth_token` (method, line 252) `def replay_oauth_token(self, access_token, refresh_token)`
-  - `saml_golden_ticket_check` (method, line 278) `def saml_golden_ticket_check(self, adfs_server)`
-  - `export_report` (method, line 303) `def export_report(self)`
-- Imported by: `cli/commands/cicd.py`
-
-## modules/mkcloudflaretunnel.sh
-- Doc: Download cloudflared and create a tunnel to localhost on a specified port.
-- Layer: utility
-- Language: sh
-
-## modules/module_registry.py
-- Doc: Unified module registry for LazyOwn — catalog, search, use/run workflow.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_classify` (function, line 47) `def _classify(category)`
-  - `_classify_module_source` (function, line 118) `def _classify_module_source(name, source)`
-  - `_extract_docstring_summary` (function, line 136) `def _extract_docstring_summary(source)`
-  - `ModuleInfo` (class, line 150) `class ModuleInfo`
-  - `ModuleRegistry` (class, line 223) `class ModuleRegistry`
-  - `format_module_table` (function, line 542) `def format_module_table(modules, cols)`
-  - `format_module_detail` (function, line 589) `def format_module_detail(m)`
-  - `__init__` (method, line 172) `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...`
-  - `to_dict` (method, line 202) `def to_dict(self)`
-  - `__repr__` (method, line 219) `def __repr__(self)`
-  - `__init__` (method, line 235) `def __init__(self, base_dir)`
-  - `get_instance` (method, line 241) `def get_instance(cls, base_dir)`
-  - `scan` (method, line 247) `def scan(self)`
-  - `rescan` (method, line 260) `def rescan(self)`
-  - `get` (method, line 269) `def get(self, name)`
-  - `search` (method, line 275) `def search(self, query, module_type, category, enabled_only, include_deprecated)`
-  - `deprecated_modules` (method, line 315) `def deprecated_modules(self)`
-  - `by_type` (method, line 321) `def by_type(self, module_type)`
-  - `summary` (method, line 325) `def summary(self)`
-  - `_scan_yaml_addons` (method, line 338) `def _scan_yaml_addons(self)`
-  - `_scan_plugins` (method, line 379) `def _scan_plugins(self)`
-  - `_scan_tools` (method, line 419) `def _scan_tools(self)`
-  - `_scan_playbooks` (method, line 453) `def _scan_playbooks(self)`
-  - `_scan_python_modules` (method, line 473) `def _scan_python_modules(self)`
-  - `_looks_discoverable` (method, line 503) `def _looks_discoverable(source)`
-  - `_load_yaml` (method, line 517) `def _load_yaml(path)`
-  - `__len__` (method, line 526) `def __len__(self)`
-  - `__iter__` (method, line 531) `def __iter__(self)`
-  - `__contains__` (method, line 536) `def __contains__(self, name)`
-- Depends on: `core/logging.py`
-- Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

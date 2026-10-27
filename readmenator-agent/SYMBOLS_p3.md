@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_lazy_fact` | method | `cli/commands/lazyops.py:1399` | `def do_lazy_fact(self, line)` |
 | `do_lazy_finding` | method | `cli/commands/lazyops.py:1195` | `def do_lazy_finding(self, line)` |
 | `do_lazy_frontier` | method | `cli/commands/lazyops.py:503` | `def do_lazy_frontier(self, line)` |
 | `do_lazy_gate` | method | `cli/commands/lazyops.py:2613` | `def do_lazy_gate(self, line)` |
@@ -347,19 +348,19 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_stealth_off` | method | `cli/commands/pwn.py:422` | `def do_stealth_off(self, line)` |
 | `do_stealth_on` | method | `cli/commands/pwn.py:394` | `def do_stealth_on(self, line)` |
 | `ReconCommandSet` | class | `cli/commands/recon.py:40` | `class ReconCommandSet(LazyOwnCommandSet)` |
-| `_run_single_search` | function | `cli/commands/recon.py:521` | `def _run_single_search(query)` |
+| `_run_single_search` | function | `cli/commands/recon.py:515` | `def _run_single_search(query)` |
 | `do_batchnmap` | method | `cli/commands/recon.py:47` | `def do_batchnmap(self, line)` |
-| `do_dig` | method | `cli/commands/recon.py:154` | `def do_dig(self, line)` |
-| `do_dnsenum` | method | `cli/commands/recon.py:186` | `def do_dnsenum(self, line)` |
-| `do_dnsmap` | method | `cli/commands/recon.py:222` | `def do_dnsmap(self, line)` |
-| `do_finalrecon` | method | `cli/commands/recon.py:429` | `def do_finalrecon(self, line)` |
+| `do_dig` | method | `cli/commands/recon.py:148` | `def do_dig(self, line)` |
+| `do_dnsenum` | method | `cli/commands/recon.py:180` | `def do_dnsenum(self, line)` |
+| `do_dnsmap` | method | `cli/commands/recon.py:216` | `def do_dnsmap(self, line)` |
+| `do_finalrecon` | method | `cli/commands/recon.py:423` | `def do_finalrecon(self, line)` |
 | `do_lazynmap` | method | `cli/commands/recon.py:74` | `def do_lazynmap(self, line)` |
-| `do_nbtscan` | method | `cli/commands/recon.py:292` | `def do_nbtscan(self, line)` |
-| `do_nikto` | method | `cli/commands/recon.py:320` | `def do_nikto(self, line)` |
-| `do_openssl_sclient` | method | `cli/commands/recon.py:461` | `def do_openssl_sclient(self, line)` |
-| `do_ss` | method | `cli/commands/recon.py:491` | `def do_ss(self, line)` |
-| `do_wfuzz` | method | `cli/commands/recon.py:654` | `def do_wfuzz(self, line)` |
-| `do_whatweb` | method | `cli/commands/recon.py:255` | `def do_whatweb(self, line)` |
+| `do_nbtscan` | method | `cli/commands/recon.py:286` | `def do_nbtscan(self, line)` |
+| `do_nikto` | method | `cli/commands/recon.py:314` | `def do_nikto(self, line)` |
+| `do_openssl_sclient` | method | `cli/commands/recon.py:455` | `def do_openssl_sclient(self, line)` |
+| `do_ss` | method | `cli/commands/recon.py:485` | `def do_ss(self, line)` |
+| `do_wfuzz` | method | `cli/commands/recon.py:648` | `def do_wfuzz(self, line)` |
+| `do_whatweb` | method | `cli/commands/recon.py:249` | `def do_whatweb(self, line)` |
 | `ReconMigratedCommandSet` | class | `cli/commands/recon_migrated.py:38` | `class ReconMigratedCommandSet(LazyOwnCommandSet)` |
 | `_set_exit` | function | `cli/commands/recon_migrated.py:202` | `def _set_exit(code)` |
 | `do_alterx` | method | `cli/commands/recon_migrated.py:874` | `def do_alterx(self, line)` |
@@ -391,14 +392,14 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
 | `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
 | `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:33` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
-| `_format_elapsed` | method | `cli/commands/redteam_gym.py:279` | `def _format_elapsed(seconds)` |
-| `_gym_hint` | method | `cli/commands/redteam_gym.py:406` | `def _gym_hint(self, args)` |
-| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:372` | `def _gym_leaderboard(self, args)` |
+| `_format_elapsed` | method | `cli/commands/redteam_gym.py:290` | `def _format_elapsed(seconds)` |
+| `_gym_hint` | method | `cli/commands/redteam_gym.py:417` | `def _gym_hint(self, args)` |
+| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:383` | `def _gym_leaderboard(self, args)` |
 | `_gym_list` | method | `cli/commands/redteam_gym.py:137` | `def _gym_list(self)` |
 | `_gym_start` | method | `cli/commands/redteam_gym.py:171` | `def _gym_start(self, args)` |
-| `_gym_status` | method | `cli/commands/redteam_gym.py:284` | `def _gym_status(self, args)` |
-| `_gym_stop` | method | `cli/commands/redteam_gym.py:352` | `def _gym_stop(self, args)` |
-| `_gym_submit` | method | `cli/commands/redteam_gym.py:231` | `def _gym_submit(self, args)` |
+| `_gym_status` | method | `cli/commands/redteam_gym.py:295` | `def _gym_status(self, args)` |
+| `_gym_stop` | method | `cli/commands/redteam_gym.py:363` | `def _gym_stop(self, args)` |
+| `_gym_submit` | method | `cli/commands/redteam_gym.py:242` | `def _gym_submit(self, args)` |
 | `do_gym` | method | `cli/commands/redteam_gym.py:40` | `def do_gym(self, line)` |
 | `do_gym_ms2` | method | `cli/commands/redteam_gym.py:92` | `def do_gym_ms2(self, line)` |
 | `ResourceCommandSet` | class | `cli/commands/resource_scripting.py:25` | `class ResourceCommandSet(LazyOwnCommandSet)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_seal_credentials` | method | `cli/commands/security.py:106` | `def do_seal_credentials(self, _line)` |
 | `do_unseal_credentials` | method | `cli/commands/security.py:150` | `def do_unseal_credentials(self, _line)` |
 | `SessionOpsCommandSet` | class | `cli/commands/session_ops.py:86` | `class SessionOpsCommandSet(LazyOwnCommandSet)` |
-| `_flag_value` | function | `cli/commands/session_ops.py:950` | `def _flag_value(flag_name)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

@@ -102,4 +102,4 @@
   - `describe` (method, line 165) `def describe(self)`
   - `_on_failure` (method, line 174) `def _on_failure(self, tier, ticket, key, fn, args, kwargs, exc)`
 - Depends on: `modules/guardrails/advisories.py`, `modules/guardrails/budget.py`, `modules/guardrails/checkpoints.py`, `modules/guardrails/contracts.py`
-- Imported by: `modules/guardrails/__init__.py`
+- Imported by: `modules/guardrails/__init__.py`, `tests/conftest.py`

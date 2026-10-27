@@ -211,11 +211,12 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `plan_matrix` (function, line 36) `def plan_matrix(target, sessions_dir, only, top_k)`
-  - `run_matrix` (function, line 89) `def run_matrix(target)`
-  - `_stats` (function, line 201) `def _stats(runs)`
-  - `_persist` (function, line 217) `def _persist(summary_result, sessions_dir)`
-  - `load_matrix` (function, line 233) `def load_matrix(sessions_dir)`
+  - `_catalogue` (function, line 36) `def _catalogue(catalogue)`
+  - `plan_matrix` (function, line 49) `def plan_matrix(target, sessions_dir, only, top_k, catalogue)`
+  - `run_matrix` (function, line 104) `def run_matrix(target)`
+  - `_stats` (function, line 220) `def _stats(runs)`
+  - `_persist` (function, line 236) `def _persist(summary_result, sessions_dir)`
+  - `load_matrix` (function, line 252) `def load_matrix(sessions_dir)`
 - Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
 
 ## modules/gym_registry.py
@@ -252,7 +253,18 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `state_summary` (function, line 751) `def state_summary()`
   - `new_run_token` (function, line 761) `def new_run_token()`
 - Depends on: `core/logging.py`, `modules/world_model.py`
-- Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`, `tests/test_winbox_gym.py`
+
+## modules/gym_winbox_runner.py
+- Doc: Ordered WinBox gym matrix runner.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `plan_matrix` (function, line 21) `def plan_matrix(target, sessions_dir, only, top_k)`
+  - `run_matrix` (function, line 51) `def run_matrix(target)`
+  - `report` (function, line 118) `def report(sessions_dir)`
+  - `chain_available` (function, line 130) `def chain_available(vuln_id)`
+- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_registry.py`
 
 ## modules/harness.py
 - Doc: Deterministic harness gate for the LazyOwn loop.
@@ -385,32 +397,35 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_service_cve_matches` (function, line 65) `def _service_cve_matches(service_name, version_text, svc)`
-  - `_extract_cve_id` (function, line 115) `def _extract_cve_id(vuln)`
-  - `_family_color` (function, line 162) `def _family_color(name)`
-  - `node_id` (function, line 173) `def node_id(kind, value)`
-  - `_load_json` (function, line 179) `def _load_json(path, default)`
-  - `_read_lines` (function, line 189) `def _read_lines(path, limit)`
-  - `_host_mentions` (function, line 206) `def _host_mentions(text)`
-  - `_file_pagerank` (function, line 213) `def _file_pagerank(ids, pairs, alpha, max_iter, tol)`
-  - `build_intel_graph` (function, line 243) `def build_intel_graph(sessions_dir, est_cap)`
-  - `_node_doc` (function, line 533) `def _node_doc(node)`
-  - `_symbol_list` (function, line 556) `def _symbol_list(node)`
-  - `_enrich_readmenator_fields` (function, line 571) `def _enrich_readmenator_fields(nodes, edges)`
-  - `group_colors` (function, line 692) `def group_colors(graph)`
-  - `page_settings` (function, line 708) `def page_settings(graph)`
-  - `build_analytics` (function, line 765) `def build_analytics(graph, summary)`
-  - `_fibonacci_sphere` (function, line 799) `def _fibonacci_sphere(count)`
-  - `_split_caps` (function, line 815) `def _split_caps(labels, sizes, points, lattice, out)`
-  - `_unit` (function, line 844) `def _unit(vec)`
-  - `build_bundle_payload` (function, line 852) `def build_bundle_payload(graph)`
-  - `bundle_settings` (function, line 968) `def bundle_settings(graph)`
-  - `assign_layout` (function, line 999) `def assign_layout(graph, mode)`
-  - `write_summary` (function, line 1064) `def write_summary(graph, sessions_dir)`
-  - `add_node` (function, line 249) `def add_node(kind, value, label)`
-  - `add_edge` (function, line 267) `def add_edge(src, dst, kind, evidence, weight)`
-  - `tag_source` (function, line 285) `def tag_source(nid, source)`
-- Depends on: `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/world_model.py`
+  - `_service_cve_matches` (function, line 83) `def _service_cve_matches(service_name, version_text, svc)`
+  - `_extract_cve_id` (function, line 133) `def _extract_cve_id(vuln)`
+  - `_family_color` (function, line 181) `def _family_color(name)`
+  - `node_id` (function, line 192) `def node_id(kind, value)`
+  - `_load_json` (function, line 198) `def _load_json(path, default)`
+  - `_read_lines` (function, line 208) `def _read_lines(path, limit)`
+  - `_host_mentions` (function, line 225) `def _host_mentions(text)`
+  - `_file_pagerank` (function, line 230) `def _file_pagerank(ids, pairs, alpha, max_iter, tol)`
+  - `build_intel_graph` (function, line 260) `def build_intel_graph(sessions_dir, est_cap)`
+  - `_node_doc` (function, line 555) `def _node_doc(node)`
+  - `_symbol_list` (function, line 578) `def _symbol_list(node)`
+  - `_enrich_readmenator_fields` (function, line 593) `def _enrich_readmenator_fields(nodes, edges)`
+  - `group_colors` (function, line 714) `def group_colors(graph)`
+  - `page_settings` (function, line 730) `def page_settings(graph)`
+  - `build_analytics` (function, line 787) `def build_analytics(graph, summary)`
+  - `_fibonacci_sphere` (function, line 821) `def _fibonacci_sphere(count)`
+  - `_split_caps` (function, line 837) `def _split_caps(labels, sizes, points, lattice, out)`
+  - `_unit` (function, line 866) `def _unit(vec)`
+  - `build_bundle_payload` (function, line 874) `def build_bundle_payload(graph)`
+  - `bundle_settings` (function, line 990) `def bundle_settings(graph)`
+  - `assign_layout` (function, line 1021) `def assign_layout(graph, mode)`
+  - `_score_lines` (function, line 1086) `def _score_lines(host_value, detail)`
+  - `_recency_lines` (function, line 1109) `def _recency_lines(sessions_dir, host_value)`
+  - `_ghost_lines` (function, line 1127) `def _ghost_lines(sessions_dir, host_value)`
+  - `write_summary` (function, line 1144) `def write_summary(graph, sessions_dir)`
+  - `add_node` (function, line 266) `def add_node(kind, value, label)`
+  - `add_edge` (function, line 284) `def add_edge(src, dst, kind, evidence, weight)`
+  - `tag_source` (function, line 300) `def tag_source(nid, source)`
+- Depends on: `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/lazy_world_diff.py`, `modules/world_model.py`
 - Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_cve_pipeline.py`, `tests/test_intel_fusion.py`
 
 ## modules/intelligence_engine.py
@@ -453,45 +468,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `_is_placeholder` (method, line 1120) `def _is_placeholder(value)`
 - Depends on: `core/logging.py`, `modules/__init__.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_heat.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
 - Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
-
-## modules/intercept.py
-- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
-  - `InterceptConfig` (class, line 33) `class InterceptConfig`
-  - `InterceptRule` (class, line 50) `class InterceptRule`
-  - `PendingApproval` (class, line 77) `class PendingApproval`
-  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
-  - `builtin_rules` (function, line 101) `def builtin_rules()`
-  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
-  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
-  - `Interceptor` (class, line 154) `class Interceptor`
-  - `Guard` (class, line 255) `class Guard`
-  - `__post_init__` (method, line 61) `def __post_init__(self)`
-  - `matches` (method, line 68) `def matches(self, tool, command)`
-  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
-  - `rules` (method, line 172) `def rules(self)`
-  - `add_rule` (method, line 177) `def add_rule(self, rule)`
-  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
-  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
-  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
-  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
-  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
-  - `__init__` (method, line 258) `def __init__(self, interceptor)`
-  - `interceptor` (method, line 266) `def interceptor(self)`
-  - `check` (method, line 270) `def check(self, tool, command)`
-  - `observe` (method, line 282) `def observe(self, output, source)`
-  - `record_failure` (method, line 291) `def record_failure(self, source)`
-  - `audit_log` (method, line 296) `def audit_log(self, limit)`
-  - `attribution` (method, line 301) `def attribution(self)`
-- Depends on: `cli/commands/enum.py`
-- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-
-## modules/internal_discover.sh
-- Layer: utility
-- Language: sh
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

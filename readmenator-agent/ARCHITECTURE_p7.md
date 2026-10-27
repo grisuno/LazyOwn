@@ -5,7 +5,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 
 - `banner.py` -> PIL
 - `cli/aliases.py` -> __future__, pathlib, string, typing, yaml
-- `cli/apt_chain_support.py` -> __future__, dataclasses, json, os, re, shlex, typing, yaml
+- `cli/apt_chain_support.py` -> __future__, dataclasses, json, os, re, shlex, time, typing, yaml
 - `cli/assign.py` -> __future__, collections.abc, typing
 - `cli/auto_crypto.py` -> __future__, collections.abc, cryptography.fernet, dataclasses, os, pathlib, secrets
 - `cli/autosuggest.py` -> __future__, collections.abc, dataclasses, typing
@@ -102,6 +102,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `cli/commands/surface.py` -> __future__, cmd2, pathlib
 - `cli/commands/ux.py` -> __future__, cmd2, pathlib, rich.table, shlex
 - `cli/commands/verb_admin.py` -> __future__, cmd2, dataclasses, shlex
+- `cli/commands/winbox_gym.py` -> __future__, cmd2, json, shlex, subprocess
 - `cli/config_history.py` -> __future__, copy, dataclasses, typing
 - `cli/config_status.py` -> __future__, dataclasses, rich.panel, rich.table, typing
 - `cli/confirm.py` -> __future__, sys
@@ -259,6 +260,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `lazyc2/extensions/storage.py` -> __future__, json, os, stat
 - `lazyc2/extensions/users.py` -> __future__, json, os
 - `lazyc2/models.py` -> flask_login
+- `lazyc2/security/cli_credentials.py` -> __future__, datetime, os, pathlib
 - `lazyc2/security/command_allowlist.py` -> __future__, collections.abc, dataclasses, datetime, json, pathlib
 - `lazyc2/security/constants.py` -> re
 - `lazyc2/security/cors.py` -> __future__, collections.abc, urllib.parse
@@ -426,6 +428,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/gym_cleanup.py` -> __future__, typing
 - `modules/gym_matrix_runner.py` -> __future__, collections.abc, datetime, json, pathlib, typing
 - `modules/gym_registry.py` -> __future__, hashlib, json, os, pathlib, re, secrets, threading, time, typing, yaml
+- `modules/gym_winbox_runner.py` -> __future__, pathlib, typing
 - `modules/harness.py` -> __future__, os
 - `modules/hash_cracker.py` -> __future__, dataclasses, pathlib, re, shutil, subprocess, tempfile, typing
 - `modules/hive_invoke.py` -> __future__, pathlib, shutil, subprocess, sys
@@ -473,6 +476,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/lazy_summarizer.py` -> __future__, collections.abc
 - `modules/lazy_surface_diff.py` -> __future__, hashlib, json, pathlib, time
 - `modules/lazy_verify.py` -> __future__, pathlib, re, shlex, shutil, socket, urllib.parse
+- `modules/lazy_world_diff.py` -> __future__, dataclasses, hashlib, json, pathlib, socket, time, urllib.request
 - `modules/lazycloud.py` -> __future__, dataclasses, datetime, hashlib, hmac, json, os, requests, time, typing, urllib.request
 - `modules/lazyencoder_decoder.py` -> base64
 - `modules/lazyk8s.py` -> __future__, base64, dataclasses, glob, http.client, json, os, requests, socket, subprocess, tempfile, time, typing, yaml
@@ -491,10 +495,6 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/llm_client.py` -> __future__, argparse, json, os, sys, urllib.error, urllib.request
 - `modules/llm_evaluator.py` -> __future__, abc, argparse, dataclasses, json, pathlib, threading, time, uuid
 - `modules/llm_factory.py` -> __future__, collections.abc, json, os, pathlib, shutil, subprocess, sys, typing
-- `modules/llm_pool.py` -> __future__, collections.abc, dataclasses, hashlib, itertools, json, os, pathlib, threading, time
-- `modules/llm_prompts.py` -> __future__, dataclasses, json, os, typing
-- `modules/log_tamper.py` -> __future__, dataclasses, pathlib, typing
-- `modules/logging_config.py` -> contextvars, datetime, json, logging.handlers, os, sys
-- `modules/loop_ai_bridge.py` -> __future__, threading
+- `modules/llm_orchestrator.py` -> __future__, collections.abc, dataclasses, os, typing
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

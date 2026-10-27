@@ -1238,6 +1238,42 @@ tools list               — list custom pwntomate .tool files
 
 ---
 
+## WinBox Lab (isolated Windows vulnerability research)
+
+`winbox` is a first-class shell command and a Red Team Gym scenario
+(`scenario: winbox`), backed by the totekuh/winbox platform: a headless
+Windows VM controlled from the operator host through QEMU/libvirt.
+
+```
+winbox status                  — readiness, VM state, IP
+winbox up | setup              — FULL idempotent bootstrap: deps, ISO, VM build, up, rhost
+winbox down | suspend          — graceful stop / save state (--force = hard off)
+winbox exec --timeout S <cmd>  — SYSTEM guest command (--bg/--log for jobs)
+winbox tools list|add|remove   — manage Z:\tools
+winbox eventlogs [--since 1h]  — Security/Sysmon evidence (CSV)
+winbox net status|isolate|connect|unplug — containment
+winbox av|applocker status|enable|disable — defense posture (needs -y)
+winbox snapshot list|create|restore — rollback points
+winbox gym list|plan|run|report|verify — scored matrix
+```
+
+MCP tools: `lazyown_winbox_status`, `lazyown_winbox_vm`, `lazyown_winbox_exec`,
+`lazyown_winbox_tools`, `lazyown_winbox_eventlogs`, `lazyown_winbox_snapshot`,
+`lazyown_winbox_gym_list`, `lazyown_winbox_gym_plan`, `lazyown_winbox_gym_run`.
+
+Scored gym: `gym start winbox_first_shell` or `gym start winbox_windows_apt`
+(one command: installs deps + ISO, builds the VM when missing, boots the
+guest, binds rhost and auto-launches the challenge chain; `--no-chain`
+skips the auto-launch).
+Autonomous attack: `apt_chain apt_winbox_windows <vm-ip>` or
+`auto_loop --target <vm-ip> "attack the WinBox Windows lab"`.
+
+Deep research surfaces (PDB-aware hypervisor debugging, protected memory,
+named pipes, IOCTLs, detonation preflight) are exposed by the upstream
+`winbox mcp` server (97 tools): `claude mcp add winbox -- winbox mcp`.
+
+---
+
 ## CRITICAL — MCP Server Restart
 
 **NEVER ask the user to reconnect the MCP server.** Use the restart script directly:

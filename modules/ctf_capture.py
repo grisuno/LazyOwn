@@ -23,6 +23,10 @@ RECORD_NAME = "record.json"
 ROOT_SHELL_RE = re.compile(r"uid=0\(([^)]*)\)|uid=0 |nt authority\\system|\buname[^\n]*Linux\s+\w+\s+4\.")
 SHADOW_LINE_RE = re.compile(r"^[A-Za-z0-9_.-]+:\$[0-9a-zA-Z]+\$", re.MULTILINE)
 CRED_LINE_RE = re.compile(r"^([A-Za-z0-9_.-]+)\s*[:|]\s*(\S+)\s*$", re.MULTILINE)
+WINDOWS_OS_ENUM_RE = re.compile(r"(?im)^\s*OS:\s*Windows|^\s*OS Name\s*:", re.MULTILINE)
+NETBIOS_NAME_RE = re.compile(r"(?im)^\s*NetBIOS computer name:\s*\S+", re.MULTILINE)
+DEFENSE_REPORT_RE = re.compile(r"(?i)RealTimeProtection\w*|AntivirusEnabled|AppLocker|HVCI")
+EVENTLOG_CSV_RE = re.compile(r"(?im)^\s*Time\s*,\s*Log\s*,\s*Level\s*,\s*Id\s*,\s*Provider|,\s*Security\s*,")
 
 
 def output_dir(sessions_dir: str | Path | None = None) -> Path:
@@ -89,10 +93,58 @@ def _check_credentials(output: str) -> str:
     return ""
 
 
+def _check_windows_os_enum(output: str) -> str:
+    """Return Windows OS fingerprint evidence from a scan blob, or empty string.
+
+    Matches the ``smb-os-discovery`` ``OS:`` line and the ``systeminfo``
+    ``OS Name:`` format.
+
+    Args:
+        output: Raw command/exploit output text.
+
+    Returns:
+        The matched evidence string, or "".
+    """
+    for pattern in (WINDOWS_OS_ENUM_RE, NETBIOS_NAME_RE):
+        match = pattern.search(output or "")
+        if match:
+            return match.group(0).strip()
+    return ""
+
+
+def _check_defense_report(output: str) -> str:
+    """Return a Defender/AppLocker/HVCI posture evidence token, or empty string.
+
+    Args:
+        output: Raw command/exploit output text.
+
+    Returns:
+        The matched evidence string, or "".
+    """
+    match = DEFENSE_REPORT_RE.search(output or "")
+    return match.group(0).strip() if match else ""
+
+
+def _check_eventlog_rows(output: str) -> str:
+    """Return event-log export evidence (CSV header or Security rows), or "".
+
+    Args:
+        output: Raw command/exploit output text.
+
+    Returns:
+        The matched evidence string, or "".
+    """
+    match = EVENTLOG_CSV_RE.search(output or "")
+    return match.group(0).strip() if match else ""
+
+
 CHECKERS: tuple[tuple[str, Callable[[str], str]], ...] = (
     ("root_shell", _check_root_shell),
     ("shadow_dump", _check_shadow_dump),
     ("credentials", _check_credentials),
+    ("windows_os_enum", _check_windows_os_enum),
+    ("defense_report", _check_defense_report),
+    ("eventlog_rows", _check_eventlog_rows),
 )
 
 
@@ -101,6 +153,7 @@ def capture(
     target: str,
     output: str = "",
     sessions_dir: str | Path | None = None,
+    catalogue: Any = None,
 ) -> dict:
     """Verify output evidence for one gym vector and store the record.
 
@@ -109,6 +162,8 @@ def capture(
         target: Attacked host IP.
         output: Raw artifact output to verify.
         sessions_dir: Optional sessions directory override.
+        catalogue: Optional gym catalogue module exposing ``get``;
+            defaults to the Metasploitable 2 index.
 
     Returns:
         The stored record dict with ``status`` ``captured`` or ``failed``.
@@ -116,9 +171,11 @@ def capture(
     Raises:
         ValueError: If vuln_id is unknown to the gym index.
     """
-    from modules.metasploitable_gym import get as gym_get
+    if catalogue is None:
+        from modules.metasploitable_gym import get as gym_get
 
-    entry = gym_get(vuln_id) or {}
+        catalogue = gym_get
+    entry = catalogue(vuln_id) or {}
     if not entry:
         raise ValueError(f"Unknown gym vulnerability: {vuln_id}")
 
@@ -279,7 +336,9 @@ def _gather_evidence(candidates: list[Path]) -> str:
 
     parts: list[str] = []
     budget = 200_000
-    for path in itertools.islice(sorted(candidates, key=lambda p: p.stat().st_mtime if p.exists() else 0.0, reverse=True), 50):
+    for path in itertools.islice(
+        sorted(candidates, key=lambda p: p.stat().st_mtime if p.exists() else 0.0, reverse=True), 50
+    ):
         try:
             if path.is_file() and path.stat().st_size <= budget:
                 parts.append(path.read_text(errors="replace"))
@@ -325,7 +384,9 @@ def _cli_capture(argv: list[str]) -> int:
     bases = args_parsed.search_base or [args_parsed.sessions_dir]
     output_dir(args_parsed.sessions_dir).mkdir(parents=True, exist_ok=True)
     if args_parsed.output_file:
-        blob = (Path(args_parsed.output_file).read_text(errors="replace") if Path(args_parsed.output_file).is_file() else "")
+        blob = (
+            Path(args_parsed.output_file).read_text(errors="replace") if Path(args_parsed.output_file).is_file() else ""
+        )
     else:
         candidates: list[Path] = []
         for base in bases:

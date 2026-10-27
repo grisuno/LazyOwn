@@ -1,6 +1,37 @@
 # API (page 18 of 24)
 Previous: [API_p17.md](API_p17.md)
 
+## modules/toposwarm_bridge.py
+Depends on: `core/logging.py`
+Imported by: `modules/ai_fallback.py`, `modules/hive_invoke.py`, `modules/llm_factory.py`, `modules/moe_router.py`, `modules/unified_bridge.py`, `skills/toposwarm_autonomous.py`
+- `RoutedCall.lazyown_command` (method) `modules/toposwarm_bridge.py:81` `def lazyown_command(self)` -- Return the LazyOwn shell command string to execute this tool call.
+- `OnlineFeedbackLoop.__init__` (method) `modules/toposwarm_bridge.py:296` `def __init__(self, maxsize)`
+- `OnlineFeedbackLoop.register` (method) `modules/toposwarm_bridge.py:303` `def register(self, result, hidden)` -- Register a routing result as pending feedback.
+- `OnlineFeedbackLoop.feedback` (method) `modules/toposwarm_bridge.py:318` `def feedback(self, result_id, good, comment, routing_head)` -- Apply feedback for a routing decision.
+- `OnlineFeedbackLoop.pending_count` (method) `modules/toposwarm_bridge.py:379` `def pending_count(self)`
+- `OnlineFeedbackLoop.stats` (method) `modules/toposwarm_bridge.py:382` `def stats(self)`
+- `OnlineFeedbackLoop.load_feedback_for_training` (method) `modules/toposwarm_bridge.py:389` `def load_feedback_for_training(self)` -- Load persisted feedback for --finetune.
+- `TopoSwarmBridge.__init__` (method) `modules/toposwarm_bridge.py:432` `def __init__(self)`
+- `TopoSwarmBridge.available` (method) `modules/toposwarm_bridge.py:444` `def available(self)` -- True if TopoSwarm directory exists (even if model not loaded).
+- `TopoSwarmBridge.model_loaded` (method) `modules/toposwarm_bridge.py:449` `def model_loaded(self)`
+- `TopoSwarmBridge.feedback` (method) `modules/toposwarm_bridge.py:562` `def feedback(self, result_id, good, comment)` -- Optional user feedback on a routing decision.
+- `TopoSwarmBridge.route` (method) `modules/toposwarm_bridge.py:586` `def route(self, prompt)` -- Route an operator prompt to a LazyOwn tool call.
+- `TopoSwarmBridge.execute_via_orchestrator` (method) `modules/toposwarm_bridge.py:613` `def execute_via_orchestrator(self, prompt, no_model)` -- Execute a prompt through the full TopoSwarm orchestrator (subprocess).
+- `get_bridge` (function) `modules/toposwarm_bridge.py:645` `def get_bridge()` -- Return the module-level TopoSwarmBridge singleton (lazy init).
+
+## modules/traffic_morpher.py
+Imported by: `cli/commands/persist_migrated.py`
+- `TrafficMorpher.__init__` (method) `modules/traffic_morpher.py:77` `def __init__(self)`
+- `TrafficMorpher.get_random_http_headers` (method) `modules/traffic_morpher.py:81` `def get_random_http_headers(self)` -- Return a randomized set of HTTP headers mimicking a real browser.
+- `TrafficMorpher.get_cdn_fronting_hosts` (method) `modules/traffic_morpher.py:91` `def get_cdn_fronting_hosts(self, provider, count)` -- Return CDN domains suitable for domain fronting.
+- `TrafficMorpher.generate_traffic_padding` (method) `modules/traffic_morpher.py:108` `def generate_traffic_padding(self, min_bytes, max_bytes)` -- Generate random padding bytes to normalize packet sizes.
+- `TrafficMorpher.generate_jitter` (method) `modules/traffic_morpher.py:125` `def generate_jitter(self, base_delay, jitter_pct)` -- Calculate a sleep delay with jitter.
+- `TrafficMorpher.generate_dns_tunnel_payload` (method) `modules/traffic_morpher.py:138` `def generate_dns_tunnel_payload(self, data, domain)` -- Encode data as DNS query subdomains for tunneling.
+- `TrafficMorpher.generate_icmp_exfil_payload` (method) `modules/traffic_morpher.py:164` `def generate_icmp_exfil_payload(self, data, chunk_size)` -- Generate ICMP echo payloads for data exfiltration.
+- `TrafficMorpher.generate_websocket_masking` (method) `modules/traffic_morpher.py:190` `def generate_websocket_masking(self, data)` -- Apply WebSocket frame masking with random key.
+- `TrafficMorpher.generate_cloudflare_worker_proxy_config` (method) `modules/traffic_morpher.py:205` `def generate_cloudflare_worker_proxy_config(self, c2_host, c2_port, auth_token)` -- Generate a Cloudflare Worker script that proxies C2 traffic.
+- `TrafficMorpher.generate_beacon_profile` (method) `modules/traffic_morpher.py:270` `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)` -- Generate a complete C2 beacon profile configuration.
+
 ## modules/traffic_recorder.py
 Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
 - `url_template` (function) `modules/traffic_recorder.py:69` `def url_template(url)` -- Collapse numeric path segments so similar URLs group together.
@@ -157,23 +188,23 @@ Depends on: `modules/vulnbot.py`
 - `main` (function) `modules/vuln_bot_cli.py:22` `def main()`
 
 ## modules/vulnbot.py
-Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
-Imported by: `modules/vuln_bot_cli.py`
-- `VulnBotCLI.__init__` (method) `modules/vulnbot.py:30` `def __init__(self, provider, mode, debug, script_path)`
-- `list_files` (function) `modules/vulnbot.py:86` `def list_files(directory)` -- Lista archivos en un directorio
-- `read_file` (function) `modules/vulnbot.py:90` `def read_file(path)` -- Lee contenido de un archivo
-- `edit_file` (function) `modules/vulnbot.py:95` `def edit_file(path, content, old_text)` -- Crea o edita un archivo
-- `generate` (function) `modules/vulnbot.py:139` `def generate()`
-- `VulnBotCLI.load_knowledge_base` (method) `modules/vulnbot.py:145` `def load_knowledge_base(self)`
-- `VulnBotCLI.save_knowledge_base` (method) `modules/vulnbot.py:151` `def save_knowledge_base(self, kb)`
-- `VulnBotCLI.get_relevant_knowledge` (method) `modules/vulnbot.py:155` `def get_relevant_knowledge(self, prompt)`
-- `VulnBotCLI.create_complex_prompt` (method) `modules/vulnbot.py:160` `def create_complex_prompt(self, base_prompt, history, knowledge)`
-- `VulnBotCLI.read_file_content` (method) `modules/vulnbot.py:176` `def read_file_content(self, file_path)`
-- `VulnBotCLI.load_event_config` (method) `modules/vulnbot.py:182` `def load_event_config(self)`
-- `VulnBotCLI.process_with_context` (method) `modules/vulnbot.py:190` `def process_with_context(self, file_path, event)`
-- `VulnBotCLI.stream_response` (method) `modules/vulnbot.py:206` `def stream_response(self, prompt)`
-- `generate` (function) `modules/vulnbot.py:207` `def generate()`
-- `VulnBotCLI.add_to_knowledge_base` (method) `modules/vulnbot.py:212` `def add_to_knowledge_base(self, prompt, response)`
+Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`
+Imported by: `modules/vuln_bot_cli.py`, `tests/test_vulnbot_fallback.py`
+- `VulnBotCLI.__init__` (method) `modules/vulnbot.py:38` `def __init__(self, provider, mode, debug, script_path)`
+- `list_files` (function) `modules/vulnbot.py:149` `def list_files(directory)` -- Lista archivos en un directorio
+- `read_file` (function) `modules/vulnbot.py:153` `def read_file(path)` -- Lee contenido de un archivo
+- `edit_file` (function) `modules/vulnbot.py:158` `def edit_file(path, content, old_text)` -- Crea o edita un archivo
+- `generate` (function) `modules/vulnbot.py:202` `def generate()`
+- `VulnBotCLI.load_knowledge_base` (method) `modules/vulnbot.py:208` `def load_knowledge_base(self)` -- Load the knowledge base in any known shape.
+- `VulnBotCLI.save_knowledge_base` (method) `modules/vulnbot.py:224` `def save_knowledge_base(self, kb)`
+- `VulnBotCLI.get_relevant_knowledge` (method) `modules/vulnbot.py:228` `def get_relevant_knowledge(self, prompt)` -- Return knowledge responses whose text shares keywords with the prompt.
+- `VulnBotCLI.create_complex_prompt` (method) `modules/vulnbot.py:251` `def create_complex_prompt(self, base_prompt, history, knowledge)`
+- `VulnBotCLI.read_file_content` (method) `modules/vulnbot.py:267` `def read_file_content(self, file_path)`
+- `VulnBotCLI.load_event_config` (method) `modules/vulnbot.py:273` `def load_event_config(self)`
+- `VulnBotCLI.process_with_context` (method) `modules/vulnbot.py:281` `def process_with_context(self, file_path, event)`
+- `VulnBotCLI.stream_response` (method) `modules/vulnbot.py:297` `def stream_response(self, prompt)`
+- `generate` (function) `modules/vulnbot.py:298` `def generate()`
+- `VulnBotCLI.add_to_knowledge_base` (method) `modules/vulnbot.py:303` `def add_to_knowledge_base(self, prompt, response)` -- Append a prompt/response record in the canonical list format.
 
 ## modules/websocket_beacon.py
 Depends on: `core/hardening.py`
@@ -250,6 +281,29 @@ Depends on: `core/hardening.py`
 - `hook_CreateFile` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:85` `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...`
 - `DllMain` (function) `modules/win_rootkit/win_ring3_rootkit.cpp:94` `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
 
+## modules/winbox_gym.py
+Depends on: `core/hardening.py`, `core/logging.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`, `utils.py`
+- `load_index` (function) `modules/winbox_gym.py:139` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
+- `vulnerabilities` (function) `modules/winbox_gym.py:144` `def vulnerabilities(path)` -- Return every indexed lab vector.
+- `get` (function) `modules/winbox_gym.py:150` `def get(vuln_id, path)` -- Return one lab vector by id, or None.
+- `chain_for` (function) `modules/winbox_gym.py:159` `def chain_for(vuln_id, path)` -- Return the resolved chain for one lab vector, or None.
+- `exploit_for` (function) `modules/winbox_gym.py:169` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one lab vector, or None.
+- `validate_matrix` (function) `modules/winbox_gym.py:179` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
+- `summary` (function) `modules/winbox_gym.py:228` `def summary(path)` -- Return counts by severity and service for operators.
+- `binary_path` (function) `modules/winbox_gym.py:252` `def binary_path()` -- Resolve the winbox executable or None.
+- `ensure_installed` (function) `modules/winbox_gym.py:257` `def ensure_installed(params, timeout)` -- Clone and pip-install the upstream WinBox repo when the binary is missing.
+- `check_readiness` (function) `modules/winbox_gym.py:314` `def check_readiness(params)` -- Report WinBox lab readiness without installing anything.
+- `ensure_prereqs` (function) `modules/winbox_gym.py:355` `def ensure_prereqs(timeout)` -- Install missing lab host prerequisites through apt-get.
+- `ensure_lab_ready` (function) `modules/winbox_gym.py:410` `def ensure_lab_ready(params)` -- Bring the WinBox lab to attackable state in one idempotent call.
+- `run_cli` (function) `modules/winbox_gym.py:472` `def run_cli(args, timeout)` -- Run one allowlisted winbox CLI action without a shell.
+- `vm_status` (function) `modules/winbox_gym.py:525` `def vm_status(timeout)` -- Query the WinBox VM state and address.
+- `vm_ip` (function) `modules/winbox_gym.py:559` `def vm_ip()` -- Return the lab VM IPv4 address, or an empty string.
+- `resolve_target` (function) `modules/winbox_gym.py:581` `def resolve_target()` -- Return the lab VM IP and mirror it into ``payload.json`` rhost.
+- `ensure_vm_running` (function) `modules/winbox_gym.py:595` `def ensure_vm_running(timeout)` -- Start the lab VM when it is not running.
+- `record_artifact` (function) `modules/winbox_gym.py:622` `def record_artifact(name, output)` -- Persist one CLI transcript under ``sessions/winbox``.
+- `attack_readiness` (function) `modules/winbox_gym.py:645` `def attack_readiness(params)` -- Report whether the autonomous loop can attack the lab right now.
+- `main` (function) `modules/winbox_gym.py:673` `def main()` -- CLI: list | validate | summary | readiness.
+
 ## modules/workspace.py
 Imported by: `tests/test_lazy_loop.py`
 - `root` (function) `modules/workspace.py:21` `def root()` -- Return (and create) the workspace root directory.
@@ -262,7 +316,7 @@ Imported by: `tests/test_lazy_loop.py`
 
 ## modules/world_model.py
 Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
-Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
+Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
 - `read_state_dict` (function) `modules/world_model.py:290` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
 - `write_state_dict` (function) `modules/world_model.py:325` `def write_state_dict(path, data)` -- Atomically write a world-model state dict encrypted at rest.
 - `HostState.rank` (method) `modules/world_model.py:382` `def rank(self)`
@@ -423,67 +477,6 @@ Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py
 
 ## plugins/visualize_network.lua
 - `visualize_network` (function) `plugins/visualize_network.lua:1`
-
-## poc_tui/app.py
-Depends on: `cli/commands/containers.py`, `lazyown.py`
-Imported by: `poc_tui/__main__.py`, `poc_tui/run.py`, `poc_tui/test_app.py`
-- `ShellBackend.__init__` (method) `poc_tui/app.py:47` `def __init__(self, base_dir)`
-- `ShellBackend.import_shell_class` (method) `poc_tui/app.py:53` `def import_shell_class(self)` -- Import LazyOwnShell in the main thread (required for signal handlers).
-- `ShellBackend.start` (method) `poc_tui/app.py:71` `def start(self)` -- Instantiate LazyOwnShell (must be called from main thread).
-- `ShellBackend.run` (method) `poc_tui/app.py:83` `def run(self, cmd)` -- Execute a command and return its captured output.
-- `ShellBackend.get_commands` (method) `poc_tui/app.py:106` `def get_commands(self)` -- Return {command_name: help_text} from the live shell.
-- `ShellBackend.get_aliases` (method) `poc_tui/app.py:119` `def get_aliases(self)`
-- `ShellBackend.stop` (method) `poc_tui/app.py:124` `def stop(self)`
-- `DashboardPanel.__init__` (method) `poc_tui/app.py:140` `def __init__(self, base_dir)`
-- `DashboardPanel.compose` (method) `poc_tui/app.py:144` `def compose(self)`
-- `DashboardPanel.refresh_data` (method) `poc_tui/app.py:165` `def refresh_data(self, backend, cmd_count)` -- Pull latest state from the LIVE shell params (not stale disk file).
-- `PluginBrowser.__init__` (method) `poc_tui/app.py:198` `def __init__(self)`
-- `PluginBrowser.compose` (method) `poc_tui/app.py:201` `def compose(self)`
-- `PluginBrowser.update_commands` (method) `poc_tui/app.py:207` `def update_commands(self, commands)`
-- `OutputPanel.__init__` (method) `poc_tui/app.py:248` `def __init__(self)`
-- `OutputPanel.compose` (method) `poc_tui/app.py:252` `def compose(self)`
-- `OutputPanel.write_renderable` (method) `poc_tui/app.py:258` `def write_renderable(self, renderable)` -- Write a Rich renderable (no markup parsing applied).
-- `OutputPanel.write_markup` (method) `poc_tui/app.py:263` `def write_markup(self, text)` -- Write a trusted internal string with Rich markup.
-- `OutputPanel.append_command` (method) `poc_tui/app.py:268` `def append_command(self, cmd)`
-- `OutputPanel.append_result` (method) `poc_tui/app.py:273` `def append_result(self, text, success)` -- Write real shell output, converting ANSI — never markup-parsed.
-- `OutputPanel.append_error` (method) `poc_tui/app.py:283` `def append_error(self, text)` -- Write a TUI-side error message (plain, no markup from unsafe text).
-- `OutputPanel.append_system` (method) `poc_tui/app.py:287` `def append_system(self, text)` -- Write a TUI-side status message.
-- `LazyOwnTUI.__init__` (method) `poc_tui/app.py:394` `def __init__(self, base_dir)`
-- `LazyOwnTUI.compose` (method) `poc_tui/app.py:405` `def compose(self)`
-- `LazyOwnTUI.on_mount` (method) `poc_tui/app.py:418` `def on_mount(self)` -- Start the real cmd2 shell backend.
-- `LazyOwnTUI.execute_command` (method) `poc_tui/app.py:470` `def execute_command(self, cmd_str)` -- Send command to real cmd2 shell, display captured output.
-- `LazyOwnTUI.action_clear_output` (method) `poc_tui/app.py:539` `def action_clear_output(self)`
-- `LazyOwnTUI.action_tab_complete` (method) `poc_tui/app.py:544` `def action_tab_complete(self)`
-- `LazyOwnTUI.action_toggle_sidebar` (method) `poc_tui/app.py:549` `def action_toggle_sidebar(self)`
-- `LazyOwnTUI.action_refresh_dashboard` (method) `poc_tui/app.py:555` `def action_refresh_dashboard(self)`
-- `LazyOwnTUI.action_quit` (method) `poc_tui/app.py:561` `def action_quit(self)` -- Clean shutdown: drop the queue, stop the shell, exit the app.
-- `LazyOwnTUI.on_command_submitted` (method) `poc_tui/app.py:577` `def on_command_submitted(self, event)`
-- `LazyOwnTUI.on_key` (method) `poc_tui/app.py:586` `def on_key(self, event)`
-- `main` (function) `poc_tui/app.py:629` `def main()`
-
-## poc_tui/config.py
-Imported by: `poc_tui/plugin_loader.py`
-- `PayloadConfig.reload` (method) `poc_tui/config.py:21` `def reload(self)` -- Re-read payload.json from disk.
-- `PayloadConfig.save` (method) `poc_tui/config.py:28` `def save(self)` -- Persist current state back to payload.json.
-- `PayloadConfig.get` (method) `poc_tui/config.py:35` `def get(self, key, default)`
-- `PayloadConfig.set` (method) `poc_tui/config.py:38` `def set(self, key, value)`
-- `PayloadConfig.keys` (method) `poc_tui/config.py:41` `def keys(self)`
-- `PayloadConfig.items` (method) `poc_tui/config.py:44` `def items(self)`
-
-## poc_tui/plugin_loader.py
-Depends on: `poc_tui/config.py`
-- `PluginLoader.__init__` (method) `poc_tui/plugin_loader.py:91` `def __init__(self, config, base_dir)`
-- `wrapper` (function) `poc_tui/plugin_loader.py:117` `def wrapper(arg)`
-- `PluginLoader.load_all` (method) `poc_tui/plugin_loader.py:139` `def load_all(self)` -- Load yaml addons, lua plugins, and .tool files.
-- `wrapper` (function) `poc_tui/plugin_loader.py:172` `def wrapper(arg)`
-- `wrapper` (function) `poc_tui/plugin_loader.py:269` `def wrapper(arg)`
-- `_LuaAppProxy.__init__` (method) `poc_tui/plugin_loader.py:294` `def __init__(self, config)`
-- `_LuaAppProxy.params` (method) `poc_tui/plugin_loader.py:298` `def params(self)`
-- `_LuaAppProxy.one_cmd` (method) `poc_tui/plugin_loader.py:301` `def one_cmd(self, cmd)`
-
-## poc_tui/run.py
-Depends on: `poc_tui/app.py`
-- `main` (function) `poc_tui/run.py:9` `def main()`
 
 
 Next: [API_p19.md](API_p19.md)

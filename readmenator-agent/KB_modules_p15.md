@@ -1,6 +1,83 @@
 # Subsystem: modules (page 15 of 16)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
+## modules/staged_delivery.py
+- Doc: Staged payload delivery — HTA, Office macros, LNK files, ISO/VHD packaging.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `StageDeliveryConfig` (class, line 25) `class StageDeliveryConfig`
+  - `StagedDeliveryFactory` (class, line 51) `class StagedDeliveryFactory`
+  - `__init__` (method, line 83) `def __init__(self, config, output_dir)`
+  - `_obfuscate_powershell` (method, line 88) `def _obfuscate_powershell(self, code)`
+  - `_obfuscate_vbscript` (method, line 95) `def _obfuscate_vbscript(self, code)`
+  - `_payload_command` (method, line 102) `def _payload_command(self)`
+  - `generate_hta` (method, line 134) `def generate_hta(self)`
+  - `generate_vba_macro` (method, line 171) `def generate_vba_macro(self)`
+  - `generate_xlm_macro` (method, line 219) `def generate_xlm_macro(self)`
+  - `generate_lnk` (method, line 237) `def generate_lnk(self)`
+  - `generate_iso` (method, line 301) `def generate_iso(self, inner_files)`
+  - `_build_primary_volume_descriptor` (method, line 336) `def _build_primary_volume_descriptor(self, files)`
+  - `generate_vhd` (method, line 370) `def generate_vhd(self, inner_files)`
+  - `generate_all` (method, line 420) `def generate_all(self)`
+  - `generate_phishing_page` (method, line 460) `def generate_phishing_page(self, template)`
+  - `_office365_phish` (method, line 476) `def _office365_phish(self)`
+  - `_gmail_phish` (method, line 504) `def _gmail_phish(self)`
+  - `_outlook_phish` (method, line 532) `def _outlook_phish(self)`
+- Imported by: `cli/commands/payload_arsenal.py`
+
+## modules/state_manager.py
+- Doc: UnifiedStateManager — single source of truth for all LazyOwn campaign state.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_json` (function, line 43) `def _load_json(path)`
+  - `_save_json` (function, line 53) `def _save_json(path, data)`
+  - `HostSummary` (class, line 65) `class HostSummary`
+  - `SessionSnapshot` (class, line 76) `class SessionSnapshot`
+  - `StateManager` (class, line 92) `class StateManager`
+  - `get_state_manager` (function, line 836) `def get_state_manager()`
+  - `__init__` (method, line 107) `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)`
+  - `instance` (method, line 129) `def instance(cls)`
+  - `db` (method, line 137) `def db(self)`
+  - `workspace_id` (method, line 146) `def workspace_id(self)`
+  - `_ensure_workspace` (method, line 151) `def _ensure_workspace(self)`
+  - `set_payload` (method, line 165) `def set_payload(self, payload)`
+  - `_publish` (method, line 169) `def _publish(self, category, event_type, payload)`
+  - `_find_host` (method, line 184) `def _find_host(self, address)`
+  - `_cred_list_for_host` (method, line 192) `def _cred_list_for_host(self, host_id)`
+  - `_vuln_list_for_host` (method, line 197) `def _vuln_list_for_host(self, host_id)`
+  - `close` (method, line 202) `def close(self)`
+  - `add_host` (method, line 213) `def add_host(self, address, mac, hostname, os, state)`
+  - `get_host` (method, line 236) `def get_host(self, address)`
+  - `list_hosts` (method, line 245) `def list_hosts(self)`
+  - `advance_host` (method, line 249) `def advance_host(self, address, new_state)`
+  - `delete_host` (method, line 275) `def delete_host(self, address)`
+  - `add_service` (method, line 287) `def add_service(self, host_address, port, protocol, name, product, version, state)`
+  - `list_services` (method, line 319) `def list_services(self, host_address)`
+  - `add_credential` (method, line 328) `def add_credential(self, host_address, username, password, realm, cred_type, origin)`
+  - `list_credentials` (method, line 362) `def list_credentials(self, host_address)`
+  - `add_vulnerability` (method, line 373) `def add_vulnerability(self, host_address, name, severity, description, refs)`
+  - `list_vulnerabilities` (method, line 398) `def list_vulnerabilities(self, host_address, severity)`
+  - `add_loot` (method, line 411) `def add_loot(self, name, loot_type, path, notes, host_address)`
+  - `list_loot` (method, line 444) `def list_loot(self)`
+  - `add_note` (method, line 450) `def add_note(self, data, note_type, host_address)`
+  - `list_notes` (method, line 473) `def list_notes(self)`
+  - `import_nmap_xml` (method, line 479) `def import_nmap_xml(self, xml_path)`
+  - `import_nmap_from_facts` (method, line 495) `def import_nmap_from_facts(self, facts)`
+  - `status` (method, line 550) `def status(self)`
+  - `_sync_world_model_cache` (method, line 556) `def _sync_world_model_cache(self)`
+  - `_load_existing_world_model` (method, line 586) `def _load_existing_world_model(self)`
+  - `_merge_world_model` (method, line 599) `def _merge_world_model(existing, hosts_data, all_creds, all_vulns)`
+  - `_write_world_model` (method, line 657) `def _write_world_model(self, data)`
+  - `get_world_model_cache` (method, line 666) `def get_world_model_cache(self)`
+  - `load_world_model` (method, line 672) `def load_world_model(self)`
+  - `session_snapshot` (method, line 713) `def session_snapshot(self)`
+  - `export_csv` (method, line 817) `def export_csv(self, table)`
+  - `export_summary` (method, line 821) `def export_summary(self)`
+- Depends on: `core/logging.py`, `modules/db.py`, `modules/event_bus.py`, `modules/world_model.py`
+- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`, `tests/test_single_source_of_truth.py`
+
 ## modules/stego_video.py
 - Doc: Video steganography addon for LazyOwn.
 - Layer: utility
@@ -409,68 +486,6 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `search` (function, line 516) `def search(query, config, phase, enabled, limit)`
 - Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
 - Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
-
-## modules/verb_manifest.py
-- Doc: Typed verb manifests - semantics for routable shell verbs.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ManifestCost` (class, line 93) `class ManifestCost`
-  - `ManifestNoise` (class, line 108) `class ManifestNoise`
-  - `FactPredicate` (class, line 123) `class FactPredicate`
-  - `VerbManifest` (class, line 188) `class VerbManifest`
-  - `parse_predicate` (function, line 222) `def parse_predicate(data)`
-  - `_parse_cost` (function, line 254) `def _parse_cost(data)`
-  - `_parse_noise` (function, line 276) `def _parse_noise(data)`
-  - `parse_manifest` (function, line 296) `def parse_manifest(verb, data)`
-  - `_load_document` (function, line 338) `def _load_document(path)`
-  - `manifests` (function, line 371) `def manifests(path)`
-  - `manifest_for` (function, line 396) `def manifest_for(verb, path)`
-  - `facts_for_target` (function, line 411) `def facts_for_target(host)`
-  - `plan_check` (function, line 467) `def plan_check(steps, tokens, path, facts)`
-  - `coverage` (function, line 522) `def coverage(total_verbs, path)`
-  - `args` (method, line 152) `def args(self)`
-  - `is_wild` (method, line 156) `def is_wild(self, key)`
-  - `matches` (method, line 161) `def matches(self, other)`
-- Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
-- Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
-
-## modules/vuln_bot_cli.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `parse_args` (function, line 10) `def parse_args()`
-  - `main` (function, line 22) `def main()`
-- Depends on: `modules/vulnbot.py`
-
-## modules/vulnbot.py
-- Doc: list_files: Lista archivos en un directorio
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `VulnBotCLI` (class, line 29) `class VulnBotCLI`
-  - `__init__` (method, line 30) `def __init__(self, provider, mode, debug, script_path)`
-  - `_load_model` (method, line 46) `def _load_model(self)`
-  - `_setup_agent` (method, line 61) `def _setup_agent(self, script_path)`
-  - `_register_file_tools` (method, line 83) `def _register_file_tools(self)`
-  - `_load_external_tools` (method, line 109) `def _load_external_tools(self, script_path)`
-  - `_stream_agent_response` (method, line 136) `def _stream_agent_response(self, prompt)`
-  - `load_knowledge_base` (method, line 145) `def load_knowledge_base(self)`
-  - `save_knowledge_base` (method, line 151) `def save_knowledge_base(self, kb)`
-  - `get_relevant_knowledge` (method, line 155) `def get_relevant_knowledge(self, prompt)`
-  - `create_complex_prompt` (method, line 160) `def create_complex_prompt(self, base_prompt, history, knowledge)`
-  - `read_file_content` (method, line 176) `def read_file_content(self, file_path)`
-  - `load_event_config` (method, line 182) `def load_event_config(self)`
-  - `process_with_context` (method, line 190) `def process_with_context(self, file_path, event)`
-  - `stream_response` (method, line 206) `def stream_response(self, prompt)`
-  - `add_to_knowledge_base` (method, line 212) `def add_to_knowledge_base(self, prompt, response)`
-  - `list_files` (function, line 86) `def list_files(directory)`
-  - `read_file` (function, line 90) `def read_file(path)`
-  - `edit_file` (function, line 95) `def edit_file(path, content, old_text)`
-  - `generate` (function, line 139) `def generate()`
-  - `generate` (function, line 207) `def generate()`
-- Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
-- Imported by: `modules/vuln_bot_cli.py`
 
 
 Next: [KB_modules_p16.md](KB_modules_p16.md)

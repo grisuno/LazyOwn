@@ -1,6 +1,65 @@
 # Subsystem: modules (page 12 of 16)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/mfa_bypass.py
+- Doc: MFA Bypass Toolkit — techniques for circumventing multi-factor authentication.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MFATarget` (class, line 103) `class MFATarget`
+  - `MFABypassResult` (class, line 113) `class MFABypassResult`
+  - `MFABypassEngine` (class, line 121) `class MFABypassEngine`
+  - `__init__` (method, line 128) `def __init__(self, sessions_dir)`
+  - `enumerate_techniques` (method, line 133) `def enumerate_techniques(self, target)`
+  - `generate_phishing_templates` (method, line 153) `def generate_phishing_templates(self, target)`
+  - `mfa_conditional_access_scan` (method, line 223) `def mfa_conditional_access_scan(self, domain)`
+  - `replay_oauth_token` (method, line 252) `def replay_oauth_token(self, access_token, refresh_token)`
+  - `saml_golden_ticket_check` (method, line 278) `def saml_golden_ticket_check(self, adfs_server)`
+  - `export_report` (method, line 303) `def export_report(self)`
+- Imported by: `cli/commands/cicd.py`
+
+## modules/mkcloudflaretunnel.sh
+- Doc: Download cloudflared and create a tunnel to localhost on a specified port.
+- Layer: utility
+- Language: sh
+
+## modules/module_registry.py
+- Doc: Unified module registry for LazyOwn — catalog, search, use/run workflow.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_classify` (function, line 47) `def _classify(category)`
+  - `_classify_module_source` (function, line 118) `def _classify_module_source(name, source)`
+  - `_extract_docstring_summary` (function, line 136) `def _extract_docstring_summary(source)`
+  - `ModuleInfo` (class, line 150) `class ModuleInfo`
+  - `ModuleRegistry` (class, line 223) `class ModuleRegistry`
+  - `format_module_table` (function, line 542) `def format_module_table(modules, cols)`
+  - `format_module_detail` (function, line 589) `def format_module_detail(m)`
+  - `__init__` (method, line 172) `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...`
+  - `to_dict` (method, line 202) `def to_dict(self)`
+  - `__repr__` (method, line 219) `def __repr__(self)`
+  - `__init__` (method, line 235) `def __init__(self, base_dir)`
+  - `get_instance` (method, line 241) `def get_instance(cls, base_dir)`
+  - `scan` (method, line 247) `def scan(self)`
+  - `rescan` (method, line 260) `def rescan(self)`
+  - `get` (method, line 269) `def get(self, name)`
+  - `search` (method, line 275) `def search(self, query, module_type, category, enabled_only, include_deprecated)`
+  - `deprecated_modules` (method, line 315) `def deprecated_modules(self)`
+  - `by_type` (method, line 321) `def by_type(self, module_type)`
+  - `summary` (method, line 325) `def summary(self)`
+  - `_scan_yaml_addons` (method, line 338) `def _scan_yaml_addons(self)`
+  - `_scan_plugins` (method, line 379) `def _scan_plugins(self)`
+  - `_scan_tools` (method, line 419) `def _scan_tools(self)`
+  - `_scan_playbooks` (method, line 453) `def _scan_playbooks(self)`
+  - `_scan_python_modules` (method, line 473) `def _scan_python_modules(self)`
+  - `_looks_discoverable` (method, line 503) `def _looks_discoverable(source)`
+  - `_load_yaml` (method, line 517) `def _load_yaml(path)`
+  - `__len__` (method, line 526) `def __len__(self)`
+  - `__iter__` (method, line 531) `def __iter__(self)`
+  - `__contains__` (method, line 536) `def __contains__(self, name)`
+- Depends on: `core/logging.py`
+- Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`
+
 ## modules/moe_router.py
 - Doc: modules/moe_router.py
 - Layer: presentation
@@ -382,7 +441,7 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `reset` (function, line 617) `def reset()`
   - `validate_config` (function, line 624) `def validate_config(data)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
 
 ## modules/osint_enrich.py
 - Doc: Keyless OSINT enrichment for finding evidence.
@@ -409,64 +468,25 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `OutcomeEvent` (class, line 73) `class OutcomeEvent`
-  - `OutcomeBus` (class, line 151) `class OutcomeBus`
-  - `get_bus` (function, line 267) `def get_bus()`
-  - `reset_bus` (function, line 276) `def reset_bus()`
-  - `record` (function, line 281) `def record(event, sinks)`
-  - `record_event` (function, line 286) `def record_event()`
-  - `severity_for_event` (function, line 291) `def severity_for_event(severity)`
-  - `category_for_event` (function, line 296) `def category_for_event(kind)`
-  - `host_value` (method, line 101) `def host_value(self)`
-  - `key` (method, line 105) `def key(self)`
-  - `to_dict` (method, line 123) `def to_dict(self)`
-  - `__init__` (method, line 154) `def __init__(self, ledger_path, sink_map)`
-  - `reset` (method, line 167) `def reset(self)`
-  - `_sink` (method, line 173) `def _sink(self, name)`
-  - `_enabled_sinks` (method, line 188) `def _enabled_sinks(self, requested)`
-  - `record` (method, line 199) `def record(self, event, sinks)`
-  - `_append_ledger` (method, line 246) `def _append_ledger(self, event, statuses)`
+  - `OutcomeEvent` (class, line 75) `class OutcomeEvent`
+  - `OutcomeBus` (class, line 153) `class OutcomeBus`
+  - `get_bus` (function, line 269) `def get_bus()`
+  - `reset_bus` (function, line 278) `def reset_bus()`
+  - `record` (function, line 283) `def record(event, sinks)`
+  - `record_event` (function, line 288) `def record_event()`
+  - `severity_for_event` (function, line 293) `def severity_for_event(severity)`
+  - `category_for_event` (function, line 298) `def category_for_event(kind)`
+  - `host_value` (method, line 103) `def host_value(self)`
+  - `key` (method, line 107) `def key(self)`
+  - `to_dict` (method, line 125) `def to_dict(self)`
+  - `__init__` (method, line 156) `def __init__(self, ledger_path, sink_map)`
+  - `reset` (method, line 169) `def reset(self)`
+  - `_sink` (method, line 175) `def _sink(self, name)`
+  - `_enabled_sinks` (method, line 190) `def _enabled_sinks(self, requested)`
+  - `record` (method, line 201) `def record(self, event, sinks)`
+  - `_append_ledger` (method, line 248) `def _append_ledger(self, event, statuses)`
 - Depends on: `core/logging.py`, `modules/__init__.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
-
-## modules/payload_factory.py
-- Doc: Native payload generation framework — stagers, stages, singles, formats.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `_build_linux_x64_reverse_tcp` (function, line 118) `def _build_linux_x64_reverse_tcp(lhost, lport)`
-  - `_patch_shellcode_x64` (function, line 190) `def _patch_shellcode_x64(raw, lhost, lport)`
-  - `PayloadTemplate` (class, line 216) `class PayloadTemplate(ABC)`
-  - `ReverseShellPayload` (class, line 251) `class ReverseShellPayload(PayloadTemplate)`
-  - `WindowsReverseShellPayload` (class, line 290) `class WindowsReverseShellPayload(PayloadTemplate)`
-  - `MsfvenomPayload` (class, line 322) `class MsfvenomPayload(PayloadTemplate)`
-  - `ShellcodePayload` (class, line 363) `class ShellcodePayload(PayloadTemplate)`
-  - `DynamicShellcodePayload` (class, line 409) `class DynamicShellcodePayload(PayloadTemplate)`
-  - `_parse_escaped_hex` (function, line 442) `def _parse_escaped_hex(escaped)`
-  - `PayloadFactory` (class, line 457) `class PayloadFactory`
-  - `format_payload_table` (function, line 672) `def format_payload_table(payloads)`
-  - `__init__` (method, line 222) `def __init__(self, name, platform, arch, description, options)`
-  - `generate` (method, line 237) `def generate(self)`
-  - `to_dict` (method, line 241) `def to_dict(self)`
-  - `__init__` (method, line 254) `def __init__(self)`
-  - `generate` (method, line 272) `def generate(self)`
-  - `__init__` (method, line 293) `def __init__(self)`
-  - `generate` (method, line 305) `def generate(self)`
-  - `__init__` (method, line 325) `def __init__(self, name, platform, arch)`
-  - `generate` (method, line 337) `def generate(self)`
-  - `__init__` (method, line 374) `def __init__(self, name, platform, arch, description, escaped_hex, patcher)`
-  - `generate` (method, line 397) `def generate(self)`
-  - `__init__` (method, line 416) `def __init__(self, name, platform, arch, description, builder)`
-  - `generate` (method, line 436) `def generate(self)`
-  - `__init__` (method, line 464) `def __init__(self)`
-  - `_register_builtins` (method, line 468) `def _register_builtins(self)`
-  - `register` (method, line 512) `def register(self, template)`
-  - `list` (method, line 516) `def list(self, platform)`
-  - `get` (method, line 525) `def get(self, name)`
-  - `generate` (method, line 529) `def generate(self, name, format, output)`
-  - `_apply_format` (method, line 575) `def _apply_format(data, fmt)`
-  - `list_formats` (method, line 664) `def list_formats()`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

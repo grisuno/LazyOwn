@@ -1,0 +1,15 @@
+name: gym_winbox_eventlogs_evidence
+version: 1
+description: 'WinBox: event log hygiene evidence (T1070.002).'
+enabled: true
+extends: gym_winbox_chain
+tags:
+- gym
+- winbox
+- windows
+platforms:
+- windows
+defaults:
+  exploit: winbox_eventlogs_evidence
+  vuln: winbox_eventlogs_evidence
+  port: '0'

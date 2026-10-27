@@ -288,7 +288,7 @@ Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposabl
 
 ## cli/commands/lab.py
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
-Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
+Imported by: `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
 - `LabCommandSet.do_lab` (method) `cli/commands/lab.py:93` `def do_lab(self, line)` -- Manage local CTF practice labs.
 
 ## cli/commands/lateral.py

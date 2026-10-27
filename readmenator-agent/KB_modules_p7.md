@@ -1,6 +1,45 @@
 # Subsystem: modules (page 7 of 16)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
 
+## modules/intercept.py
+- Doc: User-configurable tool-call interception layer with human-in-loop approvals.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `InterceptAction` (class, line 21) `class InterceptAction(str, Enum)`
+  - `InterceptConfig` (class, line 33) `class InterceptConfig`
+  - `InterceptRule` (class, line 50) `class InterceptRule`
+  - `PendingApproval` (class, line 77) `class PendingApproval`
+  - `InterceptVerdict` (class, line 92) `class InterceptVerdict`
+  - `builtin_rules` (function, line 101) `def builtin_rules()`
+  - `scope_blocked` (function, line 131) `def scope_blocked(target)`
+  - `observe_post_tool` (function, line 144) `def observe_post_tool(output)`
+  - `Interceptor` (class, line 154) `class Interceptor`
+  - `Guard` (class, line 255) `class Guard`
+  - `__post_init__` (method, line 61) `def __post_init__(self)`
+  - `matches` (method, line 68) `def matches(self, tool, command)`
+  - `__init__` (method, line 157) `def __init__(self, rules, ask_timeout_sec, timeout_action)`
+  - `rules` (method, line 172) `def rules(self)`
+  - `add_rule` (method, line 177) `def add_rule(self, rule)`
+  - `remove_rule` (method, line 183) `def remove_rule(self, pattern)`
+  - `evaluate` (method, line 192) `def evaluate(self, tool, command)`
+  - `decide` (method, line 220) `def decide(self, approval_id, decision)`
+  - `pending_approvals` (method, line 234) `def pending_approvals(self)`
+  - `approval_status` (method, line 249) `def approval_status(self, approval_id)`
+  - `__init__` (method, line 258) `def __init__(self, interceptor)`
+  - `interceptor` (method, line 266) `def interceptor(self)`
+  - `check` (method, line 270) `def check(self, tool, command)`
+  - `observe` (method, line 282) `def observe(self, output, source)`
+  - `record_failure` (method, line 291) `def record_failure(self, source)`
+  - `audit_log` (method, line 296) `def audit_log(self, limit)`
+  - `attribution` (method, line 301) `def attribution(self)`
+- Depends on: `cli/commands/enum.py`
+- Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+
+## modules/internal_discover.sh
+- Layer: utility
+- Language: sh
+
 ## modules/iptables_portforward.sh
 - Layer: utility
 - Language: sh
@@ -223,6 +262,7 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `_docker_compose` (function, line 349) `def _docker_compose(args)`
   - `ensure_range_secret` (function, line 357) `def ensure_range_secret(profile_dir)`
 - Depends on: `modules/metasploitable_migrations.py`
+- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
 
 ## modules/lazy_agent.py
 - Doc: Agentic tool-calling bridge for the loop and the main agent.
@@ -353,7 +393,7 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
 - Symbols:
   - `LazyEngine` (class, line 55) `class LazyEngine(LazyLoopEngine)`
 - Depends on: `modules/lazy_loop.py`
-- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_session_brief.py`
+- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_session_brief.py`
 
 ## modules/lazy_heat.py
 - Doc: Heat tiers and version math for CVE correlation.

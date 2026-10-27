@@ -1,6 +1,49 @@
 # Subsystem: skills (page 3 of 5)
 Previous: [KB_skills_p2.md](KB_skills_p2.md)
 
+## skills/lazyown_objective.py
+- Doc: LazyOwn Objective Store
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Objective` (class, line 105) `class Objective`
+  - `ObjectiveStore` (class, line 123) `class ObjectiveStore`
+  - `decompose_goal` (function, line 296) `def decompose_goal(goal_text, target)`
+  - `read_soul` (function, line 320) `def read_soul()`
+  - `write_soul` (function, line 326) `def write_soul(content)`
+  - `current_plan` (function, line 330) `def current_plan()`
+  - `full_context_for_claude` (function, line 336) `def full_context_for_claude(target)`
+  - `SoulUpdater` (class, line 359) `class SoulUpdater`
+  - `main` (function, line 485) `def main()`
+  - `sort_key` (method, line 116) `def sort_key(self)`
+  - `__init__` (method, line 131) `def __init__(self, path)`
+  - `_now` (method, line 135) `def _now(self)`
+  - `_load_all` (method, line 138) `def _load_all(self)`
+  - `_save_all` (method, line 153) `def _save_all(self, objs)`
+  - `_text_hash` (method, line 159) `def _text_hash(text)`
+  - `cleanup` (method, line 163) `def cleanup(self)`
+  - `inject` (method, line 193) `def inject(self, text, priority, source, context, notes)`
+  - `_update_status` (method, line 229) `def _update_status(self, obj_id, status, notes)`
+  - `complete` (method, line 243) `def complete(self, obj_id, notes)`
+  - `block` (method, line 246) `def block(self, obj_id, reason)`
+  - `skip` (method, line 249) `def skip(self, obj_id, reason)`
+  - `start` (method, line 252) `def start(self, obj_id)`
+  - `next_pending` (method, line 255) `def next_pending(self)`
+  - `list_pending` (method, line 261) `def list_pending(self, limit)`
+  - `list_all` (method, line 265) `def list_all(self, status, limit)`
+  - `summary` (method, line 271) `def summary(self)`
+  - `__init__` (method, line 379) `def __init__(self)`
+  - `_read` (method, line 384) `def _read(self)`
+  - `_patch_section` (method, line 389) `def _patch_section(self, header, new_body)`
+  - `_patch_line` (method, line 404) `def _patch_line(self, key, value)`
+  - `update_phase` (method, line 417) `def update_phase(self, phase)`
+  - `update_target` (method, line 421) `def update_target(self, target)`
+  - `update_os` (method, line 425) `def update_os(self, os_name, target)`
+  - `update_credentials` (method, line 432) `def update_credentials(self, creds)`
+  - `update_access` (method, line 459) `def update_access(self, level, target, method)`
+  - `update_vulnerabilities` (method, line 466) `def update_vulnerabilities(self, vulns)`
+- Imported by: `modules/golden_path.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_objectives.py`, `tests/test_daemon_loop.py`, `tests/test_golden_path.py`
+
 ## skills/lazyown_parquet_db.py
 - Doc: LazyOwn Parquet Knowledge Base
 - Layer: utility

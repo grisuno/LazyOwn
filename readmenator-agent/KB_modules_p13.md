@@ -1,6 +1,45 @@
 # Subsystem: modules (page 13 of 16)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/payload_factory.py
+- Doc: Native payload generation framework — stagers, stages, singles, formats.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_build_linux_x64_reverse_tcp` (function, line 118) `def _build_linux_x64_reverse_tcp(lhost, lport)`
+  - `_patch_shellcode_x64` (function, line 190) `def _patch_shellcode_x64(raw, lhost, lport)`
+  - `PayloadTemplate` (class, line 216) `class PayloadTemplate(ABC)`
+  - `ReverseShellPayload` (class, line 251) `class ReverseShellPayload(PayloadTemplate)`
+  - `WindowsReverseShellPayload` (class, line 290) `class WindowsReverseShellPayload(PayloadTemplate)`
+  - `MsfvenomPayload` (class, line 322) `class MsfvenomPayload(PayloadTemplate)`
+  - `ShellcodePayload` (class, line 363) `class ShellcodePayload(PayloadTemplate)`
+  - `DynamicShellcodePayload` (class, line 409) `class DynamicShellcodePayload(PayloadTemplate)`
+  - `_parse_escaped_hex` (function, line 442) `def _parse_escaped_hex(escaped)`
+  - `PayloadFactory` (class, line 457) `class PayloadFactory`
+  - `format_payload_table` (function, line 672) `def format_payload_table(payloads)`
+  - `__init__` (method, line 222) `def __init__(self, name, platform, arch, description, options)`
+  - `generate` (method, line 237) `def generate(self)`
+  - `to_dict` (method, line 241) `def to_dict(self)`
+  - `__init__` (method, line 254) `def __init__(self)`
+  - `generate` (method, line 272) `def generate(self)`
+  - `__init__` (method, line 293) `def __init__(self)`
+  - `generate` (method, line 305) `def generate(self)`
+  - `__init__` (method, line 325) `def __init__(self, name, platform, arch)`
+  - `generate` (method, line 337) `def generate(self)`
+  - `__init__` (method, line 374) `def __init__(self, name, platform, arch, description, escaped_hex, patcher)`
+  - `generate` (method, line 397) `def generate(self)`
+  - `__init__` (method, line 416) `def __init__(self, name, platform, arch, description, builder)`
+  - `generate` (method, line 436) `def generate(self)`
+  - `__init__` (method, line 464) `def __init__(self)`
+  - `_register_builtins` (method, line 468) `def _register_builtins(self)`
+  - `register` (method, line 512) `def register(self, template)`
+  - `list` (method, line 516) `def list(self, platform)`
+  - `get` (method, line 525) `def get(self, name)`
+  - `generate` (method, line 529) `def generate(self, name, format, output)`
+  - `_apply_format` (method, line 575) `def _apply_format(data, fmt)`
+  - `list_formats` (method, line 664) `def list_formats()`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `modules/sinks/beacon_dispatch.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
+
 ## modules/phishing_orchestrator.py
 - Doc: Smart Phishing Campaign Orchestrator.
 - Layer: utility
@@ -421,77 +460,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `recommend_and_save` (function, line 163) `def recommend_and_save(api_key)`
 - Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
 - Imported by: `skills/lazyown_mcp.py`
-
-## modules/redteam_gym.py
-- Doc: Red Team Gym — gamified pentest training mode.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `reload_challenge_definitions` (function, line 299) `def reload_challenge_definitions(directory)`
-  - `GymAttempt` (class, line 318) `class GymAttempt`
-  - `_ensure_gym_dir` (function, line 334) `def _ensure_gym_dir()`
-  - `_load_leaderboard` (function, line 339) `def _load_leaderboard()`
-  - `_save_leaderboard` (function, line 355) `def _save_leaderboard(board)`
-  - `_get_username` (function, line 366) `def _get_username()`
-  - `definition_rows` (function, line 393) `def definition_rows()`
-  - `create_gym` (function, line 398) `def create_gym(gym_id)`
-  - `save_gym_yaml` (function, line 435) `def save_gym_yaml(gym_id, text)`
-  - `delete_gym` (function, line 445) `def delete_gym(gym_id)`
-  - `list_challenges` (function, line 453) `def list_challenges()`
-  - `_resolve_active_run` (function, line 476) `def _resolve_active_run(selector, operator)`
-  - `start_challenge` (function, line 494) `def start_challenge(challenge_id, target, spin_lab)`
-  - `_spin_scenario` (function, line 586) `def _spin_scenario(scenario)`
-  - `submit_challenge` (function, line 610) `def submit_challenge(techniques_used, success, run_id)`
-  - `stop_challenges` (function, line 718) `def stop_challenges(selector)`
-  - `_teardown_stopped_scenarios` (function, line 739) `def _teardown_stopped_scenarios(stopped)`
-  - `_same_engagement` (function, line 777) `def _same_engagement(ip, target)`
-  - `engagement_context` (function, line 804) `def engagement_context(target)`
-  - `get_active_challenges` (function, line 864) `def get_active_challenges()`
-  - `_calc_speed_score` (function, line 877) `def _calc_speed_score(elapsed_seconds, max_bonus)`
-  - `_calc_stealth_score` (function, line 898) `def _calc_stealth_score(techniques, max_bonus)`
-  - `_calc_technique_score` (function, line 914) `def _calc_technique_score(techniques, chal, max_bonus)`
-  - `_update_leaderboard` (function, line 936) `def _update_leaderboard(attempt)`
-  - `_award_gym_elo` (function, line 980) `def _award_gym_elo(username, elo_bonus)`
-  - `_get_rank` (function, line 1006) `def _get_rank(username)`
-  - `show_leaderboard` (function, line 1023) `def show_leaderboard(top_n)`
-  - `get_active_challenge` (function, line 1050) `def get_active_challenge(run_id)`
-  - `record_external_attempt` (function, line 1081) `def record_external_attempt(challenge_id, success, elo_bonus, techniques)`
-  - `main` (function, line 1135) `def main()`
-- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
-
-## modules/reflective_dll.py
-- Doc: Reflective DLL loading — load PE from memory without touching disk.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PEHeader` (class, line 37) `class PEHeader`
-  - `DataDirectory` (class, line 70) `class DataDirectory`
-  - `SectionHeader` (class, line 83) `class SectionHeader`
-  - `ImportDescriptor` (class, line 104) `class ImportDescriptor`
-  - `ReflectiveLoaderConfig` (class, line 121) `class ReflectiveLoaderConfig`
-  - `PEParser` (class, line 142) `class PEParser`
-  - `ReflectiveLoader` (class, line 464) `class ReflectiveLoader`
-  - `__init__` (method, line 151) `def __init__(self, pe_data)`
-  - `parse_file_header` (method, line 166) `def parse_file_header(self)`
-  - `parse_sections` (method, line 208) `def parse_sections(self, num_sections)`
-  - `parse_data_directories` (method, line 243) `def parse_data_directories(self, num_entries)`
-  - `rva_to_offset` (method, line 265) `def rva_to_offset(self, rva, sections)`
-  - `parse_imports` (method, line 280) `def parse_imports(self, import_dir, sections)`
-  - `parse_relocations` (method, line 326) `def parse_relocations(self, reloc_dir, sections)`
-  - `parse_exports` (method, line 374) `def parse_exports(self, export_dir, sections)`
-  - `_read_asciiz_at_rva` (method, line 417) `def _read_asciiz_at_rva(self, rva, sections)`
-  - `_parse_thunk_names` (method, line 426) `def _parse_thunk_names(self, thunk_rva, sections)`
-  - `is_64bit` (method, line 456) `def is_64bit(self)`
-  - `raw_data` (method, line 460) `def raw_data(self)`
-  - `__init__` (method, line 492) `def __init__(self, pe_data, config)`
-  - `sha256` (method, line 505) `def sha256(self)`
-  - `architecture` (method, line 510) `def architecture(self)`
-  - `required_imports` (method, line 515) `def required_imports(self)`
-  - `plan_injection` (method, line 526) `def plan_injection(self)`
-  - `generate_c_stub` (method, line 588) `def generate_c_stub(self)`
-  - `generate_powershell_stub` (method, line 666) `def generate_powershell_stub(self)`
-  - `summarize` (method, line 685) `def summarize(self)`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

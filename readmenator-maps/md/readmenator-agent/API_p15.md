@@ -1,6 +1,18 @@
 # API (page 15 of 24)
 Previous: [API_p14.md](API_p14.md)
 
+## modules/llm_client.py
+Depends on: `core/logging.py`, `modules/ai_model.py`
+Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/lazyown_mcp.py`
+- `LLMClient.__init__` (method) `modules/llm_client.py:63` `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)`
+- `LLMClient.ask` (method) `modules/llm_client.py:79` `def ask(self, prompt)` -- Send a prompt and return the text response.
+- `LLMClient.classify` (method) `modules/llm_client.py:130` `def classify(self, output)` -- Short classification prompt.
+- `LLMClient.summarize` (method) `modules/llm_client.py:159` `def summarize(self, text)` -- Summarize a block of text (e.g. nmap output, tool output).
+- `get_client` (function) `modules/llm_client.py:268` `def get_client(api_key)` -- Return (or create) the module-level singleton LLMClient.
+- `ask` (function) `modules/llm_client.py:276` `def ask(prompt)` -- Module-level convenience wrapper.
+- `classify` (function) `modules/llm_client.py:288` `def classify(output)` -- Module-level convenience wrapper.
+- `summarize` (function) `modules/llm_client.py:293` `def summarize(text)` -- Module-level convenience wrapper.
+
 ## modules/llm_evaluator.py
 Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
 - `OutcomeRecorder.record` (method) `modules/llm_evaluator.py:57` `def record(self, decision)`
@@ -23,8 +35,8 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
 - `record_outcome` (function) `modules/llm_evaluator.py:313` `def record_outcome(decision_id, actual_outcome, findings_count, success)`
 
 ## modules/llm_factory.py
-Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/toposwarm_bridge.py`
-Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
+Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
 - `is_model_missing_error` (function) `modules/llm_factory.py:121` `def is_model_missing_error(message)` -- Return True when an error text means the model id is unavailable.
 - `groq_model_chain` (function) `modules/llm_factory.py:141` `def groq_model_chain(config)` -- Return the ordered Groq model ids to try, configured model first.
 - `default_model_for` (function) `modules/llm_factory.py:224` `def default_model_for(backend)` -- Return the default model identifier for a backend.
@@ -32,14 +44,26 @@ Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.
 - `api_key_config_key` (function) `modules/llm_factory.py:266` `def api_key_config_key(backend)` -- Return the ``payload.json`` key holding a backend's API key slot.
 - `backend_requires_api_key` (function) `modules/llm_factory.py:291` `def backend_requires_api_key(backend)` -- Report whether a backend needs an API key to operate.
 - `load_payload` (function) `modules/llm_factory.py:309` `def load_payload(payload_path)` -- Read ``payload.json`` from disk and return it as a dictionary.
-- `get_llm_backend` (function) `modules/llm_factory.py:633` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
-- `get_llm_backend_raw` (function) `modules/llm_factory.py:729` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
-- `try_get_llm_backend` (function) `modules/llm_factory.py:751` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
-- `stream_complete` (function) `modules/llm_factory.py:828` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
-- `complete` (function) `modules/llm_factory.py:899` `def complete(model, prompt, max_tokens)` -- Complete a prompt through one model spec; raise when unanswered.
+- `get_llm_backend` (function) `modules/llm_factory.py:653` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
+- `get_llm_backend_raw` (function) `modules/llm_factory.py:749` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
+- `try_get_llm_backend` (function) `modules/llm_factory.py:771` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
+- `stream_complete` (function) `modules/llm_factory.py:848` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
+- `complete` (function) `modules/llm_factory.py:919` `def complete(model, prompt, max_tokens)` -- Complete a prompt through one model spec; raise when unanswered.
+
+## modules/llm_orchestrator.py
+Depends on: `modules/lazy_engine.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/orchestrator_config.py`
+Imported by: `lazyc2.py`, `modules/ai_fallback.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_vulnbot_fallback.py`
+- `OrchestratorResult.ok` (method) `modules/llm_orchestrator.py:118` `def ok(self)` -- Return True when a chain member served the answer.
+- `OrchestratorResult.display_text` (method) `modules/llm_orchestrator.py:123` `def display_text(self)` -- Return the notice-prefixed answer for operator-facing surfaces.
+- `sort_members` (function) `modules/llm_orchestrator.py:130` `def sort_members(members)` -- Return a weight-sorted defensive copy of a member list.
+- `pool_chain` (function) `modules/llm_orchestrator.py:148` `def pool_chain()` -- Return the failover chain governed by lazy_orchestrator.
+- `backend_kind` (function) `modules/llm_orchestrator.py:175` `def backend_kind(model_spec)` -- Return the provider prefix of a model spec.
+- `is_error_reply` (function) `modules/llm_orchestrator.py:192` `def is_error_reply(text)` -- Return True when a reply is a backend error banner, not content.
+- `is_placeholder_key` (function) `modules/llm_orchestrator.py:211` `def is_placeholder_key(value)` -- Return True when a key value is a shipped placeholder, not a secret.
+- `complete_with_fallback` (function) `modules/llm_orchestrator.py:349` `def complete_with_fallback(prompt, system, max_tokens, api_key, members, executor, health, record)` -- Complete a prompt through the lazy_orchestrator chain with failover.
 
 ## modules/llm_pool.py
-Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`
+Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
 - `shared_registry` (function) `modules/llm_pool.py:50` `def shared_registry(config)` -- Return the process-wide health registry (LAZY Registry parity).
 - `HealthRegistry.__init__` (method) `modules/llm_pool.py:83` `def __init__(self, config)` -- Initialize counters from the persisted breaker state.
 - `HealthRegistry.report_success` (method) `modules/llm_pool.py:135` `def report_success(self, member_id)` -- Clear failure state for a member.
@@ -52,7 +76,7 @@ Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `skills/autonomous_da
 
 ## modules/llm_prompts.py
 Depends on: `modules/colors.py`
-Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`
+Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_llm_prompts.py`
 - `default_project_root` (function) `modules/llm_prompts.py:67` `def default_project_root()` -- Return the repository root that owns the LLM prompt configuration.
 - `resolve_model` (function) `modules/llm_prompts.py:76` `def resolve_model(model)` -- Resolve an explicit model or fall back to the randomized Groq model.
 - `truncate_message` (function) `modules/llm_prompts.py:95` `def truncate_message(message, max_chars)` -- Truncate a message with an ellipsis marker when it exceeds the limit.
@@ -441,50 +465,6 @@ Imported by: `cli/commands/opsec_cleanup.py`
 - `NetworkOpsecEngine.connection_jitter_schedule` (method) `modules/network_opsec.py:294` `def connection_jitter_schedule(self, beacon_interval)` -- Generate a jitter schedule for beacon connections.
 - `NetworkOpsecEngine.canary_detection_setup` (method) `modules/network_opsec.py:317` `def canary_detection_setup(self)` -- Set up canary detection for the engagement.
 - `NetworkOpsecEngine.summary` (method) `modules/network_opsec.py:349` `def summary(self)`
-
-## modules/nmap2csv.py
-- `dottedquad_to_num` (function) `modules/nmap2csv.py:126` `def dottedquad_to_num(ip)` -- Convert decimal dotted quad string IP to long integer
-- `num_to_dottedquad` (function) `modules/nmap2csv.py:133` `def num_to_dottedquad(n)` -- Convert long int IP to dotted quad string
-- `unique_match_from_list` (function) `modules/nmap2csv.py:140` `def unique_match_from_list(list)` -- Check the list for a potential pattern match
-- `extract_matching_pattern` (function) `modules/nmap2csv.py:156` `def extract_matching_pattern(regex, group_name, unfiltered_list)` -- Return the desired group_name from a list of matching patterns
-- `Host.__init__` (method) `modules/nmap2csv.py:177` `def __init__(self, ip, fqdn)`
-- `Host.add_port` (method) `modules/nmap2csv.py:188` `def add_port(self, port)`
-- `Host.get_ip_num_format` (method) `modules/nmap2csv.py:192` `def get_ip_num_format(self)`
-- `Host.get_ip_dotted_format` (method) `modules/nmap2csv.py:195` `def get_ip_dotted_format(self)`
-- `Host.get_fqdn` (method) `modules/nmap2csv.py:198` `def get_fqdn(self)`
-- `Host.get_rdns_record` (method) `modules/nmap2csv.py:201` `def get_rdns_record(self)`
-- `Host.get_port_list` (method) `modules/nmap2csv.py:204` `def get_port_list(self)`
-- `Host.get_port_number_list` (method) `modules/nmap2csv.py:207` `def get_port_number_list(self)`
-- `Host.get_port_protocol_list` (method) `modules/nmap2csv.py:216` `def get_port_protocol_list(self)`
-- `Host.get_port_service_list` (method) `modules/nmap2csv.py:225` `def get_port_service_list(self)`
-- `Host.get_port_version_list` (method) `modules/nmap2csv.py:234` `def get_port_version_list(self)`
-- `Host.get_port_script_list` (method) `modules/nmap2csv.py:243` `def get_port_script_list(self)`
-- `Host.get_os` (method) `modules/nmap2csv.py:252` `def get_os(self)`
-- `Host.get_mac_address` (method) `modules/nmap2csv.py:255` `def get_mac_address(self)`
-- `Host.get_mac_address_vendor` (method) `modules/nmap2csv.py:258` `def get_mac_address_vendor(self)`
-- `Host.get_network_distance` (method) `modules/nmap2csv.py:261` `def get_network_distance(self)`
-- `Host.set_fqdn` (method) `modules/nmap2csv.py:265` `def set_fqdn(self, fqdn)`
-- `Host.set_rdns_record` (method) `modules/nmap2csv.py:268` `def set_rdns_record(self, rdns_record)`
-- `Host.set_os` (method) `modules/nmap2csv.py:271` `def set_os(self, os)`
-- `Host.set_mac` (method) `modules/nmap2csv.py:274` `def set_mac(self, mac_address, mac_address_vendor)`
-- `Host.set_network_distance` (method) `modules/nmap2csv.py:278` `def set_network_distance(self, network_distance)`
-- `Port.__init__` (method) `modules/nmap2csv.py:283` `def __init__(self, number, protocol, service, version, script)`
-- `Port.get_number` (method) `modules/nmap2csv.py:290` `def get_number(self)`
-- `Port.get_protocol` (method) `modules/nmap2csv.py:293` `def get_protocol(self)`
-- `Port.get_service` (method) `modules/nmap2csv.py:296` `def get_service(self)`
-- `Port.get_version` (method) `modules/nmap2csv.py:299` `def get_version(self)`
-- `Port.get_script` (method) `modules/nmap2csv.py:302` `def get_script(self)`
-- `Port.set_service` (method) `modules/nmap2csv.py:305` `def set_service(self, service)`
-- `Port.set_version` (method) `modules/nmap2csv.py:308` `def set_version(self, version)`
-- `Port.set_script` (method) `modules/nmap2csv.py:311` `def set_script(self, script)`
-- `split_grepable_match` (function) `modules/nmap2csv.py:315` `def split_grepable_match(raw_string)` -- Split the raw line to a neat Host object
-- `parse` (function) `modules/nmap2csv.py:362` `def parse(fd)` -- Parse the data according to several regexes
-- `parse_xml` (function) `modules/nmap2csv.py:492` `def parse_xml(xml_file)` -- Parse the XML file
-- `is_format_valid` (function) `modules/nmap2csv.py:572` `def is_format_valid(fmt)` -- Check for the supplied custom output format
-- `formatted_item` (function) `modules/nmap2csv.py:606` `def formatted_item(host, format_item)` -- return the attribute value related to the host
-- `repeat_attributes` (function) `modules/nmap2csv.py:639` `def repeat_attributes(attribute_list)` -- repeat attribute lists to the maximum for the
-- `generate_csv` (function) `modules/nmap2csv.py:653` `def generate_csv(fd, results, options)` -- Generate a plain ';' separated csv file with the desired or default attribute format
-- `main` (function) `modules/nmap2csv.py:688` `def main()`
 
 
 Next: [API_p16.md](API_p16.md)

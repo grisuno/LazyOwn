@@ -60,11 +60,11 @@ Imported by: `cli/commands/help_ui.py`
 ## cli/engagement_hooks.py
 Depends on: `cli/palette.py`, `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
 Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/session_hud.py`, `cli/tips_engine.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`
-- `heal_commands_seen` (function) `cli/engagement_hooks.py:366` `def heal_commands_seen(known)` -- Purge non-command entries from persisted ``commands_seen`` in place.
-- `get_karma_name` (function) `cli/engagement_hooks.py:717` `def get_karma_name(elo)` -- Return karma rank for an ELO score.
-- `render_engagement_hook` (function) `cli/engagement_hooks.py:899` `def render_engagement_hook(cmd, phase, enabled)` -- Post-command hook: curiosity reveal + ELO + VRI reward when due.
-- `get_state_snapshot` (function) `cli/engagement_hooks.py:979` `def get_state_snapshot()` -- Return a read-only snapshot of current engagement state for CLI display.
-- `reset_session` (function) `cli/engagement_hooks.py:1067` `def reset_session()` -- Reset session counters without clearing cross-session progress.
+- `heal_commands_seen` (function) `cli/engagement_hooks.py:367` `def heal_commands_seen(known)` -- Purge non-command entries from persisted ``commands_seen`` in place.
+- `get_karma_name` (function) `cli/engagement_hooks.py:718` `def get_karma_name(elo)` -- Return karma rank for an ELO score.
+- `render_engagement_hook` (function) `cli/engagement_hooks.py:900` `def render_engagement_hook(cmd, phase, enabled)` -- Post-command hook: curiosity reveal + ELO + VRI reward when due.
+- `get_state_snapshot` (function) `cli/engagement_hooks.py:980` `def get_state_snapshot()` -- Return a read-only snapshot of current engagement state for CLI display.
+- `reset_session` (function) `cli/engagement_hooks.py:1068` `def reset_session()` -- Reset session counters without clearing cross-session progress.
 
 ## cli/exploit_advisor.py
 Depends on: `core/console.py`
@@ -470,9 +470,9 @@ Imported by: `cli/commands/marketplace.py`, `tests/test_input_fuzz.py`, `tests/t
 ## cli/protips.py
 Depends on: `cli/noise_verbs.py`, `core/console.py`
 Imported by: `lazyown.py`, `tests/test_reactive_hints_expanded.py`
-- `get_session_tip` (function) `cli/protips.py:301` `def get_session_tip(ctx)` -- Return a single tip to show at session start.
-- `render_contextual_tip` (function) `cli/protips.py:327` `def render_contextual_tip(last_cmd, ctx)` -- Print a single dim tip line when the last command triggers one.
-- `print_session_tip` (function) `cli/protips.py:357` `def print_session_tip(ctx)` -- Print the session-start tip (called once after the banner).
+- `get_session_tip` (function) `cli/protips.py:307` `def get_session_tip(ctx)` -- Return a single tip to show at session start.
+- `render_contextual_tip` (function) `cli/protips.py:333` `def render_contextual_tip(last_cmd, ctx)` -- Print a single dim tip line when the last command triggers one.
+- `print_session_tip` (function) `cli/protips.py:363` `def print_session_tip(ctx)` -- Print the session-start tip (called once after the banner).
 
 ## cli/purple_tui.py
 Depends on: `cli/commands/containers.py`
@@ -486,14 +486,14 @@ Imported by: `cli/commands/purple_team.py`
 ## cli/reactive_hints.py
 Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
 Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`
-- `render_inline_hints` (function) `cli/reactive_hints.py:220` `def render_inline_hints(advisor, last_command, limit, enabled)` -- Print a single dim hint line below the command output and return immediately.
-- `confidence_from_score` (function) `cli/reactive_hints.py:321` `def confidence_from_score(score)` -- Map an unbounded fused recommendation score to a 0-100 display confidence.
-- `build_evidence_hints` (function) `cli/reactive_hints.py:362` `def build_evidence_hints(recommendations, limit)` -- Convert fused recommendations into display-ready evidence hints.
-- `render_evidence_hints` (function) `cli/reactive_hints.py:400` `def render_evidence_hints(hints)` -- Print evidence-backed hint lines: verb, confidence, reason, provenance.
-- `build_evidence_hint_lines` (function) `cli/reactive_hints.py:416` `def build_evidence_hint_lines(hints)` -- Build evidence-backed hint lines as Rich Text objects.
-- `read_run_commands` (function) `cli/reactive_hints.py:443` `def read_run_commands(sessions_dir)` -- Return the set of command names already executed this session.
-- `render_command_hints` (function) `cli/reactive_hints.py:514` `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` -- Print phase-aware, history-filtered command hints after each step.
-- `command_hints` (function) `cli/reactive_hints.py:549` `def command_hints(last_command, phase, sessions_dir, limit)` -- Return the top next-step command verbs without printing them.
+- `render_inline_hints` (function) `cli/reactive_hints.py:221` `def render_inline_hints(advisor, last_command, limit, enabled)` -- Print a single dim hint line below the command output and return immediately.
+- `confidence_from_score` (function) `cli/reactive_hints.py:322` `def confidence_from_score(score)` -- Map an unbounded fused recommendation score to a 0-100 display confidence.
+- `build_evidence_hints` (function) `cli/reactive_hints.py:363` `def build_evidence_hints(recommendations, limit)` -- Convert fused recommendations into display-ready evidence hints.
+- `render_evidence_hints` (function) `cli/reactive_hints.py:401` `def render_evidence_hints(hints)` -- Print evidence-backed hint lines: verb, confidence, reason, provenance.
+- `build_evidence_hint_lines` (function) `cli/reactive_hints.py:417` `def build_evidence_hint_lines(hints)` -- Build evidence-backed hint lines as Rich Text objects.
+- `read_run_commands` (function) `cli/reactive_hints.py:444` `def read_run_commands(sessions_dir)` -- Return the set of command names already executed this session.
+- `render_command_hints` (function) `cli/reactive_hints.py:515` `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` -- Print phase-aware, history-filtered command hints after each step.
+- `command_hints` (function) `cli/reactive_hints.py:550` `def command_hints(last_command, phase, sessions_dir, limit)` -- Return the top next-step command verbs without printing them.
 
 
 Next: [API_p5.md](API_p5.md)

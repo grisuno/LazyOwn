@@ -282,7 +282,7 @@ Never uses os.system. Validates the URL before execution.
 
 *Calls:* [`validate_url`](#validate_url)
 
-*Called by:* [`AtomicResolver.ensure_repo`](modules.atomic_resolver.py.md#atomicresolver-ensure_repo)
+*Called by:* [`AtomicResolver.ensure_repo`](modules.atomic_resolver.py.md#atomicresolver-ensure_repo), [`ensure_installed`](modules.winbox_gym.py.md#ensure_installed)
 
 ---
 

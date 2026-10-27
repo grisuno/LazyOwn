@@ -37,8 +37,10 @@ flowchart LR
     n_modules_llm_adapter_py__ask_general(["ask_general"])
     n_contrib_legacy_lazydeepseekcli_py__truncate_message["lazydeepseekcli.truncate_message"]
     n_modules_llm_factory_py__try_get_llm_backend["llm_factory.try_get_llm_backend"]
+    n_modules_llm_orchestrator_py__complete_with_fallback["llm_orchestrator.complete_with_fallback"]
     n_modules_llm_adapter_py__ask_general -.-> n_contrib_legacy_lazydeepseekcli_py__truncate_message
     n_modules_llm_adapter_py__ask_general -.-> n_modules_llm_factory_py__try_get_llm_backend
+    n_modules_llm_adapter_py__ask_general -.-> n_modules_llm_orchestrator_py__complete_with_fallback
 ```
 
 ## Functions
@@ -47,7 +49,7 @@ flowchart LR
 
 ### `safe_groq_client`
 
-`function` | [modules/llm_adapter.py:48](../../modules/llm_adapter.py#L48)
+`function` | [modules/llm_adapter.py:55](../../modules/llm_adapter.py#L55)
 
 ```python
 def safe_groq_client(api_key: str | None) -> Any | None
@@ -63,15 +65,13 @@ Create a Groq client, returning None when no key is provided.
 
 **Returns:** `Any | None` - Groq client instance or None.
 
-*Called by:* [`analyze_behavioral_data`](lazyc2.py.md#analyze_behavioral_data), [`analyze_campaign_progress`](lazyc2.py.md#analyze_campaign_progress)
-
 ---
 
 <a id="process_prompt"></a>
 
 ### `process_prompt`
 
-`function` | [modules/llm_adapter.py:119](../../modules/llm_adapter.py#L119)
+`function` | [modules/llm_adapter.py:155](../../modules/llm_adapter.py#L155)
 
 ```python
 def process_prompt(client: Any, prompt: str, debug: bool = False) -> str
@@ -97,7 +97,7 @@ Generate a single-line shell command from a user prompt.
 
 ### `process_prompt_script`
 
-`function` | [modules/llm_adapter.py:133](../../modules/llm_adapter.py#L133)
+`function` | [modules/llm_adapter.py:169](../../modules/llm_adapter.py#L169)
 
 ```python
 def process_prompt_script(client: Any, prompt: str, debug: bool = False) -> str
@@ -123,7 +123,7 @@ Generate a full script from a user prompt.
 
 ### `process_prompt_adversary`
 
-`function` | [modules/llm_adapter.py:147](../../modules/llm_adapter.py#L147)
+`function` | [modules/llm_adapter.py:183](../../modules/llm_adapter.py#L183)
 
 ```python
 def process_prompt_adversary(client: Any, prompt: str, debug: bool = False) -> str
@@ -149,7 +149,7 @@ Answer questions about MITRE ATT&CK techniques and Atomic Red Team.
 
 ### `process_prompt_general`
 
-`function` | [modules/llm_adapter.py:161](../../modules/llm_adapter.py#L161)
+`function` | [modules/llm_adapter.py:197](../../modules/llm_adapter.py#L197)
 
 ```python
 def process_prompt_general(client: Any, prompt: str, debug: bool = False) -> str
@@ -175,7 +175,7 @@ Answer as a general red-team assistant with payload.json context.
 
 ### `process_prompt_search`
 
-`function` | [modules/llm_adapter.py:175](../../modules/llm_adapter.py#L175)
+`function` | [modules/llm_adapter.py:211](../../modules/llm_adapter.py#L211)
 
 ```python
 def process_prompt_search(client: Any, prompt: str, debug: bool = False) -> str
@@ -201,7 +201,7 @@ Perform research and threat-intelligence analysis.
 
 ### `process_prompt_task`
 
-`function` | [modules/llm_adapter.py:189](../../modules/llm_adapter.py#L189)
+`function` | [modules/llm_adapter.py:225](../../modules/llm_adapter.py#L225)
 
 ```python
 def process_prompt_task(client: Any, prompt: str, debug: bool = False) -> str
@@ -227,7 +227,7 @@ Analyze a task-assessment JSON file for completion status.
 
 ### `process_prompt_vuln`
 
-`function` | [modules/llm_adapter.py:206](../../modules/llm_adapter.py#L206)
+`function` | [modules/llm_adapter.py:242](../../modules/llm_adapter.py#L242)
 
 ```python
 def process_prompt_vuln(client: Any, prompt: str, debug: bool = False, event: str = '') -> str
@@ -255,7 +255,7 @@ read.
 
 ### `process_prompt_redop`
 
-`function` | [modules/llm_adapter.py:237](../../modules/llm_adapter.py#L237)
+`function` | [modules/llm_adapter.py:273](../../modules/llm_adapter.py#L273)
 
 ```python
 def process_prompt_redop(client: Any, prompt: str, debug: bool = False) -> str
@@ -281,19 +281,22 @@ Evaluate a red-team operation status from a JSON database file.
 
 ### `ask_general`
 
-`function` | [modules/llm_adapter.py:254](../../modules/llm_adapter.py#L254)
+`function` | [modules/llm_adapter.py:290](../../modules/llm_adapter.py#L290)
 
 ```python
 def ask_general(prompt: str, debug: bool = False) -> str
 ```
 
-Answer through the configured LLM backend, regardless of provider.
+Answer through the configured LLM backend with chain failover.
 
 Resolves the backend from ``payload.json`` via
 [`modules.llm_factory.try_get_llm_backend`](modules.llm_factory.py.md#try_get_llm_backend), renders the canonical
 general-assistant template with knowledge-base context, and persists
-successful answers. This is the single provider-agnostic entry point
-every bot (Slack, Telegram, Discord) uses.
+successful answers. When the factory backend is missing, raises, or
+replies with an error banner, the orchestrator chain (owned by
+``lazy_orchestrator``) serves the answer before any error is shown.
+This is the single provider-agnostic entry point every bot (Slack,
+Telegram, Discord) uses.
 
 **Parameters**
 
@@ -304,7 +307,7 @@ every bot (Slack, Telegram, Discord) uses.
 
 **Returns:** `str` - Assistance text, or an error message when no backend is available.
 
-*Calls:* [`truncate_message`](contrib.legacy.lazydeepseekcli.py.md#truncate_message), [`try_get_llm_backend`](modules.llm_factory.py.md#try_get_llm_backend)
+*Calls:* [`truncate_message`](contrib.legacy.lazydeepseekcli.py.md#truncate_message), [`try_get_llm_backend`](modules.llm_factory.py.md#try_get_llm_backend), [`complete_with_fallback`](modules.llm_orchestrator.py.md#complete_with_fallback)
 
 *Called by:* [`AiCommandSet.do_ask`](cli.commands.ai.py.md#aicommandset-do_ask), [`exce_cmd`](discord_c2.py.md#exce_cmd), [`handle_message`](slack_c2_bot.py.md#handle_message), [`exce_cmd`](telegram_c2.py.md#exce_cmd)
 

@@ -3,6 +3,7 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_campaign_status` | method | `cli/commands/campaign.py:332` | `def _campaign_status(self)` |
 | `_gather_campaign_manifest` | method | `cli/commands/campaign.py:94` | `def _gather_campaign_manifest(self, name)` |
 | `do_campaign` | method | `cli/commands/campaign.py:45` | `def do_campaign(self, line)` |
 | `CatalogCommandSet` | class | `cli/commands/catalog.py:19` | `class CatalogCommandSet(LazyOwnCommandSet)` |
@@ -356,17 +357,17 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_exploitgym` | method | `cli/commands/exploitgym.py:43` | `def do_exploitgym(self, line)` |
 | `GoldenPathsCommandSet` | class | `cli/commands/golden_paths.py:35` | `class GoldenPathsCommandSet(LazyOwnCommandSet)` |
 | `_build` | method | `cli/commands/golden_paths.py:65` | `def _build(self, top_k)` |
-| `_push` | method | `cli/commands/golden_paths.py:98` | `def _push(self)` |
-| `_show` | method | `cli/commands/golden_paths.py:84` | `def _show(self)` |
+| `_push` | method | `cli/commands/golden_paths.py:100` | `def _push(self)` |
+| `_show` | method | `cli/commands/golden_paths.py:86` | `def _show(self)` |
 | `do_golden_paths` | method | `cli/commands/golden_paths.py:42` | `def do_golden_paths(self, line)` |
 | `GymMetasploitableCommandSet` | class | `cli/commands/gym_matrix.py:72` | `class GymMetasploitableCommandSet(LazyOwnCommandSet)` |
 | `_extract_bool` | function | `cli/commands/gym_matrix.py:55` | `def _extract_bool(args, flag)` |
 | `_extract_flag` | function | `cli/commands/gym_matrix.py:34` | `def _extract_flag(args, flag)` |
-| `_plan` | method | `cli/commands/gym_matrix.py:114` | `def _plan(self, top_k, only)` |
-| `_report` | method | `cli/commands/gym_matrix.py:172` | `def _report(self)` |
-| `_run` | method | `cli/commands/gym_matrix.py:141` | `def _run(self, top_k, only, dry_run)` |
-| `_target` | method | `cli/commands/gym_matrix.py:207` | `def _target(self)` |
-| `_verify` | method | `cli/commands/gym_matrix.py:188` | `def _verify(self, rest)` |
+| `_plan` | method | `cli/commands/gym_matrix.py:111` | `def _plan(self, top_k, only)` |
+| `_report` | method | `cli/commands/gym_matrix.py:165` | `def _report(self)` |
+| `_run` | method | `cli/commands/gym_matrix.py:135` | `def _run(self, top_k, only, dry_run)` |
+| `_target` | method | `cli/commands/gym_matrix.py:200` | `def _target(self)` |
+| `_verify` | method | `cli/commands/gym_matrix.py:181` | `def _verify(self, rest)` |
 | `do_gym_metasploitable` | method | `cli/commands/gym_matrix.py:79` | `def do_gym_metasploitable(self, line)` |
 | `HelpUiCommandSet` | class | `cli/commands/help_ui.py:29` | `class HelpUiCommandSet(LazyOwnCommandSet)` |
 | `_save` | function | `cli/commands/help_ui.py:67` | `def _save(key, value)` |
@@ -406,26 +407,26 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_container_ip` | method | `cli/commands/lab.py:49` | `def _container_ip(self, container_name)` |
 | `_container_name` | method | `cli/commands/lab.py:45` | `def _container_name(self, scenario)` |
 | `_docker_available` | method | `cli/commands/lab.py:33` | `def _docker_available(self)` |
-| `_lab_container_state` | method | `cli/commands/lab.py:438` | `def _lab_container_state(self, container_name)` |
+| `_lab_container_state` | method | `cli/commands/lab.py:442` | `def _lab_container_state(self, container_name)` |
 | `_lab_ensure_web` | method | `cli/commands/lab.py:53` | `def _lab_ensure_web(self, scenario, container_name)` |
 | `_lab_list` | method | `cli/commands/lab.py:145` | `def _lab_list(self)` |
 | `_lab_migrate` | method | `cli/commands/lab.py:78` | `def _lab_migrate(self, scenario, container_name)` |
 | `_lab_start` | method | `cli/commands/lab.py:159` | `def _lab_start(self, scenario)` |
-| `_lab_status` | method | `cli/commands/lab.py:452` | `def _lab_status(self)` |
+| `_lab_status` | method | `cli/commands/lab.py:456` | `def _lab_status(self)` |
 | `_lab_stop` | method | `cli/commands/lab.py:205` | `def _lab_stop(self, scenario)` |
 | `_print_lab_target` | method | `cli/commands/lab.py:57` | `def _print_lab_target(self, scenario, container_name, ports)` |
-| `_range_container_ip` | method | `cli/commands/lab.py:403` | `def _range_container_ip(self, container)` |
-| `_range_container_state` | method | `cli/commands/lab.py:292` | `def _range_container_state(self, container)` |
-| `_range_dispatch` | method | `cli/commands/lab.py:214` | `def _range_dispatch(self, args)` |
-| `_range_list` | method | `cli/commands/lab.py:246` | `def _range_list(self)` |
-| `_range_start` | method | `cli/commands/lab.py:255` | `def _range_start(self, profile)` |
-| `_range_status` | method | `cli/commands/lab.py:427` | `def _range_status(self)` |
-| `_range_stop` | method | `cli/commands/lab.py:414` | `def _range_stop(self, profile)` |
-| `_range_verify` | method | `cli/commands/lab.py:349` | `def _range_verify(self, profile)` |
-| `_range_wait_healthy` | method | `cli/commands/lab.py:317` | `def _range_wait_healthy(self, compose, timeout)` |
+| `_range_container_ip` | method | `cli/commands/lab.py:407` | `def _range_container_ip(self, container)` |
+| `_range_container_state` | method | `cli/commands/lab.py:296` | `def _range_container_state(self, container)` |
+| `_range_dispatch` | method | `cli/commands/lab.py:218` | `def _range_dispatch(self, args)` |
+| `_range_list` | method | `cli/commands/lab.py:250` | `def _range_list(self)` |
+| `_range_start` | method | `cli/commands/lab.py:259` | `def _range_start(self, profile)` |
+| `_range_status` | method | `cli/commands/lab.py:431` | `def _range_status(self)` |
+| `_range_stop` | method | `cli/commands/lab.py:418` | `def _range_stop(self, profile)` |
+| `_range_verify` | method | `cli/commands/lab.py:353` | `def _range_verify(self, profile)` |
+| `_range_wait_healthy` | method | `cli/commands/lab.py:321` | `def _range_wait_healthy(self, compose, timeout)` |
 | `_running_containers` | method | `cli/commands/lab.py:37` | `def _running_containers(self)` |
 | `_running_range_containers` | method | `cli/commands/lab.py:41` | `def _running_range_containers(self)` |
-| `_tcp_reachable` | method | `cli/commands/lab.py:386` | `def _tcp_reachable(host, port, timeout)` |
+| `_tcp_reachable` | method | `cli/commands/lab.py:390` | `def _tcp_reachable(host, port, timeout)` |
 | `do_lab` | method | `cli/commands/lab.py:93` | `def do_lab(self, line)` |
 | `LateralMovementCommandSet` | class | `cli/commands/lateral.py:24` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
 | `do_chisel` | method | `cli/commands/lateral.py:43` | `def do_chisel(self, line)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_lazy_dispatch` | method | `cli/commands/lazyops.py:88` | `def do_lazy_dispatch(self, line)` |
 | `do_lazy_enrich` | method | `cli/commands/lazyops.py:861` | `def do_lazy_enrich(self, line)` |
 | `do_lazy_evidence` | method | `cli/commands/lazyops.py:1447` | `def do_lazy_evidence(self, line)` |
-| `do_lazy_fact` | method | `cli/commands/lazyops.py:1399` | `def do_lazy_fact(self, line)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

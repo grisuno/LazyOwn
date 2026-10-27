@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 821 modules, 15497 documented entities, documentation coverage 75.1% (7330/9756 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 829 modules, 15603 documented entities, documentation coverage 75.3% (7395/9818 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (708), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (716), sh (61)
 
 ## Modules
 
@@ -214,6 +214,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.surface`](modules/cli.commands.surface.py.md) | Attack-surface operations: confirmed discovery scans, estorides fusion. | 1 | 2 | 100.0% |
 | [`cli.commands.ux`](modules/cli.commands.ux.py.md) | Usability commands: hud, undo, config_diff, cheat, suggest. | 1 | 6 | 100.0% |
 | [`cli.commands.verb_admin`](modules/cli.commands.verb_admin.py.md) | Operator administration of the autonomous-loop verb catalog. | 2 | 1 | 100.0% |
+| [`cli.commands.winbox_gym`](modules/cli.commands.winbox_gym.py.md) | WinBox lab CommandSet — VM lifecycle, guest execution and gym matrix. | 1 | 1 | 100.0% |
 
 ### `contrib/legacy`
 
@@ -348,6 +349,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | Module | Summary | Types | Callables | Coverage |
 |---|---|---|---|---|
 | [`lazyc2.security`](modules/lazyc2.security.__init__.py.md) |  | 0 | 0 | 0.0% |
+| [`lazyc2.security.cli_credentials`](modules/lazyc2.security.cli_credentials.py.md) | CLI boot credentials: owner-only credential file and RBAC registration. | 0 | 3 | 100.0% |
 | [`lazyc2.security.command_allowlist`](modules/lazyc2.security.command_allowlist.py.md) | Command allowlist policy for the LazyOwn C2 ``/api/run`` endpoint. | 3 | 4 | 100.0% |
 | [`lazyc2.security.constants`](modules/lazyc2.security.constants.py.md) | Security constants and validation patterns for the LazyOwn C2 web layer. | 0 | 0 | 100.0% |
 | [`lazyc2.security.cors`](modules/lazyc2.security.cors.py.md) | CORS origin allowlist policy for the LazyOwn C2 web layer. | 2 | 5 | 100.0% |
@@ -473,7 +475,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.addon_updater`](modules/modules.addon_updater.py.md) | Git update contract for lazyaddons. | 1 | 4 | 100.0% |
 | [`modules.agent_runner`](modules/modules.agent_runner.py.md) | LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory management, argument validation and anti-loop. | 6 | 19 | 30.8% |
 | [`modules.ai_exploit_chain`](modules/modules.ai_exploit_chain.py.md) | AI-Driven Exploit Chaining Engine. | 2 | 7 | 90.0% |
-| [`modules.ai_fallback`](modules/modules.ai_fallback.py.md) | LazyOwn AI Fallback Chain ========================== Unified LLM caller with automatic fallback: | 1 | 1 | 66.7% |
+| [`modules.ai_fallback`](modules/modules.ai_fallback.py.md) | LazyOwn AI Fallback Chain ========================= Unified LLM caller with automatic fallback: | 1 | 1 | 66.7% |
 | [`modules.ai_model`](modules/modules.ai_model.py.md) | Concrete language model backends for LazyOwn. | 6 | 22 | 82.8% |
 | [`modules/amsi.c`](modules/modules.amsi.c.md) | ¡Gracias a Saad! | 0 | 10 | 81.8% |
 | [`modules.amt_auth_bypass`](modules/modules.amt_auth_bypass.py.md) |  | 1 | 2 | 0.0% |
@@ -575,6 +577,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.gym_cleanup`](modules/modules.gym_cleanup.py.md) | Gym machine cleanup on LazyOwn exit. | 0 | 2 | 100.0% |
 | [`modules.gym_matrix_runner`](modules/modules.gym_matrix_runner.py.md) | Ordered Metasploitable 2 gym matrix runner. | 0 | 3 | 100.0% |
 | [`modules.gym_registry`](modules/modules.gym_registry.py.md) | Gym definitions and persistent run state. | 0 | 18 | 100.0% |
+| [`modules.gym_winbox_runner`](modules/modules.gym_winbox_runner.py.md) | Ordered WinBox gym matrix runner. | 0 | 4 | 100.0% |
 | [`modules.harness`](modules/modules.harness.py.md) | Deterministic harness gate for the LazyOwn loop. | 0 | 2 | 100.0% |
 | [`modules.hash_cracker`](modules/modules.hash_cracker.py.md) | Hash cracking pipeline — John the Ripper and Hashcat integration. | 3 | 7 | 72.7% |
 | [`modules.hive_invoke`](modules/modules.hive_invoke.py.md) | modules/hive_invoke.py ======================= Invokes Claude Code CLI with the LazyOwn MCP server and forwards an operator prompt for autonomous or hive-mind... | 0 | 1 | 50.0% |
@@ -607,7 +610,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazy_heat`](modules/modules.lazy_heat.py.md) | Heat tiers and version math for CVE correlation. | 0 | 11 | 100.0% |
 | [`modules.lazy_installer`](modules/modules.lazy_installer.py.md) | Capability installer for the Lazy autonomous loop. | 0 | 6 | 100.0% |
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | Intel feed from the Lazy autonomous loop. | 0 | 9 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 256 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 257 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | LAZY chat mentions with multi-type search and scroll pagination. | 3 | 3 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | Organic orchestrator training from loop usage. | 0 | 5 | 100.0% |
 | [`modules.lazy_osinfer`](modules/modules.lazy_osinfer.py.md) | Target OS inference and OS-aware verb gating. | 0 | 11 | 100.0% |
@@ -621,6 +624,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazy_summarizer`](modules/modules.lazy_summarizer.py.md) | Bounded chain summarizer for the Lazy autonomous loop. | 0 | 2 | 100.0% |
 | [`modules.lazy_surface_diff`](modules/modules.lazy_surface_diff.py.md) | Surface snapshot and diff: what changed about a host since last look. | 0 | 7 | 100.0% |
 | [`modules.lazy_verify`](modules/modules.lazy_verify.py.md) | Structured read-only verification of loop findings. | 0 | 4 | 100.0% |
+| [`modules.lazy_world_diff`](modules/modules.lazy_world_diff.py.md) | World-surface diff: host snapshots, change detection, ghost liveness. | 1 | 15 | 100.0% |
 | [`modules/lazyatack.sh`](modules/modules.lazyatack.sh.md) | Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción: Este... | 0 | 30 | 100.0% |
 | [`modules/lazybrutesshuserenum.sh`](modules/modules.lazybrutesshuserenum.sh.md) | Función para manejar el interruptor de señal Ctrl+C | 0 | 0 | 100.0% |
 | [`modules/lazyclonewars.sh`](modules/modules.lazyclonewars.sh.md) | Lista de repositorios (nombre y URL) | 0 | 0 | 100.0% |
@@ -653,6 +657,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.llm_client`](modules/modules.llm_client.py.md) | LazyOwn Unified LLM Client ============================ Single interface for all LLM providers used in LazyOwn: - Groq (cloud, fast inference) - Ollama (local... | 1 | 8 | 100.0% |
 | [`modules.llm_evaluator`](modules/modules.llm_evaluator.py.md) | llm_evaluator.py — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning datasets for the LazyOwn auto_loop. | 5 | 18 | 4.2% |
 | [`modules.llm_factory`](modules/modules.llm_factory.py.md) | LLM backend factory and selection utilities. | 2 | 12 | 100.0% |
+| [`modules.llm_orchestrator`](modules/modules.llm_orchestrator.py.md) | Orchestrator-governed LLM failover chain for every AI module. | 1 | 6 | 100.0% |
 | [`modules.llm_pool`](modules/modules.llm_pool.py.md) | Ordered LLM failover pool with health-aware skipping. | 5 | 9 | 100.0% |
 | [`modules.llm_prompts`](modules/modules.llm_prompts.py.md) | Canonical prompt-template and knowledge-base contract for LLM consumers. | 2 | 17 | 100.0% |
 | [`modules.log_tamper`](modules/modules.log_tamper.py.md) | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | 2 | 7 | 90.0% |
@@ -747,8 +752,9 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.verb_catalog`](modules/modules.verb_catalog.py.md) | Operator-owned YAML catalog of every routable shell verb. | 1 | 9 | 100.0% |
 | [`modules.verb_manifest`](modules/modules.verb_manifest.py.md) | Typed verb manifests - semantics for routable shell verbs. | 4 | 10 | 100.0% |
 | [`modules.vuln_bot_cli`](modules/modules.vuln_bot_cli.py.md) | main.py | 0 | 2 | 33.3% |
-| [`modules.vulnbot`](modules/modules.vulnbot.py.md) | vulnbot.py | 1 | 10 | 8.3% |
+| [`modules.vulnbot`](modules/modules.vulnbot.py.md) | vulnbot.py | 1 | 10 | 33.3% |
 | [`modules.websocket_beacon`](modules/modules.websocket_beacon.py.md) | WebSocket beacon transport for modern C2 channels. | 2 | 13 | 100.0% |
+| [`modules.winbox_gym`](modules/modules.winbox_gym.py.md) | WinBox gym catalogue and control-plane bridge. | 0 | 19 | 100.0% |
 | [`modules/wineconfig.sh`](modules/modules.wineconfig.sh.md) |  | 0 | 0 | 0.0% |
 | [`modules.workspace`](modules/modules.workspace.py.md) | Confined workspace file browser for operators and loop agents. | 0 | 7 | 100.0% |
 | [`modules.world_model`](modules/modules.world_model.py.md) | modules/world_model.py ======================= Unified engagement world model for LazyOwn autonomous operations. | 11 | 47 | 57.6% |
@@ -832,6 +838,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 |---|---|---|---|---|
 | [`modules.sinks`](modules/modules.sinks.__init__.py.md) | Outcome sink adapters. | 0 | 0 | 100.0% |
 | [`modules.sinks.attack_graph`](modules/modules.sinks.attack_graph.py.md) | Attack-graph sink: rebuild the attack surface after meaningful outcomes. | 0 | 1 | 100.0% |
+| [`modules.sinks.beacon_dispatch`](modules/modules.sinks.beacon_dispatch.py.md) | Beacon dispatch sink: on a foothold, stage the catch-back command. | 0 | 1 | 100.0% |
 | [`modules.sinks.c2_surfaces`](modules/modules.sinks.c2_surfaces.py.md) | C2 dashboard sink: banners, CVEs and operator notes. | 0 | 1 | 100.0% |
 | [`modules.sinks.campaign_db`](modules/modules.sinks.campaign_db.py.md) | Campaign database sink: opt-in host and vulnerability mirror. | 0 | 1 | 100.0% |
 | [`modules.sinks.event_bus`](modules/modules.sinks.event_bus.py.md) | Unified event-bus sink: publish every outcome once. | 0 | 1 | 100.0% |
@@ -839,6 +846,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.sinks.killchain`](modules/modules.sinks.killchain.py.md) | Kill-chain sink: advance the unified phase from proven outcomes. | 0 | 1 | 100.0% |
 | [`modules.sinks.objectives`](modules/modules.sinks.objectives.py.md) | Objectives sink: turn proven outcomes into follow-up work. | 0 | 1 | 100.0% |
 | [`modules.sinks.routing`](modules/modules.sinks.routing.py.md) | Routing-prior sink: learn from terminal outcomes. | 0 | 1 | 100.0% |
+| [`modules.sinks.world_diff`](modules/modules.sinks.world_diff.py.md) | World-diff sink: snapshot hosts and record what changed per outcome. | 0 | 1 | 100.0% |
 | [`modules.sinks.world_model`](modules/modules.sinks.world_model.py.md) | World-model sink: hosts, services, vulnerabilities and credentials. | 0 | 1 | 100.0% |
 
 ### `modules/tools`

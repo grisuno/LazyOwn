@@ -324,8 +324,8 @@ Previous: [KB_commands.md](KB_commands.md)
   - `GoldenPathsCommandSet` (class, line 35) `class GoldenPathsCommandSet(LazyOwnCommandSet)`
   - `do_golden_paths` (method, line 42) `def do_golden_paths(self, line)`
   - `_build` (method, line 65) `def _build(self, top_k)`
-  - `_show` (method, line 84) `def _show(self)`
-  - `_push` (method, line 98) `def _push(self)`
+  - `_show` (method, line 86) `def _show(self)`
+  - `_push` (method, line 100) `def _push(self)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 ## cli/commands/gym_matrix.py
@@ -337,11 +337,11 @@ Previous: [KB_commands.md](KB_commands.md)
   - `_extract_bool` (function, line 55) `def _extract_bool(args, flag)`
   - `GymMetasploitableCommandSet` (class, line 72) `class GymMetasploitableCommandSet(LazyOwnCommandSet)`
   - `do_gym_metasploitable` (method, line 79) `def do_gym_metasploitable(self, line)`
-  - `_plan` (method, line 114) `def _plan(self, top_k, only)`
-  - `_run` (method, line 141) `def _run(self, top_k, only, dry_run)`
-  - `_report` (method, line 172) `def _report(self)`
-  - `_verify` (method, line 188) `def _verify(self, rest)`
-  - `_target` (method, line 207) `def _target(self)`
+  - `_plan` (method, line 111) `def _plan(self, top_k, only)`
+  - `_run` (method, line 135) `def _run(self, top_k, only, dry_run)`
+  - `_report` (method, line 165) `def _report(self)`
+  - `_verify` (method, line 181) `def _verify(self, rest)`
+  - `_target` (method, line 200) `def _target(self)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 ## cli/commands/help_ui.py
@@ -412,20 +412,20 @@ Previous: [KB_commands.md](KB_commands.md)
   - `_lab_list` (method, line 145) `def _lab_list(self)`
   - `_lab_start` (method, line 159) `def _lab_start(self, scenario)`
   - `_lab_stop` (method, line 205) `def _lab_stop(self, scenario)`
-  - `_range_dispatch` (method, line 214) `def _range_dispatch(self, args)`
-  - `_range_list` (method, line 246) `def _range_list(self)`
-  - `_range_start` (method, line 255) `def _range_start(self, profile)`
-  - `_range_container_state` (method, line 292) `def _range_container_state(self, container)`
-  - `_range_wait_healthy` (method, line 317) `def _range_wait_healthy(self, compose, timeout)`
-  - `_range_verify` (method, line 349) `def _range_verify(self, profile)`
-  - `_tcp_reachable` (method, line 386) `def _tcp_reachable(host, port, timeout)`
-  - `_range_container_ip` (method, line 403) `def _range_container_ip(self, container)`
-  - `_range_stop` (method, line 414) `def _range_stop(self, profile)`
-  - `_range_status` (method, line 427) `def _range_status(self)`
-  - `_lab_container_state` (method, line 438) `def _lab_container_state(self, container_name)`
-  - `_lab_status` (method, line 452) `def _lab_status(self)`
+  - `_range_dispatch` (method, line 218) `def _range_dispatch(self, args)`
+  - `_range_list` (method, line 250) `def _range_list(self)`
+  - `_range_start` (method, line 259) `def _range_start(self, profile)`
+  - `_range_container_state` (method, line 296) `def _range_container_state(self, container)`
+  - `_range_wait_healthy` (method, line 321) `def _range_wait_healthy(self, compose, timeout)`
+  - `_range_verify` (method, line 353) `def _range_verify(self, profile)`
+  - `_tcp_reachable` (method, line 390) `def _tcp_reachable(host, port, timeout)`
+  - `_range_container_ip` (method, line 407) `def _range_container_ip(self, container)`
+  - `_range_stop` (method, line 418) `def _range_stop(self, profile)`
+  - `_range_status` (method, line 431) `def _range_status(self)`
+  - `_lab_container_state` (method, line 442) `def _lab_container_state(self, container_name)`
+  - `_lab_status` (method, line 456) `def _lab_status(self)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
-- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
+- Imported by: `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
 
 ## cli/commands/lateral.py
 - Doc: Lateral Movement command set (pending).

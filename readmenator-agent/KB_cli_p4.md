@@ -29,21 +29,21 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `render_inline_hints` (function, line 220) `def render_inline_hints(advisor, last_command, limit, enabled)`
-  - `_first_token` (function, line 262) `def _first_token(raw)`
-  - `_extract_labels` (function, line 267) `def _extract_labels(suggestions, limit)`
-  - `_truncate` (function, line 278) `def _truncate(value, max_len)`
-  - `_render` (function, line 284) `def _render(labels)`
-  - `EvidenceHint` (class, line 299) `class EvidenceHint`
-  - `confidence_from_score` (function, line 321) `def confidence_from_score(score)`
-  - `_clean_reason` (function, line 343) `def _clean_reason(reasons)`
-  - `build_evidence_hints` (function, line 362) `def build_evidence_hints(recommendations, limit)`
-  - `render_evidence_hints` (function, line 400) `def render_evidence_hints(hints)`
-  - `build_evidence_hint_lines` (function, line 416) `def build_evidence_hint_lines(hints)`
-  - `read_run_commands` (function, line 443) `def read_run_commands(sessions_dir)`
-  - `_collect_command_hints` (function, line 476) `def _collect_command_hints(cmd, phase, already_run, limit)`
-  - `render_command_hints` (function, line 514) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
-  - `command_hints` (function, line 549) `def command_hints(last_command, phase, sessions_dir, limit)`
+  - `render_inline_hints` (function, line 221) `def render_inline_hints(advisor, last_command, limit, enabled)`
+  - `_first_token` (function, line 263) `def _first_token(raw)`
+  - `_extract_labels` (function, line 268) `def _extract_labels(suggestions, limit)`
+  - `_truncate` (function, line 279) `def _truncate(value, max_len)`
+  - `_render` (function, line 285) `def _render(labels)`
+  - `EvidenceHint` (class, line 300) `class EvidenceHint`
+  - `confidence_from_score` (function, line 322) `def confidence_from_score(score)`
+  - `_clean_reason` (function, line 344) `def _clean_reason(reasons)`
+  - `build_evidence_hints` (function, line 363) `def build_evidence_hints(recommendations, limit)`
+  - `render_evidence_hints` (function, line 401) `def render_evidence_hints(hints)`
+  - `build_evidence_hint_lines` (function, line 417) `def build_evidence_hint_lines(hints)`
+  - `read_run_commands` (function, line 444) `def read_run_commands(sessions_dir)`
+  - `_collect_command_hints` (function, line 477) `def _collect_command_hints(cmd, phase, already_run, limit)`
+  - `render_command_hints` (function, line 515) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
+  - `command_hints` (function, line 550) `def command_hints(last_command, phase, sessions_dir, limit)`
 - Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
 - Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`
 

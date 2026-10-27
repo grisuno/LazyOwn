@@ -1,0 +1,15 @@
+name: gym_winbox_system_exec
+version: 1
+description: 'WinBox: guest agent SYSTEM command execution (T1059.003).'
+enabled: true
+extends: gym_winbox_chain
+tags:
+- gym
+- winbox
+- windows
+platforms:
+- windows
+defaults:
+  exploit: winbox_system_exec
+  vuln: winbox_system_exec
+  port: '0'

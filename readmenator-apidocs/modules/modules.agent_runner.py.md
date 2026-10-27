@@ -85,7 +85,7 @@ flowchart LR
 
 ### `AgentTool`
 
-`class` | [modules/agent_runner.py:66](../../modules/agent_runner.py#L66)
+`class` | [modules/agent_runner.py:70](../../modules/agent_runner.py#L70)
 
 ```python
 class AgentTool
@@ -105,7 +105,7 @@ Executable tool with validation and truncation.
 
 #### `AgentTool.__init__`
 
-`constructor` | [modules/agent_runner.py:69](../../modules/agent_runner.py#L69)
+`constructor` | [modules/agent_runner.py:73](../../modules/agent_runner.py#L73)
 
 ```python
 def __init__(self, name: str, description: str, func: Callable, parameters: dict[str, Any], required: list[str] = None)
@@ -127,7 +127,7 @@ def __init__(self, name: str, description: str, func: Callable, parameters: dict
 
 #### `AgentTool.to_api_format`
 
-`method` | [modules/agent_runner.py:77](../../modules/agent_runner.py#L77)
+`method` | [modules/agent_runner.py:81](../../modules/agent_runner.py#L81)
 
 ```python
 def to_api_format(self) -> dict[str, Any]
@@ -139,7 +139,7 @@ def to_api_format(self) -> dict[str, Any]
 
 #### `AgentTool.execute`
 
-`method` | [modules/agent_runner.py:83](../../modules/agent_runner.py#L83)
+`method` | [modules/agent_runner.py:87](../../modules/agent_runner.py#L87)
 
 ```python
 def execute(self, **kwargs) -> str
@@ -161,7 +161,7 @@ Execute with argument validation and clear formatting.
 
 ### `CommandMetadata`
 
-`class` `dataclass` | [modules/agent_runner.py:127](../../modules/agent_runner.py#L127)
+`class` `dataclass` | [modules/agent_runner.py:131](../../modules/agent_runner.py#L131)
 
 Decorators: `@dataclass`
 
@@ -184,7 +184,7 @@ class CommandMetadata
 
 ### `ASTToolExtractor`
 
-`class` | [modules/agent_runner.py:134](../../modules/agent_runner.py#L134)
+`class` | [modules/agent_runner.py:138](../../modules/agent_runner.py#L138)
 
 ```python
 class ASTToolExtractor
@@ -202,7 +202,7 @@ Intelligent extractor using AST.
 
 #### `ASTToolExtractor.extract_commands_from_file`
 
-`staticmethod` | [modules/agent_runner.py:138](../../modules/agent_runner.py#L138)
+`staticmethod` | [modules/agent_runner.py:142](../../modules/agent_runner.py#L142)
 
 Decorators: `@staticmethod`
 
@@ -227,7 +227,7 @@ def extract_commands_from_file(file_path: str, prefix: str = 'do_') -> list[Comm
 
 ### `AgentRunner`
 
-`class` | [modules/agent_runner.py:190](../../modules/agent_runner.py#L190)
+`class` | [modules/agent_runner.py:194](../../modules/agent_runner.py#L194)
 
 ```python
 class AgentRunner
@@ -252,7 +252,7 @@ Agent engine with per-tool usage limit (anti-spam).
 
 #### `AgentRunner.__init__`
 
-`constructor` | [modules/agent_runner.py:193](../../modules/agent_runner.py#L193)
+`constructor` | [modules/agent_runner.py:197](../../modules/agent_runner.py#L197)
 
 ```python
 def __init__(self, model: Any, system_prompt: str = None, max_iterations: int = 10)
@@ -270,7 +270,7 @@ def __init__(self, model: Any, system_prompt: str = None, max_iterations: int = 
 
 #### `AgentRunner.register_tool`
 
-`method` | [modules/agent_runner.py:218](../../modules/agent_runner.py#L218)
+`method` | [modules/agent_runner.py:222](../../modules/agent_runner.py#L222)
 
 ```python
 def register_tool(self, tool: AgentTool)
@@ -288,7 +288,7 @@ def register_tool(self, tool: AgentTool)
 
 #### `AgentRunner.register_tool_from_instance`
 
-`method` | [modules/agent_runner.py:221](../../modules/agent_runner.py#L221)
+`method` | [modules/agent_runner.py:225](../../modules/agent_runner.py#L225)
 
 ```python
 def register_tool_from_instance(self, func: Callable)
@@ -308,7 +308,7 @@ Wrap a plain function as an AgentTool using its signature and docstring.
 
 #### `AgentRunner.register_tools_from_metadata`
 
-`method` | [modules/agent_runner.py:239](../../modules/agent_runner.py#L239)
+`method` | [modules/agent_runner.py:243](../../modules/agent_runner.py#L243)
 
 ```python
 def register_tools_from_metadata(self, commands: list[CommandMetadata], executor: Callable[[str], str])
@@ -327,7 +327,7 @@ def register_tools_from_metadata(self, commands: list[CommandMetadata], executor
 
 #### `AgentRunner.get_tools_for_api`
 
-`method` | [modules/agent_runner.py:266](../../modules/agent_runner.py#L266)
+`method` | [modules/agent_runner.py:270](../../modules/agent_runner.py#L270)
 
 ```python
 def get_tools_for_api(self) -> list[dict[str, Any]] | None
@@ -339,7 +339,7 @@ def get_tools_for_api(self) -> list[dict[str, Any]] | None
 
 #### `AgentRunner.run`
 
-`method` | [modules/agent_runner.py:271](../../modules/agent_runner.py#L271)
+`method` | [modules/agent_runner.py:275](../../modules/agent_runner.py#L275)
 
 ```python
 def run(self, user_input: str) -> str
@@ -361,7 +361,7 @@ def run(self, user_input: str) -> str
 
 ### `LazyOwnShellWrapper`
 
-`class` | [modules/agent_runner.py:482](../../modules/agent_runner.py#L482)
+`class` | [modules/agent_runner.py:486](../../modules/agent_runner.py#L486)
 
 ```python
 class LazyOwnShellWrapper
@@ -381,7 +381,7 @@ Wrapper that executes commands in safe threads.
 
 #### `LazyOwnShellWrapper.__init__`
 
-`constructor` | [modules/agent_runner.py:485](../../modules/agent_runner.py#L485)
+`constructor` | [modules/agent_runner.py:489](../../modules/agent_runner.py#L489)
 
 ```python
 def __init__(self, script_path: str)
@@ -399,7 +399,7 @@ def __init__(self, script_path: str)
 
 #### `LazyOwnShellWrapper.execute_command`
 
-`method` | [modules/agent_runner.py:515](../../modules/agent_runner.py#L515)
+`method` | [modules/agent_runner.py:519](../../modules/agent_runner.py#L519)
 
 ```python
 def execute_command(self, command: str) -> str
@@ -419,7 +419,7 @@ Execute a command with a timeout using threading.
 
 #### `LazyOwnShellWrapper.get_commands_summary`
 
-`method` | [modules/agent_runner.py:552](../../modules/agent_runner.py#L552)
+`method` | [modules/agent_runner.py:556](../../modules/agent_runner.py#L556)
 
 ```python
 def get_commands_summary(self) -> str
@@ -433,7 +433,7 @@ def get_commands_summary(self) -> str
 
 ### `VulnBotCLI`
 
-`class` | [modules/agent_runner.py:559](../../modules/agent_runner.py#L559)
+`class` | [modules/agent_runner.py:563](../../modules/agent_runner.py#L563)
 
 ```python
 class VulnBotCLI
@@ -450,7 +450,7 @@ class VulnBotCLI
 
 #### `VulnBotCLI.__init__`
 
-`constructor` | [modules/agent_runner.py:560](../../modules/agent_runner.py#L560)
+`constructor` | [modules/agent_runner.py:564](../../modules/agent_runner.py#L564)
 
 ```python
 def __init__(self, provider: str, mode: str, debug: bool, script_path: str)
@@ -473,7 +473,7 @@ def __init__(self, provider: str, mode: str, debug: bool, script_path: str)
 
 #### `VulnBotCLI.process_request`
 
-`method` | [modules/agent_runner.py:615](../../modules/agent_runner.py#L615)
+`method` | [modules/agent_runner.py:619](../../modules/agent_runner.py#L619)
 
 ```python
 def process_request(self, user_input: str) -> str
@@ -499,7 +499,7 @@ def process_request(self, user_input: str) -> str
 
 ### `configure_logging`
 
-`function` | [modules/agent_runner.py:60](../../modules/agent_runner.py#L60)
+`function` | [modules/agent_runner.py:64](../../modules/agent_runner.py#L64)
 
 ```python
 def configure_logging(debug: bool = False)
@@ -521,7 +521,7 @@ def configure_logging(debug: bool = False)
 
 ### `interactive_mode`
 
-`function` | [modules/agent_runner.py:620](../../modules/agent_runner.py#L620)
+`function` | [modules/agent_runner.py:624](../../modules/agent_runner.py#L624)
 
 ```python
 def interactive_mode(bot: VulnBotCLI)
@@ -543,7 +543,7 @@ def interactive_mode(bot: VulnBotCLI)
 
 ### `parse_args`
 
-`function` | [modules/agent_runner.py:644](../../modules/agent_runner.py#L644)
+`function` | [modules/agent_runner.py:648](../../modules/agent_runner.py#L648)
 
 ```python
 def parse_args()
@@ -557,7 +557,7 @@ def parse_args()
 
 ### `main`
 
-`function` | [modules/agent_runner.py:654](../../modules/agent_runner.py#L654)
+`function` | [modules/agent_runner.py:658](../../modules/agent_runner.py#L658)
 
 ```python
 def main()
@@ -573,7 +573,7 @@ def main()
 
 ### `BANNER`
 
-`constant` | [modules/agent_runner.py:45](../../modules/agent_runner.py#L45)
+`constant` | [modules/agent_runner.py:49](../../modules/agent_runner.py#L49)
 
 ```python
 BANNER
@@ -585,7 +585,7 @@ BANNER
 
 ### `MAX_OUTPUT_LENGTH`
 
-`constant` | [modules/agent_runner.py:55](../../modules/agent_runner.py#L55)
+`constant` | [modules/agent_runner.py:59](../../modules/agent_runner.py#L59)
 
 ```python
 MAX_OUTPUT_LENGTH = 3000
@@ -597,7 +597,7 @@ MAX_OUTPUT_LENGTH = 3000
 
 ### `COMMAND_TIMEOUT`
 
-`constant` | [modules/agent_runner.py:56](../../modules/agent_runner.py#L56)
+`constant` | [modules/agent_runner.py:60](../../modules/agent_runner.py#L60)
 
 ```python
 COMMAND_TIMEOUT = 60
@@ -609,7 +609,7 @@ COMMAND_TIMEOUT = 60
 
 ### `MAX_HISTORY_MSGS`
 
-`constant` | [modules/agent_runner.py:57](../../modules/agent_runner.py#L57)
+`constant` | [modules/agent_runner.py:61](../../modules/agent_runner.py#L61)
 
 ```python
 MAX_HISTORY_MSGS = 15

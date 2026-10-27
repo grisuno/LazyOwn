@@ -75,7 +75,7 @@ Generate and persist a fresh set of session secrets.
 
 ### `ensure_session_secrets`
 
-`function` | [core/session_secrets.py:70](../../core/session_secrets.py#L70)
+`function` | [core/session_secrets.py:72](../../core/session_secrets.py#L72)
 
 ```python
 def ensure_session_secrets(config_obj: Any = None, rotate: bool = False, sessions_dir: str | os.PathLike[str] = _SESSIONS_DIRNAME) -> dict[str, str]

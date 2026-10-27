@@ -3,6 +3,97 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `reset_recorder_for_tests` | function | `modules/metrics.py:466` | `def reset_recorder_for_tests(writer)` |
+| `summarize` | method | `modules/metrics.py:254` | `def summarize(cls, records, window_seconds, now_utc)` |
+| `summarize` | method | `modules/metrics.py:416` | `def summarize(self, window_seconds)` |
+| `tail` | method | `modules/metrics.py:430` | `def tail(self, n)` |
+| `to_dict` | method | `modules/metrics.py:167` | `def to_dict(self)` |
+| `MFABypassEngine` | class | `modules/mfa_bypass.py:121` | `class MFABypassEngine` |
+| `MFABypassResult` | class | `modules/mfa_bypass.py:113` | `class MFABypassResult` |
+| `MFATarget` | class | `modules/mfa_bypass.py:103` | `class MFATarget` |
+| `__init__` | method | `modules/mfa_bypass.py:128` | `def __init__(self, sessions_dir)` |
+| `enumerate_techniques` | method | `modules/mfa_bypass.py:133` | `def enumerate_techniques(self, target)` |
+| `export_report` | method | `modules/mfa_bypass.py:303` | `def export_report(self)` |
+| `generate_phishing_templates` | method | `modules/mfa_bypass.py:153` | `def generate_phishing_templates(self, target)` |
+| `mfa_conditional_access_scan` | method | `modules/mfa_bypass.py:223` | `def mfa_conditional_access_scan(self, domain)` |
+| `replay_oauth_token` | method | `modules/mfa_bypass.py:252` | `def replay_oauth_token(self, access_token, refresh_token)` |
+| `saml_golden_ticket_check` | method | `modules/mfa_bypass.py:278` | `def saml_golden_ticket_check(self, adfs_server)` |
+| `ModuleInfo` | class | `modules/module_registry.py:150` | `class ModuleInfo` |
+| `ModuleRegistry` | class | `modules/module_registry.py:223` | `class ModuleRegistry` |
+| `__contains__` | method | `modules/module_registry.py:536` | `def __contains__(self, name)` |
+| `__init__` | method | `modules/module_registry.py:172` | `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...` |
+| `__init__` | method | `modules/module_registry.py:235` | `def __init__(self, base_dir)` |
+| `__iter__` | method | `modules/module_registry.py:531` | `def __iter__(self)` |
+| `__len__` | method | `modules/module_registry.py:526` | `def __len__(self)` |
+| `__repr__` | method | `modules/module_registry.py:219` | `def __repr__(self)` |
+| `_classify` | function | `modules/module_registry.py:47` | `def _classify(category)` |
+| `_classify_module_source` | function | `modules/module_registry.py:118` | `def _classify_module_source(name, source)` |
+| `_extract_docstring_summary` | function | `modules/module_registry.py:136` | `def _extract_docstring_summary(source)` |
+| `_load_yaml` | method | `modules/module_registry.py:517` | `def _load_yaml(path)` |
+| `_looks_discoverable` | method | `modules/module_registry.py:503` | `def _looks_discoverable(source)` |
+| `_scan_playbooks` | method | `modules/module_registry.py:453` | `def _scan_playbooks(self)` |
+| `_scan_plugins` | method | `modules/module_registry.py:379` | `def _scan_plugins(self)` |
+| `_scan_python_modules` | method | `modules/module_registry.py:473` | `def _scan_python_modules(self)` |
+| `_scan_tools` | method | `modules/module_registry.py:419` | `def _scan_tools(self)` |
+| `_scan_yaml_addons` | method | `modules/module_registry.py:338` | `def _scan_yaml_addons(self)` |
+| `by_type` | method | `modules/module_registry.py:321` | `def by_type(self, module_type)` |
+| `deprecated_modules` | method | `modules/module_registry.py:315` | `def deprecated_modules(self)` |
+| `format_module_detail` | function | `modules/module_registry.py:589` | `def format_module_detail(m)` |
+| `format_module_table` | function | `modules/module_registry.py:542` | `def format_module_table(modules, cols)` |
+| `get` | method | `modules/module_registry.py:269` | `def get(self, name)` |
+| `get_instance` | method | `modules/module_registry.py:241` | `def get_instance(cls, base_dir)` |
+| `rescan` | method | `modules/module_registry.py:260` | `def rescan(self)` |
+| `scan` | method | `modules/module_registry.py:247` | `def scan(self)` |
+| `search` | method | `modules/module_registry.py:275` | `def search(self, query, module_type, category, enabled_only, include_deprecated)` |
+| `summary` | method | `modules/module_registry.py:325` | `def summary(self)` |
+| `to_dict` | method | `modules/module_registry.py:202` | `def to_dict(self)` |
+| `ExpertAvailabilityChecker` | class | `modules/moe_router.py:437` | `class ExpertAvailabilityChecker` |
+| `ExpertPerformance` | class | `modules/moe_router.py:101` | `class ExpertPerformance` |
+| `ExpertPerformanceStore` | class | `modules/moe_router.py:276` | `class ExpertPerformanceStore` |
+| `ExpertProfile` | class | `modules/moe_router.py:83` | `class ExpertProfile` |
+| `IExpertSelector` | class | `modules/moe_router.py:257` | `class IExpertSelector(ABC)` |
+| `MoERouter` | class | `modules/moe_router.py:489` | `class MoERouter` |
+| `SoftmaxSelector` | class | `modules/moe_router.py:368` | `class SoftmaxSelector(IExpertSelector)` |
+| `__init__` | method | `modules/moe_router.py:283` | `def __init__(self, path)` |
+| `__init__` | method | `modules/moe_router.py:377` | `def __init__(self, temperature)` |
+| `__init__` | method | `modules/moe_router.py:443` | `def __init__(self)` |
+| `__init__` | method | `modules/moe_router.py:500` | `def __init__(self, experts, selector, performance_store, api_key)` |
+| `_anneal_temperature` | method | `modules/moe_router.py:645` | `def _anneal_temperature(self)` |
+| `_available_for_task` | method | `modules/moe_router.py:640` | `def _available_for_task(self, task_type)` |
+| `_check` | method | `modules/moe_router.py:458` | `def _check(expert, api_key)` |
+| `_compute_weights` | method | `modules/moe_router.py:410` | `def _compute_weights(candidates, task_type, store)` |
+| `_key` | method | `modules/moe_router.py:293` | `def _key(expert_id, task_type)` |
+| `_load` | method | `modules/moe_router.py:350` | `def _load(self)` |
+| `_load_groq_key` | function | `modules/moe_router.py:665` | `def _load_groq_key()` |
+| `_save` | method | `modules/moe_router.py:341` | `def _save(self)` |
+| `_softmax` | function | `modules/moe_router.py:423` | `def _softmax(values, temperature)` |
+| `adjusted_weight` | function | `modules/moe_router.py:562` | `def adjusted_weight(ep)` |
+| `all_for_task` | method | `modules/moe_router.py:321` | `def all_for_task(self, task_type)` |
+| `ensemble` | method | `modules/moe_router.py:547` | `def ensemble(self, task_type, goal, n)` |
+| `get` | method | `modules/moe_router.py:316` | `def get(self, expert_id, task_type)` |
+| `get_expert` | method | `modules/moe_router.py:605` | `def get_expert(self, expert_id)` |
+| `get_router` | function | `modules/moe_router.py:684` | `def get_router(api_key)` |
+| `is_available` | method | `modules/moe_router.py:447` | `def is_available(self, expert, api_key)` |
+| `is_local` | method | `modules/moe_router.py:96` | `def is_local(self)` |
+| `performance_bonus` | method | `modules/moe_router.py:325` | `def performance_bonus(self, expert_id, task_type)` |
+| `record` | method | `modules/moe_router.py:298` | `def record(self, expert_id, task_type, reward, detection_prob)` |
+| `record_outcome` | method | `modules/moe_router.py:575` | `def record_outcome(self, expert_id, task_type, reward, detection_prob)` |
+| `route` | method | `modules/moe_router.py:515` | `def route(self, task_type, goal, deterministic)` |
+| `select` | method | `modules/moe_router.py:261` | `def select(self, candidates, task_type, performance_store, deterministic)` |
+| `select` | method | `modules/moe_router.py:388` | `def select(self, candidates, task_type, performance_store, deterministic)` |
+| `status_report` | method | `modules/moe_router.py:609` | `def status_report(self)` |
+| `temperature` | method | `modules/moe_router.py:381` | `def temperature(self)` |
+| `temperature` | method | `modules/moe_router.py:385` | `def temperature(self, value)` |
+| `top_experts_for_task` | method | `modules/moe_router.py:589` | `def top_experts_for_task(self, task_type, top_k)` |
+| `update` | method | `modules/moe_router.py:115` | `def update(self, reward, detection_prob)` |
+| `MorseConfig` | class | `modules/morse.py:16` | `class MorseConfig` |
+| `clear_screen` | function | `modules/morse.py:157` | `def clear_screen(config)` |
+| `morse_to_text` | function | `modules/morse.py:130` | `def morse_to_text(morse_code, config)` |
+| `read_choice` | function | `modules/morse.py:171` | `def read_choice(config)` |
+| `reverse_morse_code` | function | `modules/morse.py:98` | `def reverse_morse_code()` |
+| `run_driver` | function | `modules/morse.py:186` | `def run_driver(config)` |
+| `text_to_morse` | function | `modules/morse.py:109` | `def text_to_morse(text, config)` |
+| `ATTACKERS_IP` | macro | `modules/mysql_hookandroot_lib.c:64` | `#define ATTACKERS_IP` |
 | `INJECTED_CONF` | macro | `modules/mysql_hookandroot_lib.c:66` | `#define INJECTED_CONF` |
 | `SHELL_PORT` | macro | `modules/mysql_hookandroot_lib.c:65` | `#define SHELL_PORT` |
 | `_GNU_SOURCE` | macro | `modules/mysql_hookandroot_lib.c:50` | `#define _GNU_SOURCE` |
@@ -262,23 +353,23 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `enrich_evidence` | function | `modules/osint_enrich.py:213` | `def enrich_evidence(items, sessions_dir)` |
 | `host_geo` | function | `modules/osint_enrich.py:183` | `def host_geo(ip, sessions_dir)` |
 | `reverse_dns` | function | `modules/osint_enrich.py:161` | `def reverse_dns(ip, sessions_dir)` |
-| `OutcomeBus` | class | `modules/outcome_bus.py:151` | `class OutcomeBus` |
-| `OutcomeEvent` | class | `modules/outcome_bus.py:73` | `class OutcomeEvent` |
-| `__init__` | method | `modules/outcome_bus.py:154` | `def __init__(self, ledger_path, sink_map)` |
-| `_append_ledger` | method | `modules/outcome_bus.py:246` | `def _append_ledger(self, event, statuses)` |
-| `_enabled_sinks` | method | `modules/outcome_bus.py:188` | `def _enabled_sinks(self, requested)` |
-| `_sink` | method | `modules/outcome_bus.py:173` | `def _sink(self, name)` |
-| `category_for_event` | function | `modules/outcome_bus.py:296` | `def category_for_event(kind)` |
-| `get_bus` | function | `modules/outcome_bus.py:267` | `def get_bus()` |
-| `host_value` | method | `modules/outcome_bus.py:101` | `def host_value(self)` |
-| `key` | method | `modules/outcome_bus.py:105` | `def key(self)` |
-| `record` | method | `modules/outcome_bus.py:199` | `def record(self, event, sinks)` |
-| `record` | function | `modules/outcome_bus.py:281` | `def record(event, sinks)` |
-| `record_event` | function | `modules/outcome_bus.py:286` | `def record_event()` |
-| `reset` | method | `modules/outcome_bus.py:167` | `def reset(self)` |
-| `reset_bus` | function | `modules/outcome_bus.py:276` | `def reset_bus()` |
-| `severity_for_event` | function | `modules/outcome_bus.py:291` | `def severity_for_event(severity)` |
-| `to_dict` | method | `modules/outcome_bus.py:123` | `def to_dict(self)` |
+| `OutcomeBus` | class | `modules/outcome_bus.py:153` | `class OutcomeBus` |
+| `OutcomeEvent` | class | `modules/outcome_bus.py:75` | `class OutcomeEvent` |
+| `__init__` | method | `modules/outcome_bus.py:156` | `def __init__(self, ledger_path, sink_map)` |
+| `_append_ledger` | method | `modules/outcome_bus.py:248` | `def _append_ledger(self, event, statuses)` |
+| `_enabled_sinks` | method | `modules/outcome_bus.py:190` | `def _enabled_sinks(self, requested)` |
+| `_sink` | method | `modules/outcome_bus.py:175` | `def _sink(self, name)` |
+| `category_for_event` | function | `modules/outcome_bus.py:298` | `def category_for_event(kind)` |
+| `get_bus` | function | `modules/outcome_bus.py:269` | `def get_bus()` |
+| `host_value` | method | `modules/outcome_bus.py:103` | `def host_value(self)` |
+| `key` | method | `modules/outcome_bus.py:107` | `def key(self)` |
+| `record` | method | `modules/outcome_bus.py:201` | `def record(self, event, sinks)` |
+| `record` | function | `modules/outcome_bus.py:283` | `def record(event, sinks)` |
+| `record_event` | function | `modules/outcome_bus.py:288` | `def record_event()` |
+| `reset` | method | `modules/outcome_bus.py:169` | `def reset(self)` |
+| `reset_bus` | function | `modules/outcome_bus.py:278` | `def reset_bus()` |
+| `severity_for_event` | function | `modules/outcome_bus.py:293` | `def severity_for_event(severity)` |
+| `to_dict` | method | `modules/outcome_bus.py:125` | `def to_dict(self)` |
 | `DynamicShellcodePayload` | class | `modules/payload_factory.py:409` | `class DynamicShellcodePayload(PayloadTemplate)` |
 | `MsfvenomPayload` | class | `modules/payload_factory.py:322` | `class MsfvenomPayload(PayloadTemplate)` |
 | `PayloadFactory` | class | `modules/payload_factory.py:457` | `class PayloadFactory` |
@@ -405,96 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `resolve_path` | method | `modules/pipeline_engine.py:658` | `def resolve_path(self, name)` |
 | `run` | method | `modules/pipeline_engine.py:513` | `def run(self, command, args, target, timeout_s)` |
 | `run` | method | `modules/pipeline_engine.py:548` | `def run(self, command, args, target, timeout_s)` |
-| `run` | method | `modules/pipeline_engine.py:949` | `def run(self, name, target, nesting_stack)` |
-| `runs_dir` | method | `modules/pipeline_engine.py:782` | `def runs_dir(self)` |
-| `to_context` | method | `modules/pipeline_engine.py:180` | `def to_context(self)` |
-| `to_dict` | method | `modules/pipeline_engine.py:213` | `def to_dict(self)` |
-| `validate` | method | `modules/pipeline_engine.py:352` | `def validate(predicate, output)` |
-| `validate` | method | `modules/pipeline_engine.py:945` | `def validate(self, name)` |
-| `write_plan` | method | `modules/pipeline_engine.py:797` | `def write_plan(self, run_dir, spec)` |
-| `write_step` | method | `modules/pipeline_engine.py:814` | `def write_step(self, run_dir, result)` |
-| `write_summary` | method | `modules/pipeline_engine.py:828` | `def write_summary(self, run_dir, run)` |
-| `Frontier` | class | `modules/planner.py:505` | `class Frontier` |
-| `PlanCandidate` | class | `modules/planner.py:41` | `class PlanCandidate` |
-| `PlanResult` | class | `modules/planner.py:54` | `class PlanResult` |
-| `Planner` | class | `modules/planner.py:260` | `class Planner` |
-| `TodoItem` | class | `modules/planner.py:452` | `class TodoItem` |
-| `TodoList` | class | `modules/planner.py:460` | `class TodoList` |
-| `__init__` | method | `modules/planner.py:269` | `def __init__(self, world_model, obs_parser, api_key)` |
-| `__init__` | method | `modules/planner.py:468` | `def __init__(self)` |
-| `__init__` | method | `modules/planner.py:514` | `def __init__(self, planner, todos)` |
-| `__len__` | method | `modules/planner.py:560` | `def __len__(self)` |
-| `_build_rationale` | method | `modules/planner.py:374` | `def _build_rationale(chosen, facts, target)` |
-| `_gather_facts` | function | `modules/planner.py:64` | `def _gather_facts(world_model, obs_parser)` |
-| `_llm_tiebreak` | method | `modules/planner.py:387` | `def _llm_tiebreak(self, target, facts, candidates)` |
-| `_parser` | method | `modules/planner.py:294` | `def _parser(self)` |
-| `_risk_for` | function | `modules/planner.py:160` | `def _risk_for(technique_id)` |
-| `_score_step` | function | `modules/planner.py:225` | `def _score_step(step, facts)` |
-| `_wm` | method | `modules/planner.py:279` | `def _wm(self)` |
-| `blocks` | method | `modules/planner.py:497` | `def blocks(self, tactic)` |
-| `get_planner` | function | `modules/planner.py:446` | `def get_planner(api_key)` |
-| `next_ready` | method | `modules/planner.py:489` | `def next_ready(self)` |
-| `plan` | method | `modules/planner.py:313` | `def plan(self, target, max_candidates)` |
-| `pop` | method | `modules/planner.py:551` | `def pop(self)` |
-| `refill` | method | `modules/planner.py:532` | `def refill(self, target, max_intents)` |
-| `to_dict` | method | `modules/planner.py:413` | `def to_dict(self, result)` |
-| `todo_add` | method | `modules/planner.py:472` | `def todo_add(self, name, requires)` |
-| `todo_done` | method | `modules/planner.py:478` | `def todo_done(self, name)` |
-| `todos` | method | `modules/planner.py:523` | `def todos(self)` |
-| `tried` | method | `modules/planner.py:528` | `def tried(self)` |
-| `PlaybookEntry` | class | `modules/playbook_admin.py:40` | `class PlaybookEntry` |
-| `_count_steps` | function | `modules/playbook_admin.py:183` | `def _count_steps(data)` |
-| `_target_for_write` | function | `modules/playbook_admin.py:337` | `def _target_for_write(path, directory)` |
-| `_write_atomic` | function | `modules/playbook_admin.py:282` | `def _write_atomic(target, data)` |
-| `_yaml_module` | function | `modules/playbook_admin.py:55` | `def _yaml_module()` |
-| `create_playbook` | function | `modules/playbook_admin.py:297` | `def create_playbook(filename)` |
-| `delete_playbook` | function | `modules/playbook_admin.py:406` | `def delete_playbook(path, directory)` |
-| `load_playbook` | function | `modules/playbook_admin.py:102` | `def load_playbook(path)` |
-| `playbook_kind` | function | `modules/playbook_admin.py:123` | `def playbook_kind(data)` |
-| `playbook_path` | function | `modules/playbook_admin.py:75` | `def playbook_path(filename, directory)` |
-| `playbook_template` | function | `modules/playbook_admin.py:265` | `def playbook_template(name, description, platforms)` |
-| `preview_playbook` | function | `modules/playbook_admin.py:251` | `def preview_playbook(path, limit)` |
-| `save_playbook_yaml` | function | `modules/playbook_admin.py:377` | `def save_playbook_yaml(path, text, directory)` |
-| `scan_playbooks` | function | `modules/playbook_admin.py:231` | `def scan_playbooks(directory)` |
-| `slugify` | function | `modules/playbook_admin.py:62` | `def slugify(value)` |
-| `summarize` | function | `modules/playbook_admin.py:197` | `def summarize(path)` |
-| `update_playbook` | function | `modules/playbook_admin.py:350` | `def update_playbook(path, data, directory)` |
-| `validate_playbook` | function | `modules/playbook_admin.py:136` | `def validate_playbook(data)` |
-| `Playbook` | class | `modules/playbook_engine.py:133` | `class Playbook` |
-| `PlaybookEngine` | class | `modules/playbook_engine.py:375` | `class PlaybookEngine` |
-| `PlaybookResult` | class | `modules/playbook_engine.py:173` | `class PlaybookResult` |
-| `PlaybookStep` | class | `modules/playbook_engine.py:101` | `class PlaybookStep` |
-| `StepResult` | class | `modules/playbook_engine.py:165` | `class StepResult` |
-| `_AtomicIndex` | class | `modules/playbook_engine.py:254` | `class _AtomicIndex` |
-| `_StixLoader` | class | `modules/playbook_engine.py:185` | `class _StixLoader` |
-| `_TechniqueSelector` | class | `modules/playbook_engine.py:311` | `class _TechniqueSelector` |
-| `__init__` | method | `modules/playbook_engine.py:188` | `def __init__(self, json_path)` |
-| `__init__` | method | `modules/playbook_engine.py:260` | `def __init__(self, atomics_path)` |
-| `__init__` | method | `modules/playbook_engine.py:387` | `def __init__(self, world_model, obs_parser, api_key, top_n)` |
-| `_local_executor` | function | `modules/playbook_engine.py:722` | `def _local_executor(command, host)` |
-| `_obs_parser` | method | `modules/playbook_engine.py:415` | `def _obs_parser(self)` |
-| `_world_model` | method | `modules/playbook_engine.py:404` | `def _world_model(self)` |
-| `available` | method | `modules/playbook_engine.py:192` | `def available(self)` |
-| `available` | method | `modules/playbook_engine.py:264` | `def available(self)` |
-| `build` | method | `modules/playbook_engine.py:267` | `def build(self)` |
-| `derive` | method | `modules/playbook_engine.py:427` | `def derive(self, target, phase, platform, apt_name)` |
-| `execute` | method | `modules/playbook_engine.py:529` | `def execute(self, playbook, executor, dry_run)` |
-| `from_dict` | method | `modules/playbook_engine.py:128` | `def from_dict(cls, d)` |
-| `from_dict` | method | `modules/playbook_engine.py:152` | `def from_dict(cls, d)` |
-| `get_engine` | function | `modules/playbook_engine.py:669` | `def get_engine(api_key)` |
-| `load` | method | `modules/playbook_engine.py:611` | `def load(self, path)` |
-| `result_summary` | method | `modules/playbook_engine.py:640` | `def result_summary(self, result)` |
-| `save` | method | `modules/playbook_engine.py:599` | `def save(self, playbook, path)` |
-| `select` | method | `modules/playbook_engine.py:317` | `def select(self, candidates, world_context, target, phase, api_key, top_n)` |
-| `store` | method | `modules/playbook_engine.py:195` | `def store(self)` |
-| `techniques_for_tactics` | method | `modules/playbook_engine.py:210` | `def techniques_for_tactics(self, tactic_shortnames, platform)` |
-| `tests_for_technique` | method | `modules/playbook_engine.py:300` | `def tests_for_technique(self, technique_id, platform)` |
-| `to_dict` | method | `modules/playbook_engine.py:113` | `def to_dict(self)` |
-| `to_dict` | method | `modules/playbook_engine.py:141` | `def to_dict(self)` |
-| `DefaultTTPMapper` | class | `modules/playbook_executor.py:101` | `class DefaultTTPMapper(ITTPMapper)` |
-| `ITTPMapper` | class | `modules/playbook_executor.py:93` | `class ITTPMapper(ABC)` |
-| `PlaybookEngine` | class | `modules/playbook_executor.py:336` | `class PlaybookEngine` |
-| `PlaybookLoader` | class | `modules/playbook_executor.py:203` | `class PlaybookLoader` |
-| `PlaybookRunResult` | class | `modules/playbook_executor.py:61` | `class PlaybookRunResult` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

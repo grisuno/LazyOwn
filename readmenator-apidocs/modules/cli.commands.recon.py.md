@@ -187,7 +187,7 @@ have a valid platform context.
 
 #### `ReconCommandSet.do_dig`
 
-`method` | [cli/commands/recon.py:154](../../cli/commands/recon.py#L154)
+`method` | [cli/commands/recon.py:148](../../cli/commands/recon.py#L148)
 
 Decorators: `@cmd2.with_category(recon_category)`
 
@@ -224,7 +224,7 @@ Replace `<dns_server>` with the IP address or hostname of the DNS server, `<doma
 
 #### `ReconCommandSet.do_dnsenum`
 
-`method` | [cli/commands/recon.py:186](../../cli/commands/recon.py#L186)
+`method` | [cli/commands/recon.py:180](../../cli/commands/recon.py#L180)
 
 Decorators: `@cmd2.with_category(recon_category)`
 
@@ -261,7 +261,7 @@ For example:
 
 #### `ReconCommandSet.do_dnsmap`
 
-`method` | [cli/commands/recon.py:222](../../cli/commands/recon.py#L222)
+`method` | [cli/commands/recon.py:216](../../cli/commands/recon.py#L216)
 
 Decorators: `@cmd2.with_category(recon_category)`
 
@@ -298,7 +298,7 @@ For example:
 
 #### `ReconCommandSet.do_whatweb`
 
-`method` | [cli/commands/recon.py:255](../../cli/commands/recon.py#L255)
+`method` | [cli/commands/recon.py:249](../../cli/commands/recon.py#L249)
 
 Decorators: `@cmd2.with_category(recon_category)`
 
@@ -335,7 +335,7 @@ For example:
 
 #### `ReconCommandSet.do_nbtscan`
 
-`method` | [cli/commands/recon.py:292](../../cli/commands/recon.py#L292)
+`method` | [cli/commands/recon.py:286](../../cli/commands/recon.py#L286)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 
@@ -370,7 +370,7 @@ Replace `<network_range>` with the IP address range you want to scan. For exampl
 
 #### `ReconCommandSet.do_nikto`
 
-`method` | [cli/commands/recon.py:320](../../cli/commands/recon.py#L320)
+`method` | [cli/commands/recon.py:314](../../cli/commands/recon.py#L314)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 
@@ -406,7 +406,7 @@ Replace `<target_ip>` with the IP address of the target web server. For example:
 
 #### `ReconCommandSet.do_finalrecon`
 
-`method` | [cli/commands/recon.py:429](../../cli/commands/recon.py#L429)
+`method` | [cli/commands/recon.py:423](../../cli/commands/recon.py#L423)
 
 Decorators: `@cmd2.with_category(recon_category)`
 
@@ -441,7 +441,7 @@ Replace `<target_ip>` with the IP address of the target web server. For example:
 
 #### `ReconCommandSet.do_openssl_sclient`
 
-`method` | [cli/commands/recon.py:461](../../cli/commands/recon.py#L461)
+`method` | [cli/commands/recon.py:455](../../cli/commands/recon.py#L455)
 
 Decorators: `@cmd2.with_category(recon_category)`
 
@@ -472,7 +472,7 @@ Replace `<target_ip>` with the IP address or hostname of the target server and `
 
 #### `ReconCommandSet.do_ss`
 
-`method` | [cli/commands/recon.py:491](../../cli/commands/recon.py#L491)
+`method` | [cli/commands/recon.py:485](../../cli/commands/recon.py#L485)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -508,7 +508,7 @@ Usage:
 
 #### `ReconCommandSet.do_wfuzz`
 
-`method` | [cli/commands/recon.py:654](../../cli/commands/recon.py#L654)
+`method` | [cli/commands/recon.py:648](../../cli/commands/recon.py#L648)
 
 Decorators: `@cmd2.with_category(scanning_category)`
 

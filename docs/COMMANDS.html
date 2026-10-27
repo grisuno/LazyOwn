@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="pandoc 3.10" />
+  <meta name="generator" content="pandoc 3.11" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>LazyOwn Framework Doc: COMMANDS.md</title>
   <style>
@@ -41,7 +41,6 @@
       body {
         background-color: transparent;
         color: black;
-        font-size: 12pt;
       }
       p, h2, h3 {
         orphans: 3;
@@ -172,7 +171,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
 </head>
 <body>
@@ -188,7 +186,7 @@ cli/command_index.json.</p>
 commands)</li>
 <li><a href="#02-scanning-&amp;-enumeration">02. Scanning &amp;
 Enumeration</a> (75 commands)</li>
-<li><a href="#03-exploitation">03. Exploitation</a> (76 commands)</li>
+<li><a href="#03-exploitation">03. Exploitation</a> (78 commands)</li>
 <li><a href="#04-post-exploitation">04. Post-Exploitation</a> (45
 commands)</li>
 <li><a href="#05-persistence">05. Persistence</a> (33 commands)</li>
@@ -202,11 +200,11 @@ commands)</li>
 commands)</li>
 <li><a href="#10-command-&amp;-control">10. Command &amp; Control</a>
 (34 commands)</li>
-<li><a href="#11-reporting">11. Reporting</a> (26 commands)</li>
+<li><a href="#11-reporting">11. Reporting</a> (27 commands)</li>
 <li><a href="#12-miscellaneous">12. Miscellaneous</a> (192
 commands)</li>
 <li><a href="#13-diagnostics">13. Diagnostics</a> (2 commands)</li>
-<li><a href="#uncategorized">Uncategorized</a> (204 commands)</li>
+<li><a href="#uncategorized">Uncategorized</a> (205 commands)</li>
 </ul>
 <hr />
 <h2 id="reconnaissance">01. Reconnaissance</h2>
@@ -865,6 +863,10 @@ using Kerberos PKINIT with a PFX or PEM certificate.</p>
 <code>cli/commands/exploit_migrated.py</code></p>
 <p>Executes the GreatSCT tool for generating payloads that bypass
 antivirus and application whitelisting solutions.</p>
+<h3 id="gym_metasploitable"><code>gym_metasploitable</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/gym_matrix.py</code></p>
+<p>Plan, run, and report the Metasploitable 2 gym matrix.</p>
 <h3 id="img2cookie"><code>img2cookie</code></h3>
 <p><strong>Phase:</strong> exploit | <strong>Source:</strong>
 <code>cli/commands/exploit.py</code></p>
@@ -1095,6 +1097,10 @@ Upload_Bypass for performing file upload bypass tests.</p>
 <p>Creates a base64 encoded payload specifically for Windows to execute
 a PowerShell command or download a file using
 <code>self.params['lhost']</code>.</p>
+<h3 id="winbox"><code>winbox</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/winbox_gym.py</code></p>
+<p>Control the WinBox isolated Windows lab from the LazyOwn shell.</p>
 <h3 id="wrapper"><code>wrapper</code></h3>
 <p><strong>Phase:</strong> exploit | <strong>Source:</strong>
 <code>cli/commands/exploit.py</code></p>
@@ -2190,6 +2196,10 @@ user input.</p>
 <p><strong>Phase:</strong> report | <strong>Source:</strong>
 <code>cli/commands/report_migrated.py</code></p>
 <p>Get list de supported acctions.</p>
+<h3 id="golden_paths"><code>golden_paths</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/golden_paths.py</code></p>
+<p>Build, show, or push attack paths from the world model.</p>
 <h3 id="gowitness"><code>gowitness</code></h3>
 <p><strong>Phase:</strong> report | <strong>Source:</strong>
 <code>cli/commands/report.py</code></p>
@@ -3393,6 +3403,10 @@ command.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/ai.py</code></p>
 <p>Generate a single-line command through the Groq backend.</p>
+<h3 id="hygiene_audit"><code>hygiene_audit</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/audit.py</code></p>
+<p>Audit local deployment hygiene. Usage: hygiene_audit.</p>
 <h3 id="jenkins_enum"><code>jenkins_enum</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/cicd.py</code></p>

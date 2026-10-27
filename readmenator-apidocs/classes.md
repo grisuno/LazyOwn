@@ -849,6 +849,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`SurfaceCommandSet`](modules/cli.commands.surface.py.md#surfacecommandset) class in `cli.commands.surface`
   - [`UxCommandSet`](modules/cli.commands.ux.py.md#uxcommandset) class in `cli.commands.ux`
   - [`VerbCommandSet`](modules/cli.commands.verb_admin.py.md#verbcommandset) class in `cli.commands.verb_admin`
+  - [`WinboxCommandSet`](modules/cli.commands.winbox_gym.py.md#winboxcommandset) class in `cli.commands.winbox_gym`
 - [`LazyOwnDB`](modules/modules.db.py.md#lazyowndb) class in `modules.db`
 - [`LazyOwnError`](modules/core.errors.py.md#lazyownerror) exception in `core.errors`(Exception)
   - [`AuthError`](modules/core.errors.py.md#autherror) exception in `core.errors`
@@ -1021,6 +1022,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`OrchestratorAssetsMixin`](modules/cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin) class in `cli.orchestrator_assets_tabs`
 - [`OrchestratorConfig`](modules/skills.unified_orchestrator.py.md#orchestratorconfig) class in `skills.unified_orchestrator`
 - [`OrchestratorGoal`](modules/skills.unified_orchestrator.py.md#orchestratorgoal) class in `skills.unified_orchestrator`
+- [`OrchestratorResult`](modules/modules.llm_orchestrator.py.md#orchestratorresult) class in `modules.llm_orchestrator`
 - [`OrchestratorResult`](modules/skills.unified_orchestrator.py.md#orchestratorresult) class in `skills.unified_orchestrator`
 - [`original_dirent`](modules/modules.rootkit.mrhyde.c.md#original_dirent) type_alias in `modules/rootkit/mrhyde.c`
 - [`original_dirent`](modules/modules.rootkit.mrhyde2.c.md#original_dirent) type_alias in `modules/rootkit/mrhyde2.c`
@@ -1404,6 +1406,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`Suggestion`](modules/cli.autosuggest.py.md#suggestion) class in `cli.autosuggest`
 - [`SuggestionContext`](modules/cli.autosuggest.py.md#suggestioncontext) class in `cli.autosuggest`
 - [`SuggestionProvider`](modules/cli.autosuggest.py.md#suggestionprovider) protocol in `cli.autosuggest`(Protocol)
+- [`SurfaceChange`](modules/modules.lazy_world_diff.py.md#surfacechange) class in `modules.lazy_world_diff`
 - [`SurfaceEdge`](modules/cli.surface_graph.py.md#surfaceedge) class in `cli.surface_graph`
 - [`SurfaceGraph`](modules/cli.surface_graph.py.md#surfacegraph) class in `cli.surface_graph`
 - [`SurfaceGraphBuilder`](modules/cli.surface_graph.py.md#surfacegraphbuilder) class in `cli.surface_graph`

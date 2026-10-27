@@ -148,6 +148,7 @@ proxy_autostart proxy_gc_days proxy_upstream gym_cleanup_on_exit
 start_pass start_user startip subdomain target target_path technique_id template_name toast_max_per_tick toolname
 topoexploit_path topoexploit_port trivy_scan_type trivy_target tui_theme ui_hints url url_traffic_1
 url_traffic_2 url_traffic_3 user user_agent_1 user_agent_2 user_agent_3 user_agent_lin
+winbox_os winbox_install_path
 user_agent_win username usrwordlist wordlist orchestrator
 local_llm llamacpp_host llm_model_llamacpp agent_model_timeout
 android_serial dirtyinit_device_path

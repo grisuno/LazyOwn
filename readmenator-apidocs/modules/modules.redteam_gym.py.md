@@ -263,7 +263,7 @@ the result then keeps the manual ``lab start`` hint).
 
 ### `submit_challenge`
 
-`function` | [modules/redteam_gym.py:610](../../modules/redteam_gym.py#L610)
+`function` | [modules/redteam_gym.py:637](../../modules/redteam_gym.py#L637)
 
 ```python
 def submit_challenge(techniques_used: list[str] | None = None, success: bool = True, run_id: str = '') -> dict[str, Any]
@@ -289,7 +289,7 @@ Submit a completed challenge for scoring.
 
 ### `stop_challenges`
 
-`function` | [modules/redteam_gym.py:718](../../modules/redteam_gym.py#L718)
+`function` | [modules/redteam_gym.py:745](../../modules/redteam_gym.py#L745)
 
 ```python
 def stop_challenges(selector: str = '') -> dict[str, Any]
@@ -319,7 +319,7 @@ container without any remaining active run is stopped through
 
 ### `get_active_challenges`
 
-`function` | [modules/redteam_gym.py:864](../../modules/redteam_gym.py#L864)
+`function` | [modules/redteam_gym.py:887](../../modules/redteam_gym.py#L887)
 
 ```python
 def get_active_challenges() -> list[dict[str, Any]]
@@ -339,7 +339,7 @@ Return every active gym run across operators.
 
 ### `show_leaderboard`
 
-`function` | [modules/redteam_gym.py:1023](../../modules/redteam_gym.py#L1023)
+`function` | [modules/redteam_gym.py:1046](../../modules/redteam_gym.py#L1046)
 
 ```python
 def show_leaderboard(top_n: int = 15) -> list[dict[str, Any]]
@@ -361,7 +361,7 @@ Return the top N players from the leaderboard.
 
 ### `get_active_challenge`
 
-`function` | [modules/redteam_gym.py:1050](../../modules/redteam_gym.py#L1050)
+`function` | [modules/redteam_gym.py:1073](../../modules/redteam_gym.py#L1073)
 
 ```python
 def get_active_challenge(run_id: str = '') -> dict[str, Any] | None
@@ -387,7 +387,7 @@ operator label changed between sessions.
 
 ### `record_external_attempt`
 
-`function` | [modules/redteam_gym.py:1081](../../modules/redteam_gym.py#L1081)
+`function` | [modules/redteam_gym.py:1104](../../modules/redteam_gym.py#L1104)
 
 ```python
 def record_external_attempt(challenge_id: str, success: bool, elo_bonus: int = 150, techniques: list[str] | None = None) -> dict[str, Any]

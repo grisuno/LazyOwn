@@ -3,6 +3,129 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `logs_dir` | method | `skills/claude_md_orchestrator/config.py:146` | `def logs_dir(self)` |
+| `resolve_optional` | function | `skills/claude_md_orchestrator/config.py:164` | `def resolve_optional(config, key)` |
+| `review_dir` | method | `skills/claude_md_orchestrator/config.py:138` | `def review_dir(self)` |
+| `specs_dir` | method | `skills/claude_md_orchestrator/config.py:126` | `def specs_dir(self)` |
+| `src_dir` | method | `skills/claude_md_orchestrator/config.py:134` | `def src_dir(self)` |
+| `state_path` | method | `skills/claude_md_orchestrator/config.py:122` | `def state_path(self)` |
+| `tests_dir` | method | `skills/claude_md_orchestrator/config.py:130` | `def tests_dir(self)` |
+| `DocResult` | class | `skills/claude_md_orchestrator/documentation_agent.py:28` | `class DocResult` |
+| `_format_inputs` | function | `skills/claude_md_orchestrator/documentation_agent.py:40` | `def _format_inputs(spec)` |
+| `_format_review` | function | `skills/claude_md_orchestrator/documentation_agent.py:54` | `def _format_review(report)` |
+| `_format_sad_paths` | function | `skills/claude_md_orchestrator/documentation_agent.py:47` | `def _format_sad_paths(spec)` |
+| `_render` | function | `skills/claude_md_orchestrator/documentation_agent.py:68` | `def _render(contract, spec, report)` |
+| `_wrap` | function | `skills/claude_md_orchestrator/documentation_agent.py:118` | `def _wrap(body)` |
+| `run` | function | `skills/claude_md_orchestrator/documentation_agent.py:123` | `def run(contract, spec, report, config)` |
+| `CicleState` | class | `skills/claude_md_orchestrator/models.py:348` | `class CicleState` |
+| `CicleStateFile` | class | `skills/claude_md_orchestrator/models.py:424` | `class CicleStateFile` |
+| `Contract` | class | `skills/claude_md_orchestrator/models.py:68` | `class Contract` |
+| `Finding` | class | `skills/claude_md_orchestrator/models.py:255` | `class Finding` |
+| `ReviewReport` | class | `skills/claude_md_orchestrator/models.py:291` | `class ReviewReport` |
+| `SadPath` | class | `skills/claude_md_orchestrator/models.py:109` | `class SadPath` |
+| `Severity` | class | `skills/claude_md_orchestrator/models.py:50` | `class Severity(StrEnum)` |
+| `Spec` | class | `skills/claude_md_orchestrator/models.py:134` | `class Spec` |
+| `Stage` | class | `skills/claude_md_orchestrator/models.py:28` | `class Stage(StrEnum)` |
+| `TestSuite` | class | `skills/claude_md_orchestrator/models.py:217` | `class TestSuite` |
+| `_now_iso` | function | `skills/claude_md_orchestrator/models.py:19` | `def _now_iso()` |
+| `blockers` | method | `skills/claude_md_orchestrator/models.py:315` | `def blockers(self)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:96` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:125` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:173` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:243` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:280` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:333` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:402` | `def from_dict(cls, data)` |
+| `from_dict` | method | `skills/claude_md_orchestrator/models.py:450` | `def from_dict(cls, data)` |
+| `load` | method | `skills/claude_md_orchestrator/models.py:467` | `def load(cls, path)` |
+| `save` | method | `skills/claude_md_orchestrator/models.py:459` | `def save(self, path)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:91` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:120` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:166` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:236` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:270` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:319` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:383` | `def to_dict(self)` |
+| `to_dict` | method | `skills/claude_md_orchestrator/models.py:440` | `def to_dict(self)` |
+| `validate` | method | `skills/claude_md_orchestrator/models.py:189` | `def validate(self, min_sad_paths)` |
+| `write_jsonl` | function | `skills/claude_md_orchestrator/models.py:480` | `def write_jsonl(path, event)` |
+| `CycleSummary` | class | `skills/claude_md_orchestrator/orchestrator.py:34` | `class CycleSummary` |
+| `_advance` | function | `skills/claude_md_orchestrator/orchestrator.py:234` | `def _advance(state, contract_id, config, options)` |
+| `_banner` | function | `skills/claude_md_orchestrator/orchestrator.py:52` | `def _banner(message, config)` |
+| `_build_parser` | function | `skills/claude_md_orchestrator/orchestrator.py:324` | `def _build_parser()` |
+| `_halt` | function | `skills/claude_md_orchestrator/orchestrator.py:59` | `def _halt(summary, contract_id, reason)` |
+| `_load_seed_contracts` | function | `skills/claude_md_orchestrator/orchestrator.py:365` | `def _load_seed_contracts(args, options)` |
+| `_load_spec` | function | `skills/claude_md_orchestrator/orchestrator.py:217` | `def _load_spec(path)` |
+| `_load_state` | function | `skills/claude_md_orchestrator/orchestrator.py:84` | `def _load_state(config)` |
+| `_persist` | function | `skills/claude_md_orchestrator/orchestrator.py:66` | `def _persist(state, config)` |
+| `_print_summary` | function | `skills/claude_md_orchestrator/orchestrator.py:301` | `def _print_summary(summary)` |
+| `_run_cicd` | function | `skills/claude_md_orchestrator/orchestrator.py:182` | `def _run_cicd(state, config)` |
+| `_run_documentation` | function | `skills/claude_md_orchestrator/orchestrator.py:158` | `def _run_documentation(state, config)` |
+| `_run_implementation` | function | `skills/claude_md_orchestrator/orchestrator.py:125` | `def _run_implementation(state, config)` |
+| `_run_review` | function | `skills/claude_md_orchestrator/orchestrator.py:146` | `def _run_review(state, config)` |
+| `_run_scout` | function | `skills/claude_md_orchestrator/orchestrator.py:174` | `def _run_scout(state, config)` |
+| `_run_spec` | function | `skills/claude_md_orchestrator/orchestrator.py:97` | `def _run_spec(state, config)` |
+| `_run_test` | function | `skills/claude_md_orchestrator/orchestrator.py:110` | `def _run_test(state, config)` |
+| `_seed_state` | function | `skills/claude_md_orchestrator/orchestrator.py:89` | `def _seed_state(contracts, state)` |
+| `main` | function | `skills/claude_md_orchestrator/orchestrator.py:393` | `def main(argv)` |
+| `run` | function | `skills/claude_md_orchestrator/orchestrator.py:275` | `def run(config, options)` |
+| `summary_to_dict` | function | `skills/claude_md_orchestrator/orchestrator.py:306` | `def summary_to_dict(summary)` |
+| `_Section` | class | `skills/claude_md_orchestrator/parser.py:34` | `class _Section` |
+| `__post_init__` | method | `skills/claude_md_orchestrator/parser.py:51` | `def __post_init__(self)` |
+| `_coerce_seed_contract` | function | `skills/claude_md_orchestrator/parser.py:205` | `def _coerce_seed_contract(seed)` |
+| `_collect_bullets` | function | `skills/claude_md_orchestrator/parser.py:123` | `def _collect_bullets(text)` |
+| `_collect_paragraphs` | function | `skills/claude_md_orchestrator/parser.py:141` | `def _collect_paragraphs(text)` |
+| `_derive_contract_id` | function | `skills/claude_md_orchestrator/parser.py:56` | `def _derive_contract_id(title, fallback_index)` |
+| `_flatten_actionable` | function | `skills/claude_md_orchestrator/parser.py:159` | `def _flatten_actionable(root)` |
+| `_is_actionable` | function | `skills/claude_md_orchestrator/parser.py:146` | `def _is_actionable(heading)` |
+| `_strip_contract_marker` | function | `skills/claude_md_orchestrator/parser.py:73` | `def _strip_contract_marker(title)` |
+| `_walk_sections` | function | `skills/claude_md_orchestrator/parser.py:85` | `def _walk_sections(lines)` |
+| `flush_body` | function | `skills/claude_md_orchestrator/parser.py:97` | `def flush_body()` |
+| `load_contracts` | function | `skills/claude_md_orchestrator/parser.py:225` | `def load_contracts(config, seeds)` |
+| `parse_claude_md` | function | `skills/claude_md_orchestrator/parser.py:167` | `def parse_claude_md(path)` |
+| `AnalyzerResult` | class | `skills/claude_md_orchestrator/reviewer_agent.py:30` | `class AnalyzerResult` |
+| `_parse_tool_findings` | function | `skills/claude_md_orchestrator/reviewer_agent.py:88` | `def _parse_tool_findings(result, path_prefix)` |
+| `_resolve_targets` | function | `skills/claude_md_orchestrator/reviewer_agent.py:72` | `def _resolve_targets(state, config)` |
+| `_run` | function | `skills/claude_md_orchestrator/reviewer_agent.py:46` | `def _run(cmd, cwd)` |
+| `_run_bandit` | function | `skills/claude_md_orchestrator/reviewer_agent.py:147` | `def _run_bandit(targets, cwd)` |
+| `_run_mypy` | function | `skills/claude_md_orchestrator/reviewer_agent.py:134` | `def _run_mypy(targets, cwd)` |
+| `_run_pytest` | function | `skills/claude_md_orchestrator/reviewer_agent.py:160` | `def _run_pytest(targets, cwd)` |
+| `_run_ruff` | function | `skills/claude_md_orchestrator/reviewer_agent.py:121` | `def _run_ruff(targets, cwd)` |
+| `run` | function | `skills/claude_md_orchestrator/reviewer_agent.py:171` | `def run(state, config)` |
+| `write_report` | function | `skills/claude_md_orchestrator/reviewer_agent.py:225` | `def write_report(report, config)` |
+| `SddResult` | class | `skills/claude_md_orchestrator/sdd_agent.py:40` | `class SddResult` |
+| `_ask_llm` | function | `skills/claude_md_orchestrator/sdd_agent.py:148` | `def _ask_llm(contract, backend)` |
+| `_coerce_scope` | function | `skills/claude_md_orchestrator/sdd_agent.py:56` | `def _coerce_scope(scope)` |
+| `_compose_spec` | function | `skills/claude_md_orchestrator/sdd_agent.py:81` | `def _compose_spec(contract, min_sad_paths)` |
+| `_render_yaml` | function | `skills/claude_md_orchestrator/sdd_agent.py:130` | `def _render_yaml(spec)` |
+| `run` | function | `skills/claude_md_orchestrator/sdd_agent.py:204` | `def run(contract, config)` |
+| `TddResult` | class | `skills/claude_md_orchestrator/tdd_agent.py:90` | `class TddResult` |
+| `_compose_tests` | function | `skills/claude_md_orchestrator/tdd_agent.py:110` | `def _compose_tests(spec, contract)` |
+| `_module_name` | function | `skills/claude_md_orchestrator/tdd_agent.py:105` | `def _module_name(contract)` |
+| `_run_pytest` | function | `skills/claude_md_orchestrator/tdd_agent.py:154` | `def _run_pytest(test_path, cwd)` |
+| `_slug` | function | `skills/claude_md_orchestrator/tdd_agent.py:79` | `def _slug(value)` |
+| `read_test_source` | function | `skills/claude_md_orchestrator/tdd_agent.py:228` | `def read_test_source(test_path)` |
+| `run` | function | `skills/claude_md_orchestrator/tdd_agent.py:175` | `def run(contract, spec, config)` |
+| `config` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:54` | `def config(tmp_run_dir, tmp_path)` |
+| `test_bdd_agent_lands_green` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:116` | `def test_bdd_agent_lands_green(config)` |
+| `test_boy_scout_returns_report` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:237` | `def test_boy_scout_returns_report(config)` |
+| `test_cicd_agent_writes_pipeline` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:260` | `def test_cicd_agent_writes_pipeline(config)` |
+| `test_cicd_deploy_gate_checks_secret` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:310` | `def test_cicd_deploy_gate_checks_secret(config)` |
+| `test_cicd_deploy_gate_is_timing_safe` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:332` | `def test_cicd_deploy_gate_is_timing_safe()` |
+| `test_documentation_agent_emits_fenced_markdown` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:221` | `def test_documentation_agent_emits_fenced_markdown(config)` |
+| `test_dod_validators_block_absolute_paths` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:152` | `def test_dod_validators_block_absolute_paths()` |
+| `test_dod_validators_block_emoji` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:131` | `def test_dod_validators_block_emoji()` |
+| `test_dod_validators_block_inline_comments` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:138` | `def test_dod_validators_block_inline_comments()` |
+| `test_dod_validators_block_todo_markers` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:145` | `def test_dod_validators_block_todo_markers()` |
+| `test_dod_validators_require_docstrings` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:159` | `def test_dod_validators_require_docstrings()` |
+| `test_models_spec_round_trip` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:294` | `def test_models_spec_round_trip()` |
+| `test_orchestrator_blocks_on_missing_contracts` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:204` | `def test_orchestrator_blocks_on_missing_contracts(tmp_run_dir, tmp_path)` |
+| `test_orchestrator_blocks_on_sad_path_shortage` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:188` | `def test_orchestrator_blocks_on_sad_path_shortage(config)` |
+| `test_orchestrator_full_cycle` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:166` | `def test_orchestrator_full_cycle(config)` |
+| `test_parser_extracts_contract` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:78` | `def test_parser_extracts_contract(config)` |
+| `test_sdd_agent_writes_spec` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:86` | `def test_sdd_agent_writes_spec(config)` |
+| `test_tdd_agent_lands_red` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:102` | `def test_tdd_agent_lands_red(config)` |
+| `tmp_run_dir` | function | `skills/claude_md_orchestrator/tests/test_orchestrator.py:46` | `def tmp_run_dir(tmp_path)` |
 | `CheckResult` | class | `skills/claude_md_orchestrator/validators.py:96` | `class CheckResult` |
 | `_EmojiPattern` | class | `skills/claude_md_orchestrator/validators.py:74` | `class _EmojiPattern` |
 | `_EmojiSpan` | class | `skills/claude_md_orchestrator/validators.py:57` | `class _EmojiSpan` |
@@ -373,128 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `_dispatch` | function | `skills/lazyown_daemon.py:95` | `def _dispatch(path)` |
 | `_is_running` | function | `skills/lazyown_daemon.py:439` | `def _is_running()` |
 | `_main_async` | function | `skills/lazyown_daemon.py:390` | `def _main_async()` |
-| `_poll_watcher_loop` | function | `skills/lazyown_daemon.py:163` | `def _poll_watcher_loop(queue)` |
-| `_push` | method | `skills/lazyown_daemon.py:198` | `def _push(self, src)` |
-| `_read_pid` | function | `skills/lazyown_daemon.py:432` | `def _read_pid()` |
-| `_scan` | function | `skills/lazyown_daemon.py:167` | `def _scan()` |
-| `_watchdog_async` | function | `skills/lazyown_daemon.py:193` | `def _watchdog_async(queue)` |
-| `_write_pid` | function | `skills/lazyown_daemon.py:422` | `def _write_pid()` |
-| `cmd_run` | function | `skills/lazyown_daemon.py:453` | `def cmd_run()` |
-| `cmd_start` | function | `skills/lazyown_daemon.py:462` | `def cmd_start()` |
-| `cmd_status` | function | `skills/lazyown_daemon.py:513` | `def cmd_status()` |
-| `cmd_stop` | function | `skills/lazyown_daemon.py:495` | `def cmd_stop()` |
-| `event_engine_loop` | function | `skills/lazyown_daemon.py:240` | `def event_engine_loop()` |
-| `file_event_consumer` | function | `skills/lazyown_daemon.py:223` | `def file_event_consumer(queue)` |
-| `file_watcher_loop` | function | `skills/lazyown_daemon.py:150` | `def file_watcher_loop(queue)` |
-| `heartbeat_loop` | function | `skills/lazyown_daemon.py:280` | `def heartbeat_loop()` |
-| `on_created` | method | `skills/lazyown_daemon.py:201` | `def on_created(self, event)` |
-| `on_modified` | method | `skills/lazyown_daemon.py:205` | `def on_modified(self, event)` |
-| `process_new_rows` | function | `skills/lazyown_daemon.py:108` | `def process_new_rows()` |
-| `toposwarm_keepalive_loop` | function | `skills/lazyown_daemon.py:332` | `def toposwarm_keepalive_loop()` |
-| `AccessFact` | class | `skills/lazyown_facts.py:97` | `class AccessFact` |
-| `Config` | class | `skills/lazyown_facts.py:34` | `class Config` |
-| `CrackMapExecParser` | class | `skills/lazyown_facts.py:240` | `class CrackMapExecParser(ITextOutputParser)` |
-| `CredentialFact` | class | `skills/lazyown_facts.py:75` | `class CredentialFact` |
-| `DiscoveredPath` | class | `skills/lazyown_facts.py:120` | `class DiscoveredPath` |
-| `Enum4linuxParser` | class | `skills/lazyown_facts.py:292` | `class Enum4linuxParser(ITextOutputParser)` |
-| `FactStore` | class | `skills/lazyown_facts.py:667` | `class FactStore` |
-| `GenericOutputParser` | class | `skills/lazyown_facts.py:625` | `class GenericOutputParser(ITextOutputParser)` |
-| `GobusterFfufParser` | class | `skills/lazyown_facts.py:435` | `class GobusterFfufParser(ITextOutputParser)` |
-| `HostFacts` | class | `skills/lazyown_facts.py:132` | `class HostFacts` |
-| `INmapXmlParser` | class | `skills/lazyown_facts.py:166` | `class INmapXmlParser` |
-| `ITextOutputParser` | class | `skills/lazyown_facts.py:212` | `class ITextOutputParser` |
-| `KerbruteParser` | class | `skills/lazyown_facts.py:395` | `class KerbruteParser(ITextOutputParser)` |
-| `LdapParser` | class | `skills/lazyown_facts.py:366` | `class LdapParser(ITextOutputParser)` |
-| `NiktoParser` | class | `skills/lazyown_facts.py:494` | `class NiktoParser(ITextOutputParser)` |
-| `NucleiParser` | class | `skills/lazyown_facts.py:537` | `class NucleiParser(ITextOutputParser)` |
-| `RpcclientParser` | class | `skills/lazyown_facts.py:416` | `class RpcclientParser(ITextOutputParser)` |
-| `SecretsdumpParser` | class | `skills/lazyown_facts.py:331` | `class SecretsdumpParser(ITextOutputParser)` |
-| `ServiceFact` | class | `skills/lazyown_facts.py:62` | `class ServiceFact` |
-| `ShareFact` | class | `skills/lazyown_facts.py:87` | `class ShareFact` |
-| `SslscanParser` | class | `skills/lazyown_facts.py:573` | `class SslscanParser(ITextOutputParser)` |
-| `ToolDefinition` | class | `skills/lazyown_facts.py:1016` | `class ToolDefinition` |
-| `VulnerabilityFact` | class | `skills/lazyown_facts.py:107` | `class VulnerabilityFact` |
-| `__init__` | method | `skills/lazyown_facts.py:677` | `def __init__(self, cfg)` |
-| `_cmd_clean` | function | `skills/lazyown_facts.py:1065` | `def _cmd_clean(_args)` |
-| `_cmd_parse` | function | `skills/lazyown_facts.py:1051` | `def _cmd_parse(args)` |
-| `_cmd_show` | function | `skills/lazyown_facts.py:1060` | `def _cmd_show(args)` |
-| `_dedup_creds` | method | `skills/lazyown_facts.py:759` | `def _dedup_creds(self, hf)` |
-| `_dedup_paths` | method | `skills/lazyown_facts.py:779` | `def _dedup_paths(self, hf)` |
-| `_dedup_services` | method | `skills/lazyown_facts.py:749` | `def _dedup_services(self, hf)` |
-| `_dedup_vulns` | method | `skills/lazyown_facts.py:769` | `def _dedup_vulns(self, hf)` |
-| `_guess_host_from_filename` | method | `skills/lazyown_facts.py:841` | `def _guess_host_from_filename(filename)` |
-| `_guess_port_from_path` | method | `skills/lazyown_facts.py:847` | `def _guess_port_from_path(txt_path)` |
-| `_host` | method | `skills/lazyown_facts.py:744` | `def _host(self, ip)` |
-| `_load` | method | `skills/lazyown_facts.py:702` | `def _load(self)` |
-| `all_hosts` | method | `skills/lazyown_facts.py:893` | `def all_hosts(self)` |
-| `can_parse` | method | `skills/lazyown_facts.py:217` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:250` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:301` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:341` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:374` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:403` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:424` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:447` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:502` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:545` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:581` | `def can_parse(self, filename, content)` |
-| `can_parse` | method | `skills/lazyown_facts.py:635` | `def can_parse(self, filename, content)` |
-| `context_for_command` | method | `skills/lazyown_facts.py:896` | `def context_for_command(self, host, category)` |
-| `create_tool_file` | function | `skills/lazyown_facts.py:1025` | `def create_tool_file(toolname, command, trigger, active, tools_dir)` |
-| `default` | method | `skills/lazyown_facts.py:45` | `def default(cls)` |
-| `get_host` | method | `skills/lazyown_facts.py:890` | `def get_host(self, host)` |
-| `highest_access` | method | `skills/lazyown_facts.py:145` | `def highest_access(self)` |
-| `ingest_text` | method | `skills/lazyown_facts.py:803` | `def ingest_text(self, txt_path, host_hint)` |
-| `ingest_xml` | method | `skills/lazyown_facts.py:791` | `def ingest_xml(self, xml_path)` |
-| `main` | function | `skills/lazyown_facts.py:1074` | `def main()` |
-| `open_ports` | method | `skills/lazyown_facts.py:156` | `def open_ports(self)` |
-| `parse` | method | `skills/lazyown_facts.py:169` | `def parse(self, xml_path)` |
-| `parse` | method | `skills/lazyown_facts.py:220` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:257` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:304` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:346` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:377` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:406` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:427` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:450` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:505` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:548` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:584` | `def parse(self, host, content, source_file)` |
-| `parse` | method | `skills/lazyown_facts.py:638` | `def parse(self, host, content, source_file)` |
-| `parse_all` | method | `skills/lazyown_facts.py:859` | `def parse_all(self, target)` |
-| `parse_extended` | method | `skills/lazyown_facts.py:228` | `def parse_extended(self, host, content, source_file, port)` |
-| `parse_extended` | method | `skills/lazyown_facts.py:453` | `def parse_extended(self, host, content, source_file, port)` |
-| `parse_extended` | method | `skills/lazyown_facts.py:508` | `def parse_extended(self, host, content, source_file, port)` |
-| `parse_extended` | method | `skills/lazyown_facts.py:551` | `def parse_extended(self, host, content, source_file, port)` |
-| `parse_extended` | method | `skills/lazyown_facts.py:587` | `def parse_extended(self, host, content, source_file, port)` |
-| `save` | method | `skills/lazyown_facts.py:727` | `def save(self)` |
-| `services_by_name` | method | `skills/lazyown_facts.py:159` | `def services_by_name(self, name)` |
-| `summary` | method | `skills/lazyown_facts.py:986` | `def summary(self, host)` |
-| `GroqAgentPool` | class | `skills/lazyown_groq_agents.py:699` | `class GroqAgentPool` |
-| `_AgentState` | class | `skills/lazyown_groq_agents.py:666` | `class _AgentState` |
-| `__init__` | method | `skills/lazyown_groq_agents.py:702` | `def __init__(self)` |
-| `_agent_system_prompt` | function | `skills/lazyown_groq_agents.py:682` | `def _agent_system_prompt(tool_names)` |
-| `_c2_req` | function | `skills/lazyown_groq_agents.py:81` | `def _c2_req(path, method, body)` |
-| `_load_payload` | function | `skills/lazyown_groq_agents.py:56` | `def _load_payload()` |
-| `_now_utc` | function | `skills/lazyown_groq_agents.py:678` | `def _now_utc()` |
-| `_run` | method | `skills/lazyown_groq_agents.py:742` | `def _run(self, state, tools, api_key, max_iterations, system_prompt)` |
-| `_run_cmd` | function | `skills/lazyown_groq_agents.py:63` | `def _run_cmd(command, timeout)` |
-| `_t_atomic_search` | function | `skills/lazyown_groq_agents.py:442` | `def _t_atomic_search(keyword, mitre_id, platform, scope, complexity, has_prereqs, limit, include_command)` |
-| `_t_bridge_catalog` | function | `skills/lazyown_groq_agents.py:125` | `def _t_bridge_catalog(phase, os_hint)` |
-| `_t_bridge_suggest` | function | `skills/lazyown_groq_agents.py:98` | `def _t_bridge_suggest(phase, services, tag, os_hint)` |
-| `_t_c2_command` | function | `skills/lazyown_groq_agents.py:300` | `def _t_c2_command(client_id, command)` |
-| `_t_c2_status` | function | `skills/lazyown_groq_agents.py:295` | `def _t_c2_status()` |
-| `_t_command_help` | function | `skills/lazyown_groq_agents.py:390` | `def _t_command_help(command)` |
-| `_t_cve_lookup` | function | `skills/lazyown_groq_agents.py:207` | `def _t_cve_lookup(product, version)` |
-| `_t_facts_show` | function | `skills/lazyown_groq_agents.py:198` | `def _t_facts_show(target)` |
-| `_t_inject_objective` | function | `skills/lazyown_groq_agents.py:333` | `def _t_inject_objective(title, description)` |
-| `_t_list_sessions` | function | `skills/lazyown_groq_agents.py:287` | `def _t_list_sessions()` |
-| `_t_memory_search` | function | `skills/lazyown_groq_agents.py:228` | `def _t_memory_search(query)` |
-| `_t_parquet_context` | function | `skills/lazyown_groq_agents.py:171` | `def _t_parquet_context(phase, target)` |
-| `_t_rag_query` | function | `skills/lazyown_groq_agents.py:394` | `def _t_rag_query(query, n)` |
-| `_t_reactive_suggest` | function | `skills/lazyown_groq_agents.py:346` | `def _t_reactive_suggest(output, command, platform)` |
-| `_t_read_session_file` | function | `skills/lazyown_groq_agents.py:277` | `def _t_read_session_file(filename)` |
-| `_t_run_command` | function | `skills/lazyown_groq_agents.py:94` | `def _t_run_command(command)` |
-| `_t_searchsploit` | function | `skills/lazyown_groq_agents.py:369` | `def _t_searchsploit(query)` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

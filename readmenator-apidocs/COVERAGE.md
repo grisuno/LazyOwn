@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **75.3%** (7395 of 9818 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,16 +8,16 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1232 | 1419 | 86.8% |
+| class | 1235 | 1422 | 86.8% |
 | classmethod | 58 | 84 | 69.0% |
 | constructor | 205 | 526 | 39.0% |
 | enum | 30 | 39 | 76.9% |
 | exception | 38 | 40 | 95.0% |
-| function | 1887 | 2792 | 67.6% |
+| function | 1934 | 2839 | 68.1% |
 | macro | 2 | 114 | 1.8% |
-| method | 2915 | 3587 | 81.3% |
-| module | 705 | 821 | 85.9% |
-| property | 155 | 199 | 77.9% |
+| method | 2920 | 3589 | 81.4% |
+| module | 713 | 829 | 86.0% |
+| property | 157 | 201 | 78.1% |
 | protocol | 20 | 20 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
 | struct | 1 | 20 | 5.0% |
@@ -127,7 +127,6 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`contrib.legacy.lazyphishingai`](modules/contrib.legacy.lazyphishingai.py.md) | 1 | 12 | 8.3% |
 | [`contrib.legacy.lazysniff`](modules/contrib.legacy.lazysniff.py.md) | 1 | 12 | 8.3% |
 | [`lazy_sentinel4`](modules/lazy_sentinel4.py.md) | 4 | 48 | 8.3% |
-| [`modules.vulnbot`](modules/modules.vulnbot.py.md) | 1 | 12 | 8.3% |
 | [`static/js/particles.js`](modules/static.js.particles.js.md) | 1 | 12 | 8.3% |
 | [`modules.memory_store`](modules/modules.memory_store.py.md) | 3 | 34 | 8.8% |
 | [`contrib.legacy.lazydeepseekcli`](modules/contrib.legacy.lazydeepseekcli.py.md) | 1 | 11 | 9.1% |
@@ -170,6 +169,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`modules.operation`](modules/modules.operation.py.md) | 8 | 24 | 33.3% |
 | [`modules.session_reader`](modules/modules.session_reader.py.md) | 10 | 30 | 33.3% |
 | [`modules.vuln_bot_cli`](modules/modules.vuln_bot_cli.py.md) | 1 | 3 | 33.3% |
+| [`modules.vulnbot`](modules/modules.vulnbot.py.md) | 4 | 12 | 33.3% |
 | [`plugins/generate_c_reverse_shell.lua`](modules/plugins.generate_c_reverse_shell.lua.md) | 1 | 3 | 33.3% |
 | [`plugins/generate_linux_asm_reverse_shell.lua`](modules/plugins.generate_linux_asm_reverse_shell.lua.md) | 1 | 3 | 33.3% |
 | [`run_topoexploit_agent.sh`](modules/run_topoexploit_agent.sh.md) | 1 | 3 | 33.3% |
@@ -473,6 +473,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`cli.commands.surface`](modules/cli.commands.surface.py.md) | 4 | 4 | 100.0% |
 | [`cli.commands.ux`](modules/cli.commands.ux.py.md) | 8 | 8 | 100.0% |
 | [`cli.commands.verb_admin`](modules/cli.commands.verb_admin.py.md) | 4 | 4 | 100.0% |
+| [`cli.commands.winbox_gym`](modules/cli.commands.winbox_gym.py.md) | 3 | 3 | 100.0% |
 | [`cli.config_history`](modules/cli.config_history.py.md) | 10 | 10 | 100.0% |
 | [`cli.config_status`](modules/cli.config_status.py.md) | 6 | 6 | 100.0% |
 | [`cli.confirm`](modules/cli.confirm.py.md) | 2 | 2 | 100.0% |
@@ -573,6 +574,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`lazyc2.extensions.short_urls`](modules/lazyc2.extensions.short_urls.py.md) | 5 | 5 | 100.0% |
 | [`lazyc2.extensions.storage`](modules/lazyc2.extensions.storage.py.md) | 13 | 13 | 100.0% |
 | [`lazyc2.extensions.users`](modules/lazyc2.extensions.users.py.md) | 4 | 4 | 100.0% |
+| [`lazyc2.security.cli_credentials`](modules/lazyc2.security.cli_credentials.py.md) | 4 | 4 | 100.0% |
 | [`lazyc2.security.command_allowlist`](modules/lazyc2.security.command_allowlist.py.md) | 8 | 8 | 100.0% |
 | [`lazyc2.security.constants`](modules/lazyc2.security.constants.py.md) | 1 | 1 | 100.0% |
 | [`lazyc2.security.cors`](modules/lazyc2.security.cors.py.md) | 8 | 8 | 100.0% |
@@ -688,6 +690,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`modules.gym_cleanup`](modules/modules.gym_cleanup.py.md) | 3 | 3 | 100.0% |
 | [`modules.gym_matrix_runner`](modules/modules.gym_matrix_runner.py.md) | 4 | 4 | 100.0% |
 | [`modules.gym_registry`](modules/modules.gym_registry.py.md) | 19 | 19 | 100.0% |
+| [`modules.gym_winbox_runner`](modules/modules.gym_winbox_runner.py.md) | 5 | 5 | 100.0% |
 | [`modules.harness`](modules/modules.harness.py.md) | 3 | 3 | 100.0% |
 | [`modules.hunt_verify`](modules/modules.hunt_verify.py.md) | 12 | 12 | 100.0% |
 | [`modules.integrations`](modules/modules.integrations.__init__.py.md) | 1 | 1 | 100.0% |
@@ -706,7 +709,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`modules.lazy_heat`](modules/modules.lazy_heat.py.md) | 12 | 12 | 100.0% |
 | [`modules.lazy_installer`](modules/modules.lazy_installer.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | 10 | 10 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 285 | 285 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 286 | 286 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | 6 | 6 | 100.0% |
 | [`modules.lazy_osinfer`](modules/modules.lazy_osinfer.py.md) | 12 | 12 | 100.0% |
@@ -719,6 +722,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`modules.lazy_summarizer`](modules/modules.lazy_summarizer.py.md) | 3 | 3 | 100.0% |
 | [`modules.lazy_surface_diff`](modules/modules.lazy_surface_diff.py.md) | 8 | 8 | 100.0% |
 | [`modules.lazy_verify`](modules/modules.lazy_verify.py.md) | 5 | 5 | 100.0% |
+| [`modules.lazy_world_diff`](modules/modules.lazy_world_diff.py.md) | 17 | 17 | 100.0% |
 | [`modules/lazyatack.sh`](modules/modules.lazyatack.sh.md) | 31 | 31 | 100.0% |
 | [`modules/lazybrutesshuserenum.sh`](modules/modules.lazybrutesshuserenum.sh.md) | 1 | 1 | 100.0% |
 | [`modules/lazyclonewars.sh`](modules/modules.lazyclonewars.sh.md) | 1 | 1 | 100.0% |
@@ -732,6 +736,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`modules.llm_adapter`](modules/modules.llm_adapter.py.md) | 11 | 11 | 100.0% |
 | [`modules.llm_client`](modules/modules.llm_client.py.md) | 10 | 10 | 100.0% |
 | [`modules.llm_factory`](modules/modules.llm_factory.py.md) | 15 | 15 | 100.0% |
+| [`modules.llm_orchestrator`](modules/modules.llm_orchestrator.py.md) | 8 | 8 | 100.0% |
 | [`modules.llm_pool`](modules/modules.llm_pool.py.md) | 15 | 15 | 100.0% |
 | [`modules.llm_prompts`](modules/modules.llm_prompts.py.md) | 20 | 20 | 100.0% |
 | [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | 12 | 12 | 100.0% |
@@ -772,6 +777,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`modules.sidequestion`](modules/modules.sidequestion.py.md) | 10 | 10 | 100.0% |
 | [`modules.sinks`](modules/modules.sinks.__init__.py.md) | 1 | 1 | 100.0% |
 | [`modules.sinks.attack_graph`](modules/modules.sinks.attack_graph.py.md) | 2 | 2 | 100.0% |
+| [`modules.sinks.beacon_dispatch`](modules/modules.sinks.beacon_dispatch.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.c2_surfaces`](modules/modules.sinks.c2_surfaces.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.campaign_db`](modules/modules.sinks.campaign_db.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.event_bus`](modules/modules.sinks.event_bus.py.md) | 2 | 2 | 100.0% |
@@ -779,6 +785,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`modules.sinks.killchain`](modules/modules.sinks.killchain.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.objectives`](modules/modules.sinks.objectives.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.routing`](modules/modules.sinks.routing.py.md) | 2 | 2 | 100.0% |
+| [`modules.sinks.world_diff`](modules/modules.sinks.world_diff.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.world_model`](modules/modules.sinks.world_model.py.md) | 2 | 2 | 100.0% |
 | [`modules/smbver.sh`](modules/modules.smbver.sh.md) | 1 | 1 | 100.0% |
 | [`modules.surface_ops`](modules/modules.surface_ops.py.md) | 5 | 5 | 100.0% |
@@ -794,6 +801,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 | [`modules.verb_catalog`](modules/modules.verb_catalog.py.md) | 11 | 11 | 100.0% |
 | [`modules.verb_manifest`](modules/modules.verb_manifest.py.md) | 15 | 15 | 100.0% |
 | [`modules.websocket_beacon`](modules/modules.websocket_beacon.py.md) | 16 | 16 | 100.0% |
+| [`modules.winbox_gym`](modules/modules.winbox_gym.py.md) | 20 | 20 | 100.0% |
 | [`modules.workspace`](modules/modules.workspace.py.md) | 8 | 8 | 100.0% |
 | [`modules.yara_scanner`](modules/modules.yara_scanner.py.md) | 12 | 12 | 100.0% |
 | [`poc_tui.__main__`](modules/poc_tui.__main__.py.md) | 1 | 1 | 100.0% |
@@ -853,7 +861,7 @@ Overall: **75.1%** (7330 of 9756 public modules, types, and callables). Data mem
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2143, DOC002: 8, DOC003: 21, DOC004: 46, DOC005: 44
+DOC001: 2140, DOC002: 8, DOC003: 21, DOC004: 46, DOC005: 45
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -978,15 +986,15 @@ DOC001: 2143, DOC002: 8, DOC003: 21, DOC004: 46, DOC005: 44
 - DOC005 `cli/commands/persist_migrated.py:1114` PersistMigratedCommandSet.do_setoolKits raises ValueError but does not document it
 - DOC001 `cli/commands/postexp_migrated.py:32` class PostexpMigratedCommandSet is not documented
 - DOC005 `cli/commands/postexp_migrated.py:2234` PostexpMigratedCommandSet.do_hex2shellcode raises ValueError but does not document it
-- DOC003 `cli/commands/recon.py:154` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_dig
-- DOC003 `cli/commands/recon.py:186` documented parameter 'dnswordlist' is not in the signature of ReconCommandSet.do_dnsenum
-- DOC003 `cli/commands/recon.py:186` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_dnsenum
-- DOC003 `cli/commands/recon.py:222` documented parameter 'dnswordlist' is not in the signature of ReconCommandSet.do_dnsmap
-- DOC003 `cli/commands/recon.py:255` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_whatweb
-- DOC003 `cli/commands/recon.py:292` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_nbtscan
-- DOC003 `cli/commands/recon.py:320` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_nikto
-- DOC003 `cli/commands/recon.py:429` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_finalrecon
-- DOC003 `cli/commands/recon.py:461` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_openssl_sclient
+- DOC003 `cli/commands/recon.py:148` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_dig
+- DOC003 `cli/commands/recon.py:180` documented parameter 'dnswordlist' is not in the signature of ReconCommandSet.do_dnsenum
+- DOC003 `cli/commands/recon.py:180` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_dnsenum
+- DOC003 `cli/commands/recon.py:216` documented parameter 'dnswordlist' is not in the signature of ReconCommandSet.do_dnsmap
+- DOC003 `cli/commands/recon.py:249` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_whatweb
+- DOC003 `cli/commands/recon.py:286` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_nbtscan
+- DOC003 `cli/commands/recon.py:314` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_nikto
+- DOC003 `cli/commands/recon.py:423` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_finalrecon
+- DOC003 `cli/commands/recon.py:455` documented parameter 'rhost' is not in the signature of ReconCommandSet.do_openssl_sclient
 - DOC001 `cli/commands/recon_migrated.py:38` class ReconMigratedCommandSet is not documented
 - DOC003 `cli/commands/recon_migrated.py:784` documented parameter 'self.params['rhost']' is not in the signature of ReconMigratedCommandSet.do_apache_users
 - DOC001 `cli/commands/scan_migrated.py:32` class ScanMigratedCommandSet is not documented
@@ -1355,4 +1363,4 @@ DOC001: 2143, DOC002: 8, DOC003: 21, DOC004: 46, DOC005: 44
 - DOC001 `lazy_sentinel4.py:253` method Database.insert is not documented
 - DOC001 `lazy_sentinel4.py:269` class Alert is not documented
 - DOC001 `lazy_sentinel4.py:272` constructor Alert.__init__ is not documented
-- ... 1762 more in `api/warnings.jsonl`
+- ... 1760 more in `api/warnings.jsonl`

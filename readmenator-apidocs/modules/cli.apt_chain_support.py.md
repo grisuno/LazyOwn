@@ -250,7 +250,7 @@ Return a replanner driven by `[`modules.reactive_engine`](modules.reactive_engin
 
 ### `build_llm_recovery_chain`
 
-`function` | [cli/apt_chain_support.py:408](../../cli/apt_chain_support.py#L408)
+`function` | [cli/apt_chain_support.py:436](../../cli/apt_chain_support.py#L436)
 
 ```python
 def build_llm_recovery_chain(result: ChainRunResult, target: str = '', task_id: str = '') -> Chain | None

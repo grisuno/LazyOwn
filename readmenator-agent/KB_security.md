@@ -5,6 +5,17 @@
 - Language: py
 - Imported by: `tests/test_security_lazyc2.py`
 
+## lazyc2/security/cli_credentials.py
+- Doc: CLI boot credentials: owner-only credential file and RBAC registration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `write_credentials_file` (function, line 22) `def write_credentials_file(username, password, path)`
+  - `resolve_boot_credentials` (function, line 47) `def resolve_boot_credentials(user, password, rotate_on_boot, generator, is_insecure)`
+  - `register_cli_user` (function, line 80) `def register_cli_user(store, username, password, hash_password, create_role)`
+- Depends on: `core/logging.py`
+- Imported by: `lazyc2.py`, `tests/test_c2_credential_bootstrap.py`
+
 ## lazyc2/security/command_allowlist.py
 - Doc: Command allowlist policy for the LazyOwn C2 ``/api/run`` endpoint.
 - Layer: utility

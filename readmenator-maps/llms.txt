@@ -1,6 +1,6 @@
 # LazyOwn
 
-> Static analysis knowledge base for LazyOwn: 23 communities, 1186 files, 11472 imports, 10 languages, 22271 symbols.
+> Static analysis knowledge base for LazyOwn: 25 communities, 1202 files, 11683 imports, 10 languages, 22632 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 
@@ -14,14 +14,14 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p12.md](md/readmenator-agent/API_p12.md): Depends on: lazygui/version.py, modules/worldmodel.py
 - [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Imported by: modules/kerberoasting.py, modules/kerberostickets.py
 - [readmenator-agent/API_p14.md](md/readmenator-agent/API_p14.md): Depends on: modules/lazyclibridge.py, modules/lazyintel.py
-- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): Imported by: skills/lazyownmcp.py, tests/testcoremodules.py
-- [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Imported by: modules/customtools.py, modules/lazyloop.py, skills/autonomousdaemon.py, static/js/chart.min.js, tests/testautonomousops.py...
-- [readmenator-agent/API_p17.md](md/readmenator-agent/API_p17.md): Depends on: core/logging.py
-- [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): Imported by: cli/commands/lazyops.py, modules/lazybridge.py, modules/lazyloop.py, modules/lazyproxy.py, skills/autonomousdaemon.py, skills/lazyownmcp.py...
-- [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): normalizetrailingnewline (function) readmeneitor.py:74 def normalizetrailingnewline(outputpath) -- Collapse a generated file tail to exactly one newline.
+- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): Depends on: core/logging.py, modules/aimodel.py
+- [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): dottedquadtonum (function) modules/nmap2csv.py:126 def dottedquadtonum(ip) -- Convert decimal dotted quad string IP to long integer
+- [readmenator-agent/API_p17.md](md/readmenator-agent/API_p17.md): Depends on: modules/chainstate.py
+- [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): Depends on: core/logging.py
+- [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): Depends on: cli/commands/containers.py, lazyown.py
 - [readmenator-agent/API_p2.md](md/readmenator-agent/API_p2.md): Depends on: cli/commands/base.py, core/defaults.py, utils.py
-- [readmenator-agent/API_p20.md](md/readmenator-agent/API_p20.md): Depends on: modules/killchain.py
-- [readmenator-agent/API_p21.md](md/readmenator-agent/API_p21.md): loadcommandindex (function) skills/mcptoolgenerator.py:29 def loadcommandindex()
+- [readmenator-agent/API_p20.md](md/readmenator-agent/API_p20.md): Imported by: cli/commands/daemonctl.py, skills/autonomousdaemon.py, skills/lazyownmcp.py, tests/testdaemoncontrol.py
+- [readmenator-agent/API_p21.md](md/readmenator-agent/API_p21.md): Depends on: cli/commands/enum.py, core/logging.py, modules/detectionoracle.py, modules/loggingconfig.py
 - [readmenator-agent/API_p22.md](md/readmenator-agent/API_p22.md): Depends on: cli/assign.py, lazygui/services/factory.py, lazyown-docker/init.sh
 - [readmenator-agent/API_p23.md](md/readmenator-agent/API_p23.md): cloneNode (function) static/js/html2pdf.bundle.min.js:7332 -- Deep-clone a node and preserve contents/properties.
 - [readmenator-agent/API_p24.md](md/readmenator-agent/API_p24.md): Depends on: cli/show.py, core/process.py, lazyown-docker/init.sh
@@ -31,16 +31,16 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p6.md](md/readmenator-agent/API_p6.md): Depends on: modules/aimodel.py, modules/llmfactory.py
 - [readmenator-agent/API_p7.md](md/readmenator-agent/API_p7.md): Depends on: core/console.py, core/hardening.py, core/safeexec.py, core/safesubprocess.py, core/validators.py
 - [readmenator-agent/API_p8.md](md/readmenator-agent/API_p8.md): Depends on: core/paramregistry.py
-- [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Depends on: lazygui/config/constants.py, lazygui/services/eventlog.py, lazygui/services/models.py
+- [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Depends on: lazygui/config/constants.py
 - [readmenator-agent/ARCHITECTURE.md](md/readmenator-agent/ARCHITECTURE.md): cli/init.py -> cli/aliases.py
-- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/dashboardtui.py -> cli/toastbus.py
-- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/widgets/init.py -> lazygui/widgets/eventlogview.py
-- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): modules/opsecscorer.py -> core/logging.py
-- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): tests/testatomicloop.py -> modules/atomicresolver.py
-- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): tests/testorchestratorapi.py -> modules/lazyloop.py
+- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/dashboardtui.py -> cli/opscommands.py
+- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/theme/palettes/cobaltclone.py -> lazygui/theme/tokens.py
+- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): modules/memorystore.py -> modules/memoryembeddings.py
+- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): tests/conftest.py -> modules/worldmodel.py
+- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): tests/testloopstorerace.py -> modules/lazyloop.py
 - [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): cli/aliases.py -> future, pathlib, string, typing, yaml
-- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): modules/loopguardrails.py -> future, collections, contextlib, dataclasses, hashlib, json, math, os, pathlib, random, re, tempfile, threading, time
-- [readmenator-agent/ARCHITECTURE_p9.md](md/readmenator-agent/ARCHITECTURE_p9.md): tests/testsafetygates.py -> future, os, time
+- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): modules/llmpool.py -> future, collections.abc, dataclasses, hashlib, itertools, json, os, pathlib, threading, time
+- [readmenator-agent/ARCHITECTURE_p9.md](md/readmenator-agent/ARCHITECTURE_p9.md): tests/testreactiveenginesemantic.py -> future, pathlib, sys, typing
 - [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 - [readmenator-agent/INDEX_p2.md](md/readmenator-agent/INDEX_p2.md)
 - [readmenator-agent/INDEX_p3.md](md/readmenator-agent/INDEX_p3.md)

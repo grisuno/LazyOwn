@@ -27,7 +27,7 @@ The stdio transport is used (default), matching OpenCode local MCP config.
 
 ### `list_tools`
 
-`function` `async` | [skills/lazyown_mcp_opencode.py:178](../../skills/lazyown_mcp_opencode.py#L178)
+`function` `async` | [skills/lazyown_mcp_opencode.py:181](../../skills/lazyown_mcp_opencode.py#L181)
 
 Decorators: `@server.list_tools()`
 
@@ -45,7 +45,7 @@ Expose the curated subset under short names, keeping original schemas.
 
 ### `call_tool`
 
-`function` `async` | [skills/lazyown_mcp_opencode.py:198](../../skills/lazyown_mcp_opencode.py#L198)
+`function` `async` | [skills/lazyown_mcp_opencode.py:201](../../skills/lazyown_mcp_opencode.py#L201)
 
 Decorators: `@server.call_tool()`
 
@@ -74,7 +74,7 @@ Proxy the short name to the full LazyOwn MCP handler.
 
 ### `main`
 
-`function` `async` | [skills/lazyown_mcp_opencode.py:208](../../skills/lazyown_mcp_opencode.py#L208)
+`function` `async` | [skills/lazyown_mcp_opencode.py:211](../../skills/lazyown_mcp_opencode.py#L211)
 
 ```python
 async def main() -> None
@@ -100,7 +100,7 @@ CURATED_TOOLS: dict[str, str]
 
 ### `HARNESS_TOOLS`
 
-`constant` | [skills/lazyown_mcp_opencode.py:61](../../skills/lazyown_mcp_opencode.py#L61)
+`constant` | [skills/lazyown_mcp_opencode.py:64](../../skills/lazyown_mcp_opencode.py#L64)
 
 ```python
 HARNESS_TOOLS: dict[str, dict[str, str]]

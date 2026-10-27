@@ -84,7 +84,7 @@ flowchart LR
 
 ### `OutcomeEvent`
 
-`class` `dataclass` | [modules/outcome_bus.py:73](../../modules/outcome_bus.py#L73)
+`class` `dataclass` | [modules/outcome_bus.py:75](../../modules/outcome_bus.py#L75)
 
 Decorators: `@dataclass`
 
@@ -134,7 +134,7 @@ One engagement outcome ready for sink fan-out.
 
 #### `OutcomeEvent.host_value`
 
-`property` | [modules/outcome_bus.py:101](../../modules/outcome_bus.py#L101)
+`property` | [modules/outcome_bus.py:103](../../modules/outcome_bus.py#L103)
 
 Decorators: `@property`
 
@@ -150,7 +150,7 @@ Return the best host identifier available.
 
 #### `OutcomeEvent.key`
 
-`method` | [modules/outcome_bus.py:105](../../modules/outcome_bus.py#L105)
+`method` | [modules/outcome_bus.py:107](../../modules/outcome_bus.py#L107)
 
 ```python
 def key(self) -> str
@@ -166,7 +166,7 @@ Return the idempotency key for this event.
 
 #### `OutcomeEvent.to_dict`
 
-`method` | [modules/outcome_bus.py:123](../../modules/outcome_bus.py#L123)
+`method` | [modules/outcome_bus.py:125](../../modules/outcome_bus.py#L125)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -182,7 +182,7 @@ Return a JSON-serializable view.
 
 ### `OutcomeBus`
 
-`class` | [modules/outcome_bus.py:151](../../modules/outcome_bus.py#L151)
+`class` | [modules/outcome_bus.py:153](../../modules/outcome_bus.py#L153)
 
 ```python
 class OutcomeBus
@@ -202,7 +202,7 @@ Fan out outcome events to every configured sink.
 
 #### `OutcomeBus.__init__`
 
-`constructor` | [modules/outcome_bus.py:154](../../modules/outcome_bus.py#L154)
+`constructor` | [modules/outcome_bus.py:156](../../modules/outcome_bus.py#L156)
 
 ```python
 def __init__(self, ledger_path: Path | str | None = None, sink_map: dict[str, Any] | None = None) -> None
@@ -223,7 +223,7 @@ Bind the audit ledger and an optional sink map for tests.
 
 #### `OutcomeBus.reset`
 
-`method` | [modules/outcome_bus.py:167](../../modules/outcome_bus.py#L167)
+`method` | [modules/outcome_bus.py:169](../../modules/outcome_bus.py#L169)
 
 ```python
 def reset(self) -> None
@@ -235,7 +235,7 @@ Clear the in-process dedupe cache.
 
 #### `OutcomeBus.record`
 
-`method` | [modules/outcome_bus.py:199](../../modules/outcome_bus.py#L199)
+`method` | [modules/outcome_bus.py:201](../../modules/outcome_bus.py#L201)
 
 ```python
 def record(self, event: OutcomeEvent, sinks: list[str] | None = None) -> dict[str, bool]
@@ -265,7 +265,7 @@ the same event was already processed in this process.
 
 ### `get_bus`
 
-`function` | [modules/outcome_bus.py:267](../../modules/outcome_bus.py#L267)
+`function` | [modules/outcome_bus.py:269](../../modules/outcome_bus.py#L269)
 
 ```python
 def get_bus() -> OutcomeBus
@@ -285,7 +285,7 @@ Return the process-wide outcome bus.
 
 ### `reset_bus`
 
-`function` | [modules/outcome_bus.py:276](../../modules/outcome_bus.py#L276)
+`function` | [modules/outcome_bus.py:278](../../modules/outcome_bus.py#L278)
 
 ```python
 def reset_bus() -> None
@@ -301,7 +301,7 @@ Reset the process-wide bus cache (tests and long-lived operators).
 
 ### `record`
 
-`function` | [modules/outcome_bus.py:281](../../modules/outcome_bus.py#L281)
+`function` | [modules/outcome_bus.py:283](../../modules/outcome_bus.py#L283)
 
 ```python
 def record(event: OutcomeEvent, sinks: list[str] | None = None) -> dict[str, bool]
@@ -326,7 +326,7 @@ Publish one event through the process-wide bus.
 
 ### `record_event`
 
-`function` | [modules/outcome_bus.py:286](../../modules/outcome_bus.py#L286)
+`function` | [modules/outcome_bus.py:288](../../modules/outcome_bus.py#L288)
 
 ```python
 def record_event(**kwargs: Any) -> dict[str, bool]
@@ -352,7 +352,7 @@ Build and publish one event from keyword fields.
 
 ### `severity_for_event`
 
-`function` | [modules/outcome_bus.py:291](../../modules/outcome_bus.py#L291)
+`function` | [modules/outcome_bus.py:293](../../modules/outcome_bus.py#L293)
 
 ```python
 def severity_for_event(severity: str) -> str
@@ -376,7 +376,7 @@ Map an outcome severity to the event-bus severity vocabulary.
 
 ### `category_for_event`
 
-`function` | [modules/outcome_bus.py:296](../../modules/outcome_bus.py#L296)
+`function` | [modules/outcome_bus.py:298](../../modules/outcome_bus.py#L298)
 
 ```python
 def category_for_event(kind: str) -> str
@@ -426,7 +426,7 @@ SINK_LOADERS: dict[str, tuple[str, str]]
 
 ### `DEFAULT_SINKS`
 
-`constant` | [modules/outcome_bus.py:47](../../modules/outcome_bus.py#L47)
+`constant` | [modules/outcome_bus.py:49](../../modules/outcome_bus.py#L49)
 
 ```python
 DEFAULT_SINKS = tuple((name for name in SINK_LOADERS if name != 'campaign_db'))

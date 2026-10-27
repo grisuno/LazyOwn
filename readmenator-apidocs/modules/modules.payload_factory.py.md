@@ -189,6 +189,8 @@ Generate a reverse shell one-liner for various interpreters.
 def __init__(self) -> None
 ```
 
+*Called by:* [`apply`](modules.sinks.beacon_dispatch.py.md#apply)
+
 <a id="reverseshellpayload-generate"></a>
 
 #### `ReverseShellPayload.generate`
@@ -210,6 +212,8 @@ Generate the raw payload bytes.
 **Returns:** `bytes`
 
 > **Inherited:** Documentation from [`PayloadTemplate.generate`](#payloadtemplate-generate) (modules/payload_factory.py:237).
+
+*Called by:* [`apply`](modules.sinks.beacon_dispatch.py.md#apply)
 
 ---
 

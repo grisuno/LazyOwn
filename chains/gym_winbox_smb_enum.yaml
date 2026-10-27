@@ -1,0 +1,15 @@
+name: gym_winbox_smb_enum
+version: 1
+description: 'WinBox: SMB service and OS fingerprint (T1135).'
+enabled: true
+extends: gym_winbox_chain
+tags:
+- gym
+- winbox
+- windows
+platforms:
+- windows
+defaults:
+  exploit: winbox_smb_enum
+  vuln: winbox_smb_enum
+  port: '445'

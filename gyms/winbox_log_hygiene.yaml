@@ -1,0 +1,27 @@
+id: winbox_log_hygiene
+name: WinBox Log Hygiene - Evidence Sweep
+description: Collect the Security and Sysmon event logs the guest wrote during
+  the engagement and confirm which of your artefacts are visible to defenders.
+scenario: winbox
+chain: gym_winbox_eventlogs_evidence
+objective: Extract recent event-log rows and identify your own footprint.
+difficulty: easy
+phases:
+- postexp
+- exfil
+required_techniques:
+- eventlog_query
+- artifact_review
+bonus_techniques:
+- sysmon_review
+- opsec_hygiene
+max_points: 1000
+speed_bonus_max: 300
+stealth_bonus_max: 200
+technique_diversity_bonus: 200
+hints:
+- winbox eventlogs defaults to the Security log, last hour, CSV
+- winbox eventlogs --log "Microsoft-Windows-Sysmon/Operational" for Sysmon
+- Pipe into csvgrep -c Id -m 4624 to find logon events
+success_check: event-log rows collected under sessions/winbox
+elo_bonus: 150

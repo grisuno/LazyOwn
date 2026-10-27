@@ -1,0 +1,65 @@
+name: gym_winbox_chain
+version: 1
+description: 'WinBox gym base chain: ensure VM, bind target, scan once, run one
+  exploit, sync surfaces.'
+enabled: true
+tags:
+- gym
+- winbox
+- windows
+platforms:
+- windows
+defaults:
+  lhost: 127.0.0.1
+  lport: '4444'
+  port: '445'
+  exploit: ''
+  vuln: ''
+steps:
+- id: vm
+  phase: recon
+  description: Ensure the WinBox lab VM is running (full idempotent bootstrap).
+  run: winbox up
+  timeout: 3600
+- id: scope
+  phase: recon
+  description: Bind the gym target to the lab VM address.
+  run: winbox resolve
+  capture_regex: '(?P<vm_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
+- id: bind
+  phase: recon
+  description: Mirror the VM address into rhost when the operator left it empty.
+  run: assign rhost {vm_ip}
+  when: not target
+  continue_on_error: true
+- id: scan
+  phase: recon
+  description: Scan once and reuse the XML on later runs.
+  run: lazynmap {target}
+  skip_if_exists: sessions/scan_{target}.nmap.xml
+  timeout: 900
+- id: exploit
+  phase: exploit
+  description: Run the selected YAML exploit and fan the outcome out.
+  run: python3 modules/atomic_exploit_bridge.py run --id {exploit} --rhost {target}
+    --lhost {lhost} --lport {lport} --port {port} --feed
+  timeout: 300
+  continue_on_error: false
+  sinks:
+  - world_model
+  - killchain
+  - intel_graph
+  - attack_graph
+  - c2_surfaces
+  - objectives
+  - report
+- id: sync
+  phase: report
+  description: Mirror the loop graphs into world model and objectives.
+  run: lazy_sync
+  continue_on_error: true
+- id: session
+  phase: report
+  description: Refresh the C2 session report.
+  run: create_session_json
+  continue_on_error: true

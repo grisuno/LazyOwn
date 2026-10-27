@@ -35,14 +35,15 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `template_placeholders` | function | `cli/aliases.py:56` | `def template_placeholders(template)` |
 | `ChainArgs` | class | `cli/apt_chain_support.py:48` | `class ChainArgs` |
 | `_decision_command` | function | `cli/apt_chain_support.py:377` | `def _decision_command(decision)` |
-| `_platform` | function | `cli/apt_chain_support.py:480` | `def _platform()` |
+| `_platform` | function | `cli/apt_chain_support.py:510` | `def _platform()` |
+| `_recent_changes_block` | function | `cli/apt_chain_support.py:408` | `def _recent_changes_block(target)` |
 | `_set_value` | function | `cli/apt_chain_support.py:141` | `def _set_value(args, flag, value)` |
 | `_step_from_decision` | function | `cli/apt_chain_support.py:386` | `def _step_from_decision(command, outcome, executed_count)` |
 | `_token_name_ok` | function | `cli/apt_chain_support.py:42` | `def _token_name_ok(name)` |
 | `adversarial_continue` | function | `cli/apt_chain_support.py:289` | `def adversarial_continue(chain)` |
 | `approve` | function | `cli/apt_chain_support.py:338` | `def approve(step_id, command)` |
 | `build_cli_approver` | function | `cli/apt_chain_support.py:330` | `def build_cli_approver(printer, input_fn)` |
-| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:408` | `def build_llm_recovery_chain(result, target, task_id)` |
+| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:436` | `def build_llm_recovery_chain(result, target, task_id)` |
 | `build_reactive_replanner` | function | `cli/apt_chain_support.py:352` | `def build_reactive_replanner()` |
 | `parse_chain_args` | function | `cli/apt_chain_support.py:72` | `def parse_chain_args(line)` |
 | `render_result` | function | `cli/apt_chain_support.py:297` | `def render_result(result)` |
@@ -495,6 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `_campaign_export` | method | `cli/commands/campaign.py:130` | `def _campaign_export(self, name)` |
 | `_campaign_import` | method | `cli/commands/campaign.py:179` | `def _campaign_import(self, package_path)` |
 | `_campaign_list` | method | `cli/commands/campaign.py:300` | `def _campaign_list(self)` |
-| `_campaign_status` | method | `cli/commands/campaign.py:332` | `def _campaign_status(self)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

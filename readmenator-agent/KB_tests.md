@@ -1,5 +1,5 @@
-# Subsystem: tests (page 1 of 20)
-Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md), [KB_tests_p17.md](KB_tests_p17.md), [KB_tests_p18.md](KB_tests_p18.md), [KB_tests_p19.md](KB_tests_p19.md), [KB_tests_p20.md](KB_tests_p20.md)
+# Subsystem: tests (page 1 of 21)
+Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md), [KB_tests_p17.md](KB_tests_p17.md), [KB_tests_p18.md](KB_tests_p18.md), [KB_tests_p19.md](KB_tests_p19.md), [KB_tests_p20.md](KB_tests_p20.md), [KB_tests_p21.md](KB_tests_p21.md)
 
 ## tests/__init__.py
 - Layer: testing
@@ -13,14 +13,15 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `_isolated_llm_health` (function, line 16) `def _isolated_llm_health(tmp_path, monkeypatch)`
   - `_fast_llm_connect_backoff` (function, line 46) `def _fast_llm_connect_backoff(monkeypatch)`
   - `_reset_world_model_singleton` (function, line 62) `def _reset_world_model_singleton()`
-  - `_offline_llm_for_loop_tests` (function, line 72) `def _offline_llm_for_loop_tests(request, monkeypatch)`
+  - `_reset_guard_harness` (function, line 72) `def _reset_guard_harness()`
+  - `_offline_llm_for_loop_tests` (function, line 91) `def _offline_llm_for_loop_tests(request, monkeypatch)`
   - `_isolated_path` (function, line 32) `def _isolated_path()`
-  - `_offline` (function, line 89) `def _offline(model, prompt, max_tokens)`
-  - `_HealthyRegistry` (class, line 94) `class _HealthyRegistry`
-  - `healthy` (method, line 97) `def healthy(self, name)`
-  - `report_failure` (method, line 100) `def report_failure(self, name, reason)`
-  - `report_success` (method, line 103) `def report_success(self, name)`
-- Depends on: `modules/lazy_agent.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_ai_bridge.py`, `modules/world_model.py`
+  - `_offline` (function, line 108) `def _offline(model, prompt, max_tokens)`
+  - `_HealthyRegistry` (class, line 113) `class _HealthyRegistry`
+  - `healthy` (method, line 116) `def healthy(self, name)`
+  - `report_failure` (method, line 119) `def report_failure(self, name, reason)`
+  - `report_success` (method, line 122) `def report_success(self, name)`
+- Depends on: `modules/guardrails/harness.py`, `modules/lazy_agent.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_ai_bridge.py`, `modules/world_model.py`
 
 ## tests/integration_autonomous_flow.py
 - Doc: test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify module...
@@ -80,6 +81,17 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `restore_files` (function, line 69) `def restore_files(backups, base_dir, mutations)`
   - `run_tests` (function, line 76) `def run_tests()`
   - `main` (function, line 87) `def main()`
+
+## tests/run_mutation_beacon_dispatch.py
+- Doc: Mutation runner for the beacon dispatch sink contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 40) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 50) `def restore_files(backups, base_dir, mutations)`
+  - `run_scoped_tests` (function, line 56) `def run_scoped_tests(base_dir)`
+  - `apply_mutation` (function, line 70) `def apply_mutation(info, base_dir)`
+  - `main` (function, line 88) `def main()`
 
 ## tests/run_mutation_c2_route_auth.py
 - Doc: Mutation gate for C2 route-level auth boundaries.
@@ -146,6 +158,16 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `restore_files` (function, line 69) `def restore_files(backups, base_dir, mutations)`
   - `run_tests` (function, line 74) `def run_tests()`
   - `main` (function, line 84) `def main()`
+
+## tests/run_mutation_llm_orchestrator.py
+- Doc: Mutation runner for the orchestrator-governed LLM failover contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 166) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 184) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 196) `def run_tests()`
+  - `main` (function, line 220) `def main()`
 
 ## tests/run_mutation_loop_cli_catalog.py
 - Doc: Mutation runner for the planner catalog visibility contract.
@@ -246,6 +268,16 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Symbols:
   - `main` (function, line 52) `def main()`
 - Depends on: `tests/mutation_common.py`
+
+## tests/run_mutation_world_diff.py
+- Doc: Mutation runner for the lazy world-diff contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 48) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 58) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 65) `def run_tests()`
+  - `main` (function, line 77) `def main()`
 
 ## tests/test_aci_planner.py
 - Doc: tests/test_aci_planner.py
@@ -461,25 +493,6 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_update_all_audits_summary` (function, line 137) `def test_update_all_audits_summary(tmp_path)`
   - `test_unknown_addon_fails` (function, line 149) `def test_unknown_addon_fails(tmp_path)`
 - Depends on: `modules/addon_updater.py`
-
-## tests/test_aes_key_propagation.py
-- Doc: TDD tests for the AES key resolution contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestHexSource` (class, line 32) `class TestHexSource`
-  - `TestDiskSource` (class, line 57) `class TestDiskSource`
-  - `TestGeneratedSource` (class, line 67) `class TestGeneratedSource`
-  - `TestConfigExposesKey` (class, line 83) `class TestConfigExposesKey`
-  - `test_valid_hex_decodes_to_32_bytes` (method, line 35) `def test_valid_hex_decodes_to_32_bytes(self)`
-  - `test_wrong_length_raises` (method, line 42) `def test_wrong_length_raises(self)`
-  - `test_non_hex_raises` (method, line 49) `def test_non_hex_raises(self)`
-  - `test_existing_disk_key_is_loaded` (method, line 60) `def test_existing_disk_key_is_loaded(self, tmp_path)`
-  - `test_generated_key_is_32_bytes` (method, line 70) `def test_generated_key_is_32_bytes(self, tmp_path)`
-  - `test_generated_key_is_persisted` (method, line 75) `def test_generated_key_is_persisted(self, tmp_path)`
-  - `test_config_has_aes_key_attribute` (method, line 86) `def test_config_has_aes_key_attribute(self)`
-  - `test_config_exposes_params_dict` (method, line 91) `def test_config_exposes_params_dict(self)`
-- Depends on: `core/config.py`
 
 
 Next: [KB_tests_p2.md](KB_tests_p2.md)

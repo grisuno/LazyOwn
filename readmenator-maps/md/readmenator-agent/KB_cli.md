@@ -41,11 +41,12 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
   - `build_reactive_replanner` (function, line 352) `def build_reactive_replanner()`
   - `_decision_command` (function, line 377) `def _decision_command(decision)`
   - `_step_from_decision` (function, line 386) `def _step_from_decision(command, outcome, executed_count)`
-  - `build_llm_recovery_chain` (function, line 408) `def build_llm_recovery_chain(result, target, task_id)`
-  - `_platform` (function, line 480) `def _platform()`
+  - `_recent_changes_block` (function, line 408) `def _recent_changes_block(target)`
+  - `build_llm_recovery_chain` (function, line 436) `def build_llm_recovery_chain(result, target, task_id)`
+  - `_platform` (function, line 510) `def _platform()`
   - `approve` (function, line 338) `def approve(step_id, command)`
   - `replan` (function, line 355) `def replan(context)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/guardrails/__init__.py`, `modules/mediation/__init__.py`, `modules/reactive_engine.py`
+- Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/guardrails/__init__.py`, `modules/mediation/__init__.py`, `modules/reactive_engine.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`, `tests/test_guardrails.py`
 
 ## cli/assign.py

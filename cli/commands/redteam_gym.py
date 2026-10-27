@@ -224,6 +224,17 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
         hints = chal.get("hints", [])
         if hints:
             print_msg(f"Hint: {hints[0]}")
+        if (
+            chal["scenario"] == "winbox"
+            and (lab.get("success"))
+            and lab.get("ip")
+            and chal.get("chain")
+            and "--no-chain" not in args
+        ):
+            print_msg(f"{CYAN}Auto-launching chain: apt_chain {chal['chain']} {lab['ip']}{RESET}")
+            shell = self._resolve_shell()
+            if shell is not None:
+                shell.onecmd(f"apt_chain {chal['chain']} {lab['ip']}")
         print_msg("")
         print_msg(f"When done: gym submit {result['run_id']} --techniques <t1,t2,...>")
         print_msg(f"Stop it:   gym stop {result['run_id']}  (or gym stop for all)")

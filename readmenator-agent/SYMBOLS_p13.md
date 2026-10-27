@@ -3,6 +3,43 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gather_evidence` | function | `modules/ctf_capture.py:326` | `def _gather_evidence(candidates)` |
+| `_publish_capture_outcome` | function | `modules/ctf_capture.py:209` | `def _publish_capture_outcome(record)` |
+| `_safe_dir` | function | `modules/ctf_capture.py:245` | `def _safe_dir(vuln_id)` |
+| `capture` | function | `modules/ctf_capture.py:151` | `def capture(vuln_id, target, output, sessions_dir, catalogue)` |
+| `list_records` | function | `modules/ctf_capture.py:276` | `def list_records(sessions_dir)` |
+| `output_dir` | function | `modules/ctf_capture.py:32` | `def output_dir(sessions_dir)` |
+| `record_path` | function | `modules/ctf_capture.py:232` | `def record_path(vuln_id, sessions_dir)` |
+| `store_record` | function | `modules/ctf_capture.py:258` | `def store_record(record, sessions_dir)` |
+| `summary` | function | `modules/ctf_capture.py:299` | `def summary(sessions_dir)` |
+| `_load` | function | `modules/custom_tools.py:37` | `def _load()` |
+| `_run_http` | function | `modules/custom_tools.py:179` | `def _run_http(tool, arg, on_output)` |
+| `_save` | function | `modules/custom_tools.py:45` | `def _save(payload)` |
+| `_store_file` | function | `modules/custom_tools.py:30` | `def _store_file()` |
+| `_trigger_tokens` | function | `modules/custom_tools.py:122` | `def _trigger_tokens(raw)` |
+| `add_tool` | function | `modules/custom_tools.py:52` | `def add_tool(name, kind, target, description, method, body, timeout, trigger)` |
+| `get_tool` | function | `modules/custom_tools.py:114` | `def get_tool(name)` |
+| `list_tools` | function | `modules/custom_tools.py:109` | `def list_tools()` |
+| `match_tools` | function | `modules/custom_tools.py:128` | `def match_tools(text, limit)` |
+| `remove_tool` | function | `modules/custom_tools.py:97` | `def remove_tool(name)` |
+| `run_tool` | function | `modules/custom_tools.py:151` | `def run_tool(name, arg, on_output)` |
+| `CVEMatcher` | class | `modules/cve_matcher.py:60` | `class CVEMatcher` |
+| `CVEResult` | class | `modules/cve_matcher.py:51` | `class CVEResult` |
+| `__init__` | method | `modules/cve_matcher.py:70` | `def __init__(self, api_key, cache_dir)` |
+| `_cache_path` | method | `modules/cve_matcher.py:95` | `def _cache_path(self, params)` |
+| `_load_cache` | method | `modules/cve_matcher.py:100` | `def _load_cache(self, params)` |
+| `_query` | method | `modules/cve_matcher.py:128` | `def _query(self)` |
+| `_rate_limit` | method | `modules/cve_matcher.py:121` | `def _rate_limit(self)` |
+| `_save_cache` | method | `modules/cve_matcher.py:112` | `def _save_cache(self, params, results)` |
+| `get_matcher` | function | `modules/cve_matcher.py:198` | `def get_matcher()` |
+| `search` | method | `modules/cve_matcher.py:82` | `def search(self)` |
+| `search` | function | `modules/cve_matcher.py:206` | `def search(product, version, max_results)` |
+| `search_by_cpe` | method | `modules/cve_matcher.py:89` | `def search_by_cpe(self, cpe_name, max_results)` |
+| `ACEntry` | class | `modules/dacl_abuse.py:67` | `class ACEntry` |
+| `ACLTarget` | class | `modules/dacl_abuse.py:91` | `class ACLTarget` |
+| `DACLAbuseEngine` | class | `modules/dacl_abuse.py:113` | `class DACLAbuseEngine` |
+| `__init__` | method | `modules/dacl_abuse.py:136` | `def __init__(self, domain, domain_sid, acl_data)` |
+| `_calculate_severity` | method | `modules/dacl_abuse.py:384` | `def _calculate_severity(target)` |
 | `_extract_cn` | method | `modules/dacl_abuse.py:414` | `def _extract_cn(dn)` |
 | `_guess_object_type` | method | `modules/dacl_abuse.py:397` | `def _guess_object_type(dn)` |
 | `_is_dangerous_ace` | method | `modules/dacl_abuse.py:379` | `def _is_dangerous_ace(ace)` |
@@ -459,42 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `_dispatch_loop` | method | `modules/event_bus.py:416` | `def _dispatch_loop(self)` |
 | `_init_sinks` | method | `modules/event_bus.py:273` | `def _init_sinks(self)` |
 | `_match_topic` | method | `modules/event_bus.py:517` | `def _match_topic(self, topic, event)` |
-| `_notify_shutdown` | method | `modules/event_bus.py:479` | `def _notify_shutdown(self)` |
-| `close` | method | `modules/event_bus.py:140` | `def close(self)` |
-| `close` | method | `modules/event_bus.py:159` | `def close(self)` |
-| `close` | method | `modules/event_bus.py:198` | `def close(self)` |
-| `close` | method | `modules/event_bus.py:226` | `def close(self)` |
-| `drain` | method | `modules/event_bus.py:354` | `def drain(self)` |
-| `from_dict` | method | `modules/event_bus.py:115` | `def from_dict(cls, d)` |
-| `get_event_bus` | function | `modules/event_bus.py:570` | `def get_event_bus()` |
-| `history` | method | `modules/event_bus.py:556` | `def history(self, n, category)` |
-| `history_since` | method | `modules/event_bus.py:564` | `def history_since(self, since_ts)` |
-| `instance` | method | `modules/event_bus.py:287` | `def instance(cls)` |
-| `publish` | method | `modules/event_bus.py:336` | `def publish(self, event)` |
-| `publish_event` | function | `modules/event_bus.py:575` | `def publish_event(category, event_type, source, payload, severity, target, operator)` |
-| `shutdown` | method | `modules/event_bus.py:372` | `def shutdown(self)` |
-| `subscribe` | method | `modules/event_bus.py:300` | `def subscribe(self, subscriber_id, callback)` |
-| `subscribe_async` | method | `modules/event_bus.py:315` | `def subscribe_async(self, subscriber_id)` |
-| `subscribe_topic` | method | `modules/event_bus.py:305` | `def subscribe_topic(self, subscriber_id, topic, callback)` |
-| `subscriber_count` | method | `modules/event_bus.py:295` | `def subscriber_count(self)` |
-| `to_dict` | method | `modules/event_bus.py:96` | `def to_dict(self)` |
-| `to_json` | method | `modules/event_bus.py:111` | `def to_json(self)` |
-| `unsubscribe` | method | `modules/event_bus.py:327` | `def unsubscribe(self, subscriber_id)` |
-| `write` | method | `modules/event_bus.py:137` | `def write(self, event)` |
-| `write` | method | `modules/event_bus.py:151` | `def write(self, event)` |
-| `write` | method | `modules/event_bus.py:181` | `def write(self, event)` |
-| `write` | method | `modules/event_bus.py:205` | `def write(self, event)` |
-| `AutoRecommender` | class | `modules/event_consumers.py:191` | `class AutoRecommender` |
-| `CredentialReactor` | class | `modules/event_consumers.py:262` | `class CredentialReactor` |
-| `DashboardPusher` | class | `modules/event_consumers.py:348` | `class DashboardPusher` |
-| `PhaseTracker` | class | `modules/event_consumers.py:136` | `class PhaseTracker` |
-| `SoulSync` | class | `modules/event_consumers.py:310` | `class SoulSync` |
-| `__call__` | method | `modules/event_consumers.py:149` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:197` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:272` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:313` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:351` | `def __call__(self, event)` |
-| `__init__` | method | `modules/event_consumers.py:146` | `def __init__(self)` |
-| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

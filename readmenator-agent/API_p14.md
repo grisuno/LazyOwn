@@ -189,6 +189,25 @@ Depends on: `core/process.py`
 - `verdict_from_checks` (function) `modules/lazy_verify.py:214` `def verdict_from_checks(checks_results)` -- Deterministic verdict from a list of check results.
 - `verify_finding` (function) `modules/lazy_verify.py:232` `def verify_finding(finding_text, poc, executor)` -- Plan, run and judge the read-only checks for one finding.
 
+## modules/lazy_world_diff.py
+Depends on: `modules/world_model.py`
+Imported by: `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`
+- `host_snapshot` (function) `modules/lazy_world_diff.py:78` `def host_snapshot(world, ip)` -- Read one host out of a world-model dict as a canonical snapshot.
+- `snapshot_fingerprint` (function) `modules/lazy_world_diff.py:119` `def snapshot_fingerprint(state)` -- Hash one snapshot canonically; key order never matters.
+- `diff_snapshots` (function) `modules/lazy_world_diff.py:131` `def diff_snapshots(before, after)` -- Deterministic change list between two host snapshots.
+- `record_changes` (function) `modules/lazy_world_diff.py:200` `def record_changes(changes, sessions_dir, now)` -- Append changes to the campaign change log, deduped and bounded.
+- `recent_changes` (function) `modules/lazy_world_diff.py:260` `def recent_changes(sessions_dir, days, host)` -- Change rows newest-first within the window, optionally per host.
+- `prune_changes` (function) `modules/lazy_world_diff.py:270` `def prune_changes(sessions_dir, keep_days)` -- Drop change rows older than ``keep_days``; returns how many.
+- `load_host_snapshots` (function) `modules/lazy_world_diff.py:290` `def load_host_snapshots(sessions_dir)` -- Stored per-host snapshots keyed by ip.
+- `save_host_snapshots` (function) `modules/lazy_world_diff.py:301` `def save_host_snapshots(snapshots, sessions_dir)` -- Persist per-host snapshots atomically-enough (best effort).
+- `campaign_snapshots` (function) `modules/lazy_world_diff.py:312` `def campaign_snapshots(sessions_dir)` -- Snapshot every world-model host, then diff against stored ones.
+- `ghost_endpoints` (function) `modules/lazy_world_diff.py:366` `def ghost_endpoints(snapshot, limit)` -- Web endpoints (ip, port, scheme) a snapshot last had open.
+- `name_resolves` (function) `modules/lazy_world_diff.py:395` `def name_resolves(host, resolver)` -- Whether a hostname still resolves (injectable for tests).
+- `load_ghosts` (function) `modules/lazy_world_diff.py:435` `def load_ghosts(sessions_dir)` -- The ghost store ``{"hosts": {...}}`` tolerant of corruption.
+- `ghost_state_apply` (function) `modules/lazy_world_diff.py:447` `def ghost_state_apply(host, answers, sessions_dir, now)` -- Record one ghost observation and return the host's ghost record.
+- `find_ghost_hosts` (function) `modules/lazy_world_diff.py:489` `def find_ghost_hosts(candidates, snapshots, checker, resolver, cap)` -- Which candidate hostnames are ghosts: unresolvable yet answering.
+- `snapshot_engagement` (function) `modules/lazy_world_diff.py:528` `def snapshot_engagement(sessions_dir, now, world)` -- Append one daily campaign snapshot when the cooldown allows.
+
 ## modules/lazyatack.sh
 - `mostrar_ayuda` (function) `modules/lazyatack.sh:21` -- Función para mostrar ayuda
 - `validar_ip` (function) `modules/lazyatack.sh:33` -- Función para validar una dirección IP
@@ -464,30 +483,18 @@ Imported by: `lazyc2.py`, `modules/unified_dashboard.py`, `tests/test_live_surfa
 - `build_live_graph` (function) `modules/live_surface.py:72` `def build_live_graph(world)` -- Build a live vis-network payload from a world-model snapshot.
 
 ## modules/llm_adapter.py
-Depends on: `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazyphishingai.py`, `core/logging.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
-Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
-- `safe_groq_client` (function) `modules/llm_adapter.py:48` `def safe_groq_client(api_key)` -- Create a Groq client, returning None when no key is provided.
-- `process_prompt` (function) `modules/llm_adapter.py:119` `def process_prompt(client, prompt, debug)` -- Generate a single-line shell command from a user prompt.
-- `process_prompt_script` (function) `modules/llm_adapter.py:133` `def process_prompt_script(client, prompt, debug)` -- Generate a full script from a user prompt.
-- `process_prompt_adversary` (function) `modules/llm_adapter.py:147` `def process_prompt_adversary(client, prompt, debug)` -- Answer questions about MITRE ATT&CK techniques and Atomic Red Team.
-- `process_prompt_general` (function) `modules/llm_adapter.py:161` `def process_prompt_general(client, prompt, debug)` -- Answer as a general red-team assistant with payload.json context.
-- `process_prompt_search` (function) `modules/llm_adapter.py:175` `def process_prompt_search(client, prompt, debug)` -- Perform research and threat-intelligence analysis.
-- `process_prompt_task` (function) `modules/llm_adapter.py:189` `def process_prompt_task(client, prompt, debug)` -- Analyze a task-assessment JSON file for completion status.
-- `process_prompt_vuln` (function) `modules/llm_adapter.py:206` `def process_prompt_vuln(client, prompt, debug, event)` -- Analyze Nmap output for vulnerabilities and propose an action plan.
-- `process_prompt_redop` (function) `modules/llm_adapter.py:237` `def process_prompt_redop(client, prompt, debug)` -- Evaluate a red-team operation status from a JSON database file.
-- `ask_general` (function) `modules/llm_adapter.py:254` `def ask_general(prompt, debug)` -- Answer through the configured LLM backend, regardless of provider.
-
-## modules/llm_client.py
-Depends on: `core/logging.py`, `modules/ai_model.py`
-Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/lazyown_mcp.py`
-- `LLMClient.__init__` (method) `modules/llm_client.py:63` `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)`
-- `LLMClient.ask` (method) `modules/llm_client.py:79` `def ask(self, prompt)` -- Send a prompt and return the text response.
-- `LLMClient.classify` (method) `modules/llm_client.py:130` `def classify(self, output)` -- Short classification prompt.
-- `LLMClient.summarize` (method) `modules/llm_client.py:159` `def summarize(self, text)` -- Summarize a block of text (e.g. nmap output, tool output).
-- `get_client` (function) `modules/llm_client.py:268` `def get_client(api_key)` -- Return (or create) the module-level singleton LLMClient.
-- `ask` (function) `modules/llm_client.py:276` `def ask(prompt)` -- Module-level convenience wrapper.
-- `classify` (function) `modules/llm_client.py:288` `def classify(output)` -- Module-level convenience wrapper.
-- `summarize` (function) `modules/llm_client.py:293` `def summarize(text)` -- Module-level convenience wrapper.
+Depends on: `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazyphishingai.py`, `core/logging.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/llm_prompts.py`
+Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`
+- `safe_groq_client` (function) `modules/llm_adapter.py:55` `def safe_groq_client(api_key)` -- Create a Groq client, returning None when no key is provided.
+- `process_prompt` (function) `modules/llm_adapter.py:155` `def process_prompt(client, prompt, debug)` -- Generate a single-line shell command from a user prompt.
+- `process_prompt_script` (function) `modules/llm_adapter.py:169` `def process_prompt_script(client, prompt, debug)` -- Generate a full script from a user prompt.
+- `process_prompt_adversary` (function) `modules/llm_adapter.py:183` `def process_prompt_adversary(client, prompt, debug)` -- Answer questions about MITRE ATT&CK techniques and Atomic Red Team.
+- `process_prompt_general` (function) `modules/llm_adapter.py:197` `def process_prompt_general(client, prompt, debug)` -- Answer as a general red-team assistant with payload.json context.
+- `process_prompt_search` (function) `modules/llm_adapter.py:211` `def process_prompt_search(client, prompt, debug)` -- Perform research and threat-intelligence analysis.
+- `process_prompt_task` (function) `modules/llm_adapter.py:225` `def process_prompt_task(client, prompt, debug)` -- Analyze a task-assessment JSON file for completion status.
+- `process_prompt_vuln` (function) `modules/llm_adapter.py:242` `def process_prompt_vuln(client, prompt, debug, event)` -- Analyze Nmap output for vulnerabilities and propose an action plan.
+- `process_prompt_redop` (function) `modules/llm_adapter.py:273` `def process_prompt_redop(client, prompt, debug)` -- Evaluate a red-team operation status from a JSON database file.
+- `ask_general` (function) `modules/llm_adapter.py:290` `def ask_general(prompt, debug)` -- Answer through the configured LLM backend with chain failover.
 
 
 Next: [API_p15.md](API_p15.md)

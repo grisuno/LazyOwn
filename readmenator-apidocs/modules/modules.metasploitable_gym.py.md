@@ -86,7 +86,7 @@ Return every indexed vulnerability.
 
 *Calls:* [`load_index`](#load_index)
 
-*Called by:* [`RedTeamGymCommandSet.do_gym_ms2`](cli.commands.redteam_gym.py.md#redteamgymcommandset-do_gym_ms2), [`plan_matrix`](modules.gym_matrix_runner.py.md#plan_matrix), [`get`](#get), [`summary`](#summary)
+*Called by:* [`RedTeamGymCommandSet.do_gym_ms2`](cli.commands.redteam_gym.py.md#redteamgymcommandset-do_gym_ms2), [`get`](#get), [`summary`](#summary)
 
 ---
 

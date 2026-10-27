@@ -508,7 +508,7 @@ outside `[`do_assign`](cli.commands.session_ops.py.md#sessionopscommandset-do_as
 
 *Calls:* [`load_payload`](core.config.py.md#load_payload), [`save_payload`](core.config.py.md#save_payload)
 
-*Called by:* [`PhishingWizardCommandSet.do_phish_report`](cli.commands.phishing_wizard.py.md#phishingwizardcommandset-do_phish_report)
+*Called by:* [`PhishingWizardCommandSet.do_phish_report`](cli.commands.phishing_wizard.py.md#phishingwizardcommandset-do_phish_report), [`resolve_target`](modules.winbox_gym.py.md#resolve_target)
 
 ---
 

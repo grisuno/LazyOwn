@@ -302,7 +302,7 @@ can fall back to environment variables and defaults.
 
 ### `get_llm_backend`
 
-`function` | [modules/llm_factory.py:633](../../modules/llm_factory.py#L633)
+`function` | [modules/llm_factory.py:653](../../modules/llm_factory.py#L653)
 
 ```python
 def get_llm_backend(config: Mapping[str, Any] | None = None, backend: str | None = None) -> AIModel
@@ -355,7 +355,7 @@ Groq selected with no API key).
 
 ### `get_llm_backend_raw`
 
-`function` | [modules/llm_factory.py:729](../../modules/llm_factory.py#L729)
+`function` | [modules/llm_factory.py:749](../../modules/llm_factory.py#L749)
 
 ```python
 def get_llm_backend_raw(config: Mapping[str, Any] | None = None, backend: str | None = None) -> AIModel
@@ -386,7 +386,7 @@ callers should keep using [`get_llm_backend`](#get_llm_backend).
 
 ### `try_get_llm_backend`
 
-`function` | [modules/llm_factory.py:751](../../modules/llm_factory.py#L751)
+`function` | [modules/llm_factory.py:771](../../modules/llm_factory.py#L771)
 
 ```python
 def try_get_llm_backend(config: Mapping[str, Any] | None = None, backend: str | None = None) -> AIModel | None
@@ -418,7 +418,7 @@ available.
 
 ### `stream_complete`
 
-`function` | [modules/llm_factory.py:828](../../modules/llm_factory.py#L828)
+`function` | [modules/llm_factory.py:848](../../modules/llm_factory.py#L848)
 
 ```python
 def stream_complete(model: str, prompt: str, max_tokens: int = 800, on_delta: Callable[[str], None] | None = None) -> str
@@ -449,7 +449,7 @@ any error, so a backend without streaming never breaks a caller.
 
 ### `complete`
 
-`function` | [modules/llm_factory.py:899](../../modules/llm_factory.py#L899)
+`function` | [modules/llm_factory.py:919](../../modules/llm_factory.py#L919)
 
 ```python
 def complete(model: str, prompt: str, max_tokens: int = 800) -> str

@@ -2,6 +2,20 @@
 Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 ## External Imports (continued)
+- `tests/test_reactive_engine_semantic.py` -> __future__, pathlib, sys, typing
+- `tests/test_reactive_hints.py` -> __future__, pathlib, pytest, sys, unittest.mock
+- `tests/test_reactive_hints_expanded.py` -> __future__
+- `tests/test_reactive_lateral_data.py` -> __future__, unittest.mock
+- `tests/test_reasoning_stream.py` -> __future__, json, pathlib, sys
+- `tests/test_recommendation.py` -> __future__, pathlib, pytest
+- `tests/test_recon_plan.py` -> __future__, collections.abc, dataclasses, json, pathlib, tempfile, textwrap, typing, unittest
+- `tests/test_report_banners_endpoints.py` -> __future__, json, os, pathlib
+- `tests/test_require_guards.py` -> __future__
+- `tests/test_resource_script.py` -> __future__, pytest
+- `tests/test_retry_session.py` -> __future__, os, pathlib, pytest
+- `tests/test_safe_console.py` -> __future__, io, pathlib, rich, sys
+- `tests/test_safe_subprocess.py` -> __future__, json, pathlib, pytest, sys
+- `tests/test_safe_subprocess_behavior.py` -> __future__, json, pathlib, sys
 - `tests/test_safety_gates.py` -> __future__, os, time
 - `tests/test_scope_bound_auto_gate.py` -> __future__, engagement_hooks, importlib, json, pathlib, pytest, sys, time
 - `tests/test_scope_guard.py` -> __future__, pathlib, pytest, sys
@@ -49,6 +63,8 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_verb_manifest.py` -> __future__, pathlib, pytest
 - `tests/test_viral_adoption.py` -> ast, glob, json, pathlib
 - `tests/test_vuln_mitigations.py` -> __future__, ast, collections.abc, dataclasses, pathlib, pytest, re
+- `tests/test_vulnbot_fallback.py` -> __future__, json, pytest
+- `tests/test_winbox_gym.py` -> __future__, os, pathlib, tempfile, unittest, unittest.mock, yaml
 - `tests/test_wizard_binary_check.py` -> __future__, pathlib, pytest, subprocess, sys
 - `tests/test_wizard_llm.py` -> __future__
 - `tests/test_world_model_extended.py` -> __future__, pathlib, pytest, tempfile

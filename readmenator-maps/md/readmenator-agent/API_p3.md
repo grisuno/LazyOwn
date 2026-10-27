@@ -195,16 +195,16 @@ Imported by: `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contri
 Depends on: `cli/commands/_base.py`, `cli/exploit_advisor.py`, `cli/lazynmap_post.py`, `core/console.py`, `modules/intelligence_engine.py`, `utils.py`
 - `ReconCommandSet.do_batchnmap` (method) `cli/commands/recon.py:47` `def do_batchnmap(self, line)` -- Runs the internal module `modules/lazynmap.sh` for multiple Nmap scans.
 - `ReconCommandSet.do_lazynmap` (method) `cli/commands/recon.py:74` `def do_lazynmap(self, line)` -- Runs the internal module `modules/lazynmap.sh` with target mode.
-- `ReconCommandSet.do_dig` (method) `cli/commands/recon.py:154` `def do_dig(self, line)` -- Executes the `dig` command to query DNS information.
-- `ReconCommandSet.do_dnsenum` (method) `cli/commands/recon.py:186` `def do_dnsenum(self, line)` -- Performs DNS enumeration using `dnsenum` to identify subdomains for a given domain.
-- `ReconCommandSet.do_dnsmap` (method) `cli/commands/recon.py:222` `def do_dnsmap(self, line)` -- Performs DNS enumeration using `dnsmap` to discover subdomains for a specified domain.
-- `ReconCommandSet.do_whatweb` (method) `cli/commands/recon.py:255` `def do_whatweb(self, line)` -- Performs a web technology fingerprinting scan using `whatweb`.
-- `ReconCommandSet.do_nbtscan` (method) `cli/commands/recon.py:292` `def do_nbtscan(self, line)` -- Performs network scanning using `nbtscan` to discover NetBIOS names and addresses in a specified range.
-- `ReconCommandSet.do_nikto` (method) `cli/commands/recon.py:320` `def do_nikto(self, line)` -- Runs the `nikto` tool to perform a web server vulnerability scan against the specified target host.
-- `ReconCommandSet.do_finalrecon` (method) `cli/commands/recon.py:429` `def do_finalrecon(self, line)` -- Runs the `finalrecon` tool to perform a web server vulnerability scan against the specified target host.
-- `ReconCommandSet.do_openssl_sclient` (method) `cli/commands/recon.py:461` `def do_openssl_sclient(self, line)` -- Uses `openssl s_client` to connect to a specified host and port, allowing for testing and debugging of SSL/TLS...
-- `ReconCommandSet.do_ss` (method) `cli/commands/recon.py:491` `def do_ss(self, line)` -- Search all exploit sources and map findings to the next LazyOwn command.
-- `ReconCommandSet.do_wfuzz` (method) `cli/commands/recon.py:654` `def do_wfuzz(self, line)` -- Uses `wfuzz` to perform fuzzing based on provided parameters.
+- `ReconCommandSet.do_dig` (method) `cli/commands/recon.py:148` `def do_dig(self, line)` -- Executes the `dig` command to query DNS information.
+- `ReconCommandSet.do_dnsenum` (method) `cli/commands/recon.py:180` `def do_dnsenum(self, line)` -- Performs DNS enumeration using `dnsenum` to identify subdomains for a given domain.
+- `ReconCommandSet.do_dnsmap` (method) `cli/commands/recon.py:216` `def do_dnsmap(self, line)` -- Performs DNS enumeration using `dnsmap` to discover subdomains for a specified domain.
+- `ReconCommandSet.do_whatweb` (method) `cli/commands/recon.py:249` `def do_whatweb(self, line)` -- Performs a web technology fingerprinting scan using `whatweb`.
+- `ReconCommandSet.do_nbtscan` (method) `cli/commands/recon.py:286` `def do_nbtscan(self, line)` -- Performs network scanning using `nbtscan` to discover NetBIOS names and addresses in a specified range.
+- `ReconCommandSet.do_nikto` (method) `cli/commands/recon.py:314` `def do_nikto(self, line)` -- Runs the `nikto` tool to perform a web server vulnerability scan against the specified target host.
+- `ReconCommandSet.do_finalrecon` (method) `cli/commands/recon.py:423` `def do_finalrecon(self, line)` -- Runs the `finalrecon` tool to perform a web server vulnerability scan against the specified target host.
+- `ReconCommandSet.do_openssl_sclient` (method) `cli/commands/recon.py:455` `def do_openssl_sclient(self, line)` -- Uses `openssl s_client` to connect to a specified host and port, allowing for testing and debugging of SSL/TLS...
+- `ReconCommandSet.do_ss` (method) `cli/commands/recon.py:485` `def do_ss(self, line)` -- Search all exploit sources and map findings to the next LazyOwn command.
+- `ReconCommandSet.do_wfuzz` (method) `cli/commands/recon.py:648` `def do_wfuzz(self, line)` -- Uses `wfuzz` to perform fuzzing based on provided parameters.
 
 ## cli/commands/recon_migrated.py
 Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `cli/surface_tui.py`, `core/config.py`, `utils.py`
@@ -427,6 +427,10 @@ Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.p
 ## cli/commands/verb_admin.py
 Depends on: `cli/commands/_base.py`, `modules/verb_catalog.py`, `utils.py`
 - `VerbCommandSet.do_verb` (method) `cli/commands/verb_admin.py:52` `def do_verb(self, line)` -- Manage the autonomous-loop verb catalog.
+
+## cli/commands/winbox_gym.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `WinboxCommandSet.do_winbox` (method) `cli/commands/winbox_gym.py:51` `def do_winbox(self, line)` -- Control the WinBox isolated Windows lab from the LazyOwn shell.
 
 ## cli/config_history.py
 Imported by: `cli/commands/session_ops.py`, `cli/commands/ux.py`

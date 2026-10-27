@@ -3,6 +3,52 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_maybe_tls` | method | `modules/lazy_proxy.py:1183` | `def _maybe_tls(sock, scheme, host)` |
+| `_open_target` | method | `modules/lazy_proxy.py:1161` | `def _open_target(self, scheme, host, port)` |
+| `_parse_upstream` | function | `modules/lazy_proxy.py:444` | `def _parse_upstream(spec)` |
+| `_proxy_allow_private` | function | `modules/lazy_proxy.py:105` | `def _proxy_allow_private()` |
+| `_proxy_insecure_tls` | function | `modules/lazy_proxy.py:117` | `def _proxy_insecure_tls()` |
+| `_proxy_trust_ca` | function | `modules/lazy_proxy.py:122` | `def _proxy_trust_ca()` |
+| `_read_headers_from` | method | `modules/lazy_proxy.py:1199` | `def _read_headers_from(sock, limit)` |
+| `_record` | method | `modules/lazy_proxy.py:1294` | `def _record(self, scheme, host, port, url, status, req_headers, resp_headers, req_body, resp_body, content_type, error)` |
+| `_relay` | method | `modules/lazy_proxy.py:1063` | `def _relay(self, scheme, host, port, path, url, headers, body)` |
+| `_resolved_ips` | function | `modules/lazy_proxy.py:169` | `def _resolved_ips(host)` |
+| `_run_root` | function | `modules/lazy_proxy.py:510` | `def _run_root(argv)` |
+| `_safe_send_error` | method | `modules/lazy_proxy.py:971` | `def _safe_send_error(self, code, message)` |
+| `_server_class` | function | `modules/lazy_proxy.py:771` | `def _server_class()` |
+| `_sha256` | function | `modules/lazy_proxy.py:764` | `def _sha256()` |
+| `_upstream_auth_header` | function | `modules/lazy_proxy.py:475` | `def _upstream_auth_header(auth)` |
+| `_upstream_tls_context` | function | `modules/lazy_proxy.py:236` | `def _upstream_tls_context(server_hostname)` |
+| `_utc` | function | `modules/lazy_proxy.py:757` | `def _utc(timestamp)` |
+| `_validate_proxy_target` | function | `modules/lazy_proxy.py:183` | `def _validate_proxy_target(host, port, scheme)` |
+| `_validate_upstream_path` | function | `modules/lazy_proxy.py:265` | `def _validate_upstream_path(path)` |
+| `_write_leaf` | method | `modules/lazy_proxy.py:693` | `def _write_leaf(self, host, cert_path, key_path)` |
+| `apply_env` | function | `modules/lazy_proxy.py:1361` | `def apply_env(ca_path, host, port)` |
+| `ca_path` | method | `modules/lazy_proxy.py:906` | `def ca_path(self)` |
+| `ca_trusted` | function | `modules/lazy_proxy.py:498` | `def ca_trusted(ca_path)` |
+| `connect` | method | `modules/lazy_proxy.py:389` | `def connect(self)` |
+| `connect` | method | `modules/lazy_proxy.py:410` | `def connect(self)` |
+| `connect_pinned` | function | `modules/lazy_proxy.py:355` | `def connect_pinned(host, ips, port, scheme)` |
+| `context_for` | method | `modules/lazy_proxy.py:736` | `def context_for(self, host)` |
+| `detect_nss_profiles` | function | `modules/lazy_proxy.py:517` | `def detect_nss_profiles()` |
+| `detect_trust_target` | function | `modules/lazy_proxy.py:490` | `def detect_trust_target()` |
+| `do_CONNECT` | method | `modules/lazy_proxy.py:925` | `def do_CONNECT(self)` |
+| `do_GET` | method | `modules/lazy_proxy.py:978` | `def do_GET(self)` |
+| `env_for_ca` | function | `modules/lazy_proxy.py:1345` | `def env_for_ca(ca_path, host, port)` |
+| `get_proxy` | function | `modules/lazy_proxy.py:1336` | `def get_proxy()` |
+| `handle_error` | method | `modules/lazy_proxy.py:786` | `def handle_error(self, request, client_address)` |
+| `install_ca_nss` | function | `modules/lazy_proxy.py:532` | `def install_ca_nss(ca_path, runner, profiles)` |
+| `install_ca_trust` | function | `modules/lazy_proxy.py:572` | `def install_ca_trust(ca_path, runner)` |
+| `log_message` | method | `modules/lazy_proxy.py:921` | `def log_message(self, fmt)` |
+| `recorder` | method | `modules/lazy_proxy.py:902` | `def recorder(self)` |
+| `resolve_validated_target` | function | `modules/lazy_proxy.py:282` | `def resolve_validated_target(host, port, scheme)` |
+| `restore_env` | function | `modules/lazy_proxy.py:1368` | `def restore_env(previous)` |
+| `start` | method | `modules/lazy_proxy.py:819` | `def start(self, host, port, task_id, traffic_dir, upstream)` |
+| `status` | method | `modules/lazy_proxy.py:880` | `def status(self)` |
+| `stop` | method | `modules/lazy_proxy.py:864` | `def stop(self)` |
+| `tls_lab_unverified_allowed` | function | `modules/lazy_proxy.py:253` | `def tls_lab_unverified_allowed(host)` |
+| `Permission` | class | `modules/lazy_rbac.py:66` | `class Permission(Enum)` |
+| `RBACStore` | class | `modules/lazy_rbac.py:210` | `class RBACStore` |
 | `RBACUser` | class | `modules/lazy_rbac.py:124` | `class RBACUser` |
 | `Role` | class | `modules/lazy_rbac.py:55` | `class Role(Enum)` |
 | `TenantConfig` | class | `modules/lazy_rbac.py:368` | `class TenantConfig` |
@@ -178,6 +224,28 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `run_check` | function | `modules/lazy_verify.py:143` | `def run_check(check, executor)` |
 | `verdict_from_checks` | function | `modules/lazy_verify.py:214` | `def verdict_from_checks(checks_results)` |
 | `verify_finding` | function | `modules/lazy_verify.py:232` | `def verify_finding(finding_text, poc, executor)` |
+| `SurfaceChange` | class | `modules/lazy_world_diff.py:65` | `class SurfaceChange` |
+| `_as_change` | function | `modules/lazy_world_diff.py:192` | `def _as_change(change)` |
+| `_changes_path` | function | `modules/lazy_world_diff.py:172` | `def _changes_path(sessions_dir)` |
+| `_default_probe` | function | `modules/lazy_world_diff.py:415` | `def _default_probe(ip, port, scheme, host)` |
+| `_default_resolve` | function | `modules/lazy_world_diff.py:406` | `def _default_resolve(host)` |
+| `_load_changes` | function | `modules/lazy_world_diff.py:176` | `def _load_changes(sessions_dir)` |
+| `_port_number` | function | `modules/lazy_world_diff.py:124` | `def _port_number(key)` |
+| `campaign_snapshots` | function | `modules/lazy_world_diff.py:312` | `def campaign_snapshots(sessions_dir)` |
+| `diff_snapshots` | function | `modules/lazy_world_diff.py:131` | `def diff_snapshots(before, after)` |
+| `find_ghost_hosts` | function | `modules/lazy_world_diff.py:489` | `def find_ghost_hosts(candidates, snapshots, checker, resolver, cap)` |
+| `ghost_endpoints` | function | `modules/lazy_world_diff.py:366` | `def ghost_endpoints(snapshot, limit)` |
+| `ghost_state_apply` | function | `modules/lazy_world_diff.py:447` | `def ghost_state_apply(host, answers, sessions_dir, now)` |
+| `host_snapshot` | function | `modules/lazy_world_diff.py:78` | `def host_snapshot(world, ip)` |
+| `load_ghosts` | function | `modules/lazy_world_diff.py:435` | `def load_ghosts(sessions_dir)` |
+| `load_host_snapshots` | function | `modules/lazy_world_diff.py:290` | `def load_host_snapshots(sessions_dir)` |
+| `name_resolves` | function | `modules/lazy_world_diff.py:395` | `def name_resolves(host, resolver)` |
+| `prune_changes` | function | `modules/lazy_world_diff.py:270` | `def prune_changes(sessions_dir, keep_days)` |
+| `recent_changes` | function | `modules/lazy_world_diff.py:260` | `def recent_changes(sessions_dir, days, host)` |
+| `record_changes` | function | `modules/lazy_world_diff.py:200` | `def record_changes(changes, sessions_dir, now)` |
+| `save_host_snapshots` | function | `modules/lazy_world_diff.py:301` | `def save_host_snapshots(snapshots, sessions_dir)` |
+| `snapshot_engagement` | function | `modules/lazy_world_diff.py:528` | `def snapshot_engagement(sessions_dir, now, world)` |
+| `snapshot_fingerprint` | function | `modules/lazy_world_diff.py:119` | `def snapshot_fingerprint(state)` |
 | `abusar_tar` | function | `modules/lazyatack.sh:248` | `` |
 | `comprobar_rutas` | function | `modules/lazyatack.sh:242` | `` |
 | `comprobar_sudo` | function | `modules/lazyatack.sh:194` | `` |
@@ -428,73 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `_listeners_path` | method | `modules/listener_manager.py:201` | `def _listeners_path(self)` |
 | `_load` | method | `modules/listener_manager.py:204` | `def _load(self)` |
 | `_probe_listener_bind` | function | `modules/listener_manager.py:72` | `def _probe_listener_bind(address, port)` |
-| `_resolve_listener_bind_address` | function | `modules/listener_manager.py:110` | `def _resolve_listener_bind_address(payload, port)` |
-| `_save` | method | `modules/listener_manager.py:217` | `def _save(self)` |
-| `_stop` | method | `modules/listener_manager.py:343` | `def _stop(self, listener)` |
-| `add` | method | `modules/listener_manager.py:229` | `def add(self, port, ssl, listener_id)` |
-| `from_dict` | method | `modules/listener_manager.py:162` | `def from_dict(cls, data)` |
-| `get_default_port` | method | `modules/listener_manager.py:379` | `def get_default_port(self, fallback)` |
-| `remove` | method | `modules/listener_manager.py:242` | `def remove(self, listener_id)` |
-| `set_payload` | method | `modules/listener_manager.py:187` | `def set_payload(self, payload)` |
-| `start` | method | `modules/listener_manager.py:255` | `def start(self, listener_id)` |
-| `start_all` | method | `modules/listener_manager.py:356` | `def start_all(self)` |
-| `status` | method | `modules/listener_manager.py:367` | `def status(self)` |
-| `stop` | method | `modules/listener_manager.py:335` | `def stop(self, listener_id)` |
-| `stop_all` | method | `modules/listener_manager.py:362` | `def stop_all(self)` |
-| `to_dict` | method | `modules/listener_manager.py:152` | `def to_dict(self)` |
-| `_emit_edge` | function | `modules/live_surface.py:126` | `def _emit_edge(source, target, relation, weight)` |
-| `_emit_node` | function | `modules/live_surface.py:106` | `def _emit_node(node_id, state, title)` |
-| `_group_for` | function | `modules/live_surface.py:55` | `def _group_for(node_id)` |
-| `_is_compromised` | function | `modules/live_surface.py:45` | `def _is_compromised(state)` |
-| `_label_for` | function | `modules/live_surface.py:64` | `def _label_for(node_id)` |
-| `_node_value` | function | `modules/live_surface.py:50` | `def _node_value(centrality)` |
-| `build_live_graph` | function | `modules/live_surface.py:72` | `def build_live_graph(world)` |
-| `_complete` | function | `modules/llm_adapter.py:82` | `def _complete(client, full_prompt, model)` |
-| `_configure_logging` | function | `modules/llm_adapter.py:65` | `def _configure_logging(debug)` |
-| `_process` | function | `modules/llm_adapter.py:96` | `def _process(client, prompt, debug, template, config)` |
-| `_read_error` | function | `modules/llm_adapter.py:78` | `def _read_error(prompt)` |
-| `_read_prompt_file` | function | `modules/llm_adapter.py:70` | `def _read_prompt_file(prompt)` |
-| `ask_general` | function | `modules/llm_adapter.py:254` | `def ask_general(prompt, debug)` |
-| `process_prompt` | function | `modules/llm_adapter.py:119` | `def process_prompt(client, prompt, debug)` |
-| `process_prompt_adversary` | function | `modules/llm_adapter.py:147` | `def process_prompt_adversary(client, prompt, debug)` |
-| `process_prompt_general` | function | `modules/llm_adapter.py:161` | `def process_prompt_general(client, prompt, debug)` |
-| `process_prompt_redop` | function | `modules/llm_adapter.py:237` | `def process_prompt_redop(client, prompt, debug)` |
-| `process_prompt_script` | function | `modules/llm_adapter.py:133` | `def process_prompt_script(client, prompt, debug)` |
-| `process_prompt_search` | function | `modules/llm_adapter.py:175` | `def process_prompt_search(client, prompt, debug)` |
-| `process_prompt_task` | function | `modules/llm_adapter.py:189` | `def process_prompt_task(client, prompt, debug)` |
-| `process_prompt_vuln` | function | `modules/llm_adapter.py:206` | `def process_prompt_vuln(client, prompt, debug, event)` |
-| `safe_groq_client` | function | `modules/llm_adapter.py:48` | `def safe_groq_client(api_key)` |
-| `LLMClient` | class | `modules/llm_client.py:45` | `class LLMClient` |
-| `__init__` | method | `modules/llm_client.py:63` | `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)` |
-| `_ask_groq` | method | `modules/llm_client.py:179` | `def _ask_groq(self, prompt, model, system, temperature)` |
-| `_ask_llamacpp` | method | `modules/llm_client.py:242` | `def _ask_llamacpp(self, prompt, model, system)` |
-| `_ask_ollama` | method | `modules/llm_client.py:220` | `def _ask_ollama(self, prompt, model)` |
-| `ask` | method | `modules/llm_client.py:79` | `def ask(self, prompt)` |
-| `ask` | function | `modules/llm_client.py:276` | `def ask(prompt)` |
-| `classify` | method | `modules/llm_client.py:130` | `def classify(self, output)` |
-| `classify` | function | `modules/llm_client.py:288` | `def classify(output)` |
-| `get_client` | function | `modules/llm_client.py:268` | `def get_client(api_key)` |
-| `summarize` | method | `modules/llm_client.py:159` | `def summarize(self, text)` |
-| `summarize` | function | `modules/llm_client.py:293` | `def summarize(text)` |
-| `DecisionRecord` | class | `modules/llm_evaluator.py:21` | `class DecisionRecord` |
-| `JSONLRecorder` | class | `modules/llm_evaluator.py:75` | `class JSONLRecorder(OutcomeRecorder)` |
-| `LLMEvaluator` | class | `modules/llm_evaluator.py:161` | `class LLMEvaluator` |
-| `OutcomeRecorder` | class | `modules/llm_evaluator.py:55` | `class OutcomeRecorder(ABC)` |
-| `QualityMetrics` | class | `modules/llm_evaluator.py:140` | `class QualityMetrics` |
-| `__init__` | method | `modules/llm_evaluator.py:76` | `def __init__(self, path)` |
-| `__init__` | method | `modules/llm_evaluator.py:162` | `def __init__(self, recorder)` |
-| `_cli` | function | `modules/llm_evaluator.py:322` | `def _cli()` |
-| `_new_id` | function | `modules/llm_evaluator.py:35` | `def _new_id()` |
-| `_record_from_dict` | function | `modules/llm_evaluator.py:39` | `def _record_from_dict(d)` |
-| `_safe_mean` | function | `modules/llm_evaluator.py:150` | `def _safe_mean(values)` |
-| `_tactic_success_rates` | function | `modules/llm_evaluator.py:154` | `def _tactic_success_rates(records)` |
-| `compute_metrics` | method | `modules/llm_evaluator.py:200` | `def compute_metrics(self, session_id)` |
-| `export_finetuning_dataset` | method | `modules/llm_evaluator.py:256` | `def export_finetuning_dataset(self, path)` |
-| `get_evaluator` | function | `modules/llm_evaluator.py:293` | `def get_evaluator()` |
-| `load_all` | method | `modules/llm_evaluator.py:69` | `def load_all(self)` |
-| `load_all` | method | `modules/llm_evaluator.py:120` | `def load_all(self)` |
-| `load_by_session` | method | `modules/llm_evaluator.py:72` | `def load_by_session(self, session_id)` |
-| `load_by_session` | method | `modules/llm_evaluator.py:135` | `def load_by_session(self, session_id)` |
-| `quality_report` | method | `modules/llm_evaluator.py:241` | `def quality_report(self, session_id)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

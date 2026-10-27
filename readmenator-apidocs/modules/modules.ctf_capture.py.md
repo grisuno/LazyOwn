@@ -12,7 +12,7 @@ so the harness stays replayable.
 ## Contents
 
 - **Functions:** [`output_dir`](#output_dir), [`capture`](#capture), [`record_path`](#record_path), [`store_record`](#store_record), [`list_records`](#list_records), [`summary`](#summary)
-- **Constants:** [`CTF_DIRNAME`](#ctf_dirname), [`RECORD_NAME`](#record_name), [`ROOT_SHELL_RE`](#root_shell_re), [`SHADOW_LINE_RE`](#shadow_line_re), [`CRED_LINE_RE`](#cred_line_re), [`CHECKERS`](#checkers)
+- **Constants:** [`CTF_DIRNAME`](#ctf_dirname), [`RECORD_NAME`](#record_name), [`ROOT_SHELL_RE`](#root_shell_re), [`SHADOW_LINE_RE`](#shadow_line_re), [`CRED_LINE_RE`](#cred_line_re), [`WINDOWS_OS_ENUM_RE`](#windows_os_enum_re), [`NETBIOS_NAME_RE`](#netbios_name_re), [`DEFENSE_REPORT_RE`](#defense_report_re), [`EVENTLOG_CSV_RE`](#eventlog_csv_re), [`CHECKERS`](#checkers)
 
 ## Call Graph
 
@@ -39,7 +39,7 @@ flowchart LR
 
 ### `output_dir`
 
-`function` | [modules/ctf_capture.py:28](../../modules/ctf_capture.py#L28)
+`function` | [modules/ctf_capture.py:32](../../modules/ctf_capture.py#L32)
 
 ```python
 def output_dir(sessions_dir: str | Path | None = None) -> Path
@@ -63,10 +63,10 @@ Resolve the CTF storage directory.
 
 ### `capture`
 
-`function` | [modules/ctf_capture.py:99](../../modules/ctf_capture.py#L99)
+`function` | [modules/ctf_capture.py:151](../../modules/ctf_capture.py#L151)
 
 ```python
-def capture(vuln_id: str, target: str, output: str = '', sessions_dir: str | Path | None = None) -> dict
+def capture(vuln_id: str, target: str, output: str = '', sessions_dir: str | Path | None = None, catalogue: Any = None) -> dict
 ```
 
 Verify output evidence for one gym vector and store the record.
@@ -79,6 +79,7 @@ Verify output evidence for one gym vector and store the record.
 | `target` | `str` |  | Attacked host IP. |
 | `output` | `str` | `''` | Raw artifact output to verify. |
 | `sessions_dir` | `str \| Path \| None` | `None` | Optional sessions directory override. |
+| `catalogue` | `Any` | `None` | Optional gym catalogue module exposing ``get``; defaults to the Metasploitable 2 index. |
 
 **Returns:** `dict` - The stored record dict with ``status`` `[`captured`](modules.chain_runner.py.md#stepoutcome-captured)` or ``failed``.
 
@@ -94,7 +95,7 @@ Verify output evidence for one gym vector and store the record.
 
 ### `record_path`
 
-`function` | [modules/ctf_capture.py:175](../../modules/ctf_capture.py#L175)
+`function` | [modules/ctf_capture.py:232](../../modules/ctf_capture.py#L232)
 
 ```python
 def record_path(vuln_id: str, sessions_dir: str | Path | None = None) -> Path
@@ -121,7 +122,7 @@ Return the record file path for one vulnerability.
 
 ### `store_record`
 
-`function` | [modules/ctf_capture.py:201](../../modules/ctf_capture.py#L201)
+`function` | [modules/ctf_capture.py:258](../../modules/ctf_capture.py#L258)
 
 ```python
 def store_record(record: dict, sessions_dir: str | Path | None = None) -> Path
@@ -148,7 +149,7 @@ Persist one capture record atomically.
 
 ### `list_records`
 
-`function` | [modules/ctf_capture.py:219](../../modules/ctf_capture.py#L219)
+`function` | [modules/ctf_capture.py:276](../../modules/ctf_capture.py#L276)
 
 ```python
 def list_records(sessions_dir: str | Path | None = None) -> dict[str, dict]
@@ -174,7 +175,7 @@ Return every stored CTF record keyed by vuln id.
 
 ### `summary`
 
-`function` | [modules/ctf_capture.py:242](../../modules/ctf_capture.py#L242)
+`function` | [modules/ctf_capture.py:299](../../modules/ctf_capture.py#L299)
 
 ```python
 def summary(sessions_dir: str | Path | None = None) -> dict
@@ -256,11 +257,59 @@ CRED_LINE_RE = re.compile('^([A-Za-z0-9_.-]+)\\s*[:|]\\s*(\\S+)\\s*$', re.MULTIL
 
 ---
 
+<a id="windows_os_enum_re"></a>
+
+### `WINDOWS_OS_ENUM_RE`
+
+`constant` | [modules/ctf_capture.py:26](../../modules/ctf_capture.py#L26)
+
+```python
+WINDOWS_OS_ENUM_RE = re.compile('(?im)^\\s*OS:\\s*Windows|^\\s*OS Name\\s*:', re.MULTILINE)
+```
+
+---
+
+<a id="netbios_name_re"></a>
+
+### `NETBIOS_NAME_RE`
+
+`constant` | [modules/ctf_capture.py:27](../../modules/ctf_capture.py#L27)
+
+```python
+NETBIOS_NAME_RE = re.compile('(?im)^\\s*NetBIOS computer name:\\s*\\S+', re.MULTILINE)
+```
+
+---
+
+<a id="defense_report_re"></a>
+
+### `DEFENSE_REPORT_RE`
+
+`constant` | [modules/ctf_capture.py:28](../../modules/ctf_capture.py#L28)
+
+```python
+DEFENSE_REPORT_RE = re.compile('(?i)RealTimeProtection\\w*|AntivirusEnabled|AppLocker|HVCI')
+```
+
+---
+
+<a id="eventlog_csv_re"></a>
+
+### `EVENTLOG_CSV_RE`
+
+`constant` | [modules/ctf_capture.py:29](../../modules/ctf_capture.py#L29)
+
+```python
+EVENTLOG_CSV_RE
+```
+
+---
+
 <a id="checkers"></a>
 
 ### `CHECKERS`
 
-`constant` | [modules/ctf_capture.py:92](../../modules/ctf_capture.py#L92)
+`constant` | [modules/ctf_capture.py:141](../../modules/ctf_capture.py#L141)
 
 ```python
 CHECKERS: tuple[tuple[str, Callable[[str], str]], ...]

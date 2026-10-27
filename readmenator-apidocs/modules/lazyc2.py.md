@@ -93,7 +93,7 @@ flowchart LR
 
 ### `Handler`
 
-`class` | [lazyc2.py:754](../../lazyc2.py#L754)
+`class` | [lazyc2.py:766](../../lazyc2.py#L766)
 
 ```python
 class Handler(FileSystemEventHandler)
@@ -111,7 +111,7 @@ Bases: `FileSystemEventHandler`
 
 #### `Handler.on_any_event`
 
-`staticmethod` | [lazyc2.py:756](../../lazyc2.py#L756)
+`staticmethod` | [lazyc2.py:768](../../lazyc2.py#L768)
 
 Decorators: `@staticmethod`
 
@@ -131,7 +131,7 @@ def on_any_event(event)
 
 ### `CustomDNSResolver`
 
-`class` | [lazyc2.py:1855](../../lazyc2.py#L1855)
+`class` | [lazyc2.py:1867](../../lazyc2.py#L1867)
 
 ```python
 class CustomDNSResolver(BaseResolver)
@@ -149,7 +149,7 @@ Bases: `BaseResolver`
 
 #### `CustomDNSResolver.resolve`
 
-`method` | [lazyc2.py:1856](../../lazyc2.py#L1856)
+`method` | [lazyc2.py:1868](../../lazyc2.py#L1868)
 
 ```python
 def resolve(self, request, handler)
@@ -170,7 +170,7 @@ def resolve(self, request, handler)
 
 ### `User`
 
-`class` | [lazyc2.py:3186](../../lazyc2.py#L3186)
+`class` | [lazyc2.py:3248](../../lazyc2.py#L3248)
 
 ```python
 class User(UserMixin)
@@ -188,7 +188,7 @@ Bases: `UserMixin`
 
 #### `User.__init__`
 
-`constructor` | [lazyc2.py:3187](../../lazyc2.py#L3187)
+`constructor` | [lazyc2.py:3249](../../lazyc2.py#L3249)
 
 ```python
 def __init__(self, user_data)
@@ -210,7 +210,7 @@ def __init__(self, user_data)
 
 ### `is_insecure_credential`
 
-`function` | [lazyc2.py:230](../../lazyc2.py#L230)
+`function` | [lazyc2.py:242](../../lazyc2.py#L242)
 
 ```python
 def is_insecure_credential(user: str, pwd: str) -> bool
@@ -233,7 +233,7 @@ Check for weak or default credentials
 
 ### `ensure_sessions_dir`
 
-`function` | [lazyc2.py:497](../../lazyc2.py#L497)
+`function` | [lazyc2.py:509](../../lazyc2.py#L509)
 
 ```python
 def ensure_sessions_dir()
@@ -249,7 +249,7 @@ Ensure the sessions directory exists with safe permissions.
 
 ### `load_routes`
 
-`function` | [lazyc2.py:508](../../lazyc2.py#L508)
+`function` | [lazyc2.py:520](../../lazyc2.py#L520)
 
 ```python
 def load_routes()
@@ -265,7 +265,7 @@ Load dynamic routes from JSON file.
 
 ### `save_routes`
 
-`function` | [lazyc2.py:518](../../lazyc2.py#L518)
+`function` | [lazyc2.py:530](../../lazyc2.py#L530)
 
 ```python
 def save_routes(routes)
@@ -289,7 +289,7 @@ Save dynamic routes to JSON file with safe permissions.
 
 ### `validate_route_path`
 
-`function` | [lazyc2.py:532](../../lazyc2.py#L532)
+`function` | [lazyc2.py:544](../../lazyc2.py#L544)
 
 ```python
 def validate_route_path(route_path)
@@ -315,7 +315,7 @@ diagnostics.
 
 ### `validate_template_name`
 
-`function` | [lazyc2.py:545](../../lazyc2.py#L545)
+`function` | [lazyc2.py:557](../../lazyc2.py#L557)
 
 ```python
 def validate_template_name(template_name)
@@ -338,7 +338,7 @@ validator and ``False`` otherwise.
 
 ### `is_safe_template_path`
 
-`function` | [lazyc2.py:555](../../lazyc2.py#L555)
+`function` | [lazyc2.py:567](../../lazyc2.py#L567)
 
 ```python
 def is_safe_template_path(template_path, template_name)
@@ -369,7 +369,7 @@ template folder; False otherwise.
 
 ### `is_binary`
 
-`function` | [lazyc2.py:595](../../lazyc2.py#L595)
+`function` | [lazyc2.py:607](../../lazyc2.py#L607)
 
 ```python
 def is_binary(safe_filename)
@@ -399,7 +399,7 @@ failure or I/O error returns False.
 
 ### `clean_expired_tokens`
 
-`function` | [lazyc2.py:636](../../lazyc2.py#L636)
+`function` | [lazyc2.py:648](../../lazyc2.py#L648)
 
 ```python
 def clean_expired_tokens()
@@ -411,7 +411,7 @@ def clean_expired_tokens()
 
 ### `clean_json`
 
-`function` | [lazyc2.py:644](../../lazyc2.py#L644)
+`function` | [lazyc2.py:656](../../lazyc2.py#L656)
 
 ```python
 def clean_json(text)
@@ -433,7 +433,7 @@ Extract only the JSON content between ```json and ```, discarding everything els
 
 ### `load_yaml_safely`
 
-`function` | [lazyc2.py:672](../../lazyc2.py#L672)
+`function` | [lazyc2.py:684](../../lazyc2.py#L684)
 
 ```python
 def load_yaml_safely(file_path)
@@ -453,7 +453,7 @@ Load a YAML file safely with error handling and default values.
 
 ### `get_karma_name`
 
-`function` | [lazyc2.py:781](../../lazyc2.py#L781)
+`function` | [lazyc2.py:793](../../lazyc2.py#L793)
 
 ```python
 def get_karma_name(elo)
@@ -473,7 +473,7 @@ def get_karma_name(elo)
 
 ### `fromjson`
 
-`function` | [lazyc2.py:798](../../lazyc2.py#L798)
+`function` | [lazyc2.py:810](../../lazyc2.py#L810)
 
 ```python
 def fromjson(value)
@@ -491,7 +491,7 @@ def fromjson(value)
 
 ### `run_shell`
 
-`function` | [lazyc2.py:802](../../lazyc2.py#L802)
+`function` | [lazyc2.py:814](../../lazyc2.py#L814)
 
 ```python
 def run_shell()
@@ -503,7 +503,7 @@ def run_shell()
 
 ### `load_banners`
 
-`function` | [lazyc2.py:812](../../lazyc2.py#L812)
+`function` | [lazyc2.py:824](../../lazyc2.py#L824)
 
 ```python
 def load_banners()
@@ -517,7 +517,7 @@ Loads the banners from the JSON file.
 
 ### `load_mitre_data`
 
-`function` | [lazyc2.py:832](../../lazyc2.py#L832)
+`function` | [lazyc2.py:844](../../lazyc2.py#L844)
 
 ```python
 def load_mitre_data()
@@ -529,7 +529,7 @@ def load_mitre_data()
 
 ### `load_event_config`
 
-`function` | [lazyc2.py:838](../../lazyc2.py#L838)
+`function` | [lazyc2.py:850](../../lazyc2.py#L850)
 
 ```python
 def load_event_config()
@@ -543,7 +543,7 @@ def load_event_config()
 
 ### `load_notifications`
 
-`function` | [lazyc2.py:846](../../lazyc2.py#L846)
+`function` | [lazyc2.py:858](../../lazyc2.py#L858)
 
 ```python
 def load_notifications()
@@ -555,7 +555,7 @@ def load_notifications()
 
 ### `implants_check`
 
-`function` | [lazyc2.py:864](../../lazyc2.py#L864)
+`function` | [lazyc2.py:876](../../lazyc2.py#L876)
 
 ```python
 def implants_check()
@@ -569,7 +569,7 @@ def implants_check()
 
 ### `extract_attack_vectors`
 
-`function` | [lazyc2.py:881](../../lazyc2.py#L881)
+`function` | [lazyc2.py:893](../../lazyc2.py#L893)
 
 ```python
 def extract_attack_vectors(nodes, edges)
@@ -594,7 +594,7 @@ Analyzes BloodHound nodes and edges to extract critical attack vectors for AD co
 
 ### `process_bloodhound_zip`
 
-`function` | [lazyc2.py:968](../../lazyc2.py#L968)
+`function` | [lazyc2.py:980](../../lazyc2.py#L980)
 
 ```python
 def process_bloodhound_zip(zip_filepath)
@@ -618,7 +618,7 @@ Processes a BloodHound ZIP file to extract nodes and edges for graph visualizati
 
 ### `start_watching`
 
-`function` | [lazyc2.py:1066](../../lazyc2.py#L1066)
+`function` | [lazyc2.py:1078](../../lazyc2.py#L1078)
 
 ```python
 def start_watching()
@@ -632,7 +632,7 @@ def start_watching()
 
 ### `load_tasks`
 
-`function` | [lazyc2.py:1082](../../lazyc2.py#L1082)
+`function` | [lazyc2.py:1094](../../lazyc2.py#L1094)
 
 ```python
 def load_tasks()
@@ -646,7 +646,7 @@ def load_tasks()
 
 ### `create_cves`
 
-`function` | [lazyc2.py:1090](../../lazyc2.py#L1090)
+`function` | [lazyc2.py:1102](../../lazyc2.py#L1102)
 
 ```python
 def create_cves()
@@ -658,11 +658,13 @@ def create_cves()
 
 ### `load_cves`
 
-`function` | [lazyc2.py:1096](../../lazyc2.py#L1096)
+`function` | [lazyc2.py:1108](../../lazyc2.py#L1108)
 
 ```python
 def load_cves()
 ```
+
+*Called by:* [`cves`](#cves)
 
 ---
 
@@ -670,7 +672,7 @@ def load_cves()
 
 ### `save_cves`
 
-`function` | [lazyc2.py:1104](../../lazyc2.py#L1104)
+`function` | [lazyc2.py:1116](../../lazyc2.py#L1116)
 
 ```python
 def save_cves(cves)
@@ -682,13 +684,15 @@ def save_cves(cves)
 |---|---|---|---|
 | `cves` |  |  |  |
 
+*Called by:* [`cves`](#cves)
+
 ---
 
 <a id="create_report"></a>
 
 ### `create_report`
 
-`function` | [lazyc2.py:1109](../../lazyc2.py#L1109)
+`function` | [lazyc2.py:1121](../../lazyc2.py#L1121)
 
 ```python
 def create_report()
@@ -700,7 +704,7 @@ def create_report()
 
 ### `save_tasks`
 
-`function` | [lazyc2.py:1115](../../lazyc2.py#L1115)
+`function` | [lazyc2.py:1127](../../lazyc2.py#L1127)
 
 ```python
 def save_tasks(tasks)
@@ -720,7 +724,7 @@ def save_tasks(tasks)
 
 ### `load_note`
 
-`function` | [lazyc2.py:1120](../../lazyc2.py#L1120)
+`function` | [lazyc2.py:1132](../../lazyc2.py#L1132)
 
 ```python
 def load_note()
@@ -732,7 +736,7 @@ def load_note()
 
 ### `aumentar_elo`
 
-`function` | [lazyc2.py:1138](../../lazyc2.py#L1138)
+`function` | [lazyc2.py:1150](../../lazyc2.py#L1150)
 
 ```python
 def aumentar_elo(user_id, cantidad)
@@ -753,7 +757,7 @@ def aumentar_elo(user_id, cantidad)
 
 ### `save_note`
 
-`function` | [lazyc2.py:1168](../../lazyc2.py#L1168)
+`function` | [lazyc2.py:1180](../../lazyc2.py#L1180)
 
 ```python
 def save_note(content)
@@ -771,7 +775,7 @@ def save_note(content)
 
 ### `escape_js`
 
-`function` | [lazyc2.py:1174](../../lazyc2.py#L1174)
+`function` | [lazyc2.py:1186](../../lazyc2.py#L1186)
 
 ```python
 def escape_js(s)
@@ -791,7 +795,7 @@ def escape_js(s)
 
 ### `markdown_to_html`
 
-`function` | [lazyc2.py:1211](../../lazyc2.py#L1211)
+`function` | [lazyc2.py:1223](../../lazyc2.py#L1223)
 
 ```python
 def markdown_to_html(text)
@@ -811,7 +815,7 @@ def markdown_to_html(text)
 
 ### `to_serializable`
 
-`function` | [lazyc2.py:1219](../../lazyc2.py#L1219)
+`function` | [lazyc2.py:1231](../../lazyc2.py#L1231)
 
 ```python
 def to_serializable(obj)
@@ -833,7 +837,7 @@ Convert objects to serializable format.
 
 ### `make_serializable`
 
-`function` | [lazyc2.py:1226](../../lazyc2.py#L1226)
+`function` | [lazyc2.py:1238](../../lazyc2.py#L1238)
 
 ```python
 def make_serializable(data)
@@ -857,7 +861,7 @@ Recursively convert data to serializable format.
 
 ### `datetime_now_iso`
 
-`function` | [lazyc2.py:1244](../../lazyc2.py#L1244)
+`function` | [lazyc2.py:1256](../../lazyc2.py#L1256)
 
 ```python
 def datetime_now_iso() -> str
@@ -875,7 +879,7 @@ Return the current UTC timestamp as an ISO-8601 string.
 
 ### `escape_js_string`
 
-`function` | [lazyc2.py:1463](../../lazyc2.py#L1463)
+`function` | [lazyc2.py:1475](../../lazyc2.py#L1475)
 
 ```python
 def escape_js_string(value)
@@ -897,7 +901,7 @@ Escape special characters in a string for JavaScript.
 
 ### `check_auth`
 
-`function` | [lazyc2.py:1475](../../lazyc2.py#L1475)
+`function` | [lazyc2.py:1487](../../lazyc2.py#L1487)
 
 ```python
 def check_auth(username: str, password: str) -> bool
@@ -926,7 +930,7 @@ Checks RBACStore first, falls back to CLI creds.
 
 ### `authenticate`
 
-`function` | [lazyc2.py:1490](../../lazyc2.py#L1490)
+`function` | [lazyc2.py:1502](../../lazyc2.py#L1502)
 
 ```python
 def authenticate()
@@ -942,7 +946,7 @@ Requests authentication.
 
 ### `requires_auth_or_session`
 
-`function` | [lazyc2.py:1499](../../lazyc2.py#L1499)
+`function` | [lazyc2.py:1511](../../lazyc2.py#L1511)
 
 ```python
 def requires_auth_or_session(f)
@@ -969,7 +973,7 @@ channel satisfies the gate.
 
 ### `requires_auth`
 
-`function` | [lazyc2.py:1520](../../lazyc2.py#L1520)
+`function` | [lazyc2.py:1532](../../lazyc2.py#L1532)
 
 ```python
 def requires_auth(f)
@@ -989,7 +993,7 @@ def requires_auth(f)
 
 ### `csrf_protect`
 
-`function` | [lazyc2.py:1531](../../lazyc2.py#L1531)
+`function` | [lazyc2.py:1543](../../lazyc2.py#L1543)
 
 ```python
 def csrf_protect(view)
@@ -1014,7 +1018,7 @@ the codebase.
 
 ### `aicmd_deepseek`
 
-`function` | [lazyc2.py:1552](../../lazyc2.py#L1552)
+`function` | [lazyc2.py:1564](../../lazyc2.py#L1564)
 
 ```python
 def aicmd_deepseek(cmd)
@@ -1034,7 +1038,7 @@ def aicmd_deepseek(cmd)
 
 ### `aicmd`
 
-`function` | [lazyc2.py:1666](../../lazyc2.py#L1666)
+`function` | [lazyc2.py:1678](../../lazyc2.py#L1678)
 
 ```python
 def aicmd(cmd)
@@ -1052,7 +1056,7 @@ def aicmd(cmd)
 
 ### `search_database`
 
-`function` | [lazyc2.py:1771](../../lazyc2.py#L1771)
+`function` | [lazyc2.py:1783](../../lazyc2.py#L1783)
 
 ```python
 def search_database(term, data_path='parquets/techniques.parquet')
@@ -1075,7 +1079,7 @@ Busca un término en un DataFrame, manejando listas, dicts y distintas estructur
 
 ### `execute_command`
 
-`function` | [lazyc2.py:1826](../../lazyc2.py#L1826)
+`function` | [lazyc2.py:1838](../../lazyc2.py#L1838)
 
 ```python
 def execute_command(command)
@@ -1093,7 +1097,7 @@ def execute_command(command)
 
 ### `start_dns_server`
 
-`function` | [lazyc2.py:1960](../../lazyc2.py#L1960)
+`function` | [lazyc2.py:1972](../../lazyc2.py#L1972)
 
 ```python
 def start_dns_server() -> None
@@ -1121,7 +1125,7 @@ payload flag.
 
 ### `tcp_bridge`
 
-`function` | [lazyc2.py:2000](../../lazyc2.py#L2000)
+`function` | [lazyc2.py:2012](../../lazyc2.py#L2012)
 
 ```python
 def tcp_bridge(local_port, remote_host, remote_port)
@@ -1143,7 +1147,7 @@ Establish a TCP bridge between a local port and a remote host.
 
 ### `handle_client`
 
-`function` | [lazyc2.py:2024](../../lazyc2.py#L2024)
+`function` | [lazyc2.py:2036](../../lazyc2.py#L2036)
 
 ```python
 def handle_client(client_socket, remote_host, remote_port)
@@ -1165,7 +1169,7 @@ Handle communication between the client and the remote server.
 
 ### `decoy`
 
-`function` | [lazyc2.py:2043](../../lazyc2.py#L2043)
+`function` | [lazyc2.py:2055](../../lazyc2.py#L2055)
 
 ```python
 def decoy()
@@ -1186,7 +1190,7 @@ The operator allowlist is ``lhost``, ``127.0.0.1`` and the entries of
 
 *Calls:* [`RuntimeTracker.abort`](modules.lazy_loop.py.md#runtimetracker-abort)
 
-*Called by:* [`adversary`](#adversary), [`chatbot`](#chatbot), [`csv_to_html`](#csv_to_html), [`edit_task`](#edit_task), [`generalbot`](#generalbot), [`get_tasks`](#get_tasks), [`graph`](#graph), [`index`](#index), [`redop`](#redop), [`script`](#script), [`search`](#search), [`search_results`](#search_results) and 5 more
+*Called by:* [`adversary`](#adversary), [`chatbot`](#chatbot), [`csv_to_html`](#csv_to_html), [`cves`](#cves), [`edit_task`](#edit_task), [`generalbot`](#generalbot), [`get_tasks`](#get_tasks), [`graph`](#graph), [`index`](#index), [`redop`](#redop), [`script`](#script), [`search`](#search) and 6 more
 
 ---
 
@@ -1194,7 +1198,7 @@ The operator allowlist is ``lhost``, ``127.0.0.1`` and the entries of
 
 ### `encrypt_data`
 
-`function` | [lazyc2.py:2100](../../lazyc2.py#L2100)
+`function` | [lazyc2.py:2112](../../lazyc2.py#L2112)
 
 ```python
 def encrypt_data(data)
@@ -1214,7 +1218,7 @@ def encrypt_data(data)
 
 ### `decrypt_data`
 
-`function` | [lazyc2.py:2109](../../lazyc2.py#L2109)
+`function` | [lazyc2.py:2121](../../lazyc2.py#L2121)
 
 ```python
 def decrypt_data(encrypted_data, is_file=False)
@@ -1235,7 +1239,7 @@ def decrypt_data(encrypted_data, is_file=False)
 
 ### `set_winsize`
 
-`function` | [lazyc2.py:2122](../../lazyc2.py#L2122)
+`function` | [lazyc2.py:2134](../../lazyc2.py#L2134)
 
 ```python
 def set_winsize(fd, row, col, xpix=0, ypix=0)
@@ -1259,7 +1263,7 @@ Configura el tamaño de la terminal
 
 ### `read_and_forward_pty_output`
 
-`function` | [lazyc2.py:2128](../../lazyc2.py#L2128)
+`function` | [lazyc2.py:2140](../../lazyc2.py#L2140)
 
 ```python
 def read_and_forward_pty_output()
@@ -1273,7 +1277,7 @@ Lectura continua del PTY y envío por WebSocket
 
 ### `get_discovered_hosts`
 
-`function` | [lazyc2.py:2145](../../lazyc2.py#L2145)
+`function` | [lazyc2.py:2157](../../lazyc2.py#L2157)
 
 ```python
 def get_discovered_hosts()
@@ -1293,7 +1297,7 @@ Also reads IPs from scan_discovery*.csv files in the sessions directory.
 
 ### `get_local_ip_addresses`
 
-`function` | [lazyc2.py:2195](../../lazyc2.py#L2195)
+`function` | [lazyc2.py:2207](../../lazyc2.py#L2207)
 
 ```python
 def get_local_ip_addresses()
@@ -1307,7 +1311,7 @@ def get_local_ip_addresses()
 
 ### `sanitize_json`
 
-`function` | [lazyc2.py:2220](../../lazyc2.py#L2220)
+`function` | [lazyc2.py:2232](../../lazyc2.py#L2232)
 
 ```python
 def sanitize_json(data)
@@ -1329,7 +1333,7 @@ Adaptar esta función según la estructura específica de tu payload.json.
 
 ### `add_dynamic_data`
 
-`function` | [lazyc2.py:2250](../../lazyc2.py#L2250)
+`function` | [lazyc2.py:2262](../../lazyc2.py#L2262)
 
 ```python
 def add_dynamic_data(data)
@@ -1351,7 +1355,7 @@ Also normalises boolean fields that Go implants expect as strings.
 
 ### `get_client_ip`
 
-`function` | [lazyc2.py:2272](../../lazyc2.py#L2272)
+`function` | [lazyc2.py:2284](../../lazyc2.py#L2284)
 
 ```python
 def get_client_ip()
@@ -1367,7 +1371,7 @@ Get the client's IP address, handling proxies.
 
 ### `get_request_details`
 
-`function` | [lazyc2.py:2281](../../lazyc2.py#L2281)
+`function` | [lazyc2.py:2293](../../lazyc2.py#L2293)
 
 ```python
 def get_request_details()
@@ -1385,7 +1389,7 @@ Collect comprehensive request details.
 
 ### `save_to_log`
 
-`function` | [lazyc2.py:2316](../../lazyc2.py#L2316)
+`function` | [lazyc2.py:2328](../../lazyc2.py#L2328)
 
 ```python
 def save_to_log(data)
@@ -1409,7 +1413,7 @@ Append request data to the JSON log file with safe permissions.
 
 ### `parse_access_log_for_short_url`
 
-`function` | [lazyc2.py:2338](../../lazyc2.py#L2338)
+`function` | [lazyc2.py:2350](../../lazyc2.py#L2350)
 
 ```python
 def parse_access_log_for_short_url(short_url)
@@ -1429,7 +1433,7 @@ Parse access.log for entries matching the given short URL.
 
 ### `parse_execution_log`
 
-`function` | [lazyc2.py:2360](../../lazyc2.py#L2360)
+`function` | [lazyc2.py:2372](../../lazyc2.py#L2372)
 
 ```python
 def parse_execution_log(implante)
@@ -1449,7 +1453,7 @@ Parse execution log for the given implante, returning execution events.
 
 ### `load_implant_config`
 
-`function` | [lazyc2.py:2386](../../lazyc2.py#L2386)
+`function` | [lazyc2.py:2398](../../lazyc2.py#L2398)
 
 ```python
 def load_implant_config(implante)
@@ -1469,7 +1473,7 @@ Load implant configuration from JSON file.
 
 ### `load_short_urls`
 
-`function` | [lazyc2.py:2396](../../lazyc2.py#L2396)
+`function` | [lazyc2.py:2408](../../lazyc2.py#L2408)
 
 ```python
 def load_short_urls()
@@ -1485,7 +1489,7 @@ Load short URLs from JSON file, creating it if it doesn't exist.
 
 ### `save_short_urls`
 
-`function` | [lazyc2.py:2416](../../lazyc2.py#L2416)
+`function` | [lazyc2.py:2428](../../lazyc2.py#L2428)
 
 ```python
 def save_short_urls(data)
@@ -1507,7 +1511,7 @@ Save short URLs to JSON file.
 
 ### `is_valid_url`
 
-`function` | [lazyc2.py:2426](../../lazyc2.py#L2426)
+`function` | [lazyc2.py:2438](../../lazyc2.py#L2438)
 
 ```python
 def is_valid_url(url)
@@ -1529,21 +1533,27 @@ Validate if the input is a valid URL or existing local file path.
 
 ### `analyze_behavioral_data`
 
-`function` | [lazyc2.py:2504](../../lazyc2.py#L2504)
+`function` | [lazyc2.py:2541](../../lazyc2.py#L2541)
 
 ```python
 def analyze_behavioral_data(behavioral_events)
 ```
 
-Analyze behavioral events using Groq AI to generate risk scores.
+Analyze behavioral events using the orchestrator LLM chain.
+
+The lazy_orchestrator failover chain serves each risk score, so a
+missing Groq key or an exhausted quota degrades to the next chain
+member instead of disabling the analysis.
 
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `behavioral_events` |  |  |  |
+| `behavioral_events` |  |  | Behavioral event mappings from the tracking DB. |
 
-*Calls:* [`safe_groq_client`](modules.llm_adapter.py.md#safe_groq_client)
+**Returns:** Per-event risk scores; empty when no chain member answers.
+
+*Calls:* [`complete_with_fallback`](modules.llm_orchestrator.py.md#complete_with_fallback)
 
 ---
 
@@ -1551,22 +1561,29 @@ Analyze behavioral events using Groq AI to generate risk scores.
 
 ### `analyze_campaign_progress`
 
-`function` | [lazyc2.py:2532](../../lazyc2.py#L2532)
+`function` | [lazyc2.py:2593](../../lazyc2.py#L2593)
 
 ```python
 def analyze_campaign_progress(campaign_id, events)
 ```
 
-Analyze campaign progress and suggest adaptations using Grok AI.
+Analyze campaign progress using the orchestrator LLM chain.
+
+The lazy_orchestrator failover chain proposes the adaptation, so a
+missing Groq key or an exhausted quota degrades to the next chain
+member instead of disabling the orchestration route.
 
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `campaign_id` |  |  |  |
-| `events` |  |  |  |
+| `campaign_id` |  |  | Campaign identifier. |
+| `events` |  |  | Tracked interaction events. |
 
-*Calls:* [`clean_json`](#clean_json), [`safe_groq_client`](modules.llm_adapter.py.md#safe_groq_client)
+**Returns:** Adaptation mapping with vector, payload and short_url keys;
+empty when no chain member answers with valid JSON.
+
+*Calls:* [`clean_json`](#clean_json), [`complete_with_fallback`](modules.llm_orchestrator.py.md#complete_with_fallback)
 
 ---
 
@@ -1574,7 +1591,7 @@ Analyze campaign progress and suggest adaptations using Grok AI.
 
 ### `require_mfa_socket`
 
-`function` | [lazyc2.py:2664](../../lazyc2.py#L2664)
+`function` | [lazyc2.py:2737](../../lazyc2.py#L2737)
 
 ```python
 def require_mfa_socket(f)
@@ -1599,7 +1616,7 @@ not completed the second factor.
 
 ### `__getattr__`
 
-`function` | [lazyc2.py:2823](../../lazyc2.py#L2823)
+`function` | [lazyc2.py:2896](../../lazyc2.py#L2896)
 
 ```python
 def __getattr__(name)
@@ -1628,7 +1645,7 @@ as a script, in-module reads go through the `[`shell`](lazyc2.state.py.md#shell)
 
 ### `load_users`
 
-`function` | [lazyc2.py:3209](../../lazyc2.py#L3209)
+`function` | [lazyc2.py:3271](../../lazyc2.py#L3271)
 
 ```python
 def load_users()
@@ -1644,7 +1661,7 @@ def load_users()
 
 ### `save_users`
 
-`function` | [lazyc2.py:3219](../../lazyc2.py#L3219)
+`function` | [lazyc2.py:3281](../../lazyc2.py#L3281)
 
 ```python
 def save_users(users)
@@ -1664,7 +1681,7 @@ def save_users(users)
 
 ### `load_data`
 
-`function` | [lazyc2.py:3230](../../lazyc2.py#L3230)
+`function` | [lazyc2.py:3292](../../lazyc2.py#L3292)
 
 ```python
 def load_data()
@@ -1676,7 +1693,7 @@ def load_data()
 
 ### `load_user`
 
-`function` | [lazyc2.py:3247](../../lazyc2.py#L3247)
+`function` | [lazyc2.py:3309](../../lazyc2.py#L3309)
 
 Decorators: `@login_manager.user_loader`
 
@@ -1698,7 +1715,7 @@ def load_user(user_id)
 
 ### `tojson_filter`
 
-`function` | [lazyc2.py:3262](../../lazyc2.py#L3262)
+`function` | [lazyc2.py:3324](../../lazyc2.py#L3324)
 
 Decorators: `@app.template_filter('tojson')`
 
@@ -1723,7 +1740,7 @@ Custom tojson filter to handle non-serializable objects.
 
 ### `index`
 
-`function` | [lazyc2.py:3269](../../lazyc2.py#L3269)
+`function` | [lazyc2.py:3331](../../lazyc2.py#L3331)
 
 Decorators: `@app.route('/', methods=['GET', 'POST'])`, `@requires_auth`
 
@@ -1741,7 +1758,7 @@ def index()
 
 ### `send_command`
 
-`function` | [lazyc2.py:3420](../../lazyc2.py#L3420)
+`function` | [lazyc2.py:3482](../../lazyc2.py#L3482)
 
 Decorators: `@app.route('/command/<client_id>', methods=['GET'])`, `@app.route(f'{route_malleable}<client_id>', methods=['GET'])`, `@limiter.exempt`
 
@@ -1763,7 +1780,7 @@ def send_command(client_id)
 
 ### `receive_result`
 
-`function` | [lazyc2.py:3618](../../lazyc2.py#L3618)
+`function` | [lazyc2.py:3680](../../lazyc2.py#L3680)
 
 Decorators: `@app.route('/command/<client_id>', methods=['POST'])`, `@app.route(f'{route_malleable}<client_id>', methods=['POST'])`, `@limiter.exempt`
 
@@ -1785,7 +1802,7 @@ def receive_result(client_id)
 
 ### `issue_command`
 
-`function` | [lazyc2.py:4177](../../lazyc2.py#L4177)
+`function` | [lazyc2.py:4239](../../lazyc2.py#L4239)
 
 Decorators: `@app.route('/issue_command', methods=['POST'])`, `@requires_auth_or_session`, `@csrf_protect`, `@limiter.limit('20 per minute')`
 
@@ -1799,7 +1816,7 @@ def issue_command()
 
 ### `upload`
 
-`function` | [lazyc2.py:4191](../../lazyc2.py#L4191)
+`function` | [lazyc2.py:4253](../../lazyc2.py#L4253)
 
 Decorators: `@app.route('/upload', methods=['GET', 'POST'])`, `@app.route(f'{route_malleable}/upload', methods=['GET', 'POST'])`
 
@@ -1817,7 +1834,7 @@ def upload()
 
 ### `download_file`
 
-`function` | [lazyc2.py:4228](../../lazyc2.py#L4228)
+`function` | [lazyc2.py:4290](../../lazyc2.py#L4290)
 
 Decorators: `@app.route('/download_file', methods=['POST'])`, `@app.route(f'{route_malleable}download_file', methods=['POST'])`
 
@@ -1831,7 +1848,7 @@ def download_file()
 
 ### `serve_file`
 
-`function` | [lazyc2.py:4255](../../lazyc2.py#L4255)
+`function` | [lazyc2.py:4317](../../lazyc2.py#L4317)
 
 Decorators: `@app.route('/download/<path:file_path>', methods=['GET'])`, `@app.route(f'{route_malleable}download/<path:file_path>', methods=['GET'])`
 
@@ -1858,7 +1875,7 @@ error JSON when the path is unsafe or missing.
 
 ### `create_route`
 
-`function` | [lazyc2.py:4357](../../lazyc2.py#L4357)
+`function` | [lazyc2.py:4419](../../lazyc2.py#L4419)
 
 Decorators: `@app.route('/mkendpoint', methods=['GET', 'POST'])`, `@login_required`
 
@@ -1884,7 +1901,7 @@ back to the form with a success or error message.
 
 ### `dynamic_route`
 
-`function` | [lazyc2.py:4426](../../lazyc2.py#L4426)
+`function` | [lazyc2.py:4488](../../lazyc2.py#L4488)
 
 Decorators: `@app.route('/<path:route_path>/log/<path:data>', methods=['GET', 'POST'])`
 
@@ -1909,7 +1926,7 @@ Handle dynamic routes based on stored route-to-template mappings.
 
 ### `log`
 
-`function` | [lazyc2.py:4522](../../lazyc2.py#L4522)
+`function` | [lazyc2.py:4584](../../lazyc2.py#L4584)
 
 Decorators: `@app.route('/log/<path:data>', methods=['GET', 'POST'])`
 
@@ -1933,7 +1950,7 @@ Log request details to JSON file.
 
 ### `favicon`
 
-`function` | [lazyc2.py:4540](../../lazyc2.py#L4540)
+`function` | [lazyc2.py:4602](../../lazyc2.py#L4602)
 
 Decorators: `@app.route('/favicon.ico')`
 
@@ -1949,7 +1966,7 @@ Serve the favicon.ico file.
 
 ### `palette_view`
 
-`function` | [lazyc2.py:4553](../../lazyc2.py#L4553)
+`function` | [lazyc2.py:4615](../../lazyc2.py#L4615)
 
 Decorators: `@app.route('/palette', methods=['GET'])`, `@requires_auth`
 
@@ -1970,7 +1987,7 @@ the page so the client-side JavaScript can filter without round-trips.
 
 ### `palette_api`
 
-`function` | [lazyc2.py:4581](../../lazyc2.py#L4581)
+`function` | [lazyc2.py:4643](../../lazyc2.py#L4643)
 
 Decorators: `@app.route('/api/palette', methods=['GET'])`, `@requires_auth`, `@limiter.limit(_PALETTE_API_RATE_LIMIT)`
 
@@ -1994,7 +2011,7 @@ so a runaway browser tab cannot drown the operator session.
 
 ### `api_data`
 
-`function` | [lazyc2.py:4602](../../lazyc2.py#L4602)
+`function` | [lazyc2.py:4664](../../lazyc2.py#L4664)
 
 Decorators: `@app.route('/api/data')`, `@requires_auth`
 
@@ -2008,7 +2025,7 @@ def api_data()
 
 ### `create_short_url`
 
-`function` | [lazyc2.py:4764](../../lazyc2.py#L4764)
+`function` | [lazyc2.py:4826](../../lazyc2.py#L4826)
 
 Decorators: `@app.route('/create_short_url', methods=['POST'])`, `@requires_auth`
 
@@ -2026,7 +2043,7 @@ Create multiple short URLs for a single original URL.
 
 ### `track_interaction`
 
-`function` | [lazyc2.py:4792](../../lazyc2.py#L4792)
+`function` | [lazyc2.py:4854](../../lazyc2.py#L4854)
 
 Decorators: `@app.route('/track/<short_url>', methods=['GET'])`
 
@@ -2050,7 +2067,7 @@ Serve tracking page and log behavioral data.
 
 ### `update_short_url`
 
-`function` | [lazyc2.py:4817](../../lazyc2.py#L4817)
+`function` | [lazyc2.py:4879](../../lazyc2.py#L4879)
 
 Decorators: `@app.route('/update_short_url/<short_url>', methods=['PUT'])`, `@requires_auth`
 
@@ -2072,7 +2089,7 @@ def update_short_url(short_url)
 
 ### `redirect_to_file`
 
-`function` | [lazyc2.py:4844](../../lazyc2.py#L4844)
+`function` | [lazyc2.py:4906](../../lazyc2.py#L4906)
 
 Decorators: `@app.route('/<short_url>')`
 
@@ -2094,7 +2111,7 @@ def redirect_to_file(short_url)
 
 ### `webserver_report`
 
-`function` | [lazyc2.py:4872](../../lazyc2.py#L4872)
+`function` | [lazyc2.py:4934](../../lazyc2.py#L4934)
 
 Decorators: `@app.route('/webserver-report')`, `@app.route('/webserver-report/<path:filename>')`, `@requires_auth`
 
@@ -2124,7 +2141,7 @@ directory in a single, audited code path.
 
 ### `download_files`
 
-`function` | [lazyc2.py:4892](../../lazyc2.py#L4892)
+`function` | [lazyc2.py:4954](../../lazyc2.py#L4954)
 
 Decorators: `@app.route('/s/<filename>')`
 
@@ -2153,7 +2170,7 @@ never exposed through this unauthenticated route.
 
 ### `view_yaml`
 
-`function` | [lazyc2.py:4944](../../lazyc2.py#L4944)
+`function` | [lazyc2.py:5006](../../lazyc2.py#L5006)
 
 Decorators: `@app.route('/view_yaml', methods=['POST'])`, `@requires_auth`
 
@@ -2169,7 +2186,7 @@ def view_yaml()
 
 ### `run_command`
 
-`function` | [lazyc2.py:5038](../../lazyc2.py#L5038)
+`function` | [lazyc2.py:5100](../../lazyc2.py#L5100)
 
 Decorators: `@app.route('/api/run', methods=['POST'])`, `@requires_auth`, `@csrf_protect`, `@limiter.limit('30 per minute')`
 
@@ -2199,7 +2216,7 @@ decision (allowed or denied) is appended to the audit log.
 
 ### `get_output`
 
-`function` | [lazyc2.py:5107](../../lazyc2.py#L5107)
+`function` | [lazyc2.py:5169](../../lazyc2.py#L5169)
 
 Decorators: `@app.route('/api/output', methods=['GET'])`, `@requires_auth`
 
@@ -2213,7 +2230,7 @@ def get_output()
 
 ### `run_shellcode`
 
-`function` | [lazyc2.py:5134](../../lazyc2.py#L5134)
+`function` | [lazyc2.py:5196](../../lazyc2.py#L5196)
 
 Decorators: `@app.route('/run_shellcode', methods=['POST'])`, `@requires_auth`
 
@@ -2227,7 +2244,7 @@ def run_shellcode()
 
 ### `get_results`
 
-`function` | [lazyc2.py:5143](../../lazyc2.py#L5143)
+`function` | [lazyc2.py:5205](../../lazyc2.py#L5205)
 
 Decorators: `@app.route('/get_results', methods=['GET'])`, `@requires_auth`
 
@@ -2241,7 +2258,7 @@ def get_results()
 
 ### `send_lcommand`
 
-`function` | [lazyc2.py:5241](../../lazyc2.py#L5241)
+`function` | [lazyc2.py:5303](../../lazyc2.py#L5303)
 
 Decorators: `@app.route('/lazyos/<ip>/<port>', methods=['POST'])`, `@requires_auth`
 
@@ -2266,7 +2283,7 @@ def send_lcommand(ip, port)
 
 ### `chatbot`
 
-`function` | [lazyc2.py:5274](../../lazyc2.py#L5274)
+`function` | [lazyc2.py:5336](../../lazyc2.py#L5336)
 
 Decorators: `@app.route('/chatbot', methods=['POST'])`, `@login_required`
 
@@ -2282,7 +2299,7 @@ def chatbot()
 
 ### `vuln`
 
-`function` | [lazyc2.py:5290](../../lazyc2.py#L5290)
+`function` | [lazyc2.py:5352](../../lazyc2.py#L5352)
 
 Decorators: `@app.route('/vuln', methods=['POST'])`, `@login_required`
 
@@ -2298,7 +2315,7 @@ def vuln()
 
 ### `taskbot`
 
-`function` | [lazyc2.py:5329](../../lazyc2.py#L5329)
+`function` | [lazyc2.py:5391](../../lazyc2.py#L5391)
 
 Decorators: `@app.route('/taskbot', methods=['POST'])`, `@login_required`
 
@@ -2314,7 +2331,7 @@ def taskbot()
 
 ### `search`
 
-`function` | [lazyc2.py:5345](../../lazyc2.py#L5345)
+`function` | [lazyc2.py:5407](../../lazyc2.py#L5407)
 
 Decorators: `@app.route('/search', methods=['POST'])`, `@login_required`
 
@@ -2330,7 +2347,7 @@ def search()
 
 ### `script`
 
-`function` | [lazyc2.py:5361](../../lazyc2.py#L5361)
+`function` | [lazyc2.py:5423](../../lazyc2.py#L5423)
 
 Decorators: `@app.route('/script', methods=['POST'])`, `@login_required`
 
@@ -2346,7 +2363,7 @@ def script()
 
 ### `redop`
 
-`function` | [lazyc2.py:5377](../../lazyc2.py#L5377)
+`function` | [lazyc2.py:5439](../../lazyc2.py#L5439)
 
 Decorators: `@app.route('/redop', methods=['POST'])`, `@login_required`
 
@@ -2362,7 +2379,7 @@ def redop()
 
 ### `adversary`
 
-`function` | [lazyc2.py:5396](../../lazyc2.py#L5396)
+`function` | [lazyc2.py:5458](../../lazyc2.py#L5458)
 
 Decorators: `@app.route('/adversary', methods=['POST'])`, `@login_required`
 
@@ -2378,7 +2395,7 @@ def adversary()
 
 ### `generalbot`
 
-`function` | [lazyc2.py:5412](../../lazyc2.py#L5412)
+`function` | [lazyc2.py:5474](../../lazyc2.py#L5474)
 
 Decorators: `@app.route('/generalbot', methods=['POST'])`, `@login_required`
 
@@ -2394,7 +2411,7 @@ def generalbot()
 
 ### `csv_to_html`
 
-`function` | [lazyc2.py:5428](../../lazyc2.py#L5428)
+`function` | [lazyc2.py:5490](../../lazyc2.py#L5490)
 
 Decorators: `@app.route('/csv_to_html', methods=['POST'])`, `@login_required`
 
@@ -2410,7 +2427,7 @@ def csv_to_html()
 
 ### `search_results`
 
-`function` | [lazyc2.py:5479](../../lazyc2.py#L5479)
+`function` | [lazyc2.py:5541](../../lazyc2.py#L5541)
 
 Decorators: `@app.route('/search_results', methods=['POST'])`, `@login_required`
 
@@ -2426,7 +2443,7 @@ def search_results()
 
 ### `graph`
 
-`function` | [lazyc2.py:5527](../../lazyc2.py#L5527)
+`function` | [lazyc2.py:5589](../../lazyc2.py#L5589)
 
 Decorators: `@app.route('/graph')`, `@requires_auth_or_session`
 
@@ -2442,7 +2459,7 @@ def graph()
 
 ### `task`
 
-`function` | [lazyc2.py:5536](../../lazyc2.py#L5536)
+`function` | [lazyc2.py:5598](../../lazyc2.py#L5598)
 
 Decorators: `@app.route('/task/<int:task_id>')`, `@requires_auth_or_session`
 
@@ -2464,7 +2481,7 @@ def task(task_id)
 
 ### `get_tasks`
 
-`function` | [lazyc2.py:5551](../../lazyc2.py#L5551)
+`function` | [lazyc2.py:5613](../../lazyc2.py#L5613)
 
 Decorators: `@app.route('/gettasks', methods=['GET'])`, `@requires_auth_or_session`
 
@@ -2480,7 +2497,7 @@ def get_tasks()
 
 ### `tasks`
 
-`function` | [lazyc2.py:5561](../../lazyc2.py#L5561)
+`function` | [lazyc2.py:5623](../../lazyc2.py#L5623)
 
 Decorators: `@app.route('/tasks', methods=['GET'])`, `@requires_auth_or_session`
 
@@ -2496,7 +2513,7 @@ def tasks()
 
 ### `edit_task`
 
-`function` | [lazyc2.py:5590](../../lazyc2.py#L5590)
+`function` | [lazyc2.py:5652](../../lazyc2.py#L5652)
 
 Decorators: `@app.route('/task/<int:task_id>/edit', methods=['GET', 'POST'])`, `@requires_auth_or_session`
 
@@ -2518,7 +2535,7 @@ def edit_task(task_id)
 
 ### `cves`
 
-`function` | [lazyc2.py:5624](../../lazyc2.py#L5624)
+`function` | [lazyc2.py:5686](../../lazyc2.py#L5686)
 
 Decorators: `@app.route('/cves', methods=['GET', 'POST'])`, `@requires_auth_or_session`
 
@@ -2526,13 +2543,15 @@ Decorators: `@app.route('/cves', methods=['GET', 'POST'])`, `@requires_auth_or_s
 def cves()
 ```
 
+*Calls:* [`decoy`](#decoy), [`load_cves`](#load_cves), [`save_cves`](#save_cves)
+
 ---
 
 <a id="cve"></a>
 
 ### `cve`
 
-`function` | [lazyc2.py:5650](../../lazyc2.py#L5650)
+`function` | [lazyc2.py:5712](../../lazyc2.py#L5712)
 
 Decorators: `@app.route('/cve/<int:cve_id>')`, `@requires_auth_or_session`
 
@@ -2552,7 +2571,7 @@ def cve(cve_id)
 
 ### `edit_cve`
 
-`function` | [lazyc2.py:5665](../../lazyc2.py#L5665)
+`function` | [lazyc2.py:5727](../../lazyc2.py#L5727)
 
 Decorators: `@app.route('/cve/<int:cve_id>/edit', methods=['GET', 'POST'])`, `@requires_auth_or_session`
 
@@ -2572,7 +2591,7 @@ def edit_cve(cve_id)
 
 ### `edit_notes`
 
-`function` | [lazyc2.py:5699](../../lazyc2.py#L5699)
+`function` | [lazyc2.py:5761](../../lazyc2.py#L5761)
 
 Decorators: `@app.route('/notes', methods=['GET', 'POST'])`, `@requires_auth_or_session`
 
@@ -2586,7 +2605,7 @@ def edit_notes()
 
 ### `get_notes`
 
-`function` | [lazyc2.py:5717](../../lazyc2.py#L5717)
+`function` | [lazyc2.py:5779](../../lazyc2.py#L5779)
 
 Decorators: `@app.route('/getnotes', methods=['GET'])`, `@requires_auth_or_session`
 
@@ -2600,7 +2619,7 @@ def get_notes()
 
 ### `view_note`
 
-`function` | [lazyc2.py:5727](../../lazyc2.py#L5727)
+`function` | [lazyc2.py:5789](../../lazyc2.py#L5789)
 
 Decorators: `@app.route('/view_note')`, `@requires_auth_or_session`
 
@@ -2614,7 +2633,7 @@ def view_note()
 
 ### `push_notification`
 
-`function` | [lazyc2.py:5737](../../lazyc2.py#L5737)
+`function` | [lazyc2.py:5799](../../lazyc2.py#L5799)
 
 Decorators: `@app.route('/push_notification', methods=['POST'])`, `@requires_auth`
 
@@ -2628,7 +2647,7 @@ def push_notification()
 
 ### `edit_event`
 
-`function` | [lazyc2.py:5764](../../lazyc2.py#L5764)
+`function` | [lazyc2.py:5826](../../lazyc2.py#L5826)
 
 Decorators: `@app.route('/edit_event/<event_name>', methods=['GET', 'POST'])`, `@requires_auth_or_session`
 
@@ -2648,7 +2667,7 @@ def edit_event(event_name)
 
 ### `get_event_config`
 
-`function` | [lazyc2.py:5799](../../lazyc2.py#L5799)
+`function` | [lazyc2.py:5861](../../lazyc2.py#L5861)
 
 Decorators: `@app.route('/event_config', methods=['GET'])`, `@requires_auth_or_session`
 
@@ -2662,7 +2681,7 @@ def get_event_config()
 
 ### `get_event_config_view`
 
-`function` | [lazyc2.py:5806](../../lazyc2.py#L5806)
+`function` | [lazyc2.py:5868](../../lazyc2.py#L5868)
 
 Decorators: `@app.route('/event_config_view', methods=['GET', 'POST'])`, `@requires_auth_or_session`
 
@@ -2676,7 +2695,7 @@ def get_event_config_view()
 
 ### `aicmd_view`
 
-`function` | [lazyc2.py:5841](../../lazyc2.py#L5841)
+`function` | [lazyc2.py:5903](../../lazyc2.py#L5903)
 
 Decorators: `@app.route('/aicmd', methods=['GET'])`, `@login_required`
 
@@ -2690,7 +2709,7 @@ def aicmd_view()
 
 ### `get_events`
 
-`function` | [lazyc2.py:5866](../../lazyc2.py#L5866)
+`function` | [lazyc2.py:5928](../../lazyc2.py#L5928)
 
 Decorators: `@app.route('/events', methods=['GET'])`, `@requires_auth_or_session`
 
@@ -2704,7 +2723,7 @@ def get_events()
 
 ### `list_tools`
 
-`function` | [lazyc2.py:5898](../../lazyc2.py#L5898)
+`function` | [lazyc2.py:5960](../../lazyc2.py#L5960)
 
 Decorators: `@app.route('/tools', methods=['GET'])`, `@requires_auth_or_session`
 
@@ -2718,7 +2737,7 @@ def list_tools()
 
 ### `create_tool`
 
-`function` | [lazyc2.py:5908](../../lazyc2.py#L5908)
+`function` | [lazyc2.py:5970](../../lazyc2.py#L5970)
 
 Decorators: `@app.route('/tools/create', methods=['GET', 'POST'])`, `@requires_auth_or_session`
 
@@ -2732,7 +2751,7 @@ def create_tool()
 
 ### `view_tool`
 
-`function` | [lazyc2.py:5935](../../lazyc2.py#L5935)
+`function` | [lazyc2.py:5997](../../lazyc2.py#L5997)
 
 Decorators: `@app.route('/tools/<toolname>', methods=['GET'])`, `@requires_auth_or_session`
 
@@ -2752,7 +2771,7 @@ def view_tool(toolname)
 
 ### `update_tool`
 
-`function` | [lazyc2.py:5966](../../lazyc2.py#L5966)
+`function` | [lazyc2.py:6028](../../lazyc2.py#L6028)
 
 Decorators: `@app.route('/tools/<toolname>/update', methods=['GET', 'POST'])`, `@requires_auth_or_session`
 
@@ -2772,7 +2791,7 @@ def update_tool(toolname)
 
 ### `delete_tool`
 
-`function` | [lazyc2.py:6014](../../lazyc2.py#L6014)
+`function` | [lazyc2.py:6076](../../lazyc2.py#L6076)
 
 Decorators: `@app.route('/tools/<toolname>/delete', methods=['POST'])`, `@requires_auth_or_session`
 
@@ -2792,7 +2811,7 @@ def delete_tool(toolname)
 
 ### `register`
 
-`function` | [lazyc2.py:6049](../../lazyc2.py#L6049)
+`function` | [lazyc2.py:6111](../../lazyc2.py#L6111)
 
 Decorators: `@app.route('/register', methods=['GET', 'POST'])`, `@limiter.limit(getattr(config, 'c2_register_limit', '5 per minute'))`
 
@@ -2806,7 +2825,7 @@ def register()
 
 ### `login`
 
-`function` | [lazyc2.py:6108](../../lazyc2.py#L6108)
+`function` | [lazyc2.py:6170](../../lazyc2.py#L6170)
 
 Decorators: `@app.route('/login', methods=['GET', 'POST'])`, `@limiter.limit(getattr(config, 'c2_login_limit', '10 per minute') or '10 per minute')`
 
@@ -2820,7 +2839,7 @@ def login()
 
 ### `mfa_setup`
 
-`function` | [lazyc2.py:6160](../../lazyc2.py#L6160)
+`function` | [lazyc2.py:6222](../../lazyc2.py#L6222)
 
 Decorators: `@app.route('/mfa/setup', methods=['GET', 'POST'])`, `@login_required`
 
@@ -2834,7 +2853,7 @@ def mfa_setup()
 
 ### `mfa_qr`
 
-`function` | [lazyc2.py:6234](../../lazyc2.py#L6234)
+`function` | [lazyc2.py:6296](../../lazyc2.py#L6296)
 
 Decorators: `@app.route('/mfa/qr/<username>')`, `@login_required`
 
@@ -2859,7 +2878,7 @@ pure Python (no external dependencies beyond pyotp). Works offline.
 
 ### `mfa_verify`
 
-`function` | [lazyc2.py:6256](../../lazyc2.py#L6256)
+`function` | [lazyc2.py:6318](../../lazyc2.py#L6318)
 
 Decorators: `@app.route('/mfa/verify', methods=['GET', 'POST'])`
 
@@ -2873,7 +2892,7 @@ def mfa_verify()
 
 ### `admin_users`
 
-`function` | [lazyc2.py:6309](../../lazyc2.py#L6309)
+`function` | [lazyc2.py:6371](../../lazyc2.py#L6371)
 
 Decorators: `@app.route('/admin/users', methods=['GET'])`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -2887,7 +2906,7 @@ def admin_users()
 
 ### `admin_set_role`
 
-`function` | [lazyc2.py:6324](../../lazyc2.py#L6324)
+`function` | [lazyc2.py:6386](../../lazyc2.py#L6386)
 
 Decorators: `@app.route('/admin/users/<int:user_id>/role', methods=['POST'])`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -2907,7 +2926,7 @@ def admin_set_role(user_id)
 
 ### `admin_reset_mfa`
 
-`function` | [lazyc2.py:6346](../../lazyc2.py#L6346)
+`function` | [lazyc2.py:6408](../../lazyc2.py#L6408)
 
 Decorators: `@app.route('/admin/users/<int:user_id>/mfa/reset', methods=['POST'])`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -2927,7 +2946,7 @@ def admin_reset_mfa(user_id)
 
 ### `admin_delete_user`
 
-`function` | [lazyc2.py:6358](../../lazyc2.py#L6358)
+`function` | [lazyc2.py:6420](../../lazyc2.py#L6420)
 
 Decorators: `@app.route('/admin/users/<int:user_id>/delete', methods=['POST'])`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -2947,7 +2966,7 @@ def admin_delete_user(user_id)
 
 ### `admin_tenants`
 
-`function` | [lazyc2.py:6376](../../lazyc2.py#L6376)
+`function` | [lazyc2.py:6438](../../lazyc2.py#L6438)
 
 Decorators: `@app.route('/admin/tenants', methods=['GET'])`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -2961,7 +2980,7 @@ def admin_tenants()
 
 ### `admin_create_tenant`
 
-`function` | [lazyc2.py:6397](../../lazyc2.py#L6397)
+`function` | [lazyc2.py:6459](../../lazyc2.py#L6459)
 
 Decorators: `@app.route('/admin/tenants/create', methods=['POST'])`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -2975,7 +2994,7 @@ def admin_create_tenant()
 
 ### `admin_switch_tenant`
 
-`function` | [lazyc2.py:6417](../../lazyc2.py#L6417)
+`function` | [lazyc2.py:6479](../../lazyc2.py#L6479)
 
 Decorators: `@app.route('/admin/tenants/<tenant_id>/switch', methods=['POST'])`, `@login_required`, `@require_role(Role.ADMIN.value)`
 
@@ -2995,7 +3014,7 @@ def admin_switch_tenant(tenant_id)
 
 ### `profile`
 
-`function` | [lazyc2.py:6432](../../lazyc2.py#L6432)
+`function` | [lazyc2.py:6494](../../lazyc2.py#L6494)
 
 Decorators: `@app.route('/profile')`, `@login_required`
 
@@ -3009,7 +3028,7 @@ def profile()
 
 ### `logout`
 
-`function` | [lazyc2.py:6456](../../lazyc2.py#L6456)
+`function` | [lazyc2.py:6518](../../lazyc2.py#L6518)
 
 Decorators: `@app.route('/logout')`, `@login_required`
 
@@ -3023,7 +3042,7 @@ def logout()
 
 ### `change_password`
 
-`function` | [lazyc2.py:6472](../../lazyc2.py#L6472)
+`function` | [lazyc2.py:6534](../../lazyc2.py#L6534)
 
 Decorators: `@app.route('/profile/change_password', methods=['GET', 'POST'])`, `@login_required`
 
@@ -3043,7 +3062,7 @@ is set.
 
 ### `aumentar_elo_route`
 
-`function` | [lazyc2.py:6538](../../lazyc2.py#L6538)
+`function` | [lazyc2.py:6600](../../lazyc2.py#L6600)
 
 Decorators: `@app.route('/aumentar_elo/<int:user_id>', methods=['POST'])`, `@login_required`
 
@@ -3063,7 +3082,7 @@ def aumentar_elo_route(user_id)
 
 ### `banners`
 
-`function` | [lazyc2.py:6554](../../lazyc2.py#L6554)
+`function` | [lazyc2.py:6616](../../lazyc2.py#L6616)
 
 Decorators: `@app.route('/banners')`, `@login_required`
 
@@ -3077,7 +3096,7 @@ def banners()
 
 ### `mitre`
 
-`function` | [lazyc2.py:6590](../../lazyc2.py#L6590)
+`function` | [lazyc2.py:6652](../../lazyc2.py#L6652)
 
 Decorators: `@app.route('/mitre')`, `@login_required`
 
@@ -3091,7 +3110,7 @@ def mitre()
 
 ### `get_connected_clients`
 
-`function` | [lazyc2.py:6635](../../lazyc2.py#L6635)
+`function` | [lazyc2.py:6697](../../lazyc2.py#L6697)
 
 Decorators: `@app.route('/get_connected_clients', methods=['GET'])`, `@login_required`
 
@@ -3105,7 +3124,7 @@ def get_connected_clients()
 
 ### `lazybot`
 
-`function` | [lazyc2.py:6646](../../lazyc2.py#L6646)
+`function` | [lazyc2.py:6708](../../lazyc2.py#L6708)
 
 Decorators: `@app.route('/lazybot', methods=['POST'])`, `@login_required`
 
@@ -3119,7 +3138,7 @@ def lazybot()
 
 ### `compliance_dashboard`
 
-`function` | [lazyc2.py:6663](../../lazyc2.py#L6663)
+`function` | [lazyc2.py:6725](../../lazyc2.py#L6725)
 
 Decorators: `@app.route('/compliance', methods=['GET'])`, `@login_required`, `@require_permission(Permission.AUDIT_VIEW.value)`
 
@@ -3133,7 +3152,7 @@ def compliance_dashboard()
 
 ### `compliance_report`
 
-`function` | [lazyc2.py:6685](../../lazyc2.py#L6685)
+`function` | [lazyc2.py:6747](../../lazyc2.py#L6747)
 
 Decorators: `@app.route('/compliance/report', methods=['GET'])`, `@login_required`, `@require_permission(Permission.REPORT_GENERATE.value)`
 
@@ -3147,7 +3166,7 @@ def compliance_report()
 
 ### `compliance_add_evidence`
 
-`function` | [lazyc2.py:6715](../../lazyc2.py#L6715)
+`function` | [lazyc2.py:6777](../../lazyc2.py#L6777)
 
 Decorators: `@app.route('/compliance/evidence/add', methods=['POST'])`, `@login_required`, `@require_permission(Permission.CMD_RUN.value)`
 
@@ -3161,7 +3180,7 @@ def compliance_add_evidence()
 
 ### `compliance_verify_evidence`
 
-`function` | [lazyc2.py:6751](../../lazyc2.py#L6751)
+`function` | [lazyc2.py:6813](../../lazyc2.py#L6813)
 
 Decorators: `@app.route('/compliance/evidence/verify', methods=['GET'])`, `@login_required`, `@require_permission(Permission.AUDIT_VIEW.value)`
 
@@ -3175,7 +3194,7 @@ def compliance_verify_evidence()
 
 ### `compliance_export`
 
-`function` | [lazyc2.py:6765](../../lazyc2.py#L6765)
+`function` | [lazyc2.py:6827](../../lazyc2.py#L6827)
 
 Decorators: `@app.route('/compliance/export/<format>', methods=['GET'])`, `@login_required`, `@require_permission(Permission.REPORT_GENERATE.value)`
 
@@ -3195,7 +3214,7 @@ def compliance_export(format)
 
 ### `lazyreport`
 
-`function` | [lazyc2.py:6795](../../lazyc2.py#L6795)
+`function` | [lazyc2.py:6857](../../lazyc2.py#L6857)
 
 Decorators: `@app.route('/lazyreport', methods=['POST'])`, `@login_required`
 
@@ -3209,7 +3228,7 @@ def lazyreport()
 
 ### `teamserver`
 
-`function` | [lazyc2.py:6814](../../lazyc2.py#L6814)
+`function` | [lazyc2.py:6876](../../lazyc2.py#L6876)
 
 Decorators: `@app.route('/teamserver', methods=['GET', 'POST'])`, `@login_required`
 
@@ -3223,7 +3242,7 @@ def teamserver()
 
 ### `report`
 
-`function` | [lazyc2.py:6843](../../lazyc2.py#L6843)
+`function` | [lazyc2.py:6905](../../lazyc2.py#L6905)
 
 Decorators: `@app.route('/report', methods=['GET'])`, `@login_required`
 
@@ -3237,7 +3256,7 @@ def report()
 
 ### `lazyreport_view`
 
-`function` | [lazyc2.py:6850](../../lazyc2.py#L6850)
+`function` | [lazyc2.py:6912](../../lazyc2.py#L6912)
 
 Decorators: `@app.route('/lazyreport', methods=['GET'])`, `@login_required`
 
@@ -3251,7 +3270,7 @@ def lazyreport_view()
 
 ### `killchain_view`
 
-`function` | [lazyc2.py:6856](../../lazyc2.py#L6856)
+`function` | [lazyc2.py:6918](../../lazyc2.py#L6918)
 
 Decorators: `@app.route('/killchain', methods=['GET'])`, `@login_required`
 
@@ -3265,7 +3284,7 @@ def killchain_view()
 
 ### `api_killchain`
 
-`function` | [lazyc2.py:6886](../../lazyc2.py#L6886)
+`function` | [lazyc2.py:6948](../../lazyc2.py#L6948)
 
 Decorators: `@app.route('/api/killchain', methods=['GET'])`, `@requires_auth`, `@limiter.limit('60 per minute')`
 
@@ -3285,7 +3304,7 @@ state derived from the single source of truth (world_model.json).
 
 ### `api_beacon_results`
 
-`function` | [lazyc2.py:6917](../../lazyc2.py#L6917)
+`function` | [lazyc2.py:6979](../../lazyc2.py#L6979)
 
 Decorators: `@app.route('/api/beacon_results/<client_id>', methods=['GET'])`, `@requires_auth`, `@limiter.limit('120 per minute')`
 
@@ -3310,7 +3329,7 @@ history is missing so GUI2 always has something to render.
 
 ### `api_loops_start`
 
-`function` | [lazyc2.py:6948](../../lazyc2.py#L6948)
+`function` | [lazyc2.py:7010](../../lazyc2.py#L7010)
 
 Decorators: `@app.route('/api/loops', methods=['POST'])`, `@requires_auth`, `@csrf_protect`, `@limiter.limit('10 per minute')`
 
@@ -3333,7 +3352,7 @@ error that never leaks internals.
 
 ### `api_loops_list`
 
-`function` | [lazyc2.py:6996](../../lazyc2.py#L6996)
+`function` | [lazyc2.py:7059](../../lazyc2.py#L7059)
 
 Decorators: `@app.route('/api/loops', methods=['GET'])`, `@requires_auth`, `@limiter.limit('120 per minute')`
 
@@ -3349,7 +3368,7 @@ List every autonomous loop with refreshed live status.
 
 ### `api_loop_log`
 
-`function` | [lazyc2.py:7008](../../lazyc2.py#L7008)
+`function` | [lazyc2.py:7071](../../lazyc2.py#L7071)
 
 Decorators: `@app.route('/api/loops/<loop_id>/log', methods=['GET'])`, `@requires_auth`, `@limiter.limit('300 per minute')`
 
@@ -3371,7 +3390,7 @@ Return one chunk of a loop's output log.
 
 ### `api_loop_stop`
 
-`function` | [lazyc2.py:7030](../../lazyc2.py#L7030)
+`function` | [lazyc2.py:7094](../../lazyc2.py#L7094)
 
 Decorators: `@app.route('/api/loops/<loop_id>/stop', methods=['POST'])`, `@requires_auth`, `@csrf_protect`, `@limiter.limit('30 per minute')`
 
@@ -3393,7 +3412,7 @@ Stop one running loop by terminating its process group.
 
 ### `connect`
 
-`function` | [lazyc2.py:7139](../../lazyc2.py#L7139)
+`function` | [lazyc2.py:7276](../../lazyc2.py#L7276)
 
 Decorators: `@app.route('/connect')`, `@login_required`
 
@@ -3407,7 +3426,7 @@ def connect()
 
 ### `listener`
 
-`function` | [lazyc2.py:7148](../../lazyc2.py#L7148)
+`function` | [lazyc2.py:7282](../../lazyc2.py#L7282)
 
 Decorators: `@app.route('/listener')`, `@login_required`
 
@@ -3421,7 +3440,7 @@ def listener()
 
 ### `listener_connect`
 
-`function` | [lazyc2.py:7158](../../lazyc2.py#L7158)
+`function` | [lazyc2.py:7289](../../lazyc2.py#L7289)
 
 Decorators: `@socketio.on('connect', namespace='/listener')`, `@login_required`, `@require_mfa_socket`
 
@@ -3435,7 +3454,7 @@ def listener_connect()
 
 ### `listener_disconnect`
 
-`function` | [lazyc2.py:7169](../../lazyc2.py#L7169)
+`function` | [lazyc2.py:7300](../../lazyc2.py#L7300)
 
 Decorators: `@socketio.on('disconnect', namespace='/listener')`, `@login_required`
 
@@ -3449,7 +3468,7 @@ def listener_disconnect()
 
 ### `pty_input`
 
-`function` | [lazyc2.py:7180](../../lazyc2.py#L7180)
+`function` | [lazyc2.py:7311](../../lazyc2.py#L7311)
 
 Decorators: `@socketio.on('pty-input', namespace='/pty')`, `@login_required`, `@require_mfa_socket`
 
@@ -3469,7 +3488,7 @@ def pty_input(data)
 
 ### `resize`
 
-`function` | [lazyc2.py:7195](../../lazyc2.py#L7195)
+`function` | [lazyc2.py:7326](../../lazyc2.py#L7326)
 
 Decorators: `@socketio.on('resize', namespace='/pty')`, `@login_required`, `@require_mfa_socket`
 
@@ -3491,7 +3510,7 @@ def resize(data)
 
 ### `pty_connect`
 
-`function` | [lazyc2.py:7209](../../lazyc2.py#L7209)
+`function` | [lazyc2.py:7340](../../lazyc2.py#L7340)
 
 Decorators: `@socketio.on('connect', namespace='/pty')`, `@login_required`, `@require_mfa_socket`
 
@@ -3505,7 +3524,7 @@ def pty_connect()
 
 ### `handle_input`
 
-`function` | [lazyc2.py:7241](../../lazyc2.py#L7241)
+`function` | [lazyc2.py:7372](../../lazyc2.py#L7372)
 
 Decorators: `@socketio.on('input')`, `@login_required`, `@require_mfa_socket`
 
@@ -3525,7 +3544,7 @@ def handle_input(data)
 
 ### `listener_command`
 
-`function` | [lazyc2.py:7266](../../lazyc2.py#L7266)
+`function` | [lazyc2.py:7397](../../lazyc2.py#L7397)
 
 Decorators: `@socketio.on('command', namespace='/listener')`, `@login_required`, `@require_mfa_socket`
 
@@ -3545,7 +3564,7 @@ def listener_command(msg)
 
 ### `terminal`
 
-`function` | [lazyc2.py:7280](../../lazyc2.py#L7280)
+`function` | [lazyc2.py:7411](../../lazyc2.py#L7411)
 
 Decorators: `@app.route('/terminal')`, `@login_required`
 
@@ -3559,7 +3578,7 @@ def terminal()
 
 ### `terminal_connect`
 
-`function` | [lazyc2.py:7290](../../lazyc2.py#L7290)
+`function` | [lazyc2.py:7421](../../lazyc2.py#L7421)
 
 Decorators: `@socketio.on('connect', namespace='/terminal')`, `@login_required`, `@require_mfa_socket`
 
@@ -3573,7 +3592,7 @@ def terminal_connect()
 
 ### `terminal_disconnect`
 
-`function` | [lazyc2.py:7300](../../lazyc2.py#L7300)
+`function` | [lazyc2.py:7431](../../lazyc2.py#L7431)
 
 Decorators: `@socketio.on('disconnect', namespace='/terminal')`, `@login_required`
 
@@ -3587,7 +3606,7 @@ def terminal_disconnect()
 
 ### `terminal_input`
 
-`function` | [lazyc2.py:7311](../../lazyc2.py#L7311)
+`function` | [lazyc2.py:7442](../../lazyc2.py#L7442)
 
 Decorators: `@socketio.on('input', namespace='/terminal')`, `@login_required`, `@require_mfa_socket`
 
@@ -3607,7 +3626,7 @@ def terminal_input(data)
 
 ### `terminal_command`
 
-`function` | [lazyc2.py:7325](../../lazyc2.py#L7325)
+`function` | [lazyc2.py:7456](../../lazyc2.py#L7456)
 
 Decorators: `@socketio.on('command', namespace='/terminal')`, `@login_required`, `@require_mfa_socket`
 
@@ -3627,7 +3646,7 @@ def terminal_command(data)
 
 ### `terminal_resize`
 
-`function` | [lazyc2.py:7341](../../lazyc2.py#L7341)
+`function` | [lazyc2.py:7472](../../lazyc2.py#L7472)
 
 Decorators: `@socketio.on('resize', namespace='/terminal')`, `@login_required`, `@require_mfa_socket`
 
@@ -3647,9 +3666,7 @@ def terminal_resize(data)
 
 ### `start_reverse_shell`
 
-`function` | [lazyc2.py:7350](../../lazyc2.py#L7350)
-
-Decorators: `@login_required`
+`function` | [lazyc2.py:7480](../../lazyc2.py#L7480)
 
 ```python
 def start_reverse_shell()
@@ -3661,7 +3678,7 @@ def start_reverse_shell()
 
 ### `start_bridge`
 
-`function` | [lazyc2.py:7397](../../lazyc2.py#L7397)
+`function` | [lazyc2.py:7534](../../lazyc2.py#L7534)
 
 Decorators: `@app.route('/start_bridge', methods=['POST'])`, `@requires_auth`
 
@@ -3677,7 +3694,7 @@ Start a TCP bridge to a specified remote host and port.
 
 ### `page_not_found`
 
-`function` | [lazyc2.py:7414](../../lazyc2.py#L7414)
+`function` | [lazyc2.py:7551](../../lazyc2.py#L7551)
 
 Decorators: `@app.errorhandler(404)`
 
@@ -3697,7 +3714,7 @@ def page_not_found(e)
 
 ### `internal_server_error`
 
-`function` | [lazyc2.py:7422](../../lazyc2.py#L7422)
+`function` | [lazyc2.py:7559](../../lazyc2.py#L7559)
 
 Decorators: `@app.errorhandler(500)`
 
@@ -3717,7 +3734,7 @@ def internal_server_error(e)
 
 ### `get_config`
 
-`function` | [lazyc2.py:7431](../../lazyc2.py#L7431)
+`function` | [lazyc2.py:7568](../../lazyc2.py#L7568)
 
 Decorators: `@app.route('/config.json')`, `@requires_auth_or_session`
 
@@ -3733,7 +3750,7 @@ Lee el archivo payload.json, lo manipula y lo expone como /config.json.
 
 ### `capture_image`
 
-`function` | [lazyc2.py:7450](../../lazyc2.py#L7450)
+`function` | [lazyc2.py:7587](../../lazyc2.py#L7587)
 
 Decorators: `@app.route('/capture', methods=['POST'])`
 
@@ -3747,7 +3764,7 @@ def capture_image()
 
 ### `capture_audio`
 
-`function` | [lazyc2.py:7476](../../lazyc2.py#L7476)
+`function` | [lazyc2.py:7613](../../lazyc2.py#L7613)
 
 Decorators: `@app.route('/audio', methods=['POST'])`
 
@@ -3761,7 +3778,7 @@ def capture_audio()
 
 ### `surface`
 
-`function` | [lazyc2.py:7494](../../lazyc2.py#L7494)
+`function` | [lazyc2.py:7631](../../lazyc2.py#L7631)
 
 Decorators: `@app.route('/surface')`, `@requires_auth_or_session`
 
@@ -3775,7 +3792,7 @@ def surface()
 
 ### `surface_live`
 
-`function` | [lazyc2.py:7500](../../lazyc2.py#L7500)
+`function` | [lazyc2.py:7637](../../lazyc2.py#L7637)
 
 Decorators: `@app.route('/surface_live')`, `@requires_auth_or_session`
 
@@ -3794,7 +3811,7 @@ Render the live attack-surface graph page.
 
 ### `api_surface_live`
 
-`function` | [lazyc2.py:7515](../../lazyc2.py#L7515)
+`function` | [lazyc2.py:7652](../../lazyc2.py#L7652)
 
 Decorators: `@app.route('/api/surface_live')`, `@requires_auth_or_session`
 
@@ -3817,7 +3834,7 @@ or unreadable world model yields an empty but well-formed graph.
 
 ### `intel_view`
 
-`function` | [lazyc2.py:7537](../../lazyc2.py#L7537)
+`function` | [lazyc2.py:7674](../../lazyc2.py#L7674)
 
 Decorators: `@app.route('/intel')`, `@login_required`
 
@@ -3840,7 +3857,7 @@ circular/spherical bundles stay one click away.
 
 ### `intel_bundle_view`
 
-`function` | [lazyc2.py:7556](../../lazyc2.py#L7556)
+`function` | [lazyc2.py:7693](../../lazyc2.py#L7693)
 
 Decorators: `@app.route('/intel_bundle')`, `@login_required`
 
@@ -3859,7 +3876,7 @@ Render the circular/spherical bundle view of the intel graph.
 
 ### `attack3d_view`
 
-`function` | [lazyc2.py:7571](../../lazyc2.py#L7571)
+`function` | [lazyc2.py:7708](../../lazyc2.py#L7708)
 
 Decorators: `@app.route('/attack3d')`, `@login_required`
 
@@ -3882,7 +3899,7 @@ The current ``/graph`` and ``/surface`` views stay untouched.
 
 ### `attack_bundle_view`
 
-`function` | [lazyc2.py:7590](../../lazyc2.py#L7590)
+`function` | [lazyc2.py:7727](../../lazyc2.py#L7727)
 
 Decorators: `@app.route('/attack_bundle')`, `@login_required`
 
@@ -3901,7 +3918,7 @@ Render the circular/spherical bundle view of the attack surface.
 
 ### `api_intel_graph`
 
-`function` | [lazyc2.py:7605](../../lazyc2.py#L7605)
+`function` | [lazyc2.py:7742](../../lazyc2.py#L7742)
 
 Decorators: `@app.route('/api/intel_graph')`, `@login_required`
 
@@ -3928,7 +3945,7 @@ and ``analytics`` keys.
 
 ### `broadcast_view`
 
-`function` | [lazyc2.py:7661](../../lazyc2.py#L7661)
+`function` | [lazyc2.py:7798](../../lazyc2.py#L7798)
 
 Decorators: `@app.route('/broadcast')`, `@login_required`
 
@@ -3946,7 +3963,7 @@ Render the exploration timeline board for one loop task.
 
 ### `api_loop_broadcast_stream`
 
-`function` | [lazyc2.py:7675](../../lazyc2.py#L7675)
+`function` | [lazyc2.py:7812](../../lazyc2.py#L7812)
 
 Decorators: `@app.route('/api/loop_broadcast/stream')`, `@login_required`
 
@@ -3969,7 +3986,7 @@ operator reconnects without gaps after a page reload.
 
 ### `api_loop_broadcast`
 
-`function` | [lazyc2.py:7733](../../lazyc2.py#L7733)
+`function` | [lazyc2.py:7870](../../lazyc2.py#L7870)
 
 Decorators: `@app.route('/api/loop_broadcast')`, `@login_required`
 
@@ -3993,7 +4010,7 @@ board expands without extra requests.
 
 ### `api_guard_audit`
 
-`function` | [lazyc2.py:7776](../../lazyc2.py#L7776)
+`function` | [lazyc2.py:7913](../../lazyc2.py#L7913)
 
 Decorators: `@app.route('/api/guard_audit')`, `@login_required`
 
@@ -4017,7 +4034,7 @@ through history never hides work waiting for approval.
 
 ### `api_loop_graph`
 
-`function` | [lazyc2.py:7822](../../lazyc2.py#L7822)
+`function` | [lazyc2.py:7959](../../lazyc2.py#L7959)
 
 Decorators: `@app.route('/api/loop_graph')`, `@login_required`
 
@@ -4040,7 +4057,7 @@ next probes computed from the same topology the planner ranks on.
 
 ### `api_lazy_mentions`
 
-`function` | [lazyc2.py:7853](../../lazyc2.py#L7853)
+`function` | [lazyc2.py:7990](../../lazyc2.py#L7990)
 
 Decorators: `@app.route('/api/lazy_mentions')`, `@login_required`
 
@@ -4061,7 +4078,7 @@ from the previous page). Returns ``items`` plus `[`next_cursor`](modules.lazy_me
 
 ### `api_intel_bundle`
 
-`function` | [lazyc2.py:7889](../../lazyc2.py#L7889)
+`function` | [lazyc2.py:8026](../../lazyc2.py#L8026)
 
 Decorators: `@app.route('/api/intel_bundle')`, `@login_required`
 
@@ -4080,7 +4097,7 @@ Return the circular/spherical bundle payload of the intel graph.
 
 ### `api_attack_graph`
 
-`function` | [lazyc2.py:7922](../../lazyc2.py#L7922)
+`function` | [lazyc2.py:8059](../../lazyc2.py#L8059)
 
 Decorators: `@app.route('/api/attack_graph')`, `@login_required`
 
@@ -4106,7 +4123,7 @@ and ``analytics`` keys.
 
 ### `api_attack_bundle`
 
-`function` | [lazyc2.py:7974](../../lazyc2.py#L7974)
+`function` | [lazyc2.py:8111](../../lazyc2.py#L8111)
 
 Decorators: `@app.route('/api/attack_bundle')`, `@login_required`
 
@@ -4125,7 +4142,7 @@ Return the circular/spherical bundle payload of the attack surface.
 
 ### `get_data`
 
-`function` | [lazyc2.py:8004](../../lazyc2.py#L8004)
+`function` | [lazyc2.py:8141](../../lazyc2.py#L8141)
 
 Decorators: `@app.route('/data')`, `@requires_auth_or_session`
 
@@ -4139,7 +4156,7 @@ def get_data()
 
 ### `upload_zip_file`
 
-`function` | [lazyc2.py:8013](../../lazyc2.py#L8013)
+`function` | [lazyc2.py:8150](../../lazyc2.py#L8150)
 
 Decorators: `@app.route('/upload_zip', methods=['POST'])`
 
@@ -4155,7 +4172,7 @@ Handles the file upload, processes the BloodHound ZIP, and prepares data for vis
 
 ### `list_campaigns`
 
-`function` | [lazyc2.py:8071](../../lazyc2.py#L8071)
+`function` | [lazyc2.py:8208](../../lazyc2.py#L8208)
 
 Decorators: `@phishing_bp.route('/phishing/campaigns', methods=['GET'])`, `@login_required`
 
@@ -4169,7 +4186,7 @@ def list_campaigns()
 
 ### `create_campaign`
 
-`function` | [lazyc2.py:8084](../../lazyc2.py#L8084)
+`function` | [lazyc2.py:8221](../../lazyc2.py#L8221)
 
 Decorators: `@phishing_bp.route('/phishing/campaigns/new', methods=['GET', 'POST'])`, `@login_required`
 
@@ -4183,7 +4200,7 @@ def create_campaign()
 
 ### `lazyphishingai`
 
-`function` | [lazyc2.py:8162](../../lazyc2.py#L8162)
+`function` | [lazyc2.py:8299](../../lazyc2.py#L8299)
 
 Decorators: `@app.route('/lazyphishingai', methods=['POST'])`, `@requires_auth_or_session`
 
@@ -4197,7 +4214,7 @@ def lazyphishingai()
 
 ### `track_pixel`
 
-`function` | [lazyc2.py:8178](../../lazyc2.py#L8178)
+`function` | [lazyc2.py:8315](../../lazyc2.py#L8315)
 
 Decorators: `@phishing_bp.route('/phishing/<campaign_id>/track/<email>')`
 
@@ -4220,7 +4237,7 @@ Píxel de seguimiento para registrar aperturas.
 
 ### `campaign_report`
 
-`function` | [lazyc2.py:8200](../../lazyc2.py#L8200)
+`function` | [lazyc2.py:8337](../../lazyc2.py#L8337)
 
 Decorators: `@phishing_bp.route('/phishing/<campaign_id>/report')`, `@login_required`
 
@@ -4240,7 +4257,7 @@ def campaign_report(campaign_id)
 
 ### `orchestrate_campaign`
 
-`function` | [lazyc2.py:8282](../../lazyc2.py#L8282)
+`function` | [lazyc2.py:8419](../../lazyc2.py#L8419)
 
 Decorators: `@phishing_bp.route('/phishing/<campaign_id>/orchestrate', methods=['GET', 'POST'])`, `@login_required`
 
@@ -4260,7 +4277,7 @@ def orchestrate_campaign(campaign_id)
 
 ### `create_multivector_campaign`
 
-`function` | [lazyc2.py:8329](../../lazyc2.py#L8329)
+`function` | [lazyc2.py:8466](../../lazyc2.py#L8466)
 
 Decorators: `@phishing_bp.route('/phishing/create_multivector_campaign', methods=['GET', 'POST'])`, `@login_required`
 
@@ -4274,7 +4291,7 @@ def create_multivector_campaign()
 
 ### `serve_landing_page`
 
-`function` | [lazyc2.py:8481](../../lazyc2.py#L8481)
+`function` | [lazyc2.py:8618](../../lazyc2.py#L8618)
 
 Decorators: `@phishing_bp.route('/phishing/landing/<campaign_id>/<short_url>')`
 
@@ -4295,7 +4312,7 @@ def serve_landing_page(campaign_id, short_url)
 
 ### `health_check`
 
-`function` | [lazyc2.py:8506](../../lazyc2.py#L8506)
+`function` | [lazyc2.py:8643](../../lazyc2.py#L8643)
 
 Decorators: `@app.route('/health', methods=['GET'])`
 
@@ -4311,7 +4328,7 @@ Basic health and readiness endpoint.
 
 ### `metrics_exposition`
 
-`function` | [lazyc2.py:8545](../../lazyc2.py#L8545)
+`function` | [lazyc2.py:8682](../../lazyc2.py#L8682)
 
 Decorators: `@app.route('/metrics', methods=['GET'])`
 
@@ -4327,7 +4344,7 @@ Prometheus-compatible metrics endpoint.
 
 ### `api_dashboard`
 
-`function` | [lazyc2.py:8552](../../lazyc2.py#L8552)
+`function` | [lazyc2.py:8689](../../lazyc2.py#L8689)
 
 Decorators: `@app.route('/api/dashboard', methods=['GET'])`, `@requires_auth`
 
@@ -4343,7 +4360,7 @@ Aggregated JSON dashboard: beacons, campaign, events, facts summary.
 
 ### `api_listeners`
 
-`function` | [lazyc2.py:8622](../../lazyc2.py#L8622)
+`function` | [lazyc2.py:8759](../../lazyc2.py#L8759)
 
 Decorators: `@app.route('/api/listeners', methods=['GET'])`, `@requires_auth`
 
@@ -4359,7 +4376,7 @@ List all configured C2 listeners and their runtime status.
 
 ### `api_listeners_create`
 
-`function` | [lazyc2.py:8629](../../lazyc2.py#L8629)
+`function` | [lazyc2.py:8766](../../lazyc2.py#L8766)
 
 Decorators: `@app.route('/api/listeners', methods=['POST'])`, `@requires_auth`
 
@@ -4375,7 +4392,7 @@ Create a new listener.
 
 ### `api_listeners_start`
 
-`function` | [lazyc2.py:8645](../../lazyc2.py#L8645)
+`function` | [lazyc2.py:8782](../../lazyc2.py#L8782)
 
 Decorators: `@app.route('/api/listeners/<listener_id>/start', methods=['POST'])`, `@requires_auth`
 
@@ -4397,7 +4414,7 @@ Start an existing listener.
 
 ### `api_listeners_stop`
 
-`function` | [lazyc2.py:8653](../../lazyc2.py#L8653)
+`function` | [lazyc2.py:8790](../../lazyc2.py#L8790)
 
 Decorators: `@app.route('/api/listeners/<listener_id>/stop', methods=['POST'])`, `@requires_auth`
 
@@ -4419,7 +4436,7 @@ Stop a running listener.
 
 ### `api_listeners_delete`
 
-`function` | [lazyc2.py:8661](../../lazyc2.py#L8661)
+`function` | [lazyc2.py:8798](../../lazyc2.py#L8798)
 
 Decorators: `@app.route('/api/listeners/<listener_id>', methods=['DELETE'])`, `@requires_auth`
 
@@ -4443,7 +4460,7 @@ Remove a listener configuration.
 
 ### `SAVE_DIR`
 
-`constant` | [lazyc2.py:2552](../../lazyc2.py#L2552)
+`constant` | [lazyc2.py:2625](../../lazyc2.py#L2625)
 
 ```python
 SAVE_DIR = 'sessions/captured_images'
@@ -4455,7 +4472,7 @@ SAVE_DIR = 'sessions/captured_images'
 
 ### `SESSION_ID`
 
-`constant` | [lazyc2.py:2703](../../lazyc2.py#L2703)
+`constant` | [lazyc2.py:2776](../../lazyc2.py#L2776)
 
 ```python
 SESSION_ID = str(uuid.uuid4())
@@ -4467,7 +4484,7 @@ SESSION_ID = str(uuid.uuid4())
 
 ### `BASE_DIR`
 
-`constant` | [lazyc2.py:2745](../../lazyc2.py#L2745)
+`constant` | [lazyc2.py:2818](../../lazyc2.py#L2818)
 
 ```python
 BASE_DIR = os.getcwd()
@@ -4479,7 +4496,7 @@ BASE_DIR = os.getcwd()
 
 ### `TOOLS_DIR`
 
-`constant` | [lazyc2.py:2746](../../lazyc2.py#L2746)
+`constant` | [lazyc2.py:2819](../../lazyc2.py#L2819)
 
 ```python
 TOOLS_DIR = f'{BASE_DIR}/tools'
@@ -4491,7 +4508,7 @@ TOOLS_DIR = f'{BASE_DIR}/tools'
 
 ### `LAZYADDONS_DIR`
 
-`constant` | [lazyc2.py:2747](../../lazyc2.py#L2747)
+`constant` | [lazyc2.py:2820](../../lazyc2.py#L2820)
 
 ```python
 LAZYADDONS_DIR = os.path.join(BASE_DIR, 'lazyaddons')
@@ -4503,7 +4520,7 @@ LAZYADDONS_DIR = os.path.join(BASE_DIR, 'lazyaddons')
 
 ### `UPLOAD_FOLDER`
 
-`constant` | [lazyc2.py:2784](../../lazyc2.py#L2784)
+`constant` | [lazyc2.py:2857](../../lazyc2.py#L2857)
 
 ```python
 UPLOAD_FOLDER = BASE_DIR + 'uploads'
@@ -4515,7 +4532,7 @@ UPLOAD_FOLDER = BASE_DIR + 'uploads'
 
 ### `ALLOWED_DIRECTORY`
 
-`constant` | [lazyc2.py:2788](../../lazyc2.py#L2788)
+`constant` | [lazyc2.py:2861](../../lazyc2.py#L2861)
 
 ```python
 ALLOWED_DIRECTORY = BASE_DIR
@@ -4527,7 +4544,7 @@ ALLOWED_DIRECTORY = BASE_DIR
 
 ### `MODEL`
 
-`constant` | [lazyc2.py:2789](../../lazyc2.py#L2789)
+`constant` | [lazyc2.py:2862](../../lazyc2.py#L2862)
 
 ```python
 MODEL = retModel()
@@ -4539,7 +4556,7 @@ MODEL = retModel()
 
 ### `JSON_FILE_PATH_REPORT`
 
-`constant` | [lazyc2.py:2867](../../lazyc2.py#L2867)
+`constant` | [lazyc2.py:2940](../../lazyc2.py#L2940)
 
 ```python
 JSON_FILE_PATH_REPORT = 'static/body_report.json'
@@ -4551,7 +4568,7 @@ JSON_FILE_PATH_REPORT = 'static/body_report.json'
 
 ### `USER_DATA_PATH`
 
-`constant` | [lazyc2.py:2886](../../lazyc2.py#L2886)
+`constant` | [lazyc2.py:2959](../../lazyc2.py#L2959)
 
 ```python
 USER_DATA_PATH = 'users.json'
@@ -4563,7 +4580,7 @@ USER_DATA_PATH = 'users.json'
 
 ### `ENV`
 
-`constant` | [lazyc2.py:2887](../../lazyc2.py#L2887)
+`constant` | [lazyc2.py:2960](../../lazyc2.py#L2960)
 
 ```python
 ENV = _env_tag()
@@ -4575,7 +4592,7 @@ ENV = _env_tag()
 
 ### `DATA_FILE`
 
-`constant` | [lazyc2.py:2998](../../lazyc2.py#L2998)
+`constant` | [lazyc2.py:3071](../../lazyc2.py#L3071)
 
 ```python
 DATA_FILE = BASE_DIR + 'surface_attack.json'
@@ -4587,7 +4604,7 @@ DATA_FILE = BASE_DIR + 'surface_attack.json'
 
 ### `LOG_DIR`
 
-`constant` | [lazyc2.py:2999](../../lazyc2.py#L2999)
+`constant` | [lazyc2.py:3072](../../lazyc2.py#L3072)
 
 ```python
 LOG_DIR = os.path.join('sessions', 'logs', 'c2')
@@ -4599,7 +4616,7 @@ LOG_DIR = os.path.join('sessions', 'logs', 'c2')
 
 ### `LOG_FILE`
 
-`constant` | [lazyc2.py:3000](../../lazyc2.py#L3000)
+`constant` | [lazyc2.py:3073](../../lazyc2.py#L3073)
 
 ```python
 LOG_FILE = os.path.join(LOG_DIR, 'log_c2.txt')
@@ -4611,7 +4628,7 @@ LOG_FILE = os.path.join(LOG_DIR, 'log_c2.txt')
 
 ### `CAMPAIGNS_DIR`
 
-`constant` | [lazyc2.py:3001](../../lazyc2.py#L3001)
+`constant` | [lazyc2.py:3074](../../lazyc2.py#L3074)
 
 ```python
 CAMPAIGNS_DIR = os.path.join(os.getcwd(), 'sessions', 'phishing', 'campaigns')
@@ -4623,7 +4640,7 @@ CAMPAIGNS_DIR = os.path.join(os.getcwd(), 'sessions', 'phishing', 'campaigns')
 
 ### `TEMPLATES_DIR`
 
-`constant` | [lazyc2.py:3002](../../lazyc2.py#L3002)
+`constant` | [lazyc2.py:3075](../../lazyc2.py#L3075)
 
 ```python
 TEMPLATES_DIR = os.path.join(os.getcwd(), 'templates', 'phishing', 'emails')
@@ -4635,7 +4652,7 @@ TEMPLATES_DIR = os.path.join(os.getcwd(), 'templates', 'phishing', 'emails')
 
 ### `DB_PATH`
 
-`constant` | [lazyc2.py:3003](../../lazyc2.py#L3003)
+`constant` | [lazyc2.py:3076](../../lazyc2.py#L3076)
 
 ```python
 DB_PATH = os.path.join(os.getcwd(), 'sessions', 'phishing', 'tracking.db')
@@ -4647,7 +4664,7 @@ DB_PATH = os.path.join(os.getcwd(), 'sessions', 'phishing', 'tracking.db')
 
 ### `GMAIL_ADDRESS`
 
-`constant` | [lazyc2.py:3004](../../lazyc2.py#L3004)
+`constant` | [lazyc2.py:3077](../../lazyc2.py#L3077)
 
 ```python
 GMAIL_ADDRESS = config.email_username
@@ -4659,7 +4676,7 @@ GMAIL_ADDRESS = config.email_username
 
 ### `GMAIL_APP_PASSWORD`
 
-`constant` | [lazyc2.py:3005](../../lazyc2.py#L3005)
+`constant` | [lazyc2.py:3078](../../lazyc2.py#L3078)
 
 ```python
 GMAIL_APP_PASSWORD = config.email_password
@@ -4671,7 +4688,7 @@ GMAIL_APP_PASSWORD = config.email_password
 
 ### `SESSIONS_PHISHING_DIR`
 
-`constant` | [lazyc2.py:3006](../../lazyc2.py#L3006)
+`constant` | [lazyc2.py:3079](../../lazyc2.py#L3079)
 
 ```python
 SESSIONS_PHISHING_DIR = os.path.join(os.getcwd(), 'sessions', 'phishing', 'campaigns')
@@ -4683,7 +4700,7 @@ SESSIONS_PHISHING_DIR = os.path.join(os.getcwd(), 'sessions', 'phishing', 'campa
 
 ### `SHORT_URLS_FILE`
 
-`constant` | [lazyc2.py:3007](../../lazyc2.py#L3007)
+`constant` | [lazyc2.py:3080](../../lazyc2.py#L3080)
 
 ```python
 SHORT_URLS_FILE = SESSIONS_PHISHING_DIR + '/short_urls.json'
@@ -4695,7 +4712,7 @@ SHORT_URLS_FILE = SESSIONS_PHISHING_DIR + '/short_urls.json'
 
 ### `SESSIONS_DIR`
 
-`constant` | [lazyc2.py:3008](../../lazyc2.py#L3008)
+`constant` | [lazyc2.py:3081](../../lazyc2.py#L3081)
 
 ```python
 SESSIONS_DIR = os.path.join(os.getcwd(), 'sessions')
@@ -4707,7 +4724,7 @@ SESSIONS_DIR = os.path.join(os.getcwd(), 'sessions')
 
 ### `GROQ_API_KEY`
 
-`constant` | [lazyc2.py:3016](../../lazyc2.py#L3016)
+`constant` | [lazyc2.py:3089](../../lazyc2.py#L3089)
 
 ```python
 GROQ_API_KEY = config.api_key
@@ -4719,7 +4736,7 @@ GROQ_API_KEY = config.api_key
 
 ### `ALLOWED_EXTENSIONS`
 
-`constant` | [lazyc2.py:3017](../../lazyc2.py#L3017)
+`constant` | [lazyc2.py:3090](../../lazyc2.py#L3090)
 
 ```python
 ALLOWED_EXTENSIONS = {'txt', 'enc', 'exe', 'sh'}
@@ -4731,7 +4748,7 @@ ALLOWED_EXTENSIONS = {'txt', 'enc', 'exe', 'sh'}
 
 ### `IMPLANT_STAGE_FILES`
 
-`constant` | [lazyc2.py:3018](../../lazyc2.py#L3018)
+`constant` | [lazyc2.py:3091](../../lazyc2.py#L3091)
 
 ```python
 IMPLANT_STAGE_FILES = {'stub', 'stub.exe', 'r', 'beacon.enc'}
@@ -4743,7 +4760,7 @@ IMPLANT_STAGE_FILES = {'stub', 'stub.exe', 'r', 'beacon.enc'}
 
 ### `BINARY_HEADERS`
 
-`constant` | [lazyc2.py:3020](../../lazyc2.py#L3020)
+`constant` | [lazyc2.py:3093](../../lazyc2.py#L3093)
 
 ```python
 BINARY_HEADERS = [b'\x7fELF', b'MZ']
@@ -4755,7 +4772,7 @@ BINARY_HEADERS = [b'\x7fELF', b'MZ']
 
 ### `AES_KEY_SIZE_BYTES`
 
-`constant` | [lazyc2.py:3057](../../lazyc2.py#L3057)
+`constant` | [lazyc2.py:3130](../../lazyc2.py#L3130)
 
 ```python
 AES_KEY_SIZE_BYTES = _AES_KEY_SIZE_BYTES
@@ -4767,7 +4784,7 @@ AES_KEY_SIZE_BYTES = _AES_KEY_SIZE_BYTES
 
 ### `DIRECTORY_TO_WATCH`
 
-`constant` | [lazyc2.py:3080](../../lazyc2.py#L3080)
+`constant` | [lazyc2.py:3153](../../lazyc2.py#L3153)
 
 ```python
 DIRECTORY_TO_WATCH = f'{BASE_DIR}'
@@ -4779,7 +4796,7 @@ DIRECTORY_TO_WATCH = f'{BASE_DIR}'
 
 ### `LINPEAS_CANDIDATES`
 
-`constant` | [lazyc2.py:3503](../../lazyc2.py#L3503)
+`constant` | [lazyc2.py:3565](../../lazyc2.py#L3565)
 
 ```python
 LINPEAS_CANDIDATES
@@ -4791,7 +4808,7 @@ LINPEAS_CANDIDATES
 
 ### `WINPEAS_CANDIDATES`
 
-`constant` | [lazyc2.py:3508](../../lazyc2.py#L3508)
+`constant` | [lazyc2.py:3570](../../lazyc2.py#L3570)
 
 ```python
 WINPEAS_CANDIDATES

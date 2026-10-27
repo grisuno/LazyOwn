@@ -57,7 +57,7 @@ flowchart LR
 
 ### `EngagementState`
 
-`class` `dataclass` | [cli/engagement_hooks.py:243](../../cli/engagement_hooks.py#L243)
+`class` `dataclass` | [cli/engagement_hooks.py:244](../../cli/engagement_hooks.py#L244)
 
 Decorators: `@dataclass`
 
@@ -93,7 +93,7 @@ Persisted cross-session engagement metrics.
 
 ### `heal_commands_seen`
 
-`function` | [cli/engagement_hooks.py:366](../../cli/engagement_hooks.py#L366)
+`function` | [cli/engagement_hooks.py:367](../../cli/engagement_hooks.py#L367)
 
 ```python
 def heal_commands_seen(known: set[str]) -> int
@@ -120,7 +120,7 @@ truth. Idempotent: a clean state file is left untouched.
 
 ### `get_karma_name`
 
-`function` | [cli/engagement_hooks.py:717](../../cli/engagement_hooks.py#L717)
+`function` | [cli/engagement_hooks.py:718](../../cli/engagement_hooks.py#L718)
 
 ```python
 def get_karma_name(elo: int) -> str
@@ -147,7 +147,7 @@ terminal and the C2 web UI display identical ranks for the same operator.
 
 ### `render_engagement_hook`
 
-`function` | [cli/engagement_hooks.py:899](../../cli/engagement_hooks.py#L899)
+`function` | [cli/engagement_hooks.py:900](../../cli/engagement_hooks.py#L900)
 
 ```python
 def render_engagement_hook(cmd: str, phase: str = '', enabled: bool = True) -> None
@@ -175,7 +175,7 @@ atomic patch each to ``sessions/engagement_state.json``,
 
 ### `get_state_snapshot`
 
-`function` | [cli/engagement_hooks.py:979](../../cli/engagement_hooks.py#L979)
+`function` | [cli/engagement_hooks.py:980](../../cli/engagement_hooks.py#L980)
 
 ```python
 def get_state_snapshot() -> dict[str, Any]
@@ -203,7 +203,7 @@ loads it lazily so the first call from ``karma`` returns real data.
 
 ### `reset_session`
 
-`function` | [cli/engagement_hooks.py:1067](../../cli/engagement_hooks.py#L1067)
+`function` | [cli/engagement_hooks.py:1068](../../cli/engagement_hooks.py#L1068)
 
 ```python
 def reset_session() -> None
@@ -402,7 +402,7 @@ ELO_HIGH_VALUE_CMDS: dict[str, int]
 
 ### `ELO_PHASE_BONUS`
 
-`constant` | [cli/engagement_hooks.py:127](../../cli/engagement_hooks.py#L127)
+`constant` | [cli/engagement_hooks.py:128](../../cli/engagement_hooks.py#L128)
 
 ```python
 ELO_PHASE_BONUS: dict[str, int]

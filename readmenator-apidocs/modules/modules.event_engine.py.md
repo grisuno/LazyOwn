@@ -45,7 +45,7 @@ Load rules from event_rules.json, creating it with defaults if missing.
 
 *Calls:* [`save_rules`](#save_rules)
 
-*Called by:* [`add_rule`](#add_rule), [`process_new_rows`](#process_new_rows), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`add_rule`](#add_rule), [`process_new_rows`](#process_new_rows)
 
 ---
 
@@ -93,8 +93,6 @@ Returns 'added' or 'updated'.
 
 *Calls:* [`load_rules`](#load_rules), [`save_rules`](#save_rules)
 
-*Called by:* [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
-
 ---
 
 <a id="process_new_rows"></a>
@@ -140,7 +138,7 @@ Return up to `limit` events matching `status` (pending/processed/all).
 
 **Returns:** `list[dict]`
 
-*Called by:* [`run_loop`](skills.heartbeat.py.md#run_loop), [`call_tool`](skills.lazyown_mcp.py.md#call_tool)
+*Called by:* [`run_loop`](skills.heartbeat.py.md#run_loop)
 
 ---
 

@@ -3,6 +3,36 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_call_model` | method | `modules/agent_runner.py:299` | `def _call_model(self)` |
+| `_emit_delta` | method | `modules/agent_runner.py:419` | `def _emit_delta(self, kind, text)` |
+| `_load_model` | method | `modules/agent_runner.py:576` | `def _load_model(self)` |
+| `_load_shell` | method | `modules/agent_runner.py:496` | `def _load_shell(self)` |
+| `_manage_memory` | method | `modules/agent_runner.py:214` | `def _manage_memory(self)` |
+| `_process_tool_call` | method | `modules/agent_runner.py:438` | `def _process_tool_call(self, tool_call)` |
+| `_reset_history` | method | `modules/agent_runner.py:211` | `def _reset_history(self)` |
+| `_setup_agent` | method | `modules/agent_runner.py:591` | `def _setup_agent(self)` |
+| `_stream_call` | method | `modules/agent_runner.py:345` | `def _stream_call(self, model_name, messages, max_tokens)` |
+| `_tool_call_snapshot` | function | `modules/agent_runner.py:177` | `def _tool_call_snapshot(tool_call)` |
+| `configure_logging` | function | `modules/agent_runner.py:64` | `def configure_logging(debug)` |
+| `execute` | method | `modules/agent_runner.py:87` | `def execute(self)` |
+| `execute_command` | method | `modules/agent_runner.py:519` | `def execute_command(self, command)` |
+| `extract_commands_from_file` | method | `modules/agent_runner.py:142` | `def extract_commands_from_file(file_path, prefix)` |
+| `get_commands_summary` | method | `modules/agent_runner.py:556` | `def get_commands_summary(self)` |
+| `get_tools_for_api` | method | `modules/agent_runner.py:270` | `def get_tools_for_api(self)` |
+| `interactive_mode` | function | `modules/agent_runner.py:624` | `def interactive_mode(bot)` |
+| `main` | function | `modules/agent_runner.py:658` | `def main()` |
+| `make_executor` | function | `modules/agent_runner.py:247` | `def make_executor(cmd_name)` |
+| `parse_args` | function | `modules/agent_runner.py:648` | `def parse_args()` |
+| `process_request` | method | `modules/agent_runner.py:619` | `def process_request(self, user_input)` |
+| `register_tool` | method | `modules/agent_runner.py:222` | `def register_tool(self, tool)` |
+| `register_tool_from_instance` | method | `modules/agent_runner.py:225` | `def register_tool_from_instance(self, func)` |
+| `register_tools_from_metadata` | method | `modules/agent_runner.py:243` | `def register_tools_from_metadata(self, commands, executor)` |
+| `run` | method | `modules/agent_runner.py:275` | `def run(self, user_input)` |
+| `target` | function | `modules/agent_runner.py:526` | `def target()` |
+| `to_api_format` | method | `modules/agent_runner.py:81` | `def to_api_format(self)` |
+| `wrapper` | function | `modules/agent_runner.py:248` | `def wrapper(command)` |
+| `AIExploitChainer` | class | `modules/ai_exploit_chain.py:247` | `class AIExploitChainer` |
+| `ExploitChainContext` | class | `modules/ai_exploit_chain.py:223` | `class ExploitChainContext` |
 | `__init__` | method | `modules/ai_exploit_chain.py:259` | `def __init__(self)` |
 | `_ensure` | method | `modules/ai_exploit_chain.py:487` | `def _ensure(context, strategy)` |
 | `_parse_shell_hints` | method | `modules/ai_exploit_chain.py:492` | `def _parse_shell_hints(self, output, context)` |
@@ -12,14 +42,18 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `evaluate_failure` | method | `modules/ai_exploit_chain.py:306` | `def evaluate_failure(result)` |
 | `reason` | method | `modules/ai_exploit_chain.py:285` | `def reason(self, context)` |
 | `select_next_strategy` | method | `modules/ai_exploit_chain.py:318` | `def select_next_strategy(self, context)` |
-| `AIResult` | class | `modules/ai_fallback.py:95` | `class AIResult` |
-| `_best_ollama_model` | function | `modules/ai_fallback.py:113` | `def _best_ollama_model()` |
-| `_groq_call` | function | `modules/ai_fallback.py:189` | `def _groq_call(api_key, system, user, max_tokens, temperature)` |
-| `_is_quota_error` | function | `modules/ai_fallback.py:184` | `def _is_quota_error(exc)` |
-| `_ollama_available` | function | `modules/ai_fallback.py:105` | `def _ollama_available()` |
-| `_ollama_call` | function | `modules/ai_fallback.py:140` | `def _ollama_call(model, system, user, max_tokens, temperature)` |
-| `_toposwarm_call` | function | `modules/ai_fallback.py:226` | `def _toposwarm_call(prompt, system)` |
-| `call` | function | `modules/ai_fallback.py:254` | `def call(prompt, system, api_key, max_tokens, temperature)` |
+| `AIResult` | class | `modules/ai_fallback.py:108` | `class AIResult` |
+| `_best_ollama_model` | function | `modules/ai_fallback.py:126` | `def _best_ollama_model()` |
+| `_chain_groq_attempted` | function | `modules/ai_fallback.py:267` | `def _chain_groq_attempted(result)` |
+| `_fallback_warning` | function | `modules/ai_fallback.py:349` | `def _fallback_warning(orch)` |
+| `_groq_call` | function | `modules/ai_fallback.py:202` | `def _groq_call(api_key, system, user, max_tokens, temperature)` |
+| `_is_quota_error` | function | `modules/ai_fallback.py:197` | `def _is_quota_error(exc)` |
+| `_ollama_available` | function | `modules/ai_fallback.py:118` | `def _ollama_available()` |
+| `_ollama_call` | function | `modules/ai_fallback.py:153` | `def _ollama_call(model, system, user, max_tokens, temperature)` |
+| `_summarize_attempts` | function | `modules/ai_fallback.py:354` | `def _summarize_attempts(orch)` |
+| `_toposwarm_call` | function | `modules/ai_fallback.py:239` | `def _toposwarm_call(prompt, system)` |
+| `_total_failure_result` | function | `modules/ai_fallback.py:359` | `def _total_failure_result(orch, local_error)` |
+| `call` | function | `modules/ai_fallback.py:280` | `def call(prompt, system, api_key, max_tokens, temperature)` |
 | `AIModel` | class | `modules/ai_model.py:45` | `class AIModel(ABC)` |
 | `AnthropicModel` | class | `modules/ai_model.py:493` | `class AnthropicModel(AIModel)` |
 | `DeepSeekModel` | class | `modules/ai_model.py:549` | `class DeepSeekModel(AIModel)` |
@@ -462,39 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `from_dict` | method | `modules/bof_registry.py:241` | `def from_dict(cls, raw)` |
 | `get` | method | `modules/bof_registry.py:177` | `def get(self, name)` |
 | `get_install_info` | method | `modules/bof_registry.py:633` | `def get_install_info(self, name)` |
-| `info` | method | `modules/bof_registry.py:690` | `def info(self, name)` |
-| `install` | method | `modules/bof_registry.py:590` | `def install(self, entry)` |
-| `install` | method | `modules/bof_registry.py:707` | `def install(self, name)` |
-| `install_dir` | method | `modules/bof_registry.py:565` | `def install_dir(self)` |
-| `is_installed` | method | `modules/bof_registry.py:585` | `def is_installed(self, name)` |
-| `list_all` | method | `modules/bof_registry.py:229` | `def list_all(self)` |
-| `list_by_category` | method | `modules/bof_registry.py:221` | `def list_by_category(self, category)` |
-| `list_by_platform` | method | `modules/bof_registry.py:225` | `def list_by_platform(self, platform)` |
-| `list_installed` | method | `modules/bof_registry.py:628` | `def list_installed(self)` |
-| `list_installed` | method | `modules/bof_registry.py:749` | `def list_installed(self)` |
-| `list_missing_dependencies` | method | `modules/bof_registry.py:761` | `def list_missing_dependencies(self, name)` |
-| `load` | method | `modules/bof_registry.py:249` | `def load(cls, path)` |
-| `register` | method | `modules/bof_registry.py:167` | `def register(self, entry)` |
-| `register_many` | method | `modules/bof_registry.py:172` | `def register_many(self, entries)` |
-| `registry` | method | `modules/bof_registry.py:667` | `def registry(self)` |
-| `save` | method | `modules/bof_registry.py:257` | `def save(self, path)` |
-| `search` | method | `modules/bof_registry.py:188` | `def search(self, query)` |
-| `search` | method | `modules/bof_registry.py:671` | `def search(self, query)` |
-| `to_dict` | method | `modules/bof_registry.py:118` | `def to_dict(self)` |
-| `to_dict` | method | `modules/bof_registry.py:233` | `def to_dict(self)` |
-| `uninstall` | method | `modules/bof_registry.py:611` | `def uninstall(self, name, remove_files)` |
-| `uninstall` | method | `modules/bof_registry.py:736` | `def uninstall(self, name)` |
-| `validate_args` | method | `modules/bof_registry.py:540` | `def validate_args(entry, args)` |
-| `verify_entry` | method | `modules/bof_registry.py:524` | `def verify_entry(entry, filepath)` |
-| `C2Server` | class | `modules/c2_agent.py:711` | `class C2Server` |
-| `__init__` | method | `modules/c2_agent.py:714` | `def __init__(self, port, user, password)` |
-| `_api` | function | `modules/c2_agent.py:825` | `def _api(path, data)` |
-| `_ensure_key` | function | `modules/c2_agent.py:462` | `def _ensure_key()` |
-| `_pid` | method | `modules/c2_agent.py:719` | `def _pid(self)` |
-| `_restore_key_from_snapshot` | function | `modules/c2_agent.py:493` | `def _restore_key_from_snapshot()` |
-| `_snapshot_key` | function | `modules/c2_agent.py:516` | `def _snapshot_key(aes_hex)` |
-| `_sync_credentials_file` | function | `modules/c2_agent.py:59` | `def _sync_credentials_file(user, password)` |
-| `_unverified_context` | function | `modules/c2_agent.py:84` | `def _unverified_context()` |
-| `build_agent` | function | `modules/c2_agent.py:398` | `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

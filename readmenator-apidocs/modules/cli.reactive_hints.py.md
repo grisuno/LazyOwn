@@ -48,7 +48,7 @@ flowchart LR
 
 ### `EvidenceHint`
 
-`class` `dataclass` | [cli/reactive_hints.py:299](../../cli/reactive_hints.py#L299)
+`class` `dataclass` | [cli/reactive_hints.py:300](../../cli/reactive_hints.py#L300)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -79,7 +79,7 @@ sure* so the hint line reads like advice rather than a menu.
 
 ### `render_inline_hints`
 
-`function` | [cli/reactive_hints.py:220](../../cli/reactive_hints.py#L220)
+`function` | [cli/reactive_hints.py:221](../../cli/reactive_hints.py#L221)
 
 ```python
 def render_inline_hints(advisor: GraphAdvisor, last_command: str, limit: int = 3, enabled: bool = True) -> None
@@ -112,7 +112,7 @@ never blocks the operator from typing the next command.
 
 ### `confidence_from_score`
 
-`function` | [cli/reactive_hints.py:321](../../cli/reactive_hints.py#L321)
+`function` | [cli/reactive_hints.py:322](../../cli/reactive_hints.py#L322)
 
 ```python
 def confidence_from_score(score: float) -> int
@@ -144,7 +144,7 @@ claims a dishonest 100%.
 
 ### `build_evidence_hints`
 
-`function` | [cli/reactive_hints.py:362](../../cli/reactive_hints.py#L362)
+`function` | [cli/reactive_hints.py:363](../../cli/reactive_hints.py#L363)
 
 ```python
 def build_evidence_hints(recommendations: Sequence[Any], limit: int) -> list[EvidenceHint]
@@ -173,7 +173,7 @@ explained shorter list beats a padded opaque one.
 
 ### `render_evidence_hints`
 
-`function` | [cli/reactive_hints.py:400](../../cli/reactive_hints.py#L400)
+`function` | [cli/reactive_hints.py:401](../../cli/reactive_hints.py#L401)
 
 ```python
 def render_evidence_hints(hints: Sequence[EvidenceHint]) -> None
@@ -198,7 +198,7 @@ a glance reads as one ranked block of advice.
 
 ### `read_run_commands`
 
-`function` | [cli/reactive_hints.py:443](../../cli/reactive_hints.py#L443)
+`function` | [cli/reactive_hints.py:444](../../cli/reactive_hints.py#L444)
 
 ```python
 def read_run_commands(sessions_dir: str = 'sessions') -> set[str]
@@ -228,7 +228,7 @@ unreadable.
 
 ### `render_command_hints`
 
-`function` | [cli/reactive_hints.py:514](../../cli/reactive_hints.py#L514)
+`function` | [cli/reactive_hints.py:515](../../cli/reactive_hints.py#L515)
 
 ```python
 def render_command_hints(last_command: str, phase: str = '', sessions_dir: str = 'sessions', limit: int = 3, enabled: bool = True) -> None
@@ -260,7 +260,7 @@ CSV are skipped so the hint is always forward-looking.
 
 ### `command_hints`
 
-`function` | [cli/reactive_hints.py:549](../../cli/reactive_hints.py#L549)
+`function` | [cli/reactive_hints.py:550](../../cli/reactive_hints.py#L550)
 
 ```python
 def command_hints(last_command: str, phase: str = '', sessions_dir: str = 'sessions', limit: int = 3) -> list[str]

@@ -1,6 +1,6 @@
 # `modules.vulnbot`
 
-> Source: [modules/vulnbot.py:1](../../modules/vulnbot.py#L1) | language `py` | coverage 8.3% | [API index](../index.md)
+> Source: [modules/vulnbot.py:1](../../modules/vulnbot.py#L1) | language `py` | coverage 33.3% | [API index](../index.md)
 
 vulnbot.py
 
@@ -43,7 +43,7 @@ flowchart LR
 
 ### `VulnBotCLI`
 
-`class` | [modules/vulnbot.py:29](../../modules/vulnbot.py#L29)
+`class` | [modules/vulnbot.py:37](../../modules/vulnbot.py#L37)
 
 ```python
 class VulnBotCLI
@@ -54,21 +54,21 @@ class VulnBotCLI
 | Member | Kind | Summary |
 |---|---|---|
 | [`__init__`](#vulnbotcli-__init__) | constructor |  |
-| [`load_knowledge_base`](#vulnbotcli-load_knowledge_base) | method |  |
+| [`load_knowledge_base`](#vulnbotcli-load_knowledge_base) | method | Load the knowledge base in any known shape. |
 | [`save_knowledge_base`](#vulnbotcli-save_knowledge_base) | method |  |
-| [`get_relevant_knowledge`](#vulnbotcli-get_relevant_knowledge) | method |  |
+| [`get_relevant_knowledge`](#vulnbotcli-get_relevant_knowledge) | method | Return knowledge responses whose text shares keywords with the prompt. |
 | [`create_complex_prompt`](#vulnbotcli-create_complex_prompt) | method |  |
 | [`read_file_content`](#vulnbotcli-read_file_content) | method |  |
 | [`load_event_config`](#vulnbotcli-load_event_config) | method |  |
 | [`process_with_context`](#vulnbotcli-process_with_context) | method |  |
 | [`stream_response`](#vulnbotcli-stream_response) | method |  |
-| [`add_to_knowledge_base`](#vulnbotcli-add_to_knowledge_base) | method |  |
+| [`add_to_knowledge_base`](#vulnbotcli-add_to_knowledge_base) | method | Append a prompt/response record in the canonical list format. |
 
 <a id="vulnbotcli-__init__"></a>
 
 #### `VulnBotCLI.__init__`
 
-`constructor` | [modules/vulnbot.py:30](../../modules/vulnbot.py#L30)
+`constructor` | [modules/vulnbot.py:38](../../modules/vulnbot.py#L38)
 
 ```python
 def __init__(self, provider: str = 'groq', mode: str = 'console', debug: bool = False, script_path: str = 'lazyown.py')
@@ -91,13 +91,16 @@ def __init__(self, provider: str = 'groq', mode: str = 'console', debug: bool = 
 
 #### `VulnBotCLI.load_knowledge_base`
 
-`method` | [modules/vulnbot.py:145](../../modules/vulnbot.py#L145)
+`method` | [modules/vulnbot.py:208](../../modules/vulnbot.py#L208)
 
 ```python
-def load_knowledge_base(self) -> dict
+def load_knowledge_base(self) -> list | dict
 ```
 
-**Returns:** `dict`
+Load the knowledge base in any known shape.
+
+**Returns:** `list | dict` - The canonical list of ``{"prompt", "response"}`` records, the
+legacy dict mapping, or an empty list on any read error.
 
 *Called by:* [`VulnBotCLI.add_to_knowledge_base`](#vulnbotcli-add_to_knowledge_base), [`VulnBotCLI.get_relevant_knowledge`](#vulnbotcli-get_relevant_knowledge)
 
@@ -105,17 +108,17 @@ def load_knowledge_base(self) -> dict
 
 #### `VulnBotCLI.save_knowledge_base`
 
-`method` | [modules/vulnbot.py:151](../../modules/vulnbot.py#L151)
+`method` | [modules/vulnbot.py:224](../../modules/vulnbot.py#L224)
 
 ```python
-def save_knowledge_base(self, kb: dict) -> None
+def save_knowledge_base(self, kb: list | dict) -> None
 ```
 
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `kb` | `dict` |  |  |
+| `kb` | `list \| dict` |  |  |
 
 *Called by:* [`VulnBotCLI.add_to_knowledge_base`](#vulnbotcli-add_to_knowledge_base)
 
@@ -123,19 +126,21 @@ def save_knowledge_base(self, kb: dict) -> None
 
 #### `VulnBotCLI.get_relevant_knowledge`
 
-`method` | [modules/vulnbot.py:155](../../modules/vulnbot.py#L155)
+`method` | [modules/vulnbot.py:228](../../modules/vulnbot.py#L228)
 
 ```python
 def get_relevant_knowledge(self, prompt: str) -> str
 ```
 
+Return knowledge responses whose text shares keywords with the prompt.
+
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `prompt` | `str` |  |  |
+| `prompt` | `str` |  | Query used to select relevant records. |
 
-**Returns:** `str`
+**Returns:** `str` - Newline-joined matching responses; empty when nothing matches.
 
 *Calls:* [`VulnBotCLI.load_knowledge_base`](#vulnbotcli-load_knowledge_base)
 
@@ -145,7 +150,7 @@ def get_relevant_knowledge(self, prompt: str) -> str
 
 #### `VulnBotCLI.create_complex_prompt`
 
-`method` | [modules/vulnbot.py:160](../../modules/vulnbot.py#L160)
+`method` | [modules/vulnbot.py:251](../../modules/vulnbot.py#L251)
 
 ```python
 def create_complex_prompt(self, base_prompt: str, history: str = '', knowledge: str = '') -> str
@@ -167,7 +172,7 @@ def create_complex_prompt(self, base_prompt: str, history: str = '', knowledge: 
 
 #### `VulnBotCLI.read_file_content`
 
-`method` | [modules/vulnbot.py:176](../../modules/vulnbot.py#L176)
+`method` | [modules/vulnbot.py:267](../../modules/vulnbot.py#L267)
 
 ```python
 def read_file_content(self, file_path: str) -> str
@@ -191,7 +196,7 @@ def read_file_content(self, file_path: str) -> str
 
 #### `VulnBotCLI.load_event_config`
 
-`method` | [modules/vulnbot.py:182](../../modules/vulnbot.py#L182)
+`method` | [modules/vulnbot.py:273](../../modules/vulnbot.py#L273)
 
 ```python
 def load_event_config(self) -> dict
@@ -203,7 +208,7 @@ def load_event_config(self) -> dict
 
 #### `VulnBotCLI.process_with_context`
 
-`method` | [modules/vulnbot.py:190](../../modules/vulnbot.py#L190)
+`method` | [modules/vulnbot.py:281](../../modules/vulnbot.py#L281)
 
 ```python
 def process_with_context(self, file_path: str, event: str = None) -> str
@@ -226,7 +231,7 @@ def process_with_context(self, file_path: str, event: str = None) -> str
 
 #### `VulnBotCLI.stream_response`
 
-`method` | [modules/vulnbot.py:206](../../modules/vulnbot.py#L206)
+`method` | [modules/vulnbot.py:297](../../modules/vulnbot.py#L297)
 
 ```python
 def stream_response(self, prompt: str) -> Response
@@ -248,18 +253,20 @@ def stream_response(self, prompt: str) -> Response
 
 #### `VulnBotCLI.add_to_knowledge_base`
 
-`method` | [modules/vulnbot.py:212](../../modules/vulnbot.py#L212)
+`method` | [modules/vulnbot.py:303](../../modules/vulnbot.py#L303)
 
 ```python
 def add_to_knowledge_base(self, prompt: str, response: str)
 ```
 
+Append a prompt/response record in the canonical list format.
+
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `prompt` | `str` |  |  |
-| `response` | `str` |  |  |
+| `prompt` | `str` |  | Operator prompt that produced the response. |
+| `response` | `str` |  | Model response to remember. |
 
 *Calls:* [`VulnBotCLI.load_knowledge_base`](#vulnbotcli-load_knowledge_base), [`VulnBotCLI.save_knowledge_base`](#vulnbotcli-save_knowledge_base)
 
@@ -273,7 +280,7 @@ def add_to_knowledge_base(self, prompt: str, response: str)
 
 ### `BANNER`
 
-`constant` | [modules/vulnbot.py:24](../../modules/vulnbot.py#L24)
+`constant` | [modules/vulnbot.py:32](../../modules/vulnbot.py#L32)
 
 ```python
 BANNER = '\n[*] Starting: LazyOwn GPT One Liner CLI Assistant [;,;]\n'

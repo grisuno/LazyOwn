@@ -3,6 +3,104 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_show` | function | `modules/ttpscope_bridge.py:520` | `def do_show(object_id)` |
+| `do_sync` | function | `modules/ttpscope_bridge.py:497` | `def do_sync()` |
+| `locate_binary` | function | `modules/ttpscope_bridge.py:82` | `def locate_binary()` |
+| `main` | function | `modules/ttpscope_bridge.py:679` | `def main()` |
+| `run_action` | function | `modules/ttpscope_bridge.py:652` | `def run_action(action)` |
+| `validate_object_id` | function | `modules/ttpscope_bridge.py:92` | `def validate_object_id(raw)` |
+| `validate_platform` | function | `modules/ttpscope_bridge.py:112` | `def validate_platform(raw)` |
+| `validate_query` | function | `modules/ttpscope_bridge.py:100` | `def validate_query(raw)` |
+| `DelegateResult` | class | `modules/unified_bridge.py:59` | `class DelegateResult` |
+| `KeywordBackend` | class | `modules/unified_bridge.py:75` | `class KeywordBackend(RouteBackend)` |
+| `LazyownBridgeBackend` | class | `modules/unified_bridge.py:123` | `class LazyownBridgeBackend(RouteBackend)` |
+| `RouteBackend` | class | `modules/unified_bridge.py:67` | `class RouteBackend(ABC)` |
+| `RouteResult` | class | `modules/unified_bridge.py:46` | `class RouteResult` |
+| `TopoSwarmBackend` | class | `modules/unified_bridge.py:161` | `class TopoSwarmBackend(RouteBackend)` |
+| `UnifiedBridge` | class | `modules/unified_bridge.py:195` | `class UnifiedBridge` |
+| `__init__` | method | `modules/unified_bridge.py:214` | `def __init__(self)` |
+| `_await_agent` | method | `modules/unified_bridge.py:355` | `def _await_agent(self, get_status, agent_id, timeout)` |
+| `_detect_phase` | method | `modules/unified_bridge.py:464` | `def _detect_phase(self)` |
+| `_get_active_target` | method | `modules/unified_bridge.py:473` | `def _get_active_target(self)` |
+| `_init_backends` | method | `modules/unified_bridge.py:219` | `def _init_backends(self)` |
+| `_publish` | method | `modules/unified_bridge.py:233` | `def _publish(self, category, event_type, payload)` |
+| `_run_agent_command` | method | `modules/unified_bridge.py:384` | `def _run_agent_command(self, command)` |
+| `available` | method | `modules/unified_bridge.py:69` | `def available(self)` |
+| `available` | method | `modules/unified_bridge.py:102` | `def available(self)` |
+| `available` | method | `modules/unified_bridge.py:126` | `def available(self)` |
+| `available` | method | `modules/unified_bridge.py:164` | `def available(self)` |
+| `delegate` | method | `modules/unified_bridge.py:300` | `def delegate(self, goal, backend, timeout, max_iterations)` |
+| `delegate_task` | function | `modules/unified_bridge.py:488` | `def delegate_task(goal, backend)` |
+| `get` | method | `modules/unified_bridge.py:225` | `def get(cls)` |
+| `list_backends` | method | `modules/unified_bridge.py:461` | `def list_backends(self)` |
+| `route` | method | `modules/unified_bridge.py:72` | `def route(self, prompt, context)` |
+| `route` | method | `modules/unified_bridge.py:105` | `def route(self, prompt, context)` |
+| `route` | method | `modules/unified_bridge.py:134` | `def route(self, prompt, context)` |
+| `route` | method | `modules/unified_bridge.py:173` | `def route(self, prompt, context)` |
+| `route` | method | `modules/unified_bridge.py:253` | `def route(self, prompt, context)` |
+| `route_prompt` | function | `modules/unified_bridge.py:483` | `def route_prompt(prompt, context)` |
+| `set_publish_callback` | method | `modules/unified_bridge.py:230` | `def set_publish_callback(self, cb)` |
+| `UnifiedDashboard` | class | `modules/unified_dashboard.py:37` | `class UnifiedDashboard` |
+| `__init__` | method | `modules/unified_dashboard.py:44` | `def __init__(self, sessions_dir)` |
+| `_collect_daemon_status` | method | `modules/unified_dashboard.py:121` | `def _collect_daemon_status(self)` |
+| `_collect_dashboard` | method | `modules/unified_dashboard.py:160` | `def _collect_dashboard(self)` |
+| `_collect_graph_advice` | method | `modules/unified_dashboard.py:142` | `def _collect_graph_advice(self)` |
+| `_collect_hive_status` | method | `modules/unified_dashboard.py:101` | `def _collect_hive_status(self)` |
+| `_collect_live_graph` | method | `modules/unified_dashboard.py:130` | `def _collect_live_graph(self)` |
+| `_collect_policy_status` | method | `modules/unified_dashboard.py:111` | `def _collect_policy_status(self)` |
+| `_collect_world_model` | method | `modules/unified_dashboard.py:95` | `def _collect_world_model(self)` |
+| `_get_dashboard` | method | `modules/unified_dashboard.py:49` | `def _get_dashboard(self)` |
+| `_get_graph` | method | `modules/unified_dashboard.py:65` | `def _get_graph(self)` |
+| `build_unified_snapshot` | method | `modules/unified_dashboard.py:76` | `def build_unified_snapshot(self)` |
+| `export_json` | method | `modules/unified_dashboard.py:251` | `def export_json(self)` |
+| `get_unified_dashboard` | function | `modules/unified_dashboard.py:256` | `def get_unified_dashboard(sessions_dir)` |
+| `render_unified` | method | `modules/unified_dashboard.py:170` | `def render_unified(self)` |
+| `GatekeeperStatus` | function | `modules/venator.py:651` | `def GatekeeperStatus(output_file)` |
+| `SIPStatus` | function | `modules/venator.py:637` | `def SIPStatus(output_file)` |
+| `amzn_canonical_req` | function | `modules/venator.py:856` | `def amzn_canonical_req(filename_path, headers_list)` |
+| `amzn_sig` | function | `modules/venator.py:846` | `def amzn_sig(secret_access_key, data, aws_region, aws_service)` |
+| `checkSignature` | function | `modules/venator.py:132` | `def checkSignature(file, bundle)` |
+| `datetime_handler` | function | `modules/venator.py:210` | `def datetime_handler(x)` |
+| `getApps` | function | `modules/venator.py:741` | `def getApps(path, output_file, ignoreVFlag)` |
+| `getBashHistory` | function | `modules/venator.py:786` | `def getBashHistory(output_file, users)` |
+| `getChromeDownloads` | function | `modules/venator.py:388` | `def getChromeDownloads(chromeHistoryDbPath, output_file)` |
+| `getChromeExtensions` | function | `modules/venator.py:357` | `def getChromeExtensions(path, output_file)` |
+| `getConnections` | function | `modules/venator.py:609` | `def getConnections(output_file)` |
+| `getCronJobs` | function | `modules/venator.py:494` | `def getCronJobs(users, output_file)` |
+| `getEmond` | function | `modules/venator.py:513` | `def getEmond(output_file)` |
+| `getEnv` | function | `modules/venator.py:577` | `def getEnv(output_file)` |
+| `getEventTaps` | function | `modules/venator.py:763` | `def getEventTaps(output_file)` |
+| `getFirefoxExtensions` | function | `modules/venator.py:442` | `def getFirefoxExtensions(path, output_file)` |
+| `getHash` | function | `modules/venator.py:112` | `def getHash(file, ignoreVFlag)` |
+| `getInstallHistory` | function | `modules/venator.py:477` | `def getInstallHistory(output_file)` |
+| `getKext` | function | `modules/venator.py:530` | `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)` |
+| `getLaunchAgents` | function | `modules/venator.py:287` | `def getLaunchAgents(path, output_file, ignoreVFlag)` |
+| `getLaunchDaemons` | function | `modules/venator.py:302` | `def getLaunchDaemons(path, output_file, ignoreVFlag)` |
+| `getLoginItems` | function | `modules/venator.py:706` | `def getLoginItems(path, output_file, ignoreVFlag)` |
+| `getPeriodicScripts` | function | `modules/venator.py:592` | `def getPeriodicScripts(output_file)` |
+| `getSafariExtensions` | function | `modules/venator.py:338` | `def getSafariExtensions(path, output_file)` |
+| `getShellStartupScripts` | function | `modules/venator.py:804` | `def getShellStartupScripts(users, output_file)` |
+| `getSystemInfo` | function | `modules/venator.py:66` | `def getSystemInfo(output_file)` |
+| `getUUID` | function | `modules/venator.py:38` | `def getUUID()` |
+| `getUsers` | function | `modules/venator.py:317` | `def getUsers(output_file)` |
+| `getVTResult` | function | `modules/venator.py:83` | `def getVTResult(fileHash)` |
+| `hmac_sha256` | function | `modules/venator.py:842` | `def hmac_sha256(key, data)` |
+| `io_key` | function | `modules/venator.py:49` | `def io_key(keyname)` |
+| `parseAgentsDaemons` | function | `modules/venator.py:215` | `def parseAgentsDaemons(item, path)` |
+| `parseApp` | function | `modules/venator.py:663` | `def parseApp(app, ignoreVFlag)` |
+| `s3_upload` | function | `modules/venator.py:866` | `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)` |
+| `VerbCatalogConfig` | class | `modules/verb_catalog.py:76` | `class VerbCatalogConfig` |
+| `_addon_discoveries` | function | `modules/verb_catalog.py:137` | `def _addon_discoveries(config)` |
+| `_all_discoveries` | function | `modules/verb_catalog.py:181` | `def _all_discoveries(config)` |
+| `_builtin_names` | function | `modules/verb_catalog.py:105` | `def _builtin_names()` |
+| `_default_config` | function | `modules/verb_catalog.py:99` | `def _default_config()` |
+| `_drop_cache` | function | `modules/verb_catalog.py:494` | `def _drop_cache(path_key)` |
+| `_phase_fallback` | function | `modules/verb_catalog.py:117` | `def _phase_fallback(verb)` |
+| `_risk_fallback` | function | `modules/verb_catalog.py:127` | `def _risk_fallback(verb)` |
+| `_write` | function | `modules/verb_catalog.py:470` | `def _write(cfg, verbs)` |
+| `catalog_enabled` | function | `modules/verb_catalog.py:349` | `def catalog_enabled(name, config)` |
+| `catalog_source` | function | `modules/verb_catalog.py:364` | `def catalog_source(name, config)` |
+| `entries` | function | `modules/verb_catalog.py:296` | `def entries(config)` |
 | `index_commands` | function | `modules/verb_catalog.py:190` | `def index_commands(config)` |
 | `load` | function | `modules/verb_catalog.py:263` | `def load(config)` |
 | `search` | function | `modules/verb_catalog.py:516` | `def search(query, config, phase, enabled, limit)` |
@@ -29,27 +127,29 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `plan_check` | function | `modules/verb_manifest.py:467` | `def plan_check(steps, tokens, path, facts)` |
 | `main` | function | `modules/vuln_bot_cli.py:22` | `def main()` |
 | `parse_args` | function | `modules/vuln_bot_cli.py:10` | `def parse_args()` |
-| `VulnBotCLI` | class | `modules/vulnbot.py:29` | `class VulnBotCLI` |
-| `__init__` | method | `modules/vulnbot.py:30` | `def __init__(self, provider, mode, debug, script_path)` |
-| `_load_external_tools` | method | `modules/vulnbot.py:109` | `def _load_external_tools(self, script_path)` |
-| `_load_model` | method | `modules/vulnbot.py:46` | `def _load_model(self)` |
-| `_register_file_tools` | method | `modules/vulnbot.py:83` | `def _register_file_tools(self)` |
-| `_setup_agent` | method | `modules/vulnbot.py:61` | `def _setup_agent(self, script_path)` |
-| `_stream_agent_response` | method | `modules/vulnbot.py:136` | `def _stream_agent_response(self, prompt)` |
-| `add_to_knowledge_base` | method | `modules/vulnbot.py:212` | `def add_to_knowledge_base(self, prompt, response)` |
-| `create_complex_prompt` | method | `modules/vulnbot.py:160` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
-| `edit_file` | function | `modules/vulnbot.py:95` | `def edit_file(path, content, old_text)` |
-| `generate` | function | `modules/vulnbot.py:139` | `def generate()` |
-| `generate` | function | `modules/vulnbot.py:207` | `def generate()` |
-| `get_relevant_knowledge` | method | `modules/vulnbot.py:155` | `def get_relevant_knowledge(self, prompt)` |
-| `list_files` | function | `modules/vulnbot.py:86` | `def list_files(directory)` |
-| `load_event_config` | method | `modules/vulnbot.py:182` | `def load_event_config(self)` |
-| `load_knowledge_base` | method | `modules/vulnbot.py:145` | `def load_knowledge_base(self)` |
-| `process_with_context` | method | `modules/vulnbot.py:190` | `def process_with_context(self, file_path, event)` |
-| `read_file` | function | `modules/vulnbot.py:90` | `def read_file(path)` |
-| `read_file_content` | method | `modules/vulnbot.py:176` | `def read_file_content(self, file_path)` |
-| `save_knowledge_base` | method | `modules/vulnbot.py:151` | `def save_knowledge_base(self, kb)` |
-| `stream_response` | method | `modules/vulnbot.py:206` | `def stream_response(self, prompt)` |
+| `VulnBotCLI` | class | `modules/vulnbot.py:37` | `class VulnBotCLI` |
+| `__init__` | method | `modules/vulnbot.py:38` | `def __init__(self, provider, mode, debug, script_path)` |
+| `_complete_with_fallback` | method | `modules/vulnbot.py:69` | `def _complete_with_fallback(self, prompt)` |
+| `_load_external_tools` | method | `modules/vulnbot.py:172` | `def _load_external_tools(self, script_path)` |
+| `_load_model` | method | `modules/vulnbot.py:54` | `def _load_model(self)` |
+| `_register_file_tools` | method | `modules/vulnbot.py:146` | `def _register_file_tools(self)` |
+| `_setup_agent` | method | `modules/vulnbot.py:124` | `def _setup_agent(self, script_path)` |
+| `_stream_agent_response` | method | `modules/vulnbot.py:199` | `def _stream_agent_response(self, prompt)` |
+| `_stream_with_fallback` | method | `modules/vulnbot.py:92` | `def _stream_with_fallback(self, prompt)` |
+| `add_to_knowledge_base` | method | `modules/vulnbot.py:303` | `def add_to_knowledge_base(self, prompt, response)` |
+| `create_complex_prompt` | method | `modules/vulnbot.py:251` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
+| `edit_file` | function | `modules/vulnbot.py:158` | `def edit_file(path, content, old_text)` |
+| `generate` | function | `modules/vulnbot.py:202` | `def generate()` |
+| `generate` | function | `modules/vulnbot.py:298` | `def generate()` |
+| `get_relevant_knowledge` | method | `modules/vulnbot.py:228` | `def get_relevant_knowledge(self, prompt)` |
+| `list_files` | function | `modules/vulnbot.py:149` | `def list_files(directory)` |
+| `load_event_config` | method | `modules/vulnbot.py:273` | `def load_event_config(self)` |
+| `load_knowledge_base` | method | `modules/vulnbot.py:208` | `def load_knowledge_base(self)` |
+| `process_with_context` | method | `modules/vulnbot.py:281` | `def process_with_context(self, file_path, event)` |
+| `read_file` | function | `modules/vulnbot.py:153` | `def read_file(path)` |
+| `read_file_content` | method | `modules/vulnbot.py:267` | `def read_file_content(self, file_path)` |
+| `save_knowledge_base` | method | `modules/vulnbot.py:224` | `def save_knowledge_base(self, kb)` |
+| `stream_response` | method | `modules/vulnbot.py:297` | `def stream_response(self, prompt)` |
 | `WebSocketBeacon` | class | `modules/websocket_beacon.py:46` | `class WebSocketBeacon` |
 | `WebSocketC2Handler` | class | `modules/websocket_beacon.py:274` | `class WebSocketC2Handler` |
 | `__init__` | method | `modules/websocket_beacon.py:62` | `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)` |
@@ -152,6 +252,29 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `hook_CreateFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:85` | `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...` |
 | `hook_FindFirstFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:75` | `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)` |
 | `should_hide_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:65` | `int should_hide_pid(const char* pid)` |
+| `_load_yaml` | function | `modules/winbox_gym.py:122` | `def _load_yaml(path)` |
+| `_missing_prereqs` | function | `modules/winbox_gym.py:309` | `def _missing_prereqs()` |
+| `_vm_built_from` | function | `modules/winbox_gym.py:575` | `def _vm_built_from(status)` |
+| `attack_readiness` | function | `modules/winbox_gym.py:645` | `def attack_readiness(params)` |
+| `binary_path` | function | `modules/winbox_gym.py:252` | `def binary_path()` |
+| `chain_for` | function | `modules/winbox_gym.py:159` | `def chain_for(vuln_id, path)` |
+| `check_readiness` | function | `modules/winbox_gym.py:314` | `def check_readiness(params)` |
+| `ensure_installed` | function | `modules/winbox_gym.py:257` | `def ensure_installed(params, timeout)` |
+| `ensure_lab_ready` | function | `modules/winbox_gym.py:410` | `def ensure_lab_ready(params)` |
+| `ensure_prereqs` | function | `modules/winbox_gym.py:355` | `def ensure_prereqs(timeout)` |
+| `ensure_vm_running` | function | `modules/winbox_gym.py:595` | `def ensure_vm_running(timeout)` |
+| `exploit_for` | function | `modules/winbox_gym.py:169` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/winbox_gym.py:150` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/winbox_gym.py:139` | `def load_index(path)` |
+| `main` | function | `modules/winbox_gym.py:673` | `def main()` |
+| `record_artifact` | function | `modules/winbox_gym.py:622` | `def record_artifact(name, output)` |
+| `resolve_target` | function | `modules/winbox_gym.py:581` | `def resolve_target()` |
+| `run_cli` | function | `modules/winbox_gym.py:472` | `def run_cli(args, timeout)` |
+| `summary` | function | `modules/winbox_gym.py:228` | `def summary(path)` |
+| `validate_matrix` | function | `modules/winbox_gym.py:179` | `def validate_matrix(path)` |
+| `vm_ip` | function | `modules/winbox_gym.py:559` | `def vm_ip()` |
+| `vm_status` | function | `modules/winbox_gym.py:525` | `def vm_status(timeout)` |
+| `vulnerabilities` | function | `modules/winbox_gym.py:144` | `def vulnerabilities(path)` |
 | `list_entries` | function | `modules/workspace.py:46` | `def list_entries(rel)` |
 | `make_dir` | function | `modules/workspace.py:83` | `def make_dir(rel)` |
 | `read_text` | function | `modules/workspace.py:63` | `def read_text(rel, limit)` |
@@ -373,128 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `_subst` | function | `poc_tui/plugin_loader.py:52` | `def _subst(match)` |
 | `_validate_clone_url` | function | `poc_tui/plugin_loader.py:62` | `def _validate_clone_url(url)` |
 | `load_all` | method | `poc_tui/plugin_loader.py:139` | `def load_all(self)` |
-| `one_cmd` | method | `poc_tui/plugin_loader.py:301` | `def one_cmd(self, cmd)` |
-| `params` | method | `poc_tui/plugin_loader.py:298` | `def params(self)` |
-| `wrapper` | function | `poc_tui/plugin_loader.py:117` | `def wrapper(arg)` |
-| `wrapper` | function | `poc_tui/plugin_loader.py:172` | `def wrapper(arg)` |
-| `wrapper` | function | `poc_tui/plugin_loader.py:269` | `def wrapper(arg)` |
-| `main` | function | `poc_tui/run.py:9` | `def main()` |
-| `TestLazyOwnTUIApp` | class | `poc_tui/test_app.py:100` | `class TestLazyOwnTUIApp` |
-| `TestShellBackend` | class | `poc_tui/test_app.py:32` | `class TestShellBackend` |
-| `_make_backend` | function | `poc_tui/test_app.py:26` | `def _make_backend()` |
-| `_run_async` | function | `poc_tui/test_app.py:17` | `def _run_async(coro)` |
-| `_t` | function | `poc_tui/test_app.py:106` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:115` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:126` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:136` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:152` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:165` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:182` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:198` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:210` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:225` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:235` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:248` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:270` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:291` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:307` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:321` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:342` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:361` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:374` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:399` | `def _t()` |
-| `_t` | function | `poc_tui/test_app.py:414` | `def _t()` |
-| `test_app_creates` | method | `poc_tui/test_app.py:101` | `def test_app_creates(self)` |
-| `test_app_starts_stops` | method | `poc_tui/test_app.py:105` | `def test_app_starts_stops(self)` |
-| `test_backend_ready` | method | `poc_tui/test_app.py:234` | `def test_backend_ready(self)` |
-| `test_buffer_cleared` | method | `poc_tui/test_app.py:86` | `def test_buffer_cleared(self)` |
-| `test_busy_command_shows_running_indicator` | method | `poc_tui/test_app.py:373` | `def test_busy_command_shows_running_indicator(self)` |
-| `test_command_output_visible_in_screenshot` | method | `poc_tui/test_app.py:411` | `def test_command_output_visible_in_screenshot(self)` |
-| `test_commands_queue_serialized` | method | `poc_tui/test_app.py:318` | `def test_commands_queue_serialized(self)` |
-| `test_execute_help` | method | `poc_tui/test_app.py:135` | `def test_execute_help(self)` |
-| `test_focus_returns_after_command` | method | `poc_tui/test_app.py:341` | `def test_focus_returns_after_command(self)` |
-| `test_get_aliases` | method | `poc_tui/test_app.py:71` | `def test_get_aliases(self)` |
-| `test_get_commands` | method | `poc_tui/test_app.py:62` | `def test_get_commands(self)` |
-| `test_history_down` | method | `poc_tui/test_app.py:181` | `def test_history_down(self)` |
-| `test_history_up` | method | `poc_tui/test_app.py:164` | `def test_history_up(self)` |
-| `test_init_sets_base_dir` | method | `poc_tui/test_app.py:33` | `def test_init_sets_base_dir(self)` |
-| `test_input_cleared_after_submit` | method | `poc_tui/test_app.py:151` | `def test_input_cleared_after_submit(self)` |
-| `test_input_has_focus` | method | `poc_tui/test_app.py:125` | `def test_input_has_focus(self)` |
-| `test_layout_all_panels_render_in_screenshot` | method | `poc_tui/test_app.py:392` | `def test_layout_all_panels_render_in_screenshot(self)` |
-| `test_output_renders_ansi_codes` | method | `poc_tui/test_app.py:358` | `def test_output_renders_ansi_codes(self)` |
-| `test_panels_visible` | method | `poc_tui/test_app.py:114` | `def test_panels_visible(self)` |
-| `test_q_is_quit_not_shell_alias` | method | `poc_tui/test_app.py:288` | `def test_q_is_quit_not_shell_alias(self)` |
-| `test_quit` | method | `poc_tui/test_app.py:224` | `def test_quit(self)` |
-| `test_quit_word_not_sent_to_backend` | method | `poc_tui/test_app.py:304` | `def test_quit_word_not_sent_to_backend(self)` |
-| `test_run_before_start` | method | `poc_tui/test_app.py:37` | `def test_run_before_start(self)` |
-| `test_run_help` | method | `poc_tui/test_app.py:55` | `def test_run_help(self)` |
-| `test_run_show` | method | `poc_tui/test_app.py:48` | `def test_run_show(self)` |
-| `test_set_and_show` | method | `poc_tui/test_app.py:78` | `def test_set_and_show(self)` |
-| `test_set_updates_dashboard` | method | `poc_tui/test_app.py:247` | `def test_set_updates_dashboard(self)` |
-| `test_show_command_output_in_log` | method | `poc_tui/test_app.py:269` | `def test_show_command_output_in_log(self)` |
-| `test_start_and_stop` | method | `poc_tui/test_app.py:42` | `def test_start_and_stop(self)` |
-| `test_tab_complete` | method | `poc_tui/test_app.py:197` | `def test_tab_complete(self)` |
-| `test_toggle_sidebar` | method | `poc_tui/test_app.py:209` | `def test_toggle_sidebar(self)` |
-| `_build_substitutions` | function | `pwntomate.py:113` | `def _build_substitutions(host_addr, port, toolname_value, basedir_value, tunnel)` |
-| `_fix_sessions_owner` | function | `pwntomate.py:143` | `def _fix_sessions_owner()` |
-| `_run_tool` | function | `pwntomate.py:203` | `def _run_tool(cmd)` |
-| `build_command_map` | function | `readmeneitor.py:104` | `def build_command_map(index_data)` |
-| `convert_to_html` | function | `readmeneitor.py:343` | `def convert_to_html(md_path, html_path)` |
-| `extract_docstrings_from_dir` | function | `readmeneitor.py:161` | `def extract_docstrings_from_dir(dirpath)` |
-| `extract_docstrings_from_file` | function | `readmeneitor.py:132` | `def extract_docstrings_from_file(filepath)` |
-| `extract_functions_from_file` | function | `readmeneitor.py:209` | `def extract_functions_from_file(filepath)` |
-| `group_commands_by_phase` | function | `readmeneitor.py:187` | `def group_commands_by_phase(cmd_map)` |
-| `load_command_index` | function | `readmeneitor.py:83` | `def load_command_index(index_path)` |
-| `main` | function | `readmeneitor.py:379` | `def main()` |
-| `normalize_trailing_newline` | function | `readmeneitor.py:74` | `def normalize_trailing_newline(output_path)` |
-| `write_commands_md` | function | `readmeneitor.py:276` | `def write_commands_md(cmd_map, docstrings, groups, output_path)` |
-| `write_utils_md` | function | `readmeneitor.py:241` | `def write_utils_md(functions, output_path)` |
-| `banner` | function | `run_topoexploit_agent.sh:29` | `` |
-| `start_api` | function | `run_topoexploit_agent.sh:38` | `` |
-| `MigrationError` | class | `scripts/activate_migrations.py:28` | `class MigrationError(Exception)` |
-| `activate_migrated_file` | function | `scripts/activate_migrations.py:75` | `def activate_migrated_file(migrated_path, dry_run)` |
-| `extract_command_names` | function | `scripts/activate_migrations.py:42` | `def extract_command_names(migrated_path)` |
-| `find_in_lazyown` | function | `scripts/activate_migrations.py:52` | `def find_in_lazyown(command_names)` |
-| `find_migrated_sets` | function | `scripts/activate_migrations.py:32` | `def find_migrated_sets()` |
-| `main` | function | `scripts/activate_migrations.py:88` | `def main()` |
-| `remove_from_lazyown` | function | `scripts/activate_migrations.py:62` | `def remove_from_lazyown(locations, dry_run)` |
-| `classify_os` | function | `scripts/backfill_addon_os_trigger.py:104` | `def classify_os(filename)` |
-| `known_trigger` | function | `scripts/backfill_addon_os_trigger.py:121` | `def known_trigger(name)` |
-| `main` | function | `scripts/backfill_addon_os_trigger.py:175` | `def main()` |
-| `patch` | function | `scripts/backfill_addon_os_trigger.py:141` | `def patch(path)` |
-| `render_trigger` | function | `scripts/backfill_addon_os_trigger.py:127` | `def render_trigger(trigger)` |
-| `apply_interface` | function | `scripts/broadcom_wps_drive.sh:166` | `` |
-| `detect_interface` | function | `scripts/broadcom_wps_drive.sh:151` | `` |
-| `die` | function | `scripts/broadcom_wps_drive.sh:55` | `` |
-| `do_doctor` | function | `scripts/broadcom_wps_drive.sh:348` | `` |
-| `do_monitor` | function | `scripts/broadcom_wps_drive.sh:235` | `` |
-| `do_status` | function | `scripts/broadcom_wps_drive.sh:325` | `` |
-| `do_unmonitor` | function | `scripts/broadcom_wps_drive.sh:247` | `` |
-| `elevate` | function | `scripts/broadcom_wps_drive.sh:200` | `` |
-| `ensure_monitor_mode` | function | `scripts/broadcom_wps_drive.sh:259` | `` |
-| `has_scapy` | function | `scripts/broadcom_wps_drive.sh:231` | `` |
-| `have_sudo` | function | `scripts/broadcom_wps_drive.sh:194` | `` |
-| `interface_mode` | function | `scripts/broadcom_wps_drive.sh:210` | `` |
-| `interface_up` | function | `scripts/broadcom_wps_drive.sh:216` | `` |
-| `is_root` | function | `scripts/broadcom_wps_drive.sh:190` | `` |
-| `is_wireless` | function | `scripts/broadcom_wps_drive.sh:162` | `` |
-| `log` | function | `scripts/broadcom_wps_drive.sh:53` | `` |
-| `main` | function | `scripts/broadcom_wps_drive.sh:404` | `` |
-| `parse_flags` | function | `scripts/broadcom_wps_drive.sh:81` | `` |
-| `payload_value` | function | `scripts/broadcom_wps_drive.sh:61` | `` |
-| `python_bin` | function | `scripts/broadcom_wps_drive.sh:227` | `` |
-| `resolve_interface` | function | `scripts/broadcom_wps_drive.sh:170` | `` |
-| `run_fingerprint` | function | `scripts/broadcom_wps_drive.sh:268` | `` |
-| `run_yara` | function | `scripts/broadcom_wps_drive.sh:308` | `` |
-| `usage` | function | `scripts/broadcom_wps_drive.sh:57` | `` |
-| `warn` | function | `scripts/broadcom_wps_drive.sh:54` | `` |
-| `ManifestConfig` | class | `scripts/check_contract_manifest.py:34` | `class ManifestConfig` |
-| `__post_init__` | method | `scripts/check_contract_manifest.py:53` | `def __post_init__(self)` |
-| `_collect_doc_imports` | function | `scripts/check_contract_manifest.py:163` | `def _collect_doc_imports(text)` |
-| `_dotted_symbol_exists` | function | `scripts/check_contract_manifest.py:112` | `def _dotted_symbol_exists(token, config)` |
-| `_extract_dotted_tokens` | function | `scripts/check_contract_manifest.py:209` | `def _extract_dotted_tokens(text, config)` |
-| `_extract_path_tokens` | function | `scripts/check_contract_manifest.py:138` | `def _extract_path_tokens(text, config)` |
-| `_iter_table_cells` | function | `scripts/check_contract_manifest.py:127` | `def _iter_table_cells(text)` |
-| `_module_path` | function | `scripts/check_contract_manifest.py:100` | `def _module_path(module, config)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

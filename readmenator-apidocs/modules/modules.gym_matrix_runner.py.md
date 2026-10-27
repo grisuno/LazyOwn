@@ -21,14 +21,12 @@ Solid arrows stay in this module, dashed arrows leave it.
 flowchart LR
     n_modules_gym_matrix_runner_py__run_matrix(["run_matrix"])
     n_modules_gym_matrix_runner_py__plan_matrix(["plan_matrix"])
-    n_modules_metasploitable_gym_py__vulnerabilities["metasploitable_gym.vulnerabilities"]
     n_modules_chain_facts_py__spool_chain_outputs["chain_facts.spool_chain_outputs"]
     n_modules_chain_runner_py__ChainRunner___init__["chain_runner.ChainRunner.__init__"]
     n_modules_chain_runner_py__ChainRunner_run["chain_runner.ChainRunner.run"]
     n_modules_gym_matrix_runner_py__load_matrix(["load_matrix"])
     n_modules_ctf_capture_py__output_dir["ctf_capture.output_dir"]
     n_modules_gym_matrix_runner_py__run_matrix --> n_modules_gym_matrix_runner_py__plan_matrix
-    n_modules_gym_matrix_runner_py__plan_matrix -.-> n_modules_metasploitable_gym_py__vulnerabilities
     n_modules_gym_matrix_runner_py__run_matrix -.-> n_modules_chain_facts_py__spool_chain_outputs
     n_modules_gym_matrix_runner_py__run_matrix -.-> n_modules_chain_runner_py__ChainRunner___init__
     n_modules_gym_matrix_runner_py__run_matrix -.-> n_modules_chain_runner_py__ChainRunner_run
@@ -41,10 +39,10 @@ flowchart LR
 
 ### `plan_matrix`
 
-`function` | [modules/gym_matrix_runner.py:36](../../modules/gym_matrix_runner.py#L36)
+`function` | [modules/gym_matrix_runner.py:49](../../modules/gym_matrix_runner.py#L49)
 
 ```python
-def plan_matrix(target: str, sessions_dir: str | Path | None = None, only: list[str] | None = None, top_k: int = 0) -> list[dict]
+def plan_matrix(target: str, sessions_dir: str | Path | None = None, only: list[str] | None = None, top_k: int = 0, catalogue=None) -> list[dict]
 ```
 
 Build the ordered execution plan for the gym matrix.
@@ -57,6 +55,7 @@ Build the ordered execution plan for the gym matrix.
 | `sessions_dir` | `str \| Path \| None` | `None` | Sessions directory override. |
 | `only` | `list[str] \| None` | `None` | Restrict to these vulnerability ids. |
 | `top_k` | `int` | `0` | Cap the plan to the first N entries (0 keeps all). |
+| `catalogue` |  | `None` | Gym catalogue module; defaults to Metasploitable 2. |
 
 **Returns:** `list[dict]` - Ordered plan entries with `[`vuln_id`](skills.lazyown_facts.py.md#vulnerabilityfact-vuln_id)`, ``chain_name`` and
 metadata; entries without a chain carry ``chain_name: ""``.
@@ -64,8 +63,6 @@ metadata; entries without a chain carry ``chain_name: ""``.
 **Raises**
 
 - `ValueError`: (raised in the body, not documented)
-
-*Calls:* [`vulnerabilities`](modules.metasploitable_gym.py.md#vulnerabilities)
 
 *Called by:* [`run_matrix`](#run_matrix)
 
@@ -75,10 +72,10 @@ metadata; entries without a chain carry ``chain_name: ""``.
 
 ### `run_matrix`
 
-`function` | [modules/gym_matrix_runner.py:89](../../modules/gym_matrix_runner.py#L89)
+`function` | [modules/gym_matrix_runner.py:104](../../modules/gym_matrix_runner.py#L104)
 
 ```python
-def run_matrix(target: str, *, executor: Callable[[str], str] | None = None, shell: Any = None, dry_run: bool = False, approver: Callable[[str, str], bool] | None = None, on_step: Callable[[Any], None] | None = None, sessions_dir: str | Path | None = None, only: list[str] | None = None, top_k: int = 0, lhost: str = '', lport: str = '') -> dict
+def run_matrix(target: str, *, executor: Callable[[str], str] | None = None, shell: Any = None, dry_run: bool = False, approver: Callable[[str, str], bool] | None = None, on_step: Callable[[Any], None] | None = None, sessions_dir: str | Path | None = None, only: list[str] | None = None, top_k: int = 0, lhost: str = '', lport: str = '', catalogue=None) -> dict
 ```
 
 Execute every planned chain and verify its CTF capture.
@@ -101,6 +98,7 @@ aggregate step outputs and one outcome is published per capture.
 | `top_k` | `int` | `0` | Cap the plan to the first N entries. |
 | `lhost` | `str` | `''` | Attacker host token. |
 | `lport` | `str` | `''` | Attacker port token. |
+| `catalogue` |  | `None` | Gym catalogue module; defaults to Metasploitable 2. |
 
 **Returns:** `dict` - The matrix summary dict persisted to
 ``sessions/ctf/matrix_run.json``.
@@ -113,7 +111,7 @@ aggregate step outputs and one outcome is published per capture.
 
 ### `load_matrix`
 
-`function` | [modules/gym_matrix_runner.py:233](../../modules/gym_matrix_runner.py#L233)
+`function` | [modules/gym_matrix_runner.py:252](../../modules/gym_matrix_runner.py#L252)
 
 ```python
 def load_matrix(sessions_dir: str | Path | None = None) -> dict

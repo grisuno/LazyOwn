@@ -4,24 +4,24 @@ Previous: [API_p7.md](API_p7.md)
 ## lazyc2/addon_creator.py
 Depends on: `core/param_registry.py`
 Imported by: `lazyc2/blueprints/addons.py`, `tests/test_addon_creator.py`, `tests/test_param_registry.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`
-- `AddonCreatorConfig.live_placeholders` (method) `lazyc2/addon_creator.py:368` `def live_placeholders(cls)` -- Return the documented placeholders plus the operator parameters.
-- `ParamSpec.to_dict` (method) `lazyc2/addon_creator.py:409` `def to_dict(self)` -- Return the param as a schema-ordered mapping.
-- `AddonValidationError.__init__` (method) `lazyc2/addon_creator.py:465` `def __init__(self, issues)`
-- `AddonValidator.__init__` (method) `lazyc2/addon_creator.py:478` `def __init__(self, draft, config)` -- Store the draft and configuration used by every check.
-- `AddonValidator.validate` (method) `lazyc2/addon_creator.py:492` `def validate(self)` -- Run every rule and return the collected issues.
-- `AddonValidator.is_valid` (method) `lazyc2/addon_creator.py:506` `def is_valid(self)` -- Return True when the draft passes every rule.
-- `AddonYamlRenderer.__init__` (method) `lazyc2/addon_creator.py:777` `def __init__(self, config)` -- Store the configuration used for defaults.
-- `AddonYamlRenderer.render` (method) `lazyc2/addon_creator.py:785` `def render(self, draft)` -- Return the YAML document for the draft.
-- `AddonYamlRenderer.to_document` (method) `lazyc2/addon_creator.py:803` `def to_document(self, draft)` -- Build the schema-ordered document mapping for the draft.
-- `AddonStore.__init__` (method) `lazyc2/addon_creator.py:868` `def __init__(self, config, base_dir)` -- Configure the store.
-- `AddonStore.resolve_path` (method) `lazyc2/addon_creator.py:883` `def resolve_path(self, name)` -- Return the safe absolute path for a newly created addon name.
-- `AddonStore.resolve_existing_path` (method) `lazyc2/addon_creator.py:898` `def resolve_existing_path(self, name)` -- Return the safe absolute path for an existing addon file.
-- `AddonStore.exists` (method) `lazyc2/addon_creator.py:942` `def exists(self, name)` -- Return True when an addon file already exists for the name.
-- `AddonStore.save` (method) `lazyc2/addon_creator.py:953` `def save(self, name, yaml_text)` -- Persist the YAML document atomically.
-- `AddonStore.load` (method) `lazyc2/addon_creator.py:1007` `def load(self, name)` -- Return the parsed addon document for a name.
-- `AddonStore.delete` (method) `lazyc2/addon_creator.py:1030` `def delete(self, name)` -- Delete the addon file for a name.
-- `AddonStore.list_all` (method) `lazyc2/addon_creator.py:1046` `def list_all(self)` -- Return summary dicts for every parseable addon.
-- `parse_addon_form` (function) `lazyc2/addon_creator.py:1126` `def parse_addon_form(form)` -- Adapt raw form data into an AddonDraft.
+- `AddonCreatorConfig.live_placeholders` (method) `lazyc2/addon_creator.py:370` `def live_placeholders(cls)` -- Return the documented placeholders plus the operator parameters.
+- `ParamSpec.to_dict` (method) `lazyc2/addon_creator.py:411` `def to_dict(self)` -- Return the param as a schema-ordered mapping.
+- `AddonValidationError.__init__` (method) `lazyc2/addon_creator.py:467` `def __init__(self, issues)`
+- `AddonValidator.__init__` (method) `lazyc2/addon_creator.py:480` `def __init__(self, draft, config)` -- Store the draft and configuration used by every check.
+- `AddonValidator.validate` (method) `lazyc2/addon_creator.py:494` `def validate(self)` -- Run every rule and return the collected issues.
+- `AddonValidator.is_valid` (method) `lazyc2/addon_creator.py:508` `def is_valid(self)` -- Return True when the draft passes every rule.
+- `AddonYamlRenderer.__init__` (method) `lazyc2/addon_creator.py:779` `def __init__(self, config)` -- Store the configuration used for defaults.
+- `AddonYamlRenderer.render` (method) `lazyc2/addon_creator.py:787` `def render(self, draft)` -- Return the YAML document for the draft.
+- `AddonYamlRenderer.to_document` (method) `lazyc2/addon_creator.py:805` `def to_document(self, draft)` -- Build the schema-ordered document mapping for the draft.
+- `AddonStore.__init__` (method) `lazyc2/addon_creator.py:870` `def __init__(self, config, base_dir)` -- Configure the store.
+- `AddonStore.resolve_path` (method) `lazyc2/addon_creator.py:885` `def resolve_path(self, name)` -- Return the safe absolute path for a newly created addon name.
+- `AddonStore.resolve_existing_path` (method) `lazyc2/addon_creator.py:900` `def resolve_existing_path(self, name)` -- Return the safe absolute path for an existing addon file.
+- `AddonStore.exists` (method) `lazyc2/addon_creator.py:944` `def exists(self, name)` -- Return True when an addon file already exists for the name.
+- `AddonStore.save` (method) `lazyc2/addon_creator.py:955` `def save(self, name, yaml_text)` -- Persist the YAML document atomically.
+- `AddonStore.load` (method) `lazyc2/addon_creator.py:1009` `def load(self, name)` -- Return the parsed addon document for a name.
+- `AddonStore.delete` (method) `lazyc2/addon_creator.py:1032` `def delete(self, name)` -- Delete the addon file for a name.
+- `AddonStore.list_all` (method) `lazyc2/addon_creator.py:1048` `def list_all(self)` -- Return summary dicts for every parseable addon.
+- `parse_addon_form` (function) `lazyc2/addon_creator.py:1128` `def parse_addon_form(form)` -- Adapt raw form data into an AddonDraft.
 
 ## lazyc2/app_factory.py
 Depends on: `core/api_authz.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/orchestrator.py`, `lazyc2/extensions/__init__.py`, `lazyc2/security/services.py`, `modules/lazy_rbac.py`
@@ -176,6 +176,13 @@ Imported by: `lazyc2.py`, `lazyc2/blueprints/auth.py`
 ## lazyc2/models.py
 Depends on: `modules/lazy_rbac.py`
 - `User.__init__` (method) `lazyc2/models.py:17` `def __init__(self, user_data)`
+
+## lazyc2/security/cli_credentials.py
+Depends on: `core/logging.py`
+Imported by: `lazyc2.py`, `tests/test_c2_credential_bootstrap.py`
+- `write_credentials_file` (function) `lazyc2/security/cli_credentials.py:22` `def write_credentials_file(username, password, path)` -- Persist the effective boot credentials owner-only.
+- `resolve_boot_credentials` (function) `lazyc2/security/cli_credentials.py:47` `def resolve_boot_credentials(user, password, rotate_on_boot, generator, is_insecure)` -- Resolve the effective boot credentials.
+- `register_cli_user` (function) `lazyc2/security/cli_credentials.py:80` `def register_cli_user(store, username, password, hash_password, create_role)` -- Register or update the boot CLI user in an RBAC store.
 
 ## lazyc2/security/command_allowlist.py
 Depends on: `cli/commands/enum.py`
@@ -484,14 +491,6 @@ Imported by: `lazygui/windows/main_window.py`
 - `BeaconCommandModal.__init__` (method) `lazygui/widgets/beacon_command_modal.py:53` `def __init__(self, backend, parent)` -- Initialise the modal with a backend reference.
 - `BeaconCommandModal.open` (method) `lazygui/widgets/beacon_command_modal.py:216` `def open(self)` -- Populate sessions before showing.
 - `BeaconCommandModal.focus_input` (method) `lazygui/widgets/beacon_command_modal.py:227` `def focus_input(self)` -- Move keyboard focus to the command input.
-
-## lazygui/widgets/command_palette_list.py
-Depends on: `lazygui/config/constants.py`
-Imported by: `lazygui/widgets/__init__.py`, `lazygui/windows/command_palette_window.py`, `lazygui/windows/main_window.py`
-- `CommandPaletteList.__init__` (method) `lazygui/widgets/command_palette_list.py:33` `def __init__(self, constants, actions, parent)` -- Store the action set and prepare the underlying model.
-- `CommandPaletteList.set_actions` (method) `lazygui/widgets/command_palette_list.py:53` `def set_actions(self, actions)` -- Replace the entire action registry and reset the filter.
-- `CommandPaletteList.apply_filter` (method) `lazygui/widgets/command_palette_list.py:58` `def apply_filter(self, query)` -- Filter the action set using a substring + token-order heuristic.
-- `CommandPaletteList.invoke_current` (method) `lazygui/widgets/command_palette_list.py:76` `def invoke_current(self)` -- Invoke whichever action is currently highlighted, if any.
 
 
 Next: [API_p9.md](API_p9.md)

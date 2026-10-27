@@ -171,7 +171,7 @@ Execute a command via subprocess without shell interpretation.
 
 *Calls:* [`SecurityViolation`](#securityviolation)
 
-*Called by:* [`CloudCommandSet.do_cloud_iam`](cli.commands.cloud.py.md#cloudcommandset-do_cloud_iam), [`WebSocketBeacon.run`](modules.websocket_beacon.py.md#websocketbeacon-run)
+*Called by:* [`CloudCommandSet.do_cloud_iam`](cli.commands.cloud.py.md#cloudcommandset-do_cloud_iam), [`WebSocketBeacon.run`](modules.websocket_beacon.py.md#websocketbeacon-run), [`ensure_installed`](modules.winbox_gym.py.md#ensure_installed), [`ensure_prereqs`](modules.winbox_gym.py.md#ensure_prereqs), [`run_cli`](modules.winbox_gym.py.md#run_cli), [`vm_status`](modules.winbox_gym.py.md#vm_status)
 
 ---
 
@@ -478,6 +478,8 @@ Sanitize a filename by removing dangerous characters.
 | `max_length` | `int` | `255` | Maximum filename length. |
 
 **Returns:** `str` - Sanitized filename with only safe characters.
+
+*Called by:* [`record_artifact`](modules.winbox_gym.py.md#record_artifact)
 
 ---
 

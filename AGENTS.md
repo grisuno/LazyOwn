@@ -306,6 +306,35 @@ Both follow the same pattern as the existing addon marketplace.
 7. Keep `_refresh_autosuggest` and `_read_recent_commands_for_autosuggest` for
    `do_next` and chain command compatibility.
 
+### `modules/winbox_gym.py` — WinBox lab (v4 — isolated Windows gym)
+
+**Contract:** WinBox (https://github.com/totekuh/winbox) is the second Red
+Team Gym scenario (`scenario: winbox`): an isolated headless Windows VM
+(Server Core 2022/2025, Win11, Win10) driven through QEMU/libvirt from the
+operator host. The module is the single control plane: gym catalogue
+(`playbooks/gym_winbox.yaml` index ↔ `exploits/winbox_*.yaml` ↔
+`chains/gym_winbox_*.yaml`), safe CLI adapter (allowlisted actions,
+`subprocess` list-form, `sessions/winbox/` transcripts) and readiness
+gating (guidance-only when the binary or prerequisites are missing).
+
+- CLI: `winbox status|up|down|exec|tools|eventlogs|net|av|applocker|snapshot|resolve|gym`
+  (`cli/commands/winbox_gym.py`). `winbox up` / `winbox setup` are the
+  FULL idempotent bootstrap (upstream repo clone+pip, `sudo -n apt-get`
+  prereqs via `ensure_prereqs`, `winbox iso download`, `winbox setup -y`
+  via `ensure_lab_ready`, boot, rhost bind) — gym start for a winbox
+  challenge runs the same bootstrap then auto-launches the chain.
+  Destructive actions require `-y`.
+- Gym: `gyms/winbox_*.yaml` (4 challenges), matrix via
+  `modules/gym_winbox_runner.py` reusing `gym_matrix_runner`/`ctf_capture`
+  with the catalogue injected as a parameter (Metasploitable 2 stays the default).
+- APT chain: `chains/apt_winbox_windows.yaml` — Windows golden path
+  (scan → SMB/RDP mapping → exploit sweep → SYSTEM exec → posture →
+  LockBit playbook emulation → event-log evidence → snapshot).
+- MCP: 9 `lazyown_winbox_*` tools; agents can also attach the upstream
+  `winbox mcp` server (97 research tools) directly.
+- Skill: `skills/winbox/SKILL.md`. Lazyaddon: `lazyaddons/winbox.yaml`
+  (trigger-only registration; the shell command is the built-in CommandSet).
+
 <!-- readmenator-agent-kb-link -->
 ## Project Knowledge Base (MUST read before coding)
 

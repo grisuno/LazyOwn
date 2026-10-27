@@ -66,7 +66,7 @@ A single contextual tip with a trigger condition and display text.
 
 ### `get_session_tip`
 
-`function` | [cli/protips.py:301](../../cli/protips.py#L301)
+`function` | [cli/protips.py:307](../../cli/protips.py#L307)
 
 ```python
 def get_session_tip(ctx: dict[str, Any]) -> str | None
@@ -94,7 +94,7 @@ session.
 
 ### `render_contextual_tip`
 
-`function` | [cli/protips.py:327](../../cli/protips.py#L327)
+`function` | [cli/protips.py:333](../../cli/protips.py#L333)
 
 ```python
 def render_contextual_tip(last_cmd: str, ctx: dict[str, Any]) -> None
@@ -118,7 +118,7 @@ the same tip would repeat.
 
 ### `print_session_tip`
 
-`function` | [cli/protips.py:357](../../cli/protips.py#L357)
+`function` | [cli/protips.py:363](../../cli/protips.py#L363)
 
 ```python
 def print_session_tip(ctx: dict[str, Any]) -> None

@@ -1,0 +1,27 @@
+id: winbox_smb_recon
+name: WinBox First Blood - SMB Recon
+description: 'Map the WinBox Windows guest over the network: enumerate SMB and
+  RDP, fingerprint the OS, and bind rhost to the lab VM IP.'
+scenario: winbox
+chain: gym_winbox_smb_enum
+objective: Fingerprint the Windows guest SMB stack and confirm the lab VM IP.
+difficulty: easy
+phases:
+- recon
+- enum
+required_techniques:
+- smb_enum
+- os_fingerprint
+bonus_techniques:
+- rdp_probe
+- service_scan
+max_points: 1000
+speed_bonus_max: 300
+stealth_bonus_max: 200
+technique_diversity_bonus: 200
+hints:
+- winbox up starts the lab VM; winbox resolve binds rhost to its IP
+- nmap -Pn -sV -p 445,139 --script smb-os-discovery.nhe <ip>
+- The rdp-ntlm-info script leaks NetBIOS names on 3389
+success_check: SMB OS fingerprint captured for the lab VM
+elo_bonus: 150

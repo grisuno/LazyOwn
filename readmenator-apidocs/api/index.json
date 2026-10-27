@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 821,
-  "entities": 15497,
+  "modules": 829,
+  "entities": 15603,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,22 +13,22 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 708,
+   "py": 716,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4376,
-   "class": 1419,
+   "attribute": 4392,
+   "class": 1422,
    "classmethod": 84,
-   "constant": 1353,
+   "constant": 1381,
    "constructor": 526,
    "enum": 39,
    "exception": 40,
-   "function": 2792,
+   "function": 2839,
    "macro": 114,
-   "method": 3587,
-   "module": 821,
-   "property": 199,
+   "method": 3589,
+   "module": 829,
+   "property": 201,
    "protocol": 20,
    "staticmethod": 91,
    "struct": 20,
@@ -36,19 +36,19 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 365,
+  "skipped_files": 373,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7330,
-   "total": 9756,
-   "percent": 75.1
+   "documented": 7395,
+   "total": 9818,
+   "percent": 75.3
   },
   "by_kind": {
    "class": {
-    "documented": 1232,
-    "total": 1419,
+    "documented": 1235,
+    "total": 1422,
     "percent": 86.8
    },
    "classmethod": {
@@ -72,9 +72,9 @@
     "percent": 95.0
    },
    "function": {
-    "documented": 1887,
-    "total": 2792,
-    "percent": 67.6
+    "documented": 1934,
+    "total": 2839,
+    "percent": 68.1
    },
    "macro": {
     "documented": 2,
@@ -82,19 +82,19 @@
     "percent": 1.8
    },
    "method": {
-    "documented": 2915,
-    "total": 3587,
-    "percent": 81.3
+    "documented": 2920,
+    "total": 3589,
+    "percent": 81.4
    },
    "module": {
-    "documented": 705,
-    "total": 821,
-    "percent": 85.9
+    "documented": 713,
+    "total": 829,
+    "percent": 86.0
    },
    "property": {
-    "documented": 155,
-    "total": 199,
-    "percent": 77.9
+    "documented": 157,
+    "total": 201,
+    "percent": 78.1
    },
    "protocol": {
     "documented": 20,
@@ -641,6 +641,11 @@
    "cli/commands/verb_admin.py": {
     "documented": 4,
     "total": 4,
+    "percent": 100.0
+   },
+   "cli/commands/winbox_gym.py": {
+    "documented": 3,
+    "total": 3,
     "percent": 100.0
    },
    "cli/config_history.py": {
@@ -1472,6 +1477,11 @@
     "documented": 0,
     "total": 1,
     "percent": 0.0
+   },
+   "lazyc2/security/cli_credentials.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
    },
    "lazyc2/security/command_allowlist.py": {
     "documented": 8,
@@ -2423,6 +2433,11 @@
     "total": 19,
     "percent": 100.0
    },
+   "modules/gym_winbox_runner.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
    "modules/harness.py": {
     "documented": 3,
     "total": 3,
@@ -2609,8 +2624,8 @@
     "percent": 100.0
    },
    "modules/lazy_loop.py": {
-    "documented": 285,
-    "total": 285,
+    "documented": 286,
+    "total": 286,
     "percent": 100.0
    },
    "modules/lazy_mentions.py": {
@@ -2676,6 +2691,11 @@
    "modules/lazy_verify.py": {
     "documented": 5,
     "total": 5,
+    "percent": 100.0
+   },
+   "modules/lazy_world_diff.py": {
+    "documented": 17,
+    "total": 17,
     "percent": 100.0
    },
    "modules/lazyatack.sh": {
@@ -2841,6 +2861,11 @@
    "modules/llm_factory.py": {
     "documented": 15,
     "total": 15,
+    "percent": 100.0
+   },
+   "modules/llm_orchestrator.py": {
+    "documented": 8,
+    "total": 8,
     "percent": 100.0
    },
    "modules/llm_pool.py": {
@@ -3263,6 +3288,11 @@
     "total": 2,
     "percent": 100.0
    },
+   "modules/sinks/beacon_dispatch.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
    "modules/sinks/c2_surfaces.py": {
     "documented": 2,
     "total": 2,
@@ -3294,6 +3324,11 @@
     "percent": 100.0
    },
    "modules/sinks/routing.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/sinks/world_diff.py": {
     "documented": 2,
     "total": 2,
     "percent": 100.0
@@ -3449,9 +3484,9 @@
     "percent": 33.3
    },
    "modules/vulnbot.py": {
-    "documented": 1,
+    "documented": 4,
     "total": 12,
-    "percent": 8.3
+    "percent": 33.3
    },
    "modules/websocket_beacon.py": {
     "documented": 16,
@@ -3482,6 +3517,11 @@
     "documented": 0,
     "total": 10,
     "percent": 0.0
+   },
+   "modules/winbox_gym.py": {
+    "documented": 20,
+    "total": 20,
+    "percent": 100.0
    },
    "modules/wineconfig.sh": {
     "documented": 0,
@@ -4752,6 +4792,11 @@
    "entities": 11
   },
   {
+   "uid": "cli/commands/winbox_gym.py",
+   "path": "modules/cli.commands.winbox_gym.py.jsonl",
+   "entities": 5
+  },
+  {
    "uid": "cli/config_history.py",
    "path": "modules/cli.config_history.py.jsonl",
    "entities": 12
@@ -5582,6 +5627,11 @@
    "entities": 1
   },
   {
+   "uid": "lazyc2/security/cli_credentials.py",
+   "path": "modules/lazyc2.security.cli_credentials.py.jsonl",
+   "entities": 5
+  },
+  {
    "uid": "lazyc2/security/command_allowlist.py",
    "path": "modules/lazyc2.security.command_allowlist.py.jsonl",
    "entities": 14
@@ -6244,7 +6294,7 @@
   {
    "uid": "modules/ctf_capture.py",
    "path": "modules/modules.ctf_capture.py.jsonl",
-   "entities": 13
+   "entities": 17
   },
   {
    "uid": "modules/custom_tools.py",
@@ -6532,6 +6582,11 @@
    "entities": 22
   },
   {
+   "uid": "modules/gym_winbox_runner.py",
+   "path": "modules/modules.gym_winbox_runner.py.jsonl",
+   "entities": 5
+  },
+  {
    "uid": "modules/harness.py",
    "path": "modules/modules.harness.py.jsonl",
    "entities": 5
@@ -6719,7 +6774,7 @@
   {
    "uid": "modules/lazy_loop.py",
    "path": "modules/modules.lazy_loop.py.jsonl",
-   "entities": 290
+   "entities": 291
   },
   {
    "uid": "modules/lazy_mentions.py",
@@ -6785,6 +6840,11 @@
    "uid": "modules/lazy_verify.py",
    "path": "modules/modules.lazy_verify.py.jsonl",
    "entities": 7
+  },
+  {
+   "uid": "modules/lazy_world_diff.py",
+   "path": "modules/modules.lazy_world_diff.py.jsonl",
+   "entities": 35
   },
   {
    "uid": "modules/lazyatack.sh",
@@ -6950,6 +7010,11 @@
    "uid": "modules/llm_factory.py",
    "path": "modules/modules.llm_factory.py.jsonl",
    "entities": 51
+  },
+  {
+   "uid": "modules/llm_orchestrator.py",
+   "path": "modules/modules.llm_orchestrator.py.jsonl",
+   "entities": 18
   },
   {
    "uid": "modules/llm_pool.py",
@@ -7372,6 +7437,11 @@
    "entities": 2
   },
   {
+   "uid": "modules/sinks/beacon_dispatch.py",
+   "path": "modules/modules.sinks.beacon_dispatch.py.jsonl",
+   "entities": 2
+  },
+  {
    "uid": "modules/sinks/c2_surfaces.py",
    "path": "modules/modules.sinks.c2_surfaces.py.jsonl",
    "entities": 2
@@ -7404,6 +7474,11 @@
   {
    "uid": "modules/sinks/routing.py",
    "path": "modules/modules.sinks.routing.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/sinks/world_diff.py",
+   "path": "modules/modules.sinks.world_diff.py.jsonl",
    "entities": 2
   },
   {
@@ -7590,6 +7665,11 @@
    "uid": "modules/win_rootkit/win_ring3_rootkit.cpp",
    "path": "modules/modules.win_rootkit.win_ring3_rootkit.cpp.jsonl",
    "entities": 10
+  },
+  {
+   "uid": "modules/winbox_gym.py",
+   "path": "modules/modules.winbox_gym.py.jsonl",
+   "entities": 29
   },
   {
    "uid": "modules/wineconfig.sh",
@@ -8334,7 +8414,7 @@
  ],
  "warnings": {
   "path": "warnings.jsonl",
-  "total": 2262
+  "total": 2260
  },
  "usage": [
   "grep -h '\"name\":\"<Name>\"' readmenator-apidocs/api/modules/*.jsonl",

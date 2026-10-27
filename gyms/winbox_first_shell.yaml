@@ -1,0 +1,28 @@
+id: winbox_first_shell
+name: WinBox First Shell - SYSTEM
+description: Prove full control-plane access to the WinBox Windows guest by
+  executing a command as SYSTEM through the winbox guest agent and capturing
+  host evidence.
+scenario: winbox
+chain: gym_winbox_system_exec
+objective: Run a SYSTEM command on the guest and capture the identity evidence.
+difficulty: medium
+phases:
+- exploit
+- postexp
+required_techniques:
+- guest_agent_exec
+- system_identity
+bonus_techniques:
+- host_evidence
+- network_config_dump
+max_points: 1500
+speed_bonus_max: 400
+stealth_bonus_max: 300
+technique_diversity_bonus: 300
+hints:
+- winbox status shows the VM state and IP
+- winbox exec --timeout 60 whoami runs as SYSTEM
+- 'winbox exec --bg --log <tool> keeps long runs observable via winbox jobs'
+success_check: nt authority\system identity captured from the guest
+elo_bonus: 300

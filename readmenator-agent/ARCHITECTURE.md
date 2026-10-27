@@ -7,6 +7,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/__init__.py` -> `cli/aliases.py`
 - `cli/__init__.py` -> `cli/registry.py`
 - `cli/aliases.py` -> `core/config.py`
+- `cli/apt_chain_support.py` -> `modules/__init__.py`
 - `cli/apt_chain_support.py` -> `modules/chain_registry.py`
 - `cli/apt_chain_support.py` -> `modules/chain_runner.py`
 - `cli/apt_chain_support.py` -> `modules/chain_state.py`
@@ -484,6 +485,9 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/verb_admin.py` -> `cli/commands/_base.py`
 - `cli/commands/verb_admin.py` -> `modules/verb_catalog.py`
 - `cli/commands/verb_admin.py` -> `utils.py`
+- `cli/commands/winbox_gym.py` -> `cli/commands/_base.py`
+- `cli/commands/winbox_gym.py` -> `modules/__init__.py`
+- `cli/commands/winbox_gym.py` -> `utils.py`
 - `cli/config_status.py` -> `core/console.py`
 - `cli/contextual_help.py` -> `cli/palette.py`
 - `cli/contextual_help.py` -> `cli/phase_labels.py`
@@ -492,9 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/dashboard_tui.py` -> `cli/dashboard_layout.py`
 - `cli/dashboard_tui.py` -> `cli/graph_advisor.py`
 - `cli/dashboard_tui.py` -> `cli/killchain.py`
-- `cli/dashboard_tui.py` -> `cli/ops_commands.py`
-- `cli/dashboard_tui.py` -> `cli/reactive_hints.py`
-- `cli/dashboard_tui.py` -> `cli/reasoning_stream.py`
-- `cli/dashboard_tui.py` -> `cli/recommendation_signals.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

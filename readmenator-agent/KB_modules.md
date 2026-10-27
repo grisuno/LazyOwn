@@ -52,7 +52,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazyops.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_defense_stages.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_mentions.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_session_brief.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazyops.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_defense_stages.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_mentions.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_session_brief.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
 
 ## modules/adcs_attacks.py
 - Doc: Active Directory Certificate Services (AD CS) attack module.
@@ -98,44 +98,44 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `configure_logging` (function, line 60) `def configure_logging(debug)`
-  - `AgentTool` (class, line 66) `class AgentTool`
-  - `CommandMetadata` (class, line 127) `class CommandMetadata`
-  - `ASTToolExtractor` (class, line 134) `class ASTToolExtractor`
-  - `_tool_call_snapshot` (function, line 173) `def _tool_call_snapshot(tool_call)`
-  - `AgentRunner` (class, line 190) `class AgentRunner`
-  - `LazyOwnShellWrapper` (class, line 482) `class LazyOwnShellWrapper`
-  - `VulnBotCLI` (class, line 559) `class VulnBotCLI`
-  - `interactive_mode` (function, line 620) `def interactive_mode(bot)`
-  - `parse_args` (function, line 644) `def parse_args()`
-  - `main` (function, line 654) `def main()`
-  - `__init__` (method, line 69) `def __init__(self, name, description, func, parameters, required)`
-  - `to_api_format` (method, line 77) `def to_api_format(self)`
-  - `execute` (method, line 83) `def execute(self)`
-  - `extract_commands_from_file` (method, line 138) `def extract_commands_from_file(file_path, prefix)`
-  - `__init__` (method, line 193) `def __init__(self, model, system_prompt, max_iterations)`
-  - `_reset_history` (method, line 207) `def _reset_history(self)`
-  - `_manage_memory` (method, line 210) `def _manage_memory(self)`
-  - `register_tool` (method, line 218) `def register_tool(self, tool)`
-  - `register_tool_from_instance` (method, line 221) `def register_tool_from_instance(self, func)`
-  - `register_tools_from_metadata` (method, line 239) `def register_tools_from_metadata(self, commands, executor)`
-  - `get_tools_for_api` (method, line 266) `def get_tools_for_api(self)`
-  - `run` (method, line 271) `def run(self, user_input)`
-  - `_call_model` (method, line 295) `def _call_model(self)`
-  - `_stream_call` (method, line 341) `def _stream_call(self, model_name, messages, max_tokens)`
-  - `_emit_delta` (method, line 415) `def _emit_delta(self, kind, text)`
-  - `_process_tool_call` (method, line 434) `def _process_tool_call(self, tool_call)`
-  - `__init__` (method, line 485) `def __init__(self, script_path)`
-  - `_load_shell` (method, line 492) `def _load_shell(self)`
-  - `execute_command` (method, line 515) `def execute_command(self, command)`
-  - `get_commands_summary` (method, line 552) `def get_commands_summary(self)`
-  - `__init__` (method, line 560) `def __init__(self, provider, mode, debug, script_path)`
-  - `_load_model` (method, line 572) `def _load_model(self)`
-  - `_setup_agent` (method, line 587) `def _setup_agent(self)`
-  - `process_request` (method, line 615) `def process_request(self, user_input)`
-  - `target` (function, line 522) `def target()`
-  - `make_executor` (function, line 243) `def make_executor(cmd_name)`
-  - `wrapper` (function, line 244) `def wrapper(command)`
+  - `configure_logging` (function, line 64) `def configure_logging(debug)`
+  - `AgentTool` (class, line 70) `class AgentTool`
+  - `CommandMetadata` (class, line 131) `class CommandMetadata`
+  - `ASTToolExtractor` (class, line 138) `class ASTToolExtractor`
+  - `_tool_call_snapshot` (function, line 177) `def _tool_call_snapshot(tool_call)`
+  - `AgentRunner` (class, line 194) `class AgentRunner`
+  - `LazyOwnShellWrapper` (class, line 486) `class LazyOwnShellWrapper`
+  - `VulnBotCLI` (class, line 563) `class VulnBotCLI`
+  - `interactive_mode` (function, line 624) `def interactive_mode(bot)`
+  - `parse_args` (function, line 648) `def parse_args()`
+  - `main` (function, line 658) `def main()`
+  - `__init__` (method, line 73) `def __init__(self, name, description, func, parameters, required)`
+  - `to_api_format` (method, line 81) `def to_api_format(self)`
+  - `execute` (method, line 87) `def execute(self)`
+  - `extract_commands_from_file` (method, line 142) `def extract_commands_from_file(file_path, prefix)`
+  - `__init__` (method, line 197) `def __init__(self, model, system_prompt, max_iterations)`
+  - `_reset_history` (method, line 211) `def _reset_history(self)`
+  - `_manage_memory` (method, line 214) `def _manage_memory(self)`
+  - `register_tool` (method, line 222) `def register_tool(self, tool)`
+  - `register_tool_from_instance` (method, line 225) `def register_tool_from_instance(self, func)`
+  - `register_tools_from_metadata` (method, line 243) `def register_tools_from_metadata(self, commands, executor)`
+  - `get_tools_for_api` (method, line 270) `def get_tools_for_api(self)`
+  - `run` (method, line 275) `def run(self, user_input)`
+  - `_call_model` (method, line 299) `def _call_model(self)`
+  - `_stream_call` (method, line 345) `def _stream_call(self, model_name, messages, max_tokens)`
+  - `_emit_delta` (method, line 419) `def _emit_delta(self, kind, text)`
+  - `_process_tool_call` (method, line 438) `def _process_tool_call(self, tool_call)`
+  - `__init__` (method, line 489) `def __init__(self, script_path)`
+  - `_load_shell` (method, line 496) `def _load_shell(self)`
+  - `execute_command` (method, line 519) `def execute_command(self, command)`
+  - `get_commands_summary` (method, line 556) `def get_commands_summary(self)`
+  - `__init__` (method, line 564) `def __init__(self, provider, mode, debug, script_path)`
+  - `_load_model` (method, line 576) `def _load_model(self)`
+  - `_setup_agent` (method, line 591) `def _setup_agent(self)`
+  - `process_request` (method, line 619) `def process_request(self, user_input)`
+  - `target` (function, line 526) `def target()`
+  - `make_executor` (function, line 247) `def make_executor(cmd_name)`
+  - `wrapper` (function, line 248) `def wrapper(command)`
 - Depends on: `core/logging.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
 - Imported by: `modules/lazy_agent.py`, `modules/vulnbot.py`, `tests/test_lazy_streaming.py`
 
@@ -163,16 +163,20 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `AIResult` (class, line 95) `class AIResult`
-  - `_ollama_available` (function, line 105) `def _ollama_available()`
-  - `_best_ollama_model` (function, line 113) `def _best_ollama_model()`
-  - `_ollama_call` (function, line 140) `def _ollama_call(model, system, user, max_tokens, temperature)`
-  - `_is_quota_error` (function, line 184) `def _is_quota_error(exc)`
-  - `_groq_call` (function, line 189) `def _groq_call(api_key, system, user, max_tokens, temperature)`
-  - `_toposwarm_call` (function, line 226) `def _toposwarm_call(prompt, system)`
-  - `call` (function, line 254) `def call(prompt, system, api_key, max_tokens, temperature)`
-- Depends on: `modules/llm_factory.py`, `modules/toposwarm_bridge.py`
-- Imported by: `modules/recommender.py`, `modules/timeline_narrator.py`
+  - `AIResult` (class, line 108) `class AIResult`
+  - `_ollama_available` (function, line 118) `def _ollama_available()`
+  - `_best_ollama_model` (function, line 126) `def _best_ollama_model()`
+  - `_ollama_call` (function, line 153) `def _ollama_call(model, system, user, max_tokens, temperature)`
+  - `_is_quota_error` (function, line 197) `def _is_quota_error(exc)`
+  - `_groq_call` (function, line 202) `def _groq_call(api_key, system, user, max_tokens, temperature)`
+  - `_toposwarm_call` (function, line 239) `def _toposwarm_call(prompt, system)`
+  - `_chain_groq_attempted` (function, line 267) `def _chain_groq_attempted(result)`
+  - `call` (function, line 280) `def call(prompt, system, api_key, max_tokens, temperature)`
+  - `_fallback_warning` (function, line 349) `def _fallback_warning(orch)`
+  - `_summarize_attempts` (function, line 354) `def _summarize_attempts(orch)`
+  - `_total_failure_result` (function, line 359) `def _total_failure_result(orch, local_error)`
+- Depends on: `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
+- Imported by: `modules/recommender.py`, `modules/timeline_narrator.py`, `tests/test_llm_orchestrator.py`
 
 ## modules/ai_model.py
 - Doc: Concrete language model backends for LazyOwn.
@@ -371,7 +375,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `_read_until` (method, line 746) `def _read_until(self, marker, timeout)`
   - `close` (method, line 774) `def close(self)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 
 ## modules/atomic_resolver.py
 - Doc: Central MITRE ATT&CK <-> Atomic Red Team translator.

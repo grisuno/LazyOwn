@@ -1,6 +1,50 @@
 # API (page 16 of 24)
 Previous: [API_p15.md](API_p15.md)
 
+## modules/nmap2csv.py
+- `dottedquad_to_num` (function) `modules/nmap2csv.py:126` `def dottedquad_to_num(ip)` -- Convert decimal dotted quad string IP to long integer
+- `num_to_dottedquad` (function) `modules/nmap2csv.py:133` `def num_to_dottedquad(n)` -- Convert long int IP to dotted quad string
+- `unique_match_from_list` (function) `modules/nmap2csv.py:140` `def unique_match_from_list(list)` -- Check the list for a potential pattern match
+- `extract_matching_pattern` (function) `modules/nmap2csv.py:156` `def extract_matching_pattern(regex, group_name, unfiltered_list)` -- Return the desired group_name from a list of matching patterns
+- `Host.__init__` (method) `modules/nmap2csv.py:177` `def __init__(self, ip, fqdn)`
+- `Host.add_port` (method) `modules/nmap2csv.py:188` `def add_port(self, port)`
+- `Host.get_ip_num_format` (method) `modules/nmap2csv.py:192` `def get_ip_num_format(self)`
+- `Host.get_ip_dotted_format` (method) `modules/nmap2csv.py:195` `def get_ip_dotted_format(self)`
+- `Host.get_fqdn` (method) `modules/nmap2csv.py:198` `def get_fqdn(self)`
+- `Host.get_rdns_record` (method) `modules/nmap2csv.py:201` `def get_rdns_record(self)`
+- `Host.get_port_list` (method) `modules/nmap2csv.py:204` `def get_port_list(self)`
+- `Host.get_port_number_list` (method) `modules/nmap2csv.py:207` `def get_port_number_list(self)`
+- `Host.get_port_protocol_list` (method) `modules/nmap2csv.py:216` `def get_port_protocol_list(self)`
+- `Host.get_port_service_list` (method) `modules/nmap2csv.py:225` `def get_port_service_list(self)`
+- `Host.get_port_version_list` (method) `modules/nmap2csv.py:234` `def get_port_version_list(self)`
+- `Host.get_port_script_list` (method) `modules/nmap2csv.py:243` `def get_port_script_list(self)`
+- `Host.get_os` (method) `modules/nmap2csv.py:252` `def get_os(self)`
+- `Host.get_mac_address` (method) `modules/nmap2csv.py:255` `def get_mac_address(self)`
+- `Host.get_mac_address_vendor` (method) `modules/nmap2csv.py:258` `def get_mac_address_vendor(self)`
+- `Host.get_network_distance` (method) `modules/nmap2csv.py:261` `def get_network_distance(self)`
+- `Host.set_fqdn` (method) `modules/nmap2csv.py:265` `def set_fqdn(self, fqdn)`
+- `Host.set_rdns_record` (method) `modules/nmap2csv.py:268` `def set_rdns_record(self, rdns_record)`
+- `Host.set_os` (method) `modules/nmap2csv.py:271` `def set_os(self, os)`
+- `Host.set_mac` (method) `modules/nmap2csv.py:274` `def set_mac(self, mac_address, mac_address_vendor)`
+- `Host.set_network_distance` (method) `modules/nmap2csv.py:278` `def set_network_distance(self, network_distance)`
+- `Port.__init__` (method) `modules/nmap2csv.py:283` `def __init__(self, number, protocol, service, version, script)`
+- `Port.get_number` (method) `modules/nmap2csv.py:290` `def get_number(self)`
+- `Port.get_protocol` (method) `modules/nmap2csv.py:293` `def get_protocol(self)`
+- `Port.get_service` (method) `modules/nmap2csv.py:296` `def get_service(self)`
+- `Port.get_version` (method) `modules/nmap2csv.py:299` `def get_version(self)`
+- `Port.get_script` (method) `modules/nmap2csv.py:302` `def get_script(self)`
+- `Port.set_service` (method) `modules/nmap2csv.py:305` `def set_service(self, service)`
+- `Port.set_version` (method) `modules/nmap2csv.py:308` `def set_version(self, version)`
+- `Port.set_script` (method) `modules/nmap2csv.py:311` `def set_script(self, script)`
+- `split_grepable_match` (function) `modules/nmap2csv.py:315` `def split_grepable_match(raw_string)` -- Split the raw line to a neat Host object
+- `parse` (function) `modules/nmap2csv.py:362` `def parse(fd)` -- Parse the data according to several regexes
+- `parse_xml` (function) `modules/nmap2csv.py:492` `def parse_xml(xml_file)` -- Parse the XML file
+- `is_format_valid` (function) `modules/nmap2csv.py:572` `def is_format_valid(fmt)` -- Check for the supplied custom output format
+- `formatted_item` (function) `modules/nmap2csv.py:606` `def formatted_item(host, format_item)` -- return the attribute value related to the host
+- `repeat_attributes` (function) `modules/nmap2csv.py:639` `def repeat_attributes(attribute_list)` -- repeat attribute lists to the maximum for the
+- `generate_csv` (function) `modules/nmap2csv.py:653` `def generate_csv(fd, results, options)` -- Generate a plain ';' separated csv file with the desired or default attribute format
+- `main` (function) `modules/nmap2csv.py:688` `def main()`
+
 ## modules/notify.py
 Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`, `tests/test_security_codeql_batch.py`
 - `severity_rank` (function) `modules/notify.py:31` `def severity_rank(severity, config)` -- Return the comparable order for a severity label.
@@ -116,7 +160,7 @@ Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `tests
 
 ## modules/orchestrator_config.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
 - `reload` (function) `modules/orchestrator_config.py:113` `def reload()` -- Invalidate every merged view after an external configuration change.
 - `profiles` (function) `modules/orchestrator_config.py:232` `def profiles()` -- Return every resolved profile, including inherited values.
 - `active_profile` (function) `modules/orchestrator_config.py:257` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
@@ -149,22 +193,22 @@ Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
 
 ## modules/outcome_bus.py
 Depends on: `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
-- `OutcomeEvent.host_value` (method) `modules/outcome_bus.py:101` `def host_value(self)` -- Return the best host identifier available.
-- `OutcomeEvent.key` (method) `modules/outcome_bus.py:105` `def key(self)` -- Return the idempotency key for this event.
-- `OutcomeEvent.to_dict` (method) `modules/outcome_bus.py:123` `def to_dict(self)` -- Return a JSON-serializable view.
-- `OutcomeBus.__init__` (method) `modules/outcome_bus.py:154` `def __init__(self, ledger_path, sink_map)` -- Bind the audit ledger and an optional sink map for tests.
-- `OutcomeBus.reset` (method) `modules/outcome_bus.py:167` `def reset(self)` -- Clear the in-process dedupe cache.
-- `OutcomeBus.record` (method) `modules/outcome_bus.py:199` `def record(self, event, sinks)` -- Publish one event to every enabled sink.
-- `get_bus` (function) `modules/outcome_bus.py:267` `def get_bus()` -- Return the process-wide outcome bus.
-- `reset_bus` (function) `modules/outcome_bus.py:276` `def reset_bus()` -- Reset the process-wide bus cache (tests and long-lived operators).
-- `record` (function) `modules/outcome_bus.py:281` `def record(event, sinks)` -- Publish one event through the process-wide bus.
-- `record_event` (function) `modules/outcome_bus.py:286` `def record_event()` -- Build and publish one event from keyword fields.
-- `severity_for_event` (function) `modules/outcome_bus.py:291` `def severity_for_event(severity)` -- Map an outcome severity to the event-bus severity vocabulary.
-- `category_for_event` (function) `modules/outcome_bus.py:296` `def category_for_event(kind)` -- Map an outcome kind to the event-bus category vocabulary.
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
+- `OutcomeEvent.host_value` (method) `modules/outcome_bus.py:103` `def host_value(self)` -- Return the best host identifier available.
+- `OutcomeEvent.key` (method) `modules/outcome_bus.py:107` `def key(self)` -- Return the idempotency key for this event.
+- `OutcomeEvent.to_dict` (method) `modules/outcome_bus.py:125` `def to_dict(self)` -- Return a JSON-serializable view.
+- `OutcomeBus.__init__` (method) `modules/outcome_bus.py:156` `def __init__(self, ledger_path, sink_map)` -- Bind the audit ledger and an optional sink map for tests.
+- `OutcomeBus.reset` (method) `modules/outcome_bus.py:169` `def reset(self)` -- Clear the in-process dedupe cache.
+- `OutcomeBus.record` (method) `modules/outcome_bus.py:201` `def record(self, event, sinks)` -- Publish one event to every enabled sink.
+- `get_bus` (function) `modules/outcome_bus.py:269` `def get_bus()` -- Return the process-wide outcome bus.
+- `reset_bus` (function) `modules/outcome_bus.py:278` `def reset_bus()` -- Reset the process-wide bus cache (tests and long-lived operators).
+- `record` (function) `modules/outcome_bus.py:283` `def record(event, sinks)` -- Publish one event through the process-wide bus.
+- `record_event` (function) `modules/outcome_bus.py:288` `def record_event()` -- Build and publish one event from keyword fields.
+- `severity_for_event` (function) `modules/outcome_bus.py:293` `def severity_for_event(severity)` -- Map an outcome severity to the event-bus severity vocabulary.
+- `category_for_event` (function) `modules/outcome_bus.py:298` `def category_for_event(kind)` -- Map an outcome kind to the event-bus category vocabulary.
 
 ## modules/payload_factory.py
-Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
+Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `modules/sinks/beacon_dispatch.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
 - `PayloadTemplate.__init__` (method) `modules/payload_factory.py:222` `def __init__(self, name, platform, arch, description, options)`
 - `PayloadTemplate.generate` (method) `modules/payload_factory.py:237` `def generate(self)` -- Generate the raw payload bytes.
 - `PayloadTemplate.to_dict` (method) `modules/payload_factory.py:241` `def to_dict(self)`
@@ -405,14 +449,14 @@ Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orc
 - `delete_gym` (function) `modules/redteam_gym.py:445` `def delete_gym(gym_id)` -- Delete one gym definition unless it has active runs.
 - `list_challenges` (function) `modules/redteam_gym.py:453` `def list_challenges()` -- Return all defined gym challenges with metadata.
 - `start_challenge` (function) `modules/redteam_gym.py:494` `def start_challenge(challenge_id, target, spin_lab)` -- Begin a gym challenge and persist the run in the world model.
-- `submit_challenge` (function) `modules/redteam_gym.py:610` `def submit_challenge(techniques_used, success, run_id)` -- Submit a completed challenge for scoring.
-- `stop_challenges` (function) `modules/redteam_gym.py:718` `def stop_challenges(selector)` -- Stop one gym by id/name/run id, or every gym when selector is empty.
-- `engagement_context` (function) `modules/redteam_gym.py:804` `def engagement_context(target)` -- Return in-scope phase, compromised hosts and live shells.
-- `get_active_challenges` (function) `modules/redteam_gym.py:864` `def get_active_challenges()` -- Return every active gym run across operators.
-- `show_leaderboard` (function) `modules/redteam_gym.py:1023` `def show_leaderboard(top_n)` -- Return the top N players from the leaderboard.
-- `get_active_challenge` (function) `modules/redteam_gym.py:1050` `def get_active_challenge(run_id)` -- Return one active challenge, preferring the current operator.
-- `record_external_attempt` (function) `modules/redteam_gym.py:1081` `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` -- Record a scored attempt for a challenge not defined in the catalog.
-- `main` (function) `modules/redteam_gym.py:1135` `def main()` -- CLI entry point — show gym leaderboard from command line.
+- `submit_challenge` (function) `modules/redteam_gym.py:637` `def submit_challenge(techniques_used, success, run_id)` -- Submit a completed challenge for scoring.
+- `stop_challenges` (function) `modules/redteam_gym.py:745` `def stop_challenges(selector)` -- Stop one gym by id/name/run id, or every gym when selector is empty.
+- `engagement_context` (function) `modules/redteam_gym.py:827` `def engagement_context(target)` -- Return in-scope phase, compromised hosts and live shells.
+- `get_active_challenges` (function) `modules/redteam_gym.py:887` `def get_active_challenges()` -- Return every active gym run across operators.
+- `show_leaderboard` (function) `modules/redteam_gym.py:1046` `def show_leaderboard(top_n)` -- Return the top N players from the leaderboard.
+- `get_active_challenge` (function) `modules/redteam_gym.py:1073` `def get_active_challenge(run_id)` -- Return one active challenge, preferring the current operator.
+- `record_external_attempt` (function) `modules/redteam_gym.py:1104` `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` -- Record a scored attempt for a challenge not defined in the catalog.
+- `main` (function) `modules/redteam_gym.py:1158` `def main()` -- CLI entry point — show gym leaderboard from command line.
 
 ## modules/reflective_dll.py
 - `PEParser.__init__` (method) `modules/reflective_dll.py:151` `def __init__(self, pe_data)`
@@ -445,33 +489,6 @@ Imported by: `cli/commands/resource_scripting.py`, `tests/test_resource_script.p
 - `ResourceScriptEngine.execute` (method) `modules/resource_script.py:279` `def execute(self, script_path)` -- Load and run a script file.
 - `ResourceScriptEngine.execute_lines` (method) `modules/resource_script.py:293` `def execute_lines(self, lines, source)` -- Execute a list of script lines.
 - `ResourceScriptEngine.execute_string` (method) `modules/resource_script.py:327` `def execute_string(self, script)` -- Execute a script string (split on newlines).
-
-## modules/retry_session.py
-Depends on: `modules/chain_state.py`
-Imported by: `cli/retry_support.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_retry_session.py`
-- `is_active` (function) `modules/retry_session.py:56` `def is_active()` -- Return True when an elevated retry session is currently armed.
-- `secret_enabled_path` (function) `modules/retry_session.py:61` `def secret_enabled_path()` -- Return the askpass helper path advertised via ``SUDO_ASKPASS``.
-- `sudo_gate_open` (function) `modules/retry_session.py:79` `def sudo_gate_open()` -- Return True when armed and the on-disk askpass pair is sound.
-- `set_sudo_secret` (function) `modules/retry_session.py:94` `def set_sudo_secret(secret)` -- Arm the elevated retry session with one secret.
-- `clear_sudo_secret` (function) `modules/retry_session.py:125` `def clear_sudo_secret()` -- Disarm the elevated retry session and wipe the secret from disk.
-- `apply_sudo_askpass` (function) `modules/retry_session.py:137` `def apply_sudo_askpass(command)` -- Rewrite bare ``sudo`` tokens to ``sudo -A`` for one command.
-- `newest_failed_checkpoint` (function) `modules/retry_session.py:180` `def newest_failed_checkpoint(chain, run_id)` -- Return the freshest unfinished checkpoint of one chain.
-- `resolve_sudo_consent` (function) `modules/retry_session.py:204` `def resolve_sudo_consent(confirmer, want_sudo)` -- Gate the elevated mode behind an explicit, warned confirmation.
-
-## modules/reverse-shell.c
-- `reverse_shell_init` (function) `modules/reverse-shell.c:12` `static int __init reverse_shell_init(void)` -- call_usermodehelper function is used to create user mode processes from kernel space
-- `reverse_shell_exit` (function) `modules/reverse-shell.c:16` `static void __exit reverse_shell_exit(void)`
-
-## modules/revshell.c
-- `xlAutoOpen` (function) `modules/revshell.c:5` `void __cdecl xlAutoOpen()`
-- `DllMain` (function) `modules/revshell.c:10` `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
-
-## modules/rich_tui.py
-Depends on: `core/console.py`, `modules/dashboard_engine.py`
-Imported by: `cli/commands/pwn.py`
-- `RichDashboard.__init__` (method) `modules/rich_tui.py:74` `def __init__(self, dashboard_engine, refresh_interval, live)` -- Initialize the Rich dashboard.
-- `RichDashboard.run` (method) `modules/rich_tui.py:96` `def run(self)` -- Run the dashboard.
-- `RichDashboard.stop` (method) `modules/rich_tui.py:132` `def stop(self)` -- Gracefully shut down the dashboard and restore terminal state.
 
 
 Next: [API_p17.md](API_p17.md)

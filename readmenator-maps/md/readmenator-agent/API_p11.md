@@ -27,12 +27,12 @@ Imported by: `cli/commands/cloud_attacks.py`
 
 ## modules/ctf_capture.py
 Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
-- `output_dir` (function) `modules/ctf_capture.py:28` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
-- `capture` (function) `modules/ctf_capture.py:99` `def capture(vuln_id, target, output, sessions_dir)` -- Verify output evidence for one gym vector and store the record.
-- `record_path` (function) `modules/ctf_capture.py:175` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
-- `store_record` (function) `modules/ctf_capture.py:201` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
-- `list_records` (function) `modules/ctf_capture.py:219` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
-- `summary` (function) `modules/ctf_capture.py:242` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
+- `output_dir` (function) `modules/ctf_capture.py:32` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
+- `capture` (function) `modules/ctf_capture.py:151` `def capture(vuln_id, target, output, sessions_dir, catalogue)` -- Verify output evidence for one gym vector and store the record.
+- `record_path` (function) `modules/ctf_capture.py:232` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
+- `store_record` (function) `modules/ctf_capture.py:258` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
+- `list_records` (function) `modules/ctf_capture.py:276` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
+- `summary` (function) `modules/ctf_capture.py:299` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
 
 ## modules/custom_tools.py
 Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`

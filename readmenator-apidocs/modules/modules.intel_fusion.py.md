@@ -50,7 +50,7 @@ flowchart LR
 
 ### `node_id`
 
-`function` | [modules/intel_fusion.py:173](../../modules/intel_fusion.py#L173)
+`function` | [modules/intel_fusion.py:192](../../modules/intel_fusion.py#L192)
 
 ```python
 def node_id(kind: str, value: str) -> str
@@ -75,7 +75,7 @@ Deterministic node id from kind + normalized value.
 
 ### `build_intel_graph`
 
-`function` | [modules/intel_fusion.py:243](../../modules/intel_fusion.py#L243)
+`function` | [modules/intel_fusion.py:260](../../modules/intel_fusion.py#L260)
 
 ```python
 def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR, est_cap: int = 300) -> dict
@@ -102,7 +102,7 @@ Fuse all session artefacts into one C2-centred intel graph.
 
 ### `group_colors`
 
-`function` | [modules/intel_fusion.py:692](../../modules/intel_fusion.py#L692)
+`function` | [modules/intel_fusion.py:714](../../modules/intel_fusion.py#L714)
 
 ```python
 def group_colors(graph: dict) -> dict
@@ -126,7 +126,7 @@ Stable colors for layer/language groupings (ReadMenator contract).
 
 ### `page_settings`
 
-`function` | [modules/intel_fusion.py:708](../../modules/intel_fusion.py#L708)
+`function` | [modules/intel_fusion.py:730](../../modules/intel_fusion.py#L730)
 
 ```python
 def page_settings(graph: dict | None = None) -> dict
@@ -150,7 +150,7 @@ Explorer page settings with ReadMenator physics sizes (exact values).
 
 ### `build_analytics`
 
-`function` | [modules/intel_fusion.py:765](../../modules/intel_fusion.py#L765)
+`function` | [modules/intel_fusion.py:787](../../modules/intel_fusion.py#L787)
 
 ```python
 def build_analytics(graph: dict, summary: dict | None = None) -> dict
@@ -173,7 +173,7 @@ Side-panel analytics (attribution funnel + intel summary).
 
 ### `build_bundle_payload`
 
-`function` | [modules/intel_fusion.py:852](../../modules/intel_fusion.py#L852)
+`function` | [modules/intel_fusion.py:874](../../modules/intel_fusion.py#L874)
 
 ```python
 def build_bundle_payload(graph: dict) -> dict
@@ -200,7 +200,7 @@ directed file index pairs.
 
 ### `bundle_settings`
 
-`function` | [modules/intel_fusion.py:968](../../modules/intel_fusion.py#L968)
+`function` | [modules/intel_fusion.py:990](../../modules/intel_fusion.py#L990)
 
 ```python
 def bundle_settings(graph: dict | None = None) -> dict
@@ -224,7 +224,7 @@ Bundle page settings with ReadMenator sizes (exact values).
 
 ### `assign_layout`
 
-`function` | [modules/intel_fusion.py:999](../../modules/intel_fusion.py#L999)
+`function` | [modules/intel_fusion.py:1021](../../modules/intel_fusion.py#L1021)
 
 ```python
 def assign_layout(graph: dict, mode: str = 'force') -> dict
@@ -253,22 +253,27 @@ positions so the client physics (charge -300, distance 120, 400 ticks
 
 ### `write_summary`
 
-`function` | [modules/intel_fusion.py:1064](../../modules/intel_fusion.py#L1064)
+`function` | [modules/intel_fusion.py:1144](../../modules/intel_fusion.py#L1144)
 
 ```python
 def write_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict
 ```
 
-Score host exposure with a per-component breakdown.
+Score host exposure with a normalized, per-component breakdown.
 
-Every point a host earns carries a label so the planner and the
-operator can read why one host outranks another:
+The score is bounded 0..100 with capped components, and every point
+carries a label so the planner and the operator can read why one
+host outranks another:
 
-- connectivity: base 1 plus capped node degree;
-- owned: the C2 controls the host;
-- activity: recent log mentions;
-- findings: severity and heat of attached findings (heat bonus hot
-  +3, warm +1), capped at 20.
+- heat: hottest CVE candidate matched on the host (hot 40, warm 20,
+  cold 5), capped at 50;
+- findings: severity-weighted findings attached to the host
+  (critical/high 25, medium 10, low 3), capped at 25;
+- controlled: the C2 owns the host (10);
+- connectivity: capped node degree (10);
+- activity: recent log mentions (5);
+- recency: the host changed this week in the world change log (10);
+- ghost: the host answers on its last address without resolving (15).
 
 **Parameters**
 

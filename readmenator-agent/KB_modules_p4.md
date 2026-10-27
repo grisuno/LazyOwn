@@ -6,19 +6,22 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `output_dir` (function, line 28) `def output_dir(sessions_dir)`
-  - `_check_root_shell` (function, line 41) `def _check_root_shell(output)`
-  - `_check_shadow_dump` (function, line 54) `def _check_shadow_dump(output)`
-  - `_check_credentials` (function, line 74) `def _check_credentials(output)`
-  - `capture` (function, line 99) `def capture(vuln_id, target, output, sessions_dir)`
-  - `_publish_capture_outcome` (function, line 152) `def _publish_capture_outcome(record)`
-  - `record_path` (function, line 175) `def record_path(vuln_id, sessions_dir)`
-  - `_safe_dir` (function, line 188) `def _safe_dir(vuln_id)`
-  - `store_record` (function, line 201) `def store_record(record, sessions_dir)`
-  - `list_records` (function, line 219) `def list_records(sessions_dir)`
-  - `summary` (function, line 242) `def summary(sessions_dir)`
-  - `_gather_evidence` (function, line 269) `def _gather_evidence(candidates)`
-  - `_cli_capture` (function, line 291) `def _cli_capture(argv)`
+  - `output_dir` (function, line 32) `def output_dir(sessions_dir)`
+  - `_check_root_shell` (function, line 45) `def _check_root_shell(output)`
+  - `_check_shadow_dump` (function, line 58) `def _check_shadow_dump(output)`
+  - `_check_credentials` (function, line 78) `def _check_credentials(output)`
+  - `_check_windows_os_enum` (function, line 96) `def _check_windows_os_enum(output)`
+  - `_check_defense_report` (function, line 115) `def _check_defense_report(output)`
+  - `_check_eventlog_rows` (function, line 128) `def _check_eventlog_rows(output)`
+  - `capture` (function, line 151) `def capture(vuln_id, target, output, sessions_dir, catalogue)`
+  - `_publish_capture_outcome` (function, line 209) `def _publish_capture_outcome(record)`
+  - `record_path` (function, line 232) `def record_path(vuln_id, sessions_dir)`
+  - `_safe_dir` (function, line 245) `def _safe_dir(vuln_id)`
+  - `store_record` (function, line 258) `def store_record(record, sessions_dir)`
+  - `list_records` (function, line 276) `def list_records(sessions_dir)`
+  - `summary` (function, line 299) `def summary(sessions_dir)`
+  - `_gather_evidence` (function, line 326) `def _gather_evidence(candidates)`
+  - `_cli_capture` (function, line 350) `def _cli_capture(argv)`
 - Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
 
 ## modules/custom_tools.py

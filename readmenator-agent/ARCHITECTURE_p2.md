@@ -2,6 +2,10 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/dashboard_tui.py` -> `cli/ops_commands.py`
+- `cli/dashboard_tui.py` -> `cli/reactive_hints.py`
+- `cli/dashboard_tui.py` -> `cli/reasoning_stream.py`
+- `cli/dashboard_tui.py` -> `cli/recommendation_signals.py`
 - `cli/dashboard_tui.py` -> `cli/toast_bus.py`
 - `cli/dashboard_tui.py` -> `modules/killchain.py`
 - `cli/dashboard_tui.py` -> `modules/world_model.py`
@@ -244,6 +248,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `core/session_secrets.py`
 - `lazyc2.py` -> `lazyc2/blueprints/__init__.py`
 - `lazyc2.py` -> `lazyc2/extensions/users.py`
+- `lazyc2.py` -> `lazyc2/security/cli_credentials.py`
 - `lazyc2.py` -> `lazyc2/security/command_allowlist.py`
 - `lazyc2.py` -> `lazyc2/security/constants.py`
 - `lazyc2.py` -> `lazyc2/security/cors.py`
@@ -254,6 +259,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `lazyc2/security/trusted_proxy.py`
 - `lazyc2.py` -> `lazyc2/security/validators.py`
 - `lazyc2.py` -> `lazyown.py`
+- `lazyc2.py` -> `modules/__init__.py`
 - `lazyc2.py` -> `modules/attack_surface3d.py`
 - `lazyc2.py` -> `modules/backdoor/server.c`
 - `lazyc2.py` -> `modules/beacon_history.py`
@@ -277,6 +283,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `modules/listener_manager.py`
 - `lazyc2.py` -> `modules/live_surface.py`
 - `lazyc2.py` -> `modules/llm_adapter.py`
+- `lazyc2.py` -> `modules/llm_orchestrator.py`
 - `lazyc2.py` -> `modules/logging_config.py`
 - `lazyc2.py` -> `modules/loop_manager.py`
 - `lazyc2.py` -> `modules/metrics.py`
@@ -346,6 +353,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2/extensions/users.py` -> `lazyc2/__init__.py`
 - `lazyc2/extensions/users.py` -> `modules/lazy_rbac.py`
 - `lazyc2/models.py` -> `modules/lazy_rbac.py`
+- `lazyc2/security/cli_credentials.py` -> `core/logging.py`
 - `lazyc2/security/command_allowlist.py` -> `cli/commands/enum.py`
 - `lazyc2/security/html_sanitizer.py` -> `lazyc2/security/constants.py`
 - `lazyc2/security/services.py` -> `lazyc2/security/constants.py`
@@ -488,13 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/theme/manager.py` -> `lazygui/theme/tokens.py`
 - `lazygui/theme/palettes/__init__.py` -> `lazygui/theme/tokens.py`
 - `lazygui/theme/palettes/catppuccin_mocha.py` -> `lazygui/theme/tokens.py`
-- `lazygui/theme/palettes/cobalt_clone.py` -> `lazygui/theme/tokens.py`
-- `lazygui/theme/palettes/gruvbox_dark.py` -> `lazygui/theme/tokens.py`
-- `lazygui/theme/palettes/solarized_light.py` -> `lazygui/theme/tokens.py`
-- `lazygui/theme/palettes/tactical_green.py` -> `lazygui/theme/tokens.py`
-- `lazygui/theme/palettes/tokyo_night.py` -> `lazygui/theme/tokens.py`
-- `lazygui/theme/qss_builder.py` -> `lazygui/config/constants.py`
-- `lazygui/theme/qss_builder.py` -> `lazygui/theme/tokens.py`
-- `lazygui/widgets/__init__.py` -> `lazygui/widgets/command_palette_list.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

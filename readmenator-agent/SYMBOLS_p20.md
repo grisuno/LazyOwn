@@ -3,6 +3,97 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `run` | method | `modules/pipeline_engine.py:949` | `def run(self, name, target, nesting_stack)` |
+| `runs_dir` | method | `modules/pipeline_engine.py:782` | `def runs_dir(self)` |
+| `to_context` | method | `modules/pipeline_engine.py:180` | `def to_context(self)` |
+| `to_dict` | method | `modules/pipeline_engine.py:213` | `def to_dict(self)` |
+| `validate` | method | `modules/pipeline_engine.py:352` | `def validate(predicate, output)` |
+| `validate` | method | `modules/pipeline_engine.py:945` | `def validate(self, name)` |
+| `write_plan` | method | `modules/pipeline_engine.py:797` | `def write_plan(self, run_dir, spec)` |
+| `write_step` | method | `modules/pipeline_engine.py:814` | `def write_step(self, run_dir, result)` |
+| `write_summary` | method | `modules/pipeline_engine.py:828` | `def write_summary(self, run_dir, run)` |
+| `Frontier` | class | `modules/planner.py:505` | `class Frontier` |
+| `PlanCandidate` | class | `modules/planner.py:41` | `class PlanCandidate` |
+| `PlanResult` | class | `modules/planner.py:54` | `class PlanResult` |
+| `Planner` | class | `modules/planner.py:260` | `class Planner` |
+| `TodoItem` | class | `modules/planner.py:452` | `class TodoItem` |
+| `TodoList` | class | `modules/planner.py:460` | `class TodoList` |
+| `__init__` | method | `modules/planner.py:269` | `def __init__(self, world_model, obs_parser, api_key)` |
+| `__init__` | method | `modules/planner.py:468` | `def __init__(self)` |
+| `__init__` | method | `modules/planner.py:514` | `def __init__(self, planner, todos)` |
+| `__len__` | method | `modules/planner.py:560` | `def __len__(self)` |
+| `_build_rationale` | method | `modules/planner.py:374` | `def _build_rationale(chosen, facts, target)` |
+| `_gather_facts` | function | `modules/planner.py:64` | `def _gather_facts(world_model, obs_parser)` |
+| `_llm_tiebreak` | method | `modules/planner.py:387` | `def _llm_tiebreak(self, target, facts, candidates)` |
+| `_parser` | method | `modules/planner.py:294` | `def _parser(self)` |
+| `_risk_for` | function | `modules/planner.py:160` | `def _risk_for(technique_id)` |
+| `_score_step` | function | `modules/planner.py:225` | `def _score_step(step, facts)` |
+| `_wm` | method | `modules/planner.py:279` | `def _wm(self)` |
+| `blocks` | method | `modules/planner.py:497` | `def blocks(self, tactic)` |
+| `get_planner` | function | `modules/planner.py:446` | `def get_planner(api_key)` |
+| `next_ready` | method | `modules/planner.py:489` | `def next_ready(self)` |
+| `plan` | method | `modules/planner.py:313` | `def plan(self, target, max_candidates)` |
+| `pop` | method | `modules/planner.py:551` | `def pop(self)` |
+| `refill` | method | `modules/planner.py:532` | `def refill(self, target, max_intents)` |
+| `to_dict` | method | `modules/planner.py:413` | `def to_dict(self, result)` |
+| `todo_add` | method | `modules/planner.py:472` | `def todo_add(self, name, requires)` |
+| `todo_done` | method | `modules/planner.py:478` | `def todo_done(self, name)` |
+| `todos` | method | `modules/planner.py:523` | `def todos(self)` |
+| `tried` | method | `modules/planner.py:528` | `def tried(self)` |
+| `PlaybookEntry` | class | `modules/playbook_admin.py:40` | `class PlaybookEntry` |
+| `_count_steps` | function | `modules/playbook_admin.py:183` | `def _count_steps(data)` |
+| `_target_for_write` | function | `modules/playbook_admin.py:337` | `def _target_for_write(path, directory)` |
+| `_write_atomic` | function | `modules/playbook_admin.py:282` | `def _write_atomic(target, data)` |
+| `_yaml_module` | function | `modules/playbook_admin.py:55` | `def _yaml_module()` |
+| `create_playbook` | function | `modules/playbook_admin.py:297` | `def create_playbook(filename)` |
+| `delete_playbook` | function | `modules/playbook_admin.py:406` | `def delete_playbook(path, directory)` |
+| `load_playbook` | function | `modules/playbook_admin.py:102` | `def load_playbook(path)` |
+| `playbook_kind` | function | `modules/playbook_admin.py:123` | `def playbook_kind(data)` |
+| `playbook_path` | function | `modules/playbook_admin.py:75` | `def playbook_path(filename, directory)` |
+| `playbook_template` | function | `modules/playbook_admin.py:265` | `def playbook_template(name, description, platforms)` |
+| `preview_playbook` | function | `modules/playbook_admin.py:251` | `def preview_playbook(path, limit)` |
+| `save_playbook_yaml` | function | `modules/playbook_admin.py:377` | `def save_playbook_yaml(path, text, directory)` |
+| `scan_playbooks` | function | `modules/playbook_admin.py:231` | `def scan_playbooks(directory)` |
+| `slugify` | function | `modules/playbook_admin.py:62` | `def slugify(value)` |
+| `summarize` | function | `modules/playbook_admin.py:197` | `def summarize(path)` |
+| `update_playbook` | function | `modules/playbook_admin.py:350` | `def update_playbook(path, data, directory)` |
+| `validate_playbook` | function | `modules/playbook_admin.py:136` | `def validate_playbook(data)` |
+| `Playbook` | class | `modules/playbook_engine.py:133` | `class Playbook` |
+| `PlaybookEngine` | class | `modules/playbook_engine.py:375` | `class PlaybookEngine` |
+| `PlaybookResult` | class | `modules/playbook_engine.py:173` | `class PlaybookResult` |
+| `PlaybookStep` | class | `modules/playbook_engine.py:101` | `class PlaybookStep` |
+| `StepResult` | class | `modules/playbook_engine.py:165` | `class StepResult` |
+| `_AtomicIndex` | class | `modules/playbook_engine.py:254` | `class _AtomicIndex` |
+| `_StixLoader` | class | `modules/playbook_engine.py:185` | `class _StixLoader` |
+| `_TechniqueSelector` | class | `modules/playbook_engine.py:311` | `class _TechniqueSelector` |
+| `__init__` | method | `modules/playbook_engine.py:188` | `def __init__(self, json_path)` |
+| `__init__` | method | `modules/playbook_engine.py:260` | `def __init__(self, atomics_path)` |
+| `__init__` | method | `modules/playbook_engine.py:387` | `def __init__(self, world_model, obs_parser, api_key, top_n)` |
+| `_local_executor` | function | `modules/playbook_engine.py:722` | `def _local_executor(command, host)` |
+| `_obs_parser` | method | `modules/playbook_engine.py:415` | `def _obs_parser(self)` |
+| `_world_model` | method | `modules/playbook_engine.py:404` | `def _world_model(self)` |
+| `available` | method | `modules/playbook_engine.py:192` | `def available(self)` |
+| `available` | method | `modules/playbook_engine.py:264` | `def available(self)` |
+| `build` | method | `modules/playbook_engine.py:267` | `def build(self)` |
+| `derive` | method | `modules/playbook_engine.py:427` | `def derive(self, target, phase, platform, apt_name)` |
+| `execute` | method | `modules/playbook_engine.py:529` | `def execute(self, playbook, executor, dry_run)` |
+| `from_dict` | method | `modules/playbook_engine.py:128` | `def from_dict(cls, d)` |
+| `from_dict` | method | `modules/playbook_engine.py:152` | `def from_dict(cls, d)` |
+| `get_engine` | function | `modules/playbook_engine.py:669` | `def get_engine(api_key)` |
+| `load` | method | `modules/playbook_engine.py:611` | `def load(self, path)` |
+| `result_summary` | method | `modules/playbook_engine.py:640` | `def result_summary(self, result)` |
+| `save` | method | `modules/playbook_engine.py:599` | `def save(self, playbook, path)` |
+| `select` | method | `modules/playbook_engine.py:317` | `def select(self, candidates, world_context, target, phase, api_key, top_n)` |
+| `store` | method | `modules/playbook_engine.py:195` | `def store(self)` |
+| `techniques_for_tactics` | method | `modules/playbook_engine.py:210` | `def techniques_for_tactics(self, tactic_shortnames, platform)` |
+| `tests_for_technique` | method | `modules/playbook_engine.py:300` | `def tests_for_technique(self, technique_id, platform)` |
+| `to_dict` | method | `modules/playbook_engine.py:113` | `def to_dict(self)` |
+| `to_dict` | method | `modules/playbook_engine.py:141` | `def to_dict(self)` |
+| `DefaultTTPMapper` | class | `modules/playbook_executor.py:101` | `class DefaultTTPMapper(ITTPMapper)` |
+| `ITTPMapper` | class | `modules/playbook_executor.py:93` | `class ITTPMapper(ABC)` |
+| `PlaybookEngine` | class | `modules/playbook_executor.py:336` | `class PlaybookEngine` |
+| `PlaybookLoader` | class | `modules/playbook_executor.py:203` | `class PlaybookLoader` |
+| `PlaybookRunResult` | class | `modules/playbook_executor.py:61` | `class PlaybookRunResult` |
 | `PlaybookSpec` | class | `modules/playbook_executor.py:48` | `class PlaybookSpec` |
 | `PlaybookTechnique` | class | `modules/playbook_executor.py:36` | `class PlaybookTechnique` |
 | `__init__` | method | `modules/playbook_executor.py:208` | `def __init__(self, playbooks_dir)` |
@@ -140,35 +231,35 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `recommend` | function | `modules/recommender.py:143` | `def recommend(state, api_key)` |
 | `recommend_and_save` | function | `modules/recommender.py:163` | `def recommend_and_save(api_key)` |
 | `GymAttempt` | class | `modules/redteam_gym.py:318` | `class GymAttempt` |
-| `_award_gym_elo` | function | `modules/redteam_gym.py:980` | `def _award_gym_elo(username, elo_bonus)` |
-| `_calc_speed_score` | function | `modules/redteam_gym.py:877` | `def _calc_speed_score(elapsed_seconds, max_bonus)` |
-| `_calc_stealth_score` | function | `modules/redteam_gym.py:898` | `def _calc_stealth_score(techniques, max_bonus)` |
-| `_calc_technique_score` | function | `modules/redteam_gym.py:914` | `def _calc_technique_score(techniques, chal, max_bonus)` |
+| `_award_gym_elo` | function | `modules/redteam_gym.py:1003` | `def _award_gym_elo(username, elo_bonus)` |
+| `_calc_speed_score` | function | `modules/redteam_gym.py:900` | `def _calc_speed_score(elapsed_seconds, max_bonus)` |
+| `_calc_stealth_score` | function | `modules/redteam_gym.py:921` | `def _calc_stealth_score(techniques, max_bonus)` |
+| `_calc_technique_score` | function | `modules/redteam_gym.py:937` | `def _calc_technique_score(techniques, chal, max_bonus)` |
 | `_ensure_gym_dir` | function | `modules/redteam_gym.py:334` | `def _ensure_gym_dir()` |
-| `_get_rank` | function | `modules/redteam_gym.py:1006` | `def _get_rank(username)` |
+| `_get_rank` | function | `modules/redteam_gym.py:1029` | `def _get_rank(username)` |
 | `_get_username` | function | `modules/redteam_gym.py:366` | `def _get_username()` |
 | `_load_leaderboard` | function | `modules/redteam_gym.py:339` | `def _load_leaderboard()` |
 | `_resolve_active_run` | function | `modules/redteam_gym.py:476` | `def _resolve_active_run(selector, operator)` |
-| `_same_engagement` | function | `modules/redteam_gym.py:777` | `def _same_engagement(ip, target)` |
+| `_same_engagement` | function | `modules/redteam_gym.py:800` | `def _same_engagement(ip, target)` |
 | `_save_leaderboard` | function | `modules/redteam_gym.py:355` | `def _save_leaderboard(board)` |
-| `_spin_scenario` | function | `modules/redteam_gym.py:586` | `def _spin_scenario(scenario)` |
-| `_teardown_stopped_scenarios` | function | `modules/redteam_gym.py:739` | `def _teardown_stopped_scenarios(stopped)` |
-| `_update_leaderboard` | function | `modules/redteam_gym.py:936` | `def _update_leaderboard(attempt)` |
+| `_spin_scenario` | function | `modules/redteam_gym.py:595` | `def _spin_scenario(scenario)` |
+| `_teardown_stopped_scenarios` | function | `modules/redteam_gym.py:766` | `def _teardown_stopped_scenarios(stopped)` |
+| `_update_leaderboard` | function | `modules/redteam_gym.py:959` | `def _update_leaderboard(attempt)` |
 | `create_gym` | function | `modules/redteam_gym.py:398` | `def create_gym(gym_id)` |
 | `definition_rows` | function | `modules/redteam_gym.py:393` | `def definition_rows()` |
 | `delete_gym` | function | `modules/redteam_gym.py:445` | `def delete_gym(gym_id)` |
-| `engagement_context` | function | `modules/redteam_gym.py:804` | `def engagement_context(target)` |
-| `get_active_challenge` | function | `modules/redteam_gym.py:1050` | `def get_active_challenge(run_id)` |
-| `get_active_challenges` | function | `modules/redteam_gym.py:864` | `def get_active_challenges()` |
+| `engagement_context` | function | `modules/redteam_gym.py:827` | `def engagement_context(target)` |
+| `get_active_challenge` | function | `modules/redteam_gym.py:1073` | `def get_active_challenge(run_id)` |
+| `get_active_challenges` | function | `modules/redteam_gym.py:887` | `def get_active_challenges()` |
 | `list_challenges` | function | `modules/redteam_gym.py:453` | `def list_challenges()` |
-| `main` | function | `modules/redteam_gym.py:1135` | `def main()` |
-| `record_external_attempt` | function | `modules/redteam_gym.py:1081` | `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` |
+| `main` | function | `modules/redteam_gym.py:1158` | `def main()` |
+| `record_external_attempt` | function | `modules/redteam_gym.py:1104` | `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` |
 | `reload_challenge_definitions` | function | `modules/redteam_gym.py:299` | `def reload_challenge_definitions(directory)` |
 | `save_gym_yaml` | function | `modules/redteam_gym.py:435` | `def save_gym_yaml(gym_id, text)` |
-| `show_leaderboard` | function | `modules/redteam_gym.py:1023` | `def show_leaderboard(top_n)` |
+| `show_leaderboard` | function | `modules/redteam_gym.py:1046` | `def show_leaderboard(top_n)` |
 | `start_challenge` | function | `modules/redteam_gym.py:494` | `def start_challenge(challenge_id, target, spin_lab)` |
-| `stop_challenges` | function | `modules/redteam_gym.py:718` | `def stop_challenges(selector)` |
-| `submit_challenge` | function | `modules/redteam_gym.py:610` | `def submit_challenge(techniques_used, success, run_id)` |
+| `stop_challenges` | function | `modules/redteam_gym.py:745` | `def stop_challenges(selector)` |
+| `submit_challenge` | function | `modules/redteam_gym.py:637` | `def submit_challenge(techniques_used, success, run_id)` |
 | `DataDirectory` | class | `modules/reflective_dll.py:70` | `class DataDirectory` |
 | `ImportDescriptor` | class | `modules/reflective_dll.py:104` | `class ImportDescriptor` |
 | `PEHeader` | class | `modules/reflective_dll.py:37` | `class PEHeader` |
@@ -405,96 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `PATHMRHYDE` | macro | `modules/rootkit/mrhyde3.c:44` | `#define PATHMRHYDE` |
 | `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde3.c:52` | `#define PID_FILE_PATH` |
 | `_GNU_SOURCE` | macro | `modules/rootkit/mrhyde3.c:7` | `#define _GNU_SOURCE` |
-| `__io_uring_enter` | function | `modules/rootkit/mrhyde3.c:80` | `static inline int __io_uring_enter(int fd, unsigned int to_submit, unsigned int min_complete,    ...` |
-| `__io_uring_register` | function | `modules/rootkit/mrhyde3.c:84` | `static inline int __io_uring_register(int fd, unsigned int opcode, const void *arg, unsigned int ...` |
-| `__io_uring_setup` | function | `modules/rootkit/mrhyde3.c:77` | `static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p)` |
-| `fopen` | function | `modules/rootkit/mrhyde3.c:411` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fstat` | function | `modules/rootkit/mrhyde3.c:539` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde3.c:301` | `char* get_username_from_pid(pid_t pid)` |
-| `getdents` | function | `modules/rootkit/mrhyde3.c:573` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `getdents64` | function | `modules/rootkit/mrhyde3.c:609` | `ssize_t getdents64(int fd, void *dirp, size_t count)` |
-| `init_root_ring` | function | `modules/rootkit/mrhyde3.c:180` | `static int init_root_ring(void)` |
-| `io_uring` | struct | `modules/rootkit/mrhyde3.c:69` | `` |
-| `io_uring_cq` | struct | `modules/rootkit/mrhyde3.c:65` | `` |
-| `io_uring_sq` | struct | `modules/rootkit/mrhyde3.c:61` | `` |
-| `kill` | function | `modules/rootkit/mrhyde3.c:377` | `int kill(pid_t pid, int sig)` |
-| `linux_dirent64` | struct | `modules/rootkit/mrhyde3.c:564` | `` |
-| `load_hidden_files` | function | `modules/rootkit/mrhyde3.c:286` | `void load_hidden_files(void)` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde3.c:272` | `void load_hidden_pids(void)` |
-| `lstat` | function | `modules/rootkit/mrhyde3.c:515` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `open` | function | `modules/rootkit/mrhyde3.c:434` | `int open(const char *pathname, int flags, ...)` |
-| `openat` | function | `modules/rootkit/mrhyde3.c:462` | `int openat(int dirfd, const char *pathname, int flags, ...)` |
-| `original_dirent` | type_alias | `modules/rootkit/mrhyde3.c:316` | `typedef struct dirent original_dirent;` |
-| `readdir` | function | `modules/rootkit/mrhyde3.c:340` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde3.c:387` | `int remove(const char *pathname)` |
-| `should_hide_file` | function | `modules/rootkit/mrhyde3.c:333` | `int should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde3.c:324` | `int should_hide_pid(const char* pid)` |
-| `stat` | function | `modules/rootkit/mrhyde3.c:491` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `traditional_read_file` | function | `modules/rootkit/mrhyde3.c:257` | `static char *traditional_read_file(const char *path)` |
-| `unlink` | function | `modules/rootkit/mrhyde3.c:371` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde3.c:393` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `uring_cqe_seen` | function | `modules/rootkit/mrhyde3.c:167` | `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)` |
-| `uring_get_sqe` | function | `modules/rootkit/mrhyde3.c:134` | `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` |
-| `uring_queue_init` | function | `modules/rootkit/mrhyde3.c:89` | `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` |
-| `uring_read_whole_file` | function | `modules/rootkit/mrhyde3.c:201` | `static char *uring_read_whole_file(const char *path)` |
-| `uring_submit` | function | `modules/rootkit/mrhyde3.c:145` | `static int uring_submit(struct io_uring *ring)` |
-| `uring_wait_cqe_timeout` | function | `modules/rootkit/mrhyde3.c:153` | `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` |
-| `_start` | function | `modules/rootkit/rootkit.asm:4` | `` |
-| `HIDDEN_FILE_NAME` | macro | `modules/rootkit/rootkit.c:33` | `#define HIDDEN_FILE_NAME` |
-| `HIDDEN_PROCESS_NAME` | macro | `modules/rootkit/rootkit.c:30` | `#define HIDDEN_PROCESS_NAME` |
-| `LISTENER_IP` | macro | `modules/rootkit/rootkit.c:36` | `#define LISTENER_IP` |
-| `LISTENER_PORT` | macro | `modules/rootkit/rootkit.c:39` | `#define LISTENER_PORT` |
-| `SPECIAL_STRING` | macro | `modules/rootkit/rootkit.c:42` | `#define SPECIAL_STRING` |
-| `SPECIAL_STRING_PORT` | macro | `modules/rootkit/rootkit.c:45` | `#define SPECIAL_STRING_PORT` |
-| `disable_module_signature_verification` | function | `modules/rootkit/rootkit.c:192` | `static void disable_module_signature_verification(void)` |
-| `hook_syscalls` | function | `modules/rootkit/rootkit.c:206` | `static int __init hook_syscalls(void)` |
-| `hooked_getdents` | function | `modules/rootkit/rootkit.c:86` | `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `hooked_getdents64` | function | `modules/rootkit/rootkit.c:112` | `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `hooked_read` | function | `modules/rootkit/rootkit.c:138` | `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `regs_override_return` | function | `modules/rootkit/rootkit.c:54` | `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` |
-| `unhook_syscalls` | function | `modules/rootkit/rootkit.c:219` | `static void __exit unhook_syscalls(void)` |
-| `SaaSAttackEngine` | class | `modules/saas_attacks.py:152` | `class SaaSAttackEngine` |
-| `SaaSConfig` | class | `modules/saas_attacks.py:49` | `class SaaSConfig` |
-| `SaaSEnumerationTools` | class | `modules/saas_attacks.py:71` | `class SaaSEnumerationTools` |
-| `__init__` | method | `modules/saas_attacks.py:163` | `def __init__(self, config)` |
-| `detect_external_sharing` | method | `modules/saas_attacks.py:327` | `def detect_external_sharing(self)` |
-| `enumerate_all` | method | `modules/saas_attacks.py:166` | `def enumerate_all(self)` |
-| `google_workspace_commands` | method | `modules/saas_attacks.py:100` | `def google_workspace_commands()` |
-| `google_workspace_domain_wide_delegation` | method | `modules/saas_attacks.py:228` | `def google_workspace_domain_wide_delegation(self)` |
-| `m365_ews_mail_search` | method | `modules/saas_attacks.py:179` | `def m365_ews_mail_search(self, search_term)` |
-| `microsoft365_commands` | method | `modules/saas_attacks.py:75` | `def microsoft365_commands()` |
-| `salesforce_commands` | method | `modules/saas_attacks.py:118` | `def salesforce_commands()` |
-| `salesforce_report_mining` | method | `modules/saas_attacks.py:257` | `def salesforce_report_mining(self)` |
-| `servicenow_commands` | method | `modules/saas_attacks.py:135` | `def servicenow_commands()` |
-| `slack_data_mining` | method | `modules/saas_attacks.py:286` | `def slack_data_mining(self)` |
-| `summary` | method | `modules/saas_attacks.py:352` | `def summary(self)` |
-| `BindAddressResolver` | class | `modules/security_sanitizers.py:256` | `class BindAddressResolver` |
-| `CommandRedactor` | class | `modules/security_sanitizers.py:318` | `class CommandRedactor` |
-| `HeaderValueSanitizer` | class | `modules/security_sanitizers.py:101` | `class HeaderValueSanitizer` |
-| `OutputSanitizer` | class | `modules/security_sanitizers.py:406` | `class OutputSanitizer` |
-| `SecurityConfig` | class | `modules/security_sanitizers.py:37` | `class SecurityConfig` |
-| `SessionPathResolver` | class | `modules/security_sanitizers.py:162` | `class SessionPathResolver` |
-| `__init__` | method | `modules/security_sanitizers.py:115` | `def __init__(self, config)` |
-| `__init__` | method | `modules/security_sanitizers.py:174` | `def __init__(self, base_dir, config)` |
-| `__init__` | method | `modules/security_sanitizers.py:269` | `def __init__(self, config, preferred_addresses)` |
-| `__init__` | method | `modules/security_sanitizers.py:333` | `def __init__(self, config)` |
-| `__init__` | method | `modules/security_sanitizers.py:418` | `def __init__(self, config)` |
-| `_display_password` | method | `modules/security_sanitizers.py:353` | `def _display_password(self, password)` |
-| `_display_username` | method | `modules/security_sanitizers.py:345` | `def _display_username(self, username)` |
-| `_is_well_formed` | method | `modules/security_sanitizers.py:285` | `def _is_well_formed(self, candidate)` |
-| `_sanitize` | method | `modules/security_sanitizers.py:433` | `def _sanitize(self, value, depth)` |
-| `base_dir` | method | `modules/security_sanitizers.py:192` | `def base_dir(self)` |
-| `build_default_config` | function | `modules/security_sanitizers.py:477` | `def build_default_config(payload)` |
-| `file_exists` | method | `modules/security_sanitizers.py:238` | `def file_exists(self, untrusted_name)` |
-| `from_payload` | method | `modules/security_sanitizers.py:68` | `def from_payload(cls, payload)` |
-| `is_valid_name` | method | `modules/security_sanitizers.py:129` | `def is_valid_name(self, name)` |
-| `render` | method | `modules/security_sanitizers.py:359` | `def render(self, template, substitutions, username, password)` |
-| `resolve` | method | `modules/security_sanitizers.py:196` | `def resolve(self, untrusted_name)` |
-| `resolve` | method | `modules/security_sanitizers.py:298` | `def resolve(self)` |
-| `sanitize` | method | `modules/security_sanitizers.py:429` | `def sanitize(self, value)` |
-| `sanitize_value` | method | `modules/security_sanitizers.py:139` | `def sanitize_value(self, value)` |
-| `Proposal` | class | `modules/selector_manager.py:21` | `class Proposal` |
-| `Selection` | class | `modules/selector_manager.py:32` | `class Selection` |
-| `select` | function | `modules/selector_manager.py:42` | `def select(proposals, is_blocked)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

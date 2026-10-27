@@ -208,7 +208,7 @@ Imported by: `modules/guardrails/__init__.py`, `modules/guardrails/budget.py`, `
 
 ## modules/guardrails/harness.py
 Depends on: `modules/guardrails/advisories.py`, `modules/guardrails/budget.py`, `modules/guardrails/checkpoints.py`, `modules/guardrails/contracts.py`
-Imported by: `modules/guardrails/__init__.py`
+Imported by: `modules/guardrails/__init__.py`, `tests/conftest.py`
 - `GuardHarness.__init__` (method) `modules/guardrails/harness.py:28` `def __init__(self, threshold, capacities)` -- Create a harness with payload-driven or default settings.
 - `GuardHarness.configure` (method) `modules/guardrails/harness.py:48` `def configure(self, settings)` -- Apply settings from the payload guardrails section.
 - `GuardHarness.run_guarded` (method) `modules/guardrails/harness.py:63` `def run_guarded(self, task_class, fn)` -- Execute fn under the tier policy, degrading instead of crashing.
@@ -234,13 +234,13 @@ Imported by: `lazyown.py`, `tests/test_gym_lifecycle.py`
 
 ## modules/gym_matrix_runner.py
 Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_facts.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
-- `plan_matrix` (function) `modules/gym_matrix_runner.py:36` `def plan_matrix(target, sessions_dir, only, top_k)` -- Build the ordered execution plan for the gym matrix.
-- `run_matrix` (function) `modules/gym_matrix_runner.py:89` `def run_matrix(target)` -- Execute every planned chain and verify its CTF capture.
-- `load_matrix` (function) `modules/gym_matrix_runner.py:233` `def load_matrix(sessions_dir)` -- Read the persisted matrix summary.
+- `plan_matrix` (function) `modules/gym_matrix_runner.py:49` `def plan_matrix(target, sessions_dir, only, top_k, catalogue)` -- Build the ordered execution plan for the gym matrix.
+- `run_matrix` (function) `modules/gym_matrix_runner.py:104` `def run_matrix(target)` -- Execute every planned chain and verify its CTF capture.
+- `load_matrix` (function) `modules/gym_matrix_runner.py:252` `def load_matrix(sessions_dir)` -- Read the persisted matrix summary.
 
 ## modules/gym_registry.py
 Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`
+Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests/test_gym_cli.py`, `tests/test_lazy_orchestrator.py`, `tests/test_winbox_gym.py`
 - `slugify` (function) `modules/gym_registry.py:92` `def slugify(value)` -- Return a safe gym identifier.
 - `validate_definition` (function) `modules/gym_registry.py:110` `def validate_definition(data, filename)` -- Validate one gym definition mapping.
 - `definition_path` (function) `modules/gym_registry.py:155` `def definition_path(gym_id, directory)` -- Resolve one gym YAML file inside the gyms directory.
@@ -259,6 +259,13 @@ Imported by: `cli/orchestrator_assets_tabs.py`, `modules/redteam_gym.py`, `tests
 - `pop_run` (function) `modules/gym_registry.py:724` `def pop_run(selector)` -- Resolve and remove one run, returning its final state.
 - `state_summary` (function) `modules/gym_registry.py:751` `def state_summary()` -- Return counters used by status output and the TUI.
 - `new_run_token` (function) `modules/gym_registry.py:761` `def new_run_token()` -- Return an unguessable token for external integrations.
+
+## modules/gym_winbox_runner.py
+Depends on: `core/logging.py`, `modules/__init__.py`, `modules/chain_registry.py`
+- `plan_matrix` (function) `modules/gym_winbox_runner.py:21` `def plan_matrix(target, sessions_dir, only, top_k)` -- Build the ordered execution plan for the WinBox gym matrix.
+- `run_matrix` (function) `modules/gym_winbox_runner.py:51` `def run_matrix(target)` -- Execute every planned WinBox chain and verify its capture.
+- `report` (function) `modules/gym_winbox_runner.py:118` `def report(sessions_dir)` -- Aggregate WinBox CTF captures for the report pipeline.
+- `chain_available` (function) `modules/gym_winbox_runner.py:130` `def chain_available(vuln_id)` -- Return the resolved chain for one WinBox vector, or None.
 
 ## modules/harness.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/orchestrator_config.py`
@@ -392,20 +399,20 @@ Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`
 - `search_service` (function) `modules/integrations/searchsploit.py:346` `def search_service(name, version)` -- Module-level convenience: search by service name and version.
 
 ## modules/intel_fusion.py
-Depends on: `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/world_model.py`
+Depends on: `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/lazy_world_diff.py`, `modules/world_model.py`
 Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_cve_pipeline.py`, `tests/test_intel_fusion.py`
-- `node_id` (function) `modules/intel_fusion.py:173` `def node_id(kind, value)` -- Deterministic node id from kind + normalized value.
-- `build_intel_graph` (function) `modules/intel_fusion.py:243` `def build_intel_graph(sessions_dir, est_cap)` -- Fuse all session artefacts into one C2-centred intel graph.
-- `add_node` (function) `modules/intel_fusion.py:249` `def add_node(kind, value, label)` -- Insert node or merge extra fields into the existing one.
-- `add_edge` (function) `modules/intel_fusion.py:267` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation, deduped by (src, dst, kind).
-- `tag_source` (function) `modules/intel_fusion.py:285` `def tag_source(nid, source)` -- Record a corroborating artefact on a node, deduped.
-- `group_colors` (function) `modules/intel_fusion.py:692` `def group_colors(graph)` -- Stable colors for layer/language groupings (ReadMenator contract).
-- `page_settings` (function) `modules/intel_fusion.py:708` `def page_settings(graph)` -- Explorer page settings with ReadMenator physics sizes (exact values).
-- `build_analytics` (function) `modules/intel_fusion.py:765` `def build_analytics(graph, summary)` -- Side-panel analytics (attribution funnel + intel summary).
-- `build_bundle_payload` (function) `modules/intel_fusion.py:852` `def build_bundle_payload(graph)` -- Derive the circular/spherical bundle payload from a fused graph.
-- `bundle_settings` (function) `modules/intel_fusion.py:968` `def bundle_settings(graph)` -- Bundle page settings with ReadMenator sizes (exact values).
-- `assign_layout` (function) `modules/intel_fusion.py:999` `def assign_layout(graph, mode)` -- Attach x/y/z for radial/spherical modes; force modes stay free.
-- `write_summary` (function) `modules/intel_fusion.py:1064` `def write_summary(graph, sessions_dir)` -- Score host exposure with a per-component breakdown.
+- `node_id` (function) `modules/intel_fusion.py:192` `def node_id(kind, value)` -- Deterministic node id from kind + normalized value.
+- `build_intel_graph` (function) `modules/intel_fusion.py:260` `def build_intel_graph(sessions_dir, est_cap)` -- Fuse all session artefacts into one C2-centred intel graph.
+- `add_node` (function) `modules/intel_fusion.py:266` `def add_node(kind, value, label)` -- Insert node or merge extra fields into the existing one.
+- `add_edge` (function) `modules/intel_fusion.py:284` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation, deduped by (src, dst, kind).
+- `tag_source` (function) `modules/intel_fusion.py:300` `def tag_source(nid, source)` -- Record a corroborating artefact on a node, deduped.
+- `group_colors` (function) `modules/intel_fusion.py:714` `def group_colors(graph)` -- Stable colors for layer/language groupings (ReadMenator contract).
+- `page_settings` (function) `modules/intel_fusion.py:730` `def page_settings(graph)` -- Explorer page settings with ReadMenator physics sizes (exact values).
+- `build_analytics` (function) `modules/intel_fusion.py:787` `def build_analytics(graph, summary)` -- Side-panel analytics (attribution funnel + intel summary).
+- `build_bundle_payload` (function) `modules/intel_fusion.py:874` `def build_bundle_payload(graph)` -- Derive the circular/spherical bundle payload from a fused graph.
+- `bundle_settings` (function) `modules/intel_fusion.py:990` `def bundle_settings(graph)` -- Bundle page settings with ReadMenator sizes (exact values).
+- `assign_layout` (function) `modules/intel_fusion.py:1021` `def assign_layout(graph, mode)` -- Attach x/y/z for radial/spherical modes; force modes stay free.
+- `write_summary` (function) `modules/intel_fusion.py:1144` `def write_summary(graph, sessions_dir)` -- Score host exposure with a normalized, per-component breakdown.
 
 ## modules/intelligence_engine.py
 Depends on: `core/logging.py`, `modules/__init__.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_heat.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`

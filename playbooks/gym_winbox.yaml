@@ -1,0 +1,55 @@
+name: gym_winbox
+version: 1
+target: WinBox Windows VM
+description: One exploit, one chain and one index entry per WinBox lab vector.
+vulnerabilities:
+- id: winbox_smb_enum
+  name: SMB service and OS fingerprint
+  cve: ''
+  mitre: T1135
+  port: '445'
+  service: microsoft-ds
+  severity: medium
+  confidence: 0.7
+  exploit: winbox_smb_enum
+  chain: gym_winbox_smb_enum
+- id: winbox_rdp_probe
+  name: RDP endpoint discovery
+  cve: ''
+  mitre: T1021.001
+  port: '3389'
+  service: ms-wbt-server
+  severity: medium
+  confidence: 0.6
+  exploit: winbox_rdp_probe
+  chain: gym_winbox_rdp_probe
+- id: winbox_system_exec
+  name: Guest agent SYSTEM command execution
+  cve: ''
+  mitre: T1059.003
+  port: '0'
+  service: winbox-agent
+  severity: critical
+  confidence: 0.9
+  exploit: winbox_system_exec
+  chain: gym_winbox_system_exec
+- id: winbox_defender_posture
+  name: Defender and AppLocker posture report
+  cve: ''
+  mitre: T1562.001
+  port: '0'
+  service: winbox-agent
+  severity: medium
+  confidence: 0.8
+  exploit: winbox_defender_posture
+  chain: gym_winbox_defender_posture
+- id: winbox_eventlogs_evidence
+  name: Event log hygiene evidence
+  cve: ''
+  mitre: T1070.002
+  port: '0'
+  service: winbox-agent
+  severity: low
+  confidence: 0.8
+  exploit: winbox_eventlogs_evidence
+  chain: gym_winbox_eventlogs_evidence

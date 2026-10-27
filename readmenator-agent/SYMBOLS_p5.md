@@ -3,6 +3,28 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `on_mount` | method | `cli/lazy_monitor.py:168` | `def on_mount(self)` |
+| `run_monitor_command` | function | `cli/lazy_monitor.py:575` | `def run_monitor_command(task_id)` |
+| `run_monitor_session` | function | `cli/lazy_monitor.py:589` | `def run_monitor_session(engine, config, params)` |
+| `LazyOrchestratorApp` | class | `cli/lazy_orchestrator.py:144` | `class LazyOrchestratorApp(OrchestratorAssetsMixin)` |
+| `__init__` | method | `cli/lazy_orchestrator.py:174` | `def __init__(self, payload_path, task_id, shell, param_root)` |
+| `_active_tab` | method | `cli/lazy_orchestrator.py:635` | `def _active_tab(self)` |
+| `_confirmed` | function | `cli/lazy_orchestrator.py:981` | `def _confirmed(answer)` |
+| `_confirmed_gym` | function | `cli/lazy_orchestrator.py:994` | `def _confirmed_gym(answer)` |
+| `_confirmed_param` | function | `cli/lazy_orchestrator.py:1018` | `def _confirmed_param(answer)` |
+| `_confirmed_trigger` | function | `cli/lazy_orchestrator.py:1035` | `def _confirmed_trigger(answer)` |
+| `_done` | function | `cli/lazy_orchestrator.py:676` | `def _done(values)` |
+| `_done` | function | `cli/lazy_orchestrator.py:932` | `def _done(values)` |
+| `_done_chain` | function | `cli/lazy_orchestrator.py:861` | `def _done_chain(playbook)` |
+| `_done_new` | function | `cli/lazy_orchestrator.py:786` | `def _done_new(values)` |
+| `_done_new_gym` | function | `cli/lazy_orchestrator.py:814` | `def _done_new_gym(values)` |
+| `_done_param` | function | `cli/lazy_orchestrator.py:693` | `def _done_param(values)` |
+| `_done_param` | function | `cli/lazy_orchestrator.py:905` | `def _done_param(values)` |
+| `_done_rule` | function | `cli/lazy_orchestrator.py:723` | `def _done_rule(values)` |
+| `_done_trigger` | function | `cli/lazy_orchestrator.py:651` | `def _done_trigger(values)` |
+| `_done_verb` | function | `cli/lazy_orchestrator.py:744` | `def _done_verb(values)` |
+| `_param_root` | method | `cli/lazy_orchestrator.py:204` | `def _param_root(self)` |
+| `_picked` | function | `cli/lazy_orchestrator.py:740` | `def _picked(value)` |
 | `_picked_kind` | function | `cli/lazy_orchestrator.py:647` | `def _picked_kind(value)` |
 | `_poll_now` | method | `cli/lazy_orchestrator.py:366` | `def _poll_now(self)` |
 | `_refresh_params` | method | `cli/lazy_orchestrator.py:468` | `def _refresh_params(self)` |
@@ -357,10 +379,10 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_os_linux` | function | `cli/protips.py:43` | `def _os_linux(ctx)` |
 | `_os_windows` | function | `cli/protips.py:47` | `def _os_windows(ctx)` |
 | `_phase_in` | function | `cli/protips.py:63` | `def _phase_in(ctx)` |
-| `_safe_trigger` | function | `cli/protips.py:369` | `def _safe_trigger(tip, ctx)` |
-| `get_session_tip` | function | `cli/protips.py:301` | `def get_session_tip(ctx)` |
-| `print_session_tip` | function | `cli/protips.py:357` | `def print_session_tip(ctx)` |
-| `render_contextual_tip` | function | `cli/protips.py:327` | `def render_contextual_tip(last_cmd, ctx)` |
+| `_safe_trigger` | function | `cli/protips.py:375` | `def _safe_trigger(tip, ctx)` |
+| `get_session_tip` | function | `cli/protips.py:307` | `def get_session_tip(ctx)` |
+| `print_session_tip` | function | `cli/protips.py:363` | `def print_session_tip(ctx)` |
+| `render_contextual_tip` | function | `cli/protips.py:333` | `def render_contextual_tip(last_cmd, ctx)` |
 | `PurpleDashboard` | class | `cli/purple_tui.py:79` | `class PurpleDashboard(App)` |
 | `_color_rate` | function | `cli/purple_tui.py:70` | `def _color_rate(rate)` |
 | `_dataset_stats` | function | `cli/purple_tui.py:56` | `def _dataset_stats()` |
@@ -376,21 +398,21 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `launch` | function | `cli/purple_tui.py:233` | `def launch()` |
 | `on_mount` | method | `cli/purple_tui.py:108` | `def on_mount(self)` |
 | `refresh_data` | method | `cli/purple_tui.py:115` | `def refresh_data(self)` |
-| `EvidenceHint` | class | `cli/reactive_hints.py:299` | `class EvidenceHint` |
-| `_clean_reason` | function | `cli/reactive_hints.py:343` | `def _clean_reason(reasons)` |
-| `_collect_command_hints` | function | `cli/reactive_hints.py:476` | `def _collect_command_hints(cmd, phase, already_run, limit)` |
-| `_extract_labels` | function | `cli/reactive_hints.py:267` | `def _extract_labels(suggestions, limit)` |
-| `_first_token` | function | `cli/reactive_hints.py:262` | `def _first_token(raw)` |
-| `_render` | function | `cli/reactive_hints.py:284` | `def _render(labels)` |
-| `_truncate` | function | `cli/reactive_hints.py:278` | `def _truncate(value, max_len)` |
-| `build_evidence_hint_lines` | function | `cli/reactive_hints.py:416` | `def build_evidence_hint_lines(hints)` |
-| `build_evidence_hints` | function | `cli/reactive_hints.py:362` | `def build_evidence_hints(recommendations, limit)` |
-| `command_hints` | function | `cli/reactive_hints.py:549` | `def command_hints(last_command, phase, sessions_dir, limit)` |
-| `confidence_from_score` | function | `cli/reactive_hints.py:321` | `def confidence_from_score(score)` |
-| `read_run_commands` | function | `cli/reactive_hints.py:443` | `def read_run_commands(sessions_dir)` |
-| `render_command_hints` | function | `cli/reactive_hints.py:514` | `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` |
-| `render_evidence_hints` | function | `cli/reactive_hints.py:400` | `def render_evidence_hints(hints)` |
-| `render_inline_hints` | function | `cli/reactive_hints.py:220` | `def render_inline_hints(advisor, last_command, limit, enabled)` |
+| `EvidenceHint` | class | `cli/reactive_hints.py:300` | `class EvidenceHint` |
+| `_clean_reason` | function | `cli/reactive_hints.py:344` | `def _clean_reason(reasons)` |
+| `_collect_command_hints` | function | `cli/reactive_hints.py:477` | `def _collect_command_hints(cmd, phase, already_run, limit)` |
+| `_extract_labels` | function | `cli/reactive_hints.py:268` | `def _extract_labels(suggestions, limit)` |
+| `_first_token` | function | `cli/reactive_hints.py:263` | `def _first_token(raw)` |
+| `_render` | function | `cli/reactive_hints.py:285` | `def _render(labels)` |
+| `_truncate` | function | `cli/reactive_hints.py:279` | `def _truncate(value, max_len)` |
+| `build_evidence_hint_lines` | function | `cli/reactive_hints.py:417` | `def build_evidence_hint_lines(hints)` |
+| `build_evidence_hints` | function | `cli/reactive_hints.py:363` | `def build_evidence_hints(recommendations, limit)` |
+| `command_hints` | function | `cli/reactive_hints.py:550` | `def command_hints(last_command, phase, sessions_dir, limit)` |
+| `confidence_from_score` | function | `cli/reactive_hints.py:322` | `def confidence_from_score(score)` |
+| `read_run_commands` | function | `cli/reactive_hints.py:444` | `def read_run_commands(sessions_dir)` |
+| `render_command_hints` | function | `cli/reactive_hints.py:515` | `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` |
+| `render_evidence_hints` | function | `cli/reactive_hints.py:401` | `def render_evidence_hints(hints)` |
+| `render_inline_hints` | function | `cli/reactive_hints.py:221` | `def render_inline_hints(advisor, last_command, limit, enabled)` |
 | `ReasoningEntry` | class | `cli/reasoning_stream.py:66` | `class ReasoningEntry` |
 | `_extract_reward` | function | `cli/reasoning_stream.py:175` | `def _extract_reward(payload)` |
 | `_format_size` | function | `cli/reasoning_stream.py:134` | `def _format_size(num_bytes)` |
@@ -474,27 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_tool_command_preview` | function | `cli/recon_plan.py:428` | `def _tool_command_preview(tool, payload)` |
 | `_tool_items` | function | `cli/recon_plan.py:347` | `def _tool_items(tools, services, payload)` |
 | `build_recon_plan` | function | `cli/recon_plan.py:144` | `def build_recon_plan(target, engine, payload, config, command_index_loader, clock)` |
-| `is_empty` | method | `cli/recon_plan.py:139` | `def is_empty(self)` |
-| `render_markdown` | function | `cli/recon_plan.py:207` | `def render_markdown(plan)` |
-| `render_rich` | function | `cli/recon_plan.py:299` | `def render_rich(plan, console)` |
-| `write_plan` | function | `cli/recon_plan.py:257` | `def write_plan(plan, sessions_dir, config)` |
-| `iter_command_sets` | function | `cli/registry.py:41` | `def iter_command_sets(include_pending)` |
-| `register_command_sets` | function | `cli/registry.py:77` | `def register_command_sets(shell)` |
-| `LastTask` | class | `cli/retry_support.py:62` | `class LastTask` |
-| `RetryChainReport` | class | `cli/retry_support.py:164` | `class RetryChainReport` |
-| `_chain_state_when_disabled` | function | `cli/retry_support.py:268` | `def _chain_state_when_disabled(chain_name)` |
-| `consent_to_elevate` | function | `cli/retry_support.py:129` | `def consent_to_elevate(rest, confirmer)` |
-| `known` | method | `cli/retry_support.py:76` | `def known(self)` |
-| `last_loop_task` | function | `cli/retry_support.py:81` | `def last_loop_task()` |
-| `looks_like_run_id` | function | `cli/retry_support.py:45` | `def looks_like_run_id(token)` |
-| `retry_chain` | function | `cli/retry_support.py:204` | `def retry_chain(chain_or_run, shell, extra_vars, dry_run)` |
-| `status_snapshot` | function | `cli/retry_support.py:104` | `def status_snapshot(limit)` |
-| `to_dict` | method | `cli/retry_support.py:189` | `def to_dict(self)` |
-| `ScopeDecision` | class | `cli/scope_guard.py:125` | `class ScopeDecision` |
-| `ScopeGuard` | class | `cli/scope_guard.py:254` | `class ScopeGuard` |
-| `ScopeMode` | class | `cli/scope_guard.py:90` | `class ScopeMode(StrEnum)` |
-| `__init__` | method | `cli/scope_guard.py:263` | `def __init__(self, scope_entries, mode, is_offensive)` |
-| `_hostname_match` | function | `cli/scope_guard.py:209` | `def _hostname_match(target, entry)` |
-| `_parse_ip` | function | `cli/scope_guard.py:195` | `def _parse_ip(value)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

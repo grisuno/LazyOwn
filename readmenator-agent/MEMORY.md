@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1186 files at commit `a2fa9e276b96`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1202 files at commit `19ab96a5a81b`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `command` (476), `modules` (471), `file` (435), `one` (435), `lazy` (427), `not` (403), `path` (400), `all` (396), `run` (395), `name` (374), `json` (373), `without` (373), `own` (365), `cli` (363), `set` (339)
-- Subsystem `modules: autonomous_daemon`: 186 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `cli/commands`: 155 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `cli`: 126 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: lazy_loop`: 126 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `modules: lazyc2`: 67 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
-- Subsystem `modules: world_model`: 63 files, core `modules/world_model.py`: modules/world_model.py
-- Subsystem `lazygui/panels`: 54 files, core `lazygui/services/teamserver_backend.py`: Teamserver backend with Socket.IO real-time and full HTTP API coverage.
-- Subsystem `modules: lazyown_facts`: 46 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
+- Domain vocabulary (term, files): `command` (482), `modules` (480), `one` (449), `file` (444), `lazy` (436), `not` (410), `run` (406), `path` (405), `all` (399), `name` (381), `without` (380), `json` (379), `own` (371), `cli` (369), `set` (341)
+- Subsystem `modules: lazyown_mcp`: 137 files, core `skills/lazyown_mcp.py`: LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and...
+- Subsystem `cli/commands`: 128 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `cli`: 111 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Subsystem `modules: lazy_loop`: 108 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Subsystem `modules: lazyown_facts`: 75 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
+- Subsystem `modules: lazyc2`: 75 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `modules: html2pdf.bundle.min`: 73 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
+- Subsystem `modules: world_model`: 60 files, core `modules/world_model.py`: modules/world_model.py
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -60,7 +60,7 @@ Declared:
 
 Measured baseline:
 - Security findings at medium or above: 0 (see `readmenator-agent/SECURITY.md`); do not add new ones.
-- Dependency cycles: 136; layer violations: 69 (see `readmenator-agent/GOTCHAS.md`).
+- Dependency cycles: 113; layer violations: 70 (see `readmenator-agent/GOTCHAS.md`).
 
 ## 4. Style norms
 
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1055 files, 20018 symbols; docstrings on 55% of symbols; functions snake_case (99%); types PascalCase (100%); median file 216 lines, max 13286.
+- py: 1071 files, 20379 symbols; docstrings on 55% of symbols; functions snake_case (99%); types PascalCase (100%); median file 218 lines, max 13623.
 - sh: 64 files, 258 symbols; docstrings on 33% of symbols; functions snake_case (100%); median file 79 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 21 files, 1606 symbols; docstrings on 49% of symbols; functions snake_case (46%); types PascalCase (26%); median file 6 lines, max 9358.
-- Tests: 349 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 357 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
@@ -98,7 +98,7 @@ Measured baseline:
 - Tests pass: `python -m pytest -q`.
 - Docstring coverage stays at or above 54%.
 - No new security findings at medium or above (current: 0).
-- No new dependency cycles (current: 136).
+- No new dependency cycles (current: 113).
 - Files stay under 300 lines where possible (`readmenator . lint`).
 - Docs refreshed: `readmenator . --rebuild`, and decisions recorded in section 7.
 
@@ -106,11 +106,11 @@ Measured baseline:
 
 - God nodes (changes ripple widely): `core/logging.py`, `utils.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `cli/commands/_base.py`
 - Hotspots (complex and central): `static/js/html2pdf.bundle.min.js`, `static/js/3d-force-graph-1.73.4.min.js`, `skills/mcp_generated_tools.py`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`
-- Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/exploitgym_gym.py` -> `modules/redteam_gym.py` -> `core/config.py`
-- Cycle: `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_factory.py`
-- Cycle: `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_factory.py`
-- Cycle: `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_factory.py`
-- Cycle: `modules/llm_factory.py` -> `modules/harness.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_factory.py`
+- Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/reactive_engine.py` -> `core/config.py`
+- Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/exploitgym_gym.py` -> `modules/redteam_gym.py` -> `core/config.py`
+- Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/db.py` -> `core/config.py`
+- Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/db.py` -> `core/config.py`
+- Cycle: `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_factory.py`
 - Full blast radius: `readmenator-agent/GOTCHAS.md`; findings: `readmenator-agent/SECURITY.md`.
 
 ## 7. Session log (preserved across rebuilds)
@@ -128,4 +128,6 @@ Append with `readmenator . remember "<note>" --kind <kind>` (kinds: business, de
 - 2026-10-25 [decision] zone.ci audit cross-check on dev (0.2.160 claims): confirmed JA3 simulating c2_profile_engine.py:158; socks specification-only modules/socks_proxy.py:8; static AES {key} embedded implant_crypt.go:1799; plaintext /config.json implant_crypt.go:1716; beacon HMAC default off lazyc2.py:3526 (server impl exists, gated c2_require_beacon_hmac); rootkit LISTENER_IP hardcoded modules/rootkit/rootkit.c:28; backdoor Hacked runkey+MessageBox modules/backdoor/backdoor.c:38,158; auto-privesc now first-check...
 - 2026-10-25 [note] Audit remediation P0-P4 applied on feature/audit-remediation-p0: beacon HMAC default-on + per-build rat_key bootstrap via core.config.ensure_rat_key; implant signs wire body and seeds baked-in defaults; noisy check-in pipelines behind auto_privesc_on_checkin/auto_discover_on_checkin (default off); rootkit/backdoor operator-identity hardcodes guarded; hygiene_audit command + audit_hygiene chain; lazyown_set_config sanctioned writer in utils
 - 2026-10-25 [decision] Audit wave 2 (rotative session secrets) applied: core/session_secrets.py rotates aes_key (sessions/key.aes 32B 0600) + rat_key (64 hex) + session_magic (32 hex); C2 boot rotates when rotate_keys_on_boot=true; _beacon_signature_guard re-reads rat_key from payload.json per request and encrypt_data/decrypt_data reload key.aes on byte change so out-of-process rotation never strands the running C2; clean (shellsys.do_clean) deletes key.aes + c2_lab.json then rotates; payload.json writes now MERGE...
+- 2026-10-27 [decision] WinBox gym (totekuh/winbox) integrated as second Red Team Gym scenario: modules/winbox_gym.py is the single control plane (catalogue playbooks/gym_winbox.yaml + exploits/winbox_*.yaml + chains/gym_winbox_*.yaml + safe allowlisted CLI adapter); cli/commands/winbox_gym.py exposes the winbox shell command; lazyaddons/winbox.yaml registers upstream repo as trigger-only addon (name collides with built-in do_winbox by design); gym_matrix_runner and ctf_capture take an injectable catalogue param (me...
+- 2026-10-27 [decision] WinBox lab bootstrap is one command: winbox up / winbox setup / gym start <winbox challenge> all call winbox_gym.ensure_lab_ready (install -> ensure_prereqs via sudo -n apt-get -> iso download -> winbox setup -y -> up -> rhost bind), idempotent and fail-fast with manual guidance when sudo needs a password; the lazyaddons/winbox.yaml install_command mirrors the same apt-get install line + pip install -e . with --break-system-packages fallback for PEP 668; gym start auto-launches apt_chain <cha...
 <!-- readmenator:memory:notes:end -->

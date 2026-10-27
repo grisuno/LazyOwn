@@ -1,6 +1,70 @@
 # Subsystem: modules (page 16 of 16)
 Previous: [KB_modules_p15.md](KB_modules_p15.md)
 
+## modules/verb_manifest.py
+- Doc: Typed verb manifests - semantics for routable shell verbs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ManifestCost` (class, line 93) `class ManifestCost`
+  - `ManifestNoise` (class, line 108) `class ManifestNoise`
+  - `FactPredicate` (class, line 123) `class FactPredicate`
+  - `VerbManifest` (class, line 188) `class VerbManifest`
+  - `parse_predicate` (function, line 222) `def parse_predicate(data)`
+  - `_parse_cost` (function, line 254) `def _parse_cost(data)`
+  - `_parse_noise` (function, line 276) `def _parse_noise(data)`
+  - `parse_manifest` (function, line 296) `def parse_manifest(verb, data)`
+  - `_load_document` (function, line 338) `def _load_document(path)`
+  - `manifests` (function, line 371) `def manifests(path)`
+  - `manifest_for` (function, line 396) `def manifest_for(verb, path)`
+  - `facts_for_target` (function, line 411) `def facts_for_target(host)`
+  - `plan_check` (function, line 467) `def plan_check(steps, tokens, path, facts)`
+  - `coverage` (function, line 522) `def coverage(total_verbs, path)`
+  - `args` (method, line 152) `def args(self)`
+  - `is_wild` (method, line 156) `def is_wild(self, key)`
+  - `matches` (method, line 161) `def matches(self, other)`
+- Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
+- Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
+
+## modules/vuln_bot_cli.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `parse_args` (function, line 10) `def parse_args()`
+  - `main` (function, line 22) `def main()`
+- Depends on: `modules/vulnbot.py`
+
+## modules/vulnbot.py
+- Doc: list_files: Lista archivos en un directorio
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `VulnBotCLI` (class, line 37) `class VulnBotCLI`
+  - `__init__` (method, line 38) `def __init__(self, provider, mode, debug, script_path)`
+  - `_load_model` (method, line 54) `def _load_model(self)`
+  - `_complete_with_fallback` (method, line 69) `def _complete_with_fallback(self, prompt)`
+  - `_stream_with_fallback` (method, line 92) `def _stream_with_fallback(self, prompt)`
+  - `_setup_agent` (method, line 124) `def _setup_agent(self, script_path)`
+  - `_register_file_tools` (method, line 146) `def _register_file_tools(self)`
+  - `_load_external_tools` (method, line 172) `def _load_external_tools(self, script_path)`
+  - `_stream_agent_response` (method, line 199) `def _stream_agent_response(self, prompt)`
+  - `load_knowledge_base` (method, line 208) `def load_knowledge_base(self)`
+  - `save_knowledge_base` (method, line 224) `def save_knowledge_base(self, kb)`
+  - `get_relevant_knowledge` (method, line 228) `def get_relevant_knowledge(self, prompt)`
+  - `create_complex_prompt` (method, line 251) `def create_complex_prompt(self, base_prompt, history, knowledge)`
+  - `read_file_content` (method, line 267) `def read_file_content(self, file_path)`
+  - `load_event_config` (method, line 273) `def load_event_config(self)`
+  - `process_with_context` (method, line 281) `def process_with_context(self, file_path, event)`
+  - `stream_response` (method, line 297) `def stream_response(self, prompt)`
+  - `add_to_knowledge_base` (method, line 303) `def add_to_knowledge_base(self, prompt, response)`
+  - `list_files` (function, line 149) `def list_files(directory)`
+  - `read_file` (function, line 153) `def read_file(path)`
+  - `edit_file` (function, line 158) `def edit_file(path, content, old_text)`
+  - `generate` (function, line 202) `def generate()`
+  - `generate` (function, line 298) `def generate()`
+- Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`
+- Imported by: `modules/vuln_bot_cli.py`, `tests/test_vulnbot_fallback.py`
+
 ## modules/websocket_beacon.py
 - Doc: WebSocket beacon transport for modern C2 channels.
 - Layer: utility
@@ -28,6 +92,36 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `list_beacons` (method, line 447) `def list_beacons(self)`
   - `remove_stale_beacons` (method, line 464) `def remove_stale_beacons(self, timeout)`
 - Depends on: `core/hardening.py`
+
+## modules/winbox_gym.py
+- Doc: WinBox gym catalogue and control-plane bridge.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_yaml` (function, line 122) `def _load_yaml(path)`
+  - `load_index` (function, line 139) `def load_index(path)`
+  - `vulnerabilities` (function, line 144) `def vulnerabilities(path)`
+  - `get` (function, line 150) `def get(vuln_id, path)`
+  - `chain_for` (function, line 159) `def chain_for(vuln_id, path)`
+  - `exploit_for` (function, line 169) `def exploit_for(vuln_id, path)`
+  - `validate_matrix` (function, line 179) `def validate_matrix(path)`
+  - `summary` (function, line 228) `def summary(path)`
+  - `binary_path` (function, line 252) `def binary_path()`
+  - `ensure_installed` (function, line 257) `def ensure_installed(params, timeout)`
+  - `_missing_prereqs` (function, line 309) `def _missing_prereqs()`
+  - `check_readiness` (function, line 314) `def check_readiness(params)`
+  - `ensure_prereqs` (function, line 355) `def ensure_prereqs(timeout)`
+  - `ensure_lab_ready` (function, line 410) `def ensure_lab_ready(params)`
+  - `run_cli` (function, line 472) `def run_cli(args, timeout)`
+  - `vm_status` (function, line 525) `def vm_status(timeout)`
+  - `vm_ip` (function, line 559) `def vm_ip()`
+  - `_vm_built_from` (function, line 575) `def _vm_built_from(status)`
+  - `resolve_target` (function, line 581) `def resolve_target()`
+  - `ensure_vm_running` (function, line 595) `def ensure_vm_running(timeout)`
+  - `record_artifact` (function, line 622) `def record_artifact(name, output)`
+  - `attack_readiness` (function, line 645) `def attack_readiness(params)`
+  - `main` (function, line 673) `def main()`
+- Depends on: `core/hardening.py`, `core/logging.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`, `utils.py`
 
 ## modules/wineconfig.sh
 - Layer: utility
@@ -123,7 +217,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `read_section` (method, line 1410) `def read_section(self, key)`
   - `write_section` (method, line 1427) `def write_section(self, key, value)`
 - Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
 
 ## modules/yaml_generator.py
 - Doc: load_payload: Carga las variables desde payload.json

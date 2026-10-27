@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import time
 
 
 def _patched_engine(tmp_path, monkeypatch):
@@ -11,8 +12,45 @@ def _patched_engine(tmp_path, monkeypatch):
     from modules.lazy_engine import LazyEngine
 
     monkeypatch.setattr(loop, "STORE_DIR", tmp_path)
+    monkeypatch.setattr(loop, "SESSIONS_DIR", tmp_path)
     monkeypatch.setattr(loop, "_store_path", lambda name: tmp_path / name)
     return LazyEngine()
+
+
+def test_planner_queues_retest_after_world_change(tmp_path, monkeypatch):
+    """BDD: a recent world change drives a re-test intent on the changed host."""
+    import modules.lazy_loop as loop
+
+    engine = _patched_engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("recon 10.0.0.5")["task_id"]
+    engine.assets.insert("ip", "10.0.0.5", task_id=task_id)
+    (tmp_path / "lazy_changes.jsonl").write_text(
+        json.dumps({"kind": "port_opened", "ip": "10.0.0.5", "port": 443,
+                    "before": None, "after": {"service": "https"}, "detected": time.time()}) + "\n",
+        encoding="utf-8",
+    )
+    graph = loop.ExplorationGraph(task_id)
+    planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
+    summaries = [row[0] for row in planner._candidates()]
+    assert any(summary.startswith("re-test 10.0.0.5 after port_opened") for summary in summaries)
+
+
+def test_planner_queues_ghost_host_verification(tmp_path, monkeypatch):
+    """BDD: an active ghost host drives a verification intent."""
+    import modules.lazy_loop as loop
+
+    engine = _patched_engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("verify ghosts")["task_id"]
+    engine.assets.insert("ip", "old-name.local", task_id=task_id)
+    (tmp_path / "lazy_ghosts.json").write_text(
+        json.dumps({"hosts": {"old-name.local": {"state": "ghost", "since": time.time(),
+                                                 "answers": ["10.0.0.5:443"], "cleared_at": None}}}),
+        encoding="utf-8",
+    )
+    graph = loop.ExplorationGraph(task_id)
+    planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
+    summaries = [row[0] for row in planner._candidates()]
+    assert any(summary.startswith("verify ghost host old-name.local") for summary in summaries)
 
 
 def test_settlement_prompt_variants():

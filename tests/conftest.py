@@ -69,6 +69,25 @@ def _reset_world_model_singleton() -> None:
 
 
 @pytest.fixture(autouse=True)
+def _reset_guard_harness() -> None:
+    """Give every test a fresh capacity ledger in the shared harness.
+
+    The global harness is process-wide and its capacity envelope
+    accumulates units across a long session; without a per-test reset a
+    suite-wide run saturates the mission tier and unrelated guarded
+    calls are refused (order-dependent failures).
+    """
+    try:
+        from modules.guardrails.harness import reset_global_harness
+    except Exception:
+        yield
+        return
+    reset_global_harness()
+    yield
+    reset_global_harness()
+
+
+@pytest.fixture(autouse=True)
 def _offline_llm_for_loop_tests(request, monkeypatch):
     """Loop/lazy unit tests never reach live LLM backends.
 

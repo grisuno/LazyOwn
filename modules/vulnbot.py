@@ -3,10 +3,18 @@ import json
 import logging
 import os
 
-from agent_runner import AgentRunner
-from ai_model import AIModel
 from flask import Response, stream_with_context
-from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
+
+try:
+    from agent_runner import AgentRunner
+    from ai_model import AIModel
+    from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
+    from llm_orchestrator import complete_with_fallback, is_error_reply
+except ImportError:
+    from modules.agent_runner import AgentRunner
+    from modules.ai_model import AIModel
+    from modules.llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
+    from modules.llm_orchestrator import complete_with_fallback, is_error_reply
 
 try:
     from .logging_config import configure, get_logger
@@ -47,16 +55,71 @@ class VulnBotCLI:
         """Instantiate the LLM backend mapped to ``self.provider``.
 
         Returns:
-            A configured :class:`AIModel` instance.
-
-        Raises:
-            LLMBackendNotSupportedError: When ``self.provider`` does not
-                map to a known backend.
-            LLMBackendUnavailableError: When the resolved backend cannot
-                be constructed from the current environment.
+            A configured :class:`AIModel` instance, or ``None`` when the
+            resolved backend cannot be constructed (missing, placeholder
+            or exhausted key); the orchestrator chain then answers.
         """
         backend = _PROVIDER_ALIAS.get(self.provider, self.provider)
-        return get_llm_backend(backend=backend)
+        try:
+            return get_llm_backend(backend=backend)
+        except Exception as exc:
+            logger.warning(f"Primary backend '{self.provider}' unavailable ({exc}); using the orchestrator chain.")
+            return None
+
+    def _complete_with_fallback(self, prompt: str):
+        """Answer a prompt through the primary model or the orchestrator chain.
+
+        Args:
+            prompt: Fully rendered prompt text.
+
+        Returns:
+            The primary answer, or the notice-prefixed chain answer; the
+            legacy error string when the chain is exhausted too.
+        """
+        text = ""
+        if self.model is not None:
+            try:
+                text = str(self.model.generate(prompt) or "")
+            except Exception as exc:
+                text = f"Error from primary backend: {exc}"
+        if is_error_reply(text):
+            result = complete_with_fallback(prompt, max_tokens=4096)
+            if result.ok:
+                return result.display_text
+            return text if text else result.text
+        return text
+
+    def _stream_with_fallback(self, prompt: str):
+        """Stream a prompt with chain failover on primary failure.
+
+        Args:
+            prompt: Fully rendered prompt text.
+
+        Yields:
+            Text chunks from the primary stream or the chain answer.
+        """
+        collected: list[str] = []
+        failed = False
+        if self.model is not None:
+            try:
+                for chunk in self.model.stream_generate(prompt):
+                    text = str(chunk or "")
+                    if is_error_reply(text):
+                        failed = True
+                        break
+                    collected.append(text)
+            except Exception:
+                failed = True
+        if failed or (self.model is None and not collected):
+            result = complete_with_fallback(prompt, max_tokens=4096)
+            if result.ok:
+                yield result.display_text
+            elif collected:
+                yield "".join(collected)
+            else:
+                yield result.text
+        else:
+            yield "".join(collected)
 
     def _setup_agent(self, script_path: str):
         """Configura el agente con herramientas dinámicas"""
@@ -142,20 +205,48 @@ class VulnBotCLI:
 
         return Response(stream_with_context(generate()), mimetype="text/plain")
 
-    def load_knowledge_base(self) -> dict:
-        if os.path.exists(self.knowledge_base_file):
-            with open(self.knowledge_base_file, "r") as f:
-                return json.load(f)
-        return {}
+    def load_knowledge_base(self) -> list | dict:
+        """Load the knowledge base in any known shape.
 
-    def save_knowledge_base(self, kb: dict) -> None:
-        with open(self.knowledge_base_file, "w") as f:
+        Returns:
+            The canonical list of ``{"prompt", "response"}`` records, the
+            legacy dict mapping, or an empty list on any read error.
+        """
+        try:
+            with open(self.knowledge_base_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except (OSError, json.JSONDecodeError):
+            return []
+        if isinstance(data, (list, dict)):
+            return data
+        return []
+
+    def save_knowledge_base(self, kb: list | dict) -> None:
+        with open(self.knowledge_base_file, "w", encoding="utf-8") as f:
             json.dump(kb, f, indent=4)
 
     def get_relevant_knowledge(self, prompt: str) -> str:
+        """Return knowledge responses whose text shares keywords with the prompt.
+
+        Args:
+            prompt: Query used to select relevant records.
+
+        Returns:
+            Newline-joined matching responses; empty when nothing matches.
+        """
         kb = self.load_knowledge_base()
-        matches = [f"{k}: {v}" for k, v in kb.items() if prompt.lower() in k.lower()]
-        return "\n".join(matches) if matches else "No relevant knowledge found."
+        lowered = prompt.lower()
+        keywords = [word for word in lowered.split() if len(word) > 2]
+        matches: list[str] = []
+        if isinstance(kb, dict):
+            candidates = ({"prompt": key, "response": value} for key, value in kb.items())
+        else:
+            candidates = (entry for entry in kb if isinstance(entry, dict))
+        for entry in candidates:
+            text = f"{entry.get('prompt', '')} {entry.get('response', '')}".lower()
+            if keywords and any(word in text for word in keywords):
+                matches.append(str(entry.get("response", "")))
+        return "\n".join(matches)
 
     def create_complex_prompt(self, base_prompt: str, history: str = "", knowledge: str = "") -> str:
         return f"""
@@ -201,16 +292,28 @@ class VulnBotCLI:
         if self.mode == "web":
             return self.stream_response(prompt)
         else:
-            return self.model.generate(prompt)
+            return self._complete_with_fallback(prompt)
 
     def stream_response(self, prompt: str) -> Response:
         def generate():
-            yield from self.model.stream_generate(prompt)
+            yield from self._stream_with_fallback(prompt)
 
         return Response(stream_with_context(generate()), mimetype="text/plain")
 
     def add_to_knowledge_base(self, prompt: str, response: str):
+        """Append a prompt/response record in the canonical list format.
+
+        Args:
+            prompt: Operator prompt that produced the response.
+            response: Model response to remember.
+        """
         kb = self.load_knowledge_base()
-        kb[prompt] = response
-        self.save_knowledge_base(kb)
+        if isinstance(kb, dict):
+            records = [{"prompt": key, "response": value} for key, value in kb.items()]
+        elif isinstance(kb, list):
+            records = [entry for entry in kb if isinstance(entry, dict)]
+        else:
+            records = []
+        records.append({"prompt": prompt, "response": response})
+        self.save_knowledge_base(records)
         logging.info("Respuesta guardada en base de conocimiento.")

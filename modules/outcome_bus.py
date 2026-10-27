@@ -40,6 +40,8 @@ SINK_LOADERS: dict[str, tuple[str, str]] = {
     "event_bus": ("modules.sinks.event_bus", "apply"),
     "intel_graph": ("modules.sinks.intel_graph", "apply"),
     "attack_graph": ("modules.sinks.attack_graph", "apply"),
+    "world_diff": ("modules.sinks.world_diff", "apply"),
+    "beacon_dispatch": ("modules.sinks.beacon_dispatch", "apply"),
     "report": ("modules.sinks.report", "apply"),
     "campaign_db": ("modules.sinks.campaign_db", "apply"),
 }

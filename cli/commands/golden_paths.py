@@ -75,7 +75,9 @@ class GoldenPathsCommandSet(LazyOwnCommandSet):
             return
         paths = result.get("paths") or []
         if not paths:
-            print_msg(f"{YELLOW}No reachable attack paths (hosts={result['stats']['hosts']}, vulns={result['stats']['vulnerabilities']}, creds={result['stats']['credentials']}){RESET}")
+            print_msg(
+                f"{YELLOW}No reachable attack paths (hosts={result['stats']['hosts']}, vulns={result['stats']['vulnerabilities']}, creds={result['stats']['credentials']}){RESET}"
+            )
             return
         print_succ(f"{GREEN}Solved {len(paths)} attack path(s) -> sessions/{golden_path.ARTIFACT_NAME}{RESET}")
         for idx, path in enumerate(paths, 1):
@@ -106,7 +108,4 @@ class GoldenPathsCommandSet(LazyOwnCommandSet):
         priority_counts: dict[str, int] = {}
         for obj in objectives:
             priority_counts[obj.priority] = priority_counts.get(obj.priority, 0) + 1
-        print_succ(
-            f"Queued {len(objectives)} objective(s): "
-            + json.dumps(priority_counts)
-        )
+        print_succ(f"Queued {len(objectives)} objective(s): " + json.dumps(priority_counts))

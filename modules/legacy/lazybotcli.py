@@ -1,1 +1,0 @@
-../../contrib/legacy/lazybotcli.py

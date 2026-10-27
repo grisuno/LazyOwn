@@ -35,7 +35,9 @@ _KEY_FILENAME = "key.aes"
 _SECRETS_KEYS = ("rat_key", "session_magic")
 
 
-def rotate_session_secrets(config_obj: Any = None, sessions_dir: str | os.PathLike[str] = _SESSIONS_DIRNAME) -> dict[str, str]:
+def rotate_session_secrets(
+    config_obj: Any = None, sessions_dir: str | os.PathLike[str] = _SESSIONS_DIRNAME
+) -> dict[str, str]:
     """Generate and persist a fresh set of session secrets.
 
     Args:

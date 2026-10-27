@@ -206,7 +206,11 @@ class LabCommandSet(LazyOwnCommandSet):
         """Stop a running lab scenario."""
         result = lab_runtime.stop(scenario)
         if not result.get("success"):
-            print_warn(f"Lab '{scenario}' is not running." if "not running" in result.get("error", "") else f"Failed to stop lab '{scenario}': {result.get('error', '')}")
+            print_warn(
+                f"Lab '{scenario}' is not running."
+                if "not running" in result.get("error", "")
+                else f"Failed to stop lab '{scenario}': {result.get('error', '')}"
+            )
             return
         print_msg(f"Stopping lab: {scenario}")
         print_msg(f"Lab '{scenario}' stopped.")

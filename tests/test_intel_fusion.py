@@ -9,6 +9,7 @@ from pathlib import Path
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
+from modules import intel_fusion  # noqa: E402
 from modules.intel_fusion import (  # noqa: E402
     assign_layout,
     build_intel_graph,
@@ -73,6 +74,86 @@ def test_summary_scores_and_suggests(tmp_path: Path) -> None:
     assert summary["top_exposed"][0]["host"] == "10.0.0.5"
     assert any("10.0.0.5" in intent for intent in summary["suggested_intents"])
     assert (tmp_path / "intel_summary.json").exists()
+
+
+def test_summary_score_is_bounded_0_100(tmp_path: Path) -> None:
+    """A hyper-connected host with huge degree never scores past 100."""
+    world = {
+        "phase": "recon",
+        "hosts": {
+            f"10.0.1.{i}": {"ip": f"10.0.1.{i}", "state": "scanned", "services": {}}
+            for i in range(1, 40)
+        },
+    }
+    (tmp_path / "world_model.json").write_text(json.dumps(world))
+    graph = build_intel_graph(tmp_path)
+    summary = write_summary(graph, tmp_path)
+    scores = [row["score"] for row in summary["top_exposed"]]
+    assert all(0 <= score <= 100 for score in scores)
+
+
+def test_summary_score_detail_components_sum(tmp_path: Path) -> None:
+    """Score detail lines add up to the reported score exactly."""
+    graph = build_intel_graph(_fixture_sessions(tmp_path))
+    summary = write_summary(graph, tmp_path)
+    top = summary["top_exposed"][0]
+    assert top["score"] == round(sum(l["points"] for l in top["score_detail"]), 2)
+    labels = " | ".join(l["label"] for l in top["score_detail"])
+    assert "connectivity" in labels
+    assert "findings" in labels
+
+
+def test_summary_heat_component_from_matched_cve(tmp_path: Path, monkeypatch) -> None:
+    """A hot CVE candidate matched on a host raises its score with a labeled line."""
+    import time
+
+    from modules import lazy_cve_feed
+    from modules.lazy_world_diff import record_changes
+
+    monkeypatch.setattr(
+        lazy_cve_feed,
+        "correlate",
+        lambda banner, version="", allow_network=True: [
+            {"cve": "CVE-2021-41773", "heat": "hot", "cvss": 9.8, "kev": True,
+             "epss": 0.9, "exploit": True, "in_range": True, "confidence": "high"}
+        ],
+        raising=True,
+    )
+    intel_fusion._CVE_CORRELATION_CACHE.clear()
+
+    (tmp_path / "world_model.json").write_text(
+        json.dumps(
+            {
+                "phase": "exploit",
+                "hosts": {"10.0.0.5": {"ip": "10.0.0.5", "state": "scanned",
+                                       "services": {"80": {"port": 80, "name": "http", "version": "Apache 2.4.49", "state": "open"}}}},
+            }
+        )
+    )
+    (tmp_path / "autonomous_events.jsonl").write_text(
+        json.dumps({"message": "hit"}) + "\n")
+    (tmp_path / "lazy_changes.jsonl").write_text(
+        json.dumps({"kind": "port_opened", "ip": "10.0.0.5", "port": 80, "before": None,
+                    "after": {"service": "https"}, "detected": time.time()}) + "\n")
+    graph = build_intel_graph(tmp_path)
+    summary = write_summary(graph, tmp_path)
+    top = summary["top_exposed"][0]
+    labels = " | ".join(l["label"] for l in top["score_detail"])
+    assert "recent exposure change" in labels or "CVE" in labels
+    assert 0 <= top["score"] <= 100
+
+
+def test_summary_reports_heat_counts_and_changes(tmp_path: Path) -> None:
+    """Summary exposes heat distribution and recent changes for the loop."""
+    import time
+
+    (tmp_path / "lazy_changes.jsonl").write_text(
+        json.dumps({"kind": "port_opened", "ip": "10.0.0.5", "port": 443, "before": None,
+                    "after": {"service": "https"}, "detected": time.time()}) + "\n")
+    graph = build_intel_graph(_fixture_sessions(tmp_path))
+    summary = write_summary(graph, tmp_path)
+    assert set(summary["heat_counts"]) == {"hot", "warm", "cold"}
+    assert summary["recent_changes"][0]["kind"] == "port_opened"
 
 
 def test_llm_defaults_seeded() -> None:

@@ -206,13 +206,14 @@ key as the C2.
 ## Contract 9: CodeQL batch — weak crypto, clear-text secrets, TLS, injection
 
 Test suite: `tests/test_security_hardening_v5.py` (31 tests).
-Mutation validation: `mutmut run` over `modules/icmp_server.py` — 29 mutants
-killed; the 5 survivors are equivalent `<`/`<=` boundary mutants in the
-length guard.
+Mutation validation: the unmaintained Crypto tunnel scripts (`icmp_server`,
+`icmp_client`, `lazyownclient`, `lazyownserver`, `tel`) were deleted in the
+v5 hardening sweep; the maintained AES-256-GCM implementation lives in
+`core/crypto.py` and `modules/lazyenc.py`.
 
 | CodeQL | File | Fix |
 |--------|------|-----|
-| #895 weak crypto algo | `modules/icmp_server.py`, `modules/icmp_client.py` | `MODE_ECB` replaced with `MODE_GCM`; every payload carries a random nonce and authentication tag; `decrypt_and_verify` rejects tampering; nonce/tag/buffer lengths are module constants; `check_sudo()` moved under `__main__` |
+| #895 weak crypto algo | removed Crypto tunnel scripts (see `tests/test_security_hardening_v5.py`) | `MODE_ECB` replaced with `MODE_GCM`; every payload carries a random nonce and authentication tag; `decrypt_and_verify` rejects tampering; nonce/tag/buffer lengths are module constants; `check_sudo()` moved under `__main__` |
 | #867 weak hashing on sensitive data | `modules/phishing_orchestrator.py` | `_hash_credential_for_log` keyed with `hmac.new(derived_key, ...)` instead of salted plain SHA-256 |
 | #865 clear-text storage | `utils.py` | `create_caldera_config` no longer embeds `lazyownblueadmin`/`lazyownredteam*`; all user passwords generated via `secrets`; file chmod 0600 |
 | #864 clear-text logging | `utils.py` | `Spray` success output no longer prints the sprayed password |
@@ -347,3 +348,14 @@ detection, and `tests/run_mutation_shell_semantics.py` kills a mutant that
 disables it. The same tests pin `core.hardening.terminal_env`, which forces
 `CLICOLOR_FORCE` and `FORCE_COLOR` so piped tools such as gum keep their
 colors while the framework tees output to a log.
+
+## Contract 11: C2 boot credential bootstrap
+
+Every `lazyc2.py` boot resolves one effective (user, password) pair and
+never strands the operator: the pair is always printed to the terminal,
+always saved to `.c2_credentials.txt` with mode `0600`, and always
+registered in the RBAC store (`lazyc2.security.cli_credentials.register_cli_user`
+updates an existing account or creates the boot user as admin). An
+unreadable users store is left untouched (`skipped_unreadable`), so
+corrupted operator state is never overwritten. Pinned by
+`tests/test_c2_credential_bootstrap.py` (unit + static boot assertions).

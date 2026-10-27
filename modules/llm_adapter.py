@@ -28,6 +28,7 @@ from typing import Any
 
 from modules.legacy.lazydeepseekcli import process_prompt_local, process_prompt_localreport
 from modules.legacy.lazyphishingai import process_prompt_local_yaml
+from modules.llm_orchestrator import OrchestratorResult, complete_with_fallback, is_error_reply
 from modules.llm_prompts import (
     DEFAULT_SYSTEM_PROMPT,
     TEMPLATE_KB_DOMAINS,
@@ -38,6 +39,12 @@ from modules.llm_prompts import (
 )
 
 DEFAULT_MAX_TOKENS = 4096
+
+_LEGACY_NO_KEY_ERROR = "Error: Groq API key not configured"
+_LEGACY_NO_BACKEND_ERROR = (
+    "Error: no LLM backend available. Set llm_backend and the "
+    "matching provider key, or start Ollama for local inference."
+)
 
 try:
     from groq import Groq
@@ -100,17 +107,46 @@ def _process(
     template: str,
     config: LlmPromptConfig,
 ) -> str:
-    if client is None:
-        return "Error: Groq API key not configured"
-    if debug:
-        _configure_logging(True)
     store = config.knowledge_store(TEMPLATE_KB_DOMAINS[template])
     relevant = store.relevant(prompt)
     full_prompt = truncate_message(config.render(template, prompt, kb_lines=relevant))
+    if debug:
+        _configure_logging(True)
+    if client is None:
+        return _orchestrated(full_prompt, prompt, store)
     result = _complete(client, full_prompt, TEMPLATE_MODELS.get(template))
-    if not result.startswith("Error:"):
-        store.add(prompt, result)
+    if is_error_reply(result) or result.startswith("Error:"):
+        return _orchestrated(full_prompt, prompt, store, primary_error=result)
+    store.add(prompt, result)
     return result
+
+
+def _orchestrated(
+    full_prompt: str,
+    prompt: str,
+    store: Any,
+    primary_error: str = "",
+) -> str:
+    """Serve a bot prompt through the orchestrator chain with failover.
+
+    Args:
+        full_prompt: Rendered prompt text for the chain legs.
+        prompt: Raw operator prompt kept in the knowledge store.
+        store: Knowledge store persisting clean answers.
+        primary_error: Legacy error string returned when the chain is
+            exhausted and the primary was a Groq client failure.
+
+    Returns:
+        Notice-prefixed chain answer on success; the legacy error string
+        on total exhaustion.
+    """
+    result: OrchestratorResult = complete_with_fallback(full_prompt, max_tokens=DEFAULT_MAX_TOKENS)
+    if result.ok:
+        store.add(prompt, result.text)
+        return result.display_text
+    if primary_error:
+        return primary_error
+    return _LEGACY_NO_KEY_ERROR
 
 
 _CONFIG = LlmPromptConfig.from_defaults()
@@ -252,13 +288,16 @@ def process_prompt_redop(client: Any, prompt: str, debug: bool = False) -> str:
 
 
 def ask_general(prompt: str, debug: bool = False) -> str:
-    """Answer through the configured LLM backend, regardless of provider.
+    """Answer through the configured LLM backend with chain failover.
 
     Resolves the backend from ``payload.json`` via
     :func:`modules.llm_factory.try_get_llm_backend`, renders the canonical
     general-assistant template with knowledge-base context, and persists
-    successful answers. This is the single provider-agnostic entry point
-    every bot (Slack, Telegram, Discord) uses.
+    successful answers. When the factory backend is missing, raises, or
+    replies with an error banner, the orchestrator chain (owned by
+    ``lazy_orchestrator``) serves the answer before any error is shown.
+    This is the single provider-agnostic entry point every bot (Slack,
+    Telegram, Discord) uses.
 
     Args:
         prompt: Operator question or tool output to analyze.
@@ -274,26 +313,26 @@ def ask_general(prompt: str, debug: bool = False) -> str:
     store = _CONFIG.knowledge_store(TEMPLATE_KB_DOMAINS["general"])
     full_prompt = truncate_message(_CONFIG.render("general", prompt, kb_lines=store.relevant(prompt)))
     backend = try_get_llm_backend()
-    if backend is None:
-        return (
-            "Error: no LLM backend available. Set llm_backend and the "
-            "matching provider key, or start Ollama for local inference."
-        )
-    try:
-        result = backend.complete(DEFAULT_SYSTEM_PROMPT, full_prompt)
-    except Exception as exc:
-        return f"Error: {exc}"
-    if not isinstance(result, str):
-        return "Error: backend returned an unusable response."
-    if result.startswith("Error"):
-        return result
-    store.add(prompt, result)
-    return result
+    if backend is not None:
+        try:
+            result = backend.complete(DEFAULT_SYSTEM_PROMPT, full_prompt)
+        except Exception:
+            result = ""
+        if isinstance(result, str) and result.strip() and not is_error_reply(result) and not result.startswith("Error"):
+            store.add(prompt, result)
+            return result
+    orchestrated = complete_with_fallback(full_prompt, system=DEFAULT_SYSTEM_PROMPT, max_tokens=DEFAULT_MAX_TOKENS)
+    if orchestrated.ok:
+        store.add(prompt, orchestrated.text)
+        return orchestrated.display_text
+    return _LEGACY_NO_BACKEND_ERROR
 
 
 __all__ = [
     "Groq",
+    "OrchestratorResult",
     "ask_general",
+    "complete_with_fallback",
     "safe_groq_client",
     "process_prompt",
     "process_prompt_script",

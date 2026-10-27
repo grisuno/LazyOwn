@@ -4,6 +4,10 @@ Guards the ``modules.llm_adapter`` Groq ``process_prompt_*`` implementation so
 it preserves legacy call semantics (client-or-None handling, file-reading
 variants, event/plan augmentation, knowledge persistence) without depending on
 ``modules.legacy.lazygptcli*``.
+
+The orchestrator chain fallback is stubbed as exhausted by default so the
+legacy surfaces keep their exact strings; the serving path is covered by
+``tests/test_llm_orchestrator.py``.
 """
 
 from __future__ import annotations
@@ -15,6 +19,7 @@ from types import SimpleNamespace
 import pytest
 
 import modules.llm_adapter as adapter
+import modules.llm_orchestrator as llm_orchestrator
 from modules.llm_prompts import LlmPromptConfig
 
 KB_BASENAME = "knowledge_base_vuln.json"
@@ -38,6 +43,18 @@ class _FakeClient:
     def __init__(self, content="fake response"):
         self.completions = _FakeCompletions(content)
         self.chat = SimpleNamespace(completions=self.completions)
+
+
+@pytest.fixture(autouse=True)
+def exhausted_chain(monkeypatch):
+    """Pin the orchestrator chain to total exhaustion for legacy parity.
+
+    The legacy surfaces must keep their exact error strings when the
+    chain has nothing to serve; the fallback-serving behavior is
+    exercised by tests/test_llm_orchestrator.py.
+    """
+    exhausted = llm_orchestrator.OrchestratorResult(text=llm_orchestrator.HELP_MESSAGE, backend="error")
+    monkeypatch.setattr(adapter, "complete_with_fallback", lambda *a, **k: exhausted)
 
 
 @pytest.fixture

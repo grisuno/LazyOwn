@@ -70,7 +70,7 @@ def test_bdd_range_compose_topology() -> None:
     Then DC, workstation, and traffic generator share one isolated
     network with no fixed subnet that could collide with the host.
     """
-    from cli.commands.lab import RANGE_PROFILES
+    from modules.lab_runtime import RANGE_PROFILES
 
     compose = (BASE_DIR / "deploy" / "range" / RANGE_PROFILES["ad-mini"]["compose"]).read_text()
     assert "lazyown-range-dc" in compose

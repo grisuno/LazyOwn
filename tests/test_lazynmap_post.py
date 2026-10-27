@@ -134,7 +134,9 @@ class PostScanOutputSpec(unittest.TestCase):
                 ),
                 clock=lambda: 1700000000.0,
             )
-            wm = json.loads((sessions / "world_model.json").read_text(encoding="utf-8"))
+            from modules.world_model import read_state_dict
+
+            wm = read_state_dict(sessions / "world_model.json")
             self.assertEqual(wm.get("campaign_id"), "abc")
             self.assertEqual(wm.get("phase"), "enum")
             self.assertEqual(wm.get("target"), "10.10.10.5")

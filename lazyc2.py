@@ -13,8 +13,8 @@ import os
 import pty
 import re
 import secrets
-import signal
 import select
+import signal
 import socket
 import sqlite3
 import stat
@@ -74,6 +74,7 @@ from werkzeug.utils import secure_filename
 from cli.palette import CommandIndexError as _PaletteIndexError
 from cli.palette import load_index as _palette_load_index
 from cli.palette_command import build_palette_view as _palette_build_view
+from core.console import print_error
 from core.hardening import (
     is_safe_dir_path as _is_safe_dir_path,
 )
@@ -86,6 +87,9 @@ from core.hardening import (
 from core.hardening import (
     store_secret_owner_only as _store_secret_owner_only,
 )
+from lazyc2.security.cli_credentials import register_cli_user as _register_cli_user
+from lazyc2.security.cli_credentials import resolve_boot_credentials as _resolve_boot_credentials
+from lazyc2.security.cli_credentials import write_credentials_file as _write_c2_credentials_file
 from lazyc2.security.command_allowlist import CommandAllowlist
 from lazyc2.security.constants import AES_KEY_SIZE_BYTES as _AES_KEY_SIZE_BYTES
 from lazyc2.security.cors import CorsPolicy
@@ -120,23 +124,6 @@ from lazyc2.security.validators import (
 from modules.colors import retModel
 from modules.listener_manager import ListenerManager
 from modules.live_surface import build_live_graph
-from modules.loop_manager import (
-    DEFAULT_ROUNDS,
-    DEFAULT_WORKERS,
-    KIND_AUTO_LOOP,
-    KIND_LAZY_NMAP,
-    MAX_ROUNDS,
-    MAX_TIMEOUT_SECONDS,
-    MAX_WORKERS,
-    LoopManager,
-    LoopNotFoundError,
-    LoopSpec,
-    LoopValidationError,
-    clamp_float as _loop_clamp_float,
-    clamp_int as _loop_clamp_int,
-    sanitize_goal as _loop_sanitize_goal,
-    validate_target as _loop_validate_target,
-)
 from modules.llm_adapter import (
     process_prompt,
     process_prompt_adversary,
@@ -151,7 +138,33 @@ from modules.llm_adapter import (
     process_prompt_vuln,
     safe_groq_client,
 )
+from modules.llm_orchestrator import complete_with_fallback
 from modules.logging_config import configure as _configure_logging
+from modules.loop_manager import (
+    DEFAULT_ROUNDS,
+    DEFAULT_WORKERS,
+    KIND_AUTO_LOOP,
+    KIND_LAZY_NMAP,
+    MAX_ROUNDS,
+    MAX_TIMEOUT_SECONDS,
+    MAX_WORKERS,
+    LoopManager,
+    LoopNotFoundError,
+    LoopSpec,
+    LoopValidationError,
+)
+from modules.loop_manager import (
+    clamp_float as _loop_clamp_float,
+)
+from modules.loop_manager import (
+    clamp_int as _loop_clamp_int,
+)
+from modules.loop_manager import (
+    sanitize_goal as _loop_sanitize_goal,
+)
+from modules.loop_manager import (
+    validate_target as _loop_validate_target,
+)
 from modules.metrics import REGISTRY
 from modules.security_sanitizers import (
     BindAddressResolver,
@@ -159,7 +172,6 @@ from modules.security_sanitizers import (
     SessionPathResolver,
     build_default_config,
 )
-from core.console import print_error
 from utils import Config, anti_debug, getprompt, load_payload
 
 _YAML_VIEW_MAX_FILES = 500
@@ -2501,14 +2513,21 @@ def is_valid_url(url):
     return False
 
 
-def analyze_behavioral_data(behavioral_events):
-    """Analyze behavioral events using Groq AI to generate risk scores."""
-    groq_client = safe_groq_client(GROQ_API_KEY)
-    if groq_client is None:
-        return []
-    analysis_results = []
-    for event in behavioral_events:
-        prompt = f"""
+_BEHAVIOR_SYSTEM_PROMPT = (
+    "You are a phishing simulation risk analyzer. Reply with a single integer risk score from 0 to 100."
+)
+
+
+def _behavioral_risk_prompt(event):
+    """Render the risk-scoring prompt for one behavioral event.
+
+    Args:
+        event: Behavioral event mapping with event metadata.
+
+    Returns:
+        Prompt text asking for a single integer risk score.
+    """
+    return f"""
         Analyze the following user interaction:
         - Event: {event["event_type"]}
         - IP: {event["ip"]}
@@ -2517,36 +2536,90 @@ def analyze_behavioral_data(behavioral_events):
         - Timestamp: {event["timestamp"]}
         Determine a risk score (0-100) based on suspicious behavior (e.g., rapid clicks, unusual IPs).
         """
-        response = groq_client.chat.completions.create(
-            model="llama3-70b-8192", messages=[{"role": "user", "content": prompt}], max_tokens=100
+
+
+def analyze_behavioral_data(behavioral_events):
+    """Analyze behavioral events using the orchestrator LLM chain.
+
+    The lazy_orchestrator failover chain serves each risk score, so a
+    missing Groq key or an exhausted quota degrades to the next chain
+    member instead of disabling the analysis.
+
+    Args:
+        behavioral_events: Behavioral event mappings from the tracking DB.
+
+    Returns:
+        Per-event risk scores; empty when no chain member answers.
+    """
+    analysis_results = []
+    for event in behavioral_events:
+        result = complete_with_fallback(
+            _behavioral_risk_prompt(event),
+            system=_BEHAVIOR_SYSTEM_PROMPT,
+            max_tokens=100,
         )
-        risk_score = (
-            int(response.choices[0].message.content.strip())
-            if response.choices[0].message.content.strip().isdigit()
-            else 50
-        )
+        if not result.ok:
+            return analysis_results if analysis_results else []
+        risk_score = int(result.text.strip()) if result.text.strip().isdigit() else 50
         analysis_results.append({"email": event["email"], "event_type": event["event_type"], "risk_score": risk_score})
     return analysis_results
 
 
-def analyze_campaign_progress(campaign_id, events):
-    """Analyze campaign progress and suggest adaptations using Grok AI."""
-    client = safe_groq_client(GROQ_API_KEY)
-    if client is None:
-        return {}
-    prompt = f"""
+_CAMPAIGN_SYSTEM_PROMPT = (
+    "You are an AI assistant analyzing an ethical phishing campaign simulation. "
+    "Reply only with the requested JSON object."
+)
+
+
+def _campaign_adaptation_prompt(campaign_id, events):
+    """Render the adaptation prompt for a campaign progress check.
+
+    Args:
+        campaign_id: Campaign identifier.
+        events: Tracked interaction events.
+
+    Returns:
+        Prompt text asking for a JSON adaptation object.
+    """
+    return f"""
     You are an AI assistant analyzing a ethic phishing campaign simulation. Given the campaign ID {campaign_id} with events: {json.dumps(events)}.
     Suggest adaptations (e.g., change vector, payload, URL) to improve success rate.
     **Important**: Return your response as a valid JSON object with the following structure:
     ```json
     Return JSON: ```json{{ "vector": str, "payload": str, "short_url": str }}```
     """
-    response = client.chat.completions.create(
-        model="llama3-70b-8192", messages=[{"role": "user", "content": prompt}], max_tokens=200
+
+
+def analyze_campaign_progress(campaign_id, events):
+    """Analyze campaign progress using the orchestrator LLM chain.
+
+    The lazy_orchestrator failover chain proposes the adaptation, so a
+    missing Groq key or an exhausted quota degrades to the next chain
+    member instead of disabling the orchestration route.
+
+    Args:
+        campaign_id: Campaign identifier.
+        events: Tracked interaction events.
+
+    Returns:
+        Adaptation mapping with vector, payload and short_url keys;
+        empty when no chain member answers with valid JSON.
+    """
+    result = complete_with_fallback(
+        _campaign_adaptation_prompt(campaign_id, events),
+        system=_CAMPAIGN_SYSTEM_PROMPT,
+        max_tokens=200,
     )
-    if config.enable_c2_debug:
-        print(response.choices[0].message.content)
-    return json.loads(clean_json(response.choices[0].message.content.strip()))
+    if not result.ok:
+        return {}
+    candidate = clean_json(result.text.strip())
+    if not candidate:
+        candidate = result.text.strip()
+    try:
+        parsed = json.loads(candidate)
+    except (json.JSONDecodeError, ValueError):
+        return {}
+    return parsed if isinstance(parsed, dict) else {}
 
 
 SAVE_DIR = "sessions/captured_images"
@@ -3096,60 +3169,49 @@ if _RUN_MAIN and len(sys.argv) > 3:
     USERNAME = sys.argv[2].strip()
     PASSWORD = sys.argv[3].strip()
 
-    if is_insecure_credential(USERNAME, PASSWORD):
-        print(f"[{datetime.now()}] [!] SECURITY WARNING: Insecure or default credentials detected!")
-
-        # Generate strong credentials automatically
+    def _generate_strong_credentials() -> tuple[str, str]:
+        """Generate a strong random operator pair for boot rotation."""
         alphabet = string.ascii_letters + string.digits + "!@#$%^&*()-_+="
         strong_user = "operator_" + "".join(secrets.choice(string.ascii_lowercase + string.digits) for _ in range(8))
         strong_pass = "".join(secrets.choice(alphabet) for _ in range(20))
+        return strong_user, strong_pass
 
-        print("[+] Generated strong credentials automatically:")
-        print(f"    Username: {strong_user}")
-        print(f"    Password: {strong_pass}")
-        print("[!] Please save these credentials securely!")
+    USERNAME, PASSWORD, cred_action = _resolve_boot_credentials(
+        USERNAME,
+        PASSWORD,
+        rotate_on_boot=bool(getattr(config, "rotate_c2_creds_on_boot", False)),
+        generator=_generate_strong_credentials,
+        is_insecure=is_insecure_credential,
+    )
+    if cred_action == "rotated_insecure":
+        print(f"[{datetime.now()}] [!] SECURITY WARNING: Insecure or default credentials detected!")
+    elif cred_action == "rotated_on_boot":
+        print("[+] rotate_c2_creds_on_boot is enabled: fresh operator credentials generated for this run")
 
-        # Save to file for operator
-        try:
-            with open(".c2_credentials.txt", "w") as f:
-                f.write(f"# LazyOwn C2 Credentials - Generated {datetime.now()}\n")
-                f.write(f"USERNAME={strong_user}\n")
-                f.write(f"PASSWORD={strong_pass}\n")
-            os.chmod(".c2_credentials.txt", 0o600)
-            print("[+] Credentials saved to .c2_credentials.txt")
-        except Exception as e:
-            print(f"[!] Could not save credentials file: {e}")
-
-        # Use the new strong credentials
-        USERNAME = strong_user
-        PASSWORD = strong_pass
-    else:
-        print(f"[+] C2 started with custom credentials (user: {USERNAME})")
+    print(f"[+] C2 operator credentials for this run (user: {USERNAME})")
+    print(f"    Username: {USERNAME}")
+    print(f"    Password: {PASSWORD}")
+    try:
+        _write_c2_credentials_file(USERNAME, PASSWORD)
+        print("[+] Credentials saved to .c2_credentials.txt (mode 0600)")
+    except OSError as cred_exc:
+        print(f"[!] Could not save credentials file: {cred_exc}")
 
     if _RBAC_AVAILABLE:
         store = get_rbac_store()
-        try:
-            existing = store.find_by_username(USERNAME)
-        except Exception as exc:
-            logger.error("[rbac] users.json is unreadable; leaving it untouched: %s", exc)
-            existing = None
-        if existing:
-            existing.password_hash = generate_password_hash(PASSWORD)
-            store.save(existing)
-            logger.info("[rbac] Updated CLI user password in RBAC store")
-        elif not Path(USER_DATA_PATH).exists():
-            store.create_user(
-                username=USERNAME,
-                password_hash=generate_password_hash(PASSWORD),
-                role=Role.ADMIN.value,
-            )
-            logger.info("[rbac] Registered CLI user in RBAC store as admin")
-            print(f"[rbac] CLI user '{USERNAME}' registered in RBAC store")
+        action = _register_cli_user(
+            store,
+            USERNAME,
+            PASSWORD,
+            hash_password=generate_password_hash,
+            create_role=Role.ADMIN.value,
+        )
+        if action == "updated":
+            print(f"[rbac] CLI user '{USERNAME}' password updated in RBAC store")
+        elif action == "created":
+            print(f"[rbac] CLI user '{USERNAME}' registered in RBAC store as admin")
         else:
-            print(
-                f"[rbac] Existing user store found; skipping creation of "
-                f"'{USERNAME}'. Authenticate with an existing operator."
-            )
+            print("[rbac] users store unreadable; boot credentials were NOT registered")
 
     if config.enable_c2_debug:
         logger.info(f"    [!] Launch C2 at: {local_ips}")
@@ -6979,8 +7041,9 @@ def api_loops_start():
             )
             operator = str(getattr(current_user, "username", "") or "")
             record = _loop_manager.start(spec, operator=operator)
-        except LoopValidationError as exc:
-            return jsonify({"error": str(exc), "field": exc.field}), 400
+        except LoopValidationError as err:
+            detail = str(err)
+            return jsonify({"error": detail, "field": err.field}), 400
         except OSError:
             logger.exception("loop spawn failed")
             return _generic_loop_error()
@@ -7016,8 +7079,9 @@ def api_loop_log(loop_id):
         return jsonify(_loop_manager.read_log(loop_id, offset)), 200
     except LoopNotFoundError:
         return jsonify({"error": "loop not found"}), 404
-    except LoopValidationError as exc:
-        return jsonify({"error": str(exc)}), 400
+    except LoopValidationError as err:
+        detail = str(err)
+        return jsonify({"error": detail}), 400
     except Exception:
         logger.exception("api_loop_log failed")
         return _generic_loop_error()
@@ -7037,8 +7101,9 @@ def api_loop_stop(loop_id):
         return jsonify(_loop_manager.stop(loop_id)), 200
     except LoopNotFoundError:
         return jsonify({"error": "loop not found"}), 404
-    except LoopValidationError as exc:
-        return jsonify({"error": str(exc)}), 409
+    except LoopValidationError as err:
+        detail = str(err)
+        return jsonify({"error": detail}), 409
     except Exception:
         logger.exception("api_loop_stop failed")
         return _generic_loop_error()
@@ -7062,6 +7127,77 @@ def _render_enhanced_report():
         if config.enable_c2_debug:
             logger.info(f"Enhanced report failed: {exc}")
         return _render_legacy_report()
+
+
+def _load_surface_intel() -> dict:
+    """Aggregate intel-surface data for the report page.
+
+    Reads ``sessions/intel_summary.json`` (top exposed hosts with their
+    score breakdown), the world change log, active ghost hosts and the
+    daily engagement history. A missing artefact degrades to empty
+    values; nothing here can fail the report.
+
+    Returns:
+        ``{"summary", "changes", "ghosts", "history"}``.
+    """
+    sessions_dir = Path("sessions")
+    summary: dict = {}
+    try:
+        with open(sessions_dir / "intel_summary.json", "r", encoding="utf-8") as handle:
+            summary = json.load(handle) or {}
+    except (OSError, ValueError):
+        summary = {}
+    changes: list[dict] = []
+    ghosts: list[dict] = []
+    history: list[dict] = []
+    try:
+        from modules import lazy_world_diff as surface_diff
+
+        surface_diff.snapshot_engagement(sessions_dir)
+        for row in surface_diff.recent_changes(sessions_dir, days=14)[:20]:
+            after = row.get("after") or {}
+            before = row.get("before") or {}
+            what = str(after.get("service") or after.get("os") or before.get("service") or "")
+            stamp = float(row.get("detected", 0) or 0)
+            changes.append(
+                {
+                    "kind": str(row.get("kind", "")),
+                    "ip": str(row.get("ip", "")),
+                    "port": str(row.get("port", "") or ""),
+                    "what": what[:80],
+                    "age_days": max(0.0, (time.time() - stamp) / 86400.0),
+                }
+            )
+        for host, record in (surface_diff.load_ghosts(sessions_dir).get("hosts", {}) or {}).items():
+            if (record or {}).get("state") != "ghost":
+                continue
+            ghosts.append(
+                {
+                    "host": str(host),
+                    "answers": ", ".join(str(a) for a in (record.get("answers") or [])[:4]),
+                    "since_days": max(0.0, (time.time() - float(record.get("since", 0) or 0)) / 86400.0),
+                }
+            )
+        stats_path = sessions_dir / surface_diff.STATS_FILENAME
+        with open(stats_path, "r", encoding="utf-8") as handle:
+            rows = [json.loads(line) for line in handle if line.strip()]
+        for row in rows[-30:]:
+            if not isinstance(row, dict):
+                continue
+            findings = row.get("findings", {}) or {}
+            history.append(
+                {
+                    "date": str(row.get("date", "")),
+                    "hosts": int(row.get("hosts", 0) or 0),
+                    "owned": int(row.get("owned", 0) or 0),
+                    "findings": int(sum(int(v) for v in findings.values())),
+                    "changes": int(row.get("changes_logged", 0) or 0),
+                }
+            )
+    except Exception:
+        if config.enable_c2_debug:
+            logger.info("surface intel unavailable for report")
+    return {"summary": summary, "changes": changes, "ghosts": ghosts, "history": history}
 
 
 def _render_legacy_report():
@@ -7118,9 +7254,9 @@ def _render_legacy_report():
 
     if isinstance(session_data, dict):
         session_data["params"] = make_serializable(session_data.get("params", {}))
-        session_data["params"]["api_key"] = "Hidden conntent"
+        session_data["params"]["api_key"] = "Hidden content"
     else:
-        session_data = {"params": {"api_key": "Hidden conntent"}}
+        session_data = {"params": {"api_key": "Hidden content"}}
     implants_check()
     return render_template(
         "report.html",
@@ -7131,24 +7267,19 @@ def _render_legacy_report():
         session_data=session_data,
         implants=implants,
         loops_summary=loops_summary,
+        surface_intel=_load_surface_intel(),
     )
 
 
 @app.route("/connect")
 @login_required
 def connect():
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
     return render_template("connect.html")
 
 
 @app.route("/listener")
 @login_required
 def listener():
-    if not current_user.is_authenticated:
-        print(f"[!] Error. {request.remote_addr}")
-        return False
     return f"WebSocket listener is running on port {reverse_shell_port}."
 
 
@@ -7346,8 +7477,13 @@ def terminal_resize(data):
         set_winsize(app.config["fd"], data["rows"], data["cols"])
 
 
-@login_required
 def start_reverse_shell():
+    with app.app_context():
+        _run_reverse_shell_listener()
+
+
+def _run_reverse_shell_listener() -> None:
+    """Bind and service the reverse-shell catch-back listener."""
     global reverse_shell_socket
     resolved = _resolve_bind_address(port=reverse_shell_port)
     safe_address = _select_specific_bind_address(resolved)
@@ -7363,32 +7499,33 @@ def start_reverse_shell():
         if config.enable_c2_debug:
             logger.error("Reverse shell listener failed to bind %s:%d: %s", safe_address, reverse_shell_port, exc)
         return
-    server_socket.listen(1)
-    if config.enable_c2_debug:
-        logger.info("Listening for reverse shell on %s:%d", safe_address, reverse_shell_port)
-
-    reverse_shell_socket, addr = server_socket.accept()
-    if config.enable_c2_debug:
-        logger.info(f"Connection from {addr}")
-    try:
-        while True:
-            try:
-                data = reverse_shell_socket.recv(1024)
-                if not data:
-                    break
-                socketio.emit("response", {"output": data.decode(errors="replace")}, namespace="/listener")
-            except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError) as e:
-                logger.info(f"Reverse shell connection lost ({addr}): {e}")
-                break
-            except OSError as e:
-                logger.warning(f"Reverse shell socket error ({addr}): {e}")
-                break
-    finally:
+    server_socket.listen(5)
+    logger.info("Listening for reverse shell on %s:%d", safe_address, reverse_shell_port)
+    while True:
         try:
-            reverse_shell_socket.close()
-        except Exception:
-            pass
-        if config.enable_c2_debug:
+            reverse_shell_socket, addr = server_socket.accept()
+        except OSError as exc:
+            logger.error("Reverse shell listener stopped accepting: %s", exc)
+            break
+        logger.info("Connection from %s", addr)
+        try:
+            while True:
+                try:
+                    data = reverse_shell_socket.recv(1024)
+                    if not data:
+                        break
+                    socketio.emit("response", {"output": data.decode(errors="replace")}, namespace="/listener")
+                except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError) as e:
+                    logger.info(f"Reverse shell connection lost ({addr}): {e}")
+                    break
+                except OSError as e:
+                    logger.warning(f"Reverse shell socket error ({addr}): {e}")
+                    break
+        finally:
+            try:
+                reverse_shell_socket.close()
+            except Exception:
+                pass
             logger.info(f"Reverse shell session closed ({addr})")
 
 
@@ -8727,6 +8864,8 @@ if __name__ == "__main__":
     dns_thread.start()
     watching_thread = threading.Thread(target=start_watching, daemon=True)
     watching_thread.start()
+    rev_thread = threading.Thread(target=start_reverse_shell, daemon=True, name="revshell-listener")
+    rev_thread.start()
 
     if not os.path.exists(uploads):
         os.makedirs(uploads)

@@ -40,6 +40,7 @@ from modules.loop_guardrails import EdrPacer, FactVectorStore, RepeatDetector, T
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STORE_DIR = BASE_DIR / "sessions" / "lazy"
+SESSIONS_DIR = BASE_DIR / "sessions"
 STORE_LOCK = threading.RLock()
 
 EXPLORATION_NODE_KINDS = ("goal", "intent", "fact", "finding", "hint", "constraint")
@@ -66,7 +67,7 @@ FINDING_STATUSES = (
     "duplicate",
     "risk_accepted",
 )
-from modules.loop_triggers import TRIGGER_KINDS
+from modules.loop_triggers import TRIGGER_KINDS  # noqa: F401  (re-export consumed by loop_triggers)
 GUARD_ACTIONS = ("allow", "ask", "deny")
 TRAFFIC_KINDS = ("bash", "http", "note")
 DEFAULT_MAX_ROUNDS = 10
@@ -77,6 +78,8 @@ DEFAULT_COLD_DEBOUNCE_SEC = 300.0
 DEFAULT_PRIORITY = 5
 MAX_PRIORITY = 10
 MAX_INTENTS_PER_ROUND = 4
+MAX_CHANGE_INTENTS = 2
+MAX_GHOST_INTENTS = 2
 REFINE_MAX_PENDING = 12
 MAX_FACTS_PAGE = 100
 MAX_WORKER_STEPS = 6
@@ -2947,7 +2950,7 @@ def load_intel_scores() -> dict:
     the operator never opened IntelGraph. Never raises.
     """
     try:
-        payload = _load_json(STORE_DIR.parent / "intel_summary.json", {})
+        payload = _load_json(SESSIONS_DIR / "intel_summary.json", {})
         return {
             str(r.get("host", "")): float(r.get("score", 0.0)) for r in payload.get("top_exposed", []) if r.get("host")
         }
@@ -3262,13 +3265,13 @@ class Planner:
             self.graph.set_state(hint.node_id, "done")
         for asset in self.assets.untested_for(self.graph, scope, limit=MAX_INTENTS_PER_ROUND):
             out.append((f"probe {asset.kind} {asset.value}", [asset.asset_id], [], 6))
+        proposed = {summary for summary, _a, _p, _r in out}
         try:
             from modules.lazy_installer import installer_enabled as _installer_on
             from modules.lazy_installer import intent_for as _installer_intent
 
             if _installer_on():
                 wanted = {n.text for n in self.graph.list("intent")}
-                proposed = {summary for summary, _a, _p, _r in out}
                 for fact in self.graph.list("fact"):
                     gap = str((fact.meta or {}).get("capability_gap", "") or "")
                     if not gap:
@@ -3301,6 +3304,50 @@ class Planner:
                 boosted.append((summary, asset_ids, parents, min(10, priority + bonus)))
             out = boosted
             self.activity.emit("planner", "intel", f"exposure-ranked {len(out)} candidates from intel_summary")
+        try:
+            from modules.lazy_world_diff import recent_changes as _recent_changes
+
+            asset_ids_by_value = {asset.value: asset.asset_id for asset in self.assets.list()}
+            change_seen: set[str] = set()
+            for row in _recent_changes(SESSIONS_DIR, days=7)[:MAX_CHANGE_INTENTS]:
+                value = str(row.get("ip", ""))
+                if not value or value in change_seen:
+                    continue
+                change_seen.add(value)
+                detail = row.get("after") or row.get("before") or {}
+                what = str(detail.get("service") or detail.get("os") or row.get("port") or "")
+                summary = f"re-test {value} after {row.get('kind', 'change')}" + (f" ({what})" if what else "")
+                if summary in proposed:
+                    continue
+                proposed.add(summary)
+                out.append((summary, [asset_ids_by_value[value]] if value in asset_ids_by_value else [], [], 8))
+            self.activity.emit("planner", "diff", "change-driven re-test intents queued")
+        except Exception:
+            pass
+        try:
+            from modules.lazy_world_diff import load_ghosts as _load_ghosts
+
+            ghost_seen: set[str] = set()
+            ghost_rows = [
+                (host, record)
+                for host, record in (_load_ghosts(SESSIONS_DIR).get("hosts", {}) or {}).items()
+                if record.get("state") == "ghost"
+            ]
+            for host, record in ghost_rows[:MAX_GHOST_INTENTS]:
+                if host in ghost_seen:
+                    continue
+                ghost_seen.add(host)
+                answers = ", ".join(str(a) for a in (record.get("answers", []) or [])[:3])
+                summary = f"verify ghost host {host}" + (f" still answering {answers}" if answers else "")
+                if summary in proposed:
+                    continue
+                proposed.add(summary)
+                value = host if host in asset_ids_by_value else ""
+                out.append((summary, [asset_ids_by_value[value]] if value else [], [], 7))
+            if ghost_rows:
+                self.activity.emit("planner", "diff", f"{len(ghost_rows)} ghost hosts queued for verification")
+        except Exception:
+            pass
         for finding in self.graph.list("finding")[-2:]:
             out.append(
                 (f"extend finding: {finding.text[:120]}", self.graph.anchors_for(finding.node_id), [finding.node_id], 7)
@@ -6927,6 +6974,20 @@ class LlmPool:
         payload = self.usage()
         payload.setdefault("calls", []).append({"ts": _now(), "member": member, "ok": ok, "text": text[:500]})
         _save_json(self._usage, payload)
+
+    def record_call(self, member: str, ok: bool, text: str = "") -> None:
+        """Append one ledger row for external failover callers.
+
+        Public entry point so modules outside the loop (the orchestrator
+        chain executor, the C2 bots) record outcomes into the same
+        ``llm_usage.json`` ledger without touching private state.
+
+        Args:
+            member: Chain member name.
+            ok: True when the member answered with content.
+            text: Reply preview or error text.
+        """
+        self._record(member, ok, text)
 
     def _breaker_active(self) -> bool:
         """Return whether the orchestrator llm_pool stage is enabled."""

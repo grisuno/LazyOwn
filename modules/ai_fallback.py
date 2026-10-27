@@ -1,13 +1,20 @@
 """
 LazyOwn AI Fallback Chain
-==========================
+=========================
 Unified LLM caller with automatic fallback:
 
-  1. Groq (cloud, fast, requires api_key)
+  1. Orchestrator chain (lazy_orchestrator pool, weight-sorted legs
+     executed through modules.llm_factory — groq, ollama, llamacpp,
+     pi, toposwarm)
+       ↓ when every chain member fails
+  2. Direct Groq call with the caller-supplied key (only when the chain
+     never attempted a groq leg)
        ↓ on quota / rate-limit error
-  2. Ollama (local, requires ollama running + a chat model)
+  3. Ollama (local, requires ollama running + a chat model)
        ↓ if Ollama unreachable or no suitable model
-  3. Helpful error message with actionable steps
+  4. TopoSwarm local brain
+       ↓
+  5. Helpful error message with actionable steps
 
 Used by recommender.py and timeline_narrator.py so fallback
 logic lives in exactly one place.
@@ -18,7 +25,7 @@ call(prompt, system, api_key, max_tokens, temperature) -> AIResult
 
 AIResult fields:
   .text     str   — the response text (or error/help message)
-  .backend  str   — "groq" | "ollama" | "error"
+  .backend  str   — "groq" | "ollama" | "toposwarm" | "error"
   .model    str   — model name used
   .error    str   — original error if fallback occurred (else "")
 """
@@ -33,7 +40,7 @@ from pathlib import Path
 import requests
 
 # -- Constants (imported from single source of truth) --
-from modules.llm_factory import (  # noqa: E402
+from modules.llm_factory import (  # noqa: F401  (contract: ai_fallback reads factory defaults)
     DEFAULT_GROQ_MODEL as _GROQ_MODEL,
 )
 from modules.llm_factory import (
@@ -44,6 +51,12 @@ from modules.llm_factory import (  # noqa: E402
 )
 from modules.llm_factory import (  # noqa: E402
     is_model_missing_error as _is_model_missing_error,
+)
+from modules.llm_orchestrator import (  # noqa: E402
+    OrchestratorResult as _OrchestratorResult,
+)
+from modules.llm_orchestrator import (  # noqa: E402
+    complete_with_fallback,
 )
 
 # Models we prefer for chat (ordered by quality)
@@ -251,6 +264,19 @@ def _toposwarm_call(prompt: str, system: str) -> AIResult | None:
         return None
 
 
+def _chain_groq_attempted(result: _OrchestratorResult) -> bool:
+    """Return True when the orchestrator chain already ran a groq leg.
+
+    Args:
+        result: Outcome of the orchestrator chain walk.
+
+    Returns:
+        True when any executed attempt carried a ``groq:`` model spec,
+        meaning a direct Groq retry would duplicate the same request.
+    """
+    return any(spec.startswith("groq:") for spec in result.attempted_specs)
+
+
 def call(
     prompt: str,
     system: str = "",
@@ -259,35 +285,34 @@ def call(
     temperature: float = 0.3,
 ) -> AIResult:
     """
-    Call Groq → fallback to Ollama → fallback to TopoSwarm local brain → error.
+    Call the orchestrator chain first, then Groq (explicit key only),
+    Ollama, TopoSwarm, and finally return the help message.
     Returns an AIResult with .text, .backend, .model, .error.
     """
-    groq_error = ""
-
-    # ── 1. Try Groq ────────────────────────────────────────────────────────
-    if api_key:
+    orch = complete_with_fallback(prompt, system=system, api_key=api_key, max_tokens=max_tokens)
+    if orch.ok:
+        return AIResult(
+            text=orch.display_text,
+            backend=orch.backend,
+            model=orch.model_name,
+            error=orch.attempts[0][1] if orch.attempts else "",
+        )
+    groq_error = next((error for name, error in orch.attempts if "groq" in name.lower()), orch.attempts[0][1] if orch.attempts else "")
+    if api_key and not _chain_groq_attempted(orch):
         try:
             text = _groq_call(api_key, system, prompt, max_tokens, temperature)
-            return AIResult(text=text, backend="groq", model=_GROQ_MODEL)
+            warning = _fallback_warning(orch)
+            return AIResult(text=warning + text, backend="groq", model=_groq_model_chain()[0], error=groq_error or _summarize_attempts(orch))
         except Exception as exc:
             groq_error = str(exc)
             if not _is_quota_error(exc):
-                # Non-quota error (network, bad key, etc.) — still fall through
-                # but include the actual error in the result
                 pass
-
-    # ── 2. Try Ollama ──────────────────────────────────────────────────────
     if _ollama_available():
         model = _best_ollama_model()
         if model:
             try:
                 text = _ollama_call(model, system, prompt, max_tokens, temperature)
-                warning = ""
-                if groq_error:
-                    if _is_quota_error(Exception(groq_error)):
-                        warning = f"[Groq quota exceeded — using local model {model}]\n\n"
-                    else:
-                        warning = f"[Groq unavailable ({groq_error[:60]}…) — using local model {model}]\n\n"
+                warning = _fallback_warning(orch)
                 return AIResult(
                     text=warning + text,
                     backend="ollama",
@@ -296,24 +321,12 @@ def call(
                 )
             except Exception as exc:
                 ollama_error = str(exc)
-                # ── 3. Try TopoSwarm local brain ───────────────────────────
                 ts_result = _toposwarm_call(prompt, system)
                 if ts_result:
-                    ts_result.error = f"groq:{groq_error or 'n/a'} ollama:{ollama_error}"
+                    ts_result.error = _summarize_attempts(orch) + f" ollama:{ollama_error}"
                     return ts_result
-                return AIResult(
-                    text=(
-                        f"⚠️  All AI backends failed (Groq, Ollama, TopoSwarm).\n\n"
-                        f"Groq error:      {groq_error or '(not configured)'}\n"
-                        f"Ollama error:    {ollama_error}\n"
-                        f"TopoSwarm:       not available\n\n" + _HELP_MESSAGE
-                    ),
-                    backend="error",
-                    model="",
-                    error=ollama_error,
-                )
+                return _total_failure_result(orch, ollama_error)
         else:
-            # Ollama running but no suitable model installed
             installed_hint = ""
             try:
                 r = requests.get(f"{_OLLAMA_HOST}/api/tags", timeout=3)
@@ -324,29 +337,38 @@ def call(
                     )
             except Exception:
                 pass
-
             return AIResult(
-                text=(
-                    "⚠️  Ollama is running but has no compatible chat model.\n" + installed_hint + "\n\n" + _HELP_MESSAGE
-                ),
+                text="Ollama is running but has no compatible chat model." + installed_hint + "\n\n" + _HELP_MESSAGE,
                 backend="error",
                 model="",
                 error=groq_error,
             )
+    return _total_failure_result(orch, "ollama: not running")
 
-    # ── 3. Nothing available ───────────────────────────────────────────────
-    prefix = ""
-    if groq_error:
-        if _is_quota_error(Exception(groq_error)):
-            prefix = f"⚠️  Groq quota exceeded: {groq_error[:120]}\n\n"
-        else:
-            prefix = f"⚠️  Groq error: {groq_error[:120]}\n\n"
 
+def _fallback_warning(orch: _OrchestratorResult) -> str:
+    """Return the notice text describing which members failed first."""
+    return orch.notice + "\n\n" if orch.notice else ""
+
+
+def _summarize_attempts(orch: _OrchestratorResult) -> str:
+    """Join the chain attempt errors into one compact string."""
+    return "; ".join(f"{name}: {error}" for name, error in orch.attempts)[:300]
+
+
+def _total_failure_result(orch: _OrchestratorResult, local_error: str) -> AIResult:
+    """Build the final error AIResult after every leg failed."""
+    chain_errors = _summarize_attempts(orch)
+    text = (
+        f"All AI backends failed (orchestrator chain, Groq, Ollama, TopoSwarm).\n\n"
+        f"Chain errors:   {chain_errors or '(chain empty)'}\n"
+        f"Local error:    {local_error}\n\n" + _HELP_MESSAGE
+    )
     return AIResult(
-        text=prefix + _HELP_MESSAGE,
+        text=text,
         backend="error",
         model="",
-        error=groq_error,
+        error=chain_errors or local_error,
     )
 
 

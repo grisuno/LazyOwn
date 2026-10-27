@@ -308,9 +308,7 @@ class ToastReader:
         elif worker:
             event_type = worker
         else:
-            event_type = self._coerce_str(
-                record.get("kind") or record.get("event") or record.get("event_type") or ""
-            )
+            event_type = self._coerce_str(record.get("kind") or record.get("event") or record.get("event_type") or "")
         severity = self._coerce_str(record.get("severity") or record.get("status") or record.get("level") or "info")
         timestamp = self._coerce_str(record.get("ts") or record.get("timestamp") or "")
         summary = self._summary(record)
@@ -374,7 +372,9 @@ class ToastReader:
                 artifact = str(raw_artifact or "").strip()
             if slug or cve:
                 title = " · ".join(
-                    part for part in (f"capture {slug}" if slug else "", cve, f"artifact {artifact}" if artifact else "") if part
+                    part
+                    for part in (f"capture {slug}" if slug else "", cve, f"artifact {artifact}" if artifact else "")
+                    if part
                 )
                 break
         if title:

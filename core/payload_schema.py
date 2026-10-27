@@ -835,10 +835,7 @@ SCHEMA: dict[str, FieldSpec] = {
             FieldKind.INT,
             30,
             "Days after which recorded proxy sessions are garbage collected.",
-            long_help=(
-                "Recorded proxy sessions older than this many days are "
-                "compacted out during proxy startup."
-            ),
+            long_help=("Recorded proxy sessions older than this many days are compacted out during proxy startup."),
             example="30",
             category="c2",
             min_value=1,

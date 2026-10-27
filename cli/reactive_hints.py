@@ -105,6 +105,7 @@ _KILL_CHAIN_NEXT: dict[str, list[str]] = {
     "network_opsec": ["opsec_score", "log_tamper", "timestomp"],
     "auditd_disable": ["log_tamper", "forensic_clean", "network_opsec"],
     "sysmon_disable": ["log_tamper", "forensic_clean", "network_opsec"],
+    "winbox": ["lazynmap", "auto_populate", "apt_chain"],
 }
 
 _PHASE_PRIORITY: dict[str, list[str]] = {

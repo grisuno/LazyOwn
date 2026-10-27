@@ -2,6 +2,14 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/theme/palettes/cobalt_clone.py` -> `lazygui/theme/tokens.py`
+- `lazygui/theme/palettes/gruvbox_dark.py` -> `lazygui/theme/tokens.py`
+- `lazygui/theme/palettes/solarized_light.py` -> `lazygui/theme/tokens.py`
+- `lazygui/theme/palettes/tactical_green.py` -> `lazygui/theme/tokens.py`
+- `lazygui/theme/palettes/tokyo_night.py` -> `lazygui/theme/tokens.py`
+- `lazygui/theme/qss_builder.py` -> `lazygui/config/constants.py`
+- `lazygui/theme/qss_builder.py` -> `lazygui/theme/tokens.py`
+- `lazygui/widgets/__init__.py` -> `lazygui/widgets/command_palette_list.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/event_log_view.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/filter_bar.py`
 - `lazygui/widgets/__init__.py` -> `lazygui/widgets/graph_view.py`
@@ -95,6 +103,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/agent_runner.py` -> `modules/logging_config.py`
 - `modules/ai_exploit_chain.py` -> `modules/autonomous_exploit_engine.py`
 - `modules/ai_fallback.py` -> `modules/llm_factory.py`
+- `modules/ai_fallback.py` -> `modules/llm_orchestrator.py`
 - `modules/ai_fallback.py` -> `modules/toposwarm_bridge.py`
 - `modules/ai_model.py` -> `core/logging.py`
 - `modules/ai_model.py` -> `modules/llm_factory.py`
@@ -275,6 +284,9 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/gym_matrix_runner.py` -> `modules/chain_runner.py`
 - `modules/gym_registry.py` -> `core/logging.py`
 - `modules/gym_registry.py` -> `modules/world_model.py`
+- `modules/gym_winbox_runner.py` -> `core/logging.py`
+- `modules/gym_winbox_runner.py` -> `modules/__init__.py`
+- `modules/gym_winbox_runner.py` -> `modules/chain_registry.py`
 - `modules/harness.py` -> `core/config.py`
 - `modules/harness.py` -> `core/logging.py`
 - `modules/harness.py` -> `modules/orchestrator_config.py`
@@ -306,6 +318,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/intel_fusion.py` -> `modules/finding_lifecycle.py`
 - `modules/intel_fusion.py` -> `modules/lazy_cve_feed.py`
 - `modules/intel_fusion.py` -> `modules/lazy_heat.py`
+- `modules/intel_fusion.py` -> `modules/lazy_world_diff.py`
 - `modules/intel_fusion.py` -> `modules/world_model.py`
 - `modules/intelligence_engine.py` -> `core/logging.py`
 - `modules/intelligence_engine.py` -> `modules/__init__.py`
@@ -369,6 +382,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `modules/lazy_orchestrator_feedback.py`
 - `modules/lazy_loop.py` -> `modules/lazy_roles.py`
 - `modules/lazy_loop.py` -> `modules/lazy_skills.py`
+- `modules/lazy_loop.py` -> `modules/lazy_world_diff.py`
 - `modules/lazy_loop.py` -> `modules/llm_factory.py`
 - `modules/lazy_loop.py` -> `modules/llm_pool.py`
 - `modules/lazy_loop.py` -> `modules/loop_ai_bridge.py`
@@ -416,6 +430,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_sandbox.py` -> `core/config.py`
 - `modules/lazy_surface_diff.py` -> `modules/world_model.py`
 - `modules/lazy_verify.py` -> `core/process.py`
+- `modules/lazy_world_diff.py` -> `modules/world_model.py`
 - `modules/lazyown_bprfuzzer.py` -> `modules/backdoor/server.c`
 - `modules/lazyown_bprfuzzer.py` -> `modules/security_sanitizers.py`
 - `modules/lazyown_bridge.py` -> `modules/killchain.py`
@@ -433,6 +448,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/llm_adapter.py` -> `contrib/legacy/lazyphishingai.py`
 - `modules/llm_adapter.py` -> `core/logging.py`
 - `modules/llm_adapter.py` -> `modules/llm_factory.py`
+- `modules/llm_adapter.py` -> `modules/llm_orchestrator.py`
 - `modules/llm_adapter.py` -> `modules/llm_prompts.py`
 - `modules/llm_client.py` -> `core/logging.py`
 - `modules/llm_client.py` -> `modules/ai_model.py`
@@ -440,7 +456,12 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/llm_factory.py` -> `modules/ai_model.py`
 - `modules/llm_factory.py` -> `modules/harness.py`
 - `modules/llm_factory.py` -> `modules/llm_client.py`
+- `modules/llm_factory.py` -> `modules/llm_orchestrator.py`
 - `modules/llm_factory.py` -> `modules/toposwarm_bridge.py`
+- `modules/llm_orchestrator.py` -> `modules/lazy_engine.py`
+- `modules/llm_orchestrator.py` -> `modules/llm_factory.py`
+- `modules/llm_orchestrator.py` -> `modules/llm_pool.py`
+- `modules/llm_orchestrator.py` -> `modules/orchestrator_config.py`
 - `modules/llm_prompts.py` -> `modules/colors.py`
 - `modules/logging_config.py` -> `core/logging.py`
 - `modules/loop_ai_bridge.py` -> `modules/detection_oracle.py`
@@ -475,26 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/mediation/intel_mediator.py` -> `modules/lazy_intel.py`
 - `modules/mediation/intel_mediator.py` -> `modules/lazy_loop.py`
 - `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py`
-- `modules/memory_store.py` -> `modules/memory_embeddings.py`
-- `modules/metasploitable_gym.py` -> `core/logging.py`
-- `modules/metasploitable_gym.py` -> `modules/atomic_exploit_bridge.py`
-- `modules/metasploitable_gym.py` -> `modules/chain_registry.py`
-- `modules/metasploitable_migrations.py` -> `core/safe_exec.py`
-- `modules/metrics.py` -> `core/logging.py`
-- `modules/module_registry.py` -> `core/logging.py`
-- `modules/moe_router.py` -> `core/logging.py`
-- `modules/moe_router.py` -> `modules/toposwarm_bridge.py`
-- `modules/obs_parser.py` -> `cli/commands/enum.py`
-- `modules/obs_parser.py` -> `core/logging.py`
-- `modules/operation.py` -> `cli/commands/enum.py`
-- `modules/operation.py` -> `core/logging.py`
-- `modules/operation.py` -> `modules/apt_playbooks.py`
-- `modules/operation.py` -> `modules/obs_parser.py`
-- `modules/operation.py` -> `modules/playbook_engine.py`
-- `modules/operation.py` -> `modules/world_model.py`
-- `modules/operator_profiles.py` -> `core/config.py`
-- `modules/operator_profiles.py` -> `core/logging.py`
-- `modules/opsec_scorer.py` -> `cli/commands/enum.py`
-- `modules/opsec_scorer.py` -> `core/config.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

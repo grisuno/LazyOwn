@@ -317,6 +317,8 @@ class AddonCreatorConfig:
             "toolname",
             "topoexploit_path",
             "topoexploit_port",
+            "winbox_os",
+            "winbox_install_path",
             "trivy_scan_type",
             "trivy_target",
             "tui_theme",

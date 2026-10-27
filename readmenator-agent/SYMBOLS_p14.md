@@ -3,6 +3,43 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_notify_shutdown` | method | `modules/event_bus.py:479` | `def _notify_shutdown(self)` |
+| `close` | method | `modules/event_bus.py:140` | `def close(self)` |
+| `close` | method | `modules/event_bus.py:159` | `def close(self)` |
+| `close` | method | `modules/event_bus.py:198` | `def close(self)` |
+| `close` | method | `modules/event_bus.py:226` | `def close(self)` |
+| `drain` | method | `modules/event_bus.py:354` | `def drain(self)` |
+| `from_dict` | method | `modules/event_bus.py:115` | `def from_dict(cls, d)` |
+| `get_event_bus` | function | `modules/event_bus.py:570` | `def get_event_bus()` |
+| `history` | method | `modules/event_bus.py:556` | `def history(self, n, category)` |
+| `history_since` | method | `modules/event_bus.py:564` | `def history_since(self, since_ts)` |
+| `instance` | method | `modules/event_bus.py:287` | `def instance(cls)` |
+| `publish` | method | `modules/event_bus.py:336` | `def publish(self, event)` |
+| `publish_event` | function | `modules/event_bus.py:575` | `def publish_event(category, event_type, source, payload, severity, target, operator)` |
+| `shutdown` | method | `modules/event_bus.py:372` | `def shutdown(self)` |
+| `subscribe` | method | `modules/event_bus.py:300` | `def subscribe(self, subscriber_id, callback)` |
+| `subscribe_async` | method | `modules/event_bus.py:315` | `def subscribe_async(self, subscriber_id)` |
+| `subscribe_topic` | method | `modules/event_bus.py:305` | `def subscribe_topic(self, subscriber_id, topic, callback)` |
+| `subscriber_count` | method | `modules/event_bus.py:295` | `def subscriber_count(self)` |
+| `to_dict` | method | `modules/event_bus.py:96` | `def to_dict(self)` |
+| `to_json` | method | `modules/event_bus.py:111` | `def to_json(self)` |
+| `unsubscribe` | method | `modules/event_bus.py:327` | `def unsubscribe(self, subscriber_id)` |
+| `write` | method | `modules/event_bus.py:137` | `def write(self, event)` |
+| `write` | method | `modules/event_bus.py:151` | `def write(self, event)` |
+| `write` | method | `modules/event_bus.py:181` | `def write(self, event)` |
+| `write` | method | `modules/event_bus.py:205` | `def write(self, event)` |
+| `AutoRecommender` | class | `modules/event_consumers.py:191` | `class AutoRecommender` |
+| `CredentialReactor` | class | `modules/event_consumers.py:262` | `class CredentialReactor` |
+| `DashboardPusher` | class | `modules/event_consumers.py:348` | `class DashboardPusher` |
+| `PhaseTracker` | class | `modules/event_consumers.py:136` | `class PhaseTracker` |
+| `SoulSync` | class | `modules/event_consumers.py:310` | `class SoulSync` |
+| `__call__` | method | `modules/event_consumers.py:149` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:197` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:272` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:313` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:351` | `def __call__(self, event)` |
+| `__init__` | method | `modules/event_consumers.py:146` | `def __init__(self)` |
+| `__init__` | method | `modules/event_consumers.py:194` | `def __init__(self)` |
 | `_inject_objective` | function | `modules/event_consumers.py:54` | `def _inject_objective(text, priority, source)` |
 | `_load_payload` | function | `modules/event_consumers.py:43` | `def _load_payload()` |
 | `_update_soul` | function | `modules/event_consumers.py:100` | `def _update_soul(phase, credentials, access)` |
@@ -345,11 +382,12 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `try_zenity` | function | `modules/gui_askpass.sh:24` | `` |
 | `cleanup_enabled` | function | `modules/gym_cleanup.py:21` | `def cleanup_enabled()` |
 | `cleanup_gym_machines` | function | `modules/gym_cleanup.py:35` | `def cleanup_gym_machines(verbose)` |
-| `_persist` | function | `modules/gym_matrix_runner.py:217` | `def _persist(summary_result, sessions_dir)` |
-| `_stats` | function | `modules/gym_matrix_runner.py:201` | `def _stats(runs)` |
-| `load_matrix` | function | `modules/gym_matrix_runner.py:233` | `def load_matrix(sessions_dir)` |
-| `plan_matrix` | function | `modules/gym_matrix_runner.py:36` | `def plan_matrix(target, sessions_dir, only, top_k)` |
-| `run_matrix` | function | `modules/gym_matrix_runner.py:89` | `def run_matrix(target)` |
+| `_catalogue` | function | `modules/gym_matrix_runner.py:36` | `def _catalogue(catalogue)` |
+| `_persist` | function | `modules/gym_matrix_runner.py:236` | `def _persist(summary_result, sessions_dir)` |
+| `_stats` | function | `modules/gym_matrix_runner.py:220` | `def _stats(runs)` |
+| `load_matrix` | function | `modules/gym_matrix_runner.py:252` | `def load_matrix(sessions_dir)` |
+| `plan_matrix` | function | `modules/gym_matrix_runner.py:49` | `def plan_matrix(target, sessions_dir, only, top_k, catalogue)` |
+| `run_matrix` | function | `modules/gym_matrix_runner.py:104` | `def run_matrix(target)` |
 | `_empty_state` | function | `modules/gym_registry.py:442` | `def _empty_state()` |
 | `_matches` | function | `modules/gym_registry.py:625` | `def _matches(run, selector)` |
 | `_merge_legacy` | function | `modules/gym_registry.py:532` | `def _merge_legacy(state)` |
@@ -378,6 +416,10 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `update_definition_yaml` | function | `modules/gym_registry.py:369` | `def update_definition_yaml(gym_id, text, directory)` |
 | `validate_definition` | function | `modules/gym_registry.py:110` | `def validate_definition(data, filename)` |
 | `write_state` | function | `modules/gym_registry.py:520` | `def write_state(state)` |
+| `chain_available` | function | `modules/gym_winbox_runner.py:130` | `def chain_available(vuln_id)` |
+| `plan_matrix` | function | `modules/gym_winbox_runner.py:21` | `def plan_matrix(target, sessions_dir, only, top_k)` |
+| `report` | function | `modules/gym_winbox_runner.py:118` | `def report(sessions_dir)` |
+| `run_matrix` | function | `modules/gym_winbox_runner.py:51` | `def run_matrix(target)` |
 | `gate` | function | `modules/harness.py:65` | `def gate(name)` |
 | `harness_enabled` | function | `modules/harness.py:30` | `def harness_enabled()` |
 | `CrackResult` | class | `modules/hash_cracker.py:127` | `class CrackResult` |
@@ -454,47 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `MISPExporter` | class | `modules/integrations/misp_export.py:254` | `class MISPExporter` |
 | `ServiceMapper` | class | `modules/integrations/misp_export.py:218` | `class ServiceMapper(FindingMapper)` |
 | `_DictFinding` | class | `modules/integrations/misp_export.py:498` | `class _DictFinding` |
-| `__init__` | method | `modules/integrations/misp_export.py:263` | `def __init__(self, mappers)` |
-| `__init__` | method | `modules/integrations/misp_export.py:501` | `def __init__(self, data)` |
-| `_detect_type` | method | `modules/integrations/misp_export.py:211` | `def _detect_type(value)` |
-| `_dict_to_fact_records` | method | `modules/integrations/misp_export.py:457` | `def _dict_to_fact_records(data)` |
-| `_dict_to_findings` | method | `modules/integrations/misp_export.py:403` | `def _dict_to_findings(data)` |
-| `_is_credential` | method | `modules/integrations/misp_export.py:138` | `def _is_credential(finding)` |
-| `_is_cve` | method | `modules/integrations/misp_export.py:158` | `def _is_cve(finding)` |
-| `_is_domain` | method | `modules/integrations/misp_export.py:178` | `def _is_domain(finding)` |
-| `_is_hash` | method | `modules/integrations/misp_export.py:206` | `def _is_hash(finding)` |
-| `_is_ip` | method | `modules/integrations/misp_export.py:118` | `def _is_ip(finding)` |
-| `_is_service` | method | `modules/integrations/misp_export.py:233` | `def _is_service(finding)` |
-| `_load_events` | method | `modules/integrations/misp_export.py:383` | `def _load_events(self, sdir)` |
-| `_load_findings` | method | `modules/integrations/misp_export.py:365` | `def _load_findings(self, sdir)` |
-| `_load_policy_facts` | method | `modules/integrations/misp_export.py:372` | `def _load_policy_facts(self, sdir)` |
-| `_main` | function | `modules/integrations/misp_export.py:529` | `def _main()` |
-| `_map_finding` | method | `modules/integrations/misp_export.py:490` | `def _map_finding(self, finding)` |
-| `export_session` | method | `modules/integrations/misp_export.py:268` | `def export_session(self, sessions_dir, target)` |
-| `get_exporter` | function | `modules/integrations/misp_export.py:516` | `def get_exporter()` |
-| `map` | method | `modules/integrations/misp_export.py:90` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:106` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:126` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:146` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:166` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:192` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:221` | `def map(self, finding)` |
-| `push_to_misp` | method | `modules/integrations/misp_export.py:330` | `def push_to_misp(self, event, url, api_key)` |
-| `save` | method | `modules/integrations/misp_export.py:322` | `def save(self, event, path)` |
-| `to_json` | method | `modules/integrations/misp_export.py:299` | `def to_json(self, event)` |
-| `LocalTemplateIndex` | class | `modules/integrations/nuclei_bridge.py:104` | `class LocalTemplateIndex(TemplateSelector)` |
-| `NucleiBridge` | class | `modules/integrations/nuclei_bridge.py:389` | `class NucleiBridge` |
-| `NucleiRunner` | class | `modules/integrations/nuclei_bridge.py:279` | `class NucleiRunner` |
-| `NucleiTemplate` | class | `modules/integrations/nuclei_bridge.py:71` | `class NucleiTemplate` |
-| `TemplateSelector` | class | `modules/integrations/nuclei_bridge.py:87` | `class TemplateSelector(ABC)` |
-| `_F` | class | `modules/integrations/nuclei_bridge.py:483` | `class _F` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:114` | `def __init__(self, templates_dir)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
-| `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
-| `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
-| `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
-| `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

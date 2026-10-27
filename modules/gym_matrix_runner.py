@@ -33,11 +33,25 @@ SEVERITY_ORDER: dict[str, int] = {
 MAX_MATRIX_OUTPUT_CHARS = 20_000
 
 
+def _catalogue(catalogue=None):
+    """Resolve the gym catalogue module.
+
+    Args:
+        catalogue: Explicit catalogue module exposing ``vulnerabilities``
+            and ``get``; defaults to the Metasploitable 2 index.
+
+    Returns:
+        The catalogue module.
+    """
+    return catalogue if catalogue is not None else metasploitable_gym
+
+
 def plan_matrix(
     target: str,
     sessions_dir: str | Path | None = None,
     only: list[str] | None = None,
     top_k: int = 0,
+    catalogue=None,
 ) -> list[dict]:
     """Build the ordered execution plan for the gym matrix.
 
@@ -46,6 +60,7 @@ def plan_matrix(
         sessions_dir: Sessions directory override.
         only: Restrict to these vulnerability ids.
         top_k: Cap the plan to the first N entries (0 keeps all).
+        catalogue: Gym catalogue module; defaults to Metasploitable 2.
 
     Returns:
         Ordered plan entries with ``vuln_id``, ``chain_name`` and
@@ -54,7 +69,7 @@ def plan_matrix(
     if not str(target or "").strip():
         raise ValueError("plan_matrix requires a target host")
     wanted = {str(item).strip() for item in (only or []) if str(item).strip()}
-    entries = metasploitable_gym.vulnerabilities()
+    entries = _catalogue(catalogue).vulnerabilities()
     ordered = sorted(
         entries,
         key=lambda e: (
@@ -99,6 +114,7 @@ def run_matrix(
     top_k: int = 0,
     lhost: str = "",
     lport: str = "",
+    catalogue=None,
 ) -> dict:
     """Execute every planned chain and verify its CTF capture.
 
@@ -117,12 +133,14 @@ def run_matrix(
         top_k: Cap the plan to the first N entries.
         lhost: Attacker host token.
         lport: Attacker port token.
+        catalogue: Gym catalogue module; defaults to Metasploitable 2.
 
     Returns:
         The matrix summary dict persisted to
         ``sessions/ctf/matrix_run.json``.
     """
-    plan = plan_matrix(target, sessions_dir=sessions_dir, only=only, top_k=top_k)
+    catalogue = _catalogue(catalogue)
+    plan = plan_matrix(target, sessions_dir=sessions_dir, only=only, top_k=top_k, catalogue=catalogue)
     runs: list[dict] = []
     for item in plan:
         vuln_id = item["vuln_id"]
@@ -141,7 +159,7 @@ def run_matrix(
             continue
         tokens = {
             "target": target,
-            "exploit": str((metasploitable_gym.get(vuln_id) or {}).get("exploit") or ""),
+            "exploit": str((catalogue.get(vuln_id) or {}).get("exploit") or ""),
             "vuln": vuln_id,
             "port": item["port"],
             "lhost": lhost,
@@ -180,6 +198,7 @@ def run_matrix(
                     target,
                     output=record_run["chain_output"],
                     sessions_dir=sessions_dir,
+                    catalogue=catalogue.get,
                 )
                 record_run["capture"] = capture["status"]
             except ValueError as exc:

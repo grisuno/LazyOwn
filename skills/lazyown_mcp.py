@@ -1946,6 +1946,203 @@ def _h_exploitgym_score(arguments: dict, tool_name: str) -> list[types.TextConte
         return _make_text(tool_name, json.dumps({"error": str(error)}))
 
 
+@register_handler("lazyown_winbox_status")
+def _h_winbox_status(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Report WinBox lab readiness, VM state and autonomous-loop attackability."""
+    try:
+        from modules import winbox_gym
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"ready": False, "reason": str(error)}))
+    try:
+        status = winbox_gym.check_readiness(_load_payload())
+        status["attack"] = winbox_gym.attack_readiness(_load_payload())
+        return _make_text(tool_name, json.dumps(status, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"ready": False, "reason": str(error)}))
+
+
+@register_handler("lazyown_winbox_vm")
+def _h_winbox_vm(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Drive WinBox VM lifecycle: bootstrap, up, down, suspend, status."""
+    action = str(arguments.get("action") or "status").strip().lower()
+    try:
+        from modules import winbox_gym
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    try:
+        if action == "status":
+            return _make_text(tool_name, json.dumps(winbox_gym.vm_status(), indent=2))
+        if action == "bootstrap":
+            result = winbox_gym.ensure_lab_ready(_load_payload())
+            return _make_text(tool_name, json.dumps(result, indent=2))
+        if action not in ("up", "down", "suspend"):
+            return _make_text(tool_name, json.dumps({"error": f"unsupported action: {action}"}))
+        argv = [action]
+        if arguments.get("reboot") and action == "up":
+            argv.append("--reboot")
+        if arguments.get("force") and action == "down":
+            argv.append("--force")
+        timeout = int(arguments.get("timeout", winbox_gym.UP_TIMEOUT_SEC if action == "up" else winbox_gym.CLI_TIMEOUT_SEC))
+        result = winbox_gym.run_cli(argv, timeout=timeout)
+        if result.get("ok") and action == "up":
+            result["ip"] = winbox_gym.vm_ip()
+        return _make_text(tool_name, json.dumps(result, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
+@register_handler("lazyown_winbox_exec")
+def _h_winbox_exec(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Execute a command inside the WinBox guest as SYSTEM or a local user."""
+    command = str(arguments.get("command") or "").strip()
+    if not command:
+        return _make_text(tool_name, "command is required")
+    try:
+        from modules import winbox_gym
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    try:
+        timeout = int(arguments.get("timeout", 120))
+        timeout = max(winbox_gym.MIN_TIMEOUT_SEC, min(winbox_gym.EXE_TIMEOUT_MAX, timeout))
+        argv = ["exec", "--timeout", str(timeout)]
+        if arguments.get("user"):
+            argv += ["--user", str(arguments["user"])]
+        if arguments.get("password"):
+            argv += ["--password", str(arguments["password"])]
+        if arguments.get("background"):
+            argv.append("--bg")
+        argv += command.split()
+        result = winbox_gym.run_cli(argv, timeout=min(winbox_gym.EXE_TIMEOUT_MAX, timeout + 30))
+        if arguments.get("background"):
+            jobs = winbox_gym.run_cli(["jobs", "list"], timeout=30)
+            result["jobs"] = (jobs.get("output") or "").strip()[-500:]
+        return _make_text(tool_name, json.dumps(result, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
+@register_handler("lazyown_winbox_tools")
+def _h_winbox_tools(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Manage tools staged into the WinBox guest (list, add, remove)."""
+    action = str(arguments.get("action") or "list").strip().lower()
+    paths = str(arguments.get("paths") or "").strip()
+    if action not in ("list", "add", "remove"):
+        return _make_text(tool_name, "action must be list, add or remove")
+    if action != "list" and not paths:
+        return _make_text(tool_name, "paths is required for add/remove (comma-separated)")
+    try:
+        from modules import winbox_gym
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    try:
+        argv = ["tools", action]
+        if paths:
+            argv += [path.strip() for path in paths.split(",") if path.strip()]
+        result = winbox_gym.run_cli(argv, timeout=winbox_gym.CLI_TIMEOUT_SEC)
+        return _make_text(tool_name, json.dumps(result, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
+@register_handler("lazyown_winbox_eventlogs")
+def _h_winbox_eventlogs(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Query Windows event logs inside the WinBox guest."""
+    try:
+        from modules import winbox_gym
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    try:
+        argv = ["eventlogs"]
+        since = str(arguments.get("since") or "").strip()
+        if since:
+            argv += ["--since", since]
+        max_events = int(arguments.get("max", 100))
+        argv += ["--max", str(max_events)]
+        for channel in (arguments.get("logs") or []):
+            argv += ["--log", str(channel)]
+        result = winbox_gym.run_cli(argv, timeout=winbox_gym.CLI_TIMEOUT_SEC)
+        return _make_text(tool_name, json.dumps(result, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
+@register_handler("lazyown_winbox_snapshot")
+def _h_winbox_snapshot(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Manage WinBox snapshots: list, create or restore a rollback point."""
+    action = str(arguments.get("action") or "list").strip().lower()
+    name = str(arguments.get("name") or "").strip()
+    if action not in ("list", "create", "restore"):
+        return _make_text(tool_name, "action must be list, create or restore")
+    if action != "list" and not name:
+        return _make_text(tool_name, "name is required for create/restore")
+    try:
+        from modules import winbox_gym
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    try:
+        argv = ["snapshot"] if action == "list" else ["snapshot" if action == "create" else "restore", name]
+        result = winbox_gym.run_cli(argv, timeout=winbox_gym.UP_TIMEOUT_SEC)
+        return _make_text(tool_name, json.dumps(result, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
+@register_handler("lazyown_winbox_gym_list")
+def _h_winbox_gym_list(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """List WinBox gym vectors and validate the index/exploit/chain matrix."""
+    try:
+        from modules import winbox_gym
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    try:
+        return _make_text(tool_name, json.dumps(winbox_gym.summary(), indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
+@register_handler("lazyown_winbox_gym_plan")
+def _h_winbox_gym_plan(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Build the ordered WinBox gym attack plan for a target."""
+    try:
+        from modules import gym_winbox_runner
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    target = str(arguments.get("target") or (_load_payload() or {}).get("rhost") or "").strip()
+    if not target:
+        return _make_text(tool_name, "target is required (or set rhost)")
+    only = arguments.get("only") or []
+    try:
+        plan = gym_winbox_runner.plan_matrix(target, only=[str(i) for i in only], top_k=int(arguments.get("top_k", 0)))
+        return _make_text(tool_name, json.dumps(plan, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
+@register_handler("lazyown_winbox_gym_run")
+def _h_winbox_gym_run(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Run the WinBox gym matrix against the lab VM and verify captures."""
+    try:
+        from modules import gym_winbox_runner
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    target = str(arguments.get("target") or (_load_payload() or {}).get("rhost") or "").strip()
+    if not target:
+        return _make_text(tool_name, "target is required (or set rhost)")
+    only = arguments.get("only") or []
+    try:
+        result = gym_winbox_runner.run_matrix(
+            target,
+            dry_run=bool(arguments.get("dry_run", False)),
+            only=[str(i) for i in only],
+            top_k=int(arguments.get("top_k", 0)),
+            lhost=str((_load_payload() or {}).get("lhost") or ""),
+            lport=str((_load_payload() or {}).get("lport") or ""),
+        )
+        return _make_text(tool_name, json.dumps(result, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
 @register_handler("lazyown_opencode_config")
 def _h_opencode_config(arguments: dict, tool_name: str) -> list[types.TextContent]:
     """Point opencode/hermes configs at the Lazy llama.cpp server (backup first)."""
@@ -5502,6 +5699,146 @@ async def list_tools() -> list[types.Tool]:
                         "default": False,
                     },
                 },
+            },
+        ),
+        types.Tool(
+            name="lazyown_winbox_status",
+            description=(
+                "Report WinBox lab readiness: winbox binary, QEMU/libvirt prereqs, VM built, "
+                "VM state and IP, plus whether the autonomous loop can attack the lab now."
+            ),
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_winbox_vm",
+            description=(
+                "Drive the WinBox lab VM lifecycle: bootstrap (idempotent full setup: deps, ISO, "
+                "VM build, boot, rhost bind), up, down (graceful or --force), suspend, status. "
+                "The lab VM must stay isolated from production networks."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["bootstrap", "up", "down", "suspend", "status"],
+                        "description": "Lifecycle action (default status). bootstrap = one-command full setup.",
+                    },
+                    "reboot": {"type": "boolean", "description": "With up: shutdown then start.", "default": False},
+                    "force": {"type": "boolean", "description": "With down: hard power-off.", "default": False},
+                    "timeout": {"type": "integer", "description": "Wall-clock seconds (default 900 for up)."},
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_winbox_exec",
+            description=(
+                "Execute a cmd.exe command inside the WinBox Windows guest as SYSTEM or a local "
+                "user (--user/--password), optionally in the background (--bg). Part of the "
+                "isolated Windows vulnerability-research lab; never use against production."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "command": {"type": "string", "description": "Guest command line, e.g. 'whoami'."},
+                    "user": {"type": "string", "description": "Optional local Windows user."},
+                    "password": {"type": "string", "description": "Password for --user."},
+                    "background": {"type": "boolean", "description": "Run as a background job.", "default": False},
+                    "timeout": {"type": "integer", "description": "Per-command seconds (default 120, max 600)."},
+                },
+                "required": ["command"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_winbox_tools",
+            description=(
+                "Manage tools staged into the WinBox guest at Z:\\tools: list, add (comma-separated "
+                "host paths) or remove by name."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {"type": "string", "enum": ["list", "add", "remove"], "description": "Default list."},
+                    "paths": {"type": "string", "description": "Comma-separated paths or names."},
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_winbox_eventlogs",
+            description=(
+                "Query Windows event logs inside the WinBox guest via Get-WinEvent. Useful to "
+                "review what the guest logged about a run (logon events, Sysmon, Defender)."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "since": {"type": "string", "description": "Window like 5m, 1h, 1d."},
+                    "max": {"type": "integer", "description": "Maximum events (default 100)."},
+                    "logs": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Channels, e.g. ['Security', 'Microsoft-Windows-Sysmon/Operational'].",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_winbox_snapshot",
+            description=(
+                "Manage WinBox lab snapshots: list, create (auto-shuts the VM down first) or "
+                "restore a rollback point for containment and repeatability."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {"type": "string", "enum": ["list", "create", "restore"], "description": "Default list."},
+                    "name": {"type": "string", "description": "Snapshot name for create/restore."},
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_winbox_gym_list",
+            description=(
+                "List WinBox gym vectors (severity/service breakdown) and validate the "
+                "index/exploit/chain matrix consistency."
+            ),
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_winbox_gym_plan",
+            description=(
+                "Build the ordered WinBox gym attack plan (severity order) for the lab VM IP. "
+                "Defaults to rhost when target is omitted."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {"type": "string", "description": "Lab VM IP (defaults to rhost)."},
+                    "only": {"type": "array", "items": {"type": "string"}, "description": "Restrict to these vector ids."},
+                    "top_k": {"type": "integer", "description": "Cap the plan (0 keeps all)."},
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_winbox_gym_run",
+            description=(
+                "Run the WinBox gym matrix against the lab VM: one chain per vector in severity "
+                "order, CTF captures verified into sessions/ctf. Ensures the VM is up first."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {"type": "string", "description": "Lab VM IP (defaults to rhost)."},
+                    "only": {"type": "array", "items": {"type": "string"}, "description": "Restrict to these vector ids."},
+                    "dry_run": {"type": "boolean", "description": "Resolve without executing.", "default": False},
+                    "top_k": {"type": "integer", "description": "Cap the plan (0 keeps all)."},
+                },
+                "required": [],
             },
         ),
         types.Tool(

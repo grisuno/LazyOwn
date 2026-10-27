@@ -3,6 +3,7 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_flag_value` | function | `cli/commands/session_ops.py:950` | `def _flag_value(flag_name)` |
 | `_flag_value` | function | `cli/commands/session_ops.py:1062` | `def _flag_value(flag_name)` |
 | `_strip_shell_quotes` | function | `cli/commands/session_ops.py:72` | `def _strip_shell_quotes(value)` |
 | `do_assign` | method | `cli/commands/session_ops.py:267` | `def do_assign(self, line)` |
@@ -87,6 +88,27 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `VerbCommandSet` | class | `cli/commands/verb_admin.py:45` | `class VerbCommandSet(LazyOwnCommandSet)` |
 | `_row_text` | function | `cli/commands/verb_admin.py:35` | `def _row_text(entry)` |
 | `do_verb` | method | `cli/commands/verb_admin.py:52` | `def do_verb(self, line)` |
+| `WinboxCommandSet` | class | `cli/commands/winbox_gym.py:44` | `class WinboxCommandSet(LazyOwnCommandSet)` |
+| `_bootstrap` | method | `cli/commands/winbox_gym.py:127` | `def _bootstrap(self)` |
+| `_confirmed` | method | `cli/commands/winbox_gym.py:497` | `def _confirmed(self, rest)` |
+| `_defense` | method | `cli/commands/winbox_gym.py:321` | `def _defense(self, tool, rest)` |
+| `_eventlogs` | method | `cli/commands/winbox_gym.py:298` | `def _eventlogs(self, rest)` |
+| `_exec` | method | `cli/commands/winbox_gym.py:230` | `def _exec(self, rest)` |
+| `_extract_bool` | function | `cli/commands/winbox_gym.py:533` | `def _extract_bool(args, flag)` |
+| `_extract_flag` | function | `cli/commands/winbox_gym.py:510` | `def _extract_flag(args, flag)` |
+| `_gym` | method | `cli/commands/winbox_gym.py:378` | `def _gym(self, rest)` |
+| `_gym_matrix` | method | `cli/commands/winbox_gym.py:414` | `def _gym_matrix(self, action, rest)` |
+| `_interactive_passthrough` | method | `cli/commands/winbox_gym.py:264` | `def _interactive_passthrough(self, action, rest)` |
+| `_lab_ready` | method | `cli/commands/winbox_gym.py:200` | `def _lab_ready(self, rest)` |
+| `_lifecycle` | method | `cli/commands/winbox_gym.py:178` | `def _lifecycle(self, action, rest)` |
+| `_net` | method | `cli/commands/winbox_gym.py:305` | `def _net(self, rest)` |
+| `_overview` | method | `cli/commands/winbox_gym.py:121` | `def _overview(self)` |
+| `_resolve` | method | `cli/commands/winbox_gym.py:359` | `def _resolve(self, rest)` |
+| `_snapshot` | method | `cli/commands/winbox_gym.py:337` | `def _snapshot(self, rest)` |
+| `_status` | method | `cli/commands/winbox_gym.py:151` | `def _status(self)` |
+| `_tools` | method | `cli/commands/winbox_gym.py:277` | `def _tools(self, rest)` |
+| `_upload` | method | `cli/commands/winbox_gym.py:288` | `def _upload(self, rest)` |
+| `do_winbox` | method | `cli/commands/winbox_gym.py:51` | `def do_winbox(self, line)` |
 | `ConfigHistory` | class | `cli/config_history.py:23` | `class ConfigHistory` |
 | `ConfigHistoryConfig` | class | `cli/config_history.py:16` | `class ConfigHistoryConfig` |
 | `capture_baseline` | method | `cli/config_history.py:30` | `def capture_baseline(self, state)` |
@@ -202,38 +224,38 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `render_report` | function | `cli/doctor.py:406` | `def render_report(report, console)` |
 | `run` | function | `cli/doctor.py:451` | `def run(root, console)` |
 | `warnings` | method | `cli/doctor.py:124` | `def warnings(self)` |
-| `EngagementState` | class | `cli/engagement_hooks.py:243` | `class EngagementState` |
-| `_award_elo` | function | `cli/engagement_hooks.py:735` | `def _award_elo(cmd, first_time, new_phase, current_phase)` |
-| `_check_badges` | function | `cli/engagement_hooks.py:1010` | `def _check_badges(cmd, first_time)` |
-| `_check_karma_up` | function | `cli/engagement_hooks.py:865` | `def _check_karma_up(state)` |
-| `_commands_in_phase` | function | `cli/engagement_hooks.py:410` | `def _commands_in_phase(phase, index)` |
-| `_fire_vri_reward` | function | `cli/engagement_hooks.py:673` | `def _fire_vri_reward(state, ctx)` |
-| `_is_recordable_command` | function | `cli/engagement_hooks.py:307` | `def _is_recordable_command(cmd)` |
-| `_load_index` | function | `cli/engagement_hooks.py:291` | `def _load_index()` |
-| `_load_state` | function | `cli/engagement_hooks.py:261` | `def _load_state()` |
-| `_next_threshold` | function | `cli/engagement_hooks.py:395` | `def _next_threshold(current)` |
-| `_normalize_command` | function | `cli/engagement_hooks.py:302` | `def _normalize_command(cmd)` |
-| `_persist_notification` | function | `cli/engagement_hooks.py:829` | `def _persist_notification(html)` |
-| `_phase_for_cmd` | function | `cli/engagement_hooks.py:401` | `def _phase_for_cmd(cmd, index)` |
-| `_print_badge` | function | `cli/engagement_hooks.py:1057` | `def _print_badge(name, description)` |
-| `_render_arsenal_tip` | function | `cli/engagement_hooks.py:537` | `def _render_arsenal_tip(ctx)` |
-| `_render_exploration` | function | `cli/engagement_hooks.py:489` | `def _render_exploration(ctx)` |
-| `_render_hidden_feature` | function | `cli/engagement_hooks.py:523` | `def _render_hidden_feature(ctx)` |
-| `_render_methodology_note` | function | `cli/engagement_hooks.py:631` | `def _render_methodology_note(ctx)` |
-| `_render_methodology_objective` | function | `cli/engagement_hooks.py:584` | `def _render_methodology_objective(ctx)` |
-| `_render_methodology_task` | function | `cli/engagement_hooks.py:545` | `def _render_methodology_task(ctx)` |
-| `_render_phase_badge` | function | `cli/engagement_hooks.py:507` | `def _render_phase_badge(ctx)` |
-| `_render_streak` | function | `cli/engagement_hooks.py:460` | `def _render_streak(ctx)` |
-| `_run_curiosity` | function | `cli/engagement_hooks.py:432` | `def _run_curiosity(cmd, state, index)` |
-| `_sanitize_seen` | function | `cli/engagement_hooks.py:333` | `def _sanitize_seen(names, known)` |
-| `_save_state` | function | `cli/engagement_hooks.py:281` | `def _save_state(state)` |
-| `_summary_for_cmd` | function | `cli/engagement_hooks.py:415` | `def _summary_for_cmd(cmd, index)` |
-| `_sync_user_elo` | function | `cli/engagement_hooks.py:761` | `def _sync_user_elo(delta)` |
-| `get_karma_name` | function | `cli/engagement_hooks.py:717` | `def get_karma_name(elo)` |
-| `get_state_snapshot` | function | `cli/engagement_hooks.py:979` | `def get_state_snapshot()` |
-| `heal_commands_seen` | function | `cli/engagement_hooks.py:366` | `def heal_commands_seen(known)` |
-| `render_engagement_hook` | function | `cli/engagement_hooks.py:899` | `def render_engagement_hook(cmd, phase, enabled)` |
-| `reset_session` | function | `cli/engagement_hooks.py:1067` | `def reset_session()` |
+| `EngagementState` | class | `cli/engagement_hooks.py:244` | `class EngagementState` |
+| `_award_elo` | function | `cli/engagement_hooks.py:736` | `def _award_elo(cmd, first_time, new_phase, current_phase)` |
+| `_check_badges` | function | `cli/engagement_hooks.py:1011` | `def _check_badges(cmd, first_time)` |
+| `_check_karma_up` | function | `cli/engagement_hooks.py:866` | `def _check_karma_up(state)` |
+| `_commands_in_phase` | function | `cli/engagement_hooks.py:411` | `def _commands_in_phase(phase, index)` |
+| `_fire_vri_reward` | function | `cli/engagement_hooks.py:674` | `def _fire_vri_reward(state, ctx)` |
+| `_is_recordable_command` | function | `cli/engagement_hooks.py:308` | `def _is_recordable_command(cmd)` |
+| `_load_index` | function | `cli/engagement_hooks.py:292` | `def _load_index()` |
+| `_load_state` | function | `cli/engagement_hooks.py:262` | `def _load_state()` |
+| `_next_threshold` | function | `cli/engagement_hooks.py:396` | `def _next_threshold(current)` |
+| `_normalize_command` | function | `cli/engagement_hooks.py:303` | `def _normalize_command(cmd)` |
+| `_persist_notification` | function | `cli/engagement_hooks.py:830` | `def _persist_notification(html)` |
+| `_phase_for_cmd` | function | `cli/engagement_hooks.py:402` | `def _phase_for_cmd(cmd, index)` |
+| `_print_badge` | function | `cli/engagement_hooks.py:1058` | `def _print_badge(name, description)` |
+| `_render_arsenal_tip` | function | `cli/engagement_hooks.py:538` | `def _render_arsenal_tip(ctx)` |
+| `_render_exploration` | function | `cli/engagement_hooks.py:490` | `def _render_exploration(ctx)` |
+| `_render_hidden_feature` | function | `cli/engagement_hooks.py:524` | `def _render_hidden_feature(ctx)` |
+| `_render_methodology_note` | function | `cli/engagement_hooks.py:632` | `def _render_methodology_note(ctx)` |
+| `_render_methodology_objective` | function | `cli/engagement_hooks.py:585` | `def _render_methodology_objective(ctx)` |
+| `_render_methodology_task` | function | `cli/engagement_hooks.py:546` | `def _render_methodology_task(ctx)` |
+| `_render_phase_badge` | function | `cli/engagement_hooks.py:508` | `def _render_phase_badge(ctx)` |
+| `_render_streak` | function | `cli/engagement_hooks.py:461` | `def _render_streak(ctx)` |
+| `_run_curiosity` | function | `cli/engagement_hooks.py:433` | `def _run_curiosity(cmd, state, index)` |
+| `_sanitize_seen` | function | `cli/engagement_hooks.py:334` | `def _sanitize_seen(names, known)` |
+| `_save_state` | function | `cli/engagement_hooks.py:282` | `def _save_state(state)` |
+| `_summary_for_cmd` | function | `cli/engagement_hooks.py:416` | `def _summary_for_cmd(cmd, index)` |
+| `_sync_user_elo` | function | `cli/engagement_hooks.py:762` | `def _sync_user_elo(delta)` |
+| `get_karma_name` | function | `cli/engagement_hooks.py:718` | `def get_karma_name(elo)` |
+| `get_state_snapshot` | function | `cli/engagement_hooks.py:980` | `def get_state_snapshot()` |
+| `heal_commands_seen` | function | `cli/engagement_hooks.py:367` | `def heal_commands_seen(known)` |
+| `render_engagement_hook` | function | `cli/engagement_hooks.py:900` | `def render_engagement_hook(cmd, phase, enabled)` |
+| `reset_session` | function | `cli/engagement_hooks.py:1068` | `def reset_session()` |
 | `ExploitHit` | class | `cli/exploit_advisor.py:144` | `class ExploitHit` |
 | `ServiceInfo` | class | `cli/exploit_advisor.py:111` | `class ServiceInfo` |
 | `ServiceResult` | class | `cli/exploit_advisor.py:153` | `class ServiceResult` |
@@ -474,27 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `compose` | method | `cli/lazy_monitor.py:72` | `def compose(self)` |
 | `compose` | method | `cli/lazy_monitor.py:140` | `def compose(self)` |
 | `on_input_submitted` | method | `cli/lazy_monitor.py:80` | `def on_input_submitted(self, event)` |
-| `on_mount` | method | `cli/lazy_monitor.py:168` | `def on_mount(self)` |
-| `run_monitor_command` | function | `cli/lazy_monitor.py:575` | `def run_monitor_command(task_id)` |
-| `run_monitor_session` | function | `cli/lazy_monitor.py:589` | `def run_monitor_session(engine, config, params)` |
-| `LazyOrchestratorApp` | class | `cli/lazy_orchestrator.py:144` | `class LazyOrchestratorApp(OrchestratorAssetsMixin)` |
-| `__init__` | method | `cli/lazy_orchestrator.py:174` | `def __init__(self, payload_path, task_id, shell, param_root)` |
-| `_active_tab` | method | `cli/lazy_orchestrator.py:635` | `def _active_tab(self)` |
-| `_confirmed` | function | `cli/lazy_orchestrator.py:981` | `def _confirmed(answer)` |
-| `_confirmed_gym` | function | `cli/lazy_orchestrator.py:994` | `def _confirmed_gym(answer)` |
-| `_confirmed_param` | function | `cli/lazy_orchestrator.py:1018` | `def _confirmed_param(answer)` |
-| `_confirmed_trigger` | function | `cli/lazy_orchestrator.py:1035` | `def _confirmed_trigger(answer)` |
-| `_done` | function | `cli/lazy_orchestrator.py:676` | `def _done(values)` |
-| `_done` | function | `cli/lazy_orchestrator.py:932` | `def _done(values)` |
-| `_done_chain` | function | `cli/lazy_orchestrator.py:861` | `def _done_chain(playbook)` |
-| `_done_new` | function | `cli/lazy_orchestrator.py:786` | `def _done_new(values)` |
-| `_done_new_gym` | function | `cli/lazy_orchestrator.py:814` | `def _done_new_gym(values)` |
-| `_done_param` | function | `cli/lazy_orchestrator.py:693` | `def _done_param(values)` |
-| `_done_param` | function | `cli/lazy_orchestrator.py:905` | `def _done_param(values)` |
-| `_done_rule` | function | `cli/lazy_orchestrator.py:723` | `def _done_rule(values)` |
-| `_done_trigger` | function | `cli/lazy_orchestrator.py:651` | `def _done_trigger(values)` |
-| `_done_verb` | function | `cli/lazy_orchestrator.py:744` | `def _done_verb(values)` |
-| `_param_root` | method | `cli/lazy_orchestrator.py:204` | `def _param_root(self)` |
-| `_picked` | function | `cli/lazy_orchestrator.py:740` | `def _picked(value)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

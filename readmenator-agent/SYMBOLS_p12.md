@@ -3,6 +3,40 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `info` | method | `modules/bof_registry.py:690` | `def info(self, name)` |
+| `install` | method | `modules/bof_registry.py:590` | `def install(self, entry)` |
+| `install` | method | `modules/bof_registry.py:707` | `def install(self, name)` |
+| `install_dir` | method | `modules/bof_registry.py:565` | `def install_dir(self)` |
+| `is_installed` | method | `modules/bof_registry.py:585` | `def is_installed(self, name)` |
+| `list_all` | method | `modules/bof_registry.py:229` | `def list_all(self)` |
+| `list_by_category` | method | `modules/bof_registry.py:221` | `def list_by_category(self, category)` |
+| `list_by_platform` | method | `modules/bof_registry.py:225` | `def list_by_platform(self, platform)` |
+| `list_installed` | method | `modules/bof_registry.py:628` | `def list_installed(self)` |
+| `list_installed` | method | `modules/bof_registry.py:749` | `def list_installed(self)` |
+| `list_missing_dependencies` | method | `modules/bof_registry.py:761` | `def list_missing_dependencies(self, name)` |
+| `load` | method | `modules/bof_registry.py:249` | `def load(cls, path)` |
+| `register` | method | `modules/bof_registry.py:167` | `def register(self, entry)` |
+| `register_many` | method | `modules/bof_registry.py:172` | `def register_many(self, entries)` |
+| `registry` | method | `modules/bof_registry.py:667` | `def registry(self)` |
+| `save` | method | `modules/bof_registry.py:257` | `def save(self, path)` |
+| `search` | method | `modules/bof_registry.py:188` | `def search(self, query)` |
+| `search` | method | `modules/bof_registry.py:671` | `def search(self, query)` |
+| `to_dict` | method | `modules/bof_registry.py:118` | `def to_dict(self)` |
+| `to_dict` | method | `modules/bof_registry.py:233` | `def to_dict(self)` |
+| `uninstall` | method | `modules/bof_registry.py:611` | `def uninstall(self, name, remove_files)` |
+| `uninstall` | method | `modules/bof_registry.py:736` | `def uninstall(self, name)` |
+| `validate_args` | method | `modules/bof_registry.py:540` | `def validate_args(entry, args)` |
+| `verify_entry` | method | `modules/bof_registry.py:524` | `def verify_entry(entry, filepath)` |
+| `C2Server` | class | `modules/c2_agent.py:711` | `class C2Server` |
+| `__init__` | method | `modules/c2_agent.py:714` | `def __init__(self, port, user, password)` |
+| `_api` | function | `modules/c2_agent.py:825` | `def _api(path, data)` |
+| `_ensure_key` | function | `modules/c2_agent.py:462` | `def _ensure_key()` |
+| `_pid` | method | `modules/c2_agent.py:719` | `def _pid(self)` |
+| `_restore_key_from_snapshot` | function | `modules/c2_agent.py:493` | `def _restore_key_from_snapshot()` |
+| `_snapshot_key` | function | `modules/c2_agent.py:516` | `def _snapshot_key(aes_hex)` |
+| `_sync_credentials_file` | function | `modules/c2_agent.py:59` | `def _sync_credentials_file(user, password)` |
+| `_unverified_context` | function | `modules/c2_agent.py:84` | `def _unverified_context()` |
+| `build_agent` | function | `modules/c2_agent.py:398` | `def build_agent(c2_url, client_id, aes_hex, rat_key, route, sleep, privilege)` |
 | `client_id_for` | function | `modules/c2_agent.py:94` | `def client_id_for(target, privilege)` |
 | `deploy` | function | `modules/c2_agent.py:533` | `def deploy(target, c2_base, route, lhost, sleep, privilege)` |
 | `ensure_http_listener` | method | `modules/c2_agent.py:817` | `def ensure_http_listener(self, http_port, auth)` |
@@ -455,46 +489,12 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `gcp_oidc_to_azure` | method | `modules/cross_cloud.py:104` | `def gcp_oidc_to_azure(self)` |
 | `multi_cloud_imds_harvesting` | method | `modules/cross_cloud.py:167` | `def multi_cloud_imds_harvesting(self)` |
 | `summary` | method | `modules/cross_cloud.py:258` | `def summary(self)` |
-| `_check_credentials` | function | `modules/ctf_capture.py:74` | `def _check_credentials(output)` |
-| `_check_root_shell` | function | `modules/ctf_capture.py:41` | `def _check_root_shell(output)` |
-| `_check_shadow_dump` | function | `modules/ctf_capture.py:54` | `def _check_shadow_dump(output)` |
-| `_cli_capture` | function | `modules/ctf_capture.py:291` | `def _cli_capture(argv)` |
-| `_gather_evidence` | function | `modules/ctf_capture.py:269` | `def _gather_evidence(candidates)` |
-| `_publish_capture_outcome` | function | `modules/ctf_capture.py:152` | `def _publish_capture_outcome(record)` |
-| `_safe_dir` | function | `modules/ctf_capture.py:188` | `def _safe_dir(vuln_id)` |
-| `capture` | function | `modules/ctf_capture.py:99` | `def capture(vuln_id, target, output, sessions_dir)` |
-| `list_records` | function | `modules/ctf_capture.py:219` | `def list_records(sessions_dir)` |
-| `output_dir` | function | `modules/ctf_capture.py:28` | `def output_dir(sessions_dir)` |
-| `record_path` | function | `modules/ctf_capture.py:175` | `def record_path(vuln_id, sessions_dir)` |
-| `store_record` | function | `modules/ctf_capture.py:201` | `def store_record(record, sessions_dir)` |
-| `summary` | function | `modules/ctf_capture.py:242` | `def summary(sessions_dir)` |
-| `_load` | function | `modules/custom_tools.py:37` | `def _load()` |
-| `_run_http` | function | `modules/custom_tools.py:179` | `def _run_http(tool, arg, on_output)` |
-| `_save` | function | `modules/custom_tools.py:45` | `def _save(payload)` |
-| `_store_file` | function | `modules/custom_tools.py:30` | `def _store_file()` |
-| `_trigger_tokens` | function | `modules/custom_tools.py:122` | `def _trigger_tokens(raw)` |
-| `add_tool` | function | `modules/custom_tools.py:52` | `def add_tool(name, kind, target, description, method, body, timeout, trigger)` |
-| `get_tool` | function | `modules/custom_tools.py:114` | `def get_tool(name)` |
-| `list_tools` | function | `modules/custom_tools.py:109` | `def list_tools()` |
-| `match_tools` | function | `modules/custom_tools.py:128` | `def match_tools(text, limit)` |
-| `remove_tool` | function | `modules/custom_tools.py:97` | `def remove_tool(name)` |
-| `run_tool` | function | `modules/custom_tools.py:151` | `def run_tool(name, arg, on_output)` |
-| `CVEMatcher` | class | `modules/cve_matcher.py:60` | `class CVEMatcher` |
-| `CVEResult` | class | `modules/cve_matcher.py:51` | `class CVEResult` |
-| `__init__` | method | `modules/cve_matcher.py:70` | `def __init__(self, api_key, cache_dir)` |
-| `_cache_path` | method | `modules/cve_matcher.py:95` | `def _cache_path(self, params)` |
-| `_load_cache` | method | `modules/cve_matcher.py:100` | `def _load_cache(self, params)` |
-| `_query` | method | `modules/cve_matcher.py:128` | `def _query(self)` |
-| `_rate_limit` | method | `modules/cve_matcher.py:121` | `def _rate_limit(self)` |
-| `_save_cache` | method | `modules/cve_matcher.py:112` | `def _save_cache(self, params, results)` |
-| `get_matcher` | function | `modules/cve_matcher.py:198` | `def get_matcher()` |
-| `search` | method | `modules/cve_matcher.py:82` | `def search(self)` |
-| `search` | function | `modules/cve_matcher.py:206` | `def search(product, version, max_results)` |
-| `search_by_cpe` | method | `modules/cve_matcher.py:89` | `def search_by_cpe(self, cpe_name, max_results)` |
-| `ACEntry` | class | `modules/dacl_abuse.py:67` | `class ACEntry` |
-| `ACLTarget` | class | `modules/dacl_abuse.py:91` | `class ACLTarget` |
-| `DACLAbuseEngine` | class | `modules/dacl_abuse.py:113` | `class DACLAbuseEngine` |
-| `__init__` | method | `modules/dacl_abuse.py:136` | `def __init__(self, domain, domain_sid, acl_data)` |
-| `_calculate_severity` | method | `modules/dacl_abuse.py:384` | `def _calculate_severity(target)` |
+| `_check_credentials` | function | `modules/ctf_capture.py:78` | `def _check_credentials(output)` |
+| `_check_defense_report` | function | `modules/ctf_capture.py:115` | `def _check_defense_report(output)` |
+| `_check_eventlog_rows` | function | `modules/ctf_capture.py:128` | `def _check_eventlog_rows(output)` |
+| `_check_root_shell` | function | `modules/ctf_capture.py:45` | `def _check_root_shell(output)` |
+| `_check_shadow_dump` | function | `modules/ctf_capture.py:58` | `def _check_shadow_dump(output)` |
+| `_check_windows_os_enum` | function | `modules/ctf_capture.py:96` | `def _check_windows_os_enum(output)` |
+| `_cli_capture` | function | `modules/ctf_capture.py:350` | `def _cli_capture(argv)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

@@ -1,0 +1,57 @@
+name: winbox
+description: |
+  WinBox — isolated Windows vulnerability-research platform for Kali and AI agents.
+
+  Turns a headless Windows VM (Server Core 2022/2025, Windows 11 or Windows 10)
+  into an automation, instrumentation and analysis environment controlled from
+  the operator host: execute tools as SYSTEM or alternate users, drive a
+  PDB-aware hypervisor debugger, inspect protected memory, exercise drivers and
+  named pipes, flip Defender/HVCI/AppLocker posture, contain malware with
+  snapshots and sinkholes, and collect evidence through one CLI and a 97-tool
+  MCP surface.
+
+  First-time setup (once per operator host) — `winbox up` does ALL of this
+  idempotently (deps, ISO download, VM build, boot, rhost bind):
+    sudo apt-get install -y qemu-system-x86 qemu-utils libvirt-daemon-system virtinst libguestfs-tools virtiofsd p7zip-full genisoimage sshpass wget libwin-hivex-perl
+    winbox iso download                 # ~4.7 GB, supports resume
+    winbox setup -y                     # builds and provisions the VM (~20 min)
+                                        # pass --os server2025|win11|win10 or
+                                        # assign winbox_os <guest> first
+    winbox tools add Rubeus.exe SharpHound.exe
+
+  Flow inside the LazyOwn shell (first-class `winbox` command):
+    winbox up                           # full one-time bootstrap: deps+ISO+build+up+resolve
+    winbox status                       # readiness, VM state, IP
+    winbox down [--force]               # lifecycle
+    winbox exec --timeout 120 whoami    # SYSTEM command execution
+    winbox av status | winbox applocker status
+    winbox gym list | winbox gym plan   # scored lab matrix
+    winbox snapshot pre-attack          # containment / rollback
+
+  Or via MCP:
+    lazyown_winbox_status
+    lazyown_winbox_exec
+    lazyown_winbox_gym_plan
+    lazyown_winbox_gym_run
+    (plus the upstream `winbox mcp` server exposing 97 research tools)
+
+  Requirements: Debian/Kali host with qemu-system-x86, libvirt, virtiofsd and
+  sshpass; Windows evaluation ISO (~4.7 GB). The lab VM must stay isolated:
+  never point WinBox at production infrastructure.
+author: totekuh
+version: '1.0'
+enabled: true
+update: true
+os: windows
+trigger: []
+category: 03. Exploitation
+module_type: auxiliary
+tool:
+  name: WinBox
+  repo_url: https://github.com/totekuh/winbox.git
+  install_path: external/.exploit/winbox
+  install_command: >-
+    sudo apt-get install -y qemu-system-x86 qemu-utils libvirt-daemon-system
+    virtinst libguestfs-tools virtiofsd p7zip-full genisoimage sshpass wget
+    libwin-hivex-perl && (pip install -e . || pip install -e . --break-system-packages)
+  execute_command: winbox status

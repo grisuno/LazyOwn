@@ -483,10 +483,10 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `_phase_in` (function, line 63) `def _phase_in(ctx)`
   - `_last_cmd_is` (function, line 67) `def _last_cmd_is(ctx)`
   - `_after` (function, line 75) `def _after(ctx)`
-  - `get_session_tip` (function, line 301) `def get_session_tip(ctx)`
-  - `render_contextual_tip` (function, line 327) `def render_contextual_tip(last_cmd, ctx)`
-  - `print_session_tip` (function, line 357) `def print_session_tip(ctx)`
-  - `_safe_trigger` (function, line 369) `def _safe_trigger(tip, ctx)`
+  - `get_session_tip` (function, line 307) `def get_session_tip(ctx)`
+  - `render_contextual_tip` (function, line 333) `def render_contextual_tip(last_cmd, ctx)`
+  - `print_session_tip` (function, line 363) `def print_session_tip(ctx)`
+  - `_safe_trigger` (function, line 375) `def _safe_trigger(tip, ctx)`
 - Depends on: `cli/noise_verbs.py`, `core/console.py`
 - Imported by: `lazyown.py`, `tests/test_reactive_hints_expanded.py`
 

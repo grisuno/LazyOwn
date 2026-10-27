@@ -90,7 +90,8 @@
     "cli/commands/supply_chain.py",
     "cli/commands/surface.py",
     "cli/commands/ux.py",
-    "cli/commands/verb_admin.py"
+    "cli/commands/verb_admin.py",
+    "cli/commands/winbox_gym.py"
   ],
   "source_sha256": {
     "lazyown.py": "230a2355e8850afbf46f474e79578c37b6fb11c0ef879cde90717e6fd81ace4c",
@@ -165,7 +166,7 @@
     "cli/commands/pwn.py": "9960e3f6aac315ff1e5a8855bf5f034b8e08d78cc292fd20bd892c4ab534c05d",
     "cli/commands/recon.py": "55cf493d15e87115fe6bead797df5b60da244f180d87d37e50aa24860573bbe4",
     "cli/commands/recon_migrated.py": "b4d3fe069b028c2e21bb8d34117389cf2ea3a584757d1f332b32a6eff6b5eceb",
-    "cli/commands/redteam_gym.py": "18e004bcaa7ebf1315671f09486a76563ad272d25e1683ba4971a5f8dee7cb12",
+    "cli/commands/redteam_gym.py": "49463671143ffdd373f4b5d6fd4d1779da976ae2252ed84d2896822d49ca3b8f",
     "cli/commands/report.py": "4045e672ec29aa8840ade8ba5e53cfa61a99a90d4e65c82bbd63b912c32a5415",
     "cli/commands/report_enhanced.py": "98a90162b98fde872a6fca66c6c474e3184c27cbf5325de5bb12fbc77a73ac94",
     "cli/commands/report_migrated.py": "b3233c56eacc37c807f385b2f61c7ab8c171f5c880f3a07569ff7d17b07ab3ce",
@@ -182,11 +183,12 @@
     "cli/commands/supply_chain.py": "a9f97411e937e90f9ea87f3ba10853f6dc0ae4500a086babe256224206efdc2f",
     "cli/commands/surface.py": "e1c5391eac03ed2b67a0b638d7adee6c2c3f8bece2f3be497a59e81fe1cbfd38",
     "cli/commands/ux.py": "3707156f3afd8e03ebb896e9118818088401db76b6ca5f63679c6e4af137bacf",
-    "cli/commands/verb_admin.py": "a8a3e29349b6f9d0d73250858e06852d1c0bc337ecd94bba5170f97846ded898"
+    "cli/commands/verb_admin.py": "a8a3e29349b6f9d0d73250858e06852d1c0bc337ecd94bba5170f97846ded898",
+    "cli/commands/winbox_gym.py": "1813ca5e6f7fc04b454df34c3220cd8f1d076e49805911b0117e2d66d4da39fd"
   },
   "totals": {
-    "method_definitions": 841,
-    "unique_commands": 841,
+    "method_definitions": 842,
+    "unique_commands": 842,
     "duplicates": 0,
     "phases": 14,
     "categories": 17
@@ -904,6 +906,7 @@
       "do_upload_bypass",
       "do_utf",
       "do_winbase64payload",
+      "do_winbox",
       "do_wrapper",
       "do_www",
       "do_xss",
@@ -1577,6 +1580,7 @@
       "do_upload_bypass",
       "do_utf",
       "do_winbase64payload",
+      "do_winbox",
       "do_wrapper",
       "do_www",
       "do_xss",
@@ -10950,6 +10954,17 @@
       "phase": "misc",
       "source_file": "cli/commands/verb_admin.py",
       "class_name": "VerbCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_winbox",
+      "line": 51,
+      "summary": "Control the WinBox isolated Windows lab from the LazyOwn shell.",
+      "category": "03. Exploitation",
+      "phase": "exploit",
+      "source_file": "cli/commands/winbox_gym.py",
+      "class_name": "WinboxCommandSet",
       "community": null,
       "duplicate_of": null
     },

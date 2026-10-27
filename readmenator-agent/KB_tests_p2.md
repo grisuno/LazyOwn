@@ -1,5 +1,24 @@
-# Subsystem: tests (page 2 of 20)
+# Subsystem: tests (page 2 of 21)
 Previous: [KB_tests.md](KB_tests.md)
+
+## tests/test_aes_key_propagation.py
+- Doc: TDD tests for the AES key resolution contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestHexSource` (class, line 32) `class TestHexSource`
+  - `TestDiskSource` (class, line 57) `class TestDiskSource`
+  - `TestGeneratedSource` (class, line 67) `class TestGeneratedSource`
+  - `TestConfigExposesKey` (class, line 83) `class TestConfigExposesKey`
+  - `test_valid_hex_decodes_to_32_bytes` (method, line 35) `def test_valid_hex_decodes_to_32_bytes(self)`
+  - `test_wrong_length_raises` (method, line 42) `def test_wrong_length_raises(self)`
+  - `test_non_hex_raises` (method, line 49) `def test_non_hex_raises(self)`
+  - `test_existing_disk_key_is_loaded` (method, line 60) `def test_existing_disk_key_is_loaded(self, tmp_path)`
+  - `test_generated_key_is_32_bytes` (method, line 70) `def test_generated_key_is_32_bytes(self, tmp_path)`
+  - `test_generated_key_is_persisted` (method, line 75) `def test_generated_key_is_persisted(self, tmp_path)`
+  - `test_config_has_aes_key_attribute` (method, line 86) `def test_config_has_aes_key_attribute(self)`
+  - `test_config_exposes_params_dict` (method, line 91) `def test_config_exposes_params_dict(self)`
+- Depends on: `core/config.py`
 
 ## tests/test_ai_commands_llm.py
 - Doc: Behavioural tests for the resurrected ``ask``/``groq`` commands.
@@ -451,33 +470,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_duplicates_deduped` (method, line 149) `def test_duplicates_deduped(self)`
   - `test_empty_command_rejected` (method, line 155) `def test_empty_command_rejected(self)`
 - Depends on: `modules/auto_loop_memory.py`, `modules/selector_manager.py`
-
-## tests/test_auto_registry.py
-- Doc: Auto-verb registry: loop-ready automation commands.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_registry_covers_auto_family` (function, line 28) `def test_registry_covers_auto_family()`
-  - `test_build_command_binds_target` (function, line 38) `def test_build_command_binds_target()`
-  - `test_is_shell_verb_matches_first_token` (function, line 47) `def test_is_shell_verb_matches_first_token()`
-  - `test_verbs_for_matches_keywords` (function, line 55) `def test_verbs_for_matches_keywords()`
-  - `test_propose_and_translate_roundtrip` (function, line 63) `def test_propose_and_translate_roundtrip()`
-  - `_FakeShell` (class, line 73) `class _FakeShell`
-  - `_HangingShell` (class, line 86) `class _HangingShell`
-  - `test_execute_shell_verb_captures_output` (function, line 96) `def test_execute_shell_verb_captures_output()`
-  - `test_execute_shell_verb_rejects_non_verbs` (function, line 104) `def test_execute_shell_verb_rejects_non_verbs()`
-  - `test_execute_shell_verb_timeout_never_hangs` (function, line 112) `def test_execute_shell_verb_timeout_never_hangs()`
-  - `test_execute_shell_verb_without_shell` (function, line 118) `def test_execute_shell_verb_without_shell()`
-  - `test_verb_gap_flags_missing_tooling` (function, line 124) `def test_verb_gap_flags_missing_tooling(monkeypatch)`
-  - `test_missing_binary_skips_builtins_paths_and_scripts` (function, line 134) `def test_missing_binary_skips_builtins_paths_and_scripts(monkeypatch)`
-  - `test_propose_and_steps_skip_unavailable_verbs` (function, line 144) `def test_propose_and_steps_skip_unavailable_verbs(monkeypatch)`
-  - `test_steps_for_uses_next_available_keyword_verb` (function, line 154) `def test_steps_for_uses_next_available_keyword_verb(monkeypatch)`
-  - `test_cancel_running_commands_kills_streaming` (function, line 160) `def test_cancel_running_commands_kills_streaming()`
-  - `__init__` (method, line 76) `def __init__(self, output)`
-  - `onecmd_plus_hooks` (method, line 80) `def onecmd_plus_hooks(self, command)`
-  - `onecmd` (method, line 89) `def onecmd(self, command)`
-  - `_run` (function, line 169) `def _run()`
-- Depends on: `modules/auto_registry.py`
 
 
 Next: [KB_tests_p3.md](KB_tests_p3.md)

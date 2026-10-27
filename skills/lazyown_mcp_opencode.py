@@ -56,6 +56,9 @@ CURATED_TOOLS: dict[str, str] = {
     "ttp_chain": "lazyown_ttp_chain",
     "atomic_shell": "lazyown_atomic_shell",
     "atomic_clean": "lazyown_atomic_clean",
+    "winbox_status": "lazyown_winbox_status",
+    "winbox_exec": "lazyown_winbox_exec",
+    "winbox_gym_run": "lazyown_winbox_gym_run",
 }
 
 HARNESS_TOOLS: dict[str, dict[str, str]] = {

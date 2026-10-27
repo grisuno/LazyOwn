@@ -141,8 +141,8 @@ Previous: [KB_cli_p4.md](KB_cli_p4.md)
   - `resolve_sources` (method, line 255) `def resolve_sources(self, names)`
   - `_parse` (method, line 283) `def _parse(self, text, source, base_offset)`
   - `_build_event` (method, line 298) `def _build_event(self, line, source, offset)`
-  - `_coerce_str` (method, line 327) `def _coerce_str(value)`
-  - `_summary` (method, line 335) `def _summary(record)`
+  - `_coerce_str` (method, line 325) `def _coerce_str(value)`
+  - `_summary` (method, line 333) `def _summary(record)`
   - `__init__` (method, line 566) `def __init__(self, config, theme)`
   - `format` (method, line 571) `def format(self, event)`
   - `is_prominent` (method, line 584) `def is_prominent(self, event)`

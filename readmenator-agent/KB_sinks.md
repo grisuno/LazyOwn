@@ -14,6 +14,17 @@
 - Depends on: `modules/attack_surface3d.py`, `modules/outcome_bus.py`
 - Imported by: `tests/test_outcome_bus.py`
 
+## modules/sinks/beacon_dispatch.py
+- Doc: Beacon dispatch sink: on a foothold, stage the catch-back command.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_payload` (function, line 23) `def _load_payload()`
+  - `_copy_clipboard` (function, line 34) `def _copy_clipboard(text)`
+  - `apply` (function, line 46) `def apply(event)`
+- Depends on: `core/config.py`, `core/hardening.py`, `modules/outcome_bus.py`, `modules/payload_factory.py`
+- Imported by: `tests/test_outcome_bus.py`
+
 ## modules/sinks/c2_surfaces.py
 - Doc: C2 dashboard sink: banners, CVEs and operator notes.
 - Layer: utility
@@ -74,6 +85,18 @@
   - `apply` (function, line 9) `def apply(event)`
 - Depends on: `modules/lazy_intel.py`, `modules/outcome_bus.py`
 - Imported by: `skills/lazyown_mcp.py`
+
+## modules/sinks/world_diff.py
+- Doc: World-diff sink: snapshot hosts and record what changed per outcome.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `apply` (function, line 14) `def apply(event)`
+  - `_stored_host` (function, line 52) `def _stored_host(root, host)`
+  - `_current_host` (function, line 58) `def _current_host(root, host)`
+  - `_store_host` (function, line 65) `def _store_host(root, host, snapshot)`
+- Depends on: `modules/lazy_world_diff.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `tests/test_outcome_bus.py`
 
 ## modules/sinks/world_model.py
 - Doc: World-model sink: hosts, services, vulnerabilities and credentials.

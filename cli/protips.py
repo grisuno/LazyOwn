@@ -175,6 +175,12 @@ TIPS: list[ProTip] = [
         trigger=lambda ctx: _phase_in(ctx, "exploit", "c2"),
         category="ecosystem",
     ),
+    ProTip(
+        text="Need a Windows lab? winbox status drives an isolated Windows VM: exec as SYSTEM, flip Defender, snapshot and score the gym.",
+        command="winbox status",
+        trigger=lambda ctx: _phase_in(ctx, "recon", "exploit", "c2") and _os_windows(ctx),
+        category="ecosystem",
+    ),
     # Automation
     ProTip(
         text="After recon, auto_pwn fully exploits the target autonomously from scan to shell.",

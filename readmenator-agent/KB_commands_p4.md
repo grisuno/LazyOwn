@@ -46,17 +46,17 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `ReconCommandSet` (class, line 40) `class ReconCommandSet(LazyOwnCommandSet)`
   - `do_batchnmap` (method, line 47) `def do_batchnmap(self, line)`
   - `do_lazynmap` (method, line 74) `def do_lazynmap(self, line)`
-  - `do_dig` (method, line 154) `def do_dig(self, line)`
-  - `do_dnsenum` (method, line 186) `def do_dnsenum(self, line)`
-  - `do_dnsmap` (method, line 222) `def do_dnsmap(self, line)`
-  - `do_whatweb` (method, line 255) `def do_whatweb(self, line)`
-  - `do_nbtscan` (method, line 292) `def do_nbtscan(self, line)`
-  - `do_nikto` (method, line 320) `def do_nikto(self, line)`
-  - `do_finalrecon` (method, line 429) `def do_finalrecon(self, line)`
-  - `do_openssl_sclient` (method, line 461) `def do_openssl_sclient(self, line)`
-  - `do_ss` (method, line 491) `def do_ss(self, line)`
-  - `do_wfuzz` (method, line 654) `def do_wfuzz(self, line)`
-  - `_run_single_search` (function, line 521) `def _run_single_search(query)`
+  - `do_dig` (method, line 148) `def do_dig(self, line)`
+  - `do_dnsenum` (method, line 180) `def do_dnsenum(self, line)`
+  - `do_dnsmap` (method, line 216) `def do_dnsmap(self, line)`
+  - `do_whatweb` (method, line 249) `def do_whatweb(self, line)`
+  - `do_nbtscan` (method, line 286) `def do_nbtscan(self, line)`
+  - `do_nikto` (method, line 314) `def do_nikto(self, line)`
+  - `do_finalrecon` (method, line 423) `def do_finalrecon(self, line)`
+  - `do_openssl_sclient` (method, line 455) `def do_openssl_sclient(self, line)`
+  - `do_ss` (method, line 485) `def do_ss(self, line)`
+  - `do_wfuzz` (method, line 648) `def do_wfuzz(self, line)`
+  - `_run_single_search` (function, line 515) `def _run_single_search(query)`
 - Depends on: `cli/commands/_base.py`, `cli/exploit_advisor.py`, `cli/lazynmap_post.py`, `core/console.py`, `modules/intelligence_engine.py`, `utils.py`
 
 ## cli/commands/recon_migrated.py
@@ -106,12 +106,12 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_gym_ms2` (method, line 92) `def do_gym_ms2(self, line)`
   - `_gym_list` (method, line 137) `def _gym_list(self)`
   - `_gym_start` (method, line 171) `def _gym_start(self, args)`
-  - `_gym_submit` (method, line 231) `def _gym_submit(self, args)`
-  - `_format_elapsed` (method, line 279) `def _format_elapsed(seconds)`
-  - `_gym_status` (method, line 284) `def _gym_status(self, args)`
-  - `_gym_stop` (method, line 352) `def _gym_stop(self, args)`
-  - `_gym_leaderboard` (method, line 372) `def _gym_leaderboard(self, args)`
-  - `_gym_hint` (method, line 406) `def _gym_hint(self, args)`
+  - `_gym_submit` (method, line 242) `def _gym_submit(self, args)`
+  - `_format_elapsed` (method, line 290) `def _format_elapsed(seconds)`
+  - `_gym_status` (method, line 295) `def _gym_status(self, args)`
+  - `_gym_stop` (method, line 363) `def _gym_stop(self, args)`
+  - `_gym_leaderboard` (method, line 383) `def _gym_leaderboard(self, args)`
+  - `_gym_hint` (method, line 417) `def _gym_hint(self, args)`
 - Depends on: `cli/commands/_base.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
 - Imported by: `tests/test_gym_cli.py`, `tests/test_gym_ms2_cli.py`
 
@@ -386,4 +386,32 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `VerbCommandSet` (class, line 45) `class VerbCommandSet(LazyOwnCommandSet)`
   - `do_verb` (method, line 52) `def do_verb(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/verb_catalog.py`, `utils.py`
+
+## cli/commands/winbox_gym.py
+- Doc: WinBox lab CommandSet — VM lifecycle, guest execution and gym matrix.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `WinboxCommandSet` (class, line 44) `class WinboxCommandSet(LazyOwnCommandSet)`
+  - `_extract_flag` (function, line 510) `def _extract_flag(args, flag)`
+  - `_extract_bool` (function, line 533) `def _extract_bool(args, flag)`
+  - `do_winbox` (method, line 51) `def do_winbox(self, line)`
+  - `_overview` (method, line 121) `def _overview(self)`
+  - `_bootstrap` (method, line 127) `def _bootstrap(self)`
+  - `_status` (method, line 151) `def _status(self)`
+  - `_lifecycle` (method, line 178) `def _lifecycle(self, action, rest)`
+  - `_lab_ready` (method, line 200) `def _lab_ready(self, rest)`
+  - `_exec` (method, line 230) `def _exec(self, rest)`
+  - `_interactive_passthrough` (method, line 264) `def _interactive_passthrough(self, action, rest)`
+  - `_tools` (method, line 277) `def _tools(self, rest)`
+  - `_upload` (method, line 288) `def _upload(self, rest)`
+  - `_eventlogs` (method, line 298) `def _eventlogs(self, rest)`
+  - `_net` (method, line 305) `def _net(self, rest)`
+  - `_defense` (method, line 321) `def _defense(self, tool, rest)`
+  - `_snapshot` (method, line 337) `def _snapshot(self, rest)`
+  - `_resolve` (method, line 359) `def _resolve(self, rest)`
+  - `_gym` (method, line 378) `def _gym(self, rest)`
+  - `_gym_matrix` (method, line 414) `def _gym_matrix(self, action, rest)`
+  - `_confirmed` (method, line 497) `def _confirmed(self, rest)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 

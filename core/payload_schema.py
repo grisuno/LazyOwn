@@ -1576,6 +1576,21 @@ SCHEMA: dict[str, FieldSpec] = {
             category="infrastructure",
         ),
         _spec(
+            "winbox_os",
+            FieldKind.STRING,
+            "server2022",
+            "Guest OS built by the WinBox lab: server2022, server2025, win11 or win10.",
+            category="infrastructure",
+            allowed=("server2022", "server2025", "win11", "win10"),
+        ),
+        _spec(
+            "winbox_install_path",
+            FieldKind.PATH,
+            "external/.exploit/winbox",
+            "WinBox repo root used by the winbox gym.",
+            category="infrastructure",
+        ),
+        _spec(
             "exploitgym_model",
             FieldKind.STRING,
             "",

@@ -1,6 +1,77 @@
 # Subsystem: modules (page 14 of 16)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
 
+## modules/redteam_gym.py
+- Doc: Red Team Gym — gamified pentest training mode.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `reload_challenge_definitions` (function, line 299) `def reload_challenge_definitions(directory)`
+  - `GymAttempt` (class, line 318) `class GymAttempt`
+  - `_ensure_gym_dir` (function, line 334) `def _ensure_gym_dir()`
+  - `_load_leaderboard` (function, line 339) `def _load_leaderboard()`
+  - `_save_leaderboard` (function, line 355) `def _save_leaderboard(board)`
+  - `_get_username` (function, line 366) `def _get_username()`
+  - `definition_rows` (function, line 393) `def definition_rows()`
+  - `create_gym` (function, line 398) `def create_gym(gym_id)`
+  - `save_gym_yaml` (function, line 435) `def save_gym_yaml(gym_id, text)`
+  - `delete_gym` (function, line 445) `def delete_gym(gym_id)`
+  - `list_challenges` (function, line 453) `def list_challenges()`
+  - `_resolve_active_run` (function, line 476) `def _resolve_active_run(selector, operator)`
+  - `start_challenge` (function, line 494) `def start_challenge(challenge_id, target, spin_lab)`
+  - `_spin_scenario` (function, line 595) `def _spin_scenario(scenario)`
+  - `submit_challenge` (function, line 637) `def submit_challenge(techniques_used, success, run_id)`
+  - `stop_challenges` (function, line 745) `def stop_challenges(selector)`
+  - `_teardown_stopped_scenarios` (function, line 766) `def _teardown_stopped_scenarios(stopped)`
+  - `_same_engagement` (function, line 800) `def _same_engagement(ip, target)`
+  - `engagement_context` (function, line 827) `def engagement_context(target)`
+  - `get_active_challenges` (function, line 887) `def get_active_challenges()`
+  - `_calc_speed_score` (function, line 900) `def _calc_speed_score(elapsed_seconds, max_bonus)`
+  - `_calc_stealth_score` (function, line 921) `def _calc_stealth_score(techniques, max_bonus)`
+  - `_calc_technique_score` (function, line 937) `def _calc_technique_score(techniques, chal, max_bonus)`
+  - `_update_leaderboard` (function, line 959) `def _update_leaderboard(attempt)`
+  - `_award_gym_elo` (function, line 1003) `def _award_gym_elo(username, elo_bonus)`
+  - `_get_rank` (function, line 1029) `def _get_rank(username)`
+  - `show_leaderboard` (function, line 1046) `def show_leaderboard(top_n)`
+  - `get_active_challenge` (function, line 1073) `def get_active_challenge(run_id)`
+  - `record_external_attempt` (function, line 1104) `def record_external_attempt(challenge_id, success, elo_bonus, techniques)`
+  - `main` (function, line 1158) `def main()`
+- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
+
+## modules/reflective_dll.py
+- Doc: Reflective DLL loading — load PE from memory without touching disk.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PEHeader` (class, line 37) `class PEHeader`
+  - `DataDirectory` (class, line 70) `class DataDirectory`
+  - `SectionHeader` (class, line 83) `class SectionHeader`
+  - `ImportDescriptor` (class, line 104) `class ImportDescriptor`
+  - `ReflectiveLoaderConfig` (class, line 121) `class ReflectiveLoaderConfig`
+  - `PEParser` (class, line 142) `class PEParser`
+  - `ReflectiveLoader` (class, line 464) `class ReflectiveLoader`
+  - `__init__` (method, line 151) `def __init__(self, pe_data)`
+  - `parse_file_header` (method, line 166) `def parse_file_header(self)`
+  - `parse_sections` (method, line 208) `def parse_sections(self, num_sections)`
+  - `parse_data_directories` (method, line 243) `def parse_data_directories(self, num_entries)`
+  - `rva_to_offset` (method, line 265) `def rva_to_offset(self, rva, sections)`
+  - `parse_imports` (method, line 280) `def parse_imports(self, import_dir, sections)`
+  - `parse_relocations` (method, line 326) `def parse_relocations(self, reloc_dir, sections)`
+  - `parse_exports` (method, line 374) `def parse_exports(self, export_dir, sections)`
+  - `_read_asciiz_at_rva` (method, line 417) `def _read_asciiz_at_rva(self, rva, sections)`
+  - `_parse_thunk_names` (method, line 426) `def _parse_thunk_names(self, thunk_rva, sections)`
+  - `is_64bit` (method, line 456) `def is_64bit(self)`
+  - `raw_data` (method, line 460) `def raw_data(self)`
+  - `__init__` (method, line 492) `def __init__(self, pe_data, config)`
+  - `sha256` (method, line 505) `def sha256(self)`
+  - `architecture` (method, line 510) `def architecture(self)`
+  - `required_imports` (method, line 515) `def required_imports(self)`
+  - `plan_injection` (method, line 526) `def plan_injection(self)`
+  - `generate_c_stub` (method, line 588) `def generate_c_stub(self)`
+  - `generate_powershell_stub` (method, line 666) `def generate_powershell_stub(self)`
+  - `summarize` (method, line 685) `def summarize(self)`
+
 ## modules/resource_script.py
 - Doc: Enhanced resource script engine — variables, conditionals, loops, macros.
 - Layer: utility
@@ -404,83 +475,6 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `from_payload` (method, line 528) `def from_payload(cls, payload)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
 - Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
-
-## modules/staged_delivery.py
-- Doc: Staged payload delivery — HTA, Office macros, LNK files, ISO/VHD packaging.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `StageDeliveryConfig` (class, line 25) `class StageDeliveryConfig`
-  - `StagedDeliveryFactory` (class, line 51) `class StagedDeliveryFactory`
-  - `__init__` (method, line 83) `def __init__(self, config, output_dir)`
-  - `_obfuscate_powershell` (method, line 88) `def _obfuscate_powershell(self, code)`
-  - `_obfuscate_vbscript` (method, line 95) `def _obfuscate_vbscript(self, code)`
-  - `_payload_command` (method, line 102) `def _payload_command(self)`
-  - `generate_hta` (method, line 134) `def generate_hta(self)`
-  - `generate_vba_macro` (method, line 171) `def generate_vba_macro(self)`
-  - `generate_xlm_macro` (method, line 219) `def generate_xlm_macro(self)`
-  - `generate_lnk` (method, line 237) `def generate_lnk(self)`
-  - `generate_iso` (method, line 301) `def generate_iso(self, inner_files)`
-  - `_build_primary_volume_descriptor` (method, line 336) `def _build_primary_volume_descriptor(self, files)`
-  - `generate_vhd` (method, line 370) `def generate_vhd(self, inner_files)`
-  - `generate_all` (method, line 420) `def generate_all(self)`
-  - `generate_phishing_page` (method, line 460) `def generate_phishing_page(self, template)`
-  - `_office365_phish` (method, line 476) `def _office365_phish(self)`
-  - `_gmail_phish` (method, line 504) `def _gmail_phish(self)`
-  - `_outlook_phish` (method, line 532) `def _outlook_phish(self)`
-- Imported by: `cli/commands/payload_arsenal.py`
-
-## modules/state_manager.py
-- Doc: UnifiedStateManager — single source of truth for all LazyOwn campaign state.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_load_json` (function, line 43) `def _load_json(path)`
-  - `_save_json` (function, line 53) `def _save_json(path, data)`
-  - `HostSummary` (class, line 65) `class HostSummary`
-  - `SessionSnapshot` (class, line 76) `class SessionSnapshot`
-  - `StateManager` (class, line 92) `class StateManager`
-  - `get_state_manager` (function, line 836) `def get_state_manager()`
-  - `__init__` (method, line 107) `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)`
-  - `instance` (method, line 129) `def instance(cls)`
-  - `db` (method, line 137) `def db(self)`
-  - `workspace_id` (method, line 146) `def workspace_id(self)`
-  - `_ensure_workspace` (method, line 151) `def _ensure_workspace(self)`
-  - `set_payload` (method, line 165) `def set_payload(self, payload)`
-  - `_publish` (method, line 169) `def _publish(self, category, event_type, payload)`
-  - `_find_host` (method, line 184) `def _find_host(self, address)`
-  - `_cred_list_for_host` (method, line 192) `def _cred_list_for_host(self, host_id)`
-  - `_vuln_list_for_host` (method, line 197) `def _vuln_list_for_host(self, host_id)`
-  - `close` (method, line 202) `def close(self)`
-  - `add_host` (method, line 213) `def add_host(self, address, mac, hostname, os, state)`
-  - `get_host` (method, line 236) `def get_host(self, address)`
-  - `list_hosts` (method, line 245) `def list_hosts(self)`
-  - `advance_host` (method, line 249) `def advance_host(self, address, new_state)`
-  - `delete_host` (method, line 275) `def delete_host(self, address)`
-  - `add_service` (method, line 287) `def add_service(self, host_address, port, protocol, name, product, version, state)`
-  - `list_services` (method, line 319) `def list_services(self, host_address)`
-  - `add_credential` (method, line 328) `def add_credential(self, host_address, username, password, realm, cred_type, origin)`
-  - `list_credentials` (method, line 362) `def list_credentials(self, host_address)`
-  - `add_vulnerability` (method, line 373) `def add_vulnerability(self, host_address, name, severity, description, refs)`
-  - `list_vulnerabilities` (method, line 398) `def list_vulnerabilities(self, host_address, severity)`
-  - `add_loot` (method, line 411) `def add_loot(self, name, loot_type, path, notes, host_address)`
-  - `list_loot` (method, line 444) `def list_loot(self)`
-  - `add_note` (method, line 450) `def add_note(self, data, note_type, host_address)`
-  - `list_notes` (method, line 473) `def list_notes(self)`
-  - `import_nmap_xml` (method, line 479) `def import_nmap_xml(self, xml_path)`
-  - `import_nmap_from_facts` (method, line 495) `def import_nmap_from_facts(self, facts)`
-  - `status` (method, line 550) `def status(self)`
-  - `_sync_world_model_cache` (method, line 556) `def _sync_world_model_cache(self)`
-  - `_load_existing_world_model` (method, line 586) `def _load_existing_world_model(self)`
-  - `_merge_world_model` (method, line 599) `def _merge_world_model(existing, hosts_data, all_creds, all_vulns)`
-  - `_write_world_model` (method, line 657) `def _write_world_model(self, data)`
-  - `get_world_model_cache` (method, line 666) `def get_world_model_cache(self)`
-  - `load_world_model` (method, line 672) `def load_world_model(self)`
-  - `session_snapshot` (method, line 713) `def session_snapshot(self)`
-  - `export_csv` (method, line 817) `def export_csv(self, table)`
-  - `export_summary` (method, line 821) `def export_summary(self)`
-- Depends on: `core/logging.py`, `modules/db.py`, `modules/event_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`, `tests/test_single_source_of_truth.py`
 
 
 Next: [KB_modules_p15.md](KB_modules_p15.md)

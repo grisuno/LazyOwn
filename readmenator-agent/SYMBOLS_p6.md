@@ -3,6 +3,28 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `is_empty` | method | `cli/recon_plan.py:139` | `def is_empty(self)` |
+| `render_markdown` | function | `cli/recon_plan.py:207` | `def render_markdown(plan)` |
+| `render_rich` | function | `cli/recon_plan.py:299` | `def render_rich(plan, console)` |
+| `write_plan` | function | `cli/recon_plan.py:257` | `def write_plan(plan, sessions_dir, config)` |
+| `iter_command_sets` | function | `cli/registry.py:41` | `def iter_command_sets(include_pending)` |
+| `register_command_sets` | function | `cli/registry.py:77` | `def register_command_sets(shell)` |
+| `LastTask` | class | `cli/retry_support.py:62` | `class LastTask` |
+| `RetryChainReport` | class | `cli/retry_support.py:164` | `class RetryChainReport` |
+| `_chain_state_when_disabled` | function | `cli/retry_support.py:268` | `def _chain_state_when_disabled(chain_name)` |
+| `consent_to_elevate` | function | `cli/retry_support.py:129` | `def consent_to_elevate(rest, confirmer)` |
+| `known` | method | `cli/retry_support.py:76` | `def known(self)` |
+| `last_loop_task` | function | `cli/retry_support.py:81` | `def last_loop_task()` |
+| `looks_like_run_id` | function | `cli/retry_support.py:45` | `def looks_like_run_id(token)` |
+| `retry_chain` | function | `cli/retry_support.py:204` | `def retry_chain(chain_or_run, shell, extra_vars, dry_run)` |
+| `status_snapshot` | function | `cli/retry_support.py:104` | `def status_snapshot(limit)` |
+| `to_dict` | method | `cli/retry_support.py:189` | `def to_dict(self)` |
+| `ScopeDecision` | class | `cli/scope_guard.py:125` | `class ScopeDecision` |
+| `ScopeGuard` | class | `cli/scope_guard.py:254` | `class ScopeGuard` |
+| `ScopeMode` | class | `cli/scope_guard.py:90` | `class ScopeMode(StrEnum)` |
+| `__init__` | method | `cli/scope_guard.py:263` | `def __init__(self, scope_entries, mode, is_offensive)` |
+| `_hostname_match` | function | `cli/scope_guard.py:209` | `def _hostname_match(target, entry)` |
+| `_parse_ip` | function | `cli/scope_guard.py:195` | `def _parse_ip(value)` |
 | `_parse_network` | function | `cli/scope_guard.py:202` | `def _parse_network(value)` |
 | `build_offensive_commands` | function | `cli/scope_guard.py:147` | `def build_offensive_commands(command_categories)` |
 | `evaluate` | method | `cli/scope_guard.py:283` | `def evaluate(self, command, target)` |
@@ -295,7 +317,7 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `__init__` | method | `cli/toast_bus.py:757` | `def __init__(self, config, state, reader, formatter, console)` |
 | `_budget` | function | `cli/toast_bus.py:928` | `def _budget(payload, config)` |
 | `_build_event` | method | `cli/toast_bus.py:298` | `def _build_event(self, line, source, offset)` |
-| `_coerce_str` | method | `cli/toast_bus.py:327` | `def _coerce_str(value)` |
+| `_coerce_str` | method | `cli/toast_bus.py:325` | `def _coerce_str(value)` |
 | `_console_width` | method | `cli/toast_bus.py:731` | `def _console_width(self)` |
 | `_ensure_loaded` | method | `cli/toast_bus.py:184` | `def _ensure_loaded(self)` |
 | `_erase_lines` | method | `cli/toast_bus.py:871` | `def _erase_lines(stream, rows)` |
@@ -304,7 +326,7 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `_parse` | method | `cli/toast_bus.py:283` | `def _parse(self, text, source, base_offset)` |
 | `_role_for` | method | `cli/toast_bus.py:738` | `def _role_for(self, severity)` |
 | `_schedule_erase` | method | `cli/toast_bus.py:855` | `def _schedule_erase(self, delay)` |
-| `_summary` | method | `cli/toast_bus.py:335` | `def _summary(record)` |
+| `_summary` | method | `cli/toast_bus.py:333` | `def _summary(record)` |
 | `_truncate` | method | `cli/toast_bus.py:744` | `def _truncate(self, value)` |
 | `build_default_bus` | function | `cli/toast_bus.py:943` | `def build_default_bus(payload, sessions_dir, console)` |
 | `build_toast_renderable` | function | `cli/toast_bus.py:1131` | `def build_toast_renderable(events, payload, width, config)` |
@@ -474,27 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `_load_report_context` | function | `contrib/legacy/lazydeepseekcli.py:68` | `def _load_report_context()` |
 | `_ollama_stream` | function | `contrib/legacy/lazydeepseekcli.py:223` | `def _ollama_stream(prompt_text, mode, timeout)` |
 | `_prompt_redteam` | function | `contrib/legacy/lazydeepseekcli.py:79` | `def _prompt_redteam(base_prompt, history, knowledge_base)` |
-| `_prompt_report` | function | `contrib/legacy/lazydeepseekcli.py:118` | `def _prompt_report(base_prompt, history, knowledge_base)` |
-| `add_to_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:179` | `def add_to_knowledge_base(prompt, command, file_path)` |
-| `configure_logging` | function | `contrib/legacy/lazydeepseekcli.py:45` | `def configure_logging(debug)` |
-| `generate` | function | `contrib/legacy/lazydeepseekcli.py:232` | `def generate()` |
-| `get_relevant_knowledge` | function | `contrib/legacy/lazydeepseekcli.py:185` | `def get_relevant_knowledge(prompt)` |
-| `load_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:167` | `def load_knowledge_base(file_path)` |
-| `parse_args` | function | `contrib/legacy/lazydeepseekcli.py:277` | `def parse_args()` |
-| `process_prompt_local` | function | `contrib/legacy/lazydeepseekcli.py:261` | `def process_prompt_local(prompt, debug, mode)` |
-| `process_prompt_localreport` | function | `contrib/legacy/lazydeepseekcli.py:269` | `def process_prompt_localreport(prompt, debug, mode)` |
-| `save_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:174` | `def save_knowledge_base(knowledge_base, file_path)` |
-| `transform_knowledge_base` | function | `contrib/legacy/lazydeepseekcli.py:193` | `def transform_knowledge_base(prompt_builder)` |
-| `truncate_message` | function | `contrib/legacy/lazydeepseekcli.py:41` | `def truncate_message(message, max_chars)` |
-| `X64Disassembler` | class | `contrib/legacy/lazydisassebler.py:24` | `class X64Disassembler` |
-| `__init__` | method | `contrib/legacy/lazydisassebler.py:34` | `def __init__(self)` |
-| `disassemble` | method | `contrib/legacy/lazydisassebler.py:305` | `def disassemble(self, bytes_data, file_offset, vaddr, size, entry_point)` |
-| `get_operand_str` | method | `contrib/legacy/lazydisassebler.py:212` | `def get_operand_str(self, mod, rm, rex, bytes_data, offset)` |
-| `main` | function | `contrib/legacy/lazydisassebler.py:489` | `def main()` |
-| `parse_modrm` | method | `contrib/legacy/lazydisassebler.py:135` | `def parse_modrm(self, modrm, rex)` |
-| `parse_sib` | method | `contrib/legacy/lazydisassebler.py:173` | `def parse_sib(self, sib, rex)` |
-| `read_elf_header` | method | `contrib/legacy/lazydisassebler.py:79` | `def read_elf_header(self, data)` |
-| `check_sudo` | function | `contrib/legacy/lazyftpsniff.py:21` | `def check_sudo()` |
-| `main` | function | `contrib/legacy/lazyftpsniff.py:69` | `def main()` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

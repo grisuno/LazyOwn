@@ -1,0 +1,15 @@
+name: gym_winbox_defender_posture
+version: 1
+description: 'WinBox: Defender and AppLocker posture report (T1562.001).'
+enabled: true
+extends: gym_winbox_chain
+tags:
+- gym
+- winbox
+- windows
+platforms:
+- windows
+defaults:
+  exploit: winbox_defender_posture
+  vuln: winbox_defender_posture
+  port: '0'

@@ -1,5 +1,54 @@
-# Subsystem: tests (page 5 of 20)
+# Subsystem: tests (page 5 of 21)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
+
+## tests/test_chain_parallel_fallback.py
+- Doc: Chain v2 adaptive execution: parallel groups, fallback, pre-checks.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 16) `def _chain(steps)`
+  - `test_parallel_steps_execute_concurrently` (function, line 21) `def test_parallel_steps_execute_concurrently()`
+  - `test_parallel_failure_without_continue_aborts` (function, line 79) `def test_parallel_failure_without_continue_aborts()`
+  - `test_parallel_failure_with_continue_keeps_going` (function, line 103) `def test_parallel_failure_with_continue_keeps_going()`
+  - `test_pre_check_failure_skips_step` (function, line 126) `def test_pre_check_failure_skips_step()`
+  - `test_pre_check_success_executes_step` (function, line 150) `def test_pre_check_success_executes_step()`
+  - `test_fallback_chain_runs_on_failure` (function, line 165) `def test_fallback_chain_runs_on_failure()`
+  - `test_fallback_skipped_when_primary_succeeds` (function, line 192) `def test_fallback_skipped_when_primary_succeeds()`
+  - `test_fallback_depth_is_capped` (function, line 208) `def test_fallback_depth_is_capped()`
+  - `test_registry_validation_rejects_parallel_with_capture` (function, line 230) `def test_registry_validation_rejects_parallel_with_capture()`
+  - `test_registry_validation_rejects_unknown_fallback` (function, line 241) `def test_registry_validation_rejects_unknown_fallback()`
+  - `test_registry_parses_parallel_and_pre_check` (function, line 257) `def test_registry_parses_parallel_and_pre_check()`
+  - `test_dry_run_treats_parallel_steps_sequentially` (function, line 274) `def test_dry_run_treats_parallel_steps_sequentially()`
+  - `executor` (function, line 29) `def executor(command)`
+  - `_SlowFirst` (class, line 48) `class _SlowFirst`
+  - `_run` (function, line 60) `def _run()`
+  - `executor` (function, line 84) `def executor(command)`
+  - `executor` (function, line 108) `def executor(command)`
+  - `executor` (function, line 131) `def executor(command)`
+  - `executor` (function, line 154) `def executor(command)`
+  - `executor` (function, line 169) `def executor(command)`
+  - `loader` (function, line 180) `def loader(name)`
+  - `loader` (function, line 197) `def loader(name)`
+  - `executor` (function, line 212) `def executor(command)`
+  - `loader` (function, line 220) `def loader(name)`
+  - `__call__` (method, line 51) `def __call__(self, command)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
+
+## tests/test_chain_registry.py
+- Doc: Chain registry: orchestration from chains/*.yaml, never hardcoded steps.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_shipped_chain_loads` (function, line 18) `def test_shipped_chain_loads()`
+  - `test_validate_rejects_bad_chains` (function, line 33) `def test_validate_rejects_bad_chains()`
+  - `test_resolve_substitutes_and_skips` (function, line 43) `def test_resolve_substitutes_and_skips(tmp_path, monkeypatch)`
+  - `test_resolve_flags_unresolved_tokens` (function, line 65) `def test_resolve_flags_unresolved_tokens()`
+  - `test_chain_yaml_matches_skill_contract` (function, line 73) `def test_chain_yaml_matches_skill_contract()`
+  - `test_extends_inherits_steps_and_merges_defaults` (function, line 80) `def test_extends_inherits_steps_and_merges_defaults(tmp_path)`
+  - `test_extends_cycle_and_unknown_parent_rejected` (function, line 110) `def test_extends_cycle_and_unknown_parent_rejected(tmp_path)`
+  - `test_disabled_chains_skip_but_stay_visible` (function, line 124) `def test_disabled_chains_skip_but_stay_visible(tmp_path)`
+  - `test_generate_for_playbook_roundtrip` (function, line 143) `def test_generate_for_playbook_roundtrip(tmp_path)`
+- Depends on: `modules/chain_registry.py`
 
 ## tests/test_chain_runner.py
 - Doc: Chain v2 BDD contract: safe conditions, retries, capture and error policy.
@@ -362,135 +411,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_lookalikes_not_matched` (method, line 112) `def test_lookalikes_not_matched(self)`
   - `test_goal_prefers_real_host_over_examples` (method, line 117) `def test_goal_prefers_real_host_over_examples(self)`
 - Depends on: `modules/chain_distill.py`, `modules/cli_auth.py`, `modules/retry_session.py`, `modules/world_model.py`
-
-## tests/test_collab_and_onboarding.py
-- Doc: tests/test_collab_and_onboarding.py  Tests for: - Gap #2 (team server): collab_bp UI route, SSE...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_make_app` (function, line 33) `def _make_app()`
-  - `_install_test_login` (function, line 54) `def _install_test_login(app)`
-  - `TestQuickstartExists` (class, line 87) `class TestQuickstartExists`
-  - `TestQuickstartContent` (class, line 95) `class TestQuickstartContent`
-  - `TestWizardContract` (class, line 142) `class TestWizardContract`
-  - `TestCollabModuleExists` (class, line 170) `class TestCollabModuleExists`
-  - `TestCollabModuleClasses` (class, line 181) `class TestCollabModuleClasses`
-  - `TestEventBus` (class, line 220) `class TestEventBus`
-  - `TestLockManager` (class, line 281) `class TestLockManager`
-  - `TestOperatorRegistry` (class, line 332) `class TestOperatorRegistry`
-  - `TestCollabFlaskRoutes` (class, line 371) `class TestCollabFlaskRoutes`
-  - `TestCollabTemplate` (class, line 430) `class TestCollabTemplate`
-  - `TestCollabJoinCLICommand` (class, line 472) `class TestCollabJoinCLICommand`
-  - `_TestOperator` (class, line 66) `class _TestOperator(UserMixin)`
-  - `_load_user` (function, line 74) `def _load_user(user_id)`
-  - `_auto_login` (function, line 78) `def _auto_login()`
-  - `test_file_present` (method, line 88) `def test_file_present(self)`
-  - `test_not_empty` (method, line 91) `def test_not_empty(self)`
-  - `text` (method, line 97) `def text(self)`
-  - `test_has_install_section` (method, line 100) `def test_has_install_section(self, text)`
-  - `test_has_wizard_section` (method, line 103) `def test_has_wizard_section(self, text)`
-  - `test_has_recon_step` (method, line 106) `def test_has_recon_step(self, text)`
-  - `test_has_c2_step` (method, line 109) `def test_has_c2_step(self, text)`
-  - `test_has_collab_step` (method, line 112) `def test_has_collab_step(self, text)`
-  - `test_has_troubleshooting` (method, line 115) `def test_has_troubleshooting(self, text)`
-  - `test_mentions_payload_json` (method, line 118) `def test_mentions_payload_json(self, text)`
-  - `test_mentions_sessions` (method, line 121) `def test_mentions_sessions(self, text)`
-  - `test_five_minutes_promise` (method, line 124) `def test_five_minutes_promise(self, text)`
-  - `test_no_hardcoded_ips` (method, line 127) `def test_no_hardcoded_ips(self)`
-  - `test_wizard_module_exists` (method, line 143) `def test_wizard_module_exists(self)`
-  - `test_wizard_has_run_function` (method, line 146) `def test_wizard_has_run_function(self)`
-  - `test_wizard_has_build_readiness` (method, line 151) `def test_wizard_has_build_readiness(self)`
-  - `test_wizard_does_not_import_lazyown` (method, line 156) `def test_wizard_does_not_import_lazyown(self)`
-  - `test_wizard_does_not_import_lazyc2` (method, line 160) `def test_wizard_does_not_import_lazyc2(self)`
-  - `test_module_present` (method, line 171) `def test_module_present(self)`
-  - `test_template_present` (method, line 174) `def test_template_present(self)`
-  - `test_template_not_empty` (method, line 177) `def test_template_not_empty(self)`
-  - `tree` (method, line 183) `def tree(self)`
-  - `test_has_event_bus` (method, line 186) `def test_has_event_bus(self, tree)`
-  - `test_has_lock_manager` (method, line 190) `def test_has_lock_manager(self, tree)`
-  - `test_has_operator_registry` (method, line 194) `def test_has_operator_registry(self, tree)`
-  - `test_has_ui_route` (method, line 198) `def test_has_ui_route(self, tree)`
-  - `test_has_stream_route` (method, line 202) `def test_has_stream_route(self, tree)`
-  - `test_has_publish_route` (method, line 206) `def test_has_publish_route(self)`
-  - `test_has_lock_route` (method, line 210) `def test_has_lock_route(self)`
-  - `bus` (method, line 222) `def bus(self)`
-  - `test_publish_and_receive` (method, line 227) `def test_publish_and_receive(self, bus)`
-  - `test_history_replay_on_subscribe` (method, line 237) `def test_history_replay_on_subscribe(self, bus)`
-  - `test_recent_returns_correct_count` (method, line 248) `def test_recent_returns_correct_count(self, bus)`
-  - `test_reset_clears_history` (method, line 256) `def test_reset_clears_history(self, bus)`
-  - `test_full_queue_drops_stale_subscriber` (method, line 263) `def test_full_queue_drops_stale_subscriber(self, bus)`
-  - `lm` (method, line 283) `def lm(self)`
-  - `test_acquire_grants_first_operator` (method, line 288) `def test_acquire_grants_first_operator(self, lm)`
-  - `test_second_operator_denied` (method, line 291) `def test_second_operator_denied(self, lm)`
-  - `test_same_operator_can_re_acquire` (method, line 295) `def test_same_operator_can_re_acquire(self, lm)`
-  - `test_release_allows_next_operator` (method, line 299) `def test_release_allows_next_operator(self, lm)`
-  - `test_release_by_wrong_operator_fails` (method, line 304) `def test_release_by_wrong_operator_fails(self, lm)`
-  - `test_expired_lock_releases_automatically` (method, line 308) `def test_expired_lock_releases_automatically(self, lm)`
-  - `test_all_locks_returns_list` (method, line 313) `def test_all_locks_returns_list(self, lm)`
-  - `test_reset_clears_all_locks` (method, line 321) `def test_reset_clears_all_locks(self, lm)`
-  - `reg` (method, line 334) `def reg(self)`
-  - `test_join_registers_operator` (method, line 339) `def test_join_registers_operator(self, reg)`
-  - `test_leave_marks_inactive` (method, line 344) `def test_leave_marks_inactive(self, reg)`
-  - `test_multiple_operators` (method, line 350) `def test_multiple_operators(self, reg)`
-  - `test_heartbeat_keeps_alive` (method, line 355) `def test_heartbeat_keeps_alive(self, reg)`
-  - `test_reset_clears_all` (method, line 360) `def test_reset_clears_all(self, reg)`
-  - `client` (method, line 373) `def client(self)`
-  - `test_operators_endpoint_returns_json` (method, line 378) `def test_operators_endpoint_returns_json(self, client)`
-  - `test_locks_endpoint_returns_json` (method, line 385) `def test_locks_endpoint_returns_json(self, client)`
-  - `test_publish_endpoint_accepts_event` (method, line 391) `def test_publish_endpoint_accepts_event(self, client)`
-  - `test_publish_rejects_non_dict_payload` (method, line 397) `def test_publish_rejects_non_dict_payload(self, client)`
-  - `test_lock_endpoint_acquires` (method, line 401) `def test_lock_endpoint_acquires(self, client)`
-  - `test_unlock_endpoint_releases` (method, line 407) `def test_unlock_endpoint_releases(self, client)`
-  - `test_history_endpoint_returns_events` (method, line 413) `def test_history_endpoint_returns_events(self, client)`
-  - `test_lock_missing_target_returns_400` (method, line 420) `def test_lock_missing_target_returns_400(self, client)`
-  - `html` (method, line 432) `def html(self)`
-  - `test_extends_base` (method, line 435) `def test_extends_base(self, html)`
-  - `test_has_sse_connect` (method, line 438) `def test_has_sse_connect(self, html)`
-  - `test_has_operator_list` (method, line 441) `def test_has_operator_list(self, html)`
-  - `test_has_lock_ui` (method, line 444) `def test_has_lock_ui(self, html)`
-  - `test_has_event_log` (method, line 447) `def test_has_event_log(self, html)`
-  - `test_has_chat_input` (method, line 450) `def test_has_chat_input(self, html)`
-  - `test_has_refresh_operators` (method, line 453) `def test_has_refresh_operators(self, html)`
-  - `test_has_join_url_display` (method, line 456) `def test_has_join_url_display(self, html)`
-  - `test_no_hardcoded_ips` (method, line 459) `def test_no_hardcoded_ips(self)`
-  - `command_src` (method, line 474) `def command_src(self)`
-  - `test_collab_join_defined` (method, line 483) `def test_collab_join_defined(self, command_src)`
-  - `test_collab_join_uses_lhost` (method, line 486) `def test_collab_join_uses_lhost(self, command_src)`
-  - `test_collab_join_uses_c2_port` (method, line 489) `def test_collab_join_uses_c2_port(self, command_src)`
-  - `test_collab_join_prints_ui_url` (method, line 492) `def test_collab_join_prints_ui_url(self, command_src)`
-  - `test_collab_join_has_docstring` (method, line 495) `def test_collab_join_has_docstring(self, command_src)`
-- Depends on: `modules/collab_bp.py`
-
-## tests/test_command_allowlist.py
-- Doc: TDD tests for the command allowlist contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestBasicAllow` (class, line 29) `class TestBasicAllow`
-  - `TestShellMetachars` (class, line 45) `class TestShellMetachars`
-  - `TestEmptyInput` (class, line 70) `class TestEmptyInput`
-  - `TestCaseInsensitive` (class, line 92) `class TestCaseInsensitive`
-  - `TestAuditLog` (class, line 101) `class TestAuditLog`
-  - `test_known_command_is_allowed` (method, line 32) `def test_known_command_is_allowed(self)`
-  - `test_unknown_command_is_denied` (method, line 38) `def test_unknown_command_is_denied(self)`
-  - `test_metachar_rejected` (method, line 60) `def test_metachar_rejected(self, payload)`
-  - `test_empty_string_rejected` (method, line 73) `def test_empty_string_rejected(self)`
-  - `test_whitespace_only_rejected` (method, line 79) `def test_whitespace_only_rejected(self)`
-  - `test_non_string_rejected` (method, line 85) `def test_non_string_rejected(self)`
-  - `test_uppercase_token_matches` (method, line 95) `def test_uppercase_token_matches(self)`
-  - `test_audit_log_appends_jsonl` (method, line 104) `def test_audit_log_appends_jsonl(self, tmp_path)`
-  - `test_audit_log_disabled_is_noop` (method, line 116) `def test_audit_log_disabled_is_noop(self, tmp_path)`
-- Depends on: `lazyc2/security/command_allowlist.py`
-
-## tests/test_command_allowlist_behavior.py
-- Doc: BDD behavior scenarios for the command allowlist contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_given_allowlisted_ping_when_checked_then_allowed` (function, line 11) `def test_given_allowlisted_ping_when_checked_then_allowed()`
-  - `test_given_rm_when_checked_then_denied` (function, line 18) `def test_given_rm_when_checked_then_denied()`
-  - `test_given_injection_when_checked_then_denied` (function, line 26) `def test_given_injection_when_checked_then_denied(tmp_path)`
-- Depends on: `lazyc2/security/command_allowlist.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

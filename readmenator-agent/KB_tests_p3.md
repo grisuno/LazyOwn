@@ -1,5 +1,32 @@
-# Subsystem: tests (page 3 of 20)
+# Subsystem: tests (page 3 of 21)
 Previous: [KB_tests_p2.md](KB_tests_p2.md)
+
+## tests/test_auto_registry.py
+- Doc: Auto-verb registry: loop-ready automation commands.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_registry_covers_auto_family` (function, line 28) `def test_registry_covers_auto_family()`
+  - `test_build_command_binds_target` (function, line 38) `def test_build_command_binds_target()`
+  - `test_is_shell_verb_matches_first_token` (function, line 47) `def test_is_shell_verb_matches_first_token()`
+  - `test_verbs_for_matches_keywords` (function, line 55) `def test_verbs_for_matches_keywords()`
+  - `test_propose_and_translate_roundtrip` (function, line 63) `def test_propose_and_translate_roundtrip()`
+  - `_FakeShell` (class, line 73) `class _FakeShell`
+  - `_HangingShell` (class, line 86) `class _HangingShell`
+  - `test_execute_shell_verb_captures_output` (function, line 96) `def test_execute_shell_verb_captures_output()`
+  - `test_execute_shell_verb_rejects_non_verbs` (function, line 104) `def test_execute_shell_verb_rejects_non_verbs()`
+  - `test_execute_shell_verb_timeout_never_hangs` (function, line 112) `def test_execute_shell_verb_timeout_never_hangs()`
+  - `test_execute_shell_verb_without_shell` (function, line 118) `def test_execute_shell_verb_without_shell()`
+  - `test_verb_gap_flags_missing_tooling` (function, line 124) `def test_verb_gap_flags_missing_tooling(monkeypatch)`
+  - `test_missing_binary_skips_builtins_paths_and_scripts` (function, line 134) `def test_missing_binary_skips_builtins_paths_and_scripts(monkeypatch)`
+  - `test_propose_and_steps_skip_unavailable_verbs` (function, line 144) `def test_propose_and_steps_skip_unavailable_verbs(monkeypatch)`
+  - `test_steps_for_uses_next_available_keyword_verb` (function, line 154) `def test_steps_for_uses_next_available_keyword_verb(monkeypatch)`
+  - `test_cancel_running_commands_kills_streaming` (function, line 160) `def test_cancel_running_commands_kills_streaming()`
+  - `__init__` (method, line 76) `def __init__(self, output)`
+  - `onecmd_plus_hooks` (method, line 80) `def onecmd_plus_hooks(self, command)`
+  - `onecmd` (method, line 89) `def onecmd(self, command)`
+  - `_run` (function, line 169) `def _run()`
+- Depends on: `modules/auto_registry.py`
 
 ## tests/test_autonomous_ops.py
 - Doc: BDD scoped tests for integrated autonomous operations C04-C10.
@@ -229,7 +256,7 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_bdd_range_compose_topology` (function, line 65) `def test_bdd_range_compose_topology()`
   - `test_bdd_report_executive_summary_without_ai` (function, line 83) `def test_bdd_report_executive_summary_without_ai()`
   - `Completed` (class, line 28) `class Completed`
-- Depends on: `cli/commands/infra.py`, `cli/commands/lab.py`, `modules/c2_builder.py`, `modules/professional_report.py`
+- Depends on: `cli/commands/infra.py`, `modules/c2_builder.py`, `modules/lab_runtime.py`, `modules/professional_report.py`
 
 ## tests/test_beacon_config_builder.py
 - Doc: Tests for modules/beacon_config_builder.py — BeaconConfig, BeaconConfigBuilder, and...
@@ -461,33 +488,6 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `list_tools` (method, line 89) `def list_tools(self)`
   - `call_tool` (method, line 93) `def call_tool(self)`
 - Depends on: `skills/lazyown_mcp.py`, `utils.py`
-
-## tests/test_bridge_catalog_filtered.py
-- Doc: tests/test_bridge_catalog_filtered.py  Tests for ``BridgeDispatcher.catalog_summary_filtered``...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `dispatcher` (function, line 26) `def dispatcher()`
-  - `TestCatalogSummaryFiltered` (class, line 32) `class TestCatalogSummaryFiltered`
-  - `TestBridgeCatalogToolFunction` (class, line 111) `class TestBridgeCatalogToolFunction`
-  - `test_no_args_matches_unfiltered_summary` (method, line 33) `def test_no_args_matches_unfiltered_summary(self, dispatcher)`
-  - `test_phase_arg_restricts_to_one_phase` (method, line 38) `def test_phase_arg_restricts_to_one_phase(self, dispatcher)`
-  - `test_phase_arg_accepts_world_model_alias` (method, line 43) `def test_phase_arg_accepts_world_model_alias(self, dispatcher)`
-  - `_entries_for` (method, line 48) `def _entries_for(self, dispatcher, phase, command_name)`
-  - `test_os_hint_linux_excludes_windows_only_entries` (method, line 51) `def test_os_hint_linux_excludes_windows_only_entries(self, dispatcher)`
-  - `test_os_hint_windows_excludes_linux_only_entries` (method, line 61) `def test_os_hint_windows_excludes_linux_only_entries(self, dispatcher)`
-  - `test_os_filter_shrinks_or_preserves_each_phase` (method, line 71) `def test_os_filter_shrinks_or_preserves_each_phase(self, dispatcher)`
-  - `test_phase_plus_os_combines_both_filters` (method, line 81) `def test_phase_plus_os_combines_both_filters(self, dispatcher)`
-  - `test_empty_phase_keeps_all_phases` (method, line 89) `def test_empty_phase_keeps_all_phases(self, dispatcher)`
-  - `test_phase_drops_smaller_than_unfiltered_total` (method, line 94) `def test_phase_drops_smaller_than_unfiltered_total(self, dispatcher)`
-  - `test_os_hint_any_is_passthrough` (method, line 100) `def test_os_hint_any_is_passthrough(self, dispatcher)`
-  - `test_os_hint_uppercase_normalized` (method, line 105) `def test_os_hint_uppercase_normalized(self, dispatcher)`
-  - `test_no_args_returns_full_catalog_header` (method, line 112) `def test_no_args_returns_full_catalog_header(self)`
-  - `test_phase_arg_appears_in_header` (method, line 120) `def test_phase_arg_appears_in_header(self)`
-  - `test_os_hint_only_appears_in_header` (method, line 127) `def test_os_hint_only_appears_in_header(self)`
-  - `test_unknown_phase_returns_friendly_no_match` (method, line 134) `def test_unknown_phase_returns_friendly_no_match(self)`
-  - `test_registry_exposes_optional_phase_and_os` (method, line 140) `def test_registry_exposes_optional_phase_and_os(self)`
-- Depends on: `modules/lazyown_bridge.py`, `skills/lazyown_groq_agents.py`
 
 
 Next: [KB_tests_p4.md](KB_tests_p4.md)

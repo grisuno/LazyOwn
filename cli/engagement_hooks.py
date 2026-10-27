@@ -118,6 +118,7 @@ ELO_HIGH_VALUE_CMDS: dict[str, int] = {
     "lazynuclei": 15,
     "dashboard": 5,
     "marketplace": 5,
+    "winbox": 12,
 }
 
 # Engagement ELO and label tables. Canonical kill-chain phases are defined

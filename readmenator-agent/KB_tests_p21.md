@@ -1,0 +1,169 @@
+# Subsystem: tests (page 21 of 21)
+Previous: [KB_tests_p20.md](KB_tests_p20.md)
+
+## tests/test_winbox_gym.py
+- Doc: Contract tests for the WinBox gym catalogue, adapter and matrix runner.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `WinboxCatalogueSpec` (class, line 14) `class WinboxCatalogueSpec(TestCase)`
+  - `WinboxReadinessSpec` (class, line 53) `class WinboxReadinessSpec(TestCase)`
+  - `WinboxBootstrapSpec` (class, line 159) `class WinboxBootstrapSpec(TestCase)`
+  - `WinboxMatrixSpec` (class, line 276) `class WinboxMatrixSpec(TestCase)`
+  - `test_matrix_validates` (method, line 17) `def test_matrix_validates(self)`
+  - `test_summary_shape` (method, line 20) `def test_summary_shape(self)`
+  - `test_get_returns_entry` (method, line 26) `def test_get_returns_entry(self)`
+  - `test_chain_for_resolves` (method, line 33) `def test_chain_for_resolves(self)`
+  - `test_exploit_for_resolves` (method, line 38) `def test_exploit_for_resolves(self)`
+  - `test_gym_definitions_load` (method, line 44) `def test_gym_definitions_load(self)`
+  - `test_readiness_without_binary` (method, line 56) `def test_readiness_without_binary(self)`
+  - `test_readiness_guest_os_fallback` (method, line 64) `def test_readiness_guest_os_fallback(self)`
+  - `test_run_cli_rejects_unknown_action` (method, line 69) `def test_run_cli_rejects_unknown_action(self)`
+  - `test_run_cli_rejects_empty` (method, line 73) `def test_run_cli_rejects_empty(self)`
+  - `test_run_cli_rejects_bad_timeout` (method, line 77) `def test_run_cli_rejects_bad_timeout(self)`
+  - `test_run_cli_missing_binary_is_guidance` (method, line 81) `def test_run_cli_missing_binary_is_guidance(self)`
+  - `test_run_cli_uses_list_form` (method, line 87) `def test_run_cli_uses_list_form(self)`
+  - `test_vm_status_missing_binary` (method, line 97) `def test_vm_status_missing_binary(self)`
+  - `test_status_parsing` (method, line 101) `def test_status_parsing(self)`
+  - `test_record_artifact_sanitised` (method, line 111) `def test_record_artifact_sanitised(self)`
+  - `test_attack_readiness_reasons` (method, line 119) `def test_attack_readiness_reasons(self)`
+  - `test_ensure_installed_already_present` (method, line 125) `def test_ensure_installed_already_present(self)`
+  - `test_ensure_installed_clone_and_pip` (method, line 131) `def test_ensure_installed_clone_and_pip(self)`
+  - `test_ensure_installed_clone_failure_is_guidance` (method, line 146) `def test_ensure_installed_clone_failure_is_guidance(self)`
+  - `test_ensure_prereqs_nothing_missing` (method, line 162) `def test_ensure_prereqs_nothing_missing(self)`
+  - `test_ensure_prereqs_maps_binaries_to_packages` (method, line 168) `def test_ensure_prereqs_maps_binaries_to_packages(self)`
+  - `test_ensure_prereqs_sudo_non_interactive` (method, line 190) `def test_ensure_prereqs_sudo_non_interactive(self)`
+  - `test_ensure_lab_ready_skips_build_when_vm_built` (method, line 208) `def test_ensure_lab_ready_skips_build_when_vm_built(self)`
+  - `test_ensure_lab_ready_runs_iso_and_build_when_unbuilt` (method, line 227) `def test_ensure_lab_ready_runs_iso_and_build_when_unbuilt(self)`
+  - `test_ensure_lab_ready_fails_fast_on_install` (method, line 255) `def test_ensure_lab_ready_fails_fast_on_install(self)`
+  - `test_lazyaddon_install_command_covers_prereqs` (method, line 265) `def test_lazyaddon_install_command_covers_prereqs(self)`
+  - `test_plan_ordered_by_severity` (method, line 279) `def test_plan_ordered_by_severity(self)`
+  - `test_plan_rejects_empty_target` (method, line 285) `def test_plan_rejects_empty_target(self)`
+  - `test_plan_only_filter` (method, line 289) `def test_plan_only_filter(self)`
+  - `test_run_matrix_dry_run` (method, line 293) `def test_run_matrix_dry_run(self)`
+  - `test_run_matrix_requires_vm_when_live` (method, line 301) `def test_run_matrix_requires_vm_when_live(self)`
+  - `test_capture_windows_os_enum` (method, line 309) `def test_capture_windows_os_enum(self)`
+  - `test_capture_system_exec` (method, line 323) `def test_capture_system_exec(self)`
+  - `test_capture_defense_report` (method, line 334) `def test_capture_defense_report(self)`
+  - `test_capture_eventlog_rows` (method, line 345) `def test_capture_eventlog_rows(self)`
+  - `test_metasploitable_capture_unchanged` (method, line 356) `def test_metasploitable_capture_unchanged(self)`
+  - `fake_which` (function, line 173) `def fake_which(name)`
+  - `fake_run` (function, line 176) `def fake_run(argv)`
+  - `fake_run` (function, line 194) `def fake_run(argv)`
+  - `fake_run_cli` (function, line 234) `def fake_run_cli(args, timeout)`
+- Depends on: `modules/__init__.py`, `modules/gym_registry.py`
+
+## tests/test_wizard_binary_check.py
+- Doc: tests/test_wizard_binary_check.py  Tests for the wizard binary-readiness check added to...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestBinarySpecRegistry` (class, line 32) `class TestBinarySpecRegistry`
+  - `TestBinaryNameRegex` (class, line 58) `class TestBinaryNameRegex`
+  - `TestCheckBinariesContract` (class, line 92) `class TestCheckBinariesContract`
+  - `TestGroupByCategory` (class, line 143) `class TestGroupByCategory`
+  - `TestRunIntegratesBinaryCheck` (class, line 156) `class TestRunIntegratesBinaryCheck`
+  - `TestPublicSurface` (class, line 199) `class TestPublicSurface`
+  - `test_default_registry_is_not_empty` (method, line 33) `def test_default_registry_is_not_empty(self)`
+  - `test_every_spec_has_required_fields` (method, line 36) `def test_every_spec_has_required_fields(self)`
+  - `test_every_name_matches_safety_regex` (method, line 44) `def test_every_name_matches_safety_regex(self)`
+  - `test_no_duplicate_binary_names` (method, line 48) `def test_no_duplicate_binary_names(self)`
+  - `test_kill_chain_categories_covered` (method, line 52) `def test_kill_chain_categories_covered(self)`
+  - `test_accepts_known_safe_names` (method, line 72) `def test_accepts_known_safe_names(self, name)`
+  - `test_rejects_unsafe_names` (method, line 88) `def test_rejects_unsafe_names(self, name)`
+  - `test_returns_one_status_per_spec` (method, line 93) `def test_returns_one_status_per_spec(self)`
+  - `test_marks_missing_when_which_returns_none` (method, line 103) `def test_marks_missing_when_which_returns_none(self)`
+  - `test_marks_present_when_which_returns_path` (method, line 109) `def test_marks_present_when_which_returns_path(self)`
+  - `test_skips_specs_with_unsafe_names` (method, line 115) `def test_skips_specs_with_unsafe_names(self)`
+  - `test_check_does_not_invoke_subprocess` (method, line 122) `def test_check_does_not_invoke_subprocess(self, monkeypatch)`
+  - `test_default_specs_used_when_omitted` (method, line 138) `def test_default_specs_used_when_omitted(self)`
+  - `test_groups_preserve_order` (method, line 144) `def test_groups_preserve_order(self)`
+  - `test_run_populates_binaries_when_nothing_changes` (method, line 157) `def test_run_populates_binaries_when_nothing_changes(self, monkeypatch)`
+  - `test_run_populates_binaries_after_updates` (method, line 176) `def test_run_populates_binaries_after_updates(self, monkeypatch)`
+  - `test_check_binaries_in_dunder_all` (method, line 200) `def test_check_binaries_in_dunder_all(self)`
+  - `_fail` (function, line 127) `def _fail()`
+  - `fake_check` (function, line 160) `def fake_check()`
+  - `fake_check` (function, line 179) `def fake_check()`
+- Depends on: `cli/__init__.py`
+
+## tests/test_wizard_llm.py
+- Doc: Contract tests for the wizard LLM provider setup step.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_scripted_prompt` (function, line 14) `def _scripted_prompt(answers)`
+  - `TestNormalizeProviderAnswer` (class, line 23) `class TestNormalizeProviderAnswer`
+  - `TestMaskSecret` (class, line 45) `class TestMaskSecret`
+  - `TestAskLlm` (class, line 59) `class TestAskLlm`
+  - `TestReadinessLlm` (class, line 121) `class TestReadinessLlm`
+  - `_fake` (function, line 17) `def _fake(message)`
+  - `test_blank_returns_none` (method, line 24) `def test_blank_returns_none(self)`
+  - `test_name_case_insensitive` (method, line 28) `def test_name_case_insensitive(self)`
+  - `test_number_selects_backend` (method, line 32) `def test_number_selects_backend(self)`
+  - `test_out_of_range_number_returns_none` (method, line 37) `def test_out_of_range_number_returns_none(self)`
+  - `test_unknown_name_returns_none` (method, line 41) `def test_unknown_name_returns_none(self)`
+  - `test_empty_returns_not_set` (method, line 46) `def test_empty_returns_not_set(self)`
+  - `test_long_value_masked_with_tail` (method, line 50) `def test_long_value_masked_with_tail(self)`
+  - `test_short_value_never_shown_clear` (method, line 53) `def test_short_value_never_shown_clear(self)`
+  - `test_blank_answers_keep_everything` (method, line 60) `def test_blank_answers_keep_everything(self, monkeypatch)`
+  - `test_provider_change_by_name` (method, line 65) `def test_provider_change_by_name(self, monkeypatch)`
+  - `test_provider_change_by_number` (method, line 70) `def test_provider_change_by_number(self, monkeypatch)`
+  - `test_invalid_provider_keeps_current` (method, line 76) `def test_invalid_provider_keeps_current(self, monkeypatch)`
+  - `test_model_override_stored_in_provider_slot` (method, line 80) `def test_model_override_stored_in_provider_slot(self, monkeypatch)`
+  - `test_ollama_skips_key_prompt` (method, line 89) `def test_ollama_skips_key_prompt(self, monkeypatch)`
+  - `test_key_kept_when_blank` (method, line 102) `def test_key_kept_when_blank(self, monkeypatch)`
+  - `test_existing_key_prompt_shows_mask` (method, line 106) `def test_existing_key_prompt_shows_mask(self, monkeypatch)`
+  - `_row` (method, line 122) `def _row(self, params, label)`
+  - `test_cloud_with_key_ok` (method, line 126) `def test_cloud_with_key_ok(self)`
+  - `test_cloud_without_key_missing` (method, line 131) `def test_cloud_without_key_missing(self)`
+  - `test_ollama_keyless_ok` (method, line 136) `def test_ollama_keyless_ok(self)`
+  - `test_invalid_backend_missing_with_fix_hint` (method, line 141) `def test_invalid_backend_missing_with_fix_hint(self)`
+  - `test_model_shown_in_value` (method, line 146) `def test_model_shown_in_value(self)`
+  - `test_sensitive_values_masked` (method, line 150) `def test_sensitive_values_masked(self)`
+  - `_fake` (function, line 92) `def _fake(message)`
+  - `_fake` (function, line 109) `def _fake(message)`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+## tests/test_world_model_extended.py
+- Doc: Tests for extended WorldModel methods: set_os_hint, get_host, get_hosts_summary.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `world_model` (function, line 14) `def world_model()`
+  - `TestSetOsHint` (class, line 22) `class TestSetOsHint`
+  - `TestGetHost` (class, line 43) `class TestGetHost`
+  - `TestGetHostsSummary` (class, line 61) `class TestGetHostsSummary`
+  - `TestAdvanceHostEdgeCases` (class, line 73) `class TestAdvanceHostEdgeCases`
+  - `TestGetPhaseAfterStateChanges` (class, line 90) `class TestGetPhaseAfterStateChanges`
+  - `test_remove_host` (function, line 110) `def test_remove_host(tmp_path, monkeypatch)`
+  - `test_set_os_hint_on_new_host` (method, line 23) `def test_set_os_hint_on_new_host(self, world_model)`
+  - `test_set_os_hint_on_existing_host` (method, line 29) `def test_set_os_hint_on_existing_host(self, world_model)`
+  - `test_set_os_hint_empty_string_is_stored` (method, line 36) `def test_set_os_hint_empty_string_is_stored(self, world_model)`
+  - `test_get_host_returns_none_for_unknown` (method, line 44) `def test_get_host_returns_none_for_unknown(self, world_model)`
+  - `test_get_host_returns_entry_for_known` (method, line 47) `def test_get_host_returns_entry_for_known(self, world_model)`
+  - `test_get_host_is_thread_safe` (method, line 53) `def test_get_host_is_thread_safe(self, world_model)`
+  - `test_empty_summary` (method, line 62) `def test_empty_summary(self, world_model)`
+  - `test_populated_summary` (method, line 65) `def test_populated_summary(self, world_model)`
+  - `test_advance_host_skips_on_same_state` (method, line 74) `def test_advance_host_skips_on_same_state(self, world_model)`
+  - `test_advance_host_skips_on_lower_state` (method, line 79) `def test_advance_host_skips_on_lower_state(self, world_model)`
+  - `test_advance_host_to_owned_is_allowed_from_exploited` (method, line 84) `def test_advance_host_to_owned_is_allowed_from_exploited(self, world_model)`
+  - `test_phase_derived_from_host_state` (method, line 91) `def test_phase_derived_from_host_state(self, world_model)`
+  - `test_phase_post_exploitation_on_owned` (method, line 95) `def test_phase_post_exploitation_on_owned(self, world_model)`
+  - `test_phase_complete_when_all_owned` (method, line 100) `def test_phase_complete_when_all_owned(self, world_model)`
+  - `test_phase_recon_when_no_hosts` (method, line 105) `def test_phase_recon_when_no_hosts(self, world_model)`
+- Depends on: `modules/world_model.py`
+
+## tests/test_xss_sanitization.py
+- Doc: Untrusted data rendered into the DOM must be neutralized.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_src` (function, line 18) `def _src(name)`
+  - `TestXssSinks` (class, line 22) `class TestXssSinks`
+  - `test_collab_events_escaped` (method, line 23) `def test_collab_events_escaped(self)`
+  - `test_yaml_view_loads_purify` (method, line 28) `def test_yaml_view_loads_purify(self)`
+  - `test_yaml_view_chatbot_sanitized` (method, line 32) `def test_yaml_view_chatbot_sanitized(self)`
+  - `test_new_campaign_chunks_sanitized` (method, line 37) `def test_new_campaign_chunks_sanitized(self)`
+  - `test_surface_labels_escaped` (method, line 42) `def test_surface_labels_escaped(self)`
+  - `test_index_lazyos_response_sanitized` (method, line 47) `def test_index_lazyos_response_sanitized(self)`
+

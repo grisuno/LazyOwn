@@ -548,30 +548,39 @@ def start_challenge(challenge_id: str, target: str = "", spin_lab: bool = True) 
         "message": (
             f"Challenge '{chal['name']}' started. Run 'lab range start ad-mini' to spin up the range."
             if chal["scenario"] == "ad-mini"
-            else f"Challenge '{chal['name']}' started. Run 'lab start {chal['scenario']}' to spin up the target."
+            else (
+                f"Challenge '{chal['name']}' started. Lab VM bootstrapping: deps, ISO, build, up."
+                if chal["scenario"] == "winbox"
+                else f"Challenge '{chal['name']}' started. Run 'lab start {chal['scenario']}' to spin up the target."
+            )
         ),
         "next_steps": (
             [
-                "lab range start ad-mini",
-                "assign rhost <ws01-ip from range start output>",
                 "lazynmap",
             ]
-            if chal["scenario"] == "ad-mini"
-            else [
-                f"lab start {chal['scenario']}",
-                "assign rhost 127.0.0.1",
-                "lazynmap",
-            ]
-            + ([f"apt_chain {chal['chain']} <target>"] if chal.get("chain") else [])
+            + ([f"apt_chain {chal['chain']}"] if chal.get("chain") else [])
+            if chal["scenario"] == "winbox"
+            else (
+                [
+                    "lab range start ad-mini",
+                    "assign rhost <ws01-ip from range start output>",
+                    "lazynmap",
+                ]
+                if chal["scenario"] == "ad-mini"
+                else [
+                    f"lab start {chal['scenario']}",
+                    "assign rhost 127.0.0.1",
+                    "lazynmap",
+                ]
+                + ([f"apt_chain {chal['chain']} <target>"] if chal.get("chain") else [])
+            )
         ),
     }
     if lab:
         result["lab"] = lab
         container_ip = str(lab.get("ip", "") or "")
         if lab_started and container_ip:
-            result["message"] = (
-                f"Challenge '{chal['name']}' started. Lab '{chal['scenario']}' is up on {container_ip}."
-            )
+            result["message"] = f"Challenge '{chal['name']}' started. Lab '{chal['scenario']}' is up on {container_ip}."
             result["next_steps"] = (
                 [
                     f"assign rhost {container_ip}",
@@ -597,6 +606,24 @@ def _spin_scenario(scenario: str) -> dict[str, Any]:
     scenario = str(scenario or "").strip()
     if not scenario or scenario == "ad-mini":
         return {}
+    if scenario == "winbox":
+        try:
+            from modules import winbox_gym
+
+            if not winbox_gym.binary_path():
+                return {}
+            ready = winbox_gym.ensure_lab_ready()
+            message = str(ready.get("message") or "")
+            return {
+                "success": bool(ready.get("success")),
+                "scenario": scenario,
+                "ip": str(ready.get("ip") or ""),
+                "stage": str(ready.get("stage") or ""),
+                "message": message,
+                "error": message,
+            }
+        except Exception:
+            return {}
     try:
         from modules import lab_runtime
 
@@ -757,13 +784,9 @@ def _teardown_stopped_scenarios(stopped: list[dict[str, Any]]) -> dict[str, dict
     try:
         from modules import lab_runtime
 
-        remaining = {
-            str(row.get("challenge_id", ""))
-            for row in get_active_runs()
-        }
+        remaining = {str(row.get("challenge_id", "")) for row in get_active_runs()}
         remaining_scenarios = {
-            str((reload_challenge_definitions().get(cid) or {}).get("scenario", "") or "").strip()
-            for cid in remaining
+            str((reload_challenge_definitions().get(cid) or {}).get("scenario", "") or "").strip() for cid in remaining
         }
         for scenario in scenarios:
             if scenario in remaining_scenarios:

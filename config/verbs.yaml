@@ -1643,6 +1643,13 @@ verbs:
     description: WebSocket beacon transport for modern C2 channels. Client + server
       handler with AES encryption and TLS support.
     source: addon
+  addon:winbox:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: "WinBox \u2014 isolated Windows vulnerability-research platform for\
+      \ Kali and AI agents."
+    source: addon
   addon:wspcoerce:
     enabled: false
     phase: lateral
@@ -6797,6 +6804,12 @@ verbs:
     risk: exploit
     description: Creates a base64 encoded payload specifically for Windows to execute
       a PowerShell command or download a file using `self.params['lhost']`.
+    source: cli
+  winbox:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Control the WinBox isolated Windows lab from the LazyOwn shell.
     source: cli
   windapsearch:
     enabled: false

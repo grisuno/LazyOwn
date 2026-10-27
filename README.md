@@ -22,6 +22,8 @@ curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -
 |---|---|---|
 | `docker run -it ghcr.io/grisuno/lazyown:latest` | `ping > lazynmap > auto_populate > facts_show > recommend_next` | `auto_loop --target 10.10.11.5` |
 
+<img width="1505" height="868" alt="image" src="https://github.com/user-attachments/assets/a39570b5-8062-4448-a83e-b1609cc60f82" />
+
 ![golden path demo](assets/demo/golden-path.gif)
 ![C2 collab demo](assets/demo/c2-collab.gif)
 ![MCP AI demo](assets/demo/mcp-ai.gif)

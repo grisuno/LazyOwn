@@ -211,6 +211,147 @@
                     {% endif %}
                 </div>
             </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Appendix C: Attack Surface Intelligence</div>
+                <div class="card-body">
+                    {% set si = surface_intel or {} %}
+                    {% set si_summary = si.get('summary', {}) or {} %}
+                    {% if si_summary %}
+                    {% set funnel = si_summary.get('funnel', {}) or {} %}
+                    <p class="mb-2">
+                        {{ funnel.get('discovered', 0) }} host(s) discovered,
+                        {{ funnel.get('owned', 0) }} owned,
+                        {{ funnel.get('finding', 0) }} finding(s) logged.
+                    </p>
+                    {% set heat = si_summary.get('heat_counts', {}) or {} %}
+                    <p class="mb-2">
+                        <span class="badge bg-danger">hot {{ heat.get('hot', 0) }}</span>
+                        <span class="badge bg-warning text-dark">warm {{ heat.get('warm', 0) }}</span>
+                        <span class="badge bg-secondary">cold {{ heat.get('cold', 0) }}</span>
+                    </p>
+                    {% if si_summary.get('top_exposed') %}
+                    <table class="table table-bordered mb-3">
+                        <thead>
+                            <tr>
+                                <th>Host</th>
+                                <th>Score</th>
+                                <th>Why</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for host in si_summary.get('top_exposed', [])[:10] %}
+                            <tr>
+                                <td>{{ host.get('asset', '') }}</td>
+                                <td><span class="badge bg-primary">{{ host.get('score', 0) }}</span></td>
+                                <td class="small">
+                                    {% for label, points in (host.get('score_detail', {}) or {}).items() %}
+                                    <span class="badge bg-light text-dark">{{ label }} +{{ points }}</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                    {% else %}
+                    <p class="text-muted">No intel summary yet. Run an nmap scan and refresh the Intel view.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Appendix D: Recent Environment Changes (last 14 days)</div>
+                <div class="card-body">
+                    {% if si.get('changes') %}
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Change</th>
+                                <th>Host</th>
+                                <th>Port</th>
+                                <th>Detail</th>
+                                <th>Age</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in si.get('changes', []) %}
+                            <tr>
+                                <td><span class="badge bg-info text-dark">{{ row.get('kind', '') }}</span></td>
+                                <td>{{ row.get('ip', '') }}</td>
+                                <td>{{ row.get('port', '') }}</td>
+                                <td>{{ row.get('what', '') }}</td>
+                                <td>{{ '%.1f' | format(row.get('age_days', 0)) }}d</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-muted">No world changes recorded in the last 14 days.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Appendix E: Ghost Hosts</div>
+                <div class="card-body">
+                    {% if si.get('ghosts') %}
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Host</th>
+                                <th>Still answers</th>
+                                <th>Ghost for</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in si.get('ghosts', []) %}
+                            <tr>
+                                <td>{{ row.get('host', '') }}</td>
+                                <td>{{ row.get('answers', '') }}</td>
+                                <td>{{ '%.1f' | format(row.get('since_days', 0)) }}d</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <p class="text-muted small">Name no longer resolves but the address still answers. Verify before trusting stale intel.</p>
+                    {% else %}
+                    <p class="text-muted">No ghost hosts detected.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Appendix F: Engagement History</div>
+                <div class="card-body">
+                    {% if si.get('history') %}
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Hosts</th>
+                                <th>Owned</th>
+                                <th>Findings</th>
+                                <th>Changes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in si.get('history', []) %}
+                            <tr>
+                                <td>{{ row.get('date', '') }}</td>
+                                <td>{{ row.get('hosts', 0) }}</td>
+                                <td>{{ row.get('owned', 0) }}</td>
+                                <td>{{ row.get('findings', 0) }}</td>
+                                <td>{{ row.get('changes', 0) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-muted">No daily engagement history yet.</p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         <button type="button" onclick="window.location.href = '/teamserver';" class="btn btn-primary">Update</button>
         <button  type="button" id="downloadPdf" class="btn btn-primary">Download PDF</button>

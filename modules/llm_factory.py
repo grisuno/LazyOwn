@@ -330,6 +330,26 @@ def load_payload(payload_path: str | None = None) -> dict[str, Any]:
         return {}
 
 
+def _is_placeholder_key(value: object) -> bool:
+    """Return True when a key value is a shipped placeholder, not a secret.
+
+    Args:
+        value: Candidate key text.
+
+    Returns:
+        True for blank values, the literal ``api_key`` and the shipped
+        ``YOUR_API_KEY_HERE``-style placeholders, so doomed requests are
+        never sent.
+    """
+    try:
+        from modules.llm_orchestrator import is_placeholder_key
+
+        return is_placeholder_key(str(value or ""))
+    except Exception:
+        text = str(value or "").strip().lower()
+        return not text or text in ("api_key",) or "your_api_key" in text
+
+
 def _resolve_api_key(config: Mapping[str, Any]) -> str | None:
     """Return a usable Groq API key or ``None`` when no real key is set.
 
@@ -345,10 +365,10 @@ def _resolve_api_key(config: Mapping[str, Any]) -> str | None:
         the ``GROQ_API_KEY`` environment variable, or ``None``.
     """
     candidate = config.get(CONFIG_KEY_API_KEY)
-    if isinstance(candidate, str) and candidate and candidate != CONFIG_KEY_API_KEY_PLACEHOLDER:
+    if isinstance(candidate, str) and not _is_placeholder_key(candidate):
         return candidate
     env_value = os.environ.get(ENV_GROQ_API_KEY)
-    if env_value:
+    if env_value and not _is_placeholder_key(env_value):
         return env_value
     return None
 
@@ -375,11 +395,11 @@ def _resolve_api_key_for_backend(
     config_key, env_var = key_map.get(backend, (None, None))
     if config_key:
         candidate = config.get(config_key)
-        if isinstance(candidate, str) and candidate and candidate != CONFIG_KEY_API_KEY_PLACEHOLDER:
+        if isinstance(candidate, str) and not _is_placeholder_key(candidate):
             return candidate
     if env_var:
         env_value = os.environ.get(env_var)
-        if env_value:
+        if env_value and not _is_placeholder_key(env_value):
             return env_value
     return None
 

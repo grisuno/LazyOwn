@@ -212,7 +212,9 @@ def test_loot_mark_writes_rejected_edge(tmp_path):
         sess.mkdir()
         (sess / "credentials.txt").write_text("admin:Passw0rd!\n", encoding="utf-8")
         assert loot_mark("admin", "rejected", "10.0.0.9", sessions_dir=str(sess)) is True
-        data = json.loads((sess / "world_model.json").read_text(encoding="utf-8"))
+        from modules.world_model import read_state_dict
+
+        data = read_state_dict(sess / "world_model.json")
         rels = data["network_graph"]["relations"]
         assert any(r["relation"] == "rejected_by" and r["target"] == "host:10.0.0.9" for r in rels)
     finally:

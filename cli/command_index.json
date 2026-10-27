@@ -93,7 +93,7 @@
     "cli/commands/verb_admin.py"
   ],
   "source_sha256": {
-    "lazyown.py": "5d816e7051c36d8cca29869fbcd11df7d327ba747f2097b16f38675939ee2477",
+    "lazyown.py": "230a2355e8850afbf46f474e79578c37b6fb11c0ef879cde90717e6fd81ace4c",
     "cli/commands/active_directory.py": "192e0142d72873886f4999c8f43c0bc847fc521431ffd370fd7168343fe7aeea",
     "cli/commands/ai.py": "f37d1b498788a83aed906f77ffc707885bdc118f3c39e7756b7eb5e40ee668d2",
     "cli/commands/anti_forensics.py": "8aa4e0ceaa3c58c24f884dc828edd4557288108825331c600f1143074591b791",
@@ -134,11 +134,11 @@
     "cli/commands/exploit.py": "008a79702a5adb4e26736a369fe52508dfb02932bc8e4971f5017e88d27567a7",
     "cli/commands/exploit_migrated.py": "5246d09aafa2009df6cf5f20b06a255d30f00a322d916ba051d7cc808acc9318",
     "cli/commands/exploitgym.py": "365c98a1002f589c8d2143f605e0ed8d6d8668417fe14a5b1f8fd475d4398831",
-    "cli/commands/golden_paths.py": "642ad2aca4895947410db213ba95f861c2ed407ce4785d87bee97261f34390b6",
-    "cli/commands/gym_matrix.py": "8b216720bf0fe3dab656ffd3f5509536793ec04bd32c595c645c041baca7c27e",
+    "cli/commands/golden_paths.py": "8ec2324e99a1734b3c8307925ee40e6c2f0e37171f21eb63a5fe877e5d1e44e2",
+    "cli/commands/gym_matrix.py": "e18c5b606430984abb1c4db6f2669571b84a327b132edc037b4d0a61cd15281e",
     "cli/commands/help_ui.py": "a841a890187be73bf0c85e666b39c14407ede6f34b85d5a68d49170105f1bd37",
     "cli/commands/infra.py": "b6b9031230e32ca71e5372c7a9438f99b64889956a54685ea42a00bff7c5c1ef",
-    "cli/commands/lab.py": "fb02e3e1e9a74619edae3a33867d10dfb2c6bb57d6238175085aef486dbf84f9",
+    "cli/commands/lab.py": "33dcff322795c822bbc77b6e119b7d797d4050b0725f831ecfc9df475bb6ac81",
     "cli/commands/lateral.py": "1d42361ff3341c33ff2a3761e5516822f2de672d824f5aa592750355b7b380e8",
     "cli/commands/lateral_migrated.py": "13b097f71511d9c64add437942afa3e80a9490525b811b1cad9818e83ce20212",
     "cli/commands/lazyloop.py": "b970cbecd518d47d3e9fe56fddc1314701d6122df905fe192ffbdcac2a6431e2",
@@ -163,7 +163,7 @@
     "cli/commands/privilege_escalation.py": "3829f9775200bd84083aeacde450f3022ba721815927e2882da9dae3c17bd711",
     "cli/commands/purple_team.py": "c94742dca374ba5c5dfa1409f6abbe0712e19721cd04dee2a428011ae83e2d9b",
     "cli/commands/pwn.py": "9960e3f6aac315ff1e5a8855bf5f034b8e08d78cc292fd20bd892c4ab534c05d",
-    "cli/commands/recon.py": "963408382c270a281f18712f3a3c34c379210de92208648b6bcb7b7c10e46b1a",
+    "cli/commands/recon.py": "55cf493d15e87115fe6bead797df5b60da244f180d87d37e50aa24860573bbe4",
     "cli/commands/recon_migrated.py": "b4d3fe069b028c2e21bb8d34117389cf2ea3a584757d1f332b32a6eff6b5eceb",
     "cli/commands/redteam_gym.py": "18e004bcaa7ebf1315671f09486a76563ad272d25e1683ba4971a5f8dee7cb12",
     "cli/commands/report.py": "4045e672ec29aa8840ade8ba5e53cfa61a99a90d4e65c82bbd63b912c32a5415",
@@ -176,7 +176,7 @@
     "cli/commands/scan_migrated.py": "027a03c6b424558a091095f4ef5d38378d9e7aafb9f6edad693c5e32d99ec385",
     "cli/commands/security.py": "fb826ad35144239925b7a1b98da04b4e9ee6505e48dbd0401f3ecfb0a75540a8",
     "cli/commands/session_ops.py": "230cb9cf05302ad6f2acc412e757f6491d9a1be676477285efb8d2493746471c",
-    "cli/commands/shellsys.py": "fa04b637d13f3b5a6a7010d616b3da8336aca11a8e65fd89da84ca27d6e0c6a5",
+    "cli/commands/shellsys.py": "695a9ad2b41d696747b4d0ed1dfae0982603ee7da2cb2994407a3bd1375deb77",
     "cli/commands/sleep_obfuscation.py": "5f2a212857eb38a2e9143f8498d54d7b35f7d8f92ad0a0cf40830b2151adedde",
     "cli/commands/socks_proxy.py": "e99a7a2b9659faa77c93932118fcd4798ca09fbacc85a69c4e01046cc098dc1f",
     "cli/commands/supply_chain.py": "a9f97411e937e90f9ea87f3ba10853f6dc0ae4500a086babe256224206efdc2f",
@@ -8744,7 +8744,7 @@
     },
     {
       "name": "do_dig",
-      "line": 154,
+      "line": 148,
       "summary": "Executes the `dig` command to query DNS information.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -8755,7 +8755,7 @@
     },
     {
       "name": "do_dnsenum",
-      "line": 186,
+      "line": 180,
       "summary": "Performs DNS enumeration using `dnsenum` to identify subdomains for a given domain.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -8766,7 +8766,7 @@
     },
     {
       "name": "do_dnsmap",
-      "line": 222,
+      "line": 216,
       "summary": "Performs DNS enumeration using `dnsmap` to discover subdomains for a specified domain.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -8777,7 +8777,7 @@
     },
     {
       "name": "do_whatweb",
-      "line": 255,
+      "line": 249,
       "summary": "Performs a web technology fingerprinting scan using `whatweb`.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -8788,7 +8788,7 @@
     },
     {
       "name": "do_nbtscan",
-      "line": 292,
+      "line": 286,
       "summary": "Performs network scanning using `nbtscan` to discover NetBIOS names and addresses in a specified range.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -8799,7 +8799,7 @@
     },
     {
       "name": "do_nikto",
-      "line": 320,
+      "line": 314,
       "summary": "Runs the `nikto` tool to perform a web server vulnerability scan against the specified target host.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -8810,7 +8810,7 @@
     },
     {
       "name": "do_finalrecon",
-      "line": 429,
+      "line": 423,
       "summary": "Runs the `finalrecon` tool to perform a web server vulnerability scan against the specified target host.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -8821,7 +8821,7 @@
     },
     {
       "name": "do_openssl_sclient",
-      "line": 461,
+      "line": 455,
       "summary": "Uses `openssl s_client` to connect to a specified host and port, allowing for testing and debugging of SSL/TLS connections.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -8832,7 +8832,7 @@
     },
     {
       "name": "do_ss",
-      "line": 491,
+      "line": 485,
       "summary": "Search all exploit sources and map findings to the next LazyOwn command.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -8843,7 +8843,7 @@
     },
     {
       "name": "do_wfuzz",
-      "line": 654,
+      "line": 648,
       "summary": "Uses `wfuzz` to perform fuzzing based on provided parameters. This function supports various options for directory and file fuzzing.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -10647,7 +10647,7 @@
     },
     {
       "name": "do_sh",
-      "line": 30,
+      "line": 31,
       "summary": "Executes a shell command directly from the LazyOwn interface.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10658,7 +10658,7 @@
     },
     {
       "name": "do_sys",
-      "line": 62,
+      "line": 63,
       "summary": "Executes a shell command directly from the LazyOwn interface.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10669,7 +10669,7 @@
     },
     {
       "name": "do_pwd",
-      "line": 110,
+      "line": 111,
       "summary": "Displays the current working directory and lists files, and copies the current directory path to the clipboard.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10680,7 +10680,7 @@
     },
     {
       "name": "do_nano",
-      "line": 146,
+      "line": 147,
       "summary": "Opens or creates the file using line in the sessions directory for editing using nano.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10691,7 +10691,7 @@
     },
     {
       "name": "do_cron",
-      "line": 170,
+      "line": 171,
       "summary": "Schedules a command to run at a specified time.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10702,7 +10702,7 @@
     },
     {
       "name": "do_clean",
-      "line": 216,
+      "line": 217,
       "summary": "Deletes files and directories in the `sessions` directory, excluding specified files and directories.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10713,7 +10713,7 @@
     },
     {
       "name": "do_fixperm",
-      "line": 303,
+      "line": 305,
       "summary": "Fix permissions for LazyOwn shell scripts.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10724,7 +10724,7 @@
     },
     {
       "name": "do_fixel",
-      "line": 336,
+      "line": 338,
       "summary": "Fixes file permissions and line endings in the project directories.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10735,7 +10735,7 @@
     },
     {
       "name": "do_pop",
-      "line": 369,
+      "line": 371,
       "summary": "Open a centered popup in the current tmux session to execute a shell command.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10746,7 +10746,7 @@
     },
     {
       "name": "do_tab",
-      "line": 406,
+      "line": 408,
       "summary": "Executes the `lazypyautogui.py` script with optional arguments.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -10966,7 +10966,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 4634,
+      "line": 4628,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -10977,7 +10977,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 4664,
+      "line": 4658,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -10988,7 +10988,7 @@
     },
     {
       "name": "do_route",
-      "line": 4703,
+      "line": 4697,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

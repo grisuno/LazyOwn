@@ -84,10 +84,7 @@ class GymMetasploitableCommandSet(LazyOwnCommandSet):
         """
         args = shlex.split(line)
         if not args:
-            print_msg(
-                f"{BLUE}Usage: gym_metasploitable plan|run|report|verify "
-                f"[N] --only v1,v2 --dry-run{RESET}"
-            )
+            print_msg(f"{BLUE}Usage: gym_metasploitable plan|run|report|verify [N] --only v1,v2 --dry-run{RESET}")
             return
         action = args[0].lower()
         rest = args[1:]
@@ -133,10 +130,7 @@ class GymMetasploitableCommandSet(LazyOwnCommandSet):
         print_msg(f"{BLUE}Gym matrix plan ({len(plan)} vector(s)){RESET}")
         for idx, item in enumerate(plan, 1):
             chain = item["chain_name"] or "(no chain)"
-            print_msg(
-                f"  {CYAN}[{idx}]{RESET} {item['vuln_id']:<28} "
-                f"{item['severity']:<8} {chain:<44} {item['cve']}"
-            )
+            print_msg(f"  {CYAN}[{idx}]{RESET} {item['vuln_id']:<28} {item['severity']:<8} {chain:<44} {item['cve']}")
 
     def _run(self, top_k: int, only: list[str] | None, dry_run: bool) -> None:
         """Execute the matrix and verify CTF captures.
@@ -165,8 +159,7 @@ class GymMetasploitableCommandSet(LazyOwnCommandSet):
         for run in result["runs"]:
             status_color = GREEN if run["status"] == "ok" else RED
             print_msg(
-                f"  {status_color}{run['status']:<10}{RESET} {run['vuln_id']:<28} "
-                f"capture={run.get('capture', '-')}"
+                f"  {status_color}{run['status']:<10}{RESET} {run['vuln_id']:<28} capture={run.get('capture', '-')}"
             )
 
     def _report(self) -> None:

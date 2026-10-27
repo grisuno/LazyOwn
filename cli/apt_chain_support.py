@@ -405,6 +405,34 @@ def _step_from_decision(command: str, outcome: Any, executed_count: int):
     )
 
 
+def _recent_changes_block(target: str) -> str:
+    """Recent world changes on the target for one LLM recovery prompt.
+
+    Args:
+        target: Target address the chain ran against.
+
+    Returns:
+        ``"Recent world changes (last 7 days):\n- ...\n"`` or empty.
+    """
+    import time as _time
+
+    try:
+        from modules import lazy_world_diff
+
+        rows = lazy_world_diff.recent_changes(lazy_world_diff.SESSIONS_DIR, days=7, host=target or "")[:5]
+    except Exception:
+        return ""
+    if not rows:
+        return ""
+    lines = []
+    for row in rows:
+        age_days = max(0.0, (_time.time() - float(row.get("detected", 0) or 0)) / 86400.0)
+        lines.append(
+            f"- {row.get('kind', 'change')} on {row.get('ip', '')} port {row.get('port', '')} ({age_days:.1f}d ago)"
+        )
+    return "Recent world changes (last 7 days):\n" + "\n".join(lines) + "\n"
+
+
 def build_llm_recovery_chain(result: ChainRunResult, target: str = "", task_id: str = "") -> Chain | None:
     """Ask the LLM pool for a temporary recovery chain after a failed run.
 
@@ -427,10 +455,12 @@ def build_llm_recovery_chain(result: ChainRunResult, target: str = "", task_id: 
     failed_lines = "\n".join(
         f"- {outcome.id}: {outcome.run[:160]} ({outcome.status}: {outcome.reason[:120]})" for outcome in failed[:5]
     )
+    changes_block = _recent_changes_block(target or result.target)
     prompt = (
         f"The APT chain '{result.name}' against {target or result.target} failed.\n"
         f"Steps already ok: {', '.join(ok_ids) or 'none'}.\n"
         f"Failed steps:\n{failed_lines}\n"
+        f"{changes_block}"
         "Propose up to 3 alternative shell commands that recover the objective, "
         "one per line, no numbering, no explanations. Use only tools installed "
         "on this host. Never leave the authorized target. Never use sudo."

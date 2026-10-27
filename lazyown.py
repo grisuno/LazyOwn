@@ -2809,13 +2809,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as _post_exc:
             print_warn(f"recon plan post-processing failed: {_post_exc}")
 
-        if (self.params.get("api_key") or "").strip():
-            self.onecmd("vulnbot_groq")
-        else:
-            print_warn(
-                "Skipping vulnbot_groq: 'api_key' not set in payload.json "
-                "(use 'assign api_key <token>' to enable Groq-backed analysis)."
-            )
+        self.onecmd("vulnbot_groq")
         self.onecmd("report")
         return
 

@@ -1377,6 +1377,7 @@ def test_do_qa_runs_shutdown_and_dedupes_killall(monkeypatch):
         return {}
 
     monkeypatch.setattr(loop, "shutdown_loop_runtime", _fake_shutdown)
+    monkeypatch.setattr(loop, "arm_exit_watchdog", lambda *a, **k: None)
     cmdset = SessionOpsCommandSet()
     recorded: list[str] = []
     cmdset.cmd = lambda command: recorded.append(command)  # type: ignore[method-assign]
@@ -1415,7 +1416,7 @@ def test_lazynmap_routing_and_steps(store):
         engine.store,
         shell=_Shell(),
     )
-    assert worker._steps_for(intent) == ["lazynmap 127.0.0.1"]
+    assert worker._steps_for(intent) == ["ping -c 1 -W 2 127.0.0.1 2>&1", "lazynmap 127.0.0.1"]
     output = worker._run("lazynmap 127.0.0.1", None)
     assert "scanned" in output
     assert seen == ["lazynmap 127.0.0.1"]
@@ -1431,7 +1432,8 @@ def test_lazynmap_routing_and_steps(store):
         engine.store,
     )
     steps = bare._steps_for(intent)
-    assert steps and steps[0].startswith("nmap -sV")
+    assert steps[0].startswith("ping -c 1")
+    assert any(step.startswith("nmap -sV") for step in steps)
 
 
 def test_lazynmap_overrides_payload_rhost_for_scope(store):

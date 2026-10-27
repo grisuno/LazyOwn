@@ -32,8 +32,12 @@ try:
     from ai_model import AIModel
     from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
 except ImportError:
-    print("Error: Could not import ai_model or llm_factory. Ensure modules/ are on PYTHONPATH.")
-    sys.exit(1)
+    try:
+        from modules.ai_model import AIModel
+        from modules.llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
+    except ImportError:
+        print("Error: Could not import ai_model or llm_factory. Ensure modules/ are on PYTHONPATH.")
+        sys.exit(1)
 
 
 _PROVIDER_ALIAS = {

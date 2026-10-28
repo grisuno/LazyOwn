@@ -234,10 +234,9 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
         if hints:
             print_msg(f"Hint: {hints[0]}")
         if (
-            chal["scenario"] == "winbox"
+            chal.get("chain")
             and (lab.get("success"))
             and lab.get("ip")
-            and chal.get("chain")
             and "--no-chain" not in args
         ):
             print_msg(f"{CYAN}Auto-launching chain: apt_chain {chal['chain']} {lab['ip']}{RESET}")

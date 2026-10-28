@@ -1,22 +1,22 @@
 # modules: lazy_loop
 
-*Community 3 | 108 files | cohesion 0.58*
+*Community 2 | 117 files | cohesion 0.56*
 
 ## Definition
 
-This community groups 108 file(s) rooted at `tests` with dominant language py (cohesion 0.58). Central symbols: `ActivityLog`, `ActivityLogPort`, `AssetGate`, `AssetGraph`, `AssetNode`, `AutoVerb`, `Budget`, `BuildAgentProfiles`. Core file: `modules/lazy_loop.py` (466 symbols). Documented purpose: Lazy queue and misc command set.  Engine-backed operator surface with ``lazy_`` names. Every command here reads or writes the single ``modules.lazy_engine`` sto.
+This community groups 117 file(s) rooted at `tests` with dominant language py (cohesion 0.56). Central symbols: `ActivityLog`, `ActivityLogPort`, `AssetGate`, `AssetGraph`, `AssetNode`, `AutoVerb`, `Budget`, `BuildAgentProfiles`. Core file: `modules/lazy_loop.py` (467 symbols). Documented purpose: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod escape detection, and container privilege .
 
 ## Files
 
-### `tests` (52 files)
+### `tests` (53 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `tests/conftest.py` | py | testing | 11 | yes |
 | `tests/test_asset_gate.py` | py | testing | 16 | yes |
 | `tests/test_auto_registry.py` | py | testing | 20 | yes |
+| `tests/test_c2_agent_dual.py` | py | testing | 31 | yes |
 
-### `modules` (35 files)
+### `modules` (37 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -24,13 +24,20 @@ This community groups 108 file(s) rooted at `tests` with dominant language py (c
 | `modules/auto_registry.py` | py | utility | 43 | yes |
 | `modules/custom_tools.py` | py | utility | 11 | yes |
 
+### `cli/commands` (7 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/commands/containers.py` | py | infrastructure | 7 | yes |
+| `cli/commands/golden_paths.py` | py | utility | 5 | yes |
+| `cli/commands/gym_matrix.py` | py | utility | 9 | yes |
+
 ### `modules/mediation` (7 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/mediation/__init__.py` | py | utility | 0 | yes |
 | `modules/mediation/chain_mediator.py` | py | utility | 8 | yes |
-| `modules/mediation/contracts.py` | py | utility | 12 | yes |
 
 ### `cli` (5 files)
 
@@ -38,7 +45,6 @@ This community groups 108 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `cli/lazy_monitor.py` | py | utility | 46 | yes |
 | `cli/lazy_orchestrator.py` | py | utility | 46 | yes |
-| `cli/orchestrator_assets_tabs.py` | py | utility | 62 | yes |
 
 ### `modules/tools` (3 files)
 
@@ -47,17 +53,11 @@ This community groups 108 file(s) rooted at `tests` with dominant language py (c
 | `modules/tools/__init__.py` | py | utility | 0 | yes |
 | `modules/tools/loop_smoke.py` | py | utility | 10 | yes |
 
-### `cli/commands` (2 files)
+### `core` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `cli/commands/lazyloop.py` | py | utility | 12 | yes |
-| `cli/commands/lazyops.py` | py | utility | 71 | yes |
-
-### `core` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
+| `core/process.py` | py | business_logic | 12 | yes |
 | `core/terminal_guard.py` | py | utility | 8 | yes |
 
 ### `lazyc2/blueprints` (1 files)
@@ -78,11 +78,32 @@ This community groups 108 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `skills/lazyown_mcp_opencode.py` | py | utility | 6 | yes |
 
-*... and 88 more files in this community.*
+*... and 97 more files in this community.*
 
 
 ## Key Symbols
 
+- `ContainerCommandSet` (class, `cli/commands/containers.py:30`) `class ContainerCommandSet(LazyOwnCommandSet)` - Container and Kubernetes attack commands.
+- `do_docker_enum` (method, `cli/commands/containers.py:37`) `def do_docker_enum(self, _line)` - Enumerate Docker host: containers, images, privileges, mounts.
+- `do_k8s_enum` (method, `cli/commands/containers.py:101`) `def do_k8s_enum(self, _line)` - Enumerate Kubernetes cluster: pods, secrets, SAs, RBAC.
+- `do_container_escape` (method, `cli/commands/containers.py:169`) `def do_container_escape(self, _line)` - Check current container for known escape vectors.
+- `do_k8s_pods` (method, `cli/commands/containers.py:239`) `def do_k8s_pods(self, line)` - List Kubernetes pods with security-relevant details.
+- `do_k8s_secrets` (method, `cli/commands/containers.py:283`) `def do_k8s_secrets(self, line)` - List and decode Kubernetes secrets.
+- `do_container_detect` (method, `cli/commands/containers.py:334`) `def do_container_detect(self, _line)` - Auto-detect container runtime and escape primitives.
+- `GoldenPathsCommandSet` (class, `cli/commands/golden_paths.py:35`) `class GoldenPathsCommandSet(LazyOwnCommandSet)` - Deterministic attack-path solver commands.
+- `do_golden_paths` (method, `cli/commands/golden_paths.py:42`) `def do_golden_paths(self, line)` - Build, show, or push attack paths from the world model.
+- `_build` (method, `cli/commands/golden_paths.py:65`) `def _build(self, top_k)` - Solve paths from the live world model and persist them.
+- `_show` (method, `cli/commands/golden_paths.py:86`) `def _show(self)` - Render the persisted attack-path artifact.
+- `_push` (method, `cli/commands/golden_paths.py:100`) `def _push(self)` - Push the persisted paths into sessions/objectives.jsonl.
+- `_extract_flag` (function, `cli/commands/gym_matrix.py:34`) `def _extract_flag(args, flag)` - Extract ``--flag <value>`` from tokenised arguments.
+- `_extract_bool` (function, `cli/commands/gym_matrix.py:55`) `def _extract_bool(args, flag)` - Extract a boolean flag from tokenised arguments.
+- `GymMetasploitableCommandSet` (class, `cli/commands/gym_matrix.py:72`) `class GymMetasploitableCommandSet(LazyOwnCommandSet)` - MS2 gym matrix: plan, run and report deterministic attack paths.
+- `do_gym_metasploitable` (method, `cli/commands/gym_matrix.py:79`) `def do_gym_metasploitable(self, line)` - Plan, run, and report the Metasploitable 2 gym matrix.
+- `_plan` (method, `cli/commands/gym_matrix.py:111`) `def _plan(self, top_k, only)` - Render the ordered execution plan.
+- `_run` (method, `cli/commands/gym_matrix.py:135`) `def _run(self, top_k, only, dry_run)` - Execute the matrix and verify CTF captures.
+- `_report` (method, `cli/commands/gym_matrix.py:165`) `def _report(self)` - Show the aggregated CTF capture summary.
+- `_verify` (method, `cli/commands/gym_matrix.py:181`) `def _verify(self, rest)` - Print the stored record of one vulnerability.
+- `_target` (method, `cli/commands/gym_matrix.py:200`) `def _target(self)` - Return the configured victim host.
 - `_engine` (function, `cli/commands/lazyloop.py:22`) `def _engine()` - Return a fresh engine handle over the persisted lazy store.
 - `LazyQueueCommandSet` (class, `cli/commands/lazyloop.py:29`) `class LazyQueueCommandSet(LazyOwnCommandSet)` - Lazy queue controls backed by the loop engine.
 - `do_lazy_sync` (method, `cli/commands/lazyloop.py:36`) `def do_lazy_sync(self, line)` - Run bidirectional LAZY sync into world model and objectives.
@@ -92,41 +113,20 @@ This community groups 108 file(s) rooted at `tests` with dominant language py (c
 - `do_lazy_verdict` (method, `cli/commands/lazyloop.py:132`) `def do_lazy_verdict(self, line)` - Record a manual retest verdict on an engine finding.
 - `do_lazy_mention` (method, `cli/commands/lazyloop.py:155`) `def do_lazy_mention(self, line)` - Search @ mention candidates with scroll pagination.
 - `do_lazy_approve` (method, `cli/commands/lazyloop.py:190`) `def do_lazy_approve(self, line)` - List engine guard reviews filtered by decision and source.
-- `do_lazy_fleet` (method, `cli/commands/lazyloop.py:212`) `def do_lazy_fleet(self, line)` - Cross-task fleet: list \| graph <task> \| findings <task> \| traces <task> [query] \| node <task> <id> \|
-- `do_lazy_orchestrator` (method, `cli/commands/lazyloop.py:277`) `def do_lazy_orchestrator(self, line)` - Admin console for the loop (Textual TUI).
-- `do_lazy_view` (method, `cli/commands/lazyloop.py:306`) `def do_lazy_view(self, line)` - Attach the live worker monitor to a task (or the newest task).
-- `_engine` (function, `cli/commands/lazyops.py:28`) `def _engine()` - Import LazyEngine lazily so the shell boots without it.
-- `LazyCommandSet` (class, `cli/commands/lazyops.py:35`) `class LazyCommandSet(LazyOwnCommandSet)` - Lazy double-graph autonomous loop: planner, workers, guard, retest.
-- `_task_id` (method, `cli/commands/lazyops.py:41`) `def _task_id(self, args)` - Resolve --task flag or fall back to the newest task.
-- `_require_task` (method, `cli/commands/lazyops.py:54`) `def _require_task(self, args)` - Return task id or print usage error and empty string.
-- `_free_text` (method, `cli/commands/lazyops.py:62`) `def _free_text(args)` - Return positional words with flag values stripped.
-- `do_lazy_dispatch` (method, `cli/commands/lazyops.py:88`) `def do_lazy_dispatch(self, line)` - Dispatch one detached task to an external agent: opencode\|hermes [--in DIR] [--resume S] [--max-turn
-- `do_lazy_task` (method, `cli/commands/lazyops.py:147`) `def do_lazy_task(self, line)` - Create/list/show/pause/resume/delete/spawn/queue/limit/drain tasks. Usage: lazy_task create <goal> \|
-- `do_lazy_graph` (method, `cli/commands/lazyops.py:269`) `def do_lazy_graph(self, line)` - Show planner-facing graph overview. Usage: lazy_graph [--task T]
-- `do_lazy_context` (method, `cli/commands/lazyops.py:298`) `def do_lazy_context(self, line)` - Render the bounded prompt context the planner/worker LLMs receive. Usage: lazy_context [--task T] [-
-- `do_lazy_skill` (method, `cli/commands/lazyops.py:319`) `def do_lazy_skill(self, line)` - Skills: list\|show <name>\|preview\|inject <name...>\|clear\|auto on\|off\|mirror [name]\|register-hermes. U
-- `do_lazy_workspace` (method, `cli/commands/lazyops.py:403`) `def do_lazy_workspace(self, line)` - Confined workspace files: list [path]\|read <path>\|write <path> <text>\|mkdir <path>\|rm <path>\|path. U
-- `do_lazy_selfupdate` (method, `cli/commands/lazyops.py:456`) `def do_lazy_selfupdate(self, line)` - Self-update: check [--branch B]\|apply [--yes] [--branch B]. Usage: lazy_selfupdate ...
-- `do_lazy_planner` (method, `cli/commands/lazyops.py:484`) `def do_lazy_planner(self, line)` - Run one planner wakeup (emits 0..N intents). Usage: lazy_planner [--task T]
-- `do_lazy_frontier` (method, `cli/commands/lazyops.py:503`) `def do_lazy_frontier(self, line)` - Show pending intent queue. Usage: lazy_frontier [--task T]
-- `do_lazy_worker` (method, `cli/commands/lazyops.py:515`) `def do_lazy_worker(self, line)` - Claim ONE intent and execute it with real tools. Usage: lazy_worker [--task T] [--intent N]
-- `do_lazy_trace` (method, `cli/commands/lazyops.py:555`) `def do_lazy_trace(self, line)` - Worker trace exchange. Usage: lazy_trace list\|search <q>\|search-all <q>\|get <intent>\|steps <intent>
-- `do_lazy_broadcast` (method, `cli/commands/lazyops.py:608`) `def do_lazy_broadcast(self, line)` - Exploration timeline. Usage: lazy_broadcast [--task T] [--kind K] [--q Q] [--asc] [--page N] [--limi
-- `do_lazy_hint` (method, `cli/commands/lazyops.py:643`) `def do_lazy_hint(self, line)` - Inject steering hint. Usage: lazy_hint <text> [--task T]
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 786
-- Cross-boundary resolved imports (EXTRACTED): 387
+- Internal resolved imports (EXTRACTED): 808
+- Cross-boundary resolved imports (EXTRACTED): 430
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/mediation/__init__.py.
-- [EXTRACTED] depends_on community 9 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
+- [EXTRACTED] depends_on community 9 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/mediation/__init__.py.
+- [EXTRACTED] depends_on community 4 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
+- [EXTRACTED] depends_on community 2 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/containers.py imports cli/commands/_base.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `modules/harness.py` via `subprocess` (5 hops)
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/reactive_engine.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/exploitgym_gym.py` -> `modules/redteam_gym.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/db.py` -> `core/config.py`
@@ -141,34 +141,35 @@ This community groups 108 file(s) rooted at `tests` with dominant language py (c
 - [cycle] `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/mcp_agent_bridge.py` -> `modules/llm_factory.py`
 - [cycle] `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_orchestrator.py`
 - [cycle] `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_orchestrator.py`
+- [cycle] `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `core/payload_schema.py`
 
 ## Open Questions
 
-- Why do 1 file(s) lack file-level docs (e.g. `modules/__init__.py`)? What purpose do they serve?
+- Why do 2 file(s) lack file-level docs (e.g. `modules/__init__.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/reactive_engine.py` be broken with an interface?
 - What would break if the most connected file in modules: lazy_loop changed?
-- Should modules: lazy_loop be split, given cohesion 0.58?
+- Should modules: lazy_loop be split, given cohesion 0.56?
 
 ## Sources
 
+- `cli/commands/containers.py`
+- `cli/commands/golden_paths.py`
+- `cli/commands/gym_matrix.py`
 - `cli/commands/lazyloop.py`
 - `cli/commands/lazyops.py`
+- `cli/commands/redteam_gym.py`
+- `cli/commands/winbox_gym.py`
 - `cli/lazy_monitor.py`
 - `cli/lazy_orchestrator.py`
 - `cli/orchestrator_assets_tabs.py`
 - `cli/session_brief.py`
 - `cli/tui_forms.py`
+- `core/process.py`
 - `core/terminal_guard.py`
 - `lazyc2/blueprints/orchestrator.py`
 - `modules/__init__.py`
 - `modules/auto_registry.py`
 - `modules/custom_tools.py`
+- `modules/gym_registry.py`
 - `modules/harness.py`
-- `modules/jsonl_tail.py`
-- `modules/lazy_agent.py`
-- `modules/lazy_bridge.py`
-- `modules/lazy_cli_bridge.py`
-- `modules/lazy_engine.py`
-- `modules/lazy_installer.py`
-- `modules/lazy_intel.py`
-- *... and 88 more*
+- *... and 97 more*

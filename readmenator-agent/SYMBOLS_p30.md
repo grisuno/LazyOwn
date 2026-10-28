@@ -1,8 +1,31 @@
-# Symbols (page 30 of 46)
+# Symbols (page 30 of 47)
 Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `isFunction` | function | `static/js/html2pdf.bundle.min.js:7396` | `` |
+| `isGreenPixel` | function | `static/js/html2pdf.bundle.min.js:2791` | `` |
+| `isGreenPixel` | function | `static/js/html2pdf.bundle.min.js:2791` | `` |
+| `isInFlow` | function | `static/js/html2pdf.bundle.min.js:4674` | `` |
+| `isInlineBase64Image` | function | `static/js/html2pdf.bundle.min.js:6118` | `` |
+| `isInlineBase64Image` | function | `static/js/html2pdf.bundle.min.js:6118` | `` |
+| `isInlineBlockOrInlineTable` | function | `static/js/html2pdf.bundle.min.js:4719` | `` |
+| `isInlineImage` | function | `static/js/html2pdf.bundle.min.js:6115` | `` |
+| `isInlineImage` | function | `static/js/html2pdf.bundle.min.js:6115` | `` |
+| `isInlineLevel` | function | `static/js/html2pdf.bundle.min.js:4714` | `` |
+| `isPercentage` | function | `static/js/html2pdf.bundle.min.js:960` | `` |
+| `isPositioned` | function | `static/js/html2pdf.bundle.min.js:4689` | `` |
+| `isPositionedWithZIndex` | function | `static/js/html2pdf.bundle.min.js:4709` | `` |
+| `isRootElement` | function | `static/js/html2pdf.bundle.min.js:4699` | `` |
+| `isSVG` | function | `static/js/html2pdf.bundle.min.js:6125` | `` |
+| `isSVG` | function | `static/js/html2pdf.bundle.min.js:6125` | `` |
+| `isSameOrigin` | function | `static/js/html2pdf.bundle.min.js:6059` | `` |
+| `isTransformed` | function | `static/js/html2pdf.bundle.min.js:4704` | `` |
+| `isTransparent` | function | `static/js/html2pdf.bundle.min.js:314` | `` |
+| `isVisible` | function | `static/js/html2pdf.bundle.min.js:4679` | `` |
+| `j` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `lerp` | function | `static/js/html2pdf.bundle.min.js:1066` | `` |
+| `lerp` | function | `static/js/html2pdf.bundle.min.js:1066` | `` |
 | `lineBreakAtIndex` | function | `static/js/html2pdf.bundle.min.js:3686` | `` |
 | `listOwner` | function | `static/js/html2pdf.bundle.min.js:4642` | `` |
 | `listStyleImage` | function | `static/js/html2pdf.bundle.min.js:2215` | `` |
@@ -473,28 +496,5 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `e` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
 | `f` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
 | `h` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `o` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `o` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `r` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `s` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `wt` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
-| `e` | function | `static/js/tippy-6.js:1` | `` |
-| `r` | function | `static/js/tippy-6.js:1` | `` |
-| `u` | function | `static/js/tippy-6.js:1` | `` |
-| `A` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `A` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `Bk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `Bx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `C` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
-| `C` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `CE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `Ek` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `Ew` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `Fk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `Fx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `Hk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

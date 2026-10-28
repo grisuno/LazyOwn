@@ -1,8 +1,16 @@
-# Symbols (page 17 of 46)
+# Symbols (page 17 of 47)
 Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_forward_plain` | method | `modules/lazy_proxy.py:989` | `def _forward_plain(self)` |
+| `_handle_websocket` | method | `modules/lazy_proxy.py:1209` | `def _handle_websocket(self, scheme, host, port, path, url, req_headers)` |
+| `_host_syntax_valid` | function | `modules/lazy_proxy.py:153` | `def _host_syntax_valid(host)` |
+| `_https_connection` | function | `modules/lazy_proxy.py:428` | `def _https_connection(host, port)` |
+| `_is_lab_host` | function | `modules/lazy_proxy.py:416` | `def _is_lab_host(host)` |
+| `_is_metadata_hostname` | function | `modules/lazy_proxy.py:141` | `def _is_metadata_hostname(host)` |
+| `_is_metadata_ip` | function | `modules/lazy_proxy.py:127` | `def _is_metadata_ip(value)` |
+| `_make_handler` | function | `modules/lazy_proxy.py:911` | `def _make_handler()` |
 | `_maybe_tls` | method | `modules/lazy_proxy.py:1183` | `def _maybe_tls(sock, scheme, host)` |
 | `_open_target` | method | `modules/lazy_proxy.py:1161` | `def _open_target(self, scheme, host, port)` |
 | `_parse_upstream` | function | `modules/lazy_proxy.py:444` | `def _parse_upstream(spec)` |
@@ -188,6 +196,18 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `image_name` | function | `modules/lazy_sandbox.py:52` | `def image_name(configured)` |
 | `remove_container` | function | `modules/lazy_sandbox.py:214` | `def remove_container(task_id)` |
 | `status` | function | `modules/lazy_sandbox.py:223` | `def status(task_id)` |
+| `ScopeVerdict` | class | `modules/lazy_scope.py:49` | `class ScopeVerdict` |
+| `_ResolveCache` | class | `modules/lazy_scope.py:64` | `class _ResolveCache` |
+| `_keep` | function | `modules/lazy_scope.py:142` | `def _keep(start, value)` |
+| `_looks_like_address` | function | `modules/lazy_scope.py:192` | `def _looks_like_address(text)` |
+| `command_scope_verdict` | function | `modules/lazy_scope.py:270` | `def command_scope_verdict(command, resolver, allowlist)` |
+| `extract_hosts` | function | `modules/lazy_scope.py:129` | `def extract_hosts(text)` |
+| `get` | method | `modules/lazy_scope.py:69` | `def get(self, name, now)` |
+| `is_lab_address` | function | `modules/lazy_scope.py:104` | `def is_lab_address(address)` |
+| `put` | method | `modules/lazy_scope.py:88` | `def put(self, name, values, now)` |
+| `read_allowlist` | function | `modules/lazy_scope.py:208` | `def read_allowlist(sessions_dir)` |
+| `resolve_addresses` | function | `modules/lazy_scope.py:163` | `def resolve_addresses(name, now)` |
+| `scope_verdict` | function | `modules/lazy_scope.py:229` | `def scope_verdict(target, resolver, allowlist)` |
 | `_hermes_config_path` | function | `modules/lazy_skill_mirror.py:112` | `def _hermes_config_path()` |
 | `_hermes_frontmatter` | function | `modules/lazy_skill_mirror.py:45` | `def _hermes_frontmatter(name, fields)` |
 | `_split_frontmatter` | function | `modules/lazy_skill_mirror.py:30` | `def _split_frontmatter(text)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `__init__` | method | `modules/linux_advanced_payloads.py:105` | `def __init__(self, config, output_dir)` |
 | `_ip_to_hex` | method | `modules/linux_advanced_payloads.py:305` | `def _ip_to_hex(ip_str)` |
 | `compile_c_source` | method | `modules/linux_advanced_payloads.py:707` | `def compile_c_source(self, source, output_name, shared)` |
-| `generate_all` | method | `modules/linux_advanced_payloads.py:749` | `def generate_all(self)` |
-| `generate_ebpf_payload` | method | `modules/linux_advanced_payloads.py:235` | `def generate_ebpf_payload(self)` |
-| `generate_kernel_module` | method | `modules/linux_advanced_payloads.py:519` | `def generate_kernel_module(self)` |
-| `generate_ld_preload_rootkit` | method | `modules/linux_advanced_payloads.py:110` | `def generate_ld_preload_rootkit(self)` |
-| `generate_motd_backdoor` | method | `modules/linux_advanced_payloads.py:689` | `def generate_motd_backdoor(self)` |
-| `generate_pam_backdoor` | method | `modules/linux_advanced_payloads.py:311` | `def generate_pam_backdoor(self)` |
-| `generate_process_masquerade` | method | `modules/linux_advanced_payloads.py:632` | `def generate_process_masquerade(self)` |
-| `generate_ssh_persistence` | method | `modules/linux_advanced_payloads.py:458` | `def generate_ssh_persistence(self)` |
-| `generate_systemd_persistence` | method | `modules/linux_advanced_payloads.py:398` | `def generate_systemd_persistence(self)` |
-| `generate_udev_persistence` | method | `modules/linux_advanced_payloads.py:676` | `def generate_udev_persistence(self)` |
-| `list_hook_functions` | method | `modules/linux_advanced_payloads.py:793` | `def list_hook_functions()` |
-| `list_persistence_methods` | method | `modules/linux_advanced_payloads.py:797` | `def list_persistence_methods()` |
-| `Listener` | class | `modules/listener_manager.py:141` | `class Listener` |
-| `ListenerManager` | class | `modules/listener_manager.py:172` | `class ListenerManager` |
-| `__init__` | method | `modules/listener_manager.py:179` | `def __init__(self, app, sessions_dir, payload)` |
-| `_bind_address` | method | `modules/listener_manager.py:191` | `def _bind_address(self, port)` |
-| `_collect_listener_bind_candidates` | function | `modules/listener_manager.py:35` | `def _collect_listener_bind_candidates(payload)` |
-| `_listeners_path` | method | `modules/listener_manager.py:201` | `def _listeners_path(self)` |
-| `_load` | method | `modules/listener_manager.py:204` | `def _load(self)` |
-| `_probe_listener_bind` | function | `modules/listener_manager.py:72` | `def _probe_listener_bind(address, port)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

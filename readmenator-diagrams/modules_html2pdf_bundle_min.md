@@ -1,6 +1,6 @@
 # modules: html2pdf.bundle.min
 
-modules: html2pdf.bundle.min groups 73 files (c, js, py, sh) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. ``assign`` business logic.
+modules: html2pdf.bundle.min groups 74 files (c, js, py, sh) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. ``assign`` business logic.
 
 ```mermaid
 graph LR
@@ -31,35 +31,35 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (7.1)
+## cli (6.1)
 
-cli groups 10 files (py) around apply_assign, format_payload, _strip_shell_quotes, SessionOpsCommandSet, do_note. ``assign`` business logic.
+cli groups 11 files (py) around apply_assign, format_payload, style, active_tokens, paint. ``assign`` business logic.
 
-## core (7.2)
+## core (6.2)
 
-core groups 8 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Configuration loader and Config wrapper.
+core groups 7 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Configuration loader and Config wrapper.
 
-## lazyc2 (7.3)
+## lazyc2 (6.3)
 
 lazyc2 groups 3 files (py) around AddonCreatorConfig, live_placeholders, ParamSpec, to_dict, AddonDraft. LazyAddon creator contract for the LazyOwn C2 web interface.
 
-## lazyown-docker (7.4)
+## lazyown-docker (6.4)
 
 lazyown-docker groups 1 files (sh).
 
-## modules (7.5)
+## modules (6.5)
 
 modules groups 17 files (c, py) around Migration, _docker_exec, _core_services_apply, build_migrations, apply_migrations. Purple Team Closed-Loop — honest measurement of offensive detection.
 
-## root (7.6)
+## root (6.6)
 
 root groups 1 files (py) around main.
 
-## static (7.7)
+## static (6.7)
 
-static groups 13 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
+static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
 
-## tests (7.8)
+## tests (6.8)
 
 tests groups 20 files (py) around TestHexSource, test_valid_hex_decodes_to_32_bytes, test_wrong_length_raises, test_non_hex_raises, TestDiskSource. TDD tests for the AES key resolution contract.
 
@@ -75,12 +75,12 @@ tests groups 20 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - cli/purple_tui.py
 - cli/session_resumer.py
 - cli/show.py
+- cli/style.py
 - core/config.py
 - core/credential_vault.py
 - core/defaults.py
 - core/param_registry.py
 - core/payload_schema.py
-- core/process.py
 - core/prompt.py
 - core/session_secrets.py
 - key.py
@@ -95,7 +95,6 @@ tests groups 20 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - modules/gym_cleanup.py
 - modules/hash_cracker.py
 - modules/lab_runtime.py
-- modules/lazy_verify.py
 - modules/log_tamper.py
 - modules/memory_cleaner.py
 - modules/metasploitable_migrations.py
@@ -103,6 +102,7 @@ tests groups 20 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - modules/opsec_scorer.py
 - modules/professional_report.py
 - modules/rootkit/rootkit.c
+- modules/search.py
 - modules/session_cleanup.py
 - modules/timestomper.py
 - static/js/3d-force-graph-1.73.4.min.js
@@ -115,6 +115,7 @@ tests groups 20 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - static/js/particles.js
 - static/js/popper-2.5.4.min.js
 - static/js/quill-2.0.3.js
+- static/js/showdown-2.1.0.min.js
 - static/js/tippy-6.js
 - static/js/vis-network-9.1.2.min.js
 - static/js/vis-network.min.js

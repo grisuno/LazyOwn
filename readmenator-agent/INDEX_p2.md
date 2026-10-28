@@ -9,10 +9,10 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 14 | 8 |
 | `modules/lazy_cve_feed.py` | Keyless CVE intelligence feeds and version-aware service correlation. | modules | 23 | 2 |
 | `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 35 |
-| `modules/lazy_heat.py` | Heat tiers and version math for CVE correlation. | modules | 11 | 4 |
+| `modules/lazy_heat.py` | Heat tiers and version math for CVE correlation. | modules | 11 | 5 |
 | `modules/lazy_installer.py` | Capability installer for the Lazy autonomous loop. | modules | 6 | 3 |
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 466 | 59 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 467 | 60 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
 | `modules/lazy_orchestrator_feedback.py` | Organic orchestrator training from loop usage. | modules | 11 | 5 |
 | `modules/lazy_osinfer.py` | Target OS inference and OS-aware verb gating. | modules | 11 | 0 |
@@ -21,12 +21,13 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_roles.py` | Lazy specialist roles for the autonomous loop. | modules | 4 | 2 |
 | `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 39 | 10 |
 | `modules/lazy_sandbox.py` | Per-task Docker sandbox for the Lazy autonomous loop. | modules | 12 | 2 |
+| `modules/lazy_scope.py` | Lab-only default scope for autonomous loop targets. | modules | 12 | 0 |
 | `modules/lazy_skill_mirror.py` | Mirror LazyOwn skills for Hermes discovery. | modules | 7 | 1 |
 | `modules/lazy_skills.py` | Skill context injection for planner/worker prompts. | modules | 7 | 4 |
 | `modules/lazy_summarizer.py` | Bounded chain summarizer for the Lazy autonomous loop. | modules | 5 | 0 |
 | `modules/lazy_surface_diff.py` | Surface snapshot and diff: what changed about a host since last look. | modules | 9 | 0 |
 | `modules/lazy_verify.py` | Structured read-only verification of loop findings. | modules | 8 | 0 |
-| `modules/lazy_world_diff.py` | World-surface diff: host snapshots, change detection, ghost liveness. | modules | 22 | 6 |
+| `modules/lazy_world_diff.py` | World-surface diff: host snapshots, change detection, ghost liveness. | modules | 22 | 5 |
 | `modules/lazyatack.sh` | Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico... | modules | 30 | 0 |
 | `modules/lazybrutesshuserenum.sh` | Función para manejar el interruptor de señal Ctrl+C | modules | 0 | 0 |
 | `modules/lazyclonewars.sh` | Lista de repositorios (nombre y URL) | modules | 0 | 0 |
@@ -69,7 +70,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/loop_guardrails.py` | Adaptive guardrails for the autonomous loop. | modules | 32 | 3 |
 | `modules/loop_manager.py` | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | modules | 31 | 2 |
 | `modules/loop_progress.py` | Rich Live milestone panel for the autonomous loop. | modules | 15 | 4 |
-| `modules/loop_triggers.py` | TriggerStore: persistent loop triggers extracted from the loop core. | modules | 12 | 6 |
+| `modules/loop_triggers.py` | TriggerStore: persistent loop triggers extracted from the loop core. | modules | 14 | 7 |
 | `modules/macos_payloads.py` | macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC. | modules | 16 | 1 |
 | `modules/mario.py` | - | modules | 1 | 0 |
 | `modules/mcp_agent_bridge.py` | LazyOwn MCP Agent Bridge | modules | 21 | 2 |
@@ -192,10 +193,10 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/win_rootkit/win_rin3_rootkit.cs` | - | win_rootkit | 10 | 0 |
 | `modules/win_rootkit/win_ring3_rootkit.c` | initPIDArray: Función para inicializar el arreglo de PIDs | win_rootkit | 27 | 0 |
 | `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 | 0 |
-| `modules/winbox_gym.py` | WinBox gym catalogue and control-plane bridge. | modules | 23 | 0 |
+| `modules/winbox_gym.py` | WinBox gym catalogue and control-plane bridge. | modules | 24 | 0 |
 | `modules/wineconfig.sh` | - | modules | 0 | 0 |
 | `modules/workspace.py` | Confined workspace file browser for operators and loop agents. | modules | 7 | 1 |
-| `modules/world_model.py` | modules/world_model.py | modules | 70 | 73 |
+| `modules/world_model.py` | modules/world_model.py | modules | 70 | 74 |
 | `modules/yaml_generator.py` | load_payload: Carga las variables desde payload.json | modules | 8 | 0 |
 | `modules/yara_scanner.py` | YARA integration for malware classification and IOC scanning. | modules | 16 | 2 |
 | `mutate.sh` | - | root | 0 | 0 |
@@ -377,7 +378,9 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/run_mutation_contract_manifest.py` | Mutation gate for the contract manifest drift checker. | tests | 2 | 0 |
 | `tests/run_mutation_emulation_runner.py` | Mutation runner for the emulation-runner contract. | tests | 4 | 0 |
 | `tests/run_mutation_infra_report.py` | Mutation runner for the disposable infra and reporting contracts. | tests | 4 | 0 |
+| `tests/run_mutation_intel_svg.py` | Mutation runner for the intel relations-svg contract. | tests | 4 | 0 |
 | `tests/run_mutation_killchain.py` | Manual mutation testing runner for the unified kill-chain contract. | tests | 4 | 0 |
+| `tests/run_mutation_lazy_scope.py` | Mutation runner for the lab-only default scope contract. | tests | 4 | 0 |
 | `tests/run_mutation_llm.py` | Mutation runner for the LLM subsystem contract. | tests | 4 | 0 |
 | `tests/run_mutation_llm_orchestrator.py` | Mutation runner for the orchestrator-governed LLM failover contract. | tests | 4 | 0 |
 | `tests/run_mutation_loop_cli_catalog.py` | Mutation runner for the planner catalog visibility contract. | tests | 1 | 0 |
@@ -388,6 +391,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/run_mutation_phase1.py` | Mutation testing runner for Phase 1 data-gap closure. | tests | 4 | 0 |
 | `tests/run_mutation_shell_semantics.py` | Mutation gate for shell semantics and colored output. | tests | 2 | 0 |
 | `tests/run_mutation_tests.py` | Manual mutation testing runner for LazyOwn connectivity improvements. | tests | 4 | 0 |
+| `tests/run_mutation_trigger_hints.py` | Mutation runner for the cve_hot hint fingerprint contract. | tests | 4 | 0 |
 | `tests/run_mutation_trigger_policy.py` | Mutation runner for the trigger policy contract. | tests | 1 | 0 |
 | `tests/run_mutation_ux_usability.py` | Mutation testing runner for the UX usability contracts. | tests | 4 | 0 |
 | `tests/run_mutation_verb_catalog.py` | Mutation runner for the verb catalog contract. | tests | 1 | 0 |
@@ -492,9 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_dependencies.py` | Tests for ``core.dependencies`` graceful optional-import handling. | tests | 35 | 0 |
 | `tests/test_detection_feed.py` | Tests for modules/detection_feed.py. | tests | 19 | 0 |
 | `tests/test_dirtyinit_addon.py` | tests/test_dirtyinit_addon.py  Validation suite for the dirtyinit lazyaddon and its phone-side... | tests | 48 | 0 |
-| `tests/test_docs_drift_contract.py` | Docs drift workflow contract tests. | tests | 11 | 0 |
-| `tests/test_doctor.py` | tests/test_doctor.py  Tests for the preflight environment health check in ``cli.doctor``. | tests | 34 | 0 |
-| `tests/test_emulation_runner.py` | Emulation runner BDD contract: resolve, execute, normalize, publish. | tests | 22 | 0 |
-| `tests/test_encoding_command_set.py` | Encoding command set extraction tests. | tests | 9 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

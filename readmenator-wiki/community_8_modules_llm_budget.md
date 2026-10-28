@@ -1,30 +1,29 @@
 # modules: llm_budget
 
-*Community 9 | 36 files | cohesion 0.46*
+*Community 8 | 44 files | cohesion 0.44*
 
 ## Definition
 
-This community groups 36 file(s) rooted at `modules` with dominant language py (cohesion 0.46). Central symbols: `AIModel`, `AIResult`, `ASTToolExtractor`, `AgentRunner`, `AgentTool`, `AiCommandSet`, `AnthropicModel`, `AuthError`. Core file: `tests/test_llm_orchestrator.py` (88 symbols). Documented purpose: Artificial Intelligence command set.  Covers the ``do_ask``, ``do_groq``, ``do_ai_playbook`` and ``do_ai_toggle`` commands. ``ask`` answers through the configur.
+This community groups 44 file(s) rooted at `modules` with dominant language py (cohesion 0.44). Central symbols: `AIModel`, `ASTToolExtractor`, `AdvisoryLedger`, `AgentRunner`, `AgentTool`, `AiCommandSet`, `AnthropicModel`, `AuthError`. Core file: `core/llm_budget.py` (45 symbols). Documented purpose: Artificial Intelligence command set.  Covers the ``do_ask``, ``do_groq``, ``do_ai_playbook`` and ``do_ai_toggle`` commands. ``ask`` answers through the configur.
 
 ## Files
 
-### `modules` (12 files)
+### `modules` (13 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/agent_runner.py` | py | utility | 38 | yes |
-| `modules/ai_fallback.py` | py | utility | 12 | yes |
 | `modules/ai_model.py` | py | business_logic | 39 | yes |
+| `modules/lazy_agent.py` | py | utility | 32 | yes |
 | `modules/llm_adapter.py` | py | infrastructure | 16 | yes |
 
-### `tests` (9 files)
+### `tests` (10 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `tests/conftest.py` | py | testing | 11 | yes |
 | `tests/test_ai_commands_llm.py` | py | testing | 18 | yes |
 | `tests/test_dependencies.py` | py | testing | 35 | yes |
-| `tests/test_lazy_streaming.py` | py | testing | 17 | yes |
-| `tests/test_llm_adapter_parity.py` | py | testing | 42 | yes |
 
 ### `core` (7 files)
 
@@ -33,7 +32,14 @@ This community groups 36 file(s) rooted at `modules` with dominant language py (
 | `core/__init__.py` | py | utility | 0 | yes |
 | `core/dependencies.py` | py | utility | 23 | yes |
 | `core/errors.py` | py | utility | 23 | yes |
-| `core/http.py` | py | presentation | 10 | yes |
+
+### `modules/guardrails` (6 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/guardrails/__init__.py` | py | utility | 0 | yes |
+| `modules/guardrails/advisories.py` | py | utility | 15 | yes |
+| `modules/guardrails/budget.py` | py | utility | 16 | yes |
 
 ### `.` (4 files)
 
@@ -42,7 +48,6 @@ This community groups 36 file(s) rooted at `modules` with dominant language py (
 | `discord_c2.py` | py | utility | 21 | no |
 | `slack_c2_bot.py` | py | utility | 16 | yes |
 | `telegram_c2.py` | py | utility | 19 | no |
-| `telegram_hermes.py` | py | utility | 31 | yes |
 
 ### `contrib/legacy` (3 files)
 
@@ -58,7 +63,7 @@ This community groups 36 file(s) rooted at `modules` with dominant language py (
 |------|----------|-------|---------|-----|
 | `cli/commands/ai.py` | py | utility | 8 | yes |
 
-*... and 16 more files in this community.*
+*... and 24 more files in this community.*
 
 
 ## Key Symbols
@@ -96,22 +101,21 @@ This community groups 36 file(s) rooted at `modules` with dominant language py (
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 119
-- Cross-boundary resolved imports (EXTRACTED): 90
+- Internal resolved imports (EXTRACTED): 116
+- Cross-boundary resolved imports (EXTRACTED): 158
 
 ## Connections
 
-- [EXTRACTED] depends_on community 2 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/parsers.py.
-- [EXTRACTED] depends_on community 9 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 9 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
-- [EXTRACTED] depends_on community 9 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
+- [EXTRACTED] depends_on community 9 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
+- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/parsers.py.
+- [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
+- [EXTRACTED] depends_on community 8 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_client.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_orchestrator.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `core/dependencies.py` via `subprocess` (5 hops)
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/reactive_engine.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/exploitgym_gym.py` -> `modules/redteam_gym.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/db.py` -> `core/config.py`
@@ -123,13 +127,14 @@ This community groups 36 file(s) rooted at `modules` with dominant language py (
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `core/config.py`
 - [cycle] `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `core/param_registry.py` -> `core/payload_schema.py`
 - [cycle] `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `core/param_registry.py` -> `core/payload_schema.py`
+- [cycle] `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/mcp_agent_bridge.py` -> `modules/llm_factory.py`
 
 ## Open Questions
 
 - Why do 3 file(s) lack file-level docs (e.g. `contrib/legacy/lazyllmchat.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/reactive_engine.py` be broken with an interface?
 - What would break if the most connected file in modules: llm_budget changed?
-- Should modules: llm_budget be split, given cohesion 0.46?
+- Should modules: llm_budget be split, given cohesion 0.44?
 
 ## Sources
 
@@ -146,11 +151,11 @@ This community groups 36 file(s) rooted at `modules` with dominant language py (
 - `core/parsers.py`
 - `discord_c2.py`
 - `modules/agent_runner.py`
-- `modules/ai_fallback.py`
 - `modules/ai_model.py`
-- `modules/llm_adapter.py`
-- `modules/llm_client.py`
-- `modules/llm_factory.py`
-- `modules/llm_orchestrator.py`
-- `modules/llm_prompts.py`
-- *... and 16 more*
+- `modules/guardrails/__init__.py`
+- `modules/guardrails/advisories.py`
+- `modules/guardrails/budget.py`
+- `modules/guardrails/checkpoints.py`
+- `modules/guardrails/contracts.py`
+- `modules/guardrails/harness.py`
+- *... and 24 more*

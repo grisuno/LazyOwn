@@ -1,8 +1,43 @@
-# Symbols (page 32 of 46)
+# Symbols (page 32 of 47)
 Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `restore_files` | function | `tests/run_mutation_llm_orchestrator.py:184` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_llm_orchestrator.py:196` | `def run_tests()` |
+| `main` | function | `tests/run_mutation_loop_cli_catalog.py:50` | `def main()` |
+| `_run_tests` | function | `tests/run_mutation_no_shell.py:25` | `def _run_tests()` |
+| `main` | function | `tests/run_mutation_no_shell.py:37` | `def main()` |
+| `backup_files` | function | `tests/run_mutation_opsec.py:59` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_opsec.py:83` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_opsec.py:68` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_opsec.py:73` | `def run_tests()` |
+| `backup_files` | function | `tests/run_mutation_orchestrator_yaml.py:54` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_orchestrator_yaml.py:83` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_orchestrator_yaml.py:64` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_orchestrator_yaml.py:71` | `def run_tests()` |
+| `backup_files` | function | `tests/run_mutation_outcome_bus.py:47` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_outcome_bus.py:76` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_outcome_bus.py:57` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_outcome_bus.py:64` | `def run_tests()` |
+| `backup_files` | function | `tests/run_mutation_phase1.py:138` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_phase1.py:164` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_phase1.py:147` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_phase1.py:153` | `def run_tests()` |
+| `_run_tests` | function | `tests/run_mutation_shell_semantics.py:41` | `def _run_tests()` |
+| `main` | function | `tests/run_mutation_shell_semantics.py:53` | `def main()` |
+| `backup_files` | function | `tests/run_mutation_tests.py:69` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_tests.py:103` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_tests.py:78` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_tests.py:84` | `def run_tests()` |
+| `backup_files` | function | `tests/run_mutation_trigger_hints.py:50` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_trigger_hints.py:79` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_trigger_hints.py:60` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_trigger_hints.py:67` | `def run_tests()` |
+| `main` | function | `tests/run_mutation_trigger_policy.py:52` | `def main()` |
+| `_backups` | function | `tests/run_mutation_ux_usability.py:71` | `def _backups(mutations)` |
+| `_restore` | function | `tests/run_mutation_ux_usability.py:79` | `def _restore(backups, mutations)` |
+| `_run_tests` | function | `tests/run_mutation_ux_usability.py:60` | `def _run_tests()` |
 | `main` | function | `tests/run_mutation_ux_usability.py:84` | `def main()` |
 | `main` | function | `tests/run_mutation_verb_catalog.py:52` | `def main()` |
 | `backup_files` | function | `tests/run_mutation_world_diff.py:48` | `def backup_files(mutations, base_dir)` |
@@ -461,40 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `test_has_provider_param` | method | `tests/test_attack_surface_addons.py:286` | `def test_has_provider_param(self, addon)` |
 | `test_has_region_param` | method | `tests/test_attack_surface_addons.py:264` | `def test_has_region_param(self, addon)` |
 | `test_has_required_fields` | method | `tests/test_attack_surface_addons.py:92` | `def test_has_required_fields(self, name, addon)` |
-| `test_has_target_param` | method | `tests/test_attack_surface_addons.py:322` | `def test_has_target_param(self, addon)` |
-| `test_has_target_param` | method | `tests/test_attack_surface_addons.py:343` | `def test_has_target_param(self, addon)` |
-| `test_install_path_contained` | method | `tests/test_attack_surface_addons.py:184` | `def test_install_path_contained(self, name, addon)` |
-| `test_install_path_is_dot` | method | `tests/test_attack_surface_addons.py:366` | `def test_install_path_is_dot(self, addon)` |
-| `test_install_path_no_dot_dot_prefix` | method | `tests/test_attack_surface_addons.py:190` | `def test_install_path_no_dot_dot_prefix(self, name, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:258` | `def test_name(self, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:280` | `def test_name(self, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:301` | `def test_name(self, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:316` | `def test_name(self, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:340` | `def test_name(self, addon)` |
-| `test_name` | method | `tests/test_attack_surface_addons.py:360` | `def test_name(self, addon)` |
-| `test_name_is_string` | method | `tests/test_attack_surface_addons.py:97` | `def test_name_is_string(self, name, addon)` |
-| `test_name_lowercase` | method | `tests/test_attack_surface_addons.py:392` | `def test_name_lowercase(self, name, addon)` |
-| `test_name_no_spaces` | method | `tests/test_attack_surface_addons.py:388` | `def test_name_no_spaces(self, name, addon)` |
-| `test_no_hardcoded_ip` | method | `tests/test_attack_surface_addons.py:211` | `def test_no_hardcoded_ip(self, name, addon)` |
-| `test_no_password_literals` | method | `tests/test_attack_surface_addons.py:223` | `def test_no_password_literals(self, name, addon)` |
-| `test_no_tilde_in_paths` | method | `tests/test_attack_surface_addons.py:197` | `def test_no_tilde_in_paths(self, name, addon)` |
-| `test_no_well_known_ports` | method | `tests/test_attack_surface_addons.py:217` | `def test_no_well_known_ports(self, name, addon)` |
-| `test_os_is_containers` | method | `tests/test_attack_surface_addons.py:319` | `def test_os_is_containers(self, addon)` |
-| `test_os_is_iaas` | method | `tests/test_attack_surface_addons.py:261` | `def test_os_is_iaas(self, addon)` |
-| `test_os_is_iaas` | method | `tests/test_attack_surface_addons.py:283` | `def test_os_is_iaas(self, addon)` |
-| `test_os_is_known_value` | method | `tests/test_attack_surface_addons.py:407` | `def test_os_is_known_value(self, name, addon)` |
-| `test_params_is_list_when_present` | method | `tests/test_attack_surface_addons.py:155` | `def test_params_is_list_when_present(self, name, addon)` |
-| `test_repo_url_ends_with_git` | method | `tests/test_attack_surface_addons.py:131` | `def test_repo_url_ends_with_git(self, name, addon)` |
-| `test_repo_url_is_https` | method | `tests/test_attack_surface_addons.py:136` | `def test_repo_url_is_https(self, name, addon)` |
-| `test_repo_url_points_to_lazyown` | method | `tests/test_attack_surface_addons.py:375` | `def test_repo_url_points_to_lazyown(self, addon)` |
-| `test_summary_table` | method | `tests/test_attack_surface_addons.py:421` | `def test_summary_table(self)` |
-| `test_tool_is_dict` | method | `tests/test_attack_surface_addons.py:122` | `def test_tool_is_dict(self, name, addon)` |
-| `test_tool_required_keys` | method | `tests/test_attack_surface_addons.py:126` | `def test_tool_required_keys(self, name, addon)` |
-| `test_trigger_is_list_when_present` | method | `tests/test_attack_surface_addons.py:402` | `def test_trigger_is_list_when_present(self, name, addon)` |
-| `test_triggers_docker` | method | `tests/test_attack_surface_addons.py:328` | `def test_triggers_docker(self, addon)` |
-| `test_yaml_parses` | method | `tests/test_attack_surface_addons.py:76` | `def test_yaml_parses(self, name, path)` |
-| `_Live` | class | `tests/test_audit_remediation.py:105` | `class _Live` |
-| `_Live` | class | `tests/test_audit_remediation.py:122` | `class _Live` |
-| `_load` | function | `tests/test_audit_remediation.py:43` | `def _load()` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

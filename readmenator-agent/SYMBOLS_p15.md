@@ -1,4 +1,4 @@
-# Symbols (page 15 of 46)
+# Symbols (page 15 of 47)
 Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
@@ -109,15 +109,20 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `_family_color` | function | `modules/intel_fusion.py:181` | `def _family_color(name)` |
 | `_fibonacci_sphere` | function | `modules/intel_fusion.py:821` | `def _fibonacci_sphere(count)` |
 | `_file_pagerank` | function | `modules/intel_fusion.py:230` | `def _file_pagerank(ids, pairs, alpha, max_iter, tol)` |
-| `_ghost_lines` | function | `modules/intel_fusion.py:1127` | `def _ghost_lines(sessions_dir, host_value)` |
+| `_ghost_lines` | function | `modules/intel_fusion.py:1279` | `def _ghost_lines(sessions_dir, host_value)` |
 | `_host_mentions` | function | `modules/intel_fusion.py:225` | `def _host_mentions(text)` |
 | `_load_json` | function | `modules/intel_fusion.py:198` | `def _load_json(path, default)` |
 | `_node_doc` | function | `modules/intel_fusion.py:555` | `def _node_doc(node)` |
 | `_read_lines` | function | `modules/intel_fusion.py:208` | `def _read_lines(path, limit)` |
-| `_recency_lines` | function | `modules/intel_fusion.py:1109` | `def _recency_lines(sessions_dir, host_value)` |
+| `_recency_lines` | function | `modules/intel_fusion.py:1261` | `def _recency_lines(sessions_dir, host_value)` |
 | `_score_lines` | function | `modules/intel_fusion.py:1086` | `def _score_lines(host_value, detail)` |
 | `_service_cve_matches` | function | `modules/intel_fusion.py:83` | `def _service_cve_matches(service_name, version_text, svc)` |
 | `_split_caps` | function | `modules/intel_fusion.py:837` | `def _split_caps(labels, sizes, points, lattice, out)` |
+| `_svg_attr` | function | `modules/intel_fusion.py:1131` | `def _svg_attr(value)` |
+| `_svg_host_of` | function | `modules/intel_fusion.py:1182` | `def _svg_host_of(node)` |
+| `_svg_place` | function | `modules/intel_fusion.py:1165` | `def _svg_place(ids)` |
+| `_svg_rank` | function | `modules/intel_fusion.py:1136` | `def _svg_rank(node)` |
+| `_svg_text` | function | `modules/intel_fusion.py:1124` | `def _svg_text(value)` |
 | `_symbol_list` | function | `modules/intel_fusion.py:578` | `def _symbol_list(node)` |
 | `_unit` | function | `modules/intel_fusion.py:866` | `def _unit(vec)` |
 | `add_edge` | function | `modules/intel_fusion.py:284` | `def add_edge(src, dst, kind, evidence, weight)` |
@@ -130,8 +135,10 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `group_colors` | function | `modules/intel_fusion.py:714` | `def group_colors(graph)` |
 | `node_id` | function | `modules/intel_fusion.py:192` | `def node_id(kind, value)` |
 | `page_settings` | function | `modules/intel_fusion.py:730` | `def page_settings(graph)` |
+| `relations_svg` | function | `modules/intel_fusion.py:1187` | `def relations_svg(graph, cap_nodes)` |
+| `svg_selection` | function | `modules/intel_fusion.py:1147` | `def svg_selection(graph, cap_nodes)` |
 | `tag_source` | function | `modules/intel_fusion.py:300` | `def tag_source(nid, source)` |
-| `write_summary` | function | `modules/intel_fusion.py:1144` | `def write_summary(graph, sessions_dir)` |
+| `write_summary` | function | `modules/intel_fusion.py:1296` | `def write_summary(graph, sessions_dir)` |
 | `CollectedFact` | class | `modules/intelligence_engine.py:79` | `class CollectedFact` |
 | `CounterIntelFinding` | class | `modules/intelligence_engine.py:109` | `class CounterIntelFinding` |
 | `IntelligenceAssessment` | class | `modules/intelligence_engine.py:94` | `class IntelligenceAssessment` |
@@ -468,33 +475,26 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `AssetGraph` | class | `modules/lazy_loop.py:962` | `class AssetGraph` |
 | `AssetNode` | class | `modules/lazy_loop.py:937` | `class AssetNode` |
 | `Budget` | class | `modules/lazy_loop.py:2259` | `class Budget` |
-| `ColdCompactor` | class | `modules/lazy_loop.py:5600` | `class ColdCompactor` |
-| `CompanyScope` | class | `modules/lazy_loop.py:7444` | `class CompanyScope` |
-| `EvidenceStore` | class | `modules/lazy_loop.py:6607` | `class EvidenceStore` |
+| `ColdCompactor` | class | `modules/lazy_loop.py:5630` | `class ColdCompactor` |
+| `CompanyScope` | class | `modules/lazy_loop.py:7474` | `class CompanyScope` |
+| `EvidenceStore` | class | `modules/lazy_loop.py:6637` | `class EvidenceStore` |
 | `ExplorationEdge` | class | `modules/lazy_loop.py:928` | `class ExplorationEdge` |
 | `ExplorationGraph` | class | `modules/lazy_loop.py:1125` | `class ExplorationGraph` |
 | `ExplorationNode` | class | `modules/lazy_loop.py:914` | `class ExplorationNode` |
-| `FindingService` | class | `modules/lazy_loop.py:6329` | `class FindingService` |
+| `FindingService` | class | `modules/lazy_loop.py:6359` | `class FindingService` |
 | `Frontier` | class | `modules/lazy_loop.py:1405` | `class Frontier` |
 | `Guard` | class | `modules/lazy_loop.py:1824` | `class Guard` |
 | `InterceptQueue` | class | `modules/lazy_loop.py:2411` | `class InterceptQueue` |
-| `LazyLoopEngine` | class | `modules/lazy_loop.py:7768` | `class LazyLoopEngine` |
+| `LazyLoopEngine` | class | `modules/lazy_loop.py:7798` | `class LazyLoopEngine` |
 | `LazyTask` | class | `modules/lazy_loop.py:951` | `class LazyTask` |
-| `LlmPool` | class | `modules/lazy_loop.py:6879` | `class LlmPool` |
-| `Notifier` | class | `modules/lazy_loop.py:6710` | `class Notifier` |
+| `LlmPool` | class | `modules/lazy_loop.py:6909` | `class LlmPool` |
+| `Notifier` | class | `modules/lazy_loop.py:6740` | `class Notifier` |
 | `Planner` | class | `modules/lazy_loop.py:3044` | `class Planner` |
-| `Retester` | class | `modules/lazy_loop.py:5470` | `class Retester` |
+| `Retester` | class | `modules/lazy_loop.py:5500` | `class Retester` |
 | `RuntimeTracker` | class | `modules/lazy_loop.py:2343` | `class RuntimeTracker` |
-| `SideQuestions` | class | `modules/lazy_loop.py:7370` | `class SideQuestions` |
-| `TaskArchive` | class | `modules/lazy_loop.py:7474` | `class TaskArchive` |
-| `TaskCategory` | class | `modules/lazy_loop.py:7636` | `class TaskCategory` |
-| `TaskChat` | class | `modules/lazy_loop.py:7663` | `class TaskChat` |
-| `TaskStore` | class | `modules/lazy_loop.py:2613` | `class TaskStore` |
-| `TaskTemplate` | class | `modules/lazy_loop.py:7593` | `class TaskTemplate` |
-| `TodoStore` | class | `modules/lazy_loop.py:2571` | `class TodoStore` |
-| `ToolCatalog` | class | `modules/lazy_loop.py:7326` | `class ToolCatalog` |
-| `TrafficLog` | class | `modules/lazy_loop.py:1566` | `class TrafficLog` |
-| `Worker` | class | `modules/lazy_loop.py:3546` | `class Worker` |
-| `__init__` | method | `modules/lazy_loop.py:965` | `def __init__(self)` |
+| `SideQuestions` | class | `modules/lazy_loop.py:7400` | `class SideQuestions` |
+| `TaskArchive` | class | `modules/lazy_loop.py:7504` | `class TaskArchive` |
+| `TaskCategory` | class | `modules/lazy_loop.py:7666` | `class TaskCategory` |
+| `TaskChat` | class | `modules/lazy_loop.py:7693` | `class TaskChat` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

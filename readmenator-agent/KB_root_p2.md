@@ -231,65 +231,65 @@ Previous: [KB_root.md](KB_root.md)
   - `api_loop_stop` (function, line 7094) `def api_loop_stop(loop_id)`
   - `_render_enhanced_report` (function, line 7112) `def _render_enhanced_report()`
   - `_load_surface_intel` (function, line 7132) `def _load_surface_intel()`
-  - `_render_legacy_report` (function, line 7203) `def _render_legacy_report()`
-  - `connect` (function, line 7276) `def connect()`
-  - `listener` (function, line 7282) `def listener()`
-  - `listener_connect` (function, line 7289) `def listener_connect()`
-  - `listener_disconnect` (function, line 7300) `def listener_disconnect()`
-  - `pty_input` (function, line 7311) `def pty_input(data)`
-  - `resize` (function, line 7326) `def resize(data)`
-  - `pty_connect` (function, line 7340) `def pty_connect()`
-  - `handle_input` (function, line 7372) `def handle_input(data)`
-  - `listener_command` (function, line 7397) `def listener_command(msg)`
-  - `terminal` (function, line 7411) `def terminal()`
-  - `terminal_connect` (function, line 7421) `def terminal_connect()`
-  - `terminal_disconnect` (function, line 7431) `def terminal_disconnect()`
-  - `terminal_input` (function, line 7442) `def terminal_input(data)`
-  - `terminal_command` (function, line 7456) `def terminal_command(data)`
-  - `terminal_resize` (function, line 7472) `def terminal_resize(data)`
-  - `start_reverse_shell` (function, line 7480) `def start_reverse_shell()`
-  - `_run_reverse_shell_listener` (function, line 7485) `def _run_reverse_shell_listener()`
-  - `start_bridge` (function, line 7534) `def start_bridge()`
-  - `page_not_found` (function, line 7551) `def page_not_found(e)`
-  - `internal_server_error` (function, line 7559) `def internal_server_error(e)`
-  - `get_config` (function, line 7568) `def get_config()`
-  - `capture_image` (function, line 7587) `def capture_image()`
-  - `capture_audio` (function, line 7613) `def capture_audio()`
-  - `surface` (function, line 7631) `def surface()`
-  - `surface_live` (function, line 7637) `def surface_live()`
-  - `api_surface_live` (function, line 7652) `def api_surface_live()`
-  - `intel_view` (function, line 7674) `def intel_view()`
-  - `intel_bundle_view` (function, line 7693) `def intel_bundle_view()`
-  - `attack3d_view` (function, line 7708) `def attack3d_view()`
-  - `attack_bundle_view` (function, line 7727) `def attack_bundle_view()`
-  - `api_intel_graph` (function, line 7742) `def api_intel_graph()`
-  - `broadcast_view` (function, line 7798) `def broadcast_view()`
-  - `api_loop_broadcast_stream` (function, line 7812) `def api_loop_broadcast_stream()`
-  - `api_loop_broadcast` (function, line 7870) `def api_loop_broadcast()`
-  - `api_guard_audit` (function, line 7913) `def api_guard_audit()`
-  - `api_loop_graph` (function, line 7959) `def api_loop_graph()`
-  - `api_lazy_mentions` (function, line 7990) `def api_lazy_mentions()`
-  - `api_intel_bundle` (function, line 8026) `def api_intel_bundle()`
-  - `api_attack_graph` (function, line 8059) `def api_attack_graph()`
-  - `api_attack_bundle` (function, line 8111) `def api_attack_bundle()`
-  - `get_data` (function, line 8141) `def get_data()`
-  - `upload_zip_file` (function, line 8150) `def upload_zip_file()`
-  - `list_campaigns` (function, line 8208) `def list_campaigns()`
-  - `create_campaign` (function, line 8221) `def create_campaign()`
-  - `lazyphishingai` (function, line 8299) `def lazyphishingai()`
-  - `track_pixel` (function, line 8315) `def track_pixel(campaign_id, email)`
-  - `campaign_report` (function, line 8337) `def campaign_report(campaign_id)`
-  - `orchestrate_campaign` (function, line 8419) `def orchestrate_campaign(campaign_id)`
-  - `create_multivector_campaign` (function, line 8466) `def create_multivector_campaign()`
-  - `serve_landing_page` (function, line 8618) `def serve_landing_page(campaign_id, short_url)`
-  - `health_check` (function, line 8643) `def health_check()`
-  - `metrics_exposition` (function, line 8682) `def metrics_exposition()`
-  - `api_dashboard` (function, line 8689) `def api_dashboard()`
-  - `api_listeners` (function, line 8759) `def api_listeners()`
-  - `api_listeners_create` (function, line 8766) `def api_listeners_create()`
-  - `api_listeners_start` (function, line 8782) `def api_listeners_start(listener_id)`
-  - `api_listeners_stop` (function, line 8790) `def api_listeners_stop(listener_id)`
-  - `api_listeners_delete` (function, line 8798) `def api_listeners_delete(listener_id)`
+  - `_render_legacy_report` (function, line 7212) `def _render_legacy_report()`
+  - `connect` (function, line 7285) `def connect()`
+  - `listener` (function, line 7291) `def listener()`
+  - `listener_connect` (function, line 7298) `def listener_connect()`
+  - `listener_disconnect` (function, line 7309) `def listener_disconnect()`
+  - `pty_input` (function, line 7320) `def pty_input(data)`
+  - `resize` (function, line 7335) `def resize(data)`
+  - `pty_connect` (function, line 7349) `def pty_connect()`
+  - `handle_input` (function, line 7381) `def handle_input(data)`
+  - `listener_command` (function, line 7406) `def listener_command(msg)`
+  - `terminal` (function, line 7420) `def terminal()`
+  - `terminal_connect` (function, line 7430) `def terminal_connect()`
+  - `terminal_disconnect` (function, line 7440) `def terminal_disconnect()`
+  - `terminal_input` (function, line 7451) `def terminal_input(data)`
+  - `terminal_command` (function, line 7465) `def terminal_command(data)`
+  - `terminal_resize` (function, line 7481) `def terminal_resize(data)`
+  - `start_reverse_shell` (function, line 7489) `def start_reverse_shell()`
+  - `_run_reverse_shell_listener` (function, line 7494) `def _run_reverse_shell_listener()`
+  - `start_bridge` (function, line 7543) `def start_bridge()`
+  - `page_not_found` (function, line 7560) `def page_not_found(e)`
+  - `internal_server_error` (function, line 7568) `def internal_server_error(e)`
+  - `get_config` (function, line 7577) `def get_config()`
+  - `capture_image` (function, line 7596) `def capture_image()`
+  - `capture_audio` (function, line 7622) `def capture_audio()`
+  - `surface` (function, line 7640) `def surface()`
+  - `surface_live` (function, line 7646) `def surface_live()`
+  - `api_surface_live` (function, line 7661) `def api_surface_live()`
+  - `intel_view` (function, line 7683) `def intel_view()`
+  - `intel_bundle_view` (function, line 7702) `def intel_bundle_view()`
+  - `attack3d_view` (function, line 7717) `def attack3d_view()`
+  - `attack_bundle_view` (function, line 7736) `def attack_bundle_view()`
+  - `api_intel_graph` (function, line 7751) `def api_intel_graph()`
+  - `broadcast_view` (function, line 7807) `def broadcast_view()`
+  - `api_loop_broadcast_stream` (function, line 7821) `def api_loop_broadcast_stream()`
+  - `api_loop_broadcast` (function, line 7879) `def api_loop_broadcast()`
+  - `api_guard_audit` (function, line 7922) `def api_guard_audit()`
+  - `api_loop_graph` (function, line 7968) `def api_loop_graph()`
+  - `api_lazy_mentions` (function, line 7999) `def api_lazy_mentions()`
+  - `api_intel_bundle` (function, line 8035) `def api_intel_bundle()`
+  - `api_attack_graph` (function, line 8068) `def api_attack_graph()`
+  - `api_attack_bundle` (function, line 8120) `def api_attack_bundle()`
+  - `get_data` (function, line 8150) `def get_data()`
+  - `upload_zip_file` (function, line 8159) `def upload_zip_file()`
+  - `list_campaigns` (function, line 8217) `def list_campaigns()`
+  - `create_campaign` (function, line 8230) `def create_campaign()`
+  - `lazyphishingai` (function, line 8308) `def lazyphishingai()`
+  - `track_pixel` (function, line 8324) `def track_pixel(campaign_id, email)`
+  - `campaign_report` (function, line 8346) `def campaign_report(campaign_id)`
+  - `orchestrate_campaign` (function, line 8428) `def orchestrate_campaign(campaign_id)`
+  - `create_multivector_campaign` (function, line 8475) `def create_multivector_campaign()`
+  - `serve_landing_page` (function, line 8627) `def serve_landing_page(campaign_id, short_url)`
+  - `health_check` (function, line 8652) `def health_check()`
+  - `metrics_exposition` (function, line 8691) `def metrics_exposition()`
+  - `api_dashboard` (function, line 8698) `def api_dashboard()`
+  - `api_listeners` (function, line 8768) `def api_listeners()`
+  - `api_listeners_create` (function, line 8775) `def api_listeners_create()`
+  - `api_listeners_start` (function, line 8791) `def api_listeners_start(listener_id)`
+  - `api_listeners_stop` (function, line 8799) `def api_listeners_stop(listener_id)`
+  - `api_listeners_delete` (function, line 8807) `def api_listeners_delete(listener_id)`
   - `format` (method, line 482) `def format(self, record)`
   - `on_any_event` (method, line 768) `def on_any_event(event)`
   - `decorated` (function, line 1521) `def decorated()`
@@ -308,8 +308,8 @@ Previous: [KB_root.md](KB_root.md)
   - `is_valid_data` (function, line 4512) `def is_valid_data(data)`
   - `is_valid_template_name` (function, line 4522) `def is_valid_template_name(template_name)`
   - `_complete_mfa_login` (function, line 6337) `def _complete_mfa_login()`
-  - `_events` (function, line 7845) `def _events()`
-  - `_on_terminate` (function, line 8933) `def _on_terminate(signum, _frame)`
+  - `_events` (function, line 7854) `def _events()`
+  - `_on_terminate` (function, line 8942) `def _on_terminate(signum, _frame)`
   - `_engage_publish` (function, line 3816) `def _engage_publish(_cid, _ip, _host, _user, _platform)`
   - `_extract_first_ip` (function, line 3872) `def _extract_first_ip(raw)`
   - `_is_valid_credential` (function, line 3885) `def _is_valid_credential(value)`

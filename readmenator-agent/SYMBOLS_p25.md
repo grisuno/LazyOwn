@@ -1,8 +1,31 @@
-# Symbols (page 25 of 46)
+# Symbols (page 25 of 47)
 Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `add_rule` | method | `skills/lazyown_claudemd.py:127` | `def add_rule(self, rule_name, content)` |
+| `create_project_file` | method | `skills/lazyown_claudemd.py:121` | `def create_project_file(self, content, local)` |
+| `create_user_file` | method | `skills/lazyown_claudemd.py:115` | `def create_user_file(self, content)` |
+| `list_files` | method | `skills/lazyown_claudemd.py:90` | `def list_files(self)` |
+| `load` | method | `skills/lazyown_claudemd.py:35` | `def load(self)` |
+| `status_text` | method | `skills/lazyown_claudemd.py:135` | `def status_text(self)` |
+| `CompactionResult` | class | `skills/lazyown_context.py:50` | `class CompactionResult` |
+| `ContextCompactor` | class | `skills/lazyown_context.py:62` | `class ContextCompactor` |
+| `__init__` | method | `skills/lazyown_context.py:72` | `def __init__(self, budget_override, snip_threshold, collapse_threshold)` |
+| `apply_budget` | method | `skills/lazyown_context.py:84` | `def apply_budget(self, content, tool_name)` |
+| `auto_compact_session` | method | `skills/lazyown_context.py:159` | `def auto_compact_session(entries)` |
+| `collapse` | method | `skills/lazyown_context.py:136` | `def collapse(self, content, tool_name)` |
+| `compact` | method | `skills/lazyown_context.py:203` | `def compact(self, content, tool_name)` |
+| `compact_output` | function | `skills/lazyown_context.py:237` | `def compact_output(content, tool_name)` |
+| `microcompact` | method | `skills/lazyown_context.py:120` | `def microcompact(self, content)` |
+| `snip` | method | `skills/lazyown_context.py:99` | `def snip(self, content)` |
+| `summary` | method | `skills/lazyown_context.py:57` | `def summary(self)` |
+| `_Handler` | class | `skills/lazyown_daemon.py:197` | `class _Handler(FileSystemEventHandler)` |
+| `_append_event` | function | `skills/lazyown_daemon.py:111` | `def _append_event(ev)` |
+| `_clear_pid` | function | `skills/lazyown_daemon.py:427` | `def _clear_pid()` |
+| `_dispatch` | function | `skills/lazyown_daemon.py:95` | `def _dispatch(path)` |
+| `_is_running` | function | `skills/lazyown_daemon.py:439` | `def _is_running()` |
+| `_main_async` | function | `skills/lazyown_daemon.py:390` | `def _main_async()` |
 | `_poll_watcher_loop` | function | `skills/lazyown_daemon.py:163` | `def _poll_watcher_loop(queue)` |
 | `_push` | method | `skills/lazyown_daemon.py:198` | `def _push(self, src)` |
 | `_read_pid` | function | `skills/lazyown_daemon.py:432` | `def _read_pid()` |
@@ -473,28 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `__init__` | method | `skills/lazyown_policy.py:715` | `def __init__(self)` |
 | `__init__` | method | `skills/lazyown_policy.py:773` | `def __init__(self, cfg, risk_assessor)` |
 | `__init__` | method | `skills/lazyown_policy.py:850` | `def __init__(self, cfg)` |
-| `__init__` | method | `skills/lazyown_policy.py:923` | `def __init__(self, cfg)` |
-| `__init__` | method | `skills/lazyown_policy.py:987` | `def __init__(self, cfg)` |
-| `__init__` | method | `skills/lazyown_policy.py:1107` | `def __init__(self, cfg, transitions)` |
-| `__init__` | method | `skills/lazyown_policy.py:1202` | `def __init__(self, cfg, interactive)` |
-| `__init__` | method | `skills/lazyown_policy.py:1267` | `def __init__(self, cfg)` |
-| `__init__` | method | `skills/lazyown_policy.py:1302` | `def __init__(self, cfg)` |
-| `__init__` | method | `skills/lazyown_policy.py:1400` | `def __init__(self, sessions_dir)` |
-| `__init__` | method | `skills/lazyown_policy.py:1463` | `def __init__(self, narrator, file_sink)` |
-| `__init__` | method | `skills/lazyown_policy.py:1513` | `def __init__(self, stream)` |
-| `__init__` | method | `skills/lazyown_policy.py:1564` | `def __init__(self, sinks)` |
-| `__init__` | method | `skills/lazyown_policy.py:1634` | `def __init__(self, sink, payload_path, poll_interval_s, poll_timeout_s, sleep_fn)` |
-| `__init__` | method | `skills/lazyown_policy.py:1850` | `def __init__(self, payload_path, in_scope_fn)` |
-| `__init__` | method | `skills/lazyown_policy.py:1928` | `def __init__(self, cfg)` |
-| `_apply_overrides` | method | `skills/lazyown_policy.py:1162` | `def _apply_overrides(self, recent_states)` |
-| `_auto_approve_enabled` | method | `skills/lazyown_policy.py:1654` | `def _auto_approve_enabled(self)` |
-| `_build_prompt` | method | `skills/lazyown_policy.py:503` | `def _build_prompt(self, command, args, output, exit_code)` |
-| `_call_ollama` | method | `skills/lazyown_policy.py:525` | `def _call_ollama(self, prompt)` |
-| `_cmd_analyze` | function | `skills/lazyown_policy.py:1977` | `def _cmd_analyze(cfg, args)` |
-| `_cmd_bootstrap` | function | `skills/lazyown_policy.py:1970` | `def _cmd_bootstrap(cfg, _args)` |
-| `_cmd_recommend` | function | `skills/lazyown_policy.py:1991` | `def _cmd_recommend(cfg, args)` |
-| `_cmd_report` | function | `skills/lazyown_policy.py:2012` | `def _cmd_report(cfg, _args)` |
-| `_default_fallback` | method | `skills/lazyown_policy.py:1171` | `def _default_fallback(self, current_state)` |
-| `_default_in_scope` | function | `skills/lazyown_policy.py:1779` | `def _default_in_scope(target, entries)` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

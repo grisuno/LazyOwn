@@ -2,12 +2,16 @@
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_loop_spawn_side.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_store_race.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_supervision.py` -> `core/config.py`
 - `tests/test_loop_supervision.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_supervision.py` -> `modules/lazy_intel.py`
 - `tests/test_loop_supervision.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_supervision.py` -> `modules/lazy_orchestrator_feedback.py`
+- `tests/test_loop_trigger_hints.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_trigger_hints.py` -> `modules/loop_triggers.py`
+- `tests/test_loop_trigger_hints.py` -> `modules/world_model.py`
 - `tests/test_loop_worker_traces.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_worker_traces.py` -> `modules/lazy_loop.py`
 - `tests/test_marketplace_config.py` -> `cli/__init__.py`

@@ -1,6 +1,6 @@
 # modules: saas_attacks
 
-*Community 14 | 7 files | cohesion 0.86*
+*Community 12 | 7 files | cohesion 0.86*
 
 ## Definition
 
@@ -58,7 +58,7 @@ This community groups 7 file(s) rooted at `modules` with dominant language py (c
 
 ## Connections
 
-- [EXTRACTED] depends_on community 14 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/cloud_attacks.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 12 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/cloud_attacks.py imports cli/commands/_base.py.
 
 ## Risks
 

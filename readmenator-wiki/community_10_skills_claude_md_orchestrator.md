@@ -1,20 +1,17 @@
 # skills/claude_md_orchestrator
 
-*Community 11 | 19 files | cohesion 0.75*
+*Community 10 | 23 files | cohesion 0.73*
 
 ## Definition
 
-This community groups 19 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.75). Central symbols: `AnalyzerResult`, `BddResult`, `CheckResult`, `CicdResult`, `CicleState`, `CicleStateFile`, `Config`, `Contract`. Core file: `static/js/xterm.js` (62 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: AGPL v3  Descripción: Assistente de consola  .
+This community groups 23 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.73). Central symbols: `AnalyzerResult`, `BddResult`, `BindAddressResolver`, `CheckResult`, `CicdResult`, `CicleState`, `CicleStateFile`, `CommandRedactor`. Core file: `static/js/xterm.js` (62 symbols). Documented purpose: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licencia: AGPL v3  Descripción: Assistente de consola  .
 
 ## Files
 
+### `skills/claude_md_orchestrator` (13 files)
+
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `contrib/legacy/lazygptcli.py` | py | utility | 14 | yes |
-| `contrib/legacy/lazygptcli_unified.py` | py | utility | 29 | yes |
-| `contrib/legacy/lazyproxy.py` | py | utility | 9 | no |
-| `contrib/legacy/lazyseo.py` | py | utility | 9 | no |
-| `modules/colors.py` | py | utility | 3 | no |
 | `skills/claude_md_orchestrator/__init__.py` | py | utility | 0 | yes |
 | `skills/claude_md_orchestrator/bdd_agent.py` | py | utility | 8 | yes |
 | `skills/claude_md_orchestrator/boy_scout.py` | py | utility | 5 | yes |
@@ -25,10 +22,44 @@ This community groups 19 file(s) rooted at `skills/claude_md_orchestrator` with 
 | `skills/claude_md_orchestrator/orchestrator.py` | py | utility | 21 | yes |
 | `skills/claude_md_orchestrator/parser.py` | py | utility | 13 | yes |
 | `skills/claude_md_orchestrator/reviewer_agent.py` | py | utility | 10 | yes |
-| `skills/claude_md_orchestrator/sdd_agent.py` | py | utility | 6 | yes |
-| `skills/claude_md_orchestrator/tdd_agent.py` | py | utility | 7 | yes |
-| `skills/claude_md_orchestrator/validators.py` | py | utility | 21 | yes |
+
+### `contrib/legacy` (4 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `contrib/legacy/lazygptcli.py` | py | utility | 14 | yes |
+| `contrib/legacy/lazygptcli_unified.py` | py | utility | 29 | yes |
+| `contrib/legacy/lazyproxy.py` | py | utility | 9 | no |
+| `contrib/legacy/lazyseo.py` | py | utility | 9 | no |
+
+### `modules` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/colors.py` | py | utility | 3 | no |
+| `modules/lazyown_bprfuzzer.py` | py | utility | 15 | yes |
+| `modules/security_sanitizers.py` | py | utility | 25 | yes |
+
+### `.` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `pwntomate.py` | py | utility | 3 | yes |
+
+### `static/js` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
 | `static/js/xterm.js` | js | utility | 62 | no |
+
+### `tests` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `tests/test_security_sanitizers.py` | py | testing | 45 | yes |
+
+*... and 3 more files in this community.*
+
 
 ## Key Symbols
 
@@ -65,8 +96,8 @@ This community groups 19 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 41
-- Cross-boundary resolved imports (EXTRACTED): 14
+- Internal resolved imports (EXTRACTED): 45
+- Cross-boundary resolved imports (EXTRACTED): 17
 
 ## Connections
 
@@ -85,7 +116,7 @@ This community groups 19 file(s) rooted at `skills/claude_md_orchestrator` with 
 - Why do 4 file(s) lack file-level docs (e.g. `contrib/legacy/lazyproxy.py`)? What purpose do they serve?
 - Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
 - What would break if the most connected file in skills/claude_md_orchestrator changed?
-- Should skills/claude_md_orchestrator be split, given cohesion 0.75?
+- Should skills/claude_md_orchestrator be split, given cohesion 0.73?
 
 ## Sources
 
@@ -94,6 +125,9 @@ This community groups 19 file(s) rooted at `skills/claude_md_orchestrator` with 
 - `contrib/legacy/lazyproxy.py`
 - `contrib/legacy/lazyseo.py`
 - `modules/colors.py`
+- `modules/lazyown_bprfuzzer.py`
+- `modules/security_sanitizers.py`
+- `pwntomate.py`
 - `skills/claude_md_orchestrator/__init__.py`
 - `skills/claude_md_orchestrator/bdd_agent.py`
 - `skills/claude_md_orchestrator/boy_scout.py`
@@ -106,5 +140,4 @@ This community groups 19 file(s) rooted at `skills/claude_md_orchestrator` with 
 - `skills/claude_md_orchestrator/reviewer_agent.py`
 - `skills/claude_md_orchestrator/sdd_agent.py`
 - `skills/claude_md_orchestrator/tdd_agent.py`
-- `skills/claude_md_orchestrator/validators.py`
-- `static/js/xterm.js`
+- *... and 3 more*

@@ -3,6 +3,12 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `LedgerEntry` | class | `core/llm_budget.py:132` | `class LedgerEntry` |
+| `ModelPrice` | class | `core/llm_budget.py:69` | `class ModelPrice` |
+| `TokenEstimator` | class | `core/llm_budget.py:268` | `class TokenEstimator` |
+| `__init__` | method | `core/llm_budget.py:278` | `def __init__(self, encoding_name)` |
+| `__init__` | method | `core/llm_budget.py:319` | `def __init__(self, config, estimator, ledger)` |
+| `__init__` | method | `core/llm_budget.py:417` | `def __init__(self, inner, guard, model)` |
 | `_coerce_bool` | function | `core/llm_budget.py:476` | `def _coerce_bool(value, default)` |
 | `_coerce_positive_float` | function | `core/llm_budget.py:520` | `def _coerce_positive_float(value, default)` |
 | `_coerce_positive_int` | function | `core/llm_budget.py:536` | `def _coerce_positive_int(value, default)` |
@@ -490,11 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `get_karma_name` | function | `lazyc2.py:793` | `def get_karma_name(elo)` |
 | `get_local_ip_addresses` | function | `lazyc2.py:2207` | `def get_local_ip_addresses()` |
 | `get_notes` | function | `lazyc2.py:5779` | `def get_notes()` |
-| `get_output` | function | `lazyc2.py:5169` | `def get_output()` |
-| `get_request_details` | function | `lazyc2.py:2293` | `def get_request_details()` |
-| `get_results` | function | `lazyc2.py:5205` | `def get_results()` |
-| `get_safe_file_path` | function | `lazyc2.py:2446` | `def get_safe_file_path(user_path)` |
-| `get_tasks` | function | `lazyc2.py:5613` | `def get_tasks()` |
-| `graph` | function | `lazyc2.py:5589` | `def graph()` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

@@ -243,7 +243,7 @@ def is_valid_name(self, name: Any) -> bool
 
 Return True iff ``name`` is a syntactically valid header token.
 
-The check follows RFC 7230 `[`token`](modules.k8s_attacks.py.md#k8sconfig-token)` grammar via the
+The check follows RFC 7230 ``token`` grammar via the
 allowlist regex in [`SecurityConfig`](#securityconfig).
 
 **Parameters**

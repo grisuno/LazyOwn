@@ -3,6 +3,65 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `tt` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `u` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `u` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `w` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `w` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `wt` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `d` | function | `static/js/select2-4.1.0.min.js:2` | `` |
+| `e` | function | `static/js/select2-4.1.0.min.js:2` | `` |
+| `t` | function | `static/js/select2-4.1.0.min.js:2` | `` |
+| `a` | function | `static/js/showdown-2.1.0.min.js:2` | `` |
+| `but` | function | `static/js/showdown-2.1.0.min.js:2` | `` |
+| `must` | function | `static/js/showdown-2.1.0.min.js:2` | `` |
+| `must` | function | `static/js/showdown-2.1.0.min.js:2` | `` |
+| `must` | function | `static/js/showdown-2.1.0.min.js:2` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `b` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `c` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `f` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `m` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `o` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `p` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `r` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `r` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `r` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `r` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `v` | function | `static/js/socket.io-4.0.0.min.js:6` | `` |
+| `Et` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `Nt` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `as` | class | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `e` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `f` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `h` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
 | `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
 | `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
 | `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
@@ -437,64 +496,5 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 | `test_suite_guide_exists` | method | `tests/contract/test_suite_homologation.py:144` | `def test_suite_guide_exists(self)` |
 | `test_suite_guide_is_english_without_emoji` | method | `tests/contract/test_suite_homologation.py:152` | `def test_suite_guide_is_english_without_emoji(self)` |
 | `test_autonomous_flow_integration` | function | `tests/integration_autonomous_flow.py:15` | `def test_autonomous_flow_integration()` |
-| `backup_files` | function | `tests/mutation_common.py:20` | `def backup_files(mutations, base_dir)` |
-| `restore_files` | function | `tests/mutation_common.py:30` | `def restore_files(backups, base_dir, mutations)` |
-| `run_all` | function | `tests/mutation_common.py:56` | `def run_all(mutations, test_targets)` |
-| `run_tests` | function | `tests/mutation_common.py:37` | `def run_tests(test_targets)` |
-| `title` | function | `tests/mutation_common.py:49` | `def title(name)` |
-| `backup_files` | function | `tests/run_mutation_addon_creator.py:94` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_addon_creator.py:140` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_addon_creator.py:112` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_addon_creator.py:125` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_addon_updater.py:47` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_addon_updater.py:76` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_addon_updater.py:57` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_addon_updater.py:64` | `def run_tests()` |
-| `_apply_mutation` | function | `tests/run_mutation_api_authz.py:64` | `def _apply_mutation(source, data)` |
-| `_run_mutation_subprocess` | function | `tests/run_mutation_api_authz.py:71` | `def _run_mutation_subprocess(test)` |
-| `run` | function | `tests/run_mutation_api_authz.py:83` | `def run()` |
-| `backup_files` | function | `tests/run_mutation_autonomous_ops.py:59` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_autonomous_ops.py:87` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_autonomous_ops.py:69` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_autonomous_ops.py:76` | `def run_tests()` |
-| `apply_mutation` | function | `tests/run_mutation_beacon_dispatch.py:70` | `def apply_mutation(info, base_dir)` |
-| `backup_files` | function | `tests/run_mutation_beacon_dispatch.py:40` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_beacon_dispatch.py:88` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_beacon_dispatch.py:50` | `def restore_files(backups, base_dir, mutations)` |
-| `run_scoped_tests` | function | `tests/run_mutation_beacon_dispatch.py:56` | `def run_scoped_tests(base_dir)` |
-| `_run_tests` | function | `tests/run_mutation_c2_route_auth.py:29` | `def _run_tests()` |
-| `main` | function | `tests/run_mutation_c2_route_auth.py:40` | `def main()` |
-| `backup_files` | function | `tests/run_mutation_chain_v2.py:82` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_chain_v2.py:111` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_chain_v2.py:92` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_chain_v2.py:99` | `def run_tests()` |
-| `_run_tests` | function | `tests/run_mutation_contract_manifest.py:35` | `def _run_tests()` |
-| `main` | function | `tests/run_mutation_contract_manifest.py:47` | `def main()` |
-| `backup_files` | function | `tests/run_mutation_emulation_runner.py:54` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_emulation_runner.py:83` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_emulation_runner.py:64` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_emulation_runner.py:71` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_infra_report.py:92` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_infra_report.py:137` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_infra_report.py:110` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_infra_report.py:122` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_intel_svg.py:48` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_intel_svg.py:77` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_intel_svg.py:58` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_intel_svg.py:65` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_killchain.py:56` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_killchain.py:81` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_killchain.py:65` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_killchain.py:71` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_lazy_scope.py:50` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_lazy_scope.py:79` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_lazy_scope.py:60` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_lazy_scope.py:67` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_llm.py:60` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_llm.py:84` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_llm.py:69` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_llm.py:74` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_llm_orchestrator.py:166` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_llm_orchestrator.py:220` | `def main()` |
 
 Next: [SYMBOLS_p32.md](SYMBOLS_p32.md)

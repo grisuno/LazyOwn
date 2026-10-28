@@ -1,4 +1,4 @@
-# API (page 8 of 24)
+# API (page 8 of 25)
 Previous: [API_p7.md](API_p7.md)
 
 ## lazyc2/addon_creator.py

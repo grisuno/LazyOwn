@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 830,
-  "entities": 15624,
+  "modules": 835,
+  "entities": 15686,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,21 +13,21 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 717,
+   "py": 722,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4395,
-   "class": 1423,
+   "attribute": 4404,
+   "class": 1427,
    "classmethod": 84,
-   "constant": 1387,
+   "constant": 1406,
    "constructor": 526,
    "enum": 39,
    "exception": 40,
-   "function": 2849,
+   "function": 2871,
    "macro": 114,
-   "method": 3589,
-   "module": 830,
+   "method": 3592,
+   "module": 835,
    "property": 201,
    "protocol": 20,
    "staticmethod": 91,
@@ -36,19 +36,19 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 378,
+  "skipped_files": 381,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7407,
-   "total": 9830,
+   "documented": 7441,
+   "total": 9864,
    "percent": 75.4
   },
   "by_kind": {
    "class": {
-    "documented": 1236,
-    "total": 1423,
+    "documented": 1240,
+    "total": 1427,
     "percent": 86.9
    },
    "classmethod": {
@@ -72,9 +72,9 @@
     "percent": 95.0
    },
    "function": {
-    "documented": 1944,
-    "total": 2849,
-    "percent": 68.2
+    "documented": 1966,
+    "total": 2871,
+    "percent": 68.5
    },
    "macro": {
     "documented": 2,
@@ -82,14 +82,14 @@
     "percent": 1.8
    },
    "method": {
-    "documented": 2920,
-    "total": 3589,
+    "documented": 2923,
+    "total": 3592,
     "percent": 81.4
    },
    "module": {
-    "documented": 714,
-    "total": 830,
-    "percent": 86.0
+    "documented": 719,
+    "total": 835,
+    "percent": 86.1
    },
    "property": {
     "documented": 157,
@@ -452,6 +452,16 @@
     "documented": 22,
     "total": 23,
     "percent": 95.7
+   },
+   "cli/commands/lazy_creds.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/lazy_oob.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
    },
    "cli/commands/lazyloop.py": {
     "documented": 12,
@@ -1848,6 +1858,11 @@
     "total": 1,
     "percent": 0.0
    },
+   "modules/ad_gym.py": {
+    "documented": 10,
+    "total": 10,
+    "percent": 100.0
+   },
    "modules/adcs_attacks.py": {
     "documented": 11,
     "total": 11,
@@ -2598,6 +2613,11 @@
     "total": 11,
     "percent": 100.0
    },
+   "modules/lazy_creds.py": {
+    "documented": 8,
+    "total": 8,
+    "percent": 100.0
+   },
    "modules/lazy_cve_feed.py": {
     "documented": 11,
     "total": 11,
@@ -2631,6 +2651,11 @@
    "modules/lazy_mentions.py": {
     "documented": 7,
     "total": 7,
+    "percent": 100.0
+   },
+   "modules/lazy_oob.py": {
+    "documented": 10,
+    "total": 10,
     "percent": 100.0
    },
    "modules/lazy_orchestrator_feedback.py": {
@@ -4607,6 +4632,16 @@
    "entities": 25
   },
   {
+   "uid": "cli/commands/lazy_creds.py",
+   "path": "modules/cli.commands.lazy_creds.py.jsonl",
+   "entities": 3
+  },
+  {
+   "uid": "cli/commands/lazy_oob.py",
+   "path": "modules/cli.commands.lazy_oob.py.jsonl",
+   "entities": 3
+  },
+  {
    "uid": "cli/commands/lazyloop.py",
    "path": "modules/cli.commands.lazyloop.py.jsonl",
    "entities": 15
@@ -6002,6 +6037,11 @@
    "entities": 1
   },
   {
+   "uid": "modules/ad_gym.py",
+   "path": "modules/modules.ad_gym.py.jsonl",
+   "entities": 17
+  },
+  {
    "uid": "modules/adcs_attacks.py",
    "path": "modules/modules.adcs_attacks.py.jsonl",
    "entities": 27
@@ -6299,7 +6339,7 @@
   {
    "uid": "modules/ctf_capture.py",
    "path": "modules/modules.ctf_capture.py.jsonl",
-   "entities": 17
+   "entities": 20
   },
   {
    "uid": "modules/custom_tools.py",
@@ -6752,6 +6792,11 @@
    "entities": 12
   },
   {
+   "uid": "modules/lazy_creds.py",
+   "path": "modules/modules.lazy_creds.py.jsonl",
+   "entities": 16
+  },
+  {
    "uid": "modules/lazy_cve_feed.py",
    "path": "modules/modules.lazy_cve_feed.py.jsonl",
    "entities": 12
@@ -6785,6 +6830,11 @@
    "uid": "modules/lazy_mentions.py",
    "path": "modules/modules.lazy_mentions.py.jsonl",
    "entities": 16
+  },
+  {
+   "uid": "modules/lazy_oob.py",
+   "path": "modules/modules.lazy_oob.py.jsonl",
+   "entities": 18
   },
   {
    "uid": "modules/lazy_orchestrator_feedback.py",
@@ -7679,7 +7729,7 @@
   {
    "uid": "modules/winbox_gym.py",
    "path": "modules/modules.winbox_gym.py.jsonl",
-   "entities": 29
+   "entities": 31
   },
   {
    "uid": "modules/wineconfig.sh",

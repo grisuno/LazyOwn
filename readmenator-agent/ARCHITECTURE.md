@@ -250,6 +250,12 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lateral_migrated.py` -> `core/hardening.py`
 - `cli/commands/lateral_migrated.py` -> `modules/domain_dominance.py`
 - `cli/commands/lateral_migrated.py` -> `utils.py`
+- `cli/commands/lazy_creds.py` -> `cli/commands/_base.py`
+- `cli/commands/lazy_creds.py` -> `modules/__init__.py`
+- `cli/commands/lazy_creds.py` -> `utils.py`
+- `cli/commands/lazy_oob.py` -> `cli/commands/_base.py`
+- `cli/commands/lazy_oob.py` -> `modules/__init__.py`
+- `cli/commands/lazy_oob.py` -> `utils.py`
 - `cli/commands/lazyloop.py` -> `cli/commands/_base.py`
 - `cli/commands/lazyloop.py` -> `cli/lazy_monitor.py`
 - `cli/commands/lazyloop.py` -> `cli/lazy_orchestrator.py`
@@ -490,11 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/winbox_gym.py` -> `utils.py`
 - `cli/config_status.py` -> `core/console.py`
 - `cli/contextual_help.py` -> `cli/palette.py`
-- `cli/contextual_help.py` -> `cli/phase_labels.py`
-- `cli/contextual_help.py` -> `core/console.py`
-- `cli/dashboard_tui.py` -> `cli/commands/containers.py`
-- `cli/dashboard_tui.py` -> `cli/dashboard_layout.py`
-- `cli/dashboard_tui.py` -> `cli/graph_advisor.py`
-- `cli/dashboard_tui.py` -> `cli/killchain.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

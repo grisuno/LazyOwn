@@ -70,7 +70,7 @@ Create one or more short URLs for a single original URL.
 Request JSON:
     ``original_url`` (str, required): Target URL or file path.
     ``custom_short_url`` (str, optional): Custom short code.
-    ``count`` (int, optional): Number of short URLs to create
+    `[`count`](modules.lazy_creds.py.md#count)` (int, optional): Number of short URLs to create
         (default 1).
 
 **Returns:** 200 with the list of generated short codes, or 400 on

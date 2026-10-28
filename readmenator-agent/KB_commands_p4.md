@@ -1,6 +1,35 @@
 # Subsystem: commands (page 4 of 4)
 Previous: [KB_commands_p3.md](KB_commands_p3.md)
 
+## cli/commands/privilege_escalation.py
+- Doc: Privilege Escalation command set.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_sessions_directory` (function, line 102) `def _sessions_directory(base_path)`
+  - `_serve_via_http` (function, line 114) `def _serve_via_http(shell, binary_name, sessions_path, lport)`
+  - `PrivilegeEscalationCommandSet` (class, line 132) `class PrivilegeEscalationCommandSet(LazyOwnCommandSet)`
+  - `do_smbserver` (method, line 139) `def do_smbserver(self, line)`
+  - `do_responder` (method, line 197) `def do_responder(self, line)`
+  - `do_sudo` (method, line 222) `def do_sudo(self, line)`
+  - `do_linpeas` (method, line 235) `def do_linpeas(self, line)`
+  - `do_winpeas` (method, line 271) `def do_winpeas(self, line)`
+  - `do_les` (method, line 310) `def do_les(self, line)`
+  - `do_suid_check` (method, line 350) `def do_suid_check(self, line)`
+  - `do_pspy` (method, line 369) `def do_pspy(self, line)`
+  - `do_gtfo` (method, line 403) `def do_gtfo(self, line)`
+  - `do_whoami_priv` (method, line 450) `def do_whoami_priv(self, line)`
+  - `_whoami_priv_linux` (method, line 480) `def _whoami_priv_linux(self)`
+  - `_whoami_priv_windows` (method, line 496) `def _whoami_priv_windows(self)`
+  - `do_sudo_privesc` (method, line 512) `def do_sudo_privesc(self, line)`
+  - `do_printspoofer` (method, line 610) `def do_printspoofer(self, line)`
+  - `do_juicypotato` (method, line 632) `def do_juicypotato(self, line)`
+  - `_serve_windows_tool` (method, line 656) `def _serve_windows_tool(self, binary, label, description, args)`
+  - `_detect_os_for_privesc` (method, line 695) `def _detect_os_for_privesc(self)`
+  - `do_privesc_cmd_by_os` (method, line 755) `def do_privesc_cmd_by_os(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/world_model.py`, `utils.py`
+- Imported by: `tests/test_shell_semantics.py`
+
 ## cli/commands/purple_team.py
 - Doc: Purple Team CommandSet: closed-loop offensive detection measurement.
 - Layer: utility
@@ -106,12 +135,13 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_gym_ms2` (method, line 92) `def do_gym_ms2(self, line)`
   - `_gym_list` (method, line 137) `def _gym_list(self)`
   - `_gym_start` (method, line 171) `def _gym_start(self, args)`
-  - `_gym_submit` (method, line 242) `def _gym_submit(self, args)`
-  - `_format_elapsed` (method, line 290) `def _format_elapsed(seconds)`
-  - `_gym_status` (method, line 295) `def _gym_status(self, args)`
-  - `_gym_stop` (method, line 363) `def _gym_stop(self, args)`
-  - `_gym_leaderboard` (method, line 383) `def _gym_leaderboard(self, args)`
-  - `_gym_hint` (method, line 417) `def _gym_hint(self, args)`
+  - `_gym_submit` (method, line 250) `def _gym_submit(self, args)`
+  - `_format_elapsed` (method, line 298) `def _format_elapsed(seconds)`
+  - `_gym_status` (method, line 303) `def _gym_status(self, args)`
+  - `_gym_stop` (method, line 371) `def _gym_stop(self, args)`
+  - `_gym_leaderboard` (method, line 391) `def _gym_leaderboard(self, args)`
+  - `_gym_hint` (method, line 425) `def _gym_hint(self, args)`
+  - `_lab_notify` (function, line 189) `def _lab_notify(message)`
 - Depends on: `cli/commands/_base.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
 - Imported by: `tests/test_gym_cli.py`, `tests/test_gym_ms2_cli.py`
 
@@ -393,25 +423,26 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
 - Language: py
 - Symbols:
   - `WinboxCommandSet` (class, line 44) `class WinboxCommandSet(LazyOwnCommandSet)`
-  - `_extract_flag` (function, line 510) `def _extract_flag(args, flag)`
-  - `_extract_bool` (function, line 533) `def _extract_bool(args, flag)`
+  - `_extract_flag` (function, line 514) `def _extract_flag(args, flag)`
+  - `_extract_bool` (function, line 537) `def _extract_bool(args, flag)`
   - `do_winbox` (method, line 51) `def do_winbox(self, line)`
   - `_overview` (method, line 121) `def _overview(self)`
   - `_bootstrap` (method, line 127) `def _bootstrap(self)`
   - `_status` (method, line 151) `def _status(self)`
   - `_lifecycle` (method, line 178) `def _lifecycle(self, action, rest)`
   - `_lab_ready` (method, line 200) `def _lab_ready(self, rest)`
-  - `_exec` (method, line 230) `def _exec(self, rest)`
-  - `_interactive_passthrough` (method, line 264) `def _interactive_passthrough(self, action, rest)`
-  - `_tools` (method, line 277) `def _tools(self, rest)`
-  - `_upload` (method, line 288) `def _upload(self, rest)`
-  - `_eventlogs` (method, line 298) `def _eventlogs(self, rest)`
-  - `_net` (method, line 305) `def _net(self, rest)`
-  - `_defense` (method, line 321) `def _defense(self, tool, rest)`
-  - `_snapshot` (method, line 337) `def _snapshot(self, rest)`
-  - `_resolve` (method, line 359) `def _resolve(self, rest)`
-  - `_gym` (method, line 378) `def _gym(self, rest)`
-  - `_gym_matrix` (method, line 414) `def _gym_matrix(self, action, rest)`
-  - `_confirmed` (method, line 497) `def _confirmed(self, rest)`
+  - `_exec` (method, line 234) `def _exec(self, rest)`
+  - `_interactive_passthrough` (method, line 268) `def _interactive_passthrough(self, action, rest)`
+  - `_tools` (method, line 281) `def _tools(self, rest)`
+  - `_upload` (method, line 292) `def _upload(self, rest)`
+  - `_eventlogs` (method, line 302) `def _eventlogs(self, rest)`
+  - `_net` (method, line 309) `def _net(self, rest)`
+  - `_defense` (method, line 325) `def _defense(self, tool, rest)`
+  - `_snapshot` (method, line 341) `def _snapshot(self, rest)`
+  - `_resolve` (method, line 363) `def _resolve(self, rest)`
+  - `_gym` (method, line 382) `def _gym(self, rest)`
+  - `_gym_matrix` (method, line 418) `def _gym_matrix(self, action, rest)`
+  - `_confirmed` (method, line 501) `def _confirmed(self, rest)`
+  - `_lab_notify` (function, line 215) `def _lab_notify(message)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 

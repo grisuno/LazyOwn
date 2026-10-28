@@ -3,6 +3,12 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_db.py` | Tests for modules.db — LazyOwnDB SQLite layer. | tests | 13 | 0 |
+| `tests/test_defense_eval.py` | Defense rule replay: target/control datasets, verdicts and metric counts. | tests | 10 | 0 |
+| `tests/test_defense_stages.py` | Defense stages: orchestrator-managed runners and YAML stage visibility. | tests | 8 | 0 |
+| `tests/test_dependencies.py` | Tests for ``core.dependencies`` graceful optional-import handling. | tests | 35 | 0 |
+| `tests/test_detection_feed.py` | Tests for modules/detection_feed.py. | tests | 19 | 0 |
+| `tests/test_dirtyinit_addon.py` | tests/test_dirtyinit_addon.py  Validation suite for the dirtyinit lazyaddon and its phone-side... | tests | 48 | 0 |
 | `tests/test_docs_drift_contract.py` | Docs drift workflow contract tests. | tests | 11 | 0 |
 | `tests/test_doctor.py` | tests/test_doctor.py  Tests for the preflight environment health check in ``cli.doctor``. | tests | 34 | 0 |
 | `tests/test_emulation_runner.py` | Emulation runner BDD contract: resolve, execute, normalize, publish. | tests | 22 | 0 |
@@ -54,9 +60,11 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lab_target_visibility.py` | Lab target visibility: start/status always show the container IP. | tests | 2 | 0 |
 | `tests/test_lazy_agent.py` | Agentic tool-calling: worker agent path, resume and main sessions. | tests | 18 | 0 |
 | `tests/test_lazy_bridge_traffic.py` | Incremental LAZY traffic mirroring (stall regression). | tests | 7 | 0 |
+| `tests/test_lazy_creds.py` | Contract tests for the lazycreds default-credential knowledge base. | tests | 9 | 0 |
 | `tests/test_lazy_engine.py` | Lazy engine (LAZY-faithful) regression tests with stub executor. | tests | 13 | 0 |
 | `tests/test_lazy_evidence.py` | Traffic recorder trigram search and frozen evidence package export. | tests | 3 | 0 |
 | `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 38 | 0 |
+| `tests/test_lazy_oob.py` | Contract tests for the lazyoob OOB canary. | tests | 12 | 0 |
 | `tests/test_lazy_orchestrator.py` | Orchestrator admin console: headless smoke and real persistence. | tests | 30 | 0 |
 | `tests/test_lazy_parity.py` | LAZY parity proof tests: every ported subsystem must behave, not just exist. | tests | 26 | 0 |
 | `tests/test_lazy_proxy.py` | Recorder proxy: CA, HTTP/HTTPS capture, engine ingestion, auto-binding. | tests | 28 | 0 |
@@ -212,7 +220,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_viral_adoption.py` | Viral adoption assets: GIFs, smoke script, drift CI, launch kit. | tests | 7 | 0 |
 | `tests/test_vuln_mitigations.py` | Regression suite for the GitHub code-scanning mitigations. | tests | 28 | 0 |
 | `tests/test_vulnbot_fallback.py` | SDD spec and BDD scenarios for the VulnBot orchestrator-governed CLI. | tests | 25 | 0 |
-| `tests/test_winbox_gym.py` | Contract tests for the WinBox gym catalogue, adapter and matrix runner. | tests | 47 | 0 |
+| `tests/test_winbox_gym.py` | Contract tests for the WinBox gym catalogue, adapter and matrix runner. | tests | 70 | 0 |
 | `tests/test_wizard_binary_check.py` | tests/test_wizard_binary_check.py  Tests for the wizard binary-readiness check added to... | tests | 26 | 0 |
 | `tests/test_wizard_llm.py` | Contract tests for the wizard LLM provider setup step. | tests | 31 | 0 |
 | `tests/test_world_model_extended.py` | Tests for extended WorldModel methods: set_os_hint, get_host, get_hosts_summary. | tests | 22 | 0 |
@@ -224,5 +232,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tools/generate_metasploitable_gym.py` | Generate the Metasploitable 2 gym catalogue. | tools | 6 | 0 |
 | `tools/set_lazyaddon_updates.py` | Set or check the ``update`` flag on every lazyaddon YAML. | tools | 3 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 101 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 103 |
 

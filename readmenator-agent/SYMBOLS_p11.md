@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_safe_target` | function | `modules/addon_updater.py:107` | `def _safe_target(install_path, root)` |
+| `_worktree_root` | function | `modules/addon_updater.py:150` | `def _worktree_root(path, repository_root)` |
+| `load_addons` | function | `modules/addon_updater.py:73` | `def load_addons(lazyaddons_dir)` |
+| `to_dict` | method | `modules/addon_updater.py:46` | `def to_dict(self)` |
+| `update_addon` | function | `modules/addon_updater.py:166` | `def update_addon(name, lazyaddons_dir, root, dry_run)` |
+| `update_all` | function | `modules/addon_updater.py:260` | `def update_all(names, lazyaddons_dir, root, dry_run, audit_path)` |
+| `ASTToolExtractor` | class | `modules/agent_runner.py:138` | `class ASTToolExtractor` |
+| `AgentRunner` | class | `modules/agent_runner.py:194` | `class AgentRunner` |
+| `AgentTool` | class | `modules/agent_runner.py:70` | `class AgentTool` |
+| `CommandMetadata` | class | `modules/agent_runner.py:131` | `class CommandMetadata` |
+| `LazyOwnShellWrapper` | class | `modules/agent_runner.py:486` | `class LazyOwnShellWrapper` |
+| `VulnBotCLI` | class | `modules/agent_runner.py:563` | `class VulnBotCLI` |
+| `__init__` | method | `modules/agent_runner.py:73` | `def __init__(self, name, description, func, parameters, required)` |
+| `__init__` | method | `modules/agent_runner.py:197` | `def __init__(self, model, system_prompt, max_iterations)` |
+| `__init__` | method | `modules/agent_runner.py:489` | `def __init__(self, script_path)` |
+| `__init__` | method | `modules/agent_runner.py:564` | `def __init__(self, provider, mode, debug, script_path)` |
 | `_call_model` | method | `modules/agent_runner.py:299` | `def _call_model(self)` |
 | `_emit_delta` | method | `modules/agent_runner.py:419` | `def _emit_delta(self, kind, text)` |
 | `_load_model` | method | `modules/agent_runner.py:576` | `def _load_model(self)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `BofCatalog` | class | `modules/bof_registry.py:157` | `class BofCatalog` |
 | `BofCategory` | class | `modules/bof_registry.py:68` | `class BofCategory(str, Enum)` |
 | `BofEntry` | class | `modules/bof_registry.py:85` | `class BofEntry` |
-| `BofMarketplace` | class | `modules/bof_registry.py:639` | `class BofMarketplace` |
-| `BofPlatform` | class | `modules/bof_registry.py:61` | `class BofPlatform(str, Enum)` |
-| `BofRegistry` | class | `modules/bof_registry.py:552` | `class BofRegistry` |
-| `BofValidator` | class | `modules/bof_registry.py:506` | `class BofValidator` |
-| `__init__` | method | `modules/bof_registry.py:559` | `def __init__(self, sessions_dir)` |
-| `__init__` | method | `modules/bof_registry.py:651` | `def __init__(self, sessions_dir, catalog)` |
-| `_build_default_catalog` | function | `modules/bof_registry.py:265` | `def _build_default_catalog()` |
-| `_load_manifest` | method | `modules/bof_registry.py:569` | `def _load_manifest(self)` |
-| `_save_manifest` | method | `modules/bof_registry.py:580` | `def _save_manifest(self, manifest)` |
-| `bulk_install` | method | `modules/bof_registry.py:769` | `def bulk_install(self, names)` |
-| `catalog` | method | `modules/bof_registry.py:662` | `def catalog(self)` |
-| `compute_sha256` | method | `modules/bof_registry.py:515` | `def compute_sha256(filepath)` |
-| `from_dict` | method | `modules/bof_registry.py:137` | `def from_dict(cls, raw)` |
-| `from_dict` | method | `modules/bof_registry.py:241` | `def from_dict(cls, raw)` |
-| `get` | method | `modules/bof_registry.py:177` | `def get(self, name)` |
-| `get_install_info` | method | `modules/bof_registry.py:633` | `def get_install_info(self, name)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

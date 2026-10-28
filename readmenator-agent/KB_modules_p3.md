@@ -1,5 +1,60 @@
-# Subsystem: modules (page 3 of 16)
+# Subsystem: modules (page 3 of 17)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
+
+## modules/c2_profile_engine.py
+- Doc: Extended malleable C2 profile engine with TLS, DNS, SMB, and WebSocket transports.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TlsProfile` (class, line 117) `class TlsProfile`
+  - `DnsProfile` (class, line 205) `class DnsProfile`
+  - `SmbProfile` (class, line 289) `class SmbProfile`
+  - `WebSocketProfile` (class, line 349) `class WebSocketProfile`
+  - `TransportType` (class, line 404) `class TransportType(Enum)`
+  - `RotationSlot` (class, line 414) `class RotationSlot`
+  - `ProfileRotator` (class, line 441) `class ProfileRotator`
+  - `ProfileValidator` (class, line 503) `class ProfileValidator`
+  - `ProfileEngine` (class, line 611) `class ProfileEngine`
+  - `get_cipher_suites` (method, line 144) `def get_cipher_suites(self)`
+  - `get_ja3_hash` (method, line 155) `def get_ja3_hash(self)`
+  - `from_dict` (method, line 173) `def from_dict(raw)`
+  - `to_dict` (method, line 188) `def to_dict(self)`
+  - `build_query_subdomain` (method, line 231) `def build_query_subdomain(self, data, packet_id)`
+  - `from_dict` (method, line 261) `def from_dict(raw)`
+  - `to_dict` (method, line 274) `def to_dict(self)`
+  - `from_dict` (method, line 319) `def from_dict(raw)`
+  - `to_dict` (method, line 333) `def to_dict(self)`
+  - `from_dict` (method, line 375) `def from_dict(raw)`
+  - `to_dict` (method, line 389) `def to_dict(self)`
+  - `is_available` (method, line 429) `def is_available(self)`
+  - `touch` (method, line 436) `def touch(self)`
+  - `__init__` (method, line 453) `def __init__(self, slots)`
+  - `current_slot` (method, line 460) `def current_slot(self)`
+  - `transport` (method, line 465) `def transport(self)`
+  - `rotate` (method, line 469) `def rotate(self)`
+  - `list_slots` (method, line 487) `def list_slots(self)`
+  - `validate_tls` (method, line 511) `def validate_tls(profile)`
+  - `validate_dns` (method, line 536) `def validate_dns(profile)`
+  - `validate_smb` (method, line 556) `def validate_smb(profile)`
+  - `validate_websocket` (method, line 576) `def validate_websocket(profile)`
+  - `validate_all` (method, line 591) `def validate_all(self, tls, dns, smb, websocket)`
+  - `__init__` (method, line 627) `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)`
+  - `tls_profile` (method, line 643) `def tls_profile(self)`
+  - `dns_profile` (method, line 648) `def dns_profile(self)`
+  - `smb_profile` (method, line 653) `def smb_profile(self)`
+  - `websocket_profile` (method, line 658) `def websocket_profile(self)`
+  - `rotator` (method, line 663) `def rotator(self)`
+  - `active_transport` (method, line 668) `def active_transport(self)`
+  - `rotate` (method, line 672) `def rotate(self)`
+  - `validate` (method, line 676) `def validate(self)`
+  - `get_active_profile_dict` (method, line 685) `def get_active_profile_dict(self)`
+  - `get_all_profiles_dict` (method, line 699) `def get_all_profiles_dict(self)`
+  - `_default_slots` (method, line 709) `def _default_slots(self)`
+  - `from_dict` (method, line 747) `def from_dict(cls, raw)`
+  - `from_payload` (method, line 766) `def from_payload(cls, payload)`
+  - `from_config` (method, line 771) `def from_config(cls, config)`
+- Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
+- Imported by: `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
 
 ## modules/c2_surfaces.py
 - Doc: C2 dashboard surfaces fed by the autonomous loop and APT chains.
@@ -96,7 +151,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `resolve` (method, line 128) `def resolve(self, tokens)`
   - `_eval` (function, line 269) `def _eval(node)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_evidence.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_evidence.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
 
 ## modules/chain_runner.py
 - Doc: Single execution engine for YAML orchestration chains.
@@ -434,66 +489,6 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `get_rule` (method, line 575) `def get_rule(self, name)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
 - Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
-
-## modules/config_store.py
-- Doc: Thread-safe singleton facade over core.config for payload.json.
-- Layer: data_access
-- Language: py
-- Symbols:
-  - `init` (function, line 36) `def init(path, watch)`
-  - `get_config` (function, line 53) `def get_config(key, default)`
-  - `set_config` (function, line 66) `def set_config()`
-  - `set_config_dict` (function, line 80) `def set_config_dict(updates)`
-  - `reload_config` (function, line 90) `def reload_config()`
-  - `stop_watcher` (function, line 96) `def stop_watcher()`
-  - `_ensure_loaded` (function, line 106) `def _ensure_loaded()`
-  - `_load` (function, line 113) `def _load()`
-  - `_persist` (function, line 131) `def _persist()`
-  - `_start_watcher` (function, line 143) `def _start_watcher(interval)`
-  - `_watch_loop` (function, line 148) `def _watch_loop()`
-- Depends on: `core/config.py`, `core/logging.py`
-- Imported by: `tests/test_core_modules.py`
-
-## modules/credential_reuse.py
-- Doc: Credential Reuse Engine for LazyOwn.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ReuseCandidate` (class, line 32) `class ReuseCandidate`
-  - `CredentialReuseEngine` (class, line 55) `class CredentialReuseEngine`
-  - `get_credential_reuse_engine` (function, line 358) `def get_credential_reuse_engine()`
-  - `to_dict` (method, line 43) `def to_dict(self)`
-  - `__init__` (method, line 80) `def __init__(self)`
-  - `_load_cache` (method, line 85) `def _load_cache(self)`
-  - `_save_cache` (method, line 95) `def _save_cache(self)`
-  - `mark_failed` (method, line 107) `def mark_failed(self, username, password, host)`
-  - `mark_confirmed` (method, line 112) `def mark_confirmed(self, username, password, host)`
-  - `_subnet_distance` (method, line 118) `def _subnet_distance(self, ip_a, ip_b)`
-  - `_score_candidate` (method, line 144) `def _score_candidate(self, username, password, source_host, target_host, target_services)`
-  - `_build_command` (method, line 196) `def _build_command(self, username, password, host, target_services)`
-  - `rank` (method, line 226) `def rank(self, hosts, creds, host_services, limit)`
-  - `suggest_from_state_manager` (method, line 278) `def suggest_from_state_manager(self, state_manager, limit)`
-  - `suggest_from_world_model` (method, line 308) `def suggest_from_world_model(self, world_model, limit)`
-  - `get_summary` (method, line 338) `def get_summary(self, candidates)`
-- Depends on: `core/logging.py`
-- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `modules/conditional_hooks.py`
-
-## modules/cross_cloud.py
-- Doc: Cross-cloud identity paths — multi-cloud identity federation abuse.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CrossCloudConfig` (class, line 30) `class CrossCloudConfig`
-  - `CrossCloudAttackEngine` (class, line 54) `class CrossCloudAttackEngine`
-  - `__init__` (method, line 64) `def __init__(self, config)`
-  - `azure_saml_to_aws` (method, line 67) `def azure_saml_to_aws(self)`
-  - `gcp_oidc_to_azure` (method, line 104) `def gcp_oidc_to_azure(self)`
-  - `aws_oidc_to_gcp` (method, line 133) `def aws_oidc_to_gcp(self)`
-  - `multi_cloud_imds_harvesting` (method, line 167) `def multi_cloud_imds_harvesting(self)`
-  - `entra_id_to_gcp_workforce_federation` (method, line 204) `def entra_id_to_gcp_workforce_federation(self)`
-  - `detect_cross_cloud_federation` (method, line 234) `def detect_cross_cloud_federation(self)`
-  - `summary` (method, line 258) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

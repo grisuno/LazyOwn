@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 830 modules, 15624 documented entities, documentation coverage 75.4% (7407/9830 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 835 modules, 15686 documented entities, documentation coverage 75.4% (7441/9864 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (717), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (722), sh (61)
 
 ## Modules
 
@@ -176,6 +176,8 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.lab`](modules/cli.commands.lab.py.md) | Lab environment commands -- spin up vulnerable practice targets. | 1 | 1 | 100.0% |
 | [`cli.commands.lateral`](modules/cli.commands.lateral.py.md) | Lateral Movement command set (pending). | 1 | 8 | 100.0% |
 | [`cli.commands.lateral_migrated`](modules/cli.commands.lateral_migrated.py.md) | lateral commands migrated from lazyown.py. | 1 | 21 | 95.7% |
+| [`cli.commands.lazy_creds`](modules/cli.commands.lazy_creds.py.md) | LazyCreds shell commands: default-credential knowledge base lookups. | 1 | 1 | 100.0% |
+| [`cli.commands.lazy_oob`](modules/cli.commands.lazy_oob.py.md) | LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks. | 1 | 1 | 100.0% |
 | [`cli.commands.lazyloop`](modules/cli.commands.lazyloop.py.md) | Lazy queue and misc command set. | 1 | 10 | 100.0% |
 | [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | Lazy autonomous loop commands (single orchestrator, lazy_* surface). | 1 | 57 | 96.6% |
 | [`cli.commands.marketplace`](modules/cli.commands.marketplace.py.md) | Plugin/addon marketplace commands. | 1 | 2 | 100.0% |
@@ -471,6 +473,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.CVE-2023-28432`](modules/modules.CVE-2023-28432.py.md) |  | 0 | 1 | 0.0% |
 | [`modules.LazyOwnExplorer`](modules/modules.LazyOwnExplorer.py.md) | main.py | 2 | 18 | 4.8% |
 | [`modules`](modules/modules.__init__.py.md) |  | 0 | 0 | 0.0% |
+| [`modules.ad_gym`](modules/modules.ad_gym.py.md) | AD lab gym catalogue (Docker Samba DC): index, exploits, chains. | 0 | 9 | 100.0% |
 | [`modules.adcs_attacks`](modules/modules.adcs_attacks.py.md) | Active Directory Certificate Services (AD CS) attack module. | 2 | 8 | 100.0% |
 | [`modules.addon_updater`](modules/modules.addon_updater.py.md) | Git update contract for lazyaddons. | 1 | 4 | 100.0% |
 | [`modules.agent_runner`](modules/modules.agent_runner.py.md) | LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory management, argument validation and anti-loop. | 6 | 19 | 30.8% |
@@ -605,6 +608,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | Agentic tool-calling bridge for the loop and the main agent. | 2 | 16 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | Bidirectional LAZY <-> LazyOwn bridge. | 0 | 14 | 100.0% |
 | [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | Full CLI catalog for the Lazy autonomous loop. | 0 | 10 | 100.0% |
+| [`modules.lazy_creds`](modules/modules.lazy_creds.py.md) | Default-credential knowledge base for LazyOwn. | 1 | 6 | 100.0% |
 | [`modules.lazy_cve_feed`](modules/modules.lazy_cve_feed.py.md) | Keyless CVE intelligence feeds and version-aware service correlation. | 0 | 10 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | 1 | 0 | 100.0% |
 | [`modules.lazy_heat`](modules/modules.lazy_heat.py.md) | Heat tiers and version math for CVE correlation. | 0 | 11 | 100.0% |
@@ -612,6 +616,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | Intel feed from the Lazy autonomous loop. | 0 | 9 | 100.0% |
 | [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 257 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | LAZY chat mentions with multi-type search and scroll pagination. | 3 | 3 | 100.0% |
+| [`modules.lazy_oob`](modules/modules.lazy_oob.py.md) | Local OOB canary for blind SSRF/RCE detection. | 1 | 8 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | Organic orchestrator training from loop usage. | 0 | 5 | 100.0% |
 | [`modules.lazy_osinfer`](modules/modules.lazy_osinfer.py.md) | Target OS inference and OS-aware verb gating. | 0 | 11 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | Recording HTTP/HTTPS proxy for the autonomous loop. | 2 | 20 | 100.0% |

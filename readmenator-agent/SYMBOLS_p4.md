@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_opsec` | method | `cli/commands/security.py:26` | `def do_opsec(self, line)` |
+| `do_rotate_aes` | method | `cli/commands/security.py:127` | `def do_rotate_aes(self, _line)` |
+| `do_seal_credentials` | method | `cli/commands/security.py:106` | `def do_seal_credentials(self, _line)` |
+| `do_unseal_credentials` | method | `cli/commands/security.py:150` | `def do_unseal_credentials(self, _line)` |
+| `SessionOpsCommandSet` | class | `cli/commands/session_ops.py:86` | `class SessionOpsCommandSet(LazyOwnCommandSet)` |
 | `_flag_value` | function | `cli/commands/session_ops.py:950` | `def _flag_value(flag_name)` |
 | `_flag_value` | function | `cli/commands/session_ops.py:1062` | `def _flag_value(flag_name)` |
 | `_strip_shell_quotes` | function | `cli/commands/session_ops.py:72` | `def _strip_shell_quotes(value)` |
@@ -90,24 +95,25 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `do_verb` | method | `cli/commands/verb_admin.py:52` | `def do_verb(self, line)` |
 | `WinboxCommandSet` | class | `cli/commands/winbox_gym.py:44` | `class WinboxCommandSet(LazyOwnCommandSet)` |
 | `_bootstrap` | method | `cli/commands/winbox_gym.py:127` | `def _bootstrap(self)` |
-| `_confirmed` | method | `cli/commands/winbox_gym.py:497` | `def _confirmed(self, rest)` |
-| `_defense` | method | `cli/commands/winbox_gym.py:321` | `def _defense(self, tool, rest)` |
-| `_eventlogs` | method | `cli/commands/winbox_gym.py:298` | `def _eventlogs(self, rest)` |
-| `_exec` | method | `cli/commands/winbox_gym.py:230` | `def _exec(self, rest)` |
-| `_extract_bool` | function | `cli/commands/winbox_gym.py:533` | `def _extract_bool(args, flag)` |
-| `_extract_flag` | function | `cli/commands/winbox_gym.py:510` | `def _extract_flag(args, flag)` |
-| `_gym` | method | `cli/commands/winbox_gym.py:378` | `def _gym(self, rest)` |
-| `_gym_matrix` | method | `cli/commands/winbox_gym.py:414` | `def _gym_matrix(self, action, rest)` |
-| `_interactive_passthrough` | method | `cli/commands/winbox_gym.py:264` | `def _interactive_passthrough(self, action, rest)` |
+| `_confirmed` | method | `cli/commands/winbox_gym.py:501` | `def _confirmed(self, rest)` |
+| `_defense` | method | `cli/commands/winbox_gym.py:325` | `def _defense(self, tool, rest)` |
+| `_eventlogs` | method | `cli/commands/winbox_gym.py:302` | `def _eventlogs(self, rest)` |
+| `_exec` | method | `cli/commands/winbox_gym.py:234` | `def _exec(self, rest)` |
+| `_extract_bool` | function | `cli/commands/winbox_gym.py:537` | `def _extract_bool(args, flag)` |
+| `_extract_flag` | function | `cli/commands/winbox_gym.py:514` | `def _extract_flag(args, flag)` |
+| `_gym` | method | `cli/commands/winbox_gym.py:382` | `def _gym(self, rest)` |
+| `_gym_matrix` | method | `cli/commands/winbox_gym.py:418` | `def _gym_matrix(self, action, rest)` |
+| `_interactive_passthrough` | method | `cli/commands/winbox_gym.py:268` | `def _interactive_passthrough(self, action, rest)` |
+| `_lab_notify` | function | `cli/commands/winbox_gym.py:215` | `def _lab_notify(message)` |
 | `_lab_ready` | method | `cli/commands/winbox_gym.py:200` | `def _lab_ready(self, rest)` |
 | `_lifecycle` | method | `cli/commands/winbox_gym.py:178` | `def _lifecycle(self, action, rest)` |
-| `_net` | method | `cli/commands/winbox_gym.py:305` | `def _net(self, rest)` |
+| `_net` | method | `cli/commands/winbox_gym.py:309` | `def _net(self, rest)` |
 | `_overview` | method | `cli/commands/winbox_gym.py:121` | `def _overview(self)` |
-| `_resolve` | method | `cli/commands/winbox_gym.py:359` | `def _resolve(self, rest)` |
-| `_snapshot` | method | `cli/commands/winbox_gym.py:337` | `def _snapshot(self, rest)` |
+| `_resolve` | method | `cli/commands/winbox_gym.py:363` | `def _resolve(self, rest)` |
+| `_snapshot` | method | `cli/commands/winbox_gym.py:341` | `def _snapshot(self, rest)` |
 | `_status` | method | `cli/commands/winbox_gym.py:151` | `def _status(self)` |
-| `_tools` | method | `cli/commands/winbox_gym.py:277` | `def _tools(self, rest)` |
-| `_upload` | method | `cli/commands/winbox_gym.py:288` | `def _upload(self, rest)` |
+| `_tools` | method | `cli/commands/winbox_gym.py:281` | `def _tools(self, rest)` |
+| `_upload` | method | `cli/commands/winbox_gym.py:292` | `def _upload(self, rest)` |
 | `do_winbox` | method | `cli/commands/winbox_gym.py:51` | `def do_winbox(self, line)` |
 | `ConfigHistory` | class | `cli/config_history.py:23` | `class ConfigHistory` |
 | `ConfigHistoryConfig` | class | `cli/config_history.py:16` | `class ConfigHistoryConfig` |
@@ -490,11 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `action_pause` | method | `cli/lazy_monitor.py:409` | `def action_pause(self)` |
 | `action_resume` | method | `cli/lazy_monitor.py:417` | `def action_resume(self)` |
 | `action_steer` | method | `cli/lazy_monitor.py:460` | `def action_steer(self)` |
-| `action_tab_findings` | method | `cli/lazy_monitor.py:489` | `def action_tab_findings(self)` |
-| `action_tab_guard` | method | `cli/lazy_monitor.py:493` | `def action_tab_guard(self)` |
-| `action_tab_traffic` | method | `cli/lazy_monitor.py:497` | `def action_tab_traffic(self)` |
-| `compose` | method | `cli/lazy_monitor.py:72` | `def compose(self)` |
-| `compose` | method | `cli/lazy_monitor.py:140` | `def compose(self)` |
-| `on_input_submitted` | method | `cli/lazy_monitor.py:80` | `def on_input_submitted(self, event)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

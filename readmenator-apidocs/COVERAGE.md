@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **75.4%** (7407 of 9830 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **75.4%** (7441 of 9864 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,15 +8,15 @@ Overall: **75.4%** (7407 of 9830 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1236 | 1423 | 86.9% |
+| class | 1240 | 1427 | 86.9% |
 | classmethod | 58 | 84 | 69.0% |
 | constructor | 205 | 526 | 39.0% |
 | enum | 30 | 39 | 76.9% |
 | exception | 38 | 40 | 95.0% |
-| function | 1944 | 2849 | 68.2% |
+| function | 1966 | 2871 | 68.5% |
 | macro | 2 | 114 | 1.8% |
-| method | 2920 | 3589 | 81.4% |
-| module | 714 | 830 | 86.0% |
+| method | 2923 | 3592 | 81.4% |
+| module | 719 | 835 | 86.1% |
 | property | 157 | 201 | 78.1% |
 | protocol | 20 | 20 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
@@ -442,6 +442,8 @@ Overall: **75.4%** (7407 of 9830 public modules, types, and callables). Data mem
 | [`cli.commands.infra`](modules/cli.commands.infra.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lab`](modules/cli.commands.lab.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lateral`](modules/cli.commands.lateral.py.md) | 10 | 10 | 100.0% |
+| [`cli.commands.lazy_creds`](modules/cli.commands.lazy_creds.py.md) | 3 | 3 | 100.0% |
+| [`cli.commands.lazy_oob`](modules/cli.commands.lazy_oob.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lazyloop`](modules/cli.commands.lazyloop.py.md) | 12 | 12 | 100.0% |
 | [`cli.commands.marketplace`](modules/cli.commands.marketplace.py.md) | 4 | 4 | 100.0% |
 | [`cli.commands.mcp_bridge`](modules/cli.commands.mcp_bridge.py.md) | 12 | 12 | 100.0% |
@@ -637,6 +639,7 @@ Overall: **75.4%** (7407 of 9830 public modules, types, and callables). Data mem
 | [`lazygui.windows.main_window`](modules/lazygui.windows.main_window.py.md) | 7 | 7 | 100.0% |
 | [`lazyown-docker/entrypoint.sh`](modules/lazyown-docker.entrypoint.sh.md) | 1 | 1 | 100.0% |
 | [`lazyown-docker/mkdocker.sh`](modules/lazyown-docker.mkdocker.sh.md) | 13 | 13 | 100.0% |
+| [`modules.ad_gym`](modules/modules.ad_gym.py.md) | 10 | 10 | 100.0% |
 | [`modules.adcs_attacks`](modules/modules.adcs_attacks.py.md) | 11 | 11 | 100.0% |
 | [`modules.addon_updater`](modules/modules.addon_updater.py.md) | 6 | 6 | 100.0% |
 | [`modules.asset_graph`](modules/modules.asset_graph.py.md) | 18 | 18 | 100.0% |
@@ -704,6 +707,7 @@ Overall: **75.4%** (7407 of 9830 public modules, types, and callables). Data mem
 | [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | 19 | 19 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | 15 | 15 | 100.0% |
 | [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | 11 | 11 | 100.0% |
+| [`modules.lazy_creds`](modules/modules.lazy_creds.py.md) | 8 | 8 | 100.0% |
 | [`modules.lazy_cve_feed`](modules/modules.lazy_cve_feed.py.md) | 11 | 11 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | 2 | 2 | 100.0% |
 | [`modules.lazy_heat`](modules/modules.lazy_heat.py.md) | 12 | 12 | 100.0% |
@@ -711,6 +715,7 @@ Overall: **75.4%** (7407 of 9830 public modules, types, and callables). Data mem
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | 10 | 10 | 100.0% |
 | [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 286 | 286 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | 7 | 7 | 100.0% |
+| [`modules.lazy_oob`](modules/modules.lazy_oob.py.md) | 10 | 10 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | 6 | 6 | 100.0% |
 | [`modules.lazy_osinfer`](modules/modules.lazy_osinfer.py.md) | 12 | 12 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | 23 | 23 | 100.0% |

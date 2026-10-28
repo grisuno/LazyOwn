@@ -120,7 +120,7 @@ One operator-declared parameter.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | [`name`](#operatorparam-name) | `str` |  | Placeholder token used in addon templates. |
-| [`kind`](#operatorparam-kind) | `str` | `'string'` | Payload field kind (``string``, ``integer``, ``url``, ...). |
+| [`kind`](#operatorparam-kind) | `str` | `'string'` | Payload field kind (``string``, ``integer``, `[`url`](modules.lazy_oob.py.md#url)`, ...). |
 | [`default`](#operatorparam-default) | `Any` | `''` | Value the shell uses when the parameter is not set. |
 | [`description`](#operatorparam-description) | `str` | `''` | Short help text shown to the operator. |
 | [`category`](#operatorparam-category) | `str` | `'general'` | Payload schema category used by the wizard and reports. |
@@ -310,7 +310,7 @@ Create an operator parameter and persist it in the registry.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `name` | `str` |  | Parameter name; must match ``^[a-z][a-z0-9_]{0,47}$``. |
-| `kind` | `str` | `'string'` | Payload field kind (``string``, ``integer``, ``url``, ...). |
+| `kind` | `str` | `'string'` | Payload field kind (``string``, ``integer``, `[`url`](modules.lazy_oob.py.md#url)`, ...). |
 | `default` | `Any` | `''` | Default value of the parameter. |
 | `description` | `str` | `''` | Short help text shown to the operator. |
 | `category` | `str` | `'general'` | Payload schema category. |

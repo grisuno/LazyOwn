@@ -406,7 +406,7 @@ def search_cves(self, service: str) -> list[dict]
 Return CVE records matching the supplied service banner.
 
 Each record contains ``cve_id``, ``description``, ``cvss`` and
-``url`` keys. CVSS data is fetched concurrently from
+`[`url`](modules.lazy_oob.py.md#url)` keys. CVSS data is fetched concurrently from
 cvedetails.com using a bounded thread pool.
 
 **Parameters**

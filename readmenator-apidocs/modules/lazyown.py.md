@@ -456,7 +456,7 @@ objects.
 | `raise_keyboard_interrupt` |  | `True` | Whether to propagate Ctrl-C. |
 | `orig_rl_history_length` |  | `None` | Readline bookkeeping passed through to cmd2. |
 
-**Returns:** The `[`stop`](modules.lab_runtime.py.md#stop)` flag from cmd2 (``True`` ends the loop). A scope block
+**Returns:** The ``stop`` flag from cmd2 (``True`` ends the loop). A scope block
 returns ``False`` so the offending command is skipped without
 terminating the session.
 
@@ -1769,7 +1769,7 @@ The script will be executed with the following arguments:
 
 The function performs the following steps:
 
-1. Retrieves the values for `url`, `method`, `headers`, `params`, `data`, `json_data`, `proxy_port`, `wordlist`, and `hide_code` from `self.params`.
+1. Retrieves the values for [`url`](modules.lazy_oob.py.md#url), `method`, `headers`, `params`, `data`, `json_data`, `proxy_port`, `wordlist`, and `hide_code` from `self.params`.
 2. Constructs the command to run the `lazyown_burpfuzzer.py` script with the specified arguments.
 3. Adds optional parameters based on whether the corresponding files (`headers_file`, `data_file`, `params_file`, `json_data_file`) are provided.
 4. Executes the command using the `run_command` method.
@@ -1777,7 +1777,7 @@ The function performs the following steps:
 
 
 Manual execution:
-1. Ensure that `url`, `method`, and `proxy_port` are assign in `self.params`.
+1. Ensure that [`url`](modules.lazy_oob.py.md#url), `method`, and `proxy_port` are assign in `self.params`.
 2. Provide additional parameters as needed.
 3. Run the script `modules/lazyown_burpfuzzer.py` with the appropriate arguments.
 

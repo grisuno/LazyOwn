@@ -2,6 +2,12 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/contextual_help.py` -> `cli/phase_labels.py`
+- `cli/contextual_help.py` -> `core/console.py`
+- `cli/dashboard_tui.py` -> `cli/commands/containers.py`
+- `cli/dashboard_tui.py` -> `cli/dashboard_layout.py`
+- `cli/dashboard_tui.py` -> `cli/graph_advisor.py`
+- `cli/dashboard_tui.py` -> `cli/killchain.py`
 - `cli/dashboard_tui.py` -> `cli/ops_commands.py`
 - `cli/dashboard_tui.py` -> `cli/reactive_hints.py`
 - `cli/dashboard_tui.py` -> `cli/reasoning_stream.py`
@@ -490,11 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/theme/__init__.py` -> `lazygui/theme/tokens.py`
 - `lazygui/theme/manager.py` -> `core/logging.py`
 - `lazygui/theme/manager.py` -> `lazygui/config/constants.py`
-- `lazygui/theme/manager.py` -> `lazygui/config/settings.py`
-- `lazygui/theme/manager.py` -> `lazygui/theme/palettes/__init__.py`
-- `lazygui/theme/manager.py` -> `lazygui/theme/qss_builder.py`
-- `lazygui/theme/manager.py` -> `lazygui/theme/tokens.py`
-- `lazygui/theme/palettes/__init__.py` -> `lazygui/theme/tokens.py`
-- `lazygui/theme/palettes/catppuccin_mocha.py` -> `lazygui/theme/tokens.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

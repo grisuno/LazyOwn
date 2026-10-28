@@ -2,6 +2,16 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `telegram_c2.py` -> `core/parsers.py`
+- `telegram_c2.py` -> `lazyown.py`
+- `telegram_c2.py` -> `modules/llm_adapter.py`
+- `telegram_hermes.py` -> `core/parsers.py`
+- `tests/conftest.py` -> `modules/guardrails/harness.py`
+- `tests/conftest.py` -> `modules/lazy_agent.py`
+- `tests/conftest.py` -> `modules/lazy_bridge.py`
+- `tests/conftest.py` -> `modules/lazy_loop.py`
+- `tests/conftest.py` -> `modules/llm_factory.py`
+- `tests/conftest.py` -> `modules/llm_pool.py`
 - `tests/conftest.py` -> `modules/loop_ai_bridge.py`
 - `tests/conftest.py` -> `modules/world_model.py`
 - `tests/integration_autonomous_flow.py` -> `modules/moe_router.py`
@@ -11,6 +21,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/run_mutation_trigger_policy.py` -> `tests/mutation_common.py`
 - `tests/run_mutation_verb_catalog.py` -> `tests/mutation_common.py`
 - `tests/test_aci_planner.py` -> `skills/aci_planner.py`
+- `tests/test_ad_lab_gym.py` -> `modules/__init__.py`
 - `tests/test_addon_creator.py` -> `lazyc2/addon_creator.py`
 - `tests/test_addon_creator.py` -> `lazyc2/blueprints/addons.py`
 - `tests/test_addon_updater.py` -> `modules/addon_updater.py`
@@ -350,6 +361,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_lazy_agent.py` -> `modules/lazy_loop.py`
 - `tests/test_lazy_bridge_traffic.py` -> `modules/__init__.py`
 - `tests/test_lazy_bridge_traffic.py` -> `modules/traffic_recorder.py`
+- `tests/test_lazy_creds.py` -> `modules/__init__.py`
 - `tests/test_lazy_engine.py` -> `cli/commands/lazyops.py`
 - `tests/test_lazy_engine.py` -> `modules/lazy_engine.py`
 - `tests/test_lazy_engine.py` -> `modules/lazy_loop.py`
@@ -365,6 +377,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_lazy_loop.py` -> `modules/notify.py`
 - `tests/test_lazy_loop.py` -> `modules/selfupdate.py`
 - `tests/test_lazy_loop.py` -> `modules/workspace.py`
+- `tests/test_lazy_oob.py` -> `modules/__init__.py`
 - `tests/test_lazy_orchestrator.py` -> `cli/commands/lazyloop.py`
 - `tests/test_lazy_orchestrator.py` -> `cli/lazy_orchestrator.py`
 - `tests/test_lazy_orchestrator.py` -> `cli/tui_forms.py`
@@ -483,18 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_loop_guardrails.py` -> `modules/loop_guardrails.py`
 - `tests/test_loop_intent_delete.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_intent_delete.py` -> `modules/lazy_loop.py`
-- `tests/test_loop_llm_resilience.py` -> `modules/lazy_engine.py`
-- `tests/test_loop_llm_resilience.py` -> `modules/lazy_loop.py`
-- `tests/test_loop_llm_resilience.py` -> `modules/llm_factory.py`
-- `tests/test_loop_manager.py` -> `modules/loop_manager.py`
-- `tests/test_loop_mentions.py` -> `modules/__init__.py`
-- `tests/test_loop_multi_target.py` -> `modules/lazy_runner.py`
-- `tests/test_loop_nmap_guard.py` -> `modules/lazy_loop.py`
-- `tests/test_loop_nmap_guard.py` -> `modules/lazy_runner.py`
-- `tests/test_loop_progress.py` -> `core/console.py`
-- `tests/test_loop_progress.py` -> `modules/loop_progress.py`
-- `tests/test_loop_scope_traffic_evidence.py` -> `modules/lazy_engine.py`
-- `tests/test_loop_scope_traffic_evidence.py` -> `modules/lazy_loop.py`
-- `tests/test_loop_spawn_side.py` -> `modules/lazy_engine.py`
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

@@ -473,25 +473,23 @@ Previous: [KB_commands.md](KB_commands.md)
   - `install_wmiexecpro` (function, line 1070) `def install_wmiexecpro()`
 - Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/domain_dominance.py`, `utils.py`
 
-## cli/commands/lazyloop.py
-- Doc: Lazy queue and misc command set.
+## cli/commands/lazy_creds.py
+- Doc: LazyCreds shell commands: default-credential knowledge base lookups.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_engine` (function, line 22) `def _engine()`
-  - `LazyQueueCommandSet` (class, line 29) `class LazyQueueCommandSet(LazyOwnCommandSet)`
-  - `do_lazy_sync` (method, line 36) `def do_lazy_sync(self, line)`
-  - `do_lazy_intents` (method, line 51) `def do_lazy_intents(self, line)`
-  - `do_lazy_delete` (method, line 71) `def do_lazy_delete(self, line)`
-  - `do_lazy_findings` (method, line 110) `def do_lazy_findings(self, line)`
-  - `do_lazy_verdict` (method, line 132) `def do_lazy_verdict(self, line)`
-  - `do_lazy_mention` (method, line 155) `def do_lazy_mention(self, line)`
-  - `do_lazy_approve` (method, line 190) `def do_lazy_approve(self, line)`
-  - `do_lazy_fleet` (method, line 212) `def do_lazy_fleet(self, line)`
-  - `do_lazy_orchestrator` (method, line 277) `def do_lazy_orchestrator(self, line)`
-  - `do_lazy_view` (method, line 306) `def do_lazy_view(self, line)`
-- Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
-- Imported by: `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
+  - `LazyCredsCommandSet` (class, line 21) `class LazyCredsCommandSet(LazyOwnCommandSet)`
+  - `do_lazycreds` (method, line 25) `def do_lazycreds(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
+## cli/commands/lazy_oob.py
+- Doc: LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyOobCommandSet` (class, line 22) `class LazyOobCommandSet(LazyOwnCommandSet)`
+  - `do_lazyoob` (method, line 26) `def do_lazyoob(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 
 Next: [KB_commands_p3.md](KB_commands_p3.md)

@@ -1,5 +1,89 @@
-# Subsystem: modules (page 7 of 16)
+# Subsystem: modules (page 7 of 17)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
+
+## modules/intel_fusion.py
+- Doc: Sessions attack-intel fusion: data -> information -> intelligence.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_service_cve_matches` (function, line 83) `def _service_cve_matches(service_name, version_text, svc)`
+  - `_extract_cve_id` (function, line 133) `def _extract_cve_id(vuln)`
+  - `_family_color` (function, line 181) `def _family_color(name)`
+  - `node_id` (function, line 192) `def node_id(kind, value)`
+  - `_load_json` (function, line 198) `def _load_json(path, default)`
+  - `_read_lines` (function, line 208) `def _read_lines(path, limit)`
+  - `_host_mentions` (function, line 225) `def _host_mentions(text)`
+  - `_file_pagerank` (function, line 230) `def _file_pagerank(ids, pairs, alpha, max_iter, tol)`
+  - `build_intel_graph` (function, line 260) `def build_intel_graph(sessions_dir, est_cap)`
+  - `_node_doc` (function, line 555) `def _node_doc(node)`
+  - `_symbol_list` (function, line 578) `def _symbol_list(node)`
+  - `_enrich_readmenator_fields` (function, line 593) `def _enrich_readmenator_fields(nodes, edges)`
+  - `group_colors` (function, line 714) `def group_colors(graph)`
+  - `page_settings` (function, line 730) `def page_settings(graph)`
+  - `build_analytics` (function, line 787) `def build_analytics(graph, summary)`
+  - `_fibonacci_sphere` (function, line 821) `def _fibonacci_sphere(count)`
+  - `_split_caps` (function, line 837) `def _split_caps(labels, sizes, points, lattice, out)`
+  - `_unit` (function, line 866) `def _unit(vec)`
+  - `build_bundle_payload` (function, line 874) `def build_bundle_payload(graph)`
+  - `bundle_settings` (function, line 990) `def bundle_settings(graph)`
+  - `assign_layout` (function, line 1021) `def assign_layout(graph, mode)`
+  - `_score_lines` (function, line 1086) `def _score_lines(host_value, detail)`
+  - `_svg_text` (function, line 1124) `def _svg_text(value)`
+  - `_svg_attr` (function, line 1131) `def _svg_attr(value)`
+  - `_svg_rank` (function, line 1136) `def _svg_rank(node)`
+  - `svg_selection` (function, line 1147) `def svg_selection(graph, cap_nodes)`
+  - `_svg_place` (function, line 1165) `def _svg_place(ids)`
+  - `_svg_host_of` (function, line 1182) `def _svg_host_of(node)`
+  - `relations_svg` (function, line 1187) `def relations_svg(graph, cap_nodes)`
+  - `_recency_lines` (function, line 1261) `def _recency_lines(sessions_dir, host_value)`
+  - `_ghost_lines` (function, line 1279) `def _ghost_lines(sessions_dir, host_value)`
+  - `write_summary` (function, line 1296) `def write_summary(graph, sessions_dir)`
+  - `add_node` (function, line 266) `def add_node(kind, value, label)`
+  - `add_edge` (function, line 284) `def add_edge(src, dst, kind, evidence, weight)`
+  - `tag_source` (function, line 300) `def tag_source(nid, source)`
+- Depends on: `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/lazy_world_diff.py`, `modules/world_model.py`
+- Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_cve_pipeline.py`, `tests/test_intel_fusion.py`
+
+## modules/intelligence_engine.py
+- Doc: IntelligenceEngine — unified collection→analysis→intelligence pipeline.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `IntelligenceConfig` (class, line 58) `class IntelligenceConfig`
+  - `CollectedFact` (class, line 79) `class CollectedFact`
+  - `IntelligenceAssessment` (class, line 94) `class IntelligenceAssessment`
+  - `CounterIntelFinding` (class, line 109) `class CounterIntelFinding`
+  - `IntelligenceEngine` (class, line 120) `class IntelligenceEngine`
+  - `get_intelligence_engine` (function, line 1126) `def get_intelligence_engine(config)`
+  - `__init__` (method, line 143) `def __init__(self, config)`
+  - `_newest_scan_xml_with_versions` (method, line 154) `def _newest_scan_xml_with_versions(self, target)`
+  - `_xml_scan_weight` (method, line 177) `def _xml_scan_weight(self, xml_path)`
+  - `_xml_has_versions` (method, line 193) `def _xml_has_versions(self, xml_path)`
+  - `collect_from_scan` (method, line 197) `def collect_from_scan(self, target)`
+  - `_collect_from_scan_xml` (method, line 237) `def _collect_from_scan_xml(self, xml_path, target)`
+  - `collect_from_tool` (method, line 326) `def collect_from_tool(self, output, tool, host)`
+  - `collect_from_estorides` (method, line 363) `def collect_from_estorides(self, target)`
+  - `collect_from_nuclei` (method, line 405) `def collect_from_nuclei(self, target)`
+  - `collect_from_yara` (method, line 447) `def collect_from_yara(self, target_path)`
+  - `collect_from_factstore` (method, line 486) `def collect_from_factstore(self)`
+  - `analyze` (method, line 587) `def analyze(self)`
+  - `_correlate_services_to_vulns` (method, line 604) `def _correlate_services_to_vulns(self)`
+  - `_match_vulns_versioned` (method, line 649) `def _match_vulns_versioned(self, fact)`
+  - `_legacy_match_rows` (method, line 679) `def _legacy_match_rows(self, fact)`
+  - `_match_known_vulns` (method, line 708) `def _match_known_vulns(fact)`
+  - `_correlate_creds_to_hosts` (method, line 736) `def _correlate_creds_to_hosts(self)`
+  - `_correlate_domains_to_infrastructure` (method, line 759) `def _correlate_domains_to_infrastructure(self)`
+  - `_rank_targets` (method, line 775) `def _rank_targets(self)`
+  - `_detect_killchain_gaps` (method, line 815) `def _detect_killchain_gaps(self)`
+  - `produce_intelligence` (method, line 856) `def produce_intelligence(self)`
+  - `_map_category_to_mitre` (method, line 871) `def _map_category_to_mitre(category)`
+  - `produce_counter_intelligence` (method, line 886) `def produce_counter_intelligence(self)`
+  - `disseminate` (method, line 936) `def disseminate(self)`
+  - `run_full_cycle` (method, line 1040) `def run_full_cycle(self, target)`
+  - `get_intel_report` (method, line 1069) `def get_intel_report(self)`
+  - `_is_placeholder` (method, line 1120) `def _is_placeholder(value)`
+- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_heat.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/intercept.py
 - Doc: User-configurable tool-call interception layer with human-in-loop approvals.
@@ -243,24 +327,25 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `docker_available` (function, line 81) `def docker_available()`
-  - `_docker` (function, line 95) `def _docker()`
-  - `running_containers` (function, line 103) `def running_containers()`
-  - `existing_containers` (function, line 119) `def existing_containers()`
-  - `running_range_containers` (function, line 136) `def running_range_containers()`
-  - `container_name` (function, line 152) `def container_name(scenario)`
-  - `container_ip` (function, line 157) `def container_ip(container_name)`
-  - `ensure_web` (function, line 171) `def ensure_web(scenario, name)`
-  - `apply_gym_migrations` (function, line 185) `def apply_gym_migrations(name)`
-  - `start` (function, line 193) `def start(scenario)`
-  - `stop` (function, line 241) `def stop(scenario)`
-  - `stop_all` (function, line 259) `def stop_all()`
-  - `range_compose` (function, line 277) `def range_compose(profile)`
-  - `start_range` (function, line 286) `def start_range(profile)`
-  - `stop_range` (function, line 305) `def stop_range(profile)`
-  - `stop_ranges` (function, line 316) `def stop_ranges()`
-  - `_docker_compose` (function, line 349) `def _docker_compose(args)`
-  - `ensure_range_secret` (function, line 357) `def ensure_range_secret(profile_dir)`
+  - `docker_available` (function, line 93) `def docker_available()`
+  - `_docker` (function, line 107) `def _docker()`
+  - `running_containers` (function, line 115) `def running_containers()`
+  - `existing_containers` (function, line 131) `def existing_containers()`
+  - `running_range_containers` (function, line 148) `def running_range_containers()`
+  - `container_name` (function, line 164) `def container_name(scenario)`
+  - `container_ip` (function, line 169) `def container_ip(container_name)`
+  - `ensure_web` (function, line 183) `def ensure_web(scenario, name)`
+  - `_ensure_ad_lab` (function, line 197) `def _ensure_ad_lab(scenario, name)`
+  - `apply_gym_migrations` (function, line 242) `def apply_gym_migrations(name)`
+  - `start` (function, line 250) `def start(scenario)`
+  - `stop` (function, line 304) `def stop(scenario)`
+  - `stop_all` (function, line 322) `def stop_all()`
+  - `range_compose` (function, line 340) `def range_compose(profile)`
+  - `start_range` (function, line 349) `def start_range(profile)`
+  - `stop_range` (function, line 368) `def stop_range(profile)`
+  - `stop_ranges` (function, line 379) `def stop_ranges()`
+  - `_docker_compose` (function, line 412) `def _docker_compose(args)`
+  - `ensure_range_secret` (function, line 420) `def ensure_range_secret(profile_dir)`
 - Depends on: `modules/metasploitable_migrations.py`
 - Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
 
@@ -355,6 +440,19 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
 - Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
 - Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
 
+## modules/lazy_creds.py
+- Doc: Default-credential knowledge base for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CredRow` (class, line 30) `class CredRow`
+  - `load` (function, line 39) `def load()`
+  - `search` (function, line 63) `def search(query)`
+  - `candidates` (function, line 79) `def candidates(limit)`
+  - `count` (function, line 96) `def count()`
+  - `as_lines` (function, line 101) `def as_lines(rows)`
+  - `export_pairs` (function, line 106) `def export_pairs(path, limit)`
+
 ## modules/lazy_cve_feed.py
 - Doc: Keyless CVE intelligence feeds and version-aware service correlation.
 - Layer: utility
@@ -394,60 +492,6 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `LazyEngine` (class, line 55) `class LazyEngine(LazyLoopEngine)`
 - Depends on: `modules/lazy_loop.py`
 - Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_session_brief.py`
-
-## modules/lazy_heat.py
-- Doc: Heat tiers and version math for CVE correlation.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `classify_heat` (function, line 68) `def classify_heat(kev, epss, exploit, cvss)`
-  - `match_heat` (function, line 91) `def match_heat(tier, cvss, verdict, distro_status)`
-  - `parse_version` (function, line 118) `def parse_version(value, strict)`
-  - `compare_versions` (function, line 154) `def compare_versions(a, b)`
-  - `version_in_range` (function, line 162) `def version_in_range(ver, rng)`
-  - `cvss3_base_score` (function, line 204) `def cvss3_base_score(vector)`
-  - `product_token` (function, line 246) `def product_token(value)`
-  - `token_matches` (function, line 269) `def token_matches(haystack, needle)`
-  - `parse_distro_revision` (function, line 303) `def parse_distro_revision(banner)`
-  - `backport_status` (function, line 342) `def backport_status(banner, fixed_revision)`
-  - `label_for` (function, line 370) `def label_for(status, fixed_revision)`
-- Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_cve_feed.py`, `modules/loop_triggers.py`
-
-## modules/lazy_installer.py
-- Doc: Capability installer for the Lazy autonomous loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `installer_enabled` (function, line 41) `def installer_enabled()`
-  - `set_installer_enabled` (function, line 58) `def set_installer_enabled(enabled)`
-  - `install_command_for` (function, line 70) `def install_command_for(tool)`
-  - `intent_for` (function, line 75) `def intent_for(tool)`
-  - `tool_from_intent` (function, line 80) `def tool_from_intent(text)`
-  - `steps_for_install` (function, line 88) `def steps_for_install(text)`
-- Depends on: `core/config.py`, `modules/auto_registry.py`
-- Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`
-
-## modules/lazy_intel.py
-- Doc: Intel feed from the Lazy autonomous loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_now` (function, line 30) `def _now()`
-  - `_log_path` (function, line 35) `def _log_path()`
-  - `_mask` (function, line 41) `def _mask(text)`
-  - `_append` (function, line 79) `def _append(record)`
-  - `infer_source` (function, line 88) `def infer_source(command, intent_text)`
-  - `describe_command` (function, line 114) `def describe_command(command)`
-  - `record_routing_decision` (function, line 129) `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)`
-  - `record_routing_outcome` (function, line 169) `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)`
-  - `read_decisions` (function, line 211) `def read_decisions(task_id, limit)`
-  - `mask_configured` (function, line 237) `def mask_configured(text)`
-  - `stack_signature` (function, line 272) `def stack_signature(assets)`
-  - `_is_ip_literal` (function, line 292) `def _is_ip_literal(value)`
-  - `fuse_routing_decisions` (function, line 303) `def fuse_routing_decisions(task_id)`
-  - `export_spans` (function, line 342) `def export_spans(task_id, out)`
-- Depends on: `core/config.py`, `modules/lazy_cli_bridge.py`, `modules/mediation/__init__.py`, `modules/world_model.py`, `utils.py`
-- Imported by: `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/mediation/intel_mediator.py`, `modules/sinks/routing.py`, `tests/test_loop_supervision.py`, `tests/test_mediation.py`
 
 
 Next: [KB_modules_p8.md](KB_modules_p8.md)

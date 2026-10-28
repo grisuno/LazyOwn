@@ -12,7 +12,7 @@ so the harness stays replayable.
 ## Contents
 
 - **Functions:** [`output_dir`](#output_dir), [`capture`](#capture), [`record_path`](#record_path), [`store_record`](#store_record), [`list_records`](#list_records), [`summary`](#summary)
-- **Constants:** [`CTF_DIRNAME`](#ctf_dirname), [`RECORD_NAME`](#record_name), [`ROOT_SHELL_RE`](#root_shell_re), [`SHADOW_LINE_RE`](#shadow_line_re), [`CRED_LINE_RE`](#cred_line_re), [`WINDOWS_OS_ENUM_RE`](#windows_os_enum_re), [`NETBIOS_NAME_RE`](#netbios_name_re), [`DEFENSE_REPORT_RE`](#defense_report_re), [`EVENTLOG_CSV_RE`](#eventlog_csv_re), [`CHECKERS`](#checkers)
+- **Constants:** [`CTF_DIRNAME`](#ctf_dirname), [`RECORD_NAME`](#record_name), [`ROOT_SHELL_RE`](#root_shell_re), [`SHADOW_LINE_RE`](#shadow_line_re), [`CRED_LINE_RE`](#cred_line_re), [`WINDOWS_OS_ENUM_RE`](#windows_os_enum_re), [`NETBIOS_NAME_RE`](#netbios_name_re), [`DEFENSE_REPORT_RE`](#defense_report_re), [`EVENTLOG_CSV_RE`](#eventlog_csv_re), [`KERBEROS_TICKET_RE`](#kerberos_ticket_re), [`DOMAIN_ENUM_RE`](#domain_enum_re), [`SMB_SHARE_RE`](#smb_share_re), [`CHECKERS`](#checkers)
 
 ## Call Graph
 
@@ -39,7 +39,7 @@ flowchart LR
 
 ### `output_dir`
 
-`function` | [modules/ctf_capture.py:32](../../modules/ctf_capture.py#L32)
+`function` | [modules/ctf_capture.py:36](../../modules/ctf_capture.py#L36)
 
 ```python
 def output_dir(sessions_dir: str | Path | None = None) -> Path
@@ -63,7 +63,7 @@ Resolve the CTF storage directory.
 
 ### `capture`
 
-`function` | [modules/ctf_capture.py:151](../../modules/ctf_capture.py#L151)
+`function` | [modules/ctf_capture.py:197](../../modules/ctf_capture.py#L197)
 
 ```python
 def capture(vuln_id: str, target: str, output: str = '', sessions_dir: str | Path | None = None, catalogue: Any = None) -> dict
@@ -95,7 +95,7 @@ Verify output evidence for one gym vector and store the record.
 
 ### `record_path`
 
-`function` | [modules/ctf_capture.py:232](../../modules/ctf_capture.py#L232)
+`function` | [modules/ctf_capture.py:278](../../modules/ctf_capture.py#L278)
 
 ```python
 def record_path(vuln_id: str, sessions_dir: str | Path | None = None) -> Path
@@ -122,7 +122,7 @@ Return the record file path for one vulnerability.
 
 ### `store_record`
 
-`function` | [modules/ctf_capture.py:258](../../modules/ctf_capture.py#L258)
+`function` | [modules/ctf_capture.py:304](../../modules/ctf_capture.py#L304)
 
 ```python
 def store_record(record: dict, sessions_dir: str | Path | None = None) -> Path
@@ -149,7 +149,7 @@ Persist one capture record atomically.
 
 ### `list_records`
 
-`function` | [modules/ctf_capture.py:276](../../modules/ctf_capture.py#L276)
+`function` | [modules/ctf_capture.py:322](../../modules/ctf_capture.py#L322)
 
 ```python
 def list_records(sessions_dir: str | Path | None = None) -> dict[str, dict]
@@ -175,7 +175,7 @@ Return every stored CTF record keyed by vuln id.
 
 ### `summary`
 
-`function` | [modules/ctf_capture.py:299](../../modules/ctf_capture.py#L299)
+`function` | [modules/ctf_capture.py:345](../../modules/ctf_capture.py#L345)
 
 ```python
 def summary(sessions_dir: str | Path | None = None) -> dict
@@ -201,7 +201,7 @@ Aggregate capture stats for the report pipeline.
 
 ### `CTF_DIRNAME`
 
-`constant` | [modules/ctf_capture.py:20](../../modules/ctf_capture.py#L20)
+`constant` | [modules/ctf_capture.py:21](../../modules/ctf_capture.py#L21)
 
 ```python
 CTF_DIRNAME = 'ctf'
@@ -213,7 +213,7 @@ CTF_DIRNAME = 'ctf'
 
 ### `RECORD_NAME`
 
-`constant` | [modules/ctf_capture.py:21](../../modules/ctf_capture.py#L21)
+`constant` | [modules/ctf_capture.py:22](../../modules/ctf_capture.py#L22)
 
 ```python
 RECORD_NAME = 'record.json'
@@ -225,7 +225,7 @@ RECORD_NAME = 'record.json'
 
 ### `ROOT_SHELL_RE`
 
-`constant` | [modules/ctf_capture.py:23](../../modules/ctf_capture.py#L23)
+`constant` | [modules/ctf_capture.py:24](../../modules/ctf_capture.py#L24)
 
 ```python
 ROOT_SHELL_RE
@@ -237,7 +237,7 @@ ROOT_SHELL_RE
 
 ### `SHADOW_LINE_RE`
 
-`constant` | [modules/ctf_capture.py:24](../../modules/ctf_capture.py#L24)
+`constant` | [modules/ctf_capture.py:25](../../modules/ctf_capture.py#L25)
 
 ```python
 SHADOW_LINE_RE = re.compile('^[A-Za-z0-9_.-]+:\\$[0-9a-zA-Z]+\\$', re.MULTILINE)
@@ -249,7 +249,7 @@ SHADOW_LINE_RE = re.compile('^[A-Za-z0-9_.-]+:\\$[0-9a-zA-Z]+\\$', re.MULTILINE)
 
 ### `CRED_LINE_RE`
 
-`constant` | [modules/ctf_capture.py:25](../../modules/ctf_capture.py#L25)
+`constant` | [modules/ctf_capture.py:26](../../modules/ctf_capture.py#L26)
 
 ```python
 CRED_LINE_RE = re.compile('^([A-Za-z0-9_.-]+)\\s*[:|]\\s*(\\S+)\\s*$', re.MULTILINE)
@@ -261,7 +261,7 @@ CRED_LINE_RE = re.compile('^([A-Za-z0-9_.-]+)\\s*[:|]\\s*(\\S+)\\s*$', re.MULTIL
 
 ### `WINDOWS_OS_ENUM_RE`
 
-`constant` | [modules/ctf_capture.py:26](../../modules/ctf_capture.py#L26)
+`constant` | [modules/ctf_capture.py:27](../../modules/ctf_capture.py#L27)
 
 ```python
 WINDOWS_OS_ENUM_RE = re.compile('(?im)^\\s*OS:\\s*Windows|^\\s*OS Name\\s*:', re.MULTILINE)
@@ -273,7 +273,7 @@ WINDOWS_OS_ENUM_RE = re.compile('(?im)^\\s*OS:\\s*Windows|^\\s*OS Name\\s*:', re
 
 ### `NETBIOS_NAME_RE`
 
-`constant` | [modules/ctf_capture.py:27](../../modules/ctf_capture.py#L27)
+`constant` | [modules/ctf_capture.py:28](../../modules/ctf_capture.py#L28)
 
 ```python
 NETBIOS_NAME_RE = re.compile('(?im)^\\s*NetBIOS computer name:\\s*\\S+', re.MULTILINE)
@@ -285,7 +285,7 @@ NETBIOS_NAME_RE = re.compile('(?im)^\\s*NetBIOS computer name:\\s*\\S+', re.MULT
 
 ### `DEFENSE_REPORT_RE`
 
-`constant` | [modules/ctf_capture.py:28](../../modules/ctf_capture.py#L28)
+`constant` | [modules/ctf_capture.py:29](../../modules/ctf_capture.py#L29)
 
 ```python
 DEFENSE_REPORT_RE = re.compile('(?i)RealTimeProtection\\w*|AntivirusEnabled|AppLocker|HVCI')
@@ -297,10 +297,46 @@ DEFENSE_REPORT_RE = re.compile('(?i)RealTimeProtection\\w*|AntivirusEnabled|AppL
 
 ### `EVENTLOG_CSV_RE`
 
-`constant` | [modules/ctf_capture.py:29](../../modules/ctf_capture.py#L29)
+`constant` | [modules/ctf_capture.py:30](../../modules/ctf_capture.py#L30)
 
 ```python
 EVENTLOG_CSV_RE
+```
+
+---
+
+<a id="kerberos_ticket_re"></a>
+
+### `KERBEROS_TICKET_RE`
+
+`constant` | [modules/ctf_capture.py:31](../../modules/ctf_capture.py#L31)
+
+```python
+KERBEROS_TICKET_RE = re.compile('\\$krb5(?:tgs|asrep)\\$[0-9]+\\$')
+```
+
+---
+
+<a id="domain_enum_re"></a>
+
+### `DOMAIN_ENUM_RE`
+
+`constant` | [modules/ctf_capture.py:32](../../modules/ctf_capture.py#L32)
+
+```python
+DOMAIN_ENUM_RE
+```
+
+---
+
+<a id="smb_share_re"></a>
+
+### `SMB_SHARE_RE`
+
+`constant` | [modules/ctf_capture.py:33](../../modules/ctf_capture.py#L33)
+
+```python
+SMB_SHARE_RE = re.compile('(?im)^\\s*\\S+:\\s+(?:Disk|IPC|Printer)\\b|Sharename')
 ```
 
 ---
@@ -309,7 +345,7 @@ EVENTLOG_CSV_RE
 
 ### `CHECKERS`
 
-`constant` | [modules/ctf_capture.py:141](../../modules/ctf_capture.py#L141)
+`constant` | [modules/ctf_capture.py:184](../../modules/ctf_capture.py#L184)
 
 ```python
 CHECKERS: tuple[tuple[str, Callable[[str], str]], ...]

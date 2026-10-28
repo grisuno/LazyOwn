@@ -463,7 +463,7 @@ Return every canonical automation verb name.
 def is_shell_verb(token: str) -> bool
 ```
 
-Return True when `[`token`](modules.k8s_attacks.py.md#k8sconfig-token)` names a loop-routable shell verb.
+Return True when ``token`` names a loop-routable shell verb.
 
 Built-in auto verbs always route. When full-CLI mode is enabled any
 real ``do_<verb>`` shell command routes as well, but only when the

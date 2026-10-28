@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `BofMarketplace` | class | `modules/bof_registry.py:639` | `class BofMarketplace` |
+| `BofPlatform` | class | `modules/bof_registry.py:61` | `class BofPlatform(str, Enum)` |
+| `BofRegistry` | class | `modules/bof_registry.py:552` | `class BofRegistry` |
+| `BofValidator` | class | `modules/bof_registry.py:506` | `class BofValidator` |
+| `__init__` | method | `modules/bof_registry.py:559` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `modules/bof_registry.py:651` | `def __init__(self, sessions_dir, catalog)` |
+| `_build_default_catalog` | function | `modules/bof_registry.py:265` | `def _build_default_catalog()` |
+| `_load_manifest` | method | `modules/bof_registry.py:569` | `def _load_manifest(self)` |
+| `_save_manifest` | method | `modules/bof_registry.py:580` | `def _save_manifest(self, manifest)` |
+| `bulk_install` | method | `modules/bof_registry.py:769` | `def bulk_install(self, names)` |
+| `catalog` | method | `modules/bof_registry.py:662` | `def catalog(self)` |
+| `compute_sha256` | method | `modules/bof_registry.py:515` | `def compute_sha256(filepath)` |
+| `from_dict` | method | `modules/bof_registry.py:137` | `def from_dict(cls, raw)` |
+| `from_dict` | method | `modules/bof_registry.py:241` | `def from_dict(cls, raw)` |
+| `get` | method | `modules/bof_registry.py:177` | `def get(self, name)` |
+| `get_install_info` | method | `modules/bof_registry.py:633` | `def get_install_info(self, name)` |
 | `info` | method | `modules/bof_registry.py:690` | `def info(self, name)` |
 | `install` | method | `modules/bof_registry.py:590` | `def install(self, entry)` |
 | `install` | method | `modules/bof_registry.py:707` | `def install(self, name)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `suggest_from_world_model` | method | `modules/credential_reuse.py:308` | `def suggest_from_world_model(self, world_model, limit)` |
 | `to_dict` | method | `modules/credential_reuse.py:43` | `def to_dict(self)` |
 | `CrossCloudAttackEngine` | class | `modules/cross_cloud.py:54` | `class CrossCloudAttackEngine` |
-| `CrossCloudConfig` | class | `modules/cross_cloud.py:30` | `class CrossCloudConfig` |
-| `__init__` | method | `modules/cross_cloud.py:64` | `def __init__(self, config)` |
-| `aws_oidc_to_gcp` | method | `modules/cross_cloud.py:133` | `def aws_oidc_to_gcp(self)` |
-| `azure_saml_to_aws` | method | `modules/cross_cloud.py:67` | `def azure_saml_to_aws(self)` |
-| `detect_cross_cloud_federation` | method | `modules/cross_cloud.py:234` | `def detect_cross_cloud_federation(self)` |
-| `entra_id_to_gcp_workforce_federation` | method | `modules/cross_cloud.py:204` | `def entra_id_to_gcp_workforce_federation(self)` |
-| `gcp_oidc_to_azure` | method | `modules/cross_cloud.py:104` | `def gcp_oidc_to_azure(self)` |
-| `multi_cloud_imds_harvesting` | method | `modules/cross_cloud.py:167` | `def multi_cloud_imds_harvesting(self)` |
-| `summary` | method | `modules/cross_cloud.py:258` | `def summary(self)` |
-| `_check_credentials` | function | `modules/ctf_capture.py:78` | `def _check_credentials(output)` |
-| `_check_defense_report` | function | `modules/ctf_capture.py:115` | `def _check_defense_report(output)` |
-| `_check_eventlog_rows` | function | `modules/ctf_capture.py:128` | `def _check_eventlog_rows(output)` |
-| `_check_root_shell` | function | `modules/ctf_capture.py:45` | `def _check_root_shell(output)` |
-| `_check_shadow_dump` | function | `modules/ctf_capture.py:58` | `def _check_shadow_dump(output)` |
-| `_check_windows_os_enum` | function | `modules/ctf_capture.py:96` | `def _check_windows_os_enum(output)` |
-| `_cli_capture` | function | `modules/ctf_capture.py:350` | `def _cli_capture(argv)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

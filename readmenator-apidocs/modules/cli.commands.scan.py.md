@@ -189,7 +189,7 @@ Example:
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `line` |  |  | The options and arguments for `gobuster`. The [`line`](modules.defense_eval.py.md#evaluation-line) parameter can include the following: - `url`: Perform directory fuzzing on a specified URL. Requires `url` and `dirwordlist` to be assign. - `vhost`: Perform virtual host discovery on a specified URL. Requires `url` and `dirwordlist` to be assign. - Any other argument: General directory fuzzing with additional parameters. |
+| `line` |  |  | The options and arguments for `gobuster`. The [`line`](modules.defense_eval.py.md#evaluation-line) parameter can include the following: - [`url`](modules.lazy_oob.py.md#url): Perform directory fuzzing on a specified URL. Requires [`url`](modules.lazy_oob.py.md#url) and `dirwordlist` to be assign. - `vhost`: Perform virtual host discovery on a specified URL. Requires [`url`](modules.lazy_oob.py.md#url) and `dirwordlist` to be assign. - Any other argument: General directory fuzzing with additional parameters. |
 
 **Returns:** None
 
@@ -270,13 +270,13 @@ Manual execution:
 
 Dependencies:
 - `dirsearch` must be installed. If not present, it will be installed using `sudo apt`.
-- Ensure the URL is assign via the `url` parameter before calling this function.
+- Ensure the URL is assign via the [`url`](modules.lazy_oob.py.md#url) parameter before calling this function.
 
 Example:
     dirsearch http://example.com/
 
 Note:
-    - Ensure that the `url` parameter is assign before calling this function.
+    - Ensure that the [`url`](modules.lazy_oob.py.md#url) parameter is assign before calling this function.
     - The `-x` option specifies HTTP status codes to exclude from the results (e.g., 403, 404, 400).
     - The function will attempt to install `dirsearch` if it is not already installed.
 
@@ -284,7 +284,7 @@ Note:
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `line` | `str` |  | Not used in this function. The URL is provided via the `url` parameter. |
+| `line` | `str` |  | Not used in this function. The URL is provided via the [`url`](modules.lazy_oob.py.md#url) parameter. |
 
 **Returns:** None
 

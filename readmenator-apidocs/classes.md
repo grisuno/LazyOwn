@@ -319,6 +319,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`CredentialReactor`](modules/modules.event_consumers.py.md#credentialreactor) class in `modules.event_consumers`
 - [`CredentialReuseEngine`](modules/modules.credential_reuse.py.md#credentialreuseengine) class in `modules.credential_reuse`
 - [`CredentialStash`](modules/modules.domain_dominance.py.md#credentialstash) class in `modules.domain_dominance`
+- [`CredRow`](modules/modules.lazy_creds.py.md#credrow) class in `modules.lazy_creds`
 - [`CrossCloudAttackEngine`](modules/modules.cross_cloud.py.md#crosscloudattackengine) class in `modules.cross_cloud`
 - [`CrossCloudConfig`](modules/modules.cross_cloud.py.md#crosscloudconfig) class in `modules.cross_cloud`
 - [`CSRFPolicy`](modules/lazyc2.security.csrf.py.md#csrfpolicy) class in `lazyc2.security.csrf`
@@ -811,6 +812,8 @@ Project types nested under the project types they derive from. External bases ar
   - [`LabCommandSet`](modules/cli.commands.lab.py.md#labcommandset) class in `cli.commands.lab`
   - [`LateralMovementCommandSet`](modules/cli.commands.lateral.py.md#lateralmovementcommandset) class in `cli.commands.lateral`
   - [`LateralMigratedCommandSet`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset) class in `cli.commands.lateral_migrated`
+  - [`LazyCredsCommandSet`](modules/cli.commands.lazy_creds.py.md#lazycredscommandset) class in `cli.commands.lazy_creds`
+  - [`LazyOobCommandSet`](modules/cli.commands.lazy_oob.py.md#lazyoobcommandset) class in `cli.commands.lazy_oob`
   - [`LazyQueueCommandSet`](modules/cli.commands.lazyloop.py.md#lazyqueuecommandset) class in `cli.commands.lazyloop`
   - [`LazyCommandSet`](modules/cli.commands.lazyops.py.md#lazycommandset) class in `cli.commands.lazyops`
   - [`MarketplaceCommandSet`](modules/cli.commands.marketplace.py.md#marketplacecommandset) class in `cli.commands.marketplace`
@@ -1003,6 +1006,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`OllamaReActWorker`](modules/modules.mcp_agent_bridge.py.md#ollamareactworker) class in `modules.mcp_agent_bridge`
 - [`OllamaSmallClassifier`](modules/skills.lazyown_policy.py.md#ollamasmallclassifier) class in `skills.lazyown_policy`(_OllamaClassifierBase)
 - [`OnlineFeedbackLoop`](modules/modules.toposwarm_bridge.py.md#onlinefeedbackloop) class in `modules.toposwarm_bridge`
+- [`OobHit`](modules/modules.lazy_oob.py.md#oobhit) class in `modules.lazy_oob`
 - [`Operation`](modules/modules.operation.py.md#operation) class in `modules.operation`
 - [`OperationManager`](modules/modules.operation.py.md#operationmanager) class in `modules.operation`
 - [`OperationStatus`](modules/modules.operation.py.md#operationstatus) enum in `modules.operation`(StrEnum)

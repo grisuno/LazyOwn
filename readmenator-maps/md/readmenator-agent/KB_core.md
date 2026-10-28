@@ -261,37 +261,37 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `SecurityViolation` (class, line 125) `class SecurityViolation(PermissionError)`
   - `terminal_env` (function, line 129) `def terminal_env(base)`
   - `safe_subprocess_run` (function, line 150) `def safe_subprocess_run(argv)`
-  - `safe_clipboard_copy` (function, line 195) `def safe_clipboard_copy(content)`
-  - `build_sshpass_command` (function, line 234) `def build_sshpass_command(password, ssh_args)`
-  - `set_sshpass_env` (function, line 263) `def set_sshpass_env(password)`
-  - `escape_html_content` (function, line 282) `def escape_html_content(value)`
-  - `safe_path_join` (function, line 294) `def safe_path_join(base_dir, user_path)`
-  - `validate_network_cidr` (function, line 320) `def validate_network_cidr(cidr)`
-  - `validate_port_spec` (function, line 332) `def validate_port_spec(ports)`
-  - `validate_host` (function, line 348) `def validate_host(host)`
-  - `require_encryption_key` (function, line 368) `def require_encryption_key(env_key, secret_file)`
-  - `defused_xml_parse` (function, line 396) `def defused_xml_parse(source)`
-  - `sanitize_filename` (function, line 418) `def sanitize_filename(filename, max_length)`
-  - `tls_secure_context` (function, line 438) `def tls_secure_context(extra_ca)`
-  - `tls_lab_unverified_allowed` (function, line 463) `def tls_lab_unverified_allowed(host)`
-  - `tls_lab_fallback_context` (function, line 490) `def tls_lab_fallback_context()`
-  - `validate_upstream_path` (function, line 512) `def validate_upstream_path(path)`
-  - `is_safe_path_segment` (function, line 541) `def is_safe_path_segment(segment)`
-  - `is_safe_dir_path` (function, line 562) `def is_safe_dir_path(raw)`
-  - `is_safe_yaml_name` (function, line 588) `def is_safe_yaml_name(name)`
-  - `safe_join_under` (function, line 607) `def safe_join_under(base_dir, user_path)`
-  - `safe_open_under` (function, line 636) `def safe_open_under(base_dir, user_path, mode)`
-  - `store_secret_owner_only` (function, line 663) `def store_secret_owner_only(path, text)`
-  - `_is_emoji_codepoint` (function, line 698) `def _is_emoji_codepoint(code)`
-  - `contains_emoji` (function, line 706) `def contains_emoji(text)`
-  - `iter_emoji_spans` (function, line 721) `def iter_emoji_spans(text)`
-  - `_seal_key` (function, line 740) `def _seal_key(sessions_dir)`
-  - `seal_secret` (function, line 754) `def seal_secret(plaintext)`
-  - `unseal_secret` (function, line 785) `def unseal_secret(stored)`
-  - `redact_text` (function, line 826) `def redact_text(text)`
-  - `_mask` (function, line 837) `def _mask(match)`
+  - `safe_clipboard_copy` (function, line 203) `def safe_clipboard_copy(content)`
+  - `build_sshpass_command` (function, line 242) `def build_sshpass_command(password, ssh_args)`
+  - `set_sshpass_env` (function, line 271) `def set_sshpass_env(password)`
+  - `escape_html_content` (function, line 290) `def escape_html_content(value)`
+  - `safe_path_join` (function, line 302) `def safe_path_join(base_dir, user_path)`
+  - `validate_network_cidr` (function, line 328) `def validate_network_cidr(cidr)`
+  - `validate_port_spec` (function, line 340) `def validate_port_spec(ports)`
+  - `validate_host` (function, line 356) `def validate_host(host)`
+  - `require_encryption_key` (function, line 376) `def require_encryption_key(env_key, secret_file)`
+  - `defused_xml_parse` (function, line 404) `def defused_xml_parse(source)`
+  - `sanitize_filename` (function, line 426) `def sanitize_filename(filename, max_length)`
+  - `tls_secure_context` (function, line 446) `def tls_secure_context(extra_ca)`
+  - `tls_lab_unverified_allowed` (function, line 471) `def tls_lab_unverified_allowed(host)`
+  - `tls_lab_fallback_context` (function, line 498) `def tls_lab_fallback_context()`
+  - `validate_upstream_path` (function, line 520) `def validate_upstream_path(path)`
+  - `is_safe_path_segment` (function, line 549) `def is_safe_path_segment(segment)`
+  - `is_safe_dir_path` (function, line 570) `def is_safe_dir_path(raw)`
+  - `is_safe_yaml_name` (function, line 596) `def is_safe_yaml_name(name)`
+  - `safe_join_under` (function, line 615) `def safe_join_under(base_dir, user_path)`
+  - `safe_open_under` (function, line 644) `def safe_open_under(base_dir, user_path, mode)`
+  - `store_secret_owner_only` (function, line 671) `def store_secret_owner_only(path, text)`
+  - `_is_emoji_codepoint` (function, line 706) `def _is_emoji_codepoint(code)`
+  - `contains_emoji` (function, line 714) `def contains_emoji(text)`
+  - `iter_emoji_spans` (function, line 729) `def iter_emoji_spans(text)`
+  - `_seal_key` (function, line 748) `def _seal_key(sessions_dir)`
+  - `seal_secret` (function, line 762) `def seal_secret(plaintext)`
+  - `unseal_secret` (function, line 793) `def unseal_secret(stored)`
+  - `redact_text` (function, line 834) `def redact_text(text)`
+  - `_mask` (function, line 845) `def _mask(match)`
 - Depends on: `core/config.py`, `core/credential_vault.py`, `core/host_policy.py`, `core/logging.py`
-- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/reverse_shell_secret.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/domain_dominance.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/phishing_orchestrator.py`, `modules/sinks/beacon_dispatch.py`, `modules/websocket_beacon.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `scripts/devtools/core_smoke.py`, `skills/claude_md_orchestrator/validators.py`, `skills/lazyown_mcp.py`, `tests/test_host_policy.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
+- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/reverse_shell_secret.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/domain_dominance.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/phishing_orchestrator.py`, `modules/sinks/beacon_dispatch.py`, `modules/websocket_beacon.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `scripts/devtools/core_smoke.py`, `skills/claude_md_orchestrator/validators.py`, `skills/lazyown_mcp.py`, `tests/test_host_policy.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`, `tests/test_winbox_gym.py`
 
 ## core/host_policy.py
 - Doc: Single source of truth for host and network shape validation.

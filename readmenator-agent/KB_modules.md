@@ -1,5 +1,5 @@
-# Subsystem: modules (page 1 of 16)
-Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB_modules_p3.md](KB_modules_p3.md), [KB_modules_p4.md](KB_modules_p4.md), [KB_modules_p5.md](KB_modules_p5.md), [KB_modules_p6.md](KB_modules_p6.md), [KB_modules_p7.md](KB_modules_p7.md), [KB_modules_p8.md](KB_modules_p8.md), [KB_modules_p9.md](KB_modules_p9.md), [KB_modules_p10.md](KB_modules_p10.md), [KB_modules_p11.md](KB_modules_p11.md), [KB_modules_p12.md](KB_modules_p12.md), [KB_modules_p13.md](KB_modules_p13.md), [KB_modules_p14.md](KB_modules_p14.md), [KB_modules_p15.md](KB_modules_p15.md), [KB_modules_p16.md](KB_modules_p16.md)
+# Subsystem: modules (page 1 of 17)
+Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB_modules_p3.md](KB_modules_p3.md), [KB_modules_p4.md](KB_modules_p4.md), [KB_modules_p5.md](KB_modules_p5.md), [KB_modules_p6.md](KB_modules_p6.md), [KB_modules_p7.md](KB_modules_p7.md), [KB_modules_p8.md](KB_modules_p8.md), [KB_modules_p9.md](KB_modules_p9.md), [KB_modules_p10.md](KB_modules_p10.md), [KB_modules_p11.md](KB_modules_p11.md), [KB_modules_p12.md](KB_modules_p12.md), [KB_modules_p13.md](KB_modules_p13.md), [KB_modules_p14.md](KB_modules_p14.md), [KB_modules_p15.md](KB_modules_p15.md), [KB_modules_p16.md](KB_modules_p16.md), [KB_modules_p17.md](KB_modules_p17.md)
 
 ## modules/49803.py
 - Doc: Exploit Title: OpenPLC 3 - Remote Code Execution (Authenticated) Date: 25/04/2021 Exploit...
@@ -52,7 +52,24 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazyops.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_defense_stages.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_scope.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_mentions.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_session_brief.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazyops.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/ad_gym.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_ad_lab_gym.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_defense_stages.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_creds.py`, `tests/test_lazy_oob.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_scope.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_mentions.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`, `tests/test_session_brief.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
+
+## modules/ad_gym.py
+- Doc: AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_yaml` (function, line 27) `def _load_yaml(path)`
+  - `load_index` (function, line 38) `def load_index(path)`
+  - `vulnerabilities` (function, line 43) `def vulnerabilities(path)`
+  - `get` (function, line 49) `def get(vuln_id, path)`
+  - `chain_for` (function, line 58) `def chain_for(vuln_id, path)`
+  - `exploit_for` (function, line 68) `def exploit_for(vuln_id, path)`
+  - `validate_matrix` (function, line 78) `def validate_matrix(path)`
+  - `summary` (function, line 127) `def summary(path)`
+  - `readiness` (function, line 146) `def readiness()`
+  - `main` (function, line 166) `def main()`
+- Depends on: `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
 
 ## modules/adcs_attacks.py
 - Doc: Active Directory Certificate Services (AD CS) attack module.
@@ -375,7 +392,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `_read_until` (method, line 746) `def _read_until(self, marker, timeout)`
   - `close` (method, line 774) `def close(self)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 
 ## modules/atomic_resolver.py
 - Doc: Central MITRE ATT&CK <-> Atomic Red Team translator.
@@ -463,36 +480,6 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `save` (method, line 244) `def save(self)`
   - `_load` (method, line 262) `def _load(self)`
 - Imported by: `skills/lazyown_mcp.py`, `tests/test_auto_loop_memory.py`
-
-## modules/auto_pivot.py
-- Doc: Auto-Pivoting Engine for LazyOwn.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PivotNode` (class, line 23) `class PivotNode`
-  - `PivotChain` (class, line 39) `class PivotChain`
-  - `AutoPivotEngine` (class, line 47) `class AutoPivotEngine`
-  - `__init__` (method, line 73) `def __init__(self, config)`
-  - `set_config` (method, line 82) `def set_config(self, config)`
-  - `_next_port` (method, line 85) `def _next_port(self)`
-  - `add_pivot_node` (method, line 90) `def add_pivot_node(self, ip, access_type, credential_id, hostname)`
-  - `remove_pivot_node` (method, line 120) `def remove_pivot_node(self, ip)`
-  - `discover_subnets` (method, line 128) `def discover_subnets(self, node_ip, command_output)`
-  - `build_chain` (method, line 146) `def build_chain(self, target_ip, via_nodes, subnet)`
-  - `generate_proxychains_config` (method, line 177) `def generate_proxychains_config(self, chain_id)`
-  - `generate_sshuttle_command` (method, line 203) `def generate_sshuttle_command(self, node_ip, subnet)`
-  - `generate_chisel_command` (method, line 206) `def generate_chisel_command(self, target_ip, local_port)`
-  - `generate_ssh_socks_command` (method, line 212) `def generate_ssh_socks_command(self, node_ip, local_port)`
-  - `health_check` (method, line 216) `def health_check(self, node_ip)`
-  - `health_check_all` (method, line 237) `def health_check_all(self)`
-  - `get_active_routes` (method, line 243) `def get_active_routes(self)`
-  - `get_reachable_hosts` (method, line 259) `def get_reachable_hosts(self, node_ip)`
-  - `set_reachable_hosts` (method, line 267) `def set_reachable_hosts(self, node_ip, hosts)`
-  - `set_route_priority` (method, line 272) `def set_route_priority(self, node_ip, priority)`
-  - `_persist_state` (method, line 277) `def _persist_state(self)`
-  - `_load_state` (method, line 314) `def _load_state(self)`
-  - `suggest_next_pivot` (method, line 352) `def suggest_next_pivot(self)`
-- Imported by: `modules/autonomous_exploit_engine.py`, `skills/lazyown_mcp.py`
 
 
 Next: [KB_modules_p2.md](KB_modules_p2.md)

@@ -59,7 +59,7 @@ flowchart LR
 
 ### `docker_available`
 
-`function` | [modules/lab_runtime.py:81](../../modules/lab_runtime.py#L81)
+`function` | [modules/lab_runtime.py:93](../../modules/lab_runtime.py#L93)
 
 ```python
 def docker_available() -> bool
@@ -75,7 +75,7 @@ Return whether the Docker daemon is reachable.
 
 ### `running_containers`
 
-`function` | [modules/lab_runtime.py:103](../../modules/lab_runtime.py#L103)
+`function` | [modules/lab_runtime.py:115](../../modules/lab_runtime.py#L115)
 
 ```python
 def running_containers() -> list[str]
@@ -93,7 +93,7 @@ Return the running lab container names.
 
 ### `existing_containers`
 
-`function` | [modules/lab_runtime.py:119](../../modules/lab_runtime.py#L119)
+`function` | [modules/lab_runtime.py:131](../../modules/lab_runtime.py#L131)
 
 ```python
 def existing_containers() -> list[str]
@@ -111,7 +111,7 @@ Return every lab container name including stopped ones.
 
 ### `running_range_containers`
 
-`function` | [modules/lab_runtime.py:136](../../modules/lab_runtime.py#L136)
+`function` | [modules/lab_runtime.py:148](../../modules/lab_runtime.py#L148)
 
 ```python
 def running_range_containers() -> list[str]
@@ -129,7 +129,7 @@ Return the running cyber range container names.
 
 ### `container_name`
 
-`function` | [modules/lab_runtime.py:152](../../modules/lab_runtime.py#L152)
+`function` | [modules/lab_runtime.py:164](../../modules/lab_runtime.py#L164)
 
 ```python
 def container_name(scenario: str) -> str
@@ -153,7 +153,7 @@ Return the container name for one lab scenario.
 
 ### `container_ip`
 
-`function` | [modules/lab_runtime.py:157](../../modules/lab_runtime.py#L157)
+`function` | [modules/lab_runtime.py:169](../../modules/lab_runtime.py#L169)
 
 ```python
 def container_ip(container_name: str) -> str
@@ -169,7 +169,7 @@ Resolve one container's IPv4 on its Docker network.
 
 **Returns:** `str`
 
-*Called by:* [`start`](#start)
+*Called by:* [`readiness`](modules.ad_gym.py.md#readiness), [`start`](#start)
 
 ---
 
@@ -177,7 +177,7 @@ Resolve one container's IPv4 on its Docker network.
 
 ### `ensure_web`
 
-`function` | [modules/lab_runtime.py:171](../../modules/lab_runtime.py#L171)
+`function` | [modules/lab_runtime.py:183](../../modules/lab_runtime.py#L183)
 
 ```python
 def ensure_web(scenario: str, name: str) -> None
@@ -200,7 +200,7 @@ Start Apache inside a metasploitable container that booted without it.
 
 ### `apply_gym_migrations`
 
-`function` | [modules/lab_runtime.py:185](../../modules/lab_runtime.py#L185)
+`function` | [modules/lab_runtime.py:242](../../modules/lab_runtime.py#L242)
 
 ```python
 def apply_gym_migrations(name: str) -> dict
@@ -222,7 +222,7 @@ Apply the metasploitable gym migrations, returning the report.
 
 ### `start`
 
-`function` | [modules/lab_runtime.py:193](../../modules/lab_runtime.py#L193)
+`function` | [modules/lab_runtime.py:250](../../modules/lab_runtime.py#L250)
 
 ```python
 def start(scenario: str) -> dict
@@ -247,7 +247,7 @@ Spin up one lab scenario container.
 
 ### `stop`
 
-`function` | [modules/lab_runtime.py:241](../../modules/lab_runtime.py#L241)
+`function` | [modules/lab_runtime.py:304](../../modules/lab_runtime.py#L304)
 
 ```python
 def stop(scenario: str) -> dict
@@ -271,7 +271,7 @@ Stop one lab scenario container.
 
 ### `stop_all`
 
-`function` | [modules/lab_runtime.py:259](../../modules/lab_runtime.py#L259)
+`function` | [modules/lab_runtime.py:322](../../modules/lab_runtime.py#L322)
 
 ```python
 def stop_all() -> dict
@@ -290,7 +290,7 @@ Stop every running lab container.
 
 ### `range_compose`
 
-`function` | [modules/lab_runtime.py:277](../../modules/lab_runtime.py#L277)
+`function` | [modules/lab_runtime.py:340](../../modules/lab_runtime.py#L340)
 
 ```python
 def range_compose(profile: str) -> Path | None
@@ -314,7 +314,7 @@ Return the compose file path for one range profile, or None.
 
 ### `start_range`
 
-`function` | [modules/lab_runtime.py:286](../../modules/lab_runtime.py#L286)
+`function` | [modules/lab_runtime.py:349](../../modules/lab_runtime.py#L349)
 
 ```python
 def start_range(profile: str) -> dict
@@ -338,7 +338,7 @@ Start one cyber range profile via Docker Compose.
 
 ### `stop_range`
 
-`function` | [modules/lab_runtime.py:305](../../modules/lab_runtime.py#L305)
+`function` | [modules/lab_runtime.py:368](../../modules/lab_runtime.py#L368)
 
 ```python
 def stop_range(profile: str) -> dict
@@ -362,7 +362,7 @@ Stop one cyber range profile (compose down).
 
 ### `stop_ranges`
 
-`function` | [modules/lab_runtime.py:316](../../modules/lab_runtime.py#L316)
+`function` | [modules/lab_runtime.py:379](../../modules/lab_runtime.py#L379)
 
 ```python
 def stop_ranges() -> dict
@@ -385,7 +385,7 @@ remaining ``lazyown-range-*`` containers fall back to ``docker stop``.
 
 ### `ensure_range_secret`
 
-`function` | [modules/lab_runtime.py:357](../../modules/lab_runtime.py#L357)
+`function` | [modules/lab_runtime.py:420](../../modules/lab_runtime.py#L420)
 
 ```python
 def ensure_range_secret(profile_dir: Path) -> str
@@ -411,7 +411,7 @@ Generate the DC admin secret file when missing.
 
 ### `BASE_DIR`
 
-`constant` | [modules/lab_runtime.py:21](../../modules/lab_runtime.py#L21)
+`constant` | [modules/lab_runtime.py:22](../../modules/lab_runtime.py#L22)
 
 ```python
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -423,7 +423,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 ### `LAB_COMPOSE`
 
-`constant` | [modules/lab_runtime.py:22](../../modules/lab_runtime.py#L22)
+`constant` | [modules/lab_runtime.py:23](../../modules/lab_runtime.py#L23)
 
 ```python
 LAB_COMPOSE = BASE_DIR / 'deploy' / 'lab' / 'docker-compose.yml'
@@ -435,7 +435,7 @@ LAB_COMPOSE = BASE_DIR / 'deploy' / 'lab' / 'docker-compose.yml'
 
 ### `RANGE_DIR`
 
-`constant` | [modules/lab_runtime.py:23](../../modules/lab_runtime.py#L23)
+`constant` | [modules/lab_runtime.py:24](../../modules/lab_runtime.py#L24)
 
 ```python
 RANGE_DIR = BASE_DIR / 'deploy' / 'range'
@@ -447,7 +447,7 @@ RANGE_DIR = BASE_DIR / 'deploy' / 'range'
 
 ### `REGISTRY_PREFIX`
 
-`constant` | [modules/lab_runtime.py:25](../../modules/lab_runtime.py#L25)
+`constant` | [modules/lab_runtime.py:26](../../modules/lab_runtime.py#L26)
 
 ```python
 REGISTRY_PREFIX = 'lazyown-lab-'
@@ -459,7 +459,7 @@ REGISTRY_PREFIX = 'lazyown-lab-'
 
 ### `RANGE_PREFIX`
 
-`constant` | [modules/lab_runtime.py:26](../../modules/lab_runtime.py#L26)
+`constant` | [modules/lab_runtime.py:27](../../modules/lab_runtime.py#L27)
 
 ```python
 RANGE_PREFIX = 'lazyown-range-'
@@ -471,7 +471,7 @@ RANGE_PREFIX = 'lazyown-range-'
 
 ### `LAB_SCENARIOS`
 
-`constant` | [modules/lab_runtime.py:32](../../modules/lab_runtime.py#L32)
+`constant` | [modules/lab_runtime.py:42](../../modules/lab_runtime.py#L42)
 
 ```python
 LAB_SCENARIOS: dict[str, dict]
@@ -483,7 +483,7 @@ LAB_SCENARIOS: dict[str, dict]
 
 ### `RANGE_PROFILES`
 
-`constant` | [modules/lab_runtime.py:71](../../modules/lab_runtime.py#L71)
+`constant` | [modules/lab_runtime.py:83](../../modules/lab_runtime.py#L83)
 
 ```python
 RANGE_PROFILES: dict[str, dict]

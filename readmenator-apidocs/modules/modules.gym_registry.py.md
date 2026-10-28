@@ -500,7 +500,7 @@ Stop one or every active run.
 | `selector` | `str` | `''` | Optional run id, challenge id or gym name. Empty stops every active run. |
 | `operator` | `str` | `''` | Optional operator filter. |
 
-**Returns:** `dict[str, Any]` - Dict with ``success``, ``count`` and the ``stopped`` rows.
+**Returns:** `dict[str, Any]` - Dict with ``success``, `[`count`](modules.lazy_creds.py.md#count)` and the ``stopped`` rows.
 
 *Calls:* [`normalize_operator`](#normalize_operator), [`read_state`](#read_state), [`write_state`](#write_state)
 

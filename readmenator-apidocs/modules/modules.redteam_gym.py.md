@@ -79,7 +79,7 @@ flowchart LR
 
 ### `reload_challenge_definitions`
 
-`function` | [modules/redteam_gym.py:299](../../modules/redteam_gym.py#L299)
+`function` | [modules/redteam_gym.py:300](../../modules/redteam_gym.py#L300)
 
 ```python
 def reload_challenge_definitions(directory: Path | str | None = None) -> dict[str, dict[str, Any]]
@@ -105,7 +105,7 @@ Reload YAML definitions, falling back to the embedded catalogue.
 
 ### `definition_rows`
 
-`function` | [modules/redteam_gym.py:393](../../modules/redteam_gym.py#L393)
+`function` | [modules/redteam_gym.py:394](../../modules/redteam_gym.py#L394)
 
 ```python
 def definition_rows() -> list[dict[str, Any]]
@@ -123,7 +123,7 @@ Return one row per gym YAML file, including invalid files.
 
 ### `create_gym`
 
-`function` | [modules/redteam_gym.py:398](../../modules/redteam_gym.py#L398)
+`function` | [modules/redteam_gym.py:399](../../modules/redteam_gym.py#L399)
 
 ```python
 def create_gym(gym_id: str, *, name: str = '', scenario: str = 'metasploitable', objective: str = '', description: str = '', difficulty: str = 'easy', chain: str = '', phases: list[str] | None = None, hints: list[str] | None = None, max_points: int = 1000, elo_bonus: int = 100, overwrite: bool = False) -> dict[str, Any]
@@ -160,7 +160,7 @@ Create a gym definition YAML and reload the catalogue.
 
 ### `save_gym_yaml`
 
-`function` | [modules/redteam_gym.py:435](../../modules/redteam_gym.py#L435)
+`function` | [modules/redteam_gym.py:436](../../modules/redteam_gym.py#L436)
 
 ```python
 def save_gym_yaml(gym_id: str, text: str) -> dict[str, Any]
@@ -185,7 +185,7 @@ Validate and persist raw YAML for one gym definition.
 
 ### `delete_gym`
 
-`function` | [modules/redteam_gym.py:445](../../modules/redteam_gym.py#L445)
+`function` | [modules/redteam_gym.py:446](../../modules/redteam_gym.py#L446)
 
 ```python
 def delete_gym(gym_id: str, *, allow_active: bool = False) -> dict[str, Any]
@@ -212,7 +212,7 @@ Delete one gym definition unless it has active runs.
 
 ### `list_challenges`
 
-`function` | [modules/redteam_gym.py:453](../../modules/redteam_gym.py#L453)
+`function` | [modules/redteam_gym.py:454](../../modules/redteam_gym.py#L454)
 
 ```python
 def list_challenges() -> dict[str, dict[str, Any]]
@@ -230,10 +230,10 @@ Return all defined gym challenges with metadata.
 
 ### `start_challenge`
 
-`function` | [modules/redteam_gym.py:494](../../modules/redteam_gym.py#L494)
+`function` | [modules/redteam_gym.py:495](../../modules/redteam_gym.py#L495)
 
 ```python
-def start_challenge(challenge_id: str, target: str = '', spin_lab: bool = True) -> dict[str, Any]
+def start_challenge(challenge_id: str, target: str = '', spin_lab: bool = True, notify: Callable[[str], None] | None = None) -> dict[str, Any]
 ```
 
 Begin a gym challenge and persist the run in the world model.
@@ -250,6 +250,7 @@ the result then keeps the manual ``lab start`` hint).
 | `challenge_id` | `str` |  | ID from the YAML catalogue. |
 | `target` | `str` | `''` | Optional engagement target stored with the run. |
 | `spin_lab` | `bool` | `True` | Also spin up the scenario target container. |
+| `notify` | `Callable[[str], None] \| None` | `None` | Optional progress callback streamed while the lab bootstrap runs (ignored by run-only scenarios). |
 
 **Returns:** `dict[str, Any]` - Dict with the run id, challenge info, lab info and next steps.
 
@@ -263,7 +264,7 @@ the result then keeps the manual ``lab start`` hint).
 
 ### `submit_challenge`
 
-`function` | [modules/redteam_gym.py:637](../../modules/redteam_gym.py#L637)
+`function` | [modules/redteam_gym.py:648](../../modules/redteam_gym.py#L648)
 
 ```python
 def submit_challenge(techniques_used: list[str] | None = None, success: bool = True, run_id: str = '') -> dict[str, Any]
@@ -289,7 +290,7 @@ Submit a completed challenge for scoring.
 
 ### `stop_challenges`
 
-`function` | [modules/redteam_gym.py:745](../../modules/redteam_gym.py#L745)
+`function` | [modules/redteam_gym.py:756](../../modules/redteam_gym.py#L756)
 
 ```python
 def stop_challenges(selector: str = '') -> dict[str, Any]
@@ -319,7 +320,7 @@ container without any remaining active run is stopped through
 
 ### `get_active_challenges`
 
-`function` | [modules/redteam_gym.py:887](../../modules/redteam_gym.py#L887)
+`function` | [modules/redteam_gym.py:898](../../modules/redteam_gym.py#L898)
 
 ```python
 def get_active_challenges() -> list[dict[str, Any]]
@@ -339,7 +340,7 @@ Return every active gym run across operators.
 
 ### `show_leaderboard`
 
-`function` | [modules/redteam_gym.py:1046](../../modules/redteam_gym.py#L1046)
+`function` | [modules/redteam_gym.py:1057](../../modules/redteam_gym.py#L1057)
 
 ```python
 def show_leaderboard(top_n: int = 15) -> list[dict[str, Any]]
@@ -361,7 +362,7 @@ Return the top N players from the leaderboard.
 
 ### `get_active_challenge`
 
-`function` | [modules/redteam_gym.py:1073](../../modules/redteam_gym.py#L1073)
+`function` | [modules/redteam_gym.py:1084](../../modules/redteam_gym.py#L1084)
 
 ```python
 def get_active_challenge(run_id: str = '') -> dict[str, Any] | None
@@ -387,7 +388,7 @@ operator label changed between sessions.
 
 ### `record_external_attempt`
 
-`function` | [modules/redteam_gym.py:1104](../../modules/redteam_gym.py#L1104)
+`function` | [modules/redteam_gym.py:1115](../../modules/redteam_gym.py#L1115)
 
 ```python
 def record_external_attempt(challenge_id: str, success: bool, elo_bonus: int = 150, techniques: list[str] | None = None) -> dict[str, Any]
@@ -421,7 +422,7 @@ and `[`rank`](modules.atomic_exploit_bridge.py.md#rank)`.
 
 ### `GYM_DEFAULT_DEFINITIONS`
 
-`constant` | [modules/redteam_gym.py:46](../../modules/redteam_gym.py#L46)
+`constant` | [modules/redteam_gym.py:47](../../modules/redteam_gym.py#L47)
 
 ```python
 GYM_DEFAULT_DEFINITIONS: dict[str, dict[str, Any]]
@@ -433,7 +434,7 @@ GYM_DEFAULT_DEFINITIONS: dict[str, dict[str, Any]]
 
 ### `GYM_CHALLENGE_DEFINITIONS`
 
-`constant` | [modules/redteam_gym.py:314](../../modules/redteam_gym.py#L314)
+`constant` | [modules/redteam_gym.py:315](../../modules/redteam_gym.py#L315)
 
 ```python
 GYM_CHALLENGE_DEFINITIONS = load_definitions() or GYM_DEFAULT_DEFINITIONS

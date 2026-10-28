@@ -2,6 +2,19 @@
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_loop_llm_resilience.py` -> `modules/lazy_engine.py`
+- `tests/test_loop_llm_resilience.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_llm_resilience.py` -> `modules/llm_factory.py`
+- `tests/test_loop_manager.py` -> `modules/loop_manager.py`
+- `tests/test_loop_mentions.py` -> `modules/__init__.py`
+- `tests/test_loop_multi_target.py` -> `modules/lazy_runner.py`
+- `tests/test_loop_nmap_guard.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_nmap_guard.py` -> `modules/lazy_runner.py`
+- `tests/test_loop_progress.py` -> `core/console.py`
+- `tests/test_loop_progress.py` -> `modules/loop_progress.py`
+- `tests/test_loop_scope_traffic_evidence.py` -> `modules/lazy_engine.py`
+- `tests/test_loop_scope_traffic_evidence.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_spawn_side.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_spawn_side.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_store_race.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_supervision.py` -> `core/config.py`
@@ -254,6 +267,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_vulnbot_fallback.py` -> `modules/llm_factory.py`
 - `tests/test_vulnbot_fallback.py` -> `modules/llm_orchestrator.py`
 - `tests/test_vulnbot_fallback.py` -> `modules/vulnbot.py`
+- `tests/test_winbox_gym.py` -> `core/hardening.py`
 - `tests/test_winbox_gym.py` -> `modules/__init__.py`
 - `tests/test_winbox_gym.py` -> `modules/gym_registry.py`
 - `tests/test_wizard_binary_check.py` -> `cli/__init__.py`

@@ -2,6 +2,14 @@
 Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 ## External Imports (continued)
+- `tests/test_phase_labels.py` -> __future__, json, pathlib
+- `tests/test_php2shell_addon.py` -> __future__, json, pathlib, pytest, re, yaml
+- `tests/test_pi_leg.py` -> __future__, pytest, subprocess
+- `tests/test_pipeline_engine.py` -> __future__, ast, importlib, json, pathlib, pytest, sys, yaml
+- `tests/test_placeholder_coverage.py` -> __future__, json, pathlib, re, yaml
+- `tests/test_playbook_admin.py` -> __future__, yaml
+- `tests/test_plugin_loader_safety.py` -> __future__, ast, pathlib, re
+- `tests/test_plugin_tiers.py` -> __future__, pathlib, pytest, yaml
 - `tests/test_profiles.py` -> __future__, pathlib, pytest
 - `tests/test_prompt_readline_markers.py` -> __future__, pathlib, sys
 - `tests/test_prompt_refresh.py` -> __future__, pathlib, re, types
@@ -70,7 +78,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_viral_adoption.py` -> ast, glob, json, pathlib
 - `tests/test_vuln_mitigations.py` -> __future__, ast, collections.abc, dataclasses, pathlib, pytest, re
 - `tests/test_vulnbot_fallback.py` -> __future__, json, pytest
-- `tests/test_winbox_gym.py` -> __future__, os, pathlib, tempfile, unittest, unittest.mock, yaml
+- `tests/test_winbox_gym.py` -> __future__, contextlib, os, pathlib, sys, tempfile, unittest, unittest.mock, yaml
 - `tests/test_wizard_binary_check.py` -> __future__, pathlib, pytest, subprocess, sys
 - `tests/test_wizard_llm.py` -> __future__
 - `tests/test_world_model_extended.py` -> __future__, pathlib, pytest, tempfile

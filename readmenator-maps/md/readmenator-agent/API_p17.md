@@ -1,5 +1,304 @@
-# API (page 17 of 24)
+# API (page 17 of 25)
 Previous: [API_p16.md](API_p16.md)
+
+## modules/outcome_bus.py
+Depends on: `core/logging.py`, `modules/__init__.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
+- `OutcomeEvent.host_value` (method) `modules/outcome_bus.py:103` `def host_value(self)` -- Return the best host identifier available.
+- `OutcomeEvent.key` (method) `modules/outcome_bus.py:107` `def key(self)` -- Return the idempotency key for this event.
+- `OutcomeEvent.to_dict` (method) `modules/outcome_bus.py:125` `def to_dict(self)` -- Return a JSON-serializable view.
+- `OutcomeBus.__init__` (method) `modules/outcome_bus.py:156` `def __init__(self, ledger_path, sink_map)` -- Bind the audit ledger and an optional sink map for tests.
+- `OutcomeBus.reset` (method) `modules/outcome_bus.py:169` `def reset(self)` -- Clear the in-process dedupe cache.
+- `OutcomeBus.record` (method) `modules/outcome_bus.py:201` `def record(self, event, sinks)` -- Publish one event to every enabled sink.
+- `get_bus` (function) `modules/outcome_bus.py:269` `def get_bus()` -- Return the process-wide outcome bus.
+- `reset_bus` (function) `modules/outcome_bus.py:278` `def reset_bus()` -- Reset the process-wide bus cache (tests and long-lived operators).
+- `record` (function) `modules/outcome_bus.py:283` `def record(event, sinks)` -- Publish one event through the process-wide bus.
+- `record_event` (function) `modules/outcome_bus.py:288` `def record_event()` -- Build and publish one event from keyword fields.
+- `severity_for_event` (function) `modules/outcome_bus.py:293` `def severity_for_event(severity)` -- Map an outcome severity to the event-bus severity vocabulary.
+- `category_for_event` (function) `modules/outcome_bus.py:298` `def category_for_event(kind)` -- Map an outcome kind to the event-bus category vocabulary.
+
+## modules/payload_factory.py
+Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `modules/sinks/beacon_dispatch.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
+- `PayloadTemplate.__init__` (method) `modules/payload_factory.py:222` `def __init__(self, name, platform, arch, description, options)`
+- `PayloadTemplate.generate` (method) `modules/payload_factory.py:237` `def generate(self)` -- Generate the raw payload bytes.
+- `PayloadTemplate.to_dict` (method) `modules/payload_factory.py:241` `def to_dict(self)`
+- `ReverseShellPayload.__init__` (method) `modules/payload_factory.py:254` `def __init__(self)`
+- `ReverseShellPayload.generate` (method) `modules/payload_factory.py:272` `def generate(self)`
+- `WindowsReverseShellPayload.__init__` (method) `modules/payload_factory.py:293` `def __init__(self)`
+- `WindowsReverseShellPayload.generate` (method) `modules/payload_factory.py:305` `def generate(self)`
+- `MsfvenomPayload.__init__` (method) `modules/payload_factory.py:325` `def __init__(self, name, platform, arch)`
+- `MsfvenomPayload.generate` (method) `modules/payload_factory.py:337` `def generate(self)`
+- `ShellcodePayload.__init__` (method) `modules/payload_factory.py:374` `def __init__(self, name, platform, arch, description, escaped_hex, patcher)`
+- `ShellcodePayload.generate` (method) `modules/payload_factory.py:397` `def generate(self)` -- Return the shellcode, optionally patching LHOST / LPORT.
+- `DynamicShellcodePayload.__init__` (method) `modules/payload_factory.py:416` `def __init__(self, name, platform, arch, description, builder)`
+- `DynamicShellcodePayload.generate` (method) `modules/payload_factory.py:436` `def generate(self)`
+- `PayloadFactory.__init__` (method) `modules/payload_factory.py:464` `def __init__(self)`
+- `PayloadFactory.register` (method) `modules/payload_factory.py:512` `def register(self, template)` -- Register a custom payload template.
+- `PayloadFactory.list` (method) `modules/payload_factory.py:516` `def list(self, platform)` -- List all registered payloads, optionally filtered by platform.
+- `PayloadFactory.get` (method) `modules/payload_factory.py:525` `def get(self, name)` -- Get a payload template by name.
+- `PayloadFactory.generate` (method) `modules/payload_factory.py:529` `def generate(self, name, format, output)` -- Generate a payload by name.
+- `PayloadFactory.list_formats` (method) `modules/payload_factory.py:664` `def list_formats()` -- List all available output formats.
+- `format_payload_table` (function) `modules/payload_factory.py:672` `def format_payload_table(payloads)` -- Format a list of payload dicts as an aligned table.
+
+## modules/phishing_orchestrator.py
+Depends on: `core/crypto.py`, `core/hardening.py`
+Imported by: `cli/commands/phishing_wizard.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
+- `PhishingOrchestrator.__init__` (method) `modules/phishing_orchestrator.py:316` `def __init__(self)`
+- `PhishingOrchestrator.get_instance` (method) `modules/phishing_orchestrator.py:321` `def get_instance(cls)`
+- `PhishingOrchestrator.launch` (method) `modules/phishing_orchestrator.py:332` `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` -- Launch a phishing campaign.
+- `PhishingOrchestrator.profile_targets` (method) `modules/phishing_orchestrator.py:441` `def profile_targets(self, domain)` -- Profile targets for a domain using OSINT techniques.
+- `PhishingOrchestrator.generate_template` (method) `modules/phishing_orchestrator.py:486` `def generate_template(self, name, target_domain, context)` -- Generate or retrieve a phishing template.
+- `PhishingOrchestrator.clone_landing_page` (method) `modules/phishing_orchestrator.py:533` `def clone_landing_page(self, url)` -- Clone a target login page for credential harvesting.
+- `PhishingOrchestrator.get_results` (method) `modules/phishing_orchestrator.py:560` `def get_results(self, campaign_id)` -- Get campaign results.
+- `PhishingOrchestrator.record_click` (method) `modules/phishing_orchestrator.py:584` `def record_click(self, campaign_id, email)` -- Record a link click.
+- `PhishingOrchestrator.record_credentials` (method) `modules/phishing_orchestrator.py:605` `def record_credentials(self, campaign_id, email, password)` -- Record harvested credentials.
+
+## modules/pipeline_engine.py
+Depends on: `core/logging.py`, `modules/engagement_hooks.py`, `skills/autonomous_daemon.py`
+Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_pipeline_engine.py`
+- `StepResult.to_context` (method) `modules/pipeline_engine.py:180` `def to_context(self)` -- Render the step result as a dict for template lookups.
+- `PipelineRun.to_dict` (method) `modules/pipeline_engine.py:213` `def to_dict(self)` -- Return a JSON-friendly representation of the full run.
+- `TemplateResolver.__init__` (method) `modules/pipeline_engine.py:275` `def __init__(self, context)`
+- `TemplateResolver.render` (method) `modules/pipeline_engine.py:278` `def render(self, template)`
+- `TemplateResolver.resolve` (method) `modules/pipeline_engine.py:289` `def resolve(self, dotted_path)` -- Return the value at dotted_path or None when not found.
+- `ConditionEvaluator.is_truthy` (method) `modules/pipeline_engine.py:330` `def is_truthy(rendered)`
+- `StepValidator.validate` (method) `modules/pipeline_engine.py:352` `def validate(predicate, output)`
+- `StepDerivers.register` (method) `modules/pipeline_engine.py:389` `def register(cls, command, deriver)` -- Bind a deriver to a top-level command name (case-insensitive).
+- `StepDerivers.derive` (method) `modules/pipeline_engine.py:396` `def derive(cls, command, output)` -- Run the registered deriver for command on output, defensive.
+- `IStepRunner.run` (method) `modules/pipeline_engine.py:513` `def run(self, command, args, target, timeout_s)` -- Execute one command.
+- `LazyOwnStepRunner.__init__` (method) `modules/pipeline_engine.py:537` `def __init__(self, runner, onecmd)`
+- `LazyOwnStepRunner.run` (method) `modules/pipeline_engine.py:548` `def run(self, command, args, target, timeout_s)`
+- `PipelineLoader.__init__` (method) `modules/pipeline_engine.py:638` `def __init__(self, pipelines_dir)`
+- `PipelineLoader.pipelines_dir` (method) `modules/pipeline_engine.py:642` `def pipelines_dir(self)`
+- `PipelineLoader.list` (method) `modules/pipeline_engine.py:645` `def list(self)` -- Return every pipeline name discoverable in pipelines_dir.
+- `PipelineLoader.resolve_path` (method) `modules/pipeline_engine.py:658` `def resolve_path(self, name)` -- Return the absolute path to the YAML file for the given name.
+- `PipelineLoader.load` (method) `modules/pipeline_engine.py:683` `def load(self, name)` -- Parse the YAML file for name and return a validated spec.
+- `RunArtifactStore.__init__` (method) `modules/pipeline_engine.py:778` `def __init__(self, runs_dir)`
+- `RunArtifactStore.runs_dir` (method) `modules/pipeline_engine.py:782` `def runs_dir(self)`
+- `RunArtifactStore.open_run` (method) `modules/pipeline_engine.py:785` `def open_run(self, pipeline_name, run_id)` -- Create and return the directory for this run.
+- `RunArtifactStore.write_plan` (method) `modules/pipeline_engine.py:797` `def write_plan(self, run_dir, spec)`
+- `RunArtifactStore.write_step` (method) `modules/pipeline_engine.py:814` `def write_step(self, run_dir, result)`
+- `RunArtifactStore.write_summary` (method) `modules/pipeline_engine.py:828` `def write_summary(self, run_dir, run)`
+- `INarratorAdapter.narrate` (method) `modules/pipeline_engine.py:852` `def narrate(self, kind, target, message, payload, severity)` -- Emit one narration event.
+- `_SilentNarrator.narrate` (method) `modules/pipeline_engine.py:864` `def narrate(self)`
+- `EngagementNarratorAdapter.__init__` (method) `modules/pipeline_engine.py:871` `def __init__(self, narrator)`
+- `EngagementNarratorAdapter.narrate` (method) `modules/pipeline_engine.py:881` `def narrate(self, kind, target, message, payload, severity)`
+- `PipelineEngine.__init__` (method) `modules/pipeline_engine.py:927` `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)`
+- `PipelineEngine.loader` (method) `modules/pipeline_engine.py:942` `def loader(self)`
+- `PipelineEngine.validate` (method) `modules/pipeline_engine.py:945` `def validate(self, name)` -- Load and validate without executing.
+- `PipelineEngine.run` (method) `modules/pipeline_engine.py:949` `def run(self, name, target, nesting_stack)` -- Execute the pipeline.
+- `get_default_engine` (function) `modules/pipeline_engine.py:1300` `def get_default_engine(onecmd)` -- Process-wide default engine for production callers.
+- `mcp_pipeline_run` (function) `modules/pipeline_engine.py:1314` `def mcp_pipeline_run(name, target, background, onecmd)` -- Public MCP / CLI entry: run a pipeline.
+- `mcp_pipeline_list` (function) `modules/pipeline_engine.py:1368` `def mcp_pipeline_list()` -- Return the list of available pipelines under pipelines/.
+- `mcp_pipeline_validate` (function) `modules/pipeline_engine.py:1385` `def mcp_pipeline_validate(name)` -- Validate a pipeline's YAML schema without executing it.
+- `mcp_pipeline_status` (function) `modules/pipeline_engine.py:1414` `def mcp_pipeline_status(last_n)` -- Return the N most recent pipeline runs and their summaries.
+- `cmd_pipeline` (function) `modules/pipeline_engine.py:1436` `def cmd_pipeline(action, name, target, background)` -- CLI helper bound to the ``pipeline`` daemon subcommand.
+
+## modules/planner.py
+Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
+Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
+- `Planner.__init__` (method) `modules/planner.py:269` `def __init__(self, world_model, obs_parser, api_key)`
+- `Planner.plan` (method) `modules/planner.py:313` `def plan(self, target, max_candidates)` -- Return a ranked list of next-step candidates for *target*.
+- `Planner.to_dict` (method) `modules/planner.py:413` `def to_dict(self, result)`
+- `get_planner` (function) `modules/planner.py:446` `def get_planner(api_key)` -- Return a fact-based planner with an optional LLM tie-break key.
+- `TodoList.__init__` (method) `modules/planner.py:468` `def __init__(self)` -- Initialize an empty todo sequence.
+- `TodoList.todo_add` (method) `modules/planner.py:472` `def todo_add(self, name, requires)` -- Append a step and return it.
+- `TodoList.todo_done` (method) `modules/planner.py:478` `def todo_done(self, name)` -- Mark a step done when its requirements hold.
+- `TodoList.next_ready` (method) `modules/planner.py:489` `def next_ready(self)` -- Return the first pending step whose requirements hold.
+- `TodoList.blocks` (method) `modules/planner.py:497` `def blocks(self, tactic)` -- Return True when a tactic must wait for an unfinished chain.
+- `Frontier.__init__` (method) `modules/planner.py:514` `def __init__(self, planner, todos)` -- Bind the frontier to a planner and an optional todo list.
+- `Frontier.todos` (method) `modules/planner.py:523` `def todos(self)` -- Expose the shared todo list.
+- `Frontier.tried` (method) `modules/planner.py:528` `def tried(self)` -- Return the tried technique identifiers.
+- `Frontier.refill` (method) `modules/planner.py:532` `def refill(self, target, max_intents)` -- Plan fresh intents, keeping only untried and unblocked ones.
+- `Frontier.pop` (method) `modules/planner.py:551` `def pop(self)` -- Claim the oldest queued intent and mark its technique tried.
+
+## modules/playbook_admin.py
+Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`
+- `slugify` (function) `modules/playbook_admin.py:62` `def slugify(value)` -- Return a safe playbook filename stem.
+- `playbook_path` (function) `modules/playbook_admin.py:75` `def playbook_path(filename, directory)` -- Resolve one playbook file inside the playbooks root.
+- `load_playbook` (function) `modules/playbook_admin.py:102` `def load_playbook(path)` -- Read one playbook YAML mapping.
+- `playbook_kind` (function) `modules/playbook_admin.py:123` `def playbook_kind(data)` -- Return ``apt``, ``plan``, ``mixed`` or ``unknown`` for one mapping.
+- `validate_playbook` (function) `modules/playbook_admin.py:136` `def validate_playbook(data)` -- Validate the minimal shape shared by both playbook formats.
+- `summarize` (function) `modules/playbook_admin.py:197` `def summarize(path)` -- Build the admin-table row for one file without raising.
+- `scan_playbooks` (function) `modules/playbook_admin.py:231` `def scan_playbooks(directory)` -- Return every ``*.yaml``/``*.yml`` playbook, sorted by file name.
+- `preview_playbook` (function) `modules/playbook_admin.py:251` `def preview_playbook(path, limit)` -- Return a bounded, sanitized text preview for the detail pane.
+- `playbook_template` (function) `modules/playbook_admin.py:265` `def playbook_template(name, description, platforms)` -- Return a minimal APT playbook mapping ready for ``yaml.safe_dump``.
+- `create_playbook` (function) `modules/playbook_admin.py:297` `def create_playbook(filename)` -- Create one APT playbook file.
+- `update_playbook` (function) `modules/playbook_admin.py:350` `def update_playbook(path, data, directory)` -- Validate and atomically rewrite one playbook.
+- `save_playbook_yaml` (function) `modules/playbook_admin.py:377` `def save_playbook_yaml(path, text, directory)` -- Parse, validate and write a raw YAML document.
+- `delete_playbook` (function) `modules/playbook_admin.py:406` `def delete_playbook(path, directory)` -- Delete one playbook confined to the playbooks root.
+
+## modules/playbook_engine.py
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
+Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- `PlaybookStep.to_dict` (method) `modules/playbook_engine.py:113` `def to_dict(self)`
+- `PlaybookStep.from_dict` (method) `modules/playbook_engine.py:128` `def from_dict(cls, d)`
+- `Playbook.to_dict` (method) `modules/playbook_engine.py:141` `def to_dict(self)`
+- `Playbook.from_dict` (method) `modules/playbook_engine.py:152` `def from_dict(cls, d)`
+- `_StixLoader.__init__` (method) `modules/playbook_engine.py:188` `def __init__(self, json_path)`
+- `_StixLoader.available` (method) `modules/playbook_engine.py:192` `def available(self)`
+- `_StixLoader.store` (method) `modules/playbook_engine.py:195` `def store(self)`
+- `_StixLoader.techniques_for_tactics` (method) `modules/playbook_engine.py:210` `def techniques_for_tactics(self, tactic_shortnames, platform)` -- Return ATT&CK techniques matching the given tactic shortnames.
+- `_AtomicIndex.__init__` (method) `modules/playbook_engine.py:260` `def __init__(self, atomics_path)`
+- `_AtomicIndex.available` (method) `modules/playbook_engine.py:264` `def available(self)`
+- `_AtomicIndex.build` (method) `modules/playbook_engine.py:267` `def build(self)`
+- `_AtomicIndex.tests_for_technique` (method) `modules/playbook_engine.py:300` `def tests_for_technique(self, technique_id, platform)`
+- `_TechniqueSelector.select` (method) `modules/playbook_engine.py:317` `def select(self, candidates, world_context, target, phase, api_key, top_n)`
+- `PlaybookEngine.__init__` (method) `modules/playbook_engine.py:387` `def __init__(self, world_model, obs_parser, api_key, top_n)`
+- `PlaybookEngine.derive` (method) `modules/playbook_engine.py:427` `def derive(self, target, phase, platform, apt_name)` -- Generate a Playbook for *target* at the given *phase*.
+- `PlaybookEngine.execute` (method) `modules/playbook_engine.py:529` `def execute(self, playbook, executor, dry_run)` -- Execute a Playbook step by step.
+- `PlaybookEngine.save` (method) `modules/playbook_engine.py:599` `def save(self, playbook, path)` -- Persist playbook to YAML (compatible with existing playbooks/ format).
+- `PlaybookEngine.load` (method) `modules/playbook_engine.py:611` `def load(self, path)` -- Load a playbook from YAML.
+- `PlaybookEngine.result_summary` (method) `modules/playbook_engine.py:640` `def result_summary(self, result)` -- Return a human-readable / LLM-readable summary of a PlaybookResult.
+- `get_engine` (function) `modules/playbook_engine.py:669` `def get_engine(api_key)` -- Return (or create) the module-level singleton PlaybookEngine.
+
+## modules/playbook_executor.py
+Depends on: `modules/pipeline_engine.py`
+- `PlaybookRunResult.to_dict` (method) `modules/playbook_executor.py:74` `def to_dict(self)`
+- `ITTPMapper.resolve` (method) `modules/playbook_executor.py:97` `def resolve(self, technique_id, atomic_test, platform)` -- Return a LazyOwn shell command string or None if unmapped.
+- `DefaultTTPMapper.register` (method) `modules/playbook_executor.py:180` `def register(cls, technique_id, platform, command)` -- Add a new technique-to-command mapping.
+- `DefaultTTPMapper.resolve` (method) `modules/playbook_executor.py:185` `def resolve(self, technique_id, atomic_test, platform)`
+- `PlaybookLoader.__init__` (method) `modules/playbook_executor.py:208` `def __init__(self, playbooks_dir)`
+- `PlaybookLoader.list` (method) `modules/playbook_executor.py:211` `def list(self)` -- Return every discoverable playbook name.
+- `PlaybookLoader.load` (method) `modules/playbook_executor.py:224` `def load(self, name)` -- Load and validate a playbook by name.
+- `PlaybookEngine.__init__` (method) `modules/playbook_executor.py:339` `def __init__(self, loader, mapper, pipelines_dir)`
+- `PlaybookEngine.loader` (method) `modules/playbook_executor.py:350` `def loader(self)`
+- `PlaybookEngine.analyze` (method) `modules/playbook_executor.py:353` `def analyze(self, name, platform)` -- Analyze a playbook: count techniques, automated vs manual, coverage.
+- `PlaybookEngine.generate_pipeline` (method) `modules/playbook_executor.py:378` `def generate_pipeline(self, name, platform)` -- Generate a pipeline YAML file from a playbook.
+- `PlaybookEngine.run` (method) `modules/playbook_executor.py:390` `def run(self, name, platform, target, onecmd)` -- Generate and execute a pipeline from a playbook.
+- `playbook_list` (function) `modules/playbook_executor.py:416` `def playbook_list()` -- Return a JSON array of available playbooks.
+- `playbook_analyze` (function) `modules/playbook_executor.py:422` `def playbook_analyze(name, platform)` -- Return a JSON summary of one playbook.
+- `playbook_generate` (function) `modules/playbook_executor.py:429` `def playbook_generate(name, platform)` -- Generate a runnable pipeline from a playbook.
+- `playbook_run` (function) `modules/playbook_executor.py:436` `def playbook_run(name, platform, target, onecmd)` -- Analyze, generate, and execute a playbook.
+
+## modules/polymorphic_engine.py
+Imported by: `cli/commands/payload_arsenal.py`
+- `PolymorphicEngine.__init__` (method) `modules/polymorphic_engine.py:159` `def __init__(self, config)`
+- `PolymorphicEngine.mutate` (method) `modules/polymorphic_engine.py:163` `def mutate(self, shellcode, arch)` -- Apply all configured mutation passes to shellcode.
+- `PolymorphicEngine.decode_xor` (method) `modules/polymorphic_engine.py:361` `def decode_xor(data)` -- Decode single-byte XOR encrypted shellcode.
+- `PolymorphicEngine.decode_multi_xor` (method) `modules/polymorphic_engine.py:377` `def decode_multi_xor(data)` -- Decode multi-byte XOR encrypted shellcode.
+- `PolymorphicEngine.generate_decoder_stub` (method) `modules/polymorphic_engine.py:397` `def generate_decoder_stub(self, arch)` -- Generate a self-decrypting stub shellcode template.
+- `PolymorphicEngine.get_audit_summary` (method) `modules/polymorphic_engine.py:422` `def get_audit_summary(self)` -- Return a summary of all mutations applied.
+
+## modules/privesc_predictor.py
+Depends on: `core/console.py`, `modules/llm_factory.py`
+Imported by: `cli/commands/crystal_ball.py`
+- `parse_linpeas_output` (function) `modules/privesc_predictor.py:165` `def parse_linpeas_output(text)` -- Extract a structured SystemProfile from linpeas output text.
+- `parse_winpeas_output` (function) `modules/privesc_predictor.py:218` `def parse_winpeas_output(text)` -- Extract a structured SystemProfile from winpeas output text.
+- `match_known_cves` (function) `modules/privesc_predictor.py:249` `def match_known_cves(profile)` -- Match kernel version against the built-in CVE database.
+- `suid_vectors` (function) `modules/privesc_predictor.py:287` `def suid_vectors(profile)` -- Generate privilege escalation vectors from SUID binaries.
+- `capability_vectors` (function) `modules/privesc_predictor.py:361` `def capability_vectors(profile)` -- Generate privilege escalation vectors from Linux capabilities.
+- `group_vectors` (function) `modules/privesc_predictor.py:463` `def group_vectors(profile)` -- Generate privilege escalation vectors from group memberships.
+- `sudo_vectors` (function) `modules/privesc_predictor.py:501` `def sudo_vectors(profile)` -- Generate privilege escalation vectors from sudo rules.
+- `cron_vectors` (function) `modules/privesc_predictor.py:578` `def cron_vectors(profile)` -- Generate vectors from writable cron jobs and PATH manipulation.
+- `analyze_privesc` (function) `modules/privesc_predictor.py:742` `def analyze_privesc(filepath, text)` -- Main entry point — analyse a system for privilege escalation vectors.
+- `format_crystal_ball_output` (function) `modules/privesc_predictor.py:827` `def format_crystal_ball_output(result)` -- Format the analysis result as a human-readable terminal report.
+- `main` (function) `modules/privesc_predictor.py:908` `def main()` -- CLI entry point for crystal ball privesc analysis.
+
+## modules/professional_report.py
+Depends on: `modules/llm_factory.py`, `modules/world_model.py`
+Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_infra_disposable.py`
+- `RedTeamReportGenerator.__init__` (method) `modules/professional_report.py:173` `def __init__(self, include_credentials)`
+- `RedTeamReportGenerator.collect_data` (method) `modules/professional_report.py:179` `def collect_data(self)` -- Collect all available engagement data from sessions directory.
+- `RedTeamReportGenerator.classify_findings` (method) `modules/professional_report.py:219` `def classify_findings(self, data)` -- Classify collected data into structured findings.
+- `RedTeamReportGenerator.generate` (method) `modules/professional_report.py:247` `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` -- Generate the report in the specified format.
+- `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:912` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
+- `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:936` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
+- `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:982` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
+
+## modules/r.sh
+Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
+- `download_kernel_sources` (function) `modules/r.sh:10` -- Función para descargar y extraer las fuentes del kernel
+
+## modules/reaction_bridge.py
+Depends on: `modules/lazy_loop.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_reaction_bridge.py`
+- `ReactionPick.__init__` (method) `modules/reaction_bridge.py:69` `def __init__(self, command, reason, priority, mitre)`
+- `save_decisions` (function) `modules/reaction_bridge.py:80` `def save_decisions(task_id, decisions)` -- Park picks into the per-task buffer; returns the saved count.
+- `load_reaction_triggers` (function) `modules/reaction_bridge.py:108` `def load_reaction_triggers(task_id, consumer)` -- Drain the buffer into planner trigger dicts (one-shot, one per round).
+- `find_credentials` (function) `modules/reaction_bridge.py:159` `def find_credentials(output)` -- Extract user:pass pairs and hashes; placeholder values are dropped.
+
+## modules/reactive_engine.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
+Imported by: `cli/apt_chain_support.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+- `AbstractSignalMatcher.match` (method) `modules/reactive_engine.py:99` `def match(self, output, context)`
+- `AVBlockedMatcher.match` (method) `modules/reactive_engine.py:128` `def match(self, output, context)`
+- `CredentialFoundMatcher.match` (method) `modules/reactive_engine.py:159` `def match(self, output, context)`
+- `PrivescHintMatcher.match` (method) `modules/reactive_engine.py:192` `def match(self, output, context)`
+- `NewHostMatcher.match` (method) `modules/reactive_engine.py:214` `def match(self, output, context)`
+- `ServiceVersionMatcher.match` (method) `modules/reactive_engine.py:247` `def match(self, output, context)`
+- `ShellErrorMatcher.match` (method) `modules/reactive_engine.py:276` `def match(self, output, context)`
+- `LateralOpportunityMatcher.match` (method) `modules/reactive_engine.py:307` `def match(self, output, context)`
+- `DataOfInterestMatcher.match` (method) `modules/reactive_engine.py:349` `def match(self, output, context)`
+- `ParquetAdvisor.__init__` (method) `modules/reactive_engine.py:395` `def __init__(self, root)`
+- `ParquetAdvisor.gtfobins_for` (method) `modules/reactive_engine.py:421` `def gtfobins_for(self, binary)`
+- `ParquetAdvisor.lolbas_for` (method) `modules/reactive_engine.py:434` `def lolbas_for(self, binary)` -- Returns [(function_name, att&ck_technique), ...].
+- `ParquetAdvisor.technique_commands_for` (method) `modules/reactive_engine.py:448` `def technique_commands_for(self, platform, keyword)` -- Return atomic test commands for platform matching keyword.
+- `EvasionAdvisor.suggest` (method) `modules/reactive_engine.py:504` `def suggest(self, signals, platform)`
+- `PrivescAdvisor.suggest` (method) `modules/reactive_engine.py:565` `def suggest(self, signals, platform, parquet)`
+- `SemanticContextAdvisor.__init__` (method) `modules/reactive_engine.py:644` `def __init__(self, rag, config_loader, min_score, query_limit)` -- Initialise the advisor.
+- `SemanticContextAdvisor.suggest` (method) `modules/reactive_engine.py:734` `def suggest(self, output, command, platform, context)` -- Return semantic next-step hints derived from past sessions.
+- `ReactiveEngine.__init__` (method) `modules/reactive_engine.py:810` `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
+- `ReactiveEngine.analyse` (method) `modules/reactive_engine.py:835` `def analyse(self, output, command, platform, context)` -- Parse *output* and return prioritised ReactiveDecisions.
+- `ReactiveEngine.top_decision` (method) `modules/reactive_engine.py:958` `def top_decision(self, output, command, platform, context)` -- Return only the single highest-priority decision, or None.
+- `get_engine` (function) `modules/reactive_engine.py:977` `def get_engine()`
+
+## modules/recommender.py
+Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
+Imported by: `skills/lazyown_mcp.py`
+- `recommend` (function) `modules/recommender.py:143` `def recommend(state, api_key)` -- Return ranked recommendations without writing to disk.
+- `recommend_and_save` (function) `modules/recommender.py:163` `def recommend_and_save(api_key)` -- Build state → call Groq → write JSON → return recommendations.
+
+## modules/redteam_gym.py
+Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/cli_auth.py`, `modules/gym_registry.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+Imported by: `cli/commands/redteam_gym.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `modules/exploitgym_gym.py`, `tests/test_gym_cli.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_lazy_orchestrator.py`
+- `reload_challenge_definitions` (function) `modules/redteam_gym.py:300` `def reload_challenge_definitions(directory)` -- Reload YAML definitions, falling back to the embedded catalogue.
+- `definition_rows` (function) `modules/redteam_gym.py:394` `def definition_rows()` -- Return one row per gym YAML file, including invalid files.
+- `create_gym` (function) `modules/redteam_gym.py:399` `def create_gym(gym_id)` -- Create a gym definition YAML and reload the catalogue.
+- `save_gym_yaml` (function) `modules/redteam_gym.py:436` `def save_gym_yaml(gym_id, text)` -- Validate and persist raw YAML for one gym definition.
+- `delete_gym` (function) `modules/redteam_gym.py:446` `def delete_gym(gym_id)` -- Delete one gym definition unless it has active runs.
+- `list_challenges` (function) `modules/redteam_gym.py:454` `def list_challenges()` -- Return all defined gym challenges with metadata.
+- `start_challenge` (function) `modules/redteam_gym.py:495` `def start_challenge(challenge_id, target, spin_lab, notify)` -- Begin a gym challenge and persist the run in the world model.
+- `submit_challenge` (function) `modules/redteam_gym.py:648` `def submit_challenge(techniques_used, success, run_id)` -- Submit a completed challenge for scoring.
+- `stop_challenges` (function) `modules/redteam_gym.py:756` `def stop_challenges(selector)` -- Stop one gym by id/name/run id, or every gym when selector is empty.
+- `engagement_context` (function) `modules/redteam_gym.py:838` `def engagement_context(target)` -- Return in-scope phase, compromised hosts and live shells.
+- `get_active_challenges` (function) `modules/redteam_gym.py:898` `def get_active_challenges()` -- Return every active gym run across operators.
+- `show_leaderboard` (function) `modules/redteam_gym.py:1057` `def show_leaderboard(top_n)` -- Return the top N players from the leaderboard.
+- `get_active_challenge` (function) `modules/redteam_gym.py:1084` `def get_active_challenge(run_id)` -- Return one active challenge, preferring the current operator.
+- `record_external_attempt` (function) `modules/redteam_gym.py:1115` `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` -- Record a scored attempt for a challenge not defined in the catalog.
+- `main` (function) `modules/redteam_gym.py:1169` `def main()` -- CLI entry point — show gym leaderboard from command line.
+
+## modules/reflective_dll.py
+- `PEParser.__init__` (method) `modules/reflective_dll.py:151` `def __init__(self, pe_data)`
+- `PEParser.parse_file_header` (method) `modules/reflective_dll.py:166` `def parse_file_header(self)` -- Extract the COFF file header.
+- `PEParser.parse_sections` (method) `modules/reflective_dll.py:208` `def parse_sections(self, num_sections)` -- Parse all section headers from the PE.
+- `PEParser.parse_data_directories` (method) `modules/reflective_dll.py:243` `def parse_data_directories(self, num_entries)` -- Parse the PE data directory entries.
+- `PEParser.rva_to_offset` (method) `modules/reflective_dll.py:265` `def rva_to_offset(self, rva, sections)` -- Convert a relative virtual address to a file offset.
+- `PEParser.parse_imports` (method) `modules/reflective_dll.py:280` `def parse_imports(self, import_dir, sections)` -- Parse the import directory to enumerate imported DLLs and functions.
+- `PEParser.parse_relocations` (method) `modules/reflective_dll.py:326` `def parse_relocations(self, reloc_dir, sections)` -- Parse base relocation entries.
+- `PEParser.parse_exports` (method) `modules/reflective_dll.py:374` `def parse_exports(self, export_dir, sections)` -- Parse the export directory.
+- `PEParser.is_64bit` (method) `modules/reflective_dll.py:456` `def is_64bit(self)`
+- `PEParser.raw_data` (method) `modules/reflective_dll.py:460` `def raw_data(self)`
+- `ReflectiveLoader.__init__` (method) `modules/reflective_dll.py:492` `def __init__(self, pe_data, config)`
+- `ReflectiveLoader.sha256` (method) `modules/reflective_dll.py:505` `def sha256(self)` -- SHA-256 hash of the raw PE bytes.
+- `ReflectiveLoader.architecture` (method) `modules/reflective_dll.py:510` `def architecture(self)` -- CPU architecture string ('x64' or 'x86').
+- `ReflectiveLoader.required_imports` (method) `modules/reflective_dll.py:515` `def required_imports(self)` -- DLL names needed for import resolution.
+- `ReflectiveLoader.plan_injection` (method) `modules/reflective_dll.py:526` `def plan_injection(self)` -- Generate an injection plan based on the configured technique.
+- `ReflectiveLoader.generate_c_stub` (method) `modules/reflective_dll.py:588` `def generate_c_stub(self)` -- Generate a C stub that implements reflective loading.
+- `ReflectiveLoader.generate_powershell_stub` (method) `modules/reflective_dll.py:666` `def generate_powershell_stub(self)` -- Generate PowerShell reflective loader script.
+- `ReflectiveLoader.summarize` (method) `modules/reflective_dll.py:685` `def summarize(self)` -- Human-readable summary of the parsed PE for operator review.
+
+## modules/resource_script.py
+Depends on: `core/safe_exec.py`
+Imported by: `cli/commands/resource_scripting.py`, `tests/test_resource_script.py`, `tests/test_security_hardening_v3.py`
+- `ScriptContext.__init__` (method) `modules/resource_script.py:89` `def __init__(self, shell_params, on_command, on_print)`
+- `ScriptContext.print` (method) `modules/resource_script.py:138` `def print(self, msg)`
+- `ScriptContext.run_command` (method) `modules/resource_script.py:147` `def run_command(self, cmd)`
+- `ScriptContext.eval_condition` (method) `modules/resource_script.py:191` `def eval_condition(self, raw_condition)` -- Evaluate an ``if``/``while`` condition expression.
+- `ResourceScriptEngine.__init__` (method) `modules/resource_script.py:276` `def __init__(self, context)`
+- `ResourceScriptEngine.execute` (method) `modules/resource_script.py:279` `def execute(self, script_path)` -- Load and run a script file.
+- `ResourceScriptEngine.execute_lines` (method) `modules/resource_script.py:293` `def execute_lines(self, lines, source)` -- Execute a list of script lines.
+- `ResourceScriptEngine.execute_string` (method) `modules/resource_script.py:327` `def execute_string(self, script)` -- Execute a script string (split on newlines).
 
 ## modules/retry_session.py
 Depends on: `modules/chain_state.py`
@@ -190,306 +489,6 @@ Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprf
 ## modules/selector_manager.py
 Imported by: `skills/lazyown_mcp.py`, `tests/test_auto_loop_memory.py`
 - `select` (function) `modules/selector_manager.py:42` `def select(proposals, is_blocked)` -- Pick the first valid proposal; None when everything is filtered.
-
-## modules/selfupdate.py
-Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
-- `Updater.__init__` (method) `modules/selfupdate.py:47` `def __init__(self, live_path)` -- Bind the updater to the binary that may be replaced.
-- `Updater.verify` (method) `modules/selfupdate.py:52` `def verify(self, artifact)` -- Return True when the payload matches its recorded digest.
-- `Updater.stage` (method) `modules/selfupdate.py:57` `def stage(self, artifact, directory)` -- Write a verified payload into ``directory``.
-- `Updater.rollback` (method) `modules/selfupdate.py:77` `def rollback(self)` -- Restore the ``<name>.old`` snapshot over the live binary.
-- `current_branch` (function) `modules/selfupdate.py:96` `def current_branch(runner)` -- Return the checked-out branch name (empty on failure).
-- `dirty` (function) `modules/selfupdate.py:102` `def dirty(runner)` -- Return True when the working tree has uncommitted changes.
-- `check` (function) `modules/selfupdate.py:108` `def check(branch, runner)` -- Fetch the branch and report ahead/behind counts.
-- `apply` (function) `modules/selfupdate.py:140` `def apply(branch, confirm, runner)` -- Fast-forward the tree to origin/<branch> when safe.
-
-## modules/session_cleanup.py
-Imported by: `lazyown.py`, `tests/test_infra_disposable.py`
-- `find_cloudflared_pids` (function) `modules/session_cleanup.py:28` `def find_cloudflared_pids(ps_output)` -- Extract PIDs of ``cloudflared tunnel`` processes from ps output.
-- `stop_cloudflared_processes` (function) `modules/session_cleanup.py:94` `def stop_cloudflared_processes()` -- Terminate stray ``cloudflared tunnel`` host processes.
-- `cleanup_ephemeral_infra` (function) `modules/session_cleanup.py:120` `def cleanup_ephemeral_infra()` -- Stop all disposable infrastructure owned by this checkout.
-
-## modules/session_rag.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
-- `_KeywordFallback.__init__` (method) `modules/session_rag.py:111` `def __init__(self)`
-- `_KeywordFallback.load` (method) `modules/session_rag.py:115` `def load(self, path)` -- Load index from disk (no-op if file absent or corrupt).
-- `_KeywordFallback.save` (method) `modules/session_rag.py:126` `def save(self, path)` -- Atomically persist index to disk.
-- `_KeywordFallback.add` (method) `modules/session_rag.py:136` `def add(self, doc_id, text, meta)`
-- `_KeywordFallback.query` (method) `modules/session_rag.py:146` `def query(self, query_text, n)`
-- `_KeywordFallback.count` (method) `modules/session_rag.py:156` `def count(self)`
-- `_KeywordFallback.reset` (method) `modules/session_rag.py:159` `def reset(self)`
-- `_RagState.load` (method) `modules/session_rag.py:172` `def load(cls)`
-- `_RagState.save` (method) `modules/session_rag.py:181` `def save(self)`
-- `SessionRAG.__init__` (method) `modules/session_rag.py:191` `def __init__(self)`
-- `SessionRAG.index_new` (method) `modules/session_rag.py:301` `def index_new(self)` -- Incrementally index only new or changed files.
-- `SessionRAG.index_parquet_sources` (method) `modules/session_rag.py:322` `def index_parquet_sources(self, force)` -- Index knowledge-base parquets (techniques_enriched, binarios, lolbas_index) into the RAG store.
-- `SessionRAG.index_all` (method) `modules/session_rag.py:411` `def index_all(self)` -- Full re-index from scratch.
-- `SessionRAG.query` (method) `modules/session_rag.py:439` `def query(self, query_text, n, collection)` -- Return top-n relevant chunks as dicts with keys: text, source, chunk, score.
-- `SessionRAG.context_for_step` (method) `modules/session_rag.py:489` `def context_for_step(self, phase, target, cmd, n)` -- Return a compact RAG context string suitable for injection into an LLM prompt.
-- `SessionRAG.stats` (method) `modules/session_rag.py:509` `def stats(self)`
-- `get_rag` (function) `modules/session_rag.py:535` `def get_rag()`
-
-## modules/session_reader.py
-Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-- `ImplantRecord.is_privileged` (method) `modules/session_reader.py:55` `def is_privileged(self)`
-- `ImplantRecord.platform` (method) `modules/session_reader.py:60` `def platform(self)`
-- `ImplantRecord.ip_list` (method) `modules/session_reader.py:69` `def ip_list(self)`
-- `SessionSummary.active_client_ids` (method) `modules/session_reader.py:94` `def active_client_ids(self)`
-- `SessionSummary.privileged_sessions` (method) `modules/session_reader.py:101` `def privileged_sessions(self)`
-- `SessionSummary.unprivileged_sessions` (method) `modules/session_reader.py:108` `def unprivileged_sessions(self)`
-- `SessionSummary.latest_for` (method) `modules/session_reader.py:114` `def latest_for(self, client_id)`
-- `SessionSummary.task_by_status` (method) `modules/session_reader.py:118` `def task_by_status(self, status)`
-- `AbstractReader.read` (method) `modules/session_reader.py:129` `def read(self, sessions_dir)`
-- `ImplantCSVReader.read` (method) `modules/session_reader.py:157` `def read(self, sessions_dir)`
-- `CommandOutputReader.read` (method) `modules/session_reader.py:199` `def read(self, sessions_dir)`
-- `DiscoveredHostReader.read` (method) `modules/session_reader.py:217` `def read(self, sessions_dir)`
-- `TaskReader.read` (method) `modules/session_reader.py:235` `def read(self, sessions_dir)`
-- `TaskWriter.__init__` (method) `modules/session_reader.py:260` `def __init__(self, sessions_dir)`
-- `TaskWriter.append` (method) `modules/session_reader.py:263` `def append(self, title, description, operator, status)`
-- `TaskWriter.update_status` (method) `modules/session_reader.py:288` `def update_status(self, task_id, status)`
-- `SessionAggregator.__init__` (method) `modules/session_reader.py:319` `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
-- `SessionAggregator.aggregate` (method) `modules/session_reader.py:331` `def aggregate(self, sessions_dir)`
-- `get_aggregator` (function) `modules/session_reader.py:347` `def get_aggregator()`
-
-## modules/session_state.py
-Imported by: `modules/recommender.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
-- `build_state` (function) `modules/session_state.py:189` `def build_state()` -- Assemble and return the current session state dict.
-- `refresh` (function) `modules/session_state.py:240` `def refresh()` -- Build state and persist to sessions/session_state.json.
-- `load` (function) `modules/session_state.py:251` `def load()` -- Return the last written state, or build it fresh if stale/missing.
-
-## modules/sidequestion.py
-Imported by: `cli/commands/ai.py`, `tests/test_autonomous_ops.py`
-- `SideQuestionService.__init__` (method) `modules/sidequestion.py:55` `def __init__(self, answer_fn, config)` -- Initialize registries with an optional answer function.
-- `SideQuestionService.capture` (method) `modules/sidequestion.py:66` `def capture(self, task_id, text)` -- Freeze main-loop context into an immutable snapshot.
-- `SideQuestionService.ask` (method) `modules/sidequestion.py:75` `def ask(self, snapshot_id, question)` -- Answer from a snapshot without touching main state.
-- `SideQuestionService.cancel` (method) `modules/sidequestion.py:104` `def cancel(self, request_id)` -- Mark a pending request cancelled.
-- `SideQuestionService.history` (method) `modules/sidequestion.py:113` `def history(self, limit, before)` -- Page request history newest first.
-
-## modules/sinks/attack_graph.py
-Depends on: `modules/attack_surface3d.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/attack_graph.py:13` `def apply(event)` -- Rebuild the attack graph and its exposure summary.
-
-## modules/sinks/beacon_dispatch.py
-Depends on: `core/config.py`, `core/hardening.py`, `modules/outcome_bus.py`, `modules/payload_factory.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/beacon_dispatch.py:46` `def apply(event)` -- Stage the catch-back command for one foothold outcome.
-
-## modules/sinks/c2_surfaces.py
-Depends on: `modules/c2_surfaces.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/c2_surfaces.py:11` `def apply(event)` -- Write the operator-visible surfaces for one outcome.
-
-## modules/sinks/campaign_db.py
-Depends on: `modules/db.py`, `modules/outcome_bus.py`
-- `apply` (function) `modules/sinks/campaign_db.py:9` `def apply(event)` -- Mirror one outcome into the campaign database.
-
-## modules/sinks/event_bus.py
-Depends on: `modules/event_bus.py`, `modules/outcome_bus.py`
-- `apply` (function) `modules/sinks/event_bus.py:9` `def apply(event)` -- Publish one event to the unified bus.
-
-## modules/sinks/intel_graph.py
-Depends on: `modules/intel_fusion.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/intel_graph.py:13` `def apply(event)` -- Rebuild the intel graph and its summary.
-
-## modules/sinks/killchain.py
-Depends on: `modules/killchain.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/killchain.py:11` `def apply(event)` -- Advance the kill-chain phase only when the outcome proves progress.
-
-## modules/sinks/objectives.py
-Depends on: `modules/outcome_bus.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/objectives.py:16` `def apply(event)` -- Append one actionable objective when the outcome warrants it.
-
-## modules/sinks/routing.py
-Depends on: `modules/lazy_intel.py`, `modules/outcome_bus.py`
-Imported by: `skills/lazyown_mcp.py`
-- `apply` (function) `modules/sinks/routing.py:9` `def apply(event)` -- Record one routing outcome for cross-task priors.
-
-## modules/sinks/world_diff.py
-Depends on: `modules/lazy_world_diff.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `tests/test_outcome_bus.py`
-- `apply` (function) `modules/sinks/world_diff.py:14` `def apply(event)` -- Diff one host's world snapshot and record the changes.
-
-## modules/sinks/world_model.py
-Depends on: `modules/obs_parser.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- `apply` (function) `modules/sinks/world_model.py:12` `def apply(event)` -- Write one outcome into the world model.
-
-## modules/sleep_obfuscation.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `tests/test_sleep_obfuscation.py`
-- `SleepObfuscationConfig.to_dict` (method) `modules/sleep_obfuscation.py:129` `def to_dict(self)` -- Serialize to dictionary.
-- `SleepObfuscationConfig.from_dict` (method) `modules/sleep_obfuscation.py:146` `def from_dict(cls, raw)` -- Build from dictionary.
-- `SleepTechniqueCatalog.__init__` (method) `modules/sleep_obfuscation.py:170` `def __init__(self)`
-- `SleepTechniqueCatalog.register` (method) `modules/sleep_obfuscation.py:173` `def register(self, technique)` -- Register a technique in the catalog.
-- `SleepTechniqueCatalog.get` (method) `modules/sleep_obfuscation.py:177` `def get(self, name)` -- Retrieve a technique by name.
-- `SleepTechniqueCatalog.list_all` (method) `modules/sleep_obfuscation.py:184` `def list_all(self)` -- Return all registered techniques sorted by detection resistance.
-- `SleepTechniqueCatalog.list_by_platform` (method) `modules/sleep_obfuscation.py:192` `def list_by_platform(self, platform)` -- Return techniques supported on a given platform.
-- `SleepTechniqueCatalog.list_names` (method) `modules/sleep_obfuscation.py:196` `def list_names(self)` -- Return sorted list of technique names.
-- `SleepTechniqueValidator.validate` (method) `modules/sleep_obfuscation.py:369` `def validate(config, technique)` -- Validate config against a technique definition.
-- `SleepTechniqueValidator.validate_config` (method) `modules/sleep_obfuscation.py:386` `def validate_config(config)` -- Validate the config itself for internal consistency.
-- `SleepObfuscationEngine.__init__` (method) `modules/sleep_obfuscation.py:407` `def __init__(self, catalog)`
-- `SleepObfuscationEngine.catalog` (method) `modules/sleep_obfuscation.py:416` `def catalog(self)` -- Return the technique catalog.
-- `SleepObfuscationEngine.config` (method) `modules/sleep_obfuscation.py:421` `def config(self)` -- Return the active runtime configuration.
-- `SleepObfuscationEngine.detection_resistance` (method) `modules/sleep_obfuscation.py:426` `def detection_resistance(self)` -- Return the detection resistance score of the active technique.
-- `SleepObfuscationEngine.select` (method) `modules/sleep_obfuscation.py:442` `def select(self, technique_name)` -- Select a technique from the catalog.
-- `SleepObfuscationEngine.configure` (method) `modules/sleep_obfuscation.py:449` `def configure(self, technique, overrides)` -- Build a validated SleepObfuscationConfig for a technique.
-- `SleepObfuscationEngine.validate` (method) `modules/sleep_obfuscation.py:484` `def validate(self, config)` -- Validate configuration against the active technique.
-- `SleepObfuscationEngine.recommend` (method) `modules/sleep_obfuscation.py:500` `def recommend(self, platform)` -- Recommend techniques for a platform sorted by detection resistance.
-- `SleepObfuscationEngine.to_dict` (method) `modules/sleep_obfuscation.py:513` `def to_dict(self)` -- Serialize the entire engine state to a dictionary.
-- `SleepObfuscationEngine.from_dict` (method) `modules/sleep_obfuscation.py:522` `def from_dict(cls, raw)` -- Build an engine from a serialized state dictionary.
-
-## modules/socks_proxy.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
-- `SocksReply.message` (method) `modules/socks_proxy.py:103` `def message(self)` -- Return a human-readable message for this reply code.
-- `SocksSession.elapsed_seconds` (method) `modules/socks_proxy.py:144` `def elapsed_seconds(self)` -- Return seconds since session creation.
-- `SocksSession.to_dict` (method) `modules/socks_proxy.py:150` `def to_dict(self)` -- Serialize session to dictionary.
-- `SocksProxyConfig.to_dict` (method) `modules/socks_proxy.py:199` `def to_dict(self)` -- Serialize config to dictionary.
-- `SocksProxyConfig.from_dict` (method) `modules/socks_proxy.py:218` `def from_dict(cls, raw)` -- Build config from dictionary.
-- `SocksValidator.validate_config` (method) `modules/socks_proxy.py:253` `def validate_config(config)` -- Validate a SocksProxyConfig and return error messages.
-- `SocksValidator.validate_request` (method) `modules/socks_proxy.py:300` `def validate_request(command, address_type, host, port, config)` -- Validate a SOCKS5 request against the proxy configuration.
-- `SocksProxyEngine.__init__` (method) `modules/socks_proxy.py:381` `def __init__(self, config)`
-- `SocksProxyEngine.config` (method) `modules/socks_proxy.py:387` `def config(self)` -- Return the current proxy configuration.
-- `SocksProxyEngine.sessions` (method) `modules/socks_proxy.py:392` `def sessions(self)` -- Return active proxied sessions.
-- `SocksProxyEngine.session_count` (method) `modules/socks_proxy.py:397` `def session_count(self)` -- Return the number of active sessions.
-- `SocksProxyEngine.validate` (method) `modules/socks_proxy.py:401` `def validate(self, config)` -- Validate the configuration.
-- `SocksProxyEngine.build_spec` (method) `modules/socks_proxy.py:413` `def build_spec(self)` -- Build a JSON-serializable proxy specification for beacon delivery.
-- `SocksProxyEngine.create_session` (method) `modules/socks_proxy.py:436` `def create_session(self, session_id, target_host, target_port, beacon_client_id)` -- Create and track a new proxied session.
-- `SocksProxyEngine.remove_session` (method) `modules/socks_proxy.py:475` `def remove_session(self, session_id)` -- Remove a session by ID.
-- `SocksProxyEngine.get_session` (method) `modules/socks_proxy.py:482` `def get_session(self, session_id)` -- Return a session by ID, or None.
-- `SocksProxyEngine.add_bytes` (method) `modules/socks_proxy.py:486` `def add_bytes(self, session_id, sent, received)` -- Update byte counters for a session.
-- `SocksProxyEngine.cleanup_expired` (method) `modules/socks_proxy.py:497` `def cleanup_expired(self)` -- Remove sessions that have exceeded the timeout.
-- `SocksProxyEngine.list_sessions` (method) `modules/socks_proxy.py:511` `def list_sessions(self)` -- Return a list of all active sessions as dictionaries.
-- `SocksProxyEngine.from_dict` (method) `modules/socks_proxy.py:522` `def from_dict(cls, raw)` -- Build a SocksProxyEngine from a configuration dictionary.
-- `SocksProxyEngine.from_payload` (method) `modules/socks_proxy.py:528` `def from_payload(cls, payload)` -- Build a SocksProxyEngine from a LazyOwn payload configuration.
-
-## modules/staged_delivery.py
-Imported by: `cli/commands/payload_arsenal.py`
-- `StagedDeliveryFactory.__init__` (method) `modules/staged_delivery.py:83` `def __init__(self, config, output_dir)`
-- `StagedDeliveryFactory.generate_hta` (method) `modules/staged_delivery.py:134` `def generate_hta(self)` -- Generate an HTA (HTML Application) dropper.
-- `StagedDeliveryFactory.generate_vba_macro` (method) `modules/staged_delivery.py:171` `def generate_vba_macro(self)` -- Generate a VBA macro for Office documents (Word/Excel).
-- `StagedDeliveryFactory.generate_xlm_macro` (method) `modules/staged_delivery.py:219` `def generate_xlm_macro(self)` -- Generate an Excel 4.0 (XLM) macro for legacy macro execution.
-- `StagedDeliveryFactory.generate_lnk` (method) `modules/staged_delivery.py:237` `def generate_lnk(self)` -- Generate a Windows .lnk shortcut file with embedded command execution.
-- `StagedDeliveryFactory.generate_iso` (method) `modules/staged_delivery.py:301` `def generate_iso(self, inner_files)` -- Generate an ISO 9660 image with an embedded payload autorun.
-- `StagedDeliveryFactory.generate_vhd` (method) `modules/staged_delivery.py:370` `def generate_vhd(self, inner_files)` -- Generate a VHD (Virtual Hard Disk) image with embedded payloads.
-- `StagedDeliveryFactory.generate_all` (method) `modules/staged_delivery.py:420` `def generate_all(self)` -- Generate all delivery formats for the current configuration.
-- `StagedDeliveryFactory.generate_phishing_page` (method) `modules/staged_delivery.py:460` `def generate_phishing_page(self, template)` -- Generate a credential harvesting HTML page.
-
-## modules/state_manager.py
-Depends on: `core/logging.py`, `modules/db.py`, `modules/event_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `lazyown.py`, `modules/conditional_hooks.py`, `modules/event_consumers.py`, `modules/unified_bridge.py`, `tests/test_single_source_of_truth.py`
-- `StateManager.__init__` (method) `modules/state_manager.py:107` `def __init__(self, db_path, sessions_dir, world_model_path, facts_path)`
-- `StateManager.instance` (method) `modules/state_manager.py:129` `def instance(cls)`
-- `StateManager.db` (method) `modules/state_manager.py:137` `def db(self)`
-- `StateManager.workspace_id` (method) `modules/state_manager.py:146` `def workspace_id(self)`
-- `StateManager.set_payload` (method) `modules/state_manager.py:165` `def set_payload(self, payload)`
-- `StateManager.close` (method) `modules/state_manager.py:202` `def close(self)`
-- `StateManager.add_host` (method) `modules/state_manager.py:213` `def add_host(self, address, mac, hostname, os, state)`
-- `StateManager.get_host` (method) `modules/state_manager.py:236` `def get_host(self, address)`
-- `StateManager.list_hosts` (method) `modules/state_manager.py:245` `def list_hosts(self)`
-- `StateManager.advance_host` (method) `modules/state_manager.py:249` `def advance_host(self, address, new_state)`
-- `StateManager.delete_host` (method) `modules/state_manager.py:275` `def delete_host(self, address)`
-- `StateManager.add_service` (method) `modules/state_manager.py:287` `def add_service(self, host_address, port, protocol, name, product, version, state)`
-- `StateManager.list_services` (method) `modules/state_manager.py:319` `def list_services(self, host_address)`
-- `StateManager.add_credential` (method) `modules/state_manager.py:328` `def add_credential(self, host_address, username, password, realm, cred_type, origin)`
-- `StateManager.list_credentials` (method) `modules/state_manager.py:362` `def list_credentials(self, host_address)`
-- `StateManager.add_vulnerability` (method) `modules/state_manager.py:373` `def add_vulnerability(self, host_address, name, severity, description, refs)`
-- `StateManager.list_vulnerabilities` (method) `modules/state_manager.py:398` `def list_vulnerabilities(self, host_address, severity)`
-- `StateManager.add_loot` (method) `modules/state_manager.py:411` `def add_loot(self, name, loot_type, path, notes, host_address)`
-- `StateManager.list_loot` (method) `modules/state_manager.py:444` `def list_loot(self)`
-- `StateManager.add_note` (method) `modules/state_manager.py:450` `def add_note(self, data, note_type, host_address)`
-- `StateManager.list_notes` (method) `modules/state_manager.py:473` `def list_notes(self)`
-- `StateManager.import_nmap_xml` (method) `modules/state_manager.py:479` `def import_nmap_xml(self, xml_path)`
-- `StateManager.import_nmap_from_facts` (method) `modules/state_manager.py:495` `def import_nmap_from_facts(self, facts)` -- Import hosts and services from a FactStore-style facts dict into DB.
-- `StateManager.status` (method) `modules/state_manager.py:550` `def status(self)`
-- `StateManager.get_world_model_cache` (method) `modules/state_manager.py:666` `def get_world_model_cache(self)`
-- `StateManager.load_world_model` (method) `modules/state_manager.py:672` `def load_world_model(self)` -- Return a WorldModel instance populated from DB state.
-- `StateManager.session_snapshot` (method) `modules/state_manager.py:713` `def session_snapshot(self)`
-- `StateManager.export_csv` (method) `modules/state_manager.py:817` `def export_csv(self, table)`
-- `StateManager.export_summary` (method) `modules/state_manager.py:821` `def export_summary(self)`
-- `get_state_manager` (function) `modules/state_manager.py:836` `def get_state_manager()`
-
-## modules/stego_video.py
-- `load_payload_file` (function) `modules/stego_video.py:26` `def load_payload_file()` -- Return the ``file`` value from payload.json, or None.
-- `is_zip` (function) `modules/stego_video.py:36` `def is_zip(path)`
-- `is_video` (function) `modules/stego_video.py:40` `def is_video(path)`
-- `prompt_path` (function) `modules/stego_video.py:44` `def prompt_path(message)`
-- `resolve_path` (function) `modules/stego_video.py:52` `def resolve_path(arg_path, payload_file, validator, kind)` -- Resolve the target path using argument -> payload.json -> interactive prompt.
-- `generate_carrier` (function) `modules/stego_video.py:61` `def generate_carrier(output)` -- Generate a silent carrier video with ffmpeg.
-- `encode` (function) `modules/stego_video.py:75` `def encode(zip_path, output_video)` -- Hide zip_path inside output_video.
-- `decode` (function) `modules/stego_video.py:93` `def decode(stego_video, output_zip)` -- Extract the hidden zip from stego_video into output_zip.
-- `default_output` (function) `modules/stego_video.py:113` `def default_output(zip_path)`
-- `main` (function) `modules/stego_video.py:118` `def main(argv)`
-
-## modules/sudo_tiocsti.py
-Depends on: `core/logging.py`
-- `get_controlling_tty` (function) `modules/sudo_tiocsti.py:52` `def get_controlling_tty()` -- Return (file_descriptor, tty_path) for the controlling terminal.
-- `inject_byte` (function) `modules/sudo_tiocsti.py:64` `def inject_byte(fd, byte_char)` -- Inject a single byte via TIOCSTI; return success status.
-- `inject_payload` (function) `modules/sudo_tiocsti.py:79` `def inject_payload(fd, payload, char_delay)` -- Inject a multi‑character payload.
-- `get_sudo_pids_on_tty` (function) `modules/sudo_tiocsti.py:102` `def get_sudo_pids_on_tty(tty_path)` -- Return a list of PIDs that are running 'sudo' and have the same controlling terminal as the given tty_path.
-- `sudo_cache_valid` (function) `modules/sudo_tiocsti.py:139` `def sudo_cache_valid()` -- Return True if sudo credentials are cached (i.e., sudo -n succeeds).
-- `mode_poll` (function) `modules/sudo_tiocsti.py:149` `def mode_poll(fd, tty_path)` -- Poll for sudo processes; inject payload when sudo exits.
-- `mode_prefill` (function) `modules/sudo_tiocsti.py:175` `def mode_prefill(fd)` -- Inject payload repeatedly, regardless of sudo state.
-- `mode_cache` (function) `modules/sudo_tiocsti.py:185` `def mode_cache(fd)` -- Check sudo cache; if valid, inject sudo -i once.
-- `main` (function) `modules/sudo_tiocsti.py:198` `def main()`
-
-## modules/surface_ops.py
-Depends on: `modules/world_model.py`
-Imported by: `cli/commands/surface.py`, `tests/test_estorides_fusion.py`
-- `is_ipv4` (function) `modules/surface_ops.py:18` `def is_ipv4(value)` -- Return True for dotted-quad IPv4 literals with 0-255 octets.
-- `parse_confirm` (function) `modules/surface_ops.py:26` `def parse_confirm(answer)` -- Return True for an affirmative scan confirmation answer.
-- `discovery_targets` (function) `modules/surface_ops.py:31` `def discovery_targets(sessions_dir)` -- List every discovery IP across the sessions discovery files.
-- `write_world_model_hosts` (function) `modules/surface_ops.py:50` `def write_world_model_hosts(document, sessions)` -- Append unknown estorides host IPs to world_model.json hosts.
-
-## modules/threat_model.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/mcp_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-- `ThreatModelBuilder.build` (method) `modules/threat_model.py:270` `def build(self)`
-- `ThreatModelBuilder.load` (method) `modules/threat_model.py:293` `def load(self)`
-- `get_builder` (function) `modules/threat_model.py:592` `def get_builder()`
-
-## modules/timeline_narrator.py
-Depends on: `modules/ai_fallback.py`
-Imported by: `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
-- `narrate` (function) `modules/timeline_narrator.py:130` `def narrate(api_key, force)` -- Generate and return the timeline narrative.
-- `load_timeline` (function) `modules/timeline_narrator.py:165` `def load_timeline()` -- Return the last written timeline.md or empty string.
-
-## modules/timestomper.py
-Imported by: `cli/commands/opsec_cleanup.py`
-- `Timestomper.__init__` (method) `modules/timestomper.py:106` `def __init__(self, config)`
-- `Timestomper.windows_timestomp_powershell` (method) `modules/timestomper.py:110` `def windows_timestomp_powershell(self)` -- Generate PowerShell commands for Windows file timestomping.
-- `Timestomper.windows_timestomp_c` (method) `modules/timestomper.py:152` `def windows_timestomp_c(self)` -- Generate C code for Windows timestomping via SetFileTime API.
-- `Timestomper.linux_timestomp_commands` (method) `modules/timestomper.py:200` `def linux_timestomp_commands(self)` -- Generate Linux commands for file timestomping.
-- `Timestomper.macos_timestomp_commands` (method) `modules/timestomper.py:241` `def macos_timestomp_commands(self)` -- Generate macOS commands for file timestomping.
-- `Timestomper.generate_random_timestamps` (method) `modules/timestomper.py:280` `def generate_random_timestamps(self, reference_ts, window_days)` -- Generate randomized timestamps within a window around the reference.
-- `Timestomper.verify_timestamps` (method) `modules/timestomper.py:300` `def verify_timestamps(self, target_paths)` -- Verify timestamps on target files after modification.
-- `Timestomper.summary` (method) `modules/timestomper.py:326` `def summary(self)` -- Return a summary of available timestomping capabilities.
-
-## modules/tools/loop_smoke.py
-Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`
-- `FakeShell.onecmd_plus_hooks` (method) `modules/tools/loop_smoke.py:25` `def onecmd_plus_hooks(self, command)` -- Emit recognizable output for every routed verb.
-- `FakeEngine.__init__` (method) `modules/tools/loop_smoke.py:36` `def __init__(self)` -- Bind a sandboxed task store and runtime tracker.
-- `FakeEngine.bind_shell` (method) `modules/tools/loop_smoke.py:44` `def bind_shell(self, shell)` -- Record the bound shell (runner contract).
-- `FakeEngine.set_concurrency` (method) `modules/tools/loop_smoke.py:48` `def set_concurrency(self, value)` -- Accept the concurrency knob without scheduling anything.
-- `FakeEngine.create_task` (method) `modules/tools/loop_smoke.py:52` `def create_task(self, goal, description)` -- Create the task record and return its id.
-- `FakeEngine.orchestrate` (method) `modules/tools/loop_smoke.py:56` `def orchestrate(self)` -- Run the injected executor once and report a done summary.
-- `run` (function) `modules/tools/loop_smoke.py:77` `def run()` -- Run the smoke and return ``{"ok": bool, "checks": {...}, "result": {...}}``.
-- `main` (function) `modules/tools/loop_smoke.py:114` `def main()` -- CLI entry point: print the checks and exit 0/1.
-
-## modules/tools/monitor_smoke.py
-Depends on: `cli/lazy_monitor.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
-- `run` (function) `modules/tools/monitor_smoke.py:20` `def run()` -- Run the monitor smoke and return ``{"ok": bool, "checks": {...}}``.
-- `main` (function) `modules/tools/monitor_smoke.py:59` `def main()` -- CLI entry point: print the checks and exit 0/1.
-
-## modules/toolset.py
-Imported by: `skills/autonomous_daemon.py`
-- `builtin_seeds` (function) `modules/toolset.py:35` `def builtin_seeds()` -- Return the default graph-tool catalog (handlers stay in code).
-- `resolve` (function) `modules/toolset.py:72` `def resolve(agent, tool_key)` -- Return the seed when bound to agent, else None (LAZY ToolResolve).
-- `extract_tool` (function) `modules/toolset.py:105` `def extract_tool(command)` -- Split tool name with shlex; flag shell metacharacters.
-- `validate_shell` (function) `modules/toolset.py:128` `def validate_shell(role, command)` -- Check a shell command against the role allowlist.
 
 
 Next: [API_p18.md](API_p18.md)

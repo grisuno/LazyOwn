@@ -339,7 +339,7 @@ Usage:
 
 Manual execution:
 1. Ensure that the `gospider` tool is installed on the system.
-2. assign the `url` parameter if using the "url" mode.
+2. assign the [`url`](modules.lazy_oob.py.md#url) parameter if using the "url" mode.
 3. Run the method to perform the spidering operation.
 
 Dependencies:

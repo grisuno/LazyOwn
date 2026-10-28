@@ -1,27 +1,90 @@
-# Subsystem: modules (page 4 of 16)
+# Subsystem: modules (page 4 of 17)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
+
+## modules/config_store.py
+- Doc: Thread-safe singleton facade over core.config for payload.json.
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `init` (function, line 36) `def init(path, watch)`
+  - `get_config` (function, line 53) `def get_config(key, default)`
+  - `set_config` (function, line 66) `def set_config()`
+  - `set_config_dict` (function, line 80) `def set_config_dict(updates)`
+  - `reload_config` (function, line 90) `def reload_config()`
+  - `stop_watcher` (function, line 96) `def stop_watcher()`
+  - `_ensure_loaded` (function, line 106) `def _ensure_loaded()`
+  - `_load` (function, line 113) `def _load()`
+  - `_persist` (function, line 131) `def _persist()`
+  - `_start_watcher` (function, line 143) `def _start_watcher(interval)`
+  - `_watch_loop` (function, line 148) `def _watch_loop()`
+- Depends on: `core/config.py`, `core/logging.py`
+- Imported by: `tests/test_core_modules.py`
+
+## modules/credential_reuse.py
+- Doc: Credential Reuse Engine for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReuseCandidate` (class, line 32) `class ReuseCandidate`
+  - `CredentialReuseEngine` (class, line 55) `class CredentialReuseEngine`
+  - `get_credential_reuse_engine` (function, line 358) `def get_credential_reuse_engine()`
+  - `to_dict` (method, line 43) `def to_dict(self)`
+  - `__init__` (method, line 80) `def __init__(self)`
+  - `_load_cache` (method, line 85) `def _load_cache(self)`
+  - `_save_cache` (method, line 95) `def _save_cache(self)`
+  - `mark_failed` (method, line 107) `def mark_failed(self, username, password, host)`
+  - `mark_confirmed` (method, line 112) `def mark_confirmed(self, username, password, host)`
+  - `_subnet_distance` (method, line 118) `def _subnet_distance(self, ip_a, ip_b)`
+  - `_score_candidate` (method, line 144) `def _score_candidate(self, username, password, source_host, target_host, target_services)`
+  - `_build_command` (method, line 196) `def _build_command(self, username, password, host, target_services)`
+  - `rank` (method, line 226) `def rank(self, hosts, creds, host_services, limit)`
+  - `suggest_from_state_manager` (method, line 278) `def suggest_from_state_manager(self, state_manager, limit)`
+  - `suggest_from_world_model` (method, line 308) `def suggest_from_world_model(self, world_model, limit)`
+  - `get_summary` (method, line 338) `def get_summary(self, candidates)`
+- Depends on: `core/logging.py`
+- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `modules/conditional_hooks.py`
+
+## modules/cross_cloud.py
+- Doc: Cross-cloud identity paths — multi-cloud identity federation abuse.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CrossCloudConfig` (class, line 30) `class CrossCloudConfig`
+  - `CrossCloudAttackEngine` (class, line 54) `class CrossCloudAttackEngine`
+  - `__init__` (method, line 64) `def __init__(self, config)`
+  - `azure_saml_to_aws` (method, line 67) `def azure_saml_to_aws(self)`
+  - `gcp_oidc_to_azure` (method, line 104) `def gcp_oidc_to_azure(self)`
+  - `aws_oidc_to_gcp` (method, line 133) `def aws_oidc_to_gcp(self)`
+  - `multi_cloud_imds_harvesting` (method, line 167) `def multi_cloud_imds_harvesting(self)`
+  - `entra_id_to_gcp_workforce_federation` (method, line 204) `def entra_id_to_gcp_workforce_federation(self)`
+  - `detect_cross_cloud_federation` (method, line 234) `def detect_cross_cloud_federation(self)`
+  - `summary` (method, line 258) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
 
 ## modules/ctf_capture.py
 - Doc: CTF capture verification for gym attack paths.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `output_dir` (function, line 32) `def output_dir(sessions_dir)`
-  - `_check_root_shell` (function, line 45) `def _check_root_shell(output)`
-  - `_check_shadow_dump` (function, line 58) `def _check_shadow_dump(output)`
-  - `_check_credentials` (function, line 78) `def _check_credentials(output)`
-  - `_check_windows_os_enum` (function, line 96) `def _check_windows_os_enum(output)`
-  - `_check_defense_report` (function, line 115) `def _check_defense_report(output)`
-  - `_check_eventlog_rows` (function, line 128) `def _check_eventlog_rows(output)`
-  - `capture` (function, line 151) `def capture(vuln_id, target, output, sessions_dir, catalogue)`
-  - `_publish_capture_outcome` (function, line 209) `def _publish_capture_outcome(record)`
-  - `record_path` (function, line 232) `def record_path(vuln_id, sessions_dir)`
-  - `_safe_dir` (function, line 245) `def _safe_dir(vuln_id)`
-  - `store_record` (function, line 258) `def store_record(record, sessions_dir)`
-  - `list_records` (function, line 276) `def list_records(sessions_dir)`
-  - `summary` (function, line 299) `def summary(sessions_dir)`
-  - `_gather_evidence` (function, line 326) `def _gather_evidence(candidates)`
-  - `_cli_capture` (function, line 350) `def _cli_capture(argv)`
+  - `output_dir` (function, line 36) `def output_dir(sessions_dir)`
+  - `_check_root_shell` (function, line 49) `def _check_root_shell(output)`
+  - `_check_shadow_dump` (function, line 62) `def _check_shadow_dump(output)`
+  - `_check_credentials` (function, line 82) `def _check_credentials(output)`
+  - `_check_windows_os_enum` (function, line 100) `def _check_windows_os_enum(output)`
+  - `_check_defense_report` (function, line 119) `def _check_defense_report(output)`
+  - `_check_eventlog_rows` (function, line 132) `def _check_eventlog_rows(output)`
+  - `_check_kerberos_ticket` (function, line 145) `def _check_kerberos_ticket(output)`
+  - `_check_domain_enum` (function, line 158) `def _check_domain_enum(output)`
+  - `_check_smb_shares` (function, line 171) `def _check_smb_shares(output)`
+  - `capture` (function, line 197) `def capture(vuln_id, target, output, sessions_dir, catalogue)`
+  - `_publish_capture_outcome` (function, line 255) `def _publish_capture_outcome(record)`
+  - `record_path` (function, line 278) `def record_path(vuln_id, sessions_dir)`
+  - `_safe_dir` (function, line 291) `def _safe_dir(vuln_id)`
+  - `store_record` (function, line 304) `def store_record(record, sessions_dir)`
+  - `list_records` (function, line 322) `def list_records(sessions_dir)`
+  - `summary` (function, line 345) `def summary(sessions_dir)`
+  - `_gather_evidence` (function, line 372) `def _gather_evidence(candidates)`
+  - `_cli_capture` (function, line 396) `def _cli_capture(argv)`
 - Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
 
 ## modules/custom_tools.py
@@ -414,80 +477,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Doc: Solicita el TOKEN y el DOMAIN al usuario
 - Layer: utility
 - Language: sh
-
-## modules/edr_detector.py
-- Doc: EDR/AV Detection and Evasion Profiling Engine.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EDRFinding` (class, line 174) `class EDRFinding`
-  - `EDRProfile` (class, line 182) `class EDRProfile`
-  - `EDRDetector` (class, line 191) `class EDRDetector`
-  - `detect_local` (method, line 202) `def detect_local()`
-  - `detect_remote_commands` (method, line 221) `def detect_remote_commands(remote_type)`
-  - `_local_processes` (method, line 292) `def _local_processes()`
-  - `_local_services` (method, line 305) `def _local_services()`
-  - `_local_drivers` (method, line 322) `def _local_drivers()`
-  - `_match_signatures` (method, line 335) `def _match_signatures(profile)`
-  - `_generate_recommendations` (method, line 370) `def _generate_recommendations(profile)`
-  - `_severity` (method, line 428) `def _severity(profile)`
-  - `generate_edr_check_script` (method, line 440) `def generate_edr_check_script(remote_type)`
-- Imported by: `cli/commands/edr_detect.py`
-
-## modules/eegg.sh
-- Doc: Definición de colores
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `init_board` (function, line 26)
-  - `show_board` (function, line 40)
-  - `move_white_pawns` (function, line 61)
-  - `move_black_pawns` (function, line 78)
-
-## modules/emulation_runner.py
-- Doc: Single execution contract for Atomic emulation.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EmulationStep` (class, line 28) `class EmulationStep`
-  - `EmulationResult` (class, line 40) `class EmulationResult`
-  - `EmulationReport` (class, line 69) `class EmulationReport`
-  - `EmulationRunner` (class, line 105) `class EmulationRunner`
-  - `to_dict` (method, line 53) `def to_dict(self)`
-  - `executed` (method, line 81) `def executed(self)`
-  - `shell` (method, line 86) `def shell(self)`
-  - `to_dict` (method, line 90) `def to_dict(self)`
-  - `__init__` (method, line 108) `def __init__(self, resolver, sessions_dir, shell_opener, remote_exec_fn, playbook_loader, outcome_recorder...`
-  - `_resolver_obj` (method, line 127) `def _resolver_obj(self)`
-  - `_playbook` (method, line 135) `def _playbook(self, name)`
-  - `_open_shell` (method, line 143) `def _open_shell(self, target, services, lhost, exploits_dir)`
-  - `_exec` (method, line 151) `def _exec(self, spec, target, command, lhost)`
-  - `_detect` (method, line 159) `def _detect(self, spec, output)`
-  - `_record` (method, line 170) `def _record(self)`
-  - `techniques_for_playbook` (method, line 182) `def techniques_for_playbook(self, playbook, platform)`
-  - `run` (method, line 202) `def run(self, target, techniques, playbook, platform, lhost, per_technique, include_manual, dry_run, executor...`
-  - `run_steps` (method, line 321) `def run_steps(self, steps, target, executor, platform, dry_run, source)`
-  - `_run_test` (method, line 399) `def _run_test(self, test, technique, target, spec, lhost, executor, dry_run, include_manual, report, sessions)`
-  - `_publish` (method, line 450) `def _publish(self, result, target, source, dry_run, sessions)`
-  - `_stage` (method, line 482) `def _stage(self, report, sessions)`
-- Depends on: `core/logging.py`, `modules/apt_playbooks.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/outcome_bus.py`
-- Imported by: `modules/atomic_exploit_bridge.py`, `modules/playbook_engine.py`, `tests/test_emulation_runner.py`
-
-## modules/engage_summary.py
-- Doc: Rich per-step engagement summaries from evidence and sessions artefacts.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `marker_lines` (function, line 35) `def marker_lines(text, limit)`
-  - `full_output` (function, line 51) `def full_output(step, sessions_dir)`
-  - `held_scan_ports` (function, line 64) `def held_scan_ports(target, sessions_dir)`
-  - `detail_for` (function, line 98) `def detail_for(tool, text, target, sessions_dir)`
-  - `next_actions` (function, line 150) `def next_actions(target, sessions_dir, limit)`
-  - `render_text` (function, line 175) `def render_text(engagement_id, target, shell, steps, sessions_dir)`
-  - `render_markdown` (function, line 210) `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)`
-  - `write_report` (function, line 247) `def write_report(engagement_id, target, shell, steps, sessions_dir)`
-- Depends on: `cli/recommendation_signals.py`, `modules/enrich.py`, `modules/evidence.py`
-- Imported by: `skills/unified_orchestrator.py`, `tests/test_engage_summary.py`
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

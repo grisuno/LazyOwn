@@ -3,6 +3,12 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_output` | function | `lazyc2.py:5169` | `def get_output()` |
+| `get_request_details` | function | `lazyc2.py:2293` | `def get_request_details()` |
+| `get_results` | function | `lazyc2.py:5205` | `def get_results()` |
+| `get_safe_file_path` | function | `lazyc2.py:2446` | `def get_safe_file_path(user_path)` |
+| `get_tasks` | function | `lazyc2.py:5613` | `def get_tasks()` |
+| `graph` | function | `lazyc2.py:5589` | `def graph()` |
 | `handle_client` | function | `lazyc2.py:2036` | `def handle_client(client_socket, remote_host, remote_port)` |
 | `handle_input` | function | `lazyc2.py:7381` | `def handle_input(data)` |
 | `health_check` | function | `lazyc2.py:8652` | `def health_check()` |
@@ -490,11 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `_apply_visuals` | method | `lazygui/panels/killchain_panel.py:128` | `def _apply_visuals(self)` |
 | `_build_ui` | method | `lazygui/panels/killchain_panel.py:62` | `def _build_ui(self)` |
 | `_get_phases` | function | `lazygui/panels/killchain_panel.py:23` | `def _get_phases()` |
-| `_refresh` | method | `lazygui/panels/killchain_panel.py:96` | `def _refresh(self)` |
-| `ListenersPanel` | class | `lazygui/panels/listeners_panel.py:21` | `class ListenersPanel(PanelBase)` |
-| `__init__` | method | `lazygui/panels/listeners_panel.py:24` | `def __init__(self, constants, backend, parent)` |
-| `_matches_filter` | method | `lazygui/panels/listeners_panel.py:95` | `def _matches_filter(self, listener)` |
-| `_on_filter_changed` | method | `lazygui/panels/listeners_panel.py:70` | `def _on_filter_changed(self, text)` |
-| `_on_listeners_changed` | method | `lazygui/panels/listeners_panel.py:65` | `def _on_listeners_changed(self, listeners)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

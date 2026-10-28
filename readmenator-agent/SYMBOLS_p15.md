@@ -3,6 +3,25 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parse_args` | function | `modules/ia_logs_analysis.py:168` | `def parse_args()` |
+| `start_monitoring` | function | `modules/ia_logs_analysis.py:147` | `def start_monitoring(log_dir, mode)` |
+| `analyze_with_deepseek` | function | `modules/ia_network_analysis.py:39` | `def analyze_with_deepseek(packet_info, mode)` |
+| `packet_callback` | function | `modules/ia_network_analysis.py:91` | `def packet_callback(packet, mode)` |
+| `parse_args` | function | `modules/ia_network_analysis.py:154` | `def parse_args()` |
+| `start_monitoring` | function | `modules/ia_network_analysis.py:130` | `def start_monitoring(interface, timeout, mode)` |
+| `imagen_a_binario` | function | `modules/img2bin.py:7` | `def imagen_a_binario(imagen_input, binario_output, block_size)` |
+| `main` | function | `modules/img2bin.py:43` | `def main()` |
+| `CVEMapper` | class | `modules/integrations/misp_export.py:143` | `class CVEMapper(FindingMapper)` |
+| `CredentialMapper` | class | `modules/integrations/misp_export.py:123` | `class CredentialMapper(FindingMapper)` |
+| `DomainMapper` | class | `modules/integrations/misp_export.py:163` | `class DomainMapper(FindingMapper)` |
+| `FindingMapper` | class | `modules/integrations/misp_export.py:86` | `class FindingMapper(ABC)` |
+| `HashMapper` | class | `modules/integrations/misp_export.py:183` | `class HashMapper(FindingMapper)` |
+| `IPMapper` | class | `modules/integrations/misp_export.py:103` | `class IPMapper(FindingMapper)` |
+| `MISPAttribute` | class | `modules/integrations/misp_export.py:59` | `class MISPAttribute` |
+| `MISPEvent` | class | `modules/integrations/misp_export.py:70` | `class MISPEvent` |
+| `MISPExporter` | class | `modules/integrations/misp_export.py:254` | `class MISPExporter` |
+| `ServiceMapper` | class | `modules/integrations/misp_export.py:218` | `class ServiceMapper(FindingMapper)` |
+| `_DictFinding` | class | `modules/integrations/misp_export.py:498` | `class _DictFinding` |
 | `__init__` | method | `modules/integrations/misp_export.py:263` | `def __init__(self, mappers)` |
 | `__init__` | method | `modules/integrations/misp_export.py:501` | `def __init__(self, data)` |
 | `_detect_type` | method | `modules/integrations/misp_export.py:211` | `def _detect_type(value)` |
@@ -330,24 +349,25 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `ReverseShellApp` | class | `modules/kivi.py:11` | `class ReverseShellApp(App)` |
 | `build` | method | `modules/kivi.py:12` | `def build(self)` |
 | `connect_to_server` | method | `modules/kivi.py:27` | `def connect_to_server(self, instance)` |
-| `_docker` | function | `modules/lab_runtime.py:95` | `def _docker()` |
-| `_docker_compose` | function | `modules/lab_runtime.py:349` | `def _docker_compose(args)` |
-| `apply_gym_migrations` | function | `modules/lab_runtime.py:185` | `def apply_gym_migrations(name)` |
-| `container_ip` | function | `modules/lab_runtime.py:157` | `def container_ip(container_name)` |
-| `container_name` | function | `modules/lab_runtime.py:152` | `def container_name(scenario)` |
-| `docker_available` | function | `modules/lab_runtime.py:81` | `def docker_available()` |
-| `ensure_range_secret` | function | `modules/lab_runtime.py:357` | `def ensure_range_secret(profile_dir)` |
-| `ensure_web` | function | `modules/lab_runtime.py:171` | `def ensure_web(scenario, name)` |
-| `existing_containers` | function | `modules/lab_runtime.py:119` | `def existing_containers()` |
-| `range_compose` | function | `modules/lab_runtime.py:277` | `def range_compose(profile)` |
-| `running_containers` | function | `modules/lab_runtime.py:103` | `def running_containers()` |
-| `running_range_containers` | function | `modules/lab_runtime.py:136` | `def running_range_containers()` |
-| `start` | function | `modules/lab_runtime.py:193` | `def start(scenario)` |
-| `start_range` | function | `modules/lab_runtime.py:286` | `def start_range(profile)` |
-| `stop` | function | `modules/lab_runtime.py:241` | `def stop(scenario)` |
-| `stop_all` | function | `modules/lab_runtime.py:259` | `def stop_all()` |
-| `stop_range` | function | `modules/lab_runtime.py:305` | `def stop_range(profile)` |
-| `stop_ranges` | function | `modules/lab_runtime.py:316` | `def stop_ranges()` |
+| `_docker` | function | `modules/lab_runtime.py:107` | `def _docker()` |
+| `_docker_compose` | function | `modules/lab_runtime.py:412` | `def _docker_compose(args)` |
+| `_ensure_ad_lab` | function | `modules/lab_runtime.py:197` | `def _ensure_ad_lab(scenario, name)` |
+| `apply_gym_migrations` | function | `modules/lab_runtime.py:242` | `def apply_gym_migrations(name)` |
+| `container_ip` | function | `modules/lab_runtime.py:169` | `def container_ip(container_name)` |
+| `container_name` | function | `modules/lab_runtime.py:164` | `def container_name(scenario)` |
+| `docker_available` | function | `modules/lab_runtime.py:93` | `def docker_available()` |
+| `ensure_range_secret` | function | `modules/lab_runtime.py:420` | `def ensure_range_secret(profile_dir)` |
+| `ensure_web` | function | `modules/lab_runtime.py:183` | `def ensure_web(scenario, name)` |
+| `existing_containers` | function | `modules/lab_runtime.py:131` | `def existing_containers()` |
+| `range_compose` | function | `modules/lab_runtime.py:340` | `def range_compose(profile)` |
+| `running_containers` | function | `modules/lab_runtime.py:115` | `def running_containers()` |
+| `running_range_containers` | function | `modules/lab_runtime.py:148` | `def running_range_containers()` |
+| `start` | function | `modules/lab_runtime.py:250` | `def start(scenario)` |
+| `start_range` | function | `modules/lab_runtime.py:349` | `def start_range(profile)` |
+| `stop` | function | `modules/lab_runtime.py:304` | `def stop(scenario)` |
+| `stop_all` | function | `modules/lab_runtime.py:322` | `def stop_all()` |
+| `stop_range` | function | `modules/lab_runtime.py:368` | `def stop_range(profile)` |
+| `stop_ranges` | function | `modules/lab_runtime.py:379` | `def stop_ranges()` |
 | `ConversationStore` | class | `modules/lazy_agent.py:261` | `class ConversationStore` |
 | `ObservableAgentRunner` | class | `modules/lazy_agent.py:145` | `class ObservableAgentRunner(AgentRunner)` |
 | `__init__` | method | `modules/lazy_agent.py:148` | `def __init__(self, model, system_prompt, max_iterations, on_event)` |
@@ -415,6 +435,13 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `risk_for` | function | `modules/lazy_cli_bridge.py:140` | `def risk_for(verb)` |
 | `search_cli_verbs` | function | `modules/lazy_cli_bridge.py:185` | `def search_cli_verbs(query, phase, limit)` |
 | `set_full_cli` | function | `modules/lazy_cli_bridge.py:276` | `def set_full_cli(enabled)` |
+| `CredRow` | class | `modules/lazy_creds.py:30` | `class CredRow` |
+| `as_lines` | function | `modules/lazy_creds.py:101` | `def as_lines(rows)` |
+| `candidates` | function | `modules/lazy_creds.py:79` | `def candidates(limit)` |
+| `count` | function | `modules/lazy_creds.py:96` | `def count()` |
+| `export_pairs` | function | `modules/lazy_creds.py:106` | `def export_pairs(path, limit)` |
+| `load` | function | `modules/lazy_creds.py:39` | `def load()` |
+| `search` | function | `modules/lazy_creds.py:63` | `def search(query)` |
 | `_advisory_cve_id` | function | `modules/lazy_cve_feed.py:398` | `def _advisory_cve_id(advisory)` |
 | `_advisory_cvss` | function | `modules/lazy_cve_feed.py:407` | `def _advisory_cvss(advisory)` |
 | `_advisory_matches_product` | function | `modules/lazy_cve_feed.py:421` | `def _advisory_matches_product(advisory, banner_words)` |
@@ -469,32 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `read_decisions` | function | `modules/lazy_intel.py:211` | `def read_decisions(task_id, limit)` |
 | `record_routing_decision` | function | `modules/lazy_intel.py:129` | `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)` |
 | `record_routing_outcome` | function | `modules/lazy_intel.py:169` | `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)` |
-| `stack_signature` | function | `modules/lazy_intel.py:272` | `def stack_signature(assets)` |
-| `ActivityLog` | class | `modules/lazy_loop.py:1433` | `class ActivityLog` |
-| `AssetGate` | class | `modules/lazy_loop.py:2165` | `class AssetGate` |
-| `AssetGraph` | class | `modules/lazy_loop.py:962` | `class AssetGraph` |
-| `AssetNode` | class | `modules/lazy_loop.py:937` | `class AssetNode` |
-| `Budget` | class | `modules/lazy_loop.py:2259` | `class Budget` |
-| `ColdCompactor` | class | `modules/lazy_loop.py:5630` | `class ColdCompactor` |
-| `CompanyScope` | class | `modules/lazy_loop.py:7474` | `class CompanyScope` |
-| `EvidenceStore` | class | `modules/lazy_loop.py:6637` | `class EvidenceStore` |
-| `ExplorationEdge` | class | `modules/lazy_loop.py:928` | `class ExplorationEdge` |
-| `ExplorationGraph` | class | `modules/lazy_loop.py:1125` | `class ExplorationGraph` |
-| `ExplorationNode` | class | `modules/lazy_loop.py:914` | `class ExplorationNode` |
-| `FindingService` | class | `modules/lazy_loop.py:6359` | `class FindingService` |
-| `Frontier` | class | `modules/lazy_loop.py:1405` | `class Frontier` |
-| `Guard` | class | `modules/lazy_loop.py:1824` | `class Guard` |
-| `InterceptQueue` | class | `modules/lazy_loop.py:2411` | `class InterceptQueue` |
-| `LazyLoopEngine` | class | `modules/lazy_loop.py:7798` | `class LazyLoopEngine` |
-| `LazyTask` | class | `modules/lazy_loop.py:951` | `class LazyTask` |
-| `LlmPool` | class | `modules/lazy_loop.py:6909` | `class LlmPool` |
-| `Notifier` | class | `modules/lazy_loop.py:6740` | `class Notifier` |
-| `Planner` | class | `modules/lazy_loop.py:3044` | `class Planner` |
-| `Retester` | class | `modules/lazy_loop.py:5500` | `class Retester` |
-| `RuntimeTracker` | class | `modules/lazy_loop.py:2343` | `class RuntimeTracker` |
-| `SideQuestions` | class | `modules/lazy_loop.py:7400` | `class SideQuestions` |
-| `TaskArchive` | class | `modules/lazy_loop.py:7504` | `class TaskArchive` |
-| `TaskCategory` | class | `modules/lazy_loop.py:7666` | `class TaskCategory` |
-| `TaskChat` | class | `modules/lazy_loop.py:7693` | `class TaskChat` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

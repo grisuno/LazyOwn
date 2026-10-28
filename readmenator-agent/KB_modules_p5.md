@@ -1,5 +1,79 @@
-# Subsystem: modules (page 5 of 16)
+# Subsystem: modules (page 5 of 17)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
+
+## modules/edr_detector.py
+- Doc: EDR/AV Detection and Evasion Profiling Engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EDRFinding` (class, line 174) `class EDRFinding`
+  - `EDRProfile` (class, line 182) `class EDRProfile`
+  - `EDRDetector` (class, line 191) `class EDRDetector`
+  - `detect_local` (method, line 202) `def detect_local()`
+  - `detect_remote_commands` (method, line 221) `def detect_remote_commands(remote_type)`
+  - `_local_processes` (method, line 292) `def _local_processes()`
+  - `_local_services` (method, line 305) `def _local_services()`
+  - `_local_drivers` (method, line 322) `def _local_drivers()`
+  - `_match_signatures` (method, line 335) `def _match_signatures(profile)`
+  - `_generate_recommendations` (method, line 370) `def _generate_recommendations(profile)`
+  - `_severity` (method, line 428) `def _severity(profile)`
+  - `generate_edr_check_script` (method, line 440) `def generate_edr_check_script(remote_type)`
+- Imported by: `cli/commands/edr_detect.py`
+
+## modules/eegg.sh
+- Doc: Definición de colores
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `init_board` (function, line 26)
+  - `show_board` (function, line 40)
+  - `move_white_pawns` (function, line 61)
+  - `move_black_pawns` (function, line 78)
+
+## modules/emulation_runner.py
+- Doc: Single execution contract for Atomic emulation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EmulationStep` (class, line 28) `class EmulationStep`
+  - `EmulationResult` (class, line 40) `class EmulationResult`
+  - `EmulationReport` (class, line 69) `class EmulationReport`
+  - `EmulationRunner` (class, line 105) `class EmulationRunner`
+  - `to_dict` (method, line 53) `def to_dict(self)`
+  - `executed` (method, line 81) `def executed(self)`
+  - `shell` (method, line 86) `def shell(self)`
+  - `to_dict` (method, line 90) `def to_dict(self)`
+  - `__init__` (method, line 108) `def __init__(self, resolver, sessions_dir, shell_opener, remote_exec_fn, playbook_loader, outcome_recorder...`
+  - `_resolver_obj` (method, line 127) `def _resolver_obj(self)`
+  - `_playbook` (method, line 135) `def _playbook(self, name)`
+  - `_open_shell` (method, line 143) `def _open_shell(self, target, services, lhost, exploits_dir)`
+  - `_exec` (method, line 151) `def _exec(self, spec, target, command, lhost)`
+  - `_detect` (method, line 159) `def _detect(self, spec, output)`
+  - `_record` (method, line 170) `def _record(self)`
+  - `techniques_for_playbook` (method, line 182) `def techniques_for_playbook(self, playbook, platform)`
+  - `run` (method, line 202) `def run(self, target, techniques, playbook, platform, lhost, per_technique, include_manual, dry_run, executor...`
+  - `run_steps` (method, line 321) `def run_steps(self, steps, target, executor, platform, dry_run, source)`
+  - `_run_test` (method, line 399) `def _run_test(self, test, technique, target, spec, lhost, executor, dry_run, include_manual, report, sessions)`
+  - `_publish` (method, line 450) `def _publish(self, result, target, source, dry_run, sessions)`
+  - `_stage` (method, line 482) `def _stage(self, report, sessions)`
+- Depends on: `core/logging.py`, `modules/apt_playbooks.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/outcome_bus.py`
+- Imported by: `modules/atomic_exploit_bridge.py`, `modules/playbook_engine.py`, `tests/test_emulation_runner.py`
+
+## modules/engage_summary.py
+- Doc: Rich per-step engagement summaries from evidence and sessions artefacts.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `marker_lines` (function, line 35) `def marker_lines(text, limit)`
+  - `full_output` (function, line 51) `def full_output(step, sessions_dir)`
+  - `held_scan_ports` (function, line 64) `def held_scan_ports(target, sessions_dir)`
+  - `detail_for` (function, line 98) `def detail_for(tool, text, target, sessions_dir)`
+  - `next_actions` (function, line 150) `def next_actions(target, sessions_dir, limit)`
+  - `render_text` (function, line 175) `def render_text(engagement_id, target, shell, steps, sessions_dir)`
+  - `render_markdown` (function, line 210) `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)`
+  - `write_report` (function, line 247) `def write_report(engagement_id, target, shell, steps, sessions_dir)`
+- Depends on: `cli/recommendation_signals.py`, `modules/enrich.py`, `modules/evidence.py`
+- Imported by: `skills/unified_orchestrator.py`, `tests/test_engage_summary.py`
 
 ## modules/engagement_hooks.py
 - Doc: modules/engagement_hooks.py — Engagement narration and notification fabric
@@ -419,73 +493,6 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `save_report` (method, line 566) `def save_report(self, path)`
 - Depends on: `modules/outcome_bus.py`
 - Imported by: `cli/commands/exploit_migrated.py`
-
-## modules/exploit_recommender.py
-- Doc: AI-Powered Exploit Recommendation Engine for LazyOwn.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ExploitMatch` (class, line 37) `class ExploitMatch`
-  - `ExploitRecommender` (class, line 50) `class ExploitRecommender`
-  - `__init__` (method, line 120) `def __init__(self, world_model)`
-  - `set_world_model` (method, line 129) `def set_world_model(self, world_model)`
-  - `set_nvd_api_key` (method, line 132) `def set_nvd_api_key(self, key)`
-  - `_load_exploitdb` (method, line 135) `def _load_exploitdb(self)`
-  - `_extract_cve_ids` (method, line 161) `def _extract_cve_ids(text)`
-  - `_compare_versions` (method, line 165) `def _compare_versions(version, max_vulnerable)`
-  - `_query_nvd` (method, line 175) `def _query_nvd(self, cve_id)`
-  - `_try_nvd` (method, line 211) `def _try_nvd(self, cve_id)`
-  - `_generate_lazyown_commands` (method, line 214) `def _generate_lazyown_commands(self, cve_id, service, host_ip)`
-  - `match_services` (method, line 244) `def match_services(self, hosts)`
-  - `recommend` (method, line 337) `def recommend(self, hosts, top_n)`
-  - `persist_recommendations` (method, line 370) `def persist_recommendations(self, matches)`
-  - `format_for_llm` (method, line 390) `def format_for_llm(self, matches, max_items)`
-  - `parse_version` (function, line 25) `def parse_version(v)`
-- Depends on: `lazygui/version.py`, `modules/world_model.py`
-- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
-
-## modules/exploitgym_gym.py
-- Doc: ExploitGym integration — real-world vulnerability-to-exploit benchmark.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_ensure_dir` (function, line 56) `def _ensure_dir()`
-  - `_resolve_root` (function, line 61) `def _resolve_root(params)`
-  - `_read_task_ids` (function, line 75) `def _read_task_ids(root)`
-  - `_detect_domain` (function, line 96) `def _detect_domain(task_id)`
-  - `check_readiness` (function, line 112) `def check_readiness(params)`
-  - `list_tasks` (function, line 178) `def list_tasks(params, domain, limit)`
-  - `_run_streaming` (function, line 206) `def _run_streaming(cmd, cwd, timeout)`
-  - `_ensure_clone` (function, line 232) `def _ensure_clone(root, timeout)`
-  - `setup_harness` (function, line 249) `def setup_harness(params, steps)`
-  - `_env_for_run` (function, line 315) `def _env_for_run(params)`
-  - `pull_task` (function, line 344) `def pull_task(task_id, params, timeout)`
-  - `_run_agent` (function, line 378) `def _run_agent(task_id, model, mitigations, root, params, timeout)`
-  - `run_task` (function, line 423) `def run_task(task_id, params, model, mitigations, timeout)`
-  - `_extract_flag` (function, line 487) `def _extract_flag(output)`
-  - `_load_records` (function, line 500) `def _load_records()`
-  - `_save_records` (function, line 514) `def _save_records(records)`
-  - `_record` (function, line 523) `def _record(task_id, success, elapsed, flag)`
-  - `verify_flag` (function, line 548) `def verify_flag(task_id, params)`
-  - `score_task` (function, line 565) `def score_task(task_id, success, techniques, params)`
-  - `_run` (function, line 274) `def _run(name, cmd, cwd, timeout)`
-- Depends on: `modules/redteam_gym.py`
-- Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
-
-## modules/factsio.py
-- Doc: Canonical reader for the FactStore ``policy_facts.json`` document.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `load_policy_facts` (function, line 39) `def load_policy_facts(path)`
-  - `canonical_policy_facts` (function, line 61) `def canonical_policy_facts(data)`
-  - `iter_host_records` (function, line 81) `def iter_host_records(host_keyed)`
-  - `iter_flat_facts` (function, line 93) `def iter_flat_facts(host_keyed)`
-  - `_iter_kind` (function, line 116) `def _iter_kind(record, key, fact_type, host)`
-  - `_as_list` (function, line 131) `def _as_list(value)`
-  - `_observable` (function, line 137) `def _observable(record, fact_type)`
-- Depends on: `core/logging.py`
-- Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`
 
 
 Next: [KB_modules_p6.md](KB_modules_p6.md)

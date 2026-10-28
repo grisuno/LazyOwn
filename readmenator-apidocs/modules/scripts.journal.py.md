@@ -216,7 +216,7 @@ Create a journal entry and return its number, url, and title.
 | `title` | `str` |  | Entry title. |
 | `body` | `str` |  | Entry body in markdown. |
 
-**Returns:** `dict` - A dict with ``number``, ``url`` and ``title``.
+**Returns:** `dict` - A dict with ``number``, `[`url`](modules.lazy_oob.py.md#url)` and ``title``.
 
 **Raises**
 
@@ -242,7 +242,7 @@ Return the most recently updated journal entries.
 |---|---|---|---|
 | `limit` | `int \| None` | `None` | Maximum number of entries. Defaults to the config limit. |
 
-**Returns:** `list[dict]` - A list of dicts with ``number``, ``title``, ``body``, ``url`` and
+**Returns:** `list[dict]` - A list of dicts with ``number``, ``title``, ``body``, `[`url`](modules.lazy_oob.py.md#url)` and
 ``updatedAt``.
 
 **Raises**

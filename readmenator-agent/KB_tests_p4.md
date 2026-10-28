@@ -1,6 +1,106 @@
 # Subsystem: tests (page 4 of 21)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
 
+## tests/test_bof_registry.py
+- Doc: Tests for modules/bof_registry.py — BofEntry, BofCatalog, BofRegistry, BofMarketplace...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `catalog` (function, line 37) `def catalog()`
+  - `tmp_sessions` (function, line 42) `def tmp_sessions()`
+  - `TestBofEntry` (class, line 47) `class TestBofEntry`
+  - `TestBofCatalog` (class, line 101) `class TestBofCatalog`
+  - `TestBofRegistry` (class, line 174) `class TestBofRegistry`
+  - `TestBofValidator` (class, line 221) `class TestBofValidator`
+  - `TestBofMarketplace` (class, line 291) `class TestBofMarketplace`
+  - `TestBofEnums` (class, line 359) `class TestBofEnums`
+  - `test_construction_and_properties` (method, line 48) `def test_construction_and_properties(self)`
+  - `test_immutability` (method, line 65) `def test_immutability(self)`
+  - `test_to_dict_roundtrip` (method, line 70) `def test_to_dict_roundtrip(self)`
+  - `test_from_dict_minimal` (method, line 91) `def test_from_dict_minimal(self)`
+  - `test_register_and_get` (method, line 102) `def test_register_and_get(self, catalog)`
+  - `test_get_missing_raises_keyerror` (method, line 107) `def test_get_missing_raises_keyerror(self, catalog)`
+  - `test_search_exact_match` (method, line 111) `def test_search_exact_match(self, catalog)`
+  - `test_search_by_category` (method, line 116) `def test_search_by_category(self, catalog)`
+  - `test_search_by_technique` (method, line 121) `def test_search_by_technique(self, catalog)`
+  - `test_search_empty_query_returns_all` (method, line 127) `def test_search_empty_query_returns_all(self, catalog)`
+  - `test_list_all_sorted` (method, line 131) `def test_list_all_sorted(self, catalog)`
+  - `test_list_by_platform` (method, line 136) `def test_list_by_platform(self, catalog)`
+  - `test_list_by_category` (method, line 141) `def test_list_by_category(self, catalog)`
+  - `test_save_load_roundtrip` (method, line 147) `def test_save_load_roundtrip(self, catalog, tmp_sessions)`
+  - `test_load_missing_file_returns_empty` (method, line 153) `def test_load_missing_file_returns_empty(self, tmp_sessions)`
+  - `test_empty_catalog` (method, line 158) `def test_empty_catalog(self)`
+  - `test_register_overwrites` (method, line 165) `def test_register_overwrites(self)`
+  - `test_install_and_check` (method, line 175) `def test_install_and_check(self, tmp_sessions)`
+  - `test_uninstall` (method, line 182) `def test_uninstall(self, tmp_sessions)`
+  - `test_uninstall_nonexistent` (method, line 189) `def test_uninstall_nonexistent(self, tmp_sessions)`
+  - `test_list_installed` (method, line 193) `def test_list_installed(self, tmp_sessions)`
+  - `test_get_install_info` (method, line 201) `def test_get_install_info(self, tmp_sessions)`
+  - `test_get_install_info_nonexistent` (method, line 209) `def test_get_install_info_nonexistent(self, tmp_sessions)`
+  - `test_manifest_persistence` (method, line 213) `def test_manifest_persistence(self, tmp_sessions)`
+  - `test_verify_with_empty_hash_skips` (method, line 222) `def test_verify_with_empty_hash_skips(self, tmp_sessions)`
+  - `test_compute_sha256_deterministic` (method, line 230) `def test_compute_sha256_deterministic(self, tmp_sessions)`
+  - `test_verify_mismatched_hash` (method, line 238) `def test_verify_mismatched_hash(self, tmp_sessions)`
+  - `test_validate_args_missing_required` (method, line 253) `def test_validate_args_missing_required(self)`
+  - `test_validate_args_all_present` (method, line 266) `def test_validate_args_all_present(self)`
+  - `test_validate_args_no_required` (method, line 278) `def test_validate_args_no_required(self)`
+  - `test_search_enriches_with_install_status` (method, line 292) `def test_search_enriches_with_install_status(self, tmp_sessions)`
+  - `test_info_returns_catalog_and_install_state` (method, line 299) `def test_info_returns_catalog_and_install_state(self, tmp_sessions)`
+  - `test_info_missing_bof` (method, line 306) `def test_info_missing_bof(self)`
+  - `test_install_and_uninstall` (method, line 311) `def test_install_and_uninstall(self, tmp_sessions)`
+  - `test_install_already_installed` (method, line 321) `def test_install_already_installed(self, tmp_sessions)`
+  - `test_install_missing_bof` (method, line 327) `def test_install_missing_bof(self)`
+  - `test_uninstall_missing_bof` (method, line 332) `def test_uninstall_missing_bof(self, tmp_sessions)`
+  - `test_list_installed_empty_initially` (method, line 337) `def test_list_installed_empty_initially(self, tmp_sessions)`
+  - `test_list_missing_dependencies` (method, line 342) `def test_list_missing_dependencies(self, tmp_sessions)`
+  - `test_list_missing_dependencies_unknown_bof` (method, line 347) `def test_list_missing_dependencies_unknown_bof(self)`
+  - `test_bulk_install` (method, line 352) `def test_bulk_install(self, tmp_sessions)`
+  - `test_platform_values` (method, line 360) `def test_platform_values(self)`
+  - `test_category_values` (method, line 364) `def test_category_values(self)`
+- Depends on: `modules/bof_registry.py`
+
+## tests/test_bootstrap_installer.py
+- Doc: Integration tests for the installer scripts (no network, no apt).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_run_bootstrap` (function, line 29) `def _run_bootstrap(args, env, cwd)`
+  - `_git` (function, line 44) `def _git(args, cwd)`
+  - `test_bootstrap_help_lists_options` (function, line 55) `def test_bootstrap_help_lists_options()`
+  - `test_bootstrap_rejects_unknown_flag` (function, line 63) `def test_bootstrap_rejects_unknown_flag()`
+  - `test_bootstrap_rejects_bad_modes` (function, line 75) `def test_bootstrap_rejects_bad_modes()`
+  - `test_install_pipe_guard` (function, line 88) `def test_install_pipe_guard(tmp_path)`
+  - `_make_stub_repo` (function, line 105) `def _make_stub_repo(path)`
+  - `test_existing_checkout_abort_changes_nothing` (function, line 118) `def test_existing_checkout_abort_changes_nothing(tmp_path)`
+  - `test_debug_flag_traces_execution` (function, line 138) `def test_debug_flag_traces_execution(tmp_path)`
+  - `test_existing_checkout_update_reinstalls` (function, line 153) `def test_existing_checkout_update_reinstalls(tmp_path)`
+  - `test_existing_checkout_clean_backs_up_payload` (function, line 170) `def test_existing_checkout_clean_backs_up_payload(tmp_path)`
+  - `test_non_checkout_path_fails_without_tty` (function, line 195) `def test_non_checkout_path_fails_without_tty(tmp_path)`
+  - `test_install_uses_supported_pip_flags` (function, line 208) `def test_install_uses_supported_pip_flags()`
+  - `test_scripts_are_executable_and_clean` (function, line 220) `def test_scripts_are_executable_and_clean()`
+
+## tests/test_boyscout_contracts.py
+- Doc: Boy-scout contracts for critical shared surfaces.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_bound_import_names` (function, line 27) `def _bound_import_names(tree)`
+  - `test_lazyown_has_no_unused_imports` (function, line 42) `def test_lazyown_has_no_unused_imports()`
+  - `_load_mcp_module` (function, line 52) `def _load_mcp_module()`
+  - `test_playbook_target_is_shell_quoted` (function, line 110) `def test_playbook_target_is_shell_quoted()`
+  - `test_replace_placeholders_matches_single_pass_engine` (function, line 119) `def test_replace_placeholders_matches_single_pass_engine()`
+  - `test_replace_placeholders_keeps_brace_values_literal` (function, line 133) `def test_replace_placeholders_keeps_brace_values_literal()`
+  - `test_deploy_has_no_todo_markers` (function, line 141) `def test_deploy_has_no_todo_markers()`
+  - `Tool` (class, line 66) `class Tool`
+  - `TextContent` (class, line 73) `class TextContent`
+  - `Server` (class, line 83) `class Server`
+  - `__init__` (method, line 69) `def __init__(self)`
+  - `__init__` (method, line 76) `def __init__(self)`
+  - `__init__` (method, line 86) `def __init__(self)`
+  - `list_tools` (method, line 89) `def list_tools(self)`
+  - `call_tool` (method, line 93) `def call_tool(self)`
+- Depends on: `skills/lazyown_mcp.py`, `utils.py`
+
 ## tests/test_bridge_catalog_filtered.py
 - Doc: tests/test_bridge_catalog_filtered.py  Tests for ``BridgeDispatcher.catalog_summary_filtered``...
 - Layer: testing
@@ -393,84 +493,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_empty_trace_yields_validateable_chain` (method, line 220) `def test_empty_trace_yields_validateable_chain(self, tmp_path)`
   - `test_written_chain_validates_lifetime` (method, line 235) `def test_written_chain_validates_lifetime(self, trace_dir)`
 - Depends on: `modules/chain_distill.py`, `modules/chain_registry.py`
-
-## tests/test_chain_evidence.py
-- Doc: Chain-of-evidence: depends_on gating, budgets, verdicts and artefact pins.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_chain` (function, line 19) `def _chain(tmp_path, steps, name)`
-  - `_load` (function, line 25) `def _load(document, tmp_path)`
-  - `test_validate_hunting_fields` (function, line 29) `def test_validate_hunting_fields()`
-  - `test_dependency_gate_skips_unproven_chain` (function, line 53) `def test_dependency_gate_skips_unproven_chain(tmp_path)`
-  - `test_dependency_gate_passes_when_observed` (function, line 78) `def test_dependency_gate_passes_when_observed(tmp_path)`
-  - `test_observed_verdict_on_success_with_fields` (function, line 99) `def test_observed_verdict_on_success_with_fields(tmp_path)`
-  - `test_missing_required_field_is_insufficient` (function, line 118) `def test_missing_required_field_is_insufficient(tmp_path)`
-  - `test_evidence_sha256_pin` (function, line 135) `def test_evidence_sha256_pin(tmp_path)`
-  - `test_budget_caps_attempts` (function, line 162) `def test_budget_caps_attempts(tmp_path)`
-  - `test_budget_seconds_caps_timeout` (function, line 181) `def test_budget_seconds_caps_timeout(tmp_path)`
-  - `test_legacy_chains_unchanged` (function, line 196) `def test_legacy_chains_unchanged(tmp_path)`
-  - `_Runner` (class, line 63) `class _Runner(ChainRunner)`
-  - `_Runner` (class, line 90) `class _Runner(ChainRunner)`
-  - `_Runner` (class, line 108) `class _Runner(ChainRunner)`
-  - `_Runner` (class, line 127) `class _Runner(ChainRunner)`
-  - `_Runner` (class, line 146) `class _Runner(ChainRunner)`
-  - `_Runner` (class, line 170) `class _Runner(ChainRunner)`
-  - `_Runner` (class, line 185) `class _Runner(ChainRunner)`
-  - `_Runner` (class, line 203) `class _Runner(ChainRunner)`
-  - `_execute` (method, line 64) `def _execute(self, command, timeout, expect_exits)`
-  - `_execute` (method, line 91) `def _execute(self, command, timeout, expect_exits)`
-  - `_execute` (method, line 109) `def _execute(self, command, timeout, expect_exits)`
-  - `_execute` (method, line 128) `def _execute(self, command, timeout, expect_exits)`
-  - `_execute` (method, line 147) `def _execute(self, command, timeout, expect_exits)`
-  - `_execute` (method, line 171) `def _execute(self, command, timeout, expect_exits)`
-  - `_execute` (method, line 186) `def _execute(self, command, timeout, expect_exits)`
-  - `_execute` (method, line 204) `def _execute(self, command, timeout, expect_exits)`
-- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
-
-## tests/test_chain_list_command.py
-- Doc: BDD: chain list exposes the YAML chain registry.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_chain_list_lists_registry` (function, line 12) `def test_chain_list_lists_registry(capsys)`
-  - `test_chain_list_filters` (function, line 22) `def test_chain_list_filters(capsys)`
-- Depends on: `cli/commands/exploit_migrated.py`
-
-## tests/test_chain_mode.py
-- Doc: Tests for cli/chain_mode.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_Step` (class, line 36) `class _Step`
-  - `_resolver` (function, line 45) `def _resolver()`
-  - `_engine` (function, line 52) `def _engine(resolver)`
-  - `test_suggestion_from_step_and_string` (function, line 85) `def test_suggestion_from_step_and_string()`
-  - `test_step_none_when_disabled` (function, line 90) `def test_step_none_when_disabled()`
-  - `test_step_none_when_not_interactive` (function, line 95) `def test_step_none_when_not_interactive()`
-  - `test_step_none_for_skip_verbs` (function, line 101) `def test_step_none_for_skip_verbs(verb)`
-  - `test_enter_runs_top_suggestion` (function, line 106) `def test_enter_runs_top_suggestion()`
-  - `test_number_selects_ranked_alternative` (function, line 116) `def test_number_selects_ranked_alternative()`
-  - `test_override_runs_operator_command` (function, line 126) `def test_override_runs_operator_command()`
-  - `test_skip_keeps_chain_mode_enabled` (function, line 136) `def test_skip_keeps_chain_mode_enabled()`
-  - `test_exit_words_disable_chain_mode` (function, line 144) `def test_exit_words_disable_chain_mode(word)`
-  - `test_no_suggestions_enter_skips_custom_command_runs` (function, line 151) `def test_no_suggestions_enter_skips_custom_command_runs()`
-  - `test_invalid_number_re_prompts_then_skips` (function, line 160) `def test_invalid_number_re_prompts_then_skips()`
-  - `test_invalid_number_re_prompts_then_accepts_valid_pick` (function, line 168) `def test_invalid_number_re_prompts_then_accepts_valid_pick()`
-  - `test_keyboard_interrupt_disables` (function, line 178) `def test_keyboard_interrupt_disables(tmp_path)`
-  - `test_auto_pause_after_max_steps` (function, line 195) `def test_auto_pause_after_max_steps(tmp_path)`
-  - `test_resolver_failure_degrades_to_no_suggestions` (function, line 211) `def test_resolver_failure_degrades_to_no_suggestions()`
-  - `test_store_roundtrip_and_missing` (function, line 221) `def test_store_roundtrip_and_missing(tmp_path)`
-  - `test_store_survives_malformed_file` (function, line 230) `def test_store_survives_malformed_file(tmp_path)`
-  - `test_engine_reads_persisted_state` (function, line 239) `def test_engine_reads_persisted_state(tmp_path)`
-  - `test_persist_toggle_writes_state_file` (function, line 252) `def test_persist_toggle_writes_state_file(tmp_path)`
-  - `test_prompt_exit_words_persist_off` (function, line 267) `def test_prompt_exit_words_persist_off(tmp_path)`
-  - `__init__` (method, line 39) `def __init__(self, name, source, reason)`
-  - `resolve` (function, line 46) `def resolve(cmd, phase)`
-  - `fake_input` (function, line 63) `def fake_input(prompt)`
-  - `raise_ki` (function, line 179) `def raise_ki(prompt)`
-  - `broken` (function, line 212) `def broken(cmd, phase)`
-- Depends on: `cli/chain_mode.py`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

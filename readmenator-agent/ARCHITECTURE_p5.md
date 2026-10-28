@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `tests/conftest.py` -> `modules/loop_ai_bridge.py`
 - `tests/conftest.py` -> `modules/world_model.py`
 - `tests/integration_autonomous_flow.py` -> `modules/moe_router.py`
 - `tests/integration_autonomous_flow.py` -> `modules/obs_parser.py`
@@ -327,7 +328,6 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_intel_fusion.py` -> `modules/__init__.py`
 - `tests/test_intel_fusion.py` -> `modules/intel_fusion.py`
 - `tests/test_intel_fusion.py` -> `modules/lazy_loop.py`
-- `tests/test_intel_fusion.py` -> `modules/lazy_world_diff.py`
 - `tests/test_intel_fusion.py` -> `modules/llm_factory.py`
 - `tests/test_intelligence_engine.py` -> `modules/intelligence_engine.py`
 - `tests/test_journal.py` -> `scripts/journal.py`
@@ -412,6 +412,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_lazy_runner.py` -> `modules/llm_pool.py`
 - `tests/test_lazy_runner.py` -> `modules/loop_progress.py`
 - `tests/test_lazy_runner.py` -> `modules/tools/__init__.py`
+- `tests/test_lazy_scope.py` -> `modules/__init__.py`
 - `tests/test_lazy_streaming.py` -> `modules/agent_runner.py`
 - `tests/test_lazy_streaming.py` -> `modules/lazy_loop.py`
 - `tests/test_lazy_streaming.py` -> `modules/llm_factory.py`
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_loop_scope_traffic_evidence.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_scope_traffic_evidence.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_spawn_side.py` -> `modules/lazy_engine.py`
-- `tests/test_loop_spawn_side.py` -> `modules/lazy_loop.py`
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

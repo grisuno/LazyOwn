@@ -1,8 +1,31 @@
-# Symbols (page 23 of 46)
+# Symbols (page 23 of 47)
 Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get` | method | `poc_tui/config.py:35` | `def get(self, key, default)` |
+| `items` | method | `poc_tui/config.py:44` | `def items(self)` |
+| `keys` | method | `poc_tui/config.py:41` | `def keys(self)` |
+| `reload` | method | `poc_tui/config.py:21` | `def reload(self)` |
+| `save` | method | `poc_tui/config.py:28` | `def save(self)` |
+| `set` | method | `poc_tui/config.py:38` | `def set(self, key, value)` |
+| `PluginLoader` | class | `poc_tui/plugin_loader.py:84` | `class PluginLoader` |
+| `PluginSpec` | class | `poc_tui/plugin_loader.py:29` | `class PluginSpec` |
+| `_LuaAppProxy` | class | `poc_tui/plugin_loader.py:291` | `class _LuaAppProxy` |
+| `__init__` | method | `poc_tui/plugin_loader.py:91` | `def __init__(self, config, base_dir)` |
+| `__init__` | method | `poc_tui/plugin_loader.py:294` | `def __init__(self, config)` |
+| `_list_files` | method | `poc_tui/plugin_loader.py:131` | `def _list_files(self, directory)` |
+| `_load_lua_plugins` | method | `poc_tui/plugin_loader.py:223` | `def _load_lua_plugins(self)` |
+| `_load_tool_files` | method | `poc_tui/plugin_loader.py:248` | `def _load_tool_files(self)` |
+| `_load_yaml_addons` | method | `poc_tui/plugin_loader.py:148` | `def _load_yaml_addons(self)` |
+| `_lua_register` | method | `poc_tui/plugin_loader.py:114` | `def _lua_register(self, name, func)` |
+| `_register_tool` | method | `poc_tui/plugin_loader.py:261` | `def _register_tool(self, data)` |
+| `_register_yaml_addon` | method | `poc_tui/plugin_loader.py:161` | `def _register_yaml_addon(self, data)` |
+| `_replace_placeholders` | function | `poc_tui/plugin_loader.py:41` | `def _replace_placeholders(command, params)` |
+| `_setup_lua` | method | `poc_tui/plugin_loader.py:105` | `def _setup_lua(self)` |
+| `_subst` | function | `poc_tui/plugin_loader.py:52` | `def _subst(match)` |
+| `_validate_clone_url` | function | `poc_tui/plugin_loader.py:62` | `def _validate_clone_url(url)` |
+| `load_all` | method | `poc_tui/plugin_loader.py:139` | `def load_all(self)` |
 | `one_cmd` | method | `poc_tui/plugin_loader.py:301` | `def one_cmd(self, cmd)` |
 | `params` | method | `poc_tui/plugin_loader.py:298` | `def params(self)` |
 | `wrapper` | function | `poc_tui/plugin_loader.py:117` | `def wrapper(arg)` |
@@ -473,28 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `_ensure_init` | function | `skills/claude_md_orchestrator/bdd_agent.py:130` | `def _ensure_init(config)` |
 | `_module_name` | function | `skills/claude_md_orchestrator/bdd_agent.py:80` | `def _module_name(contract)` |
 | `_module_path` | function | `skills/claude_md_orchestrator/bdd_agent.py:85` | `def _module_path(contract, config)` |
-| `_package_init` | function | `skills/claude_md_orchestrator/bdd_agent.py:90` | `def _package_init(config)` |
-| `_run_pytest` | function | `skills/claude_md_orchestrator/bdd_agent.py:138` | `def _run_pytest(test_path, cwd)` |
-| `run` | function | `skills/claude_md_orchestrator/bdd_agent.py:151` | `def run(contract, spec, suite, config)` |
-| `ScoutReport` | class | `skills/claude_md_orchestrator/boy_scout.py:30` | `class ScoutReport` |
-| `_inspect` | function | `skills/claude_md_orchestrator/boy_scout.py:45` | `def _inspect(path)` |
-| `_render_proposal` | function | `skills/claude_md_orchestrator/boy_scout.py:73` | `def _render_proposal(contract, findings)` |
-| `run` | function | `skills/claude_md_orchestrator/boy_scout.py:90` | `def run(state, config)` |
-| `write_report` | function | `skills/claude_md_orchestrator/boy_scout.py:110` | `def write_report(report, config)` |
-| `CicdResult` | class | `skills/claude_md_orchestrator/cicd_agent.py:71` | `class CicdResult` |
-| `_ensure_branch` | function | `skills/claude_md_orchestrator/cicd_agent.py:108` | `def _ensure_branch(contract, config)` |
-| `_git` | function | `skills/claude_md_orchestrator/cicd_agent.py:97` | `def _git()` |
-| `_render_pipeline` | function | `skills/claude_md_orchestrator/cicd_agent.py:134` | `def _render_pipeline(contract, spec, config)` |
-| `_render_pr_body` | function | `skills/claude_md_orchestrator/cicd_agent.py:144` | `def _render_pr_body(contract, spec, report)` |
-| `_slug` | function | `skills/claude_md_orchestrator/cicd_agent.py:91` | `def _slug(contract)` |
-| `run` | function | `skills/claude_md_orchestrator/cicd_agent.py:177` | `def run(contract, spec, report, config)` |
-| `Config` | class | `skills/claude_md_orchestrator/config.py:67` | `class Config` |
-| `_default_claude_md` | function | `skills/claude_md_orchestrator/config.py:52` | `def _default_claude_md()` |
-| `_default_run_dir` | function | `skills/claude_md_orchestrator/config.py:37` | `def _default_run_dir()` |
-| `_repo_root` | function | `skills/claude_md_orchestrator/config.py:22` | `def _repo_root()` |
-| `docs_dir` | method | `skills/claude_md_orchestrator/config.py:142` | `def docs_dir(self)` |
-| `ensure` | method | `skills/claude_md_orchestrator/config.py:112` | `def ensure(self)` |
-| `load_config` | function | `skills/claude_md_orchestrator/config.py:155` | `def load_config()` |
-| `log_path` | method | `skills/claude_md_orchestrator/config.py:150` | `def log_path(self)` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

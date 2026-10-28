@@ -441,7 +441,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/integrations/nuclei_bridge.py` -> __future__, abc, argparse, dataclasses, pathlib, re, shutil, subprocess, typing, yaml
 - `modules/integrations/nuclei_parser.py` -> __future__, dataclasses, json, pathlib, re, subprocess, typing
 - `modules/integrations/searchsploit.py` -> __future__, abc, argparse, dataclasses, json, re, requests, shutil, subprocess, time
-- `modules/intel_fusion.py` -> __future__, glob, hashlib, json, math, pathlib, re, time
+- `modules/intel_fusion.py` -> __future__, glob, hashlib, json, math, pathlib, re, time, xml.sax.saxutils
 - `modules/intelligence_engine.py` -> __future__, collections, dataclasses, datetime, json, pathlib, re, typing, xml.etree.ElementTree
 - `modules/intercept.py` -> __future__, dataclasses, re, threading, time, typing, uuid
 - `modules/jsonl_tail.py` -> __future__, json, pathlib
@@ -471,6 +471,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/lazy_roles.py` -> __future__, json, pathlib, time
 - `modules/lazy_runner.py` -> __future__, collections.abc, contextlib, dataclasses, faulthandler, io, ipaddress, os, pathlib, queue, re, shlex, signal, sys, threading, time
 - `modules/lazy_sandbox.py` -> __future__, os, pathlib, re, shutil, subprocess, threading
+- `modules/lazy_scope.py` -> __future__, dataclasses, ipaddress, pathlib, re, socket, time
 - `modules/lazy_skill_mirror.py` -> __future__, pathlib, re, shutil, time, yaml
 - `modules/lazy_skills.py` -> __future__, pathlib, re
 - `modules/lazy_summarizer.py` -> __future__, collections.abc
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/llm_client.py` -> __future__, argparse, json, os, sys, urllib.error, urllib.request
 - `modules/llm_evaluator.py` -> __future__, abc, argparse, dataclasses, json, pathlib, threading, time, uuid
 - `modules/llm_factory.py` -> __future__, collections.abc, json, os, pathlib, shutil, subprocess, sys, typing
-- `modules/llm_orchestrator.py` -> __future__, collections.abc, dataclasses, os, typing
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

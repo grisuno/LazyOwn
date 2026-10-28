@@ -154,6 +154,16 @@ Imported by: `cli/commands/lazyops.py`, `modules/lazy_runner.py`
 - `status` (function) `modules/lazy_sandbox.py:223` `def status(task_id)` -- Describe sandbox readiness and containers.
 - `executor_for` (function) `modules/lazy_sandbox.py:251` `def executor_for(task_id, image)` -- Build a worker executor routing shell verbs into the sandbox.
 
+## modules/lazy_scope.py
+- `_ResolveCache.get` (method) `modules/lazy_scope.py:69` `def get(self, name, now)` -- Return cached addresses when fresh.
+- `_ResolveCache.put` (method) `modules/lazy_scope.py:88` `def put(self, name, values, now)` -- Store resolution results.
+- `is_lab_address` (function) `modules/lazy_scope.py:104` `def is_lab_address(address)` -- Classify one address as lab-local.
+- `extract_hosts` (function) `modules/lazy_scope.py:129` `def extract_hosts(text)` -- Pull IP literals and plausible hostnames out of free text.
+- `resolve_addresses` (function) `modules/lazy_scope.py:163` `def resolve_addresses(name, now)` -- Resolve a hostname to all of its addresses.
+- `read_allowlist` (function) `modules/lazy_scope.py:208` `def read_allowlist(sessions_dir)` -- Load operator-approved extra lab hosts.
+- `scope_verdict` (function) `modules/lazy_scope.py:229` `def scope_verdict(target, resolver, allowlist)` -- Decide whether one target is inside the default lab scope.
+- `command_scope_verdict` (function) `modules/lazy_scope.py:270` `def command_scope_verdict(command, resolver, allowlist)` -- Check every host mentioned in a command line.
+
 ## modules/lazy_skill_mirror.py
 Imported by: `cli/commands/lazyops.py`
 - `available_skills` (function) `modules/lazy_skill_mirror.py:67` `def available_skills()` -- Return repo skill names that ship a SKILL.md.
@@ -191,7 +201,7 @@ Depends on: `core/process.py`
 
 ## modules/lazy_world_diff.py
 Depends on: `modules/world_model.py`
-Imported by: `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`
+Imported by: `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`
 - `host_snapshot` (function) `modules/lazy_world_diff.py:78` `def host_snapshot(world, ip)` -- Read one host out of a world-model dict as a canonical snapshot.
 - `snapshot_fingerprint` (function) `modules/lazy_world_diff.py:119` `def snapshot_fingerprint(state)` -- Hash one snapshot canonically; key order never matters.
 - `diff_snapshots` (function) `modules/lazy_world_diff.py:131` `def diff_snapshots(before, after)` -- Deterministic change list between two host snapshots.
@@ -481,20 +491,6 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `lazyc2.py`
 Depends on: `modules/world_model.py`
 Imported by: `lazyc2.py`, `modules/unified_dashboard.py`, `tests/test_live_surface.py`
 - `build_live_graph` (function) `modules/live_surface.py:72` `def build_live_graph(world)` -- Build a live vis-network payload from a world-model snapshot.
-
-## modules/llm_adapter.py
-Depends on: `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazyphishingai.py`, `core/logging.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/llm_prompts.py`
-Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`
-- `safe_groq_client` (function) `modules/llm_adapter.py:55` `def safe_groq_client(api_key)` -- Create a Groq client, returning None when no key is provided.
-- `process_prompt` (function) `modules/llm_adapter.py:155` `def process_prompt(client, prompt, debug)` -- Generate a single-line shell command from a user prompt.
-- `process_prompt_script` (function) `modules/llm_adapter.py:169` `def process_prompt_script(client, prompt, debug)` -- Generate a full script from a user prompt.
-- `process_prompt_adversary` (function) `modules/llm_adapter.py:183` `def process_prompt_adversary(client, prompt, debug)` -- Answer questions about MITRE ATT&CK techniques and Atomic Red Team.
-- `process_prompt_general` (function) `modules/llm_adapter.py:197` `def process_prompt_general(client, prompt, debug)` -- Answer as a general red-team assistant with payload.json context.
-- `process_prompt_search` (function) `modules/llm_adapter.py:211` `def process_prompt_search(client, prompt, debug)` -- Perform research and threat-intelligence analysis.
-- `process_prompt_task` (function) `modules/llm_adapter.py:225` `def process_prompt_task(client, prompt, debug)` -- Analyze a task-assessment JSON file for completion status.
-- `process_prompt_vuln` (function) `modules/llm_adapter.py:242` `def process_prompt_vuln(client, prompt, debug, event)` -- Analyze Nmap output for vulnerabilities and propose an action plan.
-- `process_prompt_redop` (function) `modules/llm_adapter.py:273` `def process_prompt_redop(client, prompt, debug)` -- Evaluate a red-team operation status from a JSON database file.
-- `ask_general` (function) `modules/llm_adapter.py:290` `def ask_general(prompt, debug)` -- Answer through the configured LLM backend with chain failover.
 
 
 Next: [API_p15.md](API_p15.md)

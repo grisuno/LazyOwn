@@ -1,42 +1,43 @@
-# modules: lazyc2
+# lazyc2/security
 
-*Community 5 | 75 files | cohesion 0.49*
+*Community 6 | 59 files | cohesion 0.47*
 
 ## Definition
 
-This community groups 75 file(s) rooted at `tests` with dominant language py (cohesion 0.49). Central symbols: `AESKeyManager`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `AutoRecommender`, `AutomationCommandSet`, `BeaconHistoryConfig`, `BindAddressResolver`. Core file: `lazyc2.py` (311 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
+This community groups 59 file(s) rooted at `tests` with dominant language py (cohesion 0.47). Central symbols: `AESKeyManager`, `ApiAuthzConfig`, `ApiKey`, `ApiKeyStore`, `AutoRecommender`, `AutomationCommandSet`, `CSRFPolicy`, `CollabBusSink`. Core file: `lazyc2.py` (311 symbols). Documented purpose: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the credential reuse engine, conditional ho.
 
 ## Files
 
-### `tests` (23 files)
+### `tests` (18 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_addon_creator.py` | py | testing | 86 | yes |
 | `tests/test_api_authz.py` | py | testing | 48 | yes |
+| `tests/test_c2_credential_bootstrap.py` | py | testing | 21 | yes |
 
-### `modules` (16 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/beacon_history.py` | py | utility | 7 | yes |
-| `modules/collab_bp.py` | py | presentation | 49 | yes |
-
-### `lazyc2/security` (10 files)
+### `lazyc2/security` (11 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/security/__init__.py` | py | utility | 0 | no |
 | `lazyc2/security/cli_credentials.py` | py | utility | 3 | yes |
 
-### `lazyc2/blueprints` (8 files)
+### `modules` (10 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/conditional_hooks.py` | py | utility | 23 | yes |
+| `modules/credential_reuse.py` | py | utility | 16 | yes |
+
+### `lazyc2/blueprints` (6 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/blueprints/__init__.py` | py | utility | 0 | yes |
 | `lazyc2/blueprints/addons.py` | py | presentation | 14 | yes |
 
-### `lazyc2/extensions` (5 files)
+### `lazyc2/extensions` (4 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -50,31 +51,24 @@ This community groups 75 file(s) rooted at `tests` with dominant language py (co
 | `lazyc2/__init__.py` | py | utility | 0 | no |
 | `lazyc2/app_factory.py` | py | presentation | 12 | yes |
 
-### `.` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `lazyc2.py` | py | presentation | 311 | no |
-| `pwntomate.py` | py | utility | 3 | yes |
-
-### `cli/commands` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/commands/automation.py` | py | utility | 13 | yes |
-| `cli/commands/collaboration.py` | py | utility | 8 | yes |
-
-### `modules/sinks` (2 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/sinks/campaign_db.py` | py | utility | 1 | yes |
-
 ### `static/js` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `static/js/socket.io-4.0.0.min.js` | js | utility | 32 | yes |
+| `static/js/socket.io-4.3.2.min.js` | js | utility | 15 | yes |
+
+### `.` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `lazyc2.py` | py | presentation | 311 | no |
+
+### `cli/commands` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/commands/automation.py` | py | utility | 13 | yes |
 
 ### `core` (1 files)
 
@@ -82,13 +76,19 @@ This community groups 75 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `core/api_authz.py` | py | presentation | 31 | yes |
 
+### `modules/sinks` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/sinks/event_bus.py` | py | infrastructure | 1 | yes |
+
 ### `skills` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `skills/daemon_health.py` | py | utility | 16 | yes |
 
-*... and 55 more files in this community.*
+*... and 39 more files in this community.*
 
 
 ## Key Symbols
@@ -106,14 +106,6 @@ This community groups 75 file(s) rooted at `tests` with dominant language py (co
 - `do_operator_load` (method, `cli/commands/automation.py:264`) `def do_operator_load(self, line)` - Load effective config for an operator (team baseline + overrides).
 - `do_operator_delete` (method, `cli/commands/automation.py:292`) `def do_operator_delete(self, line)` - Delete an operator profile.
 - `do_hooks` (method, `cli/commands/automation.py:314`) `def do_hooks(self, line)` - Conditional hooks management — list, enable, disable, add, remove rules.
-- `CollaborationCommandSet` (class, `cli/commands/collaboration.py:20`) `class CollaborationCommandSet(LazyOwnCommandSet)` - Multi-operator collaboration commands for the CLI.
-- `_get_collab` (method, `cli/commands/collaboration.py:26`) `def _get_collab(self)` - Lazy-load collaboration singletons from modules.collab_bp.
-- `_resolve_target` (method, `cli/commands/collaboration.py:38`) `def _resolve_target(self, target)` - Resolve a target argument: explicit IP or rhost from payload.
-- `do_lock_target` (method, `cli/commands/collaboration.py:48`) `def do_lock_target(self, line)` - Acquire an advisory lock on a target to prevent tool collisions.
-- `do_unlock_target` (method, `cli/commands/collaboration.py:89`) `def do_unlock_target(self, line)` - Release an advisory lock on a target.
-- `do_team_status` (method, `cli/commands/collaboration.py:114`) `def do_team_status(self, line)` - Show active operators and target locks.
-- `do_team_chat` (method, `cli/commands/collaboration.py:169`) `def do_team_chat(self, line)` - Send a message to all connected operators.
-- `do_share_finding` (method, `cli/commands/collaboration.py:199`) `def do_share_finding(self, line)` - Share a finding or credential discovery with the team.
 - `ApiAuthzConfig` (class, `core/api_authz.py:54`) `class ApiAuthzConfig` - Configuration contract for the API authorization module.
 - `ApiKey` (class, `core/api_authz.py:75`) `class ApiKey` - Immutable record of a hashed API key bound to a tenant.
 - `to_dict` (method, `core/api_authz.py:94`) `def to_dict(self)`
@@ -123,23 +115,31 @@ This community groups 75 file(s) rooted at `tests` with dominant language py (co
 - `has_permission` (method, `core/api_authz.py:127`) `def has_permission(self, permission)`
 - `has_all_permissions` (method, `core/api_authz.py:130`) `def has_all_permissions(self, permissions)`
 - `_hash_secret` (function, `core/api_authz.py:137`) `def _hash_secret(secret)` - Return the SHA-256 hex digest of *secret*.
+- `_verify_secret` (function, `core/api_authz.py:142`) `def _verify_secret(secret, stored_hash)` - Constant-time comparison of *secret* against *stored_hash*.
+- `_generate_token_bytes` (function, `core/api_authz.py:147`) `def _generate_token_bytes(nbytes)` - Return a URL-safe random token string of *nbytes* random bytes.
+- `ApiKeyStore` (class, `core/api_authz.py:161`) `class ApiKeyStore` - Persistent store for tenant-scoped API keys.
+- `__init__` (method, `core/api_authz.py:170`) `def __init__(self, config)`
+- `config` (method, `core/api_authz.py:176`) `def config(self)` - The configuration this store was built with.
+- `_read` (method, `core/api_authz.py:180`) `def _read(self)`
+- `_write` (method, `core/api_authz.py:191`) `def _write(self, data)`
+- `_grace_deadline` (method, `core/api_authz.py:197`) `def _grace_deadline(self, retired_at)` - Return the timestamp after which a retired key stops validating.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 192
-- Cross-boundary resolved imports (EXTRACTED): 172
+- Internal resolved imports (EXTRACTED): 149
+- Cross-boundary resolved imports (EXTRACTED): 148
 
 ## Connections
 
-- [EXTRACTED] depends_on community 5 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 6 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
 
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/db.py` -> `core/config.py`
-- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/db.py` -> `core/config.py`
 - [layer strict] `lazyc2/blueprints/operations.py` (presentation) -> `lazyc2/extensions/storage.py` (data_access)
 - [layer strict] `tests/test_addon_creator.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
+- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
@@ -154,30 +154,29 @@ This community groups 75 file(s) rooted at `tests` with dominant language py (co
 ## Open Questions
 
 - Why do 3 file(s) lack file-level docs (e.g. `lazyc2.py`)? What purpose do they serve?
-- Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/db.py` be broken with an interface?
-- What would break if the most connected file in modules: lazyc2 changed?
-- Should modules: lazyc2 be split, given cohesion 0.49?
+- What would break if the most connected file in lazyc2/security changed?
+- Should lazyc2/security be split, given cohesion 0.47?
 
 ## Sources
 
 - `cli/commands/automation.py`
-- `cli/commands/collaboration.py`
 - `core/api_authz.py`
 - `lazyc2.py`
 - `lazyc2/__init__.py`
 - `lazyc2/app_factory.py`
 - `lazyc2/blueprints/__init__.py`
 - `lazyc2/blueprints/addons.py`
-- `lazyc2/blueprints/api_v1.py`
 - `lazyc2/blueprints/auth.py`
 - `lazyc2/blueprints/beacon.py`
 - `lazyc2/blueprints/operations.py`
-- `lazyc2/blueprints/phishing.py`
 - `lazyc2/blueprints/session_auth.py`
 - `lazyc2/extensions/__init__.py`
 - `lazyc2/extensions/decoy.py`
-- `lazyc2/extensions/short_urls.py`
 - `lazyc2/extensions/storage.py`
 - `lazyc2/extensions/users.py`
 - `lazyc2/models.py`
-- *... and 55 more*
+- `lazyc2/security/__init__.py`
+- `lazyc2/security/cli_credentials.py`
+- `lazyc2/security/command_allowlist.py`
+- `lazyc2/security/constants.py`
+- *... and 39 more*

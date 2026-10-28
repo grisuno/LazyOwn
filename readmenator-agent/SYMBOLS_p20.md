@@ -1,8 +1,30 @@
-# Symbols (page 20 of 46)
+# Symbols (page 20 of 47)
 Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `cmd_pipeline` | function | `modules/pipeline_engine.py:1436` | `def cmd_pipeline(action, name, target, background)` |
+| `derive` | method | `modules/pipeline_engine.py:396` | `def derive(cls, command, output)` |
+| `get_default_engine` | function | `modules/pipeline_engine.py:1300` | `def get_default_engine(onecmd)` |
+| `is_truthy` | method | `modules/pipeline_engine.py:330` | `def is_truthy(rendered)` |
+| `list` | method | `modules/pipeline_engine.py:645` | `def list(self)` |
+| `load` | method | `modules/pipeline_engine.py:683` | `def load(self, name)` |
+| `loader` | method | `modules/pipeline_engine.py:942` | `def loader(self)` |
+| `mcp_pipeline_list` | function | `modules/pipeline_engine.py:1368` | `def mcp_pipeline_list()` |
+| `mcp_pipeline_run` | function | `modules/pipeline_engine.py:1314` | `def mcp_pipeline_run(name, target, background, onecmd)` |
+| `mcp_pipeline_status` | function | `modules/pipeline_engine.py:1414` | `def mcp_pipeline_status(last_n)` |
+| `mcp_pipeline_validate` | function | `modules/pipeline_engine.py:1385` | `def mcp_pipeline_validate(name)` |
+| `narrate` | method | `modules/pipeline_engine.py:852` | `def narrate(self, kind, target, message, payload, severity)` |
+| `narrate` | method | `modules/pipeline_engine.py:864` | `def narrate(self)` |
+| `narrate` | method | `modules/pipeline_engine.py:881` | `def narrate(self, kind, target, message, payload, severity)` |
+| `open_run` | method | `modules/pipeline_engine.py:785` | `def open_run(self, pipeline_name, run_id)` |
+| `pipelines_dir` | method | `modules/pipeline_engine.py:642` | `def pipelines_dir(self)` |
+| `register` | method | `modules/pipeline_engine.py:389` | `def register(cls, command, deriver)` |
+| `render` | method | `modules/pipeline_engine.py:278` | `def render(self, template)` |
+| `resolve` | method | `modules/pipeline_engine.py:289` | `def resolve(self, dotted_path)` |
+| `resolve_path` | method | `modules/pipeline_engine.py:658` | `def resolve_path(self, name)` |
+| `run` | method | `modules/pipeline_engine.py:513` | `def run(self, command, args, target, timeout_s)` |
+| `run` | method | `modules/pipeline_engine.py:548` | `def run(self, command, args, target, timeout_s)` |
 | `run` | method | `modules/pipeline_engine.py:949` | `def run(self, name, target, nesting_stack)` |
 | `runs_dir` | method | `modules/pipeline_engine.py:782` | `def runs_dir(self)` |
 | `to_context` | method | `modules/pipeline_engine.py:180` | `def to_context(self)` |
@@ -474,27 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `unlink` | function | `modules/rootkit/mrhyde2.c:87` | `int unlink(const char *pathname)` |
 | `unlinkat` | function | `modules/rootkit/mrhyde2.c:131` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
 | `C2_PORT` | macro | `modules/rootkit/mrhyde3.c:57` | `#define C2_PORT` |
-| `C2_SERVER_IP` | macro | `modules/rootkit/mrhyde3.c:56` | `#define C2_SERVER_IP` |
-| `CQE_TIMEOUT_MS` | macro | `modules/rootkit/mrhyde3.c:58` | `#define CQE_TIMEOUT_MS` |
-| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde3.c:53` | `#define FILE_HIDE_PATH` |
-| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde3.c:33` | `#define HIDDEN_DIR` |
-| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde3.c:34` | `#define HIDDEN_FILE` |
-| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde3.c:35` | `#define HIDDEN_FILE1` |
-| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde3.c:36` | `#define HIDDEN_FILE2` |
-| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde3.c:37` | `#define HIDDEN_FILE3` |
-| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde3.c:38` | `#define HIDDEN_FILE4` |
-| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde3.c:39` | `#define HIDDEN_FILE5` |
-| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde3.c:40` | `#define HIDDEN_FILE6` |
-| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde3.c:41` | `#define HIDDEN_FILE7` |
-| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde3.c:42` | `#define HIDDEN_FILE8` |
-| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde3.c:43` | `#define HIDDEN_FILE9` |
-| `HIDE_DIR` | macro | `modules/rootkit/mrhyde3.c:46` | `#define HIDE_DIR` |
-| `HIDE_USER` | macro | `modules/rootkit/mrhyde3.c:49` | `#define HIDE_USER` |
-| `IO_URING_BUFFER_SIZE` | macro | `modules/rootkit/mrhyde3.c:55` | `#define IO_URING_BUFFER_SIZE` |
-| `IO_URING_QUEUE_DEPTH` | macro | `modules/rootkit/mrhyde3.c:54` | `#define IO_URING_QUEUE_DEPTH` |
-| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde3.c:51` | `#define MAX_HIDE_PIDS` |
-| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde3.c:44` | `#define PATHMRHYDE` |
-| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde3.c:52` | `#define PID_FILE_PATH` |
-| `_GNU_SOURCE` | macro | `modules/rootkit/mrhyde3.c:7` | `#define _GNU_SOURCE` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

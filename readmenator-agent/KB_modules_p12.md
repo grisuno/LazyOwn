@@ -1,6 +1,38 @@
 # Subsystem: modules (page 12 of 16)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/metrics.py
+- Doc: LazyOwn metrics surface.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MetricsRegistry` (class, line 54) `class MetricsRegistry`
+  - `_labels_key` (function, line 126) `def _labels_key(labels)`
+  - `MetricRecord` (class, line 146) `class MetricRecord`
+  - `MetricsWriter` (class, line 181) `class MetricsWriter`
+  - `MetricsAggregator` (class, line 226) `class MetricsAggregator`
+  - `MetricsRecorder` (class, line 332) `class MetricsRecorder`
+  - `get_recorder` (function, line 452) `def get_recorder()`
+  - `reset_recorder_for_tests` (function, line 466) `def reset_recorder_for_tests(writer)`
+  - `__init__` (method, line 63) `def __init__(self)`
+  - `inc` (method, line 69) `def inc(self, name, labels, value)`
+  - `get` (method, line 87) `def get(self, name, labels)`
+  - `prometheus_text` (method, line 107) `def prometheus_text(self)`
+  - `to_dict` (method, line 167) `def to_dict(self)`
+  - `__init__` (method, line 189) `def __init__(self, path)`
+  - `path` (method, line 201) `def path(self)`
+  - `append` (method, line 206) `def append(self, record)`
+  - `_percentile` (method, line 234) `def _percentile(values, percentile)`
+  - `summarize` (method, line 254) `def summarize(cls, records, window_seconds, now_utc)`
+  - `__init__` (method, line 339) `def __init__(self, writer)`
+  - `path` (method, line 350) `def path(self)`
+  - `record` (method, line 355) `def record(self, command, args, duration_ms, success, exit_code, source)`
+  - `_read_all` (method, line 388) `def _read_all(self)`
+  - `summarize` (method, line 416) `def summarize(self, window_seconds)`
+  - `tail` (method, line 430) `def tail(self, n)`
+- Depends on: `core/logging.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
+
 ## modules/mfa_bypass.py
 - Doc: MFA Bypass Toolkit — techniques for circumventing multi-factor authentication.
 - Layer: utility
@@ -462,31 +494,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `domain_exposure` (function, line 198) `def domain_exposure(domain, sessions_dir)`
   - `enrich_evidence` (function, line 213) `def enrich_evidence(items, sessions_dir)`
 - Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
-
-## modules/outcome_bus.py
-- Doc: Single fan-out contract for engagement outcomes.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `OutcomeEvent` (class, line 75) `class OutcomeEvent`
-  - `OutcomeBus` (class, line 153) `class OutcomeBus`
-  - `get_bus` (function, line 269) `def get_bus()`
-  - `reset_bus` (function, line 278) `def reset_bus()`
-  - `record` (function, line 283) `def record(event, sinks)`
-  - `record_event` (function, line 288) `def record_event()`
-  - `severity_for_event` (function, line 293) `def severity_for_event(severity)`
-  - `category_for_event` (function, line 298) `def category_for_event(kind)`
-  - `host_value` (method, line 103) `def host_value(self)`
-  - `key` (method, line 107) `def key(self)`
-  - `to_dict` (method, line 125) `def to_dict(self)`
-  - `__init__` (method, line 156) `def __init__(self, ledger_path, sink_map)`
-  - `reset` (method, line 169) `def reset(self)`
-  - `_sink` (method, line 175) `def _sink(self, name)`
-  - `_enabled_sinks` (method, line 190) `def _enabled_sinks(self, requested)`
-  - `record` (method, line 201) `def record(self, event, sinks)`
-  - `_append_ledger` (method, line 248) `def _append_ledger(self, event, statuses)`
-- Depends on: `core/logging.py`, `modules/__init__.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

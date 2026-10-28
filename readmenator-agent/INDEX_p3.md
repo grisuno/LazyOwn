@@ -3,6 +3,10 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_docs_drift_contract.py` | Docs drift workflow contract tests. | tests | 11 | 0 |
+| `tests/test_doctor.py` | tests/test_doctor.py  Tests for the preflight environment health check in ``cli.doctor``. | tests | 34 | 0 |
+| `tests/test_emulation_runner.py` | Emulation runner BDD contract: resolve, execute, normalize, publish. | tests | 22 | 0 |
+| `tests/test_encoding_command_set.py` | Encoding command set extraction tests. | tests | 9 | 0 |
 | `tests/test_engage_gates.py` | BDD tests for gates and transcripts in the live engage path. | tests | 28 | 0 |
 | `tests/test_engage_orchestrator.py` | tests/test_engage_orchestrator.py  Coverage for the engage feature added in... | tests | 77 | 0 |
 | `tests/test_engage_summary.py` | Tests for modules/engage_summary.py. | tests | 10 | 0 |
@@ -38,7 +42,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_improvements_spec.py` | Spec-driven validation of the three priority improvements. | tests | 160 | 0 |
 | `tests/test_infra_disposable.py` | TDD unit tests for the disposable infrastructure contracts. | tests | 35 | 0 |
 | `tests/test_input_fuzz.py` | Fuzzing for input validators and rating boundaries. | tests | 8 | 0 |
-| `tests/test_intel_fusion.py` | Intel fusion + LLM defaults regression tests. | tests | 11 | 0 |
+| `tests/test_intel_fusion.py` | Intel fusion + LLM defaults regression tests. | tests | 22 | 0 |
 | `tests/test_intelligence_engine.py` | Tests for IntelligenceEngine — collection, analysis, intelligence, dissemination. | tests | 27 | 0 |
 | `tests/test_journal.py` | Tests for the GitHub Discussions engineering journal. | tests | 10 | 0 |
 | `tests/test_killchain.py` | Tests for cli/killchain.py. | tests | 9 | 0 |
@@ -57,6 +61,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lazy_parity.py` | LAZY parity proof tests: every ported subsystem must behave, not just exist. | tests | 26 | 0 |
 | `tests/test_lazy_proxy.py` | Recorder proxy: CA, HTTP/HTTPS capture, engine ingestion, auto-binding. | tests | 28 | 0 |
 | `tests/test_lazy_runner.py` | Shared loop runner, monitor surface and store-fidelity regressions. | tests | 143 | 0 |
+| `tests/test_lazy_scope.py` | Behavioural tests for the lab-only default scope guard. | tests | 30 | 0 |
 | `tests/test_lazy_streaming.py` | Token-level streaming: factory, pool deltas, agent reassembly. | tests | 17 | 0 |
 | `tests/test_lazy_worker_safety.py` | Worker safety: step sanitizer, task-wide dedupe, sudo skip, worker pool. | tests | 12 | 0 |
 | `tests/test_lazy_world_diff.py` | World-surface diff contract: snapshots, changes, ghost liveness, stats. | tests | 18 | 0 |
@@ -96,6 +101,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_loop_spawn_side.py` | Multi-session chat, persistent side questions, spawn inheritance (lazy 0.3.9). | tests | 4 | 0 |
 | `tests/test_loop_store_race.py` | Store file writes stay atomic under parallel workers (race regression). | tests | 2 | 0 |
 | `tests/test_loop_supervision.py` | Supervision upgrades: repetition watchdog, stack priors, prompt masking. | tests | 9 | 0 |
+| `tests/test_loop_trigger_hints.py` | BDD for the cve_hot trigger hint fingerprints. | tests | 16 | 0 |
 | `tests/test_loop_worker_traces.py` | Worker cross-work trace tools (lazy 0.3.10 parity). | tests | 8 | 0 |
 | `tests/test_marketplace_config.py` | Marketplace registry and settings: formats, toggles, CRUD. | tests | 10 | 0 |
 | `tests/test_mcp_dispatch.py` | call_tool dispatches through the handler registry. | tests | 10 | 0 |
@@ -206,7 +212,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_viral_adoption.py` | Viral adoption assets: GIFs, smoke script, drift CI, launch kit. | tests | 7 | 0 |
 | `tests/test_vuln_mitigations.py` | Regression suite for the GitHub code-scanning mitigations. | tests | 28 | 0 |
 | `tests/test_vulnbot_fallback.py` | SDD spec and BDD scenarios for the VulnBot orchestrator-governed CLI. | tests | 25 | 0 |
-| `tests/test_winbox_gym.py` | Contract tests for the WinBox gym catalogue, adapter and matrix runner. | tests | 45 | 0 |
+| `tests/test_winbox_gym.py` | Contract tests for the WinBox gym catalogue, adapter and matrix runner. | tests | 47 | 0 |
 | `tests/test_wizard_binary_check.py` | tests/test_wizard_binary_check.py  Tests for the wizard binary-readiness check added to... | tests | 26 | 0 |
 | `tests/test_wizard_llm.py` | Contract tests for the wizard LLM provider setup step. | tests | 31 | 0 |
 | `tests/test_world_model_extended.py` | Tests for extended WorldModel methods: set_os_hint, get_host, get_hosts_summary. | tests | 22 | 0 |

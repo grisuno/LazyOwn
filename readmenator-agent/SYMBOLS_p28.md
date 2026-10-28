@@ -1,8 +1,31 @@
-# Symbols (page 28 of 46)
+# Symbols (page 28 of 47)
 Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:159` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:233` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:353` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:435` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:516` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:584` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:680` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:777` | `def teardown_method(self)` |
+| `test_active_count_decrements_when_done` | method | `skills/tests/test_hive_mind.py:401` | `def test_active_count_decrements_when_done(self)` |
+| `test_broadcast_received_by_everyone` | method | `skills/tests/test_hive_mind.py:312` | `def test_broadcast_received_by_everyone(self)` |
+| `test_count_returns_zero_when_unavailable` | method | `skills/tests/test_hive_mind.py:212` | `def test_count_returns_zero_when_unavailable(self)` |
+| `test_delete_older_than_removes_stale` | method | `skills/tests/test_hive_mind.py:750` | `def test_delete_older_than_removes_stale(self)` |
+| `test_dispatch_returns_drone_ids` | method | `skills/tests/test_hive_mind.py:480` | `def test_dispatch_returns_drone_ids(self)` |
+| `test_drone_result_unknown_id` | method | `skills/tests/test_hive_mind.py:557` | `def test_drone_result_unknown_id(self)` |
+| `test_fallback_to_episodic_when_chroma_unavailable` | method | `skills/tests/test_hive_mind.py:179` | `def test_fallback_to_episodic_when_chroma_unavailable(self)` |
+| `test_forget_by_topic` | method | `skills/tests/test_hive_mind.py:132` | `def test_forget_by_topic(self)` |
+| `test_forget_delegates_to_episodic` | method | `skills/tests/test_hive_mind.py:277` | `def test_forget_delegates_to_episodic(self)` |
+| `test_forget_old_events` | method | `skills/tests/test_hive_mind.py:121` | `def test_forget_old_events(self)` |
+| `test_forget_returns_int` | method | `skills/tests/test_hive_mind.py:563` | `def test_forget_returns_int(self)` |
+| `test_get_state_returns_drone_state` | method | `skills/tests/test_hive_mind.py:374` | `def test_get_state_returns_drone_state(self)` |
+| `test_get_state_unknown_id_returns_none` | method | `skills/tests/test_hive_mind.py:386` | `def test_get_state_unknown_id_returns_none(self)` |
+| `test_instantiation` | method | `skills/tests/test_hive_mind.py:162` | `def test_instantiation(self)` |
+| `test_list_all_includes_history` | method | `skills/tests/test_hive_mind.py:844` | `def test_list_all_includes_history(self)` |
 | `test_list_all_includes_spawned_drone` | method | `skills/tests/test_hive_mind.py:392` | `def test_list_all_includes_spawned_drone(self)` |
 | `test_load_all_empty_db` | method | `skills/tests/test_hive_mind.py:759` | `def test_load_all_empty_db(self)` |
 | `test_load_interrupted_returns_only_interrupted` | method | `skills/tests/test_hive_mind.py:737` | `def test_load_interrupted_returns_only_interrupted(self)` |
@@ -473,28 +496,5 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `n` | function | `static/js/chart.min.js:13` | `` |
 | `o` | function | `static/js/chart.min.js:13` | `` |
 | `o` | function | `static/js/chart.min.js:13` | `` |
-| `o` | function | `static/js/chart.min.js:13` | `` |
-| `o` | function | `static/js/chart.min.js:13` | `` |
-| `on` | class | `static/js/chart.min.js:13` | `` |
-| `oo` | class | `static/js/chart.min.js:13` | `` |
-| `p` | function | `static/js/chart.min.js:13` | `` |
-| `p` | function | `static/js/chart.min.js:13` | `` |
-| `r` | function | `static/js/chart.min.js:7` | `` |
-| `r` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `s` | function | `static/js/chart.min.js:13` | `` |
-| `sn` | class | `static/js/chart.min.js:13` | `` |
-| `t` | function | `static/js/chart.min.js:13` | `` |
-| `tn` | class | `static/js/chart.min.js:13` | `` |
-| `wa` | class | `static/js/chart.min.js:13` | `` |
-| `xt` | class | `static/js/chart.min.js:7` | `` |
-| `y` | function | `static/js/chart.min.js:13` | `` |
-| `y` | function | `static/js/chart.min.js:13` | `` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

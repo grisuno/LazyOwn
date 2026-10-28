@@ -1,22 +1,22 @@
 # cli
 
-*Community 2 | 111 files | cohesion 0.53*
+*Community 4 | 93 files | cohesion 0.50*
 
 ## Definition
 
-This community groups 111 file(s) rooted at `tests` with dominant language py (cohesion 0.53). Central symbols: `Alert`, `App`, `AuditConfig`, `AutoCryptoConfig`, `AutoCryptoEngine`, `AutoSuggestEngine`, `BackendAdapterSpec`, `BackendRegistry`. Core file: `tests/test_command_palette.py` (238 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
+This community groups 93 file(s) rooted at `tests` with dominant language py (cohesion 0.50). Central symbols: `Alert`, `App`, `AuditConfig`, `AutoCryptoConfig`, `AutoCryptoEngine`, `AutoSuggestEngine`, `BackendAdapterSpec`, `BackendRegistry`. Core file: `tests/test_command_palette.py` (238 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
 
 ## Files
 
-### `tests` (45 files)
+### `tests` (40 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_auto_crypto.py` | py | testing | 22 | yes |
 | `tests/test_autosuggest.py` | py | testing | 41 | yes |
-| `tests/test_banner_config.py` | py | testing | 45 | yes |
+| `tests/test_c2_agent.py` | py | testing | 20 | yes |
 
-### `cli` (42 files)
+### `cli` (34 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -24,20 +24,21 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 | `cli/auto_crypto.py` | py | utility | 13 | yes |
 | `cli/autosuggest.py` | py | utility | 27 | yes |
 
-### `cli/commands` (6 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/commands/__init__.py` | py | utility | 0 | yes |
-| `cli/commands/cli_auth.py` | py | utility | 5 | yes |
-| `cli/commands/containers.py` | py | infrastructure | 7 | yes |
-
 ### `core` (6 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `core/command_bridge.py` | py | utility | 9 | yes |
 | `core/console.py` | py | utility | 11 | yes |
+| `core/error_advice.py` | py | utility | 5 | yes |
+
+### `cli/commands` (4 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/commands/__init__.py` | py | utility | 0 | yes |
+| `cli/commands/cli_auth.py` | py | utility | 5 | yes |
+| `cli/commands/help_ui.py` | py | presentation | 16 | yes |
 
 ### `poc_tui` (4 files)
 
@@ -45,13 +46,7 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `poc_tui/__main__.py` | py | utility | 0 | yes |
 | `poc_tui/app.py` | py | utility | 47 | yes |
-
-### `modules` (3 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/cli_auth.py` | py | utility | 18 | yes |
-| `modules/lazyk8s.py` | py | utility | 32 | yes |
+| `poc_tui/run.py` | py | utility | 1 | yes |
 
 ### `.` (2 files)
 
@@ -59,6 +54,12 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `lazy_sentinel4.py` | py | utility | 47 | no |
 | `lazyown.py` | py | utility | 124 | yes |
+
+### `modules` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/cli_auth.py` | py | utility | 18 | yes |
 
 ### `scripts/devtools` (1 files)
 
@@ -72,13 +73,7 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `skills/unified_orchestrator.py` | py | utility | 59 | yes |
 
-### `static/js` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `static/js/showdown-2.1.0.min.js` | js | utility | 5 | yes |
-
-*... and 91 more files in this community.*
+*... and 73 more files in this community.*
 
 
 ## Key Symbols
@@ -116,63 +111,57 @@ This community groups 111 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 472
-- Cross-boundary resolved imports (EXTRACTED): 260
+- Internal resolved imports (EXTRACTED): 425
+- Cross-boundary resolved imports (EXTRACTED): 234
 
 ## Connections
 
-- [EXTRACTED] depends_on community 2 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
-- [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
-- [EXTRACTED] depends_on community 2 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/parsers.py.
-- [EXTRACTED] depends_on community 2 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/safe_exec.py.
-- [EXTRACTED] depends_on community 7 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/command_chain.py imports cli/reactive_hints.py.
+- [EXTRACTED] depends_on community 4 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
+- [EXTRACTED] depends_on community 4 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
+- [EXTRACTED] depends_on community 4 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/command_chain.py imports cli/exploration.py.
+- [EXTRACTED] depends_on community 4 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `cli/banner_config.py` via `subprocess` (0 hops)
-- [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `core/param_registry.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `modules/cli_auth.py` -> `cli/engagement_hooks.py` -> `core/config.py`
+- [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `modules/cli_auth.py` -> `core/config.py`
+- [cycle] `modules/cli_auth.py` -> `cli/engagement_hooks.py` -> `modules/cli_auth.py`
+- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
+- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
+- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
+- [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
+- [dataflow UNCHECKED_ALLOC] `cli/auto_crypto.py:272` `_load_or_create_salt` `fd`: Result of allocator stored in `fd` is never checked against NULL.
 
 ## Open Questions
 
 - Why do 1 file(s) lack file-level docs (e.g. `lazy_sentinel4.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `modules/cli_auth.py` -> `cli/engagement_hooks.py` be broken with an interface?
-- Is the dangerous import `subprocess` in `cli/banner_config.py` still required, or can it be isolated?
 - What would break if the most connected file in cli changed?
-- Should cli be split, given cohesion 0.53?
+- Should cli be split, given cohesion 0.50?
 
 ## Sources
 
 - `cli/__init__.py`
 - `cli/auto_crypto.py`
 - `cli/autosuggest.py`
-- `cli/banner_config.py`
 - `cli/chain_mode.py`
+- `cli/command_chain.py`
 - `cli/command_explorer.py`
 - `cli/command_form.py`
 - `cli/commands/__init__.py`
 - `cli/commands/cli_auth.py`
-- `cli/commands/containers.py`
 - `cli/commands/help_ui.py`
 - `cli/commands/orchestration.py`
-- `cli/commands/ux.py`
-- `cli/config_history.py`
 - `cli/config_status.py`
 - `cli/contextual_help.py`
 - `cli/doctor.py`
 - `cli/engagement_hooks.py`
-- `cli/fuzzy_match.py`
-- `cli/fuzzy_picker.py`
-- *... and 91 more*
+- `cli/graph_overlay.py`
+- `cli/headless.py`
+- `cli/noise_verbs.py`
+- `cli/palette.py`
+- `cli/palette_command.py`
+- *... and 73 more*

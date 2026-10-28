@@ -1,6 +1,162 @@
 # Subsystem: tests (page 21 of 21)
 Previous: [KB_tests_p20.md](KB_tests_p20.md)
 
+## tests/test_unified_dashboard.py
+- Doc: Tests for modules/unified_dashboard.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestUnifiedDashboardInit` (class, line 10) `class TestUnifiedDashboardInit`
+  - `TestWorldModelCollection` (class, line 21) `class TestWorldModelCollection`
+  - `TestDaemonStatus` (class, line 36) `class TestDaemonStatus`
+  - `TestUnifiedSnapshot` (class, line 51) `class TestUnifiedSnapshot`
+  - `TestRenderUnified` (class, line 74) `class TestRenderUnified`
+  - `TestExportJson` (class, line 95) `class TestExportJson`
+  - `test_default_init` (method, line 11) `def test_default_init(self, tmp_path)`
+  - `test_get_unified_dashboard_singleton` (method, line 15) `def test_get_unified_dashboard_singleton(self, tmp_path)`
+  - `test_collect_world_model_exists` (method, line 22) `def test_collect_world_model_exists(self, tmp_path)`
+  - `test_collect_world_model_missing` (method, line 30) `def test_collect_world_model_missing(self, tmp_path)`
+  - `test_collect_daemon_status_exists` (method, line 37) `def test_collect_daemon_status_exists(self, tmp_path)`
+  - `test_collect_daemon_status_missing` (method, line 45) `def test_collect_daemon_status_missing(self, tmp_path)`
+  - `test_snapshot_keys` (method, line 52) `def test_snapshot_keys(self, tmp_path)`
+  - `test_snapshot_timestamp` (method, line 67) `def test_snapshot_timestamp(self, tmp_path)`
+  - `test_render_contains_header` (method, line 75) `def test_render_contains_header(self, tmp_path)`
+  - `test_render_contains_sections` (method, line 80) `def test_render_contains_sections(self, tmp_path)`
+  - `test_render_contains_timestamp` (method, line 89) `def test_render_contains_timestamp(self, tmp_path)`
+  - `test_export_json` (method, line 96) `def test_export_json(self, tmp_path)`
+- Depends on: `modules/unified_dashboard.py`
+
+## tests/test_utils_import_silent.py
+- Doc: utils as a library: importing it must never parse the importer's argv.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_import_with_foreign_argv_is_silent` (function, line 12) `def test_import_with_foreign_argv_is_silent()`
+  - `test_lazy_import_chains_stay_silent` (function, line 34) `def test_lazy_import_chains_stay_silent()`
+
+## tests/test_verb_catalog.py
+- Doc: BDD contract tests for the operator verb catalog.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sandbox` (function, line 19) `def sandbox(tmp_path)`
+  - `test_sync_generates_catalog_with_builtins_on_and_new_off` (function, line 32) `def test_sync_generates_catalog_with_builtins_on_and_new_off(sandbox)`
+  - `test_sync_preserves_operator_choices` (function, line 41) `def test_sync_preserves_operator_choices(sandbox)`
+  - `test_sync_prunes_stale_commands` (function, line 51) `def test_sync_prunes_stale_commands(sandbox)`
+  - `test_load_returns_empty_on_missing_invalid_or_oversize` (function, line 64) `def test_load_returns_empty_on_missing_invalid_or_oversize(sandbox, tmp_path)`
+  - `test_set_enabled_unknown_command_raises` (function, line 73) `def test_set_enabled_unknown_command_raises(sandbox)`
+  - `test_set_enabled_persists_atomically` (function, line 79) `def test_set_enabled_persists_atomically(sandbox)`
+  - `test_validate_catalog_rejects_bad_documents` (function, line 88) `def test_validate_catalog_rejects_bad_documents(sandbox)`
+  - `test_effective_verbs_include_catalog_entries` (function, line 97) `def test_effective_verbs_include_catalog_entries(sandbox, monkeypatch)`
+  - `test_loop_refuses_disabled_cli_verb_and_allows_enabled` (function, line 111) `def test_loop_refuses_disabled_cli_verb_and_allows_enabled(sandbox, monkeypatch)`
+  - `test_stats_reports_on_off_counts` (function, line 133) `def test_stats_reports_on_off_counts(sandbox)`
+  - `test_search_filters_catalog` (function, line 141) `def test_search_filters_catalog(sandbox)`
+  - `_addon_sandbox` (function, line 150) `def _addon_sandbox(tmp_path, enabled)`
+  - `test_sync_indexes_enabled_lazyaddons_disabled_by_default` (function, line 169) `def test_sync_indexes_enabled_lazyaddons_disabled_by_default(tmp_path)`
+  - `test_sync_prunes_renamed_or_disabled_addons` (function, line 187) `def test_sync_prunes_renamed_or_disabled_addons(tmp_path)`
+  - `test_operator_can_turn_addon_verb_on` (function, line 202) `def test_operator_can_turn_addon_verb_on(tmp_path)`
+  - `test_steps_for_addon_verb_runs_lazy_addon` (function, line 215) `def test_steps_for_addon_verb_runs_lazy_addon(tmp_path, monkeypatch)`
+- Depends on: `modules/__init__.py`
+
+## tests/test_verb_manifest.py
+- Doc: BDD tests for the typed verb manifest store.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `manifest_path` (function, line 14) `def manifest_path(tmp_path)`
+  - `TestSchema` (class, line 50) `class TestSchema`
+  - `TestPlanCheck` (class, line 81) `class TestPlanCheck`
+  - `TestNoiseAndCost` (class, line 118) `class TestNoiseAndCost`
+  - `test_valid_manifest_parses` (method, line 53) `def test_valid_manifest_parses(self, manifest_path)`
+  - `test_unknown_fact_id_dropped` (method, line 65) `def test_unknown_fact_id_dropped(self, manifest_path)`
+  - `test_parse_manifest_rejects_junk` (method, line 73) `def test_parse_manifest_rejects_junk(self)`
+  - `test_unmet_precondition_reported` (method, line 84) `def test_unmet_precondition_reported(self, manifest_path)`
+  - `test_effect_paid_forward` (method, line 91) `def test_effect_paid_forward(self, manifest_path)`
+  - `test_world_model_facts_default` (method, line 104) `def test_world_model_facts_default(self)`
+  - `test_fallback_when_store_empty` (method, line 112) `def test_fallback_when_store_empty(self, tmp_path)`
+  - `test_noise_clamped` (method, line 121) `def test_noise_clamped(self)`
+  - `test_cost_tolerates_junk` (method, line 129) `def test_cost_tolerates_junk(self)`
+- Depends on: `modules/chain_registry.py`, `modules/verb_manifest.py`
+
+## tests/test_viral_adoption.py
+- Doc: Viral adoption assets: GIFs, smoke script, drift CI, launch kit.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_demo_gifs_exist_and_nonempty` (function, line 8) `def test_demo_gifs_exist_and_nonempty()`
+  - `test_demo_gif_commands_exist_in_source` (function, line 23) `def test_demo_gif_commands_exist_in_source()`
+  - `test_readme_links_viral_assets` (function, line 75) `def test_readme_links_viral_assets()`
+  - `test_smoke_script_covers_onboarding` (function, line 83) `def test_smoke_script_covers_onboarding()`
+  - `test_docs_drift_workflow_exists` (function, line 89) `def test_docs_drift_workflow_exists()`
+  - `test_marketplace_template_exists` (function, line 95) `def test_marketplace_template_exists()`
+  - `test_launch_kit_exists` (function, line 101) `def test_launch_kit_exists()`
+
+## tests/test_vuln_mitigations.py
+- Doc: Regression suite for the GitHub code-scanning mitigations.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `MitigationSuiteConfig` (class, line 29) `class MitigationSuiteConfig`
+  - `mitigation_config` (function, line 64) `def mitigation_config()`
+  - `_read_module` (function, line 69) `def _read_module(config, relative_path)`
+  - `_iter_function_bodies` (function, line 77) `def _iter_function_bodies(src)`
+  - `TestStackTraceSanitisation` (class, line 89) `class TestStackTraceSanitisation`
+  - `TestSentinelRegexSafety` (class, line 166) `class TestSentinelRegexSafety`
+  - `TestMitigationConfigInvariants` (class, line 224) `class TestMitigationConfigInvariants`
+  - `repo_root` (method, line 58) `def repo_root(self)`
+  - `lazyc2_src` (method, line 93) `def lazyc2_src(self, mitigation_config)`
+  - `phishingai_src` (method, line 98) `def phishingai_src(self, mitigation_config)`
+  - `test_log_handler_returns_generic_message` (method, line 102) `def test_log_handler_returns_generic_message(self, lazyc2_src)`
+  - `test_log_handler_keeps_server_side_logging` (method, line 112) `def test_log_handler_keeps_server_side_logging(self, lazyc2_src)`
+  - `test_palette_api_returns_generic_message` (method, line 121) `def test_palette_api_returns_generic_message(self, lazyc2_src)`
+  - `test_palette_api_keeps_server_side_logging` (method, line 131) `def test_palette_api_keeps_server_side_logging(self, lazyc2_src)`
+  - `test_dynamic_route_drops_raw_save_to_log_payload` (method, line 140) `def test_dynamic_route_drops_raw_save_to_log_payload(self, lazyc2_src)`
+  - `test_phishing_ai_returns_generic_message` (method, line 149) `def test_phishing_ai_returns_generic_message(self, phishingai_src)`
+  - `test_no_forbidden_response_substrings_remain` (method, line 154) `def test_no_forbidden_response_substrings_remain(self, lazyc2_src, phishingai_src, mitigation_config)`
+  - `src` (method, line 177) `def src(self, mitigation_config)`
+  - `_extract_sanitise_pattern` (method, line 181) `def _extract_sanitise_pattern(self, src)`
+  - `test_no_redundant_character_range_in_sanitise` (method, line 188) `def test_no_redundant_character_range_in_sanitise(self, src)`
+  - `test_pattern_matches_simplified_form` (method, line 193) `def test_pattern_matches_simplified_form(self, src)`
+  - `test_pattern_keeps_printable_ascii` (method, line 197) `def test_pattern_keeps_printable_ascii(self, src)`
+  - `test_pattern_keeps_tab_and_newline` (method, line 203) `def test_pattern_keeps_tab_and_newline(self, src)`
+  - `test_pattern_strips_control_bytes` (method, line 209) `def test_pattern_strips_control_bytes(self, src)`
+  - `test_pattern_does_not_strip_brackets` (method, line 217) `def test_pattern_does_not_strip_brackets(self, src)`
+  - `test_handler_module_paths_exist` (method, line 227) `def test_handler_module_paths_exist(self, mitigation_config)`
+  - `test_sentinel_module_exists` (method, line 232) `def test_sentinel_module_exists(self, mitigation_config)`
+  - `test_sentinel_function_exposed` (method, line 236) `def test_sentinel_function_exposed(self, mitigation_config)`
+
+## tests/test_vulnbot_fallback.py
+- Doc: SDD spec and BDD scenarios for the VulnBot orchestrator-governed CLI.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `bot` (function, line 33) `def bot(tmp_path, monkeypatch)`
+  - `TestKnowledgeBaseFormats` (class, line 39) `class TestKnowledgeBaseFormats`
+  - `TestGenerateFallback` (class, line 105) `class TestGenerateFallback`
+  - `TestWebModeFallback` (class, line 183) `class TestWebModeFallback`
+  - `test_list_format_matches` (method, line 40) `def test_list_format_matches(self, bot, tmp_path)`
+  - `test_legacy_dict_format_matches` (method, line 51) `def test_legacy_dict_format_matches(self, bot, tmp_path)`
+  - `test_no_match_returns_empty_text` (method, line 59) `def test_no_match_returns_empty_text(self, bot, tmp_path)`
+  - `test_corrupt_store_returns_empty_text` (method, line 67) `def test_corrupt_store_returns_empty_text(self, bot, tmp_path)`
+  - `test_add_appends_canonical_list_format` (method, line 75) `def test_add_appends_canonical_list_format(self, bot, tmp_path)`
+  - `test_list_format_matches_by_prompt_text` (method, line 86) `def test_list_format_matches_by_prompt_text(self, bot, tmp_path)`
+  - `test_missing_model_served_by_chain` (method, line 106) `def test_missing_model_served_by_chain(self, bot, tmp_path, monkeypatch)`
+  - `test_primary_error_banner_triggers_chain` (method, line 124) `def test_primary_error_banner_triggers_chain(self, bot, tmp_path, monkeypatch)`
+  - `test_primary_success_stays_primary` (method, line 147) `def test_primary_success_stays_primary(self, bot, tmp_path, monkeypatch)`
+  - `test_model_load_failure_returns_none_not_crash` (method, line 167) `def test_model_load_failure_returns_none_not_crash(self, bot, monkeypatch)`
+  - `test_missing_file_raises_read_error` (method, line 176) `def test_missing_file_raises_read_error(self, bot, tmp_path)`
+  - `test_stream_failure_serves_chain_answer` (method, line 184) `def test_stream_failure_serves_chain_answer(self, bot, tmp_path, monkeypatch)`
+  - `test_stream_error_banner_chunk_falls_back` (method, line 209) `def test_stream_error_banner_chunk_falls_back(self, bot, tmp_path, monkeypatch)`
+  - `_DeadModel` (class, line 127) `class _DeadModel`
+  - `_LiveModel` (class, line 157) `class _LiveModel`
+  - `_DeadStream` (class, line 189) `class _DeadStream`
+  - `_BannerStream` (class, line 214) `class _BannerStream`
+  - `generate` (method, line 128) `def generate(self, prompt)`
+  - `generate` (method, line 158) `def generate(self, prompt)`
+  - `stream_generate` (method, line 190) `def stream_generate(self, prompt)`
+  - `stream_generate` (method, line 215) `def stream_generate(self, prompt)`
+- Depends on: `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/vulnbot.py`
+
 ## tests/test_winbox_gym.py
 - Doc: Contract tests for the WinBox gym catalogue, adapter and matrix runner.
 - Layer: testing
@@ -8,8 +164,8 @@ Previous: [KB_tests_p20.md](KB_tests_p20.md)
 - Symbols:
   - `WinboxCatalogueSpec` (class, line 14) `class WinboxCatalogueSpec(TestCase)`
   - `WinboxReadinessSpec` (class, line 53) `class WinboxReadinessSpec(TestCase)`
-  - `WinboxBootstrapSpec` (class, line 159) `class WinboxBootstrapSpec(TestCase)`
-  - `WinboxMatrixSpec` (class, line 276) `class WinboxMatrixSpec(TestCase)`
+  - `WinboxBootstrapSpec` (class, line 177) `class WinboxBootstrapSpec(TestCase)`
+  - `WinboxMatrixSpec` (class, line 295) `class WinboxMatrixSpec(TestCase)`
   - `test_matrix_validates` (method, line 17) `def test_matrix_validates(self)`
   - `test_summary_shape` (method, line 20) `def test_summary_shape(self)`
   - `test_get_returns_entry` (method, line 26) `def test_get_returns_entry(self)`
@@ -17,40 +173,42 @@ Previous: [KB_tests_p20.md](KB_tests_p20.md)
   - `test_exploit_for_resolves` (method, line 38) `def test_exploit_for_resolves(self)`
   - `test_gym_definitions_load` (method, line 44) `def test_gym_definitions_load(self)`
   - `test_readiness_without_binary` (method, line 56) `def test_readiness_without_binary(self)`
-  - `test_readiness_guest_os_fallback` (method, line 64) `def test_readiness_guest_os_fallback(self)`
-  - `test_run_cli_rejects_unknown_action` (method, line 69) `def test_run_cli_rejects_unknown_action(self)`
-  - `test_run_cli_rejects_empty` (method, line 73) `def test_run_cli_rejects_empty(self)`
-  - `test_run_cli_rejects_bad_timeout` (method, line 77) `def test_run_cli_rejects_bad_timeout(self)`
-  - `test_run_cli_missing_binary_is_guidance` (method, line 81) `def test_run_cli_missing_binary_is_guidance(self)`
-  - `test_run_cli_uses_list_form` (method, line 87) `def test_run_cli_uses_list_form(self)`
-  - `test_vm_status_missing_binary` (method, line 97) `def test_vm_status_missing_binary(self)`
-  - `test_status_parsing` (method, line 101) `def test_status_parsing(self)`
-  - `test_record_artifact_sanitised` (method, line 111) `def test_record_artifact_sanitised(self)`
-  - `test_attack_readiness_reasons` (method, line 119) `def test_attack_readiness_reasons(self)`
-  - `test_ensure_installed_already_present` (method, line 125) `def test_ensure_installed_already_present(self)`
-  - `test_ensure_installed_clone_and_pip` (method, line 131) `def test_ensure_installed_clone_and_pip(self)`
-  - `test_ensure_installed_clone_failure_is_guidance` (method, line 146) `def test_ensure_installed_clone_failure_is_guidance(self)`
-  - `test_ensure_prereqs_nothing_missing` (method, line 162) `def test_ensure_prereqs_nothing_missing(self)`
-  - `test_ensure_prereqs_maps_binaries_to_packages` (method, line 168) `def test_ensure_prereqs_maps_binaries_to_packages(self)`
-  - `test_ensure_prereqs_sudo_non_interactive` (method, line 190) `def test_ensure_prereqs_sudo_non_interactive(self)`
-  - `test_ensure_lab_ready_skips_build_when_vm_built` (method, line 208) `def test_ensure_lab_ready_skips_build_when_vm_built(self)`
-  - `test_ensure_lab_ready_runs_iso_and_build_when_unbuilt` (method, line 227) `def test_ensure_lab_ready_runs_iso_and_build_when_unbuilt(self)`
-  - `test_ensure_lab_ready_fails_fast_on_install` (method, line 255) `def test_ensure_lab_ready_fails_fast_on_install(self)`
-  - `test_lazyaddon_install_command_covers_prereqs` (method, line 265) `def test_lazyaddon_install_command_covers_prereqs(self)`
-  - `test_plan_ordered_by_severity` (method, line 279) `def test_plan_ordered_by_severity(self)`
-  - `test_plan_rejects_empty_target` (method, line 285) `def test_plan_rejects_empty_target(self)`
-  - `test_plan_only_filter` (method, line 289) `def test_plan_only_filter(self)`
-  - `test_run_matrix_dry_run` (method, line 293) `def test_run_matrix_dry_run(self)`
-  - `test_run_matrix_requires_vm_when_live` (method, line 301) `def test_run_matrix_requires_vm_when_live(self)`
-  - `test_capture_windows_os_enum` (method, line 309) `def test_capture_windows_os_enum(self)`
-  - `test_capture_system_exec` (method, line 323) `def test_capture_system_exec(self)`
-  - `test_capture_defense_report` (method, line 334) `def test_capture_defense_report(self)`
-  - `test_capture_eventlog_rows` (method, line 345) `def test_capture_eventlog_rows(self)`
-  - `test_metasploitable_capture_unchanged` (method, line 356) `def test_metasploitable_capture_unchanged(self)`
-  - `fake_which` (function, line 173) `def fake_which(name)`
-  - `fake_run` (function, line 176) `def fake_run(argv)`
+  - `test_prereq_finds_libexec_virtiofsd` (method, line 64) `def test_prereq_finds_libexec_virtiofsd(self)`
+  - `test_prereq_fallback_never_accepts_missing_files` (method, line 74) `def test_prereq_fallback_never_accepts_missing_files(self)`
+  - `test_readiness_guest_os_fallback` (method, line 82) `def test_readiness_guest_os_fallback(self)`
+  - `test_run_cli_rejects_unknown_action` (method, line 87) `def test_run_cli_rejects_unknown_action(self)`
+  - `test_run_cli_rejects_empty` (method, line 91) `def test_run_cli_rejects_empty(self)`
+  - `test_run_cli_rejects_bad_timeout` (method, line 95) `def test_run_cli_rejects_bad_timeout(self)`
+  - `test_run_cli_missing_binary_is_guidance` (method, line 99) `def test_run_cli_missing_binary_is_guidance(self)`
+  - `test_run_cli_uses_list_form` (method, line 105) `def test_run_cli_uses_list_form(self)`
+  - `test_vm_status_missing_binary` (method, line 115) `def test_vm_status_missing_binary(self)`
+  - `test_status_parsing` (method, line 119) `def test_status_parsing(self)`
+  - `test_record_artifact_sanitised` (method, line 129) `def test_record_artifact_sanitised(self)`
+  - `test_attack_readiness_reasons` (method, line 137) `def test_attack_readiness_reasons(self)`
+  - `test_ensure_installed_already_present` (method, line 143) `def test_ensure_installed_already_present(self)`
+  - `test_ensure_installed_clone_and_pip` (method, line 149) `def test_ensure_installed_clone_and_pip(self)`
+  - `test_ensure_installed_clone_failure_is_guidance` (method, line 164) `def test_ensure_installed_clone_failure_is_guidance(self)`
+  - `test_ensure_prereqs_nothing_missing` (method, line 180) `def test_ensure_prereqs_nothing_missing(self)`
+  - `test_ensure_prereqs_maps_binaries_to_packages` (method, line 186) `def test_ensure_prereqs_maps_binaries_to_packages(self)`
+  - `test_ensure_prereqs_sudo_non_interactive` (method, line 209) `def test_ensure_prereqs_sudo_non_interactive(self)`
+  - `test_ensure_lab_ready_skips_build_when_vm_built` (method, line 227) `def test_ensure_lab_ready_skips_build_when_vm_built(self)`
+  - `test_ensure_lab_ready_runs_iso_and_build_when_unbuilt` (method, line 246) `def test_ensure_lab_ready_runs_iso_and_build_when_unbuilt(self)`
+  - `test_ensure_lab_ready_fails_fast_on_install` (method, line 274) `def test_ensure_lab_ready_fails_fast_on_install(self)`
+  - `test_lazyaddon_install_command_covers_prereqs` (method, line 284) `def test_lazyaddon_install_command_covers_prereqs(self)`
+  - `test_plan_ordered_by_severity` (method, line 298) `def test_plan_ordered_by_severity(self)`
+  - `test_plan_rejects_empty_target` (method, line 304) `def test_plan_rejects_empty_target(self)`
+  - `test_plan_only_filter` (method, line 308) `def test_plan_only_filter(self)`
+  - `test_run_matrix_dry_run` (method, line 312) `def test_run_matrix_dry_run(self)`
+  - `test_run_matrix_requires_vm_when_live` (method, line 320) `def test_run_matrix_requires_vm_when_live(self)`
+  - `test_capture_windows_os_enum` (method, line 328) `def test_capture_windows_os_enum(self)`
+  - `test_capture_system_exec` (method, line 342) `def test_capture_system_exec(self)`
+  - `test_capture_defense_report` (method, line 353) `def test_capture_defense_report(self)`
+  - `test_capture_eventlog_rows` (method, line 364) `def test_capture_eventlog_rows(self)`
+  - `test_metasploitable_capture_unchanged` (method, line 375) `def test_metasploitable_capture_unchanged(self)`
+  - `fake_which` (function, line 191) `def fake_which(name)`
   - `fake_run` (function, line 194) `def fake_run(argv)`
-  - `fake_run_cli` (function, line 234) `def fake_run_cli(args, timeout)`
+  - `fake_run` (function, line 213) `def fake_run(argv)`
+  - `fake_run_cli` (function, line 253) `def fake_run_cli(args, timeout)`
 - Depends on: `modules/__init__.py`, `modules/gym_registry.py`
 
 ## tests/test_wizard_binary_check.py

@@ -349,7 +349,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/CVE-2018-15133.php` | - | modules | 0 | 0 |
 | `modules/CVE-2023-28432.py` | - | modules | 1 | 0 |
 | `modules/LazyOwnExplorer.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 23 | 0 |
-| `modules/__init__.py` | - | modules | 0 | 61 |
+| `modules/__init__.py` | - | modules | 0 | 62 |
 | `modules/adcs_attacks.py` | Active Directory Certificate Services (AD CS) attack module. | modules | 14 | 1 |
 | `modules/addon_updater.py` | Git update contract for lazyaddons. | modules | 10 | 3 |
 | `modules/agent_runner.py` | LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory management, argument... | modules | 38 | 3 |
@@ -482,7 +482,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/integrations/nuclei_bridge.py` | modules/integrations/nuclei_bridge.py | integrations | 29 | 3 |
 | `modules/integrations/nuclei_parser.py` | Nuclei JSON output parser — feeds scan results into DB, WorldModel, and recommender. | integrations | 17 | 2 |
 | `modules/integrations/searchsploit.py` | modules/integrations/searchsploit.py | integrations | 27 | 2 |
-| `modules/intel_fusion.py` | Sessions attack-intel fusion: data -> information -> intelligence. | modules | 28 | 7 |
+| `modules/intel_fusion.py` | Sessions attack-intel fusion: data -> information -> intelligence. | modules | 35 | 7 |
 | `modules/intelligence_engine.py` | IntelligenceEngine — unified collection→analysis→intelligence pipeline. | modules | 33 | 5 |
 | `modules/intercept.py` | User-configurable tool-call interception layer with human-in-loop approvals. | modules | 27 | 7 |
 | `modules/internal_discover.sh` | - | modules | 0 | 0 |

@@ -1,8 +1,43 @@
-# Symbols (page 34 of 46)
+# Symbols (page 34 of 47)
 Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_no_args_returns_full_catalog_header` | method | `tests/test_bridge_catalog_filtered.py:112` | `def test_no_args_returns_full_catalog_header(self)` |
+| `test_os_filter_shrinks_or_preserves_each_phase` | method | `tests/test_bridge_catalog_filtered.py:71` | `def test_os_filter_shrinks_or_preserves_each_phase(self, dispatcher)` |
+| `test_os_hint_any_is_passthrough` | method | `tests/test_bridge_catalog_filtered.py:100` | `def test_os_hint_any_is_passthrough(self, dispatcher)` |
+| `test_os_hint_linux_excludes_windows_only_entries` | method | `tests/test_bridge_catalog_filtered.py:51` | `def test_os_hint_linux_excludes_windows_only_entries(self, dispatcher)` |
+| `test_os_hint_only_appears_in_header` | method | `tests/test_bridge_catalog_filtered.py:127` | `def test_os_hint_only_appears_in_header(self)` |
+| `test_os_hint_uppercase_normalized` | method | `tests/test_bridge_catalog_filtered.py:105` | `def test_os_hint_uppercase_normalized(self, dispatcher)` |
+| `test_os_hint_windows_excludes_linux_only_entries` | method | `tests/test_bridge_catalog_filtered.py:61` | `def test_os_hint_windows_excludes_linux_only_entries(self, dispatcher)` |
+| `test_phase_arg_accepts_world_model_alias` | method | `tests/test_bridge_catalog_filtered.py:43` | `def test_phase_arg_accepts_world_model_alias(self, dispatcher)` |
+| `test_phase_arg_appears_in_header` | method | `tests/test_bridge_catalog_filtered.py:120` | `def test_phase_arg_appears_in_header(self)` |
+| `test_phase_arg_restricts_to_one_phase` | method | `tests/test_bridge_catalog_filtered.py:38` | `def test_phase_arg_restricts_to_one_phase(self, dispatcher)` |
+| `test_phase_drops_smaller_than_unfiltered_total` | method | `tests/test_bridge_catalog_filtered.py:94` | `def test_phase_drops_smaller_than_unfiltered_total(self, dispatcher)` |
+| `test_phase_plus_os_combines_both_filters` | method | `tests/test_bridge_catalog_filtered.py:81` | `def test_phase_plus_os_combines_both_filters(self, dispatcher)` |
+| `test_registry_exposes_optional_phase_and_os` | method | `tests/test_bridge_catalog_filtered.py:140` | `def test_registry_exposes_optional_phase_and_os(self)` |
+| `test_unknown_phase_returns_friendly_no_match` | method | `tests/test_bridge_catalog_filtered.py:134` | `def test_unknown_phase_returns_friendly_no_match(self)` |
+| `TestBroadcomWpsAddonExists` | class | `tests/test_broadcom_wps_addon.py:47` | `class TestBroadcomWpsAddonExists` |
+| `TestBroadcomWpsDriverContract` | class | `tests/test_broadcom_wps_addon.py:177` | `class TestBroadcomWpsDriverContract` |
+| `TestBroadcomWpsPlaceholders` | class | `tests/test_broadcom_wps_addon.py:137` | `class TestBroadcomWpsPlaceholders` |
+| `TestBroadcomWpsRequiredFields` | class | `tests/test_broadcom_wps_addon.py:63` | `class TestBroadcomWpsRequiredFields` |
+| `TestBroadcomWpsToolSection` | class | `tests/test_broadcom_wps_addon.py:102` | `class TestBroadcomWpsToolSection` |
+| `_load` | function | `tests/test_broadcom_wps_addon.py:32` | `def _load(path)` |
+| `addon` | function | `tests/test_broadcom_wps_addon.py:38` | `def addon()` |
+| `driver_text` | function | `tests/test_broadcom_wps_addon.py:43` | `def driver_text()` |
+| `test_addon_has_field` | method | `tests/test_broadcom_wps_addon.py:65` | `def test_addon_has_field(self, addon, field)` |
+| `test_addon_parses` | method | `tests/test_broadcom_wps_addon.py:54` | `def test_addon_parses(self, addon)` |
+| `test_addon_present` | method | `tests/test_broadcom_wps_addon.py:48` | `def test_addon_present(self)` |
+| `test_category` | method | `tests/test_broadcom_wps_addon.py:83` | `def test_category(self, addon)` |
+| `test_category_pattern` | method | `tests/test_broadcom_wps_addon.py:86` | `def test_category_pattern(self, addon)` |
+| `test_declared_params` | method | `tests/test_broadcom_wps_addon.py:142` | `def test_declared_params(self, addon)` |
+| `test_description_length` | method | `tests/test_broadcom_wps_addon.py:77` | `def test_description_length(self, addon)` |
+| `test_driver_archives_evidence` | method | `tests/test_broadcom_wps_addon.py:204` | `def test_driver_archives_evidence(self, driver_text)` |
+| `test_driver_exposes_action` | method | `tests/test_broadcom_wps_addon.py:194` | `def test_driver_exposes_action(self, driver_text, action)` |
+| `test_driver_falls_back_to_payload` | method | `tests/test_broadcom_wps_addon.py:207` | `def test_driver_falls_back_to_payload(self, driver_text)` |
+| `test_driver_has_no_hardcoded_host_paths` | method | `tests/test_broadcom_wps_addon.py:212` | `def test_driver_has_no_hardcoded_host_paths(self, driver_text)` |
+| `test_driver_help_runs` | method | `tests/test_broadcom_wps_addon.py:216` | `def test_driver_help_runs(self)` |
+| `test_driver_is_executable` | method | `tests/test_broadcom_wps_addon.py:57` | `def test_driver_is_executable(self)` |
 | `test_driver_manages_monitor_mode` | method | `tests/test_broadcom_wps_addon.py:197` | `def test_driver_manages_monitor_mode(self, driver_text)` |
 | `test_driver_present` | method | `tests/test_broadcom_wps_addon.py:51` | `def test_driver_present(self)` |
 | `test_driver_rejects_unknown_action` | method | `tests/test_broadcom_wps_addon.py:236` | `def test_driver_rejects_unknown_action(self)` |
@@ -461,40 +496,5 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `claude_md_text` | function | `tests/test_claudemd_consistency.py:22` | `def claude_md_text()` |
 | `test_claude_md_does_not_reference_deduplicated_config` | function | `tests/test_claudemd_consistency.py:41` | `def test_claude_md_does_not_reference_deduplicated_config(claude_md_text)` |
 | `test_claude_md_reports_actual_test_file_count` | function | `tests/test_claudemd_consistency.py:28` | `def test_claude_md_reports_actual_test_file_count(claude_md_text)` |
-| `test_claude_md_under_size_budget` | function | `tests/test_claudemd_size.py:22` | `def test_claude_md_under_size_budget()` |
-| `TestApplyAssign` | class | `tests/test_cli_assign.py:34` | `class TestApplyAssign` |
-| `TestAssignLineParsing` | class | `tests/test_cli_assign.py:101` | `class TestAssignLineParsing` |
-| `TestCompleteAssignBehaviour` | class | `tests/test_cli_assign.py:264` | `class TestCompleteAssignBehaviour` |
-| `TestFormatPayload` | class | `tests/test_cli_assign.py:139` | `class TestFormatPayload` |
-| `TestLazyOwnAssignWiring` | class | `tests/test_cli_assign.py:197` | `class TestLazyOwnAssignWiring` |
-| `_add_repo_root_to_syspath` | function | `tests/test_cli_assign.py:29` | `def _add_repo_root_to_syspath()` |
-| `_extract_method_body` | method | `tests/test_cli_assign.py:253` | `def _extract_method_body(src, name)` |
-| `migrated_src` | method | `tests/test_cli_assign.py:203` | `def migrated_src(self)` |
-| `saver` | function | `tests/test_cli_assign.py:72` | `def saver(p)` |
-| `src` | method | `tests/test_cli_assign.py:199` | `def src(self)` |
-| `test_aligns_column_to_widest_key` | method | `tests/test_cli_assign.py:154` | `def test_aligns_column_to_widest_key(self)` |
-| `test_allows_windows_path_backslashes` | method | `tests/test_cli_assign.py:85` | `def test_allows_windows_path_backslashes(self)` |
-| `test_auto_populate_refuses_shell_less_save` | method | `tests/test_cli_assign.py:310` | `def test_auto_populate_refuses_shell_less_save(self)` |
-| `test_complete_assign_defined` | method | `tests/test_cli_assign.py:236` | `def test_complete_assign_defined(self, src)` |
-| `test_complete_assign_reads_self_params` | method | `tests/test_cli_assign.py:239` | `def test_complete_assign_reads_self_params(self, src)` |
-| `test_do_assign_calls_apply_assign` | method | `tests/test_cli_assign.py:220` | `def test_do_assign_calls_apply_assign(self, migrated_src)` |
-| `test_do_assign_no_longer_directly_mutates_params` | method | `tests/test_cli_assign.py:230` | `def test_do_assign_no_longer_directly_mutates_params(self, migrated_src)` |
-| `test_do_assign_refreshes_aliases` | method | `tests/test_cli_assign.py:225` | `def test_do_assign_refreshes_aliases(self, migrated_src)` |
-| `test_do_payload_refreshes_aliases` | method | `tests/test_cli_assign.py:247` | `def test_do_payload_refreshes_aliases(self, migrated_src)` |
-| `test_do_show_uses_format_payload` | method | `tests/test_cli_assign.py:243` | `def test_do_show_uses_format_payload(self, migrated_src)` |
-| `test_does_not_invoke_save_on_failure` | method | `tests/test_cli_assign.py:49` | `def test_does_not_invoke_save_on_failure(self)` |
-| `test_empty_payload_returns_empty_string` | method | `tests/test_cli_assign.py:140` | `def test_empty_payload_returns_empty_string(self)` |
-| `test_imports_apply_assign` | method | `tests/test_cli_assign.py:211` | `def test_imports_apply_assign(self, migrated_src)` |
-| `test_imports_format_payload` | method | `tests/test_cli_assign.py:217` | `def test_imports_format_payload(self, migrated_src)` |
-| `test_imports_save_payload_from_core` | method | `tests/test_cli_assign.py:214` | `def test_imports_save_payload_from_core(self, migrated_src)` |
-| `test_int_value_rendered_as_string` | method | `tests/test_cli_assign.py:184` | `def test_int_value_rendered_as_string(self)` |
-| `test_invokes_save_on_success` | method | `tests/test_cli_assign.py:57` | `def test_invokes_save_on_success(self)` |
-| `test_keys_whitelist_filters_output` | method | `tests/test_cli_assign.py:170` | `def test_keys_whitelist_filters_output(self)` |
-| `test_missing_whitelist_keys_render_as_empty` | method | `tests/test_cli_assign.py:177` | `def test_missing_whitelist_keys_render_as_empty(self)` |
-| `test_no_ansi_codes` | method | `tests/test_cli_assign.py:190` | `def test_no_ansi_codes(self)` |
-| `test_no_completion_for_value_position` | method | `tests/test_cli_assign.py:284` | `def test_no_completion_for_value_position(self)` |
-| `test_none_values_render_as_empty` | method | `tests/test_cli_assign.py:164` | `def test_none_values_render_as_empty(self)` |
-| `test_persists_to_disk_via_save_payload` | method | `tests/test_cli_assign.py:119` | `def test_persists_to_disk_via_save_payload(self, tmp_path)` |
-| `test_posix_false_parses_preserve_backslashes` | method | `tests/test_cli_assign.py:102` | `def test_posix_false_parses_preserve_backslashes(self)` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

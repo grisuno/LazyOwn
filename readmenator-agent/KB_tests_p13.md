@@ -1,6 +1,72 @@
 # Subsystem: tests (page 13 of 21)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
 
+## tests/test_lazygui_backend.py
+- Doc: Tests for lazygui backend services.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestBackendDescriptor` (class, line 26) `class TestBackendDescriptor`
+  - `TestBackendStatus` (class, line 41) `class TestBackendStatus`
+  - `TestTeamserverCredentials` (class, line 52) `class TestTeamserverCredentials`
+  - `TestBackendSignals` (class, line 77) `class TestBackendSignals`
+  - `ConcreteBackend` (class, line 151) `class ConcreteBackend(Backend)`
+  - `TestTeamserverBackendConstruction` (class, line 173) `class TestTeamserverBackendConstruction`
+  - `TestTeamserverPayloadParsing` (class, line 206) `class TestTeamserverPayloadParsing`
+  - `TestTeamserverBackendLifecycle` (class, line 302) `class TestTeamserverBackendLifecycle`
+  - `TestTopologyDataContract` (class, line 328) `class TestTopologyDataContract`
+  - `TestTopologyBuilderFromPayload` (class, line 344) `class TestTopologyBuilderFromPayload`
+  - `test_construction` (method, line 29) `def test_construction(self)`
+  - `test_immutable` (method, line 35) `def test_immutable(self)`
+  - `test_values` (method, line 44) `def test_values(self)`
+  - `test_construction` (method, line 55) `def test_construction(self)`
+  - `test_default_tls` (method, line 67) `def test_default_tls(self)`
+  - `test_immutable` (method, line 71) `def test_immutable(self)`
+  - `test_signals_exist` (method, line 80) `def test_signals_exist(self)`
+  - `test_initial_status_is_disconnected` (method, line 93) `def test_initial_status_is_disconnected(self)`
+  - `test_status_transition` (method, line 97) `def test_status_transition(self)`
+  - `test_status_no_duplicate_emit` (method, line 104) `def test_status_no_duplicate_emit(self)`
+  - `test_descriptor_read_only` (method, line 113) `def test_descriptor_read_only(self)`
+  - `test_known_sessions_defaults` (method, line 118) `def test_known_sessions_defaults(self)`
+  - `test_known_topology_default` (method, line 123) `def test_known_topology_default(self)`
+  - `test_known_campaigns_default` (method, line 129) `def test_known_campaigns_default(self)`
+  - `test_world_model_default` (method, line 133) `def test_world_model_default(self)`
+  - `test_session_state_default` (method, line 138) `def test_session_state_default(self)`
+  - `_make_backend` (method, line 146) `def _make_backend()`
+  - `start` (method, line 154) `def start(self)`
+  - `stop` (method, line 157) `def stop(self)`
+  - `send_command` (method, line 160) `def send_command(self, command, target_session)`
+  - `refresh` (method, line 163) `def refresh(self)`
+  - `resize_terminal` (method, line 166) `def resize_terminal(self, columns, rows)`
+  - `feed_terminal_input` (method, line 169) `def feed_terminal_input(self, data)`
+  - `test_construction` (method, line 176) `def test_construction(self)`
+  - `test_construction_with_parent` (method, line 184) `def test_construction_with_parent(self)`
+  - `test_build_url` (method, line 191) `def test_build_url(self)`
+  - `test_build_url_no_trailing_slash` (method, line 198) `def test_build_url_no_trailing_slash(self)`
+  - `test_update_from_empty_payload` (method, line 209) `def test_update_from_empty_payload(self)`
+  - `test_non_mapping_payload` (method, line 216) `def test_non_mapping_payload(self)`
+  - `test_parse_graph_nodes_from_valid_payload` (method, line 223) `def test_parse_graph_nodes_from_valid_payload(self)`
+  - `test_parse_graph_edges_from_valid_payload` (method, line 242) `def test_parse_graph_edges_from_valid_payload(self)`
+  - `test_parse_empty_graph_payload` (method, line 259) `def test_parse_empty_graph_payload(self)`
+  - `test_update_operator` (method, line 267) `def test_update_operator(self)`
+  - `test_update_operator_no_username` (method, line 285) `def test_update_operator_no_username(self)`
+  - `test_update_sessions_empty` (method, line 294) `def test_update_sessions_empty(self)`
+  - `test_stop_without_start` (method, line 305) `def test_stop_without_start(self)`
+  - `test_stop_sets_disconnected` (method, line 312) `def test_stop_sets_disconnected(self)`
+  - `test_send_command_does_not_raise` (method, line 321) `def test_send_command_does_not_raise(self)`
+  - `test_construct_and_compare` (method, line 331) `def test_construct_and_compare(self)`
+  - `test_none_converted` (method, line 338) `def test_none_converted(self)`
+  - `make_backend` (method, line 347) `def make_backend(self)`
+  - `test_builds_c2_node` (method, line 354) `def test_builds_c2_node(self)`
+  - `test_builds_beacon_nodes` (method, line 362) `def test_builds_beacon_nodes(self)`
+  - `test_builds_edges_c2_to_beacon` (method, line 379) `def test_builds_edges_c2_to_beacon(self)`
+  - `test_builds_host_nodes_from_discovered` (method, line 396) `def test_builds_host_nodes_from_discovered(self)`
+  - `test_builds_port_nodes` (method, line 412) `def test_builds_port_nodes(self)`
+  - `test_builds_connected_hosts` (method, line 428) `def test_builds_connected_hosts(self)`
+  - `test_topology_emitted_on_change` (method, line 439) `def test_topology_emitted_on_change(self)`
+  - `test_topology_not_emitted_on_no_change` (method, line 455) `def test_topology_not_emitted_on_no_change(self)`
+- Depends on: `lazygui/config/constants.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
+
 ## tests/test_lazygui_graph_widget.py
 - Doc: Tests for lazygui graph widget contracts.
 - Layer: testing
@@ -414,73 +480,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `executor` (function, line 283) `def executor(model_spec, prompt, max_tokens)`
   - `_spy` (function, line 764) `def _spy(model_spec, prompt, max_tokens)`
 - Depends on: `modules/__init__.py`, `modules/ai_fallback.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/llm_pool.py`, `modules/llm_prompts.py`
-
-## tests/test_llm_prompts.py
-- Doc: Contract tests for :mod:`modules.llm_prompts`.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_write_json` (function, line 23) `def _write_json(path, payload)`
-  - `_config` (function, line 29) `def _config(tmp_path)`
-  - `TestTruncateMessage` (class, line 39) `class TestTruncateMessage`
-  - `TestKnowledgeStore` (class, line 53) `class TestKnowledgeStore`
-  - `TestConfig` (class, line 83) `class TestConfig`
-  - `TestTemplates` (class, line 129) `class TestTemplates`
-  - `TestRegistryIntegrity` (class, line 157) `class TestRegistryIntegrity`
-  - `test_short_message_returned_unchanged` (method, line 40) `def test_short_message_returned_unchanged(self)`
-  - `test_long_message_truncated_with_ellipsis` (method, line 43) `def test_long_message_truncated_with_ellipsis(self)`
-  - `test_boundary_length_kept` (method, line 48) `def test_boundary_length_kept(self)`
-  - `test_load_missing_file_returns_empty` (method, line 54) `def test_load_missing_file_returns_empty(self, tmp_path)`
-  - `test_load_malformed_file_returns_empty` (method, line 58) `def test_load_malformed_file_returns_empty(self, tmp_path)`
-  - `test_add_and_load_roundtrip` (method, line 63) `def test_add_and_load_roundtrip(self, tmp_path)`
-  - `test_relevant_filters_on_keyword` (method, line 69) `def test_relevant_filters_on_keyword(self, tmp_path)`
-  - `test_relevant_limits_results` (method, line 76) `def test_relevant_limits_results(self, tmp_path)`
-  - `test_from_defaults_points_under_module_parent` (method, line 84) `def test_from_defaults_points_under_module_parent(self, tmp_path, monkeypatch)`
-  - `test_knowledge_base_path_resolves_names` (method, line 90) `def test_knowledge_base_path_resolves_names(self, tmp_path)`
-  - `test_payload_context_defaults_to_empty` (method, line 94) `def test_payload_context_defaults_to_empty(self, tmp_path)`
-  - `test_payload_context_reads_values` (method, line 109) `def test_payload_context_reads_values(self, tmp_path)`
-  - `test_event_tool_output_empty_when_no_match` (method, line 116) `def test_event_tool_output_empty_when_no_match(self, tmp_path)`
-  - `test_event_tool_output_reads_file` (method, line 121) `def test_event_tool_output_reads_file(self, tmp_path)`
-  - `test_render_includes_operator_prompt` (method, line 131) `def test_render_includes_operator_prompt(self, tmp_path, name)`
-  - `test_render_embeds_knowledge_tail` (method, line 137) `def test_render_embeds_knowledge_tail(self, tmp_path, name)`
-  - `test_general_embeds_payload_rhost` (method, line 144) `def test_general_embeds_payload_rhost(self, tmp_path)`
-  - `test_vuln_embeds_payload_rhost` (method, line 150) `def test_vuln_embeds_payload_rhost(self, tmp_path)`
-  - `test_kb_domains_are_valid_file_names` (method, line 158) `def test_kb_domains_are_valid_file_names(self)`
-  - `test_all_templates_have_registered_kb_domain` (method, line 164) `def test_all_templates_have_registered_kb_domain(self)`
-- Depends on: `modules/llm_prompts.py`
-
-## tests/test_logging_config.py
-- Doc: Tests for ``modules.logging_config`` — resilient file logging.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_make_logger` (function, line 13) `def _make_logger(handler)`
-  - `TestResilientRotatingFileHandler` (class, line 21) `class TestResilientRotatingFileHandler`
-  - `test_writes_normally_when_dir_writable` (method, line 22) `def test_writes_normally_when_dir_writable(self, tmp_path)`
-  - `test_detaches_silently_when_file_unwritable` (method, line 32) `def test_detaches_silently_when_file_unwritable(self, tmp_path, capsys)`
-  - `test_rotating_file_is_exposed` (method, line 47) `def test_rotating_file_is_exposed(self)`
-- Depends on: `core/logging.py`, `modules/logging_config.py`
-
-## tests/test_loop_ai_bridge.py
-- Doc: Loop AI-stack bridge: event bus, oracle, MoE/RL and SWAN wiring.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `store` (function, line 15) `def store(tmp_path, monkeypatch)`
-  - `bridge` (function, line 25) `def bridge(monkeypatch)`
-  - `test_publish_loop_event_skips_stream_kinds` (function, line 34) `def test_publish_loop_event_skips_stream_kinds(bridge, monkeypatch)`
-  - `test_activity_log_publishes_to_bridge` (function, line 52) `def test_activity_log_publishes_to_bridge(store, bridge, monkeypatch)`
-  - `test_annotate_detection_uses_oracle` (function, line 62) `def test_annotate_detection_uses_oracle(bridge, monkeypatch)`
-  - `test_worker_annotates_detection_and_records_outcome` (function, line 74) `def test_worker_annotates_detection_and_records_outcome(store, bridge, monkeypatch)`
-  - `test_llm_pool_prefers_moe_expert_and_records_outcome` (function, line 108) `def test_llm_pool_prefers_moe_expert_and_records_outcome(store, bridge, monkeypatch)`
-  - `test_planner_uses_swan_when_available` (function, line 133) `def test_planner_uses_swan_when_available(store, bridge, monkeypatch)`
-  - `_Bus` (class, line 38) `class _Bus`
-  - `_Oracle` (class, line 63) `class _Oracle`
-  - `_complete` (function, line 120) `def _complete(model, prompt, max_tokens)`
-  - `_swan` (function, line 140) `def _swan(prompt, task_type, phase, timeout)`
-  - `publish` (method, line 39) `def publish(self, event)`
-  - `assess` (method, line 64) `def assess(self, tool, command, category)`
-- Depends on: `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

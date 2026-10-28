@@ -55,7 +55,7 @@ Pick the vector `recommend_next` surfaced, for example:
 
 ```text
 search 445              # searchsploit for the exposed service
-auto_pwn                # autonomous recon+scan+exploit chain
+auto_loop               # autonomous recon+scan+exploit chain
 ```
 
 Prefer manual control? Run the specific exploit verb it suggested.

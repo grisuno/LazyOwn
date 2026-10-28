@@ -1,0 +1,59 @@
+name: apt_winbox_kerninc
+version: 1
+description: 'CVE-2026-40369 kernel increment probe against an isolated WinBox
+  lab VM: snapshot containment, PoC build and staging, guest execution,
+  liveness check, bugcheck evidence collection and rollback point.'
+enabled: true
+tags:
+- apt
+- windows
+- winbox
+- kernel
+- cve-2026-40369
+platforms:
+- windows
+defaults:
+  lhost: 127.0.0.1
+  lport: '4444'
+steps:
+- id: snapshot_pre
+  phase: recon
+  description: Containment point before touching the guest kernel.
+  run: winbox snapshot pre-kerninc
+  timeout: 600
+- id: vm_up
+  phase: recon
+  description: Ensure the WinBox lab VM is running.
+  run: winbox up
+  timeout: 3600
+- id: bind
+  phase: recon
+  description: Mirror the lab VM address into rhost.
+  run: winbox resolve
+  capture_regex: '(?P<vm_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
+- id: bind_rhost
+  phase: recon
+  description: Point rhost at the lab VM when the operator left it empty.
+  run: assign rhost {vm_ip}
+  when: not rhost
+  continue_on_error: true
+- id: poc_probe
+  phase: exploit
+  description: Cross-compile, stage and execute the kernel increment PoC in the guest.
+  run: lazykerninc
+  timeout: 600
+- id: liveness
+  phase: post
+  description: Prove the guest survived (or detect the bugcheck) after the probe.
+  run: winbox exec --timeout 60 whoami
+  timeout: 180
+- id: evidence
+  phase: post
+  description: Collect event-log evidence including any BugCheck 1001 records.
+  run: winbox eventlogs --since 1h --max 50
+  timeout: 300
+- id: snapshot_post
+  phase: post
+  description: Rollback point after the kernel probe.
+  run: winbox snapshot post-kerninc
+  timeout: 600

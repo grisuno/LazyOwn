@@ -1,5 +1,53 @@
-# API (page 12 of 24)
+# API (page 12 of 25)
 Previous: [API_p11.md](API_p11.md)
+
+## modules/exp.c
+Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
+- `add_key` (function) `modules/exp.c:147` `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
+- `keyctl` (function) `modules/exp.c:151` `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
+- `bye` (function) `modules/exp.c:155` `void bye(char *info)`
+- `do_error_exit` (function) `modules/exp.c:161` `void do_error_exit(char *info)`
+- `bye2` (function) `modules/exp.c:167` `void bye2(char *info, char *arg)`
+- `spray_keyring` (function) `modules/exp.c:172` `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
+- `spray_keyring_list_del_purpose` (function) `modules/exp.c:190` `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
+- `spray_keyring_list_overwrite_purpose` (function) `modules/exp.c:214` `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
+- `get_keyring_leak` (function) `modules/exp.c:248` `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+- `awake_partial_keys` (function) `modules/exp.c:271` `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
+- `release_keys` (function) `modules/exp.c:279` `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+- `release_partial_keys` (function) `modules/exp.c:290` `void release_partial_keys(key_serial_t *id_buffer, int i)`
+- `unshare_setup` (function) `modules/exp.c:297` `void unshare_setup(uid_t uid, gid_t gid)`
+- `set_stable_table_and_set` (function) `modules/exp.c:322` `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
+- `set_trigger_set_and_overwrite` (function) `modules/exp.c:385` `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
+- `set_cpu_affinity` (function) `modules/exp.c:438` `void set_cpu_affinity(int cpu_n, pid_t pid)`
+- `spray_mqueue` (function) `modules/exp.c:448` `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
+- `gather_mqueue` (function) `modules/exp.c:463` `int gather_mqueue(mqd_t mqdes, int gather_size)`
+- `gather_mqueue_nosave` (function) `modules/exp.c:485` `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
+- `spray_msg_msg` (function) `modules/exp.c:496` `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
+- `io_uring_setup` (function) `modules/exp.c:520` `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
+- `io_uring_register` (function) `modules/exp.c:524` `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
+- `spray_uring` (function) `modules/exp.c:529` `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
+- `release_uring` (function) `modules/exp.c:546` `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
+- `release_partial_uring` (function) `modules/exp.c:554` `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
+- `prepare_root_shell` (function) `modules/exp.c:559` `void prepare_root_shell(void)`
+- `create_dummy_file` (function) `modules/exp.c:564` `void create_dummy_file(void)`
+- `create_priv_file` (function) `modules/exp.c:572` `void create_priv_file(void)`
+- `write_new_modprobe` (function) `modules/exp.c:582` `void write_new_modprobe()`
+- `setup_modprobe_payload` (function) `modules/exp.c:601` `void setup_modprobe_payload()`
+- `userland_T` (function) `modules/exp.c:605` `void userland_T(int *sema)`
+- `sema_up` (function) `modules/exp.c:610` `void sema_up(int *sema)`
+- `sema_down` (function) `modules/exp.c:615` `void sema_down(int *sema)`
+- `main` (function) `modules/exp.c:620` `int main(int argc, char ** argv)`
+
+## modules/exploit_chain.py
+Depends on: `modules/outcome_bus.py`
+Imported by: `cli/commands/exploit_migrated.py`
+- `ExploitChain.__init__` (method) `modules/exploit_chain.py:292` `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
+- `ExploitChain.fingerprint_services` (method) `modules/exploit_chain.py:311` `def fingerprint_services(self, nmap_output)` -- Parse service information from all available nmap XML files.
+- `ExploitChain.map_vulnerabilities` (method) `modules/exploit_chain.py:446` `def map_vulnerabilities(self)` -- Map discovered services to known vulnerabilities.
+- `ExploitChain.generate_exploit_plan` (method) `modules/exploit_chain.py:499` `def generate_exploit_plan(self)` -- Generate a prioritized exploitation plan.
+- `ExploitChain.get_post_exploit_commands` (method) `modules/exploit_chain.py:519` `def get_post_exploit_commands(self, platform)` -- Return recommended post-exploitation commands for the platform.
+- `ExploitChain.generate_report` (method) `modules/exploit_chain.py:531` `def generate_report(self)` -- Generate a structured exploitation chain report.
+- `ExploitChain.save_report` (method) `modules/exploit_chain.py:566` `def save_report(self, path)` -- Save the exploitation chain report to a file.
 
 ## modules/exploit_recommender.py
 Depends on: `lazygui/version.py`, `modules/world_model.py`
@@ -433,65 +481,6 @@ Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazy
 - `IntelligenceEngine.run_full_cycle` (method) `modules/intelligence_engine.py:1040` `def run_full_cycle(self, target)` -- Execute the complete intelligence cycle for a target.
 - `IntelligenceEngine.get_intel_report` (method) `modules/intelligence_engine.py:1069` `def get_intel_report(self)` -- Produce a structured JSON intelligence report.
 - `get_intelligence_engine` (function) `modules/intelligence_engine.py:1126` `def get_intelligence_engine(config)` -- Return the module-level singleton IntelligenceEngine.
-
-## modules/intercept.py
-Depends on: `cli/commands/enum.py`
-Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-- `InterceptRule.matches` (method) `modules/intercept.py:68` `def matches(self, tool, command)` -- Return True when this rule matches the tool call surface.
-- `builtin_rules` (function) `modules/intercept.py:101` `def builtin_rules()` -- Return the default destructive and exfiltration guard rules.
-- `scope_blocked` (function) `modules/intercept.py:131` `def scope_blocked(target)` -- Return the matching global scope suffix or empty (LAZY parity).
-- `observe_post_tool` (function) `modules/intercept.py:144` `def observe_post_tool(output)` -- Classify post-execution output (LAZY Guard.postToolUse parity).
-- `Interceptor.__init__` (method) `modules/intercept.py:157` `def __init__(self, rules, ask_timeout_sec, timeout_action)` -- Initialize with rules sorted by descending priority.
-- `Interceptor.rules` (method) `modules/intercept.py:172` `def rules(self)` -- Return a copy of the active rule list.
-- `Interceptor.add_rule` (method) `modules/intercept.py:177` `def add_rule(self, rule)` -- Add a rule and keep priority ordering.
-- `Interceptor.remove_rule` (method) `modules/intercept.py:183` `def remove_rule(self, pattern)` -- Remove the first rule matching pattern text.
-- `Interceptor.evaluate` (method) `modules/intercept.py:192` `def evaluate(self, tool, command)` -- Evaluate a tool call and return the verdict.
-- `Interceptor.decide` (method) `modules/intercept.py:220` `def decide(self, approval_id, decision)` -- Resolve a pending approval with approve or deny.
-- `Interceptor.pending_approvals` (method) `modules/intercept.py:234` `def pending_approvals(self)` -- List unresolved approvals, expiring timed-out ones per policy.
-- `Interceptor.approval_status` (method) `modules/intercept.py:249` `def approval_status(self, approval_id)` -- Fetch a single approval record by id.
-- `Guard.__init__` (method) `modules/intercept.py:258` `def __init__(self, interceptor)` -- Initialize audit log with an optional interceptor.
-- `Guard.interceptor` (method) `modules/intercept.py:266` `def interceptor(self)` -- Expose the underlying interceptor.
-- `Guard.check` (method) `modules/intercept.py:270` `def check(self, tool, command)` -- Audit the call then evaluate intercept rules (trace id kept).
-- `Guard.observe` (method) `modules/intercept.py:282` `def observe(self, output, source)` -- Classify output and attribute blocked/error counters.
-- `Guard.record_failure` (method) `modules/intercept.py:291` `def record_failure(self, source)` -- Attribute a post-execution failure to a source.
-- `Guard.audit_log` (method) `modules/intercept.py:296` `def audit_log(self, limit)` -- Return the most recent audit entries.
-- `Guard.attribution` (method) `modules/intercept.py:301` `def attribution(self)` -- Return failure attribution counters.
-
-## modules/iptables_portforward.sh
-- `display_usage` (function) `modules/iptables_portforward.sh:29`
-
-## modules/jsonl_tail.py
-Imported by: `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_runner.py`
-- `JsonlTail.__init__` (method) `modules/jsonl_tail.py:17` `def __init__(self, path)` -- Bind the tail to one file path.
-- `JsonlTail.read_new` (method) `modules/jsonl_tail.py:22` `def read_new(self, limit)` -- Return new complete records since the last call.
-
-## modules/k8s_attacks.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `K8SAttackEngine.__init__` (method) `modules/k8s_attacks.py:87` `def __init__(self, config)`
-- `K8SAttackEngine.enumerate_rbac` (method) `modules/k8s_attacks.py:90` `def enumerate_rbac(self)` -- Enumerate RBAC permissions for the current identity.
-- `K8SAttackEngine.privileged_pod_escape` (method) `modules/k8s_attacks.py:118` `def privileged_pod_escape(self)` -- Plan a privileged pod escape.
-- `K8SAttackEngine.service_account_token_theft` (method) `modules/k8s_attacks.py:173` `def service_account_token_theft(self)` -- Steal service account tokens across namespaces for lateral movement.
-- `K8SAttackEngine.kubelet_anonymous_auth_abuse` (method) `modules/k8s_attacks.py:198` `def kubelet_anonymous_auth_abuse(self)` -- Exploit kubelet anonymous authentication.
-- `K8SAttackEngine.etcd_access_exploitation` (method) `modules/k8s_attacks.py:222` `def etcd_access_exploitation(self)` -- Exploit etcd database access for complete cluster compromise.
-- `K8SAttackEngine.helm_tiller_abuse` (method) `modules/k8s_attacks.py:250` `def helm_tiller_abuse(self)` -- Abuse Helm (v2 Tiller or v3 RBAC) for privilege escalation.
-- `K8SAttackEngine.persistence_techniques` (method) `modules/k8s_attacks.py:278` `def persistence_techniques(self)` -- Kubernetes persistence techniques for long-term access.
-- `K8SAttackEngine.summary` (method) `modules/k8s_attacks.py:318` `def summary(self)`
-
-## modules/kerberoasting.py
-Depends on: `modules/kerberos_core.py`
-Imported by: `cli/commands/active_directory.py`
-- `KerberoastingEngine.__init__` (method) `modules/kerberoasting.py:95` `def __init__(self, domain, dc_ip, username, password, hash)`
-- `KerberoastingEngine.enumerate_spns` (method) `modules/kerberoasting.py:112` `def enumerate_spns(self, ldap_output, bloodhound_data)` -- Enumerate kerberoastable service principals.
-- `priority` (function) `modules/kerberoasting.py:172` `def priority(target)`
-- `KerberoastingEngine.request_tgs_aes_only` (method) `modules/kerberoasting.py:187` `def request_tgs_aes_only(self, user_spn)` -- Request a TGS ticket using only AES encryption (evades RC4 detection).
-- `KerberoastingEngine.request_tgs_rc4` (method) `modules/kerberoasting.py:208` `def request_tgs_rc4(self, user_spn)` -- Request a TGS ticket using RC4-HMAC (mode 13100 for Hashcat).
-- `KerberoastingEngine.request_tgs` (method) `modules/kerberoasting.py:219` `def request_tgs(self, user_spn, etype)` -- Request a TGS service ticket for kerberoasting.
-- `KerberoastingEngine.targeted_kerberoast` (method) `modules/kerberoasting.py:271` `def targeted_kerberoast(self, high_value_only)` -- Perform targeted Kerberoasting on enumerated SPNs.
-- `KerberoastingEngine.asreproast_check` (method) `modules/kerberoasting.py:306` `def asreproast_check(self, usernames)` -- Check which users do NOT require Kerberos pre-authentication (AS-REP roastable).
-- `KerberoastingEngine.extract_hashes_from_pcap` (method) `modules/kerberoasting.py:321` `def extract_hashes_from_pcap(self, pcap_path)` -- Extract Kerberoast hashes from a PCAP/PCAPNG network capture.
-- `KerberoastingEngine.detect_kerberoasting_activity` (method) `modules/kerberoasting.py:336` `def detect_kerberoasting_activity(self, event_log)` -- Analyze Windows Event Logs for signs of Kerberoasting attacks.
-- `KerberoastingEngine.build_hashcat_batch` (method) `modules/kerberoasting.py:379` `def build_hashcat_batch(self, output_path)` -- Build a batch file with all extracted hashes for Hashcat cracking.
-- `KerberoastingEngine.summary` (method) `modules/kerberoasting.py:401` `def summary(self)` -- Return a summary of kerberoasting operations.
 
 
 Next: [API_p13.md](API_p13.md)

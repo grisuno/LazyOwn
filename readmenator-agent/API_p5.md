@@ -1,4 +1,4 @@
-# API (page 5 of 24)
+# API (page 5 of 25)
 Previous: [API_p4.md](API_p4.md)
 
 ## cli/reasoning_stream.py

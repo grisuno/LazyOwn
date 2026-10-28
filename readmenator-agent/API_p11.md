@@ -1,5 +1,34 @@
-# API (page 11 of 24)
+# API (page 11 of 25)
 Previous: [API_p10.md](API_p10.md)
+
+## modules/conditional_hooks.py
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
+Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
+- `HookRule.can_fire` (method) `modules/conditional_hooks.py:56` `def can_fire(self, now)`
+- `HookRule.mark_fired` (method) `modules/conditional_hooks.py:65` `def mark_fired(self)`
+- `HookRule.to_dict` (method) `modules/conditional_hooks.py:69` `def to_dict(self)`
+- `HookEngine.__init__` (method) `modules/conditional_hooks.py:270` `def __init__(self)`
+- `HookEngine.register_action_handler` (method) `modules/conditional_hooks.py:277` `def register_action_handler(self, action_type, handler)` -- Register a handler for a custom action type.
+- `HookEngine.set_placeholders` (method) `modules/conditional_hooks.py:286` `def set_placeholders(self, placeholders)` -- Set placeholder values for command templating (rhost, lhost, etc.).
+- `HookEngine.load_rules` (method) `modules/conditional_hooks.py:290` `def load_rules(self, path)` -- Load rules from JSON file, or create it with defaults.
+- `HookEngine.save_rules` (method) `modules/conditional_hooks.py:322` `def save_rules(self, path)` -- Persist current rules to JSON.
+- `HookEngine.add_rule` (method) `modules/conditional_hooks.py:330` `def add_rule(self, rule_dict)` -- Add a rule at runtime.
+- `HookEngine.remove_rule` (method) `modules/conditional_hooks.py:345` `def remove_rule(self, name)` -- Remove a rule by name.
+- `HookEngine.enable_rule` (method) `modules/conditional_hooks.py:359` `def enable_rule(self, name, enabled)` -- Enable or disable a rule by name.
+- `HookEngine.fire` (method) `modules/conditional_hooks.py:516` `def fire(self, event, context)` -- Fire an event, evaluating all matching rules.
+- `HookEngine.list_rules` (method) `modules/conditional_hooks.py:571` `def list_rules(self)` -- Return all rules as dictionaries.
+- `HookEngine.get_rule` (method) `modules/conditional_hooks.py:575` `def get_rule(self, name)` -- Return a single rule by name, or None.
+- `get_hook_engine` (function) `modules/conditional_hooks.py:586` `def get_hook_engine()` -- Return the singleton :class:`HookEngine`.
+
+## modules/config_store.py
+Depends on: `core/config.py`, `core/logging.py`
+Imported by: `tests/test_core_modules.py`
+- `init` (function) `modules/config_store.py:36` `def init(path, watch)` -- Initialise the config store (idempotent).
+- `get_config` (function) `modules/config_store.py:53` `def get_config(key, default)` -- Return a config value (or the full dict when *key* is empty).
+- `set_config` (function) `modules/config_store.py:66` `def set_config()` -- Update one or more keys and persist to disk atomically.
+- `set_config_dict` (function) `modules/config_store.py:80` `def set_config_dict(updates)` -- Bulk-update from a dict and persist to disk.
+- `reload_config` (function) `modules/config_store.py:90` `def reload_config()` -- Force reload from disk (discards in-memory changes).
+- `stop_watcher` (function) `modules/config_store.py:96` `def stop_watcher()` -- Stop the file-watcher background thread (if running).
 
 ## modules/credential_reuse.py
 Depends on: `core/logging.py`
@@ -27,12 +56,12 @@ Imported by: `cli/commands/cloud_attacks.py`
 
 ## modules/ctf_capture.py
 Depends on: `core/logging.py`, `modules/metasploitable_gym.py`, `modules/outcome_bus.py`
-- `output_dir` (function) `modules/ctf_capture.py:32` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
-- `capture` (function) `modules/ctf_capture.py:151` `def capture(vuln_id, target, output, sessions_dir, catalogue)` -- Verify output evidence for one gym vector and store the record.
-- `record_path` (function) `modules/ctf_capture.py:232` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
-- `store_record` (function) `modules/ctf_capture.py:258` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
-- `list_records` (function) `modules/ctf_capture.py:276` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
-- `summary` (function) `modules/ctf_capture.py:299` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
+- `output_dir` (function) `modules/ctf_capture.py:36` `def output_dir(sessions_dir)` -- Resolve the CTF storage directory.
+- `capture` (function) `modules/ctf_capture.py:197` `def capture(vuln_id, target, output, sessions_dir, catalogue)` -- Verify output evidence for one gym vector and store the record.
+- `record_path` (function) `modules/ctf_capture.py:278` `def record_path(vuln_id, sessions_dir)` -- Return the record file path for one vulnerability.
+- `store_record` (function) `modules/ctf_capture.py:304` `def store_record(record, sessions_dir)` -- Persist one capture record atomically.
+- `list_records` (function) `modules/ctf_capture.py:322` `def list_records(sessions_dir)` -- Return every stored CTF record keyed by vuln id.
+- `summary` (function) `modules/ctf_capture.py:345` `def summary(sessions_dir)` -- Aggregate capture stats for the report pipeline.
 
 ## modules/custom_tools.py
 Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/notify.py`
@@ -446,54 +475,6 @@ Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills
 - `EvidenceStore.get` (method) `modules/evidence.py:90` `def get(self, content_hash)` -- Read and verify blob bytes for a hash.
 - `EvidenceStore.exists` (method) `modules/evidence.py:98` `def exists(self, content_hash)` -- Return True when the blob exists on disk.
 - `EvidenceStore.garbage_collect` (method) `modules/evidence.py:105` `def garbage_collect(self, referenced)` -- Remove unreferenced blobs older than the grace period.
-
-## modules/exp.c
-Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
-- `add_key` (function) `modules/exp.c:147` `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
-- `keyctl` (function) `modules/exp.c:151` `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
-- `bye` (function) `modules/exp.c:155` `void bye(char *info)`
-- `do_error_exit` (function) `modules/exp.c:161` `void do_error_exit(char *info)`
-- `bye2` (function) `modules/exp.c:167` `void bye2(char *info, char *arg)`
-- `spray_keyring` (function) `modules/exp.c:172` `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
-- `spray_keyring_list_del_purpose` (function) `modules/exp.c:190` `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
-- `spray_keyring_list_overwrite_purpose` (function) `modules/exp.c:214` `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
-- `get_keyring_leak` (function) `modules/exp.c:248` `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
-- `awake_partial_keys` (function) `modules/exp.c:271` `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
-- `release_keys` (function) `modules/exp.c:279` `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
-- `release_partial_keys` (function) `modules/exp.c:290` `void release_partial_keys(key_serial_t *id_buffer, int i)`
-- `unshare_setup` (function) `modules/exp.c:297` `void unshare_setup(uid_t uid, gid_t gid)`
-- `set_stable_table_and_set` (function) `modules/exp.c:322` `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
-- `set_trigger_set_and_overwrite` (function) `modules/exp.c:385` `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
-- `set_cpu_affinity` (function) `modules/exp.c:438` `void set_cpu_affinity(int cpu_n, pid_t pid)`
-- `spray_mqueue` (function) `modules/exp.c:448` `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
-- `gather_mqueue` (function) `modules/exp.c:463` `int gather_mqueue(mqd_t mqdes, int gather_size)`
-- `gather_mqueue_nosave` (function) `modules/exp.c:485` `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
-- `spray_msg_msg` (function) `modules/exp.c:496` `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
-- `io_uring_setup` (function) `modules/exp.c:520` `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
-- `io_uring_register` (function) `modules/exp.c:524` `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
-- `spray_uring` (function) `modules/exp.c:529` `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
-- `release_uring` (function) `modules/exp.c:546` `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
-- `release_partial_uring` (function) `modules/exp.c:554` `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
-- `prepare_root_shell` (function) `modules/exp.c:559` `void prepare_root_shell(void)`
-- `create_dummy_file` (function) `modules/exp.c:564` `void create_dummy_file(void)`
-- `create_priv_file` (function) `modules/exp.c:572` `void create_priv_file(void)`
-- `write_new_modprobe` (function) `modules/exp.c:582` `void write_new_modprobe()`
-- `setup_modprobe_payload` (function) `modules/exp.c:601` `void setup_modprobe_payload()`
-- `userland_T` (function) `modules/exp.c:605` `void userland_T(int *sema)`
-- `sema_up` (function) `modules/exp.c:610` `void sema_up(int *sema)`
-- `sema_down` (function) `modules/exp.c:615` `void sema_down(int *sema)`
-- `main` (function) `modules/exp.c:620` `int main(int argc, char ** argv)`
-
-## modules/exploit_chain.py
-Depends on: `modules/outcome_bus.py`
-Imported by: `cli/commands/exploit_migrated.py`
-- `ExploitChain.__init__` (method) `modules/exploit_chain.py:292` `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
-- `ExploitChain.fingerprint_services` (method) `modules/exploit_chain.py:311` `def fingerprint_services(self, nmap_output)` -- Parse service information from all available nmap XML files.
-- `ExploitChain.map_vulnerabilities` (method) `modules/exploit_chain.py:446` `def map_vulnerabilities(self)` -- Map discovered services to known vulnerabilities.
-- `ExploitChain.generate_exploit_plan` (method) `modules/exploit_chain.py:499` `def generate_exploit_plan(self)` -- Generate a prioritized exploitation plan.
-- `ExploitChain.get_post_exploit_commands` (method) `modules/exploit_chain.py:519` `def get_post_exploit_commands(self, platform)` -- Return recommended post-exploitation commands for the platform.
-- `ExploitChain.generate_report` (method) `modules/exploit_chain.py:531` `def generate_report(self)` -- Generate a structured exploitation chain report.
-- `ExploitChain.save_report` (method) `modules/exploit_chain.py:566` `def save_report(self, path)` -- Save the exploitation chain report to a file.
 
 
 Next: [API_p12.md](API_p12.md)

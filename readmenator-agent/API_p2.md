@@ -1,4 +1,4 @@
-# API (page 2 of 24)
+# API (page 2 of 25)
 Previous: [API.md](API.md)
 
 ## cli/commands/cred_migrated.py
@@ -327,6 +327,14 @@ Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/domain_domina
 - `LateralMigratedCommandSet.do_addcli` (method) `cli/commands/lateral_migrated.py:1302` `def do_addcli(self, line)` -- Add a client to execute c2 commands
 - `LateralMigratedCommandSet.do_dominion` (method) `cli/commands/lateral_migrated.py:1317` `def do_dominion(self, line)` -- Execute a fully automated Active Directory domain takeover.
 
+## cli/commands/lazy_creds.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `LazyCredsCommandSet.do_lazycreds` (method) `cli/commands/lazy_creds.py:25` `def do_lazycreds(self, line)` -- Search the default-credential knowledge base.
+
+## cli/commands/lazy_oob.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `LazyOobCommandSet.do_lazyoob` (method) `cli/commands/lazy_oob.py:26` `def do_lazyoob(self, line)` -- Run a local HTTP callback canary.
+
 ## cli/commands/lazyloop.py
 Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
 Imported by: `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
@@ -474,20 +482,6 @@ Depends on: `cli/commands/_base.py`, `modules/module_registry.py`, `utils.py`
 - `ModuleManagerCommandSet.do_search` (method) `cli/commands/module_manager.py:71` `def do_search(self, line)` -- Search for modules by name, description, or author.
 - `ModuleManagerCommandSet.do_use` (method) `cli/commands/module_manager.py:111` `def do_use(self, line)` -- Select a module to work with.
 - `ModuleManagerCommandSet.do_back` (method) `cli/commands/module_manager.py:162` `def do_back(self, line)` -- Leave the current module context.
-
-## cli/commands/nethelpers.py
-Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
-Imported by: `tests/test_nethelpers_command_set.py`
-- `NetworkHelpersCommandSet.do_ip` (method) `cli/commands/nethelpers.py:38` `def do_ip(self, line)` -- Displays IP addresses of network interfaces and copies the IP address from the `tun0` interface to the clipboard.
-- `NetworkHelpersCommandSet.do_ipp` (method) `cli/commands/nethelpers.py:120` `def do_ipp(self, line)` -- Displays IP addresses of network interfaces and prints the IP address from the `tun0` interface.
-- `NetworkHelpersCommandSet.do_rhost` (method) `cli/commands/nethelpers.py:201` `def do_rhost(self, line)` -- Copies the remote host (self.params['rhost']) to the clipboard and updates the command prompt.
-- `NetworkHelpersCommandSet.do_rrhost` (method) `cli/commands/nethelpers.py:254` `def do_rrhost(self, line)` -- Updates the command prompt to include the remote host (self.params['rhost']) and current working directory.
-- `NetworkHelpersCommandSet.do_addhosts` (method) `cli/commands/nethelpers.py:295` `def do_addhosts(self, line)` -- Adds an entry to the `/etc/hosts` file, mapping an IP address to a domain name.
-- `NetworkHelpersCommandSet.do_ip2asn` (method) `cli/commands/nethelpers.py:319` `def do_ip2asn(self, line)` -- Command to get ASN for a given IP address.
-- `NetworkHelpersCommandSet.do_ignorearp` (method) `cli/commands/nethelpers.py:348` `def do_ignorearp(self, line)` -- Configures the system to ignore ARP requests by setting a kernel parameter.
-- `NetworkHelpersCommandSet.do_ignoreicmp` (method) `cli/commands/nethelpers.py:383` `def do_ignoreicmp(self, line)` -- Configures the system to ignore ICMP echo requests by setting a kernel parameter.
-- `NetworkHelpersCommandSet.do_acknowledgearp` (method) `cli/commands/nethelpers.py:418` `def do_acknowledgearp(self, line)` -- Configures the system to acknowledge ARP requests by setting a kernel parameter.
-- `NetworkHelpersCommandSet.do_acknowledgeicmp` (method) `cli/commands/nethelpers.py:453` `def do_acknowledgeicmp(self, line)` -- Configures the system to respond to ICMP echo requests by setting a kernel parameter.
 
 
 Next: [API_p3.md](API_p3.md)

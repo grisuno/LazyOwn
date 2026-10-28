@@ -1,5 +1,283 @@
-# API (page 20 of 24)
+# API (page 20 of 25)
 Previous: [API_p19.md](API_p19.md)
+
+## scripts/migrate_lazyown.py
+Imported by: `tests/test_migrate_lazyown_generator.py`
+- `extract_method` (function) `scripts/migrate_lazyown.py:88` `def extract_method(source, node)` -- Return the raw source text of a function definition.
+- `rewrite_globals` (function) `scripts/migrate_lazyown.py:96` `def rewrite_globals(method_source)` -- Replace bare module-global names with ``self.params[...]``.
+- `build_migrated_module` (function) `scripts/migrate_lazyown.py:124` `def build_migrated_module(phase, category, methods)` -- Return the source text of a migrated ``CommandSet`` module.
+- `main` (function) `scripts/migrate_lazyown.py:173` `def main()`
+
+## scripts/mutate.sh
+- `runners` (function) `scripts/mutate.sh:29`
+- `changed_sources` (function) `scripts/mutate.sh:33`
+- `usage` (function) `scripts/mutate.sh:40`
+
+## scripts/mutation_gate.py
+- `discover_runners` (function) `scripts/mutation_gate.py:25` `def discover_runners()` -- Return sorted curated mutation runners.
+- `run_runner` (function) `scripts/mutation_gate.py:34` `def run_runner(path, timeout_s)` -- Execute one mutation runner.
+- `main` (function) `scripts/mutation_gate.py:63` `def main(argv)` -- Entry point for the mutation gate.
+
+## scripts/publish_wiki.sh
+- `log` (function) `scripts/publish_wiki.sh:37`
+- `fail` (function) `scripts/publish_wiki.sh:38`
+- `write_home` (function) `scripts/publish_wiki.sh:58`
+- `write_installation` (function) `scripts/publish_wiki.sh:92`
+- `write_c2_api` (function) `scripts/publish_wiki.sh:150`
+- `write_plugins` (function) `scripts/publish_wiki.sh:174`
+- `write_sidebar` (function) `scripts/publish_wiki.sh:188`
+- `write_footer` (function) `scripts/publish_wiki.sh:207`
+
+## scripts/read_journal.py
+Depends on: `scripts/journal.py`
+- `main` (function) `scripts/read_journal.py:29` `def main(argv)` -- Print the recent journal entries and return the process exit code.
+
+## scripts/smoke_onboarding.sh
+- `check` (function) `scripts/smoke_onboarding.sh:8`
+
+## scripts/sync_doc_stats.py
+- `canonical_command_count` (function) `scripts/sync_doc_stats.py:87` `def canonical_command_count(root)` -- Read the canonical command count from the committed command index.
+- `project_version` (function) `scripts/sync_doc_stats.py:100` `def project_version(root)` -- Read the package version from pyproject.toml, ``0.0.0`` when absent.
+- `measure_stats` (function) `scripts/sync_doc_stats.py:109` `def measure_stats(root)` -- Measure every published count from the live tree.
+- `render` (function) `scripts/sync_doc_stats.py:136` `def render(template, stats)` -- Format one replacement template with the measured stats.
+- `sync` (function) `scripts/sync_doc_stats.py:141` `def sync(check, stats, root)` -- Apply or verify every replacement; return the list of stale spots.
+- `main` (function) `scripts/sync_doc_stats.py:165` `def main()` -- CLI entry point.
+
+## scripts/top_tier_check.py
+- `fail` (function) `scripts/top_tier_check.py:23` `def fail(message)`
+- `ok` (function) `scripts/top_tier_check.py:28` `def ok(message)`
+- `count_cli_commands` (function) `scripts/top_tier_check.py:32` `def count_cli_commands()`
+- `count_mcp_tools` (function) `scripts/top_tier_check.py:43` `def count_mcp_tools()`
+- `count_addons` (function) `scripts/top_tier_check.py:48` `def count_addons()`
+- `check_versions` (function) `scripts/top_tier_check.py:52` `def check_versions()`
+- `check_doc_counts` (function) `scripts/top_tier_check.py:70` `def check_doc_counts(commands, mcp, addons)`
+- `check_tracked_secrets` (function) `scripts/top_tier_check.py:81` `def check_tracked_secrets()`
+- `check_release_inputs` (function) `scripts/top_tier_check.py:108` `def check_release_inputs()`
+- `main` (function) `scripts/top_tier_check.py:116` `def main()`
+
+## scripts/update_apt_atomic_ids.py
+- `build_technique_index` (function) `scripts/update_apt_atomic_ids.py:22` `def build_technique_index(atomics_path)` -- Map technique_id -> list of {atomic_id, name, description}.
+- `update_playbooks` (function) `scripts/update_apt_atomic_ids.py:46` `def update_playbooks(index, playbook_dir)`
+
+## scripts/validate_agent_contract.sh
+- `pass` (function) `scripts/validate_agent_contract.sh:23`
+- `fail` (function) `scripts/validate_agent_contract.sh:27`
+- `check` (function) `scripts/validate_agent_contract.sh:32`
+- `check_no_hardcoded_passwords` (function) `scripts/validate_agent_contract.sh:59` -- -- No hardcoded credentials outside payload.json --- Pentest help-text, doc placeholders (<...>), template vars ({{...
+- `check_no_hardcoded_wordlists` (function) `scripts/validate_agent_contract.sh:74` -- -- No hardcoded wordlist paths outside payload.json --- Help-text examples, docstrings and filesystem hints are...
+
+## skills/aci_planner.py
+Depends on: `core/logging.py`, `modules/logging_config.py`, `modules/world_model.py`
+Imported by: `skills/lazyown_mcp.py`, `tests/test_aci_planner.py`
+- `AttackPhase.to_dict` (method) `skills/aci_planner.py:171` `def to_dict(self)` -- Serialize to dict for JSON persistence.
+- `AttackPhase.from_dict` (method) `skills/aci_planner.py:176` `def from_dict(cls, d)` -- Deserialize from dict.
+- `ACIPlan.active_phase` (method) `skills/aci_planner.py:199` `def active_phase(self)` -- Return the first phase that is active or pending.
+- `ACIPlan.completion_pct` (method) `skills/aci_planner.py:207` `def completion_pct(self)` -- Percentage of phases that are done or skipped.
+- `ACIPlan.to_dict` (method) `skills/aci_planner.py:214` `def to_dict(self)` -- Serialize to dict for JSON persistence.
+- `ACIPlan.from_dict` (method) `skills/aci_planner.py:221` `def from_dict(cls, d)` -- Deserialize from dict.
+- `ACIPlanner.__init__` (method) `skills/aci_planner.py:463` `def __init__(self, api_key, objectives_file, plan_file)`
+- `ACIPlanner.plan` (method) `skills/aci_planner.py:473` `def plan(self, goal, phase_filter)` -- Decompose *goal* into an ACIPlan, inject objectives, persist.
+- `ACIEngine.__init__` (method) `skills/aci_planner.py:606` `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)`
+- `ACIEngine.status` (method) `skills/aci_planner.py:620` `def status(self)` -- Return a structured status dict for the active plan.
+- `ACIEngine.should_replan` (method) `skills/aci_planner.py:660` `def should_replan(self, plan)` -- Return True when the plan is stalled and a replan is warranted.
+- `ACIEngine.replan` (method) `skills/aci_planner.py:673` `def replan(self, reason)` -- Generate a new set of objectives for blocked/remaining phases.
+- `ACIEngine.complete` (method) `skills/aci_planner.py:743` `def complete(self)` -- Mark the active plan as completed and archive it.
+- `ACIReflector.__init__` (method) `skills/aci_planner.py:799` `def __init__(self, lessons_file)`
+- `ACIReflector.reflect` (method) `skills/aci_planner.py:802` `def reflect(self, plan)` -- Analyse *plan* and generate lessons.
+- `mcp_aci_plan` (function) `skills/aci_planner.py:867` `def mcp_aci_plan(goal, target, scope, domain, os_hint, phase_filter)` -- Plan an engagement goal and return a JSON summary.
+- `mcp_aci_status` (function) `skills/aci_planner.py:925` `def mcp_aci_status()` -- Return live status of the active ACI plan as JSON.
+- `mcp_aci_replan` (function) `skills/aci_planner.py:942` `def mcp_aci_replan(reason)` -- Force adaptive replanning of the active ACI plan.
+- `main` (function) `skills/aci_planner.py:1005` `def main(argv)` -- Entry point for CLI usage.
+
+## skills/autonomous_daemon.py
+Depends on: `core/logging.py`, `modules/asset_graph.py`, `modules/db.py`, `modules/detection_oracle.py`, `modules/enrich.py`, `modules/event_consumers.py`, `modules/evidence.py`, `modules/finding_lifecycle.py`, `modules/goals.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/llm_pool.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/notify.py`, `modules/obs_parser.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/toolset.py`, `modules/traffic_recorder.py`, `modules/world_model.py`, `skills/daemon_control.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`
+Imported by: `cli/commands/database.py`, `cli/commands/session_ops.py`, `modules/pipeline_engine.py`, `skills/autonomous_replay.py`, `skills/lazyown_mcp.py`, `skills/tests/test_autonomous_daemon.py`, `skills/unified_orchestrator.py`, `tests/test_autonomous_replay.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_engage_orchestrator.py`, `tests/test_metrics_aware_selector.py`, `tests/test_moe_rl_swan.py`, `tests/test_pipeline_engine.py`, `tests/test_scope_bound_auto_gate.py`
+- `compute_decision_seed` (function) `skills/autonomous_daemon.py:394` `def compute_decision_seed(objective_id, step_n, source)` -- Return a deterministic identifier for a daemon decision.
+- `ICommandRunner.run` (method) `skills/autonomous_daemon.py:426` `def run(self, command, timeout)` -- Execute command within timeout seconds.
+- `ICommandRunner.name` (method) `skills/autonomous_daemon.py:431` `def name(self)` -- Human-readable identifier for this runner.
+- `MCPCommandRunner.name` (method) `skills/autonomous_daemon.py:482` `def name(self)`
+- `MCPCommandRunner.run` (method) `skills/autonomous_daemon.py:485` `def run(self, command, timeout)` -- Try to import and call the MCP runner.
+- `PTYCommandRunner.name` (method) `skills/autonomous_daemon.py:502` `def name(self)`
+- `PTYCommandRunner.run` (method) `skills/autonomous_daemon.py:505` `def run(self, command, timeout)` -- Execute command via PTY.
+- `CommandRunnerChain.__init__` (method) `skills/autonomous_daemon.py:592` `def __init__(self, runners)`
+- `CommandRunnerChain.name` (method) `skills/autonomous_daemon.py:598` `def name(self)`
+- `CommandRunnerChain.run` (method) `skills/autonomous_daemon.py:601` `def run(self, command, timeout)` -- Try each runner in sequence.
+- `ICommandSelector.select` (method) `skills/autonomous_daemon.py:689` `def select(self, target, phase, context)` -- Return a CommandDecision or None if this selector has no suggestion.
+- `ReactiveSelector.__init__` (method) `skills/autonomous_daemon.py:704` `def __init__(self, reactive_engine)`
+- `ReactiveSelector.register_output` (method) `skills/autonomous_daemon.py:708` `def register_output(self, output, command, platform)` -- Feed reactive engine with last command output to generate new decisions.
+- `ReactiveSelector.select` (method) `skills/autonomous_daemon.py:735` `def select(self, target, phase, context)` -- Pop and return the pending reactive decision if present.
+- `ParquetSelector.__init__` (method) `skills/autonomous_daemon.py:750` `def __init__(self, pdb, fail_counts)`
+- `ParquetSelector.select` (method) `skills/autonomous_daemon.py:754` `def select(self, target, phase, context)` -- Return the most-frequent successful command for this phase.
+- `BridgeSelector.__init__` (method) `skills/autonomous_daemon.py:796` `def __init__(self, dispatcher, fail_counts)`
+- `BridgeSelector.select` (method) `skills/autonomous_daemon.py:800` `def select(self, target, phase, context)` -- Return a bridge catalog suggestion for this phase.
+- `LLMSelector.select` (method) `skills/autonomous_daemon.py:866` `def select(self, target, phase, context)` -- Return an LLM-suggested command with catalog context, or None if disabled.
+- `SWANSelector.select` (method) `skills/autonomous_daemon.py:990` `def select(self, target, phase, context)` -- Ask the best MoE expert for a command recommendation.
+- `FallbackSelector.select` (method) `skills/autonomous_daemon.py:1036` `def select(self, target, phase, context)` -- Return the static fallback command for this phase.
+- `MetricsAwareSelector.__init__` (method) `skills/autonomous_daemon.py:1073` `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)` -- Initialise the decorator.
+- `MetricsAwareSelector.wrapped` (method) `skills/autonomous_daemon.py:1119` `def wrapped(self)` -- Return the underlying selector for introspection in tests.
+- `MetricsAwareSelector.select` (method) `skills/autonomous_daemon.py:1205` `def select(self, target, phase, context)` -- Honour the :class:`ICommandSelector` contract.
+- `CredentialSpraySelector.__init__` (method) `skills/autonomous_daemon.py:1306` `def __init__(self, fail_counts)`
+- `CredentialSpraySelector.select` (method) `skills/autonomous_daemon.py:1310` `def select(self, target, phase, context)` -- Return a spray command when credentials + matching service are available.
+- `CascadeStrategy.__init__` (method) `skills/autonomous_daemon.py:1346` `def __init__(self, selectors)`
+- `CascadeStrategy.next_command` (method) `skills/autonomous_daemon.py:1349` `def next_command(self, target, phase, context)` -- Try each selector in order.
+- `StrategyEngine.__init__` (method) `skills/autonomous_daemon.py:1384` `def __init__(self, runner, selectors)`
+- `StrategyEngine.register_output` (method) `skills/autonomous_daemon.py:1411` `def register_output(self, output, command, platform, success)` -- Feed the reactive selector with the last command output.
+- `StrategyEngine.next_command` (method) `skills/autonomous_daemon.py:1425` `def next_command(self, target, phase, services, os_hint)` -- Select the next command for target/phase using the cascade.
+- `IObjectiveHandler.handle` (method) `skills/autonomous_daemon.py:1459` `def handle(self, objective_id, objective_text, target, context)` -- Execute objective and return a list of step results.
+- `ExecutionEngine.__init__` (method) `skills/autonomous_daemon.py:1481` `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)`
+- `ExecutionEngine.handle` (method) `skills/autonomous_daemon.py:1497` `def handle(self, objective_id, objective_text, target, context)` -- Synchronous entry point.
+- `ExecutionEngine.run_async` (method) `skills/autonomous_daemon.py:1507` `def run_async(self, objective_id, objective_text, target)` -- Asyncio entry point used by objective_loop.
+- `DroneCoordinator.__init__` (method) `skills/autonomous_daemon.py:2817` `def __init__(self)`
+- `DroneCoordinator.process_findings` (method) `skills/autonomous_daemon.py:2822` `def process_findings(self, findings, target, objective_id, payload_key)` -- Launch drones for relevant findings.
+- `EnginePhaseResult.did_switch` (method) `skills/autonomous_daemon.py:3125` `def did_switch(self)` -- True when the orchestrator used a fallback tool.
+- `IToolFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:3134` `def next_tool(self, failed_command, phase, attempt)` -- Return the next candidate command or None when exhausted.
+- `StaticFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:3151` `def next_tool(self, failed_command, phase, attempt)`
+- `BridgeFallbackResolver.__init__` (method) `skills/autonomous_daemon.py:3173` `def __init__(self, dispatcher)`
+- `BridgeFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:3198` `def next_tool(self, failed_command, phase, attempt)`
+- `_ShellDetector.__init__` (method) `skills/autonomous_daemon.py:3225` `def __init__(self, narrator)`
+- `_ShellDetector.poll` (method) `skills/autonomous_daemon.py:3230` `def poll(self, target)` -- Return the newly-detected client_ids since the previous poll.
+- `_ShellDetector.detect_in_output` (method) `skills/autonomous_daemon.py:3271` `def detect_in_output(self, output, target)` -- Return True when a shell/root-shell signal appears in command output.
+- `EngageOrchestrator.__init__` (method) `skills/autonomous_daemon.py:3317` `def __init__(self, target, runner, narrator, approval_gate, fallback_resolver, shell_detector, plan...`
+- `EngageOrchestrator.engagement_id` (method) `skills/autonomous_daemon.py:3362` `def engagement_id(self)` -- Stable id for this engagement (correlates events in logs).
+- `EngageOrchestrator.run` (method) `skills/autonomous_daemon.py:3366` `def run(self)` -- Drive the full plan against the configured target.
+- `mcp_engage_target` (function) `skills/autonomous_daemon.py:4010` `def mcp_engage_target(target, max_switches_per_step, detach, auto)` -- Public MCP / CLI entry point for the engage verb.
+- `mcp_engage_status` (function) `skills/autonomous_daemon.py:4100` `def mcp_engage_status(last_n)` -- Return the last N lines of sessions/engagement.log plus pending approvals.
+- `mcp_engage_approve` (function) `skills/autonomous_daemon.py:4126` `def mcp_engage_approve(approval_id, decision, operator)` -- Resolve a pending approval. decision must be 'approved' or 'denied'.
+- `mcp_engage_list_pending` (function) `skills/autonomous_daemon.py:4151` `def mcp_engage_list_pending()` -- List every pending approval awaiting an operator decision.
+- `cmd_engage` (function) `skills/autonomous_daemon.py:4169` `def cmd_engage(target, max_switches_per_step, detach)` -- CLI helper bound to the `engage <ip>` daemon subcommand.
+- `objective_loop` (function) `skills/autonomous_daemon.py:4208` `def objective_loop(max_steps, loop)` -- Root autonomous loop: takes pending objectives from objectives.jsonl and executes them without waiting for Claude...
+- `world_model_watcher` (function) `skills/autonomous_daemon.py:4351` `def world_model_watcher(loop)` -- Watch world_model.json.
+- `heartbeat_loop` (function) `skills/autonomous_daemon.py:4544` `def heartbeat_loop()` -- Emit heartbeat and write status every HEARTBEAT_S seconds.
+- `cmd_run` (function) `skills/autonomous_daemon.py:4671` `def cmd_run(max_steps)` -- Run daemon in foreground (debug mode).
+- `cmd_start` (function) `skills/autonomous_daemon.py:4680` `def cmd_start(max_steps)` -- Fork, detach, and run daemon in background.
+- `cmd_stop` (function) `skills/autonomous_daemon.py:4710` `def cmd_stop()` -- Send SIGTERM to the running daemon.
+- `cmd_status` (function) `skills/autonomous_daemon.py:4727` `def cmd_status()` -- Print current daemon status to stdout.
+- `cmd_inject` (function) `skills/autonomous_daemon.py:4743` `def cmd_inject(text, priority)` -- Inject an objective from the CLI, split into verifiable sub-goals.
+- `mcp_autonomous_start` (function) `skills/autonomous_daemon.py:4777` `def mcp_autonomous_start(max_steps, backend)` -- Start the autonomous daemon in a background thread (for MCP calls).
+- `mcp_autonomous_stop` (function) `skills/autonomous_daemon.py:4819` `def mcp_autonomous_stop()` -- Stop the autonomous daemon.
+- `mcp_autonomous_status` (function) `skills/autonomous_daemon.py:4835` `def mcp_autonomous_status()` -- Current daemon state: objectives, steps, drones, phase.
+- `mcp_autonomous_inject` (function) `skills/autonomous_daemon.py:4848` `def mcp_autonomous_inject(text, priority, target)` -- Inject an objective into the daemon queue and into sessions/tasks.json.
+- `mcp_autonomous_events` (function) `skills/autonomous_daemon.py:4892` `def mcp_autonomous_events(last_n)` -- Read the last N events from autonomous_events.jsonl.
+
+## skills/autonomous_replay.py
+Depends on: `core/logging.py`, `skills/autonomous_daemon.py`
+Imported by: `skills/lazyown_mcp.py`, `tests/test_autonomous_replay.py`
+- `ReplayReport.to_dict` (method) `skills/autonomous_replay.py:114` `def to_dict(self)` -- Return the report as a JSON-serialisable dictionary.
+- `EventLogReader.__init__` (method) `skills/autonomous_replay.py:136` `def __init__(self, path)` -- Initialise the reader.
+- `EventLogReader.path` (method) `skills/autonomous_replay.py:147` `def path(self)` -- Return the source path.
+- `EventLogReader.read` (method) `skills/autonomous_replay.py:152` `def read(self)` -- Return every event in the log, oldest first.
+- `EventLogReader.slice` (method) `skills/autonomous_replay.py:177` `def slice(self, events, from_event_id, to_event_id)` -- Return the inclusive subrange of *events* by ``id``.
+- `ReplayDispatcher.__init__` (method) `skills/autonomous_replay.py:221` `def __init__(self, reader, seed_fn)` -- Initialise the dispatcher.
+- `ReplayDispatcher.trace` (method) `skills/autonomous_replay.py:325` `def trace(self, from_event_id, to_event_id)` -- Replay the recorded decision sequence without executing it.
+- `ReplayDispatcher.execute` (method) `skills/autonomous_replay.py:357` `def execute(self, from_event_id, to_event_id, runner, timeout)` -- Replay the recorded sequence and re-run each command.
+- `replay` (function) `skills/autonomous_replay.py:473` `def replay(from_event_id, to_event_id, mode, events_path, runner, timeout)` -- Convenience entry point used by the MCP tool layer.
+
+## skills/claude_md_orchestrator/bdd_agent.py
+Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/tdd_agent.py`, `skills/claude_md_orchestrator/validators.py`
+- `run` (function) `skills/claude_md_orchestrator/bdd_agent.py:151` `def run(contract, spec, suite, config)` -- Run the implementation agent for one contract.
+
+## skills/claude_md_orchestrator/boy_scout.py
+Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
+- `run` (function) `skills/claude_md_orchestrator/boy_scout.py:90` `def run(state, config)` -- Run the boy scout pass for one contract.
+- `write_report` (function) `skills/claude_md_orchestrator/boy_scout.py:110` `def write_report(report, config)` -- Persist the boy scout proposal to disk.
+
+## skills/claude_md_orchestrator/cicd_agent.py
+Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
+- `run` (function) `skills/claude_md_orchestrator/cicd_agent.py:177` `def run(contract, spec, report, config)` -- Run the CI and CD agent for one contract.
+
+## skills/claude_md_orchestrator/config.py
+Imported by: `skills/claude_md_orchestrator/__init__.py`, `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/cicd_agent.py`, `skills/claude_md_orchestrator/documentation_agent.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/parser.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`
+- `Config.ensure` (method) `skills/claude_md_orchestrator/config.py:112` `def ensure(self)` -- Create the run subdirectories if they do not exist.
+- `Config.state_path` (method) `skills/claude_md_orchestrator/config.py:122` `def state_path(self)` -- Return the absolute path of the cycle state file.
+- `Config.specs_dir` (method) `skills/claude_md_orchestrator/config.py:126` `def specs_dir(self)` -- Return the absolute path of the spec directory.
+- `Config.tests_dir` (method) `skills/claude_md_orchestrator/config.py:130` `def tests_dir(self)` -- Return the absolute path of the test directory.
+- `Config.src_dir` (method) `skills/claude_md_orchestrator/config.py:134` `def src_dir(self)` -- Return the absolute path of the implementation directory.
+- `Config.review_dir` (method) `skills/claude_md_orchestrator/config.py:138` `def review_dir(self)` -- Return the absolute path of the review directory.
+- `Config.docs_dir` (method) `skills/claude_md_orchestrator/config.py:142` `def docs_dir(self)` -- Return the absolute path of the documentation directory.
+- `Config.logs_dir` (method) `skills/claude_md_orchestrator/config.py:146` `def logs_dir(self)` -- Return the absolute path of the log directory.
+- `Config.log_path` (method) `skills/claude_md_orchestrator/config.py:150` `def log_path(self)` -- Return the absolute path of the JSONL log for the active run.
+- `load_config` (function) `skills/claude_md_orchestrator/config.py:155` `def load_config()` -- Build a Config from environment variables and return it.
+- `resolve_optional` (function) `skills/claude_md_orchestrator/config.py:164` `def resolve_optional(config, key)` -- Return the environment value for a key or None when missing.
+
+## skills/claude_md_orchestrator/documentation_agent.py
+Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
+- `run` (function) `skills/claude_md_orchestrator/documentation_agent.py:123` `def run(contract, spec, report, config)` -- Run the documentation agent for one contract.
+
+## skills/claude_md_orchestrator/models.py
+Depends on: `cli/commands/enum.py`
+Imported by: `skills/claude_md_orchestrator/__init__.py`, `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/cicd_agent.py`, `skills/claude_md_orchestrator/documentation_agent.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/parser.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`, `skills/claude_md_orchestrator/validators.py`
+- `Contract.to_dict` (method) `skills/claude_md_orchestrator/models.py:91` `def to_dict(self)` -- Return a JSON friendly view of the contract.
+- `Contract.from_dict` (method) `skills/claude_md_orchestrator/models.py:96` `def from_dict(cls, data)` -- Build a Contract from a JSON friendly dictionary.
+- `SadPath.to_dict` (method) `skills/claude_md_orchestrator/models.py:120` `def to_dict(self)` -- Return a JSON friendly view of the sad path.
+- `SadPath.from_dict` (method) `skills/claude_md_orchestrator/models.py:125` `def from_dict(cls, data)` -- Build a SadPath from a JSON friendly dictionary.
+- `Spec.to_dict` (method) `skills/claude_md_orchestrator/models.py:166` `def to_dict(self)` -- Return a JSON friendly view of the spec.
+- `Spec.from_dict` (method) `skills/claude_md_orchestrator/models.py:173` `def from_dict(cls, data)` -- Build a Spec from a JSON friendly dictionary.
+- `Spec.validate` (method) `skills/claude_md_orchestrator/models.py:189` `def validate(self, min_sad_paths)` -- Return the list of DoD violations the spec carries.
+- `TestSuite.to_dict` (method) `skills/claude_md_orchestrator/models.py:236` `def to_dict(self)` -- Return a JSON friendly view of the test suite.
+- `TestSuite.from_dict` (method) `skills/claude_md_orchestrator/models.py:243` `def from_dict(cls, data)` -- Build a TestSuite from a JSON friendly dictionary.
+- `Finding.to_dict` (method) `skills/claude_md_orchestrator/models.py:270` `def to_dict(self)` -- Return a JSON friendly view of the finding.
+- `Finding.from_dict` (method) `skills/claude_md_orchestrator/models.py:280` `def from_dict(cls, data)` -- Build a Finding from a JSON friendly dictionary.
+- `ReviewReport.blockers` (method) `skills/claude_md_orchestrator/models.py:315` `def blockers(self)` -- Return the list of blocker findings.
+- `ReviewReport.to_dict` (method) `skills/claude_md_orchestrator/models.py:319` `def to_dict(self)` -- Return a JSON friendly view of the report.
+- `ReviewReport.from_dict` (method) `skills/claude_md_orchestrator/models.py:333` `def from_dict(cls, data)` -- Build a ReviewReport from a JSON friendly dictionary.
+- `CicleState.to_dict` (method) `skills/claude_md_orchestrator/models.py:383` `def to_dict(self)` -- Return a JSON friendly view of the state.
+- `CicleState.from_dict` (method) `skills/claude_md_orchestrator/models.py:402` `def from_dict(cls, data)` -- Build a CicleState from a JSON friendly dictionary.
+- `CicleStateFile.to_dict` (method) `skills/claude_md_orchestrator/models.py:440` `def to_dict(self)` -- Return a JSON friendly view of the state file.
+- `CicleStateFile.from_dict` (method) `skills/claude_md_orchestrator/models.py:450` `def from_dict(cls, data)` -- Build a CicleStateFile from a JSON friendly dictionary.
+- `CicleStateFile.save` (method) `skills/claude_md_orchestrator/models.py:459` `def save(self, path)` -- Persist the state to disk as pretty JSON.
+- `CicleStateFile.load` (method) `skills/claude_md_orchestrator/models.py:467` `def load(cls, path)` -- Read the state from disk.
+- `write_jsonl` (function) `skills/claude_md_orchestrator/models.py:480` `def write_jsonl(path, event)` -- Append a single JSONL event to the log file.
+
+## skills/claude_md_orchestrator/orchestrator.py
+Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/parser.py`
+Imported by: `skills/claude_md_orchestrator/__init__.py`
+- `run` (function) `skills/claude_md_orchestrator/orchestrator.py:275` `def run(config, options)` -- Run the orchestrator for the current run directory.
+- `summary_to_dict` (function) `skills/claude_md_orchestrator/orchestrator.py:306` `def summary_to_dict(summary)` -- Return a JSON friendly view of the summary.
+- `main` (function) `skills/claude_md_orchestrator/orchestrator.py:393` `def main(argv)` -- Run the orchestrator CLI and return the process exit code.
+
+## skills/claude_md_orchestrator/parser.py
+Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
+Imported by: `pwntomate.py`, `skills/claude_md_orchestrator/orchestrator.py`, `static/js/xterm.js`, `utils.py`
+- `flush_body` (function) `skills/claude_md_orchestrator/parser.py:97` `def flush_body()`
+- `parse_claude_md` (function) `skills/claude_md_orchestrator/parser.py:167` `def parse_claude_md(path)` -- Parse a CLAUDE.md file and return the list of contracts.
+- `load_contracts` (function) `skills/claude_md_orchestrator/parser.py:225` `def load_contracts(config, seeds)` -- Return the contracts the orchestrator should process.
+
+## skills/claude_md_orchestrator/reviewer_agent.py
+Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
+- `run` (function) `skills/claude_md_orchestrator/reviewer_agent.py:171` `def run(state, config)` -- Run the reviewer for one contract.
+- `write_report` (function) `skills/claude_md_orchestrator/reviewer_agent.py:225` `def write_report(report, config)` -- Persist the report as JSON inside the run review directory.
+
+## skills/claude_md_orchestrator/sdd_agent.py
+Depends on: `modules/llm_factory.py`, `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
+- `run` (function) `skills/claude_md_orchestrator/sdd_agent.py:204` `def run(contract, config)` -- Run the spec agent for one contract.
+
+## skills/claude_md_orchestrator/tdd_agent.py
+Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
+Imported by: `skills/claude_md_orchestrator/bdd_agent.py`
+- `run` (function) `skills/claude_md_orchestrator/tdd_agent.py:175` `def run(contract, spec, config)` -- Run the test agent for one contract.
+- `read_test_source` (function) `skills/claude_md_orchestrator/tdd_agent.py:228` `def read_test_source(test_path)` -- Return the test source for inspection.
+
+## skills/claude_md_orchestrator/validators.py
+Depends on: `core/hardening.py`, `skills/claude_md_orchestrator/models.py`
+Imported by: `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`, `tests/test_security_alerts_fix.py`
+- `_EmojiSpan.__init__` (method) `skills/claude_md_orchestrator/validators.py:60` `def __init__(self, start, text)` -- Store match offset and matched text.
+- `_EmojiSpan.start` (method) `skills/claude_md_orchestrator/validators.py:65` `def start(self)` -- Return the match offset.
+- `_EmojiSpan.group` (method) `skills/claude_md_orchestrator/validators.py:69` `def group(self, index)` -- Return the matched text.
+- `_EmojiPattern.finditer` (method) `skills/claude_md_orchestrator/validators.py:81` `def finditer(self, content)` -- Yield one span per emoji character in encounter order.
+- `CheckResult.passed` (method) `skills/claude_md_orchestrator/validators.py:107` `def passed(self)` -- Return True when the result has no findings.
+- `CheckResult.blocks` (method) `skills/claude_md_orchestrator/validators.py:111` `def blocks(self)` -- Return the blocker findings only.
+- `find_block_comments` (function) `skills/claude_md_orchestrator/validators.py:116` `def find_block_comments(source)` -- Return the start and end line of every block comment in source.
+- `find_inline_comments` (function) `skills/claude_md_orchestrator/validators.py:138` `def find_inline_comments(source)` -- Return the line numbers of every inline comment in source.
+- `check_no_comments` (function) `skills/claude_md_orchestrator/validators.py:155` `def check_no_comments(source, path)` -- Return a finding for every comment in the source code.
+- `check_no_emoji` (function) `skills/claude_md_orchestrator/validators.py:186` `def check_no_emoji(content, path)` -- Return a finding for every emoji the content carries.
+- `check_no_forbidden_markers` (function) `skills/claude_md_orchestrator/validators.py:208` `def check_no_forbidden_markers(content, path)` -- Return a finding for every TODO, FIXME, XXX, or HACK marker.
+- `check_english_only` (function) `skills/claude_md_orchestrator/validators.py:225` `def check_english_only(source, path)` -- Return a finding for every Spanish hint the source carries.
+- `check_docstrings` (function) `skills/claude_md_orchestrator/validators.py:249` `def check_docstrings(source, path)` -- Return a finding for every public function or class without a docstring.
+- `check_no_hardcoded_paths_or_ips` (function) `skills/claude_md_orchestrator/validators.py:290` `def check_no_hardcoded_paths_or_ips(source, path)` -- Return a finding for every absolute path or IP literal.
+- `check_magic_numbers` (function) `skills/claude_md_orchestrator/validators.py:324` `def check_magic_numbers(source, path, allow)` -- Return a finding for every numeric literal that is not in the allow list.
+- `check_source` (function) `skills/claude_md_orchestrator/validators.py:359` `def check_source(source, path, allow_numbers)` -- Run every source level DoD check and return the findings.
+- `check_markdown` (function) `skills/claude_md_orchestrator/validators.py:372` `def check_markdown(content, path)` -- Run every markdown level DoD check and return the findings.
+- `check_spec` (function) `skills/claude_md_orchestrator/validators.py:381` `def check_spec(spec, min_sad_paths)` -- Run the spec level DoD check and return the findings.
 
 ## skills/daemon_control.py
 Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_daemon_control.py`
@@ -210,268 +488,6 @@ Imported by: `modules/loop_ai_bridge.py`, `modules/unified_dashboard.py`, `skill
 - `mcp_hive_collect` (function) `skills/hive_mind.py:2010` `def mcp_hive_collect(drone_ids_csv, goal)` -- Wait for drones to finish and return synthesized result. drone_ids_csv: comma-separated drone IDs.
 - `mcp_hive_forget` (function) `skills/hive_mind.py:2021` `def mcp_hive_forget(older_than_hours, topic)` -- Prune hive memory.
 - `mcp_hive_recover` (function) `skills/hive_mind.py:2027` `def mcp_hive_recover(backend, api_key, max_iterations)` -- Re-queue all drones that were interrupted by a previous process crash/restart.
-
-## skills/lazyown_automapper.py
-Depends on: `core/logging.py`
-Imported by: `skills/lazyown_mcp.py`
-- `AutoMapper.__init__` (method) `skills/lazyown_automapper.py:341` `def __init__(self, lazyown_dir)`
-- `AutoMapper.rescan` (method) `skills/lazyown_automapper.py:364` `def rescan(self)` -- Force a rescan of all source directories.
-- `AutoMapper.mcp_tools` (method) `skills/lazyown_automapper.py:368` `def mcp_tools(self)` -- Return list of mcp types.Tool objects for all discovered extensions.
-- `AutoMapper.dispatch` (method) `skills/lazyown_automapper.py:389` `def dispatch(self, name, arguments, config, run_command_fn)` -- Execute a dynamic tool.
-- `AutoMapper.update_skills_md` (method) `skills/lazyown_automapper.py:524` `def update_skills_md(self, skills_md_path)` -- Append / replace the auto-discovered section in skills/lazyown.md.
-- `AutoMapper.stats` (method) `skills/lazyown_automapper.py:571` `def stats(self)`
-- `AutoMapper.list_specs` (method) `skills/lazyown_automapper.py:581` `def list_specs(self)` -- Return raw spec dicts (useful for debugging / reporting).
-
-## skills/lazyown_campaign.py
-Depends on: `core/logging.py`, `modules/lesson_ingestor.py`, `modules/logging_config.py`
-Imported by: `skills/lazyown_mcp.py`
-- `is_ip_in_scope` (function) `skills/lazyown_campaign.py:64` `def is_ip_in_scope(ip, scope)` -- Return True if *ip* belongs to any entry in *scope*.
-- `Campaign.is_active` (method) `skills/lazyown_campaign.py:148` `def is_active(self)` -- Return True when the campaign has not been completed yet.
-- `Campaign.to_dict` (method) `skills/lazyown_campaign.py:152` `def to_dict(self)` -- Serialise to a plain dict suitable for JSON persistence.
-- `Campaign.from_dict` (method) `skills/lazyown_campaign.py:157` `def from_dict(cls, data)` -- Deserialise from a dict loaded out of JSON.
-- `LessonLearned.to_dict` (method) `skills/lazyown_campaign.py:189` `def to_dict(self)`
-- `EpisodeReflectionEngine.__init__` (method) `skills/lazyown_campaign.py:256` `def __init__(self, hive_memory)` -- Parameters hive_memory: Optional HiveMemory instance for semantic storage.
-- `EpisodeReflectionEngine.reflect` (method) `skills/lazyown_campaign.py:268` `def reflect(self, campaign)` -- Extract lessons from *campaign* and persist them.
-- `CampaignStore.__init__` (method) `skills/lazyown_campaign.py:382` `def __init__(self, campaign_file)`
-- `CampaignStore.load` (method) `skills/lazyown_campaign.py:395` `def load(self)` -- Load the current campaign from disk.
-- `CampaignStore.create` (method) `skills/lazyown_campaign.py:414` `def create(self, name, scope, notes)` -- Create and persist a brand-new campaign.
-- `CampaignStore.complete` (method) `skills/lazyown_campaign.py:445` `def complete(self, notes, run_reflection, hive_memory)` -- Mark the active campaign as completed and optionally run reflection.
-- `CampaignStore.update_phase` (method) `skills/lazyown_campaign.py:500` `def update_phase(self, host, phase)` -- Set (or update) the attack phase for *host*.
-- `CampaignStore.add_milestone` (method) `skills/lazyown_campaign.py:516` `def add_milestone(self, host, milestone_type, notes)` -- Record a milestone achievement for *host*.
-- `CampaignStore.add_to_scope` (method) `skills/lazyown_campaign.py:540` `def add_to_scope(self, ip_or_cidr)` -- Append *ip_or_cidr* to the campaign scope (idempotent).
-- `CampaignStore.in_scope` (method) `skills/lazyown_campaign.py:559` `def in_scope(self, ip)` -- Return True if *ip* falls within the campaign scope.
-- `CampaignStore.summary` (method) `skills/lazyown_campaign.py:566` `def summary(self)` -- Return a human-readable multi-line summary of the campaign.
-- `main` (function) `skills/lazyown_campaign.py:667` `def main(argv)`
-
-## skills/lazyown_claudemd.py
-Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
-- `ClaudeMdLoader.__init__` (method) `skills/lazyown_claudemd.py:32` `def __init__(self, cwd)`
-- `ClaudeMdLoader.load` (method) `skills/lazyown_claudemd.py:35` `def load(self)` -- Return merged instructions string from all applicable levels.
-- `ClaudeMdLoader.list_files` (method) `skills/lazyown_claudemd.py:90` `def list_files(self)` -- Return metadata for all CLAUDE.md files that exist.
-- `ClaudeMdLoader.create_user_file` (method) `skills/lazyown_claudemd.py:115` `def create_user_file(self, content)` -- Create/overwrite ~/.lazyown/CLAUDE.md.
-- `ClaudeMdLoader.create_project_file` (method) `skills/lazyown_claudemd.py:121` `def create_project_file(self, content, local)` -- Create CLAUDE.md (or CLAUDE.local.md) in cwd.
-- `ClaudeMdLoader.add_rule` (method) `skills/lazyown_claudemd.py:127` `def add_rule(self, rule_name, content)` -- Add a named rule file to .lazyown/rules/.
-- `ClaudeMdLoader.status_text` (method) `skills/lazyown_claudemd.py:135` `def status_text(self)`
-
-## skills/lazyown_context.py
-Imported by: `skills/lazyown_mcp.py`, `skills/lazyown_session.py`, `skills/tests/test_harness_e2e.py`
-- `CompactionResult.summary` (method) `skills/lazyown_context.py:57` `def summary(self)`
-- `ContextCompactor.__init__` (method) `skills/lazyown_context.py:72` `def __init__(self, budget_override, snip_threshold, collapse_threshold)`
-- `ContextCompactor.apply_budget` (method) `skills/lazyown_context.py:84` `def apply_budget(self, content, tool_name)` -- Hard-cap output.
-- `ContextCompactor.snip` (method) `skills/lazyown_context.py:99` `def snip(self, content)` -- Remove duplicate consecutive lines (log noise).
-- `ContextCompactor.microcompact` (method) `skills/lazyown_context.py:120` `def microcompact(self, content)` -- Strip known low-signal patterns.
-- `ContextCompactor.collapse` (method) `skills/lazyown_context.py:136` `def collapse(self, content, tool_name)` -- Replace repetitive sections with a structural summary.
-- `ContextCompactor.auto_compact_session` (method) `skills/lazyown_context.py:159` `def auto_compact_session(entries)` -- Template-based session summary when full pipeline is insufficient. entries: list of {"type": str, "data": dict} from...
-- `ContextCompactor.compact` (method) `skills/lazyown_context.py:203` `def compact(self, content, tool_name)` -- Apply all applicable layers in order.
-- `compact_output` (function) `skills/lazyown_context.py:237` `def compact_output(content, tool_name)` -- Convenience wrapper: compact and return string.
-
-## skills/lazyown_daemon.py
-Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_config.py`, `modules/session_state.py`, `modules/timeline_narrator.py`, `skills/sessions_watcher.py`
-- `process_new_rows` (function) `skills/lazyown_daemon.py:108` `def process_new_rows()`
-- `file_watcher_loop` (function) `skills/lazyown_daemon.py:150` `def file_watcher_loop(queue)` -- Watch sessions/ for new/modified files and dispatch handlers.
-- `_Handler.on_created` (method) `skills/lazyown_daemon.py:201` `def on_created(self, event)`
-- `_Handler.on_modified` (method) `skills/lazyown_daemon.py:205` `def on_modified(self, event)`
-- `file_event_consumer` (function) `skills/lazyown_daemon.py:223` `def file_event_consumer(queue)` -- Consume FILE events from the queue and call _dispatch in executor.
-- `event_engine_loop` (function) `skills/lazyown_daemon.py:240` `def event_engine_loop()` -- Tail CSV, match rules, emit events — every ENGINE_INTERVAL_S seconds.
-- `heartbeat_loop` (function) `skills/lazyown_daemon.py:280` `def heartbeat_loop()` -- Emit HEARTBEAT event and write daemon_status.json every 30 seconds.
-- `toposwarm_keepalive_loop` (function) `skills/lazyown_daemon.py:332` `def toposwarm_keepalive_loop()` -- Keeps the TopoSwarm MCP server alive as a subprocess.
-- `cmd_run` (function) `skills/lazyown_daemon.py:453` `def cmd_run()` -- Run in foreground.
-- `cmd_start` (function) `skills/lazyown_daemon.py:462` `def cmd_start()` -- Fork, detach, and run in background.
-- `cmd_stop` (function) `skills/lazyown_daemon.py:495` `def cmd_stop()` -- Send SIGTERM to the running daemon.
-- `cmd_status` (function) `skills/lazyown_daemon.py:513` `def cmd_status()` -- Print status from daemon_status.json.
-
-## skills/lazyown_facts.py
-Depends on: `core/logging.py`, `modules/logging_config.py`
-Imported by: `cli/commands/mcp_bridge.py`, `lazyc2.py`, `modules/chain_facts.py`, `modules/chain_synth.py`, `modules/chain_tokens.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_facts.py`
-- `Config.default` (method) `skills/lazyown_facts.py:45` `def default(cls)`
-- `HostFacts.highest_access` (method) `skills/lazyown_facts.py:145` `def highest_access(self)`
-- `HostFacts.open_ports` (method) `skills/lazyown_facts.py:156` `def open_ports(self)`
-- `HostFacts.services_by_name` (method) `skills/lazyown_facts.py:159` `def services_by_name(self, name)`
-- `INmapXmlParser.parse` (method) `skills/lazyown_facts.py:169` `def parse(self, xml_path)`
-- `ITextOutputParser.can_parse` (method) `skills/lazyown_facts.py:217` `def can_parse(self, filename, content)`
-- `ITextOutputParser.parse` (method) `skills/lazyown_facts.py:220` `def parse(self, host, content, source_file)`
-- `ITextOutputParser.parse_extended` (method) `skills/lazyown_facts.py:228` `def parse_extended(self, host, content, source_file, port)` -- Extended parse including vulnerabilities and web paths.
-- `CrackMapExecParser.can_parse` (method) `skills/lazyown_facts.py:250` `def can_parse(self, filename, content)`
-- `CrackMapExecParser.parse` (method) `skills/lazyown_facts.py:257` `def parse(self, host, content, source_file)`
-- `Enum4linuxParser.can_parse` (method) `skills/lazyown_facts.py:301` `def can_parse(self, filename, content)`
-- `Enum4linuxParser.parse` (method) `skills/lazyown_facts.py:304` `def parse(self, host, content, source_file)`
-- `SecretsdumpParser.can_parse` (method) `skills/lazyown_facts.py:341` `def can_parse(self, filename, content)`
-- `SecretsdumpParser.parse` (method) `skills/lazyown_facts.py:346` `def parse(self, host, content, source_file)`
-- `LdapParser.can_parse` (method) `skills/lazyown_facts.py:374` `def can_parse(self, filename, content)`
-- `LdapParser.parse` (method) `skills/lazyown_facts.py:377` `def parse(self, host, content, source_file)`
-- `KerbruteParser.can_parse` (method) `skills/lazyown_facts.py:403` `def can_parse(self, filename, content)`
-- `KerbruteParser.parse` (method) `skills/lazyown_facts.py:406` `def parse(self, host, content, source_file)`
-- `RpcclientParser.can_parse` (method) `skills/lazyown_facts.py:424` `def can_parse(self, filename, content)`
-- `RpcclientParser.parse` (method) `skills/lazyown_facts.py:427` `def parse(self, host, content, source_file)`
-- `GobusterFfufParser.can_parse` (method) `skills/lazyown_facts.py:447` `def can_parse(self, filename, content)`
-- `GobusterFfufParser.parse` (method) `skills/lazyown_facts.py:450` `def parse(self, host, content, source_file)`
-- `GobusterFfufParser.parse_extended` (method) `skills/lazyown_facts.py:453` `def parse_extended(self, host, content, source_file, port)`
-- `NiktoParser.can_parse` (method) `skills/lazyown_facts.py:502` `def can_parse(self, filename, content)`
-- `NiktoParser.parse` (method) `skills/lazyown_facts.py:505` `def parse(self, host, content, source_file)`
-- `NiktoParser.parse_extended` (method) `skills/lazyown_facts.py:508` `def parse_extended(self, host, content, source_file, port)`
-- `NucleiParser.can_parse` (method) `skills/lazyown_facts.py:545` `def can_parse(self, filename, content)`
-- `NucleiParser.parse` (method) `skills/lazyown_facts.py:548` `def parse(self, host, content, source_file)`
-- `NucleiParser.parse_extended` (method) `skills/lazyown_facts.py:551` `def parse_extended(self, host, content, source_file, port)`
-- `SslscanParser.can_parse` (method) `skills/lazyown_facts.py:581` `def can_parse(self, filename, content)`
-- `SslscanParser.parse` (method) `skills/lazyown_facts.py:584` `def parse(self, host, content, source_file)`
-- `SslscanParser.parse_extended` (method) `skills/lazyown_facts.py:587` `def parse_extended(self, host, content, source_file, port)`
-- `GenericOutputParser.can_parse` (method) `skills/lazyown_facts.py:635` `def can_parse(self, filename, content)`
-- `GenericOutputParser.parse` (method) `skills/lazyown_facts.py:638` `def parse(self, host, content, source_file)`
-- `FactStore.__init__` (method) `skills/lazyown_facts.py:677` `def __init__(self, cfg)`
-- `FactStore.save` (method) `skills/lazyown_facts.py:727` `def save(self)`
-- `FactStore.ingest_xml` (method) `skills/lazyown_facts.py:791` `def ingest_xml(self, xml_path)` -- Parse one nmap XML file, merge results, return count of new facts.
-- `FactStore.ingest_text` (method) `skills/lazyown_facts.py:803` `def ingest_text(self, txt_path, host_hint)` -- Parse one tool output file, merge credential/share/access facts.
-- `FactStore.parse_all` (method) `skills/lazyown_facts.py:859` `def parse_all(self, target)` -- Scan sessions/ for all nmap XML and txt files.
-- `FactStore.get_host` (method) `skills/lazyown_facts.py:890` `def get_host(self, host)`
-- `FactStore.all_hosts` (method) `skills/lazyown_facts.py:893` `def all_hosts(self)`
-- `FactStore.context_for_command` (method) `skills/lazyown_facts.py:896` `def context_for_command(self, host, category)` -- Return a dict of substitution parameters for a command in the given attack category.
-- `FactStore.summary` (method) `skills/lazyown_facts.py:986` `def summary(self, host)` -- Return a human-readable summary of stored facts.
-- `create_tool_file` (function) `skills/lazyown_facts.py:1025` `def create_tool_file(toolname, command, trigger, active, tools_dir)` -- Write a new pwntomate .tool JSON file.
-- `main` (function) `skills/lazyown_facts.py:1074` `def main()`
-
-## skills/lazyown_groq_agents.py
-Depends on: `modules/atomic_enricher.py`, `modules/lazyown_bridge.py`, `modules/reactive_engine.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/threat_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`
-Imported by: `skills/hive_mind.py`, `skills/lazyown_mcp.py`, `skills/swan_agent.py`, `tests/test_bridge_catalog_filtered.py`
-- `GroqAgentPool.__init__` (method) `skills/lazyown_groq_agents.py:702` `def __init__(self)`
-- `GroqAgentPool.spawn` (method) `skills/lazyown_groq_agents.py:706` `def spawn(self, goal, tools_filter, api_key, backend, max_iterations, system_prompt, block)` -- Spawn a new agent.
-- `GroqAgentPool.status` (method) `skills/lazyown_groq_agents.py:778` `def status(self, agent_id)`
-- `GroqAgentPool.result` (method) `skills/lazyown_groq_agents.py:794` `def result(self, agent_id)`
-- `GroqAgentPool.list_all` (method) `skills/lazyown_groq_agents.py:807` `def list_all(self, limit)`
-- `get_pool` (function) `skills/lazyown_groq_agents.py:829` `def get_pool()`
-- `spawn_agent` (function) `skills/lazyown_groq_agents.py:838` `def spawn_agent(goal, tools_filter, api_key, backend, max_iterations, block)` -- Spawn a new Groq/Ollama agent.
-- `agent_status` (function) `skills/lazyown_groq_agents.py:857` `def agent_status(agent_id)`
-- `agent_result` (function) `skills/lazyown_groq_agents.py:861` `def agent_result(agent_id)`
-- `list_agents` (function) `skills/lazyown_groq_agents.py:865` `def list_agents(limit)`
-- `main` (function) `skills/lazyown_groq_agents.py:872` `def main()`
-
-## skills/lazyown_hooks.py
-Depends on: `cli/commands/enum.py`
-Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
-- `HookRegistry.__init__` (method) `skills/lazyown_hooks.py:47` `def __init__(self)`
-- `HookRegistry.register` (method) `skills/lazyown_hooks.py:56` `def register(self, event, handler)`
-- `HookRegistry.run` (method) `skills/lazyown_hooks.py:59` `def run(self, event, context)` -- Run all handlers for event, chaining modified contexts.
-- `HookRegistry.metrics` (method) `skills/lazyown_hooks.py:79` `def metrics(self)` -- Return aggregate hook execution counts.
-- `sandbox_hook` (function) `skills/lazyown_hooks.py:101` `def sandbox_hook(context)` -- PRE_TOOL_USE: block catastrophic shell commands before permission evaluation.
-- `rate_limit_hook` (function) `skills/lazyown_hooks.py:116` `def rate_limit_hook(context, window, limit)` -- PRE_TOOL_USE: prevent rapid-fire C2 commands (>5 per 2s).
-- `audit_hook` (function) `skills/lazyown_hooks.py:139` `def audit_hook(context, audit_path)` -- AUDIT: append a one-line JSON record of every tool call to the audit log.
-- `timing_hook` (function) `skills/lazyown_hooks.py:161` `def timing_hook(context)` -- POST_TOOL_USE: annotate result with wall-clock execution time.
-- `start_timer_hook` (function) `skills/lazyown_hooks.py:176` `def start_timer_hook(context)` -- PRE_TOOL_USE: record start time for timing_hook.
-- `build_default_registry` (function) `skills/lazyown_hooks.py:187` `def build_default_registry(sessions_dir)` -- Create a HookRegistry with the built-in safety hooks wired up.
-- `get_registry` (function) `skills/lazyown_hooks.py:224` `def get_registry(sessions_dir)`
-
-## skills/lazyown_llm.py
-Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_facts.py`, `skills/lazyown_mcp.py`, `skills/lazyown_objective.py`
-Imported by: `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`
-- `LLMTool.openai_schema` (method) `skills/lazyown_llm.py:79` `def openai_schema(self)`
-- `LLMBridge.__init__` (method) `skills/lazyown_llm.py:104` `def __init__(self, backend, model, api_key)`
-- `LLMBridge.register_tool` (method) `skills/lazyown_llm.py:118` `def register_tool(self, name, description, parameters, func)`
-- `LLMBridge.ask` (method) `skills/lazyown_llm.py:127` `def ask(self, goal, context, max_iterations, system_prompt)`
-- `run_command` (function) `skills/lazyown_llm.py:346` `def run_command(command)` -- Execute a LazyOwn shell command and return its output.
-- `read_nmap` (function) `skills/lazyown_llm.py:352` `def read_nmap(target)` -- Read the nmap scan file for the given target IP.
-- `read_plan` (function) `skills/lazyown_llm.py:369` `def read_plan()` -- Read the current attack plan from sessions/plan.txt.
-- `read_facts` (function) `skills/lazyown_llm.py:376` `def read_facts(target)` -- Return FactStore structured facts for a target (or all targets).
-- `read_objectives` (function) `skills/lazyown_llm.py:389` `def read_objectives(limit)` -- List the next N pending attack objectives.
-- `build_bridge` (function) `skills/lazyown_llm.py:438` `def build_bridge(backend, model, api_key, with_default_tools)` -- Create a ready-to-use LLMBridge with optional default LazyOwn tools.
-- `llm_ask` (function) `skills/lazyown_llm.py:468` `def llm_ask(goal, context, backend, model, api_key, max_iterations, system_prompt, extra_tools)` -- Single-call entry point for lazyown_mcp.py.
-- `main` (function) `skills/lazyown_llm.py:493` `def main()`
-
-## skills/lazyown_mcp.py
-Depends on: `cli/command_chain.py`, `cli/graph_advisor.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `core/config.py`, `core/hardening.py`, `core/llm_budget.py`, `core/logging.py`, `core/param_registry.py`, `core/payload_schema.py`, `modules/__init__.py`, `modules/ai_exploit_chain.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_loop_memory.py`, `modules/auto_pivot.py`, `modules/auto_registry.py`, `modules/autonomous_exploit_engine.py`, `modules/backdoor/server.c`, `modules/chain_registry.py`, `modules/collab_bp.py`, `modules/cve_matcher.py`, `modules/dashboard_engine.py`, `modules/db.py`, `modules/digest.py`, `modules/evasion_engine.py`, `modules/event_engine.py`, `modules/evidence.py`, `modules/exploit_recommender.py`, `modules/exploitgym_gym.py`, `modules/goals.py`, `modules/integrations/misp_export.py`, `modules/intelligence_engine.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazyown_bridge.py`, `modules/llm_client.py`, `modules/llm_evaluator.py`, `modules/llm_pool.py`, `modules/mcp_agent_bridge.py`, `modules/memory_store.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/obs_parser.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/recommender.py`, `modules/selector_manager.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/session_state.py`, `modules/sinks/routing.py`, `modules/threat_model.py`, `modules/timeline_narrator.py`, `modules/traffic_recorder.py`, `modules/ttpscope_bridge.py`, `modules/unified_dashboard.py`, `modules/world_model.py`, `scripts/lazy_opencode_config.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/daemon_control.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/swan_agent.py`
-Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_opencode.py`, `skills/tests/test_mcp_smoke.py`, `tests/test_boyscout_contracts.py`, `tests/test_mcp_improvements.py`, `tests/test_rea_mcp.py`
-- `register_handler` (function) `skills/lazyown_mcp.py:634` `def register_handler(tool_name)` -- Decorator that registers an async handler for *tool_name*.
-- `coerce_value` (function) `skills/lazyown_mcp.py:884` `def coerce_value(k, v)`
-- `list_tools` (function) `skills/lazyown_mcp.py:2328` `def list_tools()`
-- `substitute_playbook_target` (function) `skills/lazyown_mcp.py:6890` `def substitute_playbook_target(command, target)` -- Substitute the {target} token in a playbook step command.
-- `call_tool` (function) `skills/lazyown_mcp.py:6908` `def call_tool(name, arguments)`
-- `text` (function) `skills/lazyown_mcp.py:6922` `def text(content)`
-- `_Proposal.__init__` (method) `skills/lazyown_mcp.py:9412` `def __init__(self, command, args, source, reason, priority)`
-- `main` (function) `skills/lazyown_mcp.py:13584` `def main()`
-
-## skills/lazyown_mcp_helpers.py
-Imported by: `modules/c2_surfaces.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_mcp_improvements.py`
-- `is_likely_credential` (function) `skills/lazyown_mcp_helpers.py:37` `def is_likely_credential(value)` -- Score whether a string is plausibly a real credential.
-- `evidence_freshness` (function) `skills/lazyown_mcp_helpers.py:67` `def evidence_freshness(path, threshold_seconds, now)` -- Return age + stale flag for an evidence file.
-- `parse_task_value` (function) `skills/lazyown_mcp_helpers.py:125` `def parse_task_value(title)` -- Extract the embedded JSON-ish payload from a task title.
-- `audit_tasks` (function) `skills/lazyown_mcp_helpers.py:165` `def audit_tasks(tasks, min_confidence)` -- Classify each task as keep/drop with a reason.
-- `find_credential_provenance` (function) `skills/lazyown_mcp_helpers.py:196` `def find_credential_provenance(value, sessions_dir, csv_name)` -- Locate where a credential was first observed.
-- `evidence_grep` (function) `skills/lazyown_mcp_helpers.py:297` `def evidence_grep(pattern, sessions_dir, scope, max_matches, max_file_bytes, case_insensitive)` -- Grep through session artefacts.
-- `collect_pwntomate_evidence` (function) `skills/lazyown_mcp_helpers.py:376` `def collect_pwntomate_evidence(rhost, sessions_dir)` -- List pwntomate output dirs for a target with per-dir freshness.
-- `build_target_context` (function) `skills/lazyown_mcp_helpers.py:414` `def build_target_context(host, port, sessions_dir, payload, world_model)` -- Aggregate everything known about (host, port) into one structure.
-- `preflight_command` (function) `skills/lazyown_mcp_helpers.py:575` `def preflight_command(command, payload, sessions_dir)` -- Pre-flight a LazyOwn command without executing it.
-- `JobStore.__init__` (method) `skills/lazyown_mcp_helpers.py:689` `def __init__(self, max_jobs)`
-- `JobStore.submit` (method) `skills/lazyown_mcp_helpers.py:694` `def submit(self, command, runner, timeout)` -- Start a runner(command, timeout) in a background thread.
-- `JobStore.status` (method) `skills/lazyown_mcp_helpers.py:727` `def status(self, job_id)`
-- `JobStore.list` (method) `skills/lazyown_mcp_helpers.py:732` `def list(self, limit)`
-- `take_snapshot` (function) `skills/lazyown_mcp_helpers.py:747` `def take_snapshot(sessions_dir, payload, world_model, tasks)` -- Capture a lightweight snapshot of the campaign state.
-- `diff_snapshot` (function) `skills/lazyown_mcp_helpers.py:792` `def diff_snapshot(sessions_dir, payload, world_model, tasks)` -- Return what changed since the last snapshot.
-- `needs_confirmation` (function) `skills/lazyown_mcp_helpers.py:875` `def needs_confirmation(tool_name, arguments)` -- Return True if tool should require an explicit confirm=True flag.
-
-## skills/lazyown_mcp_opencode.py
-Depends on: `modules/__init__.py`, `modules/backdoor/server.c`, `modules/harness.py`, `modules/orchestrator_config.py`, `skills/lazyown_mcp.py`
-Imported by: `tests/test_opencode_mcp_harness.py`
-- `list_tools` (function) `skills/lazyown_mcp_opencode.py:181` `def list_tools()` -- Expose the curated subset under short names, keeping original schemas.
-- `call_tool` (function) `skills/lazyown_mcp_opencode.py:201` `def call_tool(name, arguments)` -- Proxy the short name to the full LazyOwn MCP handler.
-- `main` (function) `skills/lazyown_mcp_opencode.py:211` `def main()`
-
-## skills/lazyown_objective.py
-Imported by: `modules/golden_path.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_objectives.py`, `tests/test_daemon_loop.py`, `tests/test_golden_path.py`
-- `Objective.sort_key` (method) `skills/lazyown_objective.py:116` `def sort_key(self)`
-- `ObjectiveStore.__init__` (method) `skills/lazyown_objective.py:131` `def __init__(self, path)`
-- `ObjectiveStore.cleanup` (method) `skills/lazyown_objective.py:163` `def cleanup(self)` -- Expire pending objectives whose TTL has passed.
-- `ObjectiveStore.inject` (method) `skills/lazyown_objective.py:193` `def inject(self, text, priority, source, context, notes)`
-- `ObjectiveStore.complete` (method) `skills/lazyown_objective.py:243` `def complete(self, obj_id, notes)`
-- `ObjectiveStore.block` (method) `skills/lazyown_objective.py:246` `def block(self, obj_id, reason)`
-- `ObjectiveStore.skip` (method) `skills/lazyown_objective.py:249` `def skip(self, obj_id, reason)`
-- `ObjectiveStore.start` (method) `skills/lazyown_objective.py:252` `def start(self, obj_id)`
-- `ObjectiveStore.next_pending` (method) `skills/lazyown_objective.py:255` `def next_pending(self)`
-- `ObjectiveStore.list_pending` (method) `skills/lazyown_objective.py:261` `def list_pending(self, limit)`
-- `ObjectiveStore.list_all` (method) `skills/lazyown_objective.py:265` `def list_all(self, status, limit)`
-- `ObjectiveStore.summary` (method) `skills/lazyown_objective.py:271` `def summary(self)`
-- `decompose_goal` (function) `skills/lazyown_objective.py:296` `def decompose_goal(goal_text, target)` -- Split a compound goal into discrete verifiable objectives.
-- `read_soul` (function) `skills/lazyown_objective.py:320` `def read_soul()`
-- `write_soul` (function) `skills/lazyown_objective.py:326` `def write_soul(content)`
-- `current_plan` (function) `skills/lazyown_objective.py:330` `def current_plan()`
-- `full_context_for_claude` (function) `skills/lazyown_objective.py:336` `def full_context_for_claude(target)` -- Return a single dict with everything Claude Code needs to reason about the next objective:  soul + pending...
-- `SoulUpdater.__init__` (method) `skills/lazyown_objective.py:379` `def __init__(self)`
-- `SoulUpdater.update_phase` (method) `skills/lazyown_objective.py:417` `def update_phase(self, phase)` -- Update the `Phase:` line inside ## Current Focus.
-- `SoulUpdater.update_target` (method) `skills/lazyown_objective.py:421` `def update_target(self, target)` -- Update the `Target:` line inside ## Current Focus.
-- `SoulUpdater.update_os` (method) `skills/lazyown_objective.py:425` `def update_os(self, os_name, target)` -- Record detected operating system for a target.
-- `SoulUpdater.update_credentials` (method) `skills/lazyown_objective.py:432` `def update_credentials(self, creds)` -- Replace the ## Known Credentials section with discovered credentials.
-- `SoulUpdater.update_access` (method) `skills/lazyown_objective.py:459` `def update_access(self, level, target, method)` -- Update achieved access level for a target.
-- `SoulUpdater.update_vulnerabilities` (method) `skills/lazyown_objective.py:466` `def update_vulnerabilities(self, vulns)` -- Replace ## Key Vulnerabilities with the most severe findings.
-- `main` (function) `skills/lazyown_objective.py:485` `def main()`
-
-## skills/lazyown_parquet_db.py
-Depends on: `core/logging.py`, `modules/atomic_enricher.py`, `skills/lazyown_policy.py`
-Imported by: `cli/commands/mcp_bridge.py`, `modules/ttpscope_bridge.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/tests/test_parquet_db.py`, `skills/update_knowledge.py`, `tests/test_core_modules.py`
-- `ParquetDB.__init__` (method) `skills/lazyown_parquet_db.py:295` `def __init__(self, lazyown_dir)`
-- `ParquetDB.sync` (method) `skills/lazyown_parquet_db.py:316` `def sync(self, csv_path)` -- Ingest sessions/LazyOwn_session_report.csv into session_knowledge.parquet.
-- `ParquetDB.annotate` (method) `skills/lazyown_parquet_db.py:405` `def annotate(self, row_id, success, category, outcome)` -- Patch a row in session_knowledge.parquet by its id.
-- `ParquetDB.annotate_rich` (method) `skills/lazyown_parquet_db.py:434` `def annotate_rich(self, row_id, output, finding_type, target_service, target_port, campaign_id, success, category...` -- Full annotation after real execution: stores output snippet + all metadata.
-- `ParquetDB.query_session` (method) `skills/lazyown_parquet_db.py:490` `def query_session(self, phase, target, success_only, limit)` -- Query session_knowledge.parquet.
-- `ParquetDB.query_knowledge` (method) `skills/lazyown_parquet_db.py:526` `def query_knowledge(self, keyword, parquet_name, columns, limit)` -- Search for keyword across one or all parquets in parquets/.
-- `ParquetDB.query_atomic` (method) `skills/lazyown_parquet_db.py:578` `def query_atomic(self, keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` -- Structured query over the enriched Atomic Red Team catalogue (parquets/techniques_enriched.parquet).
-- `ParquetDB.context_for_phase` (method) `skills/lazyown_parquet_db.py:632` `def context_for_phase(self, phase, target, limit)` -- Return a rich context dict for MCP reasoning:
-- `ParquetDB.stats` (method) `skills/lazyown_parquet_db.py:731` `def stats(self)`
-- `ParquetDB.list_parquets` (method) `skills/lazyown_parquet_db.py:745` `def list_parquets(self)`
-- `ParquetDB.train_classifier` (method) `skills/lazyown_parquet_db.py:750` `def train_classifier(self, min_rows)` -- Train a lightweight RandomForest classifier on session_knowledge.parquet.
-- `ParquetDB.predict_success` (method) `skills/lazyown_parquet_db.py:845` `def predict_success(self, command, category)` -- Use the trained classifier to estimate probability of success.
-- `verify_model_integrity` (function) `skills/lazyown_parquet_db.py:894` `def verify_model_integrity(model_path, encoder_path, hash_path)` -- Verify SHA256 integrity of classifier model and encoder files.
-- `get_pdb` (function) `skills/lazyown_parquet_db.py:950` `def get_pdb(lazyown_dir)`
-- `main` (function) `skills/lazyown_parquet_db.py:963` `def main()`
-
-## skills/lazyown_permissions.py
-Depends on: `cli/commands/enum.py`
-Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
-- `PermissionRule.to_dict` (method) `skills/lazyown_permissions.py:36` `def to_dict(self)`
-- `PermissionSystem.__init__` (method) `skills/lazyown_permissions.py:103` `def __init__(self, sessions_dir)`
-- `PermissionSystem.add_rule` (method) `skills/lazyown_permissions.py:145` `def add_rule(self, tool_pattern, action, condition, description)`
-- `PermissionSystem.remove_rule` (method) `skills/lazyown_permissions.py:151` `def remove_rule(self, tool_pattern, action)`
-- `PermissionSystem.set_mode` (method) `skills/lazyown_permissions.py:157` `def set_mode(self, mode)`
-- `PermissionSystem.list_rules` (method) `skills/lazyown_permissions.py:162` `def list_rules(self)`
-- `PermissionSystem.evaluate` (method) `skills/lazyown_permissions.py:167` `def evaluate(self, tool_name, arguments)` -- Returns (decision, reason). decision: "allow" | "deny" | "ask"
-- `PermissionSystem.metrics` (method) `skills/lazyown_permissions.py:237` `def metrics(self)` -- Aggregate audit log into per-decision and per-tool counts.
-- `PermissionSystem.status_text` (method) `skills/lazyown_permissions.py:279` `def status_text(self)`
 
 
 Next: [API_p21.md](API_p21.md)

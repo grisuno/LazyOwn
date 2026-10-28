@@ -3,6 +3,65 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_factstore_save_and_reload` | method | `skills/tests/test_facts.py:363` | `def test_factstore_save_and_reload(self, tmp_path)` |
+| `test_gobuster_multiple_paths` | method | `skills/tests/test_facts.py:162` | `def test_gobuster_multiple_paths(self)` |
+| `test_gobuster_parser_parse_extended` | method | `skills/tests/test_facts.py:150` | `def test_gobuster_parser_parse_extended(self)` |
+| `test_ingest_text_crackmapexec` | method | `skills/tests/test_facts.py:416` | `def test_ingest_text_crackmapexec(self, tmp_path)` |
+| `test_ingest_xml` | method | `skills/tests/test_facts.py:390` | `def test_ingest_xml(self, tmp_path)` |
+| `test_kerbrute_multiple_users` | method | `skills/tests/test_facts.py:129` | `def test_kerbrute_multiple_users(self)` |
+| `test_kerbrute_parser` | method | `skills/tests/test_facts.py:120` | `def test_kerbrute_parser(self)` |
+| `test_nikto_cve_line` | method | `skills/tests/test_facts.py:189` | `def test_nikto_cve_line(self)` |
+| `test_nikto_parser_parse_extended` | method | `skills/tests/test_facts.py:177` | `def test_nikto_parser_parse_extended(self)` |
+| `test_nmap_xml_parse` | method | `skills/tests/test_facts.py:270` | `def test_nmap_xml_parse(self, tmp_path)` |
+| `test_nmap_xml_parse_invalid` | method | `skills/tests/test_facts.py:286` | `def test_nmap_xml_parse_invalid(self, tmp_path)` |
+| `test_nuclei_multiple_severities` | method | `skills/tests/test_facts.py:209` | `def test_nuclei_multiple_severities(self)` |
+| `test_nuclei_parser_parse_extended` | method | `skills/tests/test_facts.py:197` | `def test_nuclei_parser_parse_extended(self)` |
+| `test_rpcclient_parser` | method | `skills/tests/test_facts.py:139` | `def test_rpcclient_parser(self)` |
+| `test_secretsdump_parser` | method | `skills/tests/test_facts.py:106` | `def test_secretsdump_parser(self)` |
+| `test_sslscan_dedup` | method | `skills/tests/test_facts.py:231` | `def test_sslscan_dedup(self)` |
+| `test_sslscan_parser_parse_extended` | method | `skills/tests/test_facts.py:219` | `def test_sslscan_parser_parse_extended(self)` |
+| `check` | function | `skills/tests/test_harness_e2e.py:33` | `def check(label, cond, hint)` |
+| `main` | function | `skills/tests/test_harness_e2e.py:391` | `def main()` |
+| `test_auto_compact` | function | `skills/tests/test_harness_e2e.py:263` | `def test_auto_compact(tmp)` |
+| `test_claudemd` | function | `skills/tests/test_harness_e2e.py:228` | `def test_claudemd(tmp)` |
+| `test_compaction` | function | `skills/tests/test_harness_e2e.py:98` | `def test_compaction()` |
+| `test_hooks` | function | `skills/tests/test_harness_e2e.py:182` | `def test_hooks(tmp)` |
+| `test_integration` | function | `skills/tests/test_harness_e2e.py:332` | `def test_integration(tmp)` |
+| `test_metrics` | function | `skills/tests/test_harness_e2e.py:300` | `def test_metrics(tmp)` |
+| `test_permissions` | function | `skills/tests/test_harness_e2e.py:47` | `def test_permissions(tmp)` |
+| `test_transcript` | function | `skills/tests/test_harness_e2e.py:143` | `def test_transcript(tmp)` |
+| `TestDronePool` | class | `skills/tests/test_hive_mind.py:346` | `class TestDronePool` |
+| `TestDronePoolWithPersistence` | class | `skills/tests/test_hive_mind.py:770` | `class TestDronePoolWithPersistence` |
+| `TestDroneStateStore` | class | `skills/tests/test_hive_mind.py:673` | `class TestDroneStateStore` |
+| `TestEpisodicStore` | class | `skills/tests/test_hive_mind.py:72` | `class TestEpisodicStore` |
+| `TestHiveBus` | class | `skills/tests/test_hive_mind.py:293` | `class TestHiveBus` |
+| `TestHiveMemory` | class | `skills/tests/test_hive_mind.py:226` | `class TestHiveMemory` |
+| `TestHiveMind` | class | `skills/tests/test_hive_mind.py:509` | `class TestHiveMind` |
+| `TestMCPHandlers` | class | `skills/tests/test_hive_mind.py:575` | `class TestMCPHandlers` |
+| `TestQueenBrain` | class | `skills/tests/test_hive_mind.py:428` | `class TestQueenBrain` |
+| `TestSemanticStore` | class | `skills/tests/test_hive_mind.py:152` | `class TestSemanticStore` |
+| `_build_hive_and_patch` | method | `skills/tests/test_hive_mind.py:588` | `def _build_hive_and_patch(self)` |
+| `_instant_run` | function | `skills/tests/test_hive_mind.py:405` | `def _instant_run(self_inner)` |
+| `_make_episodic` | function | `skills/tests/test_hive_mind.py:32` | `def _make_episodic(tmp_path)` |
+| `_make_hive` | method | `skills/tests/test_hive_mind.py:519` | `def _make_hive(self)` |
+| `_make_hive_memory` | function | `skills/tests/test_hive_mind.py:49` | `def _make_hive_memory(tmp_path)` |
+| `_make_pool` | method | `skills/tests/test_hive_mind.py:356` | `def _make_pool(self)` |
+| `_make_pool_with_store` | method | `skills/tests/test_hive_mind.py:780` | `def _make_pool_with_store(self)` |
+| `_make_queen` | method | `skills/tests/test_hive_mind.py:438` | `def _make_queen(self)` |
+| `_make_semantic` | function | `skills/tests/test_hive_mind.py:39` | `def _make_semantic(tmp_path, episodic)` |
+| `_make_state` | method | `skills/tests/test_hive_mind.py:688` | `def _make_state(self, status)` |
+| `_make_store` | method | `skills/tests/test_hive_mind.py:683` | `def _make_store(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:75` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:155` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:229` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:296` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:349` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:431` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:512` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:578` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:676` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_hive_mind.py:773` | `def setup_method(self)` |
+| `teardown_method` | method | `skills/tests/test_hive_mind.py:79` | `def teardown_method(self)` |
 | `teardown_method` | method | `skills/tests/test_hive_mind.py:159` | `def teardown_method(self)` |
 | `teardown_method` | method | `skills/tests/test_hive_mind.py:233` | `def teardown_method(self)` |
 | `teardown_method` | method | `skills/tests/test_hive_mind.py:353` | `def teardown_method(self)` |
@@ -437,64 +496,5 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `As` | class | `static/js/chart.min.js:13` | `` |
 | `Ge` | function | `static/js/chart.min.js:13` | `` |
 | `Ho` | class | `static/js/chart.min.js:13` | `` |
-| `Jt` | class | `static/js/chart.min.js:13` | `` |
-| `Rn` | class | `static/js/chart.min.js:13` | `` |
-| `Ro` | class | `static/js/chart.min.js:13` | `` |
-| `Se` | function | `static/js/chart.min.js:13` | `` |
-| `So` | class | `static/js/chart.min.js:13` | `` |
-| `Ss` | class | `static/js/chart.min.js:13` | `` |
-| `Tn` | class | `static/js/chart.min.js:13` | `` |
-| `Ts` | class | `static/js/chart.min.js:13` | `` |
-| `Ue` | function | `static/js/chart.min.js:13` | `` |
-| `Wa` | class | `static/js/chart.min.js:13` | `` |
-| `Xs` | function | `static/js/chart.min.js:13` | `` |
-| `Yn` | class | `static/js/chart.min.js:13` | `` |
-| `_a` | function | `static/js/chart.min.js:13` | `` |
-| `_n` | class | `static/js/chart.min.js:13` | `` |
-| `_o` | class | `static/js/chart.min.js:13` | `` |
-| `a` | function | `static/js/chart.min.js:13` | `` |
-| `a` | function | `static/js/chart.min.js:13` | `` |
-| `a` | function | `static/js/chart.min.js:13` | `` |
-| `a` | function | `static/js/chart.min.js:13` | `` |
-| `bn` | function | `static/js/chart.min.js:13` | `` |
-| `bo` | class | `static/js/chart.min.js:13` | `` |
-| `ca` | class | `static/js/chart.min.js:13` | `` |
-| `cs` | class | `static/js/chart.min.js:13` | `` |
-| `d` | function | `static/js/chart.min.js:13` | `` |
-| `de` | class | `static/js/chart.min.js:13` | `` |
-| `does` | class | `static/js/chart.min.js:13` | `` |
-| `e` | function | `static/js/chart.min.js:13` | `` |
-| `e` | function | `static/js/chart.min.js:13` | `` |
-| `e` | function | `static/js/chart.min.js:13` | `` |
-| `e` | function | `static/js/chart.min.js:13` | `` |
-| `e` | function | `static/js/chart.min.js:13` | `` |
-| `e` | function | `static/js/chart.min.js:13` | `` |
-| `e` | function | `static/js/chart.min.js:13` | `` |
-| `en` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `extends` | class | `static/js/chart.min.js:13` | `` |
-| `g` | function | `static/js/chart.min.js:13` | `` |
-| `h` | function | `static/js/chart.min.js:7` | `` |
-| `hs` | class | `static/js/chart.min.js:13` | `` |
-| `i` | function | `static/js/chart.min.js:7` | `` |
-| `i` | function | `static/js/chart.min.js:13` | `` |
-| `i` | function | `static/js/chart.min.js:13` | `` |
-| `it` | function | `static/js/chart.min.js:7` | `` |
-| `js` | class | `static/js/chart.min.js:13` | `` |
-| `l` | function | `static/js/chart.min.js:13` | `` |
-| `m` | function | `static/js/chart.min.js:13` | `` |
-| `n` | function | `static/js/chart.min.js:13` | `` |
-| `n` | function | `static/js/chart.min.js:13` | `` |
-| `o` | function | `static/js/chart.min.js:13` | `` |
-| `o` | function | `static/js/chart.min.js:13` | `` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

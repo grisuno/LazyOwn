@@ -1,5 +1,19 @@
-# API (page 3 of 24)
+# API (page 3 of 25)
 Previous: [API_p2.md](API_p2.md)
+
+## cli/commands/nethelpers.py
+Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
+Imported by: `tests/test_nethelpers_command_set.py`
+- `NetworkHelpersCommandSet.do_ip` (method) `cli/commands/nethelpers.py:38` `def do_ip(self, line)` -- Displays IP addresses of network interfaces and copies the IP address from the `tun0` interface to the clipboard.
+- `NetworkHelpersCommandSet.do_ipp` (method) `cli/commands/nethelpers.py:120` `def do_ipp(self, line)` -- Displays IP addresses of network interfaces and prints the IP address from the `tun0` interface.
+- `NetworkHelpersCommandSet.do_rhost` (method) `cli/commands/nethelpers.py:201` `def do_rhost(self, line)` -- Copies the remote host (self.params['rhost']) to the clipboard and updates the command prompt.
+- `NetworkHelpersCommandSet.do_rrhost` (method) `cli/commands/nethelpers.py:254` `def do_rrhost(self, line)` -- Updates the command prompt to include the remote host (self.params['rhost']) and current working directory.
+- `NetworkHelpersCommandSet.do_addhosts` (method) `cli/commands/nethelpers.py:295` `def do_addhosts(self, line)` -- Adds an entry to the `/etc/hosts` file, mapping an IP address to a domain name.
+- `NetworkHelpersCommandSet.do_ip2asn` (method) `cli/commands/nethelpers.py:319` `def do_ip2asn(self, line)` -- Command to get ASN for a given IP address.
+- `NetworkHelpersCommandSet.do_ignorearp` (method) `cli/commands/nethelpers.py:348` `def do_ignorearp(self, line)` -- Configures the system to ignore ARP requests by setting a kernel parameter.
+- `NetworkHelpersCommandSet.do_ignoreicmp` (method) `cli/commands/nethelpers.py:383` `def do_ignoreicmp(self, line)` -- Configures the system to ignore ICMP echo requests by setting a kernel parameter.
+- `NetworkHelpersCommandSet.do_acknowledgearp` (method) `cli/commands/nethelpers.py:418` `def do_acknowledgearp(self, line)` -- Configures the system to acknowledge ARP requests by setting a kernel parameter.
+- `NetworkHelpersCommandSet.do_acknowledgeicmp` (method) `cli/commands/nethelpers.py:453` `def do_acknowledgeicmp(self, line)` -- Configures the system to respond to ICMP echo requests by setting a kernel parameter.
 
 ## cli/commands/opsec_cleanup.py
 Depends on: `cli/commands/_base.py`, `modules/forensic_cleaner.py`, `modules/log_tamper.py`, `modules/memory_cleaner.py`, `modules/network_opsec.py`, `modules/opsec_scorer.py`, `modules/timestomper.py`

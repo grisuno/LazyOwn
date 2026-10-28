@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_lazy_context` | method | `cli/commands/lazyops.py:298` | `def do_lazy_context(self, line)` |
+| `do_lazy_dispatch` | method | `cli/commands/lazyops.py:88` | `def do_lazy_dispatch(self, line)` |
+| `do_lazy_enrich` | method | `cli/commands/lazyops.py:861` | `def do_lazy_enrich(self, line)` |
+| `do_lazy_evidence` | method | `cli/commands/lazyops.py:1447` | `def do_lazy_evidence(self, line)` |
 | `do_lazy_fact` | method | `cli/commands/lazyops.py:1399` | `def do_lazy_fact(self, line)` |
 | `do_lazy_finding` | method | `cli/commands/lazyops.py:1195` | `def do_lazy_finding(self, line)` |
 | `do_lazy_frontier` | method | `cli/commands/lazyops.py:503` | `def do_lazy_frontier(self, line)` |
@@ -392,14 +396,15 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
 | `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
 | `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:33` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
-| `_format_elapsed` | method | `cli/commands/redteam_gym.py:290` | `def _format_elapsed(seconds)` |
-| `_gym_hint` | method | `cli/commands/redteam_gym.py:417` | `def _gym_hint(self, args)` |
-| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:383` | `def _gym_leaderboard(self, args)` |
+| `_format_elapsed` | method | `cli/commands/redteam_gym.py:298` | `def _format_elapsed(seconds)` |
+| `_gym_hint` | method | `cli/commands/redteam_gym.py:425` | `def _gym_hint(self, args)` |
+| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:391` | `def _gym_leaderboard(self, args)` |
 | `_gym_list` | method | `cli/commands/redteam_gym.py:137` | `def _gym_list(self)` |
 | `_gym_start` | method | `cli/commands/redteam_gym.py:171` | `def _gym_start(self, args)` |
-| `_gym_status` | method | `cli/commands/redteam_gym.py:295` | `def _gym_status(self, args)` |
-| `_gym_stop` | method | `cli/commands/redteam_gym.py:363` | `def _gym_stop(self, args)` |
-| `_gym_submit` | method | `cli/commands/redteam_gym.py:242` | `def _gym_submit(self, args)` |
+| `_gym_status` | method | `cli/commands/redteam_gym.py:303` | `def _gym_status(self, args)` |
+| `_gym_stop` | method | `cli/commands/redteam_gym.py:371` | `def _gym_stop(self, args)` |
+| `_gym_submit` | method | `cli/commands/redteam_gym.py:250` | `def _gym_submit(self, args)` |
+| `_lab_notify` | function | `cli/commands/redteam_gym.py:189` | `def _lab_notify(message)` |
 | `do_gym` | method | `cli/commands/redteam_gym.py:40` | `def do_gym(self, line)` |
 | `do_gym_ms2` | method | `cli/commands/redteam_gym.py:92` | `def do_gym_ms2(self, line)` |
 | `ResourceCommandSet` | class | `cli/commands/resource_scripting.py:25` | `class ResourceCommandSet(LazyOwnCommandSet)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `complete_crack_hashes` | method | `cli/commands/security.py:276` | `def complete_crack_hashes(self, text, line, begidx, endidx)` |
 | `complete_opsec` | method | `cli/commands/security.py:267` | `def complete_opsec(self, text, line, begidx, endidx)` |
 | `do_crack_hashes` | method | `cli/commands/security.py:170` | `def do_crack_hashes(self, line)` |
-| `do_opsec` | method | `cli/commands/security.py:26` | `def do_opsec(self, line)` |
-| `do_rotate_aes` | method | `cli/commands/security.py:127` | `def do_rotate_aes(self, _line)` |
-| `do_seal_credentials` | method | `cli/commands/security.py:106` | `def do_seal_credentials(self, _line)` |
-| `do_unseal_credentials` | method | `cli/commands/security.py:150` | `def do_unseal_credentials(self, _line)` |
-| `SessionOpsCommandSet` | class | `cli/commands/session_ops.py:86` | `class SessionOpsCommandSet(LazyOwnCommandSet)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

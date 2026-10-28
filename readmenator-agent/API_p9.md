@@ -1,4 +1,4 @@
-# API (page 9 of 24)
+# API (page 9 of 25)
 Previous: [API_p8.md](API_p8.md)
 
 ## lazygui/widgets/command_palette_list.py
@@ -215,6 +215,18 @@ Imported by: `core/command_bridge.py`, `discord_c2.py`, `lazyc2.py`, `poc_tui/ap
 - `LazyOwnGUI.show_scan_results` (method) `modules/LazyOwnExplorer.py:374` `def show_scan_results(self, binaries)`
 - `LazyOwnGUI.export_to_csv` (method) `modules/LazyOwnExplorer.py:385` `def export_to_csv(self)`
 
+## modules/ad_gym.py
+Depends on: `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
+- `load_index` (function) `modules/ad_gym.py:38` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
+- `vulnerabilities` (function) `modules/ad_gym.py:43` `def vulnerabilities(path)` -- Return every indexed lab vector.
+- `get` (function) `modules/ad_gym.py:49` `def get(vuln_id, path)` -- Return one lab vector by id, or None.
+- `chain_for` (function) `modules/ad_gym.py:58` `def chain_for(vuln_id, path)` -- Return the resolved chain for one lab vector, or None.
+- `exploit_for` (function) `modules/ad_gym.py:68` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one lab vector, or None.
+- `validate_matrix` (function) `modules/ad_gym.py:78` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
+- `summary` (function) `modules/ad_gym.py:127` `def summary(path)` -- Return counts by severity and service for operators.
+- `readiness` (function) `modules/ad_gym.py:146` `def readiness()` -- Report whether the AD lab container is attackable right now.
+- `main` (function) `modules/ad_gym.py:166` `def main()` -- CLI: list | validate | summary | readiness.
+
 ## modules/adcs_attacks.py
 Imported by: `cli/commands/exploit_migrated.py`
 - `CertificateTemplate.esc_vulnerabilities` (method) `modules/adcs_attacks.py:35` `def esc_vulnerabilities(self)` -- Determine which ESC attack paths apply to this template.
@@ -367,7 +379,7 @@ Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/l
 
 ## modules/atomic_exploit_bridge.py
 Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 - `ExploitSpec.severity_rank` (method) `modules/atomic_exploit_bridge.py:117` `def severity_rank(self)` -- Return numeric severity for ranking (mirrors the engine).
 - `ExploitSpec.to_dict` (method) `modules/atomic_exploit_bridge.py:121` `def to_dict(self)` -- Return a JSON-serializable view.
 - `validate_spec` (function) `modules/atomic_exploit_bridge.py:150` `def validate_spec(data, filename)` -- Validate raw YAML data against the exploit schema.
@@ -471,29 +483,6 @@ Imported by: `modules/autonomous_exploit_engine.py`, `skills/lazyown_mcp.py`
 - `AutoPivotEngine.set_reachable_hosts` (method) `modules/auto_pivot.py:267` `def set_reachable_hosts(self, node_ip, hosts)`
 - `AutoPivotEngine.set_route_priority` (method) `modules/auto_pivot.py:272` `def set_route_priority(self, node_ip, priority)`
 - `AutoPivotEngine.suggest_next_pivot` (method) `modules/auto_pivot.py:352` `def suggest_next_pivot(self)`
-
-## modules/auto_purple.py
-Depends on: `core/config.py`, `core/logging.py`, `core/process.py`, `modules/detection_oracle.py`
-Imported by: `cli/commands/purple_team.py`
-- `PurpleResult.to_csv_row` (method) `modules/auto_purple.py:146` `def to_csv_row(self)` -- Serialize to a flat dict suitable for CSV writer.
-- `PurpleResult.to_dict` (method) `modules/auto_purple.py:160` `def to_dict(self)`
-- `IPurpleLoop.execute_and_measure` (method) `modules/auto_purple.py:185` `def execute_and_measure(self, command, args, category)`
-- `IPurpleLoop.measure_only` (method) `modules/auto_purple.py:193` `def measure_only(self, command, args, category)`
-- `IPurpleLoop.engagement_score` (method) `modules/auto_purple.py:201` `def engagement_score(self)`
-- `IPurpleLoop.export_dataset` (method) `modules/auto_purple.py:204` `def export_dataset(self)`
-- `IPurpleLoop.export_report` (method) `modules/auto_purple.py:207` `def export_report(self)`
-- `IPurpleEvaluator.last_results` (method) `modules/auto_purple.py:214` `def last_results(self, n)`
-- `IPurpleEvaluator.category_accuracy` (method) `modules/auto_purple.py:217` `def category_accuracy(self, category)`
-- `PurpleTeamLoop.__init__` (method) `modules/auto_purple.py:414` `def __init__(self, bt_path, detection_delay, methods, auto_feedback, session_id)`
-- `PurpleTeamLoop.execute_and_measure` (method) `modules/auto_purple.py:443` `def execute_and_measure(self, command, args, category)` -- Execute a red action and measure if LazyOwnBT detects it.
-- `PurpleTeamLoop.measure_only` (method) `modules/auto_purple.py:493` `def measure_only(self, command, args, category)` -- Measure without executing — test if BT would detect the command.
-- `PurpleTeamLoop.engagement_score` (method) `modules/auto_purple.py:529` `def engagement_score(self)` -- Aggregate detection score from all results in this session.
-- `PurpleTeamLoop.export_dataset` (method) `modules/auto_purple.py:567` `def export_dataset(self)` -- Return the path to the CSV dataset file.
-- `PurpleTeamLoop.export_report` (method) `modules/auto_purple.py:571` `def export_report(self)` -- Generate a full engagement report.
-- `PurpleTeamLoop.last_results` (method) `modules/auto_purple.py:596` `def last_results(self, n)`
-- `PurpleTeamLoop.category_accuracy` (method) `modules/auto_purple.py:599` `def category_accuracy(self, category)`
-- `get_loop` (function) `modules/auto_purple.py:772` `def get_loop(bt_path, detection_delay, methods, auto_feedback)` -- Return (or create) the module-level PurpleTeamLoop singleton.
-- `load_config_from_payload` (function) `modules/auto_purple.py:790` `def load_config_from_payload(params)` -- Extract purple_team config from payload.json params dict.
 
 
 Next: [API_p10.md](API_p10.md)

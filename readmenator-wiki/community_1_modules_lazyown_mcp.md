@@ -1,21 +1,21 @@
 # modules: lazyown_mcp
 
-*Community 0 | 157 files | cohesion 0.54*
+*Community 1 | 166 files | cohesion 0.54*
 
 ## Definition
 
-This community groups 157 file(s) rooted at `modules` with dominant language py (cohesion 0.54). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AIResult`, `AVBlockedMatcher`, `AbstractReader`. Core file: `skills/lazyown_mcp.py` (155 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
+This community groups 166 file(s) rooted at `modules` with dominant language py (cohesion 0.54). Central symbols: `ACIEngine`, `ACIGoal`, `ACIPlan`, `ACIPlanner`, `ACIReflector`, `AIExploitChainer`, `AIResult`, `AVBlockedMatcher`. Core file: `skills/lazyown_mcp.py` (155 symbols). Documented purpose: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modules/planner``, and ``modules/ttp_coverag.
 
 ## Files
 
-### `modules` (61 files)
+### `modules` (66 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `modules/ai_exploit_chain.py` | py | utility | 11 | yes |
 | `modules/ai_fallback.py` | py | utility | 12 | yes |
-| `modules/asset_graph.py` | py | utility | 17 | yes |
 
-### `tests` (40 files)
+### `tests` (41 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -29,6 +29,13 @@ This community groups 157 file(s) rooted at `modules` with dominant language py 
 | `skills/aci_planner.py` | py | utility | 42 | yes |
 | `skills/autonomous_daemon.py` | py | utility | 150 | yes |
 
+### `contrib/legacy` (7 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `contrib/legacy/lazyhoneypot.py` | py | utility | 15 | yes |
+| `contrib/legacy/lazyopenssh77enum2.py` | py | utility | 5 | yes |
+
 ### `skills/tests` (7 files)
 
 | File | Language | Layer | Symbols | Doc |
@@ -36,19 +43,12 @@ This community groups 157 file(s) rooted at `modules` with dominant language py 
 | `skills/tests/test_autonomous_daemon.py` | py | testing | 88 | yes |
 | `skills/tests/test_facts.py` | py | testing | 37 | yes |
 
-### `cli/commands` (5 files)
+### `cli/commands` (6 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/commands/caldera.py` | py | utility | 21 | yes |
 | `cli/commands/collaboration.py` | py | utility | 8 | yes |
-
-### `contrib/legacy` (4 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `contrib/legacy/lazyhoneypot.py` | py | utility | 15 | yes |
-| `contrib/legacy/lazyopenssh77enum2.py` | py | utility | 5 | yes |
 
 ### `core` (4 files)
 
@@ -62,18 +62,13 @@ This community groups 157 file(s) rooted at `modules` with dominant language py 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/integrations/__init__.py` | py | utility | 0 | yes |
+| `modules/integrations/misp_export.py` | py | utility | 39 | yes |
 
 ### `lazyc2/blueprints` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/blueprints/api_v1.py` | py | presentation | 12 | yes |
-
-### `cli` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/scope_guard.py` | py | utility | 12 | yes |
 
 ### `lazyc2/extensions` (1 files)
 
@@ -93,7 +88,7 @@ This community groups 157 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `scripts/lazy_opencode_config.py` | py | infrastructure | 6 | yes |
 
-*... and 137 more files in this community.*
+*... and 146 more files in this community.*
 
 
 ## Key Symbols
@@ -131,15 +126,15 @@ This community groups 157 file(s) rooted at `modules` with dominant language py 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 890
-- Cross-boundary resolved imports (EXTRACTED): 415
+- Internal resolved imports (EXTRACTED): 918
+- Cross-boundary resolved imports (EXTRACTED): 452
 
 ## Connections
 
-- [EXTRACTED] depends_on community 9 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
-- [EXTRACTED] depends_on community 4 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
-- [EXTRACTED] depends_on community 8 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
-- [EXTRACTED] depends_on community 0 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 8 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
+- [EXTRACTED] depends_on community 3 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
+- [EXTRACTED] depends_on community 9 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
+- [EXTRACTED] depends_on community 1 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/caldera.py imports cli/commands/_base.py.
 
 ## Risks
 
@@ -161,7 +156,7 @@ This community groups 157 file(s) rooted at `modules` with dominant language py 
 
 ## Open Questions
 
-- Why do 4 file(s) lack file-level docs (e.g. `contrib/legacy/lazyssh.py`)? What purpose do they serve?
+- Why do 7 file(s) lack file-level docs (e.g. `contrib/legacy/lazypwn.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/reactive_engine.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyown_mcp changed?
 - Should modules: lazyown_mcp be split, given cohesion 0.54?
@@ -173,11 +168,14 @@ This community groups 157 file(s) rooted at `modules` with dominant language py 
 - `cli/commands/daemon_ctl.py`
 - `cli/commands/database.py`
 - `cli/commands/enum.py`
-- `cli/scope_guard.py`
+- `cli/commands/pwn.py`
 - `contrib/legacy/lazyhoneypot.py`
 - `contrib/legacy/lazyopenssh77enum2.py`
+- `contrib/legacy/lazypwn.py`
 - `contrib/legacy/lazysearch_bot.py`
 - `contrib/legacy/lazyssh.py`
+- `contrib/legacy/lazyvsftp.py`
+- `contrib/legacy/sql.py`
 - `core/executor.py`
 - `core/logging.py`
 - `core/scheduler.py`
@@ -185,7 +183,4 @@ This community groups 157 file(s) rooted at `modules` with dominant language py 
 - `lazyc2/blueprints/api_v1.py`
 - `lazyc2/blueprints/phishing.py`
 - `lazyc2/extensions/short_urls.py`
-- `modules/ai_fallback.py`
-- `modules/asset_graph.py`
-- `modules/atomic_enricher.py`
-- *... and 137 more*
+- *... and 146 more*

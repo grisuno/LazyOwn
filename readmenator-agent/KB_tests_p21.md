@@ -162,54 +162,77 @@ Previous: [KB_tests_p20.md](KB_tests_p20.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `WinboxCatalogueSpec` (class, line 14) `class WinboxCatalogueSpec(TestCase)`
-  - `WinboxReadinessSpec` (class, line 53) `class WinboxReadinessSpec(TestCase)`
-  - `WinboxBootstrapSpec` (class, line 177) `class WinboxBootstrapSpec(TestCase)`
-  - `WinboxMatrixSpec` (class, line 295) `class WinboxMatrixSpec(TestCase)`
-  - `test_matrix_validates` (method, line 17) `def test_matrix_validates(self)`
-  - `test_summary_shape` (method, line 20) `def test_summary_shape(self)`
-  - `test_get_returns_entry` (method, line 26) `def test_get_returns_entry(self)`
-  - `test_chain_for_resolves` (method, line 33) `def test_chain_for_resolves(self)`
-  - `test_exploit_for_resolves` (method, line 38) `def test_exploit_for_resolves(self)`
-  - `test_gym_definitions_load` (method, line 44) `def test_gym_definitions_load(self)`
-  - `test_readiness_without_binary` (method, line 56) `def test_readiness_without_binary(self)`
-  - `test_prereq_finds_libexec_virtiofsd` (method, line 64) `def test_prereq_finds_libexec_virtiofsd(self)`
-  - `test_prereq_fallback_never_accepts_missing_files` (method, line 74) `def test_prereq_fallback_never_accepts_missing_files(self)`
-  - `test_readiness_guest_os_fallback` (method, line 82) `def test_readiness_guest_os_fallback(self)`
-  - `test_run_cli_rejects_unknown_action` (method, line 87) `def test_run_cli_rejects_unknown_action(self)`
-  - `test_run_cli_rejects_empty` (method, line 91) `def test_run_cli_rejects_empty(self)`
-  - `test_run_cli_rejects_bad_timeout` (method, line 95) `def test_run_cli_rejects_bad_timeout(self)`
-  - `test_run_cli_missing_binary_is_guidance` (method, line 99) `def test_run_cli_missing_binary_is_guidance(self)`
-  - `test_run_cli_uses_list_form` (method, line 105) `def test_run_cli_uses_list_form(self)`
-  - `test_vm_status_missing_binary` (method, line 115) `def test_vm_status_missing_binary(self)`
-  - `test_status_parsing` (method, line 119) `def test_status_parsing(self)`
-  - `test_record_artifact_sanitised` (method, line 129) `def test_record_artifact_sanitised(self)`
-  - `test_attack_readiness_reasons` (method, line 137) `def test_attack_readiness_reasons(self)`
-  - `test_ensure_installed_already_present` (method, line 143) `def test_ensure_installed_already_present(self)`
-  - `test_ensure_installed_clone_and_pip` (method, line 149) `def test_ensure_installed_clone_and_pip(self)`
-  - `test_ensure_installed_clone_failure_is_guidance` (method, line 164) `def test_ensure_installed_clone_failure_is_guidance(self)`
-  - `test_ensure_prereqs_nothing_missing` (method, line 180) `def test_ensure_prereqs_nothing_missing(self)`
-  - `test_ensure_prereqs_maps_binaries_to_packages` (method, line 186) `def test_ensure_prereqs_maps_binaries_to_packages(self)`
-  - `test_ensure_prereqs_sudo_non_interactive` (method, line 209) `def test_ensure_prereqs_sudo_non_interactive(self)`
-  - `test_ensure_lab_ready_skips_build_when_vm_built` (method, line 227) `def test_ensure_lab_ready_skips_build_when_vm_built(self)`
-  - `test_ensure_lab_ready_runs_iso_and_build_when_unbuilt` (method, line 246) `def test_ensure_lab_ready_runs_iso_and_build_when_unbuilt(self)`
-  - `test_ensure_lab_ready_fails_fast_on_install` (method, line 274) `def test_ensure_lab_ready_fails_fast_on_install(self)`
-  - `test_lazyaddon_install_command_covers_prereqs` (method, line 284) `def test_lazyaddon_install_command_covers_prereqs(self)`
-  - `test_plan_ordered_by_severity` (method, line 298) `def test_plan_ordered_by_severity(self)`
-  - `test_plan_rejects_empty_target` (method, line 304) `def test_plan_rejects_empty_target(self)`
-  - `test_plan_only_filter` (method, line 308) `def test_plan_only_filter(self)`
-  - `test_run_matrix_dry_run` (method, line 312) `def test_run_matrix_dry_run(self)`
-  - `test_run_matrix_requires_vm_when_live` (method, line 320) `def test_run_matrix_requires_vm_when_live(self)`
-  - `test_capture_windows_os_enum` (method, line 328) `def test_capture_windows_os_enum(self)`
-  - `test_capture_system_exec` (method, line 342) `def test_capture_system_exec(self)`
-  - `test_capture_defense_report` (method, line 353) `def test_capture_defense_report(self)`
-  - `test_capture_eventlog_rows` (method, line 364) `def test_capture_eventlog_rows(self)`
-  - `test_metasploitable_capture_unchanged` (method, line 375) `def test_metasploitable_capture_unchanged(self)`
-  - `fake_which` (function, line 191) `def fake_which(name)`
-  - `fake_run` (function, line 194) `def fake_run(argv)`
-  - `fake_run` (function, line 213) `def fake_run(argv)`
-  - `fake_run_cli` (function, line 253) `def fake_run_cli(args, timeout)`
-- Depends on: `modules/__init__.py`, `modules/gym_registry.py`
+  - `WinboxCatalogueSpec` (class, line 15) `class WinboxCatalogueSpec(TestCase)`
+  - `WinboxReadinessSpec` (class, line 54) `class WinboxReadinessSpec(TestCase)`
+  - `WinboxBootstrapSpec` (class, line 178) `class WinboxBootstrapSpec(TestCase)`
+  - `WinboxSelfHealSpec` (class, line 305) `class WinboxSelfHealSpec(TestCase)`
+  - `WinboxMatrixSpec` (class, line 578) `class WinboxMatrixSpec(TestCase)`
+  - `test_matrix_validates` (method, line 18) `def test_matrix_validates(self)`
+  - `test_summary_shape` (method, line 21) `def test_summary_shape(self)`
+  - `test_get_returns_entry` (method, line 27) `def test_get_returns_entry(self)`
+  - `test_chain_for_resolves` (method, line 34) `def test_chain_for_resolves(self)`
+  - `test_exploit_for_resolves` (method, line 39) `def test_exploit_for_resolves(self)`
+  - `test_gym_definitions_load` (method, line 45) `def test_gym_definitions_load(self)`
+  - `test_readiness_without_binary` (method, line 57) `def test_readiness_without_binary(self)`
+  - `test_prereq_finds_libexec_virtiofsd` (method, line 65) `def test_prereq_finds_libexec_virtiofsd(self)`
+  - `test_prereq_fallback_never_accepts_missing_files` (method, line 75) `def test_prereq_fallback_never_accepts_missing_files(self)`
+  - `test_readiness_guest_os_fallback` (method, line 83) `def test_readiness_guest_os_fallback(self)`
+  - `test_run_cli_rejects_unknown_action` (method, line 88) `def test_run_cli_rejects_unknown_action(self)`
+  - `test_run_cli_rejects_empty` (method, line 92) `def test_run_cli_rejects_empty(self)`
+  - `test_run_cli_rejects_bad_timeout` (method, line 96) `def test_run_cli_rejects_bad_timeout(self)`
+  - `test_run_cli_missing_binary_is_guidance` (method, line 100) `def test_run_cli_missing_binary_is_guidance(self)`
+  - `test_run_cli_uses_list_form` (method, line 106) `def test_run_cli_uses_list_form(self)`
+  - `test_vm_status_missing_binary` (method, line 116) `def test_vm_status_missing_binary(self)`
+  - `test_status_parsing` (method, line 120) `def test_status_parsing(self)`
+  - `test_record_artifact_sanitised` (method, line 130) `def test_record_artifact_sanitised(self)`
+  - `test_attack_readiness_reasons` (method, line 138) `def test_attack_readiness_reasons(self)`
+  - `test_ensure_installed_already_present` (method, line 144) `def test_ensure_installed_already_present(self)`
+  - `test_ensure_installed_clone_and_pip` (method, line 150) `def test_ensure_installed_clone_and_pip(self)`
+  - `test_ensure_installed_clone_failure_is_guidance` (method, line 165) `def test_ensure_installed_clone_failure_is_guidance(self)`
+  - `test_ensure_prereqs_nothing_missing` (method, line 181) `def test_ensure_prereqs_nothing_missing(self)`
+  - `test_ensure_prereqs_maps_binaries_to_packages` (method, line 187) `def test_ensure_prereqs_maps_binaries_to_packages(self)`
+  - `test_ensure_prereqs_sudo_non_interactive` (method, line 210) `def test_ensure_prereqs_sudo_non_interactive(self)`
+  - `test_ensure_lab_ready_skips_build_when_vm_built` (method, line 228) `def test_ensure_lab_ready_skips_build_when_vm_built(self)`
+  - `test_ensure_lab_ready_runs_iso_and_build_when_unbuilt` (method, line 254) `def test_ensure_lab_ready_runs_iso_and_build_when_unbuilt(self)`
+  - `test_ensure_lab_ready_fails_fast_on_install` (method, line 284) `def test_ensure_lab_ready_fails_fast_on_install(self)`
+  - `test_lazyaddon_install_command_covers_prereqs` (method, line 294) `def test_lazyaddon_install_command_covers_prereqs(self)`
+  - `test_canonical_state_aliases` (method, line 308) `def test_canonical_state_aliases(self)`
+  - `test_spanish_status_parse` (method, line 316) `def test_spanish_status_parse(self)`
+  - `test_locale_env_forced_on_children` (method, line 326) `def test_locale_env_forced_on_children(self)`
+  - `_fake_binary` (method, line 343) `def _fake_binary(self, tmp)`
+  - `_lab_ready_patches` (method, line 349) `def _lab_ready_patches(self, fake)`
+  - `test_partial_setup_timeout_recovers_without_rebuild` (method, line 362) `def test_partial_setup_timeout_recovers_without_rebuild(self)`
+  - `test_partial_manual_recovery_falls_back_to_rebuild` (method, line 403) `def test_partial_manual_recovery_falls_back_to_rebuild(self)`
+  - `test_partial_recovery_failure_is_loud` (method, line 442) `def test_partial_recovery_failure_is_loud(self)`
+  - `test_missing_snapshot_triggers_completion_for_substantial_disk` (method, line 471) `def test_missing_snapshot_triggers_completion_for_substantial_disk(self)`
+  - `test_provision_self_heals_missing_z_drive` (method, line 493) `def test_provision_self_heals_missing_z_drive(self)`
+  - `test_provision_failure_is_loud` (method, line 513) `def test_provision_failure_is_loud(self)`
+  - `test_notifications_stream_every_stage` (method, line 533) `def test_notifications_stream_every_stage(self)`
+  - `test_stream_command_live_output_and_transcript` (method, line 554) `def test_stream_command_live_output_and_transcript(self)`
+  - `test_stream_command_rejects_null_byte` (method, line 573) `def test_stream_command_rejects_null_byte(self)`
+  - `test_plan_ordered_by_severity` (method, line 581) `def test_plan_ordered_by_severity(self)`
+  - `test_plan_rejects_empty_target` (method, line 587) `def test_plan_rejects_empty_target(self)`
+  - `test_plan_only_filter` (method, line 591) `def test_plan_only_filter(self)`
+  - `test_run_matrix_dry_run` (method, line 595) `def test_run_matrix_dry_run(self)`
+  - `test_run_matrix_requires_vm_when_live` (method, line 603) `def test_run_matrix_requires_vm_when_live(self)`
+  - `test_capture_windows_os_enum` (method, line 611) `def test_capture_windows_os_enum(self)`
+  - `test_capture_system_exec` (method, line 625) `def test_capture_system_exec(self)`
+  - `test_capture_defense_report` (method, line 636) `def test_capture_defense_report(self)`
+  - `test_capture_eventlog_rows` (method, line 647) `def test_capture_eventlog_rows(self)`
+  - `test_metasploitable_capture_unchanged` (method, line 658) `def test_metasploitable_capture_unchanged(self)`
+  - `fake_which` (function, line 192) `def fake_which(name)`
+  - `fake_run` (function, line 195) `def fake_run(argv)`
+  - `fake_run` (function, line 214) `def fake_run(argv)`
+  - `fake_run_cli` (function, line 261) `def fake_run_cli(args, timeout)`
+  - `fake_run_cli` (function, line 367) `def fake_run_cli(args, timeout)`
+  - `fake_complete` (function, line 384) `def fake_complete(notify)`
+  - `fake_run_cli` (function, line 408) `def fake_run_cli(args, timeout)`
+  - `fake_run_cli` (function, line 446) `def fake_run_cli(args, timeout)`
+  - `fake_complete` (function, line 476) `def fake_complete(notify)`
+  - `fake_run_cli` (function, line 498) `def fake_run_cli(args, timeout)`
+  - `fake_run_cli` (function, line 517) `def fake_run_cli(args, timeout)`
+  - `fake_run_cli` (function, line 538) `def fake_run_cli(args, timeout)`
+- Depends on: `core/hardening.py`, `modules/__init__.py`, `modules/gym_registry.py`
 
 ## tests/test_wizard_binary_check.py
 - Doc: tests/test_wizard_binary_check.py  Tests for the wizard binary-readiness check added to...

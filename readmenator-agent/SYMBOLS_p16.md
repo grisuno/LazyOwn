@@ -3,6 +3,33 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `stack_signature` | function | `modules/lazy_intel.py:272` | `def stack_signature(assets)` |
+| `ActivityLog` | class | `modules/lazy_loop.py:1433` | `class ActivityLog` |
+| `AssetGate` | class | `modules/lazy_loop.py:2165` | `class AssetGate` |
+| `AssetGraph` | class | `modules/lazy_loop.py:962` | `class AssetGraph` |
+| `AssetNode` | class | `modules/lazy_loop.py:937` | `class AssetNode` |
+| `Budget` | class | `modules/lazy_loop.py:2259` | `class Budget` |
+| `ColdCompactor` | class | `modules/lazy_loop.py:5630` | `class ColdCompactor` |
+| `CompanyScope` | class | `modules/lazy_loop.py:7474` | `class CompanyScope` |
+| `EvidenceStore` | class | `modules/lazy_loop.py:6637` | `class EvidenceStore` |
+| `ExplorationEdge` | class | `modules/lazy_loop.py:928` | `class ExplorationEdge` |
+| `ExplorationGraph` | class | `modules/lazy_loop.py:1125` | `class ExplorationGraph` |
+| `ExplorationNode` | class | `modules/lazy_loop.py:914` | `class ExplorationNode` |
+| `FindingService` | class | `modules/lazy_loop.py:6359` | `class FindingService` |
+| `Frontier` | class | `modules/lazy_loop.py:1405` | `class Frontier` |
+| `Guard` | class | `modules/lazy_loop.py:1824` | `class Guard` |
+| `InterceptQueue` | class | `modules/lazy_loop.py:2411` | `class InterceptQueue` |
+| `LazyLoopEngine` | class | `modules/lazy_loop.py:7798` | `class LazyLoopEngine` |
+| `LazyTask` | class | `modules/lazy_loop.py:951` | `class LazyTask` |
+| `LlmPool` | class | `modules/lazy_loop.py:6909` | `class LlmPool` |
+| `Notifier` | class | `modules/lazy_loop.py:6740` | `class Notifier` |
+| `Planner` | class | `modules/lazy_loop.py:3044` | `class Planner` |
+| `Retester` | class | `modules/lazy_loop.py:5500` | `class Retester` |
+| `RuntimeTracker` | class | `modules/lazy_loop.py:2343` | `class RuntimeTracker` |
+| `SideQuestions` | class | `modules/lazy_loop.py:7400` | `class SideQuestions` |
+| `TaskArchive` | class | `modules/lazy_loop.py:7504` | `class TaskArchive` |
+| `TaskCategory` | class | `modules/lazy_loop.py:7666` | `class TaskCategory` |
+| `TaskChat` | class | `modules/lazy_loop.py:7693` | `class TaskChat` |
 | `TaskStore` | class | `modules/lazy_loop.py:2613` | `class TaskStore` |
 | `TaskTemplate` | class | `modules/lazy_loop.py:7623` | `class TaskTemplate` |
 | `TodoStore` | class | `modules/lazy_loop.py:2571` | `class TodoStore` |
@@ -459,42 +486,15 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `compose_message` | function | `modules/lazy_mentions.py:268` | `def compose_message(message)` |
 | `parse_mentions` | function | `modules/lazy_mentions.py:237` | `def parse_mentions(message)` |
 | `search_mentions_page` | function | `modules/lazy_mentions.py:193` | `def search_mentions_page(kind, query, cursor)` |
-| `_dataset_path` | function | `modules/lazy_orchestrator_feedback.py:47` | `def _dataset_path()` |
-| `_key` | function | `modules/lazy_orchestrator_feedback.py:228` | `def _key(line)` |
-| `_load_priors` | function | `modules/lazy_orchestrator_feedback.py:144` | `def _load_priors()` |
-| `_normalize` | function | `modules/lazy_orchestrator_feedback.py:129` | `def _normalize(priors)` |
-| `_priors_path` | function | `modules/lazy_orchestrator_feedback.py:41` | `def _priors_path()` |
-| `_reward_of` | function | `modules/lazy_orchestrator_feedback.py:53` | `def _reward_of(outcome)` |
-| `adjust_from_usage` | function | `modules/lazy_orchestrator_feedback.py:61` | `def adjust_from_usage(limit)` |
-| `export_dataset` | function | `modules/lazy_orchestrator_feedback.py:238` | `def export_dataset(out, limit)` |
-| `order_steps` | function | `modules/lazy_orchestrator_feedback.py:213` | `def order_steps(steps, stack)` |
-| `rank_verbs` | function | `modules/lazy_orchestrator_feedback.py:189` | `def rank_verbs(phase, verbs, stack)` |
-| `verb_prior` | function | `modules/lazy_orchestrator_feedback.py:162` | `def verb_prior(phase, verb, stack)` |
-| `addon_target_os` | function | `modules/lazy_osinfer.py:130` | `def addon_target_os(name)` |
-| `host_os_for_target` | function | `modules/lazy_osinfer.py:239` | `def host_os_for_target(target)` |
-| `infer_from_banner` | function | `modules/lazy_osinfer.py:97` | `def infer_from_banner(text)` |
-| `infer_from_ping_output` | function | `modules/lazy_osinfer.py:72` | `def infer_from_ping_output(output)` |
-| `infer_from_ttl` | function | `modules/lazy_osinfer.py:47` | `def infer_from_ttl(ttl)` |
-| `learn_from_transcripts` | function | `modules/lazy_osinfer.py:330` | `def learn_from_transcripts(target, transcripts)` |
-| `merge_os` | function | `modules/lazy_osinfer.py:118` | `def merge_os(current, new)` |
-| `os_compatible` | function | `modules/lazy_osinfer.py:194` | `def os_compatible(verb_os, host_os)` |
-| `remember_host_os` | function | `modules/lazy_osinfer.py:287` | `def remember_host_os(target, os_name, reason)` |
-| `verb_compatible_with_host` | function | `modules/lazy_osinfer.py:216` | `def verb_compatible_with_host(command, host_os)` |
-| `verb_target_os` | function | `modules/lazy_osinfer.py:157` | `def verb_target_os(command)` |
-| `CertificateAuthority` | class | `modules/lazy_proxy.py:623` | `class CertificateAuthority` |
-| `ProxyController` | class | `modules/lazy_proxy.py:803` | `class ProxyController` |
-| `ProxyHandler` | class | `modules/lazy_proxy.py:915` | `class ProxyHandler(BaseHTTPRequestHandler)` |
-| `RecorderServer` | class | `modules/lazy_proxy.py:775` | `class RecorderServer(ThreadingHTTPServer)` |
-| `_PinnedHTTPConnection` | class | `modules/lazy_proxy.py:381` | `class _PinnedHTTPConnection(HTTPConnection)` |
-| `_PinnedHTTPSConnection` | class | `modules/lazy_proxy.py:394` | `class _PinnedHTTPSConnection(HTTPSConnection)` |
-| `__init__` | method | `modules/lazy_proxy.py:384` | `def __init__(self, host, port)` |
-| `__init__` | method | `modules/lazy_proxy.py:397` | `def __init__(self, host, port)` |
-| `__init__` | method | `modules/lazy_proxy.py:626` | `def __init__(self, pki_dir)` |
-| `__init__` | method | `modules/lazy_proxy.py:779` | `def __init__(self, address, handler)` |
-| `__init__` | method | `modules/lazy_proxy.py:806` | `def __init__(self)` |
-| `_cert_stem` | function | `modules/lazy_proxy.py:485` | `def _cert_stem(host)` |
-| `_default_traffic_dir` | function | `modules/lazy_proxy.py:439` | `def _default_traffic_dir()` |
-| `_dial_pinned` | function | `modules/lazy_proxy.py:329` | `def _dial_pinned(ips, port)` |
-| `_ensure_ca` | method | `modules/lazy_proxy.py:638` | `def _ensure_ca(self)` |
+| `OobHit` | class | `modules/lazy_oob.py:41` | `class OobHit` |
+| `_CanaryHandler` | class | `modules/lazy_oob.py:63` | `class _CanaryHandler(BaseHTTPRequestHandler)` |
+| `_configured_lhost` | function | `modules/lazy_oob.py:172` | `def _configured_lhost()` |
+| `_record` | method | `modules/lazy_oob.py:66` | `def _record(self)` |
+| `_respond` | method | `modules/lazy_oob.py:82` | `def _respond(self)` |
+| `as_dict` | method | `modules/lazy_oob.py:51` | `def as_dict(self)` |
+| `do_GET` | method | `modules/lazy_oob.py:92` | `def do_GET(self)` |
+| `do_HEAD` | method | `modules/lazy_oob.py:102` | `def do_HEAD(self)` |
+| `do_POST` | method | `modules/lazy_oob.py:97` | `def do_POST(self)` |
+| `hits` | function | `modules/lazy_oob.py:204` | `def hits(token)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

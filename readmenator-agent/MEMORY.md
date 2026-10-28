@@ -2,18 +2,18 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1208 files at commit `e742884c3073`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1216 files at commit `2100d37cd87b`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `command` (484), `modules` (484), `one` (455), `file` (449), `lazy` (439), `not` (412), `run` (409), `path` (407), `all` (402), `name` (382), `without` (380), `json` (379), `own` (371), `cli` (369), `set` (342)
-- Subsystem `modules: lazyown_mcp`: 157 files, core `skills/lazyown_mcp.py`: LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and...
-- Subsystem `cli/commands`: 149 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `modules: lazy_loop`: 117 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `modules: world_model`: 110 files, core `modules/world_model.py`: modules/world_model.py
-- Subsystem `cli`: 93 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: html2pdf.bundle.min`: 74 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
+- Domain vocabulary (term, files): `modules` (487), `command` (486), `one` (458), `file` (453), `lazy` (445), `not` (414), `run` (410), `path` (410), `all` (403), `without` (383), `name` (382), `json` (380), `cli` (372), `own` (372), `set` (346)
+- Subsystem `cli/commands`: 166 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `modules: lazyown_mcp`: 166 files, core `skills/lazyown_mcp.py`: LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and...
+- Subsystem `modules: lazy_loop`: 119 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Subsystem `cli`: 95 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Subsystem `modules: world_model`: 91 files, core `modules/world_model.py`: modules/world_model.py
+- Subsystem `static/js`: 64 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
 - Subsystem `lazyc2/security`: 59 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
 - Subsystem `lazygui/panels`: 54 files, core `lazygui/services/teamserver_backend.py`: Teamserver backend with Socket.IO real-time and full HTTP API coverage.
 - Business rules that the code cannot show live in section 7: record them there.
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1077 files, 20473 symbols; docstrings on 55% of symbols; functions snake_case (99%); types PascalCase (100%); median file 217 lines, max 13623.
+- py: 1085 files, 20601 symbols; docstrings on 55% of symbols; functions snake_case (99%); types PascalCase (100%); median file 216 lines, max 13623.
 - sh: 64 files, 258 symbols; docstrings on 33% of symbols; functions snake_case (100%); median file 79 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 21 files, 1606 symbols; docstrings on 49% of symbols; functions snake_case (46%); types PascalCase (26%); median file 6 lines, max 9358.
-- Tests: 362 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 365 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 

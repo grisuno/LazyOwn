@@ -15,6 +15,22 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `_boom` (function, line 83) `def _boom(_text)`
 - Depends on: `modules/__init__.py`, `modules/traffic_recorder.py`
 
+## tests/test_lazy_creds.py
+- Doc: Contract tests for the lazycreds default-credential knowledge base.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `LazyCredsKbSpec` (class, line 12) `class LazyCredsKbSpec(TestCase)`
+  - `test_kb_loads_rows` (method, line 15) `def test_kb_loads_rows(self)`
+  - `test_search_matches_vendor_and_username` (method, line 23) `def test_search_matches_vendor_and_username(self)`
+  - `test_search_is_case_insensitive` (method, line 29) `def test_search_is_case_insensitive(self)`
+  - `test_search_capped` (method, line 34) `def test_search_capped(self)`
+  - `test_candidates_distinct_and_ranked` (method, line 38) `def test_candidates_distinct_and_ranked(self)`
+  - `test_as_lines_rendered` (method, line 44) `def test_as_lines_rendered(self)`
+  - `test_export_pairs_writes_file` (method, line 48) `def test_export_pairs_writes_file(self)`
+  - `test_export_rejects_bad_path` (method, line 58) `def test_export_rejects_bad_path(self)`
+- Depends on: `modules/__init__.py`
+
 ## tests/test_lazy_engine.py
 - Doc: Lazy engine (LAZY-faithful) regression tests with stub executor.
 - Layer: testing
@@ -89,6 +105,25 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `login` (method, line 402) `def login(self, user, password)`
   - `send_message` (method, line 405) `def send_message(self, message)`
 - Depends on: `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`, `modules/notify.py`, `modules/selfupdate.py`, `modules/workspace.py`
+
+## tests/test_lazy_oob.py
+- Doc: Contract tests for the lazyoob OOB canary.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `LazyOobCanarySpec` (class, line 14) `class LazyOobCanarySpec(TestCase)`
+  - `setUp` (method, line 17) `def setUp(self)`
+  - `test_start_picks_ephemeral_port` (method, line 26) `def test_start_picks_ephemeral_port(self)`
+  - `test_start_twice_reuses_listener` (method, line 33) `def test_start_twice_reuses_listener(self)`
+  - `test_url_reuses_active_token` (method, line 41) `def test_url_reuses_active_token(self)`
+  - `test_url_empty_when_not_running` (method, line 46) `def test_url_empty_when_not_running(self)`
+  - `test_callback_recorded` (method, line 49) `def test_callback_recorded(self)`
+  - `test_hit_mirrored_to_jsonl` (method, line 59) `def test_hit_mirrored_to_jsonl(self)`
+  - `test_hits_filter_by_token` (method, line 66) `def test_hits_filter_by_token(self)`
+  - `test_stop_reports_and_clears` (method, line 73) `def test_stop_reports_and_clears(self)`
+  - `test_stop_without_start_is_guidance` (method, line 82) `def test_stop_without_start_is_guidance(self)`
+  - `test_start_bad_bind_fails_loud` (method, line 87) `def test_start_bad_bind_fails_loud(self)`
+- Depends on: `modules/__init__.py`
 
 ## tests/test_lazy_orchestrator.py
 - Doc: Orchestrator admin console: headless smoke and real persistence.

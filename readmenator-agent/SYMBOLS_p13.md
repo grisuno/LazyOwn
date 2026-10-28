@@ -3,15 +3,34 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_gather_evidence` | function | `modules/ctf_capture.py:326` | `def _gather_evidence(candidates)` |
-| `_publish_capture_outcome` | function | `modules/ctf_capture.py:209` | `def _publish_capture_outcome(record)` |
-| `_safe_dir` | function | `modules/ctf_capture.py:245` | `def _safe_dir(vuln_id)` |
-| `capture` | function | `modules/ctf_capture.py:151` | `def capture(vuln_id, target, output, sessions_dir, catalogue)` |
-| `list_records` | function | `modules/ctf_capture.py:276` | `def list_records(sessions_dir)` |
-| `output_dir` | function | `modules/ctf_capture.py:32` | `def output_dir(sessions_dir)` |
-| `record_path` | function | `modules/ctf_capture.py:232` | `def record_path(vuln_id, sessions_dir)` |
-| `store_record` | function | `modules/ctf_capture.py:258` | `def store_record(record, sessions_dir)` |
-| `summary` | function | `modules/ctf_capture.py:299` | `def summary(sessions_dir)` |
+| `CrossCloudConfig` | class | `modules/cross_cloud.py:30` | `class CrossCloudConfig` |
+| `__init__` | method | `modules/cross_cloud.py:64` | `def __init__(self, config)` |
+| `aws_oidc_to_gcp` | method | `modules/cross_cloud.py:133` | `def aws_oidc_to_gcp(self)` |
+| `azure_saml_to_aws` | method | `modules/cross_cloud.py:67` | `def azure_saml_to_aws(self)` |
+| `detect_cross_cloud_federation` | method | `modules/cross_cloud.py:234` | `def detect_cross_cloud_federation(self)` |
+| `entra_id_to_gcp_workforce_federation` | method | `modules/cross_cloud.py:204` | `def entra_id_to_gcp_workforce_federation(self)` |
+| `gcp_oidc_to_azure` | method | `modules/cross_cloud.py:104` | `def gcp_oidc_to_azure(self)` |
+| `multi_cloud_imds_harvesting` | method | `modules/cross_cloud.py:167` | `def multi_cloud_imds_harvesting(self)` |
+| `summary` | method | `modules/cross_cloud.py:258` | `def summary(self)` |
+| `_check_credentials` | function | `modules/ctf_capture.py:82` | `def _check_credentials(output)` |
+| `_check_defense_report` | function | `modules/ctf_capture.py:119` | `def _check_defense_report(output)` |
+| `_check_domain_enum` | function | `modules/ctf_capture.py:158` | `def _check_domain_enum(output)` |
+| `_check_eventlog_rows` | function | `modules/ctf_capture.py:132` | `def _check_eventlog_rows(output)` |
+| `_check_kerberos_ticket` | function | `modules/ctf_capture.py:145` | `def _check_kerberos_ticket(output)` |
+| `_check_root_shell` | function | `modules/ctf_capture.py:49` | `def _check_root_shell(output)` |
+| `_check_shadow_dump` | function | `modules/ctf_capture.py:62` | `def _check_shadow_dump(output)` |
+| `_check_smb_shares` | function | `modules/ctf_capture.py:171` | `def _check_smb_shares(output)` |
+| `_check_windows_os_enum` | function | `modules/ctf_capture.py:100` | `def _check_windows_os_enum(output)` |
+| `_cli_capture` | function | `modules/ctf_capture.py:396` | `def _cli_capture(argv)` |
+| `_gather_evidence` | function | `modules/ctf_capture.py:372` | `def _gather_evidence(candidates)` |
+| `_publish_capture_outcome` | function | `modules/ctf_capture.py:255` | `def _publish_capture_outcome(record)` |
+| `_safe_dir` | function | `modules/ctf_capture.py:291` | `def _safe_dir(vuln_id)` |
+| `capture` | function | `modules/ctf_capture.py:197` | `def capture(vuln_id, target, output, sessions_dir, catalogue)` |
+| `list_records` | function | `modules/ctf_capture.py:322` | `def list_records(sessions_dir)` |
+| `output_dir` | function | `modules/ctf_capture.py:36` | `def output_dir(sessions_dir)` |
+| `record_path` | function | `modules/ctf_capture.py:278` | `def record_path(vuln_id, sessions_dir)` |
+| `store_record` | function | `modules/ctf_capture.py:304` | `def store_record(record, sessions_dir)` |
+| `summary` | function | `modules/ctf_capture.py:345` | `def summary(sessions_dir)` |
 | `_load` | function | `modules/custom_tools.py:37` | `def _load()` |
 | `_run_http` | function | `modules/custom_tools.py:179` | `def _run_http(tool, arg, on_output)` |
 | `_save` | function | `modules/custom_tools.py:45` | `def _save(payload)` |
@@ -477,24 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `generate_lolbas_execution` | method | `modules/evasive_payloads.py:284` | `def generate_lolbas_execution(self, payload_url, technique)` |
 | `generate_polymorphic_command` | method | `modules/evasive_payloads.py:334` | `def generate_polymorphic_command(self, base_cmd, iterations)` |
 | `generate_powershell_obfuscated` | method | `modules/evasive_payloads.py:138` | `def generate_powershell_obfuscated(self, payload, obfuscation_level)` |
-| `generate_shellcode_loader_powershell` | method | `modules/evasive_payloads.py:239` | `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)` |
-| `generate_vba_obfuscated` | method | `modules/evasive_payloads.py:197` | `def generate_vba_obfuscated(self, payload)` |
-| `list_techniques` | method | `modules/evasive_payloads.py:374` | `def list_techniques(self)` |
-| `CollabBusSink` | class | `modules/event_bus.py:163` | `class CollabBusSink(Sink)` |
-| `EngagementSink` | class | `modules/event_bus.py:202` | `class EngagementSink(Sink)` |
-| `EventCategory` | class | `modules/event_bus.py:47` | `class EventCategory(str, Enum)` |
-| `EventSeverity` | class | `modules/event_bus.py:73` | `class EventSeverity(str, Enum)` |
-| `JsonlSink` | class | `modules/event_bus.py:143` | `class JsonlSink(Sink)` |
-| `LazyEvent` | class | `modules/event_bus.py:82` | `class LazyEvent` |
-| `Sink` | class | `modules/event_bus.py:133` | `class Sink(ABC)` |
-| `UnifiedEventBus` | class | `modules/event_bus.py:230` | `class UnifiedEventBus` |
-| `__init__` | method | `modules/event_bus.py:146` | `def __init__(self, filepath)` |
-| `__init__` | method | `modules/event_bus.py:166` | `def __init__(self)` |
-| `__init__` | method | `modules/event_bus.py:255` | `def __init__(self)` |
-| `_bus` | method | `modules/event_bus.py:170` | `def _bus(self)` |
-| `_dispatch_event` | method | `modules/event_bus.py:441` | `def _dispatch_event(self, event)` |
-| `_dispatch_loop` | method | `modules/event_bus.py:416` | `def _dispatch_loop(self)` |
-| `_init_sinks` | method | `modules/event_bus.py:273` | `def _init_sinks(self)` |
-| `_match_topic` | method | `modules/event_bus.py:517` | `def _match_topic(self, topic, event)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

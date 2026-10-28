@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `my_openat` | function | `modules/rootkit/mrhyde.c:375` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
+| `original_dirent` | type_alias | `modules/rootkit/mrhyde.c:55` | `typedef struct dirent original_dirent;` |
+| `readdir` | function | `modules/rootkit/mrhyde.c:226` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde.c:149` | `int remove(const char *pathname)` |
+| `should_hide_file` | function | `modules/rootkit/mrhyde.c:216` | `int should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde.c:201` | `int should_hide_pid(const char* pid)` |
+| `stat` | function | `modules/rootkit/mrhyde.c:419` | `int stat(const char *pathname, struct stat *statbuf)` |
+| `unlink` | function | `modules/rootkit/mrhyde.c:117` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde.c:161` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde2.c:31` | `#define HIDDEN_DIR` |
+| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde2.c:32` | `#define HIDDEN_FILE` |
+| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde2.c:33` | `#define HIDDEN_FILE1` |
+| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde2.c:34` | `#define HIDDEN_FILE2` |
+| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde2.c:35` | `#define HIDDEN_FILE3` |
+| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde2.c:36` | `#define HIDDEN_FILE4` |
+| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde2.c:37` | `#define HIDDEN_FILE5` |
+| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde2.c:38` | `#define HIDDEN_FILE6` |
+| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde2.c:39` | `#define HIDDEN_FILE7` |
+| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde2.c:40` | `#define HIDDEN_FILE8` |
+| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde2.c:41` | `#define HIDDEN_FILE9` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde2.c:45` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde2.c:48` | `#define HIDE_USER` |
+| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde2.c:50` | `#define MAX_HIDE_PIDS` |
+| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde2.c:42` | `#define PATHMRHYDE` |
+| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde2.c:51` | `#define PID_FILE_PATH` |
+| `fopen` | function | `modules/rootkit/mrhyde2.c:242` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde2.c:427` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde2.c:152` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde2.c:474` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde2.c:531` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `kill` | function | `modules/rootkit/mrhyde2.c:99` | `int kill(pid_t pid, int sig)` |
+| `linux_dirent64` | struct | `modules/rootkit/mrhyde2.c:465` | `` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde2.c:67` | `void load_hidden_pids()` |
+| `lstat` | function | `modules/rootkit/mrhyde2.c:390` | `int lstat(const char *pathname, struct stat *statbuf)` |
+| `main` | function | `modules/rootkit/mrhyde2.c:587` | `int main()` |
+| `my_open` | function | `modules/rootkit/mrhyde2.c:279` | `int my_open(const char *pathname, int flags, mode_t mode)` |
+| `my_openat` | function | `modules/rootkit/mrhyde2.c:316` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
+| `original_dirent` | type_alias | `modules/rootkit/mrhyde2.c:52` | `typedef struct dirent original_dirent;` |
+| `readdir` | function | `modules/rootkit/mrhyde2.c:186` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde2.c:119` | `int remove(const char *pathname)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde2.c:171` | `int should_hide_pid(const char* pid)` |
+| `stat` | function | `modules/rootkit/mrhyde2.c:353` | `int stat(const char *pathname, struct stat *statbuf)` |
+| `unlink` | function | `modules/rootkit/mrhyde2.c:87` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde2.c:131` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `C2_PORT` | macro | `modules/rootkit/mrhyde3.c:57` | `#define C2_PORT` |
 | `C2_SERVER_IP` | macro | `modules/rootkit/mrhyde3.c:56` | `#define C2_SERVER_IP` |
 | `CQE_TIMEOUT_MS` | macro | `modules/rootkit/mrhyde3.c:58` | `#define CQE_TIMEOUT_MS` |
 | `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde3.c:53` | `#define FILE_HIDE_PATH` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `get_random_http_headers` | method | `modules/traffic_morpher.py:81` | `def get_random_http_headers(self)` |
 | `Exchange` | class | `modules/traffic_recorder.py:80` | `class Exchange` |
 | `RecorderConfig` | class | `modules/traffic_recorder.py:24` | `class RecorderConfig` |
-| `TrafficRecorder` | class | `modules/traffic_recorder.py:91` | `class TrafficRecorder` |
-| `__init__` | method | `modules/traffic_recorder.py:94` | `def __init__(self, base_dir)` |
-| `_connect` | method | `modules/traffic_recorder.py:132` | `def _connect(self)` |
-| `_fts_query` | method | `modules/traffic_recorder.py:375` | `def _fts_query(query)` |
-| `_index_fts` | method | `modules/traffic_recorder.py:323` | `def _index_fts(self, exchange_id, req, resp)` |
-| `_migrate_fts` | method | `modules/traffic_recorder.py:115` | `def _migrate_fts(self, conn)` |
-| `_scan_bodies` | method | `modules/traffic_recorder.py:422` | `def _scan_bodies(self, needle, limit)` |
-| `backfill_fts` | method | `modules/traffic_recorder.py:343` | `def backfill_fts(self, batch)` |
-| `count` | method | `modules/traffic_recorder.py:317` | `def count(self)` |
-| `export_archive` | method | `modules/traffic_recorder.py:451` | `def export_archive(self, path, limit, task)` |
-| `gc` | method | `modules/traffic_recorder.py:587` | `def gc(self, older_than_sec)` |
-| `get_body` | method | `modules/traffic_recorder.py:275` | `def get_body(self, exchange_id)` |
-| `import_archive` | method | `modules/traffic_recorder.py:493` | `def import_archive(self, path)` |
-| `import_inbox` | method | `modules/traffic_recorder.py:554` | `def import_inbox(self, inbox_dir)` |
-| `latest_rowid` | method | `modules/traffic_recorder.py:247` | `def latest_rowid(self)` |
-| `query` | method | `modules/traffic_recorder.py:253` | `def query(self, host, status, limit, offset, task)` |
-| `read_body` | method | `modules/traffic_recorder.py:284` | `def read_body(self, exchange_id, part, offset, length)` |
-| `record` | method | `modules/traffic_recorder.py:138` | `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...` |
-| `search_body` | method | `modules/traffic_recorder.py:382` | `def search_body(self, query, limit)` |
-| `since` | method | `modules/traffic_recorder.py:230` | `def since(self, rowid, limit)` |
-| `url_template` | function | `modules/traffic_recorder.py:69` | `def url_template(url)` |
-| `TriggerPolicyConfig` | class | `modules/trigger_policy.py:31` | `class TriggerPolicyConfig` |
-| `_coerce_every_sec` | function | `modules/trigger_policy.py:79` | `def _coerce_every_sec(value)` |
-| `export_store` | function | `modules/trigger_policy.py:171` | `def export_store(task_id)` |
-| `read_policy` | function | `modules/trigger_policy.py:120` | `def read_policy(path)` |
-| `remove_seed` | function | `modules/trigger_policy.py:185` | `def remove_seed(kind, arg, task_id)` |
-| `seed_store` | function | `modules/trigger_policy.py:146` | `def seed_store(policy, store, task_id)` |
-| `seeds` | function | `modules/trigger_policy.py:87` | `def seeds(raw)` |
-| `validate_triggers` | function | `modules/trigger_policy.py:40` | `def validate_triggers(raw)` |
-| `TTPCoverage` | class | `modules/ttp_coverage.py:65` | `class TTPCoverage` |
-| `TTPRow` | class | `modules/ttp_coverage.py:55` | `class TTPRow` |
-| `__init__` | method | `modules/ttp_coverage.py:68` | `def __init__(self)` |
-| `_blocking_facts` | method | `modules/ttp_coverage.py:168` | `def _blocking_facts(self, tactic)` |
-| `_load_state` | method | `modules/ttp_coverage.py:248` | `def _load_state(self)` |
-| `_save_state` | method | `modules/ttp_coverage.py:241` | `def _save_state(self)` |
-| `add` | method | `modules/ttp_coverage.py:125` | `def add(self, technique_id, name, tactic, status, operation_id)` |
-| `compute_ready` | method | `modules/ttp_coverage.py:149` | `def compute_ready(self, available_facts)` |
-| `get_coverage` | function | `modules/ttp_coverage.py:260` | `def get_coverage()` |
-| `matrix` | method | `modules/ttp_coverage.py:190` | `def matrix(self)` |
-| `rebuild_from_operations` | method | `modules/ttp_coverage.py:76` | `def rebuild_from_operations(self)` |
-| `status_by_id` | method | `modules/ttp_coverage.py:231` | `def status_by_id(self, technique_id)` |
-| `to_dict` | method | `modules/ttp_coverage.py:234` | `def to_dict(self)` |
-| `_as_list` | function | `modules/ttpscope_bridge.py:460` | `def _as_list(value)` |
-| `_cache_dataset_path` | function | `modules/ttpscope_bridge.py:146` | `def _cache_dataset_path()` |
-| `_fallback_matrix_bundle` | function | `modules/ttpscope_bridge.py:384` | `def _fallback_matrix_bundle(platform)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

@@ -7147,6 +7147,15 @@ def _load_surface_intel() -> dict:
             summary = json.load(handle) or {}
     except (OSError, ValueError):
         summary = {}
+    graph_svg: str = ""
+    try:
+        from modules.intel_fusion import build_intel_graph, relations_svg
+
+        graph_svg = relations_svg(build_intel_graph(sessions_dir))
+    except Exception:
+        if config.enable_c2_debug:
+            logger.info("relations snapshot unavailable for report")
+        graph_svg = ""
     changes: list[dict] = []
     ghosts: list[dict] = []
     history: list[dict] = []
@@ -7197,7 +7206,7 @@ def _load_surface_intel() -> dict:
     except Exception:
         if config.enable_c2_debug:
             logger.info("surface intel unavailable for report")
-    return {"summary": summary, "changes": changes, "ghosts": ghosts, "history": history}
+    return {"summary": summary, "changes": changes, "ghosts": ghosts, "history": history, "graph_svg": graph_svg}
 
 
 def _render_legacy_report():

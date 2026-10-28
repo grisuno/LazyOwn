@@ -1,0 +1,15 @@
+name: gym_ad_lab_smb_shares
+version: 2
+description: 'AD lab: ad lab smb shares (disposable Docker Samba DC).'
+enabled: true
+extends: gym_ad_lab_chain
+tags:
+- gym
+- ad-lab
+- samba
+platforms:
+- linux
+defaults:
+  exploit: ad_lab_smb_shares
+  vuln: ad_smb_shares
+  port: '445'

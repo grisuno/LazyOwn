@@ -1,0 +1,15 @@
+name: gym_ad_lab_rid_cycling
+version: 2
+description: 'AD lab: ad lab rid cycling (disposable Docker Samba DC).'
+enabled: true
+extends: gym_ad_lab_chain
+tags:
+- gym
+- ad-lab
+- samba
+platforms:
+- linux
+defaults:
+  exploit: ad_lab_rid_cycling
+  vuln: ad_rid_cycling
+  port: '445'

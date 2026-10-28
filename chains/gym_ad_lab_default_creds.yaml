@@ -1,0 +1,15 @@
+name: gym_ad_lab_default_creds
+version: 2
+description: 'AD lab: ad lab default creds (disposable Docker Samba DC).'
+enabled: true
+extends: gym_ad_lab_chain
+tags:
+- gym
+- ad-lab
+- samba
+platforms:
+- linux
+defaults:
+  exploit: ad_lab_default_creds
+  vuln: ad_default_creds
+  port: '445'

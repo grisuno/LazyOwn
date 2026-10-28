@@ -19,7 +19,7 @@ ping -> lazynmap -> auto_populate -> facts_show -> recommend_next
 | 5 | `auto_populate` | Parse scan into payload context | Fills `domain`, `os_id`, services and first creds from the nmap XML into `payload.json` |
 | 6 | `facts_show` | Display discovered facts | Quick read of what the scan found: ports, services, versions (`--refresh` re-parses `sessions/`) |
 | 7 | `recommend_next` | Ranked next steps | Local engine fuses policy + recon plan + knowledge graph into the 3-5 best commands for the current phase — no API key needed |
-
+| 8 | `auto_loop` | Autonomous Loop | Fills `apt_chain`, analyze the services on the worldmodel and perform the campaign from the nmap XML into `payload.json` in the scope |
 ---
 
 ## One command — `engage`

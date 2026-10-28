@@ -61,6 +61,24 @@ class WinboxReadinessSpec(unittest.TestCase):
         self.assertFalse(status["vm_built"])
         self.assertIn("clone", status["setup"])
 
+    def test_prereq_finds_libexec_virtiofsd(self):
+        """Fedora/Debian ship virtiofsd outside PATH: /usr/libexec must count."""
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = Path(tmp) / "virtiofsd"
+            fake.write_text("#!/bin/sh\n")
+            fake.chmod(0o755)
+            with patch.object(winbox_gym, "PREREQ_FALLBACK_PATHS", {"virtiofsd": (str(fake),)}):
+                self.assertEqual(winbox_gym._prereq_path("virtiofsd"), str(fake))
+                self.assertNotIn("virtiofsd", winbox_gym._missing_prereqs())
+
+    def test_prereq_fallback_never_accepts_missing_files(self):
+        with (
+            patch.object(winbox_gym.shutil, "which", return_value=None),
+            patch.object(winbox_gym, "PREREQ_FALLBACK_PATHS", {"virtiofsd": ("/definitely/not/here",)}),
+        ):
+            self.assertEqual(winbox_gym._prereq_path("virtiofsd"), "")
+            self.assertIn("virtiofsd", winbox_gym._missing_prereqs())
+
     def test_readiness_guest_os_fallback(self):
         with patch.object(winbox_gym.shutil, "which", return_value=None):
             status = winbox_gym.check_readiness({"winbox_os": "totally-wrong"})
@@ -180,6 +198,7 @@ class WinboxBootstrapSpec(unittest.TestCase):
 
         with (
             patch.object(winbox_gym.shutil, "which", fake_which),
+            patch.object(winbox_gym, "PREREQ_FALLBACK_PATHS", {}),
             patch.object(os, "geteuid", return_value=0),
             patch("core.hardening.safe_subprocess_run", side_effect=fake_run),
         ):

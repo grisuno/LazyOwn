@@ -420,7 +420,7 @@ def build_intel_graph(sessions_dir: str | Path = SESSIONS_DIR, est_cap: int = 30
                 pass
 
     lazy_dir = root / "lazy"
-    tasks = {}
+    tasks: dict = {}
     try:
         tasks = _load_json(lazy_dir / "tasks.json", {}).get("tasks", {}) or {}
     except Exception:
@@ -1106,10 +1106,162 @@ def _score_lines(host_value: str, detail: list[dict]) -> tuple[float, list[dict]
     return round(min(total, SCORE_CAP_TOTAL), 2), kept
 
 
+# -----------------------------------------------------------------------------
+# Snapshot svg (docs/SCRIPTORIUM: static report rendering for /report)
+# -----------------------------------------------------------------------------
+
+SVG_NODE_CAP = 90
+SVG_WIDTH = 1000
+SVG_HEIGHT = 600
+SVG_INNER_RADIUS = 160
+SVG_OUTER_RADIUS = 260
+SVG_LABEL_CHARS = 24
+SVG_INNER_RING_MAX = 36
+_SVG_CVE_RING = {"hot": "#ff1744", "warm": "#ffb300"}
+_SVG_EDGE_DEFAULT = "rgba(148,163,184,.35)"
+
+
+def _svg_text(value: object) -> str:
+    """Escape untrusted text for an XML text node."""
+    from xml.sax.saxutils import escape
+
+    return escape(str(value or ""), {"'": "&apos;", '"': "&quot;"})
+
+
+def _svg_attr(value: object) -> str:
+    """Escape untrusted text for a double-quoted XML attribute."""
+    return _svg_text(value).replace('"', "&quot;").replace("&#x27;", "&apos;")
+
+
+def _svg_rank(node: dict) -> tuple:
+    """Deterministic selection key: c2 hub first, then heat, degree, id."""
+    kind = str(node.get("kind", ""))
+    return (
+        0 if kind == "c2" else 1,
+        -int(node.get("heat_rank", 0) or 0),
+        -float(node.get("degree", 0) or 0),
+        str(node.get("id", "")),
+    )
+
+
+def svg_selection(graph: dict, cap_nodes: int = SVG_NODE_CAP) -> list[str]:
+    """Return the node ids a bounded snapshot keeps, most important first.
+
+    The lightest intel snapshot for static rendering: the c2 hub, then the
+    hottest CVE matches, then the most connected nodes. Args: ``graph``
+    intel payload, ``cap_nodes`` maximum selected ids.
+
+    Returns:
+        Selected node ids in placement order.
+    """
+    nodes = [n for n in (graph.get("nodes", []) or []) if isinstance(n, dict) and n.get("id")]
+    cap = max(0, min(int(cap_nodes), len(nodes) or 0)) if cap_nodes >= 0 else 0
+    if cap <= 0:
+        return []
+    ranked = sorted(nodes, key=_svg_rank)
+    return [str(n["id"]) for n in ranked[:cap]]
+
+
+def _svg_place(ids: list[str]) -> dict[str, tuple[float, float]]:
+    """Assign deterministic coordinates: the c2 hub centred, the rest on rings."""
+    positions: dict[str, tuple[float, float]] = {}
+    cx, cy = SVG_WIDTH / 2, SVG_HEIGHT / 2
+    rest = [nid for nid in ids if nid != "c2"]
+    if "c2" in ids:
+        positions["c2"] = (cx, cy)
+    inner = rest[: SVG_INNER_RING_MAX]
+    outer = rest[SVG_INNER_RING_MAX:]
+    for group, radius in ((inner, SVG_INNER_RADIUS), (outer, SVG_OUTER_RADIUS)):
+        count = len(group)
+        for index, nid in enumerate(group):
+            angle = 2.0 * math.pi * index / count if count else 0.0
+            positions[nid] = (round(cx + radius * math.cos(angle), 1), round(cy + radius * math.sin(angle), 1))
+    return positions
+
+
+def _svg_host_of(node: dict) -> str:
+    """Host value a node belongs to, via its community tag."""
+    return str(node.get("community", "")).removeprefix("net:")
+
+
+def relations_svg(graph: dict, cap_nodes: int = SVG_NODE_CAP) -> str:
+    """Render a static svg snapshot of the intel graph for documents.
+
+    Pure, bounded and XML-escaped: circles per selected node (fill by
+    kind, ring by heat on CVE nodes), lines only between rendered nodes
+    and a legend row. Scan-derived values never reach the markup raw, so
+    the output is safe to embed with ``| safe``.
+
+    Args:
+        graph: Intel graph payload from :func:`build_intel_graph`.
+        cap_nodes: Maximum rendered nodes.
+
+    Returns:
+        SVG markup, or "" when the graph has no renderable nodes.
+    """
+    nodes = [n for n in (graph.get("nodes", []) or []) if isinstance(n, dict) and n.get("id")]
+    if not nodes:
+        return ""
+    selection = svg_selection(graph, cap_nodes)
+    if not selection:
+        return ""
+    positions = _svg_place(selection)
+    selected = {n["id"]: n for n in nodes if str(n["id"]) in positions}
+    lines: list[str] = []
+    for edge in graph.get("edges", []) or []:
+        if not isinstance(edge, dict):
+            continue
+        src, dst = str(edge.get("source", "")), str(edge.get("target", ""))
+        if src not in positions or dst not in positions:
+            continue
+        x1, y1 = positions[src]
+        x2, y2 = positions[dst]
+        style = EDGE_COLORS.get(str(edge.get("type", "")), _SVG_EDGE_DEFAULT)
+        lines.append(
+            f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{_svg_attr(style)}" stroke-width="1"/>'
+        )
+    dots: list[str] = []
+    for nid, node in selected.items():
+        cx, cy = positions[nid]
+        kind = str(node.get("kind", ""))
+        fill = _svg_attr(NODE_COLORS.get(kind, "#e0e0e0"))
+        radius = 10 if kind == "c2" else 8
+        ring = ""
+        if kind == "cve":
+            ring_color = _SVG_CVE_RING.get(str(node.get("heat", "")), "")
+            if ring_color:
+                ring = f' stroke="{_svg_attr(ring_color)}" stroke-width="2.5"'
+        label = _svg_text(str(node.get("value", ""))[:SVG_LABEL_CHARS])
+        host = _svg_host_of(node)
+        title = _svg_text(f"{kind} {node.get('value', '')}" + (f" @ {host}" if host else ""))
+        dots.append(
+            f'<circle cx="{cx}" cy="{cy}" r="{radius}" fill="{fill}"{ring} data-node-kind="{_svg_attr(kind)}">'
+            f"<title>{title}</title></circle>"
+        )
+        dots.append(
+            f'<text x="{cx}" y="{round(cy + radius + 12, 1)}" text-anchor="middle" font-size="9" fill="#cbd5e1">'
+            f"{label}</text>"
+        )
+    kind_counts: dict[str, int] = {}
+    for node in selected.values():
+        kind = str(node.get("kind", ""))
+        kind_counts[kind] = kind_counts.get(kind, 0) + 1
+    legend = "  ".join(f"{_svg_text(kind)}:{total}" for kind, total in sorted(kind_counts.items()))
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SVG_WIDTH} {SVG_HEIGHT}" '
+        f'width="{SVG_WIDTH}" height="{SVG_HEIGHT}" role="img" aria-label="campaign relation snapshot">'
+        '<rect width="100%" height="100%" fill="#0f172a"/>'
+        f"<text x=\"12\" y=\"20\" font-size=\"11\" fill=\"#e2e8f0\">relations snapshot ({legend})</text>"
+        + "".join(lines)
+        + "".join(dots)
+        + "</svg>"
+    )
+
+
 def _recency_lines(sessions_dir: str | Path, host_value: str) -> list[dict]:
     """Recency points from the world change log (one line max)."""
     try:
-        from modules.lazy_world_diff import EXPOSURE_KINDS, LIFECYCLE_KINDS, recent_changes
+        from modules.lazy_world_diff import recent_changes
 
         rows = recent_changes(sessions_dir, days=7, host=host_value)
     except Exception:
@@ -1319,4 +1471,6 @@ __all__ = [
     "build_analytics",
     "build_bundle_payload",
     "bundle_settings",
+    "svg_selection",
+    "relations_svg",
 ]

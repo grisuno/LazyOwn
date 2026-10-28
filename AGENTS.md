@@ -306,7 +306,7 @@ Both follow the same pattern as the existing addon marketplace.
 7. Keep `_refresh_autosuggest` and `_read_recent_commands_for_autosuggest` for
    `do_next` and chain command compatibility.
 
-### `modules/winbox_gym.py` — WinBox lab (v4 — isolated Windows gym)
+### `modules/winbox_gym.py` — WinBox lab (v5 — self-healing isolated Windows gym)
 
 **Contract:** WinBox (https://github.com/totekuh/winbox) is the second Red
 Team Gym scenario (`scenario: winbox`): an isolated headless Windows VM
@@ -323,7 +323,30 @@ gating (guidance-only when the binary or prerequisites are missing).
   prereqs via `ensure_prereqs`, `winbox iso download`, `winbox setup -y`
   via `ensure_lab_ready`, boot, rhost bind) — gym start for a winbox
   challenge runs the same bootstrap then auto-launches the chain.
-  Destructive actions require `-y`.
+  Destructive actions require `-y` (`destroy` is allowlisted).
+- Self-healing bootstrap (`ensure_lab_ready`): every stage emits live
+  progress through a `notify` callback and long stages stream their child
+  output through a pty (`sessions/winbox/*.log` keeps the transcript with
+  ANSI intact). Step order: install → prereqs → snapshot gate → iso →
+  setup → recovery → up → provision gating → resolve.
+- Mid-install recovery: when `winbox setup` exits on an in-flight
+  install (false/real timeout), the module waits for the guest to shut
+  down (grace 3600s), then completes winbox phases 2-4 (offline
+  virt-customize injection, boot-for-provisioning with WinFsp/virtiofs
+  in-guest install, nwfilter, `clean` snapshot) by calling the upstream
+  installer internals with the process locale forced to C. A substantial
+  disk (≥ 4GB) with no `clean` snapshot triggers the same completion; a
+  tiny/absent disk falls back to `winbox destroy -y` + one full rebuild,
+  loudly. Nothing is ever silently skipped: every stage records ok/fail
+  in the returned `stages` map and the CLI prints the stage table.
+- Post-provisioning invariant: after the VM is up, a Z: probe
+  (`if exist Z:\` via guest agent) runs unconditionally; a missing drive
+  triggers one idempotent `winbox provision` re-run and a re-probe; a
+  persistent failure is a loud stage failure.
+- Locale hardening: all winbox/virsh children run with `LANG=C LC_ALL=C`
+  (`safe_subprocess_run` gained `extra_env`), and VM state strings are
+  normalized through `_canonical_state` (English + Spanish aliases),
+  so no state gate depends on shell locale.
 - Gym: `gyms/winbox_*.yaml` (4 challenges), matrix via
   `modules/gym_winbox_runner.py` reusing `gym_matrix_runner`/`ctf_capture`
   with the catalogue injected as a parameter (Metasploitable 2 stays the default).

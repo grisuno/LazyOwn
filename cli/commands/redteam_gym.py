@@ -186,7 +186,10 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             print_error(f"Gym module not available: {exc}")
             return
 
-        result = start_challenge(challenge_id, target=target)
+        def _lab_notify(message: str) -> None:
+            print(message, flush=True)
+
+        result = start_challenge(challenge_id, target=target, notify=_lab_notify)
         if not result.get("success"):
             print_error(result.get("error", "Failed to start challenge."))
             return
@@ -206,7 +209,13 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             for container_port, host_port in (lab.get("ports") or {}).items():
                 print_msg(f"  Mapped port: {host_port} -> {container_port}")
         elif lab and not lab.get("success"):
-            print_warn(f"Lab '{chal['scenario']}' failed to start: {lab.get('error', '')[:200]}")
+            print_error(f"Lab '{chal['scenario']}' failed to start at stage '{lab.get('stage', '')}': {lab.get('error', '')[:300]}")
+            stages = lab.get("stages") or {}
+            for stage, detail in stages.items():
+                output = str((detail or {}).get("output", "") if isinstance(detail, dict) else "").strip()
+                ok = (detail or {}).get("ok") if isinstance(detail, dict) else None
+                marker = GREEN + "ok" if ok else YELLOW + "partial" if ok is None else RED + "fail"
+                print_msg(f"  {CYAN}[{stage}]{RESET} {marker}{RESET}" + (f" {output[-260:]}" if output else ""))
         print("")
         print_msg(f"  Run ID:      {result['run_id']}")
         print_msg(f"  Objective:   {chal['objective']}")

@@ -19,8 +19,15 @@ from __future__ import annotations
 import json
 import logging
 import os
+import pty
 import re
+import select
 import shutil
+import signal
+import subprocess
+import time
+from collections.abc import Callable, Iterator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -51,8 +58,20 @@ MAX_OUTPUT_CHARS = 20_000
 MIN_TIMEOUT_SEC = 5
 MAX_TIMEOUT_SEC = 7200
 ISO_TIMEOUT_SEC = 3600
-BUILD_TIMEOUT_SEC = 2700
+BUILD_TIMEOUT_SEC = 5400
 INSTALL_TIMEOUT_SEC = 600
+INSTALL_COMPLETION_GRACE_SEC = 3600
+PROVISION_TIMEOUT_SEC = 1800
+CLEAN_SNAPSHOT_NAME = "clean"
+MIN_INSTALL_DISK_BYTES = 4_000_000_000
+DISK_POLL_INTERVAL_SEC = 30
+HEARTBEAT_INTERVAL_SEC = 120
+
+LOCALE_ENV = {"LANG": "C", "LC_ALL": "C"}
+
+INSTALL_TIMED_OUT_RE = re.compile(r"Installation timed out")
+INSTALL_LOCK_BUSY_RE = re.compile(r"Another \S*winbox setup|\.setup\.lock")
+Z_OK_TOKEN = "Z_OK"
 
 PREREQ_BINARIES = (
     "qemu-system-x86_64",
@@ -93,6 +112,7 @@ _CLI_ACTIONS = (
     "binfmt",
     "capture",
     "detonate",
+    "destroy",
     "dns",
     "domain",
     "down",
@@ -119,9 +139,67 @@ _CLI_ACTIONS = (
 )
 ALLOWED_ACTIONS = frozenset(_CLI_ACTIONS)
 
-_STATE_RE = re.compile(r"(?im)^\s*(?:state|vm\s*state)\s*[:=]\s*([A-Za-z][A-Za-z0-9_ -]{0,39})$")
+_STATE_RE = re.compile(
+    r"(?im)^\s*(?:state|estados?|vm\s*state)\s*[:=]\s*([A-Za-z][A-Za-z0-9_ -]{0,39})$"
+)
 _IP_RE = re.compile(r"(?i)\bip(?:address)?\s*[:=]\s*(\d{1,3}(?:\.\d{1,3}){3})")
 _ANY_IP_RE = re.compile(r"\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b")
+
+_STATE_ALIASES = {
+    "ejecutando": "running",
+    "en ejecucion": "running",
+    "corriendo": "running",
+    "shut off": "shut off",
+    "shutoff": "shut off",
+    "apagada": "shut off",
+    "apagado": "shut off",
+    "not running": "shut off",
+    "en pausa": "paused",
+    "no existe": "not found",
+    "dominio no encontrado": "not found",
+    "desconocido": "unknown",
+}
+
+
+def _canonical_state(raw: str) -> str:
+    """Map a VM state string to its canonical English token.
+
+    Args:
+        raw: Free text captured from ``winbox status``.
+
+    Returns:
+        One of ``running``, ``shut off``, ``paused``, ``saved``,
+        ``not found``, ``unknown`` or the trimmed input when no alias
+        matches (locale-hardened children already emit English).
+    """
+    state = str(raw or "").strip().lower()
+    return _STATE_ALIASES.get(state, state)
+
+
+def _emit_notify(notifier: Callable[[str], None] | None, message: str) -> None:
+    """Deliver one control-plane progress message without failing the stage."""
+    if notifier is None:
+        return
+    try:
+        notifier(message)
+    except Exception as exc:
+        log.debug("winbox notifier rejected message: %s", exc)
+
+
+@contextmanager
+def _c_locale_process_env() -> Iterator[None]:
+    """Force the C locale in the process environment for a subprocess run by
+    in-process library calls (restored afterwards)."""
+    saved = {key: os.environ.get(key) for key in ("LANG", "LC_ALL")}
+    os.environ.update(LOCALE_ENV)
+    try:
+        yield
+    finally:
+        for key, value in saved.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
 
 
 def _load_yaml(path: Path) -> dict:
@@ -427,20 +505,341 @@ def ensure_prereqs(timeout: int = INSTALL_TIMEOUT_SEC) -> dict[str, Any]:
     }
 
 
+def _clean_snapshot_present() -> bool | None:
+    """Return whether the lab VM has the post-setup ``clean`` snapshot.
+
+    Returns:
+        True/False when the snapshot list is readable, None when libvirt
+        cannot be consulted (the caller then treats state as unknown).
+    """
+    from core.hardening import safe_subprocess_run
+
+    try:
+        completed = safe_subprocess_run(
+            ["virsh", "-c", "qemu:///system", "snapshot-list", "winbox"],
+            timeout=STATUS_TIMEOUT_SEC,
+            capture_output=True,
+            reason="winbox snapshot-list check",
+            extra_env=LOCALE_ENV,
+        )
+    except Exception as exc:
+        log.debug("snapshot-list failed: %s", exc)
+        return None
+    if completed.returncode != 0:
+        return None
+    for row in (completed.stdout or "").splitlines()[2:]:
+        columns = row.split()
+        if columns and columns[0] == CLEAN_SNAPSHOT_NAME:
+            return True
+    return False
+
+
+def _install_disk_is_substantial() -> bool | None:
+    """Report whether the guest disk plausibly holds a finished install.
+
+    Uses the winbox ``Config`` (never named paths) and a conservative
+    floor: a phase-1-only or aborted install disk stays far below the
+    normal multi-GB Windows footprint.
+
+    Returns:
+        True/False/None when unresolvable (winbox not importable).
+    """
+    if not binary_path():
+        return None
+    try:
+        from winbox.config import Config
+
+        cfg = Config.load()
+        size = int(Path(cfg.disk_path).stat().st_size)
+    except Exception as exc:
+        log.debug("winbox disk probe failed: %s", exc)
+        return None
+    return size >= MIN_INSTALL_DISK_BYTES
+
+
+def _wait_for_shutdown(timeout: int, notify: Callable[[str], None] | None) -> bool:
+    """Wait (bounded) for the lab VM to shut off, emitting a heartbeat.
+
+    Args:
+        timeout: Wall-clock grace in seconds.
+        notify: Optional progress callback.
+
+    Returns:
+        True when the VM shut off within the grace window.
+    """
+    deadline = time.monotonic() + timeout
+    next_heartbeat = 0.0
+    while True:
+        state = _canonical_state(str(vm_status().get("state") or ""))
+        if state in ("shut off", "not found"):
+            return True
+        if not _vm_built_from({"state": state}):
+            return True
+        now = time.monotonic()
+        if now >= deadline:
+            return False
+        if now >= next_heartbeat:
+            remaining = max(1, int(deadline - now))
+            _emit_notify(notify, f"[*] Guest install still running; waiting for shutdown ({remaining}s left)")
+            next_heartbeat = now + HEARTBEAT_INTERVAL_SEC
+        time.sleep(DISK_POLL_INTERVAL_SEC)
+
+
+def _repair_guest_ntfs(notify: Callable[[str], None] | None) -> bool:
+    """Clear the NTFS dirty bit on the lab disk through libguestfs.
+
+    A force-stopped guest leaves the file system flagged dirty and
+    libguestfs then refuses writes (read-only file system). ``ntfsfix``
+    clears the flag without touching guest data.
+
+    Args:
+        notify: Optional progress callback.
+
+    Returns:
+        True when every NTFS partition was repaired (or none existed).
+    """
+    disk = _winbox_disk_path()
+    if not disk:
+        return False
+    try:
+        listing = subprocess.run(
+            ["guestfish", "-a", str(disk)],
+            input="run\nlist-filesystems\n",
+            text=True,
+            capture_output=True,
+            timeout=STATUS_TIMEOUT_SEC * 4,
+            shell=False,
+        )
+        for row in (listing.stdout or "").splitlines():
+            parts = row.split(":")
+            if len(parts) == 2 and parts[1].strip() == "ntfs":
+                device = parts[0].strip()
+                _emit_notify(notify, f"[*] ntfsfix on {device} (clearing dirty bit after forced stop)")
+                fixed = subprocess.run(
+                    ["guestfish", "-a", str(disk), "run", ":", "ntfsfix", device],
+                    capture_output=True,
+                    text=True,
+                    timeout=STATUS_TIMEOUT_SEC * 4,
+                    shell=False,
+                )
+                if fixed.returncode != 0:
+                    log.warning("ntfsfix failed on %s: %s", device, (fixed.stderr or "")[-200:])
+                    return False
+        return True
+    except Exception as exc:
+        log.warning("guest NTFS repair skipped: %s", exc)
+        return False
+
+
+def _winbox_disk_path() -> str | None:
+    """Resolve the lab disk path through the winbox Config (no hardcoding)."""
+    try:
+        from winbox.config import Config
+
+        return str(Config.load().disk_path)
+    except Exception as exc:
+        log.debug("winbox disk path unavailable: %s", exc)
+        return None
+
+
+def _complete_partial_build(notify: Callable[[str], None] | None) -> dict[str, Any]:
+    """Finish winbox setup phases 2-4 on an installed-but-unprovisioned disk.
+
+    Drives the upstream setup internals directly: offline provisioning
+    injection (virt-customize), boot-for-provisioning verification, network
+    filter registration and clean snapshot. Never a silent skip: every
+    phase is announced and any exception propagates to the caller's
+    fallback path. A forced-off guest leaves the NTFS dirty bit set, which
+    libguestfs reports as a read-only file system; a graceful ACPI
+    shutdown clears it and the phases retry once.
+
+    Args:
+        notify: Optional progress callback.
+
+    Returns:
+        Mapping with ``success`` and per-phase statuses.
+    """
+    _emit_notify(notify, "[*] Completing winbox setup phases 2-4 on the installed disk")
+    phases: dict[str, str] = {}
+    last_error = ""
+    for attempt in (1, 2):
+        try:
+            with _c_locale_process_env():
+                from winbox.config import Config
+                from winbox.setup import installer as wb_installer
+
+                cfg = Config.load()
+                _emit_notify(notify, f"[*] Attempt {attempt}: Phase 2 offline provisioning injection (virt-customize)")
+                wb_installer.provision_vm_disk(cfg)
+                phases["offline"] = "ok"
+                _emit_notify(notify, "[*] Phase 2 complete: provision files injected")
+                _emit_notify(notify, "[*] Phase 3: boot + guest-agent provisioning (WinFsp, virtiofs, tools)")
+                wb_installer.boot_for_provisioning(cfg)
+                phases["provision"] = "ok"
+                _emit_notify(notify, "[*] Phase 3 complete: VM provisioned")
+                register_nwfilter = wb_installer.register_nwfilter
+                attach_default_filter = wb_installer.attach_default_filter
+                create_clean_snapshot = wb_installer.create_clean_snapshot
+                register_nwfilter(cfg)
+                attach_default_filter(cfg)
+                phases["nwfilter"] = "ok"
+                _emit_notify(notify, "[*] Phase 4: clean snapshot")
+                create_clean_snapshot(cfg)
+                phases["snapshot"] = "ok"
+                _emit_notify(notify, "[+] winbox setup phases 2-4 complete")
+            return {"success": True, "phases": phases, "message": "phases 2-4 completed"}
+        except Exception as exc:
+            last_error = str(exc)[:300]
+            phases["error"] = last_error
+            log.warning("partial build completion attempt %s failed: %s", attempt, exc)
+            transient = "read-only file system" in str(exc).lower() or "ntfs" in str(exc).lower()
+            if not transient or attempt == 2:
+                return {"success": False, "phases": phases, "message": f"phase completion failed: {last_error}"}
+            _emit_notify(notify, "[*] Guest file system is dirty (forced stop); repairing NTFS dirty bit and retrying")
+            run_cli(["down"], timeout=CLI_TIMEOUT_SEC)
+            _wait_for_shutdown(INSTALL_COMPLETION_GRACE_SEC, notify)
+            _repair_guest_ntfs(notify)
+    return {"success": False, "phases": phases, "message": f"phase completion failed: {last_error}"}
+
+
+def _recover_partial_build(
+    notify: Callable[[str], None] | None,
+    build_timeout: int,
+) -> dict[str, Any]:
+    """Recover from a winbox setup that died mid-install.
+
+    Strategy: wait for the still-running guest install to shut down, then
+    finish phases 2-4 by calling the upstream internals; when that is not
+    possible (broken disk or internals failure) fall back to a full
+    idempotent rebuild. Everything is announced and any terminal failure
+    surfaces a loud error.
+
+    Args:
+        notify: Optional progress callback.
+        build_timeout: Wall-clock budget for a potential full rebuild.
+
+    Returns:
+        Mapping with ``ok``, ``output`` and ``rebuilt`` markers (same
+        shape as a :func:`run_cli` build result).
+    """
+    _emit_notify(notify, "[!] winbox setup exited mid-install; verifying actual guest state")
+    still_running = not _wait_for_shutdown(INSTALL_COMPLETION_GRACE_SEC, notify)
+    if still_running:
+        return {
+            "ok": False,
+            "output": "guest install did not shut down within the grace window; "
+            "check 'virsh console winbox' and re-run 'winbox up'.",
+            "stderr": "",
+            "code": -1,
+        }
+    completion = _complete_partial_build(notify)
+    if completion.get("success"):
+        return {"ok": True, "code": 0, "output": completion.get("message", ""), "stderr": ""}
+    disk_ok = _install_disk_is_substantial()
+    if disk_ok is False:
+        _emit_notify(notify, "[*] Guest disk has no real install; falling back to full rebuild")
+    else:
+        _emit_notify(notify, f"[!] Phase completion failed ({completion.get('message')}); falling back to full rebuild")
+    destroy = run_cli(["destroy", "-y"], timeout=CLI_TIMEOUT_SEC)
+    if not destroy.get("ok"):
+        return {
+            "ok": False,
+            "output": f"winbox destroy -y failed: {destroy.get('output', '')[-400:]}",
+            "stderr": "",
+            "code": -1,
+        }
+    rebuild = run_cli(["setup", "-y"], timeout=build_timeout, stream=True, notify=notify)
+    record_artifact("setup-rebuild", rebuild.get("output", ""))
+    if rebuild.get("ok"):
+        return rebuild
+    return {
+        "ok": False,
+        "output": f"full rebuild failed as well: {rebuild.get('output', '')[-400:]}",
+        "stderr": "",
+        "code": -1,
+    }
+
+
+PROBE_ATTEMPTS = 3
+PROBE_BACKOFF_SEC = 20
+
+
+def _guest_probe_z_drive() -> bool:
+    """Return whether the guest share drive Z: is reachable right now.
+
+    The winbox executor joins argv tokens itself (quoting only tokens
+    with whitespace), so the probe must be passed argv-style; a single
+    quoted string would be wrapped whole and rejected by cmd.exe.
+    """
+    probe = run_cli(
+        ["exec", "--timeout", "45", "cmd", "/c", "if", "exist", "Z:\\", "echo", "Z_OK"],
+        timeout=90,
+    )
+    return bool(probe.get("ok")) and Z_OK_TOKEN in str(probe.get("output", ""))
+
+
+def _guest_probe_z_drive_retries() -> bool:
+    """Probe the guest Z: drive with bounded retries.
+
+    VirtioFsSvc can still be settling right after provisioning, so a
+    single probe is not a trustworthy negative signal.
+
+    Returns:
+        True once any probe sees the drive.
+    """
+    for attempt in range(1, PROBE_ATTEMPTS + 1):
+        if _guest_probe_z_drive():
+            return True
+        if attempt < PROBE_ATTEMPTS:
+            time.sleep(PROBE_BACKOFF_SEC)
+    return False
+
+
+def _verify_provisioning(notify: Callable[[str], None] | None) -> dict[str, Any]:
+    """Guarantee the guest provisioning invariant (drive Z: reachable).
+
+    The probe runs with retries first; when the drive is missing the
+    upstream ``winbox provision`` idempotent re-provisioning is executed
+    once and the probe repeats with retries again. A persistent failure
+    is reported loudly.
+
+    Args:
+        notify: Optional progress callback.
+
+    Returns:
+        Mapping with ``ok`` and a short ``message``.
+    """
+    if _guest_probe_z_drive_retries():
+        return {"ok": True, "message": "guest Z: drive reachable"}
+    _emit_notify(notify, "[*] Guest Z: drive missing; running idempotent winbox provision")
+    provision = run_cli(["provision"], timeout=PROVISION_TIMEOUT_SEC, stream=True, notify=notify)
+    if _guest_probe_z_drive_retries():
+        return {"ok": True, "message": "guest Z: drive recovered via winbox provision"}
+    tail = str(provision.get("output", ""))[-400:]
+    return {"ok": False, "message": f"guest Z: drive still unreachable after winbox provision: {tail}"}
+
+
 def ensure_lab_ready(
     params: dict[str, Any] | None = None,
     *,
     build_timeout: int = BUILD_TIMEOUT_SEC,
     install_timeout: int = INSTALL_TIMEOUT_SEC,
     build_vm: bool = True,
+    notify: Callable[[str], None] | None = None,
 ) -> dict[str, Any]:
     """Bring the WinBox lab to attackable state in one idempotent call.
 
     Stages (each skipped when already satisfied): clone+pip-install the
     upstream repo, apt-get the missing host prerequisites, download the
-    guest ISO, build and provision the VM, boot it and bind ``rhost``
-    to the VM IP. One-time work (ISO ~4.7 GB, setup ~20 min) happens
-    only while the VM is unbuilt.
+    guest ISO, build and provision the VM, boot it, guarantee the guest
+    provisioning invariant (drive Z:) and bind ``rhost`` to the VM IP.
+
+    Self-healing rules: when ``winbox setup`` dies mid-install the guest
+    is left to finish, then the skipped phases are completed through the
+    upstream internals (offline injection, provisioning boot, snapshot);
+    a full rebuild is the explicit fallback. The post-provisioning step
+    is never skipped: the stage verifies Z: and re-provisions when the
+    invariant is lost. Every stage emits progress through ``notify``.
 
     Args:
         params: Live shell params (``winbox_install_path``, ``winbox_os``).
@@ -448,6 +847,7 @@ def ensure_lab_ready(
         install_timeout: Wall-clock timeout for clone/pip/apt.
         build_vm: Whether to run the ISO download + VM build when the VM
             is not built yet.
+        notify: Optional progress callback for streaming stage banners.
 
     Returns:
         Mapping with ``success``, ``stage``, ``ip``, ``message`` and a
@@ -455,6 +855,7 @@ def ensure_lab_ready(
     """
     stages: dict[str, Any] = {}
     params = params or {}
+    _emit_notify(notify, "[*] WinBox lab bootstrap: install, prereqs, iso, build, provision, up, resolve")
     install = ensure_installed(params, timeout=install_timeout)
     stages["install"] = install
     if not install.get("success"):
@@ -463,20 +864,51 @@ def ensure_lab_ready(
     stages["prereqs"] = prereqs
     if not prereqs.get("success"):
         return {"success": False, "stage": "prereqs", "stages": stages, "message": prereqs.get("message", "")}
-    vm_built = _vm_built_from(vm_status())
-    if build_vm and not vm_built:
-        iso = run_cli(["iso", "download"], timeout=ISO_TIMEOUT_SEC)
-        stages["iso"] = {"ok": iso.get("ok"), "output": iso.get("output", "")[-800:]}
+    status = vm_status()
+    vm_built = _vm_built_from(status)
+    if vm_built:
+        snapshot = _clean_snapshot_present()
+        stages["snapshot"] = {"ok": snapshot is not False, "present": snapshot}
+        if snapshot is False:
+            recovery = _recover_partial_build(notify, build_timeout)
+            stages["recovery"] = {"ok": recovery.get("ok"), "output": str(recovery.get("output", ""))[-800:]}
+            if not recovery.get("ok"):
+                return {
+                    "success": False,
+                    "stage": "recovery",
+                    "stages": stages,
+                    "message": f"winbox partial build recovery failed: {recovery.get('output', '')[-300:]}",
+                }
+    elif build_vm:
+        _emit_notify(notify, "[*] No VM domain yet: downloading guest ISO (long)")
+        iso = run_cli(["iso", "download"], timeout=ISO_TIMEOUT_SEC, stream=True, notify=notify)
+        stages["iso"] = {"ok": iso.get("ok"), "output": str(iso.get("output", ""))[-800:]}
         if not iso.get("ok"):
             return {"success": False, "stage": "iso", "stages": stages, "message": "winbox iso download failed"}
-        build = run_cli(["setup", "-y"], timeout=build_timeout)
-        stages["build"] = {"ok": build.get("ok"), "output": build.get("output", "")[-800:]}
+        _emit_notify(notify, "[*] Building the VM (winbox setup -y): unattended Windows install")
+        build = run_cli(["setup", "-y"], timeout=build_timeout, stream=True, notify=notify)
+        stages["build"] = {"ok": build.get("ok"), "output": str(build.get("output", ""))[-800:]}
         if not build.get("ok"):
-            return {"success": False, "stage": "build", "stages": stages, "message": "winbox setup -y failed"}
+            if INSTALL_TIMED_OUT_RE.search(str(build.get("output", ""))):
+                recovery = _recover_partial_build(notify, build_timeout)
+                stages["recovery"] = {"ok": recovery.get("ok"), "output": str(recovery.get("output", ""))[-800:]}
+                if not recovery.get("ok"):
+                    return {
+                        "success": False,
+                        "stage": "recovery",
+                        "stages": stages,
+                        "message": f"winbox partial build recovery failed: {recovery.get('output', '')[-300:]}",
+                    }
+            else:
+                return {"success": False, "stage": "build", "stages": stages, "message": "winbox setup -y failed"}
     up = ensure_vm_running()
-    stages["up"] = up
+    stages["up"] = {key: up.get(key) for key in ("success", "ip", "message")}
     if not up.get("success"):
         return {"success": False, "stage": "up", "stages": stages, "message": up.get("message", "")}
+    provision = _verify_provisioning(notify)
+    stages["provision"] = {"ok": provision.get("ok"), "message": provision.get("message", "")}
+    if not provision.get("ok"):
+        return {"success": False, "stage": "provision", "stages": stages, "message": provision.get("message", "")}
     ip = str(up.get("ip") or "") or vm_ip()
     if ip:
         resolve_target()
@@ -489,16 +921,28 @@ def ensure_lab_ready(
     }
 
 
-def run_cli(args: list[str], timeout: int = CLI_TIMEOUT_SEC) -> dict[str, Any]:
+def run_cli(
+    args: list[str],
+    timeout: int = CLI_TIMEOUT_SEC,
+    *,
+    stream: bool = False,
+    notify: Callable[[str], None] | None = None,
+) -> dict[str, Any]:
     """Run one allowlisted winbox CLI action without a shell.
 
     Args:
         args: Argument list; ``args[0]`` must be an allowlisted action.
         timeout: Wall-clock timeout in seconds (clamped to
             ``[MIN_TIMEOUT_SEC, MAX_TIMEOUT_SEC]``).
+        stream: Echo the child output live through a pty while the
+            process runs (colors and console output preserved) instead
+            of storing it in a buffer until exit.
+        notify: Optional progress callback (stream mode echoes output
+            itself; non-stream mode only notifies completion).
 
     Returns:
-        Mapping with ``ok``, ``code``, ``output`` and ``stderr``.
+        Mapping with ``ok``, ``code``, ``output``, ``stderr`` and (when a
+        stream timed out) ``timed_out``.
 
     Raises:
         ValueError: On empty args, unknown action or oversized timeout.
@@ -521,6 +965,17 @@ def run_cli(args: list[str], timeout: int = CLI_TIMEOUT_SEC) -> dict[str, Any]:
             "output": f"[skip] '{WINBOX_BIN}' is not installed; run the setup steps from winbox status.",
             "stderr": "",
         }
+    if stream:
+        try:
+            return _stream_command(
+                [binary] + [str(arg) for arg in args],
+                timeout=timeout,
+                reason=f"winbox lab action {action}",
+                artifact=action,
+                notify=notify,
+            )
+        except Exception as exc:
+            return {"ok": False, "code": -1, "output": "", "stderr": str(exc)}
     from core.hardening import safe_subprocess_run
 
     try:
@@ -529,11 +984,13 @@ def run_cli(args: list[str], timeout: int = CLI_TIMEOUT_SEC) -> dict[str, Any]:
             timeout=timeout,
             capture_output=True,
             reason=f"winbox lab action {action}",
+            extra_env=LOCALE_ENV,
         )
     except Exception as exc:
         return {"ok": False, "code": -1, "output": "", "stderr": str(exc)}
     output = ((completed.stdout or "") + "\n" + (completed.stderr or ""))[:MAX_OUTPUT_CHARS]
     record_artifact(action, output)
+    _emit_notify(notify, f"winbox {action} finished with exit {completed.returncode}")
     return {
         "ok": completed.returncode == 0,
         "code": completed.returncode,
@@ -542,12 +999,123 @@ def run_cli(args: list[str], timeout: int = CLI_TIMEOUT_SEC) -> dict[str, Any]:
     }
 
 
+def _stream_command(
+    argv: list[str],
+    *,
+    timeout: int,
+    reason: str,
+    artifact: str = "",
+    notify: Callable[[str], None] | None = None,
+) -> dict[str, Any]:
+    """Execute an argv child through a pty, printing its output live.
+
+    The child sees a real terminal so colours and rich formatting survive;
+    the transcript (with ANSI intact) is persisted under ``sessions/winbox``.
+    No shell is involved: the argument list is passed verbatim to Popen.
+
+    Args:
+        argv: Program and arguments, list form.
+        timeout: Wall-clock deadline in seconds (kills the child on expiry).
+        reason: Audit label for the log.
+        artifact: Transcript stem under ``sessions/winbox`` (empty skips).
+        notify: Optional callback for line-level messages.
+
+    Returns:
+        Mapping with ``ok``, ``code``, ``output``, ``stderr`` and
+        ``timed_out`` markers.
+    """
+    program = str(argv[0])
+    if "\0" in program or "\n" in program or "\r" in program:
+        raise ValueError("program name contains control characters")
+    for arg in argv:
+        if "\0" in str(arg):
+            raise ValueError("null byte in argument rejected")
+    log.debug("winbox stream: %s reason=%s", program, reason)
+    env = dict(os.environ)
+    env.update(LOCALE_ENV)
+    master, slave = pty.openpty()
+    chunks: list[bytes] = []
+    timed_out = False
+    try:
+        child = subprocess.Popen(
+            argv,
+            stdout=slave,
+            stderr=slave,
+            stdin=subprocess.DEVNULL,
+            shell=False,
+            env=env,
+        )
+    finally:
+        os.close(slave)
+    deadline = time.monotonic() + max(MIN_TIMEOUT_SEC, timeout)
+    last_heartbeat = 0.0
+    buffer = b""
+    try:
+        while True:
+            if time.monotonic() >= deadline:
+                timed_out = True
+                os.kill(child.pid, signal.SIGKILL)
+                break
+            try:
+                readable, _, _ = select.select([master], [], [], 1.0)
+            except (InterruptedError, OSError):
+                break
+            if not readable:
+                if child.poll() is not None:
+                    try:
+                        tail = os.read(master, 65_536)
+                    except OSError:
+                        tail = b""
+                    chunks.append(tail)
+                    break
+                continue
+            try:
+                chunk = os.read(master, 65_536)
+            except OSError:
+                break
+            if not chunk:
+                break
+            chunks.append(chunk)
+            buffer += chunk
+            while b"\n" in buffer:
+                line, _, buffer = buffer.partition(b"\n")
+                print(line.decode("utf-8", errors="replace"), flush=True)
+            now = time.monotonic()
+            if now - last_heartbeat >= HEARTBEAT_INTERVAL_SEC:
+                last_heartbeat = now
+                elapsed = int(now - (deadline - max(MIN_TIMEOUT_SEC, timeout)))
+                _emit_notify(notify, f"[waiting] winbox running... {elapsed}s elapsed")
+    finally:
+        try:
+            child.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            os.kill(child.pid, signal.SIGKILL)
+            child.wait(timeout=5)
+        os.close(master)
+    text = b"".join(chunks).decode("utf-8", errors="replace")
+    if buffer:
+        text += buffer.decode("utf-8", errors="replace")
+    if artifact:
+        record_artifact(artifact, text)
+    code = child.returncode if child.returncode is not None else -1
+    if timed_out:
+        text += "\n[stream] killed after timeout\n"
+    _emit_notify(notify, f"winbox stream finished exit {code}")
+    return {
+        "ok": code == 0 and not timed_out,
+        "code": code,
+        "output": text[:MAX_OUTPUT_CHARS * 4],
+        "stderr": "",
+        "timed_out": timed_out,
+    }
+
+
 def vm_status(timeout: int = STATUS_TIMEOUT_SEC) -> dict[str, Any]:
     """Query the WinBox VM state and address.
 
     Returns:
-        Mapping with ``state``, ``ip`` and ``raw``; empty when the CLI
-        is unavailable.
+        Mapping with ``state`` (canonical), ``ip`` and ``raw``; empty when
+        the CLI is unavailable.
     """
     binary = binary_path()
     if not binary:
@@ -560,6 +1128,7 @@ def vm_status(timeout: int = STATUS_TIMEOUT_SEC) -> dict[str, Any]:
             timeout=max(MIN_TIMEOUT_SEC, min(MAX_TIMEOUT_SEC, timeout)),
             capture_output=True,
             reason="winbox vm status",
+            extra_env=LOCALE_ENV,
         )
     except Exception as exc:
         log.debug("winbox status failed: %s", exc)
@@ -568,7 +1137,7 @@ def vm_status(timeout: int = STATUS_TIMEOUT_SEC) -> dict[str, Any]:
     state = ""
     match = _STATE_RE.search(raw)
     if match:
-        state = match.group(1).strip().lower()
+        state = _canonical_state(match.group(1).strip().lower())
     ip = ""
     match = _IP_RE.search(raw)
     if match:
@@ -628,11 +1197,11 @@ def ensure_vm_running(timeout: int = UP_TIMEOUT_SEC) -> dict[str, Any]:
             "message": "winbox is not installed; run 'winbox status' for setup guidance.",
         }
     status = vm_status()
-    state = str(status.get("state") or "").lower()
+    state = _canonical_state(str(status.get("state") or "").lower())
     if state == "running":
         ip = str(status.get("ip") or "")
         return {"success": True, "ip": ip, "message": "WinBox VM already running"}
-    result = run_cli(["up"], timeout=timeout)
+    result = run_cli(["up"], timeout=timeout, stream=True)
     if not result.get("ok"):
         return {"success": False, "ip": "", "message": (result.get("output") or "winbox up failed").strip()}
     ip = vm_ip()
@@ -728,7 +1297,9 @@ __all__ = [
     "DEFAULT_GUEST_OS",
     "EXPLOITS_DIR",
     "GUEST_OS_OPTIONS",
+    "INSTALL_TIMED_OUT_RE",
     "INDEX_PATH",
+    "LOCALE_ENV",
     "REPO_URL",
     "attack_readiness",
     "check_readiness",

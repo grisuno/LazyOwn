@@ -211,7 +211,11 @@ class WinboxCommandSet(LazyOwnCommandSet):
             lazyown_set_config("winbox_os", guest_os)
             params["winbox_os"] = guest_os
         print_msg(f"{BLUE}WinBox bootstrap — binary, prereqs, ISO, VM build, up, resolve{RESET}")
-        result = winbox_gym.ensure_lab_ready(params)
+
+        def _lab_notify(message: str) -> None:
+            print(message, flush=True)
+
+        result = winbox_gym.ensure_lab_ready(params, notify=_lab_notify)
         for stage, detail in (result.get("stages") or {}).items():
             output = str((detail or {}).get("output", "") if isinstance(detail, dict) else "").strip()
             if output:

@@ -153,6 +153,7 @@ def safe_subprocess_run(
     timeout: float | None = None,
     capture_output: bool = True,
     reason: str = "",
+    extra_env: Mapping[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
     """Execute a command via subprocess without shell interpretation.
 
@@ -161,6 +162,8 @@ def safe_subprocess_run(
         timeout: Optional wall-clock timeout in seconds.
         capture_output: Whether to capture stdout and stderr.
         reason: Free-text justification for audit logging.
+        extra_env: Optional environment additions merged over the parent
+            environment (values are verbatim overrides, never trimmed).
 
     Returns:
         CompletedProcess result.
@@ -182,6 +185,10 @@ def safe_subprocess_run(
         if "\n" in arg or "\r" in arg:
             raise SecurityViolation("Control character in argument rejected")
     log.debug("safe_subprocess_run: %s reason=%s", argv[0], reason)
+    env: dict[str, str] | None = None
+    if extra_env:
+        env = dict(os.environ)
+        env.update({str(key): str(value) for key, value in extra_env.items()})
     return subprocess.run(
         list(argv),
         shell=False,
@@ -189,6 +196,7 @@ def safe_subprocess_run(
         text=True,
         timeout=timeout,
         check=False,
+        env=env,
     )
 
 

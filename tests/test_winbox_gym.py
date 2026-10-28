@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import os
 import tempfile
 import unittest
@@ -227,13 +228,19 @@ class WinboxBootstrapSpec(unittest.TestCase):
     def test_ensure_lab_ready_skips_build_when_vm_built(self):
         with tempfile.TemporaryDirectory() as tmp:
             fake = Path(tmp) / "winbox"
-            fake.write_text("#!/bin/sh\necho 'State: running'\necho 'IP: 192.168.122.50'\n")
+            fake.write_text(
+                "#!/bin/sh\n"
+                "if [ \"$1\" = exec ]; then echo Z_OK; exit 0; fi\n"
+                "echo 'State: running'\n"
+                "echo 'IP: 192.168.122.50'\n"
+            )
             fake.chmod(0o755)
             with (
                 patch.object(winbox_gym.shutil, "which", return_value=str(fake)),
                 patch.object(winbox_gym, "resolve_target", return_value="192.168.122.50") as mock_resolve,
                 patch.object(winbox_gym, "ensure_installed", return_value={"success": True, "path": str(fake)}),
                 patch.object(winbox_gym, "ensure_prereqs", return_value={"success": True, "missing": []}),
+                patch.object(winbox_gym, "_clean_snapshot_present", return_value=True),
             ):
                 result = winbox_gym.ensure_lab_ready({})
         self.assertTrue(result["success"])
@@ -242,6 +249,7 @@ class WinboxBootstrapSpec(unittest.TestCase):
         mock_resolve.assert_called_once()
         self.assertNotIn("iso", result["stages"])
         self.assertNotIn("build", result["stages"])
+        self.assertTrue(result["stages"]["provision"]["ok"])
 
     def test_ensure_lab_ready_runs_iso_and_build_when_unbuilt(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -250,9 +258,10 @@ class WinboxBootstrapSpec(unittest.TestCase):
             fake.chmod(0o755)
             calls = []
 
-            def fake_run_cli(args, timeout=0):
+            def fake_run_cli(args, timeout=0, **kwargs):
                 calls.append(args[0])
-                return {"ok": True, "code": 0, "output": "done", "stderr": ""}
+                probe_output = "Z_OK" if args[0] == "exec" else "done"
+                return {"ok": True, "code": 0, "output": probe_output, "stderr": ""}
 
             with (
                 patch.object(winbox_gym.shutil, "which", return_value=str(fake)),
@@ -270,6 +279,7 @@ class WinboxBootstrapSpec(unittest.TestCase):
         self.assertEqual(result["ip"], "10.0.0.9")
         self.assertIn("iso", calls)
         self.assertIn("setup", calls)
+        self.assertNotIn("provision", calls)
 
     def test_ensure_lab_ready_fails_fast_on_install(self):
         with (
@@ -290,6 +300,279 @@ class WinboxBootstrapSpec(unittest.TestCase):
         for package in ("qemu-system-x86", "virtiofsd", "libwin-hivex-perl"):
             self.assertIn(package, install_command)
         self.assertIn("pip install -e .", install_command)
+
+
+class WinboxSelfHealSpec(unittest.TestCase):
+    """Mid-install recovery, snapshot gating, provisioning invariant, streaming."""
+
+    def test_canonical_state_aliases(self):
+        self.assertEqual(winbox_gym._canonical_state("ejecutando"), "running")
+        self.assertEqual(winbox_gym._canonical_state("apagado"), "shut off")
+        self.assertEqual(winbox_gym._canonical_state("shut off"), "shut off")
+        self.assertEqual(winbox_gym._canonical_state("running"), "running")
+        self.assertEqual(winbox_gym._canonical_state("not found"), "not found")
+        self.assertEqual(winbox_gym._canonical_state("pmsuspended"), "pmsuspended")
+
+    def test_spanish_status_parse(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = Path(tmp) / "winbox"
+            fake.write_text("#!/bin/sh\necho 'Estado: ejecutando'\necho 'IP: 192.168.122.77'\n")
+            fake.chmod(0o755)
+            with patch.object(winbox_gym.shutil, "which", return_value=str(fake)):
+                vm = winbox_gym.vm_status()
+        self.assertEqual(vm["state"], "running")
+        self.assertEqual(vm["ip"], "192.168.122.77")
+
+    def test_locale_env_forced_on_children(self):
+        from core.hardening import safe_subprocess_run
+
+        probe = safe_subprocess_run(
+            [
+                "python3",
+                "-c",
+                "import os; print(f\"LANG={os.environ.get('LANG','unset')} LC_ALL={os.environ.get('LC_ALL','unset')}\")",
+            ],
+            capture_output=True,
+            reason="locale probe",
+            extra_env=winbox_gym.LOCALE_ENV,
+        )
+        self.assertIn("LANG=C", probe.stdout)
+        self.assertIn("LC_ALL=C", probe.stdout)
+        self.assertNotEqual(os.environ.get("LC_ALL"), "C")
+
+    def _fake_binary(self, tmp: Path) -> str:
+        fake = Path(tmp) / "winbox"
+        fake.write_text("#!/bin/sh\nexit 0\n")
+        fake.chmod(0o755)
+        return str(fake)
+
+    def _lab_ready_patches(self, fake: str):
+        return (
+            patch.object(winbox_gym.shutil, "which", return_value=fake),
+            patch.object(winbox_gym, "ensure_installed", return_value={"success": True, "path": fake}),
+            patch.object(winbox_gym, "ensure_prereqs", return_value={"success": True, "missing": []}),
+            patch.object(winbox_gym, "resolve_target", return_value="10.0.0.9"),
+            patch.object(
+                winbox_gym,
+                "ensure_vm_running",
+                return_value={"success": True, "ip": "10.0.0.9", "message": "up"},
+            ),
+        )
+
+    def test_partial_setup_timeout_recovers_without_rebuild(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = self._fake_binary(Path(tmp))
+            completed = {"partials": 0, "destroys": 0}
+
+            def fake_run_cli(args, timeout=0, **kwargs):
+                action = args[0]
+                if action == "iso":
+                    return {"ok": True, "code": 0, "output": "iso ok", "stderr": ""}
+                if action == "setup":
+                    return {
+                        "ok": False,
+                        "code": 1,
+                        "output": "[!] Installation timed out (VM did not shut down).",
+                        "stderr": "",
+                    }
+                if action == "exec":
+                    return {"ok": True, "code": 0, "output": "Z_OK", "stderr": ""}
+                if action == "destroy":
+                    completed["destroys"] += 1
+                return {"ok": True, "code": 0, "output": "done", "stderr": ""}
+
+            def fake_complete(notify=None):
+                completed["partials"] += 1
+                completion = {"success": True, "phases": {"offline": "ok"}, "message": "phases 2-4 completed"}
+                return completion
+
+            with contextlib.ExitStack() as stack:
+                for manager in self._lab_ready_patches(fake):
+                    stack.enter_context(manager)
+                stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={}))
+                stack.enter_context(patch.object(winbox_gym, "run_cli", side_effect=fake_run_cli))
+                stack.enter_context(patch.object(winbox_gym, "_wait_for_shutdown", return_value=True))
+                stack.enter_context(patch.object(winbox_gym, "_complete_partial_build", side_effect=fake_complete))
+                result = winbox_gym.ensure_lab_ready({})
+        self.assertTrue(result["success"])
+        self.assertEqual(result["stage"], "ready")
+        self.assertEqual(completed["partials"], 1)
+        self.assertEqual(completed["destroys"], 0)
+        self.assertTrue(result["stages"]["recovery"]["ok"])
+
+    def test_partial_manual_recovery_falls_back_to_rebuild(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = self._fake_binary(Path(tmp))
+            counters = {"setup": 0, "destroy": 0}
+
+            def fake_run_cli(args, timeout=0, **kwargs):
+                action = args[0]
+                if action == "setup":
+                    counters["setup"] += 1
+                    if counters["setup"] == 1:
+                        return {"ok": False, "code": 1, "output": "Installation timed out", "stderr": ""}
+                    return {"ok": True, "code": 0, "output": "setup complete", "stderr": ""}
+                if action == "destroy":
+                    counters["destroy"] += 1
+                    return {"ok": True, "code": 0, "output": "destroyed", "stderr": ""}
+                if action == "exec":
+                    return {"ok": True, "code": 0, "output": "Z_OK", "stderr": ""}
+                return {"ok": True, "code": 0, "output": "done", "stderr": ""}
+
+            with contextlib.ExitStack() as stack:
+                for manager in self._lab_ready_patches(fake):
+                    stack.enter_context(manager)
+                stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={}))
+                stack.enter_context(patch.object(winbox_gym, "run_cli", side_effect=fake_run_cli))
+                stack.enter_context(patch.object(winbox_gym, "_wait_for_shutdown", return_value=True))
+                stack.enter_context(
+                    patch.object(
+                        winbox_gym,
+                        "_complete_partial_build",
+                        return_value={"success": False, "phases": {"error": "broken disk"}, "message": "failed"},
+                    )
+                )
+                stack.enter_context(patch.object(winbox_gym, "_install_disk_is_substantial", return_value=False))
+                result = winbox_gym.ensure_lab_ready({})
+        self.assertTrue(result["success"])
+        self.assertEqual(counters["destroy"], 1)
+        self.assertEqual(counters["setup"], 2)
+        self.assertTrue(result["stages"]["recovery"]["ok"])
+
+    def test_partial_recovery_failure_is_loud(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = self._fake_binary(Path(tmp))
+
+            def fake_run_cli(args, timeout=0, **kwargs):
+                if args[0] == "setup":
+                    return {"ok": False, "code": 1, "output": "Installation timed out", "stderr": ""}
+                if args[0] == "destroy":
+                    return {"ok": False, "code": 1, "output": "virsh error", "stderr": ""}
+                return {"ok": True, "code": 0, "output": "done", "stderr": ""}
+
+            with contextlib.ExitStack() as stack:
+                for manager in self._lab_ready_patches(fake):
+                    stack.enter_context(manager)
+                stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={}))
+                stack.enter_context(patch.object(winbox_gym, "run_cli", side_effect=fake_run_cli))
+                stack.enter_context(patch.object(winbox_gym, "_wait_for_shutdown", return_value=True))
+                stack.enter_context(
+                    patch.object(
+                        winbox_gym,
+                        "_complete_partial_build",
+                        return_value={"success": False, "phases": {}, "message": "failed"},
+                    )
+                )
+                result = winbox_gym.ensure_lab_ready({})
+        self.assertFalse(result["success"])
+        self.assertEqual(result["stage"], "recovery")
+        self.assertIn("recovery failed", result["message"])
+
+    def test_missing_snapshot_triggers_completion_for_substantial_disk(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = self._fake_binary(Path(tmp))
+            done = {"complete": 0}
+
+            def fake_complete(notify=None):
+                done["complete"] += 1
+                return {"success": True, "phases": {"offline": "ok"}, "message": "completed"}
+
+            with contextlib.ExitStack() as stack:
+                for manager in self._lab_ready_patches(fake):
+                    stack.enter_context(manager)
+                stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={"state": "shut off", "ip": ""}))
+                stack.enter_context(patch.object(winbox_gym, "run_cli", return_value={"ok": True, "code": 0, "output": "Z_OK", "stderr": ""}))
+                stack.enter_context(patch.object(winbox_gym, "_clean_snapshot_present", return_value=False))
+                stack.enter_context(patch.object(winbox_gym, "_complete_partial_build", side_effect=fake_complete))
+                stack.enter_context(patch.object(winbox_gym, "_install_disk_is_substantial", return_value=True))
+                result = winbox_gym.ensure_lab_ready({})
+        self.assertTrue(result["success"])
+        self.assertEqual(done["complete"], 1)
+        self.assertFalse(result["stages"]["snapshot"]["present"])
+
+    def test_provision_self_heals_missing_z_drive(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = self._fake_binary(Path(tmp))
+            probes = ["", "Z_OK"]
+
+            def fake_run_cli(args, timeout=0, **kwargs):
+                token = probes.pop(0) if args[0] == "exec" else "provisioned"
+                return {"ok": True, "code": 0, "output": token, "stderr": ""}
+
+            with contextlib.ExitStack() as stack:
+                for manager in self._lab_ready_patches(fake):
+                    stack.enter_context(manager)
+                stack.enter_context(patch.object(winbox_gym, "PROBE_BACKOFF_SEC", 0))
+                stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={"state": "running", "ip": "10.0.0.9"}))
+                stack.enter_context(patch.object(winbox_gym, "run_cli", side_effect=fake_run_cli))
+                stack.enter_context(patch.object(winbox_gym, "_clean_snapshot_present", return_value=True))
+                result = winbox_gym.ensure_lab_ready({})
+        self.assertTrue(result["success"])
+        self.assertTrue(result["stages"]["provision"]["ok"])
+
+    def test_provision_failure_is_loud(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = self._fake_binary(Path(tmp))
+
+            def fake_run_cli(args, timeout=0, **kwargs):
+                token = "" if args[0] == "exec" else "provision failed"
+                return {"ok": args[0] == "exec", "code": 0, "output": token, "stderr": ""}
+
+            with contextlib.ExitStack() as stack:
+                for manager in self._lab_ready_patches(fake):
+                    stack.enter_context(manager)
+                stack.enter_context(patch.object(winbox_gym, "PROBE_BACKOFF_SEC", 0))
+                stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={"state": "running", "ip": "10.0.0.9"}))
+                stack.enter_context(patch.object(winbox_gym, "run_cli", side_effect=fake_run_cli))
+                stack.enter_context(patch.object(winbox_gym, "_clean_snapshot_present", return_value=True))
+                result = winbox_gym.ensure_lab_ready({})
+        self.assertFalse(result["success"])
+        self.assertEqual(result["stage"], "provision")
+        self.assertIn("Z:", result["message"])
+
+    def test_notifications_stream_every_stage(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = self._fake_binary(Path(tmp))
+            messages = []
+
+            def fake_run_cli(args, timeout=0, **kwargs):
+                token = "Z_OK" if args[0] == "exec" else "done"
+                return {"ok": True, "code": 0, "output": token, "stderr": ""}
+
+            with contextlib.ExitStack() as stack:
+                for manager in self._lab_ready_patches(fake):
+                    stack.enter_context(manager)
+                stack.enter_context(patch.object(winbox_gym, "vm_status", return_value={"state": "running", "ip": "10.0.0.9"}))
+                stack.enter_context(patch.object(winbox_gym, "run_cli", side_effect=fake_run_cli))
+                stack.enter_context(patch.object(winbox_gym, "_clean_snapshot_present", return_value=True))
+                result = winbox_gym.ensure_lab_ready({}, notify=messages.append)
+        self.assertTrue(result["success"])
+        joined = "\n".join(messages)
+        self.assertIn("bootstrap", joined)
+        self.assertGreaterEqual(len(messages), 1)
+
+    def test_stream_command_live_output_and_transcript(self):
+        import sys as _sys
+
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.object(winbox_gym, "WINBOX_DIR", Path(tmp)):
+                result = winbox_gym._stream_command(
+                    [_sys.executable, "-c", "print('STREAM-LIVE-1'); print('STREAM-LIVE-2')"],
+                    timeout=60,
+                    reason="test stream",
+                    artifact="stream-test",
+                )
+            transcript = Path(tmp) / "stream-test.log"
+            self.assertTrue(result["ok"])
+            self.assertFalse(result["timed_out"])
+            self.assertIn("STREAM-LIVE-1", result["output"])
+            self.assertIn("STREAM-LIVE-2", result["output"])
+            self.assertTrue(transcript.is_file())
+            self.assertIn("STREAM-LIVE-1", transcript.read_text())
+
+    def test_stream_command_rejects_null_byte(self):
+        with self.assertRaises(ValueError):
+            winbox_gym._stream_command(["/bin/sh\0x"], timeout=30, reason="test")
 
 
 class WinboxMatrixSpec(unittest.TestCase):

@@ -97,18 +97,16 @@ def test_summary_score_detail_components_sum(tmp_path: Path) -> None:
     graph = build_intel_graph(_fixture_sessions(tmp_path))
     summary = write_summary(graph, tmp_path)
     top = summary["top_exposed"][0]
-    assert top["score"] == round(sum(l["points"] for l in top["score_detail"]), 2)
-    labels = " | ".join(l["label"] for l in top["score_detail"])
+    assert top["score"] == round(sum(line["points"] for line in top["score_detail"]), 2)
+    labels = " | ".join(line["label"] for line in top["score_detail"])
     assert "connectivity" in labels
     assert "findings" in labels
-
 
 def test_summary_heat_component_from_matched_cve(tmp_path: Path, monkeypatch) -> None:
     """A hot CVE candidate matched on a host raises its score with a labeled line."""
     import time
 
     from modules import lazy_cve_feed
-    from modules.lazy_world_diff import record_changes
 
     monkeypatch.setattr(
         lazy_cve_feed,
@@ -138,9 +136,23 @@ def test_summary_heat_component_from_matched_cve(tmp_path: Path, monkeypatch) ->
     graph = build_intel_graph(tmp_path)
     summary = write_summary(graph, tmp_path)
     top = summary["top_exposed"][0]
-    labels = " | ".join(l["label"] for l in top["score_detail"])
-    assert "recent exposure change" in labels or "CVE" in labels
+    labels = " | ".join(line["label"] for line in top["score_detail"])
+    assert "recent exposure change" in labels
+    assert "CVE" in labels
     assert 0 <= top["score"] <= 100
+
+
+def test_summary_recency_rewards_new_hosts(tmp_path: Path) -> None:
+    """A host that appeared this week earns the recency component."""
+    import time
+
+    (tmp_path / "lazy_changes.jsonl").write_text(
+        json.dumps({"kind": "host_new", "ip": "10.0.0.5", "port": "", "before": None,
+                    "after": {"ip": "10.0.0.5"}, "detected": time.time()}) + "\n")
+    graph = build_intel_graph(_fixture_sessions(tmp_path))
+    summary = write_summary(graph, tmp_path)
+    detail = next(h["score_detail"] for h in summary["top_exposed"] if h["host"] == "10.0.0.5")
+    assert "host appeared or returned this week" in " | ".join(line["label"] for line in detail)
 
 
 def test_summary_reports_heat_counts_and_changes(tmp_path: Path) -> None:
@@ -154,6 +166,141 @@ def test_summary_reports_heat_counts_and_changes(tmp_path: Path) -> None:
     summary = write_summary(graph, tmp_path)
     assert set(summary["heat_counts"]) == {"hot", "warm", "cold"}
     assert summary["recent_changes"][0]["kind"] == "port_opened"
+
+
+def _svg_fixture(kind_counts: dict[str, int] | None = None) -> dict:
+    """Craft a synthetic intel-graph payload with known nodes and edges."""
+    nodes: list[dict] = [
+        {"id": "c2root", "kind": "c2", "value": "c2", "degree": 3},
+        {"id": "h1", "kind": "host", "value": "10.0.0.5", "degree": 2},
+        {"id": "h2", "kind": "host-owned", "value": "10.0.0.6", "degree": 1},
+        {"id": "h3", "kind": "host", "value": "10.0.0.7", "degree": 1},
+        {"id": "s1", "kind": "service", "value": "openssh", "degree": 1, "community": "net:10.0.0.5"},
+        {"id": "c1", "kind": "cve", "value": "CVE-2023-38408", "degree": 1,
+         "heat": "hot", "heat_rank": 3, "community": "net:10.0.0.5"},
+        {"id": "c2", "kind": "cve", "value": "CVE-2015-01-01", "degree": 1,
+         "heat": "cold", "heat_rank": 1, "community": "net:10.0.0.6"},
+    ]
+    edges: list[dict] = [
+        {"source": "h1", "target": "c2root", "type": "commands"},
+        {"source": "s1", "target": "h1", "type": "opens"},
+        {"source": "c1", "target": "h1", "type": "matched"},
+        {"source": "c2", "target": "h2", "type": "matched"},
+        {"source": "h2", "target": "c2root", "type": "commands"},
+        {"source": "h3", "target": "c2root", "type": "commands"},
+    ]
+    for kind, count in (kind_counts or {}).items():
+        for index in range(count):
+            nid = f"x-{kind}-{index}"
+            nodes.append({"id": nid, "kind": kind, "value": f"{kind} {index}", "degree": 0})
+            edges.append({"source": "c1", "target": nid, "type": "observed_in"})
+    return {"nodes": nodes, "edges": edges}
+
+
+def test_svg_selection_bounded_and_deterministic() -> None:
+    """Selected nodes open with the c2 hub and stay inside the cap."""
+    payload = _svg_fixture({"intel": 200})
+    selection = intel_fusion.svg_selection(payload, cap_nodes=40)
+    assert "c2root" in selection
+    assert len(selection) == 40
+    assert intel_fusion.svg_selection(payload, cap_nodes=40) == intel_fusion.svg_selection(payload, cap_nodes=40)
+
+
+def test_relations_svg_renders_nodes_edges_and_manifest() -> None:
+    """The svg pins the c2 hub, host nodes with the matched CVE ring and edges."""
+    svg = intel_fusion.relations_svg(_svg_fixture())
+    assert svg.count("<circle") == 7
+    assert svg.count("<line") == 6
+    assert 'cx="500.0"' in svg and 'cy="300.0"' in svg
+    for host in ('data-node-kind="host"', 'fill="#4da3ff"'):
+        assert host in svg
+    assert "CVE-2023-38408" in svg
+
+
+def test_selection_is_input_order_independent() -> None:
+    """Fusion artifacts may interleave nodes; the selection must not care."""
+    payload = _svg_fixture({"intel": 8})
+    scrambled = {
+        "nodes": list(reversed(payload["nodes"])),
+        "edges": list(reversed(payload["edges"])),
+    }
+    assert intel_fusion.svg_selection(payload) == intel_fusion.svg_selection(scrambled)
+
+
+def test_relations_svg_escapes_untrusted_text() -> None:
+    """Scan-derived labels never carry raw angle brackets into the svg."""
+    payload = _svg_fixture()
+    payload["nodes"].append(
+        {"id": "evil", "kind": "finding", "value": "<script>alert(1)</script>", "degree": 1}
+    )
+    payload["edges"].append({"source": "evil", "target": "c2root", "type": "observed_in"})
+    svg = intel_fusion.relations_svg(payload)
+    assert "<script>alert(1)</script>" not in svg
+    assert "&lt;script&gt;" in svg
+
+
+def test_relations_svg_empty_graph_returns_blank() -> None:
+    """No nodes means no svg block, and the report hides the section."""
+    assert intel_fusion.relations_svg({"nodes": [], "edges": []}) == ""
+    assert intel_fusion.relations_svg({}) == ""
+
+
+def test_relations_svg_caps_heat_ranking() -> None:
+    """With a tight cap signal nodes stay and noise nodes never render."""
+    payload = _svg_fixture({"intel": 30})
+    selection = intel_fusion.svg_selection(payload, cap_nodes=4)
+    assert selection[0] == "c2root"
+    assert "c1" in selection
+    assert not any(nid.startswith("x-intel") for nid in selection)
+
+
+def test_report_renders_relations_appendix() -> None:
+    """/report wires the snapshot into a dedicated appendix."""
+    source = (_ROOT / "lazyc2.py").read_text()
+    assert 'from modules.intel_fusion import' in source
+    assert "relations_svg" in source
+    assert '"graph_svg"' in source
+    template = (_ROOT / "templates" / "report.html").read_text()
+    assert "Appendix G" in template
+    assert "graph_svg" in template
+    assert "| safe }}" in template
+
+
+def test_report_template_renders_host_scores_and_snapshot() -> None:
+    """/report renders score lines, the funnel and the relations svg."""
+    from jinja2 import Environment, FileSystemLoader
+
+    svg = intel_fusion.relations_svg(_svg_fixture())
+
+    class _User:
+        is_authenticated = True
+
+    env = Environment(loader=FileSystemLoader(str(_ROOT / "templates")))
+    env.filters["markdown"] = lambda text: text
+    env.globals["url_for"] = lambda *a, **k: "#"
+    env.globals["current_user"] = _User()
+    env.globals["get_flashed_messages"] = lambda with_categories=False: []
+    html = env.get_template("report.html").render(
+        report_data={}, tools=[], tasks=[], cves=[],
+        session_data={"params": {}, "implants": []}, implants=[],
+        loops_summary={"total": 0, "by_status": {}, "by_target": {}, "recent": []},
+        surface_intel={
+            "summary": {
+                "funnel": {"discovered": 1, "owned": 0, "with findings": 1},
+                "heat_counts": {"hot": 1, "warm": 0, "cold": 1},
+                "top_exposed": [
+                    {"host": "10.0.0.5", "score": 45.0,
+                     "score_detail": [{"label": "CVE heat", "points": 40.0}]}
+                ],
+            },
+            "changes": [], "ghosts": [], "history": [], "graph_svg": svg,
+        },
+    )
+    assert "Appendix G" in html
+    assert svg in html
+    assert "host appeared" not in html
+    assert "CVE heat +40.0" in html
+    assert "10.0.0.5" in html
 
 
 def test_llm_defaults_seeded() -> None:

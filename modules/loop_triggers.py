@@ -6,11 +6,76 @@ file so the loop core shrinks and trigger semantics stay editable in
 one place. Path resolution and JSON helpers are resolved through the
 loop core at call time, so store redirections monkeypatched by tests
 keep applying to every user of this module.
+
+Verification hints from the ``cve_hot`` trigger are fingerprinted by
+their evidence signature (``sha1`` of the normalized product and the
+version-carrying banner text): the same signature never queues a
+second pending hint inside the repeat window, a changed banner is new
+evidence and re-proposes immediately.
 """
 
 from __future__ import annotations
 
+import hashlib
+from collections.abc import Sequence
+
 TRIGGER_KINDS = ("interval", "finding", "goal", "timeout", "toolcall", "hint", "service", "task_create", "cve_hot")
+
+HINT_REPEAT_TTL_SEC = 86400.0
+HINT_FINGERPRINT_STORE = "hint_fingerprints.json"
+
+
+def hint_fingerprint(row: dict) -> str:
+    """Return the evidence signature of one hot-CVE candidate.
+
+    The signature covers the CVE id, the normalized product token
+    (generic words dropped, case folded) and the raw version banner:
+    a bump of the banner version is new evidence and re-proposes the
+    hint even inside the repeat window.
+
+    Args:
+        row: Hot match row with ``cve``, ``product`` and ``version``.
+
+    Returns:
+        Hex digest string.
+    """
+    try:
+        from modules.lazy_heat import product_token
+
+        product = product_token(row.get("product", "")) or product_token(row.get("cve", ""))
+    except Exception:
+        product = str(row.get("product", "")).strip().lower()
+    seed = "|".join(
+        (
+            str(row.get("cve", "") or ""),
+            product,
+            str(row.get("version", "") or ""),
+            str(row.get("host", "") or ""),
+            str(row.get("port", "") or ""),
+        )
+    )
+    return hashlib.sha1(seed.encode("utf-8", "replace")).hexdigest()
+
+
+def prune_hint_fingerprints(store: dict, now: float, ttl: float = HINT_REPEAT_TTL_SEC) -> dict:
+    """Return only the fresh fingerprints of a stored fingerprint map.
+
+    Args:
+        store: ``{fingerprint: last_seen_epoch}`` mapping.
+        now: Current epoch seconds.
+        ttl: Seconds a signature stays valid.
+
+    Returns:
+        Filtered mapping, ''-safe on malformed rows.
+    """
+    fresh: dict[str, float] = {}
+    for key, seen in (store or {}).items():
+        try:
+            if now - float(seen) < float(ttl):
+                fresh[str(key)] = float(seen)
+        except (TypeError, ValueError):
+            continue
+    return fresh
 
 
 def _core():
@@ -152,7 +217,7 @@ class TriggerStore:
         self.add("cve_hot", every_sec=3600.0)
         return True
 
-    def due(self, task_id: str, graph, activity, assets=None, store=None) -> list[dict]:
+    def due(self, task_id: str, graph, activity, assets=None, store=None) -> Sequence[dict]:
         """Evaluate triggers like the scheduler tick; fires at most once each.
 
         The ``service`` and ``task_create`` kinds need the asset graph /
@@ -201,23 +266,23 @@ class TriggerStore:
                 fresh = [a for a in assets.list("service") if a.asset_id > int(item.get("watermark", 0))]
                 if fresh:
                     item["watermark"] = max(a.asset_id for a in fresh)
-                    hits: list[str] = []
+                    addon_hits: list[str] = []
                     try:
                         from modules.auto_registry import addon_hits_for
 
                         for asset in fresh[:8]:
                             for name, source in addon_hits_for(asset.value, limit=3):
                                 label = f"{name}:{source}"
-                                if label not in hits:
-                                    hits.append(label)
+                                if label not in addon_hits:
+                                    addon_hits.append(label)
                     except Exception:
-                        hits = []
+                        addon_hits = []
                     fired.append(
                         {
                             "kind": "service",
                             "ids": [a.asset_id for a in fresh],
                             "services": [a.value for a in fresh[:8]],
-                            "addons": hits[:8],
+                            "addons": addon_hits[:8],
                             "id": item["id"],
                         }
                     )
@@ -278,7 +343,22 @@ class TriggerStore:
                 except Exception:
                     hits = []
                 if hits:
+                    fingerprints: dict = {}
+                    try:
+                        fingerprints = prune_hint_fingerprints(
+                            core._load_json(core._store_path(HINT_FINGERPRINT_STORE), {}), now, HINT_REPEAT_TTL_SEC
+                        )
+                    except Exception:
+                        fingerprints = {}
+                    store_changed = False
                     for row in hits:
+                        fingerprint = ""
+                        try:
+                            fingerprint = hint_fingerprint(row)
+                            if fingerprint in fingerprints:
+                                continue
+                        except Exception:
+                            fingerprint = ""
                         text = (
                             f"verify hot cve {row.get('cve', '')} (heat {row.get('heat', '')}, "
                             f"cvss {row.get('cvss', 0.0)}) on {row.get('host', '')}:{row.get('port', '')} "
@@ -286,6 +366,14 @@ class TriggerStore:
                         )
                         try:
                             graph.add_node("hint", text, state="pending", meta={"cve": row.get("cve", ""), "heat": row.get("heat", "")})
+                        except Exception:
+                            pass
+                        if fingerprint:
+                            fingerprints[fingerprint] = now
+                            store_changed = True
+                    if store_changed:
+                        try:
+                            core._save_json(core._store_path(HINT_FINGERPRINT_STORE), fingerprints)
                         except Exception:
                             pass
                     fired.append(
@@ -304,4 +392,11 @@ class TriggerStore:
         return fired
 
 
-__all__ = ["TRIGGER_KINDS", "TriggerStore"]
+__all__ = [
+    "TRIGGER_KINDS",
+    "TriggerStore",
+    "HINT_REPEAT_TTL_SEC",
+    "HINT_FINGERPRINT_STORE",
+    "hint_fingerprint",
+    "prune_hint_fingerprints",
+]

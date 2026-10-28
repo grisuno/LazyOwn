@@ -1,0 +1,30 @@
+id: ad_lab_apt
+name: AD Lab Golden Path
+description: 'Run the full AD attack path against the disposable Docker Samba DC: LDAP enumeration, SMB share discovery, RID cycling, Kerberoast the service account, and default-credential validation.'
+scenario: ad-lab
+chain: apt_ad_lab
+objective: Map the domain, harvest a crackable TGS, and prove credential compromise without leaving the lab container.
+difficulty: medium
+phases:
+- recon
+- enum
+- cred
+required_techniques:
+- ldap_enum
+- smb_enum
+- kerberoast
+bonus_techniques:
+- rid_cycling
+- default_creds
+- hash_crack
+max_points: 1500
+speed_bonus_max: 400
+stealth_bonus_max: 250
+technique_diversity_bonus: 350
+hints:
+- lab start ad-lab boots the Samba DC; destroy it with lab stop ad-lab
+- ldapsearch anonymous bind on the rootDSE reveals the naming context
+- GetUserSPNs.py -request pulls the svc_sql TGS fixture
+- lazycreds search samba lists candidate defaults for the spray
+success_check: TGS hash and confirmed credential captured
+elo_bonus: 250

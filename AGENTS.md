@@ -358,6 +358,50 @@ gating (guidance-only when the binary or prerequisites are missing).
 - Skill: `skills/winbox/SKILL.md`. Lazyaddon: `lazyaddons/winbox.yaml`
   (trigger-only registration; the shell command is the built-in CommandSet).
 
+### `modules/ad_gym.py` — AD lab gym (v1 — disposable Docker Samba DC)
+
+**Contract:** the `ad-lab` scenario is a single `nowsci/samba-domain`
+container (Kerberos 88, LDAP 389, SMB 445, Kpasswd 749): boots in ~90s,
+destroyed with `lab stop ad-lab`. `LAB_SCENARIOS["ad-lab"]` carries env
+(DOMAIN `lazylab.local`, documented fixture password constants in
+`lab_runtime`) and `privileged: true` (Samba sysvol ACL provisioning
+denies it otherwise); `start()` forwards `env`/`privileged` generically
+and `_ensure_ad_lab` idempotently creates the `svc_sql` SPN fixture.
+No ports are published: attacks go to the container IP on the Docker
+bridge.
+
+- Catalogue mirrors `metasploitable_gym`: `playbooks/gym_ad_lab.yaml`
+  index ↔ `exploits/ad_lab_*.yaml` ↔ `chains/gym_ad_lab_*.yaml`
+  (5 vectors: LDAP enum, SMB shares, RID cycling, SAMR null-session
+  enum, default-cred validation), golden path `chains/apt_ad_lab.yaml`.
+  `gym start ad_lab_apt` auto-launches the chain with the container IP
+  (auto-launch now covers every docker scenario with a chain, not just
+  winbox).
+- Evidence: `ctf_capture` gained `kerberos_ticket` (masked),
+  `domain_enum` (LDAP/SAMR/RID) and `smb_shares` checkers.
+- Lab fixture note: impacket `KRB_AP_ERR_INAPP_CKSUM` makes TGS-roasting
+  unavailable against this Samba KDC build, so the kerberoast vector was
+  replaced by the null-session SAMR enum that the lab does expose.
+
+### `modules/lazy_creds.py` + `modules/lazy_oob.py` — awesome-redteam adoption (v1)
+
+**lazycreds:** default-credential knowledge base
+(`modules/data/default_creds.csv`, ~3.4k vendor/user/pass triples from
+the open DefaultCreds-Cheat-Sheet, MIT, via threekiii/awesome-redteam).
+Pure file reads: `search`, `candidates` (frequency-ranked spray list),
+`export_pairs` (user:pass file for sprayers). Shell: `lazycreds <query> |
+--top <n> | --export <file>`.
+
+**lazyoob:** local HTTP callback canary for blind SSRF/RCE: binds to
+`lhost` (payload.json) with token paths `/oob/<token>`, records hits in
+memory + `sessions/oob_hits.jsonl`, never parses or proxies anything.
+Shell: `lazyoob start|url|hits|stop`.
+
+**Playbook:** `playbooks/web_exploitation_awesome.yaml` — 40x-bypass
+(headers, verbs, path normalisation, proxy confusion) and SQLi
+(error/boolean/time-based) technique steps distilled from the same
+collection.
+
 <!-- readmenator-agent-kb-link -->
 ## Project Knowledge Base (MUST read before coding)
 

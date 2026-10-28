@@ -1,0 +1,55 @@
+name: gym_ad_lab
+version: 1
+target: LazyOwn AD lab (Samba DC container)
+description: One exploit, one chain and one index entry per AD lab vector on the disposable Docker Samba DC.
+vulnerabilities:
+- id: ad_ldap_enum
+  name: LDAP domain enumeration
+  cve: ''
+  mitre: T1069.002
+  port: '389'
+  service: ldap
+  severity: high
+  confidence: 0.9
+  exploit: ad_lab_ldap_enum
+  chain: gym_ad_lab_ldap_enum
+- id: ad_smb_shares
+  name: SMB share discovery
+  cve: ''
+  mitre: T1135
+  port: '445'
+  service: smb
+  severity: medium
+  confidence: 0.85
+  exploit: ad_lab_smb_shares
+  chain: gym_ad_lab_smb_shares
+- id: ad_rid_cycling
+  name: Domain user enumeration via RID cycling
+  cve: ''
+  mitre: T1087.001
+  port: '445'
+  service: smb
+  severity: medium
+  confidence: 0.75
+  exploit: ad_lab_rid_cycling
+  chain: gym_ad_lab_rid_cycling
+- id: ad_samr_enum
+  name: Unauthenticated SAMR domain user enumeration
+  cve: ''
+  mitre: T1087.002
+  port: '445'
+  service: smb
+  severity: high
+  confidence: 0.9
+  exploit: ad_lab_samr_enum
+  chain: gym_ad_lab_samr_enum
+- id: ad_default_creds
+  name: Default/weak domain credential validation
+  cve: ''
+  mitre: T1110.001
+  port: '445'
+  service: smb
+  severity: high
+  confidence: 0.8
+  exploit: ad_lab_default_creds
+  chain: gym_ad_lab_default_creds

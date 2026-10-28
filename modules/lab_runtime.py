@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import secrets
 import subprocess
+import time
 from pathlib import Path
 
 from modules.metasploitable_migrations import apply_migrations as _apply_migrations
@@ -28,6 +29,15 @@ RANGE_PREFIX = "lazyown-range-"
 DOCKER_TIMEOUT_SEC = 10
 DOCKER_SHORT_TIMEOUT_SEC = 5
 DOCKER_INSPECT_TIMEOUT_SEC = 15
+AD_LAB_BOOT_TIMEOUT_SEC = 180
+AD_LAB_PROBE_INTERVAL_SEC = 10
+
+LAB_AD_DOMAIN = "lazylab.local"
+LAB_AD_NETBIOS = "LAZYLAB"
+LAB_AD_DOMAIN_PASS = "LazyOwnAd!Lab42"
+LAB_AD_SVC_USER = "svc_sql"
+LAB_AD_SVC_PASS = "SvcSql!Lab2026"
+LAB_AD_SVC_SPN = "MSSQLSvc/dc.lazylab.local:1433"
 
 LAB_SCENARIOS: dict[str, dict] = {
     "wordpress": {
@@ -37,9 +47,11 @@ LAB_SCENARIOS: dict[str, dict] = {
         "difficulty": "easy",
     },
     "ad-lab": {
-        "image": "ghcr.io/semperis/lab-ad:latest",
-        "ports": {"389/tcp": 389, "445/tcp": 445, "88/tcp": 88},
-        "description": "Active Directory lab with domain controller and workstations",
+        "image": "nowsci/samba-domain:latest",
+        "ports": {},
+        "env": {"DOMAIN": "lazylab.local", "DOMAINPASS": LAB_AD_DOMAIN_PASS, "DNSFORWARDER": "1.1.1.1"},
+        "privileged": True,
+        "description": "Samba Active Directory DC (disposable Docker lab for AD gym chains)",
         "difficulty": "medium",
     },
     "metasploitable": {
@@ -182,6 +194,51 @@ def ensure_web(scenario: str, name: str) -> None:
     )
 
 
+def _ensure_ad_lab(scenario: str, name: str) -> None:
+    """Wait for the Samba DC and create the kerberoastable fixture idempotently.
+
+    Probes ``samba-tool domain level show`` until the DC is provisioned
+    (bounded), then creates the ``svc_sql`` service account with an SPN
+    so the kerberoast vector has a real target. Every step is
+    best-effort: a failed probe never crashes the lab start.
+    """
+    if scenario != "ad-lab":
+        return
+    ready = False
+    deadline = time.monotonic() + AD_LAB_BOOT_TIMEOUT_SEC
+    while time.monotonic() < deadline:
+        probe = _docker("exec", name, "samba-tool", "domain", "level", "show", timeout=DOCKER_TIMEOUT_SEC)
+        if probe.returncode == 0:
+            ready = True
+            break
+        time.sleep(AD_LAB_PROBE_INTERVAL_SEC)
+    if not ready:
+        return
+    listing = _docker("exec", name, "samba-tool", "user", "list", timeout=DOCKER_TIMEOUT_SEC)
+    if LAB_AD_SVC_USER in (listing.stdout or "").split():
+        return
+    _docker(
+        "exec",
+        name,
+        "samba-tool",
+        "user",
+        "create",
+        LAB_AD_SVC_USER,
+        LAB_AD_SVC_PASS,
+        timeout=DOCKER_TIMEOUT_SEC,
+    )
+    _docker(
+        "exec",
+        name,
+        "samba-tool",
+        "spn",
+        "add",
+        LAB_AD_SVC_SPN,
+        LAB_AD_SVC_USER,
+        timeout=DOCKER_TIMEOUT_SEC,
+    )
+
+
 def apply_gym_migrations(name: str) -> dict:
     """Apply the metasploitable gym migrations, returning the report."""
     try:
@@ -206,6 +263,7 @@ def start(scenario: str) -> dict:
     name = container_name(scenario)
     if name in running_containers():
         ensure_web(scenario, name)
+        _ensure_ad_lab(scenario, name)
         return {
             "success": True,
             "already": True,
@@ -221,6 +279,10 @@ def start(scenario: str) -> dict:
     if stale:
         _docker("rm", "-f", name, timeout=DOCKER_INSPECT_TIMEOUT_SEC)
     cmd = ["run", "-d", "-i", "--rm", "--name", name]
+    if info.get("privileged"):
+        cmd.append("--privileged")
+    for env_key, env_value in (info.get("env") or {}).items():
+        cmd.extend(["-e", f"{env_key}={env_value}"])
     for container_port, host_port in info.get("ports", {}).items():
         cmd.extend(["-p", f"{host_port}:{container_port.split('/')[0]}"])
     cmd.append(info["image"])
@@ -228,6 +290,7 @@ def start(scenario: str) -> dict:
     if run.returncode != 0:
         return {"success": False, "error": (run.stderr or run.stdout or "")[-300:], "ports": {}}
     ensure_web(scenario, name)
+    _ensure_ad_lab(scenario, name)
     return {
         "success": True,
         "already": False,

@@ -1,0 +1,26 @@
+id: ad_domain_enum
+name: AD Domain Enumeration
+description: 'Against the disposable Docker Samba DC, enumerate the domain without credentials: anonymous LDAP rootDSE, SAMR user enumeration via null session, and SMB share discovery. Chain the full golden path afterwards.'
+scenario: ad-lab
+chain: gym_ad_lab_samr_enum
+objective: List every domain user and share with zero credentials.
+difficulty: easy
+phases:
+- recon
+- enum
+required_techniques:
+- samr_enum
+- ldap_enum
+bonus_techniques:
+- smb_enum
+- rid_cycling
+max_points: 900
+speed_bonus_max: 300
+stealth_bonus_max: 200
+technique_diversity_bonus: 250
+hints:
+- lab start ad-lab boots the Samba DC; destroy it with lab stop ad-lab
+- rpcclient -U '' -N <dc> -c enumdomusers
+- ldapsearch -x -H ldap://<dc> -s base -b ''
+success_check: Domain users and shares captured without authentication
+elo_bonus: 150

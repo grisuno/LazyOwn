@@ -14,6 +14,7 @@ import logging
 import re
 from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 log = logging.getLogger(__name__)
 
@@ -27,6 +28,9 @@ WINDOWS_OS_ENUM_RE = re.compile(r"(?im)^\s*OS:\s*Windows|^\s*OS Name\s*:", re.MU
 NETBIOS_NAME_RE = re.compile(r"(?im)^\s*NetBIOS computer name:\s*\S+", re.MULTILINE)
 DEFENSE_REPORT_RE = re.compile(r"(?i)RealTimeProtection\w*|AntivirusEnabled|AppLocker|HVCI")
 EVENTLOG_CSV_RE = re.compile(r"(?im)^\s*Time\s*,\s*Log\s*,\s*Level\s*,\s*Id\s*,\s*Provider|,\s*Security\s*,")
+KERBEROS_TICKET_RE = re.compile(r"\$krb5(?:tgs|asrep)\$[0-9]+\$")
+DOMAIN_ENUM_RE = re.compile(r"(?im)namingContexts|sAMAccountName|SidType(?:User|Group|Domain)|user:\[")
+SMB_SHARE_RE = re.compile(r"(?im)^\s*\S+:\s+(?:Disk|IPC|Printer)\b|Sharename")
 
 
 def output_dir(sessions_dir: str | Path | None = None) -> Path:
@@ -138,6 +142,45 @@ def _check_eventlog_rows(output: str) -> str:
     return match.group(0).strip() if match else ""
 
 
+def _check_kerberos_ticket(output: str) -> str:
+    """Return a masked Kerberos hash token (TGS/AS-REP roast), or "".
+
+    Args:
+        output: Raw command/exploit output text.
+
+    Returns:
+        The abbreviated hash prefix (secret material never stored), or "".
+    """
+    match = KERBEROS_TICKET_RE.search(output or "")
+    return f"{match.group(0)}<masked>" if match else ""
+
+
+def _check_domain_enum(output: str) -> str:
+    """Return domain enumeration evidence (LDAP context, user, RID), or "".
+
+    Args:
+        output: Raw command/exploit output text.
+
+    Returns:
+        The matched evidence string, or "".
+    """
+    match = DOMAIN_ENUM_RE.search(output or "")
+    return match.group(0).strip() if match else ""
+
+
+def _check_smb_shares(output: str) -> str:
+    """Return SMB share listing evidence, or "".
+
+    Args:
+        output: Raw command/exploit output text.
+
+    Returns:
+        The matched evidence string, or "".
+    """
+    match = SMB_SHARE_RE.search(output or "")
+    return match.group(0).strip() if match else ""
+
+
 CHECKERS: tuple[tuple[str, Callable[[str], str]], ...] = (
     ("root_shell", _check_root_shell),
     ("shadow_dump", _check_shadow_dump),
@@ -145,6 +188,9 @@ CHECKERS: tuple[tuple[str, Callable[[str], str]], ...] = (
     ("windows_os_enum", _check_windows_os_enum),
     ("defense_report", _check_defense_report),
     ("eventlog_rows", _check_eventlog_rows),
+    ("kerberos_ticket", _check_kerberos_ticket),
+    ("domain_enum", _check_domain_enum),
+    ("smb_shares", _check_smb_shares),
 )
 
 

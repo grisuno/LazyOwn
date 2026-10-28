@@ -1,0 +1,73 @@
+name: apt_ad_lab
+version: 2
+description: 'AD lab golden path: LDAP enum, SMB shares, RID cycling, Kerberoast, default-cred validation.'
+enabled: true
+tags:
+- apt
+- ad-lab
+- samba
+- gym
+platforms:
+- linux
+defaults:
+  lhost: 127.0.0.1
+  lport: '4444'
+  port: '389'
+  exploit: ''
+  vuln: ''
+steps:
+- id: scope
+  phase: recon
+  description: Bind the lab target.
+  run: assign target {target}
+- id: scan
+  phase: recon
+  description: Scan once and reuse the XML on later runs.
+  run: lazynmap {target}
+  skip_if_exists: sessions/scan_{target}.nmap.xml
+  timeout: 900
+- id: ldap
+  phase: enum
+  description: LDAP domain enumeration (naming contexts and users).
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_ldap_enum --rhost {target}
+    --lhost {lhost} --lport {lport} --port 389 --feed
+  timeout: 120
+  continue_on_error: true
+- id: shares
+  phase: enum
+  description: SMB share discovery.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_smb_shares --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 120
+  continue_on_error: true
+- id: rid
+  phase: enum
+  description: Domain user enumeration via RID cycling.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_rid_cycling --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 180
+  continue_on_error: true
+- id: samr
+  phase: enum
+  description: Unauthenticated SAMR domain user enumeration via null session.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_samr_enum --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 120
+  continue_on_error: true
+- id: creds
+  phase: cred
+  description: Validate the lab default credential against SMB with lazycreds context.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_default_creds --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 120
+  continue_on_error: true
+- id: sync
+  phase: report
+  description: Mirror the loop graphs into world model and objectives.
+  run: lazy_sync
+  continue_on_error: true
+- id: session
+  phase: report
+  description: Refresh the C2 session report.
+  run: create_session_json
+  continue_on_error: true

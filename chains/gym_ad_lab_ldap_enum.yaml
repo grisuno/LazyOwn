@@ -1,0 +1,15 @@
+name: gym_ad_lab_ldap_enum
+version: 2
+description: 'AD lab: ad lab ldap enum (disposable Docker Samba DC).'
+enabled: true
+extends: gym_ad_lab_chain
+tags:
+- gym
+- ad-lab
+- samba
+platforms:
+- linux
+defaults:
+  exploit: ad_lab_ldap_enum
+  vuln: ad_ldap_enum
+  port: '389'

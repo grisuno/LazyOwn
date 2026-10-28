@@ -77,7 +77,7 @@ Full table: [`COMPARISON.md`](COMPARISON.md). Found an error? Open an issue, we 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y2Z73AV)
 
 
-LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU General Public License v3.
+LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU Affero General Public License v3.
 See the LICENSE file for details about using this software.
 
  # LazyOwn RedTeam Framework v 0.4.10

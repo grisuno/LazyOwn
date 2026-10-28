@@ -356,6 +356,7 @@ See [`COMMANDS.md`](COMMANDS.md) for the full 837-command reference and [`ESSENT
 | [`docs/autonomous-loop.md`](docs/autonomous-loop.md) | Autonomous loop: pipeline stages, auto verbs, observability, audit, teardown, retry/resume, chain distillation, verb catalog |
 | [`docs/command_chain.md`](docs/command_chain.md) | `prev`/`next`: what runs before and after a verb |
 | [`docs/metasploitable-gym.md`](docs/metasploitable-gym.md) | Gym: 45 indexed MS2 vectors, migrations, verified matrix |
+| [`docs/lab-gym-toolkit.md`](docs/lab-gym-toolkit.md) | AD Docker gym, self-healing WinBox gym, gym auto-chain, lab scope guard, lazycreds KB, lazyoob canary, web playbook, kerninc addon |
 | [`docs/mcp-setup.md`](docs/mcp-setup.md) | MCP setup per agent, env vars, 153 tool groups |
 | [`docs/cli-ux.md`](docs/cli-ux.md) | Audit mode, fuzzy autocomplete, prompt themes, palette, dashboard |
 | [`docs/ai-architecture.md`](docs/ai-architecture.md) | MoE router, RL trainer, SWAN, Hive Mind, detection oracle |

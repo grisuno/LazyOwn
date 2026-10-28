@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import json
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -491,7 +492,12 @@ def _resolve_active_run(selector: str = "", operator: str = "") -> tuple[dict[st
     return run, ""
 
 
-def start_challenge(challenge_id: str, target: str = "", spin_lab: bool = True) -> dict[str, Any]:
+def start_challenge(
+    challenge_id: str,
+    target: str = "",
+    spin_lab: bool = True,
+    notify: Callable[[str], None] | None = None,
+) -> dict[str, Any]:
     """Begin a gym challenge and persist the run in the world model.
 
     When ``spin_lab`` is set the challenge's scenario container is also
@@ -503,6 +509,8 @@ def start_challenge(challenge_id: str, target: str = "", spin_lab: bool = True) 
         challenge_id: ID from the YAML catalogue.
         target: Optional engagement target stored with the run.
         spin_lab: Also spin up the scenario target container.
+        notify: Optional progress callback streamed while the lab
+            bootstrap runs (ignored by run-only scenarios).
 
     Returns:
         Dict with the run id, challenge info, lab info and next steps.
@@ -524,7 +532,7 @@ def start_challenge(challenge_id: str, target: str = "", spin_lab: bool = True) 
     lab: dict[str, Any] = {}
     lab_started = False
     if spin_lab:
-        lab = _spin_scenario(chal.get("scenario", ""))
+        lab = _spin_scenario(chal.get("scenario", ""), notify=notify)
         lab_started = bool(lab.get("success"))
     result = {
         "success": True,
@@ -592,12 +600,14 @@ def start_challenge(challenge_id: str, target: str = "", spin_lab: bool = True) 
     return result
 
 
-def _spin_scenario(scenario: str) -> dict[str, Any]:
+def _spin_scenario(scenario: str, notify: Callable[[str], None] | None = None) -> dict[str, Any]:
     """Spin up one lab scenario container, best effort.
 
     Args:
         scenario: Scenario key from ``LAB_SCENARIOS`` (empty and range
             scenarios like ``ad-mini`` are skipped).
+        notify: Optional progress callback forwarded to the WinBox lab
+            bootstrap for live stage streaming.
 
     Returns:
         The :mod:`modules.lab_runtime` start mapping, or ``{}`` when the
@@ -612,7 +622,7 @@ def _spin_scenario(scenario: str) -> dict[str, Any]:
 
             if not winbox_gym.binary_path():
                 return {}
-            ready = winbox_gym.ensure_lab_ready()
+            ready = winbox_gym.ensure_lab_ready(notify=notify)
             message = str(ready.get("message") or "")
             return {
                 "success": bool(ready.get("success")),
@@ -621,6 +631,7 @@ def _spin_scenario(scenario: str) -> dict[str, Any]:
                 "stage": str(ready.get("stage") or ""),
                 "message": message,
                 "error": message,
+                "stages": ready.get("stages") or {},
             }
         except Exception:
             return {}

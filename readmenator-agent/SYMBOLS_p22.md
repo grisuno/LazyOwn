@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TrafficRecorder` | class | `modules/traffic_recorder.py:91` | `class TrafficRecorder` |
+| `__init__` | method | `modules/traffic_recorder.py:94` | `def __init__(self, base_dir)` |
+| `_connect` | method | `modules/traffic_recorder.py:132` | `def _connect(self)` |
+| `_fts_query` | method | `modules/traffic_recorder.py:375` | `def _fts_query(query)` |
+| `_index_fts` | method | `modules/traffic_recorder.py:323` | `def _index_fts(self, exchange_id, req, resp)` |
+| `_migrate_fts` | method | `modules/traffic_recorder.py:115` | `def _migrate_fts(self, conn)` |
+| `_scan_bodies` | method | `modules/traffic_recorder.py:422` | `def _scan_bodies(self, needle, limit)` |
+| `backfill_fts` | method | `modules/traffic_recorder.py:343` | `def backfill_fts(self, batch)` |
+| `count` | method | `modules/traffic_recorder.py:317` | `def count(self)` |
+| `export_archive` | method | `modules/traffic_recorder.py:451` | `def export_archive(self, path, limit, task)` |
+| `gc` | method | `modules/traffic_recorder.py:587` | `def gc(self, older_than_sec)` |
+| `get_body` | method | `modules/traffic_recorder.py:275` | `def get_body(self, exchange_id)` |
+| `import_archive` | method | `modules/traffic_recorder.py:493` | `def import_archive(self, path)` |
+| `import_inbox` | method | `modules/traffic_recorder.py:554` | `def import_inbox(self, inbox_dir)` |
+| `latest_rowid` | method | `modules/traffic_recorder.py:247` | `def latest_rowid(self)` |
+| `query` | method | `modules/traffic_recorder.py:253` | `def query(self, host, status, limit, offset, task)` |
+| `read_body` | method | `modules/traffic_recorder.py:284` | `def read_body(self, exchange_id, part, offset, length)` |
+| `record` | method | `modules/traffic_recorder.py:138` | `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...` |
+| `search_body` | method | `modules/traffic_recorder.py:382` | `def search_body(self, query, limit)` |
+| `since` | method | `modules/traffic_recorder.py:230` | `def since(self, rowid, limit)` |
+| `url_template` | function | `modules/traffic_recorder.py:69` | `def url_template(url)` |
+| `TriggerPolicyConfig` | class | `modules/trigger_policy.py:31` | `class TriggerPolicyConfig` |
+| `_coerce_every_sec` | function | `modules/trigger_policy.py:79` | `def _coerce_every_sec(value)` |
+| `export_store` | function | `modules/trigger_policy.py:171` | `def export_store(task_id)` |
+| `read_policy` | function | `modules/trigger_policy.py:120` | `def read_policy(path)` |
+| `remove_seed` | function | `modules/trigger_policy.py:185` | `def remove_seed(kind, arg, task_id)` |
+| `seed_store` | function | `modules/trigger_policy.py:146` | `def seed_store(policy, store, task_id)` |
+| `seeds` | function | `modules/trigger_policy.py:87` | `def seeds(raw)` |
+| `validate_triggers` | function | `modules/trigger_policy.py:40` | `def validate_triggers(raw)` |
+| `TTPCoverage` | class | `modules/ttp_coverage.py:65` | `class TTPCoverage` |
+| `TTPRow` | class | `modules/ttp_coverage.py:55` | `class TTPRow` |
+| `__init__` | method | `modules/ttp_coverage.py:68` | `def __init__(self)` |
+| `_blocking_facts` | method | `modules/ttp_coverage.py:168` | `def _blocking_facts(self, tactic)` |
+| `_load_state` | method | `modules/ttp_coverage.py:248` | `def _load_state(self)` |
+| `_save_state` | method | `modules/ttp_coverage.py:241` | `def _save_state(self)` |
+| `add` | method | `modules/ttp_coverage.py:125` | `def add(self, technique_id, name, tactic, status, operation_id)` |
+| `compute_ready` | method | `modules/ttp_coverage.py:149` | `def compute_ready(self, available_facts)` |
+| `get_coverage` | function | `modules/ttp_coverage.py:260` | `def get_coverage()` |
+| `matrix` | method | `modules/ttp_coverage.py:190` | `def matrix(self)` |
+| `rebuild_from_operations` | method | `modules/ttp_coverage.py:76` | `def rebuild_from_operations(self)` |
+| `status_by_id` | method | `modules/ttp_coverage.py:231` | `def status_by_id(self, technique_id)` |
+| `to_dict` | method | `modules/ttp_coverage.py:234` | `def to_dict(self)` |
+| `_as_list` | function | `modules/ttpscope_bridge.py:460` | `def _as_list(value)` |
+| `_cache_dataset_path` | function | `modules/ttpscope_bridge.py:146` | `def _cache_dataset_path()` |
+| `_fallback_matrix_bundle` | function | `modules/ttpscope_bridge.py:384` | `def _fallback_matrix_bundle(platform)` |
 | `_fallback_matrix_parquet` | function | `modules/ttpscope_bridge.py:453` | `def _fallback_matrix_parquet(platform)` |
 | `_fallback_note` | function | `modules/ttpscope_bridge.py:422` | `def _fallback_note(object_id, text)` |
 | `_fallback_notes` | function | `modules/ttpscope_bridge.py:442` | `def _fallback_notes(object_id)` |
@@ -274,30 +319,44 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `hook_CreateFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:85` | `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...` |
 | `hook_FindFirstFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:75` | `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)` |
 | `should_hide_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:65` | `int should_hide_pid(const char* pid)` |
-| `_load_yaml` | function | `modules/winbox_gym.py:127` | `def _load_yaml(path)` |
-| `_missing_prereqs` | function | `modules/winbox_gym.py:329` | `def _missing_prereqs()` |
-| `_prereq_path` | function | `modules/winbox_gym.py:314` | `def _prereq_path(name)` |
-| `_vm_built_from` | function | `modules/winbox_gym.py:595` | `def _vm_built_from(status)` |
-| `attack_readiness` | function | `modules/winbox_gym.py:665` | `def attack_readiness(params)` |
-| `binary_path` | function | `modules/winbox_gym.py:257` | `def binary_path()` |
-| `chain_for` | function | `modules/winbox_gym.py:164` | `def chain_for(vuln_id, path)` |
-| `check_readiness` | function | `modules/winbox_gym.py:334` | `def check_readiness(params)` |
-| `ensure_installed` | function | `modules/winbox_gym.py:262` | `def ensure_installed(params, timeout)` |
-| `ensure_lab_ready` | function | `modules/winbox_gym.py:430` | `def ensure_lab_ready(params)` |
-| `ensure_prereqs` | function | `modules/winbox_gym.py:375` | `def ensure_prereqs(timeout)` |
-| `ensure_vm_running` | function | `modules/winbox_gym.py:615` | `def ensure_vm_running(timeout)` |
-| `exploit_for` | function | `modules/winbox_gym.py:174` | `def exploit_for(vuln_id, path)` |
-| `get` | function | `modules/winbox_gym.py:155` | `def get(vuln_id, path)` |
-| `load_index` | function | `modules/winbox_gym.py:144` | `def load_index(path)` |
-| `main` | function | `modules/winbox_gym.py:693` | `def main()` |
-| `record_artifact` | function | `modules/winbox_gym.py:642` | `def record_artifact(name, output)` |
-| `resolve_target` | function | `modules/winbox_gym.py:601` | `def resolve_target()` |
-| `run_cli` | function | `modules/winbox_gym.py:492` | `def run_cli(args, timeout)` |
-| `summary` | function | `modules/winbox_gym.py:233` | `def summary(path)` |
-| `validate_matrix` | function | `modules/winbox_gym.py:184` | `def validate_matrix(path)` |
-| `vm_ip` | function | `modules/winbox_gym.py:579` | `def vm_ip()` |
-| `vm_status` | function | `modules/winbox_gym.py:545` | `def vm_status(timeout)` |
-| `vulnerabilities` | function | `modules/winbox_gym.py:149` | `def vulnerabilities(path)` |
+| `_c_locale_process_env` | function | `modules/winbox_gym.py:190` | `def _c_locale_process_env()` |
+| `_canonical_state` | function | `modules/winbox_gym.py:164` | `def _canonical_state(raw)` |
+| `_clean_snapshot_present` | function | `modules/winbox_gym.py:508` | `def _clean_snapshot_present()` |
+| `_complete_partial_build` | function | `modules/winbox_gym.py:645` | `def _complete_partial_build(notify)` |
+| `_emit_notify` | function | `modules/winbox_gym.py:179` | `def _emit_notify(notifier, message)` |
+| `_guest_probe_z_drive` | function | `modules/winbox_gym.py:767` | `def _guest_probe_z_drive()` |
+| `_guest_probe_z_drive_retries` | function | `modules/winbox_gym.py:781` | `def _guest_probe_z_drive_retries()` |
+| `_install_disk_is_substantial` | function | `modules/winbox_gym.py:537` | `def _install_disk_is_substantial()` |
+| `_load_yaml` | function | `modules/winbox_gym.py:205` | `def _load_yaml(path)` |
+| `_missing_prereqs` | function | `modules/winbox_gym.py:407` | `def _missing_prereqs()` |
+| `_prereq_path` | function | `modules/winbox_gym.py:392` | `def _prereq_path(name)` |
+| `_recover_partial_build` | function | `modules/winbox_gym.py:705` | `def _recover_partial_build(notify, build_timeout)` |
+| `_repair_guest_ntfs` | function | `modules/winbox_gym.py:588` | `def _repair_guest_ntfs(notify)` |
+| `_stream_command` | function | `modules/winbox_gym.py:1002` | `def _stream_command(argv)` |
+| `_verify_provisioning` | function | `modules/winbox_gym.py:798` | `def _verify_provisioning(notify)` |
+| `_vm_built_from` | function | `modules/winbox_gym.py:1164` | `def _vm_built_from(status)` |
+| `_wait_for_shutdown` | function | `modules/winbox_gym.py:560` | `def _wait_for_shutdown(timeout, notify)` |
+| `_winbox_disk_path` | function | `modules/winbox_gym.py:634` | `def _winbox_disk_path()` |
+| `attack_readiness` | function | `modules/winbox_gym.py:1234` | `def attack_readiness(params)` |
+| `binary_path` | function | `modules/winbox_gym.py:335` | `def binary_path()` |
+| `chain_for` | function | `modules/winbox_gym.py:242` | `def chain_for(vuln_id, path)` |
+| `check_readiness` | function | `modules/winbox_gym.py:412` | `def check_readiness(params)` |
+| `ensure_installed` | function | `modules/winbox_gym.py:340` | `def ensure_installed(params, timeout)` |
+| `ensure_lab_ready` | function | `modules/winbox_gym.py:822` | `def ensure_lab_ready(params)` |
+| `ensure_prereqs` | function | `modules/winbox_gym.py:453` | `def ensure_prereqs(timeout)` |
+| `ensure_vm_running` | function | `modules/winbox_gym.py:1184` | `def ensure_vm_running(timeout)` |
+| `exploit_for` | function | `modules/winbox_gym.py:252` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/winbox_gym.py:233` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/winbox_gym.py:222` | `def load_index(path)` |
+| `main` | function | `modules/winbox_gym.py:1262` | `def main()` |
+| `record_artifact` | function | `modules/winbox_gym.py:1211` | `def record_artifact(name, output)` |
+| `resolve_target` | function | `modules/winbox_gym.py:1170` | `def resolve_target()` |
+| `run_cli` | function | `modules/winbox_gym.py:924` | `def run_cli(args, timeout)` |
+| `summary` | function | `modules/winbox_gym.py:311` | `def summary(path)` |
+| `validate_matrix` | function | `modules/winbox_gym.py:262` | `def validate_matrix(path)` |
+| `vm_ip` | function | `modules/winbox_gym.py:1148` | `def vm_ip()` |
+| `vm_status` | function | `modules/winbox_gym.py:1113` | `def vm_status(timeout)` |
+| `vulnerabilities` | function | `modules/winbox_gym.py:227` | `def vulnerabilities(path)` |
 | `list_entries` | function | `modules/workspace.py:46` | `def list_entries(rel)` |
 | `make_dir` | function | `modules/workspace.py:83` | `def make_dir(rel)` |
 | `read_text` | function | `modules/workspace.py:63` | `def read_text(rel, limit)` |
@@ -437,64 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `run_python_rev_c2` | function | `plugins/run_python_rev_c2.lua:2` | `` |
 | `base64_encode` | function | `plugins/rundll32_sct_from_url.lua:22` | `` |
 | `generate_sct` | function | `plugins/rundll32_sct_from_url.lua:58` | `` |
-| `read_file` | function | `plugins/rundll32_sct_from_url.lua:12` | `` |
-| `write_file` | function | `plugins/rundll32_sct_from_url.lua:4` | `` |
-| `esc_hex_to_bytes` | function | `plugins/validate_shellcode.lua:21` | `` |
-| `hex_list_to_byte_values` | function | `plugins/validate_shellcode.lua:65` | `` |
-| `hex_to_bytes` | function | `plugins/validate_shellcode.lua:2` | `` |
-| `validate_shellcode` | function | `plugins/validate_shellcode.lua:81` | `` |
-| `visualize_network` | function | `plugins/visualize_network.lua:1` | `` |
-| `DashboardPanel` | class | `poc_tui/app.py:137` | `class DashboardPanel(Static)` |
-| `LazyOwnTUI` | class | `poc_tui/app.py:297` | `class LazyOwnTUI(App)` |
-| `OutputPanel` | class | `poc_tui/app.py:240` | `class OutputPanel(VerticalScroll)` |
-| `PluginBrowser` | class | `poc_tui/app.py:195` | `class PluginBrowser(Static)` |
-| `ShellBackend` | class | `poc_tui/app.py:44` | `class ShellBackend` |
-| `__init__` | method | `poc_tui/app.py:47` | `def __init__(self, base_dir)` |
-| `__init__` | method | `poc_tui/app.py:140` | `def __init__(self, base_dir)` |
-| `__init__` | method | `poc_tui/app.py:198` | `def __init__(self)` |
-| `__init__` | method | `poc_tui/app.py:248` | `def __init__(self)` |
-| `__init__` | method | `poc_tui/app.py:394` | `def __init__(self, base_dir)` |
-| `_auto_refresh_dashboard` | method | `poc_tui/app.py:464` | `def _auto_refresh_dashboard(self)` |
-| `_drain_queue` | method | `poc_tui/app.py:495` | `def _drain_queue(self)` |
-| `_guess_category` | method | `poc_tui/app.py:223` | `def _guess_category(name, help_text)` |
-| `_init_backend` | function | `poc_tui/app.py:429` | `def _init_backend()` |
-| `_log` | method | `poc_tui/app.py:255` | `def _log(self)` |
-| `_on_backend_ready` | method | `poc_tui/app.py:444` | `def _on_backend_ready(self)` |
-| `_show_result` | method | `poc_tui/app.py:525` | `def _show_result(self, result)` |
-| `_tab_complete` | method | `poc_tui/app.py:605` | `def _tab_complete(self, inp)` |
-| `_work` | function | `poc_tui/app.py:510` | `def _work()` |
-| `action_clear_output` | method | `poc_tui/app.py:539` | `def action_clear_output(self)` |
-| `action_quit` | method | `poc_tui/app.py:561` | `def action_quit(self)` |
-| `action_refresh_dashboard` | method | `poc_tui/app.py:555` | `def action_refresh_dashboard(self)` |
-| `action_tab_complete` | method | `poc_tui/app.py:544` | `def action_tab_complete(self)` |
-| `action_toggle_sidebar` | method | `poc_tui/app.py:549` | `def action_toggle_sidebar(self)` |
-| `append_command` | method | `poc_tui/app.py:268` | `def append_command(self, cmd)` |
-| `append_error` | method | `poc_tui/app.py:283` | `def append_error(self, text)` |
-| `append_result` | method | `poc_tui/app.py:273` | `def append_result(self, text, success)` |
-| `append_system` | method | `poc_tui/app.py:287` | `def append_system(self, text)` |
-| `compose` | method | `poc_tui/app.py:144` | `def compose(self)` |
-| `compose` | method | `poc_tui/app.py:201` | `def compose(self)` |
-| `compose` | method | `poc_tui/app.py:252` | `def compose(self)` |
-| `compose` | method | `poc_tui/app.py:405` | `def compose(self)` |
-| `execute_command` | method | `poc_tui/app.py:470` | `def execute_command(self, cmd_str)` |
-| `get_aliases` | method | `poc_tui/app.py:119` | `def get_aliases(self)` |
-| `get_commands` | method | `poc_tui/app.py:106` | `def get_commands(self)` |
-| `import_shell_class` | method | `poc_tui/app.py:53` | `def import_shell_class(self)` |
-| `main` | function | `poc_tui/app.py:629` | `def main()` |
-| `on_command_submitted` | method | `poc_tui/app.py:577` | `def on_command_submitted(self, event)` |
-| `on_key` | method | `poc_tui/app.py:586` | `def on_key(self, event)` |
-| `on_mount` | method | `poc_tui/app.py:418` | `def on_mount(self)` |
-| `refresh_data` | method | `poc_tui/app.py:165` | `def refresh_data(self, backend, cmd_count)` |
-| `run` | method | `poc_tui/app.py:83` | `def run(self, cmd)` |
-| `start` | method | `poc_tui/app.py:71` | `def start(self)` |
-| `stop` | method | `poc_tui/app.py:124` | `def stop(self)` |
-| `update_commands` | method | `poc_tui/app.py:207` | `def update_commands(self, commands)` |
-| `write_markup` | method | `poc_tui/app.py:263` | `def write_markup(self, text)` |
-| `write_renderable` | method | `poc_tui/app.py:258` | `def write_renderable(self, renderable)` |
-| `PayloadConfig` | class | `poc_tui/config.py:12` | `class PayloadConfig` |
-| `__contains__` | method | `poc_tui/config.py:53` | `def __contains__(self, key)` |
-| `__getitem__` | method | `poc_tui/config.py:47` | `def __getitem__(self, key)` |
-| `__post_init__` | method | `poc_tui/config.py:18` | `def __post_init__(self)` |
-| `__setitem__` | method | `poc_tui/config.py:50` | `def __setitem__(self, key, value)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

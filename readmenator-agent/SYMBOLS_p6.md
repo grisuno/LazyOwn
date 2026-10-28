@@ -3,6 +3,12 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_resolve_phase` | function | `cli/recon_plan.py:474` | `def _resolve_phase(payload, config)` |
+| `_safe_filename_component` | function | `cli/recon_plan.py:486` | `def _safe_filename_component(value)` |
+| `_service_for_trigger` | function | `cli/recon_plan.py:414` | `def _service_for_trigger(trigger, services)` |
+| `_tool_command_preview` | function | `cli/recon_plan.py:428` | `def _tool_command_preview(tool, payload)` |
+| `_tool_items` | function | `cli/recon_plan.py:347` | `def _tool_items(tools, services, payload)` |
+| `build_recon_plan` | function | `cli/recon_plan.py:144` | `def build_recon_plan(target, engine, payload, config, command_index_loader, clock)` |
 | `is_empty` | method | `cli/recon_plan.py:139` | `def is_empty(self)` |
 | `render_markdown` | function | `cli/recon_plan.py:207` | `def render_markdown(plan)` |
 | `render_rich` | function | `cli/recon_plan.py:299` | `def render_rich(plan, console)` |
@@ -490,11 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `main` | function | `contrib/legacy/lazycam.py:257` | `def main()` |
 | `resizeImg` | method | `contrib/legacy/lazycam.py:68` | `def resizeImg(self, img, output, height, ratio, fmt)` |
 | `run` | method | `contrib/legacy/lazycam.py:49` | `def run(self)` |
-| `scanner` | method | `contrib/legacy/lazycam.py:83` | `def scanner(self)` |
-| `splitCSV` | method | `contrib/legacy/lazycam.py:77` | `def splitCSV(self, csv)` |
-| `_load_payload_kv` | function | `contrib/legacy/lazydeepseekcli.py:50` | `def _load_payload_kv()` |
-| `_load_report_context` | function | `contrib/legacy/lazydeepseekcli.py:68` | `def _load_report_context()` |
-| `_ollama_stream` | function | `contrib/legacy/lazydeepseekcli.py:223` | `def _ollama_stream(prompt_text, mode, timeout)` |
-| `_prompt_redteam` | function | `contrib/legacy/lazydeepseekcli.py:79` | `def _prompt_redteam(base_prompt, history, knowledge_base)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

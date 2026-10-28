@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `search_in_parquet` | function | `modules/lazyown_parquet_tool.py:39` | `def search_in_parquet(term, parquet_files)` |
+| `main` | function | `modules/lazyownerweb.py:59` | `def main()` |
+| `send_request` | function | `modules/lazyownerweb.py:36` | `def send_request(url, params, method)` |
+| `test_injection` | function | `modules/lazyownerweb.py:49` | `def test_injection(url, payloads, param_name, detection_strings, method)` |
+| `execute_psexec` | function | `modules/lazypsexec.sh:15` | `` |
+| `mostrar_ayuda` | function | `modules/lazyreverse_shell.sh:21` | `` |
+| `validar_ip` | function | `modules/lazyreverse_shell.sh:31` | `` |
+| `apply_vpn_rules` | function | `modules/lazyvpnshield.sh:45` | `` |
+| `check_sudo` | function | `modules/lazyvpnshield.sh:16` | `` |
+| `ctrl_c` | function | `modules/lazyvpnshield.sh:11` | `` |
+| `main` | function | `modules/lazyvpnshield.sh:113` | `` |
+| `save_current_rules` | function | `modules/lazyvpnshield.sh:29` | `` |
+| `show_current_rules` | function | `modules/lazyvpnshield.sh:37` | `` |
+| `undo_and_restore_rules` | function | `modules/lazyvpnshield.sh:86` | `` |
+| `ctrl_c` | function | `modules/lazywps.sh:9` | `` |
+| `LessonIngestor` | class | `modules/lesson_ingestor.py:77` | `class LessonIngestor` |
+| `LessonLearned` | class | `modules/lesson_ingestor.py:55` | `class LessonLearned` |
+| `__init__` | method | `modules/lesson_ingestor.py:86` | `def __init__(self, lessons_file, router, trainer, boost_reward)` |
+| `_expert_for_topic` | method | `modules/lesson_ingestor.py:122` | `def _expert_for_topic(self, topic)` |
+| `_get_router` | method | `modules/lesson_ingestor.py:98` | `def _get_router(self)` |
+| `_get_trainer` | method | `modules/lesson_ingestor.py:110` | `def _get_trainer(self)` |
+| `_load_from_file` | method | `modules/lesson_ingestor.py:202` | `def _load_from_file(self)` |
+| `from_dict` | method | `modules/lesson_ingestor.py:66` | `def from_dict(cls, d)` |
+| `ingest` | method | `modules/lesson_ingestor.py:125` | `def ingest(self, lesson)` |
+| `ingest_all` | method | `modules/lesson_ingestor.py:185` | `def ingest_all(self, lessons)` |
+| `ingest_campaign_lessons` | function | `modules/lesson_ingestor.py:222` | `def ingest_campaign_lessons(lessons_file)` |
+| `LogFileHandler` | class | `modules/lilsplunky.py:217` | `class LogFileHandler(FileSystemEventHandler)` |
+| `__init__` | method | `modules/lilsplunky.py:223` | `def __init__(self, log_dir, mode)` |
+| `analyze_with_deepseek` | function | `modules/lilsplunky.py:123` | `def analyze_with_deepseek(log_entry_data)` |
+| `display_record` | function | `modules/lilsplunky.py:346` | `def display_record(record)` |
+| `initialize_file_positions` | method | `modules/lilsplunky.py:229` | `def initialize_file_positions(self)` |
+| `is_monitored` | method | `modules/lilsplunky.py:245` | `def is_monitored(self, file_path)` |
+| `on_created` | method | `modules/lilsplunky.py:336` | `def on_created(self, event)` |
+| `on_modified` | method | `modules/lilsplunky.py:331` | `def on_modified(self, event)` |
+| `parse_args` | function | `modules/lilsplunky.py:446` | `def parse_args()` |
+| `process_file` | method | `modules/lilsplunky.py:257` | `def process_file(self, file_path)` |
+| `search_logs` | function | `modules/lilsplunky.py:382` | `def search_logs(query, file_path)` |
+| `simple_parse_log_line` | function | `modules/lilsplunky.py:69` | `def simple_parse_log_line(line, file_path)` |
+| `start_monitoring` | function | `modules/lilsplunky.py:413` | `def start_monitoring(log_dir, mode)` |
+| `store_event` | function | `modules/lilsplunky.py:108` | `def store_event(event_data)` |
+| `LinuxAdvancedConfig` | class | `modules/linux_advanced_payloads.py:64` | `class LinuxAdvancedConfig` |
+| `LinuxAdvancedPayloadFactory` | class | `modules/linux_advanced_payloads.py:92` | `class LinuxAdvancedPayloadFactory` |
+| `__init__` | method | `modules/linux_advanced_payloads.py:105` | `def __init__(self, config, output_dir)` |
+| `_ip_to_hex` | method | `modules/linux_advanced_payloads.py:305` | `def _ip_to_hex(ip_str)` |
+| `compile_c_source` | method | `modules/linux_advanced_payloads.py:707` | `def compile_c_source(self, source, output_name, shared)` |
 | `generate_all` | method | `modules/linux_advanced_payloads.py:749` | `def generate_all(self)` |
 | `generate_ebpf_payload` | method | `modules/linux_advanced_payloads.py:235` | `def generate_ebpf_payload(self)` |
 | `generate_kernel_module` | method | `modules/linux_advanced_payloads.py:519` | `def generate_kernel_module(self)` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `MemoryStore` | class | `modules/memory_store.py:237` | `class MemoryStore` |
 | `SQLiteBackend` | class | `modules/memory_store.py:132` | `class SQLiteBackend(StorageBackend)` |
 | `StorageBackend` | class | `modules/memory_store.py:97` | `class StorageBackend(ABC)` |
-| `VectorSQLiteBackend` | class | `modules/memory_store.py:315` | `class VectorSQLiteBackend(SQLiteBackend)` |
-| `__init__` | method | `modules/memory_store.py:133` | `def __init__(self, db_path)` |
-| `__init__` | method | `modules/memory_store.py:240` | `def __init__(self, backend)` |
-| `_cli` | function | `modules/memory_store.py:381` | `def _cli()` |
-| `_connect` | method | `modules/memory_store.py:139` | `def _connect(self)` |
-| `_fetch` | method | `modules/memory_store.py:175` | `def _fetch(self, sql, params)` |
-| `_print_entries` | function | `modules/memory_store.py:368` | `def _print_entries(entries)` |
-| `_row_to_entry` | function | `modules/memory_store.py:117` | `def _row_to_entry(row)` |
-| `all_entries` | method | `modules/memory_store.py:111` | `def all_entries(self, limit)` |
-| `all_entries` | method | `modules/memory_store.py:215` | `def all_entries(self, limit)` |
-| `by_host` | method | `modules/memory_store.py:105` | `def by_host(self, host, top_k)` |
-| `by_host` | method | `modules/memory_store.py:192` | `def by_host(self, host, top_k)` |
-| `by_service` | method | `modules/memory_store.py:108` | `def by_service(self, service, top_k)` |
-| `by_service` | method | `modules/memory_store.py:203` | `def by_service(self, service, top_k)` |
-| `close` | method | `modules/memory_store.py:114` | `def close(self)` |
-| `close` | method | `modules/memory_store.py:232` | `def close(self)` |
-| `export_finetuning_dataset` | method | `modules/memory_store.py:300` | `def export_finetuning_dataset(self, path)` |
-| `get_memory_store` | function | `modules/memory_store.py:339` | `def get_memory_store()` |
-| `recall` | method | `modules/memory_store.py:270` | `def recall(self, query, top_k)` |
-| `recall` | function | `modules/memory_store.py:360` | `def recall(query, top_k)` |
-| `recall_by_host` | method | `modules/memory_store.py:273` | `def recall_by_host(self, host, top_k)` |
-| `recall_for_service` | method | `modules/memory_store.py:276` | `def recall_for_service(self, service_name, top_k)` |
-| `recall_hybrid` | method | `modules/memory_store.py:279` | `def recall_hybrid(self, query, top_k)` |
-| `recall_hybrid` | function | `modules/memory_store.py:364` | `def recall_hybrid(query, top_k)` |
-| `remember` | method | `modules/memory_store.py:243` | `def remember(self, session_id, host, tool, command, output, findings, success)` |
-| `remember` | function | `modules/memory_store.py:348` | `def remember(session_id, host, tool, command, output, findings, success)` |
-| `save` | method | `modules/memory_store.py:99` | `def save(self, entry)` |
-| `save` | method | `modules/memory_store.py:148` | `def save(self, entry)` |
-| `save` | method | `modules/memory_store.py:320` | `def save(self, entry)` |
-| `search` | method | `modules/memory_store.py:102` | `def search(self, query, top_k)` |
-| `search` | method | `modules/memory_store.py:180` | `def search(self, query, top_k)` |
-| `search_semantic` | method | `modules/memory_store.py:328` | `def search_semantic(self, query, top_k)` |
-| `stats` | method | `modules/memory_store.py:292` | `def stats(self)` |
-| `stats_raw` | method | `modules/memory_store.py:225` | `def stats_raw(self)` |
-| `_load_yaml` | function | `modules/metasploitable_gym.py:30` | `def _load_yaml(path)` |
-| `chain_for` | function | `modules/metasploitable_gym.py:62` | `def chain_for(vuln_id, path)` |
-| `exploit_for` | function | `modules/metasploitable_gym.py:72` | `def exploit_for(vuln_id, path)` |
-| `get` | function | `modules/metasploitable_gym.py:53` | `def get(vuln_id, path)` |
-| `load_index` | function | `modules/metasploitable_gym.py:42` | `def load_index(path)` |
-| `main` | function | `modules/metasploitable_gym.py:157` | `def main()` |
-| `summary` | function | `modules/metasploitable_gym.py:138` | `def summary(path)` |
-| `validate_matrix` | function | `modules/metasploitable_gym.py:82` | `def validate_matrix(path)` |
-| `vulnerabilities` | function | `modules/metasploitable_gym.py:47` | `def vulnerabilities(path)` |
-| `Migration` | class | `modules/metasploitable_migrations.py:129` | `class Migration` |
-| `_core_services_apply` | function | `modules/metasploitable_migrations.py:180` | `def _core_services_apply()` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

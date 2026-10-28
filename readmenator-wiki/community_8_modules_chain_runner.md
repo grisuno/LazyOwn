@@ -1,38 +1,38 @@
 # modules: chain_runner
 
-*Community 9 | 38 files | cohesion 0.54*
+*Community 8 | 44 files | cohesion 0.53*
 
 ## Definition
 
-This community groups 38 file(s) rooted at `tests` with dominant language py (cohesion 0.54). Central symbols: `Chain`, `ChainArgs`, `ChainFactsSpoolSpec`, `ChainRunResult`, `ChainRunner`, `ChainStep`, `CommandAndControlMigratedCommandSet`, `Comparison`. Core file: `modules/chain_runner.py` (41 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
+This community groups 44 file(s) rooted at `tests` with dominant language py (cohesion 0.53). Central symbols: `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`, `AtomicTest`, `AtomicTestRef`, `Broken`, `CalderaAbilityRef`, `Chain`. Core file: `modules/chain_runner.py` (41 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
 
 ## Files
 
-### `tests` (18 files)
+### `tests` (21 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_apt_chain_admin.py` | py | testing | 22 | yes |
 | `tests/test_apt_chain_integration.py` | py | testing | 6 | yes |
+| `tests/test_atomic_loop.py` | py | testing | 17 | yes |
+| `tests/test_atomic_resolver.py` | py | testing | 9 | yes |
 | `tests/test_chain_distill.py` | py | testing | 15 | yes |
 | `tests/test_chain_evidence.py` | py | testing | 27 | yes |
 | `tests/test_chain_parallel_fallback.py` | py | testing | 26 | yes |
 | `tests/test_chain_registry.py` | py | testing | 9 | yes |
-| `tests/test_chain_runner.py` | py | testing | 39 | yes |
-| `tests/test_chain_synth.py` | py | testing | 10 | yes |
 
-### `modules` (16 files)
+### `modules` (19 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `modules/apt_playbooks.py` | py | utility | 15 | yes |
 | `modules/atomic_cli.py` | py | utility | 11 | yes |
+| `modules/atomic_resolver.py` | py | utility | 27 | yes |
 | `modules/chain_distill.py` | py | utility | 19 | yes |
 | `modules/chain_facts.py` | py | utility | 3 | yes |
 | `modules/chain_registry.py` | py | utility | 17 | yes |
 | `modules/chain_runner.py` | py | utility | 41 | yes |
 | `modules/chain_state.py` | py | utility | 5 | yes |
-| `modules/chain_synth.py` | py | utility | 6 | yes |
-| `modules/closedloop.py` | py | utility | 7 | yes |
 
 ### `cli` (2 files)
 
@@ -48,7 +48,7 @@ This community groups 38 file(s) rooted at `tests` with dominant language py (co
 | `cli/commands/command_and_control_migrated.py` | py | utility | 34 | yes |
 | `cli/commands/retry_ops.py` | py | utility | 8 | yes |
 
-*... and 18 more files in this community.*
+*... and 24 more files in this community.*
 
 
 ## Key Symbols
@@ -86,26 +86,27 @@ This community groups 38 file(s) rooted at `tests` with dominant language py (co
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 107
-- Cross-boundary resolved imports (EXTRACTED): 86
+- Internal resolved imports (EXTRACTED): 125
+- Cross-boundary resolved imports (EXTRACTED): 108
 
 ## Connections
 
-- [EXTRACTED] depends_on community 9 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/mediation/__init__.py.
-- [EXTRACTED] depends_on community 9 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
-- [EXTRACTED] depends_on community 9 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
-- [EXTRACTED] depends_on community 9 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
-- [EXTRACTED] depends_on community 9 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 9 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/atomic_exploit_bridge.py.
+- [EXTRACTED] depends_on community 8 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/mediation/__init__.py.
+- [EXTRACTED] depends_on community 8 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
+- [EXTRACTED] depends_on community 8 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
+- [EXTRACTED] depends_on community 8 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 8 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 8 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/atomic_exploit_bridge.py.
 
 ## Risks
 
-- No scoped security, taint, cycle, or layer risks.
+- [cycle] `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py`
 
 ## Open Questions
 
+- Can the cycle `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py` be broken with an interface?
 - What would break if the most connected file in modules: chain_runner changed?
-- Should modules: chain_runner be split, given cohesion 0.54?
+- Should modules: chain_runner be split, given cohesion 0.53?
 
 ## Sources
 
@@ -113,7 +114,9 @@ This community groups 38 file(s) rooted at `tests` with dominant language py (co
 - `cli/commands/command_and_control_migrated.py`
 - `cli/commands/retry_ops.py`
 - `cli/retry_support.py`
+- `modules/apt_playbooks.py`
 - `modules/atomic_cli.py`
+- `modules/atomic_resolver.py`
 - `modules/chain_distill.py`
 - `modules/chain_facts.py`
 - `modules/chain_registry.py`
@@ -123,10 +126,8 @@ This community groups 38 file(s) rooted at `tests` with dominant language py (co
 - `modules/closedloop.py`
 - `modules/defense_eval.py`
 - `modules/defense_stages.py`
+- `modules/emulation_runner.py`
 - `modules/gym_matrix_runner.py`
 - `modules/gym_winbox_runner.py`
 - `modules/hunt_verify.py`
-- `modules/listener_manager.py`
-- `modules/retry_session.py`
-- `modules/verb_manifest.py`
-- *... and 18 more*
+- *... and 24 more*

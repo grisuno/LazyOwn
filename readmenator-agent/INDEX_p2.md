@@ -3,10 +3,14 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
-| `modules/lab_runtime.py` | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | modules | 18 | 2 |
+| `modules/kill_chain_viz.py` | SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG. | modules | 5 | 1 |
+| `modules/killchain.py` | Unified kill-chain — single source of truth consumed by all surfaces. | modules | 21 | 22 |
+| `modules/kivi.py` | - | modules | 3 | 0 |
+| `modules/lab_runtime.py` | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | modules | 19 | 2 |
 | `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 3 |
 | `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 21 | 6 |
 | `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 14 | 8 |
+| `modules/lazy_creds.py` | Default-credential knowledge base for LazyOwn. | modules | 7 | 0 |
 | `modules/lazy_cve_feed.py` | Keyless CVE intelligence feeds and version-aware service correlation. | modules | 23 | 2 |
 | `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 35 |
 | `modules/lazy_heat.py` | Heat tiers and version math for CVE correlation. | modules | 11 | 5 |
@@ -14,6 +18,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
 | `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 467 | 60 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
+| `modules/lazy_oob.py` | Local OOB canary for blind SSRF/RCE detection. | modules | 18 | 0 |
 | `modules/lazy_orchestrator_feedback.py` | Organic orchestrator training from loop usage. | modules | 11 | 5 |
 | `modules/lazy_osinfer.py` | Target OS inference and OS-aware verb gating. | modules | 11 | 0 |
 | `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 67 | 5 |
@@ -193,7 +198,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/win_rootkit/win_rin3_rootkit.cs` | - | win_rootkit | 10 | 0 |
 | `modules/win_rootkit/win_ring3_rootkit.c` | initPIDArray: Función para inicializar el arreglo de PIDs | win_rootkit | 27 | 0 |
 | `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 | 0 |
-| `modules/winbox_gym.py` | WinBox gym catalogue and control-plane bridge. | modules | 24 | 0 |
+| `modules/winbox_gym.py` | WinBox gym catalogue and control-plane bridge. | modules | 38 | 0 |
 | `modules/wineconfig.sh` | - | modules | 0 | 0 |
 | `modules/workspace.py` | Confined workspace file browser for operators and loop agents. | modules | 7 | 1 |
 | `modules/world_model.py` | modules/world_model.py | modules | 70 | 74 |
@@ -397,6 +402,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/run_mutation_verb_catalog.py` | Mutation runner for the verb catalog contract. | tests | 1 | 0 |
 | `tests/run_mutation_world_diff.py` | Mutation runner for the lazy world-diff contract. | tests | 4 | 0 |
 | `tests/test_aci_planner.py` | tests/test_aci_planner.py | tests | 95 | 0 |
+| `tests/test_ad_lab_gym.py` | Contract tests for the AD lab gym (Docker Samba DC) matrix and capture. | tests | 25 | 0 |
 | `tests/test_addon_creator.py` | Tests for the LazyAddon creator contract and C2 blueprint. | tests | 86 | 0 |
 | `tests/test_addon_updater.py` | Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware. | tests | 13 | 0 |
 | `tests/test_aes_key_propagation.py` | TDD tests for the AES key resolution contract. | tests | 12 | 0 |
@@ -490,11 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_daemon_loop.py` | BDD tests for the integrated autonomous loop in the daemon. | tests | 30 | 0 |
 | `tests/test_dashboard_routes.py` | Integration tests for dashboard_bp loot and timeline routes. | tests | 29 | 0 |
 | `tests/test_dashboard_tui.py` | Tests for cli/dashboard_tui.py. | tests | 23 | 0 |
-| `tests/test_db.py` | Tests for modules.db — LazyOwnDB SQLite layer. | tests | 13 | 0 |
-| `tests/test_defense_eval.py` | Defense rule replay: target/control datasets, verdicts and metric counts. | tests | 10 | 0 |
-| `tests/test_defense_stages.py` | Defense stages: orchestrator-managed runners and YAML stage visibility. | tests | 8 | 0 |
-| `tests/test_dependencies.py` | Tests for ``core.dependencies`` graceful optional-import handling. | tests | 35 | 0 |
-| `tests/test_detection_feed.py` | Tests for modules/detection_feed.py. | tests | 19 | 0 |
-| `tests/test_dirtyinit_addon.py` | tests/test_dirtyinit_addon.py  Validation suite for the dirtyinit lazyaddon and its phone-side... | tests | 48 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

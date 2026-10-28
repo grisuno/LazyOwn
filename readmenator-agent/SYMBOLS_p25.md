@@ -3,6 +3,65 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `status` | method | `skills/hive_mind.py:1863` | `def status(self)` |
+| `store` | method | `skills/hive_mind.py:157` | `def store(self, content)` |
+| `store` | method | `skills/hive_mind.py:235` | `def store(self, content, agent_id, role, event_type, meta, session_tag)` |
+| `store` | method | `skills/hive_mind.py:386` | `def store(self, content, agent_id, role, event_type, meta, session_tag, event_id)` |
+| `store` | method | `skills/hive_mind.py:515` | `def store(self, content)` |
+| `store` | method | `skills/hive_mind.py:596` | `def store(self, content, agent_id, role, event_type, meta, session_tag)` |
+| `synthesize` | method | `skills/hive_mind.py:1447` | `def synthesize(self, drone_ids, original_goal)` |
+| `upsert` | method | `skills/hive_mind.py:1523` | `def upsert(self, state)` |
+| `AutoMapper` | class | `skills/lazyown_automapper.py:332` | `class AutoMapper` |
+| `__init__` | method | `skills/lazyown_automapper.py:341` | `def __init__(self, lazyown_dir)` |
+| `_addon_to_mcp_tool` | function | `skills/lazyown_automapper.py:265` | `def _addon_to_mcp_tool(spec)` |
+| `_expand_tool_command` | function | `skills/lazyown_automapper.py:247` | `def _expand_tool_command(template, ip, port, ssl, outputdir, toolname)` |
+| `_load_addons` | function | `skills/lazyown_automapper.py:142` | `def _load_addons(lazyaddons_dir)` |
+| `_load_dottools` | function | `skills/lazyown_automapper.py:173` | `def _load_dottools(tools_dir)` |
+| `_load_plugins` | function | `skills/lazyown_automapper.py:214` | `def _load_plugins(plugins_dir)` |
+| `_load_yaml` | function | `skills/lazyown_automapper.py:79` | `def _load_yaml(path)` |
+| `_params_to_schema` | function | `skills/lazyown_automapper.py:104` | `def _params_to_schema(params)` |
+| `_plugin_to_mcp_tool` | function | `skills/lazyown_automapper.py:314` | `def _plugin_to_mcp_tool(spec)` |
+| `_run_addon` | method | `skills/lazyown_automapper.py:420` | `def _run_addon(self, spec, arguments, config, run_fn)` |
+| `_run_dottool` | method | `skills/lazyown_automapper.py:452` | `def _run_dottool(self, spec, arguments, config)` |
+| `_run_plugin` | method | `skills/lazyown_automapper.py:475` | `def _run_plugin(self, spec, arguments, config, run_fn)` |
+| `_safe_name` | function | `skills/lazyown_automapper.py:68` | `def _safe_name(raw)` |
+| `_scan` | method | `skills/lazyown_automapper.py:350` | `def _scan(self)` |
+| `_shell_run` | method | `skills/lazyown_automapper.py:503` | `def _shell_run(cmd, timeout)` |
+| `_tool_to_mcp_tool` | function | `skills/lazyown_automapper.py:281` | `def _tool_to_mcp_tool(spec)` |
+| `dispatch` | method | `skills/lazyown_automapper.py:389` | `def dispatch(self, name, arguments, config, run_command_fn)` |
+| `list_specs` | method | `skills/lazyown_automapper.py:581` | `def list_specs(self)` |
+| `mcp_tools` | method | `skills/lazyown_automapper.py:368` | `def mcp_tools(self)` |
+| `rescan` | method | `skills/lazyown_automapper.py:364` | `def rescan(self)` |
+| `stats` | method | `skills/lazyown_automapper.py:571` | `def stats(self)` |
+| `update_skills_md` | method | `skills/lazyown_automapper.py:524` | `def update_skills_md(self, skills_md_path)` |
+| `Campaign` | class | `skills/lazyown_campaign.py:105` | `class Campaign` |
+| `CampaignStore` | class | `skills/lazyown_campaign.py:375` | `class CampaignStore` |
+| `EpisodeReflectionEngine` | class | `skills/lazyown_campaign.py:193` | `class EpisodeReflectionEngine` |
+| `LessonLearned` | class | `skills/lazyown_campaign.py:175` | `class LessonLearned` |
+| `__init__` | method | `skills/lazyown_campaign.py:256` | `def __init__(self, hive_memory)` |
+| `__init__` | method | `skills/lazyown_campaign.py:382` | `def __init__(self, campaign_file)` |
+| `_build_parser` | function | `skills/lazyown_campaign.py:623` | `def _build_parser()` |
+| `_now_iso` | function | `skills/lazyown_campaign.py:59` | `def _now_iso()` |
+| `_persist_lessons` | method | `skills/lazyown_campaign.py:332` | `def _persist_lessons(self, lessons)` |
+| `_require` | method | `skills/lazyown_campaign.py:610` | `def _require(self)` |
+| `_save` | method | `skills/lazyown_campaign.py:388` | `def _save(self, campaign)` |
+| `add_milestone` | method | `skills/lazyown_campaign.py:516` | `def add_milestone(self, host, milestone_type, notes)` |
+| `add_to_scope` | method | `skills/lazyown_campaign.py:540` | `def add_to_scope(self, ip_or_cidr)` |
+| `complete` | method | `skills/lazyown_campaign.py:445` | `def complete(self, notes, run_reflection, hive_memory)` |
+| `create` | method | `skills/lazyown_campaign.py:414` | `def create(self, name, scope, notes)` |
+| `from_dict` | method | `skills/lazyown_campaign.py:157` | `def from_dict(cls, data)` |
+| `in_scope` | method | `skills/lazyown_campaign.py:559` | `def in_scope(self, ip)` |
+| `is_active` | method | `skills/lazyown_campaign.py:148` | `def is_active(self)` |
+| `is_ip_in_scope` | function | `skills/lazyown_campaign.py:64` | `def is_ip_in_scope(ip, scope)` |
+| `load` | method | `skills/lazyown_campaign.py:395` | `def load(self)` |
+| `main` | function | `skills/lazyown_campaign.py:667` | `def main(argv)` |
+| `reflect` | method | `skills/lazyown_campaign.py:268` | `def reflect(self, campaign)` |
+| `summary` | method | `skills/lazyown_campaign.py:566` | `def summary(self)` |
+| `to_dict` | method | `skills/lazyown_campaign.py:152` | `def to_dict(self)` |
+| `to_dict` | method | `skills/lazyown_campaign.py:189` | `def to_dict(self)` |
+| `update_phase` | method | `skills/lazyown_campaign.py:500` | `def update_phase(self, host, phase)` |
+| `ClaudeMdLoader` | class | `skills/lazyown_claudemd.py:24` | `class ClaudeMdLoader` |
+| `__init__` | method | `skills/lazyown_claudemd.py:32` | `def __init__(self, cwd)` |
 | `add_rule` | method | `skills/lazyown_claudemd.py:127` | `def add_rule(self, rule_name, content)` |
 | `create_project_file` | method | `skills/lazyown_claudemd.py:121` | `def create_project_file(self, content, local)` |
 | `create_user_file` | method | `skills/lazyown_claudemd.py:115` | `def create_user_file(self, content)` |
@@ -437,64 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `sync` | method | `skills/lazyown_parquet_db.py:316` | `def sync(self, csv_path)` |
 | `train_classifier` | method | `skills/lazyown_parquet_db.py:750` | `def train_classifier(self, min_rows)` |
 | `verify_model_integrity` | function | `skills/lazyown_parquet_db.py:894` | `def verify_model_integrity(model_path, encoder_path, hash_path)` |
-| `PermissionMode` | class | `skills/lazyown_permissions.py:18` | `class PermissionMode(Enum)` |
-| `PermissionRule` | class | `skills/lazyown_permissions.py:29` | `class PermissionRule` |
-| `PermissionSystem` | class | `skills/lazyown_permissions.py:91` | `class PermissionSystem` |
-| `__init__` | method | `skills/lazyown_permissions.py:103` | `def __init__(self, sessions_dir)` |
-| `_audit` | method | `skills/lazyown_permissions.py:132` | `def _audit(self, tool, decision, reason, args)` |
-| `_load` | method | `skills/lazyown_permissions.py:113` | `def _load(self)` |
-| `_matches` | method | `skills/lazyown_permissions.py:219` | `def _matches(self, rule, tool_name, args)` |
-| `_save` | method | `skills/lazyown_permissions.py:124` | `def _save(self)` |
-| `add_rule` | method | `skills/lazyown_permissions.py:145` | `def add_rule(self, tool_pattern, action, condition, description)` |
-| `evaluate` | method | `skills/lazyown_permissions.py:167` | `def evaluate(self, tool_name, arguments)` |
-| `list_rules` | method | `skills/lazyown_permissions.py:162` | `def list_rules(self)` |
-| `metrics` | method | `skills/lazyown_permissions.py:237` | `def metrics(self)` |
-| `remove_rule` | method | `skills/lazyown_permissions.py:151` | `def remove_rule(self, tool_pattern, action)` |
-| `set_mode` | method | `skills/lazyown_permissions.py:157` | `def set_mode(self, mode)` |
-| `status_text` | method | `skills/lazyown_permissions.py:279` | `def status_text(self)` |
-| `to_dict` | method | `skills/lazyown_permissions.py:36` | `def to_dict(self)` |
-| `ActionCategory` | class | `skills/lazyown_policy.py:131` | `class ActionCategory(StrEnum)` |
-| `ApprovalDecision` | class | `skills/lazyown_policy.py:1326` | `class ApprovalDecision(StrEnum)` |
-| `ApprovalGate` | class | `skills/lazyown_policy.py:1606` | `class ApprovalGate` |
-| `ApprovalOutcome` | class | `skills/lazyown_policy.py:1356` | `class ApprovalOutcome` |
-| `ApprovalRequest` | class | `skills/lazyown_policy.py:1335` | `class ApprovalRequest` |
-| `BroadcastApprovalSink` | class | `skills/lazyown_policy.py:1455` | `class BroadcastApprovalSink(IApprovalSink)` |
-| `CSVSessionReader` | class | `skills/lazyown_policy.py:843` | `class CSVSessionReader` |
-| `CascadeClassifier` | class | `skills/lazyown_policy.py:657` | `class CascadeClassifier` |
-| `ClassificationResult` | class | `skills/lazyown_policy.py:306` | `class ClassificationResult` |
-| `CompositeApprovalSink` | class | `skills/lazyown_policy.py:1556` | `class CompositeApprovalSink(IApprovalSink)` |
-| `Config` | class | `skills/lazyown_policy.py:54` | `class Config` |
-| `DetectionRiskAssessor` | class | `skills/lazyown_policy.py:701` | `class DetectionRiskAssessor` |
-| `EpisodeRecord` | class | `skills/lazyown_policy.py:347` | `class EpisodeRecord` |
-| `ExitCodeClassifier` | class | `skills/lazyown_policy.py:389` | `class ExitCodeClassifier(IOutputClassifier)` |
-| `FileApprovalSink` | class | `skills/lazyown_policy.py:1392` | `class FileApprovalSink(IApprovalSink)` |
-| `HeuristicClassifier` | class | `skills/lazyown_policy.py:434` | `class HeuristicClassifier(IOutputClassifier)` |
-| `HistoryBootstrapper` | class | `skills/lazyown_policy.py:1922` | `class HistoryBootstrapper` |
-| `IApprovalSink` | class | `skills/lazyown_policy.py:1375` | `class IApprovalSink(ABC)` |
-| `IEpisodeStore` | class | `skills/lazyown_policy.py:899` | `class IEpisodeStore(ABC)` |
-| `IOutputClassifier` | class | `skills/lazyown_policy.py:372` | `class IOutputClassifier(ABC)` |
-| `JSONLEpisodeStore` | class | `skills/lazyown_policy.py:915` | `class JSONLEpisodeStore(IEpisodeStore)` |
-| `LazyOwnPolicyIntegration` | class | `skills/lazyown_policy.py:1294` | `class LazyOwnPolicyIntegration` |
-| `OllamaLargeClassifier` | class | `skills/lazyown_policy.py:598` | `class OllamaLargeClassifier(_OllamaClassifierBase)` |
-| `OllamaSmallClassifier` | class | `skills/lazyown_policy.py:588` | `class OllamaSmallClassifier(_OllamaClassifierBase)` |
-| `OutcomeType` | class | `skills/lazyown_policy.py:146` | `class OutcomeType(StrEnum)` |
-| `OverrideRule` | class | `skills/lazyown_policy.py:1042` | `class OverrideRule` |
-| `PolicyAdvisor` | class | `skills/lazyown_policy.py:1262` | `class PolicyAdvisor` |
-| `PolicyEngine` | class | `skills/lazyown_policy.py:1097` | `class PolicyEngine` |
-| `RewardCalculator` | class | `skills/lazyown_policy.py:754` | `class RewardCalculator` |
-| `ScopeBoundAutoGate` | class | `skills/lazyown_policy.py:1820` | `class ScopeBoundAutoGate` |
-| `SessionClassificationPipeline` | class | `skills/lazyown_policy.py:1194` | `class SessionClassificationPipeline` |
-| `StdinApprovalSink` | class | `skills/lazyown_policy.py:1503` | `class StdinApprovalSink(IApprovalSink)` |
-| `StepRecord` | class | `skills/lazyown_policy.py:330` | `class StepRecord` |
-| `TransitionTable` | class | `skills/lazyown_policy.py:979` | `class TransitionTable` |
-| `UserInteractiveClassifier` | class | `skills/lazyown_policy.py:608` | `class UserInteractiveClassifier(IOutputClassifier)` |
-| `_OllamaClassifierBase` | class | `skills/lazyown_policy.py:487` | `class _OllamaClassifierBase(IOutputClassifier)` |
-| `__init__` | method | `skills/lazyown_policy.py:496` | `def __init__(self, cfg, model, tier_name)` |
-| `__init__` | method | `skills/lazyown_policy.py:591` | `def __init__(self, cfg)` |
-| `__init__` | method | `skills/lazyown_policy.py:601` | `def __init__(self, cfg)` |
-| `__init__` | method | `skills/lazyown_policy.py:666` | `def __init__(self, cfg, interactive)` |
-| `__init__` | method | `skills/lazyown_policy.py:715` | `def __init__(self)` |
-| `__init__` | method | `skills/lazyown_policy.py:773` | `def __init__(self, cfg, risk_assessor)` |
-| `__init__` | method | `skills/lazyown_policy.py:850` | `def __init__(self, cfg)` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

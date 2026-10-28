@@ -3,6 +3,25 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `generate_shellcode_loader_powershell` | method | `modules/evasive_payloads.py:239` | `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)` |
+| `generate_vba_obfuscated` | method | `modules/evasive_payloads.py:197` | `def generate_vba_obfuscated(self, payload)` |
+| `list_techniques` | method | `modules/evasive_payloads.py:374` | `def list_techniques(self)` |
+| `CollabBusSink` | class | `modules/event_bus.py:163` | `class CollabBusSink(Sink)` |
+| `EngagementSink` | class | `modules/event_bus.py:202` | `class EngagementSink(Sink)` |
+| `EventCategory` | class | `modules/event_bus.py:47` | `class EventCategory(str, Enum)` |
+| `EventSeverity` | class | `modules/event_bus.py:73` | `class EventSeverity(str, Enum)` |
+| `JsonlSink` | class | `modules/event_bus.py:143` | `class JsonlSink(Sink)` |
+| `LazyEvent` | class | `modules/event_bus.py:82` | `class LazyEvent` |
+| `Sink` | class | `modules/event_bus.py:133` | `class Sink(ABC)` |
+| `UnifiedEventBus` | class | `modules/event_bus.py:230` | `class UnifiedEventBus` |
+| `__init__` | method | `modules/event_bus.py:146` | `def __init__(self, filepath)` |
+| `__init__` | method | `modules/event_bus.py:166` | `def __init__(self)` |
+| `__init__` | method | `modules/event_bus.py:255` | `def __init__(self)` |
+| `_bus` | method | `modules/event_bus.py:170` | `def _bus(self)` |
+| `_dispatch_event` | method | `modules/event_bus.py:441` | `def _dispatch_event(self, event)` |
+| `_dispatch_loop` | method | `modules/event_bus.py:416` | `def _dispatch_loop(self)` |
+| `_init_sinks` | method | `modules/event_bus.py:273` | `def _init_sinks(self)` |
+| `_match_topic` | method | `modules/event_bus.py:517` | `def _match_topic(self, topic, event)` |
 | `_notify_shutdown` | method | `modules/event_bus.py:479` | `def _notify_shutdown(self)` |
 | `close` | method | `modules/event_bus.py:140` | `def close(self)` |
 | `close` | method | `modules/event_bus.py:159` | `def close(self)` |
@@ -477,24 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `analyze_log_file` | method | `modules/ia_logs_analysis.py:75` | `def analyze_log_file(self, file_path)` |
 | `analyze_with_deepseek` | function | `modules/ia_logs_analysis.py:94` | `def analyze_with_deepseek(log_content, mode)` |
 | `on_modified` | method | `modules/ia_logs_analysis.py:64` | `def on_modified(self, event)` |
-| `parse_args` | function | `modules/ia_logs_analysis.py:168` | `def parse_args()` |
-| `start_monitoring` | function | `modules/ia_logs_analysis.py:147` | `def start_monitoring(log_dir, mode)` |
-| `analyze_with_deepseek` | function | `modules/ia_network_analysis.py:39` | `def analyze_with_deepseek(packet_info, mode)` |
-| `packet_callback` | function | `modules/ia_network_analysis.py:91` | `def packet_callback(packet, mode)` |
-| `parse_args` | function | `modules/ia_network_analysis.py:154` | `def parse_args()` |
-| `start_monitoring` | function | `modules/ia_network_analysis.py:130` | `def start_monitoring(interface, timeout, mode)` |
-| `imagen_a_binario` | function | `modules/img2bin.py:7` | `def imagen_a_binario(imagen_input, binario_output, block_size)` |
-| `main` | function | `modules/img2bin.py:43` | `def main()` |
-| `CVEMapper` | class | `modules/integrations/misp_export.py:143` | `class CVEMapper(FindingMapper)` |
-| `CredentialMapper` | class | `modules/integrations/misp_export.py:123` | `class CredentialMapper(FindingMapper)` |
-| `DomainMapper` | class | `modules/integrations/misp_export.py:163` | `class DomainMapper(FindingMapper)` |
-| `FindingMapper` | class | `modules/integrations/misp_export.py:86` | `class FindingMapper(ABC)` |
-| `HashMapper` | class | `modules/integrations/misp_export.py:183` | `class HashMapper(FindingMapper)` |
-| `IPMapper` | class | `modules/integrations/misp_export.py:103` | `class IPMapper(FindingMapper)` |
-| `MISPAttribute` | class | `modules/integrations/misp_export.py:59` | `class MISPAttribute` |
-| `MISPEvent` | class | `modules/integrations/misp_export.py:70` | `class MISPEvent` |
-| `MISPExporter` | class | `modules/integrations/misp_export.py:254` | `class MISPExporter` |
-| `ServiceMapper` | class | `modules/integrations/misp_export.py:218` | `class ServiceMapper(FindingMapper)` |
-| `_DictFinding` | class | `modules/integrations/misp_export.py:498` | `class _DictFinding` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

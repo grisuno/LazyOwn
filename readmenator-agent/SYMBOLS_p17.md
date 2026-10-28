@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `is_running` | function | `modules/lazy_oob.py:249` | `def is_running()` |
+| `log_message` | method | `modules/lazy_oob.py:107` | `def log_message(self, fmt)` |
+| `new_token` | function | `modules/lazy_oob.py:167` | `def new_token()` |
+| `record_hit` | function | `modules/lazy_oob.py:112` | `def record_hit(hit)` |
+| `reset` | function | `modules/lazy_oob.py:241` | `def reset()` |
+| `start` | function | `modules/lazy_oob.py:128` | `def start(host, port)` |
+| `stop` | function | `modules/lazy_oob.py:220` | `def stop()` |
+| `url` | function | `modules/lazy_oob.py:184` | `def url(token)` |
+| `_dataset_path` | function | `modules/lazy_orchestrator_feedback.py:47` | `def _dataset_path()` |
+| `_key` | function | `modules/lazy_orchestrator_feedback.py:228` | `def _key(line)` |
+| `_load_priors` | function | `modules/lazy_orchestrator_feedback.py:144` | `def _load_priors()` |
+| `_normalize` | function | `modules/lazy_orchestrator_feedback.py:129` | `def _normalize(priors)` |
+| `_priors_path` | function | `modules/lazy_orchestrator_feedback.py:41` | `def _priors_path()` |
+| `_reward_of` | function | `modules/lazy_orchestrator_feedback.py:53` | `def _reward_of(outcome)` |
+| `adjust_from_usage` | function | `modules/lazy_orchestrator_feedback.py:61` | `def adjust_from_usage(limit)` |
+| `export_dataset` | function | `modules/lazy_orchestrator_feedback.py:238` | `def export_dataset(out, limit)` |
+| `order_steps` | function | `modules/lazy_orchestrator_feedback.py:213` | `def order_steps(steps, stack)` |
+| `rank_verbs` | function | `modules/lazy_orchestrator_feedback.py:189` | `def rank_verbs(phase, verbs, stack)` |
+| `verb_prior` | function | `modules/lazy_orchestrator_feedback.py:162` | `def verb_prior(phase, verb, stack)` |
+| `addon_target_os` | function | `modules/lazy_osinfer.py:130` | `def addon_target_os(name)` |
+| `host_os_for_target` | function | `modules/lazy_osinfer.py:239` | `def host_os_for_target(target)` |
+| `infer_from_banner` | function | `modules/lazy_osinfer.py:97` | `def infer_from_banner(text)` |
+| `infer_from_ping_output` | function | `modules/lazy_osinfer.py:72` | `def infer_from_ping_output(output)` |
+| `infer_from_ttl` | function | `modules/lazy_osinfer.py:47` | `def infer_from_ttl(ttl)` |
+| `learn_from_transcripts` | function | `modules/lazy_osinfer.py:330` | `def learn_from_transcripts(target, transcripts)` |
+| `merge_os` | function | `modules/lazy_osinfer.py:118` | `def merge_os(current, new)` |
+| `os_compatible` | function | `modules/lazy_osinfer.py:194` | `def os_compatible(verb_os, host_os)` |
+| `remember_host_os` | function | `modules/lazy_osinfer.py:287` | `def remember_host_os(target, os_name, reason)` |
+| `verb_compatible_with_host` | function | `modules/lazy_osinfer.py:216` | `def verb_compatible_with_host(command, host_os)` |
+| `verb_target_os` | function | `modules/lazy_osinfer.py:157` | `def verb_target_os(command)` |
+| `CertificateAuthority` | class | `modules/lazy_proxy.py:623` | `class CertificateAuthority` |
+| `ProxyController` | class | `modules/lazy_proxy.py:803` | `class ProxyController` |
+| `ProxyHandler` | class | `modules/lazy_proxy.py:915` | `class ProxyHandler(BaseHTTPRequestHandler)` |
+| `RecorderServer` | class | `modules/lazy_proxy.py:775` | `class RecorderServer(ThreadingHTTPServer)` |
+| `_PinnedHTTPConnection` | class | `modules/lazy_proxy.py:381` | `class _PinnedHTTPConnection(HTTPConnection)` |
+| `_PinnedHTTPSConnection` | class | `modules/lazy_proxy.py:394` | `class _PinnedHTTPSConnection(HTTPSConnection)` |
+| `__init__` | method | `modules/lazy_proxy.py:384` | `def __init__(self, host, port)` |
+| `__init__` | method | `modules/lazy_proxy.py:397` | `def __init__(self, host, port)` |
+| `__init__` | method | `modules/lazy_proxy.py:626` | `def __init__(self, pki_dir)` |
+| `__init__` | method | `modules/lazy_proxy.py:779` | `def __init__(self, address, handler)` |
+| `__init__` | method | `modules/lazy_proxy.py:806` | `def __init__(self)` |
+| `_cert_stem` | function | `modules/lazy_proxy.py:485` | `def _cert_stem(host)` |
+| `_default_traffic_dir` | function | `modules/lazy_proxy.py:439` | `def _default_traffic_dir()` |
+| `_dial_pinned` | function | `modules/lazy_proxy.py:329` | `def _dial_pinned(ips, port)` |
+| `_ensure_ca` | method | `modules/lazy_proxy.py:638` | `def _ensure_ca(self)` |
 | `_forward_plain` | method | `modules/lazy_proxy.py:989` | `def _forward_plain(self)` |
 | `_handle_websocket` | method | `modules/lazy_proxy.py:1209` | `def _handle_websocket(self, scheme, host, port, path, url, req_headers)` |
 | `_host_syntax_valid` | function | `modules/lazy_proxy.py:153` | `def _host_syntax_valid(host)` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `buscar_binarios` | function | `modules/lazyown_parquet_tool.py:53` | `def buscar_binarios(args)` |
 | `ejecutar_opciones` | function | `modules/lazyown_parquet_tool.py:136` | `def ejecutar_opciones()` |
 | `highlight_term` | function | `modules/lazyown_parquet_tool.py:34` | `def highlight_term(text, term)` |
-| `search_in_parquet` | function | `modules/lazyown_parquet_tool.py:39` | `def search_in_parquet(term, parquet_files)` |
-| `main` | function | `modules/lazyownerweb.py:59` | `def main()` |
-| `send_request` | function | `modules/lazyownerweb.py:36` | `def send_request(url, params, method)` |
-| `test_injection` | function | `modules/lazyownerweb.py:49` | `def test_injection(url, payloads, param_name, detection_strings, method)` |
-| `execute_psexec` | function | `modules/lazypsexec.sh:15` | `` |
-| `mostrar_ayuda` | function | `modules/lazyreverse_shell.sh:21` | `` |
-| `validar_ip` | function | `modules/lazyreverse_shell.sh:31` | `` |
-| `apply_vpn_rules` | function | `modules/lazyvpnshield.sh:45` | `` |
-| `check_sudo` | function | `modules/lazyvpnshield.sh:16` | `` |
-| `ctrl_c` | function | `modules/lazyvpnshield.sh:11` | `` |
-| `main` | function | `modules/lazyvpnshield.sh:113` | `` |
-| `save_current_rules` | function | `modules/lazyvpnshield.sh:29` | `` |
-| `show_current_rules` | function | `modules/lazyvpnshield.sh:37` | `` |
-| `undo_and_restore_rules` | function | `modules/lazyvpnshield.sh:86` | `` |
-| `ctrl_c` | function | `modules/lazywps.sh:9` | `` |
-| `LessonIngestor` | class | `modules/lesson_ingestor.py:77` | `class LessonIngestor` |
-| `LessonLearned` | class | `modules/lesson_ingestor.py:55` | `class LessonLearned` |
-| `__init__` | method | `modules/lesson_ingestor.py:86` | `def __init__(self, lessons_file, router, trainer, boost_reward)` |
-| `_expert_for_topic` | method | `modules/lesson_ingestor.py:122` | `def _expert_for_topic(self, topic)` |
-| `_get_router` | method | `modules/lesson_ingestor.py:98` | `def _get_router(self)` |
-| `_get_trainer` | method | `modules/lesson_ingestor.py:110` | `def _get_trainer(self)` |
-| `_load_from_file` | method | `modules/lesson_ingestor.py:202` | `def _load_from_file(self)` |
-| `from_dict` | method | `modules/lesson_ingestor.py:66` | `def from_dict(cls, d)` |
-| `ingest` | method | `modules/lesson_ingestor.py:125` | `def ingest(self, lesson)` |
-| `ingest_all` | method | `modules/lesson_ingestor.py:185` | `def ingest_all(self, lessons)` |
-| `ingest_campaign_lessons` | function | `modules/lesson_ingestor.py:222` | `def ingest_campaign_lessons(lessons_file)` |
-| `LogFileHandler` | class | `modules/lilsplunky.py:217` | `class LogFileHandler(FileSystemEventHandler)` |
-| `__init__` | method | `modules/lilsplunky.py:223` | `def __init__(self, log_dir, mode)` |
-| `analyze_with_deepseek` | function | `modules/lilsplunky.py:123` | `def analyze_with_deepseek(log_entry_data)` |
-| `display_record` | function | `modules/lilsplunky.py:346` | `def display_record(record)` |
-| `initialize_file_positions` | method | `modules/lilsplunky.py:229` | `def initialize_file_positions(self)` |
-| `is_monitored` | method | `modules/lilsplunky.py:245` | `def is_monitored(self, file_path)` |
-| `on_created` | method | `modules/lilsplunky.py:336` | `def on_created(self, event)` |
-| `on_modified` | method | `modules/lilsplunky.py:331` | `def on_modified(self, event)` |
-| `parse_args` | function | `modules/lilsplunky.py:446` | `def parse_args()` |
-| `process_file` | method | `modules/lilsplunky.py:257` | `def process_file(self, file_path)` |
-| `search_logs` | function | `modules/lilsplunky.py:382` | `def search_logs(query, file_path)` |
-| `simple_parse_log_line` | function | `modules/lilsplunky.py:69` | `def simple_parse_log_line(line, file_path)` |
-| `start_monitoring` | function | `modules/lilsplunky.py:413` | `def start_monitoring(log_dir, mode)` |
-| `store_event` | function | `modules/lilsplunky.py:108` | `def store_event(event_data)` |
-| `LinuxAdvancedConfig` | class | `modules/linux_advanced_payloads.py:64` | `class LinuxAdvancedConfig` |
-| `LinuxAdvancedPayloadFactory` | class | `modules/linux_advanced_payloads.py:92` | `class LinuxAdvancedPayloadFactory` |
-| `__init__` | method | `modules/linux_advanced_payloads.py:105` | `def __init__(self, config, output_dir)` |
-| `_ip_to_hex` | method | `modules/linux_advanced_payloads.py:305` | `def _ip_to_hex(ip_str)` |
-| `compile_c_source` | method | `modules/linux_advanced_payloads.py:707` | `def compile_c_source(self, source, output_name, shared)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

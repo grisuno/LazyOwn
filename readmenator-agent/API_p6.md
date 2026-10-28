@@ -1,4 +1,4 @@
-# API (page 6 of 24)
+# API (page 6 of 25)
 Previous: [API_p5.md](API_p5.md)
 
 ## contrib/legacy/lazyllmchat.py
@@ -351,37 +351,37 @@ Imported by: `tests/test_core_executor.py`
 
 ## core/hardening.py
 Depends on: `core/config.py`, `core/credential_vault.py`, `core/host_policy.py`, `core/logging.py`
-Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/reverse_shell_secret.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/domain_dominance.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/phishing_orchestrator.py`, `modules/sinks/beacon_dispatch.py`, `modules/websocket_beacon.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `scripts/devtools/core_smoke.py`, `skills/claude_md_orchestrator/validators.py`, `skills/lazyown_mcp.py`, `tests/test_host_policy.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
+Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/reverse_shell_secret.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/atomic_cli.py`, `modules/domain_dominance.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/phishing_orchestrator.py`, `modules/sinks/beacon_dispatch.py`, `modules/websocket_beacon.py`, `modules/winbox_gym.py`, `modules/world_model.py`, `scripts/devtools/core_smoke.py`, `skills/claude_md_orchestrator/validators.py`, `skills/lazyown_mcp.py`, `tests/test_host_policy.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`, `tests/test_winbox_gym.py`
 - `reject_option_injection` (function) `core/hardening.py:85` `def reject_option_injection(argv)` -- Reject argument-injection payloads in argv.
 - `escape_powershell_single_quoted` (function) `core/hardening.py:104` `def escape_powershell_single_quoted(value)` -- Escape a value for embedding in a PowerShell single-quoted string.
 - `terminal_env` (function) `core/hardening.py:129` `def terminal_env(base)` -- Return a child environment that keeps ANSI colors on a pipe.
 - `safe_subprocess_run` (function) `core/hardening.py:150` `def safe_subprocess_run(argv)` -- Execute a command via subprocess without shell interpretation.
-- `safe_clipboard_copy` (function) `core/hardening.py:195` `def safe_clipboard_copy(content)` -- Copy content to system clipboard without shell interpretation.
-- `build_sshpass_command` (function) `core/hardening.py:234` `def build_sshpass_command(password, ssh_args)` -- Build an sshpass command using SSHPASS env var (sshpass -e).
-- `set_sshpass_env` (function) `core/hardening.py:263` `def set_sshpass_env(password)` -- Create an environment dict with SSHPASS set for sshpass -e.
-- `escape_html_content` (function) `core/hardening.py:282` `def escape_html_content(value)` -- Escape HTML special characters to prevent XSS.
-- `safe_path_join` (function) `core/hardening.py:294` `def safe_path_join(base_dir, user_path)` -- Join base_dir and user_path safely, preventing path traversal.
-- `validate_network_cidr` (function) `core/hardening.py:320` `def validate_network_cidr(cidr)` -- Validate a network CIDR notation string.
-- `validate_port_spec` (function) `core/hardening.py:332` `def validate_port_spec(ports)` -- Validate a port specification string.
-- `validate_host` (function) `core/hardening.py:348` `def validate_host(host)` -- Validate a hostname or IP address.
-- `require_encryption_key` (function) `core/hardening.py:368` `def require_encryption_key(env_key, secret_file)` -- Require a proper encryption key; never fall back to a static default.
-- `defused_xml_parse` (function) `core/hardening.py:396` `def defused_xml_parse(source)` -- Parse XML safely using defusedxml.
-- `sanitize_filename` (function) `core/hardening.py:418` `def sanitize_filename(filename, max_length)` -- Sanitize a filename by removing dangerous characters.
-- `tls_secure_context` (function) `core/hardening.py:438` `def tls_secure_context(extra_ca)` -- Build a verifying client TLS context with a TLS 1.2 floor.
-- `tls_lab_unverified_allowed` (function) `core/hardening.py:463` `def tls_lab_unverified_allowed(host)` -- Return True only when unverified lab TLS is explicitly opted in.
-- `tls_lab_fallback_context` (function) `core/hardening.py:490` `def tls_lab_fallback_context()` -- Build the gated unverified context for lab self-signed hosts.
-- `validate_upstream_path` (function) `core/hardening.py:512` `def validate_upstream_path(path)` -- Validate an origin-form upstream path without regular expressions.
-- `is_safe_path_segment` (function) `core/hardening.py:541` `def is_safe_path_segment(segment)` -- Validate one path segment with a linear charset scan (no regex).
-- `is_safe_dir_path` (function) `core/hardening.py:562` `def is_safe_dir_path(raw)` -- Validate a relative directory path with linear scans (no regex).
-- `is_safe_yaml_name` (function) `core/hardening.py:588` `def is_safe_yaml_name(name)` -- Validate a YAML filename with linear scans (no regex).
-- `safe_join_under` (function) `core/hardening.py:607` `def safe_join_under(base_dir, user_path)` -- Join and resolve ``user_path`` under ``base_dir`` (symlink-safe).
-- `safe_open_under` (function) `core/hardening.py:636` `def safe_open_under(base_dir, user_path, mode)` -- Open a file under ``base_dir`` after traversal validation.
-- `store_secret_owner_only` (function) `core/hardening.py:663` `def store_secret_owner_only(path, text)` -- Atomically store a secret owner-only (0600, dir 0700).
-- `contains_emoji` (function) `core/hardening.py:706` `def contains_emoji(text)` -- Return True when ``text`` carries any emoji codepoint.
-- `iter_emoji_spans` (function) `core/hardening.py:721` `def iter_emoji_spans(text)` -- Return ``(offset, char)`` for every emoji char in ``text``.
-- `seal_secret` (function) `core/hardening.py:754` `def seal_secret(plaintext)` -- Seal a secret with Fernet (AES-128-CBC + HMAC) for storage.
-- `unseal_secret` (function) `core/hardening.py:785` `def unseal_secret(stored)` -- Reveal a secret stored by :func:`seal_secret` (legacy-compatible).
-- `redact_text` (function) `core/hardening.py:826` `def redact_text(text)` -- Mask credential-like patterns before persistence or display.
+- `safe_clipboard_copy` (function) `core/hardening.py:203` `def safe_clipboard_copy(content)` -- Copy content to system clipboard without shell interpretation.
+- `build_sshpass_command` (function) `core/hardening.py:242` `def build_sshpass_command(password, ssh_args)` -- Build an sshpass command using SSHPASS env var (sshpass -e).
+- `set_sshpass_env` (function) `core/hardening.py:271` `def set_sshpass_env(password)` -- Create an environment dict with SSHPASS set for sshpass -e.
+- `escape_html_content` (function) `core/hardening.py:290` `def escape_html_content(value)` -- Escape HTML special characters to prevent XSS.
+- `safe_path_join` (function) `core/hardening.py:302` `def safe_path_join(base_dir, user_path)` -- Join base_dir and user_path safely, preventing path traversal.
+- `validate_network_cidr` (function) `core/hardening.py:328` `def validate_network_cidr(cidr)` -- Validate a network CIDR notation string.
+- `validate_port_spec` (function) `core/hardening.py:340` `def validate_port_spec(ports)` -- Validate a port specification string.
+- `validate_host` (function) `core/hardening.py:356` `def validate_host(host)` -- Validate a hostname or IP address.
+- `require_encryption_key` (function) `core/hardening.py:376` `def require_encryption_key(env_key, secret_file)` -- Require a proper encryption key; never fall back to a static default.
+- `defused_xml_parse` (function) `core/hardening.py:404` `def defused_xml_parse(source)` -- Parse XML safely using defusedxml.
+- `sanitize_filename` (function) `core/hardening.py:426` `def sanitize_filename(filename, max_length)` -- Sanitize a filename by removing dangerous characters.
+- `tls_secure_context` (function) `core/hardening.py:446` `def tls_secure_context(extra_ca)` -- Build a verifying client TLS context with a TLS 1.2 floor.
+- `tls_lab_unverified_allowed` (function) `core/hardening.py:471` `def tls_lab_unverified_allowed(host)` -- Return True only when unverified lab TLS is explicitly opted in.
+- `tls_lab_fallback_context` (function) `core/hardening.py:498` `def tls_lab_fallback_context()` -- Build the gated unverified context for lab self-signed hosts.
+- `validate_upstream_path` (function) `core/hardening.py:520` `def validate_upstream_path(path)` -- Validate an origin-form upstream path without regular expressions.
+- `is_safe_path_segment` (function) `core/hardening.py:549` `def is_safe_path_segment(segment)` -- Validate one path segment with a linear charset scan (no regex).
+- `is_safe_dir_path` (function) `core/hardening.py:570` `def is_safe_dir_path(raw)` -- Validate a relative directory path with linear scans (no regex).
+- `is_safe_yaml_name` (function) `core/hardening.py:596` `def is_safe_yaml_name(name)` -- Validate a YAML filename with linear scans (no regex).
+- `safe_join_under` (function) `core/hardening.py:615` `def safe_join_under(base_dir, user_path)` -- Join and resolve ``user_path`` under ``base_dir`` (symlink-safe).
+- `safe_open_under` (function) `core/hardening.py:644` `def safe_open_under(base_dir, user_path, mode)` -- Open a file under ``base_dir`` after traversal validation.
+- `store_secret_owner_only` (function) `core/hardening.py:671` `def store_secret_owner_only(path, text)` -- Atomically store a secret owner-only (0600, dir 0700).
+- `contains_emoji` (function) `core/hardening.py:714` `def contains_emoji(text)` -- Return True when ``text`` carries any emoji codepoint.
+- `iter_emoji_spans` (function) `core/hardening.py:729` `def iter_emoji_spans(text)` -- Return ``(offset, char)`` for every emoji char in ``text``.
+- `seal_secret` (function) `core/hardening.py:762` `def seal_secret(plaintext)` -- Seal a secret with Fernet (AES-128-CBC + HMAC) for storage.
+- `unseal_secret` (function) `core/hardening.py:793` `def unseal_secret(stored)` -- Reveal a secret stored by :func:`seal_secret` (legacy-compatible).
+- `redact_text` (function) `core/hardening.py:834` `def redact_text(text)` -- Mask credential-like patterns before persistence or display.
 
 ## core/host_policy.py
 Imported by: `core/hardening.py`, `core/validators.py`, `tests/test_host_policy.py`

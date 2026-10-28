@@ -2,6 +2,12 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/theme/manager.py` -> `lazygui/config/settings.py`
+- `lazygui/theme/manager.py` -> `lazygui/theme/palettes/__init__.py`
+- `lazygui/theme/manager.py` -> `lazygui/theme/qss_builder.py`
+- `lazygui/theme/manager.py` -> `lazygui/theme/tokens.py`
+- `lazygui/theme/palettes/__init__.py` -> `lazygui/theme/tokens.py`
+- `lazygui/theme/palettes/catppuccin_mocha.py` -> `lazygui/theme/tokens.py`
 - `lazygui/theme/palettes/cobalt_clone.py` -> `lazygui/theme/tokens.py`
 - `lazygui/theme/palettes/gruvbox_dark.py` -> `lazygui/theme/tokens.py`
 - `lazygui/theme/palettes/solarized_light.py` -> `lazygui/theme/tokens.py`
@@ -96,6 +102,9 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `lazyown.py` -> `modules/unified_bridge.py`
 - `lazyown.py` -> `skills/unified_orchestrator.py`
 - `lazyown.py` -> `utils.py`
+- `modules/ad_gym.py` -> `modules/__init__.py`
+- `modules/ad_gym.py` -> `modules/atomic_exploit_bridge.py`
+- `modules/ad_gym.py` -> `modules/chain_registry.py`
 - `modules/addon_updater.py` -> `core/logging.py`
 - `modules/agent_runner.py` -> `core/logging.py`
 - `modules/agent_runner.py` -> `modules/ai_model.py`
@@ -400,6 +409,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `modules/world_model.py`
 - `modules/lazy_loop.py` -> `utils.py`
 - `modules/lazy_mentions.py` -> `modules/lazy_loop.py`
+- `modules/lazy_oob.py` -> `modules/backdoor/server.c`
 - `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_cli_bridge.py`
 - `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py`
 - `modules/lazy_osinfer.py` -> `modules/auto_registry.py`
@@ -486,15 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/mediation/__init__.py` -> `modules/mediation/hub.py`
 - `modules/mediation/__init__.py` -> `modules/mediation/intel_mediator.py`
 - `modules/mediation/__init__.py` -> `modules/mediation/telemetry_mediator.py`
-- `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py`
-- `modules/mediation/contracts.py` -> `modules/mediation/hub.py`
-- `modules/mediation/feedback_mediator.py` -> `modules/lazy_orchestrator_feedback.py`
-- `modules/mediation/hub.py` -> `modules/mediation/chain_mediator.py`
-- `modules/mediation/hub.py` -> `modules/mediation/contracts.py`
-- `modules/mediation/hub.py` -> `modules/mediation/feedback_mediator.py`
-- `modules/mediation/hub.py` -> `modules/mediation/intel_mediator.py`
-- `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py`
-- `modules/mediation/intel_mediator.py` -> `modules/lazy_intel.py`
-- `modules/mediation/intel_mediator.py` -> `modules/lazy_loop.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

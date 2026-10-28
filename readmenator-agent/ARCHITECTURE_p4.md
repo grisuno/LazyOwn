@@ -2,6 +2,16 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py`
+- `modules/mediation/contracts.py` -> `modules/mediation/hub.py`
+- `modules/mediation/feedback_mediator.py` -> `modules/lazy_orchestrator_feedback.py`
+- `modules/mediation/hub.py` -> `modules/mediation/chain_mediator.py`
+- `modules/mediation/hub.py` -> `modules/mediation/contracts.py`
+- `modules/mediation/hub.py` -> `modules/mediation/feedback_mediator.py`
+- `modules/mediation/hub.py` -> `modules/mediation/intel_mediator.py`
+- `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py`
+- `modules/mediation/intel_mediator.py` -> `modules/lazy_intel.py`
+- `modules/mediation/intel_mediator.py` -> `modules/lazy_loop.py`
 - `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py`
 - `modules/memory_store.py` -> `modules/memory_embeddings.py`
 - `modules/metasploitable_gym.py` -> `core/logging.py`
@@ -486,15 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `static/js/xterm.js` -> `lazyown-docker/init.sh`
 - `static/js/xterm.js` -> `modules/colors.py`
 - `static/js/xterm.js` -> `skills/claude_md_orchestrator/parser.py`
-- `telegram_c2.py` -> `core/parsers.py`
-- `telegram_c2.py` -> `lazyown.py`
-- `telegram_c2.py` -> `modules/llm_adapter.py`
-- `telegram_hermes.py` -> `core/parsers.py`
-- `tests/conftest.py` -> `modules/guardrails/harness.py`
-- `tests/conftest.py` -> `modules/lazy_agent.py`
-- `tests/conftest.py` -> `modules/lazy_bridge.py`
-- `tests/conftest.py` -> `modules/lazy_loop.py`
-- `tests/conftest.py` -> `modules/llm_factory.py`
-- `tests/conftest.py` -> `modules/llm_pool.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

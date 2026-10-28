@@ -411,7 +411,7 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `parse_distro_revision` (function, line 303) `def parse_distro_revision(banner)`
   - `backport_status` (function, line 342) `def backport_status(banner, fixed_revision)`
   - `label_for` (function, line 370) `def label_for(status, fixed_revision)`
-- Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_cve_feed.py`
+- Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_cve_feed.py`, `modules/loop_triggers.py`
 
 ## modules/lazy_installer.py
 - Doc: Capability installer for the Lazy autonomous loop.

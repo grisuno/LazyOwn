@@ -1216,6 +1216,13 @@ verbs:
     description: Ejecuta el script lazyftpsniff.py que se encuentra en la carpeta
       modules.
     source: addon
+  addon:lazykerninc:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: "LazyKernelInc \u2014 Windows kernel arbitrary-address increment\
+      \ probe"
+    source: addon
   addon:lazymapd:
     enabled: false
     phase: enum

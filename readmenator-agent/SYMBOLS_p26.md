@@ -1,8 +1,31 @@
-# Symbols (page 26 of 46)
+# Symbols (page 26 of 47)
 Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `skills/lazyown_policy.py:923` | `def __init__(self, cfg)` |
+| `__init__` | method | `skills/lazyown_policy.py:987` | `def __init__(self, cfg)` |
+| `__init__` | method | `skills/lazyown_policy.py:1107` | `def __init__(self, cfg, transitions)` |
+| `__init__` | method | `skills/lazyown_policy.py:1202` | `def __init__(self, cfg, interactive)` |
+| `__init__` | method | `skills/lazyown_policy.py:1267` | `def __init__(self, cfg)` |
+| `__init__` | method | `skills/lazyown_policy.py:1302` | `def __init__(self, cfg)` |
+| `__init__` | method | `skills/lazyown_policy.py:1400` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `skills/lazyown_policy.py:1463` | `def __init__(self, narrator, file_sink)` |
+| `__init__` | method | `skills/lazyown_policy.py:1513` | `def __init__(self, stream)` |
+| `__init__` | method | `skills/lazyown_policy.py:1564` | `def __init__(self, sinks)` |
+| `__init__` | method | `skills/lazyown_policy.py:1634` | `def __init__(self, sink, payload_path, poll_interval_s, poll_timeout_s, sleep_fn)` |
+| `__init__` | method | `skills/lazyown_policy.py:1850` | `def __init__(self, payload_path, in_scope_fn)` |
+| `__init__` | method | `skills/lazyown_policy.py:1928` | `def __init__(self, cfg)` |
+| `_apply_overrides` | method | `skills/lazyown_policy.py:1162` | `def _apply_overrides(self, recent_states)` |
+| `_auto_approve_enabled` | method | `skills/lazyown_policy.py:1654` | `def _auto_approve_enabled(self)` |
+| `_build_prompt` | method | `skills/lazyown_policy.py:503` | `def _build_prompt(self, command, args, output, exit_code)` |
+| `_call_ollama` | method | `skills/lazyown_policy.py:525` | `def _call_ollama(self, prompt)` |
+| `_cmd_analyze` | function | `skills/lazyown_policy.py:1977` | `def _cmd_analyze(cfg, args)` |
+| `_cmd_bootstrap` | function | `skills/lazyown_policy.py:1970` | `def _cmd_bootstrap(cfg, _args)` |
+| `_cmd_recommend` | function | `skills/lazyown_policy.py:1991` | `def _cmd_recommend(cfg, args)` |
+| `_cmd_report` | function | `skills/lazyown_policy.py:2012` | `def _cmd_report(cfg, _args)` |
+| `_default_fallback` | method | `skills/lazyown_policy.py:1171` | `def _default_fallback(self, current_state)` |
+| `_default_in_scope` | function | `skills/lazyown_policy.py:1779` | `def _default_in_scope(target, entries)` |
 | `_default_sleep` | function | `skills/lazyown_policy.py:1721` | `def _default_sleep(seconds)` |
 | `_get_oracle` | method | `skills/lazyown_policy.py:718` | `def _get_oracle(self)` |
 | `_is_gated` | method | `skills/lazyown_policy.py:1664` | `def _is_gated(self, phase)` |
@@ -473,28 +496,5 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `_gen_ofuscate_string` | function | `skills/mcp_generated_tools.py:3842` | `def _gen_ofuscate_string(arguments, tool_name, _cmd)` |
 | `_gen_ofuscatesh` | function | `skills/mcp_generated_tools.py:3850` | `def _gen_ofuscatesh(arguments, tool_name, _cmd)` |
 | `_gen_ofuscatorps1` | function | `skills/mcp_generated_tools.py:3858` | `def _gen_ofuscatorps1(arguments, tool_name, _cmd)` |
-| `_gen_op_create` | function | `skills/mcp_generated_tools.py:3866` | `def _gen_op_create(arguments, tool_name, _cmd)` |
-| `_gen_op_list` | function | `skills/mcp_generated_tools.py:3874` | `def _gen_op_list(arguments, tool_name, _cmd)` |
-| `_gen_op_pause` | function | `skills/mcp_generated_tools.py:3882` | `def _gen_op_pause(arguments, tool_name, _cmd)` |
-| `_gen_op_plan` | function | `skills/mcp_generated_tools.py:3890` | `def _gen_op_plan(arguments, tool_name, _cmd)` |
-| `_gen_op_report` | function | `skills/mcp_generated_tools.py:3898` | `def _gen_op_report(arguments, tool_name, _cmd)` |
-| `_gen_op_resume` | function | `skills/mcp_generated_tools.py:3906` | `def _gen_op_resume(arguments, tool_name, _cmd)` |
-| `_gen_op_start` | function | `skills/mcp_generated_tools.py:3914` | `def _gen_op_start(arguments, tool_name, _cmd)` |
-| `_gen_op_status` | function | `skills/mcp_generated_tools.py:3922` | `def _gen_op_status(arguments, tool_name, _cmd)` |
-| `_gen_op_stop` | function | `skills/mcp_generated_tools.py:3930` | `def _gen_op_stop(arguments, tool_name, _cmd)` |
-| `_gen_op_timeline` | function | `skills/mcp_generated_tools.py:3938` | `def _gen_op_timeline(arguments, tool_name, _cmd)` |
-| `_gen_openredirex` | function | `skills/mcp_generated_tools.py:3946` | `def _gen_openredirex(arguments, tool_name, _cmd)` |
-| `_gen_openssl_sclient` | function | `skills/mcp_generated_tools.py:3954` | `def _gen_openssl_sclient(arguments, tool_name, _cmd)` |
-| `_gen_operator_create` | function | `skills/mcp_generated_tools.py:3962` | `def _gen_operator_create(arguments, tool_name, _cmd)` |
-| `_gen_operator_delete` | function | `skills/mcp_generated_tools.py:3970` | `def _gen_operator_delete(arguments, tool_name, _cmd)` |
-| `_gen_operator_load` | function | `skills/mcp_generated_tools.py:3978` | `def _gen_operator_load(arguments, tool_name, _cmd)` |
-| `_gen_operators` | function | `skills/mcp_generated_tools.py:3986` | `def _gen_operators(arguments, tool_name, _cmd)` |
-| `_gen_opsec` | function | `skills/mcp_generated_tools.py:3994` | `def _gen_opsec(arguments, tool_name, _cmd)` |
-| `_gen_orchestrate` | function | `skills/mcp_generated_tools.py:4002` | `def _gen_orchestrate(arguments, tool_name, _cmd)` |
-| `_gen_osmedeus` | function | `skills/mcp_generated_tools.py:4010` | `def _gen_osmedeus(arguments, tool_name, _cmd)` |
-| `_gen_owneredit` | function | `skills/mcp_generated_tools.py:4018` | `def _gen_owneredit(arguments, tool_name, _cmd)` |
-| `_gen_package_squat` | function | `skills/mcp_generated_tools.py:4026` | `def _gen_package_squat(arguments, tool_name, _cmd)` |
-| `_gen_padbuster` | function | `skills/mcp_generated_tools.py:4034` | `def _gen_padbuster(arguments, tool_name, _cmd)` |
-| `_gen_palette_k` | function | `skills/mcp_generated_tools.py:4042` | `def _gen_palette_k(arguments, tool_name, _cmd)` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

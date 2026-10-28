@@ -21,7 +21,7 @@ inspector: file nodes carry ``family``/``layer``/``language``/`[`rank`](modules.
 
 ## Contents
 
-- **Functions:** [`node_id`](#node_id), [`build_intel_graph`](#build_intel_graph), [`group_colors`](#group_colors), [`page_settings`](#page_settings), [`build_analytics`](#build_analytics), [`build_bundle_payload`](#build_bundle_payload), [`bundle_settings`](#bundle_settings), [`assign_layout`](#assign_layout), [`write_summary`](#write_summary)
+- **Functions:** [`node_id`](#node_id), [`build_intel_graph`](#build_intel_graph), [`group_colors`](#group_colors), [`page_settings`](#page_settings), [`build_analytics`](#build_analytics), [`build_bundle_payload`](#build_bundle_payload), [`bundle_settings`](#bundle_settings), [`assign_layout`](#assign_layout), [`svg_selection`](#svg_selection), [`relations_svg`](#relations_svg), [`write_summary`](#write_summary)
 - **Constants:** [`NODE_COLORS`](#node_colors), [`EDGE_COLORS`](#edge_colors)
 
 ## Call Graph
@@ -35,11 +35,14 @@ flowchart LR
     n_modules_intel_fusion_py__page_settings(["page_settings"])
     n_modules_intel_fusion_py__group_colors(["group_colors"])
     n_modules_intel_fusion_py__bundle_settings(["bundle_settings"])
+    n_modules_intel_fusion_py__relations_svg(["relations_svg"])
+    n_modules_intel_fusion_py__svg_selection(["svg_selection"])
     n_modules_lazy_loop_py__ExplorationGraph_add_edge["lazy_loop.ExplorationGraph.add_edge"]
     n_modules_world_model_py__read_state_dict["world_model.read_state_dict"]
     n_modules_intel_fusion_py__build_intel_graph --> n_modules_intel_fusion_py__node_id
     n_modules_intel_fusion_py__page_settings --> n_modules_intel_fusion_py__group_colors
     n_modules_intel_fusion_py__bundle_settings --> n_modules_intel_fusion_py__group_colors
+    n_modules_intel_fusion_py__relations_svg --> n_modules_intel_fusion_py__svg_selection
     n_modules_intel_fusion_py__build_intel_graph -.-> n_modules_lazy_loop_py__ExplorationGraph_add_edge
     n_modules_intel_fusion_py__build_intel_graph -.-> n_modules_world_model_py__read_state_dict
 ```
@@ -249,11 +252,70 @@ positions so the client physics (charge -300, distance 120, 400 ticks
 
 ---
 
+<a id="svg_selection"></a>
+
+### `svg_selection`
+
+`function` | [modules/intel_fusion.py:1147](../../modules/intel_fusion.py#L1147)
+
+```python
+def svg_selection(graph: dict, cap_nodes: int = SVG_NODE_CAP) -> list[str]
+```
+
+Return the node ids a bounded snapshot keeps, most important first.
+
+The lightest intel snapshot for static rendering: the c2 hub, then the
+hottest CVE matches, then the most connected nodes. Args: `[`graph`](lazyc2.py.md#graph)`
+intel payload, ``cap_nodes`` maximum selected ids.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `graph` | `dict` |  |  |
+| `cap_nodes` | `int` | `SVG_NODE_CAP` |  |
+
+**Returns:** `list[str]` - Selected node ids in placement order.
+
+*Called by:* [`relations_svg`](#relations_svg)
+
+---
+
+<a id="relations_svg"></a>
+
+### `relations_svg`
+
+`function` | [modules/intel_fusion.py:1187](../../modules/intel_fusion.py#L1187)
+
+```python
+def relations_svg(graph: dict, cap_nodes: int = SVG_NODE_CAP) -> str
+```
+
+Render a static svg snapshot of the intel graph for documents.
+
+Pure, bounded and XML-escaped: circles per selected node (fill by
+kind, ring by heat on CVE nodes), lines only between rendered nodes
+and a legend row. Scan-derived values never reach the markup raw, so
+the output is safe to embed with ``| safe``.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `graph` | `dict` |  | Intel graph payload from [`build_intel_graph`](#build_intel_graph). |
+| `cap_nodes` | `int` | `SVG_NODE_CAP` | Maximum rendered nodes. |
+
+**Returns:** `str` - SVG markup, or "" when the graph has no renderable nodes.
+
+*Calls:* [`svg_selection`](#svg_selection)
+
+---
+
 <a id="write_summary"></a>
 
 ### `write_summary`
 
-`function` | [modules/intel_fusion.py:1144](../../modules/intel_fusion.py#L1144)
+`function` | [modules/intel_fusion.py:1296](../../modules/intel_fusion.py#L1296)
 
 ```python
 def write_summary(graph: dict, sessions_dir: str | Path = SESSIONS_DIR) -> dict

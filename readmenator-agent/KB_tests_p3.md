@@ -1,6 +1,96 @@
 # Subsystem: tests (page 3 of 21)
 Previous: [KB_tests_p2.md](KB_tests_p2.md)
 
+## tests/test_audit_remediation.py
+- Doc: Audit-remediation contract tests (P0-P4).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_spec_by_key` (function, line 19) `def _spec_by_key(key)`
+  - `test_beacon_hmac_default_is_on` (function, line 27) `def test_beacon_hmac_default_is_on()`
+  - `test_auto_pipeline_flags_default_off` (function, line 32) `def test_auto_pipeline_flags_default_off()`
+  - `test_rat_key_spec_is_no_longer_published_secret` (function, line 37) `def test_rat_key_spec_is_no_longer_published_secret()`
+  - `_payload_loader` (function, line 42) `def _payload_loader(payload_path)`
+  - `_payload_writer` (function, line 49) `def _payload_writer(payload_path)`
+  - `test_ensure_rat_key_generates_and_persists` (function, line 56) `def test_ensure_rat_key_generates_and_persists(tmp_path, monkeypatch)`
+  - `test_ensure_rat_key_rotates_legacy_published_key` (function, line 71) `def test_ensure_rat_key_rotates_legacy_published_key(tmp_path, monkeypatch)`
+  - `test_ensure_rat_key_idempotent_for_fresh_key` (function, line 84) `def test_ensure_rat_key_idempotent_for_fresh_key(tmp_path, monkeypatch)`
+  - `test_ensure_rat_key_mirrors_live_config` (function, line 96) `def test_ensure_rat_key_mirrors_live_config(tmp_path, monkeypatch)`
+  - `test_lazyown_set_config_persists_and_mirrors` (function, line 113) `def test_lazyown_set_config_persists_and_mirrors(tmp_path, monkeypatch)`
+  - `test_c2_signature_guard_wired_into_routes` (function, line 134) `def test_c2_signature_guard_wired_into_routes()`
+  - `test_c2_bootstraps_session_secrets_at_boot` (function, line 144) `def test_c2_bootstraps_session_secrets_at_boot()`
+  - `test_implant_signs_wire_body` (function, line 150) `def test_implant_signs_wire_body()`
+  - `test_implant_seeds_defaults_and_pins_tls` (function, line 159) `def test_implant_seeds_defaults_and_pins_tls()`
+  - `test_builder_context_carries_beacon_keys` (function, line 170) `def test_builder_context_carries_beacon_keys()`
+  - `test_rootkit_sources_free_of_operator_identity` (function, line 177) `def test_rootkit_sources_free_of_operator_identity()`
+  - `test_rootkit_makefile_exposes_overrides` (function, line 190) `def test_rootkit_makefile_exposes_overrides()`
+  - `test_backdoor_neutralized` (function, line 196) `def test_backdoor_neutralized()`
+  - `test_hygiene_findings_clean_on_current_tree` (function, line 203) `def test_hygiene_findings_clean_on_current_tree()`
+  - `test_hygiene_findings_flag_dirty_payload` (function, line 214) `def test_hygiene_findings_flag_dirty_payload()`
+  - `test_audit_hygiene_chain_loads_and_resolves` (function, line 225) `def test_audit_hygiene_chain_loads_and_resolves()`
+  - `test_orchestrator_exposes_new_fields` (function, line 239) `def test_orchestrator_exposes_new_fields()`
+  - `test_command_index_contains_hygiene_audit` (function, line 246) `def test_command_index_contains_hygiene_audit()`
+  - `_load` (function, line 43) `def _load()`
+  - `_write` (function, line 50) `def _write(payload)`
+  - `_Live` (class, line 105) `class _Live`
+  - `_Live` (class, line 122) `class _Live`
+- Depends on: `cli/commands/audit.py`, `cli/orchestrator_assets_tabs.py`, `core/config.py`, `core/payload_schema.py`, `modules/chain_registry.py`, `utils.py`
+
+## tests/test_auto_crypto.py
+- Doc: Tests for cli.auto_crypto — automatic session data encryption.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `crypto_module` (function, line 21) `def crypto_module()`
+  - `tmp_sessions` (function, line 28) `def tmp_sessions()`
+  - `TestAutoCryptoConfig` (class, line 33) `class TestAutoCryptoConfig`
+  - `TestAutoCryptoEngine` (class, line 54) `class TestAutoCryptoEngine`
+  - `TestPasswordProvider` (class, line 144) `class TestPasswordProvider`
+  - `TestHasPassword` (class, line 152) `class TestHasPassword`
+  - `TestExitEncryptWiring` (class, line 169) `class TestExitEncryptWiring`
+  - `test_default_config` (method, line 34) `def test_default_config(self, crypto_module)`
+  - `test_custom_config` (method, line 42) `def test_custom_config(self, crypto_module)`
+  - `test_disabled_engine_is_noop` (method, line 55) `def test_disabled_engine_is_noop(self, crypto_module, tmp_sessions)`
+  - `test_no_password_provider_returns_false` (method, line 66) `def test_no_password_provider_returns_false(self, crypto_module, tmp_sessions)`
+  - `test_empty_directory_is_not_encrypted` (method, line 77) `def test_empty_directory_is_not_encrypted(self, crypto_module, tmp_sessions)`
+  - `test_encrypt_decrypt_roundtrip` (method, line 86) `def test_encrypt_decrypt_roundtrip(self, crypto_module, tmp_sessions)`
+  - `test_salt_is_persisted` (method, line 122) `def test_salt_is_persisted(self, crypto_module, tmp_sessions)`
+  - `test_build_provider_returns_callable` (method, line 145) `def test_build_provider_returns_callable(self)`
+  - `test_false_without_provider` (method, line 153) `def test_false_without_provider(self, crypto_module, tmp_sessions)`
+  - `test_true_with_provider` (method, line 158) `def test_true_with_provider(self, crypto_module, tmp_sessions)`
+  - `test_false_when_provider_returns_empty` (method, line 163) `def test_false_when_provider_returns_empty(self, crypto_module, tmp_sessions)`
+  - `_stub_shell` (method, line 172) `def _stub_shell(self, calls)`
+  - `test_qa_encrypts_before_exit` (method, line 180) `def test_qa_encrypts_before_exit(self, monkeypatch)`
+  - `test_exit_encrypts_after_confirmation` (method, line 195) `def test_exit_encrypts_after_confirmation(self, monkeypatch)`
+  - `test_eof_encrypts_before_returning` (method, line 213) `def test_eof_encrypts_before_returning(self, monkeypatch)`
+- Depends on: `cli/auto_crypto.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`
+
+## tests/test_auto_loop_memory.py
+- Doc: BDD tests for the auto-loop persistent memory and selector cascade.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestFailureMemory` (class, line 13) `class TestFailureMemory`
+  - `TestFailureMemorySanctioned` (class, line 71) `class TestFailureMemorySanctioned`
+  - `TestDecisionPersistence` (class, line 86) `class TestDecisionPersistence`
+  - `TestSelectorManager` (class, line 121) `class TestSelectorManager`
+  - `test_counts_persist_across_reload` (method, line 16) `def test_counts_persist_across_reload(self, tmp_path)`
+  - `test_blocked_after_threshold_by_base` (method, line 25) `def test_blocked_after_threshold_by_base(self, tmp_path)`
+  - `test_veto_blocks_immediately_and_persists` (method, line 35) `def test_veto_blocks_immediately_and_persists(self, tmp_path)`
+  - `test_trims_to_capacity` (method, line 43) `def test_trims_to_capacity(self, tmp_path)`
+  - `test_clear_target_forgets_records` (method, line 53) `def test_clear_target_forgets_records(self, tmp_path)`
+  - `test_invalid_key_raises` (method, line 63) `def test_invalid_key_raises(self, tmp_path)`
+  - `test_sanctioned_lists_sorted_rows` (method, line 74) `def test_sanctioned_lists_sorted_rows(self, tmp_path)`
+  - `test_push_pop_round_trip` (method, line 89) `def test_push_pop_round_trip(self, tmp_path)`
+  - `test_newest_First_and_persisted` (method, line 99) `def test_newest_First_and_persisted(self, tmp_path)`
+  - `test_push_ignores_empty_and_caps` (method, line 110) `def test_push_ignores_empty_and_caps(self, tmp_path)`
+  - `test_priority_order_wins` (method, line 124) `def test_priority_order_wins(self)`
+  - `test_blocked_proposal_skipped_with_trace` (method, line 130) `def test_blocked_proposal_skipped_with_trace(self)`
+  - `test_all_blocked_returns_none` (method, line 144) `def test_all_blocked_returns_none(self)`
+  - `test_duplicates_deduped` (method, line 149) `def test_duplicates_deduped(self)`
+  - `test_empty_command_rejected` (method, line 155) `def test_empty_command_rejected(self)`
+- Depends on: `modules/auto_loop_memory.py`, `modules/selector_manager.py`
+
 ## tests/test_auto_registry.py
 - Doc: Auto-verb registry: loop-ready automation commands.
 - Layer: testing
@@ -388,106 +478,6 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_bof_no_hardcoded_ip` (method, line 230) `def test_bof_no_hardcoded_ip(self)`
   - `test_beacon_no_hardcoded_port_numbers` (method, line 237) `def test_beacon_no_hardcoded_port_numbers(self)`
   - `test_bof_no_hardcoded_port_numbers` (method, line 241) `def test_bof_no_hardcoded_port_numbers(self)`
-
-## tests/test_bof_registry.py
-- Doc: Tests for modules/bof_registry.py — BofEntry, BofCatalog, BofRegistry, BofMarketplace...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `catalog` (function, line 37) `def catalog()`
-  - `tmp_sessions` (function, line 42) `def tmp_sessions()`
-  - `TestBofEntry` (class, line 47) `class TestBofEntry`
-  - `TestBofCatalog` (class, line 101) `class TestBofCatalog`
-  - `TestBofRegistry` (class, line 174) `class TestBofRegistry`
-  - `TestBofValidator` (class, line 221) `class TestBofValidator`
-  - `TestBofMarketplace` (class, line 291) `class TestBofMarketplace`
-  - `TestBofEnums` (class, line 359) `class TestBofEnums`
-  - `test_construction_and_properties` (method, line 48) `def test_construction_and_properties(self)`
-  - `test_immutability` (method, line 65) `def test_immutability(self)`
-  - `test_to_dict_roundtrip` (method, line 70) `def test_to_dict_roundtrip(self)`
-  - `test_from_dict_minimal` (method, line 91) `def test_from_dict_minimal(self)`
-  - `test_register_and_get` (method, line 102) `def test_register_and_get(self, catalog)`
-  - `test_get_missing_raises_keyerror` (method, line 107) `def test_get_missing_raises_keyerror(self, catalog)`
-  - `test_search_exact_match` (method, line 111) `def test_search_exact_match(self, catalog)`
-  - `test_search_by_category` (method, line 116) `def test_search_by_category(self, catalog)`
-  - `test_search_by_technique` (method, line 121) `def test_search_by_technique(self, catalog)`
-  - `test_search_empty_query_returns_all` (method, line 127) `def test_search_empty_query_returns_all(self, catalog)`
-  - `test_list_all_sorted` (method, line 131) `def test_list_all_sorted(self, catalog)`
-  - `test_list_by_platform` (method, line 136) `def test_list_by_platform(self, catalog)`
-  - `test_list_by_category` (method, line 141) `def test_list_by_category(self, catalog)`
-  - `test_save_load_roundtrip` (method, line 147) `def test_save_load_roundtrip(self, catalog, tmp_sessions)`
-  - `test_load_missing_file_returns_empty` (method, line 153) `def test_load_missing_file_returns_empty(self, tmp_sessions)`
-  - `test_empty_catalog` (method, line 158) `def test_empty_catalog(self)`
-  - `test_register_overwrites` (method, line 165) `def test_register_overwrites(self)`
-  - `test_install_and_check` (method, line 175) `def test_install_and_check(self, tmp_sessions)`
-  - `test_uninstall` (method, line 182) `def test_uninstall(self, tmp_sessions)`
-  - `test_uninstall_nonexistent` (method, line 189) `def test_uninstall_nonexistent(self, tmp_sessions)`
-  - `test_list_installed` (method, line 193) `def test_list_installed(self, tmp_sessions)`
-  - `test_get_install_info` (method, line 201) `def test_get_install_info(self, tmp_sessions)`
-  - `test_get_install_info_nonexistent` (method, line 209) `def test_get_install_info_nonexistent(self, tmp_sessions)`
-  - `test_manifest_persistence` (method, line 213) `def test_manifest_persistence(self, tmp_sessions)`
-  - `test_verify_with_empty_hash_skips` (method, line 222) `def test_verify_with_empty_hash_skips(self, tmp_sessions)`
-  - `test_compute_sha256_deterministic` (method, line 230) `def test_compute_sha256_deterministic(self, tmp_sessions)`
-  - `test_verify_mismatched_hash` (method, line 238) `def test_verify_mismatched_hash(self, tmp_sessions)`
-  - `test_validate_args_missing_required` (method, line 253) `def test_validate_args_missing_required(self)`
-  - `test_validate_args_all_present` (method, line 266) `def test_validate_args_all_present(self)`
-  - `test_validate_args_no_required` (method, line 278) `def test_validate_args_no_required(self)`
-  - `test_search_enriches_with_install_status` (method, line 292) `def test_search_enriches_with_install_status(self, tmp_sessions)`
-  - `test_info_returns_catalog_and_install_state` (method, line 299) `def test_info_returns_catalog_and_install_state(self, tmp_sessions)`
-  - `test_info_missing_bof` (method, line 306) `def test_info_missing_bof(self)`
-  - `test_install_and_uninstall` (method, line 311) `def test_install_and_uninstall(self, tmp_sessions)`
-  - `test_install_already_installed` (method, line 321) `def test_install_already_installed(self, tmp_sessions)`
-  - `test_install_missing_bof` (method, line 327) `def test_install_missing_bof(self)`
-  - `test_uninstall_missing_bof` (method, line 332) `def test_uninstall_missing_bof(self, tmp_sessions)`
-  - `test_list_installed_empty_initially` (method, line 337) `def test_list_installed_empty_initially(self, tmp_sessions)`
-  - `test_list_missing_dependencies` (method, line 342) `def test_list_missing_dependencies(self, tmp_sessions)`
-  - `test_list_missing_dependencies_unknown_bof` (method, line 347) `def test_list_missing_dependencies_unknown_bof(self)`
-  - `test_bulk_install` (method, line 352) `def test_bulk_install(self, tmp_sessions)`
-  - `test_platform_values` (method, line 360) `def test_platform_values(self)`
-  - `test_category_values` (method, line 364) `def test_category_values(self)`
-- Depends on: `modules/bof_registry.py`
-
-## tests/test_bootstrap_installer.py
-- Doc: Integration tests for the installer scripts (no network, no apt).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_run_bootstrap` (function, line 29) `def _run_bootstrap(args, env, cwd)`
-  - `_git` (function, line 44) `def _git(args, cwd)`
-  - `test_bootstrap_help_lists_options` (function, line 55) `def test_bootstrap_help_lists_options()`
-  - `test_bootstrap_rejects_unknown_flag` (function, line 63) `def test_bootstrap_rejects_unknown_flag()`
-  - `test_bootstrap_rejects_bad_modes` (function, line 75) `def test_bootstrap_rejects_bad_modes()`
-  - `test_install_pipe_guard` (function, line 88) `def test_install_pipe_guard(tmp_path)`
-  - `_make_stub_repo` (function, line 105) `def _make_stub_repo(path)`
-  - `test_existing_checkout_abort_changes_nothing` (function, line 118) `def test_existing_checkout_abort_changes_nothing(tmp_path)`
-  - `test_debug_flag_traces_execution` (function, line 138) `def test_debug_flag_traces_execution(tmp_path)`
-  - `test_existing_checkout_update_reinstalls` (function, line 153) `def test_existing_checkout_update_reinstalls(tmp_path)`
-  - `test_existing_checkout_clean_backs_up_payload` (function, line 170) `def test_existing_checkout_clean_backs_up_payload(tmp_path)`
-  - `test_non_checkout_path_fails_without_tty` (function, line 195) `def test_non_checkout_path_fails_without_tty(tmp_path)`
-  - `test_install_uses_supported_pip_flags` (function, line 208) `def test_install_uses_supported_pip_flags()`
-  - `test_scripts_are_executable_and_clean` (function, line 220) `def test_scripts_are_executable_and_clean()`
-
-## tests/test_boyscout_contracts.py
-- Doc: Boy-scout contracts for critical shared surfaces.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_bound_import_names` (function, line 27) `def _bound_import_names(tree)`
-  - `test_lazyown_has_no_unused_imports` (function, line 42) `def test_lazyown_has_no_unused_imports()`
-  - `_load_mcp_module` (function, line 52) `def _load_mcp_module()`
-  - `test_playbook_target_is_shell_quoted` (function, line 110) `def test_playbook_target_is_shell_quoted()`
-  - `test_replace_placeholders_matches_single_pass_engine` (function, line 119) `def test_replace_placeholders_matches_single_pass_engine()`
-  - `test_replace_placeholders_keeps_brace_values_literal` (function, line 133) `def test_replace_placeholders_keeps_brace_values_literal()`
-  - `test_deploy_has_no_todo_markers` (function, line 141) `def test_deploy_has_no_todo_markers()`
-  - `Tool` (class, line 66) `class Tool`
-  - `TextContent` (class, line 73) `class TextContent`
-  - `Server` (class, line 83) `class Server`
-  - `__init__` (method, line 69) `def __init__(self)`
-  - `__init__` (method, line 76) `def __init__(self)`
-  - `__init__` (method, line 86) `def __init__(self)`
-  - `list_tools` (method, line 89) `def list_tools(self)`
-  - `call_tool` (method, line 93) `def call_tool(self)`
-- Depends on: `skills/lazyown_mcp.py`, `utils.py`
 
 
 Next: [KB_tests_p4.md](KB_tests_p4.md)

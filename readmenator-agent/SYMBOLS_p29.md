@@ -1,8 +1,31 @@
-# Symbols (page 29 of 46)
+# Symbols (page 29 of 47)
 Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `o` | function | `static/js/chart.min.js:13` | `` |
+| `o` | function | `static/js/chart.min.js:13` | `` |
+| `on` | class | `static/js/chart.min.js:13` | `` |
+| `oo` | class | `static/js/chart.min.js:13` | `` |
+| `p` | function | `static/js/chart.min.js:13` | `` |
+| `p` | function | `static/js/chart.min.js:13` | `` |
+| `r` | function | `static/js/chart.min.js:7` | `` |
+| `r` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `s` | function | `static/js/chart.min.js:13` | `` |
+| `sn` | class | `static/js/chart.min.js:13` | `` |
+| `t` | function | `static/js/chart.min.js:13` | `` |
+| `tn` | class | `static/js/chart.min.js:13` | `` |
+| `wa` | class | `static/js/chart.min.js:13` | `` |
+| `xt` | class | `static/js/chart.min.js:7` | `` |
+| `y` | function | `static/js/chart.min.js:13` | `` |
+| `y` | function | `static/js/chart.min.js:13` | `` |
 | `ya` | class | `static/js/chart.min.js:13` | `` |
 | `ye` | function | `static/js/chart.min.js:13` | `` |
 | `yt` | function | `static/js/chart.min.js:13` | `` |
@@ -473,28 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `isBodyWithTransparentRoot` | function | `static/js/html2pdf.bundle.min.js:4913` | `` |
 | `isBodyWithTransparentRoot` | function | `static/js/html2pdf.bundle.min.js:4913` | `` |
 | `isFloating` | function | `static/js/html2pdf.bundle.min.js:4694` | `` |
-| `isFunction` | function | `static/js/html2pdf.bundle.min.js:7396` | `` |
-| `isGreenPixel` | function | `static/js/html2pdf.bundle.min.js:2791` | `` |
-| `isGreenPixel` | function | `static/js/html2pdf.bundle.min.js:2791` | `` |
-| `isInFlow` | function | `static/js/html2pdf.bundle.min.js:4674` | `` |
-| `isInlineBase64Image` | function | `static/js/html2pdf.bundle.min.js:6118` | `` |
-| `isInlineBase64Image` | function | `static/js/html2pdf.bundle.min.js:6118` | `` |
-| `isInlineBlockOrInlineTable` | function | `static/js/html2pdf.bundle.min.js:4719` | `` |
-| `isInlineImage` | function | `static/js/html2pdf.bundle.min.js:6115` | `` |
-| `isInlineImage` | function | `static/js/html2pdf.bundle.min.js:6115` | `` |
-| `isInlineLevel` | function | `static/js/html2pdf.bundle.min.js:4714` | `` |
-| `isPercentage` | function | `static/js/html2pdf.bundle.min.js:960` | `` |
-| `isPositioned` | function | `static/js/html2pdf.bundle.min.js:4689` | `` |
-| `isPositionedWithZIndex` | function | `static/js/html2pdf.bundle.min.js:4709` | `` |
-| `isRootElement` | function | `static/js/html2pdf.bundle.min.js:4699` | `` |
-| `isSVG` | function | `static/js/html2pdf.bundle.min.js:6125` | `` |
-| `isSVG` | function | `static/js/html2pdf.bundle.min.js:6125` | `` |
-| `isSameOrigin` | function | `static/js/html2pdf.bundle.min.js:6059` | `` |
-| `isTransformed` | function | `static/js/html2pdf.bundle.min.js:4704` | `` |
-| `isTransparent` | function | `static/js/html2pdf.bundle.min.js:314` | `` |
-| `isVisible` | function | `static/js/html2pdf.bundle.min.js:4679` | `` |
-| `j` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `lerp` | function | `static/js/html2pdf.bundle.min.js:1066` | `` |
-| `lerp` | function | `static/js/html2pdf.bundle.min.js:1066` | `` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

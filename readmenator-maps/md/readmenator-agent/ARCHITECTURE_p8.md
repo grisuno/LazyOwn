@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## External Imports (continued)
+- `modules/llm_orchestrator.py` -> __future__, collections.abc, dataclasses, os, typing
 - `modules/llm_pool.py` -> __future__, collections.abc, dataclasses, hashlib, itertools, json, os, pathlib, threading, time
 - `modules/llm_prompts.py` -> __future__, dataclasses, json, os, typing
 - `modules/log_tamper.py` -> __future__, dataclasses, pathlib, typing
@@ -10,7 +11,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `modules/loop_guardrails.py` -> __future__, collections, contextlib, dataclasses, hashlib, json, math, os, pathlib, random, re, tempfile, threading, time
 - `modules/loop_manager.py` -> __future__, dataclasses, datetime, ipaddress, json, os, pathlib, re, signal, subprocess, sys, threading, time, typing, uuid
 - `modules/loop_progress.py` -> __future__, dataclasses, re, rich.live, rich.panel, rich.spinner, rich.table, rich.text, sys, threading, time
-- `modules/loop_triggers.py` -> __future__
+- `modules/loop_triggers.py` -> __future__, collections.abc, hashlib
 - `modules/macos_payloads.py` -> __future__, base64, dataclasses, os, pathlib, plistlib, subprocess, typing
 - `modules/mario.py` -> os, pygame
 - `modules/mcp_agent_bridge.py` -> datetime, groq, json, os, pathlib, re, requests, sys, threading, time, uuid
@@ -237,7 +238,9 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/run_mutation_contract_manifest.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_emulation_runner.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_infra_report.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_intel_svg.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_killchain.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_lazy_scope.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_llm.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_llm_orchestrator.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_loop_cli_catalog.py` -> __future__, pathlib, sys
@@ -248,6 +251,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/run_mutation_phase1.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_shell_semantics.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_tests.py` -> __future__, pathlib, subprocess, sys
+- `tests/run_mutation_trigger_hints.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_trigger_policy.py` -> __future__, pathlib, sys
 - `tests/run_mutation_ux_usability.py` -> __future__, pathlib, subprocess, sys
 - `tests/run_mutation_verb_catalog.py` -> __future__, pathlib, sys
@@ -390,7 +394,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_improvements_spec.py` -> __future__, cmd2, cmd2.plugin, collections.abc, dataclasses, json, pathlib, skills, sys, tempfile, typing, unittest
 - `tests/test_infra_disposable.py` -> __future__, cli.commands.report_enhanced, os, pathlib, types, unittest.mock
 - `tests/test_input_fuzz.py` -> __future__, pathlib, pytest, random, string
-- `tests/test_intel_fusion.py` -> __future__, json, pathlib, sys, time
+- `tests/test_intel_fusion.py` -> __future__, jinja2, json, pathlib, sys, time
 - `tests/test_intelligence_engine.py` -> __future__, json, pathlib, pytest
 - `tests/test_journal.py` -> __future__, json, pytest
 - `tests/test_killchain.py` -> __future__, pathlib, sys
@@ -409,6 +413,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_lazy_parity.py` -> __future__, io, json, os, pathlib, sys, time
 - `tests/test_lazy_proxy.py` -> __future__, cryptography, http.client, pathlib, socket, ssl, threading, types
 - `tests/test_lazy_runner.py` -> __future__, ast, builtins, contextlib, io, json, os, pathlib, pytest, queue, subprocess, sys, threading, time, types
+- `tests/test_lazy_scope.py` -> __future__, pathlib
 - `tests/test_lazy_streaming.py` -> __future__, types
 - `tests/test_lazy_worker_safety.py` -> __future__, pytest, types
 - `tests/test_lazy_world_diff.py` -> __future__, json, pathlib, sys, time
@@ -448,6 +453,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_loop_spawn_side.py` -> __future__
 - `tests/test_loop_store_race.py` -> __future__, threading
 - `tests/test_loop_supervision.py` -> __future__
+- `tests/test_loop_trigger_hints.py` -> __future__, json, pathlib, pytest, types
 - `tests/test_loop_worker_traces.py` -> __future__
 - `tests/test_marketplace_config.py` -> __future__, asyncio, json, yaml
 - `tests/test_mcp_dispatch.py` -> __future__, ast, pathlib, re
@@ -490,11 +496,5 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_playbook_admin.py` -> __future__, yaml
 - `tests/test_plugin_loader_safety.py` -> __future__, ast, pathlib, re
 - `tests/test_plugin_tiers.py` -> __future__, pathlib, pytest, yaml
-- `tests/test_profiles.py` -> __future__, pathlib, pytest
-- `tests/test_prompt_readline_markers.py` -> __future__, pathlib, sys
-- `tests/test_prompt_refresh.py` -> __future__, pathlib, re, types
-- `tests/test_pwntomate_tools.py` -> __future__, json, pathlib, re
-- `tests/test_rea_mcp.py` -> __future__, asyncio, json, pathlib, pytest, subprocess, sys, types
-- `tests/test_reaction_bridge.py` -> __future__, pytest
 
 Next: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)

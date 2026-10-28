@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 829 modules, 15603 documented entities, documentation coverage 75.3% (7395/9818 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 830 modules, 15624 documented entities, documentation coverage 75.4% (7407/9830 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (716), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (717), sh (61)
 
 ## Modules
 
@@ -587,7 +587,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.ia_logs_analysis`](modules/modules.ia_logs_analysis.py.md) | log_monitor_bot.py | 1 | 6 | 75.0% |
 | [`modules.ia_network_analysis`](modules/modules.ia_network_analysis.py.md) | ia_network_analysis.py | 0 | 4 | 80.0% |
 | [`modules.img2bin`](modules/modules.img2bin.py.md) |  | 0 | 2 | 0.0% |
-| [`modules.intel_fusion`](modules/modules.intel_fusion.py.md) | Sessions attack-intel fusion: data -> information -> intelligence. | 0 | 9 | 100.0% |
+| [`modules.intel_fusion`](modules/modules.intel_fusion.py.md) | Sessions attack-intel fusion: data -> information -> intelligence. | 0 | 11 | 100.0% |
 | [`modules.intelligence_engine`](modules/modules.intelligence_engine.py.md) | IntelligenceEngine — unified collection→analysis→intelligence pipeline. | 5 | 14 | 95.0% |
 | [`modules.intercept`](modules/modules.intercept.py.md) | User-configurable tool-call interception layer with human-in-loop approvals. | 7 | 20 | 100.0% |
 | [`modules/internal_discover.sh`](modules/modules.internal_discover.sh.md) |  | 0 | 0 | 0.0% |
@@ -619,6 +619,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | Lazy specialist roles for the autonomous loop. | 0 | 4 | 100.0% |
 | [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 7 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | Per-task Docker sandbox for the Lazy autonomous loop. | 0 | 10 | 100.0% |
+| [`modules.lazy_scope`](modules/modules.lazy_scope.py.md) | Lab-only default scope for autonomous loop targets. | 1 | 6 | 100.0% |
 | [`modules.lazy_skill_mirror`](modules/modules.lazy_skill_mirror.py.md) | Mirror LazyOwn skills for Hermes discovery. | 0 | 4 | 100.0% |
 | [`modules.lazy_skills`](modules/modules.lazy_skills.py.md) | Skill context injection for planner/worker prompts. | 0 | 4 | 100.0% |
 | [`modules.lazy_summarizer`](modules/modules.lazy_summarizer.py.md) | Bounded chain summarizer for the Lazy autonomous loop. | 0 | 2 | 100.0% |
@@ -666,7 +667,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | Adaptive guardrails for the autonomous loop. | 4 | 23 | 92.9% |
 | [`modules.loop_manager`](modules/modules.loop_manager.py.md) | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | 4 | 13 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | Rich Live milestone panel for the autonomous loop. | 2 | 9 | 100.0% |
-| [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | TriggerStore: persistent loop triggers extracted from the loop core. | 1 | 9 | 100.0% |
+| [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | TriggerStore: persistent loop triggers extracted from the loop core. | 1 | 11 | 100.0% |
 | [`modules.macos_payloads`](modules/modules.macos_payloads.py.md) | macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC. | 2 | 11 | 92.9% |
 | [`modules.mario`](modules/modules.mario.py.md) |  | 0 | 1 | 0.0% |
 | [`modules.mcp_agent_bridge`](modules/modules.mcp_agent_bridge.py.md) | LazyOwn MCP Agent Bridge ======================== Allows Claude (via MCP) to delegate tasks to internal AI agents (Groq / Ollama) running inside LazyOwn... | 3 | 10 | 42.9% |

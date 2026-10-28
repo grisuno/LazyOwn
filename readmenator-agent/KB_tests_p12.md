@@ -1,6 +1,20 @@
 # Subsystem: tests (page 12 of 21)
 Previous: [KB_tests_p11.md](KB_tests_p11.md)
 
+## tests/test_lazy_bridge_traffic.py
+- Doc: Incremental LAZY traffic mirroring (stall regression).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_sandbox` (function, line 16) `def _sandbox(tmp_path, monkeypatch)`
+  - `_append` (function, line 29) `def _append(path, rows)`
+  - `_exchanges` (function, line 35) `def _exchanges(sessions_dir)`
+  - `test_traffic_mirror_is_incremental` (function, line 39) `def test_traffic_mirror_is_incremental(tmp_path, monkeypatch)`
+  - `test_partial_line_is_retried` (function, line 61) `def test_partial_line_is_retried(tmp_path, monkeypatch)`
+  - `test_progress_callback_survives_failures` (function, line 78) `def test_progress_callback_survives_failures(tmp_path, monkeypatch)`
+  - `_boom` (function, line 83) `def _boom(_text)`
+- Depends on: `modules/__init__.py`, `modules/traffic_recorder.py`
+
 ## tests/test_lazy_engine.py
 - Doc: Lazy engine (LAZY-faithful) regression tests with stub executor.
 - Layer: testing
@@ -331,6 +345,43 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `wait` (method, line 1517) `def wait(self, timeout)`
 - Depends on: `cli/commands/exploit_migrated.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/session_ops.py`, `core/autonomous.py`, `core/config.py`, `core/process.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/command_executor.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/lazy_skills.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_progress.py`, `modules/tools/__init__.py`
 
+## tests/test_lazy_scope.py
+- Doc: Behavioural tests for the lab-only default scope guard.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestAddressClassification` (class, line 17) `class TestAddressClassification`
+  - `TestHostExtraction` (class, line 43) `class TestHostExtraction`
+  - `TestScopeVerdict` (class, line 63) `class TestScopeVerdict`
+  - `TestCommandScope` (class, line 108) `class TestCommandScope`
+  - `TestAllowlist` (class, line 128) `class TestAllowlist`
+  - `TestLoopWiring` (class, line 143) `class TestLoopWiring`
+  - `test_loopback_and_rfc1918_are_lab` (method, line 20) `def test_loopback_and_rfc1918_are_lab(self)`
+  - `test_public_addresses_are_not_lab` (method, line 24) `def test_public_addresses_are_not_lab(self)`
+  - `test_ipv6_loopback_and_unique_local_are_lab` (method, line 28) `def test_ipv6_loopback_and_unique_local_are_lab(self)`
+  - `test_ipv4_mapped_public_is_not_lab` (method, line 32) `def test_ipv4_mapped_public_is_not_lab(self)`
+  - `test_ipv4_mapped_private_is_lab` (method, line 35) `def test_ipv4_mapped_private_is_lab(self)`
+  - `test_garbage_is_not_lab` (method, line 38) `def test_garbage_is_not_lab(self)`
+  - `test_ips_and_domains_extracted` (method, line 46) `def test_ips_and_domains_extracted(self)`
+  - `test_file_suffixes_are_not_hosts` (method, line 50) `def test_file_suffixes_are_not_hosts(self)`
+  - `test_duplicates_collapse` (method, line 55) `def test_duplicates_collapse(self)`
+  - `test_empty_text_yields_nothing` (method, line 59) `def test_empty_text_yields_nothing(self)`
+  - `test_lab_ip_literal_allowed` (method, line 66) `def test_lab_ip_literal_allowed(self)`
+  - `test_public_ip_literal_denied` (method, line 70) `def test_public_ip_literal_denied(self)`
+  - `test_hostname_resolving_private_allowed` (method, line 75) `def test_hostname_resolving_private_allowed(self)`
+  - `test_hostname_resolving_public_denied` (method, line 79) `def test_hostname_resolving_public_denied(self)`
+  - `test_mixed_answers_denied` (method, line 84) `def test_mixed_answers_denied(self)`
+  - `test_unresolved_denied` (method, line 90) `def test_unresolved_denied(self)`
+  - `test_allowlist_entry_allowed` (method, line 95) `def test_allowlist_entry_allowed(self)`
+  - `test_empty_target_denied` (method, line 103) `def test_empty_target_denied(self)`
+  - `test_all_lab_command_allowed` (method, line 111) `def test_all_lab_command_allowed(self)`
+  - `test_one_public_host_blocks_command` (method, line 115) `def test_one_public_host_blocks_command(self)`
+  - `test_hostname_public_blocks_command` (method, line 120) `def test_hostname_public_blocks_command(self)`
+  - `test_missing_file_is_empty` (method, line 131) `def test_missing_file_is_empty(self, tmp_path)`
+  - `test_comments_and_blanks_skipped` (method, line 134) `def test_comments_and_blanks_skipped(self, tmp_path)`
+  - `test_scope_default_method_wired` (method, line 146) `def test_scope_default_method_wired(self)`
+- Depends on: `modules/__init__.py`
+
 ## tests/test_lazy_streaming.py
 - Doc: Token-level streaming: factory, pool deltas, agent reassembly.
 - Layer: testing
@@ -398,72 +449,6 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_snapshot_engagement_counts_campaign` (function, line 247) `def test_snapshot_engagement_counts_campaign(tmp_path)`
   - `test_snapshot_engagement_cooldown` (function, line 268) `def test_snapshot_engagement_cooldown(tmp_path)`
 - Depends on: `modules/lazy_world_diff.py`
-
-## tests/test_lazygui_backend.py
-- Doc: Tests for lazygui backend services.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestBackendDescriptor` (class, line 26) `class TestBackendDescriptor`
-  - `TestBackendStatus` (class, line 41) `class TestBackendStatus`
-  - `TestTeamserverCredentials` (class, line 52) `class TestTeamserverCredentials`
-  - `TestBackendSignals` (class, line 77) `class TestBackendSignals`
-  - `ConcreteBackend` (class, line 151) `class ConcreteBackend(Backend)`
-  - `TestTeamserverBackendConstruction` (class, line 173) `class TestTeamserverBackendConstruction`
-  - `TestTeamserverPayloadParsing` (class, line 206) `class TestTeamserverPayloadParsing`
-  - `TestTeamserverBackendLifecycle` (class, line 302) `class TestTeamserverBackendLifecycle`
-  - `TestTopologyDataContract` (class, line 328) `class TestTopologyDataContract`
-  - `TestTopologyBuilderFromPayload` (class, line 344) `class TestTopologyBuilderFromPayload`
-  - `test_construction` (method, line 29) `def test_construction(self)`
-  - `test_immutable` (method, line 35) `def test_immutable(self)`
-  - `test_values` (method, line 44) `def test_values(self)`
-  - `test_construction` (method, line 55) `def test_construction(self)`
-  - `test_default_tls` (method, line 67) `def test_default_tls(self)`
-  - `test_immutable` (method, line 71) `def test_immutable(self)`
-  - `test_signals_exist` (method, line 80) `def test_signals_exist(self)`
-  - `test_initial_status_is_disconnected` (method, line 93) `def test_initial_status_is_disconnected(self)`
-  - `test_status_transition` (method, line 97) `def test_status_transition(self)`
-  - `test_status_no_duplicate_emit` (method, line 104) `def test_status_no_duplicate_emit(self)`
-  - `test_descriptor_read_only` (method, line 113) `def test_descriptor_read_only(self)`
-  - `test_known_sessions_defaults` (method, line 118) `def test_known_sessions_defaults(self)`
-  - `test_known_topology_default` (method, line 123) `def test_known_topology_default(self)`
-  - `test_known_campaigns_default` (method, line 129) `def test_known_campaigns_default(self)`
-  - `test_world_model_default` (method, line 133) `def test_world_model_default(self)`
-  - `test_session_state_default` (method, line 138) `def test_session_state_default(self)`
-  - `_make_backend` (method, line 146) `def _make_backend()`
-  - `start` (method, line 154) `def start(self)`
-  - `stop` (method, line 157) `def stop(self)`
-  - `send_command` (method, line 160) `def send_command(self, command, target_session)`
-  - `refresh` (method, line 163) `def refresh(self)`
-  - `resize_terminal` (method, line 166) `def resize_terminal(self, columns, rows)`
-  - `feed_terminal_input` (method, line 169) `def feed_terminal_input(self, data)`
-  - `test_construction` (method, line 176) `def test_construction(self)`
-  - `test_construction_with_parent` (method, line 184) `def test_construction_with_parent(self)`
-  - `test_build_url` (method, line 191) `def test_build_url(self)`
-  - `test_build_url_no_trailing_slash` (method, line 198) `def test_build_url_no_trailing_slash(self)`
-  - `test_update_from_empty_payload` (method, line 209) `def test_update_from_empty_payload(self)`
-  - `test_non_mapping_payload` (method, line 216) `def test_non_mapping_payload(self)`
-  - `test_parse_graph_nodes_from_valid_payload` (method, line 223) `def test_parse_graph_nodes_from_valid_payload(self)`
-  - `test_parse_graph_edges_from_valid_payload` (method, line 242) `def test_parse_graph_edges_from_valid_payload(self)`
-  - `test_parse_empty_graph_payload` (method, line 259) `def test_parse_empty_graph_payload(self)`
-  - `test_update_operator` (method, line 267) `def test_update_operator(self)`
-  - `test_update_operator_no_username` (method, line 285) `def test_update_operator_no_username(self)`
-  - `test_update_sessions_empty` (method, line 294) `def test_update_sessions_empty(self)`
-  - `test_stop_without_start` (method, line 305) `def test_stop_without_start(self)`
-  - `test_stop_sets_disconnected` (method, line 312) `def test_stop_sets_disconnected(self)`
-  - `test_send_command_does_not_raise` (method, line 321) `def test_send_command_does_not_raise(self)`
-  - `test_construct_and_compare` (method, line 331) `def test_construct_and_compare(self)`
-  - `test_none_converted` (method, line 338) `def test_none_converted(self)`
-  - `make_backend` (method, line 347) `def make_backend(self)`
-  - `test_builds_c2_node` (method, line 354) `def test_builds_c2_node(self)`
-  - `test_builds_beacon_nodes` (method, line 362) `def test_builds_beacon_nodes(self)`
-  - `test_builds_edges_c2_to_beacon` (method, line 379) `def test_builds_edges_c2_to_beacon(self)`
-  - `test_builds_host_nodes_from_discovered` (method, line 396) `def test_builds_host_nodes_from_discovered(self)`
-  - `test_builds_port_nodes` (method, line 412) `def test_builds_port_nodes(self)`
-  - `test_builds_connected_hosts` (method, line 428) `def test_builds_connected_hosts(self)`
-  - `test_topology_emitted_on_change` (method, line 439) `def test_topology_emitted_on_change(self)`
-  - `test_topology_not_emitted_on_no_change` (method, line 455) `def test_topology_not_emitted_on_no_change(self)`
-- Depends on: `lazygui/config/constants.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
 
 
 Next: [KB_tests_p13.md](KB_tests_p13.md)

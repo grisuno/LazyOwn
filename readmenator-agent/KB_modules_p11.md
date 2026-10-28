@@ -1,6 +1,44 @@
 # Subsystem: modules (page 11 of 16)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
+## modules/llm_factory.py
+- Doc: LLM backend factory and selection utilities.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `is_model_missing_error` (function, line 121) `def is_model_missing_error(message)`
+  - `groq_model_chain` (function, line 141) `def groq_model_chain(config)`
+  - `LLMBackendUnavailableError` (class, line 190) `class LLMBackendUnavailableError(RuntimeError)`
+  - `LLMBackendNotSupportedError` (class, line 194) `class LLMBackendNotSupportedError(ValueError)`
+  - `default_model_for` (function, line 224) `def default_model_for(backend)`
+  - `model_config_key` (function, line 245) `def model_config_key(backend)`
+  - `api_key_config_key` (function, line 266) `def api_key_config_key(backend)`
+  - `backend_requires_api_key` (function, line 291) `def backend_requires_api_key(backend)`
+  - `load_payload` (function, line 309) `def load_payload(payload_path)`
+  - `_is_placeholder_key` (function, line 333) `def _is_placeholder_key(value)`
+  - `_resolve_api_key` (function, line 353) `def _resolve_api_key(config)`
+  - `_resolve_api_key_for_backend` (function, line 376) `def _resolve_api_key_for_backend(backend, config)`
+  - `_normalize_backend` (function, line 407) `def _normalize_backend(backend)`
+  - `_require_cloud_allowed` (function, line 440) `def _require_cloud_allowed(normalized)`
+  - `_build_groq` (function, line 472) `def _build_groq(config)`
+  - `_build_ollama` (function, line 494) `def _build_ollama(config)`
+  - `_build_llamacpp` (function, line 508) `def _build_llamacpp(config)`
+  - `_build_openai` (function, line 522) `def _build_openai(config)`
+  - `_build_anthropic` (function, line 544) `def _build_anthropic(config)`
+  - `_build_deepseek` (function, line 566) `def _build_deepseek(config)`
+  - `_resolve_model_identifier` (function, line 588) `def _resolve_model_identifier(backend_identifier, config)`
+  - `_wrap_with_budget` (function, line 615) `def _wrap_with_budget(backend, config, backend_identifier)`
+  - `get_llm_backend` (function, line 653) `def get_llm_backend(config, backend)`
+  - `_build_backend` (function, line 705) `def _build_backend(normalized, resolved_config)`
+  - `get_llm_backend_raw` (function, line 749) `def get_llm_backend_raw(config, backend)`
+  - `try_get_llm_backend` (function, line 771) `def try_get_llm_backend(config, backend)`
+  - `_pi_timeout` (function, line 795) `def _pi_timeout()`
+  - `_pi_complete` (function, line 807) `def _pi_complete(model, prompt, max_tokens)`
+  - `stream_complete` (function, line 848) `def stream_complete(model, prompt, max_tokens, on_delta)`
+  - `complete` (function, line 919) `def complete(model, prompt, max_tokens)`
+- Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
+
 ## modules/llm_orchestrator.py
 - Doc: Orchestrator-governed LLM failover chain for every AI module.
 - Layer: utility
@@ -274,20 +312,22 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_core` (function, line 16) `def _core()`
-  - `TriggerStore` (class, line 23) `class TriggerStore`
-  - `__init__` (method, line 26) `def __init__(self, task_id)`
-  - `_load` (method, line 32) `def _load(self)`
-  - `add` (method, line 36) `def add(self, kind, arg, every_sec)`
-  - `upsert_defaults` (method, line 58) `def upsert_defaults(self, seeds)`
-  - `remove` (method, line 100) `def remove(self, trigger_id)`
-  - `set_enabled` (method, line 111) `def set_enabled(self, trigger_id, enabled)`
-  - `list` (method, line 125) `def list(self)`
-  - `ensure_service_trigger` (method, line 129) `def ensure_service_trigger(self)`
-  - `ensure_cve_hot_trigger` (method, line 142) `def ensure_cve_hot_trigger(self)`
-  - `due` (method, line 155) `def due(self, task_id, graph, activity, assets, store)`
-- Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `modules/world_model.py`
-- Imported by: `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
+  - `hint_fingerprint` (function, line 28) `def hint_fingerprint(row)`
+  - `prune_hint_fingerprints` (function, line 60) `def prune_hint_fingerprints(store, now, ttl)`
+  - `_core` (function, line 81) `def _core()`
+  - `TriggerStore` (class, line 88) `class TriggerStore`
+  - `__init__` (method, line 91) `def __init__(self, task_id)`
+  - `_load` (method, line 97) `def _load(self)`
+  - `add` (method, line 101) `def add(self, kind, arg, every_sec)`
+  - `upsert_defaults` (method, line 123) `def upsert_defaults(self, seeds)`
+  - `remove` (method, line 165) `def remove(self, trigger_id)`
+  - `set_enabled` (method, line 176) `def set_enabled(self, trigger_id, enabled)`
+  - `list` (method, line 190) `def list(self)`
+  - `ensure_service_trigger` (method, line 194) `def ensure_service_trigger(self)`
+  - `ensure_cve_hot_trigger` (method, line 207) `def ensure_cve_hot_trigger(self)`
+  - `due` (method, line 220) `def due(self, task_id, graph, activity, assets, store)`
+- Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_heat.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `modules/world_model.py`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_loop_trigger_hints.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
 
 ## modules/macos_payloads.py
 - Doc: macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC.
@@ -450,38 +490,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `apply_migrations` (function, line 354) `def apply_migrations(container, subnet)`
 - Depends on: `core/safe_exec.py`
 - Imported by: `modules/lab_runtime.py`, `tests/test_metasploitable_migrations.py`
-
-## modules/metrics.py
-- Doc: LazyOwn metrics surface.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `MetricsRegistry` (class, line 54) `class MetricsRegistry`
-  - `_labels_key` (function, line 126) `def _labels_key(labels)`
-  - `MetricRecord` (class, line 146) `class MetricRecord`
-  - `MetricsWriter` (class, line 181) `class MetricsWriter`
-  - `MetricsAggregator` (class, line 226) `class MetricsAggregator`
-  - `MetricsRecorder` (class, line 332) `class MetricsRecorder`
-  - `get_recorder` (function, line 452) `def get_recorder()`
-  - `reset_recorder_for_tests` (function, line 466) `def reset_recorder_for_tests(writer)`
-  - `__init__` (method, line 63) `def __init__(self)`
-  - `inc` (method, line 69) `def inc(self, name, labels, value)`
-  - `get` (method, line 87) `def get(self, name, labels)`
-  - `prometheus_text` (method, line 107) `def prometheus_text(self)`
-  - `to_dict` (method, line 167) `def to_dict(self)`
-  - `__init__` (method, line 189) `def __init__(self, path)`
-  - `path` (method, line 201) `def path(self)`
-  - `append` (method, line 206) `def append(self, record)`
-  - `_percentile` (method, line 234) `def _percentile(values, percentile)`
-  - `summarize` (method, line 254) `def summarize(cls, records, window_seconds, now_utc)`
-  - `__init__` (method, line 339) `def __init__(self, writer)`
-  - `path` (method, line 350) `def path(self)`
-  - `record` (method, line 355) `def record(self, command, args, duration_ms, success, exit_code, source)`
-  - `_read_all` (method, line 388) `def _read_all(self)`
-  - `summarize` (method, line 416) `def summarize(self, window_seconds)`
-  - `tail` (method, line 430) `def tail(self, n)`
-- Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

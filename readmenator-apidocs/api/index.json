@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 829,
-  "entities": 15603,
+  "modules": 830,
+  "entities": 15624,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,21 +13,21 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 716,
+   "py": 717,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4392,
-   "class": 1422,
+   "attribute": 4395,
+   "class": 1423,
    "classmethod": 84,
-   "constant": 1381,
+   "constant": 1387,
    "constructor": 526,
    "enum": 39,
    "exception": 40,
-   "function": 2839,
+   "function": 2849,
    "macro": 114,
    "method": 3589,
-   "module": 829,
+   "module": 830,
    "property": 201,
    "protocol": 20,
    "staticmethod": 91,
@@ -36,20 +36,20 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 373,
+  "skipped_files": 378,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7395,
-   "total": 9818,
-   "percent": 75.3
+   "documented": 7407,
+   "total": 9830,
+   "percent": 75.4
   },
   "by_kind": {
    "class": {
-    "documented": 1235,
-    "total": 1422,
-    "percent": 86.8
+    "documented": 1236,
+    "total": 1423,
+    "percent": 86.9
    },
    "classmethod": {
     "documented": 58,
@@ -72,9 +72,9 @@
     "percent": 95.0
    },
    "function": {
-    "documented": 1934,
-    "total": 2839,
-    "percent": 68.1
+    "documented": 1944,
+    "total": 2849,
+    "percent": 68.2
    },
    "macro": {
     "documented": 2,
@@ -87,8 +87,8 @@
     "percent": 81.4
    },
    "module": {
-    "documented": 713,
-    "total": 829,
+    "documented": 714,
+    "total": 830,
     "percent": 86.0
    },
    "property": {
@@ -2509,8 +2509,8 @@
     "percent": 85.7
    },
    "modules/intel_fusion.py": {
-    "documented": 10,
-    "total": 10,
+    "documented": 12,
+    "total": 12,
     "percent": 100.0
    },
    "modules/intelligence_engine.py": {
@@ -2666,6 +2666,11 @@
    "modules/lazy_sandbox.py": {
     "documented": 11,
     "total": 11,
+    "percent": 100.0
+   },
+   "modules/lazy_scope.py": {
+    "documented": 8,
+    "total": 8,
     "percent": 100.0
    },
    "modules/lazy_skill_mirror.py": {
@@ -2909,8 +2914,8 @@
     "percent": 100.0
    },
    "modules/loop_triggers.py": {
-    "documented": 11,
-    "total": 11,
+    "documented": 13,
+    "total": 13,
     "percent": 100.0
    },
    "modules/macos_payloads.py": {
@@ -6659,7 +6664,7 @@
   {
    "uid": "modules/intel_fusion.py",
    "path": "modules/modules.intel_fusion.py.jsonl",
-   "entities": 12
+   "entities": 14
   },
   {
    "uid": "modules/intelligence_engine.py",
@@ -6815,6 +6820,11 @@
    "uid": "modules/lazy_sandbox.py",
    "path": "modules/modules.lazy_sandbox.py.jsonl",
    "entities": 11
+  },
+  {
+   "uid": "modules/lazy_scope.py",
+   "path": "modules/modules.lazy_scope.py.jsonl",
+   "entities": 15
   },
   {
    "uid": "modules/lazy_skill_mirror.py",
@@ -7059,7 +7069,7 @@
   {
    "uid": "modules/loop_triggers.py",
    "path": "modules/modules.loop_triggers.py.jsonl",
-   "entities": 12
+   "entities": 16
   },
   {
    "uid": "modules/macos_payloads.py",

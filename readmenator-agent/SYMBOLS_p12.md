@@ -1,4 +1,4 @@
-# Symbols (page 12 of 46)
+# Symbols (page 12 of 47)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |

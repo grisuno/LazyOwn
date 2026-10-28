@@ -309,6 +309,24 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
 - Depends on: `core/config.py`
 - Imported by: `cli/commands/lazyops.py`, `modules/lazy_runner.py`
 
+## modules/lazy_scope.py
+- Doc: Lab-only default scope for autonomous loop targets.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ScopeVerdict` (class, line 49) `class ScopeVerdict`
+  - `_ResolveCache` (class, line 64) `class _ResolveCache`
+  - `is_lab_address` (function, line 104) `def is_lab_address(address)`
+  - `extract_hosts` (function, line 129) `def extract_hosts(text)`
+  - `resolve_addresses` (function, line 163) `def resolve_addresses(name, now)`
+  - `_looks_like_address` (function, line 192) `def _looks_like_address(text)`
+  - `read_allowlist` (function, line 208) `def read_allowlist(sessions_dir)`
+  - `scope_verdict` (function, line 229) `def scope_verdict(target, resolver, allowlist)`
+  - `command_scope_verdict` (function, line 270) `def command_scope_verdict(command, resolver, allowlist)`
+  - `get` (method, line 69) `def get(self, name, now)`
+  - `put` (method, line 88) `def put(self, name, values, now)`
+  - `_keep` (function, line 142) `def _keep(start, value)`
+
 ## modules/lazy_skill_mirror.py
 - Doc: Mirror LazyOwn skills for Hermes discovery.
 - Layer: utility
@@ -407,7 +425,7 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
   - `find_ghost_hosts` (function, line 489) `def find_ghost_hosts(candidates, snapshots, checker, resolver, cap)`
   - `snapshot_engagement` (function, line 528) `def snapshot_engagement(sessions_dir, now, world)`
 - Depends on: `modules/world_model.py`
-- Imported by: `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`
+- Imported by: `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`
 
 ## modules/lazyatack.sh
 - Doc: Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico...
@@ -454,39 +472,6 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
 - Doc: Lista de repositorios (nombre y URL)
 - Layer: utility
 - Language: sh
-
-## modules/lazycloud.py
-- Doc: Cloud-native attack module for AWS, Azure, and GCP.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CloudResource` (class, line 87) `class CloudResource`
-  - `CloudFinding` (class, line 98) `class CloudFinding`
-  - `CloudMetadataHarvester` (class, line 108) `class CloudMetadataHarvester`
-  - `CloudBucketEnumerator` (class, line 248) `class CloudBucketEnumerator`
-  - `CloudIAMEnumerator` (class, line 342) `class CloudIAMEnumerator`
-  - `CloudScanner` (class, line 390) `class CloudScanner`
-  - `__init__` (method, line 111) `def __init__(self, timeout)`
-  - `session` (method, line 116) `def session(self)`
-  - `_get` (method, line 122) `def _get(self, url, headers)`
-  - `harvest_aws` (method, line 139) `def harvest_aws(self)`
-  - `harvest_azure` (method, line 184) `def harvest_azure(self)`
-  - `harvest_gcp` (method, line 208) `def harvest_gcp(self)`
-  - `harvest_all` (method, line 231) `def harvest_all(self)`
-  - `__init__` (method, line 251) `def __init__(self, timeout)`
-  - `session` (method, line 256) `def session(self)`
-  - `_check_url` (method, line 262) `def _check_url(self, url)`
-  - `enumerate_s3` (method, line 278) `def enumerate_s3(self, prefix, buckets)`
-  - `enumerate_azure_storage` (method, line 303) `def enumerate_azure_storage(self, prefix, accounts)`
-  - `enumerate_gcp_storage` (method, line 321) `def enumerate_gcp_storage(self, prefix, buckets)`
-  - `enumerate_aws_iam` (method, line 345) `def enumerate_aws_iam(self, access_key, secret_key, session_token)`
-  - `__init__` (method, line 393) `def __init__(self, target_domain, timeout)`
-  - `full_scan` (method, line 400) `def full_scan(self, target_prefix, sessions_dir)`
-  - `quick_metadata` (method, line 456) `def quick_metadata(self)`
-  - `quick_buckets` (method, line 460) `def quick_buckets(self, prefix)`
-  - `_aws_sig` (function, line 361) `def _aws_sig(key, msg)`
-  - `_sign` (function, line 364) `def _sign(key, msg)`
-- Imported by: `cli/commands/cloud.py`
 
 
 Next: [KB_modules_p10.md](KB_modules_p10.md)

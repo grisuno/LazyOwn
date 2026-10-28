@@ -1,6 +1,128 @@
 # Subsystem: tests (page 17 of 21)
 Previous: [KB_tests_p16.md](KB_tests_p16.md)
 
+## tests/test_pi_leg.py
+- Doc: pi loop-leg contract tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Proc` (class, line 20) `class _Proc`
+  - `_patch_run` (function, line 27) `def _patch_run(monkeypatch, proc)`
+  - `test_pi_missing_binary_raises` (function, line 44) `def test_pi_missing_binary_raises(monkeypatch)`
+  - `test_pi_success_returns_text` (function, line 51) `def test_pi_success_returns_text(monkeypatch)`
+  - `test_pi_model_passthrough` (function, line 60) `def test_pi_model_passthrough(monkeypatch)`
+  - `test_pi_default_model` (function, line 67) `def test_pi_default_model(monkeypatch)`
+  - `test_pi_prefix_case_insensitive` (function, line 74) `def test_pi_prefix_case_insensitive(monkeypatch)`
+  - `test_pi_nonzero_exit_raises` (function, line 81) `def test_pi_nonzero_exit_raises(monkeypatch)`
+  - `test_pi_empty_reply_raises` (function, line 88) `def test_pi_empty_reply_raises(monkeypatch)`
+  - `test_pi_timeout_raises` (function, line 95) `def test_pi_timeout_raises(monkeypatch)`
+  - `test_pi_empty_prompt_short_circuits` (function, line 106) `def test_pi_empty_prompt_short_circuits(monkeypatch)`
+  - `test_pi_stream_falls_back_to_complete` (function, line 114) `def test_pi_stream_falls_back_to_complete(monkeypatch)`
+  - `test_pi_pool_member_resolves` (function, line 121) `def test_pi_pool_member_resolves(monkeypatch, tmp_path)`
+  - `__init__` (method, line 21) `def __init__(self, returncode, stdout, stderr)`
+  - `_fake_run` (function, line 32) `def _fake_run(cmd)`
+- Depends on: `modules/__init__.py`, `modules/lazy_loop.py`
+
+## tests/test_pipeline_engine.py
+- Doc: tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `temp_lazyown` (function, line 36) `def temp_lazyown(tmp_path, monkeypatch)`
+  - `_ScriptedRunner` (class, line 67) `class _ScriptedRunner`
+  - `TestTemplateResolver` (class, line 98) `class TestTemplateResolver`
+  - `TestConditionEvaluator` (class, line 150) `class TestConditionEvaluator`
+  - `TestStepValidator` (class, line 175) `class TestStepValidator`
+  - `TestStepDerivers` (class, line 206) `class TestStepDerivers`
+  - `_write_pipeline` (function, line 248) `def _write_pipeline(pipelines_dir, name, data)`
+  - `TestPipelineLoader` (class, line 254) `class TestPipelineLoader`
+  - `silent_engine_kwargs` (function, line 361) `def silent_engine_kwargs(temp_lazyown)`
+  - `TestPipelineEngineExecution` (class, line 383) `class TestPipelineEngineExecution`
+  - `TestNestedPipelines` (class, line 577) `class TestNestedPipelines`
+  - `TestMcpEntryPoints` (class, line 684) `class TestMcpEntryPoints`
+  - `TestWiring` (class, line 738) `class TestWiring`
+  - `__init__` (method, line 70) `def __init__(self, outputs, successes)`
+  - `run` (method, line 79) `def run(self, command, args, target, timeout_s)`
+  - `_heuristic_success` (method, line 87) `def _heuristic_success(output)`
+  - `test_dotted_path_lookup` (method, line 99) `def test_dotted_path_lookup(self, temp_lazyown)`
+  - `test_missing_path_renders_empty` (method, line 106) `def test_missing_path_renders_empty(self, temp_lazyown)`
+  - `test_bool_serialisation` (method, line 112) `def test_bool_serialisation(self, temp_lazyown)`
+  - `test_payload_lookup` (method, line 118) `def test_payload_lookup(self, temp_lazyown)`
+  - `test_no_template_passes_through` (method, line 124) `def test_no_template_passes_through(self, temp_lazyown)`
+  - `test_no_code_execution` (method, line 130) `def test_no_code_execution(self, temp_lazyown)`
+  - `test_list_index_lookup` (method, line 138) `def test_list_index_lookup(self, temp_lazyown)`
+  - `test_truthy_table` (method, line 164) `def test_truthy_table(self, temp_lazyown, value, expected)`
+  - `test_substring_match` (method, line 176) `def test_substring_match(self, temp_lazyown)`
+  - `test_regex_match` (method, line 182) `def test_regex_match(self, temp_lazyown)`
+  - `test_empty_and_non_empty` (method, line 188) `def test_empty_and_non_empty(self, temp_lazyown)`
+  - `test_no_predicate_is_pass_through` (method, line 195) `def test_no_predicate_is_pass_through(self, temp_lazyown)`
+  - `test_ping_derives_ttl_and_alive` (method, line 207) `def test_ping_derives_ttl_and_alive(self, temp_lazyown)`
+  - `test_lazynmap_derives_services` (method, line 214) `def test_lazynmap_derives_services(self, temp_lazyown)`
+  - `test_searchsploit_has_exploit` (method, line 223) `def test_searchsploit_has_exploit(self, temp_lazyown)`
+  - `test_unknown_command_returns_empty` (method, line 231) `def test_unknown_command_returns_empty(self, temp_lazyown)`
+  - `test_register_custom_deriver` (method, line 236) `def test_register_custom_deriver(self, temp_lazyown)`
+  - `test_load_basic_pipeline` (method, line 255) `def test_load_basic_pipeline(self, temp_lazyown)`
+  - `test_missing_pipeline_raises` (method, line 272) `def test_missing_pipeline_raises(self, temp_lazyown)`
+  - `test_invalid_name_rejected` (method, line 278) `def test_invalid_name_rejected(self, temp_lazyown)`
+  - `test_both_command_and_pipeline_rejected` (method, line 284) `def test_both_command_and_pipeline_rejected(self, temp_lazyown)`
+  - `test_neither_command_nor_pipeline_rejected` (method, line 297) `def test_neither_command_nor_pipeline_rejected(self, temp_lazyown)`
+  - `test_empty_steps_rejected` (method, line 310) `def test_empty_steps_rejected(self, temp_lazyown)`
+  - `test_invalid_on_failure_rejected` (method, line 324) `def test_invalid_on_failure_rejected(self, temp_lazyown)`
+  - `test_list_returns_sorted_names` (method, line 337) `def test_list_returns_sorted_names(self, temp_lazyown)`
+  - `test_invalid_yaml_raises_schema_error` (method, line 346) `def test_invalid_yaml_raises_schema_error(self, temp_lazyown)`
+  - `_SilentNarrator` (class, line 369) `class _SilentNarrator(INarratorAdapter)`
+  - `test_runs_steps_in_order_and_persists_artifacts` (method, line 384) `def test_runs_steps_in_order_and_persists_artifacts(self, temp_lazyown, silent_engine_kwargs)`
+  - `test_validate_failure_marks_step_failed` (method, line 417) `def test_validate_failure_marks_step_failed(self, temp_lazyown, silent_engine_kwargs)`
+  - `test_condition_false_skips_step` (method, line 444) `def test_condition_false_skips_step(self, temp_lazyown, silent_engine_kwargs)`
+  - `test_condition_true_runs_step` (method, line 473) `def test_condition_true_runs_step(self, temp_lazyown, silent_engine_kwargs)`
+  - `test_on_success_hook_runs` (method, line 498) `def test_on_success_hook_runs(self, temp_lazyown, silent_engine_kwargs)`
+  - `test_on_failure_continue_keeps_going` (method, line 520) `def test_on_failure_continue_keeps_going(self, temp_lazyown, silent_engine_kwargs)`
+  - `test_input_from_replaces_args` (method, line 545) `def test_input_from_replaces_args(self, temp_lazyown, silent_engine_kwargs)`
+  - `test_nested_pipeline_runs_and_records_run_id` (method, line 578) `def test_nested_pipeline_runs_and_records_run_id(self, temp_lazyown, silent_engine_kwargs)`
+  - `test_cycle_is_detected` (method, line 613) `def test_cycle_is_detected(self, temp_lazyown, silent_engine_kwargs)`
+  - `test_depth_limit_enforced` (method, line 639) `def test_depth_limit_enforced(self, temp_lazyown, silent_engine_kwargs)`
+  - `test_list_returns_json` (method, line 685) `def test_list_returns_json(self, temp_lazyown)`
+  - `test_run_rejects_invalid_name` (method, line 699) `def test_run_rejects_invalid_name(self, temp_lazyown)`
+  - `test_validate_returns_step_list` (method, line 705) `def test_validate_returns_step_list(self, temp_lazyown)`
+  - `test_validate_missing_pipeline_errors` (method, line 719) `def test_validate_missing_pipeline_errors(self, temp_lazyown)`
+  - `test_status_returns_ok_with_no_runs` (method, line 725) `def test_status_returns_ok_with_no_runs(self, temp_lazyown)`
+  - `test_do_pipeline_exists_in_lazyown` (method, line 739) `def test_do_pipeline_exists_in_lazyown(self)`
+  - `test_mcp_exposes_four_pipeline_tools` (method, line 748) `def test_mcp_exposes_four_pipeline_tools(self)`
+  - `test_daemon_has_pipeline_subcommand` (method, line 758) `def test_daemon_has_pipeline_subcommand(self)`
+  - `test_pipelines_dir_exists_and_has_readme` (method, line 763) `def test_pipelines_dir_exists_and_has_readme(self)`
+  - `test_example_pipelines_validate` (method, line 769) `def test_example_pipelines_validate(self)`
+  - `__init__` (method, line 370) `def __init__(self)`
+  - `narrate` (method, line 373) `def narrate(self, kind, target, message, payload, severity)`
+- Depends on: `modules/pipeline_engine.py`, `skills/autonomous_daemon.py`
+
+## tests/test_placeholder_coverage.py
+- Doc: Placeholder coverage across every registry that resolves ``{tokens}``.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_live_keys` (function, line 40) `def _live_keys()`
+  - `_skill_keys` (function, line 49) `def _skill_keys()`
+  - `test_validator_covers_live_keys` (function, line 57) `def test_validator_covers_live_keys()`
+  - `test_schema_covers_live_keys` (function, line 63) `def test_schema_covers_live_keys()`
+  - `test_skill_documents_validator_keys` (function, line 68) `def test_skill_documents_validator_keys()`
+  - `test_addon_tokens_resolve` (function, line 78) `def test_addon_tokens_resolve()`
+  - `test_addon_tokens_resolve_at_runtime` (function, line 98) `def test_addon_tokens_resolve_at_runtime()`
+  - `test_required_params_exist_live` (function, line 122) `def test_required_params_exist_live()`
+- Depends on: `core/payload_schema.py`, `lazyc2/addon_creator.py`
+
+## tests/test_playbook_admin.py
+- Doc: Playbook YAML administration: scan, create, update, delete, validate.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write` (function, line 21) `def _write(directory, name, data)`
+  - `test_scan_reports_apt_and_plan_shapes` (function, line 27) `def test_scan_reports_apt_and_plan_shapes(tmp_path)`
+  - `test_validate_rejects_mixed_and_empty` (function, line 60) `def test_validate_rejects_mixed_and_empty(tmp_path)`
+  - `test_create_update_and_delete_round_trip` (function, line 70) `def test_create_update_and_delete_round_trip(tmp_path)`
+  - `test_create_refuses_overwrite_and_escape` (function, line 91) `def test_create_refuses_overwrite_and_escape(tmp_path)`
+  - `test_slug_and_preview` (function, line 110) `def test_slug_and_preview(tmp_path)`
+- Depends on: `modules/playbook_admin.py`
+
 ## tests/test_plugin_loader_safety.py
 - Doc: Marketplace placeholder substitution must be shell-safe.
 - Layer: testing
@@ -370,127 +492,6 @@ Previous: [KB_tests_p16.md](KB_tests_p16.md)
   - `test_renders_friendly_message_when_empty` (method, line 406) `def test_renders_friendly_message_when_empty(self)`
   - `print` (method, line 386) `def print(self, line)`
 - Depends on: `cli/exploration.py`, `cli/recon_plan.py`
-
-## tests/test_report_banners_endpoints.py
-- Doc: Tests for /report and /banners endpoints error handling.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `load_banners` (function, line 18) `def load_banners(path)`
-  - `load_json_file_safe` (function, line 38) `def load_json_file_safe(path)`
-  - `build_report_context` (function, line 55) `def build_report_context(report_file, session_file, tools_dir)`
-  - `build_banners_html` (function, line 95) `def build_banners_html(banners)`
-  - `TestLoadBanners` (class, line 125) `class TestLoadBanners`
-  - `TestBannersHTML` (class, line 184) `class TestBannersHTML`
-  - `TestReportContext` (class, line 217) `class TestReportContext`
-  - `TestLoadJSONFileSafe` (class, line 341) `class TestLoadJSONFileSafe`
-  - `test_dict_format` (method, line 128) `def test_dict_format(self, tmp_path)`
-  - `test_empty_dict` (method, line 146) `def test_empty_dict(self, tmp_path)`
-  - `test_file_not_found` (method, line 153) `def test_file_not_found(self, tmp_path)`
-  - `test_invalid_json` (method, line 157) `def test_invalid_json(self, tmp_path)`
-  - `test_empty_file` (method, line 163) `def test_empty_file(self, tmp_path)`
-  - `test_flat_list_format` (method, line 169) `def test_flat_list_format(self, tmp_path)`
-  - `test_empty_banners` (method, line 187) `def test_empty_banners(self)`
-  - `test_missing_keys_does_not_crash` (method, line 191) `def test_missing_keys_does_not_crash(self)`
-  - `test_valid_data` (method, line 204) `def test_valid_data(self)`
-  - `test_valid_files` (method, line 220) `def test_valid_files(self, tmp_path)`
-  - `test_empty_session_file` (method, line 236) `def test_empty_session_file(self, tmp_path)`
-  - `test_invalid_json_session` (method, line 249) `def test_invalid_json_session(self, tmp_path)`
-  - `test_missing_session_file` (method, line 261) `def test_missing_session_file(self, tmp_path)`
-  - `test_missing_body_report` (method, line 271) `def test_missing_body_report(self, tmp_path)`
-  - `test_invalid_body_report_json` (method, line 281) `def test_invalid_body_report_json(self, tmp_path)`
-  - `test_session_data_as_list` (method, line 293) `def test_session_data_as_list(self, tmp_path)`
-  - `test_empty_session_list` (method, line 304) `def test_empty_session_list(self, tmp_path)`
-  - `test_missing_tools_dir` (method, line 316) `def test_missing_tools_dir(self, tmp_path)`
-  - `test_invalid_tool_file_does_not_crash` (method, line 326) `def test_invalid_tool_file_does_not_crash(self, tmp_path)`
-  - `test_valid_json` (method, line 344) `def test_valid_json(self, tmp_path)`
-  - `test_empty_file` (method, line 349) `def test_empty_file(self, tmp_path)`
-  - `test_file_not_found` (method, line 354) `def test_file_not_found(self, tmp_path)`
-  - `test_invalid_json` (method, line 357) `def test_invalid_json(self, tmp_path)`
-  - `test_list_json` (method, line 362) `def test_list_json(self, tmp_path)`
-
-## tests/test_require_guards.py
-- Doc: Single-call requirement guards for CommandSet methods.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestRequireGuards` (class, line 21) `class TestRequireGuards`
-  - `test_present_valid_values_pass` (method, line 22) `def test_present_valid_values_pass(self, capsys)`
-  - `test_missing_keys_fail_closed_without_keyerror` (method, line 29) `def test_missing_keys_fail_closed_without_keyerror(self, capsys)`
-  - `test_invalid_values_rejected` (method, line 35) `def test_invalid_values_rejected(self, capsys)`
-  - `test_equivalent_to_checkers_on_present_values` (method, line 41) `def test_equivalent_to_checkers_on_present_values(self, capsys)`
-- Depends on: `core/validators.py`
-
-## tests/test_resource_script.py
-- Doc: Tests for modules/resource_script.py — ScriptContext and ResourceScriptEngine.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestResourceScript` (class, line 10) `class TestResourceScript`
-  - `_execute` (method, line 14) `def _execute(script)`
-  - `test_set_and_get` (method, line 25) `def test_set_and_get(self)`
-  - `test_setg_and_get` (method, line 31) `def test_setg_and_get(self)`
-  - `test_unset_removes_var` (method, line 37) `def test_unset_removes_var(self)`
-  - `test_var_substitution` (method, line 46) `def test_var_substitution(self)`
-  - `test_builtin_timestamp` (method, line 53) `def test_builtin_timestamp(self)`
-  - `test_resolve_unresolved` (method, line 60) `def test_resolve_unresolved(self)`
-  - `test_eval_condition_equals` (method, line 66) `def test_eval_condition_equals(self)`
-  - `test_eval_condition_not_equals` (method, line 72) `def test_eval_condition_not_equals(self)`
-  - `test_eval_condition_regex` (method, line 77) `def test_eval_condition_regex(self)`
-  - `test_eval_condition_numeric` (method, line 83) `def test_eval_condition_numeric(self)`
-  - `test_eval_condition_contains` (method, line 91) `def test_eval_condition_contains(self)`
-  - `test_eval_condition_defined` (method, line 97) `def test_eval_condition_defined(self)`
-  - `test_eval_condition_fallback_falsy` (method, line 104) `def test_eval_condition_fallback_falsy(self)`
-  - `test_eval_condition_fallback_truthy` (method, line 110) `def test_eval_condition_fallback_truthy(self)`
-  - `test_dry_run_mode` (method, line 116) `def test_dry_run_mode(self)`
-  - `test_skip_depth` (method, line 125) `def test_skip_depth(self)`
-  - `test_if_else_endif_true` (method, line 143) `def test_if_else_endif_true(self)`
-  - `test_if_else_endif_false` (method, line 153) `def test_if_else_endif_false(self)`
-  - `test_set_and_echo` (method, line 163) `def test_set_and_echo(self)`
-  - `test_for_loop` (method, line 170) `def test_for_loop(self)`
-  - `test_for_loop_empty` (method, line 178) `def test_for_loop_empty(self)`
-  - `test_while_loop` (method, line 187) `def test_while_loop(self)`
-  - `test_break` (method, line 197) `def test_break(self)`
-  - `test_continue` (method, line 208) `def test_continue(self)`
-  - `test_comment` (method, line 219) `def test_comment(self)`
-  - `test_macro_and_call` (method, line 228) `def test_macro_and_call(self)`
-  - `test_spool` (method, line 238) `def test_spool(self, tmp_path)`
-  - `test_undefined_macro_raises` (method, line 253) `def test_undefined_macro_raises(self)`
-  - `test_unset_variable` (method, line 258) `def test_unset_variable(self)`
-  - `test_nested_if` (method, line 267) `def test_nested_if(self)`
-- Depends on: `modules/resource_script.py`
-
-## tests/test_retry_session.py
-- Doc: BDD tests for retry sessions, support relaunch and the retry command set.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `clean_session` (function, line 24) `def clean_session(monkeypatch, tmp_path)`
-  - `checkpoint` (function, line 35) `def checkpoint(tmp_path, monkeypatch)`
-  - `TestElevatedSession` (class, line 57) `class TestElevatedSession`
-  - `TestConsent` (class, line 96) `class TestConsent`
-  - `TestCheckpointSelectionRun` (class, line 126) `class TestCheckpointSelectionRun`
-  - `TestRunnerCommandFilter` (class, line 201) `class TestRunnerCommandFilter`
-  - `TestUtilsGate` (class, line 220) `class TestUtilsGate`
-  - `TestRetryStatus` (class, line 238) `class TestRetryStatus`
-  - `test_arm_and_gate` (method, line 60) `def test_arm_and_gate(self)`
-  - `test_clear_revokes` (method, line 72) `def test_clear_revokes(self)`
-  - `test_empty_secret_refused` (method, line 80) `def test_empty_secret_refused(self)`
-  - `test_apply_sudo_askpass_rewrite` (method, line 85) `def test_apply_sudo_askpass_rewrite(self)`
-  - `test_no_flag_no_consent` (method, line 99) `def test_no_flag_no_consent(self)`
-  - `test_no_tty_refuses` (method, line 106) `def test_no_tty_refuses(self)`
-  - `test_wrong_answer_refuses` (method, line 113) `def test_wrong_answer_refuses(self)`
-  - `test_warning_mentions_destructive_steps` (method, line 120) `def test_warning_mentions_destructive_steps(self)`
-  - `test_chain_filter_selection` (method, line 129) `def test_chain_filter_selection(self, tmp_path)`
-  - `test_retry_chain_resume_respects_completed_steps` (method, line 164) `def test_retry_chain_resume_respects_completed_steps(self, checkpoint, monkeypatch)`
-  - `test_retry_chain_disabled_chain_hint` (method, line 187) `def test_retry_chain_disabled_chain_hint(self, checkpoint, monkeypatch)`
-  - `test_filter_applies` (method, line 204) `def test_filter_applies(self)`
-  - `test_retry_gate_overrides_cached_probe` (method, line 223) `def test_retry_gate_overrides_cached_probe(self, monkeypatch)`
-  - `test_snapshot_digs_past_finished_rows` (method, line 241) `def test_snapshot_digs_past_finished_rows(self, checkpoint, tmp_path)`
-  - `test_snapshot_shape` (method, line 260) `def test_snapshot_shape(self, checkpoint)`
-  - `fake_scan` (function, line 193) `def fake_scan(chains_dir)`
-  - `capture` (function, line 208) `def capture(command)`
-- Depends on: `cli/retry_support.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/retry_session.py`, `utils.py`
 
 
 Next: [KB_tests_p18.md](KB_tests_p18.md)

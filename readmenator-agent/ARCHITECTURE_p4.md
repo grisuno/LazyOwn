@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py`
 - `modules/memory_store.py` -> `modules/memory_embeddings.py`
 - `modules/metasploitable_gym.py` -> `core/logging.py`
 - `modules/metasploitable_gym.py` -> `modules/atomic_exploit_bridge.py`
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/conftest.py` -> `modules/lazy_loop.py`
 - `tests/conftest.py` -> `modules/llm_factory.py`
 - `tests/conftest.py` -> `modules/llm_pool.py`
-- `tests/conftest.py` -> `modules/loop_ai_bridge.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

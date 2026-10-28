@@ -412,7 +412,9 @@ Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_gr
 - `build_bundle_payload` (function) `modules/intel_fusion.py:874` `def build_bundle_payload(graph)` -- Derive the circular/spherical bundle payload from a fused graph.
 - `bundle_settings` (function) `modules/intel_fusion.py:990` `def bundle_settings(graph)` -- Bundle page settings with ReadMenator sizes (exact values).
 - `assign_layout` (function) `modules/intel_fusion.py:1021` `def assign_layout(graph, mode)` -- Attach x/y/z for radial/spherical modes; force modes stay free.
-- `write_summary` (function) `modules/intel_fusion.py:1144` `def write_summary(graph, sessions_dir)` -- Score host exposure with a normalized, per-component breakdown.
+- `svg_selection` (function) `modules/intel_fusion.py:1147` `def svg_selection(graph, cap_nodes)` -- Return the node ids a bounded snapshot keeps, most important first.
+- `relations_svg` (function) `modules/intel_fusion.py:1187` `def relations_svg(graph, cap_nodes)` -- Render a static svg snapshot of the intel graph for documents.
+- `write_summary` (function) `modules/intel_fusion.py:1296` `def write_summary(graph, sessions_dir)` -- Score host exposure with a normalized, per-component breakdown.
 
 ## modules/intelligence_engine.py
 Depends on: `core/logging.py`, `modules/__init__.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_heat.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`

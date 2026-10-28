@@ -1,8 +1,30 @@
-# Symbols (page 22 of 46)
+# Symbols (page 22 of 47)
 Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_fallback_matrix_parquet` | function | `modules/ttpscope_bridge.py:453` | `def _fallback_matrix_parquet(platform)` |
+| `_fallback_note` | function | `modules/ttpscope_bridge.py:422` | `def _fallback_note(object_id, text)` |
+| `_fallback_notes` | function | `modules/ttpscope_bridge.py:442` | `def _fallback_notes(object_id)` |
+| `_fallback_search_bundle` | function | `modules/ttpscope_bridge.py:235` | `def _fallback_search_bundle(query, limit)` |
+| `_fallback_search_parquet` | function | `modules/ttpscope_bridge.py:282` | `def _fallback_search_parquet(query, limit)` |
+| `_fallback_show_bundle` | function | `modules/ttpscope_bridge.py:303` | `def _fallback_show_bundle(object_id)` |
+| `_fallback_show_parquet` | function | `modules/ttpscope_bridge.py:350` | `def _fallback_show_parquet(object_id)` |
+| `_fallback_sync` | function | `modules/ttpscope_bridge.py:153` | `def _fallback_sync()` |
+| `_load_atomic_parquet` | function | `modules/ttpscope_bridge.py:273` | `def _load_atomic_parquet()` |
+| `_load_parquet` | function | `modules/ttpscope_bridge.py:259` | `def _load_parquet(name)` |
+| `_load_stix_bundle` | function | `modules/ttpscope_bridge.py:193` | `def _load_stix_bundle()` |
+| `_notes_dir` | function | `modules/ttpscope_bridge.py:415` | `def _notes_dir()` |
+| `_run_ttpscope` | function | `modules/ttpscope_bridge.py:129` | `def _run_ttpscope(args)` |
+| `_slug` | function | `modules/ttpscope_bridge.py:123` | `def _slug(text)` |
+| `_stage` | function | `modules/ttpscope_bridge.py:485` | `def _stage(action, slug, stdout, extra)` |
+| `_stix_external_id` | function | `modules/ttpscope_bridge.py:211` | `def _stix_external_id(obj)` |
+| `_stix_index` | function | `modules/ttpscope_bridge.py:219` | `def _stix_index(bundle)` |
+| `do_chain` | function | `modules/ttpscope_bridge.py:582` | `def do_chain(object_id, platform, limit)` |
+| `do_matrix` | function | `modules/ttpscope_bridge.py:535` | `def do_matrix(platform)` |
+| `do_note` | function | `modules/ttpscope_bridge.py:551` | `def do_note(object_id, text)` |
+| `do_notes` | function | `modules/ttpscope_bridge.py:570` | `def do_notes(object_id)` |
+| `do_search` | function | `modules/ttpscope_bridge.py:508` | `def do_search(query)` |
 | `do_show` | function | `modules/ttpscope_bridge.py:520` | `def do_show(object_id)` |
 | `do_sync` | function | `modules/ttpscope_bridge.py:497` | `def do_sync()` |
 | `locate_binary` | function | `modules/ttpscope_bridge.py:82` | `def locate_binary()` |
@@ -252,29 +274,30 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `hook_CreateFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:85` | `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...` |
 | `hook_FindFirstFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:75` | `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)` |
 | `should_hide_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:65` | `int should_hide_pid(const char* pid)` |
-| `_load_yaml` | function | `modules/winbox_gym.py:122` | `def _load_yaml(path)` |
-| `_missing_prereqs` | function | `modules/winbox_gym.py:309` | `def _missing_prereqs()` |
-| `_vm_built_from` | function | `modules/winbox_gym.py:575` | `def _vm_built_from(status)` |
-| `attack_readiness` | function | `modules/winbox_gym.py:645` | `def attack_readiness(params)` |
-| `binary_path` | function | `modules/winbox_gym.py:252` | `def binary_path()` |
-| `chain_for` | function | `modules/winbox_gym.py:159` | `def chain_for(vuln_id, path)` |
-| `check_readiness` | function | `modules/winbox_gym.py:314` | `def check_readiness(params)` |
-| `ensure_installed` | function | `modules/winbox_gym.py:257` | `def ensure_installed(params, timeout)` |
-| `ensure_lab_ready` | function | `modules/winbox_gym.py:410` | `def ensure_lab_ready(params)` |
-| `ensure_prereqs` | function | `modules/winbox_gym.py:355` | `def ensure_prereqs(timeout)` |
-| `ensure_vm_running` | function | `modules/winbox_gym.py:595` | `def ensure_vm_running(timeout)` |
-| `exploit_for` | function | `modules/winbox_gym.py:169` | `def exploit_for(vuln_id, path)` |
-| `get` | function | `modules/winbox_gym.py:150` | `def get(vuln_id, path)` |
-| `load_index` | function | `modules/winbox_gym.py:139` | `def load_index(path)` |
-| `main` | function | `modules/winbox_gym.py:673` | `def main()` |
-| `record_artifact` | function | `modules/winbox_gym.py:622` | `def record_artifact(name, output)` |
-| `resolve_target` | function | `modules/winbox_gym.py:581` | `def resolve_target()` |
-| `run_cli` | function | `modules/winbox_gym.py:472` | `def run_cli(args, timeout)` |
-| `summary` | function | `modules/winbox_gym.py:228` | `def summary(path)` |
-| `validate_matrix` | function | `modules/winbox_gym.py:179` | `def validate_matrix(path)` |
-| `vm_ip` | function | `modules/winbox_gym.py:559` | `def vm_ip()` |
-| `vm_status` | function | `modules/winbox_gym.py:525` | `def vm_status(timeout)` |
-| `vulnerabilities` | function | `modules/winbox_gym.py:144` | `def vulnerabilities(path)` |
+| `_load_yaml` | function | `modules/winbox_gym.py:127` | `def _load_yaml(path)` |
+| `_missing_prereqs` | function | `modules/winbox_gym.py:329` | `def _missing_prereqs()` |
+| `_prereq_path` | function | `modules/winbox_gym.py:314` | `def _prereq_path(name)` |
+| `_vm_built_from` | function | `modules/winbox_gym.py:595` | `def _vm_built_from(status)` |
+| `attack_readiness` | function | `modules/winbox_gym.py:665` | `def attack_readiness(params)` |
+| `binary_path` | function | `modules/winbox_gym.py:257` | `def binary_path()` |
+| `chain_for` | function | `modules/winbox_gym.py:164` | `def chain_for(vuln_id, path)` |
+| `check_readiness` | function | `modules/winbox_gym.py:334` | `def check_readiness(params)` |
+| `ensure_installed` | function | `modules/winbox_gym.py:262` | `def ensure_installed(params, timeout)` |
+| `ensure_lab_ready` | function | `modules/winbox_gym.py:430` | `def ensure_lab_ready(params)` |
+| `ensure_prereqs` | function | `modules/winbox_gym.py:375` | `def ensure_prereqs(timeout)` |
+| `ensure_vm_running` | function | `modules/winbox_gym.py:615` | `def ensure_vm_running(timeout)` |
+| `exploit_for` | function | `modules/winbox_gym.py:174` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/winbox_gym.py:155` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/winbox_gym.py:144` | `def load_index(path)` |
+| `main` | function | `modules/winbox_gym.py:693` | `def main()` |
+| `record_artifact` | function | `modules/winbox_gym.py:642` | `def record_artifact(name, output)` |
+| `resolve_target` | function | `modules/winbox_gym.py:601` | `def resolve_target()` |
+| `run_cli` | function | `modules/winbox_gym.py:492` | `def run_cli(args, timeout)` |
+| `summary` | function | `modules/winbox_gym.py:233` | `def summary(path)` |
+| `validate_matrix` | function | `modules/winbox_gym.py:184` | `def validate_matrix(path)` |
+| `vm_ip` | function | `modules/winbox_gym.py:579` | `def vm_ip()` |
+| `vm_status` | function | `modules/winbox_gym.py:545` | `def vm_status(timeout)` |
+| `vulnerabilities` | function | `modules/winbox_gym.py:149` | `def vulnerabilities(path)` |
 | `list_entries` | function | `modules/workspace.py:46` | `def list_entries(rel)` |
 | `make_dir` | function | `modules/workspace.py:83` | `def make_dir(rel)` |
 | `read_text` | function | `modules/workspace.py:63` | `def read_text(rel, limit)` |
@@ -473,28 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `__getitem__` | method | `poc_tui/config.py:47` | `def __getitem__(self, key)` |
 | `__post_init__` | method | `poc_tui/config.py:18` | `def __post_init__(self)` |
 | `__setitem__` | method | `poc_tui/config.py:50` | `def __setitem__(self, key, value)` |
-| `get` | method | `poc_tui/config.py:35` | `def get(self, key, default)` |
-| `items` | method | `poc_tui/config.py:44` | `def items(self)` |
-| `keys` | method | `poc_tui/config.py:41` | `def keys(self)` |
-| `reload` | method | `poc_tui/config.py:21` | `def reload(self)` |
-| `save` | method | `poc_tui/config.py:28` | `def save(self)` |
-| `set` | method | `poc_tui/config.py:38` | `def set(self, key, value)` |
-| `PluginLoader` | class | `poc_tui/plugin_loader.py:84` | `class PluginLoader` |
-| `PluginSpec` | class | `poc_tui/plugin_loader.py:29` | `class PluginSpec` |
-| `_LuaAppProxy` | class | `poc_tui/plugin_loader.py:291` | `class _LuaAppProxy` |
-| `__init__` | method | `poc_tui/plugin_loader.py:91` | `def __init__(self, config, base_dir)` |
-| `__init__` | method | `poc_tui/plugin_loader.py:294` | `def __init__(self, config)` |
-| `_list_files` | method | `poc_tui/plugin_loader.py:131` | `def _list_files(self, directory)` |
-| `_load_lua_plugins` | method | `poc_tui/plugin_loader.py:223` | `def _load_lua_plugins(self)` |
-| `_load_tool_files` | method | `poc_tui/plugin_loader.py:248` | `def _load_tool_files(self)` |
-| `_load_yaml_addons` | method | `poc_tui/plugin_loader.py:148` | `def _load_yaml_addons(self)` |
-| `_lua_register` | method | `poc_tui/plugin_loader.py:114` | `def _lua_register(self, name, func)` |
-| `_register_tool` | method | `poc_tui/plugin_loader.py:261` | `def _register_tool(self, data)` |
-| `_register_yaml_addon` | method | `poc_tui/plugin_loader.py:161` | `def _register_yaml_addon(self, data)` |
-| `_replace_placeholders` | function | `poc_tui/plugin_loader.py:41` | `def _replace_placeholders(command, params)` |
-| `_setup_lua` | method | `poc_tui/plugin_loader.py:105` | `def _setup_lua(self)` |
-| `_subst` | function | `poc_tui/plugin_loader.py:52` | `def _subst(match)` |
-| `_validate_clone_url` | function | `poc_tui/plugin_loader.py:62` | `def _validate_clone_url(url)` |
-| `load_all` | method | `poc_tui/plugin_loader.py:139` | `def load_all(self)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

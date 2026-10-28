@@ -98,29 +98,30 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_load_yaml` (function, line 122) `def _load_yaml(path)`
-  - `load_index` (function, line 139) `def load_index(path)`
-  - `vulnerabilities` (function, line 144) `def vulnerabilities(path)`
-  - `get` (function, line 150) `def get(vuln_id, path)`
-  - `chain_for` (function, line 159) `def chain_for(vuln_id, path)`
-  - `exploit_for` (function, line 169) `def exploit_for(vuln_id, path)`
-  - `validate_matrix` (function, line 179) `def validate_matrix(path)`
-  - `summary` (function, line 228) `def summary(path)`
-  - `binary_path` (function, line 252) `def binary_path()`
-  - `ensure_installed` (function, line 257) `def ensure_installed(params, timeout)`
-  - `_missing_prereqs` (function, line 309) `def _missing_prereqs()`
-  - `check_readiness` (function, line 314) `def check_readiness(params)`
-  - `ensure_prereqs` (function, line 355) `def ensure_prereqs(timeout)`
-  - `ensure_lab_ready` (function, line 410) `def ensure_lab_ready(params)`
-  - `run_cli` (function, line 472) `def run_cli(args, timeout)`
-  - `vm_status` (function, line 525) `def vm_status(timeout)`
-  - `vm_ip` (function, line 559) `def vm_ip()`
-  - `_vm_built_from` (function, line 575) `def _vm_built_from(status)`
-  - `resolve_target` (function, line 581) `def resolve_target()`
-  - `ensure_vm_running` (function, line 595) `def ensure_vm_running(timeout)`
-  - `record_artifact` (function, line 622) `def record_artifact(name, output)`
-  - `attack_readiness` (function, line 645) `def attack_readiness(params)`
-  - `main` (function, line 673) `def main()`
+  - `_load_yaml` (function, line 127) `def _load_yaml(path)`
+  - `load_index` (function, line 144) `def load_index(path)`
+  - `vulnerabilities` (function, line 149) `def vulnerabilities(path)`
+  - `get` (function, line 155) `def get(vuln_id, path)`
+  - `chain_for` (function, line 164) `def chain_for(vuln_id, path)`
+  - `exploit_for` (function, line 174) `def exploit_for(vuln_id, path)`
+  - `validate_matrix` (function, line 184) `def validate_matrix(path)`
+  - `summary` (function, line 233) `def summary(path)`
+  - `binary_path` (function, line 257) `def binary_path()`
+  - `ensure_installed` (function, line 262) `def ensure_installed(params, timeout)`
+  - `_prereq_path` (function, line 314) `def _prereq_path(name)`
+  - `_missing_prereqs` (function, line 329) `def _missing_prereqs()`
+  - `check_readiness` (function, line 334) `def check_readiness(params)`
+  - `ensure_prereqs` (function, line 375) `def ensure_prereqs(timeout)`
+  - `ensure_lab_ready` (function, line 430) `def ensure_lab_ready(params)`
+  - `run_cli` (function, line 492) `def run_cli(args, timeout)`
+  - `vm_status` (function, line 545) `def vm_status(timeout)`
+  - `vm_ip` (function, line 579) `def vm_ip()`
+  - `_vm_built_from` (function, line 595) `def _vm_built_from(status)`
+  - `resolve_target` (function, line 601) `def resolve_target()`
+  - `ensure_vm_running` (function, line 615) `def ensure_vm_running(timeout)`
+  - `record_artifact` (function, line 642) `def record_artifact(name, output)`
+  - `attack_readiness` (function, line 665) `def attack_readiness(params)`
+  - `main` (function, line 693) `def main()`
 - Depends on: `core/hardening.py`, `core/logging.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`, `utils.py`
 
 ## modules/wineconfig.sh
@@ -217,7 +218,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `read_section` (method, line 1410) `def read_section(self, key)`
   - `write_section` (method, line 1427) `def write_section(self, key, value)`
 - Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
 
 ## modules/yaml_generator.py
 - Doc: load_payload: Carga las variables desde payload.json

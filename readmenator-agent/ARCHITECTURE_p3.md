@@ -474,6 +474,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/loop_progress.py` -> `core/safe_console.py`
 - `modules/loop_triggers.py` -> `modules/__init__.py`
 - `modules/loop_triggers.py` -> `modules/auto_registry.py`
+- `modules/loop_triggers.py` -> `modules/lazy_heat.py`
 - `modules/loop_triggers.py` -> `modules/lazy_loop.py`
 - `modules/loop_triggers.py` -> `modules/trigger_policy.py`
 - `modules/loop_triggers.py` -> `modules/world_model.py`
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py`
 - `modules/mediation/intel_mediator.py` -> `modules/lazy_intel.py`
 - `modules/mediation/intel_mediator.py` -> `modules/lazy_loop.py`
-- `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

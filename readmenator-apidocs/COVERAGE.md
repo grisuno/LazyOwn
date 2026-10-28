@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **75.3%** (7395 of 9818 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **75.4%** (7407 of 9830 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,15 +8,15 @@ Overall: **75.3%** (7395 of 9818 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1235 | 1422 | 86.8% |
+| class | 1236 | 1423 | 86.9% |
 | classmethod | 58 | 84 | 69.0% |
 | constructor | 205 | 526 | 39.0% |
 | enum | 30 | 39 | 76.9% |
 | exception | 38 | 40 | 95.0% |
-| function | 1934 | 2839 | 68.1% |
+| function | 1944 | 2849 | 68.2% |
 | macro | 2 | 114 | 1.8% |
 | method | 2920 | 3589 | 81.4% |
-| module | 713 | 829 | 86.0% |
+| module | 714 | 830 | 86.0% |
 | property | 157 | 201 | 78.1% |
 | protocol | 20 | 20 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
@@ -695,7 +695,7 @@ Overall: **75.3%** (7395 of 9818 public modules, types, and callables). Data mem
 | [`modules.hunt_verify`](modules/modules.hunt_verify.py.md) | 12 | 12 | 100.0% |
 | [`modules.integrations`](modules/modules.integrations.__init__.py.md) | 1 | 1 | 100.0% |
 | [`modules.integrations.misp_export`](modules/modules.integrations.misp_export.py.md) | 24 | 24 | 100.0% |
-| [`modules.intel_fusion`](modules/modules.intel_fusion.py.md) | 10 | 10 | 100.0% |
+| [`modules.intel_fusion`](modules/modules.intel_fusion.py.md) | 12 | 12 | 100.0% |
 | [`modules.intercept`](modules/modules.intercept.py.md) | 28 | 28 | 100.0% |
 | [`modules/iptables_portforward.sh`](modules/modules.iptables_portforward.sh.md) | 2 | 2 | 100.0% |
 | [`modules.jsonl_tail`](modules/modules.jsonl_tail.py.md) | 4 | 4 | 100.0% |
@@ -717,6 +717,7 @@ Overall: **75.3%** (7395 of 9818 public modules, types, and callables). Data mem
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | 9 | 9 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | 11 | 11 | 100.0% |
+| [`modules.lazy_scope`](modules/modules.lazy_scope.py.md) | 8 | 8 | 100.0% |
 | [`modules.lazy_skill_mirror`](modules/modules.lazy_skill_mirror.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_skills`](modules/modules.lazy_skills.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_summarizer`](modules/modules.lazy_summarizer.py.md) | 3 | 3 | 100.0% |
@@ -742,7 +743,7 @@ Overall: **75.3%** (7395 of 9818 public modules, types, and callables). Data mem
 | [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | 12 | 12 | 100.0% |
 | [`modules.loop_manager`](modules/modules.loop_manager.py.md) | 18 | 18 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | 12 | 12 | 100.0% |
-| [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | 11 | 11 | 100.0% |
+| [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | 13 | 13 | 100.0% |
 | [`modules.mediation`](modules/modules.mediation.__init__.py.md) | 1 | 1 | 100.0% |
 | [`modules.mediation.chain_mediator`](modules/modules.mediation.chain_mediator.py.md) | 9 | 9 | 100.0% |
 | [`modules.mediation.contracts`](modules/modules.mediation.contracts.py.md) | 13 | 13 | 100.0% |

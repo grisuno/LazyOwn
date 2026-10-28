@@ -1,8 +1,31 @@
-# Symbols (page 24 of 46)
+# Symbols (page 24 of 47)
 Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_package_init` | function | `skills/claude_md_orchestrator/bdd_agent.py:90` | `def _package_init(config)` |
+| `_run_pytest` | function | `skills/claude_md_orchestrator/bdd_agent.py:138` | `def _run_pytest(test_path, cwd)` |
+| `run` | function | `skills/claude_md_orchestrator/bdd_agent.py:151` | `def run(contract, spec, suite, config)` |
+| `ScoutReport` | class | `skills/claude_md_orchestrator/boy_scout.py:30` | `class ScoutReport` |
+| `_inspect` | function | `skills/claude_md_orchestrator/boy_scout.py:45` | `def _inspect(path)` |
+| `_render_proposal` | function | `skills/claude_md_orchestrator/boy_scout.py:73` | `def _render_proposal(contract, findings)` |
+| `run` | function | `skills/claude_md_orchestrator/boy_scout.py:90` | `def run(state, config)` |
+| `write_report` | function | `skills/claude_md_orchestrator/boy_scout.py:110` | `def write_report(report, config)` |
+| `CicdResult` | class | `skills/claude_md_orchestrator/cicd_agent.py:71` | `class CicdResult` |
+| `_ensure_branch` | function | `skills/claude_md_orchestrator/cicd_agent.py:108` | `def _ensure_branch(contract, config)` |
+| `_git` | function | `skills/claude_md_orchestrator/cicd_agent.py:97` | `def _git()` |
+| `_render_pipeline` | function | `skills/claude_md_orchestrator/cicd_agent.py:134` | `def _render_pipeline(contract, spec, config)` |
+| `_render_pr_body` | function | `skills/claude_md_orchestrator/cicd_agent.py:144` | `def _render_pr_body(contract, spec, report)` |
+| `_slug` | function | `skills/claude_md_orchestrator/cicd_agent.py:91` | `def _slug(contract)` |
+| `run` | function | `skills/claude_md_orchestrator/cicd_agent.py:177` | `def run(contract, spec, report, config)` |
+| `Config` | class | `skills/claude_md_orchestrator/config.py:67` | `class Config` |
+| `_default_claude_md` | function | `skills/claude_md_orchestrator/config.py:52` | `def _default_claude_md()` |
+| `_default_run_dir` | function | `skills/claude_md_orchestrator/config.py:37` | `def _default_run_dir()` |
+| `_repo_root` | function | `skills/claude_md_orchestrator/config.py:22` | `def _repo_root()` |
+| `docs_dir` | method | `skills/claude_md_orchestrator/config.py:142` | `def docs_dir(self)` |
+| `ensure` | method | `skills/claude_md_orchestrator/config.py:112` | `def ensure(self)` |
+| `load_config` | function | `skills/claude_md_orchestrator/config.py:155` | `def load_config()` |
+| `log_path` | method | `skills/claude_md_orchestrator/config.py:150` | `def log_path(self)` |
 | `logs_dir` | method | `skills/claude_md_orchestrator/config.py:146` | `def logs_dir(self)` |
 | `resolve_optional` | function | `skills/claude_md_orchestrator/config.py:164` | `def resolve_optional(config, key)` |
 | `review_dir` | method | `skills/claude_md_orchestrator/config.py:138` | `def review_dir(self)` |
@@ -473,28 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `update_phase` | method | `skills/lazyown_campaign.py:500` | `def update_phase(self, host, phase)` |
 | `ClaudeMdLoader` | class | `skills/lazyown_claudemd.py:24` | `class ClaudeMdLoader` |
 | `__init__` | method | `skills/lazyown_claudemd.py:32` | `def __init__(self, cwd)` |
-| `add_rule` | method | `skills/lazyown_claudemd.py:127` | `def add_rule(self, rule_name, content)` |
-| `create_project_file` | method | `skills/lazyown_claudemd.py:121` | `def create_project_file(self, content, local)` |
-| `create_user_file` | method | `skills/lazyown_claudemd.py:115` | `def create_user_file(self, content)` |
-| `list_files` | method | `skills/lazyown_claudemd.py:90` | `def list_files(self)` |
-| `load` | method | `skills/lazyown_claudemd.py:35` | `def load(self)` |
-| `status_text` | method | `skills/lazyown_claudemd.py:135` | `def status_text(self)` |
-| `CompactionResult` | class | `skills/lazyown_context.py:50` | `class CompactionResult` |
-| `ContextCompactor` | class | `skills/lazyown_context.py:62` | `class ContextCompactor` |
-| `__init__` | method | `skills/lazyown_context.py:72` | `def __init__(self, budget_override, snip_threshold, collapse_threshold)` |
-| `apply_budget` | method | `skills/lazyown_context.py:84` | `def apply_budget(self, content, tool_name)` |
-| `auto_compact_session` | method | `skills/lazyown_context.py:159` | `def auto_compact_session(entries)` |
-| `collapse` | method | `skills/lazyown_context.py:136` | `def collapse(self, content, tool_name)` |
-| `compact` | method | `skills/lazyown_context.py:203` | `def compact(self, content, tool_name)` |
-| `compact_output` | function | `skills/lazyown_context.py:237` | `def compact_output(content, tool_name)` |
-| `microcompact` | method | `skills/lazyown_context.py:120` | `def microcompact(self, content)` |
-| `snip` | method | `skills/lazyown_context.py:99` | `def snip(self, content)` |
-| `summary` | method | `skills/lazyown_context.py:57` | `def summary(self)` |
-| `_Handler` | class | `skills/lazyown_daemon.py:197` | `class _Handler(FileSystemEventHandler)` |
-| `_append_event` | function | `skills/lazyown_daemon.py:111` | `def _append_event(ev)` |
-| `_clear_pid` | function | `skills/lazyown_daemon.py:427` | `def _clear_pid()` |
-| `_dispatch` | function | `skills/lazyown_daemon.py:95` | `def _dispatch(path)` |
-| `_is_running` | function | `skills/lazyown_daemon.py:439` | `def _is_running()` |
-| `_main_async` | function | `skills/lazyown_daemon.py:390` | `def _main_async()` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

@@ -419,9 +419,16 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `bundle_settings` (function, line 990) `def bundle_settings(graph)`
   - `assign_layout` (function, line 1021) `def assign_layout(graph, mode)`
   - `_score_lines` (function, line 1086) `def _score_lines(host_value, detail)`
-  - `_recency_lines` (function, line 1109) `def _recency_lines(sessions_dir, host_value)`
-  - `_ghost_lines` (function, line 1127) `def _ghost_lines(sessions_dir, host_value)`
-  - `write_summary` (function, line 1144) `def write_summary(graph, sessions_dir)`
+  - `_svg_text` (function, line 1124) `def _svg_text(value)`
+  - `_svg_attr` (function, line 1131) `def _svg_attr(value)`
+  - `_svg_rank` (function, line 1136) `def _svg_rank(node)`
+  - `svg_selection` (function, line 1147) `def svg_selection(graph, cap_nodes)`
+  - `_svg_place` (function, line 1165) `def _svg_place(ids)`
+  - `_svg_host_of` (function, line 1182) `def _svg_host_of(node)`
+  - `relations_svg` (function, line 1187) `def relations_svg(graph, cap_nodes)`
+  - `_recency_lines` (function, line 1261) `def _recency_lines(sessions_dir, host_value)`
+  - `_ghost_lines` (function, line 1279) `def _ghost_lines(sessions_dir, host_value)`
+  - `write_summary` (function, line 1296) `def write_summary(graph, sessions_dir)`
   - `add_node` (function, line 266) `def add_node(kind, value, label)`
   - `add_edge` (function, line 284) `def add_edge(src, dst, kind, evidence, weight)`
   - `tag_source` (function, line 300) `def tag_source(nid, source)`

@@ -1,6 +1,31 @@
 # Subsystem: modules (page 13 of 16)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/outcome_bus.py
+- Doc: Single fan-out contract for engagement outcomes.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `OutcomeEvent` (class, line 75) `class OutcomeEvent`
+  - `OutcomeBus` (class, line 153) `class OutcomeBus`
+  - `get_bus` (function, line 269) `def get_bus()`
+  - `reset_bus` (function, line 278) `def reset_bus()`
+  - `record` (function, line 283) `def record(event, sinks)`
+  - `record_event` (function, line 288) `def record_event()`
+  - `severity_for_event` (function, line 293) `def severity_for_event(severity)`
+  - `category_for_event` (function, line 298) `def category_for_event(kind)`
+  - `host_value` (method, line 103) `def host_value(self)`
+  - `key` (method, line 107) `def key(self)`
+  - `to_dict` (method, line 125) `def to_dict(self)`
+  - `__init__` (method, line 156) `def __init__(self, ledger_path, sink_map)`
+  - `reset` (method, line 169) `def reset(self)`
+  - `_sink` (method, line 175) `def _sink(self, name)`
+  - `_enabled_sinks` (method, line 190) `def _enabled_sinks(self, requested)`
+  - `record` (method, line 201) `def record(self, event, sinks)`
+  - `_append_ledger` (method, line 248) `def _append_ledger(self, event, statuses)`
+- Depends on: `core/logging.py`, `modules/__init__.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
+
 ## modules/payload_factory.py
 - Doc: Native payload generation framework — stagers, stages, singles, formats.
 - Layer: infrastructure

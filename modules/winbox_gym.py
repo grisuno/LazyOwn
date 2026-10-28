@@ -76,6 +76,11 @@ APT_PACKAGES_FOR: dict[str, str] = {
     "hivexregedit": "libwin-hivex-perl",
 }
 
+# Distributions ship some daemons outside PATH; vacancy probes try these too.
+PREREQ_FALLBACK_PATHS: dict[str, tuple[str, ...]] = {
+    "virtiofsd": ("/usr/libexec/virtiofsd", "/usr/lib/virtiofsd"),
+}
+
 SETUP_PACKAGES = (
     "qemu-system-x86 qemu-utils libvirt-daemon-system virtinst libguestfs-tools "
     "virtiofsd p7zip-full genisoimage sshpass wget libwin-hivex-perl"
@@ -306,9 +311,24 @@ def ensure_installed(params: dict[str, Any] | None = None, timeout: int = 600) -
     return {"success": True, "installed": True, "path": resolved}
 
 
+def _prereq_path(name: str) -> str:
+    """Resolve one prerequisite on PATH or at a documented non-PATH location."""
+    resolved = shutil.which(name)
+    if resolved:
+        return resolved
+    for candidate in PREREQ_FALLBACK_PATHS.get(name, ()):
+        path = Path(candidate)
+        try:
+            if path.is_file() and os.access(str(path), os.X_OK):
+                return str(path)
+        except OSError:
+            continue
+    return ""
+
+
 def _missing_prereqs() -> list[str]:
     """Return lab host prerequisites that are not installed."""
-    return [name for name in PREREQ_BINARIES if not shutil.which(name)]
+    return [name for name in PREREQ_BINARIES if not _prereq_path(name)]
 
 
 def check_readiness(params: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -334,7 +354,7 @@ def check_readiness(params: dict[str, Any] | None = None) -> dict[str, Any]:
     return {
         "ready": ready,
         "binary": binary or "",
-        "prereqs": {name: shutil.which(name) is not None for name in PREREQ_BINARIES},
+        "prereqs": {name: bool(_prereq_path(name)) for name in PREREQ_BINARIES},
         "missing_prereqs": missing_prereqs,
         "vm_built": vm_built,
         "guest_os": guest_os,

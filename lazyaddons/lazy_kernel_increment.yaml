@@ -1,0 +1,49 @@
+name: lazykerninc
+description: |
+  LazyKernelInc — Windows kernel arbitrary-address increment probe
+  (CVE-2026-40369, credit Ori Nimron / @orinimron123).
+
+  Packages the public PoC for NtQuerySystemInformation class 253
+  (SystemProcessInformationExtension): calling it with a kernel address
+  as the output buffer and Length=0 skips ProbeForWrite entirely, so
+  ExpGetProcessInformation increments three DWORDs at the attacker
+  supplied kernel address (process, thread and handle counters) from an
+  unprivileged process. Reported affected range is Windows 11 24H2-25H2;
+  on other builds the syscall is expected to fail cleanly, which is
+  itself useful triage evidence.
+
+  The addon is lab-only orchestration: it cross-compiles the PoC with
+  mingw-w64 on the operator host, stages the binary into the WinBox lab
+  VM through the shared folder and executes it with `winbox exec`.
+  It never runs against anything outside the isolated lab.
+
+  Flow inside the LazyOwn shell:
+    lazykerninc              # clone, cross-compile, stage, execute in VM
+    lazykerninc --build-only # compile and stage without executing
+
+  Expected outputs on a vulnerable build: kernel write succeeds (or the
+  guest bugchecks with PAGE_FAULT_IN_NONPAGED_AREA at
+  ExpGetProcessInformation when the address is not writable). On a
+  non-vulnerable build the syscall returns an NTSTATUS error and the
+  guest stays alive.
+
+  Requirements: x86_64-w64-mingw32-g++ on the operator host and a
+  running WinBox lab VM (winbox up). Lab isolation is mandatory.
+author: Ori Nimron (PoC), LazyOwn packaging
+version: '1.0'
+enabled: true
+update: true
+os: windows
+trigger: []
+category: 03. Exploitation
+module_type: exploit
+tool:
+  name: LazyKernelInc
+  repo_url: https://github.com/orinimron123/CVE-2026-40369-EXPLOIT.git
+  install_path: external/.exploit/lazykerninc
+  install_command: >-
+    x86_64-w64-mingw32-g++ -O2 -std=c++17 -o lazykerninc_poc.exe
+    basic_poc/basic_poc.cpp -lntdll
+  execute_command: >-
+    cp lazykerninc_poc.exe "$HOME/.winbox/shared/" &&
+    winbox exec --timeout 90 "Z:\\lazykerninc_poc.exe"

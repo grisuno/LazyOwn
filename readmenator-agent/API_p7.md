@@ -425,63 +425,63 @@ Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `c
 - `api_loops_list` (function) `lazyc2.py:7059` `def api_loops_list()` -- List every autonomous loop with refreshed live status.
 - `api_loop_log` (function) `lazyc2.py:7071` `def api_loop_log(loop_id)` -- Return one chunk of a loop's output log.
 - `api_loop_stop` (function) `lazyc2.py:7094` `def api_loop_stop(loop_id)` -- Stop one running loop by terminating its process group.
-- `connect` (function) `lazyc2.py:7276` `def connect()`
-- `listener` (function) `lazyc2.py:7282` `def listener()`
-- `listener_connect` (function) `lazyc2.py:7289` `def listener_connect()`
-- `listener_disconnect` (function) `lazyc2.py:7300` `def listener_disconnect()`
-- `pty_input` (function) `lazyc2.py:7311` `def pty_input(data)`
-- `resize` (function) `lazyc2.py:7326` `def resize(data)`
-- `pty_connect` (function) `lazyc2.py:7340` `def pty_connect()`
-- `handle_input` (function) `lazyc2.py:7372` `def handle_input(data)`
-- `listener_command` (function) `lazyc2.py:7397` `def listener_command(msg)`
-- `terminal` (function) `lazyc2.py:7411` `def terminal()`
-- `terminal_connect` (function) `lazyc2.py:7421` `def terminal_connect()`
-- `terminal_disconnect` (function) `lazyc2.py:7431` `def terminal_disconnect()`
-- `terminal_input` (function) `lazyc2.py:7442` `def terminal_input(data)`
-- `terminal_command` (function) `lazyc2.py:7456` `def terminal_command(data)`
-- `terminal_resize` (function) `lazyc2.py:7472` `def terminal_resize(data)`
-- `start_reverse_shell` (function) `lazyc2.py:7480` `def start_reverse_shell()`
-- `start_bridge` (function) `lazyc2.py:7534` `def start_bridge()` -- Start a TCP bridge to a specified remote host and port.
-- `page_not_found` (function) `lazyc2.py:7551` `def page_not_found(e)`
-- `internal_server_error` (function) `lazyc2.py:7559` `def internal_server_error(e)`
-- `get_config` (function) `lazyc2.py:7568` `def get_config()` -- Lee el archivo payload.json, lo manipula y lo expone como /config.json.
-- `capture_image` (function) `lazyc2.py:7587` `def capture_image()`
-- `capture_audio` (function) `lazyc2.py:7613` `def capture_audio()`
-- `surface` (function) `lazyc2.py:7631` `def surface()`
-- `surface_live` (function) `lazyc2.py:7637` `def surface_live()` -- Render the live attack-surface graph page.
-- `api_surface_live` (function) `lazyc2.py:7652` `def api_surface_live()` -- Return the live attack-surface graph derived from the world model.
-- `intel_view` (function) `lazyc2.py:7674` `def intel_view()` -- Render the fused sessions intel graph page (ReadMenator engine).
-- `intel_bundle_view` (function) `lazyc2.py:7693` `def intel_bundle_view()` -- Render the circular/spherical bundle view of the intel graph.
-- `attack3d_view` (function) `lazyc2.py:7708` `def attack3d_view()` -- Render the C2-centred attack-surface graph (ReadMenator engine).
-- `attack_bundle_view` (function) `lazyc2.py:7727` `def attack_bundle_view()` -- Render the circular/spherical bundle view of the attack surface.
-- `api_intel_graph` (function) `lazyc2.py:7742` `def api_intel_graph()` -- Return the fused C2-centred intel graph with precomputed layout.
-- `broadcast_view` (function) `lazyc2.py:7798` `def broadcast_view()` -- Render the exploration timeline board for one loop task.
-- `api_loop_broadcast_stream` (function) `lazyc2.py:7812` `def api_loop_broadcast_stream()` -- SSE live tail of one loop task's activity stream.
-- `api_loop_broadcast` (function) `lazyc2.py:7870` `def api_loop_broadcast()` -- Return the paginated exploration timeline for one loop task.
-- `api_guard_audit` (function) `lazyc2.py:7913` `def api_guard_audit()` -- Return guard history with pending approvals kept independent.
-- `api_loop_graph` (function) `lazyc2.py:7959` `def api_loop_graph()` -- Return one loop task as ForceGraph-ready nodes/links plus context.
-- `api_lazy_mentions` (function) `lazyc2.py:7990` `def api_lazy_mentions()` -- Search @ mention candidates with scroll pagination.
-- `api_intel_bundle` (function) `lazyc2.py:8026` `def api_intel_bundle()` -- Return the circular/spherical bundle payload of the intel graph.
-- `api_attack_graph` (function) `lazyc2.py:8059` `def api_attack_graph()` -- Return the fused C2-centred attack-surface graph.
-- `api_attack_bundle` (function) `lazyc2.py:8111` `def api_attack_bundle()` -- Return the circular/spherical bundle payload of the attack surface.
-- `get_data` (function) `lazyc2.py:8141` `def get_data()`
-- `upload_zip_file` (function) `lazyc2.py:8150` `def upload_zip_file()` -- Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization.
-- `list_campaigns` (function) `lazyc2.py:8208` `def list_campaigns()`
-- `create_campaign` (function) `lazyc2.py:8221` `def create_campaign()`
-- `lazyphishingai` (function) `lazyc2.py:8299` `def lazyphishingai()`
-- `track_pixel` (function) `lazyc2.py:8315` `def track_pixel(campaign_id, email)` -- Píxel de seguimiento para registrar aperturas.
-- `campaign_report` (function) `lazyc2.py:8337` `def campaign_report(campaign_id)`
-- `orchestrate_campaign` (function) `lazyc2.py:8419` `def orchestrate_campaign(campaign_id)`
-- `create_multivector_campaign` (function) `lazyc2.py:8466` `def create_multivector_campaign()`
-- `serve_landing_page` (function) `lazyc2.py:8618` `def serve_landing_page(campaign_id, short_url)`
-- `health_check` (function) `lazyc2.py:8643` `def health_check()` -- Basic health and readiness endpoint.
-- `metrics_exposition` (function) `lazyc2.py:8682` `def metrics_exposition()` -- Prometheus-compatible metrics endpoint.
-- `api_dashboard` (function) `lazyc2.py:8689` `def api_dashboard()` -- Aggregated JSON dashboard: beacons, campaign, events, facts summary.
-- `api_listeners` (function) `lazyc2.py:8759` `def api_listeners()` -- List all configured C2 listeners and their runtime status.
-- `api_listeners_create` (function) `lazyc2.py:8766` `def api_listeners_create()` -- Create a new listener.
-- `api_listeners_start` (function) `lazyc2.py:8782` `def api_listeners_start(listener_id)` -- Start an existing listener.
-- `api_listeners_stop` (function) `lazyc2.py:8790` `def api_listeners_stop(listener_id)` -- Stop a running listener.
-- `api_listeners_delete` (function) `lazyc2.py:8798` `def api_listeners_delete(listener_id)` -- Remove a listener configuration.
+- `connect` (function) `lazyc2.py:7285` `def connect()`
+- `listener` (function) `lazyc2.py:7291` `def listener()`
+- `listener_connect` (function) `lazyc2.py:7298` `def listener_connect()`
+- `listener_disconnect` (function) `lazyc2.py:7309` `def listener_disconnect()`
+- `pty_input` (function) `lazyc2.py:7320` `def pty_input(data)`
+- `resize` (function) `lazyc2.py:7335` `def resize(data)`
+- `pty_connect` (function) `lazyc2.py:7349` `def pty_connect()`
+- `handle_input` (function) `lazyc2.py:7381` `def handle_input(data)`
+- `listener_command` (function) `lazyc2.py:7406` `def listener_command(msg)`
+- `terminal` (function) `lazyc2.py:7420` `def terminal()`
+- `terminal_connect` (function) `lazyc2.py:7430` `def terminal_connect()`
+- `terminal_disconnect` (function) `lazyc2.py:7440` `def terminal_disconnect()`
+- `terminal_input` (function) `lazyc2.py:7451` `def terminal_input(data)`
+- `terminal_command` (function) `lazyc2.py:7465` `def terminal_command(data)`
+- `terminal_resize` (function) `lazyc2.py:7481` `def terminal_resize(data)`
+- `start_reverse_shell` (function) `lazyc2.py:7489` `def start_reverse_shell()`
+- `start_bridge` (function) `lazyc2.py:7543` `def start_bridge()` -- Start a TCP bridge to a specified remote host and port.
+- `page_not_found` (function) `lazyc2.py:7560` `def page_not_found(e)`
+- `internal_server_error` (function) `lazyc2.py:7568` `def internal_server_error(e)`
+- `get_config` (function) `lazyc2.py:7577` `def get_config()` -- Lee el archivo payload.json, lo manipula y lo expone como /config.json.
+- `capture_image` (function) `lazyc2.py:7596` `def capture_image()`
+- `capture_audio` (function) `lazyc2.py:7622` `def capture_audio()`
+- `surface` (function) `lazyc2.py:7640` `def surface()`
+- `surface_live` (function) `lazyc2.py:7646` `def surface_live()` -- Render the live attack-surface graph page.
+- `api_surface_live` (function) `lazyc2.py:7661` `def api_surface_live()` -- Return the live attack-surface graph derived from the world model.
+- `intel_view` (function) `lazyc2.py:7683` `def intel_view()` -- Render the fused sessions intel graph page (ReadMenator engine).
+- `intel_bundle_view` (function) `lazyc2.py:7702` `def intel_bundle_view()` -- Render the circular/spherical bundle view of the intel graph.
+- `attack3d_view` (function) `lazyc2.py:7717` `def attack3d_view()` -- Render the C2-centred attack-surface graph (ReadMenator engine).
+- `attack_bundle_view` (function) `lazyc2.py:7736` `def attack_bundle_view()` -- Render the circular/spherical bundle view of the attack surface.
+- `api_intel_graph` (function) `lazyc2.py:7751` `def api_intel_graph()` -- Return the fused C2-centred intel graph with precomputed layout.
+- `broadcast_view` (function) `lazyc2.py:7807` `def broadcast_view()` -- Render the exploration timeline board for one loop task.
+- `api_loop_broadcast_stream` (function) `lazyc2.py:7821` `def api_loop_broadcast_stream()` -- SSE live tail of one loop task's activity stream.
+- `api_loop_broadcast` (function) `lazyc2.py:7879` `def api_loop_broadcast()` -- Return the paginated exploration timeline for one loop task.
+- `api_guard_audit` (function) `lazyc2.py:7922` `def api_guard_audit()` -- Return guard history with pending approvals kept independent.
+- `api_loop_graph` (function) `lazyc2.py:7968` `def api_loop_graph()` -- Return one loop task as ForceGraph-ready nodes/links plus context.
+- `api_lazy_mentions` (function) `lazyc2.py:7999` `def api_lazy_mentions()` -- Search @ mention candidates with scroll pagination.
+- `api_intel_bundle` (function) `lazyc2.py:8035` `def api_intel_bundle()` -- Return the circular/spherical bundle payload of the intel graph.
+- `api_attack_graph` (function) `lazyc2.py:8068` `def api_attack_graph()` -- Return the fused C2-centred attack-surface graph.
+- `api_attack_bundle` (function) `lazyc2.py:8120` `def api_attack_bundle()` -- Return the circular/spherical bundle payload of the attack surface.
+- `get_data` (function) `lazyc2.py:8150` `def get_data()`
+- `upload_zip_file` (function) `lazyc2.py:8159` `def upload_zip_file()` -- Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization.
+- `list_campaigns` (function) `lazyc2.py:8217` `def list_campaigns()`
+- `create_campaign` (function) `lazyc2.py:8230` `def create_campaign()`
+- `lazyphishingai` (function) `lazyc2.py:8308` `def lazyphishingai()`
+- `track_pixel` (function) `lazyc2.py:8324` `def track_pixel(campaign_id, email)` -- Píxel de seguimiento para registrar aperturas.
+- `campaign_report` (function) `lazyc2.py:8346` `def campaign_report(campaign_id)`
+- `orchestrate_campaign` (function) `lazyc2.py:8428` `def orchestrate_campaign(campaign_id)`
+- `create_multivector_campaign` (function) `lazyc2.py:8475` `def create_multivector_campaign()`
+- `serve_landing_page` (function) `lazyc2.py:8627` `def serve_landing_page(campaign_id, short_url)`
+- `health_check` (function) `lazyc2.py:8652` `def health_check()` -- Basic health and readiness endpoint.
+- `metrics_exposition` (function) `lazyc2.py:8691` `def metrics_exposition()` -- Prometheus-compatible metrics endpoint.
+- `api_dashboard` (function) `lazyc2.py:8698` `def api_dashboard()` -- Aggregated JSON dashboard: beacons, campaign, events, facts summary.
+- `api_listeners` (function) `lazyc2.py:8768` `def api_listeners()` -- List all configured C2 listeners and their runtime status.
+- `api_listeners_create` (function) `lazyc2.py:8775` `def api_listeners_create()` -- Create a new listener.
+- `api_listeners_start` (function) `lazyc2.py:8791` `def api_listeners_start(listener_id)` -- Start an existing listener.
+- `api_listeners_stop` (function) `lazyc2.py:8799` `def api_listeners_stop(listener_id)` -- Stop a running listener.
+- `api_listeners_delete` (function) `lazyc2.py:8807` `def api_listeners_delete(listener_id)` -- Remove a listener configuration.
 
 
 Next: [API_p8.md](API_p8.md)

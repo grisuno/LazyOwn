@@ -237,11 +237,22 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `test_summary_scores_and_suggests` (function, line 70) `def test_summary_scores_and_suggests(tmp_path)`
   - `test_summary_score_is_bounded_0_100` (function, line 79) `def test_summary_score_is_bounded_0_100(tmp_path)`
   - `test_summary_score_detail_components_sum` (function, line 95) `def test_summary_score_detail_components_sum(tmp_path)`
-  - `test_summary_heat_component_from_matched_cve` (function, line 106) `def test_summary_heat_component_from_matched_cve(tmp_path, monkeypatch)`
-  - `test_summary_reports_heat_counts_and_changes` (function, line 146) `def test_summary_reports_heat_counts_and_changes(tmp_path)`
-  - `test_llm_defaults_seeded` (function, line 159) `def test_llm_defaults_seeded()`
-  - `test_factory_complete_rejects_empty` (function, line 171) `def test_factory_complete_rejects_empty()`
-- Depends on: `modules/__init__.py`, `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/lazy_world_diff.py`, `modules/llm_factory.py`
+  - `test_summary_heat_component_from_matched_cve` (function, line 105) `def test_summary_heat_component_from_matched_cve(tmp_path, monkeypatch)`
+  - `test_summary_recency_rewards_new_hosts` (function, line 145) `def test_summary_recency_rewards_new_hosts(tmp_path)`
+  - `test_summary_reports_heat_counts_and_changes` (function, line 158) `def test_summary_reports_heat_counts_and_changes(tmp_path)`
+  - `_svg_fixture` (function, line 171) `def _svg_fixture(kind_counts)`
+  - `test_svg_selection_bounded_and_deterministic` (function, line 200) `def test_svg_selection_bounded_and_deterministic()`
+  - `test_relations_svg_renders_nodes_edges_and_manifest` (function, line 209) `def test_relations_svg_renders_nodes_edges_and_manifest()`
+  - `test_selection_is_input_order_independent` (function, line 220) `def test_selection_is_input_order_independent()`
+  - `test_relations_svg_escapes_untrusted_text` (function, line 230) `def test_relations_svg_escapes_untrusted_text()`
+  - `test_relations_svg_empty_graph_returns_blank` (function, line 242) `def test_relations_svg_empty_graph_returns_blank()`
+  - `test_relations_svg_caps_heat_ranking` (function, line 248) `def test_relations_svg_caps_heat_ranking()`
+  - `test_report_renders_relations_appendix` (function, line 257) `def test_report_renders_relations_appendix()`
+  - `test_report_template_renders_host_scores_and_snapshot` (function, line 269) `def test_report_template_renders_host_scores_and_snapshot()`
+  - `test_llm_defaults_seeded` (function, line 306) `def test_llm_defaults_seeded()`
+  - `test_factory_complete_rejects_empty` (function, line 318) `def test_factory_complete_rejects_empty()`
+  - `_User` (class, line 275) `class _User`
+- Depends on: `modules/__init__.py`, `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`
 
 ## tests/test_intelligence_engine.py
 - Doc: Tests for IntelligenceEngine — collection, analysis, intelligence, dissemination.
@@ -472,20 +483,6 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `_Completions` (class, line 162) `class _Completions`
   - `create` (method, line 163) `def create(self)`
 - Depends on: `cli/commands/lazyops.py`, `core/config.py`, `modules/__init__.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
-
-## tests/test_lazy_bridge_traffic.py
-- Doc: Incremental LAZY traffic mirroring (stall regression).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_sandbox` (function, line 16) `def _sandbox(tmp_path, monkeypatch)`
-  - `_append` (function, line 29) `def _append(path, rows)`
-  - `_exchanges` (function, line 35) `def _exchanges(sessions_dir)`
-  - `test_traffic_mirror_is_incremental` (function, line 39) `def test_traffic_mirror_is_incremental(tmp_path, monkeypatch)`
-  - `test_partial_line_is_retried` (function, line 61) `def test_partial_line_is_retried(tmp_path, monkeypatch)`
-  - `test_progress_callback_survives_failures` (function, line 78) `def test_progress_callback_survives_failures(tmp_path, monkeypatch)`
-  - `_boom` (function, line 83) `def _boom(_text)`
-- Depends on: `modules/__init__.py`, `modules/traffic_recorder.py`
 
 
 Next: [KB_tests_p12.md](KB_tests_p12.md)

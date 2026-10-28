@@ -1,8 +1,31 @@
-# Symbols (page 31 of 46)
+# Symbols (page 31 of 47)
 Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `n` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `o` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `o` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `r` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `s` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `wt` | function | `static/js/socket.io-4.3.2.min.js:6` | `` |
+| `e` | function | `static/js/tippy-6.js:1` | `` |
+| `r` | function | `static/js/tippy-6.js:1` | `` |
+| `u` | function | `static/js/tippy-6.js:1` | `` |
+| `A` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `A` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Bk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Bx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `C` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `C` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `CE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Ek` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Ew` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Fk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Fx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Hk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `I` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `I` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
 | `LO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
@@ -455,46 +478,23 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 | `main` | function | `tests/run_mutation_infra_report.py:137` | `def main()` |
 | `restore_files` | function | `tests/run_mutation_infra_report.py:110` | `def restore_files(backups, base_dir, mutations)` |
 | `run_tests` | function | `tests/run_mutation_infra_report.py:122` | `def run_tests()` |
+| `backup_files` | function | `tests/run_mutation_intel_svg.py:48` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_intel_svg.py:77` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_intel_svg.py:58` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_intel_svg.py:65` | `def run_tests()` |
 | `backup_files` | function | `tests/run_mutation_killchain.py:56` | `def backup_files(mutations, base_dir)` |
 | `main` | function | `tests/run_mutation_killchain.py:81` | `def main()` |
 | `restore_files` | function | `tests/run_mutation_killchain.py:65` | `def restore_files(backups, base_dir, mutations)` |
 | `run_tests` | function | `tests/run_mutation_killchain.py:71` | `def run_tests()` |
+| `backup_files` | function | `tests/run_mutation_lazy_scope.py:50` | `def backup_files(mutations, base_dir)` |
+| `main` | function | `tests/run_mutation_lazy_scope.py:79` | `def main()` |
+| `restore_files` | function | `tests/run_mutation_lazy_scope.py:60` | `def restore_files(backups, base_dir, mutations)` |
+| `run_tests` | function | `tests/run_mutation_lazy_scope.py:67` | `def run_tests()` |
 | `backup_files` | function | `tests/run_mutation_llm.py:60` | `def backup_files(mutations, base_dir)` |
 | `main` | function | `tests/run_mutation_llm.py:84` | `def main()` |
 | `restore_files` | function | `tests/run_mutation_llm.py:69` | `def restore_files(backups, base_dir, mutations)` |
 | `run_tests` | function | `tests/run_mutation_llm.py:74` | `def run_tests()` |
 | `backup_files` | function | `tests/run_mutation_llm_orchestrator.py:166` | `def backup_files(mutations, base_dir)` |
 | `main` | function | `tests/run_mutation_llm_orchestrator.py:220` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_llm_orchestrator.py:184` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_llm_orchestrator.py:196` | `def run_tests()` |
-| `main` | function | `tests/run_mutation_loop_cli_catalog.py:50` | `def main()` |
-| `_run_tests` | function | `tests/run_mutation_no_shell.py:25` | `def _run_tests()` |
-| `main` | function | `tests/run_mutation_no_shell.py:37` | `def main()` |
-| `backup_files` | function | `tests/run_mutation_opsec.py:59` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_opsec.py:83` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_opsec.py:68` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_opsec.py:73` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_orchestrator_yaml.py:54` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_orchestrator_yaml.py:83` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_orchestrator_yaml.py:64` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_orchestrator_yaml.py:71` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_outcome_bus.py:47` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_outcome_bus.py:76` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_outcome_bus.py:57` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_outcome_bus.py:64` | `def run_tests()` |
-| `backup_files` | function | `tests/run_mutation_phase1.py:138` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_phase1.py:164` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_phase1.py:147` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_phase1.py:153` | `def run_tests()` |
-| `_run_tests` | function | `tests/run_mutation_shell_semantics.py:41` | `def _run_tests()` |
-| `main` | function | `tests/run_mutation_shell_semantics.py:53` | `def main()` |
-| `backup_files` | function | `tests/run_mutation_tests.py:69` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_tests.py:103` | `def main()` |
-| `restore_files` | function | `tests/run_mutation_tests.py:78` | `def restore_files(backups, base_dir, mutations)` |
-| `run_tests` | function | `tests/run_mutation_tests.py:84` | `def run_tests()` |
-| `main` | function | `tests/run_mutation_trigger_policy.py:52` | `def main()` |
-| `_backups` | function | `tests/run_mutation_ux_usability.py:71` | `def _backups(mutations)` |
-| `_restore` | function | `tests/run_mutation_ux_usability.py:79` | `def _restore(backups, mutations)` |
-| `_run_tests` | function | `tests/run_mutation_ux_usability.py:60` | `def _run_tests()` |
 
 Next: [SYMBOLS_p32.md](SYMBOLS_p32.md)

@@ -3,6 +3,51 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `LazyOwnStepRunner` | class | `modules/pipeline_engine.py:523` | `class LazyOwnStepRunner(IStepRunner)` |
+| `PipelineCycleError` | class | `modules/pipeline_engine.py:101` | `class PipelineCycleError(PipelineError)` |
+| `PipelineEngine` | class | `modules/pipeline_engine.py:908` | `class PipelineEngine` |
+| `PipelineError` | class | `modules/pipeline_engine.py:89` | `class PipelineError(Exception)` |
+| `PipelineLoader` | class | `modules/pipeline_engine.py:626` | `class PipelineLoader` |
+| `PipelineNotFoundError` | class | `modules/pipeline_engine.py:97` | `class PipelineNotFoundError(PipelineError)` |
+| `PipelineRun` | class | `modules/pipeline_engine.py:199` | `class PipelineRun` |
+| `PipelineSchemaError` | class | `modules/pipeline_engine.py:93` | `class PipelineSchemaError(PipelineError)` |
+| `PipelineSpec` | class | `modules/pipeline_engine.py:152` | `class PipelineSpec` |
+| `PipelineStep` | class | `modules/pipeline_engine.py:111` | `class PipelineStep` |
+| `RunArtifactStore` | class | `modules/pipeline_engine.py:769` | `class RunArtifactStore` |
+| `StepDerivers` | class | `modules/pipeline_engine.py:375` | `class StepDerivers` |
+| `StepResult` | class | `modules/pipeline_engine.py:163` | `class StepResult` |
+| `StepValidator` | class | `modules/pipeline_engine.py:341` | `class StepValidator` |
+| `TemplateResolver` | class | `modules/pipeline_engine.py:260` | `class TemplateResolver` |
+| `_SilentNarrator` | class | `modules/pipeline_engine.py:863` | `class _SilentNarrator(INarratorAdapter)` |
+| `__init__` | method | `modules/pipeline_engine.py:275` | `def __init__(self, context)` |
+| `__init__` | method | `modules/pipeline_engine.py:537` | `def __init__(self, runner, onecmd)` |
+| `__init__` | method | `modules/pipeline_engine.py:638` | `def __init__(self, pipelines_dir)` |
+| `__init__` | method | `modules/pipeline_engine.py:778` | `def __init__(self, runs_dir)` |
+| `__init__` | method | `modules/pipeline_engine.py:871` | `def __init__(self, narrator)` |
+| `__init__` | method | `modules/pipeline_engine.py:927` | `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)` |
+| `_build_context` | method | `modules/pipeline_engine.py:1221` | `def _build_context(self, spec, target, step_results, derived_findings, current_step)` |
+| `_derive_auto_populate` | function | `modules/pipeline_engine.py:472` | `def _derive_auto_populate(output)` |
+| `_derive_facts_show` | function | `modules/pipeline_engine.py:481` | `def _derive_facts_show(output)` |
+| `_derive_lazynmap` | function | `modules/pipeline_engine.py:427` | `def _derive_lazynmap(output)` |
+| `_derive_ping` | function | `modules/pipeline_engine.py:412` | `def _derive_ping(output)` |
+| `_derive_searchsploit` | function | `modules/pipeline_engine.py:453` | `def _derive_searchsploit(output)` |
+| `_heuristic_success` | function | `modules/pipeline_engine.py:587` | `def _heuristic_success(command, output)` |
+| `_is_valid_pipeline_name` | function | `modules/pipeline_engine.py:242` | `def _is_valid_pipeline_name(name)` |
+| `_load_payload` | function | `modules/pipeline_engine.py:248` | `def _load_payload()` |
+| `_make_skipped` | method | `modules/pipeline_engine.py:1206` | `def _make_skipped(step, reason)` |
+| `_merge_findings` | method | `modules/pipeline_engine.py:1246` | `def _merge_findings(derived_findings, result)` |
+| `_narrate_step` | method | `modules/pipeline_engine.py:1256` | `def _narrate_step(self, result, target)` |
+| `_new_run_id` | function | `modules/pipeline_engine.py:238` | `def _new_run_id()` |
+| `_now_iso` | function | `modules/pipeline_engine.py:234` | `def _now_iso()` |
+| `_read` | method | `modules/pipeline_engine.py:673` | `def _read(self, path)` |
+| `_replace` | function | `modules/pipeline_engine.py:282` | `def _replace(match)` |
+| `_run_command` | method | `modules/pipeline_engine.py:1077` | `def _run_command(self, step, resolver, target)` |
+| `_run_hook` | method | `modules/pipeline_engine.py:1178` | `def _run_hook(self, hook_command, target, timeout_s)` |
+| `_run_nested` | method | `modules/pipeline_engine.py:1126` | `def _run_nested(self, step, resolver, target, stack, run)` |
+| `_run_via_onecmd` | method | `modules/pipeline_engine.py:566` | `def _run_via_onecmd(self, command, args, target, timeout_s)` |
+| `_stringify` | method | `modules/pipeline_engine.py:314` | `def _stringify(value)` |
+| `_validate` | method | `modules/pipeline_engine.py:689` | `def _validate(self, raw, name, source)` |
+| `_worker` | function | `modules/pipeline_engine.py:1344` | `def _worker()` |
 | `cmd_pipeline` | function | `modules/pipeline_engine.py:1436` | `def cmd_pipeline(action, name, target, background)` |
 | `derive` | method | `modules/pipeline_engine.py:396` | `def derive(cls, command, output)` |
 | `get_default_engine` | function | `modules/pipeline_engine.py:1300` | `def get_default_engine(onecmd)` |
@@ -252,36 +297,36 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_call_ai` | function | `modules/recommender.py:97` | `def _call_ai(api_key, user_prompt)` |
 | `recommend` | function | `modules/recommender.py:143` | `def recommend(state, api_key)` |
 | `recommend_and_save` | function | `modules/recommender.py:163` | `def recommend_and_save(api_key)` |
-| `GymAttempt` | class | `modules/redteam_gym.py:318` | `class GymAttempt` |
-| `_award_gym_elo` | function | `modules/redteam_gym.py:1003` | `def _award_gym_elo(username, elo_bonus)` |
-| `_calc_speed_score` | function | `modules/redteam_gym.py:900` | `def _calc_speed_score(elapsed_seconds, max_bonus)` |
-| `_calc_stealth_score` | function | `modules/redteam_gym.py:921` | `def _calc_stealth_score(techniques, max_bonus)` |
-| `_calc_technique_score` | function | `modules/redteam_gym.py:937` | `def _calc_technique_score(techniques, chal, max_bonus)` |
-| `_ensure_gym_dir` | function | `modules/redteam_gym.py:334` | `def _ensure_gym_dir()` |
-| `_get_rank` | function | `modules/redteam_gym.py:1029` | `def _get_rank(username)` |
-| `_get_username` | function | `modules/redteam_gym.py:366` | `def _get_username()` |
-| `_load_leaderboard` | function | `modules/redteam_gym.py:339` | `def _load_leaderboard()` |
-| `_resolve_active_run` | function | `modules/redteam_gym.py:476` | `def _resolve_active_run(selector, operator)` |
-| `_same_engagement` | function | `modules/redteam_gym.py:800` | `def _same_engagement(ip, target)` |
-| `_save_leaderboard` | function | `modules/redteam_gym.py:355` | `def _save_leaderboard(board)` |
-| `_spin_scenario` | function | `modules/redteam_gym.py:595` | `def _spin_scenario(scenario)` |
-| `_teardown_stopped_scenarios` | function | `modules/redteam_gym.py:766` | `def _teardown_stopped_scenarios(stopped)` |
-| `_update_leaderboard` | function | `modules/redteam_gym.py:959` | `def _update_leaderboard(attempt)` |
-| `create_gym` | function | `modules/redteam_gym.py:398` | `def create_gym(gym_id)` |
-| `definition_rows` | function | `modules/redteam_gym.py:393` | `def definition_rows()` |
-| `delete_gym` | function | `modules/redteam_gym.py:445` | `def delete_gym(gym_id)` |
-| `engagement_context` | function | `modules/redteam_gym.py:827` | `def engagement_context(target)` |
-| `get_active_challenge` | function | `modules/redteam_gym.py:1073` | `def get_active_challenge(run_id)` |
-| `get_active_challenges` | function | `modules/redteam_gym.py:887` | `def get_active_challenges()` |
-| `list_challenges` | function | `modules/redteam_gym.py:453` | `def list_challenges()` |
-| `main` | function | `modules/redteam_gym.py:1158` | `def main()` |
-| `record_external_attempt` | function | `modules/redteam_gym.py:1104` | `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` |
-| `reload_challenge_definitions` | function | `modules/redteam_gym.py:299` | `def reload_challenge_definitions(directory)` |
-| `save_gym_yaml` | function | `modules/redteam_gym.py:435` | `def save_gym_yaml(gym_id, text)` |
-| `show_leaderboard` | function | `modules/redteam_gym.py:1046` | `def show_leaderboard(top_n)` |
-| `start_challenge` | function | `modules/redteam_gym.py:494` | `def start_challenge(challenge_id, target, spin_lab)` |
-| `stop_challenges` | function | `modules/redteam_gym.py:745` | `def stop_challenges(selector)` |
-| `submit_challenge` | function | `modules/redteam_gym.py:637` | `def submit_challenge(techniques_used, success, run_id)` |
+| `GymAttempt` | class | `modules/redteam_gym.py:319` | `class GymAttempt` |
+| `_award_gym_elo` | function | `modules/redteam_gym.py:1014` | `def _award_gym_elo(username, elo_bonus)` |
+| `_calc_speed_score` | function | `modules/redteam_gym.py:911` | `def _calc_speed_score(elapsed_seconds, max_bonus)` |
+| `_calc_stealth_score` | function | `modules/redteam_gym.py:932` | `def _calc_stealth_score(techniques, max_bonus)` |
+| `_calc_technique_score` | function | `modules/redteam_gym.py:948` | `def _calc_technique_score(techniques, chal, max_bonus)` |
+| `_ensure_gym_dir` | function | `modules/redteam_gym.py:335` | `def _ensure_gym_dir()` |
+| `_get_rank` | function | `modules/redteam_gym.py:1040` | `def _get_rank(username)` |
+| `_get_username` | function | `modules/redteam_gym.py:367` | `def _get_username()` |
+| `_load_leaderboard` | function | `modules/redteam_gym.py:340` | `def _load_leaderboard()` |
+| `_resolve_active_run` | function | `modules/redteam_gym.py:477` | `def _resolve_active_run(selector, operator)` |
+| `_same_engagement` | function | `modules/redteam_gym.py:811` | `def _same_engagement(ip, target)` |
+| `_save_leaderboard` | function | `modules/redteam_gym.py:356` | `def _save_leaderboard(board)` |
+| `_spin_scenario` | function | `modules/redteam_gym.py:603` | `def _spin_scenario(scenario, notify)` |
+| `_teardown_stopped_scenarios` | function | `modules/redteam_gym.py:777` | `def _teardown_stopped_scenarios(stopped)` |
+| `_update_leaderboard` | function | `modules/redteam_gym.py:970` | `def _update_leaderboard(attempt)` |
+| `create_gym` | function | `modules/redteam_gym.py:399` | `def create_gym(gym_id)` |
+| `definition_rows` | function | `modules/redteam_gym.py:394` | `def definition_rows()` |
+| `delete_gym` | function | `modules/redteam_gym.py:446` | `def delete_gym(gym_id)` |
+| `engagement_context` | function | `modules/redteam_gym.py:838` | `def engagement_context(target)` |
+| `get_active_challenge` | function | `modules/redteam_gym.py:1084` | `def get_active_challenge(run_id)` |
+| `get_active_challenges` | function | `modules/redteam_gym.py:898` | `def get_active_challenges()` |
+| `list_challenges` | function | `modules/redteam_gym.py:454` | `def list_challenges()` |
+| `main` | function | `modules/redteam_gym.py:1169` | `def main()` |
+| `record_external_attempt` | function | `modules/redteam_gym.py:1115` | `def record_external_attempt(challenge_id, success, elo_bonus, techniques)` |
+| `reload_challenge_definitions` | function | `modules/redteam_gym.py:300` | `def reload_challenge_definitions(directory)` |
+| `save_gym_yaml` | function | `modules/redteam_gym.py:436` | `def save_gym_yaml(gym_id, text)` |
+| `show_leaderboard` | function | `modules/redteam_gym.py:1057` | `def show_leaderboard(top_n)` |
+| `start_challenge` | function | `modules/redteam_gym.py:495` | `def start_challenge(challenge_id, target, spin_lab, notify)` |
+| `stop_challenges` | function | `modules/redteam_gym.py:756` | `def stop_challenges(selector)` |
+| `submit_challenge` | function | `modules/redteam_gym.py:648` | `def submit_challenge(techniques_used, success, run_id)` |
 | `DataDirectory` | class | `modules/reflective_dll.py:70` | `class DataDirectory` |
 | `ImportDescriptor` | class | `modules/reflective_dll.py:104` | `class ImportDescriptor` |
 | `PEHeader` | class | `modules/reflective_dll.py:37` | `class PEHeader` |
@@ -451,50 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `lstat` | function | `modules/rootkit/mrhyde.c:463` | `int lstat(const char *pathname, struct stat *statbuf)` |
 | `main` | function | `modules/rootkit/mrhyde.c:682` | `int main()` |
 | `my_open` | function | `modules/rootkit/mrhyde.c:331` | `int my_open(const char *pathname, int flags, mode_t mode)` |
-| `my_openat` | function | `modules/rootkit/mrhyde.c:375` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
-| `original_dirent` | type_alias | `modules/rootkit/mrhyde.c:55` | `typedef struct dirent original_dirent;` |
-| `readdir` | function | `modules/rootkit/mrhyde.c:226` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde.c:149` | `int remove(const char *pathname)` |
-| `should_hide_file` | function | `modules/rootkit/mrhyde.c:216` | `int should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde.c:201` | `int should_hide_pid(const char* pid)` |
-| `stat` | function | `modules/rootkit/mrhyde.c:419` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `unlink` | function | `modules/rootkit/mrhyde.c:117` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde.c:161` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde2.c:31` | `#define HIDDEN_DIR` |
-| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde2.c:32` | `#define HIDDEN_FILE` |
-| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde2.c:33` | `#define HIDDEN_FILE1` |
-| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde2.c:34` | `#define HIDDEN_FILE2` |
-| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde2.c:35` | `#define HIDDEN_FILE3` |
-| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde2.c:36` | `#define HIDDEN_FILE4` |
-| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde2.c:37` | `#define HIDDEN_FILE5` |
-| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde2.c:38` | `#define HIDDEN_FILE6` |
-| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde2.c:39` | `#define HIDDEN_FILE7` |
-| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde2.c:40` | `#define HIDDEN_FILE8` |
-| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde2.c:41` | `#define HIDDEN_FILE9` |
-| `HIDE_DIR` | macro | `modules/rootkit/mrhyde2.c:45` | `#define HIDE_DIR` |
-| `HIDE_USER` | macro | `modules/rootkit/mrhyde2.c:48` | `#define HIDE_USER` |
-| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde2.c:50` | `#define MAX_HIDE_PIDS` |
-| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde2.c:42` | `#define PATHMRHYDE` |
-| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde2.c:51` | `#define PID_FILE_PATH` |
-| `fopen` | function | `modules/rootkit/mrhyde2.c:242` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fstat` | function | `modules/rootkit/mrhyde2.c:427` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde2.c:152` | `char* get_username_from_pid(pid_t pid)` |
-| `getdents` | function | `modules/rootkit/mrhyde2.c:474` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `getdents64` | function | `modules/rootkit/mrhyde2.c:531` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `kill` | function | `modules/rootkit/mrhyde2.c:99` | `int kill(pid_t pid, int sig)` |
-| `linux_dirent64` | struct | `modules/rootkit/mrhyde2.c:465` | `` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde2.c:67` | `void load_hidden_pids()` |
-| `lstat` | function | `modules/rootkit/mrhyde2.c:390` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `main` | function | `modules/rootkit/mrhyde2.c:587` | `int main()` |
-| `my_open` | function | `modules/rootkit/mrhyde2.c:279` | `int my_open(const char *pathname, int flags, mode_t mode)` |
-| `my_openat` | function | `modules/rootkit/mrhyde2.c:316` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
-| `original_dirent` | type_alias | `modules/rootkit/mrhyde2.c:52` | `typedef struct dirent original_dirent;` |
-| `readdir` | function | `modules/rootkit/mrhyde2.c:186` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde2.c:119` | `int remove(const char *pathname)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde2.c:171` | `int should_hide_pid(const char* pid)` |
-| `stat` | function | `modules/rootkit/mrhyde2.c:353` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `unlink` | function | `modules/rootkit/mrhyde2.c:87` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde2.c:131` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `C2_PORT` | macro | `modules/rootkit/mrhyde3.c:57` | `#define C2_PORT` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

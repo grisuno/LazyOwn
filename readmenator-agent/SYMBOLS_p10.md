@@ -3,6 +3,12 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_refresh` | method | `lazygui/panels/killchain_panel.py:96` | `def _refresh(self)` |
+| `ListenersPanel` | class | `lazygui/panels/listeners_panel.py:21` | `class ListenersPanel(PanelBase)` |
+| `__init__` | method | `lazygui/panels/listeners_panel.py:24` | `def __init__(self, constants, backend, parent)` |
+| `_matches_filter` | method | `lazygui/panels/listeners_panel.py:95` | `def _matches_filter(self, listener)` |
+| `_on_filter_changed` | method | `lazygui/panels/listeners_panel.py:70` | `def _on_filter_changed(self, text)` |
+| `_on_listeners_changed` | method | `lazygui/panels/listeners_panel.py:65` | `def _on_listeners_changed(self, listeners)` |
 | `_populate_visible` | method | `lazygui/panels/listeners_panel.py:75` | `def _populate_visible(self)` |
 | `MarketplacePanel` | class | `lazygui/panels/marketplace_panel.py:29` | `class MarketplacePanel(PanelBase)` |
 | `__init__` | method | `lazygui/panels/marketplace_panel.py:32` | `def __init__(self, constants, backend, parent)` |
@@ -462,6 +468,16 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `selection` | method | `modules/LazyOwnExplorer.py:68` | `def selection(self, event)` |
 | `show_row_details` | method | `modules/LazyOwnExplorer.py:283` | `def show_row_details(self, row)` |
 | `show_scan_results` | method | `modules/LazyOwnExplorer.py:374` | `def show_scan_results(self, binaries)` |
+| `_load_yaml` | function | `modules/ad_gym.py:27` | `def _load_yaml(path)` |
+| `chain_for` | function | `modules/ad_gym.py:58` | `def chain_for(vuln_id, path)` |
+| `exploit_for` | function | `modules/ad_gym.py:68` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/ad_gym.py:49` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/ad_gym.py:38` | `def load_index(path)` |
+| `main` | function | `modules/ad_gym.py:166` | `def main()` |
+| `readiness` | function | `modules/ad_gym.py:146` | `def readiness()` |
+| `summary` | function | `modules/ad_gym.py:127` | `def summary(path)` |
+| `validate_matrix` | function | `modules/ad_gym.py:78` | `def validate_matrix(path)` |
+| `vulnerabilities` | function | `modules/ad_gym.py:43` | `def vulnerabilities(path)` |
 | `ADCSCertipyWrapper` | class | `modules/adcs_attacks.py:69` | `class ADCSCertipyWrapper` |
 | `CertificateTemplate` | class | `modules/adcs_attacks.py:14` | `class CertificateTemplate` |
 | `__init__` | method | `modules/adcs_attacks.py:80` | `def __init__(self, certipy_path, timeout)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `_audit` | function | `modules/addon_updater.py:315` | `def _audit(summary, path)` |
 | `_git` | function | `modules/addon_updater.py:135` | `def _git(path)` |
 | `_read_addon` | function | `modules/addon_updater.py:61` | `def _read_addon(path)` |
-| `_safe_target` | function | `modules/addon_updater.py:107` | `def _safe_target(install_path, root)` |
-| `_worktree_root` | function | `modules/addon_updater.py:150` | `def _worktree_root(path, repository_root)` |
-| `load_addons` | function | `modules/addon_updater.py:73` | `def load_addons(lazyaddons_dir)` |
-| `to_dict` | method | `modules/addon_updater.py:46` | `def to_dict(self)` |
-| `update_addon` | function | `modules/addon_updater.py:166` | `def update_addon(name, lazyaddons_dir, root, dry_run)` |
-| `update_all` | function | `modules/addon_updater.py:260` | `def update_all(names, lazyaddons_dir, root, dry_run, audit_path)` |
-| `ASTToolExtractor` | class | `modules/agent_runner.py:138` | `class ASTToolExtractor` |
-| `AgentRunner` | class | `modules/agent_runner.py:194` | `class AgentRunner` |
-| `AgentTool` | class | `modules/agent_runner.py:70` | `class AgentTool` |
-| `CommandMetadata` | class | `modules/agent_runner.py:131` | `class CommandMetadata` |
-| `LazyOwnShellWrapper` | class | `modules/agent_runner.py:486` | `class LazyOwnShellWrapper` |
-| `VulnBotCLI` | class | `modules/agent_runner.py:563` | `class VulnBotCLI` |
-| `__init__` | method | `modules/agent_runner.py:73` | `def __init__(self, name, description, func, parameters, required)` |
-| `__init__` | method | `modules/agent_runner.py:197` | `def __init__(self, model, system_prompt, max_iterations)` |
-| `__init__` | method | `modules/agent_runner.py:489` | `def __init__(self, script_path)` |
-| `__init__` | method | `modules/agent_runner.py:564` | `def __init__(self, provider, mode, debug, script_path)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

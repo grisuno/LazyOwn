@@ -3,6 +3,65 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `mcp_engage_approve` | function | `skills/autonomous_daemon.py:4126` | `def mcp_engage_approve(approval_id, decision, operator)` |
+| `mcp_engage_list_pending` | function | `skills/autonomous_daemon.py:4151` | `def mcp_engage_list_pending()` |
+| `mcp_engage_status` | function | `skills/autonomous_daemon.py:4100` | `def mcp_engage_status(last_n)` |
+| `mcp_engage_target` | function | `skills/autonomous_daemon.py:4010` | `def mcp_engage_target(target, max_switches_per_step, detach, auto)` |
+| `name` | method | `skills/autonomous_daemon.py:431` | `def name(self)` |
+| `name` | method | `skills/autonomous_daemon.py:482` | `def name(self)` |
+| `name` | method | `skills/autonomous_daemon.py:502` | `def name(self)` |
+| `name` | method | `skills/autonomous_daemon.py:598` | `def name(self)` |
+| `next_command` | method | `skills/autonomous_daemon.py:1349` | `def next_command(self, target, phase, context)` |
+| `next_command` | method | `skills/autonomous_daemon.py:1425` | `def next_command(self, target, phase, services, os_hint)` |
+| `next_tool` | method | `skills/autonomous_daemon.py:3134` | `def next_tool(self, failed_command, phase, attempt)` |
+| `next_tool` | method | `skills/autonomous_daemon.py:3151` | `def next_tool(self, failed_command, phase, attempt)` |
+| `next_tool` | method | `skills/autonomous_daemon.py:3198` | `def next_tool(self, failed_command, phase, attempt)` |
+| `objective_loop` | function | `skills/autonomous_daemon.py:4208` | `def objective_loop(max_steps, loop)` |
+| `poll` | method | `skills/autonomous_daemon.py:3230` | `def poll(self, target)` |
+| `process_findings` | method | `skills/autonomous_daemon.py:2822` | `def process_findings(self, findings, target, objective_id, payload_key)` |
+| `register_output` | method | `skills/autonomous_daemon.py:708` | `def register_output(self, output, command, platform)` |
+| `register_output` | method | `skills/autonomous_daemon.py:1411` | `def register_output(self, output, command, platform, success)` |
+| `run` | method | `skills/autonomous_daemon.py:426` | `def run(self, command, timeout)` |
+| `run` | method | `skills/autonomous_daemon.py:485` | `def run(self, command, timeout)` |
+| `run` | method | `skills/autonomous_daemon.py:505` | `def run(self, command, timeout)` |
+| `run` | method | `skills/autonomous_daemon.py:601` | `def run(self, command, timeout)` |
+| `run` | method | `skills/autonomous_daemon.py:3366` | `def run(self)` |
+| `run_async` | method | `skills/autonomous_daemon.py:1507` | `def run_async(self, objective_id, objective_text, target)` |
+| `select` | method | `skills/autonomous_daemon.py:689` | `def select(self, target, phase, context)` |
+| `select` | method | `skills/autonomous_daemon.py:735` | `def select(self, target, phase, context)` |
+| `select` | method | `skills/autonomous_daemon.py:754` | `def select(self, target, phase, context)` |
+| `select` | method | `skills/autonomous_daemon.py:800` | `def select(self, target, phase, context)` |
+| `select` | method | `skills/autonomous_daemon.py:866` | `def select(self, target, phase, context)` |
+| `select` | method | `skills/autonomous_daemon.py:990` | `def select(self, target, phase, context)` |
+| `select` | method | `skills/autonomous_daemon.py:1036` | `def select(self, target, phase, context)` |
+| `select` | method | `skills/autonomous_daemon.py:1205` | `def select(self, target, phase, context)` |
+| `select` | method | `skills/autonomous_daemon.py:1310` | `def select(self, target, phase, context)` |
+| `world_model_watcher` | function | `skills/autonomous_daemon.py:4351` | `def world_model_watcher(loop)` |
+| `wrapped` | method | `skills/autonomous_daemon.py:1119` | `def wrapped(self)` |
+| `EventLogReader` | class | `skills/autonomous_replay.py:127` | `class EventLogReader` |
+| `ReplayDispatcher` | class | `skills/autonomous_replay.py:212` | `class ReplayDispatcher` |
+| `ReplayDivergence` | class | `skills/autonomous_replay.py:82` | `class ReplayDivergence` |
+| `ReplayReport` | class | `skills/autonomous_replay.py:93` | `class ReplayReport` |
+| `ReplayStep` | class | `skills/autonomous_replay.py:53` | `class ReplayStep` |
+| `__init__` | method | `skills/autonomous_replay.py:136` | `def __init__(self, path)` |
+| `__init__` | method | `skills/autonomous_replay.py:221` | `def __init__(self, reader, seed_fn)` |
+| `_build_step` | method | `skills/autonomous_replay.py:278` | `def _build_step(self, event, divergences)` |
+| `_collect_step_events` | method | `skills/autonomous_replay.py:261` | `def _collect_step_events(self, from_event_id, to_event_id)` |
+| `_default_runner` | method | `skills/autonomous_replay.py:413` | `def _default_runner()` |
+| `_default_seed_fn` | method | `skills/autonomous_replay.py:241` | `def _default_seed_fn()` |
+| `_invoke_runner` | method | `skills/autonomous_replay.py:441` | `def _invoke_runner(runner, command, timeout)` |
+| `execute` | method | `skills/autonomous_replay.py:357` | `def execute(self, from_event_id, to_event_id, runner, timeout)` |
+| `path` | method | `skills/autonomous_replay.py:147` | `def path(self)` |
+| `read` | method | `skills/autonomous_replay.py:152` | `def read(self)` |
+| `replay` | function | `skills/autonomous_replay.py:473` | `def replay(from_event_id, to_event_id, mode, events_path, runner, timeout)` |
+| `slice` | method | `skills/autonomous_replay.py:177` | `def slice(self, events, from_event_id, to_event_id)` |
+| `to_dict` | method | `skills/autonomous_replay.py:114` | `def to_dict(self)` |
+| `trace` | method | `skills/autonomous_replay.py:325` | `def trace(self, from_event_id, to_event_id)` |
+| `BddResult` | class | `skills/claude_md_orchestrator/bdd_agent.py:113` | `class BddResult` |
+| `_compose_implementation` | function | `skills/claude_md_orchestrator/bdd_agent.py:95` | `def _compose_implementation(spec, contract)` |
+| `_ensure_init` | function | `skills/claude_md_orchestrator/bdd_agent.py:130` | `def _ensure_init(config)` |
+| `_module_name` | function | `skills/claude_md_orchestrator/bdd_agent.py:80` | `def _module_name(contract)` |
+| `_module_path` | function | `skills/claude_md_orchestrator/bdd_agent.py:85` | `def _module_path(contract, config)` |
 | `_package_init` | function | `skills/claude_md_orchestrator/bdd_agent.py:90` | `def _package_init(config)` |
 | `_run_pytest` | function | `skills/claude_md_orchestrator/bdd_agent.py:138` | `def _run_pytest(test_path, cwd)` |
 | `run` | function | `skills/claude_md_orchestrator/bdd_agent.py:151` | `def run(contract, spec, suite, config)` |
@@ -437,64 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `start` | method | `skills/hive_mind.py:1128` | `def start(self)` |
 | `stats` | method | `skills/hive_mind.py:322` | `def stats(self)` |
 | `stats` | method | `skills/hive_mind.py:694` | `def stats(self)` |
-| `status` | method | `skills/hive_mind.py:1863` | `def status(self)` |
-| `store` | method | `skills/hive_mind.py:157` | `def store(self, content)` |
-| `store` | method | `skills/hive_mind.py:235` | `def store(self, content, agent_id, role, event_type, meta, session_tag)` |
-| `store` | method | `skills/hive_mind.py:386` | `def store(self, content, agent_id, role, event_type, meta, session_tag, event_id)` |
-| `store` | method | `skills/hive_mind.py:515` | `def store(self, content)` |
-| `store` | method | `skills/hive_mind.py:596` | `def store(self, content, agent_id, role, event_type, meta, session_tag)` |
-| `synthesize` | method | `skills/hive_mind.py:1447` | `def synthesize(self, drone_ids, original_goal)` |
-| `upsert` | method | `skills/hive_mind.py:1523` | `def upsert(self, state)` |
-| `AutoMapper` | class | `skills/lazyown_automapper.py:332` | `class AutoMapper` |
-| `__init__` | method | `skills/lazyown_automapper.py:341` | `def __init__(self, lazyown_dir)` |
-| `_addon_to_mcp_tool` | function | `skills/lazyown_automapper.py:265` | `def _addon_to_mcp_tool(spec)` |
-| `_expand_tool_command` | function | `skills/lazyown_automapper.py:247` | `def _expand_tool_command(template, ip, port, ssl, outputdir, toolname)` |
-| `_load_addons` | function | `skills/lazyown_automapper.py:142` | `def _load_addons(lazyaddons_dir)` |
-| `_load_dottools` | function | `skills/lazyown_automapper.py:173` | `def _load_dottools(tools_dir)` |
-| `_load_plugins` | function | `skills/lazyown_automapper.py:214` | `def _load_plugins(plugins_dir)` |
-| `_load_yaml` | function | `skills/lazyown_automapper.py:79` | `def _load_yaml(path)` |
-| `_params_to_schema` | function | `skills/lazyown_automapper.py:104` | `def _params_to_schema(params)` |
-| `_plugin_to_mcp_tool` | function | `skills/lazyown_automapper.py:314` | `def _plugin_to_mcp_tool(spec)` |
-| `_run_addon` | method | `skills/lazyown_automapper.py:420` | `def _run_addon(self, spec, arguments, config, run_fn)` |
-| `_run_dottool` | method | `skills/lazyown_automapper.py:452` | `def _run_dottool(self, spec, arguments, config)` |
-| `_run_plugin` | method | `skills/lazyown_automapper.py:475` | `def _run_plugin(self, spec, arguments, config, run_fn)` |
-| `_safe_name` | function | `skills/lazyown_automapper.py:68` | `def _safe_name(raw)` |
-| `_scan` | method | `skills/lazyown_automapper.py:350` | `def _scan(self)` |
-| `_shell_run` | method | `skills/lazyown_automapper.py:503` | `def _shell_run(cmd, timeout)` |
-| `_tool_to_mcp_tool` | function | `skills/lazyown_automapper.py:281` | `def _tool_to_mcp_tool(spec)` |
-| `dispatch` | method | `skills/lazyown_automapper.py:389` | `def dispatch(self, name, arguments, config, run_command_fn)` |
-| `list_specs` | method | `skills/lazyown_automapper.py:581` | `def list_specs(self)` |
-| `mcp_tools` | method | `skills/lazyown_automapper.py:368` | `def mcp_tools(self)` |
-| `rescan` | method | `skills/lazyown_automapper.py:364` | `def rescan(self)` |
-| `stats` | method | `skills/lazyown_automapper.py:571` | `def stats(self)` |
-| `update_skills_md` | method | `skills/lazyown_automapper.py:524` | `def update_skills_md(self, skills_md_path)` |
-| `Campaign` | class | `skills/lazyown_campaign.py:105` | `class Campaign` |
-| `CampaignStore` | class | `skills/lazyown_campaign.py:375` | `class CampaignStore` |
-| `EpisodeReflectionEngine` | class | `skills/lazyown_campaign.py:193` | `class EpisodeReflectionEngine` |
-| `LessonLearned` | class | `skills/lazyown_campaign.py:175` | `class LessonLearned` |
-| `__init__` | method | `skills/lazyown_campaign.py:256` | `def __init__(self, hive_memory)` |
-| `__init__` | method | `skills/lazyown_campaign.py:382` | `def __init__(self, campaign_file)` |
-| `_build_parser` | function | `skills/lazyown_campaign.py:623` | `def _build_parser()` |
-| `_now_iso` | function | `skills/lazyown_campaign.py:59` | `def _now_iso()` |
-| `_persist_lessons` | method | `skills/lazyown_campaign.py:332` | `def _persist_lessons(self, lessons)` |
-| `_require` | method | `skills/lazyown_campaign.py:610` | `def _require(self)` |
-| `_save` | method | `skills/lazyown_campaign.py:388` | `def _save(self, campaign)` |
-| `add_milestone` | method | `skills/lazyown_campaign.py:516` | `def add_milestone(self, host, milestone_type, notes)` |
-| `add_to_scope` | method | `skills/lazyown_campaign.py:540` | `def add_to_scope(self, ip_or_cidr)` |
-| `complete` | method | `skills/lazyown_campaign.py:445` | `def complete(self, notes, run_reflection, hive_memory)` |
-| `create` | method | `skills/lazyown_campaign.py:414` | `def create(self, name, scope, notes)` |
-| `from_dict` | method | `skills/lazyown_campaign.py:157` | `def from_dict(cls, data)` |
-| `in_scope` | method | `skills/lazyown_campaign.py:559` | `def in_scope(self, ip)` |
-| `is_active` | method | `skills/lazyown_campaign.py:148` | `def is_active(self)` |
-| `is_ip_in_scope` | function | `skills/lazyown_campaign.py:64` | `def is_ip_in_scope(ip, scope)` |
-| `load` | method | `skills/lazyown_campaign.py:395` | `def load(self)` |
-| `main` | function | `skills/lazyown_campaign.py:667` | `def main(argv)` |
-| `reflect` | method | `skills/lazyown_campaign.py:268` | `def reflect(self, campaign)` |
-| `summary` | method | `skills/lazyown_campaign.py:566` | `def summary(self)` |
-| `to_dict` | method | `skills/lazyown_campaign.py:152` | `def to_dict(self)` |
-| `to_dict` | method | `skills/lazyown_campaign.py:189` | `def to_dict(self)` |
-| `update_phase` | method | `skills/lazyown_campaign.py:500` | `def update_phase(self, host, phase)` |
-| `ClaudeMdLoader` | class | `skills/lazyown_claudemd.py:24` | `class ClaudeMdLoader` |
-| `__init__` | method | `skills/lazyown_claudemd.py:32` | `def __init__(self, cwd)` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

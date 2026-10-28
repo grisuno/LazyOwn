@@ -64,6 +64,8 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `cli/commands/lab.py` -> __future__, cmd2, socket, subprocess, time
 - `cli/commands/lateral.py` -> __future__, cmd2
 - `cli/commands/lateral_migrated.py` -> __future__, cmd2, os
+- `cli/commands/lazy_creds.py` -> __future__, cmd2, shlex
+- `cli/commands/lazy_oob.py` -> __future__, cmd2, shlex
 - `cli/commands/lazyloop.py` -> __future__, cmd2, json, shlex
 - `cli/commands/lazyops.py` -> __future__, cmd2, json, pathlib, re, shlex, subprocess, uuid, yaml
 - `cli/commands/marketplace.py` -> __future__, cmd2, pathlib, shutil, subprocess
@@ -320,6 +322,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/49803.py` -> optparse, requests, sys, time
 - `modules/CVE-2023-28432.py` -> requests, threading, urllib3
 - `modules/LazyOwnExplorer.py` -> numpy, os, pandas, subprocess, tkinter
+- `modules/ad_gym.py` -> __future__, argparse, json, pathlib, re, typing, yaml
 - `modules/adcs_attacks.py` -> dataclasses, json, os, re, subprocess
 - `modules/addon_updater.py` -> __future__, dataclasses, json, os, pathlib, subprocess, time, typing, yaml
 - `modules/agent_runner.py` -> argparse, ast, collections.abc, contextlib, dataclasses, importlib.util, inspect, io, json, os, queue, sys, threading, time, types, typing
@@ -375,7 +378,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/config_store.py` -> __future__, copy, pathlib, threading, typing
 - `modules/credential_reuse.py` -> __future__, dataclasses, ipaddress, json, pathlib, typing
 - `modules/cross_cloud.py` -> __future__, dataclasses, typing
-- `modules/ctf_capture.py` -> __future__, argparse, collections.abc, datetime, itertools, json, pathlib, re, sys
+- `modules/ctf_capture.py` -> __future__, argparse, collections.abc, datetime, itertools, json, pathlib, re, sys, typing
 - `modules/custom_tools.py` -> __future__, json, pathlib, re, shlex, urllib.parse, urllib.request
 - `modules/cve_matcher.py` -> __future__, argparse, dataclasses, hashlib, json, os, pathlib, sys, time, urllib.error, urllib.parse, urllib.request
 - `modules/dacl_abuse.py` -> __future__, dataclasses, re, typing
@@ -453,10 +456,11 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/kill_chain_viz.py` -> __future__, datetime, json, os, pathlib, typing
 - `modules/killchain.py` -> __future__, collections.abc, dataclasses, datetime, os, pathlib, typing
 - `modules/kivi.py` -> kivy.app, kivy.uix.boxlayout, kivy.uix.button, kivy.uix.label, kivy.uix.textinput, socket, subprocess
-- `modules/lab_runtime.py` -> __future__, pathlib, secrets, subprocess
+- `modules/lab_runtime.py` -> __future__, pathlib, secrets, subprocess, time
 - `modules/lazy_agent.py` -> __future__, collections.abc, json, os, shutil, signal, subprocess, threading, time
 - `modules/lazy_bridge.py` -> __future__, json, pathlib, re, time, uuid
 - `modules/lazy_cli_bridge.py` -> __future__, pathlib, re, threading, time
+- `modules/lazy_creds.py` -> __future__, csv, dataclasses, functools, pathlib, sys, typing
 - `modules/lazy_cve_feed.py` -> __future__, csv, gzip, io, json, os, pathlib, re, threading, time, urllib.request
 - `modules/lazy_engine.py` -> __future__
 - `modules/lazy_heat.py` -> __future__, re
@@ -464,6 +468,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/lazy_intel.py` -> __future__, ipaddress, json, pathlib, time
 - `modules/lazy_loop.py` -> __future__, base64, concurrent.futures, csv, dataclasses, email.message, fcntl, hashlib, io, ipaddress, json, os, pathlib, queue, re, shlex, signal, smtplib, socket, subprocess, threading, time, urllib.request, zipfile
 - `modules/lazy_mentions.py` -> __future__, base64, dataclasses, glob, json, modules.lazy_finding, pathlib, re
+- `modules/lazy_oob.py` -> __future__, dataclasses, json, pathlib, secrets, threading, time, typing
 - `modules/lazy_orchestrator_feedback.py` -> __future__, json, pathlib, threading, time
 - `modules/lazy_osinfer.py` -> __future__, json, pathlib, re, yaml
 - `modules/lazy_proxy.py` -> __future__, base64, cryptography, cryptography.hazmat.primitives, cryptography.hazmat.primitives.asymmetric, cryptography.x509.oid, datetime, http.client, ipaddress, os, pathlib, re, select, shutil, socket, ssl, subprocess, sys, tempfile, threading, time, urllib.parse
@@ -491,10 +496,5 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/lilsplunky.py` -> argparse, datetime, json, os, re, requests, rich.panel, socket, time, watchdog.events, watchdog.observers
 - `modules/linux_advanced_payloads.py` -> __future__, base64, dataclasses, os, pathlib, random, subprocess, tempfile, typing
 - `modules/listener_manager.py` -> __future__, dataclasses, errno, ipaddress, json, os, socket, threading, time, typing, werkzeug.serving
-- `modules/live_surface.py` -> __future__, typing
-- `modules/llm_adapter.py` -> __future__, groq, typing
-- `modules/llm_client.py` -> __future__, argparse, json, os, sys, urllib.error, urllib.request
-- `modules/llm_evaluator.py` -> __future__, abc, argparse, dataclasses, json, pathlib, threading, time, uuid
-- `modules/llm_factory.py` -> __future__, collections.abc, json, os, pathlib, shutil, subprocess, sys, typing
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

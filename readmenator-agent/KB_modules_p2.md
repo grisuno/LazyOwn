@@ -1,5 +1,35 @@
-# Subsystem: modules (page 2 of 16)
+# Subsystem: modules (page 2 of 17)
 Previous: [KB_modules.md](KB_modules.md)
+
+## modules/auto_pivot.py
+- Doc: Auto-Pivoting Engine for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PivotNode` (class, line 23) `class PivotNode`
+  - `PivotChain` (class, line 39) `class PivotChain`
+  - `AutoPivotEngine` (class, line 47) `class AutoPivotEngine`
+  - `__init__` (method, line 73) `def __init__(self, config)`
+  - `set_config` (method, line 82) `def set_config(self, config)`
+  - `_next_port` (method, line 85) `def _next_port(self)`
+  - `add_pivot_node` (method, line 90) `def add_pivot_node(self, ip, access_type, credential_id, hostname)`
+  - `remove_pivot_node` (method, line 120) `def remove_pivot_node(self, ip)`
+  - `discover_subnets` (method, line 128) `def discover_subnets(self, node_ip, command_output)`
+  - `build_chain` (method, line 146) `def build_chain(self, target_ip, via_nodes, subnet)`
+  - `generate_proxychains_config` (method, line 177) `def generate_proxychains_config(self, chain_id)`
+  - `generate_sshuttle_command` (method, line 203) `def generate_sshuttle_command(self, node_ip, subnet)`
+  - `generate_chisel_command` (method, line 206) `def generate_chisel_command(self, target_ip, local_port)`
+  - `generate_ssh_socks_command` (method, line 212) `def generate_ssh_socks_command(self, node_ip, local_port)`
+  - `health_check` (method, line 216) `def health_check(self, node_ip)`
+  - `health_check_all` (method, line 237) `def health_check_all(self)`
+  - `get_active_routes` (method, line 243) `def get_active_routes(self)`
+  - `get_reachable_hosts` (method, line 259) `def get_reachable_hosts(self, node_ip)`
+  - `set_reachable_hosts` (method, line 267) `def set_reachable_hosts(self, node_ip, hosts)`
+  - `set_route_priority` (method, line 272) `def set_route_priority(self, node_ip, priority)`
+  - `_persist_state` (method, line 277) `def _persist_state(self)`
+  - `_load_state` (method, line 314) `def _load_state(self)`
+  - `suggest_next_pivot` (method, line 352) `def suggest_next_pivot(self)`
+- Imported by: `modules/autonomous_exploit_engine.py`, `skills/lazyown_mcp.py`
 
 ## modules/auto_purple.py
 - Doc: Purple Team Closed-Loop — honest measurement of offensive detection.
@@ -422,61 +452,6 @@ Previous: [KB_modules.md](KB_modules.md)
   - `apply_to_session` (method, line 554) `def apply_to_session(profile, session)`
   - `get_beacon_config` (method, line 567) `def get_beacon_config(profile)`
 - Depends on: `core/logging.py`
-
-## modules/c2_profile_engine.py
-- Doc: Extended malleable C2 profile engine with TLS, DNS, SMB, and WebSocket transports.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `TlsProfile` (class, line 117) `class TlsProfile`
-  - `DnsProfile` (class, line 205) `class DnsProfile`
-  - `SmbProfile` (class, line 289) `class SmbProfile`
-  - `WebSocketProfile` (class, line 349) `class WebSocketProfile`
-  - `TransportType` (class, line 404) `class TransportType(Enum)`
-  - `RotationSlot` (class, line 414) `class RotationSlot`
-  - `ProfileRotator` (class, line 441) `class ProfileRotator`
-  - `ProfileValidator` (class, line 503) `class ProfileValidator`
-  - `ProfileEngine` (class, line 611) `class ProfileEngine`
-  - `get_cipher_suites` (method, line 144) `def get_cipher_suites(self)`
-  - `get_ja3_hash` (method, line 155) `def get_ja3_hash(self)`
-  - `from_dict` (method, line 173) `def from_dict(raw)`
-  - `to_dict` (method, line 188) `def to_dict(self)`
-  - `build_query_subdomain` (method, line 231) `def build_query_subdomain(self, data, packet_id)`
-  - `from_dict` (method, line 261) `def from_dict(raw)`
-  - `to_dict` (method, line 274) `def to_dict(self)`
-  - `from_dict` (method, line 319) `def from_dict(raw)`
-  - `to_dict` (method, line 333) `def to_dict(self)`
-  - `from_dict` (method, line 375) `def from_dict(raw)`
-  - `to_dict` (method, line 389) `def to_dict(self)`
-  - `is_available` (method, line 429) `def is_available(self)`
-  - `touch` (method, line 436) `def touch(self)`
-  - `__init__` (method, line 453) `def __init__(self, slots)`
-  - `current_slot` (method, line 460) `def current_slot(self)`
-  - `transport` (method, line 465) `def transport(self)`
-  - `rotate` (method, line 469) `def rotate(self)`
-  - `list_slots` (method, line 487) `def list_slots(self)`
-  - `validate_tls` (method, line 511) `def validate_tls(profile)`
-  - `validate_dns` (method, line 536) `def validate_dns(profile)`
-  - `validate_smb` (method, line 556) `def validate_smb(profile)`
-  - `validate_websocket` (method, line 576) `def validate_websocket(profile)`
-  - `validate_all` (method, line 591) `def validate_all(self, tls, dns, smb, websocket)`
-  - `__init__` (method, line 627) `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)`
-  - `tls_profile` (method, line 643) `def tls_profile(self)`
-  - `dns_profile` (method, line 648) `def dns_profile(self)`
-  - `smb_profile` (method, line 653) `def smb_profile(self)`
-  - `websocket_profile` (method, line 658) `def websocket_profile(self)`
-  - `rotator` (method, line 663) `def rotator(self)`
-  - `active_transport` (method, line 668) `def active_transport(self)`
-  - `rotate` (method, line 672) `def rotate(self)`
-  - `validate` (method, line 676) `def validate(self)`
-  - `get_active_profile_dict` (method, line 685) `def get_active_profile_dict(self)`
-  - `get_all_profiles_dict` (method, line 699) `def get_all_profiles_dict(self)`
-  - `_default_slots` (method, line 709) `def _default_slots(self)`
-  - `from_dict` (method, line 747) `def from_dict(cls, raw)`
-  - `from_payload` (method, line 766) `def from_payload(cls, payload)`
-  - `from_config` (method, line 771) `def from_config(cls, config)`
-- Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
-- Imported by: `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

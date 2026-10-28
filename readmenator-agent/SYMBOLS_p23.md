@@ -3,6 +3,65 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `read_file` | function | `plugins/rundll32_sct_from_url.lua:12` | `` |
+| `write_file` | function | `plugins/rundll32_sct_from_url.lua:4` | `` |
+| `esc_hex_to_bytes` | function | `plugins/validate_shellcode.lua:21` | `` |
+| `hex_list_to_byte_values` | function | `plugins/validate_shellcode.lua:65` | `` |
+| `hex_to_bytes` | function | `plugins/validate_shellcode.lua:2` | `` |
+| `validate_shellcode` | function | `plugins/validate_shellcode.lua:81` | `` |
+| `visualize_network` | function | `plugins/visualize_network.lua:1` | `` |
+| `DashboardPanel` | class | `poc_tui/app.py:137` | `class DashboardPanel(Static)` |
+| `LazyOwnTUI` | class | `poc_tui/app.py:297` | `class LazyOwnTUI(App)` |
+| `OutputPanel` | class | `poc_tui/app.py:240` | `class OutputPanel(VerticalScroll)` |
+| `PluginBrowser` | class | `poc_tui/app.py:195` | `class PluginBrowser(Static)` |
+| `ShellBackend` | class | `poc_tui/app.py:44` | `class ShellBackend` |
+| `__init__` | method | `poc_tui/app.py:47` | `def __init__(self, base_dir)` |
+| `__init__` | method | `poc_tui/app.py:140` | `def __init__(self, base_dir)` |
+| `__init__` | method | `poc_tui/app.py:198` | `def __init__(self)` |
+| `__init__` | method | `poc_tui/app.py:248` | `def __init__(self)` |
+| `__init__` | method | `poc_tui/app.py:394` | `def __init__(self, base_dir)` |
+| `_auto_refresh_dashboard` | method | `poc_tui/app.py:464` | `def _auto_refresh_dashboard(self)` |
+| `_drain_queue` | method | `poc_tui/app.py:495` | `def _drain_queue(self)` |
+| `_guess_category` | method | `poc_tui/app.py:223` | `def _guess_category(name, help_text)` |
+| `_init_backend` | function | `poc_tui/app.py:429` | `def _init_backend()` |
+| `_log` | method | `poc_tui/app.py:255` | `def _log(self)` |
+| `_on_backend_ready` | method | `poc_tui/app.py:444` | `def _on_backend_ready(self)` |
+| `_show_result` | method | `poc_tui/app.py:525` | `def _show_result(self, result)` |
+| `_tab_complete` | method | `poc_tui/app.py:605` | `def _tab_complete(self, inp)` |
+| `_work` | function | `poc_tui/app.py:510` | `def _work()` |
+| `action_clear_output` | method | `poc_tui/app.py:539` | `def action_clear_output(self)` |
+| `action_quit` | method | `poc_tui/app.py:561` | `def action_quit(self)` |
+| `action_refresh_dashboard` | method | `poc_tui/app.py:555` | `def action_refresh_dashboard(self)` |
+| `action_tab_complete` | method | `poc_tui/app.py:544` | `def action_tab_complete(self)` |
+| `action_toggle_sidebar` | method | `poc_tui/app.py:549` | `def action_toggle_sidebar(self)` |
+| `append_command` | method | `poc_tui/app.py:268` | `def append_command(self, cmd)` |
+| `append_error` | method | `poc_tui/app.py:283` | `def append_error(self, text)` |
+| `append_result` | method | `poc_tui/app.py:273` | `def append_result(self, text, success)` |
+| `append_system` | method | `poc_tui/app.py:287` | `def append_system(self, text)` |
+| `compose` | method | `poc_tui/app.py:144` | `def compose(self)` |
+| `compose` | method | `poc_tui/app.py:201` | `def compose(self)` |
+| `compose` | method | `poc_tui/app.py:252` | `def compose(self)` |
+| `compose` | method | `poc_tui/app.py:405` | `def compose(self)` |
+| `execute_command` | method | `poc_tui/app.py:470` | `def execute_command(self, cmd_str)` |
+| `get_aliases` | method | `poc_tui/app.py:119` | `def get_aliases(self)` |
+| `get_commands` | method | `poc_tui/app.py:106` | `def get_commands(self)` |
+| `import_shell_class` | method | `poc_tui/app.py:53` | `def import_shell_class(self)` |
+| `main` | function | `poc_tui/app.py:629` | `def main()` |
+| `on_command_submitted` | method | `poc_tui/app.py:577` | `def on_command_submitted(self, event)` |
+| `on_key` | method | `poc_tui/app.py:586` | `def on_key(self, event)` |
+| `on_mount` | method | `poc_tui/app.py:418` | `def on_mount(self)` |
+| `refresh_data` | method | `poc_tui/app.py:165` | `def refresh_data(self, backend, cmd_count)` |
+| `run` | method | `poc_tui/app.py:83` | `def run(self, cmd)` |
+| `start` | method | `poc_tui/app.py:71` | `def start(self)` |
+| `stop` | method | `poc_tui/app.py:124` | `def stop(self)` |
+| `update_commands` | method | `poc_tui/app.py:207` | `def update_commands(self, commands)` |
+| `write_markup` | method | `poc_tui/app.py:263` | `def write_markup(self, text)` |
+| `write_renderable` | method | `poc_tui/app.py:258` | `def write_renderable(self, renderable)` |
+| `PayloadConfig` | class | `poc_tui/config.py:12` | `class PayloadConfig` |
+| `__contains__` | method | `poc_tui/config.py:53` | `def __contains__(self, key)` |
+| `__getitem__` | method | `poc_tui/config.py:47` | `def __getitem__(self, key)` |
+| `__post_init__` | method | `poc_tui/config.py:18` | `def __post_init__(self)` |
+| `__setitem__` | method | `poc_tui/config.py:50` | `def __setitem__(self, key, value)` |
 | `get` | method | `poc_tui/config.py:35` | `def get(self, key, default)` |
 | `items` | method | `poc_tui/config.py:44` | `def items(self)` |
 | `keys` | method | `poc_tui/config.py:41` | `def keys(self)` |
@@ -437,64 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `mcp_autonomous_start` | function | `skills/autonomous_daemon.py:4777` | `def mcp_autonomous_start(max_steps, backend)` |
 | `mcp_autonomous_status` | function | `skills/autonomous_daemon.py:4835` | `def mcp_autonomous_status()` |
 | `mcp_autonomous_stop` | function | `skills/autonomous_daemon.py:4819` | `def mcp_autonomous_stop()` |
-| `mcp_engage_approve` | function | `skills/autonomous_daemon.py:4126` | `def mcp_engage_approve(approval_id, decision, operator)` |
-| `mcp_engage_list_pending` | function | `skills/autonomous_daemon.py:4151` | `def mcp_engage_list_pending()` |
-| `mcp_engage_status` | function | `skills/autonomous_daemon.py:4100` | `def mcp_engage_status(last_n)` |
-| `mcp_engage_target` | function | `skills/autonomous_daemon.py:4010` | `def mcp_engage_target(target, max_switches_per_step, detach, auto)` |
-| `name` | method | `skills/autonomous_daemon.py:431` | `def name(self)` |
-| `name` | method | `skills/autonomous_daemon.py:482` | `def name(self)` |
-| `name` | method | `skills/autonomous_daemon.py:502` | `def name(self)` |
-| `name` | method | `skills/autonomous_daemon.py:598` | `def name(self)` |
-| `next_command` | method | `skills/autonomous_daemon.py:1349` | `def next_command(self, target, phase, context)` |
-| `next_command` | method | `skills/autonomous_daemon.py:1425` | `def next_command(self, target, phase, services, os_hint)` |
-| `next_tool` | method | `skills/autonomous_daemon.py:3134` | `def next_tool(self, failed_command, phase, attempt)` |
-| `next_tool` | method | `skills/autonomous_daemon.py:3151` | `def next_tool(self, failed_command, phase, attempt)` |
-| `next_tool` | method | `skills/autonomous_daemon.py:3198` | `def next_tool(self, failed_command, phase, attempt)` |
-| `objective_loop` | function | `skills/autonomous_daemon.py:4208` | `def objective_loop(max_steps, loop)` |
-| `poll` | method | `skills/autonomous_daemon.py:3230` | `def poll(self, target)` |
-| `process_findings` | method | `skills/autonomous_daemon.py:2822` | `def process_findings(self, findings, target, objective_id, payload_key)` |
-| `register_output` | method | `skills/autonomous_daemon.py:708` | `def register_output(self, output, command, platform)` |
-| `register_output` | method | `skills/autonomous_daemon.py:1411` | `def register_output(self, output, command, platform, success)` |
-| `run` | method | `skills/autonomous_daemon.py:426` | `def run(self, command, timeout)` |
-| `run` | method | `skills/autonomous_daemon.py:485` | `def run(self, command, timeout)` |
-| `run` | method | `skills/autonomous_daemon.py:505` | `def run(self, command, timeout)` |
-| `run` | method | `skills/autonomous_daemon.py:601` | `def run(self, command, timeout)` |
-| `run` | method | `skills/autonomous_daemon.py:3366` | `def run(self)` |
-| `run_async` | method | `skills/autonomous_daemon.py:1507` | `def run_async(self, objective_id, objective_text, target)` |
-| `select` | method | `skills/autonomous_daemon.py:689` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:735` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:754` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:800` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:866` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:990` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:1036` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:1205` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/autonomous_daemon.py:1310` | `def select(self, target, phase, context)` |
-| `world_model_watcher` | function | `skills/autonomous_daemon.py:4351` | `def world_model_watcher(loop)` |
-| `wrapped` | method | `skills/autonomous_daemon.py:1119` | `def wrapped(self)` |
-| `EventLogReader` | class | `skills/autonomous_replay.py:127` | `class EventLogReader` |
-| `ReplayDispatcher` | class | `skills/autonomous_replay.py:212` | `class ReplayDispatcher` |
-| `ReplayDivergence` | class | `skills/autonomous_replay.py:82` | `class ReplayDivergence` |
-| `ReplayReport` | class | `skills/autonomous_replay.py:93` | `class ReplayReport` |
-| `ReplayStep` | class | `skills/autonomous_replay.py:53` | `class ReplayStep` |
-| `__init__` | method | `skills/autonomous_replay.py:136` | `def __init__(self, path)` |
-| `__init__` | method | `skills/autonomous_replay.py:221` | `def __init__(self, reader, seed_fn)` |
-| `_build_step` | method | `skills/autonomous_replay.py:278` | `def _build_step(self, event, divergences)` |
-| `_collect_step_events` | method | `skills/autonomous_replay.py:261` | `def _collect_step_events(self, from_event_id, to_event_id)` |
-| `_default_runner` | method | `skills/autonomous_replay.py:413` | `def _default_runner()` |
-| `_default_seed_fn` | method | `skills/autonomous_replay.py:241` | `def _default_seed_fn()` |
-| `_invoke_runner` | method | `skills/autonomous_replay.py:441` | `def _invoke_runner(runner, command, timeout)` |
-| `execute` | method | `skills/autonomous_replay.py:357` | `def execute(self, from_event_id, to_event_id, runner, timeout)` |
-| `path` | method | `skills/autonomous_replay.py:147` | `def path(self)` |
-| `read` | method | `skills/autonomous_replay.py:152` | `def read(self)` |
-| `replay` | function | `skills/autonomous_replay.py:473` | `def replay(from_event_id, to_event_id, mode, events_path, runner, timeout)` |
-| `slice` | method | `skills/autonomous_replay.py:177` | `def slice(self, events, from_event_id, to_event_id)` |
-| `to_dict` | method | `skills/autonomous_replay.py:114` | `def to_dict(self)` |
-| `trace` | method | `skills/autonomous_replay.py:325` | `def trace(self, from_event_id, to_event_id)` |
-| `BddResult` | class | `skills/claude_md_orchestrator/bdd_agent.py:113` | `class BddResult` |
-| `_compose_implementation` | function | `skills/claude_md_orchestrator/bdd_agent.py:95` | `def _compose_implementation(spec, contract)` |
-| `_ensure_init` | function | `skills/claude_md_orchestrator/bdd_agent.py:130` | `def _ensure_init(config)` |
-| `_module_name` | function | `skills/claude_md_orchestrator/bdd_agent.py:80` | `def _module_name(contract)` |
-| `_module_path` | function | `skills/claude_md_orchestrator/bdd_agent.py:85` | `def _module_path(contract, config)` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

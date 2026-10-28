@@ -1,6 +1,6 @@
-# modules: html2pdf.bundle.min
+# static/js
 
-modules: html2pdf.bundle.min groups 74 files (c, js, py, sh) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. ``assign`` business logic.
+static/js groups 64 files (c, js, py, sh) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. ``assign`` business logic.
 
 ```mermaid
 graph LR
@@ -49,7 +49,7 @@ lazyown-docker groups 1 files (sh).
 
 ## modules (6.5)
 
-modules groups 17 files (c, py) around Migration, _docker_exec, _core_services_apply, build_migrations, apply_migrations. Purple Team Closed-Loop — honest measurement of offensive detection.
+modules groups 12 files (c, py) around RiskLevel, GateAction, _risk_bucket, _risk_label, _risk_level. Purple Team Closed-Loop — honest measurement of offensive detection.
 
 ## root (6.6)
 
@@ -61,7 +61,7 @@ static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-g
 
 ## tests (6.8)
 
-tests groups 20 files (py) around TestHexSource, test_valid_hex_decodes_to_32_bytes, test_wrong_length_raises, test_non_hex_raises, TestDiskSource. TDD tests for the AES key resolution contract.
+tests groups 15 files (py) around TestHexSource, test_valid_hex_decodes_to_32_bytes, test_wrong_length_raises, test_non_hex_raises, TestDiskSource. TDD tests for the AES key resolution contract.
 
 **Files**:
 
@@ -89,21 +89,16 @@ tests groups 20 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - lazyc2/state.py
 - lazyown-docker/init.sh
 - modules/auto_purple.py
-- modules/c2_builder.py
 - modules/exp.c
 - modules/forensic_cleaner.py
 - modules/gym_cleanup.py
 - modules/hash_cracker.py
-- modules/lab_runtime.py
 - modules/log_tamper.py
 - modules/memory_cleaner.py
-- modules/metasploitable_migrations.py
 - modules/network_opsec.py
 - modules/opsec_scorer.py
-- modules/professional_report.py
 - modules/rootkit/rootkit.c
 - modules/search.py
-- modules/session_cleanup.py
 - modules/timestomper.py
 - static/js/3d-force-graph-1.73.4.min.js
 - static/js/bootstrap-4.5.2.min.js
@@ -121,17 +116,12 @@ tests groups 20 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - static/js/vis-network.min.js
 - tests/test_aes_key_propagation.py
 - tests/test_audit_remediation.py
-- tests/test_bdd_infra_range_report.py
 - tests/test_cli_assign.py
 - tests/test_core_config.py
 - tests/test_core_defaults.py
 - tests/test_credential_vault.py
 - tests/test_gym_lifecycle.py
-- tests/test_gym_matrix_ctf.py
 - tests/test_hash_cracker.py
-- tests/test_implant_session_secrets.py
-- tests/test_infra_disposable.py
-- tests/test_metasploitable_migrations.py
 - tests/test_opsec_scorer.py
 - tests/test_opsec_scorer_consolidated.py
 - tests/test_param_registry.py

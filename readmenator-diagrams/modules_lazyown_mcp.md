@@ -1,6 +1,6 @@
 # modules: lazyown_mcp
 
-modules: lazyown_mcp groups 157 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
+modules: lazyown_mcp groups 166 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
 ```mermaid
 graph LR
@@ -14,55 +14,56 @@ graph LR
     tests["tests"]
     cli -- "calls into" --> modules
     cli -- "calls into" --> skills
+    contrib -- "depends on" --> cli
     contrib -- "depends on" --> core
+    contrib -- "calls into" --> modules
     lazyc2 -- "depends on" --> core
     lazyc2 -- "calls into" --> modules
     modules -- "depends on" --> cli
     modules -- "depends on" --> core
     modules -- "calls into" --> skills
-    skills -- "calls into" --> cli
+    skills -- "depends on" --> cli
     skills -- "depends on" --> core
     skills -- "calls into" --> modules
     skills -- "calls into" --> scripts
     skills -- "calls into" --> tests
-    tests -- "calls into" --> cli
     tests -- "calls into" --> core
     tests -- "depends on" --> lazyc2
     tests -- "calls into" --> modules
     tests -- "calls into" --> skills
 ```
 
-## cli (1.1)
+## cli (2.1)
 
 cli groups 6 files (py) around EnumCommandSet, do_smbclient, do_smbclient_impacket, do_smbclient_py, do_smbmap. Caldera-style command set — operation lifecycle, TTP coverage, and planner.
 
-## contrib (1.2)
+## contrib (2.2)
 
-contrib groups 4 files (py) around parse_args, setup_logging, generate_rsa_key, Server, __init__. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+contrib groups 7 files (py) around parse_args, setup_logging, generate_rsa_key, Server, __init__. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
-## core (1.3)
+## core (2.3)
 
 core groups 4 files (py) around StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter. Centralised subprocess wrapper for the LazyOwn framework.
 
-## lazyc2 (1.4)
+## lazyc2 (2.4)
 
 lazyc2 groups 3 files (py) around _sessions_dir, _db, _error, health, targets. Versioned REST API (``/api/v1``) for the LazyOwn C2 server.
 
-## modules (1.5)
+## modules (2.5)
 
-modules groups 65 files (py) around ColoredFormatter, format, JsonFormatter, format, CorrelationFilter. LazyOwn AI Fallback Chain
+modules groups 70 files (py) around ColoredFormatter, format, JsonFormatter, format, CorrelationFilter. AI-Driven Exploit Chaining Engine.
 
-## scripts (1.6)
+## scripts (2.6)
 
 scripts groups 1 files (py) around _backup, _opencode_path, _hermes_path, patch_opencode, patch_hermes. Patch operator agent configs to use the Lazy llama.cpp server.
 
-## skills (1.7)
+## skills (2.7)
 
 skills groups 34 files (py) around _try_import, _update_task_status, _credential_worth_task, _task_title_open, _inject_to_tasks_json. Autonomous Campaign Intelligence (ACI) Planner
 
-## tests (1.8)
+## tests (2.8)
 
-tests groups 40 files (py) around test_autonomous_flow_integration, _make_goal, _patched_paths, _start_patches, _stop_patches. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
+tests groups 41 files (py) around test_autonomous_flow_integration, _make_goal, _patched_paths, _start_patches, _stop_patches. test_autonomous_flow_integration: Simulates a simplified autonomous flow to verify...
 
 **Files**:
 
@@ -71,11 +72,14 @@ tests groups 40 files (py) around test_autonomous_flow_integration, _make_goal, 
 - cli/commands/daemon_ctl.py
 - cli/commands/database.py
 - cli/commands/enum.py
-- cli/scope_guard.py
+- cli/commands/pwn.py
 - contrib/legacy/lazyhoneypot.py
 - contrib/legacy/lazyopenssh77enum2.py
+- contrib/legacy/lazypwn.py
 - contrib/legacy/lazysearch_bot.py
 - contrib/legacy/lazyssh.py
+- contrib/legacy/lazyvsftp.py
+- contrib/legacy/sql.py
 - core/executor.py
 - core/logging.py
 - core/scheduler.py
@@ -83,16 +87,20 @@ tests groups 40 files (py) around test_autonomous_flow_integration, _make_goal, 
 - lazyc2/blueprints/api_v1.py
 - lazyc2/blueprints/phishing.py
 - lazyc2/extensions/short_urls.py
+- modules/ai_exploit_chain.py
 - modules/ai_fallback.py
 - modules/asset_graph.py
 - modules/atomic_enricher.py
 - modules/auto_loop_memory.py
+- modules/auto_pivot.py
+- modules/autonomous_exploit_engine.py
 - modules/beacon_history.py
 - modules/c2_profile.py
 - modules/chain_tokens.py
 - modules/collab_bp.py
 - modules/config_store.py
 - modules/cve_matcher.py
+- modules/dashboard_engine.py
 - modules/db.py
 - modules/detection_feed.py
 - modules/detection_oracle.py
@@ -134,6 +142,7 @@ tests groups 40 files (py) around test_autonomous_flow_integration, _make_goal, 
 - modules/playbook_executor.py
 - modules/reactive_engine.py
 - modules/recommender.py
+- modules/rich_tui.py
 - modules/rl_trainer.py
 - modules/selector_manager.py
 - modules/session_rag.py
@@ -186,6 +195,7 @@ tests groups 40 files (py) around test_autonomous_flow_integration, _make_goal, 
 - tests/integration_autonomous_flow.py
 - tests/test_aci_planner.py
 - tests/test_api_v1.py
+- tests/test_atomic_exploit_bridge.py
 - tests/test_auto_loop_memory.py
 - tests/test_autonomous_ops.py
 - tests/test_autonomous_replay.py
@@ -215,11 +225,11 @@ tests groups 40 files (py) around test_autonomous_flow_integration, _make_goal, 
 - tests/test_moe_rl_swan.py
 - tests/test_moe_router_check_regression.py
 - tests/test_mutation_verification.py
+- tests/test_phase1_data_gaps.py
 - tests/test_pipeline_engine.py
 - tests/test_rea_mcp.py
 - tests/test_reactive_engine_semantic.py
 - tests/test_reactive_lateral_data.py
 - tests/test_safety_gates.py
 - tests/test_scope_bound_auto_gate.py
-- tests/test_scope_guard.py
 - tests/test_structured_logging.py

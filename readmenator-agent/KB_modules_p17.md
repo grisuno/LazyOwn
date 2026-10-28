@@ -1,0 +1,274 @@
+# Subsystem: modules (page 17 of 17)
+Previous: [KB_modules_p16.md](KB_modules_p16.md)
+
+## modules/verb_manifest.py
+- Doc: Typed verb manifests - semantics for routable shell verbs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ManifestCost` (class, line 93) `class ManifestCost`
+  - `ManifestNoise` (class, line 108) `class ManifestNoise`
+  - `FactPredicate` (class, line 123) `class FactPredicate`
+  - `VerbManifest` (class, line 188) `class VerbManifest`
+  - `parse_predicate` (function, line 222) `def parse_predicate(data)`
+  - `_parse_cost` (function, line 254) `def _parse_cost(data)`
+  - `_parse_noise` (function, line 276) `def _parse_noise(data)`
+  - `parse_manifest` (function, line 296) `def parse_manifest(verb, data)`
+  - `_load_document` (function, line 338) `def _load_document(path)`
+  - `manifests` (function, line 371) `def manifests(path)`
+  - `manifest_for` (function, line 396) `def manifest_for(verb, path)`
+  - `facts_for_target` (function, line 411) `def facts_for_target(host)`
+  - `plan_check` (function, line 467) `def plan_check(steps, tokens, path, facts)`
+  - `coverage` (function, line 522) `def coverage(total_verbs, path)`
+  - `args` (method, line 152) `def args(self)`
+  - `is_wild` (method, line 156) `def is_wild(self, key)`
+  - `matches` (method, line 161) `def matches(self, other)`
+- Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
+- Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
+
+## modules/vuln_bot_cli.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `parse_args` (function, line 10) `def parse_args()`
+  - `main` (function, line 22) `def main()`
+- Depends on: `modules/vulnbot.py`
+
+## modules/vulnbot.py
+- Doc: list_files: Lista archivos en un directorio
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `VulnBotCLI` (class, line 37) `class VulnBotCLI`
+  - `__init__` (method, line 38) `def __init__(self, provider, mode, debug, script_path)`
+  - `_load_model` (method, line 54) `def _load_model(self)`
+  - `_complete_with_fallback` (method, line 69) `def _complete_with_fallback(self, prompt)`
+  - `_stream_with_fallback` (method, line 92) `def _stream_with_fallback(self, prompt)`
+  - `_setup_agent` (method, line 124) `def _setup_agent(self, script_path)`
+  - `_register_file_tools` (method, line 146) `def _register_file_tools(self)`
+  - `_load_external_tools` (method, line 172) `def _load_external_tools(self, script_path)`
+  - `_stream_agent_response` (method, line 199) `def _stream_agent_response(self, prompt)`
+  - `load_knowledge_base` (method, line 208) `def load_knowledge_base(self)`
+  - `save_knowledge_base` (method, line 224) `def save_knowledge_base(self, kb)`
+  - `get_relevant_knowledge` (method, line 228) `def get_relevant_knowledge(self, prompt)`
+  - `create_complex_prompt` (method, line 251) `def create_complex_prompt(self, base_prompt, history, knowledge)`
+  - `read_file_content` (method, line 267) `def read_file_content(self, file_path)`
+  - `load_event_config` (method, line 273) `def load_event_config(self)`
+  - `process_with_context` (method, line 281) `def process_with_context(self, file_path, event)`
+  - `stream_response` (method, line 297) `def stream_response(self, prompt)`
+  - `add_to_knowledge_base` (method, line 303) `def add_to_knowledge_base(self, prompt, response)`
+  - `list_files` (function, line 149) `def list_files(directory)`
+  - `read_file` (function, line 153) `def read_file(path)`
+  - `edit_file` (function, line 158) `def edit_file(path, content, old_text)`
+  - `generate` (function, line 202) `def generate()`
+  - `generate` (function, line 298) `def generate()`
+- Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`
+- Imported by: `modules/vuln_bot_cli.py`, `tests/test_vulnbot_fallback.py`
+
+## modules/websocket_beacon.py
+- Doc: WebSocket beacon transport for modern C2 channels.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `WebSocketBeacon` (class, line 46) `class WebSocketBeacon`
+  - `WebSocketC2Handler` (class, line 274) `class WebSocketC2Handler`
+  - `__init__` (method, line 62) `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
+  - `_encrypt` (method, line 91) `def _encrypt(self, data)`
+  - `_decrypt` (method, line 97) `def _decrypt(self, data)`
+  - `_build_message` (method, line 103) `def _build_message(self, msg_type, payload)`
+  - `_jittered_sleep` (method, line 114) `def _jittered_sleep(self)`
+  - `connect` (method, line 122) `def connect(self)`
+  - `check_in` (method, line 157) `def check_in(self)`
+  - `send_result` (method, line 191) `def send_result(self, task_id, output, exit_code)`
+  - `run` (method, line 214) `def run(self, command_handler)`
+  - `shutdown` (method, line 263) `def shutdown(self)`
+  - `__init__` (method, line 288) `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
+  - `_handle_connection` (method, line 310) `def _handle_connection(self, websocket, path)`
+  - `start` (method, line 382) `def start(self)`
+  - `stop` (method, line 392) `def stop(self)`
+  - `start_in_thread` (method, line 399) `def start_in_thread(self)`
+  - `_run_loop` (method, line 410) `def _run_loop(self, loop)`
+  - `send_task` (method, line 416) `def send_task(self, beacon_id, command)`
+  - `list_beacons` (method, line 447) `def list_beacons(self)`
+  - `remove_stale_beacons` (method, line 464) `def remove_stale_beacons(self, timeout)`
+- Depends on: `core/hardening.py`
+
+## modules/winbox_gym.py
+- Doc: WinBox gym catalogue and control-plane bridge.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_canonical_state` (function, line 164) `def _canonical_state(raw)`
+  - `_emit_notify` (function, line 179) `def _emit_notify(notifier, message)`
+  - `_c_locale_process_env` (function, line 190) `def _c_locale_process_env()`
+  - `_load_yaml` (function, line 205) `def _load_yaml(path)`
+  - `load_index` (function, line 222) `def load_index(path)`
+  - `vulnerabilities` (function, line 227) `def vulnerabilities(path)`
+  - `get` (function, line 233) `def get(vuln_id, path)`
+  - `chain_for` (function, line 242) `def chain_for(vuln_id, path)`
+  - `exploit_for` (function, line 252) `def exploit_for(vuln_id, path)`
+  - `validate_matrix` (function, line 262) `def validate_matrix(path)`
+  - `summary` (function, line 311) `def summary(path)`
+  - `binary_path` (function, line 335) `def binary_path()`
+  - `ensure_installed` (function, line 340) `def ensure_installed(params, timeout)`
+  - `_prereq_path` (function, line 392) `def _prereq_path(name)`
+  - `_missing_prereqs` (function, line 407) `def _missing_prereqs()`
+  - `check_readiness` (function, line 412) `def check_readiness(params)`
+  - `ensure_prereqs` (function, line 453) `def ensure_prereqs(timeout)`
+  - `_clean_snapshot_present` (function, line 508) `def _clean_snapshot_present()`
+  - `_install_disk_is_substantial` (function, line 537) `def _install_disk_is_substantial()`
+  - `_wait_for_shutdown` (function, line 560) `def _wait_for_shutdown(timeout, notify)`
+  - `_repair_guest_ntfs` (function, line 588) `def _repair_guest_ntfs(notify)`
+  - `_winbox_disk_path` (function, line 634) `def _winbox_disk_path()`
+  - `_complete_partial_build` (function, line 645) `def _complete_partial_build(notify)`
+  - `_recover_partial_build` (function, line 705) `def _recover_partial_build(notify, build_timeout)`
+  - `_guest_probe_z_drive` (function, line 767) `def _guest_probe_z_drive()`
+  - `_guest_probe_z_drive_retries` (function, line 781) `def _guest_probe_z_drive_retries()`
+  - `_verify_provisioning` (function, line 798) `def _verify_provisioning(notify)`
+  - `ensure_lab_ready` (function, line 822) `def ensure_lab_ready(params)`
+  - `run_cli` (function, line 924) `def run_cli(args, timeout)`
+  - `_stream_command` (function, line 1002) `def _stream_command(argv)`
+  - `vm_status` (function, line 1113) `def vm_status(timeout)`
+  - `vm_ip` (function, line 1148) `def vm_ip()`
+  - `_vm_built_from` (function, line 1164) `def _vm_built_from(status)`
+  - `resolve_target` (function, line 1170) `def resolve_target()`
+  - `ensure_vm_running` (function, line 1184) `def ensure_vm_running(timeout)`
+  - `record_artifact` (function, line 1211) `def record_artifact(name, output)`
+  - `attack_readiness` (function, line 1234) `def attack_readiness(params)`
+  - `main` (function, line 1262) `def main()`
+- Depends on: `core/hardening.py`, `core/logging.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`, `utils.py`
+
+## modules/wineconfig.sh
+- Layer: utility
+- Language: sh
+
+## modules/workspace.py
+- Doc: Confined workspace file browser for operators and loop agents.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `root` (function, line 21) `def root()`
+  - `resolve` (function, line 27) `def resolve(rel)`
+  - `list_entries` (function, line 46) `def list_entries(rel)`
+  - `read_text` (function, line 63) `def read_text(rel, limit)`
+  - `write_text` (function, line 72) `def write_text(rel, content)`
+  - `make_dir` (function, line 83) `def make_dir(rel)`
+  - `remove` (function, line 90) `def remove(rel)`
+- Imported by: `tests/test_lazy_loop.py`
+
+## modules/world_model.py
+- Doc: modules/world_model.py
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `_derive_crypto_key` (function, line 76) `def _derive_crypto_key(password, salt)`
+  - `_machine_password` (function, line 85) `def _machine_password()`
+  - `_master_password` (function, line 126) `def _master_password()`
+  - `_load_or_create_salt` (function, line 155) `def _load_or_create_salt(salt_path)`
+  - `_encrypt_payload` (function, line 198) `def _encrypt_payload(payload, password, salt)`
+  - `_decrypt_payload_text` (function, line 218) `def _decrypt_payload_text(text, password, salt)`
+  - `_read_encrypted_dict` (function, line 257) `def _read_encrypted_dict(path)`
+  - `read_state_dict` (function, line 290) `def read_state_dict(path)`
+  - `write_state_dict` (function, line 325) `def write_state_dict(path, data)`
+  - `HostState` (class, line 373) `class HostState(StrEnum)`
+  - `EngagementPhase` (class, line 389) `class EngagementPhase(StrEnum)`
+  - `ServiceInfo` (class, line 401) `class ServiceInfo`
+  - `CredentialEntry` (class, line 410) `class CredentialEntry`
+  - `VulnerabilityEntry` (class, line 419) `class VulnerabilityEntry`
+  - `EmailEntry` (class, line 428) `class EmailEntry`
+  - `DomainEntry` (class, line 436) `class DomainEntry`
+  - `NetworkRelation` (class, line 444) `class NetworkRelation`
+  - `NetworkGraph` (class, line 466) `class NetworkGraph`
+  - `HostEntry` (class, line 586) `class HostEntry`
+  - `_PhaseDeriver` (class, line 642) `class _PhaseDeriver`
+  - `WorldModel` (class, line 767) `class WorldModel`
+  - `get_world_model` (function, line 1455) `def get_world_model(path)`
+  - `rank` (method, line 382) `def rank(self)`
+  - `can_advance_to` (method, line 385) `def can_advance_to(self, next_state)`
+  - `__init__` (method, line 489) `def __init__(self)`
+  - `add_relation` (method, line 496) `def add_relation(self, relation)`
+  - `neighbors` (method, line 504) `def neighbors(self, node)`
+  - `in_degree` (method, line 508) `def in_degree(self, node)`
+  - `out_degree` (method, line 512) `def out_degree(self, node)`
+  - `degree_centrality` (method, line 516) `def degree_centrality(self)`
+  - `pivot_candidates` (method, line 531) `def pivot_candidates(self, top_k)`
+  - `to_dict` (method, line 553) `def to_dict(self)`
+  - `from_dict` (method, line 570) `def from_dict(cls, data)`
+  - `add_service` (method, line 595) `def add_service(self, svc)`
+  - `advance` (method, line 599) `def advance(self, new_state)`
+  - `to_dict` (method, line 607) `def to_dict(self)`
+  - `from_dict` (method, line 619) `def from_dict(cls, d)`
+  - `derive` (method, line 656) `def derive(self, hosts)`
+  - `__init__` (method, line 775) `def __init__(self, path)`
+  - `add_host` (method, line 791) `def add_host(self, ip)`
+  - `reset_host` (method, line 799) `def reset_host(self, ip)`
+  - `remove_host` (method, line 809) `def remove_host(self, ip)`
+  - `advance_host` (method, line 825) `def advance_host(self, ip, new_state)`
+  - `add_service` (method, line 834) `def add_service(self, ip, port, name, version, protocol)`
+  - `add_note` (method, line 851) `def add_note(self, ip, note)`
+  - `set_os_hint` (method, line 858) `def set_os_hint(self, ip, os_hint)`
+  - `get_host` (method, line 872) `def get_host(self, ip)`
+  - `get_hosts_summary` (method, line 884) `def get_hosts_summary(self)`
+  - `add_credential` (method, line 895) `def add_credential(self, value, host, service)`
+  - `link_credential_to_success` (method, line 927) `def link_credential_to_success(self, value, host)`
+  - `link_credential_to_failure` (method, line 948) `def link_credential_to_failure(self, value, host)`
+  - `add_vulnerability` (method, line 978) `def add_vulnerability(self, description, host, cve, severity)`
+  - `add_email` (method, line 984) `def add_email(self, address, host, context)`
+  - `add_domain` (method, line 990) `def add_domain(self, domain, host, context)`
+  - `update_from_findings` (method, line 1004) `def update_from_findings(self, findings)`
+  - `consume_policy_facts` (method, line 1077) `def consume_policy_facts(self, facts_path)`
+  - `_cred_value` (method, line 1204) `def _cred_value(cred)`
+  - `add_relation` (method, line 1216) `def add_relation(self, source, target, relation, weight)`
+  - `pivot_candidates` (method, line 1237) `def pivot_candidates(self, top_k)`
+  - `graph_snapshot` (method, line 1245) `def graph_snapshot(self)`
+  - `get_phase` (method, line 1252) `def get_phase(self)`
+  - `get_suggested_tools` (method, line 1256) `def get_suggested_tools(self)`
+  - `to_context_string` (method, line 1259) `def to_context_string(self)`
+  - `_save` (method, line 1318) `def _save(self)`
+  - `_load` (method, line 1337) `def _load(self)`
+  - `reload` (method, line 1367) `def reload(self)`
+  - `reset` (method, line 1383) `def reset(self)`
+  - `snapshot` (method, line 1394) `def snapshot(self)`
+  - `read_section` (method, line 1410) `def read_section(self, key)`
+  - `write_section` (method, line 1427) `def write_section(self, key, value)`
+- Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
+
+## modules/yaml_generator.py
+- Doc: load_payload: Carga las variables desde payload.json
+- Layer: utility
+- Language: py
+- Symbols:
+  - `YAMLPromptGenerator` (class, line 17) `class YAMLPromptGenerator`
+  - `main` (function, line 141) `def main()`
+  - `__init__` (method, line 18) `def __init__(self, provider, api_key)`
+  - `load_payload` (method, line 25) `def load_payload(self)`
+  - `_load_model` (method, line 32) `def _load_model(self)`
+  - `generate_prompt` (method, line 54) `def generate_prompt(self, user_request)`
+  - `extract_yaml_from_markdown` (method, line 100) `def extract_yaml_from_markdown(self, text)`
+  - `create_yaml_addon` (method, line 109) `def create_yaml_addon(self, user_request, output_dir)`
+- Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
+
+## modules/yara_scanner.py
+- Doc: YARA integration for malware classification and IOC scanning.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `YaraScanner` (class, line 23) `class YaraScanner`
+  - `create_default_rules` (function, line 371) `def create_default_rules()`
+  - `__init__` (method, line 31) `def __init__(self, rules_dir, auto_compile)`
+  - `ensure_directory` (method, line 41) `def ensure_directory(self)`
+  - `_load_external_vars` (method, line 45) `def _load_external_vars(self)`
+  - `compile_all` (method, line 54) `def compile_all(self)`
+  - `scan_file` (method, line 98) `def scan_file(self, filepath, timeout)`
+  - `_scan_with_timeout` (method, line 129) `def _scan_with_timeout(self, filepath, externals, timeout)`
+  - `_format_match` (method, line 162) `def _format_match(self, match)`
+  - `scan_directory` (method, line 187) `def scan_directory(self, directory, recursive, extensions, max_files)`
+  - `_sha256` (method, line 250) `def _sha256(filepath)`
+  - `add_rule` (method, line 258) `def add_rule(self, name, content)`
+  - `list_rules` (method, line 277) `def list_rules(self)`
+  - `download_community_rules` (method, line 300) `def download_community_rules(self)`
+  - `ioc_scan` (method, line 328) `def ioc_scan(self, target_path, iocs)`
+  - `target` (function, line 137) `def target()`
+- Imported by: `cli/commands/postexp_migrated.py`, `modules/intelligence_engine.py`
+

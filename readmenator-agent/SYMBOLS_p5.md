@@ -3,6 +3,12 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `action_tab_findings` | method | `cli/lazy_monitor.py:489` | `def action_tab_findings(self)` |
+| `action_tab_guard` | method | `cli/lazy_monitor.py:493` | `def action_tab_guard(self)` |
+| `action_tab_traffic` | method | `cli/lazy_monitor.py:497` | `def action_tab_traffic(self)` |
+| `compose` | method | `cli/lazy_monitor.py:72` | `def compose(self)` |
+| `compose` | method | `cli/lazy_monitor.py:140` | `def compose(self)` |
+| `on_input_submitted` | method | `cli/lazy_monitor.py:80` | `def on_input_submitted(self, event)` |
 | `on_mount` | method | `cli/lazy_monitor.py:168` | `def on_mount(self)` |
 | `run_monitor_command` | function | `cli/lazy_monitor.py:575` | `def run_monitor_command(task_id)` |
 | `run_monitor_session` | function | `cli/lazy_monitor.py:589` | `def run_monitor_session(engine, config, params)` |
@@ -490,11 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_default_command_index_loader` | function | `cli/recon_plan.py:494` | `def _default_command_index_loader(path)` |
 | `_payload_target` | function | `cli/recon_plan.py:466` | `def _payload_target(payload, config)` |
 | `_read_tool_command` | function | `cli/recon_plan.py:449` | `def _read_tool_command(source_path)` |
-| `_resolve_phase` | function | `cli/recon_plan.py:474` | `def _resolve_phase(payload, config)` |
-| `_safe_filename_component` | function | `cli/recon_plan.py:486` | `def _safe_filename_component(value)` |
-| `_service_for_trigger` | function | `cli/recon_plan.py:414` | `def _service_for_trigger(trigger, services)` |
-| `_tool_command_preview` | function | `cli/recon_plan.py:428` | `def _tool_command_preview(tool, payload)` |
-| `_tool_items` | function | `cli/recon_plan.py:347` | `def _tool_items(tools, services, payload)` |
-| `build_recon_plan` | function | `cli/recon_plan.py:144` | `def build_recon_plan(target, engine, payload, config, command_index_loader, clock)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

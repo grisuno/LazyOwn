@@ -1,6 +1,26 @@
 # Subsystem: commands (page 3 of 4)
 Previous: [KB_commands_p2.md](KB_commands_p2.md)
 
+## cli/commands/lazyloop.py
+- Doc: Lazy queue and misc command set.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_engine` (function, line 22) `def _engine()`
+  - `LazyQueueCommandSet` (class, line 29) `class LazyQueueCommandSet(LazyOwnCommandSet)`
+  - `do_lazy_sync` (method, line 36) `def do_lazy_sync(self, line)`
+  - `do_lazy_intents` (method, line 51) `def do_lazy_intents(self, line)`
+  - `do_lazy_delete` (method, line 71) `def do_lazy_delete(self, line)`
+  - `do_lazy_findings` (method, line 110) `def do_lazy_findings(self, line)`
+  - `do_lazy_verdict` (method, line 132) `def do_lazy_verdict(self, line)`
+  - `do_lazy_mention` (method, line 155) `def do_lazy_mention(self, line)`
+  - `do_lazy_approve` (method, line 190) `def do_lazy_approve(self, line)`
+  - `do_lazy_fleet` (method, line 212) `def do_lazy_fleet(self, line)`
+  - `do_lazy_orchestrator` (method, line 277) `def do_lazy_orchestrator(self, line)`
+  - `do_lazy_view` (method, line 306) `def do_lazy_view(self, line)`
+- Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
+- Imported by: `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
+
 ## cli/commands/lazyops.py
 - Doc: Lazy autonomous loop commands (single orchestrator, lazy_* surface).
 - Layer: utility
@@ -458,35 +478,6 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_yara_scan` (method, line 2610) `def do_yara_scan(self, line)`
   - `resolve_and_download_dependencies` (function, line 1030) `def resolve_and_download_dependencies(package_name)`
 - Depends on: `cli/commands/_base.py`, `modules/yara_scanner.py`, `utils.py`
-
-## cli/commands/privilege_escalation.py
-- Doc: Privilege Escalation command set.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_sessions_directory` (function, line 102) `def _sessions_directory(base_path)`
-  - `_serve_via_http` (function, line 114) `def _serve_via_http(shell, binary_name, sessions_path, lport)`
-  - `PrivilegeEscalationCommandSet` (class, line 132) `class PrivilegeEscalationCommandSet(LazyOwnCommandSet)`
-  - `do_smbserver` (method, line 139) `def do_smbserver(self, line)`
-  - `do_responder` (method, line 197) `def do_responder(self, line)`
-  - `do_sudo` (method, line 222) `def do_sudo(self, line)`
-  - `do_linpeas` (method, line 235) `def do_linpeas(self, line)`
-  - `do_winpeas` (method, line 271) `def do_winpeas(self, line)`
-  - `do_les` (method, line 310) `def do_les(self, line)`
-  - `do_suid_check` (method, line 350) `def do_suid_check(self, line)`
-  - `do_pspy` (method, line 369) `def do_pspy(self, line)`
-  - `do_gtfo` (method, line 403) `def do_gtfo(self, line)`
-  - `do_whoami_priv` (method, line 450) `def do_whoami_priv(self, line)`
-  - `_whoami_priv_linux` (method, line 480) `def _whoami_priv_linux(self)`
-  - `_whoami_priv_windows` (method, line 496) `def _whoami_priv_windows(self)`
-  - `do_sudo_privesc` (method, line 512) `def do_sudo_privesc(self, line)`
-  - `do_printspoofer` (method, line 610) `def do_printspoofer(self, line)`
-  - `do_juicypotato` (method, line 632) `def do_juicypotato(self, line)`
-  - `_serve_windows_tool` (method, line 656) `def _serve_windows_tool(self, binary, label, description, args)`
-  - `_detect_os_for_privesc` (method, line 695) `def _detect_os_for_privesc(self)`
-  - `do_privesc_cmd_by_os` (method, line 755) `def do_privesc_cmd_by_os(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/world_model.py`, `utils.py`
-- Imported by: `tests/test_shell_semantics.py`
 
 
 Next: [KB_commands_p4.md](KB_commands_p4.md)

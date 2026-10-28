@@ -1,0 +1,21 @@
+apt_name: LockBit
+description: 'LockBit is a ransomware-as-a-service (RaaS) operation known for its
+  fast
+
+  encryption speed, self-spreading capabilities, and double/triple extortion.
+
+  The group recruits affiliates and uses a variety of initial access vectors.
+
+  '
+platform: windows
+platforms:
+- windows
+- linux
+steps:
+- atomic_id: T1190
+- atomic_id: T1059.003
+- atomic_id: T1547.001
+- atomic_id: T1218.011
+- atomic_id: T1003.001
+- atomic_id: T1021.001
+- atomic_id: T1486

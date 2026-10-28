@@ -1,5 +1,72 @@
-# Subsystem: modules (page 6 of 16)
+# Subsystem: modules (page 6 of 17)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
+
+## modules/exploit_recommender.py
+- Doc: AI-Powered Exploit Recommendation Engine for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExploitMatch` (class, line 37) `class ExploitMatch`
+  - `ExploitRecommender` (class, line 50) `class ExploitRecommender`
+  - `__init__` (method, line 120) `def __init__(self, world_model)`
+  - `set_world_model` (method, line 129) `def set_world_model(self, world_model)`
+  - `set_nvd_api_key` (method, line 132) `def set_nvd_api_key(self, key)`
+  - `_load_exploitdb` (method, line 135) `def _load_exploitdb(self)`
+  - `_extract_cve_ids` (method, line 161) `def _extract_cve_ids(text)`
+  - `_compare_versions` (method, line 165) `def _compare_versions(version, max_vulnerable)`
+  - `_query_nvd` (method, line 175) `def _query_nvd(self, cve_id)`
+  - `_try_nvd` (method, line 211) `def _try_nvd(self, cve_id)`
+  - `_generate_lazyown_commands` (method, line 214) `def _generate_lazyown_commands(self, cve_id, service, host_ip)`
+  - `match_services` (method, line 244) `def match_services(self, hosts)`
+  - `recommend` (method, line 337) `def recommend(self, hosts, top_n)`
+  - `persist_recommendations` (method, line 370) `def persist_recommendations(self, matches)`
+  - `format_for_llm` (method, line 390) `def format_for_llm(self, matches, max_items)`
+  - `parse_version` (function, line 25) `def parse_version(v)`
+- Depends on: `lazygui/version.py`, `modules/world_model.py`
+- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
+
+## modules/exploitgym_gym.py
+- Doc: ExploitGym integration — real-world vulnerability-to-exploit benchmark.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_ensure_dir` (function, line 56) `def _ensure_dir()`
+  - `_resolve_root` (function, line 61) `def _resolve_root(params)`
+  - `_read_task_ids` (function, line 75) `def _read_task_ids(root)`
+  - `_detect_domain` (function, line 96) `def _detect_domain(task_id)`
+  - `check_readiness` (function, line 112) `def check_readiness(params)`
+  - `list_tasks` (function, line 178) `def list_tasks(params, domain, limit)`
+  - `_run_streaming` (function, line 206) `def _run_streaming(cmd, cwd, timeout)`
+  - `_ensure_clone` (function, line 232) `def _ensure_clone(root, timeout)`
+  - `setup_harness` (function, line 249) `def setup_harness(params, steps)`
+  - `_env_for_run` (function, line 315) `def _env_for_run(params)`
+  - `pull_task` (function, line 344) `def pull_task(task_id, params, timeout)`
+  - `_run_agent` (function, line 378) `def _run_agent(task_id, model, mitigations, root, params, timeout)`
+  - `run_task` (function, line 423) `def run_task(task_id, params, model, mitigations, timeout)`
+  - `_extract_flag` (function, line 487) `def _extract_flag(output)`
+  - `_load_records` (function, line 500) `def _load_records()`
+  - `_save_records` (function, line 514) `def _save_records(records)`
+  - `_record` (function, line 523) `def _record(task_id, success, elapsed, flag)`
+  - `verify_flag` (function, line 548) `def verify_flag(task_id, params)`
+  - `score_task` (function, line 565) `def score_task(task_id, success, techniques, params)`
+  - `_run` (function, line 274) `def _run(name, cmd, cwd, timeout)`
+- Depends on: `modules/redteam_gym.py`
+- Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
+
+## modules/factsio.py
+- Doc: Canonical reader for the FactStore ``policy_facts.json`` document.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `load_policy_facts` (function, line 39) `def load_policy_facts(path)`
+  - `canonical_policy_facts` (function, line 61) `def canonical_policy_facts(data)`
+  - `iter_host_records` (function, line 81) `def iter_host_records(host_keyed)`
+  - `iter_flat_facts` (function, line 93) `def iter_flat_facts(host_keyed)`
+  - `_iter_kind` (function, line 116) `def _iter_kind(record, key, fact_type, host)`
+  - `_as_list` (function, line 131) `def _as_list(value)`
+  - `_observable` (function, line 137) `def _observable(record, fact_type)`
+- Depends on: `core/logging.py`
+- Imported by: `modules/compliance.py`, `modules/intelligence_engine.py`, `modules/world_model.py`, `tests/test_single_source_of_truth.py`
 
 ## modules/fast_run_service.sh
 - Doc: LazyOwn service-mode orchestrator.
@@ -391,90 +458,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Symbols:
   - `imagen_a_binario` (function, line 7) `def imagen_a_binario(imagen_input, binario_output, block_size)`
   - `main` (function, line 43) `def main()`
-
-## modules/intel_fusion.py
-- Doc: Sessions attack-intel fusion: data -> information -> intelligence.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_service_cve_matches` (function, line 83) `def _service_cve_matches(service_name, version_text, svc)`
-  - `_extract_cve_id` (function, line 133) `def _extract_cve_id(vuln)`
-  - `_family_color` (function, line 181) `def _family_color(name)`
-  - `node_id` (function, line 192) `def node_id(kind, value)`
-  - `_load_json` (function, line 198) `def _load_json(path, default)`
-  - `_read_lines` (function, line 208) `def _read_lines(path, limit)`
-  - `_host_mentions` (function, line 225) `def _host_mentions(text)`
-  - `_file_pagerank` (function, line 230) `def _file_pagerank(ids, pairs, alpha, max_iter, tol)`
-  - `build_intel_graph` (function, line 260) `def build_intel_graph(sessions_dir, est_cap)`
-  - `_node_doc` (function, line 555) `def _node_doc(node)`
-  - `_symbol_list` (function, line 578) `def _symbol_list(node)`
-  - `_enrich_readmenator_fields` (function, line 593) `def _enrich_readmenator_fields(nodes, edges)`
-  - `group_colors` (function, line 714) `def group_colors(graph)`
-  - `page_settings` (function, line 730) `def page_settings(graph)`
-  - `build_analytics` (function, line 787) `def build_analytics(graph, summary)`
-  - `_fibonacci_sphere` (function, line 821) `def _fibonacci_sphere(count)`
-  - `_split_caps` (function, line 837) `def _split_caps(labels, sizes, points, lattice, out)`
-  - `_unit` (function, line 866) `def _unit(vec)`
-  - `build_bundle_payload` (function, line 874) `def build_bundle_payload(graph)`
-  - `bundle_settings` (function, line 990) `def bundle_settings(graph)`
-  - `assign_layout` (function, line 1021) `def assign_layout(graph, mode)`
-  - `_score_lines` (function, line 1086) `def _score_lines(host_value, detail)`
-  - `_svg_text` (function, line 1124) `def _svg_text(value)`
-  - `_svg_attr` (function, line 1131) `def _svg_attr(value)`
-  - `_svg_rank` (function, line 1136) `def _svg_rank(node)`
-  - `svg_selection` (function, line 1147) `def svg_selection(graph, cap_nodes)`
-  - `_svg_place` (function, line 1165) `def _svg_place(ids)`
-  - `_svg_host_of` (function, line 1182) `def _svg_host_of(node)`
-  - `relations_svg` (function, line 1187) `def relations_svg(graph, cap_nodes)`
-  - `_recency_lines` (function, line 1261) `def _recency_lines(sessions_dir, host_value)`
-  - `_ghost_lines` (function, line 1279) `def _ghost_lines(sessions_dir, host_value)`
-  - `write_summary` (function, line 1296) `def write_summary(graph, sessions_dir)`
-  - `add_node` (function, line 266) `def add_node(kind, value, label)`
-  - `add_edge` (function, line 284) `def add_edge(src, dst, kind, evidence, weight)`
-  - `tag_source` (function, line 300) `def tag_source(nid, source)`
-- Depends on: `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/lazy_world_diff.py`, `modules/world_model.py`
-- Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_graph.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_cve_pipeline.py`, `tests/test_intel_fusion.py`
-
-## modules/intelligence_engine.py
-- Doc: IntelligenceEngine — unified collection→analysis→intelligence pipeline.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `IntelligenceConfig` (class, line 58) `class IntelligenceConfig`
-  - `CollectedFact` (class, line 79) `class CollectedFact`
-  - `IntelligenceAssessment` (class, line 94) `class IntelligenceAssessment`
-  - `CounterIntelFinding` (class, line 109) `class CounterIntelFinding`
-  - `IntelligenceEngine` (class, line 120) `class IntelligenceEngine`
-  - `get_intelligence_engine` (function, line 1126) `def get_intelligence_engine(config)`
-  - `__init__` (method, line 143) `def __init__(self, config)`
-  - `_newest_scan_xml_with_versions` (method, line 154) `def _newest_scan_xml_with_versions(self, target)`
-  - `_xml_scan_weight` (method, line 177) `def _xml_scan_weight(self, xml_path)`
-  - `_xml_has_versions` (method, line 193) `def _xml_has_versions(self, xml_path)`
-  - `collect_from_scan` (method, line 197) `def collect_from_scan(self, target)`
-  - `_collect_from_scan_xml` (method, line 237) `def _collect_from_scan_xml(self, xml_path, target)`
-  - `collect_from_tool` (method, line 326) `def collect_from_tool(self, output, tool, host)`
-  - `collect_from_estorides` (method, line 363) `def collect_from_estorides(self, target)`
-  - `collect_from_nuclei` (method, line 405) `def collect_from_nuclei(self, target)`
-  - `collect_from_yara` (method, line 447) `def collect_from_yara(self, target_path)`
-  - `collect_from_factstore` (method, line 486) `def collect_from_factstore(self)`
-  - `analyze` (method, line 587) `def analyze(self)`
-  - `_correlate_services_to_vulns` (method, line 604) `def _correlate_services_to_vulns(self)`
-  - `_match_vulns_versioned` (method, line 649) `def _match_vulns_versioned(self, fact)`
-  - `_legacy_match_rows` (method, line 679) `def _legacy_match_rows(self, fact)`
-  - `_match_known_vulns` (method, line 708) `def _match_known_vulns(fact)`
-  - `_correlate_creds_to_hosts` (method, line 736) `def _correlate_creds_to_hosts(self)`
-  - `_correlate_domains_to_infrastructure` (method, line 759) `def _correlate_domains_to_infrastructure(self)`
-  - `_rank_targets` (method, line 775) `def _rank_targets(self)`
-  - `_detect_killchain_gaps` (method, line 815) `def _detect_killchain_gaps(self)`
-  - `produce_intelligence` (method, line 856) `def produce_intelligence(self)`
-  - `_map_category_to_mitre` (method, line 871) `def _map_category_to_mitre(category)`
-  - `produce_counter_intelligence` (method, line 886) `def produce_counter_intelligence(self)`
-  - `disseminate` (method, line 936) `def disseminate(self)`
-  - `run_full_cycle` (method, line 1040) `def run_full_cycle(self, target)`
-  - `get_intel_report` (method, line 1069) `def get_intel_report(self)`
-  - `_is_placeholder` (method, line 1120) `def _is_placeholder(value)`
-- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_heat.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

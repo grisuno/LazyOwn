@@ -4017,6 +4017,18 @@ verbs:
     risk: safe
     description: Show ELO score, karma rank and exploration progress for this operator.
     source: cli
+  lazycreds:
+    enabled: true
+    phase: cred
+    risk: safe
+    description: Search the default-credential knowledge base and export spray pairs.
+    source: cli
+  lazyoob:
+    enabled: true
+    phase: exploit
+    risk: safe
+    description: Run the local OOB callback canary for blind SSRF/RCE detection.
+    source: cli
   keepass:
     enabled: false
     phase: cred

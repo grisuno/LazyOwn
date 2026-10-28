@@ -1268,6 +1268,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ScopeDecision`](modules/cli.scope_guard.py.md#scopedecision) class in `cli.scope_guard`
 - [`ScopeGuard`](modules/cli.scope_guard.py.md#scopeguard) class in `cli.scope_guard`
 - [`ScopeMode`](modules/cli.scope_guard.py.md#scopemode) enum in `cli.scope_guard`(StrEnum)
+- [`ScopeVerdict`](modules/modules.lazy_scope.py.md#scopeverdict) class in `modules.lazy_scope`
 - [`ScoredItem`](modules/cli.fuzzy_picker.py.md#scoreditem) class in `cli.fuzzy_picker`
 - [`ScoredNode`](modules/cli.graph_advisor.py.md#scorednode) class in `cli.graph_advisor`
 - [`ScoutReport`](modules/skills.claude_md_orchestrator.boy_scout.py.md#scoutreport) class in `skills.claude_md_orchestrator.boy_scout`

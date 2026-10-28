@@ -639,35 +639,35 @@
 {"code":"DOC001","uid":"lazyc2.py::killchain_view","file":"lazyc2.py","line":6918,"message":"function killchain_view is not documented"}
 {"code":"DOC004","uid":"lazyc2.py::api_loop_log","file":"lazyc2.py","line":7071,"message":"return value of api_loop_log is not documented"}
 {"code":"DOC004","uid":"lazyc2.py::api_loop_stop","file":"lazyc2.py","line":7094,"message":"return value of api_loop_stop is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::connect","file":"lazyc2.py","line":7276,"message":"function connect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::listener","file":"lazyc2.py","line":7282,"message":"function listener is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::listener_connect","file":"lazyc2.py","line":7289,"message":"function listener_connect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::listener_disconnect","file":"lazyc2.py","line":7300,"message":"function listener_disconnect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::pty_input","file":"lazyc2.py","line":7311,"message":"function pty_input is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::resize","file":"lazyc2.py","line":7326,"message":"function resize is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::pty_connect","file":"lazyc2.py","line":7340,"message":"function pty_connect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::handle_input","file":"lazyc2.py","line":7372,"message":"function handle_input is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::listener_command","file":"lazyc2.py","line":7397,"message":"function listener_command is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal","file":"lazyc2.py","line":7411,"message":"function terminal is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal_connect","file":"lazyc2.py","line":7421,"message":"function terminal_connect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal_disconnect","file":"lazyc2.py","line":7431,"message":"function terminal_disconnect is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal_input","file":"lazyc2.py","line":7442,"message":"function terminal_input is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal_command","file":"lazyc2.py","line":7456,"message":"function terminal_command is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::terminal_resize","file":"lazyc2.py","line":7472,"message":"function terminal_resize is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::start_reverse_shell","file":"lazyc2.py","line":7480,"message":"function start_reverse_shell is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::page_not_found","file":"lazyc2.py","line":7551,"message":"function page_not_found is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::internal_server_error","file":"lazyc2.py","line":7559,"message":"function internal_server_error is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::capture_image","file":"lazyc2.py","line":7587,"message":"function capture_image is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::capture_audio","file":"lazyc2.py","line":7613,"message":"function capture_audio is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::surface","file":"lazyc2.py","line":7631,"message":"function surface is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_data","file":"lazyc2.py","line":8141,"message":"function get_data is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::list_campaigns","file":"lazyc2.py","line":8208,"message":"function list_campaigns is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::create_campaign","file":"lazyc2.py","line":8221,"message":"function create_campaign is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::lazyphishingai","file":"lazyc2.py","line":8299,"message":"function lazyphishingai is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::campaign_report","file":"lazyc2.py","line":8337,"message":"function campaign_report is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::orchestrate_campaign","file":"lazyc2.py","line":8419,"message":"function orchestrate_campaign is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::create_multivector_campaign","file":"lazyc2.py","line":8466,"message":"function create_multivector_campaign is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::serve_landing_page","file":"lazyc2.py","line":8618,"message":"function serve_landing_page is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::connect","file":"lazyc2.py","line":7285,"message":"function connect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::listener","file":"lazyc2.py","line":7291,"message":"function listener is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::listener_connect","file":"lazyc2.py","line":7298,"message":"function listener_connect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::listener_disconnect","file":"lazyc2.py","line":7309,"message":"function listener_disconnect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::pty_input","file":"lazyc2.py","line":7320,"message":"function pty_input is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::resize","file":"lazyc2.py","line":7335,"message":"function resize is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::pty_connect","file":"lazyc2.py","line":7349,"message":"function pty_connect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::handle_input","file":"lazyc2.py","line":7381,"message":"function handle_input is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::listener_command","file":"lazyc2.py","line":7406,"message":"function listener_command is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal","file":"lazyc2.py","line":7420,"message":"function terminal is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal_connect","file":"lazyc2.py","line":7430,"message":"function terminal_connect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal_disconnect","file":"lazyc2.py","line":7440,"message":"function terminal_disconnect is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal_input","file":"lazyc2.py","line":7451,"message":"function terminal_input is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal_command","file":"lazyc2.py","line":7465,"message":"function terminal_command is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::terminal_resize","file":"lazyc2.py","line":7481,"message":"function terminal_resize is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::start_reverse_shell","file":"lazyc2.py","line":7489,"message":"function start_reverse_shell is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::page_not_found","file":"lazyc2.py","line":7560,"message":"function page_not_found is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::internal_server_error","file":"lazyc2.py","line":7568,"message":"function internal_server_error is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::capture_image","file":"lazyc2.py","line":7596,"message":"function capture_image is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::capture_audio","file":"lazyc2.py","line":7622,"message":"function capture_audio is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::surface","file":"lazyc2.py","line":7640,"message":"function surface is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_data","file":"lazyc2.py","line":8150,"message":"function get_data is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::list_campaigns","file":"lazyc2.py","line":8217,"message":"function list_campaigns is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::create_campaign","file":"lazyc2.py","line":8230,"message":"function create_campaign is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::lazyphishingai","file":"lazyc2.py","line":8308,"message":"function lazyphishingai is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::campaign_report","file":"lazyc2.py","line":8346,"message":"function campaign_report is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::orchestrate_campaign","file":"lazyc2.py","line":8428,"message":"function orchestrate_campaign is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::create_multivector_campaign","file":"lazyc2.py","line":8475,"message":"function create_multivector_campaign is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::serve_landing_page","file":"lazyc2.py","line":8627,"message":"function serve_landing_page is not documented"}
 {"code":"DOC001","uid":"lazyc2/__init__.py","file":"lazyc2/__init__.py","line":1,"message":"module lazyc2/__init__.py is not documented"}
 {"code":"DOC004","uid":"lazyc2/addon_creator.py::AddonStore.exists","file":"lazyc2/addon_creator.py","line":944,"message":"return value of AddonStore.exists is not documented"}
 {"code":"DOC001","uid":"lazyc2/blueprints/auth.py::register","file":"lazyc2/blueprints/auth.py","line":128,"message":"function register is not documented"}
@@ -1068,15 +1068,15 @@
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.build","file":"modules/kivi.py","line":12,"message":"method ReverseShellApp.build is not documented"}
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.connect_to_server","file":"modules/kivi.py","line":27,"message":"method ReverseShellApp.connect_to_server is not documented"}
 {"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1484,"message":"ActivityLog.trace raises KeyError but does not document it"}
-{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7087,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":8298,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8321,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8321,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8466,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":8491,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8514,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8514,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":9472,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
+{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7117,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":8328,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8351,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8351,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8496,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":8521,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8544,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8544,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":9502,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
 {"code":"DOC005","uid":"modules/lazy_mentions.py::compose_message","file":"modules/lazy_mentions.py","line":268,"message":"compose_message raises ValueError but does not document it"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role","file":"modules/lazy_rbac.py","line":55,"message":"enum Role is not documented"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role.valid_roles","file":"modules/lazy_rbac.py","line":62,"message":"classmethod Role.valid_roles is not documented"}

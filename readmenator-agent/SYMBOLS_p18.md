@@ -1,8 +1,28 @@
-# Symbols (page 18 of 46)
+# Symbols (page 18 of 47)
 Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `generate_all` | method | `modules/linux_advanced_payloads.py:749` | `def generate_all(self)` |
+| `generate_ebpf_payload` | method | `modules/linux_advanced_payloads.py:235` | `def generate_ebpf_payload(self)` |
+| `generate_kernel_module` | method | `modules/linux_advanced_payloads.py:519` | `def generate_kernel_module(self)` |
+| `generate_ld_preload_rootkit` | method | `modules/linux_advanced_payloads.py:110` | `def generate_ld_preload_rootkit(self)` |
+| `generate_motd_backdoor` | method | `modules/linux_advanced_payloads.py:689` | `def generate_motd_backdoor(self)` |
+| `generate_pam_backdoor` | method | `modules/linux_advanced_payloads.py:311` | `def generate_pam_backdoor(self)` |
+| `generate_process_masquerade` | method | `modules/linux_advanced_payloads.py:632` | `def generate_process_masquerade(self)` |
+| `generate_ssh_persistence` | method | `modules/linux_advanced_payloads.py:458` | `def generate_ssh_persistence(self)` |
+| `generate_systemd_persistence` | method | `modules/linux_advanced_payloads.py:398` | `def generate_systemd_persistence(self)` |
+| `generate_udev_persistence` | method | `modules/linux_advanced_payloads.py:676` | `def generate_udev_persistence(self)` |
+| `list_hook_functions` | method | `modules/linux_advanced_payloads.py:793` | `def list_hook_functions()` |
+| `list_persistence_methods` | method | `modules/linux_advanced_payloads.py:797` | `def list_persistence_methods()` |
+| `Listener` | class | `modules/listener_manager.py:141` | `class Listener` |
+| `ListenerManager` | class | `modules/listener_manager.py:172` | `class ListenerManager` |
+| `__init__` | method | `modules/listener_manager.py:179` | `def __init__(self, app, sessions_dir, payload)` |
+| `_bind_address` | method | `modules/listener_manager.py:191` | `def _bind_address(self, port)` |
+| `_collect_listener_bind_candidates` | function | `modules/listener_manager.py:35` | `def _collect_listener_bind_candidates(payload)` |
+| `_listeners_path` | method | `modules/listener_manager.py:201` | `def _listeners_path(self)` |
+| `_load` | method | `modules/listener_manager.py:204` | `def _load(self)` |
+| `_probe_listener_bind` | function | `modules/listener_manager.py:72` | `def _probe_listener_bind(address, port)` |
 | `_resolve_listener_bind_address` | function | `modules/listener_manager.py:110` | `def _resolve_listener_bind_address(payload, port)` |
 | `_save` | method | `modules/listener_manager.py:217` | `def _save(self)` |
 | `_stop` | method | `modules/listener_manager.py:343` | `def _stop(self, listener)` |
@@ -310,18 +330,20 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `snapshot_from_overview` | function | `modules/loop_progress.py:99` | `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)` |
 | `start` | method | `modules/loop_progress.py:202` | `def start(self)` |
 | `stop` | method | `modules/loop_progress.py:229` | `def stop(self)` |
-| `TriggerStore` | class | `modules/loop_triggers.py:23` | `class TriggerStore` |
-| `__init__` | method | `modules/loop_triggers.py:26` | `def __init__(self, task_id)` |
-| `_core` | function | `modules/loop_triggers.py:16` | `def _core()` |
-| `_load` | method | `modules/loop_triggers.py:32` | `def _load(self)` |
-| `add` | method | `modules/loop_triggers.py:36` | `def add(self, kind, arg, every_sec)` |
-| `due` | method | `modules/loop_triggers.py:155` | `def due(self, task_id, graph, activity, assets, store)` |
-| `ensure_cve_hot_trigger` | method | `modules/loop_triggers.py:142` | `def ensure_cve_hot_trigger(self)` |
-| `ensure_service_trigger` | method | `modules/loop_triggers.py:129` | `def ensure_service_trigger(self)` |
-| `list` | method | `modules/loop_triggers.py:125` | `def list(self)` |
-| `remove` | method | `modules/loop_triggers.py:100` | `def remove(self, trigger_id)` |
-| `set_enabled` | method | `modules/loop_triggers.py:111` | `def set_enabled(self, trigger_id, enabled)` |
-| `upsert_defaults` | method | `modules/loop_triggers.py:58` | `def upsert_defaults(self, seeds)` |
+| `TriggerStore` | class | `modules/loop_triggers.py:88` | `class TriggerStore` |
+| `__init__` | method | `modules/loop_triggers.py:91` | `def __init__(self, task_id)` |
+| `_core` | function | `modules/loop_triggers.py:81` | `def _core()` |
+| `_load` | method | `modules/loop_triggers.py:97` | `def _load(self)` |
+| `add` | method | `modules/loop_triggers.py:101` | `def add(self, kind, arg, every_sec)` |
+| `due` | method | `modules/loop_triggers.py:220` | `def due(self, task_id, graph, activity, assets, store)` |
+| `ensure_cve_hot_trigger` | method | `modules/loop_triggers.py:207` | `def ensure_cve_hot_trigger(self)` |
+| `ensure_service_trigger` | method | `modules/loop_triggers.py:194` | `def ensure_service_trigger(self)` |
+| `hint_fingerprint` | function | `modules/loop_triggers.py:28` | `def hint_fingerprint(row)` |
+| `list` | method | `modules/loop_triggers.py:190` | `def list(self)` |
+| `prune_hint_fingerprints` | function | `modules/loop_triggers.py:60` | `def prune_hint_fingerprints(store, now, ttl)` |
+| `remove` | method | `modules/loop_triggers.py:165` | `def remove(self, trigger_id)` |
+| `set_enabled` | method | `modules/loop_triggers.py:176` | `def set_enabled(self, trigger_id, enabled)` |
+| `upsert_defaults` | method | `modules/loop_triggers.py:123` | `def upsert_defaults(self, seeds)` |
 | `MacOSPayloadConfig` | class | `modules/macos_payloads.py:60` | `class MacOSPayloadConfig` |
 | `MacOSPayloadFactory` | class | `modules/macos_payloads.py:88` | `class MacOSPayloadFactory` |
 | `__init__` | method | `modules/macos_payloads.py:111` | `def __init__(self, config, output_dir)` |
@@ -474,27 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `vulnerabilities` | function | `modules/metasploitable_gym.py:47` | `def vulnerabilities(path)` |
 | `Migration` | class | `modules/metasploitable_migrations.py:129` | `class Migration` |
 | `_core_services_apply` | function | `modules/metasploitable_migrations.py:180` | `def _core_services_apply()` |
-| `_docker_exec` | function | `modules/metasploitable_migrations.py:150` | `def _docker_exec(container, script, payload, timeout)` |
-| `apply_migrations` | function | `modules/metasploitable_migrations.py:354` | `def apply_migrations(container, subnet)` |
-| `build_migrations` | function | `modules/metasploitable_migrations.py:194` | `def build_migrations(subnet)` |
-| `MetricRecord` | class | `modules/metrics.py:146` | `class MetricRecord` |
-| `MetricsAggregator` | class | `modules/metrics.py:226` | `class MetricsAggregator` |
-| `MetricsRecorder` | class | `modules/metrics.py:332` | `class MetricsRecorder` |
-| `MetricsRegistry` | class | `modules/metrics.py:54` | `class MetricsRegistry` |
-| `MetricsWriter` | class | `modules/metrics.py:181` | `class MetricsWriter` |
-| `__init__` | method | `modules/metrics.py:63` | `def __init__(self)` |
-| `__init__` | method | `modules/metrics.py:189` | `def __init__(self, path)` |
-| `__init__` | method | `modules/metrics.py:339` | `def __init__(self, writer)` |
-| `_labels_key` | function | `modules/metrics.py:126` | `def _labels_key(labels)` |
-| `_percentile` | method | `modules/metrics.py:234` | `def _percentile(values, percentile)` |
-| `_read_all` | method | `modules/metrics.py:388` | `def _read_all(self)` |
-| `append` | method | `modules/metrics.py:206` | `def append(self, record)` |
-| `get` | method | `modules/metrics.py:87` | `def get(self, name, labels)` |
-| `get_recorder` | function | `modules/metrics.py:452` | `def get_recorder()` |
-| `inc` | method | `modules/metrics.py:69` | `def inc(self, name, labels, value)` |
-| `path` | method | `modules/metrics.py:201` | `def path(self)` |
-| `path` | method | `modules/metrics.py:350` | `def path(self)` |
-| `prometheus_text` | method | `modules/metrics.py:107` | `def prometheus_text(self)` |
-| `record` | method | `modules/metrics.py:355` | `def record(self, command, args, duration_ms, success, exit_code, source)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

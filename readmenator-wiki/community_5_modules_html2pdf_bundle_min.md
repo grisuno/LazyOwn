@@ -1,10 +1,10 @@
 # modules: html2pdf.bundle.min
 
-*Community 6 | 73 files | cohesion 0.40*
+*Community 5 | 74 files | cohesion 0.42*
 
 ## Definition
 
-This community groups 73 file(s) rooted at `tests` with dominant language py (cohesion 0.40). Central symbols: `A`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`, `As`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
+This community groups 74 file(s) rooted at `tests` with dominant language py (cohesion 0.42). Central symbols: `A`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`, `As`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
 
 ## Files
 
@@ -24,14 +24,14 @@ This community groups 73 file(s) rooted at `tests` with dominant language py (co
 | `modules/c2_builder.py` | py | infrastructure | 23 | yes |
 | `modules/exp.c` | c | utility | 58 | yes |
 
-### `static/js` (13 files)
+### `static/js` (14 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `static/js/3d-force-graph-1.73.4.min.js` | js | utility | 176 | yes |
 | `static/js/bootstrap-4.5.2.min.js` | js | infrastructure | 7 | yes |
 
-### `core` (8 files)
+### `core` (7 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -45,7 +45,7 @@ This community groups 73 file(s) rooted at `tests` with dominant language py (co
 | `cli/commands/defaults.py` | py | utility | 4 | yes |
 | `cli/commands/opsec_cleanup.py` | py | utility | 9 | yes |
 
-### `cli` (4 files)
+### `cli` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -83,7 +83,7 @@ This community groups 73 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `modules/rootkit/rootkit.c` | c | utility | 13 | yes |
 
-*... and 53 more files in this community.*
+*... and 54 more files in this community.*
 
 
 ## Key Symbols
@@ -121,13 +121,13 @@ This community groups 73 file(s) rooted at `tests` with dominant language py (co
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 373
-- Cross-boundary resolved imports (EXTRACTED): 256
+- Internal resolved imports (EXTRACTED): 378
+- Cross-boundary resolved imports (EXTRACTED): 249
 
 ## Connections
 
-- [EXTRACTED] depends_on community 1 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/aliases.py imports core/config.py.
-- [EXTRACTED] depends_on community 10 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports core/config.py.
+- [EXTRACTED] depends_on community 1 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/aliases.py imports core/config.py.
+- [EXTRACTED] depends_on community 9 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
 
 ## Risks
 
@@ -152,7 +152,7 @@ This community groups 73 file(s) rooted at `tests` with dominant language py (co
 - Why do 9 file(s) lack file-level docs (e.g. `key.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/reactive_engine.py` be broken with an interface?
 - What would break if the most connected file in modules: html2pdf.bundle.min changed?
-- Should modules: html2pdf.bundle.min be split, given cohesion 0.40?
+- Should modules: html2pdf.bundle.min be split, given cohesion 0.42?
 
 ## Sources
 
@@ -166,14 +166,14 @@ This community groups 73 file(s) rooted at `tests` with dominant language py (co
 - `cli/purple_tui.py`
 - `cli/session_resumer.py`
 - `cli/show.py`
+- `cli/style.py`
 - `core/config.py`
 - `core/credential_vault.py`
 - `core/defaults.py`
 - `core/param_registry.py`
 - `core/payload_schema.py`
-- `core/process.py`
 - `core/prompt.py`
 - `core/session_secrets.py`
 - `key.py`
 - `lazyc2/addon_creator.py`
-- *... and 53 more*
+- *... and 54 more*

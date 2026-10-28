@@ -11,10 +11,17 @@ one place. Path resolution and JSON helpers are resolved through the
 loop core at call time, so store redirections monkeypatched by tests
 keep applying to every user of this module.
 
+Verification hints from the ``cve_hot`` trigger are fingerprinted by
+their evidence signature (``sha1`` of the normalized product and the
+version-carrying banner text): the same signature never queues a
+second pending hint inside the repeat window, a changed banner is new
+evidence and re-proposes immediately.
+
 ## Contents
 
 - **Classes:** [`TriggerStore`](#triggerstore)
-- **Constants:** [`TRIGGER_KINDS`](#trigger_kinds)
+- **Functions:** [`hint_fingerprint`](#hint_fingerprint), [`prune_hint_fingerprints`](#prune_hint_fingerprints)
+- **Constants:** [`TRIGGER_KINDS`](#trigger_kinds), [`HINT_REPEAT_TTL_SEC`](#hint_repeat_ttl_sec), [`HINT_FINGERPRINT_STORE`](#hint_fingerprint_store)
 
 ## Call Graph
 
@@ -26,11 +33,17 @@ flowchart LR
     n_modules_loop_triggers_py__TriggerStore_add(["TriggerStore.add"])
     n_modules_loop_triggers_py__TriggerStore_ensure_cve_hot_trigger(["TriggerStore.ensure_cve_hot_trigger"])
     n_modules_loop_triggers_py__TriggerStore_due(["TriggerStore.due"])
+    n_modules_loop_triggers_py__hint_fingerprint(["hint_fingerprint"])
+    n_modules_loop_triggers_py__prune_hint_fingerprints(["prune_hint_fingerprints"])
+    n_modules_lazy_heat_py__product_token["lazy_heat.product_token"]
     n_modules_auto_registry_py__addon_hits_for["auto_registry.addon_hits_for"]
     n_modules_lazy_cve_feed_py__hot_matches["lazy_cve_feed.hot_matches"]
     n_modules_world_model_py__get_world_model["world_model.get_world_model"]
     n_modules_loop_triggers_py__TriggerStore_ensure_service_trigger --> n_modules_loop_triggers_py__TriggerStore_add
     n_modules_loop_triggers_py__TriggerStore_ensure_cve_hot_trigger --> n_modules_loop_triggers_py__TriggerStore_add
+    n_modules_loop_triggers_py__TriggerStore_due --> n_modules_loop_triggers_py__hint_fingerprint
+    n_modules_loop_triggers_py__TriggerStore_due --> n_modules_loop_triggers_py__prune_hint_fingerprints
+    n_modules_loop_triggers_py__hint_fingerprint -.-> n_modules_lazy_heat_py__product_token
     n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_auto_registry_py__addon_hits_for
     n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_lazy_cve_feed_py__hot_matches
     n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_world_model_py__get_world_model
@@ -42,7 +55,7 @@ flowchart LR
 
 ### `TriggerStore`
 
-`class` | [modules/loop_triggers.py:23](../../modules/loop_triggers.py#L23)
+`class` | [modules/loop_triggers.py:88](../../modules/loop_triggers.py#L88)
 
 ```python
 class TriggerStore
@@ -68,7 +81,7 @@ Persistent event/interval triggers like server/scheduler (P3).
 
 #### `TriggerStore.__init__`
 
-`constructor` | [modules/loop_triggers.py:26](../../modules/loop_triggers.py#L26)
+`constructor` | [modules/loop_triggers.py:91](../../modules/loop_triggers.py#L91)
 
 ```python
 def __init__(self, task_id: str = '') -> None
@@ -88,7 +101,7 @@ Bind trigger table (global when task_id empty).
 
 #### `TriggerStore.add`
 
-`method` | [modules/loop_triggers.py:36](../../modules/loop_triggers.py#L36)
+`method` | [modules/loop_triggers.py:101](../../modules/loop_triggers.py#L101)
 
 ```python
 def add(self, kind: str, arg: str = '', every_sec: float = 0.0) -> dict
@@ -116,7 +129,7 @@ Register a trigger; interval needs every_sec, events fire on new rows.
 
 #### `TriggerStore.upsert_defaults`
 
-`method` | [modules/loop_triggers.py:58](../../modules/loop_triggers.py#L58)
+`method` | [modules/loop_triggers.py:123](../../modules/loop_triggers.py#L123)
 
 ```python
 def upsert_defaults(self, seeds: list[dict]) -> list[dict]
@@ -138,7 +151,7 @@ Merge declarative seeds without duplicating or re-enabling.
 
 #### `TriggerStore.remove`
 
-`method` | [modules/loop_triggers.py:100](../../modules/loop_triggers.py#L100)
+`method` | [modules/loop_triggers.py:165](../../modules/loop_triggers.py#L165)
 
 ```python
 def remove(self, trigger_id: int) -> bool
@@ -160,7 +173,7 @@ Delete a trigger.
 
 #### `TriggerStore.set_enabled`
 
-`method` | [modules/loop_triggers.py:111](../../modules/loop_triggers.py#L111)
+`method` | [modules/loop_triggers.py:176](../../modules/loop_triggers.py#L176)
 
 ```python
 def set_enabled(self, trigger_id: int, enabled: bool) -> bool
@@ -183,7 +196,7 @@ Flip one trigger's enabled flag in place.
 
 #### `TriggerStore.list`
 
-`method` | [modules/loop_triggers.py:125](../../modules/loop_triggers.py#L125)
+`method` | [modules/loop_triggers.py:190](../../modules/loop_triggers.py#L190)
 
 ```python
 def list(self) -> list[dict]
@@ -197,7 +210,7 @@ Return all triggers.
 
 #### `TriggerStore.ensure_service_trigger`
 
-`method` | [modules/loop_triggers.py:129](../../modules/loop_triggers.py#L129)
+`method` | [modules/loop_triggers.py:194](../../modules/loop_triggers.py#L194)
 
 ```python
 def ensure_service_trigger(self) -> bool
@@ -218,7 +231,7 @@ tool names attached.
 
 #### `TriggerStore.ensure_cve_hot_trigger`
 
-`method` | [modules/loop_triggers.py:142](../../modules/loop_triggers.py#L142)
+`method` | [modules/loop_triggers.py:207](../../modules/loop_triggers.py#L207)
 
 ```python
 def ensure_cve_hot_trigger(self) -> bool
@@ -239,10 +252,10 @@ verification hint instead of raw scanning.
 
 #### `TriggerStore.due`
 
-`method` | [modules/loop_triggers.py:155](../../modules/loop_triggers.py#L155)
+`method` | [modules/loop_triggers.py:220](../../modules/loop_triggers.py#L220)
 
 ```python
-def due(self, task_id: str, graph, activity, assets=None, store=None) -> list[dict]
+def due(self, task_id: str, graph, activity, assets=None, store=None) -> Sequence[dict]
 ```
 
 Evaluate triggers like the scheduler tick; fires at most once each.
@@ -261,11 +274,70 @@ graph/activity driven.
 | `assets` |  | `None` |  |
 | `store` |  | `None` |  |
 
-**Returns:** `list[dict]`
+**Returns:** `Sequence[dict]`
 
-*Calls:* [`addon_hits_for`](modules.auto_registry.py.md#addon_hits_for), [`hot_matches`](modules.lazy_cve_feed.py.md#hot_matches), [`get_world_model`](modules.world_model.py.md#get_world_model)
+*Calls:* [`addon_hits_for`](modules.auto_registry.py.md#addon_hits_for), [`hot_matches`](modules.lazy_cve_feed.py.md#hot_matches), [`hint_fingerprint`](#hint_fingerprint), [`prune_hint_fingerprints`](#prune_hint_fingerprints), [`get_world_model`](modules.world_model.py.md#get_world_model)
 
 *Called by:* [`LazyCommandSet.do_lazy_scheduler`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_scheduler)
+
+---
+
+## Functions
+
+<a id="hint_fingerprint"></a>
+
+### `hint_fingerprint`
+
+`function` | [modules/loop_triggers.py:28](../../modules/loop_triggers.py#L28)
+
+```python
+def hint_fingerprint(row: dict) -> str
+```
+
+Return the evidence signature of one hot-CVE candidate.
+
+The signature covers the CVE id, the normalized product token
+(generic words dropped, case folded) and the raw version banner:
+a bump of the banner version is new evidence and re-proposes the
+hint even inside the repeat window.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `row` | `dict` |  | Hot match row with `[`cve`](lazyc2.py.md#cve)`, ``product`` and ``version``. |
+
+**Returns:** `str` - Hex digest string.
+
+*Calls:* [`product_token`](modules.lazy_heat.py.md#product_token)
+
+*Called by:* [`TriggerStore.due`](#triggerstore-due)
+
+---
+
+<a id="prune_hint_fingerprints"></a>
+
+### `prune_hint_fingerprints`
+
+`function` | [modules/loop_triggers.py:60](../../modules/loop_triggers.py#L60)
+
+```python
+def prune_hint_fingerprints(store: dict, now: float, ttl: float = HINT_REPEAT_TTL_SEC) -> dict
+```
+
+Return only the fresh fingerprints of a stored fingerprint map.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `store` | `dict` |  | ``{fingerprint: last_seen_epoch}`` mapping. |
+| `now` | `float` |  | Current epoch seconds. |
+| `ttl` | `float` | `HINT_REPEAT_TTL_SEC` | Seconds a signature stays valid. |
+
+**Returns:** `dict` - Filtered mapping, ''-safe on malformed rows.
+
+*Called by:* [`TriggerStore.due`](#triggerstore-due)
 
 ---
 
@@ -275,10 +347,34 @@ graph/activity driven.
 
 ### `TRIGGER_KINDS`
 
-`constant` | [modules/loop_triggers.py:13](../../modules/loop_triggers.py#L13)
+`constant` | [modules/loop_triggers.py:22](../../modules/loop_triggers.py#L22)
 
 ```python
 TRIGGER_KINDS
+```
+
+---
+
+<a id="hint_repeat_ttl_sec"></a>
+
+### `HINT_REPEAT_TTL_SEC`
+
+`constant` | [modules/loop_triggers.py:24](../../modules/loop_triggers.py#L24)
+
+```python
+HINT_REPEAT_TTL_SEC = 86400.0
+```
+
+---
+
+<a id="hint_fingerprint_store"></a>
+
+### `HINT_FINGERPRINT_STORE`
+
+`constant` | [modules/loop_triggers.py:25](../../modules/loop_triggers.py#L25)
+
+```python
+HINT_FINGERPRINT_STORE = 'hint_fingerprints.json'
 ```
 
 ---

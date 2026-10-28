@@ -2,6 +2,8 @@
 
 ### Features
 
+  * feat: lazykerninc addon + apt_winbox_kerninc chain for cve-2026-40369 (c34f0161) by grisun0
+  * feat: intel graph svg report appendix, hint fingerprint dedup, lab-only default scope guard (630b9718) by grisun0
   * feat(audit): wave 2 - rotative session secrets, sleep obfuscation, configurable persistence, utls JA3 (8d2c7745) by grisun0
 
 ### Bug Fixes
@@ -11,8 +13,17 @@
   * fix(implant): bump x/crypto, compress, sys to patched versions (d8733d02) by grisun0
   * fix(implant): bump x/crypto, compress, sys to patched versions (9917b3ce) by grisun0
 
+### Documentation
+
+  * docs: claude md test file count 312 to 314 (e742884c) by grisun0
+
 ### Chores
 
+  * New winbox a windows box a work from totekuh in https://github.com/totekuh/winbox nice work stargaze his proyect gym start winbox_windows_apt to play safe ;) (afb2b621) by grisun0
+  * Update README.md (19ab96a5) by Grisuno
+  * Update requirements.txt (aee638c6) by Grisuno
+  * some improvements in llm fallbacks in bots, administred by lazy_orchestator, new banner ;) and better improvements in auto_loop (f86762fe) by grisun0
+  * now the autonomous loop can be launched with 1 click in the lazyc2.py viz.js nodes dashboard (c25db4c2) by grisun0
   * intel fussion and inteligence engine now feed the cve founded in the campaing and the report automated feeded in /report endpoint (a2fa9e27) by grisun0
   * cve_feed and heat map osinfer now the auto loop don't try launch hcecllbircd on a linux box (137049d5) by grisun0
   * Merge pull request #332 from grisuno/pp (f402adce) by Grisuno

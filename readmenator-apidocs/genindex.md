@@ -368,6 +368,7 @@
 - [`allowed`](modules/lazyc2.security.command_allowlist.py.md#commanddecision-allowed) attribute of `CommandDecision` in `lazyc2.security.command_allowlist`
 - [`allowed`](modules/core.payload_schema.py.md#fieldspec-allowed) attribute of `FieldSpec` in `core.payload_schema`
 - [`allowed`](modules/cli.scope_guard.py.md#scopedecision-allowed) attribute of `ScopeDecision` in `cli.scope_guard`
+- [`allowed`](modules/modules.lazy_scope.py.md#scopeverdict-allowed) attribute of `ScopeVerdict` in `modules.lazy_scope`
 - [`ALLOWED_ACTIONS`](modules/modules.intercept.py.md#allowed_actions) constant in `modules.intercept`
 - [`ALLOWED_ACTIONS`](modules/modules.winbox_gym.py.md#allowed_actions) constant in `modules.winbox_gym`
 - [`ALLOWED_BASE_DIR`](modules/lazyc2.extensions.short_urls.py.md#allowed_base_dir) constant in `lazyc2.extensions.short_urls`
@@ -378,6 +379,7 @@
 - [`ALLOWED_HTML_TAGS`](modules/lazyc2.security.constants.py.md#allowed_html_tags) constant in `lazyc2.security.constants`
 - [`ALLOWED_OS_VALUES`](modules/cli.exploration.py.md#allowed_os_values) constant in `cli.exploration`
 - [`allowed_ports`](modules/modules.socks_proxy.py.md#socksproxyconfig-allowed_ports) attribute of `SocksProxyConfig` in `modules.socks_proxy`
+- [`ALLOWLIST_FILENAME`](modules/modules.lazy_scope.py.md#allowlist_filename) constant in `modules.lazy_scope`
 - [`alpn_protocols`](modules/modules.c2_profile_engine.py.md#tlsprofile-alpn_protocols) attribute of `TlsProfile` in `modules.c2_profile_engine`
 - [`ALTERNATIVE_BINARIES`](modules/modules.auto_registry.py.md#alternative_binaries) constant in `modules.auto_registry`
 - [`alternative_commands`](modules/modules.opsec_scorer.py.md#gatedopsecscore-alternative_commands) attribute of `GatedOpsecScore` in `modules.opsec_scorer`
@@ -2006,6 +2008,7 @@
 - [`command_preview`](modules/cli.recommendation.py.md#recommendation-command_preview) attribute of `Recommendation` in `cli.recommendation`
 - [`command_preview`](modules/cli.recon_plan.py.md#reconplanitem-command_preview) attribute of `ReconPlanItem` in `cli.recon_plan`
 - [`COMMAND_RISK_PROFILES`](modules/modules.opsec_scorer.py.md#command_risk_profiles) constant in `modules.opsec_scorer`
+- [`command_scope_verdict`](modules/modules.lazy_scope.py.md#command_scope_verdict) function in `modules.lazy_scope`
 - [`command_sent`](modules/lazygui.widgets.beacon_command_modal.py.md#beaconcommandmodal-command_sent) attribute of `BeaconCommandModal` in `lazygui.widgets.beacon_command_modal`
 - [`command_stats`](modules/cli.palette_telemetry.py.md#command_stats) function in `cli.palette_telemetry`
 - [`COMMAND_TIMEOUT`](modules/modules.agent_runner.py.md#command_timeout) constant in `modules.agent_runner`
@@ -3078,6 +3081,7 @@
 - [`detail`](modules/core.dependencies.py.md#dependencystatus-detail) attribute of `DependencyStatus` in `core.dependencies`
 - [`detail`](modules/cli.palette_command.py.md#paletteindexquery-detail) method of `PaletteIndexQuery` in `cli.palette_command`
 - [`DETAIL`](modules/cli.palette_command.py.md#palettemode-detail) attribute of `PaletteMode` in `cli.palette_command`
+- [`detail`](modules/modules.lazy_scope.py.md#scopeverdict-detail) attribute of `ScopeVerdict` in `modules.lazy_scope`
 - [`detail_for`](modules/modules.engage_summary.py.md#detail_for) function in `modules.engage_summary`
 - [`detail_keys_skip`](modules/cli.timeline_browser.py.md#timelineconfig-detail_keys_skip) attribute of `TimelineConfig` in `cli.timeline_browser`
 - [`detail_label_calls`](modules/cli.palette_command.py.md#paletterenderconfig-detail_label_calls) attribute of `PaletteRenderConfig` in `cli.palette_command`
@@ -4986,6 +4990,7 @@
 - [`extract_functions`](modules/testmeneitor.py.md#extract_functions) function in `testmeneitor`
 - [`extract_functions_from_file`](modules/readmeneitor.py.md#extract_functions_from_file) function in `readmeneitor`
 - [`extract_hashes_from_pcap`](modules/modules.kerberoasting.py.md#kerberoastingengine-extract_hashes_from_pcap) method of `KerberoastingEngine` in `modules.kerberoasting`
+- [`extract_hosts`](modules/modules.lazy_scope.py.md#extract_hosts) function in `modules.lazy_scope`
 - [`extract_image_metadata`](modules/modules.lazyown_metaextract0r.py.md#extract_image_metadata) function in `modules.lazyown_metaextract0r`
 - [`extract_ips_from_arp`](modules/lazyown-docker.hostdiscover.sh.md#extract_ips_from_arp) function in `lazyown-docker/hostdiscover.sh`
 - [`extract_ips_from_arp`](modules/modules.hostdiscover.sh.md#extract_ips_from_arp) function in `modules/hostdiscover.sh`
@@ -6295,9 +6300,12 @@
 - [`hint`](modules/cli.doctor.py.md#checkresult-hint) attribute of `CheckResult` in `cli.doctor`
 - [`hint`](modules/cli.themes.py.md#theme-hint) attribute of `Theme` in `cli.themes`
 - [`HINT_COMMAND_LIMIT`](modules/cli.autosuggest.py.md#hint_command_limit) constant in `cli.autosuggest`
+- [`hint_fingerprint`](modules/modules.loop_triggers.py.md#hint_fingerprint) function in `modules.loop_triggers`
+- [`HINT_FINGERPRINT_STORE`](modules/modules.loop_triggers.py.md#hint_fingerprint_store) constant in `modules.loop_triggers`
 - [`hint_key`](modules/cli.session_brief.py.md#sessionbriefconfig-hint_key) attribute of `SessionBriefConfig` in `cli.session_brief`
 - [`hint_off_values`](modules/cli.session_brief.py.md#sessionbriefconfig-hint_off_values) attribute of `SessionBriefConfig` in `cli.session_brief`
 - [`HINT_REASON_LIMIT`](modules/cli.autosuggest.py.md#hint_reason_limit) constant in `cli.autosuggest`
+- [`HINT_REPEAT_TTL_SEC`](modules/modules.loop_triggers.py.md#hint_repeat_ttl_sec) constant in `modules.loop_triggers`
 - [`HINTS_EXTRA_VERBS`](modules/cli.noise_verbs.py.md#hints_extra_verbs) constant in `cli.noise_verbs`
 - [`hints_level`](modules/cli.tips_engine.py.md#tipsconfig-hints_level) attribute of `TipsConfig` in `cli.tips_engine`
 - [`hints_limit`](modules/cli.tips_engine.py.md#tipsconfig-hints_limit) attribute of `TipsConfig` in `cli.tips_engine`
@@ -7335,6 +7343,7 @@
 - [`is_ipv4`](modules/modules.surface_ops.py.md#is_ipv4) function in `modules.surface_ops`
 - [`is_known`](modules/modules.mediation.contracts.py.md#mediationdomains-is_known) classmethod of `MediationDomains` in `modules.mediation.contracts`
 - [`is_known`](modules/modules.guardrails.contracts.py.md#taskclass-is_known) classmethod of `TaskClass` in `modules.guardrails.contracts`
+- [`is_lab_address`](modules/modules.lazy_scope.py.md#is_lab_address) function in `modules.lazy_scope`
 - [`is_leap_year`](modules/modules.cal.sh.md#is_leap_year) function in `modules/cal.sh`
 - [`is_light`](modules/core.profiles.py.md#is_light) function in `core.profiles`
 - [`is_likely_credential`](modules/skills.lazyown_mcp_helpers.py.md#is_likely_credential) function in `skills.lazyown_mcp_helpers`
@@ -7669,6 +7678,9 @@
 - [`l`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l) class of `P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k` in `static/js/xterm.js`
 - [`l`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l) class of `P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l` in `static/js/xterm.js`
 - [`LAB_COMPOSE`](modules/modules.lab_runtime.py.md#lab_compose) constant in `modules.lab_runtime`
+- [`LAB_DEFAULT_ENABLED`](modules/modules.lazy_scope.py.md#lab_default_enabled) constant in `modules.lazy_scope`
+- [`LAB_RESOLVE_TIMEOUT_SEC`](modules/modules.lazy_scope.py.md#lab_resolve_timeout_sec) constant in `modules.lazy_scope`
+- [`LAB_RESOLVE_TTL_SEC`](modules/modules.lazy_scope.py.md#lab_resolve_ttl_sec) constant in `modules.lazy_scope`
 - [`LAB_SCENARIOS`](modules/modules.lab_runtime.py.md#lab_scenarios) constant in `modules.lab_runtime`
 - [`LabCommandSet`](modules/cli.commands.lab.py.md#labcommandset) class in `cli.commands.lab`
 - [`label`](modules/core.api_authz.py.md#apikey-label) attribute of `ApiKey` in `core.api_authz`
@@ -10490,6 +10502,7 @@
 - [`ProxyController`](modules/modules.lazy_proxy.py.md#proxycontroller) class in `modules.lazy_proxy`
 - [`ProxyHandler`](modules/modules.lazyown_bprfuzzer.py.md#proxyhandler) class in `modules.lazyown_bprfuzzer`
 - [`prune_changes`](modules/modules.lazy_world_diff.py.md#prune_changes) function in `modules.lazy_world_diff`
+- [`prune_hint_fingerprints`](modules/modules.loop_triggers.py.md#prune_hint_fingerprints) function in `modules.loop_triggers`
 - [`pty`](modules/lazygui.config.constants.py.md#appconstants-pty) attribute of `AppConstants` in `lazygui.config.constants`
 - [`pty_connect`](modules/lazyc2.py.md#pty_connect) function in `lazyc2`
 - [`pty_input`](modules/lazyc2.py.md#pty_input) function in `lazyc2`
@@ -10671,6 +10684,7 @@
 - [`read`](modules/cli.timeline_browser.py.md#timelinereader-read) method of `TimelineReader` in `cli.timeline_browser`
 - [`read`](modules/modules.lazy_loop.py.md#trafficlog-read) method of `TrafficLog` in `modules.lazy_loop`
 - [`read_aes_hex`](modules/modules.c2_agent.py.md#read_aes_hex) function in `modules.c2_agent`
+- [`read_allowlist`](modules/modules.lazy_scope.py.md#read_allowlist) function in `modules.lazy_scope`
 - [`read_and_forward_pty_output`](modules/lazyc2.py.md#read_and_forward_pty_output) function in `lazyc2`
 - [`read_body`](modules/modules.traffic_recorder.py.md#trafficrecorder-read_body) method of `TrafficRecorder` in `modules.traffic_recorder`
 - [`read_budget_status`](modules/core.llm_budget.py.md#read_budget_status) function in `core.llm_budget`
@@ -10754,6 +10768,7 @@
 - [`reason`](modules/skills.autonomous_replay.py.md#replaystep-reason) attribute of `ReplayStep` in `skills.autonomous_replay`
 - [`reason`](modules/cli.retry_support.py.md#retrychainreport-reason) attribute of `RetryChainReport` in `cli.retry_support`
 - [`reason`](modules/cli.scope_guard.py.md#scopedecision-reason) attribute of `ScopeDecision` in `cli.scope_guard`
+- [`reason`](modules/modules.lazy_scope.py.md#scopeverdict-reason) attribute of `ScopeVerdict` in `modules.lazy_scope`
 - [`reason`](modules/modules.selector_manager.py.md#selection-reason) attribute of `Selection` in `modules.selector_manager`
 - [`reason`](modules/modules.chain_distill.py.md#stepdecision-reason) attribute of `StepDecision` in `modules.chain_distill`
 - [`reason`](modules/modules.chain_runner.py.md#stepoutcome-reason) attribute of `StepOutcome` in `modules.chain_runner`
@@ -11004,6 +11019,7 @@
 - [`relation`](modules/modules.world_model.py.md#networkrelation-relation) attribute of `NetworkRelation` in `modules.world_model`
 - [`relation`](modules/cli.surface_graph.py.md#surfaceedge-relation) attribute of `SurfaceEdge` in `cli.surface_graph`
 - [`RELATION_COST`](modules/modules.golden_path.py.md#relation_cost) constant in `modules.golden_path`
+- [`relations_svg`](modules/modules.intel_fusion.py.md#relations_svg) function in `modules.intel_fusion`
 - [`relative_path`](modules/cli.sessions_browser.py.md#sessionentry-relative_path) attribute of `SessionEntry` in `cli.sessions_browser`
 - [`release`](modules/modules.guardrails.budget.py.md#capacityenvelope-release) method of `CapacityEnvelope` in `modules.guardrails.budget`
 - [`release`](modules/modules.collab_bp.py.md#lockmanager-release) method of `LockManager` in `modules.collab_bp`
@@ -11334,6 +11350,7 @@
 - [`resolve`](modules/modules.mediation.contracts.py.md#resolve) function in `modules.mediation.contracts`
 - [`resolve`](modules/modules.toolset.py.md#resolve) function in `modules.toolset`
 - [`resolve`](modules/modules.workspace.py.md#resolve) function in `modules.workspace`
+- [`resolve_addresses`](modules/modules.lazy_scope.py.md#resolve_addresses) function in `modules.lazy_scope`
 - [`resolve_admin`](modules/cli.apt_chain_support.py.md#resolve_admin) function in `cli.apt_chain_support`
 - [`resolve_aes_key`](modules/core.config.py.md#resolve_aes_key) function in `core.config`
 - [`resolve_agentic_model`](modules/modules.lazy_agent.py.md#resolve_agentic_model) function in `modules.lazy_agent`
@@ -11944,11 +11961,13 @@
 - [`scope_entries_added`](modules/modules.estorides_importer.py.md#importresult-scope_entries_added) attribute of `ImportResult` in `modules.estorides_importer`
 - [`SCOPE_EXEMPT_COMMANDS`](modules/cli.scope_guard.py.md#scope_exempt_commands) constant in `cli.scope_guard`
 - [`SCOPE_KEY`](modules/skills.lazyown_policy.py.md#scope_key) constant in `skills.lazyown_policy`
+- [`scope_verdict`](modules/modules.lazy_scope.py.md#scope_verdict) function in `modules.lazy_scope`
 - [`ScopeBoundAutoGate`](modules/skills.lazyown_policy.py.md#scopeboundautogate) class in `skills.lazyown_policy`
 - [`scoped`](modules/modules.lazy_loop.py.md#assetgraph-scoped) method of `AssetGraph` in `modules.lazy_loop`
 - [`ScopeDecision`](modules/cli.scope_guard.py.md#scopedecision) class in `cli.scope_guard`
 - [`ScopeGuard`](modules/cli.scope_guard.py.md#scopeguard) class in `cli.scope_guard`
 - [`ScopeMode`](modules/cli.scope_guard.py.md#scopemode) enum in `cli.scope_guard`
+- [`ScopeVerdict`](modules/modules.lazy_scope.py.md#scopeverdict) class in `modules.lazy_scope`
 - [`score`](modules/cli.cli_enhancements.py.md#fuzzymatch-score) attribute of `FuzzyMatch` in `cli.cli_enhancements`
 - [`score`](modules/cli.graph_overlay.py.md#graphoverlayitem-score) attribute of `GraphOverlayItem` in `cli.graph_overlay`
 - [`score`](modules/modules.opsec_scorer.py.md#opsecscorer-score) method of `OpsecScorer` in `modules.opsec_scorer`
@@ -13412,6 +13431,7 @@
 - [`suspend_windows_eventlog`](modules/modules.log_tamper.py.md#logtamperconfig-suspend_windows_eventlog) attribute of `LogTamperConfig` in `modules.log_tamper`
 - [`SUSPENDABLE_FEATURES`](modules/modules.guardrails.advisories.py.md#suspendable_features) constant in `modules.guardrails.advisories`
 - [`suspended`](modules/modules.guardrails.advisories.py.md#featuregate-suspended) method of `FeatureGate` in `modules.guardrails.advisories`
+- [`svg_selection`](modules/modules.intel_fusion.py.md#svg_selection) function in `modules.intel_fusion`
 - [`swan_available`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-swan_available) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`
 - [`swan_available`](modules/modules.loop_ai_bridge.py.md#swan_available) function in `modules.loop_ai_bridge`
 - [`swan_consult`](modules/modules.mediation.telemetry_mediator.py.md#telemetrymediator-swan_consult) method of `TelemetryMediator` in `modules.mediation.telemetry_mediator`

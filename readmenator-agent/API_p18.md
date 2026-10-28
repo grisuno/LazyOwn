@@ -283,26 +283,26 @@ Depends on: `core/hardening.py`
 
 ## modules/winbox_gym.py
 Depends on: `core/hardening.py`, `core/logging.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`, `utils.py`
-- `load_index` (function) `modules/winbox_gym.py:139` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
-- `vulnerabilities` (function) `modules/winbox_gym.py:144` `def vulnerabilities(path)` -- Return every indexed lab vector.
-- `get` (function) `modules/winbox_gym.py:150` `def get(vuln_id, path)` -- Return one lab vector by id, or None.
-- `chain_for` (function) `modules/winbox_gym.py:159` `def chain_for(vuln_id, path)` -- Return the resolved chain for one lab vector, or None.
-- `exploit_for` (function) `modules/winbox_gym.py:169` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one lab vector, or None.
-- `validate_matrix` (function) `modules/winbox_gym.py:179` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
-- `summary` (function) `modules/winbox_gym.py:228` `def summary(path)` -- Return counts by severity and service for operators.
-- `binary_path` (function) `modules/winbox_gym.py:252` `def binary_path()` -- Resolve the winbox executable or None.
-- `ensure_installed` (function) `modules/winbox_gym.py:257` `def ensure_installed(params, timeout)` -- Clone and pip-install the upstream WinBox repo when the binary is missing.
-- `check_readiness` (function) `modules/winbox_gym.py:314` `def check_readiness(params)` -- Report WinBox lab readiness without installing anything.
-- `ensure_prereqs` (function) `modules/winbox_gym.py:355` `def ensure_prereqs(timeout)` -- Install missing lab host prerequisites through apt-get.
-- `ensure_lab_ready` (function) `modules/winbox_gym.py:410` `def ensure_lab_ready(params)` -- Bring the WinBox lab to attackable state in one idempotent call.
-- `run_cli` (function) `modules/winbox_gym.py:472` `def run_cli(args, timeout)` -- Run one allowlisted winbox CLI action without a shell.
-- `vm_status` (function) `modules/winbox_gym.py:525` `def vm_status(timeout)` -- Query the WinBox VM state and address.
-- `vm_ip` (function) `modules/winbox_gym.py:559` `def vm_ip()` -- Return the lab VM IPv4 address, or an empty string.
-- `resolve_target` (function) `modules/winbox_gym.py:581` `def resolve_target()` -- Return the lab VM IP and mirror it into ``payload.json`` rhost.
-- `ensure_vm_running` (function) `modules/winbox_gym.py:595` `def ensure_vm_running(timeout)` -- Start the lab VM when it is not running.
-- `record_artifact` (function) `modules/winbox_gym.py:622` `def record_artifact(name, output)` -- Persist one CLI transcript under ``sessions/winbox``.
-- `attack_readiness` (function) `modules/winbox_gym.py:645` `def attack_readiness(params)` -- Report whether the autonomous loop can attack the lab right now.
-- `main` (function) `modules/winbox_gym.py:673` `def main()` -- CLI: list | validate | summary | readiness.
+- `load_index` (function) `modules/winbox_gym.py:144` `def load_index(path)` -- Load the gym index, returning an empty mapping on failure.
+- `vulnerabilities` (function) `modules/winbox_gym.py:149` `def vulnerabilities(path)` -- Return every indexed lab vector.
+- `get` (function) `modules/winbox_gym.py:155` `def get(vuln_id, path)` -- Return one lab vector by id, or None.
+- `chain_for` (function) `modules/winbox_gym.py:164` `def chain_for(vuln_id, path)` -- Return the resolved chain for one lab vector, or None.
+- `exploit_for` (function) `modules/winbox_gym.py:174` `def exploit_for(vuln_id, path)` -- Return the exploit spec for one lab vector, or None.
+- `validate_matrix` (function) `modules/winbox_gym.py:184` `def validate_matrix(path)` -- Validate the index, exploit files and chains as one matrix.
+- `summary` (function) `modules/winbox_gym.py:233` `def summary(path)` -- Return counts by severity and service for operators.
+- `binary_path` (function) `modules/winbox_gym.py:257` `def binary_path()` -- Resolve the winbox executable or None.
+- `ensure_installed` (function) `modules/winbox_gym.py:262` `def ensure_installed(params, timeout)` -- Clone and pip-install the upstream WinBox repo when the binary is missing.
+- `check_readiness` (function) `modules/winbox_gym.py:334` `def check_readiness(params)` -- Report WinBox lab readiness without installing anything.
+- `ensure_prereqs` (function) `modules/winbox_gym.py:375` `def ensure_prereqs(timeout)` -- Install missing lab host prerequisites through apt-get.
+- `ensure_lab_ready` (function) `modules/winbox_gym.py:430` `def ensure_lab_ready(params)` -- Bring the WinBox lab to attackable state in one idempotent call.
+- `run_cli` (function) `modules/winbox_gym.py:492` `def run_cli(args, timeout)` -- Run one allowlisted winbox CLI action without a shell.
+- `vm_status` (function) `modules/winbox_gym.py:545` `def vm_status(timeout)` -- Query the WinBox VM state and address.
+- `vm_ip` (function) `modules/winbox_gym.py:579` `def vm_ip()` -- Return the lab VM IPv4 address, or an empty string.
+- `resolve_target` (function) `modules/winbox_gym.py:601` `def resolve_target()` -- Return the lab VM IP and mirror it into ``payload.json`` rhost.
+- `ensure_vm_running` (function) `modules/winbox_gym.py:615` `def ensure_vm_running(timeout)` -- Start the lab VM when it is not running.
+- `record_artifact` (function) `modules/winbox_gym.py:642` `def record_artifact(name, output)` -- Persist one CLI transcript under ``sessions/winbox``.
+- `attack_readiness` (function) `modules/winbox_gym.py:665` `def attack_readiness(params)` -- Report whether the autonomous loop can attack the lab right now.
+- `main` (function) `modules/winbox_gym.py:693` `def main()` -- CLI: list | validate | summary | readiness.
 
 ## modules/workspace.py
 Imported by: `tests/test_lazy_loop.py`
@@ -316,7 +316,7 @@ Imported by: `tests/test_lazy_loop.py`
 
 ## modules/world_model.py
 Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
-Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
+Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
 - `read_state_dict` (function) `modules/world_model.py:290` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
 - `write_state_dict` (function) `modules/world_model.py:325` `def write_state_dict(path, data)` -- Atomically write a world-model state dict encrypted at rest.
 - `HostState.rank` (method) `modules/world_model.py:382` `def rank(self)`

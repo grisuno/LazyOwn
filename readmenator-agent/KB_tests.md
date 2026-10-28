@@ -139,6 +139,16 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `run_tests` (function, line 122) `def run_tests()`
   - `main` (function, line 137) `def main()`
 
+## tests/run_mutation_intel_svg.py
+- Doc: Mutation runner for the intel relations-svg contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 48) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 58) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 65) `def run_tests()`
+  - `main` (function, line 77) `def main()`
+
 ## tests/run_mutation_killchain.py
 - Doc: Manual mutation testing runner for the unified kill-chain contract.
 - Layer: testing
@@ -148,6 +158,16 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `restore_files` (function, line 65) `def restore_files(backups, base_dir, mutations)`
   - `run_tests` (function, line 71) `def run_tests()`
   - `main` (function, line 81) `def main()`
+
+## tests/run_mutation_lazy_scope.py
+- Doc: Mutation runner for the lab-only default scope contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 50) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 60) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 67) `def run_tests()`
+  - `main` (function, line 79) `def main()`
 
 ## tests/run_mutation_llm.py
 - Doc: Mutation runner for the LLM subsystem contract.
@@ -242,6 +262,16 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `restore_files` (function, line 78) `def restore_files(backups, base_dir, mutations)`
   - `run_tests` (function, line 84) `def run_tests()`
   - `main` (function, line 103) `def main()`
+
+## tests/run_mutation_trigger_hints.py
+- Doc: Mutation runner for the cve_hot hint fingerprint contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 50) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 60) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 67) `def run_tests()`
+  - `main` (function, line 79) `def main()`
 
 ## tests/run_mutation_trigger_policy.py
 - Doc: Mutation runner for the trigger policy contract.
@@ -380,119 +410,6 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `test_no_subcommand_returns_nonzero` (method, line 954) `def test_no_subcommand_returns_nonzero(self, tmp_path)`
   - `test_reflect_command_no_plan` (method, line 960) `def test_reflect_command_no_plan(self, tmp_path, capsys)`
 - Depends on: `skills/aci_planner.py`
-
-## tests/test_addon_creator.py
-- Doc: Tests for the LazyAddon creator contract and C2 blueprint.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_valid_draft` (function, line 45) `def _valid_draft()`
-  - `TestConfig` (class, line 86) `class TestConfig`
-  - `TestValidator` (class, line 117) `class TestValidator`
-  - `TestYamlRenderer` (class, line 263) `class TestYamlRenderer`
-  - `TestAddonStore` (class, line 328) `class TestAddonStore`
-  - `TestParseAddonForm` (class, line 460) `class TestParseAddonForm`
-  - `_build_test_app` (function, line 521) `def _build_test_app(tmp_path)`
-  - `_login` (function, line 585) `def _login(client)`
-  - `TestBlueprint` (class, line 591) `class TestBlueprint`
-  - `TestTemplateSanity` (class, line 805) `class TestTemplateSanity`
-  - `test_name_pattern_rejects_traversal` (method, line 89) `def test_name_pattern_rejects_traversal(self)`
-  - `test_patterns_accept_canonical_values` (method, line 96) `def test_patterns_accept_canonical_values(self)`
-  - `test_os_options_cover_mitre_platforms` (method, line 105) `def test_os_options_cover_mitre_platforms(self)`
-  - `test_payload_placeholders_cover_core_keys` (method, line 111) `def test_payload_placeholders_cover_core_keys(self)`
-  - `test_valid_draft_has_no_issues` (method, line 120) `def test_valid_draft_has_no_issues(self)`
-  - `test_missing_name_reports_issue` (method, line 125) `def test_missing_name_reports_issue(self)`
-  - `test_invalid_name_reports_issue` (method, line 131) `def test_invalid_name_reports_issue(self)`
-  - `test_missing_description_reports_issue` (method, line 138) `def test_missing_description_reports_issue(self)`
-  - `test_unknown_os_reports_issue` (method, line 144) `def test_unknown_os_reports_issue(self)`
-  - `test_unknown_module_type_reports_issue` (method, line 150) `def test_unknown_module_type_reports_issue(self)`
-  - `test_malformed_category_reports_issue` (method, line 156) `def test_malformed_category_reports_issue(self)`
-  - `test_uppercase_trigger_reports_issue` (method, line 162) `def test_uppercase_trigger_reports_issue(self)`
-  - `test_missing_execute_command_reports_issue` (method, line 168) `def test_missing_execute_command_reports_issue(self)`
-  - `test_unknown_placeholder_reports_issue` (method, line 174) `def test_unknown_placeholder_reports_issue(self)`
-  - `test_nested_brace_placeholder_reports_issue` (method, line 180) `def test_nested_brace_placeholder_reports_issue(self)`
-  - `test_declared_param_placeholder_is_allowed` (method, line 186) `def test_declared_param_placeholder_is_allowed(self)`
-  - `test_install_path_without_repo_url_reports_issue` (method, line 192) `def test_install_path_without_repo_url_reports_issue(self)`
-  - `test_traversal_install_path_reports_issue` (method, line 198) `def test_traversal_install_path_reports_issue(self)`
-  - `test_bad_repo_url_reports_issue` (method, line 205) `def test_bad_repo_url_reports_issue(self)`
-  - `test_duplicate_param_reports_issue` (method, line 212) `def test_duplicate_param_reports_issue(self)`
-  - `test_param_without_description_reports_issue` (method, line 218) `def test_param_without_description_reports_issue(self)`
-  - `test_integer_default_must_parse` (method, line 224) `def test_integer_default_must_parse(self)`
-  - `test_boolean_default_whitelist` (method, line 232) `def test_boolean_default_whitelist(self)`
-  - `test_too_many_params_reports_issue` (method, line 240) `def test_too_many_params_reports_issue(self)`
-  - `test_malformed_env_entry_reports_issue` (method, line 249) `def test_malformed_env_entry_reports_issue(self)`
-  - `test_validation_error_carries_issues` (method, line 255) `def test_validation_error_carries_issues(self)`
-  - `test_rendered_document_is_canonical` (method, line 266) `def test_rendered_document_is_canonical(self)`
-  - `test_yaml_round_trips_through_loader` (method, line 286) `def test_yaml_round_trips_through_loader(self)`
-  - `test_optional_fields_are_dropped` (method, line 295) `def test_optional_fields_are_dropped(self)`
-  - `test_rendered_yaml_has_no_none_values` (method, line 310) `def test_rendered_yaml_has_no_none_values(self)`
-  - `test_default_author_and_version_applied` (method, line 315) `def test_default_author_and_version_applied(self)`
-  - `test_save_load_delete_round_trip` (method, line 331) `def test_save_load_delete_round_trip(self, tmp_path)`
-  - `test_traversal_name_rejected_on_save` (method, line 342) `def test_traversal_name_rejected_on_save(self, tmp_path)`
-  - `test_traversal_name_rejected_on_load` (method, line 347) `def test_traversal_name_rejected_on_load(self, tmp_path)`
-  - `test_traversal_name_rejected_on_delete` (method, line 352) `def test_traversal_name_rejected_on_delete(self, tmp_path)`
-  - `test_save_is_atomic_and_leaves_no_temp_files` (method, line 357) `def test_save_is_atomic_and_leaves_no_temp_files(self, tmp_path)`
-  - `test_save_overwrites_cleanly` (method, line 363) `def test_save_overwrites_cleanly(self, tmp_path)`
-  - `test_load_missing_raises_file_not_found` (method, line 369) `def test_load_missing_raises_file_not_found(self, tmp_path)`
-  - `test_list_all_skips_broken_files` (method, line 374) `def test_list_all_skips_broken_files(self, tmp_path)`
-  - `test_list_all_is_sorted_and_has_expected_keys` (method, line 383) `def test_list_all_is_sorted_and_has_expected_keys(self, tmp_path)`
-  - `test_list_all_reports_file_stem_as_filename` (method, line 400) `def test_list_all_reports_file_stem_as_filename(self, tmp_path)`
-  - `test_load_accepts_pre_existing_uppercase_names` (method, line 407) `def test_load_accepts_pre_existing_uppercase_names(self, tmp_path)`
-  - `test_load_accepts_pre_existing_dots_and_hyphens` (method, line 413) `def test_load_accepts_pre_existing_dots_and_hyphens(self, tmp_path)`
-  - `test_load_still_rejects_traversal_through_existing_path` (method, line 419) `def test_load_still_rejects_traversal_through_existing_path(self, tmp_path)`
-  - `test_delete_rejects_unsafe_existing_names` (method, line 425) `def test_delete_rejects_unsafe_existing_names(self, tmp_path)`
-  - `test_missing_directory_lists_empty` (method, line 430) `def test_missing_directory_lists_empty(self, tmp_path)`
-  - `test_exists_swallows_invalid_names` (method, line 434) `def test_exists_swallows_invalid_names(self, tmp_path)`
-  - `test_symlink_escape_rejected_on_load` (method, line 438) `def test_symlink_escape_rejected_on_load(self, tmp_path)`
-  - `test_symlink_escape_rejected_on_delete` (method, line 448) `def test_symlink_escape_rejected_on_delete(self, tmp_path)`
-  - `test_parse_complete_form` (method, line 463) `def test_parse_complete_form(self)`
-  - `test_unchecked_enabled_becomes_false` (method, line 505) `def test_unchecked_enabled_becomes_false(self)`
-  - `test_missing_optional_fields_become_empty` (method, line 509) `def test_missing_optional_fields_become_empty(self)`
-  - `test_single_trigger_string_becomes_list` (method, line 516) `def test_single_trigger_string_becomes_list(self)`
-  - `_FakeOperator` (class, line 570) `class _FakeOperator(UserMixin)`
-  - `_load_user` (function, line 577) `def _load_user(user_id)`
-  - `test_unauthenticated_access_redirects_to_login` (method, line 594) `def test_unauthenticated_access_redirects_to_login(self, tmp_path)`
-  - `test_create_form_issues_csrf_cookie` (method, line 602) `def test_create_form_issues_csrf_cookie(self, tmp_path)`
-  - `test_post_without_csrf_is_rejected` (method, line 612) `def test_post_without_csrf_is_rejected(self, tmp_path)`
-  - `test_delete_without_csrf_is_rejected` (method, line 619) `def test_delete_without_csrf_is_rejected(self, tmp_path)`
-  - `_form_data` (method, line 626) `def _form_data(self)`
-  - `_csrf_token` (method, line 650) `def _csrf_token(self, client)`
-  - `test_valid_post_creates_addon_and_redirects` (method, line 660) `def test_valid_post_creates_addon_and_redirects(self, tmp_path)`
-  - `test_invalid_post_rerenders_with_field_errors` (method, line 673) `def test_invalid_post_rerenders_with_field_errors(self, tmp_path)`
-  - `test_duplicate_name_rerenders_with_error` (method, line 685) `def test_duplicate_name_rerenders_with_error(self, tmp_path)`
-  - `test_view_page_renders_yaml` (method, line 698) `def test_view_page_renders_yaml(self, tmp_path)`
-  - `test_list_page_shows_created_addon` (method, line 710) `def test_list_page_shows_created_addon(self, tmp_path)`
-  - `test_delete_removes_addon` (method, line 722) `def test_delete_removes_addon(self, tmp_path)`
-  - `test_delete_unknown_addon_flashes_and_redirects` (method, line 734) `def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path)`
-  - `test_view_unknown_addon_redirects_to_list` (method, line 744) `def test_view_unknown_addon_redirects_to_list(self, tmp_path)`
-  - `test_view_legacy_uppercase_addon_renders` (method, line 751) `def test_view_legacy_uppercase_addon_renders(self, tmp_path)`
-  - `test_list_page_links_by_filename_for_legacy_names` (method, line 764) `def test_list_page_links_by_filename_for_legacy_names(self, tmp_path)`
-  - `test_delete_legacy_uppercase_addon` (method, line 774) `def test_delete_legacy_uppercase_addon(self, tmp_path)`
-  - `test_rendered_addon_passes_cli_schema_contract` (method, line 786) `def test_rendered_addon_passes_cli_schema_contract(self, tmp_path)`
-  - `test_creator_template_has_help_affordances` (method, line 808) `def test_creator_template_has_help_affordances(self)`
-  - `test_creator_template_forbids_emojis_and_console_spam` (method, line 816) `def test_creator_template_forbids_emojis_and_console_spam(self)`
-  - `test_tools_creator_template_has_no_broken_js` (method, line 821) `def test_tools_creator_template_has_no_broken_js(self)`
-- Depends on: `lazyc2/addon_creator.py`, `lazyc2/blueprints/addons.py`
-
-## tests/test_addon_updater.py
-- Doc: Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_git` (function, line 17) `def _git(cwd)`
-  - `_repo_with_remote` (function, line 29) `def _repo_with_remote(tmp_path)`
-  - `_addon` (function, line 46) `def _addon(path)`
-  - `test_every_shipped_addon_opts_in` (function, line 62) `def test_every_shipped_addon_opts_in()`
-  - `test_update_disabled_is_skipped` (function, line 72) `def test_update_disabled_is_skipped(tmp_path)`
-  - `test_missing_repo_url_is_skipped` (function, line 80) `def test_missing_repo_url_is_skipped(tmp_path)`
-  - `test_path_traversal_is_rejected` (function, line 88) `def test_path_traversal_is_rejected(tmp_path)`
-  - `test_repository_root_is_rejected` (function, line 96) `def test_repository_root_is_rejected(tmp_path)`
-  - `test_not_installed_is_skipped` (function, line 104) `def test_not_installed_is_skipped(tmp_path)`
-  - `test_fast_forward_update` (function, line 112) `def test_fast_forward_update(tmp_path)`
-  - `test_dirty_worktree_is_skipped` (function, line 127) `def test_dirty_worktree_is_skipped(tmp_path)`
-  - `test_update_all_audits_summary` (function, line 137) `def test_update_all_audits_summary(tmp_path)`
-  - `test_unknown_addon_fails` (function, line 149) `def test_unknown_addon_fails(tmp_path)`
-- Depends on: `modules/addon_updater.py`
 
 
 Next: [KB_tests_p2.md](KB_tests_p2.md)

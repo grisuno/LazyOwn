@@ -238,7 +238,7 @@ survive normalisation: callers compare the token with
 
 **Returns:** `str` - Lowercase alphanumeric token, or "" when too generic or short.
 
-*Called by:* [`correlate`](modules.lazy_cve_feed.py.md#correlate), [`fetch_product_advisories`](modules.lazy_cve_feed.py.md#fetch_product_advisories), [`load_kev_matches`](modules.lazy_cve_feed.py.md#load_kev_matches)
+*Called by:* [`correlate`](modules.lazy_cve_feed.py.md#correlate), [`fetch_product_advisories`](modules.lazy_cve_feed.py.md#fetch_product_advisories), [`load_kev_matches`](modules.lazy_cve_feed.py.md#load_kev_matches), [`hint_fingerprint`](modules.loop_triggers.py.md#hint_fingerprint)
 
 ---
 

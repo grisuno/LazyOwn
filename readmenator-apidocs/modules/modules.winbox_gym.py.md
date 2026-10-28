@@ -78,7 +78,7 @@ flowchart LR
 
 ### `load_index`
 
-`function` | [modules/winbox_gym.py:139](../../modules/winbox_gym.py#L139)
+`function` | [modules/winbox_gym.py:144](../../modules/winbox_gym.py#L144)
 
 ```python
 def load_index(path: Path | str = INDEX_PATH) -> dict
@@ -102,7 +102,7 @@ Load the gym index, returning an empty mapping on failure.
 
 ### `vulnerabilities`
 
-`function` | [modules/winbox_gym.py:144](../../modules/winbox_gym.py#L144)
+`function` | [modules/winbox_gym.py:149](../../modules/winbox_gym.py#L149)
 
 ```python
 def vulnerabilities(path: Path | str = INDEX_PATH) -> list[dict]
@@ -128,7 +128,7 @@ Return every indexed lab vector.
 
 ### `get`
 
-`function` | [modules/winbox_gym.py:150](../../modules/winbox_gym.py#L150)
+`function` | [modules/winbox_gym.py:155](../../modules/winbox_gym.py#L155)
 
 ```python
 def get(vuln_id: str, path: Path | str = INDEX_PATH) -> dict | None
@@ -155,7 +155,7 @@ Return one lab vector by id, or None.
 
 ### `chain_for`
 
-`function` | [modules/winbox_gym.py:159](../../modules/winbox_gym.py#L159)
+`function` | [modules/winbox_gym.py:164](../../modules/winbox_gym.py#L164)
 
 ```python
 def chain_for(vuln_id: str, path: Path | str = INDEX_PATH)
@@ -178,7 +178,7 @@ Return the resolved chain for one lab vector, or None.
 
 ### `exploit_for`
 
-`function` | [modules/winbox_gym.py:169](../../modules/winbox_gym.py#L169)
+`function` | [modules/winbox_gym.py:174](../../modules/winbox_gym.py#L174)
 
 ```python
 def exploit_for(vuln_id: str, path: Path | str = INDEX_PATH)
@@ -201,7 +201,7 @@ Return the exploit spec for one lab vector, or None.
 
 ### `validate_matrix`
 
-`function` | [modules/winbox_gym.py:179](../../modules/winbox_gym.py#L179)
+`function` | [modules/winbox_gym.py:184](../../modules/winbox_gym.py#L184)
 
 ```python
 def validate_matrix(path: Path | str = INDEX_PATH) -> list[str]
@@ -227,7 +227,7 @@ Validate the index, exploit files and chains as one matrix.
 
 ### `summary`
 
-`function` | [modules/winbox_gym.py:228](../../modules/winbox_gym.py#L228)
+`function` | [modules/winbox_gym.py:233](../../modules/winbox_gym.py#L233)
 
 ```python
 def summary(path: Path | str = INDEX_PATH) -> dict[str, Any]
@@ -251,7 +251,7 @@ Return counts by severity and service for operators.
 
 ### `binary_path`
 
-`function` | [modules/winbox_gym.py:252](../../modules/winbox_gym.py#L252)
+`function` | [modules/winbox_gym.py:257](../../modules/winbox_gym.py#L257)
 
 ```python
 def binary_path() -> str | None
@@ -269,7 +269,7 @@ Resolve the winbox executable or None.
 
 ### `ensure_installed`
 
-`function` | [modules/winbox_gym.py:257](../../modules/winbox_gym.py#L257)
+`function` | [modules/winbox_gym.py:262](../../modules/winbox_gym.py#L262)
 
 ```python
 def ensure_installed(params: dict[str, Any] | None = None, timeout: int = 600) -> dict[str, Any]
@@ -296,7 +296,7 @@ Clone and pip-install the upstream WinBox repo when the binary is missing.
 
 ### `check_readiness`
 
-`function` | [modules/winbox_gym.py:314](../../modules/winbox_gym.py#L314)
+`function` | [modules/winbox_gym.py:334](../../modules/winbox_gym.py#L334)
 
 ```python
 def check_readiness(params: dict[str, Any] | None = None) -> dict[str, Any]
@@ -323,7 +323,7 @@ Report WinBox lab readiness without installing anything.
 
 ### `ensure_prereqs`
 
-`function` | [modules/winbox_gym.py:355](../../modules/winbox_gym.py#L355)
+`function` | [modules/winbox_gym.py:375](../../modules/winbox_gym.py#L375)
 
 ```python
 def ensure_prereqs(timeout: int = INSTALL_TIMEOUT_SEC) -> dict[str, Any]
@@ -353,7 +353,7 @@ running as root, so the caller can surface manual guidance.
 
 ### `ensure_lab_ready`
 
-`function` | [modules/winbox_gym.py:410](../../modules/winbox_gym.py#L410)
+`function` | [modules/winbox_gym.py:430](../../modules/winbox_gym.py#L430)
 
 ```python
 def ensure_lab_ready(params: dict[str, Any] | None = None, *, build_timeout: int = BUILD_TIMEOUT_SEC, install_timeout: int = INSTALL_TIMEOUT_SEC, build_vm: bool = True) -> dict[str, Any]
@@ -389,7 +389,7 @@ per-stage `[`stages`](modules.orchestrator_config.py.md#stages)` detail mapping.
 
 ### `run_cli`
 
-`function` | [modules/winbox_gym.py:472](../../modules/winbox_gym.py#L472)
+`function` | [modules/winbox_gym.py:492](../../modules/winbox_gym.py#L492)
 
 ```python
 def run_cli(args: list[str], timeout: int = CLI_TIMEOUT_SEC) -> dict[str, Any]
@@ -420,7 +420,7 @@ Run one allowlisted winbox CLI action without a shell.
 
 ### `vm_status`
 
-`function` | [modules/winbox_gym.py:525](../../modules/winbox_gym.py#L525)
+`function` | [modules/winbox_gym.py:545](../../modules/winbox_gym.py#L545)
 
 ```python
 def vm_status(timeout: int = STATUS_TIMEOUT_SEC) -> dict[str, Any]
@@ -447,7 +447,7 @@ is unavailable.
 
 ### `vm_ip`
 
-`function` | [modules/winbox_gym.py:559](../../modules/winbox_gym.py#L559)
+`function` | [modules/winbox_gym.py:579](../../modules/winbox_gym.py#L579)
 
 ```python
 def vm_ip() -> str
@@ -467,7 +467,7 @@ Return the lab VM IPv4 address, or an empty string.
 
 ### `resolve_target`
 
-`function` | [modules/winbox_gym.py:581](../../modules/winbox_gym.py#L581)
+`function` | [modules/winbox_gym.py:601](../../modules/winbox_gym.py#L601)
 
 ```python
 def resolve_target() -> str
@@ -487,7 +487,7 @@ Return the lab VM IP and mirror it into ``payload.json`` rhost.
 
 ### `ensure_vm_running`
 
-`function` | [modules/winbox_gym.py:595](../../modules/winbox_gym.py#L595)
+`function` | [modules/winbox_gym.py:615](../../modules/winbox_gym.py#L615)
 
 ```python
 def ensure_vm_running(timeout: int = UP_TIMEOUT_SEC) -> dict[str, Any]
@@ -513,7 +513,7 @@ Start the lab VM when it is not running.
 
 ### `record_artifact`
 
-`function` | [modules/winbox_gym.py:622](../../modules/winbox_gym.py#L622)
+`function` | [modules/winbox_gym.py:642](../../modules/winbox_gym.py#L642)
 
 ```python
 def record_artifact(name: str, output: str) -> Path | None
@@ -540,7 +540,7 @@ Persist one CLI transcript under ``sessions/winbox``.
 
 ### `attack_readiness`
 
-`function` | [modules/winbox_gym.py:645](../../modules/winbox_gym.py#L645)
+`function` | [modules/winbox_gym.py:665](../../modules/winbox_gym.py#L665)
 
 ```python
 def attack_readiness(params: dict[str, Any] | None = None) -> dict[str, Any]
@@ -663,7 +663,7 @@ APT_PACKAGES_FOR: dict[str, str]
 
 ### `ALLOWED_ACTIONS`
 
-`constant` | [modules/winbox_gym.py:115](../../modules/winbox_gym.py#L115)
+`constant` | [modules/winbox_gym.py:120](../../modules/winbox_gym.py#L120)
 
 ```python
 ALLOWED_ACTIONS = frozenset(_CLI_ACTIONS)

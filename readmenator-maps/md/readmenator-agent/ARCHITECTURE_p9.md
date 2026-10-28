@@ -2,6 +2,12 @@
 Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 ## External Imports (continued)
+- `tests/test_profiles.py` -> __future__, pathlib, pytest
+- `tests/test_prompt_readline_markers.py` -> __future__, pathlib, sys
+- `tests/test_prompt_refresh.py` -> __future__, pathlib, re, types
+- `tests/test_pwntomate_tools.py` -> __future__, json, pathlib, re
+- `tests/test_rea_mcp.py` -> __future__, asyncio, json, pathlib, pytest, subprocess, sys, types
+- `tests/test_reaction_bridge.py` -> __future__, pytest
 - `tests/test_reactive_engine_semantic.py` -> __future__, pathlib, sys, typing
 - `tests/test_reactive_hints.py` -> __future__, pathlib, pytest, sys, unittest.mock
 - `tests/test_reactive_hints_expanded.py` -> __future__

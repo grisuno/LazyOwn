@@ -1,6 +1,6 @@
 # contrib/legacy
 
-*Community 17 | 5 files | cohesion 0.80*
+*Community 15 | 5 files | cohesion 0.80*
 
 ## Definition
 
@@ -45,7 +45,7 @@ This community groups 5 file(s) rooted at `contrib/legacy` with dominant languag
 
 ## Risks
 
-- No scoped security, taint, cycle, or layer risks.
+- [taint high] `cli/banner_config.py` -> `modules/lazyencoder_decoder.py` via `subprocess` (5 hops)
 
 ## Open Questions
 

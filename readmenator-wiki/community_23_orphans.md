@@ -1,20 +1,20 @@
 # orphans
 
-*Community 25 | 237 files | cohesion 0.00*
+*Community 23 | 241 files | cohesion 0.00*
 
 ## Definition
 
-This community groups 237 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
+This community groups 241 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
 
 ## Files
 
-### `modules` (57 files)
+### `modules` (58 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/49803.py` | py | utility | 3 | yes |
 
-### `tests` (55 files)
+### `tests` (58 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -128,7 +128,7 @@ This community groups 237 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `modules/scripts/clean_history.sh.sh` | sh | utility | 0 | no |
 
-*... and 217 more files in this community.*
+*... and 221 more files in this community.*
 
 
 ## Key Symbols
@@ -209,4 +209,4 @@ This community groups 237 file(s) rooted at `modules` with dominant language py 
 - `contrib/legacy/lazypwnkit.py`
 - `contrib/legacy/lazypyautogui.py`
 - `contrib/legacy/lazysearch.py`
-- *... and 217 more*
+- *... and 221 more*

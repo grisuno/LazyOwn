@@ -222,7 +222,7 @@
                     <p class="mb-2">
                         {{ funnel.get('discovered', 0) }} host(s) discovered,
                         {{ funnel.get('owned', 0) }} owned,
-                        {{ funnel.get('finding', 0) }} finding(s) logged.
+                        {{ funnel.get('with findings', 0) }} finding(s) logged.
                     </p>
                     {% set heat = si_summary.get('heat_counts', {}) or {} %}
                     <p class="mb-2">
@@ -242,11 +242,11 @@
                         <tbody>
                             {% for host in si_summary.get('top_exposed', [])[:10] %}
                             <tr>
-                                <td>{{ host.get('asset', '') }}</td>
+                                <td>{{ host.get('host', '') }}</td>
                                 <td><span class="badge bg-primary">{{ host.get('score', 0) }}</span></td>
                                 <td class="small">
-                                    {% for label, points in (host.get('score_detail', {}) or {}).items() %}
-                                    <span class="badge bg-light text-dark">{{ label }} +{{ points }}</span>
+                                    {% for line in (host.get('score_detail', []) or []) %}
+                                    <span class="badge bg-light text-dark">{{ line.get('label', '') }} +{{ line.get('points', 0) }}</span>
                                     {% endfor %}
                                 </td>
                             </tr>
@@ -349,6 +349,24 @@
                     </table>
                     {% else %}
                     <p class="text-muted">No daily engagement history yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Appendix G: Relations Snapshot</div>
+                <div class="card-body">
+                    {% set relations = si.get('graph_svg', '') or '' %}
+                    {% if relations %}
+                    <p class="text-muted small mb-2">
+                        Static snapshot of the fused campaign graph (hosts, services, findings and CVE heat).
+                        Open the live Intel view for filtering and search.
+                    </p>
+                    <div class="rounded border border-secondary p-2" style="overflow:auto">
+                        {{ relations | safe }}
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No relations to draw yet. Run an nmap scan and refresh the Intel view.</p>
                     {% endif %}
                 </div>
             </div>

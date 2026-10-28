@@ -3651,11 +3651,41 @@ class Worker:
         record = self.store.get(self.task_id) or {}
         scope = record.get("scope", []) or []
         if not scope:
-            return True
+            return self._lab_scope_default(target)
         shim = _target_as_asset(target)
         for item in scope:
             if _scope_covers(str(item.get("kind", "")), str(item.get("value", "")), shim):
                 return True
+        return False
+
+    def _lab_scope_default(self, target: str) -> bool:
+        """Default-deny public targets when no explicit scope is set.
+
+        With no task scope the loop would otherwise touch anything; the
+        lab-only fallback keeps autonomous rounds inside loopback and
+        RFC1918 space, plus operator-approved allowlist entries.
+
+        Args:
+            target: Host or IP the loop wants to touch.
+
+        Returns:
+            True when the target is lab-local or explicitly allowed.
+        """
+        from modules import lazy_scope
+
+        if not lazy_scope.LAB_DEFAULT_ENABLED:
+            return True
+        verdict = lazy_scope.scope_verdict(
+            target, allowlist=lazy_scope.read_allowlist()
+        )
+        if verdict.allowed:
+            return True
+        self.activity.emit(
+            self.name,
+            "block",
+            f"scope-lab-default: {target} {verdict.reason}: {verdict.detail}",
+            intent_id=0,
+        )
         return False
 
     def _prior_steps(self, intent: ExplorationNode) -> tuple[list[str], str]:

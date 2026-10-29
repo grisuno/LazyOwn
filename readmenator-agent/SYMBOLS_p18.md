@@ -3,13 +3,33 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `extract_metadata` | function | `modules/lazyown_metaextract0r.py:96` | `def extract_metadata(file_path)` |
+| `extract_ole_metadata` | function | `modules/lazyown_metaextract0r.py:73` | `def extract_ole_metadata(file_path)` |
+| `extract_pdf_metadata` | function | `modules/lazyown_metaextract0r.py:51` | `def extract_pdf_metadata(file_path)` |
+| `find_and_extract_metadata` | function | `modules/lazyown_metaextract0r.py:109` | `def find_and_extract_metadata(directory, output_file)` |
+| `main` | function | `modules/lazyown_metaextract0r.py:140` | `def main()` |
+| `parse_arguments` | function | `modules/lazyown_metaextract0r.py:130` | `def parse_arguments()` |
+| `signal_handler` | function | `modules/lazyown_metaextract0r.py:42` | `def signal_handler(sig, frame)` |
+| `buscar_binarios` | function | `modules/lazyown_parquet_tool.py:53` | `def buscar_binarios(args)` |
+| `ejecutar_opciones` | function | `modules/lazyown_parquet_tool.py:136` | `def ejecutar_opciones()` |
+| `highlight_term` | function | `modules/lazyown_parquet_tool.py:34` | `def highlight_term(text, term)` |
 | `search_in_parquet` | function | `modules/lazyown_parquet_tool.py:39` | `def search_in_parquet(term, parquet_files)` |
 | `main` | function | `modules/lazyownerweb.py:59` | `def main()` |
 | `send_request` | function | `modules/lazyownerweb.py:36` | `def send_request(url, params, method)` |
 | `test_injection` | function | `modules/lazyownerweb.py:49` | `def test_injection(url, payloads, param_name, detection_strings, method)` |
+| `_leetspeak` | function | `modules/lazypassgen.py:62` | `def _leetspeak(word)` |
+| `_mutations` | function | `modules/lazypassgen.py:77` | `def _mutations(words)` |
+| `_split_entities` | function | `modules/lazypassgen.py:45` | `def _split_entities(target)` |
+| `export` | function | `modules/lazypassgen.py:135` | `def export(target, path)` |
+| `generate` | function | `modules/lazypassgen.py:115` | `def generate(target)` |
+| `fallback_ready` | function | `modules/lazypoophish.py:52` | `def fallback_ready(target)` |
+| `fresh_access_token` | function | `modules/lazypoophish.py:34` | `def fresh_access_token(target)` |
+| `run_fallback` | function | `modules/lazypoophish.py:71` | `def run_fallback(target, params, template, mode, targets_file, provider, shorten)` |
 | `execute_psexec` | function | `modules/lazypsexec.sh:15` | `` |
 | `mostrar_ayuda` | function | `modules/lazyreverse_shell.sh:21` | `` |
 | `validar_ip` | function | `modules/lazyreverse_shell.sh:31` | `` |
+| `providers` | function | `modules/lazyshortener.py:30` | `def providers()` |
+| `shorten` | function | `modules/lazyshortener.py:35` | `def shorten(url, provider, timeout)` |
 | `apply_vpn_rules` | function | `modules/lazyvpnshield.sh:45` | `` |
 | `check_sudo` | function | `modules/lazyvpnshield.sh:16` | `` |
 | `ctrl_c` | function | `modules/lazyvpnshield.sh:11` | `` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `record_step` | method | `modules/mediation/telemetry_mediator.py:59` | `def record_step(self, task_id, worker, command, output, detection_prob)` |
 | `rl_select` | method | `modules/mediation/telemetry_mediator.py:126` | `def rl_select(self, task_type, phase, candidates, deterministic)` |
 | `rl_update` | method | `modules/mediation/telemetry_mediator.py:167` | `def rl_update(self, task_type, phase, action, reward, candidates, detection_prob)` |
-| `swan_available` | method | `modules/mediation/telemetry_mediator.py:76` | `def swan_available(self)` |
-| `swan_consult` | method | `modules/mediation/telemetry_mediator.py:85` | `def swan_consult(self, prompt, task_type, phase, timeout)` |
-| `MemoryCleaner` | class | `modules/memory_cleaner.py:50` | `class MemoryCleaner` |
-| `MemoryCleanerConfig` | class | `modules/memory_cleaner.py:22` | `class MemoryCleanerConfig` |
-| `__init__` | method | `modules/memory_cleaner.py:61` | `def __init__(self, config)` |
-| `generate_on_exit_script` | method | `modules/memory_cleaner.py:255` | `def generate_on_exit_script(self)` |
-| `linux_memory_cleanup` | method | `modules/memory_cleaner.py:151` | `def linux_memory_cleanup(self)` |
-| `macos_memory_cleanup` | method | `modules/memory_cleaner.py:206` | `def macos_memory_cleanup(self)` |
-| `windows_memory_cleanup` | method | `modules/memory_cleaner.py:64` | `def windows_memory_cleanup(self)` |
-| `EmbeddingError` | class | `modules/memory_embeddings.py:30` | `class EmbeddingError(ValueError)` |
-| `_fnv1a` | function | `modules/memory_embeddings.py:34` | `def _fnv1a(data)` |
-| `_tokens` | function | `modules/memory_embeddings.py:41` | `def _tokens(text)` |
-| `as_floats` | function | `modules/memory_embeddings.py:109` | `def as_floats(blob)` |
-| `cosine` | function | `modules/memory_embeddings.py:75` | `def cosine(a, b)` |
-| `embed` | function | `modules/memory_embeddings.py:50` | `def embed(text)` |
-| `semantic_top_k` | function | `modules/memory_embeddings.py:85` | `def semantic_top_k(query, candidates, top_k)` |
-| `MemoryEntry` | class | `modules/memory_store.py:84` | `class MemoryEntry` |
-| `MemoryStore` | class | `modules/memory_store.py:237` | `class MemoryStore` |
-| `SQLiteBackend` | class | `modules/memory_store.py:132` | `class SQLiteBackend(StorageBackend)` |
-| `StorageBackend` | class | `modules/memory_store.py:97` | `class StorageBackend(ABC)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

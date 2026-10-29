@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `cla` | function | `contrib/legacy/lazycam.py:212` | `def cla()` |
+| `delCameras` | method | `contrib/legacy/lazycam.py:136` | `def delCameras(self)` |
+| `main` | function | `contrib/legacy/lazycam.py:257` | `def main()` |
+| `resizeImg` | method | `contrib/legacy/lazycam.py:68` | `def resizeImg(self, img, output, height, ratio, fmt)` |
+| `run` | method | `contrib/legacy/lazycam.py:49` | `def run(self)` |
 | `scanner` | method | `contrib/legacy/lazycam.py:83` | `def scanner(self)` |
 | `splitCSV` | method | `contrib/legacy/lazycam.py:77` | `def splitCSV(self, csv)` |
 | `_load_payload_kv` | function | `contrib/legacy/lazydeepseekcli.py:50` | `def _load_payload_kv()` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `scrape_news` | function | `core/http.py:174` | `def scrape_news()` |
 | `send_command` | function | `core/http.py:87` | `def send_command(cmd, url, lhost)` |
 | `BudgetConfig` | class | `core/llm_budget.py:103` | `class BudgetConfig` |
-| `BudgetExceeded` | class | `core/llm_budget.py:54` | `class BudgetExceeded(RuntimeError)` |
-| `BudgetGuard` | class | `core/llm_budget.py:310` | `class BudgetGuard` |
-| `BudgetLedger` | class | `core/llm_budget.py:176` | `class BudgetLedger` |
-| `BudgetedBackend` | class | `core/llm_budget.py:408` | `class BudgetedBackend` |
-| `LLMBackendLike` | class | `core/llm_budget.py:58` | `class LLMBackendLike(Protocol)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

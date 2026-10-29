@@ -1,6 +1,50 @@
 # Subsystem: tests (page 13 of 21)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
 
+## tests/test_lazy_world_diff.py
+- Doc: World-surface diff contract: snapshots, changes, ghost liveness, stats.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_world` (function, line 37) `def _world(hosts)`
+  - `_svc` (function, line 41) `def _svc(name, product, version)`
+  - `test_host_snapshot_reads_open_services_only` (function, line 48) `def test_host_snapshot_reads_open_services_only()`
+  - `test_host_snapshot_missing_host_is_empty` (function, line 69) `def test_host_snapshot_missing_host_is_empty()`
+  - `test_snapshot_fingerprint_stable_and_sensitive` (function, line 74) `def test_snapshot_fingerprint_stable_and_sensitive()`
+  - `test_snapshot_fingerprint_ignores_key_order` (function, line 84) `def test_snapshot_fingerprint_ignores_key_order()`
+  - `test_diff_reports_port_lifecycle` (function, line 108) `def test_diff_reports_port_lifecycle()`
+  - `test_diff_service_change_requires_prior_identity` (function, line 128) `def test_diff_service_change_requires_prior_identity()`
+  - `test_diff_os_change_and_empty_states` (function, line 140) `def test_diff_os_change_and_empty_states()`
+  - `test_record_and_recent_changes` (function, line 152) `def test_record_and_recent_changes(tmp_path)`
+  - `test_record_changes_dedupes_repeat` (function, line 176) `def test_record_changes_dedupes_repeat(tmp_path)`
+  - `test_record_changes_caps_each_host` (function, line 184) `def test_record_changes_caps_each_host(tmp_path)`
+  - `test_prune_changes` (function, line 196) `def test_prune_changes(tmp_path)`
+  - `test_ghost_endpoints_prefers_web_ports` (function, line 209) `def test_ghost_endpoints_prefers_web_ports()`
+  - `test_ghost_state_apply_roundtrip` (function, line 225) `def test_ghost_state_apply_roundtrip(tmp_path)`
+  - `test_ghost_state_apply_ignores_empty_host` (function, line 238) `def test_ghost_state_apply_ignores_empty_host(tmp_path)`
+  - `test_snapshot_engagement_counts_campaign` (function, line 247) `def test_snapshot_engagement_counts_campaign(tmp_path)`
+  - `test_snapshot_engagement_cooldown` (function, line 268) `def test_snapshot_engagement_cooldown(tmp_path)`
+- Depends on: `modules/lazy_world_diff.py`
+
+## tests/test_lazydorks.py
+- Doc: Tests for modules.lazydorks — target-aware dork generator.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `dorks` (function, line 17) `def dorks()`
+  - `TestLazyDorks` (class, line 23) `class TestLazyDorks`
+  - `test_categories_populated` (method, line 24) `def test_categories_populated(self, dorks)`
+  - `test_queries_scoped_to_domain` (method, line 29) `def test_queries_scoped_to_domain(self, dorks)`
+  - `test_queries_cap` (method, line 33) `def test_queries_cap(self, dorks)`
+  - `test_unknown_category_empty` (method, line 37) `def test_unknown_category_empty(self, dorks)`
+  - `test_github_needs_org_or_domain` (method, line 40) `def test_github_needs_org_or_domain(self, dorks)`
+  - `test_github_org_fallback_to_domain` (method, line 44) `def test_github_org_fallback_to_domain(self, dorks)`
+  - `test_empty_domain_empty` (method, line 48) `def test_empty_domain_empty(self, dorks)`
+  - `test_all_queries_only_populated` (method, line 52) `def test_all_queries_only_populated(self, dorks)`
+  - `test_write_report` (method, line 56) `def test_write_report(self, dorks, tmp_path)`
+  - `test_write_report_invalid_target` (method, line 65) `def test_write_report_invalid_target(self, dorks, tmp_path)`
+- Depends on: `modules/__init__.py`
+
 ## tests/test_lazygui_backend.py
 - Doc: Tests for lazygui backend services.
 - Layer: testing
@@ -207,6 +251,69 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `test_autonomous_mode_aborts_without_passwordless_sudo` (function, line 48) `def test_autonomous_mode_aborts_without_passwordless_sudo(tmp_path)`
   - `test_interactive_mode_keeps_the_sudo_prompt_path` (function, line 55) `def test_interactive_mode_keeps_the_sudo_prompt_path(tmp_path)`
 
+## tests/test_lazypassgen.py
+- Doc: Tests for modules.lazypassgen — target-aware weak-password generator.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `passgen` (function, line 17) `def passgen()`
+  - `TestLazyPassGen` (class, line 23) `class TestLazyPassGen`
+  - `test_split_entities` (method, line 24) `def test_split_entities(self, passgen)`
+  - `test_split_skip_short_words` (method, line 28) `def test_split_skip_short_words(self, passgen)`
+  - `test_generate_target_words` (method, line 32) `def test_generate_target_words(self, passgen)`
+  - `test_generate_leet` (method, line 37) `def test_generate_leet(self, passgen)`
+  - `test_generate_seasons` (method, line 41) `def test_generate_seasons(self, passgen)`
+  - `test_generate_empty_target` (method, line 45) `def test_generate_empty_target(self, passgen)`
+  - `test_generate_cap` (method, line 50) `def test_generate_cap(self, passgen)`
+  - `test_seeds_use_lazy_creds` (method, line 54) `def test_seeds_use_lazy_creds(self, passgen)`
+  - `test_export` (method, line 58) `def test_export(self, passgen, tmp_path)`
+  - `test_export_empty` (method, line 65) `def test_export_empty(self, passgen, tmp_path)`
+- Depends on: `modules/__init__.py`
+
+## tests/test_lazypoophish.py
+- Doc: Tests for modules.lazypoophish — loop phishing fallback.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `poophish` (function, line 20) `def poophish()`
+  - `cleared_sessions` (function, line 27) `def cleared_sessions(tmp_path, monkeypatch)`
+  - `_fake_orchestrator` (function, line 32) `def _fake_orchestrator(monkeypatch, campaign_dir, campaign_id)`
+  - `TestFallbackReady` (class, line 53) `class TestFallbackReady`
+  - `TestRunFallback` (class, line 70) `class TestRunFallback`
+  - `fake_launch` (function, line 33) `def fake_launch(target_domain, template, mode, targets_file)`
+  - `test_ready_when_access_none` (method, line 54) `def test_ready_when_access_none(self, poophish, monkeypatch)`
+  - `test_not_ready_with_access` (method, line 58) `def test_not_ready_with_access(self, poophish, monkeypatch)`
+  - `test_ready_when_tokens_fail` (method, line 62) `def test_ready_when_tokens_fail(self, poophish, monkeypatch)`
+  - `test_invalid_mode` (method, line 71) `def test_invalid_mode(self, poophish, cleared_sessions)`
+  - `test_launch_failure` (method, line 76) `def test_launch_failure(self, poophish, cleared_sessions, monkeypatch)`
+  - `test_short_url_and_artifact` (method, line 85) `def test_short_url_and_artifact(self, poophish, cleared_sessions, monkeypatch)`
+  - `test_no_shorten_keeps_raw_url` (method, line 108) `def test_no_shorten_keeps_raw_url(self, poophish, cleared_sessions, monkeypatch)`
+  - `raising` (function, line 63) `def raising()`
+  - `fake_shorten` (function, line 89) `def fake_shorten(url, provider)`
+  - `forbidden` (function, line 113) `def forbidden()`
+- Depends on: `modules/__init__.py`
+
+## tests/test_lazyshortener.py
+- Doc: Tests for modules.lazyshortener — keyless URL shortener bridge.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `shortener` (function, line 17) `def shortener()`
+  - `_FakeResponse` (class, line 23) `class _FakeResponse`
+  - `TestLazyShortener` (class, line 33) `class TestLazyShortener`
+  - `__init__` (method, line 24) `def __init__(self, text, status)`
+  - `raise_for_status` (method, line 28) `def raise_for_status(self)`
+  - `test_providers` (method, line 34) `def test_providers(self, shortener)`
+  - `test_unknown_provider` (method, line 38) `def test_unknown_provider(self, shortener)`
+  - `test_rejects_invalid_url` (method, line 43) `def test_rejects_invalid_url(self, shortener)`
+  - `test_rejects_metacharacters` (method, line 48) `def test_rejects_metacharacters(self, shortener)`
+  - `test_shorten_success` (method, line 53) `def test_shorten_success(self, shortener, monkeypatch)`
+  - `test_provider_error_message` (method, line 68) `def test_provider_error_message(self, shortener, monkeypatch)`
+  - `test_transport_failure` (method, line 74) `def test_transport_failure(self, shortener, monkeypatch)`
+  - `fake_get` (function, line 56) `def fake_get(endpoint, params)`
+  - `raising` (function, line 75) `def raising()`
+- Depends on: `modules/__init__.py`
+
 ## tests/test_legacy_shims.py
 - Doc: Legacy shim contract plus referenced-script existence.
 - Layer: testing
@@ -385,101 +492,6 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `_imported_targets` (function, line 47) `def _imported_targets(node)`
   - `TestNoLegacyGroqImportInCore` (class, line 61) `class TestNoLegacyGroqImportInCore`
   - `test_no_core_file_imports_legacy_groq` (method, line 62) `def test_no_core_file_imports_legacy_groq(self)`
-
-## tests/test_llm_orchestrator.py
-- Doc: SDD spec and BDD scenarios for the orchestrator-governed LLM failover chain.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_StubHealth` (class, line 40) `class _StubHealth`
-  - `_scripted_executor` (function, line 58) `def _scripted_executor(script, calls)`
-  - `_member` (function, line 70) `def _member(name, model, priority)`
-  - `isolated_pool` (function, line 75) `def isolated_pool(tmp_path, monkeypatch)`
-  - `TestChainOrder` (class, line 82) `class TestChainOrder`
-  - `TestFailover` (class, line 133) `class TestFailover`
-  - `TestHealth` (class, line 334) `class TestHealth`
-  - `_RecordingRegistry` (class, line 413) `class _RecordingRegistry`
-  - `TestLedger` (class, line 429) `class TestLedger`
-  - `TestBackendKind` (class, line 461) `class TestBackendKind`
-  - `TestAdapterWiring` (class, line 479) `class TestAdapterWiring`
-  - `TestC2Wiring` (class, line 656) `class TestC2Wiring`
-  - `TestErrorDetection` (class, line 677) `class TestErrorDetection`
-  - `TestPlaceholderKeys` (class, line 799) `class TestPlaceholderKeys`
-  - `TestGroqEnvKey` (class, line 864) `class TestGroqEnvKey`
-  - `TestAiFallbackIntegration` (class, line 903) `class TestAiFallbackIntegration`
-  - `lazyc2_source` (function, line 974) `def lazyc2_source()`
-  - `test_orchestrator_module_exports_public_api` (function, line 982) `def test_orchestrator_module_exports_public_api()`
-  - `__init__` (method, line 43) `def __init__(self, parked)`
-  - `healthy` (method, line 48) `def healthy(self, name)`
-  - `report_failure` (method, line 51) `def report_failure(self, name, error)`
-  - `report_success` (method, line 54) `def report_success(self, name)`
-  - `_execute` (function, line 59) `def _execute(model_spec, prompt, max_tokens)`
-  - `test_weights_sort_members_by_descending_priority` (method, line 83) `def test_weights_sort_members_by_descending_priority(self)`
-  - `test_sort_members_never_mutates_input` (method, line 94) `def test_sort_members_never_mutates_input(self)`
-  - `test_pool_chain_reads_lazy_orchestrator_store` (method, line 100) `def test_pool_chain_reads_lazy_orchestrator_store(self, isolated_pool)`
-  - `test_pool_chain_self_heals_corrupt_store` (method, line 113) `def test_pool_chain_self_heals_corrupt_store(self, isolated_pool)`
-  - `test_pool_chain_returns_empty_when_pool_unreadable` (method, line 121) `def test_pool_chain_returns_empty_when_pool_unreadable(self, monkeypatch)`
-  - `test_primary_success_needs_no_fallback` (method, line 134) `def test_primary_success_needs_no_fallback(self)`
-  - `test_primary_failure_serves_fallback_with_notice` (method, line 155) `def test_primary_failure_serves_fallback_with_notice(self)`
-  - `test_all_members_fail_returns_error_result_without_raising` (method, line 181) `def test_all_members_fail_returns_error_result_without_raising(self)`
-  - `test_error_banner_text_is_a_failure_not_content` (method, line 198) `def test_error_banner_text_is_a_failure_not_content(self)`
-  - `test_blank_reply_is_a_failure` (method, line 217) `def test_blank_reply_is_a_failure(self)`
-  - `test_quota_wording_reply_is_a_failure` (method, line 230) `def test_quota_wording_reply_is_a_failure(self)`
-  - `test_empty_prompt_short_circuits` (method, line 243) `def test_empty_prompt_short_circuits(self)`
-  - `test_system_prompt_is_prepended_for_the_executor` (method, line 258) `def test_system_prompt_is_prepended_for_the_executor(self)`
-  - `test_max_tokens_is_forwarded` (method, line 278) `def test_max_tokens_is_forwarded(self)`
-  - `test_chain_uses_orchestrator_pool_when_no_override` (method, line 297) `def test_chain_uses_orchestrator_pool_when_no_override(self, isolated_pool)`
-  - `test_dedupes_members_by_name` (method, line 318) `def test_dedupes_members_by_name(self)`
-  - `test_unhealthy_member_is_skipped_while_others_remain` (method, line 335) `def test_unhealthy_member_is_skipped_while_others_remain(self)`
-  - `test_all_unhealthy_members_still_get_attempted` (method, line 352) `def test_all_unhealthy_members_still_get_attempted(self)`
-  - `test_success_reports_health` (method, line 367) `def test_success_reports_health(self)`
-  - `test_failure_reports_health` (method, line 381) `def test_failure_reports_health(self)`
-  - `test_default_health_comes_from_shared_registry` (method, line 395) `def test_default_health_comes_from_shared_registry(self, isolated_pool, monkeypatch)`
-  - `__init__` (method, line 416) `def __init__(self, seen)`
-  - `healthy` (method, line 419) `def healthy(self, name)`
-  - `report_failure` (method, line 422) `def report_failure(self, name, error)`
-  - `report_success` (method, line 425) `def report_success(self, name)`
-  - `test_success_is_recorded_in_the_pool_ledger` (method, line 430) `def test_success_is_recorded_in_the_pool_ledger(self, isolated_pool)`
-  - `test_failure_is_recorded_in_the_pool_ledger` (method, line 445) `def test_failure_is_recorded_in_the_pool_ledger(self, isolated_pool)`
-  - `test_backend_kind_parses_spec_prefix` (method, line 473) `def test_backend_kind_parses_spec_prefix(self, spec, kind)`
-  - `cfg` (method, line 481) `def cfg(self, tmp_path)`
-  - `patched` (method, line 493) `def patched(self, cfg, monkeypatch)`
-  - `test_missing_client_serves_from_the_chain` (method, line 499) `def test_missing_client_serves_from_the_chain(self, patched, monkeypatch)`
-  - `test_missing_client_returns_legacy_error_when_chain_exhausted` (method, line 515) `def test_missing_client_returns_legacy_error_when_chain_exhausted(self, patched, monkeypatch)`
-  - `test_client_error_falls_back_to_the_chain` (method, line 522) `def test_client_error_falls_back_to_the_chain(self, patched, monkeypatch)`
-  - `test_client_success_stays_primary_without_chain_call` (method, line 548) `def test_client_success_stays_primary_without_chain_call(self, patched, monkeypatch)`
-  - `test_client_401_error_string_falls_back_to_the_chain` (method, line 570) `def test_client_401_error_string_falls_back_to_the_chain(self, patched, monkeypatch)`
-  - `test_client_401_keeps_legacy_error_when_chain_exhausted` (method, line 595) `def test_client_401_keeps_legacy_error_when_chain_exhausted(self, patched, monkeypatch)`
-  - `test_fallback_answer_is_memorized_clean` (method, line 611) `def test_fallback_answer_is_memorized_clean(self, patched, monkeypatch, tmp_path)`
-  - `test_ask_general_serves_from_the_chain_when_backend_missing` (method, line 627) `def test_ask_general_serves_from_the_chain_when_backend_missing(self, patched, monkeypatch)`
-  - `test_ask_general_keeps_legacy_error_when_chain_exhausted` (method, line 645) `def test_ask_general_keeps_legacy_error_when_chain_exhausted(self, patched, monkeypatch)`
-  - `test_analyze_functions_route_through_the_orchestrator` (method, line 657) `def test_analyze_functions_route_through_the_orchestrator(self)`
-  - `test_ai_fallback_call_routes_through_the_chain` (method, line 667) `def test_ai_fallback_call_routes_through_the_chain(self)`
-  - `test_error_replies_detected` (method, line 690) `def test_error_replies_detected(self, reply)`
-  - `test_real_answer_not_treated_as_error` (method, line 695) `def test_real_answer_not_treated_as_error(self)`
-  - `test_pentest_prose_with_unauthorized_word_is_content` (method, line 700) `def test_pentest_prose_with_unauthorized_word_is_content(self)`
-  - `test_phishing_prose_with_credit_word_is_content` (method, line 706) `def test_phishing_prose_with_credit_word_is_content(self)`
-  - `test_long_pentest_plan_is_served_not_failed_over` (method, line 712) `def test_long_pentest_plan_is_served_not_failed_over(self)`
-  - `test_invalid_api_key_reply_is_a_failure` (method, line 733) `def test_invalid_api_key_reply_is_a_failure(self)`
-  - `test_placeholder_groq_leg_refused_without_doomed_call` (method, line 754) `def test_placeholder_groq_leg_refused_without_doomed_call(self, monkeypatch)`
-  - `test_placeholder_groq_leg_refused_even_with_payload_key` (method, line 780) `def test_placeholder_groq_leg_refused_even_with_payload_key(self, monkeypatch)`
-  - `test_placeholder_fragments_recognized` (method, line 800) `def test_placeholder_fragments_recognized(self)`
-  - `test_real_key_not_a_placeholder` (method, line 806) `def test_real_key_not_a_placeholder(self)`
-  - `test_factory_rejects_placeholder_payload_key` (method, line 810) `def test_factory_rejects_placeholder_payload_key(self)`
-  - `test_factory_rejects_placeholder_env_key` (method, line 819) `def test_factory_rejects_placeholder_env_key(self, monkeypatch)`
-  - `test_placeholder_env_replaced_by_payload_key` (method, line 827) `def test_placeholder_env_replaced_by_payload_key(self, monkeypatch)`
-  - `test_placeholder_env_survives_without_payload_key` (method, line 845) `def test_placeholder_env_survives_without_payload_key(self, monkeypatch)`
-  - `test_explicit_api_key_published_to_environment` (method, line 865) `def test_explicit_api_key_published_to_environment(self, monkeypatch)`
-  - `test_placeholder_payload_key_not_published` (method, line 884) `def test_placeholder_payload_key_not_published(self, monkeypatch)`
-  - `test_orchestrator_success_maps_to_ai_result` (method, line 904) `def test_orchestrator_success_maps_to_ai_result(self, monkeypatch)`
-  - `test_orchestrator_success_after_failure_carries_notice` (method, line 925) `def test_orchestrator_success_after_failure_carries_notice(self, monkeypatch)`
-  - `test_exhausted_chain_degrades_to_local_ollama` (method, line 947) `def test_exhausted_chain_degrades_to_local_ollama(self, monkeypatch)`
-  - `test_total_failure_returns_help_message` (method, line 961) `def test_total_failure_returns_help_message(self, monkeypatch)`
-  - `_explode` (function, line 126) `def _explode()`
-  - `executor` (function, line 263) `def executor(model_spec, prompt, max_tokens)`
-  - `executor` (function, line 283) `def executor(model_spec, prompt, max_tokens)`
-  - `_spy` (function, line 764) `def _spy(model_spec, prompt, max_tokens)`
-- Depends on: `modules/__init__.py`, `modules/ai_fallback.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/llm_pool.py`, `modules/llm_prompts.py`
 
 
 Next: [KB_tests_p14.md](KB_tests_p14.md)

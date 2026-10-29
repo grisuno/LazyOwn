@@ -1,6 +1,43 @@
 # API (page 18 of 25)
 Previous: [API_p17.md](API_p17.md)
 
+## modules/saas_attacks.py
+Imported by: `cli/commands/cloud_attacks.py`
+- `SaaSEnumerationTools.microsoft365_commands` (method) `modules/saas_attacks.py:75` `def microsoft365_commands()`
+- `SaaSEnumerationTools.google_workspace_commands` (method) `modules/saas_attacks.py:100` `def google_workspace_commands()`
+- `SaaSEnumerationTools.salesforce_commands` (method) `modules/saas_attacks.py:118` `def salesforce_commands()`
+- `SaaSEnumerationTools.servicenow_commands` (method) `modules/saas_attacks.py:135` `def servicenow_commands()`
+- `SaaSAttackEngine.__init__` (method) `modules/saas_attacks.py:163` `def __init__(self, config)`
+- `SaaSAttackEngine.enumerate_all` (method) `modules/saas_attacks.py:166` `def enumerate_all(self)` -- Generate enumeration commands for all supported SaaS platforms.
+- `SaaSAttackEngine.m365_ews_mail_search` (method) `modules/saas_attacks.py:179` `def m365_ews_mail_search(self, search_term)` -- Search mailboxes via Exchange Web Services (EWS).
+- `SaaSAttackEngine.google_workspace_domain_wide_delegation` (method) `modules/saas_attacks.py:228` `def google_workspace_domain_wide_delegation(self)` -- Abuse Google Workspace Domain-Wide Delegation (DWD).
+- `SaaSAttackEngine.salesforce_report_mining` (method) `modules/saas_attacks.py:257` `def salesforce_report_mining(self)` -- Mine Salesforce reports and dashboards for sensitive data.
+- `SaaSAttackEngine.slack_data_mining` (method) `modules/saas_attacks.py:286` `def slack_data_mining(self)` -- Mine Slack Enterprise for sensitive conversations and files.
+- `SaaSAttackEngine.detect_external_sharing` (method) `modules/saas_attacks.py:327` `def detect_external_sharing(self)` -- Detect external sharing configurations across SaaS platforms.
+- `SaaSAttackEngine.summary` (method) `modules/saas_attacks.py:352` `def summary(self)`
+
+## modules/security_sanitizers.py
+Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
+- `SecurityConfig.from_payload` (method) `modules/security_sanitizers.py:68` `def from_payload(cls, payload)` -- Build a configuration object from a ``payload.json`` mapping.
+- `HeaderValueSanitizer.__init__` (method) `modules/security_sanitizers.py:115` `def __init__(self, config)` -- Bind the sanitizer to a configuration instance.
+- `HeaderValueSanitizer.is_valid_name` (method) `modules/security_sanitizers.py:129` `def is_valid_name(self, name)` -- Return True iff ``name`` is a syntactically valid header token.
+- `HeaderValueSanitizer.sanitize_value` (method) `modules/security_sanitizers.py:139` `def sanitize_value(self, value)` -- Return a header value that cannot smuggle a response split.
+- `SessionPathResolver.__init__` (method) `modules/security_sanitizers.py:174` `def __init__(self, base_dir, config)` -- Bind the resolver to an absolute, real base directory.
+- `SessionPathResolver.base_dir` (method) `modules/security_sanitizers.py:192` `def base_dir(self)` -- The resolved, absolute base directory.
+- `SessionPathResolver.resolve` (method) `modules/security_sanitizers.py:196` `def resolve(self, untrusted_name)` -- Return ``(absolute, relative)`` for a safe filename.
+- `SessionPathResolver.file_exists` (method) `modules/security_sanitizers.py:238` `def file_exists(self, untrusted_name)` -- Return True iff ``untrusted_name`` resolves to an existing file.
+- `BindAddressResolver.__init__` (method) `modules/security_sanitizers.py:269` `def __init__(self, config, preferred_addresses)` -- Build a resolver with a prioritised list of candidate addresses.
+- `BindAddressResolver.resolve` (method) `modules/security_sanitizers.py:298` `def resolve(self)` -- Return the address sockets should bind to.
+- `CommandRedactor.__init__` (method) `modules/security_sanitizers.py:333` `def __init__(self, config)` -- Bind the redactor to a configuration instance.
+- `CommandRedactor.render` (method) `modules/security_sanitizers.py:359` `def render(self, template, substitutions, username, password)` -- Return ``(executable, display)`` for a templated command.
+- `OutputSanitizer.__init__` (method) `modules/security_sanitizers.py:418` `def __init__(self, config)` -- Bind the sanitizer to a configuration instance.
+- `OutputSanitizer.sanitize` (method) `modules/security_sanitizers.py:429` `def sanitize(self, value)` -- Return ``value`` projected into a JSON-serialisable form.
+- `build_default_config` (function) `modules/security_sanitizers.py:477` `def build_default_config(payload)` -- Return a :class:`SecurityConfig` populated from ``payload``.
+
+## modules/selector_manager.py
+Imported by: `skills/lazyown_mcp.py`, `tests/test_auto_loop_memory.py`
+- `select` (function) `modules/selector_manager.py:42` `def select(proposals, is_blocked)` -- Pick the first valid proposal; None when everything is filtered.
+
 ## modules/selfupdate.py
 Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
 - `Updater.__init__` (method) `modules/selfupdate.py:47` `def __init__(self, live_path)` -- Bind the updater to the binary that may be replaced.
@@ -453,39 +490,6 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
 - `amzn_sig` (function) `modules/venator.py:846` `def amzn_sig(secret_access_key, data, aws_region, aws_service)`
 - `amzn_canonical_req` (function) `modules/venator.py:856` `def amzn_canonical_req(filename_path, headers_list)`
 - `s3_upload` (function) `modules/venator.py:866` `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
-
-## modules/verb_catalog.py
-Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
-Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
-- `index_commands` (function) `modules/verb_catalog.py:190` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
-- `validate_catalog` (function) `modules/verb_catalog.py:230` `def validate_catalog(data)` -- Validate one raw catalog document.
-- `load` (function) `modules/verb_catalog.py:263` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
-- `entries` (function) `modules/verb_catalog.py:296` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
-- `catalog_enabled` (function) `modules/verb_catalog.py:349` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
-- `catalog_source` (function) `modules/verb_catalog.py:364` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
-- `set_enabled` (function) `modules/verb_catalog.py:378` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
-- `sync` (function) `modules/verb_catalog.py:415` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
-- `stats` (function) `modules/verb_catalog.py:502` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
-- `search` (function) `modules/verb_catalog.py:516` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
-
-## modules/verb_manifest.py
-Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
-Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
-- `FactPredicate.args` (method) `modules/verb_manifest.py:152` `def args(self)` -- Return the set corner arguments.
-- `FactPredicate.is_wild` (method) `modules/verb_manifest.py:156` `def is_wild(self, key)` -- Return True when that argument is a ``{token}`` wildcard.
-- `FactPredicate.matches` (method) `modules/verb_manifest.py:161` `def matches(self, other)` -- Return True when this fact instance satisfies the other.
-- `parse_predicate` (function) `modules/verb_manifest.py:222` `def parse_predicate(data)` -- Parse one predicate mapping into a FactPredicate.
-- `parse_manifest` (function) `modules/verb_manifest.py:296` `def parse_manifest(verb, data)` -- Validate and parse one manifest document entry.
-- `manifests` (function) `modules/verb_manifest.py:371` `def manifests(path)` -- Return parsed manifests with a small TTL cache.
-- `manifest_for` (function) `modules/verb_manifest.py:396` `def manifest_for(verb, path)` -- Return the manifest of one verb, or None when untyped.
-- `facts_for_target` (function) `modules/verb_manifest.py:411` `def facts_for_target(host)` -- Project the world model facts of one host into predicates.
-- `plan_check` (function) `modules/verb_manifest.py:467` `def plan_check(steps, tokens, path, facts)` -- Check a chain semantically: every typed precondition must be supplied.
-- `coverage` (function) `modules/verb_manifest.py:522` `def coverage(total_verbs, path)` -- Summarise manifest coverage for registry reporting.
-
-## modules/vuln_bot_cli.py
-Depends on: `modules/vulnbot.py`
-- `parse_args` (function) `modules/vuln_bot_cli.py:10` `def parse_args()`
-- `main` (function) `modules/vuln_bot_cli.py:22` `def main()`
 
 
 Next: [API_p19.md](API_p19.md)

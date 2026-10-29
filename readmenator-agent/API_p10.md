@@ -356,7 +356,7 @@ Imported by: `cli/apt_chain_support.py`, `tests/test_chain_synth.py`
 
 ## modules/chain_tokens.py
 Depends on: `skills/lazyown_facts.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_apt_chain_admin.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazypoophish.py`, `tests/test_apt_chain_admin.py`
 - `token_keys` (function) `modules/chain_tokens.py:24` `def token_keys()` -- Return every engagement token name this module can produce.
 - `build_tokens` (function) `modules/chain_tokens.py:29` `def build_tokens(target, params)` -- Resolve engagement tokens for one target.
 

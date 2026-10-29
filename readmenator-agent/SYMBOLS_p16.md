@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `infer_source` | function | `modules/lazy_intel.py:88` | `def infer_source(command, intent_text)` |
+| `mask_configured` | function | `modules/lazy_intel.py:237` | `def mask_configured(text)` |
+| `read_decisions` | function | `modules/lazy_intel.py:211` | `def read_decisions(task_id, limit)` |
+| `record_routing_decision` | function | `modules/lazy_intel.py:129` | `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)` |
+| `record_routing_outcome` | function | `modules/lazy_intel.py:169` | `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)` |
 | `stack_signature` | function | `modules/lazy_intel.py:272` | `def stack_signature(assets)` |
 | `ActivityLog` | class | `modules/lazy_loop.py:1433` | `class ActivityLog` |
 | `AssetGate` | class | `modules/lazy_loop.py:2165` | `class AssetGate` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `_configured_lhost` | function | `modules/lazy_oob.py:172` | `def _configured_lhost()` |
 | `_record` | method | `modules/lazy_oob.py:66` | `def _record(self)` |
 | `_respond` | method | `modules/lazy_oob.py:82` | `def _respond(self)` |
-| `as_dict` | method | `modules/lazy_oob.py:51` | `def as_dict(self)` |
-| `do_GET` | method | `modules/lazy_oob.py:92` | `def do_GET(self)` |
-| `do_HEAD` | method | `modules/lazy_oob.py:102` | `def do_HEAD(self)` |
-| `do_POST` | method | `modules/lazy_oob.py:97` | `def do_POST(self)` |
-| `hits` | function | `modules/lazy_oob.py:204` | `def hits(token)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

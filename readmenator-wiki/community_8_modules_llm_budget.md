@@ -1,6 +1,6 @@
 # modules: llm_budget
 
-*Community 9 | 44 files | cohesion 0.44*
+*Community 8 | 44 files | cohesion 0.44*
 
 ## Definition
 
@@ -106,10 +106,10 @@ This community groups 44 file(s) rooted at `modules` with dominant language py (
 
 ## Connections
 
-- [EXTRACTED] depends_on community 8 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
-- [EXTRACTED] depends_on community 0 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/parsers.py.
-- [EXTRACTED] depends_on community 9 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
-- [EXTRACTED] depends_on community 9 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
+- [EXTRACTED] depends_on community 9 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
+- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/parsers.py.
+- [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
+- [EXTRACTED] depends_on community 8 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/llm_pool.py.
 
 ## Risks
 

@@ -1,6 +1,82 @@
 # API (page 21 of 25)
 Previous: [API_p20.md](API_p20.md)
 
+## skills/hive_mind.py
+Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_parquet_db.py`
+Imported by: `modules/loop_ai_bridge.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `skills/swan_agent.py`, `skills/tests/test_hive_mind.py`, `skills/unified_orchestrator.py`
+- `IReadableMemory.recall` (method) `skills/hive_mind.py:149` `def recall(self, query, top_k)` -- Return top_k items matching query.
+- `IWritableMemory.store` (method) `skills/hive_mind.py:157` `def store(self, content)` -- Persist content and return an opaque event_id.
+- `ICommandRunner.run` (method) `skills/hive_mind.py:175` `def run(self, command, timeout)` -- Execute command within timeout seconds and return text output.
+- `ICommandRunner.name` (method) `skills/hive_mind.py:180` `def name(self)` -- Human-readable identifier for this runner.
+- `EpisodicStore.__init__` (method) `skills/hive_mind.py:215` `def __init__(self, db_path)`
+- `EpisodicStore.store` (method) `skills/hive_mind.py:235` `def store(self, content, agent_id, role, event_type, meta, session_tag)` -- Insert a row into hive_events and return event_id.
+- `EpisodicStore.recall` (method) `skills/hive_mind.py:274` `def recall(self, query, top_k, role, event_type)` -- Keyword search via FTS5.
+- `EpisodicStore.stats` (method) `skills/hive_mind.py:322` `def stats(self)` -- Return row counts for status reporting.
+- `EpisodicStore.forget` (method) `skills/hive_mind.py:329` `def forget(self, older_than_hours, topic)` -- Delete old or topic-matching rows.
+- `SemanticStore.__init__` (method) `skills/hive_mind.py:358` `def __init__(self, chroma_dir, episodic_fallback)`
+- `SemanticStore.available` (method) `skills/hive_mind.py:380` `def available(self)` -- True when ChromaDB is operational.
+- `SemanticStore.store` (method) `skills/hive_mind.py:386` `def store(self, content, agent_id, role, event_type, meta, session_tag, event_id)` -- Add a document to ChromaDB.
+- `SemanticStore.recall` (method) `skills/hive_mind.py:434` `def recall(self, query, top_k, where)` -- Vector similarity search.
+- `SemanticStore.count` (method) `skills/hive_mind.py:477` `def count(self)` -- Return number of vectors stored.
+- `LongtermStore.store` (method) `skills/hive_mind.py:515` `def store(self, content)` -- Parquet store is read-only from here.
+- `LongtermStore.recall` (method) `skills/hive_mind.py:519` `def recall(self, query, top_k)` -- Keyword search across Parquet knowledge files.
+- `build_default_hive_memory` (function) `skills/hive_mind.py:558` `def build_default_hive_memory(db_path)` -- Factory that creates HiveMemory with the default three-layer backend.
+- `HiveMemory.__init__` (method) `skills/hive_mind.py:582` `def __init__(self, stores, episodic, semantic, longterm)`
+- `HiveMemory.store` (method) `skills/hive_mind.py:596` `def store(self, content, agent_id, role, event_type, meta, session_tag)` -- Store content in all writable layers.
+- `HiveMemory.recall_episodic` (method) `skills/hive_mind.py:633` `def recall_episodic(self, query, top_k, role, event_type)` -- Keyword search across hive episodic memory.
+- `HiveMemory.recall_semantic` (method) `skills/hive_mind.py:647` `def recall_semantic(self, query, top_k, where)` -- Vector similarity search in ChromaDB.
+- `HiveMemory.recall_longterm` (method) `skills/hive_mind.py:660` `def recall_longterm(self, query, top_k)` -- Keyword search across Parquet knowledge files.
+- `HiveMemory.recall` (method) `skills/hive_mind.py:668` `def recall(self, query, top_k)` -- Unified recall: semantic (ChromaDB) + episodic (SQLite) + longterm (Parquet).
+- `HiveMemory.stats` (method) `skills/hive_mind.py:694` `def stats(self)` -- Return combined statistics from all layers.
+- `HiveMemory.forget` (method) `skills/hive_mind.py:704` `def forget(self, older_than_hours, topic)` -- Prune old or topic-matched entries.
+- `HiveBus.__init__` (method) `skills/hive_mind.py:736` `def __init__(self)`
+- `HiveBus.publish` (method) `skills/hive_mind.py:740` `def publish(self, msg)` -- Deliver msg to recipient mailbox (and to "*" broadcast).
+- `HiveBus.receive` (method) `skills/hive_mind.py:746` `def receive(self, agent_id, max_msgs)` -- Drain mailbox for agent_id (includes broadcast).
+- `HiveBus.ack_broadcast` (method) `skills/hive_mind.py:754` `def ack_broadcast(self, agent_id, msg_id)` -- Mark a broadcast message as seen by agent_id (minimal bus — no-op).
+- `HiveBus.pending_count` (method) `skills/hive_mind.py:758` `def pending_count(self, agent_id)` -- Count messages waiting for agent_id.
+- `ConsensusProtocol.__init__` (method) `skills/hive_mind.py:943` `def __init__(self, risk_assessor)`
+- `ConsensusProtocol.evaluate` (method) `skills/hive_mind.py:946` `def evaluate(self, role, goal)` -- Run the consensus vote for the given (role, goal) pair.
+- `DroneAgent.__init__` (method) `skills/hive_mind.py:1091` `def __init__(self, drone_id, role, goal, backend, memory, bus, max_iterations, api_key, model, runner, on_state_change)`
+- `DroneAgent.start` (method) `skills/hive_mind.py:1128` `def start(self)` -- Spawn the drone thread.
+- `DroneAgent.join` (method) `skills/hive_mind.py:1137` `def join(self, timeout)` -- Block until the drone thread finishes.
+- `QueenBrain.__init__` (method) `skills/hive_mind.py:1301` `def __init__(self, memory, bus, pool, consensus)`
+- `QueenBrain.plan` (method) `skills/hive_mind.py:1313` `def plan(self, goal, n_drones)` -- Decompose a high-level goal into per-drone task specs.
+- `QueenBrain.dispatch` (method) `skills/hive_mind.py:1332` `def dispatch(self, tasks, backend, api_key, max_iterations)` -- Spawn one drone per task in parallel.
+- `QueenBrain.plan_and_dispatch` (method) `skills/hive_mind.py:1405` `def plan_and_dispatch(self, goal, n_drones, backend, api_key, max_iterations)` -- Convenience: plan + dispatch in one call.
+- `QueenBrain.collect` (method) `skills/hive_mind.py:1417` `def collect(self, drone_ids, timeout, poll_interval)` -- Wait for all drones to finish (up to timeout seconds).
+- `QueenBrain.synthesize` (method) `skills/hive_mind.py:1447` `def synthesize(self, drone_ids, original_goal)` -- Read hive memory results for these drones and produce a synthesis summary.
+- `QueenBrain.read_bus` (method) `skills/hive_mind.py:1471` `def read_bus(self)` -- Drain queen's mailbox from drone result messages.
+- `DroneStateStore.__init__` (method) `skills/hive_mind.py:1513` `def __init__(self, db_path)`
+- `DroneStateStore.upsert` (method) `skills/hive_mind.py:1523` `def upsert(self, state)` -- Insert or replace a drone state record.
+- `DroneStateStore.load_all` (method) `skills/hive_mind.py:1553` `def load_all(self, limit)` -- Load all persisted drone states ordered by most recently updated.
+- `DroneStateStore.mark_interrupted` (method) `skills/hive_mind.py:1588` `def mark_interrupted(self)` -- Called on daemon startup: any drone that was queued/running when the process died is now in an unknown state.
+- `DroneStateStore.load_interrupted` (method) `skills/hive_mind.py:1609` `def load_interrupted(self)` -- Return all drones currently in 'interrupted' state.
+- `DroneStateStore.delete_older_than` (method) `skills/hive_mind.py:1643` `def delete_older_than(self, days)` -- Prune records older than N days.
+- `DronePool.__init__` (method) `skills/hive_mind.py:1673` `def __init__(self, memory, bus, state_store)`
+- `DronePool.recover_from_store` (method) `skills/hive_mind.py:1687` `def recover_from_store(self)` -- Load persisted drone states from a previous run.
+- `DronePool.spawn` (method) `skills/hive_mind.py:1708` `def spawn(self, role, goal, backend, api_key, model, max_iterations, runner)` -- Create and start a DroneAgent.
+- `DronePool.requeue_interrupted` (method) `skills/hive_mind.py:1741` `def requeue_interrupted(self, backend, api_key, max_iterations)` -- Re-spawn all drones previously marked 'interrupted'.
+- `DronePool.get_state` (method) `skills/hive_mind.py:1767` `def get_state(self, drone_id)` -- Return the current state snapshot for a drone, or None if unknown.
+- `DronePool.list_all` (method) `skills/hive_mind.py:1776` `def list_all(self, limit)` -- Return a sorted list of drone summary dicts (most recent first).
+- `DronePool.active_count` (method) `skills/hive_mind.py:1801` `def active_count(self)` -- Return number of live drones currently in queued or running state.
+- `HiveMind.__init__` (method) `skills/hive_mind.py:1818` `def __init__(self)`
+- `HiveMind.spawn` (method) `skills/hive_mind.py:1829` `def spawn(self, goal, role, backend, api_key, max_iterations)` -- Spawn a single drone.
+- `HiveMind.spawn_hive` (method) `skills/hive_mind.py:1846` `def spawn_hive(self, goal, n_drones, backend, api_key, max_iterations)` -- Queen plans and dispatches multiple drones in parallel.
+- `HiveMind.status` (method) `skills/hive_mind.py:1863` `def status(self)` -- Return hive-wide status dict including historical drones from previous runs.
+- `HiveMind.recall` (method) `skills/hive_mind.py:1878` `def recall(self, query, top_k)` -- Unified recall from all memory layers.
+- `HiveMind.drone_result` (method) `skills/hive_mind.py:1882` `def drone_result(self, drone_id)` -- Return result dict for a specific drone.
+- `HiveMind.collect_and_synthesize` (method) `skills/hive_mind.py:1896` `def collect_and_synthesize(self, drone_ids, goal)` -- Synthesize results from multiple drones.
+- `HiveMind.forget` (method) `skills/hive_mind.py:1900` `def forget(self, older_than_hours, topic)` -- Prune hive memory.
+- `get_hive` (function) `skills/hive_mind.py:1911` `def get_hive()` -- Return the process-wide HiveMind singleton, creating it if necessary.
+- `mcp_hive_spawn` (function) `skills/hive_mind.py:1926` `def mcp_hive_spawn(goal, role, n_drones, backend, max_iterations, api_key)` -- Spawn one or more hive drones for a goal.
+- `mcp_hive_status` (function) `skills/hive_mind.py:1976` `def mcp_hive_status()` -- Return full hive status: active drones, memory stats, queen mailbox.
+- `mcp_hive_recall` (function) `skills/hive_mind.py:1981` `def mcp_hive_recall(query, top_k)` -- Semantic + episodic + longterm recall from hive memory.
+- `mcp_hive_plan` (function) `skills/hive_mind.py:1995` `def mcp_hive_plan(goal, n_drones)` -- Queen generates task decomposition without spawning drones.
+- `mcp_hive_result` (function) `skills/hive_mind.py:2004` `def mcp_hive_result(drone_id)` -- Get result from a specific drone.
+- `mcp_hive_collect` (function) `skills/hive_mind.py:2010` `def mcp_hive_collect(drone_ids_csv, goal)` -- Wait for drones to finish and return synthesized result. drone_ids_csv: comma-separated drone IDs.
+- `mcp_hive_forget` (function) `skills/hive_mind.py:2021` `def mcp_hive_forget(older_than_hours, topic)` -- Prune hive memory.
+- `mcp_hive_recover` (function) `skills/hive_mind.py:2027` `def mcp_hive_recover(backend, api_key, max_iterations)` -- Re-queue all drones that were interrupted by a previous process crash/restart.
+
 ## skills/lazyown_automapper.py
 Depends on: `core/logging.py`
 Imported by: `skills/lazyown_mcp.py`
@@ -410,62 +486,6 @@ Depends on: `core/logging.py`, `modules/logging_config.py`, `modules/reactive_en
 - `AutonomousAgent.__init__` (method) `skills/toposwarm_autonomous.py:310` `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)`
 - `AutonomousAgent.run` (method) `skills/toposwarm_autonomous.py:432` `def run(self, start_phase)`
 - `main` (function) `skills/toposwarm_autonomous.py:489` `def main(argv)`
-
-## skills/unified_orchestrator.py
-Depends on: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
-Imported by: `lazyown.py`, `tests/test_improvements_spec.py`
-- `OrchestratorConfig.from_payload` (method) `skills/unified_orchestrator.py:111` `def from_payload(cls, payload)` -- Return a config with ``payload.json`` overrides applied.
-- `OrchestratorGoal.with_defaults` (method) `skills/unified_orchestrator.py:156` `def with_defaults(self, config)` -- Return a copy with empty fields populated from ``config``.
-- `OrchestratorResult.to_dict` (method) `skills/unified_orchestrator.py:197` `def to_dict(self)` -- Return a JSON-serialisable dictionary of the result.
-- `IOrchestratorBackend.available` (method) `skills/unified_orchestrator.py:215` `def available(self)` -- Return ``True`` when this backend can satisfy a request.
-- `IOrchestratorBackend.run` (method) `skills/unified_orchestrator.py:219` `def run(self, goal)` -- Execute ``goal`` and return a normalised :class:`OrchestratorResult`.
-- `EventBus.__init__` (method) `skills/unified_orchestrator.py:233` `def __init__(self, config, root)` -- Bind the bus to the active config.
-- `EventBus.path` (method) `skills/unified_orchestrator.py:252` `def path(self)` -- Return the resolved event file path.
-- `EventBus.emit` (method) `skills/unified_orchestrator.py:256` `def emit(self, event)` -- Append a single sanitised event to the bus.
-- `BackendRegistry.__init__` (method) `skills/unified_orchestrator.py:303` `def __init__(self, backends)` -- Bind the registry to a fixed-order tuple of backends.
-- `BackendRegistry.names` (method) `skills/unified_orchestrator.py:327` `def names(self)` -- Return the registered backend names in declaration order.
-- `BackendRegistry.get` (method) `skills/unified_orchestrator.py:331` `def get(self, name)` -- Return the backend registered as ``name`` or ``None``.
-- `BackendRegistry.available` (method) `skills/unified_orchestrator.py:335` `def available(self)` -- Return every backend that currently reports availability.
-- `RouterPolicy.__init__` (method) `skills/unified_orchestrator.py:347` `def __init__(self, config, registry)` -- Bind the policy to config and backend registry.
-- `RouterPolicy.choose` (method) `skills/unified_orchestrator.py:352` `def choose(self, goal)` -- Return the backend that should execute ``goal``.
-- `DaemonBackend.__init__` (method) `skills/unified_orchestrator.py:413` `def __init__(self, config, factory, payload)` -- Bind to config, optional engine factory and payload mapping.
-- `DaemonBackend.available` (method) `skills/unified_orchestrator.py:435` `def available(self)` -- Return ``True`` when the underlying engine can be imported.
-- `DaemonBackend.run` (method) `skills/unified_orchestrator.py:445` `def run(self, goal)` -- Execute a single-target kill-chain engagement.
-- `DaemonBackend.effective_target` (method) `skills/unified_orchestrator.py:489` `def effective_target(self, goal)` -- Return the daemon target this backend would use for ``goal``.
-- `HiveBackend.__init__` (method) `skills/unified_orchestrator.py:610` `def __init__(self, config, factory)` -- Bind to config and an optional queen factory.
-- `HiveBackend.available` (method) `skills/unified_orchestrator.py:619` `def available(self)` -- Return ``True`` when the hive engine is importable.
-- `HiveBackend.run` (method) `skills/unified_orchestrator.py:629` `def run(self, goal)` -- Plan, dispatch, collect and synthesise via the hive.
-- `SwanBackend.__init__` (method) `skills/unified_orchestrator.py:711` `def __init__(self, config, factory)` -- Bind to config and an optional orchestrator factory.
-- `SwanBackend.available` (method) `skills/unified_orchestrator.py:720` `def available(self)` -- Return ``True`` when the SWAN engine is importable.
-- `SwanBackend.run` (method) `skills/unified_orchestrator.py:730` `def run(self, goal)` -- Execute a single SWAN task and normalise the result.
-- `GoalValidator.__init__` (method) `skills/unified_orchestrator.py:814` `def __init__(self, config)` -- Bind the validator to the active configuration.
-- `GoalValidator.validate` (method) `skills/unified_orchestrator.py:818` `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Return a normalised goal or raise :class:`ValueError`.
-- `UnifiedOrchestrator.__init__` (method) `skills/unified_orchestrator.py:874` `def __init__(self, config, registry, router, validator, bus)` -- Bind the orchestrator to its collaborators.
-- `UnifiedOrchestrator.backends` (method) `skills/unified_orchestrator.py:890` `def backends(self)` -- Return the registered backend names in declaration order.
-- `UnifiedOrchestrator.execute` (method) `skills/unified_orchestrator.py:894` `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Validate, route, execute and emit one goal end-to-end.
-- `build_default_orchestrator` (function) `skills/unified_orchestrator.py:995` `def build_default_orchestrator(payload, sessions_dir)` -- Wire the canonical three-backend orchestrator.
-
-## skills/update_knowledge.py
-Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_parquet_db.py`
-- `main` (function) `skills/update_knowledge.py:40` `def main(argv)`
-
-## slack_c2_bot.py
-Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
-- `SecureSessionManager.__init__` (method) `slack_c2_bot.py:29` `def __init__(self)`
-- `SecureSessionManager.register_failed_attempt` (method) `slack_c2_bot.py:34` `def register_failed_attempt(self, user_id)`
-- `SecureSessionManager.check_lockout` (method) `slack_c2_bot.py:42` `def check_lockout(self, user_id)`
-- `SecureSessionManager.check_rate_limit` (method) `slack_c2_bot.py:52` `def check_rate_limit(self, user_id)`
-- `SecureSessionManager.create_session` (method) `slack_c2_bot.py:63` `def create_session(self, user_id)`
-- `SecureSessionManager.validate_session` (method) `slack_c2_bot.py:71` `def validate_session(self, user_id)`
-- `SecureSessionManager.set_client` (method) `slack_c2_bot.py:81` `def set_client(self, user_id, client_id)`
-- `SecureSessionManager.get_client` (method) `slack_c2_bot.py:85` `def get_client(self, user_id)`
-- `capture_shell_output` (function) `slack_c2_bot.py:95` `def capture_shell_output(cmd)`
-- `handle_message` (function) `slack_c2_bot.py:113` `def handle_message(event, say, logger)`
-- `cmd_addcli` (function) `slack_c2_bot.py:177` `def cmd_addcli(ack, respond, command)`
-- `cmd_clients` (function) `slack_c2_bot.py:195` `def cmd_clients(ack, respond, command)`
-- `cmd_download` (function) `slack_c2_bot.py:209` `def cmd_download(ack, respond, command)`
-- `handle_file` (function) `slack_c2_bot.py:240` `def handle_file(event, say, logger)`
-- `mentioned` (function) `slack_c2_bot.py:252` `def mentioned(ack, say, event)`
 
 
 Next: [API_p22.md](API_p22.md)

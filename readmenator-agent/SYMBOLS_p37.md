@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_hostname_match_ignores_port` | method | `tests/test_cors_policy.py:93` | `def test_hostname_match_ignores_port(self)` |
+| `test_list_input_is_preserved` | method | `tests/test_cors_policy.py:61` | `def test_list_input_is_preserved(self)` |
+| `test_non_matching_origin_is_denied` | method | `tests/test_cors_policy.py:85` | `def test_non_matching_origin_is_denied(self)` |
+| `test_origins_for_socketio` | method | `tests/test_cors_policy.py:109` | `def test_origins_for_socketio(self)` |
+| `test_origins_for_socketio_dev_fallback` | method | `tests/test_cors_policy.py:119` | `def test_origins_for_socketio_dev_fallback(self)` |
+| `test_prod_empty_allowlist_raises` | method | `tests/test_cors_policy.py:42` | `def test_prod_empty_allowlist_raises(self)` |
+| `test_scheme_mismatch_is_denied` | method | `tests/test_cors_policy.py:101` | `def test_scheme_mismatch_is_denied(self)` |
+| `test_wildcard_in_csv_is_dropped` | method | `tests/test_cors_policy.py:31` | `def test_wildcard_in_csv_is_dropped(self)` |
+| `test_wildcard_is_rejected` | method | `tests/test_cors_policy.py:27` | `def test_wildcard_is_rejected(self)` |
+| `TestOriginsForSocketIO` | class | `tests/test_cors_socketio_regression.py:20` | `class TestOriginsForSocketIO` |
+| `test_dev_empty_includes_http_and_https` | method | `tests/test_cors_socketio_regression.py:29` | `def test_dev_empty_includes_http_and_https(self)` |
+| `test_dev_empty_includes_lhost_with_common_ports` | method | `tests/test_cors_socketio_regression.py:23` | `def test_dev_empty_includes_lhost_with_common_ports(self)` |
+| `test_dev_empty_includes_localhost_alias` | method | `tests/test_cors_socketio_regression.py:35` | `def test_dev_empty_includes_localhost_alias(self)` |
+| `test_explicit_origins_deduped` | method | `tests/test_cors_socketio_regression.py:51` | `def test_explicit_origins_deduped(self)` |
+| `test_explicit_origins_kept_with_port_appended` | method | `tests/test_cors_socketio_regression.py:40` | `def test_explicit_origins_kept_with_port_appended(self)` |
+| `test_prod_raises_when_empty` | method | `tests/test_cors_socketio_regression.py:61` | `def test_prod_raises_when_empty(self)` |
+| `test_wildcard_rejected` | method | `tests/test_cors_socketio_regression.py:65` | `def test_wildcard_rejected(self)` |
+| `TestCheckDefaults` | class | `tests/test_credential_vault.py:18` | `class TestCheckDefaults` |
+| `TestSealUnseal` | class | `tests/test_credential_vault.py:56` | `class TestSealUnseal` |
+| `TestSecureDefaults` | class | `tests/test_credential_vault.py:116` | `class TestSecureDefaults` |
 | `test_api_key_is_longer` | method | `tests/test_credential_vault.py:124` | `def test_api_key_is_longer(self)` |
 | `test_changeme_variants` | method | `tests/test_credential_vault.py:44` | `def test_changeme_variants(self)` |
 | `test_clean_payload_no_warnings` | method | `tests/test_credential_vault.py:24` | `def test_clean_payload_no_warnings(self)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p36.md](SYMBOLS_p36.md)
 | `test_engage_target_returns_engagement_id` | method | `tests/test_engage_orchestrator.py:639` | `def test_engage_target_returns_engagement_id(self, temp_sessions, policy_module)` |
 | `test_engagement_hooks_module_exposes_public_surface` | method | `tests/test_engage_orchestrator.py:726` | `def test_engagement_hooks_module_exposes_public_surface(self)` |
 | `test_failing_sink_does_not_break_broadcaster` | method | `tests/test_engage_orchestrator.py:162` | `def test_failing_sink_does_not_break_broadcaster(self, temp_sessions)` |
-| `test_fans_out_to_every_sink` | method | `tests/test_engage_orchestrator.py:140` | `def test_fans_out_to_every_sink(self, temp_sessions)` |
-| `test_first_call_emits_event` | method | `tests/test_engage_orchestrator.py:192` | `def test_first_call_emits_event(self, temp_sessions)` |
-| `test_gated_phase_times_out_to_denied` | method | `tests/test_engage_orchestrator.py:356` | `def test_gated_phase_times_out_to_denied(self, policy_module, temp_sessions)` |
-| `test_gated_phase_with_auto_approve_false_polls_sink` | method | `tests/test_engage_orchestrator.py:326` | `def test_gated_phase_with_auto_approve_false_polls_sink(self, policy_module, temp_sessions)` |
-| `test_invalid_client_id_returns_none` | method | `tests/test_engage_orchestrator.py:217` | `def test_invalid_client_id_returns_none(self, temp_sessions)` |
-| `test_invalid_payload_defaults_to_auto_approve_true` | method | `tests/test_engage_orchestrator.py:375` | `def test_invalid_payload_defaults_to_auto_approve_true(self, policy_module, temp_sessions)` |
-| `test_lazyc2_has_engagement_hook_call` | method | `tests/test_engage_orchestrator.py:684` | `def test_lazyc2_has_engagement_hook_call(self)` |
-| `test_mcp_exposes_four_engage_tools` | method | `tests/test_engage_orchestrator.py:688` | `def test_mcp_exposes_four_engage_tools(self)` |
-| `test_narrate_writes_log_and_audit` | method | `tests/test_engage_orchestrator.py:87` | `def test_narrate_writes_log_and_audit(self, temp_sessions)` |
-| `test_no_tty_returns_none` | method | `tests/test_engage_orchestrator.py:432` | `def test_no_tty_returns_none(self, policy_module)` |
-| `test_non_gated_phase_bypasses_sink` | method | `tests/test_engage_orchestrator.py:310` | `def test_non_gated_phase_bypasses_sink(self, policy_module, temp_sessions)` |
-| `test_payload_json_auto_approve_key_is_bool_when_present` | method | `tests/test_engage_orchestrator.py:703` | `def test_payload_json_auto_approve_key_is_bool_when_present(self)` |
-| `test_policy_module_exposes_approval_surface` | method | `tests/test_engage_orchestrator.py:740` | `def test_policy_module_exposes_approval_surface(self)` |
-| `test_rejects_garbage` | method | `tests/test_engage_orchestrator.py:254` | `def test_rejects_garbage(self)` |
-| `test_rejects_invalid_target` | method | `tests/test_engage_orchestrator.py:529` | `def test_rejects_invalid_target(self, temp_sessions, policy_module)` |
-| `test_render_line_format_is_stable` | method | `tests/test_engage_orchestrator.py:123` | `def test_render_line_format_is_stable(self)` |
-| `test_repeat_call_is_idempotent` | method | `tests/test_engage_orchestrator.py:209` | `def test_repeat_call_is_idempotent(self, temp_sessions)` |
-| `test_resolution_returns_latest_non_pending` | method | `tests/test_engage_orchestrator.py:402` | `def test_resolution_returns_latest_non_pending(self, policy_module, temp_sessions)` |
-| `test_returns_alternatives_in_order` | method | `tests/test_engage_orchestrator.py:452` | `def test_returns_alternatives_in_order(self)` |
-| `test_runs_full_plan_on_success` | method | `tests/test_engage_orchestrator.py:535` | `def test_runs_full_plan_on_success(self, temp_sessions, policy_module)` |
 
 Next: [SYMBOLS_p38.md](SYMBOLS_p38.md)

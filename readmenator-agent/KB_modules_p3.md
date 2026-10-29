@@ -240,7 +240,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `_candidate_files` (function, line 120) `def _candidate_files()`
   - `_mentions` (function, line 130) `def _mentions(path, needle)`
 - Depends on: `skills/lazyown_facts.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_apt_chain_admin.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazypoophish.py`, `tests/test_apt_chain_admin.py`
 
 ## modules/cicd_enumerator.py
 - Doc: CI/CD Pipeline Enumeration Module.

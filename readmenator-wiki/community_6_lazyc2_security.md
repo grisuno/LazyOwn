@@ -131,7 +131,7 @@ This community groups 59 file(s) rooted at `tests` with dominant language py (co
 
 ## Connections
 
-- [EXTRACTED] depends_on community 6 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 6 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/automation.py imports cli/commands/_base.py.
 
 ## Risks
 

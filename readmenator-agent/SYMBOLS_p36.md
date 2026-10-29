@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `cli_commands_dir` | method | `tests/test_command_palette.py:174` | `def cli_commands_dir(self)` |
+| `completer` | method | `tests/test_command_palette.py:883` | `def completer(self)` |
+| `graphify_path` | method | `tests/test_command_palette.py:199` | `def graphify_path(self)` |
+| `index_document` | function | `tests/test_command_palette.py:218` | `def index_document(suite_config)` |
+| `index_path` | method | `tests/test_command_palette.py:164` | `def index_path(self)` |
+| `lazyc2_path` | method | `tests/test_command_palette.py:184` | `def lazyc2_path(self)` |
+| `lazyown_path` | method | `tests/test_command_palette.py:169` | `def lazyown_path(self)` |
+| `mcp_path` | method | `tests/test_command_palette.py:179` | `def mcp_path(self)` |
+| `palette_src` | method | `tests/test_command_palette.py:1023` | `def palette_src(self, suite_config)` |
+| `palette_template_path` | method | `tests/test_command_palette.py:189` | `def palette_template_path(self)` |
+| `parser` | method | `tests/test_command_palette.py:651` | `def parser(self)` |
+| `parser` | method | `tests/test_command_palette.py:1755` | `def parser(self)` |
+| `query` | method | `tests/test_command_palette.py:733` | `def query(self, synthetic_index)` |
+| `renderer` | method | `tests/test_command_palette.py:799` | `def renderer(self)` |
+| `repo_root` | method | `tests/test_command_palette.py:159` | `def repo_root(self)` |
+| `setup_method` | method | `tests/test_command_palette.py:569` | `def setup_method(self)` |
+| `setup_method` | method | `tests/test_command_palette.py:1526` | `def setup_method(self)` |
+| `src` | method | `tests/test_command_palette.py:1018` | `def src(self, suite_config)` |
+| `src` | method | `tests/test_command_palette.py:1342` | `def src(self, suite_config)` |
+| `src` | method | `tests/test_command_palette.py:1409` | `def src(self, suite_config)` |
 | `src` | method | `tests/test_command_palette.py:1877` | `def src(self, suite_config)` |
 | `src` | method | `tests/test_command_palette.py:1956` | `def src(self, suite_config)` |
 | `src` | method | `tests/test_command_palette.py:2202` | `def src(self, suite_config)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p35.md](SYMBOLS_p35.md)
 | `test_empty_entries_in_csv_are_skipped` | method | `tests/test_cors_policy.py:69` | `def test_empty_entries_in_csv_are_skipped(self)` |
 | `test_empty_origin_is_denied` | method | `tests/test_cors_policy.py:89` | `def test_empty_origin_is_denied(self)` |
 | `test_exact_match_is_allowed` | method | `tests/test_cors_policy.py:81` | `def test_exact_match_is_allowed(self)` |
-| `test_hostname_match_ignores_port` | method | `tests/test_cors_policy.py:93` | `def test_hostname_match_ignores_port(self)` |
-| `test_list_input_is_preserved` | method | `tests/test_cors_policy.py:61` | `def test_list_input_is_preserved(self)` |
-| `test_non_matching_origin_is_denied` | method | `tests/test_cors_policy.py:85` | `def test_non_matching_origin_is_denied(self)` |
-| `test_origins_for_socketio` | method | `tests/test_cors_policy.py:109` | `def test_origins_for_socketio(self)` |
-| `test_origins_for_socketio_dev_fallback` | method | `tests/test_cors_policy.py:119` | `def test_origins_for_socketio_dev_fallback(self)` |
-| `test_prod_empty_allowlist_raises` | method | `tests/test_cors_policy.py:42` | `def test_prod_empty_allowlist_raises(self)` |
-| `test_scheme_mismatch_is_denied` | method | `tests/test_cors_policy.py:101` | `def test_scheme_mismatch_is_denied(self)` |
-| `test_wildcard_in_csv_is_dropped` | method | `tests/test_cors_policy.py:31` | `def test_wildcard_in_csv_is_dropped(self)` |
-| `test_wildcard_is_rejected` | method | `tests/test_cors_policy.py:27` | `def test_wildcard_is_rejected(self)` |
-| `TestOriginsForSocketIO` | class | `tests/test_cors_socketio_regression.py:20` | `class TestOriginsForSocketIO` |
-| `test_dev_empty_includes_http_and_https` | method | `tests/test_cors_socketio_regression.py:29` | `def test_dev_empty_includes_http_and_https(self)` |
-| `test_dev_empty_includes_lhost_with_common_ports` | method | `tests/test_cors_socketio_regression.py:23` | `def test_dev_empty_includes_lhost_with_common_ports(self)` |
-| `test_dev_empty_includes_localhost_alias` | method | `tests/test_cors_socketio_regression.py:35` | `def test_dev_empty_includes_localhost_alias(self)` |
-| `test_explicit_origins_deduped` | method | `tests/test_cors_socketio_regression.py:51` | `def test_explicit_origins_deduped(self)` |
-| `test_explicit_origins_kept_with_port_appended` | method | `tests/test_cors_socketio_regression.py:40` | `def test_explicit_origins_kept_with_port_appended(self)` |
-| `test_prod_raises_when_empty` | method | `tests/test_cors_socketio_regression.py:61` | `def test_prod_raises_when_empty(self)` |
-| `test_wildcard_rejected` | method | `tests/test_cors_socketio_regression.py:65` | `def test_wildcard_rejected(self)` |
-| `TestCheckDefaults` | class | `tests/test_credential_vault.py:18` | `class TestCheckDefaults` |
-| `TestSealUnseal` | class | `tests/test_credential_vault.py:56` | `class TestSealUnseal` |
-| `TestSecureDefaults` | class | `tests/test_credential_vault.py:116` | `class TestSecureDefaults` |
 
 Next: [SYMBOLS_p37.md](SYMBOLS_p37.md)

@@ -2,6 +2,17 @@
 Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 ## External Imports (continued)
+- `tests/test_opsec_scorer_consolidated.py` -> __future__
+- `tests/test_orchestrator_api.py` -> __future__, flask, json, os, pathlib, pytest
+- `tests/test_orchestrator_triggers.py` -> __future__, asyncio, pytest
+- `tests/test_orchestrator_yaml.py` -> __future__, pathlib, pytest, yaml
+- `tests/test_outcome_bus.py` -> __future__, concurrent.futures, json, modules.sinks.report, pathlib
+- `tests/test_packaging.py` -> ast, pathlib, pytest, re, subprocess, sys, tomllib, yaml
+- `tests/test_palette_overlay.py` -> __future__, pathlib, sys
+- `tests/test_param_registry.py` -> __future__, json, pathlib, pytest, re, yaml
+- `tests/test_payload_factory.py` -> __future__, base64, pytest
+- `tests/test_payload_schema.py` -> __future__, json, pathlib, sys
+- `tests/test_phase1_data_gaps.py` -> __future__, json, pathlib, pytest, tempfile
 - `tests/test_phase_labels.py` -> __future__, json, pathlib
 - `tests/test_php2shell_addon.py` -> __future__, json, pathlib, pytest, re, yaml
 - `tests/test_pi_leg.py` -> __future__, pytest, subprocess
@@ -43,7 +54,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_security_hardening_v5.py` -> __future__, flask, hashlib, os, pathlib, pytest, secrets, stat, subprocess, tempfile, unittest.mock
 - `tests/test_security_lazyc2.py` -> os, pathlib, pytest
 - `tests/test_security_sanitizers.py` -> __future__, json, os, pytest
-- `tests/test_session_brief.py` -> __future__, pathlib, pytest
+- `tests/test_session_brief.py` -> __future__, pathlib, pytest, re
 - `tests/test_session_ops_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
 - `tests/test_session_secrets.py` -> __future__, os, pathlib, tempfile, unittest
 - `tests/test_sessions_browser.py` -> __future__, json, pathlib, sys

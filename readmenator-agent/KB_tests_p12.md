@@ -380,6 +380,25 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `wait` (method, line 1517) `def wait(self, timeout)`
 - Depends on: `cli/commands/exploit_migrated.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/session_ops.py`, `core/autonomous.py`, `core/config.py`, `core/process.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/command_executor.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/lazy_skills.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_progress.py`, `modules/tools/__init__.py`
 
+## tests/test_lazy_runner_fallback.py
+- Doc: Tests for the auto_loop phishing fallback wiring in modules.lazy_runner.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `runner` (function, line 15) `def runner()`
+  - `TestFlagParsing` (class, line 21) `class TestFlagParsing`
+  - `TestMaybePhishingFallback` (class, line 31) `class TestMaybePhishingFallback`
+  - `test_fallback_phish_flag` (method, line 22) `def test_fallback_phish_flag(self, runner)`
+  - `test_default_off` (method, line 26) `def test_default_off(self, runner)`
+  - `test_no_flag_noop` (method, line 32) `def test_no_flag_noop(self, runner)`
+  - `test_skipped_when_foothold` (method, line 37) `def test_skipped_when_foothold(self, runner, monkeypatch)`
+  - `test_invoked_when_no_access` (method, line 52) `def test_invoked_when_no_access(self, runner, monkeypatch)`
+  - `test_no_target_noop` (method, line 68) `def test_no_target_noop(self, runner, monkeypatch)`
+  - `test_never_raises` (method, line 74) `def test_never_raises(self, runner, monkeypatch)`
+  - `fake_run_fallback` (function, line 41) `def fake_run_fallback()`
+  - `raising` (function, line 76) `def raising()`
+- Depends on: `modules/__init__.py`
+
 ## tests/test_lazy_scope.py
 - Doc: Behavioural tests for the lab-only default scope guard.
 - Layer: testing
@@ -459,31 +478,6 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `executor` (function, line 95) `def executor(command)`
   - `_fake_execute` (function, line 122) `def _fake_execute(self, node, executor, timeout_sec)`
 - Depends on: `modules/__init__.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `utils.py`
-
-## tests/test_lazy_world_diff.py
-- Doc: World-surface diff contract: snapshots, changes, ghost liveness, stats.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_world` (function, line 37) `def _world(hosts)`
-  - `_svc` (function, line 41) `def _svc(name, product, version)`
-  - `test_host_snapshot_reads_open_services_only` (function, line 48) `def test_host_snapshot_reads_open_services_only()`
-  - `test_host_snapshot_missing_host_is_empty` (function, line 69) `def test_host_snapshot_missing_host_is_empty()`
-  - `test_snapshot_fingerprint_stable_and_sensitive` (function, line 74) `def test_snapshot_fingerprint_stable_and_sensitive()`
-  - `test_snapshot_fingerprint_ignores_key_order` (function, line 84) `def test_snapshot_fingerprint_ignores_key_order()`
-  - `test_diff_reports_port_lifecycle` (function, line 108) `def test_diff_reports_port_lifecycle()`
-  - `test_diff_service_change_requires_prior_identity` (function, line 128) `def test_diff_service_change_requires_prior_identity()`
-  - `test_diff_os_change_and_empty_states` (function, line 140) `def test_diff_os_change_and_empty_states()`
-  - `test_record_and_recent_changes` (function, line 152) `def test_record_and_recent_changes(tmp_path)`
-  - `test_record_changes_dedupes_repeat` (function, line 176) `def test_record_changes_dedupes_repeat(tmp_path)`
-  - `test_record_changes_caps_each_host` (function, line 184) `def test_record_changes_caps_each_host(tmp_path)`
-  - `test_prune_changes` (function, line 196) `def test_prune_changes(tmp_path)`
-  - `test_ghost_endpoints_prefers_web_ports` (function, line 209) `def test_ghost_endpoints_prefers_web_ports()`
-  - `test_ghost_state_apply_roundtrip` (function, line 225) `def test_ghost_state_apply_roundtrip(tmp_path)`
-  - `test_ghost_state_apply_ignores_empty_host` (function, line 238) `def test_ghost_state_apply_ignores_empty_host(tmp_path)`
-  - `test_snapshot_engagement_counts_campaign` (function, line 247) `def test_snapshot_engagement_counts_campaign(tmp_path)`
-  - `test_snapshot_engagement_cooldown` (function, line 268) `def test_snapshot_engagement_cooldown(tmp_path)`
-- Depends on: `modules/lazy_world_diff.py`
 
 
 Next: [KB_tests_p13.md](KB_tests_p13.md)

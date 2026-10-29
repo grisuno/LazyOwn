@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_fans_out_to_every_sink` | method | `tests/test_engage_orchestrator.py:140` | `def test_fans_out_to_every_sink(self, temp_sessions)` |
+| `test_first_call_emits_event` | method | `tests/test_engage_orchestrator.py:192` | `def test_first_call_emits_event(self, temp_sessions)` |
+| `test_gated_phase_times_out_to_denied` | method | `tests/test_engage_orchestrator.py:356` | `def test_gated_phase_times_out_to_denied(self, policy_module, temp_sessions)` |
+| `test_gated_phase_with_auto_approve_false_polls_sink` | method | `tests/test_engage_orchestrator.py:326` | `def test_gated_phase_with_auto_approve_false_polls_sink(self, policy_module, temp_sessions)` |
+| `test_invalid_client_id_returns_none` | method | `tests/test_engage_orchestrator.py:217` | `def test_invalid_client_id_returns_none(self, temp_sessions)` |
+| `test_invalid_payload_defaults_to_auto_approve_true` | method | `tests/test_engage_orchestrator.py:375` | `def test_invalid_payload_defaults_to_auto_approve_true(self, policy_module, temp_sessions)` |
+| `test_lazyc2_has_engagement_hook_call` | method | `tests/test_engage_orchestrator.py:684` | `def test_lazyc2_has_engagement_hook_call(self)` |
+| `test_mcp_exposes_four_engage_tools` | method | `tests/test_engage_orchestrator.py:688` | `def test_mcp_exposes_four_engage_tools(self)` |
+| `test_narrate_writes_log_and_audit` | method | `tests/test_engage_orchestrator.py:87` | `def test_narrate_writes_log_and_audit(self, temp_sessions)` |
+| `test_no_tty_returns_none` | method | `tests/test_engage_orchestrator.py:432` | `def test_no_tty_returns_none(self, policy_module)` |
+| `test_non_gated_phase_bypasses_sink` | method | `tests/test_engage_orchestrator.py:310` | `def test_non_gated_phase_bypasses_sink(self, policy_module, temp_sessions)` |
+| `test_payload_json_auto_approve_key_is_bool_when_present` | method | `tests/test_engage_orchestrator.py:703` | `def test_payload_json_auto_approve_key_is_bool_when_present(self)` |
+| `test_policy_module_exposes_approval_surface` | method | `tests/test_engage_orchestrator.py:740` | `def test_policy_module_exposes_approval_surface(self)` |
+| `test_rejects_garbage` | method | `tests/test_engage_orchestrator.py:254` | `def test_rejects_garbage(self)` |
+| `test_rejects_invalid_target` | method | `tests/test_engage_orchestrator.py:529` | `def test_rejects_invalid_target(self, temp_sessions, policy_module)` |
+| `test_render_line_format_is_stable` | method | `tests/test_engage_orchestrator.py:123` | `def test_render_line_format_is_stable(self)` |
+| `test_repeat_call_is_idempotent` | method | `tests/test_engage_orchestrator.py:209` | `def test_repeat_call_is_idempotent(self, temp_sessions)` |
+| `test_resolution_returns_latest_non_pending` | method | `tests/test_engage_orchestrator.py:402` | `def test_resolution_returns_latest_non_pending(self, policy_module, temp_sessions)` |
+| `test_returns_alternatives_in_order` | method | `tests/test_engage_orchestrator.py:452` | `def test_returns_alternatives_in_order(self)` |
+| `test_runs_full_plan_on_success` | method | `tests/test_engage_orchestrator.py:535` | `def test_runs_full_plan_on_success(self, temp_sessions, policy_module)` |
 | `test_shell_indicator_stops_loop` | method | `tests/test_engage_orchestrator.py:609` | `def test_shell_indicator_stops_loop(self, temp_sessions, policy_module)` |
 | `test_stream_sink_appends_to_autonomous_events` | method | `tests/test_engage_orchestrator.py:112` | `def test_stream_sink_appends_to_autonomous_events(self, temp_sessions)` |
 | `test_switches_tool_on_failure` | method | `tests/test_engage_orchestrator.py:559` | `def test_switches_tool_on_failure(self, temp_sessions, policy_module)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p37.md](SYMBOLS_p37.md)
 | `HarnessProfileSpec` | class | `tests/test_harness_mode.py:46` | `class HarnessProfileSpec(TestCase)` |
 | `ObjectiveDirectiveSpec` | class | `tests/test_harness_mode.py:144` | `class ObjectiveDirectiveSpec(TestCase)` |
 | `_explode` | function | `tests/test_harness_mode.py:93` | `def _explode()` |
-| `_llm_steps` | function | `tests/test_harness_mode.py:112` | `def _llm_steps(_intent, _prior)` |
-| `_planner_returns_none_without_llm` | method | `tests/test_harness_mode.py:68` | `def _planner_returns_none_without_llm(self)` |
-| `setUp` | method | `tests/test_harness_mode.py:17` | `def setUp(self)` |
-| `tearDown` | method | `tests/test_harness_mode.py:20` | `def tearDown(self)` |
-| `test_env_flag_enables` | method | `tests/test_harness_mode.py:26` | `def test_env_flag_enables(self)` |
-| `test_env_flag_off_overrides_profile` | method | `tests/test_harness_mode.py:32` | `def test_env_flag_off_overrides_profile(self)` |
-| `test_known_chain_resolves` | method | `tests/test_harness_mode.py:126` | `def test_known_chain_resolves(self)` |
-| `test_payload_section_disables` | method | `tests/test_harness_mode.py:41` | `def test_payload_section_disables(self)` |
-| `test_payload_section_enables` | method | `tests/test_harness_mode.py:37` | `def test_payload_section_enables(self)` |
-| `test_plan_llm_gate_blocked_under_harness` | method | `tests/test_harness_mode.py:79` | `def test_plan_llm_gate_blocked_under_harness(self)` |
-| `test_profile_flags` | method | `tests/test_harness_mode.py:54` | `def test_profile_flags(self)` |
-| `test_profile_present` | method | `tests/test_harness_mode.py:49` | `def test_profile_present(self)` |
-| `test_push_objective_text_carries_directive` | method | `tests/test_harness_mode.py:147` | `def test_push_objective_text_carries_directive(self)` |
-| `test_target_token_fallback` | method | `tests/test_harness_mode.py:137` | `def test_target_token_fallback(self)` |
-| `test_unknown_chain_rejected` | method | `tests/test_harness_mode.py:132` | `def test_unknown_chain_rejected(self)` |
-| `test_worker_agentic_gate_blocked_under_harness` | method | `tests/test_harness_mode.py:84` | `def test_worker_agentic_gate_blocked_under_harness(self)` |
-| `test_worker_llm_steps_gate_keeps_base_steps` | method | `tests/test_harness_mode.py:104` | `def test_worker_llm_steps_gate_keeps_base_steps(self)` |
-| `TestCrackResult` | class | `tests/test_hash_cracker.py:91` | `class TestCrackResult` |
-| `TestFileIdentification` | class | `tests/test_hash_cracker.py:66` | `class TestFileIdentification` |
-| `TestHashIdentification` | class | `tests/test_hash_cracker.py:14` | `class TestHashIdentification` |
 
 Next: [SYMBOLS_p39.md](SYMBOLS_p39.md)

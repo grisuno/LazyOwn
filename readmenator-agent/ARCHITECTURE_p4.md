@@ -2,6 +2,17 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `modules/loop_triggers.py` -> `modules/lazy_loop.py`
+- `modules/loop_triggers.py` -> `modules/trigger_policy.py`
+- `modules/loop_triggers.py` -> `modules/world_model.py`
+- `modules/mcp_agent_bridge.py` -> `core/logging.py`
+- `modules/mcp_agent_bridge.py` -> `modules/llm_factory.py`
+- `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py`
+- `modules/mediation/__init__.py` -> `modules/mediation/contracts.py`
+- `modules/mediation/__init__.py` -> `modules/mediation/feedback_mediator.py`
+- `modules/mediation/__init__.py` -> `modules/mediation/hub.py`
+- `modules/mediation/__init__.py` -> `modules/mediation/intel_mediator.py`
+- `modules/mediation/__init__.py` -> `modules/mediation/telemetry_mediator.py`
 - `modules/mediation/chain_mediator.py` -> `modules/lazy_loop.py`
 - `modules/mediation/contracts.py` -> `modules/mediation/hub.py`
 - `modules/mediation/feedback_mediator.py` -> `modules/lazy_orchestrator_feedback.py`
@@ -485,16 +496,5 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `static/js/showdown-2.1.0.min.js` -> `modules/search.py`
 - `static/js/socket.io-4.0.0.min.js` -> `lazyc2/blueprints/auth.py`
 - `static/js/socket.io-4.3.2.min.js` -> `lazyc2/blueprints/auth.py`
-- `static/js/tippy-6.js` -> `cli/assign.py`
-- `static/js/tippy-6.js` -> `cli/show.py`
-- `static/js/vis-network-9.1.2.min.js` -> `cli/show.py`
-- `static/js/vis-network-9.1.2.min.js` -> `core/process.py`
-- `static/js/vis-network-9.1.2.min.js` -> `lazyown-docker/init.sh`
-- `static/js/vis-network.min.js` -> `cli/show.py`
-- `static/js/vis-network.min.js` -> `core/process.py`
-- `static/js/vis-network.min.js` -> `lazyown-docker/init.sh`
-- `static/js/xterm.js` -> `lazyown-docker/init.sh`
-- `static/js/xterm.js` -> `modules/colors.py`
-- `static/js/xterm.js` -> `skills/claude_md_orchestrator/parser.py`
 
 Next: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)

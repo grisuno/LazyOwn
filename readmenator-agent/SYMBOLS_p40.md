@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p39.md](SYMBOLS_p39.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_partial_line_is_retried` | function | `tests/test_lazy_bridge_traffic.py:61` | `def test_partial_line_is_retried(tmp_path, monkeypatch)` |
+| `test_progress_callback_survives_failures` | function | `tests/test_lazy_bridge_traffic.py:78` | `def test_progress_callback_survives_failures(tmp_path, monkeypatch)` |
+| `test_traffic_mirror_is_incremental` | function | `tests/test_lazy_bridge_traffic.py:39` | `def test_traffic_mirror_is_incremental(tmp_path, monkeypatch)` |
+| `LazyCredsKbSpec` | class | `tests/test_lazy_creds.py:12` | `class LazyCredsKbSpec(TestCase)` |
+| `test_as_lines_rendered` | method | `tests/test_lazy_creds.py:44` | `def test_as_lines_rendered(self)` |
+| `test_candidates_distinct_and_ranked` | method | `tests/test_lazy_creds.py:38` | `def test_candidates_distinct_and_ranked(self)` |
+| `test_export_pairs_writes_file` | method | `tests/test_lazy_creds.py:48` | `def test_export_pairs_writes_file(self)` |
+| `test_export_rejects_bad_path` | method | `tests/test_lazy_creds.py:58` | `def test_export_rejects_bad_path(self)` |
+| `test_kb_loads_rows` | method | `tests/test_lazy_creds.py:15` | `def test_kb_loads_rows(self)` |
+| `test_search_capped` | method | `tests/test_lazy_creds.py:34` | `def test_search_capped(self)` |
+| `test_search_is_case_insensitive` | method | `tests/test_lazy_creds.py:29` | `def test_search_is_case_insensitive(self)` |
+| `test_search_matches_vendor_and_username` | method | `tests/test_lazy_creds.py:23` | `def test_search_matches_vendor_and_username(self)` |
+| `_no_llm` | function | `tests/test_lazy_engine.py:23` | `def _no_llm(monkeypatch)` |
+| `_stub_executor` | function | `tests/test_lazy_engine.py:11` | `def _stub_executor(command)` |
+| `engine` | function | `tests/test_lazy_engine.py:33` | `def engine(tmp_path, monkeypatch)` |
+| `test_create_auto_scope_and_asset` | function | `tests/test_lazy_engine.py:45` | `def test_create_auto_scope_and_asset(engine)` |
+| `test_delete_task_sweeps_only_its_store_files` | function | `tests/test_lazy_engine.py:117` | `def test_delete_task_sweeps_only_its_store_files(engine, tmp_path)` |
+| `test_delete_task_unknown_returns_empty` | function | `tests/test_lazy_engine.py:131` | `def test_delete_task_unknown_returns_empty(engine)` |
+| `test_lazy_alias_surface` | function | `tests/test_lazy_engine.py:107` | `def test_lazy_alias_surface()` |
+| `test_new_run_clears_previous_shutdown` | function | `tests/test_lazy_engine.py:77` | `def test_new_run_clears_previous_shutdown(engine)` |
 | `test_no_premature_done_goals_pending` | function | `tests/test_lazy_engine.py:62` | `def test_no_premature_done_goals_pending(engine)` |
 | `test_pause_resume` | function | `tests/test_lazy_engine.py:87` | `def test_pause_resume(engine)` |
 | `test_prove_goal_needs_reason_and_evidence` | function | `tests/test_lazy_engine.py:97` | `def test_prove_goal_needs_reason_and_evidence(engine)` |
@@ -288,6 +308,18 @@ Previous: [SYMBOLS_p39.md](SYMBOLS_p39.md)
 | `test_worker_resumes_skipping_executed_steps` | function | `tests/test_lazy_runner.py:293` | `def test_worker_resumes_skipping_executed_steps(store)` |
 | `wait` | method | `tests/test_lazy_runner.py:1487` | `def wait(self, timeout)` |
 | `wait` | method | `tests/test_lazy_runner.py:1517` | `def wait(self, timeout)` |
+| `TestFlagParsing` | class | `tests/test_lazy_runner_fallback.py:21` | `class TestFlagParsing` |
+| `TestMaybePhishingFallback` | class | `tests/test_lazy_runner_fallback.py:31` | `class TestMaybePhishingFallback` |
+| `fake_run_fallback` | function | `tests/test_lazy_runner_fallback.py:41` | `def fake_run_fallback()` |
+| `raising` | function | `tests/test_lazy_runner_fallback.py:76` | `def raising()` |
+| `runner` | function | `tests/test_lazy_runner_fallback.py:15` | `def runner()` |
+| `test_default_off` | method | `tests/test_lazy_runner_fallback.py:26` | `def test_default_off(self, runner)` |
+| `test_fallback_phish_flag` | method | `tests/test_lazy_runner_fallback.py:22` | `def test_fallback_phish_flag(self, runner)` |
+| `test_invoked_when_no_access` | method | `tests/test_lazy_runner_fallback.py:52` | `def test_invoked_when_no_access(self, runner, monkeypatch)` |
+| `test_never_raises` | method | `tests/test_lazy_runner_fallback.py:74` | `def test_never_raises(self, runner, monkeypatch)` |
+| `test_no_flag_noop` | method | `tests/test_lazy_runner_fallback.py:32` | `def test_no_flag_noop(self, runner)` |
+| `test_no_target_noop` | method | `tests/test_lazy_runner_fallback.py:68` | `def test_no_target_noop(self, runner, monkeypatch)` |
+| `test_skipped_when_foothold` | method | `tests/test_lazy_runner_fallback.py:37` | `def test_skipped_when_foothold(self, runner, monkeypatch)` |
 | `TestAddressClassification` | class | `tests/test_lazy_scope.py:17` | `class TestAddressClassification` |
 | `TestAllowlist` | class | `tests/test_lazy_scope.py:128` | `class TestAllowlist` |
 | `TestCommandScope` | class | `tests/test_lazy_scope.py:108` | `class TestCommandScope` |
@@ -365,6 +397,18 @@ Previous: [SYMBOLS_p39.md](SYMBOLS_p39.md)
 | `test_snapshot_engagement_counts_campaign` | function | `tests/test_lazy_world_diff.py:247` | `def test_snapshot_engagement_counts_campaign(tmp_path)` |
 | `test_snapshot_fingerprint_ignores_key_order` | function | `tests/test_lazy_world_diff.py:84` | `def test_snapshot_fingerprint_ignores_key_order()` |
 | `test_snapshot_fingerprint_stable_and_sensitive` | function | `tests/test_lazy_world_diff.py:74` | `def test_snapshot_fingerprint_stable_and_sensitive()` |
+| `TestLazyDorks` | class | `tests/test_lazydorks.py:23` | `class TestLazyDorks` |
+| `dorks` | function | `tests/test_lazydorks.py:17` | `def dorks()` |
+| `test_all_queries_only_populated` | method | `tests/test_lazydorks.py:52` | `def test_all_queries_only_populated(self, dorks)` |
+| `test_categories_populated` | method | `tests/test_lazydorks.py:24` | `def test_categories_populated(self, dorks)` |
+| `test_empty_domain_empty` | method | `tests/test_lazydorks.py:48` | `def test_empty_domain_empty(self, dorks)` |
+| `test_github_needs_org_or_domain` | method | `tests/test_lazydorks.py:40` | `def test_github_needs_org_or_domain(self, dorks)` |
+| `test_github_org_fallback_to_domain` | method | `tests/test_lazydorks.py:44` | `def test_github_org_fallback_to_domain(self, dorks)` |
+| `test_queries_cap` | method | `tests/test_lazydorks.py:33` | `def test_queries_cap(self, dorks)` |
+| `test_queries_scoped_to_domain` | method | `tests/test_lazydorks.py:29` | `def test_queries_scoped_to_domain(self, dorks)` |
+| `test_unknown_category_empty` | method | `tests/test_lazydorks.py:37` | `def test_unknown_category_empty(self, dorks)` |
+| `test_write_report` | method | `tests/test_lazydorks.py:56` | `def test_write_report(self, dorks, tmp_path)` |
+| `test_write_report_invalid_target` | method | `tests/test_lazydorks.py:65` | `def test_write_report_invalid_target(self, dorks, tmp_path)` |
 | `ConcreteBackend` | class | `tests/test_lazygui_backend.py:151` | `class ConcreteBackend(Backend)` |
 | `TestBackendDescriptor` | class | `tests/test_lazygui_backend.py:26` | `class TestBackendDescriptor` |
 | `TestBackendSignals` | class | `tests/test_lazygui_backend.py:77` | `class TestBackendSignals` |
@@ -452,49 +496,5 @@ Previous: [SYMBOLS_p39.md](SYMBOLS_p39.md)
 | `test_fit_to_content` | method | `tests/test_lazygui_graph_widget.py:325` | `def test_fit_to_content(self)` |
 | `test_force_layout_single_node` | method | `tests/test_lazygui_graph_widget.py:243` | `def test_force_layout_single_node(self)` |
 | `test_full_pipeline` | method | `tests/test_lazygui_graph_widget.py:336` | `def test_full_pipeline(self)` |
-| `test_host_color` | method | `tests/test_lazygui_graph_widget.py:54` | `def test_host_color(self)` |
-| `test_host_radius` | method | `tests/test_lazygui_graph_widget.py:91` | `def test_host_radius(self)` |
-| `test_hover_behavior` | method | `tests/test_lazygui_graph_widget.py:369` | `def test_hover_behavior(self)` |
-| `test_identifiers` | method | `tests/test_lazygui_graph_widget.py:127` | `def test_identifiers(self)` |
-| `test_linux_os_hint` | method | `tests/test_lazygui_graph_widget.py:66` | `def test_linux_os_hint(self)` |
-| `test_macos_os_hint` | method | `tests/test_lazygui_graph_widget.py:70` | `def test_macos_os_hint(self)` |
-| `test_movable_flag` | method | `tests/test_lazygui_graph_widget.py:375` | `def test_movable_flag(self)` |
-| `test_node_context_menu_signal` | method | `tests/test_lazygui_graph_widget.py:289` | `def test_node_context_menu_signal(self)` |
-| `test_node_selected_signal` | method | `tests/test_lazygui_graph_widget.py:280` | `def test_node_selected_signal(self)` |
-| `test_node_with_icon` | method | `tests/test_lazygui_graph_widget.py:363` | `def test_node_with_icon(self)` |
-| `test_node_without_callbacks_does_not_raise` | method | `tests/test_lazygui_graph_widget.py:173` | `def test_node_without_callbacks_does_not_raise(self)` |
-| `test_physics_completion` | method | `tests/test_lazygui_graph_widget.py:258` | `def test_physics_completion(self)` |
-| `test_physics_stops_without_nodes` | method | `tests/test_lazygui_graph_widget.py:273` | `def test_physics_stops_without_nodes(self)` |
-| `test_port_color` | method | `tests/test_lazygui_graph_widget.py:58` | `def test_port_color(self)` |
-| `test_port_radius` | method | `tests/test_lazygui_graph_widget.py:96` | `def test_port_radius(self)` |
-| `test_selected_node_id_none_when_empty` | method | `tests/test_lazygui_graph_widget.py:252` | `def test_selected_node_id_none_when_empty(self)` |
-| `test_selection_behaviour` | method | `tests/test_lazygui_graph_widget.py:134` | `def test_selection_behaviour(self)` |
-| `test_set_empty_topology` | method | `tests/test_lazygui_graph_widget.py:235` | `def test_set_empty_topology(self)` |
-| `test_set_topology` | method | `tests/test_lazygui_graph_widget.py:316` | `def test_set_topology(self)` |
-| `test_set_topology_with_data` | method | `tests/test_lazygui_graph_widget.py:221` | `def test_set_topology_with_data(self)` |
-| `test_unknown_default` | method | `tests/test_lazygui_graph_widget.py:74` | `def test_unknown_default(self)` |
-| `test_update_position` | method | `tests/test_lazygui_graph_widget.py:198` | `def test_update_position(self)` |
-| `test_windows_os_hint` | method | `tests/test_lazygui_graph_widget.py:62` | `def test_windows_os_hint(self)` |
-| `TestBackendKind` | class | `tests/test_lazygui_models.py:303` | `class TestBackendKind` |
-| `TestBeaconResult` | class | `tests/test_lazygui_models.py:143` | `class TestBeaconResult` |
-| `TestCampaignSummary` | class | `tests/test_lazygui_models.py:221` | `class TestCampaignSummary` |
-| `TestDashboardPayload` | class | `tests/test_lazygui_models.py:196` | `class TestDashboardPayload` |
-| `TestEventLevel` | class | `tests/test_lazygui_models.py:314` | `class TestEventLevel` |
-| `TestEventRecord` | class | `tests/test_lazygui_models.py:256` | `class TestEventRecord` |
-| `TestGraphEdge` | class | `tests/test_lazygui_models.py:74` | `class TestGraphEdge` |
-| `TestGraphNode` | class | `tests/test_lazygui_models.py:30` | `class TestGraphNode` |
-| `TestSessionModel` | class | `tests/test_lazygui_models.py:280` | `class TestSessionModel` |
-| `TestTopology` | class | `tests/test_lazygui_models.py:105` | `class TestTopology` |
-| `test_compare` | method | `tests/test_lazygui_models.py:322` | `def test_compare(self)` |
-| `test_construction` | method | `tests/test_lazygui_models.py:77` | `def test_construction(self)` |
-| `test_construction` | method | `tests/test_lazygui_models.py:283` | `def test_construction(self)` |
-| `test_default_metadata` | method | `tests/test_lazygui_models.py:56` | `def test_default_metadata(self)` |
-| `test_defaults` | method | `tests/test_lazygui_models.py:91` | `def test_defaults(self)` |
-| `test_defaults` | method | `tests/test_lazygui_models.py:199` | `def test_defaults(self)` |
-| `test_defaults` | method | `tests/test_lazygui_models.py:224` | `def test_defaults(self)` |
-| `test_empty_classmethod` | method | `tests/test_lazygui_models.py:115` | `def test_empty_classmethod(self)` |
-| `test_empty_fields_default_to_empty_string` | method | `tests/test_lazygui_models.py:181` | `def test_empty_fields_default_to_empty_string(self)` |
-| `test_empty_list_keywords` | method | `tests/test_lazygui_models.py:137` | `def test_empty_list_keywords(self)` |
-| `test_empty_topology` | method | `tests/test_lazygui_models.py:108` | `def test_empty_topology(self)` |
 
 Next: [SYMBOLS_p41.md](SYMBOLS_p41.md)

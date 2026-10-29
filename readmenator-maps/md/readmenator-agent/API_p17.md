@@ -1,6 +1,39 @@
 # API (page 17 of 25)
 Previous: [API_p16.md](API_p16.md)
 
+## modules/orchestrator_config.py
+Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
+Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+- `reload` (function) `modules/orchestrator_config.py:113` `def reload()` -- Invalidate every merged view after an external configuration change.
+- `profiles` (function) `modules/orchestrator_config.py:232` `def profiles()` -- Return every resolved profile, including inherited values.
+- `active_profile` (function) `modules/orchestrator_config.py:257` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
+- `profile_config` (function) `modules/orchestrator_config.py:269` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
+- `set_profile` (function) `modules/orchestrator_config.py:276` `def set_profile(name)` -- Persist the active profile name.
+- `set_harness` (function) `modules/orchestrator_config.py:300` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
+- `limits` (function) `modules/orchestrator_config.py:332` `def limits()` -- Return resolved numeric limits for the active profile.
+- `budget` (function) `modules/orchestrator_config.py:339` `def budget()` -- Return resolved budgets for the active profile.
+- `chain_defaults` (function) `modules/orchestrator_config.py:346` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
+- `sinks` (function) `modules/orchestrator_config.py:355` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
+- `stages` (function) `modules/orchestrator_config.py:366` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
+- `stage_enabled` (function) `modules/orchestrator_config.py:396` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
+- `stage_params` (function) `modules/orchestrator_config.py:402` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
+- `set_stage` (function) `modules/orchestrator_config.py:407` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
+- `effective_verbs` (function) `modules/orchestrator_config.py:432` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
+- `verb_config` (function) `modules/orchestrator_config.py:524` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
+- `verb_enabled` (function) `modules/orchestrator_config.py:533` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `upsert_verb` (function) `modules/orchestrator_config.py:539` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
+- `remove_verb` (function) `modules/orchestrator_config.py:596` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
+- `reset` (function) `modules/orchestrator_config.py:617` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
+- `validate_config` (function) `modules/orchestrator_config.py:624` `def validate_config(data)` -- Validate one raw orchestration mapping.
+
+## modules/osint_enrich.py
+Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
+- `cve_lookup` (function) `modules/osint_enrich.py:122` `def cve_lookup(cve_id, sessions_dir)` -- Assemble OSV advisory + KEV flag + EPSS score for one CVE id.
+- `reverse_dns` (function) `modules/osint_enrich.py:161` `def reverse_dns(ip, sessions_dir)` -- Best-effort PTR hostname for an IP (HackerTarget, then DoH).
+- `host_geo` (function) `modules/osint_enrich.py:183` `def host_geo(ip, sessions_dir)` -- Country/org/ISP for an IP via the keyless ip-api endpoint.
+- `domain_exposure` (function) `modules/osint_enrich.py:198` `def domain_exposure(domain, sessions_dir)` -- Count public urlscan.io results for a domain (no key needed).
+- `enrich_evidence` (function) `modules/osint_enrich.py:213` `def enrich_evidence(items, sessions_dir)` -- Append keyless OSINT verdicts to CVE mentions inside evidence items.
+
 ## modules/outcome_bus.py
 Depends on: `core/logging.py`, `modules/__init__.py`
 Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
@@ -42,16 +75,16 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.p
 
 ## modules/phishing_orchestrator.py
 Depends on: `core/crypto.py`, `core/hardening.py`
-Imported by: `cli/commands/phishing_wizard.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
-- `PhishingOrchestrator.__init__` (method) `modules/phishing_orchestrator.py:316` `def __init__(self)`
-- `PhishingOrchestrator.get_instance` (method) `modules/phishing_orchestrator.py:321` `def get_instance(cls)`
-- `PhishingOrchestrator.launch` (method) `modules/phishing_orchestrator.py:332` `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` -- Launch a phishing campaign.
-- `PhishingOrchestrator.profile_targets` (method) `modules/phishing_orchestrator.py:441` `def profile_targets(self, domain)` -- Profile targets for a domain using OSINT techniques.
-- `PhishingOrchestrator.generate_template` (method) `modules/phishing_orchestrator.py:486` `def generate_template(self, name, target_domain, context)` -- Generate or retrieve a phishing template.
-- `PhishingOrchestrator.clone_landing_page` (method) `modules/phishing_orchestrator.py:533` `def clone_landing_page(self, url)` -- Clone a target login page for credential harvesting.
-- `PhishingOrchestrator.get_results` (method) `modules/phishing_orchestrator.py:560` `def get_results(self, campaign_id)` -- Get campaign results.
-- `PhishingOrchestrator.record_click` (method) `modules/phishing_orchestrator.py:584` `def record_click(self, campaign_id, email)` -- Record a link click.
-- `PhishingOrchestrator.record_credentials` (method) `modules/phishing_orchestrator.py:605` `def record_credentials(self, campaign_id, email, password)` -- Record harvested credentials.
+Imported by: `cli/commands/phishing_wizard.py`, `modules/lazypoophish.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
+- `PhishingOrchestrator.__init__` (method) `modules/phishing_orchestrator.py:399` `def __init__(self)`
+- `PhishingOrchestrator.get_instance` (method) `modules/phishing_orchestrator.py:404` `def get_instance(cls)`
+- `PhishingOrchestrator.launch` (method) `modules/phishing_orchestrator.py:415` `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` -- Launch a phishing campaign.
+- `PhishingOrchestrator.profile_targets` (method) `modules/phishing_orchestrator.py:524` `def profile_targets(self, domain)` -- Profile targets for a domain using OSINT techniques.
+- `PhishingOrchestrator.generate_template` (method) `modules/phishing_orchestrator.py:569` `def generate_template(self, name, target_domain, context)` -- Generate or retrieve a phishing template.
+- `PhishingOrchestrator.clone_landing_page` (method) `modules/phishing_orchestrator.py:616` `def clone_landing_page(self, url)` -- Clone a target login page for credential harvesting.
+- `PhishingOrchestrator.get_results` (method) `modules/phishing_orchestrator.py:643` `def get_results(self, campaign_id)` -- Get campaign results.
+- `PhishingOrchestrator.record_click` (method) `modules/phishing_orchestrator.py:667` `def record_click(self, campaign_id, email)` -- Record a link click.
+- `PhishingOrchestrator.record_credentials` (method) `modules/phishing_orchestrator.py:688` `def record_credentials(self, campaign_id, email, password)` -- Record harvested credentials.
 
 ## modules/pipeline_engine.py
 Depends on: `core/logging.py`, `modules/engagement_hooks.py`, `skills/autonomous_daemon.py`
@@ -452,43 +485,6 @@ Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 - `disable_module_signature_verification` (function) `modules/rootkit/rootkit.c:192` `static void disable_module_signature_verification(void)` -- Function to disable module signature verification
 - `hook_syscalls` (function) `modules/rootkit/rootkit.c:206` `static int __init hook_syscalls(void)` -- Function to hook system calls
 - `unhook_syscalls` (function) `modules/rootkit/rootkit.c:219` `static void __exit unhook_syscalls(void)` -- Function to unhook system calls
-
-## modules/saas_attacks.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `SaaSEnumerationTools.microsoft365_commands` (method) `modules/saas_attacks.py:75` `def microsoft365_commands()`
-- `SaaSEnumerationTools.google_workspace_commands` (method) `modules/saas_attacks.py:100` `def google_workspace_commands()`
-- `SaaSEnumerationTools.salesforce_commands` (method) `modules/saas_attacks.py:118` `def salesforce_commands()`
-- `SaaSEnumerationTools.servicenow_commands` (method) `modules/saas_attacks.py:135` `def servicenow_commands()`
-- `SaaSAttackEngine.__init__` (method) `modules/saas_attacks.py:163` `def __init__(self, config)`
-- `SaaSAttackEngine.enumerate_all` (method) `modules/saas_attacks.py:166` `def enumerate_all(self)` -- Generate enumeration commands for all supported SaaS platforms.
-- `SaaSAttackEngine.m365_ews_mail_search` (method) `modules/saas_attacks.py:179` `def m365_ews_mail_search(self, search_term)` -- Search mailboxes via Exchange Web Services (EWS).
-- `SaaSAttackEngine.google_workspace_domain_wide_delegation` (method) `modules/saas_attacks.py:228` `def google_workspace_domain_wide_delegation(self)` -- Abuse Google Workspace Domain-Wide Delegation (DWD).
-- `SaaSAttackEngine.salesforce_report_mining` (method) `modules/saas_attacks.py:257` `def salesforce_report_mining(self)` -- Mine Salesforce reports and dashboards for sensitive data.
-- `SaaSAttackEngine.slack_data_mining` (method) `modules/saas_attacks.py:286` `def slack_data_mining(self)` -- Mine Slack Enterprise for sensitive conversations and files.
-- `SaaSAttackEngine.detect_external_sharing` (method) `modules/saas_attacks.py:327` `def detect_external_sharing(self)` -- Detect external sharing configurations across SaaS platforms.
-- `SaaSAttackEngine.summary` (method) `modules/saas_attacks.py:352` `def summary(self)`
-
-## modules/security_sanitizers.py
-Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
-- `SecurityConfig.from_payload` (method) `modules/security_sanitizers.py:68` `def from_payload(cls, payload)` -- Build a configuration object from a ``payload.json`` mapping.
-- `HeaderValueSanitizer.__init__` (method) `modules/security_sanitizers.py:115` `def __init__(self, config)` -- Bind the sanitizer to a configuration instance.
-- `HeaderValueSanitizer.is_valid_name` (method) `modules/security_sanitizers.py:129` `def is_valid_name(self, name)` -- Return True iff ``name`` is a syntactically valid header token.
-- `HeaderValueSanitizer.sanitize_value` (method) `modules/security_sanitizers.py:139` `def sanitize_value(self, value)` -- Return a header value that cannot smuggle a response split.
-- `SessionPathResolver.__init__` (method) `modules/security_sanitizers.py:174` `def __init__(self, base_dir, config)` -- Bind the resolver to an absolute, real base directory.
-- `SessionPathResolver.base_dir` (method) `modules/security_sanitizers.py:192` `def base_dir(self)` -- The resolved, absolute base directory.
-- `SessionPathResolver.resolve` (method) `modules/security_sanitizers.py:196` `def resolve(self, untrusted_name)` -- Return ``(absolute, relative)`` for a safe filename.
-- `SessionPathResolver.file_exists` (method) `modules/security_sanitizers.py:238` `def file_exists(self, untrusted_name)` -- Return True iff ``untrusted_name`` resolves to an existing file.
-- `BindAddressResolver.__init__` (method) `modules/security_sanitizers.py:269` `def __init__(self, config, preferred_addresses)` -- Build a resolver with a prioritised list of candidate addresses.
-- `BindAddressResolver.resolve` (method) `modules/security_sanitizers.py:298` `def resolve(self)` -- Return the address sockets should bind to.
-- `CommandRedactor.__init__` (method) `modules/security_sanitizers.py:333` `def __init__(self, config)` -- Bind the redactor to a configuration instance.
-- `CommandRedactor.render` (method) `modules/security_sanitizers.py:359` `def render(self, template, substitutions, username, password)` -- Return ``(executable, display)`` for a templated command.
-- `OutputSanitizer.__init__` (method) `modules/security_sanitizers.py:418` `def __init__(self, config)` -- Bind the sanitizer to a configuration instance.
-- `OutputSanitizer.sanitize` (method) `modules/security_sanitizers.py:429` `def sanitize(self, value)` -- Return ``value`` projected into a JSON-serialisable form.
-- `build_default_config` (function) `modules/security_sanitizers.py:477` `def build_default_config(payload)` -- Return a :class:`SecurityConfig` populated from ``payload``.
-
-## modules/selector_manager.py
-Imported by: `skills/lazyown_mcp.py`, `tests/test_auto_loop_memory.py`
-- `select` (function) `modules/selector_manager.py:42` `def select(proposals, is_blocked)` -- Pick the first valid proposal; None when everything is filtered.
 
 
 Next: [API_p18.md](API_p18.md)

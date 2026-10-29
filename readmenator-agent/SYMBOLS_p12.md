@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `bitm_stop` | function | `modules/bitm_engine.py:481` | `def bitm_stop()` |
+| `main` | function | `modules/bitm_engine.py:661` | `def main()` |
+| `BofCatalog` | class | `modules/bof_registry.py:157` | `class BofCatalog` |
+| `BofCategory` | class | `modules/bof_registry.py:68` | `class BofCategory(str, Enum)` |
+| `BofEntry` | class | `modules/bof_registry.py:85` | `class BofEntry` |
 | `BofMarketplace` | class | `modules/bof_registry.py:639` | `class BofMarketplace` |
 | `BofPlatform` | class | `modules/bof_registry.py:61` | `class BofPlatform(str, Enum)` |
 | `BofRegistry` | class | `modules/bof_registry.py:552` | `class BofRegistry` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `get_summary` | method | `modules/credential_reuse.py:338` | `def get_summary(self, candidates)` |
 | `mark_confirmed` | method | `modules/credential_reuse.py:112` | `def mark_confirmed(self, username, password, host)` |
 | `mark_failed` | method | `modules/credential_reuse.py:107` | `def mark_failed(self, username, password, host)` |
-| `rank` | method | `modules/credential_reuse.py:226` | `def rank(self, hosts, creds, host_services, limit)` |
-| `suggest_from_state_manager` | method | `modules/credential_reuse.py:278` | `def suggest_from_state_manager(self, state_manager, limit)` |
-| `suggest_from_world_model` | method | `modules/credential_reuse.py:308` | `def suggest_from_world_model(self, world_model, limit)` |
-| `to_dict` | method | `modules/credential_reuse.py:43` | `def to_dict(self)` |
-| `CrossCloudAttackEngine` | class | `modules/cross_cloud.py:54` | `class CrossCloudAttackEngine` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **75.4%** (7441 of 9864 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,15 +8,15 @@ Overall: **75.4%** (7441 of 9864 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1240 | 1427 | 86.9% |
+| class | 1242 | 1429 | 86.9% |
 | classmethod | 58 | 84 | 69.0% |
 | constructor | 205 | 526 | 39.0% |
 | enum | 30 | 39 | 76.9% |
 | exception | 38 | 40 | 95.0% |
-| function | 1966 | 2871 | 68.5% |
+| function | 1977 | 2882 | 68.6% |
 | macro | 2 | 114 | 1.8% |
-| method | 2923 | 3592 | 81.4% |
-| module | 719 | 835 | 86.1% |
+| method | 2925 | 3594 | 81.4% |
+| module | 725 | 841 | 86.2% |
 | property | 157 | 201 | 78.1% |
 | protocol | 20 | 20 | 100.0% |
 | staticmethod | 79 | 91 | 86.8% |
@@ -443,7 +443,9 @@ Overall: **75.4%** (7441 of 9864 public modules, types, and callables). Data mem
 | [`cli.commands.lab`](modules/cli.commands.lab.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lateral`](modules/cli.commands.lateral.py.md) | 10 | 10 | 100.0% |
 | [`cli.commands.lazy_creds`](modules/cli.commands.lazy_creds.py.md) | 3 | 3 | 100.0% |
+| [`cli.commands.lazy_dorks`](modules/cli.commands.lazy_dorks.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lazy_oob`](modules/cli.commands.lazy_oob.py.md) | 3 | 3 | 100.0% |
+| [`cli.commands.lazy_passgen`](modules/cli.commands.lazy_passgen.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lazyloop`](modules/cli.commands.lazyloop.py.md) | 12 | 12 | 100.0% |
 | [`cli.commands.marketplace`](modules/cli.commands.marketplace.py.md) | 4 | 4 | 100.0% |
 | [`cli.commands.mcp_bridge`](modules/cli.commands.mcp_bridge.py.md) | 12 | 12 | 100.0% |
@@ -732,11 +734,15 @@ Overall: **75.4%** (7441 of 9864 public modules, types, and callables). Data mem
 | [`modules/lazyatack.sh`](modules/modules.lazyatack.sh.md) | 31 | 31 | 100.0% |
 | [`modules/lazybrutesshuserenum.sh`](modules/modules.lazybrutesshuserenum.sh.md) | 1 | 1 | 100.0% |
 | [`modules/lazyclonewars.sh`](modules/modules.lazyclonewars.sh.md) | 1 | 1 | 100.0% |
+| [`modules.lazydorks`](modules/modules.lazydorks.py.md) | 5 | 5 | 100.0% |
 | [`modules/lazygat.sh`](modules/modules.lazygat.sh.md) | 1 | 1 | 100.0% |
 | [`modules/lazylynis.sh`](modules/modules.lazylynis.sh.md) | 2 | 2 | 100.0% |
 | [`modules/lazymobilerevshell.sh`](modules/modules.lazymobilerevshell.sh.md) | 1 | 1 | 100.0% |
 | [`modules.lazyown_parquet_tool`](modules/modules.lazyown_parquet_tool.py.md) | 5 | 5 | 100.0% |
+| [`modules.lazypassgen`](modules/modules.lazypassgen.py.md) | 3 | 3 | 100.0% |
+| [`modules.lazypoophish`](modules/modules.lazypoophish.py.md) | 4 | 4 | 100.0% |
 | [`modules/lazyreverse_shell.sh`](modules/modules.lazyreverse_shell.sh.md) | 3 | 3 | 100.0% |
+| [`modules.lazyshortener`](modules/modules.lazyshortener.py.md) | 3 | 3 | 100.0% |
 | [`modules.legacy`](modules/modules.legacy.__init__.py.md) | 1 | 1 | 100.0% |
 | [`modules.live_surface`](modules/modules.live_surface.py.md) | 2 | 2 | 100.0% |
 | [`modules.llm_adapter`](modules/modules.llm_adapter.py.md) | 11 | 11 | 100.0% |

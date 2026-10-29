@@ -1,6 +1,6 @@
 # Audit Report
 
-*Project: LazyOwn | 2026-10-28 | offline, deterministic*
+*Project: LazyOwn | 2026-10-29 | offline, deterministic*
 
 ## Confidence Trail
 
@@ -8,15 +8,15 @@ Every edge is tagged. Extracted means parsed from source; inferred means derived
 
 | Confidence | Count | Meaning |
 |------------|-------|---------|
-| EXTRACTED | 5263 | Resolved import edges parsed from source |
-| EXTRACTED | 11807 | Raw import statements (may include externals) |
+| EXTRACTED | 5282 | Resolved import edges parsed from source |
+| EXTRACTED | 11865 | Raw import statements (may include externals) |
 | INFERRED | 5 | Surprising cross-community bridges |
 | AMBIGUOUS | 0 | No uncertain edges are emitted by the static scanner |
 
 ## Coverage
 
-- Files: 1216, communities: 24
-- File doc coverage: 1090/1216
+- Files: 1227, communities: 24
+- File doc coverage: 1101/1227
 - Orphans (no docs at any level): 101
 - Layers detected: 6
 - Security findings: 0
@@ -31,7 +31,7 @@ Every edge is tagged. Extracted means parsed from source; inferred means derived
 
 ## Token Benchmark
 
-- Wiki index plus community pages estimate: ~872641 tokens (chars/4).
+- Wiki index plus community pages estimate: ~875253 tokens (chars/4).
 - Full re-read of every source file would cost strictly more on any non-trivial project; this wiki is the cheaper entry point.
 - Generation cost: $0, offline, no network calls.
 

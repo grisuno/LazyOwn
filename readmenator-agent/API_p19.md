@@ -1,6 +1,39 @@
 # API (page 19 of 25)
 Previous: [API_p18.md](API_p18.md)
 
+## modules/verb_catalog.py
+Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
+Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
+- `index_commands` (function) `modules/verb_catalog.py:190` `def index_commands(config)` -- Return discovered shell commands as ``{name: {summary, phase}}``.
+- `validate_catalog` (function) `modules/verb_catalog.py:230` `def validate_catalog(data)` -- Validate one raw catalog document.
+- `load` (function) `modules/verb_catalog.py:263` `def load(config)` -- Return the raw catalog mapping ``{name: entry}``.
+- `entries` (function) `modules/verb_catalog.py:296` `def entries(config)` -- Return the catalog with defaults filled in, cached briefly.
+- `catalog_enabled` (function) `modules/verb_catalog.py:349` `def catalog_enabled(name, config)` -- Return the catalog state of one verb.
+- `catalog_source` (function) `modules/verb_catalog.py:364` `def catalog_source(name, config)` -- Return the catalog source of one verb, ``None`` when unknown.
+- `set_enabled` (function) `modules/verb_catalog.py:378` `def set_enabled(name, enabled, config)` -- Flip one verb in the YAML catalog atomically.
+- `sync` (function) `modules/verb_catalog.py:415` `def sync(config)` -- Materialise the discovered shell catalogue into the YAML file.
+- `stats` (function) `modules/verb_catalog.py:502` `def stats(config)` -- Summarise the catalog for the brief and the HTTP API.
+- `search` (function) `modules/verb_catalog.py:516` `def search(query, config, phase, enabled, limit)` -- Search catalog entries by substring, phase and state.
+
+## modules/verb_manifest.py
+Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/world_model.py`
+Imported by: `modules/chain_distill.py`, `modules/chain_runner.py`, `tests/test_verb_manifest.py`
+- `FactPredicate.args` (method) `modules/verb_manifest.py:152` `def args(self)` -- Return the set corner arguments.
+- `FactPredicate.is_wild` (method) `modules/verb_manifest.py:156` `def is_wild(self, key)` -- Return True when that argument is a ``{token}`` wildcard.
+- `FactPredicate.matches` (method) `modules/verb_manifest.py:161` `def matches(self, other)` -- Return True when this fact instance satisfies the other.
+- `parse_predicate` (function) `modules/verb_manifest.py:222` `def parse_predicate(data)` -- Parse one predicate mapping into a FactPredicate.
+- `parse_manifest` (function) `modules/verb_manifest.py:296` `def parse_manifest(verb, data)` -- Validate and parse one manifest document entry.
+- `manifests` (function) `modules/verb_manifest.py:371` `def manifests(path)` -- Return parsed manifests with a small TTL cache.
+- `manifest_for` (function) `modules/verb_manifest.py:396` `def manifest_for(verb, path)` -- Return the manifest of one verb, or None when untyped.
+- `facts_for_target` (function) `modules/verb_manifest.py:411` `def facts_for_target(host)` -- Project the world model facts of one host into predicates.
+- `plan_check` (function) `modules/verb_manifest.py:467` `def plan_check(steps, tokens, path, facts)` -- Check a chain semantically: every typed precondition must be supplied.
+- `coverage` (function) `modules/verb_manifest.py:522` `def coverage(total_verbs, path)` -- Summarise manifest coverage for registry reporting.
+
+## modules/vuln_bot_cli.py
+Depends on: `modules/vulnbot.py`
+- `parse_args` (function) `modules/vuln_bot_cli.py:10` `def parse_args()`
+- `main` (function) `modules/vuln_bot_cli.py:22` `def main()`
+
 ## modules/vulnbot.py
 Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`
 Imported by: `modules/vuln_bot_cli.py`, `tests/test_vulnbot_fallback.py`
@@ -458,42 +491,6 @@ Depends on: `core/hardening.py`, `core/payload_schema.py`, `modules/db.py`, `mod
 - `do_doctor` (function) `scripts/dirtyinit_drive.sh:468`
 - `do_help` (function) `scripts/dirtyinit_drive.sh:525`
 - `main` (function) `scripts/dirtyinit_drive.sh:529`
-
-## scripts/generate_sbom.py
-- `parse_requirement` (function) `scripts/generate_sbom.py:25` `def parse_requirement(line)` -- Split one requirements line into (name, pinned_version|None).
-- `collect_components` (function) `scripts/generate_sbom.py:37` `def collect_components(with_ml)` -- Parse requirements files into CycloneDX components, deduplicated.
-- `project_version` (function) `scripts/generate_sbom.py:68` `def project_version()` -- Read the package version from pyproject.toml.
-- `build_sbom` (function) `scripts/generate_sbom.py:74` `def build_sbom(with_ml)` -- Assemble the CycloneDX document.
-- `main` (function) `scripts/generate_sbom.py:92` `def main()` -- CLI entry point.
-
-## scripts/journal.py
-Imported by: `scripts/read_journal.py`, `tests/test_journal.py`
-- `JournalConfig.from_git_remote` (method) `scripts/journal.py:71` `def from_git_remote(cls, remote, category)` -- Build a config from the ``origin`` remote of the current checkout.
-- `Journal.repo_id` (method) `scripts/journal.py:184` `def repo_id(self)` -- The GraphQL node id of the repository.
-- `Journal.category_id` (method) `scripts/journal.py:192` `def category_id(self)` -- The GraphQL node id of the journal category.
-- `Journal.post` (method) `scripts/journal.py:206` `def post(self, title, body)` -- Create a journal entry and return its number, url, and title.
-- `Journal.entries` (method) `scripts/journal.py:223` `def entries(self, limit)` -- Return the most recently updated journal entries.
-- `main` (function) `scripts/journal.py:264` `def main(argv)` -- Run the journal CLI and return the process exit code.
-
-## scripts/lazy_llamacpp_serve.sh
-- `healthy` (function) `scripts/lazy_llamacpp_serve.sh:33`
-
-## scripts/lazy_llamacpp_setup.sh
-- `ask` (function) `scripts/lazy_llamacpp_setup.sh:40`
-
-## scripts/lazy_opencode_config.py
-Imported by: `skills/lazyown_mcp.py`
-- `patch_opencode` (function) `scripts/lazy_opencode_config.py:46` `def patch_opencode(set_default, host)` -- Merge the llamacpp provider into the opencode config.
-- `patch_hermes` (function) `scripts/lazy_opencode_config.py:93` `def patch_hermes(host)` -- Point the hermes config at the local llama.cpp server.
-- `main` (function) `scripts/lazy_opencode_config.py:150` `def main(argv)` -- CLI entry: ``--target opencode|hermes|both [--set-default]``.
-
-## scripts/mcp_call.py
-- `_ToolAnswer.__init__` (method) `scripts/mcp_call.py:46` `def __init__(self, text, is_error)`
-- `main` (function) `scripts/mcp_call.py:173` `def main(argv)` -- Parse the CLI, execute one MCP tool and print its answer.
-
-## scripts/migrate_commandsets.py
-- `merge_phase` (function) `scripts/migrate_commandsets.py:117` `def merge_phase(phase, dry_run)` -- Merge one phase's migrated methods into its clean file.
-- `main` (function) `scripts/migrate_commandsets.py:158` `def main()`
 
 
 Next: [API_p20.md](API_p20.md)

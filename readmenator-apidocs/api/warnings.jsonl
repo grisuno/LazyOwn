@@ -1366,7 +1366,7 @@
 {"code":"DOC001","uid":"modules/opsec_scorer.py::OpsecScorer.evasion_active","file":"modules/opsec_scorer.py","line":352,"message":"property OpsecScorer.evasion_active is not documented"}
 {"code":"DOC001","uid":"modules/opsec_scorer.py::OpsecScorer.traffic_morphing_active","file":"modules/opsec_scorer.py","line":357,"message":"property OpsecScorer.traffic_morphing_active is not documented"}
 {"code":"DOC001","uid":"modules/payload_factory.py::PayloadTemplate.to_dict","file":"modules/payload_factory.py","line":241,"message":"method PayloadTemplate.to_dict is not documented"}
-{"code":"DOC001","uid":"modules/phishing_orchestrator.py::PhishingOrchestrator.get_instance","file":"modules/phishing_orchestrator.py","line":321,"message":"classmethod PhishingOrchestrator.get_instance is not documented"}
+{"code":"DOC001","uid":"modules/phishing_orchestrator.py::PhishingOrchestrator.get_instance","file":"modules/phishing_orchestrator.py","line":404,"message":"classmethod PhishingOrchestrator.get_instance is not documented"}
 {"code":"DOC001","uid":"modules/pipeline_engine.py::TemplateResolver.render","file":"modules/pipeline_engine.py","line":278,"message":"method TemplateResolver.render is not documented"}
 {"code":"DOC001","uid":"modules/pipeline_engine.py::ConditionEvaluator.is_truthy","file":"modules/pipeline_engine.py","line":330,"message":"staticmethod ConditionEvaluator.is_truthy is not documented"}
 {"code":"DOC001","uid":"modules/pipeline_engine.py::StepValidator.validate","file":"modules/pipeline_engine.py","line":352,"message":"staticmethod StepValidator.validate is not documented"}

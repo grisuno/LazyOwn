@@ -1,6 +1,6 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 119 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Container and Kubernetes attack command set.
+modules: lazy_loop groups 127 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Container and Kubernetes attack command set.
 
 ```mermaid
 graph LR
@@ -27,7 +27,7 @@ graph LR
 
 ## cli (3.1)
 
-cli groups 14 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
+cli groups 16 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
 
 ## core (3.2)
 
@@ -39,7 +39,7 @@ lazyc2 groups 1 files (py) around _error, _namespaced_path, _world_snapshot, _st
 
 ## modules (3.4)
 
-modules groups 47 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Registry of loop-ready automation verbs (the ``auto_*`` family plus read-only staging...
+modules groups 48 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Registry of loop-ready automation verbs (the ``auto_*`` family plus read-only staging...
 
 ## skills (3.5)
 
@@ -47,7 +47,7 @@ skills groups 1 files (py) around _sync_harness, _harness_result, _call_harness_
 
 ## tests (3.6)
 
-tests groups 54 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
+tests groups 59 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
 
 **Files**:
 
@@ -55,7 +55,9 @@ tests groups 54 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - cli/commands/golden_paths.py
 - cli/commands/gym_matrix.py
 - cli/commands/lazy_creds.py
+- cli/commands/lazy_dorks.py
 - cli/commands/lazy_oob.py
+- cli/commands/lazy_passgen.py
 - cli/commands/lazyloop.py
 - cli/commands/lazyops.py
 - cli/commands/redteam_gym.py
@@ -91,6 +93,7 @@ tests groups 54 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - modules/lazy_skills.py
 - modules/lazy_verify.py
 - modules/lazyk8s.py
+- modules/lazypassgen.py
 - modules/loop_guardrails.py
 - modules/loop_progress.py
 - modules/loop_triggers.py
@@ -134,8 +137,13 @@ tests groups 54 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - tests/test_lazy_orchestrator.py
 - tests/test_lazy_proxy.py
 - tests/test_lazy_runner.py
+- tests/test_lazy_runner_fallback.py
 - tests/test_lazy_scope.py
 - tests/test_lazy_worker_safety.py
+- tests/test_lazydorks.py
+- tests/test_lazypassgen.py
+- tests/test_lazypoophish.py
+- tests/test_lazyshortener.py
 - tests/test_llm_orchestrator.py
 - tests/test_loop_auto_orchestrator.py
 - tests/test_loop_broadcast.py

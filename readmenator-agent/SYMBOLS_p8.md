@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `BudgetExceeded` | class | `core/llm_budget.py:54` | `class BudgetExceeded(RuntimeError)` |
+| `BudgetGuard` | class | `core/llm_budget.py:310` | `class BudgetGuard` |
+| `BudgetLedger` | class | `core/llm_budget.py:176` | `class BudgetLedger` |
+| `BudgetedBackend` | class | `core/llm_budget.py:408` | `class BudgetedBackend` |
+| `LLMBackendLike` | class | `core/llm_budget.py:58` | `class LLMBackendLike(Protocol)` |
 | `LedgerEntry` | class | `core/llm_budget.py:132` | `class LedgerEntry` |
 | `ModelPrice` | class | `core/llm_budget.py:69` | `class ModelPrice` |
 | `TokenEstimator` | class | `core/llm_budget.py:268` | `class TokenEstimator` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `get_data` | function | `lazyc2.py:8150` | `def get_data()` |
 | `get_discovered_hosts` | function | `lazyc2.py:2157` | `def get_discovered_hosts()` |
 | `get_event_config` | function | `lazyc2.py:5861` | `def get_event_config()` |
-| `get_event_config_view` | function | `lazyc2.py:5868` | `def get_event_config_view()` |
-| `get_events` | function | `lazyc2.py:5928` | `def get_events()` |
-| `get_karma_name` | function | `lazyc2.py:793` | `def get_karma_name(elo)` |
-| `get_local_ip_addresses` | function | `lazyc2.py:2207` | `def get_local_ip_addresses()` |
-| `get_notes` | function | `lazyc2.py:5779` | `def get_notes()` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

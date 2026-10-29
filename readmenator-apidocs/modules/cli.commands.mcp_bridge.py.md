@@ -315,7 +315,7 @@ Usage:
     auto_loop [--target T] [--task T] [--rounds N] [--workers N]
               [--timeout S] [--targets-from-file F] [--max-concurrent N]
               [--step-delay S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
-              [--budget-confirm] [--no-bootstrap]
+              [--budget-confirm] [--no-bootstrap] [--fallback-phish]
               [--view|--plain] <goal>
 
 Both commands share one runner (`[`modules.lazy_runner`](modules.lazy_runner.py.md)`): one
@@ -324,7 +324,10 @@ the live worker monitor instead of the milestone panel.
 ``--budget`` caps the run at the engine level (rounds, tool
 calls, findings, wall clock); ``--budget-confirm`` gates the
 start behind an interactive confirmation unless
-``LAZYOWN_AUTONOMOUS=1``.
+``LAZYOWN_AUTONOMOUS=1``. ``--fallback-phish`` stages a client-
+subject phishing handoff (keyless shortener lure, offline
+previews unless SMTP lives in payload.json) when the run ends
+with no foothold.
 
 **Parameters**
 
@@ -338,7 +341,7 @@ start behind an interactive confirmation unless
 
 #### `McpBridgeCommandSet.do_session_state`
 
-`method` | [cli/commands/mcp_bridge.py:530](../../cli/commands/mcp_bridge.py#L530)
+`method` | [cli/commands/mcp_bridge.py:533](../../cli/commands/mcp_bridge.py#L533)
 
 Decorators: `@with_category(ai_category)`
 
@@ -358,7 +361,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
 
 #### `McpBridgeCommandSet.do_campaign_sitrep`
 
-`method` | [cli/commands/mcp_bridge.py:535](../../cli/commands/mcp_bridge.py#L535)
+`method` | [cli/commands/mcp_bridge.py:538](../../cli/commands/mcp_bridge.py#L538)
 
 Decorators: `@with_category(ai_category)`
 
@@ -378,7 +381,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
 
 #### `McpBridgeCommandSet.do_timeline`
 
-`method` | [cli/commands/mcp_bridge.py:540](../../cli/commands/mcp_bridge.py#L540)
+`method` | [cli/commands/mcp_bridge.py:543](../../cli/commands/mcp_bridge.py#L543)
 
 Decorators: `@with_category(ai_category)`
 

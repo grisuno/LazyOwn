@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_event_config_view` | function | `lazyc2.py:5868` | `def get_event_config_view()` |
+| `get_events` | function | `lazyc2.py:5928` | `def get_events()` |
+| `get_karma_name` | function | `lazyc2.py:793` | `def get_karma_name(elo)` |
+| `get_local_ip_addresses` | function | `lazyc2.py:2207` | `def get_local_ip_addresses()` |
+| `get_notes` | function | `lazyc2.py:5779` | `def get_notes()` |
 | `get_output` | function | `lazyc2.py:5169` | `def get_output()` |
 | `get_request_details` | function | `lazyc2.py:2293` | `def get_request_details()` |
 | `get_results` | function | `lazyc2.py:5205` | `def get_results()` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `__init__` | method | `lazygui/panels/history_panel.py:33` | `def __init__(self, constants, backend, parent)` |
 | `_populate` | method | `lazygui/panels/history_panel.py:106` | `def _populate(self)` |
 | `_refresh` | method | `lazygui/panels/history_panel.py:87` | `def _refresh(self)` |
-| `KillChainPanel` | class | `lazygui/panels/killchain_panel.py:35` | `class KillChainPanel(PanelBase)` |
-| `__init__` | method | `lazygui/panels/killchain_panel.py:38` | `def __init__(self, constants, backend, parent)` |
-| `_apply_visuals` | method | `lazygui/panels/killchain_panel.py:128` | `def _apply_visuals(self)` |
-| `_build_ui` | method | `lazygui/panels/killchain_panel.py:62` | `def _build_ui(self)` |
-| `_get_phases` | function | `lazygui/panels/killchain_panel.py:23` | `def _get_phases()` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

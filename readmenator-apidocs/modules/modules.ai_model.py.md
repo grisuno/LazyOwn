@@ -9,7 +9,7 @@ concrete implementations: [`GroqModel`](#groqmodel) (cloud),
 [`OllamaModel`](#ollamamodel) (local), [`OpenAIModel`](#openaimodel) (cloud),
 [`AnthropicModel`](#anthropicmodel) (cloud), and [`DeepSeekModel`](#deepseekmodel) (cloud).
 Every implementation honours both the historical
-`[`generate`](#aimodel-generate)`/`[`stream_generate`](#aimodel-stream_generate)` interface used by the existing AI
+`[`generate`](modules.lazypassgen.py.md#generate)`/`[`stream_generate`](#aimodel-stream_generate)` interface used by the existing AI
 agents and the [`complete`](modules.llm_factory.py.md#complete) signature defined in
 `[`core.protocols.LLMBackend`](core.protocols.py.md#llmbackend)`. Callers depending on the abstract type
 remain decoupled from the concrete provider.
@@ -97,7 +97,7 @@ Subclasses: [`AnthropicModel`](#anthropicmodel), [`DeepSeekModel`](#deepseekmode
 
 Abstract base class for language model backends.
 
-Concrete subclasses must implement [`generate`](#aimodel-generate) and
+Concrete subclasses must implement [`generate`](modules.lazypassgen.py.md#generate) and
 [`stream_generate`](#aimodel-stream_generate). A default [`complete`](modules.llm_factory.py.md#complete) implementation
 is provided that combines ``system`` and ``user`` prompts into the
 historical single-prompt format so subclasses gain
@@ -170,7 +170,7 @@ def complete(self, system: str, user: str, max_tokens: int = DEFAULT_COMPLETE_MA
 Return a completion conforming to `[`core.protocols.LLMBackend`](core.protocols.py.md#llmbackend)`.
 
 The default implementation concatenates ``system`` and ``user``
-with explicit role markers and delegates to [`generate`](#aimodel-generate).
+with explicit role markers and delegates to [`generate`](modules.lazypassgen.py.md#generate).
 Backends that natively support role-aware chat formats may
 override this method for higher fidelity.
 
@@ -271,7 +271,7 @@ def stream_generate(self, prompt: str) -> Generator[str, None, None]
 Yield streamed completion chunks for `[`prompt`](utils.py.md#prompt)`.
 
 Fails over to a known-good model id when the configured one is
-unavailable, mirroring [`generate`](#aimodel-generate).
+unavailable, mirroring [`generate`](modules.lazypassgen.py.md#generate).
 
 **Parameters**
 
@@ -500,7 +500,7 @@ def complete(self, system: str, user: str, max_tokens: int = DEFAULT_COMPLETE_MA
 Return a completion conforming to `[`core.protocols.LLMBackend`](core.protocols.py.md#llmbackend)`.
 
 The default implementation concatenates ``system`` and ``user``
-with explicit role markers and delegates to [`generate`](#aimodel-generate).
+with explicit role markers and delegates to [`generate`](modules.lazypassgen.py.md#generate).
 Backends that natively support role-aware chat formats may
 override this method for higher fidelity.
 
@@ -618,7 +618,7 @@ def complete(self, system: str, user: str, max_tokens: int = DEFAULT_COMPLETE_MA
 Return a completion conforming to `[`core.protocols.LLMBackend`](core.protocols.py.md#llmbackend)`.
 
 The default implementation concatenates ``system`` and ``user``
-with explicit role markers and delegates to [`generate`](#aimodel-generate).
+with explicit role markers and delegates to [`generate`](modules.lazypassgen.py.md#generate).
 Backends that natively support role-aware chat formats may
 override this method for higher fidelity.
 
@@ -737,7 +737,7 @@ def complete(self, system: str, user: str, max_tokens: int = DEFAULT_COMPLETE_MA
 Return a completion conforming to `[`core.protocols.LLMBackend`](core.protocols.py.md#llmbackend)`.
 
 The default implementation concatenates ``system`` and ``user``
-with explicit role markers and delegates to [`generate`](#aimodel-generate).
+with explicit role markers and delegates to [`generate`](modules.lazypassgen.py.md#generate).
 Backends that natively support role-aware chat formats may
 override this method for higher fidelity.
 

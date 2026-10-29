@@ -1,6 +1,66 @@
 # Subsystem: modules (page 14 of 17)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
 
+## modules/orchestrator_config.py
+- Doc: Operator configuration for the loop core: profiles, stages and auto verbs.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_invalidate` (function, line 105) `def _invalidate()`
+  - `reload` (function, line 113) `def reload()`
+  - `_payload` (function, line 118) `def _payload()`
+  - `_section` (function, line 128) `def _section(payload)`
+  - `_save` (function, line 133) `def _save(payload)`
+  - `_read_yaml` (function, line 141) `def _read_yaml(path)`
+  - `_fallback_profile` (function, line 165) `def _fallback_profile()`
+  - `_merge_stage` (function, line 179) `def _merge_stage(base, override)`
+  - `_merge_profile` (function, line 195) `def _merge_profile(parent, child)`
+  - `_resolve_profile` (function, line 217) `def _resolve_profile(name, raw_profiles, stack)`
+  - `profiles` (function, line 232) `def profiles()`
+  - `_default_profile_name` (function, line 247) `def _default_profile_name(data)`
+  - `active_profile` (function, line 257) `def active_profile()`
+  - `profile_config` (function, line 269) `def profile_config(name)`
+  - `set_profile` (function, line 276) `def set_profile(name)`
+  - `set_harness` (function, line 300) `def set_harness(enabled)`
+  - `limits` (function, line 332) `def limits()`
+  - `budget` (function, line 339) `def budget()`
+  - `chain_defaults` (function, line 346) `def chain_defaults()`
+  - `sinks` (function, line 355) `def sinks()`
+  - `stages` (function, line 366) `def stages()`
+  - `stage_enabled` (function, line 396) `def stage_enabled(name)`
+  - `stage_params` (function, line 402) `def stage_params(name)`
+  - `set_stage` (function, line 407) `def set_stage(name, enabled)`
+  - `effective_verbs` (function, line 432) `def effective_verbs()`
+  - `_catalog_verbs` (function, line 487) `def _catalog_verbs(seen, overrides)`
+  - `verb_config` (function, line 524) `def verb_config(name)`
+  - `verb_enabled` (function, line 533) `def verb_enabled(name)`
+  - `upsert_verb` (function, line 539) `def upsert_verb(name)`
+  - `remove_verb` (function, line 596) `def remove_verb(name)`
+  - `reset` (function, line 617) `def reset()`
+  - `validate_config` (function, line 624) `def validate_config(data)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+
+## modules/osint_enrich.py
+- Doc: Keyless OSINT enrichment for finding evidence.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_cache_path` (function, line 47) `def _cache_path(sessions_dir)`
+  - `_cache_load` (function, line 52) `def _cache_load(sessions_dir)`
+  - `_cache_save` (function, line 61) `def _cache_save(sessions_dir, data)`
+  - `_cached` (function, line 69) `def _cached(sessions_dir, key, ttl)`
+  - `_store` (function, line 77) `def _store(sessions_dir, key, data)`
+  - `_get_json` (function, line 84) `def _get_json(url, params)`
+  - `_post_json` (function, line 96) `def _post_json(url, payload)`
+  - `_get_text` (function, line 110) `def _get_text(url, params)`
+  - `cve_lookup` (function, line 122) `def cve_lookup(cve_id, sessions_dir)`
+  - `reverse_dns` (function, line 161) `def reverse_dns(ip, sessions_dir)`
+  - `host_geo` (function, line 183) `def host_geo(ip, sessions_dir)`
+  - `domain_exposure` (function, line 198) `def domain_exposure(domain, sessions_dir)`
+  - `enrich_evidence` (function, line 213) `def enrich_evidence(items, sessions_dir)`
+- Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
+
 ## modules/outcome_bus.py
 - Doc: Single fan-out contract for engagement outcomes.
 - Layer: infrastructure
@@ -78,23 +138,23 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `PhishingTemplate` (class, line 154) `class PhishingTemplate`
   - `CampaignResult` (class, line 167) `class CampaignResult`
   - `PhishingOrchestrator` (class, line 180) `class PhishingOrchestrator`
-  - `__init__` (method, line 316) `def __init__(self)`
-  - `get_instance` (method, line 321) `def get_instance(cls)`
-  - `launch` (method, line 332) `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)`
-  - `profile_targets` (method, line 441) `def profile_targets(self, domain)`
-  - `generate_template` (method, line 486) `def generate_template(self, name, target_domain, context)`
-  - `clone_landing_page` (method, line 533) `def clone_landing_page(self, url)`
-  - `get_results` (method, line 560) `def get_results(self, campaign_id)`
-  - `record_click` (method, line 584) `def record_click(self, campaign_id, email)`
-  - `record_credentials` (method, line 605) `def record_credentials(self, campaign_id, email, password)`
-  - `_load_targets_from_file` (method, line 644) `def _load_targets_from_file(self, filepath)`
-  - `_generate_landing_page` (method, line 683) `def _generate_landing_page(self, template, target_domain, campaign_id)`
-  - `_setup_harvesting_endpoint` (method, line 723) `def _setup_harvesting_endpoint(self, campaign_id)`
-  - `_send_email` (method, line 735) `def _send_email(self, to_email, subject, html_body, smtp_config)`
-  - `_inject_harvester` (method, line 769) `def _inject_harvester(self, html, page_id)`
-  - `_load_config` (method, line 808) `def _load_config(self)`
+  - `__init__` (method, line 399) `def __init__(self)`
+  - `get_instance` (method, line 404) `def get_instance(cls)`
+  - `launch` (method, line 415) `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)`
+  - `profile_targets` (method, line 524) `def profile_targets(self, domain)`
+  - `generate_template` (method, line 569) `def generate_template(self, name, target_domain, context)`
+  - `clone_landing_page` (method, line 616) `def clone_landing_page(self, url)`
+  - `get_results` (method, line 643) `def get_results(self, campaign_id)`
+  - `record_click` (method, line 667) `def record_click(self, campaign_id, email)`
+  - `record_credentials` (method, line 688) `def record_credentials(self, campaign_id, email, password)`
+  - `_load_targets_from_file` (method, line 727) `def _load_targets_from_file(self, filepath)`
+  - `_generate_landing_page` (method, line 766) `def _generate_landing_page(self, template, target_domain, campaign_id)`
+  - `_setup_harvesting_endpoint` (method, line 806) `def _setup_harvesting_endpoint(self, campaign_id)`
+  - `_send_email` (method, line 818) `def _send_email(self, to_email, subject, html_body, smtp_config)`
+  - `_inject_harvester` (method, line 852) `def _inject_harvester(self, html, page_id)`
+  - `_load_config` (method, line 891) `def _load_config(self)`
 - Depends on: `core/crypto.py`, `core/hardening.py`
-- Imported by: `cli/commands/phishing_wizard.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
+- Imported by: `cli/commands/phishing_wizard.py`, `modules/lazypoophish.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
 
 ## modules/pipeline_engine.py
 - Doc: modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn
@@ -423,68 +483,6 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `__init__` (method, line 69) `def __init__(self, command, reason, priority, mitre)`
 - Depends on: `modules/lazy_loop.py`
 - Imported by: `modules/lazy_loop.py`, `tests/test_reaction_bridge.py`
-
-## modules/reactive_engine.py
-- Doc: modules/reactive_engine.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_default_config_loader` (function, line 42) `def _default_config_loader()`
-  - `Signal` (class, line 69) `class Signal`
-  - `ReactiveDecision` (class, line 80) `class ReactiveDecision`
-  - `AbstractSignalMatcher` (class, line 97) `class AbstractSignalMatcher(ABC)`
-  - `AVBlockedMatcher` (class, line 102) `class AVBlockedMatcher(AbstractSignalMatcher)`
-  - `CredentialFoundMatcher` (class, line 147) `class CredentialFoundMatcher(AbstractSignalMatcher)`
-  - `PrivescHintMatcher` (class, line 174) `class PrivescHintMatcher(AbstractSignalMatcher)`
-  - `NewHostMatcher` (class, line 209) `class NewHostMatcher(AbstractSignalMatcher)`
-  - `ServiceVersionMatcher` (class, line 232) `class ServiceVersionMatcher(AbstractSignalMatcher)`
-  - `ShellErrorMatcher` (class, line 262) `class ShellErrorMatcher(AbstractSignalMatcher)`
-  - `LateralOpportunityMatcher` (class, line 293) `class LateralOpportunityMatcher(AbstractSignalMatcher)`
-  - `DataOfInterestMatcher` (class, line 323) `class DataOfInterestMatcher(AbstractSignalMatcher)`
-  - `ParquetAdvisor` (class, line 389) `class ParquetAdvisor`
-  - `EvasionAdvisor` (class, line 481) `class EvasionAdvisor`
-  - `PrivescAdvisor` (class, line 537) `class PrivescAdvisor`
-  - `SemanticContextAdvisor` (class, line 632) `class SemanticContextAdvisor`
-  - `ReactiveEngine` (class, line 804) `class ReactiveEngine`
-  - `get_engine` (function, line 977) `def get_engine()`
-  - `match` (method, line 99) `def match(self, output, context)`
-  - `match` (method, line 128) `def match(self, output, context)`
-  - `match` (method, line 159) `def match(self, output, context)`
-  - `match` (method, line 192) `def match(self, output, context)`
-  - `match` (method, line 214) `def match(self, output, context)`
-  - `match` (method, line 247) `def match(self, output, context)`
-  - `match` (method, line 276) `def match(self, output, context)`
-  - `match` (method, line 307) `def match(self, output, context)`
-  - `match` (method, line 349) `def match(self, output, context)`
-  - `__init__` (method, line 395) `def __init__(self, root)`
-  - `_load` (method, line 402) `def _load(self)`
-  - `gtfobins_for` (method, line 421) `def gtfobins_for(self, binary)`
-  - `lolbas_for` (method, line 434) `def lolbas_for(self, binary)`
-  - `technique_commands_for` (method, line 448) `def technique_commands_for(self, platform, keyword)`
-  - `suggest` (method, line 504) `def suggest(self, signals, platform)`
-  - `suggest` (method, line 565) `def suggest(self, signals, platform, parquet)`
-  - `__init__` (method, line 644) `def __init__(self, rag, config_loader, min_score, query_limit)`
-  - `_load_rag` (method, line 671) `def _load_rag(self)`
-  - `_enabled` (method, line 697) `def _enabled(self)`
-  - `_extract_verb` (method, line 715) `def _extract_verb(source)`
-  - `suggest` (method, line 734) `def suggest(self, output, command, platform, context)`
-  - `__init__` (method, line 810) `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
-  - `analyse` (method, line 835) `def analyse(self, output, command, platform, context)`
-  - `top_decision` (method, line 958) `def top_decision(self, output, command, platform, context)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-- Imported by: `cli/apt_chain_support.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
-
-## modules/recommender.py
-- Doc: LazyOwn Smart Command Recommender
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_build_user_prompt` (function, line 55) `def _build_user_prompt(state)`
-  - `_call_ai` (function, line 97) `def _call_ai(api_key, user_prompt)`
-  - `recommend` (function, line 143) `def recommend(state, api_key)`
-  - `recommend_and_save` (function, line 163) `def recommend_and_save(api_key)`
-- Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
-- Imported by: `skills/lazyown_mcp.py`
 
 
 Next: [KB_modules_p15.md](KB_modules_p15.md)

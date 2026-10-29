@@ -357,6 +357,7 @@
 - [`all_phases`](modules/modules.lazyown_bridge.py.md#bridgedispatcher-all_phases) method of `BridgeDispatcher` in `modules.lazyown_bridge`
 - [`all_phases`](modules/modules.lazyown_bridge.py.md#commandcatalog-all_phases) method of `CommandCatalog` in `modules.lazyown_bridge`
 - [`all_phases`](modules/cli.palette.py.md#all_phases) function in `cli.palette`
+- [`all_queries`](modules/modules.lazydorks.py.md#all_queries) function in `modules.lazydorks`
 - [`ALL_STRATEGIES`](modules/modules.ai_exploit_chain.py.md#all_strategies) constant in `modules.ai_exploit_chain`
 - [`ALLOW`](modules/modules.opsec_scorer.py.md#gateaction-allow) attribute of `GateAction` in `modules.opsec_scorer`
 - [`ALLOW`](modules/modules.intercept.py.md#interceptaction-allow) attribute of `InterceptAction` in `modules.intercept`
@@ -1362,9 +1363,11 @@
 - [`catalog_summary_filtered`](modules/modules.lazyown_bridge.py.md#bridgedispatcher-catalog_summary_filtered) method of `BridgeDispatcher` in `modules.lazyown_bridge`
 - [`CatalogCommandSet`](modules/cli.commands.catalog.py.md#catalogcommandset) class in `cli.commands.catalog`
 - [`CatalogEntry`](modules/modules.lazyown_bridge.py.md#catalogentry) class in `modules.lazyown_bridge`
+- [`CATEGORIES`](modules/modules.lazydorks.py.md#categories) constant in `modules.lazydorks`
 - [`categories`](modules/cli.sessions_browser.py.md#sessionsbrowserconfig-categories) attribute of `SessionsBrowserConfig` in `cli.sessions_browser`
 - [`categories`](modules/cli.sessions_browser.py.md#sessionsindex-categories) method of `SessionsIndex` in `cli.sessions_browser`
 - [`categories`](modules/core.payload_schema.py.md#categories) function in `core.payload_schema`
+- [`categories`](modules/modules.lazydorks.py.md#categories) function in `modules.lazydorks`
 - [`category`](modules/cli.commands.active_directory.py.md#activedirectorycommandset-category) attribute of `ActiveDirectoryCommandSet` in `cli.commands.active_directory`
 - [`category`](modules/lazyc2.addon_creator.py.md#addondraft-category) attribute of `AddonDraft` in `lazyc2.addon_creator`
 - [`category`](modules/cli.exploration.py.md#addonentry-category) attribute of `AddonEntry` in `cli.exploration`
@@ -1426,8 +1429,12 @@
 - [`category`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset-category) attribute of `LateralMigratedCommandSet` in `cli.commands.lateral_migrated`
 - [`category`](modules/cli.commands.lateral.py.md#lateralmovementcommandset-category) attribute of `LateralMovementCommandSet` in `cli.commands.lateral`
 - [`category`](modules/cli.commands.lazyops.py.md#lazycommandset-category) attribute of `LazyCommandSet` in `cli.commands.lazyops`
+- [`category`](modules/cli.commands.lazy_creds.py.md#lazycredscommandset-category) attribute of `LazyCredsCommandSet` in `cli.commands.lazy_creds`
+- [`category`](modules/cli.commands.lazy_dorks.py.md#lazydorkscommandset-category) attribute of `LazyDorksCommandSet` in `cli.commands.lazy_dorks`
 - [`category`](modules/modules.event_bus.py.md#lazyevent-category) attribute of `LazyEvent` in `modules.event_bus`
+- [`category`](modules/cli.commands.lazy_oob.py.md#lazyoobcommandset-category) attribute of `LazyOobCommandSet` in `cli.commands.lazy_oob`
 - [`category`](modules/cli.commands._base.py.md#lazyowncommandset-category) attribute of `LazyOwnCommandSet` in `cli.commands._base`
+- [`category`](modules/cli.commands.lazy_passgen.py.md#lazypassgencommandset-category) attribute of `LazyPassGenCommandSet` in `cli.commands.lazy_passgen`
 - [`category`](modules/cli.commands.lazyloop.py.md#lazyqueuecommandset-category) attribute of `LazyQueueCommandSet` in `cli.commands.lazyloop`
 - [`category`](modules/modules.integrations.misp_export.py.md#mispattribute-category) attribute of `MISPAttribute` in `modules.integrations.misp_export`
 - [`category`](modules/cli.commands.marketplace.py.md#marketplacecommandset-category) attribute of `MarketplaceCommandSet` in `cli.commands.marketplace`
@@ -2885,6 +2892,7 @@
 - [`DEFAULT_POLL_INTERVAL_S`](modules/skills.lazyown_policy.py.md#approvalgate-default_poll_interval_s) attribute of `ApprovalGate` in `skills.lazyown_policy`
 - [`DEFAULT_POLL_TIMEOUT_S`](modules/skills.lazyown_policy.py.md#approvalgate-default_poll_timeout_s) attribute of `ApprovalGate` in `skills.lazyown_policy`
 - [`default_project_root`](modules/modules.llm_prompts.py.md#default_project_root) function in `modules.llm_prompts`
+- [`DEFAULT_PROVIDER`](modules/modules.lazyshortener.py.md#default_provider) constant in `modules.lazyshortener`
 - [`DEFAULT_PROXY_HOST`](modules/modules.lazy_proxy.py.md#default_proxy_host) constant in `modules.lazy_proxy`
 - [`DEFAULT_PROXY_PORT`](modules/modules.lazy_proxy.py.md#default_proxy_port) constant in `modules.lazy_proxy`
 - [`DEFAULT_RATINGS_FILE`](modules/cli.plugin_tiers.py.md#default_ratings_file) constant in `cli.plugin_tiers`
@@ -2904,6 +2912,7 @@
 - [`default_sessions_dir`](modules/core.llm_budget.py.md#default_sessions_dir) function in `core.llm_budget`
 - [`default_severity`](modules/cli.toast_bus.py.md#toastrconfig-default_severity) attribute of `ToastrConfig` in `cli.toast_bus`
 - [`DEFAULT_SHELL_TIMEOUT_SEC`](modules/modules.auto_registry.py.md#default_shell_timeout_sec) constant in `modules.auto_registry`
+- [`DEFAULT_SHORTENER_PROVIDER`](modules/modules.lazypoophish.py.md#default_shortener_provider) constant in `modules.lazypoophish`
 - [`DEFAULT_SINKS`](modules/modules.outcome_bus.py.md#default_sinks) constant in `modules.outcome_bus`
 - [`DEFAULT_SOUL`](modules/skills.lazyown_objective.py.md#default_soul) constant in `skills.lazyown_objective`
 - [`DEFAULT_STAGES`](modules/modules.orchestrator_config.py.md#default_stages) constant in `modules.orchestrator_config`
@@ -2918,12 +2927,14 @@
 - [`default_teamserver_scheme`](modules/lazygui.config.constants.py.md#networkconstants-default_teamserver_scheme) attribute of `NetworkConstants` in `lazygui.config.constants`
 - [`default_teamserver_username`](modules/lazygui.config.constants.py.md#networkconstants-default_teamserver_username) attribute of `NetworkConstants` in `lazygui.config.constants`
 - [`DEFAULT_TELEMETRY_PATH`](modules/cli.palette_telemetry.py.md#default_telemetry_path) constant in `cli.palette_telemetry`
+- [`DEFAULT_TEMPLATE`](modules/modules.lazypoophish.py.md#default_template) constant in `modules.lazypoophish`
 - [`DEFAULT_THEME_NAME`](modules/cli.themes.py.md#default_theme_name) constant in `cli.themes`
 - [`DEFAULT_TIMEOUT`](modules/contrib.legacy.lazyaddon_creator.py.md#default_timeout) constant in `contrib.legacy.lazyaddon_creator`
 - [`DEFAULT_TIMEOUT`](modules/modules.llm_client.py.md#default_timeout) constant in `modules.llm_client`
 - [`DEFAULT_TIMEOUT`](modules/skills.daemon_health.py.md#default_timeout) constant in `skills.daemon_health`
 - [`DEFAULT_TIMEOUT_S`](modules/scripts.mutation_gate.py.md#default_timeout_s) constant in `scripts.mutation_gate`
 - [`DEFAULT_TIMEOUT_SEC`](modules/modules.custom_tools.py.md#default_timeout_sec) constant in `modules.custom_tools`
+- [`DEFAULT_TIMEOUT_SEC`](modules/modules.lazyshortener.py.md#default_timeout_sec) constant in `modules.lazyshortener`
 - [`default_token_budget`](modules/cli.graph_advisor.py.md#graphadvisorconfig-default_token_budget) attribute of `GraphAdvisorConfig` in `cli.graph_advisor`
 - [`default_token_bytes`](modules/core.api_authz.py.md#apiauthzconfig-default_token_bytes) attribute of `ApiAuthzConfig` in `core.api_authz`
 - [`default_trigger`](modules/cli.exploration.py.md#explorationconfig-default_trigger) attribute of `ExplorationConfig` in `cli.exploration`
@@ -3717,8 +3728,10 @@
 - [`do_lazy_worker`](modules/cli.commands.lazyops.py.md#lazycommandset-do_lazy_worker) method of `LazyCommandSet` in `cli.commands.lazyops`
 - [`do_lazy_workspace`](modules/cli.commands.lazyops.py.md#lazycommandset-do_lazy_workspace) method of `LazyCommandSet` in `cli.commands.lazyops`
 - [`do_lazycreds`](modules/cli.commands.lazy_creds.py.md#lazycredscommandset-do_lazycreds) method of `LazyCredsCommandSet` in `cli.commands.lazy_creds`
+- [`do_lazydork`](modules/cli.commands.lazy_dorks.py.md#lazydorkscommandset-do_lazydork) method of `LazyDorksCommandSet` in `cli.commands.lazy_dorks`
 - [`do_lazynmap`](modules/cli.commands.recon.py.md#reconcommandset-do_lazynmap) method of `ReconCommandSet` in `cli.commands.recon`
 - [`do_lazyoob`](modules/cli.commands.lazy_oob.py.md#lazyoobcommandset-do_lazyoob) method of `LazyOobCommandSet` in `cli.commands.lazy_oob`
+- [`do_lazypassgen`](modules/cli.commands.lazy_passgen.py.md#lazypassgencommandset-do_lazypassgen) method of `LazyPassGenCommandSet` in `cli.commands.lazy_passgen`
 - [`do_lazypwn`](modules/cli.commands.exploit.py.md#exploitcommandset-do_lazypwn) method of `ExploitCommandSet` in `cli.commands.exploit`
 - [`do_lazyscript`](modules/cli.commands.session_ops.py.md#sessionopscommandset-do_lazyscript) method of `SessionOpsCommandSet` in `cli.commands.session_ops`
 - [`do_lazywebshell`](modules/cli.commands.postexp.py.md#postexploitationcommandset-do_lazywebshell) method of `PostExploitationCommandSet` in `cli.commands.postexp`
@@ -4169,6 +4182,7 @@
 - [`DONE_MARKER`](modules/cli.tutorial.py.md#done_marker) constant in `cli.tutorial`
 - [`done_marker`](modules/cli.tutorial.py.md#tutorialconfig-done_marker) attribute of `TutorialConfig` in `cli.tutorial`
 - [`DONT_ASK`](modules/skills.lazyown_permissions.py.md#permissionmode-dont_ask) attribute of `PermissionMode` in `skills.lazyown_permissions`
+- [`DORK_REPORT_TEMPLATE`](modules/cli.commands.lazy_dorks.py.md#dork_report_template) constant in `cli.commands.lazy_dorks`
 - [`DOTNAME_RE`](modules/scripts.check_contract_manifest.py.md#dotname_re) constant in `scripts.check_contract_manifest`
 - [`DOTNET_FRAMEWORK_VERSIONS`](modules/modules.dotnet_payload.py.md#dotnet_framework_versions) constant in `modules.dotnet_payload`
 - [`DotNetPayloadConfig`](modules/modules.dotnet_payload.py.md#dotnetpayloadconfig) class in `modules.dotnet_payload`
@@ -4919,6 +4933,7 @@
 - [`explotar_lfi`](modules/modules.lazyatack.sh.md#explotar_lfi) function in `modules/lazyatack.sh`
 - [`export`](modules/modules.lazy_loop.py.md#evidencestore-export) method of `EvidenceStore` in `modules.lazy_loop`
 - [`export`](modules/modules.lazy_loop.py.md#trafficlog-export) method of `TrafficLog` in `modules.lazy_loop`
+- [`export`](modules/modules.lazypassgen.py.md#export) function in `modules.lazypassgen`
 - [`export_archive`](modules/modules.traffic_recorder.py.md#trafficrecorder-export_archive) method of `TrafficRecorder` in `modules.traffic_recorder`
 - [`export_combined_graph`](modules/modules.estorides_importer.py.md#export_combined_graph) function in `modules.estorides_importer`
 - [`export_credentials`](modules/modules.dpapi_harvester.py.md#dpapiharvester-export_credentials) method of `DPAPIHarvester` in `modules.dpapi_harvester`
@@ -5070,6 +5085,8 @@
 - [`FakeEngine`](modules/modules.tools.loop_smoke.py.md#fakeengine) class in `modules.tools.loop_smoke`
 - [`FakeShell`](modules/modules.tools.loop_smoke.py.md#fakeshell) class in `modules.tools.loop_smoke`
 - [`fallback`](modules/modules.chain_registry.py.md#chain-fallback) attribute of `Chain` in `modules.chain_registry`
+- [`FALLBACK_ACCESS_VALUES`](modules/modules.lazypoophish.py.md#fallback_access_values) constant in `modules.lazypoophish`
+- [`FALLBACK_ARTIFACT_PREFIX`](modules/modules.lazypoophish.py.md#fallback_artifact_prefix) constant in `modules.lazypoophish`
 - [`FALLBACK_BUDGET`](modules/modules.orchestrator_config.py.md#fallback_budget) constant in `modules.orchestrator_config`
 - [`fallback_depth`](modules/modules.chain_runner.py.md#chainrunresult-fallback_depth) attribute of `ChainRunResult` in `modules.chain_runner`
 - [`fallback_finding`](modules/cli.status_bar.py.md#statusbarconfig-fallback_finding) attribute of `StatusBarConfig` in `cli.status_bar`
@@ -5087,6 +5104,7 @@
 - [`FALLBACK_LIMITS`](modules/modules.orchestrator_config.py.md#fallback_limits) constant in `modules.orchestrator_config`
 - [`fallback_operators`](modules/cli.status_bar.py.md#statusbarconfig-fallback_operators) attribute of `StatusBarConfig` in `cli.status_bar`
 - [`fallback_phase`](modules/cli.status_bar.py.md#statusbarconfig-fallback_phase) attribute of `StatusBarConfig` in `cli.status_bar`
+- [`fallback_ready`](modules/modules.lazypoophish.py.md#fallback_ready) function in `modules.lazypoophish`
 - [`FALLBACK_SINKS`](modules/modules.orchestrator_config.py.md#fallback_sinks) constant in `modules.orchestrator_config`
 - [`FALLBACK_STAGES`](modules/modules.orchestrator_config.py.md#fallback_stages) constant in `modules.orchestrator_config`
 - [`fallback_suggestion`](modules/cli.status_bar.py.md#statusbarconfig-fallback_suggestion) attribute of `StatusBarConfig` in `cli.status_bar`
@@ -5360,6 +5378,7 @@
 - [`fragment_name`](modules/tools.extract_cluster.py.md#fragment_name) function in `tools.extract_cluster`
 - [`framework`](modules/modules.dotnet_payload.py.md#dotnetpayloadconfig-framework) attribute of `DotNetPayloadConfig` in `modules.dotnet_payload`
 - [`freePIDArray`](modules/modules.win_rootkit.win_ring3_rootkit.c.md#freepidarray) function in `modules/win_rootkit/win_ring3_rootkit.c`
+- [`fresh_access_token`](modules/modules.lazypoophish.py.md#fresh_access_token) function in `modules.lazypoophish`
 - [`FRESHNESS_THRESHOLD_SECONDS`](modules/skills.hermes-lazyown.constants.py.md#defaults-freshness_threshold_seconds) attribute of `Defaults` in `skills.hermes-lazyown.constants`
 - [`FRICTION`](modules/modules.mario.py.md#friction) constant in `modules.mario`
 - [`from_config`](modules/modules.c2_profile_engine.py.md#profileengine-from_config) classmethod of `ProfileEngine` in `modules.c2_profile_engine`
@@ -5497,6 +5516,7 @@
 - [`generate`](modules/modules.payload_factory.py.md#reverseshellpayload-generate) method of `ReverseShellPayload` in `modules.payload_factory`
 - [`generate`](modules/modules.payload_factory.py.md#shellcodepayload-generate) method of `ShellcodePayload` in `modules.payload_factory`
 - [`generate`](modules/modules.payload_factory.py.md#windowsreverseshellpayload-generate) method of `WindowsReverseShellPayload` in `modules.payload_factory`
+- [`generate`](modules/modules.lazypassgen.py.md#generate) function in `modules.lazypassgen`
 - [`generate_all`](modules/modules.linux_advanced_payloads.py.md#linuxadvancedpayloadfactory-generate_all) method of `LinuxAdvancedPayloadFactory` in `modules.linux_advanced_payloads`
 - [`generate_all`](modules/modules.log_tamper.py.md#logtamper-generate_all) method of `LogTamper` in `modules.log_tamper`
 - [`generate_all`](modules/modules.macos_payloads.py.md#macospayloadfactory-generate_all) method of `MacOSPayloadFactory` in `modules.macos_payloads`
@@ -7826,6 +7846,7 @@
 - [`lazycommand`](modules/lazyc2.addon_creator.py.md#addondraft-lazycommand) attribute of `AddonDraft` in `lazyc2.addon_creator`
 - [`LazyCommandSet`](modules/cli.commands.lazyops.py.md#lazycommandset) class in `cli.commands.lazyops`
 - [`LazyCredsCommandSet`](modules/cli.commands.lazy_creds.py.md#lazycredscommandset) class in `cli.commands.lazy_creds`
+- [`LazyDorksCommandSet`](modules/cli.commands.lazy_dorks.py.md#lazydorkscommandset) class in `cli.commands.lazy_dorks`
 - [`LazyEngine`](modules/modules.lazy_engine.py.md#lazyengine) class in `modules.lazy_engine`
 - [`LazyEvent`](modules/modules.event_bus.py.md#lazyevent) class in `modules.event_bus`
 - [`lazyfuzz`](modules/modules.lazyown_bprfuzzer.py.md#lazyfuzz) function in `modules.lazyown_bprfuzzer`
@@ -7872,6 +7893,7 @@
 - [`LazyOwnShellWrapper`](modules/modules.agent_runner.py.md#lazyownshellwrapper) class in `modules.agent_runner`
 - [`LazyOwnStepRunner`](modules/modules.pipeline_engine.py.md#lazyownsteprunner) class in `modules.pipeline_engine`
 - [`LazyOwnTUI`](modules/poc_tui.app.py.md#lazyowntui) class in `poc_tui.app`
+- [`LazyPassGenCommandSet`](modules/cli.commands.lazy_passgen.py.md#lazypassgencommandset) class in `cli.commands.lazy_passgen`
 - [`lazyphishingai`](modules/lazyc2.py.md#lazyphishingai) function in `lazyc2`
 - [`LazyQueueCommandSet`](modules/cli.commands.lazyloop.py.md#lazyqueuecommandset) class in `cli.commands.lazyloop`
 - [`lazyreport`](modules/lazyc2.py.md#lazyreport) function in `lazyc2`
@@ -8565,6 +8587,7 @@
 - [`MAX_CONDITIONS`](modules/modules.defense_eval.py.md#max_conditions) constant in `modules.defense_eval`
 - [`max_connections`](modules/modules.socks_proxy.py.md#socksproxyconfig-max_connections) attribute of `SocksProxyConfig` in `modules.socks_proxy`
 - [`MAX_DECOMPOSE_TURNS`](modules/modules.goals.py.md#max_decompose_turns) constant in `modules.goals`
+- [`MAX_DEFAULT_SEEDS`](modules/modules.lazypassgen.py.md#max_default_seeds) constant in `modules.lazypassgen`
 - [`max_depth`](modules/cli.config_history.py.md#confighistoryconfig-max_depth) attribute of `ConfigHistoryConfig` in `cli.config_history`
 - [`max_detail_len`](modules/core.error_advice.py.md#erroradviceconfig-max_detail_len) attribute of `ErrorAdviceConfig` in `core.error_advice`
 - [`max_entries_per_category`](modules/cli.sessions_browser.py.md#sessionsbrowserconfig-max_entries_per_category) attribute of `SessionsBrowserConfig` in `cli.sessions_browser`
@@ -8602,6 +8625,7 @@
 - [`MAX_MATRIX_OUTPUT_CHARS`](modules/modules.gym_matrix_runner.py.md#max_matrix_output_chars) constant in `modules.gym_matrix_runner`
 - [`MAX_MENTIONS`](modules/modules.lazy_mentions.py.md#max_mentions) constant in `modules.lazy_mentions`
 - [`max_message_size_kb`](modules/modules.c2_profile_engine.py.md#websocketprofile-max_message_size_kb) attribute of `WebSocketProfile` in `modules.c2_profile_engine`
+- [`MAX_MUTATIONS`](modules/modules.lazypassgen.py.md#max_mutations) constant in `modules.lazypassgen`
 - [`max_neighbors`](modules/cli.graph_overlay.py.md#graphoverlayconfig-max_neighbors) attribute of `GraphOverlayConfig` in `cli.graph_overlay`
 - [`MAX_NEW_NODES`](modules/modules.estorides_fusion.py.md#max_new_nodes) constant in `modules.estorides_fusion`
 - [`MAX_OBJECTIVES_PER_PHASE`](modules/skills.aci_planner.py.md#max_objectives_per_phase) constant in `skills.aci_planner`
@@ -8629,6 +8653,7 @@
 - [`max_q`](modules/modules.rl_trainer.py.md#qvaluestore-max_q) method of `QValueStore` in `modules.rl_trainer`
 - [`MAX_QA_CHARS`](modules/modules.lazy_summarizer.py.md#max_qa_chars) constant in `modules.lazy_summarizer`
 - [`MAX_QA_SECTIONS`](modules/modules.lazy_summarizer.py.md#max_qa_sections) constant in `modules.lazy_summarizer`
+- [`MAX_QUERIES_PER_CATEGORY`](modules/modules.lazydorks.py.md#max_queries_per_category) constant in `modules.lazydorks`
 - [`max_query_length`](modules/modules.c2_profile_engine.py.md#dnsprofile-max_query_length) attribute of `DnsProfile` in `modules.c2_profile_engine`
 - [`max_question_chars`](modules/modules.sidequestion.py.md#sideconfig-max_question_chars) attribute of `SideConfig` in `modules.sidequestion`
 - [`MAX_QUEUE_PER_SUB`](modules/modules.event_bus.py.md#max_queue_per_sub) constant in `modules.event_bus`
@@ -8897,6 +8922,7 @@
 - [`model_prices`](modules/core.llm_budget.py.md#budgetconfig-model_prices) attribute of `BudgetConfig` in `core.llm_budget`
 - [`model_timeout_sec`](modules/modules.lazy_agent.py.md#model_timeout_sec) function in `modules.lazy_agent`
 - [`ModelPrice`](modules/core.llm_budget.py.md#modelprice) class in `core.llm_budget`
+- [`MODES`](modules/modules.lazypoophish.py.md#modes) constant in `modules.lazypoophish`
 - [`modified`](modules/modules.timestomper.py.md#filetimestamps-modified) attribute of `FileTimestamps` in `modules.timestomper`
 - [`MODULE_GLOBALS`](modules/scripts.migrate_lazyown.py.md#module_globals) constant in `scripts.migrate_lazyown`
 - [`module_stomp_target`](modules/modules.sleep_obfuscation.py.md#sleepobfuscationconfig-module_stomp_target) attribute of `SleepObfuscationConfig` in `modules.sleep_obfuscation`
@@ -10010,7 +10036,11 @@
 - [`phase`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset-phase) attribute of `LateralMigratedCommandSet` in `cli.commands.lateral_migrated`
 - [`phase`](modules/cli.commands.lateral.py.md#lateralmovementcommandset-phase) attribute of `LateralMovementCommandSet` in `cli.commands.lateral`
 - [`phase`](modules/cli.commands.lazyops.py.md#lazycommandset-phase) attribute of `LazyCommandSet` in `cli.commands.lazyops`
+- [`phase`](modules/cli.commands.lazy_creds.py.md#lazycredscommandset-phase) attribute of `LazyCredsCommandSet` in `cli.commands.lazy_creds`
+- [`phase`](modules/cli.commands.lazy_dorks.py.md#lazydorkscommandset-phase) attribute of `LazyDorksCommandSet` in `cli.commands.lazy_dorks`
+- [`phase`](modules/cli.commands.lazy_oob.py.md#lazyoobcommandset-phase) attribute of `LazyOobCommandSet` in `cli.commands.lazy_oob`
 - [`phase`](modules/cli.commands._base.py.md#lazyowncommandset-phase) attribute of `LazyOwnCommandSet` in `cli.commands._base`
+- [`phase`](modules/cli.commands.lazy_passgen.py.md#lazypassgencommandset-phase) attribute of `LazyPassGenCommandSet` in `cli.commands.lazy_passgen`
 - [`phase`](modules/cli.commands.lazyloop.py.md#lazyqueuecommandset-phase) attribute of `LazyQueueCommandSet` in `cli.commands.lazyloop`
 - [`phase`](modules/cli.commands.marketplace.py.md#marketplacecommandset-phase) attribute of `MarketplaceCommandSet` in `cli.commands.marketplace`
 - [`phase`](modules/cli.commands.mcp_bridge.py.md#mcpbridgecommandset-phase) attribute of `McpBridgeCommandSet` in `cli.commands.mcp_bridge`
@@ -10125,6 +10155,7 @@
 - [`PhaseStatus`](modules/modules.killchain.py.md#phasestatus) class in `modules.killchain`
 - [`PhaseStep`](modules/modules.apt_playbooks.py.md#phasestep) class in `modules.apt_playbooks`
 - [`PhaseTracker`](modules/modules.event_consumers.py.md#phasetracker) class in `modules.event_consumers`
+- [`phishing_fallback`](modules/modules.lazy_runner.py.md#looprunconfig-phishing_fallback) attribute of `LoopRunConfig` in `modules.lazy_runner`
 - [`PhishingOrchestrator`](modules/modules.phishing_orchestrator.py.md#phishingorchestrator) class in `modules.phishing_orchestrator`
 - [`PhishingTemplate`](modules/modules.phishing_orchestrator.py.md#phishingtemplate) class in `modules.phishing_orchestrator`
 - [`PhishingWizardCommandSet`](modules/cli.commands.phishing_wizard.py.md#phishingwizardcommandset) class in `cli.commands.phishing_wizard`
@@ -10533,6 +10564,8 @@
 - [`prove_goal`](modules/modules.goals.py.md#goaltracker-prove_goal) method of `GoalTracker` in `modules.goals`
 - [`prove_goal`](modules/modules.lazy_loop.py.md#lazyloopengine-prove_goal) method of `LazyLoopEngine` in `modules.lazy_loop`
 - [`provider`](modules/modules.lazycloud.py.md#cloudresource-provider) attribute of `CloudResource` in `modules.lazycloud`
+- [`PROVIDERS`](modules/modules.lazyshortener.py.md#providers) constant in `modules.lazyshortener`
+- [`providers`](modules/modules.lazyshortener.py.md#providers) function in `modules.lazyshortener`
 - [`proxy_bypass_local`](modules/modules.network_opsec.py.md#networkopsecconfig-proxy_bypass_local) attribute of `NetworkOpsecConfig` in `modules.network_opsec`
 - [`proxy_chain`](modules/modules.network_opsec.py.md#networkopsecconfig-proxy_chain) attribute of `NetworkOpsecConfig` in `modules.network_opsec`
 - [`PROXY_CHAIN_PATTERNS`](modules/modules.network_opsec.py.md#networkopsecengine-proxy_chain_patterns) attribute of `NetworkOpsecEngine` in `modules.network_opsec`
@@ -10608,6 +10641,7 @@
 - [`quality_report`](modules/modules.llm_evaluator.py.md#llmevaluator-quality_report) method of `LLMEvaluator` in `modules.llm_evaluator`
 - [`QualityMetrics`](modules/modules.llm_evaluator.py.md#qualitymetrics) class in `modules.llm_evaluator`
 - [`QueenBrain`](modules/skills.hive_mind.py.md#queenbrain) class in `skills.hive_mind`
+- [`queries`](modules/modules.lazydorks.py.md#queries) function in `modules.lazydorks`
 - [`query`](modules/cli.palette_command.py.md#paletteargs-query) attribute of `PaletteArgs` in `cli.palette_command`
 - [`query`](modules/cli.palette_command.py.md#palettejsonresult-query) attribute of `PaletteJsonResult` in `cli.palette_command`
 - [`query`](modules/cli.palette_overlay.py.md#paletteoverlaystate-query) attribute of `PaletteOverlayState` in `cli.palette_overlay`
@@ -11725,6 +11759,7 @@
 - [`run_estorides_run`](modules/modules.estorides_importer.py.md#run_estorides_run) function in `modules.estorides_importer`
 - [`run_export`](modules/modules.estorides_fusion.py.md#run_export) function in `modules.estorides_fusion`
 - [`run_external_opencode`](modules/modules.lazy_agent.py.md#run_external_opencode) function in `modules.lazy_agent`
+- [`run_fallback`](modules/modules.lazypoophish.py.md#run_fallback) function in `modules.lazypoophish`
 - [`run_fingerprint`](modules/scripts.broadcom_wps_drive.sh.md#run_fingerprint) function in `scripts/broadcom_wps_drive.sh`
 - [`run_for_findings`](modules/modules.integrations.nuclei_bridge.py.md#nucleirunner-run_for_findings) method of `NucleiRunner` in `modules.integrations.nuclei_bridge`
 - [`run_full_cycle`](modules/modules.intelligence_engine.py.md#intelligenceengine-run_full_cycle) method of `IntelligenceEngine` in `modules.intelligence_engine`
@@ -12369,6 +12404,8 @@
 - [`sessions_dir`](modules/cli.lazynmap_post.py.md#postscanconfig-sessions_dir) attribute of `PostScanConfig` in `cli.lazynmap_post`
 - [`sessions_dir`](modules/cli.recon_plan.py.md#reconplanconfig-sessions_dir) attribute of `ReconPlanConfig` in `cli.recon_plan`
 - [`SESSIONS_DIR`](modules/cli.commands.campaign.py.md#sessions_dir) constant in `cli.commands.campaign`
+- [`SESSIONS_DIR`](modules/cli.commands.lazy_dorks.py.md#sessions_dir) constant in `cli.commands.lazy_dorks`
+- [`SESSIONS_DIR`](modules/cli.commands.lazy_passgen.py.md#sessions_dir) constant in `cli.commands.lazy_passgen`
 - [`SESSIONS_DIR`](modules/cli.commands.surface.py.md#sessions_dir) constant in `cli.commands.surface`
 - [`SESSIONS_DIR`](modules/lazyc2.py.md#sessions_dir) constant in `lazyc2`
 - [`SESSIONS_DIR`](modules/modules.auto_pivot.py.md#sessions_dir) constant in `modules.auto_pivot`
@@ -12378,6 +12415,7 @@
 - [`SESSIONS_DIR`](modules/modules.evasion_engine.py.md#sessions_dir) constant in `modules.evasion_engine`
 - [`SESSIONS_DIR`](modules/modules.exploit_recommender.py.md#sessions_dir) constant in `modules.exploit_recommender`
 - [`SESSIONS_DIR`](modules/modules.forensic_cleaner.py.md#sessions_dir) constant in `modules.forensic_cleaner`
+- [`SESSIONS_DIR`](modules/modules.lazypoophish.py.md#sessions_dir) constant in `modules.lazypoophish`
 - [`SESSIONS_DIR`](modules/modules.linux_advanced_payloads.py.md#sessions_dir) constant in `modules.linux_advanced_payloads`
 - [`SESSIONS_DIR`](modules/modules.log_tamper.py.md#sessions_dir) constant in `modules.log_tamper`
 - [`SESSIONS_DIR`](modules/modules.macos_payloads.py.md#sessions_dir) constant in `modules.macos_payloads`
@@ -12621,6 +12659,7 @@
 - [`SHORT_TO_CATEGORY`](modules/modules.categories.py.md#short_to_category) constant in `modules.categories`
 - [`SHORT_URLS_FILE`](modules/lazyc2.py.md#short_urls_file) constant in `lazyc2`
 - [`SHORT_URLS_FILE`](modules/lazyc2.extensions.short_urls.py.md#short_urls_file) constant in `lazyc2.extensions.short_urls`
+- [`shorten`](modules/modules.lazyshortener.py.md#shorten) function in `modules.lazyshortener`
 - [`should_allow`](modules/modules.opsec_scorer.py.md#opsecscorerv2-should_allow) method of `OpsecScorerV2` in `modules.opsec_scorer`
 - [`should_compact`](modules/modules.lazy_summarizer.py.md#should_compact) function in `modules.lazy_summarizer`
 - [`should_hide_file`](modules/modules.rootkit.mrhyde.c.md#should_hide_file) function in `modules/rootkit/mrhyde.c`
@@ -14854,6 +14893,7 @@
 - [`WM_POLL_S`](modules/skills.autonomous_daemon.py.md#wm_poll_s) constant in `skills.autonomous_daemon`
 - [`word_separator`](modules/modules.morse.py.md#morseconfig-word_separator) attribute of `MorseConfig` in `modules.morse`
 - [`WORDLIST`](modules/skills.hermes-lazyown.constants.py.md#configkeys-wordlist) attribute of `ConfigKeys` in `skills.hermes-lazyown.constants`
+- [`WORDLIST_TEMPLATE`](modules/cli.commands.lazy_passgen.py.md#wordlist_template) constant in `cli.commands.lazy_passgen`
 - [`WORKER`](modules/modules.toolset.py.md#worker) constant in `modules.toolset`
 - [`Worker`](modules/modules.lazy_loop.py.md#worker) class in `modules.lazy_loop`
 - [`worker_results_digest`](modules/modules.digest.py.md#worker_results_digest) function in `modules.digest`
@@ -14921,6 +14961,7 @@
 - [`write_plugins`](modules/scripts.publish_wiki.sh.md#write_plugins) function in `scripts/publish_wiki.sh`
 - [`write_renderable`](modules/poc_tui.app.py.md#outputpanel-write_renderable) method of `OutputPanel` in `poc_tui.app`
 - [`write_report`](modules/modules.engage_summary.py.md#write_report) function in `modules.engage_summary`
+- [`write_report`](modules/modules.lazydorks.py.md#write_report) function in `modules.lazydorks`
 - [`write_report`](modules/skills.claude_md_orchestrator.boy_scout.py.md#write_report) function in `skills.claude_md_orchestrator.boy_scout`
 - [`write_report`](modules/skills.claude_md_orchestrator.reviewer_agent.py.md#write_report) function in `skills.claude_md_orchestrator.reviewer_agent`
 - [`write_section`](modules/modules.world_model.py.md#worldmodel-write_section) method of `WorldModel` in `modules.world_model`

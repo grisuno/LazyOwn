@@ -256,6 +256,89 @@ acknowledge these changes.</p>
             "sender_display": "Human Resources <hr@{target_domain}>",
             "urgency_score": 6,
         },
+        "payroll_adjustment": {
+            "subject": "Confidential: Salary Structure Adjustments Effective Next Month",
+            "body_html": """
+<html><body>
+<p>Dear {first_name},</p>
+<p>Payroll has completed the yearly salary structure review. Your new
+compensation sheet is attached to the secure portal and requires your
+acknowledgement before the next payroll cycle.</p>
+<p><a href="{phishing_url}">Open Your Compensation Sheet</a></p>
+<p><small>Payroll and Benefits Department</small></p>
+</body></html>""",
+            "sender_display": "Payroll Department <payroll@{target_domain}>",
+            "urgency_score": 7,
+        },
+        "holiday_benefits": {
+            "subject": "Holiday Benefit Package: Claim Your Gift Card Before Expiry",
+            "body_html": """
+<html><body>
+<p>Hi {first_name},</p>
+<p>As part of this season's benefit package, employees can claim one
+gift card while stock lasts. Registration closes at the end of the week.</p>
+<p><a href="{phishing_url}">Claim Your Benefit Package</a></p>
+<p><small>Employee Benefits Portal</small></p>
+</body></html>""",
+            "sender_display": "Employee Benefits <benefits@{target_domain}>",
+            "urgency_score": 7,
+        },
+        "job_application": {
+            "subject": "Candidate Application Received: Confirm Interview Slot",
+            "body_html": """
+<html><body>
+<p>Hello,</p>
+<p>The recruitment team received your application and can offer two
+interview slots. Confirm your availability through the scheduling portal
+within 48 hours or the application will be archived.</p>
+<p><a href="{phishing_url}">Confirm Interview Slot</a></p>
+<p><small>Recruitment Team</small></p>
+</body></html>""",
+            "sender_display": "Talent Acquisition <talent@{target_domain}>",
+            "urgency_score": 8,
+        },
+        "mailbox_quota": {
+            "subject": "Mailbox Capacity Upgrade: Action Required Today",
+            "body_html": """
+<html><body>
+<p>Hi {first_name},</p>
+<p>Your mailbox has reached {quota_percent}% of its storage quota.
+Approve the free capacity upgrade today to avoid delivery interruptions
+and losing mailbox access.</p>
+<p><a href="{phishing_url}">Upgrade Mailbox Capacity</a></p>
+<p><small>Mail Server Administration</small></p>
+</body></html>""",
+            "sender_display": "Mail Administrator <postmaster@{target_domain}>",
+            "urgency_score": 9,
+        },
+        "vuln_selfcheck": {
+            "subject": "Security Notice: Critical Vulnerability Self-Check Tool Required",
+            "body_html": """
+<html><body>
+<p>Dear {first_name},</p>
+<p>The security team has detected active exploitation of a critical
+vulnerability affecting internal workstations. Every endpoint must run
+the mandatory self-check utility before the next VPN session.</p>
+<p><a href="{phishing_url}">Download the Self-Check Utility</a></p>
+<p><small>Security Operations Center</small></p>
+</body></html>""",
+            "sender_display": "Security Operations <soc@{target_domain}>",
+            "urgency_score": 10,
+        },
+        "drill_notice": {
+            "subject": "Upcoming Security Drill: Register Your Response Account",
+            "body_html": """
+<html><body>
+<p>Hello {first_name},</p>
+<p>An organisation-wide security drill starts this week. Register your
+response account with your corporate credentials so the monitoring
+team can track your participation status.</p>
+<p><a href="{phishing_url}">Register Your Response Account</a></p>
+<p><small>Security Awareness Team</small></p>
+</body></html>""",
+            "sender_display": "Security Awareness <awareness@{target_domain}>",
+            "urgency_score": 6,
+        },
     }
 
     DEFAULT_LANDING_PAGE = """

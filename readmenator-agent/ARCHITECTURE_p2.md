@@ -2,6 +2,12 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/commands/verb_admin.py` -> `utils.py`
+- `cli/commands/winbox_gym.py` -> `cli/commands/_base.py`
+- `cli/commands/winbox_gym.py` -> `modules/__init__.py`
+- `cli/commands/winbox_gym.py` -> `utils.py`
+- `cli/config_status.py` -> `core/console.py`
+- `cli/contextual_help.py` -> `cli/palette.py`
 - `cli/contextual_help.py` -> `cli/phase_labels.py`
 - `cli/contextual_help.py` -> `core/console.py`
 - `cli/dashboard_tui.py` -> `cli/commands/containers.py`
@@ -490,11 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/services/teamserver_backend.py` -> `lazyc2/blueprints/auth.py`
 - `lazygui/services/teamserver_backend.py` -> `lazygui/config/constants.py`
 - `lazygui/services/teamserver_backend.py` -> `lazygui/services/backend.py`
-- `lazygui/services/teamserver_backend.py` -> `lazygui/services/models.py`
-- `lazygui/theme/__init__.py` -> `lazygui/theme/manager.py`
-- `lazygui/theme/__init__.py` -> `lazygui/theme/qss_builder.py`
-- `lazygui/theme/__init__.py` -> `lazygui/theme/tokens.py`
-- `lazygui/theme/manager.py` -> `core/logging.py`
-- `lazygui/theme/manager.py` -> `lazygui/config/constants.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

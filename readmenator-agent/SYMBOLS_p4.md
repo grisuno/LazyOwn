@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `smb_brute` | function | `cli/commands/scan_migrated.py:602` | `def smb_brute(config_file, host, passwd_file, lhost, lport)` |
+| `SecurityCommandSet` | class | `cli/commands/security.py:20` | `class SecurityCommandSet(LazyOwnCommandSet)` |
+| `complete_crack_hashes` | method | `cli/commands/security.py:276` | `def complete_crack_hashes(self, text, line, begidx, endidx)` |
+| `complete_opsec` | method | `cli/commands/security.py:267` | `def complete_opsec(self, text, line, begidx, endidx)` |
+| `do_crack_hashes` | method | `cli/commands/security.py:170` | `def do_crack_hashes(self, line)` |
 | `do_opsec` | method | `cli/commands/security.py:26` | `def do_opsec(self, line)` |
 | `do_rotate_aes` | method | `cli/commands/security.py:127` | `def do_rotate_aes(self, _line)` |
 | `do_seal_credentials` | method | `cli/commands/security.py:106` | `def do_seal_credentials(self, _line)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `action_dismiss` | method | `cli/lazy_monitor.py:84` | `def action_dismiss(self, value)` |
 | `action_focus_worker` | method | `cli/lazy_monitor.py:508` | `def action_focus_worker(self, index)` |
 | `action_hint` | method | `cli/lazy_monitor.py:445` | `def action_hint(self)` |
-| `action_kill` | method | `cli/lazy_monitor.py:477` | `def action_kill(self)` |
-| `action_next_task` | method | `cli/lazy_monitor.py:518` | `def action_next_task(self)` |
-| `action_pause` | method | `cli/lazy_monitor.py:409` | `def action_pause(self)` |
-| `action_resume` | method | `cli/lazy_monitor.py:417` | `def action_resume(self)` |
-| `action_steer` | method | `cli/lazy_monitor.py:460` | `def action_steer(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

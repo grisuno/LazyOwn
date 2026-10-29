@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `read_file` | function | `plugins/generate_msfvenom_loader.lua:7` | `` |
+| `generate_msfvenom_loader_windows` | function | `plugins/generate_msfvenom_loader_windows.lua:2` | `` |
+| `generate_reverse_shell` | function | `plugins/generate_reverse_shell.lua:1` | `` |
+| `generate_stub_ps1` | function | `plugins/generate_stub.lua:43` | `` |
+| `read_file` | function | `plugins/generate_stub.lua:12` | `` |
+| `write_file` | function | `plugins/generate_stub.lua:4` | `` |
+| `xor_data` | function | `plugins/generate_stub.lua:21` | `` |
+| `xor_string` | function | `plugins/generate_stub.lua:30` | `` |
+| `load_plugin` | function | `plugins/init_plugins.lua:6` | `` |
+| `kerberos_harvest` | function | `plugins/kerberos_harvest.lua:1` | `` |
+| `read_file` | function | `plugins/lolbas_certutil_download_exec.lua:13` | `` |
+| `write_file` | function | `plugins/lolbas_certutil_download_exec.lua:5` | `` |
+| `xor_data` | function | `plugins/lolbas_certutil_download_exec.lua:21` | `` |
+| `run_msfvenom` | function | `plugins/lolbas_certutil_exe.lua:2` | `` |
+| `write_file` | function | `plugins/lolbas_wmic_xsl_execution.lua:4` | `` |
+| `parse_nmap_with_xmlstarlet` | function | `plugins/parse_nmap_with_xmlstarlet.lua:1` | `` |
+| `run_nuclei_on_nmap_files` | function | `plugins/run_nuclei_on_nmap_files.lua:1` | `` |
+| `run_python_rev_c2` | function | `plugins/run_python_rev_c2.lua:2` | `` |
+| `base64_encode` | function | `plugins/rundll32_sct_from_url.lua:22` | `` |
+| `generate_sct` | function | `plugins/rundll32_sct_from_url.lua:58` | `` |
 | `read_file` | function | `plugins/rundll32_sct_from_url.lua:12` | `` |
 | `write_file` | function | `plugins/rundll32_sct_from_url.lua:4` | `` |
 | `esc_hex_to_bytes` | function | `plugins/validate_shellcode.lua:21` | `` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `_worker` | function | `skills/autonomous_daemon.py:4064` | `def _worker()` |
 | `_world_fingerprint` | function | `skills/autonomous_daemon.py:3011` | `def _world_fingerprint()` |
 | `_wrap_chain_with_metrics_bias` | function | `skills/autonomous_daemon.py:1245` | `def _wrap_chain_with_metrics_bias(selectors, enabled)` |
-| `_write_pid` | function | `skills/autonomous_daemon.py:4643` | `def _write_pid()` |
-| `_write_status` | function | `skills/autonomous_daemon.py:4197` | `def _write_status()` |
-| `cmd_engage` | function | `skills/autonomous_daemon.py:4169` | `def cmd_engage(target, max_switches_per_step, detach)` |
-| `cmd_inject` | function | `skills/autonomous_daemon.py:4743` | `def cmd_inject(text, priority)` |
-| `cmd_run` | function | `skills/autonomous_daemon.py:4671` | `def cmd_run(max_steps)` |
-| `cmd_start` | function | `skills/autonomous_daemon.py:4680` | `def cmd_start(max_steps)` |
-| `cmd_status` | function | `skills/autonomous_daemon.py:4727` | `def cmd_status()` |
-| `cmd_stop` | function | `skills/autonomous_daemon.py:4710` | `def cmd_stop()` |
-| `compute_decision_seed` | function | `skills/autonomous_daemon.py:394` | `def compute_decision_seed(objective_id, step_n, source)` |
-| `detect_in_output` | method | `skills/autonomous_daemon.py:3271` | `def detect_in_output(self, output, target)` |
-| `did_switch` | method | `skills/autonomous_daemon.py:3125` | `def did_switch(self)` |
-| `engagement_id` | method | `skills/autonomous_daemon.py:3362` | `def engagement_id(self)` |
-| `handle` | method | `skills/autonomous_daemon.py:1459` | `def handle(self, objective_id, objective_text, target, context)` |
-| `handle` | method | `skills/autonomous_daemon.py:1497` | `def handle(self, objective_id, objective_text, target, context)` |
-| `heartbeat_loop` | function | `skills/autonomous_daemon.py:4544` | `def heartbeat_loop()` |
-| `mcp_autonomous_events` | function | `skills/autonomous_daemon.py:4892` | `def mcp_autonomous_events(last_n)` |
-| `mcp_autonomous_inject` | function | `skills/autonomous_daemon.py:4848` | `def mcp_autonomous_inject(text, priority, target)` |
-| `mcp_autonomous_start` | function | `skills/autonomous_daemon.py:4777` | `def mcp_autonomous_start(max_steps, backend)` |
-| `mcp_autonomous_status` | function | `skills/autonomous_daemon.py:4835` | `def mcp_autonomous_status()` |
-| `mcp_autonomous_stop` | function | `skills/autonomous_daemon.py:4819` | `def mcp_autonomous_stop()` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

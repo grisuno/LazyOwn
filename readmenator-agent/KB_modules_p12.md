@@ -1,6 +1,41 @@
 # Subsystem: modules (page 12 of 17)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/llm_evaluator.py
+- Doc: — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DecisionRecord` (class, line 21) `class DecisionRecord`
+  - `_new_id` (function, line 35) `def _new_id()`
+  - `_record_from_dict` (function, line 39) `def _record_from_dict(d)`
+  - `OutcomeRecorder` (class, line 55) `class OutcomeRecorder(ABC)`
+  - `JSONLRecorder` (class, line 75) `class JSONLRecorder(OutcomeRecorder)`
+  - `QualityMetrics` (class, line 140) `class QualityMetrics`
+  - `_safe_mean` (function, line 150) `def _safe_mean(values)`
+  - `_tactic_success_rates` (function, line 154) `def _tactic_success_rates(records)`
+  - `LLMEvaluator` (class, line 161) `class LLMEvaluator`
+  - `get_evaluator` (function, line 293) `def get_evaluator()`
+  - `record_decision` (function, line 302) `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)`
+  - `record_outcome` (function, line 313) `def record_outcome(decision_id, actual_outcome, findings_count, success)`
+  - `_cli` (function, line 322) `def _cli()`
+  - `record` (method, line 57) `def record(self, decision)`
+  - `update_outcome` (method, line 60) `def update_outcome(self, decision_id, actual, findings_count, success)`
+  - `load_all` (method, line 69) `def load_all(self)`
+  - `load_by_session` (method, line 72) `def load_by_session(self, session_id)`
+  - `__init__` (method, line 76) `def __init__(self, path)`
+  - `record` (method, line 81) `def record(self, decision)`
+  - `update_outcome` (method, line 86) `def update_outcome(self, decision_id, actual, findings_count, success)`
+  - `load_all` (method, line 120) `def load_all(self)`
+  - `load_by_session` (method, line 135) `def load_by_session(self, session_id)`
+  - `__init__` (method, line 162) `def __init__(self, recorder)`
+  - `record_decision` (method, line 165) `def record_decision(self, session_id, thought, action, mitre_tactic, expected_outcome, confidence)`
+  - `record_outcome` (method, line 191) `def record_outcome(self, decision_id, actual_outcome, findings_count, success)`
+  - `compute_metrics` (method, line 200) `def compute_metrics(self, session_id)`
+  - `quality_report` (method, line 241) `def quality_report(self, session_id)`
+  - `export_finetuning_dataset` (method, line 256) `def export_finetuning_dataset(self, path)`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+
 ## modules/llm_factory.py
 - Doc: LLM backend factory and selection utilities.
 - Layer: infrastructure
@@ -460,36 +495,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `search_semantic` (method, line 328) `def search_semantic(self, query, top_k)`
 - Depends on: `modules/memory_embeddings.py`
 - Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_memory_semantics.py`
-
-## modules/metasploitable_gym.py
-- Doc: Metasploitable 2 gym catalogue loader and matrix validator.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_load_yaml` (function, line 30) `def _load_yaml(path)`
-  - `load_index` (function, line 42) `def load_index(path)`
-  - `vulnerabilities` (function, line 47) `def vulnerabilities(path)`
-  - `get` (function, line 53) `def get(vuln_id, path)`
-  - `chain_for` (function, line 62) `def chain_for(vuln_id, path)`
-  - `exploit_for` (function, line 72) `def exploit_for(vuln_id, path)`
-  - `validate_matrix` (function, line 82) `def validate_matrix(path)`
-  - `summary` (function, line 138) `def summary(path)`
-  - `main` (function, line 157) `def main()`
-- Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
-- Imported by: `cli/commands/redteam_gym.py`, `modules/ctf_capture.py`, `tests/test_metasploitable_gym.py`
-
-## modules/metasploitable_migrations.py
-- Doc: Idempotent migrations for the Metasploitable 2 gym container.
-- Layer: data_access
-- Language: py
-- Symbols:
-  - `Migration` (class, line 129) `class Migration`
-  - `_docker_exec` (function, line 150) `def _docker_exec(container, script, payload, timeout)`
-  - `_core_services_apply` (function, line 180) `def _core_services_apply()`
-  - `build_migrations` (function, line 194) `def build_migrations(subnet)`
-  - `apply_migrations` (function, line 354) `def apply_migrations(container, subnet)`
-- Depends on: `core/safe_exec.py`
-- Imported by: `modules/lab_runtime.py`, `tests/test_metasploitable_migrations.py`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

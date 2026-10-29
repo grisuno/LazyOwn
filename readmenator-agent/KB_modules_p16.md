@@ -1,6 +1,50 @@
 # Subsystem: modules (page 16 of 17)
 Previous: [KB_modules_p15.md](KB_modules_p15.md)
 
+## modules/smbver.sh
+- Doc: Author: rewardone Description: Requires root or enough permissions to use tcpdump Will listen...
+- Layer: utility
+- Language: sh
+
+## modules/socks_proxy.py
+- Doc: SOCKS5 proxy engine for tunneling traffic through LazyOwn beacons.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SocksAuthMethod` (class, line 65) `class SocksAuthMethod(IntEnum)`
+  - `SocksCommand` (class, line 74) `class SocksCommand(IntEnum)`
+  - `SocksAddressType` (class, line 82) `class SocksAddressType(IntEnum)`
+  - `SocksReply` (class, line 90) `class SocksReply(IntEnum)`
+  - `SocksSession` (class, line 120) `class SocksSession`
+  - `SocksProxyConfig` (class, line 166) `class SocksProxyConfig`
+  - `SocksValidator` (class, line 244) `class SocksValidator`
+  - `SocksProxyEngine` (class, line 368) `class SocksProxyEngine`
+  - `message` (method, line 103) `def message(self)`
+  - `elapsed_seconds` (method, line 144) `def elapsed_seconds(self)`
+  - `to_dict` (method, line 150) `def to_dict(self)`
+  - `to_dict` (method, line 199) `def to_dict(self)`
+  - `from_dict` (method, line 218) `def from_dict(cls, raw)`
+  - `validate_config` (method, line 253) `def validate_config(config)`
+  - `validate_request` (method, line 300) `def validate_request(command, address_type, host, port, config)`
+  - `_check_access_control` (method, line 340) `def _check_access_control(host, port, config)`
+  - `__init__` (method, line 381) `def __init__(self, config)`
+  - `config` (method, line 387) `def config(self)`
+  - `sessions` (method, line 392) `def sessions(self)`
+  - `session_count` (method, line 397) `def session_count(self)`
+  - `validate` (method, line 401) `def validate(self, config)`
+  - `build_spec` (method, line 413) `def build_spec(self)`
+  - `create_session` (method, line 436) `def create_session(self, session_id, target_host, target_port, beacon_client_id)`
+  - `remove_session` (method, line 475) `def remove_session(self, session_id)`
+  - `get_session` (method, line 482) `def get_session(self, session_id)`
+  - `add_bytes` (method, line 486) `def add_bytes(self, session_id, sent, received)`
+  - `cleanup_expired` (method, line 497) `def cleanup_expired(self)`
+  - `list_sessions` (method, line 511) `def list_sessions(self)`
+  - `_find_oldest_session` (method, line 515) `def _find_oldest_session(self)`
+  - `from_dict` (method, line 522) `def from_dict(cls, raw)`
+  - `from_payload` (method, line 528) `def from_payload(cls, payload)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`
+- Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
+
 ## modules/staged_delivery.py
 - Doc: Staged payload delivery — HTA, Office macros, LNK files, ISO/VHD packaging.
 - Layer: utility
@@ -420,72 +464,6 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
 - Doc: Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico...
 - Layer: utility
 - Language: sh
-
-## modules/venator.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `getUUID` (function, line 38) `def getUUID()`
-  - `getSystemInfo` (function, line 66) `def getSystemInfo(output_file)`
-  - `getVTResult` (function, line 83) `def getVTResult(fileHash)`
-  - `getHash` (function, line 112) `def getHash(file, ignoreVFlag)`
-  - `checkSignature` (function, line 132) `def checkSignature(file, bundle)`
-  - `datetime_handler` (function, line 210) `def datetime_handler(x)`
-  - `parseAgentsDaemons` (function, line 215) `def parseAgentsDaemons(item, path)`
-  - `getLaunchAgents` (function, line 287) `def getLaunchAgents(path, output_file, ignoreVFlag)`
-  - `getLaunchDaemons` (function, line 302) `def getLaunchDaemons(path, output_file, ignoreVFlag)`
-  - `getUsers` (function, line 317) `def getUsers(output_file)`
-  - `getSafariExtensions` (function, line 338) `def getSafariExtensions(path, output_file)`
-  - `getChromeExtensions` (function, line 357) `def getChromeExtensions(path, output_file)`
-  - `getChromeDownloads` (function, line 388) `def getChromeDownloads(chromeHistoryDbPath, output_file)`
-  - `getFirefoxExtensions` (function, line 442) `def getFirefoxExtensions(path, output_file)`
-  - `getInstallHistory` (function, line 477) `def getInstallHistory(output_file)`
-  - `getCronJobs` (function, line 494) `def getCronJobs(users, output_file)`
-  - `getEmond` (function, line 513) `def getEmond(output_file)`
-  - `getKext` (function, line 530) `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)`
-  - `getEnv` (function, line 577) `def getEnv(output_file)`
-  - `getPeriodicScripts` (function, line 592) `def getPeriodicScripts(output_file)`
-  - `getConnections` (function, line 609) `def getConnections(output_file)`
-  - `SIPStatus` (function, line 637) `def SIPStatus(output_file)`
-  - `GatekeeperStatus` (function, line 651) `def GatekeeperStatus(output_file)`
-  - `parseApp` (function, line 663) `def parseApp(app, ignoreVFlag)`
-  - `getLoginItems` (function, line 706) `def getLoginItems(path, output_file, ignoreVFlag)`
-  - `getApps` (function, line 741) `def getApps(path, output_file, ignoreVFlag)`
-  - `getEventTaps` (function, line 763) `def getEventTaps(output_file)`
-  - `getBashHistory` (function, line 786) `def getBashHistory(output_file, users)`
-  - `getShellStartupScripts` (function, line 804) `def getShellStartupScripts(users, output_file)`
-  - `hmac_sha256` (function, line 842) `def hmac_sha256(key, data)`
-  - `amzn_sig` (function, line 846) `def amzn_sig(secret_access_key, data, aws_region, aws_service)`
-  - `amzn_canonical_req` (function, line 856) `def amzn_canonical_req(filename_path, headers_list)`
-  - `s3_upload` (function, line 866) `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
-  - `io_key` (function, line 49) `def io_key(keyname)`
-
-## modules/verb_catalog.py
-- Doc: Operator-owned YAML catalog of every routable shell verb.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `VerbCatalogConfig` (class, line 76) `class VerbCatalogConfig`
-  - `_default_config` (function, line 99) `def _default_config()`
-  - `_builtin_names` (function, line 105) `def _builtin_names()`
-  - `_phase_fallback` (function, line 117) `def _phase_fallback(verb)`
-  - `_risk_fallback` (function, line 127) `def _risk_fallback(verb)`
-  - `_addon_discoveries` (function, line 137) `def _addon_discoveries(config)`
-  - `_all_discoveries` (function, line 181) `def _all_discoveries(config)`
-  - `index_commands` (function, line 190) `def index_commands(config)`
-  - `validate_catalog` (function, line 230) `def validate_catalog(data)`
-  - `load` (function, line 263) `def load(config)`
-  - `entries` (function, line 296) `def entries(config)`
-  - `catalog_enabled` (function, line 349) `def catalog_enabled(name, config)`
-  - `catalog_source` (function, line 364) `def catalog_source(name, config)`
-  - `set_enabled` (function, line 378) `def set_enabled(name, enabled, config)`
-  - `sync` (function, line 415) `def sync(config)`
-  - `_write` (function, line 470) `def _write(cfg, verbs)`
-  - `_drop_cache` (function, line 494) `def _drop_cache(path_key)`
-  - `stats` (function, line 502) `def stats(config)`
-  - `search` (function, line 516) `def search(query, config, phase, enabled, limit)`
-- Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
-- Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
 
 
 Next: [KB_modules_p17.md](KB_modules_p17.md)

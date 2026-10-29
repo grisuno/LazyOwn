@@ -2,6 +2,22 @@
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_loop_budget.py` -> `modules/__init__.py`
+- `tests/test_loop_budget.py` -> `modules/lazy_runner.py`
+- `tests/test_loop_cli_catalog.py` -> `modules/__init__.py`
+- `tests/test_loop_cli_catalog.py` -> `modules/lazy_cli_bridge.py`
+- `tests/test_loop_cli_catalog.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_cli_catalog.py` -> `modules/verb_catalog.py`
+- `tests/test_loop_cli_catalog.py` -> `modules/world_model.py`
+- `tests/test_loop_cold_overview.py` -> `modules/lazy_engine.py`
+- `tests/test_loop_cold_overview.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_force_graph.py` -> `modules/lazy_engine.py`
+- `tests/test_loop_force_graph.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_guard_audit.py` -> `modules/lazy_engine.py`
+- `tests/test_loop_guard_audit.py` -> `modules/lazy_loop.py`
+- `tests/test_loop_guardrails.py` -> `modules/loop_guardrails.py`
+- `tests/test_loop_intent_delete.py` -> `modules/lazy_engine.py`
+- `tests/test_loop_intent_delete.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_llm_resilience.py` -> `modules/llm_factory.py`

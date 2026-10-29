@@ -3,6 +3,92 @@ Previous: [SYMBOLS_p46.md](SYMBOLS_p46.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_matrix_validates` | method | `tests/test_winbox_gym.py:18` | `def test_matrix_validates(self)` |
+| `test_metasploitable_capture_unchanged` | method | `tests/test_winbox_gym.py:658` | `def test_metasploitable_capture_unchanged(self)` |
+| `test_missing_snapshot_triggers_completion_for_substantial_disk` | method | `tests/test_winbox_gym.py:471` | `def test_missing_snapshot_triggers_completion_for_substantial_disk(self)` |
+| `test_notifications_stream_every_stage` | method | `tests/test_winbox_gym.py:533` | `def test_notifications_stream_every_stage(self)` |
+| `test_partial_manual_recovery_falls_back_to_rebuild` | method | `tests/test_winbox_gym.py:403` | `def test_partial_manual_recovery_falls_back_to_rebuild(self)` |
+| `test_partial_recovery_failure_is_loud` | method | `tests/test_winbox_gym.py:442` | `def test_partial_recovery_failure_is_loud(self)` |
+| `test_partial_setup_timeout_recovers_without_rebuild` | method | `tests/test_winbox_gym.py:362` | `def test_partial_setup_timeout_recovers_without_rebuild(self)` |
+| `test_plan_only_filter` | method | `tests/test_winbox_gym.py:591` | `def test_plan_only_filter(self)` |
+| `test_plan_ordered_by_severity` | method | `tests/test_winbox_gym.py:581` | `def test_plan_ordered_by_severity(self)` |
+| `test_plan_rejects_empty_target` | method | `tests/test_winbox_gym.py:587` | `def test_plan_rejects_empty_target(self)` |
+| `test_prereq_fallback_never_accepts_missing_files` | method | `tests/test_winbox_gym.py:75` | `def test_prereq_fallback_never_accepts_missing_files(self)` |
+| `test_prereq_finds_libexec_virtiofsd` | method | `tests/test_winbox_gym.py:65` | `def test_prereq_finds_libexec_virtiofsd(self)` |
+| `test_provision_failure_is_loud` | method | `tests/test_winbox_gym.py:513` | `def test_provision_failure_is_loud(self)` |
+| `test_provision_self_heals_missing_z_drive` | method | `tests/test_winbox_gym.py:493` | `def test_provision_self_heals_missing_z_drive(self)` |
+| `test_readiness_guest_os_fallback` | method | `tests/test_winbox_gym.py:83` | `def test_readiness_guest_os_fallback(self)` |
+| `test_readiness_without_binary` | method | `tests/test_winbox_gym.py:57` | `def test_readiness_without_binary(self)` |
+| `test_record_artifact_sanitised` | method | `tests/test_winbox_gym.py:130` | `def test_record_artifact_sanitised(self)` |
+| `test_run_cli_missing_binary_is_guidance` | method | `tests/test_winbox_gym.py:100` | `def test_run_cli_missing_binary_is_guidance(self)` |
+| `test_run_cli_rejects_bad_timeout` | method | `tests/test_winbox_gym.py:96` | `def test_run_cli_rejects_bad_timeout(self)` |
+| `test_run_cli_rejects_empty` | method | `tests/test_winbox_gym.py:92` | `def test_run_cli_rejects_empty(self)` |
+| `test_run_cli_rejects_unknown_action` | method | `tests/test_winbox_gym.py:88` | `def test_run_cli_rejects_unknown_action(self)` |
+| `test_run_cli_uses_list_form` | method | `tests/test_winbox_gym.py:106` | `def test_run_cli_uses_list_form(self)` |
+| `test_run_matrix_dry_run` | method | `tests/test_winbox_gym.py:595` | `def test_run_matrix_dry_run(self)` |
+| `test_run_matrix_requires_vm_when_live` | method | `tests/test_winbox_gym.py:603` | `def test_run_matrix_requires_vm_when_live(self)` |
+| `test_spanish_status_parse` | method | `tests/test_winbox_gym.py:316` | `def test_spanish_status_parse(self)` |
+| `test_status_parsing` | method | `tests/test_winbox_gym.py:120` | `def test_status_parsing(self)` |
+| `test_stream_command_live_output_and_transcript` | method | `tests/test_winbox_gym.py:554` | `def test_stream_command_live_output_and_transcript(self)` |
+| `test_stream_command_rejects_null_byte` | method | `tests/test_winbox_gym.py:573` | `def test_stream_command_rejects_null_byte(self)` |
+| `test_summary_shape` | method | `tests/test_winbox_gym.py:21` | `def test_summary_shape(self)` |
+| `test_vm_status_missing_binary` | method | `tests/test_winbox_gym.py:116` | `def test_vm_status_missing_binary(self)` |
+| `TestBinaryNameRegex` | class | `tests/test_wizard_binary_check.py:58` | `class TestBinaryNameRegex` |
+| `TestBinarySpecRegistry` | class | `tests/test_wizard_binary_check.py:32` | `class TestBinarySpecRegistry` |
+| `TestCheckBinariesContract` | class | `tests/test_wizard_binary_check.py:92` | `class TestCheckBinariesContract` |
+| `TestGroupByCategory` | class | `tests/test_wizard_binary_check.py:143` | `class TestGroupByCategory` |
+| `TestPublicSurface` | class | `tests/test_wizard_binary_check.py:199` | `class TestPublicSurface` |
+| `TestRunIntegratesBinaryCheck` | class | `tests/test_wizard_binary_check.py:156` | `class TestRunIntegratesBinaryCheck` |
+| `_fail` | function | `tests/test_wizard_binary_check.py:127` | `def _fail()` |
+| `fake_check` | function | `tests/test_wizard_binary_check.py:160` | `def fake_check()` |
+| `fake_check` | function | `tests/test_wizard_binary_check.py:179` | `def fake_check()` |
+| `test_accepts_known_safe_names` | method | `tests/test_wizard_binary_check.py:72` | `def test_accepts_known_safe_names(self, name)` |
+| `test_check_binaries_in_dunder_all` | method | `tests/test_wizard_binary_check.py:200` | `def test_check_binaries_in_dunder_all(self)` |
+| `test_check_does_not_invoke_subprocess` | method | `tests/test_wizard_binary_check.py:122` | `def test_check_does_not_invoke_subprocess(self, monkeypatch)` |
+| `test_default_registry_is_not_empty` | method | `tests/test_wizard_binary_check.py:33` | `def test_default_registry_is_not_empty(self)` |
+| `test_default_specs_used_when_omitted` | method | `tests/test_wizard_binary_check.py:138` | `def test_default_specs_used_when_omitted(self)` |
+| `test_every_name_matches_safety_regex` | method | `tests/test_wizard_binary_check.py:44` | `def test_every_name_matches_safety_regex(self)` |
+| `test_every_spec_has_required_fields` | method | `tests/test_wizard_binary_check.py:36` | `def test_every_spec_has_required_fields(self)` |
+| `test_groups_preserve_order` | method | `tests/test_wizard_binary_check.py:144` | `def test_groups_preserve_order(self)` |
+| `test_kill_chain_categories_covered` | method | `tests/test_wizard_binary_check.py:52` | `def test_kill_chain_categories_covered(self)` |
+| `test_marks_missing_when_which_returns_none` | method | `tests/test_wizard_binary_check.py:103` | `def test_marks_missing_when_which_returns_none(self)` |
+| `test_marks_present_when_which_returns_path` | method | `tests/test_wizard_binary_check.py:109` | `def test_marks_present_when_which_returns_path(self)` |
+| `test_no_duplicate_binary_names` | method | `tests/test_wizard_binary_check.py:48` | `def test_no_duplicate_binary_names(self)` |
+| `test_rejects_unsafe_names` | method | `tests/test_wizard_binary_check.py:88` | `def test_rejects_unsafe_names(self, name)` |
+| `test_returns_one_status_per_spec` | method | `tests/test_wizard_binary_check.py:93` | `def test_returns_one_status_per_spec(self)` |
+| `test_run_populates_binaries_after_updates` | method | `tests/test_wizard_binary_check.py:176` | `def test_run_populates_binaries_after_updates(self, monkeypatch)` |
+| `test_run_populates_binaries_when_nothing_changes` | method | `tests/test_wizard_binary_check.py:157` | `def test_run_populates_binaries_when_nothing_changes(self, monkeypatch)` |
+| `test_skips_specs_with_unsafe_names` | method | `tests/test_wizard_binary_check.py:115` | `def test_skips_specs_with_unsafe_names(self)` |
+| `TestAskLlm` | class | `tests/test_wizard_llm.py:59` | `class TestAskLlm` |
+| `TestMaskSecret` | class | `tests/test_wizard_llm.py:45` | `class TestMaskSecret` |
+| `TestNormalizeProviderAnswer` | class | `tests/test_wizard_llm.py:23` | `class TestNormalizeProviderAnswer` |
+| `TestReadinessLlm` | class | `tests/test_wizard_llm.py:121` | `class TestReadinessLlm` |
+| `_fake` | function | `tests/test_wizard_llm.py:17` | `def _fake(message)` |
+| `_fake` | function | `tests/test_wizard_llm.py:92` | `def _fake(message)` |
+| `_fake` | function | `tests/test_wizard_llm.py:109` | `def _fake(message)` |
+| `_row` | method | `tests/test_wizard_llm.py:122` | `def _row(self, params, label)` |
+| `_scripted_prompt` | function | `tests/test_wizard_llm.py:14` | `def _scripted_prompt(answers)` |
+| `test_blank_answers_keep_everything` | method | `tests/test_wizard_llm.py:60` | `def test_blank_answers_keep_everything(self, monkeypatch)` |
+| `test_blank_returns_none` | method | `tests/test_wizard_llm.py:24` | `def test_blank_returns_none(self)` |
+| `test_cloud_with_key_ok` | method | `tests/test_wizard_llm.py:126` | `def test_cloud_with_key_ok(self)` |
+| `test_cloud_without_key_missing` | method | `tests/test_wizard_llm.py:131` | `def test_cloud_without_key_missing(self)` |
+| `test_empty_returns_not_set` | method | `tests/test_wizard_llm.py:46` | `def test_empty_returns_not_set(self)` |
+| `test_existing_key_prompt_shows_mask` | method | `tests/test_wizard_llm.py:106` | `def test_existing_key_prompt_shows_mask(self, monkeypatch)` |
+| `test_invalid_backend_missing_with_fix_hint` | method | `tests/test_wizard_llm.py:141` | `def test_invalid_backend_missing_with_fix_hint(self)` |
+| `test_invalid_provider_keeps_current` | method | `tests/test_wizard_llm.py:76` | `def test_invalid_provider_keeps_current(self, monkeypatch)` |
+| `test_key_kept_when_blank` | method | `tests/test_wizard_llm.py:102` | `def test_key_kept_when_blank(self, monkeypatch)` |
+| `test_long_value_masked_with_tail` | method | `tests/test_wizard_llm.py:50` | `def test_long_value_masked_with_tail(self)` |
+| `test_model_override_stored_in_provider_slot` | method | `tests/test_wizard_llm.py:80` | `def test_model_override_stored_in_provider_slot(self, monkeypatch)` |
+| `test_model_shown_in_value` | method | `tests/test_wizard_llm.py:146` | `def test_model_shown_in_value(self)` |
+| `test_name_case_insensitive` | method | `tests/test_wizard_llm.py:28` | `def test_name_case_insensitive(self)` |
+| `test_number_selects_backend` | method | `tests/test_wizard_llm.py:32` | `def test_number_selects_backend(self)` |
+| `test_ollama_keyless_ok` | method | `tests/test_wizard_llm.py:136` | `def test_ollama_keyless_ok(self)` |
+| `test_ollama_skips_key_prompt` | method | `tests/test_wizard_llm.py:89` | `def test_ollama_skips_key_prompt(self, monkeypatch)` |
+| `test_out_of_range_number_returns_none` | method | `tests/test_wizard_llm.py:37` | `def test_out_of_range_number_returns_none(self)` |
+| `test_provider_change_by_name` | method | `tests/test_wizard_llm.py:65` | `def test_provider_change_by_name(self, monkeypatch)` |
+| `test_provider_change_by_number` | method | `tests/test_wizard_llm.py:70` | `def test_provider_change_by_number(self, monkeypatch)` |
+| `test_sensitive_values_masked` | method | `tests/test_wizard_llm.py:150` | `def test_sensitive_values_masked(self)` |
+| `test_short_value_never_shown_clear` | method | `tests/test_wizard_llm.py:53` | `def test_short_value_never_shown_clear(self)` |
 | `test_unknown_name_returns_none` | method | `tests/test_wizard_llm.py:41` | `def test_unknown_name_returns_none(self)` |
 | `TestAdvanceHostEdgeCases` | class | `tests/test_world_model_extended.py:73` | `class TestAdvanceHostEdgeCases` |
 | `TestGetHost` | class | `tests/test_world_model_extended.py:43` | `class TestGetHost` |

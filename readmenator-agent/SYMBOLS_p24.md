@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_write_pid` | function | `skills/autonomous_daemon.py:4643` | `def _write_pid()` |
+| `_write_status` | function | `skills/autonomous_daemon.py:4197` | `def _write_status()` |
+| `cmd_engage` | function | `skills/autonomous_daemon.py:4169` | `def cmd_engage(target, max_switches_per_step, detach)` |
+| `cmd_inject` | function | `skills/autonomous_daemon.py:4743` | `def cmd_inject(text, priority)` |
+| `cmd_run` | function | `skills/autonomous_daemon.py:4671` | `def cmd_run(max_steps)` |
+| `cmd_start` | function | `skills/autonomous_daemon.py:4680` | `def cmd_start(max_steps)` |
+| `cmd_status` | function | `skills/autonomous_daemon.py:4727` | `def cmd_status()` |
+| `cmd_stop` | function | `skills/autonomous_daemon.py:4710` | `def cmd_stop()` |
+| `compute_decision_seed` | function | `skills/autonomous_daemon.py:394` | `def compute_decision_seed(objective_id, step_n, source)` |
+| `detect_in_output` | method | `skills/autonomous_daemon.py:3271` | `def detect_in_output(self, output, target)` |
+| `did_switch` | method | `skills/autonomous_daemon.py:3125` | `def did_switch(self)` |
+| `engagement_id` | method | `skills/autonomous_daemon.py:3362` | `def engagement_id(self)` |
+| `handle` | method | `skills/autonomous_daemon.py:1459` | `def handle(self, objective_id, objective_text, target, context)` |
+| `handle` | method | `skills/autonomous_daemon.py:1497` | `def handle(self, objective_id, objective_text, target, context)` |
+| `heartbeat_loop` | function | `skills/autonomous_daemon.py:4544` | `def heartbeat_loop()` |
+| `mcp_autonomous_events` | function | `skills/autonomous_daemon.py:4892` | `def mcp_autonomous_events(last_n)` |
+| `mcp_autonomous_inject` | function | `skills/autonomous_daemon.py:4848` | `def mcp_autonomous_inject(text, priority, target)` |
+| `mcp_autonomous_start` | function | `skills/autonomous_daemon.py:4777` | `def mcp_autonomous_start(max_steps, backend)` |
+| `mcp_autonomous_status` | function | `skills/autonomous_daemon.py:4835` | `def mcp_autonomous_status()` |
+| `mcp_autonomous_stop` | function | `skills/autonomous_daemon.py:4819` | `def mcp_autonomous_stop()` |
 | `mcp_engage_approve` | function | `skills/autonomous_daemon.py:4126` | `def mcp_engage_approve(approval_id, decision, operator)` |
 | `mcp_engage_list_pending` | function | `skills/autonomous_daemon.py:4151` | `def mcp_engage_list_pending()` |
 | `mcp_engage_status` | function | `skills/autonomous_daemon.py:4100` | `def mcp_engage_status(last_n)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `plan` | method | `skills/hive_mind.py:1313` | `def plan(self, goal, n_drones)` |
 | `plan_and_dispatch` | method | `skills/hive_mind.py:1405` | `def plan_and_dispatch(self, goal, n_drones, backend, api_key, max_iterations)` |
 | `publish` | method | `skills/hive_mind.py:740` | `def publish(self, msg)` |
-| `read_bus` | method | `skills/hive_mind.py:1471` | `def read_bus(self)` |
-| `recall` | method | `skills/hive_mind.py:149` | `def recall(self, query, top_k)` |
-| `recall` | method | `skills/hive_mind.py:274` | `def recall(self, query, top_k, role, event_type)` |
-| `recall` | method | `skills/hive_mind.py:434` | `def recall(self, query, top_k, where)` |
-| `recall` | method | `skills/hive_mind.py:519` | `def recall(self, query, top_k)` |
-| `recall` | method | `skills/hive_mind.py:668` | `def recall(self, query, top_k)` |
-| `recall` | method | `skills/hive_mind.py:1878` | `def recall(self, query, top_k)` |
-| `recall_episodic` | method | `skills/hive_mind.py:633` | `def recall_episodic(self, query, top_k, role, event_type)` |
-| `recall_longterm` | method | `skills/hive_mind.py:660` | `def recall_longterm(self, query, top_k)` |
-| `recall_semantic` | method | `skills/hive_mind.py:647` | `def recall_semantic(self, query, top_k, where)` |
-| `receive` | method | `skills/hive_mind.py:746` | `def receive(self, agent_id, max_msgs)` |
-| `recover_from_store` | method | `skills/hive_mind.py:1687` | `def recover_from_store(self)` |
-| `requeue_interrupted` | method | `skills/hive_mind.py:1741` | `def requeue_interrupted(self, backend, api_key, max_iterations)` |
-| `run` | method | `skills/hive_mind.py:175` | `def run(self, command, timeout)` |
-| `spawn` | method | `skills/hive_mind.py:1708` | `def spawn(self, role, goal, backend, api_key, model, max_iterations, runner)` |
-| `spawn` | method | `skills/hive_mind.py:1829` | `def spawn(self, goal, role, backend, api_key, max_iterations)` |
-| `spawn_hive` | method | `skills/hive_mind.py:1846` | `def spawn_hive(self, goal, n_drones, backend, api_key, max_iterations)` |
-| `start` | method | `skills/hive_mind.py:1128` | `def start(self)` |
-| `stats` | method | `skills/hive_mind.py:322` | `def stats(self)` |
-| `stats` | method | `skills/hive_mind.py:694` | `def stats(self)` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

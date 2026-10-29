@@ -1,28 +1,28 @@
 # modules: world_model
 
-*Community 4 | 91 files | cohesion 0.44*
+*Community 3 | 113 files | cohesion 0.46*
 
 ## Definition
 
-This community groups 91 file(s) rooted at `tests` with dominant language py (cohesion 0.44). Central symbols: `ADCSCertipyWrapper`, `AddonCatalog`, `AddonEntry`, `AdvancePhaseSingleWriterSpec`, `BuildReconPlanContractSpec`, `C2Server`, `C2SessionCommandSet`, `CategoryResolver`. Core file: `modules/world_model.py` (70 symbols). Documented purpose: C2 session CommandSet — headless server, agent deploy, exec, loot.  Every command is non-interactive and loop-routable: explicit arguments, JSON-able results on.
+This community groups 113 file(s) rooted at `tests` with dominant language py (cohesion 0.46). Central symbols: `ADCSCertipyWrapper`, `AIExploitChainer`, `AddonCatalog`, `AddonEntry`, `AdvancePhaseSingleWriterSpec`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`. Core file: `modules/world_model.py` (70 symbols). Documented purpose: C2 session CommandSet — headless server, agent deploy, exec, loot.  Every command is non-interactive and loop-routable: explicit arguments, JSON-able results on.
 
 ## Files
 
-### `tests` (31 files)
+### `tests` (38 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `tests/test_attack_surface3d.py` | py | testing | 8 | yes |
-| `tests/test_beacon_recon_sink.py` | py | testing | 18 | yes |
-| `tests/test_c2_surfaces.py` | py | testing | 12 | yes |
+| `tests/test_atomic_exploit_bridge.py` | py | testing | 36 | yes |
+| `tests/test_atomic_loop.py` | py | testing | 17 | yes |
+| `tests/test_atomic_resolver.py` | py | testing | 9 | yes |
 
-### `modules` (27 files)
+### `modules` (37 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/ad_gym.py` | py | utility | 10 | yes |
 | `modules/adcs_attacks.py` | py | utility | 14 | yes |
-| `modules/atomic_exploit_bridge.py` | py | utility | 37 | yes |
+| `modules/ai_exploit_chain.py` | py | utility | 11 | yes |
 
 ### `cli` (14 files)
 
@@ -30,7 +30,6 @@ This community groups 91 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `cli/dashboard_layout.py` | py | presentation | 3 | yes |
 | `cli/dashboard_tui.py` | py | utility | 64 | yes |
-| `cli/exploit_advisor.py` | py | utility | 11 | yes |
 
 ### `modules/sinks` (8 files)
 
@@ -38,14 +37,27 @@ This community groups 91 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `modules/sinks/attack_graph.py` | py | utility | 1 | yes |
 | `modules/sinks/beacon_dispatch.py` | py | utility | 3 | yes |
-| `modules/sinks/c2_surfaces.py` | py | utility | 1 | yes |
 
-### `cli/commands` (5 files)
+### `cli/commands` (6 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/commands/c2_session.py` | py | utility | 10 | yes |
 | `cli/commands/estorides.py` | py | utility | 9 | yes |
+
+### `contrib/legacy` (4 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `contrib/legacy/lazydeepseekcli.py` | py | presentation | 16 | yes |
+| `contrib/legacy/lazypwn.py` | py | utility | 15 | no |
+
+### `core` (2 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `core/autonomous.py` | py | utility | 3 | yes |
+| `core/safe_exec.py` | py | utility | 12 | yes |
 
 ### `lazygui` (2 files)
 
@@ -61,19 +73,7 @@ This community groups 91 file(s) rooted at `tests` with dominant language py (co
 | `modules/integrations/nuclei_bridge.py` | py | utility | 29 | yes |
 | `modules/integrations/nuclei_parser.py` | py | utility | 17 | yes |
 
-### `contrib/legacy` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `contrib/legacy/lazydeepseekcli.py` | py | presentation | 16 | yes |
-
-### `core` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `core/autonomous.py` | py | utility | 3 | yes |
-
-*... and 71 more files in this community.*
+*... and 93 more files in this community.*
 
 
 ## Key Symbols
@@ -111,45 +111,47 @@ This community groups 91 file(s) rooted at `tests` with dominant language py (co
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 254
-- Cross-boundary resolved imports (EXTRACTED): 371
+- Internal resolved imports (EXTRACTED): 376
+- Cross-boundary resolved imports (EXTRACTED): 404
 
 ## Connections
 
-- [EXTRACTED] depends_on community 3 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/command_chain.py imports cli/exploration.py.
-- [EXTRACTED] depends_on community 9 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
-- [EXTRACTED] depends_on community 4 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/c2_session.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 8 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/atomic_exploit_bridge.py.
+- [EXTRACTED] depends_on community 1 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/safe_exec.py.
+- [EXTRACTED] depends_on community 4 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/command_chain.py imports cli/exploration.py.
+- [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
+- [EXTRACTED] depends_on community 9 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/atomic_exploit_bridge.py.
 
 ## Risks
 
+- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `core/hardening.py` -> `core/credential_vault.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `modules/cli_auth.py` -> `cli/engagement_hooks.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `core/hardening.py` -> `core/config.py`
 - [cycle] `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `modules/cli_auth.py` -> `core/config.py`
 - [cycle] `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/unified_dashboard.py` -> `skills/hive_mind.py`
 - [cycle] `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py`
+- [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
+- [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
 - [layer strict] `tests/test_c2_surfaces.py` (testing) -> `contrib/legacy/lazydeepseekcli.py` (presentation)
 - [layer strict] `tests/test_exploration_and_addons.py` (testing) -> `cli/exploration_view.py` (presentation)
 - [dataflow UNCHECKED_ALLOC] `cli/commands/recon.py:603` `_run_single_search` `_s`: Result of allocator stored in `_s` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `cli/lazynmap_post.py:243` `_emit_event` `fd`: Result of allocator stored in `fd` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `modules/auto_pivot.py:222` `health_check` `sock`: Result of allocator stored in `sock` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `modules/c2_agent.py:204` `validate_client_id` `ct`: Result of allocator stored in `ct` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `modules/c2_agent.py:256` `validate_client_id` `data`: Result of allocator stored in `data` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `modules/c2_agent.py:303` `validate_client_id` `_dn`: Result of allocator stored in `_dn` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `modules/c2_agent.py:769` `start` `log_file`: Result of allocator stored in `log_file` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `modules/estorides_importer.py:811` `_import_to_scope` `cfg`: Result of allocator stored in `cfg` is never checked against NULL.
 
 ## Open Questions
 
+- Why do 3 file(s) lack file-level docs (e.g. `contrib/legacy/lazypwn.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_cli_bridge.py` -> `modules/killchain.py` -> `modules/world_model.py` -> `core/hardening.py` -> `core/credential_vault.py` be broken with an interface?
 - What would break if the most connected file in modules: world_model changed?
-- Should modules: world_model be split, given cohesion 0.44?
+- Should modules: world_model be split, given cohesion 0.46?
 
 ## Sources
 
 - `cli/commands/c2_session.py`
 - `cli/commands/estorides.py`
 - `cli/commands/exploit_migrated.py`
+- `cli/commands/pwn.py`
 - `cli/commands/recon.py`
 - `cli/commands/surface.py`
 - `cli/dashboard_layout.py`
@@ -166,5 +168,4 @@ This community groups 91 file(s) rooted at `tests` with dominant language py (co
 - `cli/recon_plan.py`
 - `cli/surface_graph.py`
 - `cli/surface_tui.py`
-- `contrib/legacy/lazydeepseekcli.py`
-- *... and 71 more*
+- *... and 93 more*

@@ -1,6 +1,68 @@
 # Subsystem: modules (page 15 of 17)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
 
+## modules/reactive_engine.py
+- Doc: modules/reactive_engine.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_default_config_loader` (function, line 42) `def _default_config_loader()`
+  - `Signal` (class, line 69) `class Signal`
+  - `ReactiveDecision` (class, line 80) `class ReactiveDecision`
+  - `AbstractSignalMatcher` (class, line 97) `class AbstractSignalMatcher(ABC)`
+  - `AVBlockedMatcher` (class, line 102) `class AVBlockedMatcher(AbstractSignalMatcher)`
+  - `CredentialFoundMatcher` (class, line 147) `class CredentialFoundMatcher(AbstractSignalMatcher)`
+  - `PrivescHintMatcher` (class, line 174) `class PrivescHintMatcher(AbstractSignalMatcher)`
+  - `NewHostMatcher` (class, line 209) `class NewHostMatcher(AbstractSignalMatcher)`
+  - `ServiceVersionMatcher` (class, line 232) `class ServiceVersionMatcher(AbstractSignalMatcher)`
+  - `ShellErrorMatcher` (class, line 262) `class ShellErrorMatcher(AbstractSignalMatcher)`
+  - `LateralOpportunityMatcher` (class, line 293) `class LateralOpportunityMatcher(AbstractSignalMatcher)`
+  - `DataOfInterestMatcher` (class, line 323) `class DataOfInterestMatcher(AbstractSignalMatcher)`
+  - `ParquetAdvisor` (class, line 389) `class ParquetAdvisor`
+  - `EvasionAdvisor` (class, line 481) `class EvasionAdvisor`
+  - `PrivescAdvisor` (class, line 537) `class PrivescAdvisor`
+  - `SemanticContextAdvisor` (class, line 632) `class SemanticContextAdvisor`
+  - `ReactiveEngine` (class, line 804) `class ReactiveEngine`
+  - `get_engine` (function, line 977) `def get_engine()`
+  - `match` (method, line 99) `def match(self, output, context)`
+  - `match` (method, line 128) `def match(self, output, context)`
+  - `match` (method, line 159) `def match(self, output, context)`
+  - `match` (method, line 192) `def match(self, output, context)`
+  - `match` (method, line 214) `def match(self, output, context)`
+  - `match` (method, line 247) `def match(self, output, context)`
+  - `match` (method, line 276) `def match(self, output, context)`
+  - `match` (method, line 307) `def match(self, output, context)`
+  - `match` (method, line 349) `def match(self, output, context)`
+  - `__init__` (method, line 395) `def __init__(self, root)`
+  - `_load` (method, line 402) `def _load(self)`
+  - `gtfobins_for` (method, line 421) `def gtfobins_for(self, binary)`
+  - `lolbas_for` (method, line 434) `def lolbas_for(self, binary)`
+  - `technique_commands_for` (method, line 448) `def technique_commands_for(self, platform, keyword)`
+  - `suggest` (method, line 504) `def suggest(self, signals, platform)`
+  - `suggest` (method, line 565) `def suggest(self, signals, platform, parquet)`
+  - `__init__` (method, line 644) `def __init__(self, rag, config_loader, min_score, query_limit)`
+  - `_load_rag` (method, line 671) `def _load_rag(self)`
+  - `_enabled` (method, line 697) `def _enabled(self)`
+  - `_extract_verb` (method, line 715) `def _extract_verb(source)`
+  - `suggest` (method, line 734) `def suggest(self, output, command, platform, context)`
+  - `__init__` (method, line 810) `def __init__(self, matchers, evasion, privesc, parquet, semantic)`
+  - `analyse` (method, line 835) `def analyse(self, output, command, platform, context)`
+  - `top_decision` (method, line 958) `def top_decision(self, output, command, platform, context)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
+- Imported by: `cli/apt_chain_support.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+
+## modules/recommender.py
+- Doc: LazyOwn Smart Command Recommender
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_build_user_prompt` (function, line 55) `def _build_user_prompt(state)`
+  - `_call_ai` (function, line 97) `def _call_ai(api_key, user_prompt)`
+  - `recommend` (function, line 143) `def recommend(state, api_key)`
+  - `recommend_and_save` (function, line 163) `def recommend_and_save(api_key)`
+- Depends on: `modules/ai_fallback.py`, `modules/session_state.py`
+- Imported by: `skills/lazyown_mcp.py`
+
 ## modules/redteam_gym.py
 - Doc: Red Team Gym — gamified pentest training mode.
 - Layer: utility
@@ -431,50 +493,6 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `from_dict` (method, line 522) `def from_dict(cls, raw)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
 - Imported by: `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `tests/test_sleep_obfuscation.py`
-
-## modules/smbver.sh
-- Doc: Author: rewardone Description: Requires root or enough permissions to use tcpdump Will listen...
-- Layer: utility
-- Language: sh
-
-## modules/socks_proxy.py
-- Doc: SOCKS5 proxy engine for tunneling traffic through LazyOwn beacons.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SocksAuthMethod` (class, line 65) `class SocksAuthMethod(IntEnum)`
-  - `SocksCommand` (class, line 74) `class SocksCommand(IntEnum)`
-  - `SocksAddressType` (class, line 82) `class SocksAddressType(IntEnum)`
-  - `SocksReply` (class, line 90) `class SocksReply(IntEnum)`
-  - `SocksSession` (class, line 120) `class SocksSession`
-  - `SocksProxyConfig` (class, line 166) `class SocksProxyConfig`
-  - `SocksValidator` (class, line 244) `class SocksValidator`
-  - `SocksProxyEngine` (class, line 368) `class SocksProxyEngine`
-  - `message` (method, line 103) `def message(self)`
-  - `elapsed_seconds` (method, line 144) `def elapsed_seconds(self)`
-  - `to_dict` (method, line 150) `def to_dict(self)`
-  - `to_dict` (method, line 199) `def to_dict(self)`
-  - `from_dict` (method, line 218) `def from_dict(cls, raw)`
-  - `validate_config` (method, line 253) `def validate_config(config)`
-  - `validate_request` (method, line 300) `def validate_request(command, address_type, host, port, config)`
-  - `_check_access_control` (method, line 340) `def _check_access_control(host, port, config)`
-  - `__init__` (method, line 381) `def __init__(self, config)`
-  - `config` (method, line 387) `def config(self)`
-  - `sessions` (method, line 392) `def sessions(self)`
-  - `session_count` (method, line 397) `def session_count(self)`
-  - `validate` (method, line 401) `def validate(self, config)`
-  - `build_spec` (method, line 413) `def build_spec(self)`
-  - `create_session` (method, line 436) `def create_session(self, session_id, target_host, target_port, beacon_client_id)`
-  - `remove_session` (method, line 475) `def remove_session(self, session_id)`
-  - `get_session` (method, line 482) `def get_session(self, session_id)`
-  - `add_bytes` (method, line 486) `def add_bytes(self, session_id, sent, received)`
-  - `cleanup_expired` (method, line 497) `def cleanup_expired(self)`
-  - `list_sessions` (method, line 511) `def list_sessions(self)`
-  - `_find_oldest_session` (method, line 515) `def _find_oldest_session(self)`
-  - `from_dict` (method, line 522) `def from_dict(cls, raw)`
-  - `from_payload` (method, line 528) `def from_payload(cls, payload)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
 
 
 Next: [KB_modules_p16.md](KB_modules_p16.md)

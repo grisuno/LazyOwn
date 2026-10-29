@@ -349,7 +349,7 @@ def test_gym_range_next_steps(tmp_path, monkeypatch) -> None:
 
     monkeypatch.setattr(world_model, "_DEFAULT_PATH", tmp_path / "world_model.json")
     monkeypatch.setattr(world_model, "_default_wm", None)
-    monkeypatch.setattr(redteam_gym, "_spin_scenario", lambda scenario: {"success": False})
+    monkeypatch.setattr(redteam_gym, "_spin_scenario", lambda scenario, notify=None: {"success": False})
     assert start_challenge("first_implant")["next_steps"][0] == "lab range start ad-mini"
     assert start_challenge("first_blood_web")["next_steps"][0] == "lab start wordpress"
     stop_challenges()

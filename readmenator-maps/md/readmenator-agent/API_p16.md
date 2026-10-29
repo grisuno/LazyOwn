@@ -1,6 +1,32 @@
 # API (page 16 of 25)
 Previous: [API_p15.md](API_p15.md)
 
+## modules/loop_guardrails.py
+Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`
+- `RepeatDetector.__init__` (method) `modules/loop_guardrails.py:89` `def __init__(self, window)`
+- `RepeatDetector.record` (method) `modules/loop_guardrails.py:93` `def record(self, command)` -- Add one executed command; returns True when the window fills.
+- `RepeatDetector.stuck` (method) `modules/loop_guardrails.py:110` `def stuck(self)` -- True when the window is full of one identical command.
+- `RepeatDetector.last_commands` (method) `modules/loop_guardrails.py:117` `def last_commands(self)` -- Snapshot of the recent command window (oldest first).
+- `RepeatDetector.reset` (method) `modules/loop_guardrails.py:121` `def reset(self)` -- Clear the window (operator intervention acknowledged).
+- `EdrPacer.__init__` (method) `modules/loop_guardrails.py:135` `def __init__(self, duration_threshold)`
+- `EdrPacer.observe` (method) `modules/loop_guardrails.py:141` `def observe(self, command, duration_sec, output)` -- Feed one executed step and update the telemetry estimate.
+- `EdrPacer.decay` (method) `modules/loop_guardrails.py:163` `def decay(self, factor)` -- Cool the estimate down (call once per completed step).
+- `EdrPacer.level` (method) `modules/loop_guardrails.py:169` `def level(self)` -- Current pacing level: 0 calm, 1 cautious, 2 stealth.
+- `EdrPacer.signal` (method) `modules/loop_guardrails.py:179` `def signal(self)` -- Human-readable reason for the current level (may be empty).
+- `EdrPacer.inter_step_delay` (method) `modules/loop_guardrails.py:184` `def inter_step_delay(self)` -- Recommended sleep before the next step at the current level.
+- `EdrPacer.quieten` (method) `modules/loop_guardrails.py:192` `def quieten(self, command)` -- Return a quieter variant of the command at the current level.
+- `TargetLimiter.__init__` (method) `modules/loop_guardrails.py:216` `def __init__(self, max_concurrent)`
+- `TargetLimiter.max_concurrent` (method) `modules/loop_guardrails.py:223` `def max_concurrent(self)` -- Configured upper bound of simultaneous targets.
+- `TargetLimiter.active_targets` (method) `modules/loop_guardrails.py:228` `def active_targets(self)` -- How many distinct targets currently hold a slot.
+- `TargetLimiter.slot` (method) `modules/loop_guardrails.py:234` `def slot(self, target)` -- Hold one of at most ``max_concurrent`` target slots.
+- `FactVectorStore.__init__` (method) `modules/loop_guardrails.py:286` `def __init__(self, path, max_facts)`
+- `FactVectorStore.path` (method) `modules/loop_guardrails.py:294` `def path(self)` -- Backing file path.
+- `FactVectorStore.add` (method) `modules/loop_guardrails.py:315` `def add(self, text, meta)` -- Embed and store one fact; returns False for duplicates.
+- `FactVectorStore.search` (method) `modules/loop_guardrails.py:349` `def search(self, query, k)` -- Return the ``k`` facts most similar to the query.
+- `FactVectorStore.search_block` (method) `modules/loop_guardrails.py:379` `def search_block(self, query, k, max_chars)` -- Render retrieved facts as a prompt-ready block (may be empty).
+- `FactVectorStore.clear` (method) `modules/loop_guardrails.py:388` `def clear(self)` -- Drop every fact (manual reset path).
+- `FactVectorStore.save` (method) `modules/loop_guardrails.py:394` `def save(self)` -- Persist atomically; I/O errors never surface to the loop.
+
 ## modules/loop_manager.py
 Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
 - `LoopValidationError.__init__` (method) `modules/loop_manager.py:90` `def __init__(self, field, message)` -- Store the offending field alongside the human message.
@@ -459,39 +485,6 @@ Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `tests
 - `OpsecScorerV2.should_allow` (method) `modules/opsec_scorer.py:696` `def should_allow(self, command)` -- Quick gating check - returns (allowed, score).
 - `OpsecScorerV2.get_trend` (method) `modules/opsec_scorer.py:709` `def get_trend(self)` -- Analyze OPSEC risk trend over the session.
 - `score_command` (function) `modules/opsec_scorer.py:811` `def score_command(command, payload, rhost)` -- Convenience function: score a single command without creating a scorer instance.
-
-## modules/orchestrator_config.py
-Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
-- `reload` (function) `modules/orchestrator_config.py:113` `def reload()` -- Invalidate every merged view after an external configuration change.
-- `profiles` (function) `modules/orchestrator_config.py:232` `def profiles()` -- Return every resolved profile, including inherited values.
-- `active_profile` (function) `modules/orchestrator_config.py:257` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
-- `profile_config` (function) `modules/orchestrator_config.py:269` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
-- `set_profile` (function) `modules/orchestrator_config.py:276` `def set_profile(name)` -- Persist the active profile name.
-- `set_harness` (function) `modules/orchestrator_config.py:300` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
-- `limits` (function) `modules/orchestrator_config.py:332` `def limits()` -- Return resolved numeric limits for the active profile.
-- `budget` (function) `modules/orchestrator_config.py:339` `def budget()` -- Return resolved budgets for the active profile.
-- `chain_defaults` (function) `modules/orchestrator_config.py:346` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
-- `sinks` (function) `modules/orchestrator_config.py:355` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
-- `stages` (function) `modules/orchestrator_config.py:366` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
-- `stage_enabled` (function) `modules/orchestrator_config.py:396` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
-- `stage_params` (function) `modules/orchestrator_config.py:402` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
-- `set_stage` (function) `modules/orchestrator_config.py:407` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
-- `effective_verbs` (function) `modules/orchestrator_config.py:432` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
-- `verb_config` (function) `modules/orchestrator_config.py:524` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
-- `verb_enabled` (function) `modules/orchestrator_config.py:533` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `upsert_verb` (function) `modules/orchestrator_config.py:539` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
-- `remove_verb` (function) `modules/orchestrator_config.py:596` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
-- `reset` (function) `modules/orchestrator_config.py:617` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
-- `validate_config` (function) `modules/orchestrator_config.py:624` `def validate_config(data)` -- Validate one raw orchestration mapping.
-
-## modules/osint_enrich.py
-Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
-- `cve_lookup` (function) `modules/osint_enrich.py:122` `def cve_lookup(cve_id, sessions_dir)` -- Assemble OSV advisory + KEV flag + EPSS score for one CVE id.
-- `reverse_dns` (function) `modules/osint_enrich.py:161` `def reverse_dns(ip, sessions_dir)` -- Best-effort PTR hostname for an IP (HackerTarget, then DoH).
-- `host_geo` (function) `modules/osint_enrich.py:183` `def host_geo(ip, sessions_dir)` -- Country/org/ISP for an IP via the keyless ip-api endpoint.
-- `domain_exposure` (function) `modules/osint_enrich.py:198` `def domain_exposure(domain, sessions_dir)` -- Count public urlscan.io results for a domain (no key needed).
-- `enrich_evidence` (function) `modules/osint_enrich.py:213` `def enrich_evidence(items, sessions_dir)` -- Append keyless OSINT verdicts to CVE mentions inside evidence items.
 
 
 Next: [API_p17.md](API_p17.md)

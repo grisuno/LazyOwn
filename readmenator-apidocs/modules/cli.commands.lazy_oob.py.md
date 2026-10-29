@@ -14,6 +14,8 @@ LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks.
 classDiagram
     direction LR
     class LazyOobCommandSet
+    LazyOobCommandSet : phase
+    LazyOobCommandSet : category
     LazyOobCommandSet : do_lazyoob()
     class LazyOwnCommandSet
     LazyOwnCommandSet <|-- LazyOobCommandSet
@@ -56,6 +58,13 @@ Bases: [`LazyOwnCommandSet`](cli.commands._base.py.md#lazyowncommandset)
 
 Operate the local out-of-band callback canary.
 
+**Attributes**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| [`phase`](#lazyoobcommandset-phase) |  | `'credential_access'` |  |
+| [`category`](#lazyoobcommandset-category) |  | `miscellaneous_category` |  |
+
 **Members**
 
 | Member | Kind | Summary |
@@ -66,7 +75,7 @@ Operate the local out-of-band callback canary.
 
 #### `LazyOobCommandSet.do_lazyoob`
 
-`method` | [cli/commands/lazy_oob.py:26](../../cli/commands/lazy_oob.py#L26)
+`method` | [cli/commands/lazy_oob.py:29](../../cli/commands/lazy_oob.py#L29)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 

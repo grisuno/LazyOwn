@@ -1,6 +1,67 @@
 # Subsystem: tests (page 16 of 21)
 Previous: [KB_tests_p15.md](KB_tests_p15.md)
 
+## tests/test_opencode_mcp_harness.py
+- Doc: Opencode shim harness tool tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `OpencodeShimHarnessSpec` (class, line 16) `class OpencodeShimHarnessSpec(TestCase)`
+  - `test_harness_tools_listed` (method, line 19) `def test_harness_tools_listed(self)`
+  - `test_harness_status_shape` (method, line 25) `def test_harness_status_shape(self)`
+  - `test_golden_paths_and_ctf` (method, line 32) `def test_golden_paths_and_ctf(self)`
+  - `test_unknown_tool_rejected` (method, line 47) `def test_unknown_tool_rejected(self)`
+- Depends on: `modules/__init__.py`, `skills/lazyown_mcp_opencode.py`
+
+## tests/test_ops_loot_phase.py
+- Doc: Tests for unified loot, cred-graph view, and quantitative phase progress.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_seed_loot` (function, line 34) `def _seed_loot(sessions_dir)`
+  - `_write_world` (function, line 46) `def _write_world(sessions_dir, world)`
+  - `test_gather_loot_parses_kinds_and_skips_noise` (function, line 53) `def test_gather_loot_parses_kinds_and_skips_noise(tmp_path)`
+  - `test_loot_entry_value` (function, line 65) `def test_loot_entry_value()`
+  - `test_resolve_cred_value_precedence` (function, line 70) `def test_resolve_cred_value_precedence()`
+  - `test_loot_show_renders_table` (function, line 85) `def test_loot_show_renders_table(tmp_path, capsys)`
+  - `test_loot_show_empty` (function, line 94) `def test_loot_show_empty(tmp_path, capsys)`
+  - `test_loot_search_hits_and_provenance` (function, line 101) `def test_loot_search_hits_and_provenance(tmp_path, capsys)`
+  - `test_loot_search_no_match` (function, line 115) `def test_loot_search_no_match(tmp_path, capsys)`
+  - `test_loot_search_requires_query` (function, line 123) `def test_loot_search_requires_query(tmp_path, capsys)`
+  - `test_loot_reuse_no_target` (function, line 133) `def test_loot_reuse_no_target(tmp_path, capsys)`
+  - `test_loot_reuse_no_loot` (function, line 141) `def test_loot_reuse_no_loot(tmp_path, capsys)`
+  - `test_loot_reuse_excludes_rejected_and_flags_confirmed` (function, line 148) `def test_loot_reuse_excludes_rejected_and_flags_confirmed(tmp_path, capsys)`
+  - `test_loot_graph_renders_edges` (function, line 174) `def test_loot_graph_renders_edges(tmp_path, capsys)`
+  - `test_loot_graph_empty` (function, line 196) `def test_loot_graph_empty(tmp_path, capsys)`
+  - `test_loot_mark_writes_rejected_edge` (function, line 206) `def test_loot_mark_writes_rejected_edge(tmp_path)`
+  - `test_loot_mark_rejects_bad_outcome` (function, line 224) `def test_loot_mark_rejects_bad_outcome(tmp_path, capsys)`
+  - `test_loot_mark_unknown_credential` (function, line 232) `def test_loot_mark_unknown_credential(tmp_path, capsys)`
+  - `test_phase_progress_ranks` (function, line 243) `def test_phase_progress_ranks(tmp_path)`
+  - `test_phase_progress_completed_override` (function, line 264) `def test_phase_progress_completed_override(tmp_path)`
+  - `test_phase_progress_os_owned_report_and_loot` (function, line 285) `def test_phase_progress_os_owned_report_and_loot(tmp_path)`
+  - `test_link_credential_to_failure_edge_and_roundtrip` (function, line 312) `def test_link_credential_to_failure_edge_and_roundtrip(tmp_path)`
+- Depends on: `cli/ops_commands.py`, `modules/world_model.py`
+
+## tests/test_opsec_scorer.py
+- Doc: Tests for modules/opsec_scorer.py
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestOpsecScorer` (class, line 13) `class TestOpsecScorer`
+  - `test_score_high_noise_command` (method, line 14) `def test_score_high_noise_command(self)`
+  - `test_score_low_noise_command` (method, line 21) `def test_score_low_noise_command(self)`
+  - `test_score_unknown_command` (method, line 27) `def test_score_unknown_command(self)`
+  - `test_score_with_evasion` (method, line 33) `def test_score_with_evasion(self)`
+  - `test_score_batch` (method, line 39) `def test_score_batch(self)`
+  - `test_score_to_dict` (method, line 45) `def test_score_to_dict(self)`
+  - `test_confidence_is_float` (method, line 61) `def test_confidence_is_float(self)`
+  - `test_mitigations_returned` (method, line 67) `def test_mitigations_returned(self)`
+  - `test_convenience_function` (method, line 72) `def test_convenience_function(self)`
+  - `test_all_known_commands_have_mitigations` (method, line 77) `def test_all_known_commands_have_mitigations(self)`
+  - `test_suggest_mitigations` (method, line 85) `def test_suggest_mitigations(self)`
+  - `test_target_sensitivity_dc` (method, line 90) `def test_target_sensitivity_dc(self)`
+- Depends on: `modules/opsec_scorer.py`
+
 ## tests/test_opsec_scorer_consolidated.py
 - Doc: Consolidated OPSEC scorer contract tests (SDD/TDD/BDD).
 - Layer: testing
@@ -425,67 +486,6 @@ Previous: [KB_tests_p15.md](KB_tests_p15.md)
   - `test_credential_aware_rank_handles_empty_creds` (method, line 543) `def test_credential_aware_rank_handles_empty_creds(self)`
   - `test_recon_to_world_model_to_recommendation` (method, line 563) `def test_recon_to_world_model_to_recommendation(self, world_model, parser)`
 - Depends on: `cli/recommendation_signals.py`, `modules/autonomous_exploit_engine.py`, `modules/obs_parser.py`, `modules/world_model.py`
-
-## tests/test_phase_labels.py
-- Doc: Tests for cli.phase_labels — canonical phase display labels contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_known_phase_labels` (function, line 13) `def test_known_phase_labels()`
-  - `test_phase_label_falls_back_to_title_case` (function, line 19) `def test_phase_label_falls_back_to_title_case()`
-  - `test_phase_label_keys_cover_command_index_phases` (function, line 26) `def test_phase_label_keys_cover_command_index_phases()`
-  - `test_contextual_help_reuses_canonical_labels` (function, line 32) `def test_contextual_help_reuses_canonical_labels()`
-  - `test_tips_engine_reuses_canonical_labels` (function, line 38) `def test_tips_engine_reuses_canonical_labels()`
-- Depends on: `cli/contextual_help.py`, `cli/phase_labels.py`, `cli/tips_engine.py`
-
-## tests/test_php2shell_addon.py
-- Doc: tests/test_php2shell_addon.py  Validation suite for the php2shell lazyaddon.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `addon` (function, line 57) `def addon()`
-  - `live_params` (function, line 63) `def live_params()`
-  - `TestPhp2ShellAddonExists` (class, line 73) `class TestPhp2ShellAddonExists`
-  - `TestPhp2ShellToolSection` (class, line 117) `class TestPhp2ShellToolSection`
-  - `TestPhp2ShellPlaceholders` (class, line 149) `class TestPhp2ShellPlaceholders`
-  - `TestPhp2ShellSchema` (class, line 202) `class TestPhp2ShellSchema`
-  - `test_addon_present` (method, line 74) `def test_addon_present(self)`
-  - `test_addon_parses` (method, line 77) `def test_addon_parses(self, addon)`
-  - `test_name_matches_file` (method, line 80) `def test_name_matches_file(self, addon)`
-  - `test_name_pattern` (method, line 83) `def test_name_pattern(self, addon)`
-  - `test_version_pattern` (method, line 86) `def test_version_pattern(self, addon)`
-  - `test_description_length` (method, line 89) `def test_description_length(self, addon)`
-  - `test_enabled` (method, line 92) `def test_enabled(self, addon)`
-  - `test_category` (method, line 95) `def test_category(self, addon)`
-  - `test_category_pattern` (method, line 98) `def test_category_pattern(self, addon)`
-  - `test_os_is_known` (method, line 101) `def test_os_is_known(self, addon)`
-  - `test_module_type_is_known` (method, line 104) `def test_module_type_is_known(self, addon)`
-  - `test_triggers_are_service_names` (method, line 107) `def test_triggers_are_service_names(self, addon)`
-  - `test_description_documents_setup_and_assign` (method, line 111) `def test_description_documents_setup_and_assign(self, addon)`
-  - `test_repo_url` (method, line 118) `def test_repo_url(self, addon)`
-  - `test_repo_url_ends_with_git` (method, line 121) `def test_repo_url_ends_with_git(self, addon)`
-  - `test_install_path` (method, line 124) `def test_install_path(self, addon)`
-  - `test_install_path_no_traversal` (method, line 127) `def test_install_path_no_traversal(self, addon)`
-  - `test_install_command_creates_out_dir` (method, line 131) `def test_install_command_creates_out_dir(self, addon)`
-  - `test_execute_command_runs_exploit` (method, line 134) `def test_execute_command_runs_exploit(self, addon)`
-  - `test_execute_command_is_complete_without_free_args` (method, line 139) `def test_execute_command_is_complete_without_free_args(self, addon)`
-  - `test_execute_command_uses_shared_profile` (method, line 144) `def test_execute_command_uses_shared_profile(self, addon)`
-  - `test_no_double_braces` (method, line 150) `def test_no_double_braces(self)`
-  - `test_declared_params` (method, line 154) `def test_declared_params(self, addon)`
-  - `test_param_names_are_valid` (method, line 157) `def test_param_names_are_valid(self, addon)`
-  - `test_tokens_are_declared` (method, line 164) `def test_tokens_are_declared(self, addon)`
-  - `test_no_secret_placeholders` (method, line 169) `def test_no_secret_placeholders(self, addon)`
-  - `test_no_addon_specific_payload_keys` (method, line 173) `def test_no_addon_specific_payload_keys(self, addon)`
-  - `test_profile_key_is_addon_agnostic` (method, line 178) `def test_profile_key_is_addon_agnostic(self, addon)`
-  - `test_params_are_live` (method, line 183) `def test_params_are_live(self, live_params)`
-  - `test_live_params_resolve_every_token` (method, line 187) `def test_live_params_resolve_every_token(self, addon, live_params)`
-  - `test_resolved_command_shape` (method, line 191) `def test_resolved_command_shape(self, addon, live_params)`
-  - `test_resolved_command_with_assigned_url` (method, line 196) `def test_resolved_command_with_assigned_url(self, addon, live_params)`
-  - `test_schema_has_url` (method, line 203) `def test_schema_has_url(self)`
-  - `test_schema_has_shared_profile` (method, line 207) `def test_schema_has_shared_profile(self)`
-  - `test_validator_accepts_the_manifest` (method, line 213) `def test_validator_accepts_the_manifest(self, addon)`
-  - `test_placeholder_allowlist_knows_the_params` (method, line 243) `def test_placeholder_allowlist_knows_the_params(self)`
-- Depends on: `core/param_registry.py`, `core/payload_schema.py`, `lazyc2/addon_creator.py`, `utils.py`
 
 
 Next: [KB_tests_p17.md](KB_tests_p17.md)

@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `dn` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `ft` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `h` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `i` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `i` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `ln` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `o` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `pi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `q` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `r` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `rt` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `vi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `xn` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `zi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
+| `As` | class | `static/js/chart.min.js:13` | `` |
+| `Ge` | function | `static/js/chart.min.js:13` | `` |
+| `Ho` | class | `static/js/chart.min.js:13` | `` |
 | `Jt` | class | `static/js/chart.min.js:13` | `` |
 | `Rn` | class | `static/js/chart.min.js:13` | `` |
 | `Ro` | class | `static/js/chart.min.js:13` | `` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `get` | function | `static/js/html2pdf.bundle.min.js:3121` | `` |
 | `get` | function | `static/js/html2pdf.bundle.min.js:3820` | `` |
 | `get` | function | `static/js/html2pdf.bundle.min.js:3826` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:3835` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:3853` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:3859` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:6102` | `` |
-| `get` | function | `static/js/html2pdf.bundle.min.js:8890` | `` |
-| `getAbsoluteValue` | function | `static/js/html2pdf.bundle.min.js:965` | `` |
-| `getClipPaths` | function | `static/js/html2pdf.bundle.min.js:4666` | `` |
-| `getCurvePoints` | function | `static/js/html2pdf.bundle.min.js:1290` | `` |
-| `getCurvePoints` | function | `static/js/html2pdf.bundle.min.js:1290` | `` |
-| `getIframeDocumentElement` | function | `static/js/html2pdf.bundle.min.js:6923` | `` |
-| `getIframeDocumentElement` | function | `static/js/html2pdf.bundle.min.js:6923` | `` |
-| `getImage` | function | `static/js/html2pdf.bundle.min.js:4730` | `` |
-| `getImage` | function | `static/js/html2pdf.bundle.min.js:4730` | `` |
-| `getInputBorderRadius` | function | `static/js/html2pdf.bundle.min.js:4125` | `` |
-| `getInputValue` | function | `static/js/html2pdf.bundle.min.js:4179` | `` |
-| `getInputValue` | function | `static/js/html2pdf.bundle.min.js:4179` | `` |
-| `getJSON` | function | `static/js/html2pdf.bundle.min.js:8193` | `` |
-| `getListOwner` | function | `static/js/html2pdf.bundle.min.js:4223` | `` |
-| `getMetrics` | function | `static/js/html2pdf.bundle.min.js:4995` | `` |
-| `getOpacity` | function | `static/js/html2pdf.bundle.min.js:4788` | `` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

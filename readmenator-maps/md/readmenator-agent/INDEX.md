@@ -21,7 +21,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/command_explorer.py` | Interactive command explorer by phase and goal for the LazyOwn shell. | cli | 7 | 1 |
 | `cli/command_form.py` | Textual form-mode launcher for LazyOwn commands. | cli | 31 | 1 |
 | `cli/commands/__init__.py` | Phase-scoped CommandSet modules. | commands | 0 | 1 |
-| `cli/commands/_base.py` | Base class for phase-scoped ``CommandSet`` modules. | commands | 7 | 98 |
+| `cli/commands/_base.py` | Base class for phase-scoped ``CommandSet`` modules. | commands | 7 | 100 |
 | `cli/commands/_dormancy.py` | Dormancy marker for incrementally migrated command sets. | commands | 2 | 9 |
 | `cli/commands/active_directory.py` | Active Directory attack commands — Kerberos, tickets, delegation, DACL, GPO, kerberoasting. | commands | 8 | 0 |
 | `cli/commands/ai.py` | Artificial Intelligence command set. | commands | 8 | 1 |
@@ -71,7 +71,9 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `cli/commands/lateral.py` | Lateral Movement command set (pending). | commands | 9 | 0 |
 | `cli/commands/lateral_migrated.py` | lateral commands migrated from lazyown.py. | commands | 23 | 0 |
 | `cli/commands/lazy_creds.py` | LazyCreds shell commands: default-credential knowledge base lookups. | commands | 2 | 0 |
+| `cli/commands/lazy_dorks.py` | LazyDorks shell command: render target dork playbooks into session artefacts. | commands | 3 | 0 |
 | `cli/commands/lazy_oob.py` | LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks. | commands | 2 | 0 |
+| `cli/commands/lazy_passgen.py` | LazyPassGen shell command: target-aware weak password generation. | commands | 2 | 0 |
 | `cli/commands/lazyloop.py` | Lazy queue and misc command set. | commands | 12 | 3 |
 | `cli/commands/lazyops.py` | Lazy autonomous loop commands (single orchestrator, lazy_* surface). | commands | 71 | 4 |
 | `cli/commands/marketplace.py` | Plugin/addon marketplace commands. | commands | 19 | 0 |
@@ -240,7 +242,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `core/protocols.py` | Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration. | core | 12 | 1 |
 | `core/reverse_shell_secret.py` | Reverse-shell fallback secret — sealed persistence contract. | core | 4 | 2 |
 | `core/safe_console.py` | Terminal-safe Rich console factory. | core | 5 | 5 |
-| `core/safe_exec.py` | Centralized safe command execution for the LazyOwn framework. | core | 12 | 23 |
+| `core/safe_exec.py` | Centralized safe command execution for the LazyOwn framework. | core | 12 | 24 |
 | `core/safe_import.py` | Fail-closed import of attacker-supplied campaign packages. | core | 4 | 2 |
 | `core/safe_subprocess.py` | Safe subprocess runner for the LazyOwn framework. | core | 7 | 6 |
 | `core/scheduler.py` | Centralized task scheduler for the LazyOwn framework. | core | 17 | 0 |
@@ -351,7 +353,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/CVE-2018-15133.php` | - | modules | 0 | 0 |
 | `modules/CVE-2023-28432.py` | - | modules | 1 | 0 |
 | `modules/LazyOwnExplorer.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 23 | 0 |
-| `modules/__init__.py` | - | modules | 0 | 68 |
+| `modules/__init__.py` | - | modules | 0 | 76 |
 | `modules/ad_gym.py` | AD lab gym catalogue (Docker Samba DC): index, exploits, chains. | modules | 10 | 0 |
 | `modules/adcs_attacks.py` | Active Directory Certificate Services (AD CS) attack module. | modules | 14 | 1 |
 | `modules/addon_updater.py` | Git update contract for lazyaddons. | modules | 10 | 3 |
@@ -399,7 +401,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/chain_runner.py` | Single execution engine for YAML orchestration chains. | modules | 41 | 12 |
 | `modules/chain_state.py` | Durable chain checkpoints for pause, resume and audit. | modules | 5 | 8 |
 | `modules/chain_synth.py` | Runtime chain synthesis from fact-store evidence. | modules | 6 | 2 |
-| `modules/chain_tokens.py` | Engagement-state tokens for YAML chains. | modules | 6 | 2 |
+| `modules/chain_tokens.py` | Engagement-state tokens for YAML chains. | modules | 6 | 3 |
 | `modules/cicd_enumerator.py` | CI/CD Pipeline Enumeration Module. | modules | 12 | 1 |
 | `modules/cli_auth.py` | CLI authentication module — login against users.json with remember-me. | modules | 18 | 12 |
 | `modules/closedloop.py` | Closed-loop detection rule tuning: baseline vs candidate comparison. | modules | 7 | 2 |
@@ -494,7 +496,5 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md), [INDEX_p3.md](INDEX_p3.
 | `modules/jwtexploit.py` | - | modules | 0 | 0 |
 | `modules/k8s_attacks.py` | Kubernetes attack module — RBAC enumeration, pod escape, etcd access, Helm abuse. | modules | 11 | 1 |
 | `modules/kerberoasting.py` | Advanced Kerberoasting — targeted SPN enumeration, AES-only attacks, hashcat integration. | modules | 18 | 1 |
-| `modules/kerberos_core.py` | Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption. | modules | 35 | 2 |
-| `modules/kerberos_tickets.py` | Kerberos ticket forgery attacks — silver, golden, diamond, sapphire tickets. | modules | 34 | 1 |
 
 Next: [INDEX_p2.md](INDEX_p2.md)

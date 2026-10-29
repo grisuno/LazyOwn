@@ -57,4 +57,6 @@ Resolve engagement tokens for one target.
 Failures never raise: an unresponsive fact store yields fewer
 tokens instead of breaking the chain run.
 
+*Called by:* [`fallback_ready`](modules.lazypoophish.py.md#fallback_ready), [`fresh_access_token`](modules.lazypoophish.py.md#fresh_access_token)
+
 ---

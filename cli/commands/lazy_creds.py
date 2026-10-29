@@ -21,6 +21,9 @@ from utils import (
 class LazyCredsCommandSet(LazyOwnCommandSet):
     """Expose the default-credential knowledge base to the operator."""
 
+    phase = "credential_access"
+    category = miscellaneous_category
+
     @cmd2.with_category(miscellaneous_category)
     def do_lazycreds(self, line):
         """Search the default-credential knowledge base.

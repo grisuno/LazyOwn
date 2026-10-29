@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_encrypt_credential` | function | `modules/phishing_orchestrator.py:84` | `def _encrypt_credential(plaintext)` |
+| `_generate_landing_page` | method | `modules/phishing_orchestrator.py:766` | `def _generate_landing_page(self, template, target_domain, campaign_id)` |
+| `_hash_credential_for_log` | function | `modules/phishing_orchestrator.py:116` | `def _hash_credential_for_log(plaintext)` |
+| `_inject_harvester` | method | `modules/phishing_orchestrator.py:852` | `def _inject_harvester(self, html, page_id)` |
+| `_load_config` | method | `modules/phishing_orchestrator.py:891` | `def _load_config(self)` |
+| `_load_targets_from_file` | method | `modules/phishing_orchestrator.py:727` | `def _load_targets_from_file(self, filepath)` |
+| `_send_email` | method | `modules/phishing_orchestrator.py:818` | `def _send_email(self, to_email, subject, html_body, smtp_config)` |
+| `_setup_harvesting_endpoint` | method | `modules/phishing_orchestrator.py:806` | `def _setup_harvesting_endpoint(self, campaign_id)` |
+| `clone_landing_page` | method | `modules/phishing_orchestrator.py:616` | `def clone_landing_page(self, url)` |
+| `generate_template` | method | `modules/phishing_orchestrator.py:569` | `def generate_template(self, name, target_domain, context)` |
+| `get_instance` | method | `modules/phishing_orchestrator.py:404` | `def get_instance(cls)` |
+| `get_results` | method | `modules/phishing_orchestrator.py:643` | `def get_results(self, campaign_id)` |
+| `launch` | method | `modules/phishing_orchestrator.py:415` | `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` |
+| `profile_targets` | method | `modules/phishing_orchestrator.py:524` | `def profile_targets(self, domain)` |
+| `record_click` | method | `modules/phishing_orchestrator.py:667` | `def record_click(self, campaign_id, email)` |
+| `record_credentials` | method | `modules/phishing_orchestrator.py:688` | `def record_credentials(self, campaign_id, email, password)` |
+| `ConditionEvaluator` | class | `modules/pipeline_engine.py:326` | `class ConditionEvaluator` |
+| `EngagementNarratorAdapter` | class | `modules/pipeline_engine.py:868` | `class EngagementNarratorAdapter(INarratorAdapter)` |
+| `INarratorAdapter` | class | `modules/pipeline_engine.py:848` | `class INarratorAdapter(ABC)` |
+| `IStepRunner` | class | `modules/pipeline_engine.py:509` | `class IStepRunner(ABC)` |
 | `LazyOwnStepRunner` | class | `modules/pipeline_engine.py:523` | `class LazyOwnStepRunner(IStepRunner)` |
 | `PipelineCycleError` | class | `modules/pipeline_engine.py:101` | `class PipelineCycleError(PipelineError)` |
 | `PipelineEngine` | class | `modules/pipeline_engine.py:908` | `class PipelineEngine` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde.c:38` | `#define HIDDEN_FILE4` |
 | `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde.c:39` | `#define HIDDEN_FILE5` |
 | `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde.c:40` | `#define HIDDEN_FILE6` |
-| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde.c:41` | `#define HIDDEN_FILE7` |
-| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde.c:42` | `#define HIDDEN_FILE8` |
-| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde.c:43` | `#define HIDDEN_FILE9` |
-| `HIDE_DIR` | macro | `modules/rootkit/mrhyde.c:47` | `#define HIDE_DIR` |
-| `HIDE_USER` | macro | `modules/rootkit/mrhyde.c:50` | `#define HIDE_USER` |
-| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde.c:52` | `#define MAX_HIDE_PIDS` |
-| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde.c:44` | `#define PATHMRHYDE` |
-| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde.c:53` | `#define PID_FILE_PATH` |
-| `fopen` | function | `modules/rootkit/mrhyde.c:287` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fstat` | function | `modules/rootkit/mrhyde.c:507` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde.c:182` | `char* get_username_from_pid(pid_t pid)` |
-| `getdents` | function | `modules/rootkit/mrhyde.c:561` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `getdents64` | function | `modules/rootkit/mrhyde.c:622` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `kill` | function | `modules/rootkit/mrhyde.c:129` | `int kill(pid_t pid, int sig)` |
-| `linux_dirent64` | struct | `modules/rootkit/mrhyde.c:552` | `` |
-| `load_hidden_files` | function | `modules/rootkit/mrhyde.c:97` | `void load_hidden_files()` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde.c:77` | `void load_hidden_pids()` |
-| `lstat` | function | `modules/rootkit/mrhyde.c:463` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `main` | function | `modules/rootkit/mrhyde.c:682` | `int main()` |
-| `my_open` | function | `modules/rootkit/mrhyde.c:331` | `int my_open(const char *pathname, int flags, mode_t mode)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

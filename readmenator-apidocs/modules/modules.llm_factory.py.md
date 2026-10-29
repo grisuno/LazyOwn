@@ -336,7 +336,7 @@ bypass the wrapper for tests that need a raw backend.
 
 **Returns:** `AIModel` - A configured [`AIModel`](modules.ai_model.py.md#aimodel) instance that also structurally
 satisfies [`core.protocols.LLMBackend`](core.protocols.py.md#llmbackend), ready for either
-``generate`` or `[`complete`](#complete)` calls.
+`[`generate`](modules.lazypassgen.py.md#generate)` or `[`complete`](#complete)` calls.
 
 **Raises**
 

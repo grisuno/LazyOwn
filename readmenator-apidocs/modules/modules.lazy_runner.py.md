@@ -109,6 +109,7 @@ Everything one loop invocation needs, parsed by the command sets.
 | [`workers_set`](#looprunconfig-workers_set) | `bool` | `True` |  |
 | [`budget`](#looprunconfig-budget) | `dict` | `field(default_factory=dict)` |  |
 | [`budget_confirm`](#looprunconfig-budget_confirm) | `bool` | `False` |  |
+| [`phishing_fallback`](#looprunconfig-phishing_fallback) | `bool` | `False` |  |
 | [`extra`](#looprunconfig-extra) | `dict` | `field(default_factory=dict)` |  |
 | [`targets_file`](#looprunconfig-targets_file) | `str` | `''` |  |
 | [`max_concurrent`](#looprunconfig-max_concurrent) | `int` | `0` |  |
@@ -123,7 +124,7 @@ Everything one loop invocation needs, parsed by the command sets.
 
 #### `LoopRunConfig.clamped`
 
-`method` | [modules/lazy_runner.py:118](../../modules/lazy_runner.py#L118)
+`method` | [modules/lazy_runner.py:119](../../modules/lazy_runner.py#L119)
 
 ```python
 def clamped(self) -> LoopRunConfig
@@ -143,7 +144,7 @@ Clamp numeric knobs to the supported operating range.
 
 ### `parse_loop_line`
 
-`function` | [modules/lazy_runner.py:163](../../modules/lazy_runner.py#L163)
+`function` | [modules/lazy_runner.py:164](../../modules/lazy_runner.py#L164)
 
 ```python
 def parse_loop_line(line: str) -> LoopRunConfig
@@ -176,7 +177,7 @@ same flags and defaults.
 
 ### `resolve_loop_defaults`
 
-`function` | [modules/lazy_runner.py:282](../../modules/lazy_runner.py#L282)
+`function` | [modules/lazy_runner.py:287](../../modules/lazy_runner.py#L287)
 
 ```python
 def resolve_loop_defaults(config: LoopRunConfig) -> LoopRunConfig
@@ -202,7 +203,7 @@ Fill unset rounds and workers from the selected orchestrator profile.
 
 ### `build_executor`
 
-`function` | [modules/lazy_runner.py:318](../../modules/lazy_runner.py#L318)
+`function` | [modules/lazy_runner.py:323](../../modules/lazy_runner.py#L323)
 
 ```python
 def build_executor(shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict, sandbox_task_id: str = '', sandbox_image: str = '') -> Callable[[str], str]
@@ -241,7 +242,7 @@ operator host; custom tools and raw bash stay local.
 
 ### `report_result`
 
-`function` | [modules/lazy_runner.py:449](../../modules/lazy_runner.py#L449)
+`function` | [modules/lazy_runner.py:500](../../modules/lazy_runner.py#L500)
 
 ```python
 def report_result(result: dict) -> None
@@ -269,7 +270,7 @@ the elevated ``--sudo`` mode when the failure was a sudo gate.
 
 ### `load_targets_file`
 
-`function` | [modules/lazy_runner.py:847](../../modules/lazy_runner.py#L847)
+`function` | [modules/lazy_runner.py:898](../../modules/lazy_runner.py#L898)
 
 ```python
 def load_targets_file(path: str) -> list[str]
@@ -302,7 +303,7 @@ else goes through the shared host policy.
 
 ### `run_loop`
 
-`function` | [modules/lazy_runner.py:902](../../modules/lazy_runner.py#L902)
+`function` | [modules/lazy_runner.py:953](../../modules/lazy_runner.py#L953)
 
 ```python
 def run_loop(shell, params: dict, config: LoopRunConfig) -> dict

@@ -77,7 +77,7 @@ Full table: [`COMPARISON.md`](COMPARISON.md). Found an error? Open an issue, we 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y2Z73AV)
 
 
-LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU General Public License v3.
+LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU Affero General Public License v3.
 See the LICENSE file for details about using this software.
 
  # LazyOwn RedTeam Framework v 0.4.10
@@ -436,6 +436,21 @@ Many thanks to [ZONE.CI](https://zone.ci/secarticles/wx/587776.html) for their r
 
 Many thanks to mcpharbor.app for adding the lazyown mcp to their list of tools; we are honored to be featured on their website.
 [https://mcpharbor.app/tools/grisuno-lazyown/](https://mcpharbor.app/tools/grisuno-lazyown/?utm_source=lazyown_redteam)
+
+## Verified Skill
+
+We are proud that our humble skill has been verified in verified skills, it gives us a lot of encouragement to continue developing this lovely community.
+[https://verified-skill.com/skills/grisuno/lazyown/lazyown?utm_source=lazyown_redteam](https://verified-skill.com/skills/grisuno/lazyown/lazyown?utm_source=lazyown_redteam)
+
+## CN-Sec
+
+Some echoes of Zone.ci, in any case we appreciate their words, they were not in vain and we have not only mitigated a large part of what was mentioned, if not all, and we will continue to improve day by day.
+[https://cn-sec.com/archives/5401000.html](https://cn-sec.com/archives/5401000.html)
+
+## Awesome bof
+
+Thank you so much for your work compiling bofs, it's incredible! We are proud to be indexed in your magnificent list
+[https://chryzsh.github.io/awesome-bof/site/](https://chryzsh.github.io/awesome-bof/site/)
 
 ## Star History
 

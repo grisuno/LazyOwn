@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 835,
-  "entities": 15686,
+  "modules": 841,
+  "entities": 15733,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,21 +13,21 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 722,
+   "py": 728,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4404,
-   "class": 1427,
+   "attribute": 4413,
+   "class": 1429,
    "classmethod": 84,
-   "constant": 1406,
+   "constant": 1423,
    "constructor": 526,
    "enum": 39,
    "exception": 40,
-   "function": 2871,
+   "function": 2882,
    "macro": 114,
-   "method": 3592,
-   "module": 835,
+   "method": 3594,
+   "module": 841,
    "property": 201,
    "protocol": 20,
    "staticmethod": 91,
@@ -36,19 +36,19 @@
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 381,
+  "skipped_files": 386,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7441,
-   "total": 9864,
-   "percent": 75.4
+   "documented": 7462,
+   "total": 9885,
+   "percent": 75.5
   },
   "by_kind": {
    "class": {
-    "documented": 1240,
-    "total": 1427,
+    "documented": 1242,
+    "total": 1429,
     "percent": 86.9
    },
    "classmethod": {
@@ -72,9 +72,9 @@
     "percent": 95.0
    },
    "function": {
-    "documented": 1966,
-    "total": 2871,
-    "percent": 68.5
+    "documented": 1977,
+    "total": 2882,
+    "percent": 68.6
    },
    "macro": {
     "documented": 2,
@@ -82,14 +82,14 @@
     "percent": 1.8
    },
    "method": {
-    "documented": 2923,
-    "total": 3592,
+    "documented": 2925,
+    "total": 3594,
     "percent": 81.4
    },
    "module": {
-    "documented": 719,
-    "total": 835,
-    "percent": 86.1
+    "documented": 725,
+    "total": 841,
+    "percent": 86.2
    },
    "property": {
     "documented": 157,
@@ -458,7 +458,17 @@
     "total": 3,
     "percent": 100.0
    },
+   "cli/commands/lazy_dorks.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
    "cli/commands/lazy_oob.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/lazy_passgen.py": {
     "documented": 3,
     "total": 3,
     "percent": 100.0
@@ -2753,6 +2763,11 @@
     "total": 4,
     "percent": 75.0
    },
+   "modules/lazydorks.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
    "modules/lazyencoder_decoder.py": {
     "documented": 0,
     "total": 11,
@@ -2818,6 +2833,16 @@
     "total": 4,
     "percent": 0.0
    },
+   "modules/lazypassgen.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "modules/lazypoophish.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
    "modules/lazypsexec.sh": {
     "documented": 1,
     "total": 2,
@@ -2832,6 +2857,11 @@
     "documented": 0,
     "total": 1,
     "percent": 0.0
+   },
+   "modules/lazyshortener.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
    },
    "modules/lazyvpnshield.sh": {
     "documented": 1,
@@ -4634,12 +4664,22 @@
   {
    "uid": "cli/commands/lazy_creds.py",
    "path": "modules/cli.commands.lazy_creds.py.jsonl",
-   "entities": 3
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/lazy_dorks.py",
+   "path": "modules/cli.commands.lazy_dorks.py.jsonl",
+   "entities": 7
   },
   {
    "uid": "cli/commands/lazy_oob.py",
    "path": "modules/cli.commands.lazy_oob.py.jsonl",
-   "entities": 3
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/lazy_passgen.py",
+   "path": "modules/cli.commands.lazy_passgen.py.jsonl",
+   "entities": 7
   },
   {
    "uid": "cli/commands/lazyloop.py",
@@ -6864,7 +6904,7 @@
   {
    "uid": "modules/lazy_runner.py",
    "path": "modules/modules.lazy_runner.py.jsonl",
-   "entities": 29
+   "entities": 30
   },
   {
    "uid": "modules/lazy_sandbox.py",
@@ -6932,6 +6972,11 @@
    "entities": 4
   },
   {
+   "uid": "modules/lazydorks.py",
+   "path": "modules/modules.lazydorks.py.jsonl",
+   "entities": 7
+  },
+  {
    "uid": "modules/lazyencoder_decoder.py",
    "path": "modules/modules.lazyencoder_decoder.py.jsonl",
    "entities": 11
@@ -6997,6 +7042,16 @@
    "entities": 8
   },
   {
+   "uid": "modules/lazypassgen.py",
+   "path": "modules/modules.lazypassgen.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/lazypoophish.py",
+   "path": "modules/modules.lazypoophish.py.jsonl",
+   "entities": 10
+  },
+  {
    "uid": "modules/lazypsexec.sh",
    "path": "modules/modules.lazypsexec.sh.jsonl",
    "entities": 2
@@ -7010,6 +7065,11 @@
    "uid": "modules/lazyrtpflood.sh",
    "path": "modules/modules.lazyrtpflood.sh.jsonl",
    "entities": 1
+  },
+  {
+   "uid": "modules/lazyshortener.py",
+   "path": "modules/modules.lazyshortener.py.jsonl",
+   "entities": 6
   },
   {
    "uid": "modules/lazyvpnshield.sh",

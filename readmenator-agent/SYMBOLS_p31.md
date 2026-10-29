@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `o` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `ot` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `q` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `q` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `qt` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `rt` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `s` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `s` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `s` | class | `static/js/quill-2.0.3.js:2` | `` |
+| `st` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
+| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
 | `t` | function | `static/js/quill-2.0.3.js:2` | `` |
 | `t` | class | `static/js/quill-2.0.3.js:2` | `` |
 | `t` | class | `static/js/quill-2.0.3.js:2` | `` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 | `report_failure` | method | `tests/conftest.py:119` | `def report_failure(self, name, reason)` |
 | `report_success` | method | `tests/conftest.py:122` | `def report_success(self, name)` |
 | `TestDeployGate` | class | `tests/contract/test_suite_homologation.py:99` | `class TestDeployGate` |
-| `TestMutationCoverage` | class | `tests/contract/test_suite_homologation.py:120` | `class TestMutationCoverage` |
-| `TestPytestMarkers` | class | `tests/contract/test_suite_homologation.py:82` | `class TestPytestMarkers` |
-| `TestSuiteDocumentation` | class | `tests/contract/test_suite_homologation.py:141` | `class TestSuiteDocumentation` |
-| `TestSuiteNaming` | class | `tests/contract/test_suite_homologation.py:61` | `class TestSuiteNaming` |
-| `_test_modules` | function | `tests/contract/test_suite_homologation.py:50` | `def _test_modules()` |
-| `test_at_least_one_test_module_exists` | method | `tests/contract/test_suite_homologation.py:64` | `def test_at_least_one_test_module_exists(self)` |
-| `test_contract_readme_exists` | method | `tests/contract/test_suite_homologation.py:148` | `def test_contract_readme_exists(self)` |
-| `test_deploy_gate_runs_full_suite` | method | `tests/contract/test_suite_homologation.py:106` | `def test_deploy_gate_runs_full_suite(self)` |
-| `test_deploy_timeouts_allow_long_runs` | method | `tests/contract/test_suite_homologation.py:111` | `def test_deploy_timeouts_allow_long_runs(self)` |
-| `test_deploynator_toml_exists` | method | `tests/contract/test_suite_homologation.py:102` | `def test_deploynator_toml_exists(self)` |
-| `test_module_names_are_english_snake_case` | method | `tests/contract/test_suite_homologation.py:68` | `def test_module_names_are_english_snake_case(self)` |
-| `test_mutation_gate_script_exists` | method | `tests/contract/test_suite_homologation.py:128` | `def test_mutation_gate_script_exists(self)` |
-| `test_mutmut_config_scoped` | method | `tests/contract/test_suite_homologation.py:132` | `def test_mutmut_config_scoped(self)` |
-| `test_no_emoji_in_test_module_names` | method | `tests/contract/test_suite_homologation.py:74` | `def test_no_emoji_in_test_module_names(self)` |
-| `test_required_markers_registered` | method | `tests/contract/test_suite_homologation.py:85` | `def test_required_markers_registered(self)` |
-| `test_required_mutation_runners_exist` | method | `tests/contract/test_suite_homologation.py:123` | `def test_required_mutation_runners_exist(self)` |
-| `test_strict_markers_enabled` | method | `tests/contract/test_suite_homologation.py:91` | `def test_strict_markers_enabled(self)` |
-| `test_suite_guide_exists` | method | `tests/contract/test_suite_homologation.py:144` | `def test_suite_guide_exists(self)` |
-| `test_suite_guide_is_english_without_emoji` | method | `tests/contract/test_suite_homologation.py:152` | `def test_suite_guide_is_english_without_emoji(self)` |
-| `test_autonomous_flow_integration` | function | `tests/integration_autonomous_flow.py:15` | `def test_autonomous_flow_integration()` |
 
 Next: [SYMBOLS_p32.md](SYMBOLS_p32.md)

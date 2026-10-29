@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_lazy_category` | method | `cli/commands/lazyops.py:2532` | `def do_lazy_category(self, line)` |
+| `do_lazy_chat` | method | `cli/commands/lazyops.py:2553` | `def do_lazy_chat(self, line)` |
+| `do_lazy_compact` | method | `cli/commands/lazyops.py:2369` | `def do_lazy_compact(self, line)` |
+| `do_lazy_company` | method | `cli/commands/lazyops.py:1769` | `def do_lazy_company(self, line)` |
+| `do_lazy_constraint` | method | `cli/commands/lazyops.py:762` | `def do_lazy_constraint(self, line)` |
 | `do_lazy_context` | method | `cli/commands/lazyops.py:298` | `def do_lazy_context(self, line)` |
 | `do_lazy_dispatch` | method | `cli/commands/lazyops.py:88` | `def do_lazy_dispatch(self, line)` |
 | `do_lazy_enrich` | method | `cli/commands/lazyops.py:861` | `def do_lazy_enrich(self, line)` |
@@ -80,19 +85,19 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `_build_playbook_run_parser` | function | `cli/commands/mcp_bridge.py:129` | `def _build_playbook_run_parser()` |
 | `_build_rag_query_parser` | function | `cli/commands/mcp_bridge.py:89` | `def _build_rag_query_parser()` |
 | `_build_threat_model_parser` | function | `cli/commands/mcp_bridge.py:116` | `def _build_threat_model_parser()` |
-| `_delegate` | method | `cli/commands/mcp_bridge.py:544` | `def _delegate(self, command, line)` |
+| `_delegate` | method | `cli/commands/mcp_bridge.py:547` | `def _delegate(self, command, line)` |
 | `_executor` | function | `cli/commands/mcp_bridge.py:475` | `def _executor(command, host)` |
-| `_refresh_aliases` | method | `cli/commands/mcp_bridge.py:552` | `def _refresh_aliases(self)` |
+| `_refresh_aliases` | method | `cli/commands/mcp_bridge.py:555` | `def _refresh_aliases(self)` |
 | `do_auto_loop` | method | `cli/commands/mcp_bridge.py:489` | `def do_auto_loop(self, line)` |
 | `do_auto_populate` | method | `cli/commands/mcp_bridge.py:151` | `def do_auto_populate(self, args)` |
-| `do_campaign_sitrep` | method | `cli/commands/mcp_bridge.py:535` | `def do_campaign_sitrep(self, line)` |
+| `do_campaign_sitrep` | method | `cli/commands/mcp_bridge.py:538` | `def do_campaign_sitrep(self, line)` |
 | `do_facts_show` | method | `cli/commands/mcp_bridge.py:261` | `def do_facts_show(self, args)` |
 | `do_parquet_query` | method | `cli/commands/mcp_bridge.py:316` | `def do_parquet_query(self, args)` |
 | `do_playbook_run` | method | `cli/commands/mcp_bridge.py:431` | `def do_playbook_run(self, args)` |
 | `do_rag_query` | method | `cli/commands/mcp_bridge.py:286` | `def do_rag_query(self, args)` |
-| `do_session_state` | method | `cli/commands/mcp_bridge.py:530` | `def do_session_state(self, line)` |
+| `do_session_state` | method | `cli/commands/mcp_bridge.py:533` | `def do_session_state(self, line)` |
 | `do_threat_model` | method | `cli/commands/mcp_bridge.py:378` | `def do_threat_model(self, args)` |
-| `do_timeline` | method | `cli/commands/mcp_bridge.py:540` | `def do_timeline(self, line)` |
+| `do_timeline` | method | `cli/commands/mcp_bridge.py:543` | `def do_timeline(self, line)` |
 | `MiscMigratedCommandSet` | class | `cli/commands/misc_migrated.py:87` | `class MiscMigratedCommandSet(LazyOwnCommandSet)` |
 | `__getattr__` | function | `cli/commands/misc_migrated.py:1172` | `def __getattr__(name)` |
 | `_handle_killchain_auto` | method | `cli/commands/misc_migrated.py:150` | `def _handle_killchain_auto(self, spec)` |
@@ -396,14 +401,14 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
 | `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
 | `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:33` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
-| `_format_elapsed` | method | `cli/commands/redteam_gym.py:298` | `def _format_elapsed(seconds)` |
-| `_gym_hint` | method | `cli/commands/redteam_gym.py:425` | `def _gym_hint(self, args)` |
-| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:391` | `def _gym_leaderboard(self, args)` |
+| `_format_elapsed` | method | `cli/commands/redteam_gym.py:295` | `def _format_elapsed(seconds)` |
+| `_gym_hint` | method | `cli/commands/redteam_gym.py:422` | `def _gym_hint(self, args)` |
+| `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:388` | `def _gym_leaderboard(self, args)` |
 | `_gym_list` | method | `cli/commands/redteam_gym.py:137` | `def _gym_list(self)` |
 | `_gym_start` | method | `cli/commands/redteam_gym.py:171` | `def _gym_start(self, args)` |
-| `_gym_status` | method | `cli/commands/redteam_gym.py:303` | `def _gym_status(self, args)` |
-| `_gym_stop` | method | `cli/commands/redteam_gym.py:371` | `def _gym_stop(self, args)` |
-| `_gym_submit` | method | `cli/commands/redteam_gym.py:250` | `def _gym_submit(self, args)` |
+| `_gym_status` | method | `cli/commands/redteam_gym.py:300` | `def _gym_status(self, args)` |
+| `_gym_stop` | method | `cli/commands/redteam_gym.py:368` | `def _gym_stop(self, args)` |
+| `_gym_submit` | method | `cli/commands/redteam_gym.py:247` | `def _gym_submit(self, args)` |
 | `_lab_notify` | function | `cli/commands/redteam_gym.py:189` | `def _lab_notify(message)` |
 | `do_gym` | method | `cli/commands/redteam_gym.py:40` | `def do_gym(self, line)` |
 | `do_gym_ms2` | method | `cli/commands/redteam_gym.py:92` | `def do_gym_ms2(self, line)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `install_netexec` | function | `cli/commands/scan_migrated.py:1015` | `def install_netexec()` |
 | `install_netexec_pipx` | function | `cli/commands/scan_migrated.py:1020` | `def install_netexec_pipx()` |
 | `setup_handler` | function | `cli/commands/scan_migrated.py:562` | `def setup_handler(config_file, lhost, lport)` |
-| `smb_brute` | function | `cli/commands/scan_migrated.py:602` | `def smb_brute(config_file, host, passwd_file, lhost, lport)` |
-| `SecurityCommandSet` | class | `cli/commands/security.py:20` | `class SecurityCommandSet(LazyOwnCommandSet)` |
-| `complete_crack_hashes` | method | `cli/commands/security.py:276` | `def complete_crack_hashes(self, text, line, begidx, endidx)` |
-| `complete_opsec` | method | `cli/commands/security.py:267` | `def complete_opsec(self, text, line, begidx, endidx)` |
-| `do_crack_hashes` | method | `cli/commands/security.py:170` | `def do_crack_hashes(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

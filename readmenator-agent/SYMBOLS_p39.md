@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_llm_steps` | function | `tests/test_harness_mode.py:112` | `def _llm_steps(_intent, _prior)` |
+| `_planner_returns_none_without_llm` | method | `tests/test_harness_mode.py:68` | `def _planner_returns_none_without_llm(self)` |
+| `setUp` | method | `tests/test_harness_mode.py:17` | `def setUp(self)` |
+| `tearDown` | method | `tests/test_harness_mode.py:20` | `def tearDown(self)` |
+| `test_env_flag_enables` | method | `tests/test_harness_mode.py:26` | `def test_env_flag_enables(self)` |
+| `test_env_flag_off_overrides_profile` | method | `tests/test_harness_mode.py:32` | `def test_env_flag_off_overrides_profile(self)` |
+| `test_known_chain_resolves` | method | `tests/test_harness_mode.py:126` | `def test_known_chain_resolves(self)` |
+| `test_payload_section_disables` | method | `tests/test_harness_mode.py:41` | `def test_payload_section_disables(self)` |
+| `test_payload_section_enables` | method | `tests/test_harness_mode.py:37` | `def test_payload_section_enables(self)` |
+| `test_plan_llm_gate_blocked_under_harness` | method | `tests/test_harness_mode.py:79` | `def test_plan_llm_gate_blocked_under_harness(self)` |
+| `test_profile_flags` | method | `tests/test_harness_mode.py:54` | `def test_profile_flags(self)` |
+| `test_profile_present` | method | `tests/test_harness_mode.py:49` | `def test_profile_present(self)` |
+| `test_push_objective_text_carries_directive` | method | `tests/test_harness_mode.py:147` | `def test_push_objective_text_carries_directive(self)` |
+| `test_target_token_fallback` | method | `tests/test_harness_mode.py:137` | `def test_target_token_fallback(self)` |
+| `test_unknown_chain_rejected` | method | `tests/test_harness_mode.py:132` | `def test_unknown_chain_rejected(self)` |
+| `test_worker_agentic_gate_blocked_under_harness` | method | `tests/test_harness_mode.py:84` | `def test_worker_agentic_gate_blocked_under_harness(self)` |
+| `test_worker_llm_steps_gate_keeps_base_steps` | method | `tests/test_harness_mode.py:104` | `def test_worker_llm_steps_gate_keeps_base_steps(self)` |
+| `TestCrackResult` | class | `tests/test_hash_cracker.py:91` | `class TestCrackResult` |
+| `TestFileIdentification` | class | `tests/test_hash_cracker.py:66` | `class TestFileIdentification` |
+| `TestHashIdentification` | class | `tests/test_hash_cracker.py:14` | `class TestHashIdentification` |
 | `TestHashIdentifier` | class | `tests/test_hash_cracker.py:129` | `class TestHashIdentifier` |
 | `TestHashPatterns` | class | `tests/test_hash_cracker.py:114` | `class TestHashPatterns` |
 | `TestWordlists` | class | `tests/test_hash_cracker.py:122` | `class TestWordlists` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 | `_boom` | function | `tests/test_lazy_bridge_traffic.py:83` | `def _boom(_text)` |
 | `_exchanges` | function | `tests/test_lazy_bridge_traffic.py:35` | `def _exchanges(sessions_dir)` |
 | `_sandbox` | function | `tests/test_lazy_bridge_traffic.py:16` | `def _sandbox(tmp_path, monkeypatch)` |
-| `test_partial_line_is_retried` | function | `tests/test_lazy_bridge_traffic.py:61` | `def test_partial_line_is_retried(tmp_path, monkeypatch)` |
-| `test_progress_callback_survives_failures` | function | `tests/test_lazy_bridge_traffic.py:78` | `def test_progress_callback_survives_failures(tmp_path, monkeypatch)` |
-| `test_traffic_mirror_is_incremental` | function | `tests/test_lazy_bridge_traffic.py:39` | `def test_traffic_mirror_is_incremental(tmp_path, monkeypatch)` |
-| `LazyCredsKbSpec` | class | `tests/test_lazy_creds.py:12` | `class LazyCredsKbSpec(TestCase)` |
-| `test_as_lines_rendered` | method | `tests/test_lazy_creds.py:44` | `def test_as_lines_rendered(self)` |
-| `test_candidates_distinct_and_ranked` | method | `tests/test_lazy_creds.py:38` | `def test_candidates_distinct_and_ranked(self)` |
-| `test_export_pairs_writes_file` | method | `tests/test_lazy_creds.py:48` | `def test_export_pairs_writes_file(self)` |
-| `test_export_rejects_bad_path` | method | `tests/test_lazy_creds.py:58` | `def test_export_rejects_bad_path(self)` |
-| `test_kb_loads_rows` | method | `tests/test_lazy_creds.py:15` | `def test_kb_loads_rows(self)` |
-| `test_search_capped` | method | `tests/test_lazy_creds.py:34` | `def test_search_capped(self)` |
-| `test_search_is_case_insensitive` | method | `tests/test_lazy_creds.py:29` | `def test_search_is_case_insensitive(self)` |
-| `test_search_matches_vendor_and_username` | method | `tests/test_lazy_creds.py:23` | `def test_search_matches_vendor_and_username(self)` |
-| `_no_llm` | function | `tests/test_lazy_engine.py:23` | `def _no_llm(monkeypatch)` |
-| `_stub_executor` | function | `tests/test_lazy_engine.py:11` | `def _stub_executor(command)` |
-| `engine` | function | `tests/test_lazy_engine.py:33` | `def engine(tmp_path, monkeypatch)` |
-| `test_create_auto_scope_and_asset` | function | `tests/test_lazy_engine.py:45` | `def test_create_auto_scope_and_asset(engine)` |
-| `test_delete_task_sweeps_only_its_store_files` | function | `tests/test_lazy_engine.py:117` | `def test_delete_task_sweeps_only_its_store_files(engine, tmp_path)` |
-| `test_delete_task_unknown_returns_empty` | function | `tests/test_lazy_engine.py:131` | `def test_delete_task_unknown_returns_empty(engine)` |
-| `test_lazy_alias_surface` | function | `tests/test_lazy_engine.py:107` | `def test_lazy_alias_surface()` |
-| `test_new_run_clears_previous_shutdown` | function | `tests/test_lazy_engine.py:77` | `def test_new_run_clears_previous_shutdown(engine)` |
 
 Next: [SYMBOLS_p40.md](SYMBOLS_p40.md)

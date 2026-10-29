@@ -1,6 +1,52 @@
 # Subsystem: commands (page 4 of 4)
 Previous: [KB_commands_p3.md](KB_commands_p3.md)
 
+## cli/commands/postexp_migrated.py
+- Doc: postexp commands migrated from lazyown.py.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PostexpMigratedCommandSet` (class, line 32) `class PostexpMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_find` (method, line 37) `def do_find(self, line)`
+  - `do_cports` (method, line 533) `def do_cports(self, line)`
+  - `do_rubeus` (method, line 578) `def do_rubeus(self, line)`
+  - `do_sessionsshstrace` (method, line 618) `def do_sessionsshstrace(self, line)`
+  - `do_powershell_cmd_stager` (method, line 669) `def do_powershell_cmd_stager(self, line)`
+  - `do_shellcode_search` (method, line 706) `def do_shellcode_search(self, line)`
+  - `do_shellcode2sylk` (method, line 754) `def do_shellcode2sylk(self, line)`
+  - `do_pezorsh` (method, line 799) `def do_pezorsh(self, line)`
+  - `do_pip_repo` (method, line 872) `def do_pip_repo(self, line)`
+  - `do_apt_repo` (method, line 984) `def do_apt_repo(self, line)`
+  - `do_createpayload` (method, line 1233) `def do_createpayload(self, line)`
+  - `do_bin2shellcode` (method, line 1285) `def do_bin2shellcode(self, line)`
+  - `do_exe2bin` (method, line 1375) `def do_exe2bin(self, line)`
+  - `do_exe2donutbin` (method, line 1402) `def do_exe2donutbin(self, line)`
+  - `do_issue_command_to_c2` (method, line 1426) `def do_issue_command_to_c2(self, line)`
+  - `do_d3monizedshell` (method, line 1450) `def do_d3monizedshell(self, line)`
+  - `do_scp` (method, line 1483) `def do_scp(self, line)`
+  - `do_apt_proxy` (method, line 1579) `def do_apt_proxy(self, line)`
+  - `do_pip_proxy` (method, line 1635) `def do_pip_proxy(self, line)`
+  - `do_internet_proxy` (method, line 1693) `def do_internet_proxy(self, line)`
+  - `do_shellcode2elf` (method, line 1755) `def do_shellcode2elf(self, line)`
+  - `do_ssh_cmd` (method, line 1837) `def do_ssh_cmd(self, line)`
+  - `do_service_ssh` (method, line 1866) `def do_service_ssh(self, line)`
+  - `do_ofuscatesh` (method, line 1940) `def do_ofuscatesh(self, line)`
+  - `do_ofuscate_payload` (method, line 1970) `def do_ofuscate_payload(self, line)`
+  - `do_adversary` (method, line 1997) `def do_adversary(self, line)`
+  - `do_ofuscate_string` (method, line 2145) `def do_ofuscate_string(self, line)`
+  - `do_path2hex` (method, line 2187) `def do_path2hex(self, line)`
+  - `do_hex2shellcode` (method, line 2234) `def do_hex2shellcode(self, line)`
+  - `do_create_synthetic` (method, line 2291) `def do_create_synthetic(self, line)`
+  - `do_extract_yaml` (method, line 2343) `def do_extract_yaml(self, line)`
+  - `do_convert_remcomsvc_from_file` (method, line 2405) `def do_convert_remcomsvc_from_file(self, arg)`
+  - `do_adversary_yaml` (method, line 2439) `def do_adversary_yaml(self, line)`
+  - `do_add2find` (method, line 2524) `def do_add2find(self, line)`
+  - `do_rmfromfind` (method, line 2552) `def do_rmfromfind(self, line)`
+  - `do_aes_pe` (method, line 2581) `def do_aes_pe(self, line)`
+  - `do_yara_scan` (method, line 2610) `def do_yara_scan(self, line)`
+  - `resolve_and_download_dependencies` (function, line 1030) `def resolve_and_download_dependencies(package_name)`
+- Depends on: `cli/commands/_base.py`, `modules/yara_scanner.py`, `utils.py`
+
 ## cli/commands/privilege_escalation.py
 - Doc: Privilege Escalation command set.
 - Layer: utility
@@ -135,12 +181,12 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_gym_ms2` (method, line 92) `def do_gym_ms2(self, line)`
   - `_gym_list` (method, line 137) `def _gym_list(self)`
   - `_gym_start` (method, line 171) `def _gym_start(self, args)`
-  - `_gym_submit` (method, line 250) `def _gym_submit(self, args)`
-  - `_format_elapsed` (method, line 298) `def _format_elapsed(seconds)`
-  - `_gym_status` (method, line 303) `def _gym_status(self, args)`
-  - `_gym_stop` (method, line 371) `def _gym_stop(self, args)`
-  - `_gym_leaderboard` (method, line 391) `def _gym_leaderboard(self, args)`
-  - `_gym_hint` (method, line 425) `def _gym_hint(self, args)`
+  - `_gym_submit` (method, line 247) `def _gym_submit(self, args)`
+  - `_format_elapsed` (method, line 295) `def _format_elapsed(seconds)`
+  - `_gym_status` (method, line 300) `def _gym_status(self, args)`
+  - `_gym_stop` (method, line 368) `def _gym_stop(self, args)`
+  - `_gym_leaderboard` (method, line 388) `def _gym_leaderboard(self, args)`
+  - `_gym_hint` (method, line 422) `def _gym_hint(self, args)`
   - `_lab_notify` (function, line 189) `def _lab_notify(message)`
 - Depends on: `cli/commands/_base.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `utils.py`
 - Imported by: `tests/test_gym_cli.py`, `tests/test_gym_ms2_cli.py`

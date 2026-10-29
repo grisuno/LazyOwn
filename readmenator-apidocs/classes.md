@@ -813,7 +813,9 @@ Project types nested under the project types they derive from. External bases ar
   - [`LateralMovementCommandSet`](modules/cli.commands.lateral.py.md#lateralmovementcommandset) class in `cli.commands.lateral`
   - [`LateralMigratedCommandSet`](modules/cli.commands.lateral_migrated.py.md#lateralmigratedcommandset) class in `cli.commands.lateral_migrated`
   - [`LazyCredsCommandSet`](modules/cli.commands.lazy_creds.py.md#lazycredscommandset) class in `cli.commands.lazy_creds`
+  - [`LazyDorksCommandSet`](modules/cli.commands.lazy_dorks.py.md#lazydorkscommandset) class in `cli.commands.lazy_dorks`
   - [`LazyOobCommandSet`](modules/cli.commands.lazy_oob.py.md#lazyoobcommandset) class in `cli.commands.lazy_oob`
+  - [`LazyPassGenCommandSet`](modules/cli.commands.lazy_passgen.py.md#lazypassgencommandset) class in `cli.commands.lazy_passgen`
   - [`LazyQueueCommandSet`](modules/cli.commands.lazyloop.py.md#lazyqueuecommandset) class in `cli.commands.lazyloop`
   - [`LazyCommandSet`](modules/cli.commands.lazyops.py.md#lazycommandset) class in `cli.commands.lazyops`
   - [`MarketplaceCommandSet`](modules/cli.commands.marketplace.py.md#marketplacecommandset) class in `cli.commands.marketplace`

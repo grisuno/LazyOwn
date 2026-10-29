@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestMutationCoverage` | class | `tests/contract/test_suite_homologation.py:120` | `class TestMutationCoverage` |
+| `TestPytestMarkers` | class | `tests/contract/test_suite_homologation.py:82` | `class TestPytestMarkers` |
+| `TestSuiteDocumentation` | class | `tests/contract/test_suite_homologation.py:141` | `class TestSuiteDocumentation` |
+| `TestSuiteNaming` | class | `tests/contract/test_suite_homologation.py:61` | `class TestSuiteNaming` |
+| `_test_modules` | function | `tests/contract/test_suite_homologation.py:50` | `def _test_modules()` |
+| `test_at_least_one_test_module_exists` | method | `tests/contract/test_suite_homologation.py:64` | `def test_at_least_one_test_module_exists(self)` |
+| `test_contract_readme_exists` | method | `tests/contract/test_suite_homologation.py:148` | `def test_contract_readme_exists(self)` |
+| `test_deploy_gate_runs_full_suite` | method | `tests/contract/test_suite_homologation.py:106` | `def test_deploy_gate_runs_full_suite(self)` |
+| `test_deploy_timeouts_allow_long_runs` | method | `tests/contract/test_suite_homologation.py:111` | `def test_deploy_timeouts_allow_long_runs(self)` |
+| `test_deploynator_toml_exists` | method | `tests/contract/test_suite_homologation.py:102` | `def test_deploynator_toml_exists(self)` |
+| `test_module_names_are_english_snake_case` | method | `tests/contract/test_suite_homologation.py:68` | `def test_module_names_are_english_snake_case(self)` |
+| `test_mutation_gate_script_exists` | method | `tests/contract/test_suite_homologation.py:128` | `def test_mutation_gate_script_exists(self)` |
+| `test_mutmut_config_scoped` | method | `tests/contract/test_suite_homologation.py:132` | `def test_mutmut_config_scoped(self)` |
+| `test_no_emoji_in_test_module_names` | method | `tests/contract/test_suite_homologation.py:74` | `def test_no_emoji_in_test_module_names(self)` |
+| `test_required_markers_registered` | method | `tests/contract/test_suite_homologation.py:85` | `def test_required_markers_registered(self)` |
+| `test_required_mutation_runners_exist` | method | `tests/contract/test_suite_homologation.py:123` | `def test_required_mutation_runners_exist(self)` |
+| `test_strict_markers_enabled` | method | `tests/contract/test_suite_homologation.py:91` | `def test_strict_markers_enabled(self)` |
+| `test_suite_guide_exists` | method | `tests/contract/test_suite_homologation.py:144` | `def test_suite_guide_exists(self)` |
+| `test_suite_guide_is_english_without_emoji` | method | `tests/contract/test_suite_homologation.py:152` | `def test_suite_guide_is_english_without_emoji(self)` |
+| `test_autonomous_flow_integration` | function | `tests/integration_autonomous_flow.py:15` | `def test_autonomous_flow_integration()` |
 | `backup_files` | function | `tests/mutation_common.py:20` | `def backup_files(mutations, base_dir)` |
 | `restore_files` | function | `tests/mutation_common.py:30` | `def restore_files(backups, base_dir, mutations)` |
 | `run_all` | function | `tests/mutation_common.py:56` | `def run_all(mutations, test_targets)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `_fake_shell_peer` | function | `tests/test_atomic_exploit_bridge.py:211` | `def _fake_shell_peer(sock, reply)` |
 | `_flaky_trigger` | function | `tests/test_atomic_exploit_bridge.py:306` | `def _flaky_trigger()` |
 | `_missing` | function | `tests/test_atomic_exploit_bridge.py:412` | `def _missing()` |
-| `_patch_connect` | function | `tests/test_atomic_exploit_bridge.py:276` | `def _patch_connect(monkeypatch, failures_before_success)` |
-| `_serve` | function | `tests/test_atomic_exploit_bridge.py:216` | `def _serve()` |
-| `_valid_doc` | function | `tests/test_atomic_exploit_bridge.py:32` | `def _valid_doc()` |
-| `_write` | function | `tests/test_atomic_exploit_bridge.py:27` | `def _write(path, data)` |
-| `run` | method | `tests/test_atomic_exploit_bridge.py:362` | `def run(self, command, timeout)` |
-| `test_addon_paths_match_cwd` | function | `tests/test_atomic_exploit_bridge.py:192` | `def test_addon_paths_match_cwd()` |
-| `test_addon_schema` | function | `tests/test_atomic_exploit_bridge.py:182` | `def test_addon_schema()` |
-| `test_auto_sweep_from_scan_xml` | function | `tests/test_atomic_exploit_bridge.py:140` | `def test_auto_sweep_from_scan_xml(tmp_path, monkeypatch)` |
-| `test_build_commands_tokens` | function | `tests/test_atomic_exploit_bridge.py:101` | `def test_build_commands_tokens(tmp_path)` |
-| `test_cleanup_no_session_reports_honestly` | function | `tests/test_atomic_exploit_bridge.py:394` | `def test_cleanup_no_session_reports_honestly(monkeypatch)` |
-| `test_cleanup_soft_removes_but_keeps_loot` | function | `tests/test_atomic_exploit_bridge.py:367` | `def test_cleanup_soft_removes_but_keeps_loot(tmp_path, monkeypatch)` |
-| `test_destroy_gym_validates_and_handles_missing_docker` | function | `tests/test_atomic_exploit_bridge.py:403` | `def test_destroy_gym_validates_and_handles_missing_docker(monkeypatch)` |
-| `test_engine_prefers_yaml_over_hardcode` | function | `tests/test_atomic_exploit_bridge.py:166` | `def test_engine_prefers_yaml_over_hardcode(tmp_path, monkeypatch)` |
-| `test_ensure_session_adopts_orphan` | function | `tests/test_atomic_exploit_bridge.py:334` | `def test_ensure_session_adopts_orphan(monkeypatch)` |
-| `test_interactive_shell_no_spec_reports_error` | function | `tests/test_atomic_exploit_bridge.py:465` | `def test_interactive_shell_no_spec_reports_error(monkeypatch)` |
-| `test_interactive_shell_repl_until_exit` | function | `tests/test_atomic_exploit_bridge.py:437` | `def test_interactive_shell_repl_until_exit(monkeypatch, capsys)` |
-| `test_interactive_shell_verify_only_without_tty` | function | `tests/test_atomic_exploit_bridge.py:427` | `def test_interactive_shell_verify_only_without_tty(monkeypatch, capsys)` |
-| `test_load_all_skips_invalid_and_disabled` | function | `tests/test_atomic_exploit_bridge.py:81` | `def test_load_all_skips_invalid_and_disabled(tmp_path)` |
-| `test_match_is_exact_or_all` | function | `tests/test_atomic_exploit_bridge.py:90` | `def test_match_is_exact_or_all()` |
-| `test_open_shell_gives_up` | function | `tests/test_atomic_exploit_bridge.py:322` | `def test_open_shell_gives_up(monkeypatch)` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

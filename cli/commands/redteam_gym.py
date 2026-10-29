@@ -209,7 +209,9 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
             for container_port, host_port in (lab.get("ports") or {}).items():
                 print_msg(f"  Mapped port: {host_port} -> {container_port}")
         elif lab and not lab.get("success"):
-            print_error(f"Lab '{chal['scenario']}' failed to start at stage '{lab.get('stage', '')}': {lab.get('error', '')[:300]}")
+            print_error(
+                f"Lab '{chal['scenario']}' failed to start at stage '{lab.get('stage', '')}': {lab.get('error', '')[:300]}"
+            )
             stages = lab.get("stages") or {}
             for stage, detail in stages.items():
                 output = str((detail or {}).get("output", "") if isinstance(detail, dict) else "").strip()
@@ -233,12 +235,7 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
         hints = chal.get("hints", [])
         if hints:
             print_msg(f"Hint: {hints[0]}")
-        if (
-            chal.get("chain")
-            and (lab.get("success"))
-            and lab.get("ip")
-            and "--no-chain" not in args
-        ):
+        if chal.get("chain") and (lab.get("success")) and lab.get("ip") and "--no-chain" not in args:
             print_msg(f"{CYAN}Auto-launching chain: apt_chain {chal['chain']} {lab['ip']}{RESET}")
             shell = self._resolve_shell()
             if shell is not None:

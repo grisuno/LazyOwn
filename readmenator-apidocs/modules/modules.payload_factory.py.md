@@ -6,11 +6,11 @@ Native payload generation framework — stagers, stages, singles, formats.
 
 Provides a `[`PayloadFactory`](#payloadfactory)` that can generate payloads for multiple
 platforms and architectures without depending on ``msfvenom``. Supports
-a ``show payloads`` catalog and a `[`generate`](#payloadtemplate-generate)` command modelled on
-Metasploit's `[`generate`](#payloadtemplate-generate)` workflow.
+a ``show payloads`` catalog and a `[`generate`](modules.lazypassgen.py.md#generate)` command modelled on
+Metasploit's `[`generate`](modules.lazypassgen.py.md#generate)` workflow.
 
 Payloads are registered as `[`PayloadTemplate`](#payloadtemplate)` instances with metadata
-(name, platform, arch, description, options) and a `[`generate`](#payloadtemplate-generate)` method.
+(name, platform, arch, description, options) and a `[`generate`](modules.lazypassgen.py.md#generate)` method.
 
 Dynamic shellcode patching is supported for reverse-TCP payloads: the
 `[`ShellcodePayload`](#shellcodepayload)` class replaces known IP / port placeholders inside
@@ -92,7 +92,7 @@ Subclasses: [`DynamicShellcodePayload`](#dynamicshellcodepayload), [`MsfvenomPay
 
 Base class for a registered payload template.
 
-Subclasses must implement [`generate`](#payloadtemplate-generate) which returns raw bytes.
+Subclasses must implement [`generate`](modules.lazypassgen.py.md#generate) which returns raw bytes.
 
 **Members**
 

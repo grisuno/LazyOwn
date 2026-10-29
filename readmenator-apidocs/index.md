@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 835 modules, 15686 documented entities, documentation coverage 75.4% (7441/9864 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 841 modules, 15733 documented entities, documentation coverage 75.5% (7462/9885 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (722), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (728), sh (61)
 
 ## Modules
 
@@ -177,7 +177,9 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.lateral`](modules/cli.commands.lateral.py.md) | Lateral Movement command set (pending). | 1 | 8 | 100.0% |
 | [`cli.commands.lateral_migrated`](modules/cli.commands.lateral_migrated.py.md) | lateral commands migrated from lazyown.py. | 1 | 21 | 95.7% |
 | [`cli.commands.lazy_creds`](modules/cli.commands.lazy_creds.py.md) | LazyCreds shell commands: default-credential knowledge base lookups. | 1 | 1 | 100.0% |
+| [`cli.commands.lazy_dorks`](modules/cli.commands.lazy_dorks.py.md) | LazyDorks shell command: render target dork playbooks into session artefacts. | 1 | 1 | 100.0% |
 | [`cli.commands.lazy_oob`](modules/cli.commands.lazy_oob.py.md) | LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks. | 1 | 1 | 100.0% |
+| [`cli.commands.lazy_passgen`](modules/cli.commands.lazy_passgen.py.md) | LazyPassGen shell command: target-aware weak password generation. | 1 | 1 | 100.0% |
 | [`cli.commands.lazyloop`](modules/cli.commands.lazyloop.py.md) | Lazy queue and misc command set. | 1 | 10 | 100.0% |
 | [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | Lazy autonomous loop commands (single orchestrator, lazy_* surface). | 1 | 57 | 96.6% |
 | [`cli.commands.marketplace`](modules/cli.commands.marketplace.py.md) | Plugin/addon marketplace commands. | 1 | 2 | 100.0% |
@@ -636,6 +638,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules/lazyclonewars.sh`](modules/modules.lazyclonewars.sh.md) | Lista de repositorios (nombre y URL) | 0 | 0 | 100.0% |
 | [`modules.lazycloud`](modules/modules.lazycloud.py.md) | Cloud-native attack module for AWS, Azure, and GCP. | 6 | 16 | 78.3% |
 | [`modules/lazycurl.sh`](modules/modules.lazycurl.sh.md) | Nombre del script: lazycurl.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción: Este... | 0 | 3 | 75.0% |
+| [`modules.lazydorks`](modules/modules.lazydorks.py.md) | LazyDorks: target-aware Google and GitHub dork generator for LazyOwn. | 0 | 4 | 100.0% |
 | [`modules.lazyencoder_decoder`](modules/modules.lazyencoder_decoder.py.md) |  | 0 | 10 | 0.0% |
 | [`modules/lazyevilwimrm.sh`](modules/modules.lazyevilwimrm.sh.md) |  | 0 | 1 | 50.0% |
 | [`modules/lazygat.sh`](modules/modules.lazygat.sh.md) | Nombre del script: lazygath.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción: Este... | 0 | 0 | 100.0% |
@@ -649,9 +652,12 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazyown_metaextract0r`](modules/modules.lazyown_metaextract0r.py.md) | main.py | 0 | 9 | 20.0% |
 | [`modules.lazyown_parquet_tool`](modules/modules.lazyown_parquet_tool.py.md) | main.py | 0 | 4 | 100.0% |
 | [`modules.lazyownerweb`](modules/modules.lazyownerweb.py.md) |  | 0 | 3 | 0.0% |
+| [`modules.lazypassgen`](modules/modules.lazypassgen.py.md) | LazyPassGen: target-aware weak-password generator for LazyOwn. | 0 | 2 | 100.0% |
+| [`modules.lazypoophish`](modules/modules.lazypoophish.py.md) | LazyPoophish: phishing fallback delivery for the LazyOwn autonomous loop. | 0 | 3 | 100.0% |
 | [`modules/lazypsexec.sh`](modules/modules.lazypsexec.sh.md) |  | 0 | 1 | 50.0% |
 | [`modules/lazyreverse_shell.sh`](modules/modules.lazyreverse_shell.sh.md) | Nombre del script: lazyreverse_shell.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción... | 0 | 2 | 100.0% |
 | [`modules/lazyrtpflood.sh`](modules/modules.lazyrtpflood.sh.md) |  | 0 | 0 | 0.0% |
+| [`modules.lazyshortener`](modules/modules.lazyshortener.py.md) | LazyShortener: URL shortener bridge for LazyOwn phishing delivery. | 0 | 2 | 100.0% |
 | [`modules/lazyvpnshield.sh`](modules/modules.lazyvpnshield.sh.md) | Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0 | 0 | 7 | 12.5% |
 | [`modules/lazywps.sh`](modules/modules.lazywps.sh.md) |  | 0 | 1 | 0.0% |
 | [`modules.lesson_ingestor`](modules/modules.lesson_ingestor.py.md) | Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter. | 2 | 5 | 75.0% |

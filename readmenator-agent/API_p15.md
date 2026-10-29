@@ -93,6 +93,12 @@ Imported by: `cli/commands/cloud.py`
 - `show_help` (function) `modules/lazycurl.sh:29` -- Función para mostrar la ayuda
 - `execute_curl` (function) `modules/lazycurl.sh:52` -- Función para ejecutar el comando CURL
 
+## modules/lazydorks.py
+- `categories` (function) `modules/lazydorks.py:96` `def categories()` -- Return every supported dork category.
+- `queries` (function) `modules/lazydorks.py:101` `def queries(category, domain, org)` -- Render the dork queries for one category against one target.
+- `all_queries` (function) `modules/lazydorks.py:123` `def all_queries(domain, org)` -- Render the full grammar for one target.
+- `write_report` (function) `modules/lazydorks.py:137` `def write_report(path, domain, org)` -- Persist the rendered dorks as a markdown playbook.
+
 ## modules/lazyencoder_decoder.py
 Imported by: `contrib/legacy/lazycreate_webshell.py`, `contrib/legacy/lazylogpoisoning.py`, `contrib/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
 - `base64_encode` (function) `modules/lazyencoder_decoder.py:4` `def base64_encode(data)`
@@ -229,12 +235,29 @@ Depends on: `core/logging.py`, `modules/logging_config.py`
 - `test_injection` (function) `modules/lazyownerweb.py:49` `def test_injection(url, payloads, param_name, detection_strings, method)`
 - `main` (function) `modules/lazyownerweb.py:59` `def main()`
 
+## modules/lazypassgen.py
+Depends on: `modules/__init__.py`
+- `generate` (function) `modules/lazypassgen.py:115` `def generate(target)` -- Generate the candidate set for one target entity.
+- `export` (function) `modules/lazypassgen.py:135` `def export(target, path)` -- Write the generated wordlist as one password per line.
+
+## modules/lazypoophish.py
+Depends on: `modules/chain_tokens.py`, `modules/lazyshortener.py`, `modules/phishing_orchestrator.py`
+- `fresh_access_token` (function) `modules/lazypoophish.py:34` `def fresh_access_token(target)` -- Return the current access level token for a target.
+- `fallback_ready` (function) `modules/lazypoophish.py:52` `def fallback_ready(target)` -- Return True when the target still lacks a foothold.
+- `run_fallback` (function) `modules/lazypoophish.py:71` `def run_fallback(target, params, template, mode, targets_file, provider, shorten)` -- Stage the phishing-fallback handoff for one failed loop run.
+
 ## modules/lazypsexec.sh
 - `execute_psexec` (function) `modules/lazypsexec.sh:15` -- Función para ejecutar psexec y verificar la salida
 
 ## modules/lazyreverse_shell.sh
 - `mostrar_ayuda` (function) `modules/lazyreverse_shell.sh:21` -- Función para mostrar ayuda
 - `validar_ip` (function) `modules/lazyreverse_shell.sh:31` -- Validar dirección IP
+
+## modules/lazyshortener.py
+Depends on: `core/safe_exec.py`
+Imported by: `modules/lazypoophish.py`
+- `providers` (function) `modules/lazyshortener.py:30` `def providers()` -- Return every supported shortener provider key.
+- `shorten` (function) `modules/lazyshortener.py:35` `def shorten(url, provider, timeout)` -- Shorten one URL through a keyless public provider.
 
 ## modules/lazyvpnshield.sh
 - `ctrl_c` (function) `modules/lazyvpnshield.sh:11`
@@ -463,32 +486,6 @@ Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation
 - `swan_consult` (function) `modules/loop_ai_bridge.py:277` `def swan_consult(prompt, task_type, phase, timeout)` -- Ask SWAN for an ensemble answer; empty string when unavailable.
 - `stream_enabled` (function) `modules/loop_ai_bridge.py:304` `def stream_enabled()` -- Return whether token streaming into the activity log is enabled.
 - `ai_snapshot` (function) `modules/loop_ai_bridge.py:314` `def ai_snapshot()` -- Compact status of the wired AI stack for the operator log.
-
-## modules/loop_guardrails.py
-Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`
-- `RepeatDetector.__init__` (method) `modules/loop_guardrails.py:89` `def __init__(self, window)`
-- `RepeatDetector.record` (method) `modules/loop_guardrails.py:93` `def record(self, command)` -- Add one executed command; returns True when the window fills.
-- `RepeatDetector.stuck` (method) `modules/loop_guardrails.py:110` `def stuck(self)` -- True when the window is full of one identical command.
-- `RepeatDetector.last_commands` (method) `modules/loop_guardrails.py:117` `def last_commands(self)` -- Snapshot of the recent command window (oldest first).
-- `RepeatDetector.reset` (method) `modules/loop_guardrails.py:121` `def reset(self)` -- Clear the window (operator intervention acknowledged).
-- `EdrPacer.__init__` (method) `modules/loop_guardrails.py:135` `def __init__(self, duration_threshold)`
-- `EdrPacer.observe` (method) `modules/loop_guardrails.py:141` `def observe(self, command, duration_sec, output)` -- Feed one executed step and update the telemetry estimate.
-- `EdrPacer.decay` (method) `modules/loop_guardrails.py:163` `def decay(self, factor)` -- Cool the estimate down (call once per completed step).
-- `EdrPacer.level` (method) `modules/loop_guardrails.py:169` `def level(self)` -- Current pacing level: 0 calm, 1 cautious, 2 stealth.
-- `EdrPacer.signal` (method) `modules/loop_guardrails.py:179` `def signal(self)` -- Human-readable reason for the current level (may be empty).
-- `EdrPacer.inter_step_delay` (method) `modules/loop_guardrails.py:184` `def inter_step_delay(self)` -- Recommended sleep before the next step at the current level.
-- `EdrPacer.quieten` (method) `modules/loop_guardrails.py:192` `def quieten(self, command)` -- Return a quieter variant of the command at the current level.
-- `TargetLimiter.__init__` (method) `modules/loop_guardrails.py:216` `def __init__(self, max_concurrent)`
-- `TargetLimiter.max_concurrent` (method) `modules/loop_guardrails.py:223` `def max_concurrent(self)` -- Configured upper bound of simultaneous targets.
-- `TargetLimiter.active_targets` (method) `modules/loop_guardrails.py:228` `def active_targets(self)` -- How many distinct targets currently hold a slot.
-- `TargetLimiter.slot` (method) `modules/loop_guardrails.py:234` `def slot(self, target)` -- Hold one of at most ``max_concurrent`` target slots.
-- `FactVectorStore.__init__` (method) `modules/loop_guardrails.py:286` `def __init__(self, path, max_facts)`
-- `FactVectorStore.path` (method) `modules/loop_guardrails.py:294` `def path(self)` -- Backing file path.
-- `FactVectorStore.add` (method) `modules/loop_guardrails.py:315` `def add(self, text, meta)` -- Embed and store one fact; returns False for duplicates.
-- `FactVectorStore.search` (method) `modules/loop_guardrails.py:349` `def search(self, query, k)` -- Return the ``k`` facts most similar to the query.
-- `FactVectorStore.search_block` (method) `modules/loop_guardrails.py:379` `def search_block(self, query, k, max_chars)` -- Render retrieved facts as a prompt-ready block (may be empty).
-- `FactVectorStore.clear` (method) `modules/loop_guardrails.py:388` `def clear(self)` -- Drop every fact (manual reset path).
-- `FactVectorStore.save` (method) `modules/loop_guardrails.py:394` `def save(self)` -- Persist atomically; I/O errors never surface to the loop.
 
 
 Next: [API_p16.md](API_p16.md)

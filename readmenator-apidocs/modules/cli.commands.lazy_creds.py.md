@@ -14,6 +14,8 @@ LazyCreds shell commands: default-credential knowledge base lookups.
 classDiagram
     direction LR
     class LazyCredsCommandSet
+    LazyCredsCommandSet : phase
+    LazyCredsCommandSet : category
     LazyCredsCommandSet : do_lazycreds()
     class LazyOwnCommandSet
     LazyOwnCommandSet <|-- LazyCredsCommandSet
@@ -56,6 +58,13 @@ Bases: [`LazyOwnCommandSet`](cli.commands._base.py.md#lazyowncommandset)
 
 Expose the default-credential knowledge base to the operator.
 
+**Attributes**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| [`phase`](#lazycredscommandset-phase) |  | `'credential_access'` |  |
+| [`category`](#lazycredscommandset-category) |  | `miscellaneous_category` |  |
+
 **Members**
 
 | Member | Kind | Summary |
@@ -66,7 +75,7 @@ Expose the default-credential knowledge base to the operator.
 
 #### `LazyCredsCommandSet.do_lazycreds`
 
-`method` | [cli/commands/lazy_creds.py:25](../../cli/commands/lazy_creds.py#L25)
+`method` | [cli/commands/lazy_creds.py:28](../../cli/commands/lazy_creds.py#L28)
 
 Decorators: `@cmd2.with_category(miscellaneous_category)`
 

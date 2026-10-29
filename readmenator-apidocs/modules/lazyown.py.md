@@ -2515,7 +2515,7 @@ SHELL_BUILTIN_TOKENS
 
 Leading tokens of addon commands that are shell builtins, not binaries.
 
-The addon binary preflight must never warn about ``export`` or ``cd``:
+The addon binary preflight must never warn about `[`export`](modules.lazypassgen.py.md#export)` or ``cd``:
 vulnbot-style addons start with ``cd ... && export KEY=... && python3 ...``
 and the first token is a builtin, which is always available.
 

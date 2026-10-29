@@ -3,6 +3,92 @@ Previous: [SYMBOLS_p44.md](SYMBOLS_p44.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_trace_redaction_helper` | function | `tests/test_security_alerts_fix.py:185` | `def test_trace_redaction_helper()` |
+| `TestChannelSecrets` | class | `tests/test_security_codeql_batch.py:149` | `class TestChannelSecrets` |
+| `TestEmojiPattern` | class | `tests/test_security_codeql_batch.py:359` | `class TestEmojiPattern` |
+| `TestGenericErrorResponses` | class | `tests/test_security_codeql_batch.py:269` | `class TestGenericErrorResponses` |
+| `TestProxySsrfGuard` | class | `tests/test_security_codeql_batch.py:45` | `class TestProxySsrfGuard` |
+| `TestProxyTlsDefaults` | class | `tests/test_security_codeql_batch.py:92` | `class TestProxyTlsDefaults` |
+| `TestReverseShellFallback` | class | `tests/test_security_codeql_batch.py:186` | `class TestReverseShellFallback` |
+| `TestViewYamlTraversal` | class | `tests/test_security_codeql_batch.py:209` | `class TestViewYamlTraversal` |
+| `TestWebhookSsrfGuard` | class | `tests/test_security_codeql_batch.py:116` | `class TestWebhookSsrfGuard` |
+| `_boom` | function | `tests/test_security_codeql_batch.py:317` | `def _boom()` |
+| `_boom` | function | `tests/test_security_codeql_batch.py:347` | `def _boom()` |
+| `_client` | method | `tests/test_security_codeql_batch.py:213` | `def _client(monkeypatch, tmp_path)` |
+| `_login_and_call` | function | `tests/test_security_codeql_batch.py:253` | `def _login_and_call(monkeypatch, tmp_path, view, path)` |
+| `_server` | function | `tests/test_security_codeql_batch.py:27` | `def _server()` |
+| `test_allows_lab_targets_by_default` | method | `tests/test_security_codeql_batch.py:48` | `def test_allows_lab_targets_by_default(self)` |
+| `test_allows_public_webhook` | method | `tests/test_security_codeql_batch.py:142` | `def test_allows_public_webhook(self)` |
+| `test_api_defaults_hide_exception` | method | `tests/test_security_codeql_batch.py:342` | `def test_api_defaults_hide_exception(self, monkeypatch)` |
+| `test_blocks_cloud_metadata` | method | `tests/test_security_codeql_batch.py:55` | `def test_blocks_cloud_metadata(self)` |
+| `test_blocks_common_emoji_and_clean_text_passes` | method | `tests/test_security_codeql_batch.py:362` | `def test_blocks_common_emoji_and_clean_text_passes(self)` |
+| `test_blocks_malformed_targets` | method | `tests/test_security_codeql_batch.py:65` | `def test_blocks_malformed_targets(self)` |
+| `test_blocks_metadata_and_userinfo_and_ftp` | method | `tests/test_security_codeql_batch.py:119` | `def test_blocks_metadata_and_userinfo_and_ftp(self)` |
+| `test_blocks_private_when_operator_opts_out` | method | `tests/test_security_codeql_batch.py:81` | `def test_blocks_private_when_operator_opts_out(self, monkeypatch)` |
+| `test_blocks_traversal_inputs` | method | `tests/test_security_codeql_batch.py:223` | `def test_blocks_traversal_inputs(self, tmp_path, monkeypatch)` |
+| `test_broadcast_hides_exception` | method | `tests/test_security_codeql_batch.py:272` | `def test_broadcast_hides_exception(self, tmp_path, monkeypatch)` |
+| `test_channel_store_is_owner_only` | method | `tests/test_security_codeql_batch.py:175` | `def test_channel_store_is_owner_only(self, tmp_path, monkeypatch)` |
+| `test_guard_lookup_hides_exception` | method | `tests/test_security_codeql_batch.py:297` | `def test_guard_lookup_hides_exception(self, tmp_path, monkeypatch)` |
+| `test_insecure_only_with_explicit_opt_in` | method | `tests/test_security_codeql_batch.py:106` | `def test_insecure_only_with_explicit_opt_in(self, monkeypatch)` |
+| `test_loop_graph_hides_exception` | method | `tests/test_security_codeql_batch.py:285` | `def test_loop_graph_hides_exception(self, tmp_path, monkeypatch)` |
+| `test_loopback_needs_explicit_opt_in` | method | `tests/test_security_codeql_batch.py:132` | `def test_loopback_needs_explicit_opt_in(self, monkeypatch)` |
+| `test_mentions_hide_exception` | method | `tests/test_security_codeql_batch.py:312` | `def test_mentions_hide_exception(self, tmp_path, monkeypatch)` |
+| `test_no_mega_range_in_source` | method | `tests/test_security_codeql_batch.py:368` | `def test_no_mega_range_in_source(self)` |
+| `test_password_roundtrip_with_key` | method | `tests/test_security_codeql_batch.py:160` | `def test_password_roundtrip_with_key(self, monkeypatch)` |
+| `test_password_roundtrip_without_key` | method | `tests/test_security_codeql_batch.py:168` | `def test_password_roundtrip_without_key(self, tmp_path, monkeypatch)` |
+| `test_scrub_masks_passwords_and_tokens` | method | `tests/test_security_codeql_batch.py:152` | `def test_scrub_masks_passwords_and_tokens(self)` |
+| `test_secret_not_logged_and_file_restricted` | method | `tests/test_security_codeql_batch.py:189` | `def test_secret_not_logged_and_file_restricted(self, tmp_path, monkeypatch, caplog)` |
+| `test_serves_valid_subdir_and_ignores_symlink_escape` | method | `tests/test_security_codeql_batch.py:230` | `def test_serves_valid_subdir_and_ignores_symlink_escape(self, tmp_path, monkeypatch)` |
+| `test_sse_stream_hides_exception` | method | `tests/test_security_codeql_batch.py:325` | `def test_sse_stream_hides_exception(self, tmp_path, monkeypatch)` |
+| `test_verified_context_by_default` | method | `tests/test_security_codeql_batch.py:95` | `def test_verified_context_by_default(self, monkeypatch)` |
+| `TestAuthTimingIntegration` | class | `tests/test_security_hardening.py:377` | `class TestAuthTimingIntegration` |
+| `TestCalderaConfigSecrets` | class | `tests/test_security_hardening.py:250` | `class TestCalderaConfigSecrets` |
+| `TestConfigConstantsConsolidation` | class | `tests/test_security_hardening.py:279` | `class TestConfigConstantsConsolidation` |
+| `TestCredentialEncryptionWarning` | class | `tests/test_security_hardening.py:325` | `class TestCredentialEncryptionWarning` |
+| `TestLIKEEscapePrevention` | class | `tests/test_security_hardening.py:84` | `class TestLIKEEscapePrevention` |
+| `TestOpenSSLConf` | class | `tests/test_security_hardening.py:357` | `class TestOpenSSLConf` |
+| `TestPickleRemoved` | class | `tests/test_security_hardening.py:229` | `class TestPickleRemoved` |
+| `TestSQLInjectionPrevention` | class | `tests/test_security_hardening.py:34` | `class TestSQLInjectionPrevention` |
+| `TestSafeRunnerShellFalse` | class | `tests/test_security_hardening.py:176` | `class TestSafeRunnerShellFalse` |
+| `TestTimingAttackPrevention` | class | `tests/test_security_hardening.py:132` | `class TestTimingAttackPrevention` |
+| `db_with_hosts` | method | `tests/test_security_hardening.py:89` | `def db_with_hosts(self)` |
+| `fresh_db` | method | `tests/test_security_hardening.py:72` | `def fresh_db(self)` |
+| `test_ai_fallback_imports_from_llm_factory` | method | `tests/test_security_hardening.py:291` | `def test_ai_fallback_imports_from_llm_factory(self)` |
+| `test_caldera_config_uses_secrets_module` | method | `tests/test_security_hardening.py:263` | `def test_caldera_config_uses_secrets_module(self)` |
+| `test_check_auth_returns_false_for_wrong_credentials` | method | `tests/test_security_hardening.py:380` | `def test_check_auth_returns_false_for_wrong_credentials(self)` |
+| `test_check_auth_uses_hmac_compare_digest` | method | `tests/test_security_hardening.py:136` | `def test_check_auth_uses_hmac_compare_digest(self)` |
+| `test_cli_ai_imports_from_llm_factory` | method | `tests/test_security_hardening.py:306` | `def test_cli_ai_imports_from_llm_factory(self)` |
+| `test_db_maybe_decrypt_logs_failure` | method | `tests/test_security_hardening.py:344` | `def test_db_maybe_decrypt_logs_failure(self)` |
+| `test_db_maybe_encrypt_has_warning_log` | method | `tests/test_security_hardening.py:336` | `def test_db_maybe_encrypt_has_warning_log(self)` |
+| `test_db_module_has_logging_import` | method | `tests/test_security_hardening.py:329` | `def test_db_module_has_logging_import(self)` |
+| `test_export_csv_accepts_all_valid_tables` | method | `tests/test_security_hardening.py:57` | `def test_export_csv_accepts_all_valid_tables(self, fresh_db)` |
+| `test_export_csv_rejects_malicious_table_name` | method | `tests/test_security_hardening.py:45` | `def test_export_csv_rejects_malicious_table_name(self, fresh_db)` |
+| `test_export_csv_rejects_union_select` | method | `tests/test_security_hardening.py:51` | `def test_export_csv_rejects_union_select(self, fresh_db)` |
+| `test_hmac_compare_digest_rejects_timing_difference` | method | `tests/test_security_hardening.py:161` | `def test_hmac_compare_digest_rejects_timing_difference(self)` |
+| `test_hmac_module_imported_in_lazyc2` | method | `tests/test_security_hardening.py:390` | `def test_hmac_module_imported_in_lazyc2(self)` |
+| `test_llm_factory_defines_constants` | method | `tests/test_security_hardening.py:283` | `def test_llm_factory_defines_constants(self)` |
+| `test_no_hardcoded_api_keys_in_caldera_config` | method | `tests/test_security_hardening.py:254` | `def test_no_hardcoded_api_keys_in_caldera_config(self)` |
+| `test_normal_query_still_works` | method | `tests/test_security_hardening.py:116` | `def test_normal_query_still_works(self, db_with_hosts)` |
+| `test_openssl_conf_uses_setdefault` | method | `tests/test_security_hardening.py:361` | `def test_openssl_conf_uses_setdefault(self)` |
+| `test_percent_literal_not_wildcard` | method | `tests/test_security_hardening.py:98` | `def test_percent_literal_not_wildcard(self, db_with_hosts)` |
+| `test_pickle_not_imported_in_utils` | method | `tests/test_security_hardening.py:233` | `def test_pickle_not_imported_in_utils(self)` |
+| `test_run_shell_does_not_use_shell_true` | method | `tests/test_security_hardening.py:181` | `def test_run_shell_does_not_use_shell_true(self)` |
+| `test_run_shell_with_pipe_character` | method | `tests/test_security_hardening.py:200` | `def test_run_shell_with_pipe_character(self)` |
+| `test_run_shell_with_semicolon_is_treated_as_argument` | method | `tests/test_security_hardening.py:212` | `def test_run_shell_with_semicolon_is_treated_as_argument(self)` |
+| `test_underscore_literal_not_wildcard` | method | `tests/test_security_hardening.py:107` | `def test_underscore_literal_not_wildcard(self, db_with_hosts)` |
+| `test_valid_tables_constant_is_complete` | method | `tests/test_security_hardening.py:39` | `def test_valid_tables_constant_is_complete(self)` |
+| `TestAICommandInjectionPrevention` | class | `tests/test_security_hardening_v2.py:34` | `class TestAICommandInjectionPrevention` |
+| `TestCredentialEncryptionAtRest` | class | `tests/test_security_hardening_v2.py:288` | `class TestCredentialEncryptionAtRest` |
+| `TestDNSCommandAllowlist` | class | `tests/test_security_hardening_v2.py:157` | `class TestDNSCommandAllowlist` |
+| `TestNoOsSystemInCriticalPaths` | class | `tests/test_security_hardening_v2.py:349` | `class TestNoOsSystemInCriticalPaths` |
+| `TestSSHCredentialInjectionPrevention` | class | `tests/test_security_hardening_v2.py:92` | `class TestSSHCredentialInjectionPrevention` |
+| `TestSafeShellExecution` | class | `tests/test_security_hardening_v2.py:220` | `class TestSafeShellExecution` |
+| `_read` | function | `tests/test_security_hardening_v2.py:25` | `def _read(relpath)` |
+| `test_ai_module_no_os_system` | method | `tests/test_security_hardening_v2.py:354` | `def test_ai_module_no_os_system(self)` |
+| `test_allowlist_exists_as_frozenset` | method | `tests/test_security_hardening_v2.py:163` | `def test_allowlist_exists_as_frozenset(self)` |
+| `test_allowlist_is_finite_and_reasonable` | method | `tests/test_security_hardening_v2.py:175` | `def test_allowlist_is_finite_and_reasonable(self)` |
+| `test_answers_through_canonical_backend` | method | `tests/test_security_hardening_v2.py:70` | `def test_answers_through_canonical_backend(self)` |
+| `test_api_key_never_leaves_factory_path` | method | `tests/test_security_hardening_v2.py:63` | `def test_api_key_never_leaves_factory_path(self)` |
 | `test_credential_key_derivation` | method | `tests/test_security_hardening_v2.py:337` | `def test_credential_key_derivation(self)` |
 | `test_dangerous_command_not_in_allowlist` | method | `tests/test_security_hardening_v2.py:200` | `def test_dangerous_command_not_in_allowlist(self)` |
 | `test_decrypt_function_exists` | method | `tests/test_security_hardening_v2.py:301` | `def test_decrypt_function_exists(self)` |
@@ -306,9 +392,9 @@ Previous: [SYMBOLS_p44.md](SYMBOLS_p44.md)
 | `_console_text` | function | `tests/test_session_brief.py:31` | `def _console_text(renderable)` |
 | `sandbox` | function | `tests/test_session_brief.py:18` | `def sandbox(tmp_path, monkeypatch)` |
 | `test_brief_covers_target_phase_and_layers` | function | `tests/test_session_brief.py:39` | `def test_brief_covers_target_phase_and_layers(sandbox)` |
-| `test_brief_never_raises_on_empty_stores` | function | `tests/test_session_brief.py:58` | `def test_brief_never_raises_on_empty_stores(tmp_path, monkeypatch)` |
-| `test_brief_shows_newest_task` | function | `tests/test_session_brief.py:70` | `def test_brief_shows_newest_task(sandbox)` |
-| `test_console_brief_respects_hints_off` | function | `tests/test_session_brief.py:81` | `def test_console_brief_respects_hints_off(tmp_path, monkeypatch)` |
+| `test_brief_never_raises_on_empty_stores` | function | `tests/test_session_brief.py:64` | `def test_brief_never_raises_on_empty_stores(tmp_path, monkeypatch)` |
+| `test_brief_shows_newest_task` | function | `tests/test_session_brief.py:76` | `def test_brief_shows_newest_task(sandbox)` |
+| `test_console_brief_respects_hints_off` | function | `tests/test_session_brief.py:87` | `def test_console_brief_respects_hints_off(tmp_path, monkeypatch)` |
 | `SessionOpsSuiteConfig` | class | `tests/test_session_ops_command_set.py:38` | `class SessionOpsSuiteConfig` |
 | `_add_repo_root_to_syspath` | function | `tests/test_session_ops_command_set.py:32` | `def _add_repo_root_to_syspath()` |
 | `_methods_of` | function | `tests/test_session_ops_command_set.py:82` | `def _methods_of(path, class_name)` |
@@ -410,91 +496,5 @@ Previous: [SYMBOLS_p44.md](SYMBOLS_p44.md)
 | `test_configure_without_overrides` | method | `tests/test_sleep_obfuscation.py:239` | `def test_configure_without_overrides(self)` |
 | `test_construction_and_properties` | method | `tests/test_sleep_obfuscation.py:34` | `def test_construction_and_properties(self)` |
 | `test_custom_catalog` | method | `tests/test_sleep_obfuscation.py:293` | `def test_custom_catalog(self)` |
-| `test_default_catalog_has_techniques` | method | `tests/test_sleep_obfuscation.py:115` | `def test_default_catalog_has_techniques(self)` |
-| `test_default_construction` | method | `tests/test_sleep_obfuscation.py:72` | `def test_default_construction(self)` |
-| `test_default_engine` | method | `tests/test_sleep_obfuscation.py:213` | `def test_default_engine(self)` |
-| `test_defaults` | method | `tests/test_sleep_obfuscation.py:48` | `def test_defaults(self)` |
-| `test_ekko_requires_rop_gadgets` | method | `tests/test_sleep_obfuscation.py:173` | `def test_ekko_requires_rop_gadgets(self)` |
-| `test_excessive_rop_gadget_count` | method | `tests/test_sleep_obfuscation.py:181` | `def test_excessive_rop_gadget_count(self)` |
-| `test_excessive_sleep_delay` | method | `tests/test_sleep_obfuscation.py:197` | `def test_excessive_sleep_delay(self)` |
-| `test_from_dict_empty` | method | `tests/test_sleep_obfuscation.py:102` | `def test_from_dict_empty(self)` |
-| `test_from_dict_empty` | method | `tests/test_sleep_obfuscation.py:288` | `def test_from_dict_empty(self)` |
-| `test_from_dict_partial` | method | `tests/test_sleep_obfuscation.py:107` | `def test_from_dict_partial(self)` |
-| `test_from_dict_roundtrip` | method | `tests/test_sleep_obfuscation.py:278` | `def test_from_dict_roundtrip(self)` |
-| `test_get_missing_raises_keyerror` | method | `tests/test_sleep_obfuscation.py:131` | `def test_get_missing_raises_keyerror(self)` |
-| `test_immutability` | method | `tests/test_sleep_obfuscation.py:60` | `def test_immutability(self)` |
-| `test_list_all_sorted_by_resistance` | method | `tests/test_sleep_obfuscation.py:136` | `def test_list_all_sorted_by_resistance(self)` |
-| `test_list_by_platform_linux` | method | `tests/test_sleep_obfuscation.py:149` | `def test_list_by_platform_linux(self)` |
-| `test_list_by_platform_windows` | method | `tests/test_sleep_obfuscation.py:142` | `def test_list_by_platform_windows(self)` |
-| `test_list_names` | method | `tests/test_sleep_obfuscation.py:156` | `def test_list_names(self)` |
-| `test_negative_sleep_delay` | method | `tests/test_sleep_obfuscation.py:189` | `def test_negative_sleep_delay(self)` |
-| `test_os_platform_values` | method | `tests/test_sleep_obfuscation.py:308` | `def test_os_platform_values(self)` |
-| `test_recommend_linux` | method | `tests/test_sleep_obfuscation.py:263` | `def test_recommend_linux(self)` |
-| `test_recommend_windows` | method | `tests/test_sleep_obfuscation.py:257` | `def test_recommend_windows(self)` |
-| `test_register_and_get` | method | `tests/test_sleep_obfuscation.py:120` | `def test_register_and_get(self)` |
-| `test_select_existing_technique` | method | `tests/test_sleep_obfuscation.py:219` | `def test_select_existing_technique(self)` |
-| `test_select_missing_technique` | method | `tests/test_sleep_obfuscation.py:225` | `def test_select_missing_technique(self)` |
-| `test_serialization_roundtrip` | method | `tests/test_sleep_obfuscation.py:79` | `def test_serialization_roundtrip(self)` |
-| `test_technique_risk_values` | method | `tests/test_sleep_obfuscation.py:312` | `def test_technique_risk_values(self)` |
-| `test_to_dict` | method | `tests/test_sleep_obfuscation.py:270` | `def test_to_dict(self)` |
-| `test_valid_config_passes` | method | `tests/test_sleep_obfuscation.py:165` | `def test_valid_config_passes(self)` |
-| `test_validate_config_enabled_without_name` | method | `tests/test_sleep_obfuscation.py:205` | `def test_validate_config_enabled_without_name(self)` |
-| `test_validate_unknown_technique` | method | `tests/test_sleep_obfuscation.py:251` | `def test_validate_unknown_technique(self)` |
-| `test_validate_valid_config` | method | `tests/test_sleep_obfuscation.py:246` | `def test_validate_valid_config(self)` |
-| `TestSocksEnums` | class | `tests/test_socks_proxy.py:373` | `class TestSocksEnums` |
-| `TestSocksProxyConfig` | class | `tests/test_socks_proxy.py:33` | `class TestSocksProxyConfig` |
-| `TestSocksProxyEngine` | class | `tests/test_socks_proxy.py:247` | `class TestSocksProxyEngine` |
-| `TestSocksReply` | class | `tests/test_socks_proxy.py:359` | `class TestSocksReply` |
-| `TestSocksSession` | class | `tests/test_socks_proxy.py:84` | `class TestSocksSession` |
-| `TestSocksValidator` | class | `tests/test_socks_proxy.py:119` | `class TestSocksValidator` |
-| `test_add_bytes` | method | `tests/test_socks_proxy.py:288` | `def test_add_bytes(self)` |
-| `test_add_bytes_to_nonexistent` | method | `tests/test_socks_proxy.py:296` | `def test_add_bytes_to_nonexistent(self)` |
-| `test_address_type_values` | method | `tests/test_socks_proxy.py:384` | `def test_address_type_values(self)` |
-| `test_auth_method_values` | method | `tests/test_socks_proxy.py:374` | `def test_auth_method_values(self)` |
-| `test_build_spec` | method | `tests/test_socks_proxy.py:253` | `def test_build_spec(self)` |
-| `test_byte_counters` | method | `tests/test_socks_proxy.py:97` | `def test_byte_counters(self)` |
-| `test_cleanup_expired` | method | `tests/test_socks_proxy.py:309` | `def test_cleanup_expired(self)` |
-| `test_command_values` | method | `tests/test_socks_proxy.py:379` | `def test_command_values(self)` |
-| `test_construction_and_defaults` | method | `tests/test_socks_proxy.py:85` | `def test_construction_and_defaults(self)` |
-| `test_create_session` | method | `tests/test_socks_proxy.py:260` | `def test_create_session(self)` |
-| `test_default_construction` | method | `tests/test_socks_proxy.py:34` | `def test_default_construction(self)` |
-| `test_default_engine` | method | `tests/test_socks_proxy.py:248` | `def test_default_engine(self)` |
-| `test_elapsed_seconds_with_zero_timestamp` | method | `tests/test_socks_proxy.py:113` | `def test_elapsed_seconds_with_zero_timestamp(self)` |
-| `test_from_dict` | method | `tests/test_socks_proxy.py:326` | `def test_from_dict(self)` |
-| `test_from_dict_empty` | method | `tests/test_socks_proxy.py:73` | `def test_from_dict_empty(self)` |
-| `test_from_dict_unknown_auth_method_handled` | method | `tests/test_socks_proxy.py:78` | `def test_from_dict_unknown_auth_method_handled(self)` |
-| `test_from_payload` | method | `tests/test_socks_proxy.py:337` | `def test_from_payload(self)` |
-| `test_from_payload_empty` | method | `tests/test_socks_proxy.py:348` | `def test_from_payload_empty(self)` |
-| `test_general_failure_message` | method | `tests/test_socks_proxy.py:363` | `def test_general_failure_message(self)` |
-| `test_get_nonexistent_session` | method | `tests/test_socks_proxy.py:284` | `def test_get_nonexistent_session(self)` |
-| `test_get_session` | method | `tests/test_socks_proxy.py:277` | `def test_get_session(self)` |
-| `test_invalid_allowed_ports` | method | `tests/test_socks_proxy.py:178` | `def test_invalid_allowed_ports(self)` |
-| `test_invalid_bind_address` | method | `tests/test_socks_proxy.py:126` | `def test_invalid_bind_address(self)` |
-| `test_invalid_bind_port` | method | `tests/test_socks_proxy.py:132` | `def test_invalid_bind_port(self)` |
-| `test_list_sessions` | method | `tests/test_socks_proxy.py:317` | `def test_list_sessions(self)` |
-| `test_max_connections_limit` | method | `tests/test_socks_proxy.py:300` | `def test_max_connections_limit(self)` |
-| `test_max_connections_zero` | method | `tests/test_socks_proxy.py:138` | `def test_max_connections_zero(self)` |
-| `test_negative_bandwidth` | method | `tests/test_socks_proxy.py:156` | `def test_negative_bandwidth(self)` |
-| `test_no_auth_methods` | method | `tests/test_socks_proxy.py:172` | `def test_no_auth_methods(self)` |
-| `test_port_in_both_lists` | method | `tests/test_socks_proxy.py:184` | `def test_port_in_both_lists(self)` |
-| `test_remove_nonexistent_session` | method | `tests/test_socks_proxy.py:273` | `def test_remove_nonexistent_session(self)` |
-| `test_remove_session` | method | `tests/test_socks_proxy.py:267` | `def test_remove_session(self)` |
-| `test_serialization_roundtrip` | method | `tests/test_socks_proxy.py:42` | `def test_serialization_roundtrip(self)` |
-| `test_session_timeout_too_high` | method | `tests/test_socks_proxy.py:150` | `def test_session_timeout_too_high(self)` |
-| `test_session_timeout_too_low` | method | `tests/test_socks_proxy.py:144` | `def test_session_timeout_too_low(self)` |
-| `test_succeeded_message` | method | `tests/test_socks_proxy.py:360` | `def test_succeeded_message(self)` |
-| `test_to_dict` | method | `tests/test_socks_proxy.py:104` | `def test_to_dict(self)` |
-| `test_unknown_code_message` | method | `tests/test_socks_proxy.py:366` | `def test_unknown_code_message(self)` |
-| `test_username_password_without_credentials` | method | `tests/test_socks_proxy.py:162` | `def test_username_password_without_credentials(self)` |
-| `test_valid_config_passes` | method | `tests/test_socks_proxy.py:120` | `def test_valid_config_passes(self)` |
-| `test_validate_custom_config` | method | `tests/test_socks_proxy.py:352` | `def test_validate_custom_config(self)` |
-| `test_validate_request_denied_port_ac` | method | `tests/test_socks_proxy.py:233` | `def test_validate_request_denied_port_ac(self, tmp_path)` |
-| `test_validate_request_invalid_port` | method | `tests/test_socks_proxy.py:223` | `def test_validate_request_invalid_port(self)` |
-| `test_validate_request_unsupported_address_type` | method | `tests/test_socks_proxy.py:212` | `def test_validate_request_unsupported_address_type(self)` |
-| `test_validate_request_unsupported_command` | method | `tests/test_socks_proxy.py:201` | `def test_validate_request_unsupported_command(self)` |
-| `test_validate_request_valid_connect` | method | `tests/test_socks_proxy.py:190` | `def test_validate_request_valid_connect(self)` |
-| `_write_operators` | function | `tests/test_status_bar_operators.py:28` | `def _write_operators(tmp_path, records)` |
-| `test_build_default_manager_skips_operators_by_default` | function | `tests/test_status_bar_operators.py:86` | `def test_build_default_manager_skips_operators_by_default(tmp_path)` |
-| `test_build_default_manager_wires_operators_when_enabled` | function | `tests/test_status_bar_operators.py:92` | `def test_build_default_manager_wires_operators_when_enabled(tmp_path)` |
 
 Next: [SYMBOLS_p46.md](SYMBOLS_p46.md)

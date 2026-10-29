@@ -329,11 +329,19 @@ Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/domain_domina
 
 ## cli/commands/lazy_creds.py
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
-- `LazyCredsCommandSet.do_lazycreds` (method) `cli/commands/lazy_creds.py:25` `def do_lazycreds(self, line)` -- Search the default-credential knowledge base.
+- `LazyCredsCommandSet.do_lazycreds` (method) `cli/commands/lazy_creds.py:28` `def do_lazycreds(self, line)` -- Search the default-credential knowledge base.
+
+## cli/commands/lazy_dorks.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `LazyDorksCommandSet.do_lazydork` (method) `cli/commands/lazy_dorks.py:37` `def do_lazydork(self, line)` -- Search the dork grammar for one target.
 
 ## cli/commands/lazy_oob.py
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
-- `LazyOobCommandSet.do_lazyoob` (method) `cli/commands/lazy_oob.py:26` `def do_lazyoob(self, line)` -- Run a local HTTP callback canary.
+- `LazyOobCommandSet.do_lazyoob` (method) `cli/commands/lazy_oob.py:29` `def do_lazyoob(self, line)` -- Run a local HTTP callback canary.
+
+## cli/commands/lazy_passgen.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `LazyPassGenCommandSet.do_lazypassgen` (method) `cli/commands/lazy_passgen.py:21` `def do_lazypassgen(self, line)` -- Generate a target-aware candidate wordlist.
 
 ## cli/commands/lazyloop.py
 Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
@@ -432,9 +440,9 @@ Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`
 - `McpBridgeCommandSet.do_threat_model` (method) `cli/commands/mcp_bridge.py:378` `def do_threat_model(self, args)` -- Build or inspect the threat model derived from session events.
 - `McpBridgeCommandSet.do_playbook_run` (method) `cli/commands/mcp_bridge.py:431` `def do_playbook_run(self, args)` -- Execute a generated YAML playbook step by step through the shell.
 - `McpBridgeCommandSet.do_auto_loop` (method) `cli/commands/mcp_bridge.py:489` `def do_auto_loop(self, line)` -- Run a goal through the single lazy orchestrator (auto_loop == lazy_loop).
-- `McpBridgeCommandSet.do_session_state` (method) `cli/commands/mcp_bridge.py:530` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
-- `McpBridgeCommandSet.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:535` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
-- `McpBridgeCommandSet.do_timeline` (method) `cli/commands/mcp_bridge.py:540` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
+- `McpBridgeCommandSet.do_session_state` (method) `cli/commands/mcp_bridge.py:533` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
+- `McpBridgeCommandSet.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:538` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
+- `McpBridgeCommandSet.do_timeline` (method) `cli/commands/mcp_bridge.py:543` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
 
 ## cli/commands/misc_migrated.py
 Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/lazy_loop.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`

@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestCrackMapExecParser` | class | `skills/tests/test_facts.py:61` | `class TestCrackMapExecParser` |
+| `TestEnum4linuxParser` | class | `skills/tests/test_facts.py:81` | `class TestEnum4linuxParser` |
+| `TestFactStore` | class | `skills/tests/test_facts.py:300` | `class TestFactStore` |
+| `TestGobusterParser` | class | `skills/tests/test_facts.py:149` | `class TestGobusterParser` |
+| `TestKerbruteParser` | class | `skills/tests/test_facts.py:119` | `class TestKerbruteParser` |
+| `TestNiktoParser` | class | `skills/tests/test_facts.py:176` | `class TestNiktoParser` |
+| `TestNmapXmlParser` | class | `skills/tests/test_facts.py:246` | `class TestNmapXmlParser` |
+| `TestNucleiParser` | class | `skills/tests/test_facts.py:196` | `class TestNucleiParser` |
+| `TestRpcclientParser` | class | `skills/tests/test_facts.py:138` | `class TestRpcclientParser` |
+| `TestSecretsdumpParser` | class | `skills/tests/test_facts.py:105` | `class TestSecretsdumpParser` |
+| `TestSslscanParser` | class | `skills/tests/test_facts.py:218` | `class TestSslscanParser` |
+| `_make_config` | function | `skills/tests/test_facts.py:42` | `def _make_config(tmp_path)` |
+| `test_context_for_command` | method | `skills/tests/test_facts.py:322` | `def test_context_for_command(self, tmp_path)` |
+| `test_context_for_unknown_host` | method | `skills/tests/test_facts.py:356` | `def test_context_for_unknown_host(self, tmp_path)` |
+| `test_crackmapexec_parser` | method | `skills/tests/test_facts.py:62` | `def test_crackmapexec_parser(self)` |
+| `test_crackmapexec_pwned` | method | `skills/tests/test_facts.py:73` | `def test_crackmapexec_pwned(self)` |
+| `test_dedup_creds` | method | `skills/tests/test_facts.py:429` | `def test_dedup_creds(self, tmp_path)` |
+| `test_enum4linux_access_when_results` | method | `skills/tests/test_facts.py:97` | `def test_enum4linux_access_when_results(self)` |
+| `test_enum4linux_parser` | method | `skills/tests/test_facts.py:82` | `def test_enum4linux_parser(self)` |
+| `test_factstore_dedup` | method | `skills/tests/test_facts.py:301` | `def test_factstore_dedup(self, tmp_path)` |
 | `test_factstore_save_and_reload` | method | `skills/tests/test_facts.py:363` | `def test_factstore_save_and_reload(self, tmp_path)` |
 | `test_gobuster_multiple_paths` | method | `skills/tests/test_facts.py:162` | `def test_gobuster_multiple_paths(self)` |
 | `test_gobuster_parser_parse_extended` | method | `skills/tests/test_facts.py:150` | `def test_gobuster_parser_parse_extended(self)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `_n` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
 | `a` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
 | `ci` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `dn` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `ft` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `h` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `i` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `i` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `ln` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `n` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `o` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `pi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `q` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `r` | function | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `rt` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `vi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `xn` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `zi` | class | `static/js/bootstrap-5.3.0.bundle.min.js:6` | `` |
-| `As` | class | `static/js/chart.min.js:13` | `` |
-| `Ge` | function | `static/js/chart.min.js:13` | `` |
-| `Ho` | class | `static/js/chart.min.js:13` | `` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

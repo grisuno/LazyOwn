@@ -248,7 +248,7 @@ Validate a URL string, rejecting shell metacharacters.
 
 *Calls:* [`UrlValidationError`](#urlvalidationerror)
 
-*Called by:* [`safe_git_clone`](#safe_git_clone), [`webhooks_register`](lazyc2.blueprints.api_v1.py.md#webhooks_register)
+*Called by:* [`safe_git_clone`](#safe_git_clone), [`webhooks_register`](lazyc2.blueprints.api_v1.py.md#webhooks_register), [`shorten`](modules.lazyshortener.py.md#shorten)
 
 ---
 

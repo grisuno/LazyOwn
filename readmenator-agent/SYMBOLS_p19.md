@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `swan_available` | method | `modules/mediation/telemetry_mediator.py:76` | `def swan_available(self)` |
+| `swan_consult` | method | `modules/mediation/telemetry_mediator.py:85` | `def swan_consult(self, prompt, task_type, phase, timeout)` |
+| `MemoryCleaner` | class | `modules/memory_cleaner.py:50` | `class MemoryCleaner` |
+| `MemoryCleanerConfig` | class | `modules/memory_cleaner.py:22` | `class MemoryCleanerConfig` |
+| `__init__` | method | `modules/memory_cleaner.py:61` | `def __init__(self, config)` |
+| `generate_on_exit_script` | method | `modules/memory_cleaner.py:255` | `def generate_on_exit_script(self)` |
+| `linux_memory_cleanup` | method | `modules/memory_cleaner.py:151` | `def linux_memory_cleanup(self)` |
+| `macos_memory_cleanup` | method | `modules/memory_cleaner.py:206` | `def macos_memory_cleanup(self)` |
+| `windows_memory_cleanup` | method | `modules/memory_cleaner.py:64` | `def windows_memory_cleanup(self)` |
+| `EmbeddingError` | class | `modules/memory_embeddings.py:30` | `class EmbeddingError(ValueError)` |
+| `_fnv1a` | function | `modules/memory_embeddings.py:34` | `def _fnv1a(data)` |
+| `_tokens` | function | `modules/memory_embeddings.py:41` | `def _tokens(text)` |
+| `as_floats` | function | `modules/memory_embeddings.py:109` | `def as_floats(blob)` |
+| `cosine` | function | `modules/memory_embeddings.py:75` | `def cosine(a, b)` |
+| `embed` | function | `modules/memory_embeddings.py:50` | `def embed(text)` |
+| `semantic_top_k` | function | `modules/memory_embeddings.py:85` | `def semantic_top_k(query, candidates, top_k)` |
+| `MemoryEntry` | class | `modules/memory_store.py:84` | `class MemoryEntry` |
+| `MemoryStore` | class | `modules/memory_store.py:237` | `class MemoryStore` |
+| `SQLiteBackend` | class | `modules/memory_store.py:132` | `class SQLiteBackend(StorageBackend)` |
+| `StorageBackend` | class | `modules/memory_store.py:97` | `class StorageBackend(ABC)` |
 | `VectorSQLiteBackend` | class | `modules/memory_store.py:315` | `class VectorSQLiteBackend(SQLiteBackend)` |
 | `__init__` | method | `modules/memory_store.py:133` | `def __init__(self, db_path)` |
 | `__init__` | method | `modules/memory_store.py:240` | `def __init__(self, backend)` |
@@ -473,28 +493,8 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `CampaignTarget` | class | `modules/phishing_orchestrator.py:139` | `class CampaignTarget` |
 | `PhishingOrchestrator` | class | `modules/phishing_orchestrator.py:180` | `class PhishingOrchestrator` |
 | `PhishingTemplate` | class | `modules/phishing_orchestrator.py:154` | `class PhishingTemplate` |
-| `__init__` | method | `modules/phishing_orchestrator.py:316` | `def __init__(self)` |
+| `__init__` | method | `modules/phishing_orchestrator.py:399` | `def __init__(self)` |
 | `_decrypt_credential` | function | `modules/phishing_orchestrator.py:100` | `def _decrypt_credential(encrypted_b64)` |
 | `_derive_credential_key` | function | `modules/phishing_orchestrator.py:57` | `def _derive_credential_key()` |
-| `_encrypt_credential` | function | `modules/phishing_orchestrator.py:84` | `def _encrypt_credential(plaintext)` |
-| `_generate_landing_page` | method | `modules/phishing_orchestrator.py:683` | `def _generate_landing_page(self, template, target_domain, campaign_id)` |
-| `_hash_credential_for_log` | function | `modules/phishing_orchestrator.py:116` | `def _hash_credential_for_log(plaintext)` |
-| `_inject_harvester` | method | `modules/phishing_orchestrator.py:769` | `def _inject_harvester(self, html, page_id)` |
-| `_load_config` | method | `modules/phishing_orchestrator.py:808` | `def _load_config(self)` |
-| `_load_targets_from_file` | method | `modules/phishing_orchestrator.py:644` | `def _load_targets_from_file(self, filepath)` |
-| `_send_email` | method | `modules/phishing_orchestrator.py:735` | `def _send_email(self, to_email, subject, html_body, smtp_config)` |
-| `_setup_harvesting_endpoint` | method | `modules/phishing_orchestrator.py:723` | `def _setup_harvesting_endpoint(self, campaign_id)` |
-| `clone_landing_page` | method | `modules/phishing_orchestrator.py:533` | `def clone_landing_page(self, url)` |
-| `generate_template` | method | `modules/phishing_orchestrator.py:486` | `def generate_template(self, name, target_domain, context)` |
-| `get_instance` | method | `modules/phishing_orchestrator.py:321` | `def get_instance(cls)` |
-| `get_results` | method | `modules/phishing_orchestrator.py:560` | `def get_results(self, campaign_id)` |
-| `launch` | method | `modules/phishing_orchestrator.py:332` | `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` |
-| `profile_targets` | method | `modules/phishing_orchestrator.py:441` | `def profile_targets(self, domain)` |
-| `record_click` | method | `modules/phishing_orchestrator.py:584` | `def record_click(self, campaign_id, email)` |
-| `record_credentials` | method | `modules/phishing_orchestrator.py:605` | `def record_credentials(self, campaign_id, email, password)` |
-| `ConditionEvaluator` | class | `modules/pipeline_engine.py:326` | `class ConditionEvaluator` |
-| `EngagementNarratorAdapter` | class | `modules/pipeline_engine.py:868` | `class EngagementNarratorAdapter(INarratorAdapter)` |
-| `INarratorAdapter` | class | `modules/pipeline_engine.py:848` | `class INarratorAdapter(ABC)` |
-| `IStepRunner` | class | `modules/pipeline_engine.py:509` | `class IStepRunner(ABC)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

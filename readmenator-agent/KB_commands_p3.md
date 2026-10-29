@@ -1,6 +1,24 @@
 # Subsystem: commands (page 3 of 4)
 Previous: [KB_commands_p2.md](KB_commands_p2.md)
 
+## cli/commands/lazy_oob.py
+- Doc: LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyOobCommandSet` (class, line 22) `class LazyOobCommandSet(LazyOwnCommandSet)`
+  - `do_lazyoob` (method, line 29) `def do_lazyoob(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
+## cli/commands/lazy_passgen.py
+- Doc: LazyPassGen shell command: target-aware weak password generation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyPassGenCommandSet` (class, line 14) `class LazyPassGenCommandSet(LazyOwnCommandSet)`
+  - `do_lazypassgen` (method, line 21) `def do_lazypassgen(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
 ## cli/commands/lazyloop.py
 - Doc: Lazy queue and misc command set.
 - Layer: utility
@@ -145,11 +163,11 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_threat_model` (method, line 378) `def do_threat_model(self, args)`
   - `do_playbook_run` (method, line 431) `def do_playbook_run(self, args)`
   - `do_auto_loop` (method, line 489) `def do_auto_loop(self, line)`
-  - `do_session_state` (method, line 530) `def do_session_state(self, line)`
-  - `do_campaign_sitrep` (method, line 535) `def do_campaign_sitrep(self, line)`
-  - `do_timeline` (method, line 540) `def do_timeline(self, line)`
-  - `_delegate` (method, line 544) `def _delegate(self, command, line)`
-  - `_refresh_aliases` (method, line 552) `def _refresh_aliases(self)`
+  - `do_session_state` (method, line 533) `def do_session_state(self, line)`
+  - `do_campaign_sitrep` (method, line 538) `def do_campaign_sitrep(self, line)`
+  - `do_timeline` (method, line 543) `def do_timeline(self, line)`
+  - `_delegate` (method, line 547) `def _delegate(self, command, line)`
+  - `_refresh_aliases` (method, line 555) `def _refresh_aliases(self)`
   - `_executor` (function, line 475) `def _executor(command, host)`
 - Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/autonomous.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/lazy_runner.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
 - Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`
@@ -432,52 +450,6 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_ofuscatorps1` (method, line 82) `def do_ofuscatorps1(self, line)`
   - `do_atomic_lazyown` (method, line 87) `def do_atomic_lazyown(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
-
-## cli/commands/postexp_migrated.py
-- Doc: postexp commands migrated from lazyown.py.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PostexpMigratedCommandSet` (class, line 32) `class PostexpMigratedCommandSet(LazyOwnCommandSet)`
-  - `do_find` (method, line 37) `def do_find(self, line)`
-  - `do_cports` (method, line 533) `def do_cports(self, line)`
-  - `do_rubeus` (method, line 578) `def do_rubeus(self, line)`
-  - `do_sessionsshstrace` (method, line 618) `def do_sessionsshstrace(self, line)`
-  - `do_powershell_cmd_stager` (method, line 669) `def do_powershell_cmd_stager(self, line)`
-  - `do_shellcode_search` (method, line 706) `def do_shellcode_search(self, line)`
-  - `do_shellcode2sylk` (method, line 754) `def do_shellcode2sylk(self, line)`
-  - `do_pezorsh` (method, line 799) `def do_pezorsh(self, line)`
-  - `do_pip_repo` (method, line 872) `def do_pip_repo(self, line)`
-  - `do_apt_repo` (method, line 984) `def do_apt_repo(self, line)`
-  - `do_createpayload` (method, line 1233) `def do_createpayload(self, line)`
-  - `do_bin2shellcode` (method, line 1285) `def do_bin2shellcode(self, line)`
-  - `do_exe2bin` (method, line 1375) `def do_exe2bin(self, line)`
-  - `do_exe2donutbin` (method, line 1402) `def do_exe2donutbin(self, line)`
-  - `do_issue_command_to_c2` (method, line 1426) `def do_issue_command_to_c2(self, line)`
-  - `do_d3monizedshell` (method, line 1450) `def do_d3monizedshell(self, line)`
-  - `do_scp` (method, line 1483) `def do_scp(self, line)`
-  - `do_apt_proxy` (method, line 1579) `def do_apt_proxy(self, line)`
-  - `do_pip_proxy` (method, line 1635) `def do_pip_proxy(self, line)`
-  - `do_internet_proxy` (method, line 1693) `def do_internet_proxy(self, line)`
-  - `do_shellcode2elf` (method, line 1755) `def do_shellcode2elf(self, line)`
-  - `do_ssh_cmd` (method, line 1837) `def do_ssh_cmd(self, line)`
-  - `do_service_ssh` (method, line 1866) `def do_service_ssh(self, line)`
-  - `do_ofuscatesh` (method, line 1940) `def do_ofuscatesh(self, line)`
-  - `do_ofuscate_payload` (method, line 1970) `def do_ofuscate_payload(self, line)`
-  - `do_adversary` (method, line 1997) `def do_adversary(self, line)`
-  - `do_ofuscate_string` (method, line 2145) `def do_ofuscate_string(self, line)`
-  - `do_path2hex` (method, line 2187) `def do_path2hex(self, line)`
-  - `do_hex2shellcode` (method, line 2234) `def do_hex2shellcode(self, line)`
-  - `do_create_synthetic` (method, line 2291) `def do_create_synthetic(self, line)`
-  - `do_extract_yaml` (method, line 2343) `def do_extract_yaml(self, line)`
-  - `do_convert_remcomsvc_from_file` (method, line 2405) `def do_convert_remcomsvc_from_file(self, arg)`
-  - `do_adversary_yaml` (method, line 2439) `def do_adversary_yaml(self, line)`
-  - `do_add2find` (method, line 2524) `def do_add2find(self, line)`
-  - `do_rmfromfind` (method, line 2552) `def do_rmfromfind(self, line)`
-  - `do_aes_pe` (method, line 2581) `def do_aes_pe(self, line)`
-  - `do_yara_scan` (method, line 2610) `def do_yara_scan(self, line)`
-  - `resolve_and_download_dependencies` (function, line 1030) `def resolve_and_download_dependencies(package_name)`
-- Depends on: `cli/commands/_base.py`, `modules/yara_scanner.py`, `utils.py`
 
 
 Next: [KB_commands_p4.md](KB_commands_p4.md)

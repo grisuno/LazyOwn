@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_chain_yaml_matches_skill_contract` | function | `tests/test_chain_registry.py:73` | `def test_chain_yaml_matches_skill_contract()` |
+| `test_disabled_chains_skip_but_stay_visible` | function | `tests/test_chain_registry.py:124` | `def test_disabled_chains_skip_but_stay_visible(tmp_path)` |
+| `test_extends_cycle_and_unknown_parent_rejected` | function | `tests/test_chain_registry.py:110` | `def test_extends_cycle_and_unknown_parent_rejected(tmp_path)` |
+| `test_extends_inherits_steps_and_merges_defaults` | function | `tests/test_chain_registry.py:80` | `def test_extends_inherits_steps_and_merges_defaults(tmp_path)` |
+| `test_generate_for_playbook_roundtrip` | function | `tests/test_chain_registry.py:143` | `def test_generate_for_playbook_roundtrip(tmp_path)` |
+| `test_resolve_flags_unresolved_tokens` | function | `tests/test_chain_registry.py:65` | `def test_resolve_flags_unresolved_tokens()` |
+| `test_resolve_substitutes_and_skips` | function | `tests/test_chain_registry.py:43` | `def test_resolve_substitutes_and_skips(tmp_path, monkeypatch)` |
+| `test_shipped_chain_loads` | function | `tests/test_chain_registry.py:18` | `def test_shipped_chain_loads()` |
+| `test_validate_rejects_bad_chains` | function | `tests/test_chain_registry.py:33` | `def test_validate_rejects_bad_chains()` |
+| `FakeShell` | class | `tests/test_chain_runner.py:343` | `class FakeShell` |
+| `Shell` | class | `tests/test_chain_runner.py:224` | `class Shell` |
+| `Shell` | class | `tests/test_chain_runner.py:238` | `class Shell` |
+| `Shell` | class | `tests/test_chain_runner.py:251` | `class Shell` |
+| `Shell` | class | `tests/test_chain_runner.py:271` | `class Shell` |
+| `Shell` | class | `tests/test_chain_runner.py:284` | `class Shell` |
+| `_chain` | function | `tests/test_chain_runner.py:16` | `def _chain(steps)` |
+| `do_assign` | method | `tests/test_chain_runner.py:254` | `def do_assign(self, line)` |
+| `do_assign` | method | `tests/test_chain_runner.py:287` | `def do_assign(self, line)` |
+| `do_echo` | method | `tests/test_chain_runner.py:227` | `def do_echo(self, line)` |
+| `do_lazy_note` | method | `tests/test_chain_runner.py:346` | `def do_lazy_note(self, line)` |
 | `executor` | function | `tests/test_chain_runner.py:39` | `def executor(command)` |
 | `executor` | function | `tests/test_chain_runner.py:62` | `def executor(command)` |
 | `executor` | function | `tests/test_chain_runner.py:79` | `def executor(command)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 | `base_src` | method | `tests/test_command_palette.py:2229` | `def base_src(self, suite_config)` |
 | `base_template_path` | method | `tests/test_command_palette.py:194` | `def base_template_path(self)` |
 | `blocking_import` | function | `tests/test_command_palette.py:2260` | `def blocking_import(name)` |
-| `cli_commands_dir` | method | `tests/test_command_palette.py:174` | `def cli_commands_dir(self)` |
-| `completer` | method | `tests/test_command_palette.py:883` | `def completer(self)` |
-| `graphify_path` | method | `tests/test_command_palette.py:199` | `def graphify_path(self)` |
-| `index_document` | function | `tests/test_command_palette.py:218` | `def index_document(suite_config)` |
-| `index_path` | method | `tests/test_command_palette.py:164` | `def index_path(self)` |
-| `lazyc2_path` | method | `tests/test_command_palette.py:184` | `def lazyc2_path(self)` |
-| `lazyown_path` | method | `tests/test_command_palette.py:169` | `def lazyown_path(self)` |
-| `mcp_path` | method | `tests/test_command_palette.py:179` | `def mcp_path(self)` |
-| `palette_src` | method | `tests/test_command_palette.py:1023` | `def palette_src(self, suite_config)` |
-| `palette_template_path` | method | `tests/test_command_palette.py:189` | `def palette_template_path(self)` |
-| `parser` | method | `tests/test_command_palette.py:651` | `def parser(self)` |
-| `parser` | method | `tests/test_command_palette.py:1755` | `def parser(self)` |
-| `query` | method | `tests/test_command_palette.py:733` | `def query(self, synthetic_index)` |
-| `renderer` | method | `tests/test_command_palette.py:799` | `def renderer(self)` |
-| `repo_root` | method | `tests/test_command_palette.py:159` | `def repo_root(self)` |
-| `setup_method` | method | `tests/test_command_palette.py:569` | `def setup_method(self)` |
-| `setup_method` | method | `tests/test_command_palette.py:1526` | `def setup_method(self)` |
-| `src` | method | `tests/test_command_palette.py:1018` | `def src(self, suite_config)` |
-| `src` | method | `tests/test_command_palette.py:1342` | `def src(self, suite_config)` |
-| `src` | method | `tests/test_command_palette.py:1409` | `def src(self, suite_config)` |
 
 Next: [SYMBOLS_p36.md](SYMBOLS_p36.md)

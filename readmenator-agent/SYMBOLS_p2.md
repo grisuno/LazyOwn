@@ -461,9 +461,14 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_wmiexecpro` | method | `cli/commands/lateral_migrated.py:1031` | `def do_wmiexecpro(self, line)` |
 | `install_wmiexecpro` | function | `cli/commands/lateral_migrated.py:1070` | `def install_wmiexecpro()` |
 | `LazyCredsCommandSet` | class | `cli/commands/lazy_creds.py:21` | `class LazyCredsCommandSet(LazyOwnCommandSet)` |
-| `do_lazycreds` | method | `cli/commands/lazy_creds.py:25` | `def do_lazycreds(self, line)` |
+| `do_lazycreds` | method | `cli/commands/lazy_creds.py:28` | `def do_lazycreds(self, line)` |
+| `LazyDorksCommandSet` | class | `cli/commands/lazy_dorks.py:30` | `class LazyDorksCommandSet(LazyOwnCommandSet)` |
+| `_slug` | function | `cli/commands/lazy_dorks.py:18` | `def _slug(domain)` |
+| `do_lazydork` | method | `cli/commands/lazy_dorks.py:37` | `def do_lazydork(self, line)` |
 | `LazyOobCommandSet` | class | `cli/commands/lazy_oob.py:22` | `class LazyOobCommandSet(LazyOwnCommandSet)` |
-| `do_lazyoob` | method | `cli/commands/lazy_oob.py:26` | `def do_lazyoob(self, line)` |
+| `do_lazyoob` | method | `cli/commands/lazy_oob.py:29` | `def do_lazyoob(self, line)` |
+| `LazyPassGenCommandSet` | class | `cli/commands/lazy_passgen.py:14` | `class LazyPassGenCommandSet(LazyOwnCommandSet)` |
+| `do_lazypassgen` | method | `cli/commands/lazy_passgen.py:21` | `def do_lazypassgen(self, line)` |
 | `LazyQueueCommandSet` | class | `cli/commands/lazyloop.py:29` | `class LazyQueueCommandSet(LazyOwnCommandSet)` |
 | `_engine` | function | `cli/commands/lazyloop.py:22` | `def _engine()` |
 | `do_lazy_approve` | method | `cli/commands/lazyloop.py:190` | `def do_lazy_approve(self, line)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_lazy_ask` | method | `cli/commands/lazyops.py:1514` | `def do_lazy_ask(self, line)` |
 | `do_lazy_asset` | method | `cli/commands/lazyops.py:820` | `def do_lazy_asset(self, line)` |
 | `do_lazy_broadcast` | method | `cli/commands/lazyops.py:608` | `def do_lazy_broadcast(self, line)` |
-| `do_lazy_category` | method | `cli/commands/lazyops.py:2532` | `def do_lazy_category(self, line)` |
-| `do_lazy_chat` | method | `cli/commands/lazyops.py:2553` | `def do_lazy_chat(self, line)` |
-| `do_lazy_compact` | method | `cli/commands/lazyops.py:2369` | `def do_lazy_compact(self, line)` |
-| `do_lazy_company` | method | `cli/commands/lazyops.py:1769` | `def do_lazy_company(self, line)` |
-| `do_lazy_constraint` | method | `cli/commands/lazyops.py:762` | `def do_lazy_constraint(self, line)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

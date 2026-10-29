@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `read_bus` | method | `skills/hive_mind.py:1471` | `def read_bus(self)` |
+| `recall` | method | `skills/hive_mind.py:149` | `def recall(self, query, top_k)` |
+| `recall` | method | `skills/hive_mind.py:274` | `def recall(self, query, top_k, role, event_type)` |
+| `recall` | method | `skills/hive_mind.py:434` | `def recall(self, query, top_k, where)` |
+| `recall` | method | `skills/hive_mind.py:519` | `def recall(self, query, top_k)` |
+| `recall` | method | `skills/hive_mind.py:668` | `def recall(self, query, top_k)` |
+| `recall` | method | `skills/hive_mind.py:1878` | `def recall(self, query, top_k)` |
+| `recall_episodic` | method | `skills/hive_mind.py:633` | `def recall_episodic(self, query, top_k, role, event_type)` |
+| `recall_longterm` | method | `skills/hive_mind.py:660` | `def recall_longterm(self, query, top_k)` |
+| `recall_semantic` | method | `skills/hive_mind.py:647` | `def recall_semantic(self, query, top_k, where)` |
+| `receive` | method | `skills/hive_mind.py:746` | `def receive(self, agent_id, max_msgs)` |
+| `recover_from_store` | method | `skills/hive_mind.py:1687` | `def recover_from_store(self)` |
+| `requeue_interrupted` | method | `skills/hive_mind.py:1741` | `def requeue_interrupted(self, backend, api_key, max_iterations)` |
+| `run` | method | `skills/hive_mind.py:175` | `def run(self, command, timeout)` |
+| `spawn` | method | `skills/hive_mind.py:1708` | `def spawn(self, role, goal, backend, api_key, model, max_iterations, runner)` |
+| `spawn` | method | `skills/hive_mind.py:1829` | `def spawn(self, goal, role, backend, api_key, max_iterations)` |
+| `spawn_hive` | method | `skills/hive_mind.py:1846` | `def spawn_hive(self, goal, n_drones, backend, api_key, max_iterations)` |
+| `start` | method | `skills/hive_mind.py:1128` | `def start(self)` |
+| `stats` | method | `skills/hive_mind.py:322` | `def stats(self)` |
+| `stats` | method | `skills/hive_mind.py:694` | `def stats(self)` |
 | `status` | method | `skills/hive_mind.py:1863` | `def status(self)` |
 | `store` | method | `skills/hive_mind.py:157` | `def store(self, content)` |
 | `store` | method | `skills/hive_mind.py:235` | `def store(self, content, agent_id, role, event_type, meta, session_tag)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `update_vulnerabilities` | method | `skills/lazyown_objective.py:466` | `def update_vulnerabilities(self, vulns)` |
 | `write_soul` | function | `skills/lazyown_objective.py:326` | `def write_soul(content)` |
 | `ParquetDB` | class | `skills/lazyown_parquet_db.py:244` | `class ParquetDB` |
-| `__init__` | method | `skills/lazyown_parquet_db.py:295` | `def __init__(self, lazyown_dir)` |
-| `_build_cmd2_category_map` | function | `skills/lazyown_parquet_db.py:146` | `def _build_cmd2_category_map(lazyown_py)` |
-| `_classify_row` | function | `skills/lazyown_parquet_db.py:203` | `def _classify_row(command, args, phase_hint)` |
-| `_load_session` | method | `skills/lazyown_parquet_db.py:307` | `def _load_session(self)` |
-| `_slim` | function | `skills/lazyown_parquet_db.py:932` | `def _slim(row)` |
-| `_stable_id` | function | `skills/lazyown_parquet_db.py:178` | `def _stable_id(start, cmd, args, dest_ip)` |
-| `annotate` | method | `skills/lazyown_parquet_db.py:405` | `def annotate(self, row_id, success, category, outcome)` |
-| `annotate_rich` | method | `skills/lazyown_parquet_db.py:434` | `def annotate_rich(self, row_id, output, finding_type, target_service, target_port, campaign_id, success, category...` |
-| `context_for_phase` | method | `skills/lazyown_parquet_db.py:632` | `def context_for_phase(self, phase, target, limit)` |
-| `get_pdb` | function | `skills/lazyown_parquet_db.py:950` | `def get_pdb(lazyown_dir)` |
-| `list_parquets` | method | `skills/lazyown_parquet_db.py:745` | `def list_parquets(self)` |
-| `main` | function | `skills/lazyown_parquet_db.py:963` | `def main()` |
-| `predict_success` | method | `skills/lazyown_parquet_db.py:845` | `def predict_success(self, command, category)` |
-| `query_atomic` | method | `skills/lazyown_parquet_db.py:578` | `def query_atomic(self, keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` |
-| `query_knowledge` | method | `skills/lazyown_parquet_db.py:526` | `def query_knowledge(self, keyword, parquet_name, columns, limit)` |
-| `query_session` | method | `skills/lazyown_parquet_db.py:490` | `def query_session(self, phase, target, success_only, limit)` |
-| `stats` | method | `skills/lazyown_parquet_db.py:731` | `def stats(self)` |
-| `sync` | method | `skills/lazyown_parquet_db.py:316` | `def sync(self, csv_path)` |
-| `train_classifier` | method | `skills/lazyown_parquet_db.py:750` | `def train_classifier(self, min_rows)` |
-| `verify_model_integrity` | function | `skills/lazyown_parquet_db.py:894` | `def verify_model_integrity(model_path, encoder_path, hash_path)` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

@@ -1,6 +1,6 @@
 # cli
 
-cli groups 95 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
+cli groups 93 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 ```mermaid
 graph LR
@@ -31,37 +31,37 @@ graph LR
     tests -- "calls into" --> skills
 ```
 
-## cli (4.1)
+## cli (5.1)
 
-cli groups 39 files (py) around Theme, get_theme, theme_from_payload, EngagementState, _load_state. LazyOwn CLI infrastructure.
+cli groups 38 files (py) around Theme, get_theme, theme_from_payload, EngagementState, _load_state. LazyOwn CLI infrastructure.
 
-## core (4.2)
+## core (5.2)
 
 core groups 6 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell.
 
-## modules (4.3)
+## modules (5.3)
 
 modules groups 1 files (py) around _load_users, _save_users, _load_payload, _save_payload, user_exists. CLI authentication module — login against users.json with remember-me.
 
-## poc_tui (4.4)
+## poc_tui (5.4)
 
 poc_tui groups 4 files (py) around ShellBackend, __init__, import_shell_class, start, run. Entry point: python3 -m poc_tui
 
-## root (4.5)
+## root (5.5)
 
 root groups 2 files (py) around _ux_debug, _parse_bool_setting, _PayloadSettableProxy, __init__, __getattr__. RAGManager: Manages RAG functionality with CAG caching for document processing and...
 
-## scripts (4.6)
+## scripts (5.6)
 
 scripts groups 1 files (py) around AuditConfig, argparser_commands, audit, main. Audit every registered shell command for dispatch and parser errors.
 
-## skills (4.7)
+## skills (5.7)
 
 skills groups 1 files (py) around OrchestratorConfig, from_payload, OrchestratorGoal, with_defaults, OrchestratorResult. Unified orchestrator facade collapsing daemon, hive and SWAN into one surface.
 
-## tests (4.8)
+## tests (5.8)
 
-tests groups 41 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
+tests groups 40 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
 
 **Files**:
 
@@ -92,7 +92,6 @@ tests groups 41 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - cli/protips.py
 - cli/reactive_hints.py
 - cli/reasoning_stream.py
-- cli/scope_guard.py
 - cli/sessions_browser.py
 - cli/splash.py
 - cli/status_bar.py
@@ -145,7 +144,6 @@ tests groups 41 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - tests/test_reactive_hints_expanded.py
 - tests/test_reasoning_stream.py
 - tests/test_safe_console.py
-- tests/test_scope_guard.py
 - tests/test_scope_guard_integration.py
 - tests/test_sessions_browser.py
 - tests/test_status_bar_operators.py

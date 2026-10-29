@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `rank` | method | `modules/credential_reuse.py:226` | `def rank(self, hosts, creds, host_services, limit)` |
+| `suggest_from_state_manager` | method | `modules/credential_reuse.py:278` | `def suggest_from_state_manager(self, state_manager, limit)` |
+| `suggest_from_world_model` | method | `modules/credential_reuse.py:308` | `def suggest_from_world_model(self, world_model, limit)` |
+| `to_dict` | method | `modules/credential_reuse.py:43` | `def to_dict(self)` |
+| `CrossCloudAttackEngine` | class | `modules/cross_cloud.py:54` | `class CrossCloudAttackEngine` |
 | `CrossCloudConfig` | class | `modules/cross_cloud.py:30` | `class CrossCloudConfig` |
 | `__init__` | method | `modules/cross_cloud.py:64` | `def __init__(self, config)` |
 | `aws_oidc_to_gcp` | method | `modules/cross_cloud.py:133` | `def aws_oidc_to_gcp(self)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `_random_var` | method | `modules/evasive_payloads.py:87` | `def _random_var(self, length)` |
 | `_rot13` | method | `modules/evasive_payloads.py:102` | `def _rot13(self, data)` |
 | `_xor_encode` | method | `modules/evasive_payloads.py:97` | `def _xor_encode(self, data, key)` |
-| `generate_javascript_obfuscated` | method | `modules/evasive_payloads.py:178` | `def generate_javascript_obfuscated(self, payload)` |
-| `generate_linux_evasive` | method | `modules/evasive_payloads.py:214` | `def generate_linux_evasive(self, rhost, rport, technique)` |
-| `generate_lolbas_execution` | method | `modules/evasive_payloads.py:284` | `def generate_lolbas_execution(self, payload_url, technique)` |
-| `generate_polymorphic_command` | method | `modules/evasive_payloads.py:334` | `def generate_polymorphic_command(self, base_cmd, iterations)` |
-| `generate_powershell_obfuscated` | method | `modules/evasive_payloads.py:138` | `def generate_powershell_obfuscated(self, payload, obfuscation_level)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

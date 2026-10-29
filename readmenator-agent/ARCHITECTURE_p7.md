@@ -65,7 +65,9 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `cli/commands/lateral.py` -> __future__, cmd2
 - `cli/commands/lateral_migrated.py` -> __future__, cmd2, os
 - `cli/commands/lazy_creds.py` -> __future__, cmd2, shlex
+- `cli/commands/lazy_dorks.py` -> __future__, cmd2, re, shlex
 - `cli/commands/lazy_oob.py` -> __future__, cmd2, shlex
+- `cli/commands/lazy_passgen.py` -> __future__, cmd2
 - `cli/commands/lazyloop.py` -> __future__, cmd2, json, shlex
 - `cli/commands/lazyops.py` -> __future__, cmd2, json, pathlib, re, shlex, subprocess, uuid, yaml
 - `cli/commands/marketplace.py` -> __future__, cmd2, pathlib, shutil, subprocess
@@ -484,6 +486,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/lazy_verify.py` -> __future__, pathlib, re, shlex, shutil, socket, urllib.parse
 - `modules/lazy_world_diff.py` -> __future__, dataclasses, hashlib, json, pathlib, socket, time, urllib.request
 - `modules/lazycloud.py` -> __future__, dataclasses, datetime, hashlib, hmac, json, os, requests, time, typing, urllib.request
+- `modules/lazydorks.py` -> __future__, pathlib, sys, typing
 - `modules/lazyencoder_decoder.py` -> base64
 - `modules/lazyk8s.py` -> __future__, base64, dataclasses, glob, http.client, json, os, requests, socket, subprocess, tempfile, time, typing, yaml
 - `modules/lazyown_bprfuzzer.py` -> argparse, json, os, requests, signal, subprocess, sys, tempfile, threading
@@ -491,10 +494,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/lazyown_metaextract0r.py` -> argparse, docx, exifread, olefile, os, pypdf, signal
 - `modules/lazyown_parquet_tool.py` -> argparse, colorama, os, pandas, platform, subprocess, tabulate
 - `modules/lazyownerweb.py` -> requests, requests.exceptions, urllib.parse
-- `modules/legacy/__init__.py` -> __future__, pathlib
-- `modules/lesson_ingestor.py` -> __future__, dataclasses, json, pathlib, typing
-- `modules/lilsplunky.py` -> argparse, datetime, json, os, re, requests, rich.panel, socket, time, watchdog.events, watchdog.observers
-- `modules/linux_advanced_payloads.py` -> __future__, base64, dataclasses, os, pathlib, random, subprocess, tempfile, typing
-- `modules/listener_manager.py` -> __future__, dataclasses, errno, ipaddress, json, os, socket, threading, time, typing, werkzeug.serving
+- `modules/lazypassgen.py` -> __future__, pathlib, sys, typing
+- `modules/lazypoophish.py` -> __future__, json, pathlib, sys, time, typing
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

@@ -3,6 +3,12 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_cve_pipeline.py` | CVE pipeline tests: loop/apt_chain findings must reach the intel graph. | tests | 11 | 0 |
+| `tests/test_daemon_control.py` | Unit tests for skills.daemon_control. | tests | 29 | 0 |
+| `tests/test_daemon_ctl_command_set.py` | Daemon command set extraction tests. | tests | 9 | 0 |
+| `tests/test_daemon_loop.py` | BDD tests for the integrated autonomous loop in the daemon. | tests | 30 | 0 |
+| `tests/test_dashboard_routes.py` | Integration tests for dashboard_bp loot and timeline routes. | tests | 29 | 0 |
+| `tests/test_dashboard_tui.py` | Tests for cli/dashboard_tui.py. | tests | 23 | 0 |
 | `tests/test_db.py` | Tests for modules.db — LazyOwnDB SQLite layer. | tests | 13 | 0 |
 | `tests/test_defense_eval.py` | Defense rule replay: target/control datasets, verdicts and metric counts. | tests | 10 | 0 |
 | `tests/test_defense_stages.py` | Defense stages: orchestrator-managed runners and YAML stage visibility. | tests | 8 | 0 |
@@ -69,15 +75,20 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lazy_parity.py` | LAZY parity proof tests: every ported subsystem must behave, not just exist. | tests | 26 | 0 |
 | `tests/test_lazy_proxy.py` | Recorder proxy: CA, HTTP/HTTPS capture, engine ingestion, auto-binding. | tests | 28 | 0 |
 | `tests/test_lazy_runner.py` | Shared loop runner, monitor surface and store-fidelity regressions. | tests | 143 | 0 |
+| `tests/test_lazy_runner_fallback.py` | Tests for the auto_loop phishing fallback wiring in modules.lazy_runner. | tests | 12 | 0 |
 | `tests/test_lazy_scope.py` | Behavioural tests for the lab-only default scope guard. | tests | 30 | 0 |
 | `tests/test_lazy_streaming.py` | Token-level streaming: factory, pool deltas, agent reassembly. | tests | 17 | 0 |
 | `tests/test_lazy_worker_safety.py` | Worker safety: step sanitizer, task-wide dedupe, sudo skip, worker pool. | tests | 12 | 0 |
 | `tests/test_lazy_world_diff.py` | World-surface diff contract: snapshots, changes, ghost liveness, stats. | tests | 18 | 0 |
+| `tests/test_lazydorks.py` | Tests for modules.lazydorks — target-aware dork generator. | tests | 12 | 0 |
 | `tests/test_lazygui_backend.py` | Tests for lazygui backend services. | tests | 59 | 0 |
 | `tests/test_lazygui_graph_widget.py` | Tests for lazygui graph widget contracts. | tests | 51 | 0 |
 | `tests/test_lazygui_models.py` | Tests for lazygui domain models. | tests | 42 | 0 |
 | `tests/test_lazynmap_post.py` | Spec coverage for :mod:`cli.lazynmap_post`. | tests | 16 | 0 |
 | `tests/test_lazynmap_sudo_branches.py` | LazyNmap sudo branches: unattended abort vs interactive prompt. | tests | 4 | 0 |
+| `tests/test_lazypassgen.py` | Tests for modules.lazypassgen — target-aware weak-password generator. | tests | 12 | 0 |
+| `tests/test_lazypoophish.py` | Tests for modules.lazypoophish — loop phishing fallback. | tests | 16 | 0 |
+| `tests/test_lazyshortener.py` | Tests for modules.lazyshortener — keyless URL shortener bridge. | tests | 14 | 0 |
 | `tests/test_legacy_shims.py` | Legacy shim contract plus referenced-script existence. | tests | 5 | 0 |
 | `tests/test_lesson_ingestor.py` | Tests for modules/lesson_ingestor.py. | tests | 11 | 0 |
 | `tests/test_lint_quality.py` | Lint quality gate. | tests | 5 | 0 |
@@ -232,5 +243,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tools/generate_metasploitable_gym.py` | Generate the Metasploitable 2 gym catalogue. | tools | 6 | 0 |
 | `tools/set_lazyaddon_updates.py` | Set or check the ``update`` flag on every lazyaddon YAML. | tools | 3 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 103 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 105 |
 

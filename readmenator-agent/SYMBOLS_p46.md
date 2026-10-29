@@ -3,6 +3,92 @@ Previous: [SYMBOLS_p45.md](SYMBOLS_p45.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_default_catalog_has_techniques` | method | `tests/test_sleep_obfuscation.py:115` | `def test_default_catalog_has_techniques(self)` |
+| `test_default_construction` | method | `tests/test_sleep_obfuscation.py:72` | `def test_default_construction(self)` |
+| `test_default_engine` | method | `tests/test_sleep_obfuscation.py:213` | `def test_default_engine(self)` |
+| `test_defaults` | method | `tests/test_sleep_obfuscation.py:48` | `def test_defaults(self)` |
+| `test_ekko_requires_rop_gadgets` | method | `tests/test_sleep_obfuscation.py:173` | `def test_ekko_requires_rop_gadgets(self)` |
+| `test_excessive_rop_gadget_count` | method | `tests/test_sleep_obfuscation.py:181` | `def test_excessive_rop_gadget_count(self)` |
+| `test_excessive_sleep_delay` | method | `tests/test_sleep_obfuscation.py:197` | `def test_excessive_sleep_delay(self)` |
+| `test_from_dict_empty` | method | `tests/test_sleep_obfuscation.py:102` | `def test_from_dict_empty(self)` |
+| `test_from_dict_empty` | method | `tests/test_sleep_obfuscation.py:288` | `def test_from_dict_empty(self)` |
+| `test_from_dict_partial` | method | `tests/test_sleep_obfuscation.py:107` | `def test_from_dict_partial(self)` |
+| `test_from_dict_roundtrip` | method | `tests/test_sleep_obfuscation.py:278` | `def test_from_dict_roundtrip(self)` |
+| `test_get_missing_raises_keyerror` | method | `tests/test_sleep_obfuscation.py:131` | `def test_get_missing_raises_keyerror(self)` |
+| `test_immutability` | method | `tests/test_sleep_obfuscation.py:60` | `def test_immutability(self)` |
+| `test_list_all_sorted_by_resistance` | method | `tests/test_sleep_obfuscation.py:136` | `def test_list_all_sorted_by_resistance(self)` |
+| `test_list_by_platform_linux` | method | `tests/test_sleep_obfuscation.py:149` | `def test_list_by_platform_linux(self)` |
+| `test_list_by_platform_windows` | method | `tests/test_sleep_obfuscation.py:142` | `def test_list_by_platform_windows(self)` |
+| `test_list_names` | method | `tests/test_sleep_obfuscation.py:156` | `def test_list_names(self)` |
+| `test_negative_sleep_delay` | method | `tests/test_sleep_obfuscation.py:189` | `def test_negative_sleep_delay(self)` |
+| `test_os_platform_values` | method | `tests/test_sleep_obfuscation.py:308` | `def test_os_platform_values(self)` |
+| `test_recommend_linux` | method | `tests/test_sleep_obfuscation.py:263` | `def test_recommend_linux(self)` |
+| `test_recommend_windows` | method | `tests/test_sleep_obfuscation.py:257` | `def test_recommend_windows(self)` |
+| `test_register_and_get` | method | `tests/test_sleep_obfuscation.py:120` | `def test_register_and_get(self)` |
+| `test_select_existing_technique` | method | `tests/test_sleep_obfuscation.py:219` | `def test_select_existing_technique(self)` |
+| `test_select_missing_technique` | method | `tests/test_sleep_obfuscation.py:225` | `def test_select_missing_technique(self)` |
+| `test_serialization_roundtrip` | method | `tests/test_sleep_obfuscation.py:79` | `def test_serialization_roundtrip(self)` |
+| `test_technique_risk_values` | method | `tests/test_sleep_obfuscation.py:312` | `def test_technique_risk_values(self)` |
+| `test_to_dict` | method | `tests/test_sleep_obfuscation.py:270` | `def test_to_dict(self)` |
+| `test_valid_config_passes` | method | `tests/test_sleep_obfuscation.py:165` | `def test_valid_config_passes(self)` |
+| `test_validate_config_enabled_without_name` | method | `tests/test_sleep_obfuscation.py:205` | `def test_validate_config_enabled_without_name(self)` |
+| `test_validate_unknown_technique` | method | `tests/test_sleep_obfuscation.py:251` | `def test_validate_unknown_technique(self)` |
+| `test_validate_valid_config` | method | `tests/test_sleep_obfuscation.py:246` | `def test_validate_valid_config(self)` |
+| `TestSocksEnums` | class | `tests/test_socks_proxy.py:373` | `class TestSocksEnums` |
+| `TestSocksProxyConfig` | class | `tests/test_socks_proxy.py:33` | `class TestSocksProxyConfig` |
+| `TestSocksProxyEngine` | class | `tests/test_socks_proxy.py:247` | `class TestSocksProxyEngine` |
+| `TestSocksReply` | class | `tests/test_socks_proxy.py:359` | `class TestSocksReply` |
+| `TestSocksSession` | class | `tests/test_socks_proxy.py:84` | `class TestSocksSession` |
+| `TestSocksValidator` | class | `tests/test_socks_proxy.py:119` | `class TestSocksValidator` |
+| `test_add_bytes` | method | `tests/test_socks_proxy.py:288` | `def test_add_bytes(self)` |
+| `test_add_bytes_to_nonexistent` | method | `tests/test_socks_proxy.py:296` | `def test_add_bytes_to_nonexistent(self)` |
+| `test_address_type_values` | method | `tests/test_socks_proxy.py:384` | `def test_address_type_values(self)` |
+| `test_auth_method_values` | method | `tests/test_socks_proxy.py:374` | `def test_auth_method_values(self)` |
+| `test_build_spec` | method | `tests/test_socks_proxy.py:253` | `def test_build_spec(self)` |
+| `test_byte_counters` | method | `tests/test_socks_proxy.py:97` | `def test_byte_counters(self)` |
+| `test_cleanup_expired` | method | `tests/test_socks_proxy.py:309` | `def test_cleanup_expired(self)` |
+| `test_command_values` | method | `tests/test_socks_proxy.py:379` | `def test_command_values(self)` |
+| `test_construction_and_defaults` | method | `tests/test_socks_proxy.py:85` | `def test_construction_and_defaults(self)` |
+| `test_create_session` | method | `tests/test_socks_proxy.py:260` | `def test_create_session(self)` |
+| `test_default_construction` | method | `tests/test_socks_proxy.py:34` | `def test_default_construction(self)` |
+| `test_default_engine` | method | `tests/test_socks_proxy.py:248` | `def test_default_engine(self)` |
+| `test_elapsed_seconds_with_zero_timestamp` | method | `tests/test_socks_proxy.py:113` | `def test_elapsed_seconds_with_zero_timestamp(self)` |
+| `test_from_dict` | method | `tests/test_socks_proxy.py:326` | `def test_from_dict(self)` |
+| `test_from_dict_empty` | method | `tests/test_socks_proxy.py:73` | `def test_from_dict_empty(self)` |
+| `test_from_dict_unknown_auth_method_handled` | method | `tests/test_socks_proxy.py:78` | `def test_from_dict_unknown_auth_method_handled(self)` |
+| `test_from_payload` | method | `tests/test_socks_proxy.py:337` | `def test_from_payload(self)` |
+| `test_from_payload_empty` | method | `tests/test_socks_proxy.py:348` | `def test_from_payload_empty(self)` |
+| `test_general_failure_message` | method | `tests/test_socks_proxy.py:363` | `def test_general_failure_message(self)` |
+| `test_get_nonexistent_session` | method | `tests/test_socks_proxy.py:284` | `def test_get_nonexistent_session(self)` |
+| `test_get_session` | method | `tests/test_socks_proxy.py:277` | `def test_get_session(self)` |
+| `test_invalid_allowed_ports` | method | `tests/test_socks_proxy.py:178` | `def test_invalid_allowed_ports(self)` |
+| `test_invalid_bind_address` | method | `tests/test_socks_proxy.py:126` | `def test_invalid_bind_address(self)` |
+| `test_invalid_bind_port` | method | `tests/test_socks_proxy.py:132` | `def test_invalid_bind_port(self)` |
+| `test_list_sessions` | method | `tests/test_socks_proxy.py:317` | `def test_list_sessions(self)` |
+| `test_max_connections_limit` | method | `tests/test_socks_proxy.py:300` | `def test_max_connections_limit(self)` |
+| `test_max_connections_zero` | method | `tests/test_socks_proxy.py:138` | `def test_max_connections_zero(self)` |
+| `test_negative_bandwidth` | method | `tests/test_socks_proxy.py:156` | `def test_negative_bandwidth(self)` |
+| `test_no_auth_methods` | method | `tests/test_socks_proxy.py:172` | `def test_no_auth_methods(self)` |
+| `test_port_in_both_lists` | method | `tests/test_socks_proxy.py:184` | `def test_port_in_both_lists(self)` |
+| `test_remove_nonexistent_session` | method | `tests/test_socks_proxy.py:273` | `def test_remove_nonexistent_session(self)` |
+| `test_remove_session` | method | `tests/test_socks_proxy.py:267` | `def test_remove_session(self)` |
+| `test_serialization_roundtrip` | method | `tests/test_socks_proxy.py:42` | `def test_serialization_roundtrip(self)` |
+| `test_session_timeout_too_high` | method | `tests/test_socks_proxy.py:150` | `def test_session_timeout_too_high(self)` |
+| `test_session_timeout_too_low` | method | `tests/test_socks_proxy.py:144` | `def test_session_timeout_too_low(self)` |
+| `test_succeeded_message` | method | `tests/test_socks_proxy.py:360` | `def test_succeeded_message(self)` |
+| `test_to_dict` | method | `tests/test_socks_proxy.py:104` | `def test_to_dict(self)` |
+| `test_unknown_code_message` | method | `tests/test_socks_proxy.py:366` | `def test_unknown_code_message(self)` |
+| `test_username_password_without_credentials` | method | `tests/test_socks_proxy.py:162` | `def test_username_password_without_credentials(self)` |
+| `test_valid_config_passes` | method | `tests/test_socks_proxy.py:120` | `def test_valid_config_passes(self)` |
+| `test_validate_custom_config` | method | `tests/test_socks_proxy.py:352` | `def test_validate_custom_config(self)` |
+| `test_validate_request_denied_port_ac` | method | `tests/test_socks_proxy.py:233` | `def test_validate_request_denied_port_ac(self, tmp_path)` |
+| `test_validate_request_invalid_port` | method | `tests/test_socks_proxy.py:223` | `def test_validate_request_invalid_port(self)` |
+| `test_validate_request_unsupported_address_type` | method | `tests/test_socks_proxy.py:212` | `def test_validate_request_unsupported_address_type(self)` |
+| `test_validate_request_unsupported_command` | method | `tests/test_socks_proxy.py:201` | `def test_validate_request_unsupported_command(self)` |
+| `test_validate_request_valid_connect` | method | `tests/test_socks_proxy.py:190` | `def test_validate_request_valid_connect(self)` |
+| `_write_operators` | function | `tests/test_status_bar_operators.py:28` | `def _write_operators(tmp_path, records)` |
+| `test_build_default_manager_skips_operators_by_default` | function | `tests/test_status_bar_operators.py:86` | `def test_build_default_manager_skips_operators_by_default(tmp_path)` |
+| `test_build_default_manager_wires_operators_when_enabled` | function | `tests/test_status_bar_operators.py:92` | `def test_build_default_manager_wires_operators_when_enabled(tmp_path)` |
 | `test_collab_presence_counts_active_operators` | function | `tests/test_status_bar_operators.py:41` | `def test_collab_presence_counts_active_operators(tmp_path)` |
 | `test_collab_presence_zero_when_file_missing` | function | `tests/test_status_bar_operators.py:33` | `def test_collab_presence_zero_when_file_missing(tmp_path)` |
 | `test_render_prompt_switches_colour_with_tui_theme` | function | `tests/test_status_bar_operators.py:107` | `def test_render_prompt_switches_colour_with_tui_theme(tmp_path)` |
@@ -410,91 +496,5 @@ Previous: [SYMBOLS_p45.md](SYMBOLS_p45.md)
 | `test_gym_definitions_load` | method | `tests/test_winbox_gym.py:45` | `def test_gym_definitions_load(self)` |
 | `test_lazyaddon_install_command_covers_prereqs` | method | `tests/test_winbox_gym.py:294` | `def test_lazyaddon_install_command_covers_prereqs(self)` |
 | `test_locale_env_forced_on_children` | method | `tests/test_winbox_gym.py:326` | `def test_locale_env_forced_on_children(self)` |
-| `test_matrix_validates` | method | `tests/test_winbox_gym.py:18` | `def test_matrix_validates(self)` |
-| `test_metasploitable_capture_unchanged` | method | `tests/test_winbox_gym.py:658` | `def test_metasploitable_capture_unchanged(self)` |
-| `test_missing_snapshot_triggers_completion_for_substantial_disk` | method | `tests/test_winbox_gym.py:471` | `def test_missing_snapshot_triggers_completion_for_substantial_disk(self)` |
-| `test_notifications_stream_every_stage` | method | `tests/test_winbox_gym.py:533` | `def test_notifications_stream_every_stage(self)` |
-| `test_partial_manual_recovery_falls_back_to_rebuild` | method | `tests/test_winbox_gym.py:403` | `def test_partial_manual_recovery_falls_back_to_rebuild(self)` |
-| `test_partial_recovery_failure_is_loud` | method | `tests/test_winbox_gym.py:442` | `def test_partial_recovery_failure_is_loud(self)` |
-| `test_partial_setup_timeout_recovers_without_rebuild` | method | `tests/test_winbox_gym.py:362` | `def test_partial_setup_timeout_recovers_without_rebuild(self)` |
-| `test_plan_only_filter` | method | `tests/test_winbox_gym.py:591` | `def test_plan_only_filter(self)` |
-| `test_plan_ordered_by_severity` | method | `tests/test_winbox_gym.py:581` | `def test_plan_ordered_by_severity(self)` |
-| `test_plan_rejects_empty_target` | method | `tests/test_winbox_gym.py:587` | `def test_plan_rejects_empty_target(self)` |
-| `test_prereq_fallback_never_accepts_missing_files` | method | `tests/test_winbox_gym.py:75` | `def test_prereq_fallback_never_accepts_missing_files(self)` |
-| `test_prereq_finds_libexec_virtiofsd` | method | `tests/test_winbox_gym.py:65` | `def test_prereq_finds_libexec_virtiofsd(self)` |
-| `test_provision_failure_is_loud` | method | `tests/test_winbox_gym.py:513` | `def test_provision_failure_is_loud(self)` |
-| `test_provision_self_heals_missing_z_drive` | method | `tests/test_winbox_gym.py:493` | `def test_provision_self_heals_missing_z_drive(self)` |
-| `test_readiness_guest_os_fallback` | method | `tests/test_winbox_gym.py:83` | `def test_readiness_guest_os_fallback(self)` |
-| `test_readiness_without_binary` | method | `tests/test_winbox_gym.py:57` | `def test_readiness_without_binary(self)` |
-| `test_record_artifact_sanitised` | method | `tests/test_winbox_gym.py:130` | `def test_record_artifact_sanitised(self)` |
-| `test_run_cli_missing_binary_is_guidance` | method | `tests/test_winbox_gym.py:100` | `def test_run_cli_missing_binary_is_guidance(self)` |
-| `test_run_cli_rejects_bad_timeout` | method | `tests/test_winbox_gym.py:96` | `def test_run_cli_rejects_bad_timeout(self)` |
-| `test_run_cli_rejects_empty` | method | `tests/test_winbox_gym.py:92` | `def test_run_cli_rejects_empty(self)` |
-| `test_run_cli_rejects_unknown_action` | method | `tests/test_winbox_gym.py:88` | `def test_run_cli_rejects_unknown_action(self)` |
-| `test_run_cli_uses_list_form` | method | `tests/test_winbox_gym.py:106` | `def test_run_cli_uses_list_form(self)` |
-| `test_run_matrix_dry_run` | method | `tests/test_winbox_gym.py:595` | `def test_run_matrix_dry_run(self)` |
-| `test_run_matrix_requires_vm_when_live` | method | `tests/test_winbox_gym.py:603` | `def test_run_matrix_requires_vm_when_live(self)` |
-| `test_spanish_status_parse` | method | `tests/test_winbox_gym.py:316` | `def test_spanish_status_parse(self)` |
-| `test_status_parsing` | method | `tests/test_winbox_gym.py:120` | `def test_status_parsing(self)` |
-| `test_stream_command_live_output_and_transcript` | method | `tests/test_winbox_gym.py:554` | `def test_stream_command_live_output_and_transcript(self)` |
-| `test_stream_command_rejects_null_byte` | method | `tests/test_winbox_gym.py:573` | `def test_stream_command_rejects_null_byte(self)` |
-| `test_summary_shape` | method | `tests/test_winbox_gym.py:21` | `def test_summary_shape(self)` |
-| `test_vm_status_missing_binary` | method | `tests/test_winbox_gym.py:116` | `def test_vm_status_missing_binary(self)` |
-| `TestBinaryNameRegex` | class | `tests/test_wizard_binary_check.py:58` | `class TestBinaryNameRegex` |
-| `TestBinarySpecRegistry` | class | `tests/test_wizard_binary_check.py:32` | `class TestBinarySpecRegistry` |
-| `TestCheckBinariesContract` | class | `tests/test_wizard_binary_check.py:92` | `class TestCheckBinariesContract` |
-| `TestGroupByCategory` | class | `tests/test_wizard_binary_check.py:143` | `class TestGroupByCategory` |
-| `TestPublicSurface` | class | `tests/test_wizard_binary_check.py:199` | `class TestPublicSurface` |
-| `TestRunIntegratesBinaryCheck` | class | `tests/test_wizard_binary_check.py:156` | `class TestRunIntegratesBinaryCheck` |
-| `_fail` | function | `tests/test_wizard_binary_check.py:127` | `def _fail()` |
-| `fake_check` | function | `tests/test_wizard_binary_check.py:160` | `def fake_check()` |
-| `fake_check` | function | `tests/test_wizard_binary_check.py:179` | `def fake_check()` |
-| `test_accepts_known_safe_names` | method | `tests/test_wizard_binary_check.py:72` | `def test_accepts_known_safe_names(self, name)` |
-| `test_check_binaries_in_dunder_all` | method | `tests/test_wizard_binary_check.py:200` | `def test_check_binaries_in_dunder_all(self)` |
-| `test_check_does_not_invoke_subprocess` | method | `tests/test_wizard_binary_check.py:122` | `def test_check_does_not_invoke_subprocess(self, monkeypatch)` |
-| `test_default_registry_is_not_empty` | method | `tests/test_wizard_binary_check.py:33` | `def test_default_registry_is_not_empty(self)` |
-| `test_default_specs_used_when_omitted` | method | `tests/test_wizard_binary_check.py:138` | `def test_default_specs_used_when_omitted(self)` |
-| `test_every_name_matches_safety_regex` | method | `tests/test_wizard_binary_check.py:44` | `def test_every_name_matches_safety_regex(self)` |
-| `test_every_spec_has_required_fields` | method | `tests/test_wizard_binary_check.py:36` | `def test_every_spec_has_required_fields(self)` |
-| `test_groups_preserve_order` | method | `tests/test_wizard_binary_check.py:144` | `def test_groups_preserve_order(self)` |
-| `test_kill_chain_categories_covered` | method | `tests/test_wizard_binary_check.py:52` | `def test_kill_chain_categories_covered(self)` |
-| `test_marks_missing_when_which_returns_none` | method | `tests/test_wizard_binary_check.py:103` | `def test_marks_missing_when_which_returns_none(self)` |
-| `test_marks_present_when_which_returns_path` | method | `tests/test_wizard_binary_check.py:109` | `def test_marks_present_when_which_returns_path(self)` |
-| `test_no_duplicate_binary_names` | method | `tests/test_wizard_binary_check.py:48` | `def test_no_duplicate_binary_names(self)` |
-| `test_rejects_unsafe_names` | method | `tests/test_wizard_binary_check.py:88` | `def test_rejects_unsafe_names(self, name)` |
-| `test_returns_one_status_per_spec` | method | `tests/test_wizard_binary_check.py:93` | `def test_returns_one_status_per_spec(self)` |
-| `test_run_populates_binaries_after_updates` | method | `tests/test_wizard_binary_check.py:176` | `def test_run_populates_binaries_after_updates(self, monkeypatch)` |
-| `test_run_populates_binaries_when_nothing_changes` | method | `tests/test_wizard_binary_check.py:157` | `def test_run_populates_binaries_when_nothing_changes(self, monkeypatch)` |
-| `test_skips_specs_with_unsafe_names` | method | `tests/test_wizard_binary_check.py:115` | `def test_skips_specs_with_unsafe_names(self)` |
-| `TestAskLlm` | class | `tests/test_wizard_llm.py:59` | `class TestAskLlm` |
-| `TestMaskSecret` | class | `tests/test_wizard_llm.py:45` | `class TestMaskSecret` |
-| `TestNormalizeProviderAnswer` | class | `tests/test_wizard_llm.py:23` | `class TestNormalizeProviderAnswer` |
-| `TestReadinessLlm` | class | `tests/test_wizard_llm.py:121` | `class TestReadinessLlm` |
-| `_fake` | function | `tests/test_wizard_llm.py:17` | `def _fake(message)` |
-| `_fake` | function | `tests/test_wizard_llm.py:92` | `def _fake(message)` |
-| `_fake` | function | `tests/test_wizard_llm.py:109` | `def _fake(message)` |
-| `_row` | method | `tests/test_wizard_llm.py:122` | `def _row(self, params, label)` |
-| `_scripted_prompt` | function | `tests/test_wizard_llm.py:14` | `def _scripted_prompt(answers)` |
-| `test_blank_answers_keep_everything` | method | `tests/test_wizard_llm.py:60` | `def test_blank_answers_keep_everything(self, monkeypatch)` |
-| `test_blank_returns_none` | method | `tests/test_wizard_llm.py:24` | `def test_blank_returns_none(self)` |
-| `test_cloud_with_key_ok` | method | `tests/test_wizard_llm.py:126` | `def test_cloud_with_key_ok(self)` |
-| `test_cloud_without_key_missing` | method | `tests/test_wizard_llm.py:131` | `def test_cloud_without_key_missing(self)` |
-| `test_empty_returns_not_set` | method | `tests/test_wizard_llm.py:46` | `def test_empty_returns_not_set(self)` |
-| `test_existing_key_prompt_shows_mask` | method | `tests/test_wizard_llm.py:106` | `def test_existing_key_prompt_shows_mask(self, monkeypatch)` |
-| `test_invalid_backend_missing_with_fix_hint` | method | `tests/test_wizard_llm.py:141` | `def test_invalid_backend_missing_with_fix_hint(self)` |
-| `test_invalid_provider_keeps_current` | method | `tests/test_wizard_llm.py:76` | `def test_invalid_provider_keeps_current(self, monkeypatch)` |
-| `test_key_kept_when_blank` | method | `tests/test_wizard_llm.py:102` | `def test_key_kept_when_blank(self, monkeypatch)` |
-| `test_long_value_masked_with_tail` | method | `tests/test_wizard_llm.py:50` | `def test_long_value_masked_with_tail(self)` |
-| `test_model_override_stored_in_provider_slot` | method | `tests/test_wizard_llm.py:80` | `def test_model_override_stored_in_provider_slot(self, monkeypatch)` |
-| `test_model_shown_in_value` | method | `tests/test_wizard_llm.py:146` | `def test_model_shown_in_value(self)` |
-| `test_name_case_insensitive` | method | `tests/test_wizard_llm.py:28` | `def test_name_case_insensitive(self)` |
-| `test_number_selects_backend` | method | `tests/test_wizard_llm.py:32` | `def test_number_selects_backend(self)` |
-| `test_ollama_keyless_ok` | method | `tests/test_wizard_llm.py:136` | `def test_ollama_keyless_ok(self)` |
-| `test_ollama_skips_key_prompt` | method | `tests/test_wizard_llm.py:89` | `def test_ollama_skips_key_prompt(self, monkeypatch)` |
-| `test_out_of_range_number_returns_none` | method | `tests/test_wizard_llm.py:37` | `def test_out_of_range_number_returns_none(self)` |
-| `test_provider_change_by_name` | method | `tests/test_wizard_llm.py:65` | `def test_provider_change_by_name(self, monkeypatch)` |
-| `test_provider_change_by_number` | method | `tests/test_wizard_llm.py:70` | `def test_provider_change_by_number(self, monkeypatch)` |
-| `test_sensitive_values_masked` | method | `tests/test_wizard_llm.py:150` | `def test_sensitive_values_masked(self)` |
-| `test_short_value_never_shown_clear` | method | `tests/test_wizard_llm.py:53` | `def test_short_value_never_shown_clear(self)` |
 
 Next: [SYMBOLS_p47.md](SYMBOLS_p47.md)

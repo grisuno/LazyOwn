@@ -111,6 +111,7 @@ class LoopRunConfig:
     workers_set: bool = True
     budget: dict = field(default_factory=dict)
     budget_confirm: bool = False
+    phishing_fallback: bool = False
     extra: dict = field(default_factory=dict)
     targets_file: str = ""
     max_concurrent: int = 0
@@ -139,7 +140,7 @@ FLAG_VALUES = (
     "--targets-from-file",
     "--max-concurrent",
 )
-FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress", "--budget-confirm")
+FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress", "--budget-confirm", "--fallback-phish")
 _BUDGET_KEYS = ("rounds", "toolcalls", "findings", "timeout_sec")
 _BUDGET_MINIMUMS = {"rounds": 1, "toolcalls": 1, "findings": 1, "timeout_sec": 60.0}
 
@@ -196,6 +197,7 @@ def parse_loop_line(line: str) -> LoopRunConfig:
     view = False
     budget: dict[str, float] = {}
     budget_confirm = False
+    phishing_fallback = False
     goal_parts: list[str] = []
     idx = 0
     while idx < len(parts):
@@ -249,6 +251,8 @@ def parse_loop_line(line: str) -> LoopRunConfig:
                 view = True
             elif token == "--budget-confirm":
                 budget_confirm = True
+            elif token == "--fallback-phish":
+                phishing_fallback = True
             else:
                 progress = False
             idx += 1
@@ -274,6 +278,7 @@ def parse_loop_line(line: str) -> LoopRunConfig:
         view=view,
         budget=budget,
         budget_confirm=budget_confirm,
+        phishing_fallback=phishing_fallback,
         targets_file=targets_file,
         max_concurrent=max_concurrent,
     )
@@ -444,6 +449,52 @@ def _start_proxy(engine, params: dict) -> None:
         )
     except Exception as exc:
         print_warn(f"proxy autostart skipped: {exc}")
+
+
+def _maybe_phishing_fallback(result: dict, config: LoopRunConfig, params: dict) -> dict:
+    """Append the phishing handoff when the run ended without a foothold.
+
+    Gated behind the explicit ``--fallback-phish`` operator flag. The
+    fallback consults the live fact-store access token: when ANY session
+    access already exists the handoff is skipped; otherwise
+    :func:`modules.lazypoophish.run_fallback` stages the campaign (offline
+    previews unless SMTP lives in ``payload.json``) and writes the
+    handoff artefact. Never raises and never mutates ``result`` shape
+    beyond the ``fallback`` key.
+
+    Args:
+        result: Final loop summary.
+        config: Parsed loop invocation.
+        params: Payload mapping.
+
+    Returns:
+        The same summary with a ``fallback`` key attached.
+    """
+    if not config.phishing_fallback or "fallback" in result:
+        return result
+    if result.get("cancelled") and not result.get("task_id"):
+        return result
+    target = str(config.target or "")
+    if not target:
+        return result
+    try:
+        from modules import lazypoophish
+
+        if not lazypoophish.fallback_ready(target):
+            result["fallback"] = {"ok": False, "skipped": "foothold already present"}
+            return result
+        summary = lazypoophish.run_fallback(target, params)
+        result["fallback"] = summary
+        if summary.get("ok"):
+            print_msg(f"[*] phishing fallback staged: {summary.get('campaign_id', '')}")
+            if summary.get("short_url"):
+                print_msg(f"[*] short lure URL: {summary['short_url']}")
+            print_msg(f"[*] handoff artefact: {summary.get('artifact', '')}")
+        else:
+            print_warn(f"[!] phishing fallback skipped: {summary.get('error', 'unknown error')}")
+    except Exception as exc:
+        print_warn(f"[!] phishing fallback unavailable: {exc}")
+    return result
 
 
 def report_result(result: dict) -> None:
@@ -985,6 +1036,7 @@ def run_loop(shell, params: dict, config: LoopRunConfig) -> dict:
                     result.setdefault("goal", config.goal)
                 else:
                     result = _run_plain(engine, config)
+                result = _maybe_phishing_fallback(result, config, params)
                 report_result(result)
                 return result
             except (KeyboardInterrupt, SystemExit, EOFError):

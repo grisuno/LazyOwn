@@ -2,6 +2,17 @@
 Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 
 ## Internal Dependencies (continued)
+- `static/js/tippy-6.js` -> `cli/assign.py`
+- `static/js/tippy-6.js` -> `cli/show.py`
+- `static/js/vis-network-9.1.2.min.js` -> `cli/show.py`
+- `static/js/vis-network-9.1.2.min.js` -> `core/process.py`
+- `static/js/vis-network-9.1.2.min.js` -> `lazyown-docker/init.sh`
+- `static/js/vis-network.min.js` -> `cli/show.py`
+- `static/js/vis-network.min.js` -> `core/process.py`
+- `static/js/vis-network.min.js` -> `lazyown-docker/init.sh`
+- `static/js/xterm.js` -> `lazyown-docker/init.sh`
+- `static/js/xterm.js` -> `modules/colors.py`
+- `static/js/xterm.js` -> `skills/claude_md_orchestrator/parser.py`
 - `telegram_c2.py` -> `core/parsers.py`
 - `telegram_c2.py` -> `lazyown.py`
 - `telegram_c2.py` -> `modules/llm_adapter.py`
@@ -425,6 +436,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_lazy_runner.py` -> `modules/llm_pool.py`
 - `tests/test_lazy_runner.py` -> `modules/loop_progress.py`
 - `tests/test_lazy_runner.py` -> `modules/tools/__init__.py`
+- `tests/test_lazy_runner_fallback.py` -> `modules/__init__.py`
 - `tests/test_lazy_scope.py` -> `modules/__init__.py`
 - `tests/test_lazy_streaming.py` -> `modules/agent_runner.py`
 - `tests/test_lazy_streaming.py` -> `modules/lazy_loop.py`
@@ -435,6 +447,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_lazy_worker_safety.py` -> `modules/lazy_loop.py`
 - `tests/test_lazy_worker_safety.py` -> `utils.py`
 - `tests/test_lazy_world_diff.py` -> `modules/lazy_world_diff.py`
+- `tests/test_lazydorks.py` -> `modules/__init__.py`
 - `tests/test_lazygui_backend.py` -> `lazygui/config/constants.py`
 - `tests/test_lazygui_backend.py` -> `lazygui/services/backend.py`
 - `tests/test_lazygui_backend.py` -> `lazygui/services/models.py`
@@ -447,6 +460,9 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_lazynmap_post.py` -> `cli/lazynmap_post.py`
 - `tests/test_lazynmap_post.py` -> `cli/recon_plan.py`
 - `tests/test_lazynmap_post.py` -> `modules/world_model.py`
+- `tests/test_lazypassgen.py` -> `modules/__init__.py`
+- `tests/test_lazypoophish.py` -> `modules/__init__.py`
+- `tests/test_lazyshortener.py` -> `modules/__init__.py`
 - `tests/test_lesson_ingestor.py` -> `modules/lesson_ingestor.py`
 - `tests/test_live_surface.py` -> `modules/live_surface.py`
 - `tests/test_llm_adapter_parity.py` -> `modules/llm_adapter.py`
@@ -480,21 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `tests/test_loop_auto_orchestrator.py` -> `modules/lazy_loop.py`
 - `tests/test_loop_broadcast.py` -> `modules/lazy_engine.py`
 - `tests/test_loop_broadcast.py` -> `modules/lazy_loop.py`
-- `tests/test_loop_budget.py` -> `modules/__init__.py`
-- `tests/test_loop_budget.py` -> `modules/lazy_runner.py`
-- `tests/test_loop_cli_catalog.py` -> `modules/__init__.py`
-- `tests/test_loop_cli_catalog.py` -> `modules/lazy_cli_bridge.py`
-- `tests/test_loop_cli_catalog.py` -> `modules/lazy_loop.py`
-- `tests/test_loop_cli_catalog.py` -> `modules/verb_catalog.py`
-- `tests/test_loop_cli_catalog.py` -> `modules/world_model.py`
-- `tests/test_loop_cold_overview.py` -> `modules/lazy_engine.py`
-- `tests/test_loop_cold_overview.py` -> `modules/lazy_loop.py`
-- `tests/test_loop_force_graph.py` -> `modules/lazy_engine.py`
-- `tests/test_loop_force_graph.py` -> `modules/lazy_loop.py`
-- `tests/test_loop_guard_audit.py` -> `modules/lazy_engine.py`
-- `tests/test_loop_guard_audit.py` -> `modules/lazy_loop.py`
-- `tests/test_loop_guardrails.py` -> `modules/loop_guardrails.py`
-- `tests/test_loop_intent_delete.py` -> `modules/lazy_engine.py`
-- `tests/test_loop_intent_delete.py` -> `modules/lazy_loop.py`
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

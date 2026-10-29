@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `LogFileHandler` | class | `modules/ia_logs_analysis.py:54` | `class LogFileHandler(FileSystemEventHandler)` |
+| `__init__` | method | `modules/ia_logs_analysis.py:59` | `def __init__(self, mode)` |
+| `analyze_log_file` | method | `modules/ia_logs_analysis.py:75` | `def analyze_log_file(self, file_path)` |
+| `analyze_with_deepseek` | function | `modules/ia_logs_analysis.py:94` | `def analyze_with_deepseek(log_content, mode)` |
+| `on_modified` | method | `modules/ia_logs_analysis.py:64` | `def on_modified(self, event)` |
 | `parse_args` | function | `modules/ia_logs_analysis.py:168` | `def parse_args()` |
 | `start_monitoring` | function | `modules/ia_logs_analysis.py:147` | `def start_monitoring(log_dir, mode)` |
 | `analyze_with_deepseek` | function | `modules/ia_network_analysis.py:39` | `def analyze_with_deepseek(packet_info, mode)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `describe_command` | function | `modules/lazy_intel.py:114` | `def describe_command(command)` |
 | `export_spans` | function | `modules/lazy_intel.py:342` | `def export_spans(task_id, out)` |
 | `fuse_routing_decisions` | function | `modules/lazy_intel.py:303` | `def fuse_routing_decisions(task_id)` |
-| `infer_source` | function | `modules/lazy_intel.py:88` | `def infer_source(command, intent_text)` |
-| `mask_configured` | function | `modules/lazy_intel.py:237` | `def mask_configured(text)` |
-| `read_decisions` | function | `modules/lazy_intel.py:211` | `def read_decisions(task_id, limit)` |
-| `record_routing_decision` | function | `modules/lazy_intel.py:129` | `def record_routing_decision(task_id, intent_id, command, intent_text, target, stack)` |
-| `record_routing_outcome` | function | `modules/lazy_intel.py:169` | `def record_routing_outcome(task_id, intent_id, command, state, facts, findings, stack)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

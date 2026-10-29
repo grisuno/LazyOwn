@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde.c:41` | `#define HIDDEN_FILE7` |
+| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde.c:42` | `#define HIDDEN_FILE8` |
+| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde.c:43` | `#define HIDDEN_FILE9` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde.c:47` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde.c:50` | `#define HIDE_USER` |
+| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde.c:52` | `#define MAX_HIDE_PIDS` |
+| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde.c:44` | `#define PATHMRHYDE` |
+| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde.c:53` | `#define PID_FILE_PATH` |
+| `fopen` | function | `modules/rootkit/mrhyde.c:287` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde.c:507` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde.c:182` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde.c:561` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde.c:622` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `kill` | function | `modules/rootkit/mrhyde.c:129` | `int kill(pid_t pid, int sig)` |
+| `linux_dirent64` | struct | `modules/rootkit/mrhyde.c:552` | `` |
+| `load_hidden_files` | function | `modules/rootkit/mrhyde.c:97` | `void load_hidden_files()` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde.c:77` | `void load_hidden_pids()` |
+| `lstat` | function | `modules/rootkit/mrhyde.c:463` | `int lstat(const char *pathname, struct stat *statbuf)` |
+| `main` | function | `modules/rootkit/mrhyde.c:682` | `int main()` |
+| `my_open` | function | `modules/rootkit/mrhyde.c:331` | `int my_open(const char *pathname, int flags, mode_t mode)` |
 | `my_openat` | function | `modules/rootkit/mrhyde.c:375` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
 | `original_dirent` | type_alias | `modules/rootkit/mrhyde.c:55` | `typedef struct dirent original_dirent;` |
 | `readdir` | function | `modules/rootkit/mrhyde.c:226` | `struct dirent* readdir(DIR* dirp)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `feedback` | method | `modules/toposwarm_bridge.py:318` | `def feedback(self, result_id, good, comment, routing_head)` |
 | `feedback` | method | `modules/toposwarm_bridge.py:562` | `def feedback(self, result_id, good, comment)` |
 | `get_bridge` | function | `modules/toposwarm_bridge.py:645` | `def get_bridge()` |
-| `lazyown_command` | method | `modules/toposwarm_bridge.py:81` | `def lazyown_command(self)` |
-| `load_feedback_for_training` | method | `modules/toposwarm_bridge.py:389` | `def load_feedback_for_training(self)` |
-| `model_loaded` | method | `modules/toposwarm_bridge.py:449` | `def model_loaded(self)` |
-| `pending_count` | method | `modules/toposwarm_bridge.py:379` | `def pending_count(self)` |
-| `register` | method | `modules/toposwarm_bridge.py:303` | `def register(self, result, hidden)` |
-| `route` | method | `modules/toposwarm_bridge.py:586` | `def route(self, prompt)` |
-| `stats` | method | `modules/toposwarm_bridge.py:382` | `def stats(self)` |
-| `TrafficMorpher` | class | `modules/traffic_morpher.py:18` | `class TrafficMorpher` |
-| `__init__` | method | `modules/traffic_morpher.py:77` | `def __init__(self)` |
-| `generate_beacon_profile` | method | `modules/traffic_morpher.py:270` | `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)` |
-| `generate_cloudflare_worker_proxy_config` | method | `modules/traffic_morpher.py:205` | `def generate_cloudflare_worker_proxy_config(self, c2_host, c2_port, auth_token)` |
-| `generate_dns_tunnel_payload` | method | `modules/traffic_morpher.py:138` | `def generate_dns_tunnel_payload(self, data, domain)` |
-| `generate_icmp_exfil_payload` | method | `modules/traffic_morpher.py:164` | `def generate_icmp_exfil_payload(self, data, chunk_size)` |
-| `generate_jitter` | method | `modules/traffic_morpher.py:125` | `def generate_jitter(self, base_delay, jitter_pct)` |
-| `generate_traffic_padding` | method | `modules/traffic_morpher.py:108` | `def generate_traffic_padding(self, min_bytes, max_bytes)` |
-| `generate_websocket_masking` | method | `modules/traffic_morpher.py:190` | `def generate_websocket_masking(self, data)` |
-| `get_cdn_fronting_hosts` | method | `modules/traffic_morpher.py:91` | `def get_cdn_fronting_hosts(self, provider, count)` |
-| `get_random_http_headers` | method | `modules/traffic_morpher.py:81` | `def get_random_http_headers(self)` |
-| `Exchange` | class | `modules/traffic_recorder.py:80` | `class Exchange` |
-| `RecorderConfig` | class | `modules/traffic_recorder.py:24` | `class RecorderConfig` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

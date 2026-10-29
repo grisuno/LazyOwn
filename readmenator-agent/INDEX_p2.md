@@ -3,6 +3,8 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/kerberos_core.py` | Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption. | modules | 35 | 2 |
+| `modules/kerberos_tickets.py` | Kerberos ticket forgery attacks — silver, golden, diamond, sapphire tickets. | modules | 34 | 1 |
 | `modules/kill_chain_viz.py` | SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG. | modules | 5 | 1 |
 | `modules/killchain.py` | Unified kill-chain — single source of truth consumed by all surfaces. | modules | 21 | 22 |
 | `modules/kivi.py` | - | modules | 3 | 0 |
@@ -24,7 +26,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 67 | 5 |
 | `modules/lazy_rbac.py` | modules/lazy_rbac.py | modules | 86 | 10 |
 | `modules/lazy_roles.py` | Lazy specialist roles for the autonomous loop. | modules | 4 | 2 |
-| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 39 | 10 |
+| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 40 | 10 |
 | `modules/lazy_sandbox.py` | Per-task Docker sandbox for the Lazy autonomous loop. | modules | 12 | 2 |
 | `modules/lazy_scope.py` | Lab-only default scope for autonomous loop targets. | modules | 12 | 0 |
 | `modules/lazy_skill_mirror.py` | Mirror LazyOwn skills for Hermes discovery. | modules | 7 | 1 |
@@ -38,6 +40,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazyclonewars.sh` | Lista de repositorios (nombre y URL) | modules | 0 | 0 |
 | `modules/lazycloud.py` | Cloud-native attack module for AWS, Azure, and GCP. | modules | 26 | 1 |
 | `modules/lazycurl.sh` | Nombre del script: lazycurl.sh Autor: Gris Iscomeback Correo electrónico... | modules | 3 | 0 |
+| `modules/lazydorks.py` | LazyDorks: target-aware Google and GitHub dork generator for LazyOwn. | modules | 4 | 0 |
 | `modules/lazyencoder_decoder.py` | - | modules | 10 | 5 |
 | `modules/lazyevilwimrm.sh` | execute_evil_winrm: Función para ejecutar evil-winrm y verificar la salida | modules | 1 | 0 |
 | `modules/lazygat.sh` | Nombre del script: lazygath.sh Autor: Gris Iscomeback Correo electrónico... | modules | 0 | 0 |
@@ -51,9 +54,12 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/lazyown_metaextract0r.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 9 | 0 |
 | `modules/lazyown_parquet_tool.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 4 | 0 |
 | `modules/lazyownerweb.py` | - | modules | 3 | 0 |
+| `modules/lazypassgen.py` | LazyPassGen: target-aware weak-password generator for LazyOwn. | modules | 5 | 0 |
+| `modules/lazypoophish.py` | LazyPoophish: phishing fallback delivery for the LazyOwn autonomous loop. | modules | 3 | 0 |
 | `modules/lazypsexec.sh` | execute_psexec: Función para ejecutar psexec y verificar la salida | modules | 1 | 0 |
 | `modules/lazyreverse_shell.sh` | Nombre del script: lazyreverse_shell.sh Autor: Gris Iscomeback Correo electrónico... | modules | 2 | 0 |
 | `modules/lazyrtpflood.sh` | - | modules | 0 | 0 |
+| `modules/lazyshortener.py` | LazyShortener: URL shortener bridge for LazyOwn phishing delivery. | modules | 2 | 1 |
 | `modules/lazyvpnshield.sh` | Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0 | modules | 7 | 0 |
 | `modules/lazywps.sh` | - | modules | 1 | 0 |
 | `modules/legacy/__init__.py` | Backward-compatibility shims for deprecated scripts. | misc | 0 | 0 |
@@ -111,7 +117,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/osint_enrich.py` | Keyless OSINT enrichment for finding evidence. | modules | 13 | 2 |
 | `modules/outcome_bus.py` | Single fan-out contract for engagement outcomes. | modules | 17 | 26 |
 | `modules/payload_factory.py` | Native payload generation framework — stagers, stages, singles, formats. | modules | 32 | 7 |
-| `modules/phishing_orchestrator.py` | Smart Phishing Campaign Orchestrator. | modules | 23 | 3 |
+| `modules/phishing_orchestrator.py` | Smart Phishing Campaign Orchestrator. | modules | 23 | 4 |
 | `modules/pipeline_engine.py` | modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn | modules | 80 | 5 |
 | `modules/planner.py` | Fact-based planner — decides the next ability to run. | modules | 28 | 8 |
 | `modules/playbook_admin.py` | Safe CRUD for the YAML playbooks under ``playbooks/``. | modules | 18 | 2 |
@@ -490,11 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_credentials_rotation.py` | Tests for CredMigratedCommandSet._rotate_existing_credentials. | tests | 9 | 0 |
 | `tests/test_csrf_behavior.py` | BDD behavior scenarios for the CSRF contract. | tests | 6 | 0 |
 | `tests/test_csrf_policy.py` | TDD tests for the CSRF policy contract. | tests | 24 | 0 |
-| `tests/test_cve_pipeline.py` | CVE pipeline tests: loop/apt_chain findings must reach the intel graph. | tests | 11 | 0 |
-| `tests/test_daemon_control.py` | Unit tests for skills.daemon_control. | tests | 29 | 0 |
-| `tests/test_daemon_ctl_command_set.py` | Daemon command set extraction tests. | tests | 9 | 0 |
-| `tests/test_daemon_loop.py` | BDD tests for the integrated autonomous loop in the daemon. | tests | 30 | 0 |
-| `tests/test_dashboard_routes.py` | Integration tests for dashboard_bp loot and timeline routes. | tests | 29 | 0 |
-| `tests/test_dashboard_tui.py` | Tests for cli/dashboard_tui.py. | tests | 23 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

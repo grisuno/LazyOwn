@@ -2,6 +2,12 @@
 Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## External Imports (continued)
+- `modules/lazyshortener.py` -> __future__, requests, sys, typing
+- `modules/legacy/__init__.py` -> __future__, pathlib
+- `modules/lesson_ingestor.py` -> __future__, dataclasses, json, pathlib, typing
+- `modules/lilsplunky.py` -> argparse, datetime, json, os, re, requests, rich.panel, socket, time, watchdog.events, watchdog.observers
+- `modules/linux_advanced_payloads.py` -> __future__, base64, dataclasses, os, pathlib, random, subprocess, tempfile, typing
+- `modules/listener_manager.py` -> __future__, dataclasses, errno, ipaddress, json, os, socket, threading, time, typing, werkzeug.serving
 - `modules/live_surface.py` -> __future__, typing
 - `modules/llm_adapter.py` -> __future__, groq, typing
 - `modules/llm_client.py` -> __future__, argparse, json, os, sys, urllib.error, urllib.request
@@ -421,15 +427,20 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_lazy_parity.py` -> __future__, io, json, os, pathlib, sys, time
 - `tests/test_lazy_proxy.py` -> __future__, cryptography, http.client, pathlib, socket, ssl, threading, types
 - `tests/test_lazy_runner.py` -> __future__, ast, builtins, contextlib, io, json, os, pathlib, pytest, queue, subprocess, sys, threading, time, types
+- `tests/test_lazy_runner_fallback.py` -> __future__, pytest
 - `tests/test_lazy_scope.py` -> __future__, pathlib
 - `tests/test_lazy_streaming.py` -> __future__, types
 - `tests/test_lazy_worker_safety.py` -> __future__, pytest, types
 - `tests/test_lazy_world_diff.py` -> __future__, json, pathlib, sys, time
+- `tests/test_lazydorks.py` -> __future__, pytest
 - `tests/test_lazygui_backend.py` -> PySide6.QtCore, __future__, pytest
 - `tests/test_lazygui_graph_widget.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, pytest
 - `tests/test_lazygui_models.py` -> __future__, datetime, pytest
 - `tests/test_lazynmap_post.py` -> __future__, dataclasses, json, pathlib, tempfile, textwrap, unittest
 - `tests/test_lazynmap_sudo_branches.py` -> __future__, os, pathlib, subprocess
+- `tests/test_lazypassgen.py` -> __future__, pytest
+- `tests/test_lazypoophish.py` -> __future__, json, pathlib, pytest, types
+- `tests/test_lazyshortener.py` -> __future__, pytest, requests
 - `tests/test_legacy_shims.py` -> __future__, pathlib, re
 - `tests/test_lesson_ingestor.py` -> __future__, json, unittest.mock
 - `tests/test_lint_quality.py` -> __future__, pathlib, pytest, subprocess, sys
@@ -485,16 +496,5 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_opencode_mcp_harness.py` -> __future__, asyncio, pathlib, sys, tempfile, unittest
 - `tests/test_ops_loot_phase.py` -> json, pathlib, sys, world_model
 - `tests/test_opsec_scorer.py` -> __future__
-- `tests/test_opsec_scorer_consolidated.py` -> __future__
-- `tests/test_orchestrator_api.py` -> __future__, flask, json, os, pathlib, pytest
-- `tests/test_orchestrator_triggers.py` -> __future__, asyncio, pytest
-- `tests/test_orchestrator_yaml.py` -> __future__, pathlib, pytest, yaml
-- `tests/test_outcome_bus.py` -> __future__, concurrent.futures, json, modules.sinks.report, pathlib
-- `tests/test_packaging.py` -> ast, pathlib, pytest, re, subprocess, sys, tomllib, yaml
-- `tests/test_palette_overlay.py` -> __future__, pathlib, sys
-- `tests/test_param_registry.py` -> __future__, json, pathlib, pytest, re, yaml
-- `tests/test_payload_factory.py` -> __future__, base64, pytest
-- `tests/test_payload_schema.py` -> __future__, json, pathlib, sys
-- `tests/test_phase1_data_gaps.py` -> __future__, json, pathlib, pytest, tempfile
 
 Next: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)

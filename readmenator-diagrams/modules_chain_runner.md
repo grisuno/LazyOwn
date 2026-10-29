@@ -1,6 +1,6 @@
 # modules: chain_runner
 
-modules: chain_runner groups 44 files (py) around ChainStep, identifier, Chain, resolve, _render. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+modules: chain_runner groups 41 files (py) around ChainStep, identifier, Chain, resolve, _render. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
 ```mermaid
 graph LR
@@ -13,17 +13,17 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (9.1)
+## cli (10.1)
 
 cli groups 4 files (py) around select_agent_flavour, CommandAndControlMigratedCommandSet, do_msf, do_c2, do_listener. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
-## modules (9.2)
+## modules (10.2)
 
-modules groups 19 files (py) around ChainStep, identifier, Chain, resolve, _render. APT Playbook Engine — map public APT reports to executable Atomic Red Team chains.
+modules groups 19 files (py) around ChainStep, identifier, Chain, resolve, _render. Non-interactive, agent-safe implementation for atomic_tests / atomic_gen.
 
-## tests (9.3)
+## tests (10.3)
 
-tests groups 21 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
+tests groups 18 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
 
 **Files**:
 
@@ -31,29 +31,27 @@ tests groups 21 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - cli/commands/command_and_control_migrated.py
 - cli/commands/retry_ops.py
 - cli/retry_support.py
-- modules/apt_playbooks.py
 - modules/atomic_cli.py
-- modules/atomic_resolver.py
 - modules/chain_distill.py
 - modules/chain_facts.py
 - modules/chain_registry.py
 - modules/chain_runner.py
 - modules/chain_state.py
 - modules/chain_synth.py
+- modules/chain_tokens.py
 - modules/closedloop.py
 - modules/defense_eval.py
 - modules/defense_stages.py
-- modules/emulation_runner.py
 - modules/gym_matrix_runner.py
 - modules/gym_winbox_runner.py
 - modules/hunt_verify.py
+- modules/lazypoophish.py
+- modules/lazyshortener.py
 - modules/listener_manager.py
 - modules/retry_session.py
 - modules/verb_manifest.py
 - tests/test_apt_chain_admin.py
 - tests/test_apt_chain_integration.py
-- tests/test_atomic_loop.py
-- tests/test_atomic_resolver.py
 - tests/test_chain_distill.py
 - tests/test_chain_evidence.py
 - tests/test_chain_parallel_fallback.py
@@ -66,7 +64,6 @@ tests groups 21 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_command_control_agent.py
 - tests/test_defense_eval.py
 - tests/test_defense_stages.py
-- tests/test_emulation_runner.py
 - tests/test_f4_hardening.py
 - tests/test_hunt_verify.py
 - tests/test_retry_session.py

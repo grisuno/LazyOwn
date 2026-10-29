@@ -22,6 +22,9 @@ from utils import (
 class LazyOobCommandSet(LazyOwnCommandSet):
     """Operate the local out-of-band callback canary."""
 
+    phase = "credential_access"
+    category = miscellaneous_category
+
     @cmd2.with_category(miscellaneous_category)
     def do_lazyoob(self, line):
         """Run a local HTTP callback canary.

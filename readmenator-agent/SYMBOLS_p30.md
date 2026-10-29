@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get` | function | `static/js/html2pdf.bundle.min.js:3835` | `` |
+| `get` | function | `static/js/html2pdf.bundle.min.js:3853` | `` |
+| `get` | function | `static/js/html2pdf.bundle.min.js:3859` | `` |
+| `get` | function | `static/js/html2pdf.bundle.min.js:6102` | `` |
+| `get` | function | `static/js/html2pdf.bundle.min.js:8890` | `` |
+| `getAbsoluteValue` | function | `static/js/html2pdf.bundle.min.js:965` | `` |
+| `getClipPaths` | function | `static/js/html2pdf.bundle.min.js:4666` | `` |
+| `getCurvePoints` | function | `static/js/html2pdf.bundle.min.js:1290` | `` |
+| `getCurvePoints` | function | `static/js/html2pdf.bundle.min.js:1290` | `` |
+| `getIframeDocumentElement` | function | `static/js/html2pdf.bundle.min.js:6923` | `` |
+| `getIframeDocumentElement` | function | `static/js/html2pdf.bundle.min.js:6923` | `` |
+| `getImage` | function | `static/js/html2pdf.bundle.min.js:4730` | `` |
+| `getImage` | function | `static/js/html2pdf.bundle.min.js:4730` | `` |
+| `getInputBorderRadius` | function | `static/js/html2pdf.bundle.min.js:4125` | `` |
+| `getInputValue` | function | `static/js/html2pdf.bundle.min.js:4179` | `` |
+| `getInputValue` | function | `static/js/html2pdf.bundle.min.js:4179` | `` |
+| `getJSON` | function | `static/js/html2pdf.bundle.min.js:8193` | `` |
+| `getListOwner` | function | `static/js/html2pdf.bundle.min.js:4223` | `` |
+| `getMetrics` | function | `static/js/html2pdf.bundle.min.js:4995` | `` |
+| `getOpacity` | function | `static/js/html2pdf.bundle.min.js:4788` | `` |
 | `getOrigin` | function | `static/js/html2pdf.bundle.min.js:6064` | `` |
 | `getQuote` | function | `static/js/html2pdf.bundle.min.js:6453` | `` |
 | `getQuote` | function | `static/js/html2pdf.bundle.min.js:6453` | `` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `o` | class | `static/js/quill-2.0.3.js:2` | `` |
 | `o` | class | `static/js/quill-2.0.3.js:2` | `` |
 | `o` | class | `static/js/quill-2.0.3.js:2` | `` |
-| `o` | class | `static/js/quill-2.0.3.js:2` | `` |
-| `ot` | class | `static/js/quill-2.0.3.js:2` | `` |
-| `q` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `q` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `qt` | class | `static/js/quill-2.0.3.js:2` | `` |
-| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `r` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `rt` | class | `static/js/quill-2.0.3.js:2` | `` |
-| `s` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `s` | class | `static/js/quill-2.0.3.js:2` | `` |
-| `s` | class | `static/js/quill-2.0.3.js:2` | `` |
-| `st` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
-| `t` | function | `static/js/quill-2.0.3.js:2` | `` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

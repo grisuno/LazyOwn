@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `request_certificate_esc8` | method | `modules/adcs_attacks.py:322` | `def request_certificate_esc8(self, username, password, domain, dc_ip, ca_server, template_name, output_file)` |
+| `AddonUpdateResult` | class | `modules/addon_updater.py:33` | `class AddonUpdateResult` |
+| `_audit` | function | `modules/addon_updater.py:315` | `def _audit(summary, path)` |
+| `_git` | function | `modules/addon_updater.py:135` | `def _git(path)` |
+| `_read_addon` | function | `modules/addon_updater.py:61` | `def _read_addon(path)` |
 | `_safe_target` | function | `modules/addon_updater.py:107` | `def _safe_target(install_path, root)` |
 | `_worktree_root` | function | `modules/addon_updater.py:150` | `def _worktree_root(path, repository_root)` |
 | `load_addons` | function | `modules/addon_updater.py:73` | `def load_addons(lazyaddons_dir)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `bitm_inject` | function | `modules/bitm_engine.py:572` | `def bitm_inject(payload_name)` |
 | `bitm_start` | function | `modules/bitm_engine.py:257` | `def bitm_start(target_ip, gateway_ip, interface, lhost, lport, method, payloads)` |
 | `bitm_status` | function | `modules/bitm_engine.py:539` | `def bitm_status()` |
-| `bitm_stop` | function | `modules/bitm_engine.py:481` | `def bitm_stop()` |
-| `main` | function | `modules/bitm_engine.py:661` | `def main()` |
-| `BofCatalog` | class | `modules/bof_registry.py:157` | `class BofCatalog` |
-| `BofCategory` | class | `modules/bof_registry.py:68` | `class BofCategory(str, Enum)` |
-| `BofEntry` | class | `modules/bof_registry.py:85` | `class BofEntry` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

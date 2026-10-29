@@ -253,9 +253,15 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lazy_creds.py` -> `cli/commands/_base.py`
 - `cli/commands/lazy_creds.py` -> `modules/__init__.py`
 - `cli/commands/lazy_creds.py` -> `utils.py`
+- `cli/commands/lazy_dorks.py` -> `cli/commands/_base.py`
+- `cli/commands/lazy_dorks.py` -> `modules/__init__.py`
+- `cli/commands/lazy_dorks.py` -> `utils.py`
 - `cli/commands/lazy_oob.py` -> `cli/commands/_base.py`
 - `cli/commands/lazy_oob.py` -> `modules/__init__.py`
 - `cli/commands/lazy_oob.py` -> `utils.py`
+- `cli/commands/lazy_passgen.py` -> `cli/commands/_base.py`
+- `cli/commands/lazy_passgen.py` -> `modules/__init__.py`
+- `cli/commands/lazy_passgen.py` -> `utils.py`
 - `cli/commands/lazyloop.py` -> `cli/commands/_base.py`
 - `cli/commands/lazyloop.py` -> `cli/lazy_monitor.py`
 - `cli/commands/lazyloop.py` -> `cli/lazy_orchestrator.py`
@@ -490,11 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/ux.py` -> `utils.py`
 - `cli/commands/verb_admin.py` -> `cli/commands/_base.py`
 - `cli/commands/verb_admin.py` -> `modules/verb_catalog.py`
-- `cli/commands/verb_admin.py` -> `utils.py`
-- `cli/commands/winbox_gym.py` -> `cli/commands/_base.py`
-- `cli/commands/winbox_gym.py` -> `modules/__init__.py`
-- `cli/commands/winbox_gym.py` -> `utils.py`
-- `cli/config_status.py` -> `core/console.py`
-- `cli/contextual_help.py` -> `cli/palette.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

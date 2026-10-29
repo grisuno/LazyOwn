@@ -479,16 +479,17 @@ Previous: [KB_commands.md](KB_commands.md)
 - Language: py
 - Symbols:
   - `LazyCredsCommandSet` (class, line 21) `class LazyCredsCommandSet(LazyOwnCommandSet)`
-  - `do_lazycreds` (method, line 25) `def do_lazycreds(self, line)`
+  - `do_lazycreds` (method, line 28) `def do_lazycreds(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
-## cli/commands/lazy_oob.py
-- Doc: LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks.
+## cli/commands/lazy_dorks.py
+- Doc: LazyDorks shell command: render target dork playbooks into session artefacts.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `LazyOobCommandSet` (class, line 22) `class LazyOobCommandSet(LazyOwnCommandSet)`
-  - `do_lazyoob` (method, line 26) `def do_lazyoob(self, line)`
+  - `_slug` (function, line 18) `def _slug(domain)`
+  - `LazyDorksCommandSet` (class, line 30) `class LazyDorksCommandSet(LazyOwnCommandSet)`
+  - `do_lazydork` (method, line 37) `def do_lazydork(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 

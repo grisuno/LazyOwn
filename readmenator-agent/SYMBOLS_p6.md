@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_addon_items` | function | `cli/recon_plan.py:330` | `def _addon_items(addons, services, payload)` |
+| `_command_items` | function | `cli/recon_plan.py:367` | `def _command_items(index, phase, history, limit)` |
+| `_default_command_index_loader` | function | `cli/recon_plan.py:494` | `def _default_command_index_loader(path)` |
+| `_payload_target` | function | `cli/recon_plan.py:466` | `def _payload_target(payload, config)` |
+| `_read_tool_command` | function | `cli/recon_plan.py:449` | `def _read_tool_command(source_path)` |
 | `_resolve_phase` | function | `cli/recon_plan.py:474` | `def _resolve_phase(payload, config)` |
 | `_safe_filename_component` | function | `cli/recon_plan.py:486` | `def _safe_filename_component(value)` |
 | `_service_for_trigger` | function | `cli/recon_plan.py:414` | `def _service_for_trigger(trigger, services)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `RTSPScanner` | class | `contrib/legacy/lazycam.py:32` | `class RTSPScanner` |
 | `__init__` | method | `contrib/legacy/lazycam.py:33` | `def __init__(self, verbose, wspace)` |
 | `addCameras` | method | `contrib/legacy/lazycam.py:149` | `def addCameras(self)` |
-| `cla` | function | `contrib/legacy/lazycam.py:212` | `def cla()` |
-| `delCameras` | method | `contrib/legacy/lazycam.py:136` | `def delCameras(self)` |
-| `main` | function | `contrib/legacy/lazycam.py:257` | `def main()` |
-| `resizeImg` | method | `contrib/legacy/lazycam.py:68` | `def resizeImg(self, img, output, height, ratio, fmt)` |
-| `run` | method | `contrib/legacy/lazycam.py:49` | `def run(self)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

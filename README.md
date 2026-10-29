@@ -447,6 +447,10 @@ We are proud that our humble skill has been verified in verified skills, it give
 Some echoes of Zone.ci, in any case we appreciate their words, they were not in vain and we have not only mitigated a large part of what was mentioned, if not all, and we will continue to improve day by day.
 [https://cn-sec.com/archives/5401000.html](https://cn-sec.com/archives/5401000.html)
 
+## Awesome bof
+
+Thank you so much for your work compiling bofs, it's incredible! We are proud to be indexed in your magnificent list
+[https://chryzsh.github.io/awesome-bof/site/](https://chryzsh.github.io/awesome-bof/site/)
 
 ## Star History
 

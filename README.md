@@ -437,6 +437,17 @@ Many thanks to [ZONE.CI](https://zone.ci/secarticles/wx/587776.html) for their r
 Many thanks to mcpharbor.app for adding the lazyown mcp to their list of tools; we are honored to be featured on their website.
 [https://mcpharbor.app/tools/grisuno-lazyown/](https://mcpharbor.app/tools/grisuno-lazyown/?utm_source=lazyown_redteam)
 
+## Verified Skill
+
+We are proud that our humble skill has been verified in verified skills, it gives us a lot of encouragement to continue developing this lovely community.
+[https://verified-skill.com/skills/grisuno/lazyown/lazyown?utm_source=lazyown_redteam](https://verified-skill.com/skills/grisuno/lazyown/lazyown?utm_source=lazyown_redteam)
+
+## CN-Sec
+
+Some echoes of Zone.ci, in any case we appreciate their words, they were not in vain and we have not only mitigated a large part of what was mentioned, if not all, and we will continue to improve day by day.
+[https://cn-sec.com/archives/5401000.html](https://cn-sec.com/archives/5401000.html)
+
+
 ## Star History
 
 <a href="https://www.star-history.com/#grisuno/LazyOwn&Date">

@@ -1,6 +1,36 @@
 # Subsystem: modules (page 13 of 17)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
 
+## modules/metasploitable_gym.py
+- Doc: Metasploitable 2 gym catalogue loader and matrix validator.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_yaml` (function, line 30) `def _load_yaml(path)`
+  - `load_index` (function, line 42) `def load_index(path)`
+  - `vulnerabilities` (function, line 47) `def vulnerabilities(path)`
+  - `get` (function, line 53) `def get(vuln_id, path)`
+  - `chain_for` (function, line 62) `def chain_for(vuln_id, path)`
+  - `exploit_for` (function, line 72) `def exploit_for(vuln_id, path)`
+  - `validate_matrix` (function, line 82) `def validate_matrix(path)`
+  - `summary` (function, line 138) `def summary(path)`
+  - `main` (function, line 157) `def main()`
+- Depends on: `core/logging.py`, `modules/atomic_exploit_bridge.py`, `modules/chain_registry.py`
+- Imported by: `cli/commands/redteam_gym.py`, `modules/ctf_capture.py`, `tests/test_metasploitable_gym.py`
+
+## modules/metasploitable_migrations.py
+- Doc: Idempotent migrations for the Metasploitable 2 gym container.
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `Migration` (class, line 129) `class Migration`
+  - `_docker_exec` (function, line 150) `def _docker_exec(container, script, payload, timeout)`
+  - `_core_services_apply` (function, line 180) `def _core_services_apply()`
+  - `build_migrations` (function, line 194) `def build_migrations(subnet)`
+  - `apply_migrations` (function, line 354) `def apply_migrations(container, subnet)`
+- Depends on: `core/safe_exec.py`
+- Imported by: `modules/lab_runtime.py`, `tests/test_metasploitable_migrations.py`
+
 ## modules/metrics.py
 - Doc: LazyOwn metrics surface.
 - Layer: utility
@@ -434,66 +464,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `_build_explanation` (method, line 796) `def _build_explanation(cmd, noise, detects, gate)`
 - Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`, `modules/db.py`, `modules/killchain.py`
 - Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `tests/test_opsec_scorer.py`, `tests/test_opsec_scorer_consolidated.py`
-
-## modules/orchestrator_config.py
-- Doc: Operator configuration for the loop core: profiles, stages and auto verbs.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `_invalidate` (function, line 105) `def _invalidate()`
-  - `reload` (function, line 113) `def reload()`
-  - `_payload` (function, line 118) `def _payload()`
-  - `_section` (function, line 128) `def _section(payload)`
-  - `_save` (function, line 133) `def _save(payload)`
-  - `_read_yaml` (function, line 141) `def _read_yaml(path)`
-  - `_fallback_profile` (function, line 165) `def _fallback_profile()`
-  - `_merge_stage` (function, line 179) `def _merge_stage(base, override)`
-  - `_merge_profile` (function, line 195) `def _merge_profile(parent, child)`
-  - `_resolve_profile` (function, line 217) `def _resolve_profile(name, raw_profiles, stack)`
-  - `profiles` (function, line 232) `def profiles()`
-  - `_default_profile_name` (function, line 247) `def _default_profile_name(data)`
-  - `active_profile` (function, line 257) `def active_profile()`
-  - `profile_config` (function, line 269) `def profile_config(name)`
-  - `set_profile` (function, line 276) `def set_profile(name)`
-  - `set_harness` (function, line 300) `def set_harness(enabled)`
-  - `limits` (function, line 332) `def limits()`
-  - `budget` (function, line 339) `def budget()`
-  - `chain_defaults` (function, line 346) `def chain_defaults()`
-  - `sinks` (function, line 355) `def sinks()`
-  - `stages` (function, line 366) `def stages()`
-  - `stage_enabled` (function, line 396) `def stage_enabled(name)`
-  - `stage_params` (function, line 402) `def stage_params(name)`
-  - `set_stage` (function, line 407) `def set_stage(name, enabled)`
-  - `effective_verbs` (function, line 432) `def effective_verbs()`
-  - `_catalog_verbs` (function, line 487) `def _catalog_verbs(seen, overrides)`
-  - `verb_config` (function, line 524) `def verb_config(name)`
-  - `verb_enabled` (function, line 533) `def verb_enabled(name)`
-  - `upsert_verb` (function, line 539) `def upsert_verb(name)`
-  - `remove_verb` (function, line 596) `def remove_verb(name)`
-  - `reset` (function, line 617) `def reset()`
-  - `validate_config` (function, line 624) `def validate_config(data)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
-
-## modules/osint_enrich.py
-- Doc: Keyless OSINT enrichment for finding evidence.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_cache_path` (function, line 47) `def _cache_path(sessions_dir)`
-  - `_cache_load` (function, line 52) `def _cache_load(sessions_dir)`
-  - `_cache_save` (function, line 61) `def _cache_save(sessions_dir, data)`
-  - `_cached` (function, line 69) `def _cached(sessions_dir, key, ttl)`
-  - `_store` (function, line 77) `def _store(sessions_dir, key, data)`
-  - `_get_json` (function, line 84) `def _get_json(url, params)`
-  - `_post_json` (function, line 96) `def _post_json(url, payload)`
-  - `_get_text` (function, line 110) `def _get_text(url, params)`
-  - `cve_lookup` (function, line 122) `def cve_lookup(cve_id, sessions_dir)`
-  - `reverse_dns` (function, line 161) `def reverse_dns(ip, sessions_dir)`
-  - `host_geo` (function, line 183) `def host_geo(ip, sessions_dir)`
-  - `domain_exposure` (function, line 198) `def domain_exposure(domain, sessions_dir)`
-  - `enrich_evidence` (function, line 213) `def enrich_evidence(items, sessions_dir)`
-- Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

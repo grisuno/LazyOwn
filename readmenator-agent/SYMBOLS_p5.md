@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `action_kill` | method | `cli/lazy_monitor.py:477` | `def action_kill(self)` |
+| `action_next_task` | method | `cli/lazy_monitor.py:518` | `def action_next_task(self)` |
+| `action_pause` | method | `cli/lazy_monitor.py:409` | `def action_pause(self)` |
+| `action_resume` | method | `cli/lazy_monitor.py:417` | `def action_resume(self)` |
+| `action_steer` | method | `cli/lazy_monitor.py:460` | `def action_steer(self)` |
 | `action_tab_findings` | method | `cli/lazy_monitor.py:489` | `def action_tab_findings(self)` |
 | `action_tab_guard` | method | `cli/lazy_monitor.py:493` | `def action_tab_guard(self)` |
 | `action_tab_traffic` | method | `cli/lazy_monitor.py:497` | `def action_tab_traffic(self)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `ReconPlan` | class | `cli/recon_plan.py:119` | `class ReconPlan` |
 | `ReconPlanConfig` | class | `cli/recon_plan.py:62` | `class ReconPlanConfig` |
 | `ReconPlanItem` | class | `cli/recon_plan.py:94` | `class ReconPlanItem` |
-| `_addon_items` | function | `cli/recon_plan.py:330` | `def _addon_items(addons, services, payload)` |
-| `_command_items` | function | `cli/recon_plan.py:367` | `def _command_items(index, phase, history, limit)` |
-| `_default_command_index_loader` | function | `cli/recon_plan.py:494` | `def _default_command_index_loader(path)` |
-| `_payload_target` | function | `cli/recon_plan.py:466` | `def _payload_target(payload, config)` |
-| `_read_tool_command` | function | `cli/recon_plan.py:449` | `def _read_tool_command(source_path)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

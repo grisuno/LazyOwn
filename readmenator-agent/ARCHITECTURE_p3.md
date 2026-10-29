@@ -2,6 +2,12 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/services/teamserver_backend.py` -> `lazygui/services/models.py`
+- `lazygui/theme/__init__.py` -> `lazygui/theme/manager.py`
+- `lazygui/theme/__init__.py` -> `lazygui/theme/qss_builder.py`
+- `lazygui/theme/__init__.py` -> `lazygui/theme/tokens.py`
+- `lazygui/theme/manager.py` -> `core/logging.py`
+- `lazygui/theme/manager.py` -> `lazygui/config/constants.py`
 - `lazygui/theme/manager.py` -> `lazygui/config/settings.py`
 - `lazygui/theme/manager.py` -> `lazygui/theme/palettes/__init__.py`
 - `lazygui/theme/manager.py` -> `lazygui/theme/qss_builder.py`
@@ -446,6 +452,11 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazyown_bridge.py` -> `modules/killchain.py`
 - `modules/lazyownerweb.py` -> `core/logging.py`
 - `modules/lazyownerweb.py` -> `modules/logging_config.py`
+- `modules/lazypassgen.py` -> `modules/__init__.py`
+- `modules/lazypoophish.py` -> `modules/chain_tokens.py`
+- `modules/lazypoophish.py` -> `modules/lazyshortener.py`
+- `modules/lazypoophish.py` -> `modules/phishing_orchestrator.py`
+- `modules/lazyshortener.py` -> `core/safe_exec.py`
 - `modules/lesson_ingestor.py` -> `core/logging.py`
 - `modules/lesson_ingestor.py` -> `modules/moe_router.py`
 - `modules/lesson_ingestor.py` -> `modules/rl_trainer.py`
@@ -485,16 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/loop_triggers.py` -> `modules/__init__.py`
 - `modules/loop_triggers.py` -> `modules/auto_registry.py`
 - `modules/loop_triggers.py` -> `modules/lazy_heat.py`
-- `modules/loop_triggers.py` -> `modules/lazy_loop.py`
-- `modules/loop_triggers.py` -> `modules/trigger_policy.py`
-- `modules/loop_triggers.py` -> `modules/world_model.py`
-- `modules/mcp_agent_bridge.py` -> `core/logging.py`
-- `modules/mcp_agent_bridge.py` -> `modules/llm_factory.py`
-- `modules/mediation/__init__.py` -> `modules/mediation/chain_mediator.py`
-- `modules/mediation/__init__.py` -> `modules/mediation/contracts.py`
-- `modules/mediation/__init__.py` -> `modules/mediation/feedback_mediator.py`
-- `modules/mediation/__init__.py` -> `modules/mediation/hub.py`
-- `modules/mediation/__init__.py` -> `modules/mediation/intel_mediator.py`
-- `modules/mediation/__init__.py` -> `modules/mediation/telemetry_mediator.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

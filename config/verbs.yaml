@@ -4017,18 +4017,6 @@ verbs:
     risk: safe
     description: Show ELO score, karma rank and exploration progress for this operator.
     source: cli
-  lazycreds:
-    enabled: true
-    phase: cred
-    risk: safe
-    description: Search the default-credential knowledge base and export spray pairs.
-    source: cli
-  lazyoob:
-    enabled: true
-    phase: exploit
-    risk: safe
-    description: Run the local OOB callback canary for blind SSRF/RCE detection.
-    source: cli
   keepass:
     enabled: false
     phase: cred
@@ -4576,12 +4564,36 @@ verbs:
     description: 'Confined workspace files: list [path]|read <path>|write <path> <text>|mkdir
       <path>|rm <path>|path. Usage: lazy_workspace ...'
     source: cli
+  lazycreds:
+    enabled: true
+    phase: cred
+    risk: safe
+    description: Search the default-credential knowledge base and export spray pairs.
+    source: cli
+  lazydork:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Search the dork grammar for one target.
+    source: cli
   lazynmap:
     enabled: true
     phase: enum
     risk: safe
     description: Runs the internal module `modules/lazynmap.sh` with target mode.
     source: builtin
+  lazyoob:
+    enabled: true
+    phase: exploit
+    risk: safe
+    description: Run the local OOB callback canary for blind SSRF/RCE detection.
+    source: cli
+  lazypassgen:
+    enabled: false
+    phase: misc
+    risk: safe
+    description: Generate a target-aware candidate wordlist.
+    source: cli
   lazypwn:
     enabled: false
     phase: exploit

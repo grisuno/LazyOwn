@@ -51,7 +51,13 @@ def test_brief_covers_target_phase_and_layers(sandbox):
     text = _console_text(build_session_brief(payload))
     assert "10.0.0.5" in text
     assert "recon" in text
-    assert "verbs on=14" in text
+    import re
+
+    from modules.verb_catalog import stats
+
+    match = re.search(r"verbs on=(\d+)", text)
+    assert match is not None, "brief must render the verb catalog line"
+    assert int(match.group(1)) == stats()["on"], "brief verb count must match the live catalog"
     assert "triggers=2" in text
 
 

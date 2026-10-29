@@ -1,0 +1,59 @@
+{
+  "vuln_id": "ad_ldap_enum",
+  "cve": "",
+  "name": "LDAP domain enumeration",
+  "target": "10.0.0.9",
+  "mitre": "T1069.002",
+  "service": "ldap",
+  "port": "389",
+  "severity": "high",
+  "status": "captured",
+  "captured_at": "2026-10-29T03:36:20.618778+00:00",
+  "checks": [
+    {
+      "name": "root_shell",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "shadow_dump",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "credentials",
+      "matched": true,
+      "evidence": "sAMAccountName:****"
+    },
+    {
+      "name": "windows_os_enum",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "defense_report",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "eventlog_rows",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "kerberos_ticket",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "domain_enum",
+      "matched": true,
+      "evidence": "sAMAccountName"
+    },
+    {
+      "name": "smb_shares",
+      "matched": false,
+      "evidence": ""
+    }
+  ]
+}

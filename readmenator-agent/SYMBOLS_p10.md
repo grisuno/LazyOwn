@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `KillChainPanel` | class | `lazygui/panels/killchain_panel.py:35` | `class KillChainPanel(PanelBase)` |
+| `__init__` | method | `lazygui/panels/killchain_panel.py:38` | `def __init__(self, constants, backend, parent)` |
+| `_apply_visuals` | method | `lazygui/panels/killchain_panel.py:128` | `def _apply_visuals(self)` |
+| `_build_ui` | method | `lazygui/panels/killchain_panel.py:62` | `def _build_ui(self)` |
+| `_get_phases` | function | `lazygui/panels/killchain_panel.py:23` | `def _get_phases()` |
 | `_refresh` | method | `lazygui/panels/killchain_panel.py:96` | `def _refresh(self)` |
 | `ListenersPanel` | class | `lazygui/panels/listeners_panel.py:21` | `class ListenersPanel(PanelBase)` |
 | `__init__` | method | `lazygui/panels/listeners_panel.py:24` | `def __init__(self, constants, backend, parent)` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `esc_vulnerabilities` | method | `modules/adcs_attacks.py:35` | `def esc_vulnerabilities(self)` |
 | `find_certificate_authorities` | method | `modules/adcs_attacks.py:113` | `def find_certificate_authorities(self, username, password, domain, dc_ip, hashes)` |
 | `request_certificate_esc1` | method | `modules/adcs_attacks.py:268` | `def request_certificate_esc1(self, username, password, domain, dc_ip, ca_name, template_name, target_user, output_file)` |
-| `request_certificate_esc8` | method | `modules/adcs_attacks.py:322` | `def request_certificate_esc8(self, username, password, domain, dc_ip, ca_server, template_name, output_file)` |
-| `AddonUpdateResult` | class | `modules/addon_updater.py:33` | `class AddonUpdateResult` |
-| `_audit` | function | `modules/addon_updater.py:315` | `def _audit(summary, path)` |
-| `_git` | function | `modules/addon_updater.py:135` | `def _git(path)` |
-| `_read_addon` | function | `modules/addon_updater.py:61` | `def _read_addon(path)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

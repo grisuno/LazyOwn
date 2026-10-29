@@ -1,0 +1,59 @@
+{
+  "vuln_id": "ad_default_creds",
+  "cve": "",
+  "name": "Default/weak domain credential validation",
+  "target": "10.0.0.9",
+  "mitre": "T1110.001",
+  "service": "smb",
+  "port": "445",
+  "severity": "high",
+  "status": "captured",
+  "captured_at": "2026-10-29T03:36:15.283057+00:00",
+  "checks": [
+    {
+      "name": "root_shell",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "shadow_dump",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "credentials",
+      "matched": true,
+      "evidence": "administrator:****"
+    },
+    {
+      "name": "windows_os_enum",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "defense_report",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "eventlog_rows",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "kerberos_ticket",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "domain_enum",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "smb_shares",
+      "matched": false,
+      "evidence": ""
+    }
+  ]
+}

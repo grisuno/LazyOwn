@@ -48,6 +48,16 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `show_help` (function, line 29)
   - `execute_curl` (function, line 52)
 
+## modules/lazydorks.py
+- Doc: LazyDorks: target-aware Google and GitHub dork generator for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `categories` (function, line 96) `def categories()`
+  - `queries` (function, line 101) `def queries(category, domain, org)`
+  - `all_queries` (function, line 123) `def all_queries(domain, org)`
+  - `write_report` (function, line 137) `def write_report(path, domain, org)`
+
 ## modules/lazyencoder_decoder.py
 - Layer: utility
 - Language: py
@@ -258,6 +268,28 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `main` (function, line 59) `def main()`
 - Depends on: `core/logging.py`, `modules/logging_config.py`
 
+## modules/lazypassgen.py
+- Doc: LazyPassGen: target-aware weak-password generator for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_split_entities` (function, line 45) `def _split_entities(target)`
+  - `_leetspeak` (function, line 62) `def _leetspeak(word)`
+  - `_mutations` (function, line 77) `def _mutations(words)`
+  - `generate` (function, line 115) `def generate(target)`
+  - `export` (function, line 135) `def export(target, path)`
+- Depends on: `modules/__init__.py`
+
+## modules/lazypoophish.py
+- Doc: LazyPoophish: phishing fallback delivery for the LazyOwn autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `fresh_access_token` (function, line 34) `def fresh_access_token(target)`
+  - `fallback_ready` (function, line 52) `def fallback_ready(target)`
+  - `run_fallback` (function, line 71) `def run_fallback(target, params, template, mode, targets_file, provider, shorten)`
+- Depends on: `modules/chain_tokens.py`, `modules/lazyshortener.py`, `modules/phishing_orchestrator.py`
+
 ## modules/lazypsexec.sh
 - Doc: execute_psexec: Función para ejecutar psexec y verificar la salida
 - Layer: utility
@@ -276,6 +308,16 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
 ## modules/lazyrtpflood.sh
 - Layer: utility
 - Language: sh
+
+## modules/lazyshortener.py
+- Doc: LazyShortener: URL shortener bridge for LazyOwn phishing delivery.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `providers` (function, line 30) `def providers()`
+  - `shorten` (function, line 35) `def shorten(url, provider, timeout)`
+- Depends on: `core/safe_exec.py`
+- Imported by: `modules/lazypoophish.py`
 
 ## modules/lazyvpnshield.sh
 - Doc: Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0
@@ -448,41 +490,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `_ask_llamacpp` (method, line 242) `def _ask_llamacpp(self, prompt, model, system)`
 - Depends on: `core/logging.py`, `modules/ai_model.py`
 - Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/lazyown_mcp.py`
-
-## modules/llm_evaluator.py
-- Doc: — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DecisionRecord` (class, line 21) `class DecisionRecord`
-  - `_new_id` (function, line 35) `def _new_id()`
-  - `_record_from_dict` (function, line 39) `def _record_from_dict(d)`
-  - `OutcomeRecorder` (class, line 55) `class OutcomeRecorder(ABC)`
-  - `JSONLRecorder` (class, line 75) `class JSONLRecorder(OutcomeRecorder)`
-  - `QualityMetrics` (class, line 140) `class QualityMetrics`
-  - `_safe_mean` (function, line 150) `def _safe_mean(values)`
-  - `_tactic_success_rates` (function, line 154) `def _tactic_success_rates(records)`
-  - `LLMEvaluator` (class, line 161) `class LLMEvaluator`
-  - `get_evaluator` (function, line 293) `def get_evaluator()`
-  - `record_decision` (function, line 302) `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)`
-  - `record_outcome` (function, line 313) `def record_outcome(decision_id, actual_outcome, findings_count, success)`
-  - `_cli` (function, line 322) `def _cli()`
-  - `record` (method, line 57) `def record(self, decision)`
-  - `update_outcome` (method, line 60) `def update_outcome(self, decision_id, actual, findings_count, success)`
-  - `load_all` (method, line 69) `def load_all(self)`
-  - `load_by_session` (method, line 72) `def load_by_session(self, session_id)`
-  - `__init__` (method, line 76) `def __init__(self, path)`
-  - `record` (method, line 81) `def record(self, decision)`
-  - `update_outcome` (method, line 86) `def update_outcome(self, decision_id, actual, findings_count, success)`
-  - `load_all` (method, line 120) `def load_all(self)`
-  - `load_by_session` (method, line 135) `def load_by_session(self, session_id)`
-  - `__init__` (method, line 162) `def __init__(self, recorder)`
-  - `record_decision` (method, line 165) `def record_decision(self, session_id, thought, action, mitre_tactic, expected_outcome, confidence)`
-  - `record_outcome` (method, line 191) `def record_outcome(self, decision_id, actual_outcome, findings_count, success)`
-  - `compute_metrics` (method, line 200) `def compute_metrics(self, session_id)`
-  - `quality_report` (method, line 241) `def quality_report(self, session_id)`
-  - `export_finetuning_dataset` (method, line 256) `def export_finetuning_dataset(self, path)`
-- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

@@ -441,14 +441,14 @@ Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/comma
 - `ThreadStdoutRouter.flush` (method) `modules/lazy_runner.py:72` `def flush(self)` -- Flush the real stream; the spool needs no flushing.
 - `ThreadStdoutRouter.encoding` (method) `modules/lazy_runner.py:80` `def encoding(self)` -- Report the real stream encoding.
 - `ThreadStdoutRouter.isatty` (method) `modules/lazy_runner.py:84` `def isatty(self)` -- Report whether the real stream is a terminal.
-- `LoopRunConfig.clamped` (method) `modules/lazy_runner.py:118` `def clamped(self)` -- Clamp numeric knobs to the supported operating range.
-- `parse_loop_line` (function) `modules/lazy_runner.py:163` `def parse_loop_line(line)` -- Parse one loop command line into a :class:`LoopRunConfig`.
-- `resolve_loop_defaults` (function) `modules/lazy_runner.py:282` `def resolve_loop_defaults(config)` -- Fill unset rounds and workers from the selected orchestrator profile.
-- `build_executor` (function) `modules/lazy_runner.py:318` `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)` -- Build the worker executor: shell verbs, custom tools, safe bash.
-- `report_result` (function) `modules/lazy_runner.py:449` `def report_result(result)` -- Print the final outcome of one loop run.
-- `stream` (function) `modules/lazy_runner.py:550` `def stream(text)`
-- `load_targets_file` (function) `modules/lazy_runner.py:847` `def load_targets_file(path)` -- Read and validate one target per line from a scope file.
-- `run_loop` (function) `modules/lazy_runner.py:902` `def run_loop(shell, params, config)` -- Execute one complete loop run and return its summary.
+- `LoopRunConfig.clamped` (method) `modules/lazy_runner.py:119` `def clamped(self)` -- Clamp numeric knobs to the supported operating range.
+- `parse_loop_line` (function) `modules/lazy_runner.py:164` `def parse_loop_line(line)` -- Parse one loop command line into a :class:`LoopRunConfig`.
+- `resolve_loop_defaults` (function) `modules/lazy_runner.py:287` `def resolve_loop_defaults(config)` -- Fill unset rounds and workers from the selected orchestrator profile.
+- `build_executor` (function) `modules/lazy_runner.py:323` `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)` -- Build the worker executor: shell verbs, custom tools, safe bash.
+- `report_result` (function) `modules/lazy_runner.py:500` `def report_result(result)` -- Print the final outcome of one loop run.
+- `stream` (function) `modules/lazy_runner.py:601` `def stream(text)`
+- `load_targets_file` (function) `modules/lazy_runner.py:898` `def load_targets_file(path)` -- Read and validate one target per line from a scope file.
+- `run_loop` (function) `modules/lazy_runner.py:953` `def run_loop(shell, params, config)` -- Execute one complete loop run and return its summary.
 
 ## modules/lazy_sandbox.py
 Depends on: `core/config.py`

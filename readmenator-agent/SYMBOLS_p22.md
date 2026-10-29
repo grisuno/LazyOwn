@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `lazyown_command` | method | `modules/toposwarm_bridge.py:81` | `def lazyown_command(self)` |
+| `load_feedback_for_training` | method | `modules/toposwarm_bridge.py:389` | `def load_feedback_for_training(self)` |
+| `model_loaded` | method | `modules/toposwarm_bridge.py:449` | `def model_loaded(self)` |
+| `pending_count` | method | `modules/toposwarm_bridge.py:379` | `def pending_count(self)` |
+| `register` | method | `modules/toposwarm_bridge.py:303` | `def register(self, result, hidden)` |
+| `route` | method | `modules/toposwarm_bridge.py:586` | `def route(self, prompt)` |
+| `stats` | method | `modules/toposwarm_bridge.py:382` | `def stats(self)` |
+| `TrafficMorpher` | class | `modules/traffic_morpher.py:18` | `class TrafficMorpher` |
+| `__init__` | method | `modules/traffic_morpher.py:77` | `def __init__(self)` |
+| `generate_beacon_profile` | method | `modules/traffic_morpher.py:270` | `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)` |
+| `generate_cloudflare_worker_proxy_config` | method | `modules/traffic_morpher.py:205` | `def generate_cloudflare_worker_proxy_config(self, c2_host, c2_port, auth_token)` |
+| `generate_dns_tunnel_payload` | method | `modules/traffic_morpher.py:138` | `def generate_dns_tunnel_payload(self, data, domain)` |
+| `generate_icmp_exfil_payload` | method | `modules/traffic_morpher.py:164` | `def generate_icmp_exfil_payload(self, data, chunk_size)` |
+| `generate_jitter` | method | `modules/traffic_morpher.py:125` | `def generate_jitter(self, base_delay, jitter_pct)` |
+| `generate_traffic_padding` | method | `modules/traffic_morpher.py:108` | `def generate_traffic_padding(self, min_bytes, max_bytes)` |
+| `generate_websocket_masking` | method | `modules/traffic_morpher.py:190` | `def generate_websocket_masking(self, data)` |
+| `get_cdn_fronting_hosts` | method | `modules/traffic_morpher.py:91` | `def get_cdn_fronting_hosts(self, provider, count)` |
+| `get_random_http_headers` | method | `modules/traffic_morpher.py:81` | `def get_random_http_headers(self)` |
+| `Exchange` | class | `modules/traffic_recorder.py:80` | `class Exchange` |
+| `RecorderConfig` | class | `modules/traffic_recorder.py:24` | `class RecorderConfig` |
 | `TrafficRecorder` | class | `modules/traffic_recorder.py:91` | `class TrafficRecorder` |
 | `__init__` | method | `modules/traffic_recorder.py:94` | `def __init__(self, base_dir)` |
 | `_connect` | method | `modules/traffic_recorder.py:132` | `def _connect(self)` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `generate_loader` | function | `plugins/generate_msfvenom_loader.lua:49` | `` |
 | `generate_msfvenom_loader` | function | `plugins/generate_msfvenom_loader.lua:104` | `` |
 | `hex_to_nasm` | function | `plugins/generate_msfvenom_loader.lua:18` | `` |
-| `read_file` | function | `plugins/generate_msfvenom_loader.lua:7` | `` |
-| `generate_msfvenom_loader_windows` | function | `plugins/generate_msfvenom_loader_windows.lua:2` | `` |
-| `generate_reverse_shell` | function | `plugins/generate_reverse_shell.lua:1` | `` |
-| `generate_stub_ps1` | function | `plugins/generate_stub.lua:43` | `` |
-| `read_file` | function | `plugins/generate_stub.lua:12` | `` |
-| `write_file` | function | `plugins/generate_stub.lua:4` | `` |
-| `xor_data` | function | `plugins/generate_stub.lua:21` | `` |
-| `xor_string` | function | `plugins/generate_stub.lua:30` | `` |
-| `load_plugin` | function | `plugins/init_plugins.lua:6` | `` |
-| `kerberos_harvest` | function | `plugins/kerberos_harvest.lua:1` | `` |
-| `read_file` | function | `plugins/lolbas_certutil_download_exec.lua:13` | `` |
-| `write_file` | function | `plugins/lolbas_certutil_download_exec.lua:5` | `` |
-| `xor_data` | function | `plugins/lolbas_certutil_download_exec.lua:21` | `` |
-| `run_msfvenom` | function | `plugins/lolbas_certutil_exe.lua:2` | `` |
-| `write_file` | function | `plugins/lolbas_wmic_xsl_execution.lua:4` | `` |
-| `parse_nmap_with_xmlstarlet` | function | `plugins/parse_nmap_with_xmlstarlet.lua:1` | `` |
-| `run_nuclei_on_nmap_files` | function | `plugins/run_nuclei_on_nmap_files.lua:1` | `` |
-| `run_python_rev_c2` | function | `plugins/run_python_rev_c2.lua:2` | `` |
-| `base64_encode` | function | `plugins/rundll32_sct_from_url.lua:22` | `` |
-| `generate_sct` | function | `plugins/rundll32_sct_from_url.lua:58` | `` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

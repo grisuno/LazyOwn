@@ -1,0 +1,59 @@
+{
+  "vuln_id": "ad_smb_shares",
+  "cve": "",
+  "name": "SMB share discovery",
+  "target": "10.0.0.9",
+  "mitre": "T1135",
+  "service": "smb",
+  "port": "445",
+  "severity": "medium",
+  "status": "captured",
+  "captured_at": "2026-10-29T03:36:29.376554+00:00",
+  "checks": [
+    {
+      "name": "root_shell",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "shadow_dump",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "credentials",
+      "matched": true,
+      "evidence": "netlogon:****"
+    },
+    {
+      "name": "windows_os_enum",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "defense_report",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "eventlog_rows",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "kerberos_ticket",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "domain_enum",
+      "matched": false,
+      "evidence": ""
+    },
+    {
+      "name": "smb_shares",
+      "matched": true,
+      "evidence": "netlogon: Disk"
+    }
+  ]
+}

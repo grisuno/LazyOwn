@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `as_dict` | method | `modules/lazy_oob.py:51` | `def as_dict(self)` |
+| `do_GET` | method | `modules/lazy_oob.py:92` | `def do_GET(self)` |
+| `do_HEAD` | method | `modules/lazy_oob.py:102` | `def do_HEAD(self)` |
+| `do_POST` | method | `modules/lazy_oob.py:97` | `def do_POST(self)` |
+| `hits` | function | `modules/lazy_oob.py:204` | `def hits(token)` |
 | `is_running` | function | `modules/lazy_oob.py:249` | `def is_running()` |
 | `log_message` | method | `modules/lazy_oob.py:107` | `def log_message(self, fmt)` |
 | `new_token` | function | `modules/lazy_oob.py:167` | `def new_token()` |
@@ -193,41 +198,42 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `LoopRunConfig` | class | `modules/lazy_runner.py:94` | `class LoopRunConfig` |
 | `ThreadStdoutRouter` | class | `modules/lazy_runner.py:45` | `class ThreadStdoutRouter(TextIOBase)` |
 | `__init__` | method | `modules/lazy_runner.py:55` | `def __init__(self, main_stream, spool)` |
-| `_abort_run` | function | `modules/lazy_runner.py:391` | `def _abort_run(engine, task_id, reason)` |
-| `_apply_budget` | function | `modules/lazy_runner.py:506` | `def _apply_budget(engine, task_id, budget)` |
-| `_bootstrap` | function | `modules/lazy_runner.py:492` | `def _bootstrap(scan_target, executor)` |
-| `_budget_declined` | function | `modules/lazy_runner.py:519` | `def _budget_declined(config)` |
-| `_dump_thread_stacks` | function | `modules/lazy_runner.py:665` | `def _dump_thread_stacks()` |
-| `_executor` | function | `modules/lazy_runner.py:343` | `def _executor(command)` |
-| `_format_activity` | function | `modules/lazy_runner.py:651` | `def _format_activity(record)` |
-| `_limited` | function | `modules/lazy_runner.py:1042` | `def _limited()` |
-| `_overview` | function | `modules/lazy_runner.py:641` | `def _overview(task_id)` |
-| `_poll_progress` | function | `modules/lazy_runner.py:694` | `def _poll_progress(engine, config, progress, transcript, worker)` |
-| `_prepare_engine` | function | `modules/lazy_runner.py:410` | `def _prepare_engine(engine, shell, config, params)` |
-| `_resolve_alias` | function | `modules/lazy_runner.py:335` | `def _resolve_alias(command)` |
-| `_run` | function | `modules/lazy_runner.py:587` | `def _run()` |
-| `_run_plain` | function | `modules/lazy_runner.py:812` | `def _run_plain(engine, config)` |
-| `_run_targets_file` | function | `modules/lazy_runner.py:1016` | `def _run_targets_file(shell, params, config)` |
-| `_run_with_progress` | function | `modules/lazy_runner.py:535` | `def _run_with_progress(engine, config)` |
-| `_stall_thresholds` | function | `modules/lazy_runner.py:680` | `def _stall_thresholds(verb_timeout)` |
-| `_start_proxy` | function | `modules/lazy_runner.py:424` | `def _start_proxy(engine, params)` |
-| `_terminal_stream` | function | `modules/lazy_runner.py:790` | `def _terminal_stream()` |
-| `_to_float` | function | `modules/lazy_runner.py:155` | `def _to_float(raw, default)` |
-| `_to_int` | function | `modules/lazy_runner.py:147` | `def _to_int(raw, default)` |
-| `_tty_available` | function | `modules/lazy_runner.py:1003` | `def _tty_available()` |
-| `_work_one` | function | `modules/lazy_runner.py:1039` | `def _work_one(target)` |
-| `_write` | function | `modules/lazy_runner.py:802` | `def _write(text)` |
-| `build_executor` | function | `modules/lazy_runner.py:318` | `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)` |
-| `clamped` | method | `modules/lazy_runner.py:118` | `def clamped(self)` |
+| `_abort_run` | function | `modules/lazy_runner.py:396` | `def _abort_run(engine, task_id, reason)` |
+| `_apply_budget` | function | `modules/lazy_runner.py:557` | `def _apply_budget(engine, task_id, budget)` |
+| `_bootstrap` | function | `modules/lazy_runner.py:543` | `def _bootstrap(scan_target, executor)` |
+| `_budget_declined` | function | `modules/lazy_runner.py:570` | `def _budget_declined(config)` |
+| `_dump_thread_stacks` | function | `modules/lazy_runner.py:716` | `def _dump_thread_stacks()` |
+| `_executor` | function | `modules/lazy_runner.py:348` | `def _executor(command)` |
+| `_format_activity` | function | `modules/lazy_runner.py:702` | `def _format_activity(record)` |
+| `_limited` | function | `modules/lazy_runner.py:1094` | `def _limited()` |
+| `_maybe_phishing_fallback` | function | `modules/lazy_runner.py:454` | `def _maybe_phishing_fallback(result, config, params)` |
+| `_overview` | function | `modules/lazy_runner.py:692` | `def _overview(task_id)` |
+| `_poll_progress` | function | `modules/lazy_runner.py:745` | `def _poll_progress(engine, config, progress, transcript, worker)` |
+| `_prepare_engine` | function | `modules/lazy_runner.py:415` | `def _prepare_engine(engine, shell, config, params)` |
+| `_resolve_alias` | function | `modules/lazy_runner.py:340` | `def _resolve_alias(command)` |
+| `_run` | function | `modules/lazy_runner.py:638` | `def _run()` |
+| `_run_plain` | function | `modules/lazy_runner.py:863` | `def _run_plain(engine, config)` |
+| `_run_targets_file` | function | `modules/lazy_runner.py:1068` | `def _run_targets_file(shell, params, config)` |
+| `_run_with_progress` | function | `modules/lazy_runner.py:586` | `def _run_with_progress(engine, config)` |
+| `_stall_thresholds` | function | `modules/lazy_runner.py:731` | `def _stall_thresholds(verb_timeout)` |
+| `_start_proxy` | function | `modules/lazy_runner.py:429` | `def _start_proxy(engine, params)` |
+| `_terminal_stream` | function | `modules/lazy_runner.py:841` | `def _terminal_stream()` |
+| `_to_float` | function | `modules/lazy_runner.py:156` | `def _to_float(raw, default)` |
+| `_to_int` | function | `modules/lazy_runner.py:148` | `def _to_int(raw, default)` |
+| `_tty_available` | function | `modules/lazy_runner.py:1055` | `def _tty_available()` |
+| `_work_one` | function | `modules/lazy_runner.py:1091` | `def _work_one(target)` |
+| `_write` | function | `modules/lazy_runner.py:853` | `def _write(text)` |
+| `build_executor` | function | `modules/lazy_runner.py:323` | `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)` |
+| `clamped` | method | `modules/lazy_runner.py:119` | `def clamped(self)` |
 | `encoding` | method | `modules/lazy_runner.py:80` | `def encoding(self)` |
 | `flush` | method | `modules/lazy_runner.py:72` | `def flush(self)` |
 | `isatty` | method | `modules/lazy_runner.py:84` | `def isatty(self)` |
-| `load_targets_file` | function | `modules/lazy_runner.py:847` | `def load_targets_file(path)` |
-| `parse_loop_line` | function | `modules/lazy_runner.py:163` | `def parse_loop_line(line)` |
-| `report_result` | function | `modules/lazy_runner.py:449` | `def report_result(result)` |
-| `resolve_loop_defaults` | function | `modules/lazy_runner.py:282` | `def resolve_loop_defaults(config)` |
-| `run_loop` | function | `modules/lazy_runner.py:902` | `def run_loop(shell, params, config)` |
-| `stream` | function | `modules/lazy_runner.py:550` | `def stream(text)` |
+| `load_targets_file` | function | `modules/lazy_runner.py:898` | `def load_targets_file(path)` |
+| `parse_loop_line` | function | `modules/lazy_runner.py:164` | `def parse_loop_line(line)` |
+| `report_result` | function | `modules/lazy_runner.py:500` | `def report_result(result)` |
+| `resolve_loop_defaults` | function | `modules/lazy_runner.py:287` | `def resolve_loop_defaults(config)` |
+| `run_loop` | function | `modules/lazy_runner.py:953` | `def run_loop(shell, params, config)` |
+| `stream` | function | `modules/lazy_runner.py:601` | `def stream(text)` |
 | `write` | method | `modules/lazy_runner.py:61` | `def write(self, data)` |
 | `_payload_value` | function | `modules/lazy_sandbox.py:41` | `def _payload_value(key, default)` |
 | `_sandbox_executor` | function | `modules/lazy_sandbox.py:265` | `def _sandbox_executor(command)` |
@@ -370,6 +376,10 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `ctrl_c` | function | `modules/lazycurl.sh:23` | `` |
 | `execute_curl` | function | `modules/lazycurl.sh:52` | `` |
 | `show_help` | function | `modules/lazycurl.sh:29` | `` |
+| `all_queries` | function | `modules/lazydorks.py:123` | `def all_queries(domain, org)` |
+| `categories` | function | `modules/lazydorks.py:96` | `def categories()` |
+| `queries` | function | `modules/lazydorks.py:101` | `def queries(category, domain, org)` |
+| `write_report` | function | `modules/lazydorks.py:137` | `def write_report(path, domain, org)` |
 | `base64_decode` | function | `modules/lazyencoder_decoder.py:8` | `def base64_decode(data)` |
 | `base64_encode` | function | `modules/lazyencoder_decoder.py:4` | `def base64_encode(data)` |
 | `caesar_cipher` | function | `modules/lazyencoder_decoder.py:13` | `def caesar_cipher(text, shift)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `to_bridge_phase` | method | `modules/lazyown_bridge.py:4210` | `def to_bridge_phase(self, wm_phase)` |
 | `extract_docx_metadata` | function | `modules/lazyown_metaextract0r.py:62` | `def extract_docx_metadata(file_path)` |
 | `extract_image_metadata` | function | `modules/lazyown_metaextract0r.py:85` | `def extract_image_metadata(file_path)` |
-| `extract_metadata` | function | `modules/lazyown_metaextract0r.py:96` | `def extract_metadata(file_path)` |
-| `extract_ole_metadata` | function | `modules/lazyown_metaextract0r.py:73` | `def extract_ole_metadata(file_path)` |
-| `extract_pdf_metadata` | function | `modules/lazyown_metaextract0r.py:51` | `def extract_pdf_metadata(file_path)` |
-| `find_and_extract_metadata` | function | `modules/lazyown_metaextract0r.py:109` | `def find_and_extract_metadata(directory, output_file)` |
-| `main` | function | `modules/lazyown_metaextract0r.py:140` | `def main()` |
-| `parse_arguments` | function | `modules/lazyown_metaextract0r.py:130` | `def parse_arguments()` |
-| `signal_handler` | function | `modules/lazyown_metaextract0r.py:42` | `def signal_handler(sig, frame)` |
-| `buscar_binarios` | function | `modules/lazyown_parquet_tool.py:53` | `def buscar_binarios(args)` |
-| `ejecutar_opciones` | function | `modules/lazyown_parquet_tool.py:136` | `def ejecutar_opciones()` |
-| `highlight_term` | function | `modules/lazyown_parquet_tool.py:34` | `def highlight_term(text, term)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

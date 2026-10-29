@@ -274,43 +274,44 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
 - Symbols:
   - `ThreadStdoutRouter` (class, line 45) `class ThreadStdoutRouter(TextIOBase)`
   - `LoopRunConfig` (class, line 94) `class LoopRunConfig`
-  - `_to_int` (function, line 147) `def _to_int(raw, default)`
-  - `_to_float` (function, line 155) `def _to_float(raw, default)`
-  - `parse_loop_line` (function, line 163) `def parse_loop_line(line)`
-  - `resolve_loop_defaults` (function, line 282) `def resolve_loop_defaults(config)`
-  - `build_executor` (function, line 318) `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)`
-  - `_abort_run` (function, line 391) `def _abort_run(engine, task_id, reason)`
-  - `_prepare_engine` (function, line 410) `def _prepare_engine(engine, shell, config, params)`
-  - `_start_proxy` (function, line 424) `def _start_proxy(engine, params)`
-  - `report_result` (function, line 449) `def report_result(result)`
-  - `_bootstrap` (function, line 492) `def _bootstrap(scan_target, executor)`
-  - `_apply_budget` (function, line 506) `def _apply_budget(engine, task_id, budget)`
-  - `_budget_declined` (function, line 519) `def _budget_declined(config)`
-  - `_run_with_progress` (function, line 535) `def _run_with_progress(engine, config)`
-  - `_overview` (function, line 641) `def _overview(task_id)`
-  - `_format_activity` (function, line 651) `def _format_activity(record)`
-  - `_dump_thread_stacks` (function, line 665) `def _dump_thread_stacks()`
-  - `_stall_thresholds` (function, line 680) `def _stall_thresholds(verb_timeout)`
-  - `_poll_progress` (function, line 694) `def _poll_progress(engine, config, progress, transcript, worker)`
-  - `_terminal_stream` (function, line 790) `def _terminal_stream()`
-  - `_run_plain` (function, line 812) `def _run_plain(engine, config)`
-  - `load_targets_file` (function, line 847) `def load_targets_file(path)`
-  - `run_loop` (function, line 902) `def run_loop(shell, params, config)`
-  - `_tty_available` (function, line 1003) `def _tty_available()`
-  - `_run_targets_file` (function, line 1016) `def _run_targets_file(shell, params, config)`
+  - `_to_int` (function, line 148) `def _to_int(raw, default)`
+  - `_to_float` (function, line 156) `def _to_float(raw, default)`
+  - `parse_loop_line` (function, line 164) `def parse_loop_line(line)`
+  - `resolve_loop_defaults` (function, line 287) `def resolve_loop_defaults(config)`
+  - `build_executor` (function, line 323) `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)`
+  - `_abort_run` (function, line 396) `def _abort_run(engine, task_id, reason)`
+  - `_prepare_engine` (function, line 415) `def _prepare_engine(engine, shell, config, params)`
+  - `_start_proxy` (function, line 429) `def _start_proxy(engine, params)`
+  - `_maybe_phishing_fallback` (function, line 454) `def _maybe_phishing_fallback(result, config, params)`
+  - `report_result` (function, line 500) `def report_result(result)`
+  - `_bootstrap` (function, line 543) `def _bootstrap(scan_target, executor)`
+  - `_apply_budget` (function, line 557) `def _apply_budget(engine, task_id, budget)`
+  - `_budget_declined` (function, line 570) `def _budget_declined(config)`
+  - `_run_with_progress` (function, line 586) `def _run_with_progress(engine, config)`
+  - `_overview` (function, line 692) `def _overview(task_id)`
+  - `_format_activity` (function, line 702) `def _format_activity(record)`
+  - `_dump_thread_stacks` (function, line 716) `def _dump_thread_stacks()`
+  - `_stall_thresholds` (function, line 731) `def _stall_thresholds(verb_timeout)`
+  - `_poll_progress` (function, line 745) `def _poll_progress(engine, config, progress, transcript, worker)`
+  - `_terminal_stream` (function, line 841) `def _terminal_stream()`
+  - `_run_plain` (function, line 863) `def _run_plain(engine, config)`
+  - `load_targets_file` (function, line 898) `def load_targets_file(path)`
+  - `run_loop` (function, line 953) `def run_loop(shell, params, config)`
+  - `_tty_available` (function, line 1055) `def _tty_available()`
+  - `_run_targets_file` (function, line 1068) `def _run_targets_file(shell, params, config)`
   - `__init__` (method, line 55) `def __init__(self, main_stream, spool)`
   - `write` (method, line 61) `def write(self, data)`
   - `flush` (method, line 72) `def flush(self)`
   - `encoding` (method, line 80) `def encoding(self)`
   - `isatty` (method, line 84) `def isatty(self)`
-  - `clamped` (method, line 118) `def clamped(self)`
-  - `_resolve_alias` (function, line 335) `def _resolve_alias(command)`
-  - `_executor` (function, line 343) `def _executor(command)`
-  - `stream` (function, line 550) `def stream(text)`
-  - `_run` (function, line 587) `def _run()`
-  - `_write` (function, line 802) `def _write(text)`
-  - `_work_one` (function, line 1039) `def _work_one(target)`
-  - `_limited` (function, line 1042) `def _limited()`
+  - `clamped` (method, line 119) `def clamped(self)`
+  - `_resolve_alias` (function, line 340) `def _resolve_alias(command)`
+  - `_executor` (function, line 348) `def _executor(command)`
+  - `stream` (function, line 601) `def stream(text)`
+  - `_run` (function, line 638) `def _run()`
+  - `_write` (function, line 853) `def _write(text)`
+  - `_work_one` (function, line 1091) `def _work_one(target)`
+  - `_limited` (function, line 1094) `def _limited()`
 - Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_progress.py`, `utils.py`
 - Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_multi_target.py`, `tests/test_loop_nmap_guard.py`, `tests/test_orchestrator_yaml.py`
 

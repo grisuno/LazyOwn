@@ -3,6 +3,26 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_bof_execute_resets_before_pull` | method | `tests/test_blacksandbeacon_addon.py:187` | `def test_bof_execute_resets_before_pull(self, bof)` |
+| `test_bof_execute_stages_to_sessions` | method | `tests/test_blacksandbeacon_addon.py:180` | `def test_bof_execute_stages_to_sessions(self, bof)` |
+| `test_bof_has_field` | method | `tests/test_blacksandbeacon_addon.py:63` | `def test_bof_has_field(self, bof, field)` |
+| `test_bof_has_lhost_param` | method | `tests/test_blacksandbeacon_addon.py:142` | `def test_bof_has_lhost_param(self, bof)` |
+| `test_bof_has_lport_param` | method | `tests/test_blacksandbeacon_addon.py:145` | `def test_bof_has_lport_param(self, bof)` |
+| `test_bof_install_command_is_make` | method | `tests/test_blacksandbeacon_addon.py:93` | `def test_bof_install_command_is_make(self, bof)` |
+| `test_bof_install_path` | method | `tests/test_blacksandbeacon_addon.py:87` | `def test_bof_install_path(self, bof)` |
+| `test_bof_install_path_no_traversal` | method | `tests/test_blacksandbeacon_addon.py:105` | `def test_bof_install_path_no_traversal(self, bof)` |
+| `test_bof_lazycommand_has_lhost` | method | `tests/test_blacksandbeacon_addon.py:168` | `def test_bof_lazycommand_has_lhost(self, bof)` |
+| `test_bof_lazycommand_has_lport` | method | `tests/test_blacksandbeacon_addon.py:172` | `def test_bof_lazycommand_has_lport(self, bof)` |
+| `test_bof_lhost_required` | method | `tests/test_blacksandbeacon_addon.py:152` | `def test_bof_lhost_required(self, bof)` |
+| `test_bof_name_is_correct` | method | `tests/test_blacksandbeacon_addon.py:213` | `def test_bof_name_is_correct(self, bof)` |
+| `test_bof_no_hardcoded_ip` | method | `tests/test_blacksandbeacon_addon.py:230` | `def test_bof_no_hardcoded_ip(self)` |
+| `test_bof_no_hardcoded_port_numbers` | method | `tests/test_blacksandbeacon_addon.py:241` | `def test_bof_no_hardcoded_port_numbers(self)` |
+| `test_bof_repo_url` | method | `tests/test_blacksandbeacon_addon.py:81` | `def test_bof_repo_url(self, bof)` |
+| `test_bof_tool_has_key` | method | `tests/test_blacksandbeacon_addon.py:75` | `def test_bof_tool_has_key(self, bof, key)` |
+| `test_bof_yaml_parses` | method | `tests/test_blacksandbeacon_addon.py:51` | `def test_bof_yaml_parses(self, bof)` |
+| `test_bof_yaml_present` | method | `tests/test_blacksandbeacon_addon.py:45` | `def test_bof_yaml_present(self)` |
+| `TestBofCatalog` | class | `tests/test_bof_registry.py:101` | `class TestBofCatalog` |
+| `TestBofEntry` | class | `tests/test_bof_registry.py:47` | `class TestBofEntry` |
 | `TestBofEnums` | class | `tests/test_bof_registry.py:359` | `class TestBofEnums` |
 | `TestBofMarketplace` | class | `tests/test_bof_registry.py:291` | `class TestBofMarketplace` |
 | `TestBofRegistry` | class | `tests/test_bof_registry.py:174` | `class TestBofRegistry` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `test_registry_parses_parallel_and_pre_check` | function | `tests/test_chain_parallel_fallback.py:257` | `def test_registry_parses_parallel_and_pre_check()` |
 | `test_registry_validation_rejects_parallel_with_capture` | function | `tests/test_chain_parallel_fallback.py:230` | `def test_registry_validation_rejects_parallel_with_capture()` |
 | `test_registry_validation_rejects_unknown_fallback` | function | `tests/test_chain_parallel_fallback.py:241` | `def test_registry_validation_rejects_unknown_fallback()` |
-| `test_chain_yaml_matches_skill_contract` | function | `tests/test_chain_registry.py:73` | `def test_chain_yaml_matches_skill_contract()` |
-| `test_disabled_chains_skip_but_stay_visible` | function | `tests/test_chain_registry.py:124` | `def test_disabled_chains_skip_but_stay_visible(tmp_path)` |
-| `test_extends_cycle_and_unknown_parent_rejected` | function | `tests/test_chain_registry.py:110` | `def test_extends_cycle_and_unknown_parent_rejected(tmp_path)` |
-| `test_extends_inherits_steps_and_merges_defaults` | function | `tests/test_chain_registry.py:80` | `def test_extends_inherits_steps_and_merges_defaults(tmp_path)` |
-| `test_generate_for_playbook_roundtrip` | function | `tests/test_chain_registry.py:143` | `def test_generate_for_playbook_roundtrip(tmp_path)` |
-| `test_resolve_flags_unresolved_tokens` | function | `tests/test_chain_registry.py:65` | `def test_resolve_flags_unresolved_tokens()` |
-| `test_resolve_substitutes_and_skips` | function | `tests/test_chain_registry.py:43` | `def test_resolve_substitutes_and_skips(tmp_path, monkeypatch)` |
-| `test_shipped_chain_loads` | function | `tests/test_chain_registry.py:18` | `def test_shipped_chain_loads()` |
-| `test_validate_rejects_bad_chains` | function | `tests/test_chain_registry.py:33` | `def test_validate_rejects_bad_chains()` |
-| `FakeShell` | class | `tests/test_chain_runner.py:343` | `class FakeShell` |
-| `Shell` | class | `tests/test_chain_runner.py:224` | `class Shell` |
-| `Shell` | class | `tests/test_chain_runner.py:238` | `class Shell` |
-| `Shell` | class | `tests/test_chain_runner.py:251` | `class Shell` |
-| `Shell` | class | `tests/test_chain_runner.py:271` | `class Shell` |
-| `Shell` | class | `tests/test_chain_runner.py:284` | `class Shell` |
-| `_chain` | function | `tests/test_chain_runner.py:16` | `def _chain(steps)` |
-| `do_assign` | method | `tests/test_chain_runner.py:254` | `def do_assign(self, line)` |
-| `do_assign` | method | `tests/test_chain_runner.py:287` | `def do_assign(self, line)` |
-| `do_echo` | method | `tests/test_chain_runner.py:227` | `def do_echo(self, line)` |
-| `do_lazy_note` | method | `tests/test_chain_runner.py:346` | `def do_lazy_note(self, line)` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

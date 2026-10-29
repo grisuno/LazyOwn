@@ -493,7 +493,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
             auto_loop [--target T] [--task T] [--rounds N] [--workers N]
                       [--timeout S] [--targets-from-file F] [--max-concurrent N]
                       [--step-delay S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
-                      [--budget-confirm] [--no-bootstrap]
+                      [--budget-confirm] [--no-bootstrap] [--fallback-phish]
                       [--view|--plain] <goal>
 
         Both commands share one runner (``modules.lazy_runner``): one
@@ -502,7 +502,10 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
         ``--budget`` caps the run at the engine level (rounds, tool
         calls, findings, wall clock); ``--budget-confirm`` gates the
         start behind an interactive confirmation unless
-        ``LAZYOWN_AUTONOMOUS=1``.
+        ``LAZYOWN_AUTONOMOUS=1``. ``--fallback-phish`` stages a client-
+        subject phishing handoff (keyless shortener lure, offline
+        previews unless SMTP lives in payload.json) when the run ends
+        with no foothold.
         """
         from modules.lazy_runner import parse_loop_line, run_loop
 

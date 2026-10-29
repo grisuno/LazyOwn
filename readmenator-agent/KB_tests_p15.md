@@ -1,6 +1,77 @@
 # Subsystem: tests (page 15 of 21)
 Previous: [KB_tests_p14.md](KB_tests_p14.md)
 
+## tests/test_loop_trigger_hints.py
+- Doc: BDD for the cve_hot trigger hint fingerprints.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_Graph` (class, line 29) `class _Graph`
+  - `_Assets` (class, line 42) `class _Assets`
+  - `trigger_env` (function, line 56) `def trigger_env(tmp_path, monkeypatch)`
+  - `test_cve_hot_hint_proposed_once_per_signature` (function, line 78) `def test_cve_hot_hint_proposed_once_per_signature(trigger_env)`
+  - `test_changed_banner_refires_the_hint` (function, line 90) `def test_changed_banner_refires_the_hint(tmp_path, monkeypatch)`
+  - `test_hint_fingerprint_normalizes_product_and_version` (function, line 118) `def test_hint_fingerprint_normalizes_product_and_version()`
+  - `test_prune_drops_expired_fingerprints` (function, line 128) `def test_prune_drops_expired_fingerprints()`
+  - `test_hint_ttl_expires_and_refires` (function, line 137) `def test_hint_ttl_expires_and_refires(tmp_path, monkeypatch)`
+  - `test_hint_store_written_under_loop_stores` (function, line 158) `def test_hint_store_written_under_loop_stores(tmp_path, monkeypatch)`
+  - `__init__` (method, line 32) `def __init__(self)`
+  - `add_node` (method, line 35) `def add_node(self, kind, text, state, priority, meta)`
+  - `list` (method, line 38) `def list(self)`
+  - `__init__` (method, line 45) `def __init__(self, value)`
+  - `list` (method, line 49) `def list(self, kind)`
+  - `fake_hot_matches` (function, line 65) `def fake_hot_matches(services, allow_network)`
+  - `fake_hot_matches` (function, line 100) `def fake_hot_matches(services, allow_network)`
+- Depends on: `modules/lazy_loop.py`, `modules/loop_triggers.py`, `modules/world_model.py`
+
+## tests/test_loop_worker_traces.py
+- Doc: Worker cross-work trace tools (lazy 0.3.10 parity).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patched_engine` (function, line 6) `def _patched_engine(tmp_path, monkeypatch)`
+  - `_seed_two_works` (function, line 15) `def _seed_two_works(engine, task_id)`
+  - `test_search_all_spans_works_without_intent` (function, line 27) `def test_search_all_spans_works_without_intent(tmp_path, monkeypatch)`
+  - `test_trace_steps_and_single_step` (function, line 40) `def test_trace_steps_and_single_step(tmp_path, monkeypatch)`
+  - `test_worker_lane_binds_node_detail` (function, line 57) `def test_worker_lane_binds_node_detail(tmp_path, monkeypatch)`
+  - `test_add_hint_emits_explicit_planner_trigger` (function, line 65) `def test_add_hint_emits_explicit_planner_trigger(tmp_path, monkeypatch)`
+  - `test_worker_bash_unbound_blocks_without_execution` (function, line 81) `def test_worker_bash_unbound_blocks_without_execution(tmp_path, monkeypatch)`
+  - `test_planner_intent_unbound_emits_nothing` (function, line 100) `def test_planner_intent_unbound_emits_nothing(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`
+
+## tests/test_marketplace_config.py
+- Doc: Marketplace registry and settings: formats, toggles, CRUD.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_registry` (function, line 12) `def _registry(tmp_path, monkeypatch)`
+  - `test_tool_rows_use_json_and_active_key` (function, line 33) `def test_tool_rows_use_json_and_active_key(tmp_path, monkeypatch)`
+  - `test_plugin_rows_skip_lua_and_templates` (function, line 61) `def test_plugin_rows_skip_lua_and_templates(tmp_path, monkeypatch)`
+  - `test_read_only_tabs_never_toggle_or_delete` (function, line 76) `def test_read_only_tabs_never_toggle_or_delete(tmp_path, monkeypatch)`
+  - `test_create_and_delete_across_tabs` (function, line 89) `def test_create_and_delete_across_tabs(tmp_path, monkeypatch)`
+  - `test_settings_toggle_tracks_only_success` (function, line 105) `def test_settings_toggle_tracks_only_success(tmp_path, monkeypatch)`
+  - `test_marketplace_app_filters_rows` (function, line 118) `def test_marketplace_app_filters_rows(tmp_path, monkeypatch)`
+  - `test_filter_input_keeps_printable_keys` (function, line 145) `def test_filter_input_keeps_printable_keys(tmp_path, monkeypatch)`
+  - `_drive` (function, line 128) `def _drive()`
+  - `_drive` (function, line 151) `def _drive()`
+- Depends on: `cli/__init__.py`
+
+## tests/test_mcp_dispatch.py
+- Doc: call_tool dispatches through the handler registry.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_registered` (function, line 23) `def _registered()`
+  - `_fallback_branches` (function, line 40) `def _fallback_branches()`
+  - `TestRegistryDispatch` (class, line 51) `class TestRegistryDispatch`
+  - `test_set_config_refuses_null_values` (function, line 67) `def test_set_config_refuses_null_values()`
+  - `test_new_chain_shell_tools_have_defs_and_handlers` (function, line 82) `def test_new_chain_shell_tools_have_defs_and_handlers()`
+  - `test_opencode_bridge_curates_loop_and_chain` (function, line 92) `def test_opencode_bridge_curates_loop_and_chain()`
+  - `test_mcp_never_offers_interactive_repl` (function, line 107) `def test_mcp_never_offers_interactive_repl()`
+  - `test_no_dead_duplicate_branches` (method, line 52) `def test_no_dead_duplicate_branches(self)`
+  - `test_migrated_handlers_registered` (method, line 56) `def test_migrated_handlers_registered(self)`
+  - `test_migrated_handlers_absent_from_fallback` (method, line 61) `def test_migrated_handlers_absent_from_fallback(self)`
+
 ## tests/test_mcp_improvements.py
 - Doc: Tests for the high/medium/low impact MCP improvements.
 - Layer: testing
@@ -424,67 +495,6 @@ Previous: [KB_tests_p14.md](KB_tests_p14.md)
   - `test_generate_for_critical` (method, line 135) `def test_generate_for_critical(self)`
   - `test_skip_low_severity` (method, line 151) `def test_skip_low_severity(self)`
 - Depends on: `modules/integrations/nuclei_parser.py`
-
-## tests/test_opencode_mcp_harness.py
-- Doc: Opencode shim harness tool tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `OpencodeShimHarnessSpec` (class, line 16) `class OpencodeShimHarnessSpec(TestCase)`
-  - `test_harness_tools_listed` (method, line 19) `def test_harness_tools_listed(self)`
-  - `test_harness_status_shape` (method, line 25) `def test_harness_status_shape(self)`
-  - `test_golden_paths_and_ctf` (method, line 32) `def test_golden_paths_and_ctf(self)`
-  - `test_unknown_tool_rejected` (method, line 47) `def test_unknown_tool_rejected(self)`
-- Depends on: `modules/__init__.py`, `skills/lazyown_mcp_opencode.py`
-
-## tests/test_ops_loot_phase.py
-- Doc: Tests for unified loot, cred-graph view, and quantitative phase progress.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_seed_loot` (function, line 34) `def _seed_loot(sessions_dir)`
-  - `_write_world` (function, line 46) `def _write_world(sessions_dir, world)`
-  - `test_gather_loot_parses_kinds_and_skips_noise` (function, line 53) `def test_gather_loot_parses_kinds_and_skips_noise(tmp_path)`
-  - `test_loot_entry_value` (function, line 65) `def test_loot_entry_value()`
-  - `test_resolve_cred_value_precedence` (function, line 70) `def test_resolve_cred_value_precedence()`
-  - `test_loot_show_renders_table` (function, line 85) `def test_loot_show_renders_table(tmp_path, capsys)`
-  - `test_loot_show_empty` (function, line 94) `def test_loot_show_empty(tmp_path, capsys)`
-  - `test_loot_search_hits_and_provenance` (function, line 101) `def test_loot_search_hits_and_provenance(tmp_path, capsys)`
-  - `test_loot_search_no_match` (function, line 115) `def test_loot_search_no_match(tmp_path, capsys)`
-  - `test_loot_search_requires_query` (function, line 123) `def test_loot_search_requires_query(tmp_path, capsys)`
-  - `test_loot_reuse_no_target` (function, line 133) `def test_loot_reuse_no_target(tmp_path, capsys)`
-  - `test_loot_reuse_no_loot` (function, line 141) `def test_loot_reuse_no_loot(tmp_path, capsys)`
-  - `test_loot_reuse_excludes_rejected_and_flags_confirmed` (function, line 148) `def test_loot_reuse_excludes_rejected_and_flags_confirmed(tmp_path, capsys)`
-  - `test_loot_graph_renders_edges` (function, line 174) `def test_loot_graph_renders_edges(tmp_path, capsys)`
-  - `test_loot_graph_empty` (function, line 196) `def test_loot_graph_empty(tmp_path, capsys)`
-  - `test_loot_mark_writes_rejected_edge` (function, line 206) `def test_loot_mark_writes_rejected_edge(tmp_path)`
-  - `test_loot_mark_rejects_bad_outcome` (function, line 224) `def test_loot_mark_rejects_bad_outcome(tmp_path, capsys)`
-  - `test_loot_mark_unknown_credential` (function, line 232) `def test_loot_mark_unknown_credential(tmp_path, capsys)`
-  - `test_phase_progress_ranks` (function, line 243) `def test_phase_progress_ranks(tmp_path)`
-  - `test_phase_progress_completed_override` (function, line 264) `def test_phase_progress_completed_override(tmp_path)`
-  - `test_phase_progress_os_owned_report_and_loot` (function, line 285) `def test_phase_progress_os_owned_report_and_loot(tmp_path)`
-  - `test_link_credential_to_failure_edge_and_roundtrip` (function, line 312) `def test_link_credential_to_failure_edge_and_roundtrip(tmp_path)`
-- Depends on: `cli/ops_commands.py`, `modules/world_model.py`
-
-## tests/test_opsec_scorer.py
-- Doc: Tests for modules/opsec_scorer.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestOpsecScorer` (class, line 13) `class TestOpsecScorer`
-  - `test_score_high_noise_command` (method, line 14) `def test_score_high_noise_command(self)`
-  - `test_score_low_noise_command` (method, line 21) `def test_score_low_noise_command(self)`
-  - `test_score_unknown_command` (method, line 27) `def test_score_unknown_command(self)`
-  - `test_score_with_evasion` (method, line 33) `def test_score_with_evasion(self)`
-  - `test_score_batch` (method, line 39) `def test_score_batch(self)`
-  - `test_score_to_dict` (method, line 45) `def test_score_to_dict(self)`
-  - `test_confidence_is_float` (method, line 61) `def test_confidence_is_float(self)`
-  - `test_mitigations_returned` (method, line 67) `def test_mitigations_returned(self)`
-  - `test_convenience_function` (method, line 72) `def test_convenience_function(self)`
-  - `test_all_known_commands_have_mitigations` (method, line 77) `def test_all_known_commands_have_mitigations(self)`
-  - `test_suggest_mitigations` (method, line 85) `def test_suggest_mitigations(self)`
-  - `test_target_sensitivity_dc` (method, line 90) `def test_target_sensitivity_dc(self)`
-- Depends on: `modules/opsec_scorer.py`
 
 
 Next: [KB_tests_p16.md](KB_tests_p16.md)

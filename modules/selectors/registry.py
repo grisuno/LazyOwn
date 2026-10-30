@@ -11,17 +11,28 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
+from modules.selectors.adversary import AdversarySelector
+from modules.selectors.atomic import AtomicSelector
 from modules.selectors.base import ActionDecision, SelectionContext, Selector
 from modules.selectors.chain import ChainSelector
+from modules.selectors.playbook import PlaybookSelector
 
 
 def default_selectors() -> list[Selector]:
     """Return the default ordered cascade of shared selectors.
 
-    The list grows one file at a time as strategies migrate into the shared
-    package. Order expresses priority: earlier selectors win ties.
+    Order expresses priority. Objective-named capabilities (a specific APT
+    actor, adversary profile or MITRE technique the operator asked for) win
+    over the generic service-matched chain, because a named intent is a
+    stronger signal than an inferred one. The list grows one file at a time
+    as strategies migrate into the shared package.
     """
-    return [ChainSelector()]
+    return [
+        PlaybookSelector(),
+        AdversarySelector(),
+        AtomicSelector(),
+        ChainSelector(),
+    ]
 
 
 def propose_next(

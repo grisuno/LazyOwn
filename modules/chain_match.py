@@ -6,8 +6,10 @@ discovered right now?" -- so the scoring rules live here once and both callers
 delegate to :func:`best_chain`. Selection is evidence-based: a chain scores zero
 unless at least one of its tags matches a discovered service, so a chain is never
 proposed blindly. Phase affinity only re-ranks already service-matched chains.
-Lab and gym chains are excluded unless ``allow_lab`` is set, keeping autonomous
-runs focused on real adversary emulation rather than range-specific recipes.
+Lab and gym chains are included by default because the framework is heavily
+lab-oriented and most operators run it against ranges; real-engagement
+operators exclude them by passing ``allow_lab=False`` (env
+``AUTO_CHAIN_SELECTOR_LAB=0`` at the call sites).
 """
 
 from __future__ import annotations
@@ -135,7 +137,7 @@ def best_chain(
     os_hint: str,
     services: Any,
     exclude: Any = (),
-    allow_lab: bool = False,
+    allow_lab: bool = True,
     rows: list[dict] | None = None,
     ttl: float = _DEFAULT_TTL,
 ) -> tuple[str, str] | None:

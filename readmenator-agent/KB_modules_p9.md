@@ -7,484 +7,492 @@ Previous: [KB_modules_p8.md](KB_modules_p8.md)
 - Language: py
 - Symbols:
   - `plausible_command` (function, line 168) `def plausible_command(command)`
-  - `_sudo_unavailable` (function, line 254) `def _sudo_unavailable(output)`
-  - `_is_ip_literal` (function, line 260) `def _is_ip_literal(value)`
-  - `_valid_nmap_port_spec` (function, line 274) `def _valid_nmap_port_spec(value)`
-  - `repair_worker_command` (function, line 289) `def repair_worker_command(command, target)`
-  - `_host_from_token` (function, line 367) `def _host_from_token(token)`
-  - `loop_exiting` (function, line 419) `def loop_exiting()`
-  - `_register_loop_executor` (function, line 424) `def _register_loop_executor(executor)`
-  - `_unregister_loop_executor` (function, line 430) `def _unregister_loop_executor(executor)`
-  - `arm_exit_watchdog` (function, line 436) `def arm_exit_watchdog(seconds)`
-  - `scrub_secrets` (function, line 459) `def scrub_secrets(text)`
-  - `_restrict_file` (function, line 475) `def _restrict_file(path)`
-  - `_channel_encryption_key` (function, line 483) `def _channel_encryption_key()`
-  - `_encrypt_channel_secret` (function, line 499) `def _encrypt_channel_secret(plaintext)`
-  - `_decrypt_channel_secret` (function, line 537) `def _decrypt_channel_secret(stored)`
-  - `wake_task` (function, line 555) `def wake_task(task_id)`
-  - `_wake_event` (function, line 569) `def _wake_event(task_id)`
-  - `_drop_wake_event` (function, line 579) `def _drop_wake_event(task_id)`
-  - `register_worker` (function, line 589) `def register_worker(worker)`
-  - `unregister_worker` (function, line 595) `def unregister_worker(worker)`
-  - `shutdown_loop_runtime` (function, line 601) `def shutdown_loop_runtime(reason)`
-  - `_noa_enabled` (function, line 687) `def _noa_enabled()`
-  - `_now` (function, line 729) `def _now()`
-  - `_store_path` (function, line 734) `def _store_path(name)`
-  - `_load_json` (function, line 747) `def _load_json(path, default)`
-  - `_save_json` (function, line 757) `def _save_json(path, payload)`
-  - `_slug` (function, line 772) `def _slug(value)`
-  - `_traffic_template` (function, line 777) `def _traffic_template(command)`
-  - `_llm_error_reply` (function, line 787) `def _llm_error_reply(text)`
-  - `_llm_quota_reply` (function, line 795) `def _llm_quota_reply(text)`
-  - `task_llm_chain` (function, line 816) `def task_llm_chain(store, task_id)`
-  - `parse_judge_output` (function, line 826) `def parse_judge_output(raw)`
-  - `judge_command` (function, line 854) `def judge_command(command, background, fail_action)`
-  - `ExplorationNode` (class, line 896) `class ExplorationNode`
-  - `ExplorationEdge` (class, line 910) `class ExplorationEdge`
-  - `AssetNode` (class, line 919) `class AssetNode`
-  - `LazyTask` (class, line 933) `class LazyTask`
-  - `AssetGraph` (class, line 944) `class AssetGraph`
-  - `ExplorationGraph` (class, line 1107) `class ExplorationGraph`
-  - `Frontier` (class, line 1429) `class Frontier`
-  - `ActivityLog` (class, line 1457) `class ActivityLog`
-  - `TrafficLog` (class, line 1590) `class TrafficLog`
-  - `Guard` (class, line 1848) `class Guard`
-  - `_scope_host` (function, line 2056) `def _scope_host(value)`
-  - `_scope_covers` (function, line 2066) `def _scope_covers(scope_kind, scope_value, asset)`
-  - `_target_as_asset` (function, line 2116) `def _target_as_asset(value)`
-  - `_asset_candidates` (function, line 2133) `def _asset_candidates(target)`
-  - `_match_gate_rule` (function, line 2154) `def _match_gate_rule(rule, target)`
-  - `AssetGate` (class, line 2189) `class AssetGate`
-  - `Budget` (class, line 2283) `class Budget`
-  - `RuntimeTracker` (class, line 2367) `class RuntimeTracker`
-  - `InterceptQueue` (class, line 2435) `class InterceptQueue`
-  - `TodoStore` (class, line 2595) `class TodoStore`
-  - `TaskStore` (class, line 2637) `class TaskStore`
-  - `extract_scope_items` (function, line 2910) `def extract_scope_items(goal_text, description)`
-  - `extract_constraint_items` (function, line 2942) `def extract_constraint_items(goal_text, description)`
-  - `_lazy_policy` (function, line 2984) `def _lazy_policy()`
-  - `_policy_proposals` (function, line 3006) `def _policy_proposals(policy, target)`
-  - `load_intel_scores` (function, line 3034) `def load_intel_scores()`
-  - `resolve_target` (function, line 3063) `def resolve_target(task_id, store, graph)`
-  - `decompose_goals` (function, line 3086) `def decompose_goals(goal_text, description)`
-  - `enrich_asset` (function, line 3123) `def enrich_asset(value)`
-  - `Planner` (class, line 3146) `class Planner`
-  - `Worker` (class, line 3785) `class Worker`
-  - `_is_scan_command` (function, line 5800) `def _is_scan_command(command)`
-  - `_host_like_target` (function, line 5809) `def _host_like_target(target)`
-  - `Retester` (class, line 5817) `class Retester`
-  - `ColdCompactor` (class, line 6004) `class ColdCompactor`
-  - `constraint_block` (function, line 6573) `def constraint_block(constraints, scope)`
-  - `settlement_prompt` (function, line 6607) `def settlement_prompt(agent, reason)`
-  - `build_prompt_context` (function, line 6636) `def build_prompt_context(task_id, graph, assets, store, budget, top)`
-  - `_mask_prompt_context` (function, line 6715) `def _mask_prompt_context(text)`
-  - `finding_severity` (function, line 6725) `def finding_severity(text, evidence)`
-  - `FindingService` (class, line 6757) `class FindingService`
-  - `EvidenceStore` (class, line 7075) `class EvidenceStore`
-  - `Notifier` (class, line 7178) `class Notifier`
-  - `LlmPool` (class, line 7347) `class LlmPool`
-  - `ToolCatalog` (class, line 7840) `class ToolCatalog`
-  - `SideQuestions` (class, line 7884) `class SideQuestions`
-  - `CompanyScope` (class, line 7958) `class CompanyScope`
-  - `TaskArchive` (class, line 7988) `class TaskArchive`
-  - `TaskTemplate` (class, line 8107) `class TaskTemplate`
-  - `TaskCategory` (class, line 8150) `class TaskCategory`
-  - `TaskChat` (class, line 8177) `class TaskChat`
-  - `LazyLoopEngine` (class, line 8282) `class LazyLoopEngine`
-  - `_kill` (function, line 446) `def _kill()`
-  - `__init__` (method, line 947) `def __init__(self)`
-  - `_persist` (method, line 961) `def _persist(self)`
-  - `dedupe_key` (method, line 965) `def dedupe_key(self, kind, value, parent_id)`
-  - `insert` (method, line 969) `def insert(self, kind, value, parent_id, meta, task_id)`
-  - `get` (method, line 999) `def get(self, asset_id)`
-  - `list` (method, line 1003) `def list(self, kind)`
-  - `mark_tested` (method, line 1010) `def mark_tested(self, asset_id)`
-  - `coverage` (method, line 1020) `def coverage(self, scope)`
-  - `scoped` (method, line 1036) `def scoped(self, scope, kind)`
-  - `untested` (method, line 1049) `def untested(self, limit)`
-  - `coverage_for` (method, line 1054) `def coverage_for(self, graph, scope)`
-  - `untested_for` (method, line 1082) `def untested_for(self, graph, scope, limit)`
-  - `__init__` (method, line 1110) `def __init__(self, task_id)`
-  - `_persist` (method, line 1132) `def _persist(self)`
-  - `add_node` (method, line 1144) `def add_node(self, kind, text, state, priority, meta)`
-  - `get` (method, line 1172) `def get(self, node_id)`
-  - `persist` (method, line 1176) `def persist(self)`
-  - `set_node_state` (method, line 1180) `def set_node_state(self, node_id, state)`
-  - `set_node_meta` (method, line 1199) `def set_node_meta(self, node_id, meta)`
-  - `set_state` (method, line 1218) `def set_state(self, node_id, state)`
-  - `add_edge` (method, line 1229) `def add_edge(self, src, dst, kind)`
-  - `anchor` (method, line 1242) `def anchor(self, node_id, asset_id)`
-  - `anchors_for` (method, line 1253) `def anchors_for(self, node_id)`
-  - `anchored_nodes` (method, line 1257) `def anchored_nodes(self, asset_id)`
-  - `list` (method, line 1261) `def list(self, kind, state)`
-  - `children` (method, line 1270) `def children(self, node_id, kind)`
-  - `parents` (method, line 1277) `def parents(self, node_id, kind)`
-  - `overview` (method, line 1284) `def overview(self)`
-  - `reload` (method, line 1307) `def reload(self)`
-  - `compare_and_claim` (method, line 1331) `def compare_and_claim(self, node_id)`
-  - `finding_signature` (method, line 1359) `def finding_signature(self, text)`
-  - `has_finding` (method, line 1365) `def has_finding(self, text)`
-  - `node_detail` (method, line 1375) `def node_detail(self, node_id)`
-  - `list_facts` (method, line 1391) `def list_facts(self, query, limit, hot_full)`
-  - `record_fact` (method, line 1407) `def record_fact(self, text, evidence, confidence, intent_id, asset_ids)`
-  - `__init__` (method, line 1432) `def __init__(self, graph)`
-  - `pending` (method, line 1437) `def pending(self)`
-  - `claim_next` (method, line 1442) `def claim_next(self)`
-  - `__init__` (method, line 1460) `def __init__(self, task_id)`
-  - `emit` (method, line 1465) `def emit(self, worker, kind, text, intent_id, tool_use_id)`
-  - `read` (method, line 1490) `def read(self, limit)`
-  - `for_intent` (method, line 1504) `def for_intent(self, intent_id)`
-  - `trace` (method, line 1508) `def trace(self, intent_id, query, step_id, limit)`
-  - `search_all` (method, line 1546) `def search_all(self, query, limit)`
-  - `search` (method, line 1576) `def search(self, query, exclude_intent)`
-  - `__init__` (method, line 1593) `def __init__(self, task_id)`
-  - `record` (method, line 1598) `def record(self, kind, command, output, meta)`
-  - `read` (method, line 1620) `def read(self, limit)`
-  - `search` (method, line 1634) `def search(self, query, limit)`
-  - `search_host` (method, line 1645) `def search_host(self, host, port, limit)`
-  - `get` (method, line 1673) `def get(self, digest)`
-  - `recorder_body` (method, line 1680) `def recorder_body(self, digest)`
-  - `recorder_blob` (method, line 1709) `def recorder_blob(self, digest, part, offset, length)`
-  - `templates` (method, line 1740) `def templates(self, limit)`
-  - `by_template` (method, line 1749) `def by_template(self, template, limit)`
-  - `bind` (method, line 1754) `def bind(self, finding_id, digest, graph, role, note)`
-  - `_normalize_refs` (method, line 1785) `def _normalize_refs(raw)`
-  - `evidence` (method, line 1802) `def evidence(self, finding_id, graph)`
-  - `reorder_evidence` (method, line 1811) `def reorder_evidence(self, finding_id, digests, graph)`
-  - `export` (method, line 1825) `def export(self, path, limit)`
-  - `archive` (method, line 1832) `def archive(self, label)`
-  - `clear` (method, line 1838) `def clear(self)`
-  - `__init__` (method, line 1851) `def __init__(self, task_id)`
-  - `_persist` (method, line 1870) `def _persist(self)`
-  - `add_rule` (method, line 1877) `def add_rule(self, pattern, action, reason, priority)`
-  - `remove_rule` (method, line 1888) `def remove_rule(self, pattern)`
-  - `set_judge` (method, line 1897) `def set_judge(self, enabled, fail_action)`
-  - `check` (method, line 1919) `def check(self, tool, command, tool_use_id, source, intent_id)`
-  - `audit` (method, line 1971) `def audit(self, limit, action, source, query)`
-  - `lookup` (method, line 1999) `def lookup(self, tool_use_id)`
-  - `stats` (method, line 2041) `def stats(self)`
-  - `__init__` (method, line 2198) `def __init__(self, task_id)`
-  - `_load_global` (method, line 2205) `def _load_global(self)`
-  - `_load_task` (method, line 2209) `def _load_task(self)`
-  - `_save_global` (method, line 2216) `def _save_global(self, block)`
-  - `_save_task` (method, line 2220) `def _save_task(self, payload)`
-  - `add` (method, line 2225) `def add(self, kind, pattern, note, action)`
-  - `remove` (method, line 2246) `def remove(self, rule_id, action)`
-  - `list` (method, line 2264) `def list(self)`
-  - `evaluate` (method, line 2268) `def evaluate(self, target)`
-  - `__init__` (method, line 2286) `def __init__(self, store)`
-  - `limits` (method, line 2290) `def limits(self, task_id)`
-  - `set_limits` (method, line 2301) `def set_limits(self, task_id)`
-  - `usage` (method, line 2314) `def usage(self, task_id)`
-  - `record_toolcall` (method, line 2324) `def record_toolcall(self, task_id, intent_id)`
-  - `record_round` (method, line 2336) `def record_round(self, task_id)`
-  - `check` (method, line 2354) `def check(self, task_id)`
-  - `__init__` (method, line 2370) `def __init__(self, store)`
-  - `heartbeat` (method, line 2374) `def heartbeat(self, task_id)`
-  - `beat` (method, line 2392) `def beat(self, task_id, workers)`
-  - `abort` (method, line 2407) `def abort(self, task_id, cause, detail)`
-  - `note_trigger` (method, line 2423) `def note_trigger(self, task_id, trigger_id)`
-  - `_event_for` (method, line 2442) `def _event_for(cls, path, item_id)`
-  - `_drop_event` (method, line 2459) `def _drop_event(cls, path, item_id)`
-  - `__init__` (method, line 2464) `def __init__(self, task_id)`
-  - `_load` (method, line 2470) `def _load(self)`
-  - `_save` (method, line 2474) `def _save(self, payload)`
-  - `request` (method, line 2478) `def request(self, tool, command, reason, tool_use_id)`
-  - `pending` (method, line 2496) `def pending(self)`
-  - `history` (method, line 2500) `def history(self, page, per_page, states, query)`
-  - `decide` (method, line 2552) `def decide(self, item_id, verdict)`
-  - `wait` (method, line 2566) `def wait(self, item_id, timeout_sec)`
-  - `__init__` (method, line 2598) `def __init__(self, task_id)`
-  - `_persist` (method, line 2605) `def _persist(self)`
-  - `add` (method, line 2609) `def add(self, text)`
-  - `complete` (method, line 2616) `def complete(self, item_id)`
-  - `next_pending` (method, line 2625) `def next_pending(self)`
-  - `as_list` (method, line 2632) `def as_list(self)`
-  - `__init__` (method, line 2640) `def __init__(self)`
-  - `_persist` (method, line 2645) `def _persist(self)`
-  - `create` (method, line 2649) `def create(self, goal, description)`
-  - `get` (method, line 2660) `def get(self, task_id)`
-  - `list` (method, line 2664) `def list(self)`
-  - `set_status` (method, line 2668) `def set_status(self, task_id, status)`
-  - `pause` (method, line 2680) `def pause(self, task_id)`
-  - `resume` (method, line 2684) `def resume(self, task_id)`
-  - `delete` (method, line 2693) `def delete(self, task_id)`
-  - `active_count` (method, line 2702) `def active_count(self, exclude)`
-  - `queue` (method, line 2706) `def queue(self)`
-  - `enqueue` (method, line 2711) `def enqueue(self, task_id)`
-  - `dequeue_next` (method, line 2722) `def dequeue_next(self)`
-  - `_refresh` (method, line 2733) `def _refresh(self)`
-  - `set_llm_chain` (method, line 2737) `def set_llm_chain(self, task_id, members, active)`
-  - `llm_state` (method, line 2765) `def llm_state(self, task_id)`
-  - `advance_llm` (method, line 2771) `def advance_llm(self, task_id)`
-  - `set_skills` (method, line 2795) `def set_skills(self, task_id, names, auto)`
-  - `set_deadline` (method, line 2820) `def set_deadline(self, task_id, timeout_sec)`
-  - `expired` (method, line 2830) `def expired(self, task_id)`
-  - `add_constraint` (method, line 2836) `def add_constraint(self, task_id, ctype, text, scope)`
-  - `add_scope` (method, line 2855) `def add_scope(self, task_id, kind, value, reason)`
-  - `steer` (method, line 2866) `def steer(self, task_id, intent_id, message)`
-  - `kill` (method, line 2875) `def kill(self, task_id, intent_id)`
-  - `steer_for` (method, line 2886) `def steer_for(self, task_id, intent_id)`
-  - `clear_steer` (method, line 2891) `def clear_steer(self, task_id, intent_id)`
-  - `killed` (method, line 2904) `def killed(self, task_id, intent_id)`
-  - `__init__` (method, line 3149) `def __init__(self, task_id, assets, graph, activity, store)`
-  - `_constraints` (method, line 3160) `def _constraints(self)`
-  - `_denied` (method, line 3169) `def _denied(self, text)`
-  - `plan` (method, line 3177) `def plan(self, triggers)`
-  - `refine` (method, line 3256) `def refine(self)`
-  - `_origin_fact` (method, line 3329) `def _origin_fact(self)`
-  - `_ledger_fresh_summary` (method, line 3338) `def _ledger_fresh_summary(self, summary)`
-  - `_candidates` (method, line 3361) `def _candidates(self)`
-  - `_rl_rank` (method, line 3604) `def _rl_rank(self, out)`
-  - `finalize` (method, line 3662) `def finalize(self, reason)`
-  - `_delta_sink` (method, line 3678) `def _delta_sink(self)`
-  - `_llm_candidates` (method, line 3692) `def _llm_candidates(self, existing)`
-  - `_stall_intent` (method, line 3759) `def _stall_intent(self, existing)`
-  - `__init__` (method, line 3788) `def __init__(self, name, task_id, assets, graph, activity, traffic, guard, store, shell, ephemeral)`
-  - `rebind` (method, line 3836) `def rebind(self, assets, graph, activity, traffic, guard, store, shell)`
-  - `close` (method, line 3860) `def close(self)`
-  - `_scope_allows_target` (method, line 3871) `def _scope_allows_target(self, target)`
-  - `_lab_scope_default` (method, line 3900) `def _lab_scope_default(self, target)`
-  - `_prior_steps` (method, line 3932) `def _prior_steps(self, intent)`
-  - `execute` (method, line 3956) `def execute(self, intent, executor, timeout_sec)`
-  - `_finish` (method, line 4228) `def _finish(self, intent, outcome, transcripts, worker_tools, skipped_tools)`
-  - `_target_for` (method, line 4305) `def _target_for(self, intent)`
-  - `_failure_memory` (method, line 4313) `def _failure_memory(self)`
-  - `_os_gate` (method, line 4332) `def _os_gate(self, intent, command)`
-  - `_learn_os` (method, line 4358) `def _learn_os(self, intent, command, output)`
-  - `_fact_memory_store` (method, line 4385) `def _fact_memory_store(self)`
-  - `_remember_fact` (method, line 4391) `def _remember_fact(self, intent, command, output)`
-  - `_recall_facts` (method, line 4400) `def _recall_facts(self, query, k)`
-  - `_absorb_reaction` (method, line 4407) `def _absorb_reaction(self, intent, command, output)`
-  - `_guard_step` (method, line 4459) `def _guard_step(self, intent, command, executor, budget, intercept, retry_state)`
-  - `_agent_checkpoint` (method, line 4696) `def _agent_checkpoint(self, intent)`
-  - `_drain_steer` (method, line 4711) `def _drain_steer(self, intent)`
-  - `_agent_preflight` (method, line 4722) `def _agent_preflight(self, intent, command)`
-  - `_start_background_job` (method, line 4755) `def _start_background_job(self, command, intent, transcripts)`
-  - `_open_shell_session` (method, line 4787) `def _open_shell_session(self, intent)`
-  - `_send_shell` (method, line 4822) `def _send_shell(self, command, intent, timeout_sec)`
-  - `_close_shell_session` (method, line 4858) `def _close_shell_session(self)`
-  - `_agent_tools` (method, line 4885) `def _agent_tools(self, intent, executor, transcripts, budget, intercept, retry_state)`
-  - `_agent_system_prompt` (method, line 5067) `def _agent_system_prompt(self, intent)`
-  - `_agentic_try` (method, line 5099) `def _agentic_try(self, intent, outcome, transcripts, executor, budget, intercept, retry_state)`
-  - `_denied` (method, line 5197) `def _denied(self, command)`
-  - `_auto_approve` (method, line 5208) `def _auto_approve(self, command)`
-  - `_missing_tool` (method, line 5220) `def _missing_tool(self, command)`
-  - `_run` (method, line 5236) `def _run(self, command, executor)`
-  - `_with_llm_steps` (method, line 5286) `def _with_llm_steps(self, intent, steps, prior_text)`
-  - `_llm_steps` (method, line 5304) `def _llm_steps(self, intent, prior_text)`
-  - `_settle_partial` (method, line 5399) `def _settle_partial(self, intent, transcripts, reason)`
-  - `_delta_sink` (method, line 5435) `def _delta_sink(self, intent_id)`
-  - `_resolved_command` (method, line 5459) `def _resolved_command(self, command)`
-  - `_sudo_guard` (method, line 5473) `def _sudo_guard(self, intent, command)`
-  - `_task_executed_commands` (method, line 5500) `def _task_executed_commands(self)`
-  - `_sanitize_step` (method, line 5523) `def _sanitize_step(self, intent, command)`
-  - `_command_in_scope` (method, line 5536) `def _command_in_scope(self, command)`
-  - `_auto_bind_body_hits` (method, line 5545) `def _auto_bind_body_hits(self, finding, seed)`
-  - `_steps_for` (method, line 5597) `def _steps_for(self, intent)`
-  - `_writeback` (method, line 5658) `def _writeback(self, intent, transcripts, allow_finding)`
-  - `__init__` (method, line 5820) `def __init__(self, graph, activity, traffic)`
-  - `retest` (method, line 5826) `def retest(self, finding_id, executor, note)`
-  - `_structured_verdict` (method, line 5937) `def _structured_verdict(self, finding)`
-  - `retest_context` (method, line 5990) `def retest_context(self, finding_id)`
-  - `__init__` (method, line 6012) `def __init__(self, graph, activity)`
-  - `_cold_path` (method, line 6017) `def _cold_path(self)`
-  - `_load_cold` (method, line 6021) `def _load_cold(self)`
-  - `_save_cold` (method, line 6025) `def _save_cold(self, payload)`
-  - `_bodies_path` (method, line 6029) `def _bodies_path(self)`
-  - `_load_bodies` (method, line 6033) `def _load_bodies(self)`
-  - `_save_bodies` (method, line 6037) `def _save_bodies(self, payload)`
-  - `_request_bodies` (method, line 6041) `def _request_bodies(self, blocks, cold)`
-  - `_noa_archive` (method, line 6090) `def _noa_archive(self, signature, members, anchors)`
-  - `noa_archives` (method, line 6122) `def noa_archives(self, limit)`
-  - `_apply_stored_bodies` (method, line 6147) `def _apply_stored_bodies(self, bodies)`
-  - `_is_live_intent` (method, line 6171) `def _is_live_intent(self, node)`
-  - `_foldable` (method, line 6175) `def _foldable(self, node)`
-  - `hot_set` (method, line 6181) `def hot_set(self)`
-  - `structural_cold` (method, line 6203) `def structural_cold(self, hot)`
-  - `_content_versions` (method, line 6207) `def _content_versions(self)`
-  - `_block_signature` (method, line 6215) `def _block_signature(self, members, anchors, versions)`
-  - `_group` (method, line 6224) `def _group(self, eligible)`
-  - `covered_members` (method, line 6288) `def covered_members(self)`
-  - `on_planner_round` (method, line 6300) `def on_planner_round(self)`
-  - `compact` (method, line 6341) `def compact(self, threshold, mode, debounce_sec)`
-  - `expand` (method, line 6468) `def expand(self, digest_id, role)`
-  - `cold_index` (method, line 6492) `def cold_index(self)`
-  - `unfolded` (method, line 6510) `def unfolded(self, limit)`
-  - `digest_overview` (method, line 6526) `def digest_overview(self)`
-  - `__init__` (method, line 6760) `def __init__(self, task_id, graph, activity, store)`
-  - `_technique_for` (method, line 6768) `def _technique_for(vulnclass, text)`
-  - `report` (method, line 6792) `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)`
-  - `_drafts_ready_path` (method, line 6899) `def _drafts_ready_path(self)`
-  - `_draft_report` (method, line 6903) `def _draft_report(self, node)`
-  - `_reporter_reply` (method, line 6958) `def _reporter_reply(self, pool, chain, entry)`
-  - `_write_draft` (method, line 6974) `def _write_draft(self, finding_id, report, evidence_version)`
-  - `apply_drafts` (method, line 6992) `def apply_drafts(self)`
-  - `set_status` (method, line 7029) `def set_status(self, finding_id, status)`
-  - `update_report` (method, line 7046) `def update_report(self, finding_id, report)`
-  - `ranked` (method, line 7068) `def ranked(self)`
-  - `__init__` (method, line 7078) `def __init__(self, task_id)`
-  - `_load` (method, line 7083) `def _load(self)`
-  - `add` (method, line 7087) `def add(self, finding_id, kind, body)`
-  - `verify` (method, line 7104) `def verify(self)`
-  - `gc` (method, line 7113) `def gc(self, valid_findings)`
-  - `for_finding` (method, line 7129) `def for_finding(self, finding_id)`
-  - `read` (method, line 7133) `def read(self, evidence_id, offset, length)`
-  - `export` (method, line 7170) `def export(self, path)`
-  - `__init__` (method, line 7181) `def __init__(self, store)`
-  - `channels` (method, line 7185) `def channels(self)`
-  - `add_channel` (method, line 7193) `def add_channel(self, kind, target, min_severity, extra)`
-  - `remove_channel` (method, line 7240) `def remove_channel(self, index)`
-  - `_send_email` (method, line 7253) `def _send_email(channel, line, event)`
-  - `emit` (method, line 7291) `def emit(self, task_id, event, data)`
-  - `__init__` (method, line 7364) `def __init__(self)`
-  - `_seed_defaults` (method, line 7375) `def _seed_defaults(self)`
-  - `members` (method, line 7399) `def members(self)`
-  - `add_member` (method, line 7404) `def add_member(self, name, model, priority)`
-  - `remove_member` (method, line 7413) `def remove_member(self, name)`
-  - `set_priority` (method, line 7423) `def set_priority(self, name, priority)`
-  - `usage` (method, line 7436) `def usage(self)`
-  - `_record` (method, line 7440) `def _record(self, member, ok, text)`
-  - `record_call` (method, line 7446) `def record_call(self, member, ok, text)`
-  - `_breaker_active` (method, line 7460) `def _breaker_active(self)`
-  - `_rotated_chain` (method, line 7469) `def _rotated_chain(self, chain)`
-  - `_reorder_with_ai` (method, line 7498) `def _reorder_with_ai(self, chain, live_log)`
-  - `_record_ai_outcome` (method, line 7540) `def _record_ai_outcome(self, member, ok, live_log)`
-  - `complete` (method, line 7555) `def complete(self, prompt, max_tokens, empty_retries, members, task_id, on_delta)`
-  - `health` (method, line 7720) `def health(self)`
-  - `context_budget` (method, line 7731) `def context_budget(self)`
-  - `record_raw` (method, line 7736) `def record_raw(self)`
-  - `set_record_raw` (method, line 7741) `def set_record_raw(self, enabled)`
-  - `raw_entries` (method, line 7748) `def raw_entries(self, limit)`
-  - `raw_entries_for_task` (method, line 7762) `def raw_entries_for_task(self, task_id, limit)`
-  - `_record_raw` (method, line 7795) `def _record_raw(self, member, prompt, reply, ok, task_id, model_spec)`
-  - `set_context_budget` (method, line 7825) `def set_context_budget(self, chars)`
-  - `__init__` (method, line 7843) `def __init__(self)`
-  - `_load` (method, line 7847) `def _load(self)`
-  - `bindings` (method, line 7860) `def bindings(self, agent)`
-  - `bind` (method, line 7865) `def bind(self, agent, tool)`
-  - `unbind` (method, line 7874) `def unbind(self, agent, tool)`
-  - `ask` (method, line 7894) `def ask(self, task_id, question, pool, session)`
-  - `history` (method, line 7940) `def history(self, task_id, session, limit)`
-  - `sessions` (method, line 7948) `def sessions(self, task_id)`
-  - `__init__` (method, line 7961) `def __init__(self)`
-  - `_load` (method, line 7965) `def _load(self)`
-  - `add` (method, line 7969) `def add(self, name, scope)`
-  - `list` (method, line 7978) `def list(self)`
-  - `match` (method, line 7982) `def match(self, value)`
-  - `save` (method, line 7991) `def save(self, task_id)`
-  - `list` (method, line 8012) `def list(self)`
-  - `restore` (method, line 8034) `def restore(self, path)`
-  - `stats` (method, line 8101) `def stats(self)`
-  - `__init__` (method, line 8110) `def __init__(self)`
-  - `_load` (method, line 8114) `def _load(self)`
-  - `list` (method, line 8118) `def list(self)`
-  - `add` (method, line 8122) `def add(self, name, goal)`
-  - `remove` (method, line 8132) `def remove(self, name)`
-  - `get` (method, line 8142) `def get(self, name)`
-  - `__init__` (method, line 8153) `def __init__(self, store)`
-  - `set` (method, line 8158) `def set(self, task_id, category)`
-  - `get` (method, line 8165) `def get(self, task_id)`
-  - `list` (method, line 8169) `def list(self, category)`
-  - `say` (method, line 8184) `def say(self, task_id, text, pool, session)`
-  - `log` (method, line 8227) `def log(self, task_id, limit, session)`
-  - `sessions` (method, line 8243) `def sessions(self, task_id)`
-  - `clear` (method, line 8252) `def clear(self, task_id, session)`
-  - `__init__` (method, line 8307) `def __init__(self, shell)`
-  - `apply_profile` (method, line 8342) `def apply_profile(self, name)`
-  - `bind_shell` (method, line 8383) `def bind_shell(self, shell)`
-  - `_register_mediators` (method, line 8387) `def _register_mediators(self)`
-  - `_register_guardrails` (method, line 8398) `def _register_guardrails(self)`
-  - `_run_round_guarded` (method, line 8416) `def _run_round_guarded(self, task_id, round_index, workers, executor)`
-  - `_run_worker_guarded` (method, line 8446) `def _run_worker_guarded(self, worker, node, executor)`
-  - `ensure_target` (method, line 8467) `def ensure_target(self, task_id, target, reason)`
-  - `orchestrate` (method, line 8494) `def orchestrate(self, goal, task_id, target, max_rounds, workers, timeout_sec, executor)`
-  - `_parts` (method, line 8517) `def _parts(self, task_id)`
-  - `create_task` (method, line 8522) `def create_task(self, goal, description)`
-  - `spawn_task` (method, line 8551) `def spawn_task(self, goal, source_task_ids, description)`
-  - `list_tasks` (method, line 8601) `def list_tasks(self)`
-  - `pause_task` (method, line 8629) `def pause_task(self, task_id, reason)`
-  - `resume_task` (method, line 8640) `def resume_task(self, task_id)`
-  - `task_graph` (method, line 8650) `def task_graph(self, task_id)`
-  - `task_findings` (method, line 8656) `def task_findings(self, task_id)`
-  - `task_traces` (method, line 8675) `def task_traces(self, task_id, query, limit)`
-  - `task_node_detail` (method, line 8684) `def task_node_detail(self, task_id, node_id)`
-  - `update_finding_report` (method, line 8690) `def update_finding_report(self, task_id, finding_id, report)`
-  - `broadcast_events` (method, line 8702) `def broadcast_events(self, task_id, cursor, batch)`
-  - `add_hint` (method, line 8735) `def add_hint(self, task_id, text)`
-  - `add_intent` (method, line 8753) `def add_intent(self, task_id, summary, asset_ids, parent_ids, priority)`
-  - `set_goals` (method, line 8778) `def set_goals(self, task_id, specs)`
-  - `edit_goal` (method, line 8795) `def edit_goal(self, task_id, goal_id, text)`
-  - `delete_goal` (method, line 8807) `def delete_goal(self, task_id, goal_id)`
-  - `preview_delete_intent` (method, line 8818) `def preview_delete_intent(self, task_id, intent_id)`
-  - `delete_intent` (method, line 8841) `def delete_intent(self, task_id, intent_id, mode, reason)`
-  - `_intent_subtree` (method, line 8950) `def _intent_subtree(self, graph, intent_id)`
-  - `_split_exclusive` (method, line 8965) `def _split_exclusive(self, graph, reachable)`
-  - `pause_intent` (method, line 8986) `def pause_intent(self, task_id, intent_id)`
-  - `resume_intent` (method, line 9011) `def resume_intent(self, task_id, intent_id)`
-  - `send_worker_message` (method, line 9034) `def send_worker_message(self, task_id, intent_id, message, request_id)`
-  - `goal_met` (method, line 9082) `def goal_met(self, task_id, reason)`
-  - `record_fact` (method, line 9092) `def record_fact(self, task_id, text, evidence, intent_id)`
-  - `record_verdict` (method, line 9099) `def record_verdict(self, task_id, finding_id, verdict, note)`
-  - `_sync_intel` (method, line 9172) `def _sync_intel(self, task_id, activity, force)`
-  - `run_round` (method, line 9232) `def run_round(self, task_id, workers, executor, pool)`
-  - `_drain_triggers` (method, line 9507) `def _drain_triggers(self, task_id, graph)`
-  - `_auto_enrich` (method, line 9558) `def _auto_enrich(self, task_id, graph, activity, limit)`
-  - `_auto_retest` (method, line 9594) `def _auto_retest(self, task_id, graph, activity, traffic, executor, limit)`
-  - `_wrapup_summary` (method, line 9614) `def _wrapup_summary(self, task_id, reason)`
-  - `_evaluate_goal` (method, line 9649) `def _evaluate_goal(self, task_id)`
-  - `run` (method, line 9737) `def run(self, task_id, max_rounds, workers, executor, timeout_sec)`
-  - `prove_goal` (method, line 10016) `def prove_goal(self, task_id, goal_id, evidence_id, reason)`
-  - `_check_goals` (method, line 10049) `def _check_goals(self, task_id, graph, activity)`
-  - `_goals_met` (method, line 10056) `def _goals_met(self, task_id)`
-  - `_engagement_decision` (method, line 10062) `def _engagement_decision(self, task_id, round_index, summary)`
-  - `_archive_discards` (method, line 10123) `def _archive_discards(self, task_id, last_results)`
-  - `delete_task` (method, line 10157) `def delete_task(self, task_id)`
-  - `proxy_start` (method, line 10191) `def proxy_start(self, host, port, task_id, trust, upstream)`
-  - `proxy_stop` (method, line 10227) `def proxy_stop(self)`
-  - `proxy_status` (method, line 10235) `def proxy_status(self)`
-  - `proxy_env` (method, line 10241) `def proxy_env(self)`
-  - `set_concurrency` (method, line 10250) `def set_concurrency(self, limit)`
-  - `_sync_c2_board` (method, line 10262) `def _sync_c2_board(self, task_ids)`
-  - `admission_check` (method, line 10271) `def admission_check(self, task_id)`
-  - `drain_queue` (method, line 10290) `def drain_queue(self, max_tasks)`
-  - `ingest_proxy_traffic` (method, line 10318) `def ingest_proxy_traffic(self, task_id, limit)`
-  - `search_proxy_body` (method, line 10372) `def search_proxy_body(self, task_id, query, limit)`
-  - `_maybe_proxy_gc` (method, line 10398) `def _maybe_proxy_gc(self)`
-  - `_maybe_import_inbox` (method, line 10424) `def _maybe_import_inbox(self)`
-  - `_maybe_selfupdate_check` (method, line 10444) `def _maybe_selfupdate_check(self)`
-  - `export_task_traffic` (method, line 10464) `def export_task_traffic(self, task_id)`
-  - `export_evidence` (method, line 10493) `def export_evidence(self, task_id, dest)`
-  - `export_findings_report` (method, line 10552) `def export_findings_report(self, task_id, path, fmt)`
-  - `status` (method, line 10667) `def status(self, task_id)`
-  - `graph_overview` (method, line 10687) `def graph_overview(self, task_id)`
-  - `_finding_list` (method, line 10720) `def _finding_list(self, graph)`
-  - `broadcast` (method, line 10749) `def broadcast(self, task_id, kinds, query, order, page, per_page, states)`
-  - `_broadcast_row` (method, line 10824) `def _broadcast_row(self, graph, node)`
-  - `loop_graph` (method, line 10873) `def loop_graph(self, task_id)`
-  - `graph_context` (method, line 10942) `def graph_context(self, task_id, top)`
-  - `_signature` (function, line 3270) `def _signature(text)`
-  - `sink` (function, line 3682) `def sink(text)`
-  - `_work` (function, line 4767) `def _work()`
-  - `_reader` (function, line 4809) `def _reader()`
-  - `run_command` (function, line 4896) `def run_command(command, background)`
-  - `record_fact` (function, line 4922) `def record_fact(text)`
-  - `report_finding` (function, line 4931) `def report_finding(name, evidence, severity)`
-  - `traffic_search` (function, line 4942) `def traffic_search(query)`
-  - `graph_state` (function, line 4955) `def graph_state()`
-  - `shell_open` (function, line 4970) `def shell_open()`
-  - `shell_send` (function, line 4974) `def shell_send(command)`
-  - `job_status` (function, line 4978) `def job_status(job_id)`
-  - `job_output` (function, line 4986) `def job_output(job_id)`
-  - `sink` (function, line 5444) `def sink(text)`
-  - `_worker` (function, line 6062) `def _worker(work)`
-  - `_find` (function, line 6236) `def _find(value)`
-  - `_union` (function, line 6242) `def _union(left, right)`
-  - `_work` (function, line 6937) `def _work()`
-  - `_run_one` (function, line 9352) `def _run_one(index_node)`
-  - `stage_enabled` (function, line 9283) `def stage_enabled(_name)`
-  - `_stage_enabled` (function, line 9853) `def _stage_enabled(_name)`
-- Depends on: `core/config.py`, `core/crypto.py`, `core/hardening.py`, `core/logging.py`, `core/process.py`, `modules/__init__.py`, `modules/auto_loop_memory.py`, `modules/auto_registry.py`, `modules/autonomous_exploit_engine.py`, `modules/custom_tools.py`, `modules/defense_stages.py`, `modules/digest.py`, `modules/finding_lifecycle.py`, `modules/guardrails/__init__.py`, `modules/harness.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_hostscore.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_ledger.py`, `modules/lazy_orchestrator_feedback.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_skills.py`, `modules/lazy_world_diff.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_ai_bridge.py`, `modules/loop_guardrails.py`, `modules/loop_triggers.py`, `modules/mediation/__init__.py`, `modules/module_registry.py`, `modules/notify.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/progress_ledger.py`, `modules/reaction_bridge.py`, `modules/reactive_engine.py`, `modules/selfupdate.py`, `modules/sinks/findings.py`, `modules/traffic_recorder.py`, `modules/trigger_policy.py`, `modules/world_model.py`, `skills/lazyown_policy.py`, `utils.py`
+  - `looks_like_prose` (function, line 192) `def looks_like_prose(command)`
+  - `_is_host_like_target` (function, line 219) `def _is_host_like_target(value)`
+  - `_sudo_unavailable` (function, line 305) `def _sudo_unavailable(output)`
+  - `_is_ip_literal` (function, line 311) `def _is_ip_literal(value)`
+  - `_valid_nmap_port_spec` (function, line 325) `def _valid_nmap_port_spec(value)`
+  - `repair_worker_command` (function, line 340) `def repair_worker_command(command, target)`
+  - `_host_from_token` (function, line 418) `def _host_from_token(token)`
+  - `loop_exiting` (function, line 470) `def loop_exiting()`
+  - `_register_loop_executor` (function, line 475) `def _register_loop_executor(executor)`
+  - `_unregister_loop_executor` (function, line 481) `def _unregister_loop_executor(executor)`
+  - `arm_exit_watchdog` (function, line 487) `def arm_exit_watchdog(seconds)`
+  - `scrub_secrets` (function, line 510) `def scrub_secrets(text)`
+  - `_restrict_file` (function, line 526) `def _restrict_file(path)`
+  - `_channel_encryption_key` (function, line 534) `def _channel_encryption_key()`
+  - `_encrypt_channel_secret` (function, line 550) `def _encrypt_channel_secret(plaintext)`
+  - `_decrypt_channel_secret` (function, line 588) `def _decrypt_channel_secret(stored)`
+  - `wake_task` (function, line 606) `def wake_task(task_id)`
+  - `_wake_event` (function, line 620) `def _wake_event(task_id)`
+  - `_drop_wake_event` (function, line 630) `def _drop_wake_event(task_id)`
+  - `register_worker` (function, line 640) `def register_worker(worker)`
+  - `unregister_worker` (function, line 646) `def unregister_worker(worker)`
+  - `shutdown_loop_runtime` (function, line 652) `def shutdown_loop_runtime(reason)`
+  - `_noa_enabled` (function, line 738) `def _noa_enabled()`
+  - `_now` (function, line 780) `def _now()`
+  - `_store_path` (function, line 785) `def _store_path(name)`
+  - `_load_json` (function, line 798) `def _load_json(path, default)`
+  - `_save_json` (function, line 808) `def _save_json(path, payload)`
+  - `_slug` (function, line 823) `def _slug(value)`
+  - `_traffic_template` (function, line 828) `def _traffic_template(command)`
+  - `_llm_error_reply` (function, line 838) `def _llm_error_reply(text)`
+  - `_llm_quota_reply` (function, line 846) `def _llm_quota_reply(text)`
+  - `task_llm_chain` (function, line 867) `def task_llm_chain(store, task_id)`
+  - `parse_judge_output` (function, line 877) `def parse_judge_output(raw)`
+  - `judge_command` (function, line 905) `def judge_command(command, background, fail_action)`
+  - `ExplorationNode` (class, line 947) `class ExplorationNode`
+  - `ExplorationEdge` (class, line 961) `class ExplorationEdge`
+  - `AssetNode` (class, line 970) `class AssetNode`
+  - `LazyTask` (class, line 984) `class LazyTask`
+  - `AssetGraph` (class, line 995) `class AssetGraph`
+  - `ExplorationGraph` (class, line 1158) `class ExplorationGraph`
+  - `Frontier` (class, line 1480) `class Frontier`
+  - `ActivityLog` (class, line 1508) `class ActivityLog`
+  - `TrafficLog` (class, line 1641) `class TrafficLog`
+  - `Guard` (class, line 1899) `class Guard`
+  - `_scope_host` (function, line 2107) `def _scope_host(value)`
+  - `_scope_covers` (function, line 2117) `def _scope_covers(scope_kind, scope_value, asset)`
+  - `_target_as_asset` (function, line 2167) `def _target_as_asset(value)`
+  - `_asset_candidates` (function, line 2184) `def _asset_candidates(target)`
+  - `_match_gate_rule` (function, line 2205) `def _match_gate_rule(rule, target)`
+  - `AssetGate` (class, line 2240) `class AssetGate`
+  - `Budget` (class, line 2334) `class Budget`
+  - `RuntimeTracker` (class, line 2418) `class RuntimeTracker`
+  - `InterceptQueue` (class, line 2486) `class InterceptQueue`
+  - `TodoStore` (class, line 2646) `class TodoStore`
+  - `TaskStore` (class, line 2688) `class TaskStore`
+  - `extract_scope_items` (function, line 2961) `def extract_scope_items(goal_text, description)`
+  - `extract_constraint_items` (function, line 2993) `def extract_constraint_items(goal_text, description)`
+  - `_lazy_policy` (function, line 3035) `def _lazy_policy()`
+  - `_policy_proposals` (function, line 3057) `def _policy_proposals(policy, target)`
+  - `load_intel_scores` (function, line 3085) `def load_intel_scores()`
+  - `resolve_target` (function, line 3114) `def resolve_target(task_id, store, graph)`
+  - `decompose_goals` (function, line 3137) `def decompose_goals(goal_text, description)`
+  - `enrich_asset` (function, line 3174) `def enrich_asset(value)`
+  - `Planner` (class, line 3197) `class Planner`
+  - `Worker` (class, line 3935) `class Worker`
+  - `_is_scan_command` (function, line 5976) `def _is_scan_command(command)`
+  - `_host_like_target` (function, line 5985) `def _host_like_target(target)`
+  - `Retester` (class, line 5993) `class Retester`
+  - `ColdCompactor` (class, line 6180) `class ColdCompactor`
+  - `constraint_block` (function, line 6749) `def constraint_block(constraints, scope)`
+  - `settlement_prompt` (function, line 6783) `def settlement_prompt(agent, reason)`
+  - `terminal_hint` (function, line 6844) `def terminal_hint(reason, state)`
+  - `build_prompt_context` (function, line 6874) `def build_prompt_context(task_id, graph, assets, store, budget, top)`
+  - `_mask_prompt_context` (function, line 6953) `def _mask_prompt_context(text)`
+  - `finding_severity` (function, line 6963) `def finding_severity(text, evidence)`
+  - `FindingService` (class, line 6995) `class FindingService`
+  - `EvidenceStore` (class, line 7313) `class EvidenceStore`
+  - `Notifier` (class, line 7416) `class Notifier`
+  - `LlmPool` (class, line 7585) `class LlmPool`
+  - `ToolCatalog` (class, line 8078) `class ToolCatalog`
+  - `SideQuestions` (class, line 8122) `class SideQuestions`
+  - `CompanyScope` (class, line 8196) `class CompanyScope`
+  - `TaskArchive` (class, line 8226) `class TaskArchive`
+  - `TaskTemplate` (class, line 8345) `class TaskTemplate`
+  - `TaskCategory` (class, line 8388) `class TaskCategory`
+  - `TaskChat` (class, line 8415) `class TaskChat`
+  - `LazyLoopEngine` (class, line 8520) `class LazyLoopEngine`
+  - `_kill` (function, line 497) `def _kill()`
+  - `__init__` (method, line 998) `def __init__(self)`
+  - `_persist` (method, line 1012) `def _persist(self)`
+  - `dedupe_key` (method, line 1016) `def dedupe_key(self, kind, value, parent_id)`
+  - `insert` (method, line 1020) `def insert(self, kind, value, parent_id, meta, task_id)`
+  - `get` (method, line 1050) `def get(self, asset_id)`
+  - `list` (method, line 1054) `def list(self, kind)`
+  - `mark_tested` (method, line 1061) `def mark_tested(self, asset_id)`
+  - `coverage` (method, line 1071) `def coverage(self, scope)`
+  - `scoped` (method, line 1087) `def scoped(self, scope, kind)`
+  - `untested` (method, line 1100) `def untested(self, limit)`
+  - `coverage_for` (method, line 1105) `def coverage_for(self, graph, scope)`
+  - `untested_for` (method, line 1133) `def untested_for(self, graph, scope, limit)`
+  - `__init__` (method, line 1161) `def __init__(self, task_id)`
+  - `_persist` (method, line 1183) `def _persist(self)`
+  - `add_node` (method, line 1195) `def add_node(self, kind, text, state, priority, meta)`
+  - `get` (method, line 1223) `def get(self, node_id)`
+  - `persist` (method, line 1227) `def persist(self)`
+  - `set_node_state` (method, line 1231) `def set_node_state(self, node_id, state)`
+  - `set_node_meta` (method, line 1250) `def set_node_meta(self, node_id, meta)`
+  - `set_state` (method, line 1269) `def set_state(self, node_id, state)`
+  - `add_edge` (method, line 1280) `def add_edge(self, src, dst, kind)`
+  - `anchor` (method, line 1293) `def anchor(self, node_id, asset_id)`
+  - `anchors_for` (method, line 1304) `def anchors_for(self, node_id)`
+  - `anchored_nodes` (method, line 1308) `def anchored_nodes(self, asset_id)`
+  - `list` (method, line 1312) `def list(self, kind, state)`
+  - `children` (method, line 1321) `def children(self, node_id, kind)`
+  - `parents` (method, line 1328) `def parents(self, node_id, kind)`
+  - `overview` (method, line 1335) `def overview(self)`
+  - `reload` (method, line 1358) `def reload(self)`
+  - `compare_and_claim` (method, line 1382) `def compare_and_claim(self, node_id)`
+  - `finding_signature` (method, line 1410) `def finding_signature(self, text)`
+  - `has_finding` (method, line 1416) `def has_finding(self, text)`
+  - `node_detail` (method, line 1426) `def node_detail(self, node_id)`
+  - `list_facts` (method, line 1442) `def list_facts(self, query, limit, hot_full)`
+  - `record_fact` (method, line 1458) `def record_fact(self, text, evidence, confidence, intent_id, asset_ids)`
+  - `__init__` (method, line 1483) `def __init__(self, graph)`
+  - `pending` (method, line 1488) `def pending(self)`
+  - `claim_next` (method, line 1493) `def claim_next(self)`
+  - `__init__` (method, line 1511) `def __init__(self, task_id)`
+  - `emit` (method, line 1516) `def emit(self, worker, kind, text, intent_id, tool_use_id)`
+  - `read` (method, line 1541) `def read(self, limit)`
+  - `for_intent` (method, line 1555) `def for_intent(self, intent_id)`
+  - `trace` (method, line 1559) `def trace(self, intent_id, query, step_id, limit)`
+  - `search_all` (method, line 1597) `def search_all(self, query, limit)`
+  - `search` (method, line 1627) `def search(self, query, exclude_intent)`
+  - `__init__` (method, line 1644) `def __init__(self, task_id)`
+  - `record` (method, line 1649) `def record(self, kind, command, output, meta)`
+  - `read` (method, line 1671) `def read(self, limit)`
+  - `search` (method, line 1685) `def search(self, query, limit)`
+  - `search_host` (method, line 1696) `def search_host(self, host, port, limit)`
+  - `get` (method, line 1724) `def get(self, digest)`
+  - `recorder_body` (method, line 1731) `def recorder_body(self, digest)`
+  - `recorder_blob` (method, line 1760) `def recorder_blob(self, digest, part, offset, length)`
+  - `templates` (method, line 1791) `def templates(self, limit)`
+  - `by_template` (method, line 1800) `def by_template(self, template, limit)`
+  - `bind` (method, line 1805) `def bind(self, finding_id, digest, graph, role, note)`
+  - `_normalize_refs` (method, line 1836) `def _normalize_refs(raw)`
+  - `evidence` (method, line 1853) `def evidence(self, finding_id, graph)`
+  - `reorder_evidence` (method, line 1862) `def reorder_evidence(self, finding_id, digests, graph)`
+  - `export` (method, line 1876) `def export(self, path, limit)`
+  - `archive` (method, line 1883) `def archive(self, label)`
+  - `clear` (method, line 1889) `def clear(self)`
+  - `__init__` (method, line 1902) `def __init__(self, task_id)`
+  - `_persist` (method, line 1921) `def _persist(self)`
+  - `add_rule` (method, line 1928) `def add_rule(self, pattern, action, reason, priority)`
+  - `remove_rule` (method, line 1939) `def remove_rule(self, pattern)`
+  - `set_judge` (method, line 1948) `def set_judge(self, enabled, fail_action)`
+  - `check` (method, line 1970) `def check(self, tool, command, tool_use_id, source, intent_id)`
+  - `audit` (method, line 2022) `def audit(self, limit, action, source, query)`
+  - `lookup` (method, line 2050) `def lookup(self, tool_use_id)`
+  - `stats` (method, line 2092) `def stats(self)`
+  - `__init__` (method, line 2249) `def __init__(self, task_id)`
+  - `_load_global` (method, line 2256) `def _load_global(self)`
+  - `_load_task` (method, line 2260) `def _load_task(self)`
+  - `_save_global` (method, line 2267) `def _save_global(self, block)`
+  - `_save_task` (method, line 2271) `def _save_task(self, payload)`
+  - `add` (method, line 2276) `def add(self, kind, pattern, note, action)`
+  - `remove` (method, line 2297) `def remove(self, rule_id, action)`
+  - `list` (method, line 2315) `def list(self)`
+  - `evaluate` (method, line 2319) `def evaluate(self, target)`
+  - `__init__` (method, line 2337) `def __init__(self, store)`
+  - `limits` (method, line 2341) `def limits(self, task_id)`
+  - `set_limits` (method, line 2352) `def set_limits(self, task_id)`
+  - `usage` (method, line 2365) `def usage(self, task_id)`
+  - `record_toolcall` (method, line 2375) `def record_toolcall(self, task_id, intent_id)`
+  - `record_round` (method, line 2387) `def record_round(self, task_id)`
+  - `check` (method, line 2405) `def check(self, task_id)`
+  - `__init__` (method, line 2421) `def __init__(self, store)`
+  - `heartbeat` (method, line 2425) `def heartbeat(self, task_id)`
+  - `beat` (method, line 2443) `def beat(self, task_id, workers)`
+  - `abort` (method, line 2458) `def abort(self, task_id, cause, detail)`
+  - `note_trigger` (method, line 2474) `def note_trigger(self, task_id, trigger_id)`
+  - `_event_for` (method, line 2493) `def _event_for(cls, path, item_id)`
+  - `_drop_event` (method, line 2510) `def _drop_event(cls, path, item_id)`
+  - `__init__` (method, line 2515) `def __init__(self, task_id)`
+  - `_load` (method, line 2521) `def _load(self)`
+  - `_save` (method, line 2525) `def _save(self, payload)`
+  - `request` (method, line 2529) `def request(self, tool, command, reason, tool_use_id)`
+  - `pending` (method, line 2547) `def pending(self)`
+  - `history` (method, line 2551) `def history(self, page, per_page, states, query)`
+  - `decide` (method, line 2603) `def decide(self, item_id, verdict)`
+  - `wait` (method, line 2617) `def wait(self, item_id, timeout_sec)`
+  - `__init__` (method, line 2649) `def __init__(self, task_id)`
+  - `_persist` (method, line 2656) `def _persist(self)`
+  - `add` (method, line 2660) `def add(self, text)`
+  - `complete` (method, line 2667) `def complete(self, item_id)`
+  - `next_pending` (method, line 2676) `def next_pending(self)`
+  - `as_list` (method, line 2683) `def as_list(self)`
+  - `__init__` (method, line 2691) `def __init__(self)`
+  - `_persist` (method, line 2696) `def _persist(self)`
+  - `create` (method, line 2700) `def create(self, goal, description)`
+  - `get` (method, line 2711) `def get(self, task_id)`
+  - `list` (method, line 2715) `def list(self)`
+  - `set_status` (method, line 2719) `def set_status(self, task_id, status)`
+  - `pause` (method, line 2731) `def pause(self, task_id)`
+  - `resume` (method, line 2735) `def resume(self, task_id)`
+  - `delete` (method, line 2744) `def delete(self, task_id)`
+  - `active_count` (method, line 2753) `def active_count(self, exclude)`
+  - `queue` (method, line 2757) `def queue(self)`
+  - `enqueue` (method, line 2762) `def enqueue(self, task_id)`
+  - `dequeue_next` (method, line 2773) `def dequeue_next(self)`
+  - `_refresh` (method, line 2784) `def _refresh(self)`
+  - `set_llm_chain` (method, line 2788) `def set_llm_chain(self, task_id, members, active)`
+  - `llm_state` (method, line 2816) `def llm_state(self, task_id)`
+  - `advance_llm` (method, line 2822) `def advance_llm(self, task_id)`
+  - `set_skills` (method, line 2846) `def set_skills(self, task_id, names, auto)`
+  - `set_deadline` (method, line 2871) `def set_deadline(self, task_id, timeout_sec)`
+  - `expired` (method, line 2881) `def expired(self, task_id)`
+  - `add_constraint` (method, line 2887) `def add_constraint(self, task_id, ctype, text, scope)`
+  - `add_scope` (method, line 2906) `def add_scope(self, task_id, kind, value, reason)`
+  - `steer` (method, line 2917) `def steer(self, task_id, intent_id, message)`
+  - `kill` (method, line 2926) `def kill(self, task_id, intent_id)`
+  - `steer_for` (method, line 2937) `def steer_for(self, task_id, intent_id)`
+  - `clear_steer` (method, line 2942) `def clear_steer(self, task_id, intent_id)`
+  - `killed` (method, line 2955) `def killed(self, task_id, intent_id)`
+  - `__init__` (method, line 3200) `def __init__(self, task_id, assets, graph, activity, store)`
+  - `_constraints` (method, line 3211) `def _constraints(self)`
+  - `_denied` (method, line 3220) `def _denied(self, text)`
+  - `plan` (method, line 3228) `def plan(self, triggers)`
+  - `refine` (method, line 3307) `def refine(self)`
+  - `_origin_fact` (method, line 3380) `def _origin_fact(self)`
+  - `_ledger_fresh_summary` (method, line 3389) `def _ledger_fresh_summary(self, summary)`
+  - `_current_phase` (method, line 3412) `def _current_phase(self)`
+  - `_target_services` (method, line 3421) `def _target_services(self, target)`
+  - `_os_hint` (method, line 3441) `def _os_hint()`
+  - `_selector_candidates` (method, line 3453) `def _selector_candidates(self)`
+  - `_has_creds` (method, line 3498) `def _has_creds()`
+  - `_candidates` (method, line 3510) `def _candidates(self)`
+  - `_rl_rank` (method, line 3754) `def _rl_rank(self, out)`
+  - `finalize` (method, line 3812) `def finalize(self, reason)`
+  - `_delta_sink` (method, line 3828) `def _delta_sink(self)`
+  - `_llm_candidates` (method, line 3842) `def _llm_candidates(self, existing)`
+  - `_stall_intent` (method, line 3909) `def _stall_intent(self, existing)`
+  - `__init__` (method, line 3938) `def __init__(self, name, task_id, assets, graph, activity, traffic, guard, store, shell, ephemeral)`
+  - `rebind` (method, line 3986) `def rebind(self, assets, graph, activity, traffic, guard, store, shell)`
+  - `close` (method, line 4010) `def close(self)`
+  - `_scope_allows_target` (method, line 4021) `def _scope_allows_target(self, target)`
+  - `_lab_scope_default` (method, line 4050) `def _lab_scope_default(self, target)`
+  - `_prior_steps` (method, line 4082) `def _prior_steps(self, intent)`
+  - `execute` (method, line 4106) `def execute(self, intent, executor, timeout_sec)`
+  - `_finish` (method, line 4382) `def _finish(self, intent, outcome, transcripts, worker_tools, skipped_tools)`
+  - `_target_for` (method, line 4459) `def _target_for(self, intent)`
+  - `_failure_memory` (method, line 4467) `def _failure_memory(self)`
+  - `_os_gate` (method, line 4486) `def _os_gate(self, intent, command)`
+  - `_learn_os` (method, line 4512) `def _learn_os(self, intent, command, output)`
+  - `_fact_memory_store` (method, line 4539) `def _fact_memory_store(self)`
+  - `_remember_fact` (method, line 4545) `def _remember_fact(self, intent, command, output)`
+  - `_recall_facts` (method, line 4554) `def _recall_facts(self, query, k)`
+  - `_absorb_reaction` (method, line 4561) `def _absorb_reaction(self, intent, command, output)`
+  - `_guard_step` (method, line 4613) `def _guard_step(self, intent, command, executor, budget, intercept, retry_state)`
+  - `_agent_checkpoint` (method, line 4858) `def _agent_checkpoint(self, intent)`
+  - `_drain_steer` (method, line 4873) `def _drain_steer(self, intent)`
+  - `_agent_preflight` (method, line 4884) `def _agent_preflight(self, intent, command)`
+  - `_start_background_job` (method, line 4917) `def _start_background_job(self, command, intent, transcripts)`
+  - `_open_shell_session` (method, line 4949) `def _open_shell_session(self, intent)`
+  - `_send_shell` (method, line 4984) `def _send_shell(self, command, intent, timeout_sec)`
+  - `_close_shell_session` (method, line 5020) `def _close_shell_session(self)`
+  - `_agent_tools` (method, line 5047) `def _agent_tools(self, intent, executor, transcripts, budget, intercept, retry_state)`
+  - `_agent_system_prompt` (method, line 5229) `def _agent_system_prompt(self, intent)`
+  - `_agentic_try` (method, line 5261) `def _agentic_try(self, intent, outcome, transcripts, executor, budget, intercept, retry_state)`
+  - `_denied` (method, line 5359) `def _denied(self, command)`
+  - `_auto_approve` (method, line 5370) `def _auto_approve(self, command)`
+  - `_missing_tool` (method, line 5382) `def _missing_tool(self, command)`
+  - `_run` (method, line 5398) `def _run(self, command, executor)`
+  - `_with_llm_steps` (method, line 5448) `def _with_llm_steps(self, intent, steps, prior_text)`
+  - `_llm_steps` (method, line 5466) `def _llm_steps(self, intent, prior_text)`
+  - `_settle_partial` (method, line 5561) `def _settle_partial(self, intent, transcripts, reason)`
+  - `_delta_sink` (method, line 5602) `def _delta_sink(self, intent_id)`
+  - `_resolved_command` (method, line 5626) `def _resolved_command(self, command)`
+  - `_sudo_guard` (method, line 5640) `def _sudo_guard(self, intent, command)`
+  - `_task_executed_commands` (method, line 5667) `def _task_executed_commands(self)`
+  - `_sanitize_step` (method, line 5690) `def _sanitize_step(self, intent, command)`
+  - `_command_in_scope` (method, line 5703) `def _command_in_scope(self, command)`
+  - `_auto_bind_body_hits` (method, line 5712) `def _auto_bind_body_hits(self, finding, seed)`
+  - `_steps_for` (method, line 5764) `def _steps_for(self, intent)`
+  - `_writeback` (method, line 5834) `def _writeback(self, intent, transcripts, allow_finding)`
+  - `__init__` (method, line 5996) `def __init__(self, graph, activity, traffic)`
+  - `retest` (method, line 6002) `def retest(self, finding_id, executor, note)`
+  - `_structured_verdict` (method, line 6113) `def _structured_verdict(self, finding)`
+  - `retest_context` (method, line 6166) `def retest_context(self, finding_id)`
+  - `__init__` (method, line 6188) `def __init__(self, graph, activity)`
+  - `_cold_path` (method, line 6193) `def _cold_path(self)`
+  - `_load_cold` (method, line 6197) `def _load_cold(self)`
+  - `_save_cold` (method, line 6201) `def _save_cold(self, payload)`
+  - `_bodies_path` (method, line 6205) `def _bodies_path(self)`
+  - `_load_bodies` (method, line 6209) `def _load_bodies(self)`
+  - `_save_bodies` (method, line 6213) `def _save_bodies(self, payload)`
+  - `_request_bodies` (method, line 6217) `def _request_bodies(self, blocks, cold)`
+  - `_noa_archive` (method, line 6266) `def _noa_archive(self, signature, members, anchors)`
+  - `noa_archives` (method, line 6298) `def noa_archives(self, limit)`
+  - `_apply_stored_bodies` (method, line 6323) `def _apply_stored_bodies(self, bodies)`
+  - `_is_live_intent` (method, line 6347) `def _is_live_intent(self, node)`
+  - `_foldable` (method, line 6351) `def _foldable(self, node)`
+  - `hot_set` (method, line 6357) `def hot_set(self)`
+  - `structural_cold` (method, line 6379) `def structural_cold(self, hot)`
+  - `_content_versions` (method, line 6383) `def _content_versions(self)`
+  - `_block_signature` (method, line 6391) `def _block_signature(self, members, anchors, versions)`
+  - `_group` (method, line 6400) `def _group(self, eligible)`
+  - `covered_members` (method, line 6464) `def covered_members(self)`
+  - `on_planner_round` (method, line 6476) `def on_planner_round(self)`
+  - `compact` (method, line 6517) `def compact(self, threshold, mode, debounce_sec)`
+  - `expand` (method, line 6644) `def expand(self, digest_id, role)`
+  - `cold_index` (method, line 6668) `def cold_index(self)`
+  - `unfolded` (method, line 6686) `def unfolded(self, limit)`
+  - `digest_overview` (method, line 6702) `def digest_overview(self)`
+  - `__init__` (method, line 6998) `def __init__(self, task_id, graph, activity, store)`
+  - `_technique_for` (method, line 7006) `def _technique_for(vulnclass, text)`
+  - `report` (method, line 7030) `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)`
+  - `_drafts_ready_path` (method, line 7137) `def _drafts_ready_path(self)`
+  - `_draft_report` (method, line 7141) `def _draft_report(self, node)`
+  - `_reporter_reply` (method, line 7196) `def _reporter_reply(self, pool, chain, entry)`
+  - `_write_draft` (method, line 7212) `def _write_draft(self, finding_id, report, evidence_version)`
+  - `apply_drafts` (method, line 7230) `def apply_drafts(self)`
+  - `set_status` (method, line 7267) `def set_status(self, finding_id, status)`
+  - `update_report` (method, line 7284) `def update_report(self, finding_id, report)`
+  - `ranked` (method, line 7306) `def ranked(self)`
+  - `__init__` (method, line 7316) `def __init__(self, task_id)`
+  - `_load` (method, line 7321) `def _load(self)`
+  - `add` (method, line 7325) `def add(self, finding_id, kind, body)`
+  - `verify` (method, line 7342) `def verify(self)`
+  - `gc` (method, line 7351) `def gc(self, valid_findings)`
+  - `for_finding` (method, line 7367) `def for_finding(self, finding_id)`
+  - `read` (method, line 7371) `def read(self, evidence_id, offset, length)`
+  - `export` (method, line 7408) `def export(self, path)`
+  - `__init__` (method, line 7419) `def __init__(self, store)`
+  - `channels` (method, line 7423) `def channels(self)`
+  - `add_channel` (method, line 7431) `def add_channel(self, kind, target, min_severity, extra)`
+  - `remove_channel` (method, line 7478) `def remove_channel(self, index)`
+  - `_send_email` (method, line 7491) `def _send_email(channel, line, event)`
+  - `emit` (method, line 7529) `def emit(self, task_id, event, data)`
+  - `__init__` (method, line 7602) `def __init__(self)`
+  - `_seed_defaults` (method, line 7613) `def _seed_defaults(self)`
+  - `members` (method, line 7637) `def members(self)`
+  - `add_member` (method, line 7642) `def add_member(self, name, model, priority)`
+  - `remove_member` (method, line 7651) `def remove_member(self, name)`
+  - `set_priority` (method, line 7661) `def set_priority(self, name, priority)`
+  - `usage` (method, line 7674) `def usage(self)`
+  - `_record` (method, line 7678) `def _record(self, member, ok, text)`
+  - `record_call` (method, line 7684) `def record_call(self, member, ok, text)`
+  - `_breaker_active` (method, line 7698) `def _breaker_active(self)`
+  - `_rotated_chain` (method, line 7707) `def _rotated_chain(self, chain)`
+  - `_reorder_with_ai` (method, line 7736) `def _reorder_with_ai(self, chain, live_log)`
+  - `_record_ai_outcome` (method, line 7778) `def _record_ai_outcome(self, member, ok, live_log)`
+  - `complete` (method, line 7793) `def complete(self, prompt, max_tokens, empty_retries, members, task_id, on_delta)`
+  - `health` (method, line 7958) `def health(self)`
+  - `context_budget` (method, line 7969) `def context_budget(self)`
+  - `record_raw` (method, line 7974) `def record_raw(self)`
+  - `set_record_raw` (method, line 7979) `def set_record_raw(self, enabled)`
+  - `raw_entries` (method, line 7986) `def raw_entries(self, limit)`
+  - `raw_entries_for_task` (method, line 8000) `def raw_entries_for_task(self, task_id, limit)`
+  - `_record_raw` (method, line 8033) `def _record_raw(self, member, prompt, reply, ok, task_id, model_spec)`
+  - `set_context_budget` (method, line 8063) `def set_context_budget(self, chars)`
+  - `__init__` (method, line 8081) `def __init__(self)`
+  - `_load` (method, line 8085) `def _load(self)`
+  - `bindings` (method, line 8098) `def bindings(self, agent)`
+  - `bind` (method, line 8103) `def bind(self, agent, tool)`
+  - `unbind` (method, line 8112) `def unbind(self, agent, tool)`
+  - `ask` (method, line 8132) `def ask(self, task_id, question, pool, session)`
+  - `history` (method, line 8178) `def history(self, task_id, session, limit)`
+  - `sessions` (method, line 8186) `def sessions(self, task_id)`
+  - `__init__` (method, line 8199) `def __init__(self)`
+  - `_load` (method, line 8203) `def _load(self)`
+  - `add` (method, line 8207) `def add(self, name, scope)`
+  - `list` (method, line 8216) `def list(self)`
+  - `match` (method, line 8220) `def match(self, value)`
+  - `save` (method, line 8229) `def save(self, task_id)`
+  - `list` (method, line 8250) `def list(self)`
+  - `restore` (method, line 8272) `def restore(self, path)`
+  - `stats` (method, line 8339) `def stats(self)`
+  - `__init__` (method, line 8348) `def __init__(self)`
+  - `_load` (method, line 8352) `def _load(self)`
+  - `list` (method, line 8356) `def list(self)`
+  - `add` (method, line 8360) `def add(self, name, goal)`
+  - `remove` (method, line 8370) `def remove(self, name)`
+  - `get` (method, line 8380) `def get(self, name)`
+  - `__init__` (method, line 8391) `def __init__(self, store)`
+  - `set` (method, line 8396) `def set(self, task_id, category)`
+  - `get` (method, line 8403) `def get(self, task_id)`
+  - `list` (method, line 8407) `def list(self, category)`
+  - `say` (method, line 8422) `def say(self, task_id, text, pool, session)`
+  - `log` (method, line 8465) `def log(self, task_id, limit, session)`
+  - `sessions` (method, line 8481) `def sessions(self, task_id)`
+  - `clear` (method, line 8490) `def clear(self, task_id, session)`
+  - `__init__` (method, line 8545) `def __init__(self, shell)`
+  - `apply_profile` (method, line 8580) `def apply_profile(self, name)`
+  - `bind_shell` (method, line 8621) `def bind_shell(self, shell)`
+  - `_register_mediators` (method, line 8625) `def _register_mediators(self)`
+  - `_register_guardrails` (method, line 8636) `def _register_guardrails(self)`
+  - `_run_round_guarded` (method, line 8654) `def _run_round_guarded(self, task_id, round_index, workers, executor)`
+  - `_run_worker_guarded` (method, line 8684) `def _run_worker_guarded(self, worker, node, executor)`
+  - `ensure_target` (method, line 8705) `def ensure_target(self, task_id, target, reason)`
+  - `orchestrate` (method, line 8732) `def orchestrate(self, goal, task_id, target, max_rounds, workers, timeout_sec, executor)`
+  - `_parts` (method, line 8755) `def _parts(self, task_id)`
+  - `create_task` (method, line 8760) `def create_task(self, goal, description)`
+  - `spawn_task` (method, line 8789) `def spawn_task(self, goal, source_task_ids, description)`
+  - `list_tasks` (method, line 8839) `def list_tasks(self)`
+  - `pause_task` (method, line 8867) `def pause_task(self, task_id, reason)`
+  - `resume_task` (method, line 8878) `def resume_task(self, task_id)`
+  - `task_graph` (method, line 8888) `def task_graph(self, task_id)`
+  - `task_findings` (method, line 8894) `def task_findings(self, task_id)`
+  - `task_traces` (method, line 8913) `def task_traces(self, task_id, query, limit)`
+  - `task_node_detail` (method, line 8922) `def task_node_detail(self, task_id, node_id)`
+  - `update_finding_report` (method, line 8928) `def update_finding_report(self, task_id, finding_id, report)`
+  - `broadcast_events` (method, line 8940) `def broadcast_events(self, task_id, cursor, batch)`
+  - `add_hint` (method, line 8973) `def add_hint(self, task_id, text)`
+  - `add_intent` (method, line 8991) `def add_intent(self, task_id, summary, asset_ids, parent_ids, priority)`
+  - `set_goals` (method, line 9016) `def set_goals(self, task_id, specs)`
+  - `edit_goal` (method, line 9033) `def edit_goal(self, task_id, goal_id, text)`
+  - `delete_goal` (method, line 9045) `def delete_goal(self, task_id, goal_id)`
+  - `preview_delete_intent` (method, line 9056) `def preview_delete_intent(self, task_id, intent_id)`
+  - `delete_intent` (method, line 9079) `def delete_intent(self, task_id, intent_id, mode, reason)`
+  - `_intent_subtree` (method, line 9188) `def _intent_subtree(self, graph, intent_id)`
+  - `_split_exclusive` (method, line 9203) `def _split_exclusive(self, graph, reachable)`
+  - `pause_intent` (method, line 9224) `def pause_intent(self, task_id, intent_id)`
+  - `resume_intent` (method, line 9249) `def resume_intent(self, task_id, intent_id)`
+  - `send_worker_message` (method, line 9272) `def send_worker_message(self, task_id, intent_id, message, request_id)`
+  - `goal_met` (method, line 9320) `def goal_met(self, task_id, reason)`
+  - `record_fact` (method, line 9330) `def record_fact(self, task_id, text, evidence, intent_id)`
+  - `record_verdict` (method, line 9337) `def record_verdict(self, task_id, finding_id, verdict, note)`
+  - `_sync_intel` (method, line 9410) `def _sync_intel(self, task_id, activity, force)`
+  - `run_round` (method, line 9470) `def run_round(self, task_id, workers, executor, pool)`
+  - `_drain_triggers` (method, line 9745) `def _drain_triggers(self, task_id, graph)`
+  - `_auto_enrich` (method, line 9796) `def _auto_enrich(self, task_id, graph, activity, limit)`
+  - `_auto_retest` (method, line 9832) `def _auto_retest(self, task_id, graph, activity, traffic, executor, limit)`
+  - `_wrapup_summary` (method, line 9852) `def _wrapup_summary(self, task_id, reason)`
+  - `_evaluate_goal` (method, line 9887) `def _evaluate_goal(self, task_id)`
+  - `run` (method, line 9975) `def run(self, task_id, max_rounds, workers, executor, timeout_sec)`
+  - `prove_goal` (method, line 10254) `def prove_goal(self, task_id, goal_id, evidence_id, reason)`
+  - `_check_goals` (method, line 10287) `def _check_goals(self, task_id, graph, activity)`
+  - `_goals_met` (method, line 10294) `def _goals_met(self, task_id)`
+  - `_engagement_decision` (method, line 10300) `def _engagement_decision(self, task_id, round_index, summary)`
+  - `_archive_discards` (method, line 10361) `def _archive_discards(self, task_id, last_results)`
+  - `delete_task` (method, line 10395) `def delete_task(self, task_id)`
+  - `proxy_start` (method, line 10429) `def proxy_start(self, host, port, task_id, trust, upstream)`
+  - `proxy_stop` (method, line 10465) `def proxy_stop(self)`
+  - `proxy_status` (method, line 10473) `def proxy_status(self)`
+  - `proxy_env` (method, line 10479) `def proxy_env(self)`
+  - `set_concurrency` (method, line 10488) `def set_concurrency(self, limit)`
+  - `_sync_c2_board` (method, line 10500) `def _sync_c2_board(self, task_ids)`
+  - `admission_check` (method, line 10509) `def admission_check(self, task_id)`
+  - `drain_queue` (method, line 10528) `def drain_queue(self, max_tasks)`
+  - `ingest_proxy_traffic` (method, line 10556) `def ingest_proxy_traffic(self, task_id, limit)`
+  - `search_proxy_body` (method, line 10610) `def search_proxy_body(self, task_id, query, limit)`
+  - `_maybe_proxy_gc` (method, line 10636) `def _maybe_proxy_gc(self)`
+  - `_maybe_import_inbox` (method, line 10662) `def _maybe_import_inbox(self)`
+  - `_maybe_selfupdate_check` (method, line 10682) `def _maybe_selfupdate_check(self)`
+  - `export_task_traffic` (method, line 10702) `def export_task_traffic(self, task_id)`
+  - `export_evidence` (method, line 10731) `def export_evidence(self, task_id, dest)`
+  - `export_findings_report` (method, line 10790) `def export_findings_report(self, task_id, path, fmt)`
+  - `status` (method, line 10905) `def status(self, task_id)`
+  - `graph_overview` (method, line 10925) `def graph_overview(self, task_id)`
+  - `_finding_list` (method, line 10958) `def _finding_list(self, graph)`
+  - `broadcast` (method, line 10987) `def broadcast(self, task_id, kinds, query, order, page, per_page, states)`
+  - `_broadcast_row` (method, line 11062) `def _broadcast_row(self, graph, node)`
+  - `loop_graph` (method, line 11111) `def loop_graph(self, task_id)`
+  - `graph_context` (method, line 11180) `def graph_context(self, task_id, top)`
+  - `_signature` (function, line 3321) `def _signature(text)`
+  - `sink` (function, line 3832) `def sink(text)`
+  - `_work` (function, line 4929) `def _work()`
+  - `_reader` (function, line 4971) `def _reader()`
+  - `run_command` (function, line 5058) `def run_command(command, background)`
+  - `record_fact` (function, line 5084) `def record_fact(text)`
+  - `report_finding` (function, line 5093) `def report_finding(name, evidence, severity)`
+  - `traffic_search` (function, line 5104) `def traffic_search(query)`
+  - `graph_state` (function, line 5117) `def graph_state()`
+  - `shell_open` (function, line 5132) `def shell_open()`
+  - `shell_send` (function, line 5136) `def shell_send(command)`
+  - `job_status` (function, line 5140) `def job_status(job_id)`
+  - `job_output` (function, line 5148) `def job_output(job_id)`
+  - `sink` (function, line 5611) `def sink(text)`
+  - `_worker` (function, line 6238) `def _worker(work)`
+  - `_find` (function, line 6412) `def _find(value)`
+  - `_union` (function, line 6418) `def _union(left, right)`
+  - `_work` (function, line 7175) `def _work()`
+  - `_run_one` (function, line 9590) `def _run_one(index_node)`
+  - `stage_enabled` (function, line 9521) `def stage_enabled(_name)`
+  - `_stage_enabled` (function, line 10091) `def _stage_enabled(_name)`
+- Depends on: `core/config.py`, `core/crypto.py`, `core/hardening.py`, `core/logging.py`, `core/process.py`, `modules/__init__.py`, `modules/auto_loop_memory.py`, `modules/auto_registry.py`, `modules/autonomous_exploit_engine.py`, `modules/custom_tools.py`, `modules/defense_stages.py`, `modules/digest.py`, `modules/finding_lifecycle.py`, `modules/guardrails/__init__.py`, `modules/harness.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_hostscore.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_ledger.py`, `modules/lazy_orchestrator_feedback.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_skills.py`, `modules/lazy_world_diff.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_ai_bridge.py`, `modules/loop_guardrails.py`, `modules/loop_triggers.py`, `modules/mediation/__init__.py`, `modules/module_registry.py`, `modules/notify.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/progress_ledger.py`, `modules/reaction_bridge.py`, `modules/reactive_engine.py`, `modules/selection/base.py`, `modules/selection/registry.py`, `modules/selfupdate.py`, `modules/sinks/findings.py`, `modules/traffic_recorder.py`, `modules/trigger_policy.py`, `modules/world_model.py`, `skills/lazyown_policy.py`, `utils.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/lazy_orchestrator.py`, `cli/retry_support.py`, `lazyc2.py`, `lazyown.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_ledger.py`, `modules/lazy_mentions.py`, `modules/lazy_osinfer.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/mediation/chain_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/reaction_bridge.py`, `modules/sinks/chain_feed.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_asset_gate.py`, `tests/test_auto_crypto.py`, `tests/test_failure_memory_veto.py`, `tests/test_guardrails.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_store_race.py`, `tests/test_loop_supervision.py`, `tests/test_loop_trigger_hints.py`, `tests/test_loop_worker_traces.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_module_registry_bridge.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_policy_planner_signal.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_codeql_batch.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_trigger_policy.py`, `tests/test_world_diff_retest.py`
 
 

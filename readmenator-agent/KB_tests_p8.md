@@ -354,7 +354,7 @@ Previous: [KB_tests_p7.md](KB_tests_p7.md)
   - `update_host` (method, line 46) `def update_host(self, _target)`
   - `parse` (method, line 51) `def parse(self, _output, host, tool)`
   - `__init__` (method, line 59) `def __init__(self, commands)`
-  - `next_command` (method, line 64) `def next_command(self, target, phase, services, os_hint)`
+  - `next_command` (method, line 64) `def next_command(self, target, phase, services, os_hint, goal)`
   - `register_output` (method, line 70) `def register_output(self, _output, _command, platform, success)`
   - `plan` (method, line 76) `def plan(self, _target, max_candidates)`
   - `_fake_os` (function, line 90) `def _fake_os(_target, _loop)`

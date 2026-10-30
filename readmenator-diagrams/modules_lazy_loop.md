@@ -1,20 +1,18 @@
 # modules: lazy_loop
 
-modules: lazy_loop groups 109 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. Lazy queue and misc command set.
+modules: lazy_loop groups 99 files (py) around plausible_command, looks_like_prose, _is_host_like_target, _sudo_unavailable, _is_ip_literal. exploit commands migrated from lazyown.py.
 
 ```mermaid
 graph LR
     cli["cli"]
-    contrib["contrib"]
     core["core"]
     modules["modules"]
     tests["tests"]
     cli -- "calls into" --> core
     cli -- "calls into" --> modules
-    contrib -- "calls into" --> modules
     core -- "calls into" --> modules
     modules -- "calls into" --> cli
-    modules -- "depends on" --> core
+    modules -- "calls into" --> core
     modules -- "calls into" --> tests
     tests -- "calls into" --> cli
     tests -- "calls into" --> core
@@ -23,42 +21,37 @@ graph LR
 
 ## cli (5.1)
 
-cli groups 4 files (py) around PromptModal, __init__, compose, on_input_submitted, action_dismiss. Lazy queue and misc command set.
+cli groups 5 files (py) around ExploitMigratedCommandSet, do_cp, do_createcookie, do_py3ttyup, do_pyautomate. exploit commands migrated from lazyown.py.
 
-## contrib (5.2)
+## core (5.2)
 
-contrib groups 2 files (py) around parse_github_url, github_api_get, fetch_repo_metadata, fetch_readme, fetch_root_files. parse_github_url: Extrae (owner, repo) de una URL de GitHub.
+core groups 2 files (py) around is_autonomous, autonomous_mode, _guarded_input, _tty_fd, emit_restore_sequences. Autonomous-run mode for the loop engine.
 
-## core (5.3)
+## modules (5.3)
 
-core groups 2 files (py) around check_go_tool_installed, is_binary_present, handle_multiple_rhosts, wrapper, check_sudo. Process and subprocess utilities for the LazyOwn framework.
+modules groups 48 files (py) around plausible_command, looks_like_prose, _is_host_like_target, _sudo_unavailable, _is_ip_literal. Active Directory Certificate Services (AD CS) attack module.
 
-## modules (5.4)
+## tests (5.4)
 
-modules groups 56 files (py) around plausible_command, _sudo_unavailable, _is_ip_literal, _valid_nmap_port_spec, repair_worker_command. LazyOwn AI Agent - Ultimate Edition Improvements: anti-hang timeout, memory...
-
-## tests (5.5)
-
-tests groups 45 files (py) around _isolated_llm_health, _isolated_path, _fast_llm_connect_backoff, _reset_world_model_singleton, _reset_guard_harness. Global pytest isolation hooks.
+tests groups 44 files (py) around gate_env, test_gate_exact_and_fuzzy_match, test_gate_cidr_match, test_gate_task_allow_is_closed_whitelist, test_gate_blocks_asset_insert. Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.
 
 **Files**:
 
+- cli/commands/exploit_migrated.py
 - cli/commands/lazyloop.py
 - cli/commands/lazyops.py
 - cli/commands/retry_ops.py
 - cli/lazy_monitor.py
-- contrib/legacy/lazyaddon_creator.py
-- contrib/legacy/lazyllmchat.py
-- core/process.py
+- core/autonomous.py
 - core/terminal_guard.py
-- modules/agent_runner.py
-- modules/ai_model.py
+- modules/adcs_attacks.py
 - modules/auto_loop_memory.py
 - modules/auto_registry.py
 - modules/custom_tools.py
 - modules/digest.py
+- modules/exploit_chain.py
+- modules/intercept.py
 - modules/jsonl_tail.py
-- modules/lazy_agent.py
 - modules/lazy_bridge.py
 - modules/lazy_cli_bridge.py
 - modules/lazy_engine.py
@@ -76,11 +69,6 @@ tests groups 45 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/lazy_sandbox.py
 - modules/lazy_skill_mirror.py
 - modules/lazy_skills.py
-- modules/lazy_verify.py
-- modules/llm_client.py
-- modules/llm_factory.py
-- modules/llm_orchestrator.py
-- modules/loop_ai_bridge.py
 - modules/loop_guardrails.py
 - modules/loop_progress.py
 - modules/mediation/__init__.py
@@ -103,14 +91,12 @@ tests groups 45 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - modules/tools/loop_smoke.py
 - modules/tools/monitor_smoke.py
 - modules/traffic_recorder.py
-- modules/vuln_bot_cli.py
-- modules/vulnbot.py
 - modules/workspace.py
-- modules/yaml_generator.py
-- tests/conftest.py
 - tests/test_asset_gate.py
 - tests/test_auto_loop_memory.py
 - tests/test_auto_registry.py
+- tests/test_chain_list_command.py
+- tests/test_engage_gates.py
 - tests/test_failure_memory_veto.py
 - tests/test_guardrails.py
 - tests/test_harness_mode.py
@@ -119,13 +105,11 @@ tests groups 45 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_lazy_evidence.py
 - tests/test_lazy_ledger.py
 - tests/test_lazy_loop.py
+- tests/test_lazy_parity.py
 - tests/test_lazy_proxy.py
 - tests/test_lazy_reaper.py
 - tests/test_lazy_runner.py
-- tests/test_lazy_streaming.py
 - tests/test_lazy_worker_safety.py
-- tests/test_llm_orchestrator.py
-- tests/test_loop_ai_bridge.py
 - tests/test_loop_auto_orchestrator.py
 - tests/test_loop_broadcast.py
 - tests/test_loop_budget.py
@@ -149,6 +133,6 @@ tests groups 45 files (py) around _isolated_llm_health, _isolated_path, _fast_ll
 - tests/test_progress_ledger.py
 - tests/test_reaction_bridge.py
 - tests/test_repeat_shapes.py
+- tests/test_safety_gates.py
 - tests/test_security_codeql_batch.py
 - tests/test_sink_chain_feed.py
-- tests/test_vulnbot_fallback.py

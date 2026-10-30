@@ -2,6 +2,16 @@
 Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 ## External Imports (continued)
+- `tests/test_loop_budget.py` -> __future__, pytest
+- `tests/test_loop_cli_catalog.py` -> __future__, pytest
+- `tests/test_loop_cold_overview.py` -> __future__
+- `tests/test_loop_force_graph.py` -> __future__
+- `tests/test_loop_guard_audit.py` -> __future__
+- `tests/test_loop_guardrails.py` -> __future__, threading, time
+- `tests/test_loop_intent_delete.py` -> __future__, pytest
+- `tests/test_loop_llm_resilience.py` -> __future__
+- `tests/test_loop_manager.py` -> __future__, json, pathlib, pytest, tempfile, time
+- `tests/test_loop_mentions.py` -> __future__
 - `tests/test_loop_multi_target.py` -> __future__, pytest
 - `tests/test_loop_nmap_guard.py` -> __future__
 - `tests/test_loop_progress.py` -> __future__, io, pathlib, sys
@@ -91,6 +101,8 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_security_hardening_v5.py` -> __future__, flask, hashlib, os, pathlib, pytest, secrets, stat, subprocess, tempfile, unittest.mock
 - `tests/test_security_lazyc2.py` -> os, pathlib, pytest
 - `tests/test_security_sanitizers.py` -> __future__, json, os, pytest
+- `tests/test_selectors_base.py` -> __future__
+- `tests/test_selectors_capabilities.py` -> __future__
 - `tests/test_session_brief.py` -> __future__, pathlib, pytest, re
 - `tests/test_session_ops_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
 - `tests/test_session_secrets.py` -> __future__, os, pathlib, tempfile, unittest

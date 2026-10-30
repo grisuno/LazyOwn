@@ -365,6 +365,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/chain_approval.py` -> __future__, hashlib, json, os, pathlib, secrets, time, typing
 - `modules/chain_distill.py` -> __future__, dataclasses, hashlib, json, pathlib, re, typing, yaml
 - `modules/chain_facts.py` -> __future__, collections.abc, datetime, pathlib, re
+- `modules/chain_match.py` -> __future__, threading, time, typing
 - `modules/chain_registry.py` -> __future__, ast, dataclasses, glob, hashlib, os, pathlib, re, time, typing, yaml
 - `modules/chain_runner.py` -> __future__, collections.abc, concurrent.futures, contextlib, dataclasses, glob, hashlib, io, json, math, os, pathlib, re, shlex, signal, subprocess, threading, time, typing
 - `modules/chain_state.py` -> __future__, json, os, pathlib, time, typing
@@ -414,7 +415,7 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/event_consumers.py` -> __future__, collections.abc, json, os, pathlib, re, threading, time, typing
 - `modules/event_engine.py` -> csv, datetime, json, pathlib, uuid
 - `modules/evidence.py` -> __future__, binascii, dataclasses, hashlib, os, pathlib, tempfile, time
-- `modules/exp.c` -> arpa/inet.h, asm/types.h, assert.h, err.h, fcntl.h, libmnl/libmnl.h, libnftnl/chain.h, libnftnl/expr.h, libnftnl/rule.h, libnftnl/set.h, libnftnl/table.h, linux/ethtool.h, linux/io_uring.h, linux/keyctl.h, linux/netfilter.h, linux/netfilter/nf_tables.h, linux/netfilter/nfnetlink.h, linux/netlink.h, linux/rtnetlink.h, linux/sockios.h, mqueue.h, net/if.h, netinet/in.h, sched.h, signal.h, stdint.h, stdio.h, stdlib.h, string.h, sys/ipc.h, sys/mman.h, sys/msg.h, sys/shm.h, sys/socket.h, sys/syscall.h, sys/types.h, sys/xattr.h, syscall.h, unistd.h
+- `modules/exp.c` -> arpa/inet.h, asm/types.h, assert.h, err.h, fcntl.h, libmnl/libmnl.h, libnftnl/expr.h, libnftnl/rule.h, libnftnl/set.h, libnftnl/table.h, linux/ethtool.h, linux/io_uring.h, linux/keyctl.h, linux/netfilter.h, linux/netfilter/nf_tables.h, linux/netfilter/nfnetlink.h, linux/netlink.h, linux/rtnetlink.h, linux/sockios.h, mqueue.h, net/if.h, netinet/in.h, sched.h, signal.h, stdint.h, stdio.h, stdlib.h, string.h, sys/ipc.h, sys/mman.h, sys/msg.h, sys/shm.h, sys/socket.h, sys/syscall.h, sys/types.h, sys/xattr.h, syscall.h, unistd.h
 - `modules/exploit_chain.py` -> __future__, dataclasses, glob, json, os, re, typing, xml.etree.ElementTree
 - `modules/exploit_recommender.py` -> __future__, dataclasses, datetime, json, pathlib, re, typing, urllib.request
 - `modules/exploitgym_gym.py` -> __future__, json, os, pathlib, re, shutil, subprocess, time, typing
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)
 - `modules/lazy_triage.py` -> __future__, hashlib, json, pathlib, typing
 - `modules/lazy_verify.py` -> __future__, pathlib, re, shlex, shutil, socket, urllib.parse
 - `modules/lazy_world_diff.py` -> __future__, dataclasses, hashlib, json, pathlib, socket, time, urllib.request
-- `modules/lazycloud.py` -> __future__, dataclasses, datetime, hashlib, hmac, json, os, requests, time, typing, urllib.request
 
 Next: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)

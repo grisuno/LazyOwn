@@ -3,6 +3,84 @@ Previous: [SYMBOLS_p40.md](SYMBOLS_p40.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `windows_only` | function | `tests/test_lazy_netattack.py:25` | `def windows_only(module)` |
+| `LazyOobCanarySpec` | class | `tests/test_lazy_oob.py:14` | `class LazyOobCanarySpec(TestCase)` |
+| `setUp` | method | `tests/test_lazy_oob.py:17` | `def setUp(self)` |
+| `test_callback_recorded` | method | `tests/test_lazy_oob.py:49` | `def test_callback_recorded(self)` |
+| `test_hit_mirrored_to_jsonl` | method | `tests/test_lazy_oob.py:59` | `def test_hit_mirrored_to_jsonl(self)` |
+| `test_hits_filter_by_token` | method | `tests/test_lazy_oob.py:66` | `def test_hits_filter_by_token(self)` |
+| `test_start_bad_bind_fails_loud` | method | `tests/test_lazy_oob.py:87` | `def test_start_bad_bind_fails_loud(self)` |
+| `test_start_picks_ephemeral_port` | method | `tests/test_lazy_oob.py:26` | `def test_start_picks_ephemeral_port(self)` |
+| `test_start_twice_reuses_listener` | method | `tests/test_lazy_oob.py:33` | `def test_start_twice_reuses_listener(self)` |
+| `test_stop_reports_and_clears` | method | `tests/test_lazy_oob.py:73` | `def test_stop_reports_and_clears(self)` |
+| `test_stop_without_start_is_guidance` | method | `tests/test_lazy_oob.py:82` | `def test_stop_without_start_is_guidance(self)` |
+| `test_url_empty_when_not_running` | method | `tests/test_lazy_oob.py:46` | `def test_url_empty_when_not_running(self)` |
+| `test_url_reuses_active_token` | method | `tests/test_lazy_oob.py:41` | `def test_url_reuses_active_token(self)` |
+| `_Shell` | class | `tests/test_lazy_orchestrator.py:419` | `class _Shell` |
+| `__init__` | method | `tests/test_lazy_orchestrator.py:420` | `def __init__(self)` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:36` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:81` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:183` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:237` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:337` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:359` | `def _drive()` |
+| `_drive` | function | `tests/test_lazy_orchestrator.py:425` | `def _drive()` |
+| `_load` | function | `tests/test_lazy_orchestrator.py:103` | `def _load(target)` |
+| `_save` | function | `tests/test_lazy_orchestrator.py:106` | `def _save(data, target)` |
+| `payload_store` | function | `tests/test_lazy_orchestrator.py:99` | `def payload_store(monkeypatch)` |
+| `sandbox` | function | `tests/test_lazy_orchestrator.py:16` | `def sandbox(tmp_path, monkeypatch)` |
+| `test_auto_verb_enable_disable_and_custom` | function | `tests/test_lazy_orchestrator.py:135` | `def test_auto_verb_enable_disable_and_custom(payload_store)` |
+| `test_engine_respects_disabled_workers` | function | `tests/test_lazy_orchestrator.py:157` | `def test_engine_respects_disabled_workers(payload_store, tmp_path, monkeypatch)` |
+| `test_orchestrator_chains_tab_lists_and_toggles` | function | `tests/test_lazy_orchestrator.py:196` | `def test_orchestrator_chains_tab_lists_and_toggles(sandbox, monkeypatch, tmp_path)` |
+| `test_orchestrator_command_registered` | function | `tests/test_lazy_orchestrator.py:92` | `def test_orchestrator_command_registered()` |
+| `test_orchestrator_config_saves_to_payload` | function | `tests/test_lazy_orchestrator.py:25` | `def test_orchestrator_config_saves_to_payload(sandbox)` |
+| `test_orchestrator_generate_chain_uses_playbooks` | function | `tests/test_lazy_orchestrator.py:253` | `def test_orchestrator_generate_chain_uses_playbooks(sandbox, monkeypatch, tmp_path)` |
+| `test_orchestrator_gyms_tab_starts_and_stops` | function | `tests/test_lazy_orchestrator.py:377` | `def test_orchestrator_gyms_tab_starts_and_stops(tmp_path, monkeypatch)` |
+| `test_orchestrator_models_and_guard_actions` | function | `tests/test_lazy_orchestrator.py:51` | `def test_orchestrator_models_and_guard_actions(sandbox)` |
+| `test_orchestrator_now_shows_activity` | function | `tests/test_lazy_orchestrator.py:69` | `def test_orchestrator_now_shows_activity(sandbox)` |
+| `test_orchestrator_params_tab_renders_and_creates` | function | `tests/test_lazy_orchestrator.py:413` | `def test_orchestrator_params_tab_renders_and_creates(sandbox, tmp_path)` |
+| `test_orchestrator_playbooks_crud` | function | `tests/test_lazy_orchestrator.py:267` | `def test_orchestrator_playbooks_crud(tmp_path)` |
+| `test_orchestrator_playbooks_tab_renders` | function | `tests/test_lazy_orchestrator.py:325` | `def test_orchestrator_playbooks_tab_renders(tmp_path)` |
+| `test_orchestrator_tables_render` | function | `tests/test_lazy_orchestrator.py:176` | `def test_orchestrator_tables_render(payload_store)` |
+| `test_orchestrator_verb_candidates_cover_commands_and_verbs` | function | `tests/test_lazy_orchestrator.py:303` | `def test_orchestrator_verb_candidates_cover_commands_and_verbs()` |
+| `test_search_select_filter_ranks_prefix_first` | function | `tests/test_lazy_orchestrator.py:316` | `def test_search_select_filter_ranks_prefix_first()` |
+| `test_stage_toggles_persist` | function | `tests/test_lazy_orchestrator.py:120` | `def test_stage_toggles_persist(payload_store)` |
+| `test_verb_add_opens_searchable_picker` | function | `tests/test_lazy_orchestrator.py:351` | `def test_verb_add_opens_searchable_picker(payload_store)` |
+| `_fail` | function | `tests/test_lazy_parity.py:176` | `def _fail(prompt)` |
+| `_flaky` | function | `tests/test_lazy_parity.py:197` | `def _flaky(prompt)` |
+| `_ok` | function | `tests/test_lazy_parity.py:180` | `def _ok(prompt)` |
+| `_write_events` | function | `tests/test_lazy_parity.py:285` | `def _write_events(path, records)` |
+| `test_bus_render_still_counts_budget` | function | `tests/test_lazy_parity.py:292` | `def test_bus_render_still_counts_budget(tmp_path)` |
+| `test_constraints_deny_wins` | function | `tests/test_lazy_parity.py:89` | `def test_constraints_deny_wins()` |
+| `test_ephemeral_flag_routing` | function | `tests/test_lazy_parity.py:266` | `def test_ephemeral_flag_routing()` |
+| `test_ephemeral_render_consumes_cursor` | function | `tests/test_lazy_parity.py:253` | `def test_ephemeral_render_consumes_cursor(tmp_path)` |
+| `test_ephemeral_toast_line_has_icon_and_duration` | function | `tests/test_lazy_parity.py:233` | `def test_ephemeral_toast_line_has_icon_and_duration()` |
+| `test_evidence_gc_drops_unreferenced` | function | `tests/test_lazy_parity.py:117` | `def test_evidence_gc_drops_unreferenced(tmp_path)` |
+| `test_evidence_rejects_tampered_blob` | function | `tests/test_lazy_parity.py:104` | `def test_evidence_rejects_tampered_blob(tmp_path)` |
+| `test_evidence_roundtrip` | function | `tests/test_lazy_parity.py:96` | `def test_evidence_roundtrip(tmp_path)` |
+| `test_frontier_emits_then_dedupes` | function | `tests/test_lazy_parity.py:138` | `def test_frontier_emits_then_dedupes()` |
+| `test_gate_allows_benign_command` | function | `tests/test_lazy_parity.py:50` | `def test_gate_allows_benign_command()` |
+| `test_gate_ask_creates_decidable_approval` | function | `tests/test_lazy_parity.py:62` | `def test_gate_ask_creates_decidable_approval()` |
+| `test_gate_ask_expires_fail_closed` | function | `tests/test_lazy_parity.py:73` | `def test_gate_ask_expires_fail_closed()` |
+| `test_gate_denies_destructive_command` | function | `tests/test_lazy_parity.py:56` | `def test_gate_denies_destructive_command()` |
+| `test_goals_decompose_and_prove` | function | `tests/test_lazy_parity.py:161` | `def test_goals_decompose_and_prove()` |
+| `test_pool_exhausted_when_all_fail` | function | `tests/test_lazy_parity.py:214` | `def test_pool_exhausted_when_all_fail()` |
+| `test_pool_fails_over_in_rank_order` | function | `tests/test_lazy_parity.py:172` | `def test_pool_fails_over_in_rank_order()` |
+| `test_pool_session_key_format` | function | `tests/test_lazy_parity.py:227` | `def test_pool_session_key_format()` |
+| `test_pool_skips_unhealthy_member` | function | `tests/test_lazy_parity.py:192` | `def test_pool_skips_unhealthy_member()` |
+| `test_render_ephemeral_helper` | function | `tests/test_lazy_parity.py:273` | `def test_render_ephemeral_helper(tmp_path)` |
+| `test_scope_blocks_protected_suffixes` | function | `tests/test_lazy_parity.py:82` | `def test_scope_blocks_protected_suffixes()` |
+| `test_todos_gate_lateral_on_creds` | function | `tests/test_lazy_parity.py:149` | `def test_todos_gate_lateral_on_creds()` |
+| `test_traffic_record_and_query` | function | `tests/test_lazy_parity.py:128` | `def test_traffic_record_and_query(tmp_path)` |
+| `_EchoHandler` | class | `tests/test_lazy_proxy.py:24` | `class _EchoHandler(BaseHTTPRequestHandler)` |
+| `_patched_engine` | function | `tests/test_lazy_proxy.py:15` | `def _patched_engine(tmp_path, monkeypatch)` |
+| `_read_until` | function | `tests/test_lazy_proxy.py:47` | `def _read_until(sock, marker, limit)` |
+| `_serve` | function | `tests/test_lazy_proxy.py:470` | `def _serve()` |
+| `_start_upstream` | function | `tests/test_lazy_proxy.py:39` | `def _start_upstream(tls_context)` |
+| `do_GET` | method | `tests/test_lazy_proxy.py:27` | `def do_GET(self)` |
+| `log_message` | method | `tests/test_lazy_proxy.py:35` | `def log_message(self, fmt)` |
+| `runner` | function | `tests/test_lazy_proxy.py:237` | `def runner(argv)` |
+| `runner` | function | `tests/test_lazy_proxy.py:388` | `def runner(argv)` |
 | `test_body_ranged_reads` | function | `tests/test_lazy_proxy.py:412` | `def test_body_ranged_reads(tmp_path)` |
 | `test_ca_and_leaf_verify` | function | `tests/test_lazy_proxy.py:57` | `def test_ca_and_leaf_verify(tmp_path)` |
 | `test_engine_exports_task_traffic_and_gc_runs_once` | function | `tests/test_lazy_proxy.py:318` | `def test_engine_exports_task_traffic_and_gc_runs_once(tmp_path, monkeypatch)` |
@@ -418,83 +496,5 @@ Previous: [SYMBOLS_p40.md](SYMBOLS_p40.md)
 | `test_defaults` | method | `tests/test_lazygui_models.py:199` | `def test_defaults(self)` |
 | `test_defaults` | method | `tests/test_lazygui_models.py:224` | `def test_defaults(self)` |
 | `test_empty_classmethod` | method | `tests/test_lazygui_models.py:115` | `def test_empty_classmethod(self)` |
-| `test_empty_fields_default_to_empty_string` | method | `tests/test_lazygui_models.py:181` | `def test_empty_fields_default_to_empty_string(self)` |
-| `test_empty_list_keywords` | method | `tests/test_lazygui_models.py:137` | `def test_empty_list_keywords(self)` |
-| `test_empty_topology` | method | `tests/test_lazygui_models.py:108` | `def test_empty_topology(self)` |
-| `test_equality` | method | `tests/test_lazygui_models.py:61` | `def test_equality(self)` |
-| `test_equality` | method | `tests/test_lazygui_models.py:97` | `def test_equality(self)` |
-| `test_equality` | method | `tests/test_lazygui_models.py:130` | `def test_equality(self)` |
-| `test_equality` | method | `tests/test_lazygui_models.py:174` | `def test_equality(self)` |
-| `test_equality` | method | `tests/test_lazygui_models.py:213` | `def test_equality(self)` |
-| `test_equality` | method | `tests/test_lazygui_models.py:248` | `def test_equality(self)` |
-| `test_fields` | method | `tests/test_lazygui_models.py:263` | `def test_fields(self)` |
-| `test_full_construction` | method | `tests/test_lazygui_models.py:41` | `def test_full_construction(self)` |
-| `test_full_construction` | method | `tests/test_lazygui_models.py:154` | `def test_full_construction(self)` |
-| `test_immutable` | method | `tests/test_lazygui_models.py:68` | `def test_immutable(self)` |
-| `test_metadata_default` | method | `tests/test_lazygui_models.py:298` | `def test_metadata_default(self)` |
-| `test_minimal_construction` | method | `tests/test_lazygui_models.py:33` | `def test_minimal_construction(self)` |
-| `test_minimal_construction` | method | `tests/test_lazygui_models.py:146` | `def test_minimal_construction(self)` |
-| `test_now_uses_utc` | method | `tests/test_lazygui_models.py:259` | `def test_now_uses_utc(self)` |
-| `test_numeric_levels` | method | `tests/test_lazygui_models.py:271` | `def test_numeric_levels(self)` |
-| `test_order` | method | `tests/test_lazygui_models.py:317` | `def test_order(self)` |
-| `test_populated` | method | `tests/test_lazygui_models.py:206` | `def test_populated(self)` |
-| `test_populated_topology` | method | `tests/test_lazygui_models.py:120` | `def test_populated_topology(self)` |
-| `test_str_compat` | method | `tests/test_lazygui_models.py:310` | `def test_str_compat(self)` |
-| `test_values` | method | `tests/test_lazygui_models.py:306` | `def test_values(self)` |
-| `test_with_counts` | method | `tests/test_lazygui_models.py:234` | `def test_with_counts(self)` |
-| `PostScanOutputSpec` | class | `tests/test_lazynmap_post.py:88` | `class PostScanOutputSpec(TestCase)` |
-| `PostScanResilienceSpec` | class | `tests/test_lazynmap_post.py:230` | `class PostScanResilienceSpec(TestCase)` |
-| `PostScanToggleSpec` | class | `tests/test_lazynmap_post.py:188` | `class PostScanToggleSpec(TestCase)` |
-| `_ConsoleRecorder` | class | `tests/test_lazynmap_post.py:81` | `class _ConsoleRecorder` |
-| `_broken_factory` | function | `tests/test_lazynmap_post.py:237` | `def _broken_factory()` |
-| `_make_engine` | function | `tests/test_lazynmap_post.py:71` | `def _make_engine(sessions, addons, tools)` |
-| `_seed_addon` | function | `tests/test_lazynmap_post.py:37` | `def _seed_addon(addons)` |
-| `_seed_environment` | function | `tests/test_lazynmap_post.py:59` | `def _seed_environment(tmp)` |
-| `print` | method | `tests/test_lazynmap_post.py:84` | `def print(self, line)` |
-| `test_console_receives_plan_preview_lines` | method | `tests/test_lazynmap_post.py:168` | `def test_console_receives_plan_preview_lines(self)` |
-| `test_disabled_payload_skips_all_writes` | method | `tests/test_lazynmap_post.py:191` | `def test_disabled_payload_skips_all_writes(self)` |
-| `test_engine_failure_still_emits_event_and_updates_world_model` | method | `tests/test_lazynmap_post.py:233` | `def test_engine_failure_still_emits_event_and_updates_world_model(self)` |
-| `test_event_record_carries_target_and_counts` | method | `tests/test_lazynmap_post.py:144` | `def test_event_record_carries_target_and_counts(self)` |
-| `test_string_falsy_toggle_is_respected` | method | `tests/test_lazynmap_post.py:212` | `def test_string_falsy_toggle_is_respected(self)` |
-| `test_world_model_is_merged_not_overwritten` | method | `tests/test_lazynmap_post.py:117` | `def test_world_model_is_merged_not_overwritten(self)` |
-| `test_writes_plan_world_model_and_event` | method | `tests/test_lazynmap_post.py:91` | `def test_writes_plan_world_model_and_event(self)` |
-| `_fake_bin` | function | `tests/test_lazynmap_sudo_branches.py:18` | `def _fake_bin(tmp_path)` |
-| `_run_script` | function | `tests/test_lazynmap_sudo_branches.py:31` | `def _run_script(tmp_path, extra_env)` |
-| `test_autonomous_mode_aborts_without_passwordless_sudo` | function | `tests/test_lazynmap_sudo_branches.py:48` | `def test_autonomous_mode_aborts_without_passwordless_sudo(tmp_path)` |
-| `test_interactive_mode_keeps_the_sudo_prompt_path` | function | `tests/test_lazynmap_sudo_branches.py:55` | `def test_interactive_mode_keeps_the_sudo_prompt_path(tmp_path)` |
-| `TestLazyPassGen` | class | `tests/test_lazypassgen.py:23` | `class TestLazyPassGen` |
-| `passgen` | function | `tests/test_lazypassgen.py:17` | `def passgen()` |
-| `test_export` | method | `tests/test_lazypassgen.py:58` | `def test_export(self, passgen, tmp_path)` |
-| `test_export_empty` | method | `tests/test_lazypassgen.py:65` | `def test_export_empty(self, passgen, tmp_path)` |
-| `test_generate_cap` | method | `tests/test_lazypassgen.py:50` | `def test_generate_cap(self, passgen)` |
-| `test_generate_empty_target` | method | `tests/test_lazypassgen.py:45` | `def test_generate_empty_target(self, passgen)` |
-| `test_generate_leet` | method | `tests/test_lazypassgen.py:37` | `def test_generate_leet(self, passgen)` |
-| `test_generate_seasons` | method | `tests/test_lazypassgen.py:41` | `def test_generate_seasons(self, passgen)` |
-| `test_generate_target_words` | method | `tests/test_lazypassgen.py:32` | `def test_generate_target_words(self, passgen)` |
-| `test_seeds_use_lazy_creds` | method | `tests/test_lazypassgen.py:54` | `def test_seeds_use_lazy_creds(self, passgen)` |
-| `test_split_entities` | method | `tests/test_lazypassgen.py:24` | `def test_split_entities(self, passgen)` |
-| `test_split_skip_short_words` | method | `tests/test_lazypassgen.py:28` | `def test_split_skip_short_words(self, passgen)` |
-| `TestFallbackReady` | class | `tests/test_lazypoophish.py:53` | `class TestFallbackReady` |
-| `TestRunFallback` | class | `tests/test_lazypoophish.py:70` | `class TestRunFallback` |
-| `_fake_orchestrator` | function | `tests/test_lazypoophish.py:32` | `def _fake_orchestrator(monkeypatch, campaign_dir, campaign_id)` |
-| `cleared_sessions` | function | `tests/test_lazypoophish.py:27` | `def cleared_sessions(tmp_path, monkeypatch)` |
-| `fake_launch` | function | `tests/test_lazypoophish.py:33` | `def fake_launch(target_domain, template, mode, targets_file)` |
-| `fake_shorten` | function | `tests/test_lazypoophish.py:89` | `def fake_shorten(url, provider)` |
-| `forbidden` | function | `tests/test_lazypoophish.py:113` | `def forbidden()` |
-| `poophish` | function | `tests/test_lazypoophish.py:20` | `def poophish()` |
-| `raising` | function | `tests/test_lazypoophish.py:63` | `def raising()` |
-| `test_invalid_mode` | method | `tests/test_lazypoophish.py:71` | `def test_invalid_mode(self, poophish, cleared_sessions)` |
-| `test_launch_failure` | method | `tests/test_lazypoophish.py:76` | `def test_launch_failure(self, poophish, cleared_sessions, monkeypatch)` |
-| `test_no_shorten_keeps_raw_url` | method | `tests/test_lazypoophish.py:108` | `def test_no_shorten_keeps_raw_url(self, poophish, cleared_sessions, monkeypatch)` |
-| `test_not_ready_with_access` | method | `tests/test_lazypoophish.py:58` | `def test_not_ready_with_access(self, poophish, monkeypatch)` |
-| `test_ready_when_access_none` | method | `tests/test_lazypoophish.py:54` | `def test_ready_when_access_none(self, poophish, monkeypatch)` |
-| `test_ready_when_tokens_fail` | method | `tests/test_lazypoophish.py:62` | `def test_ready_when_tokens_fail(self, poophish, monkeypatch)` |
-| `test_short_url_and_artifact` | method | `tests/test_lazypoophish.py:85` | `def test_short_url_and_artifact(self, poophish, cleared_sessions, monkeypatch)` |
-| `TestLazyShortener` | class | `tests/test_lazyshortener.py:33` | `class TestLazyShortener` |
-| `_FakeResponse` | class | `tests/test_lazyshortener.py:23` | `class _FakeResponse` |
-| `__init__` | method | `tests/test_lazyshortener.py:24` | `def __init__(self, text, status)` |
-| `fake_get` | function | `tests/test_lazyshortener.py:56` | `def fake_get(endpoint, params)` |
-| `raise_for_status` | method | `tests/test_lazyshortener.py:28` | `def raise_for_status(self)` |
-| `raising` | function | `tests/test_lazyshortener.py:75` | `def raising()` |
 
 Next: [SYMBOLS_p42.md](SYMBOLS_p42.md)

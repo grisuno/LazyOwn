@@ -150,23 +150,23 @@ Imported by: `lazyown.py`, `tests/test_improvements_spec.py`, `tests/test_status
 - `WorldModelPhaseSource.collect` (method) `cli/status_bar.py:306` `def collect(self)` -- Return the active phase from ``world_model.json`` then payload then default.
 - `SessionFindingSource.__init__` (method) `cli/status_bar.py:324` `def __init__(self, config, reader)` -- Bind to config and sessions reader.
 - `SessionFindingSource.collect` (method) `cli/status_bar.py:329` `def collect(self)` -- Return a short description of the freshest credential / vuln / note.
-- `CommandHintSuggestionSource.__init__` (method) `cli/status_bar.py:428` `def __init__(self, config, reader, phase_provider, hint_provider)` -- Bind to config, reader and the current-phase callable.
-- `CommandHintSuggestionSource.collect` (method) `cli/status_bar.py:453` `def collect(self)` -- Return the top kill-chain suggestion or the configured fallback.
-- `GraphSuggestionSource.__init__` (method) `cli/status_bar.py:513` `def __init__(self, config, reader, advisor_factory)` -- Bind to config, reader, and an optional advisor factory.
-- `GraphSuggestionSource.collect` (method) `cli/status_bar.py:532` `def collect(self)` -- Return a one-token suggestion.
-- `CollabPresenceSource.__init__` (method) `cli/status_bar.py:603` `def __init__(self, config, reader, clock)` -- Bind to the active config, reader, and an injectable clock.
-- `CollabPresenceSource.collect` (method) `cli/status_bar.py:624` `def collect(self)` -- Return the active-operator count formatted as a short string.
-- `StatusBarRenderer.__init__` (method) `cli/status_bar.py:661` `def __init__(self, config)` -- Bind to the active configuration.
-- `StatusBarRenderer.render_plain` (method) `cli/status_bar.py:666` `def render_plain(self, ctx)` -- Return the line without ANSI colour or readline markers.
-- `StatusBarRenderer.render_prompt` (method) `cli/status_bar.py:689` `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)` -- Return ``base_prompt`` with the status line prefixed.
-- `StatusBarManager.__init__` (method) `cli/status_bar.py:754` `def __init__(self, config, sources, renderer, payload)` -- Bind config, sources, renderer and a payload mapping.
-- `StatusBarManager.enabled` (method) `cli/status_bar.py:785` `def enabled(self)` -- Return ``True`` when the bar should render on this shell.
-- `StatusBarManager.collect_context` (method) `cli/status_bar.py:800` `def collect_context(self)` -- Return a fresh :class:`StatusContext` by polling every source.
-- `StatusBarManager.render_prompt` (method) `cli/status_bar.py:813` `def render_prompt(self, base_prompt, readline_safe)` -- Return the prompt with the status line prefixed when enabled.
-- `StatusBarManager.render_plain_line` (method) `cli/status_bar.py:835` `def render_plain_line(self, ctx)` -- Return the rendered status line without ANSI / readline markers.
-- `StatusBarManager.set_enabled` (method) `cli/status_bar.py:849` `def set_enabled(self, enabled)` -- Persist a new enabled state in the payload-backed flag.
-- `StatusBarManager.install` (method) `cli/status_bar.py:859` `def install(self, shell, base_prompt_attribute, prompt_attribute)` -- Wire the manager into ``shell`` via a precommand hook.
-- `build_default_manager` (function) `cli/status_bar.py:971` `def build_default_manager(payload, sessions_dir, advisor_factory, config)` -- Wire the canonical multi-source manager used by the live shell.
+- `CommandHintSuggestionSource.__init__` (method) `cli/status_bar.py:435` `def __init__(self, config, reader, phase_provider, hint_provider)` -- Bind to config, reader and the current-phase callable.
+- `CommandHintSuggestionSource.collect` (method) `cli/status_bar.py:460` `def collect(self)` -- Return the top kill-chain suggestion or the configured fallback.
+- `GraphSuggestionSource.__init__` (method) `cli/status_bar.py:520` `def __init__(self, config, reader, advisor_factory)` -- Bind to config, reader, and an optional advisor factory.
+- `GraphSuggestionSource.collect` (method) `cli/status_bar.py:539` `def collect(self)` -- Return a one-token suggestion.
+- `CollabPresenceSource.__init__` (method) `cli/status_bar.py:610` `def __init__(self, config, reader, clock)` -- Bind to the active config, reader, and an injectable clock.
+- `CollabPresenceSource.collect` (method) `cli/status_bar.py:631` `def collect(self)` -- Return the active-operator count formatted as a short string.
+- `StatusBarRenderer.__init__` (method) `cli/status_bar.py:668` `def __init__(self, config)` -- Bind to the active configuration.
+- `StatusBarRenderer.render_plain` (method) `cli/status_bar.py:673` `def render_plain(self, ctx)` -- Return the line without ANSI colour or readline markers.
+- `StatusBarRenderer.render_prompt` (method) `cli/status_bar.py:696` `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)` -- Return ``base_prompt`` with the status line prefixed.
+- `StatusBarManager.__init__` (method) `cli/status_bar.py:761` `def __init__(self, config, sources, renderer, payload)` -- Bind config, sources, renderer and a payload mapping.
+- `StatusBarManager.enabled` (method) `cli/status_bar.py:792` `def enabled(self)` -- Return ``True`` when the bar should render on this shell.
+- `StatusBarManager.collect_context` (method) `cli/status_bar.py:807` `def collect_context(self)` -- Return a fresh :class:`StatusContext` by polling every source.
+- `StatusBarManager.render_prompt` (method) `cli/status_bar.py:820` `def render_prompt(self, base_prompt, readline_safe)` -- Return the prompt with the status line prefixed when enabled.
+- `StatusBarManager.render_plain_line` (method) `cli/status_bar.py:842` `def render_plain_line(self, ctx)` -- Return the rendered status line without ANSI / readline markers.
+- `StatusBarManager.set_enabled` (method) `cli/status_bar.py:856` `def set_enabled(self, enabled)` -- Persist a new enabled state in the payload-backed flag.
+- `StatusBarManager.install` (method) `cli/status_bar.py:866` `def install(self, shell, base_prompt_attribute, prompt_attribute)` -- Wire the manager into ``shell`` via a precommand hook.
+- `build_default_manager` (function) `cli/status_bar.py:978` `def build_default_manager(payload, sessions_dir, advisor_factory, config)` -- Wire the canonical multi-source manager used by the live shell.
 
 ## cli/style.py
 Depends on: `cli/themes.py`

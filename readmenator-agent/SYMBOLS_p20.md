@@ -3,6 +3,24 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parse` | method | `modules/obs_parser.py:485` | `def parse(self, output, host, tool)` |
+| `parse` | function | `modules/obs_parser.py:539` | `def parse(output, host, tool)` |
+| `register` | method | `modules/obs_parser.py:140` | `def register(self, extractor)` |
+| `register` | method | `modules/obs_parser.py:481` | `def register(self, extractor)` |
+| `run_all` | method | `modules/obs_parser.py:143` | `def run_all(self, text, host)` |
+| `with_technique` | method | `modules/obs_parser.py:88` | `def with_technique(self, mapping)` |
+| `OpEvent` | class | `modules/operation.py:52` | `class OpEvent` |
+| `Operation` | class | `modules/operation.py:79` | `class Operation` |
+| `OperationManager` | class | `modules/operation.py:180` | `class OperationManager` |
+| `OperationStatus` | class | `modules/operation.py:42` | `class OperationStatus(StrEnum)` |
+| `OperationStep` | class | `modules/operation.py:63` | `class OperationStep` |
+| `__init__` | method | `modules/operation.py:183` | `def __init__(self)` |
+| `create` | method | `modules/operation.py:206` | `def create(self, name, target, apt_name, description)` |
+| `from_dict` | method | `modules/operation.py:116` | `def from_dict(cls, d)` |
+| `get` | method | `modules/operation.py:199` | `def get(self, op_id)` |
+| `get_manager` | function | `modules/operation.py:471` | `def get_manager()` |
+| `list` | method | `modules/operation.py:187` | `def list(self)` |
+| `log_event` | method | `modules/operation.py:143` | `def log_event(self, step_index, step_name, status, summary, findings_count, error)` |
 | `pause` | method | `modules/operation.py:369` | `def pause(self, op_id)` |
 | `plan_from_apt` | method | `modules/operation.py:225` | `def plan_from_apt(self, op, playbook_yaml_path)` |
 | `record_facts` | method | `modules/operation.py:164` | `def record_facts(self, findings)` |
@@ -70,7 +88,7 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `suggest_mitigations` | method | `modules/opsec_scorer.py:417` | `def suggest_mitigations(self, command, detectable_by)` |
 | `to_dict` | method | `modules/opsec_scorer.py:288` | `def to_dict(self)` |
 | `traffic_morphing_active` | method | `modules/opsec_scorer.py:357` | `def traffic_morphing_active(self)` |
-| `_catalog_verbs` | function | `modules/orchestrator_config.py:601` | `def _catalog_verbs(seen, overrides)` |
+| `_catalog_verbs` | function | `modules/orchestrator_config.py:627` | `def _catalog_verbs(seen, overrides)` |
 | `_default_profile_name` | function | `modules/orchestrator_config.py:271` | `def _default_profile_name(data)` |
 | `_fallback_profile` | function | `modules/orchestrator_config.py:189` | `def _fallback_profile()` |
 | `_invalidate` | function | `modules/orchestrator_config.py:129` | `def _invalidate()` |
@@ -84,7 +102,7 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `active_profile` | function | `modules/orchestrator_config.py:281` | `def active_profile()` |
 | `budget` | function | `modules/orchestrator_config.py:363` | `def budget()` |
 | `chain_defaults` | function | `modules/orchestrator_config.py:460` | `def chain_defaults()` |
-| `effective_verbs` | function | `modules/orchestrator_config.py:546` | `def effective_verbs()` |
+| `effective_verbs` | function | `modules/orchestrator_config.py:572` | `def effective_verbs()` |
 | `engagement_mode` | function | `modules/orchestrator_config.py:419` | `def engagement_mode()` |
 | `findings_config` | function | `modules/orchestrator_config.py:370` | `def findings_config()` |
 | `limits` | function | `modules/orchestrator_config.py:356` | `def limits()` |
@@ -92,20 +110,23 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `profiles` | function | `modules/orchestrator_config.py:256` | `def profiles()` |
 | `progress_config` | function | `modules/orchestrator_config.py:392` | `def progress_config()` |
 | `reload` | function | `modules/orchestrator_config.py:137` | `def reload()` |
-| `remove_verb` | function | `modules/orchestrator_config.py:710` | `def remove_verb(name)` |
-| `reset` | function | `modules/orchestrator_config.py:731` | `def reset()` |
+| `remove_verb` | function | `modules/orchestrator_config.py:736` | `def remove_verb(name)` |
+| `reset` | function | `modules/orchestrator_config.py:757` | `def reset()` |
+| `selector_enabled` | function | `modules/orchestrator_config.py:491` | `def selector_enabled(name)` |
+| `selectors` | function | `modules/orchestrator_config.py:480` | `def selectors()` |
 | `set_engagement_mode` | function | `modules/orchestrator_config.py:437` | `def set_engagement_mode(mode)` |
 | `set_harness` | function | `modules/orchestrator_config.py:324` | `def set_harness(enabled)` |
 | `set_profile` | function | `modules/orchestrator_config.py:300` | `def set_profile(name)` |
-| `set_stage` | function | `modules/orchestrator_config.py:521` | `def set_stage(name, enabled)` |
+| `set_selector` | function | `modules/orchestrator_config.py:496` | `def set_selector(name, enabled)` |
+| `set_stage` | function | `modules/orchestrator_config.py:547` | `def set_stage(name, enabled)` |
 | `sinks` | function | `modules/orchestrator_config.py:469` | `def sinks()` |
-| `stage_enabled` | function | `modules/orchestrator_config.py:510` | `def stage_enabled(name)` |
-| `stage_params` | function | `modules/orchestrator_config.py:516` | `def stage_params(name)` |
-| `stages` | function | `modules/orchestrator_config.py:480` | `def stages()` |
-| `upsert_verb` | function | `modules/orchestrator_config.py:653` | `def upsert_verb(name)` |
-| `validate_config` | function | `modules/orchestrator_config.py:738` | `def validate_config(data)` |
-| `verb_config` | function | `modules/orchestrator_config.py:638` | `def verb_config(name)` |
-| `verb_enabled` | function | `modules/orchestrator_config.py:647` | `def verb_enabled(name)` |
+| `stage_enabled` | function | `modules/orchestrator_config.py:536` | `def stage_enabled(name)` |
+| `stage_params` | function | `modules/orchestrator_config.py:542` | `def stage_params(name)` |
+| `stages` | function | `modules/orchestrator_config.py:506` | `def stages()` |
+| `upsert_verb` | function | `modules/orchestrator_config.py:679` | `def upsert_verb(name)` |
+| `validate_config` | function | `modules/orchestrator_config.py:764` | `def validate_config(data)` |
+| `verb_config` | function | `modules/orchestrator_config.py:664` | `def verb_config(name)` |
+| `verb_enabled` | function | `modules/orchestrator_config.py:673` | `def verb_enabled(name)` |
 | `_cache_load` | function | `modules/osint_enrich.py:52` | `def _cache_load(sessions_dir)` |
 | `_cache_path` | function | `modules/osint_enrich.py:47` | `def _cache_path(sessions_dir)` |
 | `_cache_save` | function | `modules/osint_enrich.py:61` | `def _cache_save(sessions_dir, data)` |
@@ -475,26 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `SemanticContextAdvisor` | class | `modules/reactive_engine.py:632` | `class SemanticContextAdvisor` |
 | `ServiceVersionMatcher` | class | `modules/reactive_engine.py:232` | `class ServiceVersionMatcher(AbstractSignalMatcher)` |
 | `ShellErrorMatcher` | class | `modules/reactive_engine.py:262` | `class ShellErrorMatcher(AbstractSignalMatcher)` |
-| `Signal` | class | `modules/reactive_engine.py:69` | `class Signal` |
-| `__init__` | method | `modules/reactive_engine.py:395` | `def __init__(self, root)` |
-| `__init__` | method | `modules/reactive_engine.py:644` | `def __init__(self, rag, config_loader, min_score, query_limit)` |
-| `__init__` | method | `modules/reactive_engine.py:810` | `def __init__(self, matchers, evasion, privesc, parquet, semantic)` |
-| `_default_config_loader` | function | `modules/reactive_engine.py:42` | `def _default_config_loader()` |
-| `_enabled` | method | `modules/reactive_engine.py:697` | `def _enabled(self)` |
-| `_extract_verb` | method | `modules/reactive_engine.py:715` | `def _extract_verb(source)` |
-| `_load` | method | `modules/reactive_engine.py:402` | `def _load(self)` |
-| `_load_rag` | method | `modules/reactive_engine.py:671` | `def _load_rag(self)` |
-| `analyse` | method | `modules/reactive_engine.py:835` | `def analyse(self, output, command, platform, context)` |
-| `get_engine` | function | `modules/reactive_engine.py:977` | `def get_engine()` |
-| `gtfobins_for` | method | `modules/reactive_engine.py:421` | `def gtfobins_for(self, binary)` |
-| `lolbas_for` | method | `modules/reactive_engine.py:434` | `def lolbas_for(self, binary)` |
-| `match` | method | `modules/reactive_engine.py:99` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:128` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:159` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:192` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:214` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:247` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:276` | `def match(self, output, context)` |
-| `match` | method | `modules/reactive_engine.py:307` | `def match(self, output, context)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

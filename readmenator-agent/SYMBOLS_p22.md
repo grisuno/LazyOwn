@@ -3,6 +3,47 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `cancel` | method | `modules/sidequestion.py:104` | `def cancel(self, request_id)` |
+| `capture` | method | `modules/sidequestion.py:66` | `def capture(self, task_id, text)` |
+| `history` | method | `modules/sidequestion.py:113` | `def history(self, limit, before)` |
+| `apply` | function | `modules/sinks/attack_graph.py:13` | `def apply(event)` |
+| `_copy_clipboard` | function | `modules/sinks/beacon_dispatch.py:34` | `def _copy_clipboard(text)` |
+| `_load_payload` | function | `modules/sinks/beacon_dispatch.py:23` | `def _load_payload()` |
+| `apply` | function | `modules/sinks/beacon_dispatch.py:46` | `def apply(event)` |
+| `apply` | function | `modules/sinks/c2_surfaces.py:11` | `def apply(event)` |
+| `apply` | function | `modules/sinks/campaign_db.py:9` | `def apply(event)` |
+| `apply` | function | `modules/sinks/chain_feed.py:22` | `def apply(event)` |
+| `apply` | function | `modules/sinks/event_bus.py:9` | `def apply(event)` |
+| `apply` | function | `modules/sinks/findings.py:42` | `def apply(event)` |
+| `handoff` | function | `modules/sinks/findings.py:88` | `def handoff(engagement_id, status, rounds)` |
+| `ingest_discarded` | function | `modules/sinks/findings.py:107` | `def ingest_discarded(engagement_id, entries)` |
+| `ledger_for` | function | `modules/sinks/findings.py:72` | `def ledger_for(engagement_id)` |
+| `limits_for` | function | `modules/sinks/findings.py:22` | `def limits_for()` |
+| `apply` | function | `modules/sinks/intel_graph.py:13` | `def apply(event)` |
+| `apply` | function | `modules/sinks/killchain.py:11` | `def apply(event)` |
+| `apply` | function | `modules/sinks/objectives.py:16` | `def apply(event)` |
+| `apply` | function | `modules/sinks/routing.py:9` | `def apply(event)` |
+| `_current_host` | function | `modules/sinks/world_diff.py:58` | `def _current_host(root, host)` |
+| `_store_host` | function | `modules/sinks/world_diff.py:65` | `def _store_host(root, host, snapshot)` |
+| `_stored_host` | function | `modules/sinks/world_diff.py:52` | `def _stored_host(root, host)` |
+| `apply` | function | `modules/sinks/world_diff.py:14` | `def apply(event)` |
+| `apply` | function | `modules/sinks/world_model.py:12` | `def apply(event)` |
+| `OsPlatform` | class | `modules/sleep_obfuscation.py:57` | `class OsPlatform(str, Enum)` |
+| `SleepObfuscationConfig` | class | `modules/sleep_obfuscation.py:100` | `class SleepObfuscationConfig` |
+| `SleepObfuscationEngine` | class | `modules/sleep_obfuscation.py:394` | `class SleepObfuscationEngine` |
+| `SleepTechnique` | class | `modules/sleep_obfuscation.py:73` | `class SleepTechnique` |
+| `SleepTechniqueCatalog` | class | `modules/sleep_obfuscation.py:163` | `class SleepTechniqueCatalog` |
+| `SleepTechniqueValidator` | class | `modules/sleep_obfuscation.py:365` | `class SleepTechniqueValidator` |
+| `TechniqueRisk` | class | `modules/sleep_obfuscation.py:64` | `class TechniqueRisk(str, Enum)` |
+| `__init__` | method | `modules/sleep_obfuscation.py:170` | `def __init__(self)` |
+| `__init__` | method | `modules/sleep_obfuscation.py:407` | `def __init__(self, catalog)` |
+| `_build_default_catalog` | function | `modules/sleep_obfuscation.py:201` | `def _build_default_catalog()` |
+| `catalog` | method | `modules/sleep_obfuscation.py:416` | `def catalog(self)` |
+| `config` | method | `modules/sleep_obfuscation.py:421` | `def config(self)` |
+| `configure` | method | `modules/sleep_obfuscation.py:449` | `def configure(self, technique, overrides)` |
+| `detection_resistance` | method | `modules/sleep_obfuscation.py:426` | `def detection_resistance(self)` |
+| `from_dict` | method | `modules/sleep_obfuscation.py:146` | `def from_dict(cls, raw)` |
+| `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
 | `get` | method | `modules/sleep_obfuscation.py:177` | `def get(self, name)` |
 | `list_all` | method | `modules/sleep_obfuscation.py:184` | `def list_all(self)` |
 | `list_by_platform` | method | `modules/sleep_obfuscation.py:192` | `def list_by_platform(self, platform)` |
@@ -455,46 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `stop` | method | `modules/websocket_beacon.py:392` | `def stop(self)` |
 | `BUFFER_SIZE` | macro | `modules/win_rootkit/backup.c:18` | `#define BUFFER_SIZE` |
 | `Command` | struct | `modules/win_rootkit/backup.c:27` | `` |
-| `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
-| `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
-| `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
-| `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
-| `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
-| `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
-| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
-| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
-| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
-| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
-| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
-| `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
-| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
-| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
-| `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
-| `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
-| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
-| `HookFunctions` | function | `modules/win_rootkit/mrhyde.c:222` | `void HookFunctions()` |
-| `HookedCreateToolhelp32Snapshot` | function | `modules/win_rootkit/mrhyde.c:189` | `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` |
-| `HookedFindFirstFile` | function | `modules/win_rootkit/mrhyde.c:171` | `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` |
-| `HookedFindNextFile` | function | `modules/win_rootkit/mrhyde.c:180` | `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` |
-| `HookedProcess32First` | function | `modules/win_rootkit/mrhyde.c:198` | `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `HookedProcess32Next` | function | `modules/win_rootkit/mrhyde.c:210` | `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:7` | `#define MAX_HIDE_PIDS` |
-| `PID_FILE_PATH` | macro | `modules/win_rootkit/mrhyde.c:8` | `#define PID_FILE_PATH` |
-| `RunExperiment` | function | `modules/win_rootkit/mrhyde.c:19` | `void __cdecl RunExperiment()` |
-| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:47` | `void load_hidden_files()` |
-| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:24` | `void load_hidden_pids()` |
-| `search_pid` | function | `modules/win_rootkit/mrhyde.c:137` | `BOOL search_pid()` |
-| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:161` | `BOOL should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/win_rootkit/mrhyde.c:147` | `BOOL should_hide_pid(DWORD pid)` |
-| `GetUsernameFromPid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:145` | `` |
-| `HookCreateFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:226` | `` |
-| `HookFindFirstFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:214` | `` |
-| `SECURITY_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:64` | `` |
-| `SID` | class | `modules/win_rootkit/win_rin3_rootkit.cs:136` | `` |
-| `SID_AND_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:129` | `` |
-| `ShouldHidePid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:203` | `` |
-| `TOKEN_USER` | class | `modules/win_rootkit/win_rin3_rootkit.cs:123` | `` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

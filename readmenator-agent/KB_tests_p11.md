@@ -208,20 +208,20 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `StatusBarRendererSpec` (class, line 239) `class StatusBarRendererSpec(TestCase)`
   - `StatusBarManagerSpec` (class, line 278) `class StatusBarManagerSpec(TestCase)`
   - `StatusBarSourceSpec` (class, line 350) `class StatusBarSourceSpec(TestCase)`
-  - `StatusBarFactorySpec` (class, line 395) `class StatusBarFactorySpec(TestCase)`
-  - `OrchestratorGoalValidationSpec` (class, line 404) `class OrchestratorGoalValidationSpec(TestCase)`
-  - `BackendRegistrySpec` (class, line 444) `class BackendRegistrySpec(TestCase)`
-  - `RouterPolicySpec` (class, line 477) `class RouterPolicySpec(TestCase)`
-  - `EventBusSpec` (class, line 518) `class EventBusSpec(TestCase)`
-  - `BackendAdapterSpec` (class, line 550) `class BackendAdapterSpec(TestCase)`
-  - `UnifiedOrchestratorSpec` (class, line 601) `class UnifiedOrchestratorSpec(TestCase)`
-  - `ConfigDedupeSpec` (class, line 649) `class ConfigDedupeSpec(TestCase)`
-  - `CommandSetActivationSpec` (class, line 673) `class CommandSetActivationSpec(TestCase)`
-  - `DocstringDisciplineSpec` (class, line 706) `class DocstringDisciplineSpec(TestCase)`
-  - `GraphifyAvailabilitySpec` (class, line 745) `class GraphifyAvailabilitySpec(TestCase)`
-  - `CmdIntegrationRegressionSpec` (class, line 767) `class CmdIntegrationRegressionSpec(TestCase)`
-  - `LiveShellBehaviourSpec` (class, line 844) `class LiveShellBehaviourSpec(TestCase)`
-  - `FactoryWiringSpec` (class, line 996) `class FactoryWiringSpec(TestCase)`
+  - `StatusBarFactorySpec` (class, line 403) `class StatusBarFactorySpec(TestCase)`
+  - `OrchestratorGoalValidationSpec` (class, line 412) `class OrchestratorGoalValidationSpec(TestCase)`
+  - `BackendRegistrySpec` (class, line 452) `class BackendRegistrySpec(TestCase)`
+  - `RouterPolicySpec` (class, line 485) `class RouterPolicySpec(TestCase)`
+  - `EventBusSpec` (class, line 526) `class EventBusSpec(TestCase)`
+  - `BackendAdapterSpec` (class, line 558) `class BackendAdapterSpec(TestCase)`
+  - `UnifiedOrchestratorSpec` (class, line 609) `class UnifiedOrchestratorSpec(TestCase)`
+  - `ConfigDedupeSpec` (class, line 657) `class ConfigDedupeSpec(TestCase)`
+  - `CommandSetActivationSpec` (class, line 681) `class CommandSetActivationSpec(TestCase)`
+  - `DocstringDisciplineSpec` (class, line 714) `class DocstringDisciplineSpec(TestCase)`
+  - `GraphifyAvailabilitySpec` (class, line 753) `class GraphifyAvailabilitySpec(TestCase)`
+  - `CmdIntegrationRegressionSpec` (class, line 775) `class CmdIntegrationRegressionSpec(TestCase)`
+  - `LiveShellBehaviourSpec` (class, line 852) `class LiveShellBehaviourSpec(TestCase)`
+  - `FactoryWiringSpec` (class, line 1004) `class FactoryWiringSpec(TestCase)`
   - `__init__` (method, line 80) `def __init__(self, custom_prompt)`
   - `register_precmd_hook` (method, line 86) `def register_precmd_hook(self, hook)`
   - `__init__` (method, line 91) `def __init__(self, payload)`
@@ -266,95 +266,96 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `test_payload_target_falls_back_to_default` (method, line 366) `def test_payload_target_falls_back_to_default(self)`
   - `test_phase_prefers_world_model_over_payload` (method, line 370) `def test_phase_prefers_world_model_over_payload(self)`
   - `test_finding_prefers_credentials_over_notes` (method, line 375) `def test_finding_prefers_credentials_over_notes(self)`
-  - `test_suggestion_uses_advisor_when_available` (method, line 381) `def test_suggestion_uses_advisor_when_available(self)`
-  - `test_suggestion_falls_back_when_advisor_raises` (method, line 386) `def test_suggestion_falls_back_when_advisor_raises(self)`
-  - `test_factory_returns_manager_with_four_sources` (method, line 398) `def test_factory_returns_manager_with_four_sources(self)`
-  - `setUp` (method, line 407) `def setUp(self)`
-  - `test_empty_goal_is_rejected` (method, line 411) `def test_empty_goal_is_rejected(self)`
-  - `test_unknown_mode_is_rejected` (method, line 415) `def test_unknown_mode_is_rejected(self)`
-  - `test_long_goal_is_bounded` (method, line 419) `def test_long_goal_is_bounded(self)`
-  - `test_defaults_are_applied` (method, line 424) `def test_defaults_are_applied(self)`
-  - `test_task_type_stays_empty_when_unset` (method, line 429) `def test_task_type_stays_empty_when_unset(self)`
-  - `test_numeric_fields_stay_zero_when_unset` (method, line 433) `def test_numeric_fields_stay_zero_when_unset(self)`
-  - `test_metadata_carries_request_id` (method, line 438) `def test_metadata_carries_request_id(self)`
-  - `test_duplicate_name_raises` (method, line 447) `def test_duplicate_name_raises(self)`
-  - `test_empty_name_raises` (method, line 452) `def test_empty_name_raises(self)`
-  - `test_order_is_preserved` (method, line 465) `def test_order_is_preserved(self)`
-  - `setUp` (method, line 480) `def setUp(self)`
-  - `test_explicit_mode_overrides_router` (method, line 492) `def test_explicit_mode_overrides_router(self)`
-  - `test_auto_picks_daemon_when_target_present` (method, line 496) `def test_auto_picks_daemon_when_target_present(self)`
-  - `test_auto_picks_hive_on_swarm_keyword` (method, line 500) `def test_auto_picks_hive_on_swarm_keyword(self)`
-  - `test_auto_picks_swan_on_exploit_keyword` (method, line 504) `def test_auto_picks_swan_on_exploit_keyword(self)`
-  - `test_unavailable_explicit_mode_returns_none` (method, line 508) `def test_unavailable_explicit_mode_returns_none(self)`
-  - `setUp` (method, line 521) `def setUp(self)`
-  - `tearDown` (method, line 527) `def tearDown(self)`
-  - `test_emit_appends_jsonline` (method, line 530) `def test_emit_appends_jsonline(self)`
-  - `test_emit_rejects_oversize_event` (method, line 537) `def test_emit_rejects_oversize_event(self)`
-  - `test_emit_rejects_non_serialisable` (method, line 541) `def test_emit_rejects_non_serialisable(self)`
-  - `test_file_permissions_are_restrictive` (method, line 544) `def test_file_permissions_are_restrictive(self)`
-  - `setUp` (method, line 553) `def setUp(self)`
-  - `tearDown` (method, line 558) `def tearDown(self)`
-  - `_goal` (method, line 561) `def _goal(self)`
-  - `test_daemon_requires_target` (method, line 565) `def test_daemon_requires_target(self)`
-  - `test_daemon_normalises_dict_result` (method, line 570) `def test_daemon_normalises_dict_result(self)`
-  - `test_hive_runs_full_lifecycle` (method, line 577) `def test_hive_runs_full_lifecycle(self)`
-  - `test_swan_normalises_result_object` (method, line 584) `def test_swan_normalises_result_object(self)`
-  - `test_backend_returns_error_when_engine_raises` (method, line 590) `def test_backend_returns_error_when_engine_raises(self)`
-  - `setUp` (method, line 604) `def setUp(self)`
-  - `tearDown` (method, line 608) `def tearDown(self)`
-  - `_events` (method, line 611) `def _events(self)`
-  - `test_validation_error_returns_invalid_result` (method, line 617) `def test_validation_error_returns_invalid_result(self)`
-  - `test_unavailable_backend_returns_unavailable_result` (method, line 623) `def test_unavailable_backend_returns_unavailable_result(self)`
-  - `test_auto_routes_with_target_to_daemon` (method, line 628) `def test_auto_routes_with_target_to_daemon(self)`
-  - `test_event_is_emitted_per_execution` (method, line 634) `def test_event_is_emitted_per_execution(self)`
-  - `test_result_to_dict_is_json_serialisable` (method, line 642) `def test_result_to_dict_is_json_serialisable(self)`
-  - `test_utils_has_no_class_config` (method, line 658) `def test_utils_has_no_class_config(self)`
-  - `test_core_config_is_canonical` (method, line 664) `def test_core_config_is_canonical(self)`
-  - `_discover` (method, line 683) `def _discover(self)`
-  - `test_orchestration_set_is_active` (method, line 691) `def test_orchestration_set_is_active(self)`
-  - `test_orchestration_set_exposes_required_verbs` (method, line 697) `def test_orchestration_set_exposes_required_verbs(self)`
-  - `test_orchestration_set_phase_and_category_set` (method, line 701) `def test_orchestration_set_phase_and_category_set(self)`
-  - `test_every_class_in_new_modules_has_docstring` (method, line 709) `def test_every_class_in_new_modules_has_docstring(self)`
-  - `test_modules_avoid_emoji_in_source` (method, line 724) `def test_modules_avoid_emoji_in_source(self)`
-  - `test_suggestion_fallback_when_factory_none` (method, line 752) `def test_suggestion_fallback_when_factory_none(self)`
-  - `test_graph_file_is_valid_json_when_present` (method, line 758) `def test_graph_file_is_valid_json_when_present(self)`
-  - `test_command_set_resolves_shell_via_cmd_property` (method, line 781) `def test_command_set_resolves_shell_via_cmd_property(self)`
-  - `test_status_bar_install_registers_precmd_hook_on_real_cmd2` (method, line 795) `def test_status_bar_install_registers_precmd_hook_on_real_cmd2(self)`
-  - `test_orchestration_commandset_finds_managers_on_bound_shell` (method, line 818) `def test_orchestration_commandset_finds_managers_on_bound_shell(self)`
-  - `test_default_prompt_join_is_newline` (method, line 861) `def test_default_prompt_join_is_newline(self)`
-  - `test_command_hint_source_returns_kill_chain_verb` (method, line 866) `def test_command_hint_source_returns_kill_chain_verb(self)`
-  - `test_command_hint_source_falls_back_when_provider_raises` (method, line 892) `def test_command_hint_source_falls_back_when_provider_raises(self)`
-  - `test_command_hints_helper_returns_phase_priority_verbs` (method, line 913) `def test_command_hints_helper_returns_phase_priority_verbs(self)`
-  - `test_daemon_falls_back_to_payload_rhost` (method, line 921) `def test_daemon_falls_back_to_payload_rhost(self)`
-  - `test_router_picks_daemon_when_only_payload_supplies_target` (method, line 946) `def test_router_picks_daemon_when_only_payload_supplies_target(self)`
-  - `test_router_ignores_unset_task_type_for_keyword_scoring` (method, line 970) `def test_router_ignores_unset_task_type_for_keyword_scoring(self)`
-  - `test_build_default_orchestrator_registers_three_backends` (method, line 999) `def test_build_default_orchestrator_registers_three_backends(self)`
-  - `test_build_default_manager_does_not_touch_filesystem` (method, line 1003) `def test_build_default_manager_does_not_touch_filesystem(self)`
+  - `test_finding_skips_placeholder_credentials` (method, line 381) `def test_finding_skips_placeholder_credentials(self)`
+  - `test_suggestion_uses_advisor_when_available` (method, line 389) `def test_suggestion_uses_advisor_when_available(self)`
+  - `test_suggestion_falls_back_when_advisor_raises` (method, line 394) `def test_suggestion_falls_back_when_advisor_raises(self)`
+  - `test_factory_returns_manager_with_four_sources` (method, line 406) `def test_factory_returns_manager_with_four_sources(self)`
+  - `setUp` (method, line 415) `def setUp(self)`
+  - `test_empty_goal_is_rejected` (method, line 419) `def test_empty_goal_is_rejected(self)`
+  - `test_unknown_mode_is_rejected` (method, line 423) `def test_unknown_mode_is_rejected(self)`
+  - `test_long_goal_is_bounded` (method, line 427) `def test_long_goal_is_bounded(self)`
+  - `test_defaults_are_applied` (method, line 432) `def test_defaults_are_applied(self)`
+  - `test_task_type_stays_empty_when_unset` (method, line 437) `def test_task_type_stays_empty_when_unset(self)`
+  - `test_numeric_fields_stay_zero_when_unset` (method, line 441) `def test_numeric_fields_stay_zero_when_unset(self)`
+  - `test_metadata_carries_request_id` (method, line 446) `def test_metadata_carries_request_id(self)`
+  - `test_duplicate_name_raises` (method, line 455) `def test_duplicate_name_raises(self)`
+  - `test_empty_name_raises` (method, line 460) `def test_empty_name_raises(self)`
+  - `test_order_is_preserved` (method, line 473) `def test_order_is_preserved(self)`
+  - `setUp` (method, line 488) `def setUp(self)`
+  - `test_explicit_mode_overrides_router` (method, line 500) `def test_explicit_mode_overrides_router(self)`
+  - `test_auto_picks_daemon_when_target_present` (method, line 504) `def test_auto_picks_daemon_when_target_present(self)`
+  - `test_auto_picks_hive_on_swarm_keyword` (method, line 508) `def test_auto_picks_hive_on_swarm_keyword(self)`
+  - `test_auto_picks_swan_on_exploit_keyword` (method, line 512) `def test_auto_picks_swan_on_exploit_keyword(self)`
+  - `test_unavailable_explicit_mode_returns_none` (method, line 516) `def test_unavailable_explicit_mode_returns_none(self)`
+  - `setUp` (method, line 529) `def setUp(self)`
+  - `tearDown` (method, line 535) `def tearDown(self)`
+  - `test_emit_appends_jsonline` (method, line 538) `def test_emit_appends_jsonline(self)`
+  - `test_emit_rejects_oversize_event` (method, line 545) `def test_emit_rejects_oversize_event(self)`
+  - `test_emit_rejects_non_serialisable` (method, line 549) `def test_emit_rejects_non_serialisable(self)`
+  - `test_file_permissions_are_restrictive` (method, line 552) `def test_file_permissions_are_restrictive(self)`
+  - `setUp` (method, line 561) `def setUp(self)`
+  - `tearDown` (method, line 566) `def tearDown(self)`
+  - `_goal` (method, line 569) `def _goal(self)`
+  - `test_daemon_requires_target` (method, line 573) `def test_daemon_requires_target(self)`
+  - `test_daemon_normalises_dict_result` (method, line 578) `def test_daemon_normalises_dict_result(self)`
+  - `test_hive_runs_full_lifecycle` (method, line 585) `def test_hive_runs_full_lifecycle(self)`
+  - `test_swan_normalises_result_object` (method, line 592) `def test_swan_normalises_result_object(self)`
+  - `test_backend_returns_error_when_engine_raises` (method, line 598) `def test_backend_returns_error_when_engine_raises(self)`
+  - `setUp` (method, line 612) `def setUp(self)`
+  - `tearDown` (method, line 616) `def tearDown(self)`
+  - `_events` (method, line 619) `def _events(self)`
+  - `test_validation_error_returns_invalid_result` (method, line 625) `def test_validation_error_returns_invalid_result(self)`
+  - `test_unavailable_backend_returns_unavailable_result` (method, line 631) `def test_unavailable_backend_returns_unavailable_result(self)`
+  - `test_auto_routes_with_target_to_daemon` (method, line 636) `def test_auto_routes_with_target_to_daemon(self)`
+  - `test_event_is_emitted_per_execution` (method, line 642) `def test_event_is_emitted_per_execution(self)`
+  - `test_result_to_dict_is_json_serialisable` (method, line 650) `def test_result_to_dict_is_json_serialisable(self)`
+  - `test_utils_has_no_class_config` (method, line 666) `def test_utils_has_no_class_config(self)`
+  - `test_core_config_is_canonical` (method, line 672) `def test_core_config_is_canonical(self)`
+  - `_discover` (method, line 691) `def _discover(self)`
+  - `test_orchestration_set_is_active` (method, line 699) `def test_orchestration_set_is_active(self)`
+  - `test_orchestration_set_exposes_required_verbs` (method, line 705) `def test_orchestration_set_exposes_required_verbs(self)`
+  - `test_orchestration_set_phase_and_category_set` (method, line 709) `def test_orchestration_set_phase_and_category_set(self)`
+  - `test_every_class_in_new_modules_has_docstring` (method, line 717) `def test_every_class_in_new_modules_has_docstring(self)`
+  - `test_modules_avoid_emoji_in_source` (method, line 732) `def test_modules_avoid_emoji_in_source(self)`
+  - `test_suggestion_fallback_when_factory_none` (method, line 760) `def test_suggestion_fallback_when_factory_none(self)`
+  - `test_graph_file_is_valid_json_when_present` (method, line 766) `def test_graph_file_is_valid_json_when_present(self)`
+  - `test_command_set_resolves_shell_via_cmd_property` (method, line 789) `def test_command_set_resolves_shell_via_cmd_property(self)`
+  - `test_status_bar_install_registers_precmd_hook_on_real_cmd2` (method, line 803) `def test_status_bar_install_registers_precmd_hook_on_real_cmd2(self)`
+  - `test_orchestration_commandset_finds_managers_on_bound_shell` (method, line 826) `def test_orchestration_commandset_finds_managers_on_bound_shell(self)`
+  - `test_default_prompt_join_is_newline` (method, line 869) `def test_default_prompt_join_is_newline(self)`
+  - `test_command_hint_source_returns_kill_chain_verb` (method, line 874) `def test_command_hint_source_returns_kill_chain_verb(self)`
+  - `test_command_hint_source_falls_back_when_provider_raises` (method, line 900) `def test_command_hint_source_falls_back_when_provider_raises(self)`
+  - `test_command_hints_helper_returns_phase_priority_verbs` (method, line 921) `def test_command_hints_helper_returns_phase_priority_verbs(self)`
+  - `test_daemon_falls_back_to_payload_rhost` (method, line 929) `def test_daemon_falls_back_to_payload_rhost(self)`
+  - `test_router_picks_daemon_when_only_payload_supplies_target` (method, line 954) `def test_router_picks_daemon_when_only_payload_supplies_target(self)`
+  - `test_router_ignores_unset_task_type_for_keyword_scoring` (method, line 978) `def test_router_ignores_unset_task_type_for_keyword_scoring(self)`
+  - `test_build_default_orchestrator_registers_three_backends` (method, line 1007) `def test_build_default_orchestrator_registers_three_backends(self)`
+  - `test_build_default_manager_does_not_touch_filesystem` (method, line 1011) `def test_build_default_manager_does_not_touch_filesystem(self)`
   - `_make_engine` (function, line 154) `def _make_engine(goal)`
   - `_Broken` (class, line 289) `class _Broken`
   - `_Static` (class, line 308) `class _Static`
   - `_Static` (class, line 329) `class _Static`
-  - `_Broken` (class, line 387) `class _Broken`
-  - `_Unnamed` (class, line 453) `class _Unnamed`
-  - `_Boom` (class, line 591) `class _Boom`
-  - `contains_emoji` (function, line 730) `def contains_emoji(text)`
-  - `_Shell` (class, line 786) `class _Shell(Cmd)`
-  - `_Shell` (class, line 798) `class _Shell(Cmd)`
-  - `_Shell` (class, line 823) `class _Shell(Cmd)`
-  - `broken` (function, line 899) `def broken()`
-  - `factory` (function, line 931) `def factory(goal)`
+  - `_Broken` (class, line 395) `class _Broken`
+  - `_Unnamed` (class, line 461) `class _Unnamed`
+  - `_Boom` (class, line 599) `class _Boom`
+  - `contains_emoji` (function, line 738) `def contains_emoji(text)`
+  - `_Shell` (class, line 794) `class _Shell(Cmd)`
+  - `_Shell` (class, line 806) `class _Shell(Cmd)`
+  - `_Shell` (class, line 831) `class _Shell(Cmd)`
+  - `broken` (function, line 907) `def broken()`
+  - `factory` (function, line 939) `def factory(goal)`
   - `collect` (method, line 290) `def collect(self)`
   - `__init__` (method, line 309) `def __init__(self, value)`
   - `collect` (method, line 312) `def collect(self)`
   - `__init__` (method, line 330) `def __init__(self, value)`
   - `collect` (method, line 333) `def collect(self)`
-  - `suggest_next` (method, line 388) `def suggest_next(self)`
-  - `available` (method, line 456) `def available(self)`
-  - `run` (method, line 459) `def run(self, goal)`
-  - `run` (method, line 592) `def run(self)`
-  - `fake_hints` (function, line 878) `def fake_hints(last_cmd, phase, sessions_dir, limit)`
-  - `_Engine` (class, line 934) `class _Engine`
-  - `run` (method, line 935) `def run(self_inner)`
+  - `suggest_next` (method, line 396) `def suggest_next(self)`
+  - `available` (method, line 464) `def available(self)`
+  - `run` (method, line 467) `def run(self, goal)`
+  - `run` (method, line 600) `def run(self)`
+  - `fake_hints` (function, line 886) `def fake_hints(last_cmd, phase, sessions_dir, limit)`
+  - `_Engine` (class, line 942) `class _Engine`
+  - `run` (method, line 943) `def run(self_inner)`
 - Depends on: `cli/__init__.py`, `cli/commands/__init__.py`, `cli/commands/_dormancy.py`, `cli/commands/orchestration.py`, `cli/reactive_hints.py`, `cli/registry.py`, `cli/status_bar.py`, `core/config.py`, `skills/unified_orchestrator.py`
 
 ## tests/test_infra_disposable.py

@@ -66,6 +66,18 @@ def test_settlement_prompt_variants():
     assert "handoff" in settlement_prompt("main", "max_turns")
 
 
+def test_terminal_hint_explains_disposition_to_operator():
+    """BDD: terminal dispositions map to plain-language operator guidance."""
+    from modules.lazy_engine import terminal_hint
+
+    assert "redirect" in terminal_hint("repetition").lower()
+    assert "not" in terminal_hint("timeout").lower()
+    assert "budget" in terminal_hint("budget").lower()
+    assert terminal_hint("", "exhausted").startswith("intent exhausted")
+    assert terminal_hint("", "blocked").startswith("intent blocked")
+    assert terminal_hint("unknown-reason", "") == ""
+
+
 def test_intent_priority_claim_pause_resume(tmp_path, monkeypatch):
     """BDD: the frontier claims strictly by priority then id."""
     import modules.lazy_loop as loop

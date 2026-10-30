@@ -1837,6 +1837,15 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                         print_msg(f"    • {note}")
                 else:
                     print_error(f"[apt_chain] synth failed: {payload.get('error', 'validation')}")
+            elif payload.get("action") == "approvals" and list(payload.get("rows") or []):
+                print_msg(f"{'id':<18} {'status':<9} {'chain':<24} {'step':<20} command")
+                print_msg("-" * 88)
+                for row in payload["rows"]:
+                    print_msg(
+                        f"{str(row.get('id', ''))[:17]:<18} {str(row.get('status', ''))[:8]:<9} "
+                        f"{str(row.get('chain', ''))[:23]:<24} {str(row.get('step_id', ''))[:19]:<20} "
+                        f"{str(row.get('command', ''))[:60]}"
+                    )
             else:
                 if payload.get("errors"):
                     for error in payload["errors"]:
@@ -1912,6 +1921,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
             shell = self
 
         tokens_map = {"target": target}
+        tokens_map.setdefault("task_id", str(self.params.get("task_id", "") or ""))
         lhost = str(self.params.get("lhost", "") or "")
         lport = str(self.params.get("lport", "") or "")
         if lhost:
@@ -1935,13 +1945,24 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         args_vars = ", ".join(f"{key}={value}" for key, value in args.vars.items()) or "-"
         if not args.json_out:
             print_msg(f"[apt_chain] chain={chain_name} target={target} vars={args_vars}")
+        try:
+            from cli.apt_chain_support import build_c2_approver
+            from modules.chain_approval import approval_backend
+
+            approver = (
+                build_c2_approver(print_msg, chain_name=chain_name)
+                if approval_backend() == "c2"
+                else build_cli_approver(print_msg)
+            )
+        except Exception:
+            approver = build_cli_approver(print_msg)
         runner = ChainRunner(
             chain,
             tokens=tokens_map,
             shell=shell,
             dry_run=args.dry_run,
             total_timeout=total_timeout,
-            approver=build_cli_approver(print_msg),
+            approver=approver,
             checkpoint_dir=checkpoint_path,
             run_id=args.resume_run_id,
             resume_state=resume_state,
@@ -1984,7 +2005,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                         tokens=tokens_map,
                         shell=shell,
                         total_timeout=300.0,
-                        approver=build_cli_approver(print_msg),
+                        approver=approver,
                         checkpoint_dir=checkpoint_path,
                     )
                     recovery_result = recovery_runner.run()
@@ -1995,6 +2016,11 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 from modules.outcome_bus import record_event
 
                 sinks = [sink for step in result.steps for sink in (getattr(step, "sinks", []) or [])]
+                insufficient = [
+                    step_id
+                    for step_id, verdict in (result.verdicts or {}).items()
+                    if str(verdict) == "insufficient_data"
+                ]
                 event_kwargs: dict = {
                     "kind": "chain",
                     "target": target,
@@ -2012,6 +2038,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                         "branches": result.branches,
                         "run_id": result.run_id,
                         "refresh_report": True,
+                        "insufficient_steps": insufficient,
+                        "findings_gate": "blocked" if insufficient else "open",
                     },
                 }
                 if sinks:

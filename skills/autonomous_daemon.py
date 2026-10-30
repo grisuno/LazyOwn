@@ -115,6 +115,11 @@ CONTROL_PAUSE_POLL_S = float(os.environ.get("AUTO_PAUSE_POLL", "1"))
 CONTROL_PAUSE_MAX_S = float(os.environ.get("AUTO_PAUSE_MAX", "3600"))
 
 METRICS_BIAS_ENABLED = os.environ.get("AUTO_METRICS_BIAS", "1") not in ("0", "false", "False", "no", "off", "")
+
+_FALSEY = ("0", "false", "False", "no", "off", "")
+CHAIN_SELECTOR_ENABLED = os.environ.get("AUTO_CHAIN_SELECTOR", "1") not in _FALSEY
+CHAIN_SELECTOR_ALLOW_LAB = os.environ.get("AUTO_CHAIN_SELECTOR_LAB", "0") not in _FALSEY
+CHAIN_SELECTOR_TTL_S = float(os.environ.get("AUTO_CHAIN_SELECTOR_TTL", "60"))
 METRICS_BIAS_WINDOW_S = int(os.environ.get("AUTO_METRICS_WINDOW_S", "1800"))
 METRICS_BIAS_MIN_SUCCESS = float(os.environ.get("AUTO_METRICS_MIN_SUCCESS", "0.25"))
 METRICS_BIAS_MIN_ATTEMPTS = int(os.environ.get("AUTO_METRICS_MIN_ATTEMPTS", "3"))
@@ -1336,6 +1341,157 @@ class CredentialSpraySelector(ICommandSelector):
         return None
 
 
+class ChainSelector(ICommandSelector):
+    """Propose a vetted APT chain when one matches the phase, platform and services.
+
+    The autonomous loop otherwise probes one command at a time and never
+    leverages the curated multi-step chains under ``chains/``. This selector
+    bridges that gap: in a strategic phase, given the target OS hint and the
+    discovered services, it picks the single best-matching enabled chain and
+    emits ``apt_chain <name> <target>`` so the whole TTP sequence runs through
+    the existing ChainRunner (checkpoints, approval gates and per-step outcome
+    fan-out all apply). Selection is evidence-based (it fires only on a concrete
+    service or phase-affinity match) and each (chain, target) is proposed at
+    most once, so a chain never loops. Lab and gym chains are excluded unless
+    ``AUTO_CHAIN_SELECTOR_LAB`` is set, keeping autonomous runs focused on real
+    adversary emulation rather than range-specific recipes.
+
+    Single Responsibility: chain registry lookup and match scoring only.
+    """
+
+    _STRATEGIC_PHASES = frozenset({"exploit", "lateral", "privesc", "cred", "c2", "postexp"})
+    _LAB_TAGS = frozenset({"gym", "lab", "ad-lab", "metasploitable2", "ms2"})
+    _SERVICE_TAG_ALIASES: dict[str, str] = {
+        "microsoft-ds": "smb",
+        "netbios-ssn": "smb",
+        "netbios-dgm": "smb",
+        "samba": "smb",
+        "ms-wbt-server": "rdp",
+        "domain": "dns",
+        "ldap": "ad",
+        "kerberos-sec": "ad",
+        "https": "http",
+    }
+    _PHASE_AFFINITY: dict[str, frozenset[str]] = {
+        "cred": frozenset({"credentials", "creds", "ad"}),
+        "lateral": frozenset({"ad", "lateral", "smb", "winbox"}),
+        "privesc": frozenset({"privesc", "kernel", "ad"}),
+        "exploit": frozenset({"web", "http", "exploit"}),
+        "c2": frozenset({"c2", "beacon", "apt"}),
+        "postexp": frozenset({"persistence", "exfil", "apt"}),
+    }
+
+    def __init__(self) -> None:
+        """Initialise the per-target proposal ledger and the registry cache."""
+        self._proposed: set[str] = set()
+        self._cache: list[dict] = []
+        self._cache_ts: float = 0.0
+
+    def _chains(self) -> list[dict]:
+        """Return enabled, valid, non-lab chains, cached for the configured TTL."""
+        now = time.time()
+        if self._cache and (now - self._cache_ts) < CHAIN_SELECTOR_TTL_S:
+            return self._cache
+        try:
+            from modules.chain_registry import scan_all
+
+            rows = [
+                row
+                for row in scan_all()
+                if row.get("valid") and row.get("enabled")
+            ]
+        except Exception as exc:
+            log.debug("chain selector registry error: %s", exc)
+            rows = []
+        if not CHAIN_SELECTOR_ALLOW_LAB:
+            rows = [row for row in rows if not (set(self._norm_tags(row)) & self._LAB_TAGS)]
+        self._cache = rows
+        self._cache_ts = now
+        return rows
+
+    def _norm_tags(self, row: dict) -> list[str]:
+        """Return the chain's tags lowercased and aliased to the shared vocabulary.
+
+        Chain tags and discovered service names are normalised through the
+        same alias map (``samba`` -> ``smb``, ``https`` -> ``http``, ...) so a
+        tag and a service name that mean the same thing compare equal. Lab
+        markers such as ``gym`` and ``ad-lab`` are not aliased and survive for
+        the lab exclusion filter.
+        """
+        tags: list[str] = []
+        for tag in (row.get("tags") or []):
+            name = str(tag).strip().lower()
+            if name:
+                tags.append(self._SERVICE_TAG_ALIASES.get(name, name))
+        return tags
+
+    def _service_tokens(self, services: list) -> set[str]:
+        """Normalise discovered service names to the chain tag vocabulary."""
+        tokens: set[str] = set()
+        for svc in services or []:
+            name = str(svc).strip().lower()
+            if not name:
+                continue
+            tokens.add(self._SERVICE_TAG_ALIASES.get(name, name))
+        return tokens
+
+    def _platform_ok(self, row: dict, os_hint: str) -> bool:
+        """Return True when the chain can run against the target platform."""
+        platforms = {str(p).strip().lower() for p in (row.get("platforms") or []) if str(p).strip()}
+        if not platforms:
+            return True
+        hint = str(os_hint or "").strip().lower()
+        if hint in ("", "unknown", "any"):
+            return True
+        return hint in platforms
+
+    def _score(self, row: dict, phase: str, service_tokens: set[str]) -> int:
+        """Score one chain for the current phase and discovered services.
+
+        Selection is evidence-based: a chain scores zero unless at least one
+        of its tags matches a discovered service, so a chain is never proposed
+        blindly. Phase affinity only boosts the ranking of an
+        already-service-matched chain, it never triggers one on its own.
+        """
+        tags = set(self._norm_tags(row))
+        service_hits = len(tags & service_tokens)
+        if service_hits == 0:
+            return 0
+        return 2 * service_hits + len(tags & self._PHASE_AFFINITY.get(phase, frozenset()))
+
+    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
+        """Return an ``apt_chain`` decision for the best-matching chain, or None."""
+        if not CHAIN_SELECTOR_ENABLED or phase not in self._STRATEGIC_PHASES:
+            return None
+        if not target:
+            return None
+        os_hint = str(context.get("os_hint", "") or "")
+        service_tokens = self._service_tokens(context.get("services", []))
+        best: dict | None = None
+        best_score = 0
+        for row in self._chains():
+            name = str(row.get("name", "") or "")
+            if not name or f"{name}:{target}" in self._proposed:
+                continue
+            if not self._platform_ok(row, os_hint):
+                continue
+            score = self._score(row, phase, service_tokens)
+            if score > best_score:
+                best, best_score = row, score
+        if best is None or best_score < 1:
+            return None
+        name = str(best["name"])
+        self._proposed.add(f"{name}:{target}")
+        matched = sorted(set(self._norm_tags(best)) & service_tokens)
+        reason = f"vetted chain {name} matches {phase} on service(s) {','.join(matched)}"
+        return CommandDecision(
+            command=f"apt_chain {name} {target}",
+            source="chain",
+            reason=reason,
+            priority=3,
+        )
+
+
 class CascadeStrategy:
     """
     Chains selectors in order and returns the first non-None result.
@@ -1399,6 +1555,7 @@ class StrategyEngine:
             selectors = [
                 reactive_sel,
                 CredentialSpraySelector(self._fail_counts),
+                ChainSelector(),
                 ParquetSelector(pdb, self._fail_counts),
                 BridgeSelector(dispatcher, self._fail_counts),
                 SWANSelector(),

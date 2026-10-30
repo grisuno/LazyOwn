@@ -51,10 +51,18 @@ def test_chain_selector_abstains_without_match(monkeypatch):
 
 
 def test_chain_selector_respects_exclude(monkeypatch):
-    """Given the only match is excluded, When proposing, Then nothing returns."""
+    """Given the only match already taken, When proposing, Then nothing returns.
+
+    Exclude is the set of taken command strings; the chain selector derives the
+    excluded chain names from any ``apt_chain <name> ...`` already queued.
+    """
     _patch_registry(monkeypatch)
     ctx = SelectionContext(
-        target="10.0.0.9", phase="exploit", os_hint="linux", services=("http",), exclude=frozenset({"apt_web_http"})
+        target="10.0.0.9",
+        phase="exploit",
+        os_hint="linux",
+        services=("http",),
+        exclude=frozenset({"apt_chain apt_web_http 10.0.0.9"}),
     )
     assert ChainSelector().propose(ctx) is None
 

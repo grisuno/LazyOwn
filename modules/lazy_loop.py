@@ -4104,7 +4104,11 @@ class Worker:
                     self.name, "settle", settlement_prompt("worker", "timeout"), intent_id=intent.node_id
                 )
                 self._settle_partial(intent, transcripts, reason="timeout")
-                RuntimeTracker(self.store).abort(self.task_id, "timeout", f"intent #{intent.node_id} step {index}")
+                RuntimeTracker(self.store).abort(
+                    self.task_id,
+                    "timeout",
+                    f"intent #{intent.node_id} step {index} in-flight: {command[:160]}",
+                )
                 outcome["state"] = "stopped"
                 break
             if (self.store.get(self.task_id) or {}).get("status") == "paused":
@@ -5404,8 +5408,13 @@ class Worker:
         Port of the settlement phase: when budget cuts an agent mid-run
         the model gets one last bounded turn to write back what it
         learned. Without a pool the deterministic transcript fact from
-        ``_writeback`` still lands, so this never blocks progress.
+        ``_writeback`` still lands, so this never blocks progress. The
+        operator-facing terminal hint is emitted first so the trace
+        always explains the disposition even when no LLM pool is bound.
         """
+        hint = terminal_hint(reason)
+        if hint:
+            self.activity.emit(self.name, "disposition", hint, intent_id=intent.node_id)
         try:
             pool = LlmPool()
             chain = task_llm_chain(self.store, self.task_id)
@@ -6631,6 +6640,68 @@ DECIDE_ALTERNATIVES_RULE = (
     "Before committing to one step, weigh 2-3 plausible routes with cost/risk, "
     "then commit to one; record abandoned routes in the finding ledger"
 )
+
+
+LAZY_TERMINAL_HINTS: dict[str, str] = {
+    "repetition": (
+        "intent exhausted: the worker repeated a command with no new signal. "
+        "This is a redirect, not a failure; the planner will pick a different approach."
+    ),
+    "stalled": (
+        "intent exhausted: the same step ran repeatedly without progress and paused "
+        "for operator review. Not a failure; steer the worker or re-plan the intent."
+    ),
+    "timeout": (
+        "intent stopped: the wall-clock budget ran out mid-intent. Partial findings "
+        "were settled and the intent is exhausted so the planner changes direction, "
+        "not treated as a failure."
+    ),
+    "max_turns": (
+        "intent stopped: the turn budget ran out. Pending facts were flushed and the "
+        "intent is exhausted so the planner can continue from a fresh angle."
+    ),
+    "budget": (
+        "intent blocked: the task tool-call or finding budget was reached. Raise the "
+        "budget or narrow the goal before re-queuing."
+    ),
+    "paused": (
+        "intent re-queued: the operator paused the task. The intent returns to pending "
+        "and resumes when the task is unpaused."
+    ),
+    "kill": (
+        "intent terminated: the operator killed this intent. No further steps run on it."
+    ),
+}
+
+
+def terminal_hint(reason: str, state: str = "") -> str:
+    """Return a one-line operator explanation for a terminal disposition.
+
+    The autonomous loop settles an intent for several reasons (repetition,
+    timeout, budget, operator action). Operators who are not red-team
+    specialists need to know whether a terminal state is a failure or a
+    deliberate redirect. This maps the disposition reason, then the
+    terminal state, to that plain-language guidance.
+
+    Args:
+        reason: Disposition reason such as ``timeout`` or ``repetition``.
+        state: Terminal exploration state such as ``exhausted`` or
+            ``blocked``, used only when the reason has no mapping.
+
+    Returns:
+        Operator-facing hint, empty when neither reason nor state maps.
+    """
+    key = str(reason or "").strip().lower()
+    if key in LAZY_TERMINAL_HINTS:
+        return LAZY_TERMINAL_HINTS[key]
+    state_key = str(state or "").strip().lower()
+    if state_key == "exhausted":
+        return "intent exhausted: fully explored or redirected. Not a failure; the planner moves on."
+    if state_key == "blocked":
+        return "intent blocked: a precondition or budget prevents progress. Resolve it, then re-queue."
+    if state_key == "stopped":
+        return "intent stopped: execution was cut before completion. Review partial work and resume if needed."
+    return ""
 
 
 def build_prompt_context(

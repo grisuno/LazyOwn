@@ -66,6 +66,36 @@ def test_settlement_prompt_variants():
     assert "handoff" in settlement_prompt("main", "max_turns")
 
 
+def test_failed_chain_step_steers_the_planner(tmp_path, monkeypatch):
+    """BDD: an unresolvable chain-step failure becomes a planner intent.
+
+    Given a chain step fails with steer set, When the chain_feed sink
+    applies it and the planner builds candidates, Then a steered probe
+    intent carrying the failure appears so the autonomous loop regains
+    control of the stalled chain instead of dropping it.
+    """
+    import modules.lazy_loop as loop
+    from modules.outcome_bus import OutcomeEvent
+    from modules.sinks.chain_feed import apply as chain_feed_apply
+
+    engine = _patched_engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("gain access on 10.0.0.9")["task_id"]
+
+    event = OutcomeEvent(
+        kind="chain_step",
+        task_id=task_id,
+        target="10.0.0.9",
+        description="smb login refused",
+        metadata={"run_id": "r1", "chain": "demo", "step_id": "smb", "status": "failed", "steer": True},
+    )
+    assert chain_feed_apply(event) is True
+
+    graph = loop.ExplorationGraph(task_id)
+    planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
+    summaries = [row[0] for row in planner._candidates()]
+    assert any(summary.startswith("steered probe:") and "smb" in summary for summary in summaries)
+
+
 def test_terminal_hint_explains_disposition_to_operator():
     """BDD: terminal dispositions map to plain-language operator guidance."""
     from modules.lazy_engine import terminal_hint

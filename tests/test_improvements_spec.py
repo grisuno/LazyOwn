@@ -378,6 +378,14 @@ class StatusBarSourceSpec(unittest.TestCase):
         source = SessionFindingSource(self.config, self.reader)
         self.assertTrue(source.collect().startswith("cred:"))
 
+    def test_finding_skips_placeholder_credentials(self) -> None:
+        (self.root / "credentials_seed.txt").write_text("CHANGE_ME:CHANGE_ME\n", encoding="utf-8")
+        (self.root / self.config.notes_filename).write_text(json.dumps({"note": "real signal"}) + "\n", encoding="utf-8")
+        source = SessionFindingSource(self.config, self.reader)
+        collected = source.collect()
+        self.assertNotIn("CHANGE_ME", collected)
+        self.assertEqual(collected, "note:real signal")
+
     def test_suggestion_uses_advisor_when_available(self) -> None:
         advisor = _FakeAdvisor([{"label": "gobuster"}])
         source = GraphSuggestionSource(self.config, self.reader, advisor_factory=lambda: advisor)

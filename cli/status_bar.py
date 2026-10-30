@@ -341,7 +341,9 @@ class SessionFindingSource:
                 continue
             line = self._last_line(candidate)
             if line:
-                return self._summarise_credential(candidate.name, line)
+                summary = self._summarise_credential(candidate.name, line)
+                if summary:
+                    return summary
         return ""
 
     def _latest_vuln(self) -> str:
@@ -388,12 +390,17 @@ class SessionFindingSource:
                 return stripped
         return ""
 
+    _PLACEHOLDER_CRED_TOKENS = ("CHANGE_ME", "CHANGEME", "YOUR_API_KEY_HERE", "YOUR_API_KEY", "USERNAME", "PASSWORD")
+
     def _summarise_credential(self, filename: str, line: str) -> str:
         kind = "cred" if "credentials" in filename else "hash"
         user_match = re.match(r"([^:\s]{1,32})", line)
         if user_match:
-            return f"{kind}:{user_match.group(1)}"
-        return kind
+            token = user_match.group(1)
+            if token.upper() in self._PLACEHOLDER_CRED_TOKENS:
+                return ""
+            return f"{kind}:{token}"
+        return ""
 
     def _extract_vuln_items(self, payload: Any) -> list[str]:
         if isinstance(payload, dict):

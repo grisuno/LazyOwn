@@ -21,6 +21,6 @@ tool:
   name: vulnbot_groq
   repo_url: https://github.com/grisuno/LazyOwn.git
   install_path: modules/
-  execute_command: export GROQ_API_KEY="{{ api_key }}" && python3 vuln_bot_cli.py
-    --file ../sessions/vulns_{rhost}.nmap --provider groq --mode console | gum format
+  execute_command: python3 vuln_bot_cli.py --file ../sessions/vulns_{rhost}.nmap
+    --provider groq --mode console | gum format
 category: 12. Miscellaneous

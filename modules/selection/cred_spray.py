@@ -9,7 +9,7 @@ both autonomous runtimes share one implementation.
 
 from __future__ import annotations
 
-from modules.selectors.base import ActionDecision, SelectionContext
+from modules.selection.base import ActionDecision, SelectionContext
 
 _SERVICE_VERBS: dict[str, str] = {
     "ssh": "lazyssh",

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import re
 
-from modules.selectors.base import ActionDecision, SelectionContext
+from modules.selection.base import ActionDecision, SelectionContext
 
 _WORD_RE = re.compile(r"[a-z0-9]+")
 

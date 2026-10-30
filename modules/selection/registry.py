@@ -11,12 +11,12 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
-from modules.selectors.adversary import AdversarySelector
-from modules.selectors.atomic import AtomicSelector
-from modules.selectors.base import ActionDecision, SelectionContext, Selector
-from modules.selectors.chain import ChainSelector
-from modules.selectors.cred_spray import CredentialSpraySelector
-from modules.selectors.playbook import PlaybookSelector
+from modules.selection.adversary import AdversarySelector
+from modules.selection.atomic import AtomicSelector
+from modules.selection.base import ActionDecision, SelectionContext, Selector
+from modules.selection.chain import ChainSelector
+from modules.selection.cred_spray import CredentialSpraySelector
+from modules.selection.playbook import PlaybookSelector
 
 
 def all_selectors() -> list[Selector]:

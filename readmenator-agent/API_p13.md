@@ -3,7 +3,7 @@ Previous: [API_p12.md](API_p12.md)
 
 ## modules/intercept.py
 Depends on: `cli/commands/enum.py`
-Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
 - `InterceptRule.matches` (method) `modules/intercept.py:68` `def matches(self, tool, command)` -- Return True when this rule matches the tool call surface.
 - `builtin_rules` (function) `modules/intercept.py:101` `def builtin_rules()` -- Return the default destructive and exfiltration guard rules.
 - `scope_blocked` (function) `modules/intercept.py:131` `def scope_blocked(target)` -- Return the matching global scope suffix or empty (LAZY parity).
@@ -107,25 +107,29 @@ Imported by: `lazyc2.py`
 
 ## modules/killchain.py
 Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_single_source_of_truth.py`
-- `KillChainConfig.world_model_path` (method) `modules/killchain.py:118` `def world_model_path(self)` -- Return the resolved path to world_model.json.
-- `KillChainConfig.phase_index` (method) `modules/killchain.py:122` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
-- `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:129` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
-- `KillChain.config` (method) `modules/killchain.py:156` `def config()` -- Return the centralised configuration.
-- `KillChain.phases` (method) `modules/killchain.py:161` `def phases()` -- Return the canonical 8-phase tuple.
-- `KillChain.phase_labels` (method) `modules/killchain.py:166` `def phase_labels()` -- Return the canonical phase label mapping.
-- `KillChain.phase_colors` (method) `modules/killchain.py:171` `def phase_colors()` -- Return the canonical phase hex-color mapping.
-- `KillChain.phase_rich_colors` (method) `modules/killchain.py:176` `def phase_rich_colors()` -- Return the canonical phase rich-terminal color mapping.
-- `KillChain.engagement_phase_to_cli` (method) `modules/killchain.py:181` `def engagement_phase_to_cli(engagement_value)` -- Map a ``WorldModel.EngagementPhase`` value to the CLI phase key.
-- `KillChain.cli_phase_to_host_state` (method) `modules/killchain.py:193` `def cli_phase_to_host_state(phase)` -- Map a CLI phase to a ``WorldModel.HostState`` value.
-- `KillChain.current_phase` (method) `modules/killchain.py:206` `def current_phase(world_model_path)` -- Derive the current kill-chain phase.
-- `KillChain.advance_phase` (method) `modules/killchain.py:253` `def advance_phase(new_phase, world_model_path, host, extras)` -- Advance the kill-chain phase for connected surfaces.
-- `KillChain.get_progress` (method) `modules/killchain.py:357` `def get_progress(world_model_path)` -- Return the current kill-chain progress as a list of status objects.
-- `KillChain.compact_progress` (method) `modules/killchain.py:406` `def compact_progress(current_phase, phases_entered)` -- Return a compact single-line progress indicator ``[R>E>X>P>L]``.
-- `KillChain.phases_for_display` (method) `modules/killchain.py:426` `def phases_for_display()` -- Return an ordered ``(key, label, hex_color)`` triple for every phase.
-- `KillChain.phase_index` (method) `modules/killchain.py:437` `def phase_index(phase)` -- Return the zero-based index of a canonical phase.
-- `KillChain.snapshot` (method) `modules/killchain.py:442` `def snapshot(world_model_path)` -- Return a single, render-agnostic snapshot of the whole kill-chain.
-- `get_killchain` (function) `modules/killchain.py:482` `def get_killchain()` -- Return the ``KillChain`` class as a module-level entry point.
+Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/lazynmap_post.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_loop.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `modules/sinks/killchain.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`, `tests/test_single_source_of_truth.py`
+- `KillChainConfig.world_model_path` (method) `modules/killchain.py:177` `def world_model_path(self)` -- Return the resolved path to world_model.json.
+- `KillChainConfig.phase_index` (method) `modules/killchain.py:181` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
+- `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:188` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
+- `KillChain.config` (method) `modules/killchain.py:215` `def config()` -- Return the centralised configuration.
+- `KillChain.phases` (method) `modules/killchain.py:220` `def phases()` -- Return the canonical 8-phase tuple.
+- `KillChain.phase_labels` (method) `modules/killchain.py:225` `def phase_labels()` -- Return the canonical phase label mapping.
+- `KillChain.phase_colors` (method) `modules/killchain.py:230` `def phase_colors()` -- Return the canonical phase hex-color mapping.
+- `KillChain.phase_rich_colors` (method) `modules/killchain.py:235` `def phase_rich_colors()` -- Return the canonical phase rich-terminal color mapping.
+- `KillChain.engagement_phase_to_cli` (method) `modules/killchain.py:240` `def engagement_phase_to_cli(engagement_value)` -- Map a ``WorldModel.EngagementPhase`` value to the CLI phase key.
+- `KillChain.cli_phase_to_host_state` (method) `modules/killchain.py:252` `def cli_phase_to_host_state(phase)` -- Map a CLI phase to a ``WorldModel.HostState`` value.
+- `KillChain.current_phase` (method) `modules/killchain.py:265` `def current_phase(world_model_path)` -- Derive the current kill-chain phase.
+- `KillChain.advance_phase` (method) `modules/killchain.py:312` `def advance_phase(new_phase, world_model_path, host, extras)` -- Advance the kill-chain phase for connected surfaces.
+- `KillChain.get_progress` (method) `modules/killchain.py:416` `def get_progress(world_model_path)` -- Return the current kill-chain progress as a list of status objects.
+- `KillChain.compact_progress` (method) `modules/killchain.py:465` `def compact_progress(current_phase, phases_entered)` -- Return a compact single-line progress indicator ``[R>E>X>P>L]``.
+- `KillChain.phases_for_display` (method) `modules/killchain.py:485` `def phases_for_display()` -- Return an ordered ``(key, label, hex_color)`` triple for every phase.
+- `KillChain.phase_index` (method) `modules/killchain.py:496` `def phase_index(phase)` -- Return the zero-based index of a canonical phase.
+- `KillChain.snapshot` (method) `modules/killchain.py:501` `def snapshot(world_model_path)` -- Return a single, render-agnostic snapshot of the whole kill-chain.
+- `KillChain.technique_for_phase` (method) `modules/killchain.py:541` `def technique_for_phase(phase)` -- Return the ATT&CK tactic id of one canonical phase.
+- `KillChain.technique_for_vulnclass` (method) `modules/killchain.py:553` `def technique_for_vulnclass(vulnclass)` -- Return the ATT&CK technique id for one vulnerability class.
+- `get_killchain` (function) `modules/killchain.py:566` `def get_killchain()` -- Return the ``KillChain`` class as a module-level entry point.
+- `technique_for_phase` (function) `modules/killchain.py:571` `def technique_for_phase(phase)` -- Module-level alias of :meth:`KillChain.technique_for_phase`.
+- `technique_for_vulnclass` (function) `modules/killchain.py:576` `def technique_for_vulnclass(vulnclass)` -- Module-level alias of :meth:`KillChain.technique_for_vulnclass`.
 
 ## modules/kivi.py
 - `ReverseShellApp.build` (method) `modules/kivi.py:12` `def build(self)`
@@ -191,6 +195,13 @@ Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown
 - `push_tasks_to_c2` (function) `modules/lazy_bridge.py:501` `def push_tasks_to_c2(only)` -- Mirror loop tasks into the lazyc2 Kanban board (sessions/tasks.json).
 - `sync_all` (function) `modules/lazy_bridge.py:566` `def sync_all(progress)` -- Run full bidirectional pull plus lifecycle, traffic and board mirror.
 
+## modules/lazy_checks.py
+Depends on: `modules/lazy_heat.py`
+Imported by: `tests/test_lazy_checks.py`
+- `extract_version` (function) `modules/lazy_checks.py:30` `def extract_version(text)` -- Pull the most version-like token from check output.
+- `extract_cve` (function) `modules/lazy_checks.py:51` `def extract_cve(text)` -- Pull the uppercased CVE id from a finding text, or ''.
+- `interpret_checks` (function) `modules/lazy_checks.py:57` `def interpret_checks(checks, cve, stored_version, ranges)` -- Re-read check results through the stored version range.
+
 ## modules/lazy_cli_bridge.py
 Depends on: `core/config.py`, `modules/killchain.py`, `modules/verb_catalog.py`
 Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/verb_catalog.py`, `tests/test_loop_cli_catalog.py`
@@ -216,7 +227,7 @@ Imported by: `cli/commands/lazyops.py`, `modules/auto_registry.py`, `modules/cha
 
 ## modules/lazy_cve_feed.py
 Depends on: `modules/lazy_heat.py`
-Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`
+Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/lazy_hostscore.py`, `tests/test_lazy_checks.py`
 - `load_kev` (function) `modules/lazy_cve_feed.py:158` `def load_kev(force)` -- Return ``{cve_id: {product, vendor}}`` from the CISA KEV catalog.
 - `load_epss` (function) `modules/lazy_cve_feed.py:192` `def load_epss(force)` -- Return ``{cve_id: epss}`` from the FIRST daily EPSS scores.
 - `load_exploit_cves` (function) `modules/lazy_cve_feed.py:233` `def load_exploit_cves(force)` -- Return CVE ids with public exploit code (Exploit-DB index).
@@ -224,12 +235,39 @@ Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`
 - `fetch_product_advisories` (function) `modules/lazy_cve_feed.py:291` `def fetch_product_advisories(product, force)` -- Fetch OSV advisories naming one product.
 - `cve_intel` (function) `modules/lazy_cve_feed.py:360` `def cve_intel(cve_id, feeds, allow_network)` -- Assemble exploitation signals and the heat tier for one CVE.
 - `correlate` (function) `modules/lazy_cve_feed.py:438` `def correlate(product, version, allow_network)` -- Version-aware CVE candidates for one service product.
-- `load_kev_matches` (function) `modules/lazy_cve_feed.py:526` `def load_kev_matches(product, feeds)` -- KEV entries whose vendor/product names match one service product.
-- `hot_matches` (function) `modules/lazy_cve_feed.py:568` `def hot_matches(services, allow_network)` -- Hot/warm CVE candidates matching discovered services.
-- `refresh_feeds_async` (function) `modules/lazy_cve_feed.py:612` `def refresh_feeds_async(products)` -- Refresh bulk feeds in one background daemon thread.
+- `convert_osv_ranges` (function) `modules/lazy_cve_feed.py:515` `def convert_osv_ranges(affected)` -- Convert one OSV ``affected`` entry into version-range dicts.
+- `range_for_cve` (function) `modules/lazy_cve_feed.py:565` `def range_for_cve(cve_id, allow_network)` -- Return the OSV affected ranges bound to one CVE, offline-first.
+- `load_kev_matches` (function) `modules/lazy_cve_feed.py:594` `def load_kev_matches(product, feeds)` -- KEV entries whose vendor/product names match one service product.
+- `hot_matches` (function) `modules/lazy_cve_feed.py:636` `def hot_matches(services, allow_network)` -- Hot/warm CVE candidates matching discovered services.
+- `refresh_feeds_async` (function) `modules/lazy_cve_feed.py:680` `def refresh_feeds_async(products)` -- Refresh bulk feeds in one background daemon thread.
+
+## modules/lazy_findings.py
+Depends on: `core/hardening.py`
+Imported by: `tests/test_findings_gate.py`, `tests/test_lazy_findings.py`
+- `LedgerLimits.clamped` (method) `modules/lazy_findings.py:81` `def clamped(self)` -- Return a copy with every knob forced into its valid range.
+- `engagement_id_valid` (function) `modules/lazy_findings.py:91` `def engagement_id_valid(value)` -- Return True when the engagement id is safe as a path segment.
+- `technique_id_valid` (function) `modules/lazy_findings.py:103` `def technique_id_valid(value)` -- Return True when a MITRE technique or tactic id is well formed.
+- `severity_tier` (function) `modules/lazy_findings.py:116` `def severity_tier(severity)` -- Map a severity to a starting state and evidence level.
+- `level_for_state_uplift` (function) `modules/lazy_findings.py:138` `def level_for_state_uplift(level, state)` -- Return the evidence level after a state transition.
+- `evidence_reject_reason` (function) `modules/lazy_findings.py:156` `def evidence_reject_reason(state, evidence, min_output)` -- Reason a ``confirmed`` state is rejected, or an empty string.
+- `state_counts` (function) `modules/lazy_findings.py:191` `def state_counts(rows)` -- Count the latest known state per finding reference.
+- `metadata_level` (function) `modules/lazy_findings.py:217` `def metadata_level(payload)` -- Return the recorded evidence level of an event, sane default.
+- `row_from_event` (function) `modules/lazy_findings.py:230` `def row_from_event(payload, limits)` -- Map one outcome event to a ledger row, or None when unmappable.
+- `evidence_supported` (function) `modules/lazy_findings.py:281` `def evidence_supported(evidence, min_output)` -- Return True when evidence backing allows the ``confirmed`` state.
+- `discard_row` (function) `modules/lazy_findings.py:382` `def discard_row(reason, command, output, technique_id, engagement_id, target)` -- Build a discarded-vector row so dead routes are recorded permanently.
+- `normalize_finding` (function) `modules/lazy_findings.py:429` `def normalize_finding(row, limits)` -- Validate and normalize one row without persisting.
+- `build_handoff` (function) `modules/lazy_findings.py:481` `def build_handoff(rows, status, rounds)` -- Shape the operator handoff from durable ledger rows.
+- `FindingsLedger.__init__` (method) `modules/lazy_findings.py:542` `def __init__(self, engagement_id, base_dir, limits, scrub)` -- Bind the ledger to one engagement path with injected limits.
+- `FindingsLedger.file_path` (method) `modules/lazy_findings.py:569` `def file_path(self)` -- Return the ledger JSONL file path.
+- `FindingsLedger.normalize` (method) `modules/lazy_findings.py:573` `def normalize(self, row)` -- Validate and normalize one row before persistence.
+- `FindingsLedger.append` (method) `modules/lazy_findings.py:606` `def append(self, row)` -- Append one normalized row atomically and return it.
+- `FindingsLedger.read` (method) `modules/lazy_findings.py:636` `def read(self, cursor, limit)` -- Read rows paginated by line index.
+- `FindingsLedger.rows` (method) `modules/lazy_findings.py:660` `def rows(self)` -- Return every well-formed row in append order.
+- `FindingsLedger.history` (method) `modules/lazy_findings.py:684` `def history(self, finding_ref)` -- Return every transition recorded for one finding reference.
+- `FindingsLedger.latest_state` (method) `modules/lazy_findings.py:696` `def latest_state(self, finding_ref)` -- Return the newest known state of one finding reference.
 
 ## modules/lazy_heat.py
-Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_cve_feed.py`, `modules/loop_triggers.py`
+Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_checks.py`, `modules/lazy_cve_feed.py`, `modules/lazy_match_policy.py`, `modules/loop_triggers.py`
 - `classify_heat` (function) `modules/lazy_heat.py:68` `def classify_heat(kev, epss, exploit, cvss)` -- Return the heat tier of one CVE from its exploitation signals.
 - `match_heat` (function) `modules/lazy_heat.py:91` `def match_heat(tier, cvss, verdict, distro_status)` -- Return the heat of one CVE *on one host*.
 - `parse_version` (function) `modules/lazy_heat.py:118` `def parse_version(value, strict)` -- Parse a dotted version string into a comparable tuple.
@@ -241,6 +279,13 @@ Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `mod
 - `parse_distro_revision` (function) `modules/lazy_heat.py:303` `def parse_distro_revision(banner)` -- Read the distro family and package release from a service banner.
 - `backport_status` (function) `modules/lazy_heat.py:342` `def backport_status(banner, fixed_revision)` -- Classify whether a distro already backported the fix.
 - `label_for` (function) `modules/lazy_heat.py:370` `def label_for(status, fixed_revision)` -- Human-readable label for one backport status.
+
+## modules/lazy_hostscore.py
+Depends on: `modules/lazy_cve_feed.py`, `modules/lazy_world_diff.py`, `modules/world_model.py`
+Imported by: `modules/lazy_loop.py`, `tests/test_lazy_hostscore.py`
+- `score_host` (function) `modules/lazy_hostscore.py:34` `def score_host(inputs)` -- Score one host from plain-dict inputs.
+- `rescore` (function) `modules/lazy_hostscore.py:96` `def rescore(sessions_dir, allow_network, now)` -- Score the whole world model and persist the table result.
+- `load_scores` (function) `modules/lazy_hostscore.py:193` `def load_scores(sessions_dir)` -- Return the persisted per-host scores.
 
 ## modules/lazy_installer.py
 Depends on: `core/config.py`, `modules/auto_registry.py`
@@ -264,6 +309,17 @@ Imported by: `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `m
 - `stack_signature` (function) `modules/lazy_intel.py:272` `def stack_signature(assets)` -- Fingerprint the target stack from service assets.
 - `fuse_routing_decisions` (function) `modules/lazy_intel.py:303` `def fuse_routing_decisions(task_id)` -- Fuse routing records into the world model as host notes.
 - `export_spans` (function) `modules/lazy_intel.py:342` `def export_spans(task_id, out)` -- Export activity records as trace spans for observability.
+
+## modules/lazy_ledger.py
+Depends on: `modules/lazy_loop.py`
+Imported by: `modules/lazy_loop.py`, `modules/sinks/routing.py`, `tests/test_lazy_ledger.py`
+- `window_for` (function) `modules/lazy_ledger.py:32` `def window_for(verb)` -- Return the freshness window for one verb identity.
+- `ledger_key` (function) `modules/lazy_ledger.py:53` `def ledger_key(verb, target)` -- Return the identity key of one verb/target pair.
+- `key_from_command` (function) `modules/lazy_ledger.py:58` `def key_from_command(command, target)` -- Derive the ledger key from one executed command line.
+- `json_load` (function) `modules/lazy_ledger.py:133` `def json_load(path)` -- Read one JSON document or raise on malformed content.
+- `fresh` (function) `modules/lazy_ledger.py:140` `def fresh(verb, target, now, sessions_dir)` -- Return True when one verb/target pair already ran inside its TTL.
+- `record` (function) `modules/lazy_ledger.py:164` `def record(verb, target, ok, now, sessions_dir)` -- Upsert one completed run so the pair stops being stale.
+- `stale_first` (function) `modules/lazy_ledger.py:191` `def stale_first(catalog, now, sessions_dir)` -- Order verb/target pairs: never-run first, then longest-waiting.
 
 
 Next: [API_p14.md](API_p14.md)

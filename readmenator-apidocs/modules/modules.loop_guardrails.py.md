@@ -1,6 +1,6 @@
 # `modules.loop_guardrails`
 
-> Source: [modules/loop_guardrails.py:1](../../modules/loop_guardrails.py#L1) | language `py` | coverage 92.9% | [API index](../index.md)
+> Source: [modules/loop_guardrails.py:1](../../modules/loop_guardrails.py#L1) | language `py` | coverage 93.1% | [API index](../index.md)
 
 Adaptive guardrails for the autonomous loop.
 
@@ -40,6 +40,7 @@ classDiagram
     RepeatDetector : __init__()
     RepeatDetector : record()
     RepeatDetector : stuck()
+    RepeatDetector : oscillation_pair()
     RepeatDetector : last_commands()
     RepeatDetector : reset()
     class EdrPacer
@@ -93,13 +94,19 @@ flowchart LR
 class RepeatDetector
 ```
 
-Sliding-window detector for identical repeated commands.
+Sliding-window detector for identical and alternating repeats.
+
+Two stuck-loop shapes are recognised:
+
+- AAAA: every command in the window is identical.
+- ABABAB: the window alternates between exactly two commands with at
+  least two repetitions each, the oscillation the legacy loop vetoed.
 
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `window` |  |  | How many recent commands to watch. |
+| `window` |  |  | How many recent commands to watch (minimum 6 for the alternating pattern). |
 
 **Members**
 
@@ -107,7 +114,8 @@ Sliding-window detector for identical repeated commands.
 |---|---|---|
 | [`__init__`](#repeatdetector-__init__) | constructor |  |
 | [`record`](#repeatdetector-record) | method | Add one executed command; returns True when the window fills. |
-| [`stuck`](#repeatdetector-stuck) | property | True when the window is full of one identical command. |
+| [`stuck`](#repeatdetector-stuck) | property | True when the loop is visibly not progressing. |
+| [`oscillation_pair`](#repeatdetector-oscillation_pair) | method | Return the detected alternating pair, ('', '') when none. |
 | [`last_commands`](#repeatdetector-last_commands) | method | Snapshot of the recent command window (oldest first). |
 | [`reset`](#repeatdetector-reset) | method | Clear the window (operator intervention acknowledged). |
 
@@ -115,7 +123,7 @@ Sliding-window detector for identical repeated commands.
 
 #### `RepeatDetector.__init__`
 
-`constructor` | [modules/loop_guardrails.py:89](../../modules/loop_guardrails.py#L89)
+`constructor` | [modules/loop_guardrails.py:98](../../modules/loop_guardrails.py#L98)
 
 ```python
 def __init__(self, window: int = DEFAULT_REPEAT_WINDOW) -> None
@@ -125,7 +133,7 @@ def __init__(self, window: int = DEFAULT_REPEAT_WINDOW) -> None
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `window` | `int` | `DEFAULT_REPEAT_WINDOW` | How many recent commands to watch. |
+| `window` | `int` | `DEFAULT_REPEAT_WINDOW` | How many recent commands to watch (minimum 6 for the alternating pattern). |
 
 *Called by:* [`Worker.__init__`](modules.lazy_loop.py.md#worker-__init__)
 
@@ -133,7 +141,7 @@ def __init__(self, window: int = DEFAULT_REPEAT_WINDOW) -> None
 
 #### `RepeatDetector.record`
 
-`method` | [modules/loop_guardrails.py:93](../../modules/loop_guardrails.py#L93)
+`method` | [modules/loop_guardrails.py:104](../../modules/loop_guardrails.py#L104)
 
 ```python
 def record(self, command: str) -> bool
@@ -147,8 +155,7 @@ Add one executed command; returns True when the window fills.
 |---|---|---|---|
 | `command` | `str` |  | Exact command line as executed. |
 
-**Returns:** `bool` - True when the last `[`window`](lazygui.config.constants.py.md#appconstants-window)` recorded commands are all
-identical (stuck loop signal).
+**Returns:** `bool` - True when a stuck-loop shape fills the window.
 
 *Called by:* [`Worker.execute`](modules.lazy_loop.py.md#worker-execute)
 
@@ -156,7 +163,7 @@ identical (stuck loop signal).
 
 #### `RepeatDetector.stuck`
 
-`property` | [modules/loop_guardrails.py:110](../../modules/loop_guardrails.py#L110)
+`property` | [modules/loop_guardrails.py:139](../../modules/loop_guardrails.py#L139)
 
 Decorators: `@property`
 
@@ -164,15 +171,33 @@ Decorators: `@property`
 def stuck(self) -> bool
 ```
 
-True when the window is full of one identical command.
+True when the loop is visibly not progressing.
+
+Either the window is all one identical command (AAAA), or the
+window is at least `_OSCILLATION_MIN` long and holds
+exactly two commands alternating (ABABAB).
 
 **Returns:** `bool`
+
+<a id="repeatdetector-oscillation_pair"></a>
+
+#### `RepeatDetector.oscillation_pair`
+
+`method` | [modules/loop_guardrails.py:163](../../modules/loop_guardrails.py#L163)
+
+```python
+def oscillation_pair(self) -> tuple[str, str]
+```
+
+Return the detected alternating pair, ('', '') when none.
+
+**Returns:** `tuple[str, str]`
 
 <a id="repeatdetector-last_commands"></a>
 
 #### `RepeatDetector.last_commands`
 
-`method` | [modules/loop_guardrails.py:117](../../modules/loop_guardrails.py#L117)
+`method` | [modules/loop_guardrails.py:167](../../modules/loop_guardrails.py#L167)
 
 ```python
 def last_commands(self) -> list[str]
@@ -188,7 +213,7 @@ Snapshot of the recent command window (oldest first).
 
 #### `RepeatDetector.reset`
 
-`method` | [modules/loop_guardrails.py:121](../../modules/loop_guardrails.py#L121)
+`method` | [modules/loop_guardrails.py:171](../../modules/loop_guardrails.py#L171)
 
 ```python
 def reset(self) -> None
@@ -202,7 +227,7 @@ Clear the window (operator intervention acknowledged).
 
 ### `EdrPacer`
 
-`class` | [modules/loop_guardrails.py:126](../../modules/loop_guardrails.py#L126)
+`class` | [modules/loop_guardrails.py:178](../../modules/loop_guardrails.py#L178)
 
 ```python
 class EdrPacer
@@ -231,7 +256,7 @@ permanently slow the loop.
 
 #### `EdrPacer.__init__`
 
-`constructor` | [modules/loop_guardrails.py:135](../../modules/loop_guardrails.py#L135)
+`constructor` | [modules/loop_guardrails.py:187](../../modules/loop_guardrails.py#L187)
 
 ```python
 def __init__(self, duration_threshold: float = _EDR_DURATION_THRESHOLD_SEC) -> None
@@ -249,7 +274,7 @@ def __init__(self, duration_threshold: float = _EDR_DURATION_THRESHOLD_SEC) -> N
 
 #### `EdrPacer.observe`
 
-`method` | [modules/loop_guardrails.py:141](../../modules/loop_guardrails.py#L141)
+`method` | [modules/loop_guardrails.py:193](../../modules/loop_guardrails.py#L193)
 
 ```python
 def observe(self, command: str, duration_sec: float, output: str) -> None
@@ -271,7 +296,7 @@ Feed one executed step and update the telemetry estimate.
 
 #### `EdrPacer.decay`
 
-`method` | [modules/loop_guardrails.py:163](../../modules/loop_guardrails.py#L163)
+`method` | [modules/loop_guardrails.py:215](../../modules/loop_guardrails.py#L215)
 
 ```python
 def decay(self, factor: float = _EDR_DECAY) -> None
@@ -291,7 +316,7 @@ Cool the estimate down (call once per completed step).
 
 #### `EdrPacer.level`
 
-`property` | [modules/loop_guardrails.py:169](../../modules/loop_guardrails.py#L169)
+`property` | [modules/loop_guardrails.py:221](../../modules/loop_guardrails.py#L221)
 
 Decorators: `@property`
 
@@ -307,7 +332,7 @@ Current pacing level: 0 calm, 1 cautious, 2 stealth.
 
 #### `EdrPacer.signal`
 
-`property` | [modules/loop_guardrails.py:179](../../modules/loop_guardrails.py#L179)
+`property` | [modules/loop_guardrails.py:231](../../modules/loop_guardrails.py#L231)
 
 Decorators: `@property`
 
@@ -325,7 +350,7 @@ Human-readable reason for the current level (may be empty).
 
 #### `EdrPacer.inter_step_delay`
 
-`method` | [modules/loop_guardrails.py:184](../../modules/loop_guardrails.py#L184)
+`method` | [modules/loop_guardrails.py:236](../../modules/loop_guardrails.py#L236)
 
 ```python
 def inter_step_delay(self) -> float
@@ -341,7 +366,7 @@ Recommended sleep before the next step at the current level.
 
 #### `EdrPacer.quieten`
 
-`method` | [modules/loop_guardrails.py:192](../../modules/loop_guardrails.py#L192)
+`method` | [modules/loop_guardrails.py:244](../../modules/loop_guardrails.py#L244)
 
 ```python
 def quieten(self, command: str) -> str
@@ -369,7 +394,7 @@ unchanged.
 
 ### `TargetLimiter`
 
-`class` | [modules/loop_guardrails.py:208](../../modules/loop_guardrails.py#L208)
+`class` | [modules/loop_guardrails.py:260](../../modules/loop_guardrails.py#L260)
 
 ```python
 class TargetLimiter
@@ -396,7 +421,7 @@ Per-target concurrency cap shared by every loop worker.
 
 #### `TargetLimiter.__init__`
 
-`constructor` | [modules/loop_guardrails.py:216](../../modules/loop_guardrails.py#L216)
+`constructor` | [modules/loop_guardrails.py:268](../../modules/loop_guardrails.py#L268)
 
 ```python
 def __init__(self, max_concurrent: int = DEFAULT_TARGET_LIMIT) -> None
@@ -412,7 +437,7 @@ def __init__(self, max_concurrent: int = DEFAULT_TARGET_LIMIT) -> None
 
 #### `TargetLimiter.max_concurrent`
 
-`property` | [modules/loop_guardrails.py:223](../../modules/loop_guardrails.py#L223)
+`property` | [modules/loop_guardrails.py:275](../../modules/loop_guardrails.py#L275)
 
 Decorators: `@property`
 
@@ -428,7 +453,7 @@ Configured upper bound of simultaneous targets.
 
 #### `TargetLimiter.active_targets`
 
-`property` | [modules/loop_guardrails.py:228](../../modules/loop_guardrails.py#L228)
+`property` | [modules/loop_guardrails.py:280](../../modules/loop_guardrails.py#L280)
 
 Decorators: `@property`
 
@@ -444,7 +469,7 @@ How many distinct targets currently hold a slot.
 
 #### `TargetLimiter.slot`
 
-`method` `generator` | [modules/loop_guardrails.py:234](../../modules/loop_guardrails.py#L234)
+`method` `generator` | [modules/loop_guardrails.py:286](../../modules/loop_guardrails.py#L286)
 
 Decorators: `@contextmanager`
 
@@ -470,7 +495,7 @@ target never blocks on itself.
 
 ### `FactVectorStore`
 
-`class` | [modules/loop_guardrails.py:278](../../modules/loop_guardrails.py#L278)
+`class` | [modules/loop_guardrails.py:330](../../modules/loop_guardrails.py#L330)
 
 ```python
 class FactVectorStore
@@ -498,7 +523,7 @@ dedupe by content hash, persist atomically and trim to
 
 #### `FactVectorStore.__init__`
 
-`constructor` | [modules/loop_guardrails.py:286](../../modules/loop_guardrails.py#L286)
+`constructor` | [modules/loop_guardrails.py:338](../../modules/loop_guardrails.py#L338)
 
 ```python
 def __init__(self, path: str | Path, max_facts: int = DEFAULT_MAX_FACTS) -> None
@@ -515,7 +540,7 @@ def __init__(self, path: str | Path, max_facts: int = DEFAULT_MAX_FACTS) -> None
 
 #### `FactVectorStore.path`
 
-`property` | [modules/loop_guardrails.py:294](../../modules/loop_guardrails.py#L294)
+`property` | [modules/loop_guardrails.py:346](../../modules/loop_guardrails.py#L346)
 
 Decorators: `@property`
 
@@ -531,7 +556,7 @@ Backing file path.
 
 #### `FactVectorStore.add`
 
-`method` | [modules/loop_guardrails.py:315](../../modules/loop_guardrails.py#L315)
+`method` | [modules/loop_guardrails.py:367](../../modules/loop_guardrails.py#L367)
 
 ```python
 def add(self, text: str, meta: dict | None = None) -> bool
@@ -554,7 +579,7 @@ Embed and store one fact; returns False for duplicates.
 
 #### `FactVectorStore.search`
 
-`method` | [modules/loop_guardrails.py:349](../../modules/loop_guardrails.py#L349)
+`method` | [modules/loop_guardrails.py:401](../../modules/loop_guardrails.py#L401)
 
 ```python
 def search(self, query: str, k: int = DEFAULT_SEARCH_RESULTS) -> list[dict]
@@ -577,7 +602,7 @@ Return the ``k`` facts most similar to the query.
 
 #### `FactVectorStore.search_block`
 
-`method` | [modules/loop_guardrails.py:379](../../modules/loop_guardrails.py#L379)
+`method` | [modules/loop_guardrails.py:431](../../modules/loop_guardrails.py#L431)
 
 ```python
 def search_block(self, query: str, k: int = DEFAULT_SEARCH_RESULTS, max_chars: int = 1200) -> str
@@ -601,7 +626,7 @@ Render retrieved facts as a prompt-ready block (may be empty).
 
 #### `FactVectorStore.clear`
 
-`method` | [modules/loop_guardrails.py:388](../../modules/loop_guardrails.py#L388)
+`method` | [modules/loop_guardrails.py:440](../../modules/loop_guardrails.py#L440)
 
 ```python
 def clear(self) -> None
@@ -615,7 +640,7 @@ Drop every fact (manual reset path).
 
 #### `FactVectorStore.save`
 
-`method` | [modules/loop_guardrails.py:394](../../modules/loop_guardrails.py#L394)
+`method` | [modules/loop_guardrails.py:446](../../modules/loop_guardrails.py#L446)
 
 ```python
 def save(self) -> None

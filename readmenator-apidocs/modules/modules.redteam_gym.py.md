@@ -410,7 +410,7 @@ definition or an active in-flight challenge.
 | `techniques` | `list[str] \| None` | `None` | Technique identifiers used. |
 
 **Returns:** `dict[str, Any]` - Dict with ``success``, ``challenge``, ``completed``, ``elo_awarded``
-and `[`rank`](modules.atomic_exploit_bridge.py.md#rank)`.
+and ``rank``.
 
 *Called by:* [`score_task`](modules.exploitgym_gym.py.md#score_task)
 

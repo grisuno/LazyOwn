@@ -1,5 +1,87 @@
-# Subsystem: tests (page 5 of 21)
+# Subsystem: tests (page 5 of 22)
 Previous: [KB_tests_p4.md](KB_tests_p4.md)
+
+## tests/test_chain_approval_c2.py
+- Doc: Contract tests for the chain approval gate (C2 human-in-the-loop).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `StoreLifecycle` (class, line 25) `class StoreLifecycle(TestCase)`
+  - `C2Approver` (class, line 73) `class C2Approver(TestCase)`
+  - `BackendSelection` (class, line 128) `class BackendSelection(TestCase)`
+  - `Directive` (class, line 147) `class Directive(TestCase)`
+  - `C2ChainApprovalEndpoints` (class, line 155) `class C2ChainApprovalEndpoints(TestCase)`
+  - `setUp` (method, line 28) `def setUp(self)`
+  - `test_create_and_list_roundtrip` (method, line 31) `def test_create_and_list_roundtrip(self)`
+  - `test_decision_records_and_dedupes` (method, line 42) `def test_decision_records_and_dedupes(self)`
+  - `test_unknown_and_already_decided_failures` (method, line 50) `def test_unknown_and_already_decided_failures(self)`
+  - `test_expire_stale_sweeps_only_past_deadline` (method, line 55) `def test_expire_stale_sweeps_only_past_deadline(self)`
+  - `test_audit_trail_written` (method, line 63) `def test_audit_trail_written(self)`
+  - `setUp` (method, line 76) `def setUp(self)`
+  - `test_approve_after_c2_decision` (method, line 79) `def test_approve_after_c2_decision(self)`
+  - `test_deny_votes_false` (method, line 94) `def test_deny_votes_false(self)`
+  - `test_deadline_expiry_denies` (method, line 108) `def test_deadline_expiry_denies(self)`
+  - `test_store_failure_denies` (method, line 122) `def test_store_failure_denies(self)`
+  - `test_default_cli` (method, line 131) `def test_default_cli(self)`
+  - `test_c2_selected` (method, line 136) `def test_c2_selected(self)`
+  - `test_timeout_clamped` (method, line 140) `def test_timeout_clamped(self)`
+  - `test_filenames` (method, line 150) `def test_filenames(self)`
+  - `_server` (method, line 161) `def _server(cls)`
+  - `setUp` (method, line 178) `def setUp(self)`
+  - `test_list_shape` (method, line 190) `def test_list_shape(self)`
+  - `test_list_filter_and_decide_roundtrip` (method, line 197) `def test_list_filter_and_decide_roundtrip(self)`
+  - `decide_later` (function, line 82) `def decide_later()`
+  - `deny_later` (function, line 97) `def deny_later()`
+  - `fast_clock` (function, line 111) `def fast_clock()`
+- Depends on: `modules/chain_approval.py`
+
+## tests/test_chain_distill.py
+- Doc: BDD tests for chain_distill trace crystallisation.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `trace_dir` (function, line 22) `def trace_dir(tmp_path)`
+  - `TestLocate` (class, line 133) `class TestLocate`
+  - `TestInferTarget` (class, line 150) `class TestInferTarget`
+  - `TestBuild` (class, line 167) `class TestBuild`
+  - `TestWrite` (class, line 232) `class TestWrite`
+  - `test_pair_found` (method, line 136) `def test_pair_found(self, trace_dir)`
+  - `test_unknown_task_is_none` (method, line 142) `def test_unknown_task_is_none(self, trace_dir)`
+  - `test_goal_beats_frequency` (method, line 153) `def test_goal_beats_frequency(self, trace_dir)`
+  - `test_frequency_fallback_hosts_win_over_loopback` (method, line 161) `def test_frequency_fallback_hosts_win_over_loopback(self, tmp_path)`
+  - `test_keep_drop_dedupe` (method, line 170) `def test_keep_drop_dedupe(self, trace_dir)`
+  - `test_target_tokenised_and_lineage_kept` (method, line 186) `def test_target_tokenised_and_lineage_kept(self, trace_dir)`
+  - `test_exploit_steps_strict` (method, line 204) `def test_exploit_steps_strict(self, trace_dir)`
+  - `report_checks` (method, line 213) `def report_checks(self, trace_dir)`
+  - `test_empty_trace_yields_validateable_chain` (method, line 220) `def test_empty_trace_yields_validateable_chain(self, tmp_path)`
+  - `test_written_chain_validates_lifetime` (method, line 235) `def test_written_chain_validates_lifetime(self, trace_dir)`
+- Depends on: `modules/chain_distill.py`, `modules/chain_registry.py`
+
+## tests/test_chain_distill_custody.py
+- Doc: Chain distillation custody contract: replayed steps pin their evidence.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write_artifact` (function, line 20) `def _write_artifact(sessions_dir, name, payload)`
+  - `_pinned_step` (function, line 28) `def _pinned_step(digest)`
+  - `test_pins_hash_referenced_session_artifacts` (function, line 38) `def test_pins_hash_referenced_session_artifacts(tmp_path, monkeypatch)`
+  - `test_pins_tokenized_paths_resolve_target` (function, line 50) `def test_pins_tokenized_paths_resolve_target(tmp_path, monkeypatch)`
+  - `test_missing_and_oversized_artifacts_are_skipped` (function, line 62) `def test_missing_and_oversized_artifacts_are_skipped(tmp_path, monkeypatch)`
+  - `test_build_chain_data_attaches_evidence_pins` (function, line 71) `def test_build_chain_data_attaches_evidence_pins(tmp_path, monkeypatch)`
+  - `test_verify_rejects_tampered_evidence_at_replay` (function, line 95) `def test_verify_rejects_tampered_evidence_at_replay(tmp_path, monkeypatch)`
+- Depends on: `modules/chain_distill.py`, `modules/chain_registry.py`, `modules/chain_runner.py`
+
+## tests/test_chain_distill_scope.py
+- Doc: Chain distillation scope contract: config-driven target exclusion.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_reserved_documentation_domains_excluded` (function, line 15) `def test_reserved_documentation_domains_excluded()`
+  - `test_lookalikes_still_candidates` (function, line 22) `def test_lookalikes_still_candidates()`
+  - `test_operator_denylist_excludes_label_tree` (function, line 28) `def test_operator_denylist_excludes_label_tree(tmp_path)`
+  - `test_infer_target_respects_operator_deny` (function, line 40) `def test_infer_target_respects_operator_deny(tmp_path)`
+  - `test_infer_target_defers_denylist_load` (function, line 55) `def test_infer_target_defers_denylist_load(tmp_path, monkeypatch)`
+- Depends on: `modules/__init__.py`, `modules/chain_distill.py`
 
 ## tests/test_chain_evidence.py
 - Doc: Chain-of-evidence: depends_on gating, budgets, verdicts and artefact pins.
@@ -33,6 +115,22 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `_execute` (method, line 171) `def _execute(self, command, timeout, expect_exits)`
   - `_execute` (method, line 186) `def _execute(self, command, timeout, expect_exits)`
   - `_execute` (method, line 204) `def _execute(self, command, timeout, expect_exits)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
+
+## tests/test_chain_freshness_guard.py
+- Doc: Freshness guards for chain skips: stale artefacts do not skip work.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_file` (function, line 18) `def _file(path, payload, mtime)`
+  - `test_skip_pending_fresh_and_forever` (function, line 26) `def test_skip_pending_fresh_and_forever(tmp_path)`
+  - `test_skip_pending_stale_artifact_runs` (function, line 33) `def test_skip_pending_stale_artifact_runs(tmp_path)`
+  - `test_missing_artifact_runs` (function, line 40) `def test_missing_artifact_runs(tmp_path)`
+  - `test_schema_validates_skip_max_age` (function, line 45) `def test_schema_validates_skip_max_age()`
+  - `test_runner_reexecutes_stale_step` (function, line 68) `def test_runner_reexecutes_stale_step(tmp_path)`
+  - `test_runner_skips_fresh_step` (function, line 89) `def test_runner_skips_fresh_step(tmp_path)`
+  - `executor` (function, line 73) `def executor(command)`
+  - `executor` (function, line 94) `def executor(command)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
 
 ## tests/test_chain_list_command.py
@@ -174,6 +272,28 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `onecmd` (method, line 349) `def onecmd(self, command)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
 
+## tests/test_chain_step_streaming.py
+- Doc: Chain step streaming contract: chain_step events reach the bus per step.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 16) `def _chain(steps)`
+  - `_capture_events` (function, line 21) `def _capture_events(monkeypatch)`
+  - `_chain_steps_for` (function, line 35) `def _chain_steps_for(captured)`
+  - `test_dry_run_never_publishes` (function, line 40) `def test_dry_run_never_publishes(monkeypatch)`
+  - `test_every_executed_step_publishes_one_event` (function, line 48) `def test_every_executed_step_publishes_one_event(monkeypatch)`
+  - `_failing_executor` (function, line 80) `def _failing_executor(prefixes)`
+  - `test_unhandled_failure_sets_steer_but_handled_failure_does_not` (function, line 92) `def test_unhandled_failure_sets_steer_but_handled_failure_does_not(monkeypatch)`
+  - `test_alternatives_do_not_resolve_failures` (function, line 111) `def test_alternatives_do_not_resolve_failures(monkeypatch)`
+  - `test_denied_never_steers` (function, line 127) `def test_denied_never_steers(monkeypatch)`
+  - `test_publication_failure_never_blocks_the_chain` (function, line 141) `def test_publication_failure_never_blocks_the_chain(monkeypatch)`
+  - `test_event_bus_receives_chain_step_for_dashboard` (function, line 159) `def test_event_bus_receives_chain_step_for_dashboard(tmp_path, monkeypatch)`
+  - `fake_record` (function, line 25) `def fake_record(event, sinks)`
+  - `executor` (function, line 53) `def executor(command)`
+  - `execute` (function, line 83) `def execute(command)`
+  - `boom` (function, line 145) `def boom(event, sinks)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/outcome_bus.py`
+
 ## tests/test_chain_synth.py
 - Doc: BDD tests for runtime chain synthesis.
 - Layer: testing
@@ -190,6 +310,27 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_invalid_data_never_written` (method, line 69) `def test_invalid_data_never_written(self, tmp_path)`
   - `test_unknown_target_empty` (method, line 81) `def test_unknown_target_empty(self)`
 - Depends on: `modules/chain_synth.py`
+
+## tests/test_chain_token_hardening.py
+- Doc: Shell-metacharacter containment contract for chain tokens.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_chain` (function, line 17) `def _chain(steps)`
+  - `test_static_defaults_with_metachars_fail_validation` (function, line 22) `def test_static_defaults_with_metachars_fail_validation()`
+  - `test_raw_vars_declares_operator_intent` (function, line 35) `def test_raw_vars_declares_operator_intent()`
+  - `test_runner_shellquotes_token_values_with_metachars` (function, line 49) `def test_runner_shellquotes_token_values_with_metachars()`
+  - `test_runner_raw_vars_option_outs_quoting` (function, line 61) `def test_runner_raw_vars_option_outs_quoting()`
+  - `test_runner_verb_templates_keep_verbatim_values` (function, line 73) `def test_runner_verb_templates_keep_verbatim_values()`
+  - `test_captured_values_remain_quoted_in_raw_steps` (function, line 89) `def test_captured_values_remain_quoted_in_raw_steps()`
+  - `test_yaml_chain_with_ampersand_defaults_validates_with_raw_vars` (function, line 110) `def test_yaml_chain_with_ampersand_defaults_validates_with_raw_vars()`
+  - `chain_file` (function, line 120) `def chain_file(stem)`
+  - `executor` (function, line 52) `def executor(command)`
+  - `executor` (function, line 64) `def executor(command)`
+  - `Shell` (class, line 77) `class Shell`
+  - `executor` (function, line 92) `def executor(command)`
+  - `do_lazynmap` (method, line 80) `def do_lazynmap(self, line)`
+- Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
 
 ## tests/test_chain_v24_core.py
 - Doc: Chain v2.4 BDD contract: branching, verify, captures, gates, checkpoints.
@@ -327,168 +468,6 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_save_delegates_to_canonical_writer` (method, line 92) `def test_save_delegates_to_canonical_writer(self)`
   - `test_save_writes_valid_json_and_audits` (method, line 109) `def test_save_writes_valid_json_and_audits(self, isolated_auth)`
 - Depends on: `modules/cli_auth.py`
-
-## tests/test_cli_command_sets.py
-- Doc: ``cli`` package declarativeness and ``CommandSet`` registration tests.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_add_repo_root_to_syspath` (function, line 24) `def _add_repo_root_to_syspath()`
-  - `_load_yaml` (function, line 29) `def _load_yaml()`
-  - `_legacy_alias_keys_from_lazyown` (function, line 34) `def _legacy_alias_keys_from_lazyown()`
-  - `TestAliasYamlIntegrity` (class, line 178) `class TestAliasYamlIntegrity`
-  - `TestAliasLoaderSubstitution` (class, line 209) `class TestAliasLoaderSubstitution`
-  - `TestLazyOwnRefactor` (class, line 298) `class TestLazyOwnRefactor`
-  - `TestCommandSetDiscovery` (class, line 325) `class TestCommandSetDiscovery`
-  - `TestRegisterCommandSets` (class, line 357) `class TestRegisterCommandSets`
-  - `TestLazyOwnStillParses` (class, line 395) `class TestLazyOwnStillParses`
-  - `TestPrivateHelperForwarding` (class, line 400) `class TestPrivateHelperForwarding`
-  - `test_rm_wm_host_alias_appends_the_ip_parameter` (function, line 464) `def test_rm_wm_host_alias_appends_the_ip_parameter()`
-  - `test_alias_with_trailing_args_keeps_operator_parameters` (function, line 484) `def test_alias_with_trailing_args_keeps_operator_parameters()`
-  - `test_yaml_loads` (method, line 179) `def test_yaml_loads(self)`
-  - `test_yaml_keys_match_legacy_set` (method, line 184) `def test_yaml_keys_match_legacy_set(self)`
-  - `test_yaml_count_is_125` (method, line 192) `def test_yaml_count_is_125(self)`
-  - `test_all_values_are_strings` (method, line 195) `def test_all_values_are_strings(self)`
-  - `test_vuln_alias_carries_ansi_escape` (method, line 199) `def test_vuln_alias_carries_ansi_escape(self)`
-  - `test_ls_is_unchanged` (method, line 202) `def test_ls_is_unchanged(self)`
-  - `test_q_is_exit` (method, line 205) `def test_q_is_exit(self)`
-  - `test_load_aliases_substitutes_payload_values` (method, line 215) `def test_load_aliases_substitutes_payload_values(self)`
-  - `test_missing_keys_substitute_to_empty_string` (method, line 237) `def test_missing_keys_substitute_to_empty_string(self)`
-  - `test_none_values_substitute_to_empty_string` (method, line 244) `def test_none_values_substitute_to_empty_string(self)`
-  - `test_aliases_with_no_placeholders_unchanged` (method, line 250) `def test_aliases_with_no_placeholders_unchanged(self)`
-  - `test_loader_rejects_non_mapping` (method, line 258) `def test_loader_rejects_non_mapping(self, tmp_path)`
-  - `test_loader_rejects_non_string_value` (method, line 266) `def test_loader_rejects_non_string_value(self, tmp_path)`
-  - `test_loader_handles_empty_file` (method, line 274) `def test_loader_handles_empty_file(self, tmp_path)`
-  - `test_real_yaml_loads_with_real_payload` (method, line 281) `def test_real_yaml_loads_with_real_payload(self)`
-  - `test_lazy_default_preserves_placeholders` (method, line 290) `def test_lazy_default_preserves_placeholders(self)`
-  - `lazyown_text` (method, line 300) `def lazyown_text(self)`
-  - `test_no_inline_aliases_dict_with_entries` (method, line 303) `def test_no_inline_aliases_dict_with_entries(self, lazyown_text)`
-  - `test_imports_cli_aliases_loader` (method, line 312) `def test_imports_cli_aliases_loader(self, lazyown_text)`
-  - `test_imports_cli_registry` (method, line 315) `def test_imports_cli_registry(self, lazyown_text)`
-  - `test_init_populates_aliases_at_runtime` (method, line 318) `def test_init_populates_aliases_at_runtime(self, lazyown_text)`
-  - `test_init_registers_command_sets` (method, line 321) `def test_init_registers_command_sets(self, lazyown_text)`
-  - `test_discovery_excludes_underscore_modules` (method, line 326) `def test_discovery_excludes_underscore_modules(self)`
-  - `test_discovers_diagnostics_pilot` (method, line 332) `def test_discovers_diagnostics_pilot(self)`
-  - `test_pilot_commandset_subclasses_base` (method, line 338) `def test_pilot_commandset_subclasses_base(self)`
-  - `test_pilot_commandset_declares_phase` (method, line 344) `def test_pilot_commandset_declares_phase(self)`
-  - `test_pilot_commandset_has_do_methods` (method, line 349) `def test_pilot_commandset_has_do_methods(self)`
-  - `test_registers_on_a_minimal_cmd2_instance` (method, line 358) `def test_registers_on_a_minimal_cmd2_instance(self)`
-  - `test_register_skips_failing_commandset_without_aborting` (method, line 370) `def test_register_skips_failing_commandset_without_aborting(self, monkeypatch)`
-  - `test_ast_parse` (method, line 396) `def test_ast_parse(self)`
-  - `_probe_class` (method, line 410) `def _probe_class(self)`
-  - `_shell_class` (method, line 425) `def _shell_class(self)`
-  - `test_private_helper_inert_before_registration` (method, line 438) `def test_private_helper_inert_before_registration(self)`
-  - `test_private_helper_forwards_after_registration` (method, line 443) `def test_private_helper_forwards_after_registration(self)`
-  - `test_dunder_still_refused_after_registration` (method, line 449) `def test_dunder_still_refused_after_registration(self)`
-  - `test_missing_private_raises_not_utils_fallback` (method, line 456) `def test_missing_private_raises_not_utils_fallback(self)`
-  - `Shell` (class, line 470) `class Shell(Cmd)`
-  - `_Bare` (class, line 363) `class _Bare(Cmd)`
-  - `_ExplosiveCommandSet` (class, line 375) `class _ExplosiveCommandSet(CommandSet)`
-  - `fake_iter` (function, line 379) `def fake_iter()`
-  - `_Bare` (class, line 387) `class _Bare(Cmd)`
-  - `_Probe` (class, line 415) `class _Probe(LazyOwnCommandSet)`
-  - `_Shell` (class, line 428) `class _Shell(Cmd)`
-  - `__init__` (method, line 471) `def __init__(self)`
-  - `do_sh` (method, line 476) `def do_sh(self, line)`
-  - `__init__` (method, line 376) `def __init__(self)`
-  - `do_probe` (method, line 420) `def do_probe(self, line)`
-  - `__init__` (method, line 429) `def __init__(self)`
-  - `_scope_helper` (method, line 433) `def _scope_helper(self)`
-- Depends on: `cli/__init__.py`, `cli/aliases.py`, `cli/commands/_base.py`, `cli/commands/diagnostics.py`, `cli/registry.py`, `core/config.py`
-
-## tests/test_cli_enhancements.py
-- Doc: Tests for cli/cli_enhancements.py and the audit CommandSet.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `fixture_index` (function, line 39) `def fixture_index()`
-  - `test_fuzzy_exact_match_scores_one` (function, line 50) `def test_fuzzy_exact_match_scores_one(fixture_index)`
-  - `test_fuzzy_alias_resolves_to_command` (function, line 56) `def test_fuzzy_alias_resolves_to_command(fixture_index)`
-  - `test_fuzzy_substring_match` (function, line 62) `def test_fuzzy_substring_match(fixture_index)`
-  - `test_fuzzy_empty_query_lists_all` (function, line 67) `def test_fuzzy_empty_query_lists_all(fixture_index)`
-  - `test_fuzzy_returns_empty_on_garbage` (function, line 72) `def test_fuzzy_returns_empty_on_garbage(fixture_index)`
-  - `test_completer_set_lists_payload_keys` (function, line 80) `def test_completer_set_lists_payload_keys()`
-  - `test_completer_target_lists_targets_and_rhost` (function, line 89) `def test_completer_target_lists_targets_and_rhost()`
-  - `test_completer_wordlist_keys_only_when_set` (function, line 101) `def test_completer_wordlist_keys_only_when_set()`
-  - `test_completer_addon_lister_used_for_run` (function, line 108) `def test_completer_addon_lister_used_for_run()`
-  - `test_completer_filters_by_partial` (function, line 116) `def test_completer_filters_by_partial()`
-  - `test_completer_ignores_unknown_command` (function, line 123) `def test_completer_ignores_unknown_command()`
-  - `test_dynamic_resolver_renders_against_current_payload` (function, line 132) `def test_dynamic_resolver_renders_against_current_payload()`
-  - `test_dynamic_resolver_missing_keys_become_empty` (function, line 140) `def test_dynamic_resolver_missing_keys_become_empty()`
-  - `test_dynamic_resolver_payload_changes_propagate` (function, line 146) `def test_dynamic_resolver_payload_changes_propagate()`
-  - `test_dynamic_resolver_passes_through_literal_braces` (function, line 155) `def test_dynamic_resolver_passes_through_literal_braces()`
-  - `test_load_aliases_lazy_preserves_placeholders` (function, line 162) `def test_load_aliases_lazy_preserves_placeholders(tmp_path)`
-  - `test_load_aliases_eager_substitutes` (function, line 169) `def test_load_aliases_eager_substitutes(tmp_path)`
-  - `test_hot_reloader_detects_new_file` (function, line 179) `def test_hot_reloader_detects_new_file(tmp_path)`
-  - `test_hot_reloader_detects_modification` (function, line 191) `def test_hot_reloader_detects_modification(tmp_path)`
-  - `test_hot_reloader_ignores_non_addon_files` (function, line 208) `def test_hot_reloader_ignores_non_addon_files(tmp_path)`
-  - `test_status_tail_extracts_open_ports` (function, line 221) `def test_status_tail_extracts_open_ports()`
-  - `test_status_tail_handles_empty` (function, line 237) `def test_status_tail_handles_empty()`
-  - `test_status_tail_no_ports_falls_back_to_stats` (function, line 244) `def test_status_tail_no_ports_falls_back_to_stats()`
-  - `test_transcript_grep_matches_recent_output` (function, line 254) `def test_transcript_grep_matches_recent_output(tmp_path)`
-  - `test_transcript_grep_command_filter` (function, line 262) `def test_transcript_grep_command_filter(tmp_path)`
-  - `test_transcript_grep_invalid_regex` (function, line 270) `def test_transcript_grep_invalid_regex(tmp_path)`
-  - `test_transcript_persists_and_reloads` (function, line 277) `def test_transcript_persists_and_reloads(tmp_path)`
-  - `test_transcript_capacity` (function, line 285) `def test_transcript_capacity(tmp_path)`
-  - `FakeIO` (class, line 297) `class FakeIO`
-  - `test_form_collects_values_with_defaults` (function, line 311) `def test_form_collects_values_with_defaults()`
-  - `test_form_options_constraint_falls_back_to_default` (function, line 325) `def test_form_options_constraint_falls_back_to_default()`
-  - `test_form_required_reprompted` (function, line 336) `def test_form_required_reprompted()`
-  - `_ShellLike` (class, line 349) `class _ShellLike`
-  - `test_commands_from_cmd2_shell_extracts_doc_and_aliases` (function, line 359) `def test_commands_from_cmd2_shell_extracts_doc_and_aliases()`
-  - `_MiniShell` (class, line 371) `class _MiniShell`
-  - `test_audit_fz_command_emits_results` (function, line 399) `def test_audit_fz_command_emits_results(tmp_path)`
-  - `test_audit_status_tail_reports_no_evidence` (function, line 409) `def test_audit_status_tail_reports_no_evidence(tmp_path)`
-  - `test_audit_grep_log_handles_empty_store` (function, line 419) `def test_audit_grep_log_handles_empty_store(tmp_path)`
-  - `test_audit_form_unknown_lists_known` (function, line 429) `def test_audit_form_unknown_lists_known(tmp_path)`
-  - `__init__` (method, line 298) `def __init__(self, replies)`
-  - `prompt` (method, line 302) `def prompt(self, message, default)`
-  - `emit` (method, line 307) `def emit(self, line)`
-  - `do_lazynmap` (method, line 352) `def do_lazynmap(self, _)`
-  - `do_gobuster` (method, line 355) `def do_gobuster(self, _)`
-  - `__init__` (method, line 374) `def __init__(self, tmp)`
-  - `poutput` (method, line 386) `def poutput(self, msg)`
-  - `get_all_commands` (method, line 389) `def get_all_commands(self)`
-  - `do_lazynmap` (method, line 392) `def do_lazynmap(self, _)`
-  - `do_gobuster` (method, line 395) `def do_gobuster(self, _)`
-- Depends on: `cli/aliases.py`, `cli/cli_enhancements.py`, `cli/commands/audit.py`
-
-## tests/test_closedloop.py
-- Doc: Closed-loop tuning: baseline vs candidate comparison and suggestions.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_candidate_with_false_positive_regresses` (function, line 29) `def test_candidate_with_false_positive_regresses()`
-  - `test_both_pass_is_equivalent` (function, line 37) `def test_both_pass_is_equivalent()`
-  - `test_both_fail_is_equivalent_fail` (function, line 44) `def test_both_fail_is_equivalent_fail()`
-  - `test_inconclusive_datasets` (function, line 51) `def test_inconclusive_datasets()`
-  - `test_candidate_fixes_baseline_failure` (function, line 58) `def test_candidate_fixes_baseline_failure()`
-  - `test_suggest_tuning_lists_missing_fields` (function, line 66) `def test_suggest_tuning_lists_missing_fields()`
-- Depends on: `modules/closedloop.py`
-
-## tests/test_codeql_alert_fixes.py
-- Doc: Regression tests for CodeQL alerts 984, 983 and 982.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestWorldModelEncryptedAtRest` (class, line 12) `class TestWorldModelEncryptedAtRest`
-  - `TestSudoSegmentRegexLinear` (class, line 86) `class TestSudoSegmentRegexLinear`
-  - `TestDocExampleDomainSanitize` (class, line 104) `class TestDocExampleDomainSanitize`
-  - `test_write_is_fernet_not_json` (method, line 15) `def test_write_is_fernet_not_json(self, tmp_path, monkeypatch)`
-  - `test_roundtrip_decrypt` (method, line 23) `def test_roundtrip_decrypt(self, tmp_path, monkeypatch)`
-  - `test_legacy_plain_json_still_readable` (method, line 30) `def test_legacy_plain_json_still_readable(self, tmp_path, monkeypatch)`
-  - `test_legacy_autocrypto_sibling_readable` (method, line 36) `def test_legacy_autocrypto_sibling_readable(self, tmp_path, monkeypatch)`
-  - `test_restricted_mode_after_write` (method, line 52) `def test_restricted_mode_after_write(self, tmp_path, monkeypatch)`
-  - `test_refuses_persist_without_key_material` (method, line 58) `def test_refuses_persist_without_key_material(self, tmp_path, monkeypatch)`
-  - `test_device_secret_created_used_then_readable` (method, line 67) `def test_device_secret_created_used_then_readable(self, tmp_path, monkeypatch)`
-  - `test_rewrites_leading_sudo` (method, line 89) `def test_rewrites_leading_sudo(self)`
-  - `test_env_prefix_sudo_rewrites` (method, line 92) `def test_env_prefix_sudo_rewrites(self)`
-  - `test_bare_mid_sentence_untouched` (method, line 96) `def test_bare_mid_sentence_untouched(self)`
-  - `test_scored_marker_never_matched` (method, line 99) `def test_scored_marker_never_matched(self)`
-  - `test_exact_and_subdomains_excluded` (method, line 107) `def test_exact_and_subdomains_excluded(self)`
-  - `test_lookalikes_not_matched` (method, line 112) `def test_lookalikes_not_matched(self)`
-  - `test_goal_prefers_real_host_over_examples` (method, line 117) `def test_goal_prefers_real_host_over_examples(self)`
-- Depends on: `modules/chain_distill.py`, `modules/cli_auth.py`, `modules/retry_session.py`, `modules/world_model.py`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

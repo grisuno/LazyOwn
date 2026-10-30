@@ -27,7 +27,10 @@ attach per-step lineage (intent id + digest) in ``description``. Scan
 steps get the canonical `[`skip_if_exists`](modules.chain_registry.py.md#chainstep-skip_if_exists)` guard on the nmap XML
 artefact. Verbs that have a manifest ([`modules.verb_manifest`](modules.verb_manifest.py.md))
 inherit its phase and exploit-classification, so a distilled chain can
-be audited for cost/noise before it ever runs.
+be audited for cost/noise before it ever runs. Session artefacts a
+distilled step referenced are pinned as ``evidence`` plus an
+``evidence_sha256`` digest, so a later replay verifies the chain of
+custody instead of silently accepting regenerated files.
 
 Output is validated with [`modules.chain_registry.validate_chain`](modules.chain_registry.py.md#validate_chain)
 before writing; a distilled file that cannot validate is never written.
@@ -93,7 +96,7 @@ flowchart LR
 
 ### `StepDecision`
 
-`class` `dataclass` | [modules/chain_distill.py:325](../../modules/chain_distill.py#L325)
+`class` `dataclass` | [modules/chain_distill.py:458](../../modules/chain_distill.py#L458)
 
 Decorators: `@dataclass`
 
@@ -131,7 +134,7 @@ One trace row and whether it becomes a chain step.
 
 ### `DistillReport`
 
-`class` `dataclass` | [modules/chain_distill.py:346](../../modules/chain_distill.py#L346)
+`class` `dataclass` | [modules/chain_distill.py:479](../../modules/chain_distill.py#L479)
 
 Decorators: `@dataclass`
 
@@ -184,7 +187,7 @@ Full account of one distillation for operator review.
 
 #### `DistillReport.kept`
 
-`property` | [modules/chain_distill.py:374](../../modules/chain_distill.py#L374)
+`property` | [modules/chain_distill.py:507](../../modules/chain_distill.py#L507)
 
 Decorators: `@property`
 
@@ -200,7 +203,7 @@ Count decisions turned into steps.
 
 #### `DistillReport.dropped`
 
-`property` | [modules/chain_distill.py:379](../../modules/chain_distill.py#L379)
+`property` | [modules/chain_distill.py:512](../../modules/chain_distill.py#L512)
 
 Decorators: `@property`
 
@@ -216,7 +219,7 @@ Count decisions rejected with a reason.
 
 #### `DistillReport.to_dict`
 
-`method` | [modules/chain_distill.py:383](../../modules/chain_distill.py#L383)
+`method` | [modules/chain_distill.py:516](../../modules/chain_distill.py#L516)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -230,7 +233,7 @@ Return a JSON-serializable report.
 
 #### `DistillReport.render`
 
-`method` | [modules/chain_distill.py:410](../../modules/chain_distill.py#L410)
+`method` | [modules/chain_distill.py:543](../../modules/chain_distill.py#L543)
 
 ```python
 def render(self, verbose: bool = False) -> list[str]
@@ -254,7 +257,7 @@ Return printable report lines.
 
 ### `locate_traces`
 
-`function` | [modules/chain_distill.py:89](../../modules/chain_distill.py#L89)
+`function` | [modules/chain_distill.py:93](../../modules/chain_distill.py#L93)
 
 ```python
 def locate_traces(task: str, sessions_dir: Path | str | None = None) -> tuple[Union[Path, None], Union[Path, None]]
@@ -279,7 +282,7 @@ Find the exp/traffic pair of one loop task under sessions/.
 
 ### `build_chain_data`
 
-`function` | [modules/chain_distill.py:441](../../modules/chain_distill.py#L441)
+`function` | [modules/chain_distill.py:574](../../modules/chain_distill.py#L574)
 
 ```python
 def build_chain_data(task: str, rows: list[dict], graph: dict[str, Any], manifests: dict[str, Any] | None = None) -> tuple[dict[str, Any], list[StepDecision]]
@@ -308,7 +311,7 @@ Turn deduped traffic rows and graph context into chain YAML data.
 
 ### `distill`
 
-`function` | [modules/chain_distill.py:550](../../modules/chain_distill.py#L550)
+`function` | [modules/chain_distill.py:687](../../modules/chain_distill.py#L687)
 
 ```python
 def distill(task: str, sessions_dir: Path | str | None = None, write: bool = False, chains_dir: Path | str | None = None) -> DistillReport
@@ -339,7 +342,7 @@ Distill one loop task into a validated chain YAML.
 
 ### `REPO_ROOT`
 
-`constant` | [modules/chain_distill.py:51](../../modules/chain_distill.py#L51)
+`constant` | [modules/chain_distill.py:55](../../modules/chain_distill.py#L55)
 
 ```python
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -351,7 +354,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 ### `SESSIONS_DIR`
 
-`constant` | [modules/chain_distill.py:52](../../modules/chain_distill.py#L52)
+`constant` | [modules/chain_distill.py:56](../../modules/chain_distill.py#L56)
 
 ```python
 SESSIONS_DIR = REPO_ROOT / 'sessions'
@@ -363,7 +366,7 @@ SESSIONS_DIR = REPO_ROOT / 'sessions'
 
 ### `CHAINS_DIR`
 
-`constant` | [modules/chain_distill.py:53](../../modules/chain_distill.py#L53)
+`constant` | [modules/chain_distill.py:57](../../modules/chain_distill.py#L57)
 
 ```python
 CHAINS_DIR = REPO_ROOT / 'chains'
@@ -375,7 +378,7 @@ CHAINS_DIR = REPO_ROOT / 'chains'
 
 ### `MAX_RUN_CHARS`
 
-`constant` | [modules/chain_distill.py:54](../../modules/chain_distill.py#L54)
+`constant` | [modules/chain_distill.py:58](../../modules/chain_distill.py#L58)
 
 ```python
 MAX_RUN_CHARS = 2000

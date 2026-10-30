@@ -1,8 +1,22 @@
-# Symbols (page 11 of 47)
+# Symbols (page 11 of 48)
 Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `vulnerabilities` | function | `modules/ad_gym.py:43` | `def vulnerabilities(path)` |
+| `ADCSCertipyWrapper` | class | `modules/adcs_attacks.py:69` | `class ADCSCertipyWrapper` |
+| `CertificateTemplate` | class | `modules/adcs_attacks.py:14` | `class CertificateTemplate` |
+| `__init__` | method | `modules/adcs_attacks.py:80` | `def __init__(self, certipy_path, timeout)` |
+| `_find_certipy` | method | `modules/adcs_attacks.py:85` | `def _find_certipy()` |
+| `_parse_ca_output` | method | `modules/adcs_attacks.py:157` | `def _parse_ca_output(output)` |
+| `_parse_template_output` | method | `modules/adcs_attacks.py:232` | `def _parse_template_output(self, output)` |
+| `_run` | method | `modules/adcs_attacks.py:93` | `def _run(self, args, capture)` |
+| `assess_vulnerability` | method | `modules/adcs_attacks.py:411` | `def assess_vulnerability(self, username, password, domain, dc_ip, hashes)` |
+| `authenticate_with_certificate` | method | `modules/adcs_attacks.py:367` | `def authenticate_with_certificate(self, cert_file, domain, dc_ip, username)` |
+| `enumerate_templates` | method | `modules/adcs_attacks.py:189` | `def enumerate_templates(self, username, password, domain, dc_ip, hashes)` |
+| `esc_vulnerabilities` | method | `modules/adcs_attacks.py:35` | `def esc_vulnerabilities(self)` |
+| `find_certificate_authorities` | method | `modules/adcs_attacks.py:113` | `def find_certificate_authorities(self, username, password, domain, dc_ip, hashes)` |
+| `request_certificate_esc1` | method | `modules/adcs_attacks.py:268` | `def request_certificate_esc1(self, username, password, domain, dc_ip, ca_name, template_name, target_user, output_file)` |
 | `request_certificate_esc8` | method | `modules/adcs_attacks.py:322` | `def request_certificate_esc8(self, username, password, domain, dc_ip, ca_server, template_name, output_file)` |
 | `AddonUpdateResult` | class | `modules/addon_updater.py:33` | `class AddonUpdateResult` |
 | `_audit` | function | `modules/addon_updater.py:315` | `def _audit(summary, path)` |
@@ -181,38 +195,39 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `query_atomic` | function | `modules/atomic_enricher.py:232` | `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` |
 | `ExploitCommand` | class | `modules/atomic_exploit_bridge.py:84` | `class ExploitCommand` |
 | `ExploitSpec` | class | `modules/atomic_exploit_bridge.py:92` | `class ExploitSpec` |
-| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:707` | `class _ShellSession` |
-| `__init__` | method | `modules/atomic_exploit_bridge.py:715` | `def __init__(self, target, port, sock, owner)` |
-| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:1047` | `def _adopt_live_shell(spec, target, port)` |
-| `_claim_port` | function | `modules/atomic_exploit_bridge.py:802` | `def _claim_port(spec_id, target, port)` |
-| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:974` | `def _destroy_gym(container)` |
-| `_install_missing_binaries` | function | `modules/atomic_exploit_bridge.py:541` | `def _install_missing_binaries(names)` |
-| `_read_until` | method | `modules/atomic_exploit_bridge.py:746` | `def _read_until(self, marker, timeout)` |
-| `_release_port` | function | `modules/atomic_exploit_bridge.py:820` | `def _release_port(target, port)` |
+| `_ShellSession` | class | `modules/atomic_exploit_bridge.py:721` | `class _ShellSession` |
+| `__init__` | method | `modules/atomic_exploit_bridge.py:729` | `def __init__(self, target, port, sock, owner)` |
+| `_adopt_live_shell` | function | `modules/atomic_exploit_bridge.py:1061` | `def _adopt_live_shell(spec, target, port)` |
+| `_claim_port` | function | `modules/atomic_exploit_bridge.py:816` | `def _claim_port(spec_id, target, port)` |
+| `_destroy_gym` | function | `modules/atomic_exploit_bridge.py:988` | `def _destroy_gym(container)` |
+| `_install_missing_binaries` | function | `modules/atomic_exploit_bridge.py:555` | `def _install_missing_binaries(names)` |
+| `_read_until` | method | `modules/atomic_exploit_bridge.py:760` | `def _read_until(self, marker, timeout)` |
+| `_release_port` | function | `modules/atomic_exploit_bridge.py:834` | `def _release_port(target, port)` |
 | `_string_list` | function | `modules/atomic_exploit_bridge.py:142` | `def _string_list(value)` |
-| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:1073` | `def _wait_port_closed(target, port, timeout)` |
-| `alive` | method | `modules/atomic_exploit_bridge.py:725` | `def alive(self, timeout)` |
+| `_token_mapping` | function | `modules/atomic_exploit_bridge.py:511` | `def _token_mapping(rhost, lhost, lport, port)` |
+| `_wait_port_closed` | function | `modules/atomic_exploit_bridge.py:1087` | `def _wait_port_closed(target, port, timeout)` |
+| `alive` | method | `modules/atomic_exploit_bridge.py:739` | `def alive(self, timeout)` |
 | `auto` | function | `modules/atomic_exploit_bridge.py:351` | `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` |
-| `build_commands` | function | `modules/atomic_exploit_bridge.py:511` | `def build_commands(spec, rhost, lhost, lport, port)` |
-| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:915` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
-| `close` | method | `modules/atomic_exploit_bridge.py:774` | `def close(self)` |
-| `close_sessions` | function | `modules/atomic_exploit_bridge.py:873` | `def close_sessions(target)` |
-| `detect_shell` | function | `modules/atomic_exploit_bridge.py:529` | `def detect_shell(spec, output)` |
-| `emulate` | function | `modules/atomic_exploit_bridge.py:1161` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
-| `ensure_session` | function | `modules/atomic_exploit_bridge.py:992` | `def ensure_session(spec, target, lhost)` |
-| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1106` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
-| `live_sessions` | function | `modules/atomic_exploit_bridge.py:854` | `def live_sessions()` |
+| `build_commands` | function | `modules/atomic_exploit_bridge.py:525` | `def build_commands(spec, rhost, lhost, lport, port)` |
+| `cleanup_target` | function | `modules/atomic_exploit_bridge.py:929` | `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` |
+| `close` | method | `modules/atomic_exploit_bridge.py:788` | `def close(self)` |
+| `close_sessions` | function | `modules/atomic_exploit_bridge.py:887` | `def close_sessions(target)` |
+| `detect_shell` | function | `modules/atomic_exploit_bridge.py:543` | `def detect_shell(spec, output)` |
+| `emulate` | function | `modules/atomic_exploit_bridge.py:1175` | `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` |
+| `ensure_session` | function | `modules/atomic_exploit_bridge.py:1006` | `def ensure_session(spec, target, lhost)` |
+| `interactive_shell` | function | `modules/atomic_exploit_bridge.py:1120` | `def interactive_shell(target, lhost, interactive, exploits_dir)` |
+| `live_sessions` | function | `modules/atomic_exploit_bridge.py:868` | `def live_sessions()` |
 | `load_all` | function | `modules/atomic_exploit_bridge.py:226` | `def load_all(exploits_dir)` |
-| `main` | function | `modules/atomic_exploit_bridge.py:1283` | `def main()` |
+| `main` | function | `modules/atomic_exploit_bridge.py:1297` | `def main()` |
 | `match_score` | function | `modules/atomic_exploit_bridge.py:281` | `def match_score(spec, service, product, version, os_hint)` |
-| `open_shell` | function | `modules/atomic_exploit_bridge.py:651` | `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` |
+| `open_shell` | function | `modules/atomic_exploit_bridge.py:665` | `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` |
 | `parse_scan_xml` | function | `modules/atomic_exploit_bridge.py:314` | `def parse_scan_xml(xml_path)` |
 | `rank` | function | `modules/atomic_exploit_bridge.py:456` | `def rank(services, exploits_dir, os_hint)` |
-| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1195` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
-| `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:825` | `def record_shell_outcome(target, via)` |
-| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1088` | `def remote_exec(spec, target, command, lhost)` |
-| `run` | method | `modules/atomic_exploit_bridge.py:732` | `def run(self, command, timeout)` |
-| `run_spec` | function | `modules/atomic_exploit_bridge.py:571` | `def run_spec(spec, rhost, lhost, lport, port)` |
+| `record_outcome` | function | `modules/atomic_exploit_bridge.py:1209` | `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` |
+| `record_shell_outcome` | function | `modules/atomic_exploit_bridge.py:839` | `def record_shell_outcome(target, via)` |
+| `remote_exec` | function | `modules/atomic_exploit_bridge.py:1102` | `def remote_exec(spec, target, command, lhost)` |
+| `run` | method | `modules/atomic_exploit_bridge.py:746` | `def run(self, command, timeout)` |
+| `run_spec` | function | `modules/atomic_exploit_bridge.py:585` | `def run_spec(spec, rhost, lhost, lport, port)` |
 | `severity_rank` | method | `modules/atomic_exploit_bridge.py:117` | `def severity_rank(self)` |
 | `to_dict` | method | `modules/atomic_exploit_bridge.py:121` | `def to_dict(self)` |
 | `validate_spec` | function | `modules/atomic_exploit_bridge.py:150` | `def validate_spec(data, filename)` |
@@ -481,20 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `binario_a_imagen` | function | `modules/bin2img.py:7` | `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)` |
 | `main` | function | `modules/bin2img.py:54` | `def main()` |
 | `BitMState` | class | `modules/bitm_engine.py:85` | `class BitMState` |
-| `_build_js_payload` | function | `modules/bitm_engine.py:151` | `def _build_js_payload(payload_name, lhost, lport)` |
-| `_check_tool` | function | `modules/bitm_engine.py:168` | `def _check_tool(tool)` |
-| `_ensure_bitm_dir` | function | `modules/bitm_engine.py:103` | `def _ensure_bitm_dir()` |
-| `_get_default_interface` | function | `modules/bitm_engine.py:195` | `def _get_default_interface()` |
-| `_get_gateway_ip` | function | `modules/bitm_engine.py:234` | `def _get_gateway_ip()` |
-| `_load_state` | function | `modules/bitm_engine.py:134` | `def _load_state()` |
-| `_recommend_method` | function | `modules/bitm_engine.py:180` | `def _recommend_method()` |
-| `_save_state` | function | `modules/bitm_engine.py:108` | `def _save_state(state)` |
-| `_start_arpspoof` | function | `modules/bitm_engine.py:413` | `def _start_arpspoof(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)` |
-| `_start_bettercap` | function | `modules/bitm_engine.py:354` | `def _start_bettercap(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)` |
-| `bitm_cleanup` | function | `modules/bitm_engine.py:642` | `def bitm_cleanup()` |
-| `bitm_harvest_stats` | function | `modules/bitm_engine.py:607` | `def bitm_harvest_stats()` |
-| `bitm_inject` | function | `modules/bitm_engine.py:572` | `def bitm_inject(payload_name)` |
-| `bitm_start` | function | `modules/bitm_engine.py:257` | `def bitm_start(target_ip, gateway_ip, interface, lhost, lport, method, payloads)` |
-| `bitm_status` | function | `modules/bitm_engine.py:539` | `def bitm_status()` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

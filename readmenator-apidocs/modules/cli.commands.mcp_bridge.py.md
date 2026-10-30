@@ -316,6 +316,7 @@ Usage:
               [--timeout S] [--targets-from-file F] [--max-concurrent N]
               [--step-delay S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
               [--budget-confirm] [--no-bootstrap] [--fallback-phish]
+              [--mode pentest|redteam|ctf]
               [--view|--plain] <goal>
 
 Both commands share one runner (`[`modules.lazy_runner`](modules.lazy_runner.py.md)`): one
@@ -341,7 +342,7 @@ with no foothold.
 
 #### `McpBridgeCommandSet.do_session_state`
 
-`method` | [cli/commands/mcp_bridge.py:533](../../cli/commands/mcp_bridge.py#L533)
+`method` | [cli/commands/mcp_bridge.py:534](../../cli/commands/mcp_bridge.py#L534)
 
 Decorators: `@with_category(ai_category)`
 
@@ -361,7 +362,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
 
 #### `McpBridgeCommandSet.do_campaign_sitrep`
 
-`method` | [cli/commands/mcp_bridge.py:538](../../cli/commands/mcp_bridge.py#L538)
+`method` | [cli/commands/mcp_bridge.py:539](../../cli/commands/mcp_bridge.py#L539)
 
 Decorators: `@with_category(ai_category)`
 
@@ -381,7 +382,7 @@ Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
 
 #### `McpBridgeCommandSet.do_timeline`
 
-`method` | [cli/commands/mcp_bridge.py:543](../../cli/commands/mcp_bridge.py#L543)
+`method` | [cli/commands/mcp_bridge.py:544](../../cli/commands/mcp_bridge.py#L544)
 
 Decorators: `@with_category(ai_category)`
 

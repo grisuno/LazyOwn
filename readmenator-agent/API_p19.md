@@ -1,6 +1,100 @@
 # API (page 19 of 25)
 Previous: [API_p18.md](API_p18.md)
 
+## modules/ttp_coverage.py
+Depends on: `core/logging.py`
+Imported by: `cli/commands/caldera.py`
+- `TTPCoverage.__init__` (method) `modules/ttp_coverage.py:68` `def __init__(self)`
+- `TTPCoverage.rebuild_from_operations` (method) `modules/ttp_coverage.py:76` `def rebuild_from_operations(self)` -- Re-walk every operation on disk and refresh the matrix.
+- `TTPCoverage.add` (method) `modules/ttp_coverage.py:125` `def add(self, technique_id, name, tactic, status, operation_id)`
+- `TTPCoverage.compute_ready` (method) `modules/ttp_coverage.py:149` `def compute_ready(self, available_facts)` -- Return the techniques that could run given available facts.
+- `TTPCoverage.matrix` (method) `modules/ttp_coverage.py:190` `def matrix(self)` -- Render a coloured-by-tactic table of all techniques.
+- `TTPCoverage.status_by_id` (method) `modules/ttp_coverage.py:231` `def status_by_id(self, technique_id)`
+- `TTPCoverage.to_dict` (method) `modules/ttp_coverage.py:234` `def to_dict(self)`
+- `get_coverage` (function) `modules/ttp_coverage.py:260` `def get_coverage()` -- Return a fresh :class:`TTPCoverage`.
+
+## modules/ttpscope_bridge.py
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/atomic_resolver.py`, `skills/lazyown_parquet_db.py`
+Imported by: `skills/lazyown_mcp.py`
+- `locate_binary` (function) `modules/ttpscope_bridge.py:82` `def locate_binary()` -- Return the ttpscope binary path, preferring the vendored build.
+- `validate_object_id` (function) `modules/ttpscope_bridge.py:92` `def validate_object_id(raw)` -- Validate an ATT&CK object ID (T1059.001, G0016, S0002, ...).
+- `validate_query` (function) `modules/ttpscope_bridge.py:100` `def validate_query(raw)` -- Validate a free-text search query.
+- `validate_platform` (function) `modules/ttpscope_bridge.py:112` `def validate_platform(raw)` -- Validate a matrix platform filter (empty means all).
+- `do_sync` (function) `modules/ttpscope_bridge.py:497` `def do_sync()` -- Download the Enterprise ATT&CK bundle via ttpscope sync.
+- `do_search` (function) `modules/ttpscope_bridge.py:508` `def do_search(query)` -- Search IDs, names, aliases and descriptions.
+- `do_show` (function) `modules/ttpscope_bridge.py:520` `def do_show(object_id)` -- Show one ATT&CK object and its relationships.
+- `do_matrix` (function) `modules/ttpscope_bridge.py:535` `def do_matrix(platform)` -- Render the Enterprise matrix, optionally filtered by platform.
+- `do_note` (function) `modules/ttpscope_bridge.py:551` `def do_note(object_id, text)` -- Append a timestamped research note.
+- `do_notes` (function) `modules/ttpscope_bridge.py:570` `def do_notes(object_id)` -- Read research notes for an object.
+- `do_chain` (function) `modules/ttpscope_bridge.py:582` `def do_chain(object_id, platform, limit)` -- Join ttpscope context with Atomic tests and parquet techniques.
+- `run_action` (function) `modules/ttpscope_bridge.py:652` `def run_action(action)` -- Dispatch a validated action (used by CLI addons and MCP).
+- `main` (function) `modules/ttpscope_bridge.py:679` `def main()` -- CLI entry point for the lazyaddon execute_command.
+
+## modules/unified_bridge.py
+Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/state_manager.py`, `modules/toposwarm_bridge.py`
+Imported by: `lazyown.py`
+- `RouteBackend.available` (method) `modules/unified_bridge.py:69` `def available(self)`
+- `RouteBackend.route` (method) `modules/unified_bridge.py:72` `def route(self, prompt, context)`
+- `KeywordBackend.available` (method) `modules/unified_bridge.py:102` `def available(self)`
+- `KeywordBackend.route` (method) `modules/unified_bridge.py:105` `def route(self, prompt, context)`
+- `LazyownBridgeBackend.available` (method) `modules/unified_bridge.py:126` `def available(self)`
+- `LazyownBridgeBackend.route` (method) `modules/unified_bridge.py:134` `def route(self, prompt, context)`
+- `TopoSwarmBackend.available` (method) `modules/unified_bridge.py:164` `def available(self)`
+- `TopoSwarmBackend.route` (method) `modules/unified_bridge.py:173` `def route(self, prompt, context)`
+- `UnifiedBridge.__init__` (method) `modules/unified_bridge.py:214` `def __init__(self)`
+- `UnifiedBridge.get` (method) `modules/unified_bridge.py:225` `def get(cls)`
+- `UnifiedBridge.set_publish_callback` (method) `modules/unified_bridge.py:230` `def set_publish_callback(self, cb)`
+- `UnifiedBridge.route` (method) `modules/unified_bridge.py:253` `def route(self, prompt, context)` -- Route a natural-language prompt to the best LazyOwn tool.
+- `UnifiedBridge.delegate` (method) `modules/unified_bridge.py:300` `def delegate(self, goal, backend, timeout, max_iterations)` -- Delegate a complex task to an internal AI agent.
+- `UnifiedBridge.list_backends` (method) `modules/unified_bridge.py:461` `def list_backends(self)`
+- `route_prompt` (function) `modules/unified_bridge.py:483` `def route_prompt(prompt, context)` -- Convenience: route a prompt without instantiating UnifiedBridge.
+- `delegate_task` (function) `modules/unified_bridge.py:488` `def delegate_task(goal, backend)` -- Convenience: delegate a task to an AI agent.
+
+## modules/unified_dashboard.py
+Depends on: `cli/graph_advisor.py`, `core/logging.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/live_surface.py`, `modules/world_model.py`, `skills/hive_mind.py`, `skills/lazyown_policy.py`
+Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
+- `UnifiedDashboard.__init__` (method) `modules/unified_dashboard.py:44` `def __init__(self, sessions_dir)`
+- `UnifiedDashboard.build_unified_snapshot` (method) `modules/unified_dashboard.py:76` `def build_unified_snapshot(self)` -- Build a complete dashboard snapshot from all data sources.
+- `UnifiedDashboard.render_unified` (method) `modules/unified_dashboard.py:170` `def render_unified(self)` -- Render the unified dashboard as a text string for CLI/TUI.
+- `UnifiedDashboard.export_json` (method) `modules/unified_dashboard.py:251` `def export_json(self)` -- Export the unified snapshot as a JSON string.
+- `get_unified_dashboard` (function) `modules/unified_dashboard.py:256` `def get_unified_dashboard(sessions_dir)` -- Return a module-level :class:`UnifiedDashboard` singleton.
+
+## modules/venator.py
+- `getUUID` (function) `modules/venator.py:38` `def getUUID()`
+- `io_key` (function) `modules/venator.py:49` `def io_key(keyname)`
+- `getSystemInfo` (function) `modules/venator.py:66` `def getSystemInfo(output_file)`
+- `getVTResult` (function) `modules/venator.py:83` `def getVTResult(fileHash)`
+- `getHash` (function) `modules/venator.py:112` `def getHash(file, ignoreVFlag)`
+- `checkSignature` (function) `modules/venator.py:132` `def checkSignature(file, bundle)`
+- `datetime_handler` (function) `modules/venator.py:210` `def datetime_handler(x)`
+- `parseAgentsDaemons` (function) `modules/venator.py:215` `def parseAgentsDaemons(item, path)`
+- `getLaunchAgents` (function) `modules/venator.py:287` `def getLaunchAgents(path, output_file, ignoreVFlag)`
+- `getLaunchDaemons` (function) `modules/venator.py:302` `def getLaunchDaemons(path, output_file, ignoreVFlag)`
+- `getUsers` (function) `modules/venator.py:317` `def getUsers(output_file)`
+- `getSafariExtensions` (function) `modules/venator.py:338` `def getSafariExtensions(path, output_file)`
+- `getChromeExtensions` (function) `modules/venator.py:357` `def getChromeExtensions(path, output_file)`
+- `getChromeDownloads` (function) `modules/venator.py:388` `def getChromeDownloads(chromeHistoryDbPath, output_file)`
+- `getFirefoxExtensions` (function) `modules/venator.py:442` `def getFirefoxExtensions(path, output_file)`
+- `getInstallHistory` (function) `modules/venator.py:477` `def getInstallHistory(output_file)`
+- `getCronJobs` (function) `modules/venator.py:494` `def getCronJobs(users, output_file)`
+- `getEmond` (function) `modules/venator.py:513` `def getEmond(output_file)`
+- `getKext` (function) `modules/venator.py:530` `def getKext(sipStatus, kextPath, output_file, ignoreVFlag)`
+- `getEnv` (function) `modules/venator.py:577` `def getEnv(output_file)`
+- `getPeriodicScripts` (function) `modules/venator.py:592` `def getPeriodicScripts(output_file)`
+- `getConnections` (function) `modules/venator.py:609` `def getConnections(output_file)`
+- `SIPStatus` (function) `modules/venator.py:637` `def SIPStatus(output_file)`
+- `GatekeeperStatus` (function) `modules/venator.py:651` `def GatekeeperStatus(output_file)`
+- `parseApp` (function) `modules/venator.py:663` `def parseApp(app, ignoreVFlag)`
+- `getLoginItems` (function) `modules/venator.py:706` `def getLoginItems(path, output_file, ignoreVFlag)`
+- `getApps` (function) `modules/venator.py:741` `def getApps(path, output_file, ignoreVFlag)`
+- `getEventTaps` (function) `modules/venator.py:763` `def getEventTaps(output_file)`
+- `getBashHistory` (function) `modules/venator.py:786` `def getBashHistory(output_file, users)`
+- `getShellStartupScripts` (function) `modules/venator.py:804` `def getShellStartupScripts(users, output_file)`
+- `hmac_sha256` (function) `modules/venator.py:842` `def hmac_sha256(key, data)`
+- `amzn_sig` (function) `modules/venator.py:846` `def amzn_sig(secret_access_key, data, aws_region, aws_service)`
+- `amzn_canonical_req` (function) `modules/venator.py:856` `def amzn_canonical_req(filename_path, headers_list)`
+- `s3_upload` (function) `modules/venator.py:866` `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)`
+
 ## modules/verb_catalog.py
 Depends on: `core/logging.py`, `modules/auto_registry.py`, `modules/lazy_cli_bridge.py`
 Imported by: `cli/commands/verb_admin.py`, `cli/lazy_orchestrator.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_cli_bridge.py`, `modules/orchestrator_config.py`, `tests/test_loop_cli_catalog.py`, `tests/test_orchestrator_api.py`, `tests/test_session_brief.py`
@@ -163,7 +257,7 @@ Imported by: `tests/test_lazy_loop.py`
 
 ## modules/world_model.py
 Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
-Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
+Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/netattack.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_hostscore.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
 - `read_state_dict` (function) `modules/world_model.py:290` `def read_state_dict(path)` -- Read a world-model state dict, transparently decrypting at rest.
 - `write_state_dict` (function) `modules/world_model.py:325` `def write_state_dict(path, data)` -- Atomically write a world-model state dict encrypted at rest.
 - `HostState.rank` (method) `modules/world_model.py:382` `def rank(self)`
@@ -398,99 +492,6 @@ Depends on: `poc_tui/app.py`
 - `write_commands_md` (function) `readmeneitor.py:276` `def write_commands_md(cmd_map, docstrings, groups, output_path)` -- Generate COMMANDS.md with a table of contents and per-phase command reference.
 - `convert_to_html` (function) `readmeneitor.py:343` `def convert_to_html(md_path, html_path)` -- Convert the generated Markdown file to HTML using pandoc.
 - `main` (function) `readmeneitor.py:379` `def main()` -- Entry point: scan sources, load metadata, and generate reference docs.
-
-## run_topoexploit_agent.sh
-- `banner` (function) `run_topoexploit_agent.sh:29`
-- `start_api` (function) `run_topoexploit_agent.sh:38`
-
-## scripts/activate_migrations.py
-- `find_migrated_sets` (function) `scripts/activate_migrations.py:32` `def find_migrated_sets()` -- Return paths to all *_migrated.py files using PendingCommandSet.
-- `extract_command_names` (function) `scripts/activate_migrations.py:42` `def extract_command_names(migrated_path)` -- Extract do_* method names from a migrated CommandSet file.
-- `find_in_lazyown` (function) `scripts/activate_migrations.py:52` `def find_in_lazyown(command_names)` -- Return {name: (start_line, end_line)} for commands in lazyown.py.
-- `remove_from_lazyown` (function) `scripts/activate_migrations.py:62` `def remove_from_lazyown(locations, dry_run)` -- Remove the specified do_* methods from lazyown.py.
-- `activate_migrated_file` (function) `scripts/activate_migrations.py:75` `def activate_migrated_file(migrated_path, dry_run)` -- Change PendingCommandSet to LazyOwnCommandSet in the migrated file.
-- `main` (function) `scripts/activate_migrations.py:88` `def main()`
-
-## scripts/backfill_addon_os_trigger.py
-- `classify_os` (function) `scripts/backfill_addon_os_trigger.py:104` `def classify_os(filename)` -- Return a MITRE-platform string for the addon based on filename.
-- `known_trigger` (function) `scripts/backfill_addon_os_trigger.py:121` `def known_trigger(name)` -- Return the curated trigger tuple for an addon, or ``()``.
-- `render_trigger` (function) `scripts/backfill_addon_os_trigger.py:127` `def render_trigger(trigger)` -- Render the trigger field as inline YAML matching the project style.
-- `patch` (function) `scripts/backfill_addon_os_trigger.py:141` `def patch(path)` -- Return the new file content with ``os`` and ``trigger`` inserted.
-- `main` (function) `scripts/backfill_addon_os_trigger.py:175` `def main()` -- Walk every addon and rewrite files that need backfilling.
-
-## scripts/broadcom_wps_drive.sh
-- `log` (function) `scripts/broadcom_wps_drive.sh:53`
-- `warn` (function) `scripts/broadcom_wps_drive.sh:54`
-- `die` (function) `scripts/broadcom_wps_drive.sh:55`
-- `usage` (function) `scripts/broadcom_wps_drive.sh:57`
-- `payload_value` (function) `scripts/broadcom_wps_drive.sh:61`
-- `parse_flags` (function) `scripts/broadcom_wps_drive.sh:81`
-- `detect_interface` (function) `scripts/broadcom_wps_drive.sh:151`
-- `is_wireless` (function) `scripts/broadcom_wps_drive.sh:162`
-- `apply_interface` (function) `scripts/broadcom_wps_drive.sh:166`
-- `resolve_interface` (function) `scripts/broadcom_wps_drive.sh:170`
-- `is_root` (function) `scripts/broadcom_wps_drive.sh:190`
-- `have_sudo` (function) `scripts/broadcom_wps_drive.sh:194`
-- `elevate` (function) `scripts/broadcom_wps_drive.sh:200`
-- `interface_mode` (function) `scripts/broadcom_wps_drive.sh:210`
-- `interface_up` (function) `scripts/broadcom_wps_drive.sh:216`
-- `python_bin` (function) `scripts/broadcom_wps_drive.sh:227`
-- `has_scapy` (function) `scripts/broadcom_wps_drive.sh:231`
-- `do_monitor` (function) `scripts/broadcom_wps_drive.sh:235`
-- `do_unmonitor` (function) `scripts/broadcom_wps_drive.sh:247`
-- `ensure_monitor_mode` (function) `scripts/broadcom_wps_drive.sh:259`
-- `run_fingerprint` (function) `scripts/broadcom_wps_drive.sh:268`
-- `run_yara` (function) `scripts/broadcom_wps_drive.sh:308`
-- `do_status` (function) `scripts/broadcom_wps_drive.sh:325`
-- `do_doctor` (function) `scripts/broadcom_wps_drive.sh:348`
-- `main` (function) `scripts/broadcom_wps_drive.sh:404`
-
-## scripts/check_contract_manifest.py
-Imported by: `tests/test_contract_manifest.py`
-- `check_manifest` (function) `scripts/check_contract_manifest.py:176` `def check_manifest(config)` -- Return the list of documented contracts that are missing on disk.
-- `main` (function) `scripts/check_contract_manifest.py:229` `def main(argv)` -- Run the manifest check and return the process exit code.
-
-## scripts/devtools/command_audit.py
-Depends on: `lazyown.py`
-- `argparser_commands` (function) `scripts/devtools/command_audit.py:40` `def argparser_commands(config)` -- Return the command names decorated with ``@with_argparser``.
-- `audit` (function) `scripts/devtools/command_audit.py:65` `def audit(config)` -- Run the dispatch and parser audit.
-- `main` (function) `scripts/devtools/command_audit.py:105` `def main(argv)` -- Run the audit and return the process exit code.
-
-## scripts/devtools/core_smoke.py
-Depends on: `core/hardening.py`, `core/payload_schema.py`, `modules/db.py`, `modules/killchain.py`, `modules/payload_factory.py`
-- `check_surfaces` (function) `scripts/devtools/core_smoke.py:64` `def check_surfaces(config)` -- Return the dotted names that are missing from the imported modules.
-- `check_calls` (function) `scripts/devtools/core_smoke.py:81` `def check_calls()` -- Exercise a small safe subset of the public API.
-- `main` (function) `scripts/devtools/core_smoke.py:118` `def main()` -- Run the smoke check and return the process exit code.
-
-## scripts/dirtyinit_drive.sh
-- `log` (function) `scripts/dirtyinit_drive.sh:65`
-- `warn` (function) `scripts/dirtyinit_drive.sh:66`
-- `die` (function) `scripts/dirtyinit_drive.sh:67`
-- `payload_value` (function) `scripts/dirtyinit_drive.sh:69`
-- `parse_flags` (function) `scripts/dirtyinit_drive.sh:89`
-- `require_adb` (function) `scripts/dirtyinit_drive.sh:130`
-- `require_device` (function) `scripts/dirtyinit_drive.sh:134`
-- `find_sdk` (function) `scripts/dirtyinit_drive.sh:141`
-- `find_ndk` (function) `scripts/dirtyinit_drive.sh:152`
-- `find_build_tools` (function) `scripts/dirtyinit_drive.sh:166`
-- `find_android_jar` (function) `scripts/dirtyinit_drive.sh:173`
-- `find_ndk_clang` (function) `scripts/dirtyinit_drive.sh:185`
-- `find_java_tool` (function) `scripts/dirtyinit_drive.sh:201`
-- `pack_apk` (function) `scripts/dirtyinit_drive.sh:211`
-- `compile_activity` (function) `scripts/dirtyinit_drive.sh:255`
-- `do_build` (function) `scripts/dirtyinit_drive.sh:265`
-- `do_install` (function) `scripts/dirtyinit_drive.sh:329`
-- `do_launch` (function) `scripts/dirtyinit_drive.sh:340`
-- `tap_button` (function) `scripts/dirtyinit_drive.sh:348`
-- `do_auto` (function) `scripts/dirtyinit_drive.sh:382`
-- `do_extract` (function) `scripts/dirtyinit_drive.sh:393`
-- `do_stage` (function) `scripts/dirtyinit_drive.sh:402`
-- `do_run` (function) `scripts/dirtyinit_drive.sh:412`
-- `do_logs` (function) `scripts/dirtyinit_drive.sh:418`
-- `do_status` (function) `scripts/dirtyinit_drive.sh:423`
-- `do_doctor` (function) `scripts/dirtyinit_drive.sh:468`
-- `do_help` (function) `scripts/dirtyinit_drive.sh:525`
-- `main` (function) `scripts/dirtyinit_drive.sh:529`
 
 
 Next: [API_p20.md](API_p20.md)

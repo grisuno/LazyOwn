@@ -43,7 +43,7 @@ Design contract:
 
 - **Classes:** [`ScopeDecision`](#scopedecision), [`ScopeGuard`](#scopeguard)
 - **Enums:** [`ScopeMode`](#scopemode)
-- **Functions:** [`build_offensive_commands`](#build_offensive_commands), [`normalize_scope`](#normalize_scope), [`target_in_scope`](#target_in_scope)
+- **Functions:** [`build_offensive_commands`](#build_offensive_commands), [`normalize_scope`](#normalize_scope), [`target_in_scope`](#target_in_scope), [`target_in_deny`](#target_in_deny)
 - **Constants:** [`OFFENSIVE_CATEGORIES`](#offensive_categories), [`SCOPE_EXEMPT_COMMANDS`](#scope_exempt_commands)
 
 ## Type Diagram
@@ -75,15 +75,18 @@ Solid arrows stay in this module, dashed arrows leave it.
 
 ```mermaid
 flowchart LR
+    n_cli_scope_guard_py__target_in_deny(["target_in_deny"])
+    n_cli_scope_guard_py__target_in_scope(["target_in_scope"])
     n_cli_scope_guard_py__ScopeGuard___init__(["ScopeGuard.__init__"])
     n_cli_scope_guard_py__ScopeMode_from_value(["ScopeMode.from_value"])
     n_cli_scope_guard_py__normalize_scope(["normalize_scope"])
     n_cli_scope_guard_py__ScopeGuard_evaluate(["ScopeGuard.evaluate"])
     n_cli_scope_guard_py__ScopeDecision(["ScopeDecision"])
-    n_cli_scope_guard_py__target_in_scope(["target_in_scope"])
+    n_cli_scope_guard_py__target_in_deny --> n_cli_scope_guard_py__target_in_scope
     n_cli_scope_guard_py__ScopeGuard___init__ --> n_cli_scope_guard_py__ScopeMode_from_value
     n_cli_scope_guard_py__ScopeGuard___init__ --> n_cli_scope_guard_py__normalize_scope
     n_cli_scope_guard_py__ScopeGuard_evaluate --> n_cli_scope_guard_py__ScopeDecision
+    n_cli_scope_guard_py__ScopeGuard_evaluate --> n_cli_scope_guard_py__target_in_deny
     n_cli_scope_guard_py__ScopeGuard_evaluate --> n_cli_scope_guard_py__target_in_scope
 ```
 
@@ -120,7 +123,7 @@ Outcome of a single scope evaluation.
 
 ### `ScopeGuard`
 
-`class` | [cli/scope_guard.py:254](../../cli/scope_guard.py#L254)
+`class` | [cli/scope_guard.py:271](../../cli/scope_guard.py#L271)
 
 ```python
 class ScopeGuard
@@ -144,10 +147,10 @@ take effect immediately.
 
 #### `ScopeGuard.__init__`
 
-`constructor` | [cli/scope_guard.py:263](../../cli/scope_guard.py#L263)
+`constructor` | [cli/scope_guard.py:280](../../cli/scope_guard.py#L280)
 
 ```python
-def __init__(self, scope_entries: object, mode: object, is_offensive: Callable[[str], bool]) -> None
+def __init__(self, scope_entries: object, mode: object, is_offensive: Callable[[str], bool], deny_entries: object = None) -> None
 ```
 
 Initialise the guard.
@@ -159,6 +162,7 @@ Initialise the guard.
 | `scope_entries` | `object` |  | The authorized scope, in any form accepted by [`normalize_scope`](#normalize_scope). |
 | `mode` | `object` |  | The enforcement mode, in any form accepted by [`ScopeMode.from_value`](#scopemode-from_value). |
 | `is_offensive` | `Callable[[str], bool]` |  | Predicate returning ``True`` when a command name is offensive. Injected so the guard never imports the shell. |
+| `deny_entries` | `object` | `None` | Explicitly denied entries, same form as the allowlist; deny has priority over allow. |
 
 *Calls:* [`ScopeMode.from_value`](#scopemode-from_value), [`normalize_scope`](#normalize_scope)
 
@@ -166,7 +170,7 @@ Initialise the guard.
 
 #### `ScopeGuard.evaluate`
 
-`method` | [cli/scope_guard.py:283](../../cli/scope_guard.py#L283)
+`method` | [cli/scope_guard.py:304](../../cli/scope_guard.py#L304)
 
 ```python
 def evaluate(self, command: str, target: str) -> ScopeDecision
@@ -184,7 +188,7 @@ Evaluate a single command against the active target.
 **Returns:** `ScopeDecision` - A [`ScopeDecision`](#scopedecision). The guard fails open: any classification
 error is treated as benign so a bug here never blocks the operator.
 
-*Calls:* [`ScopeDecision`](#scopedecision), [`target_in_scope`](#target_in_scope)
+*Calls:* [`ScopeDecision`](#scopedecision), [`target_in_deny`](#target_in_deny), [`target_in_scope`](#target_in_scope)
 
 ---
 
@@ -324,6 +328,37 @@ which the guard deliberately avoids.
 | `entries` | `Sequence[str]` |  | Authorized scope entries. |
 
 **Returns:** `bool` - ``True`` when the target is authorized by at least one entry.
+
+*Called by:* [`ScopeGuard.evaluate`](#scopeguard-evaluate), [`target_in_deny`](#target_in_deny)
+
+---
+
+<a id="target_in_deny"></a>
+
+### `target_in_deny`
+
+`function` | [cli/scope_guard.py:254](../../cli/scope_guard.py#L254)
+
+```python
+def target_in_deny(target: str, entries: Sequence[str]) -> bool
+```
+
+Return whether *target* is explicitly denied.
+
+Deny entries use the same matching rules as scope entries (CIDR,
+literal, hostname with ``*`` wildcard) and take priority over the
+allowlist: any deny hit blocks the command regardless of scope.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `target` | `str` |  | The active target (IP address or hostname). |
+| `entries` | `Sequence[str]` |  | Denied scope entries. |
+
+**Returns:** `bool` - ``True`` when the target matches a deny entry.
+
+*Calls:* [`target_in_scope`](#target_in_scope)
 
 *Called by:* [`ScopeGuard.evaluate`](#scopeguard-evaluate)
 

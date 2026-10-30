@@ -73,6 +73,10 @@ stages:
     enabled: true
     label: Annotate commands with detection probability
     fires_when: before every executed command
+  opsec_gate:
+    enabled: true
+    label: Pre-execution OPSEC noise gating (allow/warn/confirm/block)
+    fires_when: before every executed command, alongside detection_oracle
   defense_validate:
     enabled: true
     label: Detection rule replay over attack and control logs

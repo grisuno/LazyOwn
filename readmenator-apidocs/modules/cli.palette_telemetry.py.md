@@ -372,7 +372,7 @@ delegate the missing-target sad path to the renderer.
 def enrich_commands(telemetry: TelemetryIndex | None, rows: Iterable[Mapping[str, object]], *, config: TelemetryConfig | None = None) -> list[dict[str, object]]
 ```
 
-Enrich every entry of `[`rows`](cli.palette_overlay.py.md#paletteoverlaystate-rows)` with telemetry data.
+Enrich every entry of ``rows`` with telemetry data.
 
 Used by the C2 view and the Cmd+K overlay so the client-side renderer
 can show `[`runs`](#commandstat-runs)` badges per row without round-tripping.

@@ -19,8 +19,8 @@ Operators can extend the lab set with an explicit allowlist file.
 ## Contents
 
 - **Classes:** [`ScopeVerdict`](#scopeverdict)
-- **Functions:** [`is_lab_address`](#is_lab_address), [`extract_hosts`](#extract_hosts), [`resolve_addresses`](#resolve_addresses), [`read_allowlist`](#read_allowlist), [`scope_verdict`](#scope_verdict), [`command_scope_verdict`](#command_scope_verdict)
-- **Constants:** [`LAB_DEFAULT_ENABLED`](#lab_default_enabled), [`LAB_RESOLVE_TIMEOUT_SEC`](#lab_resolve_timeout_sec), [`LAB_RESOLVE_TTL_SEC`](#lab_resolve_ttl_sec), [`ALLOWLIST_FILENAME`](#allowlist_filename)
+- **Functions:** [`is_lab_address`](#is_lab_address), [`extract_hosts`](#extract_hosts), [`resolve_addresses`](#resolve_addresses), [`read_scope_file`](#read_scope_file), [`read_allowlist`](#read_allowlist), [`read_denylist`](#read_denylist), [`scope_verdict`](#scope_verdict), [`command_scope_verdict`](#command_scope_verdict)
+- **Constants:** [`LAB_DEFAULT_ENABLED`](#lab_default_enabled), [`LAB_RESOLVE_TIMEOUT_SEC`](#lab_resolve_timeout_sec), [`LAB_RESOLVE_TTL_SEC`](#lab_resolve_ttl_sec), [`ALLOWLIST_FILENAME`](#allowlist_filename), [`DENYLIST_FILENAME`](#denylist_filename)
 
 ## Call Graph
 
@@ -28,11 +28,16 @@ Solid arrows stay in this module, dashed arrows leave it.
 
 ```mermaid
 flowchart LR
+    n_modules_lazy_scope_py__read_allowlist(["read_allowlist"])
+    n_modules_lazy_scope_py__read_scope_file(["read_scope_file"])
+    n_modules_lazy_scope_py__read_denylist(["read_denylist"])
     n_modules_lazy_scope_py__scope_verdict(["scope_verdict"])
     n_modules_lazy_scope_py__ScopeVerdict(["ScopeVerdict"])
     n_modules_lazy_scope_py__is_lab_address(["is_lab_address"])
     n_modules_lazy_scope_py__command_scope_verdict(["command_scope_verdict"])
     n_modules_lazy_scope_py__extract_hosts(["extract_hosts"])
+    n_modules_lazy_scope_py__read_allowlist --> n_modules_lazy_scope_py__read_scope_file
+    n_modules_lazy_scope_py__read_denylist --> n_modules_lazy_scope_py__read_scope_file
     n_modules_lazy_scope_py__scope_verdict --> n_modules_lazy_scope_py__ScopeVerdict
     n_modules_lazy_scope_py__scope_verdict --> n_modules_lazy_scope_py__is_lab_address
     n_modules_lazy_scope_py__command_scope_verdict --> n_modules_lazy_scope_py__ScopeVerdict
@@ -46,7 +51,7 @@ flowchart LR
 
 ### `ScopeVerdict`
 
-`class` `dataclass` | [modules/lazy_scope.py:49](../../modules/lazy_scope.py#L49)
+`class` `dataclass` | [modules/lazy_scope.py:50](../../modules/lazy_scope.py#L50)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -72,7 +77,7 @@ Outcome of a lab-scope check for one target.
 
 ### `is_lab_address`
 
-`function` | [modules/lazy_scope.py:104](../../modules/lazy_scope.py#L104)
+`function` | [modules/lazy_scope.py:105](../../modules/lazy_scope.py#L105)
 
 ```python
 def is_lab_address(address: str) -> bool
@@ -96,7 +101,7 @@ Classify one address as lab-local.
 
 ### `extract_hosts`
 
-`function` | [modules/lazy_scope.py:129](../../modules/lazy_scope.py#L129)
+`function` | [modules/lazy_scope.py:130](../../modules/lazy_scope.py#L130)
 
 ```python
 def extract_hosts(text: str) -> list[str]
@@ -120,7 +125,7 @@ Pull IP literals and plausible hostnames out of free text.
 
 ### `resolve_addresses`
 
-`function` | [modules/lazy_scope.py:163](../../modules/lazy_scope.py#L163)
+`function` | [modules/lazy_scope.py:164](../../modules/lazy_scope.py#L164)
 
 ```python
 def resolve_addresses(name: str, now: float | None = None) -> tuple[str, ...]
@@ -140,11 +145,36 @@ name is an address literal already.
 
 ---
 
+<a id="read_scope_file"></a>
+
+### `read_scope_file`
+
+`function` | [modules/lazy_scope.py:209](../../modules/lazy_scope.py#L209)
+
+```python
+def read_scope_file(name: str, sessions_dir: str | Path = 'sessions') -> frozenset[str]
+```
+
+Load operator entries from a scope list file.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | `str` |  | File name inside `[`sessions_dir`](core.defaults.py.md#sessions_dir)` covering the entries. |
+| `sessions_dir` | `str \| Path` | `'sessions'` | Directory holding the scope files. |
+
+**Returns:** `frozenset[str]` - Frozenset of lowercase entries; comments and blanks skipped.
+
+*Called by:* [`read_allowlist`](#read_allowlist), [`read_denylist`](#read_denylist)
+
+---
+
 <a id="read_allowlist"></a>
 
 ### `read_allowlist`
 
-`function` | [modules/lazy_scope.py:208](../../modules/lazy_scope.py#L208)
+`function` | [modules/lazy_scope.py:231](../../modules/lazy_scope.py#L231)
 
 ```python
 def read_allowlist(sessions_dir: str | Path = 'sessions') -> frozenset[str]
@@ -160,22 +190,51 @@ Load operator-approved extra lab hosts.
 
 **Returns:** `frozenset[str]` - Frozenset of lowercase host entries; comments and blanks skipped.
 
+*Calls:* [`read_scope_file`](#read_scope_file)
+
+---
+
+<a id="read_denylist"></a>
+
+### `read_denylist`
+
+`function` | [modules/lazy_scope.py:243](../../modules/lazy_scope.py#L243)
+
+```python
+def read_denylist(sessions_dir: str | Path = 'sessions') -> frozenset[str]
+```
+
+Load explicitly denied hosts and networks.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `sessions_dir` | `str \| Path` | `'sessions'` | Directory holding ``scope_deny.txt``. |
+
+**Returns:** `frozenset[str]` - Frozenset of lowercase deny entries: hostnames, IPs or CIDR blocks.
+
+*Calls:* [`read_scope_file`](#read_scope_file)
+
 ---
 
 <a id="scope_verdict"></a>
 
 ### `scope_verdict`
 
-`function` | [modules/lazy_scope.py:229](../../modules/lazy_scope.py#L229)
+`function` | [modules/lazy_scope.py:255](../../modules/lazy_scope.py#L255)
 
 ```python
-def scope_verdict(target: str, resolver=resolve_addresses, allowlist: frozenset[str] | None = None) -> ScopeVerdict
+def scope_verdict(target: str, resolver=resolve_addresses, allowlist: frozenset[str] | None = None, denylist: frozenset[str] | None = None) -> ScopeVerdict
 ```
 
 Decide whether one target is inside the default lab scope.
 
-Address literals are classified directly; hostnames must resolve and
-every answer must be lab-local. Unresolvable names are denied.
+Deny entries have priority: a deny hit blocks before any allow path is
+considered. Denied entries may be hostnames, IP literals or CIDR
+blocks; CIDR deny covers every address inside the block. Address
+literals are classified directly; hostnames must resolve and every
+answer must be lab-local. Unresolvable names are denied.
 
 **Parameters**
 
@@ -184,6 +243,7 @@ every answer must be lab-local. Unresolvable names are denied.
 | `target` | `str` |  | Host or IP the loop wants to touch. |
 | `resolver` |  | `resolve_addresses` | Address resolver (injectable for tests). |
 | `allowlist` | `frozenset[str] \| None` | `None` | Extra operator-approved lab hosts. |
+| `denylist` | `frozenset[str] \| None` | `None` | Operator-denied hosts, IPs or CIDR blocks. |
 
 **Returns:** `ScopeVerdict` - ScopeVerdict with allowed flag, denial kind and detail.
 
@@ -197,10 +257,10 @@ every answer must be lab-local. Unresolvable names are denied.
 
 ### `command_scope_verdict`
 
-`function` | [modules/lazy_scope.py:270](../../modules/lazy_scope.py#L270)
+`function` | [modules/lazy_scope.py:351](../../modules/lazy_scope.py#L351)
 
 ```python
-def command_scope_verdict(command: str, resolver=resolve_addresses, allowlist: frozenset[str] | None = None) -> ScopeVerdict
+def command_scope_verdict(command: str, resolver=resolve_addresses, allowlist: frozenset[str] | None = None, denylist: frozenset[str] | None = None) -> ScopeVerdict
 ```
 
 Check every host mentioned in a command line.
@@ -212,6 +272,7 @@ Check every host mentioned in a command line.
 | `command` | `str` |  | Full command string about to execute. |
 | `resolver` |  | `resolve_addresses` | Address resolver (injectable for tests). |
 | `allowlist` | `frozenset[str] \| None` | `None` | Extra operator-approved lab hosts. |
+| `denylist` | `frozenset[str] \| None` | `None` | Operator-denied hosts, IPs or CIDR blocks. |
 
 **Returns:** `ScopeVerdict` - Verdict for the first offending host, or an allowed verdict when
 every extracted host passes.
@@ -266,6 +327,18 @@ LAB_RESOLVE_TTL_SEC = 300.0
 
 ```python
 ALLOWLIST_FILENAME = 'scope_allow.txt'
+```
+
+---
+
+<a id="denylist_filename"></a>
+
+### `DENYLIST_FILENAME`
+
+`constant` | [modules/lazy_scope.py:32](../../modules/lazy_scope.py#L32)
+
+```python
+DENYLIST_FILENAME = 'scope_deny.txt'
 ```
 
 ---

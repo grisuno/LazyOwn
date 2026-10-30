@@ -20,7 +20,7 @@ evidence and re-proposes immediately.
 ## Contents
 
 - **Classes:** [`TriggerStore`](#triggerstore)
-- **Functions:** [`hint_fingerprint`](#hint_fingerprint), [`prune_hint_fingerprints`](#prune_hint_fingerprints)
+- **Functions:** [`hint_fingerprint`](#hint_fingerprint), [`prune_hint_fingerprints`](#prune_hint_fingerprints), [`read_signing_evidence`](#read_signing_evidence)
 - **Constants:** [`TRIGGER_KINDS`](#trigger_kinds), [`HINT_REPEAT_TTL_SEC`](#hint_repeat_ttl_sec), [`HINT_FINGERPRINT_STORE`](#hint_fingerprint_store)
 
 ## Call Graph
@@ -32,20 +32,30 @@ flowchart LR
     n_modules_loop_triggers_py__TriggerStore_ensure_service_trigger(["TriggerStore.ensure_service_trigger"])
     n_modules_loop_triggers_py__TriggerStore_add(["TriggerStore.add"])
     n_modules_loop_triggers_py__TriggerStore_ensure_cve_hot_trigger(["TriggerStore.ensure_cve_hot_trigger"])
+    n_modules_loop_triggers_py__TriggerStore_ensure_ad_surface_trigger(["TriggerStore.ensure_ad_surface_trigger"])
     n_modules_loop_triggers_py__TriggerStore_due(["TriggerStore.due"])
     n_modules_loop_triggers_py__hint_fingerprint(["hint_fingerprint"])
     n_modules_loop_triggers_py__prune_hint_fingerprints(["prune_hint_fingerprints"])
+    n_modules_loop_triggers_py__read_signing_evidence(["read_signing_evidence"])
     n_modules_lazy_heat_py__product_token["lazy_heat.product_token"]
     n_modules_auto_registry_py__addon_hits_for["auto_registry.addon_hits_for"]
     n_modules_lazy_cve_feed_py__hot_matches["lazy_cve_feed.hot_matches"]
+    n_modules_lazy_netattack_py__SurfaceEvidence["lazy_netattack.SurfaceEvidence"]
+    n_modules_lazy_netattack_py__hint_text["lazy_netattack.hint_text"]
+    n_modules_lazy_netattack_py__surface_decision["lazy_netattack.surface_decision"]
     n_modules_world_model_py__get_world_model["world_model.get_world_model"]
     n_modules_loop_triggers_py__TriggerStore_ensure_service_trigger --> n_modules_loop_triggers_py__TriggerStore_add
     n_modules_loop_triggers_py__TriggerStore_ensure_cve_hot_trigger --> n_modules_loop_triggers_py__TriggerStore_add
+    n_modules_loop_triggers_py__TriggerStore_ensure_ad_surface_trigger --> n_modules_loop_triggers_py__TriggerStore_add
     n_modules_loop_triggers_py__TriggerStore_due --> n_modules_loop_triggers_py__hint_fingerprint
     n_modules_loop_triggers_py__TriggerStore_due --> n_modules_loop_triggers_py__prune_hint_fingerprints
+    n_modules_loop_triggers_py__TriggerStore_due --> n_modules_loop_triggers_py__read_signing_evidence
     n_modules_loop_triggers_py__hint_fingerprint -.-> n_modules_lazy_heat_py__product_token
     n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_auto_registry_py__addon_hits_for
     n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_lazy_cve_feed_py__hot_matches
+    n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_lazy_netattack_py__SurfaceEvidence
+    n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_lazy_netattack_py__hint_text
+    n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_lazy_netattack_py__surface_decision
     n_modules_loop_triggers_py__TriggerStore_due -.-> n_modules_world_model_py__get_world_model
 ```
 
@@ -75,6 +85,7 @@ Persistent event/interval triggers like server/scheduler (P3).
 | [`list`](#triggerstore-list) | method | Return all triggers. |
 | [`ensure_service_trigger`](#triggerstore-ensure_service_trigger) | method | Register the catalog trigger once so services fire the loop. |
 | [`ensure_cve_hot_trigger`](#triggerstore-ensure_cve_hot_trigger) | method | Register the hot-CVE trigger once so fresh intel fires the loop. |
+| [`ensure_ad_surface_trigger`](#triggerstore-ensure_ad_surface_trigger) | method | Register the AD-surface trigger once so Windows identity fires it. |
 | [`due`](#triggerstore-due) | method | Evaluate triggers like the scheduler tick; fires at most once each. |
 
 <a id="triggerstore-__init__"></a>
@@ -123,7 +134,7 @@ Register a trigger; interval needs every_sec, events fire on new rows.
 
 - `ValueError`: (raised in the body, not documented)
 
-*Called by:* [`LazyCommandSet.do_lazy_trigger`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_trigger), [`OrchestratorAssetsMixin.add_trigger`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-add_trigger), [`triggers_add`](lazyc2.blueprints.orchestrator.py.md#triggers_add), [`TriggerStore.ensure_cve_hot_trigger`](#triggerstore-ensure_cve_hot_trigger), [`TriggerStore.ensure_service_trigger`](#triggerstore-ensure_service_trigger)
+*Called by:* [`LazyCommandSet.do_lazy_trigger`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_trigger), [`OrchestratorAssetsMixin.add_trigger`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-add_trigger), [`triggers_add`](lazyc2.blueprints.orchestrator.py.md#triggers_add), [`TriggerStore.ensure_ad_surface_trigger`](#triggerstore-ensure_ad_surface_trigger), [`TriggerStore.ensure_cve_hot_trigger`](#triggerstore-ensure_cve_hot_trigger), [`TriggerStore.ensure_service_trigger`](#triggerstore-ensure_service_trigger)
 
 <a id="triggerstore-upsert_defaults"></a>
 
@@ -248,11 +259,32 @@ verification hint instead of raw scanning.
 
 *Calls:* [`TriggerStore.add`](#triggerstore-add)
 
+<a id="triggerstore-ensure_ad_surface_trigger"></a>
+
+#### `TriggerStore.ensure_ad_surface_trigger`
+
+`method` | [modules/loop_triggers.py:220](../../modules/loop_triggers.py#L220)
+
+```python
+def ensure_ad_surface_trigger(self) -> bool
+```
+
+Register the AD-surface trigger once so Windows identity fires it.
+
+Every cycle, services newer than the watermark are graded for the
+Windows network-attack families (LLMNR, SMB relay, mitm6,
+NTLMv1 downgrade); only ``viable`` or ``needs_evidence`` grades
+surface as operator hints, kinetic steps stay operator-gated.
+
+**Returns:** `bool`
+
+*Calls:* [`TriggerStore.add`](#triggerstore-add)
+
 <a id="triggerstore-due"></a>
 
 #### `TriggerStore.due`
 
-`method` | [modules/loop_triggers.py:220](../../modules/loop_triggers.py#L220)
+`method` | [modules/loop_triggers.py:233](../../modules/loop_triggers.py#L233)
 
 ```python
 def due(self, task_id: str, graph, activity, assets=None, store=None) -> Sequence[dict]
@@ -276,7 +308,7 @@ graph/activity driven.
 
 **Returns:** `Sequence[dict]`
 
-*Calls:* [`addon_hits_for`](modules.auto_registry.py.md#addon_hits_for), [`hot_matches`](modules.lazy_cve_feed.py.md#hot_matches), [`hint_fingerprint`](#hint_fingerprint), [`prune_hint_fingerprints`](#prune_hint_fingerprints), [`get_world_model`](modules.world_model.py.md#get_world_model)
+*Calls:* [`addon_hits_for`](modules.auto_registry.py.md#addon_hits_for), [`hot_matches`](modules.lazy_cve_feed.py.md#hot_matches), [`SurfaceEvidence`](modules.lazy_netattack.py.md#surfaceevidence), [`hint_text`](modules.lazy_netattack.py.md#hint_text), [`surface_decision`](modules.lazy_netattack.py.md#surface_decision), [`hint_fingerprint`](#hint_fingerprint), [`prune_hint_fingerprints`](#prune_hint_fingerprints), [`read_signing_evidence`](#read_signing_evidence), [`get_world_model`](modules.world_model.py.md#get_world_model)
 
 *Called by:* [`LazyCommandSet.do_lazy_scheduler`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_scheduler)
 
@@ -336,6 +368,35 @@ Return only the fresh fingerprints of a stored fingerprint map.
 | `ttl` | `float` | `HINT_REPEAT_TTL_SEC` | Seconds a signature stays valid. |
 
 **Returns:** `dict` - Filtered mapping, ''-safe on malformed rows.
+
+*Called by:* [`TriggerStore.due`](#triggerstore-due)
+
+---
+
+<a id="read_signing_evidence"></a>
+
+### `read_signing_evidence`
+
+`function` | [modules/loop_triggers.py:499](../../modules/loop_triggers.py#L499)
+
+```python
+def read_signing_evidence(store_dir=None) -> dict[str, str]
+```
+
+Load operator-attested SMB signing evidence per host.
+
+Evidence file: ``sessions/smb_signing.json`` — operator writes ``{"host":
+"nmap smb-security-mode output..."}`` after the discovery probe; the
+ad_surface trigger grades relay viability from it. Untrusted text: the
+hint only repeats what was attested.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `store_dir` |  | `None` |  |
+
+**Returns:** `dict[str, str]` - Mapping of host to signing evidence text, ``{}`` when unset.
 
 *Called by:* [`TriggerStore.due`](#triggerstore-due)
 

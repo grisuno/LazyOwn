@@ -1,8 +1,22 @@
-# Symbols (page 9 of 47)
+# Symbols (page 9 of 48)
 Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `escape_js` | function | `lazyc2.py:1186` | `def escape_js(s)` |
+| `escape_js_string` | function | `lazyc2.py:1475` | `def escape_js_string(value)` |
+| `execute_command` | function | `lazyc2.py:1838` | `def execute_command(command)` |
+| `extract_attack_vectors` | function | `lazyc2.py:893` | `def extract_attack_vectors(nodes, edges)` |
+| `favicon` | function | `lazyc2.py:4602` | `def favicon()` |
+| `format` | method | `lazyc2.py:482` | `def format(self, record)` |
+| `fromjson` | function | `lazyc2.py:810` | `def fromjson(value)` |
+| `generalbot` | function | `lazyc2.py:5474` | `def generalbot()` |
+| `get_client_ip` | function | `lazyc2.py:2284` | `def get_client_ip()` |
+| `get_config` | function | `lazyc2.py:7577` | `def get_config()` |
+| `get_connected_clients` | function | `lazyc2.py:6697` | `def get_connected_clients()` |
+| `get_data` | function | `lazyc2.py:8219` | `def get_data()` |
+| `get_discovered_hosts` | function | `lazyc2.py:2157` | `def get_discovered_hosts()` |
+| `get_event_config` | function | `lazyc2.py:5861` | `def get_event_config()` |
 | `get_event_config_view` | function | `lazyc2.py:5868` | `def get_event_config_view()` |
 | `get_events` | function | `lazyc2.py:5928` | `def get_events()` |
 | `get_karma_name` | function | `lazyc2.py:793` | `def get_karma_name(elo)` |
@@ -16,7 +30,7 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `graph` | function | `lazyc2.py:5589` | `def graph()` |
 | `handle_client` | function | `lazyc2.py:2036` | `def handle_client(client_socket, remote_host, remote_port)` |
 | `handle_input` | function | `lazyc2.py:7381` | `def handle_input(data)` |
-| `health_check` | function | `lazyc2.py:8652` | `def health_check()` |
+| `health_check` | function | `lazyc2.py:8721` | `def health_check()` |
 | `implants_check` | function | `lazyc2.py:876` | `def implants_check()` |
 | `index` | function | `lazyc2.py:3331` | `def index()` |
 | `intel_bundle_view` | function | `lazyc2.py:7702` | `def intel_bundle_view()` |
@@ -32,10 +46,10 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `issue_command` | function | `lazyc2.py:4239` | `def issue_command()` |
 | `killchain_view` | function | `lazyc2.py:6918` | `def killchain_view()` |
 | `lazybot` | function | `lazyc2.py:6708` | `def lazybot()` |
-| `lazyphishingai` | function | `lazyc2.py:8308` | `def lazyphishingai()` |
+| `lazyphishingai` | function | `lazyc2.py:8377` | `def lazyphishingai()` |
 | `lazyreport` | function | `lazyc2.py:6857` | `def lazyreport()` |
 | `lazyreport_view` | function | `lazyc2.py:6912` | `def lazyreport_view()` |
-| `list_campaigns` | function | `lazyc2.py:8217` | `def list_campaigns()` |
+| `list_campaigns` | function | `lazyc2.py:8286` | `def list_campaigns()` |
 | `list_tools` | function | `lazyc2.py:5960` | `def list_tools()` |
 | `listener` | function | `lazyc2.py:7291` | `def listener()` |
 | `listener_command` | function | `lazyc2.py:7406` | `def listener_command(msg)` |
@@ -60,13 +74,13 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `logout` | function | `lazyc2.py:6518` | `def logout()` |
 | `make_serializable` | function | `lazyc2.py:1238` | `def make_serializable(data)` |
 | `markdown_to_html` | function | `lazyc2.py:1223` | `def markdown_to_html(text)` |
-| `metrics_exposition` | function | `lazyc2.py:8691` | `def metrics_exposition()` |
+| `metrics_exposition` | function | `lazyc2.py:8760` | `def metrics_exposition()` |
 | `mfa_qr` | function | `lazyc2.py:6296` | `def mfa_qr(username)` |
 | `mfa_setup` | function | `lazyc2.py:6222` | `def mfa_setup()` |
 | `mfa_verify` | function | `lazyc2.py:6318` | `def mfa_verify()` |
 | `mitre` | function | `lazyc2.py:6652` | `def mitre()` |
 | `on_any_event` | method | `lazyc2.py:768` | `def on_any_event(event)` |
-| `orchestrate_campaign` | function | `lazyc2.py:8428` | `def orchestrate_campaign(campaign_id)` |
+| `orchestrate_campaign` | function | `lazyc2.py:8497` | `def orchestrate_campaign(campaign_id)` |
 | `page_not_found` | function | `lazyc2.py:7560` | `def page_not_found(e)` |
 | `palette_api` | function | `lazyc2.py:4643` | `def palette_api()` |
 | `palette_view` | function | `lazyc2.py:4615` | `def palette_view()` |
@@ -107,7 +121,7 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `send_command` | function | `lazyc2.py:3482` | `def send_command(client_id)` |
 | `send_lcommand` | function | `lazyc2.py:5303` | `def send_lcommand(ip, port)` |
 | `serve_file` | function | `lazyc2.py:4317` | `def serve_file(file_path)` |
-| `serve_landing_page` | function | `lazyc2.py:8627` | `def serve_landing_page(campaign_id, short_url)` |
+| `serve_landing_page` | function | `lazyc2.py:8696` | `def serve_landing_page(campaign_id, short_url)` |
 | `set_winsize` | function | `lazyc2.py:2134` | `def set_winsize(fd, row, col, xpix, ypix)` |
 | `start_bridge` | function | `lazyc2.py:7543` | `def start_bridge()` |
 | `start_dns_server` | function | `lazyc2.py:1972` | `def start_dns_server()` |
@@ -129,11 +143,11 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `to_serializable` | function | `lazyc2.py:1231` | `def to_serializable(obj)` |
 | `tojson_filter` | function | `lazyc2.py:3324` | `def tojson_filter(value)` |
 | `track_interaction` | function | `lazyc2.py:4854` | `def track_interaction(short_url)` |
-| `track_pixel` | function | `lazyc2.py:8324` | `def track_pixel(campaign_id, email)` |
+| `track_pixel` | function | `lazyc2.py:8393` | `def track_pixel(campaign_id, email)` |
 | `update_short_url` | function | `lazyc2.py:4879` | `def update_short_url(short_url)` |
 | `update_tool` | function | `lazyc2.py:6028` | `def update_tool(toolname)` |
 | `upload` | function | `lazyc2.py:4253` | `def upload()` |
-| `upload_zip_file` | function | `lazyc2.py:8159` | `def upload_zip_file()` |
+| `upload_zip_file` | function | `lazyc2.py:8228` | `def upload_zip_file()` |
 | `validate_route_path` | function | `lazyc2.py:544` | `def validate_route_path(route_path)` |
 | `validate_template_name` | function | `lazyc2.py:557` | `def validate_template_name(template_name)` |
 | `view_note` | function | `lazyc2.py:5789` | `def view_note()` |
@@ -482,19 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `_request_lookup` | method | `lazygui/panels/cve_panel.py:165` | `def _request_lookup(self)` |
 | `_request_search_exploits` | method | `lazygui/panels/cve_panel.py:171` | `def _request_search_exploits(self)` |
 | `cve_count` | method | `lazygui/panels/cve_panel.py:178` | `def cve_count(self)` |
-| `EventLogPanel` | class | `lazygui/panels/event_log_panel.py:24` | `class EventLogPanel(PanelBase)` |
-| `__init__` | method | `lazygui/panels/event_log_panel.py:27` | `def __init__(self, constants, backend, event_log, parent)` |
-| `_on_level_changed` | method | `lazygui/panels/event_log_panel.py:69` | `def _on_level_changed(self, _index)` |
-| `GraphPanel` | class | `lazygui/panels/graph_panel.py:20` | `class GraphPanel(PanelBase)` |
-| `__init__` | method | `lazygui/panels/graph_panel.py:23` | `def __init__(self, constants, backend, parent)` |
-| `_find_node_info` | method | `lazygui/panels/graph_panel.py:109` | `def _find_node_info(self, node_id)` |
-| `_on_node_context_menu` | method | `lazygui/panels/graph_panel.py:54` | `def _on_node_context_menu(self, node_id, position)` |
-| `_on_node_selected` | method | `lazygui/panels/graph_panel.py:105` | `def _on_node_selected(self, node_id)` |
-| `_on_topology_changed` | method | `lazygui/panels/graph_panel.py:50` | `def _on_topology_changed(self, topology)` |
-| `graph_view` | method | `lazygui/panels/graph_panel.py:118` | `def graph_view(self)` |
-| `HistoryPanel` | class | `lazygui/panels/history_panel.py:30` | `class HistoryPanel(PanelBase)` |
-| `__init__` | method | `lazygui/panels/history_panel.py:33` | `def __init__(self, constants, backend, parent)` |
-| `_populate` | method | `lazygui/panels/history_panel.py:106` | `def _populate(self)` |
-| `_refresh` | method | `lazygui/panels/history_panel.py:87` | `def _refresh(self)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

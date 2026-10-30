@@ -698,7 +698,7 @@ In-memory ring buffer of recent command outputs with regex grep.
 Persists to ``sessions/_cli_transcript.jsonl`` so a restart does not lose
 the history; on startup the most recent ``capacity`` entries are loaded
 back. Each entry stores: timestamp, command, output (truncated to
-`[`max_output_chars`](modules.llm_pool.py.md#poolconfig-max_output_chars)`), and artefact paths the command claims to have
+``max_output_chars``), and artefact paths the command claims to have
 produced (informational only).
 
 **Members**

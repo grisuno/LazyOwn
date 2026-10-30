@@ -46,6 +46,11 @@ STAGE_DEFS = (
     ("notify", "Channel notifications (finding, task_status)", "on finding creation and terminal status"),
     ("ai_bus", "Publish loop events to the unified event bus and Hive Mind", "every activity line except raw stream kinds"),
     ("detection_oracle", "Annotate commands with detection probability", "before every executed command"),
+    (
+        "opsec_gate",
+        "Pre-execution OPSEC noise gating (allow/warn/confirm/block)",
+        "before every executed command, alongside detection_oracle",
+    ),
     ("defense_validate", "Detection rule replay over attack and control logs", "on terminal status when rule_path and log files are configured"),
     ("closedloop_tune", "Baseline vs candidate detection rule comparison with tuning suggestions", "on terminal status after defense_validate when both rules are configured"),
     ("hunt_verify", "Evidence verdicts per chain stage (observed, inferred, not_observed, insufficient)", "on terminal status when a hunt design and evidence file exist"),

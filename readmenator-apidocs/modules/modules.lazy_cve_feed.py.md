@@ -261,7 +261,7 @@ capped at `CORRELATE_CAP`.
 
 *Calls:* [`cve_intel`](#cve_intel), [`fetch_product_advisories`](#fetch_product_advisories), [`load_epss`](#load_epss), [`load_exploit_cves`](#load_exploit_cves), [`load_kev`](#load_kev), [`load_kev_matches`](#load_kev_matches), [`load_msf_cves`](#load_msf_cves), [`classify_heat`](modules.lazy_heat.py.md#classify_heat), [`parse_version`](modules.lazy_heat.py.md#parse_version), [`product_token`](modules.lazy_heat.py.md#product_token), [`version_in_range`](modules.lazy_heat.py.md#version_in_range)
 
-*Called by:* [`hot_matches`](#hot_matches)
+*Called by:* [`hot_matches`](#hot_matches), [`rescore`](modules.lazy_hostscore.py.md#rescore)
 
 ---
 
@@ -269,7 +269,7 @@ capped at `CORRELATE_CAP`.
 
 ### `load_kev_matches`
 
-`function` | [modules/lazy_cve_feed.py:526](../../modules/lazy_cve_feed.py#L526)
+`function` | [modules/lazy_cve_feed.py:594](../../modules/lazy_cve_feed.py#L594)
 
 ```python
 def load_kev_matches(product: str, feeds: dict | None = None) -> list[tuple[str, dict]]
@@ -299,7 +299,7 @@ the KEV product ``Samba`` without demanding the whole banner token.
 
 ### `hot_matches`
 
-`function` | [modules/lazy_cve_feed.py:568](../../modules/lazy_cve_feed.py#L568)
+`function` | [modules/lazy_cve_feed.py:636](../../modules/lazy_cve_feed.py#L636)
 
 ```python
 def hot_matches(services: list[dict], allow_network: bool = False) -> list[dict]
@@ -331,7 +331,7 @@ service context so the planner can target verification intents.
 
 ### `refresh_feeds_async`
 
-`function` | [modules/lazy_cve_feed.py:612](../../modules/lazy_cve_feed.py#L612)
+`function` | [modules/lazy_cve_feed.py:680](../../modules/lazy_cve_feed.py#L680)
 
 ```python
 def refresh_feeds_async(products: list[str] | None = None) -> None

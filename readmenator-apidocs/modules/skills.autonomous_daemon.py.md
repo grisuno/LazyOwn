@@ -1491,7 +1491,7 @@ Asyncio entry point used by objective_loop.
 
 ### `DroneCoordinator`
 
-`class` | [skills/autonomous_daemon.py:2808](../../skills/autonomous_daemon.py#L2808)
+`class` | [skills/autonomous_daemon.py:2854](../../skills/autonomous_daemon.py#L2854)
 
 ```python
 class DroneCoordinator
@@ -1510,7 +1510,7 @@ Watches ExecutionEngine results and launches hive drones when events worth paral
 
 #### `DroneCoordinator.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:2817](../../skills/autonomous_daemon.py#L2817)
+`constructor` | [skills/autonomous_daemon.py:2863](../../skills/autonomous_daemon.py#L2863)
 
 ```python
 def __init__(self) -> None
@@ -1522,7 +1522,7 @@ def __init__(self) -> None
 
 #### `DroneCoordinator.process_findings`
 
-`method` | [skills/autonomous_daemon.py:2822](../../skills/autonomous_daemon.py#L2822)
+`method` | [skills/autonomous_daemon.py:2868](../../skills/autonomous_daemon.py#L2868)
 
 ```python
 def process_findings(self, findings: list[dict], target: str, objective_id: str, payload_key: str = '') -> list[str]
@@ -1551,7 +1551,7 @@ Returns list of drone_ids.
 
 ### `EnginePhaseStep`
 
-`class` `dataclass` | [skills/autonomous_daemon.py:3096](../../skills/autonomous_daemon.py#L3096)
+`class` `dataclass` | [skills/autonomous_daemon.py:3142](../../skills/autonomous_daemon.py#L3142)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -1576,7 +1576,7 @@ One step in the EngageOrchestrator plan.
 
 ### `EnginePhaseResult`
 
-`class` `dataclass` | [skills/autonomous_daemon.py:3113](../../skills/autonomous_daemon.py#L3113)
+`class` `dataclass` | [skills/autonomous_daemon.py:3159](../../skills/autonomous_daemon.py#L3159)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -1608,7 +1608,7 @@ Result of one EnginePhaseStep execution.
 
 #### `EnginePhaseResult.did_switch`
 
-`property` | [skills/autonomous_daemon.py:3125](../../skills/autonomous_daemon.py#L3125)
+`property` | [skills/autonomous_daemon.py:3171](../../skills/autonomous_daemon.py#L3171)
 
 Decorators: `@property`
 
@@ -1626,7 +1626,7 @@ True when the orchestrator used a fallback tool.
 
 ### `IToolFallbackResolver`
 
-`class` `abstract` | [skills/autonomous_daemon.py:3130](../../skills/autonomous_daemon.py#L3130)
+`class` `abstract` | [skills/autonomous_daemon.py:3176](../../skills/autonomous_daemon.py#L3176)
 
 ```python
 class IToolFallbackResolver(ABC)
@@ -1648,7 +1648,7 @@ Contract for choosing a replacement tool after a failure.
 
 #### `IToolFallbackResolver.next_tool`
 
-`method` `abstract` | [skills/autonomous_daemon.py:3134](../../skills/autonomous_daemon.py#L3134)
+`method` `abstract` | [skills/autonomous_daemon.py:3180](../../skills/autonomous_daemon.py#L3180)
 
 Decorators: `@abstractmethod`
 
@@ -1674,7 +1674,7 @@ Return the next candidate command or None when exhausted.
 
 ### `StaticFallbackResolver`
 
-`class` | [skills/autonomous_daemon.py:3143](../../skills/autonomous_daemon.py#L3143)
+`class` | [skills/autonomous_daemon.py:3189](../../skills/autonomous_daemon.py#L3189)
 
 ```python
 class StaticFallbackResolver(IToolFallbackResolver)
@@ -1698,7 +1698,7 @@ primary command, returning None once the list is exhausted.
 
 #### `StaticFallbackResolver.next_tool`
 
-`method` | [skills/autonomous_daemon.py:3151](../../skills/autonomous_daemon.py#L3151)
+`method` | [skills/autonomous_daemon.py:3197](../../skills/autonomous_daemon.py#L3197)
 
 ```python
 def next_tool(self, failed_command: str, phase: str, attempt: int) -> str | None
@@ -1716,7 +1716,7 @@ Return the next candidate command or None when exhausted.
 
 **Returns:** `str | None`
 
-> **Inherited:** Documentation from [`IToolFallbackResolver.next_tool`](#itoolfallbackresolver-next_tool) (skills/autonomous_daemon.py:3134).
+> **Inherited:** Documentation from [`IToolFallbackResolver.next_tool`](#itoolfallbackresolver-next_tool) (skills/autonomous_daemon.py:3180).
 
 *Called by:* [`BridgeFallbackResolver.next_tool`](#bridgefallbackresolver-next_tool)
 
@@ -1726,7 +1726,7 @@ Return the next candidate command or None when exhausted.
 
 ### `BridgeFallbackResolver`
 
-`class` | [skills/autonomous_daemon.py:3164](../../skills/autonomous_daemon.py#L3164)
+`class` | [skills/autonomous_daemon.py:3210](../../skills/autonomous_daemon.py#L3210)
 
 ```python
 class BridgeFallbackResolver(IToolFallbackResolver)
@@ -1752,7 +1752,7 @@ don't re-query the catalog.
 
 #### `BridgeFallbackResolver.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:3173](../../skills/autonomous_daemon.py#L3173)
+`constructor` | [skills/autonomous_daemon.py:3219](../../skills/autonomous_daemon.py#L3219)
 
 ```python
 def __init__(self, dispatcher: Any = None) -> None
@@ -1772,7 +1772,7 @@ def __init__(self, dispatcher: Any = None) -> None
 
 #### `BridgeFallbackResolver.next_tool`
 
-`method` | [skills/autonomous_daemon.py:3198](../../skills/autonomous_daemon.py#L3198)
+`method` | [skills/autonomous_daemon.py:3244](../../skills/autonomous_daemon.py#L3244)
 
 ```python
 def next_tool(self, failed_command: str, phase: str, attempt: int) -> str | None
@@ -1790,7 +1790,7 @@ Return the next candidate command or None when exhausted.
 
 **Returns:** `str | None`
 
-> **Inherited:** Documentation from [`IToolFallbackResolver.next_tool`](#itoolfallbackresolver-next_tool) (skills/autonomous_daemon.py:3134).
+> **Inherited:** Documentation from [`IToolFallbackResolver.next_tool`](#itoolfallbackresolver-next_tool) (skills/autonomous_daemon.py:3180).
 
 *Calls:* [`StaticFallbackResolver.next_tool`](#staticfallbackresolver-next_tool)
 
@@ -1800,7 +1800,7 @@ Return the next candidate command or None when exhausted.
 
 ### `EngageOrchestrator`
 
-`class` | [skills/autonomous_daemon.py:3303](../../skills/autonomous_daemon.py#L3303)
+`class` | [skills/autonomous_daemon.py:3349](../../skills/autonomous_daemon.py#L3349)
 
 ```python
 class EngageOrchestrator
@@ -1834,7 +1834,7 @@ MCP caller) sees the full timeline.
 
 #### `EngageOrchestrator.__init__`
 
-`constructor` | [skills/autonomous_daemon.py:3317](../../skills/autonomous_daemon.py#L3317)
+`constructor` | [skills/autonomous_daemon.py:3363](../../skills/autonomous_daemon.py#L3363)
 
 ```python
 def __init__(self, target: str, runner: ICommandRunner | None = None, narrator: Any = None, approval_gate: Any = None, fallback_resolver: IToolFallbackResolver | None = None, shell_detector: _ShellDetector | None = None, plan: tuple[EnginePhaseStep, ...] | None = None, max_switches_per_step: int = DEFAULT_MAX_SWITCHES_PER_STEP, safety_guard: Any = None) -> None
@@ -1864,7 +1864,7 @@ def __init__(self, target: str, runner: ICommandRunner | None = None, narrator: 
 
 #### `EngageOrchestrator.engagement_id`
 
-`property` | [skills/autonomous_daemon.py:3362](../../skills/autonomous_daemon.py#L3362)
+`property` | [skills/autonomous_daemon.py:3408](../../skills/autonomous_daemon.py#L3408)
 
 Decorators: `@property`
 
@@ -1880,7 +1880,7 @@ Stable id for this engagement (correlates events in logs).
 
 #### `EngageOrchestrator.run`
 
-`method` | [skills/autonomous_daemon.py:3366](../../skills/autonomous_daemon.py#L3366)
+`method` | [skills/autonomous_daemon.py:3412](../../skills/autonomous_daemon.py#L3412)
 
 ```python
 def run(self) -> dict[str, Any]
@@ -1931,7 +1931,7 @@ replay is surfaced as a divergence, never as an abort.
 
 ### `mcp_engage_target`
 
-`function` | [skills/autonomous_daemon.py:4010](../../skills/autonomous_daemon.py#L4010)
+`function` | [skills/autonomous_daemon.py:4056](../../skills/autonomous_daemon.py#L4056)
 
 ```python
 def mcp_engage_target(target: str, max_switches_per_step: int = 3, detach: bool = True, auto: bool = False) -> str
@@ -1959,7 +1959,7 @@ plus the full result payload when detach is False.
 
 ### `mcp_engage_status`
 
-`function` | [skills/autonomous_daemon.py:4100](../../skills/autonomous_daemon.py#L4100)
+`function` | [skills/autonomous_daemon.py:4146](../../skills/autonomous_daemon.py#L4146)
 
 ```python
 def mcp_engage_status(last_n: int = 20) -> str
@@ -1983,7 +1983,7 @@ Return the last N lines of sessions/engagement.log plus pending approvals.
 
 ### `mcp_engage_approve`
 
-`function` | [skills/autonomous_daemon.py:4126](../../skills/autonomous_daemon.py#L4126)
+`function` | [skills/autonomous_daemon.py:4172](../../skills/autonomous_daemon.py#L4172)
 
 ```python
 def mcp_engage_approve(approval_id: str, decision: str, operator: str = '') -> str
@@ -2009,7 +2009,7 @@ Resolve a pending approval. decision must be 'approved' or 'denied'.
 
 ### `mcp_engage_list_pending`
 
-`function` | [skills/autonomous_daemon.py:4151](../../skills/autonomous_daemon.py#L4151)
+`function` | [skills/autonomous_daemon.py:4197](../../skills/autonomous_daemon.py#L4197)
 
 ```python
 def mcp_engage_list_pending() -> str
@@ -2027,7 +2027,7 @@ List every pending approval awaiting an operator decision.
 
 ### `cmd_engage`
 
-`function` | [skills/autonomous_daemon.py:4169](../../skills/autonomous_daemon.py#L4169)
+`function` | [skills/autonomous_daemon.py:4215](../../skills/autonomous_daemon.py#L4215)
 
 ```python
 def cmd_engage(target: str, max_switches_per_step: int = 3, detach: bool = False) -> None
@@ -2051,7 +2051,7 @@ CLI helper bound to the `engage <ip>` daemon subcommand.
 
 ### `objective_loop`
 
-`function` `async` | [skills/autonomous_daemon.py:4208](../../skills/autonomous_daemon.py#L4208)
+`function` `async` | [skills/autonomous_daemon.py:4254](../../skills/autonomous_daemon.py#L4254)
 
 ```python
 async def objective_loop(max_steps: int, loop: asyncio.AbstractEventLoop) -> None
@@ -2074,7 +2074,7 @@ Root autonomous loop: takes pending objectives from objectives.jsonl and execute
 
 ### `world_model_watcher`
 
-`function` `async` | [skills/autonomous_daemon.py:4351](../../skills/autonomous_daemon.py#L4351)
+`function` `async` | [skills/autonomous_daemon.py:4397](../../skills/autonomous_daemon.py#L4397)
 
 ```python
 async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None
@@ -2098,7 +2098,7 @@ When the phase changes, new hosts appear, new service versions are found, or act
 
 ### `heartbeat_loop`
 
-`function` `async` | [skills/autonomous_daemon.py:4544](../../skills/autonomous_daemon.py#L4544)
+`function` `async` | [skills/autonomous_daemon.py:4590](../../skills/autonomous_daemon.py#L4590)
 
 ```python
 async def heartbeat_loop() -> None
@@ -2112,7 +2112,7 @@ Emit heartbeat and write status every HEARTBEAT_S seconds.
 
 ### `cmd_run`
 
-`function` | [skills/autonomous_daemon.py:4671](../../skills/autonomous_daemon.py#L4671)
+`function` | [skills/autonomous_daemon.py:4717](../../skills/autonomous_daemon.py#L4717)
 
 ```python
 def cmd_run(max_steps: int = MAX_STEPS_DEFAULT) -> None
@@ -2132,7 +2132,7 @@ Run daemon in foreground (debug mode).
 
 ### `cmd_start`
 
-`function` | [skills/autonomous_daemon.py:4680](../../skills/autonomous_daemon.py#L4680)
+`function` | [skills/autonomous_daemon.py:4726](../../skills/autonomous_daemon.py#L4726)
 
 ```python
 def cmd_start(max_steps: int = MAX_STEPS_DEFAULT) -> None
@@ -2152,7 +2152,7 @@ Fork, detach, and run daemon in background.
 
 ### `cmd_stop`
 
-`function` | [skills/autonomous_daemon.py:4710](../../skills/autonomous_daemon.py#L4710)
+`function` | [skills/autonomous_daemon.py:4756](../../skills/autonomous_daemon.py#L4756)
 
 ```python
 def cmd_stop() -> None
@@ -2166,7 +2166,7 @@ Send SIGTERM to the running daemon.
 
 ### `cmd_status`
 
-`function` | [skills/autonomous_daemon.py:4727](../../skills/autonomous_daemon.py#L4727)
+`function` | [skills/autonomous_daemon.py:4773](../../skills/autonomous_daemon.py#L4773)
 
 ```python
 def cmd_status() -> None
@@ -2180,7 +2180,7 @@ Print current daemon status to stdout.
 
 ### `cmd_inject`
 
-`function` | [skills/autonomous_daemon.py:4743](../../skills/autonomous_daemon.py#L4743)
+`function` | [skills/autonomous_daemon.py:4789](../../skills/autonomous_daemon.py#L4789)
 
 ```python
 def cmd_inject(text: str, priority: str = 'high') -> None
@@ -2201,7 +2201,7 @@ Inject an objective from the CLI, split into verifiable sub-goals.
 
 ### `mcp_autonomous_start`
 
-`function` | [skills/autonomous_daemon.py:4777](../../skills/autonomous_daemon.py#L4777)
+`function` | [skills/autonomous_daemon.py:4823](../../skills/autonomous_daemon.py#L4823)
 
 ```python
 def mcp_autonomous_start(max_steps: int = MAX_STEPS_DEFAULT, backend: str = HIVE_BACKEND) -> str
@@ -2224,7 +2224,7 @@ Start the autonomous daemon in a background thread (for MCP calls).
 
 ### `mcp_autonomous_stop`
 
-`function` | [skills/autonomous_daemon.py:4819](../../skills/autonomous_daemon.py#L4819)
+`function` | [skills/autonomous_daemon.py:4865](../../skills/autonomous_daemon.py#L4865)
 
 ```python
 def mcp_autonomous_stop() -> str
@@ -2240,7 +2240,7 @@ Stop the autonomous daemon.
 
 ### `mcp_autonomous_status`
 
-`function` | [skills/autonomous_daemon.py:4835](../../skills/autonomous_daemon.py#L4835)
+`function` | [skills/autonomous_daemon.py:4881](../../skills/autonomous_daemon.py#L4881)
 
 ```python
 def mcp_autonomous_status() -> str
@@ -2256,7 +2256,7 @@ Current daemon state: objectives, steps, drones, phase.
 
 ### `mcp_autonomous_inject`
 
-`function` | [skills/autonomous_daemon.py:4848](../../skills/autonomous_daemon.py#L4848)
+`function` | [skills/autonomous_daemon.py:4894](../../skills/autonomous_daemon.py#L4894)
 
 ```python
 def mcp_autonomous_inject(text: str, priority: str = 'high', target: str = '') -> str
@@ -2280,7 +2280,7 @@ Inject an objective into the daemon queue and into sessions/tasks.json.
 
 ### `mcp_autonomous_events`
 
-`function` | [skills/autonomous_daemon.py:4892](../../skills/autonomous_daemon.py#L4892)
+`function` | [skills/autonomous_daemon.py:4938](../../skills/autonomous_daemon.py#L4938)
 
 ```python
 def mcp_autonomous_events(last_n: int = 20) -> str

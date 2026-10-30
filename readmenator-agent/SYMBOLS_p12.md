@@ -1,8 +1,23 @@
-# Symbols (page 12 of 47)
+# Symbols (page 12 of 48)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_build_js_payload` | function | `modules/bitm_engine.py:151` | `def _build_js_payload(payload_name, lhost, lport)` |
+| `_check_tool` | function | `modules/bitm_engine.py:168` | `def _check_tool(tool)` |
+| `_ensure_bitm_dir` | function | `modules/bitm_engine.py:103` | `def _ensure_bitm_dir()` |
+| `_get_default_interface` | function | `modules/bitm_engine.py:195` | `def _get_default_interface()` |
+| `_get_gateway_ip` | function | `modules/bitm_engine.py:234` | `def _get_gateway_ip()` |
+| `_load_state` | function | `modules/bitm_engine.py:134` | `def _load_state()` |
+| `_recommend_method` | function | `modules/bitm_engine.py:180` | `def _recommend_method()` |
+| `_save_state` | function | `modules/bitm_engine.py:108` | `def _save_state(state)` |
+| `_start_arpspoof` | function | `modules/bitm_engine.py:413` | `def _start_arpspoof(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)` |
+| `_start_bettercap` | function | `modules/bitm_engine.py:354` | `def _start_bettercap(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)` |
+| `bitm_cleanup` | function | `modules/bitm_engine.py:642` | `def bitm_cleanup()` |
+| `bitm_harvest_stats` | function | `modules/bitm_engine.py:607` | `def bitm_harvest_stats()` |
+| `bitm_inject` | function | `modules/bitm_engine.py:572` | `def bitm_inject(payload_name)` |
+| `bitm_start` | function | `modules/bitm_engine.py:257` | `def bitm_start(target_ip, gateway_ip, interface, lhost, lport, method, payloads)` |
+| `bitm_status` | function | `modules/bitm_engine.py:539` | `def bitm_status()` |
 | `bitm_stop` | function | `modules/bitm_engine.py:481` | `def bitm_stop()` |
 | `main` | function | `modules/bitm_engine.py:661` | `def main()` |
 | `BofCatalog` | class | `modules/bof_registry.py:157` | `class BofCatalog` |
@@ -197,81 +212,107 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `days_in_month` | function | `modules/cal.sh:14` | `` |
 | `first_day_of_month` | function | `modules/cal.sh:31` | `` |
 | `is_leap_year` | function | `modules/cal.sh:4` | `` |
-| `DistillReport` | class | `modules/chain_distill.py:346` | `class DistillReport` |
-| `StepDecision` | class | `modules/chain_distill.py:325` | `class StepDecision` |
-| `_command_verb` | function | `modules/chain_distill.py:225` | `def _command_verb(command)` |
-| `_infer_target` | function | `modules/chain_distill.py:297` | `def _infer_target(rows, graph)` |
-| `_is_doc_example` | function | `modules/chain_distill.py:280` | `def _is_doc_example(host)` |
-| `_is_failed` | function | `modules/chain_distill.py:209` | `def _is_failed(row)` |
-| `_is_prose` | function | `modules/chain_distill.py:194` | `def _is_prose(command)` |
-| `_load_graph` | function | `modules/chain_distill.py:168` | `def _load_graph(path)` |
-| `_load_traffic` | function | `modules/chain_distill.py:132` | `def _load_traffic(path)` |
-| `_phase_for` | function | `modules/chain_distill.py:245` | `def _phase_for(command, manifest_phase)` |
-| `_slug` | function | `modules/chain_distill.py:76` | `def _slug(text)` |
-| `build_chain_data` | function | `modules/chain_distill.py:441` | `def build_chain_data(task, rows, graph, manifests)` |
-| `distill` | function | `modules/chain_distill.py:550` | `def distill(task, sessions_dir, write, chains_dir)` |
-| `dropped` | method | `modules/chain_distill.py:379` | `def dropped(self)` |
-| `kept` | method | `modules/chain_distill.py:374` | `def kept(self)` |
-| `locate_traces` | function | `modules/chain_distill.py:89` | `def locate_traces(task, sessions_dir)` |
-| `note` | function | `modules/chain_distill.py:465` | `def note(row, kept, reason)` |
-| `render` | method | `modules/chain_distill.py:410` | `def render(self, verbose)` |
-| `to_dict` | method | `modules/chain_distill.py:383` | `def to_dict(self)` |
+| `PendingStore` | class | `modules/chain_approval.py:114` | `class PendingStore` |
+| `__init__` | method | `modules/chain_approval.py:117` | `def __init__(self, sessions_dir)` |
+| `_audit` | function | `modules/chain_approval.py:91` | `def _audit(sessions_dir, event)` |
+| `_audit_path` | function | `modules/chain_approval.py:73` | `def _audit_path(sessions_dir)` |
+| `_clamp_timeout` | function | `modules/chain_approval.py:52` | `def _clamp_timeout(value)` |
+| `_load` | method | `modules/chain_approval.py:125` | `def _load(self)` |
+| `_now` | function | `modules/chain_approval.py:47` | `def _now()` |
+| `_save` | method | `modules/chain_approval.py:141` | `def _save(self, payload)` |
+| `_store_path` | function | `modules/chain_approval.py:68` | `def _store_path(sessions_dir)` |
+| `approval_backend` | function | `modules/chain_approval.py:318` | `def approval_backend()` |
+| `approve` | function | `modules/chain_approval.py:358` | `def approve(step_id, command)` |
+| `build_c2_approver` | function | `modules/chain_approval.py:328` | `def build_c2_approver(printer, chain_name, run_id, timeout, poll_interval, sessions_dir, clock)` |
+| `command_fingerprint` | function | `modules/chain_approval.py:78` | `def command_fingerprint(command)` |
+| `create` | method | `modules/chain_approval.py:153` | `def create(self, chain, step_id, command, timeout, run_id, now_override)` |
+| `decide` | method | `modules/chain_approval.py:229` | `def decide(self, request_id, allowed, decided_by, note, expired)` |
+| `expire_stale` | method | `modules/chain_approval.py:282` | `def expire_stale(self, now)` |
+| `get` | method | `modules/chain_approval.py:204` | `def get(self, request_id)` |
+| `list` | method | `modules/chain_approval.py:215` | `def list(self, status)` |
+| `DistillReport` | class | `modules/chain_distill.py:479` | `class DistillReport` |
+| `StepDecision` | class | `modules/chain_distill.py:458` | `class StepDecision` |
+| `_artifact_pins` | function | `modules/chain_distill.py:338` | `def _artifact_pins(command, output, target)` |
+| `_command_index_phases` | function | `modules/chain_distill.py:249` | `def _command_index_phases()` |
+| `_command_verb` | function | `modules/chain_distill.py:229` | `def _command_verb(command)` |
+| `_excluded_host` | function | `modules/chain_distill.py:374` | `def _excluded_host(host, operator_deny)` |
+| `_infer_target` | function | `modules/chain_distill.py:418` | `def _infer_target(rows, graph, operator_deny)` |
+| `_is_doc_example` | function | `modules/chain_distill.py:310` | `def _is_doc_example(host)` |
+| `_is_failed` | function | `modules/chain_distill.py:213` | `def _is_failed(row)` |
+| `_is_prose` | function | `modules/chain_distill.py:198` | `def _is_prose(command)` |
+| `_load_graph` | function | `modules/chain_distill.py:172` | `def _load_graph(path)` |
+| `_load_traffic` | function | `modules/chain_distill.py:136` | `def _load_traffic(path)` |
+| `_operator_deny` | function | `modules/chain_distill.py:400` | `def _operator_deny(sessions_dir)` |
+| `_phase_for` | function | `modules/chain_distill.py:278` | `def _phase_for(command, manifest_phase)` |
+| `_slug` | function | `modules/chain_distill.py:80` | `def _slug(text)` |
+| `build_chain_data` | function | `modules/chain_distill.py:574` | `def build_chain_data(task, rows, graph, manifests)` |
+| `distill` | function | `modules/chain_distill.py:687` | `def distill(task, sessions_dir, write, chains_dir)` |
+| `dropped` | method | `modules/chain_distill.py:512` | `def dropped(self)` |
+| `kept` | method | `modules/chain_distill.py:507` | `def kept(self)` |
+| `locate_traces` | function | `modules/chain_distill.py:93` | `def locate_traces(task, sessions_dir)` |
+| `note` | function | `modules/chain_distill.py:598` | `def note(row, kept, reason)` |
+| `render` | method | `modules/chain_distill.py:543` | `def render(self, verbose)` |
+| `to_dict` | method | `modules/chain_distill.py:516` | `def to_dict(self)` |
 | `_default_store` | function | `modules/chain_facts.py:73` | `def _default_store()` |
 | `_host_hint` | function | `modules/chain_facts.py:84` | `def _host_hint(output, phase, target_hint)` |
 | `spool_chain_outputs` | function | `modules/chain_facts.py:24` | `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` |
-| `Chain` | class | `modules/chain_registry.py:111` | `class Chain` |
-| `ChainStep` | class | `modules/chain_registry.py:62` | `class ChainStep` |
-| `_eval` | function | `modules/chain_registry.py:269` | `def _eval(node)` |
-| `_materialize` | function | `modules/chain_registry.py:544` | `def _materialize(name, raw, stack)` |
-| `_render` | function | `modules/chain_registry.py:191` | `def _render(template, variables)` |
-| `_step_from_raw` | function | `modules/chain_registry.py:590` | `def _step_from_raw(item)` |
-| `_when_tree` | function | `modules/chain_registry.py:220` | `def _when_tree(expression)` |
-| `evaluate_when` | function | `modules/chain_registry.py:247` | `def evaluate_when(expression, variables)` |
-| `generate_for_playbook` | function | `modules/chain_registry.py:732` | `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` |
-| `get` | function | `modules/chain_registry.py:644` | `def get(name, chains_dir)` |
-| `identifier` | method | `modules/chain_registry.py:105` | `def identifier(self)` |
-| `load_all` | function | `modules/chain_registry.py:510` | `def load_all(chains_dir)` |
-| `render_text_token_braces` | function | `modules/chain_registry.py:505` | `def render_text_token_braces(text)` |
-| `resolve` | method | `modules/chain_registry.py:128` | `def resolve(self, tokens)` |
-| `scan_all` | function | `modules/chain_registry.py:649` | `def scan_all(chains_dir)` |
-| `set_enabled` | function | `modules/chain_registry.py:709` | `def set_enabled(name, enabled, chains_dir)` |
-| `validate_chain` | function | `modules/chain_registry.py:312` | `def validate_chain(data, filename, chains_dir)` |
+| `Chain` | class | `modules/chain_registry.py:152` | `class Chain` |
+| `ChainStep` | class | `modules/chain_registry.py:102` | `class ChainStep` |
+| `_eval` | function | `modules/chain_registry.py:313` | `def _eval(node)` |
+| `_materialize` | function | `modules/chain_registry.py:610` | `def _materialize(name, raw, stack)` |
+| `_nonneg_int` | function | `modules/chain_registry.py:657` | `def _nonneg_int(raw)` |
+| `_render` | function | `modules/chain_registry.py:235` | `def _render(template, variables)` |
+| `_step_from_raw` | function | `modules/chain_registry.py:666` | `def _step_from_raw(item)` |
+| `_when_tree` | function | `modules/chain_registry.py:264` | `def _when_tree(expression)` |
+| `evaluate_when` | function | `modules/chain_registry.py:291` | `def evaluate_when(expression, variables)` |
+| `generate_for_playbook` | function | `modules/chain_registry.py:809` | `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` |
+| `get` | function | `modules/chain_registry.py:721` | `def get(name, chains_dir)` |
+| `identifier` | method | `modules/chain_registry.py:146` | `def identifier(self)` |
+| `load_all` | function | `modules/chain_registry.py:576` | `def load_all(chains_dir)` |
+| `render_text_token_braces` | function | `modules/chain_registry.py:571` | `def render_text_token_braces(text)` |
+| `resolve` | method | `modules/chain_registry.py:170` | `def resolve(self, tokens)` |
+| `scan_all` | function | `modules/chain_registry.py:726` | `def scan_all(chains_dir)` |
+| `set_enabled` | function | `modules/chain_registry.py:786` | `def set_enabled(name, enabled, chains_dir)` |
+| `skip_pending` | function | `modules/chain_registry.py:67` | `def skip_pending(path, max_age, now)` |
+| `validate_chain` | function | `modules/chain_registry.py:356` | `def validate_chain(data, filename, chains_dir)` |
 | `ChainRunResult` | class | `modules/chain_runner.py:109` | `class ChainRunResult` |
 | `ChainRunner` | class | `modules/chain_runner.py:215` | `class ChainRunner` |
 | `ReplanContext` | class | `modules/chain_runner.py:160` | `class ReplanContext` |
 | `StepOutcome` | class | `modules/chain_runner.py:53` | `class StepOutcome` |
 | `__init__` | method | `modules/chain_runner.py:218` | `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` |
-| `_all_json_objects` | function | `modules/chain_runner.py:1184` | `def _all_json_objects(text)` |
-| `_apply_replanner` | method | `modules/chain_runner.py:651` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
-| `_ask_approval` | method | `modules/chain_runner.py:946` | `def _ask_approval(self, step_id, command)` |
-| `_call` | method | `modules/chain_runner.py:1164` | `def _call(callback, timeout)` |
-| `_dependency_block` | method | `modules/chain_runner.py:879` | `def _dependency_block(step, prior_verdicts)` |
-| `_execute` | method | `modules/chain_runner.py:1046` | `def _execute(self, command, timeout, expect_exits)` |
-| `_first_json` | method | `modules/chain_runner.py:1017` | `def _first_json(output)` |
-| `_is_verb` | method | `modules/chain_runner.py:1081` | `def _is_verb(self, command)` |
-| `_load_json_events` | function | `modules/chain_runner.py:1205` | `def _load_json_events(path)` |
-| `_notify` | method | `modules/chain_runner.py:642` | `def _notify(self, outcome)` |
-| `_pre_check_timeout` | method | `modules/chain_runner.py:961` | `def _pre_check_timeout(self, step)` |
-| `_raise_timeout` | function | `modules/chain_runner.py:1127` | `def _raise_timeout(_signum, _frame)` |
-| `_record_verdict` | method | `modules/chain_runner.py:738` | `def _record_verdict(verdicts, outcome)` |
-| `_render_command` | method | `modules/chain_runner.py:1031` | `def _render_command(self, template, variables, captured_keys)` |
-| `_run_fallback_chain` | method | `modules/chain_runner.py:572` | `def _run_fallback_chain(self, result, variables, captured_keys, started)` |
-| `_run_parallel_group` | method | `modules/chain_runner.py:478` | `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)` |
-| `_run_raw` | method | `modules/chain_runner.py:1147` | `def _run_raw(self, command, timeout, allowed)` |
-| `_run_shell_verb` | method | `modules/chain_runner.py:1092` | `def _run_shell_verb(self, command, timeout)` |
-| `_run_step` | method | `modules/chain_runner.py:745` | `def _run_step(self, step, variables, captured_keys, prior_verdicts)` |
-| `_save_checkpoint` | method | `modules/chain_runner.py:700` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)` |
-| `_skip_remaining` | method | `modules/chain_runner.py:463` | `def _skip_remaining(self, steps, start, reason)` |
-| `_store_capture` | method | `modules/chain_runner.py:965` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
-| `_verify_evidence` | method | `modules/chain_runner.py:901` | `def _verify_evidence(self, step, outcome, variables)` |
-| `_verify_timeout` | method | `modules/chain_runner.py:955` | `def _verify_timeout(self, step)` |
+| `_all_json_objects` | function | `modules/chain_runner.py:1267` | `def _all_json_objects(text)` |
+| `_apply_replanner` | method | `modules/chain_runner.py:720` | `def _apply_replanner(self, result, index, outcome, steps, step_index, variables, captured_keys)` |
+| `_ask_approval` | method | `modules/chain_runner.py:1019` | `def _ask_approval(self, step_id, command)` |
+| `_call` | method | `modules/chain_runner.py:1247` | `def _call(callback, timeout)` |
+| `_deliver` | method | `modules/chain_runner.py:643` | `def _deliver(self, outcome)` |
+| `_dependency_block` | method | `modules/chain_runner.py:952` | `def _dependency_block(step, prior_verdicts)` |
+| `_execute` | method | `modules/chain_runner.py:1129` | `def _execute(self, command, timeout, expect_exits)` |
+| `_first_json` | method | `modules/chain_runner.py:1090` | `def _first_json(output)` |
+| `_is_verb` | method | `modules/chain_runner.py:1164` | `def _is_verb(self, command)` |
+| `_load_json_events` | function | `modules/chain_runner.py:1288` | `def _load_json_events(path)` |
+| `_notify` | method | `modules/chain_runner.py:711` | `def _notify(self, outcome)` |
+| `_pre_check_timeout` | method | `modules/chain_runner.py:1034` | `def _pre_check_timeout(self, step)` |
+| `_publish_step` | method | `modules/chain_runner.py:648` | `def _publish_step(self, outcome)` |
+| `_raise_timeout` | function | `modules/chain_runner.py:1210` | `def _raise_timeout(_signum, _frame)` |
+| `_record_verdict` | method | `modules/chain_runner.py:807` | `def _record_verdict(verdicts, outcome)` |
+| `_render_command` | method | `modules/chain_runner.py:1104` | `def _render_command(self, template, variables, captured_keys)` |
+| `_run_fallback_chain` | method | `modules/chain_runner.py:573` | `def _run_fallback_chain(self, result, variables, captured_keys, started)` |
+| `_run_parallel_group` | method | `modules/chain_runner.py:479` | `def _run_parallel_group(self, group, executions, resumed_ok, variables, captured_keys, prior_verdicts)` |
+| `_run_raw` | method | `modules/chain_runner.py:1230` | `def _run_raw(self, command, timeout, allowed)` |
+| `_run_shell_verb` | method | `modules/chain_runner.py:1175` | `def _run_shell_verb(self, command, timeout)` |
+| `_run_step` | method | `modules/chain_runner.py:814` | `def _run_step(self, step, variables, captured_keys, prior_verdicts)` |
+| `_save_checkpoint` | method | `modules/chain_runner.py:769` | `def _save_checkpoint(self, result, variables, captured_keys, next_index, state_name, verdicts)` |
+| `_skip_remaining` | method | `modules/chain_runner.py:464` | `def _skip_remaining(self, steps, start, reason)` |
+| `_store_capture` | method | `modules/chain_runner.py:1038` | `def _store_capture(self, step, output, outcome, variables, captured_keys)` |
+| `_verify_evidence` | method | `modules/chain_runner.py:974` | `def _verify_evidence(self, step, outcome, variables)` |
+| `_verify_timeout` | method | `modules/chain_runner.py:1028` | `def _verify_timeout(self, step)` |
 | `applied_vars` | method | `modules/chain_runner.py:192` | `def applied_vars(self)` |
 | `chain_proven` | method | `modules/chain_runner.py:154` | `def chain_proven(self)` |
 | `insert_step` | method | `modules/chain_runner.py:182` | `def insert_step(self, step)` |
 | `inserted` | method | `modules/chain_runner.py:197` | `def inserted(self)` |
 | `ok` | method | `modules/chain_runner.py:81` | `def ok(self)` |
 | `render_text` | function | `modules/chain_runner.py:207` | `def render_text(template, variables)` |
-| `run` | method | `modules/chain_runner.py:288` | `def run(self)` |
+| `run` | method | `modules/chain_runner.py:289` | `def run(self)` |
 | `set_var` | method | `modules/chain_runner.py:177` | `def set_var(self, name, value)` |
 | `skip_rest` | method | `modules/chain_runner.py:187` | `def skip_rest(self)` |
 | `skip_rest_flag` | method | `modules/chain_runner.py:202` | `def skip_rest_flag(self)` |
@@ -455,46 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `__init__` | method | `modules/conditional_hooks.py:270` | `def __init__(self)` |
 | `_execute_action` | method | `modules/conditional_hooks.py:428` | `def _execute_action(self, action, context)` |
 | `_execute_cred_reuse` | method | `modules/conditional_hooks.py:500` | `def _execute_cred_reuse(self, context)` |
-| `_execute_local_command` | method | `modules/conditional_hooks.py:476` | `def _execute_local_command(command)` |
-| `_execute_shell_command` | method | `modules/conditional_hooks.py:467` | `def _execute_shell_command(self, command, context)` |
-| `_match_trigger` | method | `modules/conditional_hooks.py:369` | `def _match_trigger(self, rule_trigger, event, context)` |
-| `_resolve_placeholders` | method | `modules/conditional_hooks.py:414` | `def _resolve_placeholders(self, text, context)` |
-| `add_rule` | method | `modules/conditional_hooks.py:330` | `def add_rule(self, rule_dict)` |
-| `can_fire` | method | `modules/conditional_hooks.py:56` | `def can_fire(self, now)` |
-| `enable_rule` | method | `modules/conditional_hooks.py:359` | `def enable_rule(self, name, enabled)` |
-| `fire` | method | `modules/conditional_hooks.py:516` | `def fire(self, event, context)` |
-| `get_hook_engine` | function | `modules/conditional_hooks.py:586` | `def get_hook_engine()` |
-| `get_rule` | method | `modules/conditional_hooks.py:575` | `def get_rule(self, name)` |
-| `list_rules` | method | `modules/conditional_hooks.py:571` | `def list_rules(self)` |
-| `load_rules` | method | `modules/conditional_hooks.py:290` | `def load_rules(self, path)` |
-| `mark_fired` | method | `modules/conditional_hooks.py:65` | `def mark_fired(self)` |
-| `register_action_handler` | method | `modules/conditional_hooks.py:277` | `def register_action_handler(self, action_type, handler)` |
-| `remove_rule` | method | `modules/conditional_hooks.py:345` | `def remove_rule(self, name)` |
-| `save_rules` | method | `modules/conditional_hooks.py:322` | `def save_rules(self, path)` |
-| `set_placeholders` | method | `modules/conditional_hooks.py:286` | `def set_placeholders(self, placeholders)` |
-| `to_dict` | method | `modules/conditional_hooks.py:69` | `def to_dict(self)` |
-| `_ensure_loaded` | function | `modules/config_store.py:106` | `def _ensure_loaded()` |
-| `_load` | function | `modules/config_store.py:113` | `def _load()` |
-| `_persist` | function | `modules/config_store.py:131` | `def _persist()` |
-| `_start_watcher` | function | `modules/config_store.py:143` | `def _start_watcher(interval)` |
-| `_watch_loop` | function | `modules/config_store.py:148` | `def _watch_loop()` |
-| `get_config` | function | `modules/config_store.py:53` | `def get_config(key, default)` |
-| `init` | function | `modules/config_store.py:36` | `def init(path, watch)` |
-| `reload_config` | function | `modules/config_store.py:90` | `def reload_config()` |
-| `set_config` | function | `modules/config_store.py:66` | `def set_config()` |
-| `set_config_dict` | function | `modules/config_store.py:80` | `def set_config_dict(updates)` |
-| `stop_watcher` | function | `modules/config_store.py:96` | `def stop_watcher()` |
-| `CredentialReuseEngine` | class | `modules/credential_reuse.py:55` | `class CredentialReuseEngine` |
-| `ReuseCandidate` | class | `modules/credential_reuse.py:32` | `class ReuseCandidate` |
-| `__init__` | method | `modules/credential_reuse.py:80` | `def __init__(self)` |
-| `_build_command` | method | `modules/credential_reuse.py:196` | `def _build_command(self, username, password, host, target_services)` |
-| `_load_cache` | method | `modules/credential_reuse.py:85` | `def _load_cache(self)` |
-| `_save_cache` | method | `modules/credential_reuse.py:95` | `def _save_cache(self)` |
-| `_score_candidate` | method | `modules/credential_reuse.py:144` | `def _score_candidate(self, username, password, source_host, target_host, target_services)` |
-| `_subnet_distance` | method | `modules/credential_reuse.py:118` | `def _subnet_distance(self, ip_a, ip_b)` |
-| `get_credential_reuse_engine` | function | `modules/credential_reuse.py:358` | `def get_credential_reuse_engine()` |
-| `get_summary` | method | `modules/credential_reuse.py:338` | `def get_summary(self, candidates)` |
-| `mark_confirmed` | method | `modules/credential_reuse.py:112` | `def mark_confirmed(self, username, password, host)` |
-| `mark_failed` | method | `modules/credential_reuse.py:107` | `def mark_failed(self, username, password, host)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

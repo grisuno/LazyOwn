@@ -1,8 +1,17 @@
-# Symbols (page 4 of 47)
+# Symbols (page 4 of 48)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_snmpcheck` | method | `cli/commands/scan_migrated.py:390` | `def do_snmpcheck(self, line)` |
+| `do_snmpwalk` | method | `cli/commands/scan_migrated.py:417` | `def do_snmpwalk(self, line)` |
+| `do_swaks` | method | `cli/commands/scan_migrated.py:267` | `def do_swaks(self, line)` |
+| `do_windapsearch` | method | `cli/commands/scan_migrated.py:1312` | `def do_windapsearch(self, line)` |
+| `do_wpscan` | method | `cli/commands/scan_migrated.py:1615` | `def do_wpscan(self, line)` |
+| `find_tgts` | function | `cli/commands/scan_migrated.py:536` | `def find_tgts(subnet)` |
+| `install_netexec` | function | `cli/commands/scan_migrated.py:1015` | `def install_netexec()` |
+| `install_netexec_pipx` | function | `cli/commands/scan_migrated.py:1020` | `def install_netexec_pipx()` |
+| `setup_handler` | function | `cli/commands/scan_migrated.py:562` | `def setup_handler(config_file, lhost, lport)` |
 | `smb_brute` | function | `cli/commands/scan_migrated.py:602` | `def smb_brute(config_file, host, passwd_file, lhost, lport)` |
 | `SecurityCommandSet` | class | `cli/commands/security.py:20` | `class SecurityCommandSet(LazyOwnCommandSet)` |
 | `complete_crack_hashes` | method | `cli/commands/security.py:276` | `def complete_crack_hashes(self, text, line, begidx, endidx)` |
@@ -487,14 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_render_stages` | method | `cli/lazy_monitor.py:351` | `def _render_stages(self, overview)` |
 | `_reset_view` | method | `cli/lazy_monitor.py:537` | `def _reset_view(self)` |
 | `_resolve_task` | method | `cli/lazy_monitor.py:192` | `def _resolve_task(self)` |
-| `_run` | function | `cli/lazy_monitor.py:225` | `def _run()` |
-| `_running_intent` | method | `cli/lazy_monitor.py:399` | `def _running_intent(self)` |
-| `_start_engine` | method | `cli/lazy_monitor.py:213` | `def _start_engine(self)` |
-| `_stream` | function | `cli/lazy_monitor.py:217` | `def _stream(line)` |
-| `action_approve` | method | `cli/lazy_monitor.py:425` | `def action_approve(self)` |
-| `action_deny` | method | `cli/lazy_monitor.py:429` | `def action_deny(self)` |
-| `action_dismiss` | method | `cli/lazy_monitor.py:84` | `def action_dismiss(self, value)` |
-| `action_focus_worker` | method | `cli/lazy_monitor.py:508` | `def action_focus_worker(self, index)` |
-| `action_hint` | method | `cli/lazy_monitor.py:445` | `def action_hint(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

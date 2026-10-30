@@ -1,6 +1,37 @@
 # Subsystem: modules (page 5 of 17)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
 
+## modules/dpapi_harvester.py
+- Doc: DPAPI credential decryption and harvesting engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DPAPICredential` (class, line 44) `class DPAPICredential`
+  - `DPAPIMasterKey` (class, line 54) `class DPAPIMasterKey`
+  - `DPAPIHarvester` (class, line 63) `class DPAPIHarvester`
+  - `__init__` (method, line 79) `def __init__(self, sessions_dir, masterkey_path)`
+  - `harvest_all` (method, line 90) `def harvest_all(self)`
+  - `_harvest_master_keys` (method, line 105) `def _harvest_master_keys(self)`
+  - `_harvest_credential_manager` (method, line 120) `def _harvest_credential_manager(self)`
+  - `_harvest_chrome` (method, line 143) `def _harvest_chrome(self)`
+  - `_harvest_chrome_offline` (method, line 188) `def _harvest_chrome_offline(self)`
+  - `_harvest_edge` (method, line 198) `def _harvest_edge(self)`
+  - `_harvest_wifi` (method, line 210) `def _harvest_wifi(self)`
+  - `_harvest_rdp` (method, line 250) `def _harvest_rdp(self)`
+  - `_harvest_windows_vault` (method, line 262) `def _harvest_windows_vault(self)`
+  - `_crack_login_data` (method, line 286) `def _crack_login_data(self, login_db_path, key, source)`
+  - `_crack_cookies` (method, line 320) `def _crack_cookies(self, cookies_path, key, source)`
+  - `_extract_sid_from_file` (method, line 355) `def _extract_sid_from_file(filepath)`
+  - `export_credentials` (method, line 367) `def export_credentials(self)`
+  - `masterkey_report` (method, line 386) `def masterkey_report(self)`
+  - `DATA_BLOB` (class, line 160) `class DATA_BLOB(Structure)`
+- Imported by: `cli/commands/dpapi.py`
+
+## modules/duckdns.sh
+- Doc: Solicita el TOKEN y el DOMAIN al usuario
+- Layer: utility
+- Language: sh
+
 ## modules/edr_detector.py
 - Doc: EDR/AV Detection and Evasion Profiling Engine.
 - Layer: utility
@@ -396,103 +427,11 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `get` (method, line 90) `def get(self, content_hash)`
   - `exists` (method, line 98) `def exists(self, content_hash)`
   - `garbage_collect` (method, line 105) `def garbage_collect(self, referenced)`
-- Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+- Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
 
 ## modules/evilhttprev.sh
 - Layer: utility
 - Language: sh
-
-## modules/exp.c
-- Doc: gcc exp.c -o exp -l mnl -l nftnl -w
-- Layer: utility
-- Language: c
-- Symbols:
-  - `keyring_payload` (struct, line 120)
-  - `leak` (struct, line 126)
-  - `fd_uring` (struct, line 131)
-  - `msg` (struct, line 84)
-  - `msg_header` (struct, line 90)
-  - `Msg` (struct, line 100)
-  - `user_rule_t` (struct, line 105)
-  - `nft_trans_phase` (enum, line 77)
-  - `key_serial_t` (type_alias, line 135) `typedef int32_t key_serial_t;`
-  - `add_key` (function, line 147) `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
-  - `keyctl` (function, line 151) `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
-  - `bye` (function, line 155) `void bye(char *info)`
-  - `do_error_exit` (function, line 161) `void do_error_exit(char *info)`
-  - `bye2` (function, line 167) `void bye2(char *info, char *arg)`
-  - `spray_keyring` (function, line 172) `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
-  - `spray_keyring_list_del_purpose` (function, line 190) `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
-  - `spray_keyring_list_overwrite_purpose` (function, line 214) `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
-  - `get_keyring_leak` (function, line 248) `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
-  - `awake_partial_keys` (function, line 271) `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
-  - `release_keys` (function, line 279) `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
-  - `release_partial_keys` (function, line 290) `void release_partial_keys(key_serial_t *id_buffer, int i)`
-  - `unshare_setup` (function, line 297) `void unshare_setup(uid_t uid, gid_t gid)`
-  - `set_stable_table_and_set` (function, line 322) `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
-  - `set_trigger_set_and_overwrite` (function, line 385) `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
-  - `set_cpu_affinity` (function, line 438) `void set_cpu_affinity(int cpu_n, pid_t pid)`
-  - `spray_mqueue` (function, line 448) `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
-  - `gather_mqueue` (function, line 463) `int gather_mqueue(mqd_t mqdes, int gather_size)`
-  - `gather_mqueue_nosave` (function, line 485) `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
-  - `spray_msg_msg` (function, line 496) `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
-  - `io_uring_setup` (function, line 520) `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
-  - `io_uring_register` (function, line 524) `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
-  - `spray_uring` (function, line 529) `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
-  - `release_uring` (function, line 546) `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
-  - `release_partial_uring` (function, line 554) `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
-  - `prepare_root_shell` (function, line 559) `void prepare_root_shell(void)`
-  - `create_dummy_file` (function, line 564) `void create_dummy_file(void)`
-  - `create_priv_file` (function, line 572) `void create_priv_file(void)`
-  - `write_new_modprobe` (function, line 582) `void write_new_modprobe()`
-  - `setup_modprobe_payload` (function, line 601) `void setup_modprobe_payload()`
-  - `userland_T` (function, line 605) `void userland_T(int *sema)`
-  - `sema_up` (function, line 610) `void sema_up(int *sema)`
-  - `sema_down` (function, line 615) `void sema_down(int *sema)`
-  - `main` (function, line 620) `int main(int argc, char ** argv)`
-  - `_GNU_SOURCE` (macro, line 2) `#define _GNU_SOURCE`
-  - `MQUEUE_NUM` (macro, line 49) `#define MQUEUE_NUM`
-  - `INBOUND` (macro, line 52) `#define INBOUND`
-  - `OUTBOUND` (macro, line 53) `#define OUTBOUND`
-  - `DESC_MAX` (macro, line 54) `#define DESC_MAX`
-  - `BUFFER` (macro, line 56) `#define BUFFER`
-  - `NAMELEN` (macro, line 57) `#define NAMELEN`
-  - `ERROR_PREFIX` (macro, line 58) `#define ERROR_PREFIX`
-  - `KEY_DESC_MAX_SIZE` (macro, line 60) `#define KEY_DESC_MAX_SIZE`
-  - `PREFIX_BUF_LEN` (macro, line 62) `#define PREFIX_BUF_LEN`
-  - `RCU_HEAD_LEN` (macro, line 63) `#define RCU_HEAD_LEN`
-  - `SPRAY_KEY_SIZE` (macro, line 65) `#define SPRAY_KEY_SIZE`
-  - `PHYSMAP_MASK` (macro, line 67) `#define PHYSMAP_MASK`
-  - `SPRAY_SIZE` (macro, line 69) `#define SPRAY_SIZE`
-  - `SPRAY_NB_ENTRIES` (macro, line 71) `#define SPRAY_NB_ENTRIES`
-- Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
-
-## modules/exploit_chain.py
-- Doc: Autonomous exploitation chain engine.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ServiceInfo` (class, line 29) `class ServiceInfo`
-  - `VulnerabilityMatch` (class, line 41) `class VulnerabilityMatch`
-  - `ExploitResult` (class, line 54) `class ExploitResult`
-  - `ChainResult` (class, line 65) `class ChainResult`
-  - `_compare_versions` (function, line 266) `def _compare_versions(version_a, version_b)`
-  - `ExploitChain` (class, line 289) `class ExploitChain`
-  - `__init__` (method, line 292) `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
-  - `fingerprint_services` (method, line 311) `def fingerprint_services(self, nmap_output)`
-  - `_discover_xml_files` (method, line 331) `def _discover_xml_files(self)`
-  - `_parse_all_nmap_xml` (method, line 346) `def _parse_all_nmap_xml(self)`
-  - `_is_richer` (method, line 361) `def _is_richer(new_svc, existing)`
-  - `_parse_single_xml` (method, line 367) `def _parse_single_xml(self, xml_path)`
-  - `_parse_nmap_text` (method, line 404) `def _parse_nmap_text(self, output)`
-  - `map_vulnerabilities` (method, line 446) `def map_vulnerabilities(self)`
-  - `_add_vuln` (method, line 485) `def _add_vuln(self, service, sig, version)`
-  - `generate_exploit_plan` (method, line 499) `def generate_exploit_plan(self)`
-  - `get_post_exploit_commands` (method, line 519) `def get_post_exploit_commands(self, platform)`
-  - `generate_report` (method, line 531) `def generate_report(self)`
-  - `save_report` (method, line 566) `def save_report(self, path)`
-- Depends on: `modules/outcome_bus.py`
-- Imported by: `cli/commands/exploit_migrated.py`
 
 
 Next: [KB_modules_p6.md](KB_modules_p6.md)

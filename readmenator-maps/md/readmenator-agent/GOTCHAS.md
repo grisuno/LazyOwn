@@ -4,31 +4,31 @@
 
 These files have the most connections. Changes here have high blast radius.
 
-- `core/logging.py` (score: 317.20, imported by 158 files)
-- `utils.py` (score: 248.60, imported by 105 files)
-- `modules/lazy_loop.py` (score: 236.70, imported by 60 files)
-- `cli/commands/_base.py` (score: 204.70, imported by 100 files)
-- `skills/lazyown_mcp.py` (score: 203.50, imported by 8 files)
-- `modules/world_model.py` (score: 165.00, imported by 74 files)
-- `modules/__init__.py` (score: 152.00, imported by 76 files)
-- `lazyc2.py` (score: 145.10)
-- `core/config.py` (score: 130.00, imported by 62 files)
+- `core/logging.py` (score: 319.20, imported by 159 files)
+- `modules/lazy_loop.py` (score: 271.80, imported by 70 files)
+- `utils.py` (score: 250.60, imported by 106 files)
+- `cli/commands/_base.py` (score: 206.70, imported by 101 files)
+- `skills/lazyown_mcp.py` (score: 177.10, imported by 9 files)
+- `modules/world_model.py` (score: 169.00, imported by 76 files)
+- `modules/__init__.py` (score: 166.00, imported by 83 files)
+- `lazyc2.py` (score: 147.30)
+- `core/config.py` (score: 134.00, imported by 64 files)
 - `lazyown.py` (score: 124.40, imported by 9 files)
 
 ## Blast Radius (change impact)
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
-- `core/logging.py` -- 50 direct, 158 total dependents
-- `core/validators.py` -- 12 direct, 123 total dependents
-- `modules/backdoor/server.c` -- 13 direct, 122 total dependents
-- `skills/claude_md_orchestrator/models.py` -- 11 direct, 121 total dependents
-- `skills/claude_md_orchestrator/config.py` -- 10 direct, 119 total dependents
-- `cli/banner_config.py` -- 6 direct, 116 total dependents
-- `cli/engagement_hooks.py` -- 10 direct, 114 total dependents
-- `core/parsers.py` -- 9 direct, 113 total dependents
-- `core/hardening.py` -- 31 direct, 111 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 111 total dependents
+- `core/logging.py` -- 50 direct, 159 total dependents
+- `core/validators.py` -- 12 direct, 144 total dependents
+- `modules/backdoor/server.c` -- 13 direct, 127 total dependents
+- `core/process.py` -- 13 direct, 122 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 122 total dependents
+- `core/credential_vault.py` -- 4 direct, 120 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 120 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 119 total dependents
+- `cli/banner_config.py` -- 6 direct, 117 total dependents
+- `core/host_policy.py` -- 3 direct, 116 total dependents
 
 ## Hotspots (complexity + centrality)
 
@@ -38,8 +38,8 @@ Editing these files can break the listed number of dependents. Run their tests a
 - `static/js/vis-network-9.1.2.min.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
 - `static/js/vis-network.min.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
 - `static/js/xterm.js` -- complexity: 0.1, centrality: 0.5, combined: 0.3
-- `static/js/quill-2.0.3.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
 - `modules/lazy_loop.py` -- complexity: 0.6, centrality: 0.1, combined: 0.3
+- `static/js/quill-2.0.3.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
 - `static/js/chart.min.js` -- complexity: 0.1, centrality: 0.3, combined: 0.3
 - `lazyc2.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
 
@@ -47,6 +47,7 @@ Editing these files can break the listed number of dependents. Run their tests a
 
 Circular dependencies. Refactor to break the cycle.
 
+- `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/planner.py` -> `modules/playbook_engine.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py` -> `core/config.py`
 - `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/reactive_engine.py` -> `core/config.py`
 - `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/exploitgym_gym.py` -> `modules/redteam_gym.py` -> `core/config.py`
 - `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/db.py` -> `core/config.py`
@@ -56,7 +57,6 @@ Circular dependencies. Refactor to break the cycle.
 - `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_factory.py`
 - `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `modules/recommender.py` -> `modules/ai_fallback.py` -> `modules/llm_factory.py`
 - `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `core/config.py`
-- `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `core/param_registry.py` -> `core/payload_schema.py`
 
 ## Layer Violations
 

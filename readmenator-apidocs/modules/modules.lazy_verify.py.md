@@ -121,7 +121,7 @@ inconclusive so a retry is scheduled later.
 |---|---|---|---|
 | `checks_results` | `list[dict]` |  | Results from [`run_check`](#run_check). |
 
-**Returns:** `str` - ``reproduced`` or ``inconclusive``.
+**Returns:** `str` - `[`reproduced`](modules.progress_ledger.py.md#roundsignals-reproduced)` or ``inconclusive``.
 
 *Called by:* [`verify_finding`](#verify_finding)
 

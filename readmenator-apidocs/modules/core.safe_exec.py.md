@@ -66,7 +66,7 @@ flowchart LR
 
 ### `CommandInjectionError`
 
-`exception` | [core/safe_exec.py:44](../../core/safe_exec.py#L44)
+`exception` | [core/safe_exec.py:49](../../core/safe_exec.py#L49)
 
 ```python
 class CommandInjectionError(PermissionError)
@@ -82,7 +82,7 @@ Raised when a command contains shell metacharacters.
 
 ### `UrlValidationError`
 
-`exception` | [core/safe_exec.py:48](../../core/safe_exec.py#L48)
+`exception` | [core/safe_exec.py:53](../../core/safe_exec.py#L53)
 
 ```python
 class UrlValidationError(PermissionError)
@@ -100,7 +100,7 @@ Raised when a URL contains shell metacharacters.
 
 ### `safe_system`
 
-`function` | [core/safe_exec.py:69](../../core/safe_exec.py#L69)
+`function` | [core/safe_exec.py:74](../../core/safe_exec.py#L74)
 
 ```python
 def safe_system(command: str, *, reason: str = '') -> int
@@ -138,13 +138,17 @@ interpolated user input.
 
 ### `safe_run_argv`
 
-`function` | [core/safe_exec.py:106](../../core/safe_exec.py#L106)
+`function` | [core/safe_exec.py:174](../../core/safe_exec.py#L174)
 
 ```python
 def safe_run_argv(argv: Sequence[str], *, timeout: float | None = None, capture_output: bool = True, check: bool = False, input_data: str | None = None) -> subprocess.CompletedProcess[str]
 ```
 
 Execute a command via subprocess without shell interpretation.
+
+Children always run in a dedicated session; a timeout terminates the
+whole process group so detached grandchildren never outlive their
+parent on the operator host.
 
 **Parameters**
 
@@ -161,6 +165,7 @@ Execute a command via subprocess without shell interpretation.
 **Raises**
 
 - `ValueError`: If argv is empty.
+- `CalledProcessError`: (raised in the body, not documented)
 - [`CommandInjectionError`](#commandinjectionerror): (raised in the body, not documented)
 
 *Calls:* [`CommandInjectionError`](#commandinjectionerror)
@@ -173,13 +178,17 @@ Execute a command via subprocess without shell interpretation.
 
 ### `safe_run_shell`
 
-`function` | [core/safe_exec.py:146](../../core/safe_exec.py#L146)
+`function` | [core/safe_exec.py:228](../../core/safe_exec.py#L228)
 
 ```python
 def safe_run_shell(command: str, *, allow: bool = False, reason: str = '', timeout: float | None = None, cwd: str | None = None) -> subprocess.CompletedProcess[str]
 ```
 
 Execute a command through the shell, gated by policy.
+
+The child runs in a dedicated session; a timeout terminates the whole
+process group, so a misbehaving third-party child that ignores
+termination signals leaves no orphans behind.
 
 **Parameters**
 
@@ -208,7 +217,7 @@ Execute a command through the shell, gated by policy.
 
 ### `safe_clear_screen`
 
-`function` | [core/safe_exec.py:192](../../core/safe_exec.py#L192)
+`function` | [core/safe_exec.py:285](../../core/safe_exec.py#L285)
 
 ```python
 def safe_clear_screen() -> None
@@ -225,7 +234,7 @@ ANSI escape sequences when tput is unavailable.
 
 ### `validate_url`
 
-`function` | [core/safe_exec.py:207](../../core/safe_exec.py#L207)
+`function` | [core/safe_exec.py:300](../../core/safe_exec.py#L300)
 
 ```python
 def validate_url(url: str) -> str
@@ -256,7 +265,7 @@ Validate a URL string, rejecting shell metacharacters.
 
 ### `safe_git_clone`
 
-`function` | [core/safe_exec.py:234](../../core/safe_exec.py#L234)
+`function` | [core/safe_exec.py:327](../../core/safe_exec.py#L327)
 
 ```python
 def safe_git_clone(repo_url: str, target_dir: str | Path, *, timeout: float = 120) -> subprocess.CompletedProcess[str]
@@ -290,7 +299,7 @@ Never uses os.system. Validates the URL before execution.
 
 ### `safe_ip_show`
 
-`function` | [core/safe_exec.py:268](../../core/safe_exec.py#L268)
+`function` | [core/safe_exec.py:361](../../core/safe_exec.py#L361)
 
 ```python
 def safe_ip_show(interface: str = 'scope global') -> list[dict[str, str]]
@@ -320,7 +329,7 @@ Replaces shell pipes like ``ip a show ... | awk | grep | cut``.
 
 ### `safe_find_tool`
 
-`function` | [core/safe_exec.py:305](../../core/safe_exec.py#L305)
+`function` | [core/safe_exec.py:398](../../core/safe_exec.py#L398)
 
 ```python
 def safe_find_tool(name: str) -> str | None
@@ -344,7 +353,7 @@ Replaces hardcoded paths like ``/usr/local/bin/go``.
 
 ### `safe_file_read`
 
-`function` | [core/safe_exec.py:321](../../core/safe_exec.py#L321)
+`function` | [core/safe_exec.py:414](../../core/safe_exec.py#L414)
 
 ```python
 def safe_file_read(path: str | Path, *, max_bytes: int = 10 * 1024 * 1024) -> str

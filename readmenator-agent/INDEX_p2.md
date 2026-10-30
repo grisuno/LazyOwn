@@ -3,38 +3,48 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/k8s_attacks.py` | Kubernetes attack module — RBAC enumeration, pod escape, etcd access, Helm abuse. | modules | 11 | 1 |
+| `modules/kerberoasting.py` | Advanced Kerberoasting — targeted SPN enumeration, AES-only attacks, hashcat integration. | modules | 18 | 1 |
 | `modules/kerberos_core.py` | Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption. | modules | 35 | 2 |
 | `modules/kerberos_tickets.py` | Kerberos ticket forgery attacks — silver, golden, diamond, sapphire tickets. | modules | 34 | 1 |
 | `modules/kill_chain_viz.py` | SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG. | modules | 5 | 1 |
-| `modules/killchain.py` | Unified kill-chain — single source of truth consumed by all surfaces. | modules | 21 | 22 |
+| `modules/killchain.py` | Unified kill-chain — single source of truth consumed by all surfaces. | modules | 25 | 23 |
 | `modules/kivi.py` | - | modules | 3 | 0 |
 | `modules/lab_runtime.py` | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | modules | 19 | 2 |
 | `modules/lazy_agent.py` | Agentic tool-calling bridge for the loop and the main agent. | modules | 32 | 3 |
 | `modules/lazy_bridge.py` | Bidirectional LAZY <-> LazyOwn bridge. | modules | 21 | 6 |
+| `modules/lazy_checks.py` | Validation plans as data: re-read observed checks through version math. | modules | 4 | 1 |
 | `modules/lazy_cli_bridge.py` | Full CLI catalog for the Lazy autonomous loop. | modules | 14 | 8 |
 | `modules/lazy_creds.py` | Default-credential knowledge base for LazyOwn. | modules | 7 | 0 |
-| `modules/lazy_cve_feed.py` | Keyless CVE intelligence feeds and version-aware service correlation. | modules | 23 | 2 |
-| `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 35 |
-| `modules/lazy_heat.py` | Heat tiers and version math for CVE correlation. | modules | 11 | 5 |
+| `modules/lazy_cve_feed.py` | Keyless CVE intelligence feeds and version-aware service correlation. | modules | 26 | 4 |
+| `modules/lazy_engine.py` | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | modules | 1 | 38 |
+| `modules/lazy_findings.py` | Engagement findings ledger: state machine plus reproducible evidence. | modules | 27 | 2 |
+| `modules/lazy_heat.py` | Heat tiers and version math for CVE correlation. | modules | 11 | 7 |
+| `modules/lazy_hostscore.py` | Host heat score: deterministic 0-100 priority for every known host. | modules | 5 | 2 |
 | `modules/lazy_installer.py` | Capability installer for the Lazy autonomous loop. | modules | 6 | 3 |
 | `modules/lazy_intel.py` | Intel feed from the Lazy autonomous loop. | modules | 14 | 6 |
-| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 467 | 60 |
+| `modules/lazy_ledger.py` | Freshness ledger: TTL windows per verb and target for the loop worker. | modules | 11 | 3 |
+| `modules/lazy_loop.py` | Lazy autonomous loop for LazyOwn. | modules | 478 | 70 |
+| `modules/lazy_match_policy.py` | Match policy doctrine: what may claim a match and what stays a lead. | modules | 14 | 1 |
 | `modules/lazy_mentions.py` | LAZY chat mentions with multi-type search and scroll pagination. | modules | 15 | 4 |
+| `modules/lazy_netattack.py` | Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay. | modules | 12 | 1 |
 | `modules/lazy_oob.py` | Local OOB canary for blind SSRF/RCE detection. | modules | 18 | 0 |
 | `modules/lazy_orchestrator_feedback.py` | Organic orchestrator training from loop usage. | modules | 11 | 5 |
 | `modules/lazy_osinfer.py` | Target OS inference and OS-aware verb gating. | modules | 11 | 0 |
 | `modules/lazy_proxy.py` | Recording HTTP/HTTPS proxy for the autonomous loop. | modules | 67 | 5 |
 | `modules/lazy_rbac.py` | modules/lazy_rbac.py | modules | 86 | 10 |
+| `modules/lazy_reaper.py` | Reaper: expire lazy-loop tasks whose process proves dead. | modules | 3 | 2 |
 | `modules/lazy_roles.py` | Lazy specialist roles for the autonomous loop. | modules | 4 | 2 |
-| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 40 | 10 |
+| `modules/lazy_runner.py` | Single execution path for ``lazy_loop`` and ``auto_loop``. | modules | 41 | 10 |
 | `modules/lazy_sandbox.py` | Per-task Docker sandbox for the Lazy autonomous loop. | modules | 12 | 2 |
-| `modules/lazy_scope.py` | Lab-only default scope for autonomous loop targets. | modules | 12 | 0 |
+| `modules/lazy_scope.py` | Lab-only default scope for autonomous loop targets. | modules | 17 | 1 |
 | `modules/lazy_skill_mirror.py` | Mirror LazyOwn skills for Hermes discovery. | modules | 7 | 1 |
 | `modules/lazy_skills.py` | Skill context injection for planner/worker prompts. | modules | 7 | 4 |
 | `modules/lazy_summarizer.py` | Bounded chain summarizer for the Lazy autonomous loop. | modules | 5 | 0 |
 | `modules/lazy_surface_diff.py` | Surface snapshot and diff: what changed about a host since last look. | modules | 9 | 0 |
+| `modules/lazy_triage.py` | Triage doctrine: evidence floors, verdict algebra and signature dedup. | modules | 10 | 1 |
 | `modules/lazy_verify.py` | Structured read-only verification of loop findings. | modules | 8 | 0 |
-| `modules/lazy_world_diff.py` | World-surface diff: host snapshots, change detection, ghost liveness. | modules | 22 | 5 |
+| `modules/lazy_world_diff.py` | World-surface diff: host snapshots, change detection, ghost liveness. | modules | 22 | 7 |
 | `modules/lazyatack.sh` | Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico... | modules | 30 | 0 |
 | `modules/lazybrutesshuserenum.sh` | Función para manejar el interruptor de señal Ctrl+C | modules | 0 | 0 |
 | `modules/lazyclonewars.sh` | Lista de repositorios (nombre y URL) | modules | 0 | 0 |
@@ -69,19 +79,19 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/listener_manager.py` | Multi-listener manager for LazyOwn C2. | modules | 22 | 2 |
 | `modules/live_surface.py` | Live attack-surface graph derived from the world model. | modules | 7 | 3 |
 | `modules/llm_adapter.py` | LLM adapter facade — single import point for all LLM backends used by lazyc2. | modules | 16 | 7 |
-| `modules/llm_client.py` | LazyOwn Unified LLM Client | modules | 12 | 5 |
+| `modules/llm_client.py` | LazyOwn Unified LLM Client | modules | 12 | 4 |
 | `modules/llm_evaluator.py` | — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning... | modules | 28 | 2 |
 | `modules/llm_factory.py` | LLM backend factory and selection utilities. | modules | 30 | 30 |
 | `modules/llm_orchestrator.py` | Orchestrator-governed LLM failover chain for every AI module. | modules | 21 | 8 |
-| `modules/llm_pool.py` | Ordered LLM failover pool with health-aware skipping. | modules | 20 | 10 |
+| `modules/llm_pool.py` | Ordered LLM failover pool with health-aware skipping. | modules | 20 | 9 |
 | `modules/llm_prompts.py` | Canonical prompt-template and knowledge-base contract for LLM consumers. | modules | 28 | 5 |
 | `modules/log_tamper.py` | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | modules | 9 | 1 |
 | `modules/logging_config.py` | Centralized logging configuration for the LazyOwn framework. | modules | 21 | 23 |
-| `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 23 | 7 |
-| `modules/loop_guardrails.py` | Adaptive guardrails for the autonomous loop. | modules | 32 | 3 |
+| `modules/loop_ai_bridge.py` | Single edge between the autonomous loop and the LazyOwn AI stack. | modules | 28 | 7 |
+| `modules/loop_guardrails.py` | Adaptive guardrails for the autonomous loop. | modules | 36 | 4 |
 | `modules/loop_manager.py` | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | modules | 31 | 2 |
 | `modules/loop_progress.py` | Rich Live milestone panel for the autonomous loop. | modules | 15 | 4 |
-| `modules/loop_triggers.py` | TriggerStore: persistent loop triggers extracted from the loop core. | modules | 14 | 7 |
+| `modules/loop_triggers.py` | TriggerStore: persistent loop triggers extracted from the loop core. | modules | 16 | 8 |
 | `modules/macos_payloads.py` | macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC. | modules | 16 | 1 |
 | `modules/mario.py` | - | modules | 1 | 0 |
 | `modules/mcp_agent_bridge.py` | LazyOwn MCP Agent Bridge | modules | 21 | 2 |
@@ -91,7 +101,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/mediation/feedback_mediator.py` | Specialised mediator for step-ordering feedback coordination. | mediation | 3 | 2 |
 | `modules/mediation/hub.py` | Thin routing hub for specialised mediators. | mediation | 8 | 3 |
 | `modules/mediation/intel_mediator.py` | specialised mediator for recon-intel coordination. | mediation | 9 | 2 |
-| `modules/mediation/telemetry_mediator.py` | Specialised mediator for loop telemetry coordination. | mediation | 11 | 2 |
+| `modules/mediation/telemetry_mediator.py` | Specialised mediator for loop telemetry coordination. | mediation | 14 | 2 |
 | `modules/memory_cleaner.py` | Memory artifact cleanup — process memory wipe, environment variable scrub, clipboard clear. | modules | 7 | 1 |
 | `modules/memory_embeddings.py` | Hashing-trick text embeddings for episodic memory recall. | modules | 7 | 2 |
 | `modules/memory_store.py` | — Episodic memory for the LazyOwn auto_loop. | modules | 38 | 3 |
@@ -100,7 +110,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/metrics.py` | LazyOwn metrics surface. | modules | 24 | 6 |
 | `modules/mfa_bypass.py` | MFA Bypass Toolkit — techniques for circumventing multi-factor authentication. | modules | 10 | 1 |
 | `modules/mkcloudflaretunnel.sh` | Download cloudflared and create a tunnel to localhost on a specified port. | modules | 0 | 0 |
-| `modules/module_registry.py` | Unified module registry for LazyOwn — catalog, search, use/run workflow. | modules | 29 | 6 |
+| `modules/module_registry.py` | Unified module registry for LazyOwn — catalog, search, use/run workflow. | modules | 30 | 8 |
 | `modules/moe_router.py` | modules/moe_router.py | modules | 39 | 6 |
 | `modules/morse.py` | Morse code conversion service with interactive driver. | modules | 7 | 0 |
 | `modules/mysql_hookandroot_lib.c` | reverse_shell: fork & send a bash shell to the attacker before starting mysqld | modules | 6 | 0 |
@@ -108,24 +118,25 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/nmap2csv.py` | This file is part of nmaptocsv. | modules | 44 | 0 |
 | `modules/notify.py` | Stateless multi-channel notifier for finding events. | modules | 17 | 7 |
 | `modules/nuclei_templates_sync.py` | Sync community Nuclei template collections into the LazyOwn marketplace. | modules | 16 | 0 |
-| `modules/obs_parser.py` | modules/obs_parser.py | modules | 41 | 11 |
+| `modules/obs_parser.py` | modules/obs_parser.py | modules | 42 | 10 |
 | `modules/ooficesod0woodo.py` | - | modules | 0 | 0 |
 | `modules/operation.py` | Caldera-style operation lifecycle: create, start, pause, resume, stop, status. | modules | 23 | 1 |
 | `modules/operator_profiles.py` | Multi-operator profile management for LazyOwn team server. | modules | 20 | 1 |
-| `modules/opsec_scorer.py` | OPSEC scoring engine — pre-execution noise assessment and gated scoring. | modules | 36 | 4 |
-| `modules/orchestrator_config.py` | Operator configuration for the loop core: profiles, stages and auto verbs. | modules | 32 | 17 |
+| `modules/opsec_scorer.py` | OPSEC scoring engine — pre-execution noise assessment and gated scoring. | modules | 36 | 5 |
+| `modules/orchestrator_config.py` | Operator configuration for the loop core: profiles, stages and auto verbs. | modules | 36 | 19 |
 | `modules/osint_enrich.py` | Keyless OSINT enrichment for finding evidence. | modules | 13 | 2 |
-| `modules/outcome_bus.py` | Single fan-out contract for engagement outcomes. | modules | 17 | 26 |
+| `modules/outcome_bus.py` | Single fan-out contract for engagement outcomes. | modules | 17 | 33 |
 | `modules/payload_factory.py` | Native payload generation framework — stagers, stages, singles, formats. | modules | 32 | 7 |
 | `modules/phishing_orchestrator.py` | Smart Phishing Campaign Orchestrator. | modules | 23 | 4 |
 | `modules/pipeline_engine.py` | modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn | modules | 80 | 5 |
-| `modules/planner.py` | Fact-based planner — decides the next ability to run. | modules | 28 | 8 |
+| `modules/planner.py` | Fact-based planner — decides the next ability to run. | modules | 28 | 7 |
 | `modules/playbook_admin.py` | Safe CRUD for the YAML playbooks under ``playbooks/``. | modules | 18 | 2 |
 | `modules/playbook_engine.py` | modules/playbook_engine.py | modules | 31 | 6 |
 | `modules/playbook_executor.py` | Playbook Executor — bridges MITRE ATT&CK playbooks to the pipeline engine. | modules | 25 | 0 |
 | `modules/polymorphic_engine.py` | Polymorphic code generation engine — shellcode mutation and obfuscation. | modules | 19 | 1 |
 | `modules/privesc_predictor.py` | Crystal Ball — privilege escalation vector prediction engine. | modules | 17 | 1 |
 | `modules/professional_report.py` | Professional Red Team Report Generator. | modules | 24 | 3 |
+| `modules/progress_ledger.py` | Objective-progress ledger: qualitative strikes against goal stagnation. | modules | 17 | 2 |
 | `modules/r.sh` | Obtener la versión del kernel actual | modules | 1 | 9 |
 | `modules/reaction_bridge.py` | Reaction bridge between the reactive engine and the loop planner. | modules | 9 | 2 |
 | `modules/reactive_engine.py` | modules/reactive_engine.py | modules | 42 | 9 |
@@ -148,24 +159,26 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/scripts/clean_history.sh.sh` | - | misc | 0 | 0 |
 | `modules/search.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 0 | 1 |
 | `modules/security_sanitizers.py` | Security sanitizers shared across the LazyOwn framework. | modules | 25 | 5 |
-| `modules/selector_manager.py` | Selector manager: deterministic priority cascade with provenance. | modules | 3 | 2 |
+| `modules/selector_manager.py` | Selector manager: deterministic priority cascade with provenance. | modules | 3 | 1 |
 | `modules/selfupdate.py` | Guarded self-update for the LazyOwn working tree. | modules | 12 | 4 |
 | `modules/session_cleanup.py` | Ephemeral infrastructure cleanup on shell exit. | modules | 5 | 2 |
 | `modules/session_rag.py` | — ChromaDB-backed RAG over sessions/ artefacts. | modules | 24 | 6 |
 | `modules/session_reader.py` | modules/session_reader.py | modules | 29 | 3 |
 | `modules/session_state.py` | LazyOwn Session State | modules | 9 | 4 |
 | `modules/sidequestion.py` | Isolated side-question answering against immutable snapshots. | modules | 9 | 2 |
-| `modules/sinks/__init__.py` | Outcome sink adapters. | sinks | 0 | 0 |
+| `modules/sinks/__init__.py` | Outcome sink adapters. | sinks | 0 | 1 |
 | `modules/sinks/attack_graph.py` | Attack-graph sink: rebuild the attack surface after meaningful outcomes. | sinks | 1 | 1 |
 | `modules/sinks/beacon_dispatch.py` | Beacon dispatch sink: on a foothold, stage the catch-back command. | sinks | 3 | 1 |
 | `modules/sinks/c2_surfaces.py` | C2 dashboard sink: banners, CVEs and operator notes. | sinks | 1 | 1 |
 | `modules/sinks/campaign_db.py` | Campaign database sink: opt-in host and vulnerability mirror. | sinks | 1 | 0 |
+| `modules/sinks/chain_feed.py` | Chain-feed sink: stream chain steps into the autonomous loop. | sinks | 1 | 1 |
 | `modules/sinks/event_bus.py` | Unified event-bus sink: publish every outcome once. | sinks | 1 | 0 |
+| `modules/sinks/findings.py` | Findings sink: append engagement finding transitions to the ledger. | sinks | 5 | 3 |
 | `modules/sinks/intel_graph.py` | Intel-graph sink: rebuild the fused graph after meaningful outcomes. | sinks | 1 | 1 |
 | `modules/sinks/killchain.py` | Kill-chain sink: advance the unified phase from proven outcomes. | sinks | 1 | 1 |
 | `modules/sinks/objectives.py` | Objectives sink: turn proven outcomes into follow-up work. | sinks | 1 | 1 |
 | `modules/sinks/routing.py` | Routing-prior sink: learn from terminal outcomes. | sinks | 1 | 1 |
-| `modules/sinks/world_diff.py` | World-diff sink: snapshot hosts and record what changed per outcome. | sinks | 4 | 1 |
+| `modules/sinks/world_diff.py` | World-diff sink: snapshot hosts and record what changed per outcome. | sinks | 4 | 2 |
 | `modules/sinks/world_model.py` | World-model sink: hosts, services, vulnerabilities and credentials. | sinks | 1 | 0 |
 | `modules/sleep_obfuscation.py` | Sleep obfuscation engine for beacon memory evasion. | modules | 28 | 3 |
 | `modules/smbver.sh` | Author: rewardone Description: Requires root or enough permissions to use tcpdump Will listen... | modules | 0 | 0 |
@@ -186,7 +199,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/toolset.py` | Typed tool sets per agent role with shell allowlists. | modules | 5 | 1 |
 | `modules/toposwarm_bridge.py` | modules/toposwarm_bridge.py | modules | 22 | 6 |
 | `modules/traffic_morpher.py` | C2 traffic obfuscation: domain fronting, protocol mimicking, and traffic shaping. | modules | 11 | 1 |
-| `modules/traffic_recorder.py` | HTTP traffic recorder with file-tree storage and SQLite index. | modules | 23 | 12 |
+| `modules/traffic_recorder.py` | HTTP traffic recorder with file-tree storage and SQLite index. | modules | 23 | 11 |
 | `modules/trigger_policy.py` | Declarative trigger policy: YAML seeds for the loop TriggerStore. | modules | 8 | 8 |
 | `modules/ttp_coverage.py` | TTP coverage matrix — real-time MITRE ATT&CK technique tracking. | modules | 13 | 1 |
 | `modules/ttpscope_bridge.py` | Secure bridge for the TTPScope MITRE ATT&CK research client. | modules | 33 | 1 |
@@ -207,7 +220,7 @@ Previous: [INDEX.md](INDEX.md)
 | `modules/winbox_gym.py` | WinBox gym catalogue and control-plane bridge. | modules | 38 | 0 |
 | `modules/wineconfig.sh` | - | modules | 0 | 0 |
 | `modules/workspace.py` | Confined workspace file browser for operators and loop agents. | modules | 7 | 1 |
-| `modules/world_model.py` | modules/world_model.py | modules | 70 | 74 |
+| `modules/world_model.py` | modules/world_model.py | modules | 70 | 76 |
 | `modules/yaml_generator.py` | load_payload: Carga las variables desde payload.json | modules | 8 | 0 |
 | `modules/yara_scanner.py` | YARA integration for malware classification and IOC scanning. | modules | 16 | 2 |
 | `mutate.sh` | - | root | 0 | 0 |
@@ -282,7 +295,7 @@ Previous: [INDEX.md](INDEX.md)
 | `scripts/validate_agent_contract.sh` | CI validation of the AGENTS.md branching model and coding standards. | scripts | 5 | 0 |
 | `setup.py` | Compatibility shim for legacy ``python setup.py`` invocations. | root | 0 | 0 |
 | `skills/aci_planner.py` | Autonomous Campaign Intelligence (ACI) Planner | skills | 42 | 2 |
-| `skills/autonomous_daemon.py` | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon | skills | 150 | 15 |
+| `skills/autonomous_daemon.py` | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon | skills | 151 | 15 |
 | `skills/autonomous_replay.py` | Deterministic replay of past autonomous-daemon runs. | skills | 19 | 2 |
 | `skills/claude_md_orchestrator/__init__.py` | Public API for the claude_md_orchestrator skill. | claude_md_orchestrator | 0 | 1 |
 | `skills/claude_md_orchestrator/bdd_agent.py` | Behavior-Driven Development agent. | claude_md_orchestrator | 8 | 0 |
@@ -320,13 +333,13 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/lazyown_groq_agents.py` | skills/lazyown_groq_agents.py | skills | 40 | 4 |
 | `skills/lazyown_hooks.py` | LazyOwn Hook Pipeline (Claude Code style)  8 lifecycle events with chainable handlers. | skills | 14 | 2 |
 | `skills/lazyown_llm.py` | LazyOwn LLM Bridge — MCP Edition | skills | 21 | 4 |
-| `skills/lazyown_mcp.py` | LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and... | skills | 155 | 8 |
+| `skills/lazyown_mcp.py` | LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and... | skills | 131 | 9 |
 | `skills/lazyown_mcp_helpers.py` | LazyOwn MCP helper functions — pure logic, no MCP server imports. | skills | 21 | 4 |
 | `skills/lazyown_mcp_opencode.py` | LazyOwn MCP OpenCode bridge. | skills | 6 | 1 |
 | `skills/lazyown_objective.py` | LazyOwn Objective Store | skills | 36 | 9 |
 | `skills/lazyown_parquet_db.py` | LazyOwn Parquet Knowledge Base | skills | 21 | 8 |
 | `skills/lazyown_permissions.py` | LazyOwn Permission System — Deny-First Rule Evaluation (Claude Code style)  Deny rules ALWAYS... | skills | 16 | 2 |
-| `skills/lazyown_policy.py` | LazyOwn Policy Engine | skills | 126 | 9 |
+| `skills/lazyown_policy.py` | LazyOwn Policy Engine | skills | 126 | 10 |
 | `skills/lazyown_session.py` | LazyOwn Append-Only Session Transcripts (Claude Code style)  All writes are append-only JSONL. | skills | 14 | 2 |
 | `skills/mcp_generated_tools.py` | Auto-generated MCP tool handlers from command_index.json. | skills | 645 | 0 |
 | `skills/mcp_lazy.py` | Single helper behind every lazy optional import of the MCP server. | skills | 1 | 2 |
@@ -453,14 +466,20 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_c2_surfaces.py` | C2 dashboard surfaces fed by the autonomous loop and APT chains. | tests | 12 | 0 |
 | `tests/test_campaign_import_safety.py` | Campaign import trust boundaries hold against hostile packages. | tests | 14 | 0 |
 | `tests/test_categories.py` | Tests for modules/categories.py — category constants and look-up tables. | tests | 47 | 0 |
+| `tests/test_chain_approval_c2.py` | Contract tests for the chain approval gate (C2 human-in-the-loop). | tests | 27 | 0 |
 | `tests/test_chain_distill.py` | BDD tests for chain_distill trace crystallisation. | tests | 15 | 0 |
+| `tests/test_chain_distill_custody.py` | Chain distillation custody contract: replayed steps pin their evidence. | tests | 7 | 0 |
+| `tests/test_chain_distill_scope.py` | Chain distillation scope contract: config-driven target exclusion. | tests | 5 | 0 |
 | `tests/test_chain_evidence.py` | Chain-of-evidence: depends_on gating, budgets, verdicts and artefact pins. | tests | 27 | 0 |
+| `tests/test_chain_freshness_guard.py` | Freshness guards for chain skips: stale artefacts do not skip work. | tests | 9 | 0 |
 | `tests/test_chain_list_command.py` | BDD: chain list exposes the YAML chain registry. | tests | 2 | 0 |
 | `tests/test_chain_mode.py` | Tests for cli/chain_mode.py. | tests | 28 | 0 |
 | `tests/test_chain_parallel_fallback.py` | Chain v2 adaptive execution: parallel groups, fallback, pre-checks. | tests | 26 | 0 |
 | `tests/test_chain_registry.py` | Chain registry: orchestration from chains/*.yaml, never hardcoded steps. | tests | 9 | 0 |
 | `tests/test_chain_runner.py` | Chain v2 BDD contract: safe conditions, retries, capture and error policy. | tests | 39 | 0 |
+| `tests/test_chain_step_streaming.py` | Chain step streaming contract: chain_step events reach the bus per step. | tests | 15 | 0 |
 | `tests/test_chain_synth.py` | BDD tests for runtime chain synthesis. | tests | 10 | 0 |
+| `tests/test_chain_token_hardening.py` | Shell-metacharacter containment contract for chain tokens. | tests | 14 | 0 |
 | `tests/test_chain_v24_core.py` | Chain v2.4 BDD contract: branching, verify, captures, gates, checkpoints. | tests | 33 | 0 |
 | `tests/test_ci_strict.py` | Contract tests for the strict CI workflow. | tests | 10 | 0 |
 | `tests/test_claudemd_consistency.py` | Guard against drift between CLAUDE.md numeric claims and reality. | tests | 3 | 0 |
@@ -477,24 +496,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_command_chain.py` | Tests for cli/command_chain.py. | tests | 24 | 0 |
 | `tests/test_command_control_agent.py` | Agent flavour selection and agent-staging regression tests. | tests | 12 | 0 |
 | `tests/test_command_form.py` | Tests for cli/command_form.py. | tests | 13 | 0 |
-| `tests/test_command_namespace_uniqueness.py` | Cross-CommandSet command-name uniqueness contract.  cmd2 refuses to register a second... | tests | 3 | 0 |
-| `tests/test_command_palette.py` | Command palette test suite. | tests | 238 | 0 |
-| `tests/test_command_set_migration.py` | Tests for the completed migration of ``LazyOwnShell`` commands. | tests | 42 | 0 |
-| `tests/test_conditional_hooks_extended.py` | Tests for extended HookEngine trigger matching. | tests | 17 | 0 |
-| `tests/test_console_stdio.py` | Non-blocking stdio hardening: logging must never crash the shell. | tests | 14 | 0 |
-| `tests/test_contract_manifest.py` | Tests for the contract manifest drift checker. | tests | 4 | 0 |
-| `tests/test_core.py` | ``core`` package and ``utils`` re-export tests. | tests | 47 | 0 |
-| `tests/test_core_command_bridge.py` | Tests for core.command_bridge — CommandBridge lazy shell facade. | tests | 14 | 0 |
-| `tests/test_core_config.py` | Tests for core.config — Config wrapper, load_payload, save_payload, load_and_validate. | tests | 19 | 0 |
-| `tests/test_core_defaults.py` | Build-time defaults are data, not literals. | tests | 20 | 0 |
-| `tests/test_core_executor.py` | Tests for core.executor — safe_run and run_shell subprocess wrappers. | tests | 15 | 0 |
-| `tests/test_core_modules.py` | tests/test_core_modules.py Integration test suite for LazyOwn core modules. | tests | 94 | 0 |
-| `tests/test_cors_behavior.py` | BDD behavior scenarios for the CORS policy contract. | tests | 4 | 0 |
-| `tests/test_cors_policy.py` | TDD tests for the CORS policy contract. | tests | 17 | 0 |
-| `tests/test_cors_socketio_regression.py` | Regression tests for the Socket.IO origin allowlist. | tests | 8 | 0 |
-| `tests/test_credential_vault.py` | Tests for core/credential_vault.py | tests | 16 | 0 |
-| `tests/test_credentials_rotation.py` | Tests for CredMigratedCommandSet._rotate_existing_credentials. | tests | 9 | 0 |
-| `tests/test_csrf_behavior.py` | BDD behavior scenarios for the CSRF contract. | tests | 6 | 0 |
-| `tests/test_csrf_policy.py` | TDD tests for the CSRF policy contract. | tests | 24 | 0 |
 
 Next: [INDEX_p3.md](INDEX_p3.md)

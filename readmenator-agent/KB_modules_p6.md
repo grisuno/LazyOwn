@@ -1,6 +1,98 @@
 # Subsystem: modules (page 6 of 17)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
 
+## modules/exp.c
+- Doc: gcc exp.c -o exp -l mnl -l nftnl -w
+- Layer: utility
+- Language: c
+- Symbols:
+  - `keyring_payload` (struct, line 120)
+  - `leak` (struct, line 126)
+  - `fd_uring` (struct, line 131)
+  - `msg` (struct, line 84)
+  - `msg_header` (struct, line 90)
+  - `Msg` (struct, line 100)
+  - `user_rule_t` (struct, line 105)
+  - `nft_trans_phase` (enum, line 77)
+  - `key_serial_t` (type_alias, line 135) `typedef int32_t key_serial_t;`
+  - `add_key` (function, line 147) `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
+  - `keyctl` (function, line 151) `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
+  - `bye` (function, line 155) `void bye(char *info)`
+  - `do_error_exit` (function, line 161) `void do_error_exit(char *info)`
+  - `bye2` (function, line 167) `void bye2(char *info, char *arg)`
+  - `spray_keyring` (function, line 172) `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
+  - `spray_keyring_list_del_purpose` (function, line 190) `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
+  - `spray_keyring_list_overwrite_purpose` (function, line 214) `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
+  - `get_keyring_leak` (function, line 248) `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+  - `awake_partial_keys` (function, line 271) `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
+  - `release_keys` (function, line 279) `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+  - `release_partial_keys` (function, line 290) `void release_partial_keys(key_serial_t *id_buffer, int i)`
+  - `unshare_setup` (function, line 297) `void unshare_setup(uid_t uid, gid_t gid)`
+  - `set_stable_table_and_set` (function, line 322) `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
+  - `set_trigger_set_and_overwrite` (function, line 385) `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
+  - `set_cpu_affinity` (function, line 438) `void set_cpu_affinity(int cpu_n, pid_t pid)`
+  - `spray_mqueue` (function, line 448) `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
+  - `gather_mqueue` (function, line 463) `int gather_mqueue(mqd_t mqdes, int gather_size)`
+  - `gather_mqueue_nosave` (function, line 485) `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
+  - `spray_msg_msg` (function, line 496) `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
+  - `io_uring_setup` (function, line 520) `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
+  - `io_uring_register` (function, line 524) `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
+  - `spray_uring` (function, line 529) `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
+  - `release_uring` (function, line 546) `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
+  - `release_partial_uring` (function, line 554) `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
+  - `prepare_root_shell` (function, line 559) `void prepare_root_shell(void)`
+  - `create_dummy_file` (function, line 564) `void create_dummy_file(void)`
+  - `create_priv_file` (function, line 572) `void create_priv_file(void)`
+  - `write_new_modprobe` (function, line 582) `void write_new_modprobe()`
+  - `setup_modprobe_payload` (function, line 601) `void setup_modprobe_payload()`
+  - `userland_T` (function, line 605) `void userland_T(int *sema)`
+  - `sema_up` (function, line 610) `void sema_up(int *sema)`
+  - `sema_down` (function, line 615) `void sema_down(int *sema)`
+  - `main` (function, line 620) `int main(int argc, char ** argv)`
+  - `_GNU_SOURCE` (macro, line 2) `#define _GNU_SOURCE`
+  - `MQUEUE_NUM` (macro, line 49) `#define MQUEUE_NUM`
+  - `INBOUND` (macro, line 52) `#define INBOUND`
+  - `OUTBOUND` (macro, line 53) `#define OUTBOUND`
+  - `DESC_MAX` (macro, line 54) `#define DESC_MAX`
+  - `BUFFER` (macro, line 56) `#define BUFFER`
+  - `NAMELEN` (macro, line 57) `#define NAMELEN`
+  - `ERROR_PREFIX` (macro, line 58) `#define ERROR_PREFIX`
+  - `KEY_DESC_MAX_SIZE` (macro, line 60) `#define KEY_DESC_MAX_SIZE`
+  - `PREFIX_BUF_LEN` (macro, line 62) `#define PREFIX_BUF_LEN`
+  - `RCU_HEAD_LEN` (macro, line 63) `#define RCU_HEAD_LEN`
+  - `SPRAY_KEY_SIZE` (macro, line 65) `#define SPRAY_KEY_SIZE`
+  - `PHYSMAP_MASK` (macro, line 67) `#define PHYSMAP_MASK`
+  - `SPRAY_SIZE` (macro, line 69) `#define SPRAY_SIZE`
+  - `SPRAY_NB_ENTRIES` (macro, line 71) `#define SPRAY_NB_ENTRIES`
+- Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
+
+## modules/exploit_chain.py
+- Doc: Autonomous exploitation chain engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ServiceInfo` (class, line 29) `class ServiceInfo`
+  - `VulnerabilityMatch` (class, line 41) `class VulnerabilityMatch`
+  - `ExploitResult` (class, line 54) `class ExploitResult`
+  - `ChainResult` (class, line 65) `class ChainResult`
+  - `_compare_versions` (function, line 266) `def _compare_versions(version_a, version_b)`
+  - `ExploitChain` (class, line 289) `class ExploitChain`
+  - `__init__` (method, line 292) `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
+  - `fingerprint_services` (method, line 311) `def fingerprint_services(self, nmap_output)`
+  - `_discover_xml_files` (method, line 331) `def _discover_xml_files(self)`
+  - `_parse_all_nmap_xml` (method, line 346) `def _parse_all_nmap_xml(self)`
+  - `_is_richer` (method, line 361) `def _is_richer(new_svc, existing)`
+  - `_parse_single_xml` (method, line 367) `def _parse_single_xml(self, xml_path)`
+  - `_parse_nmap_text` (method, line 404) `def _parse_nmap_text(self, output)`
+  - `map_vulnerabilities` (method, line 446) `def map_vulnerabilities(self)`
+  - `_add_vuln` (method, line 485) `def _add_vuln(self, service, sig, version)`
+  - `generate_exploit_plan` (method, line 499) `def generate_exploit_plan(self)`
+  - `get_post_exploit_commands` (method, line 519) `def get_post_exploit_commands(self, platform)`
+  - `generate_report` (method, line 531) `def generate_report(self)`
+  - `save_report` (method, line 566) `def save_report(self, path)`
+- Depends on: `modules/outcome_bus.py`
+- Imported by: `cli/commands/exploit_migrated.py`
+
 ## modules/exploit_recommender.py
 - Doc: AI-Powered Exploit Recommendation Engine for LazyOwn.
 - Layer: utility
@@ -205,7 +297,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `goal_met` (method, line 140) `def goal_met(self, opt_in)`
   - `all_achieved` (method, line 148) `def all_achieved(self)`
   - `open_goals` (method, line 152) `def open_goals(self)`
-- Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_parity.py`
+- Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `tests/test_lazy_parity.py`
 
 ## modules/golden_path.py
 - Doc: Deterministic attack-path solver over the LazyOwn world model.
@@ -388,76 +480,6 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Symbols:
   - `extract_ips_from_arp` (function, line 21)
   - `extract_listening_ips_from_netstat` (function, line 26)
-
-## modules/hunt_verify.py
-- Doc: Evidence verdict verification for hunting and chain stages.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EventRecord` (class, line 48) `class EventRecord`
-  - `StageSpec` (class, line 60) `class StageSpec`
-  - `Observation` (class, line 73) `class Observation`
-  - `StageAssessment` (class, line 85) `class StageAssessment`
-  - `Verification` (class, line 116) `class Verification`
-  - `_unique` (function, line 140) `def _unique(values)`
-  - `field_present` (function, line 152) `def field_present(fields, field_name)`
-  - `_field_present` (function, line 172) `def _field_present(event, field_name)`
-  - `_scalar_present` (function, line 177) `def _scalar_present(value)`
-  - `_stage_matches` (function, line 188) `def _stage_matches(spec, event)`
-  - `validate_specs` (function, line 197) `def validate_specs(specs)`
-  - `verify_stages` (function, line 232) `def verify_stages(specs, observations, events, scope_covered)`
-  - `_assess_stage` (function, line 310) `def _assess_stage(spec, observations, events, complete, warnings)`
-  - `to_dict` (method, line 99) `def to_dict(self)`
-  - `chain_proven` (method, line 124) `def chain_proven(self)`
-  - `to_dict` (method, line 130) `def to_dict(self)`
-- Imported by: `modules/chain_runner.py`, `modules/defense_stages.py`, `tests/test_hunt_verify.py`
-
-## modules/ia_code_analysis.py
-- Doc: CodeAnalyzer: Analyzes source code in a directory and its subdirectories.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CodeAnalyzer` (class, line 28) `class CodeAnalyzer`
-  - `analyze_with_deepseek` (function, line 66) `def analyze_with_deepseek(code_content, file_path, mode)`
-  - `save_results_to_json` (function, line 123) `def save_results_to_json(results, file_path)`
-  - `start_analysis` (function, line 169) `def start_analysis(code_dir, mode)`
-  - `parse_args` (function, line 178) `def parse_args()`
-  - `__init__` (method, line 33) `def __init__(self, mode)`
-  - `analyze_directory` (method, line 37) `def analyze_directory(self, directory)`
-  - `analyze_code_file` (method, line 49) `def analyze_code_file(self, file_path)`
-- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-
-## modules/ia_logs_analysis.py
-- Doc: Author: Your Name Email: youremail@example.com Creation Date: 10/06/2024 License: AGPL v3...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LogFileHandler` (class, line 54) `class LogFileHandler(FileSystemEventHandler)`
-  - `analyze_with_deepseek` (function, line 94) `def analyze_with_deepseek(log_content, mode)`
-  - `start_monitoring` (function, line 147) `def start_monitoring(log_dir, mode)`
-  - `parse_args` (function, line 168) `def parse_args()`
-  - `__init__` (method, line 59) `def __init__(self, mode)`
-  - `on_modified` (method, line 64) `def on_modified(self, event)`
-  - `analyze_log_file` (method, line 75) `def analyze_log_file(self, file_path)`
-- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-
-## modules/ia_network_analysis.py
-- Doc: Autor: grisun0 Fecha de creación: 30/01/2025 Licencia: AGPL v3  Descripción: Bot de monitoreo de...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `analyze_with_deepseek` (function, line 39) `def analyze_with_deepseek(packet_info, mode)`
-  - `packet_callback` (function, line 91) `def packet_callback(packet, mode)`
-  - `start_monitoring` (function, line 130) `def start_monitoring(interface, timeout, mode)`
-  - `parse_args` (function, line 154) `def parse_args()`
-- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-
-## modules/img2bin.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `imagen_a_binario` (function, line 7) `def imagen_a_binario(imagen_input, binario_output, block_size)`
-  - `main` (function, line 43) `def main()`
 
 
 Next: [KB_modules_p7.md](KB_modules_p7.md)

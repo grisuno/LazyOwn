@@ -66,7 +66,7 @@ flowchart LR
 
 ### `register_handler`
 
-`function` | [skills/lazyown_mcp.py:634](../../skills/lazyown_mcp.py#L634)
+`function` | [skills/lazyown_mcp.py:604](../../skills/lazyown_mcp.py#L604)
 
 ```python
 def register_handler(tool_name: str)
@@ -89,7 +89,7 @@ and must return ``list[types.TextContent]``.
 
 ### `list_tools`
 
-`function` `async` | [skills/lazyown_mcp.py:2328](../../skills/lazyown_mcp.py#L2328)
+`function` `async` | [skills/lazyown_mcp.py:2298](../../skills/lazyown_mcp.py#L2298)
 
 Decorators: `@server.list_tools()`
 
@@ -105,7 +105,7 @@ async def list_tools() -> list[types.Tool]
 
 ### `substitute_playbook_target`
 
-`function` | [skills/lazyown_mcp.py:6890](../../skills/lazyown_mcp.py#L6890)
+`function` | [skills/lazyown_mcp.py:6848](../../skills/lazyown_mcp.py#L6848)
 
 ```python
 def substitute_playbook_target(command: str, target: str) -> str
@@ -132,7 +132,7 @@ preserved because only the substituted value is quoted.
 
 ### `call_tool`
 
-`function` `async` | [skills/lazyown_mcp.py:6908](../../skills/lazyown_mcp.py#L6908)
+`function` `async` | [skills/lazyown_mcp.py:6866](../../skills/lazyown_mcp.py#L6866)
 
 Decorators: `@server.call_tool()`
 
@@ -157,7 +157,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
 ### `main`
 
-`function` `async` | [skills/lazyown_mcp.py:13584](../../skills/lazyown_mcp.py#L13584)
+`function` `async` | [skills/lazyown_mcp.py:11987](../../skills/lazyown_mcp.py#L11987)
 
 ```python
 async def main()
@@ -243,7 +243,7 @@ MODULES_DIR = LAZYOWN_DIR / 'modules'
 
 ### `REA_BINARY`
 
-`constant` | [skills/lazyown_mcp.py:1004](../../skills/lazyown_mcp.py#L1004)
+`constant` | [skills/lazyown_mcp.py:974](../../skills/lazyown_mcp.py#L974)
 
 ```python
 REA_BINARY = 'rea'
@@ -255,7 +255,7 @@ REA_BINARY = 'rea'
 
 ### `REA_TIMEOUT_DEFAULT`
 
-`constant` | [skills/lazyown_mcp.py:1005](../../skills/lazyown_mcp.py#L1005)
+`constant` | [skills/lazyown_mcp.py:975](../../skills/lazyown_mcp.py#L975)
 
 ```python
 REA_TIMEOUT_DEFAULT = 120
@@ -267,7 +267,7 @@ REA_TIMEOUT_DEFAULT = 120
 
 ### `REA_TIMEOUT_MAX`
 
-`constant` | [skills/lazyown_mcp.py:1006](../../skills/lazyown_mcp.py#L1006)
+`constant` | [skills/lazyown_mcp.py:976](../../skills/lazyown_mcp.py#L976)
 
 ```python
 REA_TIMEOUT_MAX = 600
@@ -279,7 +279,7 @@ REA_TIMEOUT_MAX = 600
 
 ### `REA_OUTPUT_LIMIT`
 
-`constant` | [skills/lazyown_mcp.py:1007](../../skills/lazyown_mcp.py#L1007)
+`constant` | [skills/lazyown_mcp.py:977](../../skills/lazyown_mcp.py#L977)
 
 ```python
 REA_OUTPUT_LIMIT = 8000
@@ -291,7 +291,7 @@ REA_OUTPUT_LIMIT = 8000
 
 ### `REA_SUPPORTED_ACTIONS`
 
-`constant` | [skills/lazyown_mcp.py:1008](../../skills/lazyown_mcp.py#L1008)
+`constant` | [skills/lazyown_mcp.py:978](../../skills/lazyown_mcp.py#L978)
 
 ```python
 REA_SUPPORTED_ACTIONS
@@ -303,7 +303,7 @@ REA_SUPPORTED_ACTIONS
 
 ### `REA_TARGET_ACTIONS`
 
-`constant` | [skills/lazyown_mcp.py:1023](../../skills/lazyown_mcp.py#L1023)
+`constant` | [skills/lazyown_mcp.py:993](../../skills/lazyown_mcp.py#L993)
 
 ```python
 REA_TARGET_ACTIONS
@@ -315,7 +315,7 @@ REA_TARGET_ACTIONS
 
 ### `REA_ADDRESS_ACTIONS`
 
-`constant` | [skills/lazyown_mcp.py:1035](../../skills/lazyown_mcp.py#L1035)
+`constant` | [skills/lazyown_mcp.py:1005](../../skills/lazyown_mcp.py#L1005)
 
 ```python
 REA_ADDRESS_ACTIONS = frozenset({'function', 'xrefs', 'decompile'})
@@ -327,7 +327,7 @@ REA_ADDRESS_ACTIONS = frozenset({'function', 'xrefs', 'decompile'})
 
 ### `REA_QUERY_ACTIONS`
 
-`constant` | [skills/lazyown_mcp.py:1036](../../skills/lazyown_mcp.py#L1036)
+`constant` | [skills/lazyown_mcp.py:1006](../../skills/lazyown_mcp.py#L1006)
 
 ```python
 REA_QUERY_ACTIONS = frozenset({'search', 'trace'})
@@ -339,7 +339,7 @@ REA_QUERY_ACTIONS = frozenset({'search', 'trace'})
 
 ### `REA_PROVIDERS`
 
-`constant` | [skills/lazyown_mcp.py:1037](../../skills/lazyown_mcp.py#L1037)
+`constant` | [skills/lazyown_mcp.py:1007](../../skills/lazyown_mcp.py#L1007)
 
 ```python
 REA_PROVIDERS = frozenset({'auto', 'hopper', 'ghidra'})

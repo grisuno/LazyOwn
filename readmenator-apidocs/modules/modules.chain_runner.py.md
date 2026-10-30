@@ -457,7 +457,7 @@ Bind the chain, the execution primitive and operator switches.
 
 #### `ChainRunner.run`
 
-`method` | [modules/chain_runner.py:288](../../modules/chain_runner.py#L288)
+`method` | [modules/chain_runner.py:289](../../modules/chain_runner.py#L289)
 
 ```python
 def run(self) -> ChainRunResult

@@ -1,6 +1,95 @@
 # Subsystem: modules (page 12 of 17)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
 
+## modules/listener_manager.py
+- Doc: Multi-listener manager for LazyOwn C2.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_collect_listener_bind_candidates` (function, line 35) `def _collect_listener_bind_candidates(payload)`
+  - `_probe_listener_bind` (function, line 72) `def _probe_listener_bind(address, port)`
+  - `_resolve_listener_bind_address` (function, line 110) `def _resolve_listener_bind_address(payload, port)`
+  - `Listener` (class, line 141) `class Listener`
+  - `ListenerManager` (class, line 172) `class ListenerManager`
+  - `to_dict` (method, line 152) `def to_dict(self)`
+  - `from_dict` (method, line 162) `def from_dict(cls, data)`
+  - `__init__` (method, line 179) `def __init__(self, app, sessions_dir, payload)`
+  - `set_payload` (method, line 187) `def set_payload(self, payload)`
+  - `_bind_address` (method, line 191) `def _bind_address(self, port)`
+  - `_listeners_path` (method, line 201) `def _listeners_path(self)`
+  - `_load` (method, line 204) `def _load(self)`
+  - `_save` (method, line 217) `def _save(self)`
+  - `add` (method, line 229) `def add(self, port, ssl, listener_id)`
+  - `remove` (method, line 242) `def remove(self, listener_id)`
+  - `start` (method, line 255) `def start(self, listener_id)`
+  - `stop` (method, line 335) `def stop(self, listener_id)`
+  - `_stop` (method, line 343) `def _stop(self, listener)`
+  - `start_all` (method, line 356) `def start_all(self)`
+  - `stop_all` (method, line 362) `def stop_all(self)`
+  - `status` (method, line 367) `def status(self)`
+  - `get_default_port` (method, line 379) `def get_default_port(self, fallback)`
+- Depends on: `utils.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `lazyc2.py`
+
+## modules/live_surface.py
+- Doc: Live attack-surface graph derived from the world model.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_is_compromised` (function, line 45) `def _is_compromised(state)`
+  - `_node_value` (function, line 50) `def _node_value(centrality)`
+  - `_group_for` (function, line 55) `def _group_for(node_id)`
+  - `_label_for` (function, line 64) `def _label_for(node_id)`
+  - `build_live_graph` (function, line 72) `def build_live_graph(world)`
+  - `_emit_node` (function, line 106) `def _emit_node(node_id, state, title)`
+  - `_emit_edge` (function, line 126) `def _emit_edge(source, target, relation, weight)`
+- Depends on: `modules/world_model.py`
+- Imported by: `lazyc2.py`, `modules/unified_dashboard.py`, `tests/test_live_surface.py`
+
+## modules/llm_adapter.py
+- Doc: LLM adapter facade — single import point for all LLM backends used by lazyc2.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `safe_groq_client` (function, line 55) `def safe_groq_client(api_key)`
+  - `_configure_logging` (function, line 72) `def _configure_logging(debug)`
+  - `_read_prompt_file` (function, line 77) `def _read_prompt_file(prompt)`
+  - `_read_error` (function, line 85) `def _read_error(prompt)`
+  - `_complete` (function, line 89) `def _complete(client, full_prompt, model)`
+  - `_process` (function, line 103) `def _process(client, prompt, debug, template, config)`
+  - `_orchestrated` (function, line 124) `def _orchestrated(full_prompt, prompt, store, primary_error)`
+  - `process_prompt` (function, line 155) `def process_prompt(client, prompt, debug)`
+  - `process_prompt_script` (function, line 169) `def process_prompt_script(client, prompt, debug)`
+  - `process_prompt_adversary` (function, line 183) `def process_prompt_adversary(client, prompt, debug)`
+  - `process_prompt_general` (function, line 197) `def process_prompt_general(client, prompt, debug)`
+  - `process_prompt_search` (function, line 211) `def process_prompt_search(client, prompt, debug)`
+  - `process_prompt_task` (function, line 225) `def process_prompt_task(client, prompt, debug)`
+  - `process_prompt_vuln` (function, line 242) `def process_prompt_vuln(client, prompt, debug, event)`
+  - `process_prompt_redop` (function, line 273) `def process_prompt_redop(client, prompt, debug)`
+  - `ask_general` (function, line 290) `def ask_general(prompt, debug)`
+- Depends on: `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazyphishingai.py`, `core/logging.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`
+
+## modules/llm_client.py
+- Doc: LazyOwn Unified LLM Client
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `LLMClient` (class, line 45) `class LLMClient`
+  - `get_client` (function, line 268) `def get_client(api_key)`
+  - `ask` (function, line 276) `def ask(prompt)`
+  - `classify` (function, line 288) `def classify(output)`
+  - `summarize` (function, line 293) `def summarize(text)`
+  - `__init__` (method, line 63) `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)`
+  - `ask` (method, line 79) `def ask(self, prompt)`
+  - `classify` (method, line 130) `def classify(self, output)`
+  - `summarize` (method, line 159) `def summarize(self, text)`
+  - `_ask_groq` (method, line 179) `def _ask_groq(self, prompt, model, system, temperature)`
+  - `_ask_ollama` (method, line 220) `def _ask_ollama(self, prompt, model)`
+  - `_ask_llamacpp` (method, line 242) `def _ask_llamacpp(self, prompt, model, system)`
+- Depends on: `core/logging.py`, `modules/ai_model.py`
+- Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `modules/planner.py`, `modules/playbook_engine.py`
+
 ## modules/llm_evaluator.py
 - Doc: — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning...
 - Layer: utility
@@ -128,7 +217,7 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `_ordered` (method, line 201) `def _ordered(self)`
   - `_truncate` (method, line 217) `def _truncate(self, text, overflow_dir)`
   - `complete` (method, line 237) `def complete(self, prompt, max_tokens, session_key, overflow_dir)`
-- Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
+- Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
 
 ## modules/llm_prompts.py
 - Doc: Canonical prompt-template and knowledge-base contract for LLM consumers.
@@ -220,26 +309,31 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `_stage` (function, line 64) `def _stage(name, default)`
   - `publish_loop_event` (function, line 74) `def publish_loop_event(task_id, worker, kind, text, severity)`
   - `_hive_store` (function, line 101) `def _hive_store(task_id, worker, kind, text)`
-  - `annotate_detection` (function, line 125) `def annotate_detection(command, action_category)`
-  - `moe_route` (function, line 149) `def moe_route(task_type, goal)`
-  - `moe_record_outcome` (function, line 166) `def moe_record_outcome(expert_id, task_type, reward, detection_prob)`
-  - `rl_select` (function, line 185) `def rl_select(task_type, phase, candidates, deterministic)`
-  - `rl_update` (function, line 207) `def rl_update(task_type, phase, action, reward, candidates, detection_prob)`
-  - `rl_save` (function, line 230) `def rl_save()`
-  - `record_step` (function, line 249) `def record_step(task_id, worker, command, output, detection_prob)`
-  - `swan_available` (function, line 264) `def swan_available()`
-  - `swan_consult` (function, line 277) `def swan_consult(prompt, task_type, phase, timeout)`
-  - `stream_enabled` (function, line 304) `def stream_enabled()`
-  - `ai_snapshot` (function, line 314) `def ai_snapshot()`
+  - `assess_opsec` (function, line 125) `def assess_opsec(command, rhost)`
+  - `intent_tool_class` (function, line 169) `def intent_tool_class(summary)`
+  - `record_outcome_quality` (function, line 213) `def record_outcome_quality(worker, intent_summary, facts, findings)`
+  - `tool_class_yields` (function, line 240) `def tool_class_yields(summaries, phase)`
+  - `annotate_detection` (function, line 280) `def annotate_detection(command, action_category)`
+  - `moe_route` (function, line 304) `def moe_route(task_type, goal)`
+  - `moe_record_outcome` (function, line 321) `def moe_record_outcome(expert_id, task_type, reward, detection_prob)`
+  - `rl_select` (function, line 340) `def rl_select(task_type, phase, candidates, deterministic)`
+  - `rl_update` (function, line 362) `def rl_update(task_type, phase, action, reward, candidates, detection_prob)`
+  - `rl_save` (function, line 385) `def rl_save()`
+  - `record_step` (function, line 404) `def record_step(task_id, worker, command, output, detection_prob)`
+  - `swan_available` (function, line 419) `def swan_available()`
+  - `swan_consult` (function, line 432) `def swan_consult(prompt, task_type, phase, timeout)`
+  - `stream_enabled` (function, line 459) `def stream_enabled()`
+  - `ai_snapshot` (function, line 469) `def ai_snapshot()`
   - `_open` (function, line 104) `def _open()`
-  - `_open` (function, line 130) `def _open()`
-  - `_open` (function, line 152) `def _open()`
-  - `_open` (function, line 171) `def _open()`
-  - `_open` (function, line 192) `def _open()`
-  - `_open` (function, line 214) `def _open()`
-  - `_open` (function, line 235) `def _open()`
-  - `_open` (function, line 269) `def _open()`
-- Depends on: `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
+  - `_open` (function, line 260) `def _open()`
+  - `_open` (function, line 285) `def _open()`
+  - `_open` (function, line 307) `def _open()`
+  - `_open` (function, line 326) `def _open()`
+  - `_open` (function, line 347) `def _open()`
+  - `_open` (function, line 369) `def _open()`
+  - `_open` (function, line 390) `def _open()`
+  - `_open` (function, line 424) `def _open()`
+- Depends on: `core/config.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
 - Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
 
 ## modules/loop_guardrails.py
@@ -249,37 +343,41 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
 - Symbols:
   - `Fact` (class, line 73) `class Fact`
   - `RepeatDetector` (class, line 82) `class RepeatDetector`
-  - `EdrPacer` (class, line 126) `class EdrPacer`
-  - `TargetLimiter` (class, line 208) `class TargetLimiter`
-  - `FactVectorStore` (class, line 278) `class FactVectorStore`
-  - `__init__` (method, line 89) `def __init__(self, window)`
-  - `record` (method, line 93) `def record(self, command)`
-  - `stuck` (method, line 110) `def stuck(self)`
-  - `last_commands` (method, line 117) `def last_commands(self)`
-  - `reset` (method, line 121) `def reset(self)`
-  - `__init__` (method, line 135) `def __init__(self, duration_threshold)`
-  - `observe` (method, line 141) `def observe(self, command, duration_sec, output)`
-  - `decay` (method, line 163) `def decay(self, factor)`
-  - `level` (method, line 169) `def level(self)`
-  - `signal` (method, line 179) `def signal(self)`
-  - `inter_step_delay` (method, line 184) `def inter_step_delay(self)`
-  - `quieten` (method, line 192) `def quieten(self, command)`
-  - `__init__` (method, line 216) `def __init__(self, max_concurrent)`
-  - `max_concurrent` (method, line 223) `def max_concurrent(self)`
-  - `active_targets` (method, line 228) `def active_targets(self)`
-  - `slot` (method, line 234) `def slot(self, target)`
-  - `__init__` (method, line 286) `def __init__(self, path, max_facts)`
-  - `path` (method, line 294) `def path(self)`
-  - `__len__` (method, line 298) `def __len__(self)`
-  - `_tokenize` (method, line 302) `def _tokenize(text)`
-  - `_vectorize` (method, line 307) `def _vectorize(tokens)`
-  - `add` (method, line 315) `def add(self, text, meta)`
-  - `search` (method, line 349) `def search(self, query, k)`
-  - `search_block` (method, line 379) `def search_block(self, query, k, max_chars)`
-  - `clear` (method, line 388) `def clear(self)`
-  - `save` (method, line 394) `def save(self)`
-  - `_load` (method, line 415) `def _load(self)`
-- Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`
+  - `EdrPacer` (class, line 178) `class EdrPacer`
+  - `TargetLimiter` (class, line 260) `class TargetLimiter`
+  - `FactVectorStore` (class, line 330) `class FactVectorStore`
+  - `__init__` (method, line 98) `def __init__(self, window)`
+  - `record` (method, line 104) `def record(self, command)`
+  - `_update_oscillation` (method, line 120) `def _update_oscillation(self)`
+  - `_strict_alternating` (method, line 134) `def _strict_alternating(entries)`
+  - `stuck` (method, line 139) `def stuck(self)`
+  - `_alternating` (method, line 155) `def _alternating(self)`
+  - `oscillation_pair` (method, line 163) `def oscillation_pair(self)`
+  - `last_commands` (method, line 167) `def last_commands(self)`
+  - `reset` (method, line 171) `def reset(self)`
+  - `__init__` (method, line 187) `def __init__(self, duration_threshold)`
+  - `observe` (method, line 193) `def observe(self, command, duration_sec, output)`
+  - `decay` (method, line 215) `def decay(self, factor)`
+  - `level` (method, line 221) `def level(self)`
+  - `signal` (method, line 231) `def signal(self)`
+  - `inter_step_delay` (method, line 236) `def inter_step_delay(self)`
+  - `quieten` (method, line 244) `def quieten(self, command)`
+  - `__init__` (method, line 268) `def __init__(self, max_concurrent)`
+  - `max_concurrent` (method, line 275) `def max_concurrent(self)`
+  - `active_targets` (method, line 280) `def active_targets(self)`
+  - `slot` (method, line 286) `def slot(self, target)`
+  - `__init__` (method, line 338) `def __init__(self, path, max_facts)`
+  - `path` (method, line 346) `def path(self)`
+  - `__len__` (method, line 350) `def __len__(self)`
+  - `_tokenize` (method, line 354) `def _tokenize(text)`
+  - `_vectorize` (method, line 359) `def _vectorize(tokens)`
+  - `add` (method, line 367) `def add(self, text, meta)`
+  - `search` (method, line 401) `def search(self, query, k)`
+  - `search_block` (method, line 431) `def search_block(self, query, k, max_chars)`
+  - `clear` (method, line 440) `def clear(self)`
+  - `save` (method, line 446) `def save(self)`
+  - `_load` (method, line 467) `def _load(self)`
+- Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`, `tests/test_repeat_shapes.py`
 
 ## modules/loop_manager.py
 - Doc: Parallel autonomous loop orchestration for the LazyOwn C2 dashboard.
@@ -351,6 +449,7 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `prune_hint_fingerprints` (function, line 60) `def prune_hint_fingerprints(store, now, ttl)`
   - `_core` (function, line 81) `def _core()`
   - `TriggerStore` (class, line 88) `class TriggerStore`
+  - `read_signing_evidence` (function, line 499) `def read_signing_evidence(store_dir)`
   - `__init__` (method, line 91) `def __init__(self, task_id)`
   - `_load` (method, line 97) `def _load(self)`
   - `add` (method, line 101) `def add(self, kind, arg, every_sec)`
@@ -360,9 +459,10 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `list` (method, line 190) `def list(self)`
   - `ensure_service_trigger` (method, line 194) `def ensure_service_trigger(self)`
   - `ensure_cve_hot_trigger` (method, line 207) `def ensure_cve_hot_trigger(self)`
-  - `due` (method, line 220) `def due(self, task_id, graph, activity, assets, store)`
+  - `ensure_ad_surface_trigger` (method, line 220) `def ensure_ad_surface_trigger(self)`
+  - `due` (method, line 233) `def due(self, task_id, graph, activity, assets, store)`
 - Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_heat.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `modules/world_model.py`
-- Imported by: `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_loop_trigger_hints.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
+- Imported by: `cli/commands/netattack.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_loop_trigger_hints.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
 
 ## modules/macos_payloads.py
 - Doc: macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC.
@@ -392,109 +492,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
 - Language: py
 - Symbols:
   - `check_collision` (function, line 105) `def check_collision(x, y, layer)`
-
-## modules/mcp_agent_bridge.py
-- Doc: LazyOwn MCP Agent Bridge
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_make_client` (function, line 39) `def _make_client(backend)`
-  - `_ollama_chat` (function, line 92) `def _ollama_chat(model, messages, max_tokens, timeout)`
-  - `_agent_file` (function, line 141) `def _agent_file(agent_id)`
-  - `_write_log` (function, line 145) `def _write_log(agent_id, entry)`
-  - `_read_log` (function, line 150) `def _read_log(agent_id)`
-  - `get_agent_status` (function, line 163) `def get_agent_status(agent_id)`
-  - `get_agent_result` (function, line 188) `def get_agent_result(agent_id)`
-  - `list_agents` (function, line 211) `def list_agents(limit)`
-  - `GroqAgentWorker` (class, line 234) `class GroqAgentWorker`
-  - `OllamaReActWorker` (class, line 367) `class OllamaReActWorker`
-  - `AgentBridgeWorker` (class, line 468) `class AgentBridgeWorker`
-  - `start_agent` (function, line 508) `def start_agent(goal, backend, lazyown_runner_fn, max_iterations)`
-  - `__init__` (method, line 235) `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)`
-  - `_tools` (method, line 248) `def _tools(self)`
-  - `run` (method, line 264) `def run(self)`
-  - `__init__` (method, line 368) `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)`
-  - `_parse` (method, line 381) `def _parse(self, text)`
-  - `run` (method, line 389) `def run(self)`
-  - `__init__` (method, line 471) `def __init__(self, agent_id, goal, backend, run_cmd, max_iterations)`
-  - `run` (method, line 478) `def run(self)`
-  - `dummy_runner` (function, line 531) `def dummy_runner(cmd)`
-- Depends on: `core/logging.py`, `modules/llm_factory.py`
-- Imported by: `modules/unified_bridge.py`, `skills/lazyown_mcp.py`
-
-## modules/memory_cleaner.py
-- Doc: Memory artifact cleanup — process memory wipe, environment variable scrub, clipboard clear.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `MemoryCleanerConfig` (class, line 22) `class MemoryCleanerConfig`
-  - `MemoryCleaner` (class, line 50) `class MemoryCleaner`
-  - `__init__` (method, line 61) `def __init__(self, config)`
-  - `windows_memory_cleanup` (method, line 64) `def windows_memory_cleanup(self)`
-  - `linux_memory_cleanup` (method, line 151) `def linux_memory_cleanup(self)`
-  - `macos_memory_cleanup` (method, line 206) `def macos_memory_cleanup(self)`
-  - `generate_on_exit_script` (method, line 255) `def generate_on_exit_script(self)`
-- Imported by: `cli/commands/opsec_cleanup.py`
-
-## modules/memory_embeddings.py
-- Doc: Hashing-trick text embeddings for episodic memory recall.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EmbeddingError` (class, line 30) `class EmbeddingError(ValueError)`
-  - `_fnv1a` (function, line 34) `def _fnv1a(data)`
-  - `_tokens` (function, line 41) `def _tokens(text)`
-  - `embed` (function, line 50) `def embed(text)`
-  - `cosine` (function, line 75) `def cosine(a, b)`
-  - `semantic_top_k` (function, line 85) `def semantic_top_k(query, candidates, top_k)`
-  - `as_floats` (function, line 109) `def as_floats(blob)`
-- Imported by: `modules/memory_store.py`, `tests/test_memory_semantics.py`
-
-## modules/memory_store.py
-- Doc: — Episodic memory for the LazyOwn auto_loop.
-- Layer: data_access
-- Language: py
-- Symbols:
-  - `MemoryEntry` (class, line 84) `class MemoryEntry`
-  - `StorageBackend` (class, line 97) `class StorageBackend(ABC)`
-  - `_row_to_entry` (function, line 117) `def _row_to_entry(row)`
-  - `SQLiteBackend` (class, line 132) `class SQLiteBackend(StorageBackend)`
-  - `MemoryStore` (class, line 237) `class MemoryStore`
-  - `VectorSQLiteBackend` (class, line 315) `class VectorSQLiteBackend(SQLiteBackend)`
-  - `get_memory_store` (function, line 339) `def get_memory_store()`
-  - `remember` (function, line 348) `def remember(session_id, host, tool, command, output, findings, success)`
-  - `recall` (function, line 360) `def recall(query, top_k)`
-  - `recall_hybrid` (function, line 364) `def recall_hybrid(query, top_k)`
-  - `_print_entries` (function, line 368) `def _print_entries(entries)`
-  - `_cli` (function, line 381) `def _cli()`
-  - `save` (method, line 99) `def save(self, entry)`
-  - `search` (method, line 102) `def search(self, query, top_k)`
-  - `by_host` (method, line 105) `def by_host(self, host, top_k)`
-  - `by_service` (method, line 108) `def by_service(self, service, top_k)`
-  - `all_entries` (method, line 111) `def all_entries(self, limit)`
-  - `close` (method, line 114) `def close(self)`
-  - `__init__` (method, line 133) `def __init__(self, db_path)`
-  - `_connect` (method, line 139) `def _connect(self)`
-  - `save` (method, line 148) `def save(self, entry)`
-  - `_fetch` (method, line 175) `def _fetch(self, sql, params)`
-  - `search` (method, line 180) `def search(self, query, top_k)`
-  - `by_host` (method, line 192) `def by_host(self, host, top_k)`
-  - `by_service` (method, line 203) `def by_service(self, service, top_k)`
-  - `all_entries` (method, line 215) `def all_entries(self, limit)`
-  - `stats_raw` (method, line 225) `def stats_raw(self)`
-  - `close` (method, line 232) `def close(self)`
-  - `__init__` (method, line 240) `def __init__(self, backend)`
-  - `remember` (method, line 243) `def remember(self, session_id, host, tool, command, output, findings, success)`
-  - `recall` (method, line 270) `def recall(self, query, top_k)`
-  - `recall_by_host` (method, line 273) `def recall_by_host(self, host, top_k)`
-  - `recall_for_service` (method, line 276) `def recall_for_service(self, service_name, top_k)`
-  - `recall_hybrid` (method, line 279) `def recall_hybrid(self, query, top_k)`
-  - `stats` (method, line 292) `def stats(self)`
-  - `export_finetuning_dataset` (method, line 300) `def export_finetuning_dataset(self, path)`
-  - `save` (method, line 320) `def save(self, entry)`
-  - `search_semantic` (method, line 328) `def search_semantic(self, query, top_k)`
-- Depends on: `modules/memory_embeddings.py`
-- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_memory_semantics.py`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

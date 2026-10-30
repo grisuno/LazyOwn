@@ -80,7 +80,7 @@ Full table: [`COMPARISON.md`](COMPARISON.md). Found an error? Open an issue, we 
 LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU Affero General Public License v3.
 See the LICENSE file for details about using this software.
 
- # LazyOwn RedTeam Framework v 0.4.10
+ # LazyOwn RedTeam Framework v 0.5.0
 
 LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 837 CLI commands, 130 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
 

@@ -96,20 +96,22 @@ Previous: [KB_core.md](KB_core.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `CommandInjectionError` (class, line 44) `class CommandInjectionError(PermissionError)`
-  - `UrlValidationError` (class, line 48) `class UrlValidationError(PermissionError)`
-  - `needs_shell` (function, line 52) `def needs_shell(command)`
-  - `safe_system` (function, line 69) `def safe_system(command)`
-  - `safe_run_argv` (function, line 106) `def safe_run_argv(argv)`
-  - `safe_run_shell` (function, line 146) `def safe_run_shell(command)`
-  - `safe_clear_screen` (function, line 192) `def safe_clear_screen()`
-  - `validate_url` (function, line 207) `def validate_url(url)`
-  - `safe_git_clone` (function, line 234) `def safe_git_clone(repo_url, target_dir)`
-  - `safe_ip_show` (function, line 268) `def safe_ip_show(interface)`
-  - `safe_find_tool` (function, line 305) `def safe_find_tool(name)`
-  - `safe_file_read` (function, line 321) `def safe_file_read(path)`
+  - `CommandInjectionError` (class, line 49) `class CommandInjectionError(PermissionError)`
+  - `UrlValidationError` (class, line 53) `class UrlValidationError(PermissionError)`
+  - `needs_shell` (function, line 57) `def needs_shell(command)`
+  - `safe_system` (function, line 74) `def safe_system(command)`
+  - `_kill_process_tree` (function, line 111) `def _kill_process_tree(process)`
+  - `_communicate_group_managed` (function, line 141) `def _communicate_group_managed(process, timeout)`
+  - `safe_run_argv` (function, line 174) `def safe_run_argv(argv)`
+  - `safe_run_shell` (function, line 228) `def safe_run_shell(command)`
+  - `safe_clear_screen` (function, line 285) `def safe_clear_screen()`
+  - `validate_url` (function, line 300) `def validate_url(url)`
+  - `safe_git_clone` (function, line 327) `def safe_git_clone(repo_url, target_dir)`
+  - `safe_ip_show` (function, line 361) `def safe_ip_show(interface)`
+  - `safe_find_tool` (function, line 398) `def safe_find_tool(name)`
+  - `safe_file_read` (function, line 414) `def safe_file_read(path)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/autonomous_exploit_engine.py`, `modules/chain_runner.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/lazyshortener.py`, `modules/metasploitable_migrations.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `modules/ttpscope_bridge.py`, `modules/winbox_gym.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_executor_kernel.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
+- Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/autonomous_exploit_engine.py`, `modules/chain_runner.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/lazyshortener.py`, `modules/metasploitable_migrations.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `modules/ttpscope_bridge.py`, `modules/winbox_gym.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_executor_kernel.py`, `tests/test_group_kill.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
 
 ## core/safe_import.py
 - Doc: Fail-closed import of attacker-supplied campaign packages.

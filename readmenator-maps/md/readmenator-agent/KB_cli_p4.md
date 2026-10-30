@@ -206,10 +206,11 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `_parse_network` (function, line 202) `def _parse_network(value)`
   - `_hostname_match` (function, line 209) `def _hostname_match(target, entry)`
   - `target_in_scope` (function, line 218) `def target_in_scope(target, entries)`
-  - `ScopeGuard` (class, line 254) `class ScopeGuard`
+  - `target_in_deny` (function, line 254) `def target_in_deny(target, entries)`
+  - `ScopeGuard` (class, line 271) `class ScopeGuard`
   - `from_value` (method, line 105) `def from_value(cls, value)`
-  - `__init__` (method, line 263) `def __init__(self, scope_entries, mode, is_offensive)`
-  - `evaluate` (method, line 283) `def evaluate(self, command, target)`
+  - `__init__` (method, line 280) `def __init__(self, scope_entries, mode, is_offensive, deny_entries)`
+  - `evaluate` (method, line 304) `def evaluate(self, command, target)`
 - Depends on: `cli/commands/enum.py`
 - Imported by: `lazyown.py`, `tests/test_scope_guard.py`
 

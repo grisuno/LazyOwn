@@ -23,6 +23,9 @@ flowchart LR
     n_cli_apt_chain_support_py__parse_chain_args(["parse_chain_args"])
     n_cli_apt_chain_support_py__ChainArgs(["ChainArgs"])
     n_cli_apt_chain_support_py__resolve_admin(["resolve_admin"])
+    n_modules_chain_approval_py__PendingStore___init__["chain_approval.PendingStore.__init__"]
+    n_modules_chain_approval_py__PendingStore_decide["chain_approval.PendingStore.decide"]
+    n_modules_chain_approval_py__PendingStore_expire_stale["chain_approval.PendingStore.expire_stale"]
     n_modules_chain_registry_py__scan_all["chain_registry.scan_all"]
     n_modules_chain_registry_py__set_enabled["chain_registry.set_enabled"]
     n_modules_chain_registry_py__validate_chain["chain_registry.validate_chain"]
@@ -39,6 +42,9 @@ flowchart LR
     n_modules_chain_registry_py__ChainStep["chain_registry.ChainStep"]
     n_modules_guardrails_harness_py__global_harness["harness.global_harness"]
     n_cli_apt_chain_support_py__parse_chain_args --> n_cli_apt_chain_support_py__ChainArgs
+    n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_approval_py__PendingStore___init__
+    n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_approval_py__PendingStore_decide
+    n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_approval_py__PendingStore_expire_stale
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_registry_py__scan_all
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_registry_py__set_enabled
     n_cli_apt_chain_support_py__resolve_admin -.-> n_modules_chain_registry_py__validate_chain
@@ -60,7 +66,7 @@ flowchart LR
 
 ### `ChainArgs`
 
-`class` `dataclass` | [cli/apt_chain_support.py:48](../../cli/apt_chain_support.py#L48)
+`class` `dataclass` | [cli/apt_chain_support.py:50](../../cli/apt_chain_support.py#L50)
 
 Decorators: `@dataclass`
 
@@ -102,7 +108,7 @@ Parsed ``apt_chain`` invocation.
 
 ### `parse_chain_args`
 
-`function` | [cli/apt_chain_support.py:72](../../cli/apt_chain_support.py#L72)
+`function` | [cli/apt_chain_support.py:74](../../cli/apt_chain_support.py#L74)
 
 ```python
 def parse_chain_args(line: str) -> ChainArgs
@@ -131,7 +137,7 @@ hid operator intent and is gone.
 
 ### `resolve_admin`
 
-`function` | [cli/apt_chain_support.py:169](../../cli/apt_chain_support.py#L169)
+`function` | [cli/apt_chain_support.py:171](../../cli/apt_chain_support.py#L171)
 
 ```python
 def resolve_admin(args: ChainArgs) -> dict[str, Any]
@@ -147,7 +153,7 @@ Execute an admin action against the registry and checkpoint store.
 
 **Returns:** `dict[str, Any]`
 
-*Calls:* [`scan_all`](modules.chain_registry.py.md#scan_all), [`set_enabled`](modules.chain_registry.py.md#set_enabled), [`validate_chain`](modules.chain_registry.py.md#validate_chain), [`list_checkpoints`](modules.chain_state.py.md#list_checkpoints), [`facts_for_target`](modules.chain_synth.py.md#facts_for_target), [`synth_chain_data`](modules.chain_synth.py.md#synth_chain_data), [`write_generated_chain`](modules.chain_synth.py.md#write_generated_chain)
+*Calls:* [`PendingStore.__init__`](modules.chain_approval.py.md#pendingstore-__init__), [`PendingStore.decide`](modules.chain_approval.py.md#pendingstore-decide), [`PendingStore.expire_stale`](modules.chain_approval.py.md#pendingstore-expire_stale), [`scan_all`](modules.chain_registry.py.md#scan_all), [`set_enabled`](modules.chain_registry.py.md#set_enabled), [`validate_chain`](modules.chain_registry.py.md#validate_chain), [`list_checkpoints`](modules.chain_state.py.md#list_checkpoints), [`facts_for_target`](modules.chain_synth.py.md#facts_for_target), [`synth_chain_data`](modules.chain_synth.py.md#synth_chain_data), [`write_generated_chain`](modules.chain_synth.py.md#write_generated_chain)
 
 *Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain)
 
@@ -157,7 +163,7 @@ Execute an admin action against the registry and checkpoint store.
 
 ### `select_step_ids`
 
-`function` | [cli/apt_chain_support.py:257](../../cli/apt_chain_support.py#L257)
+`function` | [cli/apt_chain_support.py:290](../../cli/apt_chain_support.py#L290)
 
 ```python
 def select_step_ids(chain: Chain, args: ChainArgs) -> tuple[set[str] | None, list[str]]
@@ -182,7 +188,7 @@ Resolve --step/--from-step/--to-step into one id set.
 
 ### `render_result`
 
-`function` | [cli/apt_chain_support.py:297](../../cli/apt_chain_support.py#L297)
+`function` | [cli/apt_chain_support.py:330](../../cli/apt_chain_support.py#L330)
 
 ```python
 def render_result(result: ChainRunResult) -> list[str]
@@ -206,7 +212,7 @@ Render one chain result as operator lines (JSON mode prints dict).
 
 ### `build_cli_approver`
 
-`function` | [cli/apt_chain_support.py:330](../../cli/apt_chain_support.py#L330)
+`function` | [cli/apt_chain_support.py:363](../../cli/apt_chain_support.py#L363)
 
 ```python
 def build_cli_approver(printer, input_fn=None)
@@ -232,7 +238,7 @@ the decision; interactive mode asks the operator failure-closed.
 
 ### `build_reactive_replanner`
 
-`function` | [cli/apt_chain_support.py:352](../../cli/apt_chain_support.py#L352)
+`function` | [cli/apt_chain_support.py:385](../../cli/apt_chain_support.py#L385)
 
 ```python
 def build_reactive_replanner()
@@ -250,7 +256,7 @@ Return a replanner driven by `[`modules.reactive_engine`](modules.reactive_engin
 
 ### `build_llm_recovery_chain`
 
-`function` | [cli/apt_chain_support.py:436](../../cli/apt_chain_support.py#L436)
+`function` | [cli/apt_chain_support.py:469](../../cli/apt_chain_support.py#L469)
 
 ```python
 def build_llm_recovery_chain(result: ChainRunResult, target: str = '', task_id: str = '') -> Chain | None

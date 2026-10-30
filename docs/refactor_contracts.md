@@ -46,6 +46,14 @@ from modules.opsec_scorer import OpsecContext, OpsecScorerV2
 The noise-to-risk thresholds are defined exactly once in `_risk_bucket`.
 Mutation gate: `tests/run_mutation_opsec.py` (6 mutants, all killed).
 
+The autonomous loop consumes `OpsecScorerV2` indirectly through
+`modules.loop_ai_bridge.assess_opsec` (stage `opsec_gate`), routed via
+`modules.mediation.telemetry_mediator.TelemetryMediator.assess_opsec` so
+`modules/lazy_loop.py::Worker._guard_step` never imports the scorer
+directly. See `docs/autonomous-loop.md` for the gate's block/confirm/warn
+semantics inside the loop. Test gate: `tests/test_loop_ai_bridge.py`,
+`tests/test_mediation.py`.
+
 ## API key resolution
 
 `self.params["api_key"]` in `lazyown.py` was hardcoded to `None`, so every

@@ -4,6 +4,7 @@
 - Doc: Outcome sink adapters.
 - Layer: utility
 - Language: py
+- Imported by: `tests/test_lazy_ledger.py`
 
 ## modules/sinks/attack_graph.py
 - Doc: Attack-graph sink: rebuild the attack surface after meaningful outcomes.
@@ -42,6 +43,15 @@
   - `apply` (function, line 9) `def apply(event)`
 - Depends on: `modules/db.py`, `modules/outcome_bus.py`
 
+## modules/sinks/chain_feed.py
+- Doc: Chain-feed sink: stream chain steps into the autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `apply` (function, line 22) `def apply(event)`
+- Depends on: `modules/lazy_loop.py`, `modules/outcome_bus.py`
+- Imported by: `tests/test_sink_chain_feed.py`
+
 ## modules/sinks/event_bus.py
 - Doc: Unified event-bus sink: publish every outcome once.
 - Layer: infrastructure
@@ -49,6 +59,19 @@
 - Symbols:
   - `apply` (function, line 9) `def apply(event)`
 - Depends on: `modules/event_bus.py`, `modules/outcome_bus.py`
+
+## modules/sinks/findings.py
+- Doc: Findings sink: append engagement finding transitions to the ledger.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `limits_for` (function, line 22) `def limits_for()`
+  - `apply` (function, line 42) `def apply(event)`
+  - `ledger_for` (function, line 72) `def ledger_for(engagement_id)`
+  - `handoff` (function, line 88) `def handoff(engagement_id, status, rounds)`
+  - `ingest_discarded` (function, line 107) `def ingest_discarded(engagement_id, entries)`
+- Depends on: `core/logging.py`, `modules/__init__.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`
+- Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`
 
 ## modules/sinks/intel_graph.py
 - Doc: Intel-graph sink: rebuild the fused graph after meaningful outcomes.
@@ -83,7 +106,7 @@
 - Language: py
 - Symbols:
   - `apply` (function, line 9) `def apply(event)`
-- Depends on: `modules/lazy_intel.py`, `modules/outcome_bus.py`
+- Depends on: `modules/lazy_intel.py`, `modules/lazy_ledger.py`, `modules/outcome_bus.py`
 - Imported by: `skills/lazyown_mcp.py`
 
 ## modules/sinks/world_diff.py
@@ -96,7 +119,7 @@
   - `_current_host` (function, line 58) `def _current_host(root, host)`
   - `_store_host` (function, line 65) `def _store_host(root, host, snapshot)`
 - Depends on: `modules/lazy_world_diff.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-- Imported by: `tests/test_outcome_bus.py`
+- Imported by: `tests/test_outcome_bus.py`, `tests/test_world_diff_retest.py`
 
 ## modules/sinks/world_model.py
 - Doc: World-model sink: hosts, services, vulnerabilities and credentials.

@@ -8,6 +8,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/__init__.py` -> `cli/registry.py`
 - `cli/aliases.py` -> `core/config.py`
 - `cli/apt_chain_support.py` -> `modules/__init__.py`
+- `cli/apt_chain_support.py` -> `modules/chain_approval.py`
 - `cli/apt_chain_support.py` -> `modules/chain_registry.py`
 - `cli/apt_chain_support.py` -> `modules/chain_runner.py`
 - `cli/apt_chain_support.py` -> `modules/chain_state.py`
@@ -134,6 +135,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/command_and_control_migrated.py` -> `modules/atomic_resolver.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/auto_registry.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/c2_builder.py`
+- `cli/commands/command_and_control_migrated.py` -> `modules/chain_approval.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_distill.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_facts.py`
 - `cli/commands/command_and_control_migrated.py` -> `modules/chain_registry.py`
@@ -268,6 +270,7 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/lazyloop.py` -> `modules/lazy_bridge.py`
 - `cli/commands/lazyloop.py` -> `modules/lazy_engine.py`
 - `cli/commands/lazyloop.py` -> `modules/lazy_mentions.py`
+- `cli/commands/lazyloop.py` -> `modules/sinks/findings.py`
 - `cli/commands/lazyloop.py` -> `utils.py`
 - `cli/commands/lazyops.py` -> `cli/commands/_base.py`
 - `cli/commands/lazyops.py` -> `core/process.py`
@@ -346,6 +349,11 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/module_manager.py` -> `cli/commands/_base.py`
 - `cli/commands/module_manager.py` -> `modules/module_registry.py`
 - `cli/commands/module_manager.py` -> `utils.py`
+- `cli/commands/netattack.py` -> `cli/commands/_base.py`
+- `cli/commands/netattack.py` -> `modules/__init__.py`
+- `cli/commands/netattack.py` -> `modules/loop_triggers.py`
+- `cli/commands/netattack.py` -> `modules/world_model.py`
+- `cli/commands/netattack.py` -> `utils.py`
 - `cli/commands/nethelpers.py` -> `cli/commands/_base.py`
 - `cli/commands/nethelpers.py` -> `core/hardening.py`
 - `cli/commands/nethelpers.py` -> `utils.py`
@@ -488,13 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/ux.py` -> `cli/commands/_base.py`
 - `cli/commands/ux.py` -> `cli/config_history.py`
 - `cli/commands/ux.py` -> `cli/fuzzy_match.py`
-- `cli/commands/ux.py` -> `cli/output_mode.py`
-- `cli/commands/ux.py` -> `cli/session_hud.py`
-- `cli/commands/ux.py` -> `cli/toast_bus.py`
-- `cli/commands/ux.py` -> `core/config.py`
-- `cli/commands/ux.py` -> `core/console.py`
-- `cli/commands/ux.py` -> `utils.py`
-- `cli/commands/verb_admin.py` -> `cli/commands/_base.py`
-- `cli/commands/verb_admin.py` -> `modules/verb_catalog.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

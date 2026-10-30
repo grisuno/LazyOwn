@@ -1,8 +1,50 @@
-# Symbols (page 15 of 47)
+# Symbols (page 15 of 48)
 Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_parse_hashcat_output` | method | `modules/hash_cracker.py:671` | `def _parse_hashcat_output(stdout, stderr, original)` |
+| `_parse_john_show` | method | `modules/hash_cracker.py:686` | `def _parse_john_show(show_output, original)` |
+| `_resolve_wordlist` | method | `modules/hash_cracker.py:178` | `def _resolve_wordlist(self)` |
+| `crack_file` | method | `modules/hash_cracker.py:349` | `def crack_file(self, filepath, wordlist, hash_types)` |
+| `crack_hash` | method | `modules/hash_cracker.py:295` | `def crack_hash(self, hash_value, hash_type, wordlist)` |
+| `crack_secretsdump_output` | function | `modules/hash_cracker.py:695` | `def crack_secretsdump_output(filepath, wordlist, rhost)` |
+| `identify` | method | `modules/hash_cracker.py:186` | `def identify(self, line)` |
+| `identify_file` | method | `modules/hash_cracker.py:273` | `def identify_file(self, filepath)` |
+| `import_to_db` | method | `modules/hash_cracker.py:405` | `def import_to_db(self, results, rhost, workspace_name)` |
+| `_find_claude` | function | `modules/hive_invoke.py:115` | `def _find_claude()` |
+| `_get_toposwarm` | function | `modules/hive_invoke.py:50` | `def _get_toposwarm()` |
+| `_parse_argv` | function | `modules/hive_invoke.py:120` | `def _parse_argv(argv)` |
+| `_run_interactive_mode` | function | `modules/hive_invoke.py:172` | `def _run_interactive_mode(prompt, effort, claude_bin)` |
+| `_run_print_mode` | function | `modules/hive_invoke.py:150` | `def _run_print_mode(prompt, effort, claude_bin)` |
+| `_run_toposwarm_mode` | function | `modules/hive_invoke.py:205` | `def _run_toposwarm_mode(prompt, effort, bridge)` |
+| `main` | function | `modules/hive_invoke.py:255` | `def main(argv)` |
+| `extract_ips_from_arp` | function | `modules/hostdiscover.sh:21` | `` |
+| `extract_listening_ips_from_netstat` | function | `modules/hostdiscover.sh:26` | `` |
+| `EventRecord` | class | `modules/hunt_verify.py:48` | `class EventRecord` |
+| `Observation` | class | `modules/hunt_verify.py:73` | `class Observation` |
+| `StageAssessment` | class | `modules/hunt_verify.py:85` | `class StageAssessment` |
+| `StageSpec` | class | `modules/hunt_verify.py:60` | `class StageSpec` |
+| `Verification` | class | `modules/hunt_verify.py:116` | `class Verification` |
+| `_assess_stage` | function | `modules/hunt_verify.py:310` | `def _assess_stage(spec, observations, events, complete, warnings)` |
+| `_field_present` | function | `modules/hunt_verify.py:172` | `def _field_present(event, field_name)` |
+| `_scalar_present` | function | `modules/hunt_verify.py:177` | `def _scalar_present(value)` |
+| `_stage_matches` | function | `modules/hunt_verify.py:188` | `def _stage_matches(spec, event)` |
+| `_unique` | function | `modules/hunt_verify.py:140` | `def _unique(values)` |
+| `chain_proven` | method | `modules/hunt_verify.py:124` | `def chain_proven(self)` |
+| `field_present` | function | `modules/hunt_verify.py:152` | `def field_present(fields, field_name)` |
+| `to_dict` | method | `modules/hunt_verify.py:99` | `def to_dict(self)` |
+| `to_dict` | method | `modules/hunt_verify.py:130` | `def to_dict(self)` |
+| `validate_specs` | function | `modules/hunt_verify.py:197` | `def validate_specs(specs)` |
+| `verify_stages` | function | `modules/hunt_verify.py:232` | `def verify_stages(specs, observations, events, scope_covered)` |
+| `CodeAnalyzer` | class | `modules/ia_code_analysis.py:28` | `class CodeAnalyzer` |
+| `__init__` | method | `modules/ia_code_analysis.py:33` | `def __init__(self, mode)` |
+| `analyze_code_file` | method | `modules/ia_code_analysis.py:49` | `def analyze_code_file(self, file_path)` |
+| `analyze_directory` | method | `modules/ia_code_analysis.py:37` | `def analyze_directory(self, directory)` |
+| `analyze_with_deepseek` | function | `modules/ia_code_analysis.py:66` | `def analyze_with_deepseek(code_content, file_path, mode)` |
+| `parse_args` | function | `modules/ia_code_analysis.py:178` | `def parse_args()` |
+| `save_results_to_json` | function | `modules/ia_code_analysis.py:123` | `def save_results_to_json(results, file_path)` |
+| `start_analysis` | function | `modules/ia_code_analysis.py:169` | `def start_analysis(code_dir, mode)` |
 | `LogFileHandler` | class | `modules/ia_logs_analysis.py:54` | `class LogFileHandler(FileSystemEventHandler)` |
 | `__init__` | method | `modules/ia_logs_analysis.py:59` | `def __init__(self, mode)` |
 | `analyze_log_file` | method | `modules/ia_logs_analysis.py:75` | `def analyze_log_file(self, file_path)` |
@@ -330,27 +372,31 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `_read_target` | function | `modules/kill_chain_viz.py:27` | `def _read_target()` |
 | `generate_html` | function | `modules/kill_chain_viz.py:69` | `def generate_html(target, sessions)` |
 | `generate_svg` | function | `modules/kill_chain_viz.py:102` | `def generate_svg(target, sessions)` |
-| `KillChain` | class | `modules/killchain.py:147` | `class KillChain` |
-| `KillChainConfig` | class | `modules/killchain.py:40` | `class KillChainConfig` |
-| `PhaseStatus` | class | `modules/killchain.py:138` | `class PhaseStatus` |
-| `advance_phase` | method | `modules/killchain.py:253` | `def advance_phase(new_phase, world_model_path, host, extras)` |
-| `cli_phase_to_host_state` | method | `modules/killchain.py:193` | `def cli_phase_to_host_state(phase)` |
-| `compact_progress` | method | `modules/killchain.py:406` | `def compact_progress(current_phase, phases_entered)` |
-| `config` | method | `modules/killchain.py:156` | `def config()` |
-| `current_phase` | method | `modules/killchain.py:206` | `def current_phase(world_model_path)` |
-| `engagement_phase_to_cli` | method | `modules/killchain.py:181` | `def engagement_phase_to_cli(engagement_value)` |
-| `get_killchain` | function | `modules/killchain.py:482` | `def get_killchain()` |
-| `get_progress` | method | `modules/killchain.py:357` | `def get_progress(world_model_path)` |
-| `is_valid_phase` | method | `modules/killchain.py:129` | `def is_valid_phase(self, phase)` |
-| `phase_colors` | method | `modules/killchain.py:171` | `def phase_colors()` |
-| `phase_index` | method | `modules/killchain.py:122` | `def phase_index(self, phase)` |
-| `phase_index` | method | `modules/killchain.py:437` | `def phase_index(phase)` |
-| `phase_labels` | method | `modules/killchain.py:166` | `def phase_labels()` |
-| `phase_rich_colors` | method | `modules/killchain.py:176` | `def phase_rich_colors()` |
-| `phases` | method | `modules/killchain.py:161` | `def phases()` |
-| `phases_for_display` | method | `modules/killchain.py:426` | `def phases_for_display()` |
-| `snapshot` | method | `modules/killchain.py:442` | `def snapshot(world_model_path)` |
-| `world_model_path` | method | `modules/killchain.py:118` | `def world_model_path(self)` |
+| `KillChain` | class | `modules/killchain.py:206` | `class KillChain` |
+| `KillChainConfig` | class | `modules/killchain.py:99` | `class KillChainConfig` |
+| `PhaseStatus` | class | `modules/killchain.py:197` | `class PhaseStatus` |
+| `advance_phase` | method | `modules/killchain.py:312` | `def advance_phase(new_phase, world_model_path, host, extras)` |
+| `cli_phase_to_host_state` | method | `modules/killchain.py:252` | `def cli_phase_to_host_state(phase)` |
+| `compact_progress` | method | `modules/killchain.py:465` | `def compact_progress(current_phase, phases_entered)` |
+| `config` | method | `modules/killchain.py:215` | `def config()` |
+| `current_phase` | method | `modules/killchain.py:265` | `def current_phase(world_model_path)` |
+| `engagement_phase_to_cli` | method | `modules/killchain.py:240` | `def engagement_phase_to_cli(engagement_value)` |
+| `get_killchain` | function | `modules/killchain.py:566` | `def get_killchain()` |
+| `get_progress` | method | `modules/killchain.py:416` | `def get_progress(world_model_path)` |
+| `is_valid_phase` | method | `modules/killchain.py:188` | `def is_valid_phase(self, phase)` |
+| `phase_colors` | method | `modules/killchain.py:230` | `def phase_colors()` |
+| `phase_index` | method | `modules/killchain.py:181` | `def phase_index(self, phase)` |
+| `phase_index` | method | `modules/killchain.py:496` | `def phase_index(phase)` |
+| `phase_labels` | method | `modules/killchain.py:225` | `def phase_labels()` |
+| `phase_rich_colors` | method | `modules/killchain.py:235` | `def phase_rich_colors()` |
+| `phases` | method | `modules/killchain.py:220` | `def phases()` |
+| `phases_for_display` | method | `modules/killchain.py:485` | `def phases_for_display()` |
+| `snapshot` | method | `modules/killchain.py:501` | `def snapshot(world_model_path)` |
+| `technique_for_phase` | method | `modules/killchain.py:541` | `def technique_for_phase(phase)` |
+| `technique_for_phase` | function | `modules/killchain.py:571` | `def technique_for_phase(phase)` |
+| `technique_for_vulnclass` | method | `modules/killchain.py:553` | `def technique_for_vulnclass(vulnclass)` |
+| `technique_for_vulnclass` | function | `modules/killchain.py:576` | `def technique_for_vulnclass(vulnclass)` |
+| `world_model_path` | method | `modules/killchain.py:177` | `def world_model_path(self)` |
 | `ReverseShellApp` | class | `modules/kivi.py:11` | `class ReverseShellApp(App)` |
 | `build` | method | `modules/kivi.py:12` | `def build(self)` |
 | `connect_to_server` | method | `modules/kivi.py:27` | `def connect_to_server(self, instance)` |
@@ -426,6 +472,10 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `push_objective_to_lazy` | function | `modules/lazy_bridge.py:476` | `def push_objective_to_lazy(goal, scope)` |
 | `push_tasks_to_c2` | function | `modules/lazy_bridge.py:501` | `def push_tasks_to_c2(only)` |
 | `sync_all` | function | `modules/lazy_bridge.py:566` | `def sync_all(progress)` |
+| `_range_says` | function | `modules/lazy_checks.py:105` | `def _range_says(version, ranges)` |
+| `extract_cve` | function | `modules/lazy_checks.py:51` | `def extract_cve(text)` |
+| `extract_version` | function | `modules/lazy_checks.py:30` | `def extract_version(text)` |
+| `interpret_checks` | function | `modules/lazy_checks.py:57` | `def interpret_checks(checks, cve, stored_version, ranges)` |
 | `_discover` | function | `modules/lazy_cli_bridge.py:93` | `def _discover()` |
 | `_source_files` | function | `modules/lazy_cli_bridge.py:74` | `def _source_files()` |
 | `_source_mtimes` | function | `modules/lazy_cli_bridge.py:82` | `def _source_mtimes()` |
@@ -446,55 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `count` | function | `modules/lazy_creds.py:96` | `def count()` |
 | `export_pairs` | function | `modules/lazy_creds.py:106` | `def export_pairs(path, limit)` |
 | `load` | function | `modules/lazy_creds.py:39` | `def load()` |
-| `search` | function | `modules/lazy_creds.py:63` | `def search(query)` |
-| `_advisory_cve_id` | function | `modules/lazy_cve_feed.py:398` | `def _advisory_cve_id(advisory)` |
-| `_advisory_cvss` | function | `modules/lazy_cve_feed.py:407` | `def _advisory_cvss(advisory)` |
-| `_advisory_matches_product` | function | `modules/lazy_cve_feed.py:421` | `def _advisory_matches_product(advisory, banner_words)` |
-| `_cache_fresh` | function | `modules/lazy_cve_feed.py:104` | `def _cache_fresh(path, ttl_sec)` |
-| `_cache_path` | function | `modules/lazy_cve_feed.py:95` | `def _cache_path(name)` |
-| `_env_flag` | function | `modules/lazy_cve_feed.py:90` | `def _env_flag(name, default)` |
-| `_exploit_cves_from_text` | function | `modules/lazy_cve_feed.py:228` | `def _exploit_cves_from_text(text)` |
-| `_fetch` | function | `modules/lazy_cve_feed.py:112` | `def _fetch(url)` |
-| `_load_json` | function | `modules/lazy_cve_feed.py:150` | `def _load_json(name)` |
-| `_osv_cache_path` | function | `modules/lazy_cve_feed.py:281` | `def _osv_cache_path(product)` |
-| `_store_bytes` | function | `modules/lazy_cve_feed.py:134` | `def _store_bytes(name, payload)` |
-| `_store_json` | function | `modules/lazy_cve_feed.py:142` | `def _store_json(name, data)` |
-| `_worker` | function | `modules/lazy_cve_feed.py:628` | `def _worker()` |
-| `correlate` | function | `modules/lazy_cve_feed.py:438` | `def correlate(product, version, allow_network)` |
-| `cve_intel` | function | `modules/lazy_cve_feed.py:360` | `def cve_intel(cve_id, feeds, allow_network)` |
-| `fetch_product_advisories` | function | `modules/lazy_cve_feed.py:291` | `def fetch_product_advisories(product, force)` |
-| `hot_matches` | function | `modules/lazy_cve_feed.py:568` | `def hot_matches(services, allow_network)` |
-| `load_epss` | function | `modules/lazy_cve_feed.py:192` | `def load_epss(force)` |
-| `load_exploit_cves` | function | `modules/lazy_cve_feed.py:233` | `def load_exploit_cves(force)` |
-| `load_kev` | function | `modules/lazy_cve_feed.py:158` | `def load_kev(force)` |
-| `load_kev_matches` | function | `modules/lazy_cve_feed.py:526` | `def load_kev_matches(product, feeds)` |
-| `load_msf_cves` | function | `modules/lazy_cve_feed.py:257` | `def load_msf_cves(force)` |
-| `refresh_feeds_async` | function | `modules/lazy_cve_feed.py:612` | `def refresh_feeds_async(products)` |
-| `LazyEngine` | class | `modules/lazy_engine.py:55` | `class LazyEngine(LazyLoopEngine)` |
-| `backport_status` | function | `modules/lazy_heat.py:342` | `def backport_status(banner, fixed_revision)` |
-| `classify_heat` | function | `modules/lazy_heat.py:68` | `def classify_heat(kev, epss, exploit, cvss)` |
-| `compare_versions` | function | `modules/lazy_heat.py:154` | `def compare_versions(a, b)` |
-| `cvss3_base_score` | function | `modules/lazy_heat.py:204` | `def cvss3_base_score(vector)` |
-| `label_for` | function | `modules/lazy_heat.py:370` | `def label_for(status, fixed_revision)` |
-| `match_heat` | function | `modules/lazy_heat.py:91` | `def match_heat(tier, cvss, verdict, distro_status)` |
-| `parse_distro_revision` | function | `modules/lazy_heat.py:303` | `def parse_distro_revision(banner)` |
-| `parse_version` | function | `modules/lazy_heat.py:118` | `def parse_version(value, strict)` |
-| `product_token` | function | `modules/lazy_heat.py:246` | `def product_token(value)` |
-| `token_matches` | function | `modules/lazy_heat.py:269` | `def token_matches(haystack, needle)` |
-| `version_in_range` | function | `modules/lazy_heat.py:162` | `def version_in_range(ver, rng)` |
-| `install_command_for` | function | `modules/lazy_installer.py:70` | `def install_command_for(tool)` |
-| `installer_enabled` | function | `modules/lazy_installer.py:41` | `def installer_enabled()` |
-| `intent_for` | function | `modules/lazy_installer.py:75` | `def intent_for(tool)` |
-| `set_installer_enabled` | function | `modules/lazy_installer.py:58` | `def set_installer_enabled(enabled)` |
-| `steps_for_install` | function | `modules/lazy_installer.py:88` | `def steps_for_install(text)` |
-| `tool_from_intent` | function | `modules/lazy_installer.py:80` | `def tool_from_intent(text)` |
-| `_append` | function | `modules/lazy_intel.py:79` | `def _append(record)` |
-| `_is_ip_literal` | function | `modules/lazy_intel.py:292` | `def _is_ip_literal(value)` |
-| `_log_path` | function | `modules/lazy_intel.py:35` | `def _log_path()` |
-| `_mask` | function | `modules/lazy_intel.py:41` | `def _mask(text)` |
-| `_now` | function | `modules/lazy_intel.py:30` | `def _now()` |
-| `describe_command` | function | `modules/lazy_intel.py:114` | `def describe_command(command)` |
-| `export_spans` | function | `modules/lazy_intel.py:342` | `def export_spans(task_id, out)` |
-| `fuse_routing_decisions` | function | `modules/lazy_intel.py:303` | `def fuse_routing_decisions(task_id)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

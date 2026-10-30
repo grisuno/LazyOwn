@@ -56,6 +56,58 @@ class TelemetryMediator:
         except Exception:
             return {}
 
+    def assess_opsec(self, command: str, rhost: str = "") -> dict | None:
+        """Return the pre-execution OPSEC gate assessment for one command.
+
+        Args:
+            command: Shell command line.
+            rhost: Target host for sensitivity context.
+
+        Returns:
+            Gate mapping (gate/noise/risk_label/explanation/mitigations),
+            or None when the stage is disabled or scoring failed.
+        """
+        try:
+            from modules.loop_ai_bridge import assess_opsec
+
+            return assess_opsec(command, rhost=rhost)
+        except Exception:
+            return None
+
+    def record_outcome_quality(self, worker: str, intent_summary: str, facts: int, findings: int) -> None:
+        """Record one intent's net yield as a decision-quality reward.
+
+        Args:
+            worker: Emitting worker name.
+            intent_summary: Summary of the finished intent.
+            facts: Facts persisted by the intent's writeback.
+            findings: Findings persisted by the intent's writeback.
+        """
+        try:
+            from modules.loop_ai_bridge import record_outcome_quality
+
+            record_outcome_quality(worker, intent_summary, facts, findings)
+        except Exception:
+            pass
+
+    def tool_class_yields(self, summaries: list[str], phase: str = "engage") -> dict[str, float]:
+        """Return learned decision-quality yields for candidate summaries.
+
+        Args:
+            summaries: Candidate summaries the planner is about to rank.
+            phase: Engagement phase key the reward was recorded under.
+
+        Returns:
+            Mapping of summary to its tool-class Q-value, empty when the
+            stage is off or the trainer is unavailable.
+        """
+        try:
+            from modules.loop_ai_bridge import tool_class_yields
+
+            return tool_class_yields(summaries, phase=phase)
+        except Exception:
+            return {}
+
     def record_step(self, task_id: str, worker: str, command: str, output: str, detection_prob: float = 0.0) -> None:
         """Record one executed step for learning stores.
 

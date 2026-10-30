@@ -1,6 +1,92 @@
 # Subsystem: modules (page 11 of 17)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
 
+## modules/lazy_verify.py
+- Doc: Structured read-only verification of loop findings.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_cap` (function, line 52) `def _cap(text, cap)`
+  - `_host_port` (function, line 57) `def _host_port(finding_text, poc)`
+  - `plan_checks` (function, line 84) `def plan_checks(finding_text, poc)`
+  - `_nmap_available` (function, line 133) `def _nmap_available()`
+  - `run_check` (function, line 143) `def run_check(check, executor)`
+  - `verdict_from_checks` (function, line 214) `def verdict_from_checks(checks_results)`
+  - `verify_finding` (function, line 232) `def verify_finding(finding_text, poc, executor)`
+  - `_add` (function, line 104) `def _add(kind, command, check_port)`
+- Depends on: `core/process.py`
+
+## modules/lazy_world_diff.py
+- Doc: World-surface diff: host snapshots, change detection, ghost liveness.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SurfaceChange` (class, line 65) `class SurfaceChange`
+  - `host_snapshot` (function, line 78) `def host_snapshot(world, ip)`
+  - `snapshot_fingerprint` (function, line 119) `def snapshot_fingerprint(state)`
+  - `_port_number` (function, line 124) `def _port_number(key)`
+  - `diff_snapshots` (function, line 131) `def diff_snapshots(before, after)`
+  - `_changes_path` (function, line 172) `def _changes_path(sessions_dir)`
+  - `_load_changes` (function, line 176) `def _load_changes(sessions_dir)`
+  - `_as_change` (function, line 192) `def _as_change(change)`
+  - `record_changes` (function, line 200) `def record_changes(changes, sessions_dir, now)`
+  - `recent_changes` (function, line 260) `def recent_changes(sessions_dir, days, host)`
+  - `prune_changes` (function, line 270) `def prune_changes(sessions_dir, keep_days)`
+  - `load_host_snapshots` (function, line 290) `def load_host_snapshots(sessions_dir)`
+  - `save_host_snapshots` (function, line 301) `def save_host_snapshots(snapshots, sessions_dir)`
+  - `campaign_snapshots` (function, line 312) `def campaign_snapshots(sessions_dir)`
+  - `ghost_endpoints` (function, line 366) `def ghost_endpoints(snapshot, limit)`
+  - `name_resolves` (function, line 395) `def name_resolves(host, resolver)`
+  - `_default_resolve` (function, line 406) `def _default_resolve(host)`
+  - `_default_probe` (function, line 415) `def _default_probe(ip, port, scheme, host)`
+  - `load_ghosts` (function, line 435) `def load_ghosts(sessions_dir)`
+  - `ghost_state_apply` (function, line 447) `def ghost_state_apply(host, answers, sessions_dir, now)`
+  - `find_ghost_hosts` (function, line 489) `def find_ghost_hosts(candidates, snapshots, checker, resolver, cap)`
+  - `snapshot_engagement` (function, line 528) `def snapshot_engagement(sessions_dir, now, world)`
+- Depends on: `modules/world_model.py`
+- Imported by: `modules/intel_fusion.py`, `modules/lazy_hostscore.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`, `tests/test_world_diff_retest.py`
+
+## modules/lazyatack.sh
+- Doc: Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `mostrar_ayuda` (function, line 21)
+  - `validar_ip` (function, line 33)
+  - `validar_url` (function, line 49)
+  - `descargar_seclists` (function, line 107)
+  - `escanear_puertos` (function, line 115)
+  - `escanear_puertos_especificos` (function, line 121)
+  - `enumerar_http` (function, line 127)
+  - `iniciar_servidor_http` (function, line 133)
+  - `configurar_netcat` (function, line 139)
+  - `enviar_archivo_netcat` (function, line 145)
+  - `verificar_conectividad` (function, line 151)
+  - `verificar_curl` (function, line 158)
+  - `configurar_shell_reversa` (function, line 165)
+  - `escuchar_shell` (function, line 171)
+  - `monitorear_procesos` (function, line 177)
+  - `ejecutar_wfuzz` (function, line 188)
+  - `comprobar_sudo` (function, line 194)
+  - `explotar_lfi` (function, line 200)
+  - `configurar_tty` (function, line 206)
+  - `eliminar_archivos` (function, line 217)
+  - `obtener_root_shell` (function, line 223)
+  - `enumerar_suid` (function, line 230)
+  - `listar_timers` (function, line 236)
+  - `comprobar_rutas` (function, line 242)
+  - `abusar_tar` (function, line 248)
+  - `enumerar_puertos` (function, line 254)
+  - `eliminar_contenedores_docker` (function, line 260)
+  - `escanear_red` (function, line 266)
+  - `menu_servidor` (function, line 272)
+  - `menu_cliente` (function, line 307)
+
+## modules/lazybrutesshuserenum.sh
+- Doc: Función para manejar el interruptor de señal Ctrl+C
+- Layer: utility
+- Language: sh
+
 ## modules/lazyclonewars.sh
 - Doc: Lista de repositorios (nombre y URL)
 - Layer: utility
@@ -401,95 +487,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `list_hook_functions` (method, line 793) `def list_hook_functions()`
   - `list_persistence_methods` (method, line 797) `def list_persistence_methods()`
 - Imported by: `cli/commands/payload_arsenal.py`
-
-## modules/listener_manager.py
-- Doc: Multi-listener manager for LazyOwn C2.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_collect_listener_bind_candidates` (function, line 35) `def _collect_listener_bind_candidates(payload)`
-  - `_probe_listener_bind` (function, line 72) `def _probe_listener_bind(address, port)`
-  - `_resolve_listener_bind_address` (function, line 110) `def _resolve_listener_bind_address(payload, port)`
-  - `Listener` (class, line 141) `class Listener`
-  - `ListenerManager` (class, line 172) `class ListenerManager`
-  - `to_dict` (method, line 152) `def to_dict(self)`
-  - `from_dict` (method, line 162) `def from_dict(cls, data)`
-  - `__init__` (method, line 179) `def __init__(self, app, sessions_dir, payload)`
-  - `set_payload` (method, line 187) `def set_payload(self, payload)`
-  - `_bind_address` (method, line 191) `def _bind_address(self, port)`
-  - `_listeners_path` (method, line 201) `def _listeners_path(self)`
-  - `_load` (method, line 204) `def _load(self)`
-  - `_save` (method, line 217) `def _save(self)`
-  - `add` (method, line 229) `def add(self, port, ssl, listener_id)`
-  - `remove` (method, line 242) `def remove(self, listener_id)`
-  - `start` (method, line 255) `def start(self, listener_id)`
-  - `stop` (method, line 335) `def stop(self, listener_id)`
-  - `_stop` (method, line 343) `def _stop(self, listener)`
-  - `start_all` (method, line 356) `def start_all(self)`
-  - `stop_all` (method, line 362) `def stop_all(self)`
-  - `status` (method, line 367) `def status(self)`
-  - `get_default_port` (method, line 379) `def get_default_port(self, fallback)`
-- Depends on: `utils.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `lazyc2.py`
-
-## modules/live_surface.py
-- Doc: Live attack-surface graph derived from the world model.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_is_compromised` (function, line 45) `def _is_compromised(state)`
-  - `_node_value` (function, line 50) `def _node_value(centrality)`
-  - `_group_for` (function, line 55) `def _group_for(node_id)`
-  - `_label_for` (function, line 64) `def _label_for(node_id)`
-  - `build_live_graph` (function, line 72) `def build_live_graph(world)`
-  - `_emit_node` (function, line 106) `def _emit_node(node_id, state, title)`
-  - `_emit_edge` (function, line 126) `def _emit_edge(source, target, relation, weight)`
-- Depends on: `modules/world_model.py`
-- Imported by: `lazyc2.py`, `modules/unified_dashboard.py`, `tests/test_live_surface.py`
-
-## modules/llm_adapter.py
-- Doc: LLM adapter facade — single import point for all LLM backends used by lazyc2.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `safe_groq_client` (function, line 55) `def safe_groq_client(api_key)`
-  - `_configure_logging` (function, line 72) `def _configure_logging(debug)`
-  - `_read_prompt_file` (function, line 77) `def _read_prompt_file(prompt)`
-  - `_read_error` (function, line 85) `def _read_error(prompt)`
-  - `_complete` (function, line 89) `def _complete(client, full_prompt, model)`
-  - `_process` (function, line 103) `def _process(client, prompt, debug, template, config)`
-  - `_orchestrated` (function, line 124) `def _orchestrated(full_prompt, prompt, store, primary_error)`
-  - `process_prompt` (function, line 155) `def process_prompt(client, prompt, debug)`
-  - `process_prompt_script` (function, line 169) `def process_prompt_script(client, prompt, debug)`
-  - `process_prompt_adversary` (function, line 183) `def process_prompt_adversary(client, prompt, debug)`
-  - `process_prompt_general` (function, line 197) `def process_prompt_general(client, prompt, debug)`
-  - `process_prompt_search` (function, line 211) `def process_prompt_search(client, prompt, debug)`
-  - `process_prompt_task` (function, line 225) `def process_prompt_task(client, prompt, debug)`
-  - `process_prompt_vuln` (function, line 242) `def process_prompt_vuln(client, prompt, debug, event)`
-  - `process_prompt_redop` (function, line 273) `def process_prompt_redop(client, prompt, debug)`
-  - `ask_general` (function, line 290) `def ask_general(prompt, debug)`
-- Depends on: `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazyphishingai.py`, `core/logging.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/llm_prompts.py`
-- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`
-
-## modules/llm_client.py
-- Doc: LazyOwn Unified LLM Client
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `LLMClient` (class, line 45) `class LLMClient`
-  - `get_client` (function, line 268) `def get_client(api_key)`
-  - `ask` (function, line 276) `def ask(prompt)`
-  - `classify` (function, line 288) `def classify(output)`
-  - `summarize` (function, line 293) `def summarize(text)`
-  - `__init__` (method, line 63) `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)`
-  - `ask` (method, line 79) `def ask(self, prompt)`
-  - `classify` (method, line 130) `def classify(self, output)`
-  - `summarize` (method, line 159) `def summarize(self, text)`
-  - `_ask_groq` (method, line 179) `def _ask_groq(self, prompt, model, system, temperature)`
-  - `_ask_ollama` (method, line 220) `def _ask_ollama(self, prompt, model)`
-  - `_ask_llamacpp` (method, line 242) `def _ask_llamacpp(self, prompt, model, system)`
-- Depends on: `core/logging.py`, `modules/ai_model.py`
-- Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/lazyown_mcp.py`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

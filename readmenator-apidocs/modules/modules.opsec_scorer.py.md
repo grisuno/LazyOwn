@@ -439,7 +439,7 @@ def __init__(self, context: OpsecContext | None = None)
 
 *Calls:* [`OpsecContext`](#opseccontext)
 
-*Called by:* [`OpsecCleanupCommandSet.do_opsec_score`](cli.commands.opsec_cleanup.py.md#opseccleanupcommandset-do_opsec_score)
+*Called by:* [`OpsecCleanupCommandSet.do_opsec_score`](cli.commands.opsec_cleanup.py.md#opseccleanupcommandset-do_opsec_score), [`assess_opsec`](modules.loop_ai_bridge.py.md#assess_opsec)
 
 <a id="opsecscorerv2-assess"></a>
 
@@ -464,7 +464,7 @@ Assess OPSEC risk for a command in the current context.
 
 *Calls:* [`GatedOpsecScore`](#gatedopsecscore)
 
-*Called by:* [`OpsecCleanupCommandSet.do_opsec_score`](cli.commands.opsec_cleanup.py.md#opseccleanupcommandset-do_opsec_score), [`OpsecScorerV2.should_allow`](#opsecscorerv2-should_allow)
+*Called by:* [`OpsecCleanupCommandSet.do_opsec_score`](cli.commands.opsec_cleanup.py.md#opseccleanupcommandset-do_opsec_score), [`assess_opsec`](modules.loop_ai_bridge.py.md#assess_opsec), [`OpsecScorerV2.should_allow`](#opsecscorerv2-should_allow)
 
 <a id="opsecscorerv2-should_allow"></a>
 

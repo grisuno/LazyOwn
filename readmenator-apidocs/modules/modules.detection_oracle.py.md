@@ -91,7 +91,7 @@ flowchart LR
 
 ### `SigmaRule`
 
-`class` `dataclass` | [modules/detection_oracle.py:50](../../modules/detection_oracle.py#L50)
+`class` `dataclass` | [modules/detection_oracle.py:51](../../modules/detection_oracle.py#L51)
 
 Decorators: `@dataclass(frozen=True)`
 
@@ -119,7 +119,7 @@ Lightweight representation of a Sigma-compatible detection rule.
 
 ### `DetectionAssessment`
 
-`class` `dataclass` | [modules/detection_oracle.py:63](../../modules/detection_oracle.py#L63)
+`class` `dataclass` | [modules/detection_oracle.py:64](../../modules/detection_oracle.py#L64)
 
 Decorators: `@dataclass`
 
@@ -152,7 +152,7 @@ Result returned by DetectionOracle.assess().
 
 #### `DetectionAssessment.is_high_risk`
 
-`property` | [modules/detection_oracle.py:75](../../modules/detection_oracle.py#L75)
+`property` | [modules/detection_oracle.py:76](../../modules/detection_oracle.py#L76)
 
 Decorators: `@property`
 
@@ -168,7 +168,7 @@ Return True when detection probability is 70% or higher.
 
 #### `DetectionAssessment.is_critical_risk`
 
-`property` | [modules/detection_oracle.py:80](../../modules/detection_oracle.py#L80)
+`property` | [modules/detection_oracle.py:81](../../modules/detection_oracle.py#L81)
 
 Decorators: `@property`
 
@@ -186,7 +186,7 @@ Return True when detection probability is 90% or higher.
 
 ### `IDetectionOracle`
 
-`class` `abstract` | [modules/detection_oracle.py:90](../../modules/detection_oracle.py#L90)
+`class` `abstract` | [modules/detection_oracle.py:91](../../modules/detection_oracle.py#L91)
 
 ```python
 class IDetectionOracle(ABC)
@@ -209,12 +209,12 @@ Read-only contract for detection probability assessment.
 
 #### `IDetectionOracle.assess`
 
-`method` `abstract` | [modules/detection_oracle.py:94](../../modules/detection_oracle.py#L94)
+`method` `abstract` | [modules/detection_oracle.py:95](../../modules/detection_oracle.py#L95)
 
 Decorators: `@abstractmethod`
 
 ```python
-def assess(self, command: str, args: str, action_category: str) -> DetectionAssessment
+def assess(self, command: str, args: str, action_category: str, benign_alternatives: Sequence[str] | None = None) -> DetectionAssessment
 ```
 
 Return a full DetectionAssessment for the given action.
@@ -226,6 +226,7 @@ Return a full DetectionAssessment for the given action.
 | `command` | `str` |  |  |
 | `args` | `str` |  |  |
 | `action_category` | `str` |  |  |
+| `benign_alternatives` | `Sequence[str] \| None` | `None` |  |
 
 **Returns:** `DetectionAssessment`
 
@@ -233,12 +234,12 @@ Return a full DetectionAssessment for the given action.
 
 #### `IDetectionOracle.probability`
 
-`method` `abstract` | [modules/detection_oracle.py:103](../../modules/detection_oracle.py#L103)
+`method` `abstract` | [modules/detection_oracle.py:105](../../modules/detection_oracle.py#L105)
 
 Decorators: `@abstractmethod`
 
 ```python
-def probability(self, command: str, args: str, action_category: str) -> float
+def probability(self, command: str, args: str, action_category: str, benign_alternatives: Sequence[str] | None = None) -> float
 ```
 
 Return only the probability score in [0.0, 1.0].
@@ -250,6 +251,7 @@ Return only the probability score in [0.0, 1.0].
 | `command` | `str` |  |  |
 | `args` | `str` |  |  |
 | `action_category` | `str` |  |  |
+| `benign_alternatives` | `Sequence[str] \| None` | `None` |  |
 
 **Returns:** `float`
 
@@ -259,7 +261,7 @@ Return only the probability score in [0.0, 1.0].
 
 ### `DetectionOracle`
 
-`class` | [modules/detection_oracle.py:317](../../modules/detection_oracle.py#L317)
+`class` | [modules/detection_oracle.py:357](../../modules/detection_oracle.py#L357)
 
 ```python
 class DetectionOracle(IDetectionOracle)
@@ -285,14 +287,14 @@ Matching algorithm
 |---|---|---|
 | [`__init__`](#detectionoracle-__init__) | constructor |  |
 | [`refresh`](#detectionoracle-refresh) | method | Update rules from the detection feed (if available). |
-| [`assess`](#detectionoracle-assess) | method | Return a full DetectionAssessment for the given action. |
-| [`probability`](#detectionoracle-probability) | method | Return only the probability score in [0.0, 1.0]. |
+| [`assess`](#detectionoracle-assess) | method | Assess the detection risk of a command, dampened by benign twins. |
+| [`probability`](#detectionoracle-probability) | method | Return the detection probability, honouring benign alternatives. |
 
 <a id="detectionoracle-__init__"></a>
 
 #### `DetectionOracle.__init__`
 
-`constructor` | [modules/detection_oracle.py:332](../../modules/detection_oracle.py#L332)
+`constructor` | [modules/detection_oracle.py:372](../../modules/detection_oracle.py#L372)
 
 ```python
 def __init__(self, rules: list[SigmaRule] | None = None, feed: DetectionFeed | None = None) -> None
@@ -311,7 +313,7 @@ def __init__(self, rules: list[SigmaRule] | None = None, feed: DetectionFeed | N
 
 #### `DetectionOracle.refresh`
 
-`method` | [modules/detection_oracle.py:336](../../modules/detection_oracle.py#L336)
+`method` | [modules/detection_oracle.py:376](../../modules/detection_oracle.py#L376)
 
 ```python
 def refresh(self) -> int
@@ -331,25 +333,32 @@ probabilities based on historical detection feedback.
 
 #### `DetectionOracle.assess`
 
-`method` | [modules/detection_oracle.py:371](../../modules/detection_oracle.py#L371)
+`method` | [modules/detection_oracle.py:411](../../modules/detection_oracle.py#L411)
 
 ```python
-def assess(self, command: str, args: str, action_category: str) -> DetectionAssessment
+def assess(self, command: str, args: str, action_category: str, benign_alternatives: Sequence[str] | None = None) -> DetectionAssessment
 ```
 
-Return a full DetectionAssessment for the given action.
+Assess the detection risk of a command, dampened by benign twins.
+
+Threat-informed defense contract: a ``benign_alternatives`` entry
+overlapping the command vocabulary means the flagged behaviour is
+plausibly a benign twin (scheduled scans, managed agents); the
+derived log-noise score is dampened and the sigma evidence is
+kept attached so consumers see both the risk and its benign
+explanation.
 
 **Parameters**
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `command` | `str` |  |  |
-| `args` | `str` |  |  |
-| `action_category` | `str` |  |  |
+| `command` | `str` |  | Command token. |
+| `args` | `str` |  | Command arguments line. |
+| `action_category` | `str` |  | Opsec action category. |
+| `benign_alternatives` | `Sequence[str] \| None` | `None` | Chain step alternatives explicating the benign counterpart of this action. |
 
-**Returns:** `DetectionAssessment`
-
-> **Inherited:** Documentation from [`IDetectionOracle.assess`](#idetectionoracle-assess) (modules/detection_oracle.py:94).
+**Returns:** `DetectionAssessment` - DetectionAssessment with the dampened probability when a
+declared alternative overlaps the command.
 
 *Calls:* [`DetectionAssessment`](#detectionassessment)
 
@@ -359,13 +368,13 @@ Return a full DetectionAssessment for the given action.
 
 #### `DetectionOracle.probability`
 
-`method` | [modules/detection_oracle.py:392](../../modules/detection_oracle.py#L392)
+`method` | [modules/detection_oracle.py:460](../../modules/detection_oracle.py#L460)
 
 ```python
-def probability(self, command: str, args: str, action_category: str) -> float
+def probability(self, command: str, args: str, action_category: str, benign_alternatives: Sequence[str] | None = None) -> float
 ```
 
-Return only the probability score in [0.0, 1.0].
+Return the detection probability, honouring benign alternatives.
 
 **Parameters**
 
@@ -374,10 +383,9 @@ Return only the probability score in [0.0, 1.0].
 | `command` | `str` |  |  |
 | `args` | `str` |  |  |
 | `action_category` | `str` |  |  |
+| `benign_alternatives` | `Sequence[str] \| None` | `None` |  |
 
 **Returns:** `float`
-
-> **Inherited:** Documentation from [`IDetectionOracle.probability`](#idetectionoracle-probability) (modules/detection_oracle.py:103).
 
 *Calls:* [`DetectionOracle.assess`](#detectionoracle-assess)
 
@@ -389,7 +397,7 @@ Return only the probability score in [0.0, 1.0].
 
 ### `get_oracle`
 
-`function` | [modules/detection_oracle.py:478](../../modules/detection_oracle.py#L478)
+`function` | [modules/detection_oracle.py:553](../../modules/detection_oracle.py#L553)
 
 ```python
 def get_oracle() -> DetectionOracle

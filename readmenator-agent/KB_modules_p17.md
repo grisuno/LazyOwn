@@ -1,6 +1,112 @@
 # Subsystem: modules (page 17 of 17)
 Previous: [KB_modules_p16.md](KB_modules_p16.md)
 
+## modules/ttpscope_bridge.py
+- Doc: Secure bridge for the TTPScope MITRE ATT&CK research client.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `locate_binary` (function, line 82) `def locate_binary()`
+  - `validate_object_id` (function, line 92) `def validate_object_id(raw)`
+  - `validate_query` (function, line 100) `def validate_query(raw)`
+  - `validate_platform` (function, line 112) `def validate_platform(raw)`
+  - `_slug` (function, line 123) `def _slug(text)`
+  - `_run_ttpscope` (function, line 129) `def _run_ttpscope(args)`
+  - `_cache_dataset_path` (function, line 146) `def _cache_dataset_path()`
+  - `_fallback_sync` (function, line 153) `def _fallback_sync()`
+  - `_load_stix_bundle` (function, line 193) `def _load_stix_bundle()`
+  - `_stix_external_id` (function, line 211) `def _stix_external_id(obj)`
+  - `_stix_index` (function, line 219) `def _stix_index(bundle)`
+  - `_fallback_search_bundle` (function, line 235) `def _fallback_search_bundle(query, limit)`
+  - `_load_parquet` (function, line 259) `def _load_parquet(name)`
+  - `_load_atomic_parquet` (function, line 273) `def _load_atomic_parquet()`
+  - `_fallback_search_parquet` (function, line 282) `def _fallback_search_parquet(query, limit)`
+  - `_fallback_show_bundle` (function, line 303) `def _fallback_show_bundle(object_id)`
+  - `_fallback_show_parquet` (function, line 350) `def _fallback_show_parquet(object_id)`
+  - `_fallback_matrix_bundle` (function, line 384) `def _fallback_matrix_bundle(platform)`
+  - `_notes_dir` (function, line 415) `def _notes_dir()`
+  - `_fallback_note` (function, line 422) `def _fallback_note(object_id, text)`
+  - `_fallback_notes` (function, line 442) `def _fallback_notes(object_id)`
+  - `_fallback_matrix_parquet` (function, line 453) `def _fallback_matrix_parquet(platform)`
+  - `_stage` (function, line 485) `def _stage(action, slug, stdout, extra)`
+  - `do_sync` (function, line 497) `def do_sync()`
+  - `do_search` (function, line 508) `def do_search(query)`
+  - `do_show` (function, line 520) `def do_show(object_id)`
+  - `do_matrix` (function, line 535) `def do_matrix(platform)`
+  - `do_note` (function, line 551) `def do_note(object_id, text)`
+  - `do_notes` (function, line 570) `def do_notes(object_id)`
+  - `do_chain` (function, line 582) `def do_chain(object_id, platform, limit)`
+  - `run_action` (function, line 652) `def run_action(action)`
+  - `main` (function, line 679) `def main()`
+  - `_as_list` (function, line 460) `def _as_list(value)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/atomic_resolver.py`, `skills/lazyown_parquet_db.py`
+- Imported by: `skills/lazyown_mcp.py`
+
+## modules/unified_bridge.py
+- Doc: UnifiedBridge — single API over all LazyOwn bridges and routing engines.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RouteResult` (class, line 46) `class RouteResult`
+  - `DelegateResult` (class, line 59) `class DelegateResult`
+  - `RouteBackend` (class, line 67) `class RouteBackend(ABC)`
+  - `KeywordBackend` (class, line 75) `class KeywordBackend(RouteBackend)`
+  - `LazyownBridgeBackend` (class, line 123) `class LazyownBridgeBackend(RouteBackend)`
+  - `TopoSwarmBackend` (class, line 161) `class TopoSwarmBackend(RouteBackend)`
+  - `UnifiedBridge` (class, line 195) `class UnifiedBridge`
+  - `route_prompt` (function, line 483) `def route_prompt(prompt, context)`
+  - `delegate_task` (function, line 488) `def delegate_task(goal, backend)`
+  - `available` (method, line 69) `def available(self)`
+  - `route` (method, line 72) `def route(self, prompt, context)`
+  - `available` (method, line 102) `def available(self)`
+  - `route` (method, line 105) `def route(self, prompt, context)`
+  - `available` (method, line 126) `def available(self)`
+  - `route` (method, line 134) `def route(self, prompt, context)`
+  - `available` (method, line 164) `def available(self)`
+  - `route` (method, line 173) `def route(self, prompt, context)`
+  - `__init__` (method, line 214) `def __init__(self)`
+  - `_init_backends` (method, line 219) `def _init_backends(self)`
+  - `get` (method, line 225) `def get(cls)`
+  - `set_publish_callback` (method, line 230) `def set_publish_callback(self, cb)`
+  - `_publish` (method, line 233) `def _publish(self, category, event_type, payload)`
+  - `route` (method, line 253) `def route(self, prompt, context)`
+  - `delegate` (method, line 300) `def delegate(self, goal, backend, timeout, max_iterations)`
+  - `_await_agent` (method, line 355) `def _await_agent(self, get_status, agent_id, timeout)`
+  - `_run_agent_command` (method, line 384) `def _run_agent_command(self, command)`
+  - `list_backends` (method, line 461) `def list_backends(self)`
+  - `_detect_phase` (method, line 464) `def _detect_phase(self)`
+  - `_get_active_target` (method, line 473) `def _get_active_target(self)`
+- Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/state_manager.py`, `modules/toposwarm_bridge.py`
+- Imported by: `lazyown.py`
+
+## modules/unified_dashboard.py
+- Doc: Unified campaign dashboard — combines all state sources into one view.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `UnifiedDashboard` (class, line 37) `class UnifiedDashboard`
+  - `get_unified_dashboard` (function, line 256) `def get_unified_dashboard(sessions_dir)`
+  - `__init__` (method, line 44) `def __init__(self, sessions_dir)`
+  - `_get_dashboard` (method, line 49) `def _get_dashboard(self)`
+  - `_get_graph` (method, line 65) `def _get_graph(self)`
+  - `build_unified_snapshot` (method, line 76) `def build_unified_snapshot(self)`
+  - `_collect_world_model` (method, line 95) `def _collect_world_model(self)`
+  - `_collect_hive_status` (method, line 101) `def _collect_hive_status(self)`
+  - `_collect_policy_status` (method, line 111) `def _collect_policy_status(self)`
+  - `_collect_daemon_status` (method, line 121) `def _collect_daemon_status(self)`
+  - `_collect_live_graph` (method, line 130) `def _collect_live_graph(self)`
+  - `_collect_graph_advice` (method, line 142) `def _collect_graph_advice(self)`
+  - `_collect_dashboard` (method, line 160) `def _collect_dashboard(self)`
+  - `render_unified` (method, line 170) `def render_unified(self)`
+  - `export_json` (method, line 251) `def export_json(self)`
+- Depends on: `cli/graph_advisor.py`, `core/logging.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/live_surface.py`, `modules/world_model.py`, `skills/hive_mind.py`, `skills/lazyown_policy.py`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
+
+## modules/update_db.sh
+- Doc: Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico...
+- Layer: utility
+- Language: sh
+
 ## modules/venator.py
 - Layer: utility
 - Language: py
@@ -298,7 +404,7 @@ Previous: [KB_modules_p16.md](KB_modules_p16.md)
   - `read_section` (method, line 1410) `def read_section(self, key)`
   - `write_section` (method, line 1427) `def write_section(self, key, value)`
 - Depends on: `cli/commands/enum.py`, `core/hardening.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/factsio.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/exploit_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/netattack.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/dashboard_tui.py`, `cli/ops_commands.py`, `cli/recommendation_signals.py`, `cli/session_brief.py`, `cli/session_resumer.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `lazygui/services/backend.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/estorides_importer.py`, `modules/event_consumers.py`, `modules/exploit_recommender.py`, `modules/golden_path.py`, `modules/gym_registry.py`, `modules/integrations/nuclei_parser.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_hostscore.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_surface_diff.py`, `modules/lazy_world_diff.py`, `modules/live_surface.py`, `modules/loop_triggers.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `modules/state_manager.py`, `modules/surface_ops.py`, `modules/unified_dashboard.py`, `modules/verb_manifest.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_beacon_recon_sink.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_cve_pipeline.py`, `tests/test_estorides_fusion.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_infra_disposable.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazynmap_post.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_trigger_hints.py`, `tests/test_ops_loot_phase.py`, `tests/test_orchestrator_api.py`, `tests/test_phase1_data_gaps.py`, `tests/test_session_brief.py`, `tests/test_single_source_of_truth.py`, `tests/test_world_model_extended.py`
 
 ## modules/yaml_generator.py
 - Doc: load_payload: Carga las variables desde payload.json

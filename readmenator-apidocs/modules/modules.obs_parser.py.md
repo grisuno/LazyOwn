@@ -1,6 +1,6 @@
 # `modules.obs_parser`
 
-> Source: [modules/obs_parser.py:1](../../modules/obs_parser.py#L1) | language `py` | coverage 57.1% | [API index](../index.md)
+> Source: [modules/obs_parser.py:1](../../modules/obs_parser.py#L1) | language `py` | coverage 60.0% | [API index](../index.md)
 
 modules/obs_parser.py ====================== Observation parser: extracts structured findings from raw tool output.
 
@@ -60,7 +60,9 @@ classDiagram
     Finding : str host
     Finding : float confidence
     Finding : str raw
+    Finding : str technique_id
     Finding : dict[str, Any] metadata
+    Finding : with_technique()
     class Observation
     Observation : list[Finding] findings
     Observation : str tool
@@ -101,7 +103,7 @@ flowchart LR
 
 ### `Finding`
 
-`class` `dataclass` | [modules/obs_parser.py:66](../../modules/obs_parser.py#L66)
+`class` `dataclass` | [modules/obs_parser.py:79](../../modules/obs_parser.py#L79)
 
 Decorators: `@dataclass`
 
@@ -118,7 +120,34 @@ class Finding
 | [`host`](#finding-host) | `str` | `''` |  |
 | [`confidence`](#finding-confidence) | `float` | `1.0` |  |
 | [`raw`](#finding-raw) | `str` | `''` |  |
+| [`technique_id`](#finding-technique_id) | `str` | `''` |  |
 | [`metadata`](#finding-metadata) | `dict[str, Any]` | `field(default_factory=dict)` |  |
+
+**Members**
+
+| Member | Kind | Summary |
+|---|---|---|
+| [`with_technique`](#finding-with_technique) | method | Fill `[`technique_id`](#finding-technique_id)` from a vulnerability-class mapping lens. |
+
+<a id="finding-with_technique"></a>
+
+#### `Finding.with_technique`
+
+`method` | [modules/obs_parser.py:88](../../modules/obs_parser.py#L88)
+
+```python
+def with_technique(self, mapping: dict[str, str] | None = None) -> Finding
+```
+
+Fill `[`technique_id`](#finding-technique_id)` from a vulnerability-class mapping lens.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `mapping` | `dict[str, str] \| None` | `None` | Optional override of ``killchain.VULNCLASS_TECHNIQUES``. |
+
+**Returns:** `Finding` - The same finding updated in place for call chaining.
 
 ---
 
@@ -126,7 +155,7 @@ class Finding
 
 ### `Observation`
 
-`class` `dataclass` | [modules/obs_parser.py:76](../../modules/obs_parser.py#L76)
+`class` `dataclass` | [modules/obs_parser.py:107](../../modules/obs_parser.py#L107)
 
 Decorators: `@dataclass`
 
@@ -155,7 +184,7 @@ class Observation
 
 #### `Observation.by_type`
 
-`method` | [modules/obs_parser.py:83](../../modules/obs_parser.py#L83)
+`method` | [modules/obs_parser.py:114](../../modules/obs_parser.py#L114)
 
 ```python
 def by_type(self, ftype: FindingType) -> list[Finding]
@@ -173,7 +202,7 @@ def by_type(self, ftype: FindingType) -> list[Finding]
 
 #### `Observation.has`
 
-`method` | [modules/obs_parser.py:86](../../modules/obs_parser.py#L86)
+`method` | [modules/obs_parser.py:117](../../modules/obs_parser.py#L117)
 
 ```python
 def has(self, ftype: FindingType) -> bool
@@ -193,7 +222,7 @@ def has(self, ftype: FindingType) -> bool
 
 ### `Extractor`
 
-`class` `abstract` | [modules/obs_parser.py:95](../../modules/obs_parser.py#L95)
+`class` `abstract` | [modules/obs_parser.py:126](../../modules/obs_parser.py#L126)
 
 ```python
 class Extractor(ABC)
@@ -213,7 +242,7 @@ Base class for a single finding-type extractor.
 
 #### `Extractor.extract`
 
-`method` `abstract` | [modules/obs_parser.py:99](../../modules/obs_parser.py#L99)
+`method` `abstract` | [modules/obs_parser.py:130](../../modules/obs_parser.py#L130)
 
 Decorators: `@abstractmethod`
 
@@ -238,7 +267,7 @@ Return all findings of this type found in *text*.
 
 ### `ObsParser`
 
-`class` | [modules/obs_parser.py:423](../../modules/obs_parser.py#L423)
+`class` | [modules/obs_parser.py:454](../../modules/obs_parser.py#L454)
 
 ```python
 class ObsParser
@@ -261,7 +290,7 @@ New extractors can be added via ObsParser.register(extractor).
 
 #### `ObsParser.__init__`
 
-`constructor` | [modules/obs_parser.py:431](../../modules/obs_parser.py#L431)
+`constructor` | [modules/obs_parser.py:462](../../modules/obs_parser.py#L462)
 
 ```python
 def __init__(self) -> None
@@ -275,7 +304,7 @@ def __init__(self) -> None
 
 #### `ObsParser.register`
 
-`method` | [modules/obs_parser.py:450](../../modules/obs_parser.py#L450)
+`method` | [modules/obs_parser.py:481](../../modules/obs_parser.py#L481)
 
 ```python
 def register(self, extractor: Extractor) -> None
@@ -295,7 +324,7 @@ Register an additional Extractor (Open/Closed extension point).
 
 #### `ObsParser.parse`
 
-`method` | [modules/obs_parser.py:454](../../modules/obs_parser.py#L454)
+`method` | [modules/obs_parser.py:485](../../modules/obs_parser.py#L485)
 
 ```python
 def parse(self, output: str, host: str = '', tool: str = '') -> Observation
@@ -325,7 +354,7 @@ Parse *output* and return an Observation.
 
 ### `FindingType`
 
-`enum` | [modules/obs_parser.py:50](../../modules/obs_parser.py#L50)
+`enum` | [modules/obs_parser.py:63](../../modules/obs_parser.py#L63)
 
 ```python
 class FindingType(StrEnum)
@@ -358,7 +387,7 @@ Bases: `StrEnum`
 
 ### `get_parser`
 
-`function` | [modules/obs_parser.py:500](../../modules/obs_parser.py#L500)
+`function` | [modules/obs_parser.py:531](../../modules/obs_parser.py#L531)
 
 ```python
 def get_parser() -> ObsParser
@@ -378,7 +407,7 @@ Return (or create) the module-level singleton ObsParser.
 
 ### `parse`
 
-`function` | [modules/obs_parser.py:508](../../modules/obs_parser.py#L508)
+`function` | [modules/obs_parser.py:539](../../modules/obs_parser.py#L539)
 
 ```python
 def parse(output: str, host: str = '', tool: str = '') -> Observation

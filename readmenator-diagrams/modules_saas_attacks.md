@@ -9,11 +9,11 @@ graph LR
     cli -- "calls into" --> modules
 ```
 
-## cli (13.1)
+## cli (16.1)
 
 cli groups 1 files (py) around CloudAttackCommandSet, do_entra_attack, do_aws_privesc, do_gcp_privesc, do_k8s_attack. Cloud attack commands — Azure AD/Entra ID, AWS, GCP, Kubernetes, cross-cloud, SaaS.
 
-## modules (13.2)
+## modules (16.2)
 
 modules groups 6 files (py) around AWSConfig, AWSAttackEngine, __init__, enumerate_iam_permissions, lambda_backdoor. AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining.
 

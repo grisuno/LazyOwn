@@ -51,6 +51,9 @@ Mediate learning and event telemetry for the autonomous loop.
 | [`describe`](#telemetrymediator-describe) | method | Return mediator metadata for diagnostics. |
 | [`publish_event`](#telemetrymediator-publish_event) | method | Publish one loop activity event to listeners. |
 | [`annotate_detection`](#telemetrymediator-annotate_detection) | method | Return the detection annotation for one command. |
+| [`assess_opsec`](#telemetrymediator-assess_opsec) | method | Return the pre-execution OPSEC gate assessment for one command. |
+| [`record_outcome_quality`](#telemetrymediator-record_outcome_quality) | method | Record one intent's net yield as a decision-quality reward. |
+| [`tool_class_yields`](#telemetrymediator-tool_class_yields) | method | Return learned decision-quality yields for candidate summaries. |
 | [`record_step`](#telemetrymediator-record_step) | method | Record one executed step for learning stores. |
 | [`swan_available`](#telemetrymediator-swan_available) | method | Return True when the SWAN ensemble is ready. |
 | [`swan_consult`](#telemetrymediator-swan_consult) | method | Consult the SWAN ensemble with one prompt. |
@@ -117,11 +120,76 @@ Return the detection annotation for one command.
 
 **Returns:** `dict` - Annotation mapping, empty dict when unavailable.
 
+<a id="telemetrymediator-assess_opsec"></a>
+
+#### `TelemetryMediator.assess_opsec`
+
+`method` | [modules/mediation/telemetry_mediator.py:59](../../modules/mediation/telemetry_mediator.py#L59)
+
+```python
+def assess_opsec(self, command: str, rhost: str = '') -> dict | None
+```
+
+Return the pre-execution OPSEC gate assessment for one command.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `command` | `str` |  | Shell command line. |
+| `rhost` | `str` | `''` | Target host for sensitivity context. |
+
+**Returns:** `dict | None` - Gate mapping (gate/noise/risk_label/explanation/mitigations),
+or None when the stage is disabled or scoring failed.
+
+<a id="telemetrymediator-record_outcome_quality"></a>
+
+#### `TelemetryMediator.record_outcome_quality`
+
+`method` | [modules/mediation/telemetry_mediator.py:77](../../modules/mediation/telemetry_mediator.py#L77)
+
+```python
+def record_outcome_quality(self, worker: str, intent_summary: str, facts: int, findings: int) -> None
+```
+
+Record one intent's net yield as a decision-quality reward.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `worker` | `str` |  | Emitting worker name. |
+| `intent_summary` | `str` |  | Summary of the finished intent. |
+| `facts` | `int` |  | Facts persisted by the intent's writeback. |
+| `findings` | `int` |  | Findings persisted by the intent's writeback. |
+
+<a id="telemetrymediator-tool_class_yields"></a>
+
+#### `TelemetryMediator.tool_class_yields`
+
+`method` | [modules/mediation/telemetry_mediator.py:93](../../modules/mediation/telemetry_mediator.py#L93)
+
+```python
+def tool_class_yields(self, summaries: list[str], phase: str = 'engage') -> dict[str, float]
+```
+
+Return learned decision-quality yields for candidate summaries.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `summaries` | `list[str]` |  | Candidate summaries the planner is about to rank. |
+| `phase` | `str` | `'engage'` | Engagement phase key the reward was recorded under. |
+
+**Returns:** `dict[str, float]` - Mapping of summary to its tool-class Q-value, empty when the
+stage is off or the trainer is unavailable.
+
 <a id="telemetrymediator-record_step"></a>
 
 #### `TelemetryMediator.record_step`
 
-`method` | [modules/mediation/telemetry_mediator.py:59](../../modules/mediation/telemetry_mediator.py#L59)
+`method` | [modules/mediation/telemetry_mediator.py:111](../../modules/mediation/telemetry_mediator.py#L111)
 
 ```python
 def record_step(self, task_id: str, worker: str, command: str, output: str, detection_prob: float = 0.0) -> None
@@ -143,7 +211,7 @@ Record one executed step for learning stores.
 
 #### `TelemetryMediator.swan_available`
 
-`method` | [modules/mediation/telemetry_mediator.py:76](../../modules/mediation/telemetry_mediator.py#L76)
+`method` | [modules/mediation/telemetry_mediator.py:128](../../modules/mediation/telemetry_mediator.py#L128)
 
 ```python
 def swan_available(self) -> bool
@@ -157,7 +225,7 @@ Return True when the SWAN ensemble is ready.
 
 #### `TelemetryMediator.swan_consult`
 
-`method` | [modules/mediation/telemetry_mediator.py:85](../../modules/mediation/telemetry_mediator.py#L85)
+`method` | [modules/mediation/telemetry_mediator.py:137](../../modules/mediation/telemetry_mediator.py#L137)
 
 ```python
 def swan_consult(self, prompt: str, task_type: str = 'recon', phase: str = 'enumeration', timeout: float = 120.0) -> str
@@ -180,7 +248,7 @@ Consult the SWAN ensemble with one prompt.
 
 #### `TelemetryMediator.moe_route`
 
-`method` | [modules/mediation/telemetry_mediator.py:110](../../modules/mediation/telemetry_mediator.py#L110)
+`method` | [modules/mediation/telemetry_mediator.py:162](../../modules/mediation/telemetry_mediator.py#L162)
 
 ```python
 def moe_route(self, task_type: str) -> Any
@@ -200,7 +268,7 @@ Return the preferred MoE expert for a task type.
 
 #### `TelemetryMediator.rl_select`
 
-`method` | [modules/mediation/telemetry_mediator.py:126](../../modules/mediation/telemetry_mediator.py#L126)
+`method` | [modules/mediation/telemetry_mediator.py:178](../../modules/mediation/telemetry_mediator.py#L178)
 
 ```python
 def rl_select(self, task_type: str, phase: str, candidates: list[str], deterministic: bool = False) -> str
@@ -223,7 +291,7 @@ Return the RL-preferred candidate name.
 
 #### `TelemetryMediator.moe_record_outcome`
 
-`method` | [modules/mediation/telemetry_mediator.py:151](../../modules/mediation/telemetry_mediator.py#L151)
+`method` | [modules/mediation/telemetry_mediator.py:203](../../modules/mediation/telemetry_mediator.py#L203)
 
 ```python
 def moe_record_outcome(self, expert_id: str, task_type: str, reward: float, detection_prob: float = 0.0) -> None
@@ -244,7 +312,7 @@ Record one MoE outcome for learning.
 
 #### `TelemetryMediator.rl_update`
 
-`method` | [modules/mediation/telemetry_mediator.py:167](../../modules/mediation/telemetry_mediator.py#L167)
+`method` | [modules/mediation/telemetry_mediator.py:219](../../modules/mediation/telemetry_mediator.py#L219)
 
 ```python
 def rl_update(self, task_type: str, phase: str, action: str, reward: float, candidates: list[str], detection_prob: float = 0.0) -> None

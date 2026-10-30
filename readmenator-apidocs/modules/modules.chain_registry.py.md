@@ -33,6 +33,7 @@ classDiagram
     ChainStep : str description
     ChainStep : str when
     ChainStep : str skip_if_exists
+    ChainStep : int skip_max_age
     ChainStep : str resolve_newest_glob
     ChainStep : str resolve_newest_as
     ChainStep : int timeout
@@ -50,7 +51,6 @@ classDiagram
     ChainStep : str on_success
     ChainStep : bool confirm
     ChainStep : list[str] artifacts
-    ChainStep : list[str] sinks
     class Chain
     Chain : str name
     Chain : str description
@@ -65,6 +65,7 @@ classDiagram
     Chain : str extends
     Chain : str fallback
     Chain : int total_timeout
+    Chain : tuple[str, ] raw_vars
     Chain : resolve()
 ```
 
@@ -92,7 +93,7 @@ flowchart LR
 
 ### `ChainStep`
 
-`class` `dataclass` | [modules/chain_registry.py:62](../../modules/chain_registry.py#L62)
+`class` `dataclass` | [modules/chain_registry.py:102](../../modules/chain_registry.py#L102)
 
 Decorators: `@dataclass`
 
@@ -119,6 +120,7 @@ integrity across re-runs.
 | [`description`](#chainstep-description) | `str` | `''` |  |
 | [`when`](#chainstep-when) | `str` | `''` |  |
 | [`skip_if_exists`](#chainstep-skip_if_exists) | `str` | `''` |  |
+| [`skip_max_age`](#chainstep-skip_max_age) | `int` | `0` |  |
 | [`resolve_newest_glob`](#chainstep-resolve_newest_glob) | `str` | `''` |  |
 | [`resolve_newest_as`](#chainstep-resolve_newest_as) | `str` | `''` |  |
 | [`timeout`](#chainstep-timeout) | `int` | `0` |  |
@@ -154,7 +156,7 @@ integrity across re-runs.
 
 #### `ChainStep.identifier`
 
-`property` | [modules/chain_registry.py:105](../../modules/chain_registry.py#L105)
+`property` | [modules/chain_registry.py:146](../../modules/chain_registry.py#L146)
 
 Decorators: `@property`
 
@@ -172,7 +174,7 @@ Return the declared id or a stable generated one.
 
 ### `Chain`
 
-`class` `dataclass` | [modules/chain_registry.py:111](../../modules/chain_registry.py#L111)
+`class` `dataclass` | [modules/chain_registry.py:152](../../modules/chain_registry.py#L152)
 
 Decorators: `@dataclass`
 
@@ -199,6 +201,7 @@ A validated chain with defaults, variables and ordered steps.
 | [`extends`](#chain-extends) | `str` | `''` |  |
 | [`fallback`](#chain-fallback) | `str` | `''` |  |
 | [`total_timeout`](#chain-total_timeout) | `int` | `0` |  |
+| [`raw_vars`](#chain-raw_vars) | `tuple[str, ...]` | `()` |  |
 
 **Members**
 
@@ -210,7 +213,7 @@ A validated chain with defaults, variables and ordered steps.
 
 #### `Chain.resolve`
 
-`method` | [modules/chain_registry.py:128](../../modules/chain_registry.py#L128)
+`method` | [modules/chain_registry.py:170](../../modules/chain_registry.py#L170)
 
 ```python
 def resolve(self, tokens: dict[str, str]) -> list[dict[str, Any]]
@@ -242,7 +245,7 @@ resolution after every capture so later steps see earlier output.
 
 ### `evaluate_when`
 
-`function` | [modules/chain_registry.py:247](../../modules/chain_registry.py#L247)
+`function` | [modules/chain_registry.py:291](../../modules/chain_registry.py#L291)
 
 ```python
 def evaluate_when(expression: str, variables: dict[str, str] | None = None) -> bool
@@ -271,7 +274,7 @@ arithmetic are rejected. Undefined names resolve to an empty string.
 
 ### `validate_chain`
 
-`function` | [modules/chain_registry.py:312](../../modules/chain_registry.py#L312)
+`function` | [modules/chain_registry.py:356](../../modules/chain_registry.py#L356)
 
 ```python
 def validate_chain(data: Any, filename: str = '', chains_dir: Path | str | None = None) -> list[str]
@@ -297,7 +300,7 @@ Validate raw YAML data against the chain schema.
 
 ### `load_all`
 
-`function` | [modules/chain_registry.py:510](../../modules/chain_registry.py#L510)
+`function` | [modules/chain_registry.py:576](../../modules/chain_registry.py#L576)
 
 ```python
 def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]
@@ -327,7 +330,7 @@ Load every valid, enabled chain file (skips the rest loudly).
 
 ### `get`
 
-`function` | [modules/chain_registry.py:644](../../modules/chain_registry.py#L644)
+`function` | [modules/chain_registry.py:721](../../modules/chain_registry.py#L721)
 
 ```python
 def get(name: str, chains_dir: Path | str = CHAINS_DIR) -> Chain | None
@@ -352,7 +355,7 @@ Return one chain by name, or None.
 
 ### `scan_all`
 
-`function` | [modules/chain_registry.py:649](../../modules/chain_registry.py#L649)
+`function` | [modules/chain_registry.py:726](../../modules/chain_registry.py#L726)
 
 ```python
 def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]
@@ -382,7 +385,7 @@ List every chain file including disabled ones (for administration).
 
 ### `set_enabled`
 
-`function` | [modules/chain_registry.py:709](../../modules/chain_registry.py#L709)
+`function` | [modules/chain_registry.py:786](../../modules/chain_registry.py#L786)
 
 ```python
 def set_enabled(name: str, enabled: bool, chains_dir: Path | str = CHAINS_DIR) -> bool
@@ -412,7 +415,7 @@ Flip a chain's `[`enabled`](#chain-enabled)` flag in its YAML file (round-trip).
 
 ### `generate_for_playbook`
 
-`function` | [modules/chain_registry.py:732](../../modules/chain_registry.py#L732)
+`function` | [modules/chain_registry.py:809](../../modules/chain_registry.py#L809)
 
 ```python
 def generate_for_playbook(engine_key: str, apt_display: str = '', description: str = '', chains_dir: Path | str = CHAINS_DIR, overwrite: bool = False) -> Path
@@ -448,7 +451,7 @@ Write a per-APT chain file inheriting the base APT chain.
 
 ### `CHAINS_DIR`
 
-`constant` | [modules/chain_registry.py:35](../../modules/chain_registry.py#L35)
+`constant` | [modules/chain_registry.py:36](../../modules/chain_registry.py#L36)
 
 ```python
 CHAINS_DIR = _BASE_DIR / 'chains'

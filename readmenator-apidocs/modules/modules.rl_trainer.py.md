@@ -692,6 +692,6 @@ Return (or create) the module-level singleton RLTrainer.
 
 *Calls:* [`RLTrainer.__init__`](#rltrainer-__init__)
 
-*Called by:* [`ai_snapshot`](modules.loop_ai_bridge.py.md#ai_snapshot), [`rl_save`](modules.loop_ai_bridge.py.md#rl_save), [`rl_select`](modules.loop_ai_bridge.py.md#rl_select), [`rl_update`](modules.loop_ai_bridge.py.md#rl_update)
+*Called by:* [`ai_snapshot`](modules.loop_ai_bridge.py.md#ai_snapshot), [`rl_save`](modules.loop_ai_bridge.py.md#rl_save), [`rl_select`](modules.loop_ai_bridge.py.md#rl_select), [`rl_update`](modules.loop_ai_bridge.py.md#rl_update), [`tool_class_yields`](modules.loop_ai_bridge.py.md#tool_class_yields)
 
 ---

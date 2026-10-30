@@ -23,7 +23,8 @@ Contracts:
 ## Contents
 
 - **Classes:** [`KillChainConfig`](#killchainconfig), [`PhaseStatus`](#phasestatus), [`KillChain`](#killchain)
-- **Functions:** [`get_killchain`](#get_killchain)
+- **Functions:** [`get_killchain`](#get_killchain), [`technique_for_phase`](#technique_for_phase), [`technique_for_vulnclass`](#technique_for_vulnclass)
+- **Constants:** [`PHASE_TO_TACTICS`](#phase_to_tactics), [`VULNCLASS_TECHNIQUES`](#vulnclass_techniques), [`VULNCLASS_FALLBACK_TECHNIQUE`](#vulnclass_fallback_technique)
 
 ## Type Diagram
 
@@ -64,6 +65,8 @@ classDiagram
     KillChain : phases_for_display()
     KillChain : phase_index()
     KillChain : snapshot()
+    KillChain : technique_for_phase()
+    KillChain : technique_for_vulnclass()
 ```
 
 ## Call Graph
@@ -80,6 +83,10 @@ flowchart LR
     n_modules_killchain_py__PhaseStatus(["PhaseStatus"])
     n_modules_killchain_py__KillChain_snapshot(["KillChain.snapshot"])
     n_modules_killchain_py__KillChain_compact_progress(["KillChain.compact_progress"])
+    n_modules_killchain_py__technique_for_phase(["technique_for_phase"])
+    n_modules_killchain_py__KillChain_technique_for_phase(["KillChain.technique_for_phase"])
+    n_modules_killchain_py__technique_for_vulnclass(["technique_for_vulnclass"])
+    n_modules_killchain_py__KillChain_technique_for_vulnclass(["KillChain.technique_for_vulnclass"])
     n_modules_world_model_py__get_world_model["world_model.get_world_model"]
     n_modules_world_model_py__read_state_dict["world_model.read_state_dict"]
     n_modules_world_model_py__HostState["world_model.HostState"]
@@ -91,6 +98,8 @@ flowchart LR
     n_modules_killchain_py__KillChain_snapshot --> n_modules_killchain_py__KillChain_compact_progress
     n_modules_killchain_py__KillChain_snapshot --> n_modules_killchain_py__KillChain_current_phase
     n_modules_killchain_py__KillChain_snapshot --> n_modules_killchain_py__KillChain_get_progress
+    n_modules_killchain_py__technique_for_phase --> n_modules_killchain_py__KillChain_technique_for_phase
+    n_modules_killchain_py__technique_for_vulnclass --> n_modules_killchain_py__KillChain_technique_for_vulnclass
     n_modules_killchain_py__KillChain_current_phase -.-> n_modules_world_model_py__get_world_model
     n_modules_killchain_py__KillChain_current_phase -.-> n_modules_world_model_py__read_state_dict
     n_modules_killchain_py__KillChain_advance_phase -.-> n_modules_world_model_py__HostState
@@ -107,7 +116,7 @@ flowchart LR
 
 ### `KillChainConfig`
 
-`class` `dataclass` | [modules/killchain.py:40](../../modules/killchain.py#L40)
+`class` `dataclass` | [modules/killchain.py:99](../../modules/killchain.py#L99)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -146,7 +155,7 @@ Every colour, label, and mapping lives here. No magic values anywhere.
 
 #### `KillChainConfig.world_model_path`
 
-`method` | [modules/killchain.py:118](../../modules/killchain.py#L118)
+`method` | [modules/killchain.py:177](../../modules/killchain.py#L177)
 
 ```python
 def world_model_path(self) -> Path
@@ -160,7 +169,7 @@ Return the resolved path to world_model.json.
 
 #### `KillChainConfig.phase_index`
 
-`method` | [modules/killchain.py:122](../../modules/killchain.py#L122)
+`method` | [modules/killchain.py:181](../../modules/killchain.py#L181)
 
 ```python
 def phase_index(self, phase: str) -> int
@@ -180,7 +189,7 @@ Return the positional index of a canonical phase in the kill chain.
 
 #### `KillChainConfig.is_valid_phase`
 
-`method` | [modules/killchain.py:129](../../modules/killchain.py#L129)
+`method` | [modules/killchain.py:188](../../modules/killchain.py#L188)
 
 ```python
 def is_valid_phase(self, phase: str) -> bool
@@ -202,7 +211,7 @@ Return True when ``phase`` is a recognised canonical phase.
 
 ### `PhaseStatus`
 
-`class` `dataclass` | [modules/killchain.py:138](../../modules/killchain.py#L138)
+`class` `dataclass` | [modules/killchain.py:197](../../modules/killchain.py#L197)
 
 Decorators: `@dataclass(frozen=True, slots=True)`
 
@@ -227,7 +236,7 @@ Progress for a single kill-chain phase.
 
 ### `KillChain`
 
-`class` | [modules/killchain.py:147](../../modules/killchain.py#L147)
+`class` | [modules/killchain.py:206](../../modules/killchain.py#L206)
 
 ```python
 class KillChain
@@ -257,12 +266,14 @@ keys in ``world_model.json`` provide operator overrides.
 | [`phases_for_display`](#killchain-phases_for_display) | staticmethod | Return an ordered ``(key, label, hex_color)`` triple for every phase. |
 | [`phase_index`](#killchain-phase_index) | staticmethod | Return the zero-based index of a canonical phase. |
 | [`snapshot`](#killchain-snapshot) | staticmethod | Return a single, render-agnostic snapshot of the whole kill-chain. |
+| [`technique_for_phase`](#killchain-technique_for_phase) | staticmethod | Return the ATT&CK tactic id of one canonical phase. |
+| [`technique_for_vulnclass`](#killchain-technique_for_vulnclass) | staticmethod | Return the ATT&CK technique id for one vulnerability class. |
 
 <a id="killchain-config"></a>
 
 #### `KillChain.config`
 
-`staticmethod` | [modules/killchain.py:156](../../modules/killchain.py#L156)
+`staticmethod` | [modules/killchain.py:215](../../modules/killchain.py#L215)
 
 Decorators: `@staticmethod`
 
@@ -278,7 +289,7 @@ Return the centralised configuration.
 
 #### `KillChain.phases`
 
-`staticmethod` | [modules/killchain.py:161](../../modules/killchain.py#L161)
+`staticmethod` | [modules/killchain.py:220](../../modules/killchain.py#L220)
 
 Decorators: `@staticmethod`
 
@@ -296,7 +307,7 @@ Return the canonical 8-phase tuple.
 
 #### `KillChain.phase_labels`
 
-`staticmethod` | [modules/killchain.py:166](../../modules/killchain.py#L166)
+`staticmethod` | [modules/killchain.py:225](../../modules/killchain.py#L225)
 
 Decorators: `@staticmethod`
 
@@ -312,7 +323,7 @@ Return the canonical phase label mapping.
 
 #### `KillChain.phase_colors`
 
-`staticmethod` | [modules/killchain.py:171](../../modules/killchain.py#L171)
+`staticmethod` | [modules/killchain.py:230](../../modules/killchain.py#L230)
 
 Decorators: `@staticmethod`
 
@@ -328,7 +339,7 @@ Return the canonical phase hex-color mapping.
 
 #### `KillChain.phase_rich_colors`
 
-`staticmethod` | [modules/killchain.py:176](../../modules/killchain.py#L176)
+`staticmethod` | [modules/killchain.py:235](../../modules/killchain.py#L235)
 
 Decorators: `@staticmethod`
 
@@ -344,7 +355,7 @@ Return the canonical phase rich-terminal color mapping.
 
 #### `KillChain.engagement_phase_to_cli`
 
-`staticmethod` | [modules/killchain.py:181](../../modules/killchain.py#L181)
+`staticmethod` | [modules/killchain.py:240](../../modules/killchain.py#L240)
 
 Decorators: `@staticmethod`
 
@@ -368,7 +379,7 @@ Map a ``WorldModel.EngagementPhase`` value to the CLI phase key.
 
 #### `KillChain.cli_phase_to_host_state`
 
-`staticmethod` | [modules/killchain.py:193](../../modules/killchain.py#L193)
+`staticmethod` | [modules/killchain.py:252](../../modules/killchain.py#L252)
 
 Decorators: `@staticmethod`
 
@@ -393,7 +404,7 @@ state advancement is warranted.
 
 #### `KillChain.current_phase`
 
-`staticmethod` | [modules/killchain.py:206](../../modules/killchain.py#L206)
+`staticmethod` | [modules/killchain.py:265](../../modules/killchain.py#L265)
 
 Decorators: `@staticmethod`
 
@@ -425,7 +436,7 @@ Resolution order:
 
 #### `KillChain.advance_phase`
 
-`staticmethod` | [modules/killchain.py:253](../../modules/killchain.py#L253)
+`staticmethod` | [modules/killchain.py:312](../../modules/killchain.py#L312)
 
 Decorators: `@staticmethod`
 
@@ -462,7 +473,7 @@ An empty string advances no host (used by report-only outcomes).
 
 #### `KillChain.get_progress`
 
-`staticmethod` | [modules/killchain.py:357](../../modules/killchain.py#L357)
+`staticmethod` | [modules/killchain.py:416](../../modules/killchain.py#L416)
 
 Decorators: `@staticmethod`
 
@@ -491,7 +502,7 @@ Suitable for rendering in any UI (CLI, web, GUI, TUI).
 
 #### `KillChain.compact_progress`
 
-`staticmethod` | [modules/killchain.py:406](../../modules/killchain.py#L406)
+`staticmethod` | [modules/killchain.py:465](../../modules/killchain.py#L465)
 
 Decorators: `@staticmethod`
 
@@ -516,7 +527,7 @@ Return a compact single-line progress indicator ``[R>E>X>P>L]``.
 
 #### `KillChain.phases_for_display`
 
-`staticmethod` | [modules/killchain.py:426](../../modules/killchain.py#L426)
+`staticmethod` | [modules/killchain.py:485](../../modules/killchain.py#L485)
 
 Decorators: `@staticmethod`
 
@@ -534,7 +545,7 @@ Convenience for UI builders that need to render every phase.
 
 #### `KillChain.phase_index`
 
-`staticmethod` | [modules/killchain.py:437](../../modules/killchain.py#L437)
+`staticmethod` | [modules/killchain.py:496](../../modules/killchain.py#L496)
 
 Decorators: `@staticmethod`
 
@@ -556,7 +567,7 @@ Return the zero-based index of a canonical phase.
 
 #### `KillChain.snapshot`
 
-`staticmethod` | [modules/killchain.py:442](../../modules/killchain.py#L442)
+`staticmethod` | [modules/killchain.py:501](../../modules/killchain.py#L501)
 
 Decorators: `@staticmethod`
 
@@ -578,12 +589,60 @@ a compact progress glyph so surfaces cannot diverge.
 | `world_model_path` | `Path \| None` | `None` | Optional override path for the world model file. |
 
 **Returns:** `dict` - A JSON-serialisable dict with keys: `[`current_phase`](#killchain-current_phase)`,
-``completed_phases``, `[`progress`](modules.lazy_runner.py.md#looprunconfig-progress)`, ``host_states``,
+``completed_phases``, ``progress``, ``host_states``,
 ``compact`` and ``updated_at``.
 
 *Calls:* [`KillChain.compact_progress`](#killchain-compact_progress), [`KillChain.current_phase`](#killchain-current_phase), [`KillChain.get_progress`](#killchain-get_progress), [`read_state_dict`](modules.world_model.py.md#read_state_dict)
 
 *Called by:* [`check_calls`](scripts.devtools.core_smoke.py.md#check_calls)
+
+<a id="killchain-technique_for_phase"></a>
+
+#### `KillChain.technique_for_phase`
+
+`staticmethod` | [modules/killchain.py:541](../../modules/killchain.py#L541)
+
+Decorators: `@staticmethod`
+
+```python
+def technique_for_phase(phase: str) -> str
+```
+
+Return the ATT&CK tactic id of one canonical phase.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `phase` | `str` |  | Canonical phase key from [`KillChainConfig.phases`](#killchainconfig-phases). |
+
+**Returns:** `str` - ``TA####`` id, empty for unknown phases.
+
+*Called by:* [`technique_for_phase`](#technique_for_phase)
+
+<a id="killchain-technique_for_vulnclass"></a>
+
+#### `KillChain.technique_for_vulnclass`
+
+`staticmethod` | [modules/killchain.py:553](../../modules/killchain.py#L553)
+
+Decorators: `@staticmethod`
+
+```python
+def technique_for_vulnclass(vulnclass: str) -> str
+```
+
+Return the ATT&CK technique id for one vulnerability class.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `vulnclass` | `str` |  | Vulnerability class slug (``sqli``, ``smb``, ...). |
+
+**Returns:** `str` - ``T####`` id, empty when the class is unmapped.
+
+*Called by:* [`technique_for_vulnclass`](#technique_for_vulnclass)
 
 ---
 
@@ -593,7 +652,7 @@ a compact progress glyph so surfaces cannot diverge.
 
 ### `get_killchain`
 
-`function` | [modules/killchain.py:482](../../modules/killchain.py#L482)
+`function` | [modules/killchain.py:566](../../modules/killchain.py#L566)
 
 ```python
 def get_killchain() -> type[KillChain]
@@ -602,5 +661,91 @@ def get_killchain() -> type[KillChain]
 Return the `[`KillChain`](#killchain)` class as a module-level entry point.
 
 **Returns:** `type[KillChain]`
+
+---
+
+<a id="technique_for_phase"></a>
+
+### `technique_for_phase`
+
+`function` | [modules/killchain.py:571](../../modules/killchain.py#L571)
+
+```python
+def technique_for_phase(phase: str) -> str
+```
+
+Module-level alias of [`KillChain.technique_for_phase`](#killchain-technique_for_phase).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `phase` | `str` |  |  |
+
+**Returns:** `str`
+
+*Calls:* [`KillChain.technique_for_phase`](#killchain-technique_for_phase)
+
+---
+
+<a id="technique_for_vulnclass"></a>
+
+### `technique_for_vulnclass`
+
+`function` | [modules/killchain.py:576](../../modules/killchain.py#L576)
+
+```python
+def technique_for_vulnclass(vulnclass: str) -> str
+```
+
+Module-level alias of [`KillChain.technique_for_vulnclass`](#killchain-technique_for_vulnclass).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `vulnclass` | `str` |  |  |
+
+**Returns:** `str`
+
+*Calls:* [`KillChain.technique_for_vulnclass`](#killchain-technique_for_vulnclass)
+
+---
+
+## Constants
+
+<a id="phase_to_tactics"></a>
+
+### `PHASE_TO_TACTICS`
+
+`constant` | [modules/killchain.py:38](../../modules/killchain.py#L38)
+
+```python
+PHASE_TO_TACTICS: dict[str, str]
+```
+
+---
+
+<a id="vulnclass_techniques"></a>
+
+### `VULNCLASS_TECHNIQUES`
+
+`constant` | [modules/killchain.py:49](../../modules/killchain.py#L49)
+
+```python
+VULNCLASS_TECHNIQUES: dict[str, str]
+```
+
+---
+
+<a id="vulnclass_fallback_technique"></a>
+
+### `VULNCLASS_FALLBACK_TECHNIQUE`
+
+`constant` | [modules/killchain.py:95](../../modules/killchain.py#L95)
+
+```python
+VULNCLASS_FALLBACK_TECHNIQUE = 'T1190'
+```
 
 ---

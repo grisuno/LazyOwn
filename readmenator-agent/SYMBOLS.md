@@ -1,5 +1,5 @@
-# Symbols (page 1 of 47)
-Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md), [SYMBOLS_p44.md](SYMBOLS_p44.md), [SYMBOLS_p45.md](SYMBOLS_p45.md), [SYMBOLS_p46.md](SYMBOLS_p46.md), [SYMBOLS_p47.md](SYMBOLS_p47.md)
+# Symbols (page 1 of 48)
+Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md), [SYMBOLS_p39.md](SYMBOLS_p39.md), [SYMBOLS_p40.md](SYMBOLS_p40.md), [SYMBOLS_p41.md](SYMBOLS_p41.md), [SYMBOLS_p42.md](SYMBOLS_p42.md), [SYMBOLS_p43.md](SYMBOLS_p43.md), [SYMBOLS_p44.md](SYMBOLS_p44.md), [SYMBOLS_p45.md](SYMBOLS_p45.md), [SYMBOLS_p46.md](SYMBOLS_p46.md), [SYMBOLS_p47.md](SYMBOLS_p47.md), [SYMBOLS_p48.md](SYMBOLS_p48.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
@@ -33,23 +33,23 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `empty_placeholders` | function | `cli/aliases.py:72` | `def empty_placeholders(template, context)` |
 | `load_aliases` | function | `cli/aliases.py:100` | `def load_aliases(payload, path, lazy)` |
 | `template_placeholders` | function | `cli/aliases.py:56` | `def template_placeholders(template)` |
-| `ChainArgs` | class | `cli/apt_chain_support.py:48` | `class ChainArgs` |
-| `_decision_command` | function | `cli/apt_chain_support.py:377` | `def _decision_command(decision)` |
-| `_platform` | function | `cli/apt_chain_support.py:510` | `def _platform()` |
-| `_recent_changes_block` | function | `cli/apt_chain_support.py:408` | `def _recent_changes_block(target)` |
-| `_set_value` | function | `cli/apt_chain_support.py:141` | `def _set_value(args, flag, value)` |
-| `_step_from_decision` | function | `cli/apt_chain_support.py:386` | `def _step_from_decision(command, outcome, executed_count)` |
-| `_token_name_ok` | function | `cli/apt_chain_support.py:42` | `def _token_name_ok(name)` |
-| `adversarial_continue` | function | `cli/apt_chain_support.py:289` | `def adversarial_continue(chain)` |
-| `approve` | function | `cli/apt_chain_support.py:338` | `def approve(step_id, command)` |
-| `build_cli_approver` | function | `cli/apt_chain_support.py:330` | `def build_cli_approver(printer, input_fn)` |
-| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:436` | `def build_llm_recovery_chain(result, target, task_id)` |
-| `build_reactive_replanner` | function | `cli/apt_chain_support.py:352` | `def build_reactive_replanner()` |
-| `parse_chain_args` | function | `cli/apt_chain_support.py:72` | `def parse_chain_args(line)` |
-| `render_result` | function | `cli/apt_chain_support.py:297` | `def render_result(result)` |
-| `replan` | function | `cli/apt_chain_support.py:355` | `def replan(context)` |
-| `resolve_admin` | function | `cli/apt_chain_support.py:169` | `def resolve_admin(args)` |
-| `select_step_ids` | function | `cli/apt_chain_support.py:257` | `def select_step_ids(chain, args)` |
+| `ChainArgs` | class | `cli/apt_chain_support.py:50` | `class ChainArgs` |
+| `_decision_command` | function | `cli/apt_chain_support.py:410` | `def _decision_command(decision)` |
+| `_platform` | function | `cli/apt_chain_support.py:543` | `def _platform()` |
+| `_recent_changes_block` | function | `cli/apt_chain_support.py:441` | `def _recent_changes_block(target)` |
+| `_set_value` | function | `cli/apt_chain_support.py:143` | `def _set_value(args, flag, value)` |
+| `_step_from_decision` | function | `cli/apt_chain_support.py:419` | `def _step_from_decision(command, outcome, executed_count)` |
+| `_token_name_ok` | function | `cli/apt_chain_support.py:44` | `def _token_name_ok(name)` |
+| `adversarial_continue` | function | `cli/apt_chain_support.py:322` | `def adversarial_continue(chain)` |
+| `approve` | function | `cli/apt_chain_support.py:371` | `def approve(step_id, command)` |
+| `build_cli_approver` | function | `cli/apt_chain_support.py:363` | `def build_cli_approver(printer, input_fn)` |
+| `build_llm_recovery_chain` | function | `cli/apt_chain_support.py:469` | `def build_llm_recovery_chain(result, target, task_id)` |
+| `build_reactive_replanner` | function | `cli/apt_chain_support.py:385` | `def build_reactive_replanner()` |
+| `parse_chain_args` | function | `cli/apt_chain_support.py:74` | `def parse_chain_args(line)` |
+| `render_result` | function | `cli/apt_chain_support.py:330` | `def render_result(result)` |
+| `replan` | function | `cli/apt_chain_support.py:388` | `def replan(context)` |
+| `resolve_admin` | function | `cli/apt_chain_support.py:171` | `def resolve_admin(args)` |
+| `select_step_ids` | function | `cli/apt_chain_support.py:290` | `def select_step_ids(chain, args)` |
 | `apply_assign` | function | `cli/assign.py:42` | `def apply_assign(params, key, value)` |
 | `AutoCryptoConfig` | class | `cli/auto_crypto.py:48` | `class AutoCryptoConfig` |
 | `AutoCryptoEngine` | class | `cli/auto_crypto.py:77` | `class AutoCryptoEngine` |

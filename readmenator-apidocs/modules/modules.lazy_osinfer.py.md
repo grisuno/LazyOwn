@@ -179,7 +179,7 @@ Return the ``os:`` field of one lazyaddon manifest.
 
 **Returns:** `str` - ``windows``/``linux``/``any`` (default any, unknown addon any).
 
-*Called by:* [`propose_addon_intents`](modules.auto_registry.py.md#propose_addon_intents), [`verb_target_os`](#verb_target_os)
+*Called by:* [`propose_addon_intents`](modules.auto_registry.py.md#propose_addon_intents), [`verb_target_os`](#verb_target_os), [`ModuleRegistry.proposal_intents`](modules.module_registry.py.md#moduleregistry-proposal_intents)
 
 ---
 
@@ -238,7 +238,7 @@ mismatch (windows verb, linux host or the reverse) does.
 
 **Returns:** `bool` - True when compatible.
 
-*Called by:* [`propose_addon_intents`](modules.auto_registry.py.md#propose_addon_intents), [`verb_compatible_with_host`](#verb_compatible_with_host)
+*Called by:* [`propose_addon_intents`](modules.auto_registry.py.md#propose_addon_intents), [`verb_compatible_with_host`](#verb_compatible_with_host), [`ModuleRegistry.proposal_intents`](modules.module_registry.py.md#moduleregistry-proposal_intents)
 
 ---
 
@@ -292,7 +292,7 @@ Reads the loop asset graph first, then the world model, then the
 
 *Calls:* [`AssetGraph.__init__`](modules.lazy_loop.py.md#assetgraph-__init__), [`infer_from_banner`](#infer_from_banner), [`read_state_dict`](modules.world_model.py.md#read_state_dict)
 
-*Called by:* [`auto`](modules.atomic_exploit_bridge.py.md#auto), [`propose_addon_intents`](modules.auto_registry.py.md#propose_addon_intents)
+*Called by:* [`auto`](modules.atomic_exploit_bridge.py.md#auto), [`propose_addon_intents`](modules.auto_registry.py.md#propose_addon_intents), [`ModuleRegistry.proposal_intents`](modules.module_registry.py.md#moduleregistry-proposal_intents)
 
 ---
 

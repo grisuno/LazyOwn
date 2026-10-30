@@ -438,8 +438,9 @@
 {"code":"DOC001","uid":"core/protocols.py::MemoryStore.put","file":"core/protocols.py","line":54,"message":"method MemoryStore.put is not documented"}
 {"code":"DOC001","uid":"core/protocols.py::MemoryStore.get","file":"core/protocols.py","line":56,"message":"method MemoryStore.get is not documented"}
 {"code":"DOC001","uid":"core/protocols.py::MemoryStore.search","file":"core/protocols.py","line":58,"message":"method MemoryStore.search is not documented"}
-{"code":"DOC005","uid":"core/safe_exec.py::safe_run_argv","file":"core/safe_exec.py","line":106,"message":"safe_run_argv raises CommandInjectionError but does not document it"}
-{"code":"DOC005","uid":"core/safe_exec.py::safe_ip_show","file":"core/safe_exec.py","line":268,"message":"safe_ip_show raises CommandInjectionError but does not document it"}
+{"code":"DOC005","uid":"core/safe_exec.py::safe_run_argv","file":"core/safe_exec.py","line":174,"message":"safe_run_argv raises CalledProcessError but does not document it"}
+{"code":"DOC005","uid":"core/safe_exec.py::safe_run_argv","file":"core/safe_exec.py","line":174,"message":"safe_run_argv raises CommandInjectionError but does not document it"}
+{"code":"DOC005","uid":"core/safe_exec.py::safe_ip_show","file":"core/safe_exec.py","line":361,"message":"safe_ip_show raises CommandInjectionError but does not document it"}
 {"code":"DOC005","uid":"core/safe_subprocess.py::SafeRunner.run","file":"core/safe_subprocess.py","line":73,"message":"SafeRunner.run raises ValueError but does not document it"}
 {"code":"DOC001","uid":"discord_c2.py","file":"discord_c2.py","line":1,"message":"module discord_c2.py is not documented"}
 {"code":"DOC001","uid":"discord_c2.py::SecureSessionManager","file":"discord_c2.py","line":27,"message":"class SecureSessionManager is not documented"}
@@ -660,14 +661,15 @@
 {"code":"DOC001","uid":"lazyc2.py::capture_image","file":"lazyc2.py","line":7596,"message":"function capture_image is not documented"}
 {"code":"DOC001","uid":"lazyc2.py::capture_audio","file":"lazyc2.py","line":7622,"message":"function capture_audio is not documented"}
 {"code":"DOC001","uid":"lazyc2.py::surface","file":"lazyc2.py","line":7640,"message":"function surface is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::get_data","file":"lazyc2.py","line":8150,"message":"function get_data is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::list_campaigns","file":"lazyc2.py","line":8217,"message":"function list_campaigns is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::create_campaign","file":"lazyc2.py","line":8230,"message":"function create_campaign is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::lazyphishingai","file":"lazyc2.py","line":8308,"message":"function lazyphishingai is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::campaign_report","file":"lazyc2.py","line":8346,"message":"function campaign_report is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::orchestrate_campaign","file":"lazyc2.py","line":8428,"message":"function orchestrate_campaign is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::create_multivector_campaign","file":"lazyc2.py","line":8475,"message":"function create_multivector_campaign is not documented"}
-{"code":"DOC001","uid":"lazyc2.py::serve_landing_page","file":"lazyc2.py","line":8627,"message":"function serve_landing_page is not documented"}
+{"code":"DOC004","uid":"lazyc2.py::api_chain_approvals_decide","file":"lazyc2.py","line":7996,"message":"return value of api_chain_approvals_decide is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::get_data","file":"lazyc2.py","line":8219,"message":"function get_data is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::list_campaigns","file":"lazyc2.py","line":8286,"message":"function list_campaigns is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::create_campaign","file":"lazyc2.py","line":8299,"message":"function create_campaign is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::lazyphishingai","file":"lazyc2.py","line":8377,"message":"function lazyphishingai is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::campaign_report","file":"lazyc2.py","line":8415,"message":"function campaign_report is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::orchestrate_campaign","file":"lazyc2.py","line":8497,"message":"function orchestrate_campaign is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::create_multivector_campaign","file":"lazyc2.py","line":8544,"message":"function create_multivector_campaign is not documented"}
+{"code":"DOC001","uid":"lazyc2.py::serve_landing_page","file":"lazyc2.py","line":8696,"message":"function serve_landing_page is not documented"}
 {"code":"DOC001","uid":"lazyc2/__init__.py","file":"lazyc2/__init__.py","line":1,"message":"module lazyc2/__init__.py is not documented"}
 {"code":"DOC004","uid":"lazyc2/addon_creator.py::AddonStore.exists","file":"lazyc2/addon_creator.py","line":944,"message":"return value of AddonStore.exists is not documented"}
 {"code":"DOC001","uid":"lazyc2/blueprints/auth.py::register","file":"lazyc2/blueprints/auth.py","line":128,"message":"function register is not documented"}
@@ -711,8 +713,8 @@
 {"code":"DOC001","uid":"lazyown-docker/init.sh","file":"lazyown-docker/init.sh","line":1,"message":"module lazyown-docker/init.sh is not documented"}
 {"code":"DOC002","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1342,"message":"parameter 'line' of LazyOwnShell.cmd is not documented"}
 {"code":"DOC003","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1342,"message":"documented parameter 'command' is not in the signature of LazyOwnShell.cmd"}
-{"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2282,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
-{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4720,"message":"function main is not documented"}
+{"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2283,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
+{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4721,"message":"function main is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::auth","file":"modules/49803.py","line":43,"message":"function auth is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::injection","file":"modules/49803.py","line":69,"message":"function injection is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::connection","file":"modules/49803.py","line":106,"message":"function connection is not documented"}
@@ -1067,16 +1069,17 @@
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp","file":"modules/kivi.py","line":11,"message":"class ReverseShellApp is not documented"}
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.build","file":"modules/kivi.py","line":12,"message":"method ReverseShellApp.build is not documented"}
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.connect_to_server","file":"modules/kivi.py","line":27,"message":"method ReverseShellApp.connect_to_server is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1484,"message":"ActivityLog.trace raises KeyError but does not document it"}
-{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7117,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":8328,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8351,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8351,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8496,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":8521,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8544,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":8544,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":9502,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
+{"code":"DOC002","uid":"modules/lazy_findings.py::evidence_supported","file":"modules/lazy_findings.py","line":281,"message":"parameter 'min_output' of evidence_supported is not documented"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1508,"message":"ActivityLog.trace raises KeyError but does not document it"}
+{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7555,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":8818,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8841,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":8841,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":8986,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":9011,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":9034,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":9034,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":10157,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
 {"code":"DOC005","uid":"modules/lazy_mentions.py::compose_message","file":"modules/lazy_mentions.py","line":268,"message":"compose_message raises ValueError but does not document it"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role","file":"modules/lazy_rbac.py","line":55,"message":"enum Role is not documented"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role.valid_roles","file":"modules/lazy_rbac.py","line":62,"message":"classmethod Role.valid_roles is not documented"}
@@ -1235,7 +1238,7 @@
 {"code":"DOC001","uid":"modules/logging_config.py::ColoredFormatter.format","file":"modules/logging_config.py","line":39,"message":"method ColoredFormatter.format is not documented"}
 {"code":"DOC001","uid":"modules/logging_config.py::JsonFormatter.format","file":"modules/logging_config.py","line":72,"message":"method JsonFormatter.format is not documented"}
 {"code":"DOC001","uid":"modules/logging_config.py::CorrelationFilter.filter","file":"modules/logging_config.py","line":94,"message":"method CorrelationFilter.filter is not documented"}
-{"code":"DOC004","uid":"modules/loop_guardrails.py::TargetLimiter.slot","file":"modules/loop_guardrails.py","line":234,"message":"return value of TargetLimiter.slot is not documented"}
+{"code":"DOC004","uid":"modules/loop_guardrails.py::TargetLimiter.slot","file":"modules/loop_guardrails.py","line":286,"message":"return value of TargetLimiter.slot is not documented"}
 {"code":"DOC001","uid":"modules/mario.py","file":"modules/mario.py","line":1,"message":"module modules/mario.py is not documented"}
 {"code":"DOC001","uid":"modules/mario.py::check_collision","file":"modules/mario.py","line":105,"message":"function check_collision is not documented"}
 {"code":"DOC001","uid":"modules/mcp_agent_bridge.py::GroqAgentWorker","file":"modules/mcp_agent_bridge.py","line":234,"message":"class GroqAgentWorker is not documented"}
@@ -1278,7 +1281,7 @@
 {"code":"DOC001","uid":"modules/memory_store.py::recall_hybrid","file":"modules/memory_store.py","line":364,"message":"function recall_hybrid is not documented"}
 {"code":"DOC001","uid":"modules/mfa_bypass.py::MFATarget","file":"modules/mfa_bypass.py","line":103,"message":"class MFATarget is not documented"}
 {"code":"DOC001","uid":"modules/mfa_bypass.py::MFABypassResult","file":"modules/mfa_bypass.py","line":113,"message":"class MFABypassResult is not documented"}
-{"code":"DOC001","uid":"modules/module_registry.py::ModuleInfo.to_dict","file":"modules/module_registry.py","line":202,"message":"method ModuleInfo.to_dict is not documented"}
+{"code":"DOC001","uid":"modules/module_registry.py::ModuleInfo.to_dict","file":"modules/module_registry.py","line":246,"message":"method ModuleInfo.to_dict is not documented"}
 {"code":"DOC001","uid":"modules/moe_router.py::ExpertProfile.is_local","file":"modules/moe_router.py","line":96,"message":"property ExpertProfile.is_local is not documented"}
 {"code":"DOC001","uid":"modules/moe_router.py::ExpertPerformance.update","file":"modules/moe_router.py","line":115,"message":"method ExpertPerformance.update is not documented"}
 {"code":"DOC001","uid":"modules/moe_router.py::ExpertPerformanceStore.get","file":"modules/moe_router.py","line":316,"message":"method ExpertPerformanceStore.get is not documented"}
@@ -1337,12 +1340,12 @@
 {"code":"DOC002","uid":"modules/nmap2csv.py::generate_csv","file":"modules/nmap2csv.py","line":653,"message":"parameter 'options' of generate_csv is not documented"}
 {"code":"DOC002","uid":"modules/nmap2csv.py::generate_csv","file":"modules/nmap2csv.py","line":653,"message":"parameter 'results' of generate_csv is not documented"}
 {"code":"DOC001","uid":"modules/nmap2csv.py::main","file":"modules/nmap2csv.py","line":688,"message":"function main is not documented"}
-{"code":"DOC001","uid":"modules/obs_parser.py::FindingType","file":"modules/obs_parser.py","line":50,"message":"enum FindingType is not documented"}
-{"code":"DOC001","uid":"modules/obs_parser.py::Finding","file":"modules/obs_parser.py","line":66,"message":"class Finding is not documented"}
-{"code":"DOC001","uid":"modules/obs_parser.py::Observation","file":"modules/obs_parser.py","line":76,"message":"class Observation is not documented"}
-{"code":"DOC001","uid":"modules/obs_parser.py::Observation.by_type","file":"modules/obs_parser.py","line":83,"message":"method Observation.by_type is not documented"}
-{"code":"DOC001","uid":"modules/obs_parser.py::Observation.has","file":"modules/obs_parser.py","line":86,"message":"method Observation.has is not documented"}
-{"code":"DOC004","uid":"modules/obs_parser.py::ObsParser.parse","file":"modules/obs_parser.py","line":454,"message":"return value of ObsParser.parse is not documented"}
+{"code":"DOC001","uid":"modules/obs_parser.py::FindingType","file":"modules/obs_parser.py","line":63,"message":"enum FindingType is not documented"}
+{"code":"DOC001","uid":"modules/obs_parser.py::Finding","file":"modules/obs_parser.py","line":79,"message":"class Finding is not documented"}
+{"code":"DOC001","uid":"modules/obs_parser.py::Observation","file":"modules/obs_parser.py","line":107,"message":"class Observation is not documented"}
+{"code":"DOC001","uid":"modules/obs_parser.py::Observation.by_type","file":"modules/obs_parser.py","line":114,"message":"method Observation.by_type is not documented"}
+{"code":"DOC001","uid":"modules/obs_parser.py::Observation.has","file":"modules/obs_parser.py","line":117,"message":"method Observation.has is not documented"}
+{"code":"DOC004","uid":"modules/obs_parser.py::ObsParser.parse","file":"modules/obs_parser.py","line":485,"message":"return value of ObsParser.parse is not documented"}
 {"code":"DOC001","uid":"modules/ooficesod0woodo.py","file":"modules/ooficesod0woodo.py","line":1,"message":"module modules/ooficesod0woodo.py is not documented"}
 {"code":"DOC001","uid":"modules/operation.py::OperationStatus","file":"modules/operation.py","line":42,"message":"enum OperationStatus is not documented"}
 {"code":"DOC001","uid":"modules/operation.py::OpEvent","file":"modules/operation.py","line":52,"message":"class OpEvent is not documented"}
@@ -2043,9 +2046,9 @@
 {"code":"DOC001","uid":"skills/lazyown_llm.py::LLMBridge.register_tool","file":"skills/lazyown_llm.py","line":118,"message":"method LLMBridge.register_tool is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_llm.py::LLMBridge.ask","file":"skills/lazyown_llm.py","line":127,"message":"method LLMBridge.ask is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_llm.py::main","file":"skills/lazyown_llm.py","line":493,"message":"function main is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp.py::list_tools","file":"skills/lazyown_mcp.py","line":2328,"message":"function list_tools is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp.py::call_tool","file":"skills/lazyown_mcp.py","line":6908,"message":"function call_tool is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp.py::main","file":"skills/lazyown_mcp.py","line":13584,"message":"function main is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp.py::list_tools","file":"skills/lazyown_mcp.py","line":2298,"message":"function list_tools is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp.py::call_tool","file":"skills/lazyown_mcp.py","line":6866,"message":"function call_tool is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp.py::main","file":"skills/lazyown_mcp.py","line":11987,"message":"function main is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_helpers.py::JobStore.status","file":"skills/lazyown_mcp_helpers.py","line":727,"message":"method JobStore.status is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_helpers.py::JobStore.list","file":"skills/lazyown_mcp_helpers.py","line":732,"message":"method JobStore.list is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_opencode.py::main","file":"skills/lazyown_mcp_opencode.py","line":211,"message":"function main is not documented"}

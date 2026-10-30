@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 841 modules, 15733 documented entities, documentation coverage 75.5% (7462/9885 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 854 modules, 15959 documented entities, documentation coverage 75.8% (7596/10019 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (728), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (741), sh (61)
 
 ## Modules
 
@@ -22,7 +22,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`install.sh`](modules/install.sh.md) | LazyOwn installer. | 0 | 16 | 5.9% |
 | [`key`](modules/key.py.md) |  | 0 | 1 | 0.0% |
 | [`lazy_sentinel4`](modules/lazy_sentinel4.py.md) |  | 6 | 41 | 8.3% |
-| [`lazyc2`](modules/lazyc2.py.md) |  | 3 | 230 | 39.7% |
+| [`lazyc2`](modules/lazyc2.py.md) |  | 3 | 232 | 40.3% |
 | [`lazyown`](modules/lazyown.py.md) | lazyown | 1 | 70 | 97.2% |
 | [`mutate.sh`](modules/mutate.sh.md) |  | 0 | 0 | 0.0% |
 | [`pwntomate`](modules/pwntomate.py.md) | This software must not be used by military or secret service organisations. | 0 | 0 | 100.0% |
@@ -101,7 +101,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.recon_plan`](modules/cli.recon_plan.py.md) | Reconnaissance plan generator built on top of :mod:`cli.exploration`. | 3 | 5 | 100.0% |
 | [`cli.registry`](modules/cli.registry.py.md) | ``cmd2.CommandSet`` discovery and registration for ``cli.commands``. | 0 | 2 | 100.0% |
 | [`cli.retry_support`](modules/cli.retry_support.py.md) | Retry support - resume logic shared by the ``retry`` CLI surface. | 2 | 7 | 100.0% |
-| [`cli.scope_guard`](modules/cli.scope_guard.py.md) | Authorization scope guard for offensive command execution. | 3 | 6 | 100.0% |
+| [`cli.scope_guard`](modules/cli.scope_guard.py.md) | Authorization scope guard for offensive command execution. | 3 | 7 | 100.0% |
 | [`cli.session_brief`](modules/cli.session_brief.py.md) | Consolidated session-start brief for the LazyOwn shell. | 1 | 4 | 100.0% |
 | [`cli.session_hud`](modules/cli.session_hud.py.md) | Compact session HUD: the numbers no other command shows. | 2 | 6 | 100.0% |
 | [`cli.session_resumer`](modules/cli.session_resumer.py.md) | Session resumer for the LazyOwn shell. | 3 | 2 | 100.0% |
@@ -180,13 +180,14 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.lazy_dorks`](modules/cli.commands.lazy_dorks.py.md) | LazyDorks shell command: render target dork playbooks into session artefacts. | 1 | 1 | 100.0% |
 | [`cli.commands.lazy_oob`](modules/cli.commands.lazy_oob.py.md) | LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks. | 1 | 1 | 100.0% |
 | [`cli.commands.lazy_passgen`](modules/cli.commands.lazy_passgen.py.md) | LazyPassGen shell command: target-aware weak password generation. | 1 | 1 | 100.0% |
-| [`cli.commands.lazyloop`](modules/cli.commands.lazyloop.py.md) | Lazy queue and misc command set. | 1 | 10 | 100.0% |
-| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | Lazy autonomous loop commands (single orchestrator, lazy_* surface). | 1 | 57 | 96.6% |
+| [`cli.commands.lazyloop`](modules/cli.commands.lazyloop.py.md) | Lazy queue and misc command set. | 1 | 11 | 100.0% |
+| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | Lazy autonomous loop commands (single orchestrator, lazy_* surface). | 1 | 58 | 96.7% |
 | [`cli.commands.marketplace`](modules/cli.commands.marketplace.py.md) | Plugin/addon marketplace commands. | 1 | 2 | 100.0% |
 | [`cli.commands.mcp_bridge`](modules/cli.commands.mcp_bridge.py.md) | MCP verb bridge — one command language for operators and agents. | 1 | 10 | 100.0% |
 | [`cli.commands.misc_migrated`](modules/cli.commands.misc_migrated.py.md) | misc commands migrated from lazyown.py. | 1 | 29 | 96.8% |
 | [`cli.commands.mobile_macos`](modules/cli.commands.mobile_macos.py.md) | Mobile & macOS exploitation command set. | 1 | 5 | 100.0% |
 | [`cli.commands.module_manager`](modules/cli.commands.module_manager.py.md) | Module management commands — search, use, back, and active module context. | 1 | 3 | 100.0% |
+| [`cli.commands.netattack`](modules/cli.commands.netattack.py.md) | Windows network-attack surface command set: plan, attest, show. | 1 | 1 | 100.0% |
 | [`cli.commands.nethelpers`](modules/cli.commands.nethelpers.py.md) | Network helpers extracted from the miscellaneous cluster. | 1 | 10 | 100.0% |
 | [`cli.commands.opsec_cleanup`](modules/cli.commands.opsec_cleanup.py.md) | OPSEC and cleanup commands — scoring, log tamper, forensic cleaner, timestomp, memory, network. | 1 | 8 | 100.0% |
 | [`cli.commands.orchestration`](modules/cli.commands.orchestration.py.md) | Orchestration CommandSet: operator-facing surface for the new modules. | 2 | 2 | 100.0% |
@@ -511,6 +512,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.c2_surfaces`](modules/modules.c2_surfaces.py.md) | C2 dashboard surfaces fed by the autonomous loop and APT chains. | 0 | 7 | 100.0% |
 | [`modules/cal.sh`](modules/modules.cal.sh.md) |  | 0 | 3 | 75.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | modules/categories.py ===================== cmd2 command category strings for LazyOwn. | 0 | 0 | 100.0% |
+| [`modules.chain_approval`](modules/modules.chain_approval.py.md) | Human-in-the-loop approval gate for confirm chain steps. | 1 | 9 | 100.0% |
 | [`modules.chain_distill`](modules/modules.chain_distill.py.md) | chain_distill - crystallise one autonomous-loop trace into a chain YAML. | 2 | 7 | 100.0% |
 | [`modules.chain_facts`](modules/modules.chain_facts.py.md) | Bridge chain run outputs into the FactStore. | 0 | 1 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | 2 | 9 | 100.0% |
@@ -604,33 +606,41 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.kerberos_core`](modules/modules.kerberos_core.py.md) | Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption. | 10 | 20 | 87.1% |
 | [`modules.kerberos_tickets`](modules/modules.kerberos_tickets.py.md) | Kerberos ticket forgery attacks — silver, golden, diamond, sapphire tickets. | 8 | 12 | 81.0% |
 | [`modules.kill_chain_viz`](modules/modules.kill_chain_viz.py.md) | SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG. | 0 | 2 | 33.3% |
-| [`modules.killchain`](modules/modules.killchain.py.md) | Unified kill-chain — single source of truth consumed by all surfaces. | 3 | 18 | 100.0% |
+| [`modules.killchain`](modules/modules.killchain.py.md) | Unified kill-chain — single source of truth consumed by all surfaces. | 3 | 22 | 100.0% |
 | [`modules.kivi`](modules/modules.kivi.py.md) |  | 1 | 2 | 0.0% |
 | [`modules.lab_runtime`](modules/modules.lab_runtime.py.md) | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | 0 | 16 | 100.0% |
 | [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | Agentic tool-calling bridge for the loop and the main agent. | 2 | 16 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | Bidirectional LAZY <-> LazyOwn bridge. | 0 | 14 | 100.0% |
+| [`modules.lazy_checks`](modules/modules.lazy_checks.py.md) | Validation plans as data: re-read observed checks through version math. | 0 | 3 | 100.0% |
 | [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | Full CLI catalog for the Lazy autonomous loop. | 0 | 10 | 100.0% |
 | [`modules.lazy_creds`](modules/modules.lazy_creds.py.md) | Default-credential knowledge base for LazyOwn. | 1 | 6 | 100.0% |
 | [`modules.lazy_cve_feed`](modules/modules.lazy_cve_feed.py.md) | Keyless CVE intelligence feeds and version-aware service correlation. | 0 | 10 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | 1 | 0 | 100.0% |
+| [`modules.lazy_findings`](modules/modules.lazy_findings.py.md) | Engagement findings ledger: state machine plus reproducible evidence. | 3 | 20 | 100.0% |
 | [`modules.lazy_heat`](modules/modules.lazy_heat.py.md) | Heat tiers and version math for CVE correlation. | 0 | 11 | 100.0% |
+| [`modules.lazy_hostscore`](modules/modules.lazy_hostscore.py.md) | Host heat score: deterministic 0-100 priority for every known host. | 0 | 3 | 100.0% |
 | [`modules.lazy_installer`](modules/modules.lazy_installer.py.md) | Capability installer for the Lazy autonomous loop. | 0 | 6 | 100.0% |
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | Intel feed from the Lazy autonomous loop. | 0 | 9 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 257 | 100.0% |
+| [`modules.lazy_ledger`](modules/modules.lazy_ledger.py.md) | Freshness ledger: TTL windows per verb and target for the loop worker. | 0 | 5 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 261 | 100.0% |
+| [`modules.lazy_match_policy`](modules/modules.lazy_match_policy.py.md) | Match policy doctrine: what may claim a match and what stays a lead. | 1 | 8 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | LAZY chat mentions with multi-type search and scroll pagination. | 3 | 3 | 100.0% |
+| [`modules.lazy_netattack`](modules/modules.lazy_netattack.py.md) | Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay. | 2 | 3 | 100.0% |
 | [`modules.lazy_oob`](modules/modules.lazy_oob.py.md) | Local OOB canary for blind SSRF/RCE detection. | 1 | 8 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | Organic orchestrator training from loop usage. | 0 | 5 | 100.0% |
 | [`modules.lazy_osinfer`](modules/modules.lazy_osinfer.py.md) | Target OS inference and OS-aware verb gating. | 0 | 11 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | Recording HTTP/HTTPS proxy for the autonomous loop. | 2 | 20 | 100.0% |
 | [`modules.lazy_rbac`](modules/modules.lazy_rbac.py.md) | modules/lazy_rbac.py ==================== Role-Based Access Control, Multi-Factor Authentication, and Multi-Tenancy for the LazyOwn RedTeam Framework. | 6 | 48 | 20.0% |
+| [`modules.lazy_reaper`](modules/modules.lazy_reaper.py.md) | Reaper: expire lazy-loop tasks whose process proves dead. | 0 | 1 | 100.0% |
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | Lazy specialist roles for the autonomous loop. | 0 | 4 | 100.0% |
 | [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 7 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | Per-task Docker sandbox for the Lazy autonomous loop. | 0 | 10 | 100.0% |
-| [`modules.lazy_scope`](modules/modules.lazy_scope.py.md) | Lab-only default scope for autonomous loop targets. | 1 | 6 | 100.0% |
+| [`modules.lazy_scope`](modules/modules.lazy_scope.py.md) | Lab-only default scope for autonomous loop targets. | 1 | 8 | 100.0% |
 | [`modules.lazy_skill_mirror`](modules/modules.lazy_skill_mirror.py.md) | Mirror LazyOwn skills for Hermes discovery. | 0 | 4 | 100.0% |
 | [`modules.lazy_skills`](modules/modules.lazy_skills.py.md) | Skill context injection for planner/worker prompts. | 0 | 4 | 100.0% |
 | [`modules.lazy_summarizer`](modules/modules.lazy_summarizer.py.md) | Bounded chain summarizer for the Lazy autonomous loop. | 0 | 2 | 100.0% |
 | [`modules.lazy_surface_diff`](modules/modules.lazy_surface_diff.py.md) | Surface snapshot and diff: what changed about a host since last look. | 0 | 7 | 100.0% |
+| [`modules.lazy_triage`](modules/modules.lazy_triage.py.md) | Triage doctrine: evidence floors, verdict algebra and signature dedup. | 1 | 7 | 100.0% |
 | [`modules.lazy_verify`](modules/modules.lazy_verify.py.md) | Structured read-only verification of loop findings. | 0 | 4 | 100.0% |
 | [`modules.lazy_world_diff`](modules/modules.lazy_world_diff.py.md) | World-surface diff: host snapshots, change detection, ghost liveness. | 1 | 15 | 100.0% |
 | [`modules/lazyatack.sh`](modules/modules.lazyatack.sh.md) | Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Descripción: Este... | 0 | 30 | 100.0% |
@@ -674,11 +684,11 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.llm_prompts`](modules/modules.llm_prompts.py.md) | Canonical prompt-template and knowledge-base contract for LLM consumers. | 2 | 17 | 100.0% |
 | [`modules.log_tamper`](modules/modules.log_tamper.py.md) | Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log. | 2 | 7 | 90.0% |
 | [`modules.logging_config`](modules/modules.logging_config.py.md) | Centralized logging configuration for the LazyOwn framework. | 4 | 15 | 85.0% |
-| [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | Single edge between the autonomous loop and the LazyOwn AI stack. | 0 | 11 | 100.0% |
-| [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | Adaptive guardrails for the autonomous loop. | 4 | 23 | 92.9% |
+| [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | Single edge between the autonomous loop and the LazyOwn AI stack. | 0 | 15 | 100.0% |
+| [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | Adaptive guardrails for the autonomous loop. | 4 | 24 | 93.1% |
 | [`modules.loop_manager`](modules/modules.loop_manager.py.md) | Parallel autonomous loop orchestration for the LazyOwn C2 dashboard. | 4 | 13 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | Rich Live milestone panel for the autonomous loop. | 2 | 9 | 100.0% |
-| [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | TriggerStore: persistent loop triggers extracted from the loop core. | 1 | 11 | 100.0% |
+| [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | TriggerStore: persistent loop triggers extracted from the loop core. | 1 | 13 | 100.0% |
 | [`modules.macos_payloads`](modules/modules.macos_payloads.py.md) | macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC. | 2 | 11 | 92.9% |
 | [`modules.mario`](modules/modules.mario.py.md) |  | 0 | 1 | 0.0% |
 | [`modules.mcp_agent_bridge`](modules/modules.mcp_agent_bridge.py.md) | LazyOwn MCP Agent Bridge ======================== Allows Claude (via MCP) to delegate tasks to internal AI agents (Groq / Ollama) running inside LazyOwn... | 3 | 10 | 42.9% |
@@ -690,7 +700,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.metrics`](modules/modules.metrics.py.md) | LazyOwn metrics surface. | 5 | 16 | 100.0% |
 | [`modules.mfa_bypass`](modules/modules.mfa_bypass.py.md) | MFA Bypass Toolkit — techniques for circumventing multi-factor authentication. | 3 | 7 | 81.8% |
 | [`modules/mkcloudflaretunnel.sh`](modules/modules.mkcloudflaretunnel.sh.md) | cloudflare_tunnel.sh - Download cloudflared and create a tunnel to localhost on a specified port. | 0 | 0 | 100.0% |
-| [`modules.module_registry`](modules/modules.module_registry.py.md) | Unified module registry for LazyOwn — catalog, search, use/run workflow. | 2 | 13 | 87.5% |
+| [`modules.module_registry`](modules/modules.module_registry.py.md) | Unified module registry for LazyOwn — catalog, search, use/run workflow. | 2 | 14 | 88.2% |
 | [`modules.moe_router`](modules/modules.moe_router.py.md) | modules/moe_router.py ====================== Mixture-of-Experts (MoE) Router for LazyOwn. | 7 | 22 | 65.5% |
 | [`modules.morse`](modules/modules.morse.py.md) | Morse code conversion service with interactive driver. | 1 | 6 | 100.0% |
 | [`modules/mysql_hookandroot_lib.c`](modules/modules.mysql_hookandroot_lib.c.md) |  | 0 | 6 | 28.6% |
@@ -698,12 +708,12 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.nmap2csv`](modules/modules.nmap2csv.py.md) | This file is part of nmaptocsv. | 2 | 42 | 26.7% |
 | [`modules.notify`](modules/modules.notify.py.md) | Stateless multi-channel notifier for finding events. | 4 | 10 | 100.0% |
 | [`modules.nuclei_templates_sync`](modules/modules.nuclei_templates_sync.py.md) | Sync community Nuclei template collections into the LazyOwn marketplace. | 0 | 15 | 100.0% |
-| [`modules.obs_parser`](modules/modules.obs_parser.py.md) | modules/obs_parser.py ====================== Observation parser: extracts structured findings from raw tool output. | 5 | 8 | 57.1% |
+| [`modules.obs_parser`](modules/modules.obs_parser.py.md) | modules/obs_parser.py ====================== Observation parser: extracts structured findings from raw tool output. | 5 | 9 | 60.0% |
 | [`modules.ooficesod0woodo`](modules/modules.ooficesod0woodo.py.md) |  | 0 | 0 | 0.0% |
 | [`modules.operation`](modules/modules.operation.py.md) | Caldera-style operation lifecycle: create, start, pause, resume, stop, status. | 5 | 18 | 33.3% |
 | [`modules.operator_profiles`](modules/modules.operator_profiles.py.md) | Multi-operator profile management for LazyOwn team server. | 2 | 13 | 87.5% |
 | [`modules.opsec_scorer`](modules/modules.opsec_scorer.py.md) | OPSEC scoring engine — pre-execution noise assessment and gated scoring. | 7 | 12 | 80.0% |
-| [`modules.orchestrator_config`](modules/modules.orchestrator_config.py.md) | Operator configuration for the loop core: profiles, stages and auto verbs. | 0 | 20 | 100.0% |
+| [`modules.orchestrator_config`](modules/modules.orchestrator_config.py.md) | Operator configuration for the loop core: profiles, stages and auto verbs. | 0 | 24 | 100.0% |
 | [`modules.osint_enrich`](modules/modules.osint_enrich.py.md) | Keyless OSINT enrichment for finding evidence. | 0 | 5 | 100.0% |
 | [`modules.outcome_bus`](modules/modules.outcome_bus.py.md) | Single fan-out contract for engagement outcomes. | 2 | 12 | 100.0% |
 | [`modules.payload_factory`](modules/modules.payload_factory.py.md) | Native payload generation framework — stagers, stages, singles, formats. | 7 | 20 | 71.4% |
@@ -716,6 +726,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.polymorphic_engine`](modules/modules.polymorphic_engine.py.md) | Polymorphic code generation engine — shellcode mutation and obfuscation. | 3 | 6 | 90.0% |
 | [`modules.privesc_predictor`](modules/modules.privesc_predictor.py.md) | Crystal Ball — privilege escalation vector prediction engine. | 2 | 10 | 100.0% |
 | [`modules.professional_report`](modules/modules.professional_report.py.md) | Professional Red Team Report Generator. | 3 | 7 | 90.9% |
+| [`modules.progress_ledger`](modules/modules.progress_ledger.py.md) | Objective-progress ledger: qualitative strikes against goal stagnation. | 4 | 11 | 100.0% |
 | [`modules/r.sh`](modules/modules.r.sh.md) | Obtener la versión del kernel actual | 0 | 1 | 100.0% |
 | [`modules.reaction_bridge`](modules/modules.reaction_bridge.py.md) | Reaction bridge between the reactive engine and the loop planner. | 1 | 4 | 83.3% |
 | [`modules.reactive_engine`](modules/modules.reactive_engine.py.md) | modules/reactive_engine.py =========================== Parses command output and produces concrete next-action recommendations: - PrivEsc advice (GTFOBins /... | 16 | 21 | 57.9% |
@@ -825,7 +836,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.mediation.feedback_mediator`](modules/modules.mediation.feedback_mediator.py.md) | Specialised mediator for step-ordering feedback coordination. | 1 | 2 | 100.0% |
 | [`modules.mediation.hub`](modules/modules.mediation.hub.py.md) | Thin routing hub for specialised mediators. | 1 | 6 | 100.0% |
 | [`modules.mediation.intel_mediator`](modules/modules.mediation.intel_mediator.py.md) | specialised mediator for recon-intel coordination. | 1 | 8 | 100.0% |
-| [`modules.mediation.telemetry_mediator`](modules/modules.mediation.telemetry_mediator.py.md) | Specialised mediator for loop telemetry coordination. | 1 | 10 | 100.0% |
+| [`modules.mediation.telemetry_mediator`](modules/modules.mediation.telemetry_mediator.py.md) | Specialised mediator for loop telemetry coordination. | 1 | 13 | 100.0% |
 
 ### `modules/rootkit`
 
@@ -853,7 +864,9 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.sinks.beacon_dispatch`](modules/modules.sinks.beacon_dispatch.py.md) | Beacon dispatch sink: on a foothold, stage the catch-back command. | 0 | 1 | 100.0% |
 | [`modules.sinks.c2_surfaces`](modules/modules.sinks.c2_surfaces.py.md) | C2 dashboard sink: banners, CVEs and operator notes. | 0 | 1 | 100.0% |
 | [`modules.sinks.campaign_db`](modules/modules.sinks.campaign_db.py.md) | Campaign database sink: opt-in host and vulnerability mirror. | 0 | 1 | 100.0% |
+| [`modules.sinks.chain_feed`](modules/modules.sinks.chain_feed.py.md) | Chain-feed sink: stream chain steps into the autonomous loop. | 0 | 1 | 100.0% |
 | [`modules.sinks.event_bus`](modules/modules.sinks.event_bus.py.md) | Unified event-bus sink: publish every outcome once. | 0 | 1 | 100.0% |
+| [`modules.sinks.findings`](modules/modules.sinks.findings.py.md) | Findings sink: append engagement finding transitions to the ledger. | 0 | 5 | 100.0% |
 | [`modules.sinks.intel_graph`](modules/modules.sinks.intel_graph.py.md) | Intel-graph sink: rebuild the fused graph after meaningful outcomes. | 0 | 1 | 100.0% |
 | [`modules.sinks.killchain`](modules/modules.sinks.killchain.py.md) | Kill-chain sink: advance the unified phase from proven outcomes. | 0 | 1 | 100.0% |
 | [`modules.sinks.objectives`](modules/modules.sinks.objectives.py.md) | Objectives sink: turn proven outcomes into follow-up work. | 0 | 1 | 100.0% |

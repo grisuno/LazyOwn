@@ -277,73 +277,72 @@ Previous: [KB_skills.md](KB_skills.md)
   - `_get_transcript` (function, line 385) `def _get_transcript()`
   - `_compact` (function, line 398) `def _compact(content, tool_name)`
   - `_get_claudemd` (function, line 414) `def _get_claudemd()`
-  - `_load_category_command_map` (function, line 469) `def _load_category_command_map()`
-  - `_load_payload` (function, line 516) `def _load_payload()`
-  - `_has_data` (function, line 525) `def _has_data(path)`
-  - `_save_payload` (function, line 530) `def _save_payload(data)`
-  - `_c2_creds` (function, line 549) `def _c2_creds()`
-  - `_c2_request` (function, line 559) `def _c2_request(path, method, body)`
-  - `register_handler` (function, line 634) `def register_handler(tool_name)`
-  - `_make_text` (function, line 648) `def _make_text(tool_name, content)`
-  - `_dispatch_perm_check` (function, line 660) `def _dispatch_perm_check(name, arguments)`
-  - `_h_get_config` (function, line 700) `def _h_get_config(arguments, tool_name)`
-  - `_h_db` (function, line 706) `def _h_db(arguments, tool_name)`
-  - `_h_get_llm_budget` (function, line 838) `def _h_get_llm_budget(arguments, tool_name)`
-  - `_h_set_config` (function, line 875) `def _h_set_config(arguments, tool_name)`
-  - `_h_list_modules` (function, line 900) `def _h_list_modules(arguments, tool_name)`
-  - `_h_run_command` (function, line 922) `def _h_run_command(arguments, tool_name)`
-  - `_h_ack_event` (function, line 987) `def _h_ack_event(arguments, tool_name)`
-  - `_h_c2_status` (function, line 999) `def _h_c2_status(arguments, tool_name)`
-  - `_h_rea` (function, line 1041) `def _h_rea(arguments, tool_name)`
-  - `_h_exploit_recommend` (function, line 1156) `def _h_exploit_recommend(arguments, tool_name)`
-  - `_h_evasion_generate` (function, line 1180) `def _h_evasion_generate(arguments, tool_name)`
-  - `_h_evasion_rotate` (function, line 1195) `def _h_evasion_rotate(arguments, tool_name)`
-  - `_h_pivot_status` (function, line 1209) `def _h_pivot_status(arguments, tool_name)`
-  - `_h_dashboard_snapshot` (function, line 1229) `def _h_dashboard_snapshot(arguments, tool_name)`
-  - `_h_unified_dashboard` (function, line 1249) `def _h_unified_dashboard(arguments, tool_name)`
-  - `_h_get_beacons` (function, line 1262) `def _h_get_beacons(arguments, tool_name)`
-  - `_h_auto_pwn` (function, line 1268) `def _h_auto_pwn(arguments, tool_name)`
-  - `_h_exploit_chain` (function, line 1301) `def _h_exploit_chain(arguments, tool_name)`
-  - `_h_lazy_status` (function, line 1361) `def _h_lazy_status(arguments, tool_name)`
-  - `_h_lazy_sync` (function, line 1371) `def _h_lazy_sync(arguments, tool_name)`
-  - `_h_lazy_board` (function, line 1381) `def _h_lazy_board(arguments, tool_name)`
-  - `_h_lazy_trace` (function, line 1404) `def _h_lazy_trace(arguments, tool_name)`
-  - `_h_lazy_hint` (function, line 1421) `def _h_lazy_hint(arguments, tool_name)`
-  - `_h_lazy_workspace` (function, line 1440) `def _h_lazy_workspace(arguments, tool_name)`
-  - `_h_lazy_proxy` (function, line 1461) `def _h_lazy_proxy(arguments, tool_name)`
-  - `_h_lazy_finding` (function, line 1486) `def _h_lazy_finding(arguments, tool_name)`
-  - `_h_lazy_mention` (function, line 1526) `def _h_lazy_mention(arguments, tool_name)`
-  - `_h_lazy_delete` (function, line 1557) `def _h_lazy_delete(arguments, tool_name)`
-  - `_h_lazy_compact` (function, line 1582) `def _h_lazy_compact(arguments, tool_name)`
-  - `_h_lazy_addon` (function, line 1606) `def _h_lazy_addon(arguments, tool_name)`
-  - `_h_lolbas_list` (function, line 1634) `def _h_lolbas_list(arguments, tool_name)`
-  - `_h_lolbas_use` (function, line 1674) `def _h_lolbas_use(arguments, tool_name)`
-  - `_h_stealth` (function, line 1724) `def _h_stealth(arguments, tool_name)`
-  - `_h_rich_tui_snapshot` (function, line 1748) `def _h_rich_tui_snapshot(arguments, tool_name)`
-  - `_h_inject_objective` (function, line 1782) `def _h_inject_objective(arguments, tool_name)`
-  - `_h_credentials` (function, line 1802) `def _h_credentials(arguments, tool_name)`
-  - `_h_facts_show` (function, line 1861) `def _h_facts_show(arguments, tool_name)`
-  - `_h_exploitgym_status` (function, line 1881) `def _h_exploitgym_status(arguments, tool_name)`
-  - `_h_exploitgym_list` (function, line 1895) `def _h_exploitgym_list(arguments, tool_name)`
-  - `_h_exploitgym_run` (function, line 1911) `def _h_exploitgym_run(arguments, tool_name)`
-  - `_h_exploitgym_score` (function, line 1931) `def _h_exploitgym_score(arguments, tool_name)`
-  - `_h_winbox_status` (function, line 1950) `def _h_winbox_status(arguments, tool_name)`
-  - `_h_winbox_vm` (function, line 1965) `def _h_winbox_vm(arguments, tool_name)`
-  - `_h_winbox_exec` (function, line 1995) `def _h_winbox_exec(arguments, tool_name)`
-  - `_h_winbox_tools` (function, line 2025) `def _h_winbox_tools(arguments, tool_name)`
-  - `_h_winbox_eventlogs` (function, line 2048) `def _h_winbox_eventlogs(arguments, tool_name)`
-  - `_h_winbox_snapshot` (function, line 2070) `def _h_winbox_snapshot(arguments, tool_name)`
-  - `_h_winbox_gym_list` (function, line 2091) `def _h_winbox_gym_list(arguments, tool_name)`
-  - `_h_winbox_gym_plan` (function, line 2104) `def _h_winbox_gym_plan(arguments, tool_name)`
-  - `_h_winbox_gym_run` (function, line 2122) `def _h_winbox_gym_run(arguments, tool_name)`
-  - `_h_opencode_config` (function, line 2147) `def _h_opencode_config(arguments, tool_name)`
-  - `_h_loop_smoke` (function, line 2169) `def _h_loop_smoke(arguments, tool_name)`
-  - `_run_lazyown_command` (function, line 2225) `def _run_lazyown_command(command, timeout)`
-  - `list_tools` (function, line 2328) `def list_tools()`
-  - `substitute_playbook_target` (function, line 6890) `def substitute_playbook_target(command, target)`
-  - `call_tool` (function, line 6908) `def call_tool(name, arguments)`
-  - `_handle_sighup` (function, line 13573) `def _handle_sighup(signum, frame)`
-  - `main` (function, line 13584) `def main()`
+  - `_load_payload` (function, line 486) `def _load_payload()`
+  - `_has_data` (function, line 495) `def _has_data(path)`
+  - `_save_payload` (function, line 500) `def _save_payload(data)`
+  - `_c2_creds` (function, line 519) `def _c2_creds()`
+  - `_c2_request` (function, line 529) `def _c2_request(path, method, body)`
+  - `register_handler` (function, line 604) `def register_handler(tool_name)`
+  - `_make_text` (function, line 618) `def _make_text(tool_name, content)`
+  - `_dispatch_perm_check` (function, line 630) `def _dispatch_perm_check(name, arguments)`
+  - `_h_get_config` (function, line 670) `def _h_get_config(arguments, tool_name)`
+  - `_h_db` (function, line 676) `def _h_db(arguments, tool_name)`
+  - `_h_get_llm_budget` (function, line 808) `def _h_get_llm_budget(arguments, tool_name)`
+  - `_h_set_config` (function, line 845) `def _h_set_config(arguments, tool_name)`
+  - `_h_list_modules` (function, line 870) `def _h_list_modules(arguments, tool_name)`
+  - `_h_run_command` (function, line 892) `def _h_run_command(arguments, tool_name)`
+  - `_h_ack_event` (function, line 957) `def _h_ack_event(arguments, tool_name)`
+  - `_h_c2_status` (function, line 969) `def _h_c2_status(arguments, tool_name)`
+  - `_h_rea` (function, line 1011) `def _h_rea(arguments, tool_name)`
+  - `_h_exploit_recommend` (function, line 1126) `def _h_exploit_recommend(arguments, tool_name)`
+  - `_h_evasion_generate` (function, line 1150) `def _h_evasion_generate(arguments, tool_name)`
+  - `_h_evasion_rotate` (function, line 1165) `def _h_evasion_rotate(arguments, tool_name)`
+  - `_h_pivot_status` (function, line 1179) `def _h_pivot_status(arguments, tool_name)`
+  - `_h_dashboard_snapshot` (function, line 1199) `def _h_dashboard_snapshot(arguments, tool_name)`
+  - `_h_unified_dashboard` (function, line 1219) `def _h_unified_dashboard(arguments, tool_name)`
+  - `_h_get_beacons` (function, line 1232) `def _h_get_beacons(arguments, tool_name)`
+  - `_h_auto_pwn` (function, line 1238) `def _h_auto_pwn(arguments, tool_name)`
+  - `_h_exploit_chain` (function, line 1271) `def _h_exploit_chain(arguments, tool_name)`
+  - `_h_lazy_status` (function, line 1331) `def _h_lazy_status(arguments, tool_name)`
+  - `_h_lazy_sync` (function, line 1341) `def _h_lazy_sync(arguments, tool_name)`
+  - `_h_lazy_board` (function, line 1351) `def _h_lazy_board(arguments, tool_name)`
+  - `_h_lazy_trace` (function, line 1374) `def _h_lazy_trace(arguments, tool_name)`
+  - `_h_lazy_hint` (function, line 1391) `def _h_lazy_hint(arguments, tool_name)`
+  - `_h_lazy_workspace` (function, line 1410) `def _h_lazy_workspace(arguments, tool_name)`
+  - `_h_lazy_proxy` (function, line 1431) `def _h_lazy_proxy(arguments, tool_name)`
+  - `_h_lazy_finding` (function, line 1456) `def _h_lazy_finding(arguments, tool_name)`
+  - `_h_lazy_mention` (function, line 1496) `def _h_lazy_mention(arguments, tool_name)`
+  - `_h_lazy_delete` (function, line 1527) `def _h_lazy_delete(arguments, tool_name)`
+  - `_h_lazy_compact` (function, line 1552) `def _h_lazy_compact(arguments, tool_name)`
+  - `_h_lazy_addon` (function, line 1576) `def _h_lazy_addon(arguments, tool_name)`
+  - `_h_lolbas_list` (function, line 1604) `def _h_lolbas_list(arguments, tool_name)`
+  - `_h_lolbas_use` (function, line 1644) `def _h_lolbas_use(arguments, tool_name)`
+  - `_h_stealth` (function, line 1694) `def _h_stealth(arguments, tool_name)`
+  - `_h_rich_tui_snapshot` (function, line 1718) `def _h_rich_tui_snapshot(arguments, tool_name)`
+  - `_h_inject_objective` (function, line 1752) `def _h_inject_objective(arguments, tool_name)`
+  - `_h_credentials` (function, line 1772) `def _h_credentials(arguments, tool_name)`
+  - `_h_facts_show` (function, line 1831) `def _h_facts_show(arguments, tool_name)`
+  - `_h_exploitgym_status` (function, line 1851) `def _h_exploitgym_status(arguments, tool_name)`
+  - `_h_exploitgym_list` (function, line 1865) `def _h_exploitgym_list(arguments, tool_name)`
+  - `_h_exploitgym_run` (function, line 1881) `def _h_exploitgym_run(arguments, tool_name)`
+  - `_h_exploitgym_score` (function, line 1901) `def _h_exploitgym_score(arguments, tool_name)`
+  - `_h_winbox_status` (function, line 1920) `def _h_winbox_status(arguments, tool_name)`
+  - `_h_winbox_vm` (function, line 1935) `def _h_winbox_vm(arguments, tool_name)`
+  - `_h_winbox_exec` (function, line 1965) `def _h_winbox_exec(arguments, tool_name)`
+  - `_h_winbox_tools` (function, line 1995) `def _h_winbox_tools(arguments, tool_name)`
+  - `_h_winbox_eventlogs` (function, line 2018) `def _h_winbox_eventlogs(arguments, tool_name)`
+  - `_h_winbox_snapshot` (function, line 2040) `def _h_winbox_snapshot(arguments, tool_name)`
+  - `_h_winbox_gym_list` (function, line 2061) `def _h_winbox_gym_list(arguments, tool_name)`
+  - `_h_winbox_gym_plan` (function, line 2074) `def _h_winbox_gym_plan(arguments, tool_name)`
+  - `_h_winbox_gym_run` (function, line 2092) `def _h_winbox_gym_run(arguments, tool_name)`
+  - `_h_opencode_config` (function, line 2117) `def _h_opencode_config(arguments, tool_name)`
+  - `_h_loop_smoke` (function, line 2139) `def _h_loop_smoke(arguments, tool_name)`
+  - `_run_lazyown_command` (function, line 2195) `def _run_lazyown_command(command, timeout)`
+  - `list_tools` (function, line 2298) `def list_tools()`
+  - `substitute_playbook_target` (function, line 6848) `def substitute_playbook_target(command, target)`
+  - `call_tool` (function, line 6866) `def call_tool(name, arguments)`
+  - `_handle_sighup` (function, line 11976) `def _handle_sighup(signum, frame)`
+  - `main` (function, line 11987) `def main()`
   - `_load` (function, line 82) `def _load(ns)`
   - `_load` (function, line 100) `def _load(ns)`
   - `_load` (function, line 115) `def _load(ns)`
@@ -358,61 +357,38 @@ Previous: [KB_skills.md](KB_skills.md)
   - `_load` (function, line 270) `def _load(ns)`
   - `_load` (function, line 298) `def _load(ns)`
   - `_load` (function, line 318) `def _load(ns)`
-  - `_verified_context` (function, line 572) `def _verified_context()`
-  - `_is_lab_target` (function, line 582) `def _is_lab_target(name)`
-  - `_decorator` (function, line 641) `def _decorator(func)`
-  - `_result` (function, line 726) `def _result(payload)`
-  - `_run_with_fallback` (function, line 939) `def _run_with_fallback(cmd, to)`
-  - `_fail` (function, line 1053) `def _fail(message, remediation)`
-  - `_run_rea` (function, line 1128) `def _run_rea()`
-  - `_add` (function, line 1808) `def _add(user, secret, host, source, confirmed)`
-  - `_do_facts` (function, line 1871) `def _do_facts()`
-  - `text` (function, line 6922) `def text(content)`
-  - `_isolated_runner` (function, line 13478) `def _isolated_runner(cmd)`
-  - `_handle_sse` (function, line 13602) `def _handle_sse(request)`
-  - `_handle_messages` (function, line 13606) `def _handle_messages(scope, receive, send)`
-  - `coerce_value` (function, line 884) `def coerce_value(k, v)`
+  - `_verified_context` (function, line 542) `def _verified_context()`
+  - `_is_lab_target` (function, line 552) `def _is_lab_target(name)`
+  - `_decorator` (function, line 611) `def _decorator(func)`
+  - `_result` (function, line 696) `def _result(payload)`
+  - `_run_with_fallback` (function, line 909) `def _run_with_fallback(cmd, to)`
+  - `_fail` (function, line 1023) `def _fail(message, remediation)`
+  - `_run_rea` (function, line 1098) `def _run_rea()`
+  - `_add` (function, line 1778) `def _add(user, secret, host, source, confirmed)`
+  - `_do_facts` (function, line 1841) `def _do_facts()`
+  - `text` (function, line 6880) `def text(content)`
+  - `_isolated_runner` (function, line 11881) `def _isolated_runner(cmd)`
+  - `_handle_sse` (function, line 12005) `def _handle_sse(request)`
+  - `_handle_messages` (function, line 12009) `def _handle_messages(scope, receive, send)`
+  - `coerce_value` (function, line 854) `def coerce_value(k, v)`
   - `_create_tool_file` (function, line 200) `def _create_tool_file()`
   - `_get_pdb` (function, line 258) `def _get_pdb(_)`
   - `_compact_output_fn` (function, line 408) `def _compact_output_fn(c, t)`
-  - `_runner` (function, line 7335) `def _runner(cmd)`
-  - `_read_docstring` (function, line 8298) `def _read_docstring(cmd_name)`
-  - `_fused_recommendations` (function, line 9190) `def _fused_recommendations()`
-  - `_ensure_orchestrator` (function, line 9475) `def _ensure_orchestrator()`
-  - `_gate_command` (function, line 9548) `def _gate_command(cmd)`
-  - `_trace_append` (function, line 9583) `def _trace_append(record)`
-  - `_trace_search` (function, line 9608) `def _trace_search(query, limit)`
-  - `_settle_step` (function, line 9628) `def _settle_step(cmd, output, via, finding_values)`
-  - `_read_os_json` (function, line 9684) `def _read_os_json()`
-  - `_wait_for_nmap_xml` (function, line 9696) `def _wait_for_nmap_xml(tgt, timeout_s)`
-  - `_generate_tasks_from_sessions` (function, line 9716) `def _generate_tasks_from_sessions(tgt, platform, api_key)`
-  - `_next_pending_task` (function, line 9831) `def _next_pending_task()`
-  - `_mark_task_done` (function, line 9868) `def _mark_task_done(task_id, outcome)`
-  - `_bootstrap_sequence` (function, line 9885) `def _bootstrap_sequence()`
-  - `_parquet_candidates` (function, line 9939) `def _parquet_candidates(category, tgt)`
-  - `_run_pwntomate_if_xml_ready` (function, line 9957) `def _run_pwntomate_if_xml_ready(tgt)`
-  - `_refresh_facts` (function, line 9996) `def _refresh_facts(tgt)`
-  - `_build_command_from_facts` (function, line 10004) `def _build_command_from_facts(category, resolved_cmd, resolved_args, tgt)`
-  - `_execute_step` (function, line 10042) `def _execute_step()`
-  - `_advance_phase_wm` (function, line 10764) `def _advance_phase_wm()`
-  - `_Proposal` (class, line 9409) `class _Proposal`
-  - `_select_proposal` (function, line 9421) `def _select_proposal(proposals, is_blocked)`
-  - `_blocked` (function, line 10045) `def _blocked(base)`
-  - `__init__` (method, line 9412) `def __init__(self, command, args, source, reason, priority)`
-  - `_read_prompt` (function, line 10980) `def _read_prompt()`
-  - `_is_placeholder` (function, line 10564) `def _is_placeholder(val)`
-  - `_is_placeholder` (function, line 10171) `def _is_placeholder(val)`
-  - `_mcp_executor` (function, line 11116) `def _mcp_executor(command, target)`
-  - `_blocking_run` (function, line 11944) `def _blocking_run()`
-  - `_load_crons` (function, line 12580) `def _load_crons()`
-  - `_save_crons` (function, line 12591) `def _save_crons(entries)`
-  - `_deploy_beacon_sync` (function, line 12682) `def _deploy_beacon_sync()`
-  - `_run_parquet_query` (function, line 12821) `def _run_parquet_query()`
-  - `_run_campaign` (function, line 12887) `def _run_campaign()`
-  - `_run_daemon` (function, line 12957) `def _run_daemon()`
-  - `_launch` (function, line 13042) `def _launch()`
-- Depends on: `cli/command_chain.py`, `cli/graph_advisor.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `core/config.py`, `core/hardening.py`, `core/llm_budget.py`, `core/logging.py`, `core/param_registry.py`, `core/payload_schema.py`, `modules/__init__.py`, `modules/ai_exploit_chain.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_loop_memory.py`, `modules/auto_pivot.py`, `modules/auto_registry.py`, `modules/autonomous_exploit_engine.py`, `modules/backdoor/server.c`, `modules/chain_registry.py`, `modules/collab_bp.py`, `modules/cve_matcher.py`, `modules/dashboard_engine.py`, `modules/db.py`, `modules/digest.py`, `modules/evasion_engine.py`, `modules/event_engine.py`, `modules/evidence.py`, `modules/exploit_recommender.py`, `modules/exploitgym_gym.py`, `modules/goals.py`, `modules/integrations/misp_export.py`, `modules/intelligence_engine.py`, `modules/intercept.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazyown_bridge.py`, `modules/llm_client.py`, `modules/llm_evaluator.py`, `modules/llm_pool.py`, `modules/mcp_agent_bridge.py`, `modules/memory_store.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/obs_parser.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/recommender.py`, `modules/selector_manager.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/session_state.py`, `modules/sinks/routing.py`, `modules/threat_model.py`, `modules/timeline_narrator.py`, `modules/traffic_recorder.py`, `modules/ttpscope_bridge.py`, `modules/unified_dashboard.py`, `modules/world_model.py`, `scripts/lazy_opencode_config.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/daemon_control.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/swan_agent.py`
-- Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_opencode.py`, `skills/tests/test_mcp_smoke.py`, `tests/test_boyscout_contracts.py`, `tests/test_mcp_improvements.py`, `tests/test_rea_mcp.py`
+  - `_runner` (function, line 7293) `def _runner(cmd)`
+  - `_read_docstring` (function, line 8256) `def _read_docstring(cmd_name)`
+  - `_fused_recommendations` (function, line 9148) `def _fused_recommendations()`
+  - `_read_prompt` (function, line 9383) `def _read_prompt()`
+  - `_mcp_executor` (function, line 9519) `def _mcp_executor(command, target)`
+  - `_blocking_run` (function, line 10347) `def _blocking_run()`
+  - `_load_crons` (function, line 10983) `def _load_crons()`
+  - `_save_crons` (function, line 10994) `def _save_crons(entries)`
+  - `_deploy_beacon_sync` (function, line 11085) `def _deploy_beacon_sync()`
+  - `_run_parquet_query` (function, line 11224) `def _run_parquet_query()`
+  - `_run_campaign` (function, line 11290) `def _run_campaign()`
+  - `_run_daemon` (function, line 11360) `def _run_daemon()`
+  - `_launch` (function, line 11445) `def _launch()`
+- Depends on: `cli/command_chain.py`, `cli/graph_advisor.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `core/config.py`, `core/llm_budget.py`, `core/logging.py`, `core/param_registry.py`, `core/payload_schema.py`, `modules/__init__.py`, `modules/ai_exploit_chain.py`, `modules/atomic_enricher.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/auto_pivot.py`, `modules/auto_registry.py`, `modules/autonomous_exploit_engine.py`, `modules/backdoor/server.c`, `modules/chain_registry.py`, `modules/collab_bp.py`, `modules/cve_matcher.py`, `modules/dashboard_engine.py`, `modules/db.py`, `modules/evasion_engine.py`, `modules/event_engine.py`, `modules/exploit_recommender.py`, `modules/exploitgym_gym.py`, `modules/integrations/misp_export.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazyown_bridge.py`, `modules/llm_evaluator.py`, `modules/mcp_agent_bridge.py`, `modules/memory_store.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/pipeline_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/recommender.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/session_state.py`, `modules/sinks/routing.py`, `modules/threat_model.py`, `modules/timeline_narrator.py`, `modules/ttpscope_bridge.py`, `modules/unified_dashboard.py`, `modules/world_model.py`, `scripts/lazy_opencode_config.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/daemon_control.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_facts.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_hooks.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_helpers.py`, `skills/lazyown_objective.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`, `skills/lazyown_session.py`, `skills/mcp_lazy.py`, `skills/swan_agent.py`
+- Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp_opencode.py`, `skills/tests/test_mcp_smoke.py`, `tests/test_boyscout_contracts.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_mcp_improvements.py`, `tests/test_rea_mcp.py`
 
 ## skills/lazyown_mcp_helpers.py
 - Doc: LazyOwn MCP helper functions — pure logic, no MCP server imports.
@@ -455,6 +431,49 @@ Previous: [KB_skills.md](KB_skills.md)
   - `main` (function, line 211) `def main()`
 - Depends on: `modules/__init__.py`, `modules/backdoor/server.c`, `modules/harness.py`, `modules/orchestrator_config.py`, `skills/lazyown_mcp.py`
 - Imported by: `tests/test_opencode_mcp_harness.py`
+
+## skills/lazyown_objective.py
+- Doc: LazyOwn Objective Store
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Objective` (class, line 105) `class Objective`
+  - `ObjectiveStore` (class, line 123) `class ObjectiveStore`
+  - `decompose_goal` (function, line 296) `def decompose_goal(goal_text, target)`
+  - `read_soul` (function, line 320) `def read_soul()`
+  - `write_soul` (function, line 326) `def write_soul(content)`
+  - `current_plan` (function, line 330) `def current_plan()`
+  - `full_context_for_claude` (function, line 336) `def full_context_for_claude(target)`
+  - `SoulUpdater` (class, line 359) `class SoulUpdater`
+  - `main` (function, line 485) `def main()`
+  - `sort_key` (method, line 116) `def sort_key(self)`
+  - `__init__` (method, line 131) `def __init__(self, path)`
+  - `_now` (method, line 135) `def _now(self)`
+  - `_load_all` (method, line 138) `def _load_all(self)`
+  - `_save_all` (method, line 153) `def _save_all(self, objs)`
+  - `_text_hash` (method, line 159) `def _text_hash(text)`
+  - `cleanup` (method, line 163) `def cleanup(self)`
+  - `inject` (method, line 193) `def inject(self, text, priority, source, context, notes)`
+  - `_update_status` (method, line 229) `def _update_status(self, obj_id, status, notes)`
+  - `complete` (method, line 243) `def complete(self, obj_id, notes)`
+  - `block` (method, line 246) `def block(self, obj_id, reason)`
+  - `skip` (method, line 249) `def skip(self, obj_id, reason)`
+  - `start` (method, line 252) `def start(self, obj_id)`
+  - `next_pending` (method, line 255) `def next_pending(self)`
+  - `list_pending` (method, line 261) `def list_pending(self, limit)`
+  - `list_all` (method, line 265) `def list_all(self, status, limit)`
+  - `summary` (method, line 271) `def summary(self)`
+  - `__init__` (method, line 379) `def __init__(self)`
+  - `_read` (method, line 384) `def _read(self)`
+  - `_patch_section` (method, line 389) `def _patch_section(self, header, new_body)`
+  - `_patch_line` (method, line 404) `def _patch_line(self, key, value)`
+  - `update_phase` (method, line 417) `def update_phase(self, phase)`
+  - `update_target` (method, line 421) `def update_target(self, target)`
+  - `update_os` (method, line 425) `def update_os(self, os_name, target)`
+  - `update_credentials` (method, line 432) `def update_credentials(self, creds)`
+  - `update_access` (method, line 459) `def update_access(self, level, target, method)`
+  - `update_vulnerabilities` (method, line 466) `def update_vulnerabilities(self, vulns)`
+- Imported by: `modules/golden_path.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`, `skills/tests/test_objectives.py`, `tests/test_daemon_loop.py`, `tests/test_golden_path.py`
 
 
 Next: [KB_skills_p3.md](KB_skills_p3.md)

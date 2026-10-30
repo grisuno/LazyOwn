@@ -1,5 +1,184 @@
-# Subsystem: tests (page 12 of 21)
+# Subsystem: tests (page 12 of 22)
 Previous: [KB_tests_p11.md](KB_tests_p11.md)
+
+## tests/test_killchain.py
+- Doc: Tests for cli/killchain.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_states` (function, line 28) `def _states(progress)`
+  - `test_empty_events_all_pending_without_world` (function, line 32) `def test_empty_events_all_pending_without_world()`
+  - `test_current_phase_from_step_events` (function, line 38) `def test_current_phase_from_step_events()`
+  - `test_phase_advance_event_sets_current` (function, line 49) `def test_phase_advance_event_sets_current()`
+  - `test_activity_and_reward_accumulate` (function, line 62) `def test_activity_and_reward_accumulate()`
+  - `test_world_phase_fallback_when_no_events` (function, line 75) `def test_world_phase_fallback_when_no_events()`
+  - `test_explicit_completed_phases_respected` (function, line 81) `def test_explicit_completed_phases_respected()`
+  - `test_unknown_phase_in_event_is_ignored` (function, line 86) `def test_unknown_phase_in_event_is_ignored()`
+  - `test_non_dict_payload_is_tolerated` (function, line 92) `def test_non_dict_payload_is_tolerated()`
+- Depends on: `cli/killchain.py`
+
+## tests/test_killchain_auto_refresh.py
+- Doc: BDD-style tests for the periodic kill-chain auto-refresh in the tips engine.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_engine` (function, line 12) `def _engine()`
+  - `TestPeriodicAutoRefresh` (class, line 22) `class TestPeriodicAutoRefresh`
+  - `test_shows_immediately_on_phase_change` (method, line 23) `def test_shows_immediately_on_phase_change(self)`
+  - `test_shows_on_cadence_without_phase_change` (method, line 31) `def test_shows_on_cadence_without_phase_change(self)`
+  - `test_cadence_below_every_surpresses` (method, line 41) `def test_cadence_below_every_surpresses(self)`
+  - `test_phase_change_beats_periodic_cadence` (method, line 50) `def test_phase_change_beats_periodic_cadence(self)`
+  - `test_disabled_engine_never_shows` (method, line 59) `def test_disabled_engine_never_shows(self)`
+  - `test_zero_every_and_no_phase_change_never_shows` (method, line 67) `def test_zero_every_and_no_phase_change_never_shows(self)`
+- Depends on: `cli/tips_engine.py`
+
+## tests/test_killchain_gap_signal.py
+- Doc: Tests for :class:`cli.recommendation_signals.KillchainGapSignal`.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `sessions_dir` (function, line 23) `def sessions_dir()`
+  - `_write_world_model` (function, line 28) `def _write_world_model(sessions_dir, data)`
+  - `TestKillchainGapSignalConstruction` (class, line 32) `class TestKillchainGapSignalConstruction`
+  - `TestGapExploitedNoPrivesc` (class, line 38) `class TestGapExploitedNoPrivesc`
+  - `TestGapOwnedNoCreds` (class, line 82) `class TestGapOwnedNoCreds`
+  - `TestGapScanNoEnum` (class, line 110) `class TestGapScanNoEnum`
+  - `TestGapCredsNoLateral` (class, line 141) `class TestGapCredsNoLateral`
+  - `TestKillchainGapSignalIntegration` (class, line 169) `class TestKillchainGapSignalIntegration`
+  - `test_name_is_gap_source` (method, line 33) `def test_name_is_gap_source(self)`
+  - `test_exploited_linux_recommends_linpeas` (method, line 39) `def test_exploited_linux_recommends_linpeas(self, sessions_dir)`
+  - `test_exploited_windows_recommends_winpeas` (method, line 51) `def test_exploited_windows_recommends_winpeas(self, sessions_dir)`
+  - `test_unscanned_host_no_proposals` (method, line 63) `def test_unscanned_host_no_proposals(self, sessions_dir)`
+  - `test_no_world_model_returns_empty` (method, line 75) `def test_no_world_model_returns_empty(self, sessions_dir)`
+  - `test_owned_no_credentials_recommends_lazydump` (method, line 83) `def test_owned_no_credentials_recommends_lazydump(self, sessions_dir)`
+  - `test_owned_with_credentials_no_proposals` (method, line 96) `def test_owned_with_credentials_no_proposals(self, sessions_dir)`
+  - `test_scanned_no_enum_recommends_gobuster` (method, line 111) `def test_scanned_no_enum_recommends_gobuster(self, sessions_dir)`
+  - `test_scanned_with_enum_recent_no_proposals` (method, line 123) `def test_scanned_with_enum_recent_no_proposals(self, sessions_dir)`
+  - `test_credentials_no_lateral_recommends_crackmapexec` (method, line 142) `def test_credentials_no_lateral_recommends_crackmapexec(self, sessions_dir)`
+  - `test_no_credentials_no_lateral_proposals` (method, line 155) `def test_no_credentials_no_lateral_proposals(self, sessions_dir)`
+  - `test_multiple_gaps_detected_simultaneously` (method, line 170) `def test_multiple_gaps_detected_simultaneously(self, sessions_dir)`
+- Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`
+
+## tests/test_killchain_snapshot.py
+- Doc: BDD-style tests for the unified kill-chain snapshot contract.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_seed_snapshot` (function, line 17) `def _seed_snapshot(path, phase, completed, current)`
+  - `_states` (function, line 37) `def _states(snapshot)`
+  - `_encrypt_at` (function, line 41) `def _encrypt_at(path, password, salt)`
+  - `TestKillChainSnapshot` (class, line 52) `class TestKillChainSnapshot`
+  - `TestEncryptedStateTransparency` (class, line 102) `class TestEncryptedStateTransparency`
+  - `test_empty_snapshot_defaults_to_recon` (method, line 53) `def test_empty_snapshot_defaults_to_recon(self, tmp_path)`
+  - `test_snapshot_reflects_explicit_phase_and_completed` (method, line 64) `def test_snapshot_reflects_explicit_phase_and_completed(self, tmp_path)`
+  - `test_snapshot_is_json_serialisable` (method, line 80) `def test_snapshot_is_json_serialisable(self, tmp_path)`
+  - `test_advance_then_snapshot_is_consistent` (method, line 90) `def test_advance_then_snapshot_is_consistent(self, tmp_path)`
+  - `test_read_state_dict_decrypts_at_rest` (method, line 103) `def test_read_state_dict_decrypts_at_rest(self, tmp_path, monkeypatch)`
+  - `test_write_state_dict_persists_fernet_token` (method, line 122) `def test_write_state_dict_persists_fernet_token(self, tmp_path, monkeypatch)`
+  - `test_write_state_dict_then_engine_encrypt_unwraps_nested` (method, line 138) `def test_write_state_dict_then_engine_encrypt_unwraps_nested(self, tmp_path, monkeypatch)`
+  - `test_missing_file_reads_empty` (method, line 157) `def test_missing_file_reads_empty(self, tmp_path)`
+  - `test_encrypted_without_password_reads_empty` (method, line 165) `def test_encrypted_without_password_reads_empty(self, tmp_path, monkeypatch)`
+- Depends on: `modules/killchain.py`, `modules/world_model.py`
+
+## tests/test_killchain_unified.py
+- Doc: Tests for unified killchain phase: read_phase, write_phase, phase mapping helpers.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestPhaseMapping` (class, line 20) `class TestPhaseMapping`
+  - `TestWritePhaseWithWorldModel` (class, line 48) `class TestWritePhaseWithWorldModel`
+  - `test_engagement_phase_to_cli_maps_all` (method, line 21) `def test_engagement_phase_to_cli_maps_all(self)`
+  - `test_cli_phase_to_host_state_maps_correctly` (method, line 30) `def test_cli_phase_to_host_state_maps_correctly(self)`
+  - `test_phase_rank_returns_correct_index` (method, line 41) `def test_phase_rank_returns_correct_index(self)`
+  - `sessions_dir` (method, line 52) `def sessions_dir(self)`
+  - `test_write_phase_advances_hosts` (method, line 80) `def test_write_phase_advances_hosts(self, sessions_dir)`
+  - `test_write_phase_invalid_returns_false` (method, line 96) `def test_write_phase_invalid_returns_false(self, sessions_dir)`
+  - `test_write_phase_completed_phases_tracks_progress` (method, line 100) `def test_write_phase_completed_phases_tracks_progress(self, sessions_dir)`
+- Depends on: `cli/ops_commands.py`, `modules/world_model.py`
+
+## tests/test_killchain_unified_v2.py
+- Doc: Comprehensive tests for modules.killchain — the unified single source of truth.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestKillChainConfig` (class, line 32) `class TestKillChainConfig`
+  - `TestKillChainCurrentPhase` (class, line 104) `class TestKillChainCurrentPhase`
+  - `TestKillChainAdvancePhase` (class, line 185) `class TestKillChainAdvancePhase`
+  - `TestKillChainGetProgress` (class, line 296) `class TestKillChainGetProgress`
+  - `TestKillChainHelpers` (class, line 364) `class TestKillChainHelpers`
+  - `TestPhaseStatusDataclass` (class, line 411) `class TestPhaseStatusDataclass`
+  - `test_phases_is_8_tuple` (method, line 35) `def test_phases_is_8_tuple(self)`
+  - `test_phases_are_in_correct_kill_chain_order` (method, line 41) `def test_phases_are_in_correct_kill_chain_order(self)`
+  - `test_compact_phases_are_in_correct_order` (method, line 45) `def test_compact_phases_are_in_correct_order(self)`
+  - `test_all_phases_have_labels` (method, line 49) `def test_all_phases_have_labels(self)`
+  - `test_all_phases_have_colors` (method, line 54) `def test_all_phases_have_colors(self)`
+  - `test_all_phases_have_rich_colors` (method, line 59) `def test_all_phases_have_rich_colors(self)`
+  - `test_engagement_to_cli_covers_all_engagement_phases` (method, line 63) `def test_engagement_to_cli_covers_all_engagement_phases(self)`
+  - `test_cli_to_host_state_returns_expected` (method, line 71) `def test_cli_to_host_state_returns_expected(self)`
+  - `test_phase_index_valid_and_invalid` (method, line 81) `def test_phase_index_valid_and_invalid(self)`
+  - `test_is_valid_phase` (method, line 87) `def test_is_valid_phase(self)`
+  - `test_compact_phases_and_labels` (method, line 92) `def test_compact_phases_and_labels(self)`
+  - `test_world_model_path` (method, line 97) `def test_world_model_path(self)`
+  - `_reset_wm_singleton` (method, line 108) `def _reset_wm_singleton(self)`
+  - `test_returns_recon_when_no_world_model_exists` (method, line 119) `def test_returns_recon_when_no_world_model_exists(self)`
+  - `test_reads_from_world_model_host_state` (method, line 126) `def test_reads_from_world_model_host_state(self)`
+  - `test_raw_json_override_wins_when_higher_rank` (method, line 141) `def test_raw_json_override_wins_when_higher_rank(self)`
+  - `test_raw_json_override_ignored_when_lower_rank` (method, line 157) `def test_raw_json_override_ignored_when_lower_rank(self)`
+  - `test_falls_back_to_legacy_phase_key` (method, line 173) `def test_falls_back_to_legacy_phase_key(self)`
+  - `_reset_wm_singleton` (method, line 189) `def _reset_wm_singleton(self)`
+  - `test_advance_writes_current_phase_and_phase_keys` (method, line 200) `def test_advance_writes_current_phase_and_phase_keys(self)`
+  - `test_advance_tracks_completed_phases` (method, line 216) `def test_advance_tracks_completed_phases(self)`
+  - `test_advance_invalid_phase_returns_false` (method, line 234) `def test_advance_invalid_phase_returns_false(self)`
+  - `test_advance_advances_world_model_hosts` (method, line 244) `def test_advance_advances_world_model_hosts(self)`
+  - `test_advance_with_host_does_not_touch_unrelated_hosts` (method, line 261) `def test_advance_with_host_does_not_touch_unrelated_hosts(self)`
+  - `test_advance_does_not_downgrade_cached_world_model_state` (method, line 277) `def test_advance_does_not_downgrade_cached_world_model_state(self)`
+  - `_reset_wm_singleton` (method, line 300) `def _reset_wm_singleton(self)`
+  - `test_all_pending_when_nothing_done` (method, line 311) `def test_all_pending_when_nothing_done(self)`
+  - `test_progress_reflects_completed_and_active` (method, line 324) `def test_progress_reflects_completed_and_active(self)`
+  - `test_progress_has_colors_and_labels` (method, line 348) `def test_progress_has_colors_and_labels(self)`
+  - `test_phases_for_display_returns_triples` (method, line 367) `def test_phases_for_display_returns_triples(self)`
+  - `test_compact_progress_returns_string` (method, line 377) `def test_compact_progress_returns_string(self)`
+  - `test_engagement_phase_to_cli_maps_all` (method, line 383) `def test_engagement_phase_to_cli_maps_all(self)`
+  - `test_cli_phase_to_host_state_maps_all` (method, line 392) `def test_cli_phase_to_host_state_maps_all(self)`
+  - `test_get_killchain_returns_class` (method, line 400) `def test_get_killchain_returns_class(self)`
+  - `test_phase_index_returns_correct` (method, line 404) `def test_phase_index_returns_correct(self)`
+  - `test_phase_status_is_immutable` (method, line 414) `def test_phase_status_is_immutable(self)`
+  - `test_phase_status_fields_match_config` (method, line 419) `def test_phase_status_fields_match_config(self)`
+- Depends on: `modules/killchain.py`, `modules/world_model.py`
+
+## tests/test_lab_target_visibility.py
+- Doc: Lab target visibility: start/status always show the container IP.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_start_on_running_lab_reports_ip` (function, line 14) `def test_start_on_running_lab_reports_ip(capsys, monkeypatch)`
+  - `test_status_reports_ip` (function, line 27) `def test_status_reports_ip(capsys, monkeypatch)`
+- Depends on: `cli/commands/lab.py`
+
+## tests/test_lazy_agent.py
+- Doc: Agentic tool-calling: worker agent path, resume and main sessions.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_tool_call` (function, line 13) `def _tool_call(tool_id, name, arguments)`
+  - `_message` (function, line 19) `def _message(content, tool_calls)`
+  - `_Completions` (class, line 23) `class _Completions`
+  - `fake_model` (function, line 37) `def fake_model(script)`
+  - `_sandbox` (function, line 43) `def _sandbox(tmp_path, monkeypatch)`
+  - `_worker` (function, line 50) `def _worker(loop, engine, task_id, graph)`
+  - `test_worker_agentic_tool_calling` (function, line 63) `def test_worker_agentic_tool_calling(tmp_path, monkeypatch)`
+  - `test_worker_agentic_resume_seeds_prior_turns` (function, line 104) `def test_worker_agentic_resume_seeds_prior_turns(tmp_path, monkeypatch)`
+  - `test_main_session_persists_and_resumes` (function, line 138) `def test_main_session_persists_and_resumes(tmp_path, monkeypatch)`
+  - `test_model_keepalive_tick_while_waiting` (function, line 152) `def test_model_keepalive_tick_while_waiting(tmp_path, monkeypatch)`
+  - `test_tool_calling_flag_honors_payload` (function, line 175) `def test_tool_calling_flag_honors_payload(tmp_path, monkeypatch)`
+  - `test_external_opencode_degrades_without_binary` (function, line 184) `def test_external_opencode_degrades_without_binary(monkeypatch)`
+  - `test_lazy_agent_command_session_lifecycle` (function, line 194) `def test_lazy_agent_command_session_lifecycle(tmp_path, monkeypatch)`
+  - `__init__` (method, line 26) `def __init__(self, script)`
+  - `create` (method, line 30) `def create(self)`
+  - `_executor` (function, line 85) `def _executor(command)`
+  - `_Completions` (class, line 162) `class _Completions`
+  - `create` (method, line 163) `def create(self)`
+- Depends on: `cli/commands/lazyops.py`, `core/config.py`, `modules/__init__.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`
 
 ## tests/test_lazy_bridge_traffic.py
 - Doc: Incremental LAZY traffic mirroring (stall regression).
@@ -14,6 +193,19 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_progress_callback_survives_failures` (function, line 78) `def test_progress_callback_survives_failures(tmp_path, monkeypatch)`
   - `_boom` (function, line 83) `def _boom(_text)`
 - Depends on: `modules/__init__.py`, `modules/traffic_recorder.py`
+
+## tests/test_lazy_checks.py
+- Doc: Lazy checks doctrine: version-aware interpretation of read-only retests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_extract_version_tolerates_patch_tails_and_rejects_ips` (function, line 27) `def test_extract_version_tolerates_patch_tails_and_rejects_ips()`
+  - `test_extract_cve_uppercases` (function, line 36) `def test_extract_cve_uppercases()`
+  - `test_interpret_reaffirms_when_observed_version_in_range` (function, line 42) `def test_interpret_reaffirms_when_observed_version_in_range()`
+  - `test_interpret_flags_version_changed` (function, line 54) `def test_interpret_flags_version_changed()`
+  - `test_interpret_without_version_or_range_stays_inconclusive_on_miss` (function, line 65) `def test_interpret_without_version_or_range_stays_inconclusive_on_miss()`
+  - `test_convert_osv_ranges_and_range_for_cve` (function, line 76) `def test_convert_osv_ranges_and_range_for_cve(tmp_path, monkeypatch)`
+- Depends on: `modules/lazy_checks.py`, `modules/lazy_cve_feed.py`
 
 ## tests/test_lazy_creds.py
 - Doc: Contract tests for the lazycreds default-credential knowledge base.
@@ -61,6 +253,77 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_export_evidence_freezes_files_with_hashes` (function, line 53) `def test_export_evidence_freezes_files_with_hashes(tmp_path, monkeypatch)`
 - Depends on: `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/traffic_recorder.py`
 
+## tests/test_lazy_findings.py
+- Doc: Tests for modules.lazy_findings — engagement findings ledger.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `ledger_module` (function, line 23) `def ledger_module()`
+  - `tmp_base` (function, line 30) `def tmp_base()`
+  - `TestNormalize` (class, line 35) `class TestNormalize`
+  - `TestEvents` (class, line 117) `class TestEvents`
+  - `TestLedger` (class, line 178) `class TestLedger`
+  - `TestCountsHandoff` (class, line 239) `class TestCountsHandoff`
+  - `TestDiscardRow` (class, line 260) `class TestDiscardRow`
+  - `test_valid_row_passes` (method, line 36) `def test_valid_row_passes(self, ledger_module, tmp_base)`
+  - `test_empty_title_rejected` (method, line 55) `def test_empty_title_rejected(self, ledger_module)`
+  - `test_unknown_state_rejected` (method, line 60) `def test_unknown_state_rejected(self, ledger_module)`
+  - `test_unknown_level_rejected` (method, line 65) `def test_unknown_level_rejected(self, ledger_module)`
+  - `test_invented_technique_rejected` (method, line 70) `def test_invented_technique_rejected(self, ledger_module)`
+  - `test_tac_id_accepted` (method, line 75) `def test_tac_id_accepted(self, ledger_module)`
+  - `test_confirmed_requires_evidence` (method, line 82) `def test_confirmed_requires_evidence(self, ledger_module)`
+  - `test_confirmed_with_reproducible_ok` (method, line 91) `def test_confirmed_with_reproducible_ok(self, ledger_module)`
+  - `test_confirmed_with_artifact_ref_ok` (method, line 104) `def test_confirmed_with_artifact_ref_ok(self, ledger_module)`
+  - `test_verdict_reproduced_promotes` (method, line 118) `def test_verdict_reproduced_promotes(self, ledger_module)`
+  - `test_verdict_fixed_discards` (method, line 137) `def test_verdict_fixed_discards(self, ledger_module)`
+  - `test_verdict_inconclusive_partial` (method, line 144) `def test_verdict_inconclusive_partial(self, ledger_module)`
+  - `test_unmapped_verdict_ignores` (method, line 151) `def test_unmapped_verdict_ignores(self, ledger_module)`
+  - `test_out_of_scope_kind_ignores` (method, line 157) `def test_out_of_scope_kind_ignores(self, ledger_module)`
+  - `test_exploit_success_confirmed` (method, line 161) `def test_exploit_success_confirmed(self, ledger_module)`
+  - `test_traversal_rejected` (method, line 179) `def test_traversal_rejected(self, ledger_module, tmp_base)`
+  - `test_append_and_read_pg` (method, line 184) `def test_append_and_read_pg(self, ledger_module, tmp_base)`
+  - `test_corrupt_lines_skipped` (method, line 199) `def test_corrupt_lines_skipped(self, ledger_module, tmp_base)`
+  - `test_redaction_masks_secrets` (method, line 208) `def test_redaction_masks_secrets(self, ledger_module, tmp_base)`
+  - `test_redaction_off_shows_verbatim` (method, line 224) `def test_redaction_off_shows_verbatim(self, ledger_module, tmp_base)`
+  - `test_state_counts_latest_wins` (method, line 240) `def test_state_counts_latest_wins(self, ledger_module)`
+  - `test_handoff_decision` (method, line 250) `def test_handoff_decision(self, ledger_module)`
+  - `test_discard_row_normalized` (method, line 261) `def test_discard_row_normalized(self, ledger_module)`
+- Depends on: `modules/lazy_findings.py`
+
+## tests/test_lazy_hostscore.py
+- Doc: Host heat score contract: deterministic, capped, auditable priorities.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_hot_cve_and_findings_and_shell_stay_capped` (function, line 21) `def test_hot_cve_and_findings_and_shell_stay_capped()`
+  - `test_findings_cap_bounds_the_subtotal` (function, line 39) `def test_findings_cap_bounds_the_subtotal()`
+  - `test_discarded_findings_and_cold_no_points` (function, line 58) `def test_discarded_findings_and_cold_no_points()`
+  - `test_empty_inputs_score_zero` (function, line 78) `def test_empty_inputs_score_zero()`
+  - `test_persistence_roundtrip` (function, line 83) `def test_persistence_roundtrip(tmp_path)`
+  - `test_rescore_offline_survives_errors` (function, line 93) `def test_rescore_offline_survives_errors(tmp_path, monkeypatch)`
+  - `_StubWorld` (class, line 97) `class _StubWorld`
+  - `broken_correlate` (function, line 116) `def broken_correlate()`
+  - `snapshot` (method, line 100) `def snapshot(self)`
+- Depends on: `modules/lazy_hostscore.py`
+
+## tests/test_lazy_ledger.py
+- Doc: Freshness ledger contract: recurring windows are ledger windows.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_dir` (function, line 16) `def _dir(tmp_path)`
+  - `test_key_from_command_normalises_addon_surfaces` (function, line 23) `def test_key_from_command_normalises_addon_surfaces()`
+  - `test_plain_verbs_key_by_first_token` (function, line 32) `def test_plain_verbs_key_by_first_token()`
+  - `test_record_and_fresh_within_window` (function, line 38) `def test_record_and_fresh_within_window(tmp_path)`
+  - `test_ttl_windows_are_verb_specific` (function, line 45) `def test_ttl_windows_are_verb_specific(tmp_path)`
+  - `test_stale_first_orders_unknown_then_oldest` (function, line 55) `def test_stale_first_orders_unknown_then_oldest(tmp_path)`
+  - `test_corrupt_store_fails_open` (function, line 64) `def test_corrupt_store_fails_open(tmp_path)`
+  - `test_routing_sink_records_terminal_outcomes` (function, line 74) `def test_routing_sink_records_terminal_outcomes(tmp_path, monkeypatch)`
+  - `test_planner_skips_fresh_addon_proposals` (function, line 103) `def test_planner_skips_fresh_addon_proposals(tmp_path, monkeypatch)`
+  - `_PlannerStub` (class, line 117) `class _PlannerStub(Planner)`
+  - `__init__` (method, line 120) `def __init__(self)`
+- Depends on: `modules/__init__.py`, `modules/lazy_ledger.py`, `modules/lazy_loop.py`, `modules/outcome_bus.py`, `modules/sinks/__init__.py`
+
 ## tests/test_lazy_loop.py
 - Doc: Production loop fidelity tests: guard judge, findings, settlement, bridge.
 - Layer: testing
@@ -105,6 +368,45 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `login` (method, line 402) `def login(self, user, password)`
   - `send_message` (method, line 405) `def send_message(self, message)`
 - Depends on: `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`, `modules/notify.py`, `modules/selfupdate.py`, `modules/workspace.py`
+
+## tests/test_lazy_match_policy.py
+- Doc: Match policy contract: strands, standing and audited closures.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_versioned_range_match` (function, line 25) `def test_versioned_range_match()`
+  - `test_out_of_range_versions_stay_leads_not_matches` (function, line 31) `def test_out_of_range_versions_stay_leads_not_matches()`
+  - `test_versionless_and_os_are_leads` (function, line 37) `def test_versionless_and_os_are_leads()`
+  - `test_unbounded_kev_is_version_unknown` (function, line 44) `def test_unbounded_kev_is_version_unknown()`
+  - `test_store_upgrades_strands_and_dedupes` (function, line 49) `def test_store_upgrades_strands_and_dedupes(tmp_path)`
+  - `test_closure_persists_reason` (function, line 64) `def test_closure_persists_reason(tmp_path)`
+  - `test_standing_blocks_auto_merge` (function, line 74) `def test_standing_blocks_auto_merge()`
+  - `test_unknown_score_cap_constant` (function, line 82) `def test_unknown_score_cap_constant()`
+- Depends on: `modules/lazy_match_policy.py`
+
+## tests/test_lazy_netattack.py
+- Doc: Tests for modules.lazy_netattack — Windows attack-surface adjudication.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `module` (function, line 18) `def module()`
+  - `windows_only` (function, line 25) `def windows_only(module)`
+  - `ad_domain_controller` (function, line 35) `def ad_domain_controller(module)`
+  - `TestIdentity` (class, line 50) `class TestIdentity`
+  - `TestRelay` (class, line 69) `class TestRelay`
+  - `TestMitm6Downgrade` (class, line 85) `class TestMitm6Downgrade`
+  - `TestShape` (class, line 101) `class TestShape`
+  - `test_windows_hint_matches` (method, line 51) `def test_windows_hint_matches(self, module, windows_only)`
+  - `test_linux_host_blocked` (method, line 56) `def test_linux_host_blocked(self, module)`
+  - `test_attested_signing_unlocks_relay` (method, line 70) `def test_attested_signing_unlocks_relay(self, module, ad_domain_controller)`
+  - `test_unknown_signing_requires_evidence` (method, line 75) `def test_unknown_signing_requires_evidence(self, module, windows_only)`
+  - `test_attested_signing_required_blocks` (method, line 79) `def test_attested_signing_required_blocks(self, module, windows_only)`
+  - `test_mitm6_needs_event_and_consent` (method, line 86) `def test_mitm6_needs_event_and_consent(self, module, ad_domain_controller)`
+  - `test_downgrade_lm2_viable` (method, line 91) `def test_downgrade_lm2_viable(self, module, ad_domain_controller)`
+  - `test_downgrade_lm5_needs_evidence` (method, line 95) `def test_downgrade_lm5_needs_evidence(self, module, ad_domain_controller)`
+  - `test_hint_text_shapes` (method, line 102) `def test_hint_text_shapes(self, module, ad_domain_controller)`
+  - `test_verdicts_json_safe` (method, line 107) `def test_verdicts_json_safe(self, module, ad_domain_controller)`
+- Depends on: `modules/lazy_netattack.py`
 
 ## tests/test_lazy_oob.py
 - Doc: Contract tests for the lazyoob OOB canary.
@@ -161,323 +463,6 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `_drive` (function, line 425) `def _drive()`
   - `__init__` (method, line 420) `def __init__(self)`
 - Depends on: `cli/commands/lazyloop.py`, `cli/lazy_orchestrator.py`, `cli/tui_forms.py`, `core/config.py`, `core/param_registry.py`, `modules/__init__.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/orchestrator_config.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/world_model.py`
-
-## tests/test_lazy_parity.py
-- Doc: LAZY parity proof tests: every ported subsystem must behave, not just exist.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_gate_allows_benign_command` (function, line 50) `def test_gate_allows_benign_command()`
-  - `test_gate_denies_destructive_command` (function, line 56) `def test_gate_denies_destructive_command()`
-  - `test_gate_ask_creates_decidable_approval` (function, line 62) `def test_gate_ask_creates_decidable_approval()`
-  - `test_gate_ask_expires_fail_closed` (function, line 73) `def test_gate_ask_expires_fail_closed()`
-  - `test_scope_blocks_protected_suffixes` (function, line 82) `def test_scope_blocks_protected_suffixes()`
-  - `test_constraints_deny_wins` (function, line 89) `def test_constraints_deny_wins()`
-  - `test_evidence_roundtrip` (function, line 96) `def test_evidence_roundtrip(tmp_path)`
-  - `test_evidence_rejects_tampered_blob` (function, line 104) `def test_evidence_rejects_tampered_blob(tmp_path)`
-  - `test_evidence_gc_drops_unreferenced` (function, line 117) `def test_evidence_gc_drops_unreferenced(tmp_path)`
-  - `test_traffic_record_and_query` (function, line 128) `def test_traffic_record_and_query(tmp_path)`
-  - `test_frontier_emits_then_dedupes` (function, line 138) `def test_frontier_emits_then_dedupes()`
-  - `test_todos_gate_lateral_on_creds` (function, line 149) `def test_todos_gate_lateral_on_creds()`
-  - `test_goals_decompose_and_prove` (function, line 161) `def test_goals_decompose_and_prove()`
-  - `test_pool_fails_over_in_rank_order` (function, line 172) `def test_pool_fails_over_in_rank_order()`
-  - `test_pool_skips_unhealthy_member` (function, line 192) `def test_pool_skips_unhealthy_member()`
-  - `test_pool_exhausted_when_all_fail` (function, line 214) `def test_pool_exhausted_when_all_fail()`
-  - `test_pool_session_key_format` (function, line 227) `def test_pool_session_key_format()`
-  - `test_ephemeral_toast_line_has_icon_and_duration` (function, line 233) `def test_ephemeral_toast_line_has_icon_and_duration()`
-  - `test_ephemeral_render_consumes_cursor` (function, line 253) `def test_ephemeral_render_consumes_cursor(tmp_path)`
-  - `test_ephemeral_flag_routing` (function, line 266) `def test_ephemeral_flag_routing()`
-  - `test_render_ephemeral_helper` (function, line 273) `def test_render_ephemeral_helper(tmp_path)`
-  - `_write_events` (function, line 285) `def _write_events(path, records)`
-  - `test_bus_render_still_counts_budget` (function, line 292) `def test_bus_render_still_counts_budget(tmp_path)`
-  - `_fail` (function, line 176) `def _fail(prompt)`
-  - `_ok` (function, line 180) `def _ok(prompt)`
-  - `_flaky` (function, line 197) `def _flaky(prompt)`
-- Depends on: `cli/themes.py`, `cli/toast_bus.py`, `core/console.py`, `modules/evidence.py`, `modules/goals.py`, `modules/intercept.py`, `modules/llm_pool.py`, `modules/planner.py`, `modules/traffic_recorder.py`
-
-## tests/test_lazy_proxy.py
-- Doc: Recorder proxy: CA, HTTP/HTTPS capture, engine ingestion, auto-binding.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_patched_engine` (function, line 15) `def _patched_engine(tmp_path, monkeypatch)`
-  - `_EchoHandler` (class, line 24) `class _EchoHandler(BaseHTTPRequestHandler)`
-  - `_start_upstream` (function, line 39) `def _start_upstream(tls_context)`
-  - `_read_until` (function, line 47) `def _read_until(sock, marker, limit)`
-  - `test_ca_and_leaf_verify` (function, line 57) `def test_ca_and_leaf_verify(tmp_path)`
-  - `test_http_capture_records_exchange` (function, line 75) `def test_http_capture_records_exchange(tmp_path)`
-  - `test_https_mitm_capture` (function, line 100) `def test_https_mitm_capture(tmp_path, monkeypatch)`
-  - `test_env_for_ca_exports_trust` (function, line 139) `def test_env_for_ca_exports_trust(tmp_path)`
-  - `test_engine_ingests_recorder_rows` (function, line 149) `def test_engine_ingests_recorder_rows(tmp_path, monkeypatch)`
-  - `test_writeback_auto_binds_recent_traffic` (function, line 177) `def test_writeback_auto_binds_recent_traffic(tmp_path, monkeypatch)`
-  - `test_proxy_status_and_stop` (function, line 199) `def test_proxy_status_and_stop(tmp_path)`
-  - `test_status_declares_https_mitm` (function, line 212) `def test_status_declares_https_mitm(tmp_path)`
-  - `test_install_ca_trust_prompts_only_when_needed` (function, line 224) `def test_install_ca_trust_prompts_only_when_needed(tmp_path, monkeypatch)`
-  - `test_recorder_body_search_and_archive_roundtrip` (function, line 255) `def test_recorder_body_search_and_archive_roundtrip(tmp_path)`
-  - `test_recorder_gc_removes_old_exchanges` (function, line 283) `def test_recorder_gc_removes_old_exchanges(tmp_path, monkeypatch)`
-  - `test_task_scoped_query_and_export` (function, line 301) `def test_task_scoped_query_and_export(tmp_path)`
-  - `test_engine_exports_task_traffic_and_gc_runs_once` (function, line 318) `def test_engine_exports_task_traffic_and_gc_runs_once(tmp_path, monkeypatch)`
-  - `test_recorder_inbox_auto_import` (function, line 345) `def test_recorder_inbox_auto_import(tmp_path, monkeypatch)`
-  - `test_install_ca_nss_with_fake_profiles` (function, line 372) `def test_install_ca_nss_with_fake_profiles(tmp_path, monkeypatch)`
-  - `test_body_ranged_reads` (function, line 412) `def test_body_ranged_reads(tmp_path)`
-  - `test_upstream_chaining_captures_in_both` (function, line 435) `def test_upstream_chaining_captures_in_both(tmp_path)`
-  - `test_websocket_passthrough_recorded` (function, line 460) `def test_websocket_passthrough_recorded(tmp_path)`
-  - `test_writeback_auto_binds_body_hits` (function, line 510) `def test_writeback_auto_binds_body_hits(tmp_path, monkeypatch)`
-  - `do_GET` (method, line 27) `def do_GET(self)`
-  - `log_message` (method, line 35) `def log_message(self, fmt)`
-  - `runner` (function, line 237) `def runner(argv)`
-  - `runner` (function, line 388) `def runner(argv)`
-  - `_serve` (function, line 470) `def _serve()`
-- Depends on: `modules/backdoor/server.c`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/traffic_recorder.py`
-
-## tests/test_lazy_runner.py
-- Doc: Shared loop runner, monitor surface and store-fidelity regressions.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `store` (function, line 21) `def store(tmp_path, monkeypatch)`
-  - `test_parse_loop_line_flags` (function, line 30) `def test_parse_loop_line_flags()`
-  - `test_parse_loop_line_rejects_bad_input` (function, line 42) `def test_parse_loop_line_rejects_bad_input()`
-  - `test_config_clamps_operating_range` (function, line 50) `def test_config_clamps_operating_range()`
-  - `test_loop_commands_share_the_runner` (function, line 57) `def test_loop_commands_share_the_runner()`
-  - `test_guard_judge_survives_rule_changes` (function, line 67) `def test_guard_judge_survives_rule_changes(store)`
-  - `test_custom_tool_trigger_matches_services` (function, line 79) `def test_custom_tool_trigger_matches_services(store)`
-  - `test_intercept_wait_wakes_on_decide` (function, line 90) `def test_intercept_wait_wakes_on_decide(store)`
-  - `test_archive_restore_keeps_edges_anchors_scope` (function, line 110) `def test_archive_restore_keeps_edges_anchors_scope(store)`
-  - `test_asset_insert_enforces_task_gate` (function, line 133) `def test_asset_insert_enforces_task_gate(store)`
-  - `test_worker_bash_fallback_uses_streaming_runner` (function, line 143) `def test_worker_bash_fallback_uses_streaming_runner(store, monkeypatch)`
-  - `test_terminal_guard_is_safe_without_tty` (function, line 172) `def test_terminal_guard_is_safe_without_tty()`
-  - `test_autonomous_mode_flag_and_input_restore` (function, line 181) `def test_autonomous_mode_flag_and_input_restore(monkeypatch)`
-  - `test_automsf_intent_needs_a_module_path` (function, line 196) `def test_automsf_intent_needs_a_module_path()`
-  - `test_run_loop_drives_the_engine_and_reports` (function, line 204) `def test_run_loop_drives_the_engine_and_reports(store, monkeypatch)`
-  - `test_shell_verb_observer_print_is_recursion_safe` (function, line 240) `def test_shell_verb_observer_print_is_recursion_safe()`
-  - `test_terminal_stream_bypasses_stdout_redirect` (function, line 259) `def test_terminal_stream_bypasses_stdout_redirect(monkeypatch)`
-  - `test_judge_prompt_is_versioned_untrusted_json` (function, line 276) `def test_judge_prompt_is_versioned_untrusted_json(store, monkeypatch)`
-  - `test_worker_resumes_skipping_executed_steps` (function, line 293) `def test_worker_resumes_skipping_executed_steps(store)`
-  - `test_run_wrapup_records_fact_on_exhaustion` (function, line 319) `def test_run_wrapup_records_fact_on_exhaustion(store, monkeypatch)`
-  - `test_finding_report_drafted_by_reporter_agent` (function, line 334) `def test_finding_report_drafted_by_reporter_agent(store, monkeypatch)`
-  - `_seed_cold_facts` (function, line 353) `def _seed_cold_facts(graph, loop, count)`
-  - `_prime_cold` (function, line 363) `def _prime_cold(compactor, loop)`
-  - `test_cold_digest_applies_background_body` (function, line 372) `def test_cold_digest_applies_background_body(store)`
-  - `test_cold_background_disabled_requests_nothing` (function, line 394) `def test_cold_background_disabled_requests_nothing(store, monkeypatch)`
-  - `test_cold_background_worker_caches_compressed_body` (function, line 412) `def test_cold_background_worker_caches_compressed_body(store, monkeypatch)`
-  - `test_cross_task_fleet_operations` (function, line 440) `def test_cross_task_fleet_operations(store)`
-  - `test_llm_health_persists_across_registries` (function, line 474) `def test_llm_health_persists_across_registries(tmp_path, monkeypatch)`
-  - `test_llm_pool_rotates_equal_priority_heads` (function, line 488) `def test_llm_pool_rotates_equal_priority_heads(store, monkeypatch)`
-  - `test_llm_pool_connect_retry_before_failover` (function, line 507) `def test_llm_pool_connect_retry_before_failover(store, monkeypatch)`
-  - `test_broadcast_events_cursor_resume` (function, line 528) `def test_broadcast_events_cursor_resume(store)`
-  - `test_loop_broadcast_sse_route_declared` (function, line 547) `def test_loop_broadcast_sse_route_declared()`
-  - `test_noa_archive_written_when_enabled` (function, line 556) `def test_noa_archive_written_when_enabled(store, monkeypatch)`
-  - `test_proxy_safe_send_error_swallows_dead_client` (function, line 576) `def test_proxy_safe_send_error_swallows_dead_client()`
-  - `test_proxy_server_silences_connection_noise` (function, line 593) `def test_proxy_server_silences_connection_noise()`
-  - `test_proxy_handler_only_uses_safe_error_sender` (function, line 613) `def test_proxy_handler_only_uses_safe_error_sender()`
-  - `test_progress_emit_never_feeds_stdout_redirect` (function, line 619) `def test_progress_emit_never_feeds_stdout_redirect(capsys)`
-  - `test_run_with_progress_finishes_and_streams` (function, line 641) `def test_run_with_progress_finishes_and_streams(store, capsys)`
-  - `test_format_activity_line` (function, line 685) `def test_format_activity_line()`
-  - `test_run_with_progress_streams_activity_events` (function, line 692) `def test_run_with_progress_streams_activity_events(store, capsys)`
-  - `test_steer_delivered_to_agent_as_operator_message` (function, line 726) `def test_steer_delivered_to_agent_as_operator_message(store, monkeypatch)`
-  - `test_steer_cleared_after_delivery` (function, line 770) `def test_steer_cleared_after_delivery(store)`
-  - `test_thread_stdout_router_routes_by_thread` (function, line 781) `def test_thread_stdout_router_routes_by_thread(capsys)`
-  - `test_run_with_progress_restores_stdout_on_cancel` (function, line 806) `def test_run_with_progress_restores_stdout_on_cancel(store, monkeypatch, capsys)`
-  - `test_run_loop_treats_systemexit_as_cancel` (function, line 849) `def test_run_loop_treats_systemexit_as_cancel(store, monkeypatch)`
-  - `test_wake_bus_signals_and_suppresses` (function, line 878) `def test_wake_bus_signals_and_suppresses(store)`
-  - `test_engine_wake_preempts_heartbeat` (function, line 892) `def test_engine_wake_preempts_heartbeat(store)`
-  - `test_engine_heartbeat_replans_when_idle` (function, line 927) `def test_engine_heartbeat_replans_when_idle(store)`
-  - `test_agent_background_jobs_and_output` (function, line 951) `def test_agent_background_jobs_and_output(store)`
-  - `test_agent_persistent_shell_session` (function, line 999) `def test_agent_persistent_shell_session(store)`
-  - `test_reporter_runs_background_and_applies` (function, line 1037) `def test_reporter_runs_background_and_applies(store, monkeypatch)`
-  - `test_evidence_ranged_read_and_roles` (function, line 1068) `def test_evidence_ranged_read_and_roles(store)`
-  - `test_finalize_parks_open_intents` (function, line 1100) `def test_finalize_parks_open_intents(store)`
-  - `test_agent_prompt_includes_skills_block` (function, line 1121) `def test_agent_prompt_includes_skills_block(store, monkeypatch)`
-  - `test_auto_verb_overrides_payload_target_for_the_run` (function, line 1145) `def test_auto_verb_overrides_payload_target_for_the_run()`
-  - `test_round_fuses_intel_into_world_model` (function, line 1167) `def test_round_fuses_intel_into_world_model(store, monkeypatch)`
-  - `test_agentic_falls_back_to_next_member` (function, line 1180) `def test_agentic_falls_back_to_next_member(store, monkeypatch)`
-  - `test_bootstrap_passes_target_to_auto_populate` (function, line 1234) `def test_bootstrap_passes_target_to_auto_populate(tmp_path, monkeypatch)`
-  - `test_auto_populate_verb_carries_target` (function, line 1252) `def test_auto_populate_verb_carries_target()`
-  - `test_worker_llm_steps_filter_sudo` (function, line 1259) `def test_worker_llm_steps_filter_sudo(store, monkeypatch)`
-  - `test_pyautomate_filters_to_requested_target` (function, line 1289) `def test_pyautomate_filters_to_requested_target(tmp_path, monkeypatch)`
-  - `test_lazy_addon_positional_target_overrides_rhost` (function, line 1305) `def test_lazy_addon_positional_target_overrides_rhost(monkeypatch)`
-  - `test_shutdown_loop_runtime_cleans_everything` (function, line 1328) `def test_shutdown_loop_runtime_cleans_everything(store, monkeypatch)`
-  - `test_do_qa_runs_shutdown_and_dedupes_killall` (function, line 1367) `def test_do_qa_runs_shutdown_and_dedupes_killall(monkeypatch)`
-  - `test_lazynmap_routing_and_steps` (function, line 1390) `def test_lazynmap_routing_and_steps(store)`
-  - `test_lazynmap_overrides_payload_rhost_for_scope` (function, line 1439) `def test_lazynmap_overrides_payload_rhost_for_scope(store)`
-  - `test_run_tee_interactive_keeps_operator_terminal` (function, line 1464) `def test_run_tee_interactive_keeps_operator_terminal(monkeypatch)`
-  - `test_run_tee_loop_context_detaches_child` (function, line 1498) `def test_run_tee_loop_context_detaches_child(monkeypatch)`
-  - `test_run_tee_stdin_devnull_in_loop_context` (function, line 1532) `def test_run_tee_stdin_devnull_in_loop_context()`
-  - `test_run_tee_thread_timeout_kills_child` (function, line 1547) `def test_run_tee_thread_timeout_kills_child()`
-  - `test_plausibility_filter_drops_hallucinated_flags` (function, line 1568) `def test_plausibility_filter_drops_hallucinated_flags(store, monkeypatch)`
-  - `test_dev_smoke_tools_run_green` (function, line 1602) `def test_dev_smoke_tools_run_green()`
-  - `test_lazy_view_command_registered` (function, line 1612) `def test_lazy_view_command_registered()`
-  - `_wait` (function, line 97) `def _wait()`
-  - `_fake_streaming` (function, line 150) `def _fake_streaming(command, on_output, timeout_sec)`
-  - `_FakeEngine` (class, line 212) `class _FakeEngine`
-  - `_Shell` (class, line 244) `class _Shell`
-  - `_observer` (function, line 250) `def _observer(line)`
-  - `_complete` (function, line 281) `def _complete(self, prompt, max_tokens)`
-  - `_exec` (function, line 308) `def _exec(command)`
-  - `scripted` (function, line 497) `def scripted(model, prompt, max_tokens)`
-  - `flaky` (function, line 516) `def flaky(model, prompt, max_tokens)`
-  - `_Stub` (class, line 582) `class _Stub`
-  - `_DummyHandler` (class, line 599) `class _DummyHandler`
-  - `_SlowEngine` (class, line 648) `class _SlowEngine`
-  - `_Engine` (class, line 699) `class _Engine`
-  - `_Completions` (class, line 737) `class _Completions`
-  - `_worker` (function, line 793) `def _worker()`
-  - `_StuckEngine` (class, line 816) `class _StuckEngine`
-  - `_interrupt` (function, line 833) `def _interrupt()`
-  - `_FakeEngine` (class, line 855) `class _FakeEngine`
-  - `_exit` (function, line 868) `def _exit()`
-  - `_round` (function, line 905) `def _round(task_id_arg, workers, executor)`
-  - `_round` (function, line 938) `def _round(task_id_arg, workers, executor)`
-  - `_Shell` (class, line 1151) `class _Shell`
-  - `_BadCompletions` (class, line 1188) `class _BadCompletions`
-  - `_GoodCompletions` (class, line 1192) `class _GoodCompletions`
-  - `_resolve` (function, line 1209) `def _resolve(exclude)`
-  - `_executor` (function, line 1244) `def _executor(command)`
-  - `_Shell` (class, line 1312) `class _Shell`
-  - `_fake_run` (function, line 1315) `def _fake_run(command)`
-  - `_Proxy` (class, line 1354) `class _Proxy`
-  - `_fake_shutdown` (function, line 1375) `def _fake_shutdown(reason)`
-  - `_Shell` (class, line 1403) `class _Shell`
-  - `_Shell` (class, line 1446) `class _Shell`
-  - `_FakeProc` (class, line 1480) `class _FakeProc`
-  - `_FakeProc` (class, line 1510) `class _FakeProc`
-  - `__init__` (method, line 215) `def __init__(self)`
-  - `bind_shell` (method, line 218) `def bind_shell(self, shell)`
-  - `set_concurrency` (method, line 221) `def set_concurrency(self, value)`
-  - `orchestrate` (method, line 224) `def orchestrate(self)`
-  - `onecmd_plus_hooks` (method, line 245) `def onecmd_plus_hooks(self, command)`
-  - `send_error` (method, line 585) `def send_error(self, code, message)`
-  - `__init__` (method, line 600) `def __init__(self)`
-  - `__init__` (method, line 651) `def __init__(self)`
-  - `bind_shell` (method, line 655) `def bind_shell(self, shell)`
-  - `set_concurrency` (method, line 658) `def set_concurrency(self, value)`
-  - `orchestrate` (method, line 661) `def orchestrate(self)`
-  - `__init__` (method, line 702) `def __init__(self)`
-  - `bind_shell` (method, line 706) `def bind_shell(self, shell)`
-  - `set_concurrency` (method, line 709) `def set_concurrency(self, value)`
-  - `orchestrate` (method, line 712) `def orchestrate(self)`
-  - `create` (method, line 738) `def create(self)`
-  - `__init__` (method, line 819) `def __init__(self)`
-  - `bind_shell` (method, line 823) `def bind_shell(self, shell)`
-  - `set_concurrency` (method, line 826) `def set_concurrency(self, value)`
-  - `orchestrate` (method, line 829) `def orchestrate(self)`
-  - `__init__` (method, line 858) `def __init__(self)`
-  - `bind_shell` (method, line 862) `def bind_shell(self, shell)`
-  - `set_concurrency` (method, line 865) `def set_concurrency(self, value)`
-  - `__init__` (method, line 1152) `def __init__(self)`
-  - `onecmd_plus_hooks` (method, line 1155) `def onecmd_plus_hooks(self, command)`
-  - `create` (method, line 1189) `def create(self)`
-  - `__init__` (method, line 1193) `def __init__(self)`
-  - `create` (method, line 1196) `def create(self)`
-  - `stop` (method, line 1355) `def stop(self)`
-  - `onecmd_plus_hooks` (method, line 1404) `def onecmd_plus_hooks(self, command)`
-  - `__init__` (method, line 1447) `def __init__(self)`
-  - `onecmd_plus_hooks` (method, line 1450) `def onecmd_plus_hooks(self, command)`
-  - `__init__` (method, line 1481) `def __init__(self)`
-  - `wait` (method, line 1487) `def wait(self, timeout)`
-  - `__init__` (method, line 1511) `def __init__(self)`
-  - `wait` (method, line 1517) `def wait(self, timeout)`
-- Depends on: `cli/commands/exploit_migrated.py`, `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/commands/session_ops.py`, `core/autonomous.py`, `core/config.py`, `core/process.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/command_executor.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `modules/lazy_runner.py`, `modules/lazy_skills.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/loop_progress.py`, `modules/tools/__init__.py`
-
-## tests/test_lazy_runner_fallback.py
-- Doc: Tests for the auto_loop phishing fallback wiring in modules.lazy_runner.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `runner` (function, line 15) `def runner()`
-  - `TestFlagParsing` (class, line 21) `class TestFlagParsing`
-  - `TestMaybePhishingFallback` (class, line 31) `class TestMaybePhishingFallback`
-  - `test_fallback_phish_flag` (method, line 22) `def test_fallback_phish_flag(self, runner)`
-  - `test_default_off` (method, line 26) `def test_default_off(self, runner)`
-  - `test_no_flag_noop` (method, line 32) `def test_no_flag_noop(self, runner)`
-  - `test_skipped_when_foothold` (method, line 37) `def test_skipped_when_foothold(self, runner, monkeypatch)`
-  - `test_invoked_when_no_access` (method, line 52) `def test_invoked_when_no_access(self, runner, monkeypatch)`
-  - `test_no_target_noop` (method, line 68) `def test_no_target_noop(self, runner, monkeypatch)`
-  - `test_never_raises` (method, line 74) `def test_never_raises(self, runner, monkeypatch)`
-  - `fake_run_fallback` (function, line 41) `def fake_run_fallback()`
-  - `raising` (function, line 76) `def raising()`
-- Depends on: `modules/__init__.py`
-
-## tests/test_lazy_scope.py
-- Doc: Behavioural tests for the lab-only default scope guard.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestAddressClassification` (class, line 17) `class TestAddressClassification`
-  - `TestHostExtraction` (class, line 43) `class TestHostExtraction`
-  - `TestScopeVerdict` (class, line 63) `class TestScopeVerdict`
-  - `TestCommandScope` (class, line 108) `class TestCommandScope`
-  - `TestAllowlist` (class, line 128) `class TestAllowlist`
-  - `TestLoopWiring` (class, line 143) `class TestLoopWiring`
-  - `test_loopback_and_rfc1918_are_lab` (method, line 20) `def test_loopback_and_rfc1918_are_lab(self)`
-  - `test_public_addresses_are_not_lab` (method, line 24) `def test_public_addresses_are_not_lab(self)`
-  - `test_ipv6_loopback_and_unique_local_are_lab` (method, line 28) `def test_ipv6_loopback_and_unique_local_are_lab(self)`
-  - `test_ipv4_mapped_public_is_not_lab` (method, line 32) `def test_ipv4_mapped_public_is_not_lab(self)`
-  - `test_ipv4_mapped_private_is_lab` (method, line 35) `def test_ipv4_mapped_private_is_lab(self)`
-  - `test_garbage_is_not_lab` (method, line 38) `def test_garbage_is_not_lab(self)`
-  - `test_ips_and_domains_extracted` (method, line 46) `def test_ips_and_domains_extracted(self)`
-  - `test_file_suffixes_are_not_hosts` (method, line 50) `def test_file_suffixes_are_not_hosts(self)`
-  - `test_duplicates_collapse` (method, line 55) `def test_duplicates_collapse(self)`
-  - `test_empty_text_yields_nothing` (method, line 59) `def test_empty_text_yields_nothing(self)`
-  - `test_lab_ip_literal_allowed` (method, line 66) `def test_lab_ip_literal_allowed(self)`
-  - `test_public_ip_literal_denied` (method, line 70) `def test_public_ip_literal_denied(self)`
-  - `test_hostname_resolving_private_allowed` (method, line 75) `def test_hostname_resolving_private_allowed(self)`
-  - `test_hostname_resolving_public_denied` (method, line 79) `def test_hostname_resolving_public_denied(self)`
-  - `test_mixed_answers_denied` (method, line 84) `def test_mixed_answers_denied(self)`
-  - `test_unresolved_denied` (method, line 90) `def test_unresolved_denied(self)`
-  - `test_allowlist_entry_allowed` (method, line 95) `def test_allowlist_entry_allowed(self)`
-  - `test_empty_target_denied` (method, line 103) `def test_empty_target_denied(self)`
-  - `test_all_lab_command_allowed` (method, line 111) `def test_all_lab_command_allowed(self)`
-  - `test_one_public_host_blocks_command` (method, line 115) `def test_one_public_host_blocks_command(self)`
-  - `test_hostname_public_blocks_command` (method, line 120) `def test_hostname_public_blocks_command(self)`
-  - `test_missing_file_is_empty` (method, line 131) `def test_missing_file_is_empty(self, tmp_path)`
-  - `test_comments_and_blanks_skipped` (method, line 134) `def test_comments_and_blanks_skipped(self, tmp_path)`
-  - `test_scope_default_method_wired` (method, line 146) `def test_scope_default_method_wired(self)`
-- Depends on: `modules/__init__.py`
-
-## tests/test_lazy_streaming.py
-- Doc: Token-level streaming: factory, pool deltas, agent reassembly.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_sandbox` (function, line 13) `def _sandbox(tmp_path, monkeypatch)`
-  - `test_stream_complete_collects_deltas_and_falls_back` (function, line 20) `def test_stream_complete_collects_deltas_and_falls_back(monkeypatch)`
-  - `test_pool_forwards_deltas_when_stage_on` (function, line 48) `def test_pool_forwards_deltas_when_stage_on(tmp_path, monkeypatch)`
-  - `test_pool_stays_unstreamed_when_stage_off` (function, line 72) `def test_pool_stays_unstreamed_when_stage_off(tmp_path, monkeypatch)`
-  - `test_agent_streaming_reassembles_tool_calls_and_reports_deltas` (function, line 96) `def test_agent_streaming_reassembles_tool_calls_and_reports_deltas()`
-  - `_Backend` (class, line 24) `class _Backend`
-  - `_Broken` (class, line 37) `class _Broken`
-  - `_stream` (function, line 57) `def _stream(model, prompt, max_tokens, on_delta)`
-  - `_stream` (function, line 80) `def _stream()`
-  - `_plain` (function, line 84) `def _plain()`
-  - `_Delta` (class, line 100) `class _Delta`
-  - `_Completions` (class, line 106) `class _Completions`
-  - `stream_generate` (method, line 27) `def stream_generate(self, prompt)`
-  - `stream_generate` (method, line 40) `def stream_generate(self, prompt)`
-  - `__init__` (method, line 101) `def __init__(self, content, reasoning, tool_calls)`
-  - `__init__` (method, line 107) `def __init__(self)`
-  - `create` (method, line 110) `def create(self)`
-- Depends on: `modules/agent_runner.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
-
-## tests/test_lazy_worker_safety.py
-- Doc: Worker safety: step sanitizer, task-wide dedupe, sudo skip, worker pool.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `payload_store` (function, line 15) `def payload_store(tmp_path, monkeypatch)`
-  - `_engine` (function, line 28) `def _engine(tmp_path, monkeypatch)`
-  - `_worker` (function, line 37) `def _worker(loop, engine, task_id, name)`
-  - `test_sanitizer_retargets_and_repairs_commands` (function, line 53) `def test_sanitizer_retargets_and_repairs_commands(tmp_path, monkeypatch)`
-  - `test_worker_dedupes_commands_already_executed_for_task` (function, line 70) `def test_worker_dedupes_commands_already_executed_for_task(tmp_path, monkeypatch)`
-  - `test_worker_skips_sudo_when_unavailable` (function, line 88) `def test_worker_skips_sudo_when_unavailable(tmp_path, monkeypatch)`
-  - `test_run_round_reuses_worker_pool` (function, line 105) `def test_run_round_reuses_worker_pool(payload_store, monkeypatch)`
-  - `test_needs_sudo_detects_wrappers_and_segments` (function, line 140) `def test_needs_sudo_detects_wrappers_and_segments(tmp_path, monkeypatch)`
-  - `test_worker_skips_sudo_alias_before_execution` (function, line 153) `def test_worker_skips_sudo_alias_before_execution(tmp_path, monkeypatch)`
-  - `test_worker_runs_sudo_alias_when_passwordless_available` (function, line 175) `def test_worker_runs_sudo_alias_when_passwordless_available(tmp_path, monkeypatch)`
-  - `executor` (function, line 95) `def executor(command)`
-  - `_fake_execute` (function, line 122) `def _fake_execute(self, node, executor, timeout_sec)`
-- Depends on: `modules/__init__.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `utils.py`
 
 
 Next: [KB_tests_p13.md](KB_tests_p13.md)

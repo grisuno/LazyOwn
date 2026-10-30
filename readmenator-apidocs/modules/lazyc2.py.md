@@ -1,11 +1,11 @@
 # `lazyc2`
 
-> Source: [lazyc2.py:1](../../lazyc2.py#L1) | language `py` | coverage 39.7% | [API index](../index.md)
+> Source: [lazyc2.py:1](../../lazyc2.py#L1) | language `py` | coverage 40.3% | [API index](../index.md)
 
 ## Contents
 
 - **Classes:** [`Handler`](#handler), [`CustomDNSResolver`](#customdnsresolver), [`User`](#user)
-- **Functions:** [`is_insecure_credential`](#is_insecure_credential), [`ensure_sessions_dir`](#ensure_sessions_dir), [`load_routes`](#load_routes), [`save_routes`](#save_routes), [`validate_route_path`](#validate_route_path), [`validate_template_name`](#validate_template_name), [`is_safe_template_path`](#is_safe_template_path), [`is_binary`](#is_binary), [`clean_expired_tokens`](#clean_expired_tokens), [`clean_json`](#clean_json), [`load_yaml_safely`](#load_yaml_safely), [`get_karma_name`](#get_karma_name), [`fromjson`](#fromjson), [`run_shell`](#run_shell), [`load_banners`](#load_banners), [`load_mitre_data`](#load_mitre_data), [`load_event_config`](#load_event_config), [`load_notifications`](#load_notifications), [`implants_check`](#implants_check), [`extract_attack_vectors`](#extract_attack_vectors), [`process_bloodhound_zip`](#process_bloodhound_zip), [`start_watching`](#start_watching), [`load_tasks`](#load_tasks), [`create_cves`](#create_cves), [`load_cves`](#load_cves), [`save_cves`](#save_cves), [`create_report`](#create_report), [`save_tasks`](#save_tasks), [`load_note`](#load_note), [`aumentar_elo`](#aumentar_elo), [`save_note`](#save_note), [`escape_js`](#escape_js), [`markdown_to_html`](#markdown_to_html), [`to_serializable`](#to_serializable), [`make_serializable`](#make_serializable), [`datetime_now_iso`](#datetime_now_iso), [`escape_js_string`](#escape_js_string), [`check_auth`](#check_auth), [`authenticate`](#authenticate), [`requires_auth_or_session`](#requires_auth_or_session), [`requires_auth`](#requires_auth), [`csrf_protect`](#csrf_protect), [`aicmd_deepseek`](#aicmd_deepseek), [`aicmd`](#aicmd), [`search_database`](#search_database), [`execute_command`](#execute_command), [`start_dns_server`](#start_dns_server), [`tcp_bridge`](#tcp_bridge), [`handle_client`](#handle_client), [`decoy`](#decoy), [`encrypt_data`](#encrypt_data), [`decrypt_data`](#decrypt_data), [`set_winsize`](#set_winsize), [`read_and_forward_pty_output`](#read_and_forward_pty_output), [`get_discovered_hosts`](#get_discovered_hosts), [`get_local_ip_addresses`](#get_local_ip_addresses), [`sanitize_json`](#sanitize_json), [`add_dynamic_data`](#add_dynamic_data), [`get_client_ip`](#get_client_ip), [`get_request_details`](#get_request_details), [`save_to_log`](#save_to_log), [`parse_access_log_for_short_url`](#parse_access_log_for_short_url), [`parse_execution_log`](#parse_execution_log), [`load_implant_config`](#load_implant_config), [`load_short_urls`](#load_short_urls), [`save_short_urls`](#save_short_urls), [`is_valid_url`](#is_valid_url), [`analyze_behavioral_data`](#analyze_behavioral_data), [`analyze_campaign_progress`](#analyze_campaign_progress), [`require_mfa_socket`](#require_mfa_socket), [`__getattr__`](#__getattr__), [`load_users`](#load_users), [`save_users`](#save_users), [`load_data`](#load_data), [`load_user`](#load_user), [`tojson_filter`](#tojson_filter), [`index`](#index), [`send_command`](#send_command), [`receive_result`](#receive_result), [`issue_command`](#issue_command), [`upload`](#upload), [`download_file`](#download_file), [`serve_file`](#serve_file), [`create_route`](#create_route), [`dynamic_route`](#dynamic_route), [`log`](#log), [`favicon`](#favicon), [`palette_view`](#palette_view), [`palette_api`](#palette_api), [`api_data`](#api_data), [`create_short_url`](#create_short_url), [`track_interaction`](#track_interaction), [`update_short_url`](#update_short_url), [`redirect_to_file`](#redirect_to_file), [`webserver_report`](#webserver_report), [`download_files`](#download_files), [`view_yaml`](#view_yaml), [`run_command`](#run_command), [`get_output`](#get_output), [`run_shellcode`](#run_shellcode), [`get_results`](#get_results), [`send_lcommand`](#send_lcommand), [`chatbot`](#chatbot), [`vuln`](#vuln), [`taskbot`](#taskbot), [`search`](#search), [`script`](#script), [`redop`](#redop), [`adversary`](#adversary), [`generalbot`](#generalbot), [`csv_to_html`](#csv_to_html), [`search_results`](#search_results), [`graph`](#graph), [`task`](#task), [`get_tasks`](#get_tasks), [`tasks`](#tasks), [`edit_task`](#edit_task), [`cves`](#cves), [`cve`](#cve), [`edit_cve`](#edit_cve), [`edit_notes`](#edit_notes), [`get_notes`](#get_notes), [`view_note`](#view_note), [`push_notification`](#push_notification), [`edit_event`](#edit_event), [`get_event_config`](#get_event_config), [`get_event_config_view`](#get_event_config_view), [`aicmd_view`](#aicmd_view), [`get_events`](#get_events), [`list_tools`](#list_tools), [`create_tool`](#create_tool), [`view_tool`](#view_tool), [`update_tool`](#update_tool), [`delete_tool`](#delete_tool), [`register`](#register), [`login`](#login), [`mfa_setup`](#mfa_setup), [`mfa_qr`](#mfa_qr), [`mfa_verify`](#mfa_verify), [`admin_users`](#admin_users), [`admin_set_role`](#admin_set_role), [`admin_reset_mfa`](#admin_reset_mfa), [`admin_delete_user`](#admin_delete_user), [`admin_tenants`](#admin_tenants), [`admin_create_tenant`](#admin_create_tenant), [`admin_switch_tenant`](#admin_switch_tenant), [`profile`](#profile), [`logout`](#logout), [`change_password`](#change_password), [`aumentar_elo_route`](#aumentar_elo_route), [`banners`](#banners), [`mitre`](#mitre), [`get_connected_clients`](#get_connected_clients), [`lazybot`](#lazybot), [`compliance_dashboard`](#compliance_dashboard), [`compliance_report`](#compliance_report), [`compliance_add_evidence`](#compliance_add_evidence), [`compliance_verify_evidence`](#compliance_verify_evidence), [`compliance_export`](#compliance_export), [`lazyreport`](#lazyreport), [`teamserver`](#teamserver), [`report`](#report), [`lazyreport_view`](#lazyreport_view), [`killchain_view`](#killchain_view), [`api_killchain`](#api_killchain), [`api_beacon_results`](#api_beacon_results), [`api_loops_start`](#api_loops_start), [`api_loops_list`](#api_loops_list), [`api_loop_log`](#api_loop_log), [`api_loop_stop`](#api_loop_stop), [`connect`](#connect), [`listener`](#listener), [`listener_connect`](#listener_connect), [`listener_disconnect`](#listener_disconnect), [`pty_input`](#pty_input), [`resize`](#resize), [`pty_connect`](#pty_connect), [`handle_input`](#handle_input), [`listener_command`](#listener_command), [`terminal`](#terminal), [`terminal_connect`](#terminal_connect), [`terminal_disconnect`](#terminal_disconnect), [`terminal_input`](#terminal_input), [`terminal_command`](#terminal_command), [`terminal_resize`](#terminal_resize), [`start_reverse_shell`](#start_reverse_shell), [`start_bridge`](#start_bridge), [`page_not_found`](#page_not_found), [`internal_server_error`](#internal_server_error), [`get_config`](#get_config), [`capture_image`](#capture_image), [`capture_audio`](#capture_audio), [`surface`](#surface), [`surface_live`](#surface_live), [`api_surface_live`](#api_surface_live), [`intel_view`](#intel_view), [`intel_bundle_view`](#intel_bundle_view), [`attack3d_view`](#attack3d_view), [`attack_bundle_view`](#attack_bundle_view), [`api_intel_graph`](#api_intel_graph), [`broadcast_view`](#broadcast_view), [`api_loop_broadcast_stream`](#api_loop_broadcast_stream), [`api_loop_broadcast`](#api_loop_broadcast), [`api_guard_audit`](#api_guard_audit), [`api_loop_graph`](#api_loop_graph), [`api_lazy_mentions`](#api_lazy_mentions), [`api_intel_bundle`](#api_intel_bundle), [`api_attack_graph`](#api_attack_graph), [`api_attack_bundle`](#api_attack_bundle), [`get_data`](#get_data), [`upload_zip_file`](#upload_zip_file), [`list_campaigns`](#list_campaigns), [`create_campaign`](#create_campaign), [`lazyphishingai`](#lazyphishingai), [`track_pixel`](#track_pixel), [`campaign_report`](#campaign_report), [`orchestrate_campaign`](#orchestrate_campaign), [`create_multivector_campaign`](#create_multivector_campaign), [`serve_landing_page`](#serve_landing_page), [`health_check`](#health_check), [`metrics_exposition`](#metrics_exposition), [`api_dashboard`](#api_dashboard), [`api_listeners`](#api_listeners), [`api_listeners_create`](#api_listeners_create), [`api_listeners_start`](#api_listeners_start), [`api_listeners_stop`](#api_listeners_stop), [`api_listeners_delete`](#api_listeners_delete)
+- **Functions:** [`is_insecure_credential`](#is_insecure_credential), [`ensure_sessions_dir`](#ensure_sessions_dir), [`load_routes`](#load_routes), [`save_routes`](#save_routes), [`validate_route_path`](#validate_route_path), [`validate_template_name`](#validate_template_name), [`is_safe_template_path`](#is_safe_template_path), [`is_binary`](#is_binary), [`clean_expired_tokens`](#clean_expired_tokens), [`clean_json`](#clean_json), [`load_yaml_safely`](#load_yaml_safely), [`get_karma_name`](#get_karma_name), [`fromjson`](#fromjson), [`run_shell`](#run_shell), [`load_banners`](#load_banners), [`load_mitre_data`](#load_mitre_data), [`load_event_config`](#load_event_config), [`load_notifications`](#load_notifications), [`implants_check`](#implants_check), [`extract_attack_vectors`](#extract_attack_vectors), [`process_bloodhound_zip`](#process_bloodhound_zip), [`start_watching`](#start_watching), [`load_tasks`](#load_tasks), [`create_cves`](#create_cves), [`load_cves`](#load_cves), [`save_cves`](#save_cves), [`create_report`](#create_report), [`save_tasks`](#save_tasks), [`load_note`](#load_note), [`aumentar_elo`](#aumentar_elo), [`save_note`](#save_note), [`escape_js`](#escape_js), [`markdown_to_html`](#markdown_to_html), [`to_serializable`](#to_serializable), [`make_serializable`](#make_serializable), [`datetime_now_iso`](#datetime_now_iso), [`escape_js_string`](#escape_js_string), [`check_auth`](#check_auth), [`authenticate`](#authenticate), [`requires_auth_or_session`](#requires_auth_or_session), [`requires_auth`](#requires_auth), [`csrf_protect`](#csrf_protect), [`aicmd_deepseek`](#aicmd_deepseek), [`aicmd`](#aicmd), [`search_database`](#search_database), [`execute_command`](#execute_command), [`start_dns_server`](#start_dns_server), [`tcp_bridge`](#tcp_bridge), [`handle_client`](#handle_client), [`decoy`](#decoy), [`encrypt_data`](#encrypt_data), [`decrypt_data`](#decrypt_data), [`set_winsize`](#set_winsize), [`read_and_forward_pty_output`](#read_and_forward_pty_output), [`get_discovered_hosts`](#get_discovered_hosts), [`get_local_ip_addresses`](#get_local_ip_addresses), [`sanitize_json`](#sanitize_json), [`add_dynamic_data`](#add_dynamic_data), [`get_client_ip`](#get_client_ip), [`get_request_details`](#get_request_details), [`save_to_log`](#save_to_log), [`parse_access_log_for_short_url`](#parse_access_log_for_short_url), [`parse_execution_log`](#parse_execution_log), [`load_implant_config`](#load_implant_config), [`load_short_urls`](#load_short_urls), [`save_short_urls`](#save_short_urls), [`is_valid_url`](#is_valid_url), [`analyze_behavioral_data`](#analyze_behavioral_data), [`analyze_campaign_progress`](#analyze_campaign_progress), [`require_mfa_socket`](#require_mfa_socket), [`__getattr__`](#__getattr__), [`load_users`](#load_users), [`save_users`](#save_users), [`load_data`](#load_data), [`load_user`](#load_user), [`tojson_filter`](#tojson_filter), [`index`](#index), [`send_command`](#send_command), [`receive_result`](#receive_result), [`issue_command`](#issue_command), [`upload`](#upload), [`download_file`](#download_file), [`serve_file`](#serve_file), [`create_route`](#create_route), [`dynamic_route`](#dynamic_route), [`log`](#log), [`favicon`](#favicon), [`palette_view`](#palette_view), [`palette_api`](#palette_api), [`api_data`](#api_data), [`create_short_url`](#create_short_url), [`track_interaction`](#track_interaction), [`update_short_url`](#update_short_url), [`redirect_to_file`](#redirect_to_file), [`webserver_report`](#webserver_report), [`download_files`](#download_files), [`view_yaml`](#view_yaml), [`run_command`](#run_command), [`get_output`](#get_output), [`run_shellcode`](#run_shellcode), [`get_results`](#get_results), [`send_lcommand`](#send_lcommand), [`chatbot`](#chatbot), [`vuln`](#vuln), [`taskbot`](#taskbot), [`search`](#search), [`script`](#script), [`redop`](#redop), [`adversary`](#adversary), [`generalbot`](#generalbot), [`csv_to_html`](#csv_to_html), [`search_results`](#search_results), [`graph`](#graph), [`task`](#task), [`get_tasks`](#get_tasks), [`tasks`](#tasks), [`edit_task`](#edit_task), [`cves`](#cves), [`cve`](#cve), [`edit_cve`](#edit_cve), [`edit_notes`](#edit_notes), [`get_notes`](#get_notes), [`view_note`](#view_note), [`push_notification`](#push_notification), [`edit_event`](#edit_event), [`get_event_config`](#get_event_config), [`get_event_config_view`](#get_event_config_view), [`aicmd_view`](#aicmd_view), [`get_events`](#get_events), [`list_tools`](#list_tools), [`create_tool`](#create_tool), [`view_tool`](#view_tool), [`update_tool`](#update_tool), [`delete_tool`](#delete_tool), [`register`](#register), [`login`](#login), [`mfa_setup`](#mfa_setup), [`mfa_qr`](#mfa_qr), [`mfa_verify`](#mfa_verify), [`admin_users`](#admin_users), [`admin_set_role`](#admin_set_role), [`admin_reset_mfa`](#admin_reset_mfa), [`admin_delete_user`](#admin_delete_user), [`admin_tenants`](#admin_tenants), [`admin_create_tenant`](#admin_create_tenant), [`admin_switch_tenant`](#admin_switch_tenant), [`profile`](#profile), [`logout`](#logout), [`change_password`](#change_password), [`aumentar_elo_route`](#aumentar_elo_route), [`banners`](#banners), [`mitre`](#mitre), [`get_connected_clients`](#get_connected_clients), [`lazybot`](#lazybot), [`compliance_dashboard`](#compliance_dashboard), [`compliance_report`](#compliance_report), [`compliance_add_evidence`](#compliance_add_evidence), [`compliance_verify_evidence`](#compliance_verify_evidence), [`compliance_export`](#compliance_export), [`lazyreport`](#lazyreport), [`teamserver`](#teamserver), [`report`](#report), [`lazyreport_view`](#lazyreport_view), [`killchain_view`](#killchain_view), [`api_killchain`](#api_killchain), [`api_beacon_results`](#api_beacon_results), [`api_loops_start`](#api_loops_start), [`api_loops_list`](#api_loops_list), [`api_loop_log`](#api_loop_log), [`api_loop_stop`](#api_loop_stop), [`connect`](#connect), [`listener`](#listener), [`listener_connect`](#listener_connect), [`listener_disconnect`](#listener_disconnect), [`pty_input`](#pty_input), [`resize`](#resize), [`pty_connect`](#pty_connect), [`handle_input`](#handle_input), [`listener_command`](#listener_command), [`terminal`](#terminal), [`terminal_connect`](#terminal_connect), [`terminal_disconnect`](#terminal_disconnect), [`terminal_input`](#terminal_input), [`terminal_command`](#terminal_command), [`terminal_resize`](#terminal_resize), [`start_reverse_shell`](#start_reverse_shell), [`start_bridge`](#start_bridge), [`page_not_found`](#page_not_found), [`internal_server_error`](#internal_server_error), [`get_config`](#get_config), [`capture_image`](#capture_image), [`capture_audio`](#capture_audio), [`surface`](#surface), [`surface_live`](#surface_live), [`api_surface_live`](#api_surface_live), [`intel_view`](#intel_view), [`intel_bundle_view`](#intel_bundle_view), [`attack3d_view`](#attack3d_view), [`attack_bundle_view`](#attack_bundle_view), [`api_intel_graph`](#api_intel_graph), [`broadcast_view`](#broadcast_view), [`api_loop_broadcast_stream`](#api_loop_broadcast_stream), [`api_loop_broadcast`](#api_loop_broadcast), [`api_guard_audit`](#api_guard_audit), [`api_chain_approvals`](#api_chain_approvals), [`api_chain_approvals_decide`](#api_chain_approvals_decide), [`api_loop_graph`](#api_loop_graph), [`api_lazy_mentions`](#api_lazy_mentions), [`api_intel_bundle`](#api_intel_bundle), [`api_attack_graph`](#api_attack_graph), [`api_attack_bundle`](#api_attack_bundle), [`get_data`](#get_data), [`upload_zip_file`](#upload_zip_file), [`list_campaigns`](#list_campaigns), [`create_campaign`](#create_campaign), [`lazyphishingai`](#lazyphishingai), [`track_pixel`](#track_pixel), [`campaign_report`](#campaign_report), [`orchestrate_campaign`](#orchestrate_campaign), [`create_multivector_campaign`](#create_multivector_campaign), [`serve_landing_page`](#serve_landing_page), [`health_check`](#health_check), [`metrics_exposition`](#metrics_exposition), [`api_dashboard`](#api_dashboard), [`api_listeners`](#api_listeners), [`api_listeners_create`](#api_listeners_create), [`api_listeners_start`](#api_listeners_start), [`api_listeners_stop`](#api_listeners_stop), [`api_listeners_delete`](#api_listeners_delete)
 - **Constants:** [`SAVE_DIR`](#save_dir), [`SESSION_ID`](#session_id), [`BASE_DIR`](#base_dir), [`TOOLS_DIR`](#tools_dir), [`LAZYADDONS_DIR`](#lazyaddons_dir), [`UPLOAD_FOLDER`](#upload_folder), [`ALLOWED_DIRECTORY`](#allowed_directory), [`MODEL`](#model), [`JSON_FILE_PATH_REPORT`](#json_file_path_report), [`USER_DATA_PATH`](#user_data_path), [`ENV`](#env), [`DATA_FILE`](#data_file), [`LOG_DIR`](#log_dir), [`LOG_FILE`](#log_file), [`CAMPAIGNS_DIR`](#campaigns_dir), [`TEMPLATES_DIR`](#templates_dir), [`DB_PATH`](#db_path), [`GMAIL_ADDRESS`](#gmail_address), [`GMAIL_APP_PASSWORD`](#gmail_app_password), [`SESSIONS_PHISHING_DIR`](#sessions_phishing_dir), [`SHORT_URLS_FILE`](#short_urls_file), [`SESSIONS_DIR`](#sessions_dir), [`GROQ_API_KEY`](#groq_api_key), [`ALLOWED_EXTENSIONS`](#allowed_extensions), [`IMPLANT_STAGE_FILES`](#implant_stage_files), [`BINARY_HEADERS`](#binary_headers), [`AES_KEY_SIZE_BYTES`](#aes_key_size_bytes), [`DIRECTORY_TO_WATCH`](#directory_to_watch), [`LINPEAS_CANDIDATES`](#linpeas_candidates), [`WINPEAS_CANDIDATES`](#winpeas_candidates)
 
 ## Type Diagram
@@ -4030,11 +4030,58 @@ through history never hides work waiting for approval.
 
 ---
 
+<a id="api_chain_approvals"></a>
+
+### `api_chain_approvals`
+
+`function` | [lazyc2.py:7968](../../lazyc2.py#L7968)
+
+Decorators: `@app.route('/api/chain_approvals', methods=['GET'])`, `@login_required`
+
+```python
+def api_chain_approvals()
+```
+
+List confirm-step approval requests from the chain approval gate.
+
+Sweeps expired requests first so the dashboard never shows stale
+pending rows. Optional ``status`` query param filters one status.
+
+**Returns:** JSON object with ``requests`` (newest first) and `[`count`](modules.lazy_creds.py.md#count)`.
+
+---
+
+<a id="api_chain_approvals_decide"></a>
+
+### `api_chain_approvals_decide`
+
+`function` | [lazyc2.py:7996](../../lazyc2.py#L7996)
+
+Decorators: `@app.route('/api/chain_approvals/<request_id>/decide', methods=['POST'])`, `@login_required`, `@csrf_protect`
+
+```python
+def api_chain_approvals_decide(request_id: str)
+```
+
+Approve or deny one pending chain approval request.
+
+Body is JSON: ``decision`` must be ``approve`` or `[`deny`](modules.goals.py.md#taskconstraints-deny)` and an
+optional `[`note`](modules.emulation_runner.py.md#emulationresult-note)` rides along. Ids are validated before any store
+access and unknown or already-decided requests answer 404.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `request_id` | `str` |  | Approval request id (16 hex chars). |
+
+---
+
 <a id="api_loop_graph"></a>
 
 ### `api_loop_graph`
 
-`function` | [lazyc2.py:7968](../../lazyc2.py#L7968)
+`function` | [lazyc2.py:8037](../../lazyc2.py#L8037)
 
 Decorators: `@app.route('/api/loop_graph')`, `@login_required`
 
@@ -4057,7 +4104,7 @@ next probes computed from the same topology the planner ranks on.
 
 ### `api_lazy_mentions`
 
-`function` | [lazyc2.py:7999](../../lazyc2.py#L7999)
+`function` | [lazyc2.py:8068](../../lazyc2.py#L8068)
 
 Decorators: `@app.route('/api/lazy_mentions')`, `@login_required`
 
@@ -4078,7 +4125,7 @@ from the previous page). Returns ``items`` plus `[`next_cursor`](modules.lazy_me
 
 ### `api_intel_bundle`
 
-`function` | [lazyc2.py:8035](../../lazyc2.py#L8035)
+`function` | [lazyc2.py:8104](../../lazyc2.py#L8104)
 
 Decorators: `@app.route('/api/intel_bundle')`, `@login_required`
 
@@ -4097,7 +4144,7 @@ Return the circular/spherical bundle payload of the intel graph.
 
 ### `api_attack_graph`
 
-`function` | [lazyc2.py:8068](../../lazyc2.py#L8068)
+`function` | [lazyc2.py:8137](../../lazyc2.py#L8137)
 
 Decorators: `@app.route('/api/attack_graph')`, `@login_required`
 
@@ -4123,7 +4170,7 @@ and ``analytics`` keys.
 
 ### `api_attack_bundle`
 
-`function` | [lazyc2.py:8120](../../lazyc2.py#L8120)
+`function` | [lazyc2.py:8189](../../lazyc2.py#L8189)
 
 Decorators: `@app.route('/api/attack_bundle')`, `@login_required`
 
@@ -4142,7 +4189,7 @@ Return the circular/spherical bundle payload of the attack surface.
 
 ### `get_data`
 
-`function` | [lazyc2.py:8150](../../lazyc2.py#L8150)
+`function` | [lazyc2.py:8219](../../lazyc2.py#L8219)
 
 Decorators: `@app.route('/data')`, `@requires_auth_or_session`
 
@@ -4156,7 +4203,7 @@ def get_data()
 
 ### `upload_zip_file`
 
-`function` | [lazyc2.py:8159](../../lazyc2.py#L8159)
+`function` | [lazyc2.py:8228](../../lazyc2.py#L8228)
 
 Decorators: `@app.route('/upload_zip', methods=['POST'])`
 
@@ -4172,7 +4219,7 @@ Handles the file upload, processes the BloodHound ZIP, and prepares data for vis
 
 ### `list_campaigns`
 
-`function` | [lazyc2.py:8217](../../lazyc2.py#L8217)
+`function` | [lazyc2.py:8286](../../lazyc2.py#L8286)
 
 Decorators: `@phishing_bp.route('/phishing/campaigns', methods=['GET'])`, `@login_required`
 
@@ -4186,7 +4233,7 @@ def list_campaigns()
 
 ### `create_campaign`
 
-`function` | [lazyc2.py:8230](../../lazyc2.py#L8230)
+`function` | [lazyc2.py:8299](../../lazyc2.py#L8299)
 
 Decorators: `@phishing_bp.route('/phishing/campaigns/new', methods=['GET', 'POST'])`, `@login_required`
 
@@ -4200,7 +4247,7 @@ def create_campaign()
 
 ### `lazyphishingai`
 
-`function` | [lazyc2.py:8308](../../lazyc2.py#L8308)
+`function` | [lazyc2.py:8377](../../lazyc2.py#L8377)
 
 Decorators: `@app.route('/lazyphishingai', methods=['POST'])`, `@requires_auth_or_session`
 
@@ -4214,7 +4261,7 @@ def lazyphishingai()
 
 ### `track_pixel`
 
-`function` | [lazyc2.py:8324](../../lazyc2.py#L8324)
+`function` | [lazyc2.py:8393](../../lazyc2.py#L8393)
 
 Decorators: `@phishing_bp.route('/phishing/<campaign_id>/track/<email>')`
 
@@ -4237,7 +4284,7 @@ Píxel de seguimiento para registrar aperturas.
 
 ### `campaign_report`
 
-`function` | [lazyc2.py:8346](../../lazyc2.py#L8346)
+`function` | [lazyc2.py:8415](../../lazyc2.py#L8415)
 
 Decorators: `@phishing_bp.route('/phishing/<campaign_id>/report')`, `@login_required`
 
@@ -4257,7 +4304,7 @@ def campaign_report(campaign_id)
 
 ### `orchestrate_campaign`
 
-`function` | [lazyc2.py:8428](../../lazyc2.py#L8428)
+`function` | [lazyc2.py:8497](../../lazyc2.py#L8497)
 
 Decorators: `@phishing_bp.route('/phishing/<campaign_id>/orchestrate', methods=['GET', 'POST'])`, `@login_required`
 
@@ -4277,7 +4324,7 @@ def orchestrate_campaign(campaign_id)
 
 ### `create_multivector_campaign`
 
-`function` | [lazyc2.py:8475](../../lazyc2.py#L8475)
+`function` | [lazyc2.py:8544](../../lazyc2.py#L8544)
 
 Decorators: `@phishing_bp.route('/phishing/create_multivector_campaign', methods=['GET', 'POST'])`, `@login_required`
 
@@ -4291,7 +4338,7 @@ def create_multivector_campaign()
 
 ### `serve_landing_page`
 
-`function` | [lazyc2.py:8627](../../lazyc2.py#L8627)
+`function` | [lazyc2.py:8696](../../lazyc2.py#L8696)
 
 Decorators: `@phishing_bp.route('/phishing/landing/<campaign_id>/<short_url>')`
 
@@ -4312,7 +4359,7 @@ def serve_landing_page(campaign_id, short_url)
 
 ### `health_check`
 
-`function` | [lazyc2.py:8652](../../lazyc2.py#L8652)
+`function` | [lazyc2.py:8721](../../lazyc2.py#L8721)
 
 Decorators: `@app.route('/health', methods=['GET'])`
 
@@ -4328,7 +4375,7 @@ Basic health and readiness endpoint.
 
 ### `metrics_exposition`
 
-`function` | [lazyc2.py:8691](../../lazyc2.py#L8691)
+`function` | [lazyc2.py:8760](../../lazyc2.py#L8760)
 
 Decorators: `@app.route('/metrics', methods=['GET'])`
 
@@ -4344,7 +4391,7 @@ Prometheus-compatible metrics endpoint.
 
 ### `api_dashboard`
 
-`function` | [lazyc2.py:8698](../../lazyc2.py#L8698)
+`function` | [lazyc2.py:8767](../../lazyc2.py#L8767)
 
 Decorators: `@app.route('/api/dashboard', methods=['GET'])`, `@requires_auth`
 
@@ -4360,7 +4407,7 @@ Aggregated JSON dashboard: beacons, campaign, events, facts summary.
 
 ### `api_listeners`
 
-`function` | [lazyc2.py:8768](../../lazyc2.py#L8768)
+`function` | [lazyc2.py:8837](../../lazyc2.py#L8837)
 
 Decorators: `@app.route('/api/listeners', methods=['GET'])`, `@requires_auth`
 
@@ -4376,7 +4423,7 @@ List all configured C2 listeners and their runtime status.
 
 ### `api_listeners_create`
 
-`function` | [lazyc2.py:8775](../../lazyc2.py#L8775)
+`function` | [lazyc2.py:8844](../../lazyc2.py#L8844)
 
 Decorators: `@app.route('/api/listeners', methods=['POST'])`, `@requires_auth`
 
@@ -4392,7 +4439,7 @@ Create a new listener.
 
 ### `api_listeners_start`
 
-`function` | [lazyc2.py:8791](../../lazyc2.py#L8791)
+`function` | [lazyc2.py:8860](../../lazyc2.py#L8860)
 
 Decorators: `@app.route('/api/listeners/<listener_id>/start', methods=['POST'])`, `@requires_auth`
 
@@ -4414,7 +4461,7 @@ Start an existing listener.
 
 ### `api_listeners_stop`
 
-`function` | [lazyc2.py:8799](../../lazyc2.py#L8799)
+`function` | [lazyc2.py:8868](../../lazyc2.py#L8868)
 
 Decorators: `@app.route('/api/listeners/<listener_id>/stop', methods=['POST'])`, `@requires_auth`
 
@@ -4436,7 +4483,7 @@ Stop a running listener.
 
 ### `api_listeners_delete`
 
-`function` | [lazyc2.py:8807](../../lazyc2.py#L8807)
+`function` | [lazyc2.py:8876](../../lazyc2.py#L8876)
 
 Decorators: `@app.route('/api/listeners/<listener_id>', methods=['DELETE'])`, `@requires_auth`
 

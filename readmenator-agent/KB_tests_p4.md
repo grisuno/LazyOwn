@@ -1,4 +1,4 @@
-# Subsystem: tests (page 4 of 21)
+# Subsystem: tests (page 4 of 22)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
 
 ## tests/test_bof_registry.py
@@ -471,28 +471,6 @@ Previous: [KB_tests_p3.md](KB_tests_p3.md)
   - `test_all_categories_count` (method, line 168) `def test_all_categories_count(self)`
   - `test_forward_and_reverse_match` (method, line 173) `def test_forward_and_reverse_match(self)`
 - Depends on: `modules/categories.py`
-
-## tests/test_chain_distill.py
-- Doc: BDD tests for chain_distill trace crystallisation.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `trace_dir` (function, line 22) `def trace_dir(tmp_path)`
-  - `TestLocate` (class, line 133) `class TestLocate`
-  - `TestInferTarget` (class, line 150) `class TestInferTarget`
-  - `TestBuild` (class, line 167) `class TestBuild`
-  - `TestWrite` (class, line 232) `class TestWrite`
-  - `test_pair_found` (method, line 136) `def test_pair_found(self, trace_dir)`
-  - `test_unknown_task_is_none` (method, line 142) `def test_unknown_task_is_none(self, trace_dir)`
-  - `test_goal_beats_frequency` (method, line 153) `def test_goal_beats_frequency(self, trace_dir)`
-  - `test_frequency_fallback_hosts_win_over_loopback` (method, line 161) `def test_frequency_fallback_hosts_win_over_loopback(self, tmp_path)`
-  - `test_keep_drop_dedupe` (method, line 170) `def test_keep_drop_dedupe(self, trace_dir)`
-  - `test_target_tokenised_and_lineage_kept` (method, line 186) `def test_target_tokenised_and_lineage_kept(self, trace_dir)`
-  - `test_exploit_steps_strict` (method, line 204) `def test_exploit_steps_strict(self, trace_dir)`
-  - `report_checks` (method, line 213) `def report_checks(self, trace_dir)`
-  - `test_empty_trace_yields_validateable_chain` (method, line 220) `def test_empty_trace_yields_validateable_chain(self, tmp_path)`
-  - `test_written_chain_validates_lifetime` (method, line 235) `def test_written_chain_validates_lifetime(self, trace_dir)`
-- Depends on: `modules/chain_distill.py`, `modules/chain_registry.py`
 
 
 Next: [KB_tests_p5.md](KB_tests_p5.md)

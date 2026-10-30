@@ -74,8 +74,9 @@ Imported by: `lazyown.py`, `tests/test_scope_guard.py`
 - `build_offensive_commands` (function) `cli/scope_guard.py:147` `def build_offensive_commands(command_categories)` -- Select the command names whose category is offensive.
 - `normalize_scope` (function) `cli/scope_guard.py:163` `def normalize_scope(entries)` -- Coerce a scope specification into a tuple of entry strings.
 - `target_in_scope` (function) `cli/scope_guard.py:218` `def target_in_scope(target, entries)` -- Return whether *target* falls within any of the scope *entries*.
-- `ScopeGuard.__init__` (method) `cli/scope_guard.py:263` `def __init__(self, scope_entries, mode, is_offensive)` -- Initialise the guard.
-- `ScopeGuard.evaluate` (method) `cli/scope_guard.py:283` `def evaluate(self, command, target)` -- Evaluate a single command against the active target.
+- `target_in_deny` (function) `cli/scope_guard.py:254` `def target_in_deny(target, entries)` -- Return whether *target* is explicitly denied.
+- `ScopeGuard.__init__` (method) `cli/scope_guard.py:280` `def __init__(self, scope_entries, mode, is_offensive, deny_entries)` -- Initialise the guard.
+- `ScopeGuard.evaluate` (method) `cli/scope_guard.py:304` `def evaluate(self, command, target)` -- Evaluate a single command against the active target.
 
 ## cli/session_brief.py
 Depends on: `cli/themes.py`, `modules/__init__.py`, `modules/lazy_engine.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`, `modules/world_model.py`

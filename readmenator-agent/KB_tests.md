@@ -1,5 +1,5 @@
-# Subsystem: tests (page 1 of 21)
-Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md), [KB_tests_p17.md](KB_tests_p17.md), [KB_tests_p18.md](KB_tests_p18.md), [KB_tests_p19.md](KB_tests_p19.md), [KB_tests_p20.md](KB_tests_p20.md), [KB_tests_p21.md](KB_tests_p21.md)
+# Subsystem: tests (page 1 of 22)
+Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md), [KB_tests_p16.md](KB_tests_p16.md), [KB_tests_p17.md](KB_tests_p17.md), [KB_tests_p18.md](KB_tests_p18.md), [KB_tests_p19.md](KB_tests_p19.md), [KB_tests_p20.md](KB_tests_p20.md), [KB_tests_p21.md](KB_tests_p21.md), [KB_tests_p22.md](KB_tests_p22.md)
 
 ## tests/__init__.py
 - Layer: testing
@@ -416,31 +416,31 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Layer: testing
 - Language: py
 - Symbols:
-  - `AdLabCatalogueSpec` (class, line 13) `class AdLabCatalogueSpec(TestCase)`
-  - `AdLabCaptureSpec` (class, line 40) `class AdLabCaptureSpec(TestCase)`
-  - `AdLabRuntimeSpec` (class, line 97) `class AdLabRuntimeSpec(TestCase)`
-  - `AdLabGymDefinitionsSpec` (class, line 170) `class AdLabGymDefinitionsSpec(TestCase)`
-  - `test_matrix_validates` (method, line 16) `def test_matrix_validates(self)`
-  - `test_summary_shape` (method, line 19) `def test_summary_shape(self)`
-  - `test_all_vectors_resolve` (method, line 25) `def test_all_vectors_resolve(self)`
-  - `test_get_unknown_is_none` (method, line 36) `def test_get_unknown_is_none(self)`
-  - `test_kerberos_ticket_checker_direct` (method, line 43) `def test_kerberos_ticket_checker_direct(self)`
-  - `test_domain_enum_capture` (method, line 48) `def test_domain_enum_capture(self)`
-  - `test_smb_shares_capture` (method, line 60) `def test_smb_shares_capture(self)`
-  - `test_credentials_capture_for_default_creds` (method, line 72) `def test_credentials_capture_for_default_creds(self)`
-  - `test_samr_enum_capture` (method, line 84) `def test_samr_enum_capture(self)`
-  - `test_scenario_targets_samba_image` (method, line 100) `def test_scenario_targets_samba_image(self)`
-  - `test_start_rejects_unknown_scenario` (method, line 107) `def test_start_rejects_unknown_scenario(self)`
-  - `test_ensure_ad_lab_probe_failure_is_quiet` (method, line 112) `def test_ensure_ad_lab_probe_failure_is_quiet(self)`
-  - `test_ensure_ad_lab_creates_fixture_once` (method, line 122) `def test_ensure_ad_lab_creates_fixture_once(self)`
-  - `test_ensure_ad_lab_skips_existing_fixture` (method, line 143) `def test_ensure_ad_lab_skips_existing_fixture(self)`
-  - `test_readiness_without_docker` (method, line 163) `def test_readiness_without_docker(self)`
-  - `test_ad_lab_apt_definition_valid` (method, line 173) `def test_ad_lab_apt_definition_valid(self)`
-  - `test_ad_domain_enum_definition_valid` (method, line 179) `def test_ad_domain_enum_definition_valid(self)`
-  - `fake_docker` (function, line 126) `def fake_docker()`
-  - `fake_docker2` (function, line 131) `def fake_docker2()`
-  - `fake_docker` (function, line 147) `def fake_docker()`
-  - `fake_docker2` (function, line 154) `def fake_docker2()`
+  - `AdLabCatalogueSpec` (class, line 30) `class AdLabCatalogueSpec(TestCase)`
+  - `AdLabCaptureSpec` (class, line 57) `class AdLabCaptureSpec(TestCase)`
+  - `AdLabRuntimeSpec` (class, line 114) `class AdLabRuntimeSpec(TestCase)`
+  - `AdLabGymDefinitionsSpec` (class, line 187) `class AdLabGymDefinitionsSpec(TestCase)`
+  - `test_matrix_validates` (method, line 33) `def test_matrix_validates(self)`
+  - `test_summary_shape` (method, line 36) `def test_summary_shape(self)`
+  - `test_all_vectors_resolve` (method, line 42) `def test_all_vectors_resolve(self)`
+  - `test_get_unknown_is_none` (method, line 53) `def test_get_unknown_is_none(self)`
+  - `test_kerberos_ticket_checker_direct` (method, line 60) `def test_kerberos_ticket_checker_direct(self)`
+  - `test_domain_enum_capture` (method, line 65) `def test_domain_enum_capture(self)`
+  - `test_smb_shares_capture` (method, line 77) `def test_smb_shares_capture(self)`
+  - `test_credentials_capture_for_default_creds` (method, line 89) `def test_credentials_capture_for_default_creds(self)`
+  - `test_samr_enum_capture` (method, line 101) `def test_samr_enum_capture(self)`
+  - `test_scenario_targets_samba_image` (method, line 117) `def test_scenario_targets_samba_image(self)`
+  - `test_start_rejects_unknown_scenario` (method, line 124) `def test_start_rejects_unknown_scenario(self)`
+  - `test_ensure_ad_lab_probe_failure_is_quiet` (method, line 129) `def test_ensure_ad_lab_probe_failure_is_quiet(self)`
+  - `test_ensure_ad_lab_creates_fixture_once` (method, line 139) `def test_ensure_ad_lab_creates_fixture_once(self)`
+  - `test_ensure_ad_lab_skips_existing_fixture` (method, line 160) `def test_ensure_ad_lab_skips_existing_fixture(self)`
+  - `test_readiness_without_docker` (method, line 180) `def test_readiness_without_docker(self)`
+  - `test_ad_lab_apt_definition_valid` (method, line 190) `def test_ad_lab_apt_definition_valid(self)`
+  - `test_ad_domain_enum_definition_valid` (method, line 196) `def test_ad_domain_enum_definition_valid(self)`
+  - `fake_docker` (function, line 143) `def fake_docker()`
+  - `fake_docker2` (function, line 148) `def fake_docker2()`
+  - `fake_docker` (function, line 164) `def fake_docker()`
+  - `fake_docker2` (function, line 171) `def fake_docker2()`
 - Depends on: `modules/__init__.py`
 
 

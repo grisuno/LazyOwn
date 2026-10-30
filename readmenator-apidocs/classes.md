@@ -113,6 +113,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`AtomicTest`](modules/modules.atomic_resolver.py.md#atomictest) class in `modules.atomic_resolver`
 - [`AtomicTestRef`](modules/modules.apt_playbooks.py.md#atomictestref) class in `modules.apt_playbooks`
 - [`AttackPhase`](modules/skills.aci_planner.py.md#attackphase) class in `skills.aci_planner`
+- [`AttackVectorVerdict`](modules/modules.lazy_netattack.py.md#attackvectorverdict) class in `modules.lazy_netattack`
 - [`AuditConfig`](modules/scripts.devtools.command_audit.py.md#auditconfig) class in `scripts.devtools.command_audit`
 - [`AutocompleteEntry`](modules/modules.LazyOwnExplorer.py.md#autocompleteentry) class in `modules.LazyOwnExplorer`(tk.Entry)
 - [`AutoCryptoConfig`](modules/cli.auto_crypto.py.md#autocryptoconfig) class in `cli.auto_crypto`
@@ -526,7 +527,9 @@ Project types nested under the project types they derive from. External bases ar
   - [`ServiceMapper`](modules/modules.integrations.misp_export.py.md#servicemapper) class in `modules.integrations.misp_export`
 - [`FindingRecord`](modules/modules.finding_lifecycle.py.md#findingrecord) class in `modules.finding_lifecycle`
 - [`FindingService`](modules/modules.lazy_loop.py.md#findingservice) class in `modules.lazy_loop`
+- [`FindingsLedger`](modules/modules.lazy_findings.py.md#findingsledger) class in `modules.lazy_findings`
 - [`FindingType`](modules/modules.obs_parser.py.md#findingtype) enum in `modules.obs_parser`(StrEnum)
+- [`FindingValidationError`](modules/modules.lazy_findings.py.md#findingvalidationerror) exception in `modules.lazy_findings`(ValueError)
 - [`FontConstants`](modules/lazygui.config.constants.py.md#fontconstants) class in `lazygui.config.constants`
 - [`ForensicCleaner`](modules/modules.forensic_cleaner.py.md#forensiccleaner) class in `modules.forensic_cleaner`
 - [`ForensicCleanerConfig`](modules/modules.forensic_cleaner.py.md#forensiccleanerconfig) class in `modules.forensic_cleaner`
@@ -677,6 +680,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`InterceptRule`](modules/modules.intercept.py.md#interceptrule) class in `modules.intercept`
 - [`InterceptVerdict`](modules/modules.intercept.py.md#interceptverdict) class in `modules.intercept`
 - [`InvalidCursor`](modules/modules.lazy_mentions.py.md#invalidcursor) exception in `modules.lazy_mentions`(ValueError)
+- [`InvalidEngagement`](modules/modules.progress_ledger.py.md#invalidengagement) exception in `modules.progress_ledger`(ValueError)
 - [`InvalidUsername`](modules/contrib.legacy.lazyopenssh77enum2.py.md#invalidusername) exception in `contrib.legacy.lazyopenssh77enum2`(Exception)
 - [`io_uring`](modules/modules.rootkit.mrhyde3.c.md#io_uring) struct in `modules/rootkit/mrhyde3.c`
 - [`io_uring_cq`](modules/modules.rootkit.mrhyde3.c.md#io_uring_cq) struct in `modules/rootkit/mrhyde3.c`
@@ -823,6 +827,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`MiscMigratedCommandSet`](modules/cli.commands.misc_migrated.py.md#miscmigratedcommandset) class in `cli.commands.misc_migrated`
   - [`MobileMacOSCommandSet`](modules/cli.commands.mobile_macos.py.md#mobilemacoscommandset) class in `cli.commands.mobile_macos`
   - [`ModuleManagerCommandSet`](modules/cli.commands.module_manager.py.md#modulemanagercommandset) class in `cli.commands.module_manager`
+  - [`NetAttackCommandSet`](modules/cli.commands.netattack.py.md#netattackcommandset) class in `cli.commands.netattack`
   - [`NetworkHelpersCommandSet`](modules/cli.commands.nethelpers.py.md#networkhelperscommandset) class in `cli.commands.nethelpers`
   - [`OpsecCleanupCommandSet`](modules/cli.commands.opsec_cleanup.py.md#opseccleanupcommandset) class in `cli.commands.opsec_cleanup`
   - [`OrchestrationCommandSet`](modules/cli.commands.orchestration.py.md#orchestrationcommandset) class in `cli.commands.orchestration`
@@ -882,6 +887,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`LazySentinelHandler`](modules/lazy_sentinel4.py.md#lazysentinelhandler) class in `lazy_sentinel4`(FileSystemEventHandler)
 - [`leak`](modules/modules.exp.c.md#leak) struct in `modules/exp.c`
 - [`LedgerEntry`](modules/core.llm_budget.py.md#ledgerentry) class in `core.llm_budget`
+- [`LedgerLimits`](modules/modules.lazy_findings.py.md#ledgerlimits) class in `modules.lazy_findings`
 - [`LessonIngestor`](modules/modules.lesson_ingestor.py.md#lessoningestor) class in `modules.lesson_ingestor`
 - [`LessonLearned`](modules/modules.lesson_ingestor.py.md#lessonlearned) class in `modules.lesson_ingestor`
 - [`LessonLearned`](modules/skills.lazyown_campaign.py.md#lessonlearned) class in `skills.lazyown_campaign`
@@ -932,6 +938,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`MarketplaceConfig`](modules/cli.marketplace_config.py.md#marketplaceconfig) class in `cli.marketplace_config`
 - [`MarketplaceSettings`](modules/cli.marketplace_config.py.md#marketplacesettings) class in `cli.marketplace_config`
 - [`MatchScorer`](modules/cli.fuzzy_picker.py.md#matchscorer) class in `cli.fuzzy_picker`
+- [`MatchStore`](modules/modules.lazy_match_policy.py.md#matchstore) class in `modules.lazy_match_policy`
 - [`MediationDomains`](modules/modules.mediation.contracts.py.md#mediationdomains) class in `modules.mediation.contracts`
 - [`MediationHub`](modules/modules.mediation.hub.py.md#mediationhub) class in `modules.mediation.hub`
 - [`MediationHubContract`](modules/modules.mediation.contracts.py.md#mediationhubcontract) protocol in `modules.mediation.contracts`(Protocol)
@@ -1098,6 +1105,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`PendingAction`](modules/skills.daemon_control.py.md#pendingaction) class in `skills.daemon_control`
 - [`PendingApproval`](modules/modules.intercept.py.md#pendingapproval) class in `modules.intercept`
 - [`PendingDecision`](modules/modules.auto_loop_memory.py.md#pendingdecision) class in `modules.auto_loop_memory`
+- [`PendingStore`](modules/modules.chain_approval.py.md#pendingstore) class in `modules.chain_approval`
 - [`PentestState`](modules/skills.toposwarm_autonomous.py.md#penteststate) class in `skills.toposwarm_autonomous`
 - [`PEParser`](modules/modules.reflective_dll.py.md#peparser) class in `modules.reflective_dll`
 - [`Permission`](modules/modules.lazy_rbac.py.md#permission) enum in `modules.lazy_rbac`(enum.Enum)
@@ -1166,6 +1174,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ProfileRotator`](modules/modules.c2_profile_engine.py.md#profilerotator) class in `modules.c2_profile_engine`
 - [`ProfileValidator`](modules/modules.c2_profile.py.md#profilevalidator) class in `modules.c2_profile`
 - [`ProfileValidator`](modules/modules.c2_profile_engine.py.md#profilevalidator) class in `modules.c2_profile_engine`
+- [`ProgressLedger`](modules/modules.progress_ledger.py.md#progressledger) class in `modules.progress_ledger`
 - [`PromptBuilder`](modules/contrib.legacy.lazyllmchat.py.md#promptbuilder) class in `contrib.legacy.lazyllmchat`
 - [`Proposal`](modules/cli.recommendation.py.md#proposal) class in `cli.recommendation`
 - [`Proposal`](modules/modules.selector_manager.py.md#proposal) class in `modules.selector_manager`
@@ -1233,6 +1242,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`RLTrainer`](modules/modules.rl_trainer.py.md#rltrainer) class in `modules.rl_trainer`
 - [`Role`](modules/modules.lazy_rbac.py.md#role) enum in `modules.lazy_rbac`(enum.Enum)
 - [`RotationSlot`](modules/modules.c2_profile_engine.py.md#rotationslot) class in `modules.c2_profile_engine`
+- [`RoundSignals`](modules/modules.progress_ledger.py.md#roundsignals) class in `modules.progress_ledger`
 - [`RouteBackend`](modules/modules.unified_bridge.py.md#routebackend) class in `modules.unified_bridge`(ABC)
   - [`KeywordBackend`](modules/modules.unified_bridge.py.md#keywordbackend) class in `modules.unified_bridge`
   - [`LazyownBridgeBackend`](modules/modules.unified_bridge.py.md#lazyownbridgebackend) class in `modules.unified_bridge`
@@ -1351,6 +1361,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`SideQuestionService`](modules/modules.sidequestion.py.md#sidequestionservice) class in `modules.sidequestion`
 - [`SigmaRule`](modules/modules.detection_oracle.py.md#sigmarule) class in `modules.detection_oracle`
 - [`Signal`](modules/modules.reactive_engine.py.md#signal) class in `modules.reactive_engine`
+- [`SignatureStore`](modules/modules.lazy_triage.py.md#signaturestore) class in `modules.lazy_triage`
 - [`SilverTicketConfig`](modules/modules.kerberos_tickets.py.md#silverticketconfig) class in `modules.kerberos_tickets`
 - [`SilverTicketForger`](modules/modules.kerberos_tickets.py.md#silverticketforger) class in `modules.kerberos_tickets`
 - [`SimpleHTTPRequestHandler`](modules/utils.py.md#simplehttprequesthandler) class in `utils`(BaseHTTPRequestHandler)
@@ -1408,6 +1419,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`SQLiteBackend`](modules/modules.memory_store.py.md#sqlitebackend) class in `modules.memory_store`
     - [`VectorSQLiteBackend`](modules/modules.memory_store.py.md#vectorsqlitebackend) class in `modules.memory_store`
 - [`StrategyEngine`](modules/skills.autonomous_daemon.py.md#strategyengine) class in `skills.autonomous_daemon`
+- [`StrikePolicy`](modules/modules.progress_ledger.py.md#strikepolicy) class in `modules.progress_ledger`
 - [`StructuredLogConfig`](modules/core.logging.py.md#structuredlogconfig) class in `core.logging`
 - [`StructuredLogger`](modules/core.logging.py.md#structuredlogger) class in `core.logging`(logging.Logger)
 - [`Suggestion`](modules/cli.autosuggest.py.md#suggestion) class in `cli.autosuggest`
@@ -1415,6 +1427,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`SuggestionProvider`](modules/cli.autosuggest.py.md#suggestionprovider) protocol in `cli.autosuggest`(Protocol)
 - [`SurfaceChange`](modules/modules.lazy_world_diff.py.md#surfacechange) class in `modules.lazy_world_diff`
 - [`SurfaceEdge`](modules/cli.surface_graph.py.md#surfaceedge) class in `cli.surface_graph`
+- [`SurfaceEvidence`](modules/modules.lazy_netattack.py.md#surfaceevidence) class in `modules.lazy_netattack`
 - [`SurfaceGraph`](modules/cli.surface_graph.py.md#surfacegraph) class in `cli.surface_graph`
 - [`SurfaceGraphBuilder`](modules/cli.surface_graph.py.md#surfacegraphbuilder) class in `cli.surface_graph`
 - [`SurfaceGraphConfig`](modules/cli.surface_graph.py.md#surfacegraphconfig) class in `cli.surface_graph`

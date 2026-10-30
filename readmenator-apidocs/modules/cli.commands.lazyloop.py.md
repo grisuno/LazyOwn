@@ -27,6 +27,7 @@ classDiagram
     LazyQueueCommandSet : do_lazy_intents()
     LazyQueueCommandSet : do_lazy_delete()
     LazyQueueCommandSet : do_lazy_findings()
+    LazyQueueCommandSet : do_lazy_handoff()
     LazyQueueCommandSet : do_lazy_verdict()
     LazyQueueCommandSet : do_lazy_mention()
     LazyQueueCommandSet : do_lazy_approve()
@@ -44,6 +45,8 @@ Solid arrows stay in this module, dashed arrows leave it.
 
 ```mermaid
 flowchart LR
+    n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_handoff(["LazyQueueCommandSet.do_lazy_handoff"])
+    n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_findings(["LazyQueueCommandSet.do_lazy_findings"])
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_sync(["LazyQueueCommandSet.do_lazy_sync"])
     n_core_console_py__print_error["console.print_error"]
     n_core_console_py__print_msg["console.print_msg"]
@@ -52,15 +55,14 @@ flowchart LR
     n_modules_lazy_loop_py__ExplorationGraph___init__["lazy_loop.ExplorationGraph.__init__"]
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_delete(["LazyQueueCommandSet.do_lazy_delete"])
     n_cli_commands__base_py__extract_flag["_base.extract_flag"]
-    n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_findings(["LazyQueueCommandSet.do_lazy_findings"])
+    n_modules_sinks_findings_py__ledger_for["findings.ledger_for"]
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_verdict(["LazyQueueCommandSet.do_lazy_verdict"])
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_mention(["LazyQueueCommandSet.do_lazy_mention"])
     n_modules_lazy_mentions_py__search_mentions_page["lazy_mentions.search_mentions_page"]
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_approve(["LazyQueueCommandSet.do_lazy_approve"])
     n_modules_lazy_loop_py__Guard_audit["lazy_loop.Guard.audit"]
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_fleet(["LazyQueueCommandSet.do_lazy_fleet"])
-    n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_orchestrator(["LazyQueueCommandSet.do_lazy_orchestrator"])
-    n_cli_lazy_orchestrator_py__run_orchestrator_console["lazy_orchestrator.run_orchestrator_console"]
+    n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_handoff --> n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_findings
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_sync -.-> n_core_console_py__print_error
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_sync -.-> n_core_console_py__print_msg
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_sync -.-> n_modules_lazy_bridge_py__sync_all
@@ -73,6 +75,7 @@ flowchart LR
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_findings -.-> n_core_console_py__print_error
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_findings -.-> n_core_console_py__print_msg
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_findings -.-> n_modules_lazy_loop_py__ExplorationGraph___init__
+    n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_findings -.-> n_modules_sinks_findings_py__ledger_for
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_verdict -.-> n_cli_commands__base_py__extract_flag
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_verdict -.-> n_core_console_py__print_error
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_verdict -.-> n_core_console_py__print_msg
@@ -83,8 +86,6 @@ flowchart LR
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_approve -.-> n_core_console_py__print_msg
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_approve -.-> n_modules_lazy_loop_py__Guard_audit
     n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_fleet -.-> n_core_console_py__print_error
-    n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_fleet -.-> n_core_console_py__print_msg
-    n_cli_commands_lazyloop_py__LazyQueueCommandSet_do_lazy_orchestrator -.-> n_cli_lazy_orchestrator_py__run_orchestrator_console
 ```
 
 ## Classes
@@ -119,6 +120,7 @@ Lazy queue controls backed by the loop engine.
 | [`do_lazy_intents`](#lazyqueuecommandset-do_lazy_intents) | method | List engine intents for a task, optionally filtered by state. |
 | [`do_lazy_delete`](#lazyqueuecommandset-do_lazy_delete) | method | Delete an engine intent; soft keeps outputs, hard cascades. |
 | [`do_lazy_findings`](#lazyqueuecommandset-do_lazy_findings) | method | List engine findings for a task, optionally filtered by status. |
+| [`do_lazy_handoff`](#lazyqueuecommandset-do_lazy_handoff) | method | Print the operator handoff for a finished loop task. |
 | [`do_lazy_verdict`](#lazyqueuecommandset-do_lazy_verdict) | method | Record a manual retest verdict on an engine finding. |
 | [`do_lazy_mention`](#lazyqueuecommandset-do_lazy_mention) | method | Search @ mention candidates with scroll pagination. |
 | [`do_lazy_approve`](#lazyqueuecommandset-do_lazy_approve) | method | List engine guard reviews filtered by decision and source. |
@@ -216,7 +218,9 @@ def do_lazy_findings(self, line)
 List engine findings for a task, optionally filtered by status.
 
 Usage:
-    lazy_findings <task_id> [status]
+    lazy_findings <task_id> [status]   - graph findings (status filter)
+    lazy_findings <task_id> ledger     - durable engagement ledger rows
+    lazy_findings <task_id> handoff    - operator handoff from the ledger
 
 **Parameters**
 
@@ -224,13 +228,40 @@ Usage:
 |---|---|---|---|
 | `line` |  |  |  |
 
-*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`ExplorationGraph.__init__`](modules.lazy_loop.py.md#explorationgraph-__init__)
+*Calls:* [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`ExplorationGraph.__init__`](modules.lazy_loop.py.md#explorationgraph-__init__), [`ledger_for`](modules.sinks.findings.py.md#ledger_for)
+
+*Called by:* [`LazyQueueCommandSet.do_lazy_handoff`](#lazyqueuecommandset-do_lazy_handoff)
+
+<a id="lazyqueuecommandset-do_lazy_handoff"></a>
+
+#### `LazyQueueCommandSet.do_lazy_handoff`
+
+`method` | [cli/commands/lazyloop.py:180](../../cli/commands/lazyloop.py#L180)
+
+Decorators: `@cmd2.with_category(exploitation_category)`
+
+```python
+def do_lazy_handoff(self, line)
+```
+
+Print the operator handoff for a finished loop task.
+
+Usage:
+    lazy_handoff <task_id>
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `line` |  |  |  |
+
+*Calls:* [`LazyQueueCommandSet.do_lazy_findings`](#lazyqueuecommandset-do_lazy_findings)
 
 <a id="lazyqueuecommandset-do_lazy_verdict"></a>
 
 #### `LazyQueueCommandSet.do_lazy_verdict`
 
-`method` | [cli/commands/lazyloop.py:132](../../cli/commands/lazyloop.py#L132)
+`method` | [cli/commands/lazyloop.py:190](../../cli/commands/lazyloop.py#L190)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -255,7 +286,7 @@ Usage:
 
 #### `LazyQueueCommandSet.do_lazy_mention`
 
-`method` | [cli/commands/lazyloop.py:155](../../cli/commands/lazyloop.py#L155)
+`method` | [cli/commands/lazyloop.py:213](../../cli/commands/lazyloop.py#L213)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -280,7 +311,7 @@ Usage:
 
 #### `LazyQueueCommandSet.do_lazy_approve`
 
-`method` | [cli/commands/lazyloop.py:190](../../cli/commands/lazyloop.py#L190)
+`method` | [cli/commands/lazyloop.py:248](../../cli/commands/lazyloop.py#L248)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -305,7 +336,7 @@ Usage:
 
 #### `LazyQueueCommandSet.do_lazy_fleet`
 
-`method` | [cli/commands/lazyloop.py:212](../../cli/commands/lazyloop.py#L212)
+`method` | [cli/commands/lazyloop.py:270](../../cli/commands/lazyloop.py#L270)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -336,7 +367,7 @@ Usage:
 
 #### `LazyQueueCommandSet.do_lazy_orchestrator`
 
-`method` | [cli/commands/lazyloop.py:277](../../cli/commands/lazyloop.py#L277)
+`method` | [cli/commands/lazyloop.py:335](../../cli/commands/lazyloop.py#L335)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 
@@ -374,7 +405,7 @@ Usage:
 
 #### `LazyQueueCommandSet.do_lazy_view`
 
-`method` | [cli/commands/lazyloop.py:306](../../cli/commands/lazyloop.py#L306)
+`method` | [cli/commands/lazyloop.py:364](../../cli/commands/lazyloop.py#L364)
 
 Decorators: `@cmd2.with_category(exploitation_category)`
 

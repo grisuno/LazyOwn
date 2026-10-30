@@ -43,6 +43,7 @@ flowchart LR
     n_modules_nuclei_templates_sync_py__resolve_plan(["resolve_plan"])
     n_modules_nuclei_templates_sync_py__main(["main"])
     n_modules_nuclei_templates_sync_py__build_parser(["build_parser"])
+    n_modules_lazy_findings_py__FindingsLedger_normalize["lazy_findings.FindingsLedger.normalize"]
     n_modules_nuclei_templates_sync_py__canonical_dest --> n_modules_nuclei_templates_sync_py__repo_root
     n_modules_nuclei_templates_sync_py__clone_templates --> n_modules_nuclei_templates_sync_py__run
     n_modules_nuclei_templates_sync_py__replace_dest --> n_modules_nuclei_templates_sync_py__count_templates
@@ -61,6 +62,7 @@ flowchart LR
     n_modules_nuclei_templates_sync_py__main --> n_modules_nuclei_templates_sync_py__build_parser
     n_modules_nuclei_templates_sync_py__main --> n_modules_nuclei_templates_sync_py__resolve_plan
     n_modules_nuclei_templates_sync_py__main --> n_modules_nuclei_templates_sync_py__sync
+    n_modules_nuclei_templates_sync_py__same_remote -.-> n_modules_lazy_findings_py__FindingsLedger_normalize
 ```
 
 ## Functions
@@ -284,7 +286,7 @@ Check whether an existing clone points at the expected remote.
 
 **Returns:** `bool` - True when the clone origin matches the expected remote.
 
-*Calls:* [`run`](#run)
+*Calls:* [`FindingsLedger.normalize`](modules.lazy_findings.py.md#findingsledger-normalize), [`run`](#run)
 
 *Called by:* [`refresh_existing_clone`](#refresh_existing_clone)
 

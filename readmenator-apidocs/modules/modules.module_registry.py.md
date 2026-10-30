@@ -1,6 +1,6 @@
 # `modules.module_registry`
 
-> Source: [modules/module_registry.py:1](../../modules/module_registry.py#L1) | language `py` | coverage 87.5% | [API index](../index.md)
+> Source: [modules/module_registry.py:1](../../modules/module_registry.py#L1) | language `py` | coverage 88.2% | [API index](../index.md)
 
 Unified module registry for LazyOwn — catalog, search, use/run workflow.
 
@@ -33,6 +33,7 @@ classDiagram
     ModuleRegistry : deprecated_modules()
     ModuleRegistry : by_type()
     ModuleRegistry : summary()
+    ModuleRegistry : proposal_intents()
 ```
 
 ## Call Graph
@@ -48,12 +49,20 @@ flowchart LR
     n_modules_module_registry_py__ModuleRegistry_deprecated_modules(["ModuleRegistry.deprecated_modules"])
     n_modules_module_registry_py__ModuleRegistry_by_type(["ModuleRegistry.by_type"])
     n_modules_module_registry_py__ModuleRegistry_summary(["ModuleRegistry.summary"])
+    n_modules_module_registry_py__ModuleRegistry_proposal_intents(["ModuleRegistry.proposal_intents"])
+    n_modules_lazy_osinfer_py__addon_target_os["lazy_osinfer.addon_target_os"]
+    n_modules_lazy_osinfer_py__host_os_for_target["lazy_osinfer.host_os_for_target"]
+    n_modules_lazy_osinfer_py__os_compatible["lazy_osinfer.os_compatible"]
     n_modules_module_registry_py__ModuleRegistry_rescan --> n_modules_module_registry_py__ModuleRegistry_scan
     n_modules_module_registry_py__ModuleRegistry_get --> n_modules_module_registry_py__ModuleRegistry_scan
     n_modules_module_registry_py__ModuleRegistry_search --> n_modules_module_registry_py__ModuleRegistry_scan
     n_modules_module_registry_py__ModuleRegistry_deprecated_modules --> n_modules_module_registry_py__ModuleRegistry_scan
     n_modules_module_registry_py__ModuleRegistry_by_type --> n_modules_module_registry_py__ModuleRegistry_search
     n_modules_module_registry_py__ModuleRegistry_summary --> n_modules_module_registry_py__ModuleRegistry_scan
+    n_modules_module_registry_py__ModuleRegistry_proposal_intents --> n_modules_module_registry_py__ModuleRegistry_scan
+    n_modules_module_registry_py__ModuleRegistry_proposal_intents -.-> n_modules_lazy_osinfer_py__addon_target_os
+    n_modules_module_registry_py__ModuleRegistry_proposal_intents -.-> n_modules_lazy_osinfer_py__host_os_for_target
+    n_modules_module_registry_py__ModuleRegistry_proposal_intents -.-> n_modules_lazy_osinfer_py__os_compatible
 ```
 
 ## Classes
@@ -62,7 +71,7 @@ flowchart LR
 
 ### `ModuleInfo`
 
-`class` | [modules/module_registry.py:150](../../modules/module_registry.py#L150)
+`class` | [modules/module_registry.py:194](../../modules/module_registry.py#L194)
 
 ```python
 class ModuleInfo
@@ -81,7 +90,7 @@ Metadata for a single discoverable module.
 
 #### `ModuleInfo.__init__`
 
-`constructor` | [modules/module_registry.py:172](../../modules/module_registry.py#L172)
+`constructor` | [modules/module_registry.py:216](../../modules/module_registry.py#L216)
 
 ```python
 def __init__(self, name: str, module_type: str = 'auxiliary', author: str = '', version: str = '', description: str = '', category: str = '', path: str = '', source: str = 'yaml', params: list[dict[str, Any]] | None = None, enabled: bool = True, deprecated: bool = False, replaced_by: str = '', deprecation_message: str = '') -> None
@@ -109,7 +118,7 @@ def __init__(self, name: str, module_type: str = 'auxiliary', author: str = '', 
 
 #### `ModuleInfo.to_dict`
 
-`method` | [modules/module_registry.py:202](../../modules/module_registry.py#L202)
+`method` | [modules/module_registry.py:246](../../modules/module_registry.py#L246)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -123,7 +132,7 @@ def to_dict(self) -> dict[str, Any]
 
 ### `ModuleRegistry`
 
-`class` | [modules/module_registry.py:223](../../modules/module_registry.py#L223)
+`class` | [modules/module_registry.py:267](../../modules/module_registry.py#L267)
 
 ```python
 class ModuleRegistry
@@ -153,12 +162,13 @@ The registry is a singleton per process — call
 | [`deprecated_modules`](#moduleregistry-deprecated_modules) | method | Return all deprecated modules. |
 | [`by_type`](#moduleregistry-by_type) | method | Shorthand for ``search(module_type=module_type)``. |
 | [`summary`](#moduleregistry-summary) | method | Return counts by module type. |
+| [`proposal_intents`](#moduleregistry-proposal_intents) | method | Loop bridge: map corpus mentions onto runnable module intents. |
 
 <a id="moduleregistry-__init__"></a>
 
 #### `ModuleRegistry.__init__`
 
-`constructor` | [modules/module_registry.py:235](../../modules/module_registry.py#L235)
+`constructor` | [modules/module_registry.py:279](../../modules/module_registry.py#L279)
 
 ```python
 def __init__(self, base_dir: str | Path | None = None) -> None
@@ -174,7 +184,7 @@ def __init__(self, base_dir: str | Path | None = None) -> None
 
 #### `ModuleRegistry.get_instance`
 
-`classmethod` | [modules/module_registry.py:241](../../modules/module_registry.py#L241)
+`classmethod` | [modules/module_registry.py:285](../../modules/module_registry.py#L285)
 
 Decorators: `@classmethod`
 
@@ -196,7 +206,7 @@ Return the singleton registry instance.
 
 #### `ModuleRegistry.scan`
 
-`method` | [modules/module_registry.py:247](../../modules/module_registry.py#L247)
+`method` | [modules/module_registry.py:291](../../modules/module_registry.py#L291)
 
 ```python
 def scan(self) -> list[ModuleInfo]
@@ -206,13 +216,13 @@ Scan all module directories and return the full list.
 
 **Returns:** `list[ModuleInfo]`
 
-*Called by:* [`ModuleRegistry.deprecated_modules`](#moduleregistry-deprecated_modules), [`ModuleRegistry.get`](#moduleregistry-get), [`ModuleRegistry.rescan`](#moduleregistry-rescan), [`ModuleRegistry.search`](#moduleregistry-search), [`ModuleRegistry.summary`](#moduleregistry-summary)
+*Called by:* [`ModuleRegistry.deprecated_modules`](#moduleregistry-deprecated_modules), [`ModuleRegistry.get`](#moduleregistry-get), [`ModuleRegistry.proposal_intents`](#moduleregistry-proposal_intents), [`ModuleRegistry.rescan`](#moduleregistry-rescan), [`ModuleRegistry.search`](#moduleregistry-search), [`ModuleRegistry.summary`](#moduleregistry-summary)
 
 <a id="moduleregistry-rescan"></a>
 
 #### `ModuleRegistry.rescan`
 
-`method` | [modules/module_registry.py:260](../../modules/module_registry.py#L260)
+`method` | [modules/module_registry.py:304](../../modules/module_registry.py#L304)
 
 ```python
 def rescan(self) -> list[ModuleInfo]
@@ -228,7 +238,7 @@ Force a full rescan and return modules.
 
 #### `ModuleRegistry.get`
 
-`method` | [modules/module_registry.py:269](../../modules/module_registry.py#L269)
+`method` | [modules/module_registry.py:313](../../modules/module_registry.py#L313)
 
 ```python
 def get(self, name: str) -> ModuleInfo | None
@@ -250,7 +260,7 @@ Get a module by name.
 
 #### `ModuleRegistry.search`
 
-`method` | [modules/module_registry.py:275](../../modules/module_registry.py#L275)
+`method` | [modules/module_registry.py:319](../../modules/module_registry.py#L319)
 
 ```python
 def search(self, query: str = '', module_type: str | None = None, category: str | None = None, enabled_only: bool = True, include_deprecated: bool = False) -> list[ModuleInfo]
@@ -278,7 +288,7 @@ Search indexed modules.
 
 #### `ModuleRegistry.deprecated_modules`
 
-`method` | [modules/module_registry.py:315](../../modules/module_registry.py#L315)
+`method` | [modules/module_registry.py:359](../../modules/module_registry.py#L359)
 
 ```python
 def deprecated_modules(self) -> list[ModuleInfo]
@@ -294,7 +304,7 @@ Return all deprecated modules.
 
 #### `ModuleRegistry.by_type`
 
-`method` | [modules/module_registry.py:321](../../modules/module_registry.py#L321)
+`method` | [modules/module_registry.py:365](../../modules/module_registry.py#L365)
 
 ```python
 def by_type(self, module_type: str) -> list[ModuleInfo]
@@ -316,7 +326,7 @@ Shorthand for ``search(module_type=module_type)``.
 
 #### `ModuleRegistry.summary`
 
-`method` | [modules/module_registry.py:325](../../modules/module_registry.py#L325)
+`method` | [modules/module_registry.py:369](../../modules/module_registry.py#L369)
 
 ```python
 def summary(self) -> dict[str, int]
@@ -328,6 +338,42 @@ Return counts by module type.
 
 *Calls:* [`ModuleRegistry.scan`](#moduleregistry-scan)
 
+<a id="moduleregistry-proposal_intents"></a>
+
+#### `ModuleRegistry.proposal_intents`
+
+`method` | [modules/module_registry.py:378](../../modules/module_registry.py#L378)
+
+```python
+def proposal_intents(self, texts: Sequence[str], target: str = '', limit: int = _PROPOSAL_LIMIT) -> list[str]
+```
+
+Loop bridge: map corpus mentions onto runnable module intents.
+
+Only modules with a routable execution verb become proposals:
+YAML addons run one-to-one through ``lazy addon <name>``, APT
+playbook entries through ``apt_playbook run <name>``. Python,
+Lua, pwntomate and other module sources stay out of planning
+because no safe loop verb executes them.
+
+Matching is conservative by design: the tokens mined from the
+module name (``lazy_`` prefixes dropped) must equal a whole
+corpus token, so a mention like ``hydra`` can raise an
+HYDRA-named addon while plain substrings never trigger
+anything. OS compatibility mirrors `[`propose_addon_intents`](modules.auto_registry.py.md#propose_addon_intents)`.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `texts` | `Sequence[str]` |  | Operator goal, findings and service values to mine. |
+| `target` | `str` | `''` | Optional target address appended to addon intents. |
+| `limit` | `int` | `_PROPOSAL_LIMIT` | Maximum number of intents returned. |
+
+**Returns:** `list[str]` - Deduplicated command lines in registry scan order, capped.
+
+*Calls:* [`addon_target_os`](modules.lazy_osinfer.py.md#addon_target_os), [`host_os_for_target`](modules.lazy_osinfer.py.md#host_os_for_target), [`os_compatible`](modules.lazy_osinfer.py.md#os_compatible), [`ModuleRegistry.scan`](#moduleregistry-scan)
+
 ---
 
 ## Functions
@@ -336,7 +382,7 @@ Return counts by module type.
 
 ### `format_module_table`
 
-`function` | [modules/module_registry.py:542](../../modules/module_registry.py#L542)
+`function` | [modules/module_registry.py:666](../../modules/module_registry.py#L666)
 
 ```python
 def format_module_table(modules: list[ModuleInfo], cols: tuple[str, ...] = ('name', 'type', 'author', 'description')) -> str
@@ -361,7 +407,7 @@ Format a list of modules as an aligned text table.
 
 ### `format_module_detail`
 
-`function` | [modules/module_registry.py:589](../../modules/module_registry.py#L589)
+`function` | [modules/module_registry.py:713](../../modules/module_registry.py#L713)
 
 ```python
 def format_module_detail(m: ModuleInfo) -> str

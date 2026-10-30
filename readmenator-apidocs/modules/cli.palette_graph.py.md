@@ -327,7 +327,7 @@ delegate the missing-target sad path to the renderer.
 def enrich_commands(graph: GraphIndex | None, rows: Sequence[Mapping[str, Any]], *, config: GraphLookupConfig | None = None) -> list[dict[str, Any]]
 ```
 
-Enrich every entry of `[`rows`](cli.palette_overlay.py.md#paletteoverlaystate-rows)` with neighbour data.
+Enrich every entry of ``rows`` with neighbour data.
 
 Used by the C2 view and the Cmd+K overlay so the client-side renderer
 can show "calls" / "related" per row without round-tripping.

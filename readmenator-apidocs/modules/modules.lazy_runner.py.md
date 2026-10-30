@@ -15,6 +15,7 @@ summary.
 
 - **Classes:** [`LoopRunConfig`](#looprunconfig)
 - **Functions:** [`parse_loop_line`](#parse_loop_line), [`resolve_loop_defaults`](#resolve_loop_defaults), [`build_executor`](#build_executor), [`report_result`](#report_result), [`load_targets_file`](#load_targets_file), [`run_loop`](#run_loop)
+- **Constants:** [`ENGAGEMENT_MODES`](#engagement_modes)
 
 ## Call Graph
 
@@ -113,6 +114,7 @@ Everything one loop invocation needs, parsed by the command sets.
 | [`extra`](#looprunconfig-extra) | `dict` | `field(default_factory=dict)` |  |
 | [`targets_file`](#looprunconfig-targets_file) | `str` | `''` |  |
 | [`max_concurrent`](#looprunconfig-max_concurrent) | `int` | `0` |  |
+| [`mode`](#looprunconfig-mode) | `str` | `''` |  |
 
 **Members**
 
@@ -124,7 +126,7 @@ Everything one loop invocation needs, parsed by the command sets.
 
 #### `LoopRunConfig.clamped`
 
-`method` | [modules/lazy_runner.py:119](../../modules/lazy_runner.py#L119)
+`method` | [modules/lazy_runner.py:120](../../modules/lazy_runner.py#L120)
 
 ```python
 def clamped(self) -> LoopRunConfig
@@ -144,7 +146,7 @@ Clamp numeric knobs to the supported operating range.
 
 ### `parse_loop_line`
 
-`function` | [modules/lazy_runner.py:164](../../modules/lazy_runner.py#L164)
+`function` | [modules/lazy_runner.py:172](../../modules/lazy_runner.py#L172)
 
 ```python
 def parse_loop_line(line: str) -> LoopRunConfig
@@ -177,7 +179,7 @@ same flags and defaults.
 
 ### `resolve_loop_defaults`
 
-`function` | [modules/lazy_runner.py:287](../../modules/lazy_runner.py#L287)
+`function` | [modules/lazy_runner.py:302](../../modules/lazy_runner.py#L302)
 
 ```python
 def resolve_loop_defaults(config: LoopRunConfig) -> LoopRunConfig
@@ -203,7 +205,7 @@ Fill unset rounds and workers from the selected orchestrator profile.
 
 ### `build_executor`
 
-`function` | [modules/lazy_runner.py:323](../../modules/lazy_runner.py#L323)
+`function` | [modules/lazy_runner.py:338](../../modules/lazy_runner.py#L338)
 
 ```python
 def build_executor(shell, config: LoopRunConfig, stream: Callable[[str], None], cancelled: dict, sandbox_task_id: str = '', sandbox_image: str = '') -> Callable[[str], str]
@@ -242,7 +244,7 @@ operator host; custom tools and raw bash stay local.
 
 ### `report_result`
 
-`function` | [modules/lazy_runner.py:500](../../modules/lazy_runner.py#L500)
+`function` | [modules/lazy_runner.py:521](../../modules/lazy_runner.py#L521)
 
 ```python
 def report_result(result: dict) -> None
@@ -252,7 +254,9 @@ Print the final outcome of one loop run.
 
 Failed, cancelled or incomplete endings carry a retry offer so the
 operator can resume the exact task with user-varied flags, or arm
-the elevated ``--sudo`` mode when the failure was a sudo gate.
+the elevated ``--sudo`` mode when the failure was a sudo gate. The
+durable ledger handoff (states, confirmed evidence, discarded
+vectors, next decision) prints when present.
 
 **Parameters**
 
@@ -270,7 +274,7 @@ the elevated ``--sudo`` mode when the failure was a sudo gate.
 
 ### `load_targets_file`
 
-`function` | [modules/lazy_runner.py:898](../../modules/lazy_runner.py#L898)
+`function` | [modules/lazy_runner.py:947](../../modules/lazy_runner.py#L947)
 
 ```python
 def load_targets_file(path: str) -> list[str]
@@ -303,7 +307,7 @@ else goes through the shared host policy.
 
 ### `run_loop`
 
-`function` | [modules/lazy_runner.py:953](../../modules/lazy_runner.py#L953)
+`function` | [modules/lazy_runner.py:1002](../../modules/lazy_runner.py#L1002)
 
 ```python
 def run_loop(shell, params: dict, config: LoopRunConfig) -> dict
@@ -324,5 +328,19 @@ Execute one complete loop run and return its summary.
 *Calls:* [`run_monitor_session`](cli.lazy_monitor.py.md#run_monitor_session), [`autonomous_mode`](core.autonomous.py.md#autonomous_mode), [`print_error`](core.console.py.md#print_error), [`print_msg`](core.console.py.md#print_msg), [`print_warn`](core.console.py.md#print_warn), [`TerminalGuard.__init__`](core.terminal_guard.py.md#terminalguard-__init__), [`LazyEngine`](modules.lazy_engine.py.md#lazyengine), [`LazyLoopEngine.apply_profile`](modules.lazy_loop.py.md#lazyloopengine-apply_profile), [`LazyLoopEngine.create_task`](modules.lazy_loop.py.md#lazyloopengine-create_task), [`LazyLoopEngine.ensure_target`](modules.lazy_loop.py.md#lazyloopengine-ensure_target), [`LoopRunConfig.clamped`](#looprunconfig-clamped), [`report_result`](#report_result) and 1 more
 
 *Called by:* [`LazyCommandSet.do_lazy_loop`](cli.commands.lazyops.py.md#lazycommandset-do_lazy_loop), [`McpBridgeCommandSet.do_auto_loop`](cli.commands.mcp_bridge.py.md#mcpbridgecommandset-do_auto_loop), [`run`](modules.tools.loop_smoke.py.md#run)
+
+---
+
+## Constants
+
+<a id="engagement_modes"></a>
+
+### `ENGAGEMENT_MODES`
+
+`constant` | [modules/lazy_runner.py:152](../../modules/lazy_runner.py#L152)
+
+```python
+ENGAGEMENT_MODES = ('pentest', 'redteam', 'ctf')
+```
 
 ---

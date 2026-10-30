@@ -90,6 +90,14 @@ DEFAULT_MAX_FINDINGS = 50
 LLM_EMPTY_RETRIES = 2
 LLM_CONNECT_RETRIES = 2
 LLM_CONNECT_BACKOFF_SEC = 0.5
+RAW_LOG_TASK_LIMIT = 50
+RAW_LOG_SCAN_LINES = 5000
+
+RL_YIELD_BASELINE = 1.0
+RL_YIELD_BOOST_STRONG = 1.5
+RL_YIELD_BOOST_WEAK = 1.05
+RL_YIELD_DEMOTE_WEAK = 0.97
+RL_YIELD_DEMOTE_STRONG = 0.90
 
 PLAN_HEARTBEAT_SEC = 600.0
 WAKE_DEBOUNCE_SEC = 0.8
@@ -3591,7 +3599,65 @@ class Planner:
                             known.add(summary)
         except Exception:
             pass
-        return out
+        return self._rl_rank(out)
+
+    def _rl_rank(
+        self, out: list[tuple[str, list[int], list[int], int]]
+    ) -> list[tuple[str, list[int], list[int], int]]:
+        """Re-weight candidate priorities by learned decision-quality yield.
+
+        Closes the decision-quality reward loop: each candidate's tool
+        class carries a Q-value learned from whether that class produced
+        intel earlier in the engagement. Classes that kept producing are
+        nudged up, classes that stopped are demoted, and unseen or neutral
+        classes are left at their base priority. Only the priority is
+        touched, never the list order, so the graph-heat ordering invariant
+        the frontier and the force-rank test rely on is preserved; the
+        frontier then claims higher-priority intents first.
+
+        Args:
+            out: Candidate tuples ``(summary, asset_ids, parents, priority)``.
+
+        Returns:
+            The candidates with RL-adjusted priorities, in the same order.
+        """
+        if not out:
+            return out
+        try:
+            from modules.mediation import MediationDomains, resolve
+
+            yields = resolve(MediationDomains.TELEMETRY).tool_class_yields([row[0] for row in out])
+        except Exception:
+            yields = {}
+        if not yields:
+            return out
+        adjusted: list[tuple[str, list[int], list[int], int]] = []
+        demoted = 0
+        boosted = 0
+        for summary, asset_ids, parents, priority in out:
+            quality = yields.get(summary)
+            delta = 0
+            if quality is not None:
+                if quality >= RL_YIELD_BOOST_STRONG:
+                    delta = 2
+                elif quality >= RL_YIELD_BOOST_WEAK:
+                    delta = 1
+                elif quality <= RL_YIELD_DEMOTE_STRONG:
+                    delta = -2
+                elif quality <= RL_YIELD_DEMOTE_WEAK:
+                    delta = -1
+            if delta > 0:
+                boosted += 1
+            elif delta < 0:
+                demoted += 1
+            adjusted.append((summary, asset_ids, parents, max(1, min(MAX_PRIORITY, priority + delta))))
+        if boosted or demoted:
+            self.activity.emit(
+                "planner",
+                "rl",
+                f"decision-quality re-rank: boosted {boosted}, demoted {demoted} of {len(adjusted)} candidates",
+            )
+        return adjusted
 
     def finalize(self, reason: str = "task ending") -> dict:
         """Final planner round: park open intents and record the wrap-up.
@@ -4196,6 +4262,17 @@ class Worker:
         try:
             from modules.mediation import MediationDomains, resolve
 
+            resolve(MediationDomains.TELEMETRY).record_outcome_quality(
+                self.name,
+                intent.text,
+                outcome["facts"],
+                outcome["findings"],
+            )
+        except Exception:
+            pass
+        try:
+            from modules.mediation import MediationDomains, resolve
+
             _intel = resolve(MediationDomains.INTEL)
 
             _stack = _intel.stack_signature(self.assets)
@@ -4488,6 +4565,31 @@ class Worker:
                 intent_id=intent.node_id,
                 tool_use_id=str(decision.get("tool_use_id", "")),
             )
+        opsec: dict = {}
+        try:
+            from modules.mediation import MediationDomains, resolve
+
+            opsec = resolve(MediationDomains.TELEMETRY).assess_opsec(command, rhost=target) or {}
+        except Exception:
+            opsec = {}
+        opsec_gate = str(opsec.get("gate", "") or "")
+        if opsec_gate and opsec_gate != "allow":
+            self.activity.emit(
+                self.name,
+                "opsec",
+                f"[{opsec_gate}] noise={opsec.get('noise', 0)} {str(opsec.get('explanation', ''))[:160]}",
+                intent_id=intent.node_id,
+                tool_use_id=str(decision.get("tool_use_id", "")),
+            )
+        if opsec_gate == "block":
+            self.activity.emit(
+                self.name,
+                "block",
+                f"opsec-gate: {str(opsec.get('explanation', 'noise threshold exceeded'))[:160]}",
+                intent_id=intent.node_id,
+                tool_use_id=str(decision.get("tool_use_id", "")),
+            )
+            return "", "blocked", "opsec-gate"
         if decision["action"] == "deny":
             self.activity.emit(
                 self.name,
@@ -4497,11 +4599,15 @@ class Worker:
                 tool_use_id=str(decision.get("tool_use_id", "")),
             )
             return "", "blocked", str(decision.get("reason", "denied"))
-        if decision["action"] == "ask" and not self._auto_approve(command):
+        needs_confirm = decision["action"] == "ask" or opsec_gate == "confirm"
+        confirm_reason = str(
+            decision.get("reason", "ask") if decision["action"] == "ask" else opsec.get("explanation", "opsec noise")
+        )
+        if needs_confirm and not self._auto_approve(command):
             pending = intercept.request(
                 "Bash",
                 command,
-                decision.get("reason", "ask"),
+                confirm_reason,
                 tool_use_id=str(decision.get("tool_use_id", "")),
             )
             self.activity.emit(
@@ -4516,11 +4622,11 @@ class Worker:
                 self.activity.emit(
                     self.name,
                     "block",
-                    f"needs approval: {decision.get('reason', 'ask')}",
+                    f"needs approval: {confirm_reason}",
                     intent_id=intent.node_id,
                     tool_use_id=str(decision.get("tool_use_id", "")),
                 )
-                return "", "blocked", f"needs approval: {decision.get('reason', 'ask')}"
+                return "", "blocked", f"needs approval: {confirm_reason}"
         output = self._run(command, executor)
         budget.record_toolcall(self.task_id, intent.node_id)
         try:
@@ -4569,6 +4675,7 @@ class Worker:
                 "intent": intent.node_id,
                 "tool_use_id": str(decision.get("tool_use_id", "")),
                 "detection_prob": detection_prob,
+                "opsec_noise": int(opsec.get("noise", 0) or 0),
             },
         )
         self.activity.emit(
@@ -7571,7 +7678,7 @@ class LlmPool:
                     break
             if not _llm_error_reply(text):
                 self._record(name, True, text[:200])
-                self._record_raw(name, prompt, text, True)
+                self._record_raw(name, prompt, text, True, task_id=task_id, model_spec=model_spec)
                 if self._health is not None:
                     try:
                         self._health.report_success(name)
@@ -7590,7 +7697,7 @@ class LlmPool:
             if live_log is not None:
                 live_log.emit("llm", "fail", f"{name}: {reason} after {attempts} attempt(s)")
             self._record(name, False, f"{reason} x{attempts}: {text[:160]}")
-            self._record_raw(name, prompt, text, False)
+            self._record_raw(name, prompt, text, False, task_id=task_id, model_spec=model_spec)
             if self._health is not None:
                 try:
                     self._health.report_failure(name, reason)
@@ -7652,13 +7759,59 @@ class LlmPool:
                 continue
         return out
 
-    def _record_raw(self, member: str, prompt: str, reply: str, ok: bool) -> None:
-        """Append one raw exchange when recording is enabled."""
+    def raw_entries_for_task(self, task_id: str, limit: int = RAW_LOG_TASK_LIMIT) -> list[dict]:
+        """Return the most recent raw LLM exchanges recorded for one task.
+
+        Replay/debugging aid: the shared raw ledger interleaves every
+        concurrent engagement, so a planner decision trail for one task
+        is only reconstructible by filtering on ``task_id``. Scans at
+        most the last ``RAW_LOG_SCAN_LINES`` ledger lines, oldest-first
+        in the returned list.
+
+        Args:
+            task_id: Loop task identifier to filter on.
+            limit: Maximum matching entries returned.
+
+        Returns:
+            Matching entries, oldest first, newest-filtered order.
+        """
+        try:
+            lines = _store_path("llm_raw.jsonl").read_text(encoding="utf-8").splitlines()
+        except OSError:
+            return []
+        matches: list[dict] = []
+        for line in reversed(lines[-RAW_LOG_SCAN_LINES:]):
+            try:
+                entry = json.loads(line)
+            except ValueError:
+                continue
+            if str(entry.get("task_id", "")) == str(task_id):
+                matches.append(entry)
+                if len(matches) >= max(1, int(limit)):
+                    break
+        matches.reverse()
+        return matches
+
+    def _record_raw(
+        self, member: str, prompt: str, reply: str, ok: bool, task_id: str = "", model_spec: str = ""
+    ) -> None:
+        """Append one raw exchange when recording is enabled.
+
+        Args:
+            member: LLM pool member name that answered or failed.
+            prompt: Prompt text sent to the model.
+            reply: Raw reply text, empty on failure.
+            ok: Whether the call counted as a usable reply.
+            task_id: Loop task identifier, for per-task replay filtering.
+            model_spec: Resolved backend model identifier actually called.
+        """
         if not self.record_raw():
             return
         entry = {
             "ts": _now(),
             "member": member,
+            "model": model_spec,
+            "task_id": task_id,
             "ok": bool(ok),
             "prompt": (prompt or "")[:8000],
             "reply": (reply or "")[:8000],

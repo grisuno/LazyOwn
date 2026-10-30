@@ -1,6 +1,37 @@
 # API (page 15 of 25)
 Previous: [API_p14.md](API_p14.md)
 
+## modules/lazy_scope.py
+Imported by: `modules/chain_distill.py`
+- `_ResolveCache.get` (method) `modules/lazy_scope.py:70` `def get(self, name, now)` -- Return cached addresses when fresh.
+- `_ResolveCache.put` (method) `modules/lazy_scope.py:89` `def put(self, name, values, now)` -- Store resolution results.
+- `is_lab_address` (function) `modules/lazy_scope.py:105` `def is_lab_address(address)` -- Classify one address as lab-local.
+- `extract_hosts` (function) `modules/lazy_scope.py:130` `def extract_hosts(text)` -- Pull IP literals and plausible hostnames out of free text.
+- `resolve_addresses` (function) `modules/lazy_scope.py:164` `def resolve_addresses(name, now)` -- Resolve a hostname to all of its addresses.
+- `read_scope_file` (function) `modules/lazy_scope.py:209` `def read_scope_file(name, sessions_dir)` -- Load operator entries from a scope list file.
+- `read_allowlist` (function) `modules/lazy_scope.py:231` `def read_allowlist(sessions_dir)` -- Load operator-approved extra lab hosts.
+- `read_denylist` (function) `modules/lazy_scope.py:243` `def read_denylist(sessions_dir)` -- Load explicitly denied hosts and networks.
+- `scope_verdict` (function) `modules/lazy_scope.py:255` `def scope_verdict(target, resolver, allowlist, denylist)` -- Decide whether one target is inside the default lab scope.
+- `command_scope_verdict` (function) `modules/lazy_scope.py:351` `def command_scope_verdict(command, resolver, allowlist, denylist)` -- Check every host mentioned in a command line.
+
+## modules/lazy_skill_mirror.py
+Imported by: `cli/commands/lazyops.py`
+- `available_skills` (function) `modules/lazy_skill_mirror.py:67` `def available_skills()` -- Return repo skill names that ship a SKILL.md.
+- `mirror_skill` (function) `modules/lazy_skill_mirror.py:78` `def mirror_skill(name)` -- Write the Hermes mirror of one skill.
+- `mirror_all` (function) `modules/lazy_skill_mirror.py:106` `def mirror_all()` -- Mirror every repo skill; return per-skill summaries.
+- `register_external_dirs` (function) `modules/lazy_skill_mirror.py:117` `def register_external_dirs()` -- Register the repo skills tree in the hermes config.
+
+## modules/lazy_skills.py
+Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`
+- `list_skills` (function) `modules/lazy_skills.py:85` `def list_skills()` -- Return every parsed skill sorted by name.
+- `get_skill` (function) `modules/lazy_skills.py:91` `def get_skill(name)` -- Find one skill by exact or case-insensitive name.
+- `match_skills` (function) `modules/lazy_skills.py:102` `def match_skills(text, limit)` -- Rank skills whose keywords appear in the text, best first.
+- `skills_context` (function) `modules/lazy_skills.py:118` `def skills_context(text, explicit, auto, budget)` -- Render pinned plus auto-matched skills as one prompt section.
+
+## modules/lazy_summarizer.py
+- `should_compact` (function) `modules/lazy_summarizer.py:35` `def should_compact(used_chars, budget_chars)` -- Return True when context exceeds the usable budget.
+- `summarize_chain` (function) `modules/lazy_summarizer.py:50` `def summarize_chain(records, budget_chars, complete)` -- Bound a record chain to budget, digesting the oldest pairs.
+
 ## modules/lazy_surface_diff.py
 Depends on: `modules/world_model.py`
 - `snapshot_host` (function) `modules/lazy_surface_diff.py:52` `def snapshot_host(host)` -- Canonical snapshot of one host row.
@@ -11,6 +42,16 @@ Depends on: `modules/world_model.py`
 - `last_diff` (function) `modules/lazy_surface_diff.py:234` `def last_diff(sessions_dir)` -- Read the last stored diff without recomputing.
 - `changed_hosts` (function) `modules/lazy_surface_diff.py:253` `def changed_hosts(limit, sessions_dir)` -- Distinct hosts touched by the last diff, most-recent first.
 
+## modules/lazy_triage.py
+Imported by: `tests/test_lazy_triage.py`
+- `rank` (function) `modules/lazy_triage.py:42` `def rank(verdict)` -- Return the comparison rank of a triage verdict.
+- `hard_evidence` (function) `modules/lazy_triage.py:47` `def hard_evidence(kind, facts)` -- Classify one finding from its deterministic evidence floor.
+- `apply_rules` (function) `modules/lazy_triage.py:80` `def apply_rules(verdict, kind, facts)` -- Constrain a (model or operator) verdict by the evidence floor.
+- `signature_for` (function) `modules/lazy_triage.py:108` `def signature_for(kind, fields)` -- Return the evidence signature of one classification request.
+- `SignatureStore.__init__` (method) `modules/lazy_triage.py:138` `def __init__(self, sessions_dir, ttl)` -- Bind the store file under sessions/lazy.
+- `SignatureStore.fresh_signature` (method) `modules/lazy_triage.py:144` `def fresh_signature(self, signature, now)` -- Return the previous signature row when it is inside the TTL window.
+- `SignatureStore.reset` (method) `modules/lazy_triage.py:162` `def reset(self)` -- Drop every signature row.
+
 ## modules/lazy_verify.py
 Depends on: `core/process.py`
 - `plan_checks` (function) `modules/lazy_verify.py:84` `def plan_checks(finding_text, poc)` -- Build the read-only check list for one finding.
@@ -20,7 +61,7 @@ Depends on: `core/process.py`
 
 ## modules/lazy_world_diff.py
 Depends on: `modules/world_model.py`
-Imported by: `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`
+Imported by: `modules/intel_fusion.py`, `modules/lazy_hostscore.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`, `tests/test_world_diff_retest.py`
 - `host_snapshot` (function) `modules/lazy_world_diff.py:78` `def host_snapshot(world, ip)` -- Read one host out of a world-model dict as a canonical snapshot.
 - `snapshot_fingerprint` (function) `modules/lazy_world_diff.py:119` `def snapshot_fingerprint(state)` -- Hash one snapshot canonically; key order never matters.
 - `diff_snapshots` (function) `modules/lazy_world_diff.py:131` `def diff_snapshots(before, after)` -- Deterministic change list between two host snapshots.
@@ -350,7 +391,7 @@ Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.p
 
 ## modules/llm_client.py
 Depends on: `core/logging.py`, `modules/ai_model.py`
-Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/lazyown_mcp.py`
+Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `modules/planner.py`, `modules/playbook_engine.py`
 - `LLMClient.__init__` (method) `modules/llm_client.py:63` `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)`
 - `LLMClient.ask` (method) `modules/llm_client.py:79` `def ask(self, prompt)` -- Send a prompt and return the text response.
 - `LLMClient.classify` (method) `modules/llm_client.py:130` `def classify(self, output)` -- Short classification prompt.
@@ -410,7 +451,7 @@ Imported by: `lazyc2.py`, `modules/ai_fallback.py`, `modules/llm_adapter.py`, `m
 - `complete_with_fallback` (function) `modules/llm_orchestrator.py:349` `def complete_with_fallback(prompt, system, max_tokens, api_key, members, executor, health, record)` -- Complete a prompt through the lazy_orchestrator chain with failover.
 
 ## modules/llm_pool.py
-Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
+Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
 - `shared_registry` (function) `modules/llm_pool.py:50` `def shared_registry(config)` -- Return the process-wide health registry (LAZY Registry parity).
 - `HealthRegistry.__init__` (method) `modules/llm_pool.py:83` `def __init__(self, config)` -- Initialize counters from the persisted breaker state.
 - `HealthRegistry.report_success` (method) `modules/llm_pool.py:135` `def report_success(self, member_id)` -- Clear failure state for a member.
@@ -451,41 +492,6 @@ Imported by: `cli/commands/opsec_cleanup.py`
 - `LogTamper.generate_all` (method) `modules/log_tamper.py:295` `def generate_all(self)` -- Generate log tampering commands for all platforms.
 - `LogTamper.auditd_disable_commands` (method) `modules/log_tamper.py:307` `def auditd_disable_commands(self)` -- Commands to temporarily disable or reconfigure auditd on Linux.
 - `LogTamper.sysmon_disable_commands` (method) `modules/log_tamper.py:341` `def sysmon_disable_commands(self)` -- Commands to disable or degrade Sysmon on Windows.
-
-## modules/logging_config.py
-Depends on: `core/logging.py`
-Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
-- `ColoredFormatter.format` (method) `modules/logging_config.py:39` `def format(self, record)`
-- `JsonFormatter.format` (method) `modules/logging_config.py:72` `def format(self, record)`
-- `CorrelationFilter.filter` (method) `modules/logging_config.py:94` `def filter(self, record)`
-- `ResilientRotatingFileHandler.emit` (method) `modules/logging_config.py:116` `def emit(self, record)` -- Write one record, no-op after the file has become unwritable.
-- `ResilientRotatingFileHandler.handleError` (method) `modules/logging_config.py:122` `def handleError(self, record)` -- Suppress the default per-record traceback; notify once via stderr.
-- `set_correlation_id` (function) `modules/logging_config.py:134` `def set_correlation_id(cid)` -- Set the correlation ID for the current async/task context.
-- `get_correlation_id` (function) `modules/logging_config.py:139` `def get_correlation_id()` -- Return the current correlation ID, or None.
-- `clear_correlation_id` (function) `modules/logging_config.py:144` `def clear_correlation_id()` -- Reset the correlation ID for the current context.
-- `configure` (function) `modules/logging_config.py:244` `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)` -- Configure LazyOwn's centralized logging system.
-- `get_logger` (function) `modules/logging_config.py:328` `def get_logger(name, level)` -- Get a logger with the given name.
-- `set_level` (function) `modules/logging_config.py:357` `def set_level(name, level)` -- Set the log level for a specific logger.
-- `set_quiet` (function) `modules/logging_config.py:367` `def set_quiet()` -- Silence all logging below WARNING level.
-- `set_verbose` (function) `modules/logging_config.py:373` `def set_verbose()` -- Enable DEBUG level logging.
-- `silence_module` (function) `modules/logging_config.py:379` `def silence_module(name)` -- Completely silence a noisy module.
-- `reset` (function) `modules/logging_config.py:388` `def reset()` -- Reset the logging system to defaults.
-
-## modules/loop_ai_bridge.py
-Depends on: `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
-Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
-- `publish_loop_event` (function) `modules/loop_ai_bridge.py:74` `def publish_loop_event(task_id, worker, kind, text, severity)` -- Publish one loop activity to the unified bus and Hive memory.
-- `annotate_detection` (function) `modules/loop_ai_bridge.py:125` `def annotate_detection(command, action_category)` -- Return oracle details for one command, or None when unavailable.
-- `moe_route` (function) `modules/loop_ai_bridge.py:149` `def moe_route(task_type, goal)` -- Return the MoE router's preferred expert for a task type, or None.
-- `moe_record_outcome` (function) `modules/loop_ai_bridge.py:166` `def moe_record_outcome(expert_id, task_type, reward, detection_prob)` -- Feed one execution outcome back to the MoE performance store.
-- `rl_select` (function) `modules/loop_ai_bridge.py:185` `def rl_select(task_type, phase, candidates, deterministic)` -- Pick an expert with the RL policy; first candidate when unavailable.
-- `rl_update` (function) `modules/loop_ai_bridge.py:207` `def rl_update(task_type, phase, action, reward, candidates, detection_prob)` -- Apply one Q-learning update for an executed action.
-- `rl_save` (function) `modules/loop_ai_bridge.py:230` `def rl_save()` -- Persist the RL tables after a run.
-- `record_step` (function) `modules/loop_ai_bridge.py:249` `def record_step(task_id, worker, command, output, detection_prob)` -- Feed one executed command outcome to MoE and the RL trainer.
-- `swan_available` (function) `modules/loop_ai_bridge.py:264` `def swan_available()` -- Return True when the SWAN orchestrator can be constructed.
-- `swan_consult` (function) `modules/loop_ai_bridge.py:277` `def swan_consult(prompt, task_type, phase, timeout)` -- Ask SWAN for an ensemble answer; empty string when unavailable.
-- `stream_enabled` (function) `modules/loop_ai_bridge.py:304` `def stream_enabled()` -- Return whether token streaming into the activity log is enabled.
-- `ai_snapshot` (function) `modules/loop_ai_bridge.py:314` `def ai_snapshot()` -- Compact status of the wired AI stack for the operator log.
 
 
 Next: [API_p16.md](API_p16.md)

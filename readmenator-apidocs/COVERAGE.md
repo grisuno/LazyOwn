@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **75.8%** (7596 of 10019 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,18 +8,18 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1242 | 1429 | 86.9% |
+| class | 1253 | 1440 | 87.0% |
 | classmethod | 58 | 84 | 69.0% |
-| constructor | 205 | 526 | 39.0% |
+| constructor | 210 | 531 | 39.5% |
 | enum | 30 | 39 | 76.9% |
-| exception | 38 | 40 | 95.0% |
-| function | 1977 | 2882 | 68.6% |
+| exception | 40 | 42 | 95.2% |
+| function | 2034 | 2939 | 69.2% |
 | macro | 2 | 114 | 1.8% |
-| method | 2925 | 3594 | 81.4% |
-| module | 725 | 841 | 86.2% |
-| property | 157 | 201 | 78.1% |
+| method | 2964 | 3633 | 81.6% |
+| module | 738 | 854 | 86.4% |
+| property | 162 | 206 | 78.6% |
 | protocol | 20 | 20 | 100.0% |
-| staticmethod | 79 | 91 | 86.8% |
+| staticmethod | 81 | 93 | 87.1% |
 | struct | 1 | 20 | 5.0% |
 | type_alias | 3 | 4 | 75.0% |
 
@@ -181,9 +181,9 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`modules/win_rootkit/mrhyde.c`](modules/modules.win_rootkit.mrhyde.c.md) | 7 | 19 | 36.8% |
 | [`modules.unified_bridge`](modules/modules.unified_bridge.py.md) | 9 | 24 | 37.5% |
 | [`cli.graph_advisor`](modules/cli.graph_advisor.py.md) | 16 | 41 | 39.0% |
-| [`lazyc2`](modules/lazyc2.py.md) | 93 | 234 | 39.7% |
 | [`modules.threat_model`](modules/modules.threat_model.py.md) | 2 | 5 | 40.0% |
 | [`plugins/rundll32_sct_from_url.lua`](modules/plugins.rundll32_sct_from_url.lua.md) | 2 | 5 | 40.0% |
+| [`lazyc2`](modules/lazyc2.py.md) | 95 | 236 | 40.3% |
 | [`skills.lazyown_objective`](modules/skills.lazyown_objective.py.md) | 12 | 29 | 41.4% |
 | [`modules.compliance`](modules/modules.compliance.py.md) | 8 | 19 | 42.1% |
 | [`cli.purple_tui`](modules/cli.purple_tui.py.md) | 3 | 7 | 42.9% |
@@ -224,11 +224,11 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`modules.ttp_coverage`](modules/modules.ttp_coverage.py.md) | 6 | 11 | 54.5% |
 | [`cli.cli_enhancements`](modules/cli.cli_enhancements.py.md) | 29 | 53 | 54.7% |
 | [`core.errors`](modules/core.errors.py.md) | 13 | 23 | 56.5% |
-| [`modules.obs_parser`](modules/modules.obs_parser.py.md) | 8 | 14 | 57.1% |
 | [`modules.world_model`](modules/modules.world_model.py.md) | 34 | 59 | 57.6% |
 | [`modules.auto_purple`](modules/modules.auto_purple.py.md) | 15 | 26 | 57.7% |
 | [`modules.reactive_engine`](modules/modules.reactive_engine.py.md) | 22 | 38 | 57.9% |
 | [`modules.exploit_recommender`](modules/modules.exploit_recommender.py.md) | 6 | 10 | 60.0% |
+| [`modules.obs_parser`](modules/modules.obs_parser.py.md) | 9 | 15 | 60.0% |
 | [`lazygui.widgets.graph_view`](modules/lazygui.widgets.graph_view.py.md) | 17 | 28 | 60.7% |
 | [`modules.saas_attacks`](modules/modules.saas_attacks.py.md) | 10 | 16 | 62.5% |
 | [`modules.yaml_generator`](modules/modules.yaml_generator.py.md) | 5 | 8 | 62.5% |
@@ -326,11 +326,11 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`modules.cve_matcher`](modules/modules.cve_matcher.py.md) | 7 | 8 | 87.5% |
 | [`modules.detection_feed`](modules/modules.detection_feed.py.md) | 7 | 8 | 87.5% |
 | [`modules.memory_cleaner`](modules/modules.memory_cleaner.py.md) | 7 | 8 | 87.5% |
-| [`modules.module_registry`](modules/modules.module_registry.py.md) | 14 | 16 | 87.5% |
 | [`modules.operator_profiles`](modules/modules.operator_profiles.py.md) | 14 | 16 | 87.5% |
 | [`cli.palette_command`](modules/cli.palette_command.py.md) | 36 | 41 | 87.8% |
 | [`skills.autonomous_daemon`](modules/skills.autonomous_daemon.py.md) | 79 | 90 | 87.8% |
 | [`modules.autonomous_exploit_engine`](modules/modules.autonomous_exploit_engine.py.md) | 15 | 17 | 88.2% |
+| [`modules.module_registry`](modules/modules.module_registry.py.md) | 15 | 17 | 88.2% |
 | [`core.command_bridge`](modules/core.command_bridge.py.md) | 8 | 9 | 88.9% |
 | [`modules.forensic_cleaner`](modules/modules.forensic_cleaner.py.md) | 8 | 9 | 88.9% |
 | [`skills.hive_mind`](modules/skills.hive_mind.py.md) | 81 | 91 | 89.0% |
@@ -360,9 +360,9 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`modules.c2_agent`](modules/modules.c2_agent.py.md) | 13 | 14 | 92.9% |
 | [`modules.c2_profile`](modules/modules.c2_profile.py.md) | 26 | 28 | 92.9% |
 | [`modules.detection_oracle`](modules/modules.detection_oracle.py.md) | 13 | 14 | 92.9% |
-| [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | 26 | 28 | 92.9% |
 | [`modules.macos_payloads`](modules/modules.macos_payloads.py.md) | 13 | 14 | 92.9% |
 | [`modules.sleep_obfuscation`](modules/modules.sleep_obfuscation.py.md) | 26 | 28 | 92.9% |
+| [`modules.loop_guardrails`](modules/modules.loop_guardrails.py.md) | 27 | 29 | 93.1% |
 | [`contrib.legacy.lazyaddon_creator`](modules/contrib.legacy.lazyaddon_creator.py.md) | 14 | 15 | 93.3% |
 | [`modules.kerberoasting`](modules/modules.kerberoasting.py.md) | 14 | 15 | 93.3% |
 | [`modules.lazyk8s`](modules/modules.lazyk8s.py.md) | 28 | 30 | 93.3% |
@@ -377,8 +377,8 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`cli.autosuggest`](modules/cli.autosuggest.py.md) | 25 | 26 | 96.2% |
 | [`lazyc2.addon_creator`](modules/lazyc2.addon_creator.py.md) | 26 | 27 | 96.3% |
 | [`cli.commands.command_and_control_migrated`](modules/cli.commands.command_and_control_migrated.py.md) | 28 | 29 | 96.6% |
-| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | 57 | 59 | 96.6% |
 | [`cli.commands.persist_migrated`](modules/cli.commands.persist_migrated.py.md) | 28 | 29 | 96.6% |
+| [`cli.commands.lazyops`](modules/cli.commands.lazyops.py.md) | 58 | 60 | 96.7% |
 | [`cli.commands.recon_migrated`](modules/cli.commands.recon_migrated.py.md) | 29 | 30 | 96.7% |
 | [`modules.socks_proxy`](modules/modules.socks_proxy.py.md) | 29 | 30 | 96.7% |
 | [`cli.commands.misc_migrated`](modules/cli.commands.misc_migrated.py.md) | 30 | 31 | 96.8% |
@@ -446,11 +446,12 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`cli.commands.lazy_dorks`](modules/cli.commands.lazy_dorks.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lazy_oob`](modules/cli.commands.lazy_oob.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.lazy_passgen`](modules/cli.commands.lazy_passgen.py.md) | 3 | 3 | 100.0% |
-| [`cli.commands.lazyloop`](modules/cli.commands.lazyloop.py.md) | 12 | 12 | 100.0% |
+| [`cli.commands.lazyloop`](modules/cli.commands.lazyloop.py.md) | 13 | 13 | 100.0% |
 | [`cli.commands.marketplace`](modules/cli.commands.marketplace.py.md) | 4 | 4 | 100.0% |
 | [`cli.commands.mcp_bridge`](modules/cli.commands.mcp_bridge.py.md) | 12 | 12 | 100.0% |
 | [`cli.commands.mobile_macos`](modules/cli.commands.mobile_macos.py.md) | 7 | 7 | 100.0% |
 | [`cli.commands.module_manager`](modules/cli.commands.module_manager.py.md) | 5 | 5 | 100.0% |
+| [`cli.commands.netattack`](modules/cli.commands.netattack.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.nethelpers`](modules/cli.commands.nethelpers.py.md) | 12 | 12 | 100.0% |
 | [`cli.commands.opsec_cleanup`](modules/cli.commands.opsec_cleanup.py.md) | 10 | 10 | 100.0% |
 | [`cli.commands.orchestration`](modules/cli.commands.orchestration.py.md) | 5 | 5 | 100.0% |
@@ -510,7 +511,7 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`cli.recon_plan`](modules/cli.recon_plan.py.md) | 9 | 9 | 100.0% |
 | [`cli.registry`](modules/cli.registry.py.md) | 3 | 3 | 100.0% |
 | [`cli.retry_support`](modules/cli.retry_support.py.md) | 10 | 10 | 100.0% |
-| [`cli.scope_guard`](modules/cli.scope_guard.py.md) | 10 | 10 | 100.0% |
+| [`cli.scope_guard`](modules/cli.scope_guard.py.md) | 11 | 11 | 100.0% |
 | [`cli.session_brief`](modules/cli.session_brief.py.md) | 6 | 6 | 100.0% |
 | [`cli.session_hud`](modules/cli.session_hud.py.md) | 9 | 9 | 100.0% |
 | [`cli.session_resumer`](modules/cli.session_resumer.py.md) | 6 | 6 | 100.0% |
@@ -656,6 +657,7 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`modules.bitm_engine`](modules/modules.bitm_engine.py.md) | 8 | 8 | 100.0% |
 | [`modules.c2_surfaces`](modules/modules.c2_surfaces.py.md) | 8 | 8 | 100.0% |
 | [`modules.categories`](modules/modules.categories.py.md) | 1 | 1 | 100.0% |
+| [`modules.chain_approval`](modules/modules.chain_approval.py.md) | 11 | 11 | 100.0% |
 | [`modules.chain_distill`](modules/modules.chain_distill.py.md) | 10 | 10 | 100.0% |
 | [`modules.chain_facts`](modules/modules.chain_facts.py.md) | 2 | 2 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | 12 | 12 | 100.0% |
@@ -704,31 +706,39 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`modules.intercept`](modules/modules.intercept.py.md) | 28 | 28 | 100.0% |
 | [`modules/iptables_portforward.sh`](modules/modules.iptables_portforward.sh.md) | 2 | 2 | 100.0% |
 | [`modules.jsonl_tail`](modules/modules.jsonl_tail.py.md) | 4 | 4 | 100.0% |
-| [`modules.killchain`](modules/modules.killchain.py.md) | 22 | 22 | 100.0% |
+| [`modules.killchain`](modules/modules.killchain.py.md) | 26 | 26 | 100.0% |
 | [`modules.lab_runtime`](modules/modules.lab_runtime.py.md) | 17 | 17 | 100.0% |
 | [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | 19 | 19 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | 15 | 15 | 100.0% |
+| [`modules.lazy_checks`](modules/modules.lazy_checks.py.md) | 4 | 4 | 100.0% |
 | [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | 11 | 11 | 100.0% |
 | [`modules.lazy_creds`](modules/modules.lazy_creds.py.md) | 8 | 8 | 100.0% |
 | [`modules.lazy_cve_feed`](modules/modules.lazy_cve_feed.py.md) | 11 | 11 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | 2 | 2 | 100.0% |
+| [`modules.lazy_findings`](modules/modules.lazy_findings.py.md) | 24 | 24 | 100.0% |
 | [`modules.lazy_heat`](modules/modules.lazy_heat.py.md) | 12 | 12 | 100.0% |
+| [`modules.lazy_hostscore`](modules/modules.lazy_hostscore.py.md) | 4 | 4 | 100.0% |
 | [`modules.lazy_installer`](modules/modules.lazy_installer.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | 10 | 10 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 286 | 286 | 100.0% |
+| [`modules.lazy_ledger`](modules/modules.lazy_ledger.py.md) | 6 | 6 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 290 | 290 | 100.0% |
+| [`modules.lazy_match_policy`](modules/modules.lazy_match_policy.py.md) | 10 | 10 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | 7 | 7 | 100.0% |
+| [`modules.lazy_netattack`](modules/modules.lazy_netattack.py.md) | 6 | 6 | 100.0% |
 | [`modules.lazy_oob`](modules/modules.lazy_oob.py.md) | 10 | 10 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | 6 | 6 | 100.0% |
 | [`modules.lazy_osinfer`](modules/modules.lazy_osinfer.py.md) | 12 | 12 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | 23 | 23 | 100.0% |
+| [`modules.lazy_reaper`](modules/modules.lazy_reaper.py.md) | 2 | 2 | 100.0% |
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | 9 | 9 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | 11 | 11 | 100.0% |
-| [`modules.lazy_scope`](modules/modules.lazy_scope.py.md) | 8 | 8 | 100.0% |
+| [`modules.lazy_scope`](modules/modules.lazy_scope.py.md) | 10 | 10 | 100.0% |
 | [`modules.lazy_skill_mirror`](modules/modules.lazy_skill_mirror.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_skills`](modules/modules.lazy_skills.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_summarizer`](modules/modules.lazy_summarizer.py.md) | 3 | 3 | 100.0% |
 | [`modules.lazy_surface_diff`](modules/modules.lazy_surface_diff.py.md) | 8 | 8 | 100.0% |
+| [`modules.lazy_triage`](modules/modules.lazy_triage.py.md) | 9 | 9 | 100.0% |
 | [`modules.lazy_verify`](modules/modules.lazy_verify.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_world_diff`](modules/modules.lazy_world_diff.py.md) | 17 | 17 | 100.0% |
 | [`modules/lazyatack.sh`](modules/modules.lazyatack.sh.md) | 31 | 31 | 100.0% |
@@ -751,17 +761,17 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`modules.llm_orchestrator`](modules/modules.llm_orchestrator.py.md) | 8 | 8 | 100.0% |
 | [`modules.llm_pool`](modules/modules.llm_pool.py.md) | 15 | 15 | 100.0% |
 | [`modules.llm_prompts`](modules/modules.llm_prompts.py.md) | 20 | 20 | 100.0% |
-| [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | 12 | 12 | 100.0% |
+| [`modules.loop_ai_bridge`](modules/modules.loop_ai_bridge.py.md) | 16 | 16 | 100.0% |
 | [`modules.loop_manager`](modules/modules.loop_manager.py.md) | 18 | 18 | 100.0% |
 | [`modules.loop_progress`](modules/modules.loop_progress.py.md) | 12 | 12 | 100.0% |
-| [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | 13 | 13 | 100.0% |
+| [`modules.loop_triggers`](modules/modules.loop_triggers.py.md) | 15 | 15 | 100.0% |
 | [`modules.mediation`](modules/modules.mediation.__init__.py.md) | 1 | 1 | 100.0% |
 | [`modules.mediation.chain_mediator`](modules/modules.mediation.chain_mediator.py.md) | 9 | 9 | 100.0% |
 | [`modules.mediation.contracts`](modules/modules.mediation.contracts.py.md) | 13 | 13 | 100.0% |
 | [`modules.mediation.feedback_mediator`](modules/modules.mediation.feedback_mediator.py.md) | 4 | 4 | 100.0% |
 | [`modules.mediation.hub`](modules/modules.mediation.hub.py.md) | 8 | 8 | 100.0% |
 | [`modules.mediation.intel_mediator`](modules/modules.mediation.intel_mediator.py.md) | 10 | 10 | 100.0% |
-| [`modules.mediation.telemetry_mediator`](modules/modules.mediation.telemetry_mediator.py.md) | 12 | 12 | 100.0% |
+| [`modules.mediation.telemetry_mediator`](modules/modules.mediation.telemetry_mediator.py.md) | 15 | 15 | 100.0% |
 | [`modules.memory_embeddings`](modules/modules.memory_embeddings.py.md) | 6 | 6 | 100.0% |
 | [`modules.metasploitable_gym`](modules/modules.metasploitable_gym.py.md) | 8 | 8 | 100.0% |
 | [`modules.metasploitable_migrations`](modules/modules.metasploitable_migrations.py.md) | 4 | 4 | 100.0% |
@@ -770,11 +780,12 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`modules.morse`](modules/modules.morse.py.md) | 8 | 8 | 100.0% |
 | [`modules.notify`](modules/modules.notify.py.md) | 15 | 15 | 100.0% |
 | [`modules.nuclei_templates_sync`](modules/modules.nuclei_templates_sync.py.md) | 16 | 16 | 100.0% |
-| [`modules.orchestrator_config`](modules/modules.orchestrator_config.py.md) | 21 | 21 | 100.0% |
+| [`modules.orchestrator_config`](modules/modules.orchestrator_config.py.md) | 25 | 25 | 100.0% |
 | [`modules.osint_enrich`](modules/modules.osint_enrich.py.md) | 6 | 6 | 100.0% |
 | [`modules.outcome_bus`](modules/modules.outcome_bus.py.md) | 15 | 15 | 100.0% |
 | [`modules.playbook_admin`](modules/modules.playbook_admin.py.md) | 15 | 15 | 100.0% |
 | [`modules.privesc_predictor`](modules/modules.privesc_predictor.py.md) | 13 | 13 | 100.0% |
+| [`modules.progress_ledger`](modules/modules.progress_ledger.py.md) | 16 | 16 | 100.0% |
 | [`modules/r.sh`](modules/modules.r.sh.md) | 2 | 2 | 100.0% |
 | [`modules.recommender`](modules/modules.recommender.py.md) | 3 | 3 | 100.0% |
 | [`modules.redteam_gym`](modules/modules.redteam_gym.py.md) | 14 | 14 | 100.0% |
@@ -792,7 +803,9 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 | [`modules.sinks.beacon_dispatch`](modules/modules.sinks.beacon_dispatch.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.c2_surfaces`](modules/modules.sinks.c2_surfaces.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.campaign_db`](modules/modules.sinks.campaign_db.py.md) | 2 | 2 | 100.0% |
+| [`modules.sinks.chain_feed`](modules/modules.sinks.chain_feed.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.event_bus`](modules/modules.sinks.event_bus.py.md) | 2 | 2 | 100.0% |
+| [`modules.sinks.findings`](modules/modules.sinks.findings.py.md) | 6 | 6 | 100.0% |
 | [`modules.sinks.intel_graph`](modules/modules.sinks.intel_graph.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.killchain`](modules/modules.sinks.killchain.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.objectives`](modules/modules.sinks.objectives.py.md) | 2 | 2 | 100.0% |
@@ -873,7 +886,7 @@ Overall: **75.5%** (7462 of 9885 public modules, types, and callables). Data mem
 
 DOC001 undocumented public item, DOC002 parameter not documented, DOC003 documented parameter missing from the signature (stale doc), DOC004 return value not documented, DOC005 raised exception not documented.
 
-DOC001: 2140, DOC002: 8, DOC003: 21, DOC004: 46, DOC005: 45
+DOC001: 2140, DOC002: 9, DOC003: 21, DOC004: 47, DOC005: 46
 
 - DOC001 `DEPLOY.sh:1` module DEPLOY.sh is not documented
 - DOC001 `DEPLOY.sh:19` function increment_version is not documented
@@ -1315,8 +1328,9 @@ DOC001: 2140, DOC002: 8, DOC003: 21, DOC004: 46, DOC005: 45
 - DOC001 `core/protocols.py:54` method MemoryStore.put is not documented
 - DOC001 `core/protocols.py:56` method MemoryStore.get is not documented
 - DOC001 `core/protocols.py:58` method MemoryStore.search is not documented
-- DOC005 `core/safe_exec.py:106` safe_run_argv raises CommandInjectionError but does not document it
-- DOC005 `core/safe_exec.py:268` safe_ip_show raises CommandInjectionError but does not document it
+- DOC005 `core/safe_exec.py:174` safe_run_argv raises CalledProcessError but does not document it
+- DOC005 `core/safe_exec.py:174` safe_run_argv raises CommandInjectionError but does not document it
+- DOC005 `core/safe_exec.py:361` safe_ip_show raises CommandInjectionError but does not document it
 - DOC005 `core/safe_subprocess.py:73` SafeRunner.run raises ValueError but does not document it
 - DOC001 `discord_c2.py:1` module discord_c2.py is not documented
 - DOC001 `discord_c2.py:27` class SecureSessionManager is not documented
@@ -1374,5 +1388,4 @@ DOC001: 2140, DOC002: 8, DOC003: 21, DOC004: 46, DOC005: 45
 - DOC001 `lazy_sentinel4.py:241` method Database.execute is not documented
 - DOC001 `lazy_sentinel4.py:253` method Database.insert is not documented
 - DOC001 `lazy_sentinel4.py:269` class Alert is not documented
-- DOC001 `lazy_sentinel4.py:272` constructor Alert.__init__ is not documented
-- ... 1760 more in `api/warnings.jsonl`
+- ... 1763 more in `api/warnings.jsonl`

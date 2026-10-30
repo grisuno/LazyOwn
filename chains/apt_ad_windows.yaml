@@ -1,0 +1,79 @@
+name: apt_ad_windows
+version: 1
+description: 'AD methodology golden path for real Windows targets: signing attestation, LLMNR/mitm6/relay adjudication, coercer scan, ADCS and noPac discovery — kinetic steps operator-gated via consent tokens.'
+enabled: true
+tags:
+- apt
+- windows
+- methodology
+platforms:
+- linux
+defaults:
+  lhost: 127.0.0.1
+  lport: '4444'
+  relay_consent: 'no'
+  domain: ''
+steps:
+- id: scope
+  phase: recon
+  description: Bind the target.
+  run: assign target {target}
+- id: scan
+  phase: recon
+  description: Scan once and reuse the XML on later runs.
+  run: lazynmap {target}
+  skip_if_exists: sessions/scan_{target}.nmap.xml
+  timeout: 900
+- id: signing
+  phase: enum
+  description: Attest SMB signing and AD service surface.
+  run: python3 modules/atomic_exploit_bridge.py run --id win_smb_signing_enum --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 240
+  capture_regex: "message[_ ]?[Ss]igning[: ]+(?:required|disabled|Not?) ?[Rr]equired|signing[a-z ]*: ?(?:disabled|not required)"
+  capture: signing_state
+  continue_on_error: true
+- id: llmnr_probe
+  phase: enum
+  description: Passive LLMNR/NBT-NS listener window (no spoofing).
+  run: python3 modules/atomic_exploit_bridge.py run --id win_llmnr_probe --rhost {target}
+    --lhost {lhost} --lport {lport} --feed
+  timeout: 180
+  continue_on_error: true
+- id: mitm6_probe
+  phase: enum
+  description: IPv6/WPAD readiness probe for the mitm6 path.
+  run: python3 modules/atomic_exploit_bridge.py run --id win_mitm6_probe --rhost {target}
+    --lhost {lhost} --lport {lport} --feed
+  timeout: 240
+  continue_on_error: true
+- id: coercer
+  phase: cred
+  description: Authentication-coercion surface scan (scan only, no coercion).
+  run: python3 modules/atomic_exploit_bridge.py run --id win_coercer_scan --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 240
+  continue_on_error: true
+- id: adcs
+  phase: privesc
+  description: AD CS template discovery for ESC1-ESC8 deconfliction.
+  run: python3 modules/atomic_exploit_bridge.py run --id win_adcs_enum --rhost {target}
+    --lhost {lhost} --lport {lport} --port 389 --feed
+  timeout: 300
+  continue_on_error: true
+- id: relay_notice
+  phase: postexp
+  description: Surface the relay plan with the operator-consent contract visible.
+  run: lazy_netattack plan {target}
+  timeout: 60
+  continue_on_error: true
+- id: sync
+  phase: report
+  description: Mirror the loop graphs into world model and objectives.
+  run: lazy_sync
+  continue_on_error: true
+- id: session
+  phase: report
+  description: Refresh the C2 session report.
+  run: create_session_json
+  continue_on_error: true

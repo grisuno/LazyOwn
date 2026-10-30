@@ -2650,6 +2650,12 @@ async def _run_objective(
                     "consecutive_count": _consecutive_list,
                 },
             )
+            _record_discarded_vector(
+                objective_id,
+                phase=phase,
+                command=_last_command,
+                reason=f"stuck loop: same command {_last_command!r} ran {_consecutive_list}x with no reward",
+            )
             # Try to advance phase via world_model, otherwise hard-advance
             _phase_order = [
                 "recon",
@@ -2798,6 +2804,46 @@ async def _run_objective(
         },
     )
     return results
+
+
+def _record_discarded_vector(
+    engagement_id: str,
+    *,
+    phase: str,
+    command: str,
+    reason: str,
+) -> None:
+    """Persist one abandoned route into the durable findings ledger.
+
+    The handoff reads discarded rows back, so a resumed engagement never
+    repeats the same dead-end command sequence blind. Fail-soft: ledger
+    problems must never break the daemon control loop.
+
+    Args:
+        engagement_id: Objective/task identifier owning the ledger.
+        phase: Kill-chain phase the route was attempted in.
+        command: Repeated command that triggered the escalation.
+        reason: Operator-readable abandonment reason.
+    """
+    try:
+        from modules.orchestrator_config import sinks as _sinks
+        from modules.sinks.findings import ingest_discarded
+
+        if not bool(_sinks().get("findings", True)):
+            return
+        ingest_discarded(
+            str(engagement_id),
+            [
+                {
+                    "reason": f"[{phase}] {reason}",
+                    "command": str(command)[:400],
+                    "target": "",
+                    "engagement_id": str(engagement_id),
+                }
+            ],
+        )
+    except Exception as exc:
+        log.debug("discard ledger write skipped: %s", exc)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -4296,8 +4342,8 @@ async def objective_loop(
         # the queue distinguishes proven goals from merely attempted ones.
         try:
             _cred_hit = any(
-                str((f.get("type", "") if isinstance(f, dict) else getattr(
-                    getattr(f, "type", ""), "value", f.type))) in ("credential", "hash")
+                str(f.get("type", "") if isinstance(f, dict) else getattr(
+                    getattr(f, "type", ""), "value", f.type)) in ("credential", "hash")
                 for f in all_findings
             )
             _proven_goal = _objective_proven(obj.text, world_model, target,

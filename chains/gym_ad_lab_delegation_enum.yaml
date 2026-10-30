@@ -1,0 +1,16 @@
+name: gym_ad_lab_delegation_enum
+version: 2
+description: 'AD lab gym: delegation surface discovery (disposable Docker Samba DC).'
+enabled: true
+extends: gym_ad_lab_chain
+tags:
+- gym
+- ad-lab
+- samba
+- methodology
+platforms:
+- linux
+defaults:
+  exploit: ad_lab_delegation_enum
+  vuln: ad_delegation_enum
+  port: '389'

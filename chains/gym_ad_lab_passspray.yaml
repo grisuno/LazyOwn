@@ -1,0 +1,16 @@
+name: gym_ad_lab_passspray
+version: 2
+description: 'AD lab gym: policy-aware password spraying (disposable Docker Samba DC).'
+enabled: true
+extends: gym_ad_lab_chain
+tags:
+- gym
+- ad-lab
+- samba
+- methodology
+platforms:
+- linux
+defaults:
+  exploit: ad_lab_passspray
+  vuln: ad_passspray
+  port: '445'

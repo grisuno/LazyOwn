@@ -19,7 +19,7 @@ from __future__ import annotations
 import hashlib
 from collections.abc import Sequence
 
-TRIGGER_KINDS = ("interval", "finding", "goal", "timeout", "toolcall", "hint", "service", "task_create", "cve_hot")
+TRIGGER_KINDS = ("interval", "finding", "goal", "timeout", "toolcall", "hint", "service", "task_create", "cve_hot", "ad_surface")
 
 HINT_REPEAT_TTL_SEC = 86400.0
 HINT_FINGERPRINT_STORE = "hint_fingerprints.json"
@@ -217,6 +217,19 @@ class TriggerStore:
         self.add("cve_hot", every_sec=3600.0)
         return True
 
+    def ensure_ad_surface_trigger(self) -> bool:
+        """Register the AD-surface trigger once so Windows identity fires it.
+
+        Every cycle, services newer than the watermark are graded for the
+        Windows network-attack families (LLMNR, SMB relay, mitm6,
+        NTLMv1 downgrade); only ``viable`` or ``needs_evidence`` grades
+        surface as operator hints, kinetic steps stay operator-gated.
+        """
+        if any(item.get("kind") == "ad_surface" for item in self.list()):
+            return False
+        self.add("ad_surface", every_sec=1800.0)
+        return True
+
     def due(self, task_id: str, graph, activity, assets=None, store=None) -> Sequence[dict]:
         """Evaluate triggers like the scheduler tick; fires at most once each.
 
@@ -286,6 +299,86 @@ class TriggerStore:
                             "id": item["id"],
                         }
                     )
+            elif kind == "ad_surface":
+                if assets is None:
+                    continue
+                fresh = [a for a in assets.list("service") if a.asset_id > int(item.get("watermark", 0))]
+                if not fresh:
+                    continue
+                batch = fresh[:8]
+                item["watermark"] = max(a.asset_id for a in batch)
+                from modules import lazy_netattack
+
+                host_services: dict[str, dict[str, dict[str, str]]] = {}
+                os_hints: dict[str, str] = {}
+                try:
+                    from modules.world_model import get_world_model
+
+                    world = get_world_model().snapshot()
+                    for ip, host in (world.get("hosts", {}) or {}).items():
+                        if not isinstance(host, dict):
+                            continue
+                        os_hints[str(ip)] = str(host.get("os_hint", "") or "")
+                        for port, svc in (host.get("services", {}) or {}).items():
+                            svc = svc if isinstance(svc, dict) else {"name": str(svc)}
+                            host_services.setdefault(str(ip), {})[str(port)] = {
+                                "name": str(svc.get("name", "")),
+                                "version": str(svc.get("version", "") or ""),
+                            }
+                except Exception:
+                    pass
+                if not host_services:
+                    continue
+                for asset in batch:
+                    parts = str(asset.value or "").split()
+                    if len(parts) >= 2:
+                        host_services.setdefault(parts[1], {})[parts[0]] = {"name": " ".join(parts[2:])}
+                evidence = lazy_netattack.SurfaceEvidence(
+                    services=host_services,
+                    os_hints=os_hints,
+                    signing=read_signing_evidence(),
+                    lm_compat={},
+                )
+                decisions = lazy_netattack.surface_decision(evidence)
+                actionable = [
+                    row
+                    for row in decisions.values()
+                    if row.verdict in (lazy_netattack.VERDICT_VIABLE, lazy_netattack.VERDICT_NEEDS_EVIDENCE)
+                ]
+                if not actionable:
+                    continue
+                fingerprints: dict = {}
+                store_changed = False
+                try:
+                    fingerprints = prune_hint_fingerprints(
+                        core._load_json(core._store_path(HINT_FINGERPRINT_STORE), {}), now, HINT_REPEAT_TTL_SEC
+                    )
+                except Exception:
+                    fingerprints = {}
+                for row in actionable:
+                    fingerprint = f"ad_surface:{row.family}:{','.join(row.targets)[:200]}"
+                    if fingerprint in fingerprints:
+                        continue
+                    try:
+                        graph.add_node("hint", lazy_netattack.hint_text(row), state="pending", meta={"family": row.family})
+                    except Exception:
+                        pass
+                    fingerprints[fingerprint] = now
+                    store_changed = True
+                if store_changed:
+                    try:
+                        core._save_json(core._store_path(HINT_FINGERPRINT_STORE), fingerprints)
+                    except Exception:
+                        pass
+                fired.append(
+                    {
+                        "kind": "ad_surface",
+                        "ids": [a.asset_id for a in batch],
+                        "services": [str(a.value) for a in batch],
+                        "verdicts": [f"{row.family}:{row.verdict}" for row in actionable[:4]],
+                        "id": item["id"],
+                    }
+                )
             elif kind == "task_create":
                 if store is None:
                     continue
@@ -399,4 +492,34 @@ __all__ = [
     "HINT_FINGERPRINT_STORE",
     "hint_fingerprint",
     "prune_hint_fingerprints",
+    "read_signing_evidence",
 ]
+
+
+def read_signing_evidence(store_dir=None) -> dict[str, str]:
+    """Load operator-attested SMB signing evidence per host.
+
+    Evidence file: ``sessions/smb_signing.json`` — operator writes ``{"host":
+    "nmap smb-security-mode output..."}`` after the discovery probe; the
+    ad_surface trigger grades relay viability from it. Untrusted text: the
+    hint only repeats what was attested.
+
+    Returns:
+        Mapping of host to signing evidence text, ``{}`` when unset.
+    """
+    import json as _json
+    from pathlib import Path as _Path
+
+    pth = store_dir
+    if pth is None:
+        try:
+            from modules import lazy_loop as _loop
+
+            pth = _loop._store_path("smb_signing.json")
+        except Exception:
+            pth = _Path("sessions") / "smb_signing.json"
+    try:
+        payload = _json.loads(_Path(pth).read_text(encoding="utf-8", errors="replace"))
+        return {str(k): str(v)[:600] for k, v in payload.items() if isinstance(payload, dict)}
+    except Exception:
+        return {}

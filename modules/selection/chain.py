@@ -1,13 +1,13 @@
 """Chain selector: propose a vetted ``apt_chain`` when one fits the state.
 
 Single contract: adapt the shared chain matcher (``modules.chain_match``) into
-the :class:`~modules.selectors.base.Selector` protocol. The scoring rules live
+the :class:`~modules.selection.base.Selector` protocol. The scoring rules live
 in ``chain_match``; this file only shapes the decision and dedupes per target.
 """
 
 from __future__ import annotations
 
-from modules.selectors.base import ActionDecision, SelectionContext
+from modules.selection.base import ActionDecision, SelectionContext
 
 
 class ChainSelector:

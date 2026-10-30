@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import re
 
-from modules.selectors.base import ActionDecision, SelectionContext
+from modules.selection.base import ActionDecision, SelectionContext
 
 _TECHNIQUE_RE = re.compile(r"\bT\d{4}(?:\.\d{3})?\b")
 _SHELL_PHASES = frozenset({"postexp", "privesc", "lateral", "exfil", "cred", "exploit"})

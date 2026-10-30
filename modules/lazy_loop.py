@@ -3448,47 +3448,62 @@ class Planner:
         except Exception:
             return ""
 
-    def _chain_candidate(self) -> list[tuple[str, list[int], list[int], int]]:
-        """Propose one vetted chain intent when a chain matches the live state.
+    _ACTION_MARKER = "run action: "
 
-        Mirrors the daemon's ChainSelector for the LazyLoopEngine path: the
-        shared matcher scores enabled chains against the current phase, target
-        OS and discovered services, and a match becomes a ``run chain <name>``
-        intent that ``_steps_for`` turns into ``apt_chain <name> <target>``.
-        Already-proposed chains are skipped so a chain is queued at most once.
+    def _selector_candidates(self) -> list[tuple[str, list[int], list[int], int]]:
+        """Propose intents from the shared selector brain.
+
+        The one cascade in ``modules.selectors`` scores every strategy
+        (chains, and as they migrate: playbooks, adversary emulations, MITRE
+        techniques, atomic tests) against the current phase, target OS and
+        discovered services. Each decision becomes a ``run action: <command>``
+        intent that ``Worker._steps_for`` runs verbatim. Already-queued
+        actions are excluded so a command is proposed at most once.
         """
         try:
             from modules.selectors.base import SelectionContext
-            from modules.selectors.chain import ChainSelector as _ChainSelector
+            from modules.selectors.registry import propose_next
         except Exception:
             return []
         target = (resolve_target(self.task_id, self.store, self.graph) or "").strip()
         if not target:
             return []
-        marker = "run chain "
-        proposed = {
-            node.text[len(marker):].strip().split()[0]
+        marker = self._ACTION_MARKER
+        taken = {
+            node.text[len(marker):].strip()
             for node in self.graph.list("intent")
-            if node.text.lower().startswith(marker) and node.text[len(marker):].strip()
+            if node.text.startswith(marker) and node.text[len(marker):].strip()
         }
-        allow_lab = os.environ.get("AUTO_CHAIN_SELECTOR_LAB", "1") not in ("0", "false", "False", "no", "off", "")
         ctx = SelectionContext(
             target=target,
             phase=self._current_phase(),
             os_hint=self._os_hint(),
             services=tuple(self._target_services(target)),
-            exclude=frozenset(proposed),
+            has_creds=self._has_creds(),
+            exclude=frozenset(taken),
         )
-        decision = _ChainSelector(allow_lab=allow_lab).propose(ctx)
-        if decision is None:
+        decision = propose_next(ctx)
+        if decision is None or not decision.command.strip():
             return []
-        parts = decision.command.split()
-        name = parts[1] if len(parts) > 1 else ""
-        if not name:
+        command = decision.command.strip()
+        if command in taken:
             return []
-        self.activity.emit("planner", "chain", f"chain candidate {name}: {decision.reason}")
+        self.activity.emit("planner", decision.source, f"action {command}: {decision.reason}")
         anchors = [asset.asset_id for asset in self.assets.list() if (asset.value or "").strip() == target][:1]
-        return [(f"run chain {name}", anchors, [], 7)]
+        return [(f"{marker}{command}", anchors, [], max(1, int(decision.priority)))]
+
+    @staticmethod
+    def _has_creds() -> bool:
+        """Return True when usable credentials are configured in the payload."""
+        try:
+            from core.config import load_payload
+
+            payload = load_payload() or {}
+            user = str(payload.get("start_user", "") or "").strip()
+            secret = str(payload.get("start_pass", "") or payload.get("hash", "") or "").strip()
+            return bool(user and secret)
+        except Exception:
+            return False
 
     def _candidates(self) -> list[tuple[str, list[int], list[int], int]]:
         """Build candidate intents from serial todos, hints, coverage, findings."""
@@ -3520,7 +3535,7 @@ class Planner:
         for hint in self.graph.list("hint", "pending"):
             out.append((f"steered probe: {hint.text}", self.graph.anchors_for(hint.node_id), [], 8))
             self.graph.set_state(hint.node_id, "done")
-        out.extend(self._chain_candidate())
+        out.extend(self._selector_candidates())
         for asset in self.assets.untested_for(self.graph, scope, limit=MAX_INTENTS_PER_ROUND):
             out.append((f"probe {asset.kind} {asset.value}", [asset.asset_id], [], 6))
         proposed = {summary for summary, _a, _p, _r in out}
@@ -5764,10 +5779,10 @@ class Worker:
         target = (target or "").strip()
         if not target:
             return [f"echo no-target: cannot probe without scope; register scope first: {intent.text[:120]}"]
-        if text.startswith("run chain "):
-            chain_name = intent.text[len("run chain "):].strip().split()[0] if len(intent.text) > 10 else ""
-            if chain_name:
-                return [f"apt_chain {chain_name} {target}".strip()]
+        action_marker = "run action: "
+        if intent.text.startswith(action_marker):
+            command = intent.text[len(action_marker):].strip()
+            return [command] if command else []
         host_flag = f" {target}"
         use_lazynmap = getattr(self, "shell", None) is not None
         ping_first = [f"ping -c 1 -W 2 {target} 2>&1"] if _host_like_target(target) else []

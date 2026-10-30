@@ -32,11 +32,17 @@ class ChainSelector:
             from modules.chain_match import best_chain
         except Exception:
             return None
+        excluded_names = {
+            tokens[1]
+            for command in ctx.exclude
+            for tokens in [str(command).split()]
+            if len(tokens) >= 2 and tokens[0] == "apt_chain"
+        }
         match = best_chain(
             phase=ctx.phase,
             os_hint=ctx.os_hint,
             services=list(ctx.services),
-            exclude=ctx.exclude,
+            exclude=excluded_names,
             allow_lab=self._allow_lab,
         )
         if match is None:

@@ -100,9 +100,9 @@ def test_planner_proposes_chain_from_discovered_services(tmp_path, monkeypatch):
     graph = loop.ExplorationGraph(task_id)
     planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
     summaries = [row[0] for row in planner._candidates()]
-    assert "run chain apt_web_http" in summaries
+    assert "run action: apt_chain apt_web_http 10.0.0.9" in summaries
 
-    node = graph.add_node("intent", "run chain apt_web_http")
+    node = graph.add_node("intent", "run action: apt_chain apt_web_http 10.0.0.9")
     worker = loop.Worker(
         "worker-1", task_id, engine.assets, graph,
         loop.ActivityLog(task_id), loop.TrafficLog(task_id), loop.Guard(task_id), engine.store,

@@ -181,6 +181,57 @@ def plausible_command(command: str) -> bool:
     return True
 
 
+_COMMAND_HEAD_RE = re.compile(r"^[A-Za-z0-9_./-]+$")
+_ASSIGNMENT_HEAD_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=")
+_FILE_LIKE_SUFFIXES = (
+    ".sh", ".py", ".exe", ".dll", ".ps1", ".bat", ".txt", ".json", ".xml",
+    ".html", ".php", ".jsp", ".bin", ".elf", ".so", ".conf", ".cfg", ".log",
+)
+
+
+def looks_like_prose(command: str) -> bool:
+    """Return True when a line is natural-language prose, not a shell command.
+
+    A hallucinating model sometimes answers a tool prompt with a sentence
+    ("Let's proceed step by step ..."), which then fails the shell with a
+    quoting error. A real command's first token is a program name or path,
+    an assignment, or a subshell; a sentence opens with a word carrying an
+    apostrophe, comma or other prose punctuation, or trails a colon after
+    several words. Conservative by design: any clean command head passes.
+
+    Args:
+        command: Candidate command line.
+
+    Returns:
+        True when the line should never be executed as a command.
+    """
+    text = (command or "").strip()
+    if not text:
+        return True
+    head = text.split()[0]
+    if head.startswith(("'", '"', "(", "$", "`", "{")) or _ASSIGNMENT_HEAD_RE.match(text):
+        return False
+    if not _COMMAND_HEAD_RE.match(head):
+        return True
+    return text.endswith(":") and len(text.split()) >= 4
+
+
+def _is_host_like_target(value: str) -> bool:
+    """Return True when a target is a routable host worth scope enforcement.
+
+    Scope enforcement applies to hosts, not to local artefacts. A tool name
+    such as ``linpeas.sh`` superficially matches the hostname grammar
+    (``foo.sh``) yet is never an engagement target, so file-like names are
+    excluded to stop false-positive scope blocks.
+    """
+    candidate = str(value or "").strip()
+    if not candidate:
+        return False
+    if candidate.lower().endswith(_FILE_LIKE_SUFFIXES):
+        return False
+    return bool(_is_ip_literal(candidate) or _HOSTNAME_RE.match(candidate) or _host_like_target(candidate))
+
+
 NETWORK_TOOL_HEADS = frozenset(
     {
         "nmap",
@@ -4556,8 +4607,16 @@ class Worker:
             command output, ``blocked`` with the reason, or ``skipped``
             with the missing binary name.
         """
+        if looks_like_prose(command):
+            self.activity.emit(
+                self.name,
+                "block",
+                f"rejected non-command (model prose, not executed): {command[:120]}",
+                intent_id=intent.node_id,
+            )
+            return "", "blocked", "prose"
         target = self._target_for(intent)
-        if target and not self._scope_allows_target(target):
+        if target and _is_host_like_target(target) and not self._scope_allows_target(target):
             self.activity.emit(
                 self.name,
                 "block",

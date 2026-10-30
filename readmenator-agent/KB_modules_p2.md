@@ -157,29 +157,29 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_build_command_chain` (method, line 1176) `def _build_command_chain(self, candidate, profile)`
   - `_check_success` (method, line 1328) `def _check_success(self, output, candidate)`
   - `_detect_shell` (method, line 1421) `def _detect_shell(self, output)`
-  - `_determine_access_level` (method, line 1449) `def _determine_access_level(self, ip, credentials)`
-  - `_register_session` (method, line 1479) `def _register_session(self, ip, output)`
-  - `_load_payload_config` (method, line 1507) `def _load_payload_config(self)`
-  - `_load_world_model` (method, line 1518) `def _load_world_model(self, target)`
-  - `_detect_os_from_payload` (method, line 1617) `def _detect_os_from_payload(self)`
-  - `_load_from_nmap_xml` (method, line 1635) `def _load_from_nmap_xml(self, target)`
-  - `_get_os_type` (method, line 1714) `def _get_os_type(self, profile)`
-  - `_apply_stealth_delay` (method, line 1730) `def _apply_stealth_delay(self)`
-  - `scan_vulnerabilities` (method, line 1741) `def scan_vulnerabilities(self, profile)`
-  - `_parse_nse_output` (method, line 1767) `def _parse_nse_output(self, target_ip)`
-  - `_extract_cves_from_text` (method, line 1802) `def _extract_cves_from_text(self, text)`
-  - `_match_service_banners` (method, line 1850) `def _match_service_banners(self, profile)`
-  - `_check_known_cves` (method, line 2030) `def _check_known_cves(self, profile)`
-  - `chain_privesc` (method, line 2056) `def chain_privesc(self, profile, session_id)`
-  - `_run_linux_privesc_checks` (method, line 2084) `def _run_linux_privesc_checks(self, profile, session_id)`
-  - `_run_windows_privesc_checks` (method, line 2153) `def _run_windows_privesc_checks(self, profile, session_id)`
-  - `_match_privesc_techniques` (method, line 2196) `def _match_privesc_techniques(self, findings, os_type)`
-  - `_execute_privesc` (method, line 2386) `def _execute_privesc(self, technique, profile, session_id)`
-  - `trigger_pivot` (method, line 2486) `def trigger_pivot(self, profile, session_id)`
-  - `_discover_internal_interfaces` (method, line 2551) `def _discover_internal_interfaces(self, profile)`
-  - `enable_stealth` (method, line 2612) `def enable_stealth(self, stealth_level)`
-  - `_get_stealth_scan_flags` (method, line 2657) `def _get_stealth_scan_flags(self)`
-  - `full_auto_pwn` (method, line 2676) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
+  - `_determine_access_level` (method, line 1441) `def _determine_access_level(self, ip, credentials)`
+  - `_register_session` (method, line 1471) `def _register_session(self, ip, output)`
+  - `_load_payload_config` (method, line 1499) `def _load_payload_config(self)`
+  - `_load_world_model` (method, line 1510) `def _load_world_model(self, target)`
+  - `_detect_os_from_payload` (method, line 1609) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1627) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1706) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1722) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1733) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1759) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1794) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1842) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 2022) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 2048) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 2076) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2145) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2188) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2378) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2478) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2543) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2604) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2649) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2668) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
   - `_is_placeholder` (function, line 299) `def _is_placeholder(value)`
 - Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 - Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_emulation_runner.py`, `tests/test_phase1_data_gaps.py`

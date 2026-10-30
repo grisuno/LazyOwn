@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_chain_digest` | method | `modules/compliance.py:429` | `def get_chain_digest(self)` |
+| `map_findings_to_compliance` | method | `modules/compliance.py:639` | `def map_findings_to_compliance(self, findings, frameworks)` |
+| `to_report` | method | `modules/compliance.py:432` | `def to_report(self)` |
+| `verify` | method | `modules/compliance.py:410` | `def verify(self)` |
+| `verify_evidence_chain` | method | `modules/compliance.py:930` | `def verify_evidence_chain(self)` |
+| `HookEngine` | class | `modules/conditional_hooks.py:258` | `class HookEngine` |
+| `HookRule` | class | `modules/conditional_hooks.py:45` | `class HookRule` |
+| `__init__` | method | `modules/conditional_hooks.py:270` | `def __init__(self)` |
+| `_execute_action` | method | `modules/conditional_hooks.py:428` | `def _execute_action(self, action, context)` |
+| `_execute_cred_reuse` | method | `modules/conditional_hooks.py:500` | `def _execute_cred_reuse(self, context)` |
 | `_execute_local_command` | method | `modules/conditional_hooks.py:476` | `def _execute_local_command(command)` |
 | `_execute_shell_command` | method | `modules/conditional_hooks.py:467` | `def _execute_shell_command(self, command, context)` |
 | `_match_trigger` | method | `modules/conditional_hooks.py:369` | `def _match_trigger(self, rule_trigger, event, context)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `export_combined_graph` | function | `modules/estorides_importer.py:1031` | `def export_combined_graph(output_path)` |
 | `extract_seeds_from_db` | function | `modules/estorides_importer.py:205` | `def extract_seeds_from_db(db_path)` |
 | `extract_seeds_from_hosts_file` | function | `modules/estorides_importer.py:177` | `def extract_seeds_from_hosts_file(path)` |
-| `extract_seeds_from_scope` | function | `modules/estorides_importer.py:244` | `def extract_seeds_from_scope(scope_entries)` |
-| `extract_seeds_from_world_model` | function | `modules/estorides_importer.py:143` | `def extract_seeds_from_world_model(world_model_path)` |
-| `find_lan_bundle_files` | function | `modules/estorides_importer.py:588` | `def find_lan_bundle_files(lan_dir, sessions_dir)` |
-| `get_all_entities` | method | `modules/estorides_importer.py:475` | `def get_all_entities(self, case_id)` |
-| `get_combined_surface` | method | `modules/estorides_importer.py:836` | `def get_combined_surface(self)` |
-| `get_entities` | method | `modules/estorides_importer.py:416` | `def get_entities(self, case_id, entity_types, limit)` |
-| `get_host_entities` | method | `modules/estorides_importer.py:471` | `def get_host_entities(self, case_id)` |
-| `import_entities` | method | `modules/estorides_importer.py:713` | `def import_entities(self, entities, add_to_scope, add_to_db)` |
-| `list_cases` | method | `modules/estorides_importer.py:404` | `def list_cases(self, limit)` |
-| `new_assets` | method | `modules/estorides_importer.py:139` | `def new_assets(self)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

@@ -50,7 +50,7 @@
 - Symbols:
   - `apply` (function, line 22) `def apply(event)`
 - Depends on: `modules/lazy_loop.py`, `modules/outcome_bus.py`
-- Imported by: `tests/test_sink_chain_feed.py`
+- Imported by: `tests/test_lazy_loop.py`, `tests/test_sink_chain_feed.py`
 
 ## modules/sinks/event_bus.py
 - Doc: Unified event-bus sink: publish every outcome once.

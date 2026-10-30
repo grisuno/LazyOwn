@@ -339,13 +339,13 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `PayloadTargetSource` (class, line 268) `class PayloadTargetSource`
   - `WorldModelPhaseSource` (class, line 292) `class WorldModelPhaseSource`
   - `SessionFindingSource` (class, line 321) `class SessionFindingSource`
-  - `CommandHintSuggestionSource` (class, line 418) `class CommandHintSuggestionSource`
-  - `GraphSuggestionSource` (class, line 510) `class GraphSuggestionSource`
-  - `CollabPresenceSource` (class, line 592) `class CollabPresenceSource`
-  - `StatusBarRenderer` (class, line 658) `class StatusBarRenderer`
-  - `StatusBarManager` (class, line 746) `class StatusBarManager`
-  - `_operator_presence_enabled` (function, line 950) `def _operator_presence_enabled(payload, config)`
-  - `build_default_manager` (function, line 971) `def build_default_manager(payload, sessions_dir, advisor_factory, config)`
+  - `CommandHintSuggestionSource` (class, line 425) `class CommandHintSuggestionSource`
+  - `GraphSuggestionSource` (class, line 517) `class GraphSuggestionSource`
+  - `CollabPresenceSource` (class, line 599) `class CollabPresenceSource`
+  - `StatusBarRenderer` (class, line 665) `class StatusBarRenderer`
+  - `StatusBarManager` (class, line 753) `class StatusBarManager`
+  - `_operator_presence_enabled` (function, line 957) `def _operator_presence_enabled(payload, config)`
+  - `build_default_manager` (function, line 978) `def build_default_manager(payload, sessions_dir, advisor_factory, config)`
   - `from_payload` (method, line 99) `def from_payload(cls, payload)`
   - `collect` (method, line 146) `def collect(self)`
   - `__init__` (method, line 160) `def __init__(self, config, root)`
@@ -363,39 +363,39 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `__init__` (method, line 324) `def __init__(self, config, reader)`
   - `collect` (method, line 329) `def collect(self)`
   - `_latest_credential` (method, line 337) `def _latest_credential(self)`
-  - `_latest_vuln` (method, line 347) `def _latest_vuln(self)`
-  - `_latest_note` (method, line 360) `def _latest_note(self)`
-  - `_last_line` (method, line 378) `def _last_line(self, path)`
-  - `_summarise_credential` (method, line 391) `def _summarise_credential(self, filename, line)`
-  - `_extract_vuln_items` (method, line 398) `def _extract_vuln_items(self, payload)`
-  - `__init__` (method, line 428) `def __init__(self, config, reader, phase_provider, hint_provider)`
-  - `collect` (method, line 453) `def collect(self)`
-  - `_latest_command` (method, line 478) `def _latest_command(self)`
-  - `_default_provider` (method, line 502) `def _default_provider()`
-  - `__init__` (method, line 513) `def __init__(self, config, reader, advisor_factory)`
-  - `collect` (method, line 532) `def collect(self)`
-  - `_recent_commands` (method, line 553) `def _recent_commands(self)`
-  - `_suggestion_label` (method, line 581) `def _suggestion_label(entry)`
-  - `__init__` (method, line 603) `def __init__(self, config, reader, clock)`
-  - `collect` (method, line 624) `def collect(self)`
-  - `_extract_entries` (method, line 638) `def _extract_entries(payload)`
-  - `_is_active` (method, line 648) `def _is_active(entry, threshold)`
-  - `__init__` (method, line 661) `def __init__(self, config)`
-  - `render_plain` (method, line 666) `def render_plain(self, ctx)`
-  - `render_prompt` (method, line 689) `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)`
-  - `_sanitise` (method, line 726) `def _sanitise(self, value, max_chars)`
-  - `__init__` (method, line 754) `def __init__(self, config, sources, renderer, payload)`
-  - `enabled` (method, line 785) `def enabled(self)`
-  - `collect_context` (method, line 800) `def collect_context(self)`
-  - `render_prompt` (method, line 813) `def render_prompt(self, base_prompt, readline_safe)`
-  - `_resolve_theme_colors` (method, line 825) `def _resolve_theme_colors(self)`
-  - `render_plain_line` (method, line 835) `def render_plain_line(self, ctx)`
-  - `set_enabled` (method, line 849) `def set_enabled(self, enabled)`
-  - `install` (method, line 859) `def install(self, shell, base_prompt_attribute, prompt_attribute)`
-  - `_build_precmd_hook` (method, line 897) `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)`
-  - `_safe_collect` (method, line 931) `def _safe_collect(self, key)`
-  - `_fallback_for` (method, line 940) `def _fallback_for(self, key)`
-  - `_hook` (function, line 917) `def _hook(data)`
+  - `_latest_vuln` (method, line 349) `def _latest_vuln(self)`
+  - `_latest_note` (method, line 362) `def _latest_note(self)`
+  - `_last_line` (method, line 380) `def _last_line(self, path)`
+  - `_summarise_credential` (method, line 395) `def _summarise_credential(self, filename, line)`
+  - `_extract_vuln_items` (method, line 405) `def _extract_vuln_items(self, payload)`
+  - `__init__` (method, line 435) `def __init__(self, config, reader, phase_provider, hint_provider)`
+  - `collect` (method, line 460) `def collect(self)`
+  - `_latest_command` (method, line 485) `def _latest_command(self)`
+  - `_default_provider` (method, line 509) `def _default_provider()`
+  - `__init__` (method, line 520) `def __init__(self, config, reader, advisor_factory)`
+  - `collect` (method, line 539) `def collect(self)`
+  - `_recent_commands` (method, line 560) `def _recent_commands(self)`
+  - `_suggestion_label` (method, line 588) `def _suggestion_label(entry)`
+  - `__init__` (method, line 610) `def __init__(self, config, reader, clock)`
+  - `collect` (method, line 631) `def collect(self)`
+  - `_extract_entries` (method, line 645) `def _extract_entries(payload)`
+  - `_is_active` (method, line 655) `def _is_active(entry, threshold)`
+  - `__init__` (method, line 668) `def __init__(self, config)`
+  - `render_plain` (method, line 673) `def render_plain(self, ctx)`
+  - `render_prompt` (method, line 696) `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)`
+  - `_sanitise` (method, line 733) `def _sanitise(self, value, max_chars)`
+  - `__init__` (method, line 761) `def __init__(self, config, sources, renderer, payload)`
+  - `enabled` (method, line 792) `def enabled(self)`
+  - `collect_context` (method, line 807) `def collect_context(self)`
+  - `render_prompt` (method, line 820) `def render_prompt(self, base_prompt, readline_safe)`
+  - `_resolve_theme_colors` (method, line 832) `def _resolve_theme_colors(self)`
+  - `render_plain_line` (method, line 842) `def render_plain_line(self, ctx)`
+  - `set_enabled` (method, line 856) `def set_enabled(self, enabled)`
+  - `install` (method, line 866) `def install(self, shell, base_prompt_attribute, prompt_attribute)`
+  - `_build_precmd_hook` (method, line 904) `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)`
+  - `_safe_collect` (method, line 938) `def _safe_collect(self, key)`
+  - `_fallback_for` (method, line 947) `def _fallback_for(self, key)`
+  - `_hook` (function, line 924) `def _hook(data)`
 - Depends on: `cli/reactive_hints.py`, `cli/themes.py`, `modules/world_model.py`
 - Imported by: `lazyown.py`, `tests/test_improvements_spec.py`, `tests/test_status_bar_operators.py`
 

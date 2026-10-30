@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 854 modules, 15959 documented entities, documentation coverage 75.8% (7596/10019 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 863 modules, 16027 documented entities, documentation coverage 75.9% (7637/10061 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (741), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (750), sh (61)
 
 ## Modules
 
@@ -489,7 +489,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.asset_graph`](modules/modules.asset_graph.py.md) | Global asset truth store joined to per-task exploration chains. | 5 | 12 | 100.0% |
 | [`modules.atomic_cli`](modules/modules.atomic_cli.py.md) | Non-interactive, agent-safe implementation for atomic_tests / atomic_gen. | 0 | 3 | 100.0% |
 | [`modules.atomic_enricher`](modules/modules.atomic_enricher.py.md) | atomic_enricher.py — Enrich techniques.parquet with structured derived columns. | 0 | 3 | 100.0% |
-| [`modules.atomic_exploit_bridge`](modules/modules.atomic_exploit_bridge.py.md) | Atomic exploit catalogue bridge — one YAML per exploit under ``exploits/``. | 2 | 22 | 100.0% |
+| [`modules.atomic_exploit_bridge`](modules/modules.atomic_exploit_bridge.py.md) | Atomic exploit catalogue bridge — one YAML per exploit under ``exploits/``. | 2 | 23 | 100.0% |
 | [`modules.atomic_resolver`](modules/modules.atomic_resolver.py.md) | Central MITRE ATT&CK <-> Atomic Red Team translator. | 2 | 23 | 100.0% |
 | [`modules.attack_surface3d`](modules/modules.attack_surface3d.py.md) | Attack-surface 3D intel module: C2-centred campaign graph. | 0 | 2 | 100.0% |
 | [`modules.auto_loop_memory`](modules/modules.auto_loop_memory.py.md) | Persistent memory for the auto loop. | 3 | 19 | 82.6% |
@@ -515,6 +515,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.chain_approval`](modules/modules.chain_approval.py.md) | Human-in-the-loop approval gate for confirm chain steps. | 1 | 9 | 100.0% |
 | [`modules.chain_distill`](modules/modules.chain_distill.py.md) | chain_distill - crystallise one autonomous-loop trace into a chain YAML. | 2 | 7 | 100.0% |
 | [`modules.chain_facts`](modules/modules.chain_facts.py.md) | Bridge chain run outputs into the FactStore. | 0 | 1 | 100.0% |
+| [`modules.chain_match`](modules/modules.chain_match.py.md) | Shared selector for the best vetted chain given phase, platform and services. | 0 | 7 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | Chain registry - ordered orchestration chains from ``chains/*.yaml``. | 2 | 9 | 100.0% |
 | [`modules.chain_runner`](modules/modules.chain_runner.py.md) | Single execution engine for YAML orchestration chains. | 4 | 13 | 100.0% |
 | [`modules.chain_state`](modules/modules.chain_state.py.md) | Durable chain checkpoints for pause, resume and audit. | 0 | 5 | 100.0% |
@@ -855,6 +856,19 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 |---|---|---|---|---|
 | [`modules/scripts/clean_history.sh.sh`](modules/modules.scripts.clean_history.sh.sh.md) |  | 0 | 0 | 0.0% |
 
+### `modules/selection`
+
+| Module | Summary | Types | Callables | Coverage |
+|---|---|---|---|---|
+| [`modules.selection`](modules/modules.selection.__init__.py.md) | Shared action-selection brain for the unified autonomous loop. | 0 | 0 | 100.0% |
+| [`modules.selection.adversary`](modules/modules.selection.adversary.py.md) | Adversary selector: run a custom adversary emulation named by the objective. | 1 | 2 | 100.0% |
+| [`modules.selection.atomic`](modules/modules.selection.atomic.py.md) | Atomic selector: emulate named MITRE ATT&CK techniques with atomic tests. | 1 | 1 | 100.0% |
+| [`modules.selection.base`](modules/modules.selection.base.py.md) | The one shared contract for autonomous action selection. | 3 | 1 | 100.0% |
+| [`modules.selection.chain`](modules/modules.selection.chain.py.md) | Chain selector: propose a vetted ``apt_chain`` when one fits the state. | 1 | 2 | 100.0% |
+| [`modules.selection.cred_spray`](modules/modules.selection.cred_spray.py.md) | Credential-spray selector: reuse known credentials against open services. | 1 | 1 | 100.0% |
+| [`modules.selection.playbook`](modules/modules.selection.playbook.py.md) | Playbook selector: run an APT actor emulation named by the objective. | 1 | 2 | 100.0% |
+| [`modules.selection.registry`](modules/modules.selection.registry.py.md) | Assemble and run the shared selector cascade. | 0 | 2 | 100.0% |
+
 ### `modules/sinks`
 
 | Module | Summary | Types | Callables | Coverage |
@@ -979,7 +993,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | Module | Summary | Types | Callables | Coverage |
 |---|---|---|---|---|
 | [`skills.aci_planner`](modules/skills.aci_planner.py.md) | Autonomous Campaign Intelligence (ACI) Planner =============================================== Decomposes a natural-language engagement goal into a MITRE... | 6 | 19 | 100.0% |
-| [`skills.autonomous_daemon`](modules/skills.autonomous_daemon.py.md) | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon ================================================================== Bridges LazyOwn... | 26 | 63 | 87.8% |
+| [`skills.autonomous_daemon`](modules/skills.autonomous_daemon.py.md) | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon ================================================================== Bridges LazyOwn... | 28 | 67 | 87.5% |
 | [`skills.autonomous_replay`](modules/skills.autonomous_replay.py.md) | Deterministic replay of past autonomous-daemon runs. | 5 | 9 | 100.0% |
 | [`skills.daemon_control`](modules/skills.daemon_control.py.md) | Operator steering layer for the LazyOwn autonomous daemon. | 3 | 23 | 100.0% |
 | [`skills.daemon_health`](modules/skills.daemon_health.py.md) | Daemon health monitor — watchdog for the autonomous daemon and C2 listeners. | 1 | 12 | 83.3% |

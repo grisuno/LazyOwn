@@ -1,10 +1,11 @@
 # modules: lazyown_facts
 
-modules: lazyown_facts groups 59 files (py) around CommandInjectionError, UrlValidationError, needs_shell, safe_system, _kill_process_tree. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+modules: lazyown_facts groups 64 files (py) around CommandInjectionError, UrlValidationError, needs_shell, safe_system, _kill_process_tree. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
 ```mermaid
 graph LR
     cli["cli"]
+    contrib["contrib"]
     core["core"]
     modules["modules"]
     skills["skills"]
@@ -14,42 +15,51 @@ graph LR
     modules -- "calls into" --> skills
     modules -- "calls into" --> tests
     tests -- "calls into" --> cli
+    tests -- "calls into" --> contrib
     tests -- "calls into" --> core
     tests -- "calls into" --> modules
     tests -- "calls into" --> skills
 ```
 
-## cli (8.1)
+## cli (6.1)
 
-cli groups 3 files (py) around select_agent_flavour, CommandAndControlMigratedCommandSet, do_msf, do_c2, do_listener. Parsing, printing and replanning support for the ``apt_chain`` CLI.
+cli groups 4 files (py) around select_agent_flavour, CommandAndControlMigratedCommandSet, do_msf, do_c2, do_listener. Parsing, printing and replanning support for the ``apt_chain`` CLI.
 
-## core (8.2)
+## contrib (6.2)
+
+contrib groups 1 files (py) around truncate_message, configure_logging, _load_payload_kv, _load_report_context, _prompt_redteam. Unified Ollama/DeepSeek client for LazyOwn — merges lazydeepseekcli_local +...
+
+## core (6.3)
 
 core groups 1 files (py) around CommandInjectionError, UrlValidationError, needs_shell, safe_system, _kill_process_tree. Centralized safe command execution for the LazyOwn framework.
 
-## modules (8.3)
+## modules (6.4)
 
-modules groups 25 files (py) around skip_pending, ChainStep, identifier, Chain, resolve. AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
+modules groups 27 files (py) around skip_pending, ChainStep, identifier, Chain, resolve. AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
 
-## skills (8.4)
+## skills (6.5)
 
 skills groups 2 files (py) around Config, default, ServiceFact, CredentialFact, ShareFact. LazyOwn FactStore
 
-## tests (8.5)
+## tests (6.6)
 
-tests groups 28 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
+tests groups 29 files (py) around _make_shell, _Set, _Shell, __init__, _write_chain. apt_chain admin & run options BDD contract.
 
 **Files**:
 
 - cli/apt_chain_support.py
+- cli/commands/c2_session.py
 - cli/commands/command_and_control_migrated.py
 - cli/retry_support.py
+- contrib/legacy/lazydeepseekcli.py
 - core/safe_exec.py
 - modules/ad_gym.py
 - modules/apt_playbooks.py
 - modules/atomic_cli.py
 - modules/atomic_exploit_bridge.py
 - modules/atomic_resolver.py
+- modules/c2_agent.py
+- modules/c2_surfaces.py
 - modules/chain_approval.py
 - modules/chain_distill.py
 - modules/chain_facts.py
@@ -77,6 +87,7 @@ tests groups 28 files (py) around _make_shell, _Set, _Shell, __init__, _write_ch
 - tests/test_atomic_exploit_bridge.py
 - tests/test_atomic_loop.py
 - tests/test_atomic_resolver.py
+- tests/test_c2_surfaces.py
 - tests/test_chain_approval_c2.py
 - tests/test_chain_distill.py
 - tests/test_chain_distill_custody.py

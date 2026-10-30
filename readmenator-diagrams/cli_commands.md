@@ -1,6 +1,6 @@
 # cli/commands
 
-cli/commands groups 135 files (c, py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
+cli/commands groups 141 files (c, py) around lazyown_set_config, needs_sudo, sudo_available, _retry_sudo_gate, redact_secrets. Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de...
 
 ```mermaid
 graph LR
@@ -36,7 +36,7 @@ graph LR
 
 ## cli (2.1)
 
-cli groups 60 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
+cli groups 62 files (py) around extract_flag, LazyOwnCommandSet, _resolve_shell, params, payload. Declarative cmd2 alias loader.
 
 ## contrib (2.2)
 
@@ -44,11 +44,11 @@ contrib groups 3 files (py) around SamsungKnoxExploitServer, do_GET, apk_bytes, 
 
 ## core (2.3)
 
-core groups 8 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Symmetric primitives used by the framework.
+core groups 9 files (py) around check_rhost, check_lhost, check_lport, check_port, require_rhost. Symmetric primitives used by the framework.
 
 ## modules (2.4)
 
-modules groups 24 files (c, py) around main, _classify, _classify_module_source, _extract_docstring_summary, ModuleInfo. Git update contract for lazyaddons.
+modules groups 26 files (c, py) around main, _classify, _classify_module_source, _extract_docstring_summary, ModuleInfo. Git update contract for lazyaddons.
 
 ## root (2.5)
 
@@ -60,7 +60,7 @@ scripts groups 1 files (py) around SmokeConfig, check_surfaces, check_calls, mai
 
 ## tests (2.7)
 
-tests groups 37 files (py) around _git, _repo_with_remote, _addon, test_every_shipped_addon_opts_in, test_update_disabled_is_skipped. Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware.
+tests groups 38 files (py) around _git, _repo_with_remote, _addon, test_every_shipped_addon_opts_in, test_update_disabled_is_skipped. Lazyaddon update BDD contract: opt-in, path-safe, dirty-tree aware.
 
 **Files**:
 
@@ -82,6 +82,7 @@ tests groups 37 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/commands/cred.py
 - cli/commands/cred_migrated.py
 - cli/commands/crystal_ball.py
+- cli/commands/daemon_ctl.py
 - cli/commands/demo.py
 - cli/commands/diagnostics.py
 - cli/commands/dns_exfil.py
@@ -91,6 +92,7 @@ tests groups 37 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - cli/commands/evasive_payload.py
 - cli/commands/exfiltration.py
 - cli/commands/exploit.py
+- cli/commands/exploitgym.py
 - cli/commands/infra.py
 - cli/commands/lateral.py
 - cli/commands/lateral_migrated.py
@@ -131,6 +133,7 @@ tests groups 37 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - core/crypto.py
 - core/hardening.py
 - core/host_policy.py
+- core/process.py
 - core/protocols.py
 - core/reverse_shell_secret.py
 - core/safe_import.py
@@ -148,8 +151,10 @@ tests groups 37 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - modules/edr_detector.py
 - modules/evasion_engine.py
 - modules/evasive_payloads.py
+- modules/exploitgym_gym.py
 - modules/lazy_findings.py
 - modules/lazy_oob.py
+- modules/lazy_verify.py
 - modules/lazycloud.py
 - modules/mfa_bypass.py
 - modules/module_registry.py
@@ -174,6 +179,7 @@ tests groups 37 files (py) around _git, _repo_with_remote, _addon, test_every_sh
 - tests/test_credentials_rotation.py
 - tests/test_daemon_ctl_command_set.py
 - tests/test_encoding_command_set.py
+- tests/test_exploitgym_gym.py
 - tests/test_findings_gate.py
 - tests/test_fuzzy_picker.py
 - tests/test_help_ui_command_set.py

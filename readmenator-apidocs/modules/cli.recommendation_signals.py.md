@@ -138,7 +138,7 @@ Store the graph advisor facade.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `advisor` | `Any` |  | Any object exposing ``suggest_next(recent_commands, limit)`` and returning summary dicts carrying ``label``/``id`` and ``score`` keys. |
+| `advisor` | `Any` |  | Any object exposing ``suggest_next(recent_commands, limit)`` and returning summary dicts carrying ``label``/``id`` and `[`score`](modules.chain_match.py.md#score)` keys. |
 
 <a id="graphsignal-propose"></a>
 

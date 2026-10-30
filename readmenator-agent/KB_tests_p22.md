@@ -1,6 +1,46 @@
 # Subsystem: tests (page 22 of 22)
 Previous: [KB_tests_p21.md](KB_tests_p21.md)
 
+## tests/test_ttpscope_bridge.py
+- Doc: TTPScope bridge contract: validators, fallbacks, addon schema.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_object_id_validation` (function, line 18) `def test_object_id_validation()`
+  - `test_query_and_platform_validation` (function, line 27) `def test_query_and_platform_validation()`
+  - `test_unknown_action_rejected` (function, line 40) `def test_unknown_action_rejected()`
+  - `test_search_fallback_needs_no_binary` (function, line 48) `def test_search_fallback_needs_no_binary(monkeypatch)`
+  - `test_show_fallback_technique` (function, line 56) `def test_show_fallback_technique(monkeypatch)`
+  - `test_matrix_fallback_groups` (function, line 65) `def test_matrix_fallback_groups(monkeypatch)`
+  - `test_notes_roundtrip_without_binary` (function, line 73) `def test_notes_roundtrip_without_binary(monkeypatch, tmp_path)`
+  - `test_chain_needs_no_binary` (function, line 85) `def test_chain_needs_no_binary(monkeypatch)`
+  - `test_addon_schema_agent_friendly` (function, line 95) `def test_addon_schema_agent_friendly()`
+- Depends on: `modules/__init__.py`
+
+## tests/test_tui_splash.py
+- Doc: Tests for cli.splash — the animated first-run overlay.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_console` (function, line 19) `def _console()`
+  - `SplashInstantEffectTests` (class, line 30) `class SplashInstantEffectTests(TestCase)`
+  - `SplashTypewriterEffectTests` (class, line 67) `class SplashTypewriterEffectTests(TestCase)`
+  - `SplashDispatchTests` (class, line 81) `class SplashDispatchTests(TestCase)`
+  - `SplashEdgeCaseTests` (class, line 145) `class SplashEdgeCaseTests(TestCase)`
+  - `test_instant_renders_every_line` (method, line 31) `def test_instant_renders_every_line(self)`
+  - `test_instant_does_not_block` (method, line 44) `def test_instant_does_not_block(self)`
+  - `test_instant_emits_ansi_for_known_tokens` (method, line 56) `def test_instant_emits_ansi_for_known_tokens(self)`
+  - `test_typewriter_renders_all_lines_when_total_seconds_high` (method, line 68) `def test_typewriter_renders_all_lines_when_total_seconds_high(self)`
+  - `test_render_splash_dispatches_instant_for_zero_seconds` (method, line 82) `def test_render_splash_dispatches_instant_for_zero_seconds(self)`
+  - `test_render_splash_dispatches_instant_when_explicit` (method, line 92) `def test_render_splash_dispatches_instant_when_explicit(self)`
+  - `test_render_splash_unknown_effect_falls_back_to_instant` (method, line 103) `def test_render_splash_unknown_effect_falls_back_to_instant(self)`
+  - `test_render_splash_uses_payload_theme_when_provided` (method, line 114) `def test_render_splash_uses_payload_theme_when_provided(self)`
+  - `test_render_splash_clear_after_emits_clear_escape` (method, line 124) `def test_render_splash_clear_after_emits_clear_escape(self)`
+  - `test_render_splash_no_clear_when_disabled` (method, line 134) `def test_render_splash_no_clear_when_disabled(self)`
+  - `test_empty_lines_is_noop` (method, line 146) `def test_empty_lines_is_noop(self)`
+  - `test_lines_with_brackets_render_verbatim` (method, line 156) `def test_lines_with_brackets_render_verbatim(self)`
+- Depends on: `cli/splash.py`, `core/console.py`
+
 ## tests/test_tui_style.py
 - Doc: Tests for the cli/style semantic token layer.
 - Layer: testing

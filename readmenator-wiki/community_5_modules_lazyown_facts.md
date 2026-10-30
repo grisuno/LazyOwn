@@ -1,36 +1,34 @@
 # modules: lazyown_facts
 
-*Community 7 | 59 files | cohesion 0.51*
+*Community 5 | 64 files | cohesion 0.49*
 
 ## Definition
 
-This community groups 59 file(s) rooted at `tests` with dominant language py (cohesion 0.51). Central symbols: `AccessFact`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`, `AtomicTest`, `AtomicTestRef`, `BackendSelection`, `Broken`. Core file: `skills/lazyown_facts.py` (79 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
+This community groups 64 file(s) rooted at `tests` with dominant language py (cohesion 0.49). Central symbols: `AccessFact`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicResolver`, `AtomicTest`, `AtomicTestRef`, `BackendSelection`, `Broken`. Core file: `skills/lazyown_facts.py` (79 symbols). Documented purpose: Parsing, printing and replanning support for the ``apt_chain`` CLI.  Keeps ``cli.commands.command_and_control_migrated`` thin: argument parsing, step selection,.
 
 ## Files
 
-### `tests` (28 files)
+### `tests` (29 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_apt_chain_admin.py` | py | testing | 22 | yes |
 | `tests/test_apt_chain_integration.py` | py | testing | 6 | yes |
-| `tests/test_atomic_exploit_bridge.py` | py | testing | 36 | yes |
+| `tests/test_atomic_exploit_bridge.py` | py | testing | 38 | yes |
 | `tests/test_atomic_loop.py` | py | testing | 17 | yes |
 | `tests/test_atomic_resolver.py` | py | testing | 9 | yes |
-| `tests/test_chain_approval_c2.py` | py | testing | 27 | yes |
-| `tests/test_chain_distill.py` | py | testing | 15 | yes |
+| `tests/test_c2_surfaces.py` | py | testing | 12 | yes |
 
-### `modules` (25 files)
+### `modules` (27 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/ad_gym.py` | py | utility | 10 | yes |
 | `modules/apt_playbooks.py` | py | utility | 15 | yes |
 | `modules/atomic_cli.py` | py | utility | 11 | yes |
-| `modules/atomic_exploit_bridge.py` | py | utility | 38 | yes |
+| `modules/atomic_exploit_bridge.py` | py | utility | 39 | yes |
 | `modules/atomic_resolver.py` | py | utility | 27 | yes |
-| `modules/chain_approval.py` | py | utility | 18 | yes |
-| `modules/chain_distill.py` | py | utility | 23 | yes |
+| `modules/c2_agent.py` | py | utility | 20 | yes |
 
 ### `cli` (2 files)
 
@@ -39,11 +37,18 @@ This community groups 59 file(s) rooted at `tests` with dominant language py (co
 | `cli/apt_chain_support.py` | py | utility | 17 | yes |
 | `cli/retry_support.py` | py | utility | 10 | yes |
 
-### `cli/commands` (1 files)
+### `cli/commands` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
+| `cli/commands/c2_session.py` | py | utility | 10 | yes |
 | `cli/commands/command_and_control_migrated.py` | py | utility | 34 | yes |
+
+### `contrib/legacy` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `contrib/legacy/lazydeepseekcli.py` | py | presentation | 16 | yes |
 
 ### `core` (1 files)
 
@@ -63,7 +68,7 @@ This community groups 59 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `skills/tests/test_facts.py` | py | testing | 37 | yes |
 
-*... and 39 more files in this community.*
+*... and 44 more files in this community.*
 
 
 ## Key Symbols
@@ -85,32 +90,34 @@ This community groups 59 file(s) rooted at `tests` with dominant language py (co
 - `_recent_changes_block` (function, `cli/apt_chain_support.py:441`) `def _recent_changes_block(target)` - Recent world changes on the target for one LLM recovery prompt.
 - `build_llm_recovery_chain` (function, `cli/apt_chain_support.py:469`) `def build_llm_recovery_chain(result, target, task_id)` - Ask the LLM pool for a temporary recovery chain after a failed run.
 - `_platform` (function, `cli/apt_chain_support.py:543`) `def _platform()` - Guess the loop platform from the payload configuration.
+- `_lab_auth` (function, `cli/commands/c2_session.py:24`) `def _lab_auth()` - Return (user, password, https_port, http_port) for the lab C2.
+- `_fresh_lab_creds` (function, `cli/commands/c2_session.py:54`) `def _fresh_lab_creds()` - Generate fully random lab operator credentials (no fixed affixes).
+- `_server` (function, `cli/commands/c2_session.py:65`) `def _server(user, password, port)` - Build a C2Server bound to lab auth (generates lab creds when needed).
+- `_issue` (function, `cli/commands/c2_session.py:83`) `def _issue(client_id, command, auth, https_port)` - POST one command to the C2 issue endpoint (no prompts, ever).
+- `C2SessionCommandSet` (class, `cli/commands/c2_session.py:108`) `class C2SessionCommandSet(LazyOwnCommandSet)` - Headless C2 lifecycle + session ops: server, deploy, exec, loot.
+- `do_c2_server` (method, `cli/commands/c2_session.py:115`) `def do_c2_server(self, line)` - Manage the headless C2 server (lab use).
+- `do_c2_reboot` (method, `cli/commands/c2_session.py:168`) `def do_c2_reboot(self, line)` - Restart the headless C2 server with ROTATED operator credentials.
+- `do_c2_deploy` (method, `cli/commands/c2_session.py:249`) `def do_c2_deploy(self, line)` - Deploy the malleable agent to a lab target (needs root shell primitive).
+- `do_c2_exec` (method, `cli/commands/c2_session.py:299`) `def do_c2_exec(self, line)` - Run one command on a live C2 session and print its answer.
+- `do_c2_loot` (method, `cli/commands/c2_session.py:346`) `def do_c2_loot(self, line)` - Exfiltrate a remote file through a live C2 session into sessions/loot/.
 - `select_agent_flavour` (function, `cli/commands/command_and_control_migrated.py:43`) `def select_agent_flavour(run_tests, platform)` - Pick the agent script extension from the tests of the current run.
 - `CommandAndControlMigratedCommandSet` (class, `cli/commands/command_and_control_migrated.py:66`) `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)`
 - `do_msf` (method, `cli/commands/command_and_control_migrated.py:71`) `def do_msf(self, line)` - Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells
-- `do_c2` (method, `cli/commands/command_and_control_migrated.py:421`) `def do_c2(self, line)` - Handle C2 server setup and agent compilation.
-- `do_listener` (method, `cli/commands/command_and_control_migrated.py:543`) `def do_listener(self, line)` - Manage C2 listeners: list, add, start, stop, remove.
-- `_api` (function, `cli/commands/command_and_control_migrated.py:570`) `def _api(method, endpoint, payload)`
-- `do_sandbox` (method, `cli/commands/command_and_control_migrated.py:671`) `def do_sandbox(self, line)` - Toggle or query Docker sandbox mode.
-- `do_msfrpc` (method, `cli/commands/command_and_control_migrated.py:713`) `def do_msfrpc(self, line)` - Connects to the msfrpcd daemon and allows remote control of Metasploit.
-- `do_sliver_server` (method, `cli/commands/command_and_control_migrated.py:737`) `def do_sliver_server(self, line)` - Starts the Sliver server and generates a client configuration file for connecting clients.
-- `do_empire` (method, `cli/commands/command_and_control_migrated.py:854`) `def do_empire(self, line)` - Generates payloads using PowerShell Empire with various options.
-- `do_automsf` (method, `cli/commands/command_and_control_migrated.py:904`) `def do_automsf(self, line)` - Try to check if Vulnerable using the module passed by argument of lazyown example automsf exploit/wi
-- `do_iis_webdav_upload_asp` (method, `cli/commands/command_and_control_migrated.py:949`) `def do_iis_webdav_upload_asp(self, line)` - (CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of metasploit
-- `do_duckyspark` (method, `cli/commands/command_and_control_migrated.py:984`) `def do_duckyspark(self, line)` - duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucl
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 230
-- Cross-boundary resolved imports (EXTRACTED): 164
+- Internal resolved imports (EXTRACTED): 248
+- Cross-boundary resolved imports (EXTRACTED): 180
 
 ## Connections
 
-- [EXTRACTED] depends_on community 7 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/mediation/__init__.py.
-- [EXTRACTED] depends_on community 7 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
-- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/__init__.py.
-- [EXTRACTED] depends_on community 7 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
-- [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/safe_exec.py.
+- [EXTRACTED] depends_on community 5 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/mediation/__init__.py.
+- [EXTRACTED] depends_on community 5 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/reactive_engine.py.
+- [EXTRACTED] depends_on community 5 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/__init__.py.
+- [EXTRACTED] depends_on community 5 <-> 10 (strength 0.9): Extracted import edge crosses communities: cli/apt_chain_support.py imports modules/guardrails/__init__.py.
+- [EXTRACTED] depends_on community 1 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports core/safe_exec.py.
+- [EXTRACTED] depends_on community 5 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
+- [EXTRACTED] depends_on community 5 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/listener_manager.py.
 
 ## Risks
 
@@ -119,25 +126,34 @@ This community groups 59 file(s) rooted at `tests` with dominant language py (co
 - [cycle] `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py` -> `modules/emulation_runner.py`
 - [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
 - [cycle] `modules/auto_registry.py` -> `modules/command_executor.py` -> `modules/auto_registry.py`
+- [layer strict] `tests/test_c2_surfaces.py` (testing) -> `contrib/legacy/lazydeepseekcli.py` (presentation)
+- [dataflow UNCHECKED_ALLOC] `modules/c2_agent.py:204` `validate_client_id` `ct`: Result of allocator stored in `ct` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `modules/c2_agent.py:256` `validate_client_id` `data`: Result of allocator stored in `data` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `modules/c2_agent.py:303` `validate_client_id` `_dn`: Result of allocator stored in `_dn` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `modules/c2_agent.py:769` `start` `log_file`: Result of allocator stored in `log_file` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `modules/command_executor.py:224` `run_tee` `handle`: Result of allocator stored in `handle` is never checked against NULL.
 
 ## Open Questions
 
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/planner.py` -> `modules/playbook_engine.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py` be broken with an interface?
 - What would break if the most connected file in modules: lazyown_facts changed?
-- Should modules: lazyown_facts be split, given cohesion 0.51?
+- Should modules: lazyown_facts be split, given cohesion 0.49?
 
 ## Sources
 
 - `cli/apt_chain_support.py`
+- `cli/commands/c2_session.py`
 - `cli/commands/command_and_control_migrated.py`
 - `cli/retry_support.py`
+- `contrib/legacy/lazydeepseekcli.py`
 - `core/safe_exec.py`
 - `modules/ad_gym.py`
 - `modules/apt_playbooks.py`
 - `modules/atomic_cli.py`
 - `modules/atomic_exploit_bridge.py`
 - `modules/atomic_resolver.py`
+- `modules/c2_agent.py`
+- `modules/c2_surfaces.py`
 - `modules/chain_approval.py`
 - `modules/chain_distill.py`
 - `modules/chain_facts.py`
@@ -145,8 +161,4 @@ This community groups 59 file(s) rooted at `tests` with dominant language py (co
 - `modules/chain_runner.py`
 - `modules/chain_state.py`
 - `modules/chain_synth.py`
-- `modules/chain_tokens.py`
-- `modules/command_executor.py`
-- `modules/ctf_capture.py`
-- `modules/emulation_runner.py`
-- *... and 39 more*
+- *... and 44 more*

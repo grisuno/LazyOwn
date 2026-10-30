@@ -1,6 +1,6 @@
 # tests
 
-*Community 19 | 4 files | cohesion 1.00*
+*Community 18 | 4 files | cohesion 1.00*
 
 ## Definition
 

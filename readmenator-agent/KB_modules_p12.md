@@ -377,7 +377,7 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `clear` (method, line 440) `def clear(self)`
   - `save` (method, line 446) `def save(self)`
   - `_load` (method, line 467) `def _load(self)`
-- Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`, `tests/test_repeat_shapes.py`
+- Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`, `tests/test_repeat_shapes.py`
 
 ## modules/loop_manager.py
 - Doc: Parallel autonomous loop orchestration for the LazyOwn C2 dashboard.

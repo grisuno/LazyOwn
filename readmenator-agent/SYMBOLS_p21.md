@@ -3,6 +3,27 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `Signal` | class | `modules/reactive_engine.py:69` | `class Signal` |
+| `__init__` | method | `modules/reactive_engine.py:395` | `def __init__(self, root)` |
+| `__init__` | method | `modules/reactive_engine.py:644` | `def __init__(self, rag, config_loader, min_score, query_limit)` |
+| `__init__` | method | `modules/reactive_engine.py:810` | `def __init__(self, matchers, evasion, privesc, parquet, semantic)` |
+| `_default_config_loader` | function | `modules/reactive_engine.py:42` | `def _default_config_loader()` |
+| `_enabled` | method | `modules/reactive_engine.py:697` | `def _enabled(self)` |
+| `_extract_verb` | method | `modules/reactive_engine.py:715` | `def _extract_verb(source)` |
+| `_load` | method | `modules/reactive_engine.py:402` | `def _load(self)` |
+| `_load_rag` | method | `modules/reactive_engine.py:671` | `def _load_rag(self)` |
+| `analyse` | method | `modules/reactive_engine.py:835` | `def analyse(self, output, command, platform, context)` |
+| `get_engine` | function | `modules/reactive_engine.py:977` | `def get_engine()` |
+| `gtfobins_for` | method | `modules/reactive_engine.py:421` | `def gtfobins_for(self, binary)` |
+| `lolbas_for` | method | `modules/reactive_engine.py:434` | `def lolbas_for(self, binary)` |
+| `match` | method | `modules/reactive_engine.py:99` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:128` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:159` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:192` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:214` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:247` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:276` | `def match(self, output, context)` |
+| `match` | method | `modules/reactive_engine.py:307` | `def match(self, output, context)` |
 | `match` | method | `modules/reactive_engine.py:349` | `def match(self, output, context)` |
 | `suggest` | method | `modules/reactive_engine.py:504` | `def suggest(self, signals, platform)` |
 | `suggest` | method | `modules/reactive_engine.py:565` | `def suggest(self, signals, platform, parquet)` |
@@ -367,6 +388,26 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `resolve` | method | `modules/security_sanitizers.py:298` | `def resolve(self)` |
 | `sanitize` | method | `modules/security_sanitizers.py:429` | `def sanitize(self, value)` |
 | `sanitize_value` | method | `modules/security_sanitizers.py:139` | `def sanitize_value(self, value)` |
+| `AdversarySelector` | class | `modules/selection/adversary.py:19` | `class AdversarySelector` |
+| `__init__` | method | `modules/selection/adversary.py:24` | `def __init__(self, adversaries_dir)` |
+| `propose` | method | `modules/selection/adversary.py:28` | `def propose(self, ctx)` |
+| `AtomicSelector` | class | `modules/selection/atomic.py:20` | `class AtomicSelector` |
+| `propose` | method | `modules/selection/atomic.py:25` | `def propose(self, ctx)` |
+| `ActionDecision` | class | `modules/selection/base.py:44` | `class ActionDecision` |
+| `SelectionContext` | class | `modules/selection/base.py:20` | `class SelectionContext` |
+| `Selector` | class | `modules/selection/base.py:63` | `class Selector(Protocol)` |
+| `propose` | method | `modules/selection/base.py:73` | `def propose(self, ctx)` |
+| `ChainSelector` | class | `modules/selection/chain.py:13` | `class ChainSelector` |
+| `__init__` | method | `modules/selection/chain.py:18` | `def __init__(self, allow_lab)` |
+| `propose` | method | `modules/selection/chain.py:27` | `def propose(self, ctx)` |
+| `CredentialSpraySelector` | class | `modules/selection/cred_spray.py:32` | `class CredentialSpraySelector` |
+| `propose` | method | `modules/selection/cred_spray.py:37` | `def propose(self, ctx)` |
+| `PlaybookSelector` | class | `modules/selection/playbook.py:19` | `class PlaybookSelector` |
+| `__init__` | method | `modules/selection/playbook.py:24` | `def __init__(self, playbook_dir)` |
+| `propose` | method | `modules/selection/playbook.py:28` | `def propose(self, ctx)` |
+| `all_selectors` | function | `modules/selection/registry.py:22` | `def all_selectors()` |
+| `default_selectors` | function | `modules/selection/registry.py:40` | `def default_selectors()` |
+| `propose_next` | function | `modules/selection/registry.py:55` | `def propose_next(ctx, selectors)` |
 | `Proposal` | class | `modules/selector_manager.py:21` | `class Proposal` |
 | `Selection` | class | `modules/selector_manager.py:32` | `class Selection` |
 | `select` | function | `modules/selector_manager.py:42` | `def select(proposals, is_blocked)` |
@@ -455,46 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `Snapshot` | class | `modules/sidequestion.py:32` | `class Snapshot` |
 | `__init__` | method | `modules/sidequestion.py:55` | `def __init__(self, answer_fn, config)` |
 | `ask` | method | `modules/sidequestion.py:75` | `def ask(self, snapshot_id, question)` |
-| `cancel` | method | `modules/sidequestion.py:104` | `def cancel(self, request_id)` |
-| `capture` | method | `modules/sidequestion.py:66` | `def capture(self, task_id, text)` |
-| `history` | method | `modules/sidequestion.py:113` | `def history(self, limit, before)` |
-| `apply` | function | `modules/sinks/attack_graph.py:13` | `def apply(event)` |
-| `_copy_clipboard` | function | `modules/sinks/beacon_dispatch.py:34` | `def _copy_clipboard(text)` |
-| `_load_payload` | function | `modules/sinks/beacon_dispatch.py:23` | `def _load_payload()` |
-| `apply` | function | `modules/sinks/beacon_dispatch.py:46` | `def apply(event)` |
-| `apply` | function | `modules/sinks/c2_surfaces.py:11` | `def apply(event)` |
-| `apply` | function | `modules/sinks/campaign_db.py:9` | `def apply(event)` |
-| `apply` | function | `modules/sinks/chain_feed.py:22` | `def apply(event)` |
-| `apply` | function | `modules/sinks/event_bus.py:9` | `def apply(event)` |
-| `apply` | function | `modules/sinks/findings.py:42` | `def apply(event)` |
-| `handoff` | function | `modules/sinks/findings.py:88` | `def handoff(engagement_id, status, rounds)` |
-| `ingest_discarded` | function | `modules/sinks/findings.py:107` | `def ingest_discarded(engagement_id, entries)` |
-| `ledger_for` | function | `modules/sinks/findings.py:72` | `def ledger_for(engagement_id)` |
-| `limits_for` | function | `modules/sinks/findings.py:22` | `def limits_for()` |
-| `apply` | function | `modules/sinks/intel_graph.py:13` | `def apply(event)` |
-| `apply` | function | `modules/sinks/killchain.py:11` | `def apply(event)` |
-| `apply` | function | `modules/sinks/objectives.py:16` | `def apply(event)` |
-| `apply` | function | `modules/sinks/routing.py:9` | `def apply(event)` |
-| `_current_host` | function | `modules/sinks/world_diff.py:58` | `def _current_host(root, host)` |
-| `_store_host` | function | `modules/sinks/world_diff.py:65` | `def _store_host(root, host, snapshot)` |
-| `_stored_host` | function | `modules/sinks/world_diff.py:52` | `def _stored_host(root, host)` |
-| `apply` | function | `modules/sinks/world_diff.py:14` | `def apply(event)` |
-| `apply` | function | `modules/sinks/world_model.py:12` | `def apply(event)` |
-| `OsPlatform` | class | `modules/sleep_obfuscation.py:57` | `class OsPlatform(str, Enum)` |
-| `SleepObfuscationConfig` | class | `modules/sleep_obfuscation.py:100` | `class SleepObfuscationConfig` |
-| `SleepObfuscationEngine` | class | `modules/sleep_obfuscation.py:394` | `class SleepObfuscationEngine` |
-| `SleepTechnique` | class | `modules/sleep_obfuscation.py:73` | `class SleepTechnique` |
-| `SleepTechniqueCatalog` | class | `modules/sleep_obfuscation.py:163` | `class SleepTechniqueCatalog` |
-| `SleepTechniqueValidator` | class | `modules/sleep_obfuscation.py:365` | `class SleepTechniqueValidator` |
-| `TechniqueRisk` | class | `modules/sleep_obfuscation.py:64` | `class TechniqueRisk(str, Enum)` |
-| `__init__` | method | `modules/sleep_obfuscation.py:170` | `def __init__(self)` |
-| `__init__` | method | `modules/sleep_obfuscation.py:407` | `def __init__(self, catalog)` |
-| `_build_default_catalog` | function | `modules/sleep_obfuscation.py:201` | `def _build_default_catalog()` |
-| `catalog` | method | `modules/sleep_obfuscation.py:416` | `def catalog(self)` |
-| `config` | method | `modules/sleep_obfuscation.py:421` | `def config(self)` |
-| `configure` | method | `modules/sleep_obfuscation.py:449` | `def configure(self, technique, overrides)` |
-| `detection_resistance` | method | `modules/sleep_obfuscation.py:426` | `def detection_resistance(self)` |
-| `from_dict` | method | `modules/sleep_obfuscation.py:146` | `def from_dict(cls, raw)` |
-| `from_dict` | method | `modules/sleep_obfuscation.py:522` | `def from_dict(cls, raw)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

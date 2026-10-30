@@ -1224,7 +1224,7 @@ Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all]
 
 #### `LazyCommandSet.do_lazy_notify`
 
-`method` | [cli/commands/lazyops.py:2121](../../cli/commands/lazyops.py#L2121)
+`method` | [cli/commands/lazyops.py:2122](../../cli/commands/lazyops.py#L2122)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1248,7 +1248,7 @@ Usage: lazy_notify ... [--task T]
 
 #### `LazyCommandSet.do_lazy_trigger`
 
-`method` | [cli/commands/lazyops.py:2169](../../cli/commands/lazyops.py#L2169)
+`method` | [cli/commands/lazyops.py:2170](../../cli/commands/lazyops.py#L2170)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1272,7 +1272,7 @@ Usage: lazy_trigger ... [--task T]
 
 #### `LazyCommandSet.do_lazy_llm`
 
-`method` | [cli/commands/lazyops.py:2258](../../cli/commands/lazyops.py#L2258)
+`method` | [cli/commands/lazyops.py:2259](../../cli/commands/lazyops.py#L2259)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1296,7 +1296,7 @@ Usage: lazy_llm ...
 
 #### `LazyCommandSet.do_lazy_compact`
 
-`method` | [cli/commands/lazyops.py:2395](../../cli/commands/lazyops.py#L2395)
+`method` | [cli/commands/lazyops.py:2396](../../cli/commands/lazyops.py#L2396)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1320,7 +1320,7 @@ Usage: lazy_compact ... [--task T]
 
 #### `LazyCommandSet.do_lazy_status`
 
-`method` | [cli/commands/lazyops.py:2467](../../cli/commands/lazyops.py#L2467)
+`method` | [cli/commands/lazyops.py:2468](../../cli/commands/lazyops.py#L2468)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1344,7 +1344,7 @@ Usage: lazy_status [--task T]
 
 #### `LazyCommandSet.do_lazy_overview`
 
-`method` | [cli/commands/lazyops.py:2491](../../cli/commands/lazyops.py#L2491)
+`method` | [cli/commands/lazyops.py:2492](../../cli/commands/lazyops.py#L2492)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1368,7 +1368,7 @@ Usage: lazy_overview [--task T]
 
 #### `LazyCommandSet.do_lazy_archive`
 
-`method` | [cli/commands/lazyops.py:2496](../../cli/commands/lazyops.py#L2496)
+`method` | [cli/commands/lazyops.py:2497](../../cli/commands/lazyops.py#L2497)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1392,7 +1392,7 @@ Usage: lazy_archive ...
 
 #### `LazyCommandSet.do_lazy_template`
 
-`method` | [cli/commands/lazyops.py:2527](../../cli/commands/lazyops.py#L2527)
+`method` | [cli/commands/lazyops.py:2528](../../cli/commands/lazyops.py#L2528)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1416,7 +1416,7 @@ Usage: lazy_template ...
 
 #### `LazyCommandSet.do_lazy_category`
 
-`method` | [cli/commands/lazyops.py:2558](../../cli/commands/lazyops.py#L2558)
+`method` | [cli/commands/lazyops.py:2559](../../cli/commands/lazyops.py#L2559)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1440,7 +1440,7 @@ Usage: lazy_category ...
 
 #### `LazyCommandSet.do_lazy_chat`
 
-`method` | [cli/commands/lazyops.py:2579](../../cli/commands/lazyops.py#L2579)
+`method` | [cli/commands/lazyops.py:2580](../../cli/commands/lazyops.py#L2580)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1464,7 +1464,7 @@ Usage: lazy_chat ... [--task T] [--session S]
 
 #### `LazyCommandSet.do_lazy_scheduler`
 
-`method` | [cli/commands/lazyops.py:2612](../../cli/commands/lazyops.py#L2612)
+`method` | [cli/commands/lazyops.py:2613](../../cli/commands/lazyops.py#L2613)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1488,7 +1488,7 @@ Usage: lazy_scheduler ... [--task T]
 
 #### `LazyCommandSet.do_lazy_gate`
 
-`method` | [cli/commands/lazyops.py:2639](../../cli/commands/lazyops.py#L2639)
+`method` | [cli/commands/lazyops.py:2640](../../cli/commands/lazyops.py#L2640)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1512,7 +1512,7 @@ Usage: lazy_gate ... [--task T] (allow-* require --task)
 
 #### `LazyCommandSet.do_lazy_loop`
 
-`method` | [cli/commands/lazyops.py:2684](../../cli/commands/lazyops.py#L2684)
+`method` | [cli/commands/lazyops.py:2685](../../cli/commands/lazyops.py#L2685)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1536,7 +1536,7 @@ Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-
 
 #### `LazyCommandSet.do_lazy_sandbox`
 
-`method` | [cli/commands/lazyops.py:2710](../../cli/commands/lazyops.py#L2710)
+`method` | [cli/commands/lazyops.py:2711](../../cli/commands/lazyops.py#L2711)
 
 Decorators: `@cmd2.with_category(ai_category)`
 
@@ -1560,7 +1560,7 @@ Usage: lazy_sandbox ...
 
 #### `LazyCommandSet.do_lazy_install`
 
-`method` | [cli/commands/lazyops.py:2773](../../cli/commands/lazyops.py#L2773)
+`method` | [cli/commands/lazyops.py:2774](../../cli/commands/lazyops.py#L2774)
 
 Decorators: `@cmd2.with_category(ai_category)`
 

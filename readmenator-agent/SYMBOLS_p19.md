@@ -3,6 +3,24 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TargetLimiter` | class | `modules/loop_guardrails.py:260` | `class TargetLimiter` |
+| `__init__` | method | `modules/loop_guardrails.py:98` | `def __init__(self, window)` |
+| `__init__` | method | `modules/loop_guardrails.py:187` | `def __init__(self, duration_threshold)` |
+| `__init__` | method | `modules/loop_guardrails.py:268` | `def __init__(self, max_concurrent)` |
+| `__init__` | method | `modules/loop_guardrails.py:338` | `def __init__(self, path, max_facts)` |
+| `__len__` | method | `modules/loop_guardrails.py:350` | `def __len__(self)` |
+| `_alternating` | method | `modules/loop_guardrails.py:155` | `def _alternating(self)` |
+| `_load` | method | `modules/loop_guardrails.py:467` | `def _load(self)` |
+| `_strict_alternating` | method | `modules/loop_guardrails.py:134` | `def _strict_alternating(entries)` |
+| `_tokenize` | method | `modules/loop_guardrails.py:354` | `def _tokenize(text)` |
+| `_update_oscillation` | method | `modules/loop_guardrails.py:120` | `def _update_oscillation(self)` |
+| `_vectorize` | method | `modules/loop_guardrails.py:359` | `def _vectorize(tokens)` |
+| `active_targets` | method | `modules/loop_guardrails.py:280` | `def active_targets(self)` |
+| `add` | method | `modules/loop_guardrails.py:367` | `def add(self, text, meta)` |
+| `clear` | method | `modules/loop_guardrails.py:440` | `def clear(self)` |
+| `decay` | method | `modules/loop_guardrails.py:215` | `def decay(self, factor)` |
+| `inter_step_delay` | method | `modules/loop_guardrails.py:236` | `def inter_step_delay(self)` |
+| `last_commands` | method | `modules/loop_guardrails.py:167` | `def last_commands(self)` |
 | `level` | method | `modules/loop_guardrails.py:221` | `def level(self)` |
 | `max_concurrent` | method | `modules/loop_guardrails.py:275` | `def max_concurrent(self)` |
 | `observe` | method | `modules/loop_guardrails.py:193` | `def observe(self, command, duration_sec, output)` |
@@ -478,23 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `get_parser` | function | `modules/obs_parser.py:531` | `def get_parser()` |
 | `has` | method | `modules/obs_parser.py:117` | `def has(self, ftype)` |
 | `is_success` | method | `modules/obs_parser.py:438` | `def is_success(self, text)` |
-| `parse` | method | `modules/obs_parser.py:485` | `def parse(self, output, host, tool)` |
-| `parse` | function | `modules/obs_parser.py:539` | `def parse(output, host, tool)` |
-| `register` | method | `modules/obs_parser.py:140` | `def register(self, extractor)` |
-| `register` | method | `modules/obs_parser.py:481` | `def register(self, extractor)` |
-| `run_all` | method | `modules/obs_parser.py:143` | `def run_all(self, text, host)` |
-| `with_technique` | method | `modules/obs_parser.py:88` | `def with_technique(self, mapping)` |
-| `OpEvent` | class | `modules/operation.py:52` | `class OpEvent` |
-| `Operation` | class | `modules/operation.py:79` | `class Operation` |
-| `OperationManager` | class | `modules/operation.py:180` | `class OperationManager` |
-| `OperationStatus` | class | `modules/operation.py:42` | `class OperationStatus(StrEnum)` |
-| `OperationStep` | class | `modules/operation.py:63` | `class OperationStep` |
-| `__init__` | method | `modules/operation.py:183` | `def __init__(self)` |
-| `create` | method | `modules/operation.py:206` | `def create(self, name, target, apt_name, description)` |
-| `from_dict` | method | `modules/operation.py:116` | `def from_dict(cls, d)` |
-| `get` | method | `modules/operation.py:199` | `def get(self, op_id)` |
-| `get_manager` | function | `modules/operation.py:471` | `def get_manager()` |
-| `list` | method | `modules/operation.py:187` | `def list(self)` |
-| `log_event` | method | `modules/operation.py:143` | `def log_event(self, step_index, step_name, status, summary, findings_count, error)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

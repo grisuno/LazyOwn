@@ -1,6 +1,6 @@
 # modules: world_model
 
-modules: world_model groups 113 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Container and Kubernetes attack command set.
+modules: world_model groups 112 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Container and Kubernetes attack command set.
 
 ```mermaid
 graph LR
@@ -23,7 +23,7 @@ graph LR
 
 ## cli (4.1)
 
-cli groups 20 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
+cli groups 19 files (py) around ContainerCommandSet, do_docker_enum, do_k8s_enum, do_container_escape, do_k8s_pods. Container and Kubernetes attack command set.
 
 ## lazyc2 (4.2)
 
@@ -31,7 +31,7 @@ lazyc2 groups 1 files (py) around _error, _namespaced_path, _world_snapshot, _st
 
 ## modules (4.3)
 
-modules groups 37 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Attack-surface 3D intel module: C2-centred campaign graph.
+modules groups 38 files (py) around _derive_crypto_key, _machine_password, _master_password, _load_or_create_salt, _encrypt_payload. Attack-surface 3D intel module: C2-centred campaign graph.
 
 ## poc_tui (4.4)
 
@@ -43,11 +43,12 @@ skills groups 1 files (py) around _sync_harness, _harness_result, _call_harness_
 
 ## tests (4.6)
 
-tests groups 50 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
+tests groups 49 files (py) around AdLabCatalogueSpec, test_matrix_validates, test_summary_shape, test_all_vectors_resolve, test_get_unknown_is_none. Contract tests for the AD lab gym (Docker Samba DC) matrix and capture.
 
 **Files**:
 
 - cli/commands/containers.py
+- cli/commands/database.py
 - cli/commands/golden_paths.py
 - cli/commands/gym_matrix.py
 - cli/commands/lab.py
@@ -62,16 +63,15 @@ tests groups 50 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - cli/lazy_orchestrator.py
 - cli/orchestrator_assets_tabs.py
 - cli/session_brief.py
-- cli/sessions_browser.py
 - cli/surface_graph.py
 - cli/surface_tui.py
-- cli/timeline_browser.py
 - cli/tui_forms.py
 - lazyc2/blueprints/orchestrator.py
 - modules/__init__.py
 - modules/attack_surface3d.py
 - modules/beacon_recon.py
 - modules/estorides_fusion.py
+- modules/finding_lifecycle.py
 - modules/gym_cleanup.py
 - modules/gym_registry.py
 - modules/gym_winbox_runner.py
@@ -89,6 +89,7 @@ tests groups 50 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - modules/lazypassgen.py
 - modules/loop_triggers.py
 - modules/orchestrator_config.py
+- modules/osint_enrich.py
 - modules/outcome_bus.py
 - modules/playbook_admin.py
 - modules/professional_report.py
@@ -100,7 +101,6 @@ tests groups 50 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - modules/sinks/killchain.py
 - modules/sinks/objectives.py
 - modules/sinks/world_diff.py
-- modules/sinks/world_model.py
 - modules/surface_ops.py
 - modules/trigger_policy.py
 - modules/verb_catalog.py
@@ -118,6 +118,7 @@ tests groups 50 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - tests/test_chain_distill_scope.py
 - tests/test_cve_pipeline.py
 - tests/test_estorides_fusion.py
+- tests/test_finding_lifecycle.py
 - tests/test_gym_cli.py
 - tests/test_gym_lifecycle.py
 - tests/test_gym_matrix_ctf.py
@@ -151,9 +152,7 @@ tests groups 50 files (py) around AdLabCatalogueSpec, test_matrix_validates, tes
 - tests/test_pi_leg.py
 - tests/test_playbook_admin.py
 - tests/test_session_brief.py
-- tests/test_sessions_browser.py
 - tests/test_surface_graph.py
-- tests/test_timeline_browser.py
 - tests/test_trigger_policy.py
 - tests/test_ttpscope_bridge.py
 - tests/test_unified_bridge_delegate.py

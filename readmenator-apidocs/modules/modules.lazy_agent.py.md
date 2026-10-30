@@ -387,7 +387,7 @@ Return a raw tool-calling backend for the best pool member, or None.
 Members are tried by priority; only the openai-compatible legs can
 speak function calling here. Ollama/Anthropic/toposwarm members are
 skipped so the loop degrades to the deterministic path instead of
-erroring mid-intent. ``exclude`` holds model names already tried
+erroring mid-intent. `[`exclude`](modules.selection.base.py.md#selectioncontext-exclude)` holds model names already tried
 this intent so a failing member cannot pin the whole attempt.
 
 **Parameters**

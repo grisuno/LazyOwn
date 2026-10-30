@@ -273,7 +273,7 @@ def __init__(self, playbook_dir: str = 'playbooks')
 |---|---|---|---|
 | `playbook_dir` | `str` | `'playbooks'` |  |
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`OrchestratorAssetsMixin.generate_chain`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-generate_chain), [`OrchestratorAssetsMixin.playbook_candidates`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-playbook_candidates)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`OrchestratorAssetsMixin.generate_chain`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-generate_chain), [`OrchestratorAssetsMixin.playbook_candidates`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-playbook_candidates), [`PlaybookSelector.propose`](modules.selection.playbook.py.md#playbookselector-propose)
 
 <a id="aptplaybookengine-list_playbooks"></a>
 
@@ -287,7 +287,7 @@ def list_playbooks(self) -> list[dict[str, Any]]
 
 **Returns:** `list[dict[str, Any]]`
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`OrchestratorAssetsMixin.playbook_candidates`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-playbook_candidates)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_playbook`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_playbook), [`OrchestratorAssetsMixin.playbook_candidates`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-playbook_candidates), [`PlaybookSelector.propose`](modules.selection.playbook.py.md#playbookselector-propose)
 
 <a id="aptplaybookengine-get"></a>
 

@@ -1,14 +1,14 @@
 # cli
 
-*Community 2 | 115 files | cohesion 0.54*
+*Community 2 | 119 files | cohesion 0.54*
 
 ## Definition
 
-This community groups 115 file(s) rooted at `tests` with dominant language py (cohesion 0.54). Central symbols: `AddonCatalog`, `AddonEntry`, `Alert`, `App`, `AuditConfig`, `AutoCryptoConfig`, `AutoCryptoEngine`, `AutoSuggestEngine`. Core file: `tests/test_command_palette.py` (238 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
+This community groups 119 file(s) rooted at `tests` with dominant language py (cohesion 0.54). Central symbols: `AddonCatalog`, `AddonEntry`, `Alert`, `App`, `AuditConfig`, `AutoCryptoConfig`, `AutoCryptoEngine`, `AutoSuggestEngine`. Core file: `tests/test_command_palette.py` (238 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
 
 ## Files
 
-### `tests` (52 files)
+### `tests` (54 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -17,7 +17,7 @@ This community groups 115 file(s) rooted at `tests` with dominant language py (c
 | `tests/test_c2_agent.py` | py | testing | 20 | yes |
 | `tests/test_chain_mode.py` | py | testing | 28 | yes |
 
-### `cli` (44 files)
+### `cli` (46 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -68,7 +68,7 @@ This community groups 115 file(s) rooted at `tests` with dominant language py (c
 |------|----------|-------|---------|-----|
 | `skills/unified_orchestrator.py` | py | utility | 59 | yes |
 
-*... and 95 more files in this community.*
+*... and 99 more files in this community.*
 
 
 ## Key Symbols
@@ -106,15 +106,15 @@ This community groups 115 file(s) rooted at `tests` with dominant language py (c
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 499
-- Cross-boundary resolved imports (EXTRACTED): 344
+- Internal resolved imports (EXTRACTED): 503
+- Cross-boundary resolved imports (EXTRACTED): 348
 
 ## Connections
 
 - [EXTRACTED] depends_on community 2 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
 - [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
 - [EXTRACTED] depends_on community 2 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
-- [EXTRACTED] depends_on community 10 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
+- [EXTRACTED] depends_on community 9 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
 
 ## Risks
 
@@ -163,4 +163,4 @@ This community groups 115 file(s) rooted at `tests` with dominant language py (c
 - `cli/engagement_hooks.py`
 - `cli/exploit_advisor.py`
 - `cli/exploration.py`
-- *... and 95 more*
+- *... and 99 more*

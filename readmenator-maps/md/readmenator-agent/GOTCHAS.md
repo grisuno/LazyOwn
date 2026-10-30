@@ -5,12 +5,12 @@
 These files have the most connections. Changes here have high blast radius.
 
 - `core/logging.py` (score: 319.20, imported by 159 files)
-- `modules/lazy_loop.py` (score: 271.80, imported by 70 files)
+- `modules/lazy_loop.py` (score: 276.60, imported by 70 files)
 - `utils.py` (score: 250.60, imported by 106 files)
 - `cli/commands/_base.py` (score: 206.70, imported by 101 files)
 - `skills/lazyown_mcp.py` (score: 177.10, imported by 9 files)
 - `modules/world_model.py` (score: 169.00, imported by 76 files)
-- `modules/__init__.py` (score: 166.00, imported by 83 files)
+- `modules/__init__.py` (score: 168.00, imported by 84 files)
 - `lazyc2.py` (score: 147.30)
 - `core/config.py` (score: 134.00, imported by 64 files)
 - `lazyown.py` (score: 124.40, imported by 9 files)
@@ -20,15 +20,15 @@ These files have the most connections. Changes here have high blast radius.
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `core/logging.py` -- 50 direct, 159 total dependents
-- `core/validators.py` -- 12 direct, 144 total dependents
-- `modules/backdoor/server.c` -- 13 direct, 127 total dependents
-- `core/process.py` -- 13 direct, 122 total dependents
+- `core/validators.py` -- 12 direct, 135 total dependents
+- `modules/backdoor/server.c` -- 13 direct, 126 total dependents
 - `skills/claude_md_orchestrator/models.py` -- 11 direct, 122 total dependents
-- `core/credential_vault.py` -- 4 direct, 120 total dependents
 - `skills/claude_md_orchestrator/config.py` -- 10 direct, 120 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 119 total dependents
 - `cli/banner_config.py` -- 6 direct, 117 total dependents
-- `core/host_policy.py` -- 3 direct, 116 total dependents
+- `core/parsers.py` -- 9 direct, 117 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 112 total dependents
+- `core/dependencies.py` -- 3 direct, 111 total dependents
+- `modules/lazyencoder_decoder.py` -- 5 direct, 111 total dependents
 
 ## Hotspots (complexity + centrality)
 
@@ -38,7 +38,7 @@ Editing these files can break the listed number of dependents. Run their tests a
 - `static/js/vis-network-9.1.2.min.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
 - `static/js/vis-network.min.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
 - `static/js/xterm.js` -- complexity: 0.1, centrality: 0.5, combined: 0.3
-- `modules/lazy_loop.py` -- complexity: 0.6, centrality: 0.1, combined: 0.3
+- `modules/lazy_loop.py` -- complexity: 0.7, centrality: 0.1, combined: 0.3
 - `static/js/quill-2.0.3.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
 - `static/js/chart.min.js` -- complexity: 0.1, centrality: 0.3, combined: 0.3
 - `lazyc2.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2

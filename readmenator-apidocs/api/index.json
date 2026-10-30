@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 854,
-  "entities": 15959,
+  "modules": 863,
+  "entities": 16027,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,43 +13,43 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 741,
+   "py": 750,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4441,
-   "class": 1440,
+   "attribute": 4460,
+   "class": 1449,
    "classmethod": 84,
-   "constant": 1487,
-   "constructor": 531,
+   "constant": 1494,
+   "constructor": 536,
    "enum": 39,
    "exception": 42,
-   "function": 2939,
+   "function": 2949,
    "macro": 114,
-   "method": 3633,
-   "module": 854,
+   "method": 3641,
+   "module": 863,
    "property": 206,
-   "protocol": 20,
+   "protocol": 21,
    "staticmethod": 93,
    "struct": 20,
    "type_alias": 4,
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 412,
+  "skipped_files": 415,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7596,
-   "total": 10019,
-   "percent": 75.8
+   "documented": 7637,
+   "total": 10061,
+   "percent": 75.9
   },
   "by_kind": {
    "class": {
-    "documented": 1253,
-    "total": 1440,
-    "percent": 87.0
+    "documented": 1262,
+    "total": 1449,
+    "percent": 87.1
    },
    "classmethod": {
     "documented": 58,
@@ -57,9 +57,9 @@
     "percent": 69.0
    },
    "constructor": {
-    "documented": 210,
-    "total": 531,
-    "percent": 39.5
+    "documented": 214,
+    "total": 536,
+    "percent": 39.9
    },
    "enum": {
     "documented": 30,
@@ -72,9 +72,9 @@
     "percent": 95.2
    },
    "function": {
-    "documented": 2034,
-    "total": 2939,
-    "percent": 69.2
+    "documented": 2044,
+    "total": 2949,
+    "percent": 69.3
    },
    "macro": {
     "documented": 2,
@@ -82,14 +82,14 @@
     "percent": 1.8
    },
    "method": {
-    "documented": 2964,
-    "total": 3633,
+    "documented": 2972,
+    "total": 3641,
     "percent": 81.6
    },
    "module": {
-    "documented": 738,
-    "total": 854,
-    "percent": 86.4
+    "documented": 747,
+    "total": 863,
+    "percent": 86.6
    },
    "property": {
     "documented": 162,
@@ -97,8 +97,8 @@
     "percent": 78.6
    },
    "protocol": {
-    "documented": 20,
-    "total": 20,
+    "documented": 21,
+    "total": 21,
     "percent": 100.0
    },
    "staticmethod": {
@@ -1939,8 +1939,8 @@
     "percent": 100.0
    },
    "modules/atomic_exploit_bridge.py": {
-    "documented": 25,
-    "total": 25,
+    "documented": 26,
+    "total": 26,
     "percent": 100.0
    },
    "modules/atomic_resolver.py": {
@@ -2091,6 +2091,11 @@
    "modules/chain_facts.py": {
     "documented": 2,
     "total": 2,
+    "percent": 100.0
+   },
+   "modules/chain_match.py": {
+    "documented": 8,
+    "total": 8,
     "percent": 100.0
    },
    "modules/chain_registry.py": {
@@ -3358,6 +3363,46 @@
     "total": 22,
     "percent": 100.0
    },
+   "modules/selection/__init__.py": {
+    "documented": 1,
+    "total": 1,
+    "percent": 100.0
+   },
+   "modules/selection/adversary.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "modules/selection/atomic.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "modules/selection/base.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "modules/selection/chain.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "modules/selection/cred_spray.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "modules/selection/playbook.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "modules/selection/registry.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
    "modules/selector_manager.py": {
     "documented": 4,
     "total": 4,
@@ -4024,9 +4069,9 @@
     "percent": 100.0
    },
    "skills/autonomous_daemon.py": {
-    "documented": 79,
-    "total": 90,
-    "percent": 87.8
+    "documented": 84,
+    "total": 96,
+    "percent": 87.5
    },
    "skills/autonomous_replay.py": {
     "documented": 15,
@@ -6214,7 +6259,7 @@
   {
    "uid": "modules/atomic_exploit_bridge.py",
    "path": "modules/modules.atomic_exploit_bridge.py.jsonl",
-   "entities": 52
+   "entities": 53
   },
   {
    "uid": "modules/atomic_resolver.py",
@@ -6365,6 +6410,11 @@
    "uid": "modules/chain_facts.py",
    "path": "modules/modules.chain_facts.py.jsonl",
    "entities": 3
+  },
+  {
+   "uid": "modules/chain_match.py",
+   "path": "modules/modules.chain_match.py.jsonl",
+   "entities": 12
   },
   {
    "uid": "modules/chain_registry.py",
@@ -7632,6 +7682,46 @@
    "entities": 40
   },
   {
+   "uid": "modules/selection/__init__.py",
+   "path": "modules/modules.selection.__init__.py.jsonl",
+   "entities": 1
+  },
+  {
+   "uid": "modules/selection/adversary.py",
+   "path": "modules/modules.selection.adversary.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/selection/atomic.py",
+   "path": "modules/modules.selection.atomic.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/selection/base.py",
+   "path": "modules/modules.selection.base.py.jsonl",
+   "entities": 18
+  },
+  {
+   "uid": "modules/selection/chain.py",
+   "path": "modules/modules.selection.chain.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/selection/cred_spray.py",
+   "path": "modules/modules.selection.cred_spray.py.jsonl",
+   "entities": 4
+  },
+  {
+   "uid": "modules/selection/playbook.py",
+   "path": "modules/modules.selection.playbook.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "modules/selection/registry.py",
+   "path": "modules/modules.selection.registry.py.jsonl",
+   "entities": 3
+  },
+  {
    "uid": "modules/selector_manager.py",
    "path": "modules/modules.selector_manager.py.jsonl",
    "entities": 14
@@ -8299,7 +8389,7 @@
   {
    "uid": "skills/autonomous_daemon.py",
    "path": "modules/skills.autonomous_daemon.py.jsonl",
-   "entities": 145
+   "entities": 155
   },
   {
    "uid": "skills/autonomous_replay.py",

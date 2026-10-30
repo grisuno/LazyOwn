@@ -268,7 +268,7 @@ def __init__(self, duration_threshold: float = _EDR_DURATION_THRESHOLD_SEC) -> N
 |---|---|---|---|
 | `duration_threshold` | `float` | `_EDR_DURATION_THRESHOLD_SEC` |  |
 
-*Called by:* [`Worker.__init__`](modules.lazy_loop.py.md#worker-__init__)
+*Called by:* [`ChainRunner.__init__`](modules.chain_runner.py.md#chainrunner-__init__), [`Worker.__init__`](modules.lazy_loop.py.md#worker-__init__)
 
 <a id="edrpacer-observe"></a>
 

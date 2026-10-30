@@ -133,20 +133,23 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `set_engagement_mode` (function, line 437) `def set_engagement_mode(mode)`
   - `chain_defaults` (function, line 460) `def chain_defaults()`
   - `sinks` (function, line 469) `def sinks()`
-  - `stages` (function, line 480) `def stages()`
-  - `stage_enabled` (function, line 510) `def stage_enabled(name)`
-  - `stage_params` (function, line 516) `def stage_params(name)`
-  - `set_stage` (function, line 521) `def set_stage(name, enabled)`
-  - `effective_verbs` (function, line 546) `def effective_verbs()`
-  - `_catalog_verbs` (function, line 601) `def _catalog_verbs(seen, overrides)`
-  - `verb_config` (function, line 638) `def verb_config(name)`
-  - `verb_enabled` (function, line 647) `def verb_enabled(name)`
-  - `upsert_verb` (function, line 653) `def upsert_verb(name)`
-  - `remove_verb` (function, line 710) `def remove_verb(name)`
-  - `reset` (function, line 731) `def reset()`
-  - `validate_config` (function, line 738) `def validate_config(data)`
+  - `selectors` (function, line 480) `def selectors()`
+  - `selector_enabled` (function, line 491) `def selector_enabled(name)`
+  - `set_selector` (function, line 496) `def set_selector(name, enabled)`
+  - `stages` (function, line 506) `def stages()`
+  - `stage_enabled` (function, line 536) `def stage_enabled(name)`
+  - `stage_params` (function, line 542) `def stage_params(name)`
+  - `set_stage` (function, line 547) `def set_stage(name, enabled)`
+  - `effective_verbs` (function, line 572) `def effective_verbs()`
+  - `_catalog_verbs` (function, line 627) `def _catalog_verbs(seen, overrides)`
+  - `verb_config` (function, line 664) `def verb_config(name)`
+  - `verb_enabled` (function, line 673) `def verb_enabled(name)`
+  - `upsert_verb` (function, line 679) `def upsert_verb(name)`
+  - `remove_verb` (function, line 736) `def remove_verb(name)`
+  - `reset` (function, line 757) `def reset()`
+  - `validate_config` (function, line 764) `def validate_config(data)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+- Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`, `tests/test_selectors_capabilities.py`
 
 ## modules/osint_enrich.py
 - Doc: Keyless OSINT enrichment for finding evidence.
@@ -191,7 +194,7 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `record` (method, line 204) `def record(self, event, sinks)`
   - `_append_ledger` (method, line 251) `def _append_ledger(self, event, statuses)`
 - Depends on: `core/logging.py`, `modules/__init__.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
 
 ## modules/payload_factory.py
 - Doc: Native payload generation framework — stagers, stages, singles, formats.

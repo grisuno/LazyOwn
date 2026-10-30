@@ -64,6 +64,7 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
   - `PHYSMAP_MASK` (macro, line 67) `#define PHYSMAP_MASK`
   - `SPRAY_SIZE` (macro, line 69) `#define SPRAY_SIZE`
   - `SPRAY_NB_ENTRIES` (macro, line 71) `#define SPRAY_NB_ENTRIES`
+- Depends on: `modules/selection/chain.py`
 - Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
 
 ## modules/exploit_chain.py

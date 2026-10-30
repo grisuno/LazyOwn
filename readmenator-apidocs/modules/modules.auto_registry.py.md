@@ -787,7 +787,7 @@ ROUTABLE_PREFIXES = ('lazy_addon ', 'custom tool ', 'lazy_workspace ')
 `constant` | [modules/auto_registry.py:380](../../modules/auto_registry.py#L380)
 
 ```python
-ROUTABLE_VERBS = frozenset({'lazynmap'})
+ROUTABLE_VERBS = frozenset({'lazynmap', 'ping'})
 ```
 
 ---

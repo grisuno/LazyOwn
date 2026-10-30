@@ -3,6 +3,47 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
+| `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
+| `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
+| `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
+| `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
+| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
+| `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
+| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
+| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
+| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
+| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
+| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
+| `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
+| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
+| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
+| `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
+| `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
+| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
+| `HookFunctions` | function | `modules/win_rootkit/mrhyde.c:222` | `void HookFunctions()` |
+| `HookedCreateToolhelp32Snapshot` | function | `modules/win_rootkit/mrhyde.c:189` | `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` |
+| `HookedFindFirstFile` | function | `modules/win_rootkit/mrhyde.c:171` | `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` |
+| `HookedFindNextFile` | function | `modules/win_rootkit/mrhyde.c:180` | `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` |
+| `HookedProcess32First` | function | `modules/win_rootkit/mrhyde.c:198` | `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
+| `HookedProcess32Next` | function | `modules/win_rootkit/mrhyde.c:210` | `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
+| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:7` | `#define MAX_HIDE_PIDS` |
+| `PID_FILE_PATH` | macro | `modules/win_rootkit/mrhyde.c:8` | `#define PID_FILE_PATH` |
+| `RunExperiment` | function | `modules/win_rootkit/mrhyde.c:19` | `void __cdecl RunExperiment()` |
+| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:47` | `void load_hidden_files()` |
+| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:24` | `void load_hidden_pids()` |
+| `search_pid` | function | `modules/win_rootkit/mrhyde.c:137` | `BOOL search_pid()` |
+| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:161` | `BOOL should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/win_rootkit/mrhyde.c:147` | `BOOL should_hide_pid(DWORD pid)` |
+| `GetUsernameFromPid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:145` | `` |
+| `HookCreateFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:226` | `` |
+| `HookFindFirstFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:214` | `` |
+| `SECURITY_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:64` | `` |
+| `SID` | class | `modules/win_rootkit/win_rin3_rootkit.cs:136` | `` |
+| `SID_AND_ATTRIBUTES` | class | `modules/win_rootkit/win_rin3_rootkit.cs:129` | `` |
+| `ShouldHidePid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:203` | `` |
+| `TOKEN_USER` | class | `modules/win_rootkit/win_rin3_rootkit.cs:123` | `` |
 | `WIN32_FIND_DATA` | class | `modules/win_rootkit/win_rin3_rootkit.cs:47` | `` |
 | `WinRing3Rootkit` | class | `modules/win_rootkit/win_rin3_rootkit.cs:32` | `` |
 | `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:191` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
@@ -455,46 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `find_ndk` | function | `scripts/dirtyinit_drive.sh:152` | `` |
 | `find_ndk_clang` | function | `scripts/dirtyinit_drive.sh:185` | `` |
 | `find_sdk` | function | `scripts/dirtyinit_drive.sh:141` | `` |
-| `log` | function | `scripts/dirtyinit_drive.sh:65` | `` |
-| `main` | function | `scripts/dirtyinit_drive.sh:529` | `` |
-| `pack_apk` | function | `scripts/dirtyinit_drive.sh:211` | `` |
-| `parse_flags` | function | `scripts/dirtyinit_drive.sh:89` | `` |
-| `payload_value` | function | `scripts/dirtyinit_drive.sh:69` | `` |
-| `require_adb` | function | `scripts/dirtyinit_drive.sh:130` | `` |
-| `require_device` | function | `scripts/dirtyinit_drive.sh:134` | `` |
-| `tap_button` | function | `scripts/dirtyinit_drive.sh:348` | `` |
-| `warn` | function | `scripts/dirtyinit_drive.sh:66` | `` |
-| `build_sbom` | function | `scripts/generate_sbom.py:74` | `def build_sbom(with_ml)` |
-| `collect_components` | function | `scripts/generate_sbom.py:37` | `def collect_components(with_ml)` |
-| `main` | function | `scripts/generate_sbom.py:92` | `def main()` |
-| `parse_requirement` | function | `scripts/generate_sbom.py:25` | `def parse_requirement(line)` |
-| `project_version` | function | `scripts/generate_sbom.py:68` | `def project_version()` |
-| `Journal` | class | `scripts/journal.py:149` | `class Journal` |
-| `JournalConfig` | class | `scripts/journal.py:53` | `class JournalConfig` |
-| `JournalError` | class | `scripts/journal.py:48` | `class JournalError(RuntimeError)` |
-| `_build_parser` | function | `scripts/journal.py:245` | `def _build_parser()` |
-| `_default_runner` | function | `scripts/journal.py:124` | `def _default_runner(args)` |
-| `_git_remote_slug` | function | `scripts/journal.py:114` | `def _git_remote_slug()` |
-| `_graphql` | method | `scripts/journal.py:163` | `def _graphql(self, query, variables)` |
-| `_run_git` | function | `scripts/journal.py:90` | `def _run_git(args)` |
-| `category_id` | method | `scripts/journal.py:192` | `def category_id(self)` |
-| `entries` | method | `scripts/journal.py:223` | `def entries(self, limit)` |
-| `from_git_remote` | method | `scripts/journal.py:71` | `def from_git_remote(cls, remote, category)` |
-| `main` | function | `scripts/journal.py:264` | `def main(argv)` |
-| `post` | method | `scripts/journal.py:206` | `def post(self, title, body)` |
-| `repo_id` | method | `scripts/journal.py:184` | `def repo_id(self)` |
-| `healthy` | function | `scripts/lazy_llamacpp_serve.sh:33` | `` |
-| `ask` | function | `scripts/lazy_llamacpp_setup.sh:40` | `` |
-| `_backup` | function | `scripts/lazy_opencode_config.py:29` | `def _backup(path)` |
-| `_hermes_path` | function | `scripts/lazy_opencode_config.py:41` | `def _hermes_path()` |
-| `_opencode_path` | function | `scripts/lazy_opencode_config.py:36` | `def _opencode_path()` |
-| `main` | function | `scripts/lazy_opencode_config.py:150` | `def main(argv)` |
-| `patch_hermes` | function | `scripts/lazy_opencode_config.py:93` | `def patch_hermes(host)` |
-| `patch_opencode` | function | `scripts/lazy_opencode_config.py:46` | `def patch_opencode(set_default, host)` |
-| `_LoopSettings` | class | `scripts/mcp_call.py:52` | `class _LoopSettings` |
-| `_ToolAnswer` | class | `scripts/mcp_call.py:43` | `class _ToolAnswer` |
-| `__init__` | method | `scripts/mcp_call.py:46` | `def __init__(self, text, is_error)` |
-| `_build_parser` | function | `scripts/mcp_call.py:152` | `def _build_parser()` |
-| `_call_once` | function | `scripts/mcp_call.py:116` | `def _call_once(settings, command)` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

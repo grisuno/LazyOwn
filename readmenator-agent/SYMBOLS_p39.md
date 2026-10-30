@@ -3,6 +3,75 @@ Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_render_falls_back_to_bare_names` | method | `tests/test_evidence_hints.py:214` | `def test_render_falls_back_to_bare_names(self, tmp_sessions_with_csv)` |
+| `test_render_prefers_evidence_over_bare_names` | method | `tests/test_evidence_hints.py:208` | `def test_render_prefers_evidence_over_bare_names(self, tmp_sessions_with_csv)` |
+| `test_respects_limit` | method | `tests/test_evidence_hints.py:119` | `def test_respects_limit(self)` |
+| `test_returns_engine_output` | method | `tests/test_evidence_hints.py:145` | `def test_returns_engine_output(self)` |
+| `test_returns_evidence_hints` | method | `tests/test_evidence_hints.py:190` | `def test_returns_evidence_hints(self, tmp_sessions_with_csv)` |
+| `test_skips_recommendation_without_reason` | method | `tests/test_evidence_hints.py:115` | `def test_skips_recommendation_without_reason(self)` |
+| `test_skips_recommendation_without_verb` | method | `tests/test_evidence_hints.py:111` | `def test_skips_recommendation_without_verb(self)` |
+| `test_strips_source_tag_from_reason` | method | `tests/test_evidence_hints.py:100` | `def test_strips_source_tag_from_reason(self)` |
+| `test_target_falls_back_to_rhost` | method | `tests/test_evidence_hints.py:155` | `def test_target_falls_back_to_rhost(self)` |
+| `test_truncates_long_reason` | method | `tests/test_evidence_hints.py:125` | `def test_truncates_long_reason(self)` |
+| `test_zero_score_is_zero_confidence` | method | `tests/test_evidence_hints.py:63` | `def test_zero_score_is_zero_confidence(self)` |
+| `tmp_sessions_with_csv` | function | `tests/test_evidence_hints.py:162` | `def tmp_sessions_with_csv()` |
+| `TestColorsPreserved` | class | `tests/test_executor_kernel.py:33` | `class TestColorsPreserved` |
+| `TestExitCodes` | class | `tests/test_executor_kernel.py:62` | `class TestExitCodes` |
+| `TestShellPolicy` | class | `tests/test_executor_kernel.py:87` | `class TestShellPolicy` |
+| `TestSingleSpawnPath` | class | `tests/test_executor_kernel.py:113` | `class TestSingleSpawnPath` |
+| `_executor` | function | `tests/test_executor_kernel.py:29` | `def _executor()` |
+| `test_argv_path_exit_code` | method | `tests/test_executor_kernel.py:70` | `def test_argv_path_exit_code(self)` |
+| `test_cmd_delegates_spawning_to_kernel` | method | `tests/test_executor_kernel.py:114` | `def test_cmd_delegates_spawning_to_kernel(self)` |
+| `test_cmd_keeps_telemetry` | method | `tests/test_executor_kernel.py:142` | `def test_cmd_keeps_telemetry(self)` |
+| `test_log_file_is_byte_identical_to_writer` | method | `tests/test_executor_kernel.py:42` | `def test_log_file_is_byte_identical_to_writer(self, tmp_path)` |
+| `test_matches_shared_policy` | method | `tests/test_executor_kernel.py:101` | `def test_matches_shared_policy(self)` |
+| `test_passthrough_returns_exit_code` | method | `tests/test_executor_kernel.py:76` | `def test_passthrough_returns_exit_code(self)` |
+| `test_shell_path_exit_code` | method | `tests/test_executor_kernel.py:63` | `def test_shell_path_exit_code(self)` |
+| `test_stderr_merged_into_stream` | method | `tests/test_executor_kernel.py:52` | `def test_stderr_merged_into_stream(self)` |
+| `test_timeout_kills_and_raises` | method | `tests/test_executor_kernel.py:106` | `def test_timeout_kills_and_raises(self)` |
+| `test_writer_receives_raw_ansi_bytes` | method | `tests/test_executor_kernel.py:34` | `def test_writer_receives_raw_ansi_bytes(self)` |
+| `FakeProc` | class | `tests/test_exploitgym_gym.py:143` | `class FakeProc` |
+| `FakeProc` | class | `tests/test_exploitgym_gym.py:177` | `class FakeProc` |
+| `_add_repo_root_to_syspath` | function | `tests/test_exploitgym_gym.py:18` | `def _add_repo_root_to_syspath()` |
+| `_params` | function | `tests/test_exploitgym_gym.py:39` | `def _params(root)` |
+| `fake_record` | function | `tests/test_exploitgym_gym.py:195` | `def fake_record(challenge_id, success, elo_bonus, techniques)` |
+| `fake_repo` | function | `tests/test_exploitgym_gym.py:24` | `def fake_repo(tmp_path)` |
+| `fake_run` | function | `tests/test_exploitgym_gym.py:148` | `def fake_run(cmd, cwd, capture_output, text, timeout, env)` |
+| `fake_run` | function | `tests/test_exploitgym_gym.py:182` | `def fake_run(cmd, cwd, capture_output, text, timeout, env)` |
+| `fake_run_streaming` | function | `tests/test_exploitgym_gym.py:226` | `def fake_run_streaming(cmd, cwd, timeout)` |
+| `fake_which` | function | `tests/test_exploitgym_gym.py:87` | `def fake_which(name)` |
+| `fake_which` | function | `tests/test_exploitgym_gym.py:102` | `def fake_which(name)` |
+| `fake_which` | function | `tests/test_exploitgym_gym.py:118` | `def fake_which(name)` |
+| `test_bridge_catalog_has_exploitgym` | function | `tests/test_exploitgym_gym.py:248` | `def test_bridge_catalog_has_exploitgym()` |
+| `test_check_readiness_missing_docker` | function | `tests/test_exploitgym_gym.py:99` | `def test_check_readiness_missing_docker(fake_repo, monkeypatch)` |
+| `test_check_readiness_missing_keys` | function | `tests/test_exploitgym_gym.py:115` | `def test_check_readiness_missing_keys(fake_repo, monkeypatch)` |
+| `test_check_readiness_ready` | function | `tests/test_exploitgym_gym.py:84` | `def test_check_readiness_ready(fake_repo, monkeypatch)` |
+| `test_command_set_declares_exploitgym` | function | `tests/test_exploitgym_gym.py:241` | `def test_command_set_declares_exploitgym()` |
+| `test_detect_domain_userspace` | function | `tests/test_exploitgym_gym.py:51` | `def test_detect_domain_userspace(fake_repo)` |
+| `test_extract_flag` | function | `tests/test_exploitgym_gym.py:129` | `def test_extract_flag()` |
+| `test_list_tasks_empty_without_repo` | function | `tests/test_exploitgym_gym.py:77` | `def test_list_tasks_empty_without_repo(tmp_path)` |
+| `test_list_tasks_filters_by_domain` | function | `tests/test_exploitgym_gym.py:60` | `def test_list_tasks_filters_by_domain(fake_repo)` |
+| `test_pull_task_success` | function | `tests/test_exploitgym_gym.py:174` | `def test_pull_task_success(fake_repo, monkeypatch)` |
+| `test_run_task_reports_missing_repo` | function | `tests/test_exploitgym_gym.py:166` | `def test_run_task_reports_missing_repo(tmp_path)` |
+| `test_run_task_writes_log_and_records` | function | `tests/test_exploitgym_gym.py:137` | `def test_run_task_writes_log_and_records(fake_repo, tmp_path, monkeypatch)` |
+| `test_score_task_reuses_redteam_pipeline` | function | `tests/test_exploitgym_gym.py:192` | `def test_score_task_reuses_redteam_pipeline(fake_repo, monkeypatch)` |
+| `test_setup_harness_reports_missing_repo` | function | `tests/test_exploitgym_gym.py:212` | `def test_setup_harness_reports_missing_repo(tmp_path, monkeypatch)` |
+| `test_setup_harness_runs_requested_steps` | function | `tests/test_exploitgym_gym.py:221` | `def test_setup_harness_runs_requested_steps(fake_repo, monkeypatch)` |
+| `TestCatalogues` | class | `tests/test_exploration_and_addons.py:206` | `class TestCatalogues` |
+| `TestEngineEndToEnd` | class | `tests/test_exploration_and_addons.py:290` | `class TestEngineEndToEnd` |
+| `TestNmapXmlReader` | class | `tests/test_exploration_and_addons.py:182` | `class TestNmapXmlReader` |
+| `TestNormalisers` | class | `tests/test_exploration_and_addons.py:148` | `class TestNormalisers` |
+| `TestRenderer` | class | `tests/test_exploration_and_addons.py:337` | `class TestRenderer` |
+| `TestResolveCurrentOs` | class | `tests/test_exploration_and_addons.py:316` | `class TestResolveCurrentOs` |
+| `TestShippedAddonsRespectSchema` | class | `tests/test_exploration_and_addons.py:362` | `class TestShippedAddonsRespectSchema` |
+| `TestTriggerMatcher` | class | `tests/test_exploration_and_addons.py:262` | `class TestTriggerMatcher` |
+| `_addon` | function | `tests/test_exploration_and_addons.py:395` | `def _addon(name, addon_os, trigger, enabled)` |
+| `_svc` | function | `tests/test_exploration_and_addons.py:410` | `def _svc(service, port)` |
+| `addon_files` | method | `tests/test_exploration_and_addons.py:366` | `def addon_files(self)` |
+| `fake_addons` | function | `tests/test_exploration_and_addons.py:84` | `def fake_addons(tmp_path)` |
+| `fake_sessions` | function | `tests/test_exploration_and_addons.py:71` | `def fake_sessions(tmp_path)` |
+| `fake_tools` | function | `tests/test_exploration_and_addons.py:127` | `def fake_tools(tmp_path)` |
+| `test_addon_catalog_invalidates_cache_on_change` | method | `tests/test_exploration_and_addons.py:237` | `def test_addon_catalog_invalidates_cache_on_change(self, fake_addons, monkeypatch)` |
 | `test_addon_catalog_loads_os_and_trigger` | method | `tests/test_exploration_and_addons.py:209` | `def test_addon_catalog_loads_os_and_trigger(self, fake_addons, monkeypatch)` |
 | `test_addon_catalog_reuses_cache_when_mtime_unchanged` | method | `tests/test_exploration_and_addons.py:228` | `def test_addon_catalog_reuses_cache_when_mtime_unchanged(self, fake_addons, monkeypatch)` |
 | `test_all_have_os_in_allowed_values` | method | `tests/test_exploration_and_addons.py:372` | `def test_all_have_os_in_allowed_values(self, addon_files)` |
@@ -376,42 +445,42 @@ Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 | `test_lkm_makefile_carries_deployment_values` | method | `tests/test_implant_session_secrets.py:57` | `def test_lkm_makefile_carries_deployment_values(self)` |
 | `test_rootkit_listener_default_is_neutral` | method | `tests/test_implant_session_secrets.py:53` | `def test_rootkit_listener_default_is_neutral(self)` |
 | `test_url_traffic_template_keys_match_builder_context` | method | `tests/test_implant_session_secrets.py:64` | `def test_url_traffic_template_keys_match_builder_context(self)` |
-| `BackendAdapterSpec` | class | `tests/test_improvements_spec.py:550` | `class BackendAdapterSpec(TestCase)` |
-| `BackendRegistrySpec` | class | `tests/test_improvements_spec.py:444` | `class BackendRegistrySpec(TestCase)` |
-| `CmdIntegrationRegressionSpec` | class | `tests/test_improvements_spec.py:767` | `class CmdIntegrationRegressionSpec(TestCase)` |
-| `CommandSetActivationSpec` | class | `tests/test_improvements_spec.py:673` | `class CommandSetActivationSpec(TestCase)` |
-| `ConfigDedupeSpec` | class | `tests/test_improvements_spec.py:649` | `class ConfigDedupeSpec(TestCase)` |
-| `DocstringDisciplineSpec` | class | `tests/test_improvements_spec.py:706` | `class DocstringDisciplineSpec(TestCase)` |
-| `EventBusSpec` | class | `tests/test_improvements_spec.py:518` | `class EventBusSpec(TestCase)` |
-| `FactoryWiringSpec` | class | `tests/test_improvements_spec.py:996` | `class FactoryWiringSpec(TestCase)` |
-| `GraphifyAvailabilitySpec` | class | `tests/test_improvements_spec.py:745` | `class GraphifyAvailabilitySpec(TestCase)` |
-| `LiveShellBehaviourSpec` | class | `tests/test_improvements_spec.py:844` | `class LiveShellBehaviourSpec(TestCase)` |
-| `OrchestratorGoalValidationSpec` | class | `tests/test_improvements_spec.py:404` | `class OrchestratorGoalValidationSpec(TestCase)` |
-| `RouterPolicySpec` | class | `tests/test_improvements_spec.py:477` | `class RouterPolicySpec(TestCase)` |
+| `BackendAdapterSpec` | class | `tests/test_improvements_spec.py:558` | `class BackendAdapterSpec(TestCase)` |
+| `BackendRegistrySpec` | class | `tests/test_improvements_spec.py:452` | `class BackendRegistrySpec(TestCase)` |
+| `CmdIntegrationRegressionSpec` | class | `tests/test_improvements_spec.py:775` | `class CmdIntegrationRegressionSpec(TestCase)` |
+| `CommandSetActivationSpec` | class | `tests/test_improvements_spec.py:681` | `class CommandSetActivationSpec(TestCase)` |
+| `ConfigDedupeSpec` | class | `tests/test_improvements_spec.py:657` | `class ConfigDedupeSpec(TestCase)` |
+| `DocstringDisciplineSpec` | class | `tests/test_improvements_spec.py:714` | `class DocstringDisciplineSpec(TestCase)` |
+| `EventBusSpec` | class | `tests/test_improvements_spec.py:526` | `class EventBusSpec(TestCase)` |
+| `FactoryWiringSpec` | class | `tests/test_improvements_spec.py:1004` | `class FactoryWiringSpec(TestCase)` |
+| `GraphifyAvailabilitySpec` | class | `tests/test_improvements_spec.py:753` | `class GraphifyAvailabilitySpec(TestCase)` |
+| `LiveShellBehaviourSpec` | class | `tests/test_improvements_spec.py:852` | `class LiveShellBehaviourSpec(TestCase)` |
+| `OrchestratorGoalValidationSpec` | class | `tests/test_improvements_spec.py:412` | `class OrchestratorGoalValidationSpec(TestCase)` |
+| `RouterPolicySpec` | class | `tests/test_improvements_spec.py:485` | `class RouterPolicySpec(TestCase)` |
 | `StatusBarConfigSpec` | class | `tests/test_improvements_spec.py:183` | `class StatusBarConfigSpec(TestCase)` |
-| `StatusBarFactorySpec` | class | `tests/test_improvements_spec.py:395` | `class StatusBarFactorySpec(TestCase)` |
+| `StatusBarFactorySpec` | class | `tests/test_improvements_spec.py:403` | `class StatusBarFactorySpec(TestCase)` |
 | `StatusBarManagerSpec` | class | `tests/test_improvements_spec.py:278` | `class StatusBarManagerSpec(TestCase)` |
 | `StatusBarRendererSpec` | class | `tests/test_improvements_spec.py:239` | `class StatusBarRendererSpec(TestCase)` |
 | `StatusBarSecuritySpec` | class | `tests/test_improvements_spec.py:205` | `class StatusBarSecuritySpec(TestCase)` |
 | `StatusBarSourceSpec` | class | `tests/test_improvements_spec.py:350` | `class StatusBarSourceSpec(TestCase)` |
-| `UnifiedOrchestratorSpec` | class | `tests/test_improvements_spec.py:601` | `class UnifiedOrchestratorSpec(TestCase)` |
-| `_Boom` | class | `tests/test_improvements_spec.py:591` | `class _Boom` |
+| `UnifiedOrchestratorSpec` | class | `tests/test_improvements_spec.py:609` | `class UnifiedOrchestratorSpec(TestCase)` |
+| `_Boom` | class | `tests/test_improvements_spec.py:599` | `class _Boom` |
 | `_Broken` | class | `tests/test_improvements_spec.py:289` | `class _Broken` |
-| `_Broken` | class | `tests/test_improvements_spec.py:387` | `class _Broken` |
-| `_Engine` | class | `tests/test_improvements_spec.py:934` | `class _Engine` |
+| `_Broken` | class | `tests/test_improvements_spec.py:395` | `class _Broken` |
+| `_Engine` | class | `tests/test_improvements_spec.py:942` | `class _Engine` |
 | `_FakeAdvisor` | class | `tests/test_improvements_spec.py:134` | `class _FakeAdvisor` |
 | `_FakeEngagement` | class | `tests/test_improvements_spec.py:90` | `class _FakeEngagement` |
 | `_FakeQueen` | class | `tests/test_improvements_spec.py:98` | `class _FakeQueen` |
 | `_FakeShell` | class | `tests/test_improvements_spec.py:77` | `class _FakeShell` |
 | `_FakeSwanOrchestrator` | class | `tests/test_improvements_spec.py:126` | `class _FakeSwanOrchestrator` |
 | `_FakeSwanResult` | class | `tests/test_improvements_spec.py:117` | `class _FakeSwanResult` |
-| `_Shell` | class | `tests/test_improvements_spec.py:786` | `class _Shell(Cmd)` |
-| `_Shell` | class | `tests/test_improvements_spec.py:798` | `class _Shell(Cmd)` |
-| `_Shell` | class | `tests/test_improvements_spec.py:823` | `class _Shell(Cmd)` |
+| `_Shell` | class | `tests/test_improvements_spec.py:794` | `class _Shell(Cmd)` |
+| `_Shell` | class | `tests/test_improvements_spec.py:806` | `class _Shell(Cmd)` |
+| `_Shell` | class | `tests/test_improvements_spec.py:831` | `class _Shell(Cmd)` |
 | `_Static` | class | `tests/test_improvements_spec.py:308` | `class _Static` |
 | `_Static` | class | `tests/test_improvements_spec.py:329` | `class _Static` |
 | `_UnavailableBackend` | class | `tests/test_improvements_spec.py:172` | `class _UnavailableBackend` |
-| `_Unnamed` | class | `tests/test_improvements_spec.py:453` | `class _Unnamed` |
+| `_Unnamed` | class | `tests/test_improvements_spec.py:461` | `class _Unnamed` |
 | `__init__` | method | `tests/test_improvements_spec.py:80` | `def __init__(self, custom_prompt)` |
 | `__init__` | method | `tests/test_improvements_spec.py:91` | `def __init__(self, payload)` |
 | `__init__` | method | `tests/test_improvements_spec.py:99` | `def __init__(self, drones, summary)` |
@@ -422,79 +491,10 @@ Previous: [SYMBOLS_p38.md](SYMBOLS_p38.md)
 | `__init__` | method | `tests/test_improvements_spec.py:309` | `def __init__(self, value)` |
 | `__init__` | method | `tests/test_improvements_spec.py:330` | `def __init__(self, value)` |
 | `_build_test_orchestrator` | function | `tests/test_improvements_spec.py:142` | `def _build_test_orchestrator(tmp_root, daemon_available, hive_available, swan_available, daemon_payload)` |
-| `_discover` | method | `tests/test_improvements_spec.py:683` | `def _discover(self)` |
-| `_events` | method | `tests/test_improvements_spec.py:611` | `def _events(self)` |
-| `_goal` | method | `tests/test_improvements_spec.py:561` | `def _goal(self)` |
+| `_discover` | method | `tests/test_improvements_spec.py:691` | `def _discover(self)` |
+| `_events` | method | `tests/test_improvements_spec.py:619` | `def _events(self)` |
+| `_goal` | method | `tests/test_improvements_spec.py:569` | `def _goal(self)` |
 | `_make_engine` | function | `tests/test_improvements_spec.py:154` | `def _make_engine(goal)` |
 | `_reader` | method | `tests/test_improvements_spec.py:216` | `def _reader(self)` |
-| `available` | method | `tests/test_improvements_spec.py:176` | `def available(self)` |
-| `available` | method | `tests/test_improvements_spec.py:456` | `def available(self)` |
-| `broken` | function | `tests/test_improvements_spec.py:899` | `def broken()` |
-| `collect` | method | `tests/test_improvements_spec.py:110` | `def collect(self, ids)` |
-| `collect` | method | `tests/test_improvements_spec.py:290` | `def collect(self)` |
-| `collect` | method | `tests/test_improvements_spec.py:312` | `def collect(self)` |
-| `collect` | method | `tests/test_improvements_spec.py:333` | `def collect(self)` |
-| `contains_emoji` | function | `tests/test_improvements_spec.py:730` | `def contains_emoji(text)` |
-| `dispatch` | method | `tests/test_improvements_spec.py:107` | `def dispatch(self, tasks)` |
-| `factory` | function | `tests/test_improvements_spec.py:931` | `def factory(goal)` |
-| `fake_hints` | function | `tests/test_improvements_spec.py:878` | `def fake_hints(last_cmd, phase, sessions_dir, limit)` |
-| `plan` | method | `tests/test_improvements_spec.py:103` | `def plan(self, goal, n_drones)` |
-| `register_precmd_hook` | method | `tests/test_improvements_spec.py:86` | `def register_precmd_hook(self, hook)` |
-| `run` | method | `tests/test_improvements_spec.py:94` | `def run(self)` |
-| `run` | method | `tests/test_improvements_spec.py:130` | `def run(self, task_type, goal, engagement_phase, timeout)` |
-| `run` | method | `tests/test_improvements_spec.py:179` | `def run(self, goal)` |
-| `run` | method | `tests/test_improvements_spec.py:459` | `def run(self, goal)` |
-| `run` | method | `tests/test_improvements_spec.py:592` | `def run(self)` |
-| `run` | method | `tests/test_improvements_spec.py:935` | `def run(self_inner)` |
-| `setUp` | method | `tests/test_improvements_spec.py:208` | `def setUp(self)` |
-| `setUp` | method | `tests/test_improvements_spec.py:242` | `def setUp(self)` |
-| `setUp` | method | `tests/test_improvements_spec.py:353` | `def setUp(self)` |
-| `setUp` | method | `tests/test_improvements_spec.py:407` | `def setUp(self)` |
-| `setUp` | method | `tests/test_improvements_spec.py:480` | `def setUp(self)` |
-| `setUp` | method | `tests/test_improvements_spec.py:521` | `def setUp(self)` |
-| `setUp` | method | `tests/test_improvements_spec.py:553` | `def setUp(self)` |
-| `setUp` | method | `tests/test_improvements_spec.py:604` | `def setUp(self)` |
-| `suggest_next` | method | `tests/test_improvements_spec.py:138` | `def suggest_next(self, recent_commands, limit)` |
-| `suggest_next` | method | `tests/test_improvements_spec.py:388` | `def suggest_next(self)` |
-| `synthesize` | method | `tests/test_improvements_spec.py:113` | `def synthesize(self, results)` |
-| `tearDown` | method | `tests/test_improvements_spec.py:213` | `def tearDown(self)` |
-| `tearDown` | method | `tests/test_improvements_spec.py:359` | `def tearDown(self)` |
-| `tearDown` | method | `tests/test_improvements_spec.py:527` | `def tearDown(self)` |
-| `tearDown` | method | `tests/test_improvements_spec.py:558` | `def tearDown(self)` |
-| `tearDown` | method | `tests/test_improvements_spec.py:608` | `def tearDown(self)` |
-| `test_auto_picks_daemon_when_target_present` | method | `tests/test_improvements_spec.py:496` | `def test_auto_picks_daemon_when_target_present(self)` |
-| `test_auto_picks_hive_on_swarm_keyword` | method | `tests/test_improvements_spec.py:500` | `def test_auto_picks_hive_on_swarm_keyword(self)` |
-| `test_auto_picks_swan_on_exploit_keyword` | method | `tests/test_improvements_spec.py:504` | `def test_auto_picks_swan_on_exploit_keyword(self)` |
-| `test_auto_routes_with_target_to_daemon` | method | `tests/test_improvements_spec.py:628` | `def test_auto_routes_with_target_to_daemon(self)` |
-| `test_backend_returns_error_when_engine_raises` | method | `tests/test_improvements_spec.py:590` | `def test_backend_returns_error_when_engine_raises(self)` |
-| `test_build_default_manager_does_not_touch_filesystem` | method | `tests/test_improvements_spec.py:1003` | `def test_build_default_manager_does_not_touch_filesystem(self)` |
-| `test_build_default_orchestrator_registers_three_backends` | method | `tests/test_improvements_spec.py:999` | `def test_build_default_orchestrator_registers_three_backends(self)` |
-| `test_collect_context_uses_fallbacks_on_failure` | method | `tests/test_improvements_spec.py:286` | `def test_collect_context_uses_fallbacks_on_failure(self)` |
-| `test_command_hint_source_falls_back_when_provider_raises` | method | `tests/test_improvements_spec.py:892` | `def test_command_hint_source_falls_back_when_provider_raises(self)` |
-| `test_command_hint_source_returns_kill_chain_verb` | method | `tests/test_improvements_spec.py:866` | `def test_command_hint_source_returns_kill_chain_verb(self)` |
-| `test_command_hints_helper_returns_phase_priority_verbs` | method | `tests/test_improvements_spec.py:913` | `def test_command_hints_helper_returns_phase_priority_verbs(self)` |
-| `test_command_set_resolves_shell_via_cmd_property` | method | `tests/test_improvements_spec.py:781` | `def test_command_set_resolves_shell_via_cmd_property(self)` |
-| `test_config_ignores_invalid_overrides` | method | `tests/test_improvements_spec.py:200` | `def test_config_ignores_invalid_overrides(self)` |
-| `test_config_is_immutable_dataclass` | method | `tests/test_improvements_spec.py:190` | `def test_config_is_immutable_dataclass(self)` |
-| `test_config_overrides_from_payload` | method | `tests/test_improvements_spec.py:196` | `def test_config_overrides_from_payload(self)` |
-| `test_core_config_is_canonical` | method | `tests/test_improvements_spec.py:664` | `def test_core_config_is_canonical(self)` |
-| `test_daemon_falls_back_to_payload_rhost` | method | `tests/test_improvements_spec.py:921` | `def test_daemon_falls_back_to_payload_rhost(self)` |
-| `test_daemon_normalises_dict_result` | method | `tests/test_improvements_spec.py:570` | `def test_daemon_normalises_dict_result(self)` |
-| `test_daemon_requires_target` | method | `tests/test_improvements_spec.py:565` | `def test_daemon_requires_target(self)` |
-| `test_default_prompt_join_is_newline` | method | `tests/test_improvements_spec.py:861` | `def test_default_prompt_join_is_newline(self)` |
-| `test_defaults_are_applied` | method | `tests/test_improvements_spec.py:424` | `def test_defaults_are_applied(self)` |
-| `test_duplicate_name_raises` | method | `tests/test_improvements_spec.py:447` | `def test_duplicate_name_raises(self)` |
-| `test_emit_appends_jsonline` | method | `tests/test_improvements_spec.py:530` | `def test_emit_appends_jsonline(self)` |
-| `test_emit_rejects_non_serialisable` | method | `tests/test_improvements_spec.py:541` | `def test_emit_rejects_non_serialisable(self)` |
-| `test_emit_rejects_oversize_event` | method | `tests/test_improvements_spec.py:537` | `def test_emit_rejects_oversize_event(self)` |
-| `test_empty_goal_is_rejected` | method | `tests/test_improvements_spec.py:411` | `def test_empty_goal_is_rejected(self)` |
-| `test_empty_name_raises` | method | `tests/test_improvements_spec.py:452` | `def test_empty_name_raises(self)` |
-| `test_enabled_flag_accepts_strings_and_bools` | method | `tests/test_improvements_spec.py:304` | `def test_enabled_flag_accepts_strings_and_bools(self)` |
-| `test_event_is_emitted_per_execution` | method | `tests/test_improvements_spec.py:634` | `def test_event_is_emitted_per_execution(self)` |
-| `test_every_class_in_new_modules_has_docstring` | method | `tests/test_improvements_spec.py:709` | `def test_every_class_in_new_modules_has_docstring(self)` |
-| `test_explicit_mode_overrides_router` | method | `tests/test_improvements_spec.py:492` | `def test_explicit_mode_overrides_router(self)` |
-| `test_factory_returns_manager_with_four_sources` | method | `tests/test_improvements_spec.py:398` | `def test_factory_returns_manager_with_four_sources(self)` |
-| `test_file_permissions_are_restrictive` | method | `tests/test_improvements_spec.py:544` | `def test_file_permissions_are_restrictive(self)` |
-| `test_finding_prefers_credentials_over_notes` | method | `tests/test_improvements_spec.py:375` | `def test_finding_prefers_credentials_over_notes(self)` |
 
 Next: [SYMBOLS_p40.md](SYMBOLS_p40.md)

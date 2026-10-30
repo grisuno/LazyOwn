@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `extract_seeds_from_scope` | function | `modules/estorides_importer.py:244` | `def extract_seeds_from_scope(scope_entries)` |
+| `extract_seeds_from_world_model` | function | `modules/estorides_importer.py:143` | `def extract_seeds_from_world_model(world_model_path)` |
+| `find_lan_bundle_files` | function | `modules/estorides_importer.py:588` | `def find_lan_bundle_files(lan_dir, sessions_dir)` |
+| `get_all_entities` | method | `modules/estorides_importer.py:475` | `def get_all_entities(self, case_id)` |
+| `get_combined_surface` | method | `modules/estorides_importer.py:836` | `def get_combined_surface(self)` |
+| `get_entities` | method | `modules/estorides_importer.py:416` | `def get_entities(self, case_id, entity_types, limit)` |
+| `get_host_entities` | method | `modules/estorides_importer.py:471` | `def get_host_entities(self, case_id)` |
+| `import_entities` | method | `modules/estorides_importer.py:713` | `def import_entities(self, entities, add_to_scope, add_to_db)` |
+| `list_cases` | method | `modules/estorides_importer.py:404` | `def list_cases(self, limit)` |
+| `new_assets` | method | `modules/estorides_importer.py:139` | `def new_assets(self)` |
 | `parse` | method | `modules/estorides_importer.py:520` | `def parse(self)` |
 | `parse` | method | `modules/estorides_importer.py:654` | `def parse(self)` |
 | `parse_by_type` | method | `modules/estorides_importer.py:554` | `def parse_by_type(self, entity_types)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `plan_matrix` | function | `modules/gym_winbox_runner.py:21` | `def plan_matrix(target, sessions_dir, only, top_k)` |
 | `report` | function | `modules/gym_winbox_runner.py:118` | `def report(sessions_dir)` |
 | `run_matrix` | function | `modules/gym_winbox_runner.py:51` | `def run_matrix(target)` |
-| `gate` | function | `modules/harness.py:65` | `def gate(name)` |
-| `harness_enabled` | function | `modules/harness.py:30` | `def harness_enabled()` |
-| `CrackResult` | class | `modules/hash_cracker.py:127` | `class CrackResult` |
-| `HashCracker` | class | `modules/hash_cracker.py:151` | `class HashCracker` |
-| `HashIdentifier` | class | `modules/hash_cracker.py:140` | `class HashIdentifier` |
-| `__init__` | method | `modules/hash_cracker.py:164` | `def __init__(self, wordlist, rules, use_hashcat, timeout)` |
-| `_crack_batch_hashcat` | method | `modules/hash_cracker.py:500` | `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)` |
-| `_crack_batch_john` | method | `modules/hash_cracker.py:610` | `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)` |
-| `_crack_hashcat` | method | `modules/hash_cracker.py:454` | `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)` |
-| `_crack_john` | method | `modules/hash_cracker.py:560` | `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

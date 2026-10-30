@@ -603,7 +603,7 @@ Return a short description of the freshest credential / vuln / note.
 
 ### `CommandHintSuggestionSource`
 
-`class` | [cli/status_bar.py:418](../../cli/status_bar.py#L418)
+`class` | [cli/status_bar.py:425](../../cli/status_bar.py#L425)
 
 ```python
 class CommandHintSuggestionSource
@@ -628,7 +628,7 @@ arbitrary node lookups.
 
 #### `CommandHintSuggestionSource.__init__`
 
-`constructor` | [cli/status_bar.py:428](../../cli/status_bar.py#L428)
+`constructor` | [cli/status_bar.py:435](../../cli/status_bar.py#L435)
 
 ```python
 def __init__(self, config: StatusBarConfig, reader: FileSystemReader, phase_provider: Callable[[], str], hint_provider: Callable[[str, str, str, int], list[str]] | None = None) -> None
@@ -651,7 +651,7 @@ Bind to config, reader and the current-phase callable.
 
 #### `CommandHintSuggestionSource.collect`
 
-`method` | [cli/status_bar.py:453](../../cli/status_bar.py#L453)
+`method` | [cli/status_bar.py:460](../../cli/status_bar.py#L460)
 
 ```python
 def collect(self) -> str
@@ -667,7 +667,7 @@ Return the top kill-chain suggestion or the configured fallback.
 
 ### `GraphSuggestionSource`
 
-`class` | [cli/status_bar.py:510](../../cli/status_bar.py#L510)
+`class` | [cli/status_bar.py:517](../../cli/status_bar.py#L517)
 
 ```python
 class GraphSuggestionSource
@@ -686,7 +686,7 @@ Status source: top next-step suggestion from the graph advisor.
 
 #### `GraphSuggestionSource.__init__`
 
-`constructor` | [cli/status_bar.py:513](../../cli/status_bar.py#L513)
+`constructor` | [cli/status_bar.py:520](../../cli/status_bar.py#L520)
 
 ```python
 def __init__(self, config: StatusBarConfig, reader: FileSystemReader, advisor_factory: Callable[[], Any] | None = None) -> None
@@ -706,7 +706,7 @@ Bind to config, reader, and an optional advisor factory.
 
 #### `GraphSuggestionSource.collect`
 
-`method` | [cli/status_bar.py:532](../../cli/status_bar.py#L532)
+`method` | [cli/status_bar.py:539](../../cli/status_bar.py#L539)
 
 ```python
 def collect(self) -> str
@@ -724,7 +724,7 @@ Never raises.
 
 ### `CollabPresenceSource`
 
-`class` | [cli/status_bar.py:592](../../cli/status_bar.py#L592)
+`class` | [cli/status_bar.py:599](../../cli/status_bar.py#L599)
 
 ```python
 class CollabPresenceSource
@@ -750,7 +750,7 @@ count reflects live presence and survives a server restart.
 
 #### `CollabPresenceSource.__init__`
 
-`constructor` | [cli/status_bar.py:603](../../cli/status_bar.py#L603)
+`constructor` | [cli/status_bar.py:610](../../cli/status_bar.py#L610)
 
 ```python
 def __init__(self, config: StatusBarConfig, reader: FileSystemReader, clock: Callable[[], float] | None = None) -> None
@@ -772,7 +772,7 @@ Bind to the active config, reader, and an injectable clock.
 
 #### `CollabPresenceSource.collect`
 
-`method` | [cli/status_bar.py:624](../../cli/status_bar.py#L624)
+`method` | [cli/status_bar.py:631](../../cli/status_bar.py#L631)
 
 ```python
 def collect(self) -> str
@@ -788,7 +788,7 @@ Return the active-operator count formatted as a short string.
 
 ### `StatusBarRenderer`
 
-`class` | [cli/status_bar.py:658](../../cli/status_bar.py#L658)
+`class` | [cli/status_bar.py:665](../../cli/status_bar.py#L665)
 
 ```python
 class StatusBarRenderer
@@ -808,7 +808,7 @@ Compose a sanitised status line from a [`StatusContext`](#statuscontext).
 
 #### `StatusBarRenderer.__init__`
 
-`constructor` | [cli/status_bar.py:661](../../cli/status_bar.py#L661)
+`constructor` | [cli/status_bar.py:668](../../cli/status_bar.py#L668)
 
 ```python
 def __init__(self, config: StatusBarConfig) -> None
@@ -828,7 +828,7 @@ Bind to the active configuration.
 
 #### `StatusBarRenderer.render_plain`
 
-`method` | [cli/status_bar.py:666](../../cli/status_bar.py#L666)
+`method` | [cli/status_bar.py:673](../../cli/status_bar.py#L673)
 
 ```python
 def render_plain(self, ctx: StatusContext) -> str
@@ -850,7 +850,7 @@ Return the line without ANSI colour or readline markers.
 
 #### `StatusBarRenderer.render_prompt`
 
-`method` | [cli/status_bar.py:689](../../cli/status_bar.py#L689)
+`method` | [cli/status_bar.py:696](../../cli/status_bar.py#L696)
 
 ```python
 def render_prompt(self, ctx: StatusContext, base_prompt: str, color_open: str | None = None, color_close: str | None = None, readline_safe: bool = False) -> str
@@ -879,7 +879,7 @@ Return ``base_prompt`` with the status line prefixed.
 
 ### `StatusBarManager`
 
-`class` | [cli/status_bar.py:746](../../cli/status_bar.py#L746)
+`class` | [cli/status_bar.py:753](../../cli/status_bar.py#L753)
 
 ```python
 class StatusBarManager
@@ -907,7 +907,7 @@ class directly with hand-rolled doubles for sources and shell.
 
 #### `StatusBarManager.__init__`
 
-`constructor` | [cli/status_bar.py:754](../../cli/status_bar.py#L754)
+`constructor` | [cli/status_bar.py:761](../../cli/status_bar.py#L761)
 
 ```python
 def __init__(self, config: StatusBarConfig, sources: Mapping[str, IStatusSource], renderer: StatusBarRenderer, payload: Mapping[str, Any] | None = None) -> None
@@ -934,7 +934,7 @@ Bind config, sources, renderer and a payload mapping.
 
 #### `StatusBarManager.enabled`
 
-`property` | [cli/status_bar.py:785](../../cli/status_bar.py#L785)
+`property` | [cli/status_bar.py:792](../../cli/status_bar.py#L792)
 
 Decorators: `@property`
 
@@ -950,7 +950,7 @@ Return ``True`` when the bar should render on this shell.
 
 #### `StatusBarManager.collect_context`
 
-`method` | [cli/status_bar.py:800](../../cli/status_bar.py#L800)
+`method` | [cli/status_bar.py:807](../../cli/status_bar.py#L807)
 
 ```python
 def collect_context(self) -> StatusContext
@@ -968,7 +968,7 @@ Return a fresh [`StatusContext`](#statuscontext) by polling every source.
 
 #### `StatusBarManager.render_prompt`
 
-`method` | [cli/status_bar.py:813](../../cli/status_bar.py#L813)
+`method` | [cli/status_bar.py:820](../../cli/status_bar.py#L820)
 
 ```python
 def render_prompt(self, base_prompt: str, readline_safe: bool = False) -> str
@@ -997,7 +997,7 @@ prompt without restarting the shell.
 
 #### `StatusBarManager.render_plain_line`
 
-`method` | [cli/status_bar.py:835](../../cli/status_bar.py#L835)
+`method` | [cli/status_bar.py:842](../../cli/status_bar.py#L842)
 
 ```python
 def render_plain_line(self, ctx: StatusContext | None = None) -> str
@@ -1020,7 +1020,7 @@ verb when colour escapes would clutter operator scripts.
 
 #### `StatusBarManager.set_enabled`
 
-`method` | [cli/status_bar.py:849](../../cli/status_bar.py#L849)
+`method` | [cli/status_bar.py:856](../../cli/status_bar.py#L856)
 
 ```python
 def set_enabled(self, enabled: bool) -> None
@@ -1042,7 +1042,7 @@ reload. Non-mapping payloads are ignored.
 
 #### `StatusBarManager.install`
 
-`method` | [cli/status_bar.py:859](../../cli/status_bar.py#L859)
+`method` | [cli/status_bar.py:866](../../cli/status_bar.py#L866)
 
 ```python
 def install(self, shell: Any, base_prompt_attribute: str = 'custom_prompt', prompt_attribute: str = 'prompt') -> bool
@@ -1110,7 +1110,7 @@ Return the field value for this source as a plain string.
 
 ### `build_default_manager`
 
-`function` | [cli/status_bar.py:971](../../cli/status_bar.py#L971)
+`function` | [cli/status_bar.py:978](../../cli/status_bar.py#L978)
 
 ```python
 def build_default_manager(payload: Mapping[str, Any] | None, sessions_dir: str | None = None, advisor_factory: Callable[[], Any] | None = None, config: StatusBarConfig | None = None) -> StatusBarManager

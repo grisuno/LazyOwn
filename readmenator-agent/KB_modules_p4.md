@@ -1,6 +1,40 @@
 # Subsystem: modules (page 4 of 17)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
 
+## modules/compliance.py
+- Doc: modules/compliance.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EvidenceEntry` (class, line 340) `class EvidenceEntry`
+  - `EvidenceChain` (class, line 349) `class EvidenceChain`
+  - `export_pdf` (function, line 449) `def export_pdf(report_md, output_path, title, classification)`
+  - `export_to_elastic_ndjson` (function, line 533) `def export_to_elastic_ndjson(findings, output_path, index_prefix)`
+  - `export_to_cef` (function, line 572) `def export_to_cef(findings, output_path, vendor, product, version)`
+  - `ComplianceFinding` (class, line 620) `class ComplianceFinding`
+  - `ComplianceEngine` (class, line 632) `class ComplianceEngine`
+  - `__init__` (method, line 357) `def __init__(self, sessions_dir)`
+  - `_load` (method, line 364) `def _load(self)`
+  - `_hash_entry` (method, line 379) `def _hash_entry(self, entry)`
+  - `add_file` (method, line 383) `def add_file(self, filepath, operator, description)`
+  - `_append_to_file` (method, line 403) `def _append_to_file(self, entry)`
+  - `verify` (method, line 410) `def verify(self)`
+  - `get_chain_digest` (method, line 429) `def get_chain_digest(self)`
+  - `to_report` (method, line 432) `def to_report(self)`
+  - `__init__` (method, line 635) `def __init__(self, sessions_dir)`
+  - `map_findings_to_compliance` (method, line 639) `def map_findings_to_compliance(self, findings, frameworks)`
+  - `generate_compliance_report` (method, line 710) `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)`
+  - `_count_by_severity` (method, line 765) `def _count_by_severity(self, findings)`
+  - `_count_by_category` (method, line 772) `def _count_by_category(self, findings)`
+  - `_compliance_finding` (method, line 780) `def _compliance_finding(fact)`
+  - `_load_findings` (method, line 808) `def _load_findings(self)`
+  - `export_pdf` (method, line 857) `def export_pdf(self, report, output_path)`
+  - `_format_compliance_report_md` (method, line 861) `def _format_compliance_report_md(self, report)`
+  - `add_evidence` (method, line 927) `def add_evidence(self, filepath, operator, description)`
+  - `verify_evidence_chain` (method, line 930) `def verify_evidence_chain(self)`
+- Depends on: `core/logging.py`, `modules/factsio.py`
+- Imported by: `lazyc2.py`, `tests/test_single_source_of_truth.py`
+
 ## modules/conditional_hooks.py
 - Doc: Conditional Hooks System for LazyOwn (Mythic-style triggers).
 - Layer: utility
@@ -459,25 +493,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_save_dominance_report` (method, line 944) `def _save_dominance_report(self)`
 - Depends on: `core/hardening.py`
 - Imported by: `cli/commands/lateral_migrated.py`, `tests/test_security_alerts_fix.py`
-
-## modules/dotnet_payload.py
-- Doc: .NET/C# payload generation — execute-assembly, inline-assembly, Roslyn compilation.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DotNetPayloadConfig` (class, line 293) `class DotNetPayloadConfig`
-  - `DotNetPayloadFactory` (class, line 315) `class DotNetPayloadFactory`
-  - `__init__` (method, line 327) `def __init__(self, output_dir)`
-  - `_detect_compiler` (method, line 333) `def _detect_compiler()`
-  - `list_templates` (method, line 364) `def list_templates()`
-  - `_resolve_template` (method, line 368) `def _resolve_template(self, config)`
-  - `generate_source` (method, line 389) `def generate_source(self, config)`
-  - `compile` (method, line 403) `def compile(self, config, source_code)`
-  - `generate` (method, line 454) `def generate(self, config)`
-  - `generate_powershell_reflective` (method, line 481) `def generate_powershell_reflective(self, config)`
-  - `generate_inline_assembly` (method, line 500) `def generate_inline_assembly(self, config)`
-  - `to_format` (method, line 520) `def to_format(self, data, fmt)`
-- Imported by: `cli/commands/payload_arsenal.py`
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

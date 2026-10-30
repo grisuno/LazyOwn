@@ -118,70 +118,70 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `render` | method | `cli/splash.py:90` | `def render(self, console, lines, tokens, config)` |
 | `render` | method | `cli/splash.py:150` | `def render(self, console, lines, tokens, config)` |
 | `render_splash` | function | `cli/splash.py:166` | `def render_splash(console, lines, payload, config, effect_name)` |
-| `CollabPresenceSource` | class | `cli/status_bar.py:592` | `class CollabPresenceSource` |
-| `CommandHintSuggestionSource` | class | `cli/status_bar.py:418` | `class CommandHintSuggestionSource` |
+| `CollabPresenceSource` | class | `cli/status_bar.py:599` | `class CollabPresenceSource` |
+| `CommandHintSuggestionSource` | class | `cli/status_bar.py:425` | `class CommandHintSuggestionSource` |
 | `FileSystemReader` | class | `cli/status_bar.py:151` | `class FileSystemReader` |
-| `GraphSuggestionSource` | class | `cli/status_bar.py:510` | `class GraphSuggestionSource` |
+| `GraphSuggestionSource` | class | `cli/status_bar.py:517` | `class GraphSuggestionSource` |
 | `IStatusSource` | class | `cli/status_bar.py:143` | `class IStatusSource(Protocol)` |
 | `PayloadTargetSource` | class | `cli/status_bar.py:268` | `class PayloadTargetSource` |
 | `SessionFindingSource` | class | `cli/status_bar.py:321` | `class SessionFindingSource` |
 | `StatusBarConfig` | class | `cli/status_bar.py:41` | `class StatusBarConfig` |
-| `StatusBarManager` | class | `cli/status_bar.py:746` | `class StatusBarManager` |
-| `StatusBarRenderer` | class | `cli/status_bar.py:658` | `class StatusBarRenderer` |
+| `StatusBarManager` | class | `cli/status_bar.py:753` | `class StatusBarManager` |
+| `StatusBarRenderer` | class | `cli/status_bar.py:665` | `class StatusBarRenderer` |
 | `StatusContext` | class | `cli/status_bar.py:127` | `class StatusContext` |
 | `WorldModelPhaseSource` | class | `cli/status_bar.py:292` | `class WorldModelPhaseSource` |
 | `__init__` | method | `cli/status_bar.py:160` | `def __init__(self, config, root)` |
 | `__init__` | method | `cli/status_bar.py:271` | `def __init__(self, config, payload)` |
 | `__init__` | method | `cli/status_bar.py:295` | `def __init__(self, config, reader, payload)` |
 | `__init__` | method | `cli/status_bar.py:324` | `def __init__(self, config, reader)` |
-| `__init__` | method | `cli/status_bar.py:428` | `def __init__(self, config, reader, phase_provider, hint_provider)` |
-| `__init__` | method | `cli/status_bar.py:513` | `def __init__(self, config, reader, advisor_factory)` |
-| `__init__` | method | `cli/status_bar.py:603` | `def __init__(self, config, reader, clock)` |
-| `__init__` | method | `cli/status_bar.py:661` | `def __init__(self, config)` |
-| `__init__` | method | `cli/status_bar.py:754` | `def __init__(self, config, sources, renderer, payload)` |
-| `_build_precmd_hook` | method | `cli/status_bar.py:897` | `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)` |
-| `_default_provider` | method | `cli/status_bar.py:502` | `def _default_provider()` |
-| `_extract_entries` | method | `cli/status_bar.py:638` | `def _extract_entries(payload)` |
-| `_extract_vuln_items` | method | `cli/status_bar.py:398` | `def _extract_vuln_items(self, payload)` |
-| `_fallback_for` | method | `cli/status_bar.py:940` | `def _fallback_for(self, key)` |
+| `__init__` | method | `cli/status_bar.py:435` | `def __init__(self, config, reader, phase_provider, hint_provider)` |
+| `__init__` | method | `cli/status_bar.py:520` | `def __init__(self, config, reader, advisor_factory)` |
+| `__init__` | method | `cli/status_bar.py:610` | `def __init__(self, config, reader, clock)` |
+| `__init__` | method | `cli/status_bar.py:668` | `def __init__(self, config)` |
+| `__init__` | method | `cli/status_bar.py:761` | `def __init__(self, config, sources, renderer, payload)` |
+| `_build_precmd_hook` | method | `cli/status_bar.py:904` | `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)` |
+| `_default_provider` | method | `cli/status_bar.py:509` | `def _default_provider()` |
+| `_extract_entries` | method | `cli/status_bar.py:645` | `def _extract_entries(payload)` |
+| `_extract_vuln_items` | method | `cli/status_bar.py:405` | `def _extract_vuln_items(self, payload)` |
+| `_fallback_for` | method | `cli/status_bar.py:947` | `def _fallback_for(self, key)` |
 | `_has_traversal` | method | `cli/status_bar.py:261` | `def _has_traversal(value)` |
-| `_hook` | function | `cli/status_bar.py:917` | `def _hook(data)` |
-| `_is_active` | method | `cli/status_bar.py:648` | `def _is_active(entry, threshold)` |
+| `_hook` | function | `cli/status_bar.py:924` | `def _hook(data)` |
+| `_is_active` | method | `cli/status_bar.py:655` | `def _is_active(entry, threshold)` |
 | `_is_within_root` | method | `cli/status_bar.py:253` | `def _is_within_root(self, candidate)` |
-| `_last_line` | method | `cli/status_bar.py:378` | `def _last_line(self, path)` |
-| `_latest_command` | method | `cli/status_bar.py:478` | `def _latest_command(self)` |
+| `_last_line` | method | `cli/status_bar.py:380` | `def _last_line(self, path)` |
+| `_latest_command` | method | `cli/status_bar.py:485` | `def _latest_command(self)` |
 | `_latest_credential` | method | `cli/status_bar.py:337` | `def _latest_credential(self)` |
-| `_latest_note` | method | `cli/status_bar.py:360` | `def _latest_note(self)` |
-| `_latest_vuln` | method | `cli/status_bar.py:347` | `def _latest_vuln(self)` |
-| `_operator_presence_enabled` | function | `cli/status_bar.py:950` | `def _operator_presence_enabled(payload, config)` |
-| `_recent_commands` | method | `cli/status_bar.py:553` | `def _recent_commands(self)` |
-| `_resolve_theme_colors` | method | `cli/status_bar.py:825` | `def _resolve_theme_colors(self)` |
-| `_safe_collect` | method | `cli/status_bar.py:931` | `def _safe_collect(self, key)` |
+| `_latest_note` | method | `cli/status_bar.py:362` | `def _latest_note(self)` |
+| `_latest_vuln` | method | `cli/status_bar.py:349` | `def _latest_vuln(self)` |
+| `_operator_presence_enabled` | function | `cli/status_bar.py:957` | `def _operator_presence_enabled(payload, config)` |
+| `_recent_commands` | method | `cli/status_bar.py:560` | `def _recent_commands(self)` |
+| `_resolve_theme_colors` | method | `cli/status_bar.py:832` | `def _resolve_theme_colors(self)` |
+| `_safe_collect` | method | `cli/status_bar.py:938` | `def _safe_collect(self, key)` |
 | `_safe_path` | method | `cli/status_bar.py:247` | `def _safe_path(self, relative)` |
-| `_sanitise` | method | `cli/status_bar.py:726` | `def _sanitise(self, value, max_chars)` |
-| `_suggestion_label` | method | `cli/status_bar.py:581` | `def _suggestion_label(entry)` |
-| `_summarise_credential` | method | `cli/status_bar.py:391` | `def _summarise_credential(self, filename, line)` |
-| `build_default_manager` | function | `cli/status_bar.py:971` | `def build_default_manager(payload, sessions_dir, advisor_factory, config)` |
+| `_sanitise` | method | `cli/status_bar.py:733` | `def _sanitise(self, value, max_chars)` |
+| `_suggestion_label` | method | `cli/status_bar.py:588` | `def _suggestion_label(entry)` |
+| `_summarise_credential` | method | `cli/status_bar.py:395` | `def _summarise_credential(self, filename, line)` |
+| `build_default_manager` | function | `cli/status_bar.py:978` | `def build_default_manager(payload, sessions_dir, advisor_factory, config)` |
 | `collect` | method | `cli/status_bar.py:146` | `def collect(self)` |
 | `collect` | method | `cli/status_bar.py:283` | `def collect(self)` |
 | `collect` | method | `cli/status_bar.py:306` | `def collect(self)` |
 | `collect` | method | `cli/status_bar.py:329` | `def collect(self)` |
-| `collect` | method | `cli/status_bar.py:453` | `def collect(self)` |
-| `collect` | method | `cli/status_bar.py:532` | `def collect(self)` |
-| `collect` | method | `cli/status_bar.py:624` | `def collect(self)` |
-| `collect_context` | method | `cli/status_bar.py:800` | `def collect_context(self)` |
-| `enabled` | method | `cli/status_bar.py:785` | `def enabled(self)` |
+| `collect` | method | `cli/status_bar.py:460` | `def collect(self)` |
+| `collect` | method | `cli/status_bar.py:539` | `def collect(self)` |
+| `collect` | method | `cli/status_bar.py:631` | `def collect(self)` |
+| `collect_context` | method | `cli/status_bar.py:807` | `def collect_context(self)` |
+| `enabled` | method | `cli/status_bar.py:792` | `def enabled(self)` |
 | `from_payload` | method | `cli/status_bar.py:99` | `def from_payload(cls, payload)` |
 | `glob_latest` | method | `cli/status_bar.py:222` | `def glob_latest(self, pattern)` |
-| `install` | method | `cli/status_bar.py:859` | `def install(self, shell, base_prompt_attribute, prompt_attribute)` |
+| `install` | method | `cli/status_bar.py:866` | `def install(self, shell, base_prompt_attribute, prompt_attribute)` |
 | `read_json` | method | `cli/status_bar.py:204` | `def read_json(self, relative)` |
 | `read_text` | method | `cli/status_bar.py:183` | `def read_text(self, relative)` |
-| `render_plain` | method | `cli/status_bar.py:666` | `def render_plain(self, ctx)` |
-| `render_plain_line` | method | `cli/status_bar.py:835` | `def render_plain_line(self, ctx)` |
-| `render_prompt` | method | `cli/status_bar.py:689` | `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)` |
-| `render_prompt` | method | `cli/status_bar.py:813` | `def render_prompt(self, base_prompt, readline_safe)` |
+| `render_plain` | method | `cli/status_bar.py:673` | `def render_plain(self, ctx)` |
+| `render_plain_line` | method | `cli/status_bar.py:842` | `def render_plain_line(self, ctx)` |
+| `render_prompt` | method | `cli/status_bar.py:696` | `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)` |
+| `render_prompt` | method | `cli/status_bar.py:820` | `def render_prompt(self, base_prompt, readline_safe)` |
 | `root` | method | `cli/status_bar.py:179` | `def root(self)` |
-| `set_enabled` | method | `cli/status_bar.py:849` | `def set_enabled(self, enabled)` |
+| `set_enabled` | method | `cli/status_bar.py:856` | `def set_enabled(self, enabled)` |
 | `active_tokens` | function | `cli/style.py:68` | `def active_tokens(payload)` |
 | `paint` | function | `cli/style.py:84` | `def paint(text, token, payload)` |
 | `render_prompt` | function | `cli/style.py:98` | `def render_prompt(console, segments, payload)` |

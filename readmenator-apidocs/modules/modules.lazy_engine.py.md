@@ -27,7 +27,7 @@ classDiagram
 
 ### `LazyEngine`
 
-`class` | [modules/lazy_engine.py:55](../../modules/lazy_engine.py#L55)
+`class` | [modules/lazy_engine.py:56](../../modules/lazy_engine.py#L56)
 
 ```python
 class LazyEngine(LazyLoopEngine)

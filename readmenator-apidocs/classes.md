@@ -50,6 +50,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ACIReflector`](modules/skills.aci_planner.py.md#acireflector) class in `skills.aci_planner`
 - [`ACLTarget`](modules/modules.dacl_abuse.py.md#acltarget) class in `modules.dacl_abuse`
 - [`ActionCategory`](modules/skills.lazyown_policy.py.md#actioncategory) enum in `skills.lazyown_policy`(StrEnum)
+- [`ActionDecision`](modules/modules.selection.base.py.md#actiondecision) class in `modules.selection.base`
 - [`ActivityLog`](modules/modules.lazy_loop.py.md#activitylog) class in `modules.lazy_loop`
 - [`ActivityLogPort`](modules/modules.mediation.contracts.py.md#activitylogport) protocol in `modules.mediation.contracts`(Protocol)
 - [`ADCSCertipyWrapper`](modules/modules.adcs_attacks.py.md#adcscertipywrapper) class in `modules.adcs_attacks`
@@ -64,6 +65,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`AddonValidationError`](modules/lazyc2.addon_creator.py.md#addonvalidationerror) exception in `lazyc2.addon_creator`(ValueError)
 - [`AddonValidator`](modules/lazyc2.addon_creator.py.md#addonvalidator) class in `lazyc2.addon_creator`
 - [`AddonYamlRenderer`](modules/lazyc2.addon_creator.py.md#addonyamlrenderer) class in `lazyc2.addon_creator`
+- [`AdversarySelector`](modules/modules.selection.adversary.py.md#adversaryselector) class in `modules.selection.adversary`
 - [`AdvisoryLedger`](modules/modules.guardrails.advisories.py.md#advisoryledger) class in `modules.guardrails.advisories`
 - [`AESKeyManager`](modules/lazyc2.security.services.py.md#aeskeymanager) class in `lazyc2.security.services`
 - [`AgentBridgeWorker`](modules/modules.mcp_agent_bridge.py.md#agentbridgeworker) class in `modules.mcp_agent_bridge`
@@ -110,6 +112,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`AssetNode`](modules/modules.asset_graph.py.md#assetnode) class in `modules.asset_graph`
 - [`ASTToolExtractor`](modules/modules.agent_runner.py.md#asttoolextractor) class in `modules.agent_runner`
 - [`AtomicResolver`](modules/modules.atomic_resolver.py.md#atomicresolver) class in `modules.atomic_resolver`
+- [`AtomicSelector`](modules/modules.selection.atomic.py.md#atomicselector) class in `modules.selection.atomic`
 - [`AtomicTest`](modules/modules.atomic_resolver.py.md#atomictest) class in `modules.atomic_resolver`
 - [`AtomicTestRef`](modules/modules.apt_playbooks.py.md#atomictestref) class in `modules.apt_playbooks`
 - [`AttackPhase`](modules/skills.aci_planner.py.md#attackphase) class in `skills.aci_planner`
@@ -204,6 +207,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ChainResult`](modules/modules.exploit_chain.py.md#chainresult) class in `modules.exploit_chain`
 - [`ChainRunner`](modules/modules.chain_runner.py.md#chainrunner) class in `modules.chain_runner`
 - [`ChainRunResult`](modules/modules.chain_runner.py.md#chainrunresult) class in `modules.chain_runner`
+- [`ChainSelector`](modules/modules.selection.chain.py.md#chainselector) class in `modules.selection.chain`
 - [`ChainStep`](modules/modules.chain_registry.py.md#chainstep) class in `modules.chain_registry`
 - [`ChainSuggestion`](modules/cli.chain_mode.py.md#chainsuggestion) class in `cli.chain_mode`
 - [`Channel`](modules/modules.notify.py.md#channel) class in `modules.notify`
@@ -319,6 +323,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`CredentialFact`](modules/skills.lazyown_facts.py.md#credentialfact) class in `skills.lazyown_facts`
 - [`CredentialReactor`](modules/modules.event_consumers.py.md#credentialreactor) class in `modules.event_consumers`
 - [`CredentialReuseEngine`](modules/modules.credential_reuse.py.md#credentialreuseengine) class in `modules.credential_reuse`
+- [`CredentialSpraySelector`](modules/modules.selection.cred_spray.py.md#credentialsprayselector) class in `modules.selection.cred_spray`
 - [`CredentialStash`](modules/modules.domain_dominance.py.md#credentialstash) class in `modules.domain_dominance`
 - [`CredRow`](modules/modules.lazy_creds.py.md#credrow) class in `modules.lazy_creds`
 - [`CrossCloudAttackEngine`](modules/modules.cross_cloud.py.md#crosscloudattackengine) class in `modules.cross_cloud`
@@ -644,6 +649,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ICommandRunner`](modules/skills.hive_mind.py.md#icommandrunner) class in `skills.hive_mind`(ABC)
 - [`ICommandSelector`](modules/skills.autonomous_daemon.py.md#icommandselector) class in `skills.autonomous_daemon`(ABC)
   - [`BridgeSelector`](modules/skills.autonomous_daemon.py.md#bridgeselector) class in `skills.autonomous_daemon`
+  - [`ChainSelector`](modules/skills.autonomous_daemon.py.md#chainselector) class in `skills.autonomous_daemon`
   - [`CredentialSpraySelector`](modules/skills.autonomous_daemon.py.md#credentialsprayselector) class in `skills.autonomous_daemon`
   - [`FallbackSelector`](modules/skills.autonomous_daemon.py.md#fallbackselector) class in `skills.autonomous_daemon`
   - [`LLMSelector`](modules/skills.autonomous_daemon.py.md#llmselector) class in `skills.autonomous_daemon`
@@ -651,6 +657,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`ParquetSelector`](modules/skills.autonomous_daemon.py.md#parquetselector) class in `skills.autonomous_daemon`
   - [`ReactiveSelector`](modules/skills.autonomous_daemon.py.md#reactiveselector) class in `skills.autonomous_daemon`
   - [`SWANSelector`](modules/skills.autonomous_daemon.py.md#swanselector) class in `skills.autonomous_daemon`
+  - [`UnifiedBrainSelector`](modules/skills.autonomous_daemon.py.md#unifiedbrainselector) class in `skills.autonomous_daemon`
 - [`IdentifierConstants`](modules/lazygui.config.constants.py.md#identifierconstants) class in `lazygui.config.constants`
 - [`IDetectionOracle`](modules/modules.detection_oracle.py.md#idetectionoracle) class in `modules.detection_oracle`(ABC)
   - [`DetectionOracle`](modules/modules.detection_oracle.py.md#detectionoracle) class in `modules.detection_oracle`
@@ -1147,6 +1154,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`PlaybookLoader`](modules/modules.playbook_executor.py.md#playbookloader) class in `modules.playbook_executor`
 - [`PlaybookResult`](modules/modules.playbook_engine.py.md#playbookresult) class in `modules.playbook_engine`
 - [`PlaybookRunResult`](modules/modules.playbook_executor.py.md#playbookrunresult) class in `modules.playbook_executor`
+- [`PlaybookSelector`](modules/modules.selection.playbook.py.md#playbookselector) class in `modules.selection.playbook`
 - [`PlaybookSignal`](modules/cli.recommendation_signals.py.md#playbooksignal) class in `cli.recommendation_signals`
 - [`PlaybookSpec`](modules/modules.playbook_executor.py.md#playbookspec) class in `modules.playbook_executor`
 - [`PlaybookStep`](modules/modules.playbook_engine.py.md#playbookstep) class in `modules.playbook_engine`
@@ -1320,7 +1328,9 @@ Project types nested under the project types they derive from. External bases ar
   - [`VersionSegment`](modules/cli.banner_config.py.md#versionsegment) class in `cli.banner_config`
 - [`SegmentSpec`](modules/cli.banner_config.py.md#segmentspec) class in `cli.banner_config`
 - [`Selection`](modules/modules.selector_manager.py.md#selection) class in `modules.selector_manager`
+- [`SelectionContext`](modules/modules.selection.base.py.md#selectioncontext) class in `modules.selection.base`
 - [`Selector`](modules/core.protocols.py.md#selector) protocol in `core.protocols`(Protocol)
+- [`Selector`](modules/modules.selection.base.py.md#selector) protocol in `modules.selection.base`(Protocol)
 - [`SemanticContextAdvisor`](modules/modules.reactive_engine.py.md#semanticcontextadvisor) class in `modules.reactive_engine`
 - [`Server`](modules/contrib.legacy.lazyhoneypot.py.md#server) class in `contrib.legacy.lazyhoneypot`(paramiko.ServerInterface)
 - [`ServiceFact`](modules/skills.lazyown_facts.py.md#servicefact) class in `skills.lazyown_facts`

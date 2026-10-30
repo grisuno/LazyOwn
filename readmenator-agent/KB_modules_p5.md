@@ -1,6 +1,25 @@
 # Subsystem: modules (page 5 of 17)
 Previous: [KB_modules_p4.md](KB_modules_p4.md)
 
+## modules/dotnet_payload.py
+- Doc: .NET/C# payload generation — execute-assembly, inline-assembly, Roslyn compilation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DotNetPayloadConfig` (class, line 293) `class DotNetPayloadConfig`
+  - `DotNetPayloadFactory` (class, line 315) `class DotNetPayloadFactory`
+  - `__init__` (method, line 327) `def __init__(self, output_dir)`
+  - `_detect_compiler` (method, line 333) `def _detect_compiler()`
+  - `list_templates` (method, line 364) `def list_templates()`
+  - `_resolve_template` (method, line 368) `def _resolve_template(self, config)`
+  - `generate_source` (method, line 389) `def generate_source(self, config)`
+  - `compile` (method, line 403) `def compile(self, config, source_code)`
+  - `generate` (method, line 454) `def generate(self, config)`
+  - `generate_powershell_reflective` (method, line 481) `def generate_powershell_reflective(self, config)`
+  - `generate_inline_assembly` (method, line 500) `def generate_inline_assembly(self, config)`
+  - `to_format` (method, line 520) `def to_format(self, data, fmt)`
+- Imported by: `cli/commands/payload_arsenal.py`
+
 ## modules/dpapi_harvester.py
 - Doc: DPAPI credential decryption and harvesting engine.
 - Layer: utility

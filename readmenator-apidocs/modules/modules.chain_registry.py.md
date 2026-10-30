@@ -377,7 +377,7 @@ List every chain file including disabled ones (for administration).
 
 *Calls:* [`validate_chain`](#validate_chain)
 
-*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`ExploitMigratedCommandSet.do_chain`](cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_chain), [`OrchestratorAssetsMixin.chain_rows`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-chain_rows), [`OrchestratorAssetsMixin.remove_chain`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-remove_chain), [`OrchestratorAssetsMixin.toggle_chain`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-toggle_chain)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`ExploitMigratedCommandSet.do_chain`](cli.commands.exploit_migrated.py.md#exploitmigratedcommandset-do_chain), [`OrchestratorAssetsMixin.chain_rows`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-chain_rows), [`OrchestratorAssetsMixin.remove_chain`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-remove_chain), [`OrchestratorAssetsMixin.toggle_chain`](cli.orchestrator_assets_tabs.py.md#orchestratorassetsmixin-toggle_chain), [`load_rows`](modules.chain_match.py.md#load_rows)
 
 ---
 

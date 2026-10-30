@@ -1,6 +1,39 @@
 # Subsystem: tests (page 21 of 22)
 Previous: [KB_tests_p20.md](KB_tests_p20.md)
 
+## tests/test_shell_semantics.py
+- Doc: Contract tests for shell-semantics detection and colored child output.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_needs_shell_detects_control_and_expansion` (function, line 17) `def test_needs_shell_detects_control_and_expansion()`
+  - `test_needs_shell_accepts_plain_argv` (function, line 32) `def test_needs_shell_accepts_plain_argv()`
+  - `test_run_command_interprets_semicolon` (function, line 38) `def test_run_command_interprets_semicolon()`
+  - `test_run_command_expands_tilde_and_glob` (function, line 45) `def test_run_command_expands_tilde_and_glob(tmp_path, monkeypatch)`
+  - `test_terminal_env_forces_color` (function, line 53) `def test_terminal_env_forces_color(monkeypatch)`
+  - `test_terminal_env_respects_no_color` (function, line 61) `def test_terminal_env_respects_no_color(monkeypatch)`
+  - `test_linpeas_http_server_is_detached` (function, line 69) `def test_linpeas_http_server_is_detached(monkeypatch)`
+  - `test_safe_runner_interprets_shell_syntax` (function, line 87) `def test_safe_runner_interprets_shell_syntax()`
+  - `_FakePopen` (class, line 75) `class _FakePopen`
+  - `__init__` (method, line 76) `def __init__(self, argv)`
+- Depends on: `cli/commands/privilege_escalation.py`, `core/hardening.py`, `core/process.py`, `core/safe_exec.py`, `core/safe_subprocess.py`
+
+## tests/test_shellsys_command_set.py
+- Doc: Shell/sys command set extraction tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_add_repo_root_to_syspath` (function, line 32) `def _add_repo_root_to_syspath()`
+  - `ShellsysSuiteConfig` (class, line 38) `class ShellsysSuiteConfig`
+  - `_methods_of` (function, line 61) `def _methods_of(path, class_name)`
+  - `test_target_is_active_command_set` (function, line 73) `def test_target_is_active_command_set()`
+  - `test_target_exposes_full_shellsys_cluster` (function, line 82) `def test_target_exposes_full_shellsys_cluster()`
+  - `test_target_phase_metadata` (function, line 89) `def test_target_phase_metadata()`
+  - `test_source_no_longer_defines_cluster` (function, line 95) `def test_source_no_longer_defines_cluster()`
+  - `test_registry_registers_target` (function, line 101) `def test_registry_registers_target()`
+  - `test_no_command_collisions_with_source` (function, line 108) `def test_no_command_collisions_with_source()`
+- Depends on: `cli/commands/_base.py`, `cli/commands/_dormancy.py`, `cli/commands/misc_migrated.py`, `cli/commands/shellsys.py`, `cli/registry.py`
+
 ## tests/test_short_url_file_containment.py
 - Doc: Containment contract for short-URL file serving.
 - Layer: testing
@@ -449,46 +482,6 @@ Previous: [KB_tests_p20.md](KB_tests_p20.md)
   - `test_match` (method, line 102) `def test_match(self)`
   - `test_no_match` (method, line 109) `def test_no_match(self)`
 - Depends on: `lazyc2/security/trusted_proxy.py`
-
-## tests/test_ttpscope_bridge.py
-- Doc: TTPScope bridge contract: validators, fallbacks, addon schema.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_object_id_validation` (function, line 18) `def test_object_id_validation()`
-  - `test_query_and_platform_validation` (function, line 27) `def test_query_and_platform_validation()`
-  - `test_unknown_action_rejected` (function, line 40) `def test_unknown_action_rejected()`
-  - `test_search_fallback_needs_no_binary` (function, line 48) `def test_search_fallback_needs_no_binary(monkeypatch)`
-  - `test_show_fallback_technique` (function, line 56) `def test_show_fallback_technique(monkeypatch)`
-  - `test_matrix_fallback_groups` (function, line 65) `def test_matrix_fallback_groups(monkeypatch)`
-  - `test_notes_roundtrip_without_binary` (function, line 73) `def test_notes_roundtrip_without_binary(monkeypatch, tmp_path)`
-  - `test_chain_needs_no_binary` (function, line 85) `def test_chain_needs_no_binary(monkeypatch)`
-  - `test_addon_schema_agent_friendly` (function, line 95) `def test_addon_schema_agent_friendly()`
-- Depends on: `modules/__init__.py`
-
-## tests/test_tui_splash.py
-- Doc: Tests for cli.splash — the animated first-run overlay.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_console` (function, line 19) `def _console()`
-  - `SplashInstantEffectTests` (class, line 30) `class SplashInstantEffectTests(TestCase)`
-  - `SplashTypewriterEffectTests` (class, line 67) `class SplashTypewriterEffectTests(TestCase)`
-  - `SplashDispatchTests` (class, line 81) `class SplashDispatchTests(TestCase)`
-  - `SplashEdgeCaseTests` (class, line 145) `class SplashEdgeCaseTests(TestCase)`
-  - `test_instant_renders_every_line` (method, line 31) `def test_instant_renders_every_line(self)`
-  - `test_instant_does_not_block` (method, line 44) `def test_instant_does_not_block(self)`
-  - `test_instant_emits_ansi_for_known_tokens` (method, line 56) `def test_instant_emits_ansi_for_known_tokens(self)`
-  - `test_typewriter_renders_all_lines_when_total_seconds_high` (method, line 68) `def test_typewriter_renders_all_lines_when_total_seconds_high(self)`
-  - `test_render_splash_dispatches_instant_for_zero_seconds` (method, line 82) `def test_render_splash_dispatches_instant_for_zero_seconds(self)`
-  - `test_render_splash_dispatches_instant_when_explicit` (method, line 92) `def test_render_splash_dispatches_instant_when_explicit(self)`
-  - `test_render_splash_unknown_effect_falls_back_to_instant` (method, line 103) `def test_render_splash_unknown_effect_falls_back_to_instant(self)`
-  - `test_render_splash_uses_payload_theme_when_provided` (method, line 114) `def test_render_splash_uses_payload_theme_when_provided(self)`
-  - `test_render_splash_clear_after_emits_clear_escape` (method, line 124) `def test_render_splash_clear_after_emits_clear_escape(self)`
-  - `test_render_splash_no_clear_when_disabled` (method, line 134) `def test_render_splash_no_clear_when_disabled(self)`
-  - `test_empty_lines_is_noop` (method, line 146) `def test_empty_lines_is_noop(self)`
-  - `test_lines_with_brackets_render_verbatim` (method, line 156) `def test_lines_with_brackets_render_verbatim(self)`
-- Depends on: `cli/splash.py`, `core/console.py`
 
 
 Next: [KB_tests_p22.md](KB_tests_p22.md)

@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **75.8%** (7596 of 10019 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **75.9%** (7637 of 10061 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,17 +8,17 @@ Overall: **75.8%** (7596 of 10019 public modules, types, and callables). Data me
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1253 | 1440 | 87.0% |
+| class | 1262 | 1449 | 87.1% |
 | classmethod | 58 | 84 | 69.0% |
-| constructor | 210 | 531 | 39.5% |
+| constructor | 214 | 536 | 39.9% |
 | enum | 30 | 39 | 76.9% |
 | exception | 40 | 42 | 95.2% |
-| function | 2034 | 2939 | 69.2% |
+| function | 2044 | 2949 | 69.3% |
 | macro | 2 | 114 | 1.8% |
-| method | 2964 | 3633 | 81.6% |
-| module | 738 | 854 | 86.4% |
+| method | 2972 | 3641 | 81.6% |
+| module | 747 | 863 | 86.6% |
 | property | 162 | 206 | 78.6% |
-| protocol | 20 | 20 | 100.0% |
+| protocol | 21 | 21 | 100.0% |
 | staticmethod | 81 | 93 | 87.1% |
 | struct | 1 | 20 | 5.0% |
 | type_alias | 3 | 4 | 75.0% |
@@ -327,8 +327,8 @@ Overall: **75.8%** (7596 of 10019 public modules, types, and callables). Data me
 | [`modules.detection_feed`](modules/modules.detection_feed.py.md) | 7 | 8 | 87.5% |
 | [`modules.memory_cleaner`](modules/modules.memory_cleaner.py.md) | 7 | 8 | 87.5% |
 | [`modules.operator_profiles`](modules/modules.operator_profiles.py.md) | 14 | 16 | 87.5% |
+| [`skills.autonomous_daemon`](modules/skills.autonomous_daemon.py.md) | 84 | 96 | 87.5% |
 | [`cli.palette_command`](modules/cli.palette_command.py.md) | 36 | 41 | 87.8% |
-| [`skills.autonomous_daemon`](modules/skills.autonomous_daemon.py.md) | 79 | 90 | 87.8% |
 | [`modules.autonomous_exploit_engine`](modules/modules.autonomous_exploit_engine.py.md) | 15 | 17 | 88.2% |
 | [`modules.module_registry`](modules/modules.module_registry.py.md) | 15 | 17 | 88.2% |
 | [`core.command_bridge`](modules/core.command_bridge.py.md) | 8 | 9 | 88.9% |
@@ -648,7 +648,7 @@ Overall: **75.8%** (7596 of 10019 public modules, types, and callables). Data me
 | [`modules.asset_graph`](modules/modules.asset_graph.py.md) | 18 | 18 | 100.0% |
 | [`modules.atomic_cli`](modules/modules.atomic_cli.py.md) | 4 | 4 | 100.0% |
 | [`modules.atomic_enricher`](modules/modules.atomic_enricher.py.md) | 4 | 4 | 100.0% |
-| [`modules.atomic_exploit_bridge`](modules/modules.atomic_exploit_bridge.py.md) | 25 | 25 | 100.0% |
+| [`modules.atomic_exploit_bridge`](modules/modules.atomic_exploit_bridge.py.md) | 26 | 26 | 100.0% |
 | [`modules.atomic_resolver`](modules/modules.atomic_resolver.py.md) | 26 | 26 | 100.0% |
 | [`modules.attack_surface3d`](modules/modules.attack_surface3d.py.md) | 3 | 3 | 100.0% |
 | [`modules.auto_registry`](modules/modules.auto_registry.py.md) | 25 | 25 | 100.0% |
@@ -660,6 +660,7 @@ Overall: **75.8%** (7596 of 10019 public modules, types, and callables). Data me
 | [`modules.chain_approval`](modules/modules.chain_approval.py.md) | 11 | 11 | 100.0% |
 | [`modules.chain_distill`](modules/modules.chain_distill.py.md) | 10 | 10 | 100.0% |
 | [`modules.chain_facts`](modules/modules.chain_facts.py.md) | 2 | 2 | 100.0% |
+| [`modules.chain_match`](modules/modules.chain_match.py.md) | 8 | 8 | 100.0% |
 | [`modules.chain_registry`](modules/modules.chain_registry.py.md) | 12 | 12 | 100.0% |
 | [`modules.chain_runner`](modules/modules.chain_runner.py.md) | 18 | 18 | 100.0% |
 | [`modules.chain_state`](modules/modules.chain_state.py.md) | 6 | 6 | 100.0% |
@@ -793,6 +794,14 @@ Overall: **75.8%** (7596 of 10019 public modules, types, and callables). Data me
 | [`modules.rich_tui`](modules/modules.rich_tui.py.md) | 5 | 5 | 100.0% |
 | [`modules.search`](modules/modules.search.py.md) | 1 | 1 | 100.0% |
 | [`modules.security_sanitizers`](modules/modules.security_sanitizers.py.md) | 22 | 22 | 100.0% |
+| [`modules.selection`](modules/modules.selection.__init__.py.md) | 1 | 1 | 100.0% |
+| [`modules.selection.adversary`](modules/modules.selection.adversary.py.md) | 4 | 4 | 100.0% |
+| [`modules.selection.atomic`](modules/modules.selection.atomic.py.md) | 3 | 3 | 100.0% |
+| [`modules.selection.base`](modules/modules.selection.base.py.md) | 5 | 5 | 100.0% |
+| [`modules.selection.chain`](modules/modules.selection.chain.py.md) | 4 | 4 | 100.0% |
+| [`modules.selection.cred_spray`](modules/modules.selection.cred_spray.py.md) | 3 | 3 | 100.0% |
+| [`modules.selection.playbook`](modules/modules.selection.playbook.py.md) | 4 | 4 | 100.0% |
+| [`modules.selection.registry`](modules/modules.selection.registry.py.md) | 3 | 3 | 100.0% |
 | [`modules.selector_manager`](modules/modules.selector_manager.py.md) | 4 | 4 | 100.0% |
 | [`modules.selfupdate`](modules/modules.selfupdate.py.md) | 11 | 11 | 100.0% |
 | [`modules.session_cleanup`](modules/modules.session_cleanup.py.md) | 4 | 4 | 100.0% |

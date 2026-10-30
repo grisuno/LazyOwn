@@ -5787,7 +5787,12 @@ class Worker:
             return [command] if command else []
         host_flag = f" {target}"
         use_lazynmap = getattr(self, "shell", None) is not None
-        ping_first = [f"ping -c 1 -W 2 {target} 2>&1"] if _host_like_target(target) else []
+        if not _host_like_target(target):
+            ping_first: list[str] = []
+        elif use_lazynmap:
+            ping_first = [f"ping {target}".strip()]
+        else:
+            ping_first = [f"ping -c 1 -W 2 {target} 2>&1"]
         if "baseline recon" in text or "enumerate" in text:
             if use_lazynmap:
                 return ping_first + [f"lazynmap {target}".strip()]

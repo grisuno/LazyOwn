@@ -95,6 +95,7 @@ def test_planner_proposes_chain_from_discovered_services(tmp_path, monkeypatch):
     )
     monkeypatch.setattr(killchain.KillChain, "current_phase", staticmethod(lambda *a, **k: "exploit"))
     monkeypatch.setattr(loop.Planner, "_os_hint", staticmethod(lambda: "linux"))
+    monkeypatch.setattr(loop.Planner, "_has_creds", staticmethod(lambda: False))
     chain_match.reset_cache()
 
     graph = loop.ExplorationGraph(task_id)

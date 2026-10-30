@@ -7,10 +7,10 @@ injected so no filesystem or registry state is required.
 
 from __future__ import annotations
 
-from modules.selectors.adversary import AdversarySelector
-from modules.selectors.atomic import AtomicSelector
-from modules.selectors.base import SelectionContext
-from modules.selectors.playbook import PlaybookSelector
+from modules.selection.adversary import AdversarySelector
+from modules.selection.atomic import AtomicSelector
+from modules.selection.base import SelectionContext
+from modules.selection.playbook import PlaybookSelector
 
 
 def _ctx(goal: str = "", phase: str = "exploit", **extra) -> SelectionContext:
@@ -49,7 +49,7 @@ def test_playbook_abstains_without_actor(monkeypatch):
 
 def test_adversary_fires_when_goal_names_profile(monkeypatch):
     """Given a goal naming an adversary profile, Then adversary_yaml is proposed."""
-    import modules.selectors.adversary as adv
+    import modules.selection.adversary as adv
 
     monkeypatch.setattr(adv.glob, "glob", lambda pattern: ["lazyadversaries/amsi.yaml", "lazyadversaries/infect.yaml"])
     decision = AdversarySelector().propose(_ctx("run the infect adversary profile"))
@@ -60,7 +60,7 @@ def test_adversary_fires_when_goal_names_profile(monkeypatch):
 
 def test_adversary_abstains_without_profile(monkeypatch):
     """Given a goal naming no profile, Then the selector abstains."""
-    import modules.selectors.adversary as adv
+    import modules.selection.adversary as adv
 
     monkeypatch.setattr(adv.glob, "glob", lambda pattern: ["lazyadversaries/amsi.yaml"])
     assert AdversarySelector().propose(_ctx("escalate privileges")) is None
@@ -93,7 +93,7 @@ def test_atomic_abstains_without_techniques():
 
 def test_cred_spray_fires_with_creds_and_service():
     """Given creds and an ssh service in a post-recon phase, Then a spray verb is proposed."""
-    from modules.selectors.cred_spray import CredentialSpraySelector
+    from modules.selection.cred_spray import CredentialSpraySelector
 
     ctx = SelectionContext(target="10.0.0.9", phase="lateral", services=("ssh",), has_creds=True)
     decision = CredentialSpraySelector().propose(ctx)
@@ -104,7 +104,7 @@ def test_cred_spray_fires_with_creds_and_service():
 
 def test_cred_spray_abstains_without_creds():
     """Given no creds, Then the credential-spray selector abstains."""
-    from modules.selectors.cred_spray import CredentialSpraySelector
+    from modules.selection.cred_spray import CredentialSpraySelector
 
     ctx = SelectionContext(target="10.0.0.9", phase="lateral", services=("ssh",), has_creds=False)
     assert CredentialSpraySelector().propose(ctx) is None
@@ -113,7 +113,7 @@ def test_cred_spray_abstains_without_creds():
 def test_default_selectors_respects_orchestrator_toggle(monkeypatch):
     """Given a selector disabled in the orchestrator, Then it is dropped from the cascade."""
     import modules.orchestrator_config as oc
-    from modules.selectors.registry import default_selectors
+    from modules.selection.registry import default_selectors
 
     monkeypatch.setattr(oc, "selector_enabled", lambda name: name != "chain")
     names = {sel.name for sel in default_selectors()}

@@ -5,7 +5,7 @@ daemon) used to pick the next action with their own private logic. This
 module defines the single vocabulary they now share: a :class:`SelectionContext`
 describing the live engagement state, an :class:`ActionDecision` naming the
 command to run next, and the :class:`Selector` protocol every strategy
-implements. One selector lives per file under ``modules/selectors/`` so each
+implements. One selector lives per file under ``modules/selection/`` so each
 strategy is a single contract; the runtimes only know this protocol.
 """
 

@@ -42,6 +42,7 @@ _MAX_EXPECT_EXITS = 8
 _EXPECT_EXIT_MAX = 255
 _MAX_PARALLEL_GROUP = 8
 _MAX_FALLBACK_DEPTH = 1
+_STREAMING_SINKS = ("chain_feed", "event_bus")
 
 VERDICT_OBSERVED = "evidence_observed"
 VERDICT_INFERRED = "inferred"
@@ -645,6 +646,31 @@ class ChainRunner:
         self._publish_step(outcome)
         self._notify(outcome)
 
+    def _promoted_sinks(self, outcome: StepOutcome) -> list[str]:
+        """Return the step's declared state sinks for live per-step fan-out.
+
+        A step's ``sinks:`` declaration is the author's intent to route
+        that step's outcome to the world model, kill chain, findings or
+        any other non-streaming surface. Those surfaces gate on proven
+        ``chain`` events, so they are reached only on real success, never
+        on a skip, dry-run or failure. The streaming surfaces are excluded
+        because they already receive the ``chain_step`` event.
+
+        Args:
+            outcome: The executed step outcome.
+
+        Returns:
+            Ordered, de-duplicated list of declared non-streaming sinks,
+            empty when the step did not truly execute successfully.
+        """
+        if outcome.status != "ok":
+            return []
+        return [
+            sink
+            for sink in dict.fromkeys(outcome.sinks)
+            if sink and sink not in _STREAMING_SINKS
+        ]
+
     def _publish_step(self, outcome: StepOutcome) -> None:
         """Stream one executed step to the outcome bus (fail-soft).
 
@@ -654,7 +680,14 @@ class ChainRunner:
         branch nor ``continue_on_error`` keeps the chain navigating, so
         the run aborts and steering consumers react. Those land as a
         pending hint through the chain-feed sink and the planner proposes
-        an approach on the same wake. Publishing never affects execution.
+        an approach on the same wake.
+
+        A successful step that declares state sinks (``world_model``,
+        ``killchain``, ``findings``, ...) also publishes a proven
+        ``chain`` event routed only to those declared sinks, so mid-chain
+        discoveries reach the world model and kill chain live instead of
+        waiting for the whole-chain summary. Publishing never affects
+        execution.
         """
         if self.dry_run:
             return
@@ -665,8 +698,8 @@ class ChainRunner:
             and not (step.on_fail or step.continue_on_error)
         ) if step is not None else False
         try:
-            from modules.outcome_bus import OutcomeEvent, record
             from modules.detection_oracle import get_oracle
+            from modules.outcome_bus import OutcomeEvent, record
 
             alternatives = list(step.benign_alternatives) if step is not None else []
             detection_prob = 0.0
@@ -677,18 +710,20 @@ class ChainRunner:
             except Exception:
                 detection_prob = 0.0
 
+            task_id = str(self.tokens.get("task_id", "") or "")
+            target = str(self.tokens.get("target", "") or "")
             record(
                 OutcomeEvent(
                     kind="chain_step",
-                    task_id=str(self.tokens.get("task_id", "") or ""),
-                    target=str(self.tokens.get("target", "") or ""),
+                    task_id=task_id,
+                    target=target,
                     title=f"chain {self.chain.name} step {outcome.id or 'step'} [{self.run_id}]"[:120],
                     description=(outcome.reason or "step executed")[:300],
                     severity="low" if outcome.ok else "medium",
                     success=bool(outcome.ok),
                     source=self.chain.name,
                     command=outcome.run[:500],
-                    sinks=["chain_feed", "event_bus"],
+                    sinks=list(_STREAMING_SINKS),
                     metadata={
                         "run_id": self.run_id,
                         "chain": self.chain.name,
@@ -696,15 +731,43 @@ class ChainRunner:
                         "phase": outcome.phase,
                         "status": outcome.status,
                         "verdict": outcome.verdict,
-                    "missing_fields": list(outcome.missing_fields),
-                    "duration_ms": outcome.duration_ms,
-                    "steer": steer,
-                    "detection_prob": round(detection_prob, 4),
-                    "benign_alternatives": alternatives,
-                },
+                        "missing_fields": list(outcome.missing_fields),
+                        "duration_ms": outcome.duration_ms,
+                        "steer": steer,
+                        "detection_prob": round(detection_prob, 4),
+                        "benign_alternatives": alternatives,
+                    },
                 ),
-                sinks=["chain_feed", "event_bus"],
+                sinks=list(_STREAMING_SINKS),
             )
+            promoted = self._promoted_sinks(outcome)
+            if promoted:
+                record(
+                    OutcomeEvent(
+                        kind="chain",
+                        task_id=task_id,
+                        target=target,
+                        host=target,
+                        title=f"chain {self.chain.name} step {outcome.id or 'step'}"[:120],
+                        description=(outcome.reason or "step observed")[:300],
+                        severity="medium",
+                        success=True,
+                        source=self.chain.name,
+                        command=outcome.run[:500],
+                        output=outcome.captured or "",
+                        artifacts=list(outcome.artifacts),
+                        sinks=promoted,
+                        metadata={
+                            "run_id": self.run_id,
+                            "chain": self.chain.name,
+                            "step_id": outcome.id,
+                            "phase": outcome.phase,
+                            "verdict": outcome.verdict,
+                            "evidence_refs": list(outcome.evidence_refs),
+                        },
+                    ),
+                    sinks=promoted,
+                )
         except Exception:
             pass
 

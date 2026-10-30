@@ -1370,28 +1370,32 @@ class ChainSelector(ICommandSelector):
         if not CHAIN_SELECTOR_ENABLED or not target:
             return None
         try:
-            from modules.chain_match import best_chain
+            from modules.selectors.base import SelectionContext
+            from modules.selectors.chain import ChainSelector as _SharedChainSelector
         except Exception as exc:
-            log.debug("chain matcher unavailable: %s", exc)
+            log.debug("shared chain selector unavailable: %s", exc)
             return None
-        exclude = {name for key in self._proposed for name in [key.split(":", 1)[0]] if key.endswith(f":{target}")}
-        match = best_chain(
+        exclude = frozenset(
+            key.split(":", 1)[0] for key in self._proposed if key.endswith(f":{target}")
+        )
+        ctx = SelectionContext(
+            target=target,
             phase=phase,
             os_hint=str(context.get("os_hint", "") or ""),
-            services=context.get("services", []),
+            services=tuple(context.get("services", []) or ()),
             exclude=exclude,
-            allow_lab=CHAIN_SELECTOR_ALLOW_LAB,
-            ttl=CHAIN_SELECTOR_TTL_S,
         )
-        if match is None:
+        decision = _SharedChainSelector(allow_lab=CHAIN_SELECTOR_ALLOW_LAB).propose(ctx)
+        if decision is None:
             return None
-        name, reason = match
-        self._proposed.add(f"{name}:{target}")
+        name = decision.command.split()[1] if len(decision.command.split()) > 1 else ""
+        if name:
+            self._proposed.add(f"{name}:{target}")
         return CommandDecision(
-            command=f"apt_chain {name} {target}",
-            source="chain",
-            reason=reason,
-            priority=3,
+            command=decision.command,
+            source=decision.source,
+            reason=decision.reason,
+            priority=decision.priority,
         )
 
 

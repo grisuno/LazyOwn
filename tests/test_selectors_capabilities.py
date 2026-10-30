@@ -89,3 +89,33 @@ def test_atomic_abstains_in_recon_phase():
 def test_atomic_abstains_without_techniques():
     """Given no technique ids, Then the selector abstains."""
     assert AtomicSelector().propose(_ctx("do privilege escalation", phase="privesc")) is None
+
+
+def test_cred_spray_fires_with_creds_and_service():
+    """Given creds and an ssh service in a post-recon phase, Then a spray verb is proposed."""
+    from modules.selectors.cred_spray import CredentialSpraySelector
+
+    ctx = SelectionContext(target="10.0.0.9", phase="lateral", services=("ssh",), has_creds=True)
+    decision = CredentialSpraySelector().propose(ctx)
+    assert decision is not None
+    assert decision.command == "lazyssh"
+    assert decision.source == "cred_spray"
+
+
+def test_cred_spray_abstains_without_creds():
+    """Given no creds, Then the credential-spray selector abstains."""
+    from modules.selectors.cred_spray import CredentialSpraySelector
+
+    ctx = SelectionContext(target="10.0.0.9", phase="lateral", services=("ssh",), has_creds=False)
+    assert CredentialSpraySelector().propose(ctx) is None
+
+
+def test_default_selectors_respects_orchestrator_toggle(monkeypatch):
+    """Given a selector disabled in the orchestrator, Then it is dropped from the cascade."""
+    import modules.orchestrator_config as oc
+    from modules.selectors.registry import default_selectors
+
+    monkeypatch.setattr(oc, "selector_enabled", lambda name: name != "chain")
+    names = {sel.name for sel in default_selectors()}
+    assert "chain" not in names
+    assert "cred_spray" in names

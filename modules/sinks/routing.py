@@ -26,5 +26,14 @@ def apply(event: OutcomeEvent) -> bool:
             stack=f"{event.source}:{event.mitre_id}".strip(":"),
         )
     except Exception:
+        pass
+    try:
+        from modules.lazy_ledger import key_from_command as ledger_key_from_command
+        from modules.lazy_ledger import record as ledger_record
+
+        if event.command and event.kind in ("shell", "exploit", "chain", "emulation", "ctf_capture"):
+            verb, target_text = ledger_key_from_command(event.command, event.host_value).split("|", 1)
+            ledger_record(verb, target_text, ok=bool(event.success or event.shell))
+    except Exception:
         return False
     return True

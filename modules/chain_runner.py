@@ -265,6 +265,7 @@ class ChainRunner:
             fallback_depth: Current fallback depth (internal).
         """
         self.chain = chain
+        self._steps_by_id: dict[str, ChainStep] = {step.identifier: step for step in chain.steps if step.identifier}
         self.tokens = {str(key): str(value) for key, value in (tokens or {}).items()}
         self.shell = shell
         self.executor = executor
@@ -350,7 +351,7 @@ class ChainRunner:
                     reason="resumed (already completed)",
                 )
                 result.steps.append(outcome)
-                self._notify(outcome)
+                self._deliver(outcome)
                 index += 1
                 continue
             if step.parallel and not self.dry_run:
@@ -367,7 +368,7 @@ class ChainRunner:
                     for artifact in group_outcome.artifacts:
                         if artifact and artifact not in result.artifacts:
                             result.artifacts.append(artifact)
-                    self._notify(group_outcome)
+                    self._deliver(group_outcome)
                 replan_skip = False
                 for group_outcome in outcomes:
                     if self._apply_replanner(result, cursor - 1, group_outcome, steps, step_index, variables, captured_keys):
@@ -389,7 +390,7 @@ class ChainRunner:
             for artifact in outcome.artifacts:
                 if artifact and artifact not in result.artifacts:
                     result.artifacts.append(artifact)
-            self._notify(outcome)
+            self._deliver(outcome)
             replan_skip = self._apply_replanner(result, index, outcome, steps, step_index, variables, captured_keys)
             self._save_checkpoint(result, variables, captured_keys, index + 1, "running", verdicts)
             if replan_skip:
@@ -639,6 +640,74 @@ class ChainRunner:
         if not result.reason:
             result.reason = sub_result.reason
 
+    def _deliver(self, outcome: StepOutcome) -> None:
+        """Publish the step outcome live, then invoke the observer callback."""
+        self._publish_step(outcome)
+        self._notify(outcome)
+
+    def _publish_step(self, outcome: StepOutcome) -> None:
+        """Stream one executed step to the outcome bus (fail-soft).
+
+        Chain steps publish ``chain_step`` events so consumers observe a
+        long-running chain step by step. The steer flag is set only for
+        failures the chain cannot resolve itself: neither an ``on_fail``
+        branch nor ``continue_on_error`` keeps the chain navigating, so
+        the run aborts and steering consumers react. Those land as a
+        pending hint through the chain-feed sink and the planner proposes
+        an approach on the same wake. Publishing never affects execution.
+        """
+        if self.dry_run:
+            return
+        step = self._steps_by_id.get(outcome.id)
+        steer = bool(
+            not outcome.ok
+            and outcome.status not in ("skipped", "denied")
+            and not (step.on_fail or step.continue_on_error)
+        ) if step is not None else False
+        try:
+            from modules.outcome_bus import OutcomeEvent, record
+            from modules.detection_oracle import get_oracle
+
+            alternatives = list(step.benign_alternatives) if step is not None else []
+            detection_prob = 0.0
+            try:
+                detection_prob = float(
+                    get_oracle().probability("bash", outcome.run, "execution", benign_alternatives=alternatives)
+                )
+            except Exception:
+                detection_prob = 0.0
+
+            record(
+                OutcomeEvent(
+                    kind="chain_step",
+                    task_id=str(self.tokens.get("task_id", "") or ""),
+                    target=str(self.tokens.get("target", "") or ""),
+                    title=f"chain {self.chain.name} step {outcome.id or 'step'} [{self.run_id}]"[:120],
+                    description=(outcome.reason or "step executed")[:300],
+                    severity="low" if outcome.ok else "medium",
+                    success=bool(outcome.ok),
+                    source=self.chain.name,
+                    command=outcome.run[:500],
+                    sinks=["chain_feed", "event_bus"],
+                    metadata={
+                        "run_id": self.run_id,
+                        "chain": self.chain.name,
+                        "step_id": outcome.id,
+                        "phase": outcome.phase,
+                        "status": outcome.status,
+                        "verdict": outcome.verdict,
+                    "missing_fields": list(outcome.missing_fields),
+                    "duration_ms": outcome.duration_ms,
+                    "steer": steer,
+                    "detection_prob": round(detection_prob, 4),
+                    "benign_alternatives": alternatives,
+                },
+                ),
+                sinks=["chain_feed", "event_bus"],
+            )
+        except Exception:
+            pass
+
     def _notify(self, outcome: StepOutcome) -> None:
         """Invoke the on_step callback, swallowing its errors."""
         if self.on_step is None:
@@ -764,10 +833,14 @@ class ChainRunner:
             outcome.reason = "when false"
             return outcome
         skip_path = render_text(step.skip_if_exists, variables) if step.skip_if_exists else ""
-        if skip_path and os.path.exists(skip_path):
-            outcome.status = "skipped"
-            outcome.reason = f"exists: {skip_path}"
-            return outcome
+        if skip_path:
+            from modules.chain_registry import skip_pending
+
+            skip_reason = skip_pending(skip_path, step.skip_max_age)
+            if skip_reason:
+                outcome.status = "skipped"
+                outcome.reason = skip_reason
+                return outcome
         blocked = self._dependency_block(step, prior_verdicts)
         if blocked:
             outcome.status = "skipped"
@@ -1029,17 +1102,27 @@ class ChainRunner:
         return None
 
     def _render_command(self, template: str, variables: dict[str, str], captured_keys: set[str]) -> str:
-        """Render a command, quoting values produced by earlier captures.
+        """Render a command, shell-quoting out-of-band variable values.
 
-        Captured output is untrusted (banners, HTTP bodies, tool output).
-        Raw shell steps receive it single-quoted so shell metacharacters
-        cannot escape into the operator host. cmd2 verbs keep the raw
-        string because the verb owns its own argument handling.
+        Captured output is untrusted (banners, HTTP bodies, tool output)
+        and command-line var values reach the runner from outside the
+        chain file; both groups receive a single-quoted form in raw shell
+        steps so shell metacharacters cannot escape onto the operator
+        host. A variable name listed in the chain's ``raw_vars`` keeps
+        its verbatim form to honour explicit operator intent. cmd2 verbs
+        keep raw substitution because the verb owns its own argument
+        parsing and never interprets shell metacharacters itself.
         """
         text = str(template or "")
         quote = not self._is_verb(text)
+        raw_names = set(self.chain.raw_vars)
         for key, value in variables.items():
-            replacement = shlex.quote(str(value)) if quote and key in captured_keys else str(value)
+            if quote and key in raw_names:
+                replacement = str(value)
+            elif quote:
+                replacement = shlex.quote(str(value))
+            else:
+                replacement = str(value)
             text = text.replace("{" + key + "}", replacement)
         return text
 

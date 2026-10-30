@@ -19,6 +19,7 @@ Covers:
 from __future__ import annotations
 
 import os
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -237,12 +238,15 @@ class TestSafeIpShow:
         Then I must get a list of dicts with interface and address."""
         from core.safe_exec import safe_ip_show
 
-        with patch("core.safe_exec.subprocess.run") as mock_run:
-            mock_run.return_value = MagicMock(
-                returncode=0,
+        with patch(
+            "core.safe_exec.safe_run_argv",
+            return_value=subprocess.CompletedProcess(
+                ["ip", "a", "show"],
+                0,
                 stdout="2: eth0: <BROADCAST,UP> mtu 1500\n    inet 192.168.1.100/24 brd 192.168.1.255 scope global eth0\n",
                 stderr="",
-            )
+            ),
+        ):
             entries = safe_ip_show("scope global")
             assert len(entries) == 1
             assert entries[0]["interface"] == "eth0"
@@ -253,7 +257,7 @@ class TestSafeIpShow:
         Then it must return an empty list."""
         from core.safe_exec import safe_ip_show
 
-        with patch("core.safe_exec.subprocess.run", side_effect=FileNotFoundError):
+        with patch("core.safe_exec.safe_run_argv", side_effect=FileNotFoundError):
             entries = safe_ip_show()
             assert entries == []
 

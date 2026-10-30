@@ -35,7 +35,9 @@ _FLAGS_WITH_VALUE = frozenset(
         "--limit",
     }
 )
-_ADMIN_ACTIONS = frozenset({"list", "show", "validate", "enable", "disable", "checkpoints", "resume", "synth"})
+_ADMIN_ACTIONS = frozenset(
+    {"list", "show", "validate", "enable", "disable", "checkpoints", "resume", "synth", "approvals"}
+)
 _MAX_JSON_VALUES = 64
 
 
@@ -89,7 +91,7 @@ def parse_chain_args(line: str) -> ChainArgs:
         for token in parts[1:]:
             if token.startswith("-") and token not in _FLAGS_NO_VALUE:
                 args.errors.append(f"unknown option for {args.admin_action}: {token}")
-        if args.admin_action == "list" and "--json" in [part.lower() for part in parts[1:]]:
+        if args.admin_action in ("list", "approvals") and "--json" in [part.lower() for part in parts[1:]]:
             args.json_out = True
         if args.admin_action == "synth" and "--json" in [part.lower() for part in parts[1:]]:
             args.json_out = True
@@ -208,6 +210,37 @@ def resolve_admin(args: ChainArgs) -> dict[str, Any]:
             "errors": errors,
             "notes": notes[:24],
         }
+    if args.admin_action == "approvals":
+        action_token = ""
+        if args.admin_args:
+            action_token = args.admin_args[0].strip().lower()
+        else:
+            return {"ok": False, "error": "usage: apt_chain approvals [list|approve|deny] [id]"}
+        from modules.chain_approval import PendingStore
+
+        store = PendingStore()
+        store.expire_stale()
+        if action_token in ("list", ""):
+            rows = store.list()
+            if args.json_out or len(rows) > _MAX_JSON_VALUES:
+                rows = rows[:_MAX_JSON_VALUES]
+            return {"ok": True, "action": "approvals", "rows": rows}
+        if action_token in ("approve", "deny"):
+            request_id = args.admin_args[1].strip() if len(args.admin_args) > 1 else ""
+            if not request_id:
+                return {"ok": False, "error": f"usage: apt_chain approvals {action_token} <id>"}
+            record = store.decide(request_id, action_token == "approve", decided_by="cli")
+            if record is None:
+                return {"ok": False, "error": f"no pending approval id={request_id}"}
+            return {
+                "ok": True,
+                "action": "approvals",
+                "id": record.get("id", ""),
+                "status": record.get("status", ""),
+                "chain": record.get("chain", ""),
+                "step_id": record.get("step_id", ""),
+            }
+        return {"ok": False, "error": f"unsupported approvals action: {action_token}"}
     name = (args.admin_args[0] if args.admin_args else "").strip().lower()
     if not name:
         return {"ok": False, "error": f"usage: apt_chain {args.admin_action} <chain>"}

@@ -477,18 +477,7 @@ def correlate(product: str, version: str = "", allow_network: bool = True) -> li
             for affected in advisory.get("affected", []) or []:
                 if not isinstance(affected, dict):
                     continue
-                for rng in affected.get("ranges", []) or []:
-                    converted = {
-                        "type": rng.get("type", ""),
-                        "introduced": (rng.get("events") or [""])[0].get("introduced", ""),
-                        "fixed": "",
-                        "lastAffected": "",
-                    }
-                    for event in rng.get("events", []) or []:
-                        if isinstance(event, dict) and event.get("fixed"):
-                            converted["fixed"] = str(event.get("fixed"))
-                        if isinstance(event, dict) and event.get("last_affected"):
-                            converted["lastAffected"] = str(event.get("last_affected"))
+                for converted in convert_osv_ranges(affected):
                     result = version_in_range(ver, converted)
                     if result is True:
                         in_range = True
@@ -521,6 +510,85 @@ def correlate(product: str, version: str = "", allow_network: bool = True) -> li
 
 
 _KEV_MATCH_CACHE: dict[str, list[tuple[str, dict]]] = {}
+
+
+def convert_osv_ranges(affected: dict) -> list[dict]:
+    """Convert one OSV ``affected`` entry into version-range dicts.
+
+    Args:
+        affected: One OSV affected entry (``package`` plus ``ranges``).
+
+    Returns:
+        List of range dicts shaped for :func:`version_in_range`
+        (``type/introduced/fixed/lastAffected``), possibly empty.
+    """
+    converted: list[dict] = []
+    for rng in (affected or {}).get("ranges", []) or []:
+        if not isinstance(rng, dict):
+            continue
+        built = {
+            "type": rng.get("type", ""),
+            "introduced": (rng.get("events") or [""])[0].get("introduced", ""),
+            "fixed": "",
+            "lastAffected": "",
+        }
+        for event in rng.get("events", []) or []:
+            if isinstance(event, dict) and event.get("fixed"):
+                built["fixed"] = str(event.get("fixed"))
+            if isinstance(event, dict) and event.get("last_affected"):
+                built["lastAffected"] = str(event.get("last_affected"))
+        converted.append(built)
+    return converted
+
+
+def _cached_advisories() -> list[dict]:
+    """Return advisories from the offline OSV cache files.
+
+    Returns:
+        Merged advisory list (possibly empty) without touching network.
+    """
+    merged: list[dict] = []
+    try:
+        cache_dir = _cache_path("osv_unknown.json").parent
+        for cache in sorted(cache_dir.glob("osv_*.json")):
+            try:
+                data = json.loads(cache.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            if isinstance(data, dict):
+                merged.extend(advisory for advisory in (data.get("vulns") or []) if isinstance(advisory, dict))
+    except Exception:
+        return []
+    return merged
+
+
+def range_for_cve(cve_id: str, allow_network: bool = False) -> dict:
+    """Return the OSV affected ranges bound to one CVE, offline-first.
+
+    Args:
+        cve_id: CVE identifier (``CVE-2024-...``).
+        allow_network: When offline caches carry nothing, this flag is
+            reserved for future network lookups and currently forbidden
+            to keep the contract fail-soft (always offline data here).
+
+    Returns:
+        Range dict shaped for :func:`version_in_range` (first matching
+        affected entry), or ``{}`` when unknown.
+    """
+    wanted = str(cve_id or "").strip().upper()
+    if not wanted or allow_network:
+        return {}
+    for advisory in _cached_advisories():
+        identifiers = [str(advisory.get("id", ""))] + [str(a) for a in (advisory.get("aliases") or [])]
+        if not any(ident.upper() == wanted for ident in identifiers if ident):
+            continue
+        for affected in advisory.get("affected", []) or []:
+            if not isinstance(affected, dict):
+                continue
+            ranges = convert_osv_ranges(affected)
+            if ranges:
+                return ranges[0]
+    return {}
 
 
 def load_kev_matches(product: str, feeds: dict | None = None) -> list[tuple[str, dict]]:

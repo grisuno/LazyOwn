@@ -41,10 +41,13 @@ def _rows() -> list[dict]:
 
 def _selector(monkeypatch, rows=None) -> ChainSelector:
     """Build a ChainSelector with an injected registry and defaults forced on."""
-    monkeypatch.setattr(auto, "scan_all", lambda *a, **k: list(_rows() if rows is None else rows), raising=False)
+    import modules.chain_match as chain_match
+
     monkeypatch.setattr("modules.chain_registry.scan_all", lambda *a, **k: list(_rows() if rows is None else rows))
     monkeypatch.setattr(auto, "CHAIN_SELECTOR_ENABLED", True, raising=False)
     monkeypatch.setattr(auto, "CHAIN_SELECTOR_ALLOW_LAB", False, raising=False)
+    monkeypatch.setattr(auto, "CHAIN_SELECTOR_TTL_S", 0.0, raising=False)
+    chain_match.reset_cache()
     return ChainSelector()
 
 
@@ -89,9 +92,11 @@ def test_lab_chains_excluded_by_default(monkeypatch):
 
 def test_lab_chains_allowed_when_flag_set(monkeypatch):
     """Given the lab flag, When a samba service is seen, Then the gym chain is proposed."""
+    import modules.chain_match as chain_match
+
     sel = _selector(monkeypatch)
     monkeypatch.setattr(auto, "CHAIN_SELECTOR_ALLOW_LAB", True, raising=False)
-    sel._cache = []
+    chain_match.reset_cache()
     decision = sel.select("10.0.0.9", "lateral", {"services": ["microsoft-ds"], "os_hint": "linux"})
     assert decision is not None
     assert decision.command == "apt_chain apt_ad_lab 10.0.0.9"

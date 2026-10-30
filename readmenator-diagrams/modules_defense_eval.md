@@ -9,11 +9,11 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## modules (14.1)
+## modules (13.1)
 
 modules groups 4 files (py) around RuleEvaluationError, Condition, Evaluation, to_dict, DatasetSummary. Closed-loop detection rule tuning: baseline vs candidate comparison.
 
-## tests (14.2)
+## tests (13.2)
 
 tests groups 4 files (py) around test_candidate_with_false_positive_regresses, test_both_pass_is_equivalent, test_both_fail_is_equivalent_fail, test_inconclusive_datasets, test_candidate_fixes_baseline_failure. Closed-loop tuning: baseline vs candidate comparison and suggestions.
 

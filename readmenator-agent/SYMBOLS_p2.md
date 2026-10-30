@@ -493,7 +493,7 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `campaign_sitrep` | function | `cli/commands/lazyops.py:1579` | `def campaign_sitrep()` |
 | `do_lazy_addon` | method | `cli/commands/lazyops.py:2015` | `def do_lazy_addon(self, line)` |
 | `do_lazy_agent` | method | `cli/commands/lazyops.py:1668` | `def do_lazy_agent(self, line)` |
-| `do_lazy_archive` | method | `cli/commands/lazyops.py:2496` | `def do_lazy_archive(self, line)` |
+| `do_lazy_archive` | method | `cli/commands/lazyops.py:2497` | `def do_lazy_archive(self, line)` |
 | `do_lazy_ask` | method | `cli/commands/lazyops.py:1514` | `def do_lazy_ask(self, line)` |
 | `do_lazy_asset` | method | `cli/commands/lazyops.py:820` | `def do_lazy_asset(self, line)` |
 

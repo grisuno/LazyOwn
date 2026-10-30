@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## External Imports (continued)
+- `modules/lazycloud.py` -> __future__, dataclasses, datetime, hashlib, hmac, json, os, requests, time, typing, urllib.request
 - `modules/lazydorks.py` -> __future__, pathlib, sys, typing
 - `modules/lazyencoder_decoder.py` -> base64
 - `modules/lazyk8s.py` -> __future__, base64, dataclasses, glob, http.client, json, os, requests, socket, subprocess, tempfile, time, typing, yaml
@@ -96,6 +97,14 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `modules/saas_attacks.py` -> __future__, dataclasses, requests, typing
 - `modules/search.py` -> bs4, csv, requests
 - `modules/security_sanitizers.py` -> __future__, collections.abc, dataclasses, ipaddress, os, re, typing
+- `modules/selection/__init__.py` -> __future__
+- `modules/selection/adversary.py` -> __future__, glob, os, re
+- `modules/selection/atomic.py` -> __future__, re
+- `modules/selection/base.py` -> __future__, collections.abc, dataclasses, typing
+- `modules/selection/chain.py` -> __future__
+- `modules/selection/cred_spray.py` -> __future__
+- `modules/selection/playbook.py` -> __future__, re
+- `modules/selection/registry.py` -> __future__, collections.abc
 - `modules/selector_manager.py` -> __future__, collections.abc, dataclasses
 - `modules/selfupdate.py` -> __future__, dataclasses, hashlib, pathlib, shutil, subprocess
 - `modules/session_cleanup.py` -> __future__, os, pathlib, re, shutil, signal, subprocess, time
@@ -337,6 +346,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_chain_parallel_fallback.py` -> __future__, pathlib, tempfile, threading, time
 - `tests/test_chain_registry.py` -> __future__, os, pathlib, sys, yaml
 - `tests/test_chain_runner.py` -> __future__, threading, time
+- `tests/test_chain_selector.py` -> __future__, pathlib, sys
 - `tests/test_chain_step_streaming.py` -> __future__, json, pathlib
 - `tests/test_chain_synth.py` -> __future__, pathlib, pytest, yaml
 - `tests/test_chain_token_hardening.py` -> __future__, pathlib, shlex, yaml
@@ -486,15 +496,5 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_loop_ai_bridge.py` -> __future__, pytest, types
 - `tests/test_loop_auto_orchestrator.py` -> __future__, ast, builtins, pathlib
 - `tests/test_loop_broadcast.py` -> __future__
-- `tests/test_loop_budget.py` -> __future__, pytest
-- `tests/test_loop_cli_catalog.py` -> __future__, pytest
-- `tests/test_loop_cold_overview.py` -> __future__
-- `tests/test_loop_force_graph.py` -> __future__
-- `tests/test_loop_guard_audit.py` -> __future__
-- `tests/test_loop_guardrails.py` -> __future__, threading, time
-- `tests/test_loop_intent_delete.py` -> __future__, pytest
-- `tests/test_loop_llm_resilience.py` -> __future__
-- `tests/test_loop_manager.py` -> __future__, json, pathlib, pytest, tempfile, time
-- `tests/test_loop_mentions.py` -> __future__
 
 Next: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)

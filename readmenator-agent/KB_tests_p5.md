@@ -272,6 +272,25 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `onecmd` (method, line 349) `def onecmd(self, command)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`
 
+## tests/test_chain_selector.py
+- Doc: Tests for ``ChainSelector`` in ``skills/autonomous_daemon.py``.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_rows` (function, line 30) `def _rows()`
+  - `_selector` (function, line 42) `def _selector(monkeypatch, rows)`
+  - `test_non_strategic_phase_returns_none` (function, line 54) `def test_non_strategic_phase_returns_none(monkeypatch)`
+  - `test_service_match_proposes_apt_chain` (function, line 60) `def test_service_match_proposes_apt_chain(monkeypatch)`
+  - `test_platform_mismatch_excludes_chain` (function, line 71) `def test_platform_mismatch_excludes_chain(monkeypatch)`
+  - `test_platform_match_for_windows_ad` (function, line 78) `def test_platform_match_for_windows_ad(monkeypatch)`
+  - `test_lab_chains_excluded_when_flag_off` (function, line 86) `def test_lab_chains_excluded_when_flag_off(monkeypatch)`
+  - `test_lab_chains_allowed_when_flag_set` (function, line 93) `def test_lab_chains_allowed_when_flag_set(monkeypatch)`
+  - `test_no_match_returns_none` (function, line 105) `def test_no_match_returns_none(monkeypatch)`
+  - `test_each_pair_proposed_once` (function, line 111) `def test_each_pair_proposed_once(monkeypatch)`
+  - `test_master_switch_off_is_inert` (function, line 121) `def test_master_switch_off_is_inert(monkeypatch)`
+  - `test_disabled_and_invalid_chains_ignored` (function, line 128) `def test_disabled_and_invalid_chains_ignored(monkeypatch)`
+- Depends on: `modules/chain_match.py`, `skills/autonomous_daemon.py`
+
 ## tests/test_chain_step_streaming.py
 - Doc: Chain step streaming contract: chain_step events reach the bus per step.
 - Layer: testing
@@ -287,11 +306,19 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_alternatives_do_not_resolve_failures` (function, line 111) `def test_alternatives_do_not_resolve_failures(monkeypatch)`
   - `test_denied_never_steers` (function, line 127) `def test_denied_never_steers(monkeypatch)`
   - `test_publication_failure_never_blocks_the_chain` (function, line 141) `def test_publication_failure_never_blocks_the_chain(monkeypatch)`
-  - `test_event_bus_receives_chain_step_for_dashboard` (function, line 159) `def test_event_bus_receives_chain_step_for_dashboard(tmp_path, monkeypatch)`
+  - `test_calm_chain_never_paces` (function, line 159) `def test_calm_chain_never_paces(monkeypatch)`
+  - `test_edr_signal_triggers_inter_step_pacing` (function, line 173) `def test_edr_signal_triggers_inter_step_pacing(monkeypatch)`
+  - `test_pace_disabled_never_sleeps` (function, line 187) `def test_pace_disabled_never_sleeps(monkeypatch)`
+  - `_capture_with_sinks` (function, line 202) `def _capture_with_sinks(monkeypatch)`
+  - `test_successful_step_promotes_declared_state_sinks` (function, line 216) `def test_successful_step_promotes_declared_state_sinks(monkeypatch)`
+  - `test_failed_step_never_promotes_state_sinks` (function, line 236) `def test_failed_step_never_promotes_state_sinks(monkeypatch)`
+  - `test_step_without_declared_sinks_does_not_promote` (function, line 249) `def test_step_without_declared_sinks_does_not_promote(monkeypatch)`
+  - `test_event_bus_receives_chain_step_for_dashboard` (function, line 262) `def test_event_bus_receives_chain_step_for_dashboard(tmp_path, monkeypatch)`
   - `fake_record` (function, line 25) `def fake_record(event, sinks)`
   - `executor` (function, line 53) `def executor(command)`
   - `execute` (function, line 83) `def execute(command)`
   - `boom` (function, line 145) `def boom(event, sinks)`
+  - `fake_record` (function, line 206) `def fake_record(event, sinks)`
 - Depends on: `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/outcome_bus.py`
 
 ## tests/test_chain_synth.py

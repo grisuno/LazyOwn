@@ -3,6 +3,24 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `eliminar_contenedores_docker` | function | `modules/lazyatack.sh:260` | `` |
+| `enumerar_http` | function | `modules/lazyatack.sh:127` | `` |
+| `enumerar_puertos` | function | `modules/lazyatack.sh:254` | `` |
+| `enumerar_suid` | function | `modules/lazyatack.sh:230` | `` |
+| `enviar_archivo_netcat` | function | `modules/lazyatack.sh:145` | `` |
+| `escanear_puertos` | function | `modules/lazyatack.sh:115` | `` |
+| `escanear_puertos_especificos` | function | `modules/lazyatack.sh:121` | `` |
+| `escanear_red` | function | `modules/lazyatack.sh:266` | `` |
+| `escuchar_shell` | function | `modules/lazyatack.sh:171` | `` |
+| `explotar_lfi` | function | `modules/lazyatack.sh:200` | `` |
+| `iniciar_servidor_http` | function | `modules/lazyatack.sh:133` | `` |
+| `listar_timers` | function | `modules/lazyatack.sh:236` | `` |
+| `menu_cliente` | function | `modules/lazyatack.sh:307` | `` |
+| `menu_servidor` | function | `modules/lazyatack.sh:272` | `` |
+| `monitorear_procesos` | function | `modules/lazyatack.sh:177` | `` |
+| `mostrar_ayuda` | function | `modules/lazyatack.sh:21` | `` |
+| `obtener_root_shell` | function | `modules/lazyatack.sh:223` | `` |
+| `validar_ip` | function | `modules/lazyatack.sh:33` | `` |
 | `validar_url` | function | `modules/lazyatack.sh:49` | `` |
 | `verificar_conectividad` | function | `modules/lazyatack.sh:151` | `` |
 | `verificar_curl` | function | `modules/lazyatack.sh:158` | `` |
@@ -478,23 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `Fact` | class | `modules/loop_guardrails.py:73` | `class Fact` |
 | `FactVectorStore` | class | `modules/loop_guardrails.py:330` | `class FactVectorStore` |
 | `RepeatDetector` | class | `modules/loop_guardrails.py:82` | `class RepeatDetector` |
-| `TargetLimiter` | class | `modules/loop_guardrails.py:260` | `class TargetLimiter` |
-| `__init__` | method | `modules/loop_guardrails.py:98` | `def __init__(self, window)` |
-| `__init__` | method | `modules/loop_guardrails.py:187` | `def __init__(self, duration_threshold)` |
-| `__init__` | method | `modules/loop_guardrails.py:268` | `def __init__(self, max_concurrent)` |
-| `__init__` | method | `modules/loop_guardrails.py:338` | `def __init__(self, path, max_facts)` |
-| `__len__` | method | `modules/loop_guardrails.py:350` | `def __len__(self)` |
-| `_alternating` | method | `modules/loop_guardrails.py:155` | `def _alternating(self)` |
-| `_load` | method | `modules/loop_guardrails.py:467` | `def _load(self)` |
-| `_strict_alternating` | method | `modules/loop_guardrails.py:134` | `def _strict_alternating(entries)` |
-| `_tokenize` | method | `modules/loop_guardrails.py:354` | `def _tokenize(text)` |
-| `_update_oscillation` | method | `modules/loop_guardrails.py:120` | `def _update_oscillation(self)` |
-| `_vectorize` | method | `modules/loop_guardrails.py:359` | `def _vectorize(tokens)` |
-| `active_targets` | method | `modules/loop_guardrails.py:280` | `def active_targets(self)` |
-| `add` | method | `modules/loop_guardrails.py:367` | `def add(self, text, meta)` |
-| `clear` | method | `modules/loop_guardrails.py:440` | `def clear(self)` |
-| `decay` | method | `modules/loop_guardrails.py:215` | `def decay(self, factor)` |
-| `inter_step_delay` | method | `modules/loop_guardrails.py:236` | `def inter_step_delay(self)` |
-| `last_commands` | method | `modules/loop_guardrails.py:167` | `def last_commands(self)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

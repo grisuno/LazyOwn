@@ -95,21 +95,21 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_lazy_stage` (method, line 1961) `def do_lazy_stage(self, line)`
   - `do_lazy_mode` (method, line 1989) `def do_lazy_mode(self, line)`
   - `do_lazy_addon` (method, line 2015) `def do_lazy_addon(self, line)`
-  - `do_lazy_notify` (method, line 2121) `def do_lazy_notify(self, line)`
-  - `do_lazy_trigger` (method, line 2169) `def do_lazy_trigger(self, line)`
-  - `do_lazy_llm` (method, line 2258) `def do_lazy_llm(self, line)`
-  - `do_lazy_compact` (method, line 2395) `def do_lazy_compact(self, line)`
-  - `do_lazy_status` (method, line 2467) `def do_lazy_status(self, line)`
-  - `do_lazy_overview` (method, line 2491) `def do_lazy_overview(self, line)`
-  - `do_lazy_archive` (method, line 2496) `def do_lazy_archive(self, line)`
-  - `do_lazy_template` (method, line 2527) `def do_lazy_template(self, line)`
-  - `do_lazy_category` (method, line 2558) `def do_lazy_category(self, line)`
-  - `do_lazy_chat` (method, line 2579) `def do_lazy_chat(self, line)`
-  - `do_lazy_scheduler` (method, line 2612) `def do_lazy_scheduler(self, line)`
-  - `do_lazy_gate` (method, line 2639) `def do_lazy_gate(self, line)`
-  - `do_lazy_loop` (method, line 2684) `def do_lazy_loop(self, line)`
-  - `do_lazy_sandbox` (method, line 2710) `def do_lazy_sandbox(self, line)`
-  - `do_lazy_install` (method, line 2773) `def do_lazy_install(self, line)`
+  - `do_lazy_notify` (method, line 2122) `def do_lazy_notify(self, line)`
+  - `do_lazy_trigger` (method, line 2170) `def do_lazy_trigger(self, line)`
+  - `do_lazy_llm` (method, line 2259) `def do_lazy_llm(self, line)`
+  - `do_lazy_compact` (method, line 2396) `def do_lazy_compact(self, line)`
+  - `do_lazy_status` (method, line 2468) `def do_lazy_status(self, line)`
+  - `do_lazy_overview` (method, line 2492) `def do_lazy_overview(self, line)`
+  - `do_lazy_archive` (method, line 2497) `def do_lazy_archive(self, line)`
+  - `do_lazy_template` (method, line 2528) `def do_lazy_template(self, line)`
+  - `do_lazy_category` (method, line 2559) `def do_lazy_category(self, line)`
+  - `do_lazy_chat` (method, line 2580) `def do_lazy_chat(self, line)`
+  - `do_lazy_scheduler` (method, line 2613) `def do_lazy_scheduler(self, line)`
+  - `do_lazy_gate` (method, line 2640) `def do_lazy_gate(self, line)`
+  - `do_lazy_loop` (method, line 2685) `def do_lazy_loop(self, line)`
+  - `do_lazy_sandbox` (method, line 2711) `def do_lazy_sandbox(self, line)`
+  - `do_lazy_install` (method, line 2774) `def do_lazy_install(self, line)`
   - `run_command` (function, line 1545) `def run_command(command)`
   - `list_tasks` (function, line 1567) `def list_tasks()`
   - `task_graph` (function, line 1571) `def task_graph(task)`

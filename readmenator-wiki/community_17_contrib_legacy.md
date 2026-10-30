@@ -1,6 +1,6 @@
 # contrib/legacy
 
-*Community 18 | 5 files | cohesion 0.80*
+*Community 17 | 5 files | cohesion 0.80*
 
 ## Definition
 

@@ -58,7 +58,7 @@ Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `modul
 
 ## modules/orchestrator_config.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`, `tests/test_selectors_capabilities.py`
 - `reload` (function) `modules/orchestrator_config.py:137` `def reload()` -- Invalidate every merged view after an external configuration change.
 - `profiles` (function) `modules/orchestrator_config.py:256` `def profiles()` -- Return every resolved profile, including inherited values.
 - `active_profile` (function) `modules/orchestrator_config.py:281` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
@@ -73,17 +73,20 @@ Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchest
 - `set_engagement_mode` (function) `modules/orchestrator_config.py:437` `def set_engagement_mode(mode)` -- Persist the engagement mode in the payload.
 - `chain_defaults` (function) `modules/orchestrator_config.py:460` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
 - `sinks` (function) `modules/orchestrator_config.py:469` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
-- `stages` (function) `modules/orchestrator_config.py:480` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
-- `stage_enabled` (function) `modules/orchestrator_config.py:510` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
-- `stage_params` (function) `modules/orchestrator_config.py:516` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
-- `set_stage` (function) `modules/orchestrator_config.py:521` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
-- `effective_verbs` (function) `modules/orchestrator_config.py:546` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
-- `verb_config` (function) `modules/orchestrator_config.py:638` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
-- `verb_enabled` (function) `modules/orchestrator_config.py:647` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `upsert_verb` (function) `modules/orchestrator_config.py:653` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
-- `remove_verb` (function) `modules/orchestrator_config.py:710` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
-- `reset` (function) `modules/orchestrator_config.py:731` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
-- `validate_config` (function) `modules/orchestrator_config.py:738` `def validate_config(data)` -- Validate one raw orchestration mapping.
+- `selectors` (function) `modules/orchestrator_config.py:480` `def selectors()` -- Return action-selector toggles from the payload orchestrator section.
+- `selector_enabled` (function) `modules/orchestrator_config.py:491` `def selector_enabled(name)` -- Return whether one shared selector may fire (unknown = enabled).
+- `set_selector` (function) `modules/orchestrator_config.py:496` `def set_selector(name, enabled)` -- Persist the enabled flag of one shared selector and return the toggles.
+- `stages` (function) `modules/orchestrator_config.py:506` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
+- `stage_enabled` (function) `modules/orchestrator_config.py:536` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
+- `stage_params` (function) `modules/orchestrator_config.py:542` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
+- `set_stage` (function) `modules/orchestrator_config.py:547` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
+- `effective_verbs` (function) `modules/orchestrator_config.py:572` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
+- `verb_config` (function) `modules/orchestrator_config.py:664` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
+- `verb_enabled` (function) `modules/orchestrator_config.py:673` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `upsert_verb` (function) `modules/orchestrator_config.py:679` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
+- `remove_verb` (function) `modules/orchestrator_config.py:736` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
+- `reset` (function) `modules/orchestrator_config.py:757` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
+- `validate_config` (function) `modules/orchestrator_config.py:764` `def validate_config(data)` -- Validate one raw orchestration mapping.
 
 ## modules/osint_enrich.py
 Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
@@ -95,7 +98,7 @@ Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
 
 ## modules/outcome_bus.py
 Depends on: `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
 - `OutcomeEvent.host_value` (method) `modules/outcome_bus.py:105` `def host_value(self)` -- Return the best host identifier available.
 - `OutcomeEvent.key` (method) `modules/outcome_bus.py:109` `def key(self)` -- Return the idempotency key for this event.
 - `OutcomeEvent.to_dict` (method) `modules/outcome_bus.py:127` `def to_dict(self)` -- Return a JSON-serializable view.

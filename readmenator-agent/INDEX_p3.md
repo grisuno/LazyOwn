@@ -3,6 +3,16 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_cli_command_sets.py` | ``cli`` package declarativeness and ``CommandSet`` registration tests. | tests | 61 | 0 |
+| `tests/test_cli_enhancements.py` | Tests for cli/cli_enhancements.py and the audit CommandSet. | tests | 50 | 0 |
+| `tests/test_closedloop.py` | Closed-loop tuning: baseline vs candidate comparison and suggestions. | tests | 6 | 0 |
+| `tests/test_codeql_alert_fixes.py` | Regression tests for CodeQL alerts 984, 983 and 982. | tests | 17 | 0 |
+| `tests/test_collab_and_onboarding.py` | tests/test_collab_and_onboarding.py  Tests for: - Gap #2 (team server): collab_bp UI route, SSE... | tests | 91 | 0 |
+| `tests/test_command_allowlist.py` | TDD tests for the command allowlist contract. | tests | 14 | 0 |
+| `tests/test_command_allowlist_behavior.py` | BDD behavior scenarios for the command allowlist contract. | tests | 3 | 0 |
+| `tests/test_command_chain.py` | Tests for cli/command_chain.py. | tests | 24 | 0 |
+| `tests/test_command_control_agent.py` | Agent flavour selection and agent-staging regression tests. | tests | 12 | 0 |
+| `tests/test_command_form.py` | Tests for cli/command_form.py. | tests | 13 | 0 |
 | `tests/test_command_namespace_uniqueness.py` | Cross-CommandSet command-name uniqueness contract.  cmd2 refuses to register a second... | tests | 3 | 0 |
 | `tests/test_command_palette.py` | Command palette test suite. | tests | 238 | 0 |
 | `tests/test_command_set_migration.py` | Tests for the completed migration of ``LazyOwnShell`` commands. | tests | 42 | 0 |
@@ -74,7 +84,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_https_redirect.py` | TDD tests for the HTTPS redirect contract. | tests | 11 | 0 |
 | `tests/test_hunt_verify.py` | Hunt verification: verdict taxonomy, scope gate and dependency gating. | tests | 12 | 0 |
 | `tests/test_implant_session_secrets.py` | ImplantSessionSecretsSpec: Contract: lab Go implant templates bind rotating session secrets. | tests | 8 | 0 |
-| `tests/test_improvements_spec.py` | Spec-driven validation of the three priority improvements. | tests | 160 | 0 |
+| `tests/test_improvements_spec.py` | Spec-driven validation of the three priority improvements. | tests | 161 | 0 |
 | `tests/test_infra_disposable.py` | TDD unit tests for the disposable infrastructure contracts. | tests | 35 | 0 |
 | `tests/test_input_fuzz.py` | Fuzzing for input validators and rating boundaries. | tests | 8 | 0 |
 | `tests/test_intel_fusion.py` | Intel fusion + LLM defaults regression tests. | tests | 22 | 0 |
@@ -96,7 +106,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lazy_findings.py` | Tests for modules.lazy_findings — engagement findings ledger. | tests | 30 | 0 |
 | `tests/test_lazy_hostscore.py` | Host heat score contract: deterministic, capped, auditable priorities. | tests | 9 | 0 |
 | `tests/test_lazy_ledger.py` | Freshness ledger contract: recurring windows are ledger windows. | tests | 11 | 0 |
-| `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 38 | 0 |
+| `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 46 | 0 |
 | `tests/test_lazy_match_policy.py` | Match policy contract: strands, standing and audited closures. | tests | 8 | 0 |
 | `tests/test_lazy_netattack.py` | Tests for modules.lazy_netattack — Windows attack-surface adjudication. | tests | 17 | 0 |
 | `tests/test_lazy_oob.py` | Contract tests for the lazyoob OOB canary. | tests | 12 | 0 |
@@ -233,6 +243,8 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_security_hardening_v5.py` | SDD+TDD+BDD tests for CodeQL security batch — weak crypto, clear-text secrets, TLS. | tests | 40 | 0 |
 | `tests/test_security_lazyc2.py` | Security tests for the LazyOwn C2 web layer. | tests | 58 | 0 |
 | `tests/test_security_sanitizers.py` | Unit tests for :mod:`modules.security_sanitizers`. | tests | 45 | 0 |
+| `tests/test_selectors_base.py` | Shared selector brain contract: base types, chain selector and cascade. | tests | 9 | 0 |
+| `tests/test_selectors_capabilities.py` | Capability selector contracts: playbook, adversary and atomic strategies. | tests | 12 | 0 |
 | `tests/test_session_brief.py` | BDD tests for the consolidated session-start brief. | tests | 6 | 0 |
 | `tests/test_session_ops_command_set.py` | Session ops command set extraction tests. | tests | 9 | 0 |
 | `tests/test_session_secrets.py` | SessionSecretsSpec: Contract for session-scoped secret rotation. | tests | 8 | 0 |

@@ -2,6 +2,7 @@
 Previous: [API_p11.md](API_p11.md)
 
 ## modules/exp.c
+Depends on: `modules/selection/chain.py`
 Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
 - `add_key` (function) `modules/exp.c:147` `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
 - `keyctl` (function) `modules/exp.c:151` `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`

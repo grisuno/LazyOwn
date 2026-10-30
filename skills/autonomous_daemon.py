@@ -1375,22 +1375,17 @@ class ChainSelector(ICommandSelector):
         except Exception as exc:
             log.debug("shared chain selector unavailable: %s", exc)
             return None
-        exclude = frozenset(
-            key.split(":", 1)[0] for key in self._proposed if key.endswith(f":{target}")
-        )
         ctx = SelectionContext(
             target=target,
             phase=phase,
             os_hint=str(context.get("os_hint", "") or ""),
             services=tuple(context.get("services", []) or ()),
-            exclude=exclude,
+            exclude=frozenset(self._proposed),
         )
         decision = _SharedChainSelector(allow_lab=CHAIN_SELECTOR_ALLOW_LAB).propose(ctx)
         if decision is None:
             return None
-        name = decision.command.split()[1] if len(decision.command.split()) > 1 else ""
-        if name:
-            self._proposed.add(f"{name}:{target}")
+        self._proposed.add(decision.command)
         return CommandDecision(
             command=decision.command,
             source=decision.source,

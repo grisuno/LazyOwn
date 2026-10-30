@@ -1,31 +1,71 @@
 # API (page 16 of 25)
 Previous: [API_p15.md](API_p15.md)
 
+## modules/logging_config.py
+Depends on: `core/logging.py`
+Imported by: `lazy_sentinel4.py`, `lazyc2.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lazyownerweb.py`, `modules/lilsplunky.py`, `modules/vulnbot.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`
+- `ColoredFormatter.format` (method) `modules/logging_config.py:39` `def format(self, record)`
+- `JsonFormatter.format` (method) `modules/logging_config.py:72` `def format(self, record)`
+- `CorrelationFilter.filter` (method) `modules/logging_config.py:94` `def filter(self, record)`
+- `ResilientRotatingFileHandler.emit` (method) `modules/logging_config.py:116` `def emit(self, record)` -- Write one record, no-op after the file has become unwritable.
+- `ResilientRotatingFileHandler.handleError` (method) `modules/logging_config.py:122` `def handleError(self, record)` -- Suppress the default per-record traceback; notify once via stderr.
+- `set_correlation_id` (function) `modules/logging_config.py:134` `def set_correlation_id(cid)` -- Set the correlation ID for the current async/task context.
+- `get_correlation_id` (function) `modules/logging_config.py:139` `def get_correlation_id()` -- Return the current correlation ID, or None.
+- `clear_correlation_id` (function) `modules/logging_config.py:144` `def clear_correlation_id()` -- Reset the correlation ID for the current context.
+- `configure` (function) `modules/logging_config.py:244` `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)` -- Configure LazyOwn's centralized logging system.
+- `get_logger` (function) `modules/logging_config.py:328` `def get_logger(name, level)` -- Get a logger with the given name.
+- `set_level` (function) `modules/logging_config.py:357` `def set_level(name, level)` -- Set the log level for a specific logger.
+- `set_quiet` (function) `modules/logging_config.py:367` `def set_quiet()` -- Silence all logging below WARNING level.
+- `set_verbose` (function) `modules/logging_config.py:373` `def set_verbose()` -- Enable DEBUG level logging.
+- `silence_module` (function) `modules/logging_config.py:379` `def silence_module(name)` -- Completely silence a noisy module.
+- `reset` (function) `modules/logging_config.py:388` `def reset()` -- Reset the logging system to defaults.
+
+## modules/loop_ai_bridge.py
+Depends on: `core/config.py`, `modules/detection_oracle.py`, `modules/event_bus.py`, `modules/moe_router.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
+Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation/telemetry_mediator.py`, `tests/conftest.py`, `tests/test_lazy_streaming.py`, `tests/test_loop_ai_bridge.py`, `tests/test_mediation.py`
+- `publish_loop_event` (function) `modules/loop_ai_bridge.py:74` `def publish_loop_event(task_id, worker, kind, text, severity)` -- Publish one loop activity to the unified bus and Hive memory.
+- `assess_opsec` (function) `modules/loop_ai_bridge.py:125` `def assess_opsec(command, rhost)` -- Return a pre-execution OPSEC gate assessment, or None when unavailable.
+- `intent_tool_class` (function) `modules/loop_ai_bridge.py:169` `def intent_tool_class(summary)` -- Return the coarse tool class an intent summary belongs to.
+- `record_outcome_quality` (function) `modules/loop_ai_bridge.py:213` `def record_outcome_quality(worker, intent_summary, facts, findings)` -- Feed one intent's net yield back to MoE/RL as a decision-quality reward.
+- `tool_class_yields` (function) `modules/loop_ai_bridge.py:240` `def tool_class_yields(summaries, phase)` -- Return the learned decision-quality yield for each candidate summary.
+- `annotate_detection` (function) `modules/loop_ai_bridge.py:280` `def annotate_detection(command, action_category)` -- Return oracle details for one command, or None when unavailable.
+- `moe_route` (function) `modules/loop_ai_bridge.py:304` `def moe_route(task_type, goal)` -- Return the MoE router's preferred expert for a task type, or None.
+- `moe_record_outcome` (function) `modules/loop_ai_bridge.py:321` `def moe_record_outcome(expert_id, task_type, reward, detection_prob)` -- Feed one execution outcome back to the MoE performance store.
+- `rl_select` (function) `modules/loop_ai_bridge.py:340` `def rl_select(task_type, phase, candidates, deterministic)` -- Pick an expert with the RL policy; first candidate when unavailable.
+- `rl_update` (function) `modules/loop_ai_bridge.py:362` `def rl_update(task_type, phase, action, reward, candidates, detection_prob)` -- Apply one Q-learning update for an executed action.
+- `rl_save` (function) `modules/loop_ai_bridge.py:385` `def rl_save()` -- Persist the RL tables after a run.
+- `record_step` (function) `modules/loop_ai_bridge.py:404` `def record_step(task_id, worker, command, output, detection_prob)` -- Feed one executed command outcome to MoE and the RL trainer.
+- `swan_available` (function) `modules/loop_ai_bridge.py:419` `def swan_available()` -- Return True when the SWAN orchestrator can be constructed.
+- `swan_consult` (function) `modules/loop_ai_bridge.py:432` `def swan_consult(prompt, task_type, phase, timeout)` -- Ask SWAN for an ensemble answer; empty string when unavailable.
+- `stream_enabled` (function) `modules/loop_ai_bridge.py:459` `def stream_enabled()` -- Return whether token streaming into the activity log is enabled.
+- `ai_snapshot` (function) `modules/loop_ai_bridge.py:469` `def ai_snapshot()` -- Compact status of the wired AI stack for the operator log.
+
 ## modules/loop_guardrails.py
-Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`
-- `RepeatDetector.__init__` (method) `modules/loop_guardrails.py:89` `def __init__(self, window)`
-- `RepeatDetector.record` (method) `modules/loop_guardrails.py:93` `def record(self, command)` -- Add one executed command; returns True when the window fills.
-- `RepeatDetector.stuck` (method) `modules/loop_guardrails.py:110` `def stuck(self)` -- True when the window is full of one identical command.
-- `RepeatDetector.last_commands` (method) `modules/loop_guardrails.py:117` `def last_commands(self)` -- Snapshot of the recent command window (oldest first).
-- `RepeatDetector.reset` (method) `modules/loop_guardrails.py:121` `def reset(self)` -- Clear the window (operator intervention acknowledged).
-- `EdrPacer.__init__` (method) `modules/loop_guardrails.py:135` `def __init__(self, duration_threshold)`
-- `EdrPacer.observe` (method) `modules/loop_guardrails.py:141` `def observe(self, command, duration_sec, output)` -- Feed one executed step and update the telemetry estimate.
-- `EdrPacer.decay` (method) `modules/loop_guardrails.py:163` `def decay(self, factor)` -- Cool the estimate down (call once per completed step).
-- `EdrPacer.level` (method) `modules/loop_guardrails.py:169` `def level(self)` -- Current pacing level: 0 calm, 1 cautious, 2 stealth.
-- `EdrPacer.signal` (method) `modules/loop_guardrails.py:179` `def signal(self)` -- Human-readable reason for the current level (may be empty).
-- `EdrPacer.inter_step_delay` (method) `modules/loop_guardrails.py:184` `def inter_step_delay(self)` -- Recommended sleep before the next step at the current level.
-- `EdrPacer.quieten` (method) `modules/loop_guardrails.py:192` `def quieten(self, command)` -- Return a quieter variant of the command at the current level.
-- `TargetLimiter.__init__` (method) `modules/loop_guardrails.py:216` `def __init__(self, max_concurrent)`
-- `TargetLimiter.max_concurrent` (method) `modules/loop_guardrails.py:223` `def max_concurrent(self)` -- Configured upper bound of simultaneous targets.
-- `TargetLimiter.active_targets` (method) `modules/loop_guardrails.py:228` `def active_targets(self)` -- How many distinct targets currently hold a slot.
-- `TargetLimiter.slot` (method) `modules/loop_guardrails.py:234` `def slot(self, target)` -- Hold one of at most ``max_concurrent`` target slots.
-- `FactVectorStore.__init__` (method) `modules/loop_guardrails.py:286` `def __init__(self, path, max_facts)`
-- `FactVectorStore.path` (method) `modules/loop_guardrails.py:294` `def path(self)` -- Backing file path.
-- `FactVectorStore.add` (method) `modules/loop_guardrails.py:315` `def add(self, text, meta)` -- Embed and store one fact; returns False for duplicates.
-- `FactVectorStore.search` (method) `modules/loop_guardrails.py:349` `def search(self, query, k)` -- Return the ``k`` facts most similar to the query.
-- `FactVectorStore.search_block` (method) `modules/loop_guardrails.py:379` `def search_block(self, query, k, max_chars)` -- Render retrieved facts as a prompt-ready block (may be empty).
-- `FactVectorStore.clear` (method) `modules/loop_guardrails.py:388` `def clear(self)` -- Drop every fact (manual reset path).
-- `FactVectorStore.save` (method) `modules/loop_guardrails.py:394` `def save(self)` -- Persist atomically; I/O errors never surface to the loop.
+Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`, `tests/test_repeat_shapes.py`
+- `RepeatDetector.__init__` (method) `modules/loop_guardrails.py:98` `def __init__(self, window)`
+- `RepeatDetector.record` (method) `modules/loop_guardrails.py:104` `def record(self, command)` -- Add one executed command; returns True when the window fills.
+- `RepeatDetector.stuck` (method) `modules/loop_guardrails.py:139` `def stuck(self)` -- True when the loop is visibly not progressing.
+- `RepeatDetector.oscillation_pair` (method) `modules/loop_guardrails.py:163` `def oscillation_pair(self)` -- Return the detected alternating pair, ('', '') when none.
+- `RepeatDetector.last_commands` (method) `modules/loop_guardrails.py:167` `def last_commands(self)` -- Snapshot of the recent command window (oldest first).
+- `RepeatDetector.reset` (method) `modules/loop_guardrails.py:171` `def reset(self)` -- Clear the window (operator intervention acknowledged).
+- `EdrPacer.__init__` (method) `modules/loop_guardrails.py:187` `def __init__(self, duration_threshold)`
+- `EdrPacer.observe` (method) `modules/loop_guardrails.py:193` `def observe(self, command, duration_sec, output)` -- Feed one executed step and update the telemetry estimate.
+- `EdrPacer.decay` (method) `modules/loop_guardrails.py:215` `def decay(self, factor)` -- Cool the estimate down (call once per completed step).
+- `EdrPacer.level` (method) `modules/loop_guardrails.py:221` `def level(self)` -- Current pacing level: 0 calm, 1 cautious, 2 stealth.
+- `EdrPacer.signal` (method) `modules/loop_guardrails.py:231` `def signal(self)` -- Human-readable reason for the current level (may be empty).
+- `EdrPacer.inter_step_delay` (method) `modules/loop_guardrails.py:236` `def inter_step_delay(self)` -- Recommended sleep before the next step at the current level.
+- `EdrPacer.quieten` (method) `modules/loop_guardrails.py:244` `def quieten(self, command)` -- Return a quieter variant of the command at the current level.
+- `TargetLimiter.__init__` (method) `modules/loop_guardrails.py:268` `def __init__(self, max_concurrent)`
+- `TargetLimiter.max_concurrent` (method) `modules/loop_guardrails.py:275` `def max_concurrent(self)` -- Configured upper bound of simultaneous targets.
+- `TargetLimiter.active_targets` (method) `modules/loop_guardrails.py:280` `def active_targets(self)` -- How many distinct targets currently hold a slot.
+- `TargetLimiter.slot` (method) `modules/loop_guardrails.py:286` `def slot(self, target)` -- Hold one of at most ``max_concurrent`` target slots.
+- `FactVectorStore.__init__` (method) `modules/loop_guardrails.py:338` `def __init__(self, path, max_facts)`
+- `FactVectorStore.path` (method) `modules/loop_guardrails.py:346` `def path(self)` -- Backing file path.
+- `FactVectorStore.add` (method) `modules/loop_guardrails.py:367` `def add(self, text, meta)` -- Embed and store one fact; returns False for duplicates.
+- `FactVectorStore.search` (method) `modules/loop_guardrails.py:401` `def search(self, query, k)` -- Return the ``k`` facts most similar to the query.
+- `FactVectorStore.search_block` (method) `modules/loop_guardrails.py:431` `def search_block(self, query, k, max_chars)` -- Render retrieved facts as a prompt-ready block (may be empty).
+- `FactVectorStore.clear` (method) `modules/loop_guardrails.py:440` `def clear(self)` -- Drop every fact (manual reset path).
+- `FactVectorStore.save` (method) `modules/loop_guardrails.py:446` `def save(self)` -- Persist atomically; I/O errors never surface to the loop.
 
 ## modules/loop_manager.py
 Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
@@ -58,7 +98,7 @@ Imported by: `cli/lazy_monitor.py`, `modules/lazy_runner.py`, `tests/test_lazy_r
 
 ## modules/loop_triggers.py
 Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_heat.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `modules/world_model.py`
-Imported by: `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_loop_trigger_hints.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
+Imported by: `cli/commands/netattack.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_loop_trigger_hints.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
 - `hint_fingerprint` (function) `modules/loop_triggers.py:28` `def hint_fingerprint(row)` -- Return the evidence signature of one hot-CVE candidate.
 - `prune_hint_fingerprints` (function) `modules/loop_triggers.py:60` `def prune_hint_fingerprints(store, now, ttl)` -- Return only the fresh fingerprints of a stored fingerprint map.
 - `TriggerStore.__init__` (method) `modules/loop_triggers.py:91` `def __init__(self, task_id)` -- Bind trigger table (global when task_id empty).
@@ -69,7 +109,9 @@ Imported by: `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.
 - `TriggerStore.list` (method) `modules/loop_triggers.py:190` `def list(self)` -- Return all triggers.
 - `TriggerStore.ensure_service_trigger` (method) `modules/loop_triggers.py:194` `def ensure_service_trigger(self)` -- Register the catalog trigger once so services fire the loop.
 - `TriggerStore.ensure_cve_hot_trigger` (method) `modules/loop_triggers.py:207` `def ensure_cve_hot_trigger(self)` -- Register the hot-CVE trigger once so fresh intel fires the loop.
-- `TriggerStore.due` (method) `modules/loop_triggers.py:220` `def due(self, task_id, graph, activity, assets, store)` -- Evaluate triggers like the scheduler tick; fires at most once each.
+- `TriggerStore.ensure_ad_surface_trigger` (method) `modules/loop_triggers.py:220` `def ensure_ad_surface_trigger(self)` -- Register the AD-surface trigger once so Windows identity fires it.
+- `TriggerStore.due` (method) `modules/loop_triggers.py:233` `def due(self, task_id, graph, activity, assets, store)` -- Evaluate triggers like the scheduler tick; fires at most once each.
+- `read_signing_evidence` (function) `modules/loop_triggers.py:499` `def read_signing_evidence(store_dir)` -- Load operator-attested SMB signing evidence per host.
 
 ## modules/macos_payloads.py
 Imported by: `cli/commands/payload_arsenal.py`
@@ -158,13 +200,16 @@ Imported by: `modules/mediation/__init__.py`, `modules/mediation/hub.py`
 - `TelemetryMediator.describe` (method) `modules/mediation/telemetry_mediator.py:19` `def describe(self)` -- Return mediator metadata for diagnostics.
 - `TelemetryMediator.publish_event` (method) `modules/mediation/telemetry_mediator.py:23` `def publish_event(self, task_id, worker, kind, text, severity)` -- Publish one loop activity event to listeners.
 - `TelemetryMediator.annotate_detection` (method) `modules/mediation/telemetry_mediator.py:43` `def annotate_detection(self, command)` -- Return the detection annotation for one command.
-- `TelemetryMediator.record_step` (method) `modules/mediation/telemetry_mediator.py:59` `def record_step(self, task_id, worker, command, output, detection_prob)` -- Record one executed step for learning stores.
-- `TelemetryMediator.swan_available` (method) `modules/mediation/telemetry_mediator.py:76` `def swan_available(self)` -- Return True when the SWAN ensemble is ready.
-- `TelemetryMediator.swan_consult` (method) `modules/mediation/telemetry_mediator.py:85` `def swan_consult(self, prompt, task_type, phase, timeout)` -- Consult the SWAN ensemble with one prompt.
-- `TelemetryMediator.moe_route` (method) `modules/mediation/telemetry_mediator.py:110` `def moe_route(self, task_type)` -- Return the preferred MoE expert for a task type.
-- `TelemetryMediator.rl_select` (method) `modules/mediation/telemetry_mediator.py:126` `def rl_select(self, task_type, phase, candidates, deterministic)` -- Return the RL-preferred candidate name.
-- `TelemetryMediator.moe_record_outcome` (method) `modules/mediation/telemetry_mediator.py:151` `def moe_record_outcome(self, expert_id, task_type, reward, detection_prob)` -- Record one MoE outcome for learning.
-- `TelemetryMediator.rl_update` (method) `modules/mediation/telemetry_mediator.py:167` `def rl_update(self, task_type, phase, action, reward, candidates, detection_prob)` -- Apply one Q-learning update for an executed action.
+- `TelemetryMediator.assess_opsec` (method) `modules/mediation/telemetry_mediator.py:59` `def assess_opsec(self, command, rhost)` -- Return the pre-execution OPSEC gate assessment for one command.
+- `TelemetryMediator.record_outcome_quality` (method) `modules/mediation/telemetry_mediator.py:77` `def record_outcome_quality(self, worker, intent_summary, facts, findings)` -- Record one intent's net yield as a decision-quality reward.
+- `TelemetryMediator.tool_class_yields` (method) `modules/mediation/telemetry_mediator.py:93` `def tool_class_yields(self, summaries, phase)` -- Return learned decision-quality yields for candidate summaries.
+- `TelemetryMediator.record_step` (method) `modules/mediation/telemetry_mediator.py:111` `def record_step(self, task_id, worker, command, output, detection_prob)` -- Record one executed step for learning stores.
+- `TelemetryMediator.swan_available` (method) `modules/mediation/telemetry_mediator.py:128` `def swan_available(self)` -- Return True when the SWAN ensemble is ready.
+- `TelemetryMediator.swan_consult` (method) `modules/mediation/telemetry_mediator.py:137` `def swan_consult(self, prompt, task_type, phase, timeout)` -- Consult the SWAN ensemble with one prompt.
+- `TelemetryMediator.moe_route` (method) `modules/mediation/telemetry_mediator.py:162` `def moe_route(self, task_type)` -- Return the preferred MoE expert for a task type.
+- `TelemetryMediator.rl_select` (method) `modules/mediation/telemetry_mediator.py:178` `def rl_select(self, task_type, phase, candidates, deterministic)` -- Return the RL-preferred candidate name.
+- `TelemetryMediator.moe_record_outcome` (method) `modules/mediation/telemetry_mediator.py:203` `def moe_record_outcome(self, expert_id, task_type, reward, detection_prob)` -- Record one MoE outcome for learning.
+- `TelemetryMediator.rl_update` (method) `modules/mediation/telemetry_mediator.py:219` `def rl_update(self, task_type, phase, action, reward, candidates, detection_prob)` -- Apply one Q-learning update for an executed action.
 
 ## modules/memory_cleaner.py
 Imported by: `cli/commands/opsec_cleanup.py`
@@ -262,21 +307,22 @@ Imported by: `cli/commands/cicd.py`
 - `MFABypassEngine.export_report` (method) `modules/mfa_bypass.py:303` `def export_report(self)` -- Export MFA bypass results to a JSON report.
 
 ## modules/module_registry.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`
-- `ModuleInfo.__init__` (method) `modules/module_registry.py:172` `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...`
-- `ModuleInfo.to_dict` (method) `modules/module_registry.py:202` `def to_dict(self)`
-- `ModuleRegistry.__init__` (method) `modules/module_registry.py:235` `def __init__(self, base_dir)`
-- `ModuleRegistry.get_instance` (method) `modules/module_registry.py:241` `def get_instance(cls, base_dir)` -- Return the singleton registry instance.
-- `ModuleRegistry.scan` (method) `modules/module_registry.py:247` `def scan(self)` -- Scan all module directories and return the full list.
-- `ModuleRegistry.rescan` (method) `modules/module_registry.py:260` `def rescan(self)` -- Force a full rescan and return modules.
-- `ModuleRegistry.get` (method) `modules/module_registry.py:269` `def get(self, name)` -- Get a module by name.
-- `ModuleRegistry.search` (method) `modules/module_registry.py:275` `def search(self, query, module_type, category, enabled_only, include_deprecated)` -- Search indexed modules.
-- `ModuleRegistry.deprecated_modules` (method) `modules/module_registry.py:315` `def deprecated_modules(self)` -- Return all deprecated modules.
-- `ModuleRegistry.by_type` (method) `modules/module_registry.py:321` `def by_type(self, module_type)` -- Shorthand for ``search(module_type=module_type)``.
-- `ModuleRegistry.summary` (method) `modules/module_registry.py:325` `def summary(self)` -- Return counts by module type.
-- `format_module_table` (function) `modules/module_registry.py:542` `def format_module_table(modules, cols)` -- Format a list of modules as an aligned text table.
-- `format_module_detail` (function) `modules/module_registry.py:589` `def format_module_detail(m)` -- Format a single module's full metadata.
+Depends on: `core/logging.py`, `modules/__init__.py`
+Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `cli/commands/session_ops.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`, `tests/test_module_registry_bridge.py`
+- `ModuleInfo.__init__` (method) `modules/module_registry.py:216` `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...`
+- `ModuleInfo.to_dict` (method) `modules/module_registry.py:246` `def to_dict(self)`
+- `ModuleRegistry.__init__` (method) `modules/module_registry.py:279` `def __init__(self, base_dir)`
+- `ModuleRegistry.get_instance` (method) `modules/module_registry.py:285` `def get_instance(cls, base_dir)` -- Return the singleton registry instance.
+- `ModuleRegistry.scan` (method) `modules/module_registry.py:291` `def scan(self)` -- Scan all module directories and return the full list.
+- `ModuleRegistry.rescan` (method) `modules/module_registry.py:304` `def rescan(self)` -- Force a full rescan and return modules.
+- `ModuleRegistry.get` (method) `modules/module_registry.py:313` `def get(self, name)` -- Get a module by name.
+- `ModuleRegistry.search` (method) `modules/module_registry.py:319` `def search(self, query, module_type, category, enabled_only, include_deprecated)` -- Search indexed modules.
+- `ModuleRegistry.deprecated_modules` (method) `modules/module_registry.py:359` `def deprecated_modules(self)` -- Return all deprecated modules.
+- `ModuleRegistry.by_type` (method) `modules/module_registry.py:365` `def by_type(self, module_type)` -- Shorthand for ``search(module_type=module_type)``.
+- `ModuleRegistry.summary` (method) `modules/module_registry.py:369` `def summary(self)` -- Return counts by module type.
+- `ModuleRegistry.proposal_intents` (method) `modules/module_registry.py:378` `def proposal_intents(self, texts, target, limit)` -- Loop bridge: map corpus mentions onto runnable module intents.
+- `format_module_table` (function) `modules/module_registry.py:666` `def format_module_table(modules, cols)` -- Format a list of modules as an aligned text table.
+- `format_module_detail` (function) `modules/module_registry.py:713` `def format_module_detail(m)` -- Format a single module's full metadata.
 
 ## modules/moe_router.py
 Depends on: `core/logging.py`, `modules/toposwarm_bridge.py`
@@ -406,85 +452,31 @@ Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomo
 
 ## modules/obs_parser.py
 Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/sinks/world_model.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
-- `Observation.by_type` (method) `modules/obs_parser.py:83` `def by_type(self, ftype)`
-- `Observation.has` (method) `modules/obs_parser.py:86` `def has(self, ftype)`
-- `Extractor.extract` (method) `modules/obs_parser.py:99` `def extract(self, text, host)` -- Return all findings of this type found in *text*.
-- `_ExtractorRegistry.__init__` (method) `modules/obs_parser.py:106` `def __init__(self)`
-- `_ExtractorRegistry.register` (method) `modules/obs_parser.py:109` `def register(self, extractor)`
-- `_ExtractorRegistry.run_all` (method) `modules/obs_parser.py:112` `def run_all(self, text, host)`
-- `_IPExtractor.extract` (method) `modules/obs_parser.py:134` `def extract(self, text, host)`
-- `_CredentialExtractor.extract` (method) `modules/obs_parser.py:175` `def extract(self, text, host)`
-- `_ServiceVersionExtractor.extract` (method) `modules/obs_parser.py:198` `def extract(self, text, host)`
-- `_PathExtractor.extract` (method) `modules/obs_parser.py:224` `def extract(self, text, host)`
-- `_UsernameExtractor.extract` (method) `modules/obs_parser.py:245` `def extract(self, text, host)`
-- `_HashExtractor.extract` (method) `modules/obs_parser.py:271` `def extract(self, text, host)`
-- `_CVEExtractor.extract` (method) `modules/obs_parser.py:288` `def extract(self, text, host)`
-- `_DomainExtractor.extract` (method) `modules/obs_parser.py:305` `def extract(self, text, host)`
-- `_EmailExtractor.extract` (method) `modules/obs_parser.py:323` `def extract(self, text, host)`
-- `_ErrorExtractor.extract` (method) `modules/obs_parser.py:345` `def extract(self, text, host)`
-- `_CloudIdentityExtractor.extract` (method) `modules/obs_parser.py:367` `def extract(self, text, host)`
-- `_SuccessDetector.is_success` (method) `modules/obs_parser.py:407` `def is_success(self, text)`
-- `ObsParser.__init__` (method) `modules/obs_parser.py:431` `def __init__(self)`
-- `ObsParser.register` (method) `modules/obs_parser.py:450` `def register(self, extractor)` -- Register an additional Extractor (Open/Closed extension point).
-- `ObsParser.parse` (method) `modules/obs_parser.py:454` `def parse(self, output, host, tool)` -- Parse *output* and return an Observation.
-- `get_parser` (function) `modules/obs_parser.py:500` `def get_parser()` -- Return (or create) the module-level singleton ObsParser.
-- `parse` (function) `modules/obs_parser.py:508` `def parse(output, host, tool)` -- Module-level convenience wrapper.
-
-## modules/operation.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
-Imported by: `cli/commands/caldera.py`
-- `Operation.to_dict` (method) `modules/operation.py:98` `def to_dict(self)`
-- `Operation.from_dict` (method) `modules/operation.py:116` `def from_dict(cls, d)`
-- `Operation.save` (method) `modules/operation.py:134` `def save(self)`
-- `Operation.log_event` (method) `modules/operation.py:143` `def log_event(self, step_index, step_name, status, summary, findings_count, error)`
-- `Operation.record_facts` (method) `modules/operation.py:164` `def record_facts(self, findings)`
-- `OperationManager.__init__` (method) `modules/operation.py:183` `def __init__(self)`
-- `OperationManager.list` (method) `modules/operation.py:187` `def list(self)` -- List all persisted operations.
-- `OperationManager.get` (method) `modules/operation.py:199` `def get(self, op_id)`
-- `OperationManager.create` (method) `modules/operation.py:206` `def create(self, name, target, apt_name, description)` -- Create a new planned operation.
-- `OperationManager.plan_from_apt` (method) `modules/operation.py:225` `def plan_from_apt(self, op, playbook_yaml_path)` -- Populate steps from an APT playbook YAML (or fall back to a derived MITRE playbook).
-- `OperationManager.start` (method) `modules/operation.py:287` `def start(self, op_id, executor)` -- Start or resume a planned operation.
-- `OperationManager.pause` (method) `modules/operation.py:369` `def pause(self, op_id)`
-- `OperationManager.resume` (method) `modules/operation.py:378` `def resume(self, op_id, executor)`
-- `OperationManager.stop` (method) `modules/operation.py:386` `def stop(self, op_id)`
-- `OperationManager.status` (method) `modules/operation.py:396` `def status(self, op_id)` -- Return a structured status dict for an operation.
-- `OperationManager.timeline` (method) `modules/operation.py:425` `def timeline(self, op_id)`
-- `OperationManager.report` (method) `modules/operation.py:431` `def report(self, op_id)`
-- `get_manager` (function) `modules/operation.py:471` `def get_manager()` -- Return a fresh :class:`OperationManager`.
-
-## modules/operator_profiles.py
-Depends on: `core/config.py`, `core/logging.py`
-Imported by: `cli/commands/automation.py`
-- `OperatorProfile.to_dict` (method) `modules/operator_profiles.py:57` `def to_dict(self)`
-- `OperatorProfileManager.__init__` (method) `modules/operator_profiles.py:88` `def __init__(self)`
-- `OperatorProfileManager.create_profile` (method) `modules/operator_profiles.py:192` `def create_profile(self, username, display_name, role, lhost, lport, listener_port, c2_port, c2_malleable_route...` -- Create a new operator profile.
-- `OperatorProfileManager.load_profile` (method) `modules/operator_profiles.py:260` `def load_profile(self, username)` -- Load an operator profile.
-- `OperatorProfileManager.update_profile` (method) `modules/operator_profiles.py:276` `def update_profile(self, username)` -- Update fields on an existing profile.
-- `OperatorProfileManager.delete_profile` (method) `modules/operator_profiles.py:289` `def delete_profile(self, username)` -- Delete an operator profile and its directory.
-- `OperatorProfileManager.list_profiles` (method) `modules/operator_profiles.py:300` `def list_profiles(self)` -- Return all operator profiles.
-- `OperatorProfileManager.touch_activity` (method) `modules/operator_profiles.py:312` `def touch_activity(self, username)` -- Update last_active timestamp.
-- `OperatorProfileManager.set_attribute` (method) `modules/operator_profiles.py:319` `def set_attribute(self, username, key, value)` -- Set a custom attribute on an operator profile.
-- `OperatorProfileManager.get_attribute` (method) `modules/operator_profiles.py:328` `def get_attribute(self, username, key, default)` -- Get a custom attribute from an operator profile.
-- `OperatorProfileManager.log_action` (method) `modules/operator_profiles.py:335` `def log_action(self, username, action, details)` -- Append an audited action to the operator's audit log.
-- `OperatorProfileManager.effective_config` (method) `modules/operator_profiles.py:360` `def effective_config(self, username)` -- Merge team baseline (payload.json) with per-operator overrides.
-- `get_operator_profile_manager` (function) `modules/operator_profiles.py:398` `def get_operator_profile_manager()` -- Return the singleton :class:`OperatorProfileManager`.
-
-## modules/opsec_scorer.py
-Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`, `modules/db.py`, `modules/killchain.py`
-Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `tests/test_opsec_scorer.py`, `tests/test_opsec_scorer_consolidated.py`
-- `OpsecScore.to_dict` (method) `modules/opsec_scorer.py:288` `def to_dict(self)` -- Return the score serialized as a plain dictionary.
-- `OpsecScorer.__init__` (method) `modules/opsec_scorer.py:343` `def __init__(self, payload, world_model)`
-- `OpsecScorer.evasion_active` (method) `modules/opsec_scorer.py:352` `def evasion_active(self)`
-- `OpsecScorer.traffic_morphing_active` (method) `modules/opsec_scorer.py:357` `def traffic_morphing_active(self)`
-- `OpsecScorer.score` (method) `modules/opsec_scorer.py:365` `def score(self, command, rhost, phase_override)` -- Score an OPSEC risk for ``command`` against ``rhost``.
-- `OpsecScorer.score_batch` (method) `modules/opsec_scorer.py:413` `def score_batch(self, commands, rhost)` -- Score multiple commands and return {command: OpsecScore}.
-- `OpsecScorer.suggest_mitigations` (method) `modules/opsec_scorer.py:417` `def suggest_mitigations(self, command, detectable_by)` -- Return mitigation suggestions for a given command.
-- `OpsecScorerV2.__init__` (method) `modules/opsec_scorer.py:617` `def __init__(self, context)`
-- `OpsecScorerV2.assess` (method) `modules/opsec_scorer.py:622` `def assess(self, command, extra_context)` -- Assess OPSEC risk for a command in the current context.
-- `OpsecScorerV2.should_allow` (method) `modules/opsec_scorer.py:696` `def should_allow(self, command)` -- Quick gating check - returns (allowed, score).
-- `OpsecScorerV2.get_trend` (method) `modules/opsec_scorer.py:709` `def get_trend(self)` -- Analyze OPSEC risk trend over the session.
-- `score_command` (function) `modules/opsec_scorer.py:811` `def score_command(command, payload, rhost)` -- Convenience function: score a single command without creating a scorer instance.
+Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/sinks/world_model.py`, `skills/autonomous_daemon.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
+- `Finding.with_technique` (method) `modules/obs_parser.py:88` `def with_technique(self, mapping)` -- Fill ``technique_id`` from a vulnerability-class mapping lens.
+- `Observation.by_type` (method) `modules/obs_parser.py:114` `def by_type(self, ftype)`
+- `Observation.has` (method) `modules/obs_parser.py:117` `def has(self, ftype)`
+- `Extractor.extract` (method) `modules/obs_parser.py:130` `def extract(self, text, host)` -- Return all findings of this type found in *text*.
+- `_ExtractorRegistry.__init__` (method) `modules/obs_parser.py:137` `def __init__(self)`
+- `_ExtractorRegistry.register` (method) `modules/obs_parser.py:140` `def register(self, extractor)`
+- `_ExtractorRegistry.run_all` (method) `modules/obs_parser.py:143` `def run_all(self, text, host)`
+- `_IPExtractor.extract` (method) `modules/obs_parser.py:165` `def extract(self, text, host)`
+- `_CredentialExtractor.extract` (method) `modules/obs_parser.py:206` `def extract(self, text, host)`
+- `_ServiceVersionExtractor.extract` (method) `modules/obs_parser.py:229` `def extract(self, text, host)`
+- `_PathExtractor.extract` (method) `modules/obs_parser.py:255` `def extract(self, text, host)`
+- `_UsernameExtractor.extract` (method) `modules/obs_parser.py:276` `def extract(self, text, host)`
+- `_HashExtractor.extract` (method) `modules/obs_parser.py:302` `def extract(self, text, host)`
+- `_CVEExtractor.extract` (method) `modules/obs_parser.py:319` `def extract(self, text, host)`
+- `_DomainExtractor.extract` (method) `modules/obs_parser.py:336` `def extract(self, text, host)`
+- `_EmailExtractor.extract` (method) `modules/obs_parser.py:354` `def extract(self, text, host)`
+- `_ErrorExtractor.extract` (method) `modules/obs_parser.py:376` `def extract(self, text, host)`
+- `_CloudIdentityExtractor.extract` (method) `modules/obs_parser.py:398` `def extract(self, text, host)`
+- `_SuccessDetector.is_success` (method) `modules/obs_parser.py:438` `def is_success(self, text)`
+- `ObsParser.__init__` (method) `modules/obs_parser.py:462` `def __init__(self)`
+- `ObsParser.register` (method) `modules/obs_parser.py:481` `def register(self, extractor)` -- Register an additional Extractor (Open/Closed extension point).
+- `ObsParser.parse` (method) `modules/obs_parser.py:485` `def parse(self, output, host, tool)` -- Parse *output* and return an Observation.
+- `get_parser` (function) `modules/obs_parser.py:531` `def get_parser()` -- Return (or create) the module-level singleton ObsParser.
+- `parse` (function) `modules/obs_parser.py:539` `def parse(output, host, tool)` -- Module-level convenience wrapper.
 
 
 Next: [API_p17.md](API_p17.md)

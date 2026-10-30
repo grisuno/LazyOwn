@@ -1,8 +1,50 @@
-# Symbols (page 14 of 47)
+# Symbols (page 14 of 48)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parse` | method | `modules/estorides_importer.py:520` | `def parse(self)` |
+| `parse` | method | `modules/estorides_importer.py:654` | `def parse(self)` |
+| `parse_by_type` | method | `modules/estorides_importer.py:554` | `def parse_by_type(self, entity_types)` |
+| `read_devices` | method | `modules/estorides_importer.py:641` | `def read_devices(self)` |
+| `run` | method | `modules/estorides_importer.py:912` | `def run(self, seed_methods)` |
+| `run_estorides_discover` | function | `modules/estorides_importer.py:274` | `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` |
+| `run_estorides_run` | function | `modules/estorides_importer.py:334` | `def run_estorides_run(query, out_json, timeout)` |
+| `stats` | method | `modules/estorides_importer.py:478` | `def stats(self)` |
+| `success` | method | `modules/estorides_importer.py:110` | `def success(self)` |
+| `to_dict` | method | `modules/estorides_importer.py:113` | `def to_dict(self)` |
+| `EvasionEngine` | class | `modules/evasion_engine.py:52` | `class EvasionEngine` |
+| `MalleableProfile` | class | `modules/evasion_engine.py:37` | `class MalleableProfile` |
+| `TrafficMorphConfig` | class | `modules/evasion_engine.py:25` | `class TrafficMorphConfig` |
+| `__init__` | method | `modules/evasion_engine.py:130` | `def __init__(self, config)` |
+| `_compute_jitter` | method | `modules/evasion_engine.py:220` | `def _compute_jitter(self)` |
+| `_compute_sleep` | method | `modules/evasion_engine.py:224` | `def _compute_sleep(self)` |
+| `_generate_cert_fingerprint` | method | `modules/evasion_engine.py:217` | `def _generate_cert_fingerprint(self)` |
+| `_generate_headers` | method | `modules/evasion_engine.py:180` | `def _generate_headers(self, user_agent)` |
+| `_generate_ja4_hash` | method | `modules/evasion_engine.py:148` | `def _generate_ja4_hash(self)` |
+| `_generate_user_agent` | method | `modules/evasion_engine.py:162` | `def _generate_user_agent(self, os_family)` |
+| `_get_domain_front` | method | `modules/evasion_engine.py:232` | `def _get_domain_front(self)` |
+| `_persist_profile` | method | `modules/evasion_engine.py:311` | `def _persist_profile(self, profile)` |
+| `_pick_uri_pool` | method | `modules/evasion_engine.py:209` | `def _pick_uri_pool(self)` |
+| `_random_chrome_version` | method | `modules/evasion_engine.py:139` | `def _random_chrome_version(self)` |
+| `_random_firefox_version` | method | `modules/evasion_engine.py:142` | `def _random_firefox_version(self)` |
+| `_random_safari_version` | method | `modules/evasion_engine.py:145` | `def _random_safari_version(self)` |
+| `generate_profile` | method | `modules/evasion_engine.py:244` | `def generate_profile(self, os_family)` |
+| `get_active_profile` | method | `modules/evasion_engine.py:269` | `def get_active_profile(self)` |
+| `get_beacon_config` | method | `modules/evasion_engine.py:272` | `def get_beacon_config(self)` |
+| `get_history` | method | `modules/evasion_engine.py:328` | `def get_history(self)` |
+| `morph_traffic` | method | `modules/evasion_engine.py:287` | `def morph_traffic(self, config)` |
+| `profile_to_json` | method | `modules/evasion_engine.py:343` | `def profile_to_json(self, profile)` |
+| `rotate_profile` | method | `modules/evasion_engine.py:264` | `def rotate_profile(self, os_family)` |
+| `set_config` | method | `modules/evasion_engine.py:136` | `def set_config(self, config)` |
+| `EvasivePayloadGenerator` | class | `modules/evasive_payloads.py:18` | `class EvasivePayloadGenerator` |
+| `__init__` | method | `modules/evasive_payloads.py:84` | `def __init__(self)` |
+| `_apply_encoding_chain` | method | `modules/evasive_payloads.py:118` | `def _apply_encoding_chain(self, data, chain)` |
+| `_gzip_compress` | method | `modules/evasive_payloads.py:114` | `def _gzip_compress(self, data)` |
+| `_random_string` | method | `modules/evasive_payloads.py:93` | `def _random_string(self, length)` |
+| `_random_var` | method | `modules/evasive_payloads.py:87` | `def _random_var(self, length)` |
+| `_rot13` | method | `modules/evasive_payloads.py:102` | `def _rot13(self, data)` |
+| `_xor_encode` | method | `modules/evasive_payloads.py:97` | `def _xor_encode(self, data, key)` |
 | `generate_javascript_obfuscated` | method | `modules/evasive_payloads.py:178` | `def generate_javascript_obfuscated(self, payload)` |
 | `generate_linux_evasive` | method | `modules/evasive_payloads.py:214` | `def generate_linux_evasive(self, rhost, rport, technique)` |
 | `generate_lolbas_execution` | method | `modules/evasive_payloads.py:284` | `def generate_lolbas_execution(self, payload_url, technique)` |
@@ -454,47 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `_crack_batch_john` | method | `modules/hash_cracker.py:610` | `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)` |
 | `_crack_hashcat` | method | `modules/hash_cracker.py:454` | `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)` |
 | `_crack_john` | method | `modules/hash_cracker.py:560` | `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)` |
-| `_parse_hashcat_output` | method | `modules/hash_cracker.py:671` | `def _parse_hashcat_output(stdout, stderr, original)` |
-| `_parse_john_show` | method | `modules/hash_cracker.py:686` | `def _parse_john_show(show_output, original)` |
-| `_resolve_wordlist` | method | `modules/hash_cracker.py:178` | `def _resolve_wordlist(self)` |
-| `crack_file` | method | `modules/hash_cracker.py:349` | `def crack_file(self, filepath, wordlist, hash_types)` |
-| `crack_hash` | method | `modules/hash_cracker.py:295` | `def crack_hash(self, hash_value, hash_type, wordlist)` |
-| `crack_secretsdump_output` | function | `modules/hash_cracker.py:695` | `def crack_secretsdump_output(filepath, wordlist, rhost)` |
-| `identify` | method | `modules/hash_cracker.py:186` | `def identify(self, line)` |
-| `identify_file` | method | `modules/hash_cracker.py:273` | `def identify_file(self, filepath)` |
-| `import_to_db` | method | `modules/hash_cracker.py:405` | `def import_to_db(self, results, rhost, workspace_name)` |
-| `_find_claude` | function | `modules/hive_invoke.py:115` | `def _find_claude()` |
-| `_get_toposwarm` | function | `modules/hive_invoke.py:50` | `def _get_toposwarm()` |
-| `_parse_argv` | function | `modules/hive_invoke.py:120` | `def _parse_argv(argv)` |
-| `_run_interactive_mode` | function | `modules/hive_invoke.py:172` | `def _run_interactive_mode(prompt, effort, claude_bin)` |
-| `_run_print_mode` | function | `modules/hive_invoke.py:150` | `def _run_print_mode(prompt, effort, claude_bin)` |
-| `_run_toposwarm_mode` | function | `modules/hive_invoke.py:205` | `def _run_toposwarm_mode(prompt, effort, bridge)` |
-| `main` | function | `modules/hive_invoke.py:255` | `def main(argv)` |
-| `extract_ips_from_arp` | function | `modules/hostdiscover.sh:21` | `` |
-| `extract_listening_ips_from_netstat` | function | `modules/hostdiscover.sh:26` | `` |
-| `EventRecord` | class | `modules/hunt_verify.py:48` | `class EventRecord` |
-| `Observation` | class | `modules/hunt_verify.py:73` | `class Observation` |
-| `StageAssessment` | class | `modules/hunt_verify.py:85` | `class StageAssessment` |
-| `StageSpec` | class | `modules/hunt_verify.py:60` | `class StageSpec` |
-| `Verification` | class | `modules/hunt_verify.py:116` | `class Verification` |
-| `_assess_stage` | function | `modules/hunt_verify.py:310` | `def _assess_stage(spec, observations, events, complete, warnings)` |
-| `_field_present` | function | `modules/hunt_verify.py:172` | `def _field_present(event, field_name)` |
-| `_scalar_present` | function | `modules/hunt_verify.py:177` | `def _scalar_present(value)` |
-| `_stage_matches` | function | `modules/hunt_verify.py:188` | `def _stage_matches(spec, event)` |
-| `_unique` | function | `modules/hunt_verify.py:140` | `def _unique(values)` |
-| `chain_proven` | method | `modules/hunt_verify.py:124` | `def chain_proven(self)` |
-| `field_present` | function | `modules/hunt_verify.py:152` | `def field_present(fields, field_name)` |
-| `to_dict` | method | `modules/hunt_verify.py:99` | `def to_dict(self)` |
-| `to_dict` | method | `modules/hunt_verify.py:130` | `def to_dict(self)` |
-| `validate_specs` | function | `modules/hunt_verify.py:197` | `def validate_specs(specs)` |
-| `verify_stages` | function | `modules/hunt_verify.py:232` | `def verify_stages(specs, observations, events, scope_covered)` |
-| `CodeAnalyzer` | class | `modules/ia_code_analysis.py:28` | `class CodeAnalyzer` |
-| `__init__` | method | `modules/ia_code_analysis.py:33` | `def __init__(self, mode)` |
-| `analyze_code_file` | method | `modules/ia_code_analysis.py:49` | `def analyze_code_file(self, file_path)` |
-| `analyze_directory` | method | `modules/ia_code_analysis.py:37` | `def analyze_directory(self, directory)` |
-| `analyze_with_deepseek` | function | `modules/ia_code_analysis.py:66` | `def analyze_with_deepseek(code_content, file_path, mode)` |
-| `parse_args` | function | `modules/ia_code_analysis.py:178` | `def parse_args()` |
-| `save_results_to_json` | function | `modules/ia_code_analysis.py:123` | `def save_results_to_json(results, file_path)` |
-| `start_analysis` | function | `modules/ia_code_analysis.py:169` | `def start_analysis(code_dir, mode)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

@@ -1,6 +1,142 @@
 # Subsystem: modules (page 16 of 17)
 Previous: [KB_modules_p15.md](KB_modules_p15.md)
 
+## modules/session_rag.py
+- Doc: — ChromaDB-backed RAG over sessions/ artefacts.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_chunk_text` (function, line 88) `def _chunk_text(text, size, overlap)`
+  - `_KeywordFallback` (class, line 103) `class _KeywordFallback`
+  - `_RagState` (class, line 168) `class _RagState`
+  - `SessionRAG` (class, line 188) `class SessionRAG`
+  - `get_rag` (function, line 535) `def get_rag()`
+  - `__init__` (method, line 111) `def __init__(self)`
+  - `load` (method, line 115) `def load(self, path)`
+  - `save` (method, line 126) `def save(self, path)`
+  - `add` (method, line 136) `def add(self, doc_id, text, meta)`
+  - `query` (method, line 146) `def query(self, query_text, n)`
+  - `count` (method, line 156) `def count(self)`
+  - `reset` (method, line 159) `def reset(self)`
+  - `load` (method, line 172) `def load(cls)`
+  - `save` (method, line 181) `def save(self)`
+  - `__init__` (method, line 191) `def __init__(self)`
+  - `_init_backend` (method, line 202) `def _init_backend(self)`
+  - `_iter_artefacts` (method, line 248) `def _iter_artefacts(self)`
+  - `_index_file` (method, line 265) `def _index_file(self, path, collection_key)`
+  - `index_new` (method, line 301) `def index_new(self)`
+  - `index_parquet_sources` (method, line 322) `def index_parquet_sources(self, force)`
+  - `index_all` (method, line 411) `def index_all(self)`
+  - `query` (method, line 439) `def query(self, query_text, n, collection)`
+  - `context_for_step` (method, line 489) `def context_for_step(self, phase, target, cmd, n)`
+  - `stats` (method, line 509) `def stats(self)`
+- Depends on: `core/logging.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
+
+## modules/session_reader.py
+- Doc: modules/session_reader.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ImplantRecord` (class, line 39) `class ImplantRecord`
+  - `CampaignTask` (class, line 74) `class CampaignTask`
+  - `SessionSummary` (class, line 85) `class SessionSummary`
+  - `AbstractReader` (class, line 127) `class AbstractReader(ABC)`
+  - `ImplantCSVReader` (class, line 137) `class ImplantCSVReader(AbstractReader)`
+  - `CommandOutputReader` (class, line 193) `class CommandOutputReader(AbstractReader)`
+  - `DiscoveredHostReader` (class, line 214) `class DiscoveredHostReader(AbstractReader)`
+  - `TaskReader` (class, line 232) `class TaskReader(AbstractReader)`
+  - `TaskWriter` (class, line 257) `class TaskWriter`
+  - `SessionAggregator` (class, line 313) `class SessionAggregator`
+  - `get_aggregator` (function, line 347) `def get_aggregator()`
+  - `is_privileged` (method, line 55) `def is_privileged(self)`
+  - `platform` (method, line 60) `def platform(self)`
+  - `ip_list` (method, line 69) `def ip_list(self)`
+  - `active_client_ids` (method, line 94) `def active_client_ids(self)`
+  - `privileged_sessions` (method, line 101) `def privileged_sessions(self)`
+  - `unprivileged_sessions` (method, line 108) `def unprivileged_sessions(self)`
+  - `latest_for` (method, line 114) `def latest_for(self, client_id)`
+  - `task_by_status` (method, line 118) `def task_by_status(self, status)`
+  - `read` (method, line 129) `def read(self, sessions_dir)`
+  - `read` (method, line 157) `def read(self, sessions_dir)`
+  - `read` (method, line 199) `def read(self, sessions_dir)`
+  - `read` (method, line 217) `def read(self, sessions_dir)`
+  - `read` (method, line 235) `def read(self, sessions_dir)`
+  - `__init__` (method, line 260) `def __init__(self, sessions_dir)`
+  - `append` (method, line 263) `def append(self, title, description, operator, status)`
+  - `update_status` (method, line 288) `def update_status(self, task_id, status)`
+  - `__init__` (method, line 319) `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
+  - `aggregate` (method, line 331) `def aggregate(self, sessions_dir)`
+- Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+
+## modules/session_state.py
+- Doc: LazyOwn Session State
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_detect_phase` (function, line 50) `def _detect_phase(event_types)`
+  - `_read_last_commands` (function, line 75) `def _read_last_commands(n)`
+  - `_read_events` (function, line 93) `def _read_events(n)`
+  - `_extract_creds_from_events` (function, line 118) `def _extract_creds_from_events(events)`
+  - `_extract_hosts` (function, line 133) `def _extract_hosts(rows, payload)`
+  - `_summarise_commands` (function, line 175) `def _summarise_commands(rows)`
+  - `build_state` (function, line 189) `def build_state()`
+  - `refresh` (function, line 240) `def refresh()`
+  - `load` (function, line 251) `def load()`
+- Imported by: `modules/recommender.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`
+
+## modules/sidequestion.py
+- Doc: Isolated side-question answering against immutable snapshots.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SideConfig` (class, line 19) `class SideConfig`
+  - `Snapshot` (class, line 32) `class Snapshot`
+  - `SideQuestion` (class, line 42) `class SideQuestion`
+  - `SideQuestionService` (class, line 52) `class SideQuestionService`
+  - `__init__` (method, line 55) `def __init__(self, answer_fn, config)`
+  - `capture` (method, line 66) `def capture(self, task_id, text)`
+  - `ask` (method, line 75) `def ask(self, snapshot_id, question)`
+  - `cancel` (method, line 104) `def cancel(self, request_id)`
+  - `history` (method, line 113) `def history(self, limit, before)`
+- Imported by: `cli/commands/ai.py`, `tests/test_autonomous_ops.py`
+
+## modules/sleep_obfuscation.py
+- Doc: Sleep obfuscation engine for beacon memory evasion.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `OsPlatform` (class, line 57) `class OsPlatform(str, Enum)`
+  - `TechniqueRisk` (class, line 64) `class TechniqueRisk(str, Enum)`
+  - `SleepTechnique` (class, line 73) `class SleepTechnique`
+  - `SleepObfuscationConfig` (class, line 100) `class SleepObfuscationConfig`
+  - `SleepTechniqueCatalog` (class, line 163) `class SleepTechniqueCatalog`
+  - `_build_default_catalog` (function, line 201) `def _build_default_catalog()`
+  - `SleepTechniqueValidator` (class, line 365) `class SleepTechniqueValidator`
+  - `SleepObfuscationEngine` (class, line 394) `class SleepObfuscationEngine`
+  - `to_dict` (method, line 129) `def to_dict(self)`
+  - `from_dict` (method, line 146) `def from_dict(cls, raw)`
+  - `__init__` (method, line 170) `def __init__(self)`
+  - `register` (method, line 173) `def register(self, technique)`
+  - `get` (method, line 177) `def get(self, name)`
+  - `list_all` (method, line 184) `def list_all(self)`
+  - `list_by_platform` (method, line 192) `def list_by_platform(self, platform)`
+  - `list_names` (method, line 196) `def list_names(self)`
+  - `validate` (method, line 369) `def validate(config, technique)`
+  - `validate_config` (method, line 386) `def validate_config(config)`
+  - `__init__` (method, line 407) `def __init__(self, catalog)`
+  - `catalog` (method, line 416) `def catalog(self)`
+  - `config` (method, line 421) `def config(self)`
+  - `detection_resistance` (method, line 426) `def detection_resistance(self)`
+  - `select` (method, line 442) `def select(self, technique_name)`
+  - `configure` (method, line 449) `def configure(self, technique, overrides)`
+  - `validate` (method, line 484) `def validate(self, config)`
+  - `recommend` (method, line 500) `def recommend(self, platform)`
+  - `to_dict` (method, line 513) `def to_dict(self)`
+  - `from_dict` (method, line 522) `def from_dict(cls, raw)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`
+- Imported by: `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `tests/test_sleep_obfuscation.py`
+
 ## modules/smbver.sh
 - Doc: Author: rewardone Description: Requires root or enough permissions to use tcpdump Will listen...
 - Layer: utility
@@ -320,7 +456,7 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `import_archive` (method, line 493) `def import_archive(self, path)`
   - `import_inbox` (method, line 554) `def import_inbox(self, inbox_dir)`
   - `gc` (method, line 587) `def gc(self, older_than_sec)`
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
 
 ## modules/trigger_policy.py
 - Doc: Declarative trigger policy: YAML seeds for the loop TriggerStore.
@@ -358,112 +494,6 @@ Previous: [KB_modules_p15.md](KB_modules_p15.md)
   - `_load_state` (method, line 248) `def _load_state(self)`
 - Depends on: `core/logging.py`
 - Imported by: `cli/commands/caldera.py`
-
-## modules/ttpscope_bridge.py
-- Doc: Secure bridge for the TTPScope MITRE ATT&CK research client.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `locate_binary` (function, line 82) `def locate_binary()`
-  - `validate_object_id` (function, line 92) `def validate_object_id(raw)`
-  - `validate_query` (function, line 100) `def validate_query(raw)`
-  - `validate_platform` (function, line 112) `def validate_platform(raw)`
-  - `_slug` (function, line 123) `def _slug(text)`
-  - `_run_ttpscope` (function, line 129) `def _run_ttpscope(args)`
-  - `_cache_dataset_path` (function, line 146) `def _cache_dataset_path()`
-  - `_fallback_sync` (function, line 153) `def _fallback_sync()`
-  - `_load_stix_bundle` (function, line 193) `def _load_stix_bundle()`
-  - `_stix_external_id` (function, line 211) `def _stix_external_id(obj)`
-  - `_stix_index` (function, line 219) `def _stix_index(bundle)`
-  - `_fallback_search_bundle` (function, line 235) `def _fallback_search_bundle(query, limit)`
-  - `_load_parquet` (function, line 259) `def _load_parquet(name)`
-  - `_load_atomic_parquet` (function, line 273) `def _load_atomic_parquet()`
-  - `_fallback_search_parquet` (function, line 282) `def _fallback_search_parquet(query, limit)`
-  - `_fallback_show_bundle` (function, line 303) `def _fallback_show_bundle(object_id)`
-  - `_fallback_show_parquet` (function, line 350) `def _fallback_show_parquet(object_id)`
-  - `_fallback_matrix_bundle` (function, line 384) `def _fallback_matrix_bundle(platform)`
-  - `_notes_dir` (function, line 415) `def _notes_dir()`
-  - `_fallback_note` (function, line 422) `def _fallback_note(object_id, text)`
-  - `_fallback_notes` (function, line 442) `def _fallback_notes(object_id)`
-  - `_fallback_matrix_parquet` (function, line 453) `def _fallback_matrix_parquet(platform)`
-  - `_stage` (function, line 485) `def _stage(action, slug, stdout, extra)`
-  - `do_sync` (function, line 497) `def do_sync()`
-  - `do_search` (function, line 508) `def do_search(query)`
-  - `do_show` (function, line 520) `def do_show(object_id)`
-  - `do_matrix` (function, line 535) `def do_matrix(platform)`
-  - `do_note` (function, line 551) `def do_note(object_id, text)`
-  - `do_notes` (function, line 570) `def do_notes(object_id)`
-  - `do_chain` (function, line 582) `def do_chain(object_id, platform, limit)`
-  - `run_action` (function, line 652) `def run_action(action)`
-  - `main` (function, line 679) `def main()`
-  - `_as_list` (function, line 460) `def _as_list(value)`
-- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/atomic_resolver.py`, `skills/lazyown_parquet_db.py`
-- Imported by: `skills/lazyown_mcp.py`
-
-## modules/unified_bridge.py
-- Doc: UnifiedBridge — single API over all LazyOwn bridges and routing engines.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `RouteResult` (class, line 46) `class RouteResult`
-  - `DelegateResult` (class, line 59) `class DelegateResult`
-  - `RouteBackend` (class, line 67) `class RouteBackend(ABC)`
-  - `KeywordBackend` (class, line 75) `class KeywordBackend(RouteBackend)`
-  - `LazyownBridgeBackend` (class, line 123) `class LazyownBridgeBackend(RouteBackend)`
-  - `TopoSwarmBackend` (class, line 161) `class TopoSwarmBackend(RouteBackend)`
-  - `UnifiedBridge` (class, line 195) `class UnifiedBridge`
-  - `route_prompt` (function, line 483) `def route_prompt(prompt, context)`
-  - `delegate_task` (function, line 488) `def delegate_task(goal, backend)`
-  - `available` (method, line 69) `def available(self)`
-  - `route` (method, line 72) `def route(self, prompt, context)`
-  - `available` (method, line 102) `def available(self)`
-  - `route` (method, line 105) `def route(self, prompt, context)`
-  - `available` (method, line 126) `def available(self)`
-  - `route` (method, line 134) `def route(self, prompt, context)`
-  - `available` (method, line 164) `def available(self)`
-  - `route` (method, line 173) `def route(self, prompt, context)`
-  - `__init__` (method, line 214) `def __init__(self)`
-  - `_init_backends` (method, line 219) `def _init_backends(self)`
-  - `get` (method, line 225) `def get(cls)`
-  - `set_publish_callback` (method, line 230) `def set_publish_callback(self, cb)`
-  - `_publish` (method, line 233) `def _publish(self, category, event_type, payload)`
-  - `route` (method, line 253) `def route(self, prompt, context)`
-  - `delegate` (method, line 300) `def delegate(self, goal, backend, timeout, max_iterations)`
-  - `_await_agent` (method, line 355) `def _await_agent(self, get_status, agent_id, timeout)`
-  - `_run_agent_command` (method, line 384) `def _run_agent_command(self, command)`
-  - `list_backends` (method, line 461) `def list_backends(self)`
-  - `_detect_phase` (method, line 464) `def _detect_phase(self)`
-  - `_get_active_target` (method, line 473) `def _get_active_target(self)`
-- Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/lazyown_bridge.py`, `modules/mcp_agent_bridge.py`, `modules/state_manager.py`, `modules/toposwarm_bridge.py`
-- Imported by: `lazyown.py`
-
-## modules/unified_dashboard.py
-- Doc: Unified campaign dashboard — combines all state sources into one view.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `UnifiedDashboard` (class, line 37) `class UnifiedDashboard`
-  - `get_unified_dashboard` (function, line 256) `def get_unified_dashboard(sessions_dir)`
-  - `__init__` (method, line 44) `def __init__(self, sessions_dir)`
-  - `_get_dashboard` (method, line 49) `def _get_dashboard(self)`
-  - `_get_graph` (method, line 65) `def _get_graph(self)`
-  - `build_unified_snapshot` (method, line 76) `def build_unified_snapshot(self)`
-  - `_collect_world_model` (method, line 95) `def _collect_world_model(self)`
-  - `_collect_hive_status` (method, line 101) `def _collect_hive_status(self)`
-  - `_collect_policy_status` (method, line 111) `def _collect_policy_status(self)`
-  - `_collect_daemon_status` (method, line 121) `def _collect_daemon_status(self)`
-  - `_collect_live_graph` (method, line 130) `def _collect_live_graph(self)`
-  - `_collect_graph_advice` (method, line 142) `def _collect_graph_advice(self)`
-  - `_collect_dashboard` (method, line 160) `def _collect_dashboard(self)`
-  - `render_unified` (method, line 170) `def render_unified(self)`
-  - `export_json` (method, line 251) `def export_json(self)`
-- Depends on: `cli/graph_advisor.py`, `core/logging.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/live_surface.py`, `modules/world_model.py`, `skills/hive_mind.py`, `skills/lazyown_policy.py`
-- Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
-
-## modules/update_db.sh
-- Doc: Nombre del script: update_db.sh Autor: Gris Iscomeback Correo electrónico...
-- Layer: utility
-- Language: sh
 
 
 Next: [KB_modules_p17.md](KB_modules_p17.md)

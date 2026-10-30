@@ -43,6 +43,7 @@ firing condition and can be enabled or disabled at runtime from the
 | `notify` | on finding creation and terminal status |
 | `ai_bus` | every activity line except raw stream kinds: publishes to the unified event bus and Hive Mind |
 | `detection_oracle` | before every executed command: oracle probability written into the traffic log |
+| `opsec_gate` | before every executed command, alongside `detection_oracle`: pre-execution noise gating (allow/warn/confirm/block) |
 | `rl_feedback` | after each LLM reply, each executed command and at terminal: MoE/RL outcome learning |
 | `swan_ensemble` | planner step when enabled and SWAN experts are available (off by default) |
 | `llm_stream` | every pool and agent LLM call: model deltas appear as throttled `[stream]` activity lines |
@@ -240,9 +241,21 @@ The loop is wired to the framework's AI stack through one bridge
 - the detection oracle annotates each executed command with a detection
   probability and Sigma rule names, recorded in the traffic log and the
   activity stream (`detection_oracle` stage);
+- `modules.opsec_scorer.OpsecScorerV2` gates each command on noise before
+  it runs: `block` short-circuits the step, `confirm` routes it through
+  the same intercept queue as a Guard `ask`, `warn` only annotates the
+  activity stream, recorded in the traffic log as `opsec_noise`
+  (`opsec_gate` stage);
 - the MoE router proposes the preferred expert for the LLM chain and
   the RL trainer learns from outcomes: per-reply for the pool, per-command
-  for executed steps, persisted at terminal (`rl_feedback` stage);
+  for executed steps (did it run), and per-intent for decision quality
+  (did it persist a fact or finding, scored 0.0/0.5/1.0, keyed by the
+  intent's tool class). The decision-quality signal is a closed loop:
+  the planner reads each candidate's learned class yield back through
+  `tool_class_yields` and re-weights its priority, so classes that stopped
+  producing intel are demoted in `Frontier` claim order and classes that
+  keep producing are boosted — list order is untouched, only priority
+  (`rl_feedback` stage);
 - SWAN can produce the planner reply as an ensemble when enabled
   (`swan_ensemble` stage, off by default).
 

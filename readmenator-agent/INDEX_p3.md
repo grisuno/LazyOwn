@@ -3,6 +3,25 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `tests/test_command_namespace_uniqueness.py` | Cross-CommandSet command-name uniqueness contract.  cmd2 refuses to register a second... | tests | 3 | 0 |
+| `tests/test_command_palette.py` | Command palette test suite. | tests | 238 | 0 |
+| `tests/test_command_set_migration.py` | Tests for the completed migration of ``LazyOwnShell`` commands. | tests | 42 | 0 |
+| `tests/test_conditional_hooks_extended.py` | Tests for extended HookEngine trigger matching. | tests | 17 | 0 |
+| `tests/test_console_stdio.py` | Non-blocking stdio hardening: logging must never crash the shell. | tests | 14 | 0 |
+| `tests/test_contract_manifest.py` | Tests for the contract manifest drift checker. | tests | 4 | 0 |
+| `tests/test_core.py` | ``core`` package and ``utils`` re-export tests. | tests | 47 | 0 |
+| `tests/test_core_command_bridge.py` | Tests for core.command_bridge — CommandBridge lazy shell facade. | tests | 14 | 0 |
+| `tests/test_core_config.py` | Tests for core.config — Config wrapper, load_payload, save_payload, load_and_validate. | tests | 19 | 0 |
+| `tests/test_core_defaults.py` | Build-time defaults are data, not literals. | tests | 20 | 0 |
+| `tests/test_core_executor.py` | Tests for core.executor — safe_run and run_shell subprocess wrappers. | tests | 15 | 0 |
+| `tests/test_core_modules.py` | tests/test_core_modules.py Integration test suite for LazyOwn core modules. | tests | 94 | 0 |
+| `tests/test_cors_behavior.py` | BDD behavior scenarios for the CORS policy contract. | tests | 4 | 0 |
+| `tests/test_cors_policy.py` | TDD tests for the CORS policy contract. | tests | 17 | 0 |
+| `tests/test_cors_socketio_regression.py` | Regression tests for the Socket.IO origin allowlist. | tests | 8 | 0 |
+| `tests/test_credential_vault.py` | Tests for core/credential_vault.py | tests | 16 | 0 |
+| `tests/test_credentials_rotation.py` | Tests for CredMigratedCommandSet._rotate_existing_credentials. | tests | 9 | 0 |
+| `tests/test_csrf_behavior.py` | BDD behavior scenarios for the CSRF contract. | tests | 6 | 0 |
+| `tests/test_csrf_policy.py` | TDD tests for the CSRF policy contract. | tests | 24 | 0 |
 | `tests/test_cve_pipeline.py` | CVE pipeline tests: loop/apt_chain findings must reach the intel graph. | tests | 11 | 0 |
 | `tests/test_daemon_control.py` | Unit tests for skills.daemon_control. | tests | 29 | 0 |
 | `tests/test_daemon_ctl_command_set.py` | Daemon command set extraction tests. | tests | 9 | 0 |
@@ -13,6 +32,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_defense_eval.py` | Defense rule replay: target/control datasets, verdicts and metric counts. | tests | 10 | 0 |
 | `tests/test_defense_stages.py` | Defense stages: orchestrator-managed runners and YAML stage visibility. | tests | 8 | 0 |
 | `tests/test_dependencies.py` | Tests for ``core.dependencies`` graceful optional-import handling. | tests | 35 | 0 |
+| `tests/test_detection_dampening.py` | Detection-oracle dampening contract: benign alternatives quiet the score. | tests | 5 | 0 |
 | `tests/test_detection_feed.py` | Tests for modules/detection_feed.py. | tests | 19 | 0 |
 | `tests/test_dirtyinit_addon.py` | tests/test_dirtyinit_addon.py  Validation suite for the dirtyinit lazyaddon and its phone-side... | tests | 48 | 0 |
 | `tests/test_docs_drift_contract.py` | Docs drift workflow contract tests. | tests | 11 | 0 |
@@ -31,11 +51,14 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_exploitgym_gym.py` | Tests for the ExploitGym integration module. | tests | 27 | 0 |
 | `tests/test_exploration_and_addons.py` | tests/test_exploration_and_addons.py  Coverage for the new exploration engine and addon schema... | tests | 36 | 0 |
 | `tests/test_f4_hardening.py` | F4 hardening: verb watchdog, chain fact spool, ctf CLI, foothold chain. | tests | 24 | 0 |
+| `tests/test_failure_memory_veto.py` | Failure-memory veto contract: exhausted commands stop burning rounds. | tests | 4 | 0 |
 | `tests/test_finding_lifecycle.py` | Finding confirmation lifecycle + keyless OSINT enrichment. | tests | 10 | 0 |
+| `tests/test_findings_gate.py` | Chain-to-findings gate contract: insufficient verdicts never confirm. | tests | 4 | 0 |
 | `tests/test_fuzzy_picker.py` | Tests for cli/fuzzy_picker.py and lint-regression for lazyown.py. | tests | 25 | 0 |
 | `tests/test_golden_path.py` | Contract tests for the deterministic golden-path solver. | tests | 14 | 0 |
 | `tests/test_graph_advisor.py` | Tests for cli/graph_advisor.py. | tests | 25 | 0 |
 | `tests/test_graph_overlay.py` | Tests for cli/graph_overlay.py. | tests | 14 | 0 |
+| `tests/test_group_kill.py` | Process-group containment contract: timeouts must not leave orphans. | tests | 7 | 0 |
 | `tests/test_guardrails.py` | Guardrail harness tests: tiers, capacity, warm restart, wiring. | tests | 59 | 0 |
 | `tests/test_gui_xss_sinks.py` | Regression gate for XSS sinks in the C2 dashboard template. | tests | 9 | 0 |
 | `tests/test_gym_cli.py` | Gym CLI lifecycle: start, status, stop by selector and stop-all. | tests | 8 | 0 |
@@ -66,18 +89,26 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_lab_target_visibility.py` | Lab target visibility: start/status always show the container IP. | tests | 2 | 0 |
 | `tests/test_lazy_agent.py` | Agentic tool-calling: worker agent path, resume and main sessions. | tests | 18 | 0 |
 | `tests/test_lazy_bridge_traffic.py` | Incremental LAZY traffic mirroring (stall regression). | tests | 7 | 0 |
+| `tests/test_lazy_checks.py` | Lazy checks doctrine: version-aware interpretation of read-only retests. | tests | 6 | 0 |
 | `tests/test_lazy_creds.py` | Contract tests for the lazycreds default-credential knowledge base. | tests | 9 | 0 |
 | `tests/test_lazy_engine.py` | Lazy engine (LAZY-faithful) regression tests with stub executor. | tests | 13 | 0 |
 | `tests/test_lazy_evidence.py` | Traffic recorder trigram search and frozen evidence package export. | tests | 3 | 0 |
+| `tests/test_lazy_findings.py` | Tests for modules.lazy_findings — engagement findings ledger. | tests | 30 | 0 |
+| `tests/test_lazy_hostscore.py` | Host heat score contract: deterministic, capped, auditable priorities. | tests | 9 | 0 |
+| `tests/test_lazy_ledger.py` | Freshness ledger contract: recurring windows are ledger windows. | tests | 11 | 0 |
 | `tests/test_lazy_loop.py` | Production loop fidelity tests: guard judge, findings, settlement, bridge. | tests | 38 | 0 |
+| `tests/test_lazy_match_policy.py` | Match policy contract: strands, standing and audited closures. | tests | 8 | 0 |
+| `tests/test_lazy_netattack.py` | Tests for modules.lazy_netattack — Windows attack-surface adjudication. | tests | 17 | 0 |
 | `tests/test_lazy_oob.py` | Contract tests for the lazyoob OOB canary. | tests | 12 | 0 |
 | `tests/test_lazy_orchestrator.py` | Orchestrator admin console: headless smoke and real persistence. | tests | 30 | 0 |
 | `tests/test_lazy_parity.py` | LAZY parity proof tests: every ported subsystem must behave, not just exist. | tests | 26 | 0 |
 | `tests/test_lazy_proxy.py` | Recorder proxy: CA, HTTP/HTTPS capture, engine ingestion, auto-binding. | tests | 28 | 0 |
+| `tests/test_lazy_reaper.py` | Reaper contract: orphan running tasks are harvested with proof of death. | tests | 13 | 0 |
 | `tests/test_lazy_runner.py` | Shared loop runner, monitor surface and store-fidelity regressions. | tests | 143 | 0 |
 | `tests/test_lazy_runner_fallback.py` | Tests for the auto_loop phishing fallback wiring in modules.lazy_runner. | tests | 12 | 0 |
 | `tests/test_lazy_scope.py` | Behavioural tests for the lab-only default scope guard. | tests | 30 | 0 |
 | `tests/test_lazy_streaming.py` | Token-level streaming: factory, pool deltas, agent reassembly. | tests | 17 | 0 |
+| `tests/test_lazy_triage.py` | Lazy triage doctrine: evidence floor algebra and signature dedup. | tests | 11 | 0 |
 | `tests/test_lazy_worker_safety.py` | Worker safety: step sanitizer, task-wide dedupe, sudo skip, worker pool. | tests | 12 | 0 |
 | `tests/test_lazy_world_diff.py` | World-surface diff contract: snapshots, changes, ghost liveness, stats. | tests | 18 | 0 |
 | `tests/test_lazydorks.py` | Tests for modules.lazydorks — target-aware dork generator. | tests | 12 | 0 |
@@ -100,7 +131,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_llm_orchestrator.py` | SDD spec and BDD scenarios for the orchestrator-governed LLM failover chain. | tests | 88 | 0 |
 | `tests/test_llm_prompts.py` | Contract tests for :mod:`modules.llm_prompts`. | tests | 27 | 0 |
 | `tests/test_logging_config.py` | Tests for ``modules.logging_config`` — resilient file logging. | tests | 5 | 0 |
-| `tests/test_loop_ai_bridge.py` | Loop AI-stack bridge: event bus, oracle, MoE/RL and SWAN wiring. | tests | 14 | 0 |
+| `tests/test_loop_ai_bridge.py` | Loop AI-stack bridge: event bus, oracle, MoE/RL and SWAN wiring. | tests | 33 | 0 |
 | `tests/test_loop_auto_orchestrator.py` | Loop orchestrates every auto verb plus addon/tool triggers. | tests | 18 | 0 |
 | `tests/test_loop_broadcast.py` | Broadcast board timeline regression tests (lazy 0.3.12 parity). | tests | 3 | 0 |
 | `tests/test_loop_budget.py` | BDD tests for first-class budget flags on the loop runner. | tests | 10 | 0 |
@@ -110,7 +141,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_loop_guard_audit.py` | Guard audit filters + tool_use_id source jump (lazy 0.3.11/0.3.12 parity). | tests | 4 | 0 |
 | `tests/test_loop_guardrails.py` | Loop guardrails: repetition detection, EDR pacing, target caps, vector fact memory. | tests | 12 | 0 |
 | `tests/test_loop_intent_delete.py` | Intent delete modes regression tests (lazy 0.3.12 parity). | tests | 4 | 0 |
-| `tests/test_loop_llm_resilience.py` | LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity). | tests | 18 | 0 |
+| `tests/test_loop_llm_resilience.py` | LLM retry layers, wall-clock settle, stall-guard (lazy 0.3.8/0.3.9 parity). | tests | 19 | 0 |
 | `tests/test_loop_manager.py` | Tests for modules.loop_manager — safe autonomous loop orchestration. | tests | 51 | 0 |
 | `tests/test_loop_mentions.py` | Lazy mentions multi-type search and scroll pagination. | tests | 2 | 0 |
 | `tests/test_loop_multi_target.py` | Multi-target loop entry: scope-file parsing, validation and caps. | tests | 6 | 0 |
@@ -123,11 +154,12 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_loop_trigger_hints.py` | BDD for the cve_hot trigger hint fingerprints. | tests | 16 | 0 |
 | `tests/test_loop_worker_traces.py` | Worker cross-work trace tools (lazy 0.3.10 parity). | tests | 8 | 0 |
 | `tests/test_marketplace_config.py` | Marketplace registry and settings: formats, toggles, CRUD. | tests | 10 | 0 |
+| `tests/test_mcp_auto_loop_wrapper.py` | MCP auto_loop wrapper contract: one orchestrator, no dual engines. | tests | 13 | 0 |
 | `tests/test_mcp_dispatch.py` | call_tool dispatches through the handler registry. | tests | 10 | 0 |
 | `tests/test_mcp_improvements.py` | Tests for the high/medium/low impact MCP improvements. | tests | 34 | 0 |
 | `tests/test_mcp_lazy.py` | Contract for the unified MCP lazy-import helper. | tests | 11 | 0 |
 | `tests/test_mcp_recommender_embed.py` | Contract tests for the MCP sitrep recommender embedding. | tests | 8 | 0 |
-| `tests/test_mediation.py` | Mediator pattern contract tests for the mediation package. | tests | 43 | 0 |
+| `tests/test_mediation.py` | Mediator pattern contract tests for the mediation package. | tests | 52 | 0 |
 | `tests/test_memory_semantics.py` | BDD tests for hashing embeddings and hybrid episodic recall. | tests | 14 | 0 |
 | `tests/test_metasploitable_gym.py` | Metasploitable 2 gym BDD contract: one exploit, one chain, one index entry. | tests | 6 | 0 |
 | `tests/test_metasploitable_migrations.py` | Unit tests for the Metasploitable 2 gym migrations module. | tests | 10 | 0 |
@@ -135,6 +167,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_metrics_aware_selector.py` | Tests for ``MetricsAwareSelector`` in ``skills/autonomous_daemon.py``. | tests | 24 | 0 |
 | `tests/test_migrate_lazyown_generator.py` | Regression guard for the ``cli/commands`` migration generator. | tests | 6 | 0 |
 | `tests/test_module_registry.py` | Tests for modules.module_registry — ModuleInfo, ModuleRegistry, search, summary. | tests | 29 | 0 |
+| `tests/test_module_registry_bridge.py` | Module-registry loop bridge: corpus mentions enter planning as intents. | tests | 9 | 0 |
 | `tests/test_moe_rl_swan.py` | tests/test_moe_rl_swan.py | tests | 59 | 0 |
 | `tests/test_moe_router_check_regression.py` | Regression coverage for ``modules.moe_router.ExpertAvailabilityChecker._check``. | tests | 6 | 0 |
 | `tests/test_mutation_verification.py` | Mutation verification contracts. | tests | 5 | 0 |
@@ -163,7 +196,9 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_playbook_admin.py` | Playbook YAML administration: scan, create, update, delete, validate. | tests | 6 | 0 |
 | `tests/test_plugin_loader_safety.py` | Marketplace placeholder substitution must be shell-safe. | tests | 7 | 0 |
 | `tests/test_plugin_tiers.py` | Tests for marketplace plugin tiers and operator ratings. | tests | 12 | 0 |
+| `tests/test_policy_planner_signal.py` | Policy planner signal contract: ranked categories become safe intents. | tests | 10 | 0 |
 | `tests/test_profiles.py` | Tests for runtime install profiles (``core.profiles``). | tests | 11 | 0 |
+| `tests/test_progress_ledger.py` | Tests for modules.progress_ledger — objective-progress strike rule. | tests | 13 | 0 |
 | `tests/test_prompt_readline_markers.py` | Regression tests for readline marker handling in the Neon Box prompt. | tests | 8 | 0 |
 | `tests/test_prompt_refresh.py` | Contract tests for live prompt refresh after a payload change. | tests | 9 | 0 |
 | `tests/test_pwntomate_tools.py` | Regression guard for pwntomate tool templates (tools/*.tool). | tests | 8 | 0 |
@@ -176,6 +211,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_reasoning_stream.py` | Tests for cli/reasoning_stream.py. | tests | 13 | 0 |
 | `tests/test_recommendation.py` | Behaviour tests for the unified recommendation engine and its signals. | tests | 36 | 0 |
 | `tests/test_recon_plan.py` | Spec coverage for :mod:`cli.recon_plan`. | tests | 34 | 0 |
+| `tests/test_repeat_shapes.py` | Stuck-loop shapes contract: AAAA plus ABABAB oscillation detection. | tests | 5 | 0 |
 | `tests/test_report_banners_endpoints.py` | Tests for /report and /banners endpoints error handling. | tests | 32 | 0 |
 | `tests/test_require_guards.py` | Single-call requirement guards for CommandSet methods. | tests | 5 | 0 |
 | `tests/test_resource_script.py` | Tests for modules/resource_script.py — ScriptContext and ResourceScriptEngine. | tests | 32 | 0 |
@@ -185,6 +221,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_safe_subprocess_behavior.py` | BDD behavior scenarios for the safe subprocess contract. | tests | 3 | 0 |
 | `tests/test_safety_gates.py` | BDD scoped tests for safety gates C01-C03. | tests | 8 | 0 |
 | `tests/test_scope_bound_auto_gate.py` | tests/test_scope_bound_auto_gate.py  Coverage for the fully autonomous engage mode ("real auto... | tests | 37 | 0 |
+| `tests/test_scope_deny_priority.py` | Tests for scope denylist priority (engine lab scope + CLI guard). | tests | 11 | 0 |
 | `tests/test_scope_guard.py` | Test suite for cli/scope_guard.py. | tests | 46 | 0 |
 | `tests/test_scope_guard_integration.py` | Integration tests for the scope guard wired into LazyOwnShell. | tests | 25 | 0 |
 | `tests/test_security_alerts_fix.py` | Regression tests for CodeQL alerts #941-#972 (SSRF, TLS, clear-text, ReDoS, paths). | tests | 24 | 0 |
@@ -205,6 +242,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 16 | 0 |
 | `tests/test_single_implementation.py` | Single-implementation rule for extracted helpers. | tests | 5 | 0 |
 | `tests/test_single_source_of_truth.py` | Single-source-of-truth contract tests. | tests | 26 | 0 |
+| `tests/test_sink_chain_feed.py` | Chain-feed sink contract: live step visibility and unhandled-failure steering. | tests | 8 | 0 |
 | `tests/test_sleep_obfuscation.py` | Tests for modules/sleep_obfuscation.py — SleepTechnique, SleepObfuscationConfig... | tests | 41 | 0 |
 | `tests/test_socks_proxy.py` | Tests for modules/socks_proxy.py — SocksProxyConfig, SocksSession, SocksValidator... | tests | 52 | 0 |
 | `tests/test_status_bar_operators.py` | Tests for the operator-presence segment of cli/status_bar.py. | tests | 9 | 0 |
@@ -234,6 +272,7 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tests/test_winbox_gym.py` | Contract tests for the WinBox gym catalogue, adapter and matrix runner. | tests | 70 | 0 |
 | `tests/test_wizard_binary_check.py` | tests/test_wizard_binary_check.py  Tests for the wizard binary-readiness check added to... | tests | 26 | 0 |
 | `tests/test_wizard_llm.py` | Contract tests for the wizard LLM provider setup step. | tests | 31 | 0 |
+| `tests/test_world_diff_retest.py` | World-diff retest loop contract: detected changes steer the planner. | tests | 4 | 0 |
 | `tests/test_world_model_extended.py` | Tests for extended WorldModel methods: set_os_hint, get_host, get_hosts_summary. | tests | 22 | 0 |
 | `tests/test_xss_sanitization.py` | Untrusted data rendered into the DOM must be neutralized. | tests | 8 | 0 |
 | `tools/contract_check.py` | Contract conformance checker for single-file LAZY port modules. | tools | 2 | 0 |
@@ -243,5 +282,5 @@ Previous: [INDEX_p2.md](INDEX_p2.md)
 | `tools/generate_metasploitable_gym.py` | Generate the Metasploitable 2 gym catalogue. | tools | 6 | 0 |
 | `tools/set_lazyaddon_updates.py` | Set or check the ``update`` flag on every lazyaddon YAML. | tools | 3 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 105 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 126 | 106 |
 

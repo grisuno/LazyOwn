@@ -1,8 +1,18 @@
-# Symbols (page 7 of 47)
+# Symbols (page 7 of 48)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `check_sudo` | function | `contrib/legacy/lazyarpspoofing.py:27` | `def check_sudo()` |
+| `disable_ip_forward` | function | `contrib/legacy/lazyarpspoofing.py:38` | `def disable_ip_forward()` |
+| `enable_ip_forward` | function | `contrib/legacy/lazyarpspoofing.py:35` | `def enable_ip_forward()` |
+| `get_local_ip` | function | `contrib/legacy/lazyarpspoofing.py:41` | `def get_local_ip(ifname)` |
+| `get_mac` | function | `contrib/legacy/lazyarpspoofing.py:49` | `def get_mac(ip, device, retries, timeout)` |
+| `main` | function | `contrib/legacy/lazyarpspoofing.py:80` | `def main()` |
+| `spoofer` | function | `contrib/legacy/lazyarpspoofing.py:69` | `def spoofer(target, spoofed, device)` |
+| `RTSPScanner` | class | `contrib/legacy/lazycam.py:32` | `class RTSPScanner` |
+| `__init__` | method | `contrib/legacy/lazycam.py:33` | `def __init__(self, verbose, wspace)` |
+| `addCameras` | method | `contrib/legacy/lazycam.py:149` | `def addCameras(self)` |
 | `cla` | function | `contrib/legacy/lazycam.py:212` | `def cla()` |
 | `delCameras` | method | `contrib/legacy/lazycam.py:136` | `def delCameras(self)` |
 | `main` | function | `contrib/legacy/lazycam.py:257` | `def main()` |
@@ -448,53 +458,43 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `safe_run` | function | `core/executor.py:96` | `def safe_run(command)` |
 | `safe_run` | function | `core/executor.py:98` | `def safe_run(command)` |
 | `safe_run` | function | `core/executor.py:101` | `def safe_run(command)` |
-| `SecurityViolation` | class | `core/hardening.py:125` | `class SecurityViolation(PermissionError)` |
-| `_is_emoji_codepoint` | function | `core/hardening.py:706` | `def _is_emoji_codepoint(code)` |
-| `_mask` | function | `core/hardening.py:845` | `def _mask(match)` |
-| `_seal_key` | function | `core/hardening.py:748` | `def _seal_key(sessions_dir)` |
-| `build_sshpass_command` | function | `core/hardening.py:242` | `def build_sshpass_command(password, ssh_args)` |
-| `contains_emoji` | function | `core/hardening.py:714` | `def contains_emoji(text)` |
-| `defused_xml_parse` | function | `core/hardening.py:404` | `def defused_xml_parse(source)` |
-| `escape_html_content` | function | `core/hardening.py:290` | `def escape_html_content(value)` |
-| `escape_powershell_single_quoted` | function | `core/hardening.py:104` | `def escape_powershell_single_quoted(value)` |
-| `is_safe_dir_path` | function | `core/hardening.py:570` | `def is_safe_dir_path(raw)` |
-| `is_safe_path_segment` | function | `core/hardening.py:549` | `def is_safe_path_segment(segment)` |
-| `is_safe_yaml_name` | function | `core/hardening.py:596` | `def is_safe_yaml_name(name)` |
-| `iter_emoji_spans` | function | `core/hardening.py:729` | `def iter_emoji_spans(text)` |
-| `redact_text` | function | `core/hardening.py:834` | `def redact_text(text)` |
-| `reject_option_injection` | function | `core/hardening.py:85` | `def reject_option_injection(argv)` |
-| `require_encryption_key` | function | `core/hardening.py:376` | `def require_encryption_key(env_key, secret_file)` |
-| `safe_clipboard_copy` | function | `core/hardening.py:203` | `def safe_clipboard_copy(content)` |
-| `safe_join_under` | function | `core/hardening.py:615` | `def safe_join_under(base_dir, user_path)` |
-| `safe_open_under` | function | `core/hardening.py:644` | `def safe_open_under(base_dir, user_path, mode)` |
-| `safe_path_join` | function | `core/hardening.py:302` | `def safe_path_join(base_dir, user_path)` |
-| `safe_subprocess_run` | function | `core/hardening.py:150` | `def safe_subprocess_run(argv)` |
-| `sanitize_filename` | function | `core/hardening.py:426` | `def sanitize_filename(filename, max_length)` |
-| `seal_secret` | function | `core/hardening.py:762` | `def seal_secret(plaintext)` |
-| `set_sshpass_env` | function | `core/hardening.py:271` | `def set_sshpass_env(password)` |
-| `store_secret_owner_only` | function | `core/hardening.py:671` | `def store_secret_owner_only(path, text)` |
-| `terminal_env` | function | `core/hardening.py:129` | `def terminal_env(base)` |
-| `tls_lab_fallback_context` | function | `core/hardening.py:498` | `def tls_lab_fallback_context()` |
-| `tls_lab_unverified_allowed` | function | `core/hardening.py:471` | `def tls_lab_unverified_allowed(host)` |
-| `tls_secure_context` | function | `core/hardening.py:446` | `def tls_secure_context(extra_ca)` |
-| `unseal_secret` | function | `core/hardening.py:793` | `def unseal_secret(stored)` |
-| `validate_host` | function | `core/hardening.py:356` | `def validate_host(host)` |
-| `validate_network_cidr` | function | `core/hardening.py:328` | `def validate_network_cidr(cidr)` |
-| `validate_port_spec` | function | `core/hardening.py:340` | `def validate_port_spec(ports)` |
-| `validate_upstream_path` | function | `core/hardening.py:520` | `def validate_upstream_path(path)` |
+| `SecurityViolation` | class | `core/hardening.py:133` | `class SecurityViolation(PermissionError)` |
+| `_is_emoji_codepoint` | function | `core/hardening.py:714` | `def _is_emoji_codepoint(code)` |
+| `_mask` | function | `core/hardening.py:853` | `def _mask(match)` |
+| `_seal_key` | function | `core/hardening.py:756` | `def _seal_key(sessions_dir)` |
+| `build_sshpass_command` | function | `core/hardening.py:250` | `def build_sshpass_command(password, ssh_args)` |
+| `contains_emoji` | function | `core/hardening.py:722` | `def contains_emoji(text)` |
+| `defused_xml_parse` | function | `core/hardening.py:412` | `def defused_xml_parse(source)` |
+| `escape_html_content` | function | `core/hardening.py:298` | `def escape_html_content(value)` |
+| `escape_powershell_single_quoted` | function | `core/hardening.py:112` | `def escape_powershell_single_quoted(value)` |
+| `is_safe_dir_path` | function | `core/hardening.py:578` | `def is_safe_dir_path(raw)` |
+| `is_safe_path_segment` | function | `core/hardening.py:557` | `def is_safe_path_segment(segment)` |
+| `is_safe_yaml_name` | function | `core/hardening.py:604` | `def is_safe_yaml_name(name)` |
+| `iter_emoji_spans` | function | `core/hardening.py:737` | `def iter_emoji_spans(text)` |
+| `redact_text` | function | `core/hardening.py:842` | `def redact_text(text)` |
+| `reject_option_injection` | function | `core/hardening.py:93` | `def reject_option_injection(argv)` |
+| `require_encryption_key` | function | `core/hardening.py:384` | `def require_encryption_key(env_key, secret_file)` |
+| `safe_clipboard_copy` | function | `core/hardening.py:211` | `def safe_clipboard_copy(content)` |
+| `safe_join_under` | function | `core/hardening.py:623` | `def safe_join_under(base_dir, user_path)` |
+| `safe_open_under` | function | `core/hardening.py:652` | `def safe_open_under(base_dir, user_path, mode)` |
+| `safe_path_join` | function | `core/hardening.py:310` | `def safe_path_join(base_dir, user_path)` |
+| `safe_subprocess_run` | function | `core/hardening.py:158` | `def safe_subprocess_run(argv)` |
+| `sanitize_filename` | function | `core/hardening.py:434` | `def sanitize_filename(filename, max_length)` |
+| `seal_secret` | function | `core/hardening.py:770` | `def seal_secret(plaintext)` |
+| `set_sshpass_env` | function | `core/hardening.py:279` | `def set_sshpass_env(password)` |
+| `store_secret_owner_only` | function | `core/hardening.py:679` | `def store_secret_owner_only(path, text)` |
+| `terminal_env` | function | `core/hardening.py:137` | `def terminal_env(base)` |
+| `tls_lab_fallback_context` | function | `core/hardening.py:506` | `def tls_lab_fallback_context()` |
+| `tls_lab_unverified_allowed` | function | `core/hardening.py:479` | `def tls_lab_unverified_allowed(host)` |
+| `tls_secure_context` | function | `core/hardening.py:454` | `def tls_secure_context(extra_ca)` |
+| `unseal_secret` | function | `core/hardening.py:801` | `def unseal_secret(stored)` |
+| `validate_host` | function | `core/hardening.py:364` | `def validate_host(host)` |
+| `validate_network_cidr` | function | `core/hardening.py:336` | `def validate_network_cidr(cidr)` |
+| `validate_port_spec` | function | `core/hardening.py:348` | `def validate_port_spec(ports)` |
+| `validate_upstream_path` | function | `core/hardening.py:528` | `def validate_upstream_path(path)` |
 | `is_valid_cidr` | function | `core/host_policy.py:32` | `def is_valid_cidr(value)` |
 | `is_valid_host` | function | `core/host_policy.py:48` | `def is_valid_host(value)` |
 | `rejects_shell_meta` | function | `core/host_policy.py:20` | `def rejects_shell_meta(value)` |
 | `display_news` | function | `core/http.py:198` | `def display_news(titles, links, scores)` |
-| `exploitalert` | function | `core/http.py:106` | `def exploitalert(content)` |
-| `generate_http_req` | function | `core/http.py:18` | `def generate_http_req(host, port, uri, custom_header, cmd)` |
-| `get_banner` | function | `core/http.py:50` | `def get_banner(host, port)` |
-| `get_command` | function | `core/http.py:69` | `def get_command(url, lhost)` |
-| `inject_payloads` | function | `core/http.py:211` | `def inject_payloads(urls, payload_url, request_timeout)` |
-| `nvddb` | function | `core/http.py:143` | `def nvddb(content)` |
-| `packetstormsecurity` | function | `core/http.py:125` | `def packetstormsecurity(content)` |
-| `scrape_news` | function | `core/http.py:174` | `def scrape_news()` |
-| `send_command` | function | `core/http.py:87` | `def send_command(cmd, url, lhost)` |
-| `BudgetConfig` | class | `core/llm_budget.py:103` | `class BudgetConfig` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

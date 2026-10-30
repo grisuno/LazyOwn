@@ -30,13 +30,14 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_lazy_intents` (method, line 51) `def do_lazy_intents(self, line)`
   - `do_lazy_delete` (method, line 71) `def do_lazy_delete(self, line)`
   - `do_lazy_findings` (method, line 110) `def do_lazy_findings(self, line)`
-  - `do_lazy_verdict` (method, line 132) `def do_lazy_verdict(self, line)`
-  - `do_lazy_mention` (method, line 155) `def do_lazy_mention(self, line)`
-  - `do_lazy_approve` (method, line 190) `def do_lazy_approve(self, line)`
-  - `do_lazy_fleet` (method, line 212) `def do_lazy_fleet(self, line)`
-  - `do_lazy_orchestrator` (method, line 277) `def do_lazy_orchestrator(self, line)`
-  - `do_lazy_view` (method, line 306) `def do_lazy_view(self, line)`
-- Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `utils.py`
+  - `do_lazy_handoff` (method, line 180) `def do_lazy_handoff(self, line)`
+  - `do_lazy_verdict` (method, line 190) `def do_lazy_verdict(self, line)`
+  - `do_lazy_mention` (method, line 213) `def do_lazy_mention(self, line)`
+  - `do_lazy_approve` (method, line 248) `def do_lazy_approve(self, line)`
+  - `do_lazy_fleet` (method, line 270) `def do_lazy_fleet(self, line)`
+  - `do_lazy_orchestrator` (method, line 335) `def do_lazy_orchestrator(self, line)`
+  - `do_lazy_view` (method, line 364) `def do_lazy_view(self, line)`
+- Depends on: `cli/commands/_base.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_mentions.py`, `modules/sinks/findings.py`, `utils.py`
 - Imported by: `tests/test_guardrails.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`
 
 ## cli/commands/lazyops.py
@@ -92,22 +93,23 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_lazy_tool` (method, line 1791) `def do_lazy_tool(self, line)`
   - `do_lazy_verb` (method, line 1863) `def do_lazy_verb(self, line)`
   - `do_lazy_stage` (method, line 1961) `def do_lazy_stage(self, line)`
-  - `do_lazy_addon` (method, line 1989) `def do_lazy_addon(self, line)`
-  - `do_lazy_notify` (method, line 2095) `def do_lazy_notify(self, line)`
-  - `do_lazy_trigger` (method, line 2143) `def do_lazy_trigger(self, line)`
-  - `do_lazy_llm` (method, line 2232) `def do_lazy_llm(self, line)`
-  - `do_lazy_compact` (method, line 2369) `def do_lazy_compact(self, line)`
-  - `do_lazy_status` (method, line 2441) `def do_lazy_status(self, line)`
-  - `do_lazy_overview` (method, line 2465) `def do_lazy_overview(self, line)`
-  - `do_lazy_archive` (method, line 2470) `def do_lazy_archive(self, line)`
-  - `do_lazy_template` (method, line 2501) `def do_lazy_template(self, line)`
-  - `do_lazy_category` (method, line 2532) `def do_lazy_category(self, line)`
-  - `do_lazy_chat` (method, line 2553) `def do_lazy_chat(self, line)`
-  - `do_lazy_scheduler` (method, line 2586) `def do_lazy_scheduler(self, line)`
-  - `do_lazy_gate` (method, line 2613) `def do_lazy_gate(self, line)`
-  - `do_lazy_loop` (method, line 2658) `def do_lazy_loop(self, line)`
-  - `do_lazy_sandbox` (method, line 2683) `def do_lazy_sandbox(self, line)`
-  - `do_lazy_install` (method, line 2746) `def do_lazy_install(self, line)`
+  - `do_lazy_mode` (method, line 1989) `def do_lazy_mode(self, line)`
+  - `do_lazy_addon` (method, line 2015) `def do_lazy_addon(self, line)`
+  - `do_lazy_notify` (method, line 2121) `def do_lazy_notify(self, line)`
+  - `do_lazy_trigger` (method, line 2169) `def do_lazy_trigger(self, line)`
+  - `do_lazy_llm` (method, line 2258) `def do_lazy_llm(self, line)`
+  - `do_lazy_compact` (method, line 2395) `def do_lazy_compact(self, line)`
+  - `do_lazy_status` (method, line 2467) `def do_lazy_status(self, line)`
+  - `do_lazy_overview` (method, line 2491) `def do_lazy_overview(self, line)`
+  - `do_lazy_archive` (method, line 2496) `def do_lazy_archive(self, line)`
+  - `do_lazy_template` (method, line 2527) `def do_lazy_template(self, line)`
+  - `do_lazy_category` (method, line 2558) `def do_lazy_category(self, line)`
+  - `do_lazy_chat` (method, line 2579) `def do_lazy_chat(self, line)`
+  - `do_lazy_scheduler` (method, line 2612) `def do_lazy_scheduler(self, line)`
+  - `do_lazy_gate` (method, line 2639) `def do_lazy_gate(self, line)`
+  - `do_lazy_loop` (method, line 2684) `def do_lazy_loop(self, line)`
+  - `do_lazy_sandbox` (method, line 2710) `def do_lazy_sandbox(self, line)`
+  - `do_lazy_install` (method, line 2773) `def do_lazy_install(self, line)`
   - `run_command` (function, line 1545) `def run_command(command)`
   - `list_tasks` (function, line 1567) `def list_tasks()`
   - `task_graph` (function, line 1571) `def task_graph(task)`
@@ -163,11 +165,11 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_threat_model` (method, line 378) `def do_threat_model(self, args)`
   - `do_playbook_run` (method, line 431) `def do_playbook_run(self, args)`
   - `do_auto_loop` (method, line 489) `def do_auto_loop(self, line)`
-  - `do_session_state` (method, line 533) `def do_session_state(self, line)`
-  - `do_campaign_sitrep` (method, line 538) `def do_campaign_sitrep(self, line)`
-  - `do_timeline` (method, line 543) `def do_timeline(self, line)`
-  - `_delegate` (method, line 547) `def _delegate(self, command, line)`
-  - `_refresh_aliases` (method, line 555) `def _refresh_aliases(self)`
+  - `do_session_state` (method, line 534) `def do_session_state(self, line)`
+  - `do_campaign_sitrep` (method, line 539) `def do_campaign_sitrep(self, line)`
+  - `do_timeline` (method, line 544) `def do_timeline(self, line)`
+  - `_delegate` (method, line 548) `def _delegate(self, command, line)`
+  - `_refresh_aliases` (method, line 556) `def _refresh_aliases(self)`
   - `_executor` (function, line 475) `def _executor(command, host)`
 - Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/autonomous.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/lazy_runner.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
 - Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`
@@ -242,6 +244,20 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_use` (method, line 111) `def do_use(self, line)`
   - `do_back` (method, line 162) `def do_back(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/module_registry.py`, `utils.py`
+
+## cli/commands/netattack.py
+- Doc: Windows network-attack surface command set: plan, attest, show.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_signing_evidence_path` (function, line 24) `def _signing_evidence_path()`
+  - `_world_evidence` (function, line 29) `def _world_evidence()`
+  - `NetAttackCommandSet` (class, line 52) `class NetAttackCommandSet(LazyOwnCommandSet)`
+  - `do_lazy_netattack` (method, line 59) `def do_lazy_netattack(self, line)`
+  - `_attest` (method, line 83) `def _attest(self, args)`
+  - `_show_attestations` (method, line 103) `def _show_attestations(self)`
+  - `_plan` (method, line 114) `def _plan(self, target)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `modules/loop_triggers.py`, `modules/world_model.py`, `utils.py`
 
 ## cli/commands/nethelpers.py
 - Doc: Network helpers extracted from the miscellaneous cluster.

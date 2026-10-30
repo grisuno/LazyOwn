@@ -166,7 +166,7 @@ Imported by: `cli/commands/cloud_attacks.py`
 - `extract_cmd2_tools` (function) `modules/generate_tools.py:6` `def extract_cmd2_tools(script_path)`
 
 ## modules/goals.py
-Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_parity.py`
+Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `tests/test_lazy_parity.py`
 - `TaskConstraints.blocked` (method) `modules/goals.py:35` `def blocked(self, command)` -- Return the blocking constraint or empty string.
 - `decompose_rule_based` (function) `modules/goals.py:63` `def decompose_rule_based(objective_text, max_goals)` -- Split objective text into goal specs without an LLM (deterministic).
 - `load_constraints` (function) `modules/goals.py:83` `def load_constraints(payload)` -- Build constraints from payload config (deny wins, LAZY parity).
@@ -466,7 +466,7 @@ Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `modules/sinks/intel_gr
 
 ## modules/intelligence_engine.py
 Depends on: `core/logging.py`, `modules/__init__.py`, `modules/estorides_importer.py`, `modules/factsio.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_heat.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
-Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
+Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `tests/test_intelligence_engine.py`, `tests/test_single_source_of_truth.py`
 - `IntelligenceEngine.__init__` (method) `modules/intelligence_engine.py:143` `def __init__(self, config)`
 - `IntelligenceEngine.collect_from_scan` (method) `modules/intelligence_engine.py:197` `def collect_from_scan(self, target)` -- Parse every nmap XML of the target into structured facts.
 - `IntelligenceEngine.collect_from_tool` (method) `modules/intelligence_engine.py:326` `def collect_from_tool(self, output, tool, host)` -- Parse tool output into structured facts using ObsParser.

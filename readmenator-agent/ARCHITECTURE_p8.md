@@ -2,6 +2,16 @@
 Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 
 ## External Imports (continued)
+- `modules/lazydorks.py` -> __future__, pathlib, sys, typing
+- `modules/lazyencoder_decoder.py` -> base64
+- `modules/lazyk8s.py` -> __future__, base64, dataclasses, glob, http.client, json, os, requests, socket, subprocess, tempfile, time, typing, yaml
+- `modules/lazyown_bprfuzzer.py` -> argparse, json, os, requests, signal, subprocess, sys, tempfile, threading
+- `modules/lazyown_bridge.py` -> __future__, abc, dataclasses, re
+- `modules/lazyown_metaextract0r.py` -> argparse, docx, exifread, olefile, os, pypdf, signal
+- `modules/lazyown_parquet_tool.py` -> argparse, colorama, os, pandas, platform, subprocess, tabulate
+- `modules/lazyownerweb.py` -> requests, requests.exceptions, urllib.parse
+- `modules/lazypassgen.py` -> __future__, pathlib, sys, typing
+- `modules/lazypoophish.py` -> __future__, json, pathlib, sys, time, typing
 - `modules/lazyshortener.py` -> __future__, requests, sys, typing
 - `modules/legacy/__init__.py` -> __future__, pathlib
 - `modules/lesson_ingestor.py` -> __future__, dataclasses, json, pathlib, typing
@@ -22,7 +32,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `modules/loop_guardrails.py` -> __future__, collections, contextlib, dataclasses, hashlib, json, math, os, pathlib, random, re, tempfile, threading, time
 - `modules/loop_manager.py` -> __future__, dataclasses, datetime, ipaddress, json, os, pathlib, re, signal, subprocess, sys, threading, time, typing, uuid
 - `modules/loop_progress.py` -> __future__, dataclasses, re, rich.live, rich.panel, rich.spinner, rich.table, rich.text, sys, threading, time
-- `modules/loop_triggers.py` -> __future__, collections.abc, hashlib
+- `modules/loop_triggers.py` -> __future__, collections.abc, hashlib, json, pathlib
 - `modules/macos_payloads.py` -> __future__, base64, dataclasses, os, pathlib, plistlib, subprocess, typing
 - `modules/mario.py` -> os, pygame
 - `modules/mcp_agent_bridge.py` -> datetime, groq, json, os, pathlib, re, requests, sys, threading, time, uuid
@@ -66,6 +76,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `modules/polymorphic_engine.py` -> __future__, base64, dataclasses, hashlib, math, pathlib, random, struct, typing, zlib
 - `modules/privesc_predictor.py` -> __future__, dataclasses, os, pandas, pathlib, re, sys, typing
 - `modules/professional_report.py` -> __future__, dataclasses, datetime, json, pathlib, subprocess, typing
+- `modules/progress_ledger.py` -> __future__, dataclasses, json, os, pathlib, re, time
 - `modules/reaction_bridge.py` -> __future__, json, pathlib, re, time
 - `modules/reactive_engine.py` -> __future__, abc, dataclasses, pandas, pathlib, re, typing
 - `modules/recommender.py` -> datetime, json, os, pathlib
@@ -96,7 +107,9 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `modules/sinks/beacon_dispatch.py` -> __future__, pathlib
 - `modules/sinks/c2_surfaces.py` -> __future__, pathlib
 - `modules/sinks/campaign_db.py` -> __future__
+- `modules/sinks/chain_feed.py` -> __future__, re
 - `modules/sinks/event_bus.py` -> __future__
+- `modules/sinks/findings.py` -> __future__, pathlib
 - `modules/sinks/intel_graph.py` -> __future__, pathlib
 - `modules/sinks/killchain.py` -> __future__
 - `modules/sinks/objectives.py` -> __future__, hashlib, json, pathlib, time
@@ -203,7 +216,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `skills/lazyown_groq_agents.py` -> __future__, argparse, collections.abc, dataclasses, datetime, json, os, pathlib, pprint, subprocess, sys, threading, typing, urllib.request, uuid
 - `skills/lazyown_hooks.py` -> collections.abc, datetime, json, pathlib, re, time
 - `skills/lazyown_llm.py` -> __future__, argparse, collections.abc, dataclasses, glob, json, os, pathlib, re, sys, typing, urllib.error, urllib.request
-- `skills/lazyown_mcp.py` -> ast, asyncio, base64, c2_profile, csv, dataclasses, datetime, event_bus, fcntl, glob, ipaddress, json, mcp, mcp.server.sse, mcp.server.stdio, os, pathlib, pty, re, report_generator, secrets, select, shlex, shutil, signal, ssl, starlette.applications, struct, subprocess, sys, termios, textwrap, threading, time, typing, urllib.error, urllib.request, uuid, uvicorn, warnings, world_model, xml.etree.ElementTree, yaml
+- `skills/lazyown_mcp.py` -> ast, asyncio, base64, c2_profile, csv, dataclasses, datetime, event_bus, fcntl, glob, ipaddress, json, mcp, mcp.server.sse, mcp.server.stdio, os, pathlib, pty, re, report_generator, select, shlex, shutil, signal, ssl, starlette.applications, struct, subprocess, sys, termios, textwrap, threading, time, typing, urllib.error, urllib.request, uuid, uvicorn, warnings, world_model, xml.etree.ElementTree, yaml
 - `skills/lazyown_mcp_helpers.py` -> __future__, csv, dataclasses, datetime, json, os, pathlib, re, shutil, threading, time, typing, uuid
 - `skills/lazyown_mcp_opencode.py` -> asyncio, json, mcp, mcp.server.stdio, pathlib, sys, typing
 - `skills/lazyown_objective.py` -> __future__, argparse, dataclasses, datetime, hashlib, json, pathlib, re, secrets
@@ -268,7 +281,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/run_mutation_verb_catalog.py` -> __future__, pathlib, sys
 - `tests/run_mutation_world_diff.py` -> __future__, pathlib, subprocess, sys
 - `tests/test_aci_planner.py` -> __future__, json, pathlib, secrets, sys, typing, unittest.mock
-- `tests/test_ad_lab_gym.py` -> __future__, unittest, unittest.mock
+- `tests/test_ad_lab_gym.py` -> __future__, pathlib, tempfile, unittest, unittest.mock
 - `tests/test_addon_creator.py` -> __future__, flask, flask_login, pathlib, pytest, re, yaml
 - `tests/test_addon_updater.py` -> __future__, pathlib, subprocess, yaml
 - `tests/test_aes_key_propagation.py` -> __future__, os, pathlib, pytest, stat
@@ -313,14 +326,20 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_c2_surfaces.py` -> __future__, flask, json, pathlib, requests, sys
 - `tests/test_campaign_import_safety.py` -> __future__, ast, pathlib, sqlite3, zipfile
 - `tests/test_categories.py` -> __future__, pytest
+- `tests/test_chain_approval_c2.py` -> __future__, importlib.util, os, pathlib, sys, tempfile, threading, time, unittest
 - `tests/test_chain_distill.py` -> __future__, json, pathlib, pytest
+- `tests/test_chain_distill_custody.py` -> __future__, hashlib, pathlib
+- `tests/test_chain_distill_scope.py` -> __future__, pathlib
 - `tests/test_chain_evidence.py` -> __future__, hashlib, pathlib, sys, yaml
+- `tests/test_chain_freshness_guard.py` -> __future__, os, pathlib, time
 - `tests/test_chain_list_command.py` -> __future__
 - `tests/test_chain_mode.py` -> __future__, json, pathlib, pytest, sys, tempfile
 - `tests/test_chain_parallel_fallback.py` -> __future__, pathlib, tempfile, threading, time
 - `tests/test_chain_registry.py` -> __future__, os, pathlib, sys, yaml
 - `tests/test_chain_runner.py` -> __future__, threading, time
+- `tests/test_chain_step_streaming.py` -> __future__, json, pathlib
 - `tests/test_chain_synth.py` -> __future__, pathlib, pytest, yaml
+- `tests/test_chain_token_hardening.py` -> __future__, pathlib, shlex, yaml
 - `tests/test_chain_v24_core.py` -> __future__, os, time
 - `tests/test_ci_strict.py` -> __future__, pathlib, re
 - `tests/test_claudemd_consistency.py` -> __future__, pathlib, pytest, re
@@ -366,6 +385,7 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_defense_eval.py` -> __future__, pathlib, pytest, sys
 - `tests/test_defense_stages.py` -> __future__, json, pathlib, sys
 - `tests/test_dependencies.py` -> __future__, pathlib, pytest, subprocess, sys
+- `tests/test_detection_dampening.py` -> __future__
 - `tests/test_detection_feed.py` -> __future__, json
 - `tests/test_dirtyinit_addon.py` -> __future__, json, os, pathlib, pytest, re, subprocess, yaml
 - `tests/test_docs_drift_contract.py` -> __future__, pathlib, pytest, yaml
@@ -384,11 +404,14 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_exploitgym_gym.py` -> __future__, pathlib, pytest, sys
 - `tests/test_exploration_and_addons.py` -> __future__, io, json, os, pathlib, pytest, textwrap, time, yaml
 - `tests/test_f4_hardening.py` -> __future__, pathlib, subprocess, tempfile, threading, time, types, unittest
+- `tests/test_failure_memory_veto.py` -> __future__, pathlib
 - `tests/test_finding_lifecycle.py` -> __future__, pathlib, sys
+- `tests/test_findings_gate.py` -> __future__
 - `tests/test_fuzzy_picker.py` -> __future__, ast, collections.abc, pathlib, pytest, re, sys, warnings
 - `tests/test_golden_path.py` -> __future__, pathlib, tempfile, unittest
 - `tests/test_graph_advisor.py` -> __future__, json, os, pathlib, pytest, sys
 - `tests/test_graph_overlay.py` -> __future__, pathlib, sys, typing
+- `tests/test_group_kill.py` -> __future__, pytest, subprocess
 - `tests/test_guardrails.py` -> __future__, pytest, types
 - `tests/test_gui_xss_sinks.py` -> __future__, pathlib, re, sys, unittest
 - `tests/test_gym_cli.py` -> __future__, pytest, shutil, types
@@ -418,18 +441,26 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_lab_target_visibility.py` -> __future__, types
 - `tests/test_lazy_agent.py` -> __future__, json, shutil, time, types
 - `tests/test_lazy_bridge_traffic.py` -> __future__, json
+- `tests/test_lazy_checks.py` -> __future__, json, pathlib
 - `tests/test_lazy_creds.py` -> __future__, pathlib, tempfile, unittest
 - `tests/test_lazy_engine.py` -> __future__, pytest
 - `tests/test_lazy_evidence.py` -> __future__, hashlib, json, sqlite3, zipfile
+- `tests/test_lazy_findings.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_lazy_hostscore.py` -> __future__, json, pathlib
+- `tests/test_lazy_ledger.py` -> __future__, pathlib
 - `tests/test_lazy_loop.py` -> __future__, ast, json, pathlib, re, smtplib, subprocess, time, urllib.parse
+- `tests/test_lazy_match_policy.py` -> __future__, pathlib
+- `tests/test_lazy_netattack.py` -> __future__, pytest
 - `tests/test_lazy_oob.py` -> __future__, pathlib, tempfile, unittest, unittest.mock, urllib.request
 - `tests/test_lazy_orchestrator.py` -> __future__, asyncio, json, pytest, shutil, textual.widgets, yaml
 - `tests/test_lazy_parity.py` -> __future__, io, json, os, pathlib, sys, time
 - `tests/test_lazy_proxy.py` -> __future__, cryptography, http.client, pathlib, socket, ssl, threading, types
+- `tests/test_lazy_reaper.py` -> __future__, typing
 - `tests/test_lazy_runner.py` -> __future__, ast, builtins, contextlib, io, json, os, pathlib, pytest, queue, subprocess, sys, threading, time, types
 - `tests/test_lazy_runner_fallback.py` -> __future__, pytest
 - `tests/test_lazy_scope.py` -> __future__, pathlib
 - `tests/test_lazy_streaming.py` -> __future__, types
+- `tests/test_lazy_triage.py` -> __future__, pathlib
 - `tests/test_lazy_worker_safety.py` -> __future__, pytest, types
 - `tests/test_lazy_world_diff.py` -> __future__, json, pathlib, sys, time
 - `tests/test_lazydorks.py` -> __future__, pytest
@@ -465,36 +496,5 @@ Previous: [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md)
 - `tests/test_loop_llm_resilience.py` -> __future__
 - `tests/test_loop_manager.py` -> __future__, json, pathlib, pytest, tempfile, time
 - `tests/test_loop_mentions.py` -> __future__
-- `tests/test_loop_multi_target.py` -> __future__, pytest
-- `tests/test_loop_nmap_guard.py` -> __future__
-- `tests/test_loop_progress.py` -> __future__, io, pathlib, sys
-- `tests/test_loop_scope_traffic_evidence.py` -> __future__
-- `tests/test_loop_spawn_side.py` -> __future__
-- `tests/test_loop_store_race.py` -> __future__, threading
-- `tests/test_loop_supervision.py` -> __future__
-- `tests/test_loop_trigger_hints.py` -> __future__, json, pathlib, pytest, types
-- `tests/test_loop_worker_traces.py` -> __future__
-- `tests/test_marketplace_config.py` -> __future__, asyncio, json, yaml
-- `tests/test_mcp_dispatch.py` -> __future__, ast, pathlib, re
-- `tests/test_mcp_improvements.py` -> __future__, importlib, json, os, pathlib, pytest, sys, time
-- `tests/test_mcp_lazy.py` -> __future__, ast, pathlib, sys
-- `tests/test_mcp_recommender_embed.py` -> __future__, importlib.util, pathlib
-- `tests/test_mediation.py` -> __future__, json, time, types
-- `tests/test_memory_semantics.py` -> __future__, pathlib, pytest, time
-- `tests/test_metasploitable_gym.py` -> __future__, yaml
-- `tests/test_metasploitable_migrations.py` -> __future__
-- `tests/test_metrics.py` -> __future__, datetime, json, pathlib, pytest, sys, threading
-- `tests/test_metrics_aware_selector.py` -> __future__, json, pathlib, skills, sys, typing
-- `tests/test_migrate_lazyown_generator.py` -> __future__, ast
-- `tests/test_module_registry.py` -> __future__
-- `tests/test_moe_rl_swan.py` -> __future__, json, os, pathlib, sys, tempfile, world_model
-- `tests/test_moe_router_check_regression.py` -> __future__, pathlib, sys
-- `tests/test_mutation_verification.py` -> __future__, ast, pathlib, pytest, tempfile
-- `tests/test_nethelpers_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
-- `tests/test_no_shell_execution.py` -> __future__, ast, dataclasses, pathlib
-- `tests/test_nuclei_parser.py` -> __future__
-- `tests/test_opencode_mcp_harness.py` -> __future__, asyncio, pathlib, sys, tempfile, unittest
-- `tests/test_ops_loot_phase.py` -> json, pathlib, sys, world_model
-- `tests/test_opsec_scorer.py` -> __future__
 
 Next: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)

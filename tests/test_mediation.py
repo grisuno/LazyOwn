@@ -111,6 +111,61 @@ class TestTelemetryMediator:
         monkeypatch.setattr(lab, "rl_select", boom)
         assert TelemetryMediator().rl_select("other", "engage", ["a", "b"], deterministic=True) == ""
 
+    def test_assess_opsec_forwards_to_bridge(self, monkeypatch):
+        import modules.loop_ai_bridge as lab
+
+        monkeypatch.setattr(lab, "assess_opsec", lambda command, rhost="": {"gate": "warn", "noise": 4})
+        out = TelemetryMediator().assess_opsec("nmap 10.0.0.1", rhost="10.0.0.1")
+        assert out == {"gate": "warn", "noise": 4}
+
+    def test_assess_opsec_graceful_on_bridge_failure(self, monkeypatch):
+        import modules.loop_ai_bridge as lab
+
+        def boom(*args, **kwargs):
+            raise RuntimeError("off")
+
+        monkeypatch.setattr(lab, "assess_opsec", boom)
+        assert TelemetryMediator().assess_opsec("nmap") is None
+
+    def test_record_outcome_quality_forwards_to_bridge(self, monkeypatch):
+        import modules.loop_ai_bridge as lab
+
+        received: list = []
+        monkeypatch.setattr(
+            lab,
+            "record_outcome_quality",
+            lambda worker, intent_summary, facts, findings: received.append(
+                (worker, intent_summary, facts, findings)
+            ),
+        )
+        TelemetryMediator().record_outcome_quality("worker-1", "probe service smb", 1, 0)
+        assert received == [("worker-1", "probe service smb", 1, 0)]
+
+    def test_record_outcome_quality_graceful_on_bridge_failure(self, monkeypatch):
+        import modules.loop_ai_bridge as lab
+
+        def boom(*args, **kwargs):
+            raise RuntimeError("off")
+
+        monkeypatch.setattr(lab, "record_outcome_quality", boom)
+        TelemetryMediator().record_outcome_quality("worker-1", "probe service smb", 1, 0)
+
+    def test_tool_class_yields_forwards_to_bridge(self, monkeypatch):
+        import modules.loop_ai_bridge as lab
+
+        monkeypatch.setattr(lab, "tool_class_yields", lambda summaries, phase="engage": {summaries[0]: 0.8})
+        out = TelemetryMediator().tool_class_yields(["probe service smb"])
+        assert out == {"probe service smb": 0.8}
+
+    def test_tool_class_yields_graceful_on_bridge_failure(self, monkeypatch):
+        import modules.loop_ai_bridge as lab
+
+        def boom(*args, **kwargs):
+            raise RuntimeError("off")
+
+        monkeypatch.setattr(lab, "tool_class_yields", boom)
+        assert TelemetryMediator().tool_class_yields(["probe service smb"]) == {}
+
 
 class TestChainMediatorLlmPort:
     """Chain pipeline requests LLM completion through the port, not imports."""

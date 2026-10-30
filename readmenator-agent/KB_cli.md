@@ -6,7 +6,7 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Layer: utility
 - Language: py
 - Depends on: `cli/aliases.py`, `cli/registry.py`
-- Imported by: `tests/test_cli_command_sets.py`, `tests/test_command_palette.py`, `tests/test_doctor.py`, `tests/test_improvements_spec.py`, `tests/test_marketplace_config.py`, `tests/test_mediation.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`, `tests/test_wizard_binary_check.py`
+- Imported by: `tests/test_cli_command_sets.py`, `tests/test_command_palette.py`, `tests/test_doctor.py`, `tests/test_improvements_spec.py`, `tests/test_marketplace_config.py`, `tests/test_mediation.py`, `tests/test_scope_deny_priority.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`, `tests/test_wizard_binary_check.py`
 
 ## cli/aliases.py
 - Doc: Declarative cmd2 alias loader.
@@ -29,24 +29,24 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_token_name_ok` (function, line 42) `def _token_name_ok(name)`
-  - `ChainArgs` (class, line 48) `class ChainArgs`
-  - `parse_chain_args` (function, line 72) `def parse_chain_args(line)`
-  - `_set_value` (function, line 141) `def _set_value(args, flag, value)`
-  - `resolve_admin` (function, line 169) `def resolve_admin(args)`
-  - `select_step_ids` (function, line 257) `def select_step_ids(chain, args)`
-  - `adversarial_continue` (function, line 289) `def adversarial_continue(chain)`
-  - `render_result` (function, line 297) `def render_result(result)`
-  - `build_cli_approver` (function, line 330) `def build_cli_approver(printer, input_fn)`
-  - `build_reactive_replanner` (function, line 352) `def build_reactive_replanner()`
-  - `_decision_command` (function, line 377) `def _decision_command(decision)`
-  - `_step_from_decision` (function, line 386) `def _step_from_decision(command, outcome, executed_count)`
-  - `_recent_changes_block` (function, line 408) `def _recent_changes_block(target)`
-  - `build_llm_recovery_chain` (function, line 436) `def build_llm_recovery_chain(result, target, task_id)`
-  - `_platform` (function, line 510) `def _platform()`
-  - `approve` (function, line 338) `def approve(step_id, command)`
-  - `replan` (function, line 355) `def replan(context)`
-- Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/guardrails/__init__.py`, `modules/mediation/__init__.py`, `modules/reactive_engine.py`
+  - `_token_name_ok` (function, line 44) `def _token_name_ok(name)`
+  - `ChainArgs` (class, line 50) `class ChainArgs`
+  - `parse_chain_args` (function, line 74) `def parse_chain_args(line)`
+  - `_set_value` (function, line 143) `def _set_value(args, flag, value)`
+  - `resolve_admin` (function, line 171) `def resolve_admin(args)`
+  - `select_step_ids` (function, line 290) `def select_step_ids(chain, args)`
+  - `adversarial_continue` (function, line 322) `def adversarial_continue(chain)`
+  - `render_result` (function, line 330) `def render_result(result)`
+  - `build_cli_approver` (function, line 363) `def build_cli_approver(printer, input_fn)`
+  - `build_reactive_replanner` (function, line 385) `def build_reactive_replanner()`
+  - `_decision_command` (function, line 410) `def _decision_command(decision)`
+  - `_step_from_decision` (function, line 419) `def _step_from_decision(command, outcome, executed_count)`
+  - `_recent_changes_block` (function, line 441) `def _recent_changes_block(target)`
+  - `build_llm_recovery_chain` (function, line 469) `def build_llm_recovery_chain(result, target, task_id)`
+  - `_platform` (function, line 543) `def _platform()`
+  - `approve` (function, line 371) `def approve(step_id, command)`
+  - `replan` (function, line 388) `def replan(context)`
+- Depends on: `modules/__init__.py`, `modules/chain_approval.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/guardrails/__init__.py`, `modules/mediation/__init__.py`, `modules/reactive_engine.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`, `tests/test_guardrails.py`
 
 ## cli/assign.py

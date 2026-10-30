@@ -2102,6 +2102,7 @@ class LazyCommandSet(LazyOwnCommandSet):
                 "usrwordlist",
                 "dnswordlist",
                 "dirworlist",
+                "api_key",
             ):
                 command = command.replace("{" + key + "}", str(subs.get(key, "")))
             if ("{target}" in template or "{rhost}" in template) and not (target or "").strip():

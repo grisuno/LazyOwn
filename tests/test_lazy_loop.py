@@ -141,6 +141,46 @@ def test_failed_chain_step_steers_the_planner(tmp_path, monkeypatch):
     assert any(summary.startswith("steered probe:") and "smb" in summary for summary in summaries)
 
 
+def test_loop_ping_uses_os_detecting_verb_when_shell_bound(tmp_path, monkeypatch):
+    """BDD: with a shell bound, the early probe is the LazyOwn ping verb (OS detect)."""
+    import modules.lazy_loop as loop
+    from modules.auto_registry import is_routable_command
+
+    engine = _patched_engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("gain access on 10.0.0.9")["task_id"]
+    engine.ensure_target(task_id, "10.0.0.9", "test")
+    graph = loop.ExplorationGraph(task_id)
+    worker = loop.Worker(
+        "worker-1", task_id, engine.assets, graph,
+        loop.ActivityLog(task_id), loop.TrafficLog(task_id), loop.Guard(task_id), engine.store,
+        shell=object(),
+    )
+    intent = graph.add_node("intent", "baseline recon enumerate")
+    graph.anchor(intent.node_id, engine.assets.list()[0].asset_id)
+    steps = worker._steps_for(intent)
+    assert steps and steps[0] == "ping 10.0.0.9"
+    assert "ping -c 1 -W 2 10.0.0.9 2>&1" not in steps
+    assert is_routable_command("ping 10.0.0.9") is True
+
+
+def test_loop_ping_falls_back_to_raw_without_shell(tmp_path, monkeypatch):
+    """BDD: with no shell, the probe degrades to the raw OS ping."""
+    import modules.lazy_loop as loop
+
+    engine = _patched_engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("gain access on 10.0.0.9")["task_id"]
+    engine.ensure_target(task_id, "10.0.0.9", "test")
+    graph = loop.ExplorationGraph(task_id)
+    worker = loop.Worker(
+        "worker-1", task_id, engine.assets, graph,
+        loop.ActivityLog(task_id), loop.TrafficLog(task_id), loop.Guard(task_id), engine.store,
+    )
+    intent = graph.add_node("intent", "baseline recon enumerate")
+    graph.anchor(intent.node_id, engine.assets.list()[0].asset_id)
+    steps = worker._steps_for(intent)
+    assert "ping -c 1 -W 2 10.0.0.9 2>&1" in steps
+
+
 def test_looks_like_prose_rejects_sentences_keeps_commands():
     """BDD: model prose is rejected while real commands pass untouched."""
     from modules.lazy_loop import looks_like_prose as prose

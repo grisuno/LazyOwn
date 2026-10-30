@@ -377,7 +377,7 @@ SHELL_TIMEOUT_MESSAGE = "TIMEOUT"
 
 ROUTABLE_PREFIXES = ("lazy_addon ", "custom tool ", "lazy_workspace ")
 
-ROUTABLE_VERBS = frozenset({"lazynmap"})
+ROUTABLE_VERBS = frozenset({"lazynmap", "ping"})
 
 
 def _cli_verb_allowed(name: str) -> bool:

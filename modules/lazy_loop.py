@@ -3474,6 +3474,7 @@ class Planner:
             for node in self.graph.list("intent")
             if node.text.startswith(marker) and node.text[len(marker):].strip()
         }
+        goal = str((self.store.get(self.task_id) or {}).get("goal", "") or "")
         ctx = SelectionContext(
             target=target,
             phase=self._current_phase(),
@@ -3481,6 +3482,7 @@ class Planner:
             services=tuple(self._target_services(target)),
             has_creds=self._has_creds(),
             exclude=frozenset(taken),
+            extra={"goal": goal},
         )
         decision = propose_next(ctx)
         if decision is None or not decision.command.strip():

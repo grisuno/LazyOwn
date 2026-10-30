@@ -7,7 +7,22 @@ from unittest.mock import patch
 
 from modules import ad_gym, ctf_capture, gym_registry, lab_runtime
 
-VECTOR_IDS = ("ad_ldap_enum", "ad_smb_shares", "ad_rid_cycling", "ad_samr_enum", "ad_default_creds")
+VECTOR_IDS = (
+    "ad_ldap_enum",
+    "ad_smb_shares",
+    "ad_rid_cycling",
+    "ad_samr_enum",
+    "ad_default_creds",
+    "ad_passpol",
+    "ad_kerbrute_userenum",
+    "ad_asreproast",
+    "ad_passspray",
+    "ad_gpp_sysvol",
+    "ad_user_desc_secrets",
+    "ad_gmsa_enum",
+    "ad_delegation_enum",
+    "ad_dcsync_validation",
+)
 
 
 class AdLabCatalogueSpec(unittest.TestCase):

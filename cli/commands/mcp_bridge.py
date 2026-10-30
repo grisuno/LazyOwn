@@ -494,6 +494,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
                       [--timeout S] [--targets-from-file F] [--max-concurrent N]
                       [--step-delay S] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N]
                       [--budget-confirm] [--no-bootstrap] [--fallback-phish]
+                      [--mode pentest|redteam|ctf]
                       [--view|--plain] <goal>
 
         Both commands share one runner (``modules.lazy_runner``): one
@@ -518,7 +519,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
                 print_error(
                     "Usage: auto_loop [--target T] [--task T] [--rounds N] "
                     "[--workers N] [--budget rounds=N,...] [--budget-confirm] "
-                    "[--view] <goal> "
+                    "[--mode pentest|redteam|ctf] [--view] <goal> "
                     "(e.g. auto_loop --rounds 5 'gain initial access')"
                 )
             return

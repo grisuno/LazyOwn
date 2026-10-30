@@ -1,0 +1,15 @@
+name: gym_web_dvwa_lfi
+version: 2
+description: 'Web gym: DVWA LFI file disclosure on the wordpress lab scenario.'
+enabled: true
+extends: gym_web_chain
+tags:
+- gym
+- web
+- lfi
+platforms:
+- linux
+defaults:
+  exploit: web_dvwa_lfi
+  vuln: web_dvwa_lfi
+  port: '8080'

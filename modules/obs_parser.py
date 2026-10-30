@@ -41,6 +41,19 @@ from typing import Any
 
 log = logging.getLogger("obs_parser")
 
+_DEFAULT_TECHNIQUE_MARKS: dict[str, str] = {
+    "sqli": "T1190",
+    "ssti": "T1059",
+    "rce": "T1059",
+    "lfi": "T1083",
+    "xss": "T1059.007",
+    "ssrf": "T1210",
+    "privesc": "T1548",
+    "brute": "T1110",
+    "cve-": "T1190",
+    "ms17": "T1210",
+}
+
 
 # ---------------------------------------------------------------------------
 # Value objects
@@ -69,7 +82,25 @@ class Finding:
     host: str = ""
     confidence: float = 1.0
     raw: str = ""
+    technique_id: str = ""
     metadata: dict[str, Any] = field(default_factory=dict)
+
+    def with_technique(self, mapping: dict[str, str] | None = None) -> Finding:
+        """Fill ``technique_id`` from a vulnerability-class mapping lens.
+
+        Args:
+            mapping: Optional override of ``killchain.VULNCLASS_TECHNIQUES``.
+
+        Returns:
+            The same finding updated in place for call chaining.
+        """
+        marks = mapping if mapping is not None else _DEFAULT_TECHNIQUE_MARKS
+        blob = f"{self.value} {self.raw}".lower()
+        for mark, technique in marks.items():
+            if mark in blob:
+                self.technique_id = technique
+                break
+        return self
 
 
 @dataclass

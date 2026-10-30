@@ -1986,6 +1986,32 @@ class LazyCommandSet(LazyOwnCommandSet):
         print_error("Usage: lazy_stage list|enable|disable|reset ...")
 
     @cmd2.with_category(ai_category)
+    def do_lazy_mode(self, line):
+        """Engagement mode + findings/progress admin. Usage: lazy_mode [<pentest|redteam|ctf>] [progress|findings]"""
+        args = shlex.split(line) if line.strip() else []
+        from modules import orchestrator_config as oc
+        from modules.orchestrator_config import engagement_mode, findings_config, progress_config, set_engagement_mode
+
+        if args and not args[0].startswith("--"):
+            wanted = str(args[0]).strip().lower()
+            try:
+                set_engagement_mode(wanted)
+            except KeyError:
+                print_error(f"Unknown mode '{wanted}'. Choose: {'/'.join(oc.ENGAGEMENT_MODES)}")
+                return
+            print_msg(f"[+] engagement mode: {set_engagement_mode(wanted)}")
+            args = args[1:]
+        if args and args[0] == "progress":
+            print_msg(f"progress: {progress_config()}")
+            return
+        if args and args[0] == "findings":
+            print_msg(f"findings: {findings_config()}")
+            return
+        print_msg(f"[*] mode: {engagement_mode()} (switch: lazy_mode pentest|redteam|ctf)")
+        print_msg(f"[*] findings: {findings_config()}")
+        print_msg(f"[*] progress: {progress_config()}")
+
+    @cmd2.with_category(ai_category)
     def do_lazy_addon(self, line):
         """Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all] [--dry-run]."""
         args = shlex.split(line) if line.strip() else []
@@ -2656,7 +2682,7 @@ class LazyCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category(ai_category)
     def do_lazy_loop(self, line):
-        """Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-from-file F] [--max-concurrent N] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--view|--plain] [<goal>]"""
+        """Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] [--targets-from-file F] [--max-concurrent N] [--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] [--sandbox [image]] [--mode pentest|redteam|ctf] [--view|--plain] [<goal>]"""
         from modules.lazy_runner import parse_loop_line, run_loop
 
         try:
@@ -2669,6 +2695,7 @@ class LazyCommandSet(LazyOwnCommandSet):
                     "Usage: lazy_loop [--task T] [--rounds N] [--workers N] [--timeout S] "
                     "[--targets-from-file F] [--max-concurrent N] "
                     "[--budget rounds=N,toolcalls=N,findings=N,timeout_sec=N] [--budget-confirm] "
+                    "[--mode pentest|redteam|ctf] "
                     "[--view] [<goal>] "
                 )
             return

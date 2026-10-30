@@ -1,0 +1,16 @@
+name: gym_ad_lab_passpol
+version: 2
+description: 'AD lab gym: domain password policy disclosure (disposable Docker Samba DC).'
+enabled: true
+extends: gym_ad_lab_chain
+tags:
+- gym
+- ad-lab
+- samba
+- methodology
+platforms:
+- linux
+defaults:
+  exploit: ad_lab_passpol
+  vuln: ad_passpol
+  port: '389'

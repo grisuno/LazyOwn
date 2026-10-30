@@ -3358,6 +3358,80 @@ class Planner:
         except Exception:
             return False
 
+    def _current_phase(self) -> str:
+        """Return the canonical kill-chain phase, blank on failure."""
+        try:
+            from modules.killchain import KillChain
+
+            return str(KillChain.current_phase() or "").strip().lower()
+        except Exception:
+            return ""
+
+    def _target_services(self, target: str) -> list[str]:
+        """Return discovered service names for the target from the world model."""
+        try:
+            from modules.world_model import read_state_dict
+
+            raw = read_state_dict(SESSIONS_DIR / "world_model.json")
+            entry = (raw.get("hosts", {}) or {}).get(target, {}) or {}
+            services: list[str] = []
+            for svc in entry.get("services", []) or []:
+                if isinstance(svc, dict):
+                    name = svc.get("name") or svc.get("service")
+                    if name:
+                        services.append(str(name))
+                elif isinstance(svc, str):
+                    services.append(svc)
+            return services
+        except Exception:
+            return []
+
+    @staticmethod
+    def _os_hint() -> str:
+        """Map ``payload.json`` os_id to a platform hint, blank when unknown."""
+        try:
+            from core.config import load_payload
+
+            os_id = str((load_payload() or {}).get("os_id", "") or "").strip()
+            return {"1": "linux", "2": "windows"}.get(os_id, "")
+        except Exception:
+            return ""
+
+    def _chain_candidate(self) -> list[tuple[str, list[int], list[int], int]]:
+        """Propose one vetted chain intent when a chain matches the live state.
+
+        Mirrors the daemon's ChainSelector for the LazyLoopEngine path: the
+        shared matcher scores enabled chains against the current phase, target
+        OS and discovered services, and a match becomes a ``run chain <name>``
+        intent that ``_steps_for`` turns into ``apt_chain <name> <target>``.
+        Already-proposed chains are skipped so a chain is queued at most once.
+        """
+        try:
+            from modules.chain_match import best_chain
+        except Exception:
+            return []
+        target = (resolve_target(self.task_id, self.store, self.graph) or "").strip()
+        if not target:
+            return []
+        marker = "run chain "
+        proposed = {
+            node.text[len(marker):].strip().split()[0]
+            for node in self.graph.list("intent")
+            if node.text.lower().startswith(marker) and node.text[len(marker):].strip()
+        }
+        match = best_chain(
+            phase=self._current_phase(),
+            os_hint=self._os_hint(),
+            services=self._target_services(target),
+            exclude=proposed,
+        )
+        if match is None:
+            return []
+        name, reason = match
+        self.activity.emit("planner", "chain", f"chain candidate {name}: {reason}")
+        anchors = [asset.asset_id for asset in self.assets.list() if (asset.value or "").strip() == target][:1]
+        return [(f"run chain {name}", anchors, [], 7)]
+
     def _candidates(self) -> list[tuple[str, list[int], list[int], int]]:
         """Build candidate intents from serial todos, hints, coverage, findings."""
         out: list[tuple[str, list[int], list[int], int]] = []
@@ -3388,6 +3462,7 @@ class Planner:
         for hint in self.graph.list("hint", "pending"):
             out.append((f"steered probe: {hint.text}", self.graph.anchors_for(hint.node_id), [], 8))
             self.graph.set_state(hint.node_id, "done")
+        out.extend(self._chain_candidate())
         for asset in self.assets.untested_for(self.graph, scope, limit=MAX_INTENTS_PER_ROUND):
             out.append((f"probe {asset.kind} {asset.value}", [asset.asset_id], [], 6))
         proposed = {summary for summary, _a, _p, _r in out}
@@ -5623,6 +5698,10 @@ class Worker:
         target = (target or "").strip()
         if not target:
             return [f"echo no-target: cannot probe without scope; register scope first: {intent.text[:120]}"]
+        if text.startswith("run chain "):
+            chain_name = intent.text[len("run chain "):].strip().split()[0] if len(intent.text) > 10 else ""
+            if chain_name:
+                return [f"apt_chain {chain_name} {target}".strip()]
         host_flag = f" {target}"
         use_lazynmap = getattr(self, "shell", None) is not None
         ping_first = [f"ping -c 1 -W 2 {target} 2>&1"] if _host_like_target(target) else []

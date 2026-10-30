@@ -66,6 +66,50 @@ def test_settlement_prompt_variants():
     assert "handoff" in settlement_prompt("main", "max_turns")
 
 
+def test_planner_proposes_chain_from_discovered_services(tmp_path, monkeypatch):
+    """BDD: a matching service makes the planner queue a run-chain intent.
+
+    Given an http service in the world model and an enabled web chain, When
+    the planner builds candidates in the exploit phase, Then a
+    'run chain apt_web_http' intent appears and _steps_for turns it into the
+    routable 'apt_chain apt_web_http <target>' command.
+    """
+    import json
+
+    import modules.chain_match as chain_match
+    import modules.killchain as killchain
+    import modules.lazy_loop as loop
+
+    engine = _patched_engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("gain access on 10.0.0.9")["task_id"]
+    engine.ensure_target(task_id, "10.0.0.9", "test")
+    (tmp_path / "world_model.json").write_text(
+        json.dumps({"hosts": {"10.0.0.9": {"services": [{"name": "http", "port": 8080}]}}}),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        "modules.chain_registry.scan_all",
+        lambda *a, **k: [
+            {"name": "apt_web_http", "enabled": True, "valid": True, "tags": ["web", "http"], "platforms": ["linux"]},
+        ],
+    )
+    monkeypatch.setattr(killchain.KillChain, "current_phase", staticmethod(lambda *a, **k: "exploit"))
+    monkeypatch.setattr(loop.Planner, "_os_hint", staticmethod(lambda: "linux"))
+    chain_match.reset_cache()
+
+    graph = loop.ExplorationGraph(task_id)
+    planner = loop.Planner(task_id, engine.assets, graph, loop.ActivityLog(task_id), engine.store)
+    summaries = [row[0] for row in planner._candidates()]
+    assert "run chain apt_web_http" in summaries
+
+    node = graph.add_node("intent", "run chain apt_web_http")
+    worker = loop.Worker(
+        "worker-1", task_id, engine.assets, graph,
+        loop.ActivityLog(task_id), loop.TrafficLog(task_id), loop.Guard(task_id), engine.store,
+    )
+    assert worker._steps_for(node) == ["apt_chain apt_web_http 10.0.0.9"]
+
+
 def test_failed_chain_step_steers_the_planner(tmp_path, monkeypatch):
     """BDD: an unresolvable chain-step failure becomes a planner intent.
 

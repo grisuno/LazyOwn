@@ -140,6 +140,60 @@ def test_failed_chain_step_steers_the_planner(tmp_path, monkeypatch):
     assert any(summary.startswith("steered probe:") and "smb" in summary for summary in summaries)
 
 
+def test_looks_like_prose_rejects_sentences_keeps_commands():
+    """BDD: model prose is rejected while real commands pass untouched."""
+    from modules.lazy_loop import looks_like_prose as prose
+
+    assert prose("Let's proceed step by step to resolve the issue on 127.0.0.1:") is True
+    assert prose("To access the IP address, I will use the lazynmap tool. Here is the guide:") is True
+    assert prose("") is True
+    for command in (
+        "nmap -sV 127.0.0.1",
+        "apt_chain apt_web_http 10.0.0.9",
+        "export GROQ_API_KEY=x && python3 report.py",
+        "./linpeas.sh",
+        "(cd /tmp && ls)",
+    ):
+        assert prose(command) is False
+
+
+def test_is_host_like_target_excludes_filenames():
+    """BDD: file-like names never count as scope-enforceable targets."""
+    from modules.lazy_loop import _is_host_like_target as host_like
+
+    assert host_like("127.0.0.1") is True
+    assert host_like("example.com") is True
+    assert host_like("linpeas.sh") is False
+    assert host_like("winpeas.exe") is False
+    assert host_like("") is False
+
+
+def test_guard_step_blocks_prose_before_execution(tmp_path, monkeypatch):
+    """BDD: prose fed as a command is blocked by the shared guard, never run."""
+    import modules.lazy_loop as loop
+
+    engine = _patched_engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("gain access on 10.0.0.9")["task_id"]
+    graph = loop.ExplorationGraph(task_id)
+    worker = loop.Worker(
+        "worker-1", task_id, engine.assets, graph,
+        loop.ActivityLog(task_id), loop.TrafficLog(task_id), loop.Guard(task_id), engine.store,
+    )
+    intent = graph.add_node("intent", "probe 10.0.0.9")
+    ran: list[str] = []
+    output, status, detail = worker._guard_step(
+        intent,
+        "Let's proceed step by step on 10.0.0.9:",
+        lambda command: ran.append(command) or "",
+        loop.Budget(engine.store),
+        loop.InterceptQueue(task_id),
+        {"model_errors": 0},
+    )
+    assert status == "blocked"
+    assert detail == "prose"
+    assert ran == []
+
+
 def test_terminal_hint_explains_disposition_to_operator():
     """BDD: terminal dispositions map to plain-language operator guidance."""
     from modules.lazy_engine import terminal_hint

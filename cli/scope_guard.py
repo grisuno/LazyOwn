@@ -251,6 +251,23 @@ def target_in_scope(target: str, entries: Sequence[str]) -> bool:
     return False
 
 
+def target_in_deny(target: str, entries: Sequence[str]) -> bool:
+    """Return whether *target* is explicitly denied.
+
+    Deny entries use the same matching rules as scope entries (CIDR,
+    literal, hostname with ``*`` wildcard) and take priority over the
+    allowlist: any deny hit blocks the command regardless of scope.
+
+    Args:
+        target: The active target (IP address or hostname).
+        entries: Denied scope entries.
+
+    Returns:
+        ``True`` when the target matches a deny entry.
+    """
+    return target_in_scope(target, entries)
+
+
 class ScopeGuard:
     """Decides whether an offensive command may run against the active target.
 
@@ -265,6 +282,7 @@ class ScopeGuard:
         scope_entries: object,
         mode: object,
         is_offensive: Callable[[str], bool],
+        deny_entries: object = None,
     ) -> None:
         """Initialise the guard.
 
@@ -275,8 +293,11 @@ class ScopeGuard:
                 :meth:`ScopeMode.from_value`.
             is_offensive: Predicate returning ``True`` when a command name is
                 offensive. Injected so the guard never imports the shell.
+            deny_entries: Explicitly denied entries, same form as the
+                allowlist; deny has priority over allow.
         """
         self.entries = normalize_scope(scope_entries)
+        self.deny = normalize_scope(deny_entries)
         self.mode = ScopeMode.from_value(mode)
         self._is_offensive = is_offensive
 
@@ -296,7 +317,7 @@ class ScopeGuard:
         allow = ScopeDecision(True, False, "", target, command, self.mode)
         if self.mode is ScopeMode.OFF:
             return allow
-        if not self.entries:
+        if not self.entries and not self.deny:
             return allow
         if command in SCOPE_EXEMPT_COMMANDS:
             return allow
@@ -307,6 +328,14 @@ class ScopeGuard:
         if not offensive:
             return allow
         if not target:
+            return allow
+        if self.deny and target_in_deny(target, self.deny):
+            reason = (
+                f"Target {target!r} is EXPLICITLY DENIED by the scope denylist for "
+                f"offensive command {command!r}. Denied entries: {', '.join(self.deny)}."
+            )
+            return ScopeDecision(False, self.mode is ScopeMode.ENFORCE, reason, target, command, self.mode)
+        if not self.entries:
             return allow
         if target_in_scope(target, self.entries):
             return allow
@@ -327,5 +356,7 @@ __all__ = [
     "ScopeGuard",
     "build_offensive_commands",
     "normalize_scope",
+    "target_in_deny",
+    "target_in_scope",
     "target_in_scope",
 ]

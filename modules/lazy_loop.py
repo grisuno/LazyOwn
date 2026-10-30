@@ -48,7 +48,7 @@ EXPLORATION_TERMINAL_STATES = ("done", "blocked", "exhausted", "stopped", "delet
 EXPLORATION_ACTIVE_STATES = ("pending", "open", "running")
 INTENT_OPEN_STATES = ("pending", "open")
 ASSET_KINDS = ("root_domain", "subdomain", "ip", "cidr", "url", "service", "app", "endpoint", "cred", "fingerprint")
-TASK_STATUSES = ("queued", "running", "paused", "done", "failed", "timeout", "exhausted")
+TASK_STATUSES = ("queued", "running", "paused", "done", "failed", "timeout", "exhausted", "handoff")
 EDGE_KINDS = ("spawns", "derived_from", "yields", "proves", "anchors")
 CONSTRAINT_TYPES = ("allow", "deny")
 CONSTRAINT_SCOPES = ("planner", "worker", "both")
@@ -84,7 +84,7 @@ REFINE_MAX_PENDING = 12
 MAX_FACTS_PAGE = 100
 MAX_WORKER_STEPS = 6
 RETEST_MAX_ATTEMPTS = 2
-ABORT_CAUSES = ("shutdown", "goal_met", "paused", "killed", "timeout", "budget", "user", "degraded")
+ABORT_CAUSES = ("shutdown", "goal_met", "paused", "killed", "timeout", "budget", "user", "degraded", "handoff", "pentest_mode")
 DEFAULT_MAX_TOOLCALLS = 200
 DEFAULT_MAX_FINDINGS = 50
 LLM_EMPTY_RETRIES = 2
@@ -447,43 +447,17 @@ def arm_exit_watchdog(seconds: float = 8.0) -> None:
     thread = threading.Thread(target=_kill, name="lazy-exit-watchdog", daemon=True)
     thread.start()
 
-_SECRET_PATTERNS = (
-    re.compile(r"gsk_[A-Za-z0-9]+"),
-    re.compile(r"sk-[A-Za-z0-9\-_]{8,}"),
-    re.compile(r"ghp_[A-Za-z0-9]{8,}"),
-    re.compile(r"gho_[A-Za-z0-9]{8,}"),
-    re.compile(r"glpat-[A-Za-z0-9\-_]{8,}"),
-    re.compile(r"AKIA[0-9A-Z]{16}"),
-    re.compile(r"xox[bpa]-[A-Za-z0-9\-]{8,}"),
-    re.compile(r"(?i)(api[_-]?key\s*[=:]\s*['\"]?)([\w\-.]{8,})(['\"]?)"),
-    re.compile(r"(?i)((?:GROQ|OPENAI|DEEPSEEK|ANTHROPIC)[_A-Z]*KEY\s*=\s*['\"]?)([^'\"\s]{8,})"),
-    re.compile(r"(?i)(password\s*[=:]\s*['\"]?)([^'\"\s;]{1,128})"),
-    re.compile(r"(?i)(passwd\s*[=:]\s*['\"]?)([^'\"\s;]{1,128})"),
-    re.compile(r"(?i)(pwd\s*[=:]\s*['\"]?)([^'\"\s;]{1,128})"),
-    re.compile(r"(?i)(bearer\s+)([A-Za-z0-9\-._~+/]{8,})"),
-    re.compile(r"https?://[^/\s]*:[^@/\s]+@[^\s]+"),
-    re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"),
-)
-
 
 def scrub_secrets(text: str) -> str:
     """Mask API keys/tokens before a string reaches logs or the panel.
 
-    Shell verbs echo their own command lines (``export GROQ_API_KEY=...``)
-    into the transcript and activity store; without scrubbing, one
-    ``lazy_trace`` read or git slip leaks the operator's cloud keys.
+    Canonical implementation lives in ``core.hardening.redact_text``; this
+    wrapper keeps the historical loop-side symbol so every caller shares
+    one reviewed pattern set instead of two drifting regexes.
     """
-    cleaned = str(text or "")
+    from core.hardening import redact_text
 
-    def _mask_key(match: re.Match) -> str:
-        groups = match.groups()
-        if len(groups) >= 2 and groups[0] and groups[-1] is not None:
-            return f"{groups[0]}***{groups[-1] if len(groups) > 2 else ''}"
-        return "***"
-
-    for pattern in _SECRET_PATTERNS:
-        cleaned = pattern.sub("***" if pattern.groups == 0 else _mask_key, cleaned)
-    return cleaned
+    return redact_text(str(text or ""))
 
 
 _CHANNEL_SECRET_PREFIX = "enc:v1:"
@@ -1190,6 +1164,48 @@ class ExplorationGraph:
     def get(self, node_id: int) -> ExplorationNode | None:
         """Return node by id or None."""
         return self.nodes.get(int(node_id))
+
+    def persist(self) -> None:
+        """Persist in-memory node/edge state to disk (public write path)."""
+        self._persist()
+
+    def set_node_state(self, node_id: int, state: str) -> bool:
+        """Transition node state, stamp ``updated`` and persist.
+
+        Args:
+            node_id: Node to restamp.
+            state: New lifecycle state.
+
+        Returns:
+            True when the node exists and the transition applied.
+        """
+        with self._lock:
+            node = self.nodes.get(int(node_id))
+            if node is None:
+                return False
+            node.state = state
+            node.updated = _now()
+            self._persist()
+            return True
+
+    def set_node_meta(self, node_id: int, meta: dict) -> bool:
+        """Replace one node's metadata mapping, stamp ``updated``, persist.
+
+        Args:
+            node_id: Node to update.
+            meta: Replacement metadata mapping.
+
+        Returns:
+            True when the node exists and the update applied.
+        """
+        with self._lock:
+            node = self.nodes.get(int(node_id))
+            if node is None:
+                return False
+            node.meta = dict(meta or {})
+            node.updated = _now()
+            self._persist()
+            return True
 
     def set_state(self, node_id: int, state: str) -> bool:
         """Transition node state and persist."""
@@ -3676,7 +3692,9 @@ class Worker:
         if not lazy_scope.LAB_DEFAULT_ENABLED:
             return True
         verdict = lazy_scope.scope_verdict(
-            target, allowlist=lazy_scope.read_allowlist()
+            target,
+            allowlist=lazy_scope.read_allowlist(),
+            denylist=lazy_scope.read_denylist(),
         )
         if verdict.allowed:
             return True
@@ -5531,7 +5549,6 @@ class Retester:
             "timeout",
             "login required",
             "unauthorized",
-            "401",
             "captcha",
         )
         command = (poc.splitlines() or [""])[0][:300] or f"curl -sS -m 20 -I {finding.text[:120]}"
@@ -5574,16 +5591,48 @@ class Retester:
         }
         if verdict == "reproduced":
             finding.state = "done"
+            finding.meta["vstate"] = "confirmed"
+            finding.meta["level"] = (
+                "critical" if str(finding.meta.get("severity", "")) == "critical" else "confirmed"
+            )
         elif verdict == "fixed":
             finding.state = "done"
             finding.meta["status"] = "fixed"
+            finding.meta["vstate"] = "discarded"
         else:
             finding.state = "done"
             finding.meta["status"] = "inconclusive"
+            finding.meta["vstate"] = "partial"
             finding.meta["retest_terminal"] = True
-        finding.updated = _now()
-        self.graph._persist()
+        self.graph.persist()
         self.activity.emit("retester", "verdict", f"finding #{finding_id}: {verdict} ({attempts} attempts)")
+        try:
+            from modules.outcome_bus import record_event
+
+            record_event(
+                kind="finding",
+                task_id=self.task_id,
+                title=f"retest #{finding_id}: {verdict}",
+                severity=str(finding.meta.get("severity", "")),
+                mitre_id=str(finding.meta.get("technique_id", "")),
+                confidence=1.0,
+                success=verdict == "reproduced",
+                source="retester",
+                command=command,
+                output=str(evidence)[:1500],
+                artifacts=list(finding.meta.get("traffic_refs", []) or []),
+                metadata={
+                    "finding_id": finding_id,
+                    "finding_ref": str(finding_id),
+                    "verdict": verdict,
+                    "technique_id": str(finding.meta.get("technique_id", "")),
+                    "state": str(finding.meta.get("vstate", "")),
+                    "level": str(finding.meta.get("level", "")),
+                    "refresh_report": False,
+                },
+            )
+        except Exception:
+            pass
         return {"finding_id": finding_id, "verdict": verdict, "attempts": attempts}
 
     def _structured_verdict(self, finding: ExplorationNode) -> tuple[str, str, int] | None:
@@ -6247,10 +6296,16 @@ def settlement_prompt(agent: str, reason: str) -> str:
     else:
         base = "Turn budget reached. Flush pending facts, assets and findings in one line each, then stop."
     if who == "planner":
-        return f"{base} Planner must dump add_intent, prove_goal or todos before exit."
+        return f"{base} {DECIDE_ALTERNATIVES_RULE}. Planner must dump add_intent, prove_goal or todos before exit."
     if who == "main":
-        return f"{base} Main agent must condense to a one-line handoff."
-    return f"{base} Worker probing stops during settlement; no new tool calls."
+        return f"{base} Main agent must condense to a handoff: step, command+output verbatim, reading, next decision."
+    return f"{base} {DECIDE_ALTERNATIVES_RULE}. Worker probing stops during settlement; no new tool calls."
+
+
+DECIDE_ALTERNATIVES_RULE = (
+    "Before committing to one step, weigh 2-3 plausible routes with cost/risk, "
+    "then commit to one; record abandoned routes in the finding ledger"
+)
 
 
 def build_prompt_context(
@@ -6356,6 +6411,24 @@ def finding_severity(text: str, evidence: str = "") -> str:
     return "info"
 
 
+_VULNCLASS_MARKS: tuple[tuple[str, str], ...] = (
+    ("sqli", "T1190"),
+    ("ssti", "T1059"),
+    ("rce", "T1059"),
+    ("lfi", "T1083"),
+    ("xss", "T1059.007"),
+    ("ssrf", "T1210"),
+    ("privesc", "T1548"),
+    ("sudo", "T1548.003"),
+    ("suid", "T1548.001"),
+    ("kernel", "T1068"),
+    ("brute", "T1110"),
+    ("credentials", "T1552"),
+    ("password", "T1552"),
+    ("shell", "T1059"),
+)
+
+
 class FindingService:
     """Finding lifecycle: report/status/bind like finding_workflow."""
 
@@ -6365,6 +6438,31 @@ class FindingService:
         self.graph = graph
         self.activity = activity
         self.store = store
+
+    @staticmethod
+    def _technique_for(vulnclass: str, text: str) -> str:
+        """Resolve the ATT&CK technique id for a finding (no invented ids).
+
+        Args:
+            vulnclass: Declared vulnerability class slug.
+            text: Finding text, scanned for known class marks as fallback.
+
+        Returns:
+            ``T####`` id or the class fallback when nothing maps.
+        """
+        try:
+            from modules.killchain import VULNCLASS_FALLBACK_TECHNIQUE, technique_for_vulnclass as _by_class
+
+            known = _by_class(vulnclass)
+            if known:
+                return known
+            lowered = str(text or "").lower()
+            for mark, technique in _VULNCLASS_MARKS:
+                if mark in lowered:
+                    return technique
+            return VULNCLASS_FALLBACK_TECHNIQUE
+        except Exception:
+            return ""
 
     def report(
         self,
@@ -6391,6 +6489,13 @@ class FindingService:
             )
             return existing
         sev = (severity or "").lower() if severity in SEVERITIES else finding_severity(text, poc)
+        technique = self._technique_for(vulnclass, text)
+        try:
+            from modules import lazy_findings
+
+            initial_state, initial_level = lazy_findings.severity_tier(sev)
+        except Exception:
+            initial_state, initial_level = "hypothesis", "identified"
         node = self.graph.add_node(
             "finding",
             text[:600],
@@ -6401,6 +6506,9 @@ class FindingService:
                 "poc": poc[:2000],
                 "severity": sev,
                 "vulnclass": (vulnclass or "")[:80],
+                "technique_id": technique,
+                "vstate": initial_state,
+                "level": initial_level,
                 "status": "pending",
                 "sig": self.graph.finding_signature(text),
                 "evidence_version": 1,
@@ -6434,10 +6542,15 @@ class FindingService:
                 success=True,
                 source="lazy_loop",
                 command=poc[:500],
+                output=((summary or poc)[:1500]),
                 artifacts=list(traffic_refs or []),
                 metadata={
                     "finding_id": node.node_id,
+                    "finding_ref": str(node.node_id),
                     "vulnclass": vulnclass,
+                    "technique_id": technique,
+                    "state": node.meta.get("vstate", ""),
+                    "level": node.meta.get("level", ""),
                     "refresh_report": False,
                 },
             )
@@ -7886,6 +7999,12 @@ class LazyLoopEngine:
             0.0, float(resolved.get("enrich_cooldown_sec", 300) or 300)
         )
         self.worker_cap = max(1, int(resolved.get("worker_parallel_cap", 5) or 5))
+        try:
+            from modules import orchestrator_config as _oc
+
+            self.engagement_mode = getattr(self, "engagement_mode", "") or _oc.engagement_mode()
+        except Exception:
+            self.engagement_mode = getattr(self, "engagement_mode", "") or "redteam"
         self._register_mediators()
         self._register_guardrails()
         return profile
@@ -8638,15 +8757,45 @@ class LazyLoopEngine:
         if verdict == "fixed":
             finding.state = "done"
             finding.meta["status"] = "fixed"
+            finding.meta["vstate"] = "discarded"
         elif verdict == "reproduced":
             finding.state = "done"
+            finding.meta["vstate"] = "confirmed"
+            finding.meta["level"] = "critical" if str(finding.meta.get("severity", "")) == "critical" else "confirmed"
         else:
             finding.state = "done"
             finding.meta["status"] = "inconclusive"
+            finding.meta["vstate"] = "partial"
             finding.meta["retest_terminal"] = True
-        finding.updated = _now()
-        graph._persist()
+        graph.persist()
         ActivityLog(task_id).emit("human", "verdict", f"finding #{finding_id}: {verdict} {note[:120]}")
+        try:
+            from modules.outcome_bus import record_event
+
+            record_event(
+                kind="finding",
+                task_id=task_id,
+                title=f"operator verdict #{finding_id}: {verdict}",
+                severity=str(finding.meta.get("severity", "")),
+                mitre_id=str(finding.meta.get("technique_id", "")),
+                confidence=1.0,
+                success=verdict == "reproduced",
+                source="operator",
+                command=str(finding.meta.get("poc", ""))[:500],
+                output=note[:1500],
+                artifacts=list(finding.meta.get("traffic_refs", []) or []),
+                metadata={
+                    "finding_id": finding_id,
+                    "finding_ref": str(finding_id),
+                    "verdict": verdict,
+                    "technique_id": str(finding.meta.get("technique_id", "")),
+                    "state": str(finding.meta.get("vstate", "")),
+                    "level": str(finding.meta.get("level", "")),
+                    "refresh_report": False,
+                },
+            )
+        except Exception:
+            pass
         return {"finding_id": int(finding_id), "verdict": verdict}
 
     def _sync_intel(self, task_id: str, activity: ActivityLog, force: bool = False) -> dict:
@@ -8793,6 +8942,10 @@ class LazyLoopEngine:
                 pass
             try:
                 trigger_store.ensure_cve_hot_trigger()
+            except Exception:
+                pass
+            try:
+                trigger_store.ensure_ad_surface_trigger()
             except Exception:
                 pass
             scheduler_hits = trigger_store.due(task_id, graph, activity, assets=self.assets, store=self.store)
@@ -9273,6 +9426,19 @@ class LazyLoopEngine:
                     break
                 rounds.append({"new_intents": summary["new_intents"], "executed": summary["executed"]})
                 last_results = list(summary.get("results", []) or [])
+                engagement = self._engagement_decision(task_id, round_index, summary)
+                if engagement == "handoff":
+                    self.store.set_status(task_id, "handoff")
+                    self.runtime.abort(
+                        task_id,
+                        "handoff",
+                        "objective progress struck out: handoff drafted for operator review",
+                    )
+                    break
+                if engagement == "pentest_proven":
+                    self.store.set_status(task_id, "done")
+                    self.runtime.abort(task_id, "pentest_mode", "exploitability demonstrated; pentest mode stops")
+                    break
                 if self._goals_met(task_id):
                     self.store.set_status(task_id, "done")
                     self.runtime.abort(task_id, "goal_met", "every goal done")
@@ -9305,7 +9471,7 @@ class LazyLoopEngine:
             def _stage_enabled(_name: str) -> bool:
                 return True
 
-        if record.get("status") in ("exhausted", "timeout") and _stage_enabled("wrapup"):
+        if record.get("status") in ("exhausted", "timeout", "handoff") and _stage_enabled("wrapup"):
             try:
                 Planner(task_id, self.assets, ExplorationGraph(task_id), ActivityLog(task_id), self.store).finalize(
                     str(record.get("status", ""))
@@ -9314,7 +9480,7 @@ class LazyLoopEngine:
                 pass
             self._wrapup_summary(task_id, str(record.get("status", "")))
         verdict: dict = {}
-        if record.get("status") in ("done", "exhausted", "timeout") and _stage_enabled("wrapup"):
+        if record.get("status") in ("done", "exhausted", "timeout", "handoff") and _stage_enabled("wrapup"):
             try:
                 verdict = self._evaluate_goal(task_id)
             except Exception:
@@ -9441,6 +9607,18 @@ class LazyLoopEngine:
             "traffic_archive": traffic_archive,
             "overview": ExplorationGraph(task_id).overview(),
         }
+        try:
+            from modules.orchestrator_config import sinks as _sinks
+            from modules.sinks.findings import handoff as _ledger_handoff
+
+            if bool(_sinks().get("findings", True)):
+                result["handoff"] = _ledger_handoff(
+                    task_id,
+                    status=str(record.get("status", "")),
+                    rounds=len(rounds),
+                )
+        except Exception as exc:
+            ActivityLog(task_id).emit("engine", "handoff", f"handoff draft failed: {str(exc)[:120]}")
         if not self._in_drain:
             self._in_drain = True
             try:
@@ -9498,6 +9676,101 @@ class LazyLoopEngine:
         graph = ExplorationGraph(task_id)
         goals = graph.list("goal")
         return bool(goals) and all(g.state == "done" for g in goals)
+
+    def _engagement_decision(self, task_id: str, round_index: int, summary: dict) -> str:
+        """Decide structural stops after one round: handoff or pentest stop.
+
+        The qualitative progress rule counts consecutive rounds without
+        objective evidence (facts/findings/reproduced verdicts/goals);
+        hypotheses alone never reset the counter. In ``pentest`` mode the
+        first reproduced-or-confirmed finding settles the engagement
+        instead of deep exploitation.
+
+        Args:
+            task_id: Engagement identifier.
+            round_index: Just-finished round number.
+            summary: Round summary from ``run_round``.
+
+        Returns:
+            ``""`` to continue, ``"handoff"`` after the strike cap, or
+            ``"pentest_proven"`` in pentest mode with confirmed evidence.
+        """
+        mode = str(getattr(self, "engagement_mode", "") or "").strip().lower()
+        graph = ExplorationGraph(task_id)
+        goals_done = sum(1 for goal in graph.list("goal") if goal.state == "done")
+        explained = [
+            1
+            for finding in graph.list("finding")
+            if str(finding.meta.get("vstate", "")) in ("confirmed",)
+        ]
+        brief = {
+            "facts": int((summary.get("overview") or {}).get("facts", 0) or 0),
+            "findings": int((summary.get("overview") or {}).get("findings", 0) or 0),
+            "goals_done": goals_done,
+            "reproduced": len(explained),
+            "new_intents": int(summary.get("new_intents", 0) or 0),
+        }
+        try:
+            from modules import orchestrator_config
+            from modules.progress_ledger import ProgressLedger, StrikePolicy
+
+            progress = orchestrator_config.progress_config()
+            policy = StrikePolicy(
+                max_strikes=int(progress.get("max_strikes", 3) or 3),
+                handoff_on_strikes=bool(progress.get("handoff_on_strikes", True)),
+            )
+            ledger = ProgressLedger(task_id, STORE_DIR, policy).load()
+            signals = ledger.signals_from_brief(brief)
+            result = ledger.observe(signals, note=f"round {round_index}")
+            ActivityLog(task_id).emit(
+                "engine",
+                "progress",
+                f"round {round_index}: {result['decision']} "
+                f"strikes={result['strikes']}/{result['max_strikes']} ({result['reason']})",
+            )
+        except Exception as exc:
+            ActivityLog(task_id).emit("engine", "progress", f"progress ledger unavailable: {str(exc)[:120]}")
+            result = {"decision": ""}
+        if mode == "pentest" and explained:
+            return "pentest_proven"
+        if str(result.get("decision", "")) == "handoff":
+            self._archive_discards(task_id, last_results=summary.get("results", []) or [])
+            return "handoff"
+        return ""
+
+    def _archive_discards(self, task_id: str, last_results: list[dict]) -> None:
+        """Persist abandoned-route reasons into the findings ledger.
+
+        Args:
+            task_id: Engagement identifier.
+            last_results: Worker outcomes from the final round.
+        """
+        try:
+            from modules import orchestrator_config
+            from modules.sinks.findings import ingest_discarded
+
+            if not bool(orchestrator_config.sinks().get("findings", True)):
+                return
+            graph = ExplorationGraph(task_id)
+            entries: list[dict] = []
+            for row in last_results[:50]:
+                state = str(row.get("state", "unknown"))
+                if state in ("done",):
+                    continue
+                node = graph.get(int(row.get("intent_id", 0) or 0))
+                entries.append(
+                    {
+                        "reason": f"intent #{row.get('intent_id', '?')} {str(node.text if node else row.get('worker', 'unknown'))[:120]} ended {state}",
+                        "command": "",
+                        "output": "",
+                        "engagement_id": task_id,
+                        "target": resolve_target(task_id, self.store, graph) if self.store else "",
+                    }
+                )
+            if entries:
+                ingest_discarded(task_id, entries)
+        except Exception as exc:
+            ActivityLog(task_id).emit("engine", "handoff", f"discard archive failed: {str(exc)[:120]}")
 
     def delete_task(self, task_id: str) -> dict:
         """Delete a task record plus every store file scoped to it.

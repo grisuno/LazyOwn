@@ -8,7 +8,7 @@
   "port": "445",
   "severity": "medium",
   "status": "captured",
-  "captured_at": "2026-10-29T03:36:29.376554+00:00",
+  "captured_at": "2026-10-29T23:14:35.361932+00:00",
   "checks": [
     {
       "name": "root_shell",

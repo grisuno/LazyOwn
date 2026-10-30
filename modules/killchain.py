@@ -35,6 +35,65 @@ _LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(Path(__file__).resolve().p
 _SESSIONS_DIR = _LAZYOWN_DIR / "sessions"
 _WORLD_MODEL_PATH = _SESSIONS_DIR / "world_model.json"
 
+PHASE_TO_TACTICS: dict[str, str] = {
+    "recon": "TA0043",
+    "scan": "TA0043",
+    "enum": "TA0007",
+    "exploit": "TA0001",
+    "privesc": "TA0004",
+    "lateral": "TA0008",
+    "exfil": "TA0010",
+    "report": "TA0043",
+}
+
+VULNCLASS_TECHNIQUES: dict[str, str] = {
+    "sqli": "T1190",
+    "ssti": "T1059",
+    "rce": "T1059",
+    "lfi": "T1083",
+    "rfi": "T1190",
+    "xss": "T1059.007",
+    "xxe": "T1005",
+    "ssrf": "T1210",
+    "upload": "T1059.009",
+    "deserialization": "T1203",
+    "smb": "T1021.002",
+    "rdp": "T1021.001",
+    "ssh": "T1021.004",
+    "ldap": "T1018",
+    "kerberos": "T1558",
+    "winrm": "T1021.006",
+    "wmi": "T1047",
+    "ps1": "T1059.001",
+    "creds": "T1552",
+    "bruteforce": "T1110",
+    "spray": "T1110.003",
+    "defaults": "T1078",
+    "valid_accounts": "T1078",
+    "privesc": "T1548",
+    "suid": "T1548.001",
+    "sudo": "T1548.003",
+    "kernel": "T1068",
+    "credential_dump": "T1003",
+    "mimikatz": "T1003.003",
+    "lateral": "T1021",
+    "pivot": "T1090",
+    "persistence": "T1053",
+    "exfil": "T1041",
+    "webshell": "T1505.003",
+    "enum4linux": "T1018",
+    "nmap": "T1046",
+    "snmp": "T1016",
+    "ftp": "T1021",
+    "telnet": "T1021",
+    "smtp": "T1021",
+    "dns": "T1071.004",
+    "http": "T1071.001",
+    "https": "T1071.001",
+}
+
+VULNCLASS_FALLBACK_TECHNIQUE = "T1190"
+
 
 @dataclass(frozen=True, slots=True)
 class KillChainConfig:
@@ -478,15 +537,55 @@ class KillChain:
             "updated_at": datetime.datetime.now(datetime.UTC).isoformat(),
         }
 
+    @staticmethod
+    def technique_for_phase(phase: str) -> str:
+        """Return the ATT&CK tactic id of one canonical phase.
+
+        Args:
+            phase: Canonical phase key from :attr:`KillChainConfig.phases`.
+
+        Returns:
+            ``TA####`` id, empty for unknown phases.
+        """
+        return PHASE_TO_TACTICS.get(str(phase or "").strip().lower(), "")
+
+    @staticmethod
+    def technique_for_vulnclass(vulnclass: str) -> str:
+        """Return the ATT&CK technique id for one vulnerability class.
+
+        Args:
+            vulnclass: Vulnerability class slug (``sqli``, ``smb``, ...).
+
+        Returns:
+            ``T####`` id, empty when the class is unmapped.
+        """
+        text = str(vulnclass or "").strip().lower()
+        return VULNCLASS_TECHNIQUES.get(text, "")
+
 
 def get_killchain() -> type[KillChain]:
     """Return the ``KillChain`` class as a module-level entry point."""
     return KillChain
 
 
+def technique_for_phase(phase: str) -> str:
+    """Module-level alias of :meth:`KillChain.technique_for_phase`."""
+    return KillChain.technique_for_phase(phase)
+
+
+def technique_for_vulnclass(vulnclass: str) -> str:
+    """Module-level alias of :meth:`KillChain.technique_for_vulnclass`."""
+    return KillChain.technique_for_vulnclass(vulnclass)
+
+
 __all__ = [
     "KillChain",
     "KillChainConfig",
+    "PHASE_TO_TACTICS",
     "PhaseStatus",
+    "VULNCLASS_FALLBACK_TECHNIQUE",
+    "VULNCLASS_TECHNIQUES",
     "get_killchain",
+    "technique_for_phase",
+    "technique_for_vulnclass",
 ]

@@ -1,0 +1,15 @@
+name: gym_web_struts_ognl
+version: 2
+description: 'Web gym: Struts2 CVE-2017-5638 OGNL execution on the struts lab scenario.'
+enabled: true
+extends: gym_web_chain
+tags:
+- gym
+- web
+- rce
+platforms:
+- linux
+defaults:
+  exploit: web_struts_ognl
+  vuln: web_struts_ognl
+  port: '9090'

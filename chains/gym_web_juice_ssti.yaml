@@ -1,0 +1,15 @@
+name: gym_web_juice_ssti
+version: 2
+description: 'Web gym: template-injection probe on the juice-shop lab scenario.'
+enabled: true
+extends: gym_web_chain
+tags:
+- gym
+- web
+- ssti
+platforms:
+- linux
+defaults:
+  exploit: web_juice_ssti
+  vuln: web_juice_ssti
+  port: '3000'

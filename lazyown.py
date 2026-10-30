@@ -1748,6 +1748,7 @@ class LazyOwnShell(cmd2.Cmd):
                 scope_entries=self.params.get("scope"),
                 mode=self.params.get("scope_enforcement"),
                 is_offensive=self._resolve_offensive,
+                deny_entries=self.params.get("scope_deny"),
             )
             target = str(self.params.get("rhost") or "").strip()
             decision = guard.evaluate(cmd_name, target)

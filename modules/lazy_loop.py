@@ -3419,11 +3419,13 @@ class Planner:
             for node in self.graph.list("intent")
             if node.text.lower().startswith(marker) and node.text[len(marker):].strip()
         }
+        allow_lab = os.environ.get("AUTO_CHAIN_SELECTOR_LAB", "1") not in ("0", "false", "False", "no", "off", "")
         match = best_chain(
             phase=self._current_phase(),
             os_hint=self._os_hint(),
             services=self._target_services(target),
             exclude=proposed,
+            allow_lab=allow_lab,
         )
         if match is None:
             return []

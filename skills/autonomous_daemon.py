@@ -118,7 +118,7 @@ METRICS_BIAS_ENABLED = os.environ.get("AUTO_METRICS_BIAS", "1") not in ("0", "fa
 
 _FALSEY = ("0", "false", "False", "no", "off", "")
 CHAIN_SELECTOR_ENABLED = os.environ.get("AUTO_CHAIN_SELECTOR", "1") not in _FALSEY
-CHAIN_SELECTOR_ALLOW_LAB = os.environ.get("AUTO_CHAIN_SELECTOR_LAB", "0") not in _FALSEY
+CHAIN_SELECTOR_ALLOW_LAB = os.environ.get("AUTO_CHAIN_SELECTOR_LAB", "1") not in _FALSEY
 CHAIN_SELECTOR_TTL_S = float(os.environ.get("AUTO_CHAIN_SELECTOR_TTL", "60"))
 METRICS_BIAS_WINDOW_S = int(os.environ.get("AUTO_METRICS_WINDOW_S", "1800"))
 METRICS_BIAS_MIN_SUCCESS = float(os.environ.get("AUTO_METRICS_MIN_SUCCESS", "0.25"))
@@ -1352,9 +1352,9 @@ class ChainSelector(ICommandSelector):
     the existing ChainRunner (checkpoints, approval gates and per-step outcome
     fan-out all apply). Selection is evidence-based (it fires only on a concrete
     service or phase-affinity match) and each (chain, target) is proposed at
-    most once, so a chain never loops. Lab and gym chains are excluded unless
-    ``AUTO_CHAIN_SELECTOR_LAB`` is set, keeping autonomous runs focused on real
-    adversary emulation rather than range-specific recipes.
+    most once, so a chain never loops. Lab and gym chains are included by
+    default (the framework is lab-oriented); real engagements exclude them
+    with ``AUTO_CHAIN_SELECTOR_LAB=0``.
 
     Single Responsibility: adapt the shared chain matcher into the daemon
     cascade (phase gate, per-target dedupe, CommandDecision shape). The match

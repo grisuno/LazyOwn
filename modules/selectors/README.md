@@ -10,9 +10,16 @@ cascade instead of carrying private "pick the next action" logic.
 | File | Contract |
 |------|----------|
 | `base.py` | The shared vocabulary: `SelectionContext` (live engagement snapshot), `ActionDecision` (one proposed command), and the `Selector` protocol every strategy implements. Pure, no framework imports. |
+| `playbook.py` | `PlaybookSelector` - runs an APT actor emulation (`apt_chain apt_<actor>`) when the objective names an actor from `playbooks/`. |
+| `adversary.py` | `AdversarySelector` - runs a custom adversary profile (`adversary_yaml <name>`) when the objective names one from `lazyadversaries/`. |
+| `atomic.py` | `AtomicSelector` - emulates named MITRE ATT&CK techniques with Atomic Red Team tests (`atomic_emulate --techniques`); both share one execution path. |
 | `chain.py` | `ChainSelector` - proposes `apt_chain <name> <target>` via the shared matcher in `modules/chain_match.py`. |
 | `registry.py` | `default_selectors()` builds the ordered cascade; `propose_next(ctx)` returns the first concrete decision. |
 | `__init__.py` | Package exports. |
+
+`SelectionContext.exclude` is the set of already-taken command strings;
+`SelectionContext.extra` carries open inputs such as `{"goal": ...}` or
+`{"techniques": [...]}` without widening the shared contract.
 
 ## How it works
 

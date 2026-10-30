@@ -11,9 +11,13 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from collections import OrderedDict
 from pathlib import Path
 from typing import Any
+from typing import Sequence
+
+from typing import Sequence
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +27,46 @@ except ImportError:
     yaml = None
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+_PROPOSAL_LIMIT = 6
+_PROPOSAL_MIN_TOKEN_LEN = 3
+_PROPOSAL_RUNNABLE_SOURCES = frozenset({"yaml", "playbook"})
+_PROPOSAL_STOPWORDS = frozenset(
+    {
+        "and",
+        "the",
+        "for",
+        "with",
+        "this",
+        "that",
+        "status",
+        "target",
+        "host",
+        "port",
+        "service",
+        "check",
+        "checks",
+        "scan",
+        "scans",
+        "attack",
+        "access",
+        "gain",
+        "root",
+        "user",
+        "users",
+        "login",
+        "password",
+        "passwords",
+        "windows",
+        "linux",
+        "http",
+        "https",
+        "tcp",
+        "udp",
+        "lazy",
+        "lazyown",
+    }
+)
 
 
 _MODULE_TYPES = {
@@ -331,6 +375,86 @@ class ModuleRegistry:
             counts[m.module_type] = counts.get(m.module_type, 0) + 1
         return counts
 
+    def proposal_intents(
+        self,
+        texts: Sequence[str],
+        target: str = "",
+        limit: int = _PROPOSAL_LIMIT,
+    ) -> list[str]:
+        """Loop bridge: map corpus mentions onto runnable module intents.
+
+        Only modules with a routable execution verb become proposals:
+        YAML addons run one-to-one through ``lazy addon <name>``, APT
+        playbook entries through ``apt_playbook run <name>``. Python,
+        Lua, pwntomate and other module sources stay out of planning
+        because no safe loop verb executes them.
+
+        Matching is conservative by design: the tokens mined from the
+        module name (``lazy_`` prefixes dropped) must equal a whole
+        corpus token, so a mention like ``hydra`` can raise an
+        HYDRA-named addon while plain substrings never trigger
+        anything. OS compatibility mirrors ``propose_addon_intents``.
+
+        Args:
+            texts: Operator goal, findings and service values to mine.
+            target: Optional target address appended to addon intents.
+            limit: Maximum number of intents returned.
+
+        Returns:
+            Deduplicated command lines in registry scan order, capped.
+        """
+        corpus = " ".join(str(item or "") for item in (texts or []) if str(item or "").strip())
+        if not corpus.strip() or yaml is None:
+            return []
+        if not self._scanned:
+            self.scan()
+        corpus_l = corpus.lower()
+        tokens = {
+            token
+            for token in re.findall(r"[a-z0-9]+", corpus_l)
+            if len(token) >= _PROPOSAL_MIN_TOKEN_LEN and token not in _PROPOSAL_STOPWORDS
+        }
+        host_os = ""
+        if (target or "").strip():
+            try:
+                from modules import lazy_osinfer
+
+                host_os = lazy_osinfer.host_os_for_target(target)
+            except Exception:
+                host_os = ""
+        known: set[str] = set()
+        out: list[str] = []
+        for module in self._modules.values():
+            if len(out) >= max(1, limit):
+                break
+            if module.deprecated or not module.enabled:
+                continue
+            if module.source not in _PROPOSAL_RUNNABLE_SOURCES:
+                continue
+            core_tokens = {
+                token
+                for token in re.findall(r"[a-z0-9]+", module.name.lower())
+                if len(token) >= _PROPOSAL_MIN_TOKEN_LEN and token not in _PROPOSAL_STOPWORDS
+            }
+            if not core_tokens & tokens:
+                continue
+            if module.source == "yaml" and host_os in ("linux", "windows"):
+                try:
+                    from modules import lazy_osinfer
+
+                    if not lazy_osinfer.os_compatible(lazy_osinfer.addon_target_os(module.name), host_os):
+                        continue
+                except Exception:
+                    pass
+            if module.source == "playbook":
+                line = f"apt_playbook run {module.name}"
+            else:
+                line = f"lazy addon {module.name} {(target or '').strip()}".strip()
+            if line not in known:
+                known.add(line)
+                out.append(line)
+        return out
+
     # ------------------------------------------------------------------
     # Internal scanners
     # ------------------------------------------------------------------
@@ -624,7 +748,5 @@ __all__ = [
     "ModuleInfo",
     "format_module_table",
     "format_module_detail",
-    "_classify",
-    "_classify_module_source",
-    "_extract_docstring_summary",
 ]
+

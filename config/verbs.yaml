@@ -4284,6 +4284,12 @@ verbs:
       \ | rule-del <p> | judge on|off [--fail allow|deny] | judge fail <allow|deny>\
       \ | judge | au\u2026"
     source: cli
+  lazy_handoff:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Print the operator handoff for a finished loop task.
+    source: cli
   lazy_hint:
     enabled: false
     phase: uncategorized
@@ -4343,6 +4349,19 @@ verbs:
     phase: exploit
     risk: safe
     description: Search @ mention candidates with scroll pagination.
+    source: cli
+  lazy_mode:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Engagement mode + findings/progress admin. Usage: lazy_mode [<pentest|redteam|ctf>]
+      [progress|findings]'
+    source: cli
+  lazy_netattack:
+    enabled: false
+    phase: uncategorized
+    risk: safe
+    description: 'Windows net-attack surface: grade + exact commands; never executes.'
     source: cli
   lazy_node:
     enabled: false

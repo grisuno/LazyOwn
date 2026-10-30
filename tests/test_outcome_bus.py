@@ -68,6 +68,7 @@ def test_default_sinks_cover_required_surfaces():
         "attack_graph",
         "report",
         "world_diff",
+        "chain_feed",
     } <= set(DEFAULT_SINKS)
     assert "campaign_db" not in DEFAULT_SINKS
 

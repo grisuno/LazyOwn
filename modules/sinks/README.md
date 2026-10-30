@@ -16,7 +16,13 @@ failure isolation; a sink never calls another sink.
 | `attack_graph.py` | `sessions/intel_summary.json` | attack surface graph summary |
 | `report.py` | `sessions/sessionLazyOwn.json` | terminal report refresh |
 | `campaign_db.py` | `sessions/db/lazyown.db` | opt-in campaign mirror |
+| `world_diff.py` | `sessions/lazy_changes.jsonl` | per-host snapshot diffs |
+| `beacon_dispatch.py` | `sessions/beacon_dispatch_<host>.txt` | stages the catch-back command |
+| `chain_feed.py` | `sessions/lazy/activity_<task>.jsonl`, `exp_<task>.json` | streams `chain_step` events into the loop |
 
 Heavy sinks (`intel_graph`, `attack_graph`, `report`) run only for event
 kinds that can change their content. `campaign_db` is opt-in through the
 event sink list so routine loop traffic never opens the database.
+`chain_feed` only accepts `chain_step` events: chain steps publish with
+the explicit sink list `["chain_feed", "event_bus"]`, so the other sinks
+never see per-step traffic.

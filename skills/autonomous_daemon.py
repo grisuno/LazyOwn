@@ -1286,27 +1286,14 @@ def _wrap_chain_with_metrics_bias(
 
 
 class CredentialSpraySelector(ICommandSelector):
-    """
-    When credentials exist in payload.json and open services are known,
-    generates credential-spray commands against those services.
+    """Daemon adapter over the shared credential-spray selector.
 
-    Only activates in exploit/lateral/privesc/cred phases.
-    Tracks sprayed (command, target, user) tuples to avoid repeating.
-    Single Responsibility: credential reuse selection only.
+    Delegates service-to-verb selection to
+    :class:`modules.selectors.cred_spray.CredentialSpraySelector` (one shared
+    implementation) and keeps the daemon-specific gating: verbs that already
+    failed too often and verbs already sprayed this run are passed as the
+    shared selector's exclude set. Single Responsibility: credential reuse.
     """
-
-    _SERVICE_COMMANDS: dict[str, str] = {
-        "ssh": "lazyssh",
-        "smb": "crackmapexec",
-        "winrm": "evil-winrm",
-        "ftp": "lazyftp",
-        "http": "lazyburp",
-        "https": "lazyburp",
-        "rdp": "xfreerdp",
-        "mssql": "mssqlpwner",
-        "mysql": "mysqldump",
-        "ldap": "ldapdomaindump",
-    }
 
     def __init__(self, fail_counts: dict[str, int]) -> None:
         self._fail_counts = fail_counts
@@ -1314,31 +1301,36 @@ class CredentialSpraySelector(ICommandSelector):
 
     def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Return a spray command when credentials + matching service are available."""
-        if phase not in ("exploit", "lateral", "privesc", "cred"):
-            return None
         payload = _load_payload()
-        user = payload.get("start_user", "")
-        passwd = payload.get("start_pass", "") or payload.get("hash", "")
-        if not user or not passwd:
+        has_creds = bool(
+            str(payload.get("start_user", "") or "").strip()
+            and str(payload.get("start_pass", "") or payload.get("hash", "") or "").strip()
+        )
+        if not has_creds:
             return None
-        services = context.get("services", [])
-        for svc in services:
-            cmd = self._SERVICE_COMMANDS.get(svc.lower())
-            if cmd is None:
-                continue
-            if self._fail_counts.get(cmd, 0) >= MAX_FAILS_PER_CMD:
-                continue
-            spray_key = f"{cmd}:{target}:{user}"
-            if spray_key in self._sprayed:
-                continue
-            self._sprayed.add(spray_key)
-            return CommandDecision(
-                command=cmd,
-                source="cred_spray",
-                reason=f"credential reuse — {user}@{target} via {svc}",
-                priority=2,
-            )
-        return None
+        try:
+            from modules.selectors.base import SelectionContext
+            from modules.selectors.cred_spray import CredentialSpraySelector as _Shared
+        except Exception:
+            return None
+        burned = {verb for verb, count in self._fail_counts.items() if count >= MAX_FAILS_PER_CMD}
+        ctx = SelectionContext(
+            target=target,
+            phase=phase,
+            services=tuple(context.get("services", []) or ()),
+            has_creds=True,
+            exclude=frozenset(burned | self._sprayed),
+        )
+        decision = _Shared().propose(ctx)
+        if decision is None:
+            return None
+        self._sprayed.add(decision.command)
+        return CommandDecision(
+            command=decision.command,
+            source=decision.source,
+            reason=decision.reason,
+            priority=decision.priority,
+        )
 
 
 class ChainSelector(ICommandSelector):

@@ -15,24 +15,41 @@ from modules.selectors.adversary import AdversarySelector
 from modules.selectors.atomic import AtomicSelector
 from modules.selectors.base import ActionDecision, SelectionContext, Selector
 from modules.selectors.chain import ChainSelector
+from modules.selectors.cred_spray import CredentialSpraySelector
 from modules.selectors.playbook import PlaybookSelector
 
 
-def default_selectors() -> list[Selector]:
-    """Return the default ordered cascade of shared selectors.
+def all_selectors() -> list[Selector]:
+    """Return every shared selector in priority order, before admin filtering.
 
     Order expresses priority. Objective-named capabilities (a specific APT
-    actor, adversary profile or MITRE technique the operator asked for) win
-    over the generic service-matched chain, because a named intent is a
-    stronger signal than an inferred one. The list grows one file at a time
-    as strategies migrate into the shared package.
+    actor, adversary profile or MITRE technique the operator asked for) and
+    credential reuse win over the generic service-matched chain, because a
+    named or evidence-backed intent is a stronger signal than an inferred one.
+    The list grows one file at a time as strategies migrate into the package.
     """
     return [
+        CredentialSpraySelector(),
         PlaybookSelector(),
         AdversarySelector(),
         AtomicSelector(),
         ChainSelector(),
     ]
+
+
+def default_selectors() -> list[Selector]:
+    """Return the cascade after applying the orchestrator's enable toggles.
+
+    The orchestrator is the single admin surface: a selector disabled via
+    ``orchestrator.selectors.<name> = false`` is dropped here, so both
+    runtimes honour one administration point without their own switches.
+    """
+    try:
+        from modules import orchestrator_config
+
+        return [sel for sel in all_selectors() if orchestrator_config.selector_enabled(sel.name)]
+    except Exception:
+        return all_selectors()
 
 
 def propose_next(

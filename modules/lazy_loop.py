@@ -3458,7 +3458,8 @@ class Planner:
         Already-proposed chains are skipped so a chain is queued at most once.
         """
         try:
-            from modules.chain_match import best_chain
+            from modules.selectors.base import SelectionContext
+            from modules.selectors.chain import ChainSelector as _ChainSelector
         except Exception:
             return []
         target = (resolve_target(self.task_id, self.store, self.graph) or "").strip()
@@ -3471,17 +3472,21 @@ class Planner:
             if node.text.lower().startswith(marker) and node.text[len(marker):].strip()
         }
         allow_lab = os.environ.get("AUTO_CHAIN_SELECTOR_LAB", "1") not in ("0", "false", "False", "no", "off", "")
-        match = best_chain(
+        ctx = SelectionContext(
+            target=target,
             phase=self._current_phase(),
             os_hint=self._os_hint(),
-            services=self._target_services(target),
-            exclude=proposed,
-            allow_lab=allow_lab,
+            services=tuple(self._target_services(target)),
+            exclude=frozenset(proposed),
         )
-        if match is None:
+        decision = _ChainSelector(allow_lab=allow_lab).propose(ctx)
+        if decision is None:
             return []
-        name, reason = match
-        self.activity.emit("planner", "chain", f"chain candidate {name}: {reason}")
+        parts = decision.command.split()
+        name = parts[1] if len(parts) > 1 else ""
+        if not name:
+            return []
+        self.activity.emit("planner", "chain", f"chain candidate {name}: {decision.reason}")
         anchors = [asset.asset_id for asset in self.assets.list() if (asset.value or "").strip() == target][:1]
         return [(f"run chain {name}", anchors, [], 7)]
 

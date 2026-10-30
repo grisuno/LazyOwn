@@ -49,6 +49,7 @@ from modules.lazy_loop import (
     parse_judge_output,
     resolve_target,
     settlement_prompt,
+    terminal_hint,
 )
 
 
@@ -67,4 +68,4 @@ __all__ = ["LazyEngine", "LazyLoopEngine", "AssetGraph", "AssetGate", "Explorati
            "enrich_asset", "extract_scope_items", "extract_constraint_items",
            "finding_severity", "resolve_target", "load_intel_scores",
            "judge_command", "parse_judge_output", "settlement_prompt",
-           "build_prompt_context"]
+           "terminal_hint", "build_prompt_context"]

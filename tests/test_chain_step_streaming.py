@@ -156,6 +156,66 @@ def test_publication_failure_never_blocks_the_chain(monkeypatch):
     assert result.ok is True
 
 
+def _capture_with_sinks(monkeypatch) -> list[tuple[dict, list]]:
+    """Capture each published event alongside the explicit sink list."""
+    captured: list[tuple[dict, list]] = []
+
+    def fake_record(event, sinks=None):
+        captured.append((event.to_dict(), list(sinks or [])))
+        return {}
+
+    import modules.outcome_bus as outcome_bus_module
+
+    monkeypatch.setattr(outcome_bus_module, "record", fake_record, raising=False)
+    return captured
+
+
+def test_successful_step_promotes_declared_state_sinks(monkeypatch):
+    """Given a step declaring world_model, When it succeeds, Then a proven chain event fans out there."""
+    captured = _capture_with_sinks(monkeypatch)
+    chain = _chain([ChainStep(id="loot", run="loot {target}", sinks=["world_model", "killchain"])])
+    ChainRunner(
+        chain,
+        tokens={"task_id": "t0001", "target": "10.0.0.9"},
+        executor=lambda command: "creds captured",
+        retry_backoff=0,
+    ).run()
+    promoted = [(row, sinks) for row, sinks in captured if row["kind"] == "chain"]
+    assert len(promoted) == 1
+    row, sinks = promoted[0]
+    assert row["success"] is True
+    assert row["host"] == "10.0.0.9"
+    assert row["metadata"]["step_id"] == "loot"
+    assert sinks == ["world_model", "killchain"]
+    assert set(sinks).isdisjoint({"chain_feed", "event_bus"})
+
+
+def test_failed_step_never_promotes_state_sinks(monkeypatch):
+    """Given a step declaring state sinks, When it fails, Then only the streaming event fires."""
+    captured = _capture_with_sinks(monkeypatch)
+    chain = _chain([ChainStep(id="loot", run="loot {target}", sinks=["world_model"])])
+    ChainRunner(
+        chain,
+        tokens={"task_id": "t0001", "target": "10.0.0.9"},
+        executor=_failing_executor({"loot"}),
+        retry_backoff=0,
+    ).run()
+    assert [row for row, _ in captured if row["kind"] == "chain"] == []
+
+
+def test_step_without_declared_sinks_does_not_promote(monkeypatch):
+    """Given a step with no sinks, When it succeeds, Then no proven chain event is published."""
+    captured = _capture_with_sinks(monkeypatch)
+    chain = _chain([ChainStep(id="probe", run="probe {target}")])
+    ChainRunner(
+        chain,
+        tokens={"task_id": "t0001", "target": "10.0.0.9"},
+        executor=lambda command: "ok",
+        retry_backoff=0,
+    ).run()
+    assert [row for row, _ in captured if row["kind"] == "chain"] == []
+
+
 def test_event_bus_receives_chain_step_for_dashboard(tmp_path: Path, monkeypatch):
     """Given a real bus, When a chain step publishes, Then the event lands on the audit ledger."""
     import modules.outcome_bus as outcome_bus_module

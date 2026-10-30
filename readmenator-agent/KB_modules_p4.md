@@ -1,6 +1,37 @@
 # Subsystem: modules (page 4 of 17)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
 
+## modules/conditional_hooks.py
+- Doc: Conditional Hooks System for LazyOwn (Mythic-style triggers).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `HookRule` (class, line 45) `class HookRule`
+  - `HookEngine` (class, line 258) `class HookEngine`
+  - `get_hook_engine` (function, line 586) `def get_hook_engine()`
+  - `can_fire` (method, line 56) `def can_fire(self, now)`
+  - `mark_fired` (method, line 65) `def mark_fired(self)`
+  - `to_dict` (method, line 69) `def to_dict(self)`
+  - `__init__` (method, line 270) `def __init__(self)`
+  - `register_action_handler` (method, line 277) `def register_action_handler(self, action_type, handler)`
+  - `set_placeholders` (method, line 286) `def set_placeholders(self, placeholders)`
+  - `load_rules` (method, line 290) `def load_rules(self, path)`
+  - `save_rules` (method, line 322) `def save_rules(self, path)`
+  - `add_rule` (method, line 330) `def add_rule(self, rule_dict)`
+  - `remove_rule` (method, line 345) `def remove_rule(self, name)`
+  - `enable_rule` (method, line 359) `def enable_rule(self, name, enabled)`
+  - `_match_trigger` (method, line 369) `def _match_trigger(self, rule_trigger, event, context)`
+  - `_resolve_placeholders` (method, line 414) `def _resolve_placeholders(self, text, context)`
+  - `_execute_action` (method, line 428) `def _execute_action(self, action, context)`
+  - `_execute_shell_command` (method, line 467) `def _execute_shell_command(self, command, context)`
+  - `_execute_local_command` (method, line 476) `def _execute_local_command(command)`
+  - `_execute_cred_reuse` (method, line 500) `def _execute_cred_reuse(self, context)`
+  - `fire` (method, line 516) `def fire(self, event, context)`
+  - `list_rules` (method, line 571) `def list_rules(self)`
+  - `get_rule` (method, line 575) `def get_rule(self, name)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
+- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
+
 ## modules/config_store.py
 - Doc: Thread-safe singleton facade over core.config for payload.json.
 - Layer: data_access
@@ -331,25 +362,26 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `SigmaRule` (class, line 50) `class SigmaRule`
-  - `DetectionAssessment` (class, line 63) `class DetectionAssessment`
-  - `IDetectionOracle` (class, line 90) `class IDetectionOracle(ABC)`
-  - `DetectionOracle` (class, line 317) `class DetectionOracle(IDetectionOracle)`
-  - `get_oracle` (function, line 478) `def get_oracle()`
-  - `is_high_risk` (method, line 75) `def is_high_risk(self)`
-  - `is_critical_risk` (method, line 80) `def is_critical_risk(self)`
-  - `assess` (method, line 94) `def assess(self, command, args, action_category)`
-  - `probability` (method, line 103) `def probability(self, command, args, action_category)`
-  - `__init__` (method, line 332) `def __init__(self, rules, feed)`
-  - `refresh` (method, line 336) `def refresh(self)`
-  - `assess` (method, line 371) `def assess(self, command, args, action_category)`
-  - `probability` (method, line 392) `def probability(self, command, args, action_category)`
-  - `_match_rules` (method, line 397) `def _match_rules(self, text, action_category)`
-  - `_effective_probability` (method, line 417) `def _effective_probability(rule, action_category)`
-  - `_aggregate_probability` (method, line 427) `def _aggregate_probability(self, matched, action_category)`
-  - `_build_recommendation` (method, line 444) `def _build_recommendation(probability, matched, action_category)`
+  - `SigmaRule` (class, line 51) `class SigmaRule`
+  - `DetectionAssessment` (class, line 64) `class DetectionAssessment`
+  - `IDetectionOracle` (class, line 91) `class IDetectionOracle(ABC)`
+  - `_benign_alternative_matches` (function, line 305) `def _benign_alternative_matches(command, args, benign_alternatives)`
+  - `DetectionOracle` (class, line 357) `class DetectionOracle(IDetectionOracle)`
+  - `get_oracle` (function, line 553) `def get_oracle()`
+  - `is_high_risk` (method, line 76) `def is_high_risk(self)`
+  - `is_critical_risk` (method, line 81) `def is_critical_risk(self)`
+  - `assess` (method, line 95) `def assess(self, command, args, action_category, benign_alternatives)`
+  - `probability` (method, line 105) `def probability(self, command, args, action_category, benign_alternatives)`
+  - `__init__` (method, line 372) `def __init__(self, rules, feed)`
+  - `refresh` (method, line 376) `def refresh(self)`
+  - `assess` (method, line 411) `def assess(self, command, args, action_category, benign_alternatives)`
+  - `probability` (method, line 460) `def probability(self, command, args, action_category, benign_alternatives)`
+  - `_match_rules` (method, line 472) `def _match_rules(self, text, action_category)`
+  - `_effective_probability` (method, line 492) `def _effective_probability(rule, action_category)`
+  - `_aggregate_probability` (method, line 502) `def _aggregate_probability(self, matched, action_category)`
+  - `_build_recommendation` (method, line 519) `def _build_recommendation(probability, matched, action_category)`
 - Depends on: `core/logging.py`, `modules/detection_feed.py`
-- Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
+- Imported by: `modules/auto_purple.py`, `modules/chain_runner.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_dampening.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
 
 ## modules/digest.py
 - Doc: Operator digest generation for loop runs.
@@ -359,7 +391,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `build_engine_digest` (function, line 20) `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)`
   - `write_digest` (function, line 71) `def write_digest(task_id, body, root)`
   - `worker_results_digest` (function, line 82) `def worker_results_digest(rows)`
-- Imported by: `modules/lazy_loop.py`, `skills/lazyown_mcp.py`
+- Imported by: `modules/lazy_loop.py`
 
 ## modules/dns_beacon.py
 - Doc: DNS Beacon — covert C2 channel via DNS tunneling.
@@ -446,37 +478,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `generate_inline_assembly` (method, line 500) `def generate_inline_assembly(self, config)`
   - `to_format` (method, line 520) `def to_format(self, data, fmt)`
 - Imported by: `cli/commands/payload_arsenal.py`
-
-## modules/dpapi_harvester.py
-- Doc: DPAPI credential decryption and harvesting engine.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `DPAPICredential` (class, line 44) `class DPAPICredential`
-  - `DPAPIMasterKey` (class, line 54) `class DPAPIMasterKey`
-  - `DPAPIHarvester` (class, line 63) `class DPAPIHarvester`
-  - `__init__` (method, line 79) `def __init__(self, sessions_dir, masterkey_path)`
-  - `harvest_all` (method, line 90) `def harvest_all(self)`
-  - `_harvest_master_keys` (method, line 105) `def _harvest_master_keys(self)`
-  - `_harvest_credential_manager` (method, line 120) `def _harvest_credential_manager(self)`
-  - `_harvest_chrome` (method, line 143) `def _harvest_chrome(self)`
-  - `_harvest_chrome_offline` (method, line 188) `def _harvest_chrome_offline(self)`
-  - `_harvest_edge` (method, line 198) `def _harvest_edge(self)`
-  - `_harvest_wifi` (method, line 210) `def _harvest_wifi(self)`
-  - `_harvest_rdp` (method, line 250) `def _harvest_rdp(self)`
-  - `_harvest_windows_vault` (method, line 262) `def _harvest_windows_vault(self)`
-  - `_crack_login_data` (method, line 286) `def _crack_login_data(self, login_db_path, key, source)`
-  - `_crack_cookies` (method, line 320) `def _crack_cookies(self, cookies_path, key, source)`
-  - `_extract_sid_from_file` (method, line 355) `def _extract_sid_from_file(filepath)`
-  - `export_credentials` (method, line 367) `def export_credentials(self)`
-  - `masterkey_report` (method, line 386) `def masterkey_report(self)`
-  - `DATA_BLOB` (class, line 160) `class DATA_BLOB(Structure)`
-- Imported by: `cli/commands/dpapi.py`
-
-## modules/duckdns.sh
-- Doc: Solicita el TOKEN y el DOMAIN al usuario
-- Layer: utility
-- Language: sh
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

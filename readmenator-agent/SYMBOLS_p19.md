@@ -1,10 +1,176 @@
-# Symbols (page 19 of 47)
+# Symbols (page 19 of 48)
 Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `swan_available` | method | `modules/mediation/telemetry_mediator.py:76` | `def swan_available(self)` |
-| `swan_consult` | method | `modules/mediation/telemetry_mediator.py:85` | `def swan_consult(self, prompt, task_type, phase, timeout)` |
+| `level` | method | `modules/loop_guardrails.py:221` | `def level(self)` |
+| `max_concurrent` | method | `modules/loop_guardrails.py:275` | `def max_concurrent(self)` |
+| `observe` | method | `modules/loop_guardrails.py:193` | `def observe(self, command, duration_sec, output)` |
+| `oscillation_pair` | method | `modules/loop_guardrails.py:163` | `def oscillation_pair(self)` |
+| `path` | method | `modules/loop_guardrails.py:346` | `def path(self)` |
+| `quieten` | method | `modules/loop_guardrails.py:244` | `def quieten(self, command)` |
+| `record` | method | `modules/loop_guardrails.py:104` | `def record(self, command)` |
+| `reset` | method | `modules/loop_guardrails.py:171` | `def reset(self)` |
+| `save` | method | `modules/loop_guardrails.py:446` | `def save(self)` |
+| `search` | method | `modules/loop_guardrails.py:401` | `def search(self, query, k)` |
+| `search_block` | method | `modules/loop_guardrails.py:431` | `def search_block(self, query, k, max_chars)` |
+| `signal` | method | `modules/loop_guardrails.py:231` | `def signal(self)` |
+| `slot` | method | `modules/loop_guardrails.py:286` | `def slot(self, target)` |
+| `stuck` | method | `modules/loop_guardrails.py:139` | `def stuck(self)` |
+| `LoopManager` | class | `modules/loop_manager.py:316` | `class LoopManager` |
+| `LoopNotFoundError` | class | `modules/loop_manager.py:96` | `class LoopNotFoundError(KeyError)` |
+| `LoopSpec` | class | `modules/loop_manager.py:264` | `class LoopSpec` |
+| `LoopValidationError` | class | `modules/loop_manager.py:87` | `class LoopValidationError(ValueError)` |
+| `__init__` | method | `modules/loop_manager.py:90` | `def __init__(self, field, message)` |
+| `__init__` | method | `modules/loop_manager.py:327` | `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)` |
+| `_load_registry_locked` | method | `modules/loop_manager.py:764` | `def _load_registry_locked(self)` |
+| `_loop_command` | function | `modules/loop_manager.py:284` | `def _loop_command(spec)` |
+| `_now_iso` | function | `modules/loop_manager.py:217` | `def _now_iso()` |
+| `_pid_alive` | function | `modules/loop_manager.py:246` | `def _pid_alive(pid, start_ticks)` |
+| `_process_start_ticks` | function | `modules/loop_manager.py:222` | `def _process_start_ticks(pid)` |
+| `_prune_locked` | method | `modules/loop_manager.py:715` | `def _prune_locked(self)` |
+| `_reap` | method | `modules/loop_manager.py:470` | `def _reap(self, loop_id, process)` |
+| `_refresh_log_bytes` | method | `modules/loop_manager.py:517` | `def _refresh_log_bytes(self, record)` |
+| `_remove_workspace` | method | `modules/loop_manager.py:740` | `def _remove_workspace(self, loop_id)` |
+| `_resolve_log_path` | method | `modules/loop_manager.py:588` | `def _resolve_log_path(self, record)` |
+| `_save_registry_locked` | method | `modules/loop_manager.py:779` | `def _save_registry_locked(self, records)` |
+| `_spawn_locked` | method | `modules/loop_manager.py:394` | `def _spawn_locked(self, spec, operator)` |
+| `_update_status_locked` | method | `modules/loop_manager.py:662` | `def _update_status_locked(self, loop_id, status)` |
+| `clamp_float` | function | `modules/loop_manager.py:175` | `def clamp_float(raw, field, default, minimum, maximum)` |
+| `clamp_int` | function | `modules/loop_manager.py:150` | `def clamp_int(raw, field, default, minimum, maximum)` |
+| `get_loop` | method | `modules/loop_manager.py:528` | `def get_loop(self, loop_id)` |
+| `list_loops` | method | `modules/loop_manager.py:493` | `def list_loops(self)` |
+| `loops_dir` | method | `modules/loop_manager.py:349` | `def loops_dir(self)` |
+| `read_log` | method | `modules/loop_manager.py:547` | `def read_log(self, loop_id, offset)` |
+| `sanitize_goal` | function | `modules/loop_manager.py:123` | `def sanitize_goal(raw)` |
+| `start` | method | `modules/loop_manager.py:353` | `def start(self, spec, operator)` |
+| `stop` | method | `modules/loop_manager.py:614` | `def stop(self, loop_id)` |
+| `summary` | method | `modules/loop_manager.py:679` | `def summary(self)` |
+| `validate_loop_id` | function | `modules/loop_manager.py:200` | `def validate_loop_id(loop_id)` |
+| `validate_target` | function | `modules/loop_manager.py:100` | `def validate_target(raw)` |
+| `LoopProgress` | class | `modules/loop_progress.py:169` | `class LoopProgress` |
+| `LoopSnapshot` | class | `modules/loop_progress.py:80` | `class LoopSnapshot` |
+| `__post_init__` | method | `modules/loop_progress.py:182` | `def __post_init__(self)` |
+| `_footer` | method | `modules/loop_progress.py:306` | `def _footer(self, snapshot, elapsed)` |
+| `_header` | method | `modules/loop_progress.py:282` | `def _header(self)` |
+| `_milestone_line` | method | `modules/loop_progress.py:289` | `def _milestone_line(self, snapshot, states, current)` |
+| `_render` | method | `modules/loop_progress.py:324` | `def _render(self, snapshot)` |
+| `emit` | method | `modules/loop_progress.py:268` | `def emit(self, line)` |
+| `live_mode` | method | `modules/loop_progress.py:195` | `def live_mode(self)` |
+| `refresh` | method | `modules/loop_progress.py:246` | `def refresh(self, snapshot)` |
+| `sanitize_line` | function | `modules/loop_progress.py:151` | `def sanitize_line(line, keep_ansi)` |
+| `snap_to_states` | function | `modules/loop_progress.py:123` | `def snap_to_states(snapshot)` |
+| `snapshot_from_overview` | function | `modules/loop_progress.py:99` | `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)` |
+| `start` | method | `modules/loop_progress.py:202` | `def start(self)` |
+| `stop` | method | `modules/loop_progress.py:229` | `def stop(self)` |
+| `TriggerStore` | class | `modules/loop_triggers.py:88` | `class TriggerStore` |
+| `__init__` | method | `modules/loop_triggers.py:91` | `def __init__(self, task_id)` |
+| `_core` | function | `modules/loop_triggers.py:81` | `def _core()` |
+| `_load` | method | `modules/loop_triggers.py:97` | `def _load(self)` |
+| `add` | method | `modules/loop_triggers.py:101` | `def add(self, kind, arg, every_sec)` |
+| `due` | method | `modules/loop_triggers.py:233` | `def due(self, task_id, graph, activity, assets, store)` |
+| `ensure_ad_surface_trigger` | method | `modules/loop_triggers.py:220` | `def ensure_ad_surface_trigger(self)` |
+| `ensure_cve_hot_trigger` | method | `modules/loop_triggers.py:207` | `def ensure_cve_hot_trigger(self)` |
+| `ensure_service_trigger` | method | `modules/loop_triggers.py:194` | `def ensure_service_trigger(self)` |
+| `hint_fingerprint` | function | `modules/loop_triggers.py:28` | `def hint_fingerprint(row)` |
+| `list` | method | `modules/loop_triggers.py:190` | `def list(self)` |
+| `prune_hint_fingerprints` | function | `modules/loop_triggers.py:60` | `def prune_hint_fingerprints(store, now, ttl)` |
+| `read_signing_evidence` | function | `modules/loop_triggers.py:499` | `def read_signing_evidence(store_dir)` |
+| `remove` | method | `modules/loop_triggers.py:165` | `def remove(self, trigger_id)` |
+| `set_enabled` | method | `modules/loop_triggers.py:176` | `def set_enabled(self, trigger_id, enabled)` |
+| `upsert_defaults` | method | `modules/loop_triggers.py:123` | `def upsert_defaults(self, seeds)` |
+| `MacOSPayloadConfig` | class | `modules/macos_payloads.py:60` | `class MacOSPayloadConfig` |
+| `MacOSPayloadFactory` | class | `modules/macos_payloads.py:88` | `class MacOSPayloadFactory` |
+| `__init__` | method | `modules/macos_payloads.py:111` | `def __init__(self, config, output_dir)` |
+| `_adho_codesign` | method | `modules/macos_payloads.py:192` | `def _adho_codesign(self, app_dir)` |
+| `_obfuscate_shell` | method | `modules/macos_payloads.py:116` | `def _obfuscate_shell(self, code)` |
+| `_reverse_shell_command` | method | `modules/macos_payloads.py:122` | `def _reverse_shell_command(self)` |
+| `generate_all` | method | `modules/macos_payloads.py:470` | `def generate_all(self)` |
+| `generate_app_bundle` | method | `modules/macos_payloads.py:137` | `def generate_app_bundle(self)` |
+| `generate_launchd_persistence` | method | `modules/macos_payloads.py:212` | `def generate_launchd_persistence(self)` |
+| `generate_osascript_dropper` | method | `modules/macos_payloads.py:314` | `def generate_osascript_dropper(self)` |
+| `generate_persistence_scripts` | method | `modules/macos_payloads.py:398` | `def generate_persistence_scripts(self)` |
+| `generate_phishing_dialog` | method | `modules/macos_payloads.py:447` | `def generate_phishing_dialog(self)` |
+| `generate_swift_stager` | method | `modules/macos_payloads.py:335` | `def generate_swift_stager(self)` |
+| `generate_tcc_bypass` | method | `modules/macos_payloads.py:268` | `def generate_tcc_bypass(self)` |
+| `list_persistence_methods` | method | `modules/macos_payloads.py:522` | `def list_persistence_methods()` |
+| `list_tcc_services` | method | `modules/macos_payloads.py:517` | `def list_tcc_services()` |
+| `check_collision` | function | `modules/mario.py:105` | `def check_collision(x, y, layer)` |
+| `AgentBridgeWorker` | class | `modules/mcp_agent_bridge.py:468` | `class AgentBridgeWorker` |
+| `GroqAgentWorker` | class | `modules/mcp_agent_bridge.py:234` | `class GroqAgentWorker` |
+| `OllamaReActWorker` | class | `modules/mcp_agent_bridge.py:367` | `class OllamaReActWorker` |
+| `__init__` | method | `modules/mcp_agent_bridge.py:235` | `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)` |
+| `__init__` | method | `modules/mcp_agent_bridge.py:368` | `def __init__(self, agent_id, goal, client, model, run_cmd, max_iter)` |
+| `__init__` | method | `modules/mcp_agent_bridge.py:471` | `def __init__(self, agent_id, goal, backend, run_cmd, max_iterations)` |
+| `_agent_file` | function | `modules/mcp_agent_bridge.py:141` | `def _agent_file(agent_id)` |
+| `_make_client` | function | `modules/mcp_agent_bridge.py:39` | `def _make_client(backend)` |
+| `_ollama_chat` | function | `modules/mcp_agent_bridge.py:92` | `def _ollama_chat(model, messages, max_tokens, timeout)` |
+| `_parse` | method | `modules/mcp_agent_bridge.py:381` | `def _parse(self, text)` |
+| `_read_log` | function | `modules/mcp_agent_bridge.py:150` | `def _read_log(agent_id)` |
+| `_tools` | method | `modules/mcp_agent_bridge.py:248` | `def _tools(self)` |
+| `_write_log` | function | `modules/mcp_agent_bridge.py:145` | `def _write_log(agent_id, entry)` |
+| `dummy_runner` | function | `modules/mcp_agent_bridge.py:531` | `def dummy_runner(cmd)` |
+| `get_agent_result` | function | `modules/mcp_agent_bridge.py:188` | `def get_agent_result(agent_id)` |
+| `get_agent_status` | function | `modules/mcp_agent_bridge.py:163` | `def get_agent_status(agent_id)` |
+| `list_agents` | function | `modules/mcp_agent_bridge.py:211` | `def list_agents(limit)` |
+| `run` | method | `modules/mcp_agent_bridge.py:264` | `def run(self)` |
+| `run` | method | `modules/mcp_agent_bridge.py:389` | `def run(self)` |
+| `run` | method | `modules/mcp_agent_bridge.py:478` | `def run(self)` |
+| `start_agent` | function | `modules/mcp_agent_bridge.py:508` | `def start_agent(goal, backend, lazyown_runner_fn, max_iterations)` |
+| `ChainMediator` | class | `modules/mediation/chain_mediator.py:48` | `class ChainMediator` |
+| `LlmPoolPort` | class | `modules/mediation/chain_mediator.py:13` | `class LlmPoolPort` |
+| `__init__` | method | `modules/mediation/chain_mediator.py:53` | `def __init__(self)` |
+| `complete` | method | `modules/mediation/chain_mediator.py:16` | `def complete(self, prompt, max_tokens, task_id)` |
+| `describe` | method | `modules/mediation/chain_mediator.py:73` | `def describe(self)` |
+| `has_members` | method | `modules/mediation/chain_mediator.py:34` | `def has_members(self)` |
+| `llm` | method | `modules/mediation/chain_mediator.py:65` | `def llm(self)` |
+| `register_llm_port` | method | `modules/mediation/chain_mediator.py:57` | `def register_llm_port(self, port)` |
+| `ActivityLogPort` | class | `modules/mediation/contracts.py:35` | `class ActivityLogPort(Protocol)` |
+| `LlmCompletionPort` | class | `modules/mediation/contracts.py:57` | `class LlmCompletionPort(Protocol)` |
+| `MediationDomains` | class | `modules/mediation/contracts.py:12` | `class MediationDomains` |
+| `MediationHubContract` | class | `modules/mediation/contracts.py:95` | `class MediationHubContract(Protocol)` |
+| `MediatorContract` | class | `modules/mediation/contracts.py:84` | `class MediatorContract(Protocol)` |
+| `complete` | method | `modules/mediation/contracts.py:60` | `def complete(self, prompt, max_tokens, task_id)` |
+| `describe` | method | `modules/mediation/contracts.py:89` | `def describe(self)` |
+| `has_members` | method | `modules/mediation/contracts.py:78` | `def has_members(self)` |
+| `is_known` | method | `modules/mediation/contracts.py:23` | `def is_known(cls, domain)` |
+| `mediator_for` | method | `modules/mediation/contracts.py:98` | `def mediator_for(self, domain)` |
+| `read` | method | `modules/mediation/contracts.py:44` | `def read(self, limit)` |
+| `resolve` | function | `modules/mediation/contracts.py:103` | `def resolve(domain)` |
+| `FeedbackMediator` | class | `modules/mediation/feedback_mediator.py:13` | `class FeedbackMediator` |
+| `describe` | method | `modules/mediation/feedback_mediator.py:18` | `def describe(self)` |
+| `order_steps` | method | `modules/mediation/feedback_mediator.py:22` | `def order_steps(self, steps, stack)` |
+| `MediationHub` | class | `modules/mediation/hub.py:19` | `class MediationHub` |
+| `__init__` | method | `modules/mediation/hub.py:22` | `def __init__(self)` |
+| `_build_default` | function | `modules/mediation/hub.py:55` | `def _build_default()` |
+| `default_hub` | function | `modules/mediation/hub.py:73` | `def default_hub()` |
+| `get_hub` | function | `modules/mediation/hub.py:78` | `def get_hub()` |
+| `mediator_for` | method | `modules/mediation/hub.py:35` | `def mediator_for(self, domain)` |
+| `register` | method | `modules/mediation/hub.py:26` | `def register(self, mediator)` |
+| `snapshot` | method | `modules/mediation/hub.py:46` | `def snapshot(self)` |
+| `IntelMediator` | class | `modules/mediation/intel_mediator.py:13` | `class IntelMediator` |
+| `__init__` | method | `modules/mediation/intel_mediator.py:18` | `def __init__(self)` |
+| `activity_records` | method | `modules/mediation/intel_mediator.py:39` | `def activity_records(self, task_id, limit)` |
+| `describe` | method | `modules/mediation/intel_mediator.py:32` | `def describe(self)` |
+| `mask_configured` | method | `modules/mediation/intel_mediator.py:133` | `def mask_configured(self, text)` |
+| `record_routing_decision` | method | `modules/mediation/intel_mediator.py:64` | `def record_routing_decision(self, task_id, intent_id, command, intent_text, target, stack)` |
+| `record_routing_outcome` | method | `modules/mediation/intel_mediator.py:97` | `def record_routing_outcome(self, task_id, intent_id, command, state, facts, findings, stack)` |
+| `register_activity_log_factory` | method | `modules/mediation/intel_mediator.py:22` | `def register_activity_log_factory(self, factory)` |
+| `stack_signature` | method | `modules/mediation/intel_mediator.py:149` | `def stack_signature(self, assets)` |
+| `TelemetryMediator` | class | `modules/mediation/telemetry_mediator.py:14` | `class TelemetryMediator` |
+| `annotate_detection` | method | `modules/mediation/telemetry_mediator.py:43` | `def annotate_detection(self, command)` |
+| `assess_opsec` | method | `modules/mediation/telemetry_mediator.py:59` | `def assess_opsec(self, command, rhost)` |
+| `describe` | method | `modules/mediation/telemetry_mediator.py:19` | `def describe(self)` |
+| `moe_record_outcome` | method | `modules/mediation/telemetry_mediator.py:203` | `def moe_record_outcome(self, expert_id, task_type, reward, detection_prob)` |
+| `moe_route` | method | `modules/mediation/telemetry_mediator.py:162` | `def moe_route(self, task_type)` |
+| `publish_event` | method | `modules/mediation/telemetry_mediator.py:23` | `def publish_event(self, task_id, worker, kind, text, severity)` |
+| `record_outcome_quality` | method | `modules/mediation/telemetry_mediator.py:77` | `def record_outcome_quality(self, worker, intent_summary, facts, findings)` |
+| `record_step` | method | `modules/mediation/telemetry_mediator.py:111` | `def record_step(self, task_id, worker, command, output, detection_prob)` |
+| `rl_select` | method | `modules/mediation/telemetry_mediator.py:178` | `def rl_select(self, task_type, phase, candidates, deterministic)` |
+| `rl_update` | method | `modules/mediation/telemetry_mediator.py:219` | `def rl_update(self, task_type, phase, action, reward, candidates, detection_prob)` |
+| `swan_available` | method | `modules/mediation/telemetry_mediator.py:128` | `def swan_available(self)` |
+| `swan_consult` | method | `modules/mediation/telemetry_mediator.py:137` | `def swan_consult(self, prompt, task_type, phase, timeout)` |
+| `tool_class_yields` | method | `modules/mediation/telemetry_mediator.py:93` | `def tool_class_yields(self, summaries, phase)` |
 | `MemoryCleaner` | class | `modules/memory_cleaner.py:50` | `class MemoryCleaner` |
 | `MemoryCleanerConfig` | class | `modules/memory_cleaner.py:22` | `class MemoryCleanerConfig` |
 | `__init__` | method | `modules/memory_cleaner.py:61` | `def __init__(self, config)` |
@@ -105,35 +271,36 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `mfa_conditional_access_scan` | method | `modules/mfa_bypass.py:223` | `def mfa_conditional_access_scan(self, domain)` |
 | `replay_oauth_token` | method | `modules/mfa_bypass.py:252` | `def replay_oauth_token(self, access_token, refresh_token)` |
 | `saml_golden_ticket_check` | method | `modules/mfa_bypass.py:278` | `def saml_golden_ticket_check(self, adfs_server)` |
-| `ModuleInfo` | class | `modules/module_registry.py:150` | `class ModuleInfo` |
-| `ModuleRegistry` | class | `modules/module_registry.py:223` | `class ModuleRegistry` |
-| `__contains__` | method | `modules/module_registry.py:536` | `def __contains__(self, name)` |
-| `__init__` | method | `modules/module_registry.py:172` | `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...` |
-| `__init__` | method | `modules/module_registry.py:235` | `def __init__(self, base_dir)` |
-| `__iter__` | method | `modules/module_registry.py:531` | `def __iter__(self)` |
-| `__len__` | method | `modules/module_registry.py:526` | `def __len__(self)` |
-| `__repr__` | method | `modules/module_registry.py:219` | `def __repr__(self)` |
-| `_classify` | function | `modules/module_registry.py:47` | `def _classify(category)` |
-| `_classify_module_source` | function | `modules/module_registry.py:118` | `def _classify_module_source(name, source)` |
-| `_extract_docstring_summary` | function | `modules/module_registry.py:136` | `def _extract_docstring_summary(source)` |
-| `_load_yaml` | method | `modules/module_registry.py:517` | `def _load_yaml(path)` |
-| `_looks_discoverable` | method | `modules/module_registry.py:503` | `def _looks_discoverable(source)` |
-| `_scan_playbooks` | method | `modules/module_registry.py:453` | `def _scan_playbooks(self)` |
-| `_scan_plugins` | method | `modules/module_registry.py:379` | `def _scan_plugins(self)` |
-| `_scan_python_modules` | method | `modules/module_registry.py:473` | `def _scan_python_modules(self)` |
-| `_scan_tools` | method | `modules/module_registry.py:419` | `def _scan_tools(self)` |
-| `_scan_yaml_addons` | method | `modules/module_registry.py:338` | `def _scan_yaml_addons(self)` |
-| `by_type` | method | `modules/module_registry.py:321` | `def by_type(self, module_type)` |
-| `deprecated_modules` | method | `modules/module_registry.py:315` | `def deprecated_modules(self)` |
-| `format_module_detail` | function | `modules/module_registry.py:589` | `def format_module_detail(m)` |
-| `format_module_table` | function | `modules/module_registry.py:542` | `def format_module_table(modules, cols)` |
-| `get` | method | `modules/module_registry.py:269` | `def get(self, name)` |
-| `get_instance` | method | `modules/module_registry.py:241` | `def get_instance(cls, base_dir)` |
-| `rescan` | method | `modules/module_registry.py:260` | `def rescan(self)` |
-| `scan` | method | `modules/module_registry.py:247` | `def scan(self)` |
-| `search` | method | `modules/module_registry.py:275` | `def search(self, query, module_type, category, enabled_only, include_deprecated)` |
-| `summary` | method | `modules/module_registry.py:325` | `def summary(self)` |
-| `to_dict` | method | `modules/module_registry.py:202` | `def to_dict(self)` |
+| `ModuleInfo` | class | `modules/module_registry.py:194` | `class ModuleInfo` |
+| `ModuleRegistry` | class | `modules/module_registry.py:267` | `class ModuleRegistry` |
+| `__contains__` | method | `modules/module_registry.py:660` | `def __contains__(self, name)` |
+| `__init__` | method | `modules/module_registry.py:216` | `def __init__(self, name, module_type, author, version, description, category, path, source, params, enabled...` |
+| `__init__` | method | `modules/module_registry.py:279` | `def __init__(self, base_dir)` |
+| `__iter__` | method | `modules/module_registry.py:655` | `def __iter__(self)` |
+| `__len__` | method | `modules/module_registry.py:650` | `def __len__(self)` |
+| `__repr__` | method | `modules/module_registry.py:263` | `def __repr__(self)` |
+| `_classify` | function | `modules/module_registry.py:91` | `def _classify(category)` |
+| `_classify_module_source` | function | `modules/module_registry.py:162` | `def _classify_module_source(name, source)` |
+| `_extract_docstring_summary` | function | `modules/module_registry.py:180` | `def _extract_docstring_summary(source)` |
+| `_load_yaml` | method | `modules/module_registry.py:641` | `def _load_yaml(path)` |
+| `_looks_discoverable` | method | `modules/module_registry.py:627` | `def _looks_discoverable(source)` |
+| `_scan_playbooks` | method | `modules/module_registry.py:577` | `def _scan_playbooks(self)` |
+| `_scan_plugins` | method | `modules/module_registry.py:503` | `def _scan_plugins(self)` |
+| `_scan_python_modules` | method | `modules/module_registry.py:597` | `def _scan_python_modules(self)` |
+| `_scan_tools` | method | `modules/module_registry.py:543` | `def _scan_tools(self)` |
+| `_scan_yaml_addons` | method | `modules/module_registry.py:462` | `def _scan_yaml_addons(self)` |
+| `by_type` | method | `modules/module_registry.py:365` | `def by_type(self, module_type)` |
+| `deprecated_modules` | method | `modules/module_registry.py:359` | `def deprecated_modules(self)` |
+| `format_module_detail` | function | `modules/module_registry.py:713` | `def format_module_detail(m)` |
+| `format_module_table` | function | `modules/module_registry.py:666` | `def format_module_table(modules, cols)` |
+| `get` | method | `modules/module_registry.py:313` | `def get(self, name)` |
+| `get_instance` | method | `modules/module_registry.py:285` | `def get_instance(cls, base_dir)` |
+| `proposal_intents` | method | `modules/module_registry.py:378` | `def proposal_intents(self, texts, target, limit)` |
+| `rescan` | method | `modules/module_registry.py:304` | `def rescan(self)` |
+| `scan` | method | `modules/module_registry.py:291` | `def scan(self)` |
+| `search` | method | `modules/module_registry.py:319` | `def search(self, query, module_type, category, enabled_only, include_deprecated)` |
+| `summary` | method | `modules/module_registry.py:369` | `def summary(self)` |
+| `to_dict` | method | `modules/module_registry.py:246` | `def to_dict(self)` |
 | `ExpertAvailabilityChecker` | class | `modules/moe_router.py:437` | `class ExpertAvailabilityChecker` |
 | `ExpertPerformance` | class | `modules/moe_router.py:101` | `class ExpertPerformance` |
 | `ExpertPerformanceStore` | class | `modules/moe_router.py:276` | `class ExpertPerformanceStore` |
@@ -275,47 +442,48 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `strip_git_traces` | function | `modules/nuclei_templates_sync.py:113` | `def strip_git_traces(tree)` |
 | `sync` | function | `modules/nuclei_templates_sync.py:263` | `def sync(name, repo, dest, refresh_existing, skip_validate)` |
 | `validate_subset` | function | `modules/nuclei_templates_sync.py:209` | `def validate_subset(dest, subset)` |
-| `Extractor` | class | `modules/obs_parser.py:95` | `class Extractor(ABC)` |
-| `Finding` | class | `modules/obs_parser.py:66` | `class Finding` |
-| `FindingType` | class | `modules/obs_parser.py:50` | `class FindingType(StrEnum)` |
-| `ObsParser` | class | `modules/obs_parser.py:423` | `class ObsParser` |
-| `Observation` | class | `modules/obs_parser.py:76` | `class Observation` |
-| `_CVEExtractor` | class | `modules/obs_parser.py:283` | `class _CVEExtractor(Extractor)` |
-| `_CloudIdentityExtractor` | class | `modules/obs_parser.py:355` | `class _CloudIdentityExtractor(Extractor)` |
-| `_CredentialExtractor` | class | `modules/obs_parser.py:145` | `class _CredentialExtractor(Extractor)` |
-| `_DomainExtractor` | class | `modules/obs_parser.py:299` | `class _DomainExtractor(Extractor)` |
-| `_EmailExtractor` | class | `modules/obs_parser.py:318` | `class _EmailExtractor(Extractor)` |
-| `_ErrorExtractor` | class | `modules/obs_parser.py:334` | `class _ErrorExtractor(Extractor)` |
-| `_ExtractorRegistry` | class | `modules/obs_parser.py:103` | `class _ExtractorRegistry` |
-| `_HashExtractor` | class | `modules/obs_parser.py:257` | `class _HashExtractor(Extractor)` |
-| `_IPExtractor` | class | `modules/obs_parser.py:127` | `class _IPExtractor(Extractor)` |
-| `_PathExtractor` | class | `modules/obs_parser.py:219` | `class _PathExtractor(Extractor)` |
-| `_ServiceVersionExtractor` | class | `modules/obs_parser.py:193` | `class _ServiceVersionExtractor(Extractor)` |
-| `_SuccessDetector` | class | `modules/obs_parser.py:390` | `class _SuccessDetector` |
-| `_UsernameExtractor` | class | `modules/obs_parser.py:235` | `class _UsernameExtractor(Extractor)` |
-| `__init__` | method | `modules/obs_parser.py:106` | `def __init__(self)` |
-| `__init__` | method | `modules/obs_parser.py:431` | `def __init__(self)` |
-| `by_type` | method | `modules/obs_parser.py:83` | `def by_type(self, ftype)` |
-| `extract` | method | `modules/obs_parser.py:99` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:134` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:175` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:198` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:224` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:245` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:271` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:288` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:305` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:323` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:345` | `def extract(self, text, host)` |
-| `extract` | method | `modules/obs_parser.py:367` | `def extract(self, text, host)` |
-| `get_parser` | function | `modules/obs_parser.py:500` | `def get_parser()` |
-| `has` | method | `modules/obs_parser.py:86` | `def has(self, ftype)` |
-| `is_success` | method | `modules/obs_parser.py:407` | `def is_success(self, text)` |
-| `parse` | method | `modules/obs_parser.py:454` | `def parse(self, output, host, tool)` |
-| `parse` | function | `modules/obs_parser.py:508` | `def parse(output, host, tool)` |
-| `register` | method | `modules/obs_parser.py:109` | `def register(self, extractor)` |
-| `register` | method | `modules/obs_parser.py:450` | `def register(self, extractor)` |
-| `run_all` | method | `modules/obs_parser.py:112` | `def run_all(self, text, host)` |
+| `Extractor` | class | `modules/obs_parser.py:126` | `class Extractor(ABC)` |
+| `Finding` | class | `modules/obs_parser.py:79` | `class Finding` |
+| `FindingType` | class | `modules/obs_parser.py:63` | `class FindingType(StrEnum)` |
+| `ObsParser` | class | `modules/obs_parser.py:454` | `class ObsParser` |
+| `Observation` | class | `modules/obs_parser.py:107` | `class Observation` |
+| `_CVEExtractor` | class | `modules/obs_parser.py:314` | `class _CVEExtractor(Extractor)` |
+| `_CloudIdentityExtractor` | class | `modules/obs_parser.py:386` | `class _CloudIdentityExtractor(Extractor)` |
+| `_CredentialExtractor` | class | `modules/obs_parser.py:176` | `class _CredentialExtractor(Extractor)` |
+| `_DomainExtractor` | class | `modules/obs_parser.py:330` | `class _DomainExtractor(Extractor)` |
+| `_EmailExtractor` | class | `modules/obs_parser.py:349` | `class _EmailExtractor(Extractor)` |
+| `_ErrorExtractor` | class | `modules/obs_parser.py:365` | `class _ErrorExtractor(Extractor)` |
+| `_ExtractorRegistry` | class | `modules/obs_parser.py:134` | `class _ExtractorRegistry` |
+| `_HashExtractor` | class | `modules/obs_parser.py:288` | `class _HashExtractor(Extractor)` |
+| `_IPExtractor` | class | `modules/obs_parser.py:158` | `class _IPExtractor(Extractor)` |
+| `_PathExtractor` | class | `modules/obs_parser.py:250` | `class _PathExtractor(Extractor)` |
+| `_ServiceVersionExtractor` | class | `modules/obs_parser.py:224` | `class _ServiceVersionExtractor(Extractor)` |
+| `_SuccessDetector` | class | `modules/obs_parser.py:421` | `class _SuccessDetector` |
+| `_UsernameExtractor` | class | `modules/obs_parser.py:266` | `class _UsernameExtractor(Extractor)` |
+| `__init__` | method | `modules/obs_parser.py:137` | `def __init__(self)` |
+| `__init__` | method | `modules/obs_parser.py:462` | `def __init__(self)` |
+| `by_type` | method | `modules/obs_parser.py:114` | `def by_type(self, ftype)` |
+| `extract` | method | `modules/obs_parser.py:130` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:165` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:206` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:229` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:255` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:276` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:302` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:319` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:336` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:354` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:376` | `def extract(self, text, host)` |
+| `extract` | method | `modules/obs_parser.py:398` | `def extract(self, text, host)` |
+| `get_parser` | function | `modules/obs_parser.py:531` | `def get_parser()` |
+| `has` | method | `modules/obs_parser.py:117` | `def has(self, ftype)` |
+| `is_success` | method | `modules/obs_parser.py:438` | `def is_success(self, text)` |
+| `parse` | method | `modules/obs_parser.py:485` | `def parse(self, output, host, tool)` |
+| `parse` | function | `modules/obs_parser.py:539` | `def parse(output, host, tool)` |
+| `register` | method | `modules/obs_parser.py:140` | `def register(self, extractor)` |
+| `register` | method | `modules/obs_parser.py:481` | `def register(self, extractor)` |
+| `run_all` | method | `modules/obs_parser.py:143` | `def run_all(self, text, host)` |
+| `with_technique` | method | `modules/obs_parser.py:88` | `def with_technique(self, mapping)` |
 | `OpEvent` | class | `modules/operation.py:52` | `class OpEvent` |
 | `Operation` | class | `modules/operation.py:79` | `class Operation` |
 | `OperationManager` | class | `modules/operation.py:180` | `class OperationManager` |
@@ -328,173 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `get_manager` | function | `modules/operation.py:471` | `def get_manager()` |
 | `list` | method | `modules/operation.py:187` | `def list(self)` |
 | `log_event` | method | `modules/operation.py:143` | `def log_event(self, step_index, step_name, status, summary, findings_count, error)` |
-| `pause` | method | `modules/operation.py:369` | `def pause(self, op_id)` |
-| `plan_from_apt` | method | `modules/operation.py:225` | `def plan_from_apt(self, op, playbook_yaml_path)` |
-| `record_facts` | method | `modules/operation.py:164` | `def record_facts(self, findings)` |
-| `report` | method | `modules/operation.py:431` | `def report(self, op_id)` |
-| `resume` | method | `modules/operation.py:378` | `def resume(self, op_id, executor)` |
-| `save` | method | `modules/operation.py:134` | `def save(self)` |
-| `start` | method | `modules/operation.py:287` | `def start(self, op_id, executor)` |
-| `status` | method | `modules/operation.py:396` | `def status(self, op_id)` |
-| `stop` | method | `modules/operation.py:386` | `def stop(self, op_id)` |
-| `timeline` | method | `modules/operation.py:425` | `def timeline(self, op_id)` |
-| `to_dict` | method | `modules/operation.py:98` | `def to_dict(self)` |
-| `OperatorProfile` | class | `modules/operator_profiles.py:38` | `class OperatorProfile` |
-| `OperatorProfileManager` | class | `modules/operator_profiles.py:77` | `class OperatorProfileManager` |
-| `__init__` | method | `modules/operator_profiles.py:88` | `def __init__(self)` |
-| `_ensure_team_ca` | method | `modules/operator_profiles.py:93` | `def _ensure_team_ca(self)` |
-| `_generate_operator_cert` | method | `modules/operator_profiles.py:130` | `def _generate_operator_cert(self, username)` |
-| `_profile_dir` | method | `modules/operator_profiles.py:124` | `def _profile_dir(self, username)` |
-| `_profile_path` | method | `modules/operator_profiles.py:127` | `def _profile_path(self, username)` |
-| `_save_profile` | method | `modules/operator_profiles.py:255` | `def _save_profile(self, profile)` |
-| `create_profile` | method | `modules/operator_profiles.py:192` | `def create_profile(self, username, display_name, role, lhost, lport, listener_port, c2_port, c2_malleable_route...` |
-| `delete_profile` | method | `modules/operator_profiles.py:289` | `def delete_profile(self, username)` |
-| `effective_config` | method | `modules/operator_profiles.py:360` | `def effective_config(self, username)` |
-| `get_attribute` | method | `modules/operator_profiles.py:328` | `def get_attribute(self, username, key, default)` |
-| `get_operator_profile_manager` | function | `modules/operator_profiles.py:398` | `def get_operator_profile_manager()` |
-| `list_profiles` | method | `modules/operator_profiles.py:300` | `def list_profiles(self)` |
-| `load_profile` | method | `modules/operator_profiles.py:260` | `def load_profile(self, username)` |
-| `log_action` | method | `modules/operator_profiles.py:335` | `def log_action(self, username, action, details)` |
-| `set_attribute` | method | `modules/operator_profiles.py:319` | `def set_attribute(self, username, key, value)` |
-| `to_dict` | method | `modules/operator_profiles.py:57` | `def to_dict(self)` |
-| `touch_activity` | method | `modules/operator_profiles.py:312` | `def touch_activity(self, username)` |
-| `update_profile` | method | `modules/operator_profiles.py:276` | `def update_profile(self, username)` |
-| `GateAction` | class | `modules/opsec_scorer.py:180` | `class GateAction(IntEnum)` |
-| `GatedOpsecScore` | class | `modules/opsec_scorer.py:303` | `class GatedOpsecScore` |
-| `OpsecContext` | class | `modules/opsec_scorer.py:232` | `class OpsecContext` |
-| `OpsecScore` | class | `modules/opsec_scorer.py:265` | `class OpsecScore` |
-| `OpsecScorer` | class | `modules/opsec_scorer.py:331` | `class OpsecScorer` |
-| `OpsecScorerV2` | class | `modules/opsec_scorer.py:559` | `class OpsecScorerV2` |
-| `RiskLevel` | class | `modules/opsec_scorer.py:170` | `class RiskLevel(IntEnum)` |
-| `__init__` | method | `modules/opsec_scorer.py:343` | `def __init__(self, payload, world_model)` |
-| `__init__` | method | `modules/opsec_scorer.py:617` | `def __init__(self, context)` |
-| `_build_explanation` | method | `modules/opsec_scorer.py:796` | `def _build_explanation(cmd, noise, detects, gate)` |
-| `_build_recommendation` | method | `modules/opsec_scorer.py:544` | `def _build_recommendation(risk_level, mitigations)` |
-| `_detection_risk_label` | method | `modules/opsec_scorer.py:532` | `def _detection_risk_label(detectable, noise)` |
-| `_estimate_noise` | method | `modules/opsec_scorer.py:426` | `def _estimate_noise(self, command)` |
-| `_evasion_reduction` | method | `modules/opsec_scorer.py:498` | `def _evasion_reduction(self, detectable)` |
-| `_find_alternatives` | method | `modules/opsec_scorer.py:777` | `def _find_alternatives(cmd)` |
-| `_gather_mitigations` | method | `modules/opsec_scorer.py:510` | `def _gather_mitigations(self, detectable, noise)` |
-| `_generate_mitigations` | method | `modules/opsec_scorer.py:753` | `def _generate_mitigations(noise, detects)` |
-| `_get_host_purpose` | method | `modules/opsec_scorer.py:479` | `def _get_host_purpose(self, rhost)` |
-| `_noise_to_risk` | method | `modules/opsec_scorer.py:527` | `def _noise_to_risk(noise)` |
-| `_noise_to_risk` | method | `modules/opsec_scorer.py:739` | `def _noise_to_risk(noise)` |
-| `_phase_mismatch_penalty` | method | `modules/opsec_scorer.py:448` | `def _phase_mismatch_penalty(self, tool_phase, override)` |
-| `_risk_bucket` | function | `modules/opsec_scorer.py:189` | `def _risk_bucket(noise)` |
-| `_risk_label` | function | `modules/opsec_scorer.py:207` | `def _risk_label(noise)` |
-| `_risk_level` | function | `modules/opsec_scorer.py:219` | `def _risk_level(noise)` |
-| `_risk_to_gate` | method | `modules/opsec_scorer.py:743` | `def _risk_to_gate(self, risk)` |
-| `_target_sensitivity_bonus` | method | `modules/opsec_scorer.py:470` | `def _target_sensitivity_bonus(self, rhost)` |
-| `assess` | method | `modules/opsec_scorer.py:622` | `def assess(self, command, extra_context)` |
-| `evasion_active` | method | `modules/opsec_scorer.py:352` | `def evasion_active(self)` |
-| `get_trend` | method | `modules/opsec_scorer.py:709` | `def get_trend(self)` |
-| `score` | method | `modules/opsec_scorer.py:365` | `def score(self, command, rhost, phase_override)` |
-| `score_batch` | method | `modules/opsec_scorer.py:413` | `def score_batch(self, commands, rhost)` |
-| `score_command` | function | `modules/opsec_scorer.py:811` | `def score_command(command, payload, rhost)` |
-| `should_allow` | method | `modules/opsec_scorer.py:696` | `def should_allow(self, command)` |
-| `suggest_mitigations` | method | `modules/opsec_scorer.py:417` | `def suggest_mitigations(self, command, detectable_by)` |
-| `to_dict` | method | `modules/opsec_scorer.py:288` | `def to_dict(self)` |
-| `traffic_morphing_active` | method | `modules/opsec_scorer.py:357` | `def traffic_morphing_active(self)` |
-| `_catalog_verbs` | function | `modules/orchestrator_config.py:487` | `def _catalog_verbs(seen, overrides)` |
-| `_default_profile_name` | function | `modules/orchestrator_config.py:247` | `def _default_profile_name(data)` |
-| `_fallback_profile` | function | `modules/orchestrator_config.py:165` | `def _fallback_profile()` |
-| `_invalidate` | function | `modules/orchestrator_config.py:105` | `def _invalidate()` |
-| `_merge_profile` | function | `modules/orchestrator_config.py:195` | `def _merge_profile(parent, child)` |
-| `_merge_stage` | function | `modules/orchestrator_config.py:179` | `def _merge_stage(base, override)` |
-| `_payload` | function | `modules/orchestrator_config.py:118` | `def _payload()` |
-| `_read_yaml` | function | `modules/orchestrator_config.py:141` | `def _read_yaml(path)` |
-| `_resolve_profile` | function | `modules/orchestrator_config.py:217` | `def _resolve_profile(name, raw_profiles, stack)` |
-| `_save` | function | `modules/orchestrator_config.py:133` | `def _save(payload)` |
-| `_section` | function | `modules/orchestrator_config.py:128` | `def _section(payload)` |
-| `active_profile` | function | `modules/orchestrator_config.py:257` | `def active_profile()` |
-| `budget` | function | `modules/orchestrator_config.py:339` | `def budget()` |
-| `chain_defaults` | function | `modules/orchestrator_config.py:346` | `def chain_defaults()` |
-| `effective_verbs` | function | `modules/orchestrator_config.py:432` | `def effective_verbs()` |
-| `limits` | function | `modules/orchestrator_config.py:332` | `def limits()` |
-| `profile_config` | function | `modules/orchestrator_config.py:269` | `def profile_config(name)` |
-| `profiles` | function | `modules/orchestrator_config.py:232` | `def profiles()` |
-| `reload` | function | `modules/orchestrator_config.py:113` | `def reload()` |
-| `remove_verb` | function | `modules/orchestrator_config.py:596` | `def remove_verb(name)` |
-| `reset` | function | `modules/orchestrator_config.py:617` | `def reset()` |
-| `set_harness` | function | `modules/orchestrator_config.py:300` | `def set_harness(enabled)` |
-| `set_profile` | function | `modules/orchestrator_config.py:276` | `def set_profile(name)` |
-| `set_stage` | function | `modules/orchestrator_config.py:407` | `def set_stage(name, enabled)` |
-| `sinks` | function | `modules/orchestrator_config.py:355` | `def sinks()` |
-| `stage_enabled` | function | `modules/orchestrator_config.py:396` | `def stage_enabled(name)` |
-| `stage_params` | function | `modules/orchestrator_config.py:402` | `def stage_params(name)` |
-| `stages` | function | `modules/orchestrator_config.py:366` | `def stages()` |
-| `upsert_verb` | function | `modules/orchestrator_config.py:539` | `def upsert_verb(name)` |
-| `validate_config` | function | `modules/orchestrator_config.py:624` | `def validate_config(data)` |
-| `verb_config` | function | `modules/orchestrator_config.py:524` | `def verb_config(name)` |
-| `verb_enabled` | function | `modules/orchestrator_config.py:533` | `def verb_enabled(name)` |
-| `_cache_load` | function | `modules/osint_enrich.py:52` | `def _cache_load(sessions_dir)` |
-| `_cache_path` | function | `modules/osint_enrich.py:47` | `def _cache_path(sessions_dir)` |
-| `_cache_save` | function | `modules/osint_enrich.py:61` | `def _cache_save(sessions_dir, data)` |
-| `_cached` | function | `modules/osint_enrich.py:69` | `def _cached(sessions_dir, key, ttl)` |
-| `_get_json` | function | `modules/osint_enrich.py:84` | `def _get_json(url, params)` |
-| `_get_text` | function | `modules/osint_enrich.py:110` | `def _get_text(url, params)` |
-| `_post_json` | function | `modules/osint_enrich.py:96` | `def _post_json(url, payload)` |
-| `_store` | function | `modules/osint_enrich.py:77` | `def _store(sessions_dir, key, data)` |
-| `cve_lookup` | function | `modules/osint_enrich.py:122` | `def cve_lookup(cve_id, sessions_dir)` |
-| `domain_exposure` | function | `modules/osint_enrich.py:198` | `def domain_exposure(domain, sessions_dir)` |
-| `enrich_evidence` | function | `modules/osint_enrich.py:213` | `def enrich_evidence(items, sessions_dir)` |
-| `host_geo` | function | `modules/osint_enrich.py:183` | `def host_geo(ip, sessions_dir)` |
-| `reverse_dns` | function | `modules/osint_enrich.py:161` | `def reverse_dns(ip, sessions_dir)` |
-| `OutcomeBus` | class | `modules/outcome_bus.py:153` | `class OutcomeBus` |
-| `OutcomeEvent` | class | `modules/outcome_bus.py:75` | `class OutcomeEvent` |
-| `__init__` | method | `modules/outcome_bus.py:156` | `def __init__(self, ledger_path, sink_map)` |
-| `_append_ledger` | method | `modules/outcome_bus.py:248` | `def _append_ledger(self, event, statuses)` |
-| `_enabled_sinks` | method | `modules/outcome_bus.py:190` | `def _enabled_sinks(self, requested)` |
-| `_sink` | method | `modules/outcome_bus.py:175` | `def _sink(self, name)` |
-| `category_for_event` | function | `modules/outcome_bus.py:298` | `def category_for_event(kind)` |
-| `get_bus` | function | `modules/outcome_bus.py:269` | `def get_bus()` |
-| `host_value` | method | `modules/outcome_bus.py:103` | `def host_value(self)` |
-| `key` | method | `modules/outcome_bus.py:107` | `def key(self)` |
-| `record` | method | `modules/outcome_bus.py:201` | `def record(self, event, sinks)` |
-| `record` | function | `modules/outcome_bus.py:283` | `def record(event, sinks)` |
-| `record_event` | function | `modules/outcome_bus.py:288` | `def record_event()` |
-| `reset` | method | `modules/outcome_bus.py:169` | `def reset(self)` |
-| `reset_bus` | function | `modules/outcome_bus.py:278` | `def reset_bus()` |
-| `severity_for_event` | function | `modules/outcome_bus.py:293` | `def severity_for_event(severity)` |
-| `to_dict` | method | `modules/outcome_bus.py:125` | `def to_dict(self)` |
-| `DynamicShellcodePayload` | class | `modules/payload_factory.py:409` | `class DynamicShellcodePayload(PayloadTemplate)` |
-| `MsfvenomPayload` | class | `modules/payload_factory.py:322` | `class MsfvenomPayload(PayloadTemplate)` |
-| `PayloadFactory` | class | `modules/payload_factory.py:457` | `class PayloadFactory` |
-| `PayloadTemplate` | class | `modules/payload_factory.py:216` | `class PayloadTemplate(ABC)` |
-| `ReverseShellPayload` | class | `modules/payload_factory.py:251` | `class ReverseShellPayload(PayloadTemplate)` |
-| `ShellcodePayload` | class | `modules/payload_factory.py:363` | `class ShellcodePayload(PayloadTemplate)` |
-| `WindowsReverseShellPayload` | class | `modules/payload_factory.py:290` | `class WindowsReverseShellPayload(PayloadTemplate)` |
-| `__init__` | method | `modules/payload_factory.py:222` | `def __init__(self, name, platform, arch, description, options)` |
-| `__init__` | method | `modules/payload_factory.py:254` | `def __init__(self)` |
-| `__init__` | method | `modules/payload_factory.py:293` | `def __init__(self)` |
-| `__init__` | method | `modules/payload_factory.py:325` | `def __init__(self, name, platform, arch)` |
-| `__init__` | method | `modules/payload_factory.py:374` | `def __init__(self, name, platform, arch, description, escaped_hex, patcher)` |
-| `__init__` | method | `modules/payload_factory.py:416` | `def __init__(self, name, platform, arch, description, builder)` |
-| `__init__` | method | `modules/payload_factory.py:464` | `def __init__(self)` |
-| `_apply_format` | method | `modules/payload_factory.py:575` | `def _apply_format(data, fmt)` |
-| `_build_linux_x64_reverse_tcp` | function | `modules/payload_factory.py:118` | `def _build_linux_x64_reverse_tcp(lhost, lport)` |
-| `_parse_escaped_hex` | function | `modules/payload_factory.py:442` | `def _parse_escaped_hex(escaped)` |
-| `_patch_shellcode_x64` | function | `modules/payload_factory.py:190` | `def _patch_shellcode_x64(raw, lhost, lport)` |
-| `_register_builtins` | method | `modules/payload_factory.py:468` | `def _register_builtins(self)` |
-| `format_payload_table` | function | `modules/payload_factory.py:672` | `def format_payload_table(payloads)` |
-| `generate` | method | `modules/payload_factory.py:237` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:272` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:305` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:337` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:397` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:436` | `def generate(self)` |
-| `generate` | method | `modules/payload_factory.py:529` | `def generate(self, name, format, output)` |
-| `get` | method | `modules/payload_factory.py:525` | `def get(self, name)` |
-| `list` | method | `modules/payload_factory.py:516` | `def list(self, platform)` |
-| `list_formats` | method | `modules/payload_factory.py:664` | `def list_formats()` |
-| `register` | method | `modules/payload_factory.py:512` | `def register(self, template)` |
-| `to_dict` | method | `modules/payload_factory.py:241` | `def to_dict(self)` |
-| `CampaignResult` | class | `modules/phishing_orchestrator.py:167` | `class CampaignResult` |
-| `CampaignTarget` | class | `modules/phishing_orchestrator.py:139` | `class CampaignTarget` |
-| `PhishingOrchestrator` | class | `modules/phishing_orchestrator.py:180` | `class PhishingOrchestrator` |
-| `PhishingTemplate` | class | `modules/phishing_orchestrator.py:154` | `class PhishingTemplate` |
-| `__init__` | method | `modules/phishing_orchestrator.py:399` | `def __init__(self)` |
-| `_decrypt_credential` | function | `modules/phishing_orchestrator.py:100` | `def _decrypt_credential(encrypted_b64)` |
-| `_derive_credential_key` | function | `modules/phishing_orchestrator.py:57` | `def _derive_credential_key()` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

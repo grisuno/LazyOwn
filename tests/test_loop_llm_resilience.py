@@ -187,6 +187,29 @@ def test_raw_llm_recording_toggle(tmp_path, monkeypatch):
     assert len(pool.raw_entries(10)) == len(entries)
 
 
+def test_raw_llm_recording_carries_task_and_model(tmp_path, monkeypatch):
+    """BDD: raw entries record task_id and the resolved model for replay."""
+    import modules.lazy_loop as loop
+    import modules.llm_factory as factory
+
+    engine = _patched_engine(tmp_path, monkeypatch)
+    task_id = engine.create_task("gain initial access on 127.0.0.1")["task_id"]
+    other_task_id = engine.create_task("gain initial access on 10.0.0.2")["task_id"]
+    pool = loop.LlmPool()
+    pool._health = None
+    pool.set_record_raw(True)
+    monkeypatch.setattr(factory, "complete", lambda model, prompt, max_tokens=800: "answer")
+    members = [{"name": "a", "model": "groq:m-a", "priority": 5}]
+    assert pool.complete("question one", members=members, task_id=task_id) == "answer"
+    assert pool.complete("question two", members=members, task_id=other_task_id) == "answer"
+    mine = pool.raw_entries_for_task(task_id)
+    assert len(mine) == 1
+    assert mine[0]["task_id"] == task_id
+    assert mine[0]["model"] == "groq:m-a"
+    assert mine[0]["prompt"].startswith("question one")
+    assert all(entry["task_id"] == task_id for entry in mine)
+
+
 def test_llm_context_budget_roundtrip(tmp_path, monkeypatch):
     """BDD: prompt context budget is persisted and clamped."""
     import modules.lazy_loop as loop

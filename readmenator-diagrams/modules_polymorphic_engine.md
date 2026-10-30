@@ -9,11 +9,11 @@ graph LR
     cli -- "calls into" --> modules
 ```
 
-## cli (15.1)
+## cli (18.1)
 
 cli groups 1 files (py) around PayloadArsenalCommandSet, do_dotnet_payload, do_arsenal_show, do_staged_delivery, do_polymorphic. Payload arsenal commands — dotnet, reflective DLL, staged delivery, polymorphic...
 
-## modules (15.2)
+## modules (18.2)
 
 modules groups 5 files (py) around DotNetPayloadConfig, DotNetPayloadFactory, __init__, _detect_compiler, list_templates. .NET/C# payload generation — execute-assembly, inline-assembly, Roslyn compilation.
 

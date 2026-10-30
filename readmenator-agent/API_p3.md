@@ -1,6 +1,10 @@
 # API (page 3 of 25)
 Previous: [API_p2.md](API_p2.md)
 
+## cli/commands/netattack.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `modules/loop_triggers.py`, `modules/world_model.py`, `utils.py`
+- `NetAttackCommandSet.do_lazy_netattack` (method) `cli/commands/netattack.py:59` `def do_lazy_netattack(self, line)` -- Windows net-attack surface: grade + exact commands; never executes.
+
 ## cli/commands/nethelpers.py
 Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
 Imported by: `tests/test_nethelpers_command_set.py`

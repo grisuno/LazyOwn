@@ -122,6 +122,161 @@ def _hive_store(task_id: str, worker: str, kind: str, text: str) -> None:
         pass
 
 
+def assess_opsec(command: str, rhost: str = "") -> dict | None:
+    """Return a pre-execution OPSEC gate assessment, or None when unavailable.
+
+    Wraps :class:`modules.opsec_scorer.OpsecScorerV2` with a fresh context
+    per call, so the autonomous loop gates noisy commands (allow / warn /
+    confirm / block) the same way ``detection_oracle`` annotates sigma-rule
+    matches, without the two systems' thresholds colliding. Evasion state
+    is read from ``payload.json`` so a caller never has to thread it
+    through the worker.
+
+    Args:
+        command: Shell command line about to be executed.
+        rhost: Target host, used for sensitivity context.
+
+    Returns:
+        Mapping with ``gate``, ``noise``, ``risk_label``, ``explanation``
+        and ``mitigations``, or None when the stage is off or scoring
+        failed.
+    """
+    if not _stage("opsec_gate"):
+        return None
+    try:
+        from core.config import load_payload
+        from modules.opsec_scorer import OpsecContext, OpsecScorerV2
+
+        payload = load_payload()
+        sleep = payload.get("sleep") or payload.get("sleep_start")
+        context = OpsecContext(rhost=str(rhost), evasion_active=bool(sleep and int(sleep) > 0))
+        score = OpsecScorerV2(context=context).assess(str(command))
+    except Exception:
+        return None
+    return {
+        "gate": score.gate_action.name.lower(),
+        "noise": int(score.noise_score),
+        "risk_label": str(score.risk_label),
+        "explanation": str(score.explanation or "")[:200],
+        "mitigations": list(score.mitigations or [])[:3],
+    }
+
+
+DECISION_TASK_TYPE = "decision_quality"
+DECISION_PHASE = "engage"
+
+
+def intent_tool_class(summary: str) -> str:
+    """Return the coarse tool class an intent summary belongs to.
+
+    This is the shared vocabulary that makes the decision-quality reward a
+    closed loop: the planner ranks candidate summaries, and the worker
+    rewards the *same* class derived from the intent it finished, so what
+    the trainer learns is exactly what the planner later queries. Keying
+    on the summary (known at planning time) rather than the eventual
+    command token (known only after execution) is what lets the two sides
+    line up.
+
+    Args:
+        summary: Intent summary text as the planner emits it.
+
+    Returns:
+        A stable lower-case class key, or an empty string for empty input.
+    """
+    text = (summary or "").strip().lower()
+    if not text:
+        return ""
+    if text.startswith("custom tool "):
+        parts = text.split()
+        return f"custom:{parts[2]}" if len(parts) > 2 else "custom"
+    if text.startswith("auto "):
+        parts = text.split()
+        return parts[1] if len(parts) > 1 else "auto"
+    if text.startswith("advance serial chain"):
+        return "serial_chain"
+    if text.startswith("steered probe"):
+        return "steered"
+    if text.startswith("extend finding"):
+        return "extend_finding"
+    if text.startswith(("re-test", "verify ghost")):
+        return "retest"
+    if text.startswith("baseline recon") or "enumerate" in text:
+        return "recon"
+    if text.startswith("probe "):
+        parts = text.split()
+        if len(parts) > 2:
+            return f"probe:{parts[2]}"
+        return f"probe:{parts[1]}" if len(parts) > 1 else "probe"
+    return text.split()[0]
+
+
+def record_outcome_quality(worker: str, intent_summary: str, facts: int, findings: int) -> None:
+    """Feed one intent's net yield back to MoE/RL as a decision-quality reward.
+
+    ``record_step`` rewards whether a single command executed without
+    failure; it says nothing about whether the exploration intent it
+    belonged to actually produced intel. This reward closes that gap: a
+    confirmed finding scores highest (1.0), a recorded fact scores partial
+    credit (0.5), and an intent that settled with nothing persisted scores
+    zero. The action key is the intent's tool class (see
+    :func:`intent_tool_class`), the same key :func:`tool_class_yields`
+    reads back, so the planner can demote classes that have stopped
+    producing intel for this engagement.
+
+    Args:
+        worker: Emitting worker name.
+        intent_summary: Summary of the finished intent.
+        facts: Facts persisted by the intent's writeback.
+        findings: Findings persisted by the intent's writeback.
+    """
+    cls = intent_tool_class(intent_summary)
+    if not _stage("rl_feedback") or not cls:
+        return
+    reward = 1.0 if findings > 0 else (0.5 if facts > 0 else 0.0)
+    moe_record_outcome(f"intent:{worker}", DECISION_TASK_TYPE, reward)
+    rl_update(DECISION_TASK_TYPE, DECISION_PHASE, cls, reward, [cls])
+
+
+def tool_class_yields(summaries: list[str], phase: str = DECISION_PHASE) -> dict[str, float]:
+    """Return the learned decision-quality yield for each candidate summary.
+
+    Consumer side of the decision-quality reward: maps each summary to its
+    :func:`intent_tool_class` and returns the trainer's current Q-value for
+    that class. Unseen classes come back at the optimistic init (``1.0``),
+    classes that kept producing intel climb above it, and classes that
+    stopped producing decay below it, so the planner can rank on the gap.
+
+    Args:
+        summaries: Candidate summaries the planner is about to rank.
+        phase: Engagement phase key the reward was recorded under.
+
+    Returns:
+        Mapping of summary to its class Q-value; empty when the stage is
+        off, the trainer is unavailable, or no summary maps to a class.
+    """
+    if not _stage("rl_feedback") or not summaries:
+        return {}
+
+    def _open():
+        from modules.rl_trainer import get_trainer
+
+        return get_trainer()
+
+    trainer = _singleton("rl_trainer", _open)
+    if trainer is None:
+        return {}
+    try:
+        classes = {summary: intent_tool_class(summary) for summary in summaries}
+        unique = sorted({cls for cls in classes.values() if cls})
+        if not unique:
+            return {}
+        state = trainer.encode_state(DECISION_TASK_TYPE, phase)
+        qmap = trainer.q_values_for_state(state, unique)
+        return {summary: qmap[cls] for summary, cls in classes.items() if cls in qmap}
+    except Exception:
+        return {}
+
+
 def annotate_detection(command: str, action_category: str = "execution") -> dict | None:
     """Return oracle details for one command, or None when unavailable."""
     if not _stage("detection_oracle"):
@@ -350,13 +505,17 @@ def ai_snapshot() -> dict:
 __all__ = [
     "ai_snapshot",
     "annotate_detection",
+    "assess_opsec",
+    "intent_tool_class",
     "moe_record_outcome",
     "moe_route",
     "publish_loop_event",
+    "record_outcome_quality",
     "record_step",
     "rl_save",
     "rl_select",
     "rl_update",
     "swan_available",
     "swan_consult",
+    "tool_class_yields",
 ]

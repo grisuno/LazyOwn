@@ -1,8 +1,17 @@
-# Symbols (page 5 of 47)
+# Symbols (page 5 of 48)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_run` | function | `cli/lazy_monitor.py:225` | `def _run()` |
+| `_running_intent` | method | `cli/lazy_monitor.py:399` | `def _running_intent(self)` |
+| `_start_engine` | method | `cli/lazy_monitor.py:213` | `def _start_engine(self)` |
+| `_stream` | function | `cli/lazy_monitor.py:217` | `def _stream(line)` |
+| `action_approve` | method | `cli/lazy_monitor.py:425` | `def action_approve(self)` |
+| `action_deny` | method | `cli/lazy_monitor.py:429` | `def action_deny(self)` |
+| `action_dismiss` | method | `cli/lazy_monitor.py:84` | `def action_dismiss(self, value)` |
+| `action_focus_worker` | method | `cli/lazy_monitor.py:508` | `def action_focus_worker(self, index)` |
+| `action_hint` | method | `cli/lazy_monitor.py:445` | `def action_hint(self)` |
 | `action_kill` | method | `cli/lazy_monitor.py:477` | `def action_kill(self)` |
 | `action_next_task` | method | `cli/lazy_monitor.py:518` | `def action_next_task(self)` |
 | `action_pause` | method | `cli/lazy_monitor.py:409` | `def action_pause(self)` |
@@ -487,14 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `propose` | method | `cli/recommendation_signals.py:126` | `def propose(self, ctx)` |
 | `propose` | method | `cli/recommendation_signals.py:163` | `def propose(self, ctx)` |
 | `propose` | method | `cli/recommendation_signals.py:201` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:244` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:356` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:410` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:546` | `def propose(self, ctx)` |
-| `read_recent_commands` | function | `cli/recommendation_signals.py:276` | `def read_recent_commands(sessions_dir, window)` |
-| `recommend_with_evidence` | function | `cli/recommendation_signals.py:706` | `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` |
-| `ReconPlan` | class | `cli/recon_plan.py:119` | `class ReconPlan` |
-| `ReconPlanConfig` | class | `cli/recon_plan.py:62` | `class ReconPlanConfig` |
-| `ReconPlanItem` | class | `cli/recon_plan.py:94` | `class ReconPlanItem` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

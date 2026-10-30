@@ -291,17 +291,30 @@ Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_
 - `days_in_month` (function) `modules/cal.sh:14` -- Función para obtener el número de días en un mes
 - `first_day_of_month` (function) `modules/cal.sh:31` -- Función para obtener el día de la semana del primer día del mes
 
+## modules/chain_approval.py
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `lazyc2.py`, `tests/test_chain_approval_c2.py`
+- `command_fingerprint` (function) `modules/chain_approval.py:78` `def command_fingerprint(command)` -- Return the SHA-256 fingerprint of one command line.
+- `PendingStore.__init__` (method) `modules/chain_approval.py:117` `def __init__(self, sessions_dir)` -- Bind the store to one sessions directory.
+- `PendingStore.create` (method) `modules/chain_approval.py:153` `def create(self, chain, step_id, command, timeout, run_id, now_override)` -- Register one pending approval request.
+- `PendingStore.get` (method) `modules/chain_approval.py:204` `def get(self, request_id)` -- Return one request record or None.
+- `PendingStore.list` (method) `modules/chain_approval.py:215` `def list(self, status)` -- Return request records newest first, optionally by status.
+- `PendingStore.decide` (method) `modules/chain_approval.py:229` `def decide(self, request_id, allowed, decided_by, note, expired)` -- Record one decision or expiry, audited, idempotent-fail.
+- `PendingStore.expire_stale` (method) `modules/chain_approval.py:282` `def expire_stale(self, now)` -- Expire every pending request past its deadline.
+- `approval_backend` (function) `modules/chain_approval.py:318` `def approval_backend()` -- Return the configured approval backend.
+- `build_c2_approver` (function) `modules/chain_approval.py:328` `def build_c2_approver(printer, chain_name, run_id, timeout, poll_interval, sessions_dir, clock)` -- Return an approver that routes confirm steps to the C2 pending list.
+- `approve` (function) `modules/chain_approval.py:358` `def approve(step_id, command)`
+
 ## modules/chain_distill.py
-Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/lazy_cli_bridge.py`, `modules/verb_manifest.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`, `tests/test_codeql_alert_fixes.py`
-- `locate_traces` (function) `modules/chain_distill.py:89` `def locate_traces(task, sessions_dir)` -- Find the exp/traffic pair of one loop task under sessions/.
-- `DistillReport.kept` (method) `modules/chain_distill.py:374` `def kept(self)` -- Count decisions turned into steps.
-- `DistillReport.dropped` (method) `modules/chain_distill.py:379` `def dropped(self)` -- Count decisions rejected with a reason.
-- `DistillReport.to_dict` (method) `modules/chain_distill.py:383` `def to_dict(self)` -- Return a JSON-serializable report.
-- `DistillReport.render` (method) `modules/chain_distill.py:410` `def render(self, verbose)` -- Return printable report lines.
-- `build_chain_data` (function) `modules/chain_distill.py:441` `def build_chain_data(task, rows, graph, manifests)` -- Turn deduped traffic rows and graph context into chain YAML data.
-- `note` (function) `modules/chain_distill.py:465` `def note(row, kept, reason)` -- Record one keep/drop decision for the report.
-- `distill` (function) `modules/chain_distill.py:550` `def distill(task, sessions_dir, write, chains_dir)` -- Distill one loop task into a validated chain YAML.
+Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_scope.py`, `modules/verb_manifest.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_distill_scope.py`, `tests/test_codeql_alert_fixes.py`
+- `locate_traces` (function) `modules/chain_distill.py:93` `def locate_traces(task, sessions_dir)` -- Find the exp/traffic pair of one loop task under sessions/.
+- `DistillReport.kept` (method) `modules/chain_distill.py:507` `def kept(self)` -- Count decisions turned into steps.
+- `DistillReport.dropped` (method) `modules/chain_distill.py:512` `def dropped(self)` -- Count decisions rejected with a reason.
+- `DistillReport.to_dict` (method) `modules/chain_distill.py:516` `def to_dict(self)` -- Return a JSON-serializable report.
+- `DistillReport.render` (method) `modules/chain_distill.py:543` `def render(self, verbose)` -- Return printable report lines.
+- `build_chain_data` (function) `modules/chain_distill.py:574` `def build_chain_data(task, rows, graph, manifests)` -- Turn deduped traffic rows and graph context into chain YAML data.
+- `note` (function) `modules/chain_distill.py:598` `def note(row, kept, reason)` -- Record one keep/drop decision for the report.
+- `distill` (function) `modules/chain_distill.py:687` `def distill(task, sessions_dir, write, chains_dir)` -- Distill one loop task into a validated chain YAML.
 
 ## modules/chain_facts.py
 Depends on: `core/logging.py`, `modules/chain_runner.py`, `skills/lazyown_facts.py`
@@ -310,21 +323,22 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `modules/gym_matrix
 
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_evidence.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
-- `ChainStep.identifier` (method) `modules/chain_registry.py:105` `def identifier(self)` -- Return the declared id or a stable generated one.
-- `Chain.resolve` (method) `modules/chain_registry.py:128` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
-- `evaluate_when` (function) `modules/chain_registry.py:247` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
-- `validate_chain` (function) `modules/chain_registry.py:312` `def validate_chain(data, filename, chains_dir)` -- Validate raw YAML data against the chain schema.
-- `render_text_token_braces` (function) `modules/chain_registry.py:505` `def render_text_token_braces(text)` -- Return text with every ``{name}`` token replaced by a placeholder.
-- `load_all` (function) `modules/chain_registry.py:510` `def load_all(chains_dir)` -- Load every valid, enabled chain file (skips the rest loudly).
-- `get` (function) `modules/chain_registry.py:644` `def get(name, chains_dir)` -- Return one chain by name, or None.
-- `scan_all` (function) `modules/chain_registry.py:649` `def scan_all(chains_dir)` -- List every chain file including disabled ones (for administration).
-- `set_enabled` (function) `modules/chain_registry.py:709` `def set_enabled(name, enabled, chains_dir)` -- Flip a chain's ``enabled`` flag in its YAML file (round-trip).
-- `generate_for_playbook` (function) `modules/chain_registry.py:732` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
+- `skip_pending` (function) `modules/chain_registry.py:67` `def skip_pending(path, max_age, now)` -- Return the skip reason when an artefact is present and fresh.
+- `ChainStep.identifier` (method) `modules/chain_registry.py:146` `def identifier(self)` -- Return the declared id or a stable generated one.
+- `Chain.resolve` (method) `modules/chain_registry.py:170` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
+- `evaluate_when` (function) `modules/chain_registry.py:291` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
+- `validate_chain` (function) `modules/chain_registry.py:356` `def validate_chain(data, filename, chains_dir)` -- Validate raw YAML data against the chain schema.
+- `render_text_token_braces` (function) `modules/chain_registry.py:571` `def render_text_token_braces(text)` -- Return text with every ``{name}`` token replaced by a placeholder.
+- `load_all` (function) `modules/chain_registry.py:576` `def load_all(chains_dir)` -- Load every valid, enabled chain file (skips the rest loudly).
+- `get` (function) `modules/chain_registry.py:721` `def get(name, chains_dir)` -- Return one chain by name, or None.
+- `scan_all` (function) `modules/chain_registry.py:726` `def scan_all(chains_dir)` -- List every chain file including disabled ones (for administration).
+- `set_enabled` (function) `modules/chain_registry.py:786` `def set_enabled(name, enabled, chains_dir)` -- Flip a chain's ``enabled`` flag in its YAML file (round-trip).
+- `generate_for_playbook` (function) `modules/chain_registry.py:809` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
 
 ## modules/chain_runner.py
-Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/hunt_verify.py`, `modules/verb_manifest.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_evidence.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
+Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
 - `StepOutcome.ok` (method) `modules/chain_runner.py:81` `def ok(self)` -- Return True for success, dry-run and skipped steps.
 - `StepOutcome.to_dict` (method) `modules/chain_runner.py:85` `def to_dict(self)` -- Return a JSON-serializable view.
 - `ChainRunResult.to_dict` (method) `modules/chain_runner.py:130` `def to_dict(self)` -- Return a JSON-serializable view.
@@ -337,7 +351,7 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 - `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:202` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
 - `render_text` (function) `modules/chain_runner.py:207` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
 - `ChainRunner.__init__` (method) `modules/chain_runner.py:218` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
-- `ChainRunner.run` (method) `modules/chain_runner.py:288` `def run(self)` -- Execute the chain in order and return every step outcome.
+- `ChainRunner.run` (method) `modules/chain_runner.py:289` `def run(self)` -- Execute the chain in order and return every step outcome.
 
 ## modules/chain_state.py
 Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`

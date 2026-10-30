@@ -1,8 +1,17 @@
-# Symbols (page 6 of 47)
+# Symbols (page 6 of 48)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `propose` | method | `cli/recommendation_signals.py:244` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:356` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:410` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:546` | `def propose(self, ctx)` |
+| `read_recent_commands` | function | `cli/recommendation_signals.py:276` | `def read_recent_commands(sessions_dir, window)` |
+| `recommend_with_evidence` | function | `cli/recommendation_signals.py:706` | `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` |
+| `ReconPlan` | class | `cli/recon_plan.py:119` | `class ReconPlan` |
+| `ReconPlanConfig` | class | `cli/recon_plan.py:62` | `class ReconPlanConfig` |
+| `ReconPlanItem` | class | `cli/recon_plan.py:94` | `class ReconPlanItem` |
 | `_addon_items` | function | `cli/recon_plan.py:330` | `def _addon_items(addons, services, payload)` |
 | `_command_items` | function | `cli/recon_plan.py:367` | `def _command_items(index, phase, history, limit)` |
 | `_default_command_index_loader` | function | `cli/recon_plan.py:494` | `def _default_command_index_loader(path)` |
@@ -31,16 +40,17 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `status_snapshot` | function | `cli/retry_support.py:104` | `def status_snapshot(limit)` |
 | `to_dict` | method | `cli/retry_support.py:189` | `def to_dict(self)` |
 | `ScopeDecision` | class | `cli/scope_guard.py:125` | `class ScopeDecision` |
-| `ScopeGuard` | class | `cli/scope_guard.py:254` | `class ScopeGuard` |
+| `ScopeGuard` | class | `cli/scope_guard.py:271` | `class ScopeGuard` |
 | `ScopeMode` | class | `cli/scope_guard.py:90` | `class ScopeMode(StrEnum)` |
-| `__init__` | method | `cli/scope_guard.py:263` | `def __init__(self, scope_entries, mode, is_offensive)` |
+| `__init__` | method | `cli/scope_guard.py:280` | `def __init__(self, scope_entries, mode, is_offensive, deny_entries)` |
 | `_hostname_match` | function | `cli/scope_guard.py:209` | `def _hostname_match(target, entry)` |
 | `_parse_ip` | function | `cli/scope_guard.py:195` | `def _parse_ip(value)` |
 | `_parse_network` | function | `cli/scope_guard.py:202` | `def _parse_network(value)` |
 | `build_offensive_commands` | function | `cli/scope_guard.py:147` | `def build_offensive_commands(command_categories)` |
-| `evaluate` | method | `cli/scope_guard.py:283` | `def evaluate(self, command, target)` |
+| `evaluate` | method | `cli/scope_guard.py:304` | `def evaluate(self, command, target)` |
 | `from_value` | method | `cli/scope_guard.py:105` | `def from_value(cls, value)` |
 | `normalize_scope` | function | `cli/scope_guard.py:163` | `def normalize_scope(entries)` |
+| `target_in_deny` | function | `cli/scope_guard.py:254` | `def target_in_deny(target, entries)` |
 | `target_in_scope` | function | `cli/scope_guard.py:218` | `def target_in_scope(target, entries)` |
 | `SessionBriefConfig` | class | `cli/session_brief.py:35` | `class SessionBriefConfig` |
 | `_redirect_world_model_env` | function | `cli/session_brief.py:55` | `def _redirect_world_model_env(payload)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `main` | function | `contrib/legacy/lazyaddon_creator.py:357` | `def main()` |
 | `parse_github_url` | function | `contrib/legacy/lazyaddon_creator.py:49` | `def parse_github_url(url)` |
 | `save_yaml` | function | `contrib/legacy/lazyaddon_creator.py:336` | `def save_yaml(addon, output_dir)` |
-| `check_sudo` | function | `contrib/legacy/lazyarpspoofing.py:27` | `def check_sudo()` |
-| `disable_ip_forward` | function | `contrib/legacy/lazyarpspoofing.py:38` | `def disable_ip_forward()` |
-| `enable_ip_forward` | function | `contrib/legacy/lazyarpspoofing.py:35` | `def enable_ip_forward()` |
-| `get_local_ip` | function | `contrib/legacy/lazyarpspoofing.py:41` | `def get_local_ip(ifname)` |
-| `get_mac` | function | `contrib/legacy/lazyarpspoofing.py:49` | `def get_mac(ip, device, retries, timeout)` |
-| `main` | function | `contrib/legacy/lazyarpspoofing.py:80` | `def main()` |
-| `spoofer` | function | `contrib/legacy/lazyarpspoofing.py:69` | `def spoofer(target, spoofed, device)` |
-| `RTSPScanner` | class | `contrib/legacy/lazycam.py:32` | `class RTSPScanner` |
-| `__init__` | method | `contrib/legacy/lazycam.py:33` | `def __init__(self, verbose, wspace)` |
-| `addCameras` | method | `contrib/legacy/lazycam.py:149` | `def addCameras(self)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

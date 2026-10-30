@@ -96,12 +96,15 @@
   - `describe` (method, line 19) `def describe(self)`
   - `publish_event` (method, line 23) `def publish_event(self, task_id, worker, kind, text, severity)`
   - `annotate_detection` (method, line 43) `def annotate_detection(self, command)`
-  - `record_step` (method, line 59) `def record_step(self, task_id, worker, command, output, detection_prob)`
-  - `swan_available` (method, line 76) `def swan_available(self)`
-  - `swan_consult` (method, line 85) `def swan_consult(self, prompt, task_type, phase, timeout)`
-  - `moe_route` (method, line 110) `def moe_route(self, task_type)`
-  - `rl_select` (method, line 126) `def rl_select(self, task_type, phase, candidates, deterministic)`
-  - `moe_record_outcome` (method, line 151) `def moe_record_outcome(self, expert_id, task_type, reward, detection_prob)`
-  - `rl_update` (method, line 167) `def rl_update(self, task_type, phase, action, reward, candidates, detection_prob)`
+  - `assess_opsec` (method, line 59) `def assess_opsec(self, command, rhost)`
+  - `record_outcome_quality` (method, line 77) `def record_outcome_quality(self, worker, intent_summary, facts, findings)`
+  - `tool_class_yields` (method, line 93) `def tool_class_yields(self, summaries, phase)`
+  - `record_step` (method, line 111) `def record_step(self, task_id, worker, command, output, detection_prob)`
+  - `swan_available` (method, line 128) `def swan_available(self)`
+  - `swan_consult` (method, line 137) `def swan_consult(self, prompt, task_type, phase, timeout)`
+  - `moe_route` (method, line 162) `def moe_route(self, task_type)`
+  - `rl_select` (method, line 178) `def rl_select(self, task_type, phase, candidates, deterministic)`
+  - `moe_record_outcome` (method, line 203) `def moe_record_outcome(self, expert_id, task_type, reward, detection_prob)`
+  - `rl_update` (method, line 219) `def rl_update(self, task_type, phase, action, reward, candidates, detection_prob)`
 - Depends on: `modules/loop_ai_bridge.py`
 - Imported by: `modules/mediation/__init__.py`, `modules/mediation/hub.py`

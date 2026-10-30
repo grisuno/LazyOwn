@@ -191,19 +191,19 @@ Imported by: `modules/detection_oracle.py`, `tests/test_detection_feed.py`
 
 ## modules/detection_oracle.py
 Depends on: `core/logging.py`, `modules/detection_feed.py`
-Imported by: `modules/auto_purple.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
-- `DetectionAssessment.is_high_risk` (method) `modules/detection_oracle.py:75` `def is_high_risk(self)` -- Return True when detection probability is 70% or higher.
-- `DetectionAssessment.is_critical_risk` (method) `modules/detection_oracle.py:80` `def is_critical_risk(self)` -- Return True when detection probability is 90% or higher.
-- `IDetectionOracle.assess` (method) `modules/detection_oracle.py:94` `def assess(self, command, args, action_category)` -- Return a full DetectionAssessment for the given action.
-- `IDetectionOracle.probability` (method) `modules/detection_oracle.py:103` `def probability(self, command, args, action_category)` -- Return only the probability score in [0.0, 1.0].
-- `DetectionOracle.__init__` (method) `modules/detection_oracle.py:332` `def __init__(self, rules, feed)`
-- `DetectionOracle.refresh` (method) `modules/detection_oracle.py:336` `def refresh(self)` -- Update rules from the detection feed (if available).
-- `DetectionOracle.assess` (method) `modules/detection_oracle.py:371` `def assess(self, command, args, action_category)`
-- `DetectionOracle.probability` (method) `modules/detection_oracle.py:392` `def probability(self, command, args, action_category)`
-- `get_oracle` (function) `modules/detection_oracle.py:478` `def get_oracle()` -- Return (or create) the module-level singleton DetectionOracle.
+Imported by: `modules/auto_purple.py`, `modules/chain_runner.py`, `modules/detection_feed.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_dampening.py`, `tests/test_detection_feed.py`, `tests/test_loop_ai_bridge.py`, `tests/test_moe_rl_swan.py`
+- `DetectionAssessment.is_high_risk` (method) `modules/detection_oracle.py:76` `def is_high_risk(self)` -- Return True when detection probability is 70% or higher.
+- `DetectionAssessment.is_critical_risk` (method) `modules/detection_oracle.py:81` `def is_critical_risk(self)` -- Return True when detection probability is 90% or higher.
+- `IDetectionOracle.assess` (method) `modules/detection_oracle.py:95` `def assess(self, command, args, action_category, benign_alternatives)` -- Return a full DetectionAssessment for the given action.
+- `IDetectionOracle.probability` (method) `modules/detection_oracle.py:105` `def probability(self, command, args, action_category, benign_alternatives)` -- Return only the probability score in [0.0, 1.0].
+- `DetectionOracle.__init__` (method) `modules/detection_oracle.py:372` `def __init__(self, rules, feed)`
+- `DetectionOracle.refresh` (method) `modules/detection_oracle.py:376` `def refresh(self)` -- Update rules from the detection feed (if available).
+- `DetectionOracle.assess` (method) `modules/detection_oracle.py:411` `def assess(self, command, args, action_category, benign_alternatives)` -- Assess the detection risk of a command, dampened by benign twins.
+- `DetectionOracle.probability` (method) `modules/detection_oracle.py:460` `def probability(self, command, args, action_category, benign_alternatives)` -- Return the detection probability, honouring benign alternatives.
+- `get_oracle` (function) `modules/detection_oracle.py:553` `def get_oracle()` -- Return (or create) the module-level singleton DetectionOracle.
 
 ## modules/digest.py
-Imported by: `modules/lazy_loop.py`, `skills/lazyown_mcp.py`
+Imported by: `modules/lazy_loop.py`
 - `build_engine_digest` (function) `modules/digest.py:20` `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)` -- Render the engine-loop markdown digest.
 - `write_digest` (function) `modules/digest.py:71` `def write_digest(task_id, body, root)` -- Persist the digest beside the archives; returns the written path.
 - `worker_results_digest` (function) `modules/digest.py:82` `def worker_results_digest(rows)` -- Extract displayed step lines and blocked bases from result dicts.
@@ -467,7 +467,7 @@ Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `sk
 - `ack_event` (function) `modules/event_engine.py:270` `def ack_event(event_id)` -- Mark an event as processed.
 
 ## modules/evidence.py
-Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
 - `hash_bytes` (function) `modules/evidence.py:37` `def hash_bytes(data)` -- Return the lowercase hex SHA-256 of data.
 - `EvidenceStore.__init__` (method) `modules/evidence.py:57` `def __init__(self, base_dir)` -- Create vault directories.
 - `EvidenceStore.blob_path` (method) `modules/evidence.py:65` `def blob_path(self, content_hash)` -- Resolve the canonical path for a validated hash.

@@ -83,7 +83,7 @@ def test_platform_match_for_windows_ad(monkeypatch):
     assert decision.command == "apt_chain apt_ad_coerce 10.0.0.9"
 
 
-def test_lab_chains_excluded_by_default(monkeypatch):
+def test_lab_chains_excluded_when_flag_off(monkeypatch):
     """Given a samba service, When lab chains are disallowed, Then the gym chain is skipped."""
     sel = _selector(monkeypatch)
     decision = sel.select("10.0.0.9", "lateral", {"services": ["microsoft-ds"], "os_hint": "linux"})

@@ -1288,7 +1288,7 @@ def _wrap_chain_with_metrics_bias(
 class UnifiedBrainSelector(ICommandSelector):
     """Daemon adapter over the one shared selector cascade.
 
-    Routes the daemon through ``modules.selectors.registry.propose_next`` so it
+    Routes the daemon through ``modules.selection.registry.propose_next`` so it
     consults the exact same action brain as the LazyLoopEngine planner: chains,
     credential reuse, APT playbooks, adversary profiles and MITRE/atomic
     techniques, all orchestrator-administered. Replaces the daemon's separate
@@ -1306,8 +1306,8 @@ class UnifiedBrainSelector(ICommandSelector):
         if not target:
             return None
         try:
-            from modules.selectors.base import SelectionContext
-            from modules.selectors.registry import propose_next
+            from modules.selection.base import SelectionContext
+            from modules.selection.registry import propose_next
         except Exception:
             return None
         payload = _load_payload()
@@ -1340,7 +1340,7 @@ class CredentialSpraySelector(ICommandSelector):
     """Daemon adapter over the shared credential-spray selector.
 
     Delegates service-to-verb selection to
-    :class:`modules.selectors.cred_spray.CredentialSpraySelector` (one shared
+    :class:`modules.selection.cred_spray.CredentialSpraySelector` (one shared
     implementation) and keeps the daemon-specific gating: verbs that already
     failed too often and verbs already sprayed this run are passed as the
     shared selector's exclude set. Single Responsibility: credential reuse.
@@ -1360,8 +1360,8 @@ class CredentialSpraySelector(ICommandSelector):
         if not has_creds:
             return None
         try:
-            from modules.selectors.base import SelectionContext
-            from modules.selectors.cred_spray import CredentialSpraySelector as _Shared
+            from modules.selection.base import SelectionContext
+            from modules.selection.cred_spray import CredentialSpraySelector as _Shared
         except Exception:
             return None
         burned = {verb for verb, count in self._fail_counts.items() if count >= MAX_FAILS_PER_CMD}
@@ -1413,8 +1413,8 @@ class ChainSelector(ICommandSelector):
         if not CHAIN_SELECTOR_ENABLED or not target:
             return None
         try:
-            from modules.selectors.base import SelectionContext
-            from modules.selectors.chain import ChainSelector as _SharedChainSelector
+            from modules.selection.base import SelectionContext
+            from modules.selection.chain import ChainSelector as _SharedChainSelector
         except Exception as exc:
             log.debug("shared chain selector unavailable: %s", exc)
             return None

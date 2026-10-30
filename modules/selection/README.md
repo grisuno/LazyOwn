@@ -1,4 +1,4 @@
-# modules/selectors
+# modules/selection
 
 The shared action-selection brain for the unified autonomous loop. Both
 autonomous runtimes (the `LazyLoopEngine` planner in `modules/lazy_loop.py` and
@@ -39,7 +39,7 @@ abstain so the next one is tried. Order expresses priority.
 
 ## Adding a selector
 
-1. Create `modules/selectors/<name>.py` with one class whose `name` attribute
+1. Create `modules/selection/<name>.py` with one class whose `name` attribute
    is unique and whose `propose(self, ctx) -> ActionDecision | None` honours
    the `Selector` protocol. Keep it single-responsibility and side-effect free
    beyond its own bookkeeping.

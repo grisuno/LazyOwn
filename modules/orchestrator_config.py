@@ -481,7 +481,7 @@ def selectors() -> dict:
     """Return action-selector toggles from the payload orchestrator section.
 
     The unified autonomous loop consults one shared selector cascade
-    (``modules/selectors``). Operators administer which strategies may fire
+    (``modules/selection``). Operators administer which strategies may fire
     here: ``orchestrator.selectors.<name> = false`` disables one. Unknown or
     absent names default to enabled so a new selector is live without config.
     """

@@ -3453,7 +3453,7 @@ class Planner:
     def _selector_candidates(self) -> list[tuple[str, list[int], list[int], int]]:
         """Propose intents from the shared selector brain.
 
-        The one cascade in ``modules.selectors`` scores every strategy
+        The one cascade in ``modules.selection`` scores every strategy
         (chains, and as they migrate: playbooks, adversary emulations, MITRE
         techniques, atomic tests) against the current phase, target OS and
         discovered services. Each decision becomes a ``run action: <command>``
@@ -3461,8 +3461,8 @@ class Planner:
         actions are excluded so a command is proposed at most once.
         """
         try:
-            from modules.selectors.base import SelectionContext
-            from modules.selectors.registry import propose_next
+            from modules.selection.base import SelectionContext
+            from modules.selection.registry import propose_next
         except Exception:
             return []
         target = (resolve_target(self.task_id, self.store, self.graph) or "").strip()

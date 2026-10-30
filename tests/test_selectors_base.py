@@ -8,9 +8,9 @@ read.
 
 from __future__ import annotations
 
-from modules.selectors.base import ActionDecision, SelectionContext, Selector
-from modules.selectors.chain import ChainSelector
-from modules.selectors.registry import default_selectors, propose_next
+from modules.selection.base import ActionDecision, SelectionContext, Selector
+from modules.selection.chain import ChainSelector
+from modules.selection.registry import default_selectors, propose_next
 
 
 def _rows() -> list[dict]:

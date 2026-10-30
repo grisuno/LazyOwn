@@ -29,6 +29,7 @@ LAB_RESOLVE_TIMEOUT_SEC = 2.0
 LAB_RESOLVE_TTL_SEC = 300.0
 MAX_HOST_EXTRACT = 64
 ALLOWLIST_FILENAME = "scope_allow.txt"
+DENYLIST_FILENAME = "scope_deny.txt"
 _HOSTNAME_PATTERN = re.compile(
     r"\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}\b",
     re.IGNORECASE,
@@ -205,6 +206,28 @@ def _looks_like_address(text: str) -> bool:
     return True
 
 
+def read_scope_file(name: str, sessions_dir: str | Path = "sessions") -> frozenset[str]:
+    """Load operator entries from a scope list file.
+
+    Args:
+        name: File name inside ``sessions_dir`` covering the entries.
+        sessions_dir: Directory holding the scope files.
+
+    Returns:
+        Frozenset of lowercase entries; comments and blanks skipped.
+    """
+    path = Path(sessions_dir) / name
+    if not path.is_file():
+        return frozenset()
+    entries: set[str] = set()
+    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+        entry = line.strip().lower()
+        if not entry or entry.startswith("#"):
+            continue
+        entries.add(entry.rstrip("."))
+    return frozenset(entries)
+
+
 def read_allowlist(sessions_dir: str | Path = "sessions") -> frozenset[str]:
     """Load operator-approved extra lab hosts.
 
@@ -214,32 +237,40 @@ def read_allowlist(sessions_dir: str | Path = "sessions") -> frozenset[str]:
     Returns:
         Frozenset of lowercase host entries; comments and blanks skipped.
     """
-    path = Path(sessions_dir) / ALLOWLIST_FILENAME
-    if not path.is_file():
-        return frozenset()
-    allowed: set[str] = set()
-    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
-        entry = line.strip().lower()
-        if not entry or entry.startswith("#"):
-            continue
-        allowed.add(entry.rstrip("."))
-    return frozenset(allowed)
+    return read_scope_file(ALLOWLIST_FILENAME, sessions_dir)
+
+
+def read_denylist(sessions_dir: str | Path = "sessions") -> frozenset[str]:
+    """Load explicitly denied hosts and networks.
+
+    Args:
+        sessions_dir: Directory holding ``scope_deny.txt``.
+
+    Returns:
+        Frozenset of lowercase deny entries: hostnames, IPs or CIDR blocks.
+    """
+    return read_scope_file(DENYLIST_FILENAME, sessions_dir)
 
 
 def scope_verdict(
     target: str,
     resolver=resolve_addresses,
     allowlist: frozenset[str] | None = None,
+    denylist: frozenset[str] | None = None,
 ) -> ScopeVerdict:
     """Decide whether one target is inside the default lab scope.
 
-    Address literals are classified directly; hostnames must resolve and
-    every answer must be lab-local. Unresolvable names are denied.
+    Deny entries have priority: a deny hit blocks before any allow path is
+    considered. Denied entries may be hostnames, IP literals or CIDR
+    blocks; CIDR deny covers every address inside the block. Address
+    literals are classified directly; hostnames must resolve and every
+    answer must be lab-local. Unresolvable names are denied.
 
     Args:
         target: Host or IP the loop wants to touch.
         resolver: Address resolver (injectable for tests).
         allowlist: Extra operator-approved lab hosts.
+        denylist: Operator-denied hosts, IPs or CIDR blocks.
 
     Returns:
         ScopeVerdict with allowed flag, denial kind and detail.
@@ -248,6 +279,8 @@ def scope_verdict(
     if not text:
         return ScopeVerdict(False, "empty", "no target to authorize")
     lowered = text.lower().rstrip(".")
+    if denylist and _entry_denied(text, lowered, denylist):
+        return ScopeVerdict(False, "denylist", f"{text} is explicitly denied by operator denylist")
     if allowlist and lowered in allowlist:
         return ScopeVerdict(True, "", "operator allowlist")
     if _looks_like_address(text):
@@ -257,6 +290,10 @@ def scope_verdict(
     addresses = resolver(text)
     if not addresses:
         return ScopeVerdict(False, "unresolved", f"{text} does not resolve")
+    if denylist:
+        denied_addresses = [addr for addr in addresses if _address_denied(addr, denylist)]
+        if denied_addresses:
+            return ScopeVerdict(False, "denylist", f"{text} resolves to a denied address: {denied_addresses[0]}")
     public = [addr for addr in addresses if not is_lab_address(addr)]
     if public:
         return ScopeVerdict(
@@ -267,10 +304,55 @@ def scope_verdict(
     return ScopeVerdict(True, "", f"{text} resolves inside the lab")
 
 
+def _networks_of(entries: frozenset[str]) -> list[ipaddress._BaseNetwork]:
+    """Return parsed CIDR networks from a scope entry set."""
+    networks: list[ipaddress._BaseNetwork] = []
+    for entry in entries:
+        try:
+            parsed = ipaddress.ip_network(entry.rstrip("."), strict=False)
+        except ValueError:
+            continue
+        networks.append(parsed)
+    return networks
+
+
+def _address_denied(address: str, denylist: frozenset[str]) -> bool:
+    """Return True when one address falls inside a deny CIDR or literal."""
+    text = str(address or "").strip("[]")
+    try:
+        parsed = ipaddress.ip_address(text)
+    except ValueError:
+        return False
+    for network in _networks_of(denylist):
+        if parsed in network:
+            return True
+    return text in denylist
+
+
+def _entry_denied(text: str, lowered: str, denylist: frozenset[str]) -> bool:
+    """Return True when a target matches or resolves into the denylist.
+
+    Args:
+        text: Original target token.
+        lowered: Lowercased target without the trailing dot.
+        denylist: Operator deny entries.
+
+    Returns:
+        True when the target is denied.
+    """
+    if lowered in denylist or text in denylist:
+        return True
+    if _looks_like_address(text):
+        return _address_denied(text, denylist)
+    addresses = resolve_addresses(lowered)
+    return any(_address_denied(addr, denylist) for addr in addresses)
+
+
 def command_scope_verdict(
     command: str,
     resolver=resolve_addresses,
     allowlist: frozenset[str] | None = None,
+    denylist: frozenset[str] | None = None,
 ) -> ScopeVerdict:
     """Check every host mentioned in a command line.
 
@@ -278,13 +360,14 @@ def command_scope_verdict(
         command: Full command string about to execute.
         resolver: Address resolver (injectable for tests).
         allowlist: Extra operator-approved lab hosts.
+        denylist: Operator-denied hosts, IPs or CIDR blocks.
 
     Returns:
         Verdict for the first offending host, or an allowed verdict when
         every extracted host passes.
     """
     for host in extract_hosts(command):
-        verdict = scope_verdict(host, resolver=resolver, allowlist=allowlist)
+        verdict = scope_verdict(host, resolver=resolver, allowlist=allowlist, denylist=denylist)
         if not verdict.allowed:
             return verdict
     return ScopeVerdict(True, "", "all hosts inside lab scope")
@@ -292,6 +375,7 @@ def command_scope_verdict(
 
 __all__ = [
     "ALLOWLIST_FILENAME",
+    "DENYLIST_FILENAME",
     "LAB_DEFAULT_ENABLED",
     "LAB_RESOLVE_TIMEOUT_SEC",
     "LAB_RESOLVE_TTL_SEC",
@@ -300,6 +384,8 @@ __all__ = [
     "extract_hosts",
     "is_lab_address",
     "read_allowlist",
+    "read_denylist",
+    "read_scope_file",
     "resolve_addresses",
     "scope_verdict",
 ]

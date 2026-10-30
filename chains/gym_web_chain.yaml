@@ -1,0 +1,52 @@
+name: gym_web_chain
+version: 2
+description: 'Web gym base chain: bind target, scan once, run one exploit, sync surfaces.'
+enabled: true
+tags:
+- gym
+- web
+- http
+platforms:
+- linux
+defaults:
+  lhost: 127.0.0.1
+  lport: '4444'
+  port: '8080'
+  exploit: ''
+  vuln: ''
+steps:
+- id: scope
+  phase: recon
+  description: Bind the gym target.
+  run: assign target {target}
+- id: scan
+  phase: recon
+  description: Scan once and reuse the XML on later runs.
+  run: lazynmap {target}
+  skip_if_exists: sessions/scan_{target}.nmap.xml
+  timeout: 900
+- id: exploit
+  phase: exploit
+  description: Run the selected YAML exploit and fan the outcome out.
+  run: python3 modules/atomic_exploit_bridge.py run --id {exploit} --rhost {target}
+    --lhost {lhost} --lport {lport} --port {port} --feed
+  timeout: 240
+  continue_on_error: false
+  sinks:
+  - world_model
+  - killchain
+  - intel_graph
+  - attack_graph
+  - c2_surfaces
+  - objectives
+  - report
+- id: sync
+  phase: report
+  description: Mirror the loop graphs into world model and objectives.
+  run: lazy_sync
+  continue_on_error: true
+- id: session
+  phase: report
+  description: Refresh the C2 session report.
+  run: create_session_json
+  continue_on_error: true

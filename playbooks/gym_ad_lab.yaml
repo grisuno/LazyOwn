@@ -53,3 +53,93 @@ vulnerabilities:
   confidence: 0.8
   exploit: ad_lab_default_creds
   chain: gym_ad_lab_default_creds
+- id: ad_passpol
+  name: Domain password policy disclosure via null-session RPC
+  cve: ''
+  mitre: T1201
+  port: '389'
+  service: smb
+  severity: medium
+  confidence: 0.85
+  exploit: ad_lab_passpol
+  chain: gym_ad_lab_passpol
+- id: ad_kerbrute_userenum
+  name: Kerberos pre-authentication username oracle
+  cve: ''
+  mitre: T1087.002
+  port: '88'
+  service: kerberos
+  severity: medium
+  confidence: 0.8
+  exploit: ad_lab_kerbrute_userenum
+  chain: gym_ad_lab_kerbrute_userenum
+- id: ad_asreproast
+  name: AS-REP roastable account discovery (no-preauth)
+  cve: ''
+  mitre: T1558.005
+  port: '389'
+  service: ldap
+  severity: high
+  confidence: 0.75
+  exploit: ad_lab_asreproast
+  chain: gym_ad_lab_asreproast
+- id: ad_passspray
+  name: Policy-aware password spraying with lazycreds context
+  cve: ''
+  mitre: T1110.003
+  port: '445'
+  service: smb
+  severity: high
+  confidence: 0.7
+  exploit: ad_lab_passspray
+  chain: gym_ad_lab_passspray
+- id: ad_gpp_sysvol
+  name: SYSVOL GPP cPassword sweep
+  cve: ''
+  mitre: T1552.006
+  port: '445'
+  service: smb
+  severity: high
+  confidence: 0.6
+  exploit: ad_lab_gpp_sysvol
+  chain: gym_ad_lab_gpp_sysvol
+- id: ad_user_desc_secrets
+  name: Password hunting in AD user description fields
+  cve: ''
+  mitre: T1552.008
+  port: '389'
+  service: ldap
+  severity: high
+  confidence: 0.7
+  exploit: ad_lab_user_desc_secrets
+  chain: gym_ad_lab_user_desc_secrets
+- id: ad_gmsa_enum
+  name: gMSA managed-password readability audit
+  cve: ''
+  mitre: T1552.006
+  port: '389'
+  service: ldap
+  severity: high
+  confidence: 0.6
+  exploit: ad_lab_gmsa_enum
+  chain: gym_ad_lab_gmsa_enum
+- id: ad_delegation_enum
+  name: Kerberos delegation surface discovery
+  cve: ''
+  mitre: T1558.003
+  port: '389'
+  service: ldap
+  severity: high
+  confidence: 0.6
+  exploit: ad_lab_delegation_enum
+  chain: gym_ad_lab_delegation_enum
+- id: ad_dcsync_validation
+  name: DCSync replication validation with the fixture administrator
+  cve: ''
+  mitre: T1003.006
+  port: '445'
+  service: smb
+  severity: critical
+  confidence: 0.8
+  exploit: ad_lab_dcsync_validation
+  chain: gym_ad_lab_dcsync_validation

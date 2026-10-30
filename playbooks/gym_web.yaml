@@ -1,0 +1,49 @@
+name: gym_web
+version: 1
+target: LazyOwn web gym (docker web lab scenarios)
+description: One exploit, one chain and one index entry per web attack vector across the bundled vulnerable web applications.
+vulnerabilities:
+- id: web_dvwa_lfi
+  name: DVWA Local File Inclusion
+  cve: ''
+  mitre: T1083
+  port: '8080'
+  service: http
+  severity: medium
+  confidence: 0.9
+  exploit: web_dvwa_lfi
+  chain: gym_web_dvwa_lfi
+  scenario: wordpress
+- id: web_tomcat_put_upload
+  name: Tomcat readonly PUT webshell upload
+  cve: CVE-2017-12615
+  mitre: T1505.003
+  port: '8888'
+  service: http
+  severity: critical
+  confidence: 0.9
+  exploit: web_tomcat_put_upload
+  chain: gym_web_tomcat_put_upload
+  scenario: tomcat
+- id: web_struts_ognl
+  name: Struts2 Jakarta OGNL code execution
+  cve: CVE-2017-5638
+  mitre: T1059
+  port: '9090'
+  service: http
+  severity: critical
+  confidence: 0.85
+  exploit: web_struts_ognl
+  chain: gym_web_struts_ognl
+  scenario: struts
+- id: web_juice_ssti
+  name: Template-injection probe deconfliction
+  cve: ''
+  mitre: T1059
+  port: '3000'
+  service: http
+  severity: low
+  confidence: 0.4
+  exploit: web_juice_ssti
+  chain: gym_web_juice_ssti
+  scenario: juice-shop

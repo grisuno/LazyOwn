@@ -115,6 +115,7 @@ class LoopRunConfig:
     extra: dict = field(default_factory=dict)
     targets_file: str = ""
     max_concurrent: int = 0
+    mode: str = ""
 
     def clamped(self) -> LoopRunConfig:
         """Clamp numeric knobs to the supported operating range."""
@@ -124,6 +125,10 @@ class LoopRunConfig:
         self.step_delay = max(0.0, float(self.step_delay or 0.0))
         self.verb_timeout = max(30.0, float(self.verb_timeout or DEFAULT_VERB_TIMEOUT_SEC))
         self.max_concurrent = max(0, int(self.max_concurrent or 0))
+        known = str(self.mode or "").strip().lower()
+        if known and known not in ENGAGEMENT_MODES:
+            known = ""
+        self.mode = known or self.mode
         return self
 
 
@@ -139,10 +144,13 @@ FLAG_VALUES = (
     "--budget",
     "--targets-from-file",
     "--max-concurrent",
+    "--mode",
 )
 FLAG_TOGGLES = ("--no-bootstrap", "--view", "--plain", "--no-progress", "--budget-confirm", "--fallback-phish")
 _BUDGET_KEYS = ("rounds", "toolcalls", "findings", "timeout_sec")
 _BUDGET_MINIMUMS = {"rounds": 1, "toolcalls": 1, "findings": 1, "timeout_sec": 60.0}
+ENGAGEMENT_MODES = ("pentest", "redteam", "ctf")
+_MODE_HINT = "pentest stops the loop when exploitability is proven; redteam keeps compromising; ctf chases flags"
 
 
 def _to_int(raw: str, default: int) -> int:
@@ -198,6 +206,7 @@ def parse_loop_line(line: str) -> LoopRunConfig:
     budget: dict[str, float] = {}
     budget_confirm = False
     phishing_fallback = False
+    mode = ""
     goal_parts: list[str] = []
     idx = 0
     while idx < len(parts):
@@ -235,6 +244,11 @@ def parse_loop_line(line: str) -> LoopRunConfig:
                 timeout = _to_float(value, 0.0)
             elif token == "--step-delay":
                 step_delay = _to_float(value, 0.0)
+            elif token == "--mode":
+                known = str(value or "").strip().lower()
+                if known not in ENGAGEMENT_MODES:
+                    raise ValueError(f"--mode accepts {'/'.join(ENGAGEMENT_MODES)} ({_MODE_HINT})")
+                mode = known
             elif token == "--budget":
                 for chunk in str(value).split(","):
                     key, _, raw_value = chunk.strip().partition("=")
@@ -281,6 +295,7 @@ def parse_loop_line(line: str) -> LoopRunConfig:
         phishing_fallback=phishing_fallback,
         targets_file=targets_file,
         max_concurrent=max_concurrent,
+        mode=mode,
     )
 
 
@@ -420,6 +435,12 @@ def _prepare_engine(engine, shell, config: LoopRunConfig, params: dict) -> None:
         pass
     if config.step_delay:
         engine.debounce_sec = max(float(getattr(engine, "debounce_sec", 0.0) or 0.0), config.step_delay)
+    known = str(config.mode or "").strip().lower()
+    if known in ENGAGEMENT_MODES:
+        try:
+            engine.engagement_mode = known
+        except Exception:
+            pass
     try:
         engine.set_concurrency(int((params or {}).get("max_concurrent", 0) or 0))
     except (TypeError, ValueError):
@@ -502,7 +523,9 @@ def report_result(result: dict) -> None:
 
     Failed, cancelled or incomplete endings carry a retry offer so the
     operator can resume the exact task with user-varied flags, or arm
-    the elevated ``--sudo`` mode when the failure was a sudo gate.
+    the elevated ``--sudo`` mode when the failure was a sudo gate. The
+    durable ledger handoff (states, confirmed evidence, discarded
+    vectors, next decision) prints when present.
     """
     if result.get("error"):
         print_error(f"lazy_loop failed: {result['error']}")
@@ -531,13 +554,39 @@ def report_result(result: dict) -> None:
         f"facts={overview.get('facts', 0)} "
         f"findings={overview.get('findings', 0)}"
     )
+    _print_handoff(result.get("handoff") or {})
     if overview.get("findings"):
         print_warn(f"Findings present — inspect with: lazy_findings {task_id} / lazy_trace {task_id} list")
-    if str(result.get("status", "")) in ("failed", "timeout", "exhausted"):
+    if str(result.get("status", "")) in ("failed", "timeout", "exhausted", "handoff"):
         print_warn(
             "retry offer: retry loop "
             f"{task_id} [--sudo] (elevated reruns prompt with a destructive-steps warning)"
         )
+
+
+def _print_handoff(handoff: dict) -> None:
+    """Render the durable-ledger handoff block for the operator.
+
+    Args:
+        handoff: ``build_handoff`` result from the findings ledger.
+    """
+    if not isinstance(handoff, dict) or not handoff:
+        return
+    states = handoff.get("states") or {}
+    if not any(states.values()):
+        return
+    print_msg(
+        "[handoff] states: "
+        + " ".join(f"{name}={count}" for name, count in states.items())
+    )
+    for item in handoff.get("confirmed") or []:
+        technique = str(item.get("technique_id") or "")
+        print_msg(f"[handoff] confirmed: {str(item.get('title', ''))[:120]}" + (f" [{technique}]" if technique else ""))
+    for reason in handoff.get("discarded_vectors") or []:
+        print_msg(f"[handoff] discarded: {str(reason)[:140]}")
+    decision = str(handoff.get("next_decision", "") or "")
+    if decision:
+        print_msg(f"[handoff] next decision: {decision}")
 
 
 def _bootstrap(scan_target: str, executor: Callable[[str], str]) -> None:
@@ -1118,6 +1167,7 @@ def _run_targets_file(shell, params: dict, config: LoopRunConfig) -> dict:
 
 
 __all__ = [
+    "ENGAGEMENT_MODES",
     "LoopRunConfig",
     "build_executor",
     "load_targets_file",

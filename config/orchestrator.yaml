@@ -119,6 +119,9 @@ stages:
 triggers:
   - kind: service
     enabled: true
+  - kind: ad_surface
+    every_sec: 1800
+    enabled: true
 profiles:
   default:
     description: Balanced autonomous engagement.
@@ -159,6 +162,16 @@ profiles:
       max_rounds: 10
       max_toolcalls: 200
       max_findings: 50
+    findings:
+      min_evidence_output: 16
+      max_output_chars: 4000
+      max_title_chars: 200
+      redact_secrets: true
+      max_ledger_bytes: 5000000
+    progress:
+      max_strikes: 3
+      handoff_on_strikes: true
+    mode: redteam
     chain: apt_chain
     playbook: rocke
     sinks:
@@ -174,6 +187,7 @@ profiles:
   stealth:
     description: Low-noise engagement with slower cadence and fewer probes.
     extends: default
+    mode: pentest
     stages:
       enrich:
         params:

@@ -111,12 +111,55 @@ class LazyQueueCommandSet(LazyOwnCommandSet):
         """List engine findings for a task, optionally filtered by status.
 
         Usage:
-            lazy_findings <task_id> [status]
+            lazy_findings <task_id> [status]   - graph findings (status filter)
+            lazy_findings <task_id> ledger     - durable engagement ledger rows
+            lazy_findings <task_id> handoff    - operator handoff from the ledger
         """
         args = shlex.split(line) if line.strip() else []
         if not args:
-            print_error("Usage: lazy_findings <task_id> [status]")
+            print_error("Usage: lazy_findings <task_id> [status|ledger|handoff]")
             return
+        selector = str(args[1] if len(args) > 1 else "").strip().lower()
+        try:
+            from modules.sinks.findings import handoff as ledger_handoff
+            from modules.sinks.findings import ledger_for
+        except ImportError as exc:
+            ledger_for = None
+            ledger_handoff = None
+        if selector in ("ledger", "handoff") and ledger_for is not None:
+            try:
+                if selector == "handoff":
+                    payload = ledger_handoff(args[0])
+                    print_msg(f"[handoff] status={payload.get('status')} rounds={payload.get('rounds')}")
+                    print_msg(
+                        "[handoff] states: " + " ".join(f"{k}={v}" for k, v in (payload.get("states") or {}).items())
+                    )
+                    for item in payload.get("confirmed") or []:
+                        technique = item.get("technique_id") or ""
+                        evidence = (item.get("evidence") or {}).get("command", "")
+                        print_msg(
+                            f"  confirmed: {str(item.get('title', ''))[:100]}"
+                            + (f" [{technique}]" if technique else "")
+                            + (f" cmd={evidence[:80]}" if evidence else "")
+                        )
+                    for reason in payload.get("discarded_vectors") or []:
+                        print_msg(f"  discarded: {str(reason)[:120]}")
+                    print_msg(f"[handoff] next: {payload.get('next_decision', '')}")
+                    return
+                rows = ledger_for(args[0]).rows()
+                if not rows:
+                    print_msg("no durable ledger rows yet")
+                    return
+                print_msg(f"{len(rows)} ledger row(s)")
+                for row in rows[:40]:
+                    print_msg(
+                        f"  [{row.get('state', '?')}/{row.get('level', '?')}] "
+                        f"{row.get('technique_id', '-')} {row.get('title', '')[:100]}"
+                    )
+                return
+            except (KeyError, ValueError) as exc:
+                print_error(str(exc))
+                return
         status = args[1] if len(args) > 1 else ""
         from modules.lazy_engine import ExplorationGraph
 
@@ -126,7 +169,22 @@ class LazyQueueCommandSet(LazyOwnCommandSet):
         print_msg(f"{len(rows)} finding(s)")
         for node in rows[:40]:
             severity = str(node.meta.get("severity", ""))
-            print_msg(f"  #{node.node_id} [{node.state}/{severity}] {node.text[:120]}")
+            technique = str(node.meta.get("technique_id", "") or "-")
+            print_msg(
+                f"  #{node.node_id} [{node.state}/{severity} "
+                f"{node.meta.get('vstate', 'hypothesis')}/{node.meta.get('level', 'identified')} "
+                f"{technique}] {node.text[:100]}"
+            )
+
+    @cmd2.with_category(exploitation_category)
+    def do_lazy_handoff(self, line):
+        """Print the operator handoff for a finished loop task.
+
+        Usage:
+            lazy_handoff <task_id>
+        """
+        args = shlex.split(line) if line.strip() else []
+        self.do_lazy_findings(f"{args[0]} handoff" if args else "")
 
     @cmd2.with_category(exploitation_category)
     def do_lazy_verdict(self, line):

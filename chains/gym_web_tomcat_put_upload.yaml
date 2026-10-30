@@ -1,0 +1,15 @@
+name: gym_web_tomcat_put_upload
+version: 2
+description: 'Web gym: Tomcat CVE-2017-12615 PUT upload on the tomcat lab scenario.'
+enabled: true
+extends: gym_web_chain
+tags:
+- gym
+- web
+- upload
+platforms:
+- linux
+defaults:
+  exploit: web_tomcat_put_upload
+  vuln: web_tomcat_put_upload
+  port: '8888'

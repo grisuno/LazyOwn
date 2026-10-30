@@ -34,6 +34,7 @@ MAX_SEEN = 5000
 SINK_LOADERS: dict[str, tuple[str, str]] = {
     "world_model": ("modules.sinks.world_model", "apply"),
     "killchain": ("modules.sinks.killchain", "apply"),
+    "findings": ("modules.sinks.findings", "apply"),
     "routing": ("modules.sinks.routing", "apply"),
     "c2_surfaces": ("modules.sinks.c2_surfaces", "apply"),
     "objectives": ("modules.sinks.objectives", "apply"),
@@ -140,6 +141,7 @@ class OutcomeEvent:
             "shell": self.shell,
             "source": self.source,
             "command": self.command,
+            "output": self.output,
             "port": self.port,
             "protocol": self.protocol,
             "service": self.service,

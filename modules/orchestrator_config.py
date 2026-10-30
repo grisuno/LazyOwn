@@ -83,6 +83,24 @@ FALLBACK_LIMITS: dict[str, int | float] = {
 
 FALLBACK_BUDGET: dict[str, int] = {"max_rounds": 10, "max_toolcalls": 200, "max_findings": 50}
 
+FALLBACK_FINDINGS: dict[str, Any] = {
+    "min_evidence_output": 16,
+    "max_output_chars": 4000,
+    "max_title_chars": 200,
+    "redact_secrets": True,
+    "max_ledger_bytes": 5_000_000,
+}
+
+FALLBACK_PROGRESS: dict[str, Any] = {
+    "max_strikes": 3,
+    "handoff_on_strikes": True,
+    "exploit_classes": ("exploit", "chain", "emulation", "ctf_capture"),
+}
+
+FALLBACK_MODE: str = "redteam"
+
+ENGAGEMENT_MODES: tuple[str, ...] = ("pentest", "redteam", "ctf")
+
 FALLBACK_SINKS: dict[str, bool] = {
     "world_model": True,
     "killchain": True,
@@ -93,6 +111,7 @@ FALLBACK_SINKS: dict[str, bool] = {
     "objectives": True,
     "event_bus": True,
     "report": True,
+    "findings": True,
 }
 
 DEFAULT_STAGES: dict[str, bool] = {name: bool(data["enabled"]) for name, data in FALLBACK_STAGES.items()}
@@ -202,11 +221,11 @@ def _merge_profile(parent: dict, child: dict) -> dict:
     for name, override in (child.get("stages") or {}).items():
         stages[name] = _merge_stage(stages.get(name, {}), override)
     merged["stages"] = stages
-    for key in ("limits", "budget", "sinks"):
+    for key in ("limits", "budget", "sinks", "findings", "progress"):
         value = dict(merged.get(key) or {})
         value.update(child.get(key) or {})
         merged[key] = value
-    for key in ("chain", "playbook"):
+    for key in ("chain", "playbook", "mode"):
         if child.get(key) is not None:
             merged[key] = str(child.get(key) or "")
     if child.get("harness") is not None:
@@ -341,6 +360,96 @@ def budget() -> dict:
     merged = dict(FALLBACK_BUDGET)
     merged.update(profile_config().get("budget") or {})
     return merged
+
+
+def findings_config() -> dict[str, Any]:
+    """Return resolved findings-ledger settings for the active profile.
+
+    Merges precedence: module fallbacks < YAML profile ``findings`` <
+    payload ``orchestrator.findings``. Boolean fields coerce to bool so a
+    YAML string can never disable redaction by accident.
+
+    Returns:
+        Mapping with min evidence length, caps and the redaction toggle.
+    """
+    merged = dict(FALLBACK_FINDINGS)
+    merged.update(profile_config().get("findings") or {})
+    merged.update(_section().get("findings") or {})
+    merged["redact_secrets"] = bool(merged.get("redact_secrets", True))
+    for key in ("min_evidence_output", "max_output_chars", "max_title_chars", "max_ledger_bytes"):
+        try:
+            merged[key] = max(0, int(merged.get(key, 0) or 0))
+        except (TypeError, ValueError):
+            merged[key] = FALLBACK_FINDINGS[key]
+    return merged
+
+
+def progress_config() -> dict[str, Any]:
+    """Return resolved goal-progress strikethreshold settings.
+
+    ``max_strikes`` counts consecutive rounds without objective progress
+    (facts/findings/verdicts/goals); reaching it stops the loop with a
+    handoff instead of burning rounds. Exploit classes list the outcome
+    kinds that count as objective progress when they succeed.
+
+    Returns:
+        Mapping with max_strikes, handoff toggle and exploit classes.
+    """
+    merged = dict(FALLBACK_PROGRESS)
+    merged.update(profile_config().get("progress") or {})
+    merged.update(_section().get("progress") or {})
+    try:
+        merged["max_strikes"] = min(20, max(1, int(merged.get("max_strikes", 3) or 3)))
+    except (TypeError, ValueError):
+        merged["max_strikes"] = FALLBACK_PROGRESS["max_strikes"]
+    merged["handoff_on_strikes"] = bool(merged.get("handoff_on_strikes", True))
+    classes = merged.get("exploit_classes")
+    if isinstance(classes, (list, tuple)):
+        merged["exploit_classes"] = tuple(str(c) for c in classes if str(c))
+    else:
+        merged["exploit_classes"] = FALLBACK_PROGRESS["exploit_classes"]
+    return merged
+
+
+def engagement_mode() -> str:
+    """Return the active engagement mode (pentest | redteam | ctf).
+
+    Precedence: payload ``orchestrator.mode`` < YAML profile ``mode`` <
+    module fallback. Unknown names fall back to the module default so a
+    typo can never switch the loop into unrestricted deep compromise.
+
+    Returns:
+        One mode string from :data:`ENGAGEMENT_MODES`.
+    """
+    candidates = (str(_section().get("mode", "") or ""), str(profile_config().get("mode", "") or ""))
+    for candidate in candidates:
+        known = str(candidate or "").strip().lower()
+        if known in ENGAGEMENT_MODES:
+            return known
+    return FALLBACK_MODE
+
+
+def set_engagement_mode(mode: str) -> str:
+    """Persist the engagement mode in the payload.
+
+    Args:
+        mode: One of :data:`ENGAGEMENT_MODES`.
+
+    Returns:
+        The persisted mode string.
+
+    Raises:
+        KeyError: Unknown mode name.
+    """
+    known = str(mode or "").strip().lower()
+    if known not in ENGAGEMENT_MODES:
+        raise KeyError(f"unknown engagement mode: {mode!r}")
+    payload = _payload()
+    section = dict(payload.get("orchestrator") or {})
+    section["mode"] = known
+    payload["orchestrator"] = section
+    _save(payload)
+    return known
 
 
 def chain_defaults() -> dict:
@@ -667,9 +776,30 @@ def validate_config(data: Any) -> list[str]:
         parent = str(profile.get("extends", "") or "")
         if parent and parent not in profiles:
             errors.append(f"profile {name} extends unknown profile {parent!r}")
-        for key in ("limits", "budget", "sinks"):
+        for key in ("limits", "budget", "sinks", "findings", "progress"):
             if key in profile and not isinstance(profile[key], dict):
                 errors.append(f"profile {name} {key} must be a mapping")
+        for key, value in (profile.get("findings") or {}).items():
+            if key == "redact_secrets":
+                if not isinstance(value, bool):
+                    errors.append(f"profile {name} findings {key} must be a boolean")
+                continue
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0:
+                errors.append(f"profile {name} findings {key} must be a non-negative number")
+        progress = profile.get("progress") or {}
+        if progress and not isinstance(progress, dict):
+            errors.append(f"profile {name} progress must be a mapping")
+        for key in ("max_strikes",):
+            if key in progress:
+                if isinstance(progress[key], bool) or not isinstance(progress[key], (int, float)) or progress[key] <= 0:
+                    errors.append(f"profile {name} progress {key} must be a positive number")
+        if "handoff_on_strikes" in progress and not isinstance(progress["handoff_on_strikes"], bool):
+            errors.append(f"profile {name} progress handoff_on_strikes must be a boolean")
+        mode = str(profile.get("mode", "") or "")
+        if mode and mode not in ENGAGEMENT_MODES:
+            errors.append(
+                f"profile {name} mode must be one of {'/'.join(ENGAGEMENT_MODES)} (got {mode!r})"
+            )
         for key, value in (profile.get("limits") or {}).items():
             if isinstance(value, bool) or not isinstance(value, (int, float)):
                 errors.append(f"profile {name} limit {key} must be numeric")
@@ -692,8 +822,12 @@ def validate_config(data: Any) -> list[str]:
 
 __all__ = [
     "DEFAULT_STAGES",
+    "ENGAGEMENT_MODES",
     "FALLBACK_BUDGET",
+    "FALLBACK_FINDINGS",
     "FALLBACK_LIMITS",
+    "FALLBACK_MODE",
+    "FALLBACK_PROGRESS",
     "FALLBACK_SINKS",
     "FALLBACK_STAGES",
     "ORCHESTRATOR_YAML_PATH",
@@ -702,12 +836,16 @@ __all__ = [
     "budget",
     "chain_defaults",
     "effective_verbs",
+    "engagement_mode",
+    "findings_config",
     "limits",
     "profiles",
     "profile_config",
+    "progress_config",
     "reload",
     "remove_verb",
     "reset",
+    "set_engagement_mode",
     "set_profile",
     "set_stage",
     "sinks",

@@ -23,7 +23,10 @@ attach per-step lineage (intent id + digest) in ``description``. Scan
 steps get the canonical ``skip_if_exists`` guard on the nmap XML
 artefact. Verbs that have a manifest (:mod:`modules.verb_manifest`)
 inherit its phase and exploit-classification, so a distilled chain can
-be audited for cost/noise before it ever runs.
+be audited for cost/noise before it ever runs. Session artefacts a
+distilled step referenced are pinned as ``evidence`` plus an
+``evidence_sha256`` digest, so a later replay verifies the chain of
+custody instead of silently accepting regenerated files.
 
 Output is validated with :func:`modules.chain_registry.validate_chain`
 before writing; a distilled file that cannot validate is never written.
@@ -33,6 +36,7 @@ Generated chains start ``enabled: false`` and belong to the operator.
 from __future__ import annotations
 
 import json
+import hashlib
 import logging
 import re
 from dataclasses import dataclass, field
@@ -242,8 +246,41 @@ def _command_verb(command: str) -> str:
     return fields[0].lower()
 
 
+def _command_index_phases() -> dict[str, str]:
+    """Load verb phases from the CLI command index once per process.
+
+    Returns:
+        Mapping of verb name to declared phase; empty on any failure.
+    """
+    global _COMMAND_INDEX_CACHE
+    cached = _COMMAND_INDEX_CACHE
+    if cached is None:
+        try:
+            import json as jsonlib
+            from pathlib import Path as PathLib
+
+            index_path = PathLib(__file__).parent.parent / "cli" / "command_index.json"
+            payload = jsonlib.loads(index_path.read_text(encoding="utf-8"))
+            cached = {
+                str(entry.get("name", "")).removeprefix("do_"): str(entry.get("phase", ""))
+                for entry in payload.get("commands", [])
+                if entry.get("phase", "uncategorized") != "uncategorized"
+            }
+        except Exception:
+            cached = {}
+        _COMMAND_INDEX_CACHE = cached
+    return cached
+
+
+_COMMAND_INDEX_CACHE: dict[str, str] | None = None
+
+
 def _phase_for(command: str, manifest_phase: str) -> str:
-    """Resolve the kill-chain phase from manifest, command index, bridge.
+    """Resolve the kill-chain phase from explicit declarations only.
+
+    Precedence is purely explicit metadata: the verb manifest phase,
+    then the CLI command index entry, then the bridge catalog. No
+    keyword guessing; an undeclared verb lands as ``enum``.
 
     Args:
         command: Raw command line.
@@ -255,24 +292,17 @@ def _phase_for(command: str, manifest_phase: str) -> str:
     if manifest_phase:
         return manifest_phase
     verb = _command_verb(command)
-    try:
-        import json as jsonlib
-        from pathlib import Path as PathLib
-
-        index_path = PathLib(__file__).parent.parent / "cli" / "command_index.json"
-        index = jsonlib.loads(index_path.read_text(encoding="utf-8"))
-        for entry in index.get("commands", []):
-            if entry.get("name") == f"do_{verb}" and entry.get("phase", "uncategorized") != "uncategorized":
-                return str(entry["phase"])
-    except Exception:  # noqa: BLE001 - phase resolution must never hard-fail
-        pass
+    index = _command_index_phases()
+    phase = index.get(verb, "")
+    if phase:
+        return phase
     try:
         from modules.lazy_cli_bridge import phase_for
 
         phase = phase_for(verb)
         if phase and phase != "other":
             return str(phase)
-    except Exception:  # noqa: BLE001
+    except Exception:
         pass
     return "enum"
 
@@ -294,18 +324,119 @@ def _is_doc_example(host: str) -> bool:
     return lowered == "example.com" or lowered.endswith(".example.com")
 
 
-def _infer_target(rows: list[dict], graph: dict[str, Any]) -> str:
+_DOC_RESERVED_SUFFIXES: tuple[str, ...] = (
+    "example.com",
+    "example.net",
+    "example.org",
+)
+
+_EVIDENCE_PATH_RE = re.compile(r"sessions/[{}\w./-]+")
+_MAX_EVIDENCE_PATH = 512
+_MAX_ARTIFACT_BYTES = 32 * 1024 * 1024
+
+
+def _artifact_pins(command: str, output: str, target: str) -> dict[str, str]:
+    """Hash the session artefacts a distilled step pinned at trace time.
+
+    The chain-of-custody contract: a distilled step that referenced a
+    ``sessions/`` artefact carries the artefact's sha256 digest so a
+    later replay verifies the evidence it consumes instead of silently
+    accepting regenerated files. Paths keep their ``{target}`` token
+    form; hashing resolves the token with the inference-time target and
+    skips oversized or vanished files.
+
+    Args:
+        command: Rendered command line (already tokenized).
+        output: Trace row output that may reference artefacts too.
+        target: Inferred target at distillation time.
+
+    Returns:
+        Mapping of tokenized path to lowercase sha256 digest, capped by
+        declaration order.
+    """
+    pins: dict[str, str] = {}
+    for blob in (command, str(output or "")):
+        for match in _EVIDENCE_PATH_RE.findall(blob):
+            if match in pins or len(match) > _MAX_EVIDENCE_PATH:
+                continue
+            real = match.replace("{target}", target) if target else match
+            candidate = REPO_ROOT / real
+            try:
+                if not candidate.is_file() or candidate.stat().st_size > _MAX_ARTIFACT_BYTES:
+                    continue
+                digest = hashlib.sha256(candidate.read_bytes()).hexdigest()
+            except OSError:
+                continue
+            pins[match] = digest
+    return pins
+
+
+def _excluded_host(host: str, operator_deny: frozenset[str] | set[str]) -> bool:
+    """Return True when distillation must not name this host as target.
+
+    RFC 2606 reserved documentation domains never name a real target.
+    The operator denylist (``sessions/scope_deny.txt``) is profiled with
+    the same label-precise rule: an entry matches itself or any of its
+    subdomains; unrelated lookalikes stay candidates.
+
+    Args:
+        host: Candidate host token.
+        operator_deny: Lowercase operator denial entries (may be empty).
+
+    Returns:
+        True when the host must be excluded from target inference.
+    """
+    lowered = host.lower().rstrip(".")
+    if _is_doc_example(lowered) or any(
+        lowered.endswith("." + suffix) or lowered == suffix for suffix in _DOC_RESERVED_SUFFIXES
+    ):
+        return True
+    for entry in operator_deny:
+        if lowered == entry or lowered.endswith("." + entry):
+            return True
+    return False
+
+
+def _operator_deny(sessions_dir: str | Path | None = None) -> frozenset[str]:
+    """Load the operator denylist for chain distillation.
+
+    Args:
+        sessions_dir: Directory holding ``scope_deny.txt``; None keeps
+            the module default.
+
+    Returns:
+        Frozenset of lowercase entries, empty on any failure.
+    """
+    try:
+        from modules.lazy_scope import read_denylist
+
+        return read_denylist(sessions_dir or SESSIONS_DIR)
+    except Exception:
+        return frozenset()
+
+
+def _infer_target(
+    rows: list[dict],
+    graph: dict[str, Any],
+    operator_deny: frozenset[str] | set[str] | None = None,
+) -> str:
     """Pick the task target: the goal text wins, then command frequency.
+
+    Reserved documentation domains, the operator scope denylist and the
+    loopback address never become the inferred target.
 
     Args:
         rows: Traffic rows.
         graph: Loaded graph shape (goal, intents).
+        operator_deny: Pre-loaded operator denial entries; loading is
+            deferred to the caller boundary when None.
 
     Returns:
         Target string, or '' when the trace carries no scoping signal.
     """
+    deny = operator_deny if operator_deny is not None else _operator_deny()
     goal = str(graph.get("goal", "") or "")
-    candidates = [host for host in _HOST_TOKEN_RE.findall(goal) if host.lower() != "127.0.0.1" and not _is_doc_example(host)]
+    candidates = [host for host in _HOST_TOKEN_RE.findall(goal) if host.lower() != "127.0.0.1" and not _excluded_host(host, deny)]
     if candidates:
         return candidates[0]
     counts: dict[str, int] = {}
@@ -315,6 +446,8 @@ def _infer_target(rows: list[dict], graph: dict[str, Any]) -> str:
     best, hits = "", 0
     for host, count in counts.items():
         if host == "127.0.0.1" and len(counts) > 1:
+            continue
+        if _excluded_host(host, deny):
             continue
         if count > hits:
             best, hits = host, count
@@ -517,6 +650,10 @@ def build_chain_data(
                 "continue_on_error": phase != "exploit",
             }
         )
+        pins = _artifact_pins(command, str(row.get("output", "") or ""), target)
+        if pins:
+            steps[-1]["evidence"] = list(pins)
+            steps[-1]["evidence_sha256"] = dict(pins)
         if verb in ("nmap", "lazynmap"):
             steps[-1]["skip_if_exists"] = "sessions/scan_{target}.nmap.xml"
         note(row, True)

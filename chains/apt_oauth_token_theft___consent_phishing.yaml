@@ -2,5 +2,7 @@ name: apt_oauth_token_theft___consent_phishing
 description: Full APT chain for oauth_token_theft_&_consent_phishing (extends apt_chain).
 enabled: true
 extends: apt_chain
+raw_vars:
+  - playbook
 defaults:
   playbook: oauth_token_theft_&_consent_phishing

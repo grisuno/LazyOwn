@@ -231,6 +231,26 @@ decrypt of the ``world_model.json.encrypted`` sibling). Beacon history is owned 
 ``modules/beacon_history.py``. Exposed over HTTP at ``/api/killchain`` and
 ``/api/beacon_results/<client_id>``. C2 decrypts on boot and re-encrypts on exit.
 
+### `modules/chain_approval.py` — C2 human-in-the-loop approval gate (v4)
+
+**Contract:** ARTEX intercept doctrine, adapted. `PendingStore` holds pending
+`confirm`-step requests in `sessions/chain_pending.json` (id, chain, step_id,
+command + SHA-256 fingerprint, deadline, status pending/approved/denied/expired)
+and appends every transition to the audit trail `sessions/chain_audit.jsonl`.
+`build_c2_approver` routes a confirm step to that pending list and polls
+failure-closed: deadline expiry (swept by `expire_stale`) or any store error
+votes deny.
+
+**Backend selection:** `LAZYOWN_APPROVAL_BACKEND=c2` routes confirm steps to the
+C2 pending list; the default keeps the interactive CLI approver, and
+`LAZYOWN_APPROVAL_TIMEOUT` bounds the window (300s default).
+
+**Surfaces:** CLI `apt_chain approvals [list|approve|deny] [id]`, C2
+`GET /api/chain_approvals[?status=pending]` and
+`POST /api/chain_approvals/<16-hex-id>/decide` (`decision: approve|deny`,
+`decided_by=c2`). Unknown or already-decided ids answer 404; malformed ids and
+verdicts answer 400. **Tests:** `tests/test_chain_approval_c2.py` (15 tests).
+
 ### `cli/tips_engine.py` — Unified post-command tips engine
 
 **Contract:** Coordinate all suggestion surfaces (kill-chain hints, protips,

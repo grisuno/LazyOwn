@@ -45,6 +45,7 @@ SINK_LOADERS: dict[str, tuple[str, str]] = {
     "beacon_dispatch": ("modules.sinks.beacon_dispatch", "apply"),
     "report": ("modules.sinks.report", "apply"),
     "campaign_db": ("modules.sinks.campaign_db", "apply"),
+    "chain_feed": ("modules.sinks.chain_feed", "apply"),
 }
 
 DEFAULT_SINKS = tuple(name for name in SINK_LOADERS if name != "campaign_db")

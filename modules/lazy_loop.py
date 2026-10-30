@@ -2959,19 +2959,97 @@ def extract_constraint_items(goal_text: str, description: str = "") -> list[dict
     return items
 
 
-def load_intel_scores() -> dict:
-    """Return host exposure scores from sessions/intel_summary.json.
+_POLICY_CATEGORY_VERBS = {
+    "enum": "auto_populate",
+    "brute_force": "auto_pwn",
+    "exploit": "auto_pwn",
+    "intrusion": "auto_pwn",
+    "privesc": "autoblody",
+    "credential": "autoblody",
+    "lateral": "autopivot",
+    "payload": "automsf",
+}
+_POLICY_MAX_PROPOSALS = 2
+_POLICY_SINGLETON: object | None = None
 
-    Written by the intel fusion view on every graph fetch; empty when
-    the operator never opened IntelGraph. Never raises.
+
+def _lazy_policy():
+    """Return the shared policy integration facade, or None when absent.
+
+    The autonomous-loop policy engine (``skills/lazyown_policy``) ranks
+    next-action categories from observed episode transitions. Its
+    absence never blocks planning; failures degrade to None.
+
+    Returns:
+        ``LazyOwnPolicyIntegration`` singleton or None.
     """
+    global _POLICY_SINGLETON
+    if _POLICY_SINGLETON is not None:
+        return _POLICY_SINGLETON
+    try:
+        from skills.lazyown_policy import LazyOwnPolicyIntegration
+
+        _POLICY_SINGLETON = LazyOwnPolicyIntegration()
+    except Exception:
+        _POLICY_SINGLETON = None
+    return _POLICY_SINGLETON
+
+
+def _policy_proposals(policy, target: str) -> list[str]:
+    """Turn ranked policy categories into concrete registry-verb intents.
+
+    Args:
+        policy: ``LazyOwnPolicyIntegration`` facade.
+        target: Resolved engagement target.
+
+    Returns:
+        ``auto <verb> <target>`` command lines in policy rank order,
+        capped; categories with no safe registry verb are skipped.
+    """
+    out: list[str] = []
+    try:
+        recommendations = policy.get_recommendations(target) or []
+    except Exception:
+        return out
+    for row in recommendations:
+        if len(out) >= _POLICY_MAX_PROPOSALS:
+            break
+        verb = _POLICY_CATEGORY_VERBS.get(str(row.get("category", "")) or "", "")
+        if not verb:
+            continue
+        line = f"auto {verb} {target}".strip()
+        if line not in out:
+            out.append(line)
+    return out
+
+
+def load_intel_scores() -> dict:
+    """Return host exposure scores for plan prioritisation.
+
+    Two sources fuse, max per host: the intel fusion view
+    (``sessions/intel_summary.json``, written on every graph fetch) and
+    the deterministic heat table (``sessions/lazy/host_scores.json``
+    from :mod:`modules.lazy_hostscore`). Both degrade to nothing.
+
+    Returns:
+        ``{host: score}``; never raises.
+    """
+    merged: dict[str, float] = {}
     try:
         payload = _load_json(SESSIONS_DIR / "intel_summary.json", {})
-        return {
-            str(r.get("host", "")): float(r.get("score", 0.0)) for r in payload.get("top_exposed", []) if r.get("host")
-        }
+        for row in payload.get("top_exposed", []):
+            if row.get("host"):
+                merged[str(row["host"])] = float(row.get("score", 0.0))
     except Exception:
-        return {}
+        merged = {}
+    try:
+        from modules.lazy_hostscore import load_scores
+
+        for host, score in load_scores(SESSIONS_DIR).items():
+            merged[host] = max(merged.get(host, 0.0), float(score))
+    except Exception:
+        pass
+    return merged
 
 
 def resolve_target(task_id: str, store=None, graph=None) -> str:
@@ -3249,6 +3327,29 @@ class Planner:
         node = self.graph.add_node("fact", "task origin", state="done", meta={"origin": True})
         return node.node_id
 
+    def _ledger_fresh_summary(self, summary: str) -> bool:
+        """Return True when this proposal already ran fresh on its target.
+
+        The freshness ledger keys proposals through the same
+        :func:`lazy_ledger.key_from_command` contract the routing sink
+        records terminal outcomes with, so one executed ``lazy_addon
+        run <name>`` silences its planner copy for the whole window.
+
+        Args:
+            summary: Candidate command-line intent.
+
+        Returns:
+            True when the pair already ran inside its TTL window.
+        """
+        try:
+            from modules.lazy_ledger import fresh as ledger_fresh
+            from modules.lazy_ledger import key_from_command
+
+            verb_key, target_key = key_from_command(summary, "").split("|", 1)
+            return bool(target_key) and bool(ledger_fresh(verb_key, target_key))
+        except Exception:
+            return False
+
     def _candidates(self) -> list[tuple[str, list[int], list[int], int]]:
         """Build candidate intents from serial todos, hints, coverage, findings."""
         out: list[tuple[str, list[int], list[int], int]] = []
@@ -3416,9 +3517,12 @@ class Planner:
             services = [n.value for n in self.assets.list("service")]
             known = {summary for summary, _a, _p, _pr in out}
             for summary in _addon_intents(services, auto_target):
-                if summary not in known:
-                    out.append((summary, [], [], 6))
-                    known.add(summary)
+                if summary in known or self._ledger_fresh_summary(summary):
+                    if summary not in known:
+                        known.add(summary)
+                    continue
+                out.append((summary, [], [], 6))
+                known.add(summary)
         except Exception:
             pass
         try:
@@ -3432,6 +3536,59 @@ class Planner:
                 if summary not in known:
                     out.append((summary, [], [], 6))
                     known.add(summary)
+        except Exception:
+            pass
+        try:
+            from modules.auto_registry import ADDON_TRIGGER_CAP
+            from modules.module_registry import ModuleRegistry
+
+            auto_target = resolve_target(self.task_id, self.store, self.graph) or ""
+            corpus = [str(record.get("goal", "") or "")]
+            corpus.extend(n.text for n in self.graph.list("finding")[-4:])
+            corpus.extend(n.value for n in self.assets.list("service"))
+            known = {summary for summary, _a, _p, _pr in out}
+            for summary in ModuleRegistry.get_instance().proposal_intents(
+                corpus, target=auto_target, limit=ADDON_TRIGGER_CAP
+            ):
+                if summary in known or self._ledger_fresh_summary(summary):
+                    if summary not in known:
+                        known.add(summary)
+                    continue
+                out.append((summary, [], [], 4))
+                known.add(summary)
+        except Exception:
+            pass
+        try:
+            from modules.auto_registry import ADDON_TRIGGER_CAP
+            from modules.module_registry import ModuleRegistry
+
+            auto_target = resolve_target(self.task_id, self.store, self.graph) or ""
+            corpus = [str(record.get("goal", "") or "")]
+            corpus.extend(n.text for n in self.graph.list("finding")[-4:])
+            corpus.extend(n.value for n in self.assets.list("service"))
+            known = {summary for summary, _a, _p, _pr in out}
+            for summary in ModuleRegistry.get_instance().proposal_intents(
+                corpus, target=auto_target, limit=ADDON_TRIGGER_CAP
+            ):
+                if summary in known or self._ledger_fresh_summary(summary):
+                    if summary not in known:
+                        known.add(summary)
+                    continue
+                out.append((summary, [], [], 4))
+                known.add(summary)
+        except Exception:
+            pass
+        try:
+            policy = _lazy_policy()
+
+            if policy is not None:
+                auto_target = resolve_target(self.task_id, self.store, self.graph) or ""
+                if auto_target:
+                    known = {summary for summary, _a, _p, _pr in out}
+                    for summary in _policy_proposals(policy, auto_target):
+                        if summary not in known:
+                            out.append((summary, [], [], 3))
+                            known.add(summary)
         except Exception:
             pass
         return out
@@ -3606,7 +3763,7 @@ class Worker:
         self._shell_session = None
         self._shell_queue = None
         self._pacer = EdrPacer()
-        self._repeats = RepeatDetector()
+        self._repeats = RepeatDetector(window=8)
         self._fact_store: FactVectorStore | None = None
         register_worker(self)
 
@@ -4076,6 +4233,25 @@ class Worker:
                 return str(asset.value)
         return resolve_target(self.task_id, self.store, self.graph)
 
+    def _failure_memory(self):
+        """Return the durable failure memory, or None when unusable.
+
+        The memory keeps per-target failure counters across loop
+        restarts so an exhausted command never burns another round. A
+        missing store directory is created by the memory itself and any
+        import failure degrades to no memory at all.
+
+        Returns:
+            ``modules.auto_loop_memory.FailureMemory`` instance bound to
+            the lazy store, or None.
+        """
+        try:
+            from modules.auto_loop_memory import FailureMemory
+
+            return FailureMemory(_store_path("failure_memory.json"))
+        except Exception:
+            return None
+
     def _os_gate(self, intent: ExplorationNode, command: str) -> tuple[bool, str]:
         """Block OS-mismatched verbs before they reach the shell.
 
@@ -4249,6 +4425,17 @@ class Worker:
                 intent_id=intent.node_id,
             )
             return "", "blocked", denied
+        memory = self._failure_memory()
+        if memory is not None and target:
+            base = memory.base_of(command)
+            if base and memory.is_blocked(target, base):
+                self.activity.emit(
+                    self.name,
+                    "block",
+                    f"failure memory: '{base}' exhausted attempts for {target}; skipped",
+                    intent_id=intent.node_id,
+                )
+                return "", "skipped", f"failure memory: {base}"
         sudo_ok, sudo_reason = self._sudo_guard(intent, command)
         if not sudo_ok:
             return "", "skipped", sudo_reason
@@ -4360,6 +4547,11 @@ class Worker:
             time.sleep(1.0)
             output = self._run(command, executor)
             budget.record_toolcall(self.task_id, intent.node_id)
+        if output.startswith("execution failed:") and target:
+            try:
+                memory.record_failure(target, "bash", command)
+            except Exception:
+                pass
         if _sudo_unavailable(output):
             self.activity.emit(
                 self.name,
@@ -5655,12 +5847,38 @@ class Retester:
         checks = result.get("checks") or []
         if not checks:
             return None
+        verdict = result.get("verdict", "inconclusive")
+        interpretation = {}
+        try:
+            from modules import lazy_cve_feed, lazy_checks
+
+            cve = lazy_checks.extract_cve(str(finding.meta.get("cve", "") or finding.text or ""))
+            ranges = lazy_cve_feed.range_for_cve(cve, allow_network=False) if cve else {}
+            interpretation = lazy_checks.interpret_checks(
+                checks,
+                cve=cve,
+                stored_version=str(finding.meta.get("version", "") or ""),
+                ranges=ranges or {},
+            )
+            if interpretation.get("verdict") == lazy_checks.VERSION_CHANGED and verdict == "reproduced":
+                verdict = "inconclusive"
+            elif interpretation.get("verdict") == lazy_checks.REAFFIRMED and verdict == "inconclusive":
+                verdict = "reproduced"
+        except Exception:
+            interpretation = {}
         lines = [
             f"[{row.get('verdict')}] {row.get('kind')}: {row.get('command', '')[:120]}"
             f" :: {str(row.get('evidence', ''))[:160]}"
             for row in checks
         ]
-        return result.get("verdict", "inconclusive"), "\n".join(lines), len(checks)
+        if interpretation:
+            lines.append(
+                f"[{interpretation.get('verdict')}] version recheck: "
+                f"observed={interpretation.get('observed_version') or '-'} stored={interpretation.get('stored_version') or '-'}"
+            )
+        if interpretation:
+            finding.meta["version_recheck"] = interpretation
+        return verdict, "\n".join(lines), len(checks)
 
     def retest_context(self, finding_id: int) -> dict:
         """Return finding + PoC + assets + constraints like get_finding_retest_context."""
@@ -9170,6 +9388,8 @@ class LazyLoopEngine:
                 )
             elif kind == "enriched":
                 triggers.append({"kind": "enriched", "text": str(record.get("text", ""))[:200], "id": trig_id})
+            elif kind == "chain-step":
+                triggers.append({"kind": "chain_step", "text": str(record.get("text", ""))[:200], "id": trig_id})
         seen: set[str] = set()
         unique: list[dict] = []
         for item in triggers:
@@ -9394,6 +9614,15 @@ class LazyLoopEngine:
             self.store.set_deadline(task_id, timeout_sec)
             self.budget.set_limits(task_id, timeout_sec=timeout_sec)
         self.budget.set_limits(task_id, max_rounds=max_rounds)
+        try:
+            from modules.orchestrator_config import stage_enabled as _stage_reap
+
+            if _stage_reap("reaper"):
+                from modules.lazy_reaper import reap as reap_stale
+
+                reap_stale(self.store)
+        except Exception:
+            pass
         self._worker_pool: dict[int, Worker] = {}
         self._active_worker_pool = self._worker_pool
         self.runtime.beat(task_id, workers)

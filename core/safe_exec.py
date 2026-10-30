@@ -17,8 +17,10 @@ Invariants:
 from __future__ import annotations
 
 import logging
+import os
 import re
 import shlex
+import signal
 import subprocess
 import sys
 import urllib.parse
@@ -26,6 +28,9 @@ from collections.abc import Sequence
 from pathlib import Path
 
 log = logging.getLogger("core.safe_exec")
+
+_START_NEW_SESSION = sys.platform != "win32"
+_KILL_GRACE_SECONDS = 2.0
 
 _URL_SAFE_PATTERN = re.compile(r"^https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+$")
 
@@ -103,6 +108,69 @@ def safe_system(command: str, *, reason: str = "") -> int:
     return result.returncode
 
 
+def _kill_process_tree(process: subprocess.Popen) -> None:
+    """Force-kill a child's whole process group, then the child.
+
+    Third-party children (scanners, shells) can ignore termination
+    signals; killing the process group removes detachable grandchildren
+    so a timed-out run leaves no orphans behind on the operator host.
+
+    Args:
+        process: Child process to terminate.
+    """
+    if process.poll() is not None:
+        return
+    for sig in (signal.SIGTERM, signal.SIGKILL):
+        if _START_NEW_SESSION and process.pid:
+            try:
+                os.killpg(os.getpgid(process.pid), sig)
+            except (ProcessLookupError, PermissionError, OSError):
+                pass
+        try:
+            process.send_signal(sig)
+        except (ProcessLookupError, OSError):
+            pass
+        if sig is signal.SIGTERM:
+            try:
+                process.wait(timeout=_KILL_GRACE_SECONDS)
+                return
+            except subprocess.TimeoutExpired:
+                continue
+
+
+def _communicate_group_managed(
+    process: subprocess.Popen,
+    timeout: float | None,
+) -> tuple[str, str]:
+    """Communicate with a child and reap its whole process group on timeout.
+
+    Args:
+        process: Child process.
+        timeout: Wall-clock limit; None waits forever.
+
+    Returns:
+        ``(stdout, stderr)`` captured text.
+
+    Raises:
+        subprocess.TimeoutExpired: After the group was terminated; the
+            exception carries whatever output was already captured.
+    """
+    try:
+        return process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        _kill_process_tree(process)
+        try:
+            output, error = process.communicate(timeout=_KILL_GRACE_SECONDS)
+        except subprocess.TimeoutExpired:
+            output, error = process.communicate()
+        raise subprocess.TimeoutExpired(
+            process.args,
+            timeout,
+            output=output,
+            stderr=error,
+        ) from None
+
+
 def safe_run_argv(
     argv: Sequence[str],
     *,
@@ -112,6 +180,10 @@ def safe_run_argv(
     input_data: str | None = None,
 ) -> subprocess.CompletedProcess[str]:
     """Execute a command via subprocess without shell interpretation.
+
+    Children always run in a dedicated session; a timeout terminates the
+    whole process group so detached grandchildren never outlive their
+    parent on the operator host.
 
     Args:
         argv: Program and arguments as a sequence. Must not be empty.
@@ -132,15 +204,25 @@ def safe_run_argv(
         if "\0" in arg:
             raise CommandInjectionError("Null byte in argument rejected")
     log.debug("safe_run_argv: %s", argv[0])
-    return subprocess.run(
+    process = subprocess.Popen(
         list(argv),
         shell=False,
-        capture_output=capture_output,
+        stdout=subprocess.PIPE if capture_output else None,
+        stderr=subprocess.PIPE if capture_output else None,
+        stdin=subprocess.PIPE if input_data is not None else None,
         text=True,
-        timeout=timeout,
-        check=check,
-        input=input_data,
+        start_new_session=_START_NEW_SESSION,
     )
+    try:
+        stdout, stderr = _communicate_group_managed(process, timeout)
+    finally:
+        if process.poll() is None:
+            _kill_process_tree(process)
+            process.communicate()
+    result = subprocess.CompletedProcess(argv, process.returncode, stdout, stderr)
+    if check and result.returncode != 0:
+        raise subprocess.CalledProcessError(result.returncode, argv, output=stdout, stderr=stderr)
+    return result
 
 
 def safe_run_shell(
@@ -152,6 +234,10 @@ def safe_run_shell(
     cwd: str | None = None,
 ) -> subprocess.CompletedProcess[str]:
     """Execute a command through the shell, gated by policy.
+
+    The child runs in a dedicated session; a timeout terminates the whole
+    process group, so a misbehaving third-party child that ignores
+    termination signals leaves no orphans behind.
 
     Args:
         command: The shell command to run.
@@ -178,15 +264,22 @@ def safe_run_shell(
     if len(command) > _MAX_COMMAND_LENGTH:
         raise ValueError(f"command exceeds {_MAX_COMMAND_LENGTH} chars")
     log.debug("safe_run_shell: %s reason=%s", command[:80], reason)
-    return subprocess.run(
+    process = subprocess.Popen(
         command,
         shell=True,
-        capture_output=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         text=True,
-        timeout=timeout,
-        check=False,
         cwd=cwd,
+        start_new_session=_START_NEW_SESSION,
     )
+    try:
+        stdout, stderr = _communicate_group_managed(process, timeout)
+    finally:
+        if process.poll() is None:
+            _kill_process_tree(process)
+            process.communicate()
+    return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
 
 
 def safe_clear_screen() -> None:

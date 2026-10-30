@@ -32,9 +32,10 @@ Usage
 from __future__ import annotations
 
 import logging
+import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Sequence
 
 if TYPE_CHECKING:
     from modules.detection_feed import DetectionFeed
@@ -96,11 +97,18 @@ class IDetectionOracle(ABC):
         command: str,
         args: str,
         action_category: str,
+        benign_alternatives: Sequence[str] | None = None,
     ) -> DetectionAssessment:
         """Return a full DetectionAssessment for the given action."""
 
     @abstractmethod
-    def probability(self, command: str, args: str, action_category: str) -> float:
+    def probability(
+        self,
+        command: str,
+        args: str,
+        action_category: str,
+        benign_alternatives: Sequence[str] | None = None,
+    ) -> float:
         """Return only the probability score in [0.0, 1.0]."""
 
 
@@ -290,6 +298,38 @@ _CATEGORY_BASE_PROBABILITY: dict[str, float] = {
     "other": 0.25,
 }
 
+_BENIGN_DAMPENING = 0.5
+_BENIGN_MIN_TOKEN_LEN = 3
+
+
+def _benign_alternative_matches(command: str, args: str, benign_alternatives: Sequence[str]) -> bool:
+    """Return True when a declared benign alternative overlaps the command.
+
+    Matching is whole-token and bounded: tokens shorter than three
+    characters are ignored and the alternative must share at least one
+    word with the command+args vocabulary, so a declared twin like
+    ``scheduled defender scan`` matches ``run defender scan`` but never
+    flag-soup alone.
+
+    Args:
+        command: Command token.
+        args: Command arguments line.
+        benign_alternatives: Declared benign twin descriptions.
+
+    Returns:
+        True when at least one alternative overlaps.
+    """
+    haystack = set(re.findall(r"[a-z0-9]+", f"{command} {args}".lower()))
+    for alternative in benign_alternatives:
+        needle = {
+            token
+            for token in re.findall(r"[a-z0-9]+", str(alternative).lower())
+            if len(token) >= _BENIGN_MIN_TOKEN_LEN
+        }
+        if needle and needle & haystack:
+            return True
+    return False
+
 # ---------------------------------------------------------------------------
 # Mitigation advice per risk tier
 # ---------------------------------------------------------------------------
@@ -373,11 +413,39 @@ class DetectionOracle(IDetectionOracle):
         command: str,
         args: str,
         action_category: str,
+        benign_alternatives: Sequence[str] | None = None,
     ) -> DetectionAssessment:
+        """Assess the detection risk of a command, dampened by benign twins.
+
+        Threat-informed defense contract: a ``benign_alternatives`` entry
+        overlapping the command vocabulary means the flagged behaviour is
+        plausibly a benign twin (scheduled scans, managed agents); the
+        derived log-noise score is dampened and the sigma evidence is
+        kept attached so consumers see both the risk and its benign
+        explanation.
+
+        Args:
+            command: Command token.
+            args: Command arguments line.
+            action_category: Opsec action category.
+            benign_alternatives: Chain step alternatives explicating the
+                benign counterpart of this action.
+
+        Returns:
+            DetectionAssessment with the dampened probability when a
+            declared alternative overlaps the command.
+        """
         text = (command + " " + args).lower()
         matched = self._match_rules(text, action_category)
         probability = self._aggregate_probability(matched, action_category)
-        recommendation = self._build_recommendation(probability, matched, action_category)
+        dampened = bool(matched) and _benign_alternative_matches(command, args, benign_alternatives or [])
+        if dampened:
+            probability = round(min(1.0, probability * _BENIGN_DAMPENING), 4)
+            recommendation = "benign alternative declared: " + self._build_recommendation(
+                probability, matched, action_category
+            )
+        else:
+            recommendation = self._build_recommendation(probability, matched, action_category)
 
         return DetectionAssessment(
             command=command,
@@ -389,8 +457,15 @@ class DetectionOracle(IDetectionOracle):
             recommendation=recommendation,
         )
 
-    def probability(self, command: str, args: str, action_category: str) -> float:
-        return self.assess(command, args, action_category).probability
+    def probability(
+        self,
+        command: str,
+        args: str,
+        action_category: str,
+        benign_alternatives: Sequence[str] | None = None,
+    ) -> float:
+        """Return the detection probability, honouring benign alternatives."""
+        return self.assess(command, args, action_category, benign_alternatives=benign_alternatives).probability
 
     # Internal helpers --------------------------------------------------------
 

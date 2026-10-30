@@ -93,6 +93,10 @@ class TestTelemetryMediator:
         assert received == [("t", "w", "kind", "text")]
 
     def test_publish_event_forwarding_calls_default_path(self, monkeypatch):
+        import modules.loop_ai_bridge as lab
+
+        monkeypatch.setattr(lab, "_stage", lambda name, default=True: False, raising=False)
+        monkeypatch.setattr(lab, "_SINGLETONS", {}, raising=False)
         mediator = TelemetryMediator()
         annotation = mediator.annotate_detection("ls")
         assert isinstance(annotation, dict)

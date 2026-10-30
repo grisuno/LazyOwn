@@ -119,7 +119,7 @@
     "cli/commands/cloud_attacks.py": "5c3ab1d2b36d1ef3c3ee0f801d67553b03d09f26e965ad9000036b18877271f4",
     "cli/commands/collaboration.py": "08f90c0114b6e8ebbf29e89bf41b65177cb03f5a60a10f6d85c208dbfae7ff93",
     "cli/commands/command_and_control.py": "2365e0b58449ae07116bc3df991c64cb0dff23f8d5ef954936b1bfcb7efeabb5",
-    "cli/commands/command_and_control_migrated.py": "59a6e0c78e84003c646cbc01d958dba4191242de41e693861ba15c714aa1c8bc",
+    "cli/commands/command_and_control_migrated.py": "4db11471d22f726f83ae05c12d81f20dffb3180daaf96d4e5a5d88a15c3ed744",
     "cli/commands/containers.py": "568632938ed52ae040b94c031bb5d653ddc103f42221e9e3da5023e08765d2b0",
     "cli/commands/cred.py": "ec230e5bc167bbb40c58dbd8dbdf0c9e9a3da1fde773345167f1bd357b2ed054",
     "cli/commands/cred_migrated.py": "b05636924991f9b44d22baa8aafdceaa5a6af31501a4d53d5a98d5579d9a22c3",
@@ -3207,7 +3207,7 @@
     },
     {
       "name": "do_chain_distill",
-      "line": 2028,
+      "line": 2056,
       "summary": "Turn one autonomous-loop trace into a reusable chain YAML.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3218,7 +3218,7 @@
     },
     {
       "name": "do_apt_playbook",
-      "line": 2078,
+      "line": 2106,
       "summary": "List, validate, and run APT playbooks based on public threat reports.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3229,7 +3229,7 @@
     },
     {
       "name": "do_mitre_test",
-      "line": 2198,
+      "line": 2226,
       "summary": "Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3240,7 +3240,7 @@
     },
     {
       "name": "do_generate_playbook",
-      "line": 2301,
+      "line": 2329,
       "summary": "Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3251,7 +3251,7 @@
     },
     {
       "name": "do_my_playbook",
-      "line": 2480,
+      "line": 2508,
       "summary": "Generates a playbook from your custom technique database.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3262,7 +3262,7 @@
     },
     {
       "name": "do_caldera",
-      "line": 2537,
+      "line": 2565,
       "summary": "Installs and starts the Caldera server.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3273,7 +3273,7 @@
     },
     {
       "name": "do_caldera_import",
-      "line": 2586,
+      "line": 2614,
       "summary": "Import CALDERA abilities into LazyOwn playbooks.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -3284,7 +3284,7 @@
     },
     {
       "name": "do_caldera_export",
-      "line": 2678,
+      "line": 2706,
       "summary": "Export a LazyOwn playbook to CALDERA ability YAML.",
       "category": "10. Command & Control",
       "phase": "c2",

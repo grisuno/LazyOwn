@@ -20,6 +20,7 @@ import hashlib
 import logging
 import os
 import re
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -56,6 +57,45 @@ _MAX_BUDGET_ATTEMPTS = _MAX_RETRIES + 1
 _MAX_BUDGET_SECONDS = _MAX_STEP_TIMEOUT
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _MAX_EVIDENCE_PATH_CHARS = 512
+_SHELL_METACHARS = re.compile(r"[;&|<>()`$\\]")
+_SHELL_METACHARS_REASON = (
+    "declare variable in raw_vars to interpolate it verbatim, or shell-quote the value in YAML"
+)
+_MAX_SKIP_MAX_AGE = 365 * 86400
+
+
+def skip_pending(path: str, max_age: int, now: float | None = None) -> str | None:
+    """Return the skip reason when an artefact is present and fresh.
+
+    The freshness window makes recurring chains re-run stale work
+    instead of skipping forever: an artefact older than ``skip_max_age``
+    seconds stops being a skip guard and its step executes again.
+
+    Args:
+        path: Rendered artefact path.
+        max_age: Maximum accepted age in seconds; 0 keeps the artefact
+            valid forever.
+        now: Reference epoch; defaults to current time.
+
+    Returns:
+        Skip reason text, or None when the step must run.
+    """
+    if not path or not os.path.exists(path):
+        return None
+    if not max_age:
+        return f"exists: {path}"
+    try:
+        stamp = os.stat(path).st_mtime
+    except OSError:
+        return f"exists: {path}"
+    reference = now if now is not None else time.time()
+    if reference - stamp <= max_age:
+        return f"exists: {path}"
+    return None
+_YAML_REQUIRED = (
+    "PyYAML is required for chain YAML: pip install pyyaml, or run 'doctor --fix' "
+    "to install missing packages"
+)
 
 
 @dataclass
@@ -76,6 +116,7 @@ class ChainStep:
     description: str = ""
     when: str = ""
     skip_if_exists: str = ""
+    skip_max_age: int = 0
     resolve_newest_glob: str = ""
     resolve_newest_as: str = ""
     timeout: int = 0
@@ -124,6 +165,7 @@ class Chain:
     extends: str = ""
     fallback: str = ""
     total_timeout: int = 0
+    raw_vars: tuple[str, ...] = ()
 
     def resolve(self, tokens: dict[str, str]) -> list[dict[str, Any]]:
         """Substitute tokens, evaluate conditions and guards.
@@ -168,9 +210,11 @@ class Chain:
                 resolved.append({**base, "run": rendered, "skipped": True, "reason": "when false"})
                 continue
             skip_path = _render(step.skip_if_exists, merged) if step.skip_if_exists else ""
-            if skip_path and os.path.exists(skip_path):
-                resolved.append({**base, "run": rendered, "skipped": True, "reason": f"exists: {skip_path}"})
-                continue
+            if skip_path:
+                skip_reason = skip_pending(skip_path, step.skip_max_age)
+                if skip_reason:
+                    resolved.append({**base, "run": rendered, "skipped": True, "reason": skip_reason})
+                    continue
             if step.resolve_newest_glob and step.resolve_newest_as:
                 matches = sorted(glob.glob(_render(step.resolve_newest_glob, merged)), key=os.path.getmtime)
                 if not matches:
@@ -326,6 +370,23 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
         value = data.get(key, {})
         if value is not None and not isinstance(value, dict):
             errors.append(f"{key} must be a mapping")
+    raw_vars = data.get("raw_vars", [])
+    if not isinstance(raw_vars, list) or any(not isinstance(item, str) or not item.strip() for item in raw_vars):
+        errors.append("raw_vars must be a list of variable names")
+    else:
+        raw_names = {str(item).strip() for item in raw_vars}
+        for key in ("defaults", "vars"):
+            values = data.get(key, {})
+            if not isinstance(values, dict):
+                continue
+            for var, value in values.items():
+                text = str(value or "")
+                if str(var) in raw_names:
+                    continue
+                if _SHELL_METACHARS.search(text):
+                    errors.append(
+                        f"{key}.{var} contains shell metacharacters; {_SHELL_METACHARS_REASON}"
+                    )
     for key in ("tags", "platforms"):
         value = data.get(key, [])
         if value is not None and not isinstance(value, list):
@@ -382,6 +443,11 @@ def validate_chain(data: Any, filename: str = "", chains_dir: Path | str | None 
             timeout = step.get("timeout", 0)
             if isinstance(timeout, bool) or not isinstance(timeout, int) or not 0 <= timeout <= _MAX_STEP_TIMEOUT:
                 errors.append(f"step {step_id or step.get('run')!r}: timeout must be 0-{_MAX_STEP_TIMEOUT}")
+            skip_max_age = step.get("skip_max_age", 0)
+            if isinstance(skip_max_age, bool) or not isinstance(skip_max_age, int) or not 0 <= skip_max_age <= _MAX_SKIP_MAX_AGE:
+                errors.append(
+                    f"step {step_id or step.get('run')!r}: skip_max_age must be 0-{_MAX_SKIP_MAX_AGE} seconds"
+                )
             retries = step.get("retries", 0)
             if isinstance(retries, bool) or not isinstance(retries, int) or not 0 <= retries <= _MAX_RETRIES:
                 errors.append(f"step {step_id or step.get('run')!r}: retries must be 0-{_MAX_RETRIES}")
@@ -510,7 +576,7 @@ def render_text_token_braces(text: str) -> str:
 def load_all(chains_dir: Path | str = CHAINS_DIR) -> dict[str, Chain]:
     """Load every valid, enabled chain file (skips the rest loudly)."""
     if yaml is None:
-        raise RuntimeError("PyYAML is required: pip install pyyaml")
+        raise RuntimeError(_YAML_REQUIRED)
     directory = Path(chains_dir)
     raw: dict[str, dict[str, Any]] = {}
     if directory.exists():
@@ -584,7 +650,17 @@ def _materialize(name: str, raw: dict[str, dict[str, Any]], stack: tuple[str, ..
         extends=parent_name,
         fallback=str(data.get("fallback", "") or ""),
         total_timeout=int(data.get("total_timeout", 0) or 0),
+        raw_vars=tuple(str(item).strip() for item in (data.get("raw_vars") or []) if str(item).strip()),
     )
+
+
+def _nonneg_int(raw: Any) -> int:
+    """Return a clamped non-negative integer, or 0 on any malformed input."""
+    try:
+        value = int(raw)
+    except (TypeError, ValueError):
+        return 0
+    return max(0, value)
 
 
 def _step_from_raw(item: dict[str, Any]) -> ChainStep:
@@ -608,6 +684,7 @@ def _step_from_raw(item: dict[str, Any]) -> ChainStep:
         description=str(item.get("description", "") or ""),
         when=str(item.get("when", "") or ""),
         skip_if_exists=str(item.get("skip_if_exists", "") or ""),
+        skip_max_age=_nonneg_int(item.get("skip_max_age", 0)),
         resolve_newest_glob=str(resolver.get("glob", "") or ""),
         resolve_newest_as=str(resolver.get("as", "") or ""),
         timeout=int(item.get("timeout", 0) or 0),
@@ -649,7 +726,7 @@ def get(name: str, chains_dir: Path | str = CHAINS_DIR) -> Chain | None:
 def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]:
     """List every chain file including disabled ones (for administration)."""
     if yaml is None:
-        raise RuntimeError("PyYAML is required: pip install pyyaml")
+        raise RuntimeError(_YAML_REQUIRED)
     directory = Path(chains_dir)
     rows: list[dict[str, Any]] = []
     if not directory.exists():
@@ -709,7 +786,7 @@ def scan_all(chains_dir: Path | str = CHAINS_DIR) -> list[dict[str, Any]]:
 def set_enabled(name: str, enabled: bool, chains_dir: Path | str = CHAINS_DIR) -> bool:
     """Flip a chain's ``enabled`` flag in its YAML file (round-trip)."""
     if yaml is None:
-        raise RuntimeError("PyYAML is required: pip install pyyaml")
+        raise RuntimeError(_YAML_REQUIRED)
     wanted = (name or "").strip().lower()
     directory = Path(chains_dir)
     for path in sorted(directory.glob("*.yaml")):
@@ -738,7 +815,7 @@ def generate_for_playbook(
 ) -> Path:
     """Write a per-APT chain file inheriting the base APT chain."""
     if yaml is None:
-        raise RuntimeError("PyYAML is required: pip install pyyaml")
+        raise RuntimeError(_YAML_REQUIRED)
     key = (engine_key or "").strip()
     if not key:
         raise ValueError("engine_key must not be empty")

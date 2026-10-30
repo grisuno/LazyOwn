@@ -2,5 +2,7 @@ name: apt_macos_tcc_bypass___persistence
 description: Full APT chain for macos_tcc_bypass_&_persistence (extends apt_chain).
 enabled: true
 extends: apt_chain
+raw_vars:
+  - playbook
 defaults:
   playbook: macos_tcc_bypass_&_persistence

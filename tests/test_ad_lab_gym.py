@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import unittest
+import tempfile
+from pathlib import Path as _Path
 from unittest.mock import patch
 
 from modules import ad_gym, ctf_capture, gym_registry, lab_runtime
@@ -65,7 +67,7 @@ class AdLabCaptureSpec(unittest.TestCase):
             "ad_ldap_enum",
             "10.0.0.9",
             output="sAMAccountName: svc_sql\n",
-            sessions_dir=":",
+            sessions_dir=str(_Path(tempfile.mkdtemp()) / "sessions"),
             catalogue=ad_gym.get,
         )
         matched = [c["name"] for c in record["checks"] if c["matched"]]
@@ -77,7 +79,7 @@ class AdLabCaptureSpec(unittest.TestCase):
             "ad_smb_shares",
             "10.0.0.9",
             output="netlogon: Disk\n",
-            sessions_dir=":",
+            sessions_dir=str(_Path(tempfile.mkdtemp()) / "sessions"),
             catalogue=ad_gym.get,
         )
         matched = [c["name"] for c in record["checks"] if c["matched"]]
@@ -89,7 +91,7 @@ class AdLabCaptureSpec(unittest.TestCase):
             "ad_default_creds",
             "10.0.0.9",
             output="administrator:LazyOwnAd!Lab42\n",
-            sessions_dir=":",
+            sessions_dir=str(_Path(tempfile.mkdtemp()) / "sessions"),
             catalogue=ad_gym.get,
         )
         matched = [c["name"] for c in record["checks"] if c["matched"]]
@@ -101,7 +103,7 @@ class AdLabCaptureSpec(unittest.TestCase):
             "ad_samr_enum",
             "10.0.0.9",
             output="user:[svc_sql] rid:[0x44f]\n",
-            sessions_dir=":",
+            sessions_dir=str(_Path(tempfile.mkdtemp()) / "sessions"),
             catalogue=ad_gym.get,
         )
         matched = [c["name"] for c in record["checks"] if c["matched"]]

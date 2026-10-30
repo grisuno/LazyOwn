@@ -80,15 +80,26 @@ class Fact:
 
 
 class RepeatDetector:
-    """Sliding-window detector for identical repeated commands.
+    """Sliding-window detector for identical and alternating repeats.
+
+    Two stuck-loop shapes are recognised:
+
+    - AAAA: every command in the window is identical.
+    - ABABAB: the window alternates between exactly two commands with at
+      least two repetitions each, the oscillation the legacy loop vetoed.
 
     Args:
-        window: How many recent commands to watch.
+        window: How many recent commands to watch (minimum 6 for the
+            alternating pattern).
     """
+
+    _OSCILLATION_MIN = 6
 
     def __init__(self, window: int = DEFAULT_REPEAT_WINDOW) -> None:
         self._window = max(2, int(window))
         self._recent: deque[str] = deque(maxlen=self._window)
+        self._oscillation_a = ""
+        self._oscillation_b = ""
 
     def record(self, command: str) -> bool:
         """Add one executed command; returns True when the window fills.
@@ -97,22 +108,61 @@ class RepeatDetector:
             command: Exact command line as executed.
 
         Returns:
-            True when the last ``window`` recorded commands are all
-            identical (stuck loop signal).
+            True when a stuck-loop shape fills the window.
         """
         text = (command or "").strip()
         if not text:
             return False
         self._recent.append(text)
+        self._update_oscillation()
         return self.stuck
+
+    def _update_oscillation(self) -> None:
+        """Refresh the detected alternating pair, if any."""
+        entries = list(self._recent)
+        if (
+            len(entries) < self._OSCILLATION_MIN
+            or len(set(entries)) != 2
+            or not self._strict_alternating(entries)
+        ):
+            self._oscillation_a = ""
+            self._oscillation_b = ""
+            return
+        self._oscillation_a, self._oscillation_b = entries[0], entries[1]
+
+    @staticmethod
+    def _strict_alternating(entries: list[str]) -> bool:
+        """Return True when consecutive entries always differ."""
+        return all(entries[i] != entries[i + 1] for i in range(len(entries) - 1))
 
     @property
     def stuck(self) -> bool:
-        """True when the window is full of one identical command."""
-        if len(self._recent) < self._window:
+        """True when the loop is visibly not progressing.
+
+        Either the window is all one identical command (AAAA), or the
+        window is at least :data:`_OSCILLATION_MIN` long and holds
+        exactly two commands alternating (ABABAB).
+        """
+        entries = list(self._recent)
+        if len(entries) < 2:
             return False
-        first = self._recent[0]
-        return all(entry == first for entry in self._recent)
+        if len(entries) >= self._OSCILLATION_MIN and self._alternating():
+            return True
+        if all(entry == entries[0] for entry in entries):
+            return len(entries) >= self._window
+        return False
+
+    def _alternating(self) -> bool:
+        """True when the window holds an exact two-command oscillation."""
+        return (
+            self._oscillation_a != ""
+            and self._oscillation_b != ""
+            and self._oscillation_a != self._oscillation_b
+        )
+
+    def oscillation_pair(self) -> tuple[str, str]:
+        """Return the detected alternating pair, ('', '') when none."""
+        return self._oscillation_a, self._oscillation_b
 
     def last_commands(self) -> list[str]:
         """Snapshot of the recent command window (oldest first)."""
@@ -121,6 +171,8 @@ class RepeatDetector:
     def reset(self) -> None:
         """Clear the window (operator intervention acknowledged)."""
         self._recent.clear()
+        self._oscillation_a = ""
+        self._oscillation_b = ""
 
 
 class EdrPacer:

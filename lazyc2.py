@@ -7963,6 +7963,75 @@ def api_guard_audit():
     return jsonify(payload)
 
 
+@app.route("/api/chain_approvals", methods=["GET"])
+@login_required
+def api_chain_approvals():
+    """List confirm-step approval requests from the chain approval gate.
+
+    Sweeps expired requests first so the dashboard never shows stale
+    pending rows. Optional ``status`` query param filters one status.
+
+    Returns:
+        JSON object with ``requests`` (newest first) and ``count``.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.chain_approval import PendingStore
+
+    try:
+        store = PendingStore()
+        store.expire_stale()
+        status = (request.args.get("status", "") or "").strip()
+        rows = store.list(status=status or None)
+        return jsonify({"requests": rows, "count": len(rows)}), 200
+    except Exception as exc:
+        logger.error("api_chain_approvals failed: %s", exc, exc_info=True)
+        return jsonify({"requests": [], "count": 0, "error": "approval list failed"}), 200
+
+
+@app.route("/api/chain_approvals/<request_id>/decide", methods=["POST"])
+@login_required
+@csrf_protect
+def api_chain_approvals_decide(request_id: str):
+    """Approve or deny one pending chain approval request.
+
+    Body is JSON: ``decision`` must be ``approve`` or ``deny`` and an
+    optional ``note`` rides along. Ids are validated before any store
+    access and unknown or already-decided requests answer 404.
+
+    Args:
+        request_id: Approval request id (16 hex chars).
+    """
+    response = decoy()
+    if response:
+        return response
+    if not request_id or set(request_id) > set("0123456789abcdef") or len(request_id) != 16:
+        return jsonify({"error": "invalid request id"}), 400
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"error": "Invalid request body"}), 400
+    decision = str(data.get("decision", "")).strip().lower()
+    if decision not in ("approve", "deny"):
+        return jsonify({"error": "decision must be approve or deny"}), 400
+    from modules.chain_approval import PendingStore
+
+    try:
+        store = PendingStore()
+        record = store.decide(
+            request_id,
+            decision == "approve",
+            decided_by="c2",
+            note=str(data.get("note", "") or "")[:300],
+        )
+    except Exception as exc:
+        logger.error("api_chain_approvals_decide failed: %s", exc, exc_info=True)
+        return jsonify({"error": "decide failed"}), 500
+    if record is None:
+        return jsonify({"error": "no pending approval with that id"}), 404
+    return jsonify({"request": record, "status": record.get("status", "")}), 200
+
+
 @app.route("/api/loop_graph")
 @login_required
 def api_loop_graph():

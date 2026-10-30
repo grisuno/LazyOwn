@@ -259,14 +259,21 @@ def row_from_event(payload: dict[str, Any], limits: LedgerLimits | None = None) 
         return row
     if kind in ("exploit", "chain", "emulation", "ctf_capture") and bool(payload.get("success")):
         row = _base_row(payload, bounds)
-        if evidence_supported(row["evidence"], bounds.min_evidence_output):
+        gate_blocked = str(metadata.get("findings_gate", "") or "") == "blocked"
+        if gate_blocked:
+            row["state"] = "partial"
+            row["level"] = metadata_level(payload)
+            row["reason"] = "chain verdict insufficient_data: evidence does not clear the triage floor"
+        elif evidence_supported(row["evidence"], bounds.min_evidence_output):
             row["state"] = "confirmed"
             row["level"] = "critical" if bool(payload.get("shell")) else "confirmed"
         else:
             row["state"] = "partial"
             row["level"] = "confirmed" if bool(payload.get("shell")) else "partial"
+            row["reason"] = "foothold evidence"
         row["phase"] = "act"
-        row["reason"] = str(metadata.get("reason", "") or "foothold evidence")
+        if metadata.get("reason", ""):
+            row["reason"] = str(metadata["reason"])
         return row
     return None
 

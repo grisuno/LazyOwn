@@ -13,8 +13,16 @@ cascade instead of carrying private "pick the next action" logic.
 | `playbook.py` | `PlaybookSelector` - runs an APT actor emulation (`apt_chain apt_<actor>`) when the objective names an actor from `playbooks/`. |
 | `adversary.py` | `AdversarySelector` - runs a custom adversary profile (`adversary_yaml <name>`) when the objective names one from `lazyadversaries/`. |
 | `atomic.py` | `AtomicSelector` - emulates named MITRE ATT&CK techniques with Atomic Red Team tests (`atomic_emulate --techniques`); both share one execution path. |
+| `cred_spray.py` | `CredentialSpraySelector` - reuses configured credentials against an open service with the matching LazyOwn verb. |
 | `chain.py` | `ChainSelector` - proposes `apt_chain <name> <target>` via the shared matcher in `modules/chain_match.py`. |
-| `registry.py` | `default_selectors()` builds the ordered cascade; `propose_next(ctx)` returns the first concrete decision. |
+| `registry.py` | `all_selectors()` is the full priority-ordered cascade; `default_selectors()` drops any selector the orchestrator disabled; `propose_next(ctx)` returns the first concrete decision. |
+
+## Administration
+
+The orchestrator is the single admin surface. `orchestrator.selectors.<name> =
+false` in `payload.json` (via `modules.orchestrator_config.set_selector`)
+disables one selector for both runtimes; unknown or absent names default to
+enabled, so a new selector is live without configuration.
 | `__init__.py` | Package exports. |
 
 `SelectionContext.exclude` is the set of already-taken command strings;

@@ -1285,6 +1285,57 @@ def _wrap_chain_with_metrics_bias(
     return wrapped
 
 
+class UnifiedBrainSelector(ICommandSelector):
+    """Daemon adapter over the one shared selector cascade.
+
+    Routes the daemon through ``modules.selectors.registry.propose_next`` so it
+    consults the exact same action brain as the LazyLoopEngine planner: chains,
+    credential reuse, APT playbooks, adversary profiles and MITRE/atomic
+    techniques, all orchestrator-administered. Replaces the daemon's separate
+    chain and credential-spray selectors (now subsumed). Per-run dedupe is
+    carried as the shared exclude set so a command is proposed at most once.
+    """
+
+    name = "unified_brain"
+
+    def __init__(self) -> None:
+        self._proposed: set[str] = set()
+
+    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
+        """Build a SelectionContext and return the cascade's first decision."""
+        if not target:
+            return None
+        try:
+            from modules.selectors.base import SelectionContext
+            from modules.selectors.registry import propose_next
+        except Exception:
+            return None
+        payload = _load_payload()
+        has_creds = bool(
+            str(payload.get("start_user", "") or "").strip()
+            and str(payload.get("start_pass", "") or payload.get("hash", "") or "").strip()
+        )
+        ctx = SelectionContext(
+            target=target,
+            phase=phase,
+            os_hint=str(context.get("os_hint", "") or ""),
+            services=tuple(context.get("services", []) or ()),
+            has_creds=has_creds,
+            exclude=frozenset(self._proposed),
+            extra={"goal": str(context.get("goal", "") or "")},
+        )
+        decision = propose_next(ctx)
+        if decision is None or not decision.command.strip():
+            return None
+        self._proposed.add(decision.command)
+        return CommandDecision(
+            command=decision.command,
+            source=decision.source,
+            reason=decision.reason,
+            priority=decision.priority,
+        )
+
+
 class CredentialSpraySelector(ICommandSelector):
     """Daemon adapter over the shared credential-spray selector.
 
@@ -1448,8 +1499,7 @@ class StrategyEngine:
             self._reactive_sel = reactive_sel
             selectors = [
                 reactive_sel,
-                CredentialSpraySelector(self._fail_counts),
-                ChainSelector(),
+                UnifiedBrainSelector(),
                 ParquetSelector(pdb, self._fail_counts),
                 BridgeSelector(dispatcher, self._fail_counts),
                 SWANSelector(),
@@ -1479,9 +1529,17 @@ class StrategyEngine:
         phase: str,
         services: list[str] | None = None,
         os_hint: str = "unknown",
+        goal: str = "",
     ) -> CommandDecision:
-        """Select the next command for target/phase using the cascade."""
-        return self._cascade.next_command(target, phase, context={"services": services or [], "os_hint": os_hint})
+        """Select the next command for target/phase using the cascade.
+
+        ``goal`` is the objective text, forwarded so the shared selectors that
+        act on a named capability (APT actor, adversary profile, MITRE
+        technique) can read it.
+        """
+        return self._cascade.next_command(
+            target, phase, context={"services": services or [], "os_hint": os_hint, "goal": goal}
+        )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -2084,7 +2142,7 @@ async def _run_objective(
         if _planner_decision is not None:
             decision = _planner_decision
         else:
-            decision = strategy.next_command(target, phase, services, os_hint=detected_os)
+            decision = strategy.next_command(target, phase, services, os_hint=detected_os, goal=objective_text)
         command = decision.command.replace("{rhost}", target).replace("TARGET", target).replace("{target}", target)
 
         # ── Duplicate-command skip ────────────────────────────────────
@@ -2140,6 +2198,7 @@ async def _run_objective(
                         phase,
                         services,
                         os_hint=detected_os,
+                        goal=objective_text,
                     )
                     alt_cmd = alt.command.replace("{rhost}", target).replace(
                         "TARGET",
@@ -2189,7 +2248,7 @@ async def _run_objective(
                     command,
                     _pre_assess.probability * 100,
                 )
-                _alt = strategy.next_command(target, phase, services, os_hint=detected_os)
+                _alt = strategy.next_command(target, phase, services, os_hint=detected_os, goal=objective_text)
                 _alt_cmd = _alt.command.replace("{rhost}", target).replace("TARGET", target)
                 if _alt_cmd and _alt_cmd != command:
                     decision = _alt

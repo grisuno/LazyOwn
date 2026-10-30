@@ -61,7 +61,7 @@ class _Strategy:
         self._commands = list(commands)
         self._at = 0
 
-    def next_command(self, target: str, phase: str, services=None, os_hint: str = "linux"):
+    def next_command(self, target: str, phase: str, services=None, os_hint: str = "linux", goal: str = ""):
         """Return the next canned command as a planner-free decision."""
         command = self._commands[min(self._at, len(self._commands) - 1)]
         self._at += 1

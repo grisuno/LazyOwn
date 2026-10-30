@@ -63,11 +63,11 @@ Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_e
 - `AutonomousExploitEngine.profile` (method) `modules/autonomous_exploit_engine.py:328` `def profile(self, target)` -- Build a TargetProfile from existing recon data.
 - `AutonomousExploitEngine.rank_exploits` (method) `modules/autonomous_exploit_engine.py:389` `def rank_exploits(self, profile)` -- Rank exploit candidates by confidence for a given profile.
 - `AutonomousExploitEngine.execute_candidate` (method) `modules/autonomous_exploit_engine.py:412` `def execute_candidate(self, candidate, profile)` -- Execute a single exploit candidate and return the result.
-- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1741` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
-- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:2056` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
-- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2486` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
-- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2612` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
-- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2676` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` -- Execute the full autonomous exploit chain against a target.
+- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1733` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
+- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:2048` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
+- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2478` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
+- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2604` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
+- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2668` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` -- Execute the full autonomous exploit chain against a target.
 
 ## modules/aws_attacks.py
 Imported by: `cli/commands/cloud_attacks.py`
@@ -321,9 +321,20 @@ Depends on: `core/logging.py`, `modules/chain_runner.py`, `skills/lazyown_facts.
 Imported by: `cli/commands/command_and_control_migrated.py`, `modules/gym_matrix_runner.py`, `tests/test_f4_hardening.py`
 - `spool_chain_outputs` (function) `modules/chain_facts.py:24` `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` -- Persist one chain run's outputs and ingest them as facts.
 
+## modules/chain_match.py
+Depends on: `modules/chain_registry.py`
+Imported by: `modules/selection/chain.py`, `tests/test_chain_selector.py`, `tests/test_lazy_loop.py`, `tests/test_selectors_base.py`
+- `normalize_tags` (function) `modules/chain_match.py:48` `def normalize_tags(tags)` -- Return a chain's tags lowercased and aliased to the shared vocabulary.
+- `service_tokens` (function) `modules/chain_match.py:64` `def service_tokens(services)` -- Normalise discovered service names into the chain tag vocabulary.
+- `platform_ok` (function) `modules/chain_match.py:74` `def platform_ok(platforms, os_hint)` -- Return True when a chain's platforms admit the target OS hint.
+- `score` (function) `modules/chain_match.py:85` `def score(tags, phase, svc_tokens)` -- Score one chain's tags for the phase and discovered services.
+- `reset_cache` (function) `modules/chain_match.py:97` `def reset_cache()` -- Clear the process-wide registry scan cache (tests, long-lived loops).
+- `load_rows` (function) `modules/chain_match.py:105` `def load_rows(allow_lab, ttl)` -- Return enabled, valid, non-lab chain rows, cached for the TTL.
+- `best_chain` (function) `modules/chain_match.py:135` `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)` -- Return the ``(name, reason)`` of the best matching chain, or None.
+
 ## modules/chain_registry.py
 Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/selection/playbook.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
 - `skip_pending` (function) `modules/chain_registry.py:67` `def skip_pending(path, max_age, now)` -- Return the skip reason when an artefact is present and fresh.
 - `ChainStep.identifier` (method) `modules/chain_registry.py:146` `def identifier(self)` -- Return the declared id or a stable generated one.
 - `Chain.resolve` (method) `modules/chain_registry.py:170` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
@@ -337,21 +348,21 @@ Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migra
 - `generate_for_playbook` (function) `modules/chain_registry.py:809` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
 
 ## modules/chain_runner.py
-Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
+Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
 Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
-- `StepOutcome.ok` (method) `modules/chain_runner.py:81` `def ok(self)` -- Return True for success, dry-run and skipped steps.
-- `StepOutcome.to_dict` (method) `modules/chain_runner.py:85` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:130` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:154` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
-- `ReplanContext.set_var` (method) `modules/chain_runner.py:177` `def set_var(self, name, value)` -- Record a variable the next steps should see.
-- `ReplanContext.insert_step` (method) `modules/chain_runner.py:182` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
-- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:187` `def skip_rest(self)` -- Record that remaining steps must not execute.
-- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:192` `def applied_vars(self)` -- Return recorded variable changes.
-- `ReplanContext.inserted` (method) `modules/chain_runner.py:197` `def inserted(self)` -- Return recorded steps to insert.
-- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:202` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
-- `render_text` (function) `modules/chain_runner.py:207` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
-- `ChainRunner.__init__` (method) `modules/chain_runner.py:218` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
-- `ChainRunner.run` (method) `modules/chain_runner.py:289` `def run(self)` -- Execute the chain in order and return every step outcome.
+- `StepOutcome.ok` (method) `modules/chain_runner.py:82` `def ok(self)` -- Return True for success, dry-run and skipped steps.
+- `StepOutcome.to_dict` (method) `modules/chain_runner.py:86` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:131` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:155` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
+- `ReplanContext.set_var` (method) `modules/chain_runner.py:178` `def set_var(self, name, value)` -- Record a variable the next steps should see.
+- `ReplanContext.insert_step` (method) `modules/chain_runner.py:183` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
+- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:188` `def skip_rest(self)` -- Record that remaining steps must not execute.
+- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:193` `def applied_vars(self)` -- Return recorded variable changes.
+- `ReplanContext.inserted` (method) `modules/chain_runner.py:198` `def inserted(self)` -- Return recorded steps to insert.
+- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:203` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
+- `render_text` (function) `modules/chain_runner.py:208` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
+- `ChainRunner.__init__` (method) `modules/chain_runner.py:219` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
+- `ChainRunner.run` (method) `modules/chain_runner.py:332` `def run(self)` -- Execute the chain in order and return every step outcome.
 
 ## modules/chain_state.py
 Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
@@ -477,24 +488,6 @@ Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kern
 - `CommandExecutor.run_tee` (method) `modules/command_executor.py:194` `def run_tee(self, command)` -- Run a command teeing raw output bytes to a writer and a log file.
 - `CommandExecutor.run_with_tee` (method) `modules/command_executor.py:358` `def run_with_tee(self, command, output_path, timeout)` -- Execute a command and tee output to a file.
 - `get_executor` (function) `modules/command_executor.py:426` `def get_executor()`
-
-## modules/compliance.py
-Depends on: `core/logging.py`, `modules/factsio.py`
-Imported by: `lazyc2.py`, `tests/test_single_source_of_truth.py`
-- `EvidenceChain.__init__` (method) `modules/compliance.py:357` `def __init__(self, sessions_dir)`
-- `EvidenceChain.add_file` (method) `modules/compliance.py:383` `def add_file(self, filepath, operator, description)`
-- `EvidenceChain.verify` (method) `modules/compliance.py:410` `def verify(self)`
-- `EvidenceChain.get_chain_digest` (method) `modules/compliance.py:429` `def get_chain_digest(self)`
-- `EvidenceChain.to_report` (method) `modules/compliance.py:432` `def to_report(self)`
-- `export_pdf` (function) `modules/compliance.py:449` `def export_pdf(report_md, output_path, title, classification)` -- Export a Markdown report to PDF using fpdf2.
-- `export_to_elastic_ndjson` (function) `modules/compliance.py:533` `def export_to_elastic_ndjson(findings, output_path, index_prefix)` -- Export findings as Elasticsearch NDJSON bulk format.
-- `export_to_cef` (function) `modules/compliance.py:572` `def export_to_cef(findings, output_path, vendor, product, version)` -- Export findings in CEF (Common Event Format) for ArcSight/QRadar/Splunk.
-- `ComplianceEngine.__init__` (method) `modules/compliance.py:635` `def __init__(self, sessions_dir)`
-- `ComplianceEngine.map_findings_to_compliance` (method) `modules/compliance.py:639` `def map_findings_to_compliance(self, findings, frameworks)` -- Map findings to compliance framework controls.
-- `ComplianceEngine.generate_compliance_report` (method) `modules/compliance.py:710` `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)` -- Generate a full compliance report with evidence chain and optional SIEM export.
-- `ComplianceEngine.export_pdf` (method) `modules/compliance.py:857` `def export_pdf(self, report, output_path)`
-- `ComplianceEngine.add_evidence` (method) `modules/compliance.py:927` `def add_evidence(self, filepath, operator, description)`
-- `ComplianceEngine.verify_evidence_chain` (method) `modules/compliance.py:930` `def verify_evidence_chain(self)`
 
 
 Next: [API_p11.md](API_p11.md)

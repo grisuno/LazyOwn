@@ -8,7 +8,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: What does lazy_loop.py depend on, and what depends on it? (112 connections)
+### Q: What does lazy_loop.py depend on, and what depends on it? (114 connections)
 
 - Status: unanswered
 
@@ -16,7 +16,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: How are the 158 files in 'modules: autonomous_daemon' related to each other?
+### Q: How are the 177 files in 'modules: autonomous_daemon' related to each other?
 
 - Status: unanswered
 

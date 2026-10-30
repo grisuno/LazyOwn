@@ -3,6 +3,53 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `path` | method | `skills/unified_orchestrator.py:252` | `def path(self)` |
+| `run` | method | `skills/unified_orchestrator.py:219` | `def run(self, goal)` |
+| `run` | method | `skills/unified_orchestrator.py:445` | `def run(self, goal)` |
+| `run` | method | `skills/unified_orchestrator.py:629` | `def run(self, goal)` |
+| `run` | method | `skills/unified_orchestrator.py:730` | `def run(self, goal)` |
+| `to_dict` | method | `skills/unified_orchestrator.py:197` | `def to_dict(self)` |
+| `validate` | method | `skills/unified_orchestrator.py:818` | `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` |
+| `with_defaults` | method | `skills/unified_orchestrator.py:156` | `def with_defaults(self, config)` |
+| `main` | function | `skills/update_knowledge.py:40` | `def main(argv)` |
+| `SecureSessionManager` | class | `slack_c2_bot.py:28` | `class SecureSessionManager` |
+| `__init__` | method | `slack_c2_bot.py:29` | `def __init__(self)` |
+| `capture_shell_output` | function | `slack_c2_bot.py:95` | `def capture_shell_output(cmd)` |
+| `check_lockout` | method | `slack_c2_bot.py:42` | `def check_lockout(self, user_id)` |
+| `check_rate_limit` | method | `slack_c2_bot.py:52` | `def check_rate_limit(self, user_id)` |
+| `cmd_addcli` | function | `slack_c2_bot.py:177` | `def cmd_addcli(ack, respond, command)` |
+| `cmd_clients` | function | `slack_c2_bot.py:195` | `def cmd_clients(ack, respond, command)` |
+| `cmd_download` | function | `slack_c2_bot.py:209` | `def cmd_download(ack, respond, command)` |
+| `create_session` | method | `slack_c2_bot.py:63` | `def create_session(self, user_id)` |
+| `get_client` | method | `slack_c2_bot.py:85` | `def get_client(self, user_id)` |
+| `handle_file` | function | `slack_c2_bot.py:240` | `def handle_file(event, say, logger)` |
+| `handle_message` | function | `slack_c2_bot.py:113` | `def handle_message(event, say, logger)` |
+| `mentioned` | function | `slack_c2_bot.py:252` | `def mentioned(ack, say, event)` |
+| `register_failed_attempt` | method | `slack_c2_bot.py:34` | `def register_failed_attempt(self, user_id)` |
+| `set_client` | method | `slack_c2_bot.py:81` | `def set_client(self, user_id, client_id)` |
+| `validate_session` | method | `slack_c2_bot.py:71` | `def validate_session(self, user_id)` |
+| `As` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Be` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Cs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Do` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ds` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ef` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Fp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Fs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Gd` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Ge` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Gs` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `He` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Hh` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `I` | function | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `In` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ir` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Is` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Jh` | function | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Jo` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Jp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
+| `Js` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
+| `Ke` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
 | `Kp` | class | `static/js/3d-force-graph-1.73.4.min.js:5` | `` |
 | `Lo` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
 | `Ls` | class | `static/js/3d-force-graph-1.73.4.min.js:2` | `` |
@@ -449,52 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1380` | `` |
 | `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1728` | `` |
 | `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:1785` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2250` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2360` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:2488` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3207` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3870` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:3910` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4099` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4216` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4580` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4771` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:4830` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5066` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5521` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5831` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:5904` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:6516` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:7101` | `` |
-| `_interopRequireDefault` | function | `static/js/html2pdf.bundle.min.js:7225` | `` |
-| `_lineBreakAtIndex` | function | `static/js/html2pdf.bundle.min.js:3457` | `` |
-| `_lineBreakAtIndex` | function | `static/js/html2pdf.bundle.min.js:3457` | `` |
-| `_loadImage` | function | `static/js/html2pdf.bundle.min.js:6129` | `` |
-| `_loadImage` | function | `static/js/html2pdf.bundle.min.js:6129` | `` |
-| `_parseBounds` | function | `static/js/html2pdf.bundle.min.js:6645` | `` |
-| `_parseMetrics` | function | `static/js/html2pdf.bundle.min.js:4945` | `` |
-| `_path` | function | `static/js/html2pdf.bundle.min.js:5641` | `` |
-| `_settledAt` | function | `static/js/html2pdf.bundle.min.js:7922` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:244` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:1779` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:3197` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:5048` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:5503` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:6161` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:6494` | `` |
-| `_slicedToArray` | function | `static/js/html2pdf.bundle.min.js:7071` | `` |
-| `_toConsumableArray` | function | `static/js/html2pdf.bundle.min.js:3209` | `` |
-| `_willSettleAt` | function | `static/js/html2pdf.bundle.min.js:7941` | `` |
-| `a` | function | `static/js/html2pdf.bundle.min.js:146` | `` |
-| `addColorStops` | function | `static/js/html2pdf.bundle.min.js:589` | `` |
-| `addColorStops` | function | `static/js/html2pdf.bundle.min.js:589` | `` |
-| `addImage` | function | `static/js/html2pdf.bundle.min.js:6022` | `` |
-| `addOtherToken` | function | `static/js/html2pdf.bundle.min.js:6442` | `` |
-| `addOtherToken` | function | `static/js/html2pdf.bundle.min.js:6442` | `` |
-| `all` | function | `static/js/html2pdf.bundle.min.js:8001` | `` |
-| `angle` | function | `static/js/html2pdf.bundle.min.js:5179` | `` |
-| `appendResult` | function | `static/js/html2pdf.bundle.min.js:1611` | `` |
-| `appendResult` | function | `static/js/html2pdf.bundle.min.js:1611` | `` |
-| `appendShadow` | function | `static/js/html2pdf.bundle.min.js:2388` | `` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

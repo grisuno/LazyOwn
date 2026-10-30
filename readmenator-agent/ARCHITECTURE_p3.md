@@ -210,12 +210,14 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/chain_facts.py` -> `core/logging.py`
 - `modules/chain_facts.py` -> `modules/chain_runner.py`
 - `modules/chain_facts.py` -> `skills/lazyown_facts.py`
+- `modules/chain_match.py` -> `modules/chain_registry.py`
 - `modules/chain_registry.py` -> `core/logging.py`
 - `modules/chain_runner.py` -> `core/safe_exec.py`
 - `modules/chain_runner.py` -> `modules/chain_registry.py`
 - `modules/chain_runner.py` -> `modules/chain_state.py`
 - `modules/chain_runner.py` -> `modules/detection_oracle.py`
 - `modules/chain_runner.py` -> `modules/hunt_verify.py`
+- `modules/chain_runner.py` -> `modules/loop_guardrails.py`
 - `modules/chain_runner.py` -> `modules/outcome_bus.py`
 - `modules/chain_runner.py` -> `modules/verb_manifest.py`
 - `modules/chain_synth.py` -> `modules/chain_registry.py`
@@ -282,6 +284,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/event_consumers.py` -> `modules/event_bus.py`
 - `modules/event_consumers.py` -> `modules/state_manager.py`
 - `modules/event_consumers.py` -> `modules/world_model.py`
+- `modules/exp.c` -> `modules/selection/chain.py`
 - `modules/exploit_chain.py` -> `modules/outcome_bus.py`
 - `modules/exploit_recommender.py` -> `lazygui/version.py`
 - `modules/exploit_recommender.py` -> `modules/world_model.py`
@@ -435,6 +438,8 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `modules/progress_ledger.py`
 - `modules/lazy_loop.py` -> `modules/reaction_bridge.py`
 - `modules/lazy_loop.py` -> `modules/reactive_engine.py`
+- `modules/lazy_loop.py` -> `modules/selection/base.py`
+- `modules/lazy_loop.py` -> `modules/selection/registry.py`
 - `modules/lazy_loop.py` -> `modules/selfupdate.py`
 - `modules/lazy_loop.py` -> `modules/sinks/findings.py`
 - `modules/lazy_loop.py` -> `modules/traffic_recorder.py`
@@ -491,10 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lesson_ingestor.py` -> `modules/moe_router.py`
 - `modules/lesson_ingestor.py` -> `modules/rl_trainer.py`
 - `modules/lilsplunky.py` -> `core/console.py`
-- `modules/lilsplunky.py` -> `core/logging.py`
-- `modules/lilsplunky.py` -> `modules/logging_config.py`
-- `modules/listener_manager.py` -> `utils.py`
-- `modules/live_surface.py` -> `modules/world_model.py`
-- `modules/llm_adapter.py` -> `contrib/legacy/lazydeepseekcli.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

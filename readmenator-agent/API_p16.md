@@ -41,7 +41,7 @@ Imported by: `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/mediation
 - `ai_snapshot` (function) `modules/loop_ai_bridge.py:469` `def ai_snapshot()` -- Compact status of the wired AI stack for the operator log.
 
 ## modules/loop_guardrails.py
-Imported by: `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`, `tests/test_repeat_shapes.py`
+Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`, `tests/test_repeat_shapes.py`
 - `RepeatDetector.__init__` (method) `modules/loop_guardrails.py:98` `def __init__(self, window)`
 - `RepeatDetector.record` (method) `modules/loop_guardrails.py:104` `def record(self, command)` -- Add one executed command; returns True when the window fills.
 - `RepeatDetector.stuck` (method) `modules/loop_guardrails.py:139` `def stuck(self)` -- True when the loop is visibly not progressing.

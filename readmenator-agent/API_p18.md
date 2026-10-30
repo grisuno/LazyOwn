@@ -112,6 +112,45 @@ Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprf
 - `OutputSanitizer.sanitize` (method) `modules/security_sanitizers.py:429` `def sanitize(self, value)` -- Return ``value`` projected into a JSON-serialisable form.
 - `build_default_config` (function) `modules/security_sanitizers.py:477` `def build_default_config(payload)` -- Return a :class:`SecurityConfig` populated from ``payload``.
 
+## modules/selection/adversary.py
+Depends on: `modules/selection/base.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selectors_capabilities.py`
+- `AdversarySelector.__init__` (method) `modules/selection/adversary.py:24` `def __init__(self, adversaries_dir)` -- Bind the directory holding adversary YAML profiles.
+- `AdversarySelector.propose` (method) `modules/selection/adversary.py:28` `def propose(self, ctx)` -- Return an adversary-emulation action when the goal names one.
+
+## modules/selection/atomic.py
+Depends on: `modules/selection/base.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selectors_capabilities.py`
+- `AtomicSelector.propose` (method) `modules/selection/atomic.py:25` `def propose(self, ctx)` -- Return an atomic-emulation action when technique ids are named.
+
+## modules/selection/base.py
+Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/playbook.py`, `modules/selection/registry.py`, `skills/autonomous_daemon.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
+- `Selector.propose` (method) `modules/selection/base.py:73` `def propose(self, ctx)` -- Return the next action for this strategy, or None to abstain.
+
+## modules/selection/chain.py
+Depends on: `modules/chain_match.py`, `modules/selection/base.py`
+Imported by: `modules/exp.c`, `modules/selection/__init__.py`, `modules/selection/registry.py`, `skills/autonomous_daemon.py`, `tests/test_selectors_base.py`
+- `ChainSelector.__init__` (method) `modules/selection/chain.py:18` `def __init__(self, allow_lab)` -- Bind the lab-inclusion policy for the matcher.
+- `ChainSelector.propose` (method) `modules/selection/chain.py:27` `def propose(self, ctx)` -- Return a chain action for the context, or None when nothing fits.
+
+## modules/selection/cred_spray.py
+Depends on: `modules/selection/base.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `skills/autonomous_daemon.py`, `tests/test_selectors_capabilities.py`
+- `CredentialSpraySelector.propose` (method) `modules/selection/cred_spray.py:37` `def propose(self, ctx)` -- Return a spray verb for the first matching open service, or None.
+
+## modules/selection/playbook.py
+Depends on: `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/selection/base.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `tests/test_selectors_capabilities.py`
+- `PlaybookSelector.__init__` (method) `modules/selection/playbook.py:24` `def __init__(self, playbook_dir)` -- Bind the playbook directory to scan for known actors.
+- `PlaybookSelector.propose` (method) `modules/selection/playbook.py:28` `def propose(self, ctx)` -- Return an actor-emulation action when the goal names one, else None.
+
+## modules/selection/registry.py
+Depends on: `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/playbook.py`
+Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `skills/autonomous_daemon.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
+- `all_selectors` (function) `modules/selection/registry.py:22` `def all_selectors()` -- Return every shared selector in priority order, before admin filtering.
+- `default_selectors` (function) `modules/selection/registry.py:40` `def default_selectors()` -- Return the cascade after applying the orchestrator's enable toggles.
+- `propose_next` (function) `modules/selection/registry.py:55` `def propose_next(ctx, selectors)` -- Return the first concrete decision from the cascade, or None.
+
 ## modules/selector_manager.py
 Imported by: `tests/test_auto_loop_memory.py`
 - `select` (function) `modules/selector_manager.py:42` `def select(proposals, is_blocked)` -- Pick the first valid proposal; None when everything is filtered.
@@ -211,7 +250,7 @@ Depends on: `modules/db.py`, `modules/outcome_bus.py`
 
 ## modules/sinks/chain_feed.py
 Depends on: `modules/lazy_loop.py`, `modules/outcome_bus.py`
-Imported by: `tests/test_sink_chain_feed.py`
+Imported by: `tests/test_lazy_loop.py`, `tests/test_sink_chain_feed.py`
 - `apply` (function) `modules/sinks/chain_feed.py:22` `def apply(event)` -- Append one chain-step trace record and steer unhandled failures.
 
 ## modules/sinks/event_bus.py
@@ -447,47 +486,6 @@ Imported by: `modules/ai_fallback.py`, `modules/hive_invoke.py`, `modules/llm_fa
 - `TopoSwarmBridge.route` (method) `modules/toposwarm_bridge.py:586` `def route(self, prompt)` -- Route an operator prompt to a LazyOwn tool call.
 - `TopoSwarmBridge.execute_via_orchestrator` (method) `modules/toposwarm_bridge.py:613` `def execute_via_orchestrator(self, prompt, no_model)` -- Execute a prompt through the full TopoSwarm orchestrator (subprocess).
 - `get_bridge` (function) `modules/toposwarm_bridge.py:645` `def get_bridge()` -- Return the module-level TopoSwarmBridge singleton (lazy init).
-
-## modules/traffic_morpher.py
-Imported by: `cli/commands/persist_migrated.py`
-- `TrafficMorpher.__init__` (method) `modules/traffic_morpher.py:77` `def __init__(self)`
-- `TrafficMorpher.get_random_http_headers` (method) `modules/traffic_morpher.py:81` `def get_random_http_headers(self)` -- Return a randomized set of HTTP headers mimicking a real browser.
-- `TrafficMorpher.get_cdn_fronting_hosts` (method) `modules/traffic_morpher.py:91` `def get_cdn_fronting_hosts(self, provider, count)` -- Return CDN domains suitable for domain fronting.
-- `TrafficMorpher.generate_traffic_padding` (method) `modules/traffic_morpher.py:108` `def generate_traffic_padding(self, min_bytes, max_bytes)` -- Generate random padding bytes to normalize packet sizes.
-- `TrafficMorpher.generate_jitter` (method) `modules/traffic_morpher.py:125` `def generate_jitter(self, base_delay, jitter_pct)` -- Calculate a sleep delay with jitter.
-- `TrafficMorpher.generate_dns_tunnel_payload` (method) `modules/traffic_morpher.py:138` `def generate_dns_tunnel_payload(self, data, domain)` -- Encode data as DNS query subdomains for tunneling.
-- `TrafficMorpher.generate_icmp_exfil_payload` (method) `modules/traffic_morpher.py:164` `def generate_icmp_exfil_payload(self, data, chunk_size)` -- Generate ICMP echo payloads for data exfiltration.
-- `TrafficMorpher.generate_websocket_masking` (method) `modules/traffic_morpher.py:190` `def generate_websocket_masking(self, data)` -- Apply WebSocket frame masking with random key.
-- `TrafficMorpher.generate_cloudflare_worker_proxy_config` (method) `modules/traffic_morpher.py:205` `def generate_cloudflare_worker_proxy_config(self, c2_host, c2_port, auth_token)` -- Generate a Cloudflare Worker script that proxies C2 traffic.
-- `TrafficMorpher.generate_beacon_profile` (method) `modules/traffic_morpher.py:270` `def generate_beacon_profile(self, name, protocol, jitter_pct, user_agent)` -- Generate a complete C2 beacon profile configuration.
-
-## modules/traffic_recorder.py
-Imported by: `cli/commands/lazyops.py`, `modules/lazy_bridge.py`, `modules/lazy_loop.py`, `modules/lazy_proxy.py`, `skills/autonomous_daemon.py`, `tests/test_engage_gates.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_proxy.py`, `tests/test_safety_gates.py`
-- `url_template` (function) `modules/traffic_recorder.py:69` `def url_template(url)` -- Collapse numeric path segments so similar URLs group together.
-- `TrafficRecorder.__init__` (method) `modules/traffic_recorder.py:94` `def __init__(self, base_dir)` -- Create storage directories and initialize the index.
-- `TrafficRecorder.record` (method) `modules/traffic_recorder.py:138` `def record(self, method, url, status, req_body, resp_body, content_type, req_headers, resp_headers, host, port...` -- Persist one exchange and return its descriptor.
-- `TrafficRecorder.since` (method) `modules/traffic_recorder.py:230` `def since(self, rowid, limit)` -- Page exchanges newer than a rowid watermark for loop ingestion.
-- `TrafficRecorder.latest_rowid` (method) `modules/traffic_recorder.py:247` `def latest_rowid(self)` -- Return the current max rowid (0 when the index is empty).
-- `TrafficRecorder.query` (method) `modules/traffic_recorder.py:253` `def query(self, host, status, limit, offset, task)` -- Page exchanges with optional host, status and task filters.
-- `TrafficRecorder.get_body` (method) `modules/traffic_recorder.py:275` `def get_body(self, exchange_id)` -- Load the stored body document for one exchange.
-- `TrafficRecorder.read_body` (method) `modules/traffic_recorder.py:284` `def read_body(self, exchange_id, part, offset, length)` -- Read one body in ranges like a blob store.
-- `TrafficRecorder.count` (method) `modules/traffic_recorder.py:317` `def count(self)` -- Return the total number of recorded exchanges.
-- `TrafficRecorder.backfill_fts` (method) `modules/traffic_recorder.py:343` `def backfill_fts(self, batch)` -- Index stored bodies missing from the FTS table.
-- `TrafficRecorder.search_body` (method) `modules/traffic_recorder.py:382` `def search_body(self, query, limit)` -- Full-text search request/response bodies.
-- `TrafficRecorder.export_archive` (method) `modules/traffic_recorder.py:451` `def export_archive(self, path, limit, task)` -- Export the index plus bodies into a portable zip archive.
-- `TrafficRecorder.import_archive` (method) `modules/traffic_recorder.py:493` `def import_archive(self, path)` -- Merge an archive exported by :meth:`export_archive`.
-- `TrafficRecorder.import_inbox` (method) `modules/traffic_recorder.py:554` `def import_inbox(self, inbox_dir)` -- Import every zip dropped in the inbox, moving handled files away.
-- `TrafficRecorder.gc` (method) `modules/traffic_recorder.py:587` `def gc(self, older_than_sec)` -- Delete exchanges older than a cut-off with their bodies and index rows.
-
-## modules/trigger_policy.py
-Depends on: `core/logging.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`
-Imported by: `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`
-- `validate_triggers` (function) `modules/trigger_policy.py:40` `def validate_triggers(raw)` -- Validate the raw ``triggers`` section of the orchestrator YAML.
-- `seeds` (function) `modules/trigger_policy.py:87` `def seeds(raw)` -- Coerce validated trigger rows into seed dicts for the store.
-- `read_policy` (function) `modules/trigger_policy.py:120` `def read_policy(path)` -- Read the shipped orchestrator YAML triggers section.
-- `seed_store` (function) `modules/trigger_policy.py:146` `def seed_store(policy, store, task_id)` -- Merge declarative seeds into a persistent TriggerStore.
-- `export_store` (function) `modules/trigger_policy.py:171` `def export_store(task_id)` -- Return the current store rows for TUI and API surfaces.
-- `remove_seed` (function) `modules/trigger_policy.py:185` `def remove_seed(kind, arg, task_id)` -- Drop the first runtime trigger matching a declarative signature.
 
 
 Next: [API_p19.md](API_p19.md)

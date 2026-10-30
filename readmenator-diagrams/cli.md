@@ -1,6 +1,6 @@
 # cli
 
-cli groups 115 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
+cli groups 119 files (py) around _sanitize, colors_enabled, _paint, format_line, print_error. LazyOwn CLI infrastructure.
 
 ```mermaid
 graph LR
@@ -31,7 +31,7 @@ graph LR
 
 ## cli (3.1)
 
-cli groups 49 files (py) around Theme, get_theme, theme_from_payload, EngagementState, _load_state. LazyOwn CLI infrastructure.
+cli groups 51 files (py) around Theme, get_theme, theme_from_payload, EngagementState, _load_state. LazyOwn CLI infrastructure.
 
 ## core (3.2)
 
@@ -55,7 +55,7 @@ skills groups 1 files (py) around OrchestratorConfig, from_payload, Orchestrator
 
 ## tests (3.7)
 
-tests groups 52 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
+tests groups 54 files (py) around crypto_module, tmp_sessions, TestAutoCryptoConfig, test_default_config, test_custom_config. Tests for cli.auto_crypto — automatic session data encryption.
 
 **Files**:
 
@@ -99,9 +99,11 @@ tests groups 52 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - cli/recommendation.py
 - cli/recommendation_signals.py
 - cli/recon_plan.py
+- cli/sessions_browser.py
 - cli/splash.py
 - cli/status_bar.py
 - cli/themes.py
+- cli/timeline_browser.py
 - cli/tips_engine.py
 - cli/toast_bus.py
 - cli/tui_theme.py
@@ -163,8 +165,10 @@ tests groups 52 files (py) around crypto_module, tmp_sessions, TestAutoCryptoCon
 - tests/test_safe_console.py
 - tests/test_scope_deny_priority.py
 - tests/test_scope_guard_integration.py
+- tests/test_sessions_browser.py
 - tests/test_status_bar_operators.py
 - tests/test_themes.py
+- tests/test_timeline_browser.py
 - tests/test_tips_engine.py
 - tests/test_toast_bus.py
 - tests/test_toastr_unify.py

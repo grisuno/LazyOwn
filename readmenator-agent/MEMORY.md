@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1266 files at commit `230476b24269`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1278 files at commit `2a7c5e2d9d9a`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `modules` (513), `command` (505), `one` (490), `lazy` (476), `file` (471), `path` (431), `run` (429), `not` (428), `all` (407), `without` (399), `name` (394), `json` (391), `cli` (379), `own` (379), `set` (353)
-- Subsystem `modules: autonomous_daemon`: 158 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `cli/commands`: 135 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `cli`: 115 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: world_model`: 113 files, core `modules/world_model.py`: modules/world_model.py
-- Subsystem `modules: lazy_loop`: 109 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `modules: lazyc2`: 76 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Domain vocabulary (term, files): `modules` (522), `command` (507), `one` (501), `lazy` (479), `file` (475), `run` (434), `path` (432), `not` (431), `all` (411), `without` (405), `name` (400), `json` (392), `own` (383), `cli` (379), `set` (355)
+- Subsystem `modules: autonomous_daemon`: 177 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
+- Subsystem `cli/commands`: 141 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `cli`: 119 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Subsystem `modules: world_model`: 112 files, core `modules/world_model.py`: modules/world_model.py
+- Subsystem `modules: lazy_loop`: 99 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Subsystem `modules: lazyown_facts`: 64 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
 - Subsystem `static/js`: 64 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
-- Subsystem `modules: lazyown_facts`: 59 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
+- Subsystem `lazyc2/security`: 54 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -60,7 +60,7 @@ Declared:
 
 Measured baseline:
 - Security findings at medium or above: 0 (see `readmenator-agent/SECURITY.md`); do not add new ones.
-- Dependency cycles: 120; layer violations: 70 (see `readmenator-agent/GOTCHAS.md`).
+- Dependency cycles: 122; layer violations: 70 (see `readmenator-agent/GOTCHAS.md`).
 
 ## 4. Style norms
 
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1135 files, 21163 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 209 lines, max 12026.
+- py: 1147 files, 21262 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 205 lines, max 12026.
 - sh: 64 files, 258 symbols; docstrings on 33% of symbols; functions snake_case (100%); median file 79 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 21 files, 1606 symbols; docstrings on 49% of symbols; functions snake_case (46%); types PascalCase (26%); median file 6 lines, max 9358.
-- Tests: 396 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 399 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
@@ -98,7 +98,7 @@ Measured baseline:
 - Tests pass: `python -m pytest -q`.
 - Docstring coverage stays at or above 54%.
 - No new security findings at medium or above (current: 0).
-- No new dependency cycles (current: 120).
+- No new dependency cycles (current: 122).
 - Files stay under 300 lines where possible (`readmenator . lint`).
 - Docs refreshed: `readmenator . --rebuild`, and decisions recorded in section 7.
 

@@ -52,7 +52,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_dorks.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazy_passgen.py`, `cli/commands/lazyops.py`, `cli/commands/netattack.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/ad_gym.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazypassgen.py`, `modules/loop_triggers.py`, `modules/module_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/sinks/findings.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_ad_lab_gym.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_chain_distill_scope.py`, `tests/test_defense_stages.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_creds.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_oob.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_runner_fallback.py`, `tests/test_lazy_scope.py`, `tests/test_lazy_worker_safety.py`, `tests/test_lazydorks.py`, `tests/test_lazypassgen.py`, `tests/test_lazypoophish.py`, `tests/test_lazyshortener.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_mentions.py`, `tests/test_module_registry_bridge.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_scope_deny_priority.py`, `tests/test_security_sanitizers.py`, `tests/test_session_brief.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/golden_paths.py`, `cli/commands/gym_matrix.py`, `cli/commands/lab.py`, `cli/commands/lazy_creds.py`, `cli/commands/lazy_dorks.py`, `cli/commands/lazy_oob.py`, `cli/commands/lazy_passgen.py`, `cli/commands/lazyops.py`, `cli/commands/netattack.py`, `cli/commands/winbox_gym.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `lazyc2.py`, `lazyc2/blueprints/orchestrator.py`, `modules/ad_gym.py`, `modules/atomic_exploit_bridge.py`, `modules/attack_surface3d.py`, `modules/auto_registry.py`, `modules/gym_cleanup.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `modules/lazypassgen.py`, `modules/loop_triggers.py`, `modules/module_registry.py`, `modules/outcome_bus.py`, `modules/redteam_gym.py`, `modules/selection/registry.py`, `modules/sinks/findings.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_ad_lab_gym.py`, `tests/test_apt_chain_admin.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_autonomous_ops.py`, `tests/test_c2_agent.py`, `tests/test_c2_agent_dual.py`, `tests/test_chain_distill_scope.py`, `tests/test_defense_stages.py`, `tests/test_golden_path.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_matrix_ctf.py`, `tests/test_gym_registry.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_bridge_traffic.py`, `tests/test_lazy_creds.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_oob.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_runner_fallback.py`, `tests/test_lazy_scope.py`, `tests/test_lazy_worker_safety.py`, `tests/test_lazydorks.py`, `tests/test_lazypassgen.py`, `tests/test_lazypoophish.py`, `tests/test_lazyshortener.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_budget.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_mentions.py`, `tests/test_module_registry_bridge.py`, `tests/test_opencode_mcp_harness.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_safety_gates.py`, `tests/test_scope_deny_priority.py`, `tests/test_security_sanitizers.py`, `tests/test_session_brief.py`, `tests/test_trigger_policy.py`, `tests/test_ttpscope_bridge.py`, `tests/test_unified_bridge_delegate.py`, `tests/test_verb_catalog.py`, `tests/test_winbox_gym.py`
 
 ## modules/ad_gym.py
 - Doc: AD lab gym catalogue (Docker Samba DC): index, exploits, chains.
@@ -287,7 +287,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `generate_attack_plan` (method, line 213) `def generate_attack_plan(self, pb, output_path)`
   - `report_json` (method, line 230) `def report_json(self, pb, output_path)`
 - Depends on: `core/console.py`, `modules/atomic_resolver.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/emulation_runner.py`, `modules/operation.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/emulation_runner.py`, `modules/operation.py`, `modules/selection/playbook.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`, `tests/test_selectors_capabilities.py`
 
 ## modules/asset_graph.py
 - Doc: Global asset truth store joined to per-task exploration chains.
@@ -354,44 +354,45 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExploitCommand` (class, line 84) `class ExploitCommand`
-  - `ExploitSpec` (class, line 92) `class ExploitSpec`
-  - `_string_list` (function, line 142) `def _string_list(value)`
-  - `validate_spec` (function, line 150) `def validate_spec(data, filename)`
-  - `load_all` (function, line 226) `def load_all(exploits_dir)`
-  - `match_score` (function, line 281) `def match_score(spec, service, product, version, os_hint)`
-  - `parse_scan_xml` (function, line 314) `def parse_scan_xml(xml_path)`
-  - `auto` (function, line 351) `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)`
-  - `rank` (function, line 456) `def rank(services, exploits_dir, os_hint)`
-  - `_token_mapping` (function, line 511) `def _token_mapping(rhost, lhost, lport, port)`
-  - `build_commands` (function, line 525) `def build_commands(spec, rhost, lhost, lport, port)`
-  - `detect_shell` (function, line 543) `def detect_shell(spec, output)`
-  - `_install_missing_binaries` (function, line 555) `def _install_missing_binaries(names)`
-  - `run_spec` (function, line 585) `def run_spec(spec, rhost, lhost, lport, port)`
-  - `open_shell` (function, line 665) `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)`
-  - `_ShellSession` (class, line 721) `class _ShellSession`
-  - `_claim_port` (function, line 816) `def _claim_port(spec_id, target, port)`
-  - `_release_port` (function, line 834) `def _release_port(target, port)`
-  - `record_shell_outcome` (function, line 839) `def record_shell_outcome(target, via)`
-  - `live_sessions` (function, line 868) `def live_sessions()`
-  - `close_sessions` (function, line 887) `def close_sessions(target)`
-  - `cleanup_target` (function, line 929) `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)`
-  - `_destroy_gym` (function, line 988) `def _destroy_gym(container)`
-  - `ensure_session` (function, line 1006) `def ensure_session(spec, target, lhost)`
-  - `_adopt_live_shell` (function, line 1061) `def _adopt_live_shell(spec, target, port)`
-  - `_wait_port_closed` (function, line 1087) `def _wait_port_closed(target, port, timeout)`
-  - `remote_exec` (function, line 1102) `def remote_exec(spec, target, command, lhost)`
-  - `interactive_shell` (function, line 1120) `def interactive_shell(target, lhost, interactive, exploits_dir)`
-  - `emulate` (function, line 1175) `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...`
-  - `record_outcome` (function, line 1209) `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...`
-  - `main` (function, line 1297) `def main()`
-  - `severity_rank` (method, line 117) `def severity_rank(self)`
-  - `to_dict` (method, line 121) `def to_dict(self)`
-  - `__init__` (method, line 729) `def __init__(self, target, port, sock, owner)`
-  - `alive` (method, line 739) `def alive(self, timeout)`
-  - `run` (method, line 746) `def run(self, command, timeout)`
-  - `_read_until` (method, line 760) `def _read_until(self, marker, timeout)`
-  - `close` (method, line 788) `def close(self)`
+  - `shell_output_evidence` (function, line 83) `def shell_output_evidence(output)`
+  - `ExploitCommand` (class, line 104) `class ExploitCommand`
+  - `ExploitSpec` (class, line 112) `class ExploitSpec`
+  - `_string_list` (function, line 162) `def _string_list(value)`
+  - `validate_spec` (function, line 170) `def validate_spec(data, filename)`
+  - `load_all` (function, line 246) `def load_all(exploits_dir)`
+  - `match_score` (function, line 301) `def match_score(spec, service, product, version, os_hint)`
+  - `parse_scan_xml` (function, line 334) `def parse_scan_xml(xml_path)`
+  - `auto` (function, line 371) `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)`
+  - `rank` (function, line 476) `def rank(services, exploits_dir, os_hint)`
+  - `_token_mapping` (function, line 531) `def _token_mapping(rhost, lhost, lport, port)`
+  - `build_commands` (function, line 545) `def build_commands(spec, rhost, lhost, lport, port)`
+  - `detect_shell` (function, line 563) `def detect_shell(spec, output)`
+  - `_install_missing_binaries` (function, line 582) `def _install_missing_binaries(names)`
+  - `run_spec` (function, line 612) `def run_spec(spec, rhost, lhost, lport, port)`
+  - `open_shell` (function, line 692) `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)`
+  - `_ShellSession` (class, line 748) `class _ShellSession`
+  - `_claim_port` (function, line 843) `def _claim_port(spec_id, target, port)`
+  - `_release_port` (function, line 861) `def _release_port(target, port)`
+  - `record_shell_outcome` (function, line 866) `def record_shell_outcome(target, via)`
+  - `live_sessions` (function, line 895) `def live_sessions()`
+  - `close_sessions` (function, line 914) `def close_sessions(target)`
+  - `cleanup_target` (function, line 956) `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)`
+  - `_destroy_gym` (function, line 1015) `def _destroy_gym(container)`
+  - `ensure_session` (function, line 1033) `def ensure_session(spec, target, lhost)`
+  - `_adopt_live_shell` (function, line 1088) `def _adopt_live_shell(spec, target, port)`
+  - `_wait_port_closed` (function, line 1114) `def _wait_port_closed(target, port, timeout)`
+  - `remote_exec` (function, line 1129) `def remote_exec(spec, target, command, lhost)`
+  - `interactive_shell` (function, line 1147) `def interactive_shell(target, lhost, interactive, exploits_dir)`
+  - `emulate` (function, line 1202) `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...`
+  - `record_outcome` (function, line 1236) `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...`
+  - `main` (function, line 1324) `def main()`
+  - `severity_rank` (method, line 137) `def severity_rank(self)`
+  - `to_dict` (method, line 141) `def to_dict(self)`
+  - `__init__` (method, line 756) `def __init__(self, target, port, sock, owner)`
+  - `alive` (method, line 766) `def alive(self, timeout)`
+  - `run` (method, line 773) `def run(self, command, timeout)`
+  - `_read_until` (method, line 787) `def _read_until(self, marker, timeout)`
+  - `close` (method, line 815) `def close(self)`
 - Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
 

@@ -333,41 +333,49 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_planner_queues_retest_after_world_change` (function, line 20) `def test_planner_queues_retest_after_world_change(tmp_path, monkeypatch)`
   - `test_planner_queues_ghost_host_verification` (function, line 38) `def test_planner_queues_ghost_host_verification(tmp_path, monkeypatch)`
   - `test_settlement_prompt_variants` (function, line 56) `def test_settlement_prompt_variants()`
-  - `test_intent_priority_claim_pause_resume` (function, line 69) `def test_intent_priority_claim_pause_resume(tmp_path, monkeypatch)`
-  - `test_intent_soft_and_hard_delete` (function, line 88) `def test_intent_soft_and_hard_delete(tmp_path, monkeypatch)`
-  - `test_guard_judge_parse_and_fail_policy` (function, line 111) `def test_guard_judge_parse_and_fail_policy(tmp_path, monkeypatch)`
-  - `test_guard_judge_gates_when_enabled` (function, line 128) `def test_guard_judge_gates_when_enabled(tmp_path, monkeypatch)`
-  - `test_guard_set_judge_persists_and_gates` (function, line 148) `def test_guard_set_judge_persists_and_gates(tmp_path, monkeypatch)`
-  - `test_finding_evidence_version_and_report` (function, line 172) `def test_finding_evidence_version_and_report(tmp_path, monkeypatch)`
-  - `test_skills_match_inject_and_prompt_context` (function, line 190) `def test_skills_match_inject_and_prompt_context(tmp_path, monkeypatch)`
-  - `test_custom_tools_run_and_loop_wiring` (function, line 215) `def test_custom_tools_run_and_loop_wiring(tmp_path, monkeypatch)`
-  - `test_workspace_confined_io` (function, line 241) `def test_workspace_confined_io(tmp_path, monkeypatch)`
-  - `test_selfupdate_check_and_apply` (function, line 264) `def test_selfupdate_check_and_apply(tmp_path, monkeypatch)`
-  - `test_c2_board_bridge_upserts` (function, line 304) `def test_c2_board_bridge_upserts(tmp_path, monkeypatch)`
-  - `test_report_export_md_csv_and_terminal_trigger` (function, line 327) `def test_report_export_md_csv_and_terminal_trigger(tmp_path, monkeypatch)`
-  - `test_trigger_task_create_fires_once` (function, line 351) `def test_trigger_task_create_fires_once(tmp_path, monkeypatch)`
-  - `test_notifier_channels_slack_email_file` (function, line 371) `def test_notifier_channels_slack_email_file(tmp_path, monkeypatch)`
-  - `test_task_status_notification_on_terminal` (function, line 442) `def test_task_status_notification_on_terminal(tmp_path, monkeypatch)`
-  - `test_admission_queue_fifo_and_drain` (function, line 455) `def test_admission_queue_fifo_and_drain(tmp_path, monkeypatch)`
-  - `test_build_prompt_context_bounded_with_digests` (function, line 480) `def test_build_prompt_context_bounded_with_digests(tmp_path, monkeypatch)`
-  - `test_record_verdict_manual` (function, line 498) `def test_record_verdict_manual(tmp_path, monkeypatch)`
-  - `test_broadcast_rows_and_worker_traces` (function, line 521) `def test_broadcast_rows_and_worker_traces(tmp_path, monkeypatch)`
-  - `test_bridge_reads_engine_store_fixture` (function, line 548) `def test_bridge_reads_engine_store_fixture(tmp_path, monkeypatch)`
-  - `test_delete_task_sweeps_store_files` (function, line 580) `def test_delete_task_sweeps_store_files(tmp_path, monkeypatch)`
-  - `test_lazy_command_set_registered` (function, line 593) `def test_lazy_command_set_registered()`
-  - `test_mcp_lazy_handlers_registered` (function, line 613) `def test_mcp_lazy_handlers_registered()`
-  - `test_mcp_lazy_tools_declared_for_every_handler` (function, line 623) `def test_mcp_lazy_tools_declared_for_every_handler()`
-  - `git` (function, line 270) `def git(cwd)`
-  - `fake_post` (function, line 383) `def fake_post(url, data, timeout)`
-  - `_Smtp` (class, line 389) `class _Smtp`
-  - `_is_hooks_url` (function, line 422) `def _is_hooks_url(url)`
-  - `__init__` (method, line 390) `def __init__(self, host, port, timeout)`
-  - `__enter__` (method, line 393) `def __enter__(self)`
-  - `__exit__` (method, line 396) `def __exit__(self)`
-  - `starttls` (method, line 399) `def starttls(self)`
-  - `login` (method, line 402) `def login(self, user, password)`
-  - `send_message` (method, line 405) `def send_message(self, message)`
-- Depends on: `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`, `modules/notify.py`, `modules/selfupdate.py`, `modules/workspace.py`
+  - `test_planner_proposes_chain_from_discovered_services` (function, line 69) `def test_planner_proposes_chain_from_discovered_services(tmp_path, monkeypatch)`
+  - `test_failed_chain_step_steers_the_planner` (function, line 114) `def test_failed_chain_step_steers_the_planner(tmp_path, monkeypatch)`
+  - `test_loop_ping_uses_os_detecting_verb_when_shell_bound` (function, line 144) `def test_loop_ping_uses_os_detecting_verb_when_shell_bound(tmp_path, monkeypatch)`
+  - `test_loop_ping_falls_back_to_raw_without_shell` (function, line 166) `def test_loop_ping_falls_back_to_raw_without_shell(tmp_path, monkeypatch)`
+  - `test_looks_like_prose_rejects_sentences_keeps_commands` (function, line 184) `def test_looks_like_prose_rejects_sentences_keeps_commands()`
+  - `test_is_host_like_target_excludes_filenames` (function, line 201) `def test_is_host_like_target_excludes_filenames()`
+  - `test_guard_step_blocks_prose_before_execution` (function, line 212) `def test_guard_step_blocks_prose_before_execution(tmp_path, monkeypatch)`
+  - `test_terminal_hint_explains_disposition_to_operator` (function, line 238) `def test_terminal_hint_explains_disposition_to_operator()`
+  - `test_intent_priority_claim_pause_resume` (function, line 250) `def test_intent_priority_claim_pause_resume(tmp_path, monkeypatch)`
+  - `test_intent_soft_and_hard_delete` (function, line 269) `def test_intent_soft_and_hard_delete(tmp_path, monkeypatch)`
+  - `test_guard_judge_parse_and_fail_policy` (function, line 292) `def test_guard_judge_parse_and_fail_policy(tmp_path, monkeypatch)`
+  - `test_guard_judge_gates_when_enabled` (function, line 309) `def test_guard_judge_gates_when_enabled(tmp_path, monkeypatch)`
+  - `test_guard_set_judge_persists_and_gates` (function, line 329) `def test_guard_set_judge_persists_and_gates(tmp_path, monkeypatch)`
+  - `test_finding_evidence_version_and_report` (function, line 353) `def test_finding_evidence_version_and_report(tmp_path, monkeypatch)`
+  - `test_skills_match_inject_and_prompt_context` (function, line 371) `def test_skills_match_inject_and_prompt_context(tmp_path, monkeypatch)`
+  - `test_custom_tools_run_and_loop_wiring` (function, line 396) `def test_custom_tools_run_and_loop_wiring(tmp_path, monkeypatch)`
+  - `test_workspace_confined_io` (function, line 422) `def test_workspace_confined_io(tmp_path, monkeypatch)`
+  - `test_selfupdate_check_and_apply` (function, line 445) `def test_selfupdate_check_and_apply(tmp_path, monkeypatch)`
+  - `test_c2_board_bridge_upserts` (function, line 485) `def test_c2_board_bridge_upserts(tmp_path, monkeypatch)`
+  - `test_report_export_md_csv_and_terminal_trigger` (function, line 508) `def test_report_export_md_csv_and_terminal_trigger(tmp_path, monkeypatch)`
+  - `test_trigger_task_create_fires_once` (function, line 532) `def test_trigger_task_create_fires_once(tmp_path, monkeypatch)`
+  - `test_notifier_channels_slack_email_file` (function, line 552) `def test_notifier_channels_slack_email_file(tmp_path, monkeypatch)`
+  - `test_task_status_notification_on_terminal` (function, line 623) `def test_task_status_notification_on_terminal(tmp_path, monkeypatch)`
+  - `test_admission_queue_fifo_and_drain` (function, line 636) `def test_admission_queue_fifo_and_drain(tmp_path, monkeypatch)`
+  - `test_build_prompt_context_bounded_with_digests` (function, line 661) `def test_build_prompt_context_bounded_with_digests(tmp_path, monkeypatch)`
+  - `test_record_verdict_manual` (function, line 679) `def test_record_verdict_manual(tmp_path, monkeypatch)`
+  - `test_broadcast_rows_and_worker_traces` (function, line 702) `def test_broadcast_rows_and_worker_traces(tmp_path, monkeypatch)`
+  - `test_bridge_reads_engine_store_fixture` (function, line 729) `def test_bridge_reads_engine_store_fixture(tmp_path, monkeypatch)`
+  - `test_delete_task_sweeps_store_files` (function, line 761) `def test_delete_task_sweeps_store_files(tmp_path, monkeypatch)`
+  - `test_lazy_command_set_registered` (function, line 774) `def test_lazy_command_set_registered()`
+  - `test_mcp_lazy_handlers_registered` (function, line 794) `def test_mcp_lazy_handlers_registered()`
+  - `test_mcp_lazy_tools_declared_for_every_handler` (function, line 804) `def test_mcp_lazy_tools_declared_for_every_handler()`
+  - `git` (function, line 451) `def git(cwd)`
+  - `fake_post` (function, line 564) `def fake_post(url, data, timeout)`
+  - `_Smtp` (class, line 570) `class _Smtp`
+  - `_is_hooks_url` (function, line 603) `def _is_hooks_url(url)`
+  - `__init__` (method, line 571) `def __init__(self, host, port, timeout)`
+  - `__enter__` (method, line 574) `def __enter__(self)`
+  - `__exit__` (method, line 577) `def __exit__(self)`
+  - `starttls` (method, line 580) `def starttls(self)`
+  - `login` (method, line 583) `def login(self, user, password)`
+  - `send_message` (method, line 586) `def send_message(self, message)`
+- Depends on: `modules/auto_registry.py`, `modules/chain_match.py`, `modules/custom_tools.py`, `modules/killchain.py`, `modules/lazy_bridge.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_skills.py`, `modules/notify.py`, `modules/outcome_bus.py`, `modules/selfupdate.py`, `modules/sinks/chain_feed.py`, `modules/workspace.py`
 
 ## tests/test_lazy_match_policy.py
 - Doc: Match policy contract: strands, standing and audited closures.

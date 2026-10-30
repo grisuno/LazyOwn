@@ -1,10 +1,10 @@
 # static/js
 
-*Community 6 | 64 files | cohesion 0.40*
+*Community 6 | 64 files | cohesion 0.39*
 
 ## Definition
 
-This community groups 64 file(s) rooted at `tests` with dominant language py (cohesion 0.40). Central symbols: `A`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`, `As`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
+This community groups 64 file(s) rooted at `tests` with dominant language py (cohesion 0.39). Central symbols: `A`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`, `AddonYamlRenderer`, `As`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour can be unit-tested without booting the cm.
 
 ## Files
 
@@ -122,12 +122,13 @@ This community groups 64 file(s) rooted at `tests` with dominant language py (co
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 351
-- Cross-boundary resolved imports (EXTRACTED): 236
+- Cross-boundary resolved imports (EXTRACTED): 239
 
 ## Connections
 
 - [EXTRACTED] depends_on community 1 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/aliases.py imports core/config.py.
-- [EXTRACTED] depends_on community 9 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports core/config.py.
+- [EXTRACTED] depends_on community 10 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/bof_registry.py imports core/config.py.
+- [EXTRACTED] depends_on community 5 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
 
 ## Risks
 
@@ -152,7 +153,7 @@ This community groups 64 file(s) rooted at `tests` with dominant language py (co
 - Why do 9 file(s) lack file-level docs (e.g. `key.py`)? What purpose do they serve?
 - Can the cycle `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/planner.py` -> `modules/playbook_engine.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py` be broken with an interface?
 - What would break if the most connected file in static/js changed?
-- Should static/js be split, given cohesion 0.40?
+- Should static/js be split, given cohesion 0.39?
 
 ## Sources
 

@@ -1,6 +1,6 @@
 # orphans
 
-*Community 28 | 241 files | cohesion 0.00*
+*Community 27 | 241 files | cohesion 0.00*
 
 ## Definition
 

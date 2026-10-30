@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `gate` | function | `modules/harness.py:65` | `def gate(name)` |
+| `harness_enabled` | function | `modules/harness.py:30` | `def harness_enabled()` |
+| `CrackResult` | class | `modules/hash_cracker.py:127` | `class CrackResult` |
+| `HashCracker` | class | `modules/hash_cracker.py:151` | `class HashCracker` |
+| `HashIdentifier` | class | `modules/hash_cracker.py:140` | `class HashIdentifier` |
+| `__init__` | method | `modules/hash_cracker.py:164` | `def __init__(self, wordlist, rules, use_hashcat, timeout)` |
+| `_crack_batch_hashcat` | method | `modules/hash_cracker.py:500` | `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)` |
+| `_crack_batch_john` | method | `modules/hash_cracker.py:610` | `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)` |
+| `_crack_hashcat` | method | `modules/hash_cracker.py:454` | `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)` |
+| `_crack_john` | method | `modules/hash_cracker.py:560` | `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)` |
 | `_parse_hashcat_output` | method | `modules/hash_cracker.py:671` | `def _parse_hashcat_output(stdout, stderr, original)` |
 | `_parse_john_show` | method | `modules/hash_cracker.py:686` | `def _parse_john_show(show_output, original)` |
 | `_resolve_wordlist` | method | `modules/hash_cracker.py:178` | `def _resolve_wordlist(self)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `full_cli_enabled` | function | `modules/lazy_cli_bridge.py:253` | `def full_cli_enabled()` |
 | `is_cli_verb` | function | `modules/lazy_cli_bridge.py:125` | `def is_cli_verb(name)` |
 | `needs_target_for` | function | `modules/lazy_cli_bridge.py:150` | `def needs_target_for(verb)` |
-| `phase_for` | function | `modules/lazy_cli_bridge.py:131` | `def phase_for(verb)` |
-| `risk_for` | function | `modules/lazy_cli_bridge.py:140` | `def risk_for(verb)` |
-| `search_cli_verbs` | function | `modules/lazy_cli_bridge.py:185` | `def search_cli_verbs(query, phase, limit)` |
-| `set_full_cli` | function | `modules/lazy_cli_bridge.py:276` | `def set_full_cli(enabled)` |
-| `CredRow` | class | `modules/lazy_creds.py:30` | `class CredRow` |
-| `as_lines` | function | `modules/lazy_creds.py:101` | `def as_lines(rows)` |
-| `candidates` | function | `modules/lazy_creds.py:79` | `def candidates(limit)` |
-| `count` | function | `modules/lazy_creds.py:96` | `def count()` |
-| `export_pairs` | function | `modules/lazy_creds.py:106` | `def export_pairs(path, limit)` |
-| `load` | function | `modules/lazy_creds.py:39` | `def load()` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

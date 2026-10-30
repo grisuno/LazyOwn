@@ -328,33 +328,35 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_build_commands_tokens` (function, line 101) `def test_build_commands_tokens(tmp_path)`
   - `test_rank_orders_severity_then_confidence` (function, line 110) `def test_rank_orders_severity_then_confidence(tmp_path)`
   - `test_run_spec_detects_shell_without_network` (function, line 121) `def test_run_spec_detects_shell_without_network()`
-  - `test_auto_sweep_from_scan_xml` (function, line 140) `def test_auto_sweep_from_scan_xml(tmp_path, monkeypatch)`
-  - `test_engine_prefers_yaml_over_hardcode` (function, line 166) `def test_engine_prefers_yaml_over_hardcode(tmp_path, monkeypatch)`
-  - `test_addon_schema` (function, line 182) `def test_addon_schema()`
-  - `test_addon_paths_match_cwd` (function, line 192) `def test_addon_paths_match_cwd()`
-  - `_fake_shell_peer` (function, line 211) `def _fake_shell_peer(sock, reply)`
-  - `test_session_multiplexes_commands` (function, line 239) `def test_session_multiplexes_commands()`
-  - `_demo_spec` (function, line 258) `def _demo_spec()`
-  - `_patch_connect` (function, line 276) `def _patch_connect(monkeypatch, failures_before_success)`
-  - `test_open_shell_retries_racy_trigger` (function, line 297) `def test_open_shell_retries_racy_trigger(monkeypatch)`
-  - `test_open_shell_gives_up` (function, line 322) `def test_open_shell_gives_up(monkeypatch)`
-  - `test_ensure_session_adopts_orphan` (function, line 334) `def test_ensure_session_adopts_orphan(monkeypatch)`
-  - `_FakeCleanupSession` (class, line 356) `class _FakeCleanupSession`
-  - `test_cleanup_soft_removes_but_keeps_loot` (function, line 367) `def test_cleanup_soft_removes_but_keeps_loot(tmp_path, monkeypatch)`
-  - `test_cleanup_no_session_reports_honestly` (function, line 394) `def test_cleanup_no_session_reports_honestly(monkeypatch)`
-  - `test_destroy_gym_validates_and_handles_missing_docker` (function, line 403) `def test_destroy_gym_validates_and_handles_missing_docker(monkeypatch)`
-  - `test_interactive_shell_verify_only_without_tty` (function, line 427) `def test_interactive_shell_verify_only_without_tty(monkeypatch, capsys)`
-  - `test_interactive_shell_repl_until_exit` (function, line 437) `def test_interactive_shell_repl_until_exit(monkeypatch, capsys)`
-  - `test_interactive_shell_no_spec_reports_error` (function, line 465) `def test_interactive_shell_no_spec_reports_error(monkeypatch)`
-  - `_serve` (function, line 216) `def _serve()`
-  - `_fake` (function, line 284) `def _fake(target_port, timeout)`
-  - `_flaky_trigger` (function, line 306) `def _flaky_trigger()`
-  - `_counting_trigger` (function, line 342) `def _counting_trigger()`
-  - `__init__` (method, line 359) `def __init__(self)`
-  - `run` (method, line 362) `def run(self, command, timeout)`
-  - `_missing` (function, line 412) `def _missing()`
-  - `_Done` (class, line 418) `class _Done`
-  - `_fake_input` (function, line 450) `def _fake_input(prompt)`
+  - `test_shell_output_evidence_rejects_benign_output` (function, line 140) `def test_shell_output_evidence_rejects_benign_output()`
+  - `test_shell_output_evidence_detects_real_shells` (function, line 155) `def test_shell_output_evidence_detects_real_shells()`
+  - `test_auto_sweep_from_scan_xml` (function, line 172) `def test_auto_sweep_from_scan_xml(tmp_path, monkeypatch)`
+  - `test_engine_prefers_yaml_over_hardcode` (function, line 201) `def test_engine_prefers_yaml_over_hardcode(tmp_path, monkeypatch)`
+  - `test_addon_schema` (function, line 217) `def test_addon_schema()`
+  - `test_addon_paths_match_cwd` (function, line 227) `def test_addon_paths_match_cwd()`
+  - `_fake_shell_peer` (function, line 246) `def _fake_shell_peer(sock, reply)`
+  - `test_session_multiplexes_commands` (function, line 274) `def test_session_multiplexes_commands()`
+  - `_demo_spec` (function, line 293) `def _demo_spec()`
+  - `_patch_connect` (function, line 311) `def _patch_connect(monkeypatch, failures_before_success)`
+  - `test_open_shell_retries_racy_trigger` (function, line 332) `def test_open_shell_retries_racy_trigger(monkeypatch)`
+  - `test_open_shell_gives_up` (function, line 357) `def test_open_shell_gives_up(monkeypatch)`
+  - `test_ensure_session_adopts_orphan` (function, line 369) `def test_ensure_session_adopts_orphan(monkeypatch)`
+  - `_FakeCleanupSession` (class, line 391) `class _FakeCleanupSession`
+  - `test_cleanup_soft_removes_but_keeps_loot` (function, line 402) `def test_cleanup_soft_removes_but_keeps_loot(tmp_path, monkeypatch)`
+  - `test_cleanup_no_session_reports_honestly` (function, line 429) `def test_cleanup_no_session_reports_honestly(monkeypatch)`
+  - `test_destroy_gym_validates_and_handles_missing_docker` (function, line 438) `def test_destroy_gym_validates_and_handles_missing_docker(monkeypatch)`
+  - `test_interactive_shell_verify_only_without_tty` (function, line 462) `def test_interactive_shell_verify_only_without_tty(monkeypatch, capsys)`
+  - `test_interactive_shell_repl_until_exit` (function, line 472) `def test_interactive_shell_repl_until_exit(monkeypatch, capsys)`
+  - `test_interactive_shell_no_spec_reports_error` (function, line 500) `def test_interactive_shell_no_spec_reports_error(monkeypatch)`
+  - `_serve` (function, line 251) `def _serve()`
+  - `_fake` (function, line 319) `def _fake(target_port, timeout)`
+  - `_flaky_trigger` (function, line 341) `def _flaky_trigger()`
+  - `_counting_trigger` (function, line 377) `def _counting_trigger()`
+  - `__init__` (method, line 394) `def __init__(self)`
+  - `run` (method, line 397) `def run(self, command, timeout)`
+  - `_missing` (function, line 447) `def _missing()`
+  - `_Done` (class, line 453) `class _Done`
+  - `_fake_input` (function, line 485) `def _fake_input(prompt)`
 - Depends on: `core/safe_exec.py`, `modules/__init__.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`
 
 ## tests/test_atomic_loop.py

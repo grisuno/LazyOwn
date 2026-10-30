@@ -237,6 +237,7 @@ class ChainRunner:
         fallback_loader: Callable[[str], Chain | None] | None = None,
         max_fallback_depth: int = _MAX_FALLBACK_DEPTH,
         fallback_depth: int = 0,
+        pace: bool = True,
     ) -> None:
         """Bind the chain, the execution primitive and operator switches.
 
@@ -264,6 +265,11 @@ class ChainRunner:
                 name (default: ``chain_registry.get``).
             max_fallback_depth: How many fallback hops one run may take.
             fallback_depth: Current fallback depth (internal).
+            pace: Enable defense-aware inter-step pacing. The shared
+                EdrPacer stays inert until a step runs slowly or its
+                output shows reset/timeout markers, then it inserts a
+                bounded quiet period before the next step, matching the
+                autonomous loop's OPSEC behaviour. Dry runs never pace.
         """
         self.chain = chain
         self._steps_by_id: dict[str, ChainStep] = {step.identifier: step for step in chain.steps if step.identifier}
@@ -286,6 +292,42 @@ class ChainRunner:
         self.fallback_depth = max(0, int(fallback_depth))
         self.resume_state = resume_state if isinstance(resume_state, dict) else None
         self._replan_inserts_total = 0
+        self.pace = bool(pace)
+        self._pacer: Any = None
+        if self.pace and not self.dry_run:
+            try:
+                from modules.loop_guardrails import EdrPacer
+
+                self._pacer = EdrPacer()
+            except Exception:
+                self._pacer = None
+
+    def _pace_after(self, outcome: StepOutcome, started: float) -> None:
+        """Feed one executed step to the pacer and sleep if detection is high.
+
+        The pacer scores slow steps and reset/timeout markers, so a calm
+        chain never sleeps. Any inserted delay is clamped to the remaining
+        whole-chain budget so pacing never pushes a run past its timeout.
+
+        Args:
+            outcome: The step just delivered.
+            started: Monotonic start time of the whole run.
+        """
+        if self._pacer is None or self.dry_run or outcome.status != "ok":
+            return
+        try:
+            self._pacer.observe(outcome.run, outcome.duration_ms / 1000.0, outcome.captured or outcome.output)
+            delay = self._pacer.inter_step_delay()
+            self._pacer.decay()
+            if delay <= 0.0:
+                return
+            if self.total_timeout:
+                remaining = self.total_timeout - (time.time() - started)
+                delay = min(delay, max(0.0, remaining))
+            if delay > 0.0:
+                time.sleep(delay)
+        except Exception:
+            return
 
     def run(self) -> ChainRunResult:
         """Execute the chain in order and return every step outcome."""
@@ -370,6 +412,9 @@ class ChainRunner:
                         if artifact and artifact not in result.artifacts:
                             result.artifacts.append(artifact)
                     self._deliver(group_outcome)
+                ok_group = [out for out in outcomes if out.status == "ok"]
+                if ok_group:
+                    self._pace_after(max(ok_group, key=lambda out: out.duration_ms), started)
                 replan_skip = False
                 for group_outcome in outcomes:
                     if self._apply_replanner(result, cursor - 1, group_outcome, steps, step_index, variables, captured_keys):
@@ -392,6 +437,7 @@ class ChainRunner:
                 if artifact and artifact not in result.artifacts:
                     result.artifacts.append(artifact)
             self._deliver(outcome)
+            self._pace_after(outcome, started)
             replan_skip = self._apply_replanner(result, index, outcome, steps, step_index, variables, captured_keys)
             self._save_checkpoint(result, variables, captured_keys, index + 1, "running", verdicts)
             if replan_skip:
@@ -624,6 +670,7 @@ class ChainRunner:
             fallback_loader=self.fallback_loader,
             max_fallback_depth=self.max_fallback_depth,
             fallback_depth=self.fallback_depth + 1,
+            pace=self.pace,
         )
         try:
             sub_result = sub.run()

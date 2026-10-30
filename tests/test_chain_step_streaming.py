@@ -156,6 +156,49 @@ def test_publication_failure_never_blocks_the_chain(monkeypatch):
     assert result.ok is True
 
 
+def test_calm_chain_never_paces(monkeypatch):
+    """Given fast benign steps, When the chain runs, Then no inter-step sleep fires."""
+    slept: list[float] = []
+    monkeypatch.setattr("modules.chain_runner.time.sleep", lambda s: slept.append(s))
+    chain = _chain([ChainStep(id="a", run="a {target}"), ChainStep(id="b", run="b {target}")])
+    ChainRunner(
+        chain,
+        tokens={"task_id": "t0001", "target": "10.0.0.9"},
+        executor=lambda command: "clean output",
+        retry_backoff=0,
+    ).run()
+    assert slept == []
+
+
+def test_edr_signal_triggers_inter_step_pacing(monkeypatch):
+    """Given output with a reset marker, When the next step follows, Then a quiet period is inserted."""
+    slept: list[float] = []
+    monkeypatch.setattr("modules.chain_runner.time.sleep", lambda s: slept.append(s))
+    chain = _chain([ChainStep(id="a", run="a {target}"), ChainStep(id="b", run="b {target}")])
+    ChainRunner(
+        chain,
+        tokens={"task_id": "t0001", "target": "10.0.0.9"},
+        executor=lambda command: "connection reset by peer",
+        retry_backoff=0,
+    ).run()
+    assert any(s > 0 for s in slept)
+
+
+def test_pace_disabled_never_sleeps(monkeypatch):
+    """Given pace=False, When a reset marker appears, Then pacing stays silent."""
+    slept: list[float] = []
+    monkeypatch.setattr("modules.chain_runner.time.sleep", lambda s: slept.append(s))
+    chain = _chain([ChainStep(id="a", run="a {target}"), ChainStep(id="b", run="b {target}")])
+    ChainRunner(
+        chain,
+        tokens={"task_id": "t0001", "target": "10.0.0.9"},
+        executor=lambda command: "connection reset by peer",
+        retry_backoff=0,
+        pace=False,
+    ).run()
+    assert slept == []
+
+
 def _capture_with_sinks(monkeypatch) -> list[tuple[dict, list]]:
     """Capture each published event alongside the explicit sink list."""
     captured: list[tuple[dict, list]] = []

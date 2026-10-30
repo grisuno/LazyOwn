@@ -1,8 +1,49 @@
-# Symbols (page 13 of 47)
+# Symbols (page 13 of 48)
 Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_execute_local_command` | method | `modules/conditional_hooks.py:476` | `def _execute_local_command(command)` |
+| `_execute_shell_command` | method | `modules/conditional_hooks.py:467` | `def _execute_shell_command(self, command, context)` |
+| `_match_trigger` | method | `modules/conditional_hooks.py:369` | `def _match_trigger(self, rule_trigger, event, context)` |
+| `_resolve_placeholders` | method | `modules/conditional_hooks.py:414` | `def _resolve_placeholders(self, text, context)` |
+| `add_rule` | method | `modules/conditional_hooks.py:330` | `def add_rule(self, rule_dict)` |
+| `can_fire` | method | `modules/conditional_hooks.py:56` | `def can_fire(self, now)` |
+| `enable_rule` | method | `modules/conditional_hooks.py:359` | `def enable_rule(self, name, enabled)` |
+| `fire` | method | `modules/conditional_hooks.py:516` | `def fire(self, event, context)` |
+| `get_hook_engine` | function | `modules/conditional_hooks.py:586` | `def get_hook_engine()` |
+| `get_rule` | method | `modules/conditional_hooks.py:575` | `def get_rule(self, name)` |
+| `list_rules` | method | `modules/conditional_hooks.py:571` | `def list_rules(self)` |
+| `load_rules` | method | `modules/conditional_hooks.py:290` | `def load_rules(self, path)` |
+| `mark_fired` | method | `modules/conditional_hooks.py:65` | `def mark_fired(self)` |
+| `register_action_handler` | method | `modules/conditional_hooks.py:277` | `def register_action_handler(self, action_type, handler)` |
+| `remove_rule` | method | `modules/conditional_hooks.py:345` | `def remove_rule(self, name)` |
+| `save_rules` | method | `modules/conditional_hooks.py:322` | `def save_rules(self, path)` |
+| `set_placeholders` | method | `modules/conditional_hooks.py:286` | `def set_placeholders(self, placeholders)` |
+| `to_dict` | method | `modules/conditional_hooks.py:69` | `def to_dict(self)` |
+| `_ensure_loaded` | function | `modules/config_store.py:106` | `def _ensure_loaded()` |
+| `_load` | function | `modules/config_store.py:113` | `def _load()` |
+| `_persist` | function | `modules/config_store.py:131` | `def _persist()` |
+| `_start_watcher` | function | `modules/config_store.py:143` | `def _start_watcher(interval)` |
+| `_watch_loop` | function | `modules/config_store.py:148` | `def _watch_loop()` |
+| `get_config` | function | `modules/config_store.py:53` | `def get_config(key, default)` |
+| `init` | function | `modules/config_store.py:36` | `def init(path, watch)` |
+| `reload_config` | function | `modules/config_store.py:90` | `def reload_config()` |
+| `set_config` | function | `modules/config_store.py:66` | `def set_config()` |
+| `set_config_dict` | function | `modules/config_store.py:80` | `def set_config_dict(updates)` |
+| `stop_watcher` | function | `modules/config_store.py:96` | `def stop_watcher()` |
+| `CredentialReuseEngine` | class | `modules/credential_reuse.py:55` | `class CredentialReuseEngine` |
+| `ReuseCandidate` | class | `modules/credential_reuse.py:32` | `class ReuseCandidate` |
+| `__init__` | method | `modules/credential_reuse.py:80` | `def __init__(self)` |
+| `_build_command` | method | `modules/credential_reuse.py:196` | `def _build_command(self, username, password, host, target_services)` |
+| `_load_cache` | method | `modules/credential_reuse.py:85` | `def _load_cache(self)` |
+| `_save_cache` | method | `modules/credential_reuse.py:95` | `def _save_cache(self)` |
+| `_score_candidate` | method | `modules/credential_reuse.py:144` | `def _score_candidate(self, username, password, source_host, target_host, target_services)` |
+| `_subnet_distance` | method | `modules/credential_reuse.py:118` | `def _subnet_distance(self, ip_a, ip_b)` |
+| `get_credential_reuse_engine` | function | `modules/credential_reuse.py:358` | `def get_credential_reuse_engine()` |
+| `get_summary` | method | `modules/credential_reuse.py:338` | `def get_summary(self, candidates)` |
+| `mark_confirmed` | method | `modules/credential_reuse.py:112` | `def mark_confirmed(self, username, password, host)` |
+| `mark_failed` | method | `modules/credential_reuse.py:107` | `def mark_failed(self, username, password, host)` |
 | `rank` | method | `modules/credential_reuse.py:226` | `def rank(self, hosts, creds, host_services, limit)` |
 | `suggest_from_state_manager` | method | `modules/credential_reuse.py:278` | `def suggest_from_state_manager(self, state_manager, limit)` |
 | `suggest_from_world_model` | method | `modules/credential_reuse.py:308` | `def suggest_from_world_model(self, world_model, limit)` |
@@ -194,23 +235,24 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `get_feed` | function | `modules/detection_feed.py:326` | `def get_feed()` |
 | `load_cached_rules` | method | `modules/detection_feed.py:246` | `def load_cached_rules(self, source)` |
 | `update_rules` | method | `modules/detection_feed.py:92` | `def update_rules(self, source)` |
-| `DetectionAssessment` | class | `modules/detection_oracle.py:63` | `class DetectionAssessment` |
-| `DetectionOracle` | class | `modules/detection_oracle.py:317` | `class DetectionOracle(IDetectionOracle)` |
-| `IDetectionOracle` | class | `modules/detection_oracle.py:90` | `class IDetectionOracle(ABC)` |
-| `SigmaRule` | class | `modules/detection_oracle.py:50` | `class SigmaRule` |
-| `__init__` | method | `modules/detection_oracle.py:332` | `def __init__(self, rules, feed)` |
-| `_aggregate_probability` | method | `modules/detection_oracle.py:427` | `def _aggregate_probability(self, matched, action_category)` |
-| `_build_recommendation` | method | `modules/detection_oracle.py:444` | `def _build_recommendation(probability, matched, action_category)` |
-| `_effective_probability` | method | `modules/detection_oracle.py:417` | `def _effective_probability(rule, action_category)` |
-| `_match_rules` | method | `modules/detection_oracle.py:397` | `def _match_rules(self, text, action_category)` |
-| `assess` | method | `modules/detection_oracle.py:94` | `def assess(self, command, args, action_category)` |
-| `assess` | method | `modules/detection_oracle.py:371` | `def assess(self, command, args, action_category)` |
-| `get_oracle` | function | `modules/detection_oracle.py:478` | `def get_oracle()` |
-| `is_critical_risk` | method | `modules/detection_oracle.py:80` | `def is_critical_risk(self)` |
-| `is_high_risk` | method | `modules/detection_oracle.py:75` | `def is_high_risk(self)` |
-| `probability` | method | `modules/detection_oracle.py:103` | `def probability(self, command, args, action_category)` |
-| `probability` | method | `modules/detection_oracle.py:392` | `def probability(self, command, args, action_category)` |
-| `refresh` | method | `modules/detection_oracle.py:336` | `def refresh(self)` |
+| `DetectionAssessment` | class | `modules/detection_oracle.py:64` | `class DetectionAssessment` |
+| `DetectionOracle` | class | `modules/detection_oracle.py:357` | `class DetectionOracle(IDetectionOracle)` |
+| `IDetectionOracle` | class | `modules/detection_oracle.py:91` | `class IDetectionOracle(ABC)` |
+| `SigmaRule` | class | `modules/detection_oracle.py:51` | `class SigmaRule` |
+| `__init__` | method | `modules/detection_oracle.py:372` | `def __init__(self, rules, feed)` |
+| `_aggregate_probability` | method | `modules/detection_oracle.py:502` | `def _aggregate_probability(self, matched, action_category)` |
+| `_benign_alternative_matches` | function | `modules/detection_oracle.py:305` | `def _benign_alternative_matches(command, args, benign_alternatives)` |
+| `_build_recommendation` | method | `modules/detection_oracle.py:519` | `def _build_recommendation(probability, matched, action_category)` |
+| `_effective_probability` | method | `modules/detection_oracle.py:492` | `def _effective_probability(rule, action_category)` |
+| `_match_rules` | method | `modules/detection_oracle.py:472` | `def _match_rules(self, text, action_category)` |
+| `assess` | method | `modules/detection_oracle.py:95` | `def assess(self, command, args, action_category, benign_alternatives)` |
+| `assess` | method | `modules/detection_oracle.py:411` | `def assess(self, command, args, action_category, benign_alternatives)` |
+| `get_oracle` | function | `modules/detection_oracle.py:553` | `def get_oracle()` |
+| `is_critical_risk` | method | `modules/detection_oracle.py:81` | `def is_critical_risk(self)` |
+| `is_high_risk` | method | `modules/detection_oracle.py:76` | `def is_high_risk(self)` |
+| `probability` | method | `modules/detection_oracle.py:105` | `def probability(self, command, args, action_category, benign_alternatives)` |
+| `probability` | method | `modules/detection_oracle.py:460` | `def probability(self, command, args, action_category, benign_alternatives)` |
+| `refresh` | method | `modules/detection_oracle.py:376` | `def refresh(self)` |
 | `build_engine_digest` | function | `modules/digest.py:20` | `def build_engine_digest(task_id, status, rounds, findings, facts, blocks, reaction_backlog)` |
 | `worker_results_digest` | function | `modules/digest.py:82` | `def worker_results_digest(rows)` |
 | `write_digest` | function | `modules/digest.py:71` | `def write_digest(task_id, body, root)` |
@@ -454,47 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `import_entities` | method | `modules/estorides_importer.py:713` | `def import_entities(self, entities, add_to_scope, add_to_db)` |
 | `list_cases` | method | `modules/estorides_importer.py:404` | `def list_cases(self, limit)` |
 | `new_assets` | method | `modules/estorides_importer.py:139` | `def new_assets(self)` |
-| `parse` | method | `modules/estorides_importer.py:520` | `def parse(self)` |
-| `parse` | method | `modules/estorides_importer.py:654` | `def parse(self)` |
-| `parse_by_type` | method | `modules/estorides_importer.py:554` | `def parse_by_type(self, entity_types)` |
-| `read_devices` | method | `modules/estorides_importer.py:641` | `def read_devices(self)` |
-| `run` | method | `modules/estorides_importer.py:912` | `def run(self, seed_methods)` |
-| `run_estorides_discover` | function | `modules/estorides_importer.py:274` | `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` |
-| `run_estorides_run` | function | `modules/estorides_importer.py:334` | `def run_estorides_run(query, out_json, timeout)` |
-| `stats` | method | `modules/estorides_importer.py:478` | `def stats(self)` |
-| `success` | method | `modules/estorides_importer.py:110` | `def success(self)` |
-| `to_dict` | method | `modules/estorides_importer.py:113` | `def to_dict(self)` |
-| `EvasionEngine` | class | `modules/evasion_engine.py:52` | `class EvasionEngine` |
-| `MalleableProfile` | class | `modules/evasion_engine.py:37` | `class MalleableProfile` |
-| `TrafficMorphConfig` | class | `modules/evasion_engine.py:25` | `class TrafficMorphConfig` |
-| `__init__` | method | `modules/evasion_engine.py:130` | `def __init__(self, config)` |
-| `_compute_jitter` | method | `modules/evasion_engine.py:220` | `def _compute_jitter(self)` |
-| `_compute_sleep` | method | `modules/evasion_engine.py:224` | `def _compute_sleep(self)` |
-| `_generate_cert_fingerprint` | method | `modules/evasion_engine.py:217` | `def _generate_cert_fingerprint(self)` |
-| `_generate_headers` | method | `modules/evasion_engine.py:180` | `def _generate_headers(self, user_agent)` |
-| `_generate_ja4_hash` | method | `modules/evasion_engine.py:148` | `def _generate_ja4_hash(self)` |
-| `_generate_user_agent` | method | `modules/evasion_engine.py:162` | `def _generate_user_agent(self, os_family)` |
-| `_get_domain_front` | method | `modules/evasion_engine.py:232` | `def _get_domain_front(self)` |
-| `_persist_profile` | method | `modules/evasion_engine.py:311` | `def _persist_profile(self, profile)` |
-| `_pick_uri_pool` | method | `modules/evasion_engine.py:209` | `def _pick_uri_pool(self)` |
-| `_random_chrome_version` | method | `modules/evasion_engine.py:139` | `def _random_chrome_version(self)` |
-| `_random_firefox_version` | method | `modules/evasion_engine.py:142` | `def _random_firefox_version(self)` |
-| `_random_safari_version` | method | `modules/evasion_engine.py:145` | `def _random_safari_version(self)` |
-| `generate_profile` | method | `modules/evasion_engine.py:244` | `def generate_profile(self, os_family)` |
-| `get_active_profile` | method | `modules/evasion_engine.py:269` | `def get_active_profile(self)` |
-| `get_beacon_config` | method | `modules/evasion_engine.py:272` | `def get_beacon_config(self)` |
-| `get_history` | method | `modules/evasion_engine.py:328` | `def get_history(self)` |
-| `morph_traffic` | method | `modules/evasion_engine.py:287` | `def morph_traffic(self, config)` |
-| `profile_to_json` | method | `modules/evasion_engine.py:343` | `def profile_to_json(self, profile)` |
-| `rotate_profile` | method | `modules/evasion_engine.py:264` | `def rotate_profile(self, os_family)` |
-| `set_config` | method | `modules/evasion_engine.py:136` | `def set_config(self, config)` |
-| `EvasivePayloadGenerator` | class | `modules/evasive_payloads.py:18` | `class EvasivePayloadGenerator` |
-| `__init__` | method | `modules/evasive_payloads.py:84` | `def __init__(self)` |
-| `_apply_encoding_chain` | method | `modules/evasive_payloads.py:118` | `def _apply_encoding_chain(self, data, chain)` |
-| `_gzip_compress` | method | `modules/evasive_payloads.py:114` | `def _gzip_compress(self, data)` |
-| `_random_string` | method | `modules/evasive_payloads.py:93` | `def _random_string(self, length)` |
-| `_random_var` | method | `modules/evasive_payloads.py:87` | `def _random_var(self, length)` |
-| `_rot13` | method | `modules/evasive_payloads.py:102` | `def _rot13(self, data)` |
-| `_xor_encode` | method | `modules/evasive_payloads.py:97` | `def _xor_encode(self, data, key)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

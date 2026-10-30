@@ -1,5 +1,250 @@
-# Subsystem: tests (page 7 of 21)
+# Subsystem: tests (page 7 of 22)
 Previous: [KB_tests_p6.md](KB_tests_p6.md)
+
+## tests/test_command_palette.py
+- Doc: Command palette test suite.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `PaletteSuiteConfig` (class, line 43) `class PaletteSuiteConfig`
+  - `suite_config` (function, line 205) `def suite_config()`
+  - `_ensure_repo_on_path` (function, line 211) `def _ensure_repo_on_path(suite_config)`
+  - `index_document` (function, line 218) `def index_document(suite_config)`
+  - `_iter_command_modules` (function, line 228) `def _iter_command_modules(config)`
+  - `_collect_do_method_names` (function, line 237) `def _collect_do_method_names(path, prefix)`
+  - `ast_command_names` (function, line 272) `def ast_command_names(suite_config)`
+  - `_build_synthetic_index` (function, line 281) `def _build_synthetic_index(config)`
+  - `synthetic_index` (function, line 387) `def synthetic_index(suite_config)`
+  - `_extract_method_body` (function, line 392) `def _extract_method_body(src, name)`
+  - `TestCommandIndexInvariants` (class, line 412) `class TestCommandIndexInvariants`
+  - `TestKnownLegacyDuplicates` (class, line 473) `class TestKnownLegacyDuplicates`
+  - `TestGeneratorDeterminism` (class, line 505) `class TestGeneratorDeterminism`
+  - `TestGeneratorHelpers` (class, line 524) `class TestGeneratorHelpers`
+  - `TestPaletteLoader` (class, line 566) `class TestPaletteLoader`
+  - `TestPaletteArgumentParser` (class, line 647) `class TestPaletteArgumentParser`
+  - `TestPaletteIndexQuery` (class, line 729) `class TestPaletteIndexQuery`
+  - `TestPaletteRenderer` (class, line 795) `class TestPaletteRenderer`
+  - `TestPaletteCompleter` (class, line 879) `class TestPaletteCompleter`
+  - `TestPaletteEntryPoint` (class, line 965) `class TestPaletteEntryPoint`
+  - `TestLazyOwnWiring` (class, line 1014) `class TestLazyOwnWiring`
+  - `TestPaletteJsonRenderer` (class, line 1075) `class TestPaletteJsonRenderer`
+  - `TestPaletteViewBuilder` (class, line 1192) `class TestPaletteViewBuilder`
+  - `TestMcpPaletteWiring` (class, line 1338) `class TestMcpPaletteWiring`
+  - `TestC2PaletteRoute` (class, line 1405) `class TestC2PaletteRoute`
+  - `_build_synthetic_graph` (function, line 1484) `def _build_synthetic_graph()`
+  - `synthetic_graph` (function, line 1518) `def synthetic_graph()`
+  - `TestPaletteGraphLoader` (class, line 1523) `class TestPaletteGraphLoader`
+  - `TestPaletteDetailEnrichment` (class, line 1643) `class TestPaletteDetailEnrichment`
+  - `TestPaletteNextMode` (class, line 1751) `class TestPaletteNextMode`
+  - `TestC2PaletteApiRoute` (class, line 1873) `class TestC2PaletteApiRoute`
+  - `TestBaseTemplateOverlay` (class, line 1920) `class TestBaseTemplateOverlay`
+  - `TestMcpPaletteDescription` (class, line 1952) `class TestMcpPaletteDescription`
+  - `_write_synthetic_csv` (function, line 1970) `def _write_synthetic_csv(target)`
+  - `synthetic_telemetry_path` (function, line 1998) `def synthetic_telemetry_path(tmp_path)`
+  - `_reset_telemetry_cache` (function, line 2006) `def _reset_telemetry_cache()`
+  - `TestPaletteTelemetryLoader` (class, line 2015) `class TestPaletteTelemetryLoader`
+  - `TestPaletteDetailTelemetryRendering` (class, line 2140) `class TestPaletteDetailTelemetryRendering`
+  - `TestC2PaletteApiRateLimit` (class, line 2198) `class TestC2PaletteApiRateLimit`
+  - `TestBaseTemplateOverlayTelemetry` (class, line 2225) `class TestBaseTemplateOverlayTelemetry`
+  - `TestPaletteEnrichmentBlend` (class, line 2249) `class TestPaletteEnrichmentBlend`
+  - `repo_root` (method, line 159) `def repo_root(self)`
+  - `index_path` (method, line 164) `def index_path(self)`
+  - `lazyown_path` (method, line 169) `def lazyown_path(self)`
+  - `cli_commands_dir` (method, line 174) `def cli_commands_dir(self)`
+  - `mcp_path` (method, line 179) `def mcp_path(self)`
+  - `lazyc2_path` (method, line 184) `def lazyc2_path(self)`
+  - `palette_template_path` (method, line 189) `def palette_template_path(self)`
+  - `base_template_path` (method, line 194) `def base_template_path(self)`
+  - `graphify_path` (method, line 199) `def graphify_path(self)`
+  - `test_schema_version_matches_config` (method, line 415) `def test_schema_version_matches_config(self, index_document, suite_config)`
+  - `test_top_level_keys_present` (method, line 421) `def test_top_level_keys_present(self, index_document, suite_config)`
+  - `test_totals_match_command_list` (method, line 426) `def test_totals_match_command_list(self, index_document)`
+  - `test_required_command_fields` (method, line 435) `def test_required_command_fields(self, index_document, suite_config)`
+  - `test_phase_buckets_match_commands` (method, line 444) `def test_phase_buckets_match_commands(self, index_document)`
+  - `test_no_command_lost_vs_ast` (method, line 452) `def test_no_command_lost_vs_ast(self, index_document, ast_command_names)`
+  - `test_unique_count_matches_ast` (method, line 464) `def test_unique_count_matches_ast(self, index_document, ast_command_names)`
+  - `test_duplicate_names_listed` (method, line 476) `def test_duplicate_names_listed(self, index_document, suite_config)`
+  - `test_duplicate_lines_match` (method, line 481) `def test_duplicate_lines_match(self, index_document, suite_config)`
+  - `test_duplicate_marked_in_command_list` (method, line 488) `def test_duplicate_marked_in_command_list(self, index_document, suite_config)`
+  - `test_one_canonical_per_duplicate` (method, line 495) `def test_one_canonical_per_duplicate(self, index_document, suite_config)`
+  - `test_render_document_is_idempotent` (method, line 508) `def test_render_document_is_idempotent(self)`
+  - `test_check_mode_passes_on_committed_index` (method, line 516) `def test_check_mode_passes_on_committed_index(self, index_document)`
+  - `test_summary_truncates_to_max_chars` (method, line 527) `def test_summary_truncates_to_max_chars(self, suite_config)`
+  - `test_summary_first_line_only` (method, line 537) `def test_summary_first_line_only(self)`
+  - `test_resolve_category_constant_name` (method, line 544) `def test_resolve_category_constant_name(self)`
+  - `test_resolve_category_string_literal` (method, line 551) `def test_resolve_category_string_literal(self)`
+  - `test_resolve_category_missing` (method, line 558) `def test_resolve_category_missing(self)`
+  - `setup_method` (method, line 569) `def setup_method(self)`
+  - `test_load_index_returns_document` (method, line 575) `def test_load_index_returns_document(self, suite_config)`
+  - `test_all_commands_excludes_duplicates_by_default` (method, line 582) `def test_all_commands_excludes_duplicates_by_default(self)`
+  - `test_all_commands_with_duplicates_includes_them` (method, line 589) `def test_all_commands_with_duplicates_includes_them(self)`
+  - `test_filter_by_phase_returns_only_matching_phase` (method, line 604) `def test_filter_by_phase_returns_only_matching_phase(self, suite_config)`
+  - `test_filter_by_phase_unknown_returns_empty` (method, line 612) `def test_filter_by_phase_unknown_returns_empty(self)`
+  - `test_get_resolves_with_or_without_prefix` (method, line 618) `def test_get_resolves_with_or_without_prefix(self, suite_config)`
+  - `test_missing_index_raises_command_index_error` (method, line 628) `def test_missing_index_raises_command_index_error(self, tmp_path)`
+  - `test_malformed_json_raises_command_index_error` (method, line 636) `def test_malformed_json_raises_command_index_error(self, tmp_path, suite_config)`
+  - `parser` (method, line 651) `def parser(self)`
+  - `test_empty_line_routes_to_overview` (method, line 657) `def test_empty_line_routes_to_overview(self, parser, suite_config)`
+  - `test_known_phase_token_routes_to_phase` (method, line 664) `def test_known_phase_token_routes_to_phase(self, suite_config, parser)`
+  - `test_unknown_token_routes_to_search` (method, line 673) `def test_unknown_token_routes_to_search(self, suite_config, parser)`
+  - `test_phase_with_query_token` (method, line 681) `def test_phase_with_query_token(self, suite_config, parser)`
+  - `test_search_flag_routes_to_search` (method, line 691) `def test_search_flag_routes_to_search(self, suite_config, parser)`
+  - `test_info_flag_routes_to_detail` (method, line 700) `def test_info_flag_routes_to_detail(self, suite_config, parser)`
+  - `test_phase_match_is_case_insensitive` (method, line 712) `def test_phase_match_is_case_insensitive(self, suite_config, parser)`
+  - `test_malformed_quote_does_not_raise` (method, line 721) `def test_malformed_quote_does_not_raise(self, suite_config, parser)`
+  - `query` (method, line 733) `def query(self, synthetic_index)`
+  - `test_commands_excludes_duplicates` (method, line 739) `def test_commands_excludes_duplicates(self, query)`
+  - `test_phases_returns_sorted` (method, line 744) `def test_phases_returns_sorted(self, query, suite_config)`
+  - `test_phase_counts_match_phase_buckets` (method, line 748) `def test_phase_counts_match_phase_buckets(self, query, synthetic_index)`
+  - `test_in_phase_filters_to_target` (method, line 753) `def test_in_phase_filters_to_target(self, query, suite_config)`
+  - `test_search_substring_match` (method, line 759) `def test_search_substring_match(self, query, suite_config)`
+  - `test_search_zero_limit_returns_empty` (method, line 764) `def test_search_zero_limit_returns_empty(self, query)`
+  - `test_search_negative_limit_returns_empty` (method, line 768) `def test_search_negative_limit_returns_empty(self, query)`
+  - `test_detail_with_prefix` (method, line 772) `def test_detail_with_prefix(self, query, suite_config)`
+  - `test_detail_without_prefix` (method, line 779) `def test_detail_without_prefix(self, query, suite_config)`
+  - `test_detail_unknown_returns_none` (method, line 786) `def test_detail_unknown_returns_none(self, query)`
+  - `test_detail_empty_returns_none` (method, line 790) `def test_detail_empty_returns_none(self, query)`
+  - `renderer` (method, line 799) `def renderer(self)`
+  - `test_overview_lists_every_phase` (method, line 805) `def test_overview_lists_every_phase(self, renderer, suite_config)`
+  - `test_overview_empty_returns_only_header` (method, line 812) `def test_overview_empty_returns_only_header(self, renderer)`
+  - `test_phase_listing_includes_header` (method, line 819) `def test_phase_listing_includes_header(self, renderer, suite_config)`
+  - `test_phase_listing_empty_uses_empty_message` (method, line 830) `def test_phase_listing_empty_uses_empty_message(self, renderer, suite_config)`
+  - `test_search_includes_query_in_header` (method, line 838) `def test_search_includes_query_in_header(self, renderer)`
+  - `test_search_empty_uses_empty_message` (method, line 847) `def test_search_empty_uses_empty_message(self, renderer)`
+  - `test_detail_renders_every_label` (method, line 855) `def test_detail_renders_every_label(self, renderer, suite_config)`
+  - `test_detail_missing_returns_configured_message` (method, line 871) `def test_detail_missing_returns_configured_message(self, renderer)`
+  - `completer` (method, line 883) `def completer(self)`
+  - `test_first_position_offers_phases_and_flags` (method, line 889) `def test_first_position_offers_phases_and_flags(self, completer, synthetic_index, suite_config)`
+  - `test_first_position_prefix_filtering` (method, line 903) `def test_first_position_prefix_filtering(self, completer, synthetic_index, suite_config)`
+  - `test_second_position_after_phase_lists_phase_commands` (method, line 913) `def test_second_position_after_phase_lists_phase_commands(self, completer, synthetic_index, suite_config)`
+  - `test_second_position_after_info_lists_all_commands` (method, line 924) `def test_second_position_after_info_lists_all_commands(self, completer, synthetic_index)`
+  - `test_third_position_returns_empty` (method, line 934) `def test_third_position_returns_empty(self, completer, synthetic_index, suite_config)`
+  - `test_completer_is_data_driven` (method, line 943) `def test_completer_is_data_driven(self, completer)`
+  - `test_overview_when_line_is_empty` (method, line 968) `def test_overview_when_line_is_empty(self, synthetic_index)`
+  - `test_phase_when_token_is_known_phase` (method, line 975) `def test_phase_when_token_is_known_phase(self, synthetic_index, suite_config)`
+  - `test_search_when_token_is_unknown` (method, line 986) `def test_search_when_token_is_unknown(self, synthetic_index, suite_config)`
+  - `test_detail_when_info_flag` (method, line 996) `def test_detail_when_info_flag(self, synthetic_index, suite_config)`
+  - `test_custom_config_overrides_defaults` (method, line 1005) `def test_custom_config_overrides_defaults(self, synthetic_index)`
+  - `src` (method, line 1018) `def src(self, suite_config)`
+  - `palette_src` (method, line 1023) `def palette_src(self, suite_config)`
+  - `test_required_imports_present` (method, line 1031) `def test_required_imports_present(self, src, suite_config)`
+  - `test_migrated_imports_present` (method, line 1036) `def test_migrated_imports_present(self, palette_src, suite_config)`
+  - `test_methods_defined_on_lazyown_shell` (method, line 1041) `def test_methods_defined_on_lazyown_shell(self, src, suite_config)`
+  - `test_do_palette_loads_index_and_renders` (method, line 1053) `def test_do_palette_loads_index_and_renders(self, palette_src)`
+  - `test_do_palette_handles_index_error` (method, line 1059) `def test_do_palette_handles_index_error(self, palette_src)`
+  - `test_complete_palette_uses_completer` (method, line 1064) `def test_complete_palette_uses_completer(self, src)`
+  - `test_complete_palette_handles_index_error` (method, line 1069) `def test_complete_palette_handles_index_error(self, src)`
+  - `test_overview_when_line_is_empty` (method, line 1078) `def test_overview_when_line_is_empty(self, synthetic_index, suite_config)`
+  - `test_phase_mode_returns_filtered_rows` (method, line 1094) `def test_phase_mode_returns_filtered_rows(self, synthetic_index, suite_config)`
+  - `test_phase_mode_with_query_narrows_rows` (method, line 1108) `def test_phase_mode_with_query_narrows_rows(self, synthetic_index, suite_config)`
+  - `test_search_mode_returns_query_and_hits` (method, line 1123) `def test_search_mode_returns_query_and_hits(self, synthetic_index)`
+  - `test_detail_mode_returns_single_entry` (method, line 1138) `def test_detail_mode_returns_single_entry(self, synthetic_index, suite_config)`
+  - `test_detail_mode_unknown_returns_empty_results` (method, line 1154) `def test_detail_mode_unknown_returns_empty_results(self, synthetic_index)`
+  - `test_render_json_output_is_serialisable` (method, line 1166) `def test_render_json_output_is_serialisable(self, synthetic_index)`
+  - `test_palette_json_result_to_dict_matches_schema` (method, line 1178) `def test_palette_json_result_to_dict_matches_schema(self, suite_config)`
+  - `test_returns_required_top_level_keys` (method, line 1195) `def test_returns_required_top_level_keys(self, synthetic_index, suite_config)`
+  - `test_phase_entries_carry_required_fields` (method, line 1207) `def test_phase_entries_carry_required_fields(self, synthetic_index, suite_config)`
+  - `test_totals_match_canonical_command_count` (method, line 1221) `def test_totals_match_canonical_command_count(self, synthetic_index, suite_config)`
+  - `test_commands_sorted_by_name` (method, line 1235) `def test_commands_sorted_by_name(self, synthetic_index)`
+  - `test_phases_ordered_by_kill_chain` (method, line 1246) `def test_phases_ordered_by_kill_chain(self, synthetic_index)`
+  - `test_unknown_phases_appear_after_known_ones` (method, line 1260) `def test_unknown_phases_appear_after_known_ones(self, suite_config)`
+  - `test_flags_exposed_for_ui_chips` (method, line 1301) `def test_flags_exposed_for_ui_chips(self, synthetic_index)`
+  - `test_custom_view_config_overrides_labels` (method, line 1313) `def test_custom_view_config_overrides_labels(self, synthetic_index)`
+  - `test_empty_index_yields_zero_totals` (method, line 1325) `def test_empty_index_yields_zero_totals(self, suite_config)`
+  - `src` (method, line 1342) `def src(self, suite_config)`
+  - `test_tool_declared_in_list_tools` (method, line 1346) `def test_tool_declared_in_list_tools(self, src, suite_config)`
+  - `test_input_schema_documents_line_property` (method, line 1350) `def test_input_schema_documents_line_property(self, src, suite_config)`
+  - `test_dispatcher_branch_present` (method, line 1356) `def test_dispatcher_branch_present(self, src, suite_config)`
+  - `test_dispatcher_branch_imports_render_json` (method, line 1360) `def test_dispatcher_branch_imports_render_json(self, src, suite_config)`
+  - `test_dispatcher_branch_handles_missing_index` (method, line 1367) `def test_dispatcher_branch_handles_missing_index(self, src, suite_config)`
+  - `test_dispatcher_branch_calls_render_json` (method, line 1374) `def test_dispatcher_branch_calls_render_json(self, src, suite_config)`
+  - `_tool_declaration_block` (method, line 1381) `def _tool_declaration_block(src, tool_name)`
+  - `_dispatcher_branch` (method, line 1396) `def _dispatcher_branch(src, tool_name)`
+  - `src` (method, line 1409) `def src(self, suite_config)`
+  - `template_src` (method, line 1414) `def template_src(self, suite_config)`
+  - `test_required_imports_present` (method, line 1420) `def test_required_imports_present(self, src, suite_config)`
+  - `test_route_decorator_present` (method, line 1425) `def test_route_decorator_present(self, src, suite_config)`
+  - `test_route_function_defined` (method, line 1429) `def test_route_function_defined(self, src, suite_config)`
+  - `test_route_uses_requires_auth` (method, line 1435) `def test_route_uses_requires_auth(self, src, suite_config)`
+  - `test_route_loads_index_and_builds_view` (method, line 1450) `def test_route_loads_index_and_builds_view(self, src, suite_config)`
+  - `test_route_renders_palette_template` (method, line 1456) `def test_route_renders_palette_template(self, src, suite_config)`
+  - `test_route_handles_missing_index` (method, line 1461) `def test_route_handles_missing_index(self, src, suite_config)`
+  - `test_template_extends_base_layout` (method, line 1467) `def test_template_extends_base_layout(self, template_src, suite_config)`
+  - `test_template_escapes_user_facing_strings` (method, line 1472) `def test_template_escapes_user_facing_strings(self, template_src)`
+  - `setup_method` (method, line 1526) `def setup_method(self)`
+  - `test_load_graph_against_repo_artefact` (method, line 1532) `def test_load_graph_against_repo_artefact(self, suite_config)`
+  - `test_missing_graph_raises_graph_index_error` (method, line 1543) `def test_missing_graph_raises_graph_index_error(self, tmp_path)`
+  - `test_malformed_graph_raises_graph_index_error` (method, line 1551) `def test_malformed_graph_raises_graph_index_error(self, tmp_path)`
+  - `test_safe_load_graph_returns_none_when_missing` (method, line 1561) `def test_safe_load_graph_returns_none_when_missing(self, tmp_path)`
+  - `test_callees_returns_helpers_only` (method, line 1568) `def test_callees_returns_helpers_only(self, synthetic_graph, tmp_path)`
+  - `test_callees_handles_unknown_command` (method, line 1582) `def test_callees_handles_unknown_command(self, synthetic_graph, tmp_path)`
+  - `test_callees_with_none_graph_is_empty` (method, line 1592) `def test_callees_with_none_graph_is_empty(self)`
+  - `test_related_commands_uses_shared_helpers` (method, line 1598) `def test_related_commands_uses_shared_helpers(self, synthetic_graph, tmp_path)`
+  - `test_related_commands_with_none_graph_is_empty` (method, line 1610) `def test_related_commands_with_none_graph_is_empty(self)`
+  - `test_enrich_detail_attaches_calls_and_related` (method, line 1616) `def test_enrich_detail_attaches_calls_and_related(self, synthetic_graph, tmp_path, suite_config)`
+  - `test_enrich_detail_passes_through_none` (method, line 1636) `def test_enrich_detail_passes_through_none(self)`
+  - `_entry` (method, line 1646) `def _entry(self, suite_config)`
+  - `test_text_detail_includes_calls` (method, line 1659) `def test_text_detail_includes_calls(self, suite_config)`
+  - `test_text_detail_includes_related` (method, line 1668) `def test_text_detail_includes_related(self, suite_config)`
+  - `test_text_detail_truncates_neighbour_list` (method, line 1678) `def test_text_detail_truncates_neighbour_list(self, suite_config)`
+  - `test_text_detail_omits_calls_when_empty` (method, line 1689) `def test_text_detail_omits_calls_when_empty(self, suite_config)`
+  - `test_render_top_level_attaches_neighbour_lists` (method, line 1701) `def test_render_top_level_attaches_neighbour_lists(self, synthetic_index, suite_config)`
+  - `test_render_json_detail_contains_neighbour_keys` (method, line 1712) `def test_render_json_detail_contains_neighbour_keys(self, synthetic_index, suite_config)`
+  - `test_build_palette_view_attaches_neighbour_keys` (method, line 1732) `def test_build_palette_view_attaches_neighbour_keys(self, synthetic_index)`
+  - `test_build_palette_view_exposes_next_flag` (method, line 1742) `def test_build_palette_view_exposes_next_flag(self, synthetic_index)`
+  - `parser` (method, line 1755) `def parser(self)`
+  - `test_next_flag_routes_to_next_mode` (method, line 1761) `def test_next_flag_routes_to_next_mode(self, parser, suite_config)`
+  - `test_next_flag_without_phase` (method, line 1770) `def test_next_flag_without_phase(self, parser, suite_config)`
+  - `test_query_next_phase_returns_following_phase` (method, line 1779) `def test_query_next_phase_returns_following_phase(self, synthetic_index)`
+  - `test_query_next_phase_unknown_returns_none` (method, line 1787) `def test_query_next_phase_unknown_returns_none(self, synthetic_index)`
+  - `test_query_next_phase_at_end_returns_none` (method, line 1795) `def test_query_next_phase_at_end_returns_none(self)`
+  - `test_render_next_returns_phase_listing` (method, line 1808) `def test_render_next_returns_phase_listing(self, synthetic_index)`
+  - `test_render_next_empty_returns_message` (method, line 1817) `def test_render_next_empty_returns_message(self)`
+  - `test_render_json_next_mode` (method, line 1841) `def test_render_json_next_mode(self, synthetic_index)`
+  - `test_completer_offers_next_flag_at_first_position` (method, line 1851) `def test_completer_offers_next_flag_at_first_position(self, synthetic_index)`
+  - `test_completer_after_next_offers_phases` (method, line 1861) `def test_completer_after_next_offers_phases(self, synthetic_index)`
+  - `src` (method, line 1877) `def src(self, suite_config)`
+  - `test_route_decorator_present` (method, line 1881) `def test_route_decorator_present(self, src, suite_config)`
+  - `test_route_function_defined` (method, line 1885) `def test_route_function_defined(self, src, suite_config)`
+  - `test_route_uses_requires_auth` (method, line 1891) `def test_route_uses_requires_auth(self, src, suite_config)`
+  - `test_route_returns_jsonified_view` (method, line 1906) `def test_route_returns_jsonified_view(self, src, suite_config)`
+  - `test_route_handles_missing_index` (method, line 1913) `def test_route_handles_missing_index(self, src, suite_config)`
+  - `base_src` (method, line 1924) `def base_src(self, suite_config)`
+  - `test_overlay_markup_present` (method, line 1930) `def test_overlay_markup_present(self, base_src, suite_config)`
+  - `test_overlay_is_authenticated_only` (method, line 1935) `def test_overlay_is_authenticated_only(self, base_src)`
+  - `test_overlay_escapes_command_strings` (method, line 1942) `def test_overlay_escapes_command_strings(self, base_src)`
+  - `test_overlay_links_to_full_palette` (method, line 1947) `def test_overlay_links_to_full_palette(self, base_src)`
+  - `src` (method, line 1956) `def src(self, suite_config)`
+  - `test_description_mentions_next_mode` (method, line 1960) `def test_description_mentions_next_mode(self, src)`
+  - `test_description_mentions_calls_and_related` (method, line 1964) `def test_description_mentions_calls_and_related(self, src)`
+  - `test_safe_load_returns_empty_index_when_csv_missing` (method, line 2018) `def test_safe_load_returns_empty_index_when_csv_missing(self, tmp_path)`
+  - `test_load_telemetry_counts_invocations` (method, line 2028) `def test_load_telemetry_counts_invocations(self, synthetic_telemetry_path)`
+  - `test_load_telemetry_normalises_prefix` (method, line 2037) `def test_load_telemetry_normalises_prefix(self, synthetic_telemetry_path)`
+  - `test_load_telemetry_skips_excluded_commands` (method, line 2045) `def test_load_telemetry_skips_excluded_commands(self, synthetic_telemetry_path)`
+  - `test_load_telemetry_records_last_seen` (method, line 2053) `def test_load_telemetry_records_last_seen(self, synthetic_telemetry_path)`
+  - `test_recent_order_is_most_recent_first_and_unique` (method, line 2060) `def test_recent_order_is_most_recent_first_and_unique(self, synthetic_telemetry_path)`
+  - `test_cooccurrence_emits_top_followers` (method, line 2070) `def test_cooccurrence_emits_top_followers(self, synthetic_telemetry_path)`
+  - `test_cooccurrence_respects_min_count` (method, line 2079) `def test_cooccurrence_respects_min_count(self, tmp_path)`
+  - `test_command_stats_normalises_lookup_prefix` (method, line 2092) `def test_command_stats_normalises_lookup_prefix(self, synthetic_telemetry_path)`
+  - `test_runs_after_handles_none_telemetry` (method, line 2102) `def test_runs_after_handles_none_telemetry(self)`
+  - `test_enrich_detail_attaches_runs_and_runs_after` (method, line 2110) `def test_enrich_detail_attaches_runs_and_runs_after(self, synthetic_telemetry_path)`
+  - `test_enrich_detail_passes_through_none` (method, line 2123) `def test_enrich_detail_passes_through_none(self)`
+  - `test_load_telemetry_raises_on_unreadable_path` (method, line 2129) `def test_load_telemetry_raises_on_unreadable_path(self, tmp_path)`
+  - `test_render_detail_shows_runs_and_runs_after` (method, line 2143) `def test_render_detail_shows_runs_and_runs_after(self)`
+  - `test_render_detail_skips_telemetry_rows_when_zero` (method, line 2168) `def test_render_detail_skips_telemetry_rows_when_zero(self)`
+  - `test_build_palette_view_includes_recents_key` (method, line 2189) `def test_build_palette_view_includes_recents_key(self, synthetic_index)`
+  - `src` (method, line 2202) `def src(self, suite_config)`
+  - `test_rate_limit_decorator_present` (method, line 2206) `def test_rate_limit_decorator_present(self, src, suite_config)`
+  - `test_rate_limit_constant_defined` (method, line 2210) `def test_rate_limit_constant_defined(self, src, suite_config)`
+  - `test_rate_limit_falls_back_to_default` (method, line 2216) `def test_rate_limit_falls_back_to_default(self, src, suite_config)`
+  - `base_src` (method, line 2229) `def base_src(self, suite_config)`
+  - `test_telemetry_markers_present` (method, line 2233) `def test_telemetry_markers_present(self, base_src, suite_config)`
+  - `test_score_function_uses_runs_signal` (method, line 2238) `def test_score_function_uses_runs_signal(self, base_src)`
+  - `test_recents_section_renders_when_input_empty` (method, line 2243) `def test_recents_section_renders_when_input_empty(self, base_src)`
+  - `test_enrichment_returns_entry_when_both_modules_missing` (method, line 2252) `def test_enrichment_returns_entry_when_both_modules_missing(self, monkeypatch)`
+  - `test_enrichment_passes_through_none` (method, line 2270) `def test_enrichment_passes_through_none(self)`
+  - `blocking_import` (function, line 2260) `def blocking_import(name)`
+- Depends on: `cli/__init__.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_graph.py`, `cli/palette_telemetry.py`
 
 ## tests/test_command_set_migration.py
 - Doc: Tests for the completed migration of ``LazyOwnShell`` commands.
@@ -233,262 +478,6 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_post_defaults_rejects_unknown` (method, line 137) `def test_post_defaults_rejects_unknown(self, client)`
   - `test_post_defaults_rejects_bad_port` (method, line 141) `def test_post_defaults_rejects_bad_port(self, client)`
 - Depends on: `core/__init__.py`, `core/payload_schema.py`, `lazyc2/blueprints/api.py`
-
-## tests/test_core_executor.py
-- Doc: Tests for core.executor — safe_run and run_shell subprocess wrappers.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestSafeRun` (class, line 15) `class TestSafeRun`
-  - `TestRunShell` (class, line 84) `class TestRunShell`
-  - `test_echo_hello_returns_completed_process_with_stdout` (method, line 18) `def test_echo_hello_returns_completed_process_with_stdout(self)`
-  - `test_false_command_returns_nonzero` (method, line 27) `def test_false_command_returns_nonzero(self)`
-  - `test_empty_list_raises_value_error` (method, line 34) `def test_empty_list_raises_value_error(self)`
-  - `test_empty_string_raises_value_error` (method, line 41) `def test_empty_string_raises_value_error(self)`
-  - `test_timeout_raises_timeout_expired` (method, line 48) `def test_timeout_raises_timeout_expired(self)`
-  - `test_null_bytes_in_list_arg_raises_value_error` (method, line 55) `def test_null_bytes_in_list_arg_raises_value_error(self)`
-  - `test_null_bytes_in_string_raises_value_error` (method, line 62) `def test_null_bytes_in_string_raises_value_error(self)`
-  - `test_bad_type_raises_type_error` (method, line 69) `def test_bad_type_raises_type_error(self)`
-  - `test_timeout_below_minimum_raises_value_error` (method, line 76) `def test_timeout_below_minimum_raises_value_error(self)`
-  - `test_echo_hello_returns_stdout_string` (method, line 87) `def test_echo_hello_returns_stdout_string(self)`
-  - `test_nonzero_exit_raises_called_process_error` (method, line 95) `def test_nonzero_exit_raises_called_process_error(self)`
-  - `test_pipes_and_redirects_work` (method, line 102) `def test_pipes_and_redirects_work(self)`
-  - `test_stdout_is_stripped_of_whitespace` (method, line 109) `def test_stdout_is_stripped_of_whitespace(self)`
-- Depends on: `core/executor.py`
-
-## tests/test_core_modules.py
-- Doc: tests/test_core_modules.py Integration test suite for LazyOwn core modules.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_obs_parser_nmap` (function, line 16) `def test_obs_parser_nmap()`
-  - `test_obs_parser_empty` (function, line 31) `def test_obs_parser_empty()`
-  - `test_obs_parser_error` (function, line 39) `def test_obs_parser_error()`
-  - `test_world_model_basic` (function, line 47) `def test_world_model_basic(tmp_path)`
-  - `test_world_model_persistence` (function, line 57) `def test_world_model_persistence(tmp_path)`
-  - `test_world_model_from_findings` (function, line 68) `def test_world_model_from_findings()`
-  - `test_playbook_engine_derive_save_load` (function, line 79) `def test_playbook_engine_derive_save_load(tmp_path)`
-  - `test_playbook_engine_execute` (function, line 90) `def test_playbook_engine_execute()`
-  - `test_cve_matcher` (function, line 115) `def test_cve_matcher()`
-  - `test_cvss_critical` (function, line 124) `def test_cvss_critical()`
-  - `test_cvss_medium` (function, line 132) `def test_cvss_medium()`
-  - `test_cvss_from_nvd` (function, line 139) `def test_cvss_from_nvd()`
-  - `test_report_with_data` (function, line 148) `def test_report_with_data(tmp_path)`
-  - `test_report_empty` (function, line 170) `def test_report_empty(tmp_path)`
-  - `test_memory_remember_recall` (function, line 180) `def test_memory_remember_recall(tmp_path)`
-  - `test_memory_by_host` (function, line 190) `def test_memory_by_host(tmp_path)`
-  - `test_memory_export` (function, line 200) `def test_memory_export(tmp_path)`
-  - `test_llm_evaluator` (function, line 215) `def test_llm_evaluator(tmp_path)`
-  - `test_llm_evaluator_report` (function, line 226) `def test_llm_evaluator_report(tmp_path)`
-  - `test_llm_evaluator_empty` (function, line 238) `def test_llm_evaluator_empty(tmp_path)`
-  - `test_searchsploit_graceful` (function, line 246) `def test_searchsploit_graceful()`
-  - `test_searchsploit_client` (function, line 253) `def test_searchsploit_client()`
-  - `test_misp_export` (function, line 262) `def test_misp_export(tmp_path)`
-  - `test_dashboard_endpoints` (function, line 290) `def test_dashboard_endpoints()`
-  - `test_collab_endpoints` (function, line 320) `def test_collab_endpoints()`
-  - `test_c2_profile_builtins` (function, line 340) `def test_c2_profile_builtins()`
-  - `test_c2_profile_jitter` (function, line 351) `def test_c2_profile_jitter()`
-  - `test_c2_profile_save_load` (function, line 359) `def test_c2_profile_save_load(tmp_path)`
-  - `test_config_store` (function, line 370) `def test_config_store(tmp_path)`
-  - `test_mcp_tools_registered` (function, line 391) `def test_mcp_tools_registered()`
-  - `test_bridge_catalog_phases` (function, line 417) `def test_bridge_catalog_phases()`
-  - `test_bridge_by_phase` (function, line 429) `def test_bridge_by_phase()`
-  - `test_bridge_service_match` (function, line 439) `def test_bridge_service_match()`
-  - `test_bridge_build_command` (function, line 448) `def test_bridge_build_command()`
-  - `test_bridge_suggest` (function, line 464) `def test_bridge_suggest()`
-  - `test_bridge_suggest_with_services` (function, line 475) `def test_bridge_suggest_with_services()`
-  - `test_bridge_suggest_excluded` (function, line 485) `def test_bridge_suggest_excluded()`
-  - `test_bridge_list_all_phases` (function, line 497) `def test_bridge_list_all_phases()`
-  - `test_bridge_phase_mapper` (function, line 508) `def test_bridge_phase_mapper()`
-  - `test_bridge_full_catalog_count` (function, line 522) `def test_bridge_full_catalog_count()`
-  - `test_bridge_all_phases_populated` (function, line 529) `def test_bridge_all_phases_populated()`
-  - `test_bridge_suggest_sequence` (function, line 550) `def test_bridge_suggest_sequence()`
-  - `test_bridge_tag_selector` (function, line 561) `def test_bridge_tag_selector()`
-  - `test_bridge_suggest_kerberos_phase` (function, line 571) `def test_bridge_suggest_kerberos_phase()`
-  - `test_bridge_suggest_windows_os` (function, line 579) `def test_bridge_suggest_windows_os()`
-  - `test_bridge_suggest_linux_os` (function, line 589) `def test_bridge_suggest_linux_os()`
-  - `test_bridge_catalog_summary_has_all_phases` (function, line 599) `def test_bridge_catalog_summary_has_all_phases()`
-  - `test_session_reader_empty` (function, line 614) `def test_session_reader_empty(tmp_path)`
-  - `test_session_reader_implant_csv` (function, line 625) `def test_session_reader_implant_csv(tmp_path)`
-  - `test_session_reader_privileged_sessions` (function, line 642) `def test_session_reader_privileged_sessions(tmp_path)`
-  - `test_session_reader_tasks` (function, line 663) `def test_session_reader_tasks(tmp_path)`
-  - `test_session_reader_discovered_hosts` (function, line 679) `def test_session_reader_discovered_hosts(tmp_path)`
-  - `test_session_reader_skips_non_implant_logs` (function, line 688) `def test_session_reader_skips_non_implant_logs(tmp_path)`
-  - `test_reactive_engine_av_detection` (function, line 702) `def test_reactive_engine_av_detection()`
-  - `test_reactive_engine_privesc_sudo` (function, line 717) `def test_reactive_engine_privesc_sudo()`
-  - `test_reactive_engine_credential_found` (function, line 728) `def test_reactive_engine_credential_found()`
-  - `test_reactive_engine_new_host` (function, line 737) `def test_reactive_engine_new_host()`
-  - `test_reactive_engine_shell_error` (function, line 746) `def test_reactive_engine_shell_error()`
-  - `test_reactive_engine_no_signal` (function, line 755) `def test_reactive_engine_no_signal()`
-  - `test_reactive_engine_priority_ordering` (function, line 766) `def test_reactive_engine_priority_ordering()`
-  - `test_session_rag_init` (function, line 778) `def test_session_rag_init()`
-  - `test_session_rag_stats` (function, line 785) `def test_session_rag_stats()`
-  - `test_session_rag_chunk_text` (function, line 796) `def test_session_rag_chunk_text()`
-  - `test_session_rag_index_new` (function, line 807) `def test_session_rag_index_new()`
-  - `test_session_rag_query_returns_list` (function, line 817) `def test_session_rag_query_returns_list()`
-  - `test_session_rag_context_for_step` (function, line 828) `def test_session_rag_context_for_step()`
-  - `test_threat_model_builder_init` (function, line 840) `def test_threat_model_builder_init()`
-  - `test_threat_model_build` (function, line 847) `def test_threat_model_build()`
-  - `test_threat_model_summary_fields` (function, line 860) `def test_threat_model_summary_fields()`
-  - `test_threat_model_ttps_have_required_fields` (function, line 872) `def test_threat_model_ttps_have_required_fields()`
-  - `test_threat_model_detection_rules_structure` (function, line 885) `def test_threat_model_detection_rules_structure()`
-  - `test_threat_model_load_after_build` (function, line 898) `def test_threat_model_load_after_build()`
-  - `test_threat_model_ioc_types` (function, line 908) `def test_threat_model_ioc_types()`
-  - `test_session_rag_fallback_persistence` (function, line 919) `def test_session_rag_fallback_persistence(tmp_path)`
-  - `test_session_rag_fallback_dedup` (function, line 939) `def test_session_rag_fallback_dedup()`
-  - `test_session_rag_fallback_ring_buffer` (function, line 949) `def test_session_rag_fallback_ring_buffer()`
-  - `test_threat_model_has_purple_team` (function, line 971) `def test_threat_model_has_purple_team()`
-  - `test_threat_model_purple_team_structure` (function, line 980) `def test_threat_model_purple_team_structure()`
-  - `test_threat_model_purple_gaps_sorted_first` (function, line 996) `def test_threat_model_purple_gaps_sorted_first()`
-  - `test_threat_model_purple_coverage_field` (function, line 1013) `def test_threat_model_purple_coverage_field()`
-  - `test_atomic_enricher_builds` (function, line 1028) `def test_atomic_enricher_builds()`
-  - `test_atomic_enricher_complexity_values` (function, line 1045) `def test_atomic_enricher_complexity_values()`
-  - `test_atomic_enricher_scope_values` (function, line 1055) `def test_atomic_enricher_scope_values()`
-  - `test_atomic_query_keyword` (function, line 1065) `def test_atomic_query_keyword()`
-  - `test_atomic_query_mitre_prefix` (function, line 1081) `def test_atomic_query_mitre_prefix()`
-  - `test_atomic_query_platform_filter` (function, line 1092) `def test_atomic_query_platform_filter()`
-  - `test_atomic_query_no_prereqs` (function, line 1104) `def test_atomic_query_no_prereqs()`
-  - `test_atomic_query_include_command` (function, line 1115) `def test_atomic_query_include_command()`
-  - `test_atomic_query_empty_returns_list` (function, line 1127) `def test_atomic_query_empty_returns_list()`
-  - `test_parquet_db_query_atomic` (function, line 1139) `def test_parquet_db_query_atomic()`
-  - `test_session_rag_index_parquet_sources` (function, line 1150) `def test_session_rag_index_parquet_sources()`
-  - `_User` (class, line 295) `class _User(UserMixin)`
-  - `load_user` (function, line 305) `def load_user(user_id)`
-  - `__init__` (method, line 296) `def __init__(self, uid)`
-- Depends on: `modules/atomic_enricher.py`, `modules/collab_bp.py`, `modules/config_store.py`, `modules/cve_matcher.py`, `modules/dashboard_bp.py`, `modules/integrations/misp_export.py`, `modules/integrations/searchsploit.py`, `modules/lazyown_bridge.py`, `modules/llm_evaluator.py`, `modules/memory_store.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/threat_model.py`, `skills/lazyown_parquet_db.py`
-
-## tests/test_cors_behavior.py
-- Doc: BDD behavior scenarios for the CORS policy contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `test_given_wildcard_in_prod_when_resolving_then_raises` (function, line 16) `def test_given_wildcard_in_prod_when_resolving_then_raises()`
-  - `test_given_empty_in_dev_when_resolving_then_falls_back_to_lhost` (function, line 23) `def test_given_empty_in_dev_when_resolving_then_falls_back_to_lhost()`
-  - `test_given_unknown_origin_when_handshake_then_denied` (function, line 31) `def test_given_unknown_origin_when_handshake_then_denied()`
-  - `test_given_matching_origin_when_handshake_then_allowed` (function, line 41) `def test_given_matching_origin_when_handshake_then_allowed()`
-- Depends on: `lazyc2/security/cors.py`
-
-## tests/test_cors_policy.py
-- Doc: TDD tests for the CORS policy contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestResolveOrigins` (class, line 24) `class TestResolveOrigins`
-  - `TestIsAllowed` (class, line 78) `class TestIsAllowed`
-  - `TestFlaskSocketIOIntegration` (class, line 106) `class TestFlaskSocketIOIntegration`
-  - `test_wildcard_is_rejected` (method, line 27) `def test_wildcard_is_rejected(self)`
-  - `test_wildcard_in_csv_is_dropped` (method, line 31) `def test_wildcard_in_csv_is_dropped(self)`
-  - `test_prod_empty_allowlist_raises` (method, line 42) `def test_prod_empty_allowlist_raises(self)`
-  - `test_dev_empty_allowlist_falls_back_to_lhost` (method, line 46) `def test_dev_empty_allowlist_falls_back_to_lhost(self)`
-  - `test_csv_is_split_and_trimmed` (method, line 52) `def test_csv_is_split_and_trimmed(self)`
-  - `test_list_input_is_preserved` (method, line 61) `def test_list_input_is_preserved(self)`
-  - `test_empty_entries_in_csv_are_skipped` (method, line 69) `def test_empty_entries_in_csv_are_skipped(self)`
-  - `test_exact_match_is_allowed` (method, line 81) `def test_exact_match_is_allowed(self)`
-  - `test_non_matching_origin_is_denied` (method, line 85) `def test_non_matching_origin_is_denied(self)`
-  - `test_empty_origin_is_denied` (method, line 89) `def test_empty_origin_is_denied(self)`
-  - `test_hostname_match_ignores_port` (method, line 93) `def test_hostname_match_ignores_port(self)`
-  - `test_scheme_mismatch_is_denied` (method, line 101) `def test_scheme_mismatch_is_denied(self)`
-  - `test_origins_for_socketio` (method, line 109) `def test_origins_for_socketio(self)`
-  - `test_origins_for_socketio_dev_fallback` (method, line 119) `def test_origins_for_socketio_dev_fallback(self)`
-- Depends on: `lazyc2/security/cors.py`
-
-## tests/test_cors_socketio_regression.py
-- Doc: Regression tests for the Socket.IO origin allowlist.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestOriginsForSocketIO` (class, line 20) `class TestOriginsForSocketIO`
-  - `test_dev_empty_includes_lhost_with_common_ports` (method, line 23) `def test_dev_empty_includes_lhost_with_common_ports(self)`
-  - `test_dev_empty_includes_http_and_https` (method, line 29) `def test_dev_empty_includes_http_and_https(self)`
-  - `test_dev_empty_includes_localhost_alias` (method, line 35) `def test_dev_empty_includes_localhost_alias(self)`
-  - `test_explicit_origins_kept_with_port_appended` (method, line 40) `def test_explicit_origins_kept_with_port_appended(self)`
-  - `test_explicit_origins_deduped` (method, line 51) `def test_explicit_origins_deduped(self)`
-  - `test_prod_raises_when_empty` (method, line 61) `def test_prod_raises_when_empty(self)`
-  - `test_wildcard_rejected` (method, line 65) `def test_wildcard_rejected(self)`
-- Depends on: `lazyc2/security/cors.py`
-
-## tests/test_credential_vault.py
-- Doc: Tests for core/credential_vault.py
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestCheckDefaults` (class, line 18) `class TestCheckDefaults`
-  - `TestSealUnseal` (class, line 56) `class TestSealUnseal`
-  - `TestSecureDefaults` (class, line 116) `class TestSecureDefaults`
-  - `test_default_values_detected` (method, line 19) `def test_default_values_detected(self)`
-  - `test_clean_payload_no_warnings` (method, line 24) `def test_clean_payload_no_warnings(self)`
-  - `test_empty_keys_flagged` (method, line 39) `def test_empty_keys_flagged(self)`
-  - `test_changeme_variants` (method, line 44) `def test_changeme_variants(self)`
-  - `test_roundtrip` (method, line 57) `def test_roundtrip(self)`
-  - `test_empty_string_passthrough` (method, line 64) `def test_empty_string_passthrough(self)`
-  - `test_plaintext_passthrough` (method, line 68) `def test_plaintext_passthrough(self)`
-  - `test_different_key_fails` (method, line 72) `def test_different_key_fails(self)`
-  - `test_payload_roundtrip` (method, line 80) `def test_payload_roundtrip(self)`
-  - `test_sensitive_keys_encrypted` (method, line 98) `def test_sensitive_keys_encrypted(self)`
-  - `test_non_sensitive_keys_untouched` (method, line 107) `def test_non_sensitive_keys_untouched(self)`
-  - `test_generates_random_values` (method, line 117) `def test_generates_random_values(self)`
-  - `test_api_key_is_longer` (method, line 124) `def test_api_key_is_longer(self)`
-- Depends on: `core/credential_vault.py`
-
-## tests/test_credentials_rotation.py
-- Doc: Tests for CredMigratedCommandSet._rotate_existing_credentials.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `in_tmp_sessions` (function, line 32) `def in_tmp_sessions(tmp_path, monkeypatch)`
-  - `test_missing_file_returns_none` (function, line 38) `def test_missing_file_returns_none(in_tmp_sessions)`
-  - `test_existing_file_is_backed_up_by_username` (function, line 42) `def test_existing_file_is_backed_up_by_username(in_tmp_sessions)`
-  - `test_empty_file_uses_fallback_username` (function, line 51) `def test_empty_file_uses_fallback_username(in_tmp_sessions)`
-  - `test_line_without_colon_uses_whole_token` (function, line 58) `def test_line_without_colon_uses_whole_token(in_tmp_sessions)`
-  - `test_race_on_rename_is_swallowed` (function, line 65) `def test_race_on_rename_is_swallowed(in_tmp_sessions, monkeypatch)`
-  - `test_oserror_on_rename_is_swallowed` (function, line 76) `def test_oserror_on_rename_is_swallowed(in_tmp_sessions, monkeypatch)`
-  - `_boom` (function, line 69) `def _boom()`
-  - `_boom` (function, line 80) `def _boom()`
-- Depends on: `cli/commands/cred_migrated.py`
-
-## tests/test_csrf_behavior.py
-- Doc: BDD behavior scenarios for the CSRF contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_Request` (class, line 8) `class _Request`
-  - `test_given_authenticated_post_without_token_then_rejected` (function, line 16) `def test_given_authenticated_post_without_token_then_rejected()`
-  - `test_given_authenticated_post_with_valid_token_then_allowed` (function, line 23) `def test_given_authenticated_post_with_valid_token_then_allowed()`
-  - `test_given_login_path_without_token_then_allowed` (function, line 35) `def test_given_login_path_without_token_then_allowed()`
-  - `test_given_get_request_then_always_allowed` (function, line 42) `def test_given_get_request_then_always_allowed()`
-  - `__init__` (method, line 9) `def __init__(self, method, path, headers, form)`
-- Depends on: `lazyc2/security/csrf.py`
-
-## tests/test_csrf_policy.py
-- Doc: TDD tests for the CSRF policy contract.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_FakeRequest` (class, line 26) `class _FakeRequest`
-  - `TestTokenIssuance` (class, line 34) `class TestTokenIssuance`
-  - `TestTokenValidation` (class, line 56) `class TestTokenValidation`
-  - `TestExemptions` (class, line 81) `class TestExemptions`
-  - `TestRequestExtraction` (class, line 96) `class TestRequestExtraction`
-  - `TestCheckRequest` (class, line 123) `class TestCheckRequest`
-  - `__init__` (method, line 27) `def __init__(self, headers, form, path, method)`
-  - `test_issue_returns_string` (method, line 37) `def test_issue_returns_string(self)`
-  - `test_issue_is_deterministic_for_same_session` (method, line 43) `def test_issue_is_deterministic_for_same_session(self)`
-  - `test_issue_is_unique_across_sessions` (method, line 49) `def test_issue_is_unique_across_sessions(self)`
-  - `test_valid_token_passes` (method, line 59) `def test_valid_token_passes(self)`
-  - `test_missing_token_fails` (method, line 64) `def test_missing_token_fails(self)`
-  - `test_unknown_session_fails` (method, line 70) `def test_unknown_session_fails(self)`
-  - `test_wrong_token_fails` (method, line 75) `def test_wrong_token_fails(self)`
-  - `test_exempt_path_passes_without_token` (method, line 84) `def test_exempt_path_passes_without_token(self)`
-  - `test_non_exempt_path_fails_check` (method, line 90) `def test_non_exempt_path_fails_check(self)`
-  - `test_extract_header` (method, line 99) `def test_extract_header(self)`
-  - `test_extract_form` (method, line 104) `def test_extract_form(self)`
-  - `test_extract_header_takes_precedence` (method, line 109) `def test_extract_header_takes_precedence(self)`
-  - `test_extract_returns_none_when_missing` (method, line 117) `def test_extract_returns_none_when_missing(self)`
-  - `test_safe_methods_bypass` (method, line 126) `def test_safe_methods_bypass(self)`
-  - `test_mutating_without_token_fails` (method, line 131) `def test_mutating_without_token_fails(self)`
-  - `test_mutating_with_valid_token_passes` (method, line 136) `def test_mutating_with_valid_token_passes(self)`
-  - `test_exempt_path_with_no_token_still_passes` (method, line 146) `def test_exempt_path_with_no_token_still_passes(self)`
-- Depends on: `lazyc2/security/csrf.py`
 
 
 Next: [KB_tests_p8.md](KB_tests_p8.md)

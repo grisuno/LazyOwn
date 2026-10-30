@@ -61,17 +61,17 @@ Imported by: `cli/autosuggest.py`, `cli/ops_commands.py`, `cli/tips_engine.py`, 
 
 ## core/safe_exec.py
 Depends on: `core/logging.py`
-Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/autonomous_exploit_engine.py`, `modules/chain_runner.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/lazyshortener.py`, `modules/metasploitable_migrations.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `modules/ttpscope_bridge.py`, `modules/winbox_gym.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_executor_kernel.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
-- `needs_shell` (function) `core/safe_exec.py:52` `def needs_shell(command)` -- Return True when a command string needs a shell to be interpreted.
-- `safe_system` (function) `core/safe_exec.py:69` `def safe_system(command)` -- Execute a fixed command string through the shell safely.
-- `safe_run_argv` (function) `core/safe_exec.py:106` `def safe_run_argv(argv)` -- Execute a command via subprocess without shell interpretation.
-- `safe_run_shell` (function) `core/safe_exec.py:146` `def safe_run_shell(command)` -- Execute a command through the shell, gated by policy.
-- `safe_clear_screen` (function) `core/safe_exec.py:192` `def safe_clear_screen()` -- Clear the terminal screen without using os.system.
-- `validate_url` (function) `core/safe_exec.py:207` `def validate_url(url)` -- Validate a URL string, rejecting shell metacharacters.
-- `safe_git_clone` (function) `core/safe_exec.py:234` `def safe_git_clone(repo_url, target_dir)` -- Clone a git repository safely using subprocess list-form.
-- `safe_ip_show` (function) `core/safe_exec.py:268` `def safe_ip_show(interface)` -- Parse IP addresses from ``ip show`` output in Python.
-- `safe_find_tool` (function) `core/safe_exec.py:305` `def safe_find_tool(name)` -- Find a tool on PATH using shutil.which.
-- `safe_file_read` (function) `core/safe_exec.py:321` `def safe_file_read(path)` -- Read a file safely with a size limit.
+Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2/blueprints/api_v1.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/autonomous_exploit_engine.py`, `modules/chain_runner.py`, `modules/command_executor.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/lazyshortener.py`, `modules/metasploitable_migrations.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `modules/ttpscope_bridge.py`, `modules/winbox_gym.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_executor_kernel.py`, `tests/test_group_kill.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
+- `needs_shell` (function) `core/safe_exec.py:57` `def needs_shell(command)` -- Return True when a command string needs a shell to be interpreted.
+- `safe_system` (function) `core/safe_exec.py:74` `def safe_system(command)` -- Execute a fixed command string through the shell safely.
+- `safe_run_argv` (function) `core/safe_exec.py:174` `def safe_run_argv(argv)` -- Execute a command via subprocess without shell interpretation.
+- `safe_run_shell` (function) `core/safe_exec.py:228` `def safe_run_shell(command)` -- Execute a command through the shell, gated by policy.
+- `safe_clear_screen` (function) `core/safe_exec.py:285` `def safe_clear_screen()` -- Clear the terminal screen without using os.system.
+- `validate_url` (function) `core/safe_exec.py:300` `def validate_url(url)` -- Validate a URL string, rejecting shell metacharacters.
+- `safe_git_clone` (function) `core/safe_exec.py:327` `def safe_git_clone(repo_url, target_dir)` -- Clone a git repository safely using subprocess list-form.
+- `safe_ip_show` (function) `core/safe_exec.py:361` `def safe_ip_show(interface)` -- Parse IP addresses from ``ip show`` output in Python.
+- `safe_find_tool` (function) `core/safe_exec.py:398` `def safe_find_tool(name)` -- Find a tool on PATH using shutil.which.
+- `safe_file_read` (function) `core/safe_exec.py:414` `def safe_file_read(path)` -- Read a file safely with a size limit.
 
 ## core/safe_import.py
 Imported by: `cli/commands/campaign.py`, `tests/test_campaign_import_safety.py`
@@ -242,7 +242,7 @@ Depends on: `cli/toast_bus.py`, `core/console.py`, `core/logging.py`, `modules/l
 - `App.complete_rag_bulk_add` (method) `lazy_sentinel4.py:686` `def complete_rag_bulk_add(self, text, line, begidx, endidx)`
 
 ## lazyc2.py
-Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `core/config.py`, `core/console.py`, `core/hardening.py`, `core/logging.py`, `core/parsers.py`, `core/reverse_shell_secret.py`, `core/session_secrets.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/users.py`, `lazyc2/security/cli_credentials.py`, `lazyc2/security/command_allowlist.py`, `lazyc2/security/constants.py`, `lazyc2/security/cors.py`, `lazyc2/security/csrf.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/https_redirect.py`, `lazyc2/security/services.py`, `lazyc2/security/trusted_proxy.py`, `lazyc2/security/validators.py`, `lazyown.py`, `modules/__init__.py`, `modules/attack_surface3d.py`, `modules/backdoor/server.c`, `modules/beacon_history.py`, `modules/beacon_recon.py`, `modules/c2_surfaces.py`, `modules/collab_bp.py`, `modules/colors.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/dashboard_bp.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/event_engine.py`, `modules/intel_fusion.py`, `modules/kill_chain_viz.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazy_rbac.py`, `modules/listener_manager.py`, `modules/live_surface.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`, `modules/loop_manager.py`, `modules/metrics.py`, `modules/security_sanitizers.py`, `modules/state_manager.py`, `modules/world_model.py`, `skills/daemon_health.py`, `skills/lazyown_facts.py`, `utils.py`
+Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `core/config.py`, `core/console.py`, `core/hardening.py`, `core/logging.py`, `core/parsers.py`, `core/reverse_shell_secret.py`, `core/session_secrets.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/users.py`, `lazyc2/security/cli_credentials.py`, `lazyc2/security/command_allowlist.py`, `lazyc2/security/constants.py`, `lazyc2/security/cors.py`, `lazyc2/security/csrf.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/https_redirect.py`, `lazyc2/security/services.py`, `lazyc2/security/trusted_proxy.py`, `lazyc2/security/validators.py`, `lazyown.py`, `modules/__init__.py`, `modules/attack_surface3d.py`, `modules/backdoor/server.c`, `modules/beacon_history.py`, `modules/beacon_recon.py`, `modules/c2_surfaces.py`, `modules/chain_approval.py`, `modules/collab_bp.py`, `modules/colors.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/dashboard_bp.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/event_engine.py`, `modules/intel_fusion.py`, `modules/kill_chain_viz.py`, `modules/killchain.py`, `modules/lazy_loop.py`, `modules/lazy_mentions.py`, `modules/lazy_rbac.py`, `modules/listener_manager.py`, `modules/live_surface.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/logging_config.py`, `modules/loop_manager.py`, `modules/metrics.py`, `modules/security_sanitizers.py`, `modules/state_manager.py`, `modules/world_model.py`, `skills/daemon_health.py`, `skills/lazyown_facts.py`, `utils.py`
 - `is_insecure_credential` (function) `lazyc2.py:242` `def is_insecure_credential(user, pwd)` -- Check for weak or default credentials
 - `_JsonLogFormatter.format` (method) `lazyc2.py:482` `def format(self, record)`
 - `ensure_sessions_dir` (function) `lazyc2.py:509` `def ensure_sessions_dir()` -- Ensure the sessions directory exists with safe permissions.
@@ -459,29 +459,31 @@ Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `c
 - `api_loop_broadcast_stream` (function) `lazyc2.py:7821` `def api_loop_broadcast_stream()` -- SSE live tail of one loop task's activity stream.
 - `api_loop_broadcast` (function) `lazyc2.py:7879` `def api_loop_broadcast()` -- Return the paginated exploration timeline for one loop task.
 - `api_guard_audit` (function) `lazyc2.py:7922` `def api_guard_audit()` -- Return guard history with pending approvals kept independent.
-- `api_loop_graph` (function) `lazyc2.py:7968` `def api_loop_graph()` -- Return one loop task as ForceGraph-ready nodes/links plus context.
-- `api_lazy_mentions` (function) `lazyc2.py:7999` `def api_lazy_mentions()` -- Search @ mention candidates with scroll pagination.
-- `api_intel_bundle` (function) `lazyc2.py:8035` `def api_intel_bundle()` -- Return the circular/spherical bundle payload of the intel graph.
-- `api_attack_graph` (function) `lazyc2.py:8068` `def api_attack_graph()` -- Return the fused C2-centred attack-surface graph.
-- `api_attack_bundle` (function) `lazyc2.py:8120` `def api_attack_bundle()` -- Return the circular/spherical bundle payload of the attack surface.
-- `get_data` (function) `lazyc2.py:8150` `def get_data()`
-- `upload_zip_file` (function) `lazyc2.py:8159` `def upload_zip_file()` -- Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization.
-- `list_campaigns` (function) `lazyc2.py:8217` `def list_campaigns()`
-- `create_campaign` (function) `lazyc2.py:8230` `def create_campaign()`
-- `lazyphishingai` (function) `lazyc2.py:8308` `def lazyphishingai()`
-- `track_pixel` (function) `lazyc2.py:8324` `def track_pixel(campaign_id, email)` -- Píxel de seguimiento para registrar aperturas.
-- `campaign_report` (function) `lazyc2.py:8346` `def campaign_report(campaign_id)`
-- `orchestrate_campaign` (function) `lazyc2.py:8428` `def orchestrate_campaign(campaign_id)`
-- `create_multivector_campaign` (function) `lazyc2.py:8475` `def create_multivector_campaign()`
-- `serve_landing_page` (function) `lazyc2.py:8627` `def serve_landing_page(campaign_id, short_url)`
-- `health_check` (function) `lazyc2.py:8652` `def health_check()` -- Basic health and readiness endpoint.
-- `metrics_exposition` (function) `lazyc2.py:8691` `def metrics_exposition()` -- Prometheus-compatible metrics endpoint.
-- `api_dashboard` (function) `lazyc2.py:8698` `def api_dashboard()` -- Aggregated JSON dashboard: beacons, campaign, events, facts summary.
-- `api_listeners` (function) `lazyc2.py:8768` `def api_listeners()` -- List all configured C2 listeners and their runtime status.
-- `api_listeners_create` (function) `lazyc2.py:8775` `def api_listeners_create()` -- Create a new listener.
-- `api_listeners_start` (function) `lazyc2.py:8791` `def api_listeners_start(listener_id)` -- Start an existing listener.
-- `api_listeners_stop` (function) `lazyc2.py:8799` `def api_listeners_stop(listener_id)` -- Stop a running listener.
-- `api_listeners_delete` (function) `lazyc2.py:8807` `def api_listeners_delete(listener_id)` -- Remove a listener configuration.
+- `api_chain_approvals` (function) `lazyc2.py:7968` `def api_chain_approvals()` -- List confirm-step approval requests from the chain approval gate.
+- `api_chain_approvals_decide` (function) `lazyc2.py:7996` `def api_chain_approvals_decide(request_id)` -- Approve or deny one pending chain approval request.
+- `api_loop_graph` (function) `lazyc2.py:8037` `def api_loop_graph()` -- Return one loop task as ForceGraph-ready nodes/links plus context.
+- `api_lazy_mentions` (function) `lazyc2.py:8068` `def api_lazy_mentions()` -- Search @ mention candidates with scroll pagination.
+- `api_intel_bundle` (function) `lazyc2.py:8104` `def api_intel_bundle()` -- Return the circular/spherical bundle payload of the intel graph.
+- `api_attack_graph` (function) `lazyc2.py:8137` `def api_attack_graph()` -- Return the fused C2-centred attack-surface graph.
+- `api_attack_bundle` (function) `lazyc2.py:8189` `def api_attack_bundle()` -- Return the circular/spherical bundle payload of the attack surface.
+- `get_data` (function) `lazyc2.py:8219` `def get_data()`
+- `upload_zip_file` (function) `lazyc2.py:8228` `def upload_zip_file()` -- Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization.
+- `list_campaigns` (function) `lazyc2.py:8286` `def list_campaigns()`
+- `create_campaign` (function) `lazyc2.py:8299` `def create_campaign()`
+- `lazyphishingai` (function) `lazyc2.py:8377` `def lazyphishingai()`
+- `track_pixel` (function) `lazyc2.py:8393` `def track_pixel(campaign_id, email)` -- Píxel de seguimiento para registrar aperturas.
+- `campaign_report` (function) `lazyc2.py:8415` `def campaign_report(campaign_id)`
+- `orchestrate_campaign` (function) `lazyc2.py:8497` `def orchestrate_campaign(campaign_id)`
+- `create_multivector_campaign` (function) `lazyc2.py:8544` `def create_multivector_campaign()`
+- `serve_landing_page` (function) `lazyc2.py:8696` `def serve_landing_page(campaign_id, short_url)`
+- `health_check` (function) `lazyc2.py:8721` `def health_check()` -- Basic health and readiness endpoint.
+- `metrics_exposition` (function) `lazyc2.py:8760` `def metrics_exposition()` -- Prometheus-compatible metrics endpoint.
+- `api_dashboard` (function) `lazyc2.py:8767` `def api_dashboard()` -- Aggregated JSON dashboard: beacons, campaign, events, facts summary.
+- `api_listeners` (function) `lazyc2.py:8837` `def api_listeners()` -- List all configured C2 listeners and their runtime status.
+- `api_listeners_create` (function) `lazyc2.py:8844` `def api_listeners_create()` -- Create a new listener.
+- `api_listeners_start` (function) `lazyc2.py:8860` `def api_listeners_start(listener_id)` -- Start an existing listener.
+- `api_listeners_stop` (function) `lazyc2.py:8868` `def api_listeners_stop(listener_id)` -- Stop a running listener.
+- `api_listeners_delete` (function) `lazyc2.py:8876` `def api_listeners_delete(listener_id)` -- Remove a listener configuration.
 
 
 Next: [API_p8.md](API_p8.md)

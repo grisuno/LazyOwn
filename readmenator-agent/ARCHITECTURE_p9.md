@@ -2,6 +2,39 @@
 Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 
 ## External Imports (continued)
+- `tests/test_loop_multi_target.py` -> __future__, pytest
+- `tests/test_loop_nmap_guard.py` -> __future__
+- `tests/test_loop_progress.py` -> __future__, io, pathlib, sys
+- `tests/test_loop_scope_traffic_evidence.py` -> __future__
+- `tests/test_loop_spawn_side.py` -> __future__
+- `tests/test_loop_store_race.py` -> __future__, threading
+- `tests/test_loop_supervision.py` -> __future__
+- `tests/test_loop_trigger_hints.py` -> __future__, json, pathlib, pytest, types
+- `tests/test_loop_worker_traces.py` -> __future__
+- `tests/test_marketplace_config.py` -> __future__, asyncio, json, yaml
+- `tests/test_mcp_auto_loop_wrapper.py` -> __future__, asyncio, pytest, types
+- `tests/test_mcp_dispatch.py` -> __future__, ast, pathlib, re
+- `tests/test_mcp_improvements.py` -> __future__, importlib, json, os, pathlib, pytest, sys, time
+- `tests/test_mcp_lazy.py` -> __future__, ast, pathlib, sys
+- `tests/test_mcp_recommender_embed.py` -> __future__, importlib.util, pathlib
+- `tests/test_mediation.py` -> __future__, json, time, types
+- `tests/test_memory_semantics.py` -> __future__, pathlib, pytest, time
+- `tests/test_metasploitable_gym.py` -> __future__, yaml
+- `tests/test_metasploitable_migrations.py` -> __future__
+- `tests/test_metrics.py` -> __future__, datetime, json, pathlib, pytest, sys, threading
+- `tests/test_metrics_aware_selector.py` -> __future__, json, pathlib, skills, sys, typing
+- `tests/test_migrate_lazyown_generator.py` -> __future__, ast
+- `tests/test_module_registry.py` -> __future__
+- `tests/test_module_registry_bridge.py` -> __future__, pathlib
+- `tests/test_moe_rl_swan.py` -> __future__, json, os, pathlib, sys, tempfile, world_model
+- `tests/test_moe_router_check_regression.py` -> __future__, pathlib, sys
+- `tests/test_mutation_verification.py` -> __future__, ast, pathlib, pytest, tempfile
+- `tests/test_nethelpers_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
+- `tests/test_no_shell_execution.py` -> __future__, ast, dataclasses, pathlib
+- `tests/test_nuclei_parser.py` -> __future__
+- `tests/test_opencode_mcp_harness.py` -> __future__, asyncio, pathlib, sys, tempfile, unittest
+- `tests/test_ops_loot_phase.py` -> json, pathlib, sys, world_model
+- `tests/test_opsec_scorer.py` -> __future__
 - `tests/test_opsec_scorer_consolidated.py` -> __future__
 - `tests/test_orchestrator_api.py` -> __future__, flask, json, os, pathlib, pytest
 - `tests/test_orchestrator_triggers.py` -> __future__, asyncio, pytest
@@ -21,7 +54,9 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_playbook_admin.py` -> __future__, yaml
 - `tests/test_plugin_loader_safety.py` -> __future__, ast, pathlib, re
 - `tests/test_plugin_tiers.py` -> __future__, pathlib, pytest, yaml
+- `tests/test_policy_planner_signal.py` -> __future__, pathlib
 - `tests/test_profiles.py` -> __future__, pathlib, pytest
+- `tests/test_progress_ledger.py` -> __future__, pathlib, pytest, tempfile
 - `tests/test_prompt_readline_markers.py` -> __future__, pathlib, sys
 - `tests/test_prompt_refresh.py` -> __future__, pathlib, re, types
 - `tests/test_pwntomate_tools.py` -> __future__, json, pathlib, re
@@ -34,6 +69,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_reasoning_stream.py` -> __future__, json, pathlib, sys
 - `tests/test_recommendation.py` -> __future__, pathlib, pytest
 - `tests/test_recon_plan.py` -> __future__, collections.abc, dataclasses, json, pathlib, tempfile, textwrap, typing, unittest
+- `tests/test_repeat_shapes.py` -> __future__
 - `tests/test_report_banners_endpoints.py` -> __future__, json, os, pathlib
 - `tests/test_require_guards.py` -> __future__
 - `tests/test_resource_script.py` -> __future__, pytest
@@ -43,6 +79,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_safe_subprocess_behavior.py` -> __future__, json, pathlib, sys
 - `tests/test_safety_gates.py` -> __future__, os, time
 - `tests/test_scope_bound_auto_gate.py` -> __future__, engagement_hooks, importlib, json, pathlib, pytest, sys, time
+- `tests/test_scope_deny_priority.py` -> __future__, pathlib, pytest
 - `tests/test_scope_guard.py` -> __future__, pathlib, pytest, sys
 - `tests/test_scope_guard_integration.py` -> __future__, cmd2, pathlib, pytest, sys, types
 - `tests/test_security_alerts_fix.py` -> __future__, ast, json, os, pathlib, pytest, ssl, time
@@ -50,7 +87,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_security_hardening.py` -> __future__, ast, hmac, pathlib, pytest, tempfile
 - `tests/test_security_hardening_v2.py` -> __future__, pathlib, pytest, re
 - `tests/test_security_hardening_v3.py` -> __future__, ast, os, pathlib, pytest, subprocess, unittest.mock
-- `tests/test_security_hardening_v4.py` -> __future__, importlib, inspect, os, pathlib, pytest, sys, tempfile, unittest.mock
+- `tests/test_security_hardening_v4.py` -> __future__, importlib, inspect, os, pathlib, pytest, subprocess, sys, tempfile, unittest.mock
 - `tests/test_security_hardening_v5.py` -> __future__, flask, hashlib, os, pathlib, pytest, secrets, stat, subprocess, tempfile, unittest.mock
 - `tests/test_security_lazyc2.py` -> os, pathlib, pytest
 - `tests/test_security_sanitizers.py` -> __future__, json, os, pytest
@@ -63,6 +100,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_short_url_file_containment.py` -> __future__, ast, pathlib, pytest
 - `tests/test_single_implementation.py` -> __future__
 - `tests/test_single_source_of_truth.py` -> __future__, json, pathlib, tempfile, unittest
+- `tests/test_sink_chain_feed.py` -> __future__, json, pathlib
 - `tests/test_sleep_obfuscation.py` -> __future__, pytest
 - `tests/test_socks_proxy.py` -> __future__
 - `tests/test_status_bar_operators.py` -> __future__, json, pathlib, sys
@@ -92,6 +130,7 @@ Previous: [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md)
 - `tests/test_winbox_gym.py` -> __future__, contextlib, os, pathlib, sys, tempfile, unittest, unittest.mock, yaml
 - `tests/test_wizard_binary_check.py` -> __future__, pathlib, pytest, subprocess, sys
 - `tests/test_wizard_llm.py` -> __future__
+- `tests/test_world_diff_retest.py` -> __future__, json, pathlib
 - `tests/test_world_model_extended.py` -> __future__, pathlib, pytest, tempfile
 - `tests/test_xss_sanitization.py` -> __future__, pathlib, re
 - `tools/contract_check.py` -> __future__, ast, pathlib, sys

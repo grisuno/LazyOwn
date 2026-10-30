@@ -1,6 +1,28 @@
 # Subsystem: modules (page 10 of 17)
 Previous: [KB_modules_p9.md](KB_modules_p9.md)
 
+## modules/lazy_match_policy.py
+- Doc: Match policy doctrine: what may claim a match and what stays a lead.
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `strand_from_sighting` (function, line 37) `def strand_from_sighting(sighting)`
+  - `_version_in_range` (function, line 66) `def _version_in_range(version, ranges)`
+  - `is_os_sighting` (function, line 79) `def is_os_sighting(product, cpe)`
+  - `strand_rank` (function, line 102) `def strand_rank(strand)`
+  - `has_standing` (function, line 107) `def has_standing(match)`
+  - `MatchStore` (class, line 124) `class MatchStore`
+  - `__init__` (method, line 127) `def __init__(self, sessions_dir)`
+  - `upsert` (method, line 132) `def upsert(self, identity, sighting, now)`
+  - `_key` (method, line 170) `def _key(identity)`
+  - `rows` (method, line 177) `def rows(self)`
+  - `close` (method, line 181) `def close(self, identity, reason, now)`
+  - `closed_reason` (method, line 196) `def closed_reason(self, identity)`
+  - `_load` (method, line 203) `def _load(self)`
+  - `_save_frame` (method, line 214) `def _save_frame(self, store)`
+- Depends on: `modules/lazy_heat.py`
+- Imported by: `tests/test_lazy_match_policy.py`
+
 ## modules/lazy_mentions.py
 - Doc: LAZY chat mentions with multi-type search and scroll pagination.
 - Layer: utility
@@ -23,6 +45,25 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `_load_snapshot` (function, line 296) `def _load_snapshot(kind, ref_id)`
 - Depends on: `modules/lazy_loop.py`
 - Imported by: `cli/commands/lazyloop.py`, `lazyc2.py`, `skills/lazyown_mcp.py`, `tests/test_security_codeql_batch.py`
+
+## modules/lazy_netattack.py
+- Doc: Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AttackVectorVerdict` (class, line 88) `class AttackVectorVerdict`
+  - `SurfaceEvidence` (class, line 120) `class SurfaceEvidence`
+  - `_svc_blob` (function, line 136) `def _svc_blob(hosts, evidence)`
+  - `_windows_hosts` (function, line 146) `def _windows_hosts(evidence)`
+  - `_ad_hosts` (function, line 161) `def _ad_hosts(evidence)`
+  - `_signing_not_required` (function, line 173) `def _signing_not_required(host, evidence)`
+  - `_downgrade_candidates` (function, line 179) `def _downgrade_candidates(evidence, windows)`
+  - `surface_decision` (function, line 184) `def surface_decision(evidence)`
+  - `_signing_required` (function, line 297) `def _signing_required(host, evidence)`
+  - `_ad_in` (function, line 303) `def _ad_in(evidence, host)`
+  - `hint_text` (function, line 311) `def hint_text(verdict)`
+  - `as_dict` (method, line 107) `def as_dict(self)`
+- Imported by: `tests/test_lazy_netattack.py`
 
 ## modules/lazy_oob.py
 - Doc: Local OOB canary for blind SSRF/RCE detection.
@@ -255,6 +296,17 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
 - Imported by: `cli/commands/session_ops.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/app_factory.py`, `lazyc2/blueprints/auth.py`, `lazyc2/extensions/users.py`, `lazyc2/models.py`, `modules/cli_auth.py`, `modules/collab_bp.py`
 
+## modules/lazy_reaper.py
+- Doc: Reaper: expire lazy-loop tasks whose process proves dead.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `reap` (function, line 30) `def reap(store, log_path, now, stale_seconds)`
+  - `_expire` (function, line 92) `def _expire(store, task_id)`
+  - `_log` (function, line 115) `def _log(log_path, row)`
+- Depends on: `modules/lazy_loop.py`
+- Imported by: `modules/lazy_loop.py`, `tests/test_lazy_reaper.py`
+
 ## modules/lazy_roles.py
 - Doc: Lazy specialist roles for the autonomous loop.
 - Layer: utility
@@ -274,44 +326,45 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
 - Symbols:
   - `ThreadStdoutRouter` (class, line 45) `class ThreadStdoutRouter(TextIOBase)`
   - `LoopRunConfig` (class, line 94) `class LoopRunConfig`
-  - `_to_int` (function, line 148) `def _to_int(raw, default)`
-  - `_to_float` (function, line 156) `def _to_float(raw, default)`
-  - `parse_loop_line` (function, line 164) `def parse_loop_line(line)`
-  - `resolve_loop_defaults` (function, line 287) `def resolve_loop_defaults(config)`
-  - `build_executor` (function, line 323) `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)`
-  - `_abort_run` (function, line 396) `def _abort_run(engine, task_id, reason)`
-  - `_prepare_engine` (function, line 415) `def _prepare_engine(engine, shell, config, params)`
-  - `_start_proxy` (function, line 429) `def _start_proxy(engine, params)`
-  - `_maybe_phishing_fallback` (function, line 454) `def _maybe_phishing_fallback(result, config, params)`
-  - `report_result` (function, line 500) `def report_result(result)`
-  - `_bootstrap` (function, line 543) `def _bootstrap(scan_target, executor)`
-  - `_apply_budget` (function, line 557) `def _apply_budget(engine, task_id, budget)`
-  - `_budget_declined` (function, line 570) `def _budget_declined(config)`
-  - `_run_with_progress` (function, line 586) `def _run_with_progress(engine, config)`
-  - `_overview` (function, line 692) `def _overview(task_id)`
-  - `_format_activity` (function, line 702) `def _format_activity(record)`
-  - `_dump_thread_stacks` (function, line 716) `def _dump_thread_stacks()`
-  - `_stall_thresholds` (function, line 731) `def _stall_thresholds(verb_timeout)`
-  - `_poll_progress` (function, line 745) `def _poll_progress(engine, config, progress, transcript, worker)`
-  - `_terminal_stream` (function, line 841) `def _terminal_stream()`
-  - `_run_plain` (function, line 863) `def _run_plain(engine, config)`
-  - `load_targets_file` (function, line 898) `def load_targets_file(path)`
-  - `run_loop` (function, line 953) `def run_loop(shell, params, config)`
-  - `_tty_available` (function, line 1055) `def _tty_available()`
-  - `_run_targets_file` (function, line 1068) `def _run_targets_file(shell, params, config)`
+  - `_to_int` (function, line 156) `def _to_int(raw, default)`
+  - `_to_float` (function, line 164) `def _to_float(raw, default)`
+  - `parse_loop_line` (function, line 172) `def parse_loop_line(line)`
+  - `resolve_loop_defaults` (function, line 302) `def resolve_loop_defaults(config)`
+  - `build_executor` (function, line 338) `def build_executor(shell, config, stream, cancelled, sandbox_task_id, sandbox_image)`
+  - `_abort_run` (function, line 411) `def _abort_run(engine, task_id, reason)`
+  - `_prepare_engine` (function, line 430) `def _prepare_engine(engine, shell, config, params)`
+  - `_start_proxy` (function, line 450) `def _start_proxy(engine, params)`
+  - `_maybe_phishing_fallback` (function, line 475) `def _maybe_phishing_fallback(result, config, params)`
+  - `report_result` (function, line 521) `def report_result(result)`
+  - `_print_handoff` (function, line 567) `def _print_handoff(handoff)`
+  - `_bootstrap` (function, line 592) `def _bootstrap(scan_target, executor)`
+  - `_apply_budget` (function, line 606) `def _apply_budget(engine, task_id, budget)`
+  - `_budget_declined` (function, line 619) `def _budget_declined(config)`
+  - `_run_with_progress` (function, line 635) `def _run_with_progress(engine, config)`
+  - `_overview` (function, line 741) `def _overview(task_id)`
+  - `_format_activity` (function, line 751) `def _format_activity(record)`
+  - `_dump_thread_stacks` (function, line 765) `def _dump_thread_stacks()`
+  - `_stall_thresholds` (function, line 780) `def _stall_thresholds(verb_timeout)`
+  - `_poll_progress` (function, line 794) `def _poll_progress(engine, config, progress, transcript, worker)`
+  - `_terminal_stream` (function, line 890) `def _terminal_stream()`
+  - `_run_plain` (function, line 912) `def _run_plain(engine, config)`
+  - `load_targets_file` (function, line 947) `def load_targets_file(path)`
+  - `run_loop` (function, line 1002) `def run_loop(shell, params, config)`
+  - `_tty_available` (function, line 1104) `def _tty_available()`
+  - `_run_targets_file` (function, line 1117) `def _run_targets_file(shell, params, config)`
   - `__init__` (method, line 55) `def __init__(self, main_stream, spool)`
   - `write` (method, line 61) `def write(self, data)`
   - `flush` (method, line 72) `def flush(self)`
   - `encoding` (method, line 80) `def encoding(self)`
   - `isatty` (method, line 84) `def isatty(self)`
-  - `clamped` (method, line 119) `def clamped(self)`
-  - `_resolve_alias` (function, line 340) `def _resolve_alias(command)`
-  - `_executor` (function, line 348) `def _executor(command)`
-  - `stream` (function, line 601) `def stream(text)`
-  - `_run` (function, line 638) `def _run()`
-  - `_write` (function, line 853) `def _write(text)`
-  - `_work_one` (function, line 1091) `def _work_one(target)`
-  - `_limited` (function, line 1094) `def _limited()`
+  - `clamped` (method, line 120) `def clamped(self)`
+  - `_resolve_alias` (function, line 355) `def _resolve_alias(command)`
+  - `_executor` (function, line 363) `def _executor(command)`
+  - `stream` (function, line 650) `def stream(text)`
+  - `_run` (function, line 687) `def _run()`
+  - `_write` (function, line 902) `def _write(text)`
+  - `_work_one` (function, line 1140) `def _work_one(target)`
+  - `_limited` (function, line 1143) `def _limited()`
 - Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_progress.py`, `utils.py`
 - Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_multi_target.py`, `tests/test_loop_nmap_guard.py`, `tests/test_orchestrator_yaml.py`
 
@@ -340,18 +393,24 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ScopeVerdict` (class, line 49) `class ScopeVerdict`
-  - `_ResolveCache` (class, line 64) `class _ResolveCache`
-  - `is_lab_address` (function, line 104) `def is_lab_address(address)`
-  - `extract_hosts` (function, line 129) `def extract_hosts(text)`
-  - `resolve_addresses` (function, line 163) `def resolve_addresses(name, now)`
-  - `_looks_like_address` (function, line 192) `def _looks_like_address(text)`
-  - `read_allowlist` (function, line 208) `def read_allowlist(sessions_dir)`
-  - `scope_verdict` (function, line 229) `def scope_verdict(target, resolver, allowlist)`
-  - `command_scope_verdict` (function, line 270) `def command_scope_verdict(command, resolver, allowlist)`
-  - `get` (method, line 69) `def get(self, name, now)`
-  - `put` (method, line 88) `def put(self, name, values, now)`
-  - `_keep` (function, line 142) `def _keep(start, value)`
+  - `ScopeVerdict` (class, line 50) `class ScopeVerdict`
+  - `_ResolveCache` (class, line 65) `class _ResolveCache`
+  - `is_lab_address` (function, line 105) `def is_lab_address(address)`
+  - `extract_hosts` (function, line 130) `def extract_hosts(text)`
+  - `resolve_addresses` (function, line 164) `def resolve_addresses(name, now)`
+  - `_looks_like_address` (function, line 193) `def _looks_like_address(text)`
+  - `read_scope_file` (function, line 209) `def read_scope_file(name, sessions_dir)`
+  - `read_allowlist` (function, line 231) `def read_allowlist(sessions_dir)`
+  - `read_denylist` (function, line 243) `def read_denylist(sessions_dir)`
+  - `scope_verdict` (function, line 255) `def scope_verdict(target, resolver, allowlist, denylist)`
+  - `_networks_of` (function, line 307) `def _networks_of(entries)`
+  - `_address_denied` (function, line 319) `def _address_denied(address, denylist)`
+  - `_entry_denied` (function, line 332) `def _entry_denied(text, lowered, denylist)`
+  - `command_scope_verdict` (function, line 351) `def command_scope_verdict(command, resolver, allowlist, denylist)`
+  - `get` (method, line 70) `def get(self, name, now)`
+  - `put` (method, line 89) `def put(self, name, values, now)`
+  - `_keep` (function, line 143) `def _keep(start, value)`
+- Imported by: `modules/chain_distill.py`
 
 ## modules/lazy_skill_mirror.py
 - Doc: Mirror LazyOwn skills for Hermes discovery.
@@ -408,91 +467,22 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `changed_hosts` (function, line 253) `def changed_hosts(limit, sessions_dir)`
 - Depends on: `modules/world_model.py`
 
-## modules/lazy_verify.py
-- Doc: Structured read-only verification of loop findings.
+## modules/lazy_triage.py
+- Doc: Triage doctrine: evidence floors, verdict algebra and signature dedup.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_cap` (function, line 52) `def _cap(text, cap)`
-  - `_host_port` (function, line 57) `def _host_port(finding_text, poc)`
-  - `plan_checks` (function, line 84) `def plan_checks(finding_text, poc)`
-  - `_nmap_available` (function, line 133) `def _nmap_available()`
-  - `run_check` (function, line 143) `def run_check(check, executor)`
-  - `verdict_from_checks` (function, line 214) `def verdict_from_checks(checks_results)`
-  - `verify_finding` (function, line 232) `def verify_finding(finding_text, poc, executor)`
-  - `_add` (function, line 104) `def _add(kind, command, check_port)`
-- Depends on: `core/process.py`
-
-## modules/lazy_world_diff.py
-- Doc: World-surface diff: host snapshots, change detection, ghost liveness.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SurfaceChange` (class, line 65) `class SurfaceChange`
-  - `host_snapshot` (function, line 78) `def host_snapshot(world, ip)`
-  - `snapshot_fingerprint` (function, line 119) `def snapshot_fingerprint(state)`
-  - `_port_number` (function, line 124) `def _port_number(key)`
-  - `diff_snapshots` (function, line 131) `def diff_snapshots(before, after)`
-  - `_changes_path` (function, line 172) `def _changes_path(sessions_dir)`
-  - `_load_changes` (function, line 176) `def _load_changes(sessions_dir)`
-  - `_as_change` (function, line 192) `def _as_change(change)`
-  - `record_changes` (function, line 200) `def record_changes(changes, sessions_dir, now)`
-  - `recent_changes` (function, line 260) `def recent_changes(sessions_dir, days, host)`
-  - `prune_changes` (function, line 270) `def prune_changes(sessions_dir, keep_days)`
-  - `load_host_snapshots` (function, line 290) `def load_host_snapshots(sessions_dir)`
-  - `save_host_snapshots` (function, line 301) `def save_host_snapshots(snapshots, sessions_dir)`
-  - `campaign_snapshots` (function, line 312) `def campaign_snapshots(sessions_dir)`
-  - `ghost_endpoints` (function, line 366) `def ghost_endpoints(snapshot, limit)`
-  - `name_resolves` (function, line 395) `def name_resolves(host, resolver)`
-  - `_default_resolve` (function, line 406) `def _default_resolve(host)`
-  - `_default_probe` (function, line 415) `def _default_probe(ip, port, scheme, host)`
-  - `load_ghosts` (function, line 435) `def load_ghosts(sessions_dir)`
-  - `ghost_state_apply` (function, line 447) `def ghost_state_apply(host, answers, sessions_dir, now)`
-  - `find_ghost_hosts` (function, line 489) `def find_ghost_hosts(candidates, snapshots, checker, resolver, cap)`
-  - `snapshot_engagement` (function, line 528) `def snapshot_engagement(sessions_dir, now, world)`
-- Depends on: `modules/world_model.py`
-- Imported by: `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/sinks/world_diff.py`, `tests/test_lazy_world_diff.py`, `tests/test_mediation.py`
-
-## modules/lazyatack.sh
-- Doc: Nombre del script: lazyatack.sh Autor: Gris Iscomeback Correo electrónico...
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `mostrar_ayuda` (function, line 21)
-  - `validar_ip` (function, line 33)
-  - `validar_url` (function, line 49)
-  - `descargar_seclists` (function, line 107)
-  - `escanear_puertos` (function, line 115)
-  - `escanear_puertos_especificos` (function, line 121)
-  - `enumerar_http` (function, line 127)
-  - `iniciar_servidor_http` (function, line 133)
-  - `configurar_netcat` (function, line 139)
-  - `enviar_archivo_netcat` (function, line 145)
-  - `verificar_conectividad` (function, line 151)
-  - `verificar_curl` (function, line 158)
-  - `configurar_shell_reversa` (function, line 165)
-  - `escuchar_shell` (function, line 171)
-  - `monitorear_procesos` (function, line 177)
-  - `ejecutar_wfuzz` (function, line 188)
-  - `comprobar_sudo` (function, line 194)
-  - `explotar_lfi` (function, line 200)
-  - `configurar_tty` (function, line 206)
-  - `eliminar_archivos` (function, line 217)
-  - `obtener_root_shell` (function, line 223)
-  - `enumerar_suid` (function, line 230)
-  - `listar_timers` (function, line 236)
-  - `comprobar_rutas` (function, line 242)
-  - `abusar_tar` (function, line 248)
-  - `enumerar_puertos` (function, line 254)
-  - `eliminar_contenedores_docker` (function, line 260)
-  - `escanear_red` (function, line 266)
-  - `menu_servidor` (function, line 272)
-  - `menu_cliente` (function, line 307)
-
-## modules/lazybrutesshuserenum.sh
-- Doc: Función para manejar el interruptor de señal Ctrl+C
-- Layer: utility
-- Language: sh
+  - `rank` (function, line 42) `def rank(verdict)`
+  - `hard_evidence` (function, line 47) `def hard_evidence(kind, facts)`
+  - `apply_rules` (function, line 80) `def apply_rules(verdict, kind, facts)`
+  - `signature_for` (function, line 108) `def signature_for(kind, fields)`
+  - `SignatureStore` (class, line 135) `class SignatureStore`
+  - `__init__` (method, line 138) `def __init__(self, sessions_dir, ttl)`
+  - `fresh_signature` (method, line 144) `def fresh_signature(self, signature, now)`
+  - `reset` (method, line 162) `def reset(self)`
+  - `_load` (method, line 166) `def _load(self)`
+  - `_save` (method, line 176) `def _save(self, store)`
+- Imported by: `tests/test_lazy_triage.py`
 
 
 Next: [KB_modules_p11.md](KB_modules_p11.md)

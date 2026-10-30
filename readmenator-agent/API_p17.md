@@ -1,30 +1,89 @@
 # API (page 17 of 25)
 Previous: [API_p16.md](API_p16.md)
 
+## modules/operation.py
+Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
+Imported by: `cli/commands/caldera.py`
+- `Operation.to_dict` (method) `modules/operation.py:98` `def to_dict(self)`
+- `Operation.from_dict` (method) `modules/operation.py:116` `def from_dict(cls, d)`
+- `Operation.save` (method) `modules/operation.py:134` `def save(self)`
+- `Operation.log_event` (method) `modules/operation.py:143` `def log_event(self, step_index, step_name, status, summary, findings_count, error)`
+- `Operation.record_facts` (method) `modules/operation.py:164` `def record_facts(self, findings)`
+- `OperationManager.__init__` (method) `modules/operation.py:183` `def __init__(self)`
+- `OperationManager.list` (method) `modules/operation.py:187` `def list(self)` -- List all persisted operations.
+- `OperationManager.get` (method) `modules/operation.py:199` `def get(self, op_id)`
+- `OperationManager.create` (method) `modules/operation.py:206` `def create(self, name, target, apt_name, description)` -- Create a new planned operation.
+- `OperationManager.plan_from_apt` (method) `modules/operation.py:225` `def plan_from_apt(self, op, playbook_yaml_path)` -- Populate steps from an APT playbook YAML (or fall back to a derived MITRE playbook).
+- `OperationManager.start` (method) `modules/operation.py:287` `def start(self, op_id, executor)` -- Start or resume a planned operation.
+- `OperationManager.pause` (method) `modules/operation.py:369` `def pause(self, op_id)`
+- `OperationManager.resume` (method) `modules/operation.py:378` `def resume(self, op_id, executor)`
+- `OperationManager.stop` (method) `modules/operation.py:386` `def stop(self, op_id)`
+- `OperationManager.status` (method) `modules/operation.py:396` `def status(self, op_id)` -- Return a structured status dict for an operation.
+- `OperationManager.timeline` (method) `modules/operation.py:425` `def timeline(self, op_id)`
+- `OperationManager.report` (method) `modules/operation.py:431` `def report(self, op_id)`
+- `get_manager` (function) `modules/operation.py:471` `def get_manager()` -- Return a fresh :class:`OperationManager`.
+
+## modules/operator_profiles.py
+Depends on: `core/config.py`, `core/logging.py`
+Imported by: `cli/commands/automation.py`
+- `OperatorProfile.to_dict` (method) `modules/operator_profiles.py:57` `def to_dict(self)`
+- `OperatorProfileManager.__init__` (method) `modules/operator_profiles.py:88` `def __init__(self)`
+- `OperatorProfileManager.create_profile` (method) `modules/operator_profiles.py:192` `def create_profile(self, username, display_name, role, lhost, lport, listener_port, c2_port, c2_malleable_route...` -- Create a new operator profile.
+- `OperatorProfileManager.load_profile` (method) `modules/operator_profiles.py:260` `def load_profile(self, username)` -- Load an operator profile.
+- `OperatorProfileManager.update_profile` (method) `modules/operator_profiles.py:276` `def update_profile(self, username)` -- Update fields on an existing profile.
+- `OperatorProfileManager.delete_profile` (method) `modules/operator_profiles.py:289` `def delete_profile(self, username)` -- Delete an operator profile and its directory.
+- `OperatorProfileManager.list_profiles` (method) `modules/operator_profiles.py:300` `def list_profiles(self)` -- Return all operator profiles.
+- `OperatorProfileManager.touch_activity` (method) `modules/operator_profiles.py:312` `def touch_activity(self, username)` -- Update last_active timestamp.
+- `OperatorProfileManager.set_attribute` (method) `modules/operator_profiles.py:319` `def set_attribute(self, username, key, value)` -- Set a custom attribute on an operator profile.
+- `OperatorProfileManager.get_attribute` (method) `modules/operator_profiles.py:328` `def get_attribute(self, username, key, default)` -- Get a custom attribute from an operator profile.
+- `OperatorProfileManager.log_action` (method) `modules/operator_profiles.py:335` `def log_action(self, username, action, details)` -- Append an audited action to the operator's audit log.
+- `OperatorProfileManager.effective_config` (method) `modules/operator_profiles.py:360` `def effective_config(self, username)` -- Merge team baseline (payload.json) with per-operator overrides.
+- `get_operator_profile_manager` (function) `modules/operator_profiles.py:398` `def get_operator_profile_manager()` -- Return the singleton :class:`OperatorProfileManager`.
+
+## modules/opsec_scorer.py
+Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`, `modules/db.py`, `modules/killchain.py`
+Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `modules/loop_ai_bridge.py`, `tests/test_opsec_scorer.py`, `tests/test_opsec_scorer_consolidated.py`
+- `OpsecScore.to_dict` (method) `modules/opsec_scorer.py:288` `def to_dict(self)` -- Return the score serialized as a plain dictionary.
+- `OpsecScorer.__init__` (method) `modules/opsec_scorer.py:343` `def __init__(self, payload, world_model)`
+- `OpsecScorer.evasion_active` (method) `modules/opsec_scorer.py:352` `def evasion_active(self)`
+- `OpsecScorer.traffic_morphing_active` (method) `modules/opsec_scorer.py:357` `def traffic_morphing_active(self)`
+- `OpsecScorer.score` (method) `modules/opsec_scorer.py:365` `def score(self, command, rhost, phase_override)` -- Score an OPSEC risk for ``command`` against ``rhost``.
+- `OpsecScorer.score_batch` (method) `modules/opsec_scorer.py:413` `def score_batch(self, commands, rhost)` -- Score multiple commands and return {command: OpsecScore}.
+- `OpsecScorer.suggest_mitigations` (method) `modules/opsec_scorer.py:417` `def suggest_mitigations(self, command, detectable_by)` -- Return mitigation suggestions for a given command.
+- `OpsecScorerV2.__init__` (method) `modules/opsec_scorer.py:617` `def __init__(self, context)`
+- `OpsecScorerV2.assess` (method) `modules/opsec_scorer.py:622` `def assess(self, command, extra_context)` -- Assess OPSEC risk for a command in the current context.
+- `OpsecScorerV2.should_allow` (method) `modules/opsec_scorer.py:696` `def should_allow(self, command)` -- Quick gating check - returns (allowed, score).
+- `OpsecScorerV2.get_trend` (method) `modules/opsec_scorer.py:709` `def get_trend(self)` -- Analyze OPSEC risk trend over the session.
+- `score_command` (function) `modules/opsec_scorer.py:811` `def score_command(command, payload, rhost)` -- Convenience function: score a single command without creating a scorer instance.
+
 ## modules/orchestrator_config.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/auto_registry.py`, `modules/trigger_policy.py`, `modules/verb_catalog.py`
-Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/trigger_policy.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
-- `reload` (function) `modules/orchestrator_config.py:113` `def reload()` -- Invalidate every merged view after an external configuration change.
-- `profiles` (function) `modules/orchestrator_config.py:232` `def profiles()` -- Return every resolved profile, including inherited values.
-- `active_profile` (function) `modules/orchestrator_config.py:257` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
-- `profile_config` (function) `modules/orchestrator_config.py:269` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
-- `set_profile` (function) `modules/orchestrator_config.py:276` `def set_profile(name)` -- Persist the active profile name.
-- `set_harness` (function) `modules/orchestrator_config.py:300` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
-- `limits` (function) `modules/orchestrator_config.py:332` `def limits()` -- Return resolved numeric limits for the active profile.
-- `budget` (function) `modules/orchestrator_config.py:339` `def budget()` -- Return resolved budgets for the active profile.
-- `chain_defaults` (function) `modules/orchestrator_config.py:346` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
-- `sinks` (function) `modules/orchestrator_config.py:355` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
-- `stages` (function) `modules/orchestrator_config.py:366` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
-- `stage_enabled` (function) `modules/orchestrator_config.py:396` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
-- `stage_params` (function) `modules/orchestrator_config.py:402` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
-- `set_stage` (function) `modules/orchestrator_config.py:407` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
-- `effective_verbs` (function) `modules/orchestrator_config.py:432` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
-- `verb_config` (function) `modules/orchestrator_config.py:524` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
-- `verb_enabled` (function) `modules/orchestrator_config.py:533` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `upsert_verb` (function) `modules/orchestrator_config.py:539` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
-- `remove_verb` (function) `modules/orchestrator_config.py:596` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
-- `reset` (function) `modules/orchestrator_config.py:617` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
-- `validate_config` (function) `modules/orchestrator_config.py:624` `def validate_config(data)` -- Validate one raw orchestration mapping.
+Imported by: `cli/commands/lazyops.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/auto_registry.py`, `modules/defense_stages.py`, `modules/harness.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `modules/loop_ai_bridge.py`, `modules/sinks/findings.py`, `modules/trigger_policy.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp_opencode.py`, `tests/test_harness_mode.py`, `tests/test_lazy_orchestrator.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_yaml.py`, `tests/test_outcome_bus.py`
+- `reload` (function) `modules/orchestrator_config.py:137` `def reload()` -- Invalidate every merged view after an external configuration change.
+- `profiles` (function) `modules/orchestrator_config.py:256` `def profiles()` -- Return every resolved profile, including inherited values.
+- `active_profile` (function) `modules/orchestrator_config.py:281` `def active_profile()` -- Return the profile selected by the payload, falling back safely.
+- `profile_config` (function) `modules/orchestrator_config.py:293` `def profile_config(name)` -- Return one resolved profile by name, or the active profile.
+- `set_profile` (function) `modules/orchestrator_config.py:300` `def set_profile(name)` -- Persist the active profile name.
+- `set_harness` (function) `modules/orchestrator_config.py:324` `def set_harness(enabled)` -- Persist the deterministic-harness toggle in the payload.
+- `limits` (function) `modules/orchestrator_config.py:356` `def limits()` -- Return resolved numeric limits for the active profile.
+- `budget` (function) `modules/orchestrator_config.py:363` `def budget()` -- Return resolved budgets for the active profile.
+- `findings_config` (function) `modules/orchestrator_config.py:370` `def findings_config()` -- Return resolved findings-ledger settings for the active profile.
+- `progress_config` (function) `modules/orchestrator_config.py:392` `def progress_config()` -- Return resolved goal-progress strikethreshold settings.
+- `engagement_mode` (function) `modules/orchestrator_config.py:419` `def engagement_mode()` -- Return the active engagement mode (pentest | redteam | ctf).
+- `set_engagement_mode` (function) `modules/orchestrator_config.py:437` `def set_engagement_mode(mode)` -- Persist the engagement mode in the payload.
+- `chain_defaults` (function) `modules/orchestrator_config.py:460` `def chain_defaults()` -- Return the default chain and playbook for the active profile.
+- `sinks` (function) `modules/orchestrator_config.py:469` `def sinks()` -- Return outcome sink toggles for the active profile plus payload overrides.
+- `stages` (function) `modules/orchestrator_config.py:480` `def stages()` -- Merged stage view: enabled flag, label, firing condition and params.
+- `stage_enabled` (function) `modules/orchestrator_config.py:510` `def stage_enabled(name)` -- Return whether one pipeline stage is enabled (unknown = enabled).
+- `stage_params` (function) `modules/orchestrator_config.py:516` `def stage_params(name)` -- Return the resolved parameter mapping of one stage.
+- `set_stage` (function) `modules/orchestrator_config.py:521` `def set_stage(name, enabled)` -- Persist the enabled flag of one stage.
+- `effective_verbs` (function) `modules/orchestrator_config.py:546` `def effective_verbs()` -- Merged auto-verb view: built-ins plus operator overrides, additions and catalog.
+- `verb_config` (function) `modules/orchestrator_config.py:638` `def verb_config(name)` -- Return the merged configuration of one auto verb, or None.
+- `verb_enabled` (function) `modules/orchestrator_config.py:647` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `upsert_verb` (function) `modules/orchestrator_config.py:653` `def upsert_verb(name)` -- Create or update one auto-verb override in the payload.
+- `remove_verb` (function) `modules/orchestrator_config.py:710` `def remove_verb(name)` -- Remove a custom verb, or disable a built-in one.
+- `reset` (function) `modules/orchestrator_config.py:731` `def reset()` -- Drop every orchestrator override (back to YAML defaults).
+- `validate_config` (function) `modules/orchestrator_config.py:738` `def validate_config(data)` -- Validate one raw orchestration mapping.
 
 ## modules/osint_enrich.py
 Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
@@ -36,19 +95,19 @@ Imported by: `modules/finding_lifecycle.py`, `tests/test_finding_lifecycle.py`
 
 ## modules/outcome_bus.py
 Depends on: `core/logging.py`, `modules/__init__.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/event_bus.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`
-- `OutcomeEvent.host_value` (method) `modules/outcome_bus.py:103` `def host_value(self)` -- Return the best host identifier available.
-- `OutcomeEvent.key` (method) `modules/outcome_bus.py:107` `def key(self)` -- Return the idempotency key for this event.
-- `OutcomeEvent.to_dict` (method) `modules/outcome_bus.py:125` `def to_dict(self)` -- Return a JSON-serializable view.
-- `OutcomeBus.__init__` (method) `modules/outcome_bus.py:156` `def __init__(self, ledger_path, sink_map)` -- Bind the audit ledger and an optional sink map for tests.
-- `OutcomeBus.reset` (method) `modules/outcome_bus.py:169` `def reset(self)` -- Clear the in-process dedupe cache.
-- `OutcomeBus.record` (method) `modules/outcome_bus.py:201` `def record(self, event, sinks)` -- Publish one event to every enabled sink.
-- `get_bus` (function) `modules/outcome_bus.py:269` `def get_bus()` -- Return the process-wide outcome bus.
-- `reset_bus` (function) `modules/outcome_bus.py:278` `def reset_bus()` -- Reset the process-wide bus cache (tests and long-lived operators).
-- `record` (function) `modules/outcome_bus.py:283` `def record(event, sinks)` -- Publish one event through the process-wide bus.
-- `record_event` (function) `modules/outcome_bus.py:288` `def record_event()` -- Build and publish one event from keyword fields.
-- `severity_for_event` (function) `modules/outcome_bus.py:293` `def severity_for_event(severity)` -- Map an outcome severity to the event-bus severity vocabulary.
-- `category_for_event` (function) `modules/outcome_bus.py:298` `def category_for_event(kind)` -- Map an outcome kind to the event-bus category vocabulary.
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
+- `OutcomeEvent.host_value` (method) `modules/outcome_bus.py:105` `def host_value(self)` -- Return the best host identifier available.
+- `OutcomeEvent.key` (method) `modules/outcome_bus.py:109` `def key(self)` -- Return the idempotency key for this event.
+- `OutcomeEvent.to_dict` (method) `modules/outcome_bus.py:127` `def to_dict(self)` -- Return a JSON-serializable view.
+- `OutcomeBus.__init__` (method) `modules/outcome_bus.py:159` `def __init__(self, ledger_path, sink_map)` -- Bind the audit ledger and an optional sink map for tests.
+- `OutcomeBus.reset` (method) `modules/outcome_bus.py:172` `def reset(self)` -- Clear the in-process dedupe cache.
+- `OutcomeBus.record` (method) `modules/outcome_bus.py:204` `def record(self, event, sinks)` -- Publish one event to every enabled sink.
+- `get_bus` (function) `modules/outcome_bus.py:272` `def get_bus()` -- Return the process-wide outcome bus.
+- `reset_bus` (function) `modules/outcome_bus.py:281` `def reset_bus()` -- Reset the process-wide bus cache (tests and long-lived operators).
+- `record` (function) `modules/outcome_bus.py:286` `def record(event, sinks)` -- Publish one event through the process-wide bus.
+- `record_event` (function) `modules/outcome_bus.py:291` `def record_event()` -- Build and publish one event from keyword fields.
+- `severity_for_event` (function) `modules/outcome_bus.py:296` `def severity_for_event(severity)` -- Map an outcome severity to the event-bus severity vocabulary.
+- `category_for_event` (function) `modules/outcome_bus.py:301` `def category_for_event(kind)` -- Map an outcome kind to the event-bus category vocabulary.
 
 ## modules/payload_factory.py
 Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `modules/sinks/beacon_dispatch.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
@@ -129,7 +188,7 @@ Imported by: `cli/commands/session_ops.py`, `modules/playbook_executor.py`, `ski
 
 ## modules/planner.py
 Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
-Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
+Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
 - `Planner.__init__` (method) `modules/planner.py:269` `def __init__(self, world_model, obs_parser, api_key)`
 - `Planner.plan` (method) `modules/planner.py:313` `def plan(self, target, max_candidates)` -- Return a ranked list of next-step candidates for *target*.
 - `Planner.to_dict` (method) `modules/planner.py:413` `def to_dict(self, result)`
@@ -238,6 +297,20 @@ Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_gym_matrix_ctf.
 - `RedTeamReportGenerator.collect_command_history` (method) `modules/professional_report.py:912` `def collect_command_history(self, max_entries)` -- Collect operator command history for the engagement timeline.
 - `RedTeamReportGenerator.collect_loot_summary` (method) `modules/professional_report.py:936` `def collect_loot_summary(self)` -- Summarize exfiltrated loot without embedding sensitive content.
 - `RedTeamReportGenerator.generate_executive_summary` (method) `modules/professional_report.py:982` `def generate_executive_summary(self, data, with_ai, ai_backend)` -- Build the executive summary in business language.
+
+## modules/progress_ledger.py
+Imported by: `modules/lazy_loop.py`, `tests/test_progress_ledger.py`
+- `StrikePolicy.clamped` (method) `modules/progress_ledger.py:56` `def clamped(self)` -- Return a copy with the strike cap forced into range.
+- `RoundSignals.progress` (method) `modules/progress_ledger.py:82` `def progress(self)` -- Return True when any objective-evidence signal fired.
+- `ProgressLedger.__init__` (method) `modules/progress_ledger.py:103` `def __init__(self, engagement_id, base_dir, policy)` -- Bind the ledger to one engagement.
+- `ProgressLedger.file_path` (method) `modules/progress_ledger.py:128` `def file_path(self)` -- Return the persisted strike state path.
+- `ProgressLedger.load` (method) `modules/progress_ledger.py:132` `def load(self)` -- Load persisted state, keeping any file intact on parse failure.
+- `ProgressLedger.save` (method) `modules/progress_ledger.py:152` `def save(self)` -- Persist the strike state with owner-only permissions.
+- `ProgressLedger.strikes` (method) `modules/progress_ledger.py:167` `def strikes(self)` -- Return the current consecutive no-progress strike count.
+- `ProgressLedger.log` (method) `modules/progress_ledger.py:172` `def log(self)` -- Return the recent strike/progress log rows.
+- `ProgressLedger.signals_from_brief` (method) `modules/progress_ledger.py:176` `def signals_from_brief(self, brief)` -- Diff one graph/orchestrator brief against the stored previous one.
+- `ProgressLedger.observe` (method) `modules/progress_ledger.py:208` `def observe(self, signals, note)` -- Record one round of signals and update the strike counter.
+- `ProgressLedger.brief_for_discards` (method) `modules/progress_ledger.py:250` `def brief_for_discards(self)` -- Return durable rows for the finding-ledger discard recorder.
 
 ## modules/r.sh
 Imported by: `static/js/quill-2.0.3.js::c`, `static/js/quill-2.0.3.js::h`, `static/js/quill-2.0.3.js::i`, `static/js/quill-2.0.3.js::o`, `static/js/quill-2.0.3.js::s`, `static/js/quill-2.0.3.js::u`, `static/js/xterm.js::a`, `static/js/xterm.js::n`, `static/js/xterm.js::o`
@@ -407,84 +480,6 @@ Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/
 - `signal_handler` (function) `modules/rootkit/mr.c:609` `void signal_handler(int signum)`
 - `reboot_system` (function) `modules/rootkit/mr.c:615` `void reboot_system()`
 - `main` (function) `modules/rootkit/mr.c:639` `int main()`
-
-## modules/rootkit/mrhyde.c
-- `load_hidden_pids` (function) `modules/rootkit/mrhyde.c:77` `void load_hidden_pids()`
-- `load_hidden_files` (function) `modules/rootkit/mrhyde.c:97` `void load_hidden_files()`
-- `unlink` (function) `modules/rootkit/mrhyde.c:117` `int unlink(const char *pathname)`
-- `kill` (function) `modules/rootkit/mrhyde.c:129` `int kill(pid_t pid, int sig)`
-- `remove` (function) `modules/rootkit/mrhyde.c:149` `int remove(const char *pathname)`
-- `unlinkat` (function) `modules/rootkit/mrhyde.c:161` `int unlinkat(int dirfd, const char *pathname, int flags)`
-- `get_username_from_pid` (function) `modules/rootkit/mrhyde.c:182` `char* get_username_from_pid(pid_t pid)`
-- `should_hide_pid` (function) `modules/rootkit/mrhyde.c:201` `int should_hide_pid(const char* pid)`
-- `should_hide_file` (function) `modules/rootkit/mrhyde.c:216` `int should_hide_file(const char* filename)`
-- `readdir` (function) `modules/rootkit/mrhyde.c:226` `struct dirent* readdir(DIR* dirp)`
-- `fopen` (function) `modules/rootkit/mrhyde.c:287` `FILE *fopen(const char *pathname, const char *mode)`
-- `my_open` (function) `modules/rootkit/mrhyde.c:331` `int my_open(const char *pathname, int flags, mode_t mode)`
-- `my_openat` (function) `modules/rootkit/mrhyde.c:375` `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
-- `stat` (function) `modules/rootkit/mrhyde.c:419` `int stat(const char *pathname, struct stat *statbuf)`
-- `lstat` (function) `modules/rootkit/mrhyde.c:463` `int lstat(const char *pathname, struct stat *statbuf)`
-- `fstat` (function) `modules/rootkit/mrhyde.c:507` `int fstat(int fd, struct stat *statbuf)`
-- `getdents` (function) `modules/rootkit/mrhyde.c:561` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `getdents64` (function) `modules/rootkit/mrhyde.c:622` `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `main` (function) `modules/rootkit/mrhyde.c:682` `int main()`
-
-## modules/rootkit/mrhyde2.c
-- `load_hidden_pids` (function) `modules/rootkit/mrhyde2.c:67` `void load_hidden_pids()`
-- `unlink` (function) `modules/rootkit/mrhyde2.c:87` `int unlink(const char *pathname)`
-- `kill` (function) `modules/rootkit/mrhyde2.c:99` `int kill(pid_t pid, int sig)`
-- `remove` (function) `modules/rootkit/mrhyde2.c:119` `int remove(const char *pathname)`
-- `unlinkat` (function) `modules/rootkit/mrhyde2.c:131` `int unlinkat(int dirfd, const char *pathname, int flags)`
-- `get_username_from_pid` (function) `modules/rootkit/mrhyde2.c:152` `char* get_username_from_pid(pid_t pid)`
-- `should_hide_pid` (function) `modules/rootkit/mrhyde2.c:171` `int should_hide_pid(const char* pid)`
-- `readdir` (function) `modules/rootkit/mrhyde2.c:186` `struct dirent* readdir(DIR* dirp)`
-- `fopen` (function) `modules/rootkit/mrhyde2.c:242` `FILE *fopen(const char *pathname, const char *mode)`
-- `my_open` (function) `modules/rootkit/mrhyde2.c:279` `int my_open(const char *pathname, int flags, mode_t mode)`
-- `my_openat` (function) `modules/rootkit/mrhyde2.c:316` `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
-- `stat` (function) `modules/rootkit/mrhyde2.c:353` `int stat(const char *pathname, struct stat *statbuf)`
-- `lstat` (function) `modules/rootkit/mrhyde2.c:390` `int lstat(const char *pathname, struct stat *statbuf)`
-- `fstat` (function) `modules/rootkit/mrhyde2.c:427` `int fstat(int fd, struct stat *statbuf)`
-- `getdents` (function) `modules/rootkit/mrhyde2.c:474` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `getdents64` (function) `modules/rootkit/mrhyde2.c:531` `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `main` (function) `modules/rootkit/mrhyde2.c:587` `int main()`
-
-## modules/rootkit/mrhyde3.c
-- `uring_queue_init` (function) `modules/rootkit/mrhyde3.c:89` `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` -- /* Syscalls static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p) { return...
-- `uring_get_sqe` (function) `modules/rootkit/mrhyde3.c:134` `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` -- ring->cq.head = (unsigned *)((char *)cq_ring + params.cq_off.head); ring->cq.tail = (unsigned *)((char *)cq_ring +...
-- `uring_submit` (function) `modules/rootkit/mrhyde3.c:145` `static int uring_submit(struct io_uring *ring)` -- } /* Obtener SQE static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring) { unsigned head = *ring->sq.head...
-- `uring_wait_cqe_timeout` (function) `modules/rootkit/mrhyde3.c:153` `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` -- struct io_uring_sqe *sqe = &ring->sq.sqes[tail & *ring->sq.ring_mask]; memset(sqe, 0, sizeof(*sqe)); return sqe; }...
-- `uring_cqe_seen` (function) `modules/rootkit/mrhyde3.c:167` `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)`
-- `init_root_ring` (function) `modules/rootkit/mrhyde3.c:180` `static int init_root_ring(void)` -- static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe) { (*ring->cq.head)++; } /* Estado global...
-- `uring_read_whole_file` (function) `modules/rootkit/mrhyde3.c:201` `static char *uring_read_whole_file(const char *path)` -- } ring_ok = 1; /* Registrar buffer (opcional) struct iovec iov; iov.iov_base = malloc(IO_URING_BUFFER_SIZE)...
-- `traditional_read_file` (function) `modules/rootkit/mrhyde3.c:257` `static char *traditional_read_file(const char *path)` -- if (bytes_read <= 0) break; buf = realloc(buf, total_read + bytes_read + 1); if (!buf) { close(fd)...
-- `load_hidden_pids` (function) `modules/rootkit/mrhyde3.c:272` `void load_hidden_pids(void)` -- FILE *f = fopen(path, "rb"); if (!f) return NULL; fseek(f, 0, SEEK_END); long size = ftell(f); fseek(f, 0...
-- `load_hidden_files` (function) `modules/rootkit/mrhyde3.c:286` `void load_hidden_files(void)`
-- `get_username_from_pid` (function) `modules/rootkit/mrhyde3.c:301` `char* get_username_from_pid(pid_t pid)` -- char *data = uring_read_whole_file(FILE_HIDE_PATH); if (!data) data = traditional_read_file(FILE_HIDE_PATH); if...
-- `should_hide_pid` (function) `modules/rootkit/mrhyde3.c:324` `int should_hide_pid(const char* pid)`
-- `should_hide_file` (function) `modules/rootkit/mrhyde3.c:333` `int should_hide_file(const char* filename)`
-- `readdir` (function) `modules/rootkit/mrhyde3.c:340` `struct dirent* readdir(DIR* dirp)`
-- `unlink` (function) `modules/rootkit/mrhyde3.c:371` `int unlink(const char *pathname)`
-- `kill` (function) `modules/rootkit/mrhyde3.c:377` `int kill(pid_t pid, int sig)`
-- `remove` (function) `modules/rootkit/mrhyde3.c:387` `int remove(const char *pathname)`
-- `unlinkat` (function) `modules/rootkit/mrhyde3.c:393` `int unlinkat(int dirfd, const char *pathname, int flags)`
-- `fopen` (function) `modules/rootkit/mrhyde3.c:411` `FILE *fopen(const char *pathname, const char *mode)`
-- `open` (function) `modules/rootkit/mrhyde3.c:434` `int open(const char *pathname, int flags, ...)`
-- `openat` (function) `modules/rootkit/mrhyde3.c:462` `int openat(int dirfd, const char *pathname, int flags, ...)`
-- `stat` (function) `modules/rootkit/mrhyde3.c:491` `int stat(const char *pathname, struct stat *statbuf)`
-- `lstat` (function) `modules/rootkit/mrhyde3.c:515` `int lstat(const char *pathname, struct stat *statbuf)`
-- `fstat` (function) `modules/rootkit/mrhyde3.c:539` `int fstat(int fd, struct stat *statbuf)`
-- `getdents` (function) `modules/rootkit/mrhyde3.c:573` `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-- `getdents64` (function) `modules/rootkit/mrhyde3.c:609` `ssize_t getdents64(int fd, void *dirp, size_t count)`
-
-## modules/rootkit/rootkit.c
-Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-- `regs_override_return` (function) `modules/rootkit/rootkit.c:54` `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` -- Define regs_override_return function
-- `hooked_getdents` (function) `modules/rootkit/rootkit.c:86` `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked getdents function
-- `hooked_getdents64` (function) `modules/rootkit/rootkit.c:112` `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked getdents64 function
-- `hooked_read` (function) `modules/rootkit/rootkit.c:138` `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` -- Hooked read function to create a backdoor
-- `disable_module_signature_verification` (function) `modules/rootkit/rootkit.c:192` `static void disable_module_signature_verification(void)` -- Function to disable module signature verification
-- `hook_syscalls` (function) `modules/rootkit/rootkit.c:206` `static int __init hook_syscalls(void)` -- Function to hook system calls
-- `unhook_syscalls` (function) `modules/rootkit/rootkit.c:219` `static void __exit unhook_syscalls(void)` -- Function to unhook system calls
 
 
 Next: [API_p18.md](API_p18.md)

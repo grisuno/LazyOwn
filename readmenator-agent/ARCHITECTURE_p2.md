@@ -2,6 +2,14 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/commands/ux.py` -> `cli/output_mode.py`
+- `cli/commands/ux.py` -> `cli/session_hud.py`
+- `cli/commands/ux.py` -> `cli/toast_bus.py`
+- `cli/commands/ux.py` -> `core/config.py`
+- `cli/commands/ux.py` -> `core/console.py`
+- `cli/commands/ux.py` -> `utils.py`
+- `cli/commands/verb_admin.py` -> `cli/commands/_base.py`
+- `cli/commands/verb_admin.py` -> `modules/verb_catalog.py`
 - `cli/commands/verb_admin.py` -> `utils.py`
 - `cli/commands/winbox_gym.py` -> `cli/commands/_base.py`
 - `cli/commands/winbox_gym.py` -> `modules/__init__.py`
@@ -277,6 +285,7 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazyc2.py` -> `modules/beacon_history.py`
 - `lazyc2.py` -> `modules/beacon_recon.py`
 - `lazyc2.py` -> `modules/c2_surfaces.py`
+- `lazyc2.py` -> `modules/chain_approval.py`
 - `lazyc2.py` -> `modules/collab_bp.py`
 - `lazyc2.py` -> `modules/colors.py`
 - `lazyc2.py` -> `modules/compliance.py`
@@ -487,14 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/services/factory.py` -> `lazygui/services/models.py`
 - `lazygui/services/factory.py` -> `lazygui/services/teamserver_backend.py`
 - `lazygui/services/local_backend.py` -> `core/logging.py`
-- `lazygui/services/local_backend.py` -> `lazygui/config/constants.py`
-- `lazygui/services/local_backend.py` -> `lazygui/config/paths.py`
-- `lazygui/services/local_backend.py` -> `lazygui/services/backend.py`
-- `lazygui/services/local_backend.py` -> `lazygui/services/models.py`
-- `lazygui/services/models.py` -> `cli/commands/enum.py`
-- `lazygui/services/teamserver_backend.py` -> `core/logging.py`
-- `lazygui/services/teamserver_backend.py` -> `lazyc2/blueprints/auth.py`
-- `lazygui/services/teamserver_backend.py` -> `lazygui/config/constants.py`
-- `lazygui/services/teamserver_backend.py` -> `lazygui/services/backend.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

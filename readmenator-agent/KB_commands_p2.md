@@ -1,4 +1,4 @@
-# Subsystem: commands (page 2 of 4)
+# Subsystem: commands (page 2 of 5)
 Previous: [KB_commands.md](KB_commands.md)
 
 ## cli/commands/database.py
@@ -316,6 +316,73 @@ Previous: [KB_commands.md](KB_commands.md)
 - Depends on: `cli/commands/_base.py`, `modules/exploitgym_gym.py`, `utils.py`
 - Imported by: `tests/test_exploitgym_gym.py`
 
+## cli/commands/exposure_autofire.py
+- Doc: Autofire command set: intelligence closing the loop into chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AutoFireCommandSet` (class, line 13) `class AutoFireCommandSet(LazyOwnCommandSet)`
+  - `do_lazyautofire` (method, line 20) `def do_lazyautofire(self, line)`
+  - `_fire` (method, line 55) `def _fire(self, engine, args)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
+## cli/commands/exposure_intel.py
+- Doc: Target-aware exploit-intelligence exposure command set.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyIntelCommandSet` (class, line 32) `class LazyIntelCommandSet(LazyOwnCommandSet)`
+  - `_extract_target` (function, line 154) `def _extract_target(args)`
+  - `do_lazyintel` (method, line 39) `def do_lazyintel(self, line)`
+  - `_flag` (method, line 93) `def _flag(self, args, flag)`
+  - `_print_report` (method, line 101) `def _print_report(self, report, target, quiet)`
+  - `_print_checks` (method, line 125) `def _print_checks(self, report)`
+  - `_autofire_hook` (method, line 137) `def _autofire_hook(self, report)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `modules/lazy_exposure.py`, `utils.py`
+
+## cli/commands/exposure_inventory.py
+- Doc: Exploit intelligence feeding command set: lazy_search and lazyinventory.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `IntelOpsCommandSet` (class, line 16) `class IntelOpsCommandSet(LazyOwnCommandSet)`
+  - `_merge_port_sightings` (function, line 166) `def _merge_port_sightings(engine, target, host_rows)`
+  - `do_lazysearch` (method, line 30) `def do_lazysearch(self, line)`
+  - `do_lazyinventory` (method, line 69) `def do_lazyinventory(self, line)`
+  - `_ingest` (method, line 109) `def _ingest(self, engine, rest)`
+  - `_fill_platform` (method, line 154) `def _fill_platform(self, engine, entries, capture_text)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
+## cli/commands/exposure_sentinel.py
+- Doc: Internal sentinel command set: provision, dispatch, ingest, checks.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SentinelCommandSet` (class, line 14) `class SentinelCommandSet(LazyOwnCommandSet)`
+  - `_latest_sightings_path` (function, line 183) `def _latest_sightings_path()`
+  - `do_lazysentinel` (method, line 21) `def do_lazysentinel(self, line)`
+  - `_provision` (method, line 53) `def _provision(self, rest)`
+  - `_dispatch` (method, line 69) `def _dispatch(self, rest)`
+  - `_ingest` (method, line 91) `def _ingest(self, rest)`
+  - `_checks` (method, line 131) `def _checks(self, rest)`
+  - `_print_brief` (method, line 154) `def _print_brief(self, report)`
+  - `_autofire_hook` (method, line 161) `def _autofire_hook(self, reports)`
+  - `_provision_record` (method, line 171) `def _provision_record(self, record_id)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
+## cli/commands/exposure_timeline.py
+- Doc: Engagement timeline command set: snapshots, diffs and zombies.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TimelineCommandSet` (class, line 24) `class TimelineCommandSet(LazyOwnCommandSet)`
+  - `do_lazytimeline` (method, line 31) `def do_lazytimeline(self, line)`
+  - `_record` (method, line 64) `def _record(self, engine, args, json_out)`
+  - `_show` (method, line 82) `def _show(self, engine, args, json_out)`
+  - `_diff` (method, line 95) `def _diff(self, engine, args, json_out)`
+  - `_zombie` (method, line 122) `def _zombie(self, engine, json_out, args)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
 ## cli/commands/golden_paths.py
 - Doc: Golden-path solver commands.
 - Layer: utility
@@ -426,71 +493,6 @@ Previous: [KB_commands.md](KB_commands.md)
   - `_lab_status` (method, line 456) `def _lab_status(self)`
 - Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 - Imported by: `tests/test_infra_disposable.py`, `tests/test_lab_target_visibility.py`
-
-## cli/commands/lateral.py
-- Doc: Lateral Movement command set (pending).
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LateralMovementCommandSet` (class, line 24) `class LateralMovementCommandSet(LazyOwnCommandSet)`
-  - `do_socat` (method, line 31) `def do_socat(self, line)`
-  - `do_chisel` (method, line 43) `def do_chisel(self, line)`
-  - `do_set_proxychains` (method, line 59) `def do_set_proxychains(self, line)`
-  - `do_ngrok` (method, line 72) `def do_ngrok(self, line)`
-  - `do_ligolo` (method, line 79) `def do_ligolo(self, line)`
-  - `do_nc` (method, line 91) `def do_nc(self, line)`
-  - `do_wmiexec` (method, line 106) `def do_wmiexec(self, line)`
-  - `do_ssh` (method, line 114) `def do_ssh(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
-
-## cli/commands/lateral_migrated.py
-- Doc: lateral commands migrated from lazyown.py.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LateralMigratedCommandSet` (class, line 24) `class LateralMigratedCommandSet(LazyOwnCommandSet)`
-  - `do_vpn` (method, line 29) `def do_vpn(self, line)`
-  - `do_id_rsa` (method, line 101) `def do_id_rsa(self, line)`
-  - `do_sshd` (method, line 172) `def do_sshd(self, line)`
-  - `do_wifipass` (method, line 199) `def do_wifipass(self, line)`
-  - `do_bloodyAD` (method, line 229) `def do_bloodyAD(self, line)`
-  - `do_getTGT` (method, line 321) `def do_getTGT(self, line)`
-  - `do_tord` (method, line 369) `def do_tord(self, line)`
-  - `do_shadowsocks` (method, line 404) `def do_shadowsocks(self, line)`
-  - `do_rnc` (method, line 477) `def do_rnc(self, line)`
-  - `do_gospherus` (method, line 543) `def do_gospherus(self, line)`
-  - `do_mssqlcli` (method, line 613) `def do_mssqlcli(self, line)`
-  - `do_penelope` (method, line 666) `def do_penelope(self, line)`
-  - `do_stormbreaker` (method, line 777) `def do_stormbreaker(self, line)`
-  - `do_regeorg` (method, line 823) `def do_regeorg(self, line)`
-  - `do_targetedKerberoas` (method, line 871) `def do_targetedKerberoas(self, line)`
-  - `do_dcomexec` (method, line 931) `def do_dcomexec(self, line)`
-  - `do_upload_c2` (method, line 1002) `def do_upload_c2(self, line)`
-  - `do_wmiexecpro` (method, line 1031) `def do_wmiexecpro(self, line)`
-  - `do_lateral_mov_lin` (method, line 1247) `def do_lateral_mov_lin(self, line)`
-  - `do_addcli` (method, line 1302) `def do_addcli(self, line)`
-  - `do_dominion` (method, line 1317) `def do_dominion(self, line)`
-  - `install_wmiexecpro` (function, line 1070) `def install_wmiexecpro()`
-- Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/domain_dominance.py`, `utils.py`
-
-## cli/commands/lazy_creds.py
-- Doc: LazyCreds shell commands: default-credential knowledge base lookups.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LazyCredsCommandSet` (class, line 21) `class LazyCredsCommandSet(LazyOwnCommandSet)`
-  - `do_lazycreds` (method, line 28) `def do_lazycreds(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
-
-## cli/commands/lazy_dorks.py
-- Doc: LazyDorks shell command: render target dork playbooks into session artefacts.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_slug` (function, line 18) `def _slug(domain)`
-  - `LazyDorksCommandSet` (class, line 30) `class LazyDorksCommandSet(LazyOwnCommandSet)`
-  - `do_lazydork` (method, line 37) `def do_lazydork(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 
 Next: [KB_commands_p3.md](KB_commands_p3.md)

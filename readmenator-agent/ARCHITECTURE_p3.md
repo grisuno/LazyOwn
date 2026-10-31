@@ -1,7 +1,23 @@
-# Architecture (page 3 of 9)
+# Architecture (page 3 of 10)
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `lazygui/services/__init__.py` -> `lazygui/services/factory.py`
+- `lazygui/services/__init__.py` -> `lazygui/services/local_backend.py`
+- `lazygui/services/__init__.py` -> `lazygui/services/models.py`
+- `lazygui/services/__init__.py` -> `lazygui/services/teamserver_backend.py`
+- `lazygui/services/backend.py` -> `cli/commands/enum.py`
+- `lazygui/services/backend.py` -> `lazygui/services/models.py`
+- `lazygui/services/backend.py` -> `modules/world_model.py`
+- `lazygui/services/event_log.py` -> `lazygui/config/constants.py`
+- `lazygui/services/event_log.py` -> `lazygui/services/models.py`
+- `lazygui/services/factory.py` -> `lazygui/config/constants.py`
+- `lazygui/services/factory.py` -> `lazygui/config/paths.py`
+- `lazygui/services/factory.py` -> `lazygui/services/backend.py`
+- `lazygui/services/factory.py` -> `lazygui/services/local_backend.py`
+- `lazygui/services/factory.py` -> `lazygui/services/models.py`
+- `lazygui/services/factory.py` -> `lazygui/services/teamserver_backend.py`
+- `lazygui/services/local_backend.py` -> `core/logging.py`
 - `lazygui/services/local_backend.py` -> `lazygui/config/constants.py`
 - `lazygui/services/local_backend.py` -> `lazygui/config/paths.py`
 - `lazygui/services/local_backend.py` -> `lazygui/services/backend.py`
@@ -108,6 +124,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `lazyown.py` -> `modules/event_consumers.py`
 - `lazyown.py` -> `modules/gym_cleanup.py`
 - `lazyown.py` -> `modules/lazy_loop.py`
+- `lazyown.py` -> `modules/lazy_timeline.py`
 - `lazyown.py` -> `modules/llm_factory.py`
 - `lazyown.py` -> `modules/logging_config.py`
 - `lazyown.py` -> `modules/metrics.py`
@@ -375,6 +392,9 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_agent.py` -> `modules/lazy_loop.py`
 - `modules/lazy_agent.py` -> `modules/llm_factory.py`
 - `modules/lazy_agent.py` -> `modules/loop_ai_bridge.py`
+- `modules/lazy_autofire.py` -> `modules/__init__.py`
+- `modules/lazy_autofire.py` -> `modules/chain_synth.py`
+- `modules/lazy_autofire.py` -> `modules/lazy_probes.py`
 - `modules/lazy_bridge.py` -> `modules/finding_lifecycle.py`
 - `modules/lazy_bridge.py` -> `modules/traffic_recorder.py`
 - `modules/lazy_bridge.py` -> `modules/world_model.py`
@@ -384,6 +404,14 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_cli_bridge.py` -> `modules/verb_catalog.py`
 - `modules/lazy_cve_feed.py` -> `modules/lazy_heat.py`
 - `modules/lazy_engine.py` -> `modules/lazy_loop.py`
+- `modules/lazy_exposure.py` -> `modules/__init__.py`
+- `modules/lazy_exposure.py` -> `modules/lazy_feedmatch.py`
+- `modules/lazy_exposure.py` -> `modules/lazy_heat.py`
+- `modules/lazy_exposure.py` -> `modules/lazy_probes.py`
+- `modules/lazy_exposure.py` -> `modules/outcome_bus.py`
+- `modules/lazy_exposure.py` -> `modules/world_model.py`
+- `modules/lazy_feedmatch.py` -> `modules/lazy_cve_feed.py`
+- `modules/lazy_feedmatch.py` -> `modules/lazy_heat.py`
 - `modules/lazy_findings.py` -> `core/hardening.py`
 - `modules/lazy_hostscore.py` -> `modules/lazy_cve_feed.py`
 - `modules/lazy_hostscore.py` -> `modules/lazy_world_diff.py`
@@ -395,6 +423,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_intel.py` -> `modules/mediation/__init__.py`
 - `modules/lazy_intel.py` -> `modules/world_model.py`
 - `modules/lazy_intel.py` -> `utils.py`
+- `modules/lazy_inventory.py` -> `modules/lazy_feedmatch.py`
 - `modules/lazy_ledger.py` -> `modules/lazy_loop.py`
 - `modules/lazy_loop.py` -> `core/config.py`
 - `modules/lazy_loop.py` -> `core/crypto.py`
@@ -402,6 +431,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `core/logging.py`
 - `modules/lazy_loop.py` -> `core/process.py`
 - `modules/lazy_loop.py` -> `modules/__init__.py`
+- `modules/lazy_loop.py` -> `modules/atomic_exploit_bridge.py`
 - `modules/lazy_loop.py` -> `modules/auto_loop_memory.py`
 - `modules/lazy_loop.py` -> `modules/auto_registry.py`
 - `modules/lazy_loop.py` -> `modules/autonomous_exploit_engine.py`
@@ -416,6 +446,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `modules/lazy_bridge.py`
 - `modules/lazy_loop.py` -> `modules/lazy_cli_bridge.py`
 - `modules/lazy_loop.py` -> `modules/lazy_engine.py`
+- `modules/lazy_loop.py` -> `modules/lazy_exposure.py`
 - `modules/lazy_loop.py` -> `modules/lazy_hostscore.py`
 - `modules/lazy_loop.py` -> `modules/lazy_installer.py`
 - `modules/lazy_loop.py` -> `modules/lazy_intel.py`
@@ -424,6 +455,7 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_loop.py` -> `modules/lazy_reaper.py`
 - `modules/lazy_loop.py` -> `modules/lazy_roles.py`
 - `modules/lazy_loop.py` -> `modules/lazy_skills.py`
+- `modules/lazy_loop.py` -> `modules/lazy_timeline.py`
 - `modules/lazy_loop.py` -> `modules/lazy_world_diff.py`
 - `modules/lazy_loop.py` -> `modules/llm_factory.py`
 - `modules/lazy_loop.py` -> `modules/llm_pool.py`
@@ -464,37 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `modules/lazy_reaper.py` -> `modules/lazy_loop.py`
 - `modules/lazy_roles.py` -> `modules/lazy_engine.py`
 - `modules/lazy_roles.py` -> `modules/lazy_loop.py`
-- `modules/lazy_runner.py` -> `cli/lazy_monitor.py`
-- `modules/lazy_runner.py` -> `core/autonomous.py`
-- `modules/lazy_runner.py` -> `core/hardening.py`
-- `modules/lazy_runner.py` -> `core/terminal_guard.py`
-- `modules/lazy_runner.py` -> `modules/__init__.py`
-- `modules/lazy_runner.py` -> `modules/auto_registry.py`
-- `modules/lazy_runner.py` -> `modules/custom_tools.py`
-- `modules/lazy_runner.py` -> `modules/jsonl_tail.py`
-- `modules/lazy_runner.py` -> `modules/lazy_engine.py`
-- `modules/lazy_runner.py` -> `modules/lazy_loop.py`
-- `modules/lazy_runner.py` -> `modules/lazy_sandbox.py`
-- `modules/lazy_runner.py` -> `modules/loop_guardrails.py`
-- `modules/lazy_runner.py` -> `modules/loop_progress.py`
-- `modules/lazy_runner.py` -> `utils.py`
-- `modules/lazy_sandbox.py` -> `core/config.py`
-- `modules/lazy_surface_diff.py` -> `modules/world_model.py`
-- `modules/lazy_verify.py` -> `core/process.py`
-- `modules/lazy_world_diff.py` -> `modules/world_model.py`
-- `modules/lazyown_bprfuzzer.py` -> `modules/backdoor/server.c`
-- `modules/lazyown_bprfuzzer.py` -> `modules/security_sanitizers.py`
-- `modules/lazyown_bridge.py` -> `modules/killchain.py`
-- `modules/lazyownerweb.py` -> `core/logging.py`
-- `modules/lazyownerweb.py` -> `modules/logging_config.py`
-- `modules/lazypassgen.py` -> `modules/__init__.py`
-- `modules/lazypoophish.py` -> `modules/chain_tokens.py`
-- `modules/lazypoophish.py` -> `modules/lazyshortener.py`
-- `modules/lazypoophish.py` -> `modules/phishing_orchestrator.py`
-- `modules/lazyshortener.py` -> `core/safe_exec.py`
-- `modules/lesson_ingestor.py` -> `core/logging.py`
-- `modules/lesson_ingestor.py` -> `modules/moe_router.py`
-- `modules/lesson_ingestor.py` -> `modules/rl_trainer.py`
-- `modules/lilsplunky.py` -> `core/console.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

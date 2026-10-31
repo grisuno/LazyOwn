@@ -1,4 +1,4 @@
-# Subsystem: tests (page 2 of 22)
+# Subsystem: tests (page 2 of 23)
 Previous: [KB_tests.md](KB_tests.md)
 
 ## tests/test_addon_creator.py

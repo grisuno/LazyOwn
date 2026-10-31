@@ -1,4 +1,4 @@
-# Subsystem: modules (page 7 of 17)
+# Subsystem: modules (page 7 of 18)
 Previous: [KB_modules_p6.md](KB_modules_p6.md)
 
 ## modules/hunt_verify.py
@@ -463,34 +463,26 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
 - Depends on: `core/config.py`, `modules/__init__.py`, `modules/agent_runner.py`, `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`, `modules/loop_ai_bridge.py`
 - Imported by: `cli/commands/lazyops.py`, `tests/conftest.py`, `tests/test_lazy_agent.py`
 
-## modules/lazy_bridge.py
-- Doc: Bidirectional LAZY <-> LazyOwn bridge.
+## modules/lazy_autofire.py
+- Doc: Lazy autofire: exploit intelligence closing the loop into chains.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_data_dir` (function, line 35) `def _data_dir()`
-  - `_read_json` (function, line 51) `def _read_json(path, default)`
-  - `_read_jsonl` (function, line 68) `def _read_jsonl(path)`
-  - `lazy_tasks` (function, line 92) `def lazy_tasks()`
-  - `lazy_assets` (function, line 103) `def lazy_assets()`
-  - `lazy_graph` (function, line 114) `def lazy_graph(task_id)`
-  - `lazy_activity` (function, line 127) `def lazy_activity(task_id)`
-  - `lazy_traffic` (function, line 139) `def lazy_traffic(task_id)`
-  - `lazy_guard_audit` (function, line 151) `def lazy_guard_audit(task_id)`
-  - `bridge_status` (function, line 163) `def bridge_status()`
-  - `_extract_hosts_from_graph` (function, line 184) `def _extract_hosts_from_graph(graph)`
-  - `pull_to_world_model` (function, line 221) `def pull_to_world_model()`
-  - `pull_to_objectives` (function, line 298) `def pull_to_objectives()`
-  - `pull_findings_to_lifecycle` (function, line 333) `def pull_findings_to_lifecycle()`
-  - `_read_new_traffic` (function, line 361) `def _read_new_traffic(path, offset)`
-  - `_notify` (function, line 398) `def _notify(progress, text)`
-  - `pull_traffic_to_recorder` (function, line 408) `def pull_traffic_to_recorder(progress)`
-  - `push_objective_to_lazy` (function, line 476) `def push_objective_to_lazy(goal, scope)`
-  - `push_tasks_to_c2` (function, line 501) `def push_tasks_to_c2(only)`
-  - `sync_all` (function, line 566) `def sync_all(progress)`
-  - `_record_sync` (function, line 592) `def _record_sync(action, summary)`
-- Depends on: `modules/finding_lifecycle.py`, `modules/traffic_recorder.py`, `modules/world_model.py`
-- Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_cve_pipeline.py`, `tests/test_lazy_loop.py`
+  - `autofire_armed` (function, line 41) `def autofire_armed(payload)`
+  - `consider_report` (function, line 53) `def consider_report(report, chains_dir, state_path, armed, now)`
+  - `fire_from_file` (function, line 105) `def fire_from_file(target, feed_path)`
+  - `sweep_state` (function, line 127) `def sweep_state(state_path, now)`
+  - `status` (function, line 147) `def status(payload, state_path)`
+  - `_fire_matches` (function, line 166) `def _fire_matches(report)`
+  - `_cooldown_filter` (function, line 180) `def _cooldown_filter(fires, state, target, moment, chains_dir)`
+  - `_existing_chain_tokens` (function, line 215) `def _existing_chain_tokens(chains_dir, slug)`
+  - `_chain_data` (function, line 225) `def _chain_data(target, fires)`
+  - `_load_state` (function, line 281) `def _load_state(path)`
+  - `_save_state` (function, line 291) `def _save_state(path, state)`
+  - `_stamp_cooldown` (function, line 305) `def _stamp_cooldown(state, target, cves, moment)`
+  - `_slug` (function, line 312) `def _slug(text)`
+- Depends on: `modules/__init__.py`, `modules/chain_synth.py`, `modules/lazy_probes.py`
+- Imported by: `tests/test_loop_fire_pending.py`
 
 
 Next: [KB_modules_p8.md](KB_modules_p8.md)

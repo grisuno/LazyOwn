@@ -5277,6 +5277,82 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
+            name="lazyown_lazy_intel",
+            description=(
+                "Run the lazy exploitation-intelligence exposure report for one target: "
+                "binds the target's discovered world-model services to the local exploit "
+                "feed with hard-evidence policy (product + version inside a bounded "
+                "affected range; actively exploited without a bound stays a review item), "
+                "ranks matches by exploitation heat (fire/smoke/ice), scores the host "
+                "0-100 with an audited breakdown, renders read-only confirmation checks "
+                "and publishes one lazy_intel outcome into the world model, the SQLite "
+                "store and the C2 surfaces. Securing the chain runs via lazyown_apt_chain "
+                "lazy_autofire_<target> only when the operator armed 'autofire'."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP. Defaults to rhost from payload.json.",
+                        "default": "",
+                    },
+                    "feed_path": {
+                        "type": "string",
+                        "description": "Exploit-intelligence feed JSON (lazy schema or a CISA KEV dump). Defaults to sessions/intel/exploit_feed.json.",
+                        "default": "",
+                    },
+                    "check": {
+                        "type": "boolean",
+                        "description": "Also render the read-only validation commands for the top matches.",
+                        "default": False,
+                    },
+                    "json": {
+                        "type": "boolean",
+                        "description": "Emit the full machine-readable report instead of the compact summary.",
+                        "default": False,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lazysearch",
+            description=(
+                "Search the engagement SQLite workspace with the Shodan-lite grammar: "
+                "'port:3389 -host:vpn tech:\"apache tomcat\" sev:critical user:svc'. "
+                "Spot keys: host|ip, port, service, product|tech, version, os, state, "
+                "sev|severity (crit|hi|med aliases), cve, user; bare words run as free "
+                "text; '-' prefix excludes. Queries hosts/services/vulns/creds through "
+                "the public database API of the current workspace."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Grammar query, e.g. 'port:3389 -host:vpn sev:high'.",
+                    },
+                    "workspace": {
+                        "type": "string",
+                        "description": "Workspace name (default 'default').",
+                        "default": "default",
+                    },
+                    "db_path": {
+                        "type": "string",
+                        "description": "Optional database path override (default sessions/db/lazyown.db).",
+                        "default": "",
+                    },
+                    "json": {
+                        "type": "boolean",
+                        "description": "Emit raw machine-readable rows instead of the compact listing.",
+                        "default": False,
+                    },
+                },
+                "required": ["query"],
+            },
+        ),
+        types.Tool(
             name="lazyown_atomic_shell",
             description=(
                 "Verify a live multiplexed root shell session on the target. "
@@ -10100,6 +10176,101 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         except Exception as exc:
             return text(f"[apt_chain error] {exc}")
         return text(f"[apt_chain {ch_chain} {ch_target}]\n{str(output)[-8000:]}")
+
+    # ── lazy_intel (exploitation-intelligence exposure report) ──────────
+    elif name == "lazyown_lazy_intel":
+        from modules.lazy_exposure import (
+            generate_report as _generate_report,
+            publish_report as _publish_report,
+            save_report as _save_report,
+        )
+
+        li_cfg = _load_payload()
+        li_target = (arguments.get("target", "") or "").strip() or str(li_cfg.get("rhost", "") or "").strip()
+        if not li_target:
+            return text("[lazy_intel] target is required (or set rhost).")
+        li_feed = (arguments.get("feed_path", "") or "").strip() or str(
+            li_cfg.get("intel_feed", "") or "sessions/intel/exploit_feed.json"
+        )
+        sys.path.insert(0, str(MODULES_DIR))
+        from modules import lazy_feedmatch as _fm
+
+        entries = _fm.load_feed(li_feed)
+        report = _generate_report(li_target, entries)
+        path = _save_report(report)
+        _publish_report(report)
+        if not entries:
+            lines_head = f"[lazy_intel {li_target}] no local feed staged, live keyless feeds used"
+        else:
+            lines_head = f"[lazy_intel {li_target}]"
+        if arguments.get("json"):
+            import json as _json
+
+            return text(_json.dumps(report, indent=2, default=str)[-10000:])
+        lines = [
+            lines_head,
+            f"temperature={report.get('temperature')} score={report.get('score')}",
+        ]
+        for detail_line in report.get("score_detail") or []:
+            lines.append(f"  [{detail_line['points']:>2}p] {detail_line['label']}")
+        for match in report.get("matches") or []:
+            lines.append(
+                f"  {match['tier'].upper():<5} {match['cve_id']:<16} {match['product']:<20} "
+                f"v{match['version']:<9} port {match['port']} ({match['evidence']})"
+            )
+        for review in report.get("version_unknown") or []:
+            lines.append(f"  review {review['cve_id']} (actively exploited, unbounded version)")
+        for lead in report.get("leads") or []:
+            lines.append(f"  lead {lead['product']} (unversioned product)")
+        if arguments.get("check"):
+            for renders in report.get("checks") or []:
+                lines.append(f"  check {renders['cve_id']}: {renders['command']}")
+        if path is not None:
+            lines.append(f"report at {path}")
+        from modules import lazy_autofire as _af
+
+        view = _af.status(li_cfg)
+        lines.append(
+            f"autofire armed={view['armed']} cooldown={view['cooldown']} "
+            "(assign autofire true writes lazy_autofire chains)"
+        )
+        return text("\n".join(lines))
+
+    # ── lazysearch (Shodan-lite grammar over the engagement DB) ─────────
+    elif name == "lazyown_lazysearch":
+        from modules.lazy_search import execute as _search_execute
+
+        ls_query = str(arguments.get("query", "") or "").strip()
+        if not ls_query:
+            return text("[lazysearch] query is required (e.g. 'port:3389 -host:vpn sev:high').")
+        ls_workspace = str(arguments.get("workspace", "default") or "default")
+        ls_db_path = (arguments.get("db_path", "") or "").strip() or None
+        try:
+            result = _search_execute(None, ls_query, workspace_name=ls_workspace, db_path=ls_db_path)
+        except Exception as exc:
+            return text(f"[lazysearch error] {exc}")
+        if arguments.get("json"):
+            import json as _json
+
+            return text(_json.dumps(result, indent=2, default=str)[-10000:])
+        lines = [f"[lazysearch '{ls_query}'] workspace={ls_workspace}"]
+        for error in result.get("errors") or []:
+            lines.append(f"  error {error}")
+        lines.append(
+            "matches hosts="
+            f"{len(result.get('hosts') or [])} services={len(result.get('services') or [])} "
+            f"vulns={len(result.get('vulns') or [])} creds={len(result.get('creds') or [])}"
+        )
+        for host in (result.get("hosts") or [])[:8]:
+            lines.append(f"  host {host.get('address')} os={host.get('os') or '?'} state={host.get('state') or '?'}")
+        for service in (result.get("services") or [])[:8]:
+            label = " ".join(str(service.get(k) or "") for k in ("name", "product", "version")).strip()
+            lines.append(f"  svc {service.get('host')}:{service.get('port')} {label}")
+        for vuln in (result.get("vulns") or [])[:8]:
+            lines.append(f"  vuln {vuln.get('name')} sev={vuln.get('severity')}")
+        for cred in (result.get("creds") or [])[:8]:
+            lines.append(f"  cred {cred.get('username')}@{cred.get('address')} type={cred.get('cred_type')}")
+        return text("\n".join(lines))
 
     # ── atomic_shell (verify-only session check, never interactive) ─────
     elif name == "lazyown_atomic_shell":

@@ -1,0 +1,186 @@
+# Architecture (page 10 of 10)
+Previous: [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
+
+## External Imports (continued)
+- `tests/test_lazy_timeline.py` -> __future__, json
+- `tests/test_lazy_triage.py` -> __future__, pathlib
+- `tests/test_lazy_worker_safety.py` -> __future__, pytest, types
+- `tests/test_lazy_world_diff.py` -> __future__, json, pathlib, sys, time
+- `tests/test_lazydorks.py` -> __future__, pytest
+- `tests/test_lazygui_backend.py` -> PySide6.QtCore, __future__, pytest
+- `tests/test_lazygui_graph_widget.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, pytest
+- `tests/test_lazygui_models.py` -> __future__, datetime, pytest
+- `tests/test_lazynmap_post.py` -> __future__, dataclasses, json, pathlib, tempfile, textwrap, unittest
+- `tests/test_lazynmap_sudo_branches.py` -> __future__, os, pathlib, subprocess
+- `tests/test_lazypassgen.py` -> __future__, pytest
+- `tests/test_lazypoophish.py` -> __future__, json, pathlib, pytest, types
+- `tests/test_lazyshortener.py` -> __future__, pytest, requests
+- `tests/test_legacy_shims.py` -> __future__, pathlib, re
+- `tests/test_lesson_ingestor.py` -> __future__, json, unittest.mock
+- `tests/test_lint_quality.py` -> __future__, pathlib, pytest, subprocess, sys
+- `tests/test_live_surface.py` -> __future__, pathlib, sys
+- `tests/test_llm_adapter_parity.py` -> __future__, json, os, pytest, types
+- `tests/test_llm_budget.py` -> __future__, json, pathlib, pytest, sys
+- `tests/test_llm_contract.py` -> __future__, importlib, pytest
+- `tests/test_llm_legacy_isolation.py` -> __future__, ast, os, pathlib
+- `tests/test_llm_orchestrator.py` -> __future__, json, pathlib, pytest, types
+- `tests/test_llm_prompts.py` -> __future__, json, pytest
+- `tests/test_logging_config.py` -> __future__, logging.handlers, pathlib, sys
+- `tests/test_loop_ai_bridge.py` -> __future__, pytest, types
+- `tests/test_loop_auto_orchestrator.py` -> __future__, ast, builtins, pathlib
+- `tests/test_loop_broadcast.py` -> __future__
+- `tests/test_loop_budget.py` -> __future__, pytest
+- `tests/test_loop_cli_catalog.py` -> __future__, pytest
+- `tests/test_loop_cold_overview.py` -> __future__
+- `tests/test_loop_evidence_wiring.py` -> __future__, json, pathlib, pytest, types
+- `tests/test_loop_fire_pending.py` -> __future__, json, pathlib, pytest
+- `tests/test_loop_force_graph.py` -> __future__
+- `tests/test_loop_guard_audit.py` -> __future__
+- `tests/test_loop_guardrails.py` -> __future__, threading, time
+- `tests/test_loop_intent_delete.py` -> __future__, pytest
+- `tests/test_loop_llm_resilience.py` -> __future__
+- `tests/test_loop_manager.py` -> __future__, json, pathlib, pytest, tempfile, time
+- `tests/test_loop_mentions.py` -> __future__
+- `tests/test_loop_multi_target.py` -> __future__, pytest
+- `tests/test_loop_nmap_guard.py` -> __future__
+- `tests/test_loop_progress.py` -> __future__, io, pathlib, sys
+- `tests/test_loop_scope_traffic_evidence.py` -> __future__
+- `tests/test_loop_spawn_side.py` -> __future__
+- `tests/test_loop_store_race.py` -> __future__, threading
+- `tests/test_loop_supervision.py` -> __future__
+- `tests/test_loop_trigger_hints.py` -> __future__, json, pathlib, pytest, types
+- `tests/test_loop_worker_traces.py` -> __future__
+- `tests/test_marketplace_config.py` -> __future__, asyncio, json, yaml
+- `tests/test_mcp_auto_loop_wrapper.py` -> __future__, asyncio, pytest, types
+- `tests/test_mcp_dispatch.py` -> __future__, ast, pathlib, re
+- `tests/test_mcp_improvements.py` -> __future__, importlib, json, os, pathlib, pytest, sys, time
+- `tests/test_mcp_lazy.py` -> __future__, ast, pathlib, sys
+- `tests/test_mcp_recommender_embed.py` -> __future__, importlib.util, pathlib
+- `tests/test_mediation.py` -> __future__, json, time, types
+- `tests/test_memory_semantics.py` -> __future__, pathlib, pytest, time
+- `tests/test_metasploitable_gym.py` -> __future__, yaml
+- `tests/test_metasploitable_migrations.py` -> __future__
+- `tests/test_metrics.py` -> __future__, datetime, json, pathlib, pytest, sys, threading
+- `tests/test_metrics_aware_selector.py` -> __future__, json, pathlib, skills, sys, typing
+- `tests/test_migrate_lazyown_generator.py` -> __future__, ast
+- `tests/test_module_registry.py` -> __future__
+- `tests/test_module_registry_bridge.py` -> __future__, pathlib
+- `tests/test_moe_rl_swan.py` -> __future__, json, os, pathlib, sys, tempfile, world_model
+- `tests/test_moe_router_check_regression.py` -> __future__, pathlib, sys
+- `tests/test_mutation_verification.py` -> __future__, ast, pathlib, pytest, tempfile
+- `tests/test_nethelpers_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
+- `tests/test_no_shell_execution.py` -> __future__, ast, dataclasses, pathlib
+- `tests/test_nuclei_parser.py` -> __future__
+- `tests/test_opencode_mcp_harness.py` -> __future__, asyncio, pathlib, sys, tempfile, unittest
+- `tests/test_ops_loot_phase.py` -> json, pathlib, sys, world_model
+- `tests/test_opsec_scorer.py` -> __future__
+- `tests/test_opsec_scorer_consolidated.py` -> __future__
+- `tests/test_orchestrator_api.py` -> __future__, flask, json, os, pathlib, pytest
+- `tests/test_orchestrator_triggers.py` -> __future__, asyncio, pytest
+- `tests/test_orchestrator_yaml.py` -> __future__, pathlib, pytest, yaml
+- `tests/test_outcome_bus.py` -> __future__, concurrent.futures, json, modules.sinks.report, pathlib
+- `tests/test_packaging.py` -> ast, pathlib, pytest, re, subprocess, sys, tomllib, yaml
+- `tests/test_palette_overlay.py` -> __future__, pathlib, sys
+- `tests/test_param_registry.py` -> __future__, json, pathlib, pytest, re, yaml
+- `tests/test_payload_factory.py` -> __future__, base64, pytest
+- `tests/test_payload_schema.py` -> __future__, json, pathlib, sys
+- `tests/test_phase1_data_gaps.py` -> __future__, json, pathlib, pytest, tempfile
+- `tests/test_phase_labels.py` -> __future__, json, pathlib
+- `tests/test_php2shell_addon.py` -> __future__, json, pathlib, pytest, re, yaml
+- `tests/test_pi_leg.py` -> __future__, pytest, subprocess
+- `tests/test_pipeline_engine.py` -> __future__, ast, importlib, json, pathlib, pytest, sys, yaml
+- `tests/test_placeholder_coverage.py` -> __future__, json, pathlib, re, yaml
+- `tests/test_playbook_admin.py` -> __future__, yaml
+- `tests/test_plugin_loader_safety.py` -> __future__, ast, pathlib, re
+- `tests/test_plugin_tiers.py` -> __future__, pathlib, pytest, yaml
+- `tests/test_policy_planner_signal.py` -> __future__, pathlib
+- `tests/test_profiles.py` -> __future__, pathlib, pytest
+- `tests/test_progress_ledger.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_prompt_readline_markers.py` -> __future__, pathlib, sys
+- `tests/test_prompt_refresh.py` -> __future__, pathlib, re, types
+- `tests/test_pwntomate_tools.py` -> __future__, json, pathlib, re
+- `tests/test_rea_mcp.py` -> __future__, asyncio, json, pathlib, pytest, subprocess, sys, types
+- `tests/test_reaction_bridge.py` -> __future__, pytest
+- `tests/test_reactive_engine_semantic.py` -> __future__, pathlib, sys, typing
+- `tests/test_reactive_hints.py` -> __future__, pathlib, pytest, sys, unittest.mock
+- `tests/test_reactive_hints_expanded.py` -> __future__
+- `tests/test_reactive_lateral_data.py` -> __future__, unittest.mock
+- `tests/test_reasoning_stream.py` -> __future__, json, pathlib, sys
+- `tests/test_recommendation.py` -> __future__, pathlib, pytest
+- `tests/test_recon_plan.py` -> __future__, collections.abc, dataclasses, json, pathlib, tempfile, textwrap, typing, unittest
+- `tests/test_repeat_shapes.py` -> __future__
+- `tests/test_report_banners_endpoints.py` -> __future__, json, os, pathlib
+- `tests/test_require_guards.py` -> __future__
+- `tests/test_resource_script.py` -> __future__, pytest
+- `tests/test_retry_session.py` -> __future__, os, pathlib, pytest
+- `tests/test_safe_console.py` -> __future__, io, pathlib, rich, sys
+- `tests/test_safe_subprocess.py` -> __future__, json, pathlib, pytest, sys
+- `tests/test_safe_subprocess_behavior.py` -> __future__, json, pathlib, sys
+- `tests/test_safety_gates.py` -> __future__, os, time
+- `tests/test_scope_bound_auto_gate.py` -> __future__, engagement_hooks, importlib, json, pathlib, pytest, sys, time
+- `tests/test_scope_deny_priority.py` -> __future__, pathlib, pytest
+- `tests/test_scope_guard.py` -> __future__, pathlib, pytest, sys
+- `tests/test_scope_guard_integration.py` -> __future__, cmd2, pathlib, pytest, sys, types
+- `tests/test_security_alerts_fix.py` -> __future__, ast, json, os, pathlib, pytest, ssl, time
+- `tests/test_security_codeql_batch.py` -> __future__, base64, flask, flask_login, importlib.util, os, pathlib, pytest, ssl, stat, sys
+- `tests/test_security_hardening.py` -> __future__, ast, hmac, pathlib, pytest, tempfile
+- `tests/test_security_hardening_v2.py` -> __future__, pathlib, pytest, re
+- `tests/test_security_hardening_v3.py` -> __future__, ast, os, pathlib, pytest, subprocess, unittest.mock
+- `tests/test_security_hardening_v4.py` -> __future__, importlib, inspect, os, pathlib, pytest, subprocess, sys, tempfile, unittest.mock
+- `tests/test_security_hardening_v5.py` -> __future__, flask, hashlib, os, pathlib, pytest, secrets, stat, subprocess, tempfile, unittest.mock
+- `tests/test_security_lazyc2.py` -> os, pathlib, pytest
+- `tests/test_security_sanitizers.py` -> __future__, json, os, pytest
+- `tests/test_selection_wiring.py` -> __future__
+- `tests/test_selectors_base.py` -> __future__
+- `tests/test_selectors_capabilities.py` -> __future__
+- `tests/test_session_brief.py` -> __future__, pathlib, pytest, re
+- `tests/test_session_ops_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
+- `tests/test_session_secrets.py` -> __future__, os, pathlib, tempfile, unittest
+- `tests/test_sessions_browser.py` -> __future__, json, pathlib, sys
+- `tests/test_shell_semantics.py` -> __future__
+- `tests/test_shellsys_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
+- `tests/test_short_url_file_containment.py` -> __future__, ast, pathlib, pytest
+- `tests/test_single_implementation.py` -> __future__
+- `tests/test_single_source_of_truth.py` -> __future__, json, pathlib, tempfile, unittest
+- `tests/test_sink_chain_feed.py` -> __future__, json, pathlib
+- `tests/test_sink_lazy_intel.py` -> __future__, pathlib, pytest
+- `tests/test_sleep_obfuscation.py` -> __future__, pytest
+- `tests/test_socks_proxy.py` -> __future__
+- `tests/test_status_bar_operators.py` -> __future__, json, pathlib, sys
+- `tests/test_structured_logging.py` -> __future__, json, logging.handlers, pathlib, sys
+- `tests/test_surface_graph.py` -> __future__, csv, io, json, pathlib, pytest, sys
+- `tests/test_sync_doc_stats.py` -> __future__, importlib.util, json, pathlib, pytest
+- `tests/test_themes.py` -> __future__, pathlib, sys
+- `tests/test_timeline_browser.py` -> __future__, csv, pathlib, sys
+- `tests/test_tips_engine.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_toast_bus.py` -> __future__, io, json, pathlib, sys, tempfile
+- `tests/test_toastr_unify.py` -> __future__
+- `tests/test_trigger_policy.py` -> pathlib
+- `tests/test_trusted_proxy.py` -> __future__
+- `tests/test_ttpscope_bridge.py` -> __future__, pathlib, pytest, sys, yaml
+- `tests/test_tui_splash.py` -> __future__, io, unittest
+- `tests/test_tui_style.py` -> __future__, io, unittest
+- `tests/test_tui_theme_command.py` -> __future__, unittest
+- `tests/test_tui_themes.py` -> __future__, io, rich.text, unittest
+- `tests/test_unified_bridge_delegate.py` -> __future__, itertools, pytest
+- `tests/test_unified_dashboard.py` -> __future__, json
+- `tests/test_utils_import_silent.py` -> __future__, pathlib, subprocess, sys
+- `tests/test_verb_catalog.py` -> json, pathlib, pytest, types
+- `tests/test_verb_manifest.py` -> __future__, pathlib, pytest
+- `tests/test_viral_adoption.py` -> ast, glob, json, pathlib
+- `tests/test_vuln_mitigations.py` -> __future__, ast, collections.abc, dataclasses, pathlib, pytest, re
+- `tests/test_vulnbot_fallback.py` -> __future__, json, pytest
+- `tests/test_winbox_gym.py` -> __future__, contextlib, os, pathlib, sys, tempfile, unittest, unittest.mock, yaml
+- `tests/test_wizard_binary_check.py` -> __future__, pathlib, pytest, subprocess, sys
+- `tests/test_wizard_llm.py` -> __future__
+- `tests/test_world_diff_retest.py` -> __future__, json, pathlib
+- `tests/test_world_model_extended.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_xss_sanitization.py` -> __future__, pathlib, re
+- `tools/contract_check.py` -> __future__, ast, pathlib, sys
+- `tools/extract_cluster.py` -> __future__, ast, pathlib, sys, textwrap
+- `tools/gen_demo_gifs.py` -> PIL, os
+- `tools/gen_demo_gifs_extra.py` -> os, sys
+- `tools/generate_metasploitable_gym.py` -> __future__, pathlib, yaml
+- `tools/set_lazyaddon_updates.py` -> __future__, argparse, pathlib, re, yaml
+- `utils.py` -> argparse, base64, binascii, bisect, bs4, concurrent.futures, csv, ctypes, curses, datetime, glob, gzip, hashlib, importlib.util, io, itertools, json, os, pathlib, random, re, readline, requests, requests.exceptions, rich.panel, rich.text, secrets, shlex, shutil, signal, socket, ssl, string, struct, subprocess, sys, tempfile, threading, time, urllib.parse, urllib.request, uuid, xml.etree.ElementTree, yaml
+

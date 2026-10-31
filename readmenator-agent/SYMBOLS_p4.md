@@ -1,8 +1,40 @@
-# Symbols (page 4 of 48)
+# Symbols (page 4 of 49)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_changeme` | method | `cli/commands/scan_migrated.py:699` | `def do_changeme(self, line)` |
+| `do_cme` | method | `cli/commands/scan_migrated.py:37` | `def do_cme(self, line)` |
+| `do_davtest` | method | `cli/commands/scan_migrated.py:901` | `def do_davtest(self, line)` |
+| `do_enum4linux_ng` | method | `cli/commands/scan_migrated.py:730` | `def do_enum4linux_ng(self, line)` |
+| `do_evil_ssdp` | method | `cli/commands/scan_migrated.py:942` | `def do_evil_ssdp(self, line)` |
+| `do_finger_user_enum` | method | `cli/commands/scan_migrated.py:1569` | `def do_finger_user_enum(self, line)` |
+| `do_fuzz` | method | `cli/commands/scan_migrated.py:770` | `def do_fuzz(self, line)` |
+| `do_hound` | method | `cli/commands/scan_migrated.py:2908` | `def do_hound(self, line)` |
+| `do_kerbrute` | method | `cli/commands/scan_migrated.py:815` | `def do_kerbrute(self, line)` |
+| `do_ldapdomaindump` | method | `cli/commands/scan_migrated.py:176` | `def do_ldapdomaindump(self, line)` |
+| `do_ldapsearch` | method | `cli/commands/scan_migrated.py:1440` | `def do_ldapsearch(self, line)` |
+| `do_lookupsid` | method | `cli/commands/scan_migrated.py:2458` | `def do_lookupsid(self, line)` |
+| `do_lookupsid_py` | method | `cli/commands/scan_migrated.py:2385` | `def do_lookupsid_py(self, line)` |
+| `do_loxs` | method | `cli/commands/scan_migrated.py:1678` | `def do_loxs(self, line)` |
+| `do_lynis` | method | `cli/commands/scan_migrated.py:361` | `def do_lynis(self, line)` |
+| `do_mqtt_check_py` | method | `cli/commands/scan_migrated.py:2330` | `def do_mqtt_check_py(self, line)` |
+| `do_net_rpc_addmem` | method | `cli/commands/scan_migrated.py:2769` | `def do_net_rpc_addmem(self, line)` |
+| `do_netexec` | method | `cli/commands/scan_migrated.py:988` | `def do_netexec(self, line)` |
+| `do_netview` | method | `cli/commands/scan_migrated.py:2201` | `def do_netview(self, line)` |
+| `do_odat` | method | `cli/commands/scan_migrated.py:1970` | `def do_odat(self, line)` |
+| `do_openredirex` | method | `cli/commands/scan_migrated.py:1902` | `def do_openredirex(self, line)` |
+| `do_parsero` | method | `cli/commands/scan_migrated.py:667` | `def do_parsero(self, line)` |
+| `do_parth` | method | `cli/commands/scan_migrated.py:1771` | `def do_parth(self, line)` |
+| `do_pre2k` | method | `cli/commands/scan_migrated.py:2815` | `def do_pre2k(self, line)` |
+| `do_pykerbrute` | method | `cli/commands/scan_migrated.py:2131` | `def do_pykerbrute(self, line)` |
+| `do_rdp_check_py` | method | `cli/commands/scan_migrated.py:2265` | `def do_rdp_check_py(self, line)` |
+| `do_rpcmap_py` | method | `cli/commands/scan_migrated.py:2088` | `def do_rpcmap_py(self, line)` |
+| `do_samrdump` | method | `cli/commands/scan_migrated.py:306` | `def do_samrdump(self, line)` |
+| `do_sawks` | method | `cli/commands/scan_migrated.py:2678` | `def do_sawks(self, line)` |
+| `do_sessionssh` | method | `cli/commands/scan_migrated.py:483` | `def do_sessionssh(self, line)` |
+| `do_smbattack` | method | `cli/commands/scan_migrated.py:507` | `def do_smbattack(self, line)` |
+| `do_smtpuserenum` | method | `cli/commands/scan_migrated.py:444` | `def do_smtpuserenum(self, line)` |
 | `do_snmpcheck` | method | `cli/commands/scan_migrated.py:390` | `def do_snmpcheck(self, line)` |
 | `do_snmpwalk` | method | `cli/commands/scan_migrated.py:417` | `def do_snmpwalk(self, line)` |
 | `do_swaks` | method | `cli/commands/scan_migrated.py:267` | `def do_swaks(self, line)` |
@@ -464,37 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `snapshot` | method | `cli/graph_overlay.py:102` | `def snapshot(self)` |
 | `toggle_view` | method | `cli/graph_overlay.py:95` | `def toggle_view(self)` |
 | `HeadlessRunner` | class | `cli/headless.py:62` | `class HeadlessRunner` |
-| `__init__` | method | `cli/headless.py:72` | `def __init__(self, shell, json_output, profile_path)` |
-| `apply_profile` | function | `cli/headless.py:48` | `def apply_profile(config, profile)` |
-| `load_profile` | function | `cli/headless.py:31` | `def load_profile(path)` |
-| `run_chain` | method | `cli/headless.py:132` | `def run_chain(self, commands)` |
-| `run_command` | method | `cli/headless.py:87` | `def run_command(self, cmd, timeout)` |
-| `PhaseProgress` | class | `cli/killchain.py:29` | `class PhaseProgress` |
-| `_detect_current_phase` | function | `cli/killchain.py:58` | `def _detect_current_phase(events, world, phase_keys)` |
-| `_phase_from_event` | function | `cli/killchain.py:48` | `def _phase_from_event(event)` |
-| `compute_killchain` | function | `cli/killchain.py:83` | `def compute_killchain(events, world, phases)` |
-| `LazyMonitorApp` | class | `cli/lazy_monitor.py:89` | `class LazyMonitorApp` |
-| `PromptModal` | class | `cli/lazy_monitor.py:61` | `class PromptModal` |
-| `__init__` | method | `cli/lazy_monitor.py:66` | `def __init__(self, title, placeholder)` |
-| `__init__` | method | `cli/lazy_monitor.py:124` | `def __init__(self, task_id, engine, config, params)` |
-| `_append_activity` | method | `cli/lazy_monitor.py:387` | `def _append_activity(self, text, style)` |
-| `_append_activity_text` | method | `cli/lazy_monitor.py:392` | `def _append_activity_text(self, line)` |
-| `_decide` | method | `cli/lazy_monitor.py:433` | `def _decide(self, verdict)` |
-| `_done` | function | `cli/lazy_monitor.py:448` | `def _done(text)` |
-| `_done` | function | `cli/lazy_monitor.py:467` | `def _done(text)` |
-| `_drain_activity` | method | `cli/lazy_monitor.py:270` | `def _drain_activity(self)` |
-| `_drain_guard` | method | `cli/lazy_monitor.py:290` | `def _drain_guard(self)` |
-| `_drain_traffic` | method | `cli/lazy_monitor.py:304` | `def _drain_traffic(self)` |
-| `_finish` | method | `cli/lazy_monitor.py:246` | `def _finish(self, result)` |
-| `_focus_tab` | method | `cli/lazy_monitor.py:501` | `def _focus_tab(self, tab_id)` |
-| `_hint_via_graph` | function | `cli/lazy_monitor.py:566` | `def _hint_via_graph(task_id, text)` |
-| `_init_tails` | method | `cli/lazy_monitor.py:203` | `def _init_tails(self)` |
-| `_overview` | method | `cli/lazy_monitor.py:263` | `def _overview(self)` |
-| `_poll` | method | `cli/lazy_monitor.py:252` | `def _poll(self)` |
-| `_render_approvals` | method | `cli/lazy_monitor.py:313` | `def _render_approvals(self)` |
-| `_render_findings` | method | `cli/lazy_monitor.py:332` | `def _render_findings(self)` |
-| `_render_stages` | method | `cli/lazy_monitor.py:351` | `def _render_stages(self, overview)` |
-| `_reset_view` | method | `cli/lazy_monitor.py:537` | `def _reset_view(self)` |
-| `_resolve_task` | method | `cli/lazy_monitor.py:192` | `def _resolve_task(self)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

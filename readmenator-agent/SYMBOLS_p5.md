@@ -1,8 +1,40 @@
-# Symbols (page 5 of 48)
+# Symbols (page 5 of 49)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `cli/headless.py:72` | `def __init__(self, shell, json_output, profile_path)` |
+| `apply_profile` | function | `cli/headless.py:48` | `def apply_profile(config, profile)` |
+| `load_profile` | function | `cli/headless.py:31` | `def load_profile(path)` |
+| `run_chain` | method | `cli/headless.py:132` | `def run_chain(self, commands)` |
+| `run_command` | method | `cli/headless.py:87` | `def run_command(self, cmd, timeout)` |
+| `PhaseProgress` | class | `cli/killchain.py:29` | `class PhaseProgress` |
+| `_detect_current_phase` | function | `cli/killchain.py:58` | `def _detect_current_phase(events, world, phase_keys)` |
+| `_phase_from_event` | function | `cli/killchain.py:48` | `def _phase_from_event(event)` |
+| `compute_killchain` | function | `cli/killchain.py:83` | `def compute_killchain(events, world, phases)` |
+| `LazyMonitorApp` | class | `cli/lazy_monitor.py:89` | `class LazyMonitorApp` |
+| `PromptModal` | class | `cli/lazy_monitor.py:61` | `class PromptModal` |
+| `__init__` | method | `cli/lazy_monitor.py:66` | `def __init__(self, title, placeholder)` |
+| `__init__` | method | `cli/lazy_monitor.py:124` | `def __init__(self, task_id, engine, config, params)` |
+| `_append_activity` | method | `cli/lazy_monitor.py:387` | `def _append_activity(self, text, style)` |
+| `_append_activity_text` | method | `cli/lazy_monitor.py:392` | `def _append_activity_text(self, line)` |
+| `_decide` | method | `cli/lazy_monitor.py:433` | `def _decide(self, verdict)` |
+| `_done` | function | `cli/lazy_monitor.py:448` | `def _done(text)` |
+| `_done` | function | `cli/lazy_monitor.py:467` | `def _done(text)` |
+| `_drain_activity` | method | `cli/lazy_monitor.py:270` | `def _drain_activity(self)` |
+| `_drain_guard` | method | `cli/lazy_monitor.py:290` | `def _drain_guard(self)` |
+| `_drain_traffic` | method | `cli/lazy_monitor.py:304` | `def _drain_traffic(self)` |
+| `_finish` | method | `cli/lazy_monitor.py:246` | `def _finish(self, result)` |
+| `_focus_tab` | method | `cli/lazy_monitor.py:501` | `def _focus_tab(self, tab_id)` |
+| `_hint_via_graph` | function | `cli/lazy_monitor.py:566` | `def _hint_via_graph(task_id, text)` |
+| `_init_tails` | method | `cli/lazy_monitor.py:203` | `def _init_tails(self)` |
+| `_overview` | method | `cli/lazy_monitor.py:263` | `def _overview(self)` |
+| `_poll` | method | `cli/lazy_monitor.py:252` | `def _poll(self)` |
+| `_render_approvals` | method | `cli/lazy_monitor.py:313` | `def _render_approvals(self)` |
+| `_render_findings` | method | `cli/lazy_monitor.py:332` | `def _render_findings(self)` |
+| `_render_stages` | method | `cli/lazy_monitor.py:351` | `def _render_stages(self, overview)` |
+| `_reset_view` | method | `cli/lazy_monitor.py:537` | `def _reset_view(self)` |
+| `_resolve_task` | method | `cli/lazy_monitor.py:192` | `def _resolve_task(self)` |
 | `_run` | function | `cli/lazy_monitor.py:225` | `def _run()` |
 | `_running_intent` | method | `cli/lazy_monitor.py:399` | `def _running_intent(self)` |
 | `_start_engine` | method | `cli/lazy_monitor.py:213` | `def _start_engine(self)` |
@@ -464,37 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `build` | method | `cli/recommendation.py:386` | `def build(self)` |
 | `category_for` | method | `cli/recommendation.py:227` | `def category_for(self, action)` |
 | `propose` | method | `cli/recommendation.py:187` | `def propose(self, ctx)` |
-| `recommend` | method | `cli/recommendation.py:258` | `def recommend(self, ctx)` |
-| `GraphSignal` | class | `cli/recommendation_signals.py:111` | `class GraphSignal` |
-| `GraphTopologySignal` | class | `cli/recommendation_signals.py:532` | `class GraphTopologySignal` |
-| `KillChainSignal` | class | `cli/recommendation_signals.py:225` | `class KillChainSignal` |
-| `KillchainGapSignal` | class | `cli/recommendation_signals.py:387` | `class KillchainGapSignal` |
-| `PlaybookSignal` | class | `cli/recommendation_signals.py:338` | `class PlaybookSignal` |
-| `PolicySignal` | class | `cli/recommendation_signals.py:149` | `class PolicySignal` |
-| `ReconPlanSignal` | class | `cli/recommendation_signals.py:186` | `class ReconPlanSignal` |
-| `__init__` | method | `cli/recommendation_signals.py:116` | `def __init__(self, advisor)` |
-| `__init__` | method | `cli/recommendation_signals.py:154` | `def __init__(self, policy)` |
-| `__init__` | method | `cli/recommendation_signals.py:191` | `def __init__(self, engine, builder)` |
-| `__init__` | method | `cli/recommendation_signals.py:230` | `def __init__(self, next_table, phase_table)` |
-| `__init__` | method | `cli/recommendation_signals.py:347` | `def __init__(self, playbook_engine)` |
-| `__init__` | method | `cli/recommendation_signals.py:407` | `def __init__(self, sessions_dir)` |
-| `__init__` | method | `cli/recommendation_signals.py:543` | `def __init__(self, sessions_dir)` |
-| `_build_killchain_signal` | function | `cli/recommendation_signals.py:786` | `def _build_killchain_signal()` |
-| `_compute_centrality` | method | `cli/recommendation_signals.py:604` | `def _compute_centrality(graph_data)` |
-| `_gap_creds_no_lateral` | method | `cli/recommendation_signals.py:508` | `def _gap_creds_no_lateral(self, wm_data, hosts)` |
-| `_gap_exploited_no_privesc` | method | `cli/recommendation_signals.py:426` | `def _gap_exploited_no_privesc(self, hosts)` |
-| `_gap_owned_no_creds` | method | `cli/recommendation_signals.py:466` | `def _gap_owned_no_creds(self, hosts, wm_data)` |
-| `_gap_scan_no_enum` | method | `cli/recommendation_signals.py:486` | `def _gap_scan_no_enum(self, hosts, recent)` |
-| `_load_world_model` | function | `cli/recommendation_signals.py:68` | `def _load_world_model(sessions_dir)` |
-| `_rank_weight` | function | `cli/recommendation_signals.py:91` | `def _rank_weight(index, total)` |
-| `_try_build_graph_signal` | function | `cli/recommendation_signals.py:743` | `def _try_build_graph_signal(graph_path)` |
-| `_try_build_playbook_signal` | function | `cli/recommendation_signals.py:639` | `def _try_build_playbook_signal()` |
-| `_try_build_policy_signal` | function | `cli/recommendation_signals.py:757` | `def _try_build_policy_signal()` |
-| `_try_build_recon_signal` | function | `cli/recommendation_signals.py:773` | `def _try_build_recon_signal(payload)` |
-| `build_context` | function | `cli/recommendation_signals.py:309` | `def build_context(payload, sessions_dir, target, limit)` |
-| `build_default_engine` | function | `cli/recommendation_signals.py:650` | `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)` |
-| `propose` | method | `cli/recommendation_signals.py:126` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:163` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:201` | `def propose(self, ctx)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

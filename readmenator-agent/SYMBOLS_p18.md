@@ -1,8 +1,145 @@
-# Symbols (page 18 of 48)
+# Symbols (page 18 of 49)
 Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `container_name` | function | `modules/lazy_sandbox.py:67` | `def container_name(task_id)` |
+| `container_running` | function | `modules/lazy_sandbox.py:94` | `def container_running(task_id)` |
+| `docker_available` | function | `modules/lazy_sandbox.py:73` | `def docker_available()` |
+| `ensure_container` | function | `modules/lazy_sandbox.py:112` | `def ensure_container(task_id, image)` |
+| `exec_command` | function | `modules/lazy_sandbox.py:180` | `def exec_command(task_id, command, timeout_sec, image)` |
+| `executor_for` | function | `modules/lazy_sandbox.py:251` | `def executor_for(task_id, image)` |
+| `image_available` | function | `modules/lazy_sandbox.py:78` | `def image_available(image)` |
+| `image_name` | function | `modules/lazy_sandbox.py:52` | `def image_name(configured)` |
+| `remove_container` | function | `modules/lazy_sandbox.py:214` | `def remove_container(task_id)` |
+| `status` | function | `modules/lazy_sandbox.py:223` | `def status(task_id)` |
+| `ScopeVerdict` | class | `modules/lazy_scope.py:50` | `class ScopeVerdict` |
+| `_ResolveCache` | class | `modules/lazy_scope.py:65` | `class _ResolveCache` |
+| `_address_denied` | function | `modules/lazy_scope.py:319` | `def _address_denied(address, denylist)` |
+| `_entry_denied` | function | `modules/lazy_scope.py:332` | `def _entry_denied(text, lowered, denylist)` |
+| `_keep` | function | `modules/lazy_scope.py:143` | `def _keep(start, value)` |
+| `_looks_like_address` | function | `modules/lazy_scope.py:193` | `def _looks_like_address(text)` |
+| `_networks_of` | function | `modules/lazy_scope.py:307` | `def _networks_of(entries)` |
+| `command_scope_verdict` | function | `modules/lazy_scope.py:351` | `def command_scope_verdict(command, resolver, allowlist, denylist)` |
+| `extract_hosts` | function | `modules/lazy_scope.py:130` | `def extract_hosts(text)` |
+| `get` | method | `modules/lazy_scope.py:70` | `def get(self, name, now)` |
+| `is_lab_address` | function | `modules/lazy_scope.py:105` | `def is_lab_address(address)` |
+| `put` | method | `modules/lazy_scope.py:89` | `def put(self, name, values, now)` |
+| `read_allowlist` | function | `modules/lazy_scope.py:231` | `def read_allowlist(sessions_dir)` |
+| `read_denylist` | function | `modules/lazy_scope.py:243` | `def read_denylist(sessions_dir)` |
+| `read_scope_file` | function | `modules/lazy_scope.py:209` | `def read_scope_file(name, sessions_dir)` |
+| `resolve_addresses` | function | `modules/lazy_scope.py:164` | `def resolve_addresses(name, now)` |
+| `scope_verdict` | function | `modules/lazy_scope.py:255` | `def scope_verdict(target, resolver, allowlist, denylist)` |
+| `Query` | class | `modules/lazy_search.py:80` | `class Query` |
+| `SearchTerm` | class | `modules/lazy_search.py:65` | `class SearchTerm` |
+| `_canon` | function | `modules/lazy_search.py:250` | `def _canon(key, value)` |
+| `_row_match` | function | `modules/lazy_search.py:178` | `def _row_match(parsed, row, is_host)` |
+| `_searchable` | function | `modules/lazy_search.py:233` | `def _searchable(row, is_host)` |
+| `_term_hit` | function | `modules/lazy_search.py:202` | `def _term_hit(term, row, is_host)` |
+| `execute` | function | `modules/lazy_search.py:132` | `def execute(db, query, workspace_name, db_path)` |
+| `parse` | function | `modules/lazy_search.py:94` | `def parse(query)` |
+| `_atomic_json` | function | `modules/lazy_sentinel.py:312` | `def _atomic_json(path, data)` |
+| `_parse_grepable` | function | `modules/lazy_sentinel.py:81` | `def _parse_grepable(line)` |
+| `_parse_line` | function | `modules/lazy_sentinel.py:73` | `def _parse_line(line)` |
+| `_parse_tsv` | function | `modules/lazy_sentinel.py:108` | `def _parse_tsv(line)` |
+| `_sightings` | function | `modules/lazy_sentinel.py:237` | `def _sightings(hosts)` |
+| `_split_product_version` | function | `modules/lazy_sentinel.py:223` | `def _split_product_version(block)` |
+| `dispatch_line` | function | `modules/lazy_sentinel.py:203` | `def dispatch_line(client_id, blob)` |
+| `ingest_spool` | function | `modules/lazy_sentinel.py:45` | `def ingest_spool(path)` |
+| `load_sightings` | function | `modules/lazy_sentinel.py:282` | `def load_sightings(path)` |
+| `provision_blob` | function | `modules/lazy_sentinel.py:152` | `def provision_blob(ranges, spool_path, spool_dir)` |
+| `save_sightings` | function | `modules/lazy_sentinel.py:252` | `def save_sightings(sightings, path)` |
+| `validate_ranges` | function | `modules/lazy_sentinel.py:123` | `def validate_ranges(ranges)` |
+| `_hermes_config_path` | function | `modules/lazy_skill_mirror.py:112` | `def _hermes_config_path()` |
+| `_hermes_frontmatter` | function | `modules/lazy_skill_mirror.py:45` | `def _hermes_frontmatter(name, fields)` |
+| `_split_frontmatter` | function | `modules/lazy_skill_mirror.py:30` | `def _split_frontmatter(text)` |
+| `available_skills` | function | `modules/lazy_skill_mirror.py:67` | `def available_skills()` |
+| `mirror_all` | function | `modules/lazy_skill_mirror.py:106` | `def mirror_all()` |
+| `mirror_skill` | function | `modules/lazy_skill_mirror.py:78` | `def mirror_skill(name)` |
+| `register_external_dirs` | function | `modules/lazy_skill_mirror.py:117` | `def register_external_dirs()` |
+| `_frontmatter` | function | `modules/lazy_skills.py:28` | `def _frontmatter(text)` |
+| `_load` | function | `modules/lazy_skills.py:53` | `def _load(path)` |
+| `_skill_files` | function | `modules/lazy_skills.py:42` | `def _skill_files()` |
+| `get_skill` | function | `modules/lazy_skills.py:91` | `def get_skill(name)` |
+| `list_skills` | function | `modules/lazy_skills.py:85` | `def list_skills()` |
+| `match_skills` | function | `modules/lazy_skills.py:102` | `def match_skills(text, limit)` |
+| `skills_context` | function | `modules/lazy_skills.py:118` | `def skills_context(text, explicit, auto, budget)` |
+| `_digest` | function | `modules/lazy_summarizer.py:100` | `def _digest(older, complete)` |
+| `_text_of` | function | `modules/lazy_summarizer.py:26` | `def _text_of(record)` |
+| `_truncate_records` | function | `modules/lazy_summarizer.py:126` | `def _truncate_records(records, budget)` |
+| `should_compact` | function | `modules/lazy_summarizer.py:35` | `def should_compact(used_chars, budget_chars)` |
+| `summarize_chain` | function | `modules/lazy_summarizer.py:50` | `def summarize_chain(records, budget_chars, complete)` |
+| `_load_previous` | function | `modules/lazy_surface_diff.py:149` | `def _load_previous(path)` |
+| `_port_number` | function | `modules/lazy_surface_diff.py:85` | `def _port_number(key)` |
+| `changed_hosts` | function | `modules/lazy_surface_diff.py:253` | `def changed_hosts(limit, sessions_dir)` |
+| `current_snapshots` | function | `modules/lazy_surface_diff.py:160` | `def current_snapshots(world)` |
+| `diff_hosts` | function | `modules/lazy_surface_diff.py:93` | `def diff_hosts(before, after)` |
+| `fingerprint` | function | `modules/lazy_surface_diff.py:79` | `def fingerprint(state)` |
+| `last_diff` | function | `modules/lazy_surface_diff.py:234` | `def last_diff(sessions_dir)` |
+| `refresh` | function | `modules/lazy_surface_diff.py:186` | `def refresh(world, sessions_dir)` |
+| `snapshot_host` | function | `modules/lazy_surface_diff.py:52` | `def snapshot_host(host)` |
+| `_default_state_path` | function | `modules/lazy_timeline.py:200` | `def _default_state_path()` |
+| `_extract_hosts` | function | `modules/lazy_timeline.py:207` | `def _extract_hosts(state)` |
+| `_getaddrinfo_resolver` | function | `modules/lazy_timeline.py:60` | `def _getaddrinfo_resolver(name)` |
+| `_host_diff` | function | `modules/lazy_timeline.py:229` | `def _host_diff(ip, before, after)` |
+| `_load` | function | `modules/lazy_timeline.py:301` | `def _load(source)` |
+| `_prune` | function | `modules/lazy_timeline.py:292` | `def _prune(paths, keep)` |
+| `_zombies` | function | `modules/lazy_timeline.py:258` | `def _zombies(_old_snapshot, snapshot)` |
+| `diff` | function | `modules/lazy_timeline.py:151` | `def diff(_old, _new)` |
+| `find_snapshots` | function | `modules/lazy_timeline.py:135` | `def find_snapshots(snaps_dir)` |
+| `record` | function | `modules/lazy_timeline.py:66` | `def record(state_path, snaps_dir, keep, dns)` |
+| `record_quiet` | function | `modules/lazy_timeline.py:111` | `def record_quiet(state_path, snaps_dir, keep, dns)` |
+| `resolve_hostnames` | function | `modules/lazy_timeline.py:36` | `def resolve_hostnames(names, resolver)` |
+| `show` | function | `modules/lazy_timeline.py:180` | `def show(snaps_dir, last)` |
+| `SignatureStore` | class | `modules/lazy_triage.py:135` | `class SignatureStore` |
+| `__init__` | method | `modules/lazy_triage.py:138` | `def __init__(self, sessions_dir, ttl)` |
+| `_load` | method | `modules/lazy_triage.py:166` | `def _load(self)` |
+| `_save` | method | `modules/lazy_triage.py:176` | `def _save(self, store)` |
+| `apply_rules` | function | `modules/lazy_triage.py:80` | `def apply_rules(verdict, kind, facts)` |
+| `fresh_signature` | method | `modules/lazy_triage.py:144` | `def fresh_signature(self, signature, now)` |
+| `hard_evidence` | function | `modules/lazy_triage.py:47` | `def hard_evidence(kind, facts)` |
+| `rank` | function | `modules/lazy_triage.py:42` | `def rank(verdict)` |
+| `reset` | method | `modules/lazy_triage.py:162` | `def reset(self)` |
+| `signature_for` | function | `modules/lazy_triage.py:108` | `def signature_for(kind, fields)` |
+| `_add` | function | `modules/lazy_verify.py:104` | `def _add(kind, command, check_port)` |
+| `_cap` | function | `modules/lazy_verify.py:52` | `def _cap(text, cap)` |
+| `_host_port` | function | `modules/lazy_verify.py:57` | `def _host_port(finding_text, poc)` |
+| `_nmap_available` | function | `modules/lazy_verify.py:133` | `def _nmap_available()` |
+| `plan_checks` | function | `modules/lazy_verify.py:84` | `def plan_checks(finding_text, poc)` |
+| `run_check` | function | `modules/lazy_verify.py:143` | `def run_check(check, executor)` |
+| `verdict_from_checks` | function | `modules/lazy_verify.py:214` | `def verdict_from_checks(checks_results)` |
+| `verify_finding` | function | `modules/lazy_verify.py:232` | `def verify_finding(finding_text, poc, executor)` |
+| `SurfaceChange` | class | `modules/lazy_world_diff.py:65` | `class SurfaceChange` |
+| `_as_change` | function | `modules/lazy_world_diff.py:192` | `def _as_change(change)` |
+| `_changes_path` | function | `modules/lazy_world_diff.py:172` | `def _changes_path(sessions_dir)` |
+| `_default_probe` | function | `modules/lazy_world_diff.py:415` | `def _default_probe(ip, port, scheme, host)` |
+| `_default_resolve` | function | `modules/lazy_world_diff.py:406` | `def _default_resolve(host)` |
+| `_load_changes` | function | `modules/lazy_world_diff.py:176` | `def _load_changes(sessions_dir)` |
+| `_port_number` | function | `modules/lazy_world_diff.py:124` | `def _port_number(key)` |
+| `campaign_snapshots` | function | `modules/lazy_world_diff.py:312` | `def campaign_snapshots(sessions_dir)` |
+| `diff_snapshots` | function | `modules/lazy_world_diff.py:131` | `def diff_snapshots(before, after)` |
+| `find_ghost_hosts` | function | `modules/lazy_world_diff.py:489` | `def find_ghost_hosts(candidates, snapshots, checker, resolver, cap)` |
+| `ghost_endpoints` | function | `modules/lazy_world_diff.py:366` | `def ghost_endpoints(snapshot, limit)` |
+| `ghost_state_apply` | function | `modules/lazy_world_diff.py:447` | `def ghost_state_apply(host, answers, sessions_dir, now)` |
+| `host_snapshot` | function | `modules/lazy_world_diff.py:78` | `def host_snapshot(world, ip)` |
+| `load_ghosts` | function | `modules/lazy_world_diff.py:435` | `def load_ghosts(sessions_dir)` |
+| `load_host_snapshots` | function | `modules/lazy_world_diff.py:290` | `def load_host_snapshots(sessions_dir)` |
+| `name_resolves` | function | `modules/lazy_world_diff.py:395` | `def name_resolves(host, resolver)` |
+| `prune_changes` | function | `modules/lazy_world_diff.py:270` | `def prune_changes(sessions_dir, keep_days)` |
+| `recent_changes` | function | `modules/lazy_world_diff.py:260` | `def recent_changes(sessions_dir, days, host)` |
+| `record_changes` | function | `modules/lazy_world_diff.py:200` | `def record_changes(changes, sessions_dir, now)` |
+| `save_host_snapshots` | function | `modules/lazy_world_diff.py:301` | `def save_host_snapshots(snapshots, sessions_dir)` |
+| `snapshot_engagement` | function | `modules/lazy_world_diff.py:528` | `def snapshot_engagement(sessions_dir, now, world)` |
+| `snapshot_fingerprint` | function | `modules/lazy_world_diff.py:119` | `def snapshot_fingerprint(state)` |
+| `abusar_tar` | function | `modules/lazyatack.sh:248` | `` |
+| `comprobar_rutas` | function | `modules/lazyatack.sh:242` | `` |
+| `comprobar_sudo` | function | `modules/lazyatack.sh:194` | `` |
+| `configurar_netcat` | function | `modules/lazyatack.sh:139` | `` |
+| `configurar_shell_reversa` | function | `modules/lazyatack.sh:165` | `` |
+| `configurar_tty` | function | `modules/lazyatack.sh:206` | `` |
+| `descargar_seclists` | function | `modules/lazyatack.sh:107` | `` |
+| `ejecutar_wfuzz` | function | `modules/lazyatack.sh:188` | `` |
+| `eliminar_archivos` | function | `modules/lazyatack.sh:217` | `` |
 | `eliminar_contenedores_docker` | function | `modules/lazyatack.sh:260` | `` |
 | `enumerar_http` | function | `modules/lazyatack.sh:127` | `` |
 | `enumerar_puertos` | function | `modules/lazyatack.sh:254` | `` |
@@ -359,142 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `default_model_for` | function | `modules/llm_factory.py:224` | `def default_model_for(backend)` |
 | `get_llm_backend` | function | `modules/llm_factory.py:653` | `def get_llm_backend(config, backend)` |
 | `get_llm_backend_raw` | function | `modules/llm_factory.py:749` | `def get_llm_backend_raw(config, backend)` |
-| `groq_model_chain` | function | `modules/llm_factory.py:141` | `def groq_model_chain(config)` |
-| `is_model_missing_error` | function | `modules/llm_factory.py:121` | `def is_model_missing_error(message)` |
-| `load_payload` | function | `modules/llm_factory.py:309` | `def load_payload(payload_path)` |
-| `model_config_key` | function | `modules/llm_factory.py:245` | `def model_config_key(backend)` |
-| `stream_complete` | function | `modules/llm_factory.py:848` | `def stream_complete(model, prompt, max_tokens, on_delta)` |
-| `try_get_llm_backend` | function | `modules/llm_factory.py:771` | `def try_get_llm_backend(config, backend)` |
-| `OrchestratorResult` | class | `modules/llm_orchestrator.py:92` | `class OrchestratorResult` |
-| `_bare_model_name` | function | `modules/llm_orchestrator.py:423` | `def _bare_model_name(model_spec)` |
-| `_blank_error` | function | `modules/llm_orchestrator.py:87` | `def _blank_error(message)` |
-| `_breaker_active` | function | `modules/llm_orchestrator.py:288` | `def _breaker_active()` |
-| `_dedupe` | function | `modules/llm_orchestrator.py:229` | `def _dedupe(chain)` |
-| `_default_health` | function | `modules/llm_orchestrator.py:278` | `def _default_health()` |
-| `_ensure_groq_env_key` | function | `modules/llm_orchestrator.py:242` | `def _ensure_groq_env_key(api_key)` |
-| `_exhausted_result` | function | `modules/llm_orchestrator.py:512` | `def _exhausted_result(attempts, specs, record)` |
-| `_factory_executor` | function | `modules/llm_orchestrator.py:308` | `def _factory_executor(model_spec, prompt, max_tokens)` |
-| `_ledger_record` | function | `modules/llm_orchestrator.py:298` | `def _ledger_record(name, ok, text)` |
-| `_notice_fallback` | function | `modules/llm_orchestrator.py:330` | `def _notice_fallback(primary, attempts, served)` |
-| `_walk_chain` | function | `modules/llm_orchestrator.py:431` | `def _walk_chain(chain, walk, health, attempts, specs, max_tokens, system, prompt, record, healthy_only, skipped)` |
-| `_weight` | function | `modules/llm_orchestrator.py:139` | `def _weight(member)` |
-| `backend_kind` | function | `modules/llm_orchestrator.py:175` | `def backend_kind(model_spec)` |
-| `complete_with_fallback` | function | `modules/llm_orchestrator.py:349` | `def complete_with_fallback(prompt, system, max_tokens, api_key, members, executor, health, record)` |
-| `display_text` | method | `modules/llm_orchestrator.py:123` | `def display_text(self)` |
-| `is_error_reply` | function | `modules/llm_orchestrator.py:192` | `def is_error_reply(text)` |
-| `is_placeholder_key` | function | `modules/llm_orchestrator.py:211` | `def is_placeholder_key(value)` |
-| `ok` | method | `modules/llm_orchestrator.py:118` | `def ok(self)` |
-| `pool_chain` | function | `modules/llm_orchestrator.py:148` | `def pool_chain()` |
-| `sort_members` | function | `modules/llm_orchestrator.py:130` | `def sort_members(members)` |
-| `HealthRegistry` | class | `modules/llm_pool.py:75` | `class HealthRegistry` |
-| `LLMPool` | class | `modules/llm_pool.py:176` | `class LLMPool` |
-| `PoolConfig` | class | `modules/llm_pool.py:29` | `class PoolConfig` |
-| `PoolExhausted` | class | `modules/llm_pool.py:42` | `class PoolExhausted(RuntimeError)` |
-| `PoolMember` | class | `modules/llm_pool.py:64` | `class PoolMember` |
-| `__init__` | method | `modules/llm_pool.py:83` | `def __init__(self, config)` |
-| `__init__` | method | `modules/llm_pool.py:179` | `def __init__(self, members, health, config)` |
-| `_backoff_for` | method | `modules/llm_pool.py:155` | `def _backoff_for(self, failures)` |
-| `_health_path` | function | `modules/llm_pool.py:20` | `def _health_path()` |
-| `_load` | method | `modules/llm_pool.py:92` | `def _load(self)` |
-| `_ordered` | method | `modules/llm_pool.py:201` | `def _ordered(self)` |
-| `_persist_locked` | method | `modules/llm_pool.py:116` | `def _persist_locked(self)` |
-| `_truncate` | method | `modules/llm_pool.py:217` | `def _truncate(self, text, overflow_dir)` |
-| `complete` | method | `modules/llm_pool.py:237` | `def complete(self, prompt, max_tokens, session_key, overflow_dir)` |
-| `healthy` | method | `modules/llm_pool.py:163` | `def healthy(self, member_id)` |
-| `members` | method | `modules/llm_pool.py:192` | `def members(self)` |
-| `report_failure` | method | `modules/llm_pool.py:143` | `def report_failure(self, member_id, error)` |
-| `report_success` | method | `modules/llm_pool.py:135` | `def report_success(self, member_id)` |
-| `session_key` | method | `modules/llm_pool.py:196` | `def session_key(self, conversation_id, role, index)` |
-| `shared_registry` | function | `modules/llm_pool.py:50` | `def shared_registry(config)` |
-| `KnowledgeStore` | class | `modules/llm_prompts.py:286` | `class KnowledgeStore` |
-| `LlmPromptConfig` | class | `modules/llm_prompts.py:111` | `class LlmPromptConfig` |
-| `__init__` | method | `modules/llm_prompts.py:289` | `def __init__(self, path)` |
-| `_payload_block` | function | `modules/llm_prompts.py:354` | `def _payload_block(config)` |
-| `_prompt_adversary` | function | `modules/llm_prompts.py:393` | `def _prompt_adversary(base_prompt, kb_text, config)` |
-| `_prompt_general` | function | `modules/llm_prompts.py:409` | `def _prompt_general(base_prompt, kb_text, config)` |
-| `_prompt_oneliner` | function | `modules/llm_prompts.py:362` | `def _prompt_oneliner(base_prompt, kb_text, config)` |
-| `_prompt_redop` | function | `modules/llm_prompts.py:462` | `def _prompt_redop(base_prompt, kb_text, config)` |
-| `_prompt_script` | function | `modules/llm_prompts.py:378` | `def _prompt_script(base_prompt, kb_text, config)` |
-| `_prompt_search` | function | `modules/llm_prompts.py:422` | `def _prompt_search(base_prompt, kb_text, config)` |
-| `_prompt_task` | function | `modules/llm_prompts.py:450` | `def _prompt_task(base_prompt, kb_text, config)` |
-| `_prompt_vuln` | function | `modules/llm_prompts.py:436` | `def _prompt_vuln(base_prompt, kb_text, config)` |
-| `add` | method | `modules/llm_prompts.py:324` | `def add(self, prompt, response)` |
-| `default_project_root` | function | `modules/llm_prompts.py:67` | `def default_project_root()` |
-| `from_defaults` | method | `modules/llm_prompts.py:130` | `def from_defaults(cls, project_root)` |
-| `knowledge_base_path` | method | `modules/llm_prompts.py:150` | `def knowledge_base_path(self, domain)` |
-| `knowledge_store` | method | `modules/llm_prompts.py:238` | `def knowledge_store(self, domain)` |
-| `load` | method | `modules/llm_prompts.py:297` | `def load(self)` |
-| `load_event_tool_output` | method | `modules/llm_prompts.py:176` | `def load_event_tool_output(self, event_name)` |
-| `load_payload_context` | method | `modules/llm_prompts.py:161` | `def load_payload_context(self)` |
-| `load_plan_history` | method | `modules/llm_prompts.py:203` | `def load_plan_history(self)` |
-| `load_report_context` | method | `modules/llm_prompts.py:218` | `def load_report_context(self)` |
-| `relevant` | method | `modules/llm_prompts.py:335` | `def relevant(self, prompt, limit)` |
-| `render` | method | `modules/llm_prompts.py:249` | `def render(self, template, base_prompt)` |
-| `render_kb_tail` | function | `modules/llm_prompts.py:271` | `def render_kb_tail(lines)` |
-| `resolve_model` | function | `modules/llm_prompts.py:76` | `def resolve_model(model)` |
-| `save` | method | `modules/llm_prompts.py:312` | `def save(self, records)` |
-| `truncate_message` | function | `modules/llm_prompts.py:95` | `def truncate_message(message, max_chars)` |
-| `LogTamper` | class | `modules/log_tamper.py:95` | `class LogTamper` |
-| `LogTamperConfig` | class | `modules/log_tamper.py:71` | `class LogTamperConfig` |
-| `__init__` | method | `modules/log_tamper.py:105` | `def __init__(self, config)` |
-| `auditd_disable_commands` | method | `modules/log_tamper.py:307` | `def auditd_disable_commands(self)` |
-| `generate_all` | method | `modules/log_tamper.py:295` | `def generate_all(self)` |
-| `linux_clear_commands` | method | `modules/log_tamper.py:176` | `def linux_clear_commands(self)` |
-| `macos_clear_commands` | method | `modules/log_tamper.py:243` | `def macos_clear_commands(self)` |
-| `sysmon_disable_commands` | method | `modules/log_tamper.py:341` | `def sysmon_disable_commands(self)` |
-| `windows_clear_commands` | method | `modules/log_tamper.py:108` | `def windows_clear_commands(self)` |
-| `ColoredFormatter` | class | `modules/logging_config.py:36` | `class ColoredFormatter(Formatter)` |
-| `CorrelationFilter` | class | `modules/logging_config.py:91` | `class CorrelationFilter(Filter)` |
-| `JsonFormatter` | class | `modules/logging_config.py:53` | `class JsonFormatter(Formatter)` |
-| `ResilientRotatingFileHandler` | class | `modules/logging_config.py:103` | `class ResilientRotatingFileHandler(RotatingFileHandler)` |
-| `_ensure_log_dir_writable` | function | `modules/logging_config.py:156` | `def _ensure_log_dir_writable(log_dir)` |
-| `_use_json_format` | function | `modules/logging_config.py:235` | `def _use_json_format()` |
-| `clear_correlation_id` | function | `modules/logging_config.py:144` | `def clear_correlation_id()` |
-| `configure` | function | `modules/logging_config.py:244` | `def configure(level, log_dir, console, file, format_console, format_file, max_bytes, backup_count, module_levels)` |
-| `emit` | method | `modules/logging_config.py:116` | `def emit(self, record)` |
-| `filter` | method | `modules/logging_config.py:94` | `def filter(self, record)` |
-| `format` | method | `modules/logging_config.py:39` | `def format(self, record)` |
-| `format` | method | `modules/logging_config.py:72` | `def format(self, record)` |
-| `get_correlation_id` | function | `modules/logging_config.py:139` | `def get_correlation_id()` |
-| `get_logger` | function | `modules/logging_config.py:328` | `def get_logger(name, level)` |
-| `handleError` | method | `modules/logging_config.py:122` | `def handleError(self, record)` |
-| `reset` | function | `modules/logging_config.py:388` | `def reset()` |
-| `set_correlation_id` | function | `modules/logging_config.py:134` | `def set_correlation_id(cid)` |
-| `set_level` | function | `modules/logging_config.py:357` | `def set_level(name, level)` |
-| `set_quiet` | function | `modules/logging_config.py:367` | `def set_quiet()` |
-| `set_verbose` | function | `modules/logging_config.py:373` | `def set_verbose()` |
-| `silence_module` | function | `modules/logging_config.py:379` | `def silence_module(name)` |
-| `_hive_store` | function | `modules/loop_ai_bridge.py:101` | `def _hive_store(task_id, worker, kind, text)` |
-| `_open` | function | `modules/loop_ai_bridge.py:104` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:260` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:285` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:307` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:326` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:347` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:369` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:390` | `def _open()` |
-| `_open` | function | `modules/loop_ai_bridge.py:424` | `def _open()` |
-| `_singleton` | function | `modules/loop_ai_bridge.py:50` | `def _singleton(key, factory)` |
-| `_stage` | function | `modules/loop_ai_bridge.py:64` | `def _stage(name, default)` |
-| `ai_snapshot` | function | `modules/loop_ai_bridge.py:469` | `def ai_snapshot()` |
-| `annotate_detection` | function | `modules/loop_ai_bridge.py:280` | `def annotate_detection(command, action_category)` |
-| `assess_opsec` | function | `modules/loop_ai_bridge.py:125` | `def assess_opsec(command, rhost)` |
-| `intent_tool_class` | function | `modules/loop_ai_bridge.py:169` | `def intent_tool_class(summary)` |
-| `moe_record_outcome` | function | `modules/loop_ai_bridge.py:321` | `def moe_record_outcome(expert_id, task_type, reward, detection_prob)` |
-| `moe_route` | function | `modules/loop_ai_bridge.py:304` | `def moe_route(task_type, goal)` |
-| `publish_loop_event` | function | `modules/loop_ai_bridge.py:74` | `def publish_loop_event(task_id, worker, kind, text, severity)` |
-| `record_outcome_quality` | function | `modules/loop_ai_bridge.py:213` | `def record_outcome_quality(worker, intent_summary, facts, findings)` |
-| `record_step` | function | `modules/loop_ai_bridge.py:404` | `def record_step(task_id, worker, command, output, detection_prob)` |
-| `rl_save` | function | `modules/loop_ai_bridge.py:385` | `def rl_save()` |
-| `rl_select` | function | `modules/loop_ai_bridge.py:340` | `def rl_select(task_type, phase, candidates, deterministic)` |
-| `rl_update` | function | `modules/loop_ai_bridge.py:362` | `def rl_update(task_type, phase, action, reward, candidates, detection_prob)` |
-| `stream_enabled` | function | `modules/loop_ai_bridge.py:459` | `def stream_enabled()` |
-| `swan_available` | function | `modules/loop_ai_bridge.py:419` | `def swan_available()` |
-| `swan_consult` | function | `modules/loop_ai_bridge.py:432` | `def swan_consult(prompt, task_type, phase, timeout)` |
-| `tool_class_yields` | function | `modules/loop_ai_bridge.py:240` | `def tool_class_yields(summaries, phase)` |
-| `EdrPacer` | class | `modules/loop_guardrails.py:178` | `class EdrPacer` |
-| `Fact` | class | `modules/loop_guardrails.py:73` | `class Fact` |
-| `FactVectorStore` | class | `modules/loop_guardrails.py:330` | `class FactVectorStore` |
-| `RepeatDetector` | class | `modules/loop_guardrails.py:82` | `class RepeatDetector` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

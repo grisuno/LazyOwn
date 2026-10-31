@@ -1,8 +1,41 @@
-# Symbols (page 14 of 48)
+# Symbols (page 14 of 49)
 Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `find_lan_bundle` | function | `modules/estorides_fusion.py:268` | `def find_lan_bundle(sessions_dir)` |
+| `load_export` | function | `modules/estorides_fusion.py:128` | `def load_export(path)` |
+| `load_lan_bundle` | function | `modules/estorides_fusion.py:288` | `def load_lan_bundle(path)` |
+| `merge_estorides` | function | `modules/estorides_fusion.py:187` | `def merge_estorides(nodes, edges, est, cap)` |
+| `run_export` | function | `modules/estorides_fusion.py:84` | `def run_export(sessions_dir, cli_path, timeout_sec)` |
+| `split_lan_targets` | function | `modules/estorides_fusion.py:323` | `def split_lan_targets(est)` |
+| `EstoridesCaseReader` | class | `modules/estorides_importer.py:387` | `class EstoridesCaseReader` |
+| `EstoridesEntity` | class | `modules/estorides_importer.py:84` | `class EstoridesEntity` |
+| `EstoridesStixParser` | class | `modules/estorides_importer.py:497` | `class EstoridesStixParser` |
+| `EstoridesToLazyOwnBridge` | class | `modules/estorides_importer.py:702` | `class EstoridesToLazyOwnBridge` |
+| `FeedbackLoop` | class | `modules/estorides_importer.py:885` | `class FeedbackLoop` |
+| `ImportResult` | class | `modules/estorides_importer.py:96` | `class ImportResult` |
+| `LanBundleReader` | class | `modules/estorides_importer.py:624` | `class LanBundleReader` |
+| `SeedResult` | class | `modules/estorides_importer.py:128` | `class SeedResult` |
+| `__init__` | method | `modules/estorides_importer.py:390` | `def __init__(self, db_path)` |
+| `__init__` | method | `modules/estorides_importer.py:513` | `def __init__(self, stix_path)` |
+| `__init__` | method | `modules/estorides_importer.py:634` | `def __init__(self, lan_dir)` |
+| `__init__` | method | `modules/estorides_importer.py:705` | `def __init__(self, db_path, config_path)` |
+| `__init__` | method | `modules/estorides_importer.py:896` | `def __init__(self, max_iterations, max_depth, max_steps, timeout)` |
+| `_ensure_conn` | method | `modules/estorides_importer.py:398` | `def _ensure_conn(self)` |
+| `_extract_value` | method | `modules/estorides_importer.py:565` | `def _extract_value(obj, stix_type)` |
+| `_gather_seeds` | method | `modules/estorides_importer.py:1005` | `def _gather_seeds(self, methods, seen)` |
+| `_import_to_db` | method | `modules/estorides_importer.py:757` | `def _import_to_db(self, imports, result)` |
+| `_import_to_scope` | method | `modules/estorides_importer.py:803` | `def _import_to_scope(self, imports, result)` |
+| `attack_targets` | method | `modules/estorides_importer.py:685` | `def attack_targets(self)` |
+| `available` | method | `modules/estorides_importer.py:395` | `def available(self)` |
+| `available` | method | `modules/estorides_importer.py:517` | `def available(self)` |
+| `available` | method | `modules/estorides_importer.py:638` | `def available(self)` |
+| `close` | method | `modules/estorides_importer.py:491` | `def close(self)` |
+| `ensure_directories` | function | `modules/estorides_importer.py:696` | `def ensure_directories()` |
+| `export_combined_graph` | function | `modules/estorides_importer.py:1031` | `def export_combined_graph(output_path)` |
+| `extract_seeds_from_db` | function | `modules/estorides_importer.py:205` | `def extract_seeds_from_db(db_path)` |
+| `extract_seeds_from_hosts_file` | function | `modules/estorides_importer.py:177` | `def extract_seeds_from_hosts_file(path)` |
 | `extract_seeds_from_scope` | function | `modules/estorides_importer.py:244` | `def extract_seeds_from_scope(scope_entries)` |
 | `extract_seeds_from_world_model` | function | `modules/estorides_importer.py:143` | `def extract_seeds_from_world_model(world_model_path)` |
 | `find_lan_bundle_files` | function | `modules/estorides_importer.py:588` | `def find_lan_bundle_files(lan_dir, sessions_dir)` |
@@ -463,38 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `_stats` | function | `modules/gym_matrix_runner.py:220` | `def _stats(runs)` |
 | `load_matrix` | function | `modules/gym_matrix_runner.py:252` | `def load_matrix(sessions_dir)` |
 | `plan_matrix` | function | `modules/gym_matrix_runner.py:49` | `def plan_matrix(target, sessions_dir, only, top_k, catalogue)` |
-| `run_matrix` | function | `modules/gym_matrix_runner.py:104` | `def run_matrix(target)` |
-| `_empty_state` | function | `modules/gym_registry.py:442` | `def _empty_state()` |
-| `_matches` | function | `modules/gym_registry.py:625` | `def _matches(run, selector)` |
-| `_merge_legacy` | function | `modules/gym_registry.py:532` | `def _merge_legacy(state)` |
-| `_next_run_id` | function | `modules/gym_registry.py:569` | `def _next_run_id(state)` |
-| `_normalize_definition` | function | `modules/gym_registry.py:188` | `def _normalize_definition(data)` |
-| `_read_yaml` | function | `modules/gym_registry.py:178` | `def _read_yaml(path)` |
-| `_sanitize_state` | function | `modules/gym_registry.py:454` | `def _sanitize_state(raw)` |
-| `_world_model` | function | `modules/gym_registry.py:447` | `def _world_model()` |
-| `_write_yaml` | function | `modules/gym_registry.py:282` | `def _write_yaml(path, data)` |
-| `_yaml_module` | function | `modules/gym_registry.py:85` | `def _yaml_module()` |
-| `create_definition` | function | `modules/gym_registry.py:300` | `def create_definition(gym_id)` |
-| `definition_path` | function | `modules/gym_registry.py:155` | `def definition_path(gym_id, directory)` |
-| `delete_definition` | function | `modules/gym_registry.py:402` | `def delete_definition(gym_id, directory)` |
-| `get_active_runs` | function | `modules/gym_registry.py:637` | `def get_active_runs(selector, operator)` |
-| `load_definitions` | function | `modules/gym_registry.py:207` | `def load_definitions(directory)` |
-| `new_run_token` | function | `modules/gym_registry.py:761` | `def new_run_token()` |
-| `normalize_operator` | function | `modules/gym_registry.py:495` | `def normalize_operator(value)` |
-| `pop_run` | function | `modules/gym_registry.py:724` | `def pop_run(selector)` |
-| `read_state` | function | `modules/gym_registry.py:501` | `def read_state()` |
-| `scan_definitions` | function | `modules/gym_registry.py:239` | `def scan_definitions(directory)` |
-| `select_run` | function | `modules/gym_registry.py:663` | `def select_run(selector)` |
-| `slugify` | function | `modules/gym_registry.py:92` | `def slugify(value)` |
-| `start_run` | function | `modules/gym_registry.py:579` | `def start_run(challenge_id, definitions)` |
-| `state_summary` | function | `modules/gym_registry.py:751` | `def state_summary()` |
-| `stop_runs` | function | `modules/gym_registry.py:695` | `def stop_runs(selector)` |
-| `update_definition_yaml` | function | `modules/gym_registry.py:369` | `def update_definition_yaml(gym_id, text, directory)` |
-| `validate_definition` | function | `modules/gym_registry.py:110` | `def validate_definition(data, filename)` |
-| `write_state` | function | `modules/gym_registry.py:520` | `def write_state(state)` |
-| `chain_available` | function | `modules/gym_winbox_runner.py:130` | `def chain_available(vuln_id)` |
-| `plan_matrix` | function | `modules/gym_winbox_runner.py:21` | `def plan_matrix(target, sessions_dir, only, top_k)` |
-| `report` | function | `modules/gym_winbox_runner.py:118` | `def report(sessions_dir)` |
-| `run_matrix` | function | `modules/gym_winbox_runner.py:51` | `def run_matrix(target)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

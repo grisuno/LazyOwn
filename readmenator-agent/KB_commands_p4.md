@@ -1,5 +1,42 @@
-# Subsystem: commands (page 4 of 4)
+# Subsystem: commands (page 4 of 5)
 Previous: [KB_commands_p3.md](KB_commands_p3.md)
+
+## cli/commands/pivoting.py
+- Doc: Intelligent Pivoting command set.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PivotingCommandSet` (class, line 37) `class PivotingCommandSet(LazyOwnCommandSet)`
+  - `_discover_internal_networks` (function, line 262) `def _discover_internal_networks(rhost)`
+  - `_setup_chisel_pivot` (function, line 308) `def _setup_chisel_pivot(rhost, lhost, port, networks)`
+  - `_setup_ssh_pivot` (function, line 352) `def _setup_ssh_pivot(rhost, lhost, port, networks)`
+  - `_setup_socat_pivot` (function, line 389) `def _setup_socat_pivot(rhost, lhost, port, networks)`
+  - `_find_free_port` (function, line 442) `def _find_free_port(start)`
+  - `_load_pivot_chain` (function, line 463) `def _load_pivot_chain()`
+  - `_save_pivot_chain` (function, line 471) `def _save_pivot_chain(chain)`
+  - `_extract_flag` (function, line 478) `def _extract_flag(args, flag)`
+  - `do_autopivot` (method, line 44) `def do_autopivot(self, line)`
+  - `do_pivot_status` (method, line 118) `def do_pivot_status(self, line)`
+  - `do_pivot_kill` (method, line 137) `def do_pivot_kill(self, line)`
+  - `do_pivot_scan` (method, line 171) `def do_pivot_scan(self, line)`
+  - `do_pivot_proxy` (method, line 224) `def do_pivot_proxy(self, line)`
+- Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
+
+## cli/commands/postexp.py
+- Doc: Post-Exploitation command set (pending).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PostExploitationCommandSet` (class, line 25) `class PostExploitationCommandSet(LazyOwnCommandSet)`
+  - `do_lazywebshell` (method, line 32) `def do_lazywebshell(self, line)`
+  - `do_disableav` (method, line 45) `def do_disableav(self, line)`
+  - `do_mimikatzpy` (method, line 59) `def do_mimikatzpy(self, line)`
+  - `do_scavenger` (method, line 64) `def do_scavenger(self, line)`
+  - `do_follina` (method, line 69) `def do_follina(self, line)`
+  - `do_shellcode` (method, line 74) `def do_shellcode(self, line)`
+  - `do_ofuscatorps1` (method, line 82) `def do_ofuscatorps1(self, line)`
+  - `do_atomic_lazyown` (method, line 87) `def do_atomic_lazyown(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 
 ## cli/commands/postexp_migrated.py
 - Doc: postexp commands migrated from lazyown.py.
@@ -452,43 +489,5 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `_find_cheat_section` (method, line 298) `def _find_cheat_section(query)`
 - Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.py`, `cli/output_mode.py`, `cli/session_hud.py`, `cli/toast_bus.py`, `core/config.py`, `core/console.py`, `utils.py`
 
-## cli/commands/verb_admin.py
-- Doc: Operator administration of the autonomous-loop verb catalog.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `VerbAdminConfig` (class, line 23) `class VerbAdminConfig`
-  - `_row_text` (function, line 35) `def _row_text(entry)`
-  - `VerbCommandSet` (class, line 45) `class VerbCommandSet(LazyOwnCommandSet)`
-  - `do_verb` (method, line 52) `def do_verb(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/verb_catalog.py`, `utils.py`
 
-## cli/commands/winbox_gym.py
-- Doc: WinBox lab CommandSet — VM lifecycle, guest execution and gym matrix.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `WinboxCommandSet` (class, line 44) `class WinboxCommandSet(LazyOwnCommandSet)`
-  - `_extract_flag` (function, line 514) `def _extract_flag(args, flag)`
-  - `_extract_bool` (function, line 537) `def _extract_bool(args, flag)`
-  - `do_winbox` (method, line 51) `def do_winbox(self, line)`
-  - `_overview` (method, line 121) `def _overview(self)`
-  - `_bootstrap` (method, line 127) `def _bootstrap(self)`
-  - `_status` (method, line 151) `def _status(self)`
-  - `_lifecycle` (method, line 178) `def _lifecycle(self, action, rest)`
-  - `_lab_ready` (method, line 200) `def _lab_ready(self, rest)`
-  - `_exec` (method, line 234) `def _exec(self, rest)`
-  - `_interactive_passthrough` (method, line 268) `def _interactive_passthrough(self, action, rest)`
-  - `_tools` (method, line 281) `def _tools(self, rest)`
-  - `_upload` (method, line 292) `def _upload(self, rest)`
-  - `_eventlogs` (method, line 302) `def _eventlogs(self, rest)`
-  - `_net` (method, line 309) `def _net(self, rest)`
-  - `_defense` (method, line 325) `def _defense(self, tool, rest)`
-  - `_snapshot` (method, line 341) `def _snapshot(self, rest)`
-  - `_resolve` (method, line 363) `def _resolve(self, rest)`
-  - `_gym` (method, line 382) `def _gym(self, rest)`
-  - `_gym_matrix` (method, line 418) `def _gym_matrix(self, action, rest)`
-  - `_confirmed` (method, line 501) `def _confirmed(self, rest)`
-  - `_lab_notify` (function, line 215) `def _lab_notify(message)`
-- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
-
+Next: [KB_commands_p5.md](KB_commands_p5.md)

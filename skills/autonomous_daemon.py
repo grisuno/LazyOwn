@@ -1472,12 +1472,12 @@ class StrategyEngine:
     """
     Decides the next command for a (target, phase) pair.
 
-    Cascade identical to lazyown_mcp.py auto_loop:
-      1. Reactive engine (if a high-priority decision is pending)
-      2. Parquet (successful commands from previous sessions)
-      3. Bridge catalog (commands for the phase/services)
-      4. LLM (Groq/Ollama if AUTO_USE_LLM=1)
-      5. Static fallback
+    Cascade: reactive engine -> unified brain (the one shared selector
+    cascade in ``modules.selection.registry``: credential reuse, intel,
+    APT playbooks, adversary profiles, atomic techniques, best chain) ->
+    parquet (successful commands from previous sessions) -> bridge
+    catalog (commands for the phase/services) -> SWAN -> LLM
+    (Groq/Ollama if AUTO_USE_LLM=1) -> static fallback.
 
     Dependency Inversion: runner and selectors are injected.
     """
@@ -1957,7 +1957,9 @@ async def _run_objective(
             _pl = _load_payload()
             if _pl.get("os_id") != _detected_os_id:
                 _pl["os_id"] = _detected_os_id
-                PAYLOAD_FILE.write_text(json.dumps(_pl, indent=2, ensure_ascii=False), encoding="utf-8")
+                from core.config import save_payload as _save_payload
+
+                _save_payload(_pl, PAYLOAD_FILE)
                 log.info(
                     "[%s] payload.json os_id updated: %s (%s)",
                     objective_id,
@@ -2622,10 +2624,9 @@ async def _run_objective(
                             _changed = True
                             log.info("[%s] AUTO-DOMAIN: %s", objective_id, domain_findings[0].value)
                         if _changed:
-                            PAYLOAD_FILE.write_text(
-                                json.dumps(_pl, indent=2, ensure_ascii=False),
-                                encoding="utf-8",
-                            )
+                            from core.config import save_payload as _save_payload
+
+                            _save_payload(_pl, PAYLOAD_FILE)
                 except Exception as _cred_exc:
                     log.debug("credential auto-inject error: %s", _cred_exc)
 
@@ -2668,10 +2669,9 @@ async def _run_objective(
                                     _ch2 = True
                                     break
                             if _ch2:
-                                PAYLOAD_FILE.write_text(
-                                    json.dumps(_pl2, indent=2, ensure_ascii=False),
-                                    encoding="utf-8",
-                                )
+                                from core.config import save_payload as _save_payload
+
+                                _save_payload(_pl2, PAYLOAD_FILE)
                     except Exception as _xml_exc:
                         log.debug("nmap XML auto-populate error: %s", _xml_exc)
 

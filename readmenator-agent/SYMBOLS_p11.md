@@ -1,8 +1,40 @@
-# Symbols (page 11 of 48)
+# Symbols (page 11 of 49)
 Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `AutocompleteEntry` | class | `modules/LazyOwnExplorer.py:30` | `class AutocompleteEntry(Entry)` |
+| `LazyOwnGUI` | class | `modules/LazyOwnExplorer.py:104` | `class LazyOwnGUI(Tk)` |
+| `__init__` | method | `modules/LazyOwnExplorer.py:31` | `def __init__(self, get_suggestions_func)` |
+| `__init__` | method | `modules/LazyOwnExplorer.py:105` | `def __init__(self)` |
+| `add_new_attack_vector` | method | `modules/LazyOwnExplorer.py:305` | `def add_new_attack_vector(self)` |
+| `changed` | method | `modules/LazyOwnExplorer.py:45` | `def changed(self, name, index, mode)` |
+| `comparison` | method | `modules/LazyOwnExplorer.py:99` | `def comparison(self, pattern)` |
+| `create_widgets` | method | `modules/LazyOwnExplorer.py:119` | `def create_widgets(self)` |
+| `export_to_csv` | method | `modules/LazyOwnExplorer.py:385` | `def export_to_csv(self)` |
+| `get_suggestions` | function | `modules/LazyOwnExplorer.py:124` | `def get_suggestions(term)` |
+| `get_unique_values` | method | `modules/LazyOwnExplorer.py:241` | `def get_unique_values(self)` |
+| `is_binary` | function | `modules/LazyOwnExplorer.py:358` | `def is_binary(file_path)` |
+| `load_parquet_files` | method | `modules/LazyOwnExplorer.py:181` | `def load_parquet_files(self)` |
+| `move_down` | method | `modules/LazyOwnExplorer.py:87` | `def move_down(self, event)` |
+| `move_up` | method | `modules/LazyOwnExplorer.py:75` | `def move_up(self, event)` |
+| `on_row_double_click` | method | `modules/LazyOwnExplorer.py:278` | `def on_row_double_click(self, event)` |
+| `save_new_vector` | function | `modules/LazyOwnExplorer.py:325` | `def save_new_vector()` |
+| `scan_system_for_binaries` | method | `modules/LazyOwnExplorer.py:357` | `def scan_system_for_binaries(self)` |
+| `search` | method | `modules/LazyOwnExplorer.py:248` | `def search(self)` |
+| `search_in_parquet` | method | `modules/LazyOwnExplorer.py:267` | `def search_in_parquet(self, term)` |
+| `selection` | method | `modules/LazyOwnExplorer.py:68` | `def selection(self, event)` |
+| `show_row_details` | method | `modules/LazyOwnExplorer.py:283` | `def show_row_details(self, row)` |
+| `show_scan_results` | method | `modules/LazyOwnExplorer.py:374` | `def show_scan_results(self, binaries)` |
+| `_load_yaml` | function | `modules/ad_gym.py:27` | `def _load_yaml(path)` |
+| `chain_for` | function | `modules/ad_gym.py:58` | `def chain_for(vuln_id, path)` |
+| `exploit_for` | function | `modules/ad_gym.py:68` | `def exploit_for(vuln_id, path)` |
+| `get` | function | `modules/ad_gym.py:49` | `def get(vuln_id, path)` |
+| `load_index` | function | `modules/ad_gym.py:38` | `def load_index(path)` |
+| `main` | function | `modules/ad_gym.py:166` | `def main()` |
+| `readiness` | function | `modules/ad_gym.py:146` | `def readiness()` |
+| `summary` | function | `modules/ad_gym.py:127` | `def summary(path)` |
+| `validate_matrix` | function | `modules/ad_gym.py:78` | `def validate_matrix(path)` |
 | `vulnerabilities` | function | `modules/ad_gym.py:43` | `def vulnerabilities(path)` |
 | `ADCSCertipyWrapper` | class | `modules/adcs_attacks.py:69` | `class ADCSCertipyWrapper` |
 | `CertificateTemplate` | class | `modules/adcs_attacks.py:14` | `class CertificateTemplate` |
@@ -359,49 +391,50 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `measure_only` | method | `modules/auto_purple.py:493` | `def measure_only(self, command, args, category)` |
 | `to_csv_row` | method | `modules/auto_purple.py:146` | `def to_csv_row(self)` |
 | `to_dict` | method | `modules/auto_purple.py:160` | `def to_dict(self)` |
-| `AutoVerb` | class | `modules/auto_registry.py:102` | `class AutoVerb` |
-| `ShellResult` | class | `modules/auto_registry.py:907` | `class ShellResult` |
-| `_TeeCapture` | class | `modules/auto_registry.py:914` | `class _TeeCapture(StringIO)` |
-| `__init__` | method | `modules/auto_registry.py:924` | `def __init__(self, observer)` |
-| `_apt_chain_steps` | function | `modules/auto_registry.py:756` | `def _apt_chain_steps(embedded, target, strict)` |
-| `_atomic_steps` | function | `modules/auto_registry.py:722` | `def _atomic_steps(verb, text)` |
-| `_cli_verb_allowed` | function | `modules/auto_registry.py:383` | `def _cli_verb_allowed(name)` |
-| `_invoke` | function | `modules/auto_registry.py:965` | `def _invoke()` |
-| `_kill` | function | `modules/auto_registry.py:1117` | `def _kill()` |
-| `_looks_like_target` | function | `modules/auto_registry.py:37` | `def _looks_like_target(value)` |
-| `_os_default_for_verb` | function | `modules/auto_registry.py:246` | `def _os_default_for_verb(verb)` |
-| `_parse_trigger_lines` | function | `modules/auto_registry.py:474` | `def _parse_trigger_lines(lines, start)` |
-| `_playbook_steps` | function | `modules/auto_registry.py:741` | `def _playbook_steps(text)` |
-| `_register_process` | function | `modules/auto_registry.py:1040` | `def _register_process(process)` |
-| `_repo_base` | function | `modules/auto_registry.py:411` | `def _repo_base()` |
-| `_target` | function | `modules/auto_registry.py:976` | `def _target()` |
-| `_unregister_process` | function | `modules/auto_registry.py:1046` | `def _unregister_process(process)` |
-| `_verb_row` | function | `modules/auto_registry.py:299` | `def _verb_row(name)` |
-| `_verb_rows` | function | `modules/auto_registry.py:254` | `def _verb_rows()` |
-| `addon_hits_for` | function | `modules/auto_registry.py:564` | `def addon_hits_for(service_text, limit)` |
-| `auto_verb_target` | function | `modules/auto_registry.py:66` | `def auto_verb_target(command)` |
-| `binary_available` | function | `modules/auto_registry.py:418` | `def binary_available(name)` |
-| `build_command` | function | `modules/auto_registry.py:681` | `def build_command(verb, target)` |
-| `cancel_running_commands` | function | `modules/auto_registry.py:1062` | `def cancel_running_commands()` |
-| `execute_shell_verb` | function | `modules/auto_registry.py:942` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
-| `execute_streaming` | function | `modules/auto_registry.py:1085` | `def execute_streaming(command, on_output, timeout_sec)` |
-| `is_routable_command` | function | `modules/auto_registry.py:634` | `def is_routable_command(line)` |
-| `is_shell_verb` | function | `modules/auto_registry.py:657` | `def is_shell_verb(token)` |
-| `iter_addon_triggers` | function | `modules/auto_registry.py:505` | `def iter_addon_triggers()` |
-| `iter_tool_triggers` | function | `modules/auto_registry.py:541` | `def iter_tool_triggers()` |
-| `missing_binary` | function | `modules/auto_registry.py:434` | `def missing_binary(command)` |
-| `propose_addon_intents` | function | `modules/auto_registry.py:590` | `def propose_addon_intents(service_texts, target, limit)` |
-| `propose_intents` | function | `modules/auto_registry.py:698` | `def propose_intents(goal, target, finding_texts)` |
-| `service_tokens` | function | `modules/auto_registry.py:463` | `def service_tokens(service_text)` |
-| `steps_for` | function | `modules/auto_registry.py:784` | `def steps_for(text, target)` |
-| `track_process` | function | `modules/auto_registry.py:1052` | `def track_process(process)` |
-| `untrack_process` | function | `modules/auto_registry.py:1057` | `def untrack_process(process)` |
-| `verb_available` | function | `modules/auto_registry.py:458` | `def verb_available(verb)` |
-| `verb_enabled` | function | `modules/auto_registry.py:308` | `def verb_enabled(name)` |
-| `verb_gap` | function | `modules/auto_registry.py:446` | `def verb_gap(verb)` |
-| `verbs` | function | `modules/auto_registry.py:652` | `def verbs()` |
-| `verbs_for` | function | `modules/auto_registry.py:692` | `def verbs_for(text)` |
-| `write` | method | `modules/auto_registry.py:929` | `def write(self, data)` |
+| `AutoVerb` | class | `modules/auto_registry.py:103` | `class AutoVerb` |
+| `ShellResult` | class | `modules/auto_registry.py:936` | `class ShellResult` |
+| `_TeeCapture` | class | `modules/auto_registry.py:943` | `class _TeeCapture(StringIO)` |
+| `__init__` | method | `modules/auto_registry.py:953` | `def __init__(self, observer)` |
+| `_apt_chain_steps` | function | `modules/auto_registry.py:757` | `def _apt_chain_steps(embedded, target, strict)` |
+| `_atomic_steps` | function | `modules/auto_registry.py:723` | `def _atomic_steps(verb, text)` |
+| `_chain_name_for_playbook` | function | `modules/auto_registry.py:786` | `def _chain_name_for_playbook(playbook)` |
+| `_cli_verb_allowed` | function | `modules/auto_registry.py:384` | `def _cli_verb_allowed(name)` |
+| `_invoke` | function | `modules/auto_registry.py:994` | `def _invoke()` |
+| `_kill` | function | `modules/auto_registry.py:1146` | `def _kill()` |
+| `_looks_like_target` | function | `modules/auto_registry.py:38` | `def _looks_like_target(value)` |
+| `_os_default_for_verb` | function | `modules/auto_registry.py:247` | `def _os_default_for_verb(verb)` |
+| `_parse_trigger_lines` | function | `modules/auto_registry.py:475` | `def _parse_trigger_lines(lines, start)` |
+| `_playbook_steps` | function | `modules/auto_registry.py:742` | `def _playbook_steps(text)` |
+| `_register_process` | function | `modules/auto_registry.py:1069` | `def _register_process(process)` |
+| `_repo_base` | function | `modules/auto_registry.py:412` | `def _repo_base()` |
+| `_target` | function | `modules/auto_registry.py:1005` | `def _target()` |
+| `_unregister_process` | function | `modules/auto_registry.py:1075` | `def _unregister_process(process)` |
+| `_verb_row` | function | `modules/auto_registry.py:300` | `def _verb_row(name)` |
+| `_verb_rows` | function | `modules/auto_registry.py:255` | `def _verb_rows()` |
+| `addon_hits_for` | function | `modules/auto_registry.py:565` | `def addon_hits_for(service_text, limit)` |
+| `auto_verb_target` | function | `modules/auto_registry.py:67` | `def auto_verb_target(command)` |
+| `binary_available` | function | `modules/auto_registry.py:419` | `def binary_available(name)` |
+| `build_command` | function | `modules/auto_registry.py:682` | `def build_command(verb, target)` |
+| `cancel_running_commands` | function | `modules/auto_registry.py:1091` | `def cancel_running_commands()` |
+| `execute_shell_verb` | function | `modules/auto_registry.py:971` | `def execute_shell_verb(shell, command, timeout_sec, on_output)` |
+| `execute_streaming` | function | `modules/auto_registry.py:1114` | `def execute_streaming(command, on_output, timeout_sec)` |
+| `is_routable_command` | function | `modules/auto_registry.py:635` | `def is_routable_command(line)` |
+| `is_shell_verb` | function | `modules/auto_registry.py:658` | `def is_shell_verb(token)` |
+| `iter_addon_triggers` | function | `modules/auto_registry.py:506` | `def iter_addon_triggers()` |
+| `iter_tool_triggers` | function | `modules/auto_registry.py:542` | `def iter_tool_triggers()` |
+| `missing_binary` | function | `modules/auto_registry.py:435` | `def missing_binary(command)` |
+| `propose_addon_intents` | function | `modules/auto_registry.py:591` | `def propose_addon_intents(service_texts, target, limit)` |
+| `propose_intents` | function | `modules/auto_registry.py:699` | `def propose_intents(goal, target, finding_texts)` |
+| `service_tokens` | function | `modules/auto_registry.py:464` | `def service_tokens(service_text)` |
+| `steps_for` | function | `modules/auto_registry.py:813` | `def steps_for(text, target)` |
+| `track_process` | function | `modules/auto_registry.py:1081` | `def track_process(process)` |
+| `untrack_process` | function | `modules/auto_registry.py:1086` | `def untrack_process(process)` |
+| `verb_available` | function | `modules/auto_registry.py:459` | `def verb_available(verb)` |
+| `verb_enabled` | function | `modules/auto_registry.py:309` | `def verb_enabled(name)` |
+| `verb_gap` | function | `modules/auto_registry.py:447` | `def verb_gap(verb)` |
+| `verbs` | function | `modules/auto_registry.py:653` | `def verbs()` |
+| `verbs_for` | function | `modules/auto_registry.py:693` | `def verbs_for(text)` |
+| `write` | method | `modules/auto_registry.py:958` | `def write(self, data)` |
 | `AutonomousExploitEngine` | class | `modules/autonomous_exploit_engine.py:101` | `class AutonomousExploitEngine` |
 | `ExploitCandidate` | class | `modules/autonomous_exploit_engine.py:74` | `class ExploitCandidate` |
 | `ExploitResult` | class | `modules/autonomous_exploit_engine.py:89` | `class ExploitResult` |
@@ -463,38 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `Shell` | function | `modules/backdoor/backdoor.c:88` | `void Shell()` |
 | `WinMain` | function | `modules/backdoor/backdoor.c:129` | `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)` |
 | `bootRun` | function | `modules/backdoor/backdoor.c:22` | `int bootRun()` |
-| `bzero` | macro | `modules/backdoor/backdoor.c:14` | `#define bzero(p, size)` |
-| `str_cut` | function | `modules/backdoor/backdoor.c:53` | `char * str_cut(char str[], int slice_from, int slice_to)` |
-| `logg` | function | `modules/backdoor/keylogger.h:1` | `DWORD WINAPI logg(LPVOID lpParam)` |
-| `main` | function | `modules/backdoor/server.c:10` | `int main()` |
-| `BeaconConfig` | class | `modules/beacon_config_builder.py:44` | `class BeaconConfig` |
-| `BeaconConfigBuilder` | class | `modules/beacon_config_builder.py:237` | `class BeaconConfigBuilder` |
-| `__init__` | method | `modules/beacon_config_builder.py:245` | `def __init__(self, payload)` |
-| `_inject_profile_engine` | method | `modules/beacon_config_builder.py:318` | `def _inject_profile_engine(self, config)` |
-| `_inject_sleep_engine` | method | `modules/beacon_config_builder.py:366` | `def _inject_sleep_engine(self, config)` |
-| `_inject_socks_engine` | method | `modules/beacon_config_builder.py:385` | `def _inject_socks_engine(self, config)` |
-| `build` | method | `modules/beacon_config_builder.py:248` | `def build(self, name)` |
-| `from_payload` | method | `modules/beacon_config_builder.py:403` | `def from_payload(cls, payload)` |
-| `from_payload_file` | method | `modules/beacon_config_builder.py:408` | `def from_payload_file(cls, path)` |
-| `generate_bof_execution_command` | function | `modules/beacon_config_builder.py:416` | `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)` |
-| `to_config_json` | method | `modules/beacon_config_builder.py:160` | `def to_config_json(self)` |
-| `to_dict` | method | `modules/beacon_config_builder.py:185` | `def to_dict(self)` |
-| `to_gen_beacon_args` | method | `modules/beacon_config_builder.py:117` | `def to_gen_beacon_args(self)` |
-| `to_go_implant_vars` | method | `modules/beacon_config_builder.py:137` | `def to_go_implant_vars(self)` |
-| `BeaconHistoryConfig` | class | `modules/beacon_history.py:28` | `class BeaconHistoryConfig` |
-| `append_record` | function | `modules/beacon_history.py:82` | `def append_record(record, config)` |
-| `read_records` | function | `modules/beacon_history.py:116` | `def read_records(client_id, config)` |
-| `records_path` | method | `modules/beacon_history.py:43` | `def records_path(self, client_id)` |
-| `records_path` | function | `modules/beacon_history.py:145` | `def records_path(client_id, config)` |
-| `sanitize_client_id` | function | `modules/beacon_history.py:70` | `def sanitize_client_id(client_id)` |
-| `sessions_dir` | method | `modules/beacon_history.py:39` | `def sessions_dir(self)` |
-| `_append_discovery_ledger` | function | `modules/beacon_recon.py:264` | `def _append_discovery_ledger(primary_ip, discovered, sessions_dir)` |
-| `_looks_like_ip` | function | `modules/beacon_recon.py:42` | `def _looks_like_ip(value)` |
-| `_ports_from` | function | `modules/beacon_recon.py:111` | `def _ports_from(value)` |
-| `ingest_beacon_recon` | function | `modules/beacon_recon.py:169` | `def ingest_beacon_recon(primary_ip, discovered_ips, portscan, hostname, user, client_id, sessions_dir)` |
-| `parse_beacon_portscan` | function | `modules/beacon_recon.py:94` | `def parse_beacon_portscan(raw, default_host)` |
-| `parse_discovered_ips` | function | `modules/beacon_recon.py:50` | `def parse_discovered_ips(raw)` |
-| `binario_a_imagen` | function | `modules/bin2img.py:7` | `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)` |
-| `main` | function | `modules/bin2img.py:54` | `def main()` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

@@ -29,25 +29,25 @@ Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_c
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_token_name_ok` (function, line 44) `def _token_name_ok(name)`
-  - `ChainArgs` (class, line 50) `class ChainArgs`
-  - `parse_chain_args` (function, line 74) `def parse_chain_args(line)`
-  - `_set_value` (function, line 143) `def _set_value(args, flag, value)`
-  - `resolve_admin` (function, line 171) `def resolve_admin(args)`
-  - `select_step_ids` (function, line 290) `def select_step_ids(chain, args)`
-  - `adversarial_continue` (function, line 322) `def adversarial_continue(chain)`
-  - `render_result` (function, line 330) `def render_result(result)`
-  - `build_cli_approver` (function, line 363) `def build_cli_approver(printer, input_fn)`
-  - `build_reactive_replanner` (function, line 385) `def build_reactive_replanner()`
-  - `_decision_command` (function, line 410) `def _decision_command(decision)`
-  - `_step_from_decision` (function, line 419) `def _step_from_decision(command, outcome, executed_count)`
-  - `_recent_changes_block` (function, line 441) `def _recent_changes_block(target)`
-  - `build_llm_recovery_chain` (function, line 469) `def build_llm_recovery_chain(result, target, task_id)`
-  - `_platform` (function, line 543) `def _platform()`
-  - `approve` (function, line 371) `def approve(step_id, command)`
-  - `replan` (function, line 388) `def replan(context)`
+  - `_token_name_ok` (function, line 45) `def _token_name_ok(name)`
+  - `ChainArgs` (class, line 51) `class ChainArgs`
+  - `parse_chain_args` (function, line 75) `def parse_chain_args(line)`
+  - `_set_value` (function, line 144) `def _set_value(args, flag, value)`
+  - `resolve_admin` (function, line 172) `def resolve_admin(args)`
+  - `select_step_ids` (function, line 291) `def select_step_ids(chain, args)`
+  - `adversarial_continue` (function, line 323) `def adversarial_continue(chain)`
+  - `render_result` (function, line 331) `def render_result(result)`
+  - `build_cli_approver` (function, line 364) `def build_cli_approver(printer, input_fn)`
+  - `build_reactive_replanner` (function, line 386) `def build_reactive_replanner()`
+  - `_decision_command` (function, line 411) `def _decision_command(decision)`
+  - `_step_from_decision` (function, line 420) `def _step_from_decision(command, outcome, executed_count)`
+  - `_recent_changes_block` (function, line 442) `def _recent_changes_block(target)`
+  - `build_llm_recovery_chain` (function, line 470) `def build_llm_recovery_chain(result, target, task_id)`
+  - `_platform` (function, line 544) `def _platform()`
+  - `approve` (function, line 372) `def approve(step_id, command)`
+  - `replan` (function, line 389) `def replan(context)`
 - Depends on: `modules/__init__.py`, `modules/chain_approval.py`, `modules/chain_registry.py`, `modules/chain_runner.py`, `modules/chain_state.py`, `modules/chain_synth.py`, `modules/guardrails/__init__.py`, `modules/mediation/__init__.py`, `modules/reactive_engine.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`, `tests/test_guardrails.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_approval_cli_wiring.py`, `tests/test_guardrails.py`
 
 ## cli/assign.py
 - Doc: ``assign`` business logic.

@@ -1,0 +1,48 @@
+name: ctf_enum_deep
+version: 2
+description: Full CTF enumeration pass; all TCP ports, top UDP, NSE vuln sweep and exploit sweep.
+enabled: true
+tags:
+  - ctf
+  - recon
+  - ftp
+  - telnet
+  - smtp
+platforms:
+  - linux
+total_timeout: 5400
+steps:
+  - id: bind
+    phase: recon
+    run: assign target {target}
+    description: bind the box into payload params
+  - id: tcp_all
+    phase: recon
+    run: nmap -Pn -sT -T4 -p- --min-rate 3000 {target}
+    description: full TCP port discovery at rate
+    timeout: 2400
+    capture: full_ports
+  - id: service_versions
+    phase: enum
+    run: nmap -Pn -sV -T3 -p {deep_ports} {target}
+    description: version probes restricted to the discovered port list
+    timeout: 1800
+  - id: udp_top
+    phase: enum
+    run: nmap -Pn -sU --top-ports 50 {target}
+    description: top-50 UDP check in parallel with version probes
+    timeout: 1800
+    continue_on_error: true
+    parallel: true
+  - id: vuln_scripts
+    phase: enum
+    run: nmap -Pn -sT -T3 --script vuln {target}
+    description: catch-all NSE vulnerability pass
+    timeout: 2400
+    continue_on_error: true
+    parallel: true
+  - id: sweep
+    phase: exploit
+    run: atomic_exploit
+    description: exploit sweep from the fresh scan trigger set
+    timeout: 2400

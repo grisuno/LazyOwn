@@ -1,0 +1,6 @@
+name: apt_scattered_spider
+description: Scattered Spider chain (extends apt_chain); identity-first access, MFA abuse, cloud takeover.
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: scattered_spider

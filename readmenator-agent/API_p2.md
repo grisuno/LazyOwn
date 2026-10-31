@@ -1,4 +1,4 @@
-# API (page 2 of 25)
+# API (page 2 of 26)
 Previous: [API.md](API.md)
 
 ## cli/commands/cred_migrated.py
@@ -255,6 +255,27 @@ Depends on: `cli/commands/_base.py`, `modules/exploitgym_gym.py`, `utils.py`
 Imported by: `tests/test_exploitgym_gym.py`
 - `ExploitGymCommandSet.do_exploitgym` (method) `cli/commands/exploitgym.py:43` `def do_exploitgym(self, line)` -- ExploitGym — real-world exploit benchmark via containerised tasks.
 
+## cli/commands/exposure_autofire.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `AutoFireCommandSet.do_lazyautofire` (method) `cli/commands/exposure_autofire.py:20` `def do_lazyautofire(self, line)` -- Turn fire exposure into read-only confirmation chains.
+
+## cli/commands/exposure_intel.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `modules/lazy_exposure.py`, `utils.py`
+- `LazyIntelCommandSet.do_lazyintel` (method) `cli/commands/exposure_intel.py:39` `def do_lazyintel(self, line)` -- Rank discovered services against local exploit intelligence.
+
+## cli/commands/exposure_inventory.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `IntelOpsCommandSet.do_lazysearch` (method) `cli/commands/exposure_inventory.py:30` `def do_lazysearch(self, line)` -- Query the engagement database with the saved-search grammar.
+- `IntelOpsCommandSet.do_lazyinventory` (method) `cli/commands/exposure_inventory.py:69` `def do_lazyinventory(self, line)` -- Collect and ingest host-reported packages (source=host).
+
+## cli/commands/exposure_sentinel.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `SentinelCommandSet.do_lazysentinel` (method) `cli/commands/exposure_sentinel.py:21` `def do_lazysentinel(self, line)` -- Run the internal sentinel lifecycle.
+
+## cli/commands/exposure_timeline.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `TimelineCommandSet.do_lazytimeline` (method) `cli/commands/exposure_timeline.py:31` `def do_lazytimeline(self, line)` -- Record world-model snapshots and read their diffs.
+
 ## cli/commands/golden_paths.py
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 - `GoldenPathsCommandSet.do_golden_paths` (method) `cli/commands/golden_paths.py:42` `def do_golden_paths(self, line)` -- Build, show, or push attack paths from the world model.
@@ -445,53 +466,6 @@ Imported by: `tests/test_cli_assign.py`, `tests/test_loop_auto_orchestrator.py`
 - `McpBridgeCommandSet.do_session_state` (method) `cli/commands/mcp_bridge.py:534` `def do_session_state(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).
 - `McpBridgeCommandSet.do_campaign_sitrep` (method) `cli/commands/mcp_bridge.py:539` `def do_campaign_sitrep(self, line)` -- Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).
 - `McpBridgeCommandSet.do_timeline` (method) `cli/commands/mcp_bridge.py:544` `def do_timeline(self, line)` -- Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).
-
-## cli/commands/misc_migrated.py
-Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/lazy_loop.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
-Imported by: `tests/test_auto_crypto.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
-- `MiscMigratedCommandSet.do_notify` (method) `cli/commands/misc_migrated.py:92` `def do_notify(self, arg)` -- Command to trigger a toastr-like notification.
-- `MiscMigratedCommandSet.do_EOF` (method) `cli/commands/misc_migrated.py:111` `def do_EOF(self, line)` -- Handle the end-of-file (EOF) condition.
-- `MiscMigratedCommandSet.do_palette` (method) `cli/commands/misc_migrated.py:179` `def do_palette(self, line)` -- Browse the operator command catalogue grouped by kill-chain phase.
-- `MiscMigratedCommandSet.do_graph_search` (method) `cli/commands/misc_migrated.py:204` `def do_graph_search(self, line)` -- Fuzzy search the graphify knowledge graph for nodes by label.
-- `MiscMigratedCommandSet.do_neighbors` (method) `cli/commands/misc_migrated.py:232` `def do_neighbors(self, line)` -- Show graph neighbors of a node or command from the graphify graph.
-- `MiscMigratedCommandSet.do_god_nodes` (method) `cli/commands/misc_migrated.py:259` `def do_god_nodes(self, line)` -- Show the most-connected nodes ("god nodes") from the graph.
-- `MiscMigratedCommandSet.do_suggest_next` (method) `cli/commands/misc_migrated.py:278` `def do_suggest_next(self, line)` -- Suggest next commands by walking the graph from recent activity.
-- `MiscMigratedCommandSet.do_recommend_next` (method) `cli/commands/misc_migrated.py:404` `def do_recommend_next(self, line)` -- Recommend the next action via the unified recommendation engine.
-- `MiscMigratedCommandSet.do_explore` (method) `cli/commands/misc_migrated.py:458` `def do_explore(self, line)` -- Show exploration coverage and addon/tool suggestions per service.
-- `MiscMigratedCommandSet.do_prev` (method) `cli/commands/misc_migrated.py:489` `def do_prev(self, line)` -- Show prerequisite commands for a verb (the chain's ``prev`` arrow).
-- `MiscMigratedCommandSet.do_dashboard` (method) `cli/commands/misc_migrated.py:526` `def do_dashboard(self, line)` -- Launch the full-screen LazyOwn operator dashboard (Textual TUI).
-- `MiscMigratedCommandSet.do_palette_k` (method) `cli/commands/misc_migrated.py:561` `def do_palette_k(self, line)` -- Open the fuzzy Command-K palette overlay.
-- `MiscMigratedCommandSet.do_browse` (method) `cli/commands/misc_migrated.py:590` `def do_browse(self, line)` -- Open the sessions/ TUI browser.
-- `MiscMigratedCommandSet.do_timeline_browser` (method) `cli/commands/misc_migrated.py:612` `def do_timeline_browser(self, line)` -- Open the timeline scrubber over the session report CSV.
-- `MiscMigratedCommandSet.do_graph_overlay` (method) `cli/commands/misc_migrated.py:631` `def do_graph_overlay(self, line)` -- Open the graph overlay over the graphify knowledge graph.
-- `MiscMigratedCommandSet.do_toast_clear` (method) `cli/commands/misc_migrated.py:651` `def do_toast_clear(self, line)` -- Mark every pending toast event as seen without printing them.
-- `MiscMigratedCommandSet.do_exit` (method) `cli/commands/misc_migrated.py:671` `def do_exit(self, arg)` -- Exit the command line interface.
-- `MiscMigratedCommandSet.do_banner` (method) `cli/commands/misc_migrated.py:744` `def do_banner(self, line)` -- Show the banner
-- `MiscMigratedCommandSet.do_config_banner` (method) `cli/commands/misc_migrated.py:754` `def do_config_banner(self, line)` -- Open a Powerlevel10k-style wizard to toggle prompt segments.
-- `MiscMigratedCommandSet.do_aliass` (method) `cli/commands/misc_migrated.py:798` `def do_aliass(self, line)` -- Prints all configured aliases and their associated commands.
-- `MiscMigratedCommandSet.do_graph` (method) `cli/commands/misc_migrated.py:826` `def do_graph(self, line)` -- Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
-- `MiscMigratedCommandSet.do_h` (method) `cli/commands/misc_migrated.py:886` `def do_h(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
-- `MiscMigratedCommandSet.do_v` (method) `cli/commands/misc_migrated.py:932` `def do_v(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
-- `MiscMigratedCommandSet.do_links` (method) `cli/commands/misc_migrated.py:978` `def do_links(self, line)` -- Displays a list of useful links and allows the user to select and copy a link to the clipboard.
-- `MiscMigratedCommandSet.do_news` (method) `cli/commands/misc_migrated.py:1041` `def do_news(self, line)` -- Show the Hacker News in the terminal.
-- `MiscMigratedCommandSet.do_check_update` (method) `cli/commands/misc_migrated.py:1054` `def do_check_update(self, line)` -- Checks for updates by comparing the local version with the remote version.
-- `MiscMigratedCommandSet.do_addalias` (method) `cli/commands/misc_migrated.py:1099` `def do_addalias(self, arglist)` -- Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.
-- `MiscMigratedCommandSet.do_listaliases` (method) `cli/commands/misc_migrated.py:1151` `def do_listaliases(self, _)` -- List all available aliases.
-
-## cli/commands/mobile_macos.py
-Depends on: `cli/commands/_base.py`, `core/process.py`, `core/validators.py`, `utils.py`
-- `MobileMacOSCommandSet.do_android_enum` (method) `cli/commands/mobile_macos.py:103` `def do_android_enum(self, line)` -- Enumerate an Android device connected via ADB.
-- `MobileMacOSCommandSet.do_android_apk` (method) `cli/commands/mobile_macos.py:171` `def do_android_apk(self, line)` -- Generate a malicious APK with reverse shell payload.
-- `MobileMacOSCommandSet.do_macos_persist` (method) `cli/commands/mobile_macos.py:216` `def do_macos_persist(self, line)` -- Generate macOS persistence via LaunchAgent.
-- `MobileMacOSCommandSet.do_macos_keychain` (method) `cli/commands/mobile_macos.py:274` `def do_macos_keychain(self, line)` -- Extract secrets from the macOS Keychain.
-- `MobileMacOSCommandSet.do_macos_tcc` (method) `cli/commands/mobile_macos.py:323` `def do_macos_tcc(self, line)` -- Generate macOS TCC (Transparency, Consent, Control) bypass.
-- `is_binary_present` (function) `cli/commands/mobile_macos.py:374` `def is_binary_present(name)` -- Check if a binary is available on PATH, delegates to core.
-
-## cli/commands/module_manager.py
-Depends on: `cli/commands/_base.py`, `modules/module_registry.py`, `utils.py`
-- `ModuleManagerCommandSet.do_search` (method) `cli/commands/module_manager.py:71` `def do_search(self, line)` -- Search for modules by name, description, or author.
-- `ModuleManagerCommandSet.do_use` (method) `cli/commands/module_manager.py:111` `def do_use(self, line)` -- Select a module to work with.
-- `ModuleManagerCommandSet.do_back` (method) `cli/commands/module_manager.py:162` `def do_back(self, line)` -- Leave the current module context.
 
 
 Next: [API_p3.md](API_p3.md)

@@ -1,4 +1,4 @@
-# Subsystem: tests (page 8 of 22)
+# Subsystem: tests (page 8 of 23)
 Previous: [KB_tests_p7.md](KB_tests_p7.md)
 
 ## tests/test_core_executor.py

@@ -1,8 +1,40 @@
-# Symbols (page 3 of 48)
+# Symbols (page 3 of 49)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_lazydork` | method | `cli/commands/lazy_dorks.py:37` | `def do_lazydork(self, line)` |
+| `LazyOobCommandSet` | class | `cli/commands/lazy_oob.py:22` | `class LazyOobCommandSet(LazyOwnCommandSet)` |
+| `do_lazyoob` | method | `cli/commands/lazy_oob.py:29` | `def do_lazyoob(self, line)` |
+| `LazyPassGenCommandSet` | class | `cli/commands/lazy_passgen.py:14` | `class LazyPassGenCommandSet(LazyOwnCommandSet)` |
+| `do_lazypassgen` | method | `cli/commands/lazy_passgen.py:21` | `def do_lazypassgen(self, line)` |
+| `LazyQueueCommandSet` | class | `cli/commands/lazyloop.py:29` | `class LazyQueueCommandSet(LazyOwnCommandSet)` |
+| `_engine` | function | `cli/commands/lazyloop.py:22` | `def _engine()` |
+| `do_lazy_approve` | method | `cli/commands/lazyloop.py:248` | `def do_lazy_approve(self, line)` |
+| `do_lazy_delete` | method | `cli/commands/lazyloop.py:71` | `def do_lazy_delete(self, line)` |
+| `do_lazy_findings` | method | `cli/commands/lazyloop.py:110` | `def do_lazy_findings(self, line)` |
+| `do_lazy_fleet` | method | `cli/commands/lazyloop.py:270` | `def do_lazy_fleet(self, line)` |
+| `do_lazy_handoff` | method | `cli/commands/lazyloop.py:180` | `def do_lazy_handoff(self, line)` |
+| `do_lazy_intents` | method | `cli/commands/lazyloop.py:51` | `def do_lazy_intents(self, line)` |
+| `do_lazy_mention` | method | `cli/commands/lazyloop.py:213` | `def do_lazy_mention(self, line)` |
+| `do_lazy_orchestrator` | method | `cli/commands/lazyloop.py:335` | `def do_lazy_orchestrator(self, line)` |
+| `do_lazy_sync` | method | `cli/commands/lazyloop.py:36` | `def do_lazy_sync(self, line)` |
+| `do_lazy_verdict` | method | `cli/commands/lazyloop.py:190` | `def do_lazy_verdict(self, line)` |
+| `do_lazy_view` | method | `cli/commands/lazyloop.py:364` | `def do_lazy_view(self, line)` |
+| `LazyCommandSet` | class | `cli/commands/lazyops.py:35` | `class LazyCommandSet(LazyOwnCommandSet)` |
+| `_agent_main_prompt` | method | `cli/commands/lazyops.py:1657` | `def _agent_main_prompt(self, task_id)` |
+| `_agent_main_tools` | method | `cli/commands/lazyops.py:1540` | `def _agent_main_tools(self, task_id)` |
+| `_engine` | function | `cli/commands/lazyops.py:28` | `def _engine()` |
+| `_free_text` | method | `cli/commands/lazyops.py:62` | `def _free_text(args)` |
+| `_require_task` | method | `cli/commands/lazyops.py:54` | `def _require_task(self, args)` |
+| `_task_id` | method | `cli/commands/lazyops.py:41` | `def _task_id(self, args)` |
+| `add_hint` | function | `cli/commands/lazyops.py:1592` | `def add_hint(text)` |
+| `campaign_sitrep` | function | `cli/commands/lazyops.py:1579` | `def campaign_sitrep()` |
+| `do_lazy_addon` | method | `cli/commands/lazyops.py:2015` | `def do_lazy_addon(self, line)` |
+| `do_lazy_agent` | method | `cli/commands/lazyops.py:1668` | `def do_lazy_agent(self, line)` |
+| `do_lazy_archive` | method | `cli/commands/lazyops.py:2497` | `def do_lazy_archive(self, line)` |
+| `do_lazy_ask` | method | `cli/commands/lazyops.py:1514` | `def do_lazy_ask(self, line)` |
+| `do_lazy_asset` | method | `cli/commands/lazyops.py:820` | `def do_lazy_asset(self, line)` |
 | `do_lazy_broadcast` | method | `cli/commands/lazyops.py:608` | `def do_lazy_broadcast(self, line)` |
 | `do_lazy_category` | method | `cli/commands/lazyops.py:2559` | `def do_lazy_category(self, line)` |
 | `do_lazy_chat` | method | `cli/commands/lazyops.py:2580` | `def do_lazy_chat(self, line)` |
@@ -464,37 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_breacher` | method | `cli/commands/scan_migrated.py:1840` | `def do_breacher(self, line)` |
 | `do_certipy` | method | `cli/commands/scan_migrated.py:2584` | `def do_certipy(self, line)` |
 | `do_certipy_ad` | method | `cli/commands/scan_migrated.py:2520` | `def do_certipy_ad(self, line)` |
-| `do_changeme` | method | `cli/commands/scan_migrated.py:699` | `def do_changeme(self, line)` |
-| `do_cme` | method | `cli/commands/scan_migrated.py:37` | `def do_cme(self, line)` |
-| `do_davtest` | method | `cli/commands/scan_migrated.py:901` | `def do_davtest(self, line)` |
-| `do_enum4linux_ng` | method | `cli/commands/scan_migrated.py:730` | `def do_enum4linux_ng(self, line)` |
-| `do_evil_ssdp` | method | `cli/commands/scan_migrated.py:942` | `def do_evil_ssdp(self, line)` |
-| `do_finger_user_enum` | method | `cli/commands/scan_migrated.py:1569` | `def do_finger_user_enum(self, line)` |
-| `do_fuzz` | method | `cli/commands/scan_migrated.py:770` | `def do_fuzz(self, line)` |
-| `do_hound` | method | `cli/commands/scan_migrated.py:2908` | `def do_hound(self, line)` |
-| `do_kerbrute` | method | `cli/commands/scan_migrated.py:815` | `def do_kerbrute(self, line)` |
-| `do_ldapdomaindump` | method | `cli/commands/scan_migrated.py:176` | `def do_ldapdomaindump(self, line)` |
-| `do_ldapsearch` | method | `cli/commands/scan_migrated.py:1440` | `def do_ldapsearch(self, line)` |
-| `do_lookupsid` | method | `cli/commands/scan_migrated.py:2458` | `def do_lookupsid(self, line)` |
-| `do_lookupsid_py` | method | `cli/commands/scan_migrated.py:2385` | `def do_lookupsid_py(self, line)` |
-| `do_loxs` | method | `cli/commands/scan_migrated.py:1678` | `def do_loxs(self, line)` |
-| `do_lynis` | method | `cli/commands/scan_migrated.py:361` | `def do_lynis(self, line)` |
-| `do_mqtt_check_py` | method | `cli/commands/scan_migrated.py:2330` | `def do_mqtt_check_py(self, line)` |
-| `do_net_rpc_addmem` | method | `cli/commands/scan_migrated.py:2769` | `def do_net_rpc_addmem(self, line)` |
-| `do_netexec` | method | `cli/commands/scan_migrated.py:988` | `def do_netexec(self, line)` |
-| `do_netview` | method | `cli/commands/scan_migrated.py:2201` | `def do_netview(self, line)` |
-| `do_odat` | method | `cli/commands/scan_migrated.py:1970` | `def do_odat(self, line)` |
-| `do_openredirex` | method | `cli/commands/scan_migrated.py:1902` | `def do_openredirex(self, line)` |
-| `do_parsero` | method | `cli/commands/scan_migrated.py:667` | `def do_parsero(self, line)` |
-| `do_parth` | method | `cli/commands/scan_migrated.py:1771` | `def do_parth(self, line)` |
-| `do_pre2k` | method | `cli/commands/scan_migrated.py:2815` | `def do_pre2k(self, line)` |
-| `do_pykerbrute` | method | `cli/commands/scan_migrated.py:2131` | `def do_pykerbrute(self, line)` |
-| `do_rdp_check_py` | method | `cli/commands/scan_migrated.py:2265` | `def do_rdp_check_py(self, line)` |
-| `do_rpcmap_py` | method | `cli/commands/scan_migrated.py:2088` | `def do_rpcmap_py(self, line)` |
-| `do_samrdump` | method | `cli/commands/scan_migrated.py:306` | `def do_samrdump(self, line)` |
-| `do_sawks` | method | `cli/commands/scan_migrated.py:2678` | `def do_sawks(self, line)` |
-| `do_sessionssh` | method | `cli/commands/scan_migrated.py:483` | `def do_sessionssh(self, line)` |
-| `do_smbattack` | method | `cli/commands/scan_migrated.py:507` | `def do_smbattack(self, line)` |
-| `do_smtpuserenum` | method | `cli/commands/scan_migrated.py:444` | `def do_smtpuserenum(self, line)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

@@ -1,4 +1,4 @@
-# Subsystem: modules (page 2 of 17)
+# Subsystem: modules (page 2 of 18)
 Previous: [KB_modules.md](KB_modules.md)
 
 ## modules/auto_pivot.py
@@ -84,51 +84,52 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_looks_like_target` (function, line 37) `def _looks_like_target(value)`
-  - `auto_verb_target` (function, line 66) `def auto_verb_target(command)`
-  - `AutoVerb` (class, line 102) `class AutoVerb`
-  - `_os_default_for_verb` (function, line 246) `def _os_default_for_verb(verb)`
-  - `_verb_rows` (function, line 254) `def _verb_rows()`
-  - `_verb_row` (function, line 299) `def _verb_row(name)`
-  - `verb_enabled` (function, line 308) `def verb_enabled(name)`
-  - `_cli_verb_allowed` (function, line 383) `def _cli_verb_allowed(name)`
-  - `_repo_base` (function, line 411) `def _repo_base()`
-  - `binary_available` (function, line 418) `def binary_available(name)`
-  - `missing_binary` (function, line 434) `def missing_binary(command)`
-  - `verb_gap` (function, line 446) `def verb_gap(verb)`
-  - `verb_available` (function, line 458) `def verb_available(verb)`
-  - `service_tokens` (function, line 463) `def service_tokens(service_text)`
-  - `_parse_trigger_lines` (function, line 474) `def _parse_trigger_lines(lines, start)`
-  - `iter_addon_triggers` (function, line 505) `def iter_addon_triggers()`
-  - `iter_tool_triggers` (function, line 541) `def iter_tool_triggers()`
-  - `addon_hits_for` (function, line 564) `def addon_hits_for(service_text, limit)`
-  - `propose_addon_intents` (function, line 590) `def propose_addon_intents(service_texts, target, limit)`
-  - `is_routable_command` (function, line 634) `def is_routable_command(line)`
-  - `verbs` (function, line 652) `def verbs()`
-  - `is_shell_verb` (function, line 657) `def is_shell_verb(token)`
-  - `build_command` (function, line 681) `def build_command(verb, target)`
-  - `verbs_for` (function, line 692) `def verbs_for(text)`
-  - `propose_intents` (function, line 698) `def propose_intents(goal, target, finding_texts)`
-  - `_atomic_steps` (function, line 722) `def _atomic_steps(verb, text)`
-  - `_playbook_steps` (function, line 741) `def _playbook_steps(text)`
-  - `_apt_chain_steps` (function, line 756) `def _apt_chain_steps(embedded, target, strict)`
-  - `steps_for` (function, line 784) `def steps_for(text, target)`
-  - `ShellResult` (class, line 907) `class ShellResult`
-  - `_TeeCapture` (class, line 914) `class _TeeCapture(StringIO)`
-  - `execute_shell_verb` (function, line 942) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
-  - `_register_process` (function, line 1040) `def _register_process(process)`
-  - `_unregister_process` (function, line 1046) `def _unregister_process(process)`
-  - `track_process` (function, line 1052) `def track_process(process)`
-  - `untrack_process` (function, line 1057) `def untrack_process(process)`
-  - `cancel_running_commands` (function, line 1062) `def cancel_running_commands()`
-  - `execute_streaming` (function, line 1085) `def execute_streaming(command, on_output, timeout_sec)`
-  - `__init__` (method, line 924) `def __init__(self, observer)`
-  - `write` (method, line 929) `def write(self, data)`
-  - `_invoke` (function, line 965) `def _invoke()`
-  - `_target` (function, line 976) `def _target()`
-  - `_kill` (function, line 1117) `def _kill()`
+  - `_looks_like_target` (function, line 38) `def _looks_like_target(value)`
+  - `auto_verb_target` (function, line 67) `def auto_verb_target(command)`
+  - `AutoVerb` (class, line 103) `class AutoVerb`
+  - `_os_default_for_verb` (function, line 247) `def _os_default_for_verb(verb)`
+  - `_verb_rows` (function, line 255) `def _verb_rows()`
+  - `_verb_row` (function, line 300) `def _verb_row(name)`
+  - `verb_enabled` (function, line 309) `def verb_enabled(name)`
+  - `_cli_verb_allowed` (function, line 384) `def _cli_verb_allowed(name)`
+  - `_repo_base` (function, line 412) `def _repo_base()`
+  - `binary_available` (function, line 419) `def binary_available(name)`
+  - `missing_binary` (function, line 435) `def missing_binary(command)`
+  - `verb_gap` (function, line 447) `def verb_gap(verb)`
+  - `verb_available` (function, line 459) `def verb_available(verb)`
+  - `service_tokens` (function, line 464) `def service_tokens(service_text)`
+  - `_parse_trigger_lines` (function, line 475) `def _parse_trigger_lines(lines, start)`
+  - `iter_addon_triggers` (function, line 506) `def iter_addon_triggers()`
+  - `iter_tool_triggers` (function, line 542) `def iter_tool_triggers()`
+  - `addon_hits_for` (function, line 565) `def addon_hits_for(service_text, limit)`
+  - `propose_addon_intents` (function, line 591) `def propose_addon_intents(service_texts, target, limit)`
+  - `is_routable_command` (function, line 635) `def is_routable_command(line)`
+  - `verbs` (function, line 653) `def verbs()`
+  - `is_shell_verb` (function, line 658) `def is_shell_verb(token)`
+  - `build_command` (function, line 682) `def build_command(verb, target)`
+  - `verbs_for` (function, line 693) `def verbs_for(text)`
+  - `propose_intents` (function, line 699) `def propose_intents(goal, target, finding_texts)`
+  - `_atomic_steps` (function, line 723) `def _atomic_steps(verb, text)`
+  - `_playbook_steps` (function, line 742) `def _playbook_steps(text)`
+  - `_apt_chain_steps` (function, line 757) `def _apt_chain_steps(embedded, target, strict)`
+  - `_chain_name_for_playbook` (function, line 786) `def _chain_name_for_playbook(playbook)`
+  - `steps_for` (function, line 813) `def steps_for(text, target)`
+  - `ShellResult` (class, line 936) `class ShellResult`
+  - `_TeeCapture` (class, line 943) `class _TeeCapture(StringIO)`
+  - `execute_shell_verb` (function, line 971) `def execute_shell_verb(shell, command, timeout_sec, on_output)`
+  - `_register_process` (function, line 1069) `def _register_process(process)`
+  - `_unregister_process` (function, line 1075) `def _unregister_process(process)`
+  - `track_process` (function, line 1081) `def track_process(process)`
+  - `untrack_process` (function, line 1086) `def untrack_process(process)`
+  - `cancel_running_commands` (function, line 1091) `def cancel_running_commands()`
+  - `execute_streaming` (function, line 1114) `def execute_streaming(command, on_output, timeout_sec)`
+  - `__init__` (method, line 953) `def __init__(self, observer)`
+  - `write` (method, line 958) `def write(self, data)`
+  - `_invoke` (function, line 994) `def _invoke()`
+  - `_target` (function, line 1005) `def _target()`
+  - `_kill` (function, line 1146) `def _kill()`
 - Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_selection_wiring.py`
 
 ## modules/autonomous_exploit_engine.py
 - Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.

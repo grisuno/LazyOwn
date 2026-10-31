@@ -39,6 +39,9 @@ SEVERITY_FROM_HEAT = {HOT: "critical", WARM: "high", COLD: "medium"}
 # Severity label -> heat rank for findings that carry no CVE id.
 SEVERITY_HEAT = {"critical": HOT, "high": HOT, "medium": WARM, "low": COLD}
 
+# Numeric finding severity level -> heat (1 low, 2 medium, 3 high, 4 critical).
+SEVERITY_LEVEL_HEAT = {4: HOT, 3: HOT, 2: WARM, 1: COLD}
+
 # Distro backport status for a version-in-range match.
 PATCHED = "patched"
 VULNERABLE = "vulnerable"
@@ -367,6 +370,71 @@ def backport_status(banner: str, fixed_revision: str = "") -> str:
     return PATCHED if compare_versions(a, b) >= 0 else VULNERABLE
 
 
+def heat_of_severity(severity) -> str:
+    """Map a finding severity (label or numeric 1-4) to a heat tier.
+
+    Args:
+        severity: Severity label (``critical`` ...) or numeric level 1-4.
+
+    Returns:
+        One of HOT, WARM, COLD.
+    """
+    if isinstance(severity, bool):
+        return COLD
+    if isinstance(severity, int):
+        return SEVERITY_LEVEL_HEAT.get(severity, COLD)
+    try:
+        return SEVERITY_LEVEL_HEAT.get(int(severity), COLD)
+    except (TypeError, ValueError):
+        return SEVERITY_HEAT.get(str(severity or "").strip().lower(), COLD)
+
+
+def heat_rank(tier: str) -> int:
+    """Rank a heat tier for sorting, hottest first (unknown = 0).
+
+    Args:
+        tier: One of HOT, WARM, COLD or any unknown label.
+
+    Returns:
+        3 hot, 2 warm, 1 cold, 0 unknown.
+    """
+    return HEAT_RANK.get(str(tier or "").strip().lower(), 0)
+
+
+def host_heat(tier_values, severity_levels=None, unscanned: bool = False) -> str:
+    """Hottest tier visible on a host once for ordering surfaces.
+
+    Args:
+        tier_values: Live match tiers of the host (one of HOT/WARM/COLD).
+        severity_levels: Numeric finding levels mixed into the heat.
+        unscanned: True when nothing has probed the host yet.
+
+    Returns:
+        Hottest tier, or ``unscanned``/``clean`` with no signal.
+    """
+    temps = [
+        tier for tier in (*tuple(tier_values or ()), *(heat_of_severity(level) for level in tuple(severity_levels or ())))
+        if tier in HEAT_RANK
+    ]
+    if temps:
+        return max(temps, key=HEAT_RANK.get)
+    return "unscanned" if unscanned else "clean"
+
+
+def hottest(tier_values) -> str:
+    """Hottest tier of a list, COLD when empty.
+
+    Args:
+        tier_values: Sequence of tier labels.
+
+    Returns:
+        Hottest tier label of the sequence.
+    """
+    if not tier_values:
+        return COLD
+    return host_heat(tier_values)
+
+
 def label_for(status: str, fixed_revision: str = "") -> str:
     """Human-readable label for one backport status."""
     if status == PATCHED:
@@ -392,6 +460,7 @@ __all__ = [
     "HEAT_RANK",
     "SEVERITY_FROM_HEAT",
     "SEVERITY_HEAT",
+    "SEVERITY_LEVEL_HEAT",
     "classify_heat",
     "match_heat",
     "parse_version",
@@ -400,6 +469,10 @@ __all__ = [
     "cvss3_base_score",
     "product_token",
     "token_matches",
+    "heat_of_severity",
+    "heat_rank",
+    "host_heat",
+    "hottest",
     "parse_distro_revision",
     "backport_status",
     "label_for",

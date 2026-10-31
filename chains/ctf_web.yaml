@@ -1,0 +1,59 @@
+name: ctf_web
+version: 2
+description: Web CTF golden path; fingerprint, directory/content discovery, nuclei sweep and exploit sweep until a shell lands.
+enabled: true
+tags:
+  - ctf
+  - web
+  - http
+platforms:
+  - linux
+total_timeout: 2700
+vars:
+  wordlist: /usr/share/wordlists/dirb/common.txt
+steps:
+  - id: bind
+    phase: recon
+    run: assign target {target}
+    description: bind the box into payload params
+  - id: fingerprint
+    phase: recon
+    run: whatweb -a 1 http://{target}
+    description: quick technology fingerprint before anything heavier
+    timeout: 300
+    continue_on_error: true
+    capture: web_fp
+  - id: ports_web
+    phase: recon
+    run: nmap -Pn -p 80,443,3000,5000,8000,8080,8443,8888,9000 -sV {target}
+    description: fast service scan over the common web ports
+    timeout: 900
+  - id: dirs
+    phase: enum
+    run: gobuster dir -u http://{target} -w {wordlist} -q -t 30
+    description: standard content discovery pass with the common wordlist
+    timeout: 1200
+    continue_on_error: true
+    capture: gobuster_out
+  - id: nuclei
+    phase: enum
+    run: nuclei -u http://{target} -silent -severity low,medium,high,critical
+    description: template-driven probe of known web misconfigurations and CVEs
+    timeout: 1200
+    continue_on_error: true
+    capture: nuclei_out
+  - id: sweep
+    phase: exploit
+    run: atomic_exploit
+    description: yaml exploit sweep from scan triggers; stops at the first SHELL
+    timeout: 1800
+  - id: ssti_rerun
+    phase: exploit
+    run: python3 modules/atomic_exploit_bridge.py run --id web_juice_ssti --rhost {target}
+    description: direct rerun of the SSTI probe if the sweep did not land a shell
+    continue_on_error: true
+    timeout: 300
+  - id: session_attempt
+    phase: post_exploitation
+    run: create_session_json
+    continue_on_error: true

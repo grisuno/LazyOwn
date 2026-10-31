@@ -54,6 +54,8 @@ log = logging.getLogger("world_model")
 _BASE_DIR = Path(__file__).parent.parent
 _SESSIONS_DIR = _BASE_DIR / "sessions"
 _DEFAULT_PATH = _SESSIONS_DIR / "world_model.json"
+
+WORLD_MODEL_PATH = _DEFAULT_PATH
 ENCRYPTED_SUFFIX: str = ".encrypted"
 _FERNET_TOKEN_PREFIX: str = "gAAAAA"
 _MAX_TOKEN_WRAP_DEPTH: int = 3

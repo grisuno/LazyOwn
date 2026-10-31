@@ -1,5 +1,34 @@
-# Subsystem: modules (page 8 of 17)
+# Subsystem: modules (page 8 of 18)
 Previous: [KB_modules_p7.md](KB_modules_p7.md)
+
+## modules/lazy_bridge.py
+- Doc: Bidirectional LAZY <-> LazyOwn bridge.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_data_dir` (function, line 35) `def _data_dir()`
+  - `_read_json` (function, line 51) `def _read_json(path, default)`
+  - `_read_jsonl` (function, line 68) `def _read_jsonl(path)`
+  - `lazy_tasks` (function, line 92) `def lazy_tasks()`
+  - `lazy_assets` (function, line 103) `def lazy_assets()`
+  - `lazy_graph` (function, line 114) `def lazy_graph(task_id)`
+  - `lazy_activity` (function, line 127) `def lazy_activity(task_id)`
+  - `lazy_traffic` (function, line 139) `def lazy_traffic(task_id)`
+  - `lazy_guard_audit` (function, line 151) `def lazy_guard_audit(task_id)`
+  - `bridge_status` (function, line 163) `def bridge_status()`
+  - `_extract_hosts_from_graph` (function, line 184) `def _extract_hosts_from_graph(graph)`
+  - `pull_to_world_model` (function, line 221) `def pull_to_world_model()`
+  - `pull_to_objectives` (function, line 298) `def pull_to_objectives()`
+  - `pull_findings_to_lifecycle` (function, line 333) `def pull_findings_to_lifecycle()`
+  - `_read_new_traffic` (function, line 361) `def _read_new_traffic(path, offset)`
+  - `_notify` (function, line 398) `def _notify(progress, text)`
+  - `pull_traffic_to_recorder` (function, line 408) `def pull_traffic_to_recorder(progress)`
+  - `push_objective_to_lazy` (function, line 476) `def push_objective_to_lazy(goal, scope)`
+  - `push_tasks_to_c2` (function, line 501) `def push_tasks_to_c2(only)`
+  - `sync_all` (function, line 566) `def sync_all(progress)`
+  - `_record_sync` (function, line 592) `def _record_sync(action, summary)`
+- Depends on: `modules/finding_lifecycle.py`, `modules/traffic_recorder.py`, `modules/world_model.py`
+- Imported by: `cli/commands/lazyloop.py`, `modules/lazy_loop.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_cve_pipeline.py`, `tests/test_lazy_loop.py`
 
 ## modules/lazy_checks.py
 - Doc: Validation plans as data: re-read observed checks through version math.
@@ -80,7 +109,7 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `refresh_feeds_async` (function, line 680) `def refresh_feeds_async(products)`
   - `_worker` (function, line 696) `def _worker()`
 - Depends on: `modules/lazy_heat.py`
-- Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/lazy_hostscore.py`, `tests/test_lazy_checks.py`
+- Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/lazy_feedmatch.py`, `modules/lazy_hostscore.py`, `tests/test_lazy_checks.py`
 
 ## modules/lazy_engine.py
 - Doc: Lazy autonomous loop engine: single orchestrator for lazy_* commands.
@@ -89,7 +118,55 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Symbols:
   - `LazyEngine` (class, line 56) `class LazyEngine(LazyLoopEngine)`
 - Depends on: `modules/lazy_loop.py`
-- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_module_registry_bridge.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
+- Imported by: `cli/commands/lazyloop.py`, `cli/commands/lazyops.py`, `cli/lazy_monitor.py`, `cli/lazy_orchestrator.py`, `cli/orchestrator_assets_tabs.py`, `cli/session_brief.py`, `modules/lazy_loop.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/llm_orchestrator.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_supervision.py`, `tests/test_loop_worker_traces.py`, `tests/test_module_registry_bridge.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
+
+## modules/lazy_exposure.py
+- Doc: Target exposure report for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ensure_report` (function, line 56) `def ensure_report(target, entries, refresh)`
+  - `read_sightings` (function, line 97) `def read_sightings(target, state_path)`
+  - `generate_report` (function, line 129) `def generate_report(target, entries, sightings)`
+  - `_live_fingerprint` (function, line 210) `def _live_fingerprint()`
+  - `score_report` (function, line 219) `def score_report(entries, bounded_unknown, services)`
+  - `probe_checks` (function, line 257) `def probe_checks(matches, feed)`
+  - `save_report` (function, line 291) `def save_report(report, path)`
+  - `publish_report` (function, line 314) `def publish_report(report)`
+  - `_short_refs` (function, line 365) `def _short_refs(row)`
+  - `_shape_sightings` (function, line 370) `def _shape_sightings(rows)`
+  - `_match_hot_key` (function, line 400) `def _match_hot_key(row)`
+  - `_slug` (function, line 405) `def _slug(text)`
+  - `_int` (function, line 410) `def _int(value, fallback)`
+  - `refresh_if_stale` (function, line 418) `def refresh_if_stale(target, entries)`
+- Depends on: `modules/__init__.py`, `modules/lazy_feedmatch.py`, `modules/lazy_heat.py`, `modules/lazy_probes.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+- Imported by: `cli/commands/exposure_intel.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_exposure.py`
+
+## modules/lazy_feedmatch.py
+- Doc: Exploit feed matching for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `FeedEntry` (class, line 73) `class FeedEntry`
+  - `Sighting` (class, line 98) `class Sighting`
+  - `ExploitSighting` (class, line 123) `class ExploitSighting`
+  - `load_feed` (function, line 151) `def load_feed(path)`
+  - `_map_kev_row` (function, line 187) `def _map_kev_row(item)`
+  - `parse_feed` (function, line 210) `def parse_feed(entries)`
+  - `is_os_sighting` (function, line 248) `def is_os_sighting(name)`
+  - `entry_matches_product` (function, line 262) `def entry_matches_product(entry, product)`
+  - `version_in_ranges` (function, line 280) `def version_in_ranges(version, ranges)`
+  - `_fixed_key` (function, line 316) `def _fixed_key(rng)`
+  - `feed_tier` (function, line 325) `def feed_tier(entry)`
+  - `bind_sighting` (function, line 337) `def bind_sighting(sighting, entries)`
+  - `unversioned_leads` (function, line 388) `def unversioned_leads(sightings)`
+  - `live_bindings` (function, line 411) `def live_bindings(sighting, allow_network)`
+  - `_references` (function, line 464) `def _references(raw)`
+  - `_cvss` (function, line 470) `def _cvss(value)`
+  - `_float` (function, line 478) `def _float(value)`
+  - `feed_fingerprint` (function, line 486) `def feed_fingerprint(entries)`
+- Depends on: `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`
+- Imported by: `modules/lazy_exposure.py`, `modules/lazy_inventory.py`, `modules/lazy_sentinel.py`, `tests/test_lazy_exposure.py`, `tests/test_lazy_feedmatch.py`, `tests/test_lazy_sentinel.py`
 
 ## modules/lazy_findings.py
 - Doc: Engagement findings ledger: state machine plus reproducible evidence.
@@ -131,18 +208,22 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `classify_heat` (function, line 68) `def classify_heat(kev, epss, exploit, cvss)`
-  - `match_heat` (function, line 91) `def match_heat(tier, cvss, verdict, distro_status)`
-  - `parse_version` (function, line 118) `def parse_version(value, strict)`
-  - `compare_versions` (function, line 154) `def compare_versions(a, b)`
-  - `version_in_range` (function, line 162) `def version_in_range(ver, rng)`
-  - `cvss3_base_score` (function, line 204) `def cvss3_base_score(vector)`
-  - `product_token` (function, line 246) `def product_token(value)`
-  - `token_matches` (function, line 269) `def token_matches(haystack, needle)`
-  - `parse_distro_revision` (function, line 303) `def parse_distro_revision(banner)`
-  - `backport_status` (function, line 342) `def backport_status(banner, fixed_revision)`
-  - `label_for` (function, line 370) `def label_for(status, fixed_revision)`
-- Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_checks.py`, `modules/lazy_cve_feed.py`, `modules/lazy_match_policy.py`, `modules/loop_triggers.py`
+  - `classify_heat` (function, line 71) `def classify_heat(kev, epss, exploit, cvss)`
+  - `match_heat` (function, line 94) `def match_heat(tier, cvss, verdict, distro_status)`
+  - `parse_version` (function, line 121) `def parse_version(value, strict)`
+  - `compare_versions` (function, line 157) `def compare_versions(a, b)`
+  - `version_in_range` (function, line 165) `def version_in_range(ver, rng)`
+  - `cvss3_base_score` (function, line 207) `def cvss3_base_score(vector)`
+  - `product_token` (function, line 249) `def product_token(value)`
+  - `token_matches` (function, line 272) `def token_matches(haystack, needle)`
+  - `parse_distro_revision` (function, line 306) `def parse_distro_revision(banner)`
+  - `backport_status` (function, line 345) `def backport_status(banner, fixed_revision)`
+  - `heat_of_severity` (function, line 373) `def heat_of_severity(severity)`
+  - `heat_rank` (function, line 392) `def heat_rank(tier)`
+  - `host_heat` (function, line 404) `def host_heat(tier_values, severity_levels, unscanned)`
+  - `hottest` (function, line 424) `def hottest(tier_values)`
+  - `label_for` (function, line 438) `def label_for(status, fixed_revision)`
+- Imported by: `modules/atomic_exploit_bridge.py`, `modules/intel_fusion.py`, `modules/intelligence_engine.py`, `modules/lazy_checks.py`, `modules/lazy_cve_feed.py`, `modules/lazy_exposure.py`, `modules/lazy_feedmatch.py`, `modules/lazy_match_policy.py`, `modules/loop_triggers.py`, `modules/sinks/lazy_intel.py`, `tests/test_lazy_feedmatch.py`
 
 ## modules/lazy_hostscore.py
 - Doc: Host heat score: deterministic 0-100 priority for every known host.
@@ -192,6 +273,20 @@ Previous: [KB_modules_p7.md](KB_modules_p7.md)
   - `export_spans` (function, line 342) `def export_spans(task_id, out)`
 - Depends on: `core/config.py`, `modules/lazy_cli_bridge.py`, `modules/mediation/__init__.py`, `modules/world_model.py`, `utils.py`
 - Imported by: `modules/lazy_loop.py`, `modules/lazy_orchestrator_feedback.py`, `modules/mediation/intel_mediator.py`, `modules/sinks/routing.py`, `tests/test_loop_supervision.py`, `tests/test_mediation.py`
+
+## modules/lazy_inventory.py
+- Doc: Host-reported inventory for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `inventory_blob` (function, line 49) `def inventory_blob(platform)`
+  - `parse_blob_output` (function, line 61) `def parse_blob_output(text, platform)`
+  - `_LINUX_LINE` (function, line 87) `def _LINUX_LINE(line)`
+  - `_WINDOWS_LINE` (function, line 104) `def _WINDOWS_LINE(line)`
+  - `_clean_entry` (function, line 114) `def _clean_entry(product, version, os_hint)`
+  - `to_sightings` (function, line 133) `def to_sightings(entries, host)`
+  - `os_platform_of` (function, line 157) `def os_platform_of(entries)`
+- Depends on: `modules/lazy_feedmatch.py`
 
 ## modules/lazy_ledger.py
 - Doc: Freshness ledger: TTL windows per verb and target for the loop worker.

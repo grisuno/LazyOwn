@@ -1,14 +1,46 @@
-# Symbols (page 6 of 48)
+# Symbols (page 6 of 49)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `recommend` | method | `cli/recommendation.py:258` | `def recommend(self, ctx)` |
+| `GraphSignal` | class | `cli/recommendation_signals.py:111` | `class GraphSignal` |
+| `GraphTopologySignal` | class | `cli/recommendation_signals.py:533` | `class GraphTopologySignal` |
+| `KillChainSignal` | class | `cli/recommendation_signals.py:225` | `class KillChainSignal` |
+| `KillchainGapSignal` | class | `cli/recommendation_signals.py:388` | `class KillchainGapSignal` |
+| `PlaybookSignal` | class | `cli/recommendation_signals.py:338` | `class PlaybookSignal` |
+| `PolicySignal` | class | `cli/recommendation_signals.py:149` | `class PolicySignal` |
+| `ReconPlanSignal` | class | `cli/recommendation_signals.py:186` | `class ReconPlanSignal` |
+| `__init__` | method | `cli/recommendation_signals.py:116` | `def __init__(self, advisor)` |
+| `__init__` | method | `cli/recommendation_signals.py:154` | `def __init__(self, policy)` |
+| `__init__` | method | `cli/recommendation_signals.py:191` | `def __init__(self, engine, builder)` |
+| `__init__` | method | `cli/recommendation_signals.py:230` | `def __init__(self, next_table, phase_table)` |
+| `__init__` | method | `cli/recommendation_signals.py:347` | `def __init__(self, playbook_engine)` |
+| `__init__` | method | `cli/recommendation_signals.py:408` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `cli/recommendation_signals.py:544` | `def __init__(self, sessions_dir)` |
+| `_build_killchain_signal` | function | `cli/recommendation_signals.py:787` | `def _build_killchain_signal()` |
+| `_compute_centrality` | method | `cli/recommendation_signals.py:605` | `def _compute_centrality(graph_data)` |
+| `_gap_creds_no_lateral` | method | `cli/recommendation_signals.py:509` | `def _gap_creds_no_lateral(self, wm_data, hosts)` |
+| `_gap_exploited_no_privesc` | method | `cli/recommendation_signals.py:427` | `def _gap_exploited_no_privesc(self, hosts)` |
+| `_gap_owned_no_creds` | method | `cli/recommendation_signals.py:467` | `def _gap_owned_no_creds(self, hosts, wm_data)` |
+| `_gap_scan_no_enum` | method | `cli/recommendation_signals.py:487` | `def _gap_scan_no_enum(self, hosts, recent)` |
+| `_load_world_model` | function | `cli/recommendation_signals.py:68` | `def _load_world_model(sessions_dir)` |
+| `_rank_weight` | function | `cli/recommendation_signals.py:91` | `def _rank_weight(index, total)` |
+| `_try_build_graph_signal` | function | `cli/recommendation_signals.py:744` | `def _try_build_graph_signal(graph_path)` |
+| `_try_build_playbook_signal` | function | `cli/recommendation_signals.py:640` | `def _try_build_playbook_signal()` |
+| `_try_build_policy_signal` | function | `cli/recommendation_signals.py:758` | `def _try_build_policy_signal()` |
+| `_try_build_recon_signal` | function | `cli/recommendation_signals.py:774` | `def _try_build_recon_signal(payload)` |
+| `build_context` | function | `cli/recommendation_signals.py:309` | `def build_context(payload, sessions_dir, target, limit)` |
+| `build_default_engine` | function | `cli/recommendation_signals.py:651` | `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)` |
+| `propose` | method | `cli/recommendation_signals.py:126` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:163` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:201` | `def propose(self, ctx)` |
 | `propose` | method | `cli/recommendation_signals.py:244` | `def propose(self, ctx)` |
 | `propose` | method | `cli/recommendation_signals.py:356` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:410` | `def propose(self, ctx)` |
-| `propose` | method | `cli/recommendation_signals.py:546` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:411` | `def propose(self, ctx)` |
+| `propose` | method | `cli/recommendation_signals.py:547` | `def propose(self, ctx)` |
 | `read_recent_commands` | function | `cli/recommendation_signals.py:276` | `def read_recent_commands(sessions_dir, window)` |
-| `recommend_with_evidence` | function | `cli/recommendation_signals.py:706` | `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` |
+| `recommend_with_evidence` | function | `cli/recommendation_signals.py:707` | `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` |
 | `ReconPlan` | class | `cli/recon_plan.py:119` | `class ReconPlan` |
 | `ReconPlanConfig` | class | `cli/recon_plan.py:62` | `class ReconPlanConfig` |
 | `ReconPlanItem` | class | `cli/recon_plan.py:94` | `class ReconPlanItem` |
@@ -464,37 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `_warn` | function | `cli/wizard.py:1165` | `def _warn(msg)` |
 | `_wizard_login_flow` | function | `cli/wizard.py:786` | `def _wizard_login_flow()` |
 | `_wizard_register_flow` | function | `cli/wizard.py:809` | `def _wizard_register_flow()` |
-| `check_binaries` | function | `cli/wizard.py:947` | `def check_binaries(specs, which)` |
-| `run` | function | `cli/wizard.py:169` | `def run(params, save)` |
-| `run_non_interactive` | function | `cli/wizard.py:234` | `def run_non_interactive(params, save, values)` |
-| `WizardScope` | class | `cli/wizard_scope.py:31` | `class WizardScope` |
-| `WizardScopeConfig` | class | `cli/wizard_scope.py:17` | `class WizardScopeConfig` |
-| `parse_scope` | function | `cli/wizard_scope.py:38` | `def parse_scope(tokens, config)` |
-| `status_rows` | function | `cli/wizard_scope.py:64` | `def status_rows(params)` |
-| `exploit` | function | `contrib/legacy/lazy_http_bof.py:29` | `def exploit(target, port, payload)` |
-| `genHeader` | function | `contrib/legacy/lazy_http_bof.py:6` | `def genHeader(raw)` |
-| `check_sudo` | function | `contrib/legacy/lazy_packet_image_sniffer.py:23` | `def check_sudo()` |
-| `choose_interface` | function | `contrib/legacy/lazy_packet_image_sniffer.py:49` | `def choose_interface(interfaces)` |
-| `daemonize` | function | `contrib/legacy/lazy_packet_image_sniffer.py:192` | `def daemonize()` |
-| `get_ip_addresses` | function | `contrib/legacy/lazy_packet_image_sniffer.py:65` | `def get_ip_addresses(interface)` |
-| `get_subnet_from_interface` | function | `contrib/legacy/lazy_packet_image_sniffer.py:61` | `def get_subnet_from_interface(interface)` |
-| `handle_packet` | function | `contrib/legacy/lazy_packet_image_sniffer.py:111` | `def handle_packet(packet)` |
-| `list_interfaces` | function | `contrib/legacy/lazy_packet_image_sniffer.py:31` | `def list_interfaces()` |
-| `run` | function | `contrib/legacy/lazy_packet_image_sniffer.py:187` | `def run()` |
-| `save_image` | function | `contrib/legacy/lazy_packet_image_sniffer.py:161` | `def save_image(src_ip, end_idx)` |
-| `build_llm_prompt` | function | `contrib/legacy/lazyaddon_creator.py:98` | `def build_llm_prompt(meta, readme, root_files)` |
-| `build_yaml` | function | `contrib/legacy/lazyaddon_creator.py:300` | `def build_yaml(data, repo_url)` |
-| `extract_json_from_response` | function | `contrib/legacy/lazyaddon_creator.py:164` | `def extract_json_from_response(text)` |
-| `fallback_yaml_data` | function | `contrib/legacy/lazyaddon_creator.py:276` | `def fallback_yaml_data(meta, readme, root_files)` |
-| `fetch_readme` | function | `contrib/legacy/lazyaddon_creator.py:73` | `def fetch_readme(owner, repo)` |
-| `fetch_repo_metadata` | function | `contrib/legacy/lazyaddon_creator.py:68` | `def fetch_repo_metadata(owner, repo)` |
-| `fetch_root_files` | function | `contrib/legacy/lazyaddon_creator.py:85` | `def fetch_root_files(owner, repo)` |
-| `github_api_get` | function | `contrib/legacy/lazyaddon_creator.py:58` | `def github_api_get(owner, repo, endpoint)` |
-| `heuristic_execute_command` | function | `contrib/legacy/lazyaddon_creator.py:211` | `def heuristic_execute_command(name, root_files, language)` |
-| `heuristic_install_command` | function | `contrib/legacy/lazyaddon_creator.py:192` | `def heuristic_install_command(root_files, language)` |
-| `heuristic_params` | function | `contrib/legacy/lazyaddon_creator.py:245` | `def heuristic_params(name, readme, root_files)` |
-| `main` | function | `contrib/legacy/lazyaddon_creator.py:357` | `def main()` |
-| `parse_github_url` | function | `contrib/legacy/lazyaddon_creator.py:49` | `def parse_github_url(url)` |
-| `save_yaml` | function | `contrib/legacy/lazyaddon_creator.py:336` | `def save_yaml(addon, output_dir)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

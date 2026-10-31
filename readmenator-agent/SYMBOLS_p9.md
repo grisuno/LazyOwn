@@ -1,8 +1,40 @@
-# Symbols (page 9 of 48)
+# Symbols (page 9 of 49)
 Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `compliance_dashboard` | function | `lazyc2.py:6725` | `def compliance_dashboard()` |
+| `compliance_export` | function | `lazyc2.py:6827` | `def compliance_export(format)` |
+| `compliance_report` | function | `lazyc2.py:6747` | `def compliance_report()` |
+| `compliance_verify_evidence` | function | `lazyc2.py:6813` | `def compliance_verify_evidence()` |
+| `connect` | function | `lazyc2.py:7285` | `def connect()` |
+| `create_campaign` | function | `lazyc2.py:8299` | `def create_campaign()` |
+| `create_cves` | function | `lazyc2.py:1102` | `def create_cves()` |
+| `create_multivector_campaign` | function | `lazyc2.py:8544` | `def create_multivector_campaign()` |
+| `create_report` | function | `lazyc2.py:1121` | `def create_report()` |
+| `create_route` | function | `lazyc2.py:4419` | `def create_route()` |
+| `create_short_url` | function | `lazyc2.py:4826` | `def create_short_url()` |
+| `create_tool` | function | `lazyc2.py:5970` | `def create_tool()` |
+| `csrf_protect` | function | `lazyc2.py:1543` | `def csrf_protect(view)` |
+| `csv_to_html` | function | `lazyc2.py:5490` | `def csv_to_html()` |
+| `cve` | function | `lazyc2.py:5712` | `def cve(cve_id)` |
+| `cves` | function | `lazyc2.py:5686` | `def cves()` |
+| `datetime_now_iso` | function | `lazyc2.py:1256` | `def datetime_now_iso()` |
+| `decorated` | function | `lazyc2.py:1521` | `def decorated()` |
+| `decorated` | function | `lazyc2.py:1534` | `def decorated()` |
+| `decorated` | function | `lazyc2.py:2745` | `def decorated()` |
+| `decoy` | function | `lazyc2.py:2055` | `def decoy()` |
+| `decrypt_data` | function | `lazyc2.py:2121` | `def decrypt_data(encrypted_data, is_file)` |
+| `delete_tool` | function | `lazyc2.py:6076` | `def delete_tool(toolname)` |
+| `download_file` | function | `lazyc2.py:4290` | `def download_file()` |
+| `download_files` | function | `lazyc2.py:4954` | `def download_files(filename)` |
+| `dynamic_route` | function | `lazyc2.py:4488` | `def dynamic_route(route_path, data)` |
+| `edit_cve` | function | `lazyc2.py:5727` | `def edit_cve(cve_id)` |
+| `edit_event` | function | `lazyc2.py:5826` | `def edit_event(event_name)` |
+| `edit_notes` | function | `lazyc2.py:5761` | `def edit_notes()` |
+| `edit_task` | function | `lazyc2.py:5652` | `def edit_task(task_id)` |
+| `encrypt_data` | function | `lazyc2.py:2112` | `def encrypt_data(data)` |
+| `ensure_sessions_dir` | function | `lazyc2.py:509` | `def ensure_sessions_dir()` |
 | `escape_js` | function | `lazyc2.py:1186` | `def escape_js(s)` |
 | `escape_js_string` | function | `lazyc2.py:1475` | `def escape_js_string(value)` |
 | `execute_command` | function | `lazyc2.py:1838` | `def execute_command(command)` |
@@ -464,37 +496,5 @@ Previous: [SYMBOLS_p8.md](SYMBOLS_p8.md)
 | `last_teamserver_password` | method | `lazygui/config/settings.py:111` | `def last_teamserver_password(self)` |
 | `last_teamserver_password` | method | `lazygui/config/settings.py:116` | `def last_teamserver_password(self, value)` |
 | `last_teamserver_url` | method | `lazygui/config/settings.py:84` | `def last_teamserver_url(self)` |
-| `last_teamserver_url` | method | `lazygui/config/settings.py:94` | `def last_teamserver_url(self, value)` |
-| `load` | method | `lazygui/config/settings.py:35` | `def load(cls, constants, paths)` |
-| `save` | method | `lazygui/config/settings.py:47` | `def save(self)` |
-| `set` | method | `lazygui/config/settings.py:59` | `def set(self, key, value)` |
-| `snapshot` | method | `lazygui/config/settings.py:128` | `def snapshot(self)` |
-| `theme_id` | method | `lazygui/config/settings.py:64` | `def theme_id(self)` |
-| `theme_id` | method | `lazygui/config/settings.py:69` | `def theme_id(self, value)` |
-| `PanelBase` | class | `lazygui/panels/base.py:17` | `class PanelBase(QDockWidget)` |
-| `__init__` | method | `lazygui/panels/base.py:20` | `def __init__(self, constants, backend, identifier, title, parent)` |
-| `backend` | method | `lazygui/panels/base.py:48` | `def backend(self)` |
-| `identifier` | method | `lazygui/panels/base.py:43` | `def identifier(self)` |
-| `CampaignPanel` | class | `lazygui/panels/campaign_panel.py:28` | `class CampaignPanel(PanelBase)` |
-| `__init__` | method | `lazygui/panels/campaign_panel.py:31` | `def __init__(self, constants, backend, parent)` |
-| `_on_campaigns_changed` | method | `lazygui/panels/campaign_panel.py:102` | `def _on_campaigns_changed(self, campaigns)` |
-| `_populate_tree` | method | `lazygui/panels/campaign_panel.py:106` | `def _populate_tree(self)` |
-| `_refresh` | method | `lazygui/panels/campaign_panel.py:99` | `def _refresh(self)` |
-| `_request_new_campaign` | method | `lazygui/panels/campaign_panel.py:120` | `def _request_new_campaign(self)` |
-| `_request_run_playbook` | method | `lazygui/panels/campaign_panel.py:126` | `def _request_run_playbook(self)` |
-| `_request_view_campaign` | method | `lazygui/panels/campaign_panel.py:123` | `def _request_view_campaign(self)` |
-| `campaign_count` | method | `lazygui/panels/campaign_panel.py:133` | `def campaign_count(self)` |
-| `CredentialsPanel` | class | `lazygui/panels/credentials_panel.py:27` | `class CredentialsPanel(PanelBase)` |
-| `__init__` | method | `lazygui/panels/credentials_panel.py:30` | `def __init__(self, constants, backend, parent)` |
-| `_build_ui` | method | `lazygui/panels/credentials_panel.py:50` | `def _build_ui(self)` |
-| `_copy_selected` | method | `lazygui/panels/credentials_panel.py:130` | `def _copy_selected(self)` |
-| `_refresh` | method | `lazygui/panels/credentials_panel.py:95` | `def _refresh(self)` |
-| `CVEPanel` | class | `lazygui/panels/cve_panel.py:28` | `class CVEPanel(PanelBase)` |
-| `__init__` | method | `lazygui/panels/cve_panel.py:31` | `def __init__(self, constants, backend, parent)` |
-| `_populate_tree` | method | `lazygui/panels/cve_panel.py:150` | `def _populate_tree(self)` |
-| `_refresh` | method | `lazygui/panels/cve_panel.py:102` | `def _refresh(self)` |
-| `_request_lookup` | method | `lazygui/panels/cve_panel.py:165` | `def _request_lookup(self)` |
-| `_request_search_exploits` | method | `lazygui/panels/cve_panel.py:171` | `def _request_search_exploits(self)` |
-| `cve_count` | method | `lazygui/panels/cve_panel.py:178` | `def cve_count(self)` |
 
 Next: [SYMBOLS_p10.md](SYMBOLS_p10.md)

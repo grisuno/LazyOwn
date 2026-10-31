@@ -1,4 +1,4 @@
-# Symbols (page 2 of 48)
+# Symbols (page 2 of 49)
 Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
@@ -355,6 +355,38 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_egym_status` | method | `cli/commands/exploitgym.py:90` | `def _egym_status(self, _args)` |
 | `_egym_verify` | method | `cli/commands/exploitgym.py:245` | `def _egym_verify(self, args)` |
 | `do_exploitgym` | method | `cli/commands/exploitgym.py:43` | `def do_exploitgym(self, line)` |
+| `AutoFireCommandSet` | class | `cli/commands/exposure_autofire.py:13` | `class AutoFireCommandSet(LazyOwnCommandSet)` |
+| `_fire` | method | `cli/commands/exposure_autofire.py:55` | `def _fire(self, engine, args)` |
+| `do_lazyautofire` | method | `cli/commands/exposure_autofire.py:20` | `def do_lazyautofire(self, line)` |
+| `LazyIntelCommandSet` | class | `cli/commands/exposure_intel.py:32` | `class LazyIntelCommandSet(LazyOwnCommandSet)` |
+| `_autofire_hook` | method | `cli/commands/exposure_intel.py:137` | `def _autofire_hook(self, report)` |
+| `_extract_target` | function | `cli/commands/exposure_intel.py:154` | `def _extract_target(args)` |
+| `_flag` | method | `cli/commands/exposure_intel.py:93` | `def _flag(self, args, flag)` |
+| `_print_checks` | method | `cli/commands/exposure_intel.py:125` | `def _print_checks(self, report)` |
+| `_print_report` | method | `cli/commands/exposure_intel.py:101` | `def _print_report(self, report, target, quiet)` |
+| `do_lazyintel` | method | `cli/commands/exposure_intel.py:39` | `def do_lazyintel(self, line)` |
+| `IntelOpsCommandSet` | class | `cli/commands/exposure_inventory.py:16` | `class IntelOpsCommandSet(LazyOwnCommandSet)` |
+| `_fill_platform` | method | `cli/commands/exposure_inventory.py:154` | `def _fill_platform(self, engine, entries, capture_text)` |
+| `_ingest` | method | `cli/commands/exposure_inventory.py:109` | `def _ingest(self, engine, rest)` |
+| `_merge_port_sightings` | function | `cli/commands/exposure_inventory.py:166` | `def _merge_port_sightings(engine, target, host_rows)` |
+| `do_lazyinventory` | method | `cli/commands/exposure_inventory.py:69` | `def do_lazyinventory(self, line)` |
+| `do_lazysearch` | method | `cli/commands/exposure_inventory.py:30` | `def do_lazysearch(self, line)` |
+| `SentinelCommandSet` | class | `cli/commands/exposure_sentinel.py:14` | `class SentinelCommandSet(LazyOwnCommandSet)` |
+| `_autofire_hook` | method | `cli/commands/exposure_sentinel.py:161` | `def _autofire_hook(self, reports)` |
+| `_checks` | method | `cli/commands/exposure_sentinel.py:131` | `def _checks(self, rest)` |
+| `_dispatch` | method | `cli/commands/exposure_sentinel.py:69` | `def _dispatch(self, rest)` |
+| `_ingest` | method | `cli/commands/exposure_sentinel.py:91` | `def _ingest(self, rest)` |
+| `_latest_sightings_path` | function | `cli/commands/exposure_sentinel.py:183` | `def _latest_sightings_path()` |
+| `_print_brief` | method | `cli/commands/exposure_sentinel.py:154` | `def _print_brief(self, report)` |
+| `_provision` | method | `cli/commands/exposure_sentinel.py:53` | `def _provision(self, rest)` |
+| `_provision_record` | method | `cli/commands/exposure_sentinel.py:171` | `def _provision_record(self, record_id)` |
+| `do_lazysentinel` | method | `cli/commands/exposure_sentinel.py:21` | `def do_lazysentinel(self, line)` |
+| `TimelineCommandSet` | class | `cli/commands/exposure_timeline.py:24` | `class TimelineCommandSet(LazyOwnCommandSet)` |
+| `_diff` | method | `cli/commands/exposure_timeline.py:95` | `def _diff(self, engine, args, json_out)` |
+| `_record` | method | `cli/commands/exposure_timeline.py:64` | `def _record(self, engine, args, json_out)` |
+| `_show` | method | `cli/commands/exposure_timeline.py:82` | `def _show(self, engine, args, json_out)` |
+| `_zombie` | method | `cli/commands/exposure_timeline.py:122` | `def _zombie(self, engine, json_out, args)` |
+| `do_lazytimeline` | method | `cli/commands/exposure_timeline.py:31` | `def do_lazytimeline(self, line)` |
 | `GoldenPathsCommandSet` | class | `cli/commands/golden_paths.py:35` | `class GoldenPathsCommandSet(LazyOwnCommandSet)` |
 | `_build` | method | `cli/commands/golden_paths.py:65` | `def _build(self, top_k)` |
 | `_push` | method | `cli/commands/golden_paths.py:100` | `def _push(self)` |
@@ -464,37 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_lazycreds` | method | `cli/commands/lazy_creds.py:28` | `def do_lazycreds(self, line)` |
 | `LazyDorksCommandSet` | class | `cli/commands/lazy_dorks.py:30` | `class LazyDorksCommandSet(LazyOwnCommandSet)` |
 | `_slug` | function | `cli/commands/lazy_dorks.py:18` | `def _slug(domain)` |
-| `do_lazydork` | method | `cli/commands/lazy_dorks.py:37` | `def do_lazydork(self, line)` |
-| `LazyOobCommandSet` | class | `cli/commands/lazy_oob.py:22` | `class LazyOobCommandSet(LazyOwnCommandSet)` |
-| `do_lazyoob` | method | `cli/commands/lazy_oob.py:29` | `def do_lazyoob(self, line)` |
-| `LazyPassGenCommandSet` | class | `cli/commands/lazy_passgen.py:14` | `class LazyPassGenCommandSet(LazyOwnCommandSet)` |
-| `do_lazypassgen` | method | `cli/commands/lazy_passgen.py:21` | `def do_lazypassgen(self, line)` |
-| `LazyQueueCommandSet` | class | `cli/commands/lazyloop.py:29` | `class LazyQueueCommandSet(LazyOwnCommandSet)` |
-| `_engine` | function | `cli/commands/lazyloop.py:22` | `def _engine()` |
-| `do_lazy_approve` | method | `cli/commands/lazyloop.py:248` | `def do_lazy_approve(self, line)` |
-| `do_lazy_delete` | method | `cli/commands/lazyloop.py:71` | `def do_lazy_delete(self, line)` |
-| `do_lazy_findings` | method | `cli/commands/lazyloop.py:110` | `def do_lazy_findings(self, line)` |
-| `do_lazy_fleet` | method | `cli/commands/lazyloop.py:270` | `def do_lazy_fleet(self, line)` |
-| `do_lazy_handoff` | method | `cli/commands/lazyloop.py:180` | `def do_lazy_handoff(self, line)` |
-| `do_lazy_intents` | method | `cli/commands/lazyloop.py:51` | `def do_lazy_intents(self, line)` |
-| `do_lazy_mention` | method | `cli/commands/lazyloop.py:213` | `def do_lazy_mention(self, line)` |
-| `do_lazy_orchestrator` | method | `cli/commands/lazyloop.py:335` | `def do_lazy_orchestrator(self, line)` |
-| `do_lazy_sync` | method | `cli/commands/lazyloop.py:36` | `def do_lazy_sync(self, line)` |
-| `do_lazy_verdict` | method | `cli/commands/lazyloop.py:190` | `def do_lazy_verdict(self, line)` |
-| `do_lazy_view` | method | `cli/commands/lazyloop.py:364` | `def do_lazy_view(self, line)` |
-| `LazyCommandSet` | class | `cli/commands/lazyops.py:35` | `class LazyCommandSet(LazyOwnCommandSet)` |
-| `_agent_main_prompt` | method | `cli/commands/lazyops.py:1657` | `def _agent_main_prompt(self, task_id)` |
-| `_agent_main_tools` | method | `cli/commands/lazyops.py:1540` | `def _agent_main_tools(self, task_id)` |
-| `_engine` | function | `cli/commands/lazyops.py:28` | `def _engine()` |
-| `_free_text` | method | `cli/commands/lazyops.py:62` | `def _free_text(args)` |
-| `_require_task` | method | `cli/commands/lazyops.py:54` | `def _require_task(self, args)` |
-| `_task_id` | method | `cli/commands/lazyops.py:41` | `def _task_id(self, args)` |
-| `add_hint` | function | `cli/commands/lazyops.py:1592` | `def add_hint(text)` |
-| `campaign_sitrep` | function | `cli/commands/lazyops.py:1579` | `def campaign_sitrep()` |
-| `do_lazy_addon` | method | `cli/commands/lazyops.py:2015` | `def do_lazy_addon(self, line)` |
-| `do_lazy_agent` | method | `cli/commands/lazyops.py:1668` | `def do_lazy_agent(self, line)` |
-| `do_lazy_archive` | method | `cli/commands/lazyops.py:2497` | `def do_lazy_archive(self, line)` |
-| `do_lazy_ask` | method | `cli/commands/lazyops.py:1514` | `def do_lazy_ask(self, line)` |
-| `do_lazy_asset` | method | `cli/commands/lazyops.py:820` | `def do_lazy_asset(self, line)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

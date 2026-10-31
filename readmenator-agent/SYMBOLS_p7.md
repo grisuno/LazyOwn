@@ -1,8 +1,40 @@
-# Symbols (page 7 of 48)
+# Symbols (page 7 of 49)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `check_binaries` | function | `cli/wizard.py:947` | `def check_binaries(specs, which)` |
+| `run` | function | `cli/wizard.py:169` | `def run(params, save)` |
+| `run_non_interactive` | function | `cli/wizard.py:234` | `def run_non_interactive(params, save, values)` |
+| `WizardScope` | class | `cli/wizard_scope.py:31` | `class WizardScope` |
+| `WizardScopeConfig` | class | `cli/wizard_scope.py:17` | `class WizardScopeConfig` |
+| `parse_scope` | function | `cli/wizard_scope.py:38` | `def parse_scope(tokens, config)` |
+| `status_rows` | function | `cli/wizard_scope.py:64` | `def status_rows(params)` |
+| `exploit` | function | `contrib/legacy/lazy_http_bof.py:29` | `def exploit(target, port, payload)` |
+| `genHeader` | function | `contrib/legacy/lazy_http_bof.py:6` | `def genHeader(raw)` |
+| `check_sudo` | function | `contrib/legacy/lazy_packet_image_sniffer.py:23` | `def check_sudo()` |
+| `choose_interface` | function | `contrib/legacy/lazy_packet_image_sniffer.py:49` | `def choose_interface(interfaces)` |
+| `daemonize` | function | `contrib/legacy/lazy_packet_image_sniffer.py:192` | `def daemonize()` |
+| `get_ip_addresses` | function | `contrib/legacy/lazy_packet_image_sniffer.py:65` | `def get_ip_addresses(interface)` |
+| `get_subnet_from_interface` | function | `contrib/legacy/lazy_packet_image_sniffer.py:61` | `def get_subnet_from_interface(interface)` |
+| `handle_packet` | function | `contrib/legacy/lazy_packet_image_sniffer.py:111` | `def handle_packet(packet)` |
+| `list_interfaces` | function | `contrib/legacy/lazy_packet_image_sniffer.py:31` | `def list_interfaces()` |
+| `run` | function | `contrib/legacy/lazy_packet_image_sniffer.py:187` | `def run()` |
+| `save_image` | function | `contrib/legacy/lazy_packet_image_sniffer.py:161` | `def save_image(src_ip, end_idx)` |
+| `build_llm_prompt` | function | `contrib/legacy/lazyaddon_creator.py:98` | `def build_llm_prompt(meta, readme, root_files)` |
+| `build_yaml` | function | `contrib/legacy/lazyaddon_creator.py:300` | `def build_yaml(data, repo_url)` |
+| `extract_json_from_response` | function | `contrib/legacy/lazyaddon_creator.py:164` | `def extract_json_from_response(text)` |
+| `fallback_yaml_data` | function | `contrib/legacy/lazyaddon_creator.py:276` | `def fallback_yaml_data(meta, readme, root_files)` |
+| `fetch_readme` | function | `contrib/legacy/lazyaddon_creator.py:73` | `def fetch_readme(owner, repo)` |
+| `fetch_repo_metadata` | function | `contrib/legacy/lazyaddon_creator.py:68` | `def fetch_repo_metadata(owner, repo)` |
+| `fetch_root_files` | function | `contrib/legacy/lazyaddon_creator.py:85` | `def fetch_root_files(owner, repo)` |
+| `github_api_get` | function | `contrib/legacy/lazyaddon_creator.py:58` | `def github_api_get(owner, repo, endpoint)` |
+| `heuristic_execute_command` | function | `contrib/legacy/lazyaddon_creator.py:211` | `def heuristic_execute_command(name, root_files, language)` |
+| `heuristic_install_command` | function | `contrib/legacy/lazyaddon_creator.py:192` | `def heuristic_install_command(root_files, language)` |
+| `heuristic_params` | function | `contrib/legacy/lazyaddon_creator.py:245` | `def heuristic_params(name, readme, root_files)` |
+| `main` | function | `contrib/legacy/lazyaddon_creator.py:357` | `def main()` |
+| `parse_github_url` | function | `contrib/legacy/lazyaddon_creator.py:49` | `def parse_github_url(url)` |
+| `save_yaml` | function | `contrib/legacy/lazyaddon_creator.py:336` | `def save_yaml(addon, output_dir)` |
 | `check_sudo` | function | `contrib/legacy/lazyarpspoofing.py:27` | `def check_sudo()` |
 | `disable_ip_forward` | function | `contrib/legacy/lazyarpspoofing.py:38` | `def disable_ip_forward()` |
 | `enable_ip_forward` | function | `contrib/legacy/lazyarpspoofing.py:35` | `def enable_ip_forward()` |
@@ -464,37 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `_seal_key` | function | `core/hardening.py:756` | `def _seal_key(sessions_dir)` |
 | `build_sshpass_command` | function | `core/hardening.py:250` | `def build_sshpass_command(password, ssh_args)` |
 | `contains_emoji` | function | `core/hardening.py:722` | `def contains_emoji(text)` |
-| `defused_xml_parse` | function | `core/hardening.py:412` | `def defused_xml_parse(source)` |
-| `escape_html_content` | function | `core/hardening.py:298` | `def escape_html_content(value)` |
-| `escape_powershell_single_quoted` | function | `core/hardening.py:112` | `def escape_powershell_single_quoted(value)` |
-| `is_safe_dir_path` | function | `core/hardening.py:578` | `def is_safe_dir_path(raw)` |
-| `is_safe_path_segment` | function | `core/hardening.py:557` | `def is_safe_path_segment(segment)` |
-| `is_safe_yaml_name` | function | `core/hardening.py:604` | `def is_safe_yaml_name(name)` |
-| `iter_emoji_spans` | function | `core/hardening.py:737` | `def iter_emoji_spans(text)` |
-| `redact_text` | function | `core/hardening.py:842` | `def redact_text(text)` |
-| `reject_option_injection` | function | `core/hardening.py:93` | `def reject_option_injection(argv)` |
-| `require_encryption_key` | function | `core/hardening.py:384` | `def require_encryption_key(env_key, secret_file)` |
-| `safe_clipboard_copy` | function | `core/hardening.py:211` | `def safe_clipboard_copy(content)` |
-| `safe_join_under` | function | `core/hardening.py:623` | `def safe_join_under(base_dir, user_path)` |
-| `safe_open_under` | function | `core/hardening.py:652` | `def safe_open_under(base_dir, user_path, mode)` |
-| `safe_path_join` | function | `core/hardening.py:310` | `def safe_path_join(base_dir, user_path)` |
-| `safe_subprocess_run` | function | `core/hardening.py:158` | `def safe_subprocess_run(argv)` |
-| `sanitize_filename` | function | `core/hardening.py:434` | `def sanitize_filename(filename, max_length)` |
-| `seal_secret` | function | `core/hardening.py:770` | `def seal_secret(plaintext)` |
-| `set_sshpass_env` | function | `core/hardening.py:279` | `def set_sshpass_env(password)` |
-| `store_secret_owner_only` | function | `core/hardening.py:679` | `def store_secret_owner_only(path, text)` |
-| `terminal_env` | function | `core/hardening.py:137` | `def terminal_env(base)` |
-| `tls_lab_fallback_context` | function | `core/hardening.py:506` | `def tls_lab_fallback_context()` |
-| `tls_lab_unverified_allowed` | function | `core/hardening.py:479` | `def tls_lab_unverified_allowed(host)` |
-| `tls_secure_context` | function | `core/hardening.py:454` | `def tls_secure_context(extra_ca)` |
-| `unseal_secret` | function | `core/hardening.py:801` | `def unseal_secret(stored)` |
-| `validate_host` | function | `core/hardening.py:364` | `def validate_host(host)` |
-| `validate_network_cidr` | function | `core/hardening.py:336` | `def validate_network_cidr(cidr)` |
-| `validate_port_spec` | function | `core/hardening.py:348` | `def validate_port_spec(ports)` |
-| `validate_upstream_path` | function | `core/hardening.py:528` | `def validate_upstream_path(path)` |
-| `is_valid_cidr` | function | `core/host_policy.py:32` | `def is_valid_cidr(value)` |
-| `is_valid_host` | function | `core/host_policy.py:48` | `def is_valid_host(value)` |
-| `rejects_shell_meta` | function | `core/host_policy.py:20` | `def rejects_shell_meta(value)` |
-| `display_news` | function | `core/http.py:198` | `def display_news(titles, links, scores)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

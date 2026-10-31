@@ -1,5 +1,177 @@
-# API (page 16 of 25)
+# API (page 16 of 26)
 Previous: [API_p15.md](API_p15.md)
+
+## modules/lilsplunky.py
+Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+- `simple_parse_log_line` (function) `modules/lilsplunky.py:69` `def simple_parse_log_line(line, file_path)` -- Intenta extraer información básica de una línea de log.
+- `store_event` (function) `modules/lilsplunky.py:108` `def store_event(event_data)` -- Almacena el evento procesado (diccionario Python) como una línea JSON en el archivo de salida.
+- `analyze_with_deepseek` (function) `modules/lilsplunky.py:123` `def analyze_with_deepseek(log_entry_data)` -- Sends a single log entry to DeepSeek for analysis.
+- `LogFileHandler.__init__` (method) `modules/lilsplunky.py:223` `def __init__(self, log_dir, mode)`
+- `LogFileHandler.initialize_file_positions` (method) `modules/lilsplunky.py:229` `def initialize_file_positions(self)` -- Set initial position to the end of all currently monitored files.
+- `LogFileHandler.is_monitored` (method) `modules/lilsplunky.py:245` `def is_monitored(self, file_path)` -- Check if the file path matches any of the monitored patterns.
+- `LogFileHandler.process_file` (method) `modules/lilsplunky.py:257` `def process_file(self, file_path)` -- Reads new lines from a file since the last known position.
+- `LogFileHandler.on_modified` (method) `modules/lilsplunky.py:331` `def on_modified(self, event)` -- Triggered when a file or directory is modified.
+- `LogFileHandler.on_created` (method) `modules/lilsplunky.py:336` `def on_created(self, event)` -- Triggered when a file or directory is created.
+- `display_record` (function) `modules/lilsplunky.py:346` `def display_record(record)` -- Muestra un registro procesado de forma atractiva en la consola.
+- `search_logs` (function) `modules/lilsplunky.py:382` `def search_logs(query, file_path)` -- Busca en el archivo de eventos JSONL registros que coincidan (búsqueda simple de substring).
+- `start_monitoring` (function) `modules/lilsplunky.py:413` `def start_monitoring(log_dir, mode)` -- Starts monitoring the specified log directory.
+- `parse_args` (function) `modules/lilsplunky.py:446` `def parse_args()`
+
+## modules/linux_advanced_payloads.py
+Imported by: `cli/commands/payload_arsenal.py`
+- `LinuxAdvancedPayloadFactory.__init__` (method) `modules/linux_advanced_payloads.py:105` `def __init__(self, config, output_dir)`
+- `LinuxAdvancedPayloadFactory.generate_ld_preload_rootkit` (method) `modules/linux_advanced_payloads.py:110` `def generate_ld_preload_rootkit(self)` -- Generate a C source file for an LD_PRELOAD rootkit.
+- `LinuxAdvancedPayloadFactory.generate_ebpf_payload` (method) `modules/linux_advanced_payloads.py:235` `def generate_ebpf_payload(self)` -- Generate an eBPF C program for network manipulation.
+- `LinuxAdvancedPayloadFactory.generate_pam_backdoor` (method) `modules/linux_advanced_payloads.py:311` `def generate_pam_backdoor(self)` -- Generate a PAM (Pluggable Authentication Module) backdoor.
+- `LinuxAdvancedPayloadFactory.generate_systemd_persistence` (method) `modules/linux_advanced_payloads.py:398` `def generate_systemd_persistence(self)` -- Generate systemd service and timer units for persistent callbacks.
+- `LinuxAdvancedPayloadFactory.generate_ssh_persistence` (method) `modules/linux_advanced_payloads.py:458` `def generate_ssh_persistence(self)` -- Generate an SSH persistence script for authorized_keys injection.
+- `LinuxAdvancedPayloadFactory.generate_kernel_module` (method) `modules/linux_advanced_payloads.py:519` `def generate_kernel_module(self)` -- Generate a Linux kernel module (LKM) rootkit.
+- `LinuxAdvancedPayloadFactory.generate_process_masquerade` (method) `modules/linux_advanced_payloads.py:632` `def generate_process_masquerade(self)` -- Generate a process masquerading script.
+- `LinuxAdvancedPayloadFactory.generate_udev_persistence` (method) `modules/linux_advanced_payloads.py:676` `def generate_udev_persistence(self)` -- Generate a udev rule for persistence on USB/device events.
+- `LinuxAdvancedPayloadFactory.generate_motd_backdoor` (method) `modules/linux_advanced_payloads.py:689` `def generate_motd_backdoor(self)` -- Generate a Message of the Day (motd) hook for persistence.
+- `LinuxAdvancedPayloadFactory.compile_c_source` (method) `modules/linux_advanced_payloads.py:707` `def compile_c_source(self, source, output_name, shared)` -- Compile C source code to a binary or shared library.
+- `LinuxAdvancedPayloadFactory.generate_all` (method) `modules/linux_advanced_payloads.py:749` `def generate_all(self)` -- Generate all Linux advanced payload artifacts.
+- `LinuxAdvancedPayloadFactory.list_hook_functions` (method) `modules/linux_advanced_payloads.py:793` `def list_hook_functions()`
+- `LinuxAdvancedPayloadFactory.list_persistence_methods` (method) `modules/linux_advanced_payloads.py:797` `def list_persistence_methods()`
+
+## modules/listener_manager.py
+Depends on: `utils.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `lazyc2.py`
+- `Listener.to_dict` (method) `modules/listener_manager.py:152` `def to_dict(self)`
+- `Listener.from_dict` (method) `modules/listener_manager.py:162` `def from_dict(cls, data)`
+- `ListenerManager.__init__` (method) `modules/listener_manager.py:179` `def __init__(self, app, sessions_dir, payload)`
+- `ListenerManager.set_payload` (method) `modules/listener_manager.py:187` `def set_payload(self, payload)` -- Update the payload mapping used to resolve the bind address.
+- `ListenerManager.add` (method) `modules/listener_manager.py:229` `def add(self, port, ssl, listener_id)` -- Register a new listener configuration (does not start it).
+- `ListenerManager.remove` (method) `modules/listener_manager.py:242` `def remove(self, listener_id)` -- Remove a listener configuration.
+- `ListenerManager.start` (method) `modules/listener_manager.py:255` `def start(self, listener_id)` -- Start a single listener.
+- `ListenerManager.stop` (method) `modules/listener_manager.py:335` `def stop(self, listener_id)` -- Stop a single listener.
+- `ListenerManager.start_all` (method) `modules/listener_manager.py:356` `def start_all(self)` -- Start every listener marked as active.
+- `ListenerManager.stop_all` (method) `modules/listener_manager.py:362` `def stop_all(self)` -- Stop every running listener.
+- `ListenerManager.status` (method) `modules/listener_manager.py:367` `def status(self)` -- Return status of all listeners.
+- `ListenerManager.get_default_port` (method) `modules/listener_manager.py:379` `def get_default_port(self, fallback)` -- Return the port of the first active listener, or fallback.
+
+## modules/live_surface.py
+Depends on: `modules/world_model.py`
+Imported by: `lazyc2.py`, `modules/unified_dashboard.py`, `tests/test_live_surface.py`
+- `build_live_graph` (function) `modules/live_surface.py:72` `def build_live_graph(world)` -- Build a live vis-network payload from a world-model snapshot.
+
+## modules/llm_adapter.py
+Depends on: `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazyphishingai.py`, `core/logging.py`, `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/llm_prompts.py`
+Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`
+- `safe_groq_client` (function) `modules/llm_adapter.py:55` `def safe_groq_client(api_key)` -- Create a Groq client, returning None when no key is provided.
+- `process_prompt` (function) `modules/llm_adapter.py:155` `def process_prompt(client, prompt, debug)` -- Generate a single-line shell command from a user prompt.
+- `process_prompt_script` (function) `modules/llm_adapter.py:169` `def process_prompt_script(client, prompt, debug)` -- Generate a full script from a user prompt.
+- `process_prompt_adversary` (function) `modules/llm_adapter.py:183` `def process_prompt_adversary(client, prompt, debug)` -- Answer questions about MITRE ATT&CK techniques and Atomic Red Team.
+- `process_prompt_general` (function) `modules/llm_adapter.py:197` `def process_prompt_general(client, prompt, debug)` -- Answer as a general red-team assistant with payload.json context.
+- `process_prompt_search` (function) `modules/llm_adapter.py:211` `def process_prompt_search(client, prompt, debug)` -- Perform research and threat-intelligence analysis.
+- `process_prompt_task` (function) `modules/llm_adapter.py:225` `def process_prompt_task(client, prompt, debug)` -- Analyze a task-assessment JSON file for completion status.
+- `process_prompt_vuln` (function) `modules/llm_adapter.py:242` `def process_prompt_vuln(client, prompt, debug, event)` -- Analyze Nmap output for vulnerabilities and propose an action plan.
+- `process_prompt_redop` (function) `modules/llm_adapter.py:273` `def process_prompt_redop(client, prompt, debug)` -- Evaluate a red-team operation status from a JSON database file.
+- `ask_general` (function) `modules/llm_adapter.py:290` `def ask_general(prompt, debug)` -- Answer through the configured LLM backend with chain failover.
+
+## modules/llm_client.py
+Depends on: `core/logging.py`, `modules/ai_model.py`
+Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/llm_factory.py`, `modules/planner.py`, `modules/playbook_engine.py`
+- `LLMClient.__init__` (method) `modules/llm_client.py:63` `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)`
+- `LLMClient.ask` (method) `modules/llm_client.py:79` `def ask(self, prompt)` -- Send a prompt and return the text response.
+- `LLMClient.classify` (method) `modules/llm_client.py:130` `def classify(self, output)` -- Short classification prompt.
+- `LLMClient.summarize` (method) `modules/llm_client.py:159` `def summarize(self, text)` -- Summarize a block of text (e.g. nmap output, tool output).
+- `get_client` (function) `modules/llm_client.py:268` `def get_client(api_key)` -- Return (or create) the module-level singleton LLMClient.
+- `ask` (function) `modules/llm_client.py:276` `def ask(prompt)` -- Module-level convenience wrapper.
+- `classify` (function) `modules/llm_client.py:288` `def classify(output)` -- Module-level convenience wrapper.
+- `summarize` (function) `modules/llm_client.py:293` `def summarize(text)` -- Module-level convenience wrapper.
+
+## modules/llm_evaluator.py
+Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- `OutcomeRecorder.record` (method) `modules/llm_evaluator.py:57` `def record(self, decision)`
+- `OutcomeRecorder.update_outcome` (method) `modules/llm_evaluator.py:60` `def update_outcome(self, decision_id, actual, findings_count, success)`
+- `OutcomeRecorder.load_all` (method) `modules/llm_evaluator.py:69` `def load_all(self)`
+- `OutcomeRecorder.load_by_session` (method) `modules/llm_evaluator.py:72` `def load_by_session(self, session_id)`
+- `JSONLRecorder.__init__` (method) `modules/llm_evaluator.py:76` `def __init__(self, path)`
+- `JSONLRecorder.record` (method) `modules/llm_evaluator.py:81` `def record(self, decision)`
+- `JSONLRecorder.update_outcome` (method) `modules/llm_evaluator.py:86` `def update_outcome(self, decision_id, actual, findings_count, success)`
+- `JSONLRecorder.load_all` (method) `modules/llm_evaluator.py:120` `def load_all(self)`
+- `JSONLRecorder.load_by_session` (method) `modules/llm_evaluator.py:135` `def load_by_session(self, session_id)`
+- `LLMEvaluator.__init__` (method) `modules/llm_evaluator.py:162` `def __init__(self, recorder)`
+- `LLMEvaluator.record_decision` (method) `modules/llm_evaluator.py:165` `def record_decision(self, session_id, thought, action, mitre_tactic, expected_outcome, confidence)`
+- `LLMEvaluator.record_outcome` (method) `modules/llm_evaluator.py:191` `def record_outcome(self, decision_id, actual_outcome, findings_count, success)`
+- `LLMEvaluator.compute_metrics` (method) `modules/llm_evaluator.py:200` `def compute_metrics(self, session_id)`
+- `LLMEvaluator.quality_report` (method) `modules/llm_evaluator.py:241` `def quality_report(self, session_id)`
+- `LLMEvaluator.export_finetuning_dataset` (method) `modules/llm_evaluator.py:256` `def export_finetuning_dataset(self, path)`
+- `get_evaluator` (function) `modules/llm_evaluator.py:293` `def get_evaluator()`
+- `record_decision` (function) `modules/llm_evaluator.py:302` `def record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)`
+- `record_outcome` (function) `modules/llm_evaluator.py:313` `def record_outcome(decision_id, actual_outcome, findings_count, success)`
+
+## modules/llm_factory.py
+Depends on: `core/llm_budget.py`, `modules/ai_model.py`, `modules/harness.py`, `modules/llm_client.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
+Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_model.py`, `modules/lazy_agent.py`, `modules/lazy_loop.py`, `modules/llm_adapter.py`, `modules/llm_orchestrator.py`, `modules/mcp_agent_bridge.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/conftest.py`, `tests/test_ai_commands_llm.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_llm_resilience.py`, `tests/test_payload_schema.py`, `tests/test_vulnbot_fallback.py`, `tests/test_wizard_llm.py`
+- `is_model_missing_error` (function) `modules/llm_factory.py:121` `def is_model_missing_error(message)` -- Return True when an error text means the model id is unavailable.
+- `groq_model_chain` (function) `modules/llm_factory.py:141` `def groq_model_chain(config)` -- Return the ordered Groq model ids to try, configured model first.
+- `default_model_for` (function) `modules/llm_factory.py:224` `def default_model_for(backend)` -- Return the default model identifier for a backend.
+- `model_config_key` (function) `modules/llm_factory.py:245` `def model_config_key(backend)` -- Return the ``payload.json`` key holding a backend's model override.
+- `api_key_config_key` (function) `modules/llm_factory.py:266` `def api_key_config_key(backend)` -- Return the ``payload.json`` key holding a backend's API key slot.
+- `backend_requires_api_key` (function) `modules/llm_factory.py:291` `def backend_requires_api_key(backend)` -- Report whether a backend needs an API key to operate.
+- `load_payload` (function) `modules/llm_factory.py:309` `def load_payload(payload_path)` -- Read ``payload.json`` from disk and return it as a dictionary.
+- `get_llm_backend` (function) `modules/llm_factory.py:653` `def get_llm_backend(config, backend)` -- Return a concrete :class:`AIModel` selected by configuration.
+- `get_llm_backend_raw` (function) `modules/llm_factory.py:749` `def get_llm_backend_raw(config, backend)` -- Return a raw :class:`AIModel` without the budget wrapper.
+- `try_get_llm_backend` (function) `modules/llm_factory.py:771` `def try_get_llm_backend(config, backend)` -- Return a backend or ``None`` if construction fails for any reason.
+- `stream_complete` (function) `modules/llm_factory.py:848` `def stream_complete(model, prompt, max_tokens, on_delta)` -- Completion that reports incremental deltas while it arrives.
+- `complete` (function) `modules/llm_factory.py:919` `def complete(model, prompt, max_tokens)` -- Complete a prompt through one model spec; raise when unanswered.
+
+## modules/llm_orchestrator.py
+Depends on: `modules/lazy_engine.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/orchestrator_config.py`
+Imported by: `lazyc2.py`, `modules/ai_fallback.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_vulnbot_fallback.py`
+- `OrchestratorResult.ok` (method) `modules/llm_orchestrator.py:118` `def ok(self)` -- Return True when a chain member served the answer.
+- `OrchestratorResult.display_text` (method) `modules/llm_orchestrator.py:123` `def display_text(self)` -- Return the notice-prefixed answer for operator-facing surfaces.
+- `sort_members` (function) `modules/llm_orchestrator.py:130` `def sort_members(members)` -- Return a weight-sorted defensive copy of a member list.
+- `pool_chain` (function) `modules/llm_orchestrator.py:148` `def pool_chain()` -- Return the failover chain governed by lazy_orchestrator.
+- `backend_kind` (function) `modules/llm_orchestrator.py:175` `def backend_kind(model_spec)` -- Return the provider prefix of a model spec.
+- `is_error_reply` (function) `modules/llm_orchestrator.py:192` `def is_error_reply(text)` -- Return True when a reply is a backend error banner, not content.
+- `is_placeholder_key` (function) `modules/llm_orchestrator.py:211` `def is_placeholder_key(value)` -- Return True when a key value is a shipped placeholder, not a secret.
+- `complete_with_fallback` (function) `modules/llm_orchestrator.py:349` `def complete_with_fallback(prompt, system, max_tokens, api_key, members, executor, health, record)` -- Complete a prompt through the lazy_orchestrator chain with failover.
+
+## modules/llm_pool.py
+Imported by: `cli/commands/ai.py`, `modules/lazy_loop.py`, `modules/llm_orchestrator.py`, `skills/autonomous_daemon.py`, `tests/conftest.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_parity.py`, `tests/test_lazy_runner.py`, `tests/test_llm_orchestrator.py`
+- `shared_registry` (function) `modules/llm_pool.py:50` `def shared_registry(config)` -- Return the process-wide health registry (LAZY Registry parity).
+- `HealthRegistry.__init__` (method) `modules/llm_pool.py:83` `def __init__(self, config)` -- Initialize counters from the persisted breaker state.
+- `HealthRegistry.report_success` (method) `modules/llm_pool.py:135` `def report_success(self, member_id)` -- Clear failure state for a member.
+- `HealthRegistry.report_failure` (method) `modules/llm_pool.py:143` `def report_failure(self, member_id, error)` -- Record a failure; auth/quota errors trip immediately.
+- `HealthRegistry.healthy` (method) `modules/llm_pool.py:163` `def healthy(self, member_id)` -- Return True when a member may serve traffic.
+- `LLMPool.__init__` (method) `modules/llm_pool.py:179` `def __init__(self, members, health, config)` -- Order members by descending rank (RR within equal rank).
+- `LLMPool.members` (method) `modules/llm_pool.py:192` `def members(self)` -- Return chain members in order.
+- `LLMPool.session_key` (method) `modules/llm_pool.py:196` `def session_key(self, conversation_id, role, index)` -- Build a sticky session header (LAZY session_header parity).
+- `LLMPool.complete` (method) `modules/llm_pool.py:237` `def complete(self, prompt, max_tokens, session_key, overflow_dir)` -- Complete a prompt with pre-token failover across members.
+
+## modules/llm_prompts.py
+Depends on: `modules/colors.py`
+Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_orchestrator.py`, `tests/test_llm_prompts.py`
+- `default_project_root` (function) `modules/llm_prompts.py:67` `def default_project_root()` -- Return the repository root that owns the LLM prompt configuration.
+- `resolve_model` (function) `modules/llm_prompts.py:76` `def resolve_model(model)` -- Resolve an explicit model or fall back to the randomized Groq model.
+- `truncate_message` (function) `modules/llm_prompts.py:95` `def truncate_message(message, max_chars)` -- Truncate a message with an ellipsis marker when it exceeds the limit.
+- `LlmPromptConfig.from_defaults` (method) `modules/llm_prompts.py:130` `def from_defaults(cls, project_root)` -- Build a config rooted at the given project root.
+- `LlmPromptConfig.knowledge_base_path` (method) `modules/llm_prompts.py:150` `def knowledge_base_path(self, domain)` -- Return the absolute path for a knowledge-base domain file.
+- `LlmPromptConfig.load_payload_context` (method) `modules/llm_prompts.py:161` `def load_payload_context(self)` -- Load the operator context keyed by :data:`PAYLOAD_KEY_ORDER`.
+- `LlmPromptConfig.load_event_tool_output` (method) `modules/llm_prompts.py:176` `def load_event_tool_output(self, event_name)` -- Load tool output attached to a named event in event_config.json.
+- `LlmPromptConfig.load_plan_history` (method) `modules/llm_prompts.py:203` `def load_plan_history(self)` -- Load the session plan history text if present.
+- `LlmPromptConfig.load_report_context` (method) `modules/llm_prompts.py:218` `def load_report_context(self)` -- Load the JSON artefacts consumed by the report template.
+- `LlmPromptConfig.knowledge_store` (method) `modules/llm_prompts.py:238` `def knowledge_store(self, domain)` -- Build a knowledge store bound to a domain file.
+- `LlmPromptConfig.render` (method) `modules/llm_prompts.py:249` `def render(self, template, base_prompt)` -- Render a named template with shared knowledge and context.
+- `render_kb_tail` (function) `modules/llm_prompts.py:271` `def render_kb_tail(lines)` -- Join the most recent knowledge lines for embedding into a prompt.
+- `KnowledgeStore.__init__` (method) `modules/llm_prompts.py:289` `def __init__(self, path)` -- Initialize a store bound to a single JSON file.
+- `KnowledgeStore.load` (method) `modules/llm_prompts.py:297` `def load(self)` -- Load the knowledge-base records from disk.
+- `KnowledgeStore.save` (method) `modules/llm_prompts.py:312` `def save(self, records)` -- Persist a full record list to disk, creating parent directories.
+- `KnowledgeStore.add` (method) `modules/llm_prompts.py:324` `def add(self, prompt, response)` -- Append a prompt/response record to the knowledge base.
+- `KnowledgeStore.relevant` (method) `modules/llm_prompts.py:335` `def relevant(self, prompt, limit)` -- Return knowledge responses whose text shares keywords with the prompt.
+
+## modules/log_tamper.py
+Imported by: `cli/commands/opsec_cleanup.py`
+- `LogTamper.__init__` (method) `modules/log_tamper.py:105` `def __init__(self, config)`
+- `LogTamper.windows_clear_commands` (method) `modules/log_tamper.py:108` `def windows_clear_commands(self)` -- Generate Windows Event Log clearing commands.
+- `LogTamper.linux_clear_commands` (method) `modules/log_tamper.py:176` `def linux_clear_commands(self)` -- Generate Linux log clearing commands.
+- `LogTamper.macos_clear_commands` (method) `modules/log_tamper.py:243` `def macos_clear_commands(self)` -- Generate macOS log clearing commands.
+- `LogTamper.generate_all` (method) `modules/log_tamper.py:295` `def generate_all(self)` -- Generate log tampering commands for all platforms.
+- `LogTamper.auditd_disable_commands` (method) `modules/log_tamper.py:307` `def auditd_disable_commands(self)` -- Commands to temporarily disable or reconfigure auditd on Linux.
+- `LogTamper.sysmon_disable_commands` (method) `modules/log_tamper.py:341` `def sysmon_disable_commands(self)` -- Commands to disable or degrade Sysmon on Windows.
 
 ## modules/logging_config.py
 Depends on: `core/logging.py`
@@ -323,160 +495,6 @@ Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cl
 - `ModuleRegistry.proposal_intents` (method) `modules/module_registry.py:378` `def proposal_intents(self, texts, target, limit)` -- Loop bridge: map corpus mentions onto runnable module intents.
 - `format_module_table` (function) `modules/module_registry.py:666` `def format_module_table(modules, cols)` -- Format a list of modules as an aligned text table.
 - `format_module_detail` (function) `modules/module_registry.py:713` `def format_module_detail(m)` -- Format a single module's full metadata.
-
-## modules/moe_router.py
-Depends on: `core/logging.py`, `modules/toposwarm_bridge.py`
-Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/swan_agent.py`, `tests/integration_autonomous_flow.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_router_check_regression.py`
-- `ExpertProfile.is_local` (method) `modules/moe_router.py:96` `def is_local(self)`
-- `ExpertPerformance.update` (method) `modules/moe_router.py:115` `def update(self, reward, detection_prob)`
-- `IExpertSelector.select` (method) `modules/moe_router.py:261` `def select(self, candidates, task_type, performance_store, deterministic)` -- Return the selected expert from candidates.
-- `ExpertPerformanceStore.__init__` (method) `modules/moe_router.py:283` `def __init__(self, path)`
-- `ExpertPerformanceStore.record` (method) `modules/moe_router.py:298` `def record(self, expert_id, task_type, reward, detection_prob)` -- Update performance for (expert, task_type) and persist.
-- `ExpertPerformanceStore.get` (method) `modules/moe_router.py:316` `def get(self, expert_id, task_type)`
-- `ExpertPerformanceStore.all_for_task` (method) `modules/moe_router.py:321` `def all_for_task(self, task_type)`
-- `ExpertPerformanceStore.performance_bonus` (method) `modules/moe_router.py:325` `def performance_bonus(self, expert_id, task_type)` -- Return a bonus scalar in [-0.3, +0.5] based on EMA reward history.
-- `SoftmaxSelector.__init__` (method) `modules/moe_router.py:377` `def __init__(self, temperature)`
-- `SoftmaxSelector.temperature` (method) `modules/moe_router.py:381` `def temperature(self)`
-- `SoftmaxSelector.temperature` (method) `modules/moe_router.py:385` `def temperature(self, value)`
-- `SoftmaxSelector.select` (method) `modules/moe_router.py:388` `def select(self, candidates, task_type, performance_store, deterministic)`
-- `ExpertAvailabilityChecker.__init__` (method) `modules/moe_router.py:443` `def __init__(self)`
-- `ExpertAvailabilityChecker.is_available` (method) `modules/moe_router.py:447` `def is_available(self, expert, api_key)`
-- `MoERouter.__init__` (method) `modules/moe_router.py:500` `def __init__(self, experts, selector, performance_store, api_key)`
-- `MoERouter.route` (method) `modules/moe_router.py:515` `def route(self, task_type, goal, deterministic)` -- Return the single best expert for the given task_type.
-- `MoERouter.ensemble` (method) `modules/moe_router.py:547` `def ensemble(self, task_type, goal, n)` -- Return up to *n* distinct experts for ensemble execution.
-- `adjusted_weight` (function) `modules/moe_router.py:562` `def adjusted_weight(ep)`
-- `MoERouter.record_outcome` (method) `modules/moe_router.py:575` `def record_outcome(self, expert_id, task_type, reward, detection_prob)` -- Record the outcome of an expert execution.
-- `MoERouter.top_experts_for_task` (method) `modules/moe_router.py:589` `def top_experts_for_task(self, task_type, top_k)` -- Return (expert, adjusted_weight) sorted descending for diagnostics.
-- `MoERouter.get_expert` (method) `modules/moe_router.py:605` `def get_expert(self, expert_id)` -- Return expert by ID, or None.
-- `MoERouter.status_report` (method) `modules/moe_router.py:609` `def status_report(self)` -- Return a diagnostic snapshot of all experts and their weights.
-- `get_router` (function) `modules/moe_router.py:684` `def get_router(api_key)` -- Return (or create) the module-level singleton MoERouter.
-
-## modules/morse.py
-- `reverse_morse_code` (function) `modules/morse.py:98` `def reverse_morse_code()` -- Build the reverse lookup table from Morse code to characters.
-- `text_to_morse` (function) `modules/morse.py:109` `def text_to_morse(text, config)` -- Convert plain text to Morse code.
-- `morse_to_text` (function) `modules/morse.py:130` `def morse_to_text(morse_code, config)` -- Convert Morse code back to plain text.
-- `clear_screen` (function) `modules/morse.py:157` `def clear_screen(config)` -- Reset the terminal screen using a bounded subprocess call.
-- `read_choice` (function) `modules/morse.py:171` `def read_choice(config)` -- Read and validate the menu choice from standard input.
-- `run_driver` (function) `modules/morse.py:186` `def run_driver(config)` -- Run the interactive Morse code conversion loop.
-
-## modules/mysql_hookandroot_lib.c
-- `reverse_shell` (function) `modules/mysql_hookandroot_lib.c:74` `void reverse_shell(void)` -- fork & send a bash shell to the attacker before starting mysqld
-- `execvp` (function) `modules/mysql_hookandroot_lib.c:128` `int execvp(const char* filename, char* const argv[])` -- execvp() hook
-
-## modules/network_opsec.py
-Imported by: `cli/commands/opsec_cleanup.py`
-- `NetworkOpsecEngine.__init__` (method) `modules/network_opsec.py:83` `def __init__(self, config)`
-- `NetworkOpsecEngine.configure_proxy_chain` (method) `modules/network_opsec.py:87` `def configure_proxy_chain(self, chain_type)` -- Configure a proxy chain for C2 communication.
-- `NetworkOpsecEngine.check_canary_tokens` (method) `modules/network_opsec.py:131` `def check_canary_tokens(self)` -- Check if the target has canary token / deception technology.
-- `NetworkOpsecEngine.analyze_traffic_with_canary_check` (method) `modules/network_opsec.py:179` `def analyze_traffic_with_canary_check(self, target_host, target_port)` -- Analyze whether target traffic is being intercepted or analyzed.
-- `NetworkOpsecEngine.dns_over_https_config` (method) `modules/network_opsec.py:246` `def dns_over_https_config(self)` -- Generate DNS-over-HTTPS configuration for proxy and system.
-- `NetworkOpsecEngine.source_port_randomize` (method) `modules/network_opsec.py:269` `def source_port_randomize(self)` -- Randomize source port for outbound connections.
-- `NetworkOpsecEngine.connection_jitter_schedule` (method) `modules/network_opsec.py:294` `def connection_jitter_schedule(self, beacon_interval)` -- Generate a jitter schedule for beacon connections.
-- `NetworkOpsecEngine.canary_detection_setup` (method) `modules/network_opsec.py:317` `def canary_detection_setup(self)` -- Set up canary detection for the engagement.
-- `NetworkOpsecEngine.summary` (method) `modules/network_opsec.py:349` `def summary(self)`
-
-## modules/nmap2csv.py
-- `dottedquad_to_num` (function) `modules/nmap2csv.py:126` `def dottedquad_to_num(ip)` -- Convert decimal dotted quad string IP to long integer
-- `num_to_dottedquad` (function) `modules/nmap2csv.py:133` `def num_to_dottedquad(n)` -- Convert long int IP to dotted quad string
-- `unique_match_from_list` (function) `modules/nmap2csv.py:140` `def unique_match_from_list(list)` -- Check the list for a potential pattern match
-- `extract_matching_pattern` (function) `modules/nmap2csv.py:156` `def extract_matching_pattern(regex, group_name, unfiltered_list)` -- Return the desired group_name from a list of matching patterns
-- `Host.__init__` (method) `modules/nmap2csv.py:177` `def __init__(self, ip, fqdn)`
-- `Host.add_port` (method) `modules/nmap2csv.py:188` `def add_port(self, port)`
-- `Host.get_ip_num_format` (method) `modules/nmap2csv.py:192` `def get_ip_num_format(self)`
-- `Host.get_ip_dotted_format` (method) `modules/nmap2csv.py:195` `def get_ip_dotted_format(self)`
-- `Host.get_fqdn` (method) `modules/nmap2csv.py:198` `def get_fqdn(self)`
-- `Host.get_rdns_record` (method) `modules/nmap2csv.py:201` `def get_rdns_record(self)`
-- `Host.get_port_list` (method) `modules/nmap2csv.py:204` `def get_port_list(self)`
-- `Host.get_port_number_list` (method) `modules/nmap2csv.py:207` `def get_port_number_list(self)`
-- `Host.get_port_protocol_list` (method) `modules/nmap2csv.py:216` `def get_port_protocol_list(self)`
-- `Host.get_port_service_list` (method) `modules/nmap2csv.py:225` `def get_port_service_list(self)`
-- `Host.get_port_version_list` (method) `modules/nmap2csv.py:234` `def get_port_version_list(self)`
-- `Host.get_port_script_list` (method) `modules/nmap2csv.py:243` `def get_port_script_list(self)`
-- `Host.get_os` (method) `modules/nmap2csv.py:252` `def get_os(self)`
-- `Host.get_mac_address` (method) `modules/nmap2csv.py:255` `def get_mac_address(self)`
-- `Host.get_mac_address_vendor` (method) `modules/nmap2csv.py:258` `def get_mac_address_vendor(self)`
-- `Host.get_network_distance` (method) `modules/nmap2csv.py:261` `def get_network_distance(self)`
-- `Host.set_fqdn` (method) `modules/nmap2csv.py:265` `def set_fqdn(self, fqdn)`
-- `Host.set_rdns_record` (method) `modules/nmap2csv.py:268` `def set_rdns_record(self, rdns_record)`
-- `Host.set_os` (method) `modules/nmap2csv.py:271` `def set_os(self, os)`
-- `Host.set_mac` (method) `modules/nmap2csv.py:274` `def set_mac(self, mac_address, mac_address_vendor)`
-- `Host.set_network_distance` (method) `modules/nmap2csv.py:278` `def set_network_distance(self, network_distance)`
-- `Port.__init__` (method) `modules/nmap2csv.py:283` `def __init__(self, number, protocol, service, version, script)`
-- `Port.get_number` (method) `modules/nmap2csv.py:290` `def get_number(self)`
-- `Port.get_protocol` (method) `modules/nmap2csv.py:293` `def get_protocol(self)`
-- `Port.get_service` (method) `modules/nmap2csv.py:296` `def get_service(self)`
-- `Port.get_version` (method) `modules/nmap2csv.py:299` `def get_version(self)`
-- `Port.get_script` (method) `modules/nmap2csv.py:302` `def get_script(self)`
-- `Port.set_service` (method) `modules/nmap2csv.py:305` `def set_service(self, service)`
-- `Port.set_version` (method) `modules/nmap2csv.py:308` `def set_version(self, version)`
-- `Port.set_script` (method) `modules/nmap2csv.py:311` `def set_script(self, script)`
-- `split_grepable_match` (function) `modules/nmap2csv.py:315` `def split_grepable_match(raw_string)` -- Split the raw line to a neat Host object
-- `parse` (function) `modules/nmap2csv.py:362` `def parse(fd)` -- Parse the data according to several regexes
-- `parse_xml` (function) `modules/nmap2csv.py:492` `def parse_xml(xml_file)` -- Parse the XML file
-- `is_format_valid` (function) `modules/nmap2csv.py:572` `def is_format_valid(fmt)` -- Check for the supplied custom output format
-- `formatted_item` (function) `modules/nmap2csv.py:606` `def formatted_item(host, format_item)` -- return the attribute value related to the host
-- `repeat_attributes` (function) `modules/nmap2csv.py:639` `def repeat_attributes(attribute_list)` -- repeat attribute lists to the maximum for the
-- `generate_csv` (function) `modules/nmap2csv.py:653` `def generate_csv(fd, results, options)` -- Generate a plain ';' separated csv file with the desired or default attribute format
-- `main` (function) `modules/nmap2csv.py:688` `def main()`
-
-## modules/notify.py
-Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`, `tests/test_security_codeql_batch.py`
-- `severity_rank` (function) `modules/notify.py:31` `def severity_rank(severity, config)` -- Return the comparable order for a severity label.
-- `mask_secrets` (function) `modules/notify.py:39` `def mask_secrets(text, config)` -- Replace known secret prefixes with a redaction marker.
-- `url_allowed` (function) `modules/notify.py:57` `def url_allowed(url)` -- SSRF dial-guard for webhook delivery (LAZY parity).
-- `post_url_validated` (function) `modules/notify.py:145` `def post_url_validated(url, data, timeout)` -- POST data to a webhook URL after SSRF validation, guarding redirects.
-- `_GuardRedirect.redirect_request` (method) `modules/notify.py:159` `def redirect_request(self, req, fp, code, msg, headers, newurl)`
-- `Notifier.__init__` (method) `modules/notify.py:207` `def __init__(self, config)` -- Initialize with shared notification constants.
-- `Notifier.should_send` (method) `modules/notify.py:215` `def should_send(self, message, channel)` -- Apply event, severity, keyword and scope gates (LAZY parity).
-- `Notifier.render` (method) `modules/notify.py:238` `def render(self, message)` -- Render masked Markdown text for a message.
-- `Notifier.dispatch` (method) `modules/notify.py:244` `def dispatch(self, message, channels)` -- Fan out to eligible channels and journal deliveries.
-- `Notifier.flush_digest` (method) `modules/notify.py:260` `def flush_digest(self, max_age_sec)` -- Emit one digest per channel when due (default 30m, LAZY parity).
-
-## modules/nuclei_templates_sync.py
-- `repo_root` (function) `modules/nuclei_templates_sync.py:39` `def repo_root()` -- Return the LazyOwn repository root derived from this file location.
-- `canonical_dest` (function) `modules/nuclei_templates_sync.py:48` `def canonical_dest(subdir)` -- Return the canonical marketplace destination for a source.
-- `run` (function) `modules/nuclei_templates_sync.py:60` `def run(argv, cwd)` -- Run a subprocess capturing output as text without raising.
-- `ensure_git_available` (function) `modules/nuclei_templates_sync.py:73` `def ensure_git_available()` -- Abort with a clear message when the git binary is missing.
-- `clone_templates` (function) `modules/nuclei_templates_sync.py:84` `def clone_templates(repo, staging)` -- Shallow-clone the template repository into the staging directory.
-- `strip_git_traces` (function) `modules/nuclei_templates_sync.py:113` `def strip_git_traces(tree)` -- Remove every .git file or directory under the staged tree.
-- `count_templates` (function) `modules/nuclei_templates_sync.py:132` `def count_templates(tree)` -- Count Nuclei template files under a directory tree.
-- `replace_dest` (function) `modules/nuclei_templates_sync.py:144` `def replace_dest(src, dest, expected)` -- Atomically replace the destination with the staged tree contents.
-- `same_remote` (function) `modules/nuclei_templates_sync.py:168` `def same_remote(path, repo)` -- Check whether an existing clone points at the expected remote.
-- `normalize` (function) `modules/nuclei_templates_sync.py:179` `def normalize(url)`
-- `refresh_existing_clone` (function) `modules/nuclei_templates_sync.py:188` `def refresh_existing_clone(path, repo)` -- Fast-forward an existing clean clone of the same remote.
-- `validate_subset` (function) `modules/nuclei_templates_sync.py:209` `def validate_subset(dest, subset)` -- Validate a template subset with the nuclei binary when available.
-- `build_parser` (function) `modules/nuclei_templates_sync.py:238` `def build_parser()` -- Build the command line parser for the sync script.
-- `sync` (function) `modules/nuclei_templates_sync.py:263` `def sync(name, repo, dest, refresh_existing, skip_validate)` -- Clone, clean, and install one template source.
-- `resolve_plan` (function) `modules/nuclei_templates_sync.py:308` `def resolve_plan(args)` -- Resolve the requested sources into (name, repo, dest) work items.
-- `main` (function) `modules/nuclei_templates_sync.py:337` `def main(argv)` -- Entry point for the template sync script.
-
-## modules/obs_parser.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/sinks/world_model.py`, `skills/autonomous_daemon.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
-- `Finding.with_technique` (method) `modules/obs_parser.py:88` `def with_technique(self, mapping)` -- Fill ``technique_id`` from a vulnerability-class mapping lens.
-- `Observation.by_type` (method) `modules/obs_parser.py:114` `def by_type(self, ftype)`
-- `Observation.has` (method) `modules/obs_parser.py:117` `def has(self, ftype)`
-- `Extractor.extract` (method) `modules/obs_parser.py:130` `def extract(self, text, host)` -- Return all findings of this type found in *text*.
-- `_ExtractorRegistry.__init__` (method) `modules/obs_parser.py:137` `def __init__(self)`
-- `_ExtractorRegistry.register` (method) `modules/obs_parser.py:140` `def register(self, extractor)`
-- `_ExtractorRegistry.run_all` (method) `modules/obs_parser.py:143` `def run_all(self, text, host)`
-- `_IPExtractor.extract` (method) `modules/obs_parser.py:165` `def extract(self, text, host)`
-- `_CredentialExtractor.extract` (method) `modules/obs_parser.py:206` `def extract(self, text, host)`
-- `_ServiceVersionExtractor.extract` (method) `modules/obs_parser.py:229` `def extract(self, text, host)`
-- `_PathExtractor.extract` (method) `modules/obs_parser.py:255` `def extract(self, text, host)`
-- `_UsernameExtractor.extract` (method) `modules/obs_parser.py:276` `def extract(self, text, host)`
-- `_HashExtractor.extract` (method) `modules/obs_parser.py:302` `def extract(self, text, host)`
-- `_CVEExtractor.extract` (method) `modules/obs_parser.py:319` `def extract(self, text, host)`
-- `_DomainExtractor.extract` (method) `modules/obs_parser.py:336` `def extract(self, text, host)`
-- `_EmailExtractor.extract` (method) `modules/obs_parser.py:354` `def extract(self, text, host)`
-- `_ErrorExtractor.extract` (method) `modules/obs_parser.py:376` `def extract(self, text, host)`
-- `_CloudIdentityExtractor.extract` (method) `modules/obs_parser.py:398` `def extract(self, text, host)`
-- `_SuccessDetector.is_success` (method) `modules/obs_parser.py:438` `def is_success(self, text)`
-- `ObsParser.__init__` (method) `modules/obs_parser.py:462` `def __init__(self)`
-- `ObsParser.register` (method) `modules/obs_parser.py:481` `def register(self, extractor)` -- Register an additional Extractor (Open/Closed extension point).
-- `ObsParser.parse` (method) `modules/obs_parser.py:485` `def parse(self, output, host, tool)` -- Parse *output* and return an Observation.
-- `get_parser` (function) `modules/obs_parser.py:531` `def get_parser()` -- Return (or create) the module-level singleton ObsParser.
-- `parse` (function) `modules/obs_parser.py:539` `def parse(output, host, tool)` -- Module-level convenience wrapper.
 
 
 Next: [API_p17.md](API_p17.md)

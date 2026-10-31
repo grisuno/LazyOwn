@@ -1,5 +1,244 @@
-# API (page 10 of 25)
+# API (page 10 of 26)
 Previous: [API_p9.md](API_p9.md)
+
+## modules/agent_runner.py
+Depends on: `core/logging.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
+Imported by: `modules/lazy_agent.py`, `modules/vulnbot.py`, `tests/test_lazy_streaming.py`
+- `configure_logging` (function) `modules/agent_runner.py:64` `def configure_logging(debug)`
+- `AgentTool.__init__` (method) `modules/agent_runner.py:73` `def __init__(self, name, description, func, parameters, required)`
+- `AgentTool.to_api_format` (method) `modules/agent_runner.py:81` `def to_api_format(self)`
+- `AgentTool.execute` (method) `modules/agent_runner.py:87` `def execute(self)` -- Execute with argument validation and clear formatting.
+- `ASTToolExtractor.extract_commands_from_file` (method) `modules/agent_runner.py:142` `def extract_commands_from_file(file_path, prefix)`
+- `AgentRunner.__init__` (method) `modules/agent_runner.py:197` `def __init__(self, model, system_prompt, max_iterations)`
+- `AgentRunner.register_tool` (method) `modules/agent_runner.py:222` `def register_tool(self, tool)`
+- `AgentRunner.register_tool_from_instance` (method) `modules/agent_runner.py:225` `def register_tool_from_instance(self, func)` -- Wrap a plain function as an AgentTool using its signature and docstring.
+- `AgentRunner.register_tools_from_metadata` (method) `modules/agent_runner.py:243` `def register_tools_from_metadata(self, commands, executor)`
+- `make_executor` (function) `modules/agent_runner.py:247` `def make_executor(cmd_name)`
+- `wrapper` (function) `modules/agent_runner.py:248` `def wrapper(command)`
+- `AgentRunner.get_tools_for_api` (method) `modules/agent_runner.py:270` `def get_tools_for_api(self)`
+- `AgentRunner.run` (method) `modules/agent_runner.py:275` `def run(self, user_input)`
+- `LazyOwnShellWrapper.__init__` (method) `modules/agent_runner.py:489` `def __init__(self, script_path)`
+- `LazyOwnShellWrapper.execute_command` (method) `modules/agent_runner.py:519` `def execute_command(self, command)` -- Execute a command with a timeout using threading.
+- `target` (function) `modules/agent_runner.py:526` `def target()`
+- `LazyOwnShellWrapper.get_commands_summary` (method) `modules/agent_runner.py:556` `def get_commands_summary(self)`
+- `VulnBotCLI.__init__` (method) `modules/agent_runner.py:564` `def __init__(self, provider, mode, debug, script_path)`
+- `VulnBotCLI.process_request` (method) `modules/agent_runner.py:619` `def process_request(self, user_input)`
+- `interactive_mode` (function) `modules/agent_runner.py:624` `def interactive_mode(bot)`
+- `parse_args` (function) `modules/agent_runner.py:648` `def parse_args()`
+- `main` (function) `modules/agent_runner.py:658` `def main()`
+
+## modules/ai_exploit_chain.py
+Depends on: `modules/autonomous_exploit_engine.py`
+Imported by: `cli/commands/pwn.py`, `skills/lazyown_mcp.py`
+- `AIExploitChainer.__init__` (method) `modules/ai_exploit_chain.py:259` `def __init__(self)`
+- `AIExploitChainer.reason` (method) `modules/ai_exploit_chain.py:285` `def reason(self, context)` -- Analyze context failures and produce the next best exploit candidate.
+- `AIExploitChainer.evaluate_failure` (method) `modules/ai_exploit_chain.py:306` `def evaluate_failure(result)` -- Classify the reason for an exploit failure by output pattern matching.
+- `AIExploitChainer.select_next_strategy` (method) `modules/ai_exploit_chain.py:318` `def select_next_strategy(self, context)` -- Select the next strategy to attempt based on context and failures.
+- `AIExploitChainer.estimate_confidence` (method) `modules/ai_exploit_chain.py:349` `def estimate_confidence(self, strategy, profile)` -- Estimate confidence (0.0-1.0) for a strategy against a target profile.
+- `AIExploitChainer.build_chain_plan` (method) `modules/ai_exploit_chain.py:391` `def build_chain_plan(self, context)` -- Build a full multi-step exploitation plan following the kill chain.
+- `AIExploitChainer.adapt_chain` (method) `modules/ai_exploit_chain.py:428` `def adapt_chain(self, context, new_info)` -- Adapt the chain plan based on newly discovered information.
+
+## modules/ai_fallback.py
+Depends on: `modules/llm_factory.py`, `modules/llm_orchestrator.py`, `modules/toposwarm_bridge.py`
+Imported by: `modules/recommender.py`, `modules/timeline_narrator.py`, `tests/test_llm_orchestrator.py`
+- `call` (function) `modules/ai_fallback.py:280` `def call(prompt, system, api_key, max_tokens, temperature)` -- Call the orchestrator chain first, then Groq (explicit key only), Ollama, TopoSwarm, and finally return the help...
+
+## modules/ai_model.py
+Depends on: `core/logging.py`, `modules/llm_factory.py`
+Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `modules/llm_client.py`, `modules/llm_factory.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
+- `AIModel.generate` (method) `modules/ai_model.py:56` `def generate(self, prompt)` -- Return a non-streaming completion for ``prompt``.
+- `AIModel.stream_generate` (method) `modules/ai_model.py:60` `def stream_generate(self, prompt)` -- Yield streaming completion chunks for ``prompt``.
+- `AIModel.complete` (method) `modules/ai_model.py:63` `def complete(self, system, user, max_tokens, temperature)` -- Return a completion conforming to ``core.protocols.LLMBackend``.
+- `_LazyImporter.groq` (method) `modules/ai_model.py:105` `def groq(cls)`
+- `_LazyImporter.openai` (method) `modules/ai_model.py:113` `def openai(cls)`
+- `_LazyImporter.anthropic` (method) `modules/ai_model.py:121` `def anthropic(cls)`
+- `GroqModel.__init__` (method) `modules/ai_model.py:137` `def __init__(self, api_key, model)`
+- `GroqModel.generate` (method) `modules/ai_model.py:155` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
+- `GroqModel.stream_generate` (method) `modules/ai_model.py:183` `def stream_generate(self, prompt)` -- Yield streamed completion chunks for ``prompt``.
+- `GroqModel.complete` (method) `modules/ai_model.py:216` `def complete(self, system, user, max_tokens, temperature)` -- Return a chat completion using native role separation.
+- `OllamaModel.__init__` (method) `modules/ai_model.py:252` `def __init__(self, model, host)`
+- `OllamaModel.generate` (method) `modules/ai_model.py:260` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
+- `OllamaModel.stream_generate` (method) `modules/ai_model.py:281` `def stream_generate(self, prompt)` -- Yield streamed completion chunks for ``prompt``.
+- `LlamaCppModel.__init__` (method) `modules/ai_model.py:324` `def __init__(self, model, host)`
+- `LlamaCppModel.generate` (method) `modules/ai_model.py:362` `def generate(self, prompt)` -- Return a single completion for ``prompt``.
+- `LlamaCppModel.stream_generate` (method) `modules/ai_model.py:382` `def stream_generate(self, prompt)` -- Yield streamed completion deltas for ``prompt``.
+- `LlamaCppModel.complete` (method) `modules/ai_model.py:413` `def complete(self, system, user, max_tokens, temperature)` -- Role-aware completion through the chat endpoint.
+- `OpenAIModel.__init__` (method) `modules/ai_model.py:440` `def __init__(self, api_key, model)`
+- `OpenAIModel.generate` (method) `modules/ai_model.py:444` `def generate(self, prompt)`
+- `OpenAIModel.stream_generate` (method) `modules/ai_model.py:455` `def stream_generate(self, prompt)`
+- `OpenAIModel.complete` (method) `modules/ai_model.py:470` `def complete(self, system, user, max_tokens, temperature)`
+- `AnthropicModel.__init__` (method) `modules/ai_model.py:499` `def __init__(self, api_key, model)`
+- `AnthropicModel.generate` (method) `modules/ai_model.py:503` `def generate(self, prompt)`
+- `AnthropicModel.stream_generate` (method) `modules/ai_model.py:515` `def stream_generate(self, prompt)`
+- `AnthropicModel.complete` (method) `modules/ai_model.py:529` `def complete(self, system, user, max_tokens, temperature)`
+- `DeepSeekModel.__init__` (method) `modules/ai_model.py:556` `def __init__(self, api_key, model)`
+- `DeepSeekModel.generate` (method) `modules/ai_model.py:563` `def generate(self, prompt)`
+- `DeepSeekModel.stream_generate` (method) `modules/ai_model.py:574` `def stream_generate(self, prompt)`
+- `DeepSeekModel.complete` (method) `modules/ai_model.py:589` `def complete(self, system, user, max_tokens, temperature)`
+
+## modules/amsi.c
+- `LoadNtFunctions` (function) `modules/amsi.c:38` `void LoadNtFunctions()` -- Función para cargar las funciones dinámicamente
+- `AMS1patch_OpenSession_jne` (function) `modules/amsi.c:66` `void AMS1patch_OpenSession_jne(HANDLE hproc)` -- Técnica de Saad, también conocido como @D1rkMtr (https://twitter.com/D1rkMtr/)...
+- `AMS1patch_OpenSession_ret` (function) `modules/amsi.c:116` `void AMS1patch_OpenSession_ret(HANDLE hproc)`
+- `AMS1patch_ScanBuffer_ret` (function) `modules/amsi.c:166` `void AMS1patch_ScanBuffer_ret(HANDLE hproc)`
+- `AMS1patch_RastaMouse` (function) `modules/amsi.c:215` `void AMS1patch_RastaMouse(HANDLE hproc)`
+- `AMS1patch_E_ACCESSDENIED` (function) `modules/amsi.c:274` `void AMS1patch_E_ACCESSDENIED(HANDLE hproc)`
+- `AMS1patch_E_HANDLE` (function) `modules/amsi.c:326` `void AMS1patch_E_HANDLE(HANDLE hproc)`
+- `AMS1patch_E_OUTOFMEMORY` (function) `modules/amsi.c:378` `void AMS1patch_E_OUTOFMEMORY(HANDLE hproc)`
+- `main` (function) `modules/amsi.c:428` `int main(int argc, char** argv)`
+
+## modules/amt_auth_bypass.py
+- `start` (function) `modules/amt_auth_bypass.py:4` `def start()`
+- `BlankAuthResponse.request` (method) `modules/amt_auth_bypass.py:11` `def request(self, flow)`
+
+## modules/apt_playbooks.py
+Depends on: `core/console.py`, `modules/atomic_resolver.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/recommendation_signals.py`, `modules/emulation_runner.py`, `modules/operation.py`, `modules/selection/playbook.py`, `tests/test_atomic_loop.py`, `tests/test_emulation_runner.py`, `tests/test_selectors_capabilities.py`
+- `AptPlaybook.from_dict` (method) `modules/apt_playbooks.py:74` `def from_dict(cls, data)`
+- `AptPlaybook.to_summary` (method) `modules/apt_playbooks.py:99` `def to_summary(self)`
+- `AptPlaybookEngine.__init__` (method) `modules/apt_playbooks.py:114` `def __init__(self, playbook_dir)`
+- `AptPlaybookEngine.list_playbooks` (method) `modules/apt_playbooks.py:131` `def list_playbooks(self)`
+- `AptPlaybookEngine.get` (method) `modules/apt_playbooks.py:134` `def get(self, name)`
+- `AptPlaybookEngine.validate` (method) `modules/apt_playbooks.py:138` `def validate(self, pb, atomic_path)` -- Validate that all referenced atomic tests exist locally.
+- `AptPlaybookEngine.generate_attack_plan` (method) `modules/apt_playbooks.py:213` `def generate_attack_plan(self, pb, output_path)` -- Generate a legacy ``attack_plan.yaml`` from an enriched APT playbook.
+- `AptPlaybookEngine.report_json` (method) `modules/apt_playbooks.py:230` `def report_json(self, pb, output_path)` -- Write a structured JSON report of the playbook for the operator.
+
+## modules/asset_graph.py
+Imported by: `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
+- `asset_key` (function) `modules/asset_graph.py:28` `def asset_key(asset_type, value, parent_key)` -- Compute the stable deduplication key for an asset.
+- `AssetGraph.__init__` (method) `modules/asset_graph.py:73` `def __init__(self, config)` -- Initialize empty graphs and anchor indexes.
+- `AssetGraph.upsert_asset` (method) `modules/asset_graph.py:82` `def upsert_asset(self, asset_type, value, parent_key, company)` -- Insert or refresh an asset and return the canonical node.
+- `AssetGraph.add_node` (method) `modules/asset_graph.py:108` `def add_node(self, task_id, kind, text, parent_id, payload)` -- Append an exploration node to a task chain.
+- `AssetGraph.add_fact` (method) `modules/asset_graph.py:123` `def add_fact(self, task_id, text, parent_id, payload)` -- Append a fact node to a task chain.
+- `AssetGraph.add_finding` (method) `modules/asset_graph.py:128` `def add_finding(self, task_id, text, parent_id, payload)` -- Append a finding node to a task chain.
+- `AssetGraph.anchor` (method) `modules/asset_graph.py:133` `def anchor(self, exploration_id, key)` -- Link an exploration node to an asset key.
+- `AssetGraph.assets_for_node` (method) `modules/asset_graph.py:145` `def assets_for_node(self, exploration_id)` -- List assets anchored to one exploration node.
+- `AssetGraph.nodes_for_asset` (method) `modules/asset_graph.py:151` `def nodes_for_asset(self, key)` -- List exploration nodes anchored to one asset.
+- `AssetGraph.coverage` (method) `modules/asset_graph.py:157` `def coverage(self, task_id)` -- Report tested versus total assets for a task.
+- `AssetGraph.mirror_to_campaign` (method) `modules/asset_graph.py:170` `def mirror_to_campaign(self, db, world_model, workspace_id)` -- Mirror graph assets into the campaign database and world model.
+- `coverage_for` (function) `modules/asset_graph.py:214` `def coverage_for(db, workspace_id, scope)` -- Report tested scope assets versus total scope from the campaign db.
+
+## modules/atomic_cli.py
+Depends on: `core/console.py`, `core/hardening.py`, `core/logging.py`, `modules/atomic_resolver.py`, `utils.py`
+Imported by: `cli/commands/command_and_control_migrated.py`
+- `parse_atomic_line` (function) `modules/atomic_cli.py:37` `def parse_atomic_line(line)` -- Parse free-form CLI args into a structured request.
+- `run_atomic_tests` (function) `modules/atomic_cli.py:185` `def run_atomic_tests(params, line, shell)` -- Execute the atomic_tests workflow (secure + agent-safe).
+- `run_atomic_gen` (function) `modules/atomic_cli.py:325` `def run_atomic_gen(params, line, shell)` -- Generate test + cleanup scripts for one technique or GUID.
+
+## modules/atomic_enricher.py
+Depends on: `core/logging.py`
+Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `tests/test_core_modules.py`
+- `enrich` (function) `modules/atomic_enricher.py:173` `def enrich(force)` -- Build enriched parquet.
+- `load_enriched` (function) `modules/atomic_enricher.py:215` `def load_enriched()` -- Load enriched parquet, building it first if it doesn't exist.
+- `query_atomic` (function) `modules/atomic_enricher.py:232` `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` -- Structured query over the enriched Atomic Red Team technique catalogue.
+
+## modules/atomic_exploit_bridge.py
+Depends on: `core/config.py`, `core/logging.py`, `core/safe_exec.py`, `modules/__init__.py`, `modules/c2_surfaces.py`, `modules/emulation_runner.py`, `modules/lazy_cve_feed.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/ad_gym.py`, `modules/autonomous_exploit_engine.py`, `modules/c2_agent.py`, `modules/emulation_runner.py`, `modules/lazy_loop.py`, `modules/metasploitable_gym.py`, `modules/redteam_gym.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_exploit_bridge.py`, `tests/test_c2_surfaces.py`, `tests/test_emulation_runner.py`, `tests/test_gym_cli.py`, `tests/test_metasploitable_gym.py`, `tests/test_outcome_bus.py`
+- `shell_output_evidence` (function) `modules/atomic_exploit_bridge.py:83` `def shell_output_evidence(output)` -- Return True only when output carries genuine interactive-shell evidence.
+- `ExploitSpec.severity_rank` (method) `modules/atomic_exploit_bridge.py:137` `def severity_rank(self)` -- Return numeric severity for ranking (mirrors the engine).
+- `ExploitSpec.to_dict` (method) `modules/atomic_exploit_bridge.py:141` `def to_dict(self)` -- Return a JSON-serializable view.
+- `validate_spec` (function) `modules/atomic_exploit_bridge.py:170` `def validate_spec(data, filename)` -- Validate raw YAML data against the exploit schema.
+- `load_all` (function) `modules/atomic_exploit_bridge.py:246` `def load_all(exploits_dir)` -- Load every enabled, valid exploit YAML (skips the rest loudly).
+- `match_score` (function) `modules/atomic_exploit_bridge.py:301` `def match_score(spec, service, product, version, os_hint)` -- Score a spec against one discovered service (0 when no match).
+- `parse_scan_xml` (function) `modules/atomic_exploit_bridge.py:334` `def parse_scan_xml(xml_path)` -- Parse open TCP ports from a lazynmap XML file (stdlib only).
+- `auto` (function) `modules/atomic_exploit_bridge.py:371` `def auto(target, lhost, max_attempts, stop_on_shell, task_id, exploits_dir, scan_dir)` -- Pwntomate-style sweep: triggers from scan XML, ranked, stop on SHELL.
+- `rank` (function) `modules/atomic_exploit_bridge.py:476` `def rank(services, exploits_dir, os_hint)` -- Rank every spec against discovered services (severity, then confidence).
+- `build_commands` (function) `modules/atomic_exploit_bridge.py:545` `def build_commands(spec, rhost, lhost, lport, port)` -- Substitute ``{tokens}`` into a spec's commands (no shell involved).
+- `detect_shell` (function) `modules/atomic_exploit_bridge.py:563` `def detect_shell(spec, output)` -- Return True when output carries genuine shell evidence.
+- `run_spec` (function) `modules/atomic_exploit_bridge.py:612` `def run_spec(spec, rhost, lhost, lport, port)` -- Execute a spec's commands in order; stop at the first SHELL hit.
+- `open_shell` (function) `modules/atomic_exploit_bridge.py:692` `def open_shell(target, services, lhost, exploits_dir, attempts, privilege)` -- Return the first exec-capable spec with a live multiplexed session.
+- `_ShellSession.__init__` (method) `modules/atomic_exploit_bridge.py:756` `def __init__(self, target, port, sock, owner)`
+- `_ShellSession.alive` (method) `modules/atomic_exploit_bridge.py:766` `def alive(self, timeout)` -- Return True when the session answers a no-op probe.
+- `_ShellSession.run` (method) `modules/atomic_exploit_bridge.py:773` `def run(self, command, timeout)` -- Run one command, return stdout+stderr (never raises).
+- `_ShellSession.close` (method) `modules/atomic_exploit_bridge.py:815` `def close(self)` -- End the remote shell cleanly so its listener dies too.
+- `record_shell_outcome` (function) `modules/atomic_exploit_bridge.py:866` `def record_shell_outcome(target, via)` -- Mark one target as compromised after an operator obtains a shell.
+- `live_sessions` (function) `modules/atomic_exploit_bridge.py:895` `def live_sessions()` -- Return in-process shell sessions without probing the target.
+- `close_sessions` (function) `modules/atomic_exploit_bridge.py:914` `def close_sessions(target)` -- Close cached sessions (all, or one target).
+- `cleanup_target` (function) `modules/atomic_exploit_bridge.py:956` `def cleanup_target(target, lhost, hard, gym_container, exploits_dir, staging_dir)` -- Clean up after an engagement (soft default, hard on request).
+- `ensure_session` (function) `modules/atomic_exploit_bridge.py:1033` `def ensure_session(spec, target, lhost)` -- Return a live multiplexed session, establishing it when needed.
+- `remote_exec` (function) `modules/atomic_exploit_bridge.py:1129` `def remote_exec(spec, target, command, lhost)` -- Run one command through the persistent multiplexed session.
+- `interactive_shell` (function) `modules/atomic_exploit_bridge.py:1147` `def interactive_shell(target, lhost, interactive, exploits_dir)` -- Open a multiplexed session; drop into a REPL only when allowed.
+- `emulate` (function) `modules/atomic_exploit_bridge.py:1202` `def emulate(target, techniques, playbook, platform, lhost, per_technique, exploits_dir, scan_dir, include_manual...` -- Execute emulation tests on the target through one working shell.
+- `record_outcome` (function) `modules/atomic_exploit_bridge.py:1236` `def record_outcome(spec, target, shell, output, task_id, intent_id, surfaces_dir, port, service, product, version...` -- Feed one exploit outcome to every shared surface through the bus.
+- `main` (function) `modules/atomic_exploit_bridge.py:1324` `def main()` -- CLI: validate | list | rank | run (used by the addon and operators).
+
+## modules/atomic_resolver.py
+Depends on: `core/logging.py`, `core/safe_exec.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/apt_playbooks.py`, `modules/atomic_cli.py`, `modules/emulation_runner.py`, `modules/ttpscope_bridge.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_atomic_resolver.py`
+- `normalize_mitre_id` (function) `modules/atomic_resolver.py:66` `def normalize_mitre_id(raw)` -- Normalize and validate a MITRE technique ID.
+- `is_mitre_id` (function) `modules/atomic_resolver.py:84` `def is_mitre_id(raw)` -- Return True when *raw* looks like a MITRE technique ID.
+- `normalize_guid` (function) `modules/atomic_resolver.py:93` `def normalize_guid(raw)` -- Normalize and validate an Atomic test GUID.
+- `is_guid` (function) `modules/atomic_resolver.py:109` `def is_guid(raw)` -- Return True when *raw* looks like an Atomic test GUID.
+- `normalize_platform` (function) `modules/atomic_resolver.py:118` `def normalize_platform(raw)` -- Validate a platform against the allowlist.
+- `AtomicTest.mitre_url` (method) `modules/atomic_resolver.py:147` `def mitre_url(self)` -- Return the ATT&CK URL for this test.
+- `AtomicTest.to_dict` (method) `modules/atomic_resolver.py:151` `def to_dict(self)` -- Return a JSON-serializable view.
+- `AtomicResolver.__init__` (method) `modules/atomic_resolver.py:226` `def __init__(self, atomics_dir)`
+- `AtomicResolver.available` (method) `modules/atomic_resolver.py:233` `def available(self)` -- Return True when the atomics directory exists.
+- `AtomicResolver.ensure_repo` (method) `modules/atomic_resolver.py:237` `def ensure_repo(self)` -- Clone or pull the Atomic Red Team repo without shell.
+- `AtomicResolver.build_index` (method) `modules/atomic_resolver.py:265` `def build_index(self, force)` -- Build the MITRE -> [GUID] index (cached unless *force*).
+- `AtomicResolver.guids_for_technique` (method) `modules/atomic_resolver.py:305` `def guids_for_technique(self, mitre_id)` -- Return GUIDs registered for a technique ID (empty when unknown).
+- `AtomicResolver.get_by_guid` (method) `modules/atomic_resolver.py:311` `def get_by_guid(self, guid)` -- Return the test for a GUID, or None when unknown.
+- `AtomicResolver.list_for_technique` (method) `modules/atomic_resolver.py:317` `def list_for_technique(self, mitre_id, platform)` -- List tests for a technique, optionally filtered by platform.
+- `AtomicResolver.resolve` (method) `modules/atomic_resolver.py:334` `def resolve(self, query, platform)` -- Resolve a MITRE ID, GUID, or prefix to matching tests.
+- `AtomicResolver.chain` (method) `modules/atomic_resolver.py:380` `def chain(self, techniques, platform, first_match_only)` -- Translate an ordered APT technique chain to concrete tests.
+- `AtomicResolver.stats` (method) `modules/atomic_resolver.py:415` `def stats(self)` -- Return index counters.
+- `get_resolver` (function) `modules/atomic_resolver.py:424` `def get_resolver(atomics_dir)` -- Return the module-level resolver singleton.
+- `resolve_technique` (function) `modules/atomic_resolver.py:432` `def resolve_technique(mitre_id, platform, atomics_dir)` -- Resolve a technique to JSON-serializable test dicts.
+- `resolve_chain` (function) `modules/atomic_resolver.py:442` `def resolve_chain(techniques, platform, atomics_dir)` -- Translate a technique chain to JSON-serializable test dicts.
+- `build_variables` (function) `modules/atomic_resolver.py:452` `def build_variables(test, rhost, domain, rport, username, password)` -- Build #{variable} substitution map for a test.
+- `render_command` (function) `modules/atomic_resolver.py:488` `def render_command(template, variables)` -- Substitute #{variables} without shell interpretation.
+- `technique_env_override` (function) `modules/atomic_resolver.py:496` `def technique_env_override()` -- Return atomics dir override from env (empty when unset).
+
+## modules/attack_surface3d.py
+Depends on: `cli/surface_graph.py`, `modules/__init__.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/intel_fusion.py`
+Imported by: `cli/commands/surface.py`, `lazyc2.py`, `modules/sinks/attack_graph.py`, `tests/test_attack_surface3d.py`
+- `build_attack_graph` (function) `modules/attack_surface3d.py:148` `def build_attack_graph(sessions_dir, payload_path, est_cap)` -- Fuse surface scans with campaign intel into one C2-centred graph.
+- `add_edge` (function) `modules/attack_surface3d.py:156` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation between known nodes.
+- `tag` (function) `modules/attack_surface3d.py:167` `def tag(nid, source)` -- Record a corroborating artefact on a node, deduped.
+- `refresh_summary` (function) `modules/attack_surface3d.py:480` `def refresh_summary(graph, sessions_dir)` -- Score exposure into intel_summary.json for the autonomous loop.
+
+## modules/auto_loop_memory.py
+Imported by: `modules/lazy_loop.py`, `tests/test_auto_loop_memory.py`, `tests/test_failure_memory_veto.py`
+- `FailureMemory.__init__` (method) `modules/auto_loop_memory.py:56` `def __init__(self, filepath)`
+- `FailureMemory.path` (method) `modules/auto_loop_memory.py:63` `def path(self)` -- Backing file path for administrative inspection.
+- `FailureMemory.make_key` (method) `modules/auto_loop_memory.py:68` `def make_key(target, category, command)` -- Build the storage key; raises on empty target or command.
+- `FailureMemory.base_of` (method) `modules/auto_loop_memory.py:75` `def base_of(command)` -- Extract the base command from a full command string.
+- `FailureMemory.record_failure` (method) `modules/auto_loop_memory.py:79` `def record_failure(self, target, category, command)` -- Increment and persist the failure count; returns the new count.
+- `FailureMemory.failure_count` (method) `modules/auto_loop_memory.py:89` `def failure_count(self, target, category, command)` -- Current persisted failure count for the combination.
+- `FailureMemory.count_for_base` (method) `modules/auto_loop_memory.py:94` `def count_for_base(self, target, base_command)` -- Failure hits aggregated across exact keys whose base matches.
+- `FailureMemory.veto_base` (method) `modules/auto_loop_memory.py:105` `def veto_base(self, target, base_command)` -- Mark a base command as blocked by the stuck-loop detector.
+- `FailureMemory.is_blocked` (method) `modules/auto_loop_memory.py:115` `def is_blocked(self, target, base_command, bonus_key)` -- True when the base is vetoed or its failure count hit the threshold.
+- `FailureMemory.failure_count_strict` (method) `modules/auto_loop_memory.py:123` `def failure_count_strict(self, target, key)` -- Failure count for a raw storage key already containing separators.
+- `FailureMemory.blocked_bases` (method) `modules/auto_loop_memory.py:128` `def blocked_bases(self, target)` -- All blocked base commands for the target (vetoed plus past threshold).
+- `FailureMemory.clear_target` (method) `modules/auto_loop_memory.py:140` `def clear_target(self, target)` -- Forget every record for a target (manual reset path).
+- `FailureMemory.sanctioned_bases` (method) `modules/auto_loop_memory.py:146` `def sanctioned_bases(self, target)` -- Administrative view: counts above threshold with their last timestamp.
+- `FailureMemory.save` (method) `modules/auto_loop_memory.py:166` `def save(self)`
+- `DecisionPersistence.__init__` (method) `modules/auto_loop_memory.py:215` `def __init__(self, filepath)`
+- `DecisionPersistence.push` (method) `modules/auto_loop_memory.py:220` `def push(self, command, reason)` -- Park one decision for later consumption (newest first).
+- `DecisionPersistence.pop` (method) `modules/auto_loop_memory.py:229` `def pop(self)` -- Consume and persist-removal of the newest parked decision.
+- `DecisionPersistence.peek` (method) `modules/auto_loop_memory.py:237` `def peek(self)` -- Newest parked decision without consuming it.
+- `DecisionPersistence.save` (method) `modules/auto_loop_memory.py:244` `def save(self)`
+
+## modules/auto_pivot.py
+Imported by: `modules/autonomous_exploit_engine.py`, `skills/lazyown_mcp.py`
+- `AutoPivotEngine.__init__` (method) `modules/auto_pivot.py:73` `def __init__(self, config)`
+- `AutoPivotEngine.set_config` (method) `modules/auto_pivot.py:82` `def set_config(self, config)`
+- `AutoPivotEngine.add_pivot_node` (method) `modules/auto_pivot.py:90` `def add_pivot_node(self, ip, access_type, credential_id, hostname)`
+- `AutoPivotEngine.remove_pivot_node` (method) `modules/auto_pivot.py:120` `def remove_pivot_node(self, ip)`
+- `AutoPivotEngine.discover_subnets` (method) `modules/auto_pivot.py:128` `def discover_subnets(self, node_ip, command_output)`
+- `AutoPivotEngine.build_chain` (method) `modules/auto_pivot.py:146` `def build_chain(self, target_ip, via_nodes, subnet)`
+- `AutoPivotEngine.generate_proxychains_config` (method) `modules/auto_pivot.py:177` `def generate_proxychains_config(self, chain_id)`
+- `AutoPivotEngine.generate_sshuttle_command` (method) `modules/auto_pivot.py:203` `def generate_sshuttle_command(self, node_ip, subnet)`
+- `AutoPivotEngine.generate_chisel_command` (method) `modules/auto_pivot.py:206` `def generate_chisel_command(self, target_ip, local_port)`
+- `AutoPivotEngine.generate_ssh_socks_command` (method) `modules/auto_pivot.py:212` `def generate_ssh_socks_command(self, node_ip, local_port)`
+- `AutoPivotEngine.health_check` (method) `modules/auto_pivot.py:216` `def health_check(self, node_ip)`
+- `AutoPivotEngine.health_check_all` (method) `modules/auto_pivot.py:237` `def health_check_all(self)`
+- `AutoPivotEngine.get_active_routes` (method) `modules/auto_pivot.py:243` `def get_active_routes(self)`
+- `AutoPivotEngine.get_reachable_hosts` (method) `modules/auto_pivot.py:259` `def get_reachable_hosts(self, node_ip)`
+- `AutoPivotEngine.set_reachable_hosts` (method) `modules/auto_pivot.py:267` `def set_reachable_hosts(self, node_ip, hosts)`
+- `AutoPivotEngine.set_route_priority` (method) `modules/auto_pivot.py:272` `def set_route_priority(self, node_ip, priority)`
+- `AutoPivotEngine.suggest_next_pivot` (method) `modules/auto_pivot.py:352` `def suggest_next_pivot(self)`
 
 ## modules/auto_purple.py
 Depends on: `core/config.py`, `core/logging.py`, `core/process.py`, `modules/detection_oracle.py`
@@ -26,32 +265,32 @@ Imported by: `cli/commands/purple_team.py`
 
 ## modules/auto_registry.py
 Depends on: `modules/__init__.py`, `modules/chain_registry.py`, `modules/command_executor.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_orchestrator_feedback.py`, `modules/orchestrator_config.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`
-- `auto_verb_target` (function) `modules/auto_registry.py:66` `def auto_verb_target(command)` -- Return the target an ``auto <verb> <target>`` line carries, else ''.
-- `verb_enabled` (function) `modules/auto_registry.py:308` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
-- `binary_available` (function) `modules/auto_registry.py:418` `def binary_available(name)` -- Return True when a command token can actually execute here.
-- `missing_binary` (function) `modules/auto_registry.py:434` `def missing_binary(command)` -- Return the first binary a shell command needs but PATH lacks.
-- `verb_gap` (function) `modules/auto_registry.py:446` `def verb_gap(verb)` -- Return a human reason when an automation verb cannot run, else ''.
-- `verb_available` (function) `modules/auto_registry.py:458` `def verb_available(verb)` -- Return True when every binary an automation verb needs is installed.
-- `service_tokens` (function) `modules/auto_registry.py:463` `def service_tokens(service_text)` -- Normalize a service asset value into matchable tokens.
-- `iter_addon_triggers` (function) `modules/auto_registry.py:505` `def iter_addon_triggers()` -- Scan enabled lazyaddons for (name, trigger tokens) pairs.
-- `iter_tool_triggers` (function) `modules/auto_registry.py:541` `def iter_tool_triggers()` -- Scan active pwntomate tools for (toolname, trigger tokens) pairs.
-- `addon_hits_for` (function) `modules/auto_registry.py:564` `def addon_hits_for(service_text, limit)` -- Rank addon/tool names matching one service value.
-- `propose_addon_intents` (function) `modules/auto_registry.py:590` `def propose_addon_intents(service_texts, target, limit)` -- Propose addon intents for discovered services.
-- `is_routable_command` (function) `modules/auto_registry.py:634` `def is_routable_command(line)` -- Return True when the loop executor must route via the shell.
-- `verbs` (function) `modules/auto_registry.py:652` `def verbs()` -- Return every canonical automation verb name.
-- `is_shell_verb` (function) `modules/auto_registry.py:657` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
-- `build_command` (function) `modules/auto_registry.py:681` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
-- `verbs_for` (function) `modules/auto_registry.py:692` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
-- `propose_intents` (function) `modules/auto_registry.py:698` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
-- `steps_for` (function) `modules/auto_registry.py:784` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
-- `_TeeCapture.__init__` (method) `modules/auto_registry.py:924` `def __init__(self, observer)`
-- `_TeeCapture.write` (method) `modules/auto_registry.py:929` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
-- `execute_shell_verb` (function) `modules/auto_registry.py:942` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
-- `track_process` (function) `modules/auto_registry.py:1052` `def track_process(process)` -- Register a live child process for global cancellation.
-- `untrack_process` (function) `modules/auto_registry.py:1057` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
-- `cancel_running_commands` (function) `modules/auto_registry.py:1062` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
-- `execute_streaming` (function) `modules/auto_registry.py:1085` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
+Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/lazyops.py`, `modules/command_executor.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_installer.py`, `modules/lazy_loop.py`, `modules/lazy_osinfer.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/verb_catalog.py`, `skills/lazyown_mcp.py`, `tests/test_atomic_loop.py`, `tests/test_auto_registry.py`, `tests/test_harness_mode.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_fire_pending.py`, `tests/test_selection_wiring.py`
+- `auto_verb_target` (function) `modules/auto_registry.py:67` `def auto_verb_target(command)` -- Return the target an ``auto <verb> <target>`` line carries, else ''.
+- `verb_enabled` (function) `modules/auto_registry.py:309` `def verb_enabled(name)` -- Return whether one auto verb may be proposed or executed.
+- `binary_available` (function) `modules/auto_registry.py:419` `def binary_available(name)` -- Return True when a command token can actually execute here.
+- `missing_binary` (function) `modules/auto_registry.py:435` `def missing_binary(command)` -- Return the first binary a shell command needs but PATH lacks.
+- `verb_gap` (function) `modules/auto_registry.py:447` `def verb_gap(verb)` -- Return a human reason when an automation verb cannot run, else ''.
+- `verb_available` (function) `modules/auto_registry.py:459` `def verb_available(verb)` -- Return True when every binary an automation verb needs is installed.
+- `service_tokens` (function) `modules/auto_registry.py:464` `def service_tokens(service_text)` -- Normalize a service asset value into matchable tokens.
+- `iter_addon_triggers` (function) `modules/auto_registry.py:506` `def iter_addon_triggers()` -- Scan enabled lazyaddons for (name, trigger tokens) pairs.
+- `iter_tool_triggers` (function) `modules/auto_registry.py:542` `def iter_tool_triggers()` -- Scan active pwntomate tools for (toolname, trigger tokens) pairs.
+- `addon_hits_for` (function) `modules/auto_registry.py:565` `def addon_hits_for(service_text, limit)` -- Rank addon/tool names matching one service value.
+- `propose_addon_intents` (function) `modules/auto_registry.py:591` `def propose_addon_intents(service_texts, target, limit)` -- Propose addon intents for discovered services.
+- `is_routable_command` (function) `modules/auto_registry.py:635` `def is_routable_command(line)` -- Return True when the loop executor must route via the shell.
+- `verbs` (function) `modules/auto_registry.py:653` `def verbs()` -- Return every canonical automation verb name.
+- `is_shell_verb` (function) `modules/auto_registry.py:658` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
+- `build_command` (function) `modules/auto_registry.py:682` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
+- `verbs_for` (function) `modules/auto_registry.py:693` `def verbs_for(text)` -- Return enabled verbs whose keywords appear in the text.
+- `propose_intents` (function) `modules/auto_registry.py:699` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
+- `steps_for` (function) `modules/auto_registry.py:813` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
+- `_TeeCapture.__init__` (method) `modules/auto_registry.py:953` `def __init__(self, observer)`
+- `_TeeCapture.write` (method) `modules/auto_registry.py:958` `def write(self, data)` -- Capture text and stream the chunk to the observer once.
+- `execute_shell_verb` (function) `modules/auto_registry.py:971` `def execute_shell_verb(shell, command, timeout_sec, on_output)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
+- `track_process` (function) `modules/auto_registry.py:1081` `def track_process(process)` -- Register a live child process for global cancellation.
+- `untrack_process` (function) `modules/auto_registry.py:1086` `def untrack_process(process)` -- Drop a finished child process from the cancellation registry.
+- `cancel_running_commands` (function) `modules/auto_registry.py:1091` `def cancel_running_commands()` -- Kill every live streaming process group (operator Ctrl+C).
+- `execute_streaming` (function) `modules/auto_registry.py:1114` `def execute_streaming(command, on_output, timeout_sec)` -- Run a bash command streaming lines while capturing the output.
 
 ## modules/autonomous_exploit_engine.py
 Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_pivot.py`, `modules/db.py`, `modules/outcome_bus.py`, `modules/world_model.py`
@@ -233,261 +472,6 @@ Depends on: `core/logging.py`
 - `get_registry` (function) `modules/c2_profile.py:595` `def get_registry()` -- Return the module-level singleton ProfileRegistry.
 - `get_profile` (function) `modules/c2_profile.py:620` `def get_profile(name)` -- Return the named profile from the module singleton registry.
 - `list_profiles` (function) `modules/c2_profile.py:625` `def list_profiles()` -- Return a sorted list of all registered profile names.
-
-## modules/c2_profile_engine.py
-Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
-Imported by: `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
-- `TlsProfile.get_cipher_suites` (method) `modules/c2_profile_engine.py:144` `def get_cipher_suites(self)` -- Return cipher suites, resolving library alias if set.
-- `TlsProfile.get_ja3_hash` (method) `modules/c2_profile_engine.py:155` `def get_ja3_hash(self)` -- Compute a JA3 fingerprint hash from the current profile.
-- `TlsProfile.from_dict` (method) `modules/c2_profile_engine.py:173` `def from_dict(raw)` -- Build a TlsProfile from a configuration dictionary.
-- `TlsProfile.to_dict` (method) `modules/c2_profile_engine.py:188` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
-- `DnsProfile.build_query_subdomain` (method) `modules/c2_profile_engine.py:231` `def build_query_subdomain(self, data, packet_id)` -- Build a DNS query subdomain from encoded data and a packet ID.
-- `DnsProfile.from_dict` (method) `modules/c2_profile_engine.py:261` `def from_dict(raw)` -- Build a DnsProfile from a configuration dictionary.
-- `DnsProfile.to_dict` (method) `modules/c2_profile_engine.py:274` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
-- `SmbProfile.from_dict` (method) `modules/c2_profile_engine.py:319` `def from_dict(raw)` -- Build an SmbProfile from a configuration dictionary.
-- `SmbProfile.to_dict` (method) `modules/c2_profile_engine.py:333` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
-- `WebSocketProfile.from_dict` (method) `modules/c2_profile_engine.py:375` `def from_dict(raw)` -- Build a WebSocketProfile from a configuration dictionary.
-- `WebSocketProfile.to_dict` (method) `modules/c2_profile_engine.py:389` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
-- `RotationSlot.is_available` (method) `modules/c2_profile_engine.py:429` `def is_available(self)` -- Return True if the cooldown window has elapsed.
-- `RotationSlot.touch` (method) `modules/c2_profile_engine.py:436` `def touch(self)` -- Mark this slot as just used.
-- `ProfileRotator.__init__` (method) `modules/c2_profile_engine.py:453` `def __init__(self, slots)`
-- `ProfileRotator.current_slot` (method) `modules/c2_profile_engine.py:460` `def current_slot(self)` -- Return the currently active rotation slot.
-- `ProfileRotator.transport` (method) `modules/c2_profile_engine.py:465` `def transport(self)` -- Return the transport type of the current slot.
-- `ProfileRotator.rotate` (method) `modules/c2_profile_engine.py:469` `def rotate(self)` -- Advance to the next available slot and return it.
-- `ProfileRotator.list_slots` (method) `modules/c2_profile_engine.py:487` `def list_slots(self)` -- Return a list of slot states for inspection.
-- `ProfileValidator.validate_tls` (method) `modules/c2_profile_engine.py:511` `def validate_tls(profile)` -- Validate a TlsProfile and return error messages.
-- `ProfileValidator.validate_dns` (method) `modules/c2_profile_engine.py:536` `def validate_dns(profile)` -- Validate a DnsProfile and return error messages.
-- `ProfileValidator.validate_smb` (method) `modules/c2_profile_engine.py:556` `def validate_smb(profile)` -- Validate an SmbProfile and return error messages.
-- `ProfileValidator.validate_websocket` (method) `modules/c2_profile_engine.py:576` `def validate_websocket(profile)` -- Validate a WebSocketProfile and return error messages.
-- `ProfileValidator.validate_all` (method) `modules/c2_profile_engine.py:591` `def validate_all(self, tls, dns, smb, websocket)` -- Validate all provided profiles and return a dict of transport -> errors.
-- `ProfileEngine.__init__` (method) `modules/c2_profile_engine.py:627` `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)`
-- `ProfileEngine.tls_profile` (method) `modules/c2_profile_engine.py:643` `def tls_profile(self)` -- Return the current TLS profile.
-- `ProfileEngine.dns_profile` (method) `modules/c2_profile_engine.py:648` `def dns_profile(self)` -- Return the current DNS profile.
-- `ProfileEngine.smb_profile` (method) `modules/c2_profile_engine.py:653` `def smb_profile(self)` -- Return the current SMB profile.
-- `ProfileEngine.websocket_profile` (method) `modules/c2_profile_engine.py:658` `def websocket_profile(self)` -- Return the current WebSocket profile.
-- `ProfileEngine.rotator` (method) `modules/c2_profile_engine.py:663` `def rotator(self)` -- Return the profile rotator.
-- `ProfileEngine.active_transport` (method) `modules/c2_profile_engine.py:668` `def active_transport(self)` -- Return the currently active transport type.
-- `ProfileEngine.rotate` (method) `modules/c2_profile_engine.py:672` `def rotate(self)` -- Advance to the next transport in the rotation queue.
-- `ProfileEngine.validate` (method) `modules/c2_profile_engine.py:676` `def validate(self)` -- Validate all transport profiles and return error dict.
-- `ProfileEngine.get_active_profile_dict` (method) `modules/c2_profile_engine.py:685` `def get_active_profile_dict(self)` -- Return a JSON-serializable dict of the active transport config.
-- `ProfileEngine.get_all_profiles_dict` (method) `modules/c2_profile_engine.py:699` `def get_all_profiles_dict(self)` -- Return a JSON-serializable dict of all profiles.
-- `ProfileEngine.from_dict` (method) `modules/c2_profile_engine.py:747` `def from_dict(cls, raw)` -- Build a ProfileEngine from a configuration dictionary.
-- `ProfileEngine.from_payload` (method) `modules/c2_profile_engine.py:766` `def from_payload(cls, payload)` -- Build a ProfileEngine from a LazyOwn payload configuration dict.
-- `ProfileEngine.from_config` (method) `modules/c2_profile_engine.py:771` `def from_config(cls, config)` -- Build a ProfileEngine from a LazyOwn Config object.
-
-## modules/c2_surfaces.py
-Depends on: `core/logging.py`, `skills/lazyown_mcp_helpers.py`
-Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/sinks/c2_surfaces.py`, `tests/test_c2_surfaces.py`
-- `publish_banner` (function) `modules/c2_surfaces.py:73` `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)` -- Append a service banner to sessions/banners.json (deduplicated).
-- `publish_cve` (function) `modules/c2_surfaces.py:115` `def publish_cve(title, description, operator, risk, sessions_dir)` -- Append a CVE finding to sessions/cves.json (deduplicated by title).
-- `append_note` (function) `modules/c2_surfaces.py:155` `def append_note(line, sessions_dir)` -- Append one timestamped line to sessions/notes.txt (never overwrites).
-- `register_loot_event` (function) `modules/c2_surfaces.py:184` `def register_loot_event(name, path_glob, description, event_config)` -- Register an event_config.json rule watching an artefact glob.
-- `refresh_session_report` (function) `modules/c2_surfaces.py:229` `def refresh_session_report(timeout)` -- Regenerate sessions/sessionLazyOwn.json via modules/session_state.py.
-- `severity_to_risk` (function) `modules/c2_surfaces.py:251` `def severity_to_risk(severity)` -- Map exploit severity words to /cves risk levels.
-- `group_tasks_for_display` (function) `modules/c2_surfaces.py:261` `def group_tasks_for_display(tasks)` -- Group tasks for the /tasks page: unique hits with counts + noise tally.
-
-## modules/cal.sh
-- `is_leap_year` (function) `modules/cal.sh:4` -- Función para calcular si un año es bisiesto
-- `days_in_month` (function) `modules/cal.sh:14` -- Función para obtener el número de días en un mes
-- `first_day_of_month` (function) `modules/cal.sh:31` -- Función para obtener el día de la semana del primer día del mes
-
-## modules/chain_approval.py
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `lazyc2.py`, `tests/test_chain_approval_c2.py`
-- `command_fingerprint` (function) `modules/chain_approval.py:78` `def command_fingerprint(command)` -- Return the SHA-256 fingerprint of one command line.
-- `PendingStore.__init__` (method) `modules/chain_approval.py:117` `def __init__(self, sessions_dir)` -- Bind the store to one sessions directory.
-- `PendingStore.create` (method) `modules/chain_approval.py:153` `def create(self, chain, step_id, command, timeout, run_id, now_override)` -- Register one pending approval request.
-- `PendingStore.get` (method) `modules/chain_approval.py:204` `def get(self, request_id)` -- Return one request record or None.
-- `PendingStore.list` (method) `modules/chain_approval.py:215` `def list(self, status)` -- Return request records newest first, optionally by status.
-- `PendingStore.decide` (method) `modules/chain_approval.py:229` `def decide(self, request_id, allowed, decided_by, note, expired)` -- Record one decision or expiry, audited, idempotent-fail.
-- `PendingStore.expire_stale` (method) `modules/chain_approval.py:282` `def expire_stale(self, now)` -- Expire every pending request past its deadline.
-- `approval_backend` (function) `modules/chain_approval.py:318` `def approval_backend()` -- Return the configured approval backend.
-- `build_c2_approver` (function) `modules/chain_approval.py:328` `def build_c2_approver(printer, chain_name, run_id, timeout, poll_interval, sessions_dir, clock)` -- Return an approver that routes confirm steps to the C2 pending list.
-- `approve` (function) `modules/chain_approval.py:358` `def approve(step_id, command)`
-
-## modules/chain_distill.py
-Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_scope.py`, `modules/verb_manifest.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_distill_scope.py`, `tests/test_codeql_alert_fixes.py`
-- `locate_traces` (function) `modules/chain_distill.py:93` `def locate_traces(task, sessions_dir)` -- Find the exp/traffic pair of one loop task under sessions/.
-- `DistillReport.kept` (method) `modules/chain_distill.py:507` `def kept(self)` -- Count decisions turned into steps.
-- `DistillReport.dropped` (method) `modules/chain_distill.py:512` `def dropped(self)` -- Count decisions rejected with a reason.
-- `DistillReport.to_dict` (method) `modules/chain_distill.py:516` `def to_dict(self)` -- Return a JSON-serializable report.
-- `DistillReport.render` (method) `modules/chain_distill.py:543` `def render(self, verbose)` -- Return printable report lines.
-- `build_chain_data` (function) `modules/chain_distill.py:574` `def build_chain_data(task, rows, graph, manifests)` -- Turn deduped traffic rows and graph context into chain YAML data.
-- `note` (function) `modules/chain_distill.py:598` `def note(row, kept, reason)` -- Record one keep/drop decision for the report.
-- `distill` (function) `modules/chain_distill.py:687` `def distill(task, sessions_dir, write, chains_dir)` -- Distill one loop task into a validated chain YAML.
-
-## modules/chain_facts.py
-Depends on: `core/logging.py`, `modules/chain_runner.py`, `skills/lazyown_facts.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/gym_matrix_runner.py`, `tests/test_f4_hardening.py`
-- `spool_chain_outputs` (function) `modules/chain_facts.py:24` `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` -- Persist one chain run's outputs and ingest them as facts.
-
-## modules/chain_match.py
-Depends on: `modules/chain_registry.py`
-Imported by: `modules/selection/chain.py`, `tests/test_chain_selector.py`, `tests/test_lazy_loop.py`, `tests/test_selectors_base.py`
-- `normalize_tags` (function) `modules/chain_match.py:48` `def normalize_tags(tags)` -- Return a chain's tags lowercased and aliased to the shared vocabulary.
-- `service_tokens` (function) `modules/chain_match.py:64` `def service_tokens(services)` -- Normalise discovered service names into the chain tag vocabulary.
-- `platform_ok` (function) `modules/chain_match.py:74` `def platform_ok(platforms, os_hint)` -- Return True when a chain's platforms admit the target OS hint.
-- `score` (function) `modules/chain_match.py:85` `def score(tags, phase, svc_tokens)` -- Score one chain's tags for the phase and discovered services.
-- `reset_cache` (function) `modules/chain_match.py:97` `def reset_cache()` -- Clear the process-wide registry scan cache (tests, long-lived loops).
-- `load_rows` (function) `modules/chain_match.py:105` `def load_rows(allow_lab, ttl)` -- Return enabled, valid, non-lab chain rows, cached for the TTL.
-- `best_chain` (function) `modules/chain_match.py:135` `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)` -- Return the ``(name, reason)`` of the best matching chain, or None.
-
-## modules/chain_registry.py
-Depends on: `core/logging.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/selection/playbook.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
-- `skip_pending` (function) `modules/chain_registry.py:67` `def skip_pending(path, max_age, now)` -- Return the skip reason when an artefact is present and fresh.
-- `ChainStep.identifier` (method) `modules/chain_registry.py:146` `def identifier(self)` -- Return the declared id or a stable generated one.
-- `Chain.resolve` (method) `modules/chain_registry.py:170` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
-- `evaluate_when` (function) `modules/chain_registry.py:291` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
-- `validate_chain` (function) `modules/chain_registry.py:356` `def validate_chain(data, filename, chains_dir)` -- Validate raw YAML data against the chain schema.
-- `render_text_token_braces` (function) `modules/chain_registry.py:571` `def render_text_token_braces(text)` -- Return text with every ``{name}`` token replaced by a placeholder.
-- `load_all` (function) `modules/chain_registry.py:576` `def load_all(chains_dir)` -- Load every valid, enabled chain file (skips the rest loudly).
-- `get` (function) `modules/chain_registry.py:721` `def get(name, chains_dir)` -- Return one chain by name, or None.
-- `scan_all` (function) `modules/chain_registry.py:726` `def scan_all(chains_dir)` -- List every chain file including disabled ones (for administration).
-- `set_enabled` (function) `modules/chain_registry.py:786` `def set_enabled(name, enabled, chains_dir)` -- Flip a chain's ``enabled`` flag in its YAML file (round-trip).
-- `generate_for_playbook` (function) `modules/chain_registry.py:809` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
-
-## modules/chain_runner.py
-Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
-- `StepOutcome.ok` (method) `modules/chain_runner.py:82` `def ok(self)` -- Return True for success, dry-run and skipped steps.
-- `StepOutcome.to_dict` (method) `modules/chain_runner.py:86` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:131` `def to_dict(self)` -- Return a JSON-serializable view.
-- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:155` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
-- `ReplanContext.set_var` (method) `modules/chain_runner.py:178` `def set_var(self, name, value)` -- Record a variable the next steps should see.
-- `ReplanContext.insert_step` (method) `modules/chain_runner.py:183` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
-- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:188` `def skip_rest(self)` -- Record that remaining steps must not execute.
-- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:193` `def applied_vars(self)` -- Return recorded variable changes.
-- `ReplanContext.inserted` (method) `modules/chain_runner.py:198` `def inserted(self)` -- Return recorded steps to insert.
-- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:203` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
-- `render_text` (function) `modules/chain_runner.py:208` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
-- `ChainRunner.__init__` (method) `modules/chain_runner.py:219` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
-- `ChainRunner.run` (method) `modules/chain_runner.py:332` `def run(self)` -- Execute the chain in order and return every step outcome.
-
-## modules/chain_state.py
-Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
-- `checkpoint_dir` (function) `modules/chain_state.py:26` `def checkpoint_dir(base_dir)` -- Return the directory that stores chain checkpoints.
-- `new_run_id` (function) `modules/chain_state.py:33` `def new_run_id(chain_name)` -- Return a collision-resistant run id for one chain execution.
-- `write_checkpoint` (function) `modules/chain_state.py:39` `def write_checkpoint(directory, state)` -- Persist one chain run state as JSON and return the file path.
-- `load_checkpoint` (function) `modules/chain_state.py:65` `def load_checkpoint(directory, run_id)` -- Load one checkpoint by run id, or None when missing/unreadable.
-- `list_checkpoints` (function) `modules/chain_state.py:80` `def list_checkpoints(directory, limit, chain)` -- Return the newest checkpoints (run_id, chain, target, state, times).
-
-## modules/chain_synth.py
-Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
-Imported by: `cli/apt_chain_support.py`, `tests/test_chain_synth.py`
-- `synth_chain_data` (function) `modules/chain_synth.py:89` `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2)` -- Compose the chain dict for a host; (data, notes).
-- `facts_for_target` (function) `modules/chain_synth.py:224` `def facts_for_target(target)` -- Pull host facts from the FactStore for synthesis inputs.
-- `write_generated_chain` (function) `modules/chain_synth.py:253` `def write_generated_chain(data, chains_dir)` -- Validate and persist the generated chain file; returns (path, errors).
-
-## modules/chain_tokens.py
-Depends on: `skills/lazyown_facts.py`
-Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazypoophish.py`, `tests/test_apt_chain_admin.py`
-- `token_keys` (function) `modules/chain_tokens.py:24` `def token_keys()` -- Return every engagement token name this module can produce.
-- `build_tokens` (function) `modules/chain_tokens.py:29` `def build_tokens(target, params)` -- Resolve engagement tokens for one target.
-
-## modules/cicd_enumerator.py
-Imported by: `cli/commands/cicd.py`
-- `CICDEnumerator.__init__` (method) `modules/cicd_enumerator.py:54` `def __init__(self, target_url, sessions_dir)`
-- `CICDEnumerator.scan` (method) `modules/cicd_enumerator.py:60` `def scan(self)` -- Run all CI/CD scans.
-- `CICDEnumerator.scan_build_log` (method) `modules/cicd_enumerator.py:297` `def scan_build_log(self, log_content, source)` -- Scan a build log for leaked secrets.
-- `CICDEnumerator.generate_ci_attack_matrix` (method) `modules/cicd_enumerator.py:322` `def generate_ci_attack_matrix(self)` -- Generate a comprehensive CI/CD attack matrix.
-- `CICDEnumerator.export_findings` (method) `modules/cicd_enumerator.py:387` `def export_findings(self)` -- Export CI/CD findings to a JSON file.
-
-## modules/cli_auth.py
-Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
-Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `modules/world_model.py`, `tests/test_cli_auth_remember.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_engagement_elo_and_methodology.py`
-- `user_exists` (function) `modules/cli_auth.py:122` `def user_exists(username)` -- Check if a username already exists in users.json or RBAC store.
-- `register` (function) `modules/cli_auth.py:145` `def register(username, password)` -- Register a new operator in users.json.
-- `verify_password` (function) `modules/cli_auth.py:214` `def verify_password(username, password)` -- Verify a username/password against users.json using werkzeug.
-- `login` (function) `modules/cli_auth.py:240` `def login(username, password, remember)` -- Authenticate a CLI operator and optionally persist a remember-me token.
-- `logout` (function) `modules/cli_auth.py:293` `def logout()` -- Log out the current CLI operator and clear the remember-me token.
-- `try_auto_login` (function) `modules/cli_auth.py:328` `def try_auto_login()` -- Attempt auto-login using the remember-me token from payload.json.
-- `whoami` (function) `modules/cli_auth.py:366` `def whoami()` -- Return the currently logged-in CLI operator's identity.
-- `get_current_operator` (function) `modules/cli_auth.py:396` `def get_current_operator()` -- Return the current operator username, or None if not logged in.
-- `sync_elo_from_session` (function) `modules/cli_auth.py:408` `def sync_elo_from_session(elo)` -- Update the CLI session ELO from engagement state.
-- `needs_login` (function) `modules/cli_auth.py:487` `def needs_login()` -- Check if the current session has a logged-in operator.
-
-## modules/closedloop.py
-Depends on: `modules/defense_eval.py`
-Imported by: `modules/defense_stages.py`, `tests/test_closedloop.py`
-- `RuleMetrics.to_dict` (method) `modules/closedloop.py:42` `def to_dict(self)` -- Return a JSON-serializable view.
-- `Comparison.to_dict` (method) `modules/closedloop.py:66` `def to_dict(self)` -- Return a JSON-serializable view.
-- `compare_rules` (function) `modules/closedloop.py:90` `def compare_rules(baseline_rule, candidate_rule, target_logs, control_logs)` -- Replay baseline and candidate rules over identical datasets.
-- `suggest_tuning` (function) `modules/closedloop.py:136` `def suggest_tuning(candidate, baseline)` -- Return deterministic tuning suggestions from replay evidence.
-
-## modules/cloud_enum.py
-Imported by: `cli/commands/cloud.py`
-- `CloudEnumerator.__init__` (method) `modules/cloud_enum.py:34` `def __init__(self, provider, session, timeout)`
-- `CloudEnumerator.detect_provider` (method) `modules/cloud_enum.py:47` `def detect_provider(self)` -- Auto-detect which cloud provider the host is running on.
-- `CloudEnumerator.enumerate_metadata` (method) `modules/cloud_enum.py:75` `def enumerate_metadata(self)` -- Enumerate cloud instance metadata (IMDS).
-- `CloudEnumerator.enumerate_storage` (method) `modules/cloud_enum.py:251` `def enumerate_storage(self, target_bucket)` -- Enumerate cloud storage buckets and objects.
-- `CloudEnumerator.enumerate_iam` (method) `modules/cloud_enum.py:372` `def enumerate_iam(self)` -- Enumerate IAM roles, users, and policies.
-- `CloudEnumerator.full_enumeration` (method) `modules/cloud_enum.py:576` `def full_enumeration(self)` -- Run full cloud enumeration: metadata + storage + IAM.
-
-## modules/collab_bp.py
-Depends on: `core/logging.py`, `modules/lazy_rbac.py`
-Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
-- `login_required` (function) `modules/collab_bp.py:80` `def login_required(f)` -- No-op decorator when Flask-Login is unavailable.
-- `decorated` (function) `modules/collab_bp.py:84` `def decorated()`
-- `decorated` (function) `modules/collab_bp.py:124` `def decorated()`
-- `decorator` (function) `modules/collab_bp.py:139` `def decorator(f)`
-- `decorated` (function) `modules/collab_bp.py:141` `def decorated()`
-- `ColabEvent.to_sse` (method) `modules/collab_bp.py:170` `def to_sse(self)`
-- `EventBus.__init__` (method) `modules/collab_bp.py:198` `def __init__(self)`
-- `EventBus.subscribe` (method) `modules/collab_bp.py:203` `def subscribe(self, subscriber_id)`
-- `EventBus.unsubscribe` (method) `modules/collab_bp.py:215` `def unsubscribe(self, subscriber_id)`
-- `EventBus.publish` (method) `modules/collab_bp.py:219` `def publish(self, event)`
-- `EventBus.recent` (method) `modules/collab_bp.py:234` `def recent(self, n)`
-- `EventBus.reset` (method) `modules/collab_bp.py:238` `def reset(self)`
-- `LockManager.__init__` (method) `modules/collab_bp.py:263` `def __init__(self)`
-- `LockManager.acquire` (method) `modules/collab_bp.py:267` `def acquire(self, target, operator, ttl_secs)`
-- `LockManager.release` (method) `modules/collab_bp.py:279` `def release(self, target, operator)`
-- `LockManager.status` (method) `modules/collab_bp.py:287` `def status(self, target)`
-- `LockManager.all_locks` (method) `modules/collab_bp.py:292` `def all_locks(self)`
-- `LockManager.reset` (method) `modules/collab_bp.py:304` `def reset(self)`
-- `OperatorRegistry.__init__` (method) `modules/collab_bp.py:319` `def __init__(self)`
-- `OperatorRegistry.join` (method) `modules/collab_bp.py:323` `def join(self, name)`
-- `OperatorRegistry.heartbeat` (method) `modules/collab_bp.py:334` `def heartbeat(self, name)`
-- `OperatorRegistry.leave` (method) `modules/collab_bp.py:340` `def leave(self, name)`
-- `OperatorRegistry.active_operators` (method) `modules/collab_bp.py:345` `def active_operators(self)`
-- `OperatorRegistry.reset` (method) `modules/collab_bp.py:356` `def reset(self)`
-- `get_event_bus` (function) `modules/collab_bp.py:370` `def get_event_bus()`
-- `get_lock_manager` (function) `modules/collab_bp.py:374` `def get_lock_manager()`
-- `get_operator_registry` (function) `modules/collab_bp.py:378` `def get_operator_registry()`
-- `publish_event` (function) `modules/collab_bp.py:382` `def publish_event(type, payload, operator)` -- Module-level convenience for other modules to broadcast events.
-- `collab_ui` (function) `modules/collab_bp.py:396` `def collab_ui()`
-- `stream` (function) `modules/collab_bp.py:411` `def stream()`
-- `generate` (function) `modules/collab_bp.py:424` `def generate()`
-- `operators` (function) `modules/collab_bp.py:458` `def operators()`
-- `publish` (function) `modules/collab_bp.py:470` `def publish()`
-- `lock` (function) `modules/collab_bp.py:483` `def lock()`
-- `unlock` (function) `modules/collab_bp.py:504` `def unlock()`
-- `locks` (function) `modules/collab_bp.py:522` `def locks()`
-- `history` (function) `modules/collab_bp.py:537` `def history()`
-
-## modules/colors.py
-Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
-- `retModel` (function) `modules/colors.py:40` `def retModel()` -- gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k    32,768...
-- `delete_lines` (function) `modules/colors.py:68` `def delete_lines(content, to_delete)`
-- `no_html` (function) `modules/colors.py:74` `def no_html(content)`
-
-## modules/command_executor.py
-Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/auto_registry.py`, `modules/event_bus.py`
-Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kernel.py`, `tests/test_lazy_runner.py`
-- `set_thread_timeout` (function) `modules/command_executor.py:41` `def set_thread_timeout(seconds)` -- Bound the next ``run_tee`` call on this thread by wall-clock seconds.
-- `clear_thread_timeout` (function) `modules/command_executor.py:46` `def clear_thread_timeout()` -- Remove this thread's ``run_tee`` deadline, if any.
-- `thread_timeout` (function) `modules/command_executor.py:54` `def thread_timeout()` -- Return this thread's pending ``run_tee`` deadline, or None.
-- `set_thread_stdin_devnull` (function) `modules/command_executor.py:59` `def set_thread_stdin_devnull(enabled)` -- Detach the next ``run_tee`` child from the operator terminal.
-- `clear_thread_stdin_devnull` (function) `modules/command_executor.py:64` `def clear_thread_stdin_devnull()` -- Restore inherited stdin for this thread's ``run_tee`` calls.
-- `thread_stdin_devnull` (function) `modules/command_executor.py:72` `def thread_stdin_devnull()` -- Return True when this thread's ``run_tee`` children drop stdin.
-- `CommandExecutor.__init__` (method) `modules/command_executor.py:118` `def __init__(self)`
-- `CommandExecutor.instance` (method) `modules/command_executor.py:122` `def instance(cls)`
-- `CommandExecutor.add_hook` (method) `modules/command_executor.py:127` `def add_hook(self, hook)` -- Register a post-execution hook (e.g., for StateManager or metrics).
-- `CommandExecutor.run` (method) `modules/command_executor.py:131` `def run(self, command, timeout, stream)` -- Execute a shell command and return the result.
-- `CommandExecutor.run_passthrough` (method) `modules/command_executor.py:179` `def run_passthrough(self, command, env)` -- Run a command with stdio inherited, returning its exit code.
-- `CommandExecutor.run_tee` (method) `modules/command_executor.py:194` `def run_tee(self, command)` -- Run a command teeing raw output bytes to a writer and a log file.
-- `CommandExecutor.run_with_tee` (method) `modules/command_executor.py:358` `def run_with_tee(self, command, output_path, timeout)` -- Execute a command and tee output to a file.
-- `get_executor` (function) `modules/command_executor.py:426` `def get_executor()`
 
 
 Next: [API_p11.md](API_p11.md)

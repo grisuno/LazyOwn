@@ -1,7 +1,23 @@
-# Architecture (page 2 of 9)
+# Architecture (page 2 of 10)
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `cli/commands/sleep_obfuscation.py` -> `cli/commands/_base.py`
+- `cli/commands/sleep_obfuscation.py` -> `modules/sleep_obfuscation.py`
+- `cli/commands/sleep_obfuscation.py` -> `utils.py`
+- `cli/commands/socks_proxy.py` -> `cli/commands/_base.py`
+- `cli/commands/socks_proxy.py` -> `modules/socks_proxy.py`
+- `cli/commands/socks_proxy.py` -> `utils.py`
+- `cli/commands/supply_chain.py` -> `cli/commands/_base.py`
+- `cli/commands/supply_chain.py` -> `utils.py`
+- `cli/commands/surface.py` -> `cli/commands/_base.py`
+- `cli/commands/surface.py` -> `modules/attack_surface3d.py`
+- `cli/commands/surface.py` -> `modules/estorides_fusion.py`
+- `cli/commands/surface.py` -> `modules/surface_ops.py`
+- `cli/commands/surface.py` -> `utils.py`
+- `cli/commands/ux.py` -> `cli/commands/_base.py`
+- `cli/commands/ux.py` -> `cli/config_history.py`
+- `cli/commands/ux.py` -> `cli/fuzzy_match.py`
 - `cli/commands/ux.py` -> `cli/output_mode.py`
 - `cli/commands/ux.py` -> `cli/session_hud.py`
 - `cli/commands/ux.py` -> `cli/toast_bus.py`
@@ -480,21 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `lazygui/panels/terminal_panel.py` -> `lazygui/widgets/terminal_view.py`
 - `lazygui/services/__init__.py` -> `lazygui/services/backend.py`
 - `lazygui/services/__init__.py` -> `lazygui/services/event_log.py`
-- `lazygui/services/__init__.py` -> `lazygui/services/factory.py`
-- `lazygui/services/__init__.py` -> `lazygui/services/local_backend.py`
-- `lazygui/services/__init__.py` -> `lazygui/services/models.py`
-- `lazygui/services/__init__.py` -> `lazygui/services/teamserver_backend.py`
-- `lazygui/services/backend.py` -> `cli/commands/enum.py`
-- `lazygui/services/backend.py` -> `lazygui/services/models.py`
-- `lazygui/services/backend.py` -> `modules/world_model.py`
-- `lazygui/services/event_log.py` -> `lazygui/config/constants.py`
-- `lazygui/services/event_log.py` -> `lazygui/services/models.py`
-- `lazygui/services/factory.py` -> `lazygui/config/constants.py`
-- `lazygui/services/factory.py` -> `lazygui/config/paths.py`
-- `lazygui/services/factory.py` -> `lazygui/services/backend.py`
-- `lazygui/services/factory.py` -> `lazygui/services/local_backend.py`
-- `lazygui/services/factory.py` -> `lazygui/services/models.py`
-- `lazygui/services/factory.py` -> `lazygui/services/teamserver_backend.py`
-- `lazygui/services/local_backend.py` -> `core/logging.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

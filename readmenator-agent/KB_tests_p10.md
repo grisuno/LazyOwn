@@ -1,4 +1,4 @@
-# Subsystem: tests (page 10 of 22)
+# Subsystem: tests (page 10 of 23)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
 
 ## tests/test_estorides_fusion.py
@@ -160,6 +160,15 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_all_have_os_in_allowed_values` (method, line 372) `def test_all_have_os_in_allowed_values(self, addon_files)`
   - `test_all_have_trigger_list` (method, line 381) `def test_all_have_trigger_list(self, addon_files)`
 - Depends on: `cli/exploration.py`, `cli/exploration_view.py`, `core/console.py`
+
+## tests/test_exposure_command_sets.py
+- Doc: Exposure command-set discovery: the five lazy intel surfaces register.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestExposureSetDiscovery` (class, line 8) `class TestExposureSetDiscovery`
+  - `test_five_new_sets_discovered` (method, line 9) `def test_five_new_sets_discovered(self)`
+- Depends on: `cli/registry.py`
 
 ## tests/test_f4_hardening.py
 - Doc: F4 hardening: verb watchdog, chain fact spool, ctf CLI, foothold chain.
@@ -466,29 +475,6 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `__call__` (method, line 45) `def __call__(self)`
   - `__init__` (method, line 54) `def __init__(self, returncode, stdout, stderr)`
 - Depends on: `core/config.py`, `modules/__init__.py`, `modules/gym_cleanup.py`, `modules/outcome_bus.py`, `modules/world_model.py`
-
-## tests/test_gym_matrix_ctf.py
-- Doc: Contract tests for gym matrix runner and CTF capture.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `CtfCaptureSpec` (class, line 13) `class CtfCaptureSpec(TestCase)`
-  - `GymMatrixRunnerSpec` (class, line 62) `class GymMatrixRunnerSpec(TestCase)`
-  - `ReportIntegrationSpec` (class, line 120) `class ReportIntegrationSpec(TestCase)`
-  - `test_root_shell_capture` (method, line 16) `def test_root_shell_capture(self)`
-  - `test_failed_capture_without_evidence` (method, line 29) `def test_failed_capture_without_evidence(self)`
-  - `test_unknown_vuln_rejected` (method, line 39) `def test_unknown_vuln_rejected(self)`
-  - `test_shadow_evidence_masked` (method, line 44) `def test_shadow_evidence_masked(self)`
-  - `test_load_artifact` (method, line 57) `def test_load_artifact(self)`
-  - `test_plan_ordered_by_severity` (method, line 65) `def test_plan_ordered_by_severity(self)`
-  - `test_plan_isolates_only_filter` (method, line 72) `def test_plan_isolates_only_filter(self)`
-  - `test_plan_rejects_empty_target` (method, line 76) `def test_plan_rejects_empty_target(self)`
-  - `test_run_matrix_dry_run_writes_no_capture` (method, line 80) `def test_run_matrix_dry_run_writes_no_capture(self)`
-  - `test_run_matrix_executes_and_captures` (method, line 91) `def test_run_matrix_executes_and_captures(self)`
-  - `test_run_matrix_flags_missing_chain` (method, line 110) `def test_run_matrix_flags_missing_chain(self)`
-  - `test_captured_findings_enter_report` (method, line 123) `def test_captured_findings_enter_report(self)`
-  - `executor` (function, line 92) `def executor(cmd)`
-- Depends on: `modules/__init__.py`, `modules/professional_report.py`
 
 
 Next: [KB_tests_p11.md](KB_tests_p11.md)

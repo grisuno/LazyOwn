@@ -1,8 +1,41 @@
-# Symbols (page 13 of 48)
+# Symbols (page 13 of 49)
 Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `clear_thread_stdin_devnull` | function | `modules/command_executor.py:64` | `def clear_thread_stdin_devnull()` |
+| `clear_thread_timeout` | function | `modules/command_executor.py:46` | `def clear_thread_timeout()` |
+| `get_executor` | function | `modules/command_executor.py:426` | `def get_executor()` |
+| `instance` | method | `modules/command_executor.py:122` | `def instance(cls)` |
+| `run` | method | `modules/command_executor.py:131` | `def run(self, command, timeout, stream)` |
+| `run_passthrough` | method | `modules/command_executor.py:179` | `def run_passthrough(self, command, env)` |
+| `run_tee` | method | `modules/command_executor.py:194` | `def run_tee(self, command)` |
+| `run_with_tee` | method | `modules/command_executor.py:358` | `def run_with_tee(self, command, output_path, timeout)` |
+| `set_thread_stdin_devnull` | function | `modules/command_executor.py:59` | `def set_thread_stdin_devnull(enabled)` |
+| `set_thread_timeout` | function | `modules/command_executor.py:41` | `def set_thread_timeout(seconds)` |
+| `thread_stdin_devnull` | function | `modules/command_executor.py:72` | `def thread_stdin_devnull()` |
+| `thread_timeout` | function | `modules/command_executor.py:54` | `def thread_timeout()` |
+| `ComplianceEngine` | class | `modules/compliance.py:632` | `class ComplianceEngine` |
+| `ComplianceFinding` | class | `modules/compliance.py:620` | `class ComplianceFinding` |
+| `EvidenceChain` | class | `modules/compliance.py:349` | `class EvidenceChain` |
+| `EvidenceEntry` | class | `modules/compliance.py:340` | `class EvidenceEntry` |
+| `__init__` | method | `modules/compliance.py:357` | `def __init__(self, sessions_dir)` |
+| `__init__` | method | `modules/compliance.py:635` | `def __init__(self, sessions_dir)` |
+| `_append_to_file` | method | `modules/compliance.py:403` | `def _append_to_file(self, entry)` |
+| `_compliance_finding` | method | `modules/compliance.py:780` | `def _compliance_finding(fact)` |
+| `_count_by_category` | method | `modules/compliance.py:772` | `def _count_by_category(self, findings)` |
+| `_count_by_severity` | method | `modules/compliance.py:765` | `def _count_by_severity(self, findings)` |
+| `_format_compliance_report_md` | method | `modules/compliance.py:861` | `def _format_compliance_report_md(self, report)` |
+| `_hash_entry` | method | `modules/compliance.py:379` | `def _hash_entry(self, entry)` |
+| `_load` | method | `modules/compliance.py:364` | `def _load(self)` |
+| `_load_findings` | method | `modules/compliance.py:808` | `def _load_findings(self)` |
+| `add_evidence` | method | `modules/compliance.py:927` | `def add_evidence(self, filepath, operator, description)` |
+| `add_file` | method | `modules/compliance.py:383` | `def add_file(self, filepath, operator, description)` |
+| `export_pdf` | function | `modules/compliance.py:449` | `def export_pdf(report_md, output_path, title, classification)` |
+| `export_pdf` | method | `modules/compliance.py:857` | `def export_pdf(self, report, output_path)` |
+| `export_to_cef` | function | `modules/compliance.py:572` | `def export_to_cef(findings, output_path, vendor, product, version)` |
+| `export_to_elastic_ndjson` | function | `modules/compliance.py:533` | `def export_to_elastic_ndjson(findings, output_path, index_prefix)` |
+| `generate_compliance_report` | method | `modules/compliance.py:710` | `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)` |
 | `get_chain_digest` | method | `modules/compliance.py:429` | `def get_chain_digest(self)` |
 | `map_findings_to_compliance` | method | `modules/compliance.py:639` | `def map_findings_to_compliance(self, findings, frameworks)` |
 | `to_report` | method | `modules/compliance.py:432` | `def to_report(self)` |
@@ -463,38 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `community_for` | function | `modules/estorides_fusion.py:180` | `def community_for(kind, value)` |
 | `estorides_checkout` | function | `modules/estorides_fusion.py:48` | `def estorides_checkout()` |
 | `find_export` | function | `modules/estorides_fusion.py:68` | `def find_export(sessions_dir)` |
-| `find_lan_bundle` | function | `modules/estorides_fusion.py:268` | `def find_lan_bundle(sessions_dir)` |
-| `load_export` | function | `modules/estorides_fusion.py:128` | `def load_export(path)` |
-| `load_lan_bundle` | function | `modules/estorides_fusion.py:288` | `def load_lan_bundle(path)` |
-| `merge_estorides` | function | `modules/estorides_fusion.py:187` | `def merge_estorides(nodes, edges, est, cap)` |
-| `run_export` | function | `modules/estorides_fusion.py:84` | `def run_export(sessions_dir, cli_path, timeout_sec)` |
-| `split_lan_targets` | function | `modules/estorides_fusion.py:323` | `def split_lan_targets(est)` |
-| `EstoridesCaseReader` | class | `modules/estorides_importer.py:387` | `class EstoridesCaseReader` |
-| `EstoridesEntity` | class | `modules/estorides_importer.py:84` | `class EstoridesEntity` |
-| `EstoridesStixParser` | class | `modules/estorides_importer.py:497` | `class EstoridesStixParser` |
-| `EstoridesToLazyOwnBridge` | class | `modules/estorides_importer.py:702` | `class EstoridesToLazyOwnBridge` |
-| `FeedbackLoop` | class | `modules/estorides_importer.py:885` | `class FeedbackLoop` |
-| `ImportResult` | class | `modules/estorides_importer.py:96` | `class ImportResult` |
-| `LanBundleReader` | class | `modules/estorides_importer.py:624` | `class LanBundleReader` |
-| `SeedResult` | class | `modules/estorides_importer.py:128` | `class SeedResult` |
-| `__init__` | method | `modules/estorides_importer.py:390` | `def __init__(self, db_path)` |
-| `__init__` | method | `modules/estorides_importer.py:513` | `def __init__(self, stix_path)` |
-| `__init__` | method | `modules/estorides_importer.py:634` | `def __init__(self, lan_dir)` |
-| `__init__` | method | `modules/estorides_importer.py:705` | `def __init__(self, db_path, config_path)` |
-| `__init__` | method | `modules/estorides_importer.py:896` | `def __init__(self, max_iterations, max_depth, max_steps, timeout)` |
-| `_ensure_conn` | method | `modules/estorides_importer.py:398` | `def _ensure_conn(self)` |
-| `_extract_value` | method | `modules/estorides_importer.py:565` | `def _extract_value(obj, stix_type)` |
-| `_gather_seeds` | method | `modules/estorides_importer.py:1005` | `def _gather_seeds(self, methods, seen)` |
-| `_import_to_db` | method | `modules/estorides_importer.py:757` | `def _import_to_db(self, imports, result)` |
-| `_import_to_scope` | method | `modules/estorides_importer.py:803` | `def _import_to_scope(self, imports, result)` |
-| `attack_targets` | method | `modules/estorides_importer.py:685` | `def attack_targets(self)` |
-| `available` | method | `modules/estorides_importer.py:395` | `def available(self)` |
-| `available` | method | `modules/estorides_importer.py:517` | `def available(self)` |
-| `available` | method | `modules/estorides_importer.py:638` | `def available(self)` |
-| `close` | method | `modules/estorides_importer.py:491` | `def close(self)` |
-| `ensure_directories` | function | `modules/estorides_importer.py:696` | `def ensure_directories()` |
-| `export_combined_graph` | function | `modules/estorides_importer.py:1031` | `def export_combined_graph(output_path)` |
-| `extract_seeds_from_db` | function | `modules/estorides_importer.py:205` | `def extract_seeds_from_db(db_path)` |
-| `extract_seeds_from_hosts_file` | function | `modules/estorides_importer.py:177` | `def extract_seeds_from_hosts_file(path)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

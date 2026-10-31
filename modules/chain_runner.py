@@ -127,6 +127,7 @@ class ChainRunResult:
     fallback_used: str = ""
     fallback_depth: int = 0
     verdicts: dict[str, str] = field(default_factory=dict)
+    finalization: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable view."""
@@ -148,6 +149,7 @@ class ChainRunResult:
             "fallback_used": self.fallback_used,
             "fallback_depth": self.fallback_depth,
             "verdicts": dict(self.verdicts),
+            "finalization": dict(self.finalization),
             "duration_ms": round(max(0.0, self.finished_at - self.started_at) * 1000, 2),
         }
 
@@ -504,9 +506,47 @@ class ChainRunner:
         result.variables = dict(variables)
         result.verdicts = dict(verdicts)
         result.finished_at = time.time()
+        result.finalization = self._finalize_verdict(result)
         state_name = "aborted" if result.aborted else "finished"
         self._save_checkpoint(result, variables, captured_keys, index, state_name, verdicts)
         return result
+
+    def _finalize_verdict(self, result: ChainRunResult) -> dict[str, Any]:
+        """Gate the chain verdict through the shared evidence finalizer.
+
+        A chain that reports ``ok`` while no step captured evidence, or
+        while steps stayed open (skipped, failed, denied), is downgraded
+        exactly like an autonomous task: ``achieved`` must rest on
+        execution evidence, not on the runner's self-report. Dry runs are
+        exempt: they never execute and carry no evidence to verify.
+
+        Args:
+            result: The finished chain result.
+
+        Returns:
+            The finalizer decision dict for ``ChainRunResult.finalization``.
+        """
+        if self.dry_run:
+            return {}
+        try:
+            from modules import lazy_finalizer
+
+            executed = [step for step in result.steps if step.status == "ok"]
+            captured = [step for step in executed if step.captured]
+            observed = [value for value in result.verdicts.values() if value == VERDICT_OBSERVED]
+            open_steps = [step.id for step in result.steps if not step.ok]
+            decision = lazy_finalizer.decide(
+                status="done" if not result.aborted else "failed",
+                candidate_verdict="achieved" if (result.ok and not result.aborted) else "partial",
+                facts=len(captured),
+                findings=len(captured),
+                confirmed=len(observed),
+                tested=len(executed),
+                pending_plan_steps=open_steps,
+            )
+            return decision.to_dict()
+        except Exception:
+            return {}
 
     def _skip_remaining(self, steps: list[ChainStep], start: int, reason: str) -> list[StepOutcome]:
         """Build skipped outcomes for steps that will not execute."""

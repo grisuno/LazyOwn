@@ -76,6 +76,10 @@ def auto_verb_target(command: str) -> str:
     parts = (command or "").strip().split()
     if len(parts) < 2:
         return ""
+    first = parts[0]
+    if first == "lazy_poc":
+        candidate = parts[3] if len(parts) >= 4 and parts[1] == "run" and "=" not in parts[3] else ""
+        return candidate if candidate and _looks_like_target(candidate) else ""
     candidate = parts[1]
     if candidate.startswith("-"):
         return ""
@@ -378,7 +382,7 @@ SHELL_TIMEOUT_MESSAGE = "TIMEOUT"
 
 ROUTABLE_PREFIXES = ("lazy_addon ", "custom tool ", "lazy_workspace ")
 
-ROUTABLE_VERBS = frozenset({"lazynmap", "ping", "lazyintel", "lazyautofire", "lazytimeline", "lazysearch"})
+ROUTABLE_VERBS = frozenset({"lazynmap", "ping", "lazyintel", "lazyautofire", "lazytimeline", "lazysearch", "lazy_poc"})
 
 
 def _cli_verb_allowed(name: str) -> bool:
@@ -715,6 +719,7 @@ def propose_intents(goal: str, target: str = "", finding_texts: tuple[str, ...] 
 
 _ATOMIC_VERBS = frozenset({"atomic_tests", "atomic_gen"})
 _ADDON_VERB_PREFIX = "addon:"
+_POC_VERB_PREFIX = "poc:"
 _TECHNIQUE_RE = re.compile(r"\bT\d{4}(?:\.\d{3})?\b", re.IGNORECASE)
 _PLATFORM_RE = re.compile(r"\b(windows|linux|macos)\b", re.IGNORECASE)
 _PLAYBOOK_RE = re.compile(r"\b([a-z][a-z0-9_-]{1,40})\s+playbook\b", re.IGNORECASE)
@@ -793,20 +798,26 @@ def _chain_name_for_playbook(playbook: str) -> str:
         Chain name whose ``defaults.playbook`` matches the slug, else the
         playbook date prefix and slug stitched as ``apt_<slug>``. The raw
         playbook slug returns unchanged when no chain binding exists and
-        an ``apt_<slug>.yaml`` file is absent.
+        an ``apt_<slug>.yaml`` file is absent. The generic base chain
+        (``apt_chain``) is never the binding for a specific playbook: it
+        exists so every playbook can inherit it, so a slug match resolves
+        to the dedicated chain file first.
     """
     if not playbook:
         return playbook
+    exact = f"apt_{playbook}"
     try:
         from modules.chain_registry import load_all
 
         for chain_name, chain in load_all().items():
+            if chain_name == "apt_chain":
+                continue
             if str((chain.defaults or {}).get("playbook") or "").strip().lower() == playbook:
                 return chain_name
     except Exception:
         pass
-    if (Path(__file__).resolve().parent.parent / "chains" / f"apt_{playbook}.yaml").is_file():
-        return f"apt_{playbook}"
+    if (Path(__file__).resolve().parent.parent / "chains" / f"{exact}.yaml").is_file():
+        return exact
     return playbook
 
 
@@ -836,6 +847,19 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
     if lowered.startswith("auto "):
         parts = lowered.split()
         verb = parts[1] if len(parts) > 1 else ""
+        if verb.startswith(_POC_VERB_PREFIX):
+            poc = verb[len(_POC_VERB_PREFIX) :]
+            if not poc:
+                return None
+            try:
+                from modules import poc_registry as _poc_registry
+
+                if _poc_registry.get_poc(poc) is None:
+                    return None
+            except Exception:
+                return None
+            tail = " ".join(parts[2:]).strip() or (target or "").strip()
+            return [f"lazy_poc run {poc} {tail}".strip()]
         if _verb_row(verb) is not None:
             if verb_gap(verb) or not verb_enabled(verb):
                 return None

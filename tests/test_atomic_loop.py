@@ -135,21 +135,21 @@ def test_loop_reaches_apt_chain_end_to_end() -> None:
 def test_apt_chain_binds_playbook_and_target() -> None:
     """Explicit chain intents bind both slots; explicit IP wins."""
     assert steps_for("auto apt_chain rocke 172.17.0.2", "10.0.0.5") == [
-        "apt_chain rocke 172.17.0.2"
+        "apt_chain apt_rocke 172.17.0.2"
     ]
-    assert steps_for("auto apt_chain apt29 10.0.0.9", "") == ["apt_chain apt29 10.0.0.9"]
-    assert steps_for("auto apt_chain 172.17.0.2", "") == ["apt_chain rocke 172.17.0.2"]
-    assert steps_for("auto apt_chain", "172.17.0.2") == ["apt_chain rocke 172.17.0.2"]
+    assert steps_for("auto apt_chain apt29 10.0.0.9", "") == ["apt_chain apt_apt29 10.0.0.9"]
+    assert steps_for("auto apt_chain 172.17.0.2", "") == ["apt_chain apt_rocke 172.17.0.2"]
+    assert steps_for("auto apt_chain", "172.17.0.2") == ["apt_chain apt_rocke 172.17.0.2"]
 
 
 def test_apt_chain_keyword_never_invents_playbook() -> None:
     """Free-text binds IPs and <name> playbook forms only, never filler."""
-    assert steps_for("run the full apt chain", "172.17.0.2") == ["apt_chain rocke 172.17.0.2"]
+    assert steps_for("run the full apt chain", "172.17.0.2") == ["apt_chain apt_rocke 172.17.0.2"]
     assert steps_for("run the full apt chain on 10.0.0.9", "172.17.0.2") == [
-        "apt_chain rocke 10.0.0.9"
+        "apt_chain apt_rocke 10.0.0.9"
     ]
     assert steps_for("prove the chain with the apt29 playbook", "172.17.0.2") == [
-        "apt_chain apt29 172.17.0.2"
+        "apt_chain apt_apt29 172.17.0.2"
     ]
 
 

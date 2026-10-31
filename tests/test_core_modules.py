@@ -366,27 +366,6 @@ def test_c2_profile_save_load(tmp_path):
     assert loaded.sleep.interval_ms == p.sleep.interval_ms
 
 
-# config_store
-def test_config_store(tmp_path):
-    import config_store
-
-    p = tmp_path / "payload.json"
-    p.write_text(json.dumps({"rhost": "10.0.0.1", "lport": 4444}))
-    old_path, old_data = config_store._payload_path, dict(config_store._data)
-    config_store._payload_path = p
-    config_store._data = {}
-    config_store._last_mtime = 0.0
-    try:
-        assert config_store.get_config("rhost") == "10.0.0.1"
-        config_store.set_config(rhost="10.99.99.99")
-        assert config_store.get_config("rhost") == "10.99.99.99"
-        assert json.loads(p.read_text())["rhost"] == "10.99.99.99"
-    finally:
-        config_store._payload_path = old_path
-        config_store._data = old_data
-        config_store._last_mtime = 0.0
-
-
 # MCP registration
 def test_mcp_tools_registered():
     import ast

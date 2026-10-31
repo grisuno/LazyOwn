@@ -55,6 +55,7 @@ class MediationHub:
 def _build_default() -> MediationHub:
     """Create a hub preloaded with the default specialised mediators."""
     from modules.mediation.chain_mediator import ChainMediator
+    from modules.mediation.engine_mediator import EngineMediator
     from modules.mediation.feedback_mediator import FeedbackMediator
     from modules.mediation.intel_mediator import IntelMediator
     from modules.mediation.telemetry_mediator import TelemetryMediator
@@ -64,6 +65,7 @@ def _build_default() -> MediationHub:
     hub.register(FeedbackMediator())
     hub.register(TelemetryMediator())
     hub.register(ChainMediator())
+    hub.register(EngineMediator())
     for domain in MediationDomains.ALL:
         if hub.mediator_for(domain) is None:
             raise KeyError(f"mediation: default domain '{domain}' has no mediator")

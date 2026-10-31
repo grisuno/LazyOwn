@@ -46,6 +46,7 @@ DEFAULT_INDEX_PATH = REPO_ROOT / "cli" / "command_index.json"
 BUILTIN_ENABLED_VERBS: frozenset[str] = frozenset({"lazynmap"})
 
 ADDON_VERB_PREFIX = "addon:"
+POC_VERB_PREFIX = "poc:"
 
 ADDON_PHASE_MAP: dict[str, str] = {
     "01": "recon",
@@ -90,6 +91,7 @@ class VerbCatalogConfig:
     catalog_path: Path = field(default=DEFAULT_CATALOG_PATH)
     index_path: Path = field(default=DEFAULT_INDEX_PATH)
     addons_dir: Path | None = None
+    poc_catalog_path: Path | None = None
     version: int = 1
     default_enabled: bool = False
     max_yaml_bytes: int = 1_000_000
@@ -99,7 +101,11 @@ class VerbCatalogConfig:
 def _default_config() -> VerbCatalogConfig:
     """Return the process-wide configuration (override point for tests)."""
     addons_dir = REPO_ROOT / "lazyaddons"
-    return VerbCatalogConfig(addons_dir=addons_dir if addons_dir.is_dir() else None)
+    poc_path = REPO_ROOT / "config" / "poc_verbs.yaml"
+    return VerbCatalogConfig(
+        addons_dir=addons_dir if addons_dir.is_dir() else None,
+        poc_catalog_path=poc_path if poc_path.is_file() else None,
+    )
 
 
 def _builtin_names() -> set[str]:
@@ -178,11 +184,41 @@ def _addon_discoveries(config: VerbCatalogConfig) -> dict[str, dict[str, str]]:
     return out
 
 
+def _poc_discoveries(config: VerbCatalogConfig) -> dict[str, dict[str, str]]:
+    """Return catalogued PoC verbs as pseudo-verbs keyed ``poc:<name>``.
+
+    Args:
+        config: Active configuration; the sweep runs only when
+            ``poc_catalog_path`` is set (the default config sets it, sandboxes
+            do not).
+
+    Returns:
+        Mapping of ``poc:<name>`` to ``{summary, phase}`` metadata for
+        every catalogued PoC; a failing parse yields no entries.
+    """
+    if config.poc_catalog_path is None:
+        return {}
+    try:
+        from modules import poc_registry
+
+        rows: dict[str, dict[str, str]] = {}
+        for verb in poc_registry.poc_verbs(config.poc_catalog_path).values():
+            summary = verb.title or verb.description
+            rows[f"poc:{verb.name}"] = {"summary": summary[:200], "phase": verb.phase}
+        return rows
+    except Exception as exc:
+        log.debug("poc catalog unavailable: %s", exc)
+        return {}
+
+
 def _all_discoveries(config: VerbCatalogConfig) -> dict[str, dict[str, str]]:
-    """Merge shell commands and lazyaddon pseudo-verbs into one mapping."""
+    """Merge shell commands, lazyaddon and PoC pseudo-verbs into one mapping."""
     discovered = index_commands(config)
     addon_rows = _addon_discoveries(config)
     for name, meta in addon_rows.items():
+        discovered.setdefault(name, meta)
+    poc_rows = _poc_discoveries(config)
+    for name, meta in poc_rows.items():
         discovered.setdefault(name, meta)
     return discovered
 
@@ -396,6 +432,7 @@ def set_enabled(name: str, enabled: bool, config: VerbCatalogConfig | None = Non
     cfg = config or _default_config()
     discovered = _all_discoveries(cfg)
     addon_verb = clean.startswith(ADDON_VERB_PREFIX)
+    poc_verb = clean.startswith(POC_VERB_PREFIX)
     with _WRITE_LOCK:
         if clean not in discovered and clean not in load(cfg):
             raise KeyError(f"unknown shell verb: {clean!r}")
@@ -405,7 +442,7 @@ def set_enabled(name: str, enabled: bool, config: VerbCatalogConfig | None = Non
         entry.setdefault("phase", discovered.get(clean, {}).get("phase") or _phase_fallback(clean))
         entry.setdefault("risk", _risk_fallback(clean))
         entry.setdefault("description", discovered.get(clean, {}).get("summary") or "")
-        entry.setdefault("source", "addon" if addon_verb else "cli")
+        entry.setdefault("source", "addon" if addon_verb else ("poc" if poc_verb else "cli"))
         raw[clean] = entry
         _write(cfg, raw)
     _drop_cache(str(cfg.catalog_path))
@@ -435,14 +472,19 @@ def sync(config: VerbCatalogConfig | None = None) -> dict[str, int]:
         kept = 0
         for name, meta in discovered.items():
             addon_verb = name.startswith(ADDON_VERB_PREFIX)
+            poc_verb = name.startswith(POC_VERB_PREFIX)
             stored = raw.get(name)
             if stored is None:
                 merged[name] = {
-                    "enabled": False if addon_verb else name in builtins,
+                    "enabled": False if (addon_verb or poc_verb) else name in builtins,
                     "phase": meta.get("phase") or "",
                     "risk": _risk_fallback(name),
                     "description": meta.get("summary") or "",
-                    "source": "addon" if addon_verb else ("builtin" if name in builtins else "cli"),
+                    "source": (
+                        "addon"
+                        if addon_verb
+                        else ("poc" if poc_verb else ("builtin" if name in builtins else "cli"))
+                    ),
                 }
                 added += 1
             else:

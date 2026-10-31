@@ -16,8 +16,9 @@ class MediationDomains:
     FEEDBACK = "loop.feedback"
     TELEMETRY = "loop.telemetry"
     CHAIN = "chain"
+    ENGINES = "loop.engines"
 
-    ALL: tuple[str, ...] = (INTEL, FEEDBACK, TELEMETRY, CHAIN)
+    ALL: tuple[str, ...] = (INTEL, FEEDBACK, TELEMETRY, CHAIN, ENGINES)
 
     @classmethod
     def is_known(cls, domain: str) -> bool:

@@ -1,5 +1,101 @@
-# Subsystem: modules (page 15 of 17)
+# Subsystem: modules (page 15 of 18)
 Previous: [KB_modules_p14.md](KB_modules_p14.md)
+
+## modules/playbook_admin.py
+- Doc: Safe CRUD for the YAML playbooks under ``playbooks/``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PlaybookEntry` (class, line 40) `class PlaybookEntry`
+  - `_yaml_module` (function, line 55) `def _yaml_module()`
+  - `slugify` (function, line 62) `def slugify(value)`
+  - `playbook_path` (function, line 75) `def playbook_path(filename, directory)`
+  - `load_playbook` (function, line 102) `def load_playbook(path)`
+  - `playbook_kind` (function, line 123) `def playbook_kind(data)`
+  - `validate_playbook` (function, line 136) `def validate_playbook(data)`
+  - `_count_steps` (function, line 183) `def _count_steps(data)`
+  - `summarize` (function, line 197) `def summarize(path)`
+  - `scan_playbooks` (function, line 231) `def scan_playbooks(directory)`
+  - `preview_playbook` (function, line 251) `def preview_playbook(path, limit)`
+  - `playbook_template` (function, line 265) `def playbook_template(name, description, platforms)`
+  - `_write_atomic` (function, line 282) `def _write_atomic(target, data)`
+  - `create_playbook` (function, line 297) `def create_playbook(filename)`
+  - `_target_for_write` (function, line 337) `def _target_for_write(path, directory)`
+  - `update_playbook` (function, line 350) `def update_playbook(path, data, directory)`
+  - `save_playbook_yaml` (function, line 377) `def save_playbook_yaml(path, text, directory)`
+  - `delete_playbook` (function, line 406) `def delete_playbook(path, directory)`
+- Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`
+
+## modules/playbook_engine.py
+- Doc: modules/playbook_engine.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PlaybookStep` (class, line 101) `class PlaybookStep`
+  - `Playbook` (class, line 133) `class Playbook`
+  - `StepResult` (class, line 165) `class StepResult`
+  - `PlaybookResult` (class, line 173) `class PlaybookResult`
+  - `_StixLoader` (class, line 185) `class _StixLoader`
+  - `_AtomicIndex` (class, line 254) `class _AtomicIndex`
+  - `_TechniqueSelector` (class, line 311) `class _TechniqueSelector`
+  - `PlaybookEngine` (class, line 375) `class PlaybookEngine`
+  - `get_engine` (function, line 669) `def get_engine(api_key)`
+  - `to_dict` (method, line 113) `def to_dict(self)`
+  - `from_dict` (method, line 128) `def from_dict(cls, d)`
+  - `to_dict` (method, line 141) `def to_dict(self)`
+  - `from_dict` (method, line 152) `def from_dict(cls, d)`
+  - `__init__` (method, line 188) `def __init__(self, json_path)`
+  - `available` (method, line 192) `def available(self)`
+  - `store` (method, line 195) `def store(self)`
+  - `techniques_for_tactics` (method, line 210) `def techniques_for_tactics(self, tactic_shortnames, platform)`
+  - `__init__` (method, line 260) `def __init__(self, atomics_path)`
+  - `available` (method, line 264) `def available(self)`
+  - `build` (method, line 267) `def build(self)`
+  - `tests_for_technique` (method, line 300) `def tests_for_technique(self, technique_id, platform)`
+  - `select` (method, line 317) `def select(self, candidates, world_context, target, phase, api_key, top_n)`
+  - `__init__` (method, line 387) `def __init__(self, world_model, obs_parser, api_key, top_n)`
+  - `_world_model` (method, line 404) `def _world_model(self)`
+  - `_obs_parser` (method, line 415) `def _obs_parser(self)`
+  - `derive` (method, line 427) `def derive(self, target, phase, platform, apt_name)`
+  - `execute` (method, line 529) `def execute(self, playbook, executor, dry_run)`
+  - `save` (method, line 599) `def save(self, playbook, path)`
+  - `load` (method, line 611) `def load(self, path)`
+  - `result_summary` (method, line 640) `def result_summary(self, result)`
+  - `_local_executor` (function, line 722) `def _local_executor(command, host)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
+- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+
+## modules/playbook_executor.py
+- Doc: Playbook Executor — bridges MITRE ATT&CK playbooks to the pipeline engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PlaybookTechnique` (class, line 36) `class PlaybookTechnique`
+  - `PlaybookSpec` (class, line 48) `class PlaybookSpec`
+  - `PlaybookRunResult` (class, line 61) `class PlaybookRunResult`
+  - `ITTPMapper` (class, line 93) `class ITTPMapper(ABC)`
+  - `DefaultTTPMapper` (class, line 101) `class DefaultTTPMapper(ITTPMapper)`
+  - `PlaybookLoader` (class, line 203) `class PlaybookLoader`
+  - `_build_pipeline_yaml` (function, line 285) `def _build_pipeline_yaml(playbook, mapper, platform)`
+  - `PlaybookEngine` (class, line 336) `class PlaybookEngine`
+  - `playbook_list` (function, line 416) `def playbook_list()`
+  - `playbook_analyze` (function, line 422) `def playbook_analyze(name, platform)`
+  - `playbook_generate` (function, line 429) `def playbook_generate(name, platform)`
+  - `playbook_run` (function, line 436) `def playbook_run(name, platform, target, onecmd)`
+  - `to_dict` (method, line 74) `def to_dict(self)`
+  - `resolve` (method, line 97) `def resolve(self, technique_id, atomic_test, platform)`
+  - `register` (method, line 180) `def register(cls, technique_id, platform, command)`
+  - `resolve` (method, line 185) `def resolve(self, technique_id, atomic_test, platform)`
+  - `__init__` (method, line 208) `def __init__(self, playbooks_dir)`
+  - `list` (method, line 211) `def list(self)`
+  - `load` (method, line 224) `def load(self, name)`
+  - `_validate` (method, line 235) `def _validate(self, raw, source_path)`
+  - `__init__` (method, line 339) `def __init__(self, loader, mapper, pipelines_dir)`
+  - `loader` (method, line 350) `def loader(self)`
+  - `analyze` (method, line 353) `def analyze(self, name, platform)`
+  - `generate_pipeline` (method, line 378) `def generate_pipeline(self, name, platform)`
+  - `run` (method, line 390) `def run(self, name, platform, target, onecmd)`
+- Depends on: `modules/pipeline_engine.py`
 
 ## modules/polymorphic_engine.py
 - Doc: Polymorphic code generation engine — shellcode mutation and obfuscation.
@@ -388,107 +484,6 @@ Previous: [KB_modules_p14.md](KB_modules_p14.md)
   - `_penalize` (method, line 407) `def _penalize(self, reward, detection_prob)`
 - Depends on: `core/logging.py`
 - Imported by: `modules/lesson_ingestor.py`, `modules/loop_ai_bridge.py`, `skills/autonomous_daemon.py`, `skills/swan_agent.py`, `tests/test_moe_rl_swan.py`
-
-## modules/saas_attacks.py
-- Doc: SaaS attacks — Microsoft 365, Google Workspace, Salesforce, ServiceNow exploitation.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SaaSConfig` (class, line 49) `class SaaSConfig`
-  - `SaaSEnumerationTools` (class, line 71) `class SaaSEnumerationTools`
-  - `SaaSAttackEngine` (class, line 152) `class SaaSAttackEngine`
-  - `microsoft365_commands` (method, line 75) `def microsoft365_commands()`
-  - `google_workspace_commands` (method, line 100) `def google_workspace_commands()`
-  - `salesforce_commands` (method, line 118) `def salesforce_commands()`
-  - `servicenow_commands` (method, line 135) `def servicenow_commands()`
-  - `__init__` (method, line 163) `def __init__(self, config)`
-  - `enumerate_all` (method, line 166) `def enumerate_all(self)`
-  - `m365_ews_mail_search` (method, line 179) `def m365_ews_mail_search(self, search_term)`
-  - `google_workspace_domain_wide_delegation` (method, line 228) `def google_workspace_domain_wide_delegation(self)`
-  - `salesforce_report_mining` (method, line 257) `def salesforce_report_mining(self)`
-  - `slack_data_mining` (method, line 286) `def slack_data_mining(self)`
-  - `detect_external_sharing` (method, line 327) `def detect_external_sharing(self)`
-  - `summary` (method, line 352) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/search.py
-- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
-- Layer: utility
-- Language: py
-- Imported by: `static/js/showdown-2.1.0.min.js`
-
-## modules/security_sanitizers.py
-- Doc: Security sanitizers shared across the LazyOwn framework.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `SecurityConfig` (class, line 37) `class SecurityConfig`
-  - `HeaderValueSanitizer` (class, line 101) `class HeaderValueSanitizer`
-  - `SessionPathResolver` (class, line 162) `class SessionPathResolver`
-  - `BindAddressResolver` (class, line 256) `class BindAddressResolver`
-  - `CommandRedactor` (class, line 318) `class CommandRedactor`
-  - `OutputSanitizer` (class, line 406) `class OutputSanitizer`
-  - `build_default_config` (function, line 477) `def build_default_config(payload)`
-  - `from_payload` (method, line 68) `def from_payload(cls, payload)`
-  - `__init__` (method, line 115) `def __init__(self, config)`
-  - `is_valid_name` (method, line 129) `def is_valid_name(self, name)`
-  - `sanitize_value` (method, line 139) `def sanitize_value(self, value)`
-  - `__init__` (method, line 174) `def __init__(self, base_dir, config)`
-  - `base_dir` (method, line 192) `def base_dir(self)`
-  - `resolve` (method, line 196) `def resolve(self, untrusted_name)`
-  - `file_exists` (method, line 238) `def file_exists(self, untrusted_name)`
-  - `__init__` (method, line 269) `def __init__(self, config, preferred_addresses)`
-  - `_is_well_formed` (method, line 285) `def _is_well_formed(self, candidate)`
-  - `resolve` (method, line 298) `def resolve(self)`
-  - `__init__` (method, line 333) `def __init__(self, config)`
-  - `_display_username` (method, line 345) `def _display_username(self, username)`
-  - `_display_password` (method, line 353) `def _display_password(self, password)`
-  - `render` (method, line 359) `def render(self, template, substitutions, username, password)`
-  - `__init__` (method, line 418) `def __init__(self, config)`
-  - `sanitize` (method, line 429) `def sanitize(self, value)`
-  - `_sanitize` (method, line 433) `def _sanitize(self, value, depth)`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
-
-## modules/selector_manager.py
-- Doc: Selector manager: deterministic priority cascade with provenance.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `Proposal` (class, line 21) `class Proposal`
-  - `Selection` (class, line 32) `class Selection`
-  - `select` (function, line 42) `def select(proposals, is_blocked)`
-- Imported by: `tests/test_auto_loop_memory.py`
-
-## modules/selfupdate.py
-- Doc: Guarded self-update for the LazyOwn working tree.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ReleaseArtifact` (class, line 24) `class ReleaseArtifact`
-  - `Updater` (class, line 38) `class Updater`
-  - `_run` (function, line 85) `def _run(argv, cwd, timeout)`
-  - `_git` (function, line 90) `def _git(args, runner, cwd, timeout)`
-  - `current_branch` (function, line 96) `def current_branch(runner)`
-  - `dirty` (function, line 102) `def dirty(runner)`
-  - `check` (function, line 108) `def check(branch, runner)`
-  - `apply` (function, line 140) `def apply(branch, confirm, runner)`
-  - `__init__` (method, line 47) `def __init__(self, live_path)`
-  - `verify` (method, line 52) `def verify(self, artifact)`
-  - `stage` (method, line 57) `def stage(self, artifact, directory)`
-  - `rollback` (method, line 77) `def rollback(self)`
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`
-
-## modules/session_cleanup.py
-- Doc: Ephemeral infrastructure cleanup on shell exit.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `find_cloudflared_pids` (function, line 28) `def find_cloudflared_pids(ps_output)`
-  - `_run_quiet` (function, line 49) `def _run_quiet(argv, timeout)`
-  - `_compose_down` (function, line 66) `def _compose_down(compose_file, label)`
-  - `stop_cloudflared_processes` (function, line 94) `def stop_cloudflared_processes()`
-  - `cleanup_ephemeral_infra` (function, line 120) `def cleanup_ephemeral_infra()`
-- Imported by: `lazyown.py`, `tests/test_infra_disposable.py`
 
 
 Next: [KB_modules_p16.md](KB_modules_p16.md)

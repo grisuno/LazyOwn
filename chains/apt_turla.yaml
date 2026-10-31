@@ -1,0 +1,6 @@
+name: apt_turla
+description: Turla chain (extends apt_chain); supply-chain access, bootkit persistence, tiered espionage C2.
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: turla

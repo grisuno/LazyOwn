@@ -1706,7 +1706,7 @@ verbs:
       in adversary.json
     source: cli
   adversary_yaml:
-    enabled: false
+    enabled: true
     phase: postexp
     risk: safe
     description: Execute adversary from YAML in lazyadversaries/*.yaml

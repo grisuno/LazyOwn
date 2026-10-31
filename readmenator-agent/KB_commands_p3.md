@@ -1,5 +1,70 @@
-# Subsystem: commands (page 3 of 4)
+# Subsystem: commands (page 3 of 5)
 Previous: [KB_commands_p2.md](KB_commands_p2.md)
+
+## cli/commands/lateral.py
+- Doc: Lateral Movement command set (pending).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LateralMovementCommandSet` (class, line 24) `class LateralMovementCommandSet(LazyOwnCommandSet)`
+  - `do_socat` (method, line 31) `def do_socat(self, line)`
+  - `do_chisel` (method, line 43) `def do_chisel(self, line)`
+  - `do_set_proxychains` (method, line 59) `def do_set_proxychains(self, line)`
+  - `do_ngrok` (method, line 72) `def do_ngrok(self, line)`
+  - `do_ligolo` (method, line 79) `def do_ligolo(self, line)`
+  - `do_nc` (method, line 91) `def do_nc(self, line)`
+  - `do_wmiexec` (method, line 106) `def do_wmiexec(self, line)`
+  - `do_ssh` (method, line 114) `def do_ssh(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
+
+## cli/commands/lateral_migrated.py
+- Doc: lateral commands migrated from lazyown.py.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LateralMigratedCommandSet` (class, line 24) `class LateralMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_vpn` (method, line 29) `def do_vpn(self, line)`
+  - `do_id_rsa` (method, line 101) `def do_id_rsa(self, line)`
+  - `do_sshd` (method, line 172) `def do_sshd(self, line)`
+  - `do_wifipass` (method, line 199) `def do_wifipass(self, line)`
+  - `do_bloodyAD` (method, line 229) `def do_bloodyAD(self, line)`
+  - `do_getTGT` (method, line 321) `def do_getTGT(self, line)`
+  - `do_tord` (method, line 369) `def do_tord(self, line)`
+  - `do_shadowsocks` (method, line 404) `def do_shadowsocks(self, line)`
+  - `do_rnc` (method, line 477) `def do_rnc(self, line)`
+  - `do_gospherus` (method, line 543) `def do_gospherus(self, line)`
+  - `do_mssqlcli` (method, line 613) `def do_mssqlcli(self, line)`
+  - `do_penelope` (method, line 666) `def do_penelope(self, line)`
+  - `do_stormbreaker` (method, line 777) `def do_stormbreaker(self, line)`
+  - `do_regeorg` (method, line 823) `def do_regeorg(self, line)`
+  - `do_targetedKerberoas` (method, line 871) `def do_targetedKerberoas(self, line)`
+  - `do_dcomexec` (method, line 931) `def do_dcomexec(self, line)`
+  - `do_upload_c2` (method, line 1002) `def do_upload_c2(self, line)`
+  - `do_wmiexecpro` (method, line 1031) `def do_wmiexecpro(self, line)`
+  - `do_lateral_mov_lin` (method, line 1247) `def do_lateral_mov_lin(self, line)`
+  - `do_addcli` (method, line 1302) `def do_addcli(self, line)`
+  - `do_dominion` (method, line 1317) `def do_dominion(self, line)`
+  - `install_wmiexecpro` (function, line 1070) `def install_wmiexecpro()`
+- Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/domain_dominance.py`, `utils.py`
+
+## cli/commands/lazy_creds.py
+- Doc: LazyCreds shell commands: default-credential knowledge base lookups.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyCredsCommandSet` (class, line 21) `class LazyCredsCommandSet(LazyOwnCommandSet)`
+  - `do_lazycreds` (method, line 28) `def do_lazycreds(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+
+## cli/commands/lazy_dorks.py
+- Doc: LazyDorks shell command: render target dork playbooks into session artefacts.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_slug` (function, line 18) `def _slug(domain)`
+  - `LazyDorksCommandSet` (class, line 30) `class LazyDorksCommandSet(LazyOwnCommandSet)`
+  - `do_lazydork` (method, line 37) `def do_lazydork(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
 
 ## cli/commands/lazy_oob.py
 - Doc: LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks.
@@ -429,43 +494,6 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_POST` (method, line 407) `def do_POST(self)`
   - `do_OPTIONS` (method, line 427) `def do_OPTIONS(self)`
 - Depends on: `cli/commands/_base.py`, `modules/backdoor/server.c`, `modules/phishing_orchestrator.py`, `utils.py`
-
-## cli/commands/pivoting.py
-- Doc: Intelligent Pivoting command set.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PivotingCommandSet` (class, line 37) `class PivotingCommandSet(LazyOwnCommandSet)`
-  - `_discover_internal_networks` (function, line 262) `def _discover_internal_networks(rhost)`
-  - `_setup_chisel_pivot` (function, line 308) `def _setup_chisel_pivot(rhost, lhost, port, networks)`
-  - `_setup_ssh_pivot` (function, line 352) `def _setup_ssh_pivot(rhost, lhost, port, networks)`
-  - `_setup_socat_pivot` (function, line 389) `def _setup_socat_pivot(rhost, lhost, port, networks)`
-  - `_find_free_port` (function, line 442) `def _find_free_port(start)`
-  - `_load_pivot_chain` (function, line 463) `def _load_pivot_chain()`
-  - `_save_pivot_chain` (function, line 471) `def _save_pivot_chain(chain)`
-  - `_extract_flag` (function, line 478) `def _extract_flag(args, flag)`
-  - `do_autopivot` (method, line 44) `def do_autopivot(self, line)`
-  - `do_pivot_status` (method, line 118) `def do_pivot_status(self, line)`
-  - `do_pivot_kill` (method, line 137) `def do_pivot_kill(self, line)`
-  - `do_pivot_scan` (method, line 171) `def do_pivot_scan(self, line)`
-  - `do_pivot_proxy` (method, line 224) `def do_pivot_proxy(self, line)`
-- Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
-
-## cli/commands/postexp.py
-- Doc: Post-Exploitation command set (pending).
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PostExploitationCommandSet` (class, line 25) `class PostExploitationCommandSet(LazyOwnCommandSet)`
-  - `do_lazywebshell` (method, line 32) `def do_lazywebshell(self, line)`
-  - `do_disableav` (method, line 45) `def do_disableav(self, line)`
-  - `do_mimikatzpy` (method, line 59) `def do_mimikatzpy(self, line)`
-  - `do_scavenger` (method, line 64) `def do_scavenger(self, line)`
-  - `do_follina` (method, line 69) `def do_follina(self, line)`
-  - `do_shellcode` (method, line 74) `def do_shellcode(self, line)`
-  - `do_ofuscatorps1` (method, line 82) `def do_ofuscatorps1(self, line)`
-  - `do_atomic_lazyown` (method, line 87) `def do_atomic_lazyown(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 
 
 Next: [KB_commands_p4.md](KB_commands_p4.md)

@@ -68,6 +68,7 @@ FINDING_STATUSES = (
     "risk_accepted",
 )
 from modules.loop_triggers import TRIGGER_KINDS  # noqa: F401  (re-export consumed by loop_triggers)
+
 GUARD_ACTIONS = ("allow", "ask", "deny")
 TRAFFIC_KINDS = ("bash", "http", "note")
 DEFAULT_MAX_ROUNDS = 10
@@ -793,6 +794,76 @@ def _store_path(name: str) -> Path:
     if path.exists():
         _restrict_file(path)
     return path
+
+
+WORKER_TRACES_FILE = BASE_DIR / "sessions" / "worker_traces.jsonl"
+WORKER_TRACES_MAX_BYTES = 8 * 1024 * 1024
+WORKER_TRACES_KEEP_LINES = 20000
+
+
+def record_worker_traces(
+    task_id: str,
+    worker: str,
+    intent_id: int,
+    transcripts: list[tuple[str, str]],
+    state: str = "",
+    path: Path | None = None,
+) -> int:
+    """Append one trace row per executed step to the shared trace ledger.
+
+    Consumed by ``traces`` (``cli.commands.session_ops``) which expects the
+    schema keys ``cmd``, ``via`` (worker run id), ``evidence`` hash,
+    ``traffic`` digest, ``goals`` and ``blocked``; rows match the
+    deterministic :meth:`TrafficLog.digest_of` so evidence ties back to the
+    exact exchange.
+
+    Args:
+        task_id: Task the worker served.
+        worker: Worker identity.
+        intent_id: Intent node id the steps belong to.
+        transcripts: ``(command, output)`` pairs recorded this round.
+        state: Worker outcome state (``done``/``blocked``/...).
+        path: Optional ledger path override (tests).
+
+    Returns:
+        Number of rows appended; never raises.
+    """
+    ledger = Path(path) if path else WORKER_TRACES_FILE
+    rows: list[dict] = []
+    for command, output in transcripts:
+        if not (output or "").strip():
+            continue
+        rows.append({
+            "ts": _now(),
+            "task_id": str(task_id),
+            "worker": str(worker),
+            "intent_id": int(intent_id or 0),
+            "cmd": str(command)[:300],
+            "via": str(worker),
+            "evidence": hashlib.sha256((output or "").encode()).hexdigest(),
+            "traffic": TrafficLog.digest_of(command or "", output or ""),
+            "state": state,
+            "goals": [],
+            "blocked": state if state == "blocked" else "",
+        })
+    if not rows:
+        return 0
+    try:
+        parent = ledger.parent
+        try:
+            parent.mkdir(parents=True, exist_ok=True)
+            os.chmod(parent, 0o700)
+        except OSError:
+            pass
+        if ledger.exists() and ledger.stat().st_size > WORKER_TRACES_MAX_BYTES:
+            lines = ledger.read_text(encoding="utf-8", errors="replace").splitlines()
+            ledger.write_text("\n".join(lines[-WORKER_TRACES_KEEP_LINES:]) + "\n", encoding="utf-8")
+        with ledger.open("a", encoding="utf-8") as handle:
+            for row in rows:
+                handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+        return len(rows)
+    except OSError:
+        return 0
 
 
 def _load_json(path: Path, default: dict) -> dict:
@@ -1641,6 +1712,26 @@ class ActivityLog:
 class TrafficLog:
     """Append-only record of every tool execution like the Lazy MITM proxy."""
 
+    _DIGEST_SEED = "\x00"
+
+    @staticmethod
+    def digest_of(command: str, output: str = "") -> str:
+        """Deterministic digest binding a command to its exact output.
+
+        Repeated commands with different results digest differently, so
+        re-tests and their re-verdicts bind to their own exchange while
+        true duplicates stay byte-equal.
+
+        Args:
+            command: Executed command line.
+            output: Captured command output.
+
+        Returns:
+            First 16 hex chars of the sha256 of ``command + seed + output``.
+        """
+        payload = f"{command or ''}{TrafficLog._DIGEST_SEED}{output or ''}".encode()
+        return hashlib.sha256(payload).hexdigest()[:16]
+
     def __init__(self, task_id: str = "") -> None:
         """Bind log to task or global stream."""
         name = f"traffic_{task_id}.jsonl" if task_id else "traffic.jsonl"
@@ -1648,7 +1739,7 @@ class TrafficLog:
 
     def record(self, kind: str, command: str, output: str = "", meta: dict | None = None) -> dict:
         """Append one traffic record and return it."""
-        digest = hashlib.sha256((command or "").encode()).hexdigest()[:12]
+        digest = self.digest_of(command or "", output or "")
         body = output or ""
         truncated = len(body) > TRAFFIC_INLINE_CUTOFF
         stored = body[:TRAFFIC_INLINE_CUTOFF]
@@ -3717,26 +3808,6 @@ class Planner:
         except Exception:
             pass
         try:
-            from modules.auto_registry import ADDON_TRIGGER_CAP
-            from modules.module_registry import ModuleRegistry
-
-            auto_target = resolve_target(self.task_id, self.store, self.graph) or ""
-            corpus = [str(record.get("goal", "") or "")]
-            corpus.extend(n.text for n in self.graph.list("finding")[-4:])
-            corpus.extend(n.value for n in self.assets.list("service"))
-            known = {summary for summary, _a, _p, _pr in out}
-            for summary in ModuleRegistry.get_instance().proposal_intents(
-                corpus, target=auto_target, limit=ADDON_TRIGGER_CAP
-            ):
-                if summary in known or self._ledger_fresh_summary(summary):
-                    if summary not in known:
-                        known.add(summary)
-                    continue
-                out.append((summary, [], [], 4))
-                known.add(summary)
-        except Exception:
-            pass
-        try:
             policy = _lazy_policy()
 
             if policy is not None:
@@ -4401,6 +4472,13 @@ class Worker:
             wrote = {"facts": 0, "assets": 0, "findings": 0}
         else:
             wrote = self._writeback(intent, transcripts, allow_finding=("finding" in worker_tools))
+        record_worker_traces(
+            task_id=self.task_id,
+            worker=self.name,
+            intent_id=int(intent.node_id),
+            transcripts=transcripts,
+            state=str(outcome.get("state", "")),
+        )
         outcome["facts"] += wrote["facts"]
         outcome["assets"] += wrote["assets"]
         outcome["findings"] += wrote["findings"]
@@ -4840,6 +4918,7 @@ class Worker:
                 "opsec_noise": int(opsec.get("noise", 0) or 0),
             },
         )
+        self._publish_shell_proof(intent, target, command, output)
         self.activity.emit(
             self.name,
             "result",
@@ -4854,6 +4933,55 @@ class Worker:
         except Exception:
             pass
         return output, "ok", ""
+
+    def _publish_shell_proof(self, intent: ExplorationNode, target: str, command: str, output: str) -> bool:
+        """Publish one exploit outcome when a step output proves a live shell.
+
+        Uses the canonical detector (:func:`modules.atomic_exploit_bridge.shell_output_evidence`)
+        as the one shell-evidence contract, so the kill-chain sink can
+        advance the phase and host state and the strategic selectors —
+        atomic emulation, apt chains — become reachable inside the loop.
+
+        Args:
+            intent: Executed intent node.
+            target: Task target address.
+            command: Executed command line.
+            output: Captured command output.
+
+        Returns:
+            True when an exploit event was published.
+        """
+        if not target:
+            return False
+        try:
+            from modules.atomic_exploit_bridge import shell_output_evidence as _shell_proof
+
+            if not _shell_proof((output or "")[:5000]):
+                return False
+        except Exception:
+            return False
+        try:
+            from modules.outcome_bus import record_event
+
+            record_event(
+                kind="exploit",
+                target=target,
+                host=target,
+                task_id=self.task_id,
+                intent_id=int(intent.node_id),
+                title="shell evidence in loop step",
+                description=f"loop step output carries interactive-shell evidence ({command[:120]})",
+                severity="critical",
+                success=True,
+                shell=True,
+                source="lazy_loop",
+                command=command[:400],
+                output=(output or "")[:1500],
+                metadata={"worker": self.name},
+            )
+            return True
+        except Exception:
+            return False
 
     def _agent_checkpoint(self, intent: ExplorationNode) -> str:
         """Return the stop reason for the agent loop, or empty to continue."""
@@ -6133,7 +6261,7 @@ class Retester:
         verdict = result.get("verdict", "inconclusive")
         interpretation = {}
         try:
-            from modules import lazy_cve_feed, lazy_checks
+            from modules import lazy_checks, lazy_cve_feed
 
             cve = lazy_checks.extract_cve(str(finding.meta.get("cve", "") or finding.text or ""))
             ranges = lazy_cve_feed.range_for_cve(cve, allow_network=False) if cve else {}
@@ -7014,7 +7142,8 @@ class FindingService:
             ``T####`` id or the class fallback when nothing maps.
         """
         try:
-            from modules.killchain import VULNCLASS_FALLBACK_TECHNIQUE, technique_for_vulnclass as _by_class
+            from modules.killchain import VULNCLASS_FALLBACK_TECHNIQUE
+            from modules.killchain import technique_for_vulnclass as _by_class
 
             known = _by_class(vulnclass)
             if known:
@@ -7323,28 +7452,46 @@ class EvidenceStore:
         return _load_json(self._path, {"seq": 0, "items": []})
 
     def add(self, finding_id: int, kind: str, body: str) -> dict:
-        """Attach evidence to a finding and return the record."""
+        """Attach evidence to a finding and return the record.
+
+        The ``sha256`` binds the full source output (provenance), the
+        ``sha256_stored`` binds the retained inline copy so ``verify``
+        can re-check the artefact on disk.
+        """
         payload = self._load()
         payload["seq"] = int(payload.get("seq", 0)) + 1
-        text = (body or "")[:4000]
+        full = body or ""
+        text = full[:4000]
         item = {
             "id": payload["seq"],
             "finding_id": int(finding_id),
             "kind": kind[:40] or "note",
             "body": text,
             "ts": _now(),
-            "sha256": hashlib.sha256(text.encode()).hexdigest(),
+            "sha256": hashlib.sha256(full.encode()).hexdigest(),
+            "sha256_stored": hashlib.sha256(text.encode()).hexdigest(),
         }
         payload.setdefault("items", []).append(item)
         _save_json(self._path, payload)
         return item
 
     def verify(self) -> list[int]:
-        """Return ids whose body fails the sha256 integrity check."""
+        """Return ids whose body fails the sha256 integrity check.
+
+        A stored copy may legitimately be the truncated view of a larger
+        source output: it verifies against ``sha256_stored`` (its own
+        retained paper) while ``sha256`` stays available for full-text
+        provenance binding. Only copies matching neither persist as bad.
+        """
         bad = []
         for item in self._load().get("items", []):
-            digest = hashlib.sha256(str(item.get("body", "")).encode()).hexdigest()
-            if item.get("sha256") and digest != item.get("sha256"):
+            text = str(item.get("body", ""))
+            stored = hashlib.sha256(text.encode()).hexdigest()
+            if item.get("sha256_stored") and stored == item.get("sha256_stored"):
+                continue
+            if item.get("sha256") and stored == item.get("sha256"):
+                continue
+            if item.get("sha256") or item.get("sha256_stored"):
                 bad.append(int(item.get("id", 0)))
         return bad
 
@@ -9465,6 +9612,23 @@ class LazyLoopEngine:
             f"findings and objectives mirrored",
             intent_id=0,
         )
+        try:
+            from modules.lazy_timeline import record_quiet as _round_snapshot
+
+            snapshot = _round_snapshot()
+            if snapshot.get("path"):
+                summary["timeline_snapshot"] = str(snapshot["path"])
+        except Exception:
+            pass
+        try:
+            from modules.lazy_exposure import refresh_if_stale as _refresh_intel
+
+            intel_account = str(resolve_target(self.task_id, self.store, self.graph) or "")
+            refreshed = _refresh_intel(intel_account) if intel_account else None
+            if refreshed:
+                summary["intel_report"] = str(refreshed)
+        except Exception:
+            pass
         return summary
 
     def run_round(
@@ -10334,11 +10498,19 @@ class LazyLoopEngine:
             from modules import orchestrator_config
             from modules.progress_ledger import ProgressLedger, StrikePolicy
 
-            progress = orchestrator_config.progress_config()
-            policy = StrikePolicy(
-                max_strikes=int(progress.get("max_strikes", 3) or 3),
-                handoff_on_strikes=bool(progress.get("handoff_on_strikes", True)),
-            )
+            try:
+                progress = orchestrator_config.progress_config()
+                policy = StrikePolicy(
+                    max_strikes=int(progress.get("max_strikes", 3) or 3),
+                    handoff_on_strikes=bool(progress.get("handoff_on_strikes", True)),
+                )
+            except Exception as config_exc:
+                ActivityLog(task_id).emit(
+                    "engine",
+                    "progress",
+                    f"progress config unavailable, using defaults: {str(config_exc)[:100]}",
+                )
+                policy = StrikePolicy()
             ledger = ProgressLedger(task_id, STORE_DIR, policy).load()
             signals = ledger.signals_from_brief(brief)
             result = ledger.observe(signals, note=f"round {round_index}")

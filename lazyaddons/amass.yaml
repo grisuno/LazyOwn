@@ -1,0 +1,27 @@
+name: amass
+description: |
+  OWASP Amass passive and active sub-domain enumeration against the assigned
+  domain. Operator flow: assign domain <target-domain>, then run `amass`.
+
+  Examples:
+    amass
+    amass -- -active -ip -brute
+
+  Requirements: amass binary in PATH (go install github.com/owasp-amass/amass/v4/...@master or the release tarball). Active brute forcing is opt-in via free args after `--`.
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger: []
+params:
+- name: domain
+  type: string
+  required: false
+  description: Target domain for sub-domain and OSINT enumeration.
+tool:
+  name: Amass
+  execute_command: >
+    amass enum -passive -d {domain}
+category: 01. Reconnaissance
+module_type: scanner

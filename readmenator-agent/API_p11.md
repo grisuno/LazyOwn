@@ -1,5 +1,260 @@
-# API (page 11 of 25)
+# API (page 11 of 26)
 Previous: [API_p10.md](API_p10.md)
+
+## modules/c2_profile_engine.py
+Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
+Imported by: `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
+- `TlsProfile.get_cipher_suites` (method) `modules/c2_profile_engine.py:144` `def get_cipher_suites(self)` -- Return cipher suites, resolving library alias if set.
+- `TlsProfile.get_ja3_hash` (method) `modules/c2_profile_engine.py:155` `def get_ja3_hash(self)` -- Compute a JA3 fingerprint hash from the current profile.
+- `TlsProfile.from_dict` (method) `modules/c2_profile_engine.py:173` `def from_dict(raw)` -- Build a TlsProfile from a configuration dictionary.
+- `TlsProfile.to_dict` (method) `modules/c2_profile_engine.py:188` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
+- `DnsProfile.build_query_subdomain` (method) `modules/c2_profile_engine.py:231` `def build_query_subdomain(self, data, packet_id)` -- Build a DNS query subdomain from encoded data and a packet ID.
+- `DnsProfile.from_dict` (method) `modules/c2_profile_engine.py:261` `def from_dict(raw)` -- Build a DnsProfile from a configuration dictionary.
+- `DnsProfile.to_dict` (method) `modules/c2_profile_engine.py:274` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
+- `SmbProfile.from_dict` (method) `modules/c2_profile_engine.py:319` `def from_dict(raw)` -- Build an SmbProfile from a configuration dictionary.
+- `SmbProfile.to_dict` (method) `modules/c2_profile_engine.py:333` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
+- `WebSocketProfile.from_dict` (method) `modules/c2_profile_engine.py:375` `def from_dict(raw)` -- Build a WebSocketProfile from a configuration dictionary.
+- `WebSocketProfile.to_dict` (method) `modules/c2_profile_engine.py:389` `def to_dict(self)` -- Serialize this profile to a plain dictionary.
+- `RotationSlot.is_available` (method) `modules/c2_profile_engine.py:429` `def is_available(self)` -- Return True if the cooldown window has elapsed.
+- `RotationSlot.touch` (method) `modules/c2_profile_engine.py:436` `def touch(self)` -- Mark this slot as just used.
+- `ProfileRotator.__init__` (method) `modules/c2_profile_engine.py:453` `def __init__(self, slots)`
+- `ProfileRotator.current_slot` (method) `modules/c2_profile_engine.py:460` `def current_slot(self)` -- Return the currently active rotation slot.
+- `ProfileRotator.transport` (method) `modules/c2_profile_engine.py:465` `def transport(self)` -- Return the transport type of the current slot.
+- `ProfileRotator.rotate` (method) `modules/c2_profile_engine.py:469` `def rotate(self)` -- Advance to the next available slot and return it.
+- `ProfileRotator.list_slots` (method) `modules/c2_profile_engine.py:487` `def list_slots(self)` -- Return a list of slot states for inspection.
+- `ProfileValidator.validate_tls` (method) `modules/c2_profile_engine.py:511` `def validate_tls(profile)` -- Validate a TlsProfile and return error messages.
+- `ProfileValidator.validate_dns` (method) `modules/c2_profile_engine.py:536` `def validate_dns(profile)` -- Validate a DnsProfile and return error messages.
+- `ProfileValidator.validate_smb` (method) `modules/c2_profile_engine.py:556` `def validate_smb(profile)` -- Validate an SmbProfile and return error messages.
+- `ProfileValidator.validate_websocket` (method) `modules/c2_profile_engine.py:576` `def validate_websocket(profile)` -- Validate a WebSocketProfile and return error messages.
+- `ProfileValidator.validate_all` (method) `modules/c2_profile_engine.py:591` `def validate_all(self, tls, dns, smb, websocket)` -- Validate all provided profiles and return a dict of transport -> errors.
+- `ProfileEngine.__init__` (method) `modules/c2_profile_engine.py:627` `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)`
+- `ProfileEngine.tls_profile` (method) `modules/c2_profile_engine.py:643` `def tls_profile(self)` -- Return the current TLS profile.
+- `ProfileEngine.dns_profile` (method) `modules/c2_profile_engine.py:648` `def dns_profile(self)` -- Return the current DNS profile.
+- `ProfileEngine.smb_profile` (method) `modules/c2_profile_engine.py:653` `def smb_profile(self)` -- Return the current SMB profile.
+- `ProfileEngine.websocket_profile` (method) `modules/c2_profile_engine.py:658` `def websocket_profile(self)` -- Return the current WebSocket profile.
+- `ProfileEngine.rotator` (method) `modules/c2_profile_engine.py:663` `def rotator(self)` -- Return the profile rotator.
+- `ProfileEngine.active_transport` (method) `modules/c2_profile_engine.py:668` `def active_transport(self)` -- Return the currently active transport type.
+- `ProfileEngine.rotate` (method) `modules/c2_profile_engine.py:672` `def rotate(self)` -- Advance to the next transport in the rotation queue.
+- `ProfileEngine.validate` (method) `modules/c2_profile_engine.py:676` `def validate(self)` -- Validate all transport profiles and return error dict.
+- `ProfileEngine.get_active_profile_dict` (method) `modules/c2_profile_engine.py:685` `def get_active_profile_dict(self)` -- Return a JSON-serializable dict of the active transport config.
+- `ProfileEngine.get_all_profiles_dict` (method) `modules/c2_profile_engine.py:699` `def get_all_profiles_dict(self)` -- Return a JSON-serializable dict of all profiles.
+- `ProfileEngine.from_dict` (method) `modules/c2_profile_engine.py:747` `def from_dict(cls, raw)` -- Build a ProfileEngine from a configuration dictionary.
+- `ProfileEngine.from_payload` (method) `modules/c2_profile_engine.py:766` `def from_payload(cls, payload)` -- Build a ProfileEngine from a LazyOwn payload configuration dict.
+- `ProfileEngine.from_config` (method) `modules/c2_profile_engine.py:771` `def from_config(cls, config)` -- Build a ProfileEngine from a LazyOwn Config object.
+
+## modules/c2_surfaces.py
+Depends on: `core/logging.py`, `skills/lazyown_mcp_helpers.py`
+Imported by: `cli/commands/c2_session.py`, `lazyc2.py`, `modules/atomic_exploit_bridge.py`, `modules/sinks/c2_surfaces.py`, `tests/test_c2_surfaces.py`
+- `publish_banner` (function) `modules/c2_surfaces.py:73` `def publish_banner(hostname, port, protocol, service, extra, sessions_dir)` -- Append a service banner to sessions/banners.json (deduplicated).
+- `publish_cve` (function) `modules/c2_surfaces.py:115` `def publish_cve(title, description, operator, risk, sessions_dir)` -- Append a CVE finding to sessions/cves.json (deduplicated by title).
+- `append_note` (function) `modules/c2_surfaces.py:155` `def append_note(line, sessions_dir)` -- Append one timestamped line to sessions/notes.txt (never overwrites).
+- `register_loot_event` (function) `modules/c2_surfaces.py:184` `def register_loot_event(name, path_glob, description, event_config)` -- Register an event_config.json rule watching an artefact glob.
+- `refresh_session_report` (function) `modules/c2_surfaces.py:229` `def refresh_session_report(timeout)` -- Regenerate sessions/sessionLazyOwn.json via modules/session_state.py.
+- `severity_to_risk` (function) `modules/c2_surfaces.py:251` `def severity_to_risk(severity)` -- Map exploit severity words to /cves risk levels.
+- `group_tasks_for_display` (function) `modules/c2_surfaces.py:261` `def group_tasks_for_display(tasks)` -- Group tasks for the /tasks page: unique hits with counts + noise tally.
+
+## modules/cal.sh
+- `is_leap_year` (function) `modules/cal.sh:4` -- Función para calcular si un año es bisiesto
+- `days_in_month` (function) `modules/cal.sh:14` -- Función para obtener el número de días en un mes
+- `first_day_of_month` (function) `modules/cal.sh:31` -- Función para obtener el día de la semana del primer día del mes
+
+## modules/chain_approval.py
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `lazyc2.py`, `tests/test_chain_approval_c2.py`, `tests/test_chain_approval_cli_wiring.py`
+- `command_fingerprint` (function) `modules/chain_approval.py:78` `def command_fingerprint(command)` -- Return the SHA-256 fingerprint of one command line.
+- `PendingStore.__init__` (method) `modules/chain_approval.py:117` `def __init__(self, sessions_dir)` -- Bind the store to one sessions directory.
+- `PendingStore.create` (method) `modules/chain_approval.py:153` `def create(self, chain, step_id, command, timeout, run_id, now_override)` -- Register one pending approval request.
+- `PendingStore.get` (method) `modules/chain_approval.py:204` `def get(self, request_id)` -- Return one request record or None.
+- `PendingStore.list` (method) `modules/chain_approval.py:215` `def list(self, status)` -- Return request records newest first, optionally by status.
+- `PendingStore.decide` (method) `modules/chain_approval.py:229` `def decide(self, request_id, allowed, decided_by, note, expired)` -- Record one decision or expiry, audited, idempotent-fail.
+- `PendingStore.expire_stale` (method) `modules/chain_approval.py:282` `def expire_stale(self, now)` -- Expire every pending request past its deadline.
+- `approval_backend` (function) `modules/chain_approval.py:318` `def approval_backend()` -- Return the configured approval backend.
+- `build_c2_approver` (function) `modules/chain_approval.py:328` `def build_c2_approver(printer, chain_name, run_id, timeout, poll_interval, sessions_dir, clock)` -- Return an approver that routes confirm steps to the C2 pending list.
+- `approve` (function) `modules/chain_approval.py:358` `def approve(step_id, command)`
+
+## modules/chain_distill.py
+Depends on: `core/logging.py`, `modules/chain_registry.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_scope.py`, `modules/verb_manifest.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_distill_scope.py`, `tests/test_codeql_alert_fixes.py`
+- `locate_traces` (function) `modules/chain_distill.py:93` `def locate_traces(task, sessions_dir)` -- Find the exp/traffic pair of one loop task under sessions/.
+- `DistillReport.kept` (method) `modules/chain_distill.py:507` `def kept(self)` -- Count decisions turned into steps.
+- `DistillReport.dropped` (method) `modules/chain_distill.py:512` `def dropped(self)` -- Count decisions rejected with a reason.
+- `DistillReport.to_dict` (method) `modules/chain_distill.py:516` `def to_dict(self)` -- Return a JSON-serializable report.
+- `DistillReport.render` (method) `modules/chain_distill.py:543` `def render(self, verbose)` -- Return printable report lines.
+- `build_chain_data` (function) `modules/chain_distill.py:574` `def build_chain_data(task, rows, graph, manifests)` -- Turn deduped traffic rows and graph context into chain YAML data.
+- `note` (function) `modules/chain_distill.py:598` `def note(row, kept, reason)` -- Record one keep/drop decision for the report.
+- `distill` (function) `modules/chain_distill.py:687` `def distill(task, sessions_dir, write, chains_dir)` -- Distill one loop task into a validated chain YAML.
+
+## modules/chain_facts.py
+Depends on: `core/logging.py`, `modules/chain_runner.py`, `skills/lazyown_facts.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/gym_matrix_runner.py`, `tests/test_f4_hardening.py`
+- `spool_chain_outputs` (function) `modules/chain_facts.py:24` `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` -- Persist one chain run's outputs and ingest them as facts.
+
+## modules/chain_match.py
+Depends on: `modules/chain_registry.py`
+Imported by: `modules/selection/chain.py`, `tests/test_chain_selector.py`, `tests/test_lazy_loop.py`, `tests/test_selectors_base.py`
+- `normalize_tags` (function) `modules/chain_match.py:49` `def normalize_tags(tags)` -- Return a chain's tags lowercased and aliased to the shared vocabulary.
+- `service_tokens` (function) `modules/chain_match.py:65` `def service_tokens(services)` -- Normalise discovered service names into the chain tag vocabulary.
+- `platform_ok` (function) `modules/chain_match.py:75` `def platform_ok(platforms, os_hint)` -- Return True when a chain's platforms admit the target OS hint.
+- `score` (function) `modules/chain_match.py:86` `def score(tags, phase, svc_tokens)` -- Score one chain's tags for the phase and discovered services.
+- `reset_cache` (function) `modules/chain_match.py:101` `def reset_cache()` -- Clear the process-wide registry scan cache (tests, long-lived loops).
+- `load_rows` (function) `modules/chain_match.py:109` `def load_rows(allow_lab, ttl)` -- Return enabled, valid, non-lab chain rows, cached for the TTL.
+- `best_chain` (function) `modules/chain_match.py:139` `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)` -- Return the ``(name, reason)`` of the best matching chain, or None.
+
+## modules/chain_registry.py
+Depends on: `core/logging.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/orchestrator_assets_tabs.py`, `cli/retry_support.py`, `modules/ad_gym.py`, `modules/auto_registry.py`, `modules/chain_distill.py`, `modules/chain_match.py`, `modules/chain_runner.py`, `modules/chain_synth.py`, `modules/gym_matrix_runner.py`, `modules/gym_winbox_runner.py`, `modules/metasploitable_gym.py`, `modules/selection/playbook.py`, `modules/verb_manifest.py`, `modules/winbox_gym.py`, `skills/lazyown_mcp.py`, `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.py`, `tests/test_audit_remediation.py`, `tests/test_chain_distill.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_registry.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_metasploitable_gym.py`, `tests/test_retry_session.py`, `tests/test_selectors_capabilities.py`, `tests/test_verb_manifest.py`
+- `skip_pending` (function) `modules/chain_registry.py:67` `def skip_pending(path, max_age, now)` -- Return the skip reason when an artefact is present and fresh.
+- `ChainStep.identifier` (method) `modules/chain_registry.py:146` `def identifier(self)` -- Return the declared id or a stable generated one.
+- `Chain.resolve` (method) `modules/chain_registry.py:170` `def resolve(self, tokens)` -- Substitute tokens, evaluate conditions and guards.
+- `evaluate_when` (function) `modules/chain_registry.py:291` `def evaluate_when(expression, variables)` -- Evaluate a safe ``when`` expression against string variables.
+- `validate_chain` (function) `modules/chain_registry.py:356` `def validate_chain(data, filename, chains_dir)` -- Validate raw YAML data against the chain schema.
+- `render_text_token_braces` (function) `modules/chain_registry.py:571` `def render_text_token_braces(text)` -- Return text with every ``{name}`` token replaced by a placeholder.
+- `load_all` (function) `modules/chain_registry.py:576` `def load_all(chains_dir)` -- Load every valid, enabled chain file (skips the rest loudly).
+- `get` (function) `modules/chain_registry.py:721` `def get(name, chains_dir)` -- Return one chain by name, or None.
+- `scan_all` (function) `modules/chain_registry.py:726` `def scan_all(chains_dir)` -- List every chain file including disabled ones (for administration).
+- `set_enabled` (function) `modules/chain_registry.py:786` `def set_enabled(name, enabled, chains_dir)` -- Flip a chain's ``enabled`` flag in its YAML file (round-trip).
+- `generate_for_playbook` (function) `modules/chain_registry.py:809` `def generate_for_playbook(engine_key, apt_display, description, chains_dir, overwrite)` -- Write a per-APT chain file inheriting the base APT chain.
+
+## modules/chain_runner.py
+Depends on: `core/safe_exec.py`, `modules/chain_registry.py`, `modules/chain_state.py`, `modules/detection_oracle.py`, `modules/hunt_verify.py`, `modules/loop_guardrails.py`, `modules/outcome_bus.py`, `modules/verb_manifest.py`
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_facts.py`, `modules/gym_matrix_runner.py`, `tests/test_chain_distill_custody.py`, `tests/test_chain_evidence.py`, `tests/test_chain_freshness_guard.py`, `tests/test_chain_parallel_fallback.py`, `tests/test_chain_runner.py`, `tests/test_chain_step_streaming.py`, `tests/test_chain_token_hardening.py`, `tests/test_chain_v24_core.py`, `tests/test_f4_hardening.py`, `tests/test_mediation.py`, `tests/test_retry_session.py`
+- `StepOutcome.ok` (method) `modules/chain_runner.py:82` `def ok(self)` -- Return True for success, dry-run and skipped steps.
+- `StepOutcome.to_dict` (method) `modules/chain_runner.py:86` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.to_dict` (method) `modules/chain_runner.py:131` `def to_dict(self)` -- Return a JSON-serializable view.
+- `ChainRunResult.chain_proven` (method) `modules/chain_runner.py:155` `def chain_proven(self)` -- Return whether every declared hunting dependency is observed.
+- `ReplanContext.set_var` (method) `modules/chain_runner.py:178` `def set_var(self, name, value)` -- Record a variable the next steps should see.
+- `ReplanContext.insert_step` (method) `modules/chain_runner.py:183` `def insert_step(self, step)` -- Record one step to execute right after the finished step.
+- `ReplanContext.skip_rest` (method) `modules/chain_runner.py:188` `def skip_rest(self)` -- Record that remaining steps must not execute.
+- `ReplanContext.applied_vars` (method) `modules/chain_runner.py:193` `def applied_vars(self)` -- Return recorded variable changes.
+- `ReplanContext.inserted` (method) `modules/chain_runner.py:198` `def inserted(self)` -- Return recorded steps to insert.
+- `ReplanContext.skip_rest_flag` (method) `modules/chain_runner.py:203` `def skip_rest_flag(self)` -- Return True when remaining steps should be skipped.
+- `render_text` (function) `modules/chain_runner.py:208` `def render_text(template, variables)` -- Substitute single-brace tokens in one pass.
+- `ChainRunner.__init__` (method) `modules/chain_runner.py:219` `def __init__(self, chain, tokens, shell, executor, default_timeout, dry_run, on_step, retry_backoff, total_timeout...` -- Bind the chain, the execution primitive and operator switches.
+- `ChainRunner.run` (method) `modules/chain_runner.py:332` `def run(self)` -- Execute the chain in order and return every step outcome.
+
+## modules/chain_state.py
+Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `cli/retry_support.py`, `modules/chain_runner.py`, `modules/retry_session.py`, `tests/test_apt_chain_admin.py`, `tests/test_chain_v24_core.py`, `tests/test_retry_session.py`
+- `checkpoint_dir` (function) `modules/chain_state.py:26` `def checkpoint_dir(base_dir)` -- Return the directory that stores chain checkpoints.
+- `new_run_id` (function) `modules/chain_state.py:33` `def new_run_id(chain_name)` -- Return a collision-resistant run id for one chain execution.
+- `write_checkpoint` (function) `modules/chain_state.py:39` `def write_checkpoint(directory, state)` -- Persist one chain run state as JSON and return the file path.
+- `load_checkpoint` (function) `modules/chain_state.py:65` `def load_checkpoint(directory, run_id)` -- Load one checkpoint by run id, or None when missing/unreadable.
+- `list_checkpoints` (function) `modules/chain_state.py:80` `def list_checkpoints(directory, limit, chain)` -- Return the newest checkpoints (run_id, chain, target, state, times).
+
+## modules/chain_synth.py
+Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
+Imported by: `cli/apt_chain_support.py`, `modules/lazy_autofire.py`, `tests/test_chain_synth.py`
+- `synth_chain_data` (function) `modules/chain_synth.py:89` `def synth_chain_data(playbook, target, services, has_creds, os_hint, include_c2)` -- Compose the chain dict for a host; (data, notes).
+- `facts_for_target` (function) `modules/chain_synth.py:224` `def facts_for_target(target)` -- Pull host facts from the FactStore for synthesis inputs.
+- `write_generated_chain` (function) `modules/chain_synth.py:253` `def write_generated_chain(data, chains_dir)` -- Validate and persist the generated chain file; returns (path, errors).
+
+## modules/chain_tokens.py
+Depends on: `skills/lazyown_facts.py`
+Imported by: `cli/commands/command_and_control_migrated.py`, `modules/lazypoophish.py`, `tests/test_apt_chain_admin.py`
+- `token_keys` (function) `modules/chain_tokens.py:24` `def token_keys()` -- Return every engagement token name this module can produce.
+- `build_tokens` (function) `modules/chain_tokens.py:29` `def build_tokens(target, params)` -- Resolve engagement tokens for one target.
+
+## modules/cicd_enumerator.py
+Imported by: `cli/commands/cicd.py`
+- `CICDEnumerator.__init__` (method) `modules/cicd_enumerator.py:54` `def __init__(self, target_url, sessions_dir)`
+- `CICDEnumerator.scan` (method) `modules/cicd_enumerator.py:60` `def scan(self)` -- Run all CI/CD scans.
+- `CICDEnumerator.scan_build_log` (method) `modules/cicd_enumerator.py:297` `def scan_build_log(self, log_content, source)` -- Scan a build log for leaked secrets.
+- `CICDEnumerator.generate_ci_attack_matrix` (method) `modules/cicd_enumerator.py:322` `def generate_ci_attack_matrix(self)` -- Generate a comprehensive CI/CD attack matrix.
+- `CICDEnumerator.export_findings` (method) `modules/cicd_enumerator.py:387` `def export_findings(self)` -- Export CI/CD findings to a JSON file.
+
+## modules/cli_auth.py
+Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
+Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `modules/world_model.py`, `tests/test_cli_auth_remember.py`, `tests/test_codeql_alert_fixes.py`, `tests/test_engagement_elo_and_methodology.py`
+- `user_exists` (function) `modules/cli_auth.py:122` `def user_exists(username)` -- Check if a username already exists in users.json or RBAC store.
+- `register` (function) `modules/cli_auth.py:145` `def register(username, password)` -- Register a new operator in users.json.
+- `verify_password` (function) `modules/cli_auth.py:214` `def verify_password(username, password)` -- Verify a username/password against users.json using werkzeug.
+- `login` (function) `modules/cli_auth.py:240` `def login(username, password, remember)` -- Authenticate a CLI operator and optionally persist a remember-me token.
+- `logout` (function) `modules/cli_auth.py:293` `def logout()` -- Log out the current CLI operator and clear the remember-me token.
+- `try_auto_login` (function) `modules/cli_auth.py:328` `def try_auto_login()` -- Attempt auto-login using the remember-me token from payload.json.
+- `whoami` (function) `modules/cli_auth.py:366` `def whoami()` -- Return the currently logged-in CLI operator's identity.
+- `get_current_operator` (function) `modules/cli_auth.py:396` `def get_current_operator()` -- Return the current operator username, or None if not logged in.
+- `sync_elo_from_session` (function) `modules/cli_auth.py:408` `def sync_elo_from_session(elo)` -- Update the CLI session ELO from engagement state.
+- `needs_login` (function) `modules/cli_auth.py:487` `def needs_login()` -- Check if the current session has a logged-in operator.
+
+## modules/closedloop.py
+Depends on: `modules/defense_eval.py`
+Imported by: `modules/defense_stages.py`, `tests/test_closedloop.py`
+- `RuleMetrics.to_dict` (method) `modules/closedloop.py:42` `def to_dict(self)` -- Return a JSON-serializable view.
+- `Comparison.to_dict` (method) `modules/closedloop.py:66` `def to_dict(self)` -- Return a JSON-serializable view.
+- `compare_rules` (function) `modules/closedloop.py:90` `def compare_rules(baseline_rule, candidate_rule, target_logs, control_logs)` -- Replay baseline and candidate rules over identical datasets.
+- `suggest_tuning` (function) `modules/closedloop.py:136` `def suggest_tuning(candidate, baseline)` -- Return deterministic tuning suggestions from replay evidence.
+
+## modules/cloud_enum.py
+Imported by: `cli/commands/cloud.py`
+- `CloudEnumerator.__init__` (method) `modules/cloud_enum.py:34` `def __init__(self, provider, session, timeout)`
+- `CloudEnumerator.detect_provider` (method) `modules/cloud_enum.py:47` `def detect_provider(self)` -- Auto-detect which cloud provider the host is running on.
+- `CloudEnumerator.enumerate_metadata` (method) `modules/cloud_enum.py:75` `def enumerate_metadata(self)` -- Enumerate cloud instance metadata (IMDS).
+- `CloudEnumerator.enumerate_storage` (method) `modules/cloud_enum.py:251` `def enumerate_storage(self, target_bucket)` -- Enumerate cloud storage buckets and objects.
+- `CloudEnumerator.enumerate_iam` (method) `modules/cloud_enum.py:372` `def enumerate_iam(self)` -- Enumerate IAM roles, users, and policies.
+- `CloudEnumerator.full_enumeration` (method) `modules/cloud_enum.py:576` `def full_enumeration(self)` -- Run full cloud enumeration: metadata + storage + IAM.
+
+## modules/collab_bp.py
+Depends on: `core/logging.py`, `modules/lazy_rbac.py`
+Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
+- `login_required` (function) `modules/collab_bp.py:80` `def login_required(f)` -- No-op decorator when Flask-Login is unavailable.
+- `decorated` (function) `modules/collab_bp.py:84` `def decorated()`
+- `decorated` (function) `modules/collab_bp.py:124` `def decorated()`
+- `decorator` (function) `modules/collab_bp.py:139` `def decorator(f)`
+- `decorated` (function) `modules/collab_bp.py:141` `def decorated()`
+- `ColabEvent.to_sse` (method) `modules/collab_bp.py:170` `def to_sse(self)`
+- `EventBus.__init__` (method) `modules/collab_bp.py:198` `def __init__(self)`
+- `EventBus.subscribe` (method) `modules/collab_bp.py:203` `def subscribe(self, subscriber_id)`
+- `EventBus.unsubscribe` (method) `modules/collab_bp.py:215` `def unsubscribe(self, subscriber_id)`
+- `EventBus.publish` (method) `modules/collab_bp.py:219` `def publish(self, event)`
+- `EventBus.recent` (method) `modules/collab_bp.py:234` `def recent(self, n)`
+- `EventBus.reset` (method) `modules/collab_bp.py:238` `def reset(self)`
+- `LockManager.__init__` (method) `modules/collab_bp.py:263` `def __init__(self)`
+- `LockManager.acquire` (method) `modules/collab_bp.py:267` `def acquire(self, target, operator, ttl_secs)`
+- `LockManager.release` (method) `modules/collab_bp.py:279` `def release(self, target, operator)`
+- `LockManager.status` (method) `modules/collab_bp.py:287` `def status(self, target)`
+- `LockManager.all_locks` (method) `modules/collab_bp.py:292` `def all_locks(self)`
+- `LockManager.reset` (method) `modules/collab_bp.py:304` `def reset(self)`
+- `OperatorRegistry.__init__` (method) `modules/collab_bp.py:319` `def __init__(self)`
+- `OperatorRegistry.join` (method) `modules/collab_bp.py:323` `def join(self, name)`
+- `OperatorRegistry.heartbeat` (method) `modules/collab_bp.py:334` `def heartbeat(self, name)`
+- `OperatorRegistry.leave` (method) `modules/collab_bp.py:340` `def leave(self, name)`
+- `OperatorRegistry.active_operators` (method) `modules/collab_bp.py:345` `def active_operators(self)`
+- `OperatorRegistry.reset` (method) `modules/collab_bp.py:356` `def reset(self)`
+- `get_event_bus` (function) `modules/collab_bp.py:370` `def get_event_bus()`
+- `get_lock_manager` (function) `modules/collab_bp.py:374` `def get_lock_manager()`
+- `get_operator_registry` (function) `modules/collab_bp.py:378` `def get_operator_registry()`
+- `publish_event` (function) `modules/collab_bp.py:382` `def publish_event(type, payload, operator)` -- Module-level convenience for other modules to broadcast events.
+- `collab_ui` (function) `modules/collab_bp.py:396` `def collab_ui()`
+- `stream` (function) `modules/collab_bp.py:411` `def stream()`
+- `generate` (function) `modules/collab_bp.py:424` `def generate()`
+- `operators` (function) `modules/collab_bp.py:458` `def operators()`
+- `publish` (function) `modules/collab_bp.py:470` `def publish()`
+- `lock` (function) `modules/collab_bp.py:483` `def lock()`
+- `unlock` (function) `modules/collab_bp.py:504` `def unlock()`
+- `locks` (function) `modules/collab_bp.py:522` `def locks()`
+- `history` (function) `modules/collab_bp.py:537` `def history()`
+
+## modules/colors.py
+Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
+- `retModel` (function) `modules/colors.py:40` `def retModel()` -- gemma2-9b-it        Google  8,192   -       - llama-3.3-70b-versatile     Meta    128k    32,768...
+- `delete_lines` (function) `modules/colors.py:68` `def delete_lines(content, to_delete)`
+- `no_html` (function) `modules/colors.py:74` `def no_html(content)`
+
+## modules/command_executor.py
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/auto_registry.py`, `modules/event_bus.py`
+Imported by: `lazyown.py`, `modules/auto_registry.py`, `tests/test_executor_kernel.py`, `tests/test_lazy_runner.py`
+- `set_thread_timeout` (function) `modules/command_executor.py:41` `def set_thread_timeout(seconds)` -- Bound the next ``run_tee`` call on this thread by wall-clock seconds.
+- `clear_thread_timeout` (function) `modules/command_executor.py:46` `def clear_thread_timeout()` -- Remove this thread's ``run_tee`` deadline, if any.
+- `thread_timeout` (function) `modules/command_executor.py:54` `def thread_timeout()` -- Return this thread's pending ``run_tee`` deadline, or None.
+- `set_thread_stdin_devnull` (function) `modules/command_executor.py:59` `def set_thread_stdin_devnull(enabled)` -- Detach the next ``run_tee`` child from the operator terminal.
+- `clear_thread_stdin_devnull` (function) `modules/command_executor.py:64` `def clear_thread_stdin_devnull()` -- Restore inherited stdin for this thread's ``run_tee`` calls.
+- `thread_stdin_devnull` (function) `modules/command_executor.py:72` `def thread_stdin_devnull()` -- Return True when this thread's ``run_tee`` children drop stdin.
+- `CommandExecutor.__init__` (method) `modules/command_executor.py:118` `def __init__(self)`
+- `CommandExecutor.instance` (method) `modules/command_executor.py:122` `def instance(cls)`
+- `CommandExecutor.add_hook` (method) `modules/command_executor.py:127` `def add_hook(self, hook)` -- Register a post-execution hook (e.g., for StateManager or metrics).
+- `CommandExecutor.run` (method) `modules/command_executor.py:131` `def run(self, command, timeout, stream)` -- Execute a shell command and return the result.
+- `CommandExecutor.run_passthrough` (method) `modules/command_executor.py:179` `def run_passthrough(self, command, env)` -- Run a command with stdio inherited, returning its exit code.
+- `CommandExecutor.run_tee` (method) `modules/command_executor.py:194` `def run_tee(self, command)` -- Run a command teeing raw output bytes to a writer and a log file.
+- `CommandExecutor.run_with_tee` (method) `modules/command_executor.py:358` `def run_with_tee(self, command, output_path, timeout)` -- Execute a command and tee output to a file.
+- `get_executor` (function) `modules/command_executor.py:426` `def get_executor()`
 
 ## modules/compliance.py
 Depends on: `core/logging.py`, `modules/factsio.py`
@@ -134,7 +389,7 @@ Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dash
 
 ## modules/db.py
 Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
+Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
 - `LazyOwnDB.__init__` (method) `modules/db.py:159` `def __init__(self, db_path)`
 - `LazyOwnDB.db_path` (method) `modules/db.py:182` `def db_path(self)` -- Path to the SQLite database file.
 - `LazyOwnDB.migration_status` (method) `modules/db.py:222` `def migration_status(self)` -- Return the current and latest migration versions.
@@ -239,260 +494,6 @@ Imported by: `cli/commands/dns_exfil.py`
 - `DNSC2Server.send_task` (method) `modules/dns_beacon.py:239` `def send_task(self, beacon_id, command)` -- Queue a command for a DNS beacon.
 - `DNSC2Server.process_query_log` (method) `modules/dns_beacon.py:248` `def process_query_log(self, line)` -- Process a single DNS query log line and extract beacon data.
 - `DNSC2Server.get_results` (method) `modules/dns_beacon.py:327` `def get_results(self, beacon_id)` -- Get received results for a beacon.
-
-## modules/domain_dominance.py
-Depends on: `core/hardening.py`
-Imported by: `cli/commands/lateral_migrated.py`, `tests/test_security_alerts_fix.py`
-- `DomainDominance.__init__` (method) `modules/domain_dominance.py:103` `def __init__(self)`
-- `DomainDominance.get_instance` (method) `modules/domain_dominance.py:110` `def get_instance(cls)`
-- `DomainDominance.dominate` (method) `modules/domain_dominance.py:121` `def dominate(self, domain, dc_ip, username, password, ntlm_hash)` -- Execute the full AD dominance kill-chain.
-- `DomainDominance.enumerate_domain` (method) `modules/domain_dominance.py:194` `def enumerate_domain(self, domain, dc_ip)` -- Enumerate the target domain topology.
-- `DomainDominance.extract_credentials` (method) `modules/domain_dominance.py:227` `def extract_credentials(self, domain_info, known_creds)` -- Extract credentials using the discovered domain topology.
-- `DomainDominance.escalate` (method) `modules/domain_dominance.py:260` `def escalate(self, domain_info, stash)` -- Escalate privileges and move laterally through the domain.
-- `DomainDominance.persist` (method) `modules/domain_dominance.py:314` `def persist(self, domain_info)` -- Establish persistence mechanisms across the domain.
-
-## modules/dotnet_payload.py
-Imported by: `cli/commands/payload_arsenal.py`
-- `DotNetPayloadFactory.__init__` (method) `modules/dotnet_payload.py:327` `def __init__(self, output_dir)`
-- `DotNetPayloadFactory.list_templates` (method) `modules/dotnet_payload.py:364` `def list_templates()` -- Return available .NET payload template names.
-- `DotNetPayloadFactory.generate_source` (method) `modules/dotnet_payload.py:389` `def generate_source(self, config)` -- Generate C# source code from a template.
-- `DotNetPayloadFactory.compile` (method) `modules/dotnet_payload.py:403` `def compile(self, config, source_code)` -- Compile C# source to an assembly.
-- `DotNetPayloadFactory.generate` (method) `modules/dotnet_payload.py:454` `def generate(self, config)` -- Generate a .NET payload — source code plus optional binary.
-- `DotNetPayloadFactory.generate_powershell_reflective` (method) `modules/dotnet_payload.py:481` `def generate_powershell_reflective(self, config)` -- Generate a PowerShell script that reflectively loads a .NET assembly.
-- `DotNetPayloadFactory.generate_inline_assembly` (method) `modules/dotnet_payload.py:500` `def generate_inline_assembly(self, config)` -- Generate self-decompiling inline .NET assembly load command.
-- `DotNetPayloadFactory.to_format` (method) `modules/dotnet_payload.py:520` `def to_format(self, data, fmt)` -- Convert a payload result to the requested output format.
-
-## modules/dpapi_harvester.py
-Imported by: `cli/commands/dpapi.py`
-- `DPAPIHarvester.__init__` (method) `modules/dpapi_harvester.py:79` `def __init__(self, sessions_dir, masterkey_path)`
-- `DPAPIHarvester.harvest_all` (method) `modules/dpapi_harvester.py:90` `def harvest_all(self)` -- Run all harvesters and return all discovered credentials.
-- `DATA_BLOB.export_credentials` (method) `modules/dpapi_harvester.py:367` `def export_credentials(self)` -- Export all harvested credentials to a text file.
-- `DATA_BLOB.masterkey_report` (method) `modules/dpapi_harvester.py:386` `def masterkey_report(self)` -- Generate a master key report.
-
-## modules/edr_detector.py
-Imported by: `cli/commands/edr_detect.py`
-- `EDRDetector.detect_local` (method) `modules/edr_detector.py:202` `def detect_local()` -- Detect EDR products on the local Windows machine.
-- `EDRDetector.detect_remote_commands` (method) `modules/edr_detector.py:221` `def detect_remote_commands(remote_type)` -- Generate commands for remote EDR detection.
-- `EDRDetector.generate_edr_check_script` (method) `modules/edr_detector.py:440` `def generate_edr_check_script(remote_type)` -- Generate a PowerShell script for comprehensive EDR detection.
-
-## modules/eegg.sh
-- `init_board` (function) `modules/eegg.sh:26` -- Inicializa el tablero con las piezas en sus posiciones iniciales
-- `show_board` (function) `modules/eegg.sh:40` -- Función para mostrar el tablero
-- `move_white_pawns` (function) `modules/eegg.sh:61` -- Movimiento de peones blancos y negros
-- `move_black_pawns` (function) `modules/eegg.sh:78`
-
-## modules/emulation_runner.py
-Depends on: `core/logging.py`, `modules/apt_playbooks.py`, `modules/atomic_exploit_bridge.py`, `modules/atomic_resolver.py`, `modules/outcome_bus.py`
-Imported by: `modules/atomic_exploit_bridge.py`, `modules/playbook_engine.py`, `tests/test_emulation_runner.py`
-- `EmulationResult.to_dict` (method) `modules/emulation_runner.py:53` `def to_dict(self)` -- Return a JSON-serializable view.
-- `EmulationReport.executed` (method) `modules/emulation_runner.py:81` `def executed(self)` -- Return the number of tests that actually ran.
-- `EmulationReport.shell` (method) `modules/emulation_runner.py:86` `def shell(self)` -- Return True when any test produced a shell signal.
-- `EmulationReport.to_dict` (method) `modules/emulation_runner.py:90` `def to_dict(self)` -- Return the legacy bridge-shaped mapping plus v2 fields.
-- `EmulationRunner.__init__` (method) `modules/emulation_runner.py:108` `def __init__(self, resolver, sessions_dir, shell_opener, remote_exec_fn, playbook_loader, outcome_recorder...` -- Bind optional collaborators; defaults load the shared modules lazily.
-- `EmulationRunner.techniques_for_playbook` (method) `modules/emulation_runner.py:182` `def techniques_for_playbook(self, playbook, platform)` -- Return ordered unique technique IDs for one APT playbook.
-- `EmulationRunner.run` (method) `modules/emulation_runner.py:202` `def run(self, target, techniques, playbook, platform, lhost, per_technique, include_manual, dry_run, executor...` -- Execute emulation tests and return the staged report.
-- `EmulationRunner.run_steps` (method) `modules/emulation_runner.py:321` `def run_steps(self, steps, target, executor, platform, dry_run, source)` -- Execute already-resolved steps through one executor.
-
-## modules/engage_summary.py
-Depends on: `cli/recommendation_signals.py`, `modules/enrich.py`, `modules/evidence.py`
-Imported by: `skills/unified_orchestrator.py`, `tests/test_engage_summary.py`
-- `marker_lines` (function) `modules/engage_summary.py:35` `def marker_lines(text, limit)` -- Extract real log lines (``[+] ... [+]``) dropping panels and bars.
-- `full_output` (function) `modules/engage_summary.py:51` `def full_output(step, sessions_dir)` -- Return the full step output from evidence, falling back to the tail.
-- `held_scan_ports` (function) `modules/engage_summary.py:64` `def held_scan_ports(target, sessions_dir)` -- Parse held scan XMLs for open ports.
-- `detail_for` (function) `modules/engage_summary.py:98` `def detail_for(tool, text, target, sessions_dir)` -- Extract the key facts from one step output for the summary.
-- `next_actions` (function) `modules/engage_summary.py:150` `def next_actions(target, sessions_dir, limit)` -- Rank next actions via the unified recommendation engine.
-- `render_text` (function) `modules/engage_summary.py:175` `def render_text(engagement_id, target, shell, steps, sessions_dir)` -- Render the console summary with per-step detail lines.
-- `render_markdown` (function) `modules/engage_summary.py:210` `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)` -- Render the persisted per-engagement report.
-- `write_report` (function) `modules/engage_summary.py:247` `def write_report(engagement_id, target, shell, steps, sessions_dir)` -- Persist the engagement report; return its relative path.
-
-## modules/engagement_hooks.py
-Depends on: `core/logging.py`, `modules/collab_bp.py`
-Imported by: `modules/event_bus.py`, `modules/pipeline_engine.py`
-- `EngagementEvent.now` (method) `modules/engagement_hooks.py:124` `def now(cls, kind, target, message, payload, severity)` -- Construct an event with a fresh id and current UTC timestamp.
-- `EngagementEvent.render_line` (method) `modules/engagement_hooks.py:143` `def render_line(self)` -- Return a single-line operator-facing log entry.
-- `INotificationSink.name` (method) `modules/engagement_hooks.py:155` `def name(self)` -- Stable channel identifier used for diagnostic logging.
-- `INotificationSink.deliver` (method) `modules/engagement_hooks.py:159` `def deliver(self, event)` -- Deliver one event.
-- `StreamEventSink.name` (method) `modules/engagement_hooks.py:178` `def name(self)`
-- `StreamEventSink.deliver` (method) `modules/engagement_hooks.py:181` `def deliver(self, event)`
-- `CollabNotificationSink.name` (method) `modules/engagement_hooks.py:213` `def name(self)`
-- `CollabNotificationSink.deliver` (method) `modules/engagement_hooks.py:216` `def deliver(self, event)`
-- `_OutboundHTTPSink.name` (method) `modules/engagement_hooks.py:252` `def name(self)`
-- `_OutboundHTTPSink.deliver` (method) `modules/engagement_hooks.py:258` `def deliver(self, event)`
-- `TelegramNotificationSink.name` (method) `modules/engagement_hooks.py:288` `def name(self)`
-- `DiscordNotificationSink.name` (method) `modules/engagement_hooks.py:320` `def name(self)`
-- `NotificationBroadcaster.__init__` (method) `modules/engagement_hooks.py:349` `def __init__(self, sinks)`
-- `NotificationBroadcaster.default` (method) `modules/engagement_hooks.py:354` `def default(cls)` -- Return a broadcaster with the standard four-sink configuration.
-- `NotificationBroadcaster.add` (method) `modules/engagement_hooks.py:365` `def add(self, sink)` -- Register an additional sink at runtime.
-- `NotificationBroadcaster.deliver` (method) `modules/engagement_hooks.py:370` `def deliver(self, event)` -- Push event to all sinks.
-- `EngagementNarrator.__init__` (method) `modules/engagement_hooks.py:393` `def __init__(self, broadcaster)`
-- `EngagementNarrator.narrate` (method) `modules/engagement_hooks.py:400` `def narrate(self, kind, target, message, payload, severity)` -- Write one line + audit record and dispatch to every sink.
-- `get_default_narrator` (function) `modules/engagement_hooks.py:482` `def get_default_narrator()` -- Return the process-wide default narrator (lazy singleton).
-- `publish_shell_obtained` (function) `modules/engagement_hooks.py:491` `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` -- Single entry point called by lazyc2.py on every beacon check-in.
-- `append_approval_record` (function) `modules/engagement_hooks.py:564` `def append_approval_record(record)` -- Append one approval-pending record to sessions/engagement_approvals.jsonl.
-- `list_pending_approvals` (function) `modules/engagement_hooks.py:575` `def list_pending_approvals()` -- Return every approval record whose status is still 'pending'.
-- `resolve_approval` (function) `modules/engagement_hooks.py:601` `def resolve_approval(approval_id, decision, operator)` -- Append a resolution record for the given approval_id.
-- `is_valid_target` (function) `modules/engagement_hooks.py:626` `def is_valid_target(value)` -- Validate that value is a dotted-quad IPv4 or a safe hostname token.
-
-## modules/enrich.py
-Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
-- `scan_files_for` (function) `modules/enrich.py:40` `def scan_files_for(sessions_dir, target)` -- Return existing scan artefacts for a target.
-- `should_rescan` (function) `modules/enrich.py:57` `def should_rescan(sessions_dir, target, fresh_sec)` -- Return True when no fresh scan artefact exists for target.
-- `resolve_dns` (function) `modules/enrich.py:73` `def resolve_dns(target, timeout)` -- Resolve A/AAAA for a target with a bounded timeout.
-- `fetch_http` (function) `modules/enrich.py:86` `def fetch_http(target, timeout)` -- Fetch HTTP headers for a target without following credentials.
-- `EnrichEngine.__init__` (method) `modules/enrich.py:103` `def __init__(self, max_workers)` -- Create the pool and cooldown index.
-- `EnrichEngine.submit` (method) `modules/enrich.py:108` `def submit(self, target)` -- Queue DNS+HTTP enrichment unless inside cooldown.
-- `EnrichEngine.shutdown` (method) `modules/enrich.py:128` `def shutdown(self, wait)` -- Shut the pool down without blocking the loop by default.
-- `shared_engine` (function) `modules/enrich.py:137` `def shared_engine()` -- Return the process-wide enrichment engine (LAZY parity).
-
-## modules/entra_id_attacks.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `EntraIDAttackEngine.__init__` (method) `modules/entra_id_attacks.py:92` `def __init__(self, config)`
-- `EntraIDAttackEngine.device_code_phish` (method) `modules/entra_id_attacks.py:96` `def device_code_phish(self, scope)` -- Initiate a device code phishing flow.
-- `EntraIDAttackEngine.poll_device_code` (method) `modules/entra_id_attacks.py:129` `def poll_device_code(self, device_code, interval, timeout)` -- Poll for device code completion to retrieve tokens.
-- `EntraIDAttackEngine.oauth_consent_grant` (method) `modules/entra_id_attacks.py:166` `def oauth_consent_grant(self, redirect_uri)` -- Generate an OAuth consent grant phishing URL.
-- `EntraIDAttackEngine.service_principal_credential_theft` (method) `modules/entra_id_attacks.py:203` `def service_principal_credential_theft(self)` -- Plan service principal credential theft via app registration abuse.
-- `EntraIDAttackEngine.managed_identity_abuse` (method) `modules/entra_id_attacks.py:235` `def managed_identity_abuse(self, resource)` -- Exploit Azure managed identities from compromised VMs/containers.
-- `EntraIDAttackEngine.entra_connect_sync_abuse` (method) `modules/entra_id_attacks.py:266` `def entra_connect_sync_abuse(self)` -- Exploit Entra Connect Sync for on-prem to cloud privilege escalation.
-- `EntraIDAttackEngine.conditional_access_bypass` (method) `modules/entra_id_attacks.py:307` `def conditional_access_bypass(self)` -- Techniques for bypassing Entra ID Conditional Access policies.
-- `EntraIDAttackEngine.enumerate_tenant` (method) `modules/entra_id_attacks.py:345` `def enumerate_tenant(self)` -- Enumerate tenant information via Graph API.
-- `EntraIDAttackEngine.summary` (method) `modules/entra_id_attacks.py:368` `def summary(self)`
-
-## modules/estorides_fusion.py
-Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `tests/test_estorides_fusion.py`
-- `estorides_checkout` (function) `modules/estorides_fusion.py:48` `def estorides_checkout()` -- Locate the estorides working copy.
-- `find_export` (function) `modules/estorides_fusion.py:68` `def find_export(sessions_dir)` -- Find an estorides export, preferring the LazyOwn vocabulary file.
-- `run_export` (function) `modules/estorides_fusion.py:84` `def run_export(sessions_dir, cli_path, timeout_sec)` -- Run ``estorides_cli.py graph --export lazyown`` into sessions/.
-- `load_export` (function) `modules/estorides_fusion.py:128` `def load_export(path)` -- Load an export in either vocabulary into nodes/edges lists.
-- `community_for` (function) `modules/estorides_fusion.py:180` `def community_for(kind, value)` -- Assign a campaign community to a fused entity.
-- `merge_estorides` (function) `modules/estorides_fusion.py:187` `def merge_estorides(nodes, edges, est, cap)` -- Fuse estorides entities into graph nodes/edges in place.
-- `find_lan_bundle` (function) `modules/estorides_fusion.py:268` `def find_lan_bundle(sessions_dir)` -- Find a LAN bundle deliverable, preferring LazyOwn vocabulary.
-- `load_lan_bundle` (function) `modules/estorides_fusion.py:288` `def load_lan_bundle(path)` -- Load a LAN bundle file into nodes/edges lists.
-- `split_lan_targets` (function) `modules/estorides_fusion.py:323` `def split_lan_targets(est)` -- Split a LAN payload into intel (all) and attack (hosts) views.
-
-## modules/estorides_importer.py
-Depends on: `core/logging.py`, `modules/db.py`, `modules/world_model.py`
-Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
-- `ImportResult.success` (method) `modules/estorides_importer.py:110` `def success(self)`
-- `ImportResult.to_dict` (method) `modules/estorides_importer.py:113` `def to_dict(self)`
-- `SeedResult.new_assets` (method) `modules/estorides_importer.py:139` `def new_assets(self)`
-- `extract_seeds_from_world_model` (function) `modules/estorides_importer.py:143` `def extract_seeds_from_world_model(world_model_path)` -- Extract IPs and domains from world_model.json as estorides seeds.
-- `extract_seeds_from_hosts_file` (function) `modules/estorides_importer.py:177` `def extract_seeds_from_hosts_file(path)` -- Extract IPs/domains from hostsdiscovery.txt or similar.
-- `extract_seeds_from_db` (function) `modules/estorides_importer.py:205` `def extract_seeds_from_db(db_path)` -- Extract hosts from LazyOwn database.
-- `extract_seeds_from_scope` (function) `modules/estorides_importer.py:244` `def extract_seeds_from_scope(scope_entries)` -- Extract scoped IPs/domains from payload.json scope list.
-- `run_estorides_discover` (function) `modules/estorides_importer.py:274` `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` -- Run estorides discover on a single seed.
-- `run_estorides_run` (function) `modules/estorides_importer.py:334` `def run_estorides_run(query, out_json, timeout)` -- Run estorides run (single fan-out) on a query.
-- `EstoridesCaseReader.__init__` (method) `modules/estorides_importer.py:390` `def __init__(self, db_path)`
-- `EstoridesCaseReader.available` (method) `modules/estorides_importer.py:395` `def available(self)`
-- `EstoridesCaseReader.list_cases` (method) `modules/estorides_importer.py:404` `def list_cases(self, limit)`
-- `EstoridesCaseReader.get_entities` (method) `modules/estorides_importer.py:416` `def get_entities(self, case_id, entity_types, limit)` -- Fetch entities from the case store.
-- `EstoridesCaseReader.get_host_entities` (method) `modules/estorides_importer.py:471` `def get_host_entities(self, case_id)` -- Get entities of host-related types (ipv4, ipv6, domain, url, asn).
-- `EstoridesCaseReader.get_all_entities` (method) `modules/estorides_importer.py:475` `def get_all_entities(self, case_id)`
-- `EstoridesCaseReader.stats` (method) `modules/estorides_importer.py:478` `def stats(self)`
-- `EstoridesCaseReader.close` (method) `modules/estorides_importer.py:491` `def close(self)`
-- `EstoridesStixParser.__init__` (method) `modules/estorides_importer.py:513` `def __init__(self, stix_path)`
-- `EstoridesStixParser.available` (method) `modules/estorides_importer.py:517` `def available(self)`
-- `EstoridesStixParser.parse` (method) `modules/estorides_importer.py:520` `def parse(self)` -- Parse a STIX 2.1 bundle into EstoridesEntity objects.
-- `EstoridesStixParser.parse_by_type` (method) `modules/estorides_importer.py:554` `def parse_by_type(self, entity_types)` -- Parse STIX and group values by entity type.
-- `find_lan_bundle_files` (function) `modules/estorides_importer.py:588` `def find_lan_bundle_files(lan_dir, sessions_dir)` -- Locate LAN bundle deliverables.
-- `LanBundleReader.__init__` (method) `modules/estorides_importer.py:634` `def __init__(self, lan_dir)`
-- `LanBundleReader.available` (method) `modules/estorides_importer.py:638` `def available(self)`
-- `LanBundleReader.read_devices` (method) `modules/estorides_importer.py:641` `def read_devices(self)` -- Return raw device dicts from the inventory file.
-- `LanBundleReader.parse` (method) `modules/estorides_importer.py:654` `def parse(self)` -- Parse LAN devices into entities (host, mac, domain).
-- `LanBundleReader.attack_targets` (method) `modules/estorides_importer.py:685` `def attack_targets(self)` -- IPs actionable for the attack graph and auto_loop queue.
-- `ensure_directories` (function) `modules/estorides_importer.py:696` `def ensure_directories()` -- Ensure sessions/ directories exist.
-- `EstoridesToLazyOwnBridge.__init__` (method) `modules/estorides_importer.py:705` `def __init__(self, db_path, config_path)`
-- `EstoridesToLazyOwnBridge.import_entities` (method) `modules/estorides_importer.py:713` `def import_entities(self, entities, add_to_scope, add_to_db)` -- Import entities into LazyOwn DB and optionally scope.
-- `EstoridesToLazyOwnBridge.get_combined_surface` (method) `modules/estorides_importer.py:836` `def get_combined_surface(self)` -- Get the combined attack surface from LazyOwn DB + scope.
-- `FeedbackLoop.__init__` (method) `modules/estorides_importer.py:896` `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
-- `FeedbackLoop.run` (method) `modules/estorides_importer.py:912` `def run(self, seed_methods)` -- Run the feedback loop.
-- `export_combined_graph` (function) `modules/estorides_importer.py:1031` `def export_combined_graph(output_path)` -- Export the combined (Estorides + LazyOwn) graph as GraphML.
-
-## modules/evasion_engine.py
-Imported by: `cli/commands/evasive_payload.py`, `skills/lazyown_mcp.py`
-- `EvasionEngine.__init__` (method) `modules/evasion_engine.py:130` `def __init__(self, config)`
-- `EvasionEngine.set_config` (method) `modules/evasion_engine.py:136` `def set_config(self, config)`
-- `EvasionEngine.generate_profile` (method) `modules/evasion_engine.py:244` `def generate_profile(self, os_family)`
-- `EvasionEngine.rotate_profile` (method) `modules/evasion_engine.py:264` `def rotate_profile(self, os_family)`
-- `EvasionEngine.get_active_profile` (method) `modules/evasion_engine.py:269` `def get_active_profile(self)`
-- `EvasionEngine.get_beacon_config` (method) `modules/evasion_engine.py:272` `def get_beacon_config(self)`
-- `EvasionEngine.morph_traffic` (method) `modules/evasion_engine.py:287` `def morph_traffic(self, config)`
-- `EvasionEngine.get_history` (method) `modules/evasion_engine.py:328` `def get_history(self)`
-- `EvasionEngine.profile_to_json` (method) `modules/evasion_engine.py:343` `def profile_to_json(self, profile)`
-
-## modules/evasive_payloads.py
-Imported by: `cli/commands/evasive_payload.py`
-- `EvasivePayloadGenerator.__init__` (method) `modules/evasive_payloads.py:84` `def __init__(self)`
-- `EvasivePayloadGenerator.generate_powershell_obfuscated` (method) `modules/evasive_payloads.py:138` `def generate_powershell_obfuscated(self, payload, obfuscation_level)` -- Generate an obfuscated PowerShell payload.
-- `EvasivePayloadGenerator.generate_javascript_obfuscated` (method) `modules/evasive_payloads.py:178` `def generate_javascript_obfuscated(self, payload)` -- Generate an obfuscated JavaScript payload.
-- `EvasivePayloadGenerator.generate_vba_obfuscated` (method) `modules/evasive_payloads.py:197` `def generate_vba_obfuscated(self, payload)` -- Generate an obfuscated VBA macro payload.
-- `EvasivePayloadGenerator.generate_linux_evasive` (method) `modules/evasive_payloads.py:214` `def generate_linux_evasive(self, rhost, rport, technique)` -- Generate an evasive Linux reverse shell payload.
-- `EvasivePayloadGenerator.generate_shellcode_loader_powershell` (method) `modules/evasive_payloads.py:239` `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)` -- Generate a PowerShell shellcode loader with AMSI bypass.
-- `EvasivePayloadGenerator.generate_lolbas_execution` (method) `modules/evasive_payloads.py:284` `def generate_lolbas_execution(self, payload_url, technique)` -- Generate a LOLBAS-based payload execution command.
-- `EvasivePayloadGenerator.generate_polymorphic_command` (method) `modules/evasive_payloads.py:334` `def generate_polymorphic_command(self, base_cmd, iterations)` -- Generate a polymorphic command that mutates at each execution.
-- `EvasivePayloadGenerator.list_techniques` (method) `modules/evasive_payloads.py:374` `def list_techniques(self)` -- Return all available evasion techniques.
-
-## modules/event_bus.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
-Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/loop_ai_bridge.py`, `modules/sinks/event_bus.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `tests/test_loop_ai_bridge.py`
-- `LazyEvent.to_dict` (method) `modules/event_bus.py:96` `def to_dict(self)`
-- `LazyEvent.to_json` (method) `modules/event_bus.py:111` `def to_json(self)`
-- `LazyEvent.from_dict` (method) `modules/event_bus.py:115` `def from_dict(cls, d)`
-- `Sink.write` (method) `modules/event_bus.py:137` `def write(self, event)`
-- `Sink.close` (method) `modules/event_bus.py:140` `def close(self)`
-- `JsonlSink.__init__` (method) `modules/event_bus.py:146` `def __init__(self, filepath)`
-- `JsonlSink.write` (method) `modules/event_bus.py:151` `def write(self, event)`
-- `JsonlSink.close` (method) `modules/event_bus.py:159` `def close(self)`
-- `CollabBusSink.__init__` (method) `modules/event_bus.py:166` `def __init__(self)`
-- `CollabBusSink.write` (method) `modules/event_bus.py:181` `def write(self, event)`
-- `CollabBusSink.close` (method) `modules/event_bus.py:198` `def close(self)`
-- `EngagementSink.write` (method) `modules/event_bus.py:205` `def write(self, event)`
-- `EngagementSink.close` (method) `modules/event_bus.py:226` `def close(self)`
-- `UnifiedEventBus.__init__` (method) `modules/event_bus.py:255` `def __init__(self)`
-- `UnifiedEventBus.instance` (method) `modules/event_bus.py:287` `def instance(cls)`
-- `UnifiedEventBus.subscriber_count` (method) `modules/event_bus.py:295` `def subscriber_count(self)` -- Return the number of active subscribers across all registration types.
-- `UnifiedEventBus.subscribe` (method) `modules/event_bus.py:300` `def subscribe(self, subscriber_id, callback)` -- Register a callback for all events.
-- `UnifiedEventBus.subscribe_topic` (method) `modules/event_bus.py:305` `def subscribe_topic(self, subscriber_id, topic, callback)` -- Register a callback for events matching a topic.
-- `UnifiedEventBus.subscribe_async` (method) `modules/event_bus.py:315` `def subscribe_async(self, subscriber_id)` -- Get a Queue for async event consumption (for SSE, WebSocket, etc.).
-- `UnifiedEventBus.unsubscribe` (method) `modules/event_bus.py:327` `def unsubscribe(self, subscriber_id)` -- Remove all subscriptions for a subscriber.
-- `UnifiedEventBus.publish` (method) `modules/event_bus.py:336` `def publish(self, event)` -- Publish an event via the bounded dispatch queue.
-- `UnifiedEventBus.drain` (method) `modules/event_bus.py:354` `def drain(self)` -- Consume and drop all pending events from the dispatch queue.
-- `UnifiedEventBus.shutdown` (method) `modules/event_bus.py:372` `def shutdown(self)` -- Shut down the event bus cleanly.
-- `UnifiedEventBus.history` (method) `modules/event_bus.py:556` `def history(self, n, category)` -- Return recent events, optionally filtered by category.
-- `UnifiedEventBus.history_since` (method) `modules/event_bus.py:564` `def history_since(self, since_ts)` -- Return all events since a given timestamp.
-- `get_event_bus` (function) `modules/event_bus.py:570` `def get_event_bus()` -- Return the singleton UnifiedEventBus instance.
-- `publish_event` (function) `modules/event_bus.py:575` `def publish_event(category, event_type, source, payload, severity, target, operator)` -- Convenience function to build and publish an event in one call.
-
-## modules/event_consumers.py
-Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`, `modules/world_model.py`
-Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
-- `PhaseTracker.__init__` (method) `modules/event_consumers.py:146` `def __init__(self)`
-- `PhaseTracker.__call__` (method) `modules/event_consumers.py:149` `def __call__(self, event)`
-- `AutoRecommender.__init__` (method) `modules/event_consumers.py:194` `def __init__(self)`
-- `AutoRecommender.__call__` (method) `modules/event_consumers.py:197` `def __call__(self, event)`
-- `CredentialReactor.__call__` (method) `modules/event_consumers.py:272` `def __call__(self, event)`
-- `SoulSync.__call__` (method) `modules/event_consumers.py:313` `def __call__(self, event)`
-- `DashboardPusher.__call__` (method) `modules/event_consumers.py:351` `def __call__(self, event)`
-- `wire_all_consumers` (function) `modules/event_consumers.py:370` `def wire_all_consumers(bus)` -- Register all event consumers on the UnifiedEventBus.
-- `unwire_all_consumers` (function) `modules/event_consumers.py:399` `def unwire_all_consumers(bus)` -- Remove all event consumers from the bus.
-
-## modules/event_engine.py
-Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
-- `load_rules` (function) `modules/event_engine.py:99` `def load_rules()` -- Load rules from event_rules.json, creating it with defaults if missing.
-- `save_rules` (function) `modules/event_engine.py:110` `def save_rules(rules)`
-- `add_rule` (function) `modules/event_engine.py:114` `def add_rule(rule)` -- Add or replace a rule by id.
-- `process_new_rows` (function) `modules/event_engine.py:181` `def process_new_rows()` -- Read new rows from the session CSV since last watermark.
-- `read_events` (function) `modules/event_engine.py:250` `def read_events(limit, status)` -- Return up to `limit` events matching `status` (pending/processed/all).
-- `ack_event` (function) `modules/event_engine.py:270` `def ack_event(event_id)` -- Mark an event as processed.
-
-## modules/evidence.py
-Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
-- `hash_bytes` (function) `modules/evidence.py:37` `def hash_bytes(data)` -- Return the lowercase hex SHA-256 of data.
-- `EvidenceStore.__init__` (method) `modules/evidence.py:57` `def __init__(self, base_dir)` -- Create vault directories.
-- `EvidenceStore.blob_path` (method) `modules/evidence.py:65` `def blob_path(self, content_hash)` -- Resolve the canonical path for a validated hash.
-- `EvidenceStore.put` (method) `modules/evidence.py:70` `def put(self, data)` -- Atomically store bytes and return their SHA-256 hash.
-- `EvidenceStore.get` (method) `modules/evidence.py:90` `def get(self, content_hash)` -- Read and verify blob bytes for a hash.
-- `EvidenceStore.exists` (method) `modules/evidence.py:98` `def exists(self, content_hash)` -- Return True when the blob exists on disk.
-- `EvidenceStore.garbage_collect` (method) `modules/evidence.py:105` `def garbage_collect(self, referenced)` -- Remove unreferenced blobs older than the grace period.
 
 
 Next: [API_p12.md](API_p12.md)

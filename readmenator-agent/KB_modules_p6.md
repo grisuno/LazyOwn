@@ -1,4 +1,4 @@
-# Subsystem: modules (page 6 of 17)
+# Subsystem: modules (page 6 of 18)
 Previous: [KB_modules_p5.md](KB_modules_p5.md)
 
 ## modules/exp.c

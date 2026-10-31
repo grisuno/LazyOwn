@@ -16,7 +16,10 @@ from modules.selection.atomic import AtomicSelector
 from modules.selection.base import ActionDecision, SelectionContext, Selector
 from modules.selection.chain import ChainSelector
 from modules.selection.cred_spray import CredentialSpraySelector
+from modules.selection.intel import IntelSelector
 from modules.selection.playbook import PlaybookSelector
+
+_URGENT_PRIORITY = 2
 
 
 def all_selectors() -> list[Selector]:
@@ -28,14 +31,17 @@ def all_selectors() -> list[Selector]:
     named or evidence-backed intent is a stronger signal than an inferred one.
     The list grows one file at a time as strategies migrate into the package.
     """
+    import os
+
+    allow_lab = os.environ.get("AUTO_CHAIN_SELECTOR_LAB", "1").strip().lower() not in ("0", "false", "no")
     return [
         CredentialSpraySelector(),
         PlaybookSelector(),
         AdversarySelector(),
+        IntelSelector(),
         AtomicSelector(),
-        ChainSelector(),
+        ChainSelector(allow_lab=allow_lab),
     ]
-
 
 def default_selectors() -> list[Selector]:
     """Return the cascade after applying the orchestrator's enable toggles.
@@ -58,23 +64,35 @@ def propose_next(
 ) -> ActionDecision | None:
     """Return the first concrete decision from the cascade, or None.
 
+    Resolution is two-pass: any decision graded urgent (``priority`` <= 2)
+    wins over the ordinary order, so pending intelligence or credential
+    spraying (new, evidence-backed signals) outrank generic chain runs;
+    otherwise the ordered list decides, with objective-named capabilities
+    (actor, adversary profile, technique) ahead of the generic chain.
+
     Args:
         ctx: Live engagement snapshot.
         selectors: Optional explicit cascade; defaults to
             :func:`default_selectors`.
 
     Returns:
-        The first non-None :class:`ActionDecision`, or None when every
+        The winning :class:`ActionDecision`, or None when every
         selector abstains.
     """
-    for selector in selectors if selectors is not None else default_selectors():
+    cascade = list(selectors) if selectors is not None else default_selectors()
+    ordinary: ActionDecision | None = None
+    for selector in cascade:
         try:
             decision = selector.propose(ctx)
         except Exception:
             decision = None
-        if decision is not None:
+        if decision is None or not str(decision.command or "").strip():
+            continue
+        if int(decision.priority) <= _URGENT_PRIORITY:
             return decision
-    return None
+        if ordinary is None:
+            ordinary = decision
+    return ordinary
 
 
 __all__ = ["default_selectors", "propose_next"]

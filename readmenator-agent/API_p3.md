@@ -1,5 +1,52 @@
-# API (page 3 of 25)
+# API (page 3 of 26)
 Previous: [API_p2.md](API_p2.md)
+
+## cli/commands/misc_migrated.py
+Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/lazy_loop.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
+Imported by: `tests/test_auto_crypto.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+- `MiscMigratedCommandSet.do_notify` (method) `cli/commands/misc_migrated.py:92` `def do_notify(self, arg)` -- Command to trigger a toastr-like notification.
+- `MiscMigratedCommandSet.do_EOF` (method) `cli/commands/misc_migrated.py:111` `def do_EOF(self, line)` -- Handle the end-of-file (EOF) condition.
+- `MiscMigratedCommandSet.do_palette` (method) `cli/commands/misc_migrated.py:179` `def do_palette(self, line)` -- Browse the operator command catalogue grouped by kill-chain phase.
+- `MiscMigratedCommandSet.do_graph_search` (method) `cli/commands/misc_migrated.py:204` `def do_graph_search(self, line)` -- Fuzzy search the graphify knowledge graph for nodes by label.
+- `MiscMigratedCommandSet.do_neighbors` (method) `cli/commands/misc_migrated.py:232` `def do_neighbors(self, line)` -- Show graph neighbors of a node or command from the graphify graph.
+- `MiscMigratedCommandSet.do_god_nodes` (method) `cli/commands/misc_migrated.py:259` `def do_god_nodes(self, line)` -- Show the most-connected nodes ("god nodes") from the graph.
+- `MiscMigratedCommandSet.do_suggest_next` (method) `cli/commands/misc_migrated.py:278` `def do_suggest_next(self, line)` -- Suggest next commands by walking the graph from recent activity.
+- `MiscMigratedCommandSet.do_recommend_next` (method) `cli/commands/misc_migrated.py:404` `def do_recommend_next(self, line)` -- Recommend the next action via the unified recommendation engine.
+- `MiscMigratedCommandSet.do_explore` (method) `cli/commands/misc_migrated.py:458` `def do_explore(self, line)` -- Show exploration coverage and addon/tool suggestions per service.
+- `MiscMigratedCommandSet.do_prev` (method) `cli/commands/misc_migrated.py:489` `def do_prev(self, line)` -- Show prerequisite commands for a verb (the chain's ``prev`` arrow).
+- `MiscMigratedCommandSet.do_dashboard` (method) `cli/commands/misc_migrated.py:526` `def do_dashboard(self, line)` -- Launch the full-screen LazyOwn operator dashboard (Textual TUI).
+- `MiscMigratedCommandSet.do_palette_k` (method) `cli/commands/misc_migrated.py:561` `def do_palette_k(self, line)` -- Open the fuzzy Command-K palette overlay.
+- `MiscMigratedCommandSet.do_browse` (method) `cli/commands/misc_migrated.py:590` `def do_browse(self, line)` -- Open the sessions/ TUI browser.
+- `MiscMigratedCommandSet.do_timeline_browser` (method) `cli/commands/misc_migrated.py:612` `def do_timeline_browser(self, line)` -- Open the timeline scrubber over the session report CSV.
+- `MiscMigratedCommandSet.do_graph_overlay` (method) `cli/commands/misc_migrated.py:631` `def do_graph_overlay(self, line)` -- Open the graph overlay over the graphify knowledge graph.
+- `MiscMigratedCommandSet.do_toast_clear` (method) `cli/commands/misc_migrated.py:651` `def do_toast_clear(self, line)` -- Mark every pending toast event as seen without printing them.
+- `MiscMigratedCommandSet.do_exit` (method) `cli/commands/misc_migrated.py:671` `def do_exit(self, arg)` -- Exit the command line interface.
+- `MiscMigratedCommandSet.do_banner` (method) `cli/commands/misc_migrated.py:744` `def do_banner(self, line)` -- Show the banner
+- `MiscMigratedCommandSet.do_config_banner` (method) `cli/commands/misc_migrated.py:754` `def do_config_banner(self, line)` -- Open a Powerlevel10k-style wizard to toggle prompt segments.
+- `MiscMigratedCommandSet.do_aliass` (method) `cli/commands/misc_migrated.py:798` `def do_aliass(self, line)` -- Prints all configured aliases and their associated commands.
+- `MiscMigratedCommandSet.do_graph` (method) `cli/commands/misc_migrated.py:826` `def do_graph(self, line)` -- Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
+- `MiscMigratedCommandSet.do_h` (method) `cli/commands/misc_migrated.py:886` `def do_h(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+- `MiscMigratedCommandSet.do_v` (method) `cli/commands/misc_migrated.py:932` `def do_v(self, arg)` -- Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+- `MiscMigratedCommandSet.do_links` (method) `cli/commands/misc_migrated.py:978` `def do_links(self, line)` -- Displays a list of useful links and allows the user to select and copy a link to the clipboard.
+- `MiscMigratedCommandSet.do_news` (method) `cli/commands/misc_migrated.py:1041` `def do_news(self, line)` -- Show the Hacker News in the terminal.
+- `MiscMigratedCommandSet.do_check_update` (method) `cli/commands/misc_migrated.py:1054` `def do_check_update(self, line)` -- Checks for updates by comparing the local version with the remote version.
+- `MiscMigratedCommandSet.do_addalias` (method) `cli/commands/misc_migrated.py:1099` `def do_addalias(self, arglist)` -- Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.
+- `MiscMigratedCommandSet.do_listaliases` (method) `cli/commands/misc_migrated.py:1151` `def do_listaliases(self, _)` -- List all available aliases.
+
+## cli/commands/mobile_macos.py
+Depends on: `cli/commands/_base.py`, `core/process.py`, `core/validators.py`, `utils.py`
+- `MobileMacOSCommandSet.do_android_enum` (method) `cli/commands/mobile_macos.py:103` `def do_android_enum(self, line)` -- Enumerate an Android device connected via ADB.
+- `MobileMacOSCommandSet.do_android_apk` (method) `cli/commands/mobile_macos.py:171` `def do_android_apk(self, line)` -- Generate a malicious APK with reverse shell payload.
+- `MobileMacOSCommandSet.do_macos_persist` (method) `cli/commands/mobile_macos.py:216` `def do_macos_persist(self, line)` -- Generate macOS persistence via LaunchAgent.
+- `MobileMacOSCommandSet.do_macos_keychain` (method) `cli/commands/mobile_macos.py:274` `def do_macos_keychain(self, line)` -- Extract secrets from the macOS Keychain.
+- `MobileMacOSCommandSet.do_macos_tcc` (method) `cli/commands/mobile_macos.py:323` `def do_macos_tcc(self, line)` -- Generate macOS TCC (Transparency, Consent, Control) bypass.
+- `is_binary_present` (function) `cli/commands/mobile_macos.py:374` `def is_binary_present(name)` -- Check if a binary is available on PATH, delegates to core.
+
+## cli/commands/module_manager.py
+Depends on: `cli/commands/_base.py`, `modules/module_registry.py`, `utils.py`
+- `ModuleManagerCommandSet.do_search` (method) `cli/commands/module_manager.py:71` `def do_search(self, line)` -- Search for modules by name, description, or author.
+- `ModuleManagerCommandSet.do_use` (method) `cli/commands/module_manager.py:111` `def do_use(self, line)` -- Select a module to work with.
+- `ModuleManagerCommandSet.do_back` (method) `cli/commands/module_manager.py:162` `def do_back(self, line)` -- Leave the current module context.
 
 ## cli/commands/netattack.py
 Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `modules/loop_triggers.py`, `modules/world_model.py`, `utils.py`
@@ -445,45 +492,6 @@ Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.p
 ## cli/commands/verb_admin.py
 Depends on: `cli/commands/_base.py`, `modules/verb_catalog.py`, `utils.py`
 - `VerbCommandSet.do_verb` (method) `cli/commands/verb_admin.py:52` `def do_verb(self, line)` -- Manage the autonomous-loop verb catalog.
-
-## cli/commands/winbox_gym.py
-Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
-- `WinboxCommandSet.do_winbox` (method) `cli/commands/winbox_gym.py:51` `def do_winbox(self, line)` -- Control the WinBox isolated Windows lab from the LazyOwn shell.
-
-## cli/config_history.py
-Imported by: `cli/commands/session_ops.py`, `cli/commands/ux.py`
-- `ConfigHistory.capture_baseline` (method) `cli/config_history.py:30` `def capture_baseline(self, state)` -- Store session-start snapshot used by diff.
-- `ConfigHistory.push` (method) `cli/config_history.py:38` `def push(self, state)` -- Push a snapshot before mutation.
-- `ConfigHistory.undo` (method) `cli/config_history.py:48` `def undo(self)` -- Pop the newest snapshot.
-- `ConfigHistory.diff` (method) `cli/config_history.py:58` `def diff(self, current)` -- Compare current state against the baseline.
-- `ConfigHistory.depth` (method) `cli/config_history.py:76` `def depth(self)` -- Return number of stored undo steps.
-- `get_shell_history` (function) `cli/config_history.py:81` `def get_shell_history(shell)` -- Return the ConfigHistory bound to a shell, creating it on demand.
-- `track_before` (function) `cli/config_history.py:104` `def track_before(history, state)` -- Capture baseline on first use then push a pre-mutation snapshot.
-
-## cli/config_status.py
-Depends on: `core/console.py`
-Imported by: `cli/commands/help_ui.py`
-- `ConfigStatus.__init__` (method) `cli/config_status.py:70` `def __init__(self, params, config)`
-- `ConfigStatus.render_status` (method) `cli/config_status.py:89` `def render_status(self)` -- Render the grouped configuration status table.
-- `ConfigStatus.render_quick_check` (method) `cli/config_status.py:129` `def render_quick_check(self)` -- Quick check: show only required fields that are not set.
-
-## cli/confirm.py
-Imported by: `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/infra.py`
-- `confirm` (function) `cli/confirm.py:27` `def confirm(question, default, yes_values)` -- Ask a yes/no question, never raising on non-interactive stdin.
-
-## cli/contextual_help.py
-Depends on: `cli/palette.py`, `cli/phase_labels.py`, `core/console.py`
-Imported by: `cli/commands/help_ui.py`, `tests/test_phase_labels.py`
-- `ContextualHelp.__init__` (method) `cli/contextual_help.py:176` `def __init__(self, aliases, params, config)`
-- `ContextualHelp.get_command_info` (method) `cli/contextual_help.py:188` `def get_command_info(self, name)` -- Return enriched info for a command, or None if not found.
-- `ContextualHelp.render_command_help` (method) `cli/contextual_help.py:208` `def render_command_help(self, name)` -- Render contextual help for a single command.
-- `ContextualHelp.render_phase_commands` (method) `cli/contextual_help.py:261` `def render_phase_commands(self, phase)` -- Render all commands for a given phase.
-- `ContextualHelp.render_requirements_status` (method) `cli/contextual_help.py:281` `def render_requirements_status(self)` -- Show which requirements are met for the current session.
-
-## cli/dashboard_layout.py
-Imported by: `cli/dashboard_tui.py`
-- `layout_mode` (function) `cli/dashboard_layout.py:28` `def layout_mode(width, config)` -- Return the layout bucket for a terminal width.
-- `hidden_panels` (function) `cli/dashboard_layout.py:45` `def hidden_panels(mode)` -- Return panel ids hidden in the given layout mode.
 
 
 Next: [API_p4.md](API_p4.md)

@@ -1,5 +1,19 @@
-# Subsystem: tests (page 6 of 22)
+# Subsystem: tests (page 6 of 23)
 Previous: [KB_tests_p5.md](KB_tests_p5.md)
+
+## tests/test_cli_auth_remember.py
+- Doc: Remember-me token comparison must be timing-safe.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `isolated_auth` (function, line 24) `def isolated_auth(tmp_path, monkeypatch)`
+  - `TestRememberMeComparison` (class, line 48) `class TestRememberMeComparison`
+  - `test_valid_token_logs_in` (method, line 49) `def test_valid_token_logs_in(self, isolated_auth)`
+  - `test_wrong_token_rejected` (method, line 63) `def test_wrong_token_rejected(self, isolated_auth)`
+  - `test_comparison_is_timing_safe` (method, line 76) `def test_comparison_is_timing_safe(self)`
+  - `test_save_delegates_to_canonical_writer` (method, line 92) `def test_save_delegates_to_canonical_writer(self)`
+  - `test_save_writes_valid_json_and_audits` (method, line 109) `def test_save_writes_valid_json_and_audits(self, isolated_auth)`
+- Depends on: `modules/cli_auth.py`
 
 ## tests/test_cli_command_sets.py
 - Doc: ``cli`` package declarativeness and ``CommandSet`` registration tests.

@@ -1,8 +1,162 @@
-# Symbols (page 32 of 48)
+# Symbols (page 32 of 49)
 Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ZO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `Zk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `Zx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `a` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `as` | class | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `as` | class | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `bO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `bk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `cO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `d` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `dE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `did` | class | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `did` | class | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `dk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `does` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `does` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `dx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `e` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `e` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `e` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `e` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `f` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `f` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `f` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `fO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `fk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `g` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `g` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `g` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `g` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `g` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `gE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `gp` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `h` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `has` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `i` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `ik` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `in` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `kk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `ku` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `kw` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `l` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `l` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `lE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `lO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `lk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `mw` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `nE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `nc` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `nk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `np` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `o` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `o` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `o` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `or` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `ov` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `qw` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `qx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `rO` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `s` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `s` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `sk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `su` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `u` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `uE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `v` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `v` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
+| `vE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `vp` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `yk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `zo` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `A` | function | `static/js/vis-network.min.js:33` | `` |
+| `A` | function | `static/js/vis-network.min.js:33` | `` |
+| `Bk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Bx` | function | `static/js/vis-network.min.js:33` | `` |
+| `C` | function | `static/js/vis-network.min.js:26` | `` |
+| `C` | function | `static/js/vis-network.min.js:33` | `` |
+| `CE` | function | `static/js/vis-network.min.js:33` | `` |
+| `Ek` | function | `static/js/vis-network.min.js:33` | `` |
+| `Ew` | function | `static/js/vis-network.min.js:33` | `` |
+| `Fk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Fx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Hk` | function | `static/js/vis-network.min.js:33` | `` |
+| `I` | function | `static/js/vis-network.min.js:33` | `` |
+| `I` | function | `static/js/vis-network.min.js:48` | `` |
+| `LO` | function | `static/js/vis-network.min.js:48` | `` |
+| `Lk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Lx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Nk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Nu` | function | `static/js/vis-network.min.js:33` | `` |
+| `Ow` | function | `static/js/vis-network.min.js:33` | `` |
+| `Pc` | function | `static/js/vis-network.min.js:33` | `` |
+| `Pk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Px` | function | `static/js/vis-network.min.js:33` | `` |
+| `Qk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Tk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Tx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Vk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Vx` | function | `static/js/vis-network.min.js:33` | `` |
+| `Wu` | function | `static/js/vis-network.min.js:33` | `` |
+| `Xu` | function | `static/js/vis-network.min.js:33` | `` |
+| `ZO` | function | `static/js/vis-network.min.js:48` | `` |
+| `Zk` | function | `static/js/vis-network.min.js:33` | `` |
+| `Zx` | function | `static/js/vis-network.min.js:33` | `` |
+| `a` | function | `static/js/vis-network.min.js:48` | `` |
+| `as` | class | `static/js/vis-network.min.js:26` | `` |
+| `as` | class | `static/js/vis-network.min.js:48` | `` |
+| `bO` | function | `static/js/vis-network.min.js:48` | `` |
+| `bk` | function | `static/js/vis-network.min.js:33` | `` |
+| `cO` | function | `static/js/vis-network.min.js:48` | `` |
+| `d` | function | `static/js/vis-network.min.js:33` | `` |
+| `dE` | function | `static/js/vis-network.min.js:33` | `` |
+| `did` | class | `static/js/vis-network.min.js:48` | `` |
+| `did` | class | `static/js/vis-network.min.js:48` | `` |
+| `dk` | function | `static/js/vis-network.min.js:33` | `` |
+| `does` | function | `static/js/vis-network.min.js:33` | `` |
+| `does` | function | `static/js/vis-network.min.js:48` | `` |
+| `dx` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
 | `e` | function | `static/js/vis-network.min.js:33` | `` |
 | `e` | function | `static/js/vis-network.min.js:48` | `` |
 | `f` | function | `static/js/vis-network.min.js:33` | `` |
@@ -342,159 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `main` | function | `tests/run_mutation_world_diff.py:77` | `def main()` |
 | `restore_files` | function | `tests/run_mutation_world_diff.py:58` | `def restore_files(backups, base_dir, mutations)` |
 | `run_tests` | function | `tests/run_mutation_world_diff.py:65` | `def run_tests()` |
-| `TestACIEngineComplete` | class | `tests/test_aci_planner.py:596` | `class TestACIEngineComplete` |
-| `TestACIEngineReplan` | class | `tests/test_aci_planner.py:522` | `class TestACIEngineReplan` |
-| `TestACIEngineShouldReplan` | class | `tests/test_aci_planner.py:462` | `class TestACIEngineShouldReplan` |
-| `TestACIEngineStatus` | class | `tests/test_aci_planner.py:421` | `class TestACIEngineStatus` |
-| `TestACIGoal` | class | `tests/test_aci_planner.py:111` | `class TestACIGoal` |
-| `TestACIPlan` | class | `tests/test_aci_planner.py:177` | `class TestACIPlan` |
-| `TestACIPlannerLLM` | class | `tests/test_aci_planner.py:345` | `class TestACIPlannerLLM` |
-| `TestACIPlannerStatic` | class | `tests/test_aci_planner.py:244` | `class TestACIPlannerStatic` |
-| `TestACIReflector` | class | `tests/test_aci_planner.py:626` | `class TestACIReflector` |
-| `TestAttackPhase` | class | `tests/test_aci_planner.py:134` | `class TestAttackPhase` |
-| `TestCLI` | class | `tests/test_aci_planner.py:914` | `class TestCLI` |
-| `TestMCPBridges` | class | `tests/test_aci_planner.py:723` | `class TestMCPBridges` |
-| `TestPersistenceHelpers` | class | `tests/test_aci_planner.py:829` | `class TestPersistenceHelpers` |
-| `_llm_response` | method | `tests/test_aci_planner.py:346` | `def _llm_response(self, phases)` |
-| `_make_engine` | function | `tests/test_aci_planner.py:94` | `def _make_engine(tmp_path, api_key)` |
-| `_make_goal` | function | `tests/test_aci_planner.py:33` | `def _make_goal()` |
-| `_make_plan` | method | `tests/test_aci_planner.py:178` | `def _make_plan(self, phase_statuses)` |
-| `_make_plan_with_statuses` | method | `tests/test_aci_planner.py:627` | `def _make_plan_with_statuses(self, phase_statuses, replan_count)` |
-| `_make_planner` | function | `tests/test_aci_planner.py:82` | `def _make_planner(tmp_path, api_key)` |
-| `_patched_paths` | function | `tests/test_aci_planner.py:47` | `def _patched_paths(tmp_path)` |
-| `_start_patches` | function | `tests/test_aci_planner.py:60` | `def _start_patches(tmp_path)` |
-| `_stop_patches` | function | `tests/test_aci_planner.py:77` | `def _stop_patches(patchers)` |
-| `_write_objectives_blocked` | method | `tests/test_aci_planner.py:463` | `def _write_objectives_blocked(self, obj_file, obj_ids)` |
-| `test_active_phase_none_when_all_done` | method | `tests/test_aci_planner.py:221` | `def test_active_phase_none_when_all_done(self)` |
-| `test_active_phase_returns_first_pending_or_active` | method | `tests/test_aci_planner.py:216` | `def test_active_phase_returns_first_pending_or_active(self)` |
-| `test_archive_plan_appends` | method | `tests/test_aci_planner.py:859` | `def test_archive_plan_appends(self, tmp_path)` |
-| `test_complete_archives_plan` | method | `tests/test_aci_planner.py:597` | `def test_complete_archives_plan(self, tmp_path)` |
-| `test_complete_marks_plan_as_completed` | method | `tests/test_aci_planner.py:607` | `def test_complete_marks_plan_as_completed(self, tmp_path)` |
-| `test_complete_no_plan` | method | `tests/test_aci_planner.py:617` | `def test_complete_no_plan(self, tmp_path)` |
-| `test_completion_pct_all_done` | method | `tests/test_aci_planner.py:204` | `def test_completion_pct_all_done(self)` |
-| `test_completion_pct_none_done` | method | `tests/test_aci_planner.py:208` | `def test_completion_pct_none_done(self)` |
-| `test_completion_pct_partial` | method | `tests/test_aci_planner.py:212` | `def test_completion_pct_partial(self)` |
-| `test_count_objectives_by_status` | method | `tests/test_aci_planner.py:876` | `def test_count_objectives_by_status(self, tmp_path)` |
-| `test_count_objectives_returns_empty_for_missing_file` | method | `tests/test_aci_planner.py:904` | `def test_count_objectives_returns_empty_for_missing_file(self, tmp_path)` |
-| `test_defaults` | method | `tests/test_aci_planner.py:122` | `def test_defaults(self)` |
-| `test_fields` | method | `tests/test_aci_planner.py:112` | `def test_fields(self)` |
-| `test_first_phase_is_active` | method | `tests/test_aci_planner.py:257` | `def test_first_phase_is_active(self, tmp_path)` |
-| `test_from_dict_ignores_extra_keys` | method | `tests/test_aci_planner.py:154` | `def test_from_dict_ignores_extra_keys(self)` |
-| `test_llm_bad_json_falls_back_to_static` | method | `tests/test_aci_planner.py:407` | `def test_llm_bad_json_falls_back_to_static(self, tmp_path)` |
-| `test_llm_failure_falls_back_to_static` | method | `tests/test_aci_planner.py:399` | `def test_llm_failure_falls_back_to_static(self, tmp_path)` |
-| `test_llm_objectives_injected` | method | `tests/test_aci_planner.py:380` | `def test_llm_objectives_injected(self, tmp_path)` |
-| `test_llm_phases_used_when_api_key_set` | method | `tests/test_aci_planner.py:355` | `def test_llm_phases_used_when_api_key_set(self, tmp_path)` |
-| `test_load_plan_returns_none_for_corrupt` | method | `tests/test_aci_planner.py:851` | `def test_load_plan_returns_none_for_corrupt(self, tmp_path)` |
-| `test_load_plan_returns_none_for_missing` | method | `tests/test_aci_planner.py:845` | `def test_load_plan_returns_none_for_missing(self, tmp_path)` |
-| `test_mcp_aci_plan_phase_filter` | method | `tests/test_aci_planner.py:806` | `def test_mcp_aci_plan_phase_filter(self, tmp_path)` |
-| `test_mcp_aci_plan_returns_json` | method | `tests/test_aci_planner.py:734` | `def test_mcp_aci_plan_returns_json(self, tmp_path)` |
-| `test_mcp_aci_plan_static_backend` | method | `tests/test_aci_planner.py:758` | `def test_mcp_aci_plan_static_backend(self, tmp_path)` |
-| `test_mcp_aci_plan_uses_rhost_from_payload` | method | `tests/test_aci_planner.py:747` | `def test_mcp_aci_plan_uses_rhost_from_payload(self, tmp_path)` |
-| `test_mcp_aci_replan_no_plan` | method | `tests/test_aci_planner.py:769` | `def test_mcp_aci_replan_no_plan(self, tmp_path)` |
-| `test_mcp_aci_replan_with_plan` | method | `tests/test_aci_planner.py:780` | `def test_mcp_aci_replan_with_plan(self, tmp_path)` |
-| `test_mcp_aci_status_after_plan` | method | `tests/test_aci_planner.py:793` | `def test_mcp_aci_status_after_plan(self, tmp_path)` |
-| `test_mcp_aci_status_no_plan` | method | `tests/test_aci_planner.py:724` | `def test_mcp_aci_status_no_plan(self, tmp_path)` |
-| `test_no_subcommand_returns_nonzero` | method | `tests/test_aci_planner.py:954` | `def test_no_subcommand_returns_nonzero(self, tmp_path)` |
-| `test_objective_source_is_aci_planner` | method | `tests/test_aci_planner.py:293` | `def test_objective_source_is_aci_planner(self, tmp_path)` |
-| `test_objectives_contain_target_in_text` | method | `tests/test_aci_planner.py:323` | `def test_objectives_contain_target_in_text(self, tmp_path)` |
-| `test_objectives_ids_match_phase_objectives` | method | `tests/test_aci_planner.py:276` | `def test_objectives_ids_match_phase_objectives(self, tmp_path)` |
-| `test_objectives_injected_into_file` | method | `tests/test_aci_planner.py:268` | `def test_objectives_injected_into_file(self, tmp_path)` |
-| `test_phase_filter_restricts_phases` | method | `tests/test_aci_planner.py:287` | `def test_phase_filter_restricts_phases(self, tmp_path)` |
-| `test_plan_command` | method | `tests/test_aci_planner.py:915` | `def test_plan_command(self, tmp_path)` |
-| `test_plan_creates_file` | method | `tests/test_aci_planner.py:245` | `def test_plan_creates_file(self, tmp_path)` |
-| `test_plan_domain_stored` | method | `tests/test_aci_planner.py:318` | `def test_plan_domain_stored(self, tmp_path)` |
-| `test_plan_has_phases` | method | `tests/test_aci_planner.py:252` | `def test_plan_has_phases(self, tmp_path)` |
-| `test_plan_id_is_unique` | method | `tests/test_aci_planner.py:307` | `def test_plan_id_is_unique(self, tmp_path)` |
-| `test_plan_roundtrip_from_disk` | method | `tests/test_aci_planner.py:330` | `def test_plan_roundtrip_from_disk(self, tmp_path)` |
-| `test_plan_status_is_active` | method | `tests/test_aci_planner.py:302` | `def test_plan_status_is_active(self, tmp_path)` |
-| `test_plan_target_stored` | method | `tests/test_aci_planner.py:313` | `def test_plan_target_stored(self, tmp_path)` |
-| `test_reflect_blocked_phase_generates_lesson` | method | `tests/test_aci_planner.py:655` | `def test_reflect_blocked_phase_generates_lesson(self, tmp_path)` |
-| `test_reflect_command_no_plan` | method | `tests/test_aci_planner.py:960` | `def test_reflect_command_no_plan(self, tmp_path, capsys)` |
-| `test_reflect_done_after_replan_generates_lesson` | method | `tests/test_aci_planner.py:665` | `def test_reflect_done_after_replan_generates_lesson(self, tmp_path)` |
-| `test_reflect_lesson_has_required_fields` | method | `tests/test_aci_planner.py:698` | `def test_reflect_lesson_has_required_fields(self, tmp_path)` |
-| `test_reflect_no_lessons_clean_plan` | method | `tests/test_aci_planner.py:674` | `def test_reflect_no_lessons_clean_plan(self, tmp_path)` |
-| `test_reflect_persists_to_file` | method | `tests/test_aci_planner.py:683` | `def test_reflect_persists_to_file(self, tmp_path)` |
-| `test_replan_command_no_plan` | method | `tests/test_aci_planner.py:940` | `def test_replan_command_no_plan(self, tmp_path, capsys)` |
-| `test_replan_increments_count` | method | `tests/test_aci_planner.py:529` | `def test_replan_increments_count(self, tmp_path)` |
-| `test_replan_injects_new_objectives` | method | `tests/test_aci_planner.py:543` | `def test_replan_injects_new_objectives(self, tmp_path)` |
-| `test_replan_no_plan` | method | `tests/test_aci_planner.py:523` | `def test_replan_no_plan(self, tmp_path)` |
-| `test_replan_records_reason` | method | `tests/test_aci_planner.py:536` | `def test_replan_records_reason(self, tmp_path)` |
-| `test_replan_status_returns_to_active` | method | `tests/test_aci_planner.py:553` | `def test_replan_status_returns_to_active(self, tmp_path)` |
-| `test_replan_twice_counts_two` | method | `tests/test_aci_planner.py:560` | `def test_replan_twice_counts_two(self, tmp_path)` |
-| `test_replan_with_llm` | method | `tests/test_aci_planner.py:568` | `def test_replan_with_llm(self, tmp_path)` |
-| `test_round_trip` | method | `tests/test_aci_planner.py:231` | `def test_round_trip(self)` |
-| `test_save_load_plan_roundtrip` | method | `tests/test_aci_planner.py:830` | `def test_save_load_plan_roundtrip(self, tmp_path)` |
-| `test_should_replan_false_below_threshold` | method | `tests/test_aci_planner.py:487` | `def test_should_replan_false_below_threshold(self, tmp_path)` |
-| `test_should_replan_false_for_completed_plan` | method | `tests/test_aci_planner.py:507` | `def test_should_replan_false_for_completed_plan(self, tmp_path)` |
-| `test_should_replan_false_when_no_plan` | method | `tests/test_aci_planner.py:483` | `def test_should_replan_false_when_no_plan(self, tmp_path)` |
-| `test_should_replan_true_at_threshold` | method | `tests/test_aci_planner.py:496` | `def test_should_replan_true_at_threshold(self, tmp_path)` |
-| `test_status_blocked_count_zero_at_start` | method | `tests/test_aci_planner.py:451` | `def test_status_blocked_count_zero_at_start(self, tmp_path)` |
-| `test_status_command_no_plan` | method | `tests/test_aci_planner.py:926` | `def test_status_command_no_plan(self, tmp_path, capsys)` |
-| `test_status_completion_zero_at_start` | method | `tests/test_aci_planner.py:444` | `def test_status_completion_zero_at_start(self, tmp_path)` |
-| `test_status_has_active_phase` | method | `tests/test_aci_planner.py:437` | `def test_status_has_active_phase(self, tmp_path)` |
-| `test_status_no_plan` | method | `tests/test_aci_planner.py:422` | `def test_status_no_plan(self, tmp_path)` |
-| `test_status_with_plan` | method | `tests/test_aci_planner.py:427` | `def test_status_with_plan(self, tmp_path)` |
-| `test_subsequent_phases_are_pending` | method | `tests/test_aci_planner.py:262` | `def test_subsequent_phases_are_pending(self, tmp_path)` |
-| `test_to_dict_has_completion_pct` | method | `tests/test_aci_planner.py:225` | `def test_to_dict_has_completion_pct(self)` |
-| `test_to_dict_round_trip` | method | `tests/test_aci_planner.py:135` | `def test_to_dict_round_trip(self)` |
-| `AdLabCaptureSpec` | class | `tests/test_ad_lab_gym.py:57` | `class AdLabCaptureSpec(TestCase)` |
-| `AdLabCatalogueSpec` | class | `tests/test_ad_lab_gym.py:30` | `class AdLabCatalogueSpec(TestCase)` |
-| `AdLabGymDefinitionsSpec` | class | `tests/test_ad_lab_gym.py:187` | `class AdLabGymDefinitionsSpec(TestCase)` |
-| `AdLabRuntimeSpec` | class | `tests/test_ad_lab_gym.py:114` | `class AdLabRuntimeSpec(TestCase)` |
-| `fake_docker` | function | `tests/test_ad_lab_gym.py:143` | `def fake_docker()` |
-| `fake_docker` | function | `tests/test_ad_lab_gym.py:164` | `def fake_docker()` |
-| `fake_docker2` | function | `tests/test_ad_lab_gym.py:148` | `def fake_docker2()` |
-| `fake_docker2` | function | `tests/test_ad_lab_gym.py:171` | `def fake_docker2()` |
-| `test_ad_domain_enum_definition_valid` | method | `tests/test_ad_lab_gym.py:196` | `def test_ad_domain_enum_definition_valid(self)` |
-| `test_ad_lab_apt_definition_valid` | method | `tests/test_ad_lab_gym.py:190` | `def test_ad_lab_apt_definition_valid(self)` |
-| `test_all_vectors_resolve` | method | `tests/test_ad_lab_gym.py:42` | `def test_all_vectors_resolve(self)` |
-| `test_credentials_capture_for_default_creds` | method | `tests/test_ad_lab_gym.py:89` | `def test_credentials_capture_for_default_creds(self)` |
-| `test_domain_enum_capture` | method | `tests/test_ad_lab_gym.py:65` | `def test_domain_enum_capture(self)` |
-| `test_ensure_ad_lab_creates_fixture_once` | method | `tests/test_ad_lab_gym.py:139` | `def test_ensure_ad_lab_creates_fixture_once(self)` |
-| `test_ensure_ad_lab_probe_failure_is_quiet` | method | `tests/test_ad_lab_gym.py:129` | `def test_ensure_ad_lab_probe_failure_is_quiet(self)` |
-| `test_ensure_ad_lab_skips_existing_fixture` | method | `tests/test_ad_lab_gym.py:160` | `def test_ensure_ad_lab_skips_existing_fixture(self)` |
-| `test_get_unknown_is_none` | method | `tests/test_ad_lab_gym.py:53` | `def test_get_unknown_is_none(self)` |
-| `test_kerberos_ticket_checker_direct` | method | `tests/test_ad_lab_gym.py:60` | `def test_kerberos_ticket_checker_direct(self)` |
-| `test_matrix_validates` | method | `tests/test_ad_lab_gym.py:33` | `def test_matrix_validates(self)` |
-| `test_readiness_without_docker` | method | `tests/test_ad_lab_gym.py:180` | `def test_readiness_without_docker(self)` |
-| `test_samr_enum_capture` | method | `tests/test_ad_lab_gym.py:101` | `def test_samr_enum_capture(self)` |
-| `test_scenario_targets_samba_image` | method | `tests/test_ad_lab_gym.py:117` | `def test_scenario_targets_samba_image(self)` |
-| `test_smb_shares_capture` | method | `tests/test_ad_lab_gym.py:77` | `def test_smb_shares_capture(self)` |
-| `test_start_rejects_unknown_scenario` | method | `tests/test_ad_lab_gym.py:124` | `def test_start_rejects_unknown_scenario(self)` |
-| `test_summary_shape` | method | `tests/test_ad_lab_gym.py:36` | `def test_summary_shape(self)` |
-| `TestAddonStore` | class | `tests/test_addon_creator.py:328` | `class TestAddonStore` |
-| `TestBlueprint` | class | `tests/test_addon_creator.py:591` | `class TestBlueprint` |
-| `TestConfig` | class | `tests/test_addon_creator.py:86` | `class TestConfig` |
-| `TestParseAddonForm` | class | `tests/test_addon_creator.py:460` | `class TestParseAddonForm` |
-| `TestTemplateSanity` | class | `tests/test_addon_creator.py:805` | `class TestTemplateSanity` |
-| `TestValidator` | class | `tests/test_addon_creator.py:117` | `class TestValidator` |
-| `TestYamlRenderer` | class | `tests/test_addon_creator.py:263` | `class TestYamlRenderer` |
-| `_FakeOperator` | class | `tests/test_addon_creator.py:570` | `class _FakeOperator(UserMixin)` |
-| `_build_test_app` | function | `tests/test_addon_creator.py:521` | `def _build_test_app(tmp_path)` |
-| `_csrf_token` | method | `tests/test_addon_creator.py:650` | `def _csrf_token(self, client)` |
-| `_form_data` | method | `tests/test_addon_creator.py:626` | `def _form_data(self)` |
-| `_load_user` | function | `tests/test_addon_creator.py:577` | `def _load_user(user_id)` |
-| `_login` | function | `tests/test_addon_creator.py:585` | `def _login(client)` |
-| `_valid_draft` | function | `tests/test_addon_creator.py:45` | `def _valid_draft()` |
-| `test_bad_repo_url_reports_issue` | method | `tests/test_addon_creator.py:205` | `def test_bad_repo_url_reports_issue(self)` |
-| `test_boolean_default_whitelist` | method | `tests/test_addon_creator.py:232` | `def test_boolean_default_whitelist(self)` |
-| `test_create_form_issues_csrf_cookie` | method | `tests/test_addon_creator.py:602` | `def test_create_form_issues_csrf_cookie(self, tmp_path)` |
-| `test_creator_template_forbids_emojis_and_console_spam` | method | `tests/test_addon_creator.py:816` | `def test_creator_template_forbids_emojis_and_console_spam(self)` |
-| `test_creator_template_has_help_affordances` | method | `tests/test_addon_creator.py:808` | `def test_creator_template_has_help_affordances(self)` |
-| `test_declared_param_placeholder_is_allowed` | method | `tests/test_addon_creator.py:186` | `def test_declared_param_placeholder_is_allowed(self)` |
-| `test_default_author_and_version_applied` | method | `tests/test_addon_creator.py:315` | `def test_default_author_and_version_applied(self)` |
-| `test_delete_legacy_uppercase_addon` | method | `tests/test_addon_creator.py:774` | `def test_delete_legacy_uppercase_addon(self, tmp_path)` |
-| `test_delete_rejects_unsafe_existing_names` | method | `tests/test_addon_creator.py:425` | `def test_delete_rejects_unsafe_existing_names(self, tmp_path)` |
-| `test_delete_removes_addon` | method | `tests/test_addon_creator.py:722` | `def test_delete_removes_addon(self, tmp_path)` |
-| `test_delete_unknown_addon_flashes_and_redirects` | method | `tests/test_addon_creator.py:734` | `def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path)` |
-| `test_delete_without_csrf_is_rejected` | method | `tests/test_addon_creator.py:619` | `def test_delete_without_csrf_is_rejected(self, tmp_path)` |
-| `test_duplicate_name_rerenders_with_error` | method | `tests/test_addon_creator.py:685` | `def test_duplicate_name_rerenders_with_error(self, tmp_path)` |
-| `test_duplicate_param_reports_issue` | method | `tests/test_addon_creator.py:212` | `def test_duplicate_param_reports_issue(self)` |
-| `test_exists_swallows_invalid_names` | method | `tests/test_addon_creator.py:434` | `def test_exists_swallows_invalid_names(self, tmp_path)` |
-| `test_install_path_without_repo_url_reports_issue` | method | `tests/test_addon_creator.py:192` | `def test_install_path_without_repo_url_reports_issue(self)` |
-| `test_integer_default_must_parse` | method | `tests/test_addon_creator.py:224` | `def test_integer_default_must_parse(self)` |
-| `test_invalid_name_reports_issue` | method | `tests/test_addon_creator.py:131` | `def test_invalid_name_reports_issue(self)` |
-| `test_invalid_post_rerenders_with_field_errors` | method | `tests/test_addon_creator.py:673` | `def test_invalid_post_rerenders_with_field_errors(self, tmp_path)` |
-| `test_list_all_is_sorted_and_has_expected_keys` | method | `tests/test_addon_creator.py:383` | `def test_list_all_is_sorted_and_has_expected_keys(self, tmp_path)` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

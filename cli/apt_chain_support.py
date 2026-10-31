@@ -14,6 +14,7 @@ import shlex
 from dataclasses import dataclass, field
 from typing import Any
 
+from modules.chain_approval import approval_backend, build_c2_approver
 from modules.chain_registry import Chain, ChainStep
 from modules.chain_runner import ChainRunResult, ReplanContext
 from modules.chain_state import list_checkpoints
@@ -555,6 +556,8 @@ def _platform() -> str:
 
 __all__ = [
     "ChainArgs",
+    "approval_backend",
+    "build_c2_approver",
     "build_cli_approver",
     "build_llm_recovery_chain",
     "build_reactive_replanner",

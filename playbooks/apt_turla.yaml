@@ -1,0 +1,104 @@
+apt_name: Turla
+aliases:
+- Snake
+- Uroburos
+- Venomous Bear
+- Waterbug
+source_urls:
+- https://attack.mitre.org/groups/G0010
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-129a
+description: 'Turla is a Russian intelligence agency attributed group targeting
+  governments, militaries, and US/NATO for extensive espionage.
+
+  The group maintains its eponymous Snake (Uroburos) Linux/Windows implant,
+ as well as Kazuar .NET backdoors, Carbon, and ComRAT multi-tier C2 families.
+
+  Turla historically leverages satellite uplinks, hijacked and hollow VPN
+  infrastructure, and satnet drone exfil exfiltration channels.
+
+  '
+platforms:
+- windows
+- linux
+phases:
+- name: initial_access
+  technique_id: T1195.002
+  technique_name: Compromise Software Supply Chain
+  description: Watering-hole and trojanized-install poisoning of VPN clients
+    (Snake Ultra CVE-2024-3393 style edge compromise plus SolarWinds uses downstream).
+  atomic_tests:
+  - atomic_id: T1195.002
+    name: Trojanized VPN Client Installer
+    manual: true
+  detection_hints:
+  - Installers connecting to slippers CDNIPs on first run
+  - Mismatched code signers between consecutive vendor builds
+- name: persistence
+  technique_id: T1542.003
+  technique_name: Bootkit
+  description: Uroburos rootkit and DMA driver bootkit persistence hooks at the
+    disk boot sector to survive reimages of the OS volume.
+  atomic_tests:
+  - atomic_id: T1542.003
+    name: Uroburos Bootkit
+    manual: true
+  detection_hints:
+  - Boot sectors report hidden extent blocks
+  - pcihdd hidden modification dr hives in memory dumps
+- name: defense_evasion
+  technique_id: T1205
+  technique_name: Traffic Signaling
+  description: Port knocking magic packet gating for hidden C2 dormant within the
+    Snake radio PCB companion.
+  atomic_tests:
+  - atomic_id: T1205
+    name: Port Knock C2 Gating
+    manual: false
+  detection_hints:
+  - Short-lived SYN sequences that precede TLS handshakes to odd ports
+- name: discovery
+  technique_id: T1016
+  technique_name: System Network Configuration Discovery
+  description: Turla PowerShell discovery of routing, satellite comms, and
+    gateway configuration indicative of satcom victim targeting.
+  atomic_tests:
+  - atomic_id: T1016
+    name: Network Config Discovery
+    manual: false
+  detection_hints:
+  - netsh dumps gathered to compressed local archives
+- name: execution
+  technique_id: T1553.002
+  technique_name: Code Signing
+  description: Kazuar .NET modules signed with stolen code-signing certificiates
+    and loaded via DLL sideloading from legitimate software.
+  atomic_tests:
+  - atomic_id: T1553.002
+    name: Stolen Signer Side-load
+    manual: false
+  detection_hints:
+  - Signer valid but first-seen for this host publisher
+  - Side-loaded DLLs writing encrypted blobs to ProgramData
+- name: command_and_control
+  technique_id: T1102
+  technique_name: Web Service
+  description: Carbon/ComRAT second-tier C2 hiding in popular webmail and CDN
+    platforms (former ProtonMail and Pastebin cell usage).
+  atomic_tests:
+  - atomic_id: T1102
+    name: Webmail Dead-Drop C2
+    manual: false
+  detection_hints:
+  - Frontmail attachments encrypted to a shared GPG key reused across hosts
+- name: exfiltration
+  technique_id: T1048
+  technique_name: Exfiltration Over Alternative Protocol
+  description: Stolen data exfiltrated over satellite uplink scheduling and
+    bulletproof hosting that rotates comms weekly.
+  atomic_tests:
+  - atomic_id: T1048
+    name: Off-Hour Satellite Exfil
+    manual: true
+  detection_hints:
+  - Campbell bursts on consumer satellite frequencies
+  - FTP-style bursts to newly registered bulletproof hosts

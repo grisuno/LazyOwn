@@ -117,6 +117,6 @@ Invalid data is never written: errors come back instead either way.
 
 *Calls:* [`validate_chain`](modules.chain_registry.py.md#validate_chain)
 
-*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin)
+*Called by:* [`resolve_admin`](cli.apt_chain_support.py.md#resolve_admin), [`consider_report`](modules.lazy_autofire.py.md#consider_report)
 
 ---

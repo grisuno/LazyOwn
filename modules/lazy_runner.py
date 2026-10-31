@@ -590,17 +590,24 @@ def _print_handoff(handoff: dict) -> None:
 
 
 def _bootstrap(scan_target: str, executor: Callable[[str], str]) -> None:
-    """Ingest an existing nmap XML through ``auto_populate`` before round 1."""
+    """Ingest an existing nmap XML and stage the exposure report before round 1."""
     scan = Path(SESSIONS_DIR) / f"scan_{scan_target}.nmap.xml"
-    if not scan.exists():
-        return
-    print_msg(f"[*] bootstrap: ingesting {scan.name} via auto_populate")
-    started = time.monotonic()
-    result = executor(f"auto_populate {scan_target}")
-    if str(result).startswith("TIMEOUT"):
-        print_warn(f"[!] bootstrap timed out after {int(time.monotonic() - started)}s; continuing")
-    else:
-        print_msg(f"[*] bootstrap done in {time.monotonic() - started:.1f}s")
+    if scan.exists():
+        print_msg(f"[*] bootstrap: ingesting {scan.name} via auto_populate")
+        started = time.monotonic()
+        result = executor(f"auto_populate {scan_target}")
+        if str(result).startswith("TIMEOUT"):
+            print_warn(f"[!] bootstrap timed out after {int(time.monotonic() - started)}s; continuing")
+        else:
+            print_msg(f"[*] bootstrap done in {time.monotonic() - started:.1f}s")
+    try:
+        from modules.lazy_exposure import ensure_report
+
+        path = ensure_report(scan_target)
+        if path:
+            print_msg(f"[*] bootstrap: exposure report staged at {path}")
+    except Exception as exc:
+        print_warn(f"[!] bootstrap intel report skipped: {exc}")
 
 
 def _apply_budget(engine, task_id: str, budget: dict) -> None:

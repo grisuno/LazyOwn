@@ -1,5 +1,119 @@
-# Subsystem: modules (page 13 of 17)
+# Subsystem: modules (page 13 of 18)
 Previous: [KB_modules_p12.md](KB_modules_p12.md)
+
+## modules/loop_manager.py
+- Doc: Parallel autonomous loop orchestration for the LazyOwn C2 dashboard.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LoopValidationError` (class, line 87) `class LoopValidationError(ValueError)`
+  - `LoopNotFoundError` (class, line 96) `class LoopNotFoundError(KeyError)`
+  - `validate_target` (function, line 100) `def validate_target(raw)`
+  - `sanitize_goal` (function, line 123) `def sanitize_goal(raw)`
+  - `clamp_int` (function, line 150) `def clamp_int(raw, field, default, minimum, maximum)`
+  - `clamp_float` (function, line 175) `def clamp_float(raw, field, default, minimum, maximum)`
+  - `validate_loop_id` (function, line 200) `def validate_loop_id(loop_id)`
+  - `_now_iso` (function, line 217) `def _now_iso()`
+  - `_process_start_ticks` (function, line 222) `def _process_start_ticks(pid)`
+  - `_pid_alive` (function, line 246) `def _pid_alive(pid, start_ticks)`
+  - `LoopSpec` (class, line 264) `class LoopSpec`
+  - `_loop_command` (function, line 284) `def _loop_command(spec)`
+  - `LoopManager` (class, line 316) `class LoopManager`
+  - `__init__` (method, line 90) `def __init__(self, field, message)`
+  - `__init__` (method, line 327) `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)`
+  - `loops_dir` (method, line 349) `def loops_dir(self)`
+  - `start` (method, line 353) `def start(self, spec, operator)`
+  - `_spawn_locked` (method, line 394) `def _spawn_locked(self, spec, operator)`
+  - `_reap` (method, line 470) `def _reap(self, loop_id, process)`
+  - `list_loops` (method, line 493) `def list_loops(self)`
+  - `_refresh_log_bytes` (method, line 517) `def _refresh_log_bytes(self, record)`
+  - `get_loop` (method, line 528) `def get_loop(self, loop_id)`
+  - `read_log` (method, line 547) `def read_log(self, loop_id, offset)`
+  - `_resolve_log_path` (method, line 588) `def _resolve_log_path(self, record)`
+  - `stop` (method, line 614) `def stop(self, loop_id)`
+  - `_update_status_locked` (method, line 662) `def _update_status_locked(self, loop_id, status)`
+  - `summary` (method, line 679) `def summary(self)`
+  - `_prune_locked` (method, line 715) `def _prune_locked(self)`
+  - `_remove_workspace` (method, line 740) `def _remove_workspace(self, loop_id)`
+  - `_load_registry_locked` (method, line 764) `def _load_registry_locked(self)`
+  - `_save_registry_locked` (method, line 779) `def _save_registry_locked(self, records)`
+- Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
+
+## modules/loop_progress.py
+- Doc: Rich Live milestone panel for the autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LoopSnapshot` (class, line 80) `class LoopSnapshot`
+  - `snapshot_from_overview` (function, line 99) `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)`
+  - `snap_to_states` (function, line 123) `def snap_to_states(snapshot)`
+  - `sanitize_line` (function, line 151) `def sanitize_line(line, keep_ansi)`
+  - `LoopProgress` (class, line 169) `class LoopProgress`
+  - `__post_init__` (method, line 182) `def __post_init__(self)`
+  - `live_mode` (method, line 195) `def live_mode(self)`
+  - `start` (method, line 202) `def start(self)`
+  - `stop` (method, line 229) `def stop(self)`
+  - `refresh` (method, line 246) `def refresh(self, snapshot)`
+  - `emit` (method, line 268) `def emit(self, line)`
+  - `_header` (method, line 282) `def _header(self)`
+  - `_milestone_line` (method, line 289) `def _milestone_line(self, snapshot, states, current)`
+  - `_footer` (method, line 306) `def _footer(self, snapshot, elapsed)`
+  - `_render` (method, line 324) `def _render(self, snapshot)`
+- Depends on: `core/safe_console.py`
+- Imported by: `cli/lazy_monitor.py`, `modules/lazy_runner.py`, `tests/test_lazy_runner.py`, `tests/test_loop_progress.py`
+
+## modules/loop_triggers.py
+- Doc: TriggerStore: persistent loop triggers extracted from the loop core.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `hint_fingerprint` (function, line 28) `def hint_fingerprint(row)`
+  - `prune_hint_fingerprints` (function, line 60) `def prune_hint_fingerprints(store, now, ttl)`
+  - `_core` (function, line 81) `def _core()`
+  - `TriggerStore` (class, line 88) `class TriggerStore`
+  - `read_signing_evidence` (function, line 499) `def read_signing_evidence(store_dir)`
+  - `__init__` (method, line 91) `def __init__(self, task_id)`
+  - `_load` (method, line 97) `def _load(self)`
+  - `add` (method, line 101) `def add(self, kind, arg, every_sec)`
+  - `upsert_defaults` (method, line 123) `def upsert_defaults(self, seeds)`
+  - `remove` (method, line 165) `def remove(self, trigger_id)`
+  - `set_enabled` (method, line 176) `def set_enabled(self, trigger_id, enabled)`
+  - `list` (method, line 190) `def list(self)`
+  - `ensure_service_trigger` (method, line 194) `def ensure_service_trigger(self)`
+  - `ensure_cve_hot_trigger` (method, line 207) `def ensure_cve_hot_trigger(self)`
+  - `ensure_ad_surface_trigger` (method, line 220) `def ensure_ad_surface_trigger(self)`
+  - `due` (method, line 233) `def due(self, task_id, graph, activity, assets, store)`
+- Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_heat.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `modules/world_model.py`
+- Imported by: `cli/commands/netattack.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_loop_trigger_hints.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
+
+## modules/macos_payloads.py
+- Doc: macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MacOSPayloadConfig` (class, line 60) `class MacOSPayloadConfig`
+  - `MacOSPayloadFactory` (class, line 88) `class MacOSPayloadFactory`
+  - `__init__` (method, line 111) `def __init__(self, config, output_dir)`
+  - `_obfuscate_shell` (method, line 116) `def _obfuscate_shell(self, code)`
+  - `_reverse_shell_command` (method, line 122) `def _reverse_shell_command(self)`
+  - `generate_app_bundle` (method, line 137) `def generate_app_bundle(self)`
+  - `_adho_codesign` (method, line 192) `def _adho_codesign(self, app_dir)`
+  - `generate_launchd_persistence` (method, line 212) `def generate_launchd_persistence(self)`
+  - `generate_tcc_bypass` (method, line 268) `def generate_tcc_bypass(self)`
+  - `generate_osascript_dropper` (method, line 314) `def generate_osascript_dropper(self)`
+  - `generate_swift_stager` (method, line 335) `def generate_swift_stager(self)`
+  - `generate_persistence_scripts` (method, line 398) `def generate_persistence_scripts(self)`
+  - `generate_phishing_dialog` (method, line 447) `def generate_phishing_dialog(self)`
+  - `generate_all` (method, line 470) `def generate_all(self)`
+  - `list_tcc_services` (method, line 517) `def list_tcc_services()`
+  - `list_persistence_methods` (method, line 522) `def list_persistence_methods()`
+- Imported by: `cli/commands/payload_arsenal.py`
+
+## modules/mario.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `check_collision` (function, line 105) `def check_collision(x, y, layer)`
 
 ## modules/mcp_agent_bridge.py
 - Doc: LazyOwn MCP Agent Bridge
@@ -366,106 +480,6 @@ Previous: [KB_modules_p12.md](KB_modules_p12.md)
   - `set_service` (method, line 305) `def set_service(self, service)`
   - `set_version` (method, line 308) `def set_version(self, version)`
   - `set_script` (method, line 311) `def set_script(self, script)`
-
-## modules/notify.py
-- Doc: Stateless multi-channel notifier for finding events.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `NotifyConfig` (class, line 15) `class NotifyConfig`
-  - `severity_rank` (function, line 31) `def severity_rank(severity, config)`
-  - `mask_secrets` (function, line 39) `def mask_secrets(text, config)`
-  - `url_allowed` (function, line 57) `def url_allowed(url)`
-  - `post_url_validated` (function, line 145) `def post_url_validated(url, data, timeout)`
-  - `NotifyMessage` (class, line 173) `class NotifyMessage`
-  - `Channel` (class, line 186) `class Channel`
-  - `Notifier` (class, line 204) `class Notifier`
-  - `_addr_denied` (function, line 105) `def _addr_denied(addr)`
-  - `_GuardRedirect` (class, line 158) `class _GuardRedirect(HTTPRedirectHandler)`
-  - `__post_init__` (method, line 198) `def __post_init__(self)`
-  - `__init__` (method, line 207) `def __init__(self, config)`
-  - `should_send` (method, line 215) `def should_send(self, message, channel)`
-  - `render` (method, line 238) `def render(self, message)`
-  - `dispatch` (method, line 244) `def dispatch(self, message, channels)`
-  - `flush_digest` (method, line 260) `def flush_digest(self, max_age_sec)`
-  - `redirect_request` (method, line 159) `def redirect_request(self, req, fp, code, msg, headers, newurl)`
-- Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`, `tests/test_security_codeql_batch.py`
-
-## modules/nuclei_templates_sync.py
-- Doc: Sync community Nuclei template collections into the LazyOwn marketplace.
-- Layer: presentation
-- Language: py
-- Symbols:
-  - `repo_root` (function, line 39) `def repo_root()`
-  - `canonical_dest` (function, line 48) `def canonical_dest(subdir)`
-  - `run` (function, line 60) `def run(argv, cwd)`
-  - `ensure_git_available` (function, line 73) `def ensure_git_available()`
-  - `clone_templates` (function, line 84) `def clone_templates(repo, staging)`
-  - `strip_git_traces` (function, line 113) `def strip_git_traces(tree)`
-  - `count_templates` (function, line 132) `def count_templates(tree)`
-  - `replace_dest` (function, line 144) `def replace_dest(src, dest, expected)`
-  - `same_remote` (function, line 168) `def same_remote(path, repo)`
-  - `refresh_existing_clone` (function, line 188) `def refresh_existing_clone(path, repo)`
-  - `validate_subset` (function, line 209) `def validate_subset(dest, subset)`
-  - `build_parser` (function, line 238) `def build_parser()`
-  - `sync` (function, line 263) `def sync(name, repo, dest, refresh_existing, skip_validate)`
-  - `resolve_plan` (function, line 308) `def resolve_plan(args)`
-  - `main` (function, line 337) `def main(argv)`
-  - `normalize` (function, line 179) `def normalize(url)`
-
-## modules/obs_parser.py
-- Doc: modules/obs_parser.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `FindingType` (class, line 63) `class FindingType(StrEnum)`
-  - `Finding` (class, line 79) `class Finding`
-  - `Observation` (class, line 107) `class Observation`
-  - `Extractor` (class, line 126) `class Extractor(ABC)`
-  - `_ExtractorRegistry` (class, line 134) `class _ExtractorRegistry`
-  - `_IPExtractor` (class, line 158) `class _IPExtractor(Extractor)`
-  - `_CredentialExtractor` (class, line 176) `class _CredentialExtractor(Extractor)`
-  - `_ServiceVersionExtractor` (class, line 224) `class _ServiceVersionExtractor(Extractor)`
-  - `_PathExtractor` (class, line 250) `class _PathExtractor(Extractor)`
-  - `_UsernameExtractor` (class, line 266) `class _UsernameExtractor(Extractor)`
-  - `_HashExtractor` (class, line 288) `class _HashExtractor(Extractor)`
-  - `_CVEExtractor` (class, line 314) `class _CVEExtractor(Extractor)`
-  - `_DomainExtractor` (class, line 330) `class _DomainExtractor(Extractor)`
-  - `_EmailExtractor` (class, line 349) `class _EmailExtractor(Extractor)`
-  - `_ErrorExtractor` (class, line 365) `class _ErrorExtractor(Extractor)`
-  - `_CloudIdentityExtractor` (class, line 386) `class _CloudIdentityExtractor(Extractor)`
-  - `_SuccessDetector` (class, line 421) `class _SuccessDetector`
-  - `ObsParser` (class, line 454) `class ObsParser`
-  - `get_parser` (function, line 531) `def get_parser()`
-  - `parse` (function, line 539) `def parse(output, host, tool)`
-  - `with_technique` (method, line 88) `def with_technique(self, mapping)`
-  - `by_type` (method, line 114) `def by_type(self, ftype)`
-  - `has` (method, line 117) `def has(self, ftype)`
-  - `extract` (method, line 130) `def extract(self, text, host)`
-  - `__init__` (method, line 137) `def __init__(self)`
-  - `register` (method, line 140) `def register(self, extractor)`
-  - `run_all` (method, line 143) `def run_all(self, text, host)`
-  - `extract` (method, line 165) `def extract(self, text, host)`
-  - `extract` (method, line 206) `def extract(self, text, host)`
-  - `extract` (method, line 229) `def extract(self, text, host)`
-  - `extract` (method, line 255) `def extract(self, text, host)`
-  - `extract` (method, line 276) `def extract(self, text, host)`
-  - `extract` (method, line 302) `def extract(self, text, host)`
-  - `extract` (method, line 319) `def extract(self, text, host)`
-  - `extract` (method, line 336) `def extract(self, text, host)`
-  - `extract` (method, line 354) `def extract(self, text, host)`
-  - `extract` (method, line 376) `def extract(self, text, host)`
-  - `extract` (method, line 398) `def extract(self, text, host)`
-  - `is_success` (method, line 438) `def is_success(self, text)`
-  - `__init__` (method, line 462) `def __init__(self)`
-  - `register` (method, line 481) `def register(self, extractor)`
-  - `parse` (method, line 485) `def parse(self, output, host, tool)`
-- Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/sinks/world_model.py`, `skills/autonomous_daemon.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
-
-## modules/ooficesod0woodo.py
-- Layer: utility
-- Language: py
 
 
 Next: [KB_modules_p14.md](KB_modules_p14.md)

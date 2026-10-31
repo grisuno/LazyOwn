@@ -1,0 +1,103 @@
+apt_name: Sandworm Team
+aliases:
+- Voodoo Bear
+- Seashell Blizzard
+- APT44
+source_urls:
+- https://attack.mitre.org/groups/G0034
+- https://www.mandiant.com/resources/blog/apt44-unearthing-sandworm
+description: 'Sandworm Team is a Russian military intelligence (GRU Main Centre
+  for Special Technologies) unit best known for destructive attacks on critical
+  infrastructure: Industroyer, NotPetya, KillDisk, and wipers including CaddyWiper.
+
+  The group pairs edge-device exploitation and credential pharming with
+  kinetic-timed destructive payloads.
+
+  '
+platforms:
+- windows
+- linux
+- ics
+phases:
+- name: initial_access
+  technique_id: T1190
+  technique_name: Exploit Public-Facing Application
+  description: exploitation of Exim RCE, Sophos firewall, Fortinet and Zimbra
+    edge appliances for entry.
+  atomic_tests:
+  - atomic_id: T1190
+    name: Exim / Zimbra Edge RCE
+    manual: true
+  detection_hints:
+  - Malformed pre-generation versions in edge device logs
+  - Authenticated sessions from unknown ASNs into admin consoles
+- name: initial_access
+  technique_id: T1071.004
+  technique_name: DNS
+  description: Credential pharming via DNS-hijacked registrar entries that redirect
+    SSO portals to attacker-controlled fake sign-in pages.
+  atomic_tests:
+  - atomic_id: T1584.002
+    name: Domain Hijacking Credential Pharming
+    manual: true
+  detection_hints:
+  - Registrar name-server transfer alerts
+  - Peak in failed logins that resolve through a single new nameserver
+- name: execution
+  technique_id: T1204.002
+  technique_name: Malicious File
+  description: LNK-bearing macro documents delivered by late C4A emails staging
+    CleanApe/ANDROIDEW loaders.
+  atomic_tests:
+  - atomic_id: T1204.002
+    name: LNK Dropper Execution
+    manual: false
+  detection_hints:
+  - LNK files with embedded PowerShell spawning from email
+  - Schtasks creation by a document viewer process
+- name: persistence
+  technique_id: T1543.003
+  technique_name: Windows Service
+  description: Service installation for Kuzz/@WilyNotPetya-adjacent delivery
+    wipers pivoting the windows service control manager.
+  atomic_tests:
+  - atomic_id: T1543.003
+    name: Service Persistence
+    manual: false
+  detection_hints:
+  - Services pointing at execution from ProgramData or public shares
+- name: impact
+  technique_id: T1561.002
+  technique_name: Disk Structure Wipe
+  description: CaddyWiper/ZeroWipe/partition-table destruction timed to physical
+    operations against ICS targets.
+  atomic_tests:
+  - atomic_id: T1561.002
+    name: CaddyWiper Partition Wipe
+    manual: true
+  detection_hints:
+  - Native tools rewriting partition tables or MBR
+  - Caddy service definitions excepted from the wipe blast radius
+- name: impact
+  technique_id: T0816
+  technique_name: Device Restart/Shutdown (ICS)
+  description: Industroyer2 and GOT-compliant breakers manipulating proprietary
+    IEC protocols to trip breakers in substations.
+  atomic_tests:
+  - atomic_id: T0816
+    name: Industroyer2 Protocol Wrecker
+    manual: true
+  detection_hints:
+  - IEC-104 command storms from one node against multiple relays
+  - Unexpected S7comm write traffic to PLC unsafe bits
+- name: command_and_control
+  technique_id: T1101
+  technique_name: Web Service
+  description: Domain-specific SMB and email-based C2 that rides in company
+    infrastructure rather than compromising separate space.
+  atomic_tests:
+  - atomic_id: T1101
+    name: Legitimate Mail Web-Service C2
+    manual: false
+  detection_hints:
+  - Beaconing embedded into mail bodies rather than URLs

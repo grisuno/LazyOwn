@@ -84,7 +84,7 @@ flowchart LR
 
 ### `OutcomeEvent`
 
-`class` `dataclass` | [modules/outcome_bus.py:77](../../modules/outcome_bus.py#L77)
+`class` `dataclass` | [modules/outcome_bus.py:78](../../modules/outcome_bus.py#L78)
 
 Decorators: `@dataclass`
 
@@ -134,7 +134,7 @@ One engagement outcome ready for sink fan-out.
 
 #### `OutcomeEvent.host_value`
 
-`property` | [modules/outcome_bus.py:105](../../modules/outcome_bus.py#L105)
+`property` | [modules/outcome_bus.py:106](../../modules/outcome_bus.py#L106)
 
 Decorators: `@property`
 
@@ -150,7 +150,7 @@ Return the best host identifier available.
 
 #### `OutcomeEvent.key`
 
-`method` | [modules/outcome_bus.py:109](../../modules/outcome_bus.py#L109)
+`method` | [modules/outcome_bus.py:110](../../modules/outcome_bus.py#L110)
 
 ```python
 def key(self) -> str
@@ -166,7 +166,7 @@ Return the idempotency key for this event.
 
 #### `OutcomeEvent.to_dict`
 
-`method` | [modules/outcome_bus.py:127](../../modules/outcome_bus.py#L127)
+`method` | [modules/outcome_bus.py:128](../../modules/outcome_bus.py#L128)
 
 ```python
 def to_dict(self) -> dict[str, Any]
@@ -184,7 +184,7 @@ Return a JSON-serializable view.
 
 ### `OutcomeBus`
 
-`class` | [modules/outcome_bus.py:156](../../modules/outcome_bus.py#L156)
+`class` | [modules/outcome_bus.py:157](../../modules/outcome_bus.py#L157)
 
 ```python
 class OutcomeBus
@@ -204,7 +204,7 @@ Fan out outcome events to every configured sink.
 
 #### `OutcomeBus.__init__`
 
-`constructor` | [modules/outcome_bus.py:159](../../modules/outcome_bus.py#L159)
+`constructor` | [modules/outcome_bus.py:160](../../modules/outcome_bus.py#L160)
 
 ```python
 def __init__(self, ledger_path: Path | str | None = None, sink_map: dict[str, Any] | None = None) -> None
@@ -225,7 +225,7 @@ Bind the audit ledger and an optional sink map for tests.
 
 #### `OutcomeBus.reset`
 
-`method` | [modules/outcome_bus.py:172](../../modules/outcome_bus.py#L172)
+`method` | [modules/outcome_bus.py:173](../../modules/outcome_bus.py#L173)
 
 ```python
 def reset(self) -> None
@@ -237,7 +237,7 @@ Clear the in-process dedupe cache.
 
 #### `OutcomeBus.record`
 
-`method` | [modules/outcome_bus.py:204](../../modules/outcome_bus.py#L204)
+`method` | [modules/outcome_bus.py:205](../../modules/outcome_bus.py#L205)
 
 ```python
 def record(self, event: OutcomeEvent, sinks: list[str] | None = None) -> dict[str, bool]
@@ -267,7 +267,7 @@ the same event was already processed in this process.
 
 ### `get_bus`
 
-`function` | [modules/outcome_bus.py:272](../../modules/outcome_bus.py#L272)
+`function` | [modules/outcome_bus.py:273](../../modules/outcome_bus.py#L273)
 
 ```python
 def get_bus() -> OutcomeBus
@@ -287,7 +287,7 @@ Return the process-wide outcome bus.
 
 ### `reset_bus`
 
-`function` | [modules/outcome_bus.py:281](../../modules/outcome_bus.py#L281)
+`function` | [modules/outcome_bus.py:282](../../modules/outcome_bus.py#L282)
 
 ```python
 def reset_bus() -> None
@@ -303,7 +303,7 @@ Reset the process-wide bus cache (tests and long-lived operators).
 
 ### `record`
 
-`function` | [modules/outcome_bus.py:286](../../modules/outcome_bus.py#L286)
+`function` | [modules/outcome_bus.py:287](../../modules/outcome_bus.py#L287)
 
 ```python
 def record(event: OutcomeEvent, sinks: list[str] | None = None) -> dict[str, bool]
@@ -328,7 +328,7 @@ Publish one event through the process-wide bus.
 
 ### `record_event`
 
-`function` | [modules/outcome_bus.py:291](../../modules/outcome_bus.py#L291)
+`function` | [modules/outcome_bus.py:292](../../modules/outcome_bus.py#L292)
 
 ```python
 def record_event(**kwargs: Any) -> dict[str, bool]
@@ -346,7 +346,7 @@ Build and publish one event from keyword fields.
 
 *Calls:* [`OutcomeBus.record`](#outcomebus-record), [`OutcomeEvent`](#outcomeevent)
 
-*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`AutonomousExploitEngine.execute_candidate`](modules.autonomous_exploit_engine.py.md#autonomousexploitengine-execute_candidate), [`ingest_beacon_recon`](modules.beacon_recon.py.md#ingest_beacon_recon), [`ExploitChain.save_report`](modules.exploit_chain.py.md#exploitchain-save_report), [`submit_challenge`](modules.redteam_gym.py.md#submit_challenge)
+*Called by:* [`CommandAndControlMigratedCommandSet.do_apt_chain`](cli.commands.command_and_control_migrated.py.md#commandandcontrolmigratedcommandset-do_apt_chain), [`AutonomousExploitEngine.execute_candidate`](modules.autonomous_exploit_engine.py.md#autonomousexploitengine-execute_candidate), [`ingest_beacon_recon`](modules.beacon_recon.py.md#ingest_beacon_recon), [`ExploitChain.save_report`](modules.exploit_chain.py.md#exploitchain-save_report), [`publish_report`](modules.lazy_exposure.py.md#publish_report), [`submit_challenge`](modules.redteam_gym.py.md#submit_challenge)
 
 ---
 
@@ -354,7 +354,7 @@ Build and publish one event from keyword fields.
 
 ### `severity_for_event`
 
-`function` | [modules/outcome_bus.py:296](../../modules/outcome_bus.py#L296)
+`function` | [modules/outcome_bus.py:297](../../modules/outcome_bus.py#L297)
 
 ```python
 def severity_for_event(severity: str) -> str
@@ -378,7 +378,7 @@ Map an outcome severity to the event-bus severity vocabulary.
 
 ### `category_for_event`
 
-`function` | [modules/outcome_bus.py:301](../../modules/outcome_bus.py#L301)
+`function` | [modules/outcome_bus.py:302](../../modules/outcome_bus.py#L302)
 
 ```python
 def category_for_event(kind: str) -> str
@@ -428,7 +428,7 @@ SINK_LOADERS: dict[str, tuple[str, str]]
 
 ### `DEFAULT_SINKS`
 
-`constant` | [modules/outcome_bus.py:51](../../modules/outcome_bus.py#L51)
+`constant` | [modules/outcome_bus.py:52](../../modules/outcome_bus.py#L52)
 
 ```python
 DEFAULT_SINKS = tuple((name for name in SINK_LOADERS if name != 'campaign_db'))

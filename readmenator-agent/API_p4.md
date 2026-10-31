@@ -1,5 +1,44 @@
-# API (page 4 of 25)
+# API (page 4 of 26)
 Previous: [API_p3.md](API_p3.md)
+
+## cli/commands/winbox_gym.py
+Depends on: `cli/commands/_base.py`, `modules/__init__.py`, `utils.py`
+- `WinboxCommandSet.do_winbox` (method) `cli/commands/winbox_gym.py:51` `def do_winbox(self, line)` -- Control the WinBox isolated Windows lab from the LazyOwn shell.
+
+## cli/config_history.py
+Imported by: `cli/commands/session_ops.py`, `cli/commands/ux.py`
+- `ConfigHistory.capture_baseline` (method) `cli/config_history.py:30` `def capture_baseline(self, state)` -- Store session-start snapshot used by diff.
+- `ConfigHistory.push` (method) `cli/config_history.py:38` `def push(self, state)` -- Push a snapshot before mutation.
+- `ConfigHistory.undo` (method) `cli/config_history.py:48` `def undo(self)` -- Pop the newest snapshot.
+- `ConfigHistory.diff` (method) `cli/config_history.py:58` `def diff(self, current)` -- Compare current state against the baseline.
+- `ConfigHistory.depth` (method) `cli/config_history.py:76` `def depth(self)` -- Return number of stored undo steps.
+- `get_shell_history` (function) `cli/config_history.py:81` `def get_shell_history(shell)` -- Return the ConfigHistory bound to a shell, creating it on demand.
+- `track_before` (function) `cli/config_history.py:104` `def track_before(history, state)` -- Capture baseline on first use then push a pre-mutation snapshot.
+
+## cli/config_status.py
+Depends on: `core/console.py`
+Imported by: `cli/commands/help_ui.py`
+- `ConfigStatus.__init__` (method) `cli/config_status.py:70` `def __init__(self, params, config)`
+- `ConfigStatus.render_status` (method) `cli/config_status.py:89` `def render_status(self)` -- Render the grouped configuration status table.
+- `ConfigStatus.render_quick_check` (method) `cli/config_status.py:129` `def render_quick_check(self)` -- Quick check: show only required fields that are not set.
+
+## cli/confirm.py
+Imported by: `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/infra.py`
+- `confirm` (function) `cli/confirm.py:27` `def confirm(question, default, yes_values)` -- Ask a yes/no question, never raising on non-interactive stdin.
+
+## cli/contextual_help.py
+Depends on: `cli/palette.py`, `cli/phase_labels.py`, `core/console.py`
+Imported by: `cli/commands/help_ui.py`, `tests/test_phase_labels.py`
+- `ContextualHelp.__init__` (method) `cli/contextual_help.py:176` `def __init__(self, aliases, params, config)`
+- `ContextualHelp.get_command_info` (method) `cli/contextual_help.py:188` `def get_command_info(self, name)` -- Return enriched info for a command, or None if not found.
+- `ContextualHelp.render_command_help` (method) `cli/contextual_help.py:208` `def render_command_help(self, name)` -- Render contextual help for a single command.
+- `ContextualHelp.render_phase_commands` (method) `cli/contextual_help.py:261` `def render_phase_commands(self, phase)` -- Render all commands for a given phase.
+- `ContextualHelp.render_requirements_status` (method) `cli/contextual_help.py:281` `def render_requirements_status(self)` -- Show which requirements are met for the current session.
+
+## cli/dashboard_layout.py
+Imported by: `cli/dashboard_tui.py`
+- `layout_mode` (function) `cli/dashboard_layout.py:28` `def layout_mode(width, config)` -- Return the layout bucket for a terminal width.
+- `hidden_panels` (function) `cli/dashboard_layout.py:45` `def hidden_panels(mode)` -- Return panel ids hidden in the given layout mode.
 
 ## cli/dashboard_tui.py
 Depends on: `cli/commands/containers.py`, `cli/dashboard_layout.py`, `cli/graph_advisor.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/recommendation_signals.py`, `cli/toast_bus.py`, `modules/killchain.py`, `modules/world_model.py`
@@ -456,44 +495,6 @@ Imported by: `cli/palette_command.py`, `cli/palette_overlay.py`, `tests/test_com
 ## cli/phase_labels.py
 Imported by: `cli/contextual_help.py`, `cli/tips_engine.py`, `tests/test_phase_labels.py`
 - `phase_label` (function) `cli/phase_labels.py:29` `def phase_label(phase)` -- Return the human label for a phase, falling back to title case.
-
-## cli/plugin_tiers.py
-Imported by: `cli/commands/marketplace.py`, `tests/test_input_fuzz.py`, `tests/test_plugin_tiers.py`
-- `load_tier_manifest` (function) `cli/plugin_tiers.py:35` `def load_tier_manifest(manifest)` -- Load explicit tier overrides from a ``tiers.yaml`` manifest.
-- `tier_of` (function) `cli/plugin_tiers.py:61` `def tier_of(name, manifest_tiers, metadata_tier)` -- Resolve the tier for a plugin name.
-- `rate_plugin` (function) `cli/plugin_tiers.py:98` `def rate_plugin(name, stars, store)` -- Record an operator rating and return the new ``(average, count)``.
-- `rating_summary` (function) `cli/plugin_tiers.py:121` `def rating_summary(name, store)` -- Return the ``(average, count)`` rating for a plugin name.
-- `format_rating` (function) `cli/plugin_tiers.py:137` `def format_rating(average, count)` -- Render a compact rating label for list and info views.
-- `default_store` (function) `cli/plugin_tiers.py:144` `def default_store(base_dir)` -- Return the default ratings file under ``<base_dir>/sessions``.
-- `read_metadata_tier` (function) `cli/plugin_tiers.py:149` `def read_metadata_tier(path)` -- Read the optional ``tier:`` field from a plugin YAML file.
-
-## cli/protips.py
-Depends on: `cli/noise_verbs.py`, `core/console.py`
-Imported by: `lazyown.py`, `tests/test_reactive_hints_expanded.py`
-- `get_session_tip` (function) `cli/protips.py:307` `def get_session_tip(ctx)` -- Return a single tip to show at session start.
-- `render_contextual_tip` (function) `cli/protips.py:333` `def render_contextual_tip(last_cmd, ctx)` -- Print a single dim tip line when the last command triggers one.
-- `print_session_tip` (function) `cli/protips.py:363` `def print_session_tip(ctx)` -- Print the session-start tip (called once after the banner).
-
-## cli/purple_tui.py
-Depends on: `cli/commands/containers.py`
-Imported by: `cli/commands/purple_team.py`
-- `PurpleDashboard.compose` (method) `cli/purple_tui.py:98` `def compose(self)`
-- `PurpleDashboard.on_mount` (method) `cli/purple_tui.py:108` `def on_mount(self)`
-- `PurpleDashboard.action_refresh` (method) `cli/purple_tui.py:112` `def action_refresh(self)`
-- `PurpleDashboard.refresh_data` (method) `cli/purple_tui.py:115` `def refresh_data(self)`
-- `launch` (function) `cli/purple_tui.py:233` `def launch()` -- Launch the purple team dashboard TUI.
-
-## cli/reactive_hints.py
-Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
-Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`
-- `render_inline_hints` (function) `cli/reactive_hints.py:221` `def render_inline_hints(advisor, last_command, limit, enabled)` -- Print a single dim hint line below the command output and return immediately.
-- `confidence_from_score` (function) `cli/reactive_hints.py:322` `def confidence_from_score(score)` -- Map an unbounded fused recommendation score to a 0-100 display confidence.
-- `build_evidence_hints` (function) `cli/reactive_hints.py:363` `def build_evidence_hints(recommendations, limit)` -- Convert fused recommendations into display-ready evidence hints.
-- `render_evidence_hints` (function) `cli/reactive_hints.py:401` `def render_evidence_hints(hints)` -- Print evidence-backed hint lines: verb, confidence, reason, provenance.
-- `build_evidence_hint_lines` (function) `cli/reactive_hints.py:417` `def build_evidence_hint_lines(hints)` -- Build evidence-backed hint lines as Rich Text objects.
-- `read_run_commands` (function) `cli/reactive_hints.py:444` `def read_run_commands(sessions_dir)` -- Return the set of command names already executed this session.
-- `render_command_hints` (function) `cli/reactive_hints.py:515` `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` -- Print phase-aware, history-filtered command hints after each step.
-- `command_hints` (function) `cli/reactive_hints.py:550` `def command_hints(last_command, phase, sessions_dir, limit)` -- Return the top next-step command verbs without printing them.
 
 
 Next: [API_p5.md](API_p5.md)

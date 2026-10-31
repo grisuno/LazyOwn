@@ -1,0 +1,105 @@
+apt_name: Scattered Spider
+aliases:
+- UNC3944
+- Octo Tempest
+- Muddled Libra
+- Roasted Spider
+source_urls:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-320a
+- https://www.mandiant.com/resources/blog/unc3944-sim-swapping
+description: 'Scattered Spider is an English-speaking financially motivated group
+  specializing in social engineering and intrusions into NCC and large organizations.
+
+  Notable intrusions include ransomware campaigns against MGM Resorts and Caesars.
+
+  Their playbook leans on voice phishing, MFA fatigue, SIM swapping, and identity
+  provider abuse rather than zero-days.
+
+  '
+platforms:
+- windows
+- iaas
+phases:
+- name: initial_access
+  technique_id: T1566.004
+  technique_name: Spearphishing Voice
+  description: Voice phishing helpdesk operators to reset credentials or enroll
+    attacker-controlled MFA under pretext of the victim employee.
+  atomic_tests:
+  - atomic_id: T1566.004
+    name: Voice Phishing Helpdesk Reset
+    manual: true
+  detection_hints:
+  - Helpdesk password resets with spoofed caller IDs
+  - MFA re-enrollments for executives off hours
+- name: initial_access
+  technique_id: T1556.009
+  technique_name: Conditional Access Policies
+  description: Conditional access policy modification to allow unmanaged devices
+    and turn off MFA enforcement for the compromised identity.
+  atomic_tests:
+  - atomic_id: T1556.009
+    name: Conditional Access Bypass Policy
+    manual: true
+  detection_hints:
+  - Azure AD audit log shows new named-location or CA policy
+  - Entra ID compliance requirement removed for privileged users
+- name: credential_access
+  technique_id: T1621
+  technique_name: Multi-Factor Authentication Request Generation
+  description: MFA fatigue prompts pushed until the victim approves the request.
+  atomic_tests:
+  - atomic_id: T1621
+    name: MFA Push Fatigue
+    manual: true
+  detection_hints:
+  - Repeated MFA prompts to the same user within minutes
+  - Approval after more than five denied prompts
+- name: discovery
+  technique_id: T1087
+  technique_name: Account Discovery
+  description: Entra ID and on-prem account enumeration through StellarSin-style
+    alloys and AzureHound graph dumps.
+  atomic_tests:
+  - atomic_id: T1087
+    name: Directory Account Enumeration
+    manual: false
+  detection_hints:
+  - Large directory read bursts from a single tenant app
+  - Graph API enumerations no home tenant app has used before
+- name: lateral_movement
+  technique_id: T1021.002
+  technique_name: SMB/Windows Admin Shares
+  description: Lateral movement and file staging over SMB admin shares once local
+    admin credentials are captured.
+  atomic_tests:
+  - atomic_id: T1021.002
+    name: SMB Admin Share Staging
+    manual: false
+  detection_hints:
+  - ADMIN$ copies followed by remote service creation
+  - Lateral SMB sessions from user workstations only
+- name: persistence
+  technique_id: T1098.005
+  technique_name: Device Registration
+  description: Registering attacker-controlled devices into Entra ID to obtain
+    durable PRT-bearing sessions.
+  atomic_tests:
+  - atomic_id: T1098.005
+    name: Entra Device Registration
+    manual: true
+  detection_hints:
+  - Device registrations from unusual geos or ASN
+  - Newly registered devices calling O365 minutes later
+- name: impact
+  technique_id: T1486
+  technique_name: Data Encrypted for Impact
+  description: BlackCat/ALPHV ransomware deployment after cloud takeover and data
+    warehousing for double extortion.
+  atomic_tests:
+  - atomic_id: T1486
+    name: BlackCat Cloud Encryption
+    manual: true
+  detection_hints:
+  - Mass file extension changes aligned to .lockbit-style markers
+  - Sudden surge of Representatives volume snapshots and shadow copy deletions

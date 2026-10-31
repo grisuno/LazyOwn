@@ -13,7 +13,7 @@ log back and reproduces the recorded decision sequence in two flavours:
   ``decision_seed`` stored with each ``STEP_START`` event, surfacing
   any divergence (for example a selector chain that was edited
   between the original run and the replay attempt).
-* `[`execute`](contrib.legacy.lazyssh.py.md#execute)` — same sequence, but each recorded command is rerun
+* ``execute`` — same sequence, but each recorded command is rerun
   through the existing `ICommandRunner` chain so the operator
   can compare current output against the recorded snippet. The
   runner chain is **the same** the live daemon uses, so the harness

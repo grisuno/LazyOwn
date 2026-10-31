@@ -66,7 +66,7 @@ flowchart LR
 
 ### `ChainArgs`
 
-`class` `dataclass` | [cli/apt_chain_support.py:50](../../cli/apt_chain_support.py#L50)
+`class` `dataclass` | [cli/apt_chain_support.py:51](../../cli/apt_chain_support.py#L51)
 
 Decorators: `@dataclass`
 
@@ -108,7 +108,7 @@ Parsed ``apt_chain`` invocation.
 
 ### `parse_chain_args`
 
-`function` | [cli/apt_chain_support.py:74](../../cli/apt_chain_support.py#L74)
+`function` | [cli/apt_chain_support.py:75](../../cli/apt_chain_support.py#L75)
 
 ```python
 def parse_chain_args(line: str) -> ChainArgs
@@ -137,7 +137,7 @@ hid operator intent and is gone.
 
 ### `resolve_admin`
 
-`function` | [cli/apt_chain_support.py:171](../../cli/apt_chain_support.py#L171)
+`function` | [cli/apt_chain_support.py:172](../../cli/apt_chain_support.py#L172)
 
 ```python
 def resolve_admin(args: ChainArgs) -> dict[str, Any]
@@ -163,7 +163,7 @@ Execute an admin action against the registry and checkpoint store.
 
 ### `select_step_ids`
 
-`function` | [cli/apt_chain_support.py:290](../../cli/apt_chain_support.py#L290)
+`function` | [cli/apt_chain_support.py:291](../../cli/apt_chain_support.py#L291)
 
 ```python
 def select_step_ids(chain: Chain, args: ChainArgs) -> tuple[set[str] | None, list[str]]
@@ -188,7 +188,7 @@ Resolve --step/--from-step/--to-step into one id set.
 
 ### `render_result`
 
-`function` | [cli/apt_chain_support.py:330](../../cli/apt_chain_support.py#L330)
+`function` | [cli/apt_chain_support.py:331](../../cli/apt_chain_support.py#L331)
 
 ```python
 def render_result(result: ChainRunResult) -> list[str]
@@ -212,7 +212,7 @@ Render one chain result as operator lines (JSON mode prints dict).
 
 ### `build_cli_approver`
 
-`function` | [cli/apt_chain_support.py:363](../../cli/apt_chain_support.py#L363)
+`function` | [cli/apt_chain_support.py:364](../../cli/apt_chain_support.py#L364)
 
 ```python
 def build_cli_approver(printer, input_fn=None)
@@ -238,7 +238,7 @@ the decision; interactive mode asks the operator failure-closed.
 
 ### `build_reactive_replanner`
 
-`function` | [cli/apt_chain_support.py:385](../../cli/apt_chain_support.py#L385)
+`function` | [cli/apt_chain_support.py:386](../../cli/apt_chain_support.py#L386)
 
 ```python
 def build_reactive_replanner()
@@ -256,7 +256,7 @@ Return a replanner driven by `[`modules.reactive_engine`](modules.reactive_engin
 
 ### `build_llm_recovery_chain`
 
-`function` | [cli/apt_chain_support.py:469](../../cli/apt_chain_support.py#L469)
+`function` | [cli/apt_chain_support.py:470](../../cli/apt_chain_support.py#L470)
 
 ```python
 def build_llm_recovery_chain(result: ChainRunResult, target: str = '', task_id: str = '') -> Chain | None

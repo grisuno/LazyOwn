@@ -25,8 +25,8 @@ degrades to "unknown" when data is missing.
 
 ## Contents
 
-- **Functions:** [`classify_heat`](#classify_heat), [`match_heat`](#match_heat), [`parse_version`](#parse_version), [`compare_versions`](#compare_versions), [`version_in_range`](#version_in_range), [`cvss3_base_score`](#cvss3_base_score), [`product_token`](#product_token), [`token_matches`](#token_matches), [`parse_distro_revision`](#parse_distro_revision), [`backport_status`](#backport_status), [`label_for`](#label_for)
-- **Constants:** [`HOT`](#hot), [`WARM`](#warm), [`COLD`](#cold), [`HIGH_CVSS`](#high_cvss), [`CRITICAL_CVSS`](#critical_cvss), [`EPSS_THRESHOLD`](#epss_threshold), [`HEAT_RANK`](#heat_rank), [`SEVERITY_FROM_HEAT`](#severity_from_heat), [`SEVERITY_HEAT`](#severity_heat), [`PATCHED`](#patched), [`VULNERABLE`](#vulnerable), [`UNKNOWN`](#unknown), [`NO_DATA`](#no_data)
+- **Functions:** [`classify_heat`](#classify_heat), [`match_heat`](#match_heat), [`parse_version`](#parse_version), [`compare_versions`](#compare_versions), [`version_in_range`](#version_in_range), [`cvss3_base_score`](#cvss3_base_score), [`product_token`](#product_token), [`token_matches`](#token_matches), [`parse_distro_revision`](#parse_distro_revision), [`backport_status`](#backport_status), [`heat_of_severity`](#heat_of_severity), [`heat_rank`](#heat_rank), [`host_heat`](#host_heat), [`hottest`](#hottest), [`label_for`](#label_for)
+- **Constants:** [`HOT`](#hot), [`WARM`](#warm), [`COLD`](#cold), [`HIGH_CVSS`](#high_cvss), [`CRITICAL_CVSS`](#critical_cvss), [`EPSS_THRESHOLD`](#epss_threshold), [`HEAT_RANK`](#heat_rank), [`SEVERITY_FROM_HEAT`](#severity_from_heat), [`SEVERITY_HEAT`](#severity_heat), [`SEVERITY_LEVEL_HEAT`](#severity_level_heat), [`PATCHED`](#patched), [`VULNERABLE`](#vulnerable), [`UNKNOWN`](#unknown), [`NO_DATA`](#no_data)
 
 ## Call Graph
 
@@ -39,11 +39,16 @@ flowchart LR
     n_modules_lazy_heat_py__parse_version(["parse_version"])
     n_modules_lazy_heat_py__backport_status(["backport_status"])
     n_modules_lazy_heat_py__parse_distro_revision(["parse_distro_revision"])
+    n_modules_lazy_heat_py__host_heat(["host_heat"])
+    n_modules_lazy_heat_py__heat_of_severity(["heat_of_severity"])
+    n_modules_lazy_heat_py__hottest(["hottest"])
     n_modules_lazy_heat_py__version_in_range --> n_modules_lazy_heat_py__compare_versions
     n_modules_lazy_heat_py__version_in_range --> n_modules_lazy_heat_py__parse_version
     n_modules_lazy_heat_py__backport_status --> n_modules_lazy_heat_py__compare_versions
     n_modules_lazy_heat_py__backport_status --> n_modules_lazy_heat_py__parse_distro_revision
     n_modules_lazy_heat_py__backport_status --> n_modules_lazy_heat_py__parse_version
+    n_modules_lazy_heat_py__host_heat --> n_modules_lazy_heat_py__heat_of_severity
+    n_modules_lazy_heat_py__hottest --> n_modules_lazy_heat_py__host_heat
 ```
 
 ## Functions
@@ -52,7 +57,7 @@ flowchart LR
 
 ### `classify_heat`
 
-`function` | [modules/lazy_heat.py:68](../../modules/lazy_heat.py#L68)
+`function` | [modules/lazy_heat.py:71](../../modules/lazy_heat.py#L71)
 
 ```python
 def classify_heat(kev: bool = False, epss: float | None = None, exploit: bool = False, cvss: float = 0.0) -> str
@@ -71,7 +76,7 @@ Return the heat tier of one CVE from its exploitation signals.
 
 **Returns:** `str` - One of HOT, WARM, COLD.
 
-*Called by:* [`correlate`](modules.lazy_cve_feed.py.md#correlate), [`cve_intel`](modules.lazy_cve_feed.py.md#cve_intel)
+*Called by:* [`correlate`](modules.lazy_cve_feed.py.md#correlate), [`cve_intel`](modules.lazy_cve_feed.py.md#cve_intel), [`feed_tier`](modules.lazy_feedmatch.py.md#feed_tier)
 
 ---
 
@@ -79,7 +84,7 @@ Return the heat tier of one CVE from its exploitation signals.
 
 ### `match_heat`
 
-`function` | [modules/lazy_heat.py:91](../../modules/lazy_heat.py#L91)
+`function` | [modules/lazy_heat.py:94](../../modules/lazy_heat.py#L94)
 
 ```python
 def match_heat(tier: str, cvss: float = 0.0, verdict: str = '', distro_status: str = '') -> str
@@ -101,13 +106,15 @@ CVE is; a confirmed match on a high score reads as HOT.
 
 **Returns:** `str` - One of HOT, WARM, COLD.
 
+*Called by:* [`bind_sighting`](modules.lazy_feedmatch.py.md#bind_sighting)
+
 ---
 
 <a id="parse_version"></a>
 
 ### `parse_version`
 
-`function` | [modules/lazy_heat.py:118](../../modules/lazy_heat.py#L118)
+`function` | [modules/lazy_heat.py:121](../../modules/lazy_heat.py#L121)
 
 ```python
 def parse_version(value: str, strict: bool = False) -> tuple[int, ...] | None
@@ -130,7 +137,7 @@ with a digit so refs like ``main`` never parse as a version.
 
 **Returns:** `tuple[int, ...] | None` - Tuple of ints, or None when no version can be parsed.
 
-*Called by:* [`correlate`](modules.lazy_cve_feed.py.md#correlate), [`backport_status`](#backport_status), [`version_in_range`](#version_in_range)
+*Called by:* [`correlate`](modules.lazy_cve_feed.py.md#correlate), [`bind_sighting`](modules.lazy_feedmatch.py.md#bind_sighting), [`backport_status`](#backport_status), [`version_in_range`](#version_in_range)
 
 ---
 
@@ -138,7 +145,7 @@ with a digit so refs like ``main`` never parse as a version.
 
 ### `compare_versions`
 
-`function` | [modules/lazy_heat.py:154](../../modules/lazy_heat.py#L154)
+`function` | [modules/lazy_heat.py:157](../../modules/lazy_heat.py#L157)
 
 ```python
 def compare_versions(a: tuple[int, ...], b: tuple[int, ...]) -> int
@@ -163,7 +170,7 @@ Compare two version tuples zero-padded so (1, 18) == (1, 18, 0).
 
 ### `version_in_range`
 
-`function` | [modules/lazy_heat.py:162](../../modules/lazy_heat.py#L162)
+`function` | [modules/lazy_heat.py:165](../../modules/lazy_heat.py#L165)
 
 ```python
 def version_in_range(ver: tuple[int, ...] | None, rng: dict) -> bool | None
@@ -186,7 +193,7 @@ hashes and can never be compared with a version.
 
 *Calls:* [`compare_versions`](#compare_versions), [`parse_version`](#parse_version)
 
-*Called by:* [`correlate`](modules.lazy_cve_feed.py.md#correlate)
+*Called by:* [`correlate`](modules.lazy_cve_feed.py.md#correlate), [`version_in_ranges`](modules.lazy_feedmatch.py.md#version_in_ranges)
 
 ---
 
@@ -194,7 +201,7 @@ hashes and can never be compared with a version.
 
 ### `cvss3_base_score`
 
-`function` | [modules/lazy_heat.py:204](../../modules/lazy_heat.py#L204)
+`function` | [modules/lazy_heat.py:207](../../modules/lazy_heat.py#L207)
 
 ```python
 def cvss3_base_score(vector: str) -> float
@@ -216,7 +223,7 @@ Compute the CVSS v3 base score from an inline vector string.
 
 ### `product_token`
 
-`function` | [modules/lazy_heat.py:246](../../modules/lazy_heat.py#L246)
+`function` | [modules/lazy_heat.py:249](../../modules/lazy_heat.py#L249)
 
 ```python
 def product_token(value: str) -> str
@@ -238,7 +245,7 @@ survive normalisation: callers compare the token with
 
 **Returns:** `str` - Lowercase alphanumeric token, or "" when too generic or short.
 
-*Called by:* [`correlate`](modules.lazy_cve_feed.py.md#correlate), [`fetch_product_advisories`](modules.lazy_cve_feed.py.md#fetch_product_advisories), [`load_kev_matches`](modules.lazy_cve_feed.py.md#load_kev_matches), [`hint_fingerprint`](modules.loop_triggers.py.md#hint_fingerprint)
+*Called by:* [`correlate`](modules.lazy_cve_feed.py.md#correlate), [`fetch_product_advisories`](modules.lazy_cve_feed.py.md#fetch_product_advisories), [`load_kev_matches`](modules.lazy_cve_feed.py.md#load_kev_matches), [`bind_sighting`](modules.lazy_feedmatch.py.md#bind_sighting), [`live_bindings`](modules.lazy_feedmatch.py.md#live_bindings), [`parse_feed`](modules.lazy_feedmatch.py.md#parse_feed), [`unversioned_leads`](modules.lazy_feedmatch.py.md#unversioned_leads), [`hint_fingerprint`](modules.loop_triggers.py.md#hint_fingerprint)
 
 ---
 
@@ -246,7 +253,7 @@ survive normalisation: callers compare the token with
 
 ### `token_matches`
 
-`function` | [modules/lazy_heat.py:269](../../modules/lazy_heat.py#L269)
+`function` | [modules/lazy_heat.py:272](../../modules/lazy_heat.py#L272)
 
 ```python
 def token_matches(haystack: str, needle: str) -> bool
@@ -264,7 +271,7 @@ Whole-token containment of ``needle`` inside ``haystack``.
 **Returns:** `bool` - True when ``needle`` is a whole run of characters of
 ``haystack`` or equal to it.
 
-*Called by:* [`load_kev_matches`](modules.lazy_cve_feed.py.md#load_kev_matches)
+*Called by:* [`load_kev_matches`](modules.lazy_cve_feed.py.md#load_kev_matches), [`entry_matches_product`](modules.lazy_feedmatch.py.md#entry_matches_product)
 
 ---
 
@@ -272,7 +279,7 @@ Whole-token containment of ``needle`` inside ``haystack``.
 
 ### `parse_distro_revision`
 
-`function` | [modules/lazy_heat.py:303](../../modules/lazy_heat.py#L303)
+`function` | [modules/lazy_heat.py:306](../../modules/lazy_heat.py#L306)
 
 ```python
 def parse_distro_revision(banner: str) -> dict
@@ -300,7 +307,7 @@ release suffixes (``1:8.9p1-3ubuntu0.10``, ``2.4.57-2``,
 
 ### `backport_status`
 
-`function` | [modules/lazy_heat.py:342](../../modules/lazy_heat.py#L342)
+`function` | [modules/lazy_heat.py:345](../../modules/lazy_heat.py#L345)
 
 ```python
 def backport_status(banner: str, fixed_revision: str = '') -> str
@@ -326,11 +333,109 @@ match because of it.
 
 ---
 
+<a id="heat_of_severity"></a>
+
+### `heat_of_severity`
+
+`function` | [modules/lazy_heat.py:373](../../modules/lazy_heat.py#L373)
+
+```python
+def heat_of_severity(severity) -> str
+```
+
+Map a finding severity (label or numeric 1-4) to a heat tier.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `severity` |  |  | Severity label (``critical`` ...) or numeric level 1-4. |
+
+**Returns:** `str` - One of HOT, WARM, COLD.
+
+*Called by:* [`host_heat`](#host_heat)
+
+---
+
+<a id="heat_rank"></a>
+
+### `heat_rank`
+
+`function` | [modules/lazy_heat.py:392](../../modules/lazy_heat.py#L392)
+
+```python
+def heat_rank(tier: str) -> int
+```
+
+Rank a heat tier for sorting, hottest first (unknown = 0).
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `tier` | `str` |  | One of HOT, WARM, COLD or any unknown label. |
+
+**Returns:** `int` - 3 hot, 2 warm, 1 cold, 0 unknown.
+
+---
+
+<a id="host_heat"></a>
+
+### `host_heat`
+
+`function` | [modules/lazy_heat.py:404](../../modules/lazy_heat.py#L404)
+
+```python
+def host_heat(tier_values, severity_levels=None, unscanned: bool = False) -> str
+```
+
+Hottest tier visible on a host once for ordering surfaces.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `tier_values` |  |  | Live match tiers of the host (one of HOT/WARM/COLD). |
+| `severity_levels` |  | `None` | Numeric finding levels mixed into the heat. |
+| `unscanned` | `bool` | `False` | True when nothing has probed the host yet. |
+
+**Returns:** `str` - Hottest tier, or ``unscanned``/``clean`` with no signal.
+
+*Calls:* [`heat_of_severity`](#heat_of_severity)
+
+*Called by:* [`generate_report`](modules.lazy_exposure.py.md#generate_report), [`hottest`](#hottest)
+
+---
+
+<a id="hottest"></a>
+
+### `hottest`
+
+`function` | [modules/lazy_heat.py:424](../../modules/lazy_heat.py#L424)
+
+```python
+def hottest(tier_values) -> str
+```
+
+Hottest tier of a list, COLD when empty.
+
+**Parameters**
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `tier_values` |  |  | Sequence of tier labels. |
+
+**Returns:** `str` - Hottest tier label of the sequence.
+
+*Calls:* [`host_heat`](#host_heat)
+
+---
+
 <a id="label_for"></a>
 
 ### `label_for`
 
-`function` | [modules/lazy_heat.py:370](../../modules/lazy_heat.py#L370)
+`function` | [modules/lazy_heat.py:438](../../modules/lazy_heat.py#L438)
 
 ```python
 def label_for(status: str, fixed_revision: str = '') -> str
@@ -459,11 +564,23 @@ SEVERITY_HEAT = {'critical': HOT, 'high': HOT, 'medium': WARM, 'low': COLD}
 
 ---
 
+<a id="severity_level_heat"></a>
+
+### `SEVERITY_LEVEL_HEAT`
+
+`constant` | [modules/lazy_heat.py:43](../../modules/lazy_heat.py#L43)
+
+```python
+SEVERITY_LEVEL_HEAT = {4: HOT, 3: HOT, 2: WARM, 1: COLD}
+```
+
+---
+
 <a id="patched"></a>
 
 ### `PATCHED`
 
-`constant` | [modules/lazy_heat.py:43](../../modules/lazy_heat.py#L43)
+`constant` | [modules/lazy_heat.py:46](../../modules/lazy_heat.py#L46)
 
 ```python
 PATCHED = 'patched'
@@ -475,7 +592,7 @@ PATCHED = 'patched'
 
 ### `VULNERABLE`
 
-`constant` | [modules/lazy_heat.py:44](../../modules/lazy_heat.py#L44)
+`constant` | [modules/lazy_heat.py:47](../../modules/lazy_heat.py#L47)
 
 ```python
 VULNERABLE = 'vulnerable'
@@ -487,7 +604,7 @@ VULNERABLE = 'vulnerable'
 
 ### `UNKNOWN`
 
-`constant` | [modules/lazy_heat.py:45](../../modules/lazy_heat.py#L45)
+`constant` | [modules/lazy_heat.py:48](../../modules/lazy_heat.py#L48)
 
 ```python
 UNKNOWN = 'unknown'
@@ -499,7 +616,7 @@ UNKNOWN = 'unknown'
 
 ### `NO_DATA`
 
-`constant` | [modules/lazy_heat.py:46](../../modules/lazy_heat.py#L46)
+`constant` | [modules/lazy_heat.py:49](../../modules/lazy_heat.py#L49)
 
 ```python
 NO_DATA = 'no_data'

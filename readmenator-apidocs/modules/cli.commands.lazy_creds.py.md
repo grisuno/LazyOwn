@@ -88,7 +88,7 @@ Search the default-credential knowledge base.
 Usage:
     lazycreds <query>          search vendor/username substring
     lazycreds --top <n>        most repeated user:pass pairs
-    lazycreds --export <file>  write user:pass pairs for sprayers
+    lazycreds --export <file> [limit]  write user:pass pairs for sprayers
 
 **Parameters**
 

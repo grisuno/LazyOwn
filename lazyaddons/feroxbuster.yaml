@@ -1,0 +1,38 @@
+name: feroxbuster
+description: |
+  Feroxbuster recursive content discovery over HTTP(S) against the bound target.
+  Operator flow: assign rhost <ip>; assign rport <port>; assign wordlist /usr/share/wordlists/dirb/common.txt
+  then run `feroxbuster`. Optional free args after the command are appended to feroxbuster.
+
+  Examples:
+    feroxbuster
+    feroxbuster --depth 2 --threads 40
+
+  Requirements: feroxbuster in PATH; a wordlist path in the `wordlist` parameter.
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: any
+trigger:
+- http
+- https
+params:
+- name: rhost
+  type: string
+  required: false
+  description: Victim host narrowed by recon. Max 200 chars, never empty.
+- name: rport
+  type: string
+  required: false
+  description: Victim web port from the latest scan.
+- name: wordlist
+  type: string
+  required: false
+  description: Content discovery wordlist path.
+tool:
+  name: Feroxbuster
+  execute_command: >
+    feroxbuster -u http://{rhost}:{rport} -w {wordlist} -q -t 30 --depth 3
+category: 02. Scanning & Enumeration
+module_type: scanner

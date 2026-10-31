@@ -1,5 +1,28 @@
-# Subsystem: tests (page 11 of 22)
+# Subsystem: tests (page 11 of 23)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
+
+## tests/test_gym_matrix_ctf.py
+- Doc: Contract tests for gym matrix runner and CTF capture.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `CtfCaptureSpec` (class, line 13) `class CtfCaptureSpec(TestCase)`
+  - `GymMatrixRunnerSpec` (class, line 62) `class GymMatrixRunnerSpec(TestCase)`
+  - `ReportIntegrationSpec` (class, line 120) `class ReportIntegrationSpec(TestCase)`
+  - `test_root_shell_capture` (method, line 16) `def test_root_shell_capture(self)`
+  - `test_failed_capture_without_evidence` (method, line 29) `def test_failed_capture_without_evidence(self)`
+  - `test_unknown_vuln_rejected` (method, line 39) `def test_unknown_vuln_rejected(self)`
+  - `test_shadow_evidence_masked` (method, line 44) `def test_shadow_evidence_masked(self)`
+  - `test_load_artifact` (method, line 57) `def test_load_artifact(self)`
+  - `test_plan_ordered_by_severity` (method, line 65) `def test_plan_ordered_by_severity(self)`
+  - `test_plan_isolates_only_filter` (method, line 72) `def test_plan_isolates_only_filter(self)`
+  - `test_plan_rejects_empty_target` (method, line 76) `def test_plan_rejects_empty_target(self)`
+  - `test_run_matrix_dry_run_writes_no_capture` (method, line 80) `def test_run_matrix_dry_run_writes_no_capture(self)`
+  - `test_run_matrix_executes_and_captures` (method, line 91) `def test_run_matrix_executes_and_captures(self)`
+  - `test_run_matrix_flags_missing_chain` (method, line 110) `def test_run_matrix_flags_missing_chain(self)`
+  - `test_captured_findings_enter_report` (method, line 123) `def test_captured_findings_enter_report(self)`
+  - `executor` (function, line 92) `def executor(cmd)`
+- Depends on: `modules/__init__.py`, `modules/professional_report.py`
 
 ## tests/test_gym_ms2_cli.py
 - Layer: testing
@@ -444,56 +467,28 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `_User` (class, line 275) `class _User`
 - Depends on: `modules/__init__.py`, `modules/intel_fusion.py`, `modules/lazy_loop.py`, `modules/llm_factory.py`
 
-## tests/test_intelligence_engine.py
-- Doc: Tests for IntelligenceEngine — collection, analysis, intelligence, dissemination.
+## tests/test_intel_selector.py
+- Doc: BDD tests for the intelligence selector in the shared cascade.
 - Layer: testing
 - Language: py
 - Symbols:
-  - `engine` (function, line 19) `def engine()`
-  - `nmap_xml` (function, line 24) `def nmap_xml(tmp_path)`
-  - `TestCollection` (class, line 45) `class TestCollection`
-  - `TestAnalysis` (class, line 108) `class TestAnalysis`
-  - `TestIntelligenceProduction` (class, line 159) `class TestIntelligenceProduction`
-  - `TestCounterIntelligence` (class, line 178) `class TestCounterIntelligence`
-  - `TestFullCycle` (class, line 198) `class TestFullCycle`
-  - `TestPlaceholderFiltering` (class, line 215) `class TestPlaceholderFiltering`
-  - `test_collect_from_scan_services` (method, line 46) `def test_collect_from_scan_services(self, engine, nmap_xml)`
-  - `test_collect_from_scan_os` (method, line 56) `def test_collect_from_scan_os(self, engine, nmap_xml)`
-  - `test_collect_from_scan_domain` (method, line 63) `def test_collect_from_scan_domain(self, engine, nmap_xml)`
-  - `test_collect_from_scan_hosts` (method, line 70) `def test_collect_from_scan_hosts(self, engine, nmap_xml)`
-  - `test_collect_from_scan_missing_xml` (method, line 76) `def test_collect_from_scan_missing_xml(self, engine)`
-  - `test_collect_from_tool_parses_creds` (method, line 81) `def test_collect_from_tool_parses_creds(self, engine)`
-  - `test_collect_from_tool_filters_placeholders` (method, line 86) `def test_collect_from_tool_filters_placeholders(self, engine)`
-  - `test_collect_from_factstore` (method, line 91) `def test_collect_from_factstore(self, engine, tmp_path)`
-  - `test_analyze_produces_assessments` (method, line 109) `def test_analyze_produces_assessments(self, engine, nmap_xml)`
-  - `test_analyze_maps_apache_cve` (method, line 115) `def test_analyze_maps_apache_cve(self, engine)`
-  - `test_analyze_correlates_creds_to_hosts` (method, line 131) `def test_analyze_correlates_creds_to_hosts(self, engine)`
-  - `test_analyze_ranks_targets` (method, line 143) `def test_analyze_ranks_targets(self, engine)`
-  - `test_produce_intelligence_grades_assessments` (method, line 160) `def test_produce_intelligence_grades_assessments(self, engine)`
-  - `test_credential_exposure_detected` (method, line 179) `def test_credential_exposure_detected(self, engine)`
-  - `test_high_scan_volume_detected` (method, line 188) `def test_high_scan_volume_detected(self, engine)`
-  - `test_run_full_cycle_returns_summary` (method, line 199) `def test_run_full_cycle_returns_summary(self, engine, nmap_xml)`
-  - `test_get_intel_report_structured` (method, line 205) `def test_get_intel_report_structured(self, engine, nmap_xml)`
-  - `test_is_placeholder_detects_change_me` (method, line 216) `def test_is_placeholder_detects_change_me(self, engine)`
-  - `test_is_placeholder_rejects_real_values` (method, line 220) `def test_is_placeholder_rejects_real_values(self, engine)`
-- Depends on: `modules/intelligence_engine.py`
-
-## tests/test_journal.py
-- Doc: Tests for the GitHub Discussions engineering journal.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `FakeRunner` (class, line 16) `class FakeRunner`
-  - `_success_responses` (function, line 34) `def _success_responses()`
-  - `test_config_from_remote_slug` (function, line 51) `def test_config_from_remote_slug()`
-  - `test_config_rejects_bare_name` (function, line 58) `def test_config_rejects_bare_name()`
-  - `test_post_entry_uses_resolved_ids` (function, line 64) `def test_post_entry_uses_resolved_ids()`
-  - `test_entries_returns_nodes` (function, line 73) `def test_entries_returns_nodes()`
-  - `test_missing_category_raises` (function, line 81) `def test_missing_category_raises()`
-  - `test_graphql_errors_raise` (function, line 93) `def test_graphql_errors_raise()`
-  - `__init__` (method, line 19) `def __init__(self, responses)`
-  - `__call__` (method, line 24) `def __call__(self, args)`
-- Depends on: `scripts/journal.py`
+  - `intel` (function, line 14) `def intel(monkeypatch, tmp_path)`
+  - `_report` (function, line 24) `def _report(tmp_path, target, matches)`
+  - `_ctx` (function, line 41) `def _ctx(target, exclude)`
+  - `TestCascadeOrder` (class, line 46) `class TestCascadeOrder`
+  - `TestFireProposal` (class, line 62) `class TestFireProposal`
+  - `TestRefreshProposal` (class, line 97) `class TestRefreshProposal`
+  - `test_intel_selector_abstains_when_named_intent_wins` (method, line 47) `def test_intel_selector_abstains_when_named_intent_wins(self)`
+  - `test_orchestrator_toggle_honours_intel` (method, line 55) `def test_orchestrator_toggle_honours_intel(self)`
+  - `test_fire_report_pending` (method, line 63) `def test_fire_report_pending(self, intel, tmp_path)`
+  - `test_covered_chain_abstains` (method, line 71) `def test_covered_chain_abstains(self, intel, tmp_path)`
+  - `test_exclude_abstains` (method, line 83) `def test_exclude_abstains(self, intel, tmp_path)`
+  - `test_smoke_only_abstains` (method, line 89) `def test_smoke_only_abstains(self, intel, tmp_path)`
+  - `test_no_report_with_feed` (method, line 98) `def test_no_report_with_feed(self, intel, tmp_path)`
+  - `test_no_sources_abstains` (method, line 108) `def test_no_sources_abstains(self, intel, tmp_path, monkeypatch)`
+  - `test_live_feeds_enabled_reach_refresh` (method, line 113) `def test_live_feeds_enabled_reach_refresh(self, intel, tmp_path, monkeypatch)`
+  - `test_existing_report_abstains_second_run` (method, line 119) `def test_existing_report_abstains_second_run(self, intel, tmp_path)`
+- Depends on: `modules/__init__.py`, `modules/selection/__init__.py`, `modules/selection/base.py`, `modules/selection/intel.py`
 
 
 Next: [KB_tests_p12.md](KB_tests_p12.md)

@@ -31,7 +31,7 @@ class LazyCredsCommandSet(LazyOwnCommandSet):
         Usage:
             lazycreds <query>          search vendor/username substring
             lazycreds --top <n>        most repeated user:pass pairs
-            lazycreds --export <file>  write user:pass pairs for sprayers
+            lazycreds --export <file> [limit]  write user:pass pairs for sprayers
         """
         from modules import lazy_creds
 
@@ -54,7 +54,14 @@ class LazyCredsCommandSet(LazyOwnCommandSet):
             if len(args) < 2:
                 print_error("--export expects a file path")
                 return
-            result = lazy_creds.export_pairs(args[1])
+            limit = 0
+            if len(args) >= 3:
+                try:
+                    limit = max(1, int(args[2]))
+                except ValueError:
+                    print_error("export limit must be a number (lazycreds --export <file> [limit])")
+                    return
+            result = lazy_creds.export_pairs(args[1], limit) if limit else lazy_creds.export_pairs(args[1])
             if result.get("error"):
                 print_error(f"export failed: {result['error']}")
                 return

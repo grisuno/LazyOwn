@@ -1,4 +1,4 @@
-# Subsystem: modules (page 3 of 17)
+# Subsystem: modules (page 3 of 18)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
 
 ## modules/c2_profile_engine.py
@@ -113,7 +113,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `decide` (method, line 229) `def decide(self, request_id, allowed, decided_by, note, expired)`
   - `expire_stale` (method, line 282) `def expire_stale(self, now)`
   - `approve` (function, line 358) `def approve(step_id, command)`
-- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `lazyc2.py`, `tests/test_chain_approval_c2.py`
+- Imported by: `cli/apt_chain_support.py`, `cli/commands/command_and_control_migrated.py`, `lazyc2.py`, `tests/test_chain_approval_c2.py`, `tests/test_chain_approval_cli_wiring.py`
 
 ## modules/chain_distill.py
 - Doc: chain_distill - crystallise one autonomous-loop trace into a chain YAML.
@@ -162,13 +162,13 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `normalize_tags` (function, line 48) `def normalize_tags(tags)`
-  - `service_tokens` (function, line 64) `def service_tokens(services)`
-  - `platform_ok` (function, line 74) `def platform_ok(platforms, os_hint)`
-  - `score` (function, line 85) `def score(tags, phase, svc_tokens)`
-  - `reset_cache` (function, line 97) `def reset_cache()`
-  - `load_rows` (function, line 105) `def load_rows(allow_lab, ttl)`
-  - `best_chain` (function, line 135) `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)`
+  - `normalize_tags` (function, line 49) `def normalize_tags(tags)`
+  - `service_tokens` (function, line 65) `def service_tokens(services)`
+  - `platform_ok` (function, line 75) `def platform_ok(platforms, os_hint)`
+  - `score` (function, line 86) `def score(tags, phase, svc_tokens)`
+  - `reset_cache` (function, line 101) `def reset_cache()`
+  - `load_rows` (function, line 109) `def load_rows(allow_lab, ttl)`
+  - `best_chain` (function, line 139) `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)`
 - Depends on: `modules/chain_registry.py`
 - Imported by: `modules/selection/chain.py`, `tests/test_chain_selector.py`, `tests/test_lazy_loop.py`, `tests/test_selectors_base.py`
 
@@ -276,7 +276,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `facts_for_target` (function, line 224) `def facts_for_target(target)`
   - `write_generated_chain` (function, line 253) `def write_generated_chain(data, chains_dir)`
 - Depends on: `modules/chain_registry.py`, `skills/lazyown_facts.py`
-- Imported by: `cli/apt_chain_support.py`, `tests/test_chain_synth.py`
+- Imported by: `cli/apt_chain_support.py`, `modules/lazy_autofire.py`, `tests/test_chain_synth.py`
 
 ## modules/chain_tokens.py
 - Doc: Engagement-state tokens for YAML chains.

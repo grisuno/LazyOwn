@@ -2,8 +2,8 @@
  "schema_version": 1,
  "format": "jsonl",
  "meta": {
-  "modules": 863,
-  "entities": 16027,
+  "modules": 878,
+  "entities": 16210,
   "languages": {
    "asm": 1,
    "c": 15,
@@ -13,43 +13,43 @@
    "js": 6,
    "lua": 26,
    "php": 1,
-   "py": 750,
+   "py": 765,
    "sh": 61
   },
   "kinds": {
-   "attribute": 4460,
-   "class": 1449,
+   "attribute": 4508,
+   "class": 1461,
    "classmethod": 84,
-   "constant": 1494,
+   "constant": 1540,
    "constructor": 536,
    "enum": 39,
    "exception": 42,
-   "function": 2949,
+   "function": 3003,
    "macro": 114,
-   "method": 3641,
-   "module": 863,
+   "method": 3648,
+   "module": 878,
    "property": 206,
    "protocol": 21,
-   "staticmethod": 93,
+   "staticmethod": 94,
    "struct": 20,
    "type_alias": 4,
    "variable": 12
   },
   "truncated": false,
-  "skipped_files": 415,
+  "skipped_files": 431,
   "privacy_mode": false
  },
  "coverage": {
   "overall": {
-   "documented": 7637,
-   "total": 10061,
-   "percent": 75.9
+   "documented": 7726,
+   "total": 10150,
+   "percent": 76.1
   },
   "by_kind": {
    "class": {
-    "documented": 1262,
-    "total": 1449,
-    "percent": 87.1
+    "documented": 1274,
+    "total": 1461,
+    "percent": 87.2
    },
    "classmethod": {
     "documented": 58,
@@ -72,9 +72,9 @@
     "percent": 95.2
    },
    "function": {
-    "documented": 2044,
-    "total": 2949,
-    "percent": 69.3
+    "documented": 2098,
+    "total": 3003,
+    "percent": 69.9
    },
    "macro": {
     "documented": 2,
@@ -82,14 +82,14 @@
     "percent": 1.8
    },
    "method": {
-    "documented": 2972,
-    "total": 3641,
-    "percent": 81.6
+    "documented": 2979,
+    "total": 3648,
+    "percent": 81.7
    },
    "module": {
-    "documented": 747,
-    "total": 863,
-    "percent": 86.6
+    "documented": 762,
+    "total": 878,
+    "percent": 86.8
    },
    "property": {
     "documented": 162,
@@ -102,9 +102,9 @@
     "percent": 100.0
    },
    "staticmethod": {
-    "documented": 81,
-    "total": 93,
-    "percent": 87.1
+    "documented": 82,
+    "total": 94,
+    "percent": 87.2
    },
    "struct": {
     "documented": 1,
@@ -414,6 +414,31 @@
     "percent": 98.0
    },
    "cli/commands/exploitgym.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/exposure_autofire.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/exposure_intel.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/exposure_inventory.py": {
+    "documented": 4,
+    "total": 4,
+    "percent": 100.0
+   },
+   "cli/commands/exposure_sentinel.py": {
+    "documented": 3,
+    "total": 3,
+    "percent": 100.0
+   },
+   "cli/commands/exposure_timeline.py": {
     "documented": 3,
     "total": 3,
     "percent": 100.0
@@ -2628,6 +2653,11 @@
     "total": 19,
     "percent": 100.0
    },
+   "modules/lazy_autofire.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
    "modules/lazy_bridge.py": {
     "documented": 15,
     "total": 15,
@@ -2658,14 +2688,24 @@
     "total": 2,
     "percent": 100.0
    },
+   "modules/lazy_exposure.py": {
+    "documented": 9,
+    "total": 9,
+    "percent": 100.0
+   },
+   "modules/lazy_feedmatch.py": {
+    "documented": 14,
+    "total": 14,
+    "percent": 100.0
+   },
    "modules/lazy_findings.py": {
     "documented": 24,
     "total": 24,
     "percent": 100.0
    },
    "modules/lazy_heat.py": {
-    "documented": 12,
-    "total": 12,
+    "documented": 16,
+    "total": 16,
     "percent": 100.0
    },
    "modules/lazy_hostscore.py": {
@@ -2683,14 +2723,19 @@
     "total": 10,
     "percent": 100.0
    },
+   "modules/lazy_inventory.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
    "modules/lazy_ledger.py": {
     "documented": 6,
     "total": 6,
     "percent": 100.0
    },
    "modules/lazy_loop.py": {
-    "documented": 290,
-    "total": 290,
+    "documented": 291,
+    "total": 291,
     "percent": 100.0
    },
    "modules/lazy_match_policy.py": {
@@ -2721,6 +2766,11 @@
    "modules/lazy_osinfer.py": {
     "documented": 12,
     "total": 12,
+    "percent": 100.0
+   },
+   "modules/lazy_probes.py": {
+    "documented": 6,
+    "total": 6,
     "percent": 100.0
    },
    "modules/lazy_proxy.py": {
@@ -2758,6 +2808,16 @@
     "total": 10,
     "percent": 100.0
    },
+   "modules/lazy_search.py": {
+    "documented": 5,
+    "total": 5,
+    "percent": 100.0
+   },
+   "modules/lazy_sentinel.py": {
+    "documented": 7,
+    "total": 7,
+    "percent": 100.0
+   },
    "modules/lazy_skill_mirror.py": {
     "documented": 5,
     "total": 5,
@@ -2776,6 +2836,11 @@
    "modules/lazy_surface_diff.py": {
     "documented": 8,
     "total": 8,
+    "percent": 100.0
+   },
+   "modules/lazy_timeline.py": {
+    "documented": 7,
+    "total": 7,
     "percent": 100.0
    },
    "modules/lazy_triage.py": {
@@ -3369,8 +3434,8 @@
     "percent": 100.0
    },
    "modules/selection/adversary.py": {
-    "documented": 4,
-    "total": 4,
+    "documented": 6,
+    "total": 6,
     "percent": 100.0
    },
    "modules/selection/atomic.py": {
@@ -3391,6 +3456,11 @@
    "modules/selection/cred_spray.py": {
     "documented": 3,
     "total": 3,
+    "percent": 100.0
+   },
+   "modules/selection/intel.py": {
+    "documented": 6,
+    "total": 6,
     "percent": 100.0
    },
    "modules/selection/playbook.py": {
@@ -3484,6 +3554,11 @@
     "percent": 100.0
    },
    "modules/sinks/killchain.py": {
+    "documented": 2,
+    "total": 2,
+    "percent": 100.0
+   },
+   "modules/sinks/lazy_intel.py": {
     "documented": 2,
     "total": 2,
     "percent": 100.0
@@ -4734,6 +4809,31 @@
   {
    "uid": "cli/commands/exploitgym.py",
    "path": "modules/cli.commands.exploitgym.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/exposure_autofire.py",
+   "path": "modules/cli.commands.exposure_autofire.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/exposure_intel.py",
+   "path": "modules/cli.commands.exposure_intel.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/exposure_inventory.py",
+   "path": "modules/cli.commands.exposure_inventory.py.jsonl",
+   "entities": 6
+  },
+  {
+   "uid": "cli/commands/exposure_sentinel.py",
+   "path": "modules/cli.commands.exposure_sentinel.py.jsonl",
+   "entities": 5
+  },
+  {
+   "uid": "cli/commands/exposure_timeline.py",
+   "path": "modules/cli.commands.exposure_timeline.py.jsonl",
    "entities": 5
   },
   {
@@ -6947,6 +7047,11 @@
    "entities": 20
   },
   {
+   "uid": "modules/lazy_autofire.py",
+   "path": "modules/modules.lazy_autofire.py.jsonl",
+   "entities": 11
+  },
+  {
    "uid": "modules/lazy_bridge.py",
    "path": "modules/modules.lazy_bridge.py.jsonl",
    "entities": 15
@@ -6977,6 +7082,16 @@
    "entities": 2
   },
   {
+   "uid": "modules/lazy_exposure.py",
+   "path": "modules/modules.lazy_exposure.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "modules/lazy_feedmatch.py",
+   "path": "modules/modules.lazy_feedmatch.py.jsonl",
+   "entities": 43
+  },
+  {
    "uid": "modules/lazy_findings.py",
    "path": "modules/modules.lazy_findings.py.jsonl",
    "entities": 39
@@ -6984,7 +7099,7 @@
   {
    "uid": "modules/lazy_heat.py",
    "path": "modules/modules.lazy_heat.py.jsonl",
-   "entities": 25
+   "entities": 30
   },
   {
    "uid": "modules/lazy_hostscore.py",
@@ -7002,6 +7117,11 @@
    "entities": 10
   },
   {
+   "uid": "modules/lazy_inventory.py",
+   "path": "modules/modules.lazy_inventory.py.jsonl",
+   "entities": 10
+  },
+  {
    "uid": "modules/lazy_ledger.py",
    "path": "modules/modules.lazy_ledger.py.jsonl",
    "entities": 8
@@ -7009,7 +7129,7 @@
   {
    "uid": "modules/lazy_loop.py",
    "path": "modules/modules.lazy_loop.py.jsonl",
-   "entities": 295
+   "entities": 296
   },
   {
    "uid": "modules/lazy_match_policy.py",
@@ -7040,6 +7160,11 @@
    "uid": "modules/lazy_osinfer.py",
    "path": "modules/modules.lazy_osinfer.py.jsonl",
    "entities": 16
+  },
+  {
+   "uid": "modules/lazy_probes.py",
+   "path": "modules/modules.lazy_probes.py.jsonl",
+   "entities": 21
   },
   {
    "uid": "modules/lazy_proxy.py",
@@ -7077,6 +7202,16 @@
    "entities": 18
   },
   {
+   "uid": "modules/lazy_search.py",
+   "path": "modules/modules.lazy_search.py.jsonl",
+   "entities": 13
+  },
+  {
+   "uid": "modules/lazy_sentinel.py",
+   "path": "modules/modules.lazy_sentinel.py.jsonl",
+   "entities": 11
+  },
+  {
    "uid": "modules/lazy_skill_mirror.py",
    "path": "modules/modules.lazy_skill_mirror.py.jsonl",
    "entities": 5
@@ -7095,6 +7230,11 @@
    "uid": "modules/lazy_surface_diff.py",
    "path": "modules/modules.lazy_surface_diff.py.jsonl",
    "entities": 10
+  },
+  {
+   "uid": "modules/lazy_timeline.py",
+   "path": "modules/modules.lazy_timeline.py.jsonl",
+   "entities": 16
   },
   {
    "uid": "modules/lazy_triage.py",
@@ -7689,7 +7829,7 @@
   {
    "uid": "modules/selection/adversary.py",
    "path": "modules/modules.selection.adversary.py.jsonl",
-   "entities": 5
+   "entities": 8
   },
   {
    "uid": "modules/selection/atomic.py",
@@ -7710,6 +7850,11 @@
    "uid": "modules/selection/cred_spray.py",
    "path": "modules/modules.selection.cred_spray.py.jsonl",
    "entities": 4
+  },
+  {
+   "uid": "modules/selection/intel.py",
+   "path": "modules/modules.selection.intel.py.jsonl",
+   "entities": 7
   },
   {
    "uid": "modules/selection/playbook.py",
@@ -7804,6 +7949,11 @@
   {
    "uid": "modules/sinks/killchain.py",
    "path": "modules/modules.sinks.killchain.py.jsonl",
+   "entities": 2
+  },
+  {
+   "uid": "modules/sinks/lazy_intel.py",
+   "path": "modules/modules.sinks.lazy_intel.py.jsonl",
    "entities": 2
   },
   {
@@ -8024,7 +8174,7 @@
   {
    "uid": "modules/world_model.py",
    "path": "modules/modules.world_model.py.jsonl",
-   "entities": 109
+   "entities": 110
   },
   {
    "uid": "modules/yaml_generator.py",

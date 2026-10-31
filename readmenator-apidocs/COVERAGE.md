@@ -1,6 +1,6 @@
 # Documentation Coverage
 
-Overall: **75.9%** (7637 of 10061 public modules, types, and callables). Data members are excluded from the ratio.
+Overall: **76.1%** (7726 of 10150 public modules, types, and callables). Data members are excluded from the ratio.
 
 [Back to index](index.md)
 
@@ -8,18 +8,18 @@ Overall: **75.9%** (7637 of 10061 public modules, types, and callables). Data me
 
 | Kind | Documented | Total | Coverage |
 |---|---|---|---|
-| class | 1262 | 1449 | 87.1% |
+| class | 1274 | 1461 | 87.2% |
 | classmethod | 58 | 84 | 69.0% |
 | constructor | 214 | 536 | 39.9% |
 | enum | 30 | 39 | 76.9% |
 | exception | 40 | 42 | 95.2% |
-| function | 2044 | 2949 | 69.3% |
+| function | 2098 | 3003 | 69.9% |
 | macro | 2 | 114 | 1.8% |
-| method | 2972 | 3641 | 81.6% |
-| module | 747 | 863 | 86.6% |
+| method | 2979 | 3648 | 81.7% |
+| module | 762 | 878 | 86.8% |
 | property | 162 | 206 | 78.6% |
 | protocol | 21 | 21 | 100.0% |
-| staticmethod | 81 | 93 | 87.1% |
+| staticmethod | 82 | 94 | 87.2% |
 | struct | 1 | 20 | 5.0% |
 | type_alias | 3 | 4 | 75.0% |
 
@@ -436,6 +436,11 @@ Overall: **75.9%** (7637 of 10061 public modules, types, and callables). Data me
 | [`cli.commands.exfiltration`](modules/cli.commands.exfiltration.py.md) | 29 | 29 | 100.0% |
 | [`cli.commands.exploit`](modules/cli.commands.exploit.py.md) | 12 | 12 | 100.0% |
 | [`cli.commands.exploitgym`](modules/cli.commands.exploitgym.py.md) | 3 | 3 | 100.0% |
+| [`cli.commands.exposure_autofire`](modules/cli.commands.exposure_autofire.py.md) | 3 | 3 | 100.0% |
+| [`cli.commands.exposure_intel`](modules/cli.commands.exposure_intel.py.md) | 3 | 3 | 100.0% |
+| [`cli.commands.exposure_inventory`](modules/cli.commands.exposure_inventory.py.md) | 4 | 4 | 100.0% |
+| [`cli.commands.exposure_sentinel`](modules/cli.commands.exposure_sentinel.py.md) | 3 | 3 | 100.0% |
+| [`cli.commands.exposure_timeline`](modules/cli.commands.exposure_timeline.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.golden_paths`](modules/cli.commands.golden_paths.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.gym_matrix`](modules/cli.commands.gym_matrix.py.md) | 3 | 3 | 100.0% |
 | [`cli.commands.help_ui`](modules/cli.commands.help_ui.py.md) | 16 | 16 | 100.0% |
@@ -710,35 +715,43 @@ Overall: **75.9%** (7637 of 10061 public modules, types, and callables). Data me
 | [`modules.killchain`](modules/modules.killchain.py.md) | 26 | 26 | 100.0% |
 | [`modules.lab_runtime`](modules/modules.lab_runtime.py.md) | 17 | 17 | 100.0% |
 | [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | 19 | 19 | 100.0% |
+| [`modules.lazy_autofire`](modules/modules.lazy_autofire.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | 15 | 15 | 100.0% |
 | [`modules.lazy_checks`](modules/modules.lazy_checks.py.md) | 4 | 4 | 100.0% |
 | [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | 11 | 11 | 100.0% |
 | [`modules.lazy_creds`](modules/modules.lazy_creds.py.md) | 8 | 8 | 100.0% |
 | [`modules.lazy_cve_feed`](modules/modules.lazy_cve_feed.py.md) | 11 | 11 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | 2 | 2 | 100.0% |
+| [`modules.lazy_exposure`](modules/modules.lazy_exposure.py.md) | 9 | 9 | 100.0% |
+| [`modules.lazy_feedmatch`](modules/modules.lazy_feedmatch.py.md) | 14 | 14 | 100.0% |
 | [`modules.lazy_findings`](modules/modules.lazy_findings.py.md) | 24 | 24 | 100.0% |
-| [`modules.lazy_heat`](modules/modules.lazy_heat.py.md) | 12 | 12 | 100.0% |
+| [`modules.lazy_heat`](modules/modules.lazy_heat.py.md) | 16 | 16 | 100.0% |
 | [`modules.lazy_hostscore`](modules/modules.lazy_hostscore.py.md) | 4 | 4 | 100.0% |
 | [`modules.lazy_installer`](modules/modules.lazy_installer.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | 10 | 10 | 100.0% |
+| [`modules.lazy_inventory`](modules/modules.lazy_inventory.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_ledger`](modules/modules.lazy_ledger.py.md) | 6 | 6 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 290 | 290 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | 291 | 291 | 100.0% |
 | [`modules.lazy_match_policy`](modules/modules.lazy_match_policy.py.md) | 10 | 10 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_netattack`](modules/modules.lazy_netattack.py.md) | 6 | 6 | 100.0% |
 | [`modules.lazy_oob`](modules/modules.lazy_oob.py.md) | 10 | 10 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | 6 | 6 | 100.0% |
 | [`modules.lazy_osinfer`](modules/modules.lazy_osinfer.py.md) | 12 | 12 | 100.0% |
+| [`modules.lazy_probes`](modules/modules.lazy_probes.py.md) | 6 | 6 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | 23 | 23 | 100.0% |
 | [`modules.lazy_reaper`](modules/modules.lazy_reaper.py.md) | 2 | 2 | 100.0% |
 | [`modules.lazy_roles`](modules/modules.lazy_roles.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | 9 | 9 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | 11 | 11 | 100.0% |
 | [`modules.lazy_scope`](modules/modules.lazy_scope.py.md) | 10 | 10 | 100.0% |
+| [`modules.lazy_search`](modules/modules.lazy_search.py.md) | 5 | 5 | 100.0% |
+| [`modules.lazy_sentinel`](modules/modules.lazy_sentinel.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_skill_mirror`](modules/modules.lazy_skill_mirror.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_skills`](modules/modules.lazy_skills.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_summarizer`](modules/modules.lazy_summarizer.py.md) | 3 | 3 | 100.0% |
 | [`modules.lazy_surface_diff`](modules/modules.lazy_surface_diff.py.md) | 8 | 8 | 100.0% |
+| [`modules.lazy_timeline`](modules/modules.lazy_timeline.py.md) | 7 | 7 | 100.0% |
 | [`modules.lazy_triage`](modules/modules.lazy_triage.py.md) | 9 | 9 | 100.0% |
 | [`modules.lazy_verify`](modules/modules.lazy_verify.py.md) | 5 | 5 | 100.0% |
 | [`modules.lazy_world_diff`](modules/modules.lazy_world_diff.py.md) | 17 | 17 | 100.0% |
@@ -795,11 +808,12 @@ Overall: **75.9%** (7637 of 10061 public modules, types, and callables). Data me
 | [`modules.search`](modules/modules.search.py.md) | 1 | 1 | 100.0% |
 | [`modules.security_sanitizers`](modules/modules.security_sanitizers.py.md) | 22 | 22 | 100.0% |
 | [`modules.selection`](modules/modules.selection.__init__.py.md) | 1 | 1 | 100.0% |
-| [`modules.selection.adversary`](modules/modules.selection.adversary.py.md) | 4 | 4 | 100.0% |
+| [`modules.selection.adversary`](modules/modules.selection.adversary.py.md) | 6 | 6 | 100.0% |
 | [`modules.selection.atomic`](modules/modules.selection.atomic.py.md) | 3 | 3 | 100.0% |
 | [`modules.selection.base`](modules/modules.selection.base.py.md) | 5 | 5 | 100.0% |
 | [`modules.selection.chain`](modules/modules.selection.chain.py.md) | 4 | 4 | 100.0% |
 | [`modules.selection.cred_spray`](modules/modules.selection.cred_spray.py.md) | 3 | 3 | 100.0% |
+| [`modules.selection.intel`](modules/modules.selection.intel.py.md) | 6 | 6 | 100.0% |
 | [`modules.selection.playbook`](modules/modules.selection.playbook.py.md) | 4 | 4 | 100.0% |
 | [`modules.selection.registry`](modules/modules.selection.registry.py.md) | 3 | 3 | 100.0% |
 | [`modules.selector_manager`](modules/modules.selector_manager.py.md) | 4 | 4 | 100.0% |
@@ -817,6 +831,7 @@ Overall: **75.9%** (7637 of 10061 public modules, types, and callables). Data me
 | [`modules.sinks.findings`](modules/modules.sinks.findings.py.md) | 6 | 6 | 100.0% |
 | [`modules.sinks.intel_graph`](modules/modules.sinks.intel_graph.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.killchain`](modules/modules.sinks.killchain.py.md) | 2 | 2 | 100.0% |
+| [`modules.sinks.lazy_intel`](modules/modules.sinks.lazy_intel.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.objectives`](modules/modules.sinks.objectives.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.routing`](modules/modules.sinks.routing.py.md) | 2 | 2 | 100.0% |
 | [`modules.sinks.world_diff`](modules/modules.sinks.world_diff.py.md) | 2 | 2 | 100.0% |

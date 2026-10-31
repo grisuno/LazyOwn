@@ -1,0 +1,31 @@
+name: enum4linux_ng
+description: |
+  enum4linux-ng Windows/SMB enumeration against the bound target; users, groups,
+  password policy, null sessions, and share listing from one pass.
+
+  Operator flow: assign rhost <ip>; then run `enum4linux_ng`.
+  Optional free args after the command are appended verbatim after the -A flag set.
+
+  Examples:
+    enum4linux_ng
+    enum4linux_ng --user "admin%config"
+
+  Requirements: enum4linux-ng in PATH (python3 -m pip install enum4linux-ng or github cddmp/enum4linux-ng).
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+update: false
+os: windows
+trigger:
+- microsoft-ds
+params:
+- name: rhost
+  type: string
+  required: false
+  description: Victim SMB host narrowed by recon. Max 200 chars, never empty.
+tool:
+  name: enum4linux-ng
+  execute_command: >
+    enum4linux-ng -A {rhost}
+category: 02. Scanning & Enumeration
+module_type: scanner

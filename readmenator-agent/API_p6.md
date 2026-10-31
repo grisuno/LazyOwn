@@ -1,5 +1,40 @@
-# API (page 6 of 25)
+# API (page 6 of 26)
 Previous: [API_p5.md](API_p5.md)
+
+## contrib/legacy/lazyhoneypot.py
+Depends on: `core/logging.py`
+- `parse_args` (function) `contrib/legacy/lazyhoneypot.py:34` `def parse_args()`
+- `setup_logging` (function) `contrib/legacy/lazyhoneypot.py:52` `def setup_logging(log_file)`
+- `generate_rsa_key` (function) `contrib/legacy/lazyhoneypot.py:56` `def generate_rsa_key(key_filename)`
+- `Server.__init__` (method) `contrib/legacy/lazyhoneypot.py:61` `def __init__(self)`
+- `Server.check_channel_request` (method) `contrib/legacy/lazyhoneypot.py:64` `def check_channel_request(self, kind, chanid)`
+- `Server.check_auth_password` (method) `contrib/legacy/lazyhoneypot.py:69` `def check_auth_password(self, username, password)`
+- `handle_connection` (function) `contrib/legacy/lazyhoneypot.py:74` `def handle_connection(client_socket, host_key, commands_log, downloads_log, downloads_dir)`
+- `handle_file_download` (function) `contrib/legacy/lazyhoneypot.py:110` `def handle_file_download(command, downloads_dir, downloads_log)`
+- `log_command` (function) `contrib/legacy/lazyhoneypot.py:128` `def log_command(command, commands_log)`
+- `log_downloaded_file` (function) `contrib/legacy/lazyhoneypot.py:132` `def log_downloaded_file(filename, url, downloads_log)`
+- `analyze_traffic` (function) `contrib/legacy/lazyhoneypot.py:136` `def analyze_traffic()`
+- `process_packet` (function) `contrib/legacy/lazyhoneypot.py:137` `def process_packet(packet)`
+- `alert_admin` (function) `contrib/legacy/lazyhoneypot.py:147` `def alert_admin(message)`
+- `main` (function) `contrib/legacy/lazyhoneypot.py:165` `def main()`
+
+## contrib/legacy/lazyhttpreverseshell.py
+Depends on: `modules/backdoor/server.c`
+- `encrypt` (function) `contrib/legacy/lazyhttpreverseshell.py:14` `def encrypt(data)`
+- `decrypt` (function) `contrib/legacy/lazyhttpreverseshell.py:17` `def decrypt(data)`
+- `compress` (function) `contrib/legacy/lazyhttpreverseshell.py:20` `def compress(data)`
+- `decompress` (function) `contrib/legacy/lazyhttpreverseshell.py:23` `def decompress(data)`
+- `reverse_http_shell_client` (function) `contrib/legacy/lazyhttpreverseshell.py:26` `def reverse_http_shell_client(lhost, rhost, rport)`
+- `reverse_http_shell_server` (function) `contrib/legacy/lazyhttpreverseshell.py:50` `def reverse_http_shell_server(lhost, lport)`
+- `RequestHandler.do_GET` (method) `contrib/legacy/lazyhttpreverseshell.py:52` `def do_GET(self)`
+- `RequestHandler.do_POST` (method) `contrib/legacy/lazyhttpreverseshell.py:65` `def do_POST(self)`
+- `parse_arguments` (function) `contrib/legacy/lazyhttpreverseshell.py:88` `def parse_arguments(args)`
+
+## contrib/legacy/lazylfi2rce.py
+- `signal_handler` (function) `contrib/legacy/lazylfi2rce.py:29` `def signal_handler(sig, frame)`
+- `check_lfi_success` (function) `contrib/legacy/lazylfi2rce.py:35` `def check_lfi_success(response_text)`
+- `check_rfi_success` (function) `contrib/legacy/lazylfi2rce.py:39` `def check_rfi_success(response_text)`
+- `main` (function) `contrib/legacy/lazylfi2rce.py:43` `def main()`
 
 ## contrib/legacy/lazyllmchat.py
 Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
@@ -253,7 +288,7 @@ Imported by: `tests/test_core_command_bridge.py`
 
 ## core/config.py
 Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/params_ops.py`, `cli/commands/persist_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/orchestrator_assets_tabs.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `core/session_secrets.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/gym_cleanup.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_ai_bridge.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `modules/redteam_gym.py`, `modules/sinks/beacon_dispatch.py`, `skills/lazyown_mcp.py`, `tests/test_aes_key_propagation.py`, `tests/test_audit_remediation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_guardrails.py`, `tests/test_gym_lifecycle.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `tests/test_orchestrator_yaml.py`, `tests/test_session_secrets.py`, `utils.py`
+Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/defaults.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/params_ops.py`, `cli/commands/persist_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `cli/orchestrator_assets_tabs.py`, `core/__init__.py`, `core/credential_vault.py`, `core/hardening.py`, `core/prompt.py`, `core/session_secrets.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyown.py`, `modules/atomic_exploit_bridge.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_builder.py`, `modules/c2_profile_engine.py`, `modules/cli_auth.py`, `modules/config_store.py`, `modules/db.py`, `modules/gym_cleanup.py`, `modules/harness.py`, `modules/lazy_agent.py`, `modules/lazy_cli_bridge.py`, `modules/lazy_installer.py`, `modules/lazy_intel.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_ai_bridge.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/orchestrator_config.py`, `modules/reactive_engine.py`, `modules/redteam_gym.py`, `modules/sinks/beacon_dispatch.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_aes_key_propagation.py`, `tests/test_audit_remediation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_guardrails.py`, `tests/test_gym_lifecycle.py`, `tests/test_improvements_spec.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_runner.py`, `tests/test_loop_supervision.py`, `tests/test_orchestrator_yaml.py`, `tests/test_session_secrets.py`, `utils.py`
 - `Config.__init__` (method) `core/config.py:224` `def __init__(self, config_dict, sessions_dir)`
 - `Config.as_params` (method) `core/config.py:239` `def as_params(self)` -- Return a shallow copy of the underlying parameter dictionary.
 - `Config.overridden_keys` (method) `core/config.py:249` `def overridden_keys(self)` -- Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
@@ -451,41 +486,6 @@ Imported by: `core/__init__.py`
 - `is_port_in_use` (function) `core/network.py:120` `def is_port_in_use(port, host)` -- Check whether a TCP port is already bound.
 - `get_banner` (function) `core/network.py:134` `def get_banner(ip, port)` -- Grab a TCP banner from the given host and port.
 - `get_network_info` (function) `core/network.py:154` `def get_network_info()` -- Collect local network information.
-
-## core/param_registry.py
-Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/commands/params_ops.py`, `cli/lazy_orchestrator.py`, `core/payload_schema.py`, `lazyc2/addon_creator.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_orchestrator.py`, `tests/test_param_registry.py`, `tests/test_php2shell_addon.py`
-- `OperatorParam.as_entry` (method) `core/param_registry.py:133` `def as_entry(self)` -- Return the YAML mapping stored in ``params/operator.yaml``.
-- `OperatorParam.to_spec` (method) `core/param_registry.py:142` `def to_spec(self)` -- Return the payload schema spec for this parameter.
-- `registry_path` (function) `core/param_registry.py:158` `def registry_path(root)` -- Return the operator registry file path.
-- `normalise_kind` (function) `core/param_registry.py:172` `def normalise_kind(kind)` -- Return the canonical kind name for a user-supplied kind.
-- `effective_value` (function) `core/param_registry.py:187` `def effective_value(entry)` -- Return the value a parameter contributes to the shell params.
-- `load_entries` (function) `core/param_registry.py:226` `def load_entries(root)` -- Return every operator-declared parameter.
-- `list_params` (function) `core/param_registry.py:256` `def list_params(root, include_builtin, keyword)` -- Return the parameters visible to the operator.
-- `create_param` (function) `core/param_registry.py:291` `def create_param(name, kind, default, description, category, root)` -- Create an operator parameter and persist it in the registry.
-- `update_param` (function) `core/param_registry.py:341` `def update_param(name, default, description, kind, category, root)` -- Update an operator parameter in place.
-- `delete_param` (function) `core/param_registry.py:387` `def delete_param(name, root)` -- Delete an operator parameter from the registry.
-- `param_value` (function) `core/param_registry.py:411` `def param_value(name, root)` -- Return the effective value of an operator parameter.
-- `operator_specs` (function) `core/param_registry.py:425` `def operator_specs(root)` -- Return the payload schema specs of the operator parameters.
-- `apply_to_schema` (function) `core/param_registry.py:437` `def apply_to_schema(root)` -- Register the operator parameters in the payload schema.
-- `sync_shell_params` (function) `core/param_registry.py:459` `def sync_shell_params(shell, root)` -- Push the operator parameters into a live shell parameter dict.
-
-## core/parsers.py
-Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `telegram_hermes.py`, `tests/test_single_implementation.py`, `utils.py`
-- `strip_ansi` (function) `core/parsers.py:15` `def strip_ansi(text)` -- Remove ANSI escape sequences and readline markers from a string.
-
-## core/payload_schema.py
-Depends on: `cli/commands/enum.py`, `core/param_registry.py`, `modules/llm_factory.py`
-Imported by: `cli/assign.py`, `cli/commands/params_ops.py`, `cli/commands/session_ops.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `core/param_registry.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_audit_remediation.py`, `tests/test_core_config.py`, `tests/test_core_defaults.py`, `tests/test_infra_disposable.py`, `tests/test_param_registry.py`, `tests/test_payload_schema.py`, `tests/test_php2shell_addon.py`, `tests/test_placeholder_coverage.py`
-- `register_specs` (function) `core/payload_schema.py:1862` `def register_specs(specs)` -- Register (or replace) field specs at runtime.
-- `unregister_specs` (function) `core/payload_schema.py:1885` `def unregister_specs(keys)` -- Remove runtime-registered specs from the schema.
-- `field_for` (function) `core/payload_schema.py:1903` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
-- `coerce_value` (function) `core/payload_schema.py:1908` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
-- `validate_value` (function) `core/payload_schema.py:1931` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
-- `validate_payload` (function) `core/payload_schema.py:2005` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
-- `format_issue` (function) `core/payload_schema.py:2040` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
-- `default_payload` (function) `core/payload_schema.py:2058` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
-- `categories` (function) `core/payload_schema.py:2066` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
 
 
 Next: [API_p7.md](API_p7.md)

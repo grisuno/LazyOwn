@@ -71,7 +71,7 @@ Stop every running lab and range machine.
 |---|---|---|---|
 | `verbose` | `bool` | `False` | When True, print one line per stopped machine group. |
 
-**Returns:** `dict[str, Any]` - Mapping with ``enabled``, ``labs`` and ``ranges`` stop results.
+**Returns:** `dict[str, Any]` - Mapping with ``enabled``, ``labs`` and `[`ranges`](modules.lazy_feedmatch.py.md#feedentry-ranges)` stop results.
 
 *Calls:* [`cleanup_enabled`](#cleanup_enabled), [`stop_ranges`](modules.lab_runtime.py.md#stop_ranges)
 

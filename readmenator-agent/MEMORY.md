@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 1278 files at commit `2a7c5e2d9d9a`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 1309 files at commit `58d2c970e22d`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `modules` (522), `command` (507), `one` (501), `lazy` (479), `file` (475), `run` (434), `path` (432), `not` (431), `all` (411), `without` (405), `name` (400), `json` (392), `own` (383), `cli` (379), `set` (355)
-- Subsystem `modules: autonomous_daemon`: 177 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
-- Subsystem `cli/commands`: 141 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
-- Subsystem `cli`: 119 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: world_model`: 112 files, core `modules/world_model.py`: modules/world_model.py
-- Subsystem `modules: lazy_loop`: 99 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
-- Subsystem `modules: lazyown_facts`: 64 files, core `skills/lazyown_facts.py`: LazyOwn FactStore
-- Subsystem `static/js`: 64 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
-- Subsystem `lazyc2/security`: 54 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Domain vocabulary (term, files): `modules` (534), `one` (518), `command` (517), `lazy` (504), `file` (488), `path` (447), `run` (443), `not` (440), `all` (414), `without` (412), `name` (409), `json` (402), `own` (391), `cli` (385), `set` (363)
+- Subsystem `modules: lazy_loop`: 184 files, core `modules/lazy_loop.py`: Lazy autonomous loop for LazyOwn.
+- Subsystem `cli/commands`: 158 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
+- Subsystem `modules: lazyown_mcp`: 158 files, core `skills/lazyown_mcp.py`: LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and...
+- Subsystem `cli`: 138 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
+- Subsystem `modules: chain_runner`: 81 files, core `modules/chain_runner.py`: Single execution engine for YAML orchestration chains.
+- Subsystem `lazyc2/security`: 55 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `lazygui/panels`: 54 files, core `lazygui/services/teamserver_backend.py`: Teamserver backend with Socket.IO real-time and full HTTP API coverage.
+- Subsystem `static/js`: 49 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -60,7 +60,7 @@ Declared:
 
 Measured baseline:
 - Security findings at medium or above: 0 (see `readmenator-agent/SECURITY.md`); do not add new ones.
-- Dependency cycles: 122; layer violations: 70 (see `readmenator-agent/GOTCHAS.md`).
+- Dependency cycles: 125; layer violations: 70 (see `readmenator-agent/GOTCHAS.md`).
 
 ## 4. Style norms
 
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 1147 files, 21262 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 205 lines, max 12026.
+- py: 1178 files, 21636 symbols; docstrings on 56% of symbols; functions snake_case (99%); types PascalCase (100%); median file 202 lines, max 12197.
 - sh: 64 files, 258 symbols; docstrings on 33% of symbols; functions snake_case (100%); median file 79 lines, max 1539.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 21 files, 1606 symbols; docstrings on 49% of symbols; functions snake_case (46%); types PascalCase (26%); median file 6 lines, max 9358.
-- Tests: 399 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 415 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 
@@ -98,13 +98,13 @@ Measured baseline:
 - Tests pass: `python -m pytest -q`.
 - Docstring coverage stays at or above 54%.
 - No new security findings at medium or above (current: 0).
-- No new dependency cycles (current: 122).
+- No new dependency cycles (current: 125).
 - Files stay under 300 lines where possible (`readmenator . lint`).
 - Docs refreshed: `readmenator . --rebuild`, and decisions recorded in section 7.
 
 ## 6. Risks to respect
 
-- God nodes (changes ripple widely): `core/logging.py`, `modules/lazy_loop.py`, `utils.py`, `cli/commands/_base.py`, `skills/lazyown_mcp.py`
+- God nodes (changes ripple widely): `core/logging.py`, `modules/lazy_loop.py`, `utils.py`, `cli/commands/_base.py`, `modules/__init__.py`
 - Hotspots (complex and central): `static/js/html2pdf.bundle.min.js`, `static/js/3d-force-graph-1.73.4.min.js`, `skills/mcp_generated_tools.py`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`
 - Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/planner.py` -> `modules/playbook_engine.py` -> `modules/emulation_runner.py` -> `modules/atomic_exploit_bridge.py` -> `core/config.py`
 - Cycle: `core/config.py` -> `core/payload_schema.py` -> `modules/llm_factory.py` -> `modules/llm_orchestrator.py` -> `modules/lazy_engine.py` -> `modules/lazy_loop.py` -> `modules/loop_triggers.py` -> `modules/trigger_policy.py` -> `modules/orchestrator_config.py` -> `modules/auto_registry.py` -> `modules/lazy_orchestrator_feedback.py` -> `modules/lazy_intel.py` -> `modules/mediation/__init__.py` -> `modules/mediation/contracts.py` -> `modules/mediation/hub.py` -> `modules/mediation/telemetry_mediator.py` -> `modules/loop_ai_bridge.py` -> `skills/hive_mind.py` -> `skills/lazyown_groq_agents.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_daemon.py` -> `modules/reactive_engine.py` -> `core/config.py`
@@ -133,4 +133,10 @@ Append with `readmenator . remember "<note>" --kind <kind>` (kinds: business, de
 - 2026-10-29 [decision] vulnerator-ai adoption: lazy_findings ledger (fail-closed confirmed evidence), progress_ledger 3-strikes handoff, engagement modes pentest/redteam/ctf, scope denylist priority, ATT&CK technique_id via killchain mapping — all config in orchestrator.yaml profiles + payload overrides
 - 2026-10-29 [decision] apt_ad_lab_karrab chain: Karrab AD methodology mapped to Samba DC lab — 9 new vectors (passpol T1201, kerbrute_userenum T1087.002, asreproast T1558.005, passspray T1110.003 policy-gated fixture password only, gpp_sysvol T1552.006, user_desc_secrets T1552.008, gmsa_enum T1552.006, delegation_enum T1558.003, dcsync_validation T1003.006); gym_ad_lab matrix now 14 vectors; chain vuln defaults must match playbook ids (ad_<slug> not ad_lab_<slug>); AS-REP roast via LDAP userAccountControl 4194304 n...
 - 2026-10-29 [decision] ad_surface trigger (loop_triggers TRIGGER_KINDS + ensure_ad_surface_trigger + lazy_loop run_round seeding from yaml 'triggers: - kind: ad_surface every_sec: 1800'): grades mitm6/LLMNR/SMB-relay/NTLMv1-downgrade viability via modules/lazy_netattack.SurfaceEvidence (services + os_hint + operator-attested signing at sessions/smb_signing.json via lazy_netattack attest); grades land as hint nodes with fingerprint dedupe — kinetic steps NEVER auto-run, consent tokens gate chains (apt_ad_windows def...
+- 2026-10-30 [decision] Ported CVEngine ideas (external clone, uninstalled, GPL source) as lazy-branded internal modules: blacklist cvengine naming. lazy_intel module name already taken by loop routing-log fusion, so the port uses lazy_threat (exploit tiers fire/smoke/ice), lazy_feedmatch (bounded-range hard-evidence matching, version_unknow and unversioned-lead policy), lazy_probes (read-only validation command registry with structured expect), lazy_exposure (world-model exposure report, host score 0-100, outcome_b...
+- 2026-10-31 [decision] Implemented the five CVEngine-inspired roadmap ideas as autonomous lazy-branded contracts: lazy_sentinel (private-range guardrails, read-only sweep blob, c2_exec dispatch, spool ingest to Sightings), lazy_autofire (fire-tier bounded reports -> validated confirmation chains via chain_synth.write_generated_chain with (target,cve) cooldown dedupe and payload.json 'autofire' arming gate; chains never written unarmed), lazy_timeline (world model snapshots in sessions/timeline with retention, diff...
+- 2026-10-31 [decision] Closed the lazy_intel wiring loop: (1) IntelSelector in modules/selection/intel.py registered second in the shared cascade (after CredentialSpraySelector) proposing 'lazyautofire fire <target>' when the exposure report has fire-tier bounded matches uncovered by a lazy_autofire_<target-slug> chain, and 'lazyintel <target>' refresh when no report exists while sources are ready (local sessions/intel/exploit_feed.json or live feeds allowed by LAZYOWN_CVE_FEEDS). (2) Dedicated outcome_bus sink 'la...
+- 2026-10-31 [decision] Single-path tier canon enforced per operator request: modules/lazy_threat.py DELETED (duplicate of lazy_heat); the one vocabulary is now modules/lazy_heat hot/warm/cold (added host_heat, hottest, heat_of_severity, heat_rank, SEVERITY_LEVEL_HEAT glue there). lazy_feedmatch now composes lazy_heat parse_version/version_in_range/classify_heat/match_heat/product_token/token_matches (local feed mode) and keeps the live adapter to lazy_cve_feed; lazy_exposure/autofire/sink/selector/CLIs all speak ho...
+- 2026-10-31 [decision] Wired the three remaining shared selectors for the auto_loop: (1) PlaybookSelector rewritten — binding is now chain-side truth (chains/apt_<slug> defaults.playbook == engine playbook key), matching whole-word or >=4-char prefix on apt_name+aliases; base chain apt_chain excluded from the binding because it hardcodes 'playbook: rocke'; examples: 'emulate lazarus (hidden cobra)' -> apt_chain apt_lazarusgroup <target>, 'run apt29 chain' -> apt_apt29, 'emulate lockbit' -> apt_lockbit, 'emulate roc...
+- 2026-10-31 [decision] Closed _SHELL_PHASES and the loop evidence gaps: (1) Worker._guard_step now publishes one exploit outcome (kind=exploit, shell=True) through the outcome bus the instant a step output carries genuine interactive-shell evidence, reusing the one canonical detector modules/atomic_exploit_bridge.shell_output_evidence (never the old junk-banner substring list); the killchain sink advances phase+host state -> world model phase becomes exploit -> AtomicSelector _SHELL_PHASES and ChainSelector strateg...
 <!-- readmenator:memory:notes:end -->

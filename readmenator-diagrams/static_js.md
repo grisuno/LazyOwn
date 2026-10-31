@@ -1,6 +1,6 @@
 # static/js
 
-static/js groups 64 files (c, js, py, sh) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. ``assign`` business logic.
+static/js groups 49 files (c, js, py, sh) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. ``assign`` business logic.
 
 ```mermaid
 graph LR
@@ -10,6 +10,7 @@ graph LR
     lazyown_docker["lazyown-docker"]
     modules["modules"]
     root["root"]
+    scripts["scripts"]
     static["static"]
     tests["tests"]
     cli -- "calls into" --> core
@@ -17,9 +18,11 @@ graph LR
     cli -- "calls into" --> static
     core -- "calls into" --> static
     lazyc2 -- "calls into" --> core
-    modules -- "calls into" --> core
+    modules -- "depends on" --> core
     modules -- "depends on" --> lazyown_docker
     root -- "depends on" --> core
+    scripts -- "calls into" --> core
+    scripts -- "calls into" --> modules
     static -- "depends on" --> cli
     static -- "depends on" --> core
     static -- "depends on" --> lazyc2
@@ -31,75 +34,69 @@ graph LR
     tests -- "calls into" --> modules
 ```
 
-## cli (7.1)
+## cli (8.1)
 
-cli groups 11 files (py) around apply_assign, format_payload, style, active_tokens, paint. ``assign`` business logic.
+cli groups 8 files (py) around apply_assign, format_payload, PersistMigratedCommandSet, generate_backdoor_username, generate_backdoor_password. ``assign`` business logic.
 
-## core (7.2)
+## core (8.2)
 
-core groups 7 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Configuration loader and Config wrapper.
+core groups 5 files (py) around _apply_env_overrides, _coerce_env_value, _mask_if_sensitive, _log_config_change, _calling_frame. Configuration loader and Config wrapper.
 
-## lazyc2 (7.3)
+## lazyc2 (8.3)
 
-lazyc2 groups 3 files (py) around AddonCreatorConfig, live_placeholders, ParamSpec, to_dict, AddonDraft. LazyAddon creator contract for the LazyOwn C2 web interface.
+lazyc2 groups 2 files (py) around AddonCreatorConfig, live_placeholders, ParamSpec, to_dict, AddonDraft. LazyAddon creator contract for the LazyOwn C2 web interface.
 
-## lazyown-docker (7.4)
+## lazyown-docker (8.4)
 
 lazyown-docker groups 1 files (sh).
 
-## modules (7.5)
+## modules (8.5)
 
-modules groups 12 files (c, py) around RiskLevel, GateAction, _risk_bucket, _risk_label, _risk_level. Purple Team Closed-Loop — honest measurement of offensive detection.
+modules groups 7 files (c, py) around _build_linux_x64_reverse_tcp, _patch_shellcode_x64, PayloadTemplate, __init__, generate. Purple Team Closed-Loop — honest measurement of offensive detection.
 
-## root (7.6)
+## root (8.6)
 
 root groups 1 files (py) around main.
 
-## static (7.7)
+## scripts (8.7)
 
-static groups 14 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
+scripts groups 1 files (py) around SmokeConfig, check_surfaces, check_calls, main. Smoke check for the public surfaces documented in CORE.md.
 
-## tests (7.8)
+## static (8.8)
 
-tests groups 15 files (py) around TestHexSource, test_valid_hex_decodes_to_32_bytes, test_wrong_length_raises, test_non_hex_raises, TestDiskSource. TDD tests for the AES key resolution contract.
+static groups 13 files (js) around As, Be, Cs, Do, Ds. Version 1.73.4 3d-force-graph - https://github.com/vasturiano/3d-force-graph...
+
+## tests (8.9)
+
+tests groups 11 files (py) around TestHexSource, test_valid_hex_decodes_to_32_bytes, test_wrong_length_raises, test_non_hex_raises, TestDiskSource. TDD tests for the AES key resolution contract.
 
 **Files**:
 
 - cli/assign.py
-- cli/commands/defaults.py
-- cli/commands/opsec_cleanup.py
 - cli/commands/params_ops.py
+- cli/commands/persist_migrated.py
 - cli/commands/purple_team.py
-- cli/commands/security.py
 - cli/commands/session_ops.py
 - cli/purple_tui.py
 - cli/session_resumer.py
 - cli/show.py
-- cli/style.py
 - core/config.py
-- core/credential_vault.py
-- core/defaults.py
 - core/param_registry.py
 - core/payload_schema.py
+- core/process.py
 - core/prompt.py
-- core/session_secrets.py
 - key.py
 - lazyc2/addon_creator.py
-- lazyc2/blueprints/api.py
 - lazyc2/state.py
 - lazyown-docker/init.sh
 - modules/auto_purple.py
-- modules/c2_builder.py
 - modules/exp.c
-- modules/forensic_cleaner.py
-- modules/hash_cracker.py
-- modules/log_tamper.py
-- modules/memory_cleaner.py
-- modules/network_opsec.py
-- modules/opsec_scorer.py
+- modules/gym_cleanup.py
+- modules/lazy_verify.py
+- modules/payload_factory.py
 - modules/rootkit/rootkit.c
-- modules/search.py
-- modules/timestomper.py
+- modules/traffic_morpher.py
+- scripts/devtools/core_smoke.py
 - static/js/3d-force-graph-1.73.4.min.js
 - static/js/bootstrap-4.5.2.min.js
 - static/js/bootstrap-5.3.0.bundle.min.js
@@ -110,22 +107,17 @@ tests groups 15 files (py) around TestHexSource, test_valid_hex_decodes_to_32_by
 - static/js/particles.js
 - static/js/popper-2.5.4.min.js
 - static/js/quill-2.0.3.js
-- static/js/showdown-2.1.0.min.js
 - static/js/tippy-6.js
 - static/js/vis-network-9.1.2.min.js
 - static/js/vis-network.min.js
 - tests/test_aes_key_propagation.py
 - tests/test_audit_remediation.py
+- tests/test_backdoor_random.py
 - tests/test_cli_assign.py
 - tests/test_core_config.py
-- tests/test_core_defaults.py
-- tests/test_credential_vault.py
-- tests/test_hash_cracker.py
-- tests/test_implant_session_secrets.py
-- tests/test_opsec_scorer.py
-- tests/test_opsec_scorer_consolidated.py
+- tests/test_gym_lifecycle.py
 - tests/test_param_registry.py
+- tests/test_payload_factory.py
 - tests/test_payload_schema.py
 - tests/test_php2shell_addon.py
 - tests/test_placeholder_coverage.py
-- tests/test_session_secrets.py

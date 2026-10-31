@@ -1,8 +1,41 @@
-# Symbols (page 12 of 48)
+# Symbols (page 12 of 49)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `bzero` | macro | `modules/backdoor/backdoor.c:14` | `#define bzero(p, size)` |
+| `str_cut` | function | `modules/backdoor/backdoor.c:53` | `char * str_cut(char str[], int slice_from, int slice_to)` |
+| `logg` | function | `modules/backdoor/keylogger.h:1` | `DWORD WINAPI logg(LPVOID lpParam)` |
+| `main` | function | `modules/backdoor/server.c:10` | `int main()` |
+| `BeaconConfig` | class | `modules/beacon_config_builder.py:44` | `class BeaconConfig` |
+| `BeaconConfigBuilder` | class | `modules/beacon_config_builder.py:237` | `class BeaconConfigBuilder` |
+| `__init__` | method | `modules/beacon_config_builder.py:245` | `def __init__(self, payload)` |
+| `_inject_profile_engine` | method | `modules/beacon_config_builder.py:318` | `def _inject_profile_engine(self, config)` |
+| `_inject_sleep_engine` | method | `modules/beacon_config_builder.py:366` | `def _inject_sleep_engine(self, config)` |
+| `_inject_socks_engine` | method | `modules/beacon_config_builder.py:385` | `def _inject_socks_engine(self, config)` |
+| `build` | method | `modules/beacon_config_builder.py:248` | `def build(self, name)` |
+| `from_payload` | method | `modules/beacon_config_builder.py:403` | `def from_payload(cls, payload)` |
+| `from_payload_file` | method | `modules/beacon_config_builder.py:408` | `def from_payload_file(cls, path)` |
+| `generate_bof_execution_command` | function | `modules/beacon_config_builder.py:416` | `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)` |
+| `to_config_json` | method | `modules/beacon_config_builder.py:160` | `def to_config_json(self)` |
+| `to_dict` | method | `modules/beacon_config_builder.py:185` | `def to_dict(self)` |
+| `to_gen_beacon_args` | method | `modules/beacon_config_builder.py:117` | `def to_gen_beacon_args(self)` |
+| `to_go_implant_vars` | method | `modules/beacon_config_builder.py:137` | `def to_go_implant_vars(self)` |
+| `BeaconHistoryConfig` | class | `modules/beacon_history.py:28` | `class BeaconHistoryConfig` |
+| `append_record` | function | `modules/beacon_history.py:82` | `def append_record(record, config)` |
+| `read_records` | function | `modules/beacon_history.py:116` | `def read_records(client_id, config)` |
+| `records_path` | method | `modules/beacon_history.py:43` | `def records_path(self, client_id)` |
+| `records_path` | function | `modules/beacon_history.py:145` | `def records_path(client_id, config)` |
+| `sanitize_client_id` | function | `modules/beacon_history.py:70` | `def sanitize_client_id(client_id)` |
+| `sessions_dir` | method | `modules/beacon_history.py:39` | `def sessions_dir(self)` |
+| `_append_discovery_ledger` | function | `modules/beacon_recon.py:264` | `def _append_discovery_ledger(primary_ip, discovered, sessions_dir)` |
+| `_looks_like_ip` | function | `modules/beacon_recon.py:42` | `def _looks_like_ip(value)` |
+| `_ports_from` | function | `modules/beacon_recon.py:111` | `def _ports_from(value)` |
+| `ingest_beacon_recon` | function | `modules/beacon_recon.py:169` | `def ingest_beacon_recon(primary_ip, discovered_ips, portscan, hostname, user, client_id, sessions_dir)` |
+| `parse_beacon_portscan` | function | `modules/beacon_recon.py:94` | `def parse_beacon_portscan(raw, default_host)` |
+| `parse_discovered_ips` | function | `modules/beacon_recon.py:50` | `def parse_discovered_ips(raw)` |
+| `binario_a_imagen` | function | `modules/bin2img.py:7` | `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)` |
+| `main` | function | `modules/bin2img.py:54` | `def main()` |
 | `BitMState` | class | `modules/bitm_engine.py:85` | `class BitMState` |
 | `_build_js_payload` | function | `modules/bitm_engine.py:151` | `def _build_js_payload(payload_name, lhost, lport)` |
 | `_check_tool` | function | `modules/bitm_engine.py:168` | `def _check_tool(tool)` |
@@ -257,13 +290,13 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_default_store` | function | `modules/chain_facts.py:73` | `def _default_store()` |
 | `_host_hint` | function | `modules/chain_facts.py:84` | `def _host_hint(output, phase, target_hint)` |
 | `spool_chain_outputs` | function | `modules/chain_facts.py:24` | `def spool_chain_outputs(result, sessions_dir, fact_store_factory)` |
-| `best_chain` | function | `modules/chain_match.py:135` | `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)` |
-| `load_rows` | function | `modules/chain_match.py:105` | `def load_rows(allow_lab, ttl)` |
-| `normalize_tags` | function | `modules/chain_match.py:48` | `def normalize_tags(tags)` |
-| `platform_ok` | function | `modules/chain_match.py:74` | `def platform_ok(platforms, os_hint)` |
-| `reset_cache` | function | `modules/chain_match.py:97` | `def reset_cache()` |
-| `score` | function | `modules/chain_match.py:85` | `def score(tags, phase, svc_tokens)` |
-| `service_tokens` | function | `modules/chain_match.py:64` | `def service_tokens(services)` |
+| `best_chain` | function | `modules/chain_match.py:139` | `def best_chain(phase, os_hint, services, exclude, allow_lab, rows, ttl)` |
+| `load_rows` | function | `modules/chain_match.py:109` | `def load_rows(allow_lab, ttl)` |
+| `normalize_tags` | function | `modules/chain_match.py:49` | `def normalize_tags(tags)` |
+| `platform_ok` | function | `modules/chain_match.py:75` | `def platform_ok(platforms, os_hint)` |
+| `reset_cache` | function | `modules/chain_match.py:101` | `def reset_cache()` |
+| `score` | function | `modules/chain_match.py:86` | `def score(tags, phase, svc_tokens)` |
+| `service_tokens` | function | `modules/chain_match.py:65` | `def service_tokens(services)` |
 | `Chain` | class | `modules/chain_registry.py:152` | `class Chain` |
 | `ChainStep` | class | `modules/chain_registry.py:102` | `class ChainStep` |
 | `_eval` | function | `modules/chain_registry.py:313` | `def _eval(node)` |
@@ -463,38 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_run_capture` | method | `modules/command_executor.py:296` | `def _run_capture(self, command, timeout)` |
 | `_run_stream` | method | `modules/command_executor.py:321` | `def _run_stream(self, command, timeout)` |
 | `add_hook` | method | `modules/command_executor.py:127` | `def add_hook(self, hook)` |
-| `clear_thread_stdin_devnull` | function | `modules/command_executor.py:64` | `def clear_thread_stdin_devnull()` |
-| `clear_thread_timeout` | function | `modules/command_executor.py:46` | `def clear_thread_timeout()` |
-| `get_executor` | function | `modules/command_executor.py:426` | `def get_executor()` |
-| `instance` | method | `modules/command_executor.py:122` | `def instance(cls)` |
-| `run` | method | `modules/command_executor.py:131` | `def run(self, command, timeout, stream)` |
-| `run_passthrough` | method | `modules/command_executor.py:179` | `def run_passthrough(self, command, env)` |
-| `run_tee` | method | `modules/command_executor.py:194` | `def run_tee(self, command)` |
-| `run_with_tee` | method | `modules/command_executor.py:358` | `def run_with_tee(self, command, output_path, timeout)` |
-| `set_thread_stdin_devnull` | function | `modules/command_executor.py:59` | `def set_thread_stdin_devnull(enabled)` |
-| `set_thread_timeout` | function | `modules/command_executor.py:41` | `def set_thread_timeout(seconds)` |
-| `thread_stdin_devnull` | function | `modules/command_executor.py:72` | `def thread_stdin_devnull()` |
-| `thread_timeout` | function | `modules/command_executor.py:54` | `def thread_timeout()` |
-| `ComplianceEngine` | class | `modules/compliance.py:632` | `class ComplianceEngine` |
-| `ComplianceFinding` | class | `modules/compliance.py:620` | `class ComplianceFinding` |
-| `EvidenceChain` | class | `modules/compliance.py:349` | `class EvidenceChain` |
-| `EvidenceEntry` | class | `modules/compliance.py:340` | `class EvidenceEntry` |
-| `__init__` | method | `modules/compliance.py:357` | `def __init__(self, sessions_dir)` |
-| `__init__` | method | `modules/compliance.py:635` | `def __init__(self, sessions_dir)` |
-| `_append_to_file` | method | `modules/compliance.py:403` | `def _append_to_file(self, entry)` |
-| `_compliance_finding` | method | `modules/compliance.py:780` | `def _compliance_finding(fact)` |
-| `_count_by_category` | method | `modules/compliance.py:772` | `def _count_by_category(self, findings)` |
-| `_count_by_severity` | method | `modules/compliance.py:765` | `def _count_by_severity(self, findings)` |
-| `_format_compliance_report_md` | method | `modules/compliance.py:861` | `def _format_compliance_report_md(self, report)` |
-| `_hash_entry` | method | `modules/compliance.py:379` | `def _hash_entry(self, entry)` |
-| `_load` | method | `modules/compliance.py:364` | `def _load(self)` |
-| `_load_findings` | method | `modules/compliance.py:808` | `def _load_findings(self)` |
-| `add_evidence` | method | `modules/compliance.py:927` | `def add_evidence(self, filepath, operator, description)` |
-| `add_file` | method | `modules/compliance.py:383` | `def add_file(self, filepath, operator, description)` |
-| `export_pdf` | function | `modules/compliance.py:449` | `def export_pdf(report_md, output_path, title, classification)` |
-| `export_pdf` | method | `modules/compliance.py:857` | `def export_pdf(self, report, output_path)` |
-| `export_to_cef` | function | `modules/compliance.py:572` | `def export_to_cef(findings, output_path, vendor, product, version)` |
-| `export_to_elastic_ndjson` | function | `modules/compliance.py:533` | `def export_to_elastic_ndjson(findings, output_path, index_prefix)` |
-| `generate_compliance_report` | method | `modules/compliance.py:710` | `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

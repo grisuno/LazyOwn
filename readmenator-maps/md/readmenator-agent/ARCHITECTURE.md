@@ -1,5 +1,5 @@
-# Architecture (page 1 of 9)
-Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md), [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md), [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md), [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md), [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md), [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md), [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md), [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md)
+# Architecture (page 1 of 10)
+Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md), [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md), [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md), [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md), [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md), [ARCHITECTURE_p7.md](ARCHITECTURE_p7.md), [ARCHITECTURE_p8.md](ARCHITECTURE_p8.md), [ARCHITECTURE_p9.md](ARCHITECTURE_p9.md), [ARCHITECTURE_p10.md](ARCHITECTURE_p10.md)
 
 ## Internal Dependencies
 
@@ -216,6 +216,22 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/exploitgym.py` -> `cli/commands/_base.py`
 - `cli/commands/exploitgym.py` -> `modules/exploitgym_gym.py`
 - `cli/commands/exploitgym.py` -> `utils.py`
+- `cli/commands/exposure_autofire.py` -> `cli/commands/_base.py`
+- `cli/commands/exposure_autofire.py` -> `modules/__init__.py`
+- `cli/commands/exposure_autofire.py` -> `utils.py`
+- `cli/commands/exposure_intel.py` -> `cli/commands/_base.py`
+- `cli/commands/exposure_intel.py` -> `modules/__init__.py`
+- `cli/commands/exposure_intel.py` -> `modules/lazy_exposure.py`
+- `cli/commands/exposure_intel.py` -> `utils.py`
+- `cli/commands/exposure_inventory.py` -> `cli/commands/_base.py`
+- `cli/commands/exposure_inventory.py` -> `modules/__init__.py`
+- `cli/commands/exposure_inventory.py` -> `utils.py`
+- `cli/commands/exposure_sentinel.py` -> `cli/commands/_base.py`
+- `cli/commands/exposure_sentinel.py` -> `modules/__init__.py`
+- `cli/commands/exposure_sentinel.py` -> `utils.py`
+- `cli/commands/exposure_timeline.py` -> `cli/commands/_base.py`
+- `cli/commands/exposure_timeline.py` -> `modules/__init__.py`
+- `cli/commands/exposure_timeline.py` -> `utils.py`
 - `cli/commands/golden_paths.py` -> `cli/commands/_base.py`
 - `cli/commands/golden_paths.py` -> `modules/__init__.py`
 - `cli/commands/golden_paths.py` -> `utils.py`
@@ -480,21 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/shellsys.py` -> `core/safe_exec.py`
 - `cli/commands/shellsys.py` -> `core/session_secrets.py`
 - `cli/commands/shellsys.py` -> `utils.py`
-- `cli/commands/sleep_obfuscation.py` -> `cli/commands/_base.py`
-- `cli/commands/sleep_obfuscation.py` -> `modules/sleep_obfuscation.py`
-- `cli/commands/sleep_obfuscation.py` -> `utils.py`
-- `cli/commands/socks_proxy.py` -> `cli/commands/_base.py`
-- `cli/commands/socks_proxy.py` -> `modules/socks_proxy.py`
-- `cli/commands/socks_proxy.py` -> `utils.py`
-- `cli/commands/supply_chain.py` -> `cli/commands/_base.py`
-- `cli/commands/supply_chain.py` -> `utils.py`
-- `cli/commands/surface.py` -> `cli/commands/_base.py`
-- `cli/commands/surface.py` -> `modules/attack_surface3d.py`
-- `cli/commands/surface.py` -> `modules/estorides_fusion.py`
-- `cli/commands/surface.py` -> `modules/surface_ops.py`
-- `cli/commands/surface.py` -> `utils.py`
-- `cli/commands/ux.py` -> `cli/commands/_base.py`
-- `cli/commands/ux.py` -> `cli/config_history.py`
-- `cli/commands/ux.py` -> `cli/fuzzy_match.py`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

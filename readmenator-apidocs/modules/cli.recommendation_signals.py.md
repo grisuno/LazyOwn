@@ -441,7 +441,7 @@ Return playbook-based proposals for the current context.
 
 ### `KillchainGapSignal`
 
-`class` | [cli/recommendation_signals.py:387](../../cli/recommendation_signals.py#L387)
+`class` | [cli/recommendation_signals.py:388](../../cli/recommendation_signals.py#L388)
 
 ```python
 class KillchainGapSignal
@@ -480,7 +480,7 @@ Gap detection rules (ordered by priority):
 
 #### `KillchainGapSignal.__init__`
 
-`constructor` | [cli/recommendation_signals.py:407](../../cli/recommendation_signals.py#L407)
+`constructor` | [cli/recommendation_signals.py:408](../../cli/recommendation_signals.py#L408)
 
 ```python
 def __init__(self, sessions_dir: str = 'sessions') -> None
@@ -498,7 +498,7 @@ def __init__(self, sessions_dir: str = 'sessions') -> None
 
 #### `KillchainGapSignal.propose`
 
-`method` | [cli/recommendation_signals.py:410](../../cli/recommendation_signals.py#L410)
+`method` | [cli/recommendation_signals.py:411](../../cli/recommendation_signals.py#L411)
 
 ```python
 def propose(self, ctx: RecommendationContext) -> list[Proposal]
@@ -520,7 +520,7 @@ Return gap-detection proposals for ``ctx``.
 
 ### `GraphTopologySignal`
 
-`class` | [cli/recommendation_signals.py:532](../../cli/recommendation_signals.py#L532)
+`class` | [cli/recommendation_signals.py:533](../../cli/recommendation_signals.py#L533)
 
 ```python
 class GraphTopologySignal
@@ -550,7 +550,7 @@ previously computed but never consumed by the recommendation engine.
 
 #### `GraphTopologySignal.__init__`
 
-`constructor` | [cli/recommendation_signals.py:543](../../cli/recommendation_signals.py#L543)
+`constructor` | [cli/recommendation_signals.py:544](../../cli/recommendation_signals.py#L544)
 
 ```python
 def __init__(self, sessions_dir: str = 'sessions') -> None
@@ -568,7 +568,7 @@ def __init__(self, sessions_dir: str = 'sessions') -> None
 
 #### `GraphTopologySignal.propose`
 
-`method` | [cli/recommendation_signals.py:546](../../cli/recommendation_signals.py#L546)
+`method` | [cli/recommendation_signals.py:547](../../cli/recommendation_signals.py#L547)
 
 ```python
 def propose(self, ctx: RecommendationContext) -> list[Proposal]
@@ -649,7 +649,7 @@ Assemble a [`RecommendationContext`](cli.recommendation.py.md#recommendationcont
 
 ### `build_default_engine`
 
-`function` | [cli/recommendation_signals.py:650](../../cli/recommendation_signals.py#L650)
+`function` | [cli/recommendation_signals.py:651](../../cli/recommendation_signals.py#L651)
 
 ```python
 def build_default_engine(payload: Mapping[str, Any] | None = None, sessions_dir: str = 'sessions', graph_path: str | None = None, command_index_path: str = 'cli/command_index.json', weights: EngineWeights | None = None) -> RecommendationEngine
@@ -683,7 +683,7 @@ signal is unconditional because its tables ship with the framework.
 
 ### `recommend_with_evidence`
 
-`function` | [cli/recommendation_signals.py:706](../../cli/recommendation_signals.py#L706)
+`function` | [cli/recommendation_signals.py:707](../../cli/recommendation_signals.py#L707)
 
 ```python
 def recommend_with_evidence(payload: Mapping[str, Any], sessions_dir: str = 'sessions', target: str | None = None, phase: str = '', limit: int = 3, engine: RecommendationEngine | None = None) -> list[Recommendation]

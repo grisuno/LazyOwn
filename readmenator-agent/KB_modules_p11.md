@@ -1,5 +1,84 @@
-# Subsystem: modules (page 11 of 17)
+# Subsystem: modules (page 11 of 18)
 Previous: [KB_modules_p10.md](KB_modules_p10.md)
+
+## modules/lazy_skills.py
+- Doc: Skill context injection for planner/worker prompts.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_frontmatter` (function, line 28) `def _frontmatter(text)`
+  - `_skill_files` (function, line 42) `def _skill_files()`
+  - `_load` (function, line 53) `def _load(path)`
+  - `list_skills` (function, line 85) `def list_skills()`
+  - `get_skill` (function, line 91) `def get_skill(name)`
+  - `match_skills` (function, line 102) `def match_skills(text, limit)`
+  - `skills_context` (function, line 118) `def skills_context(text, explicit, auto, budget)`
+- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`
+
+## modules/lazy_summarizer.py
+- Doc: Bounded chain summarizer for the Lazy autonomous loop.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_text_of` (function, line 26) `def _text_of(record)`
+  - `should_compact` (function, line 35) `def should_compact(used_chars, budget_chars)`
+  - `summarize_chain` (function, line 50) `def summarize_chain(records, budget_chars, complete)`
+  - `_digest` (function, line 100) `def _digest(older, complete)`
+  - `_truncate_records` (function, line 126) `def _truncate_records(records, budget)`
+
+## modules/lazy_surface_diff.py
+- Doc: Surface snapshot and diff: what changed about a host since last look.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `snapshot_host` (function, line 52) `def snapshot_host(host)`
+  - `fingerprint` (function, line 79) `def fingerprint(state)`
+  - `_port_number` (function, line 85) `def _port_number(key)`
+  - `diff_hosts` (function, line 93) `def diff_hosts(before, after)`
+  - `_load_previous` (function, line 149) `def _load_previous(path)`
+  - `current_snapshots` (function, line 160) `def current_snapshots(world)`
+  - `refresh` (function, line 186) `def refresh(world, sessions_dir)`
+  - `last_diff` (function, line 234) `def last_diff(sessions_dir)`
+  - `changed_hosts` (function, line 253) `def changed_hosts(limit, sessions_dir)`
+- Depends on: `modules/world_model.py`
+
+## modules/lazy_timeline.py
+- Doc: Lazy engagement timeline for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `resolve_hostnames` (function, line 36) `def resolve_hostnames(names, resolver)`
+  - `_getaddrinfo_resolver` (function, line 60) `def _getaddrinfo_resolver(name)`
+  - `record` (function, line 66) `def record(state_path, snaps_dir, keep, dns)`
+  - `record_quiet` (function, line 111) `def record_quiet(state_path, snaps_dir, keep, dns)`
+  - `find_snapshots` (function, line 135) `def find_snapshots(snaps_dir)`
+  - `diff` (function, line 151) `def diff(_old, _new)`
+  - `show` (function, line 180) `def show(snaps_dir, last)`
+  - `_default_state_path` (function, line 200) `def _default_state_path()`
+  - `_extract_hosts` (function, line 207) `def _extract_hosts(state)`
+  - `_host_diff` (function, line 229) `def _host_diff(ip, before, after)`
+  - `_zombies` (function, line 258) `def _zombies(_old_snapshot, snapshot)`
+  - `_prune` (function, line 292) `def _prune(paths, keep)`
+  - `_load` (function, line 301) `def _load(source)`
+- Depends on: `modules/world_model.py`
+- Imported by: `lazyown.py`, `modules/lazy_loop.py`, `tests/test_lazy_intel_wiring.py`
+
+## modules/lazy_triage.py
+- Doc: Triage doctrine: evidence floors, verdict algebra and signature dedup.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `rank` (function, line 42) `def rank(verdict)`
+  - `hard_evidence` (function, line 47) `def hard_evidence(kind, facts)`
+  - `apply_rules` (function, line 80) `def apply_rules(verdict, kind, facts)`
+  - `signature_for` (function, line 108) `def signature_for(kind, fields)`
+  - `SignatureStore` (class, line 135) `class SignatureStore`
+  - `__init__` (method, line 138) `def __init__(self, sessions_dir, ttl)`
+  - `fresh_signature` (method, line 144) `def fresh_signature(self, signature, now)`
+  - `reset` (method, line 162) `def reset(self)`
+  - `_load` (method, line 166) `def _load(self)`
+  - `_save` (method, line 176) `def _save(self, store)`
+- Imported by: `tests/test_lazy_triage.py`
 
 ## modules/lazy_verify.py
 - Doc: Structured read-only verification of loop findings.
@@ -404,89 +483,6 @@ Previous: [KB_modules_p10.md](KB_modules_p10.md)
   - `shorten` (function, line 35) `def shorten(url, provider, timeout)`
 - Depends on: `core/safe_exec.py`
 - Imported by: `modules/lazypoophish.py`
-
-## modules/lazyvpnshield.sh
-- Doc: Author: Nisrin Ahmed aka Wh1teDrvg0n Modify: grisun0
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `save_current_rules` (function, line 29)
-  - `show_current_rules` (function, line 37)
-  - `apply_vpn_rules` (function, line 45)
-  - `undo_and_restore_rules` (function, line 86)
-  - `main` (function, line 113)
-  - `ctrl_c` (function, line 11)
-  - `check_sudo` (function, line 16)
-
-## modules/lazywps.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `ctrl_c` (function, line 9)
-
-## modules/lesson_ingestor.py
-- Doc: Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LessonLearned` (class, line 55) `class LessonLearned`
-  - `LessonIngestor` (class, line 77) `class LessonIngestor`
-  - `ingest_campaign_lessons` (function, line 222) `def ingest_campaign_lessons(lessons_file)`
-  - `from_dict` (method, line 66) `def from_dict(cls, d)`
-  - `__init__` (method, line 86) `def __init__(self, lessons_file, router, trainer, boost_reward)`
-  - `_get_router` (method, line 98) `def _get_router(self)`
-  - `_get_trainer` (method, line 110) `def _get_trainer(self)`
-  - `_expert_for_topic` (method, line 122) `def _expert_for_topic(self, topic)`
-  - `ingest` (method, line 125) `def ingest(self, lesson)`
-  - `ingest_all` (method, line 185) `def ingest_all(self, lessons)`
-  - `_load_from_file` (method, line 202) `def _load_from_file(self)`
-- Depends on: `core/logging.py`, `modules/moe_router.py`, `modules/rl_trainer.py`
-- Imported by: `skills/lazyown_campaign.py`, `tests/test_lesson_ingestor.py`
-
-## modules/lilsplunky.py
-- Doc: Author: Your Name Email: youremail@example.com Creation Date: 14/04/2025 License: AGPL v3...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `simple_parse_log_line` (function, line 69) `def simple_parse_log_line(line, file_path)`
-  - `store_event` (function, line 108) `def store_event(event_data)`
-  - `analyze_with_deepseek` (function, line 123) `def analyze_with_deepseek(log_entry_data)`
-  - `LogFileHandler` (class, line 217) `class LogFileHandler(FileSystemEventHandler)`
-  - `display_record` (function, line 346) `def display_record(record)`
-  - `search_logs` (function, line 382) `def search_logs(query, file_path)`
-  - `start_monitoring` (function, line 413) `def start_monitoring(log_dir, mode)`
-  - `parse_args` (function, line 446) `def parse_args()`
-  - `__init__` (method, line 223) `def __init__(self, log_dir, mode)`
-  - `initialize_file_positions` (method, line 229) `def initialize_file_positions(self)`
-  - `is_monitored` (method, line 245) `def is_monitored(self, file_path)`
-  - `process_file` (method, line 257) `def process_file(self, file_path)`
-  - `on_modified` (method, line 331) `def on_modified(self, event)`
-  - `on_created` (method, line 336) `def on_created(self, event)`
-- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-
-## modules/linux_advanced_payloads.py
-- Doc: Advanced Linux payloads — LD_PRELOAD rootkits, eBPF, PAM backdoors, kernel implants.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LinuxAdvancedConfig` (class, line 64) `class LinuxAdvancedConfig`
-  - `LinuxAdvancedPayloadFactory` (class, line 92) `class LinuxAdvancedPayloadFactory`
-  - `__init__` (method, line 105) `def __init__(self, config, output_dir)`
-  - `generate_ld_preload_rootkit` (method, line 110) `def generate_ld_preload_rootkit(self)`
-  - `generate_ebpf_payload` (method, line 235) `def generate_ebpf_payload(self)`
-  - `_ip_to_hex` (method, line 305) `def _ip_to_hex(ip_str)`
-  - `generate_pam_backdoor` (method, line 311) `def generate_pam_backdoor(self)`
-  - `generate_systemd_persistence` (method, line 398) `def generate_systemd_persistence(self)`
-  - `generate_ssh_persistence` (method, line 458) `def generate_ssh_persistence(self)`
-  - `generate_kernel_module` (method, line 519) `def generate_kernel_module(self)`
-  - `generate_process_masquerade` (method, line 632) `def generate_process_masquerade(self)`
-  - `generate_udev_persistence` (method, line 676) `def generate_udev_persistence(self)`
-  - `generate_motd_backdoor` (method, line 689) `def generate_motd_backdoor(self)`
-  - `compile_c_source` (method, line 707) `def compile_c_source(self, source, output_name, shared)`
-  - `generate_all` (method, line 749) `def generate_all(self)`
-  - `list_hook_functions` (method, line 793) `def list_hook_functions()`
-  - `list_persistence_methods` (method, line 797) `def list_persistence_methods()`
-- Imported by: `cli/commands/payload_arsenal.py`
 
 
 Next: [KB_modules_p12.md](KB_modules_p12.md)

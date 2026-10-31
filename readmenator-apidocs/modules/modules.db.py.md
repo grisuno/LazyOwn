@@ -108,7 +108,7 @@ def __init__(self, db_path: str | None = None) -> None
 |---|---|---|---|
 | `db_path` | `str \| None` | `None` | Path to the SQLite file. Defaults to ``sessions/db/lazyown.db``. |
 
-*Called by:* [`CollaborationCommandSet.do_share_finding`](cli.commands.collaboration.py.md#collaborationcommandset-do_share_finding), [`DatabaseCommandSet.do_db_init`](cli.commands.database.py.md#databasecommandset-do_db_init), [`get_db`](#get_db), [`EstoridesToLazyOwnBridge.get_combined_surface`](modules.estorides_importer.py.md#estoridestolazyownbridge-get_combined_surface), [`extract_seeds_from_db`](modules.estorides_importer.py.md#extract_seeds_from_db), [`HashCracker.import_to_db`](modules.hash_cracker.py.md#hashcracker-import_to_db), [`NucleiParser.import_to_db`](modules.integrations.nuclei_parser.py.md#nucleiparser-import_to_db), [`StateManager.db`](modules.state_manager.py.md#statemanager-db)
+*Called by:* [`CollaborationCommandSet.do_share_finding`](cli.commands.collaboration.py.md#collaborationcommandset-do_share_finding), [`DatabaseCommandSet.do_db_init`](cli.commands.database.py.md#databasecommandset-do_db_init), [`get_db`](#get_db), [`EstoridesToLazyOwnBridge.get_combined_surface`](modules.estorides_importer.py.md#estoridestolazyownbridge-get_combined_surface), [`extract_seeds_from_db`](modules.estorides_importer.py.md#extract_seeds_from_db), [`HashCracker.import_to_db`](modules.hash_cracker.py.md#hashcracker-import_to_db), [`NucleiParser.import_to_db`](modules.integrations.nuclei_parser.py.md#nucleiparser-import_to_db), [`execute`](modules.lazy_search.py.md#execute), [`StateManager.db`](modules.state_manager.py.md#statemanager-db)
 
 <a id="lazyowndb-db_path"></a>
 

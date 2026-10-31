@@ -459,6 +459,12 @@ class LazyOwnShell(cmd2.Cmd):
         _atexit.register(self._run_auto_encrypt)
         _atexit.register(self._run_gym_cleanup)
         try:
+            from modules.lazy_timeline import record_quiet as _exit_snapshot
+
+            _atexit.register(_exit_snapshot)
+        except Exception:
+            pass
+        try:
             from modules.lazy_loop import shutdown_loop_runtime
 
             _atexit.register(shutdown_loop_runtime)

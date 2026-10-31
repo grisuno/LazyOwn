@@ -105,7 +105,7 @@ async def list_tools() -> list[types.Tool]
 
 ### `substitute_playbook_target`
 
-`function` | [skills/lazyown_mcp.py:6848](../../skills/lazyown_mcp.py#L6848)
+`function` | [skills/lazyown_mcp.py:6924](../../skills/lazyown_mcp.py#L6924)
 
 ```python
 def substitute_playbook_target(command: str, target: str) -> str
@@ -132,7 +132,7 @@ preserved because only the substituted value is quoted.
 
 ### `call_tool`
 
-`function` `async` | [skills/lazyown_mcp.py:6866](../../skills/lazyown_mcp.py#L6866)
+`function` `async` | [skills/lazyown_mcp.py:6942](../../skills/lazyown_mcp.py#L6942)
 
 Decorators: `@server.call_tool()`
 
@@ -157,7 +157,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
 ### `main`
 
-`function` `async` | [skills/lazyown_mcp.py:11987](../../skills/lazyown_mcp.py#L11987)
+`function` `async` | [skills/lazyown_mcp.py:12158](../../skills/lazyown_mcp.py#L12158)
 
 ```python
 async def main()

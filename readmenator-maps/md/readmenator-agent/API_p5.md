@@ -1,5 +1,43 @@
-# API (page 5 of 25)
+# API (page 5 of 26)
 Previous: [API_p4.md](API_p4.md)
+
+## cli/plugin_tiers.py
+Imported by: `cli/commands/marketplace.py`, `tests/test_input_fuzz.py`, `tests/test_plugin_tiers.py`
+- `load_tier_manifest` (function) `cli/plugin_tiers.py:35` `def load_tier_manifest(manifest)` -- Load explicit tier overrides from a ``tiers.yaml`` manifest.
+- `tier_of` (function) `cli/plugin_tiers.py:61` `def tier_of(name, manifest_tiers, metadata_tier)` -- Resolve the tier for a plugin name.
+- `rate_plugin` (function) `cli/plugin_tiers.py:98` `def rate_plugin(name, stars, store)` -- Record an operator rating and return the new ``(average, count)``.
+- `rating_summary` (function) `cli/plugin_tiers.py:121` `def rating_summary(name, store)` -- Return the ``(average, count)`` rating for a plugin name.
+- `format_rating` (function) `cli/plugin_tiers.py:137` `def format_rating(average, count)` -- Render a compact rating label for list and info views.
+- `default_store` (function) `cli/plugin_tiers.py:144` `def default_store(base_dir)` -- Return the default ratings file under ``<base_dir>/sessions``.
+- `read_metadata_tier` (function) `cli/plugin_tiers.py:149` `def read_metadata_tier(path)` -- Read the optional ``tier:`` field from a plugin YAML file.
+
+## cli/protips.py
+Depends on: `cli/noise_verbs.py`, `core/console.py`
+Imported by: `lazyown.py`, `tests/test_reactive_hints_expanded.py`
+- `get_session_tip` (function) `cli/protips.py:307` `def get_session_tip(ctx)` -- Return a single tip to show at session start.
+- `render_contextual_tip` (function) `cli/protips.py:333` `def render_contextual_tip(last_cmd, ctx)` -- Print a single dim tip line when the last command triggers one.
+- `print_session_tip` (function) `cli/protips.py:363` `def print_session_tip(ctx)` -- Print the session-start tip (called once after the banner).
+
+## cli/purple_tui.py
+Depends on: `cli/commands/containers.py`
+Imported by: `cli/commands/purple_team.py`
+- `PurpleDashboard.compose` (method) `cli/purple_tui.py:98` `def compose(self)`
+- `PurpleDashboard.on_mount` (method) `cli/purple_tui.py:108` `def on_mount(self)`
+- `PurpleDashboard.action_refresh` (method) `cli/purple_tui.py:112` `def action_refresh(self)`
+- `PurpleDashboard.refresh_data` (method) `cli/purple_tui.py:115` `def refresh_data(self)`
+- `launch` (function) `cli/purple_tui.py:233` `def launch()` -- Launch the purple team dashboard TUI.
+
+## cli/reactive_hints.py
+Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
+Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`
+- `render_inline_hints` (function) `cli/reactive_hints.py:221` `def render_inline_hints(advisor, last_command, limit, enabled)` -- Print a single dim hint line below the command output and return immediately.
+- `confidence_from_score` (function) `cli/reactive_hints.py:322` `def confidence_from_score(score)` -- Map an unbounded fused recommendation score to a 0-100 display confidence.
+- `build_evidence_hints` (function) `cli/reactive_hints.py:363` `def build_evidence_hints(recommendations, limit)` -- Convert fused recommendations into display-ready evidence hints.
+- `render_evidence_hints` (function) `cli/reactive_hints.py:401` `def render_evidence_hints(hints)` -- Print evidence-backed hint lines: verb, confidence, reason, provenance.
+- `build_evidence_hint_lines` (function) `cli/reactive_hints.py:417` `def build_evidence_hint_lines(hints)` -- Build evidence-backed hint lines as Rich Text objects.
+- `read_run_commands` (function) `cli/reactive_hints.py:444` `def read_run_commands(sessions_dir)` -- Return the set of command names already executed this session.
+- `render_command_hints` (function) `cli/reactive_hints.py:515` `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)` -- Print phase-aware, history-filtered command hints after each step.
+- `command_hints` (function) `cli/reactive_hints.py:550` `def command_hints(last_command, phase, sessions_dir, limit)` -- Return the top next-step command verbs without printing them.
 
 ## cli/reasoning_stream.py
 Depends on: `core/text_utils.py`
@@ -34,12 +72,12 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_
 - `build_context` (function) `cli/recommendation_signals.py:309` `def build_context(payload, sessions_dir, target, limit)` -- Assemble a :class:`RecommendationContext` from live engagement state.
 - `PlaybookSignal.__init__` (method) `cli/recommendation_signals.py:347` `def __init__(self, playbook_engine)` -- Store an optional playbook engine facade.
 - `PlaybookSignal.propose` (method) `cli/recommendation_signals.py:356` `def propose(self, ctx)` -- Return playbook-based proposals for the current context.
-- `KillchainGapSignal.__init__` (method) `cli/recommendation_signals.py:407` `def __init__(self, sessions_dir)`
-- `KillchainGapSignal.propose` (method) `cli/recommendation_signals.py:410` `def propose(self, ctx)` -- Return gap-detection proposals for ``ctx``.
-- `GraphTopologySignal.__init__` (method) `cli/recommendation_signals.py:543` `def __init__(self, sessions_dir)`
-- `GraphTopologySignal.propose` (method) `cli/recommendation_signals.py:546` `def propose(self, ctx)` -- Return lateral movement and topology proposals from network graph.
-- `build_default_engine` (function) `cli/recommendation_signals.py:650` `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)` -- Wire every available deterministic signal into one engine.
-- `recommend_with_evidence` (function) `cli/recommendation_signals.py:706` `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` -- Return fused, ranked recommendations carrying reason and score for display.
+- `KillchainGapSignal.__init__` (method) `cli/recommendation_signals.py:408` `def __init__(self, sessions_dir)`
+- `KillchainGapSignal.propose` (method) `cli/recommendation_signals.py:411` `def propose(self, ctx)` -- Return gap-detection proposals for ``ctx``.
+- `GraphTopologySignal.__init__` (method) `cli/recommendation_signals.py:544` `def __init__(self, sessions_dir)`
+- `GraphTopologySignal.propose` (method) `cli/recommendation_signals.py:547` `def propose(self, ctx)` -- Return lateral movement and topology proposals from network graph.
+- `build_default_engine` (function) `cli/recommendation_signals.py:651` `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)` -- Wire every available deterministic signal into one engine.
+- `recommend_with_evidence` (function) `cli/recommendation_signals.py:707` `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)` -- Return fused, ranked recommendations carrying reason and score for display.
 
 ## cli/recon_plan.py
 Depends on: `cli/exploration.py`, `modules/killchain.py`
@@ -52,7 +90,7 @@ Imported by: `cli/lazynmap_post.py`, `cli/recommendation_signals.py`, `tests/tes
 
 ## cli/registry.py
 Depends on: `cli/commands/_dormancy.py`
-Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_param_registry.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_exposure_command_sets.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_param_registry.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 - `iter_command_sets` (function) `cli/registry.py:41` `def iter_command_sets(include_pending)` -- Yield every ``CommandSet`` subclass found under ``cli.commands.*``.
 - `register_command_sets` (function) `cli/registry.py:77` `def register_command_sets(shell)` -- Instantiate and register every active ``CommandSet`` on ``shell``.
 
@@ -451,41 +489,6 @@ Imported by: `contrib/legacy/lazygptcli.py`
 - `process_prompt_task` (function) `contrib/legacy/lazygptcli_unified.py:346` `def process_prompt_task(client, prompt, debug)` -- Analyze task assessment JSON for completion status and next commands.
 - `process_prompt_vuln` (function) `contrib/legacy/lazygptcli_unified.py:356` `def process_prompt_vuln(client, prompt, debug, event)` -- Analyze Nmap output for vulnerabilities and generate penetration test action plan.
 - `process_prompt_redop` (function) `contrib/legacy/lazygptcli_unified.py:382` `def process_prompt_redop(client, prompt, debug)` -- Evaluate Red Team operation status from JSON database params.
-
-## contrib/legacy/lazyhoneypot.py
-Depends on: `core/logging.py`
-- `parse_args` (function) `contrib/legacy/lazyhoneypot.py:34` `def parse_args()`
-- `setup_logging` (function) `contrib/legacy/lazyhoneypot.py:52` `def setup_logging(log_file)`
-- `generate_rsa_key` (function) `contrib/legacy/lazyhoneypot.py:56` `def generate_rsa_key(key_filename)`
-- `Server.__init__` (method) `contrib/legacy/lazyhoneypot.py:61` `def __init__(self)`
-- `Server.check_channel_request` (method) `contrib/legacy/lazyhoneypot.py:64` `def check_channel_request(self, kind, chanid)`
-- `Server.check_auth_password` (method) `contrib/legacy/lazyhoneypot.py:69` `def check_auth_password(self, username, password)`
-- `handle_connection` (function) `contrib/legacy/lazyhoneypot.py:74` `def handle_connection(client_socket, host_key, commands_log, downloads_log, downloads_dir)`
-- `handle_file_download` (function) `contrib/legacy/lazyhoneypot.py:110` `def handle_file_download(command, downloads_dir, downloads_log)`
-- `log_command` (function) `contrib/legacy/lazyhoneypot.py:128` `def log_command(command, commands_log)`
-- `log_downloaded_file` (function) `contrib/legacy/lazyhoneypot.py:132` `def log_downloaded_file(filename, url, downloads_log)`
-- `analyze_traffic` (function) `contrib/legacy/lazyhoneypot.py:136` `def analyze_traffic()`
-- `process_packet` (function) `contrib/legacy/lazyhoneypot.py:137` `def process_packet(packet)`
-- `alert_admin` (function) `contrib/legacy/lazyhoneypot.py:147` `def alert_admin(message)`
-- `main` (function) `contrib/legacy/lazyhoneypot.py:165` `def main()`
-
-## contrib/legacy/lazyhttpreverseshell.py
-Depends on: `modules/backdoor/server.c`
-- `encrypt` (function) `contrib/legacy/lazyhttpreverseshell.py:14` `def encrypt(data)`
-- `decrypt` (function) `contrib/legacy/lazyhttpreverseshell.py:17` `def decrypt(data)`
-- `compress` (function) `contrib/legacy/lazyhttpreverseshell.py:20` `def compress(data)`
-- `decompress` (function) `contrib/legacy/lazyhttpreverseshell.py:23` `def decompress(data)`
-- `reverse_http_shell_client` (function) `contrib/legacy/lazyhttpreverseshell.py:26` `def reverse_http_shell_client(lhost, rhost, rport)`
-- `reverse_http_shell_server` (function) `contrib/legacy/lazyhttpreverseshell.py:50` `def reverse_http_shell_server(lhost, lport)`
-- `RequestHandler.do_GET` (method) `contrib/legacy/lazyhttpreverseshell.py:52` `def do_GET(self)`
-- `RequestHandler.do_POST` (method) `contrib/legacy/lazyhttpreverseshell.py:65` `def do_POST(self)`
-- `parse_arguments` (function) `contrib/legacy/lazyhttpreverseshell.py:88` `def parse_arguments(args)`
-
-## contrib/legacy/lazylfi2rce.py
-- `signal_handler` (function) `contrib/legacy/lazylfi2rce.py:29` `def signal_handler(sig, frame)`
-- `check_lfi_success` (function) `contrib/legacy/lazylfi2rce.py:35` `def check_lfi_success(response_text)`
-- `check_rfi_success` (function) `contrib/legacy/lazylfi2rce.py:39` `def check_rfi_success(response_text)`
-- `main` (function) `contrib/legacy/lazylfi2rce.py:43` `def main()`
 
 
 Next: [API_p6.md](API_p6.md)

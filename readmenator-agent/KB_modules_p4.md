@@ -1,4 +1,4 @@
-# Subsystem: modules (page 4 of 17)
+# Subsystem: modules (page 4 of 18)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
 
 ## modules/compliance.py
@@ -299,7 +299,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `status` (method, line 775) `def status(self, workspace_id)`
   - `close` (method, line 804) `def close(self)`
 - Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/lazy_search.py`, `modules/opsec_scorer.py`, `modules/sinks/campaign_db.py`, `modules/sinks/lazy_intel.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_lazy_search.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`, `tests/test_sink_lazy_intel.py`
 
 ## modules/defense_eval.py
 - Doc: Detection rule replay over recorded attack and control logs.

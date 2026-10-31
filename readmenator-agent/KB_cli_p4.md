@@ -108,15 +108,15 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `read_recent_commands` (function, line 276) `def read_recent_commands(sessions_dir, window)`
   - `build_context` (function, line 309) `def build_context(payload, sessions_dir, target, limit)`
   - `PlaybookSignal` (class, line 338) `class PlaybookSignal`
-  - `KillchainGapSignal` (class, line 387) `class KillchainGapSignal`
-  - `GraphTopologySignal` (class, line 532) `class GraphTopologySignal`
-  - `_try_build_playbook_signal` (function, line 639) `def _try_build_playbook_signal()`
-  - `build_default_engine` (function, line 650) `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)`
-  - `recommend_with_evidence` (function, line 706) `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)`
-  - `_try_build_graph_signal` (function, line 743) `def _try_build_graph_signal(graph_path)`
-  - `_try_build_policy_signal` (function, line 757) `def _try_build_policy_signal()`
-  - `_try_build_recon_signal` (function, line 773) `def _try_build_recon_signal(payload)`
-  - `_build_killchain_signal` (function, line 786) `def _build_killchain_signal()`
+  - `KillchainGapSignal` (class, line 388) `class KillchainGapSignal`
+  - `GraphTopologySignal` (class, line 533) `class GraphTopologySignal`
+  - `_try_build_playbook_signal` (function, line 640) `def _try_build_playbook_signal()`
+  - `build_default_engine` (function, line 651) `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)`
+  - `recommend_with_evidence` (function, line 707) `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)`
+  - `_try_build_graph_signal` (function, line 744) `def _try_build_graph_signal(graph_path)`
+  - `_try_build_policy_signal` (function, line 758) `def _try_build_policy_signal()`
+  - `_try_build_recon_signal` (function, line 774) `def _try_build_recon_signal(payload)`
+  - `_build_killchain_signal` (function, line 787) `def _build_killchain_signal()`
   - `__init__` (method, line 116) `def __init__(self, advisor)`
   - `propose` (method, line 126) `def propose(self, ctx)`
   - `__init__` (method, line 154) `def __init__(self, policy)`
@@ -127,15 +127,15 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `propose` (method, line 244) `def propose(self, ctx)`
   - `__init__` (method, line 347) `def __init__(self, playbook_engine)`
   - `propose` (method, line 356) `def propose(self, ctx)`
-  - `__init__` (method, line 407) `def __init__(self, sessions_dir)`
-  - `propose` (method, line 410) `def propose(self, ctx)`
-  - `_gap_exploited_no_privesc` (method, line 426) `def _gap_exploited_no_privesc(self, hosts)`
-  - `_gap_owned_no_creds` (method, line 466) `def _gap_owned_no_creds(self, hosts, wm_data)`
-  - `_gap_scan_no_enum` (method, line 486) `def _gap_scan_no_enum(self, hosts, recent)`
-  - `_gap_creds_no_lateral` (method, line 508) `def _gap_creds_no_lateral(self, wm_data, hosts)`
-  - `__init__` (method, line 543) `def __init__(self, sessions_dir)`
-  - `propose` (method, line 546) `def propose(self, ctx)`
-  - `_compute_centrality` (method, line 604) `def _compute_centrality(graph_data)`
+  - `__init__` (method, line 408) `def __init__(self, sessions_dir)`
+  - `propose` (method, line 411) `def propose(self, ctx)`
+  - `_gap_exploited_no_privesc` (method, line 427) `def _gap_exploited_no_privesc(self, hosts)`
+  - `_gap_owned_no_creds` (method, line 467) `def _gap_owned_no_creds(self, hosts, wm_data)`
+  - `_gap_scan_no_enum` (method, line 487) `def _gap_scan_no_enum(self, hosts, recent)`
+  - `_gap_creds_no_lateral` (method, line 509) `def _gap_creds_no_lateral(self, wm_data, hosts)`
+  - `__init__` (method, line 544) `def __init__(self, sessions_dir)`
+  - `propose` (method, line 547) `def propose(self, ctx)`
+  - `_compute_centrality` (method, line 605) `def _compute_centrality(graph_data)`
 - Depends on: `cli/exploration.py`, `cli/graph_advisor.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recon_plan.py`, `core/logging.py`, `modules/apt_playbooks.py`, `modules/world_model.py`, `skills/lazyown_policy.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `modules/engage_summary.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
 
@@ -173,7 +173,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `iter_command_sets` (function, line 41) `def iter_command_sets(include_pending)`
   - `register_command_sets` (function, line 77) `def register_command_sets(shell)`
 - Depends on: `cli/commands/_dormancy.py`
-- Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_param_registry.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+- Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_exposure_command_sets.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_param_registry.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 
 ## cli/retry_support.py
 - Doc: Retry support - resume logic shared by the ``retry`` CLI surface.

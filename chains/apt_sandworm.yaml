@@ -1,0 +1,6 @@
+name: apt_sandworm
+description: Sandworm Team chain (extends apt_chain); edge exploitation leading to destructive impact.
+enabled: true
+extends: apt_chain
+defaults:
+  playbook: sandworm_team

@@ -1,8 +1,145 @@
-# Symbols (page 21 of 48)
+# Symbols (page 21 of 49)
 Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_engine` | function | `modules/playbook_engine.py:669` | `def get_engine(api_key)` |
+| `load` | method | `modules/playbook_engine.py:611` | `def load(self, path)` |
+| `result_summary` | method | `modules/playbook_engine.py:640` | `def result_summary(self, result)` |
+| `save` | method | `modules/playbook_engine.py:599` | `def save(self, playbook, path)` |
+| `select` | method | `modules/playbook_engine.py:317` | `def select(self, candidates, world_context, target, phase, api_key, top_n)` |
+| `store` | method | `modules/playbook_engine.py:195` | `def store(self)` |
+| `techniques_for_tactics` | method | `modules/playbook_engine.py:210` | `def techniques_for_tactics(self, tactic_shortnames, platform)` |
+| `tests_for_technique` | method | `modules/playbook_engine.py:300` | `def tests_for_technique(self, technique_id, platform)` |
+| `to_dict` | method | `modules/playbook_engine.py:113` | `def to_dict(self)` |
+| `to_dict` | method | `modules/playbook_engine.py:141` | `def to_dict(self)` |
+| `DefaultTTPMapper` | class | `modules/playbook_executor.py:101` | `class DefaultTTPMapper(ITTPMapper)` |
+| `ITTPMapper` | class | `modules/playbook_executor.py:93` | `class ITTPMapper(ABC)` |
+| `PlaybookEngine` | class | `modules/playbook_executor.py:336` | `class PlaybookEngine` |
+| `PlaybookLoader` | class | `modules/playbook_executor.py:203` | `class PlaybookLoader` |
+| `PlaybookRunResult` | class | `modules/playbook_executor.py:61` | `class PlaybookRunResult` |
+| `PlaybookSpec` | class | `modules/playbook_executor.py:48` | `class PlaybookSpec` |
+| `PlaybookTechnique` | class | `modules/playbook_executor.py:36` | `class PlaybookTechnique` |
+| `__init__` | method | `modules/playbook_executor.py:208` | `def __init__(self, playbooks_dir)` |
+| `__init__` | method | `modules/playbook_executor.py:339` | `def __init__(self, loader, mapper, pipelines_dir)` |
+| `_build_pipeline_yaml` | function | `modules/playbook_executor.py:285` | `def _build_pipeline_yaml(playbook, mapper, platform)` |
+| `_validate` | method | `modules/playbook_executor.py:235` | `def _validate(self, raw, source_path)` |
+| `analyze` | method | `modules/playbook_executor.py:353` | `def analyze(self, name, platform)` |
+| `generate_pipeline` | method | `modules/playbook_executor.py:378` | `def generate_pipeline(self, name, platform)` |
+| `list` | method | `modules/playbook_executor.py:211` | `def list(self)` |
+| `load` | method | `modules/playbook_executor.py:224` | `def load(self, name)` |
+| `loader` | method | `modules/playbook_executor.py:350` | `def loader(self)` |
+| `playbook_analyze` | function | `modules/playbook_executor.py:422` | `def playbook_analyze(name, platform)` |
+| `playbook_generate` | function | `modules/playbook_executor.py:429` | `def playbook_generate(name, platform)` |
+| `playbook_list` | function | `modules/playbook_executor.py:416` | `def playbook_list()` |
+| `playbook_run` | function | `modules/playbook_executor.py:436` | `def playbook_run(name, platform, target, onecmd)` |
+| `register` | method | `modules/playbook_executor.py:180` | `def register(cls, technique_id, platform, command)` |
+| `resolve` | method | `modules/playbook_executor.py:97` | `def resolve(self, technique_id, atomic_test, platform)` |
+| `resolve` | method | `modules/playbook_executor.py:185` | `def resolve(self, technique_id, atomic_test, platform)` |
+| `run` | method | `modules/playbook_executor.py:390` | `def run(self, name, platform, target, onecmd)` |
+| `to_dict` | method | `modules/playbook_executor.py:74` | `def to_dict(self)` |
+| `MutationConfig` | class | `modules/polymorphic_engine.py:93` | `class MutationConfig` |
+| `MutationResult` | class | `modules/polymorphic_engine.py:126` | `class MutationResult` |
+| `PolymorphicEngine` | class | `modules/polymorphic_engine.py:146` | `class PolymorphicEngine` |
+| `__init__` | method | `modules/polymorphic_engine.py:159` | `def __init__(self, config)` |
+| `_base64_wrap` | method | `modules/polymorphic_engine.py:330` | `def _base64_wrap(self, data, arch)` |
+| `_compress_data` | method | `modules/polymorphic_engine.py:324` | `def _compress_data(self, data)` |
+| `_estimate_entropy` | method | `modules/polymorphic_engine.py:344` | `def _estimate_entropy(data)` |
+| `_junk_insertion` | method | `modules/polymorphic_engine.py:282` | `def _junk_insertion(self, data, arch)` |
+| `_multi_xor_encrypt` | method | `modules/polymorphic_engine.py:309` | `def _multi_xor_encrypt(self, data)` |
+| `_nop_insertion` | method | `modules/polymorphic_engine.py:253` | `def _nop_insertion(self, data, arch)` |
+| `_nop_substitution` | method | `modules/polymorphic_engine.py:231` | `def _nop_substitution(self, data, arch)` |
+| `_register_reassignment` | method | `modules/polymorphic_engine.py:262` | `def _register_reassignment(self, data, arch)` |
+| `_single_pass` | method | `modules/polymorphic_engine.py:184` | `def _single_pass(self, data, arch, pass_num, original_size)` |
+| `_xor_encrypt` | method | `modules/polymorphic_engine.py:303` | `def _xor_encrypt(self, data, arch)` |
+| `decode_multi_xor` | method | `modules/polymorphic_engine.py:377` | `def decode_multi_xor(data)` |
+| `decode_xor` | method | `modules/polymorphic_engine.py:361` | `def decode_xor(data)` |
+| `generate_decoder_stub` | method | `modules/polymorphic_engine.py:397` | `def generate_decoder_stub(self, arch)` |
+| `get_audit_summary` | method | `modules/polymorphic_engine.py:422` | `def get_audit_summary(self)` |
+| `mutate` | method | `modules/polymorphic_engine.py:163` | `def mutate(self, shellcode, arch)` |
+| `PrivescVector` | class | `modules/privesc_predictor.py:97` | `class PrivescVector` |
+| `SystemProfile` | class | `modules/privesc_predictor.py:114` | `class SystemProfile` |
+| `_load_gtfobins_map` | function | `modules/privesc_predictor.py:617` | `def _load_gtfobins_map()` |
+| `_parse_kernel_version` | function | `modules/privesc_predictor.py:136` | `def _parse_kernel_version(version_str)` |
+| `_parse_version_from_range` | function | `modules/privesc_predictor.py:153` | `def _parse_version_from_range(range_str)` |
+| `_try_llm_analysis` | function | `modules/privesc_predictor.py:655` | `def _try_llm_analysis(profile)` |
+| `analyze_privesc` | function | `modules/privesc_predictor.py:742` | `def analyze_privesc(filepath, text)` |
+| `capability_vectors` | function | `modules/privesc_predictor.py:361` | `def capability_vectors(profile)` |
+| `cron_vectors` | function | `modules/privesc_predictor.py:578` | `def cron_vectors(profile)` |
+| `format_crystal_ball_output` | function | `modules/privesc_predictor.py:827` | `def format_crystal_ball_output(result)` |
+| `group_vectors` | function | `modules/privesc_predictor.py:463` | `def group_vectors(profile)` |
+| `main` | function | `modules/privesc_predictor.py:908` | `def main()` |
+| `match_known_cves` | function | `modules/privesc_predictor.py:249` | `def match_known_cves(profile)` |
+| `parse_linpeas_output` | function | `modules/privesc_predictor.py:165` | `def parse_linpeas_output(text)` |
+| `parse_winpeas_output` | function | `modules/privesc_predictor.py:218` | `def parse_winpeas_output(text)` |
+| `sudo_vectors` | function | `modules/privesc_predictor.py:501` | `def sudo_vectors(profile)` |
+| `suid_vectors` | function | `modules/privesc_predictor.py:287` | `def suid_vectors(profile)` |
+| `RedTeamReportGenerator` | class | `modules/professional_report.py:114` | `class RedTeamReportGenerator` |
+| `ReportFinding` | class | `modules/professional_report.py:87` | `class ReportFinding` |
+| `ReportMetadata` | class | `modules/professional_report.py:102` | `class ReportMetadata` |
+| `__init__` | method | `modules/professional_report.py:173` | `def __init__(self, include_credentials)` |
+| `_accumulate_loot` | method | `modules/professional_report.py:964` | `def _accumulate_loot(self, summary, path)` |
+| `_ai_draft_summary` | method | `modules/professional_report.py:1027` | `def _ai_draft_summary(self, data, fallback, backend)` |
+| `_classify_credentials` | method | `modules/professional_report.py:685` | `def _classify_credentials(self, credentials, hosts)` |
+| `_classify_ctf_captures` | method | `modules/professional_report.py:761` | `def _classify_ctf_captures(self, captures)` |
+| `_classify_services` | method | `modules/professional_report.py:588` | `def _classify_services(self, services, hosts)` |
+| `_classify_sessions` | method | `modules/professional_report.py:806` | `def _classify_sessions(self, sessions, hosts)` |
+| `_classify_vulnerabilities` | method | `modules/professional_report.py:643` | `def _classify_vulnerabilities(self, vulns, hosts)` |
+| `_collect_ctf_captures` | method | `modules/professional_report.py:853` | `def _collect_ctf_captures(self)` |
+| `_extract_scope` | method | `modules/professional_report.py:893` | `def _extract_scope(self, data)` |
+| `_generate_html` | method | `modules/professional_report.py:301` | `def _generate_html(self, out_path, timestamp)` |
+| `_generate_json` | method | `modules/professional_report.py:516` | `def _generate_json(self, out_path, timestamp)` |
+| `_generate_markdown` | method | `modules/professional_report.py:453` | `def _generate_markdown(self, out_path, timestamp)` |
+| `_html_to_pdf` | method | `modules/professional_report.py:555` | `def _html_to_pdf(self, html_path)` |
+| `_load_json` | method | `modules/professional_report.py:872` | `def _load_json(self, filename)` |
+| `classify_findings` | method | `modules/professional_report.py:219` | `def classify_findings(self, data)` |
+| `collect_command_history` | method | `modules/professional_report.py:912` | `def collect_command_history(self, max_entries)` |
+| `collect_data` | method | `modules/professional_report.py:179` | `def collect_data(self)` |
+| `collect_loot_summary` | method | `modules/professional_report.py:936` | `def collect_loot_summary(self)` |
+| `generate` | method | `modules/professional_report.py:247` | `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)` |
+| `generate_executive_summary` | method | `modules/professional_report.py:982` | `def generate_executive_summary(self, data, with_ai, ai_backend)` |
+| `InvalidEngagement` | class | `modules/progress_ledger.py:40` | `class InvalidEngagement(ValueError)` |
+| `ProgressLedger` | class | `modules/progress_ledger.py:100` | `class ProgressLedger` |
+| `RoundSignals` | class | `modules/progress_ledger.py:62` | `class RoundSignals` |
+| `StrikePolicy` | class | `modules/progress_ledger.py:45` | `class StrikePolicy` |
+| `__init__` | method | `modules/progress_ledger.py:103` | `def __init__(self, engagement_id, base_dir, policy)` |
+| `_now_iso` | function | `modules/progress_ledger.py:87` | `def _now_iso()` |
+| `_safe_state` | function | `modules/progress_ledger.py:92` | `def _safe_state(value)` |
+| `brief_for_discards` | method | `modules/progress_ledger.py:250` | `def brief_for_discards(self)` |
+| `clamped` | method | `modules/progress_ledger.py:56` | `def clamped(self)` |
+| `file_path` | method | `modules/progress_ledger.py:128` | `def file_path(self)` |
+| `load` | method | `modules/progress_ledger.py:132` | `def load(self)` |
+| `log` | method | `modules/progress_ledger.py:172` | `def log(self)` |
+| `observe` | method | `modules/progress_ledger.py:208` | `def observe(self, signals, note)` |
+| `progress` | method | `modules/progress_ledger.py:82` | `def progress(self)` |
+| `save` | method | `modules/progress_ledger.py:152` | `def save(self)` |
+| `signals_from_brief` | method | `modules/progress_ledger.py:176` | `def signals_from_brief(self, brief)` |
+| `strikes` | method | `modules/progress_ledger.py:167` | `def strikes(self)` |
+| `download_kernel_sources` | function | `modules/r.sh:10` | `` |
+| `ReactionPick` | class | `modules/reaction_bridge.py:66` | `class ReactionPick` |
+| `__init__` | method | `modules/reaction_bridge.py:69` | `def __init__(self, command, reason, priority, mitre)` |
+| `_buffer_path` | function | `modules/reaction_bridge.py:76` | `def _buffer_path(task_id)` |
+| `_load_buffer` | function | `modules/reaction_bridge.py:143` | `def _load_buffer(task_id)` |
+| `_placeholder_value` | function | `modules/reaction_bridge.py:154` | `def _placeholder_value(value)` |
+| `_write_buffer` | function | `modules/reaction_bridge.py:150` | `def _write_buffer(task_id, payload)` |
+| `find_credentials` | function | `modules/reaction_bridge.py:159` | `def find_credentials(output)` |
+| `load_reaction_triggers` | function | `modules/reaction_bridge.py:108` | `def load_reaction_triggers(task_id, consumer)` |
+| `save_decisions` | function | `modules/reaction_bridge.py:80` | `def save_decisions(task_id, decisions)` |
+| `AVBlockedMatcher` | class | `modules/reactive_engine.py:102` | `class AVBlockedMatcher(AbstractSignalMatcher)` |
+| `AbstractSignalMatcher` | class | `modules/reactive_engine.py:97` | `class AbstractSignalMatcher(ABC)` |
+| `CredentialFoundMatcher` | class | `modules/reactive_engine.py:147` | `class CredentialFoundMatcher(AbstractSignalMatcher)` |
+| `DataOfInterestMatcher` | class | `modules/reactive_engine.py:323` | `class DataOfInterestMatcher(AbstractSignalMatcher)` |
+| `EvasionAdvisor` | class | `modules/reactive_engine.py:481` | `class EvasionAdvisor` |
+| `LateralOpportunityMatcher` | class | `modules/reactive_engine.py:293` | `class LateralOpportunityMatcher(AbstractSignalMatcher)` |
+| `NewHostMatcher` | class | `modules/reactive_engine.py:209` | `class NewHostMatcher(AbstractSignalMatcher)` |
+| `ParquetAdvisor` | class | `modules/reactive_engine.py:389` | `class ParquetAdvisor` |
+| `PrivescAdvisor` | class | `modules/reactive_engine.py:537` | `class PrivescAdvisor` |
+| `PrivescHintMatcher` | class | `modules/reactive_engine.py:174` | `class PrivescHintMatcher(AbstractSignalMatcher)` |
+| `ReactiveDecision` | class | `modules/reactive_engine.py:80` | `class ReactiveDecision` |
+| `ReactiveEngine` | class | `modules/reactive_engine.py:804` | `class ReactiveEngine` |
+| `SemanticContextAdvisor` | class | `modules/reactive_engine.py:632` | `class SemanticContextAdvisor` |
+| `ServiceVersionMatcher` | class | `modules/reactive_engine.py:232` | `class ServiceVersionMatcher(AbstractSignalMatcher)` |
+| `ShellErrorMatcher` | class | `modules/reactive_engine.py:262` | `class ShellErrorMatcher(AbstractSignalMatcher)` |
 | `Signal` | class | `modules/reactive_engine.py:69` | `class Signal` |
 | `__init__` | method | `modules/reactive_engine.py:395` | `def __init__(self, root)` |
 | `__init__` | method | `modules/reactive_engine.py:644` | `def __init__(self, rag, config_loader, min_score, query_limit)` |
@@ -359,142 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `m365_ews_mail_search` | method | `modules/saas_attacks.py:179` | `def m365_ews_mail_search(self, search_term)` |
 | `microsoft365_commands` | method | `modules/saas_attacks.py:75` | `def microsoft365_commands()` |
 | `salesforce_commands` | method | `modules/saas_attacks.py:118` | `def salesforce_commands()` |
-| `salesforce_report_mining` | method | `modules/saas_attacks.py:257` | `def salesforce_report_mining(self)` |
-| `servicenow_commands` | method | `modules/saas_attacks.py:135` | `def servicenow_commands()` |
-| `slack_data_mining` | method | `modules/saas_attacks.py:286` | `def slack_data_mining(self)` |
-| `summary` | method | `modules/saas_attacks.py:352` | `def summary(self)` |
-| `BindAddressResolver` | class | `modules/security_sanitizers.py:256` | `class BindAddressResolver` |
-| `CommandRedactor` | class | `modules/security_sanitizers.py:318` | `class CommandRedactor` |
-| `HeaderValueSanitizer` | class | `modules/security_sanitizers.py:101` | `class HeaderValueSanitizer` |
-| `OutputSanitizer` | class | `modules/security_sanitizers.py:406` | `class OutputSanitizer` |
-| `SecurityConfig` | class | `modules/security_sanitizers.py:37` | `class SecurityConfig` |
-| `SessionPathResolver` | class | `modules/security_sanitizers.py:162` | `class SessionPathResolver` |
-| `__init__` | method | `modules/security_sanitizers.py:115` | `def __init__(self, config)` |
-| `__init__` | method | `modules/security_sanitizers.py:174` | `def __init__(self, base_dir, config)` |
-| `__init__` | method | `modules/security_sanitizers.py:269` | `def __init__(self, config, preferred_addresses)` |
-| `__init__` | method | `modules/security_sanitizers.py:333` | `def __init__(self, config)` |
-| `__init__` | method | `modules/security_sanitizers.py:418` | `def __init__(self, config)` |
-| `_display_password` | method | `modules/security_sanitizers.py:353` | `def _display_password(self, password)` |
-| `_display_username` | method | `modules/security_sanitizers.py:345` | `def _display_username(self, username)` |
-| `_is_well_formed` | method | `modules/security_sanitizers.py:285` | `def _is_well_formed(self, candidate)` |
-| `_sanitize` | method | `modules/security_sanitizers.py:433` | `def _sanitize(self, value, depth)` |
-| `base_dir` | method | `modules/security_sanitizers.py:192` | `def base_dir(self)` |
-| `build_default_config` | function | `modules/security_sanitizers.py:477` | `def build_default_config(payload)` |
-| `file_exists` | method | `modules/security_sanitizers.py:238` | `def file_exists(self, untrusted_name)` |
-| `from_payload` | method | `modules/security_sanitizers.py:68` | `def from_payload(cls, payload)` |
-| `is_valid_name` | method | `modules/security_sanitizers.py:129` | `def is_valid_name(self, name)` |
-| `render` | method | `modules/security_sanitizers.py:359` | `def render(self, template, substitutions, username, password)` |
-| `resolve` | method | `modules/security_sanitizers.py:196` | `def resolve(self, untrusted_name)` |
-| `resolve` | method | `modules/security_sanitizers.py:298` | `def resolve(self)` |
-| `sanitize` | method | `modules/security_sanitizers.py:429` | `def sanitize(self, value)` |
-| `sanitize_value` | method | `modules/security_sanitizers.py:139` | `def sanitize_value(self, value)` |
-| `AdversarySelector` | class | `modules/selection/adversary.py:19` | `class AdversarySelector` |
-| `__init__` | method | `modules/selection/adversary.py:24` | `def __init__(self, adversaries_dir)` |
-| `propose` | method | `modules/selection/adversary.py:28` | `def propose(self, ctx)` |
-| `AtomicSelector` | class | `modules/selection/atomic.py:20` | `class AtomicSelector` |
-| `propose` | method | `modules/selection/atomic.py:25` | `def propose(self, ctx)` |
-| `ActionDecision` | class | `modules/selection/base.py:44` | `class ActionDecision` |
-| `SelectionContext` | class | `modules/selection/base.py:20` | `class SelectionContext` |
-| `Selector` | class | `modules/selection/base.py:63` | `class Selector(Protocol)` |
-| `propose` | method | `modules/selection/base.py:73` | `def propose(self, ctx)` |
-| `ChainSelector` | class | `modules/selection/chain.py:13` | `class ChainSelector` |
-| `__init__` | method | `modules/selection/chain.py:18` | `def __init__(self, allow_lab)` |
-| `propose` | method | `modules/selection/chain.py:27` | `def propose(self, ctx)` |
-| `CredentialSpraySelector` | class | `modules/selection/cred_spray.py:32` | `class CredentialSpraySelector` |
-| `propose` | method | `modules/selection/cred_spray.py:37` | `def propose(self, ctx)` |
-| `PlaybookSelector` | class | `modules/selection/playbook.py:19` | `class PlaybookSelector` |
-| `__init__` | method | `modules/selection/playbook.py:24` | `def __init__(self, playbook_dir)` |
-| `propose` | method | `modules/selection/playbook.py:28` | `def propose(self, ctx)` |
-| `all_selectors` | function | `modules/selection/registry.py:22` | `def all_selectors()` |
-| `default_selectors` | function | `modules/selection/registry.py:40` | `def default_selectors()` |
-| `propose_next` | function | `modules/selection/registry.py:55` | `def propose_next(ctx, selectors)` |
-| `Proposal` | class | `modules/selector_manager.py:21` | `class Proposal` |
-| `Selection` | class | `modules/selector_manager.py:32` | `class Selection` |
-| `select` | function | `modules/selector_manager.py:42` | `def select(proposals, is_blocked)` |
-| `ReleaseArtifact` | class | `modules/selfupdate.py:24` | `class ReleaseArtifact` |
-| `Updater` | class | `modules/selfupdate.py:38` | `class Updater` |
-| `__init__` | method | `modules/selfupdate.py:47` | `def __init__(self, live_path)` |
-| `_git` | function | `modules/selfupdate.py:90` | `def _git(args, runner, cwd, timeout)` |
-| `_run` | function | `modules/selfupdate.py:85` | `def _run(argv, cwd, timeout)` |
-| `apply` | function | `modules/selfupdate.py:140` | `def apply(branch, confirm, runner)` |
-| `check` | function | `modules/selfupdate.py:108` | `def check(branch, runner)` |
-| `current_branch` | function | `modules/selfupdate.py:96` | `def current_branch(runner)` |
-| `dirty` | function | `modules/selfupdate.py:102` | `def dirty(runner)` |
-| `rollback` | method | `modules/selfupdate.py:77` | `def rollback(self)` |
-| `stage` | method | `modules/selfupdate.py:57` | `def stage(self, artifact, directory)` |
-| `verify` | method | `modules/selfupdate.py:52` | `def verify(self, artifact)` |
-| `_compose_down` | function | `modules/session_cleanup.py:66` | `def _compose_down(compose_file, label)` |
-| `_run_quiet` | function | `modules/session_cleanup.py:49` | `def _run_quiet(argv, timeout)` |
-| `cleanup_ephemeral_infra` | function | `modules/session_cleanup.py:120` | `def cleanup_ephemeral_infra()` |
-| `find_cloudflared_pids` | function | `modules/session_cleanup.py:28` | `def find_cloudflared_pids(ps_output)` |
-| `stop_cloudflared_processes` | function | `modules/session_cleanup.py:94` | `def stop_cloudflared_processes()` |
-| `SessionRAG` | class | `modules/session_rag.py:188` | `class SessionRAG` |
-| `_KeywordFallback` | class | `modules/session_rag.py:103` | `class _KeywordFallback` |
-| `_RagState` | class | `modules/session_rag.py:168` | `class _RagState` |
-| `__init__` | method | `modules/session_rag.py:111` | `def __init__(self)` |
-| `__init__` | method | `modules/session_rag.py:191` | `def __init__(self)` |
-| `_chunk_text` | function | `modules/session_rag.py:88` | `def _chunk_text(text, size, overlap)` |
-| `_index_file` | method | `modules/session_rag.py:265` | `def _index_file(self, path, collection_key)` |
-| `_init_backend` | method | `modules/session_rag.py:202` | `def _init_backend(self)` |
-| `_iter_artefacts` | method | `modules/session_rag.py:248` | `def _iter_artefacts(self)` |
-| `add` | method | `modules/session_rag.py:136` | `def add(self, doc_id, text, meta)` |
-| `context_for_step` | method | `modules/session_rag.py:489` | `def context_for_step(self, phase, target, cmd, n)` |
-| `count` | method | `modules/session_rag.py:156` | `def count(self)` |
-| `get_rag` | function | `modules/session_rag.py:535` | `def get_rag()` |
-| `index_all` | method | `modules/session_rag.py:411` | `def index_all(self)` |
-| `index_new` | method | `modules/session_rag.py:301` | `def index_new(self)` |
-| `index_parquet_sources` | method | `modules/session_rag.py:322` | `def index_parquet_sources(self, force)` |
-| `load` | method | `modules/session_rag.py:115` | `def load(self, path)` |
-| `load` | method | `modules/session_rag.py:172` | `def load(cls)` |
-| `query` | method | `modules/session_rag.py:146` | `def query(self, query_text, n)` |
-| `query` | method | `modules/session_rag.py:439` | `def query(self, query_text, n, collection)` |
-| `reset` | method | `modules/session_rag.py:159` | `def reset(self)` |
-| `save` | method | `modules/session_rag.py:126` | `def save(self, path)` |
-| `save` | method | `modules/session_rag.py:181` | `def save(self)` |
-| `stats` | method | `modules/session_rag.py:509` | `def stats(self)` |
-| `AbstractReader` | class | `modules/session_reader.py:127` | `class AbstractReader(ABC)` |
-| `CampaignTask` | class | `modules/session_reader.py:74` | `class CampaignTask` |
-| `CommandOutputReader` | class | `modules/session_reader.py:193` | `class CommandOutputReader(AbstractReader)` |
-| `DiscoveredHostReader` | class | `modules/session_reader.py:214` | `class DiscoveredHostReader(AbstractReader)` |
-| `ImplantCSVReader` | class | `modules/session_reader.py:137` | `class ImplantCSVReader(AbstractReader)` |
-| `ImplantRecord` | class | `modules/session_reader.py:39` | `class ImplantRecord` |
-| `SessionAggregator` | class | `modules/session_reader.py:313` | `class SessionAggregator` |
-| `SessionSummary` | class | `modules/session_reader.py:85` | `class SessionSummary` |
-| `TaskReader` | class | `modules/session_reader.py:232` | `class TaskReader(AbstractReader)` |
-| `TaskWriter` | class | `modules/session_reader.py:257` | `class TaskWriter` |
-| `__init__` | method | `modules/session_reader.py:260` | `def __init__(self, sessions_dir)` |
-| `__init__` | method | `modules/session_reader.py:319` | `def __init__(self, implant_reader, output_reader, host_reader, task_reader)` |
-| `active_client_ids` | method | `modules/session_reader.py:94` | `def active_client_ids(self)` |
-| `aggregate` | method | `modules/session_reader.py:331` | `def aggregate(self, sessions_dir)` |
-| `append` | method | `modules/session_reader.py:263` | `def append(self, title, description, operator, status)` |
-| `get_aggregator` | function | `modules/session_reader.py:347` | `def get_aggregator()` |
-| `ip_list` | method | `modules/session_reader.py:69` | `def ip_list(self)` |
-| `is_privileged` | method | `modules/session_reader.py:55` | `def is_privileged(self)` |
-| `latest_for` | method | `modules/session_reader.py:114` | `def latest_for(self, client_id)` |
-| `platform` | method | `modules/session_reader.py:60` | `def platform(self)` |
-| `privileged_sessions` | method | `modules/session_reader.py:101` | `def privileged_sessions(self)` |
-| `read` | method | `modules/session_reader.py:129` | `def read(self, sessions_dir)` |
-| `read` | method | `modules/session_reader.py:157` | `def read(self, sessions_dir)` |
-| `read` | method | `modules/session_reader.py:199` | `def read(self, sessions_dir)` |
-| `read` | method | `modules/session_reader.py:217` | `def read(self, sessions_dir)` |
-| `read` | method | `modules/session_reader.py:235` | `def read(self, sessions_dir)` |
-| `task_by_status` | method | `modules/session_reader.py:118` | `def task_by_status(self, status)` |
-| `unprivileged_sessions` | method | `modules/session_reader.py:108` | `def unprivileged_sessions(self)` |
-| `update_status` | method | `modules/session_reader.py:288` | `def update_status(self, task_id, status)` |
-| `_detect_phase` | function | `modules/session_state.py:50` | `def _detect_phase(event_types)` |
-| `_extract_creds_from_events` | function | `modules/session_state.py:118` | `def _extract_creds_from_events(events)` |
-| `_extract_hosts` | function | `modules/session_state.py:133` | `def _extract_hosts(rows, payload)` |
-| `_read_events` | function | `modules/session_state.py:93` | `def _read_events(n)` |
-| `_read_last_commands` | function | `modules/session_state.py:75` | `def _read_last_commands(n)` |
-| `_summarise_commands` | function | `modules/session_state.py:175` | `def _summarise_commands(rows)` |
-| `build_state` | function | `modules/session_state.py:189` | `def build_state()` |
-| `load` | function | `modules/session_state.py:251` | `def load()` |
-| `refresh` | function | `modules/session_state.py:240` | `def refresh()` |
-| `SideConfig` | class | `modules/sidequestion.py:19` | `class SideConfig` |
-| `SideQuestion` | class | `modules/sidequestion.py:42` | `class SideQuestion` |
-| `SideQuestionService` | class | `modules/sidequestion.py:52` | `class SideQuestionService` |
-| `Snapshot` | class | `modules/sidequestion.py:32` | `class Snapshot` |
-| `__init__` | method | `modules/sidequestion.py:55` | `def __init__(self, answer_fn, config)` |
-| `ask` | method | `modules/sidequestion.py:75` | `def ask(self, snapshot_id, question)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

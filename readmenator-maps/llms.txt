@@ -1,6 +1,6 @@
 # LazyOwn
 
-> Static analysis knowledge base for LazyOwn: 27 communities, 1278 files, 12248 imports, 10 languages, 23515 symbols.
+> Static analysis knowledge base for LazyOwn: 28 communities, 1309 files, 12481 imports, 10 languages, 23889 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 
@@ -9,39 +9,41 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/INDEX.md](md/readmenator-agent/INDEX.md)
 - [readmenator-agent/GOTCHAS.md](md/readmenator-agent/GOTCHAS.md): These files have the most connections. Changes here have high blast radius.
 - [readmenator-agent/API.md](md/readmenator-agent/API.md): incrementversion (function) DEPLOY.sh:19
-- [readmenator-agent/API_p10.md](md/readmenator-agent/API_p10.md): Depends on: core/config.py, core/logging.py, core/process.py, modules/detectionoracle.py
-- [readmenator-agent/API_p11.md](md/readmenator-agent/API_p11.md): Depends on: core/logging.py, modules/factsio.py
-- [readmenator-agent/API_p12.md](md/readmenator-agent/API_p12.md): Depends on: modules/selection/chain.py
-- [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Depends on: cli/commands/enum.py
-- [readmenator-agent/API_p14.md](md/readmenator-agent/API_p14.md): Depends on: core/config.py, core/crypto.py, core/hardening.py, core/logging.py, core/process.py, modules/init.py, modules/autoloopmemory.py...
-- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): Imported by: modules/chaindistill.py
-- [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Depends on: core/logging.py
-- [readmenator-agent/API_p17.md](md/readmenator-agent/API_p17.md): Depends on: cli/commands/enum.py, core/logging.py, modules/aptplaybooks.py, modules/obsparser.py, modules/playbookengine.py, modules/worldmodel.py
-- [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): loadhiddenpids (function) modules/rootkit/mrhyde.c:77 void loadhiddenpids()
-- [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): Imported by: cli/commands/persistmigrated.py
+- [readmenator-agent/API_p10.md](md/readmenator-agent/API_p10.md): Depends on: core/logging.py, modules/aimodel.py, modules/llmfactory.py, modules/loggingconfig.py
+- [readmenator-agent/API_p11.md](md/readmenator-agent/API_p11.md): Depends on: cli/commands/enum.py, core/config.py, core/logging.py
+- [readmenator-agent/API_p12.md](md/readmenator-agent/API_p12.md): Depends on: core/hardening.py
+- [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Imported by: modules/guardrails/init.py, modules/guardrails/harness.py
+- [readmenator-agent/API_p14.md](md/readmenator-agent/API_p14.md): Depends on: modules/lazyheat.py
+- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): Imported by: modules/lazyautofire.py, modules/lazyexposure.py, tests/testlazyprobes.py
+- [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Depends on: core/console.py, core/logging.py, modules/loggingconfig.py
+- [readmenator-agent/API_p17.md](md/readmenator-agent/API_p17.md): Depends on: core/logging.py, modules/toposwarmbridge.py
+- [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): Depends on: core/config.py, core/logging.py, modules/sessionrag.py
+- [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): Depends on: cli/commands/enum.py, core/logging.py
 - [readmenator-agent/API_p2.md](md/readmenator-agent/API_p2.md): Depends on: cli/commands/base.py, core/defaults.py, utils.py
-- [readmenator-agent/API_p20.md](md/readmenator-agent/API_p20.md): Depends on: cli/commands/containers.py, lazyown.py
-- [readmenator-agent/API_p21.md](md/readmenator-agent/API_p21.md): Imported by: cli/commands/daemonctl.py, skills/autonomousdaemon.py, skills/lazyownmcp.py, tests/testdaemoncontrol.py
-- [readmenator-agent/API_p22.md](md/readmenator-agent/API_p22.md): Depends on: cli/commands/enum.py, core/logging.py, modules/detectionoracle.py, modules/loggingconfig.py
-- [readmenator-agent/API_p23.md](md/readmenator-agent/API_p23.md): Depends on: cli/assign.py, lazygui/services/factory.py, lazyown-docker/init.sh
-- [readmenator-agent/API_p24.md](md/readmenator-agent/API_p24.md): cloneNode (function) static/js/html2pdf.bundle.min.js:7332 -- Deep-clone a node and preserve contents/properties.
-- [readmenator-agent/API_p25.md](md/readmenator-agent/API_p25.md): Depends on: cli/show.py, core/process.py, lazyown-docker/init.sh
-- [readmenator-agent/API_p3.md](md/readmenator-agent/API_p3.md): Depends on: cli/commands/base.py, modules/init.py, modules/looptriggers.py, modules/worldmodel.py, utils.py
-- [readmenator-agent/API_p4.md](md/readmenator-agent/API_p4.md): Depends on: cli/commands/containers.py, cli/dashboardlayout.py, cli/graphadvisor.py, cli/killchain.py, cli/opscommands.py, cli/reactivehints.py...
-- [readmenator-agent/API_p5.md](md/readmenator-agent/API_p5.md): Depends on: core/textutils.py
-- [readmenator-agent/API_p6.md](md/readmenator-agent/API_p6.md): Depends on: modules/aimodel.py, modules/llmfactory.py
-- [readmenator-agent/API_p7.md](md/readmenator-agent/API_p7.md): Depends on: core/console.py, core/hardening.py, core/safeexec.py, core/safesubprocess.py, core/validators.py
-- [readmenator-agent/API_p8.md](md/readmenator-agent/API_p8.md): Depends on: core/paramregistry.py
-- [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Depends on: lazygui/config/constants.py
+- [readmenator-agent/API_p20.md](md/readmenator-agent/API_p20.md): Depends on: cli/commands/enum.py, core/hardening.py, core/logging.py, modules/cliauth.py, modules/factsio.py
+- [readmenator-agent/API_p21.md](md/readmenator-agent/API_p21.md): Depends on: core/config.py, core/logging.py, modules/assetgraph.py, modules/db.py, modules/detectionoracle.py, modules/enrich.py, modules/eventconsumers.py...
+- [readmenator-agent/API_p22.md](md/readmenator-agent/API_p22.md): Depends on: core/logging.py, modules/loggingconfig.py
+- [readmenator-agent/API_p23.md](md/readmenator-agent/API_p23.md): Depends on: cli/assign.py, cli/show.py
+- [readmenator-agent/API_p24.md](md/readmenator-agent/API_p24.md): Depends on: cli/assign.py, lazygui/services/factory.py, lazyown-docker/init.sh
+- [readmenator-agent/API_p25.md](md/readmenator-agent/API_p25.md): cloneNode (function) static/js/html2pdf.bundle.min.js:7332 -- Deep-clone a node and preserve contents/properties.
+- [readmenator-agent/API_p26.md](md/readmenator-agent/API_p26.md): Depends on: cli/show.py, core/process.py, lazyown-docker/init.sh
+- [readmenator-agent/API_p3.md](md/readmenator-agent/API_p3.md): Depends on: cli/aliases.py, cli/assign.py, cli/autosuggest.py, cli/bannerconfig.py, cli/commandchain.py, cli/commands/base.py, cli/dashboardtui.py...
+- [readmenator-agent/API_p4.md](md/readmenator-agent/API_p4.md): Depends on: cli/commands/base.py, modules/init.py, utils.py
+- [readmenator-agent/API_p5.md](md/readmenator-agent/API_p5.md): Imported by: cli/commands/marketplace.py, tests/testinputfuzz.py, tests/testplugintiers.py
+- [readmenator-agent/API_p6.md](md/readmenator-agent/API_p6.md): Depends on: core/logging.py
+- [readmenator-agent/API_p7.md](md/readmenator-agent/API_p7.md): Depends on: core/logging.py, core/payloadschema.py
+- [readmenator-agent/API_p8.md](md/readmenator-agent/API_p8.md): Depends on: cli/autocrypto.py, cli/palette.py, cli/palettecommand.py, core/config.py, core/console.py, core/hardening.py, core/logging.py, core/parsers.py...
+- [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Depends on: lazyc2/security/constants.py
 - [readmenator-agent/ARCHITECTURE.md](md/readmenator-agent/ARCHITECTURE.md): cli/init.py -> cli/aliases.py
-- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/commands/ux.py -> cli/outputmode.py
-- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/services/localbackend.py -> lazygui/config/constants.py
-- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): modules/lilsplunky.py -> core/logging.py
-- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): skills/swanagent.py -> modules/rltrainer.py
-- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): tests/testlazyorchestrator.py -> modules/worldmodel.py
-- [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): cli/aliases.py -> future, pathlib, string, typing, yaml
-- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): modules/lazycloud.py -> future, dataclasses, datetime, hashlib, hmac, json, os, requests, time, typing, urllib.request
-- [readmenator-agent/ARCHITECTURE_p9.md](md/readmenator-agent/ARCHITECTURE_p9.md): tests/testloopbudget.py -> future, pytest
+- [readmenator-agent/ARCHITECTURE_p10.md](md/readmenator-agent/ARCHITECTURE_p10.md): tests/testlazytimeline.py -> future, json
+- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): cli/commands/sleepobfuscation.py -> cli/commands/base.py
+- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): lazygui/services/init.py -> lazygui/services/factory.py
+- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): modules/lazyrunner.py -> cli/lazymonitor.py
+- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): skills/lazyownmcp.py -> scripts/lazyopencodeconfig.py
+- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): tests/testlazyagent.py -> cli/commands/lazyops.py
+- [readmenator-agent/ARCHITECTURE_p7.md](md/readmenator-agent/ARCHITECTURE_p7.md): tests/testwinboxgym.py -> modules/gymregistry.py
+- [readmenator-agent/ARCHITECTURE_p8.md](md/readmenator-agent/ARCHITECTURE_p8.md): cli/aliases.py -> future, pathlib, string, typing, yaml
+- [readmenator-agent/ARCHITECTURE_p9.md](md/readmenator-agent/ARCHITECTURE_p9.md): modules/lazyrunner.py -> future, collections.abc, contextlib, dataclasses, faulthandler, io, ipaddress, os, pathlib, queue, re, shlex, signal, sys, threading...
 - [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 - [readmenator-agent/INDEX_p2.md](md/readmenator-agent/INDEX_p2.md)
 - [readmenator-agent/INDEX_p3.md](md/readmenator-agent/INDEX_p3.md)
@@ -56,13 +58,11 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/KB_cli_p5.md](md/readmenator-agent/KB_cli_p5.md): Doc: Textual scrubber over sessions/LazyOwnsessionreport.csv.
 - [readmenator-agent/KB_commands.md](md/readmenator-agent/KB_commands.md): Doc: Phase-scoped CommandSet modules.
 - [readmenator-agent/KB_commands_p2.md](md/readmenator-agent/KB_commands_p2.md): Doc: Database commands — workspace isolation, host/service/vuln management, nmap import, export, and...
-- [readmenator-agent/KB_commands_p3.md](md/readmenator-agent/KB_commands_p3.md): Doc: LazyOob shell commands: local OOB canary for blind SSRF/RCE callbacks.
-- [readmenator-agent/KB_commands_p4.md](md/readmenator-agent/KB_commands_p4.md): Doc: postexp commands migrated from lazyown.py.
+- [readmenator-agent/KB_commands_p3.md](md/readmenator-agent/KB_commands_p3.md): Doc: Lateral Movement command set (pending).
+- [readmenator-agent/KB_commands_p4.md](md/readmenator-agent/KB_commands_p4.md): Doc: Intelligent Pivoting command set.
+- [readmenator-agent/KB_commands_p5.md](md/readmenator-agent/KB_commands_p5.md): Doc: Operator administration of the autonomous-loop verb catalog.
 - [readmenator-agent/KB_config.md](md/readmenator-agent/KB_config.md): Doc: Configuration layer.
 - [readmenator-agent/KB_contract.md](md/readmenator-agent/KB_contract.md): Doc: SDD suite homologation contract for LazyOwn tests.
-- [readmenator-agent/KB_core.md](md/readmenator-agent/KB_core.md): Doc: Core primitives for the LazyOwn framework.
-- [readmenator-agent/KB_core_p2.md](md/readmenator-agent/KB_core_p2.md): Doc: Process and subprocess utilities for the LazyOwn framework.
-- [readmenator-agent/KB_devtools.md](md/readmenator-agent/KB_devtools.md): Doc: Audit every registered shell command for dispatch and parser errors.
 
 ## Project Docs
 

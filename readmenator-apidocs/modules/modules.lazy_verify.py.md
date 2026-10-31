@@ -68,7 +68,7 @@ Build the read-only check list for one finding.
 | `poc` | `str` | `''` | Stored proof-of-concept (first line names the replay command). |
 
 **Returns:** `list[dict]` - List of check dicts ``{"kind", "command", "host", "port", "needle"}``,
-at most `MAX_CHECKS`.
+at most [`MAX_CHECKS`](modules.lazy_exposure.py.md#max_checks).
 
 *Called by:* [`verify_finding`](#verify_finding)
 

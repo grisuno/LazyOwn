@@ -1,8 +1,40 @@
-# Symbols (page 8 of 48)
+# Symbols (page 8 of 49)
 Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `defused_xml_parse` | function | `core/hardening.py:412` | `def defused_xml_parse(source)` |
+| `escape_html_content` | function | `core/hardening.py:298` | `def escape_html_content(value)` |
+| `escape_powershell_single_quoted` | function | `core/hardening.py:112` | `def escape_powershell_single_quoted(value)` |
+| `is_safe_dir_path` | function | `core/hardening.py:578` | `def is_safe_dir_path(raw)` |
+| `is_safe_path_segment` | function | `core/hardening.py:557` | `def is_safe_path_segment(segment)` |
+| `is_safe_yaml_name` | function | `core/hardening.py:604` | `def is_safe_yaml_name(name)` |
+| `iter_emoji_spans` | function | `core/hardening.py:737` | `def iter_emoji_spans(text)` |
+| `redact_text` | function | `core/hardening.py:842` | `def redact_text(text)` |
+| `reject_option_injection` | function | `core/hardening.py:93` | `def reject_option_injection(argv)` |
+| `require_encryption_key` | function | `core/hardening.py:384` | `def require_encryption_key(env_key, secret_file)` |
+| `safe_clipboard_copy` | function | `core/hardening.py:211` | `def safe_clipboard_copy(content)` |
+| `safe_join_under` | function | `core/hardening.py:623` | `def safe_join_under(base_dir, user_path)` |
+| `safe_open_under` | function | `core/hardening.py:652` | `def safe_open_under(base_dir, user_path, mode)` |
+| `safe_path_join` | function | `core/hardening.py:310` | `def safe_path_join(base_dir, user_path)` |
+| `safe_subprocess_run` | function | `core/hardening.py:158` | `def safe_subprocess_run(argv)` |
+| `sanitize_filename` | function | `core/hardening.py:434` | `def sanitize_filename(filename, max_length)` |
+| `seal_secret` | function | `core/hardening.py:770` | `def seal_secret(plaintext)` |
+| `set_sshpass_env` | function | `core/hardening.py:279` | `def set_sshpass_env(password)` |
+| `store_secret_owner_only` | function | `core/hardening.py:679` | `def store_secret_owner_only(path, text)` |
+| `terminal_env` | function | `core/hardening.py:137` | `def terminal_env(base)` |
+| `tls_lab_fallback_context` | function | `core/hardening.py:506` | `def tls_lab_fallback_context()` |
+| `tls_lab_unverified_allowed` | function | `core/hardening.py:479` | `def tls_lab_unverified_allowed(host)` |
+| `tls_secure_context` | function | `core/hardening.py:454` | `def tls_secure_context(extra_ca)` |
+| `unseal_secret` | function | `core/hardening.py:801` | `def unseal_secret(stored)` |
+| `validate_host` | function | `core/hardening.py:364` | `def validate_host(host)` |
+| `validate_network_cidr` | function | `core/hardening.py:336` | `def validate_network_cidr(cidr)` |
+| `validate_port_spec` | function | `core/hardening.py:348` | `def validate_port_spec(ports)` |
+| `validate_upstream_path` | function | `core/hardening.py:528` | `def validate_upstream_path(path)` |
+| `is_valid_cidr` | function | `core/host_policy.py:32` | `def is_valid_cidr(value)` |
+| `is_valid_host` | function | `core/host_policy.py:48` | `def is_valid_host(value)` |
+| `rejects_shell_meta` | function | `core/host_policy.py:20` | `def rejects_shell_meta(value)` |
+| `display_news` | function | `core/http.py:198` | `def display_news(titles, links, scores)` |
 | `exploitalert` | function | `core/http.py:106` | `def exploitalert(content)` |
 | `generate_http_req` | function | `core/http.py:18` | `def generate_http_req(host, port, uri, custom_header, cmd)` |
 | `get_banner` | function | `core/http.py:50` | `def get_banner(host, port)` |
@@ -464,37 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `clean_expired_tokens` | function | `lazyc2.py:648` | `def clean_expired_tokens()` |
 | `clean_json` | function | `lazyc2.py:656` | `def clean_json(text)` |
 | `compliance_add_evidence` | function | `lazyc2.py:6777` | `def compliance_add_evidence()` |
-| `compliance_dashboard` | function | `lazyc2.py:6725` | `def compliance_dashboard()` |
-| `compliance_export` | function | `lazyc2.py:6827` | `def compliance_export(format)` |
-| `compliance_report` | function | `lazyc2.py:6747` | `def compliance_report()` |
-| `compliance_verify_evidence` | function | `lazyc2.py:6813` | `def compliance_verify_evidence()` |
-| `connect` | function | `lazyc2.py:7285` | `def connect()` |
-| `create_campaign` | function | `lazyc2.py:8299` | `def create_campaign()` |
-| `create_cves` | function | `lazyc2.py:1102` | `def create_cves()` |
-| `create_multivector_campaign` | function | `lazyc2.py:8544` | `def create_multivector_campaign()` |
-| `create_report` | function | `lazyc2.py:1121` | `def create_report()` |
-| `create_route` | function | `lazyc2.py:4419` | `def create_route()` |
-| `create_short_url` | function | `lazyc2.py:4826` | `def create_short_url()` |
-| `create_tool` | function | `lazyc2.py:5970` | `def create_tool()` |
-| `csrf_protect` | function | `lazyc2.py:1543` | `def csrf_protect(view)` |
-| `csv_to_html` | function | `lazyc2.py:5490` | `def csv_to_html()` |
-| `cve` | function | `lazyc2.py:5712` | `def cve(cve_id)` |
-| `cves` | function | `lazyc2.py:5686` | `def cves()` |
-| `datetime_now_iso` | function | `lazyc2.py:1256` | `def datetime_now_iso()` |
-| `decorated` | function | `lazyc2.py:1521` | `def decorated()` |
-| `decorated` | function | `lazyc2.py:1534` | `def decorated()` |
-| `decorated` | function | `lazyc2.py:2745` | `def decorated()` |
-| `decoy` | function | `lazyc2.py:2055` | `def decoy()` |
-| `decrypt_data` | function | `lazyc2.py:2121` | `def decrypt_data(encrypted_data, is_file)` |
-| `delete_tool` | function | `lazyc2.py:6076` | `def delete_tool(toolname)` |
-| `download_file` | function | `lazyc2.py:4290` | `def download_file()` |
-| `download_files` | function | `lazyc2.py:4954` | `def download_files(filename)` |
-| `dynamic_route` | function | `lazyc2.py:4488` | `def dynamic_route(route_path, data)` |
-| `edit_cve` | function | `lazyc2.py:5727` | `def edit_cve(cve_id)` |
-| `edit_event` | function | `lazyc2.py:5826` | `def edit_event(event_name)` |
-| `edit_notes` | function | `lazyc2.py:5761` | `def edit_notes()` |
-| `edit_task` | function | `lazyc2.py:5652` | `def edit_task(task_id)` |
-| `encrypt_data` | function | `lazyc2.py:2112` | `def encrypt_data(data)` |
-| `ensure_sessions_dir` | function | `lazyc2.py:509` | `def ensure_sessions_dir()` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

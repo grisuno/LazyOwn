@@ -711,10 +711,10 @@
 {"code":"DOC001","uid":"lazyown-docker/hostdiscover.sh::extract_ips_from_arp","file":"lazyown-docker/hostdiscover.sh","line":21,"message":"function extract_ips_from_arp is not documented"}
 {"code":"DOC001","uid":"lazyown-docker/hostdiscover.sh::extract_listening_ips_from_netstat","file":"lazyown-docker/hostdiscover.sh","line":26,"message":"function extract_listening_ips_from_netstat is not documented"}
 {"code":"DOC001","uid":"lazyown-docker/init.sh","file":"lazyown-docker/init.sh","line":1,"message":"module lazyown-docker/init.sh is not documented"}
-{"code":"DOC002","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1342,"message":"parameter 'line' of LazyOwnShell.cmd is not documented"}
-{"code":"DOC003","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1342,"message":"documented parameter 'command' is not in the signature of LazyOwnShell.cmd"}
-{"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2283,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
-{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4721,"message":"function main is not documented"}
+{"code":"DOC002","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1348,"message":"parameter 'line' of LazyOwnShell.cmd is not documented"}
+{"code":"DOC003","uid":"lazyown.py::LazyOwnShell.cmd","file":"lazyown.py","line":1348,"message":"documented parameter 'command' is not in the signature of LazyOwnShell.cmd"}
+{"code":"DOC001","uid":"lazyown.py::LazyOwnShell.register_all_adversary_commands","file":"lazyown.py","line":2289,"message":"method LazyOwnShell.register_all_adversary_commands is not documented"}
+{"code":"DOC001","uid":"lazyown.py::main","file":"lazyown.py","line":4727,"message":"function main is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::auth","file":"modules/49803.py","line":43,"message":"function auth is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::injection","file":"modules/49803.py","line":69,"message":"function injection is not documented"}
 {"code":"DOC001","uid":"modules/49803.py::connection","file":"modules/49803.py","line":106,"message":"function connection is not documented"}
@@ -806,7 +806,7 @@
 {"code":"DOC001","uid":"modules/auto_purple.py::IPurpleEvaluator.category_accuracy","file":"modules/auto_purple.py","line":217,"message":"method IPurpleEvaluator.category_accuracy is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.last_results","file":"modules/auto_purple.py","line":596,"message":"method PurpleTeamLoop.last_results is not documented"}
 {"code":"DOC001","uid":"modules/auto_purple.py::PurpleTeamLoop.category_accuracy","file":"modules/auto_purple.py","line":599,"message":"method PurpleTeamLoop.category_accuracy is not documented"}
-{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":942,"message":"return value of execute_shell_verb is not documented"}
+{"code":"DOC004","uid":"modules/auto_registry.py::execute_shell_verb","file":"modules/auto_registry.py","line":971,"message":"return value of execute_shell_verb is not documented"}
 {"code":"DOC001","uid":"modules/autonomous_exploit_engine.py::AutonomousExploitEngine.get_instance","file":"modules/autonomous_exploit_engine.py","line":134,"message":"classmethod AutonomousExploitEngine.get_instance is not documented"}
 {"code":"DOC001","uid":"modules/aws_attacks.py::AWSAttackEngine.summary","file":"modules/aws_attacks.py","line":293,"message":"method AWSAttackEngine.summary is not documented"}
 {"code":"DOC001","uid":"modules/backdoor/backdoor.c","file":"modules/backdoor/backdoor.c","line":1,"message":"module modules/backdoor/backdoor.c is not documented"}
@@ -1070,16 +1070,16 @@
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.build","file":"modules/kivi.py","line":12,"message":"method ReverseShellApp.build is not documented"}
 {"code":"DOC001","uid":"modules/kivi.py::ReverseShellApp.connect_to_server","file":"modules/kivi.py","line":27,"message":"method ReverseShellApp.connect_to_server is not documented"}
 {"code":"DOC002","uid":"modules/lazy_findings.py::evidence_supported","file":"modules/lazy_findings.py","line":281,"message":"parameter 'min_output' of evidence_supported is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1559,"message":"ActivityLog.trace raises KeyError but does not document it"}
-{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7793,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":9056,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9079,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9079,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":9224,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":9249,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":9272,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":9272,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
-{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":10395,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::ActivityLog.trace","file":"modules/lazy_loop.py","line":1630,"message":"ActivityLog.trace raises KeyError but does not document it"}
+{"code":"DOC002","uid":"modules/lazy_loop.py::LlmPool.complete","file":"modules/lazy_loop.py","line":7940,"message":"parameter 'on_delta' of LlmPool.complete is not documented"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.preview_delete_intent","file":"modules/lazy_loop.py","line":9203,"message":"LazyLoopEngine.preview_delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9226,"message":"LazyLoopEngine.delete_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_intent","file":"modules/lazy_loop.py","line":9226,"message":"LazyLoopEngine.delete_intent raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.pause_intent","file":"modules/lazy_loop.py","line":9371,"message":"LazyLoopEngine.pause_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.resume_intent","file":"modules/lazy_loop.py","line":9396,"message":"LazyLoopEngine.resume_intent raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":9419,"message":"LazyLoopEngine.send_worker_message raises KeyError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.send_worker_message","file":"modules/lazy_loop.py","line":9419,"message":"LazyLoopEngine.send_worker_message raises ValueError but does not document it"}
+{"code":"DOC005","uid":"modules/lazy_loop.py::LazyLoopEngine.delete_task","file":"modules/lazy_loop.py","line":10567,"message":"LazyLoopEngine.delete_task raises ValueError but does not document it"}
 {"code":"DOC005","uid":"modules/lazy_mentions.py::compose_message","file":"modules/lazy_mentions.py","line":268,"message":"compose_message raises ValueError but does not document it"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role","file":"modules/lazy_rbac.py","line":55,"message":"enum Role is not documented"}
 {"code":"DOC001","uid":"modules/lazy_rbac.py::Role.valid_roles","file":"modules/lazy_rbac.py","line":62,"message":"classmethod Role.valid_roles is not documented"}
@@ -1794,29 +1794,29 @@
 {"code":"DOC001","uid":"modules/win_rootkit/win_ring3_rootkit.cpp::hook_CreateFile","file":"modules/win_rootkit/win_ring3_rootkit.cpp","line":85,"message":"function hook_CreateFile is not documented"}
 {"code":"DOC001","uid":"modules/win_rootkit/win_ring3_rootkit.cpp::DllMain","file":"modules/win_rootkit/win_ring3_rootkit.cpp","line":94,"message":"function DllMain is not documented"}
 {"code":"DOC001","uid":"modules/wineconfig.sh","file":"modules/wineconfig.sh","line":1,"message":"module modules/wineconfig.sh is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::HostState.rank","file":"modules/world_model.py","line":382,"message":"method HostState.rank is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::HostState.can_advance_to","file":"modules/world_model.py","line":385,"message":"method HostState.can_advance_to is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::ServiceInfo","file":"modules/world_model.py","line":401,"message":"class ServiceInfo is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::CredentialEntry","file":"modules/world_model.py","line":410,"message":"class CredentialEntry is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::VulnerabilityEntry","file":"modules/world_model.py","line":419,"message":"class VulnerabilityEntry is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::EmailEntry","file":"modules/world_model.py","line":428,"message":"class EmailEntry is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::DomainEntry","file":"modules/world_model.py","line":436,"message":"class DomainEntry is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::NetworkGraph.to_dict","file":"modules/world_model.py","line":553,"message":"method NetworkGraph.to_dict is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::NetworkGraph.from_dict","file":"modules/world_model.py","line":570,"message":"classmethod NetworkGraph.from_dict is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::HostEntry","file":"modules/world_model.py","line":586,"message":"class HostEntry is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::HostEntry.add_service","file":"modules/world_model.py","line":595,"message":"method HostEntry.add_service is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::HostEntry.to_dict","file":"modules/world_model.py","line":607,"message":"method HostEntry.to_dict is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::HostEntry.from_dict","file":"modules/world_model.py","line":619,"message":"classmethod HostEntry.from_dict is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_host","file":"modules/world_model.py","line":791,"message":"method WorldModel.add_host is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::WorldModel.advance_host","file":"modules/world_model.py","line":825,"message":"method WorldModel.advance_host is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_service","file":"modules/world_model.py","line":834,"message":"method WorldModel.add_service is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_note","file":"modules/world_model.py","line":851,"message":"method WorldModel.add_note is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_credential","file":"modules/world_model.py","line":895,"message":"method WorldModel.add_credential is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_vulnerability","file":"modules/world_model.py","line":978,"message":"method WorldModel.add_vulnerability is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_email","file":"modules/world_model.py","line":984,"message":"method WorldModel.add_email is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_domain","file":"modules/world_model.py","line":990,"message":"method WorldModel.add_domain is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::WorldModel.get_phase","file":"modules/world_model.py","line":1252,"message":"method WorldModel.get_phase is not documented"}
-{"code":"DOC001","uid":"modules/world_model.py::WorldModel.get_suggested_tools","file":"modules/world_model.py","line":1256,"message":"method WorldModel.get_suggested_tools is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::HostState.rank","file":"modules/world_model.py","line":384,"message":"method HostState.rank is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::HostState.can_advance_to","file":"modules/world_model.py","line":387,"message":"method HostState.can_advance_to is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::ServiceInfo","file":"modules/world_model.py","line":403,"message":"class ServiceInfo is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::CredentialEntry","file":"modules/world_model.py","line":412,"message":"class CredentialEntry is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::VulnerabilityEntry","file":"modules/world_model.py","line":421,"message":"class VulnerabilityEntry is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::EmailEntry","file":"modules/world_model.py","line":430,"message":"class EmailEntry is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::DomainEntry","file":"modules/world_model.py","line":438,"message":"class DomainEntry is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::NetworkGraph.to_dict","file":"modules/world_model.py","line":555,"message":"method NetworkGraph.to_dict is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::NetworkGraph.from_dict","file":"modules/world_model.py","line":572,"message":"classmethod NetworkGraph.from_dict is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::HostEntry","file":"modules/world_model.py","line":588,"message":"class HostEntry is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::HostEntry.add_service","file":"modules/world_model.py","line":597,"message":"method HostEntry.add_service is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::HostEntry.to_dict","file":"modules/world_model.py","line":609,"message":"method HostEntry.to_dict is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::HostEntry.from_dict","file":"modules/world_model.py","line":621,"message":"classmethod HostEntry.from_dict is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_host","file":"modules/world_model.py","line":793,"message":"method WorldModel.add_host is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::WorldModel.advance_host","file":"modules/world_model.py","line":827,"message":"method WorldModel.advance_host is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_service","file":"modules/world_model.py","line":836,"message":"method WorldModel.add_service is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_note","file":"modules/world_model.py","line":853,"message":"method WorldModel.add_note is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_credential","file":"modules/world_model.py","line":897,"message":"method WorldModel.add_credential is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_vulnerability","file":"modules/world_model.py","line":980,"message":"method WorldModel.add_vulnerability is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_email","file":"modules/world_model.py","line":986,"message":"method WorldModel.add_email is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::WorldModel.add_domain","file":"modules/world_model.py","line":992,"message":"method WorldModel.add_domain is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::WorldModel.get_phase","file":"modules/world_model.py","line":1254,"message":"method WorldModel.get_phase is not documented"}
+{"code":"DOC001","uid":"modules/world_model.py::WorldModel.get_suggested_tools","file":"modules/world_model.py","line":1258,"message":"method WorldModel.get_suggested_tools is not documented"}
 {"code":"DOC001","uid":"modules/yaml_generator.py::YAMLPromptGenerator","file":"modules/yaml_generator.py","line":17,"message":"class YAMLPromptGenerator is not documented"}
 {"code":"DOC001","uid":"modules/yaml_generator.py::YAMLPromptGenerator.__init__","file":"modules/yaml_generator.py","line":18,"message":"constructor YAMLPromptGenerator.__init__ is not documented"}
 {"code":"DOC001","uid":"modules/yaml_generator.py::main","file":"modules/yaml_generator.py","line":141,"message":"function main is not documented"}
@@ -2047,11 +2047,11 @@
 {"code":"DOC001","uid":"skills/lazyown_llm.py::LLMBridge.ask","file":"skills/lazyown_llm.py","line":127,"message":"method LLMBridge.ask is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_llm.py::main","file":"skills/lazyown_llm.py","line":493,"message":"function main is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp.py::list_tools","file":"skills/lazyown_mcp.py","line":2298,"message":"function list_tools is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp.py::call_tool","file":"skills/lazyown_mcp.py","line":6866,"message":"function call_tool is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp.py::main","file":"skills/lazyown_mcp.py","line":11987,"message":"function main is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp.py::call_tool","file":"skills/lazyown_mcp.py","line":6942,"message":"function call_tool is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp.py::main","file":"skills/lazyown_mcp.py","line":12158,"message":"function main is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_helpers.py::JobStore.status","file":"skills/lazyown_mcp_helpers.py","line":727,"message":"method JobStore.status is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_mcp_helpers.py::JobStore.list","file":"skills/lazyown_mcp_helpers.py","line":732,"message":"method JobStore.list is not documented"}
-{"code":"DOC001","uid":"skills/lazyown_mcp_opencode.py::main","file":"skills/lazyown_mcp_opencode.py","line":211,"message":"function main is not documented"}
+{"code":"DOC001","uid":"skills/lazyown_mcp_opencode.py::main","file":"skills/lazyown_mcp_opencode.py","line":213,"message":"function main is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_objective.py::Objective","file":"skills/lazyown_objective.py","line":105,"message":"class Objective is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_objective.py::Objective.sort_key","file":"skills/lazyown_objective.py","line":116,"message":"method Objective.sort_key is not documented"}
 {"code":"DOC001","uid":"skills/lazyown_objective.py::ObjectiveStore.inject","file":"skills/lazyown_objective.py","line":193,"message":"method ObjectiveStore.inject is not documented"}

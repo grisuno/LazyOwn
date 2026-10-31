@@ -1045,6 +1045,8 @@ Return the underlying selector for introspection in tests.
 
 **Returns:** `ICommandSelector`
 
+*Called by:* [`resolve_hostnames`](modules.lazy_timeline.py.md#resolve_hostnames)
+
 <a id="metricsawareselector-select"></a>
 
 #### `MetricsAwareSelector.select`
@@ -1370,12 +1372,12 @@ class StrategyEngine
 
 Decides the next command for a (target, phase) pair.
 
-Cascade identical to lazyown_mcp.py auto_loop:
-  1. Reactive engine (if a high-priority decision is pending)
-  2. Parquet (successful commands from previous sessions)
-  3. Bridge catalog (commands for the phase/services)
-  4. LLM (Groq/Ollama if AUTO_USE_LLM=1)
-  5. Static fallback
+Cascade: reactive engine -> unified brain (the one shared selector
+cascade in `[`modules.selection.registry`](modules.selection.registry.py.md)`: credential reuse, intel,
+APT playbooks, adversary profiles, atomic techniques, best chain) ->
+parquet (successful commands from previous sessions) -> bridge
+catalog (commands for the phase/services) -> SWAN -> LLM
+(Groq/Ollama if AUTO_USE_LLM=1) -> static fallback.
 
 Dependency Inversion: runner and selectors are injected.
 

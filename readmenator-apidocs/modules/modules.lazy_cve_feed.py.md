@@ -219,7 +219,7 @@ Assemble exploitation signals and the heat tier for one CVE.
 | Name | Type | Default | Description |
 |---|---|---|---|
 | `cve_id` | `str` |  | CVE id (``CVE-2021-41773``). |
-| `feeds` | `dict \| None` | `None` | Preloaded feeds (``kev``/``epss``/``exploit``/``msf``); loaded lazily when None. |
+| `feeds` | `dict \| None` | `None` | Preloaded feeds (`[`kev`](modules.lazy_feedmatch.py.md#feedentry-kev)`/`[`epss`](modules.lazy_feedmatch.py.md#feedentry-epss)`/``exploit``/``msf``); loaded lazily when None. |
 | `allow_network` | `bool` | `True` | Allow feed downloads on a cold cache. |
 
 **Returns:** `dict` - ``{"cve", "kev", "epss", "exploit", "msf", "cvss", "heat"}``.
@@ -261,7 +261,7 @@ capped at `CORRELATE_CAP`.
 
 *Calls:* [`cve_intel`](#cve_intel), [`fetch_product_advisories`](#fetch_product_advisories), [`load_epss`](#load_epss), [`load_exploit_cves`](#load_exploit_cves), [`load_kev`](#load_kev), [`load_kev_matches`](#load_kev_matches), [`load_msf_cves`](#load_msf_cves), [`classify_heat`](modules.lazy_heat.py.md#classify_heat), [`parse_version`](modules.lazy_heat.py.md#parse_version), [`product_token`](modules.lazy_heat.py.md#product_token), [`version_in_range`](modules.lazy_heat.py.md#version_in_range)
 
-*Called by:* [`hot_matches`](#hot_matches), [`rescore`](modules.lazy_hostscore.py.md#rescore)
+*Called by:* [`hot_matches`](#hot_matches), [`live_bindings`](modules.lazy_feedmatch.py.md#live_bindings), [`rescore`](modules.lazy_hostscore.py.md#rescore)
 
 ---
 

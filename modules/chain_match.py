@@ -31,6 +31,7 @@ SERVICE_TAG_ALIASES: dict[str, str] = {
     "kerberos-sec": "ad",
     "https": "http",
 }
+PHASE_AFFINITY_AFFINITY_WEIGHT = 3
 PHASE_AFFINITY: dict[str, frozenset[str]] = {
     "cred": frozenset({"credentials", "creds", "ad"}),
     "lateral": frozenset({"ad", "lateral", "smb", "winbox"}),
@@ -86,12 +87,15 @@ def score(tags: set[str], phase: str, svc_tokens: set[str]) -> int:
     """Score one chain's tags for the phase and discovered services.
 
     A chain scores zero without a service-tag match, so nothing is proposed
-    blindly; phase affinity only boosts a chain that already matched a service.
+    blindly; phase affinity now outweighs extra service hits so the chain
+    whose purpose matches the phase wins, with unused service tags kept as
+    reach (e.g. deep enumeration still enters without affinity).
     """
     service_hits = len(tags & svc_tokens)
     if service_hits == 0:
         return 0
-    return 2 * service_hits + len(tags & PHASE_AFFINITY.get(phase, frozenset()))
+    affinity = PHASE_AFFINITY_AFFINITY_WEIGHT * len(tags & PHASE_AFFINITY.get(phase, frozenset()))
+    return 2 * service_hits + affinity
 
 
 def reset_cache() -> None:

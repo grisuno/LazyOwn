@@ -31,7 +31,7 @@ flowchart LR
 
 ### `default_selectors`
 
-`function` | [modules/selection/registry.py:40](../../modules/selection/registry.py#L40)
+`function` | [modules/selection/registry.py:46](../../modules/selection/registry.py#L46)
 
 ```python
 def default_selectors() -> list[Selector]
@@ -53,13 +53,19 @@ runtimes honour one administration point without their own switches.
 
 ### `propose_next`
 
-`function` | [modules/selection/registry.py:55](../../modules/selection/registry.py#L55)
+`function` | [modules/selection/registry.py:61](../../modules/selection/registry.py#L61)
 
 ```python
 def propose_next(ctx: SelectionContext, selectors: Iterable[Selector] | None = None) -> ActionDecision | None
 ```
 
 Return the first concrete decision from the cascade, or None.
+
+Resolution is two-pass: any decision graded urgent (``priority`` <= 2)
+wins over the ordinary order, so pending intelligence or credential
+spraying (new, evidence-backed signals) outrank generic chain runs;
+otherwise the ordered list decides, with objective-named capabilities
+(actor, adversary profile, technique) ahead of the generic chain.
 
 **Parameters**
 
@@ -68,7 +74,7 @@ Return the first concrete decision from the cascade, or None.
 | `ctx` | `SelectionContext` |  | Live engagement snapshot. |
 | `selectors` | `Iterable[Selector] \| None` | `None` | Optional explicit cascade; defaults to [`default_selectors`](#default_selectors). |
 
-**Returns:** `ActionDecision | None` - The first non-None [`ActionDecision`](modules.selection.base.py.md#actiondecision), or None when every
+**Returns:** `ActionDecision | None` - The winning [`ActionDecision`](modules.selection.base.py.md#actiondecision), or None when every
 selector abstains.
 
 *Calls:* [`default_selectors`](#default_selectors)

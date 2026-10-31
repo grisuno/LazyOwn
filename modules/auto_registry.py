@@ -20,6 +20,7 @@ from __future__ import annotations
 import contextlib
 import io
 import os
+from pathlib import Path
 import queue
 import re
 import shlex
@@ -377,7 +378,7 @@ SHELL_TIMEOUT_MESSAGE = "TIMEOUT"
 
 ROUTABLE_PREFIXES = ("lazy_addon ", "custom tool ", "lazy_workspace ")
 
-ROUTABLE_VERBS = frozenset({"lazynmap", "ping"})
+ROUTABLE_VERBS = frozenset({"lazynmap", "ping", "lazyintel", "lazyautofire", "lazytimeline", "lazysearch"})
 
 
 def _cli_verb_allowed(name: str) -> bool:
@@ -777,8 +778,36 @@ def _apt_chain_steps(embedded: str, target: str, strict: bool = False) -> list[s
         planned = _playbook_steps(embedded or "")
         if planned:
             playbook = planned[0].split()[-1]
-    line = f"apt_chain {playbook}" + (f" {chained}" if chained else "")
+    chain_name = _chain_name_for_playbook(playbook)
+    line = f"apt_chain {chain_name}" + (f" {chained}" if chained else "")
     return [line]
+
+
+def _chain_name_for_playbook(playbook: str) -> str:
+    """Map a playbook slug to its registered ray-chain file name.
+
+    Args:
+        playbook: Playbook token (``scattered_spider``, ``rocke``).
+
+    Returns:
+        Chain name whose ``defaults.playbook`` matches the slug, else the
+        playbook date prefix and slug stitched as ``apt_<slug>``. The raw
+        playbook slug returns unchanged when no chain binding exists and
+        an ``apt_<slug>.yaml`` file is absent.
+    """
+    if not playbook:
+        return playbook
+    try:
+        from modules.chain_registry import load_all
+
+        for chain_name, chain in load_all().items():
+            if str((chain.defaults or {}).get("playbook") or "").strip().lower() == playbook:
+                return chain_name
+    except Exception:
+        pass
+    if (Path(__file__).resolve().parent.parent / "chains" / f"apt_{playbook}.yaml").is_file():
+        return f"apt_{playbook}"
+    return playbook
 
 
 def steps_for(text: str, target: str = "") -> list[str] | None:

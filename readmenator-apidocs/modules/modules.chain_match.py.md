@@ -48,7 +48,7 @@ flowchart LR
 
 ### `normalize_tags`
 
-`function` | [modules/chain_match.py:48](../../modules/chain_match.py#L48)
+`function` | [modules/chain_match.py:49](../../modules/chain_match.py#L49)
 
 ```python
 def normalize_tags(tags: Any) -> list[str]
@@ -77,7 +77,7 @@ name that mean the same thing compare equal. Lab markers (``gym``,
 
 ### `service_tokens`
 
-`function` | [modules/chain_match.py:64](../../modules/chain_match.py#L64)
+`function` | [modules/chain_match.py:65](../../modules/chain_match.py#L65)
 
 ```python
 def service_tokens(services: Any) -> set[str]
@@ -101,7 +101,7 @@ Normalise discovered service names into the chain tag vocabulary.
 
 ### `platform_ok`
 
-`function` | [modules/chain_match.py:74](../../modules/chain_match.py#L74)
+`function` | [modules/chain_match.py:75](../../modules/chain_match.py#L75)
 
 ```python
 def platform_ok(platforms: Any, os_hint: str) -> bool
@@ -126,7 +126,7 @@ Return True when a chain's platforms admit the target OS hint.
 
 ### `score`
 
-`function` | [modules/chain_match.py:85](../../modules/chain_match.py#L85)
+`function` | [modules/chain_match.py:86](../../modules/chain_match.py#L86)
 
 ```python
 def score(tags: set[str], phase: str, svc_tokens: set[str]) -> int
@@ -135,7 +135,9 @@ def score(tags: set[str], phase: str, svc_tokens: set[str]) -> int
 Score one chain's tags for the phase and discovered services.
 
 A chain scores zero without a service-tag match, so nothing is proposed
-blindly; phase affinity only boosts a chain that already matched a service.
+blindly; phase affinity now outweighs extra service hits so the chain
+whose purpose matches the phase wins, with unused service tags kept as
+reach (e.g. deep enumeration still enters without affinity).
 
 **Parameters**
 
@@ -155,7 +157,7 @@ blindly; phase affinity only boosts a chain that already matched a service.
 
 ### `reset_cache`
 
-`function` | [modules/chain_match.py:97](../../modules/chain_match.py#L97)
+`function` | [modules/chain_match.py:101](../../modules/chain_match.py#L101)
 
 ```python
 def reset_cache() -> None
@@ -169,7 +171,7 @@ Clear the process-wide registry scan cache (tests, long-lived loops).
 
 ### `load_rows`
 
-`function` | [modules/chain_match.py:105](../../modules/chain_match.py#L105)
+`function` | [modules/chain_match.py:109](../../modules/chain_match.py#L109)
 
 ```python
 def load_rows(allow_lab: bool = False, ttl: float = _DEFAULT_TTL) -> list[dict]
@@ -196,7 +198,7 @@ Return enabled, valid, non-lab chain rows, cached for the TTL.
 
 ### `best_chain`
 
-`function` | [modules/chain_match.py:135](../../modules/chain_match.py#L135)
+`function` | [modules/chain_match.py:139](../../modules/chain_match.py#L139)
 
 ```python
 def best_chain(phase: str, os_hint: str, services: Any, exclude: Any = (), allow_lab: bool = True, rows: list[dict] | None = None, ttl: float = _DEFAULT_TTL) -> tuple[str, str] | None
@@ -267,7 +269,7 @@ SERVICE_TAG_ALIASES: dict[str, str]
 
 ### `PHASE_AFFINITY`
 
-`constant` | [modules/chain_match.py:34](../../modules/chain_match.py#L34)
+`constant` | [modules/chain_match.py:35](../../modules/chain_match.py#L35)
 
 ```python
 PHASE_AFFINITY: dict[str, frozenset[str]]

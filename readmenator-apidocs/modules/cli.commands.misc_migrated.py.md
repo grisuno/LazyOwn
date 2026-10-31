@@ -761,7 +761,7 @@ requiring a restart.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `line` | `str` |  | optional sub-action. ``show`` prints the current enabled segments without opening the wizard. ``reset`` writes the factory-default segment selection back to payload.json. |
+| `line` | `str` |  | optional sub-action. `[`show`](modules.lazy_timeline.py.md#show)` prints the current enabled segments without opening the wizard. ``reset`` writes the factory-default segment selection back to payload.json. |
 
 **Returns:** None
 

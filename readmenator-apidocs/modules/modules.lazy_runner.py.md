@@ -274,7 +274,7 @@ vectors, next decision) prints when present.
 
 ### `load_targets_file`
 
-`function` | [modules/lazy_runner.py:947](../../modules/lazy_runner.py#L947)
+`function` | [modules/lazy_runner.py:954](../../modules/lazy_runner.py#L954)
 
 ```python
 def load_targets_file(path: str) -> list[str]
@@ -307,7 +307,7 @@ else goes through the shared host policy.
 
 ### `run_loop`
 
-`function` | [modules/lazy_runner.py:1002](../../modules/lazy_runner.py#L1002)
+`function` | [modules/lazy_runner.py:1009](../../modules/lazy_runner.py#L1009)
 
 ```python
 def run_loop(shell, params: dict, config: LoopRunConfig) -> dict

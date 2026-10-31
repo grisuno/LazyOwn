@@ -158,7 +158,7 @@ ignore = [
 # Tier 2: modules/, skills/, plugins/ get security-only ignores
 "modules/*" = ["S"]
 "modules/report_templates.py" = ["S", "UP031"]
-"skills/*" = ["S"]
+"skills/*" = ["S", "E402", "I001"]
 "plugins/*" = ["S"]
 # Tier 3: god classes still need broad ignores during refactor
 "lazyown.py" = ["S", "B", "UP", "F841"]

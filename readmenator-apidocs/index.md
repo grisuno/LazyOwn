@@ -1,10 +1,10 @@
 # LazyOwn API Reference
 
-> Generated offline by readmenator: 863 modules, 16027 documented entities, documentation coverage 75.9% (7637/10061 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
+> Generated offline by readmenator: 878 modules, 16210 documented entities, documentation coverage 76.1% (7726/10150 public items). Deterministic, zero tokens: signatures from source, docs parsed from Google, NumPy, reST, Javadoc/JSDoc/Doxygen, C# XML, and Rustdoc comments.
 
 Navigate: [Interactive architecture and flows](flows.html) | [Architecture and flows (Mermaid)](architecture.md) | [Class hierarchy](classes.md) | [General index](genindex.md) | [Coverage and warnings](COVERAGE.md) | [`api/index.json`](api/index.json) | [HTML browser](index.html)
 
-Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (750), sh (61)
+Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), py (765), sh (61)
 
 ## Modules
 
@@ -169,6 +169,11 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`cli.commands.exploit`](modules/cli.commands.exploit.py.md) | Exploitation command set (pending activation). | 1 | 10 | 100.0% |
 | [`cli.commands.exploit_migrated`](modules/cli.commands.exploit_migrated.py.md) | exploit commands migrated from lazyown.py. | 1 | 49 | 98.0% |
 | [`cli.commands.exploitgym`](modules/cli.commands.exploitgym.py.md) | ExploitGym CLI command set — real-world exploit benchmark harness. | 1 | 1 | 100.0% |
+| [`cli.commands.exposure_autofire`](modules/cli.commands.exposure_autofire.py.md) | Autofire command set: intelligence closing the loop into chains. | 1 | 1 | 100.0% |
+| [`cli.commands.exposure_intel`](modules/cli.commands.exposure_intel.py.md) | Target-aware exploit-intelligence exposure command set. | 1 | 1 | 100.0% |
+| [`cli.commands.exposure_inventory`](modules/cli.commands.exposure_inventory.py.md) | Exploit intelligence feeding command set: lazy_search and lazyinventory. | 1 | 2 | 100.0% |
+| [`cli.commands.exposure_sentinel`](modules/cli.commands.exposure_sentinel.py.md) | Internal sentinel command set: provision, dispatch, ingest, checks. | 1 | 1 | 100.0% |
+| [`cli.commands.exposure_timeline`](modules/cli.commands.exposure_timeline.py.md) | Engagement timeline command set: snapshots, diffs and zombies. | 1 | 1 | 100.0% |
 | [`cli.commands.golden_paths`](modules/cli.commands.golden_paths.py.md) | Golden-path solver commands. | 1 | 1 | 100.0% |
 | [`cli.commands.gym_matrix`](modules/cli.commands.gym_matrix.py.md) | Metasploitable 2 gym matrix commands. | 1 | 1 | 100.0% |
 | [`cli.commands.help_ui`](modules/cli.commands.help_ui.py.md) | Help, tutorial and phase guidance extracted from the miscellaneous cluster. | 1 | 14 | 100.0% |
@@ -611,25 +616,30 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.kivi`](modules/modules.kivi.py.md) |  | 1 | 2 | 0.0% |
 | [`modules.lab_runtime`](modules/modules.lab_runtime.py.md) | Lab runtime: Docker lifecycle for practice targets and cyber ranges. | 0 | 16 | 100.0% |
 | [`modules.lazy_agent`](modules/modules.lazy_agent.py.md) | Agentic tool-calling bridge for the loop and the main agent. | 2 | 16 | 100.0% |
+| [`modules.lazy_autofire`](modules/modules.lazy_autofire.py.md) | Lazy autofire: exploit intelligence closing the loop into chains. | 0 | 4 | 100.0% |
 | [`modules.lazy_bridge`](modules/modules.lazy_bridge.py.md) | Bidirectional LAZY <-> LazyOwn bridge. | 0 | 14 | 100.0% |
 | [`modules.lazy_checks`](modules/modules.lazy_checks.py.md) | Validation plans as data: re-read observed checks through version math. | 0 | 3 | 100.0% |
 | [`modules.lazy_cli_bridge`](modules/modules.lazy_cli_bridge.py.md) | Full CLI catalog for the Lazy autonomous loop. | 0 | 10 | 100.0% |
 | [`modules.lazy_creds`](modules/modules.lazy_creds.py.md) | Default-credential knowledge base for LazyOwn. | 1 | 6 | 100.0% |
 | [`modules.lazy_cve_feed`](modules/modules.lazy_cve_feed.py.md) | Keyless CVE intelligence feeds and version-aware service correlation. | 0 | 10 | 100.0% |
 | [`modules.lazy_engine`](modules/modules.lazy_engine.py.md) | Lazy autonomous loop engine: single orchestrator for lazy_* commands. | 1 | 0 | 100.0% |
+| [`modules.lazy_exposure`](modules/modules.lazy_exposure.py.md) | Target exposure report for LazyOwn. | 0 | 8 | 100.0% |
+| [`modules.lazy_feedmatch`](modules/modules.lazy_feedmatch.py.md) | Exploit feed matching for LazyOwn. | 3 | 10 | 100.0% |
 | [`modules.lazy_findings`](modules/modules.lazy_findings.py.md) | Engagement findings ledger: state machine plus reproducible evidence. | 3 | 20 | 100.0% |
-| [`modules.lazy_heat`](modules/modules.lazy_heat.py.md) | Heat tiers and version math for CVE correlation. | 0 | 11 | 100.0% |
+| [`modules.lazy_heat`](modules/modules.lazy_heat.py.md) | Heat tiers and version math for CVE correlation. | 0 | 15 | 100.0% |
 | [`modules.lazy_hostscore`](modules/modules.lazy_hostscore.py.md) | Host heat score: deterministic 0-100 priority for every known host. | 0 | 3 | 100.0% |
 | [`modules.lazy_installer`](modules/modules.lazy_installer.py.md) | Capability installer for the Lazy autonomous loop. | 0 | 6 | 100.0% |
 | [`modules.lazy_intel`](modules/modules.lazy_intel.py.md) | Intel feed from the Lazy autonomous loop. | 0 | 9 | 100.0% |
+| [`modules.lazy_inventory`](modules/modules.lazy_inventory.py.md) | Host-reported inventory for LazyOwn. | 0 | 4 | 100.0% |
 | [`modules.lazy_ledger`](modules/modules.lazy_ledger.py.md) | Freshness ledger: TTL windows per verb and target for the loop worker. | 0 | 5 | 100.0% |
-| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 261 | 100.0% |
+| [`modules.lazy_loop`](modules/modules.lazy_loop.py.md) | Lazy autonomous loop for LazyOwn. | 28 | 262 | 100.0% |
 | [`modules.lazy_match_policy`](modules/modules.lazy_match_policy.py.md) | Match policy doctrine: what may claim a match and what stays a lead. | 1 | 8 | 100.0% |
 | [`modules.lazy_mentions`](modules/modules.lazy_mentions.py.md) | LAZY chat mentions with multi-type search and scroll pagination. | 3 | 3 | 100.0% |
 | [`modules.lazy_netattack`](modules/modules.lazy_netattack.py.md) | Windows network-attack surface adjudicator for mitm6/LLMNR/SMB relay. | 2 | 3 | 100.0% |
 | [`modules.lazy_oob`](modules/modules.lazy_oob.py.md) | Local OOB canary for blind SSRF/RCE detection. | 1 | 8 | 100.0% |
 | [`modules.lazy_orchestrator_feedback`](modules/modules.lazy_orchestrator_feedback.py.md) | Organic orchestrator training from loop usage. | 0 | 5 | 100.0% |
 | [`modules.lazy_osinfer`](modules/modules.lazy_osinfer.py.md) | Target OS inference and OS-aware verb gating. | 0 | 11 | 100.0% |
+| [`modules.lazy_probes`](modules/modules.lazy_probes.py.md) | Read-only validation command registry for LazyOwn. | 1 | 4 | 100.0% |
 | [`modules.lazy_proxy`](modules/modules.lazy_proxy.py.md) | Recording HTTP/HTTPS proxy for the autonomous loop. | 2 | 20 | 100.0% |
 | [`modules.lazy_rbac`](modules/modules.lazy_rbac.py.md) | modules/lazy_rbac.py ==================== Role-Based Access Control, Multi-Factor Authentication, and Multi-Tenancy for the LazyOwn RedTeam Framework. | 6 | 48 | 20.0% |
 | [`modules.lazy_reaper`](modules/modules.lazy_reaper.py.md) | Reaper: expire lazy-loop tasks whose process proves dead. | 0 | 1 | 100.0% |
@@ -637,10 +647,13 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.lazy_runner`](modules/modules.lazy_runner.py.md) | Single execution path for ``lazy_loop`` and ``auto_loop``. | 1 | 7 | 100.0% |
 | [`modules.lazy_sandbox`](modules/modules.lazy_sandbox.py.md) | Per-task Docker sandbox for the Lazy autonomous loop. | 0 | 10 | 100.0% |
 | [`modules.lazy_scope`](modules/modules.lazy_scope.py.md) | Lab-only default scope for autonomous loop targets. | 1 | 8 | 100.0% |
+| [`modules.lazy_search`](modules/modules.lazy_search.py.md) | Lazy saved-search grammar over the engagement database. | 2 | 2 | 100.0% |
+| [`modules.lazy_sentinel`](modules/modules.lazy_sentinel.py.md) | Internal-network sentinel for LazyOwn. | 0 | 6 | 100.0% |
 | [`modules.lazy_skill_mirror`](modules/modules.lazy_skill_mirror.py.md) | Mirror LazyOwn skills for Hermes discovery. | 0 | 4 | 100.0% |
 | [`modules.lazy_skills`](modules/modules.lazy_skills.py.md) | Skill context injection for planner/worker prompts. | 0 | 4 | 100.0% |
 | [`modules.lazy_summarizer`](modules/modules.lazy_summarizer.py.md) | Bounded chain summarizer for the Lazy autonomous loop. | 0 | 2 | 100.0% |
 | [`modules.lazy_surface_diff`](modules/modules.lazy_surface_diff.py.md) | Surface snapshot and diff: what changed about a host since last look. | 0 | 7 | 100.0% |
+| [`modules.lazy_timeline`](modules/modules.lazy_timeline.py.md) | Lazy engagement timeline for LazyOwn. | 0 | 6 | 100.0% |
 | [`modules.lazy_triage`](modules/modules.lazy_triage.py.md) | Triage doctrine: evidence floors, verdict algebra and signature dedup. | 1 | 7 | 100.0% |
 | [`modules.lazy_verify`](modules/modules.lazy_verify.py.md) | Structured read-only verification of loop findings. | 0 | 4 | 100.0% |
 | [`modules.lazy_world_diff`](modules/modules.lazy_world_diff.py.md) | World-surface diff: host snapshots, change detection, ghost liveness. | 1 | 15 | 100.0% |
@@ -861,11 +874,12 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | Module | Summary | Types | Callables | Coverage |
 |---|---|---|---|---|
 | [`modules.selection`](modules/modules.selection.__init__.py.md) | Shared action-selection brain for the unified autonomous loop. | 0 | 0 | 100.0% |
-| [`modules.selection.adversary`](modules/modules.selection.adversary.py.md) | Adversary selector: run a custom adversary emulation named by the objective. | 1 | 2 | 100.0% |
+| [`modules.selection.adversary`](modules/modules.selection.adversary.py.md) | Adversary selector: run a custom adversary emulation named by the objective. | 1 | 4 | 100.0% |
 | [`modules.selection.atomic`](modules/modules.selection.atomic.py.md) | Atomic selector: emulate named MITRE ATT&CK techniques with atomic tests. | 1 | 1 | 100.0% |
 | [`modules.selection.base`](modules/modules.selection.base.py.md) | The one shared contract for autonomous action selection. | 3 | 1 | 100.0% |
 | [`modules.selection.chain`](modules/modules.selection.chain.py.md) | Chain selector: propose a vetted ``apt_chain`` when one fits the state. | 1 | 2 | 100.0% |
 | [`modules.selection.cred_spray`](modules/modules.selection.cred_spray.py.md) | Credential-spray selector: reuse known credentials against open services. | 1 | 1 | 100.0% |
+| [`modules.selection.intel`](modules/modules.selection.intel.py.md) | Intel selector: feed exploitation intelligence into the autonomous loop. | 1 | 4 | 100.0% |
 | [`modules.selection.playbook`](modules/modules.selection.playbook.py.md) | Playbook selector: run an APT actor emulation named by the objective. | 1 | 2 | 100.0% |
 | [`modules.selection.registry`](modules/modules.selection.registry.py.md) | Assemble and run the shared selector cascade. | 0 | 2 | 100.0% |
 
@@ -883,6 +897,7 @@ Languages: asm (1), c (15), cpp (1), cs (1), h (1), js (6), lua (26), php (1), p
 | [`modules.sinks.findings`](modules/modules.sinks.findings.py.md) | Findings sink: append engagement finding transitions to the ledger. | 0 | 5 | 100.0% |
 | [`modules.sinks.intel_graph`](modules/modules.sinks.intel_graph.py.md) | Intel-graph sink: rebuild the fused graph after meaningful outcomes. | 0 | 1 | 100.0% |
 | [`modules.sinks.killchain`](modules/modules.sinks.killchain.py.md) | Kill-chain sink: advance the unified phase from proven outcomes. | 0 | 1 | 100.0% |
+| [`modules.sinks.lazy_intel`](modules/modules.sinks.lazy_intel.py.md) | Lazy intel sink: mirror exploit-intelligence matches into the stores. | 0 | 1 | 100.0% |
 | [`modules.sinks.objectives`](modules/modules.sinks.objectives.py.md) | Objectives sink: turn proven outcomes into follow-up work. | 0 | 1 | 100.0% |
 | [`modules.sinks.routing`](modules/modules.sinks.routing.py.md) | Routing-prior sink: learn from terminal outcomes. | 0 | 1 | 100.0% |
 | [`modules.sinks.world_diff`](modules/modules.sinks.world_diff.py.md) | World-diff sink: snapshot hosts and record what changed per outcome. | 0 | 1 | 100.0% |

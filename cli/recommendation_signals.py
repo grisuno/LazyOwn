@@ -368,17 +368,18 @@ class PlaybookSignal:
         for index, pb in enumerate(available[: ctx.limit]):
             if not isinstance(pb, dict):
                 continue
-            name = str(pb.get("name") or "").strip()
-            desc = str(pb.get("description") or "")[:_PLAYBOOK_DESCRIPTION_MAX]
-            if not name:
+            apt_name = str(pb.get("apt_name") or pb.get("name") or "").strip()
+            if not apt_name:
                 continue
+            slug = apt_name.replace(" ", "_").lower()
+            desc = str(pb.get("description") or "")[:_PLAYBOOK_DESCRIPTION_MAX]
             proposals.append(
                 Proposal(
-                    action=f"playbook_run {name}",
+                    action=f"apt_playbook run {slug}",
                     kind=KIND_COMMAND,
                     weight=_rank_weight(index, len(available)),
-                    reason=f"APT playbook: {desc}",
-                    command_preview=f"playbook_run {name}",
+                    reason=f"APT playbook: {apt_name} — {desc}",
+                    command_preview=f"apt_playbook run {slug}",
                 )
             )
         return proposals

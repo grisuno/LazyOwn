@@ -1,5 +1,8 @@
-# Subsystem: modules (page 10 of 17)
+# Subsystem: modules (page 10 of 18)
 Previous: [KB_modules_p9.md](KB_modules_p9.md)
+
+## modules/lazy_loop.py (continued)
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/lazy_orchestrator.py`, `cli/retry_support.py`, `lazyc2.py`, `lazyown.py`, `modules/custom_tools.py`, `modules/lazy_agent.py`, `modules/lazy_engine.py`, `modules/lazy_ledger.py`, `modules/lazy_mentions.py`, `modules/lazy_osinfer.py`, `modules/lazy_reaper.py`, `modules/lazy_roles.py`, `modules/lazy_runner.py`, `modules/loop_triggers.py`, `modules/mediation/chain_mediator.py`, `modules/mediation/intel_mediator.py`, `modules/reaction_bridge.py`, `modules/sinks/chain_feed.py`, `modules/tools/loop_smoke.py`, `modules/tools/monitor_smoke.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/test_asset_gate.py`, `tests/test_auto_crypto.py`, `tests/test_failure_memory_veto.py`, `tests/test_guardrails.py`, `tests/test_harness_mode.py`, `tests/test_intel_fusion.py`, `tests/test_lazy_agent.py`, `tests/test_lazy_engine.py`, `tests/test_lazy_evidence.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_lazy_proxy.py`, `tests/test_lazy_runner.py`, `tests/test_lazy_streaming.py`, `tests/test_lazy_worker_safety.py`, `tests/test_llm_orchestrator.py`, `tests/test_loop_ai_bridge.py`, `tests/test_loop_auto_orchestrator.py`, `tests/test_loop_broadcast.py`, `tests/test_loop_cli_catalog.py`, `tests/test_loop_cold_overview.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_loop_fire_pending.py`, `tests/test_loop_force_graph.py`, `tests/test_loop_guard_audit.py`, `tests/test_loop_intent_delete.py`, `tests/test_loop_llm_resilience.py`, `tests/test_loop_nmap_guard.py`, `tests/test_loop_scope_traffic_evidence.py`, `tests/test_loop_spawn_side.py`, `tests/test_loop_store_race.py`, `tests/test_loop_supervision.py`, `tests/test_loop_trigger_hints.py`, `tests/test_loop_worker_traces.py`, `tests/test_mcp_auto_loop_wrapper.py`, `tests/test_module_registry_bridge.py`, `tests/test_orchestrator_api.py`, `tests/test_orchestrator_triggers.py`, `tests/test_orchestrator_yaml.py`, `tests/test_pi_leg.py`, `tests/test_policy_planner_signal.py`, `tests/test_security_alerts_fix.py`, `tests/test_security_codeql_batch.py`, `tests/test_session_brief.py`, `tests/test_sink_chain_feed.py`, `tests/test_trigger_policy.py`, `tests/test_world_diff_retest.py`
 
 ## modules/lazy_match_policy.py
 - Doc: Match policy doctrine: what may claim a match and what stays a lead.
@@ -126,6 +129,25 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `remember_host_os` (function, line 287) `def remember_host_os(target, os_name, reason)`
   - `learn_from_transcripts` (function, line 330) `def learn_from_transcripts(target, transcripts)`
 - Depends on: `modules/auto_registry.py`, `modules/lazy_loop.py`, `modules/world_model.py`
+
+## modules/lazy_probes.py
+- Doc: Read-only validation command registry for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RenderedCheck` (class, line 47) `class RenderedCheck`
+  - `range_text` (function, line 70) `def range_text(ranges)`
+  - `_need_port` (function, line 97) `def _need_port(params)`
+  - `check_errors` (function, line 108) `def check_errors(kind, params)`
+  - `render_check` (function, line 156) `def render_check(kind, params)`
+  - `render_checks` (function, line 177) `def render_checks(checks)`
+  - `_render_version_banner` (function, line 189) `def _render_version_banner(params)`
+  - `_render_http_probe` (function, line 207) `def _render_http_probe(params)`
+  - `_render_nuclei_template` (function, line 234) `def _render_nuclei_template(params)`
+  - `_render_nse_script` (function, line 249) `def _render_nse_script(params)`
+  - `_render_package_version` (function, line 263) `def _render_package_version(params)`
+  - `_render_service_state` (function, line 290) `def _render_service_state(params)`
+- Imported by: `modules/lazy_autofire.py`, `modules/lazy_exposure.py`, `tests/test_lazy_probes.py`
 
 ## modules/lazy_proxy.py
 - Doc: Recording HTTP/HTTPS proxy for the autonomous loop.
@@ -338,20 +360,20 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `report_result` (function, line 521) `def report_result(result)`
   - `_print_handoff` (function, line 567) `def _print_handoff(handoff)`
   - `_bootstrap` (function, line 592) `def _bootstrap(scan_target, executor)`
-  - `_apply_budget` (function, line 606) `def _apply_budget(engine, task_id, budget)`
-  - `_budget_declined` (function, line 619) `def _budget_declined(config)`
-  - `_run_with_progress` (function, line 635) `def _run_with_progress(engine, config)`
-  - `_overview` (function, line 741) `def _overview(task_id)`
-  - `_format_activity` (function, line 751) `def _format_activity(record)`
-  - `_dump_thread_stacks` (function, line 765) `def _dump_thread_stacks()`
-  - `_stall_thresholds` (function, line 780) `def _stall_thresholds(verb_timeout)`
-  - `_poll_progress` (function, line 794) `def _poll_progress(engine, config, progress, transcript, worker)`
-  - `_terminal_stream` (function, line 890) `def _terminal_stream()`
-  - `_run_plain` (function, line 912) `def _run_plain(engine, config)`
-  - `load_targets_file` (function, line 947) `def load_targets_file(path)`
-  - `run_loop` (function, line 1002) `def run_loop(shell, params, config)`
-  - `_tty_available` (function, line 1104) `def _tty_available()`
-  - `_run_targets_file` (function, line 1117) `def _run_targets_file(shell, params, config)`
+  - `_apply_budget` (function, line 613) `def _apply_budget(engine, task_id, budget)`
+  - `_budget_declined` (function, line 626) `def _budget_declined(config)`
+  - `_run_with_progress` (function, line 642) `def _run_with_progress(engine, config)`
+  - `_overview` (function, line 748) `def _overview(task_id)`
+  - `_format_activity` (function, line 758) `def _format_activity(record)`
+  - `_dump_thread_stacks` (function, line 772) `def _dump_thread_stacks()`
+  - `_stall_thresholds` (function, line 787) `def _stall_thresholds(verb_timeout)`
+  - `_poll_progress` (function, line 801) `def _poll_progress(engine, config, progress, transcript, worker)`
+  - `_terminal_stream` (function, line 897) `def _terminal_stream()`
+  - `_run_plain` (function, line 919) `def _run_plain(engine, config)`
+  - `load_targets_file` (function, line 954) `def load_targets_file(path)`
+  - `run_loop` (function, line 1009) `def run_loop(shell, params, config)`
+  - `_tty_available` (function, line 1111) `def _tty_available()`
+  - `_run_targets_file` (function, line 1124) `def _run_targets_file(shell, params, config)`
   - `__init__` (method, line 55) `def __init__(self, main_stream, spool)`
   - `write` (method, line 61) `def write(self, data)`
   - `flush` (method, line 72) `def flush(self)`
@@ -360,12 +382,12 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `clamped` (method, line 120) `def clamped(self)`
   - `_resolve_alias` (function, line 355) `def _resolve_alias(command)`
   - `_executor` (function, line 363) `def _executor(command)`
-  - `stream` (function, line 650) `def stream(text)`
-  - `_run` (function, line 687) `def _run()`
-  - `_write` (function, line 902) `def _write(text)`
-  - `_work_one` (function, line 1140) `def _work_one(target)`
-  - `_limited` (function, line 1143) `def _limited()`
-- Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_progress.py`, `utils.py`
+  - `stream` (function, line 657) `def stream(text)`
+  - `_run` (function, line 694) `def _run()`
+  - `_write` (function, line 909) `def _write(text)`
+  - `_work_one` (function, line 1147) `def _work_one(target)`
+  - `_limited` (function, line 1150) `def _limited()`
+- Depends on: `cli/lazy_monitor.py`, `core/autonomous.py`, `core/hardening.py`, `core/terminal_guard.py`, `modules/__init__.py`, `modules/auto_registry.py`, `modules/custom_tools.py`, `modules/jsonl_tail.py`, `modules/lazy_engine.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/lazy_sandbox.py`, `modules/loop_guardrails.py`, `modules/loop_progress.py`, `utils.py`
 - Imported by: `cli/commands/lazyops.py`, `cli/commands/mcp_bridge.py`, `cli/commands/retry_ops.py`, `cli/lazy_monitor.py`, `modules/tools/loop_smoke.py`, `tests/test_lazy_runner.py`, `tests/test_loop_budget.py`, `tests/test_loop_multi_target.py`, `tests/test_loop_nmap_guard.py`, `tests/test_orchestrator_yaml.py`
 
 ## modules/lazy_sandbox.py
@@ -412,6 +434,41 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `_keep` (function, line 143) `def _keep(start, value)`
 - Imported by: `modules/chain_distill.py`
 
+## modules/lazy_search.py
+- Doc: Lazy saved-search grammar over the engagement database.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SearchTerm` (class, line 65) `class SearchTerm`
+  - `Query` (class, line 80) `class Query`
+  - `parse` (function, line 94) `def parse(query)`
+  - `execute` (function, line 132) `def execute(db, query, workspace_name, db_path)`
+  - `_row_match` (function, line 178) `def _row_match(parsed, row, is_host)`
+  - `_term_hit` (function, line 202) `def _term_hit(term, row, is_host)`
+  - `_searchable` (function, line 233) `def _searchable(row, is_host)`
+  - `_canon` (function, line 250) `def _canon(key, value)`
+- Depends on: `modules/db.py`
+- Imported by: `skills/lazyown_mcp.py`
+
+## modules/lazy_sentinel.py
+- Doc: Internal-network sentinel for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ingest_spool` (function, line 45) `def ingest_spool(path)`
+  - `_parse_line` (function, line 73) `def _parse_line(line)`
+  - `_parse_grepable` (function, line 81) `def _parse_grepable(line)`
+  - `_parse_tsv` (function, line 108) `def _parse_tsv(line)`
+  - `validate_ranges` (function, line 123) `def validate_ranges(ranges)`
+  - `provision_blob` (function, line 152) `def provision_blob(ranges, spool_path, spool_dir)`
+  - `dispatch_line` (function, line 203) `def dispatch_line(client_id, blob)`
+  - `_split_product_version` (function, line 223) `def _split_product_version(block)`
+  - `_sightings` (function, line 237) `def _sightings(hosts)`
+  - `save_sightings` (function, line 252) `def save_sightings(sightings, path)`
+  - `load_sightings` (function, line 282) `def load_sightings(path)`
+  - `_atomic_json` (function, line 312) `def _atomic_json(path, data)`
+- Depends on: `modules/lazy_feedmatch.py`
+
 ## modules/lazy_skill_mirror.py
 - Doc: Mirror LazyOwn skills for Hermes discovery.
 - Layer: utility
@@ -425,64 +482,6 @@ Previous: [KB_modules_p9.md](KB_modules_p9.md)
   - `_hermes_config_path` (function, line 112) `def _hermes_config_path()`
   - `register_external_dirs` (function, line 117) `def register_external_dirs()`
 - Imported by: `cli/commands/lazyops.py`
-
-## modules/lazy_skills.py
-- Doc: Skill context injection for planner/worker prompts.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_frontmatter` (function, line 28) `def _frontmatter(text)`
-  - `_skill_files` (function, line 42) `def _skill_files()`
-  - `_load` (function, line 53) `def _load(path)`
-  - `list_skills` (function, line 85) `def list_skills()`
-  - `get_skill` (function, line 91) `def get_skill(name)`
-  - `match_skills` (function, line 102) `def match_skills(text, limit)`
-  - `skills_context` (function, line 118) `def skills_context(text, explicit, auto, budget)`
-- Imported by: `cli/commands/lazyops.py`, `modules/lazy_loop.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_runner.py`
-
-## modules/lazy_summarizer.py
-- Doc: Bounded chain summarizer for the Lazy autonomous loop.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_text_of` (function, line 26) `def _text_of(record)`
-  - `should_compact` (function, line 35) `def should_compact(used_chars, budget_chars)`
-  - `summarize_chain` (function, line 50) `def summarize_chain(records, budget_chars, complete)`
-  - `_digest` (function, line 100) `def _digest(older, complete)`
-  - `_truncate_records` (function, line 126) `def _truncate_records(records, budget)`
-
-## modules/lazy_surface_diff.py
-- Doc: Surface snapshot and diff: what changed about a host since last look.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `snapshot_host` (function, line 52) `def snapshot_host(host)`
-  - `fingerprint` (function, line 79) `def fingerprint(state)`
-  - `_port_number` (function, line 85) `def _port_number(key)`
-  - `diff_hosts` (function, line 93) `def diff_hosts(before, after)`
-  - `_load_previous` (function, line 149) `def _load_previous(path)`
-  - `current_snapshots` (function, line 160) `def current_snapshots(world)`
-  - `refresh` (function, line 186) `def refresh(world, sessions_dir)`
-  - `last_diff` (function, line 234) `def last_diff(sessions_dir)`
-  - `changed_hosts` (function, line 253) `def changed_hosts(limit, sessions_dir)`
-- Depends on: `modules/world_model.py`
-
-## modules/lazy_triage.py
-- Doc: Triage doctrine: evidence floors, verdict algebra and signature dedup.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `rank` (function, line 42) `def rank(verdict)`
-  - `hard_evidence` (function, line 47) `def hard_evidence(kind, facts)`
-  - `apply_rules` (function, line 80) `def apply_rules(verdict, kind, facts)`
-  - `signature_for` (function, line 108) `def signature_for(kind, fields)`
-  - `SignatureStore` (class, line 135) `class SignatureStore`
-  - `__init__` (method, line 138) `def __init__(self, sessions_dir, ttl)`
-  - `fresh_signature` (method, line 144) `def fresh_signature(self, signature, now)`
-  - `reset` (method, line 162) `def reset(self)`
-  - `_load` (method, line 166) `def _load(self)`
-  - `_save` (method, line 176) `def _save(self, store)`
-- Imported by: `tests/test_lazy_triage.py`
 
 
 Next: [KB_modules_p11.md](KB_modules_p11.md)

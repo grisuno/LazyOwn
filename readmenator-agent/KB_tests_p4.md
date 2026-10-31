@@ -1,4 +1,4 @@
-# Subsystem: tests (page 4 of 22)
+# Subsystem: tests (page 4 of 23)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
 
 ## tests/test_bof_registry.py

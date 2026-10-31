@@ -1,5 +1,105 @@
-# Subsystem: modules (page 14 of 17)
+# Subsystem: modules (page 14 of 18)
 Previous: [KB_modules_p13.md](KB_modules_p13.md)
+
+## modules/notify.py
+- Doc: Stateless multi-channel notifier for finding events.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `NotifyConfig` (class, line 15) `class NotifyConfig`
+  - `severity_rank` (function, line 31) `def severity_rank(severity, config)`
+  - `mask_secrets` (function, line 39) `def mask_secrets(text, config)`
+  - `url_allowed` (function, line 57) `def url_allowed(url)`
+  - `post_url_validated` (function, line 145) `def post_url_validated(url, data, timeout)`
+  - `NotifyMessage` (class, line 173) `class NotifyMessage`
+  - `Channel` (class, line 186) `class Channel`
+  - `Notifier` (class, line 204) `class Notifier`
+  - `_addr_denied` (function, line 105) `def _addr_denied(addr)`
+  - `_GuardRedirect` (class, line 158) `class _GuardRedirect(HTTPRedirectHandler)`
+  - `__post_init__` (method, line 198) `def __post_init__(self)`
+  - `__init__` (method, line 207) `def __init__(self, config)`
+  - `should_send` (method, line 215) `def should_send(self, message, channel)`
+  - `render` (method, line 238) `def render(self, message)`
+  - `dispatch` (method, line 244) `def dispatch(self, message, channels)`
+  - `flush_digest` (method, line 260) `def flush_digest(self, max_age_sec)`
+  - `redirect_request` (method, line 159) `def redirect_request(self, req, fp, code, msg, headers, newurl)`
+- Imported by: `modules/custom_tools.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `static/js/chart.min.js`, `tests/test_autonomous_ops.py`, `tests/test_lazy_loop.py`, `tests/test_security_codeql_batch.py`
+
+## modules/nuclei_templates_sync.py
+- Doc: Sync community Nuclei template collections into the LazyOwn marketplace.
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `repo_root` (function, line 39) `def repo_root()`
+  - `canonical_dest` (function, line 48) `def canonical_dest(subdir)`
+  - `run` (function, line 60) `def run(argv, cwd)`
+  - `ensure_git_available` (function, line 73) `def ensure_git_available()`
+  - `clone_templates` (function, line 84) `def clone_templates(repo, staging)`
+  - `strip_git_traces` (function, line 113) `def strip_git_traces(tree)`
+  - `count_templates` (function, line 132) `def count_templates(tree)`
+  - `replace_dest` (function, line 144) `def replace_dest(src, dest, expected)`
+  - `same_remote` (function, line 168) `def same_remote(path, repo)`
+  - `refresh_existing_clone` (function, line 188) `def refresh_existing_clone(path, repo)`
+  - `validate_subset` (function, line 209) `def validate_subset(dest, subset)`
+  - `build_parser` (function, line 238) `def build_parser()`
+  - `sync` (function, line 263) `def sync(name, repo, dest, refresh_existing, skip_validate)`
+  - `resolve_plan` (function, line 308) `def resolve_plan(args)`
+  - `main` (function, line 337) `def main(argv)`
+  - `normalize` (function, line 179) `def normalize(url)`
+
+## modules/obs_parser.py
+- Doc: modules/obs_parser.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `FindingType` (class, line 63) `class FindingType(StrEnum)`
+  - `Finding` (class, line 79) `class Finding`
+  - `Observation` (class, line 107) `class Observation`
+  - `Extractor` (class, line 126) `class Extractor(ABC)`
+  - `_ExtractorRegistry` (class, line 134) `class _ExtractorRegistry`
+  - `_IPExtractor` (class, line 158) `class _IPExtractor(Extractor)`
+  - `_CredentialExtractor` (class, line 176) `class _CredentialExtractor(Extractor)`
+  - `_ServiceVersionExtractor` (class, line 224) `class _ServiceVersionExtractor(Extractor)`
+  - `_PathExtractor` (class, line 250) `class _PathExtractor(Extractor)`
+  - `_UsernameExtractor` (class, line 266) `class _UsernameExtractor(Extractor)`
+  - `_HashExtractor` (class, line 288) `class _HashExtractor(Extractor)`
+  - `_CVEExtractor` (class, line 314) `class _CVEExtractor(Extractor)`
+  - `_DomainExtractor` (class, line 330) `class _DomainExtractor(Extractor)`
+  - `_EmailExtractor` (class, line 349) `class _EmailExtractor(Extractor)`
+  - `_ErrorExtractor` (class, line 365) `class _ErrorExtractor(Extractor)`
+  - `_CloudIdentityExtractor` (class, line 386) `class _CloudIdentityExtractor(Extractor)`
+  - `_SuccessDetector` (class, line 421) `class _SuccessDetector`
+  - `ObsParser` (class, line 454) `class ObsParser`
+  - `get_parser` (function, line 531) `def get_parser()`
+  - `parse` (function, line 539) `def parse(output, host, tool)`
+  - `with_technique` (method, line 88) `def with_technique(self, mapping)`
+  - `by_type` (method, line 114) `def by_type(self, ftype)`
+  - `has` (method, line 117) `def has(self, ftype)`
+  - `extract` (method, line 130) `def extract(self, text, host)`
+  - `__init__` (method, line 137) `def __init__(self)`
+  - `register` (method, line 140) `def register(self, extractor)`
+  - `run_all` (method, line 143) `def run_all(self, text, host)`
+  - `extract` (method, line 165) `def extract(self, text, host)`
+  - `extract` (method, line 206) `def extract(self, text, host)`
+  - `extract` (method, line 229) `def extract(self, text, host)`
+  - `extract` (method, line 255) `def extract(self, text, host)`
+  - `extract` (method, line 276) `def extract(self, text, host)`
+  - `extract` (method, line 302) `def extract(self, text, host)`
+  - `extract` (method, line 319) `def extract(self, text, host)`
+  - `extract` (method, line 336) `def extract(self, text, host)`
+  - `extract` (method, line 354) `def extract(self, text, host)`
+  - `extract` (method, line 376) `def extract(self, text, host)`
+  - `extract` (method, line 398) `def extract(self, text, host)`
+  - `is_success` (method, line 438) `def is_success(self, text)`
+  - `__init__` (method, line 462) `def __init__(self)`
+  - `register` (method, line 481) `def register(self, extractor)`
+  - `parse` (method, line 485) `def parse(self, output, host, tool)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`
+- Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/sinks/world_model.py`, `skills/autonomous_daemon.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_daemon_loop.py`, `tests/test_phase1_data_gaps.py`
+
+## modules/ooficesod0woodo.py
+- Layer: utility
+- Language: py
 
 ## modules/operation.py
 - Doc: Caldera-style operation lifecycle: create, start, pause, resume, stop, status.
@@ -176,25 +276,25 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `OutcomeEvent` (class, line 77) `class OutcomeEvent`
-  - `OutcomeBus` (class, line 156) `class OutcomeBus`
-  - `get_bus` (function, line 272) `def get_bus()`
-  - `reset_bus` (function, line 281) `def reset_bus()`
-  - `record` (function, line 286) `def record(event, sinks)`
-  - `record_event` (function, line 291) `def record_event()`
-  - `severity_for_event` (function, line 296) `def severity_for_event(severity)`
-  - `category_for_event` (function, line 301) `def category_for_event(kind)`
-  - `host_value` (method, line 105) `def host_value(self)`
-  - `key` (method, line 109) `def key(self)`
-  - `to_dict` (method, line 127) `def to_dict(self)`
-  - `__init__` (method, line 159) `def __init__(self, ledger_path, sink_map)`
-  - `reset` (method, line 172) `def reset(self)`
-  - `_sink` (method, line 178) `def _sink(self, name)`
-  - `_enabled_sinks` (method, line 193) `def _enabled_sinks(self, requested)`
-  - `record` (method, line 204) `def record(self, event, sinks)`
-  - `_append_ledger` (method, line 251) `def _append_ledger(self, event, statuses)`
+  - `OutcomeEvent` (class, line 78) `class OutcomeEvent`
+  - `OutcomeBus` (class, line 157) `class OutcomeBus`
+  - `get_bus` (function, line 273) `def get_bus()`
+  - `reset_bus` (function, line 282) `def reset_bus()`
+  - `record` (function, line 287) `def record(event, sinks)`
+  - `record_event` (function, line 292) `def record_event()`
+  - `severity_for_event` (function, line 297) `def severity_for_event(severity)`
+  - `category_for_event` (function, line 302) `def category_for_event(kind)`
+  - `host_value` (method, line 106) `def host_value(self)`
+  - `key` (method, line 110) `def key(self)`
+  - `to_dict` (method, line 128) `def to_dict(self)`
+  - `__init__` (method, line 160) `def __init__(self, ledger_path, sink_map)`
+  - `reset` (method, line 173) `def reset(self)`
+  - `_sink` (method, line 179) `def _sink(self, name)`
+  - `_enabled_sinks` (method, line 194) `def _enabled_sinks(self, requested)`
+  - `record` (method, line 205) `def record(self, event, sinks)`
+  - `_append_ledger` (method, line 252) `def _append_ledger(self, event, statuses)`
 - Depends on: `core/logging.py`, `modules/__init__.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_world_diff_retest.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `modules/atomic_exploit_bridge.py`, `modules/autonomous_exploit_engine.py`, `modules/beacon_recon.py`, `modules/chain_runner.py`, `modules/ctf_capture.py`, `modules/emulation_runner.py`, `modules/exploit_chain.py`, `modules/lazy_exposure.py`, `modules/lazy_loop.py`, `modules/redteam_gym.py`, `modules/sinks/attack_graph.py`, `modules/sinks/beacon_dispatch.py`, `modules/sinks/c2_surfaces.py`, `modules/sinks/campaign_db.py`, `modules/sinks/chain_feed.py`, `modules/sinks/event_bus.py`, `modules/sinks/findings.py`, `modules/sinks/intel_graph.py`, `modules/sinks/killchain.py`, `modules/sinks/lazy_intel.py`, `modules/sinks/objectives.py`, `modules/sinks/routing.py`, `modules/sinks/world_diff.py`, `modules/sinks/world_model.py`, `tests/test_beacon_recon_sink.py`, `tests/test_chain_step_streaming.py`, `tests/test_gym_cli.py`, `tests/test_gym_lifecycle.py`, `tests/test_gym_registry.py`, `tests/test_lazy_ledger.py`, `tests/test_lazy_loop.py`, `tests/test_lazy_orchestrator.py`, `tests/test_loop_evidence_wiring.py`, `tests/test_outcome_bus.py`, `tests/test_sink_chain_feed.py`, `tests/test_sink_lazy_intel.py`, `tests/test_world_diff_retest.py`
 
 ## modules/payload_factory.py
 - Doc: Native payload generation framework — stagers, stages, singles, formats.
@@ -389,102 +489,6 @@ Previous: [KB_modules_p13.md](KB_modules_p13.md)
   - `__len__` (method, line 560) `def __len__(self)`
 - Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/world_model.py`
 - Imported by: `cli/commands/caldera.py`, `cli/commands/session_ops.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`
-
-## modules/playbook_admin.py
-- Doc: Safe CRUD for the YAML playbooks under ``playbooks/``.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PlaybookEntry` (class, line 40) `class PlaybookEntry`
-  - `_yaml_module` (function, line 55) `def _yaml_module()`
-  - `slugify` (function, line 62) `def slugify(value)`
-  - `playbook_path` (function, line 75) `def playbook_path(filename, directory)`
-  - `load_playbook` (function, line 102) `def load_playbook(path)`
-  - `playbook_kind` (function, line 123) `def playbook_kind(data)`
-  - `validate_playbook` (function, line 136) `def validate_playbook(data)`
-  - `_count_steps` (function, line 183) `def _count_steps(data)`
-  - `summarize` (function, line 197) `def summarize(path)`
-  - `scan_playbooks` (function, line 231) `def scan_playbooks(directory)`
-  - `preview_playbook` (function, line 251) `def preview_playbook(path, limit)`
-  - `playbook_template` (function, line 265) `def playbook_template(name, description, platforms)`
-  - `_write_atomic` (function, line 282) `def _write_atomic(target, data)`
-  - `create_playbook` (function, line 297) `def create_playbook(filename)`
-  - `_target_for_write` (function, line 337) `def _target_for_write(path, directory)`
-  - `update_playbook` (function, line 350) `def update_playbook(path, data, directory)`
-  - `save_playbook_yaml` (function, line 377) `def save_playbook_yaml(path, text, directory)`
-  - `delete_playbook` (function, line 406) `def delete_playbook(path, directory)`
-- Imported by: `cli/orchestrator_assets_tabs.py`, `tests/test_playbook_admin.py`
-
-## modules/playbook_engine.py
-- Doc: modules/playbook_engine.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PlaybookStep` (class, line 101) `class PlaybookStep`
-  - `Playbook` (class, line 133) `class Playbook`
-  - `StepResult` (class, line 165) `class StepResult`
-  - `PlaybookResult` (class, line 173) `class PlaybookResult`
-  - `_StixLoader` (class, line 185) `class _StixLoader`
-  - `_AtomicIndex` (class, line 254) `class _AtomicIndex`
-  - `_TechniqueSelector` (class, line 311) `class _TechniqueSelector`
-  - `PlaybookEngine` (class, line 375) `class PlaybookEngine`
-  - `get_engine` (function, line 669) `def get_engine(api_key)`
-  - `to_dict` (method, line 113) `def to_dict(self)`
-  - `from_dict` (method, line 128) `def from_dict(cls, d)`
-  - `to_dict` (method, line 141) `def to_dict(self)`
-  - `from_dict` (method, line 152) `def from_dict(cls, d)`
-  - `__init__` (method, line 188) `def __init__(self, json_path)`
-  - `available` (method, line 192) `def available(self)`
-  - `store` (method, line 195) `def store(self)`
-  - `techniques_for_tactics` (method, line 210) `def techniques_for_tactics(self, tactic_shortnames, platform)`
-  - `__init__` (method, line 260) `def __init__(self, atomics_path)`
-  - `available` (method, line 264) `def available(self)`
-  - `build` (method, line 267) `def build(self)`
-  - `tests_for_technique` (method, line 300) `def tests_for_technique(self, technique_id, platform)`
-  - `select` (method, line 317) `def select(self, candidates, world_context, target, phase, api_key, top_n)`
-  - `__init__` (method, line 387) `def __init__(self, world_model, obs_parser, api_key, top_n)`
-  - `_world_model` (method, line 404) `def _world_model(self)`
-  - `_obs_parser` (method, line 415) `def _obs_parser(self)`
-  - `derive` (method, line 427) `def derive(self, target, phase, platform, apt_name)`
-  - `execute` (method, line 529) `def execute(self, playbook, executor, dry_run)`
-  - `save` (method, line 599) `def save(self, playbook, path)`
-  - `load` (method, line 611) `def load(self, path)`
-  - `result_summary` (method, line 640) `def result_summary(self, result)`
-  - `_local_executor` (function, line 722) `def _local_executor(command, host)`
-- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/emulation_runner.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
-- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-
-## modules/playbook_executor.py
-- Doc: Playbook Executor — bridges MITRE ATT&CK playbooks to the pipeline engine.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `PlaybookTechnique` (class, line 36) `class PlaybookTechnique`
-  - `PlaybookSpec` (class, line 48) `class PlaybookSpec`
-  - `PlaybookRunResult` (class, line 61) `class PlaybookRunResult`
-  - `ITTPMapper` (class, line 93) `class ITTPMapper(ABC)`
-  - `DefaultTTPMapper` (class, line 101) `class DefaultTTPMapper(ITTPMapper)`
-  - `PlaybookLoader` (class, line 203) `class PlaybookLoader`
-  - `_build_pipeline_yaml` (function, line 285) `def _build_pipeline_yaml(playbook, mapper, platform)`
-  - `PlaybookEngine` (class, line 336) `class PlaybookEngine`
-  - `playbook_list` (function, line 416) `def playbook_list()`
-  - `playbook_analyze` (function, line 422) `def playbook_analyze(name, platform)`
-  - `playbook_generate` (function, line 429) `def playbook_generate(name, platform)`
-  - `playbook_run` (function, line 436) `def playbook_run(name, platform, target, onecmd)`
-  - `to_dict` (method, line 74) `def to_dict(self)`
-  - `resolve` (method, line 97) `def resolve(self, technique_id, atomic_test, platform)`
-  - `register` (method, line 180) `def register(cls, technique_id, platform, command)`
-  - `resolve` (method, line 185) `def resolve(self, technique_id, atomic_test, platform)`
-  - `__init__` (method, line 208) `def __init__(self, playbooks_dir)`
-  - `list` (method, line 211) `def list(self)`
-  - `load` (method, line 224) `def load(self, name)`
-  - `_validate` (method, line 235) `def _validate(self, raw, source_path)`
-  - `__init__` (method, line 339) `def __init__(self, loader, mapper, pipelines_dir)`
-  - `loader` (method, line 350) `def loader(self)`
-  - `analyze` (method, line 353) `def analyze(self, name, platform)`
-  - `generate_pipeline` (method, line 378) `def generate_pipeline(self, name, platform)`
-  - `run` (method, line 390) `def run(self, name, platform, target, onecmd)`
-- Depends on: `modules/pipeline_engine.py`
 
 
 Next: [KB_modules_p15.md](KB_modules_p15.md)

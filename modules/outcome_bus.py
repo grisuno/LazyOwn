@@ -34,6 +34,7 @@ MAX_SEEN = 5000
 SINK_LOADERS: dict[str, tuple[str, str]] = {
     "world_model": ("modules.sinks.world_model", "apply"),
     "killchain": ("modules.sinks.killchain", "apply"),
+    "lazy_intel": ("modules.sinks.lazy_intel", "apply"),
     "findings": ("modules.sinks.findings", "apply"),
     "routing": ("modules.sinks.routing", "apply"),
     "c2_surfaces": ("modules.sinks.c2_surfaces", "apply"),

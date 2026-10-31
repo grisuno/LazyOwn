@@ -1,8 +1,41 @@
-# Symbols (page 15 of 48)
+# Symbols (page 15 of 49)
 Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `run_matrix` | function | `modules/gym_matrix_runner.py:104` | `def run_matrix(target)` |
+| `_empty_state` | function | `modules/gym_registry.py:442` | `def _empty_state()` |
+| `_matches` | function | `modules/gym_registry.py:625` | `def _matches(run, selector)` |
+| `_merge_legacy` | function | `modules/gym_registry.py:532` | `def _merge_legacy(state)` |
+| `_next_run_id` | function | `modules/gym_registry.py:569` | `def _next_run_id(state)` |
+| `_normalize_definition` | function | `modules/gym_registry.py:188` | `def _normalize_definition(data)` |
+| `_read_yaml` | function | `modules/gym_registry.py:178` | `def _read_yaml(path)` |
+| `_sanitize_state` | function | `modules/gym_registry.py:454` | `def _sanitize_state(raw)` |
+| `_world_model` | function | `modules/gym_registry.py:447` | `def _world_model()` |
+| `_write_yaml` | function | `modules/gym_registry.py:282` | `def _write_yaml(path, data)` |
+| `_yaml_module` | function | `modules/gym_registry.py:85` | `def _yaml_module()` |
+| `create_definition` | function | `modules/gym_registry.py:300` | `def create_definition(gym_id)` |
+| `definition_path` | function | `modules/gym_registry.py:155` | `def definition_path(gym_id, directory)` |
+| `delete_definition` | function | `modules/gym_registry.py:402` | `def delete_definition(gym_id, directory)` |
+| `get_active_runs` | function | `modules/gym_registry.py:637` | `def get_active_runs(selector, operator)` |
+| `load_definitions` | function | `modules/gym_registry.py:207` | `def load_definitions(directory)` |
+| `new_run_token` | function | `modules/gym_registry.py:761` | `def new_run_token()` |
+| `normalize_operator` | function | `modules/gym_registry.py:495` | `def normalize_operator(value)` |
+| `pop_run` | function | `modules/gym_registry.py:724` | `def pop_run(selector)` |
+| `read_state` | function | `modules/gym_registry.py:501` | `def read_state()` |
+| `scan_definitions` | function | `modules/gym_registry.py:239` | `def scan_definitions(directory)` |
+| `select_run` | function | `modules/gym_registry.py:663` | `def select_run(selector)` |
+| `slugify` | function | `modules/gym_registry.py:92` | `def slugify(value)` |
+| `start_run` | function | `modules/gym_registry.py:579` | `def start_run(challenge_id, definitions)` |
+| `state_summary` | function | `modules/gym_registry.py:751` | `def state_summary()` |
+| `stop_runs` | function | `modules/gym_registry.py:695` | `def stop_runs(selector)` |
+| `update_definition_yaml` | function | `modules/gym_registry.py:369` | `def update_definition_yaml(gym_id, text, directory)` |
+| `validate_definition` | function | `modules/gym_registry.py:110` | `def validate_definition(data, filename)` |
+| `write_state` | function | `modules/gym_registry.py:520` | `def write_state(state)` |
+| `chain_available` | function | `modules/gym_winbox_runner.py:130` | `def chain_available(vuln_id)` |
+| `plan_matrix` | function | `modules/gym_winbox_runner.py:21` | `def plan_matrix(target, sessions_dir, only, top_k)` |
+| `report` | function | `modules/gym_winbox_runner.py:118` | `def report(sessions_dir)` |
+| `run_matrix` | function | `modules/gym_winbox_runner.py:51` | `def run_matrix(target)` |
 | `gate` | function | `modules/harness.py:65` | `def gate(name)` |
 | `harness_enabled` | function | `modules/harness.py:30` | `def harness_enabled()` |
 | `CrackResult` | class | `modules/hash_cracker.py:127` | `class CrackResult` |
@@ -461,40 +494,7 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `session` | method | `modules/lazy_agent.py:287` | `def session(self, session_id)` |
 | `sessions` | method | `modules/lazy_agent.py:291` | `def sessions(self)` |
 | `tool_calling_enabled` | function | `modules/lazy_agent.py:57` | `def tool_calling_enabled()` |
-| `_data_dir` | function | `modules/lazy_bridge.py:35` | `def _data_dir()` |
-| `_extract_hosts_from_graph` | function | `modules/lazy_bridge.py:184` | `def _extract_hosts_from_graph(graph)` |
-| `_notify` | function | `modules/lazy_bridge.py:398` | `def _notify(progress, text)` |
-| `_read_json` | function | `modules/lazy_bridge.py:51` | `def _read_json(path, default)` |
-| `_read_jsonl` | function | `modules/lazy_bridge.py:68` | `def _read_jsonl(path)` |
-| `_read_new_traffic` | function | `modules/lazy_bridge.py:361` | `def _read_new_traffic(path, offset)` |
-| `_record_sync` | function | `modules/lazy_bridge.py:592` | `def _record_sync(action, summary)` |
-| `bridge_status` | function | `modules/lazy_bridge.py:163` | `def bridge_status()` |
-| `lazy_activity` | function | `modules/lazy_bridge.py:127` | `def lazy_activity(task_id)` |
-| `lazy_assets` | function | `modules/lazy_bridge.py:103` | `def lazy_assets()` |
-| `lazy_graph` | function | `modules/lazy_bridge.py:114` | `def lazy_graph(task_id)` |
-| `lazy_guard_audit` | function | `modules/lazy_bridge.py:151` | `def lazy_guard_audit(task_id)` |
-| `lazy_tasks` | function | `modules/lazy_bridge.py:92` | `def lazy_tasks()` |
-| `lazy_traffic` | function | `modules/lazy_bridge.py:139` | `def lazy_traffic(task_id)` |
-| `pull_findings_to_lifecycle` | function | `modules/lazy_bridge.py:333` | `def pull_findings_to_lifecycle()` |
-| `pull_to_objectives` | function | `modules/lazy_bridge.py:298` | `def pull_to_objectives()` |
-| `pull_to_world_model` | function | `modules/lazy_bridge.py:221` | `def pull_to_world_model()` |
-| `pull_traffic_to_recorder` | function | `modules/lazy_bridge.py:408` | `def pull_traffic_to_recorder(progress)` |
-| `push_objective_to_lazy` | function | `modules/lazy_bridge.py:476` | `def push_objective_to_lazy(goal, scope)` |
-| `push_tasks_to_c2` | function | `modules/lazy_bridge.py:501` | `def push_tasks_to_c2(only)` |
-| `sync_all` | function | `modules/lazy_bridge.py:566` | `def sync_all(progress)` |
-| `_range_says` | function | `modules/lazy_checks.py:105` | `def _range_says(version, ranges)` |
-| `extract_cve` | function | `modules/lazy_checks.py:51` | `def extract_cve(text)` |
-| `extract_version` | function | `modules/lazy_checks.py:30` | `def extract_version(text)` |
-| `interpret_checks` | function | `modules/lazy_checks.py:57` | `def interpret_checks(checks, cve, stored_version, ranges)` |
-| `_discover` | function | `modules/lazy_cli_bridge.py:93` | `def _discover()` |
-| `_source_files` | function | `modules/lazy_cli_bridge.py:74` | `def _source_files()` |
-| `_source_mtimes` | function | `modules/lazy_cli_bridge.py:82` | `def _source_mtimes()` |
-| `build_cli_command` | function | `modules/lazy_cli_bridge.py:158` | `def build_cli_command(verb, target)` |
-| `catalog_cli_for_phase` | function | `modules/lazy_cli_bridge.py:219` | `def catalog_cli_for_phase(limit)` |
-| `cli_catalog_for_phase` | function | `modules/lazy_cli_bridge.py:211` | `def cli_catalog_for_phase(phase, limit)` |
-| `cli_verbs` | function | `modules/lazy_cli_bridge.py:106` | `def cli_verbs()` |
-| `full_cli_enabled` | function | `modules/lazy_cli_bridge.py:253` | `def full_cli_enabled()` |
-| `is_cli_verb` | function | `modules/lazy_cli_bridge.py:125` | `def is_cli_verb(name)` |
-| `needs_target_for` | function | `modules/lazy_cli_bridge.py:150` | `def needs_target_for(verb)` |
+| `_chain_data` | function | `modules/lazy_autofire.py:225` | `def _chain_data(target, fires)` |
+| `_cooldown_filter` | function | `modules/lazy_autofire.py:180` | `def _cooldown_filter(fires, state, target, moment, chains_dir)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

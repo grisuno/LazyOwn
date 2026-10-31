@@ -4,7 +4,7 @@
 - Doc: Outcome sink adapters.
 - Layer: utility
 - Language: py
-- Imported by: `tests/test_lazy_ledger.py`
+- Imported by: `tests/test_lazy_ledger.py`, `tests/test_sink_lazy_intel.py`
 
 ## modules/sinks/attack_graph.py
 - Doc: Attack-graph sink: rebuild the attack surface after meaningful outcomes.
@@ -90,6 +90,16 @@
   - `apply` (function, line 11) `def apply(event)`
 - Depends on: `modules/killchain.py`, `modules/outcome_bus.py`
 - Imported by: `tests/test_outcome_bus.py`
+
+## modules/sinks/lazy_intel.py
+- Doc: Lazy intel sink: mirror exploit-intelligence matches into the stores.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `apply` (function, line 28) `def apply(event)`
+  - `_world_mirror` (function, line 58) `def _world_mirror(host, row, temperature, severity)`
+  - `_db_mirror` (function, line 88) `def _db_mirror(host, row)`
+- Depends on: `modules/db.py`, `modules/lazy_heat.py`, `modules/outcome_bus.py`, `modules/world_model.py`
 
 ## modules/sinks/objectives.py
 - Doc: Objectives sink: turn proven outcomes into follow-up work.

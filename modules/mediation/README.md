@@ -14,6 +14,7 @@ concern and the hub routes by domain key.
 | `feedback_mediator.py` | Domain `loop.feedback` — orchestrator feedback step ordering |
 | `telemetry_mediator.py` | Domain `loop.telemetry` — loop_ai_bridge events, MoE/RL, SWAN |
 | `chain_mediator.py` | Domain `chain` — LLM completion port for the apt_chain pipeline |
+| `engine_mediator.py` | Domain `loop.engines` — exploit retry, reactive analysis and chain reasoning ports over the three engines (`autonomous_exploit_engine`, `reactive_engine`, `ai_exploit_chain`) |
 
 ## Rules
 
@@ -31,5 +32,6 @@ concern and the hub routes by domain key.
 | `modules/lazy_intel.export_spans -> modules.lazy_loop.ActivityLog` | intel importing loop god file (import cycle) | `loop.intel` activity factory port |
 | `modules/lazy_loop -> loop_ai_bridge` (7 call sites) | loop importing bridge directly | `loop.telemetry` mediator |
 | `modules/lazy_loop -> lazy_intel / lazy_orchestrator_feedback` (4 call sites) | loop importing peers directly | `loop.intel` / `loop.feedback` mediators |
+| `modules/lazy_loop -> autonomous_exploit_engine / reactive_engine` (absorb_reaction) | loop importing engines directly | `loop.engines` mediator |
 
-Tests: `tests/test_mediation.py`.
+Tests: `tests/test_mediation.py`, `tests/test_engine_mediator.py`.

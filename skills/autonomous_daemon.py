@@ -4361,6 +4361,43 @@ def _write_status() -> None:
 # ── Role 1 — Objective Loop ───────────────────────────────────────────────────
 
 
+def _build_drafts_engine():
+    """Return a LazyEngine for Hermes draft draining, or None when unavailable.
+
+    The daemon is a long-running process, so it is the natural place to keep
+    the ``sessions/lazy_drafts/`` handoff directory drained. Building the engine
+    once (not per poll cycle) keeps the hot loop cheap; a failed import simply
+    disables draft draining without aborting the objective loop.
+    """
+    try:
+        from modules.lazy_engine import LazyEngine
+
+        return LazyEngine()
+    except Exception as exc:
+        log.debug("drafts engine unavailable: %s", exc)
+        return None
+
+
+def _drain_drafts(engine) -> None:
+    """Import any pending Hermes/MCP objective drafts into the loop board.
+
+    Mirrors ``LazyLoopEngine._drain_drafts`` so a draft pushed by
+    ``lazy_bridge.push_objective_to_lazy`` becomes a queued loop task while the
+    daemon runs, independent of any explicit ``run()`` call. Never raises; a
+    missing engine or unwritable store yields no imports.
+    """
+    if engine is None:
+        return
+    try:
+        from modules import lazy_drafts
+
+        imported = lazy_drafts.drain(engine)
+        if imported:
+            log.info("drained %d lazy_draft(s) into the loop board", len(imported))
+    except Exception as exc:
+        log.debug("draft drain skipped: %s", exc)
+
+
 async def objective_loop(
     max_steps: int,
     loop: asyncio.AbstractEventLoop,
@@ -4391,10 +4428,14 @@ async def objective_loop(
         loop=loop,
     )
 
+    drafts_engine = _build_drafts_engine()
+
     log.info("objective_loop started (poll=%.1fs, max_steps=%d)", OBJ_POLL_S, max_steps)
 
     while not _should_stop.is_set():
         await asyncio.sleep(OBJ_POLL_S)
+
+        _drain_drafts(drafts_engine)
 
         try:
             obj = store.next_pending()

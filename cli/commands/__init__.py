@@ -31,6 +31,7 @@ Active CommandSets (27)
 - ``cli.commands.containers`` — 5 commands (docker_enum, k8s_enum,
   container_escape, k8s_pods, k8s_secrets)
 - ``cli.commands.database`` — DB management commands
+- ``cli.commands.lazy_poc`` — ``lazy_poc`` catalogued PoC verb runner
 - ``cli.commands.caldera`` — CALDERA integration
 - ``cli.commands.ai`` — AI/LLM commands
 - ``cli.commands.audit`` — Audit commands

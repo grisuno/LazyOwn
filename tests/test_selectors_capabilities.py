@@ -54,7 +54,7 @@ def test_adversary_fires_when_goal_names_profile(monkeypatch):
     monkeypatch.setattr(adv.glob, "glob", lambda pattern: ["lazyadversaries/amsi.yaml", "lazyadversaries/infect.yaml"])
     decision = AdversarySelector().propose(_ctx("run the infect adversary profile"))
     assert decision is not None
-    assert decision.command == "adversary_yaml infect"
+    assert decision.command == "adversary_yaml 3 l"
     assert decision.source == "adversary"
 
 

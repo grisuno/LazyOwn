@@ -12,6 +12,7 @@ from modules.selection.base import ActionDecision, SelectionContext, Selector
 from modules.selection.chain import ChainSelector
 from modules.selection.cred_spray import CredentialSpraySelector
 from modules.selection.playbook import PlaybookSelector
+from modules.selection.poc import PoCSelector
 from modules.selection.registry import all_selectors, default_selectors, propose_next
 
 __all__ = [
@@ -21,6 +22,7 @@ __all__ = [
     "ChainSelector",
     "CredentialSpraySelector",
     "PlaybookSelector",
+    "PoCSelector",
     "SelectionContext",
     "Selector",
     "all_selectors",

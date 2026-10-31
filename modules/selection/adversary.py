@@ -10,6 +10,7 @@ adversary the operator did not ask for.
 
 from __future__ import annotations
 
+import glob
 import re
 from pathlib import Path
 
@@ -41,7 +42,7 @@ def load_profiles(adversaries_dir: str | Path | None = None) -> list[dict]:
 
     directory = Path(adversaries_dir) if adversaries_dir else DEFAULT_ADVERSARIES_DIR
     try:
-        files = sorted(directory.glob("*.yaml"))
+        files = sorted(Path(path) for path in glob.glob(str(directory / "*.yaml")))
     except OSError:
         return []
     profiles: list[dict] = []

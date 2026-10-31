@@ -76,10 +76,12 @@ def test_cascade_returns_first_decision(monkeypatch):
     assert decision.command == "apt_chain apt_web_http 10.0.0.9"
 
 
-def test_cascade_abstains_when_all_abstain(monkeypatch):
+def test_cascade_abstains_when_all_abstain(monkeypatch, tmp_path):
     """Given nothing matches, When propose_next runs, Then it returns None."""
-    _patch_registry(monkeypatch)
-    ctx = SelectionContext(target="10.0.0.9", phase="recon", os_hint="linux", services=("http",))
+    _patch_registry(monkeypatch, rows=[])
+    monkeypatch.setenv("LAZYOWN_CVE_FEEDS", "0")
+    monkeypatch.setattr("modules.selection.intel.SESSIONS_DIR", tmp_path)
+    ctx = SelectionContext(target="10.0.0.9", phase="recon", os_hint="linux", services=("gopher",))
     assert propose_next(ctx) is None
 
 

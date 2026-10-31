@@ -247,3 +247,83 @@ manifests:
       - {fact: credentials, scope: any}
       - {fact: access, host: "{target}", level: root}
     idempotent: false
+
+  poc:openplc_rce:
+    version: 1
+    title: OpenPLC v3 authenticated RCE
+    phase: exploit
+    description: Upload and compile a stager program on the OpenPLC v3 web server.
+    mitre: [T1190, T1505.003]
+    keywords: [openplc, plc, industrial, rce]
+    needs_target: true
+    cost: {tokens: 50, seconds: 240, toolcalls: 1}
+    noise: {weight: 0.5, why: "authenticated web uploads and a compile round."}
+    preconditions:
+      - {fact: service_open, host: "{target}", port: "8080", service: openplc}
+    effects:
+      - {fact: access, host: "{target}", level: shell}
+    idempotent: false
+
+  poc:minio_info:
+    version: 1
+    title: MinIO bootstrap info disclosure
+    phase: exploit
+    description: Dump MinIO root credentials through CVE-2023-28432.
+    mitre: [T1190]
+    keywords: [minio, s3, bootstrap, cve-2023-28432]
+    needs_target: true
+    cost: {tokens: 20, seconds: 60, toolcalls: 1}
+    noise: {weight: 0.1, why: "one unauthenticated POST to a debug endpoint."}
+    preconditions:
+      - {fact: service_open, host: "{target}", port: "9000", service: minio}
+    effects:
+      - {fact: credentials, scope: any}
+    idempotent: true
+
+  poc:laravel_rce:
+    version: 1
+    title: Laravel APP_KEY RCE
+    phase: exploit
+    description: Unserialize a payload through CVE-2018-15133 with a leaked APP_KEY.
+    mitre: [T1190]
+    keywords: [laravel, php, unserialize, cve-2018-15133]
+    needs_target: true
+    cost: {tokens: 30, seconds: 60, toolcalls: 1}
+    noise: {weight: 0.3, why: "one crafted POST with an encrypted cookie."}
+    preconditions:
+      - {fact: service_open, host: "{target}", service: http}
+    effects:
+      - {fact: access, host: "{target}", level: shell}
+    idempotent: false
+
+  poc:amt_auth_bypass:
+    version: 1
+    title: Intel AMT digest auth bypass
+    phase: exploit
+    description: Blank the digest response attribute on AMT ports via mitmproxy.
+    mitre: [T1190]
+    keywords: [amt, intel, vpro, 16992]
+    needs_target: true
+    cost: {tokens: 20, seconds: 600, toolcalls: 1}
+    noise: {weight: 0.6, why: "long-lived mitmproxy session against management ports."}
+    preconditions:
+      - {fact: service_open, host: "{target}", port: "16992"}
+    effects:
+      - {fact: access, host: "{target}", level: user}
+    idempotent: true
+
+  poc:libreoffice_uno:
+    version: 1
+    title: LibreOffice UNO command execution
+    phase: exploit
+    description: Execute a command through the UNO socket bridge.
+    mitre: [T1203]
+    keywords: [libreoffice, uno, soffice, staroffice]
+    needs_target: true
+    cost: {tokens: 20, seconds: 60, toolcalls: 1}
+    noise: {weight: 0.4, why: "one bridge resolve plus shell execute."}
+    preconditions:
+      - {fact: service_open, host: "{target}", port: "2002", service: uno}
+    effects:
+      - {fact: access, host: "{target}", level: user}
+    idempotent: false

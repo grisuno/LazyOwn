@@ -1,0 +1,139 @@
+version: 1
+pocs:
+  openplc_rce:
+    title: OpenPLC v3 authenticated RCE
+    description: Upload, compile and run a stager program on OpenPLC v3 web server
+      for command execution and reverse shell.
+    script: 49803.py
+    interpreter: python3
+    phase: exploit
+    risk: exploit
+    os: linux
+    enabled: true
+    triggers: [openplc, plc]
+    requires: [python3]
+    proposal_overrides:
+      rport: "8080"
+    timeout_sec: 240
+    args:
+      - flag: "-u"
+        value: "http://{rhost}:{rport}"
+      - flag: "-l"
+        value: "{user}"
+        default: admin
+      - flag: "-p"
+        value: "{password}"
+        default: admin
+      - flag: "-i"
+        value: "{lhost}"
+      - flag: "-r"
+        value: "{lport}"
+  minio_info:
+    title: MinIO bootstrap verify info disclosure (CVE-2023-28432)
+    description: POST to /minio/bootstrap/v1/verify and dump MINIO_ROOT_USER and
+      MINIO_ROOT_PASSWORD on unpatched MinIO releases.
+    script: CVE-2023-28432.py
+    interpreter: python3
+    phase: exploit
+    risk: safe
+    os: any
+    enabled: true
+    triggers: [minio, 9000]
+    requires: [python3]
+    proposal_overrides:
+      rport: "9000"
+    timeout_sec: 180
+    args:
+      - flag: "--url"
+        value: "http://{rhost}:{rport}"
+  laravel_rce:
+    title: Laravel APP_KEY unserialize RCE (CVE-2018-15133)
+    description: Encrypt a serialized PHP payload with the leaked APP_KEY and POST
+      it to the X-XSRF-TOKEN cookie for remote code execution.
+    script: CVE-2018-15133.php
+    interpreter: php
+    phase: exploit
+    risk: exploit
+    os: any
+    enabled: true
+    triggers: [laravel]
+    requires: [php]
+    timeout_sec: 120
+    args:
+      - value: "{app_key}"
+      - value: "{payload}"
+  amt_auth_bypass:
+    title: Intel AMT digest auth bypass
+    description: Run as a mitmproxy addon that blanks the Authorization digest
+      response attribute against Intel AMT ports 16992/16993.
+    script: amt_auth_bypass.py
+    interpreter: mitmdump
+    phase: exploit
+    risk: exploit
+    os: any
+    enabled: true
+    triggers: [amt, 16992, 16993]
+    requires: [mitmdump]
+    timeout_sec: 600
+    args: []
+  libreoffice_uno:
+    title: LibreOffice UNO remote command execution
+    description: Resolve the UNO socket bridge on the target and execute a command
+      through StarOffice.SystemShellExecute.
+    script: ooficesod0woodo.py
+    interpreter: python3
+    phase: exploit
+    risk: exploit
+    os: linux
+    enabled: true
+    triggers: [uno, libreoffice, soffice]
+    requires: [python3]
+    proposal_overrides:
+      rport: "2002"
+    timeout_sec: 120
+    args:
+      - flag: "--host"
+        value: "{rhost}"
+      - flag: "--port"
+        value: "{rport}"
+        default: "2002"
+      - flag: "--command"
+        value: "{command}"
+        default: "id"
+  tiocsti_inject:
+    title: sudo TIOCSTI keystroke injection
+    description: Inject keystrokes into the sudo prompt of another TTY to run a
+      payload as the terminal owner (poll, prefill, cache modes).
+    script: sudo_tiocsti.py
+    interpreter: python3
+    phase: privesc
+    risk: dangerous
+    os: linux
+    enabled: false
+    requires: [python3]
+    timeout_sec: 300
+    args:
+      - flag: "--mode"
+        value: "poll"
+      - flag: "--payload"
+        value: "{command}"
+        default: "id"
+  cve_lookup:
+    title: NVD CVE lookup by product and version
+    description: Query the NVD API 2.0 for CVEs affecting a product version with
+      on-disk caching; read-only reconnaissance verb.
+    script: cve_matcher.py
+    interpreter: python3
+    phase: recon
+    risk: safe
+    os: any
+    enabled: true
+    requires: [python3]
+    timeout_sec: 180
+    args:
+      - flag: "--product"
+        value: "{product}"
+      - flag: "--version"
+        value: "{version}"
+      - flag: "--max"
+        value: "5"

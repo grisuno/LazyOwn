@@ -353,6 +353,13 @@ verbs:
       readable, comprehensible, customizable, and interactive. Agent Zero uses the
       computer as a tool to accomplish its (your) tasks.
     source: addon
+  addon:amass:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: OWASP Amass passive and active sub-domain enumeration against the
+      assigned
+    source: addon
   addon:applocker_bypass_csc:
     enabled: false
     phase: exploit
@@ -861,6 +868,13 @@ verbs:
     description: Runs a staged BOF under the local bof-runner harness, which applies
       relocations,
     source: addon
+  addon:enum4linux_ng:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: enum4linux-ng Windows/SMB enumeration against the bound target; users,
+      groups,
+    source: addon
   addon:estorides:
     enabled: false
     phase: recon
@@ -897,6 +911,13 @@ verbs:
       \ correctly handles sd_notify messages (including WATCHDOG=1, FDSTORE=1, FDSTOREREMOVE=1),\
       \ and responds to property queries so that services remain stable and do not\
       \ enter restart loops."
+    source: addon
+  addon:feroxbuster:
+    enabled: false
+    phase: enum
+    risk: safe
+    description: Feroxbuster recursive content discovery over HTTP(S) against the
+      bound target.
     source: addon
   addon:fragnesia:
     enabled: false
@@ -5462,6 +5483,48 @@ verbs:
     risk: safe
     description: Execute a generated YAML playbook step by step through the shell.
     source: cli
+  poc:amt_auth_bypass:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: Intel AMT digest auth bypass
+    source: poc
+  poc:cve_lookup:
+    enabled: false
+    phase: recon
+    risk: safe
+    description: NVD CVE lookup by product and version
+    source: poc
+  poc:laravel_rce:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: Laravel APP_KEY unserialize RCE (CVE-2018-15133)
+    source: poc
+  poc:libreoffice_uno:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: LibreOffice UNO remote command execution
+    source: poc
+  poc:minio_info:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: MinIO bootstrap verify info disclosure (CVE-2023-28432)
+    source: poc
+  poc:openplc_rce:
+    enabled: false
+    phase: exploit
+    risk: exploit
+    description: OpenPLC v3 authenticated RCE
+    source: poc
+  poc:tiocsti_inject:
+    enabled: false
+    phase: privesc
+    risk: exploit
+    description: sudo TIOCSTI keystroke injection
+    source: poc
   polymorphic:
     enabled: false
     phase: uncategorized

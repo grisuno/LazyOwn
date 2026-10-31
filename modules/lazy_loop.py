@@ -3585,6 +3585,84 @@ class Planner:
         anchors = [asset.asset_id for asset in self.assets.list() if (asset.value or "").strip() == target][:1]
         return [(f"{marker}{command}", anchors, [], max(1, int(decision.priority)))]
 
+    _OBJECTIVE_MARKER = "objective "
+    _CONTINUATION_MARKER = "continuation: "
+
+    def _continuation_candidates(self) -> list[tuple[str, list[int], list[int], int]]:
+        """Turn the target's continuation record into planner candidates.
+
+        Reads ``modules.lazy_continuation`` so the unfinished work a prior
+        task on this target left behind (open serial steps, pending hints)
+        wakes as ``continuation: <step>`` intents. Candidates whose text
+        was already proposed in this graph are skipped, so one record is
+        consumed once per task.
+        """
+        try:
+            from modules import lazy_continuation
+        except Exception:
+            return []
+        target = (resolve_target(self.task_id, self.store, self.graph) or "").strip()
+        if not target:
+            return []
+        already = {
+            node.text
+            for node in self.graph.list("intent")
+            if node.text.startswith(self._CONTINUATION_MARKER)
+        }
+        anchors = [asset.asset_id for asset in self.assets.list() if (asset.value or "").strip() == target][:1]
+        out: list[tuple[str, list[int], list[int], int]] = []
+        for summary, _reason in lazy_continuation.recall_candidates(target, limit=3):
+            if summary in already:
+                continue
+            out.append((summary, anchors, [], 7))
+            self.activity.emit("planner", "continuation", f"recalled {summary[:160]}")
+        return out
+
+    def _objective_candidates(self) -> list[tuple[str, list[int], list[int], int]]:
+        """Turn pending injected objectives into planner candidate intents.
+
+        Reads the objective store through ``modules.lazy_objective_queue`` so
+        objectives injected by the operator, Hermes/MCP or proven-outcome
+        follow-ups become real work the planner admits. Each pending objective
+        bound to this task's target (or globally scoped) becomes an
+        ``objective <id>: <text>`` intent and is marked ``in_progress`` so one
+        objective is claimed by a single round; the wrap-up settles it. Already
+        tagged objectives are skipped so a pending item is proposed at most once.
+        """
+        try:
+            from modules import lazy_objective_queue as _objq
+        except Exception:
+            return []
+        target = (resolve_target(self.task_id, self.store, self.graph) or "").strip()
+        marker = self._OBJECTIVE_MARKER
+        already = {
+            _objq.objective_ids_from_text(node.text)
+            for node in self.graph.list("intent")
+            if node.text.startswith(marker)
+        }
+        already.discard("")
+        try:
+            candidates = _objq.pending_objectives(limit=2, target=target)
+        except Exception:
+            return []
+        out: list[tuple[str, list[int], list[int], int]] = []
+        anchors = [asset.asset_id for asset in self.assets.list() if (asset.value or "").strip() == target][:1]
+        for candidate in candidates:
+            if candidate.objective_id in already:
+                continue
+            summary = f"{marker}{candidate.objective_id}: {candidate.text}"
+            out.append((summary, anchors, [], max(1, int(candidate.priority))))
+            try:
+                _objq.mark_started(candidate.objective_id, self.task_id)
+            except Exception:
+                pass
+            self.activity.emit(
+                "planner",
+                "objective",
+                f"claimed objective {candidate.objective_id} (priority {candidate.priority})",
+            )
+        return out
+
     @staticmethod
     def _has_creds() -> bool:
         """Return True when usable credentials are configured in the payload."""
@@ -3628,6 +3706,8 @@ class Planner:
         for hint in self.graph.list("hint", "pending"):
             out.append((f"steered probe: {hint.text}", self.graph.anchors_for(hint.node_id), [], 8))
             self.graph.set_state(hint.node_id, "done")
+        out.extend(self._objective_candidates())
+        out.extend(self._continuation_candidates())
         out.extend(self._selector_candidates())
         for asset in self.assets.untested_for(self.graph, scope, limit=MAX_INTENTS_PER_ROUND):
             out.append((f"probe {asset.kind} {asset.value}", [asset.asset_id], [], 6))
@@ -4644,17 +4724,17 @@ class Worker:
         target = self._target_for(intent)
         try:
             from modules.reaction_bridge import find_credentials
+            from modules.mediation.contracts import MediationDomains
+            from modules.mediation.hub import get_hub
 
             creds = find_credentials(output[: self._ABSORB_OUTPUT_LIMIT])
             if creds:
-                from modules.autonomous_exploit_engine import AutonomousExploitEngine
-
-                engine = AutonomousExploitEngine.get_instance()
-                engine.retry_with_credentials(target, credentials=creds)
+                engines = get_hub().mediator_for(MediationDomains.ENGINES)
+                queued = engines.retry_with_credentials(target, credentials=creds) if engines else 0
                 self.activity.emit(
                     self.name,
                     "cred-reuse",
-                    f"{len(creds)} credential pair(s) from step output fed to retry engine ({target})",
+                    f"{queued} credential pair(s) from step output fed to retry engine ({target})",
                     intent_id=intent.node_id,
                 )
         except Exception:
@@ -4662,7 +4742,8 @@ class Worker:
         try:
             from modules.reaction_bridge import ReactionPick
             from modules.reaction_bridge import save_decisions as _save_reactions
-            from modules.reactive_engine import get_engine as _get_react
+            from modules.mediation.contracts import MediationDomains
+            from modules.mediation.hub import get_hub
 
             platform = "unknown"
             try:
@@ -4671,7 +4752,12 @@ class Worker:
                 platform = str(WorldModel().snapshot().get("hosts", {}).get(target, {}).get("platform", "unknown"))
             except Exception:
                 platform = "unknown"
-            decisions = _get_react().analyse(output=output[: self._ABSORB_OUTPUT_LIMIT], command=command, platform=platform)
+            engines = get_hub().mediator_for(MediationDomains.ENGINES)
+            decisions = (
+                engines.analyse(output[: self._ABSORB_OUTPUT_LIMIT], command, platform)
+                if engines is not None
+                else []
+            )
             picks = [
                 ReactionPick(command=str(d.command), reason=str(d.reason), priority=int(d.priority), mitre=str(d.mitre_tactic))
                 for d in decisions
@@ -10013,6 +10099,97 @@ class LazyLoopEngine:
                 continue
         return done
 
+    def _drain_drafts(self) -> list[str]:
+        """Import Hermes/MCP objective drafts into the task board.
+
+        Closes the ``lazy_drafts`` handoff: ``modules.lazy_bridge`` writes
+        pending task drafts under ``sessions/lazy_drafts/`` whenever an
+        objective reaches the cross-engine sync, and this is the read side.
+        Each pending draft becomes a queued task (admitted on its own run, not
+        this one) and is marked imported so one injection never spawns two
+        tasks across loop restarts. Never raises; a missing or unwritable
+        drafts directory simply yields no imports.
+        """
+        try:
+            from modules import lazy_drafts
+
+            return lazy_drafts.drain(self)
+        except Exception:
+            return []
+
+    def _settle_objectives(self, task_id: str) -> None:
+        """Settle every injected objective this task claimed this run.
+
+        Closes the objective-queue loop: each ``objective <id>: ...`` intent
+        the planner admitted is settled through
+        ``modules.lazy_objective_queue`` based on the intent node's terminal
+        state, so a proven objective is marked ``done`` and an unfinished one
+        returns to ``pending`` for a later task. Never raises; a store that is
+        absent or unwritable simply leaves the objective untouched.
+        """
+        try:
+            from modules import lazy_objective_queue as _objq
+
+            graph = ExplorationGraph(task_id)
+        except Exception:
+            return
+        marker = Planner._OBJECTIVE_MARKER
+        seen: set[str] = set()
+        for node in graph.list("intent"):
+            if not node.text.startswith(marker):
+                continue
+            objective_id = _objq.objective_ids_from_text(node.text)
+            if not objective_id or objective_id in seen:
+                continue
+            seen.add(objective_id)
+            success = str(getattr(node, "state", "")) == "done"
+            try:
+                _objq.settle(objective_id, task_id, success=success)
+            except Exception:
+                continue
+
+    def _write_continuation(self, task_id: str, status: str) -> None:
+        """Persist the task settlement as the target's continuation record.
+
+        Closes the campaign blackboard loop: the wrap-up settlement, the
+        confirmed findings and every still-open serial step land in
+        ``sessions/continuations/<target>.json`` so the next task bound to
+        the same target wakes with the unfinished work as planner
+        candidates instead of re-running cold recon. Never raises; a
+        missing target or unwritable store simply skips the record.
+        """
+        try:
+            from modules import lazy_continuation
+
+            record = self.store.get(task_id) or {}
+            target = (resolve_target(task_id, self.store, self.graph) or "").strip()
+            if not target:
+                return
+            graph = ExplorationGraph(task_id)
+            findings = [
+                node.text
+                for node in graph.list("finding")
+                if str(node.state) in ("confirmed",) or "reproduced" in str(node.meta.get("verdict", ""))
+            ][-10:]
+            settlement = ""
+            for node in graph.list("fact"):
+                if (node.meta or {}).get("wrapup"):
+                    settlement = node.text
+            todos = TodoStore(task_id)
+            next_steps = [str(item.get("text", "")) for item in todos.items if item.get("state") == "pending"]
+            next_steps.extend(hint.text for hint in graph.list("hint", "pending"))
+            lazy_continuation.save(
+                target,
+                task_id=task_id,
+                goal=str(record.get("goal", "") or ""),
+                status=status,
+                settlement=settlement,
+                findings=findings,
+                next_steps=next_steps[:6],
+            )
+        except Exception:
+            return
+
     def _wrapup_summary(self, task_id: str, reason: str) -> str:
         """Task-level settlement: one bounded LLM turn persisted as a fact.
 
@@ -10086,6 +10263,31 @@ class LazyLoopEngine:
                 verdict["verdict"] = "achieved"
             elif facts or (coverage.get("tested", 0) or 0) > 0:
                 verdict["verdict"] = "partial"
+            try:
+                from modules import lazy_finalizer
+
+                decision = lazy_finalizer.decide(
+                    status=status,
+                    candidate_verdict=verdict["verdict"],
+                    facts=len(facts),
+                    findings=len(findings),
+                    confirmed=len(confirmed),
+                    tested=int(coverage.get("tested", 0) or 0),
+                )
+                if decision.verdict != verdict["verdict"]:
+                    activity.emit(
+                        "planner",
+                        "finalizer",
+                        f"verdict {verdict['verdict']} -> {decision.verdict} "
+                        f"({decision.completion_reason})",
+                    )
+                verdict["verdict"] = decision.verdict
+                verdict["evidence_verified"] = decision.evidence_verified
+                verdict["completion_reason"] = decision.completion_reason
+                if decision.missing_checks:
+                    verdict["missing_checks"] = decision.missing_checks
+            except Exception:
+                pass
             verdict.update(
                 {
                     "goal": goal[:300],
@@ -10152,6 +10354,7 @@ class LazyLoopEngine:
             "executor": executor,
             "timeout_sec": timeout_sec,
         }
+        self._drain_drafts()
         admission = self.admission_check(task_id)
         if not admission.get("admitted"):
             self._sync_c2_board([task_id])
@@ -10263,6 +10466,9 @@ class LazyLoopEngine:
             except Exception:
                 pass
             self._wrapup_summary(task_id, str(record.get("status", "")))
+        if record.get("status") in ("done", "exhausted", "timeout", "handoff"):
+            self._settle_objectives(task_id)
+            self._write_continuation(task_id, str(record.get("status", "")))
         verdict: dict = {}
         if record.get("status") in ("done", "exhausted", "timeout", "handoff") and _stage_enabled("wrapup"):
             try:

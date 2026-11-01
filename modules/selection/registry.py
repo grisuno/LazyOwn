@@ -19,6 +19,7 @@ from modules.selection.cred_spray import CredentialSpraySelector
 from modules.selection.intel import IntelSelector
 from modules.selection.playbook import PlaybookSelector
 from modules.selection.poc import PoCSelector
+from modules.selection.edb import EDBSelector
 
 _URGENT_PRIORITY = 2
 

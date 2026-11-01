@@ -538,8 +538,17 @@
                 switchToSection('auto-loops');
                 pollSelectedLog();
             }
+            var lastAutoLoopId = null;
             async function pollSelectedLog() {
                 if (!loopsState.selectedId) {
+                    if (lastAutoLoopId) {
+                        hideHexabotAutoLoop();
+                        if (hexabotAutoLoop && hexabotAutoLoop.dispose) {
+                            try { hexabotAutoLoop.dispose(); } catch(e) {}
+                            hexabotAutoLoop = null;
+                        }
+                        lastAutoLoopId = null;
+                    }
                     return;
                 }
                 var current = null;
@@ -551,6 +560,32 @@
                 }
                 if (!current) {
                     return;
+                }
+                if (current.kind === 'auto_loop') {
+                    if (lastAutoLoopId !== current.id) {
+                        lastAutoLoopId = current.id;
+                        showHexabotAutoLoop();
+                        updateHexabotAutoLoop(0.4, 'auto_loop activo');
+                    }
+                    if (current.status === 'running') {
+                        updateHexabotAutoLoop(0.6, 'ejecutando auto_loop');
+                    } else if (current.status === 'exited') {
+                        updateHexabotAutoLoop(1.0, '[ OK ] auto_loop finalizado');
+                        if (hexabotAutoLoop && hexabotAutoLoop.happy) {
+                            try { hexabotAutoLoop.happy(2500); } catch(e) {}
+                        }
+                        setTimeout(function(){ hideHexabotAutoLoop(); if (hexabotAutoLoop && hexabotAutoLoop.dispose) { try { hexabotAutoLoop.dispose(); } catch(e){} hexabotAutoLoop = null; } lastAutoLoopId = null; }, 5000);
+                    } else if (current.status === 'stopped') {
+                        updateHexabotAutoLoop(1.0, 'auto_loop detenido');
+                        setTimeout(function(){ hideHexabotAutoLoop(); if (hexabotAutoLoop && hexabotAutoLoop.dispose) { try { hexabotAutoLoop.dispose(); } catch(e){} hexabotAutoLoop = null; } lastAutoLoopId = null; }, 2500);
+                    }
+                } else if (lastAutoLoopId) {
+                    hideHexabotAutoLoop();
+                    if (hexabotAutoLoop && hexabotAutoLoop.dispose) {
+                        try { hexabotAutoLoop.dispose(); } catch(e) {}
+                        hexabotAutoLoop = null;
+                    }
+                    lastAutoLoopId = null;
                 }
                 try {
                     var res = await fetch('/api/loops/' + encodeURIComponent(loopsState.selectedId) + '/log?offset=' + loopsState.logOffset);
@@ -598,6 +633,71 @@
                 pollLoops();
                 loopsState.timer = setInterval(pollLoops, 2500);
             }
+            var hexabotAutoLoop = null;
+            function initHexabotAutoLoopInstance() {
+                var overlay = document.getElementById('hexabot-autoloop-overlay');
+                var container = document.getElementById('hexabot-autoloop');
+                if (!overlay || !container || hexabotAutoLoop) {
+                    return;
+                }
+                if (window.__lazyownCreateHexabot) {
+                    try {
+                        hexabotAutoLoop = window.__lazyownCreateHexabot(container, {
+                            modelUrl: '/static/hexabot/hexabot.glb',
+                            background: null
+                        });
+                        if (hexabotAutoLoop && hexabotAutoLoop.ready) {
+                            hexabotAutoLoop.ready.then(function() {
+                                if (hexabotAutoLoop && hexabotAutoLoop.setProgress) {
+                                    hexabotAutoLoop.setProgress(0.08, 'iniciando auto_loop');
+                                }
+                                if (hexabotAutoLoop && hexabotAutoLoop.log) {
+                                    hexabotAutoLoop.log('[ HEXABOT ] preparing autonomous loop...');
+                                }
+                            });
+                        }
+                    } catch (e) {
+                    }
+                }
+            }
+            function showHexabotAutoLoop() {
+                var overlay = document.getElementById('hexabot-autoloop-overlay');
+                if (!overlay) {
+                    return;
+                }
+                overlay.style.display = 'block';
+                if (!window.__lazyownCreateHexabot && !document.getElementById('lazyown-hexabot-module')) {
+                    window.__lazyownInitHexabot = initHexabotAutoLoopInstance;
+                    var s = document.createElement('script');
+                    s.id = 'lazyown-hexabot-module';
+                    s.type = 'module';
+                    s.textContent = [
+                        "import { createHexabotSpinner } from '/static/hexabot/hexabot-spinner.js';",
+                        "window.__lazyownCreateHexabot = function(el, opts){ return createHexabotSpinner(el, opts || {}); };",
+                        "if(typeof window.__lazyownInitHexabot === 'function'){ window.__lazyownInitHexabot(); }"
+                    ].join('\n');
+                    document.head.appendChild(s);
+                    return;
+                }
+                initHexabotAutoLoopInstance();
+            }
+            function hideHexabotAutoLoop() {
+                var overlay = document.getElementById('hexabot-autoloop-overlay');
+                if (overlay) {
+                    overlay.style.display = 'none';
+                }
+            }
+            function updateHexabotAutoLoop(progress, label) {
+                if (!hexabotAutoLoop) {
+                    return;
+                }
+                if (hexabotAutoLoop.setProgress) {
+                    hexabotAutoLoop.setProgress(progress, label);
+                }
+                if (hexabotAutoLoop.log && label) {
+                    hexabotAutoLoop.log(label);
+                }
+            }
             async function startLoop(payload) {
                 var msg = document.getElementById('loopStartMessage');
                 var showMessage = function(text, ok) {
@@ -607,6 +707,10 @@
                     msg.textContent = text;
                     msg.className = ok ? 'text-success' : 'text-danger';
                 };
+                if (payload && payload.kind === 'auto_loop') {
+                    showHexabotAutoLoop();
+                    updateHexabotAutoLoop(0.12, 'lanzando auto_loop');
+                }
                 try {
                     var res = await fetch('/api/loops', {
                         method: 'POST',
@@ -616,13 +720,21 @@
                     var data = await res.json().catch(function() { return {}; });
                     if (!res.ok) {
                         showMessage(data.error || ('loop start failed (' + res.status + ')'), false);
+                        updateHexabotAutoLoop(0.0, '[ ERR ] loop start failed');
+                        setTimeout(hideHexabotAutoLoop, 4000);
                         return null;
                     }
                     showMessage('loop ' + (data.id || '').slice(0, 8) + ' started on ' + data.target, true);
+                    updateHexabotAutoLoop(0.28, 'auto_loop running on ' + data.target);
+                    if (hexabotAutoLoop && hexabotAutoLoop.run) {
+                        hexabotAutoLoop.run('lazyloop ' + (data.id || '').slice(0, 8), ['target: ' + data.target]);
+                    }
                     selectLoop(data.id);
                     return data;
                 } catch (err) {
                     showMessage('network error while starting loop', false);
+                    updateHexabotAutoLoop(0.0, '[ ERR ] network error');
+                    setTimeout(hideHexabotAutoLoop, 4000);
                     return null;
                 }
             }

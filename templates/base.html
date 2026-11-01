@@ -1,4 +1,12 @@
 {% include 'header.html' %}
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+}
+</script>
 <script>
     particlesJS.load('particles-js', '/static/js/particles.json', function() {
         console.log('callback - particles.js config loaded');

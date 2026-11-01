@@ -36,7 +36,7 @@ bleach==6.4.0
 blinker==1.9.0
 boolean.py==5.0
 bs4==0.0.2
-BTrees==6.4
+BTrees==6.5
 CacheControl==0.14.4
 cachetools==7.0.6
 capstone==6.0.0a7

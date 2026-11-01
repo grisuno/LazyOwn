@@ -408,6 +408,7 @@ We, the people who dedicate time to LazyOwn, are flattered by that excellent rev
 
 - [https://kitploit.com/es/tools/github/grisuno/lazyown](https://kitploit.com/es/tools/github/grisuno/lazyown)
 - [https://kitploit.com/en/tools/github/grisuno/blacksandbeacon](https://kitploit.com/en/tools/github/grisuno/blacksandbeacon)
+- [kitploit.com/en/tools/github/grisuno/cve-2022-22077](kitploit.com/en/tools/github/grisuno/cve-2022-22077)
 
 ### Spook.news
 

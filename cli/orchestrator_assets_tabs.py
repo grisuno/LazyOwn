@@ -632,9 +632,21 @@ class OrchestratorAssetsMixin:
             )
         self._update_trigger_detail()
 
+    def seed_triggers_from_yaml(self) -> dict:
+        """Seed triggers from config/orchestrator.yaml into the store."""
+        from modules.loop_triggers import TriggerStore
+        from modules.trigger_policy import read_policy, seed_store
+
+        policy = read_policy()
+        seeds = policy.get("seeds") or []
+        result = seed_store(policy=seeds, store=TriggerStore(""))
+        self._refresh_triggers()
+        return {"seeds": len(seeds), **result}
+
     def _update_trigger_detail(self) -> None:
         """Show a summary of the declarative seed policy."""
         from modules.trigger_policy import read_policy
+        from modules.loop_triggers import TriggerStore
 
         try:
             panel = self.query_one("#triggers-detail", Static)
@@ -643,7 +655,8 @@ class OrchestratorAssetsMixin:
         policy = read_policy()
         seeds = policy.get("seeds") or []
         on = sum(1 for item in seeds if item["enabled"])
-        panel.update(Text(f"YAML seeds: {len(seeds)} ({on} on)"))
+        runtime = len(TriggerStore("").list())
+        panel.update(Text(f"YAML seeds: {len(seeds)} ({on} on) | runtime: {runtime} | use [s] or actions to seed/toggle/add/remove"))
 
     def toggle_trigger(self, trigger_id: int) -> bool:
         """Flip one trigger's enabled flag in the store."""

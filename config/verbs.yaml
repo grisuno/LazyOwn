@@ -1405,7 +1405,7 @@ verbs:
       testing purposes only. USAGE: ./c2-server serve --https=0.0.0.0:4444'
     source: addon
   addon:php2shell:
-    enabled: false
+    enabled: true
     phase: exploit
     risk: safe
     description: 'One-shot RCE for PHP 8.4.26 session.upload_progress (ASLR bypass,

@@ -461,6 +461,11 @@ Thank you so much for your work compiling bofs, it's incredible! We are proud to
 Great comparison! We love that the community does these benchmarks so that at the end of the day each operator can choose the best option. Thank you very much, LibHunt.
 [https://www.libhunt.com/compare-LazyOwn-vs-tor-rootkit](https://www.libhunt.com/compare-LazyOwn-vs-tor-rootkit)
 
+## Hacktricks
+
+Honestly, the team is speechless, and I think I speak for everyone when I say that when I started, I was reading everything on Hacktricks, and now being on one of their pages fills us with love. Thank you so much, Hacktricks, for your amazing work!
+[https://hacktricks.wiki/en/linux-hardening/post-exploitation/linux-fileless-execution.html](https://hacktricks.wiki/en/linux-hardening/post-exploitation/linux-fileless-execution.html)
+
 ## Star History
 
 <a href="https://www.star-history.com/#grisuno/LazyOwn&Date">

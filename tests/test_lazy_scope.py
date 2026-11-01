@@ -144,6 +144,9 @@ class TestLoopWiring:
     """Given the autonomous loop, the lab default guards unscooped targets."""
 
     def test_scope_default_method_wired(self):
-        source = Path(lazy_loop_module.__file__).read_text(encoding="utf-8")
+        from modules.loop import worker_gating
+
+        assert hasattr(lazy_loop_module.Worker, "_lab_scope_default")
+        source = Path(worker_gating.__file__).read_text(encoding="utf-8")
         assert "_lab_scope_default" in source
         assert "scope-lab-default" in source

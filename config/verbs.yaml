@@ -1046,6 +1046,18 @@ verbs:
     description: Extract and decrypt browser data, supporting multiple data types,
       runnable on various operating systems (macOS, Windows, Linux).
     source: addon
+  addon:harvester_git_repo:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Harvest AWS AKIA/ASIA keys from a cloned public git repo
+    source: addon
+  addon:harvester_live_domain:
+    enabled: false
+    phase: exploit
+    risk: safe
+    description: Harvest AWS AKIA/ASIA keys from JS files of a live domain
+    source: addon
   addon:hellbird:
     enabled: false
     phase: exploit

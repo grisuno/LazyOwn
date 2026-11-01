@@ -171,7 +171,7 @@ pwn==1.0
 # Install it on demand when needed: pip install pwncat-cs
 pwntools==4.15.0
 py-serializable==2.1.0
-pyasn1==0.6.4
+pyasn1==0.6.5
 pyasn1_modules==0.4.2
 PyAutoGUI==0.9.54
 pycparser==3.0

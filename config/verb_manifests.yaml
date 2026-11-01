@@ -327,3 +327,18 @@ manifests:
     effects:
       - {fact: access, host: "{target}", level: user}
     idempotent: false
+
+  - verb: exploitdb
+    enabled: true
+    needs_target: true
+    phases: [exploit]
+    keywords: [exploitdb, edb]
+    category: exploit
+    description: Run ExploitDB exploit via atomic_exploit (edb/edb_c auto-compiled on use)
+  - verb: atomic_exploit
+    enabled: true
+    needs_target: true
+    phases: [exploit]
+    keywords: [atomic_exploit]
+    category: exploit
+    description: Atomic exploit bridge (edb_c compile-on-use + run_spec)

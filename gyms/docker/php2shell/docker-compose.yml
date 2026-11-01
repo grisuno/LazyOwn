@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  php2shell:
+    image: php:8.4.26-apache
+    container_name: php2shell-target
+    ports:
+      - "8089:80"
+    volumes:
+      - ./www:/var/www/html
+    restart: unless-stopped

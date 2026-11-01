@@ -2,12 +2,15 @@
 
 A Textual TUI in the spirit of the marketplace configurator:
 
-- Now: what the loop is executing right now (task, stages, live activity
-  tail, per-worker current command);
+- Now: kill-chain phase + current loop stage + what the loop is executing
+  right now (task, workers, live activity tail);
 - Config: every payload knob the runner reads (rounds, workers,
   heartbeat, verb timeout, agentic flags, NOA, proxy);
+- Pipeline: orchestrator stages with enable/disable toggles;
 - Verbs: auto-verb registry with a searchable command picker;
-- Playbooks/Gyms/Chains/Profiles: YAML asset tabs managed by the ``OrchestratorAssetsMixin``; the Models and Guard rules live here.
+- Triggers: scheduler triggers with YAML seeds + runtime controls;
+- Playbooks/Gyms/Chains/Profiles: YAML asset tabs managed by the
+  ``OrchestratorAssetsMixin``; Models and Guard rules live here.
 - Models: the LLM failover chain (add/remove members);
 - Guard: the intercept rules (add/remove).
 
@@ -145,7 +148,9 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
     """Admin console: Now / Config / Verbs / Chains / Models / Guard / Harness."""
 
     CSS = """
-    #now-status { height: 6; border: round $accent; padding: 0 1; }
+    #now-killchain { height: 3; border: round $accent; padding: 0 1; }
+    #now-stage { height: 3; border: round $warning; padding: 0 1; }
+    #now-status { height: 5; border: round $primary; padding: 0 1; }
     #now-log { height: 1fr; border: round $primary; }
     #config-status { height: 3; color: $text-muted; }
     #chains-detail, #profiles-detail, #playbooks-detail, #gyms-detail { height: 10;
@@ -165,6 +170,7 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         Binding("q", "quit", "Quit"),
         Binding("r", "refresh", "Refresh"),
         Binding("s", "save_config", "Save config"),
+        Binding("t", "seed_triggers", "Seed triggers"),
         Binding("space", "toggle_item", "Toggle"),
         Binding("a", "add_item", "Add"),
         Binding("e", "edit_item", "Edit"),
@@ -211,6 +217,8 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         with TabbedContent(id="tabs"):
             with TabPane("Now", id="tab-now"):
                 with Vertical():
+                    yield Static("killchain: --", id="now-killchain")
+                    yield Static("stage: --", id="now-stage")
                     yield Static("waiting for a task...", id="now-status")
                     yield RichLog(markup=False, highlight=False, max_lines=NOW_LINES, id="now-log")
             with TabPane("Config", id="tab-config"):
@@ -369,34 +377,75 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
 
         task_id = self._resolve_task()
         if not task_id:
+            try:
+                self.query_one("#now-killchain", Static).update(Text("killchain: --"))
+                self.query_one("#now-stage", Static).update(Text("stage: --"))
+                self.query_one("#now-status", Static).update(Text("waiting for a task..."))
+            except Exception:
+                pass
             return
         if self._tail is None or self._tail_task != task_id:
             self._tail_task = task_id
             self._tail = JsonlTail(_loop._store_path(f"activity_{task_id}.jsonl"))
             self._worker_command = {}
+            self._now_lines = []
         records = self._tail.read_new(limit=50) if self._tail else []
         try:
             log = self.query_one("#now-log", RichLog)
         except Exception:
-            return
+            log = None
+        stage_name = ""
         for record in records:
             kind = str(record.get("kind", "event"))
             worker = str(record.get("worker", "engine"))
             text = " ".join(str(record.get("text", "")).split())[:200]
             line = f"[{kind}] {worker}: {text}"
-            log.write(Text(line))
+            if log is not None:
+                log.write(Text(line))
             self._now_lines.append(line)
             if kind == "tool":
                 self._worker_command[worker] = text
             elif kind in ("finish", "settle"):
                 self._worker_command.pop(worker, None)
+            low = text.lower()
+            if not stage_name and any(s in low for s in ("lazy_scope", "lazy_asset", "lazy_enrich", "lazy_planner", "lazy_frontier", "lazy_worker", "lazy_guard", "lazy_traffic", "lazy_finding", "lazy_retest", "lazy_compact", "lazy_trace", "lazy_report")):
+                for s in ("lazy_scope", "lazy_asset", "lazy_enrich", "lazy_planner", "lazy_frontier", "lazy_worker", "lazy_guard", "lazy_traffic", "lazy_finding", "lazy_retest", "lazy_compact", "lazy_trace", "lazy_report"):
+                    if s in low:
+                        stage_name = s
+                        break
         try:
+            kc = self.query_one("#now-killchain", Static)
+            st = self.query_one("#now-stage", Static)
             status = self.query_one("#now-status", Static)
         except Exception:
             return
+        try:
+            from modules.killchain import KillChain
+
+            phase = KillChain.current_phase()
+            phases = list(KillChain.phases())
+            labels = KillChain.phase_labels()
+            parts = []
+            for p in phases:
+                if p == phase:
+                    parts.append(f"[{labels.get(p, p)}●]")
+                elif phases.index(p) < phases.index(phase):
+                    parts.append(f"[{labels.get(p, p)}✓]")
+                else:
+                    parts.append(f"[{labels.get(p, p)} ]")
+            kc.update(Text(" ".join(parts)))
+        except Exception:
+            kc.update(Text("killchain: --"))
+        if stage_name:
+            st.update(Text(f"stage: {stage_name}"))
+        else:
+            if self._now_lines:
+                st.update(Text("stage: running"))
+            else:
+                st.update(Text("stage: --"))
         latest = self._now_lines[-1] if self._now_lines else "no activity yet"
         workers = ", ".join(f"{name}={cmd[:40]}" for name, cmd in list(self._worker_command.items())[:4]) or "idle"
-        status.update(Text(f"task {task_id}  lines={len(self._now_lines)}\nworkers: {workers}\nlast: {latest[:160]}"))
+        status.update(Text(f"task {task_id}\nworkers: {workers}\nlast: {latest[:160]}"))
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """Handle the config and harness buttons."""
@@ -464,6 +513,22 @@ class LazyOrchestratorApp(OrchestratorAssetsMixin, App[None]):
         self._refresh_params()
         self._refresh_guard()
         self._load_payload_into_form()
+
+    def action_seed_triggers(self) -> None:
+        """Seed triggers from config/orchestrator.yaml."""
+        try:
+            res = self.seed_triggers_from_yaml()
+            try:
+                panel = self.query_one("#triggers-detail", Static)
+                panel.update(Text(f"seeded from YAML: {res}"))
+            except Exception:
+                pass
+        except Exception as exc:
+            try:
+                panel = self.query_one("#triggers-detail", Static)
+                panel.update(Text(f"seed triggers failed: {exc}"))
+            except Exception:
+                pass
 
     def _refresh_params(self) -> None:
         """Render the shared parameter catalog into the params table."""

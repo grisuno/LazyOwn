@@ -1,0 +1,17 @@
+name: harvester_git_repo
+description: Harvest AWS AKIA/ASIA keys from a cloned public git repo
+category: recon
+enabled: true
+tags:
+- keys
+- aws
+- git
+- recon
+- osint
+tool:
+  execute_command: rm -rf /tmp/harvester_repo && git clone --depth=1 "{target}" /tmp/harvester_repo >/dev/null 2>&1 && grep -rP '\bA[KS]IA[0-9A-Z]{16}\b' /tmp/harvester_repo 2>/dev/null | sort -u; rm -rf /tmp/harvester_repo
+params:
+  target:
+    type: str
+    required: true
+    description: Git repo URL (e.g. https://github.com/user/repo.git)

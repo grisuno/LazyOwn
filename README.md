@@ -456,6 +456,11 @@ Some echoes of Zone.ci, in any case we appreciate their words, they were not in 
 Thank you so much for your work compiling bofs, it's incredible! We are proud to be indexed in your magnificent list
 [https://chryzsh.github.io/awesome-bof/site/](https://chryzsh.github.io/awesome-bof/site/)
 
+## LibHunt
+
+Great comparison! We love that the community does these benchmarks so that at the end of the day each operator can choose the best option. Thank you very much, LibHunt.
+[https://www.libhunt.com/compare-LazyOwn-vs-tor-rootkit](https://www.libhunt.com/compare-LazyOwn-vs-tor-rootkit)
+
 ## Star History
 
 <a href="https://www.star-history.com/#grisuno/LazyOwn&Date">

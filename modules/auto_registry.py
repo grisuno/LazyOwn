@@ -382,7 +382,7 @@ SHELL_TIMEOUT_MESSAGE = "TIMEOUT"
 
 ROUTABLE_PREFIXES = ("lazy_addon ", "custom tool ", "lazy_workspace ")
 
-ROUTABLE_VERBS = frozenset({"lazynmap", "ping", "lazyintel", "lazyautofire", "lazytimeline", "lazysearch", "lazy_poc"})
+ROUTABLE_VERBS = frozenset({"lazynmap", "ping", "lazyintel", "lazyautofire", "lazytimeline", "lazysearch", "lazy_poc", "exploitdb", "atomic_exploit"})
 
 
 def _cli_verb_allowed(name: str) -> bool:
@@ -860,6 +860,24 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
                 return None
             tail = " ".join(parts[2:]).strip() or (target or "").strip()
             return [f"lazy_poc run {poc} {tail}".strip()]
+        if verb in ("exploitdb","edb"):
+            embedded = " ".join(parts[2:]).strip()
+            tgt = target or embedded
+            # try to find id in any position
+            import re
+            m=re.findall(r"(?:edb[-_]?(?:c[-_]?)?)(\d+)", f"{verb} {embedded} {tgt}", re.I)
+            if m:
+                eid=m[0]
+                from pathlib import Path
+                base=Path(__file__).resolve().parent.parent/"exploits"
+                if (base/f"edb_c_{eid}.yaml").exists():
+                    return [f"atomic_exploit run --id edb_c_{eid} --rhost {tgt}".strip()]
+                if (base/f"edb_{eid}.yaml").exists():
+                    return [f"atomic_exploit run --id edb_{eid} --rhost {tgt}".strip()]
+            return _exploitdb_steps(f"{verb} {embedded}".strip(), tgt)
+        if verb == "atomic_exploit":
+            embedded = " ".join(parts[2:]).strip() or target
+            return [f"atomic_exploit {embedded}".strip()]
         if _verb_row(verb) is not None:
             if verb_gap(verb) or not verb_enabled(verb):
                 return None
@@ -899,6 +917,8 @@ def steps_for(text: str, target: str = "") -> list[str] | None:
         except Exception:
             pass
         return None
+    if "exploitdb" in lowered or __import__("re").search(r"\bedb[_-]?(?:c[_-]?)?\d+", lowered):
+        return _exploitdb_steps(text, target)
     if lowered.startswith("lazy addon "):
         parts = (text or "").strip().split()
         name = parts[2] if len(parts) > 2 else ""
@@ -1241,3 +1261,23 @@ __all__ = [
     "verbs",
     "verbs_for",
 ]
+
+
+def _exploitdb_steps(embedded: str, target: str) -> list[str]:
+    text = str(embedded or "").lower()
+    import re
+    from pathlib import Path
+    base = Path(__file__).resolve().parent.parent / "exploits"
+    m = re.findall(r"(?:edb[-_]?(?:c[-_]?)?)(\d+)", text)
+    if m:
+        eid = m[0]
+        t = target or ""
+        # check c first
+        if (base / f"edb_c_{eid}.yaml").exists():
+            return [f"atomic_exploit run --id edb_c_{eid} --rhost {t}".strip() if t else f"atomic_exploit run --id edb_c_{eid}"]
+        if (base / f"edb_{eid}.yaml").exists():
+            return [f"atomic_exploit run --id edb_{eid} --rhost {t}".strip() if t else f"atomic_exploit run --id edb_{eid}"]
+        return [f"atomic_exploit run --id edb_{eid} --rhost {t}".strip() if t else f"atomic_exploit run --id edb_{eid}"]
+    if "exploitdb" in text or re.search(r"\bedb\b", text):
+        return [f"atomic_exploit auto --target {target}".strip() if target else "atomic_exploit auto"]
+    return []

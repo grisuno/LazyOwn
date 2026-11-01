@@ -48,4 +48,5 @@ Active CommandSets (27)
 - ``cli.commands.purple_team`` — Purple team closed-loop: exec+measure, score, report, dashboard (purple_exec, purple_test, purple_score, purple_report, purple_dashboard)
 - ``cli.commands.lazy_dorks`` — Target-aware Google/GitHub dork playbook generator (lazydork)
 - ``cli.commands.lazy_passgen`` — Target-aware weak-password wordlist generator (lazypassgen)
+- ``cli.commands.exploitdb`` — ExploitDB Tier0 sync/generate (exploitdb_sync|exploitdb_scan|exploitdb_gen)
 """

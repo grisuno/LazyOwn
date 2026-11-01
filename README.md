@@ -404,7 +404,10 @@ For two critical security advisories that helped us harden the framework and fix
 
 ### KitPloit.com
 
-We, the people who dedicate time to LazyOwn, are flattered by that excellent review on [Kitploit](https://x.com/KitPloit/status/2105568661779907031). Thank you so much, it helps us reach a wider community. [https://kitploit.com/es/tools/github/grisuno/lazyown](https://kitploit.com/es/tools/github/grisuno/lazyown)
+We, the people who dedicate time to LazyOwn, are flattered by that excellent review on [Kitploit](https://x.com/KitPloit/status/2105568661779907031). Thank you so much, it helps us reach a wider community. 
+
+- [https://kitploit.com/es/tools/github/grisuno/lazyown](https://kitploit.com/es/tools/github/grisuno/lazyown)
+- [https://kitploit.com/en/tools/github/grisuno/blacksandbeacon](https://kitploit.com/en/tools/github/grisuno/blacksandbeacon)
 
 ### Spook.news
 

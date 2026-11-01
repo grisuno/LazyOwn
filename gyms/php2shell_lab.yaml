@@ -1,0 +1,15 @@
+id: php2shell_lab
+name: php2shell - Lab Test
+description: Test php2shell against local PHP 8.4.26 lab container
+scenario: php2shell
+chain: ""
+objective: Achieve command execution on PHP 8.4.26 mod_php target using php2shell
+difficulty: hard
+phases: [recon, enum, exploit]
+required_techniques: [T1190]
+max_points: 2500
+hints:
+  - "Lab: docker run -d --name php2shell-target -p 8089:80 -v ./gyms/docker/php2shell/www:/var/www/html php:8.4.26-apache"
+  - "Run: php2shell url=http://127.0.0.1:8089/index.php"
+success_check: Command output or proof file created
+elo_bonus: 250

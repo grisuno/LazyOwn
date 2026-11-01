@@ -1,0 +1,19 @@
+id: php2shell_test
+name: php2shell - PHP 8.4 mod_php Exploit
+description: Test php2shell exploit.py against local lab container to validate heap leak and code execution.
+scenario: php2shell
+chain: ""
+objective: Run php2shell against lab target and achieve command execution.
+difficulty: hard
+phases: [recon, enum, exploit]
+required_techniques: [T1190]
+bonus_techniques: []
+max_points: 2000
+speed_bonus_max: 400
+stealth_bonus_max: 200
+technique_diversity_bonus: 200
+hints:
+  - "Start lab: docker run -d -p 8088:80 --name php2shell-lab php2shell-lab (PHP 7.4 in our lab; exploit targets PHP 8.4.26)"
+  - "For PHP 8.4.26 use the official image or adjust offsets"
+success_check: Command execution confirmed via proof file
+elo_bonus: 200

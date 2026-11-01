@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HEXABOT spinner</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #07040f; color: #bfefff;
+                 font-family: system-ui, sans-serif; overflow: hidden; }
+    #hexabot { position: fixed; inset: 0; }
+    .hint { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+            font-size: 13px; opacity: .65; pointer-events: none; text-align: center; }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="hexabot"></div>
+  <div class="hint">arrastra al robot · click = truco · arrastra el fondo para girar · rueda = zoom</div>
+
+  <script type="module">
+    import { createHexabotSpinner } from './hexabot-spinner.js';
+
+    const bot = createHexabotSpinner(document.getElementById('hexabot'), {
+      modelUrl: './hexabot.glb',
+    });
+
+    // Demo of a long process. In your app, call setProgress/log with real progress.
+    let p = 0;
+    const tick = () => {
+      p = Math.min(1, p + Math.random() * 0.02);
+      bot.setProgress(p, 'procesando');
+      if (p >= 1) {
+        bot.log('[ OK ] proceso terminado');
+        bot.happy(3000);
+        setTimeout(() => { p = 0; tick(); }, 6000);
+      } else {
+        setTimeout(tick, 300);
+      }
+    };
+    bot.ready.then(tick);
+  </script>
+</body>
+</html>

@@ -3,6 +3,25 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_load_csv` | method | `modules/threat_model.py:305` | `def _load_csv(self)` |
+| `_risk_score` | method | `modules/threat_model.py:352` | `def _risk_score(self, commands, ports)` |
+| `_save` | method | `modules/threat_model.py:578` | `def _save(self, model)` |
+| `build` | method | `modules/threat_model.py:270` | `def build(self)` |
+| `get_builder` | function | `modules/threat_model.py:592` | `def get_builder()` |
+| `load` | method | `modules/threat_model.py:293` | `def load(self)` |
+| `_call_ai` | function | `modules/timeline_narrator.py:97` | `def _call_ai(api_key, events_text, target)` |
+| `_format_events_for_prompt` | function | `modules/timeline_narrator.py:77` | `def _format_events_for_prompt(events)` |
+| `_load_events` | function | `modules/timeline_narrator.py:57` | `def _load_events(n)` |
+| `_write_timeline` | function | `modules/timeline_narrator.py:115` | `def _write_timeline(narrative, event_count, target)` |
+| `load_timeline` | function | `modules/timeline_narrator.py:165` | `def load_timeline()` |
+| `narrate` | function | `modules/timeline_narrator.py:130` | `def narrate(api_key, force)` |
+| `FileTimestamps` | class | `modules/timestomper.py:51` | `class FileTimestamps` |
+| `TimestompConfig` | class | `modules/timestomper.py:24` | `class TimestompConfig` |
+| `Timestomper` | class | `modules/timestomper.py:69` | `class Timestomper` |
+| `__init__` | method | `modules/timestomper.py:106` | `def __init__(self, config)` |
+| `_pick_reference` | method | `modules/timestomper.py:269` | `def _pick_reference(self, path, platform)` |
+| `generate_random_timestamps` | method | `modules/timestomper.py:280` | `def generate_random_timestamps(self, reference_ts, window_days)` |
+| `linux_timestomp_commands` | method | `modules/timestomper.py:200` | `def linux_timestomp_commands(self)` |
 | `macos_timestomp_commands` | method | `modules/timestomper.py:241` | `def macos_timestomp_commands(self)` |
 | `summary` | method | `modules/timestomper.py:326` | `def summary(self)` |
 | `verify_timestamps` | method | `modules/timestomper.py:300` | `def verify_timestamps(self, target_paths)` |
@@ -215,25 +234,26 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `parseApp` | function | `modules/venator.py:663` | `def parseApp(app, ignoreVFlag)` |
 | `s3_upload` | function | `modules/venator.py:866` | `def s3_upload(data, content_type, filename_path, access_key_id, secret_access_key, s3_bucket, aws_region)` |
 | `VerbCatalogConfig` | class | `modules/verb_catalog.py:77` | `class VerbCatalogConfig` |
-| `_addon_discoveries` | function | `modules/verb_catalog.py:143` | `def _addon_discoveries(config)` |
-| `_all_discoveries` | function | `modules/verb_catalog.py:214` | `def _all_discoveries(config)` |
+| `_addon_discoveries` | function | `modules/verb_catalog.py:171` | `def _addon_discoveries(config)` |
+| `_all_discoveries` | function | `modules/verb_catalog.py:242` | `def _all_discoveries(config)` |
 | `_builtin_names` | function | `modules/verb_catalog.py:111` | `def _builtin_names()` |
 | `_default_config` | function | `modules/verb_catalog.py:101` | `def _default_config()` |
-| `_drop_cache` | function | `modules/verb_catalog.py:536` | `def _drop_cache(path_key)` |
+| `_drop_cache` | function | `modules/verb_catalog.py:571` | `def _drop_cache(path_key)` |
 | `_phase_fallback` | function | `modules/verb_catalog.py:123` | `def _phase_fallback(verb)` |
-| `_poc_discoveries` | function | `modules/verb_catalog.py:187` | `def _poc_discoveries(config)` |
-| `_risk_fallback` | function | `modules/verb_catalog.py:133` | `def _risk_fallback(verb)` |
-| `_write` | function | `modules/verb_catalog.py:512` | `def _write(cfg, verbs)` |
-| `catalog_enabled` | function | `modules/verb_catalog.py:385` | `def catalog_enabled(name, config)` |
-| `catalog_source` | function | `modules/verb_catalog.py:400` | `def catalog_source(name, config)` |
-| `entries` | function | `modules/verb_catalog.py:332` | `def entries(config)` |
-| `index_commands` | function | `modules/verb_catalog.py:226` | `def index_commands(config)` |
-| `load` | function | `modules/verb_catalog.py:299` | `def load(config)` |
-| `search` | function | `modules/verb_catalog.py:558` | `def search(query, config, phase, enabled, limit)` |
-| `set_enabled` | function | `modules/verb_catalog.py:414` | `def set_enabled(name, enabled, config)` |
-| `stats` | function | `modules/verb_catalog.py:544` | `def stats(config)` |
-| `sync` | function | `modules/verb_catalog.py:452` | `def sync(config)` |
-| `validate_catalog` | function | `modules/verb_catalog.py:266` | `def validate_catalog(data)` |
+| `_phases_for` | function | `modules/verb_catalog.py:133` | `def _phases_for(stored, phase)` |
+| `_poc_discoveries` | function | `modules/verb_catalog.py:215` | `def _poc_discoveries(config)` |
+| `_risk_fallback` | function | `modules/verb_catalog.py:161` | `def _risk_fallback(verb)` |
+| `_write` | function | `modules/verb_catalog.py:547` | `def _write(cfg, verbs)` |
+| `catalog_enabled` | function | `modules/verb_catalog.py:420` | `def catalog_enabled(name, config)` |
+| `catalog_source` | function | `modules/verb_catalog.py:435` | `def catalog_source(name, config)` |
+| `entries` | function | `modules/verb_catalog.py:364` | `def entries(config)` |
+| `index_commands` | function | `modules/verb_catalog.py:254` | `def index_commands(config)` |
+| `load` | function | `modules/verb_catalog.py:331` | `def load(config)` |
+| `search` | function | `modules/verb_catalog.py:593` | `def search(query, config, phase, enabled, limit)` |
+| `set_enabled` | function | `modules/verb_catalog.py:449` | `def set_enabled(name, enabled, config)` |
+| `stats` | function | `modules/verb_catalog.py:579` | `def stats(config)` |
+| `sync` | function | `modules/verb_catalog.py:487` | `def sync(config)` |
+| `validate_catalog` | function | `modules/verb_catalog.py:294` | `def validate_catalog(data)` |
 | `FactPredicate` | class | `modules/verb_manifest.py:123` | `class FactPredicate` |
 | `ManifestCost` | class | `modules/verb_manifest.py:93` | `class ManifestCost` |
 | `ManifestNoise` | class | `modules/verb_manifest.py:108` | `class ManifestNoise` |
@@ -476,25 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `link_credential_to_success` | method | `modules/world_model.py:929` | `def link_credential_to_success(self, value, host)` |
 | `neighbors` | method | `modules/world_model.py:506` | `def neighbors(self, node)` |
 | `out_degree` | method | `modules/world_model.py:514` | `def out_degree(self, node)` |
-| `pivot_candidates` | method | `modules/world_model.py:533` | `def pivot_candidates(self, top_k)` |
-| `pivot_candidates` | method | `modules/world_model.py:1239` | `def pivot_candidates(self, top_k)` |
-| `rank` | method | `modules/world_model.py:384` | `def rank(self)` |
-| `read_section` | method | `modules/world_model.py:1412` | `def read_section(self, key)` |
-| `read_state_dict` | function | `modules/world_model.py:292` | `def read_state_dict(path)` |
-| `reload` | method | `modules/world_model.py:1369` | `def reload(self)` |
-| `remove_host` | method | `modules/world_model.py:811` | `def remove_host(self, ip)` |
-| `reset` | method | `modules/world_model.py:1385` | `def reset(self)` |
-| `reset_host` | method | `modules/world_model.py:801` | `def reset_host(self, ip)` |
-| `set_os_hint` | method | `modules/world_model.py:860` | `def set_os_hint(self, ip, os_hint)` |
-| `snapshot` | method | `modules/world_model.py:1396` | `def snapshot(self)` |
-| `to_context_string` | method | `modules/world_model.py:1261` | `def to_context_string(self)` |
-| `to_dict` | method | `modules/world_model.py:555` | `def to_dict(self)` |
-| `to_dict` | method | `modules/world_model.py:609` | `def to_dict(self)` |
-| `update_from_findings` | method | `modules/world_model.py:1006` | `def update_from_findings(self, findings)` |
-| `write_section` | method | `modules/world_model.py:1429` | `def write_section(self, key, value)` |
-| `write_state_dict` | function | `modules/world_model.py:327` | `def write_state_dict(path, data)` |
-| `YAMLPromptGenerator` | class | `modules/yaml_generator.py:17` | `class YAMLPromptGenerator` |
-| `__init__` | method | `modules/yaml_generator.py:18` | `def __init__(self, provider, api_key)` |
-| `_load_model` | method | `modules/yaml_generator.py:32` | `def _load_model(self)` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

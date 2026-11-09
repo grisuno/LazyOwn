@@ -3,6 +3,13 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_ask_rhost` | function | `cli/wizard.py:457` | `def _ask_rhost(current)` |
+| `_ask_wordlists` | function | `cli/wizard.py:692` | `def _ask_wordlists(params)` |
+| `_build_readiness` | function | `cli/wizard.py:875` | `def _build_readiness(params)` |
+| `_check` | function | `cli/wizard.py:878` | `def _check(key, label, hint)` |
+| `_check_llm` | function | `cli/wizard.py:887` | `def _check_llm()` |
+| `_collect_values` | function | `cli/wizard.py:419` | `def _collect_values(params)` |
+| `_detect_device` | function | `cli/wizard.py:1120` | `def _detect_device()` |
 | `_detect_lhost` | function | `cli/wizard.py:1098` | `def _detect_lhost()` |
 | `_find_seclists_root` | function | `cli/wizard.py:1133` | `def _find_seclists_root()` |
 | `_group_by_category` | function | `cli/wizard.py:988` | `def _group_by_category(statuses)` |
@@ -489,12 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `ConfigError` | class | `core/errors.py:78` | `class ConfigError(LazyOwnError)` |
 | `DatabaseError` | class | `core/errors.py:113` | `class DatabaseError(LazyOwnError)` |
 | `ErrorCode` | class | `core/errors.py:10` | `class ErrorCode(IntEnum)` |
-| `LazyOwnError` | class | `core/errors.py:58` | `class LazyOwnError(Exception)` |
-| `NetworkError` | class | `core/errors.py:120` | `class NetworkError(LazyOwnError)` |
-| `PayloadError` | class | `core/errors.py:106` | `class PayloadError(LazyOwnError)` |
-| `PermissionError` | class | `core/errors.py:127` | `class PermissionError(LazyOwnError)` |
-| `TargetError` | class | `core/errors.py:85` | `class TargetError(LazyOwnError)` |
-| `ToolError` | class | `core/errors.py:99` | `class ToolError(LazyOwnError)` |
-| `ValidationError` | class | `core/errors.py:134` | `class ValidationError(LazyOwnError)` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

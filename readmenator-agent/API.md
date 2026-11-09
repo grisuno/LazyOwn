@@ -1,5 +1,5 @@
-# API (page 1 of 26)
-Pages: [API.md](API.md), [API_p2.md](API_p2.md), [API_p3.md](API_p3.md), [API_p4.md](API_p4.md), [API_p5.md](API_p5.md), [API_p6.md](API_p6.md), [API_p7.md](API_p7.md), [API_p8.md](API_p8.md), [API_p9.md](API_p9.md), [API_p10.md](API_p10.md), [API_p11.md](API_p11.md), [API_p12.md](API_p12.md), [API_p13.md](API_p13.md), [API_p14.md](API_p14.md), [API_p15.md](API_p15.md), [API_p16.md](API_p16.md), [API_p17.md](API_p17.md), [API_p18.md](API_p18.md), [API_p19.md](API_p19.md), [API_p20.md](API_p20.md), [API_p21.md](API_p21.md), [API_p22.md](API_p22.md), [API_p23.md](API_p23.md), [API_p24.md](API_p24.md), [API_p25.md](API_p25.md), [API_p26.md](API_p26.md)
+# API (page 1 of 27)
+Pages: [API.md](API.md), [API_p2.md](API_p2.md), [API_p3.md](API_p3.md), [API_p4.md](API_p4.md), [API_p5.md](API_p5.md), [API_p6.md](API_p6.md), [API_p7.md](API_p7.md), [API_p8.md](API_p8.md), [API_p9.md](API_p9.md), [API_p10.md](API_p10.md), [API_p11.md](API_p11.md), [API_p12.md](API_p12.md), [API_p13.md](API_p13.md), [API_p14.md](API_p14.md), [API_p15.md](API_p15.md), [API_p16.md](API_p16.md), [API_p17.md](API_p17.md), [API_p18.md](API_p18.md), [API_p19.md](API_p19.md), [API_p20.md](API_p20.md), [API_p21.md](API_p21.md), [API_p22.md](API_p22.md), [API_p23.md](API_p23.md), [API_p24.md](API_p24.md), [API_p25.md](API_p25.md), [API_p26.md](API_p26.md), [API_p27.md](API_p27.md)
 
 ## DEPLOY.sh
 - `increment_version` (function) `DEPLOY.sh:19`
@@ -202,7 +202,7 @@ Imported by: `cli/commands/audit.py`, `lazyown.py`, `tests/test_cli_enhancements
 
 ## cli/command_chain.py
 Depends on: `cli/exploration.py`, `cli/reactive_hints.py`
-Imported by: `cli/commands/misc_migrated.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_chain.py`
+Imported by: `cli/commands/misc_migrated.py`, `lazyown.py`, `skills/mcp_tools/command_next.py`, `skills/mcp_tools/command_prev.py`, `tests/test_command_chain.py`
 - `NextStep.to_dict` (method) `cli/command_chain.py:139` `def to_dict(self)` -- Return a JSON-friendly representation of the step.
 - `PrerequisiteRegistry.__init__` (method) `cli/command_chain.py:159` `def __init__(self, config)` -- Store the configuration that owns the prerequisite table.
 - `PrerequisiteRegistry.prerequisites` (method) `cli/command_chain.py:164` `def prerequisites(self, cmd)` -- Return the ordered list of prerequisite commands for ``cmd``.
@@ -458,14 +458,14 @@ Imported by: `tests/test_apt_chain_admin.py`, `tests/test_apt_chain_integration.
 - `CommandAndControlMigratedCommandSet.do_attack_plan` (method) `cli/commands/command_and_control_migrated.py:1550` `def do_attack_plan(self, line)` -- Execute a multi-step APT simulation plan.
 - `CommandAndControlMigratedCommandSet.do_apt_chain` (method) `cli/commands/command_and_control_migrated.py:1727` `def do_apt_chain(self, line)` -- Run a fully YAML-administered APT chain with one command.
 - `chain_file_exists` (function) `cli/commands/command_and_control_migrated.py:1768` `def chain_file_exists(name)` -- True when chains/<name>.yaml exists, even if disabled.
-- `CommandAndControlMigratedCommandSet.do_chain_distill` (method) `cli/commands/command_and_control_migrated.py:2059` `def do_chain_distill(self, line)` -- Turn one autonomous-loop trace into a reusable chain YAML.
-- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:2109` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
-- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:2229` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
-- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2332` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
-- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2511` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
-- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2568` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
-- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2617` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
-- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2709` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
+- `CommandAndControlMigratedCommandSet.do_chain_distill` (method) `cli/commands/command_and_control_migrated.py:2065` `def do_chain_distill(self, line)` -- Turn one autonomous-loop trace into a reusable chain YAML.
+- `CommandAndControlMigratedCommandSet.do_apt_playbook` (method) `cli/commands/command_and_control_migrated.py:2115` `def do_apt_playbook(self, line)` -- List, validate, and run APT playbooks based on public threat reports.
+- `CommandAndControlMigratedCommandSet.do_mitre_test` (method) `cli/commands/command_and_control_migrated.py:2235` `def do_mitre_test(self, line)` -- Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
+- `CommandAndControlMigratedCommandSet.do_generate_playbook` (method) `cli/commands/command_and_control_migrated.py:2338` `def do_generate_playbook(self, line)` -- Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
+- `CommandAndControlMigratedCommandSet.do_my_playbook` (method) `cli/commands/command_and_control_migrated.py:2517` `def do_my_playbook(self, line)` -- Generates a playbook from your custom technique database.
+- `CommandAndControlMigratedCommandSet.do_caldera` (method) `cli/commands/command_and_control_migrated.py:2574` `def do_caldera(self, line)` -- Installs and starts the Caldera server.
+- `CommandAndControlMigratedCommandSet.do_caldera_import` (method) `cli/commands/command_and_control_migrated.py:2623` `def do_caldera_import(self, line)` -- Import CALDERA abilities into LazyOwn playbooks.
+- `CommandAndControlMigratedCommandSet.do_caldera_export` (method) `cli/commands/command_and_control_migrated.py:2715` `def do_caldera_export(self, line)` -- Export a LazyOwn playbook to CALDERA ability YAML.
 
 ## cli/commands/containers.py
 Depends on: `cli/commands/_base.py`, `modules/lazyk8s.py`, `utils.py`

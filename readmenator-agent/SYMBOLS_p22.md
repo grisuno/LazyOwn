@@ -3,6 +3,17 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde.c:43` | `#define HIDDEN_FILE9` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde.c:47` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde.c:50` | `#define HIDE_USER` |
+| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde.c:52` | `#define MAX_HIDE_PIDS` |
+| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde.c:44` | `#define PATHMRHYDE` |
+| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde.c:53` | `#define PID_FILE_PATH` |
+| `fopen` | function | `modules/rootkit/mrhyde.c:287` | `FILE *fopen(const char *pathname, const char *mode)` |
+| `fstat` | function | `modules/rootkit/mrhyde.c:507` | `int fstat(int fd, struct stat *statbuf)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde.c:182` | `char* get_username_from_pid(pid_t pid)` |
+| `getdents` | function | `modules/rootkit/mrhyde.c:561` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
+| `getdents64` | function | `modules/rootkit/mrhyde.c:622` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
 | `kill` | function | `modules/rootkit/mrhyde.c:129` | `int kill(pid_t pid, int sig)` |
 | `linux_dirent64` | struct | `modules/rootkit/mrhyde.c:552` | `` |
 | `load_hidden_files` | function | `modules/rootkit/mrhyde.c:97` | `void load_hidden_files()` |
@@ -191,6 +202,11 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `load_report` | function | `modules/selection/intel.py:44` | `def load_report(target)` |
 | `pending_fires` | function | `modules/selection/intel.py:60` | `def pending_fires(target)` |
 | `propose` | method | `modules/selection/intel.py:117` | `def propose(self, ctx)` |
+| `LazyscriptSelector` | class | `modules/selection/lazyscript.py:36` | `class LazyscriptSelector` |
+| `__init__` | method | `modules/selection/lazyscript.py:41` | `def __init__(self, scripts_dir)` |
+| `_catalogue` | method | `modules/selection/lazyscript.py:45` | `def _catalogue(self)` |
+| `_tokens` | function | `modules/selection/lazyscript.py:27` | `def _tokens(text)` |
+| `propose` | method | `modules/selection/lazyscript.py:56` | `def propose(self, ctx)` |
 | `ModuleSelector` | class | `modules/selection/module.py:16` | `class ModuleSelector` |
 | `propose` | method | `modules/selection/module.py:21` | `def propose(self, ctx)` |
 | `PlaybookSelector` | class | `modules/selection/playbook.py:74` | `class PlaybookSelector` |
@@ -202,11 +218,14 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `propose` | method | `modules/selection/playbook.py:128` | `def propose(self, ctx)` |
 | `PoCSelector` | class | `modules/selection/poc.py:20` | `class PoCSelector` |
 | `propose` | method | `modules/selection/poc.py:25` | `def propose(self, ctx)` |
-| `all_selectors` | function | `modules/selection/registry.py:29` | `def all_selectors()` |
-| `default_selectors` | function | `modules/selection/registry.py:57` | `def default_selectors()` |
-| `propose_next` | function | `modules/selection/registry.py:72` | `def propose_next(ctx, selectors)` |
+| `all_selectors` | function | `modules/selection/registry.py:31` | `def all_selectors()` |
+| `default_selectors` | function | `modules/selection/registry.py:61` | `def default_selectors()` |
+| `propose_next` | function | `modules/selection/registry.py:76` | `def propose_next(ctx, selectors)` |
 | `TechniqueSelector` | class | `modules/selection/technique.py:18` | `class TechniqueSelector` |
 | `propose` | method | `modules/selection/technique.py:23` | `def propose(self, ctx)` |
+| `TechniqueChainSelector` | class | `modules/selection/technique_chain.py:24` | `class TechniqueChainSelector` |
+| `_ordered_techniques` | method | `modules/selection/technique_chain.py:29` | `def _ordered_techniques(self, ctx)` |
+| `propose` | method | `modules/selection/technique_chain.py:53` | `def propose(self, ctx)` |
 | `Proposal` | class | `modules/selector_manager.py:21` | `class Proposal` |
 | `Selection` | class | `modules/selector_manager.py:32` | `class Selection` |
 | `select` | function | `modules/selector_manager.py:42` | `def select(proposals, is_blocked)` |
@@ -477,24 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `_build_ttps` | method | `modules/threat_model.py:404` | `def _build_ttps(self, rows)` |
 | `_compromise_indicators` | method | `modules/threat_model.py:388` | `def _compromise_indicators(self, commands)` |
 | `_extract_iocs` | function | `modules/threat_model.py:245` | `def _extract_iocs(text, first_seen)` |
-| `_load_csv` | method | `modules/threat_model.py:305` | `def _load_csv(self)` |
-| `_risk_score` | method | `modules/threat_model.py:352` | `def _risk_score(self, commands, ports)` |
-| `_save` | method | `modules/threat_model.py:578` | `def _save(self, model)` |
-| `build` | method | `modules/threat_model.py:270` | `def build(self)` |
-| `get_builder` | function | `modules/threat_model.py:592` | `def get_builder()` |
-| `load` | method | `modules/threat_model.py:293` | `def load(self)` |
-| `_call_ai` | function | `modules/timeline_narrator.py:97` | `def _call_ai(api_key, events_text, target)` |
-| `_format_events_for_prompt` | function | `modules/timeline_narrator.py:77` | `def _format_events_for_prompt(events)` |
-| `_load_events` | function | `modules/timeline_narrator.py:57` | `def _load_events(n)` |
-| `_write_timeline` | function | `modules/timeline_narrator.py:115` | `def _write_timeline(narrative, event_count, target)` |
-| `load_timeline` | function | `modules/timeline_narrator.py:165` | `def load_timeline()` |
-| `narrate` | function | `modules/timeline_narrator.py:130` | `def narrate(api_key, force)` |
-| `FileTimestamps` | class | `modules/timestomper.py:51` | `class FileTimestamps` |
-| `TimestompConfig` | class | `modules/timestomper.py:24` | `class TimestompConfig` |
-| `Timestomper` | class | `modules/timestomper.py:69` | `class Timestomper` |
-| `__init__` | method | `modules/timestomper.py:106` | `def __init__(self, config)` |
-| `_pick_reference` | method | `modules/timestomper.py:269` | `def _pick_reference(self, path, platform)` |
-| `generate_random_timestamps` | method | `modules/timestomper.py:280` | `def generate_random_timestamps(self, reference_ts, window_days)` |
-| `linux_timestomp_commands` | method | `modules/timestomper.py:200` | `def linux_timestomp_commands(self)` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

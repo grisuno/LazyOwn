@@ -4,19 +4,19 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 ## Suggested
 
+### Q: What does _context.py depend on, and what depends on it? (176 connections)
+
+- Status: unanswered
+
 ### Q: What does logging.py depend on, and what depends on it? (159 connections)
 
 - Status: unanswered
 
-### Q: What does lazy_loop.py depend on, and what depends on it? (126 connections)
+### Q: What does lazy_loop.py depend on, and what depends on it? (127 connections)
 
 - Status: unanswered
 
-### Q: What does utils.py depend on, and what depends on it? (125 connections)
-
-- Status: unanswered
-
-### Q: How are the 172 files in 'modules: autonomous_daemon' related to each other?
+### Q: How are the 222 files in 'skills/mcp_tools' related to each other?
 
 - Status: unanswered
 

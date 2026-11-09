@@ -1,6 +1,6 @@
 # scripts: check_contract_manifest
 
-*Community 26 | 2 files | cohesion 1.00*
+*Community 27 | 2 files | cohesion 1.00*
 
 ## Definition
 

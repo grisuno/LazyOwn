@@ -71,7 +71,7 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_lazy_graph` | method | `cli/commands/lazyops.py:269` | `def do_lazy_graph(self, line)` |
 | `do_lazy_guard` | method | `cli/commands/lazyops.py:1094` | `def do_lazy_guard(self, line)` |
 | `do_lazy_hint` | method | `cli/commands/lazyops.py:643` | `def do_lazy_hint(self, line)` |
-| `do_lazy_install` | method | `cli/commands/lazyops.py:2774` | `def do_lazy_install(self, line)` |
+| `do_lazy_install` | method | `cli/commands/lazyops.py:2786` | `def do_lazy_install(self, line)` |
 | `do_lazy_intent` | method | `cli/commands/lazyops.py:655` | `def do_lazy_intent(self, line)` |
 | `do_lazy_intent_delete` | method | `cli/commands/lazyops.py:680` | `def do_lazy_intent_delete(self, line)` |
 | `do_lazy_kill` | method | `cli/commands/lazyops.py:1291` | `def do_lazy_kill(self, line)` |
@@ -81,7 +81,7 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_lazy_node` | method | `cli/commands/lazyops.py:1427` | `def do_lazy_node(self, line)` |
 | `do_lazy_notify` | method | `cli/commands/lazyops.py:2122` | `def do_lazy_notify(self, line)` |
 | `do_lazy_overview` | method | `cli/commands/lazyops.py:2492` | `def do_lazy_overview(self, line)` |
-| `do_lazy_pacing` | method | `cli/commands/lazyops.py:2812` | `def do_lazy_pacing(self, line)` |
+| `do_lazy_pacing` | method | `cli/commands/lazyops.py:2824` | `def do_lazy_pacing(self, line)` |
 | `do_lazy_pause` | method | `cli/commands/lazyops.py:1303` | `def do_lazy_pause(self, line)` |
 | `do_lazy_payload_keys` | method | `cli/commands/lazyops.py:1387` | `def do_lazy_payload_keys(self, line)` |
 | `do_lazy_planner` | method | `cli/commands/lazyops.py:484` | `def do_lazy_planner(self, line)` |
@@ -89,7 +89,7 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_lazy_resume` | method | `cli/commands/lazyops.py:1313` | `def do_lazy_resume(self, line)` |
 | `do_lazy_retest` | method | `cli/commands/lazyops.py:1260` | `def do_lazy_retest(self, line)` |
 | `do_lazy_runtime` | method | `cli/commands/lazyops.py:1340` | `def do_lazy_runtime(self, line)` |
-| `do_lazy_sandbox` | method | `cli/commands/lazyops.py:2711` | `def do_lazy_sandbox(self, line)` |
+| `do_lazy_sandbox` | method | `cli/commands/lazyops.py:2723` | `def do_lazy_sandbox(self, line)` |
 | `do_lazy_scheduler` | method | `cli/commands/lazyops.py:2613` | `def do_lazy_scheduler(self, line)` |
 | `do_lazy_scope` | method | `cli/commands/lazyops.py:780` | `def do_lazy_scope(self, line)` |
 | `do_lazy_selfupdate` | method | `cli/commands/lazyops.py:456` | `def do_lazy_selfupdate(self, line)` |
@@ -138,19 +138,19 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `_build_playbook_run_parser` | function | `cli/commands/mcp_bridge.py:129` | `def _build_playbook_run_parser()` |
 | `_build_rag_query_parser` | function | `cli/commands/mcp_bridge.py:89` | `def _build_rag_query_parser()` |
 | `_build_threat_model_parser` | function | `cli/commands/mcp_bridge.py:116` | `def _build_threat_model_parser()` |
-| `_delegate` | method | `cli/commands/mcp_bridge.py:548` | `def _delegate(self, command, line)` |
+| `_delegate` | method | `cli/commands/mcp_bridge.py:560` | `def _delegate(self, command, line)` |
 | `_executor` | function | `cli/commands/mcp_bridge.py:475` | `def _executor(command, host)` |
-| `_refresh_aliases` | method | `cli/commands/mcp_bridge.py:556` | `def _refresh_aliases(self)` |
+| `_refresh_aliases` | method | `cli/commands/mcp_bridge.py:568` | `def _refresh_aliases(self)` |
 | `do_auto_loop` | method | `cli/commands/mcp_bridge.py:489` | `def do_auto_loop(self, line)` |
 | `do_auto_populate` | method | `cli/commands/mcp_bridge.py:151` | `def do_auto_populate(self, args)` |
-| `do_campaign_sitrep` | method | `cli/commands/mcp_bridge.py:539` | `def do_campaign_sitrep(self, line)` |
+| `do_campaign_sitrep` | method | `cli/commands/mcp_bridge.py:551` | `def do_campaign_sitrep(self, line)` |
 | `do_facts_show` | method | `cli/commands/mcp_bridge.py:261` | `def do_facts_show(self, args)` |
 | `do_parquet_query` | method | `cli/commands/mcp_bridge.py:316` | `def do_parquet_query(self, args)` |
 | `do_playbook_run` | method | `cli/commands/mcp_bridge.py:431` | `def do_playbook_run(self, args)` |
 | `do_rag_query` | method | `cli/commands/mcp_bridge.py:286` | `def do_rag_query(self, args)` |
-| `do_session_state` | method | `cli/commands/mcp_bridge.py:534` | `def do_session_state(self, line)` |
+| `do_session_state` | method | `cli/commands/mcp_bridge.py:546` | `def do_session_state(self, line)` |
 | `do_threat_model` | method | `cli/commands/mcp_bridge.py:378` | `def do_threat_model(self, args)` |
-| `do_timeline` | method | `cli/commands/mcp_bridge.py:544` | `def do_timeline(self, line)` |
+| `do_timeline` | method | `cli/commands/mcp_bridge.py:556` | `def do_timeline(self, line)` |
 | `MiscMigratedCommandSet` | class | `cli/commands/misc_migrated.py:87` | `class MiscMigratedCommandSet(LazyOwnCommandSet)` |
 | `__getattr__` | function | `cli/commands/misc_migrated.py:1172` | `def __getattr__(name)` |
 | `_handle_killchain_auto` | method | `cli/commands/misc_migrated.py:150` | `def _handle_killchain_auto(self, spec)` |

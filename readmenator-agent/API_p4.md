@@ -1,4 +1,4 @@
-# API (page 4 of 26)
+# API (page 4 of 27)
 Previous: [API_p3.md](API_p3.md)
 
 ## cli/commands/winbox_gym.py
@@ -177,7 +177,7 @@ Imported by: `cli/fuzzy_match.py`, `lazyown.py`, `tests/test_fuzzy_picker.py`
 - `install_fuzzy_completion` (function) `cli/fuzzy_picker.py:645` `def install_fuzzy_completion(shell, payload, config)` -- Install the fuzzy picker into a cmd2 shell.
 
 ## cli/graph_advisor.py
-Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `lazyown.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/test_graph_advisor.py`
+Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `lazyown.py`, `modules/unified_dashboard.py`, `skills/mcp_tools/graph_neighbors.py`, `skills/mcp_tools/graph_search.py`, `skills/mcp_tools/graph_suggest_next.py`, `skills/mcp_tools/graph_summary.py`, `tests/test_graph_advisor.py`
 - `GraphNode.to_summary` (method) `cli/graph_advisor.py:109` `def to_summary(self)` -- Return a small, JSON-safe summary suitable for MCP responses.
 - `GraphEdge.to_summary` (method) `cli/graph_advisor.py:132` `def to_summary(self)`
 - `GraphLoader.__init__` (method) `cli/graph_advisor.py:156` `def __init__(self, config)`
@@ -273,23 +273,23 @@ Imported by: `cli/commands/lazyloop.py`, `tests/test_guardrails.py`, `tests/test
 - `verb_candidates` (function) `cli/lazy_orchestrator.py:116` `def verb_candidates()` -- Return searchable ``(verb, description)`` pairs for the picker.
 - `LazyOrchestratorApp.__init__` (method) `cli/lazy_orchestrator.py:180` `def __init__(self, payload_path, task_id, shell, param_root)` -- Bind the console to a payload file and an optional task.
 - `LazyOrchestratorApp.compose` (method) `cli/lazy_orchestrator.py:214` `def compose(self)` -- Build the four panes.
-- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:282` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
-- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:300` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
-- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:309` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it in its owning layer.
-- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:325` `def add_auto_verb(self, name, keywords, needs_target, description, phases)` -- Register a new operator-defined auto verb.
-- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:348` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
-- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:450` `def on_button_pressed(self, event)` -- Handle the config and harness buttons.
-- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:503` `def action_refresh(self)` -- Reload tables and form from disk.
-- `LazyOrchestratorApp.action_seed_triggers` (method) `cli/lazy_orchestrator.py:517` `def action_seed_triggers(self)` -- Seed triggers from config/orchestrator.yaml.
-- `LazyOrchestratorApp.create_param` (method) `cli/lazy_orchestrator.py:556` `def create_param(self, name, kind, default, description, category)` -- Declare a reusable parameter and publish it to the live shell.
-- `LazyOrchestratorApp.update_param` (method) `cli/lazy_orchestrator.py:596` `def update_param(self, name, default, description)` -- Update a declared parameter and repaint the table.
-- `LazyOrchestratorApp.delete_param` (method) `cli/lazy_orchestrator.py:628` `def delete_param(self, name)` -- Delete an operator parameter and drop it from the live shell.
-- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:660` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
-- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:690` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
-- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:707` `def action_add_item(self)` -- Open the add modal for the active tab.
-- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:939` `def action_edit_item(self)` -- Edit the selected playbook YAML, LLM member priority or parameter.
-- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:1018` `def action_delete_item(self)` -- Delete the selected row in the active tab.
-- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:1110` `def run_orchestrator_console(task_id, shell)` -- Launch the admin console (attach mode).
+- `LazyOrchestratorApp.on_mount` (method) `cli/lazy_orchestrator.py:293` `def on_mount(self)` -- Load the payload into the form and refresh the data tables.
+- `LazyOrchestratorApp.toggle_stage` (method) `cli/lazy_orchestrator.py:311` `def toggle_stage(self, name)` -- Flip one pipeline stage on/off and persist it.
+- `LazyOrchestratorApp.toggle_verb` (method) `cli/lazy_orchestrator.py:320` `def toggle_verb(self, name)` -- Flip one auto verb on/off and persist it in its owning layer.
+- `LazyOrchestratorApp.add_auto_verb` (method) `cli/lazy_orchestrator.py:336` `def add_auto_verb(self, name, keywords, needs_target, description, phases)` -- Register a new operator-defined auto verb.
+- `LazyOrchestratorApp.remove_auto_verb` (method) `cli/lazy_orchestrator.py:359` `def remove_auto_verb(self, name)` -- Delete a custom verb, or disable a built-in one.
+- `LazyOrchestratorApp.on_button_pressed` (method) `cli/lazy_orchestrator.py:461` `def on_button_pressed(self, event)` -- Handle the config and harness buttons.
+- `LazyOrchestratorApp.action_refresh` (method) `cli/lazy_orchestrator.py:537` `def action_refresh(self)` -- Reload tables and form from disk.
+- `LazyOrchestratorApp.action_seed_triggers` (method) `cli/lazy_orchestrator.py:551` `def action_seed_triggers(self)` -- Seed triggers from config/orchestrator.yaml.
+- `LazyOrchestratorApp.create_param` (method) `cli/lazy_orchestrator.py:590` `def create_param(self, name, kind, default, description, category)` -- Declare a reusable parameter and publish it to the live shell.
+- `LazyOrchestratorApp.update_param` (method) `cli/lazy_orchestrator.py:630` `def update_param(self, name, default, description)` -- Update a declared parameter and repaint the table.
+- `LazyOrchestratorApp.delete_param` (method) `cli/lazy_orchestrator.py:662` `def delete_param(self, name)` -- Delete an operator parameter and drop it from the live shell.
+- `LazyOrchestratorApp.action_toggle_item` (method) `cli/lazy_orchestrator.py:694` `def action_toggle_item(self)` -- Toggle the selected stage, auto verb, or chain.
+- `LazyOrchestratorApp.action_save_config` (method) `cli/lazy_orchestrator.py:724` `def action_save_config(self)` -- Save the form values (keyboard shortcut).
+- `LazyOrchestratorApp.action_add_item` (method) `cli/lazy_orchestrator.py:741` `def action_add_item(self)` -- Open the add modal for the active tab.
+- `LazyOrchestratorApp.action_edit_item` (method) `cli/lazy_orchestrator.py:973` `def action_edit_item(self)` -- Edit the selected playbook YAML, LLM member priority or parameter.
+- `LazyOrchestratorApp.action_delete_item` (method) `cli/lazy_orchestrator.py:1052` `def action_delete_item(self)` -- Delete the selected row in the active tab.
+- `run_orchestrator_console` (function) `cli/lazy_orchestrator.py:1144` `def run_orchestrator_console(task_id, shell)` -- Launch the admin console (attach mode).
 
 ## cli/lazynmap_post.py
 Depends on: `cli/exploration.py`, `cli/recon_plan.py`, `modules/killchain.py`
@@ -370,41 +370,46 @@ Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/co
 
 ## cli/orchestrator_assets_tabs.py
 Depends on: `cli/tui_forms.py`, `core/config.py`, `modules/__init__.py`, `modules/apt_playbooks.py`, `modules/chain_registry.py`, `modules/guardrails/__init__.py`, `modules/gym_registry.py`, `modules/lazy_engine.py`, `modules/loop_triggers.py`, `modules/orchestrator_config.py`, `modules/playbook_admin.py`, `modules/redteam_gym.py`, `modules/trigger_policy.py`
-Imported by: `cli/lazy_orchestrator.py`, `tests/test_audit_remediation.py`
-- `OrchestratorAssetsMixin.playbook_rows` (method) `cli/orchestrator_assets_tabs.py:115` `def playbook_rows(self)` -- Return one row per playbook file, including invalid ones.
-- `OrchestratorAssetsMixin.playbook_preview` (method) `cli/orchestrator_assets_tabs.py:139` `def playbook_preview(self, filename, limit)` -- Return a bounded YAML preview for one playbook file.
-- `OrchestratorAssetsMixin.create_playbook_file` (method) `cli/orchestrator_assets_tabs.py:148` `def create_playbook_file(self, filename, name, description, platforms)` -- Create one playbook YAML and repaint the table.
-- `OrchestratorAssetsMixin.save_playbook_text` (method) `cli/orchestrator_assets_tabs.py:169` `def save_playbook_text(self, filename, text)` -- Validate and persist raw YAML edited by the operator.
-- `OrchestratorAssetsMixin.delete_playbook_file` (method) `cli/orchestrator_assets_tabs.py:181` `def delete_playbook_file(self, filename)` -- Delete one playbook YAML after the operator confirms.
-- `OrchestratorAssetsMixin.playbook_candidates` (method) `cli/orchestrator_assets_tabs.py:189` `def playbook_candidates(self)` -- Return ``(engine_key, summary)`` pairs for chain generation.
-- `OrchestratorAssetsMixin.gym_rows` (method) `cli/orchestrator_assets_tabs.py:272` `def gym_rows(self)` -- Return one row per gym definition with its active-run count.
-- `OrchestratorAssetsMixin.gym_preview` (method) `cli/orchestrator_assets_tabs.py:309` `def gym_preview(self, gym_id, limit)` -- Return a bounded YAML preview for one gym definition.
-- `OrchestratorAssetsMixin.start_gym` (method) `cli/orchestrator_assets_tabs.py:377` `def start_gym(self, gym_id, target)` -- Start one gym and repaint the table.
-- `OrchestratorAssetsMixin.stop_gym` (method) `cli/orchestrator_assets_tabs.py:385` `def stop_gym(self, selector)` -- Stop one gym (or every gym when selector is empty) and repaint.
-- `OrchestratorAssetsMixin.toggle_gym` (method) `cli/orchestrator_assets_tabs.py:393` `def toggle_gym(self, gym_id)` -- Start the selected gym, or stop its active runs when already active.
-- `OrchestratorAssetsMixin.profile_rows` (method) `cli/orchestrator_assets_tabs.py:435` `def profile_rows(self)` -- Return one row per orchestrator profile with the active marker.
-- `OrchestratorAssetsMixin.activate_profile` (method) `cli/orchestrator_assets_tabs.py:460` `def activate_profile(self, name)` -- Persist one profile as active and repaint the profile table.
-- `OrchestratorAssetsMixin.chain_rows` (method) `cli/orchestrator_assets_tabs.py:520` `def chain_rows(self)` -- Return one row per chain file, including disabled ones.
-- `OrchestratorAssetsMixin.chain_steps_preview` (method) `cli/orchestrator_assets_tabs.py:529` `def chain_steps_preview(self, name, limit)` -- Return the resolved step lines of a chain for the detail pane.
-- `OrchestratorAssetsMixin.toggle_chain` (method) `cli/orchestrator_assets_tabs.py:546` `def toggle_chain(self, name)` -- Flip a chain's enabled flag in its YAML file.
-- `OrchestratorAssetsMixin.generate_chain` (method) `cli/orchestrator_assets_tabs.py:557` `def generate_chain(self, playbook_key)` -- Generate chains/apt_<slug>.yaml from a playbook engine key.
-- `OrchestratorAssetsMixin.remove_chain` (method) `cli/orchestrator_assets_tabs.py:571` `def remove_chain(self, name)` -- Delete a chain file unless others extend it or it is the base.
-- `OrchestratorAssetsMixin.on_data_table_row_highlighted` (method) `cli/orchestrator_assets_tabs.py:627` `def on_data_table_row_highlighted(self, event)` -- Refresh the detail pane when the cursor moves.
-- `OrchestratorAssetsMixin.seed_triggers_from_yaml` (method) `cli/orchestrator_assets_tabs.py:668` `def seed_triggers_from_yaml(self)` -- Seed triggers from config/orchestrator.yaml into the store.
-- `OrchestratorAssetsMixin.toggle_trigger` (method) `cli/orchestrator_assets_tabs.py:694` `def toggle_trigger(self, trigger_id)` -- Flip one trigger's enabled flag in the store.
-- `OrchestratorAssetsMixin.remove_trigger` (method) `cli/orchestrator_assets_tabs.py:704` `def remove_trigger(self, trigger_id)` -- Delete one trigger from the store.
-- `OrchestratorAssetsMixin.add_trigger` (method) `cli/orchestrator_assets_tabs.py:712` `def add_trigger(self, kind, every_sec, arg)` -- Add a scheduler trigger entered from the picker form.
-- `OrchestratorAssetsMixin.trigger_kind_options` (method) `cli/orchestrator_assets_tabs.py:724` `def trigger_kind_options(self)` -- Return selectable trigger kinds for the add form.
-- `OrchestratorAssetsMixin.save_config` (method) `cli/orchestrator_assets_tabs.py:791` `def save_config(self, values)` -- Merge the given keys into the payload and persist it.
-- `OrchestratorAssetsMixin.add_model_member` (method) `cli/orchestrator_assets_tabs.py:813` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
-- `OrchestratorAssetsMixin.remove_model_member` (method) `cli/orchestrator_assets_tabs.py:821` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
-- `OrchestratorAssetsMixin.set_model_priority` (method) `cli/orchestrator_assets_tabs.py:829` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
-- `OrchestratorAssetsMixin.set_harness` (method) `cli/orchestrator_assets_tabs.py:841` `def set_harness(self, enabled)` -- Toggle the deterministic harness from the orchestrator UI.
-- `OrchestratorAssetsMixin.add_guard_rule` (method) `cli/orchestrator_assets_tabs.py:866` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
-- `OrchestratorAssetsMixin.remove_guard_rule` (method) `cli/orchestrator_assets_tabs.py:874` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
-- `OrchestratorAssetsMixin.save_guardrails` (method) `cli/orchestrator_assets_tabs.py:925` `def save_guardrails(self, values)` -- Merge harness settings into payload and reconfigure the harness.
-- `OrchestratorAssetsMixin.warm_restart_harness` (method) `cli/orchestrator_assets_tabs.py:971` `def warm_restart_harness(self)` -- Run the harness warm restart and repaint the table.
-- `OrchestratorAssetsMixin.rearm_harness` (method) `cli/orchestrator_assets_tabs.py:983` `def rearm_harness(self)` -- Re-arm suspended features and clear advisories.
+Imported by: `cli/lazy_orchestrator.py`, `tests/test_audit_remediation.py`, `tests/test_orchestrator_pacing.py`
+- `parse_sleeper_windows` (function) `cli/orchestrator_assets_tabs.py:92` `def parse_sleeper_windows(raw)` -- Parse a comma-separated sleeper-window string.
+- `format_sleeper_windows` (function) `cli/orchestrator_assets_tabs.py:121` `def format_sleeper_windows(value)` -- Render stored sleeper windows as an editable comma-separated string.
+- `parse_edr_pause_ranges` (function) `cli/orchestrator_assets_tabs.py:128` `def parse_edr_pause_ranges(raw)` -- Parse ``level:low-high`` pause ranges from a compact string.
+- `format_edr_pause_ranges` (function) `cli/orchestrator_assets_tabs.py:161` `def format_edr_pause_ranges(value)` -- Render stored EDR pause ranges as an editable compact string.
+- `OrchestratorAssetsMixin.playbook_rows` (method) `cli/orchestrator_assets_tabs.py:217` `def playbook_rows(self)` -- Return one row per playbook file, including invalid ones.
+- `OrchestratorAssetsMixin.playbook_preview` (method) `cli/orchestrator_assets_tabs.py:241` `def playbook_preview(self, filename, limit)` -- Return a bounded YAML preview for one playbook file.
+- `OrchestratorAssetsMixin.create_playbook_file` (method) `cli/orchestrator_assets_tabs.py:250` `def create_playbook_file(self, filename, name, description, platforms)` -- Create one playbook YAML and repaint the table.
+- `OrchestratorAssetsMixin.save_playbook_text` (method) `cli/orchestrator_assets_tabs.py:271` `def save_playbook_text(self, filename, text)` -- Validate and persist raw YAML edited by the operator.
+- `OrchestratorAssetsMixin.delete_playbook_file` (method) `cli/orchestrator_assets_tabs.py:283` `def delete_playbook_file(self, filename)` -- Delete one playbook YAML after the operator confirms.
+- `OrchestratorAssetsMixin.playbook_candidates` (method) `cli/orchestrator_assets_tabs.py:291` `def playbook_candidates(self)` -- Return ``(engine_key, summary)`` pairs for chain generation.
+- `OrchestratorAssetsMixin.gym_rows` (method) `cli/orchestrator_assets_tabs.py:374` `def gym_rows(self)` -- Return one row per gym definition with its active-run count.
+- `OrchestratorAssetsMixin.gym_preview` (method) `cli/orchestrator_assets_tabs.py:411` `def gym_preview(self, gym_id, limit)` -- Return a bounded YAML preview for one gym definition.
+- `OrchestratorAssetsMixin.start_gym` (method) `cli/orchestrator_assets_tabs.py:479` `def start_gym(self, gym_id, target)` -- Start one gym and repaint the table.
+- `OrchestratorAssetsMixin.stop_gym` (method) `cli/orchestrator_assets_tabs.py:487` `def stop_gym(self, selector)` -- Stop one gym (or every gym when selector is empty) and repaint.
+- `OrchestratorAssetsMixin.toggle_gym` (method) `cli/orchestrator_assets_tabs.py:495` `def toggle_gym(self, gym_id)` -- Start the selected gym, or stop its active runs when already active.
+- `OrchestratorAssetsMixin.profile_rows` (method) `cli/orchestrator_assets_tabs.py:537` `def profile_rows(self)` -- Return one row per orchestrator profile with the active marker.
+- `OrchestratorAssetsMixin.activate_profile` (method) `cli/orchestrator_assets_tabs.py:562` `def activate_profile(self, name)` -- Persist one profile as active and repaint the profile table.
+- `OrchestratorAssetsMixin.chain_rows` (method) `cli/orchestrator_assets_tabs.py:622` `def chain_rows(self)` -- Return one row per chain file, including disabled ones.
+- `OrchestratorAssetsMixin.chain_steps_preview` (method) `cli/orchestrator_assets_tabs.py:631` `def chain_steps_preview(self, name, limit)` -- Return the resolved step lines of a chain for the detail pane.
+- `OrchestratorAssetsMixin.toggle_chain` (method) `cli/orchestrator_assets_tabs.py:648` `def toggle_chain(self, name)` -- Flip a chain's enabled flag in its YAML file.
+- `OrchestratorAssetsMixin.generate_chain` (method) `cli/orchestrator_assets_tabs.py:659` `def generate_chain(self, playbook_key)` -- Generate chains/apt_<slug>.yaml from a playbook engine key.
+- `OrchestratorAssetsMixin.remove_chain` (method) `cli/orchestrator_assets_tabs.py:673` `def remove_chain(self, name)` -- Delete a chain file unless others extend it or it is the base.
+- `OrchestratorAssetsMixin.on_data_table_row_highlighted` (method) `cli/orchestrator_assets_tabs.py:729` `def on_data_table_row_highlighted(self, event)` -- Refresh the detail pane when the cursor moves.
+- `OrchestratorAssetsMixin.seed_triggers_from_yaml` (method) `cli/orchestrator_assets_tabs.py:770` `def seed_triggers_from_yaml(self)` -- Seed triggers from config/orchestrator.yaml into the store.
+- `OrchestratorAssetsMixin.toggle_trigger` (method) `cli/orchestrator_assets_tabs.py:796` `def toggle_trigger(self, trigger_id)` -- Flip one trigger's enabled flag in the store.
+- `OrchestratorAssetsMixin.remove_trigger` (method) `cli/orchestrator_assets_tabs.py:806` `def remove_trigger(self, trigger_id)` -- Delete one trigger from the store.
+- `OrchestratorAssetsMixin.add_trigger` (method) `cli/orchestrator_assets_tabs.py:814` `def add_trigger(self, kind, every_sec, arg)` -- Add a scheduler trigger entered from the picker form.
+- `OrchestratorAssetsMixin.trigger_kind_options` (method) `cli/orchestrator_assets_tabs.py:826` `def trigger_kind_options(self)` -- Return selectable trigger kinds for the add form.
+- `OrchestratorAssetsMixin.save_pacing` (method) `cli/orchestrator_assets_tabs.py:916` `def save_pacing(self, values)` -- Validate and persist the Pacing tab fields through set_pacing.
+- `OrchestratorAssetsMixin.save_config` (method) `cli/orchestrator_assets_tabs.py:961` `def save_config(self, values)` -- Merge the given keys into the payload and persist it.
+- `OrchestratorAssetsMixin.add_model_member` (method) `cli/orchestrator_assets_tabs.py:983` `def add_model_member(self, name, model, priority)` -- Append one LLM chain member; returns the stored name.
+- `OrchestratorAssetsMixin.remove_model_member` (method) `cli/orchestrator_assets_tabs.py:991` `def remove_model_member(self, name)` -- Drop one LLM chain member by name.
+- `OrchestratorAssetsMixin.set_model_priority` (method) `cli/orchestrator_assets_tabs.py:999` `def set_model_priority(self, name, priority)` -- Change one LLM member's failover rank and repaint the table.
+- `OrchestratorAssetsMixin.set_harness` (method) `cli/orchestrator_assets_tabs.py:1011` `def set_harness(self, enabled)` -- Toggle the deterministic harness from the orchestrator UI.
+- `OrchestratorAssetsMixin.add_guard_rule` (method) `cli/orchestrator_assets_tabs.py:1036` `def add_guard_rule(self, pattern, action, reason)` -- Register one guard intercept rule.
+- `OrchestratorAssetsMixin.remove_guard_rule` (method) `cli/orchestrator_assets_tabs.py:1044` `def remove_guard_rule(self, pattern)` -- Delete one guard rule by exact pattern.
+- `OrchestratorAssetsMixin.save_guardrails` (method) `cli/orchestrator_assets_tabs.py:1095` `def save_guardrails(self, values)` -- Merge harness settings into payload and reconfigure the harness.
+- `OrchestratorAssetsMixin.warm_restart_harness` (method) `cli/orchestrator_assets_tabs.py:1141` `def warm_restart_harness(self)` -- Run the harness warm restart and repaint the table.
+- `OrchestratorAssetsMixin.rearm_harness` (method) `cli/orchestrator_assets_tabs.py:1153` `def rearm_harness(self)` -- Re-arm suspended features and clear advisories.
 
 ## cli/output_mode.py
 Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`
@@ -414,7 +419,7 @@ Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`
 - `dry_run_line` (function) `cli/output_mode.py:98` `def dry_run_line(command)` -- Render the exact shell line that would run without running it.
 
 ## cli/palette.py
-Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`
+Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/lazy_orchestrator.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyown.py`, `skills/mcp_tools/palette.py`, `tests/test_command_palette.py`
 - `load_index` (function) `cli/palette.py:30` `def load_index(path)` -- Return the parsed catalogue as a dict.
 - `all_commands` (function) `cli/palette.py:55` `def all_commands()` -- Return every command entry, sorted by name.
 - `all_phases` (function) `cli/palette.py:72` `def all_phases()` -- Return the sorted list of phase identifiers present in the index.
@@ -428,7 +433,7 @@ Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/mis
 
 ## cli/palette_command.py
 Depends on: `cli/commands/enum.py`, `cli/palette_graph.py`, `cli/palette_telemetry.py`, `core/text_utils.py`
-Imported by: `cli/commands/misc_migrated.py`, `cli/palette_overlay.py`, `lazyc2.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`
+Imported by: `cli/commands/misc_migrated.py`, `cli/palette_overlay.py`, `lazyc2.py`, `lazyown.py`, `skills/mcp_tools/palette.py`, `tests/test_command_palette.py`
 - `PaletteRenderConfig.truncate_summary` (method) `cli/palette_command.py:107` `def truncate_summary(self, summary)` -- Trim ``summary`` to :attr:`summary_max_chars` with marker suffix.
 - `PaletteArgumentParser.__init__` (method) `cli/palette_command.py:149` `def __init__(self, config)`
 - `PaletteArgumentParser.parse` (method) `cli/palette_command.py:152` `def parse(self, line)` -- Return a :class:`PaletteArgs` for ``line``.
@@ -483,16 +488,6 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_palette_overlay.py`
 - `_PaletteOverlayApp.on_list_view_selected` (method) `cli/palette_overlay.py:279` `def on_list_view_selected(self, event)`
 - `_PaletteOverlayApp.action_cancel` (method) `cli/palette_overlay.py:282` `def action_cancel(self)`
 - `_PaletteOverlayApp.action_select_current` (method) `cli/palette_overlay.py:285` `def action_select_current(self)`
-
-## cli/palette_telemetry.py
-Imported by: `cli/palette_command.py`, `cli/palette_overlay.py`, `tests/test_command_palette.py`
-- `load_telemetry` (function) `cli/palette_telemetry.py:186` `def load_telemetry(path)` -- Return the parsed telemetry index, cached per resolved path.
-- `safe_load_telemetry` (function) `cli/palette_telemetry.py:204` `def safe_load_telemetry(path)` -- Best-effort variant of :func:`load_telemetry`.
-- `command_stats` (function) `cli/palette_telemetry.py:216` `def command_stats(telemetry, command_name)` -- Return aggregated stats for ``command_name`` or ``None`` when unseen.
-- `runs_after` (function) `cli/palette_telemetry.py:239` `def runs_after(telemetry, command_name)` -- Return commands that frequently run after ``command_name``.
-- `recents` (function) `cli/palette_telemetry.py:259` `def recents(telemetry)` -- Return the most-recently invoked unique ``do_*`` commands.
-- `enrich_detail` (function) `cli/palette_telemetry.py:275` `def enrich_detail(telemetry, entry)` -- Attach ``runs``, ``last_seen`` and ``runs_after`` to a detail entry.
-- `enrich_commands` (function) `cli/palette_telemetry.py:300` `def enrich_commands(telemetry, rows)` -- Enrich every entry of ``rows`` with telemetry data.
 
 
 Next: [API_p5.md](API_p5.md)

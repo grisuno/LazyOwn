@@ -354,7 +354,7 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `_persist_profile` (method, line 311) `def _persist_profile(self, profile)`
   - `get_history` (method, line 328) `def get_history(self)`
   - `profile_to_json` (method, line 343) `def profile_to_json(self, profile)`
-- Imported by: `cli/commands/evasive_payload.py`, `skills/lazyown_mcp.py`
+- Imported by: `cli/commands/evasive_payload.py`, `skills/mcp_tools/evasion_generate.py`, `skills/mcp_tools/evasion_rotate.py`
 
 ## modules/evasive_payloads.py
 - Doc: Advanced evasive payload generation with multiple obfuscation strategies.
@@ -469,7 +469,7 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `process_new_rows` (function, line 181) `def process_new_rows()`
   - `read_events` (function, line 250) `def read_events(limit, status)`
   - `ack_event` (function, line 270) `def ack_event(event_id)`
-- Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
+- Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/mcp_tools/ack_event.py`, `skills/mcp_tools/add_rule.py`, `skills/mcp_tools/heartbeat_status.py`, `skills/mcp_tools/list_event_rules.py`, `skills/mcp_tools/poll_events.py`, `skills/sessions_watcher.py`
 
 ## modules/evidence.py
 - Doc: Content-addressed evidence vault independent of disposable traffic.

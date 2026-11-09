@@ -1,4 +1,4 @@
-# API (page 18 of 26)
+# API (page 18 of 27)
 Previous: [API_p17.md](API_p17.md)
 
 ## modules/playbook_executor.py
@@ -93,7 +93,7 @@ Imported by: `modules/lazy_loop.py`, `modules/loop/worker_memory.py`, `tests/tes
 
 ## modules/reactive_engine.py
 Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_engine_mediator.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+Imported by: `cli/apt_chain_support.py`, `modules/mediation/engine_mediator.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/reactive_suggest.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_engine_mediator.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
 - `AbstractSignalMatcher.match` (method) `modules/reactive_engine.py:99` `def match(self, output, context)`
 - `AVBlockedMatcher.match` (method) `modules/reactive_engine.py:128` `def match(self, output, context)`
 - `CredentialFoundMatcher.match` (method) `modules/reactive_engine.py:159` `def match(self, output, context)`
@@ -370,11 +370,11 @@ Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `
 
 ## modules/selection/atomic.py
 Depends on: `modules/selection/base.py`
-Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `tests/test_selectors_capabilities.py`
+Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `tests/test_selectors_capabilities.py`
 - `AtomicSelector.propose` (method) `modules/selection/atomic.py:25` `def propose(self, ctx)` -- Return an atomic-emulation action when technique ids are named.
 
 ## modules/selection/base.py
-Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `skills/autonomous_daemon.py`, `tests/test_intel_selector.py`, `tests/test_loop_fire_pending.py`, `tests/test_poc_registry.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
+Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/lazyscript.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/registry.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`, `skills/autonomous_daemon.py`, `tests/test_intel_selector.py`, `tests/test_loop_fire_pending.py`, `tests/test_poc_registry.py`, `tests/test_selection_lazyscript.py`, `tests/test_selection_module.py`, `tests/test_selection_technique.py`, `tests/test_selection_technique_chain.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
 - `Selector.propose` (method) `modules/selection/base.py:73` `def propose(self, ctx)` -- Return the next action for this strategy, or None to abstain.
 
 ## modules/selection/chain.py
@@ -401,6 +401,12 @@ Imported by: `modules/selection/registry.py`, `tests/test_intel_selector.py`, `t
 - `pending_fires` (function) `modules/selection/intel.py:60` `def pending_fires(target)` -- Fire-tier bounded matches of a target not covered by a chain yet.
 - `IntelSelector.propose` (method) `modules/selection/intel.py:117` `def propose(self, ctx)` -- Return the next intelligence action, or None when none applies.
 
+## modules/selection/lazyscript.py
+Depends on: `modules/selection/base.py`
+Imported by: `modules/selection/registry.py`, `tests/test_selection_lazyscript.py`
+- `LazyscriptSelector.__init__` (method) `modules/selection/lazyscript.py:41` `def __init__(self, scripts_dir)` -- Bind the lazyscripts directory (overridable for tests).
+- `LazyscriptSelector.propose` (method) `modules/selection/lazyscript.py:56` `def propose(self, ctx)` -- Return a lazyscript action for the context, or None when none fit.
+
 ## modules/selection/module.py
 Depends on: `modules/module_registry.py`, `modules/selection/base.py`
 Imported by: `modules/reverse-shell.c`, `modules/rootkit/rootkit.c`, `modules/selection/registry.py`, `static/js/select2-4.1.0.min.js`, `tests/test_selection_module.py`
@@ -418,16 +424,21 @@ Imported by: `modules/selection/__init__.py`, `modules/selection/registry.py`, `
 - `PoCSelector.propose` (method) `modules/selection/poc.py:25` `def propose(self, ctx)` -- Return a PoC action for the context, or None when nothing fits.
 
 ## modules/selection/registry.py
-Depends on: `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/technique.py`
+Depends on: `modules/__init__.py`, `modules/selection/adversary.py`, `modules/selection/atomic.py`, `modules/selection/base.py`, `modules/selection/chain.py`, `modules/selection/cred_spray.py`, `modules/selection/edb.py`, `modules/selection/intel.py`, `modules/selection/lazyscript.py`, `modules/selection/module.py`, `modules/selection/playbook.py`, `modules/selection/poc.py`, `modules/selection/technique.py`, `modules/selection/technique_chain.py`
 Imported by: `modules/lazy_loop.py`, `modules/selection/__init__.py`, `skills/autonomous_daemon.py`, `tests/test_selection_wiring.py`, `tests/test_selectors_base.py`, `tests/test_selectors_capabilities.py`
-- `all_selectors` (function) `modules/selection/registry.py:29` `def all_selectors()` -- Return every shared selector in priority order, before admin filtering.
-- `default_selectors` (function) `modules/selection/registry.py:57` `def default_selectors()` -- Return the cascade after applying the orchestrator's enable toggles.
-- `propose_next` (function) `modules/selection/registry.py:72` `def propose_next(ctx, selectors)` -- Return the best concrete decision from the cascade, or None.
+- `all_selectors` (function) `modules/selection/registry.py:31` `def all_selectors()` -- Return every shared selector in priority order, before admin filtering.
+- `default_selectors` (function) `modules/selection/registry.py:61` `def default_selectors()` -- Return the cascade after applying the orchestrator's enable toggles.
+- `propose_next` (function) `modules/selection/registry.py:76` `def propose_next(ctx, selectors)` -- Return the best concrete decision from the cascade, or None.
 
 ## modules/selection/technique.py
 Depends on: `modules/playbook_engine.py`, `modules/selection/atomic.py`, `modules/selection/base.py`
 Imported by: `modules/selection/registry.py`, `tests/test_selection_technique.py`
 - `TechniqueSelector.propose` (method) `modules/selection/technique.py:23` `def propose(self, ctx)` -- Return a technique emulation action, or None when not applicable.
+
+## modules/selection/technique_chain.py
+Depends on: `modules/chain_registry.py`, `modules/chain_synth.py`, `modules/playbook_engine.py`, `modules/selection/atomic.py`, `modules/selection/base.py`
+Imported by: `modules/selection/registry.py`, `tests/test_selection_technique_chain.py`
+- `TechniqueChainSelector.propose` (method) `modules/selection/technique_chain.py:53` `def propose(self, ctx)` -- Return a technique-chain action, or None when fewer than two fit.
 
 ## modules/selector_manager.py
 Imported by: `tests/test_auto_loop_memory.py`
@@ -452,7 +463,7 @@ Imported by: `lazyown.py`, `tests/test_infra_disposable.py`
 
 ## modules/session_rag.py
 Depends on: `core/logging.py`
-Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
+Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/mcp_tools/rag_index.py`, `skills/mcp_tools/rag_query.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`
 - `_KeywordFallback.__init__` (method) `modules/session_rag.py:111` `def __init__(self)`
 - `_KeywordFallback.load` (method) `modules/session_rag.py:115` `def load(self, path)` -- Load index from disk (no-op if file absent or corrupt).
 - `_KeywordFallback.save` (method) `modules/session_rag.py:126` `def save(self, path)` -- Atomically persist index to disk.
@@ -470,28 +481,6 @@ Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `skills
 - `SessionRAG.context_for_step` (method) `modules/session_rag.py:489` `def context_for_step(self, phase, target, cmd, n)` -- Return a compact RAG context string suitable for injection into an LLM prompt.
 - `SessionRAG.stats` (method) `modules/session_rag.py:509` `def stats(self)`
 - `get_rag` (function) `modules/session_rag.py:535` `def get_rag()`
-
-## modules/session_reader.py
-Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-- `ImplantRecord.is_privileged` (method) `modules/session_reader.py:55` `def is_privileged(self)`
-- `ImplantRecord.platform` (method) `modules/session_reader.py:60` `def platform(self)`
-- `ImplantRecord.ip_list` (method) `modules/session_reader.py:69` `def ip_list(self)`
-- `SessionSummary.active_client_ids` (method) `modules/session_reader.py:94` `def active_client_ids(self)`
-- `SessionSummary.privileged_sessions` (method) `modules/session_reader.py:101` `def privileged_sessions(self)`
-- `SessionSummary.unprivileged_sessions` (method) `modules/session_reader.py:108` `def unprivileged_sessions(self)`
-- `SessionSummary.latest_for` (method) `modules/session_reader.py:114` `def latest_for(self, client_id)`
-- `SessionSummary.task_by_status` (method) `modules/session_reader.py:118` `def task_by_status(self, status)`
-- `AbstractReader.read` (method) `modules/session_reader.py:129` `def read(self, sessions_dir)`
-- `ImplantCSVReader.read` (method) `modules/session_reader.py:157` `def read(self, sessions_dir)`
-- `CommandOutputReader.read` (method) `modules/session_reader.py:199` `def read(self, sessions_dir)`
-- `DiscoveredHostReader.read` (method) `modules/session_reader.py:217` `def read(self, sessions_dir)`
-- `TaskReader.read` (method) `modules/session_reader.py:235` `def read(self, sessions_dir)`
-- `TaskWriter.__init__` (method) `modules/session_reader.py:260` `def __init__(self, sessions_dir)`
-- `TaskWriter.append` (method) `modules/session_reader.py:263` `def append(self, title, description, operator, status)`
-- `TaskWriter.update_status` (method) `modules/session_reader.py:288` `def update_status(self, task_id, status)`
-- `SessionAggregator.__init__` (method) `modules/session_reader.py:319` `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
-- `SessionAggregator.aggregate` (method) `modules/session_reader.py:331` `def aggregate(self, sessions_dir)`
-- `get_aggregator` (function) `modules/session_reader.py:347` `def get_aggregator()`
 
 
 Next: [API_p19.md](API_p19.md)

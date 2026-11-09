@@ -1,99 +1,78 @@
 # cli
 
-*Community 3 | 126 files | cohesion 0.55*
+*Community 3 | 114 files | cohesion 0.55*
 
 ## Definition
 
-This community groups 126 file(s) rooted at `tests` with dominant language py (cohesion 0.55). Central symbols: `A`, `AddonInfo`, `AddonRegistry`, `As`, `AuthError`, `AutoSuggestEngine`, `B`, `BUFFER`. Core file: `static/js/html2pdf.bundle.min.js` (738 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
+This community groups 114 file(s) rooted at `tests` with dominant language py (cohesion 0.55). Central symbols: `AddonInfo`, `AddonRegistry`, `Alert`, `App`, `AuthError`, `AutoSuggestEngine`, `BackendAdapterSpec`, `BackendRegistry`. Core file: `tests/test_command_palette.py` (238 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
 
 ## Files
 
-### `tests` (44 files)
+### `tests` (50 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `tests/test_auto_crypto.py` | py | testing | 22 | yes |
 | `tests/test_autosuggest.py` | py | testing | 41 | yes |
 | `tests/test_chain_mode.py` | py | testing | 28 | yes |
+| `tests/test_command_form.py` | py | testing | 13 | yes |
+| `tests/test_command_palette.py` | py | testing | 238 | yes |
 
-### `cli` (36 files)
+### `cli` (40 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/__init__.py` | py | utility | 0 | yes |
-| `cli/assign.py` | py | utility | 1 | yes |
+| `cli/autosuggest.py` | py | utility | 27 | yes |
+| `cli/chain_mode.py` | py | utility | 23 | yes |
+| `cli/command_explorer.py` | py | utility | 7 | yes |
 
-### `static/js` (15 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `static/js/3d-force-graph-1.73.4.min.js` | js | utility | 176 | yes |
-| `static/js/bootstrap-4.5.2.min.js` | js | infrastructure | 7 | yes |
-
-### `core` (12 files)
+### `core` (10 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `core/__init__.py` | py | utility | 0 | yes |
 | `core/console.py` | py | utility | 11 | yes |
+| `core/dependencies.py` | py | utility | 23 | yes |
 
-### `cli/commands` (7 files)
+### `cli/commands` (6 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `cli/commands/__init__.py` | py | utility | 0 | yes |
 | `cli/commands/_dormancy.py` | py | utility | 2 | yes |
+| `cli/commands/help_ui.py` | py | presentation | 16 | yes |
 
-### `poc_tui` (4 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `poc_tui/__main__.py` | py | utility | 0 | yes |
-| `poc_tui/app.py` | py | utility | 47 | yes |
-
-### `modules` (3 files)
+### `skills/mcp_tools` (5 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `modules/exp.c` | c | utility | 58 | yes |
-| `modules/lazy_verify.py` | py | utility | 8 | yes |
+| `skills/mcp_tools/graph_neighbors.py` | py | utility | 1 | yes |
+| `skills/mcp_tools/graph_search.py` | py | utility | 1 | yes |
+| `skills/mcp_tools/graph_suggest_next.py` | py | utility | 1 | yes |
 
 ### `.` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `key.py` | py | utility | 1 | no |
+| `lazy_sentinel4.py` | py | utility | 47 | no |
 
-### `gyms/docker/php2shell/src` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `gyms/docker/php2shell/src/info.php` | php | utility | 0 | no |
-
-### `lazyc2` (1 files)
+### `modules` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `lazyc2/state.py` | py | utility | 0 | yes |
+| `modules/privesc_predictor.py` | py | utility | 17 | yes |
 
-### `lazyown-docker` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `lazyown-docker/init.sh` | sh | utility | 0 | no |
-
-### `static/hexabot` (1 files)
+### `skills` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `static/hexabot/hexabot-spinner.js` | js | utility | 24 | no |
+| `skills/unified_orchestrator.py` | py | utility | 59 | yes |
 
-*... and 106 more files in this community.*
+*... and 94 more files in this community.*
 
 
 ## Key Symbols
 
-- `apply_assign` (function, `cli/assign.py:42`) `def apply_assign(params, key, value)` - Validate, mutate and persist a single payload assignment.
 - `SuggestionContext` (class, `cli/autosuggest.py:50`) `class SuggestionContext` - Inputs available to every suggestion provider.
 - `Suggestion` (class, `cli/autosuggest.py:71`) `class Suggestion` - One next-command suggestion with its rationale.
 - `SuggestionProvider` (class, `cli/autosuggest.py:92`) `class SuggestionProvider(Protocol)` - Provider contract: examine context, return one suggestion or ``None``.
@@ -123,23 +102,23 @@ This community groups 126 file(s) rooted at `tests` with dominant language py (c
 - `build_default_engine` (function, `cli/autosuggest.py:427`) `def build_default_engine(advisor, chain, phase_priority)` - Wire the canonical provider chain used by the cmd2 shell.
 - `_ChainEscExit` (class, `cli/chain_mode.py:73`) `class _ChainEscExit(Exception)` - Internal signal: the operator pressed ESC at the chain prompt.
 - `_read_line_unix` (function, `cli/chain_mode.py:77`) `def _read_line_unix(prompt)` - Read one line in raw TTY mode, honouring ESC, Ctrl+C and backspace.
+- `_read_line_windows` (function, `cli/chain_mode.py:136`) `def _read_line_windows(prompt)` - Read one line on Windows, honouring ESC, Ctrl+C and backspace.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 606
-- Cross-boundary resolved imports (EXTRACTED): 324
+- Internal resolved imports (EXTRACTED): 383
+- Cross-boundary resolved imports (EXTRACTED): 270
 
 ## Connections
 
 - [EXTRACTED] depends_on community 3 <-> 5 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
-- [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
-- [EXTRACTED] depends_on community 4 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/command_chain.py imports cli/reactive_hints.py.
+- [EXTRACTED] depends_on community 3 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
 - [EXTRACTED] depends_on community 3 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/command_form.py imports cli/commands/containers.py.
-- [EXTRACTED] depends_on community 6 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports cli/assign.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `core/dependencies.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
+- [layer strict] `tests/test_core_defaults.py` (testing) -> `lazyc2/blueprints/api.py` (presentation)
 - [layer strict] `tests/test_exploration_and_addons.py` (testing) -> `cli/exploration_view.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
@@ -147,24 +126,16 @@ This community groups 126 file(s) rooted at `tests` with dominant language py (c
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
 - [dataflow UNCHECKED_ALLOC] `cli/commands/misc_migrated.py:333` `do_suggest_next` `_idx`: Result of allocator stored in `_idx` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `cli/commands/recon.py:603` `_run_single_search` `_s`: Result of allocator stored in `_s` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `modules/exp.c:218` `spray_keyring_list_overwrite_purpose` `id_buffer`: Result of allocator stored in `id_buffer` is never checked against NULL.
-- [dataflow DEAD_STORE] `modules/exp.c:274` `awake_partial_keys` `keylen`: `keylen` assigned at line 274 but never read afterwards.
-- [dataflow UNCHECKED_ALLOC] `modules/exp.c:313` `unshare_setup` `temp`: Result of allocator stored in `temp` is never checked against NULL.
-- [dataflow DEAD_STORE] `modules/exp.c:340` `set_stable_table_and_set` `set_id`: `set_id` assigned at line 340 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:344` `set_stable_table_and_set` `exprid`: `exprid` assigned at line 344 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:371` `set_stable_table_and_set` `seq`: `seq` assigned at line 371 but never read afterwards.
-- [dataflow DEAD_STORE] `modules/exp.c:356` `set_stable_table_and_set` `table_seq`: `table_seq` assigned at line 356 but never read afterwards.
 
 ## Open Questions
 
-- Why do 10 file(s) lack file-level docs (e.g. `gyms/docker/php2shell/src/info.php`)? What purpose do they serve?
+- Why do 1 file(s) lack file-level docs (e.g. `lazy_sentinel4.py`)? What purpose do they serve?
 - What would break if the most connected file in cli changed?
 - Should cli be split, given cohesion 0.55?
 
 ## Sources
 
 - `cli/__init__.py`
-- `cli/assign.py`
 - `cli/autosuggest.py`
 - `cli/chain_mode.py`
 - `cli/command_explorer.py`
@@ -175,12 +146,13 @@ This community groups 126 file(s) rooted at `tests` with dominant language py (c
 - `cli/commands/misc_migrated.py`
 - `cli/commands/orchestration.py`
 - `cli/commands/recon.py`
-- `cli/commands/session_ops.py`
 - `cli/config_status.py`
 - `cli/contextual_help.py`
+- `cli/dashboard_layout.py`
+- `cli/dashboard_tui.py`
 - `cli/doctor.py`
 - `cli/exploit_advisor.py`
 - `cli/exploration_view.py`
-- `cli/marketplace_config.py`
-- `cli/noise_verbs.py`
-- *... and 106 more*
+- `cli/graph_advisor.py`
+- `cli/graph_overlay.py`
+- *... and 94 more*

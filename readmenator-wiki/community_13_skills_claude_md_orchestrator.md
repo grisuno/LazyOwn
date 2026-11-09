@@ -1,10 +1,10 @@
 # skills/claude_md_orchestrator
 
-*Community 12 | 13 files | cohesion 0.78*
+*Community 13 | 14 files | cohesion 0.68*
 
 ## Definition
 
-This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.78). Central symbols: `AnalyzerResult`, `BddResult`, `CheckResult`, `CicdResult`, `CicleState`, `CicleStateFile`, `Config`, `Contract`. Core file: `skills/claude_md_orchestrator/models.py` (32 symbols). Documented purpose: Public API for the claude_md_orchestrator skill.  The package re-exports the classes and the helper functions the CLI and the tests share. The orchestrator modu.
+This community groups 14 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.68). Central symbols: `AnalyzerResult`, `BddResult`, `CheckResult`, `CicdResult`, `CicleState`, `CicleStateFile`, `Config`, `Contract`. Core file: `tests/test_security_codeql_batch.py` (37 symbols). Documented purpose: Public API for the claude_md_orchestrator skill.  The package re-exports the classes and the helper functions the CLI and the tests share. The orchestrator modu.
 
 ## Files
 
@@ -23,6 +23,7 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 | `skills/claude_md_orchestrator/sdd_agent.py` | py | utility | 6 | yes |
 | `skills/claude_md_orchestrator/tdd_agent.py` | py | utility | 7 | yes |
 | `skills/claude_md_orchestrator/validators.py` | py | utility | 21 | yes |
+| `tests/test_security_codeql_batch.py` | py | testing | 37 | yes |
 
 ## Key Symbols
 
@@ -59,8 +60,8 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 33
-- Cross-boundary resolved imports (EXTRACTED): 8
+- Internal resolved imports (EXTRACTED): 34
+- Cross-boundary resolved imports (EXTRACTED): 29
 
 ## Connections
 
@@ -75,7 +76,7 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 - Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
 - What would break if the most connected file in skills/claude_md_orchestrator changed?
-- Should skills/claude_md_orchestrator be split, given cohesion 0.78?
+- Should skills/claude_md_orchestrator be split, given cohesion 0.68?
 
 ## Sources
 
@@ -92,3 +93,4 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 - `skills/claude_md_orchestrator/sdd_agent.py`
 - `skills/claude_md_orchestrator/tdd_agent.py`
 - `skills/claude_md_orchestrator/validators.py`
+- `tests/test_security_codeql_batch.py`

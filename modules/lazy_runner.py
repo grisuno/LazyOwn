@@ -951,6 +951,66 @@ def _run_plain(engine, config: LoopRunConfig) -> dict:
         return {"task_id": config.task_id, "cancelled": True, "overview": _overview(config.task_id)}
 
 
+def bind_target_authority(shell, targets: list[str]) -> dict:
+    """Make the run's target(s) authoritative over payload rhost and scope.
+
+    The loop binds a target to the task, but offensive verbs and the scope
+    guard read ``rhost`` and ``scope`` from ``payload.json``. When those
+    are stale, a run can act against a host the operator never named: a
+    verb falls back to a stale ``rhost`` or the planner wanders onto a
+    stale but still-in-scope host. This binds ``rhost`` to the primary
+    target and replaces the authorized scope with exactly the run's
+    targets, so the loop can only touch what was requested. Writes go
+    through the shell's single payload writer; the enforcement posture is
+    left untouched.
+
+    Args:
+        shell: The live LazyOwn shell whose params back the payload.
+        targets: The validated run target(s); the first is the primary
+            ``rhost`` and the full list becomes the authorized scope.
+
+    Returns:
+        A summary mapping (``bound``, ``rhost``, ``scope``, and the prior
+        values) or ``{"bound": False}`` when there is nothing to bind.
+    """
+    clean: list[str] = []
+    for item in targets or []:
+        value = str(item or "").strip()
+        if value and value not in clean:
+            clean.append(value)
+    params = getattr(shell, "params", None)
+    if not clean or not isinstance(params, dict):
+        return {"bound": False}
+    primary = clean[0]
+    previous_rhost = params.get("rhost")
+    previous_scope = list(params.get("scope") or [])
+    if str(previous_rhost or "") == primary and previous_scope == clean:
+        return {"bound": False}
+    params["rhost"] = primary
+    try:
+        if hasattr(shell, "_scope_save"):
+            shell._scope_save(entries=list(clean))
+        else:
+            from core.config import save_payload
+
+            params["scope"] = list(clean)
+            save_payload(params)
+    except Exception as exc:
+        print_warn(f"[!] target authority bind failed: {exc}")
+        return {"bound": False, "error": str(exc)}
+    print_msg(
+        f"[*] target authority: rhost={primary} scope={clean} "
+        f"(was rhost={previous_rhost!r} scope={previous_scope or '[]'})"
+    )
+    return {
+        "bound": True,
+        "rhost": primary,
+        "scope": list(clean),
+        "previous_rhost": previous_rhost,
+        "previous_scope": previous_scope,
+    }
+
+
 def load_targets_file(path: str) -> list[str]:
     """Read and validate one target per line from a scope file.
 
@@ -1177,6 +1237,7 @@ __all__ = [
     "ENGAGEMENT_MODES",
     "LoopRunConfig",
     "build_executor",
+    "bind_target_authority",
     "load_targets_file",
     "parse_loop_line",
     "report_result",

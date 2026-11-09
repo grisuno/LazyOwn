@@ -22,6 +22,7 @@ from modules.selection.module import ModuleSelector
 from modules.selection.playbook import PlaybookSelector
 from modules.selection.poc import PoCSelector
 from modules.selection.technique import TechniqueSelector
+from modules.selection.technique_chain import TechniqueChainSelector
 
 _URGENT_PRIORITY = 2
 
@@ -49,6 +50,7 @@ def all_selectors() -> list[Selector]:
         PoCSelector(),
         EDBSelector(),
         AtomicSelector(),
+        TechniqueChainSelector(),
         TechniqueSelector(),
         ModuleSelector(),
         ChainSelector(allow_lab=allow_lab),

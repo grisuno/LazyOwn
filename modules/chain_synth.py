@@ -269,6 +269,73 @@ def facts_for_target(target: str) -> dict[str, Any]:
     }
 
 
+def synth_technique_chain_data(
+    target: str,
+    techniques: list[str],
+    os_hint: str = "",
+) -> tuple[dict[str, Any], list[str]]:
+    """Compose a focused chain of ordered MITRE/atomic technique steps.
+
+    Unlike :func:`synth_chain_data`, this produces no scan, C2 or service
+    spine: it binds the target then emulates each supplied technique in
+    order as its own ``atomic_tests`` step, so the ChainRunner's shared
+    EdrPacer applies the configured jitter and sleeper windows between
+    techniques. Only well-formed technique ids are kept, deduplicated and
+    uppercased; a bad id can never abort the chain.
+
+    Args:
+        target: Host the chain binds to.
+        techniques: Ordered MITRE technique ids (``T1059``, ``T1059.001``).
+        os_hint: OS string recorded in the chain description.
+
+    Returns:
+        A ``(data, techniques_used)`` pair. ``data`` is empty with the
+        reason in ``techniques_used`` when fewer than two valid ids remain.
+    """
+    host = (target or "").strip()
+    ordered: list[str] = []
+    for raw_tid in techniques or []:
+        tid = str(raw_tid or "").strip().upper()
+        if _TECHNIQUE_ID_RE.match(tid) and tid not in ordered:
+            ordered.append(tid)
+    if not host or len(ordered) < 2:
+        return {}, ordered
+    digest = "_".join(tid.lower().replace(".", "_") for tid in ordered)[:48]
+    name = f"techchain_{_slug(host)}_{digest}"
+    steps: list[dict[str, Any]] = [
+        {
+            "id": "scope",
+            "phase": "exploit",
+            "description": "Bind the target this technique chain was generated for.",
+            "run": f"assign target {host}",
+        }
+    ]
+    for tid in ordered:
+        slug = tid.lower().replace(".", "_")
+        steps.append(
+            {
+                "id": f"tech_{slug}",
+                "phase": "exploit",
+                "description": f"Emulate {tid} via Atomic Red Team.",
+                "run": f"atomic_tests {tid} --non-interactive",
+                "timeout": _TECH_STEP_TIMEOUT,
+                "continue_on_error": True,
+            }
+        )
+    description = f"Technique chain for {host} ({', '.join(ordered)}){_GEN_TAG}"
+    if os_hint:
+        description = f"{description[:-len(_GEN_TAG)]} os:{os_hint[:40]}{_GEN_TAG}"
+    data: dict[str, Any] = {
+        "name": name,
+        "description": description,
+        "enabled": True,
+        "platforms": ["linux", "windows"],
+        "steps": steps,
+        "total_timeout": _TECH_STEP_TIMEOUT * (len(ordered) + 1),
+    }
+    return data, ordered
+
+
 def write_generated_chain(
     data: dict[str, Any],
     chains_dir: Path | str | None = None,
